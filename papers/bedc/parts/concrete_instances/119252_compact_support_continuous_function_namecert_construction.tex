@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\CompactSupportContinuousFunctionUp$}
+\label{ch:concrete-instances-compact-support-continuous-function-namecert}
+\origin{human}
+
+Following Bourbaki and Rudin, the $\CompactSupportContinuousFunctionUp$ packet records the standard analysis object of a real-valued continuous function whose nonzero region is controlled by a displayed compact row. It sits over the compact carrier of \autoref{ch:concrete-instances-compact-namecert}, the continuous-map surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the metric-space source of \autoref{ch:concrete-instances-metric-space-namecert}, and the terminal real-value seal of \autoref{ch:concrete-instances-real-namecert}. The packet is finite NameCert data for compactly supported real observables; it is not an ambient function space, quotient equality of maps, a selected norm-attaining point, a measure theorem, or a bridge theorem.
+
+\begin{definition}[Compact-support continuous-function carrier]
+\label{def:compact-support-continuous-function-carrier}
+A $\CompactSupportContinuousFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,T,M,K,U,f,Z,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source carrier row, read through the displayed $\TopologyUp$ surface.
+\item $T$ is the topology row controlling open-neighbourhood and closed-set reads on $X$.
+\item $M$ is the $\MetricSpaceUp$ row used by metric consumers of the same source carrier.
+\item $K$ is the compact support row, read through $\CompactUp$ and naming the finite compact witness that contains every public nonzero read of the function.
+\item $U$ is the support-membership ledger: it records that all value reads outside the displayed compact row are forced through the zero-value branch.
+\item $f$ is the $\ContinuousMapUp(X,\RealUp)$ row for the real-valued continuous map.
+\item $Z$ is the zero-value and exterior-vanishing row, sealing the outside-support value as a $\RealUp$ zero read.
+\item $S$ is the $\RealUp$ scalar seal for value, zero, and comparison endpoints read by $f$ and $Z$.
+\item $H$ records componentwise $\hsame$ transport for source, topology, metric, compact support, support-membership, continuous-map, zero-value, scalar-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a compact-support continuous-function request through $X,T,M,K,U,f,Z,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CompactSupportContinuousFunctionUp$, $\CompactUp$, $\ContinuousMapUp$, $\TopologyUp$, $\MetricSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactSupportContinuousFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an ambient function space, quotient equality of maps, selected representatives, support closure taken in a host topology, integration, measure representation, or checked standard bridge.
+\end{definition}
+
+\begin{theorem}[Compact-support continuous-function NameCert obligations]
+\label{thm:compact-support-continuous-function-namecert-obligations}
+For every accepted $\CompactSupportContinuousFunctionUp$ carrier
+$$
+F=(X,T,M,K,U,f,Z,S,H,C,P,N),
+$$
+the local $\NameCert_{\CompactSupportContinuousFunctionUp}$ surface consists exactly of source-carrier admission, topology exposure, metric-source exposure, compact-support admission, support-membership ledger exposure, continuous real-valued map admission, zero-value and exterior-vanishing exposure, $\RealUp$ scalar sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and nonescape from ambient function-space or host-support objects.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-support-continuous-function-carrier}. The rows $X,T,M$ display the source, topology, and metric data that a consumer may inspect, while $K$ displays the compact support row.
+
+The rows $U,f,Z,S$ provide the functional data. The continuous-map row $f$ supplies the real-valued read, $U$ records the support-membership ledger, $Z$ records the exterior zero branch, and $S$ keeps all scalar endpoints inside the $\RealUp$ surface.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name exactly the displayed packet. Since the carrier has no coordinate for host support closure, quotient equality of maps, selected representatives, integration, measure representation, or a checked bridge, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Compact-support continuous-function finite support exhaustion]
+\label{thm:compact-support-continuous-function-finite-support-exhaustion}
+Every public read of an accepted $\CompactSupportContinuousFunctionUp$ packet factors through the finite route
+$$
+\TopologyUp,\MetricSpaceUp,\CompactUp,\ContinuousMapUp,\RealUp
+\longmapsto
+\CompactSupportContinuousFunctionUp .
+$$
+If the read asks for a nonzero value, it must expose the compact support row $K$ and the support-membership ledger $U$ before reading the continuous map row $f$. If the read lies outside the displayed support ledger, it receives only the $\RealUp$ zero branch $Z$. No public consumer receives an infinite support set, host support closure, quotient function equality, selected norm-attaining point, measure representation, or ambient completeness theorem from the packet.
+\end{theorem}
+\begin{proof}
+Start with the source and scalar boundaries. The topology, metric, compact, continuous-map, and real-value rows are all explicit coordinates of the carrier, so a public read cannot bypass $X,T,M,K,f,S$.
+
+For a nonzero read, the support-membership ledger $U$ must be displayed before the value row is consumed. This forces the read through the compact row $K$ and keeps the support evidence finite.
+
+For an exterior read, the only available value coordinate is $Z$, the displayed zero branch sealed by $S$. The transport, replay, provenance, and naming rows $H,C,P,N$ preserve the same finite packet and introduce no additional support object.
+
+Thus the public surface is exhausted by $X,T,M,K,U,f,Z,S,H,C,P,N$. The excluded host-side objects have no carrier coordinate and cannot be exported by the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CompactSupportContinuousFunctionUp$ packet displays topology, metric, compact-support, support-membership, continuous-map, zero-value, RealUp scalar-seal, componentwise hsame, displayed Cont, Pkg provenance, and local NameCert rows before any compactly supported observable consumer reads it.}
+
+\independenceWitness{compact, continuousmap, topology, metricspace, and real: no listed sibling is bijective to $\CompactSupportContinuousFunctionUp$ because this packet jointly carries compact support, exterior-vanishing, continuous real-valued map, scalar seal, transport, replay, provenance, and local naming as one finite compactly supported function surface.}
+
+\closureat{CompactSupportContinuousFunctionUp}{seedStr}
+
+\begin{closurestatus}{\CompactSupportContinuousFunctionUp}
+  \constructivestory{A $\CompactSupportContinuousFunctionUp$ packet is generated from displayed topology and metric source rows, a compact support row, a support-membership ledger, a continuous real-valued map row, an exterior zero-value row, a $\RealUp$ scalar seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-support-continuous-function-carrier}, \autoref{thm:compact-support-continuous-function-namecert-obligations}, and \autoref{thm:compact-support-continuous-function-finite-support-exhaustion} seed the compactly supported continuous-function surface over compact, continuous-map, topology, metric-space, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient function spaces, quotient equality of maps, selected representatives, host support closure, integration, measure representation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source admission, topology exposure, metric-source exposure, compact-support admission, support-membership exactness, continuous-map admission, exterior zero-branch exactness, RealUp sealing, transport, replay, provenance, local naming, and nonescape for BEDC.Derived.CompactSupportContinuousFunctionUp.}
+\end{closurestatus}

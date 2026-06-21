@@ -1,1 +1,11 @@
 $\NestedShrinkIntervalUp$ consumes $\CauchyCompletionCriterionUp$ after the shrinking-diameter ledger has been repacked through the $\StreamNameUp$ observation schedule, the $\RegSeqRatUp$ regular rational readback, the $\DyadicRatCoreUp$ tolerance ledger, and the terminal $\RealUp$ seal route. This sibling dependency records the completion-criterion consumer path of \autoref{ch:concrete-instances-cauchycompletioncriterion-namecert}: a nested shrink interval can be read as completion evidence only after its finite diameter data has passed through the same stream, regular sequence, dyadic tolerance, and Real seal rows.
+
+\begin{theorem}[Nested shrink interval Cauchy completion consumer]
+\label{thm:nested-shrink-interval-cauchy-completion-consumer}
+Every completion-facing read of $\NestedShrinkIntervalUp$ consumes $\CauchyCompletionCriterionUp$ only after the $\StreamNameUp$ observation schedule, the $\RegSeqRatUp$ regular rational readback, the $\DyadicRatCoreUp$ tolerance ledger, and the terminal $\RealUp$ seal rows are visible. Thus the dependency on \autoref{ch:concrete-instances-cauchycompletioncriterion-namecert} is a theorem-level consumer edge through \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, not an appeal to an undisplayed completion object.
+\end{theorem}
+\begin{proof}
+Read a completion-facing request for a nested shrink interval. The route first displays the finite observation schedule and regular rational readback rows, so the consumer sees only finite windows and readback entries.
+
+The dyadic tolerance ledger and terminal Real seal are then exposed before the completion criterion is consumed. Since the criterion is reached after those rows, the dependency records a reusable finite route rather than a hidden selected limit or ambient completeness principle.
+\end{proof}

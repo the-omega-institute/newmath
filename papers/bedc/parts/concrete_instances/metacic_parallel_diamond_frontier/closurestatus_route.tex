@@ -31,13 +31,107 @@ Now apply the bridged handoff of \autoref{thm:metacic-parallel-diamond-bridged-h
 Since none of those rows is a residual-substitution discharge, subject-reduction theorem, unrestricted Church--Rosser proof, evaluator equality, quotient equality, or kernel-consistency certificate, a consumer that claims one of those endpoints has left the displayed $\MetaCICParallelDiamondFrontierUp$ route.
 \end{proof}
 
+\begin{theorem}[Candidate SN residual budget]
+\label{thm:metacic-parallel-diamond-frontier-candidate-sn-residual-budget}
+Any candidate-mediated strong-normalization or confluence consumer of $\MetaCICParallelDiamondFrontierUp$ must preserve the residual-substitution premise row $P$, candidate-join row $J$, residual-frontier row $R$, bounded-check row $B$, and obstruction row $O$ as one finite residual budget before reading the public diamond handoff. The budget is read as a retained row family, not as residual-substitution discharge, subject reduction, unrestricted Church--Rosser, evaluator equality, quotient equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Use the public certificate of \autoref{thm:metacic-parallel-diamond-frontier-public-certificate}. It exposes the residual premise, candidate join, residual frontier, bounded check, and obstruction rows inside the same finite public handoff rather than as separate global principles.
+
+Apply finite residual witness consumption, \autoref{thm:metacic-parallel-diamond-finite-residual-witness-consumption}. The candidate-mediated consumer can inspect the route $P,K,J,R,S,C,B,O,H,T,G,N$, but the residual budget needed for SN/confluence use is the retained subroute $P,J,R,B,O$.
+
+Finally compare with the public closure theorem, \autoref{thm:metacic-parallel-diamond-frontier-public-closure}. Since public closure keeps residual-substitution discharge, subject reduction, unrestricted Church--Rosser, evaluator equality, quotient equality, and kernel consistency outside the packet, the candidate SN/confluence reader must carry $P,J,R,B,O$ forward before it reads the public diamond handoff.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond frontier public closure]
+\label{thm:metacic-parallel-diamond-frontier-public-closure}
+Public closure for $\MetaCICParallelDiamondFrontierUp$ is available only over the retained finite route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N.
+$$
+The route retains the residual-substitution premise row, critical-pair row, candidate-join row, residual-frontier row, closed-checker seal, closed-normal fragment, bounded-check row, obstruction row, transport row, replay row, provenance row, and local naming row before any public diamond handoff. It does not discharge residual substitution, subject reduction, full Church--Rosser, evaluator equality, quotient equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Use the public certificate of \autoref{thm:metacic-parallel-diamond-frontier-public-certificate}. It exposes the residual premise, critical-pair, candidate-join, residual-frontier, checker, obstruction, transport, replay, provenance, and local naming rows as a finite public handoff.
+
+Now apply the public seed-readiness route of \autoref{thm:metacic-parallel-diamond-frontier-public-seed-readiness}. It keeps the closed-checker seal, closed-normal fragment, bounded-check row, and obstruction row inside the same retained packet rather than moving them to a hidden evaluator or quotient term layer.
+
+Finally use the retained witness consumption of \autoref{thm:metacic-parallel-diamond-finite-residual-witness-consumption}. The ordered route $P,K,J,R,S,C,B,O,H,T,G,N$ is the only public surface consumed by downstream SN/confluence fragments. Since the retained rows leave residual-substitution discharge, subject reduction, full Church--Rosser, evaluator equality, quotient equality, and kernel consistency outside the packet, the public closure is exactly this finite route.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond public frontier budget]
+\label{thm:metacic-parallel-diamond-public-frontier-budget}
+Every public candidate-mediated SN or confluence consumer of $\MetaCICParallelDiamondFrontierUp$ must preserve the residual-substitution premise row $P$, candidate join row $J$, residual frontier row $R$, bounded-check row $B$, and obstruction row $O$ before reading any public diamond handoff. The retained budget cannot be retyped as residual-substitution discharge, subject reduction, unrestricted Church--Rosser, evaluator equality, quotient equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the public certificate, \autoref{thm:metacic-parallel-diamond-frontier-public-certificate}. It exposes the residual premise, candidate join, residual frontier, bounded check, and obstruction rows as visible rows of the finite public handoff rather than as hidden global principles.
+
+Use finite residual witness consumption, \autoref{thm:metacic-parallel-diamond-finite-residual-witness-consumption}. The candidate-mediated consumer reads the route $P,K,J,R,S,C,B,O,H,T,G,N$, so the residual-substitution premise, candidate join, residual frontier, bounded check, and obstruction rows are retained before the public handoff is inspected.
+
+Apply candidate SN residual budget, \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-residual-budget}. It isolates $P,J,R,B,O$ as the budget that a strong-normalization or confluence consumer must carry forward.
+
+Finally compare with public closure, \autoref{thm:metacic-parallel-diamond-frontier-public-closure}. Public closure refuses residual-substitution discharge, subject reduction, unrestricted Church--Rosser, evaluator equality, quotient equality, and kernel consistency, so preserving $P,J,R,B,O$ cannot be retyped as any of those endpoints.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond frontier bridged export]
+\label{thm:metacic-parallel-diamond-frontier-bridged-export}
+Any public or bridged read of the $\MetaCICParallelDiamondFrontierUp$ frontier must preserve the candidate-normalization rows, residual-frontier rows, local-join ledger, obstruction row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ as visible evidence in the same finite carrier route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N.
+$$
+The export may hand this guarded frontier to a bridge-facing consumer, but it does not assert full Church--Rosser, unconditional strong normalization, unrestricted subject reduction, residual-substitution discharge, global conversion decidability, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with residual-join locality, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality}. It keeps every residual-join read local to the accepted carrier and forces the critical-pair, residual-substitution, candidate-normalization, finite-witness, obstruction, and local naming rows to remain visible.
+
+Next use the residual-normalization window and seed boundary, \autoref{thm:metacic-parallel-diamond-frontier-residual-normalization-window} and \autoref{thm:metacic-parallel-diamond-frontier-seed-boundary}. These rows retain candidate-normalization evidence, the residual frontier, the obstruction row, the closed-checker evidence, and the bounded-check row in the same finite route.
+
+Finally apply public closure and the bridged handoff, \autoref{thm:metacic-parallel-diamond-frontier-public-closure} and \autoref{thm:metacic-parallel-diamond-bridged-handoff}. The structural rows $H,T,G,N$ provide componentwise transport, replay, provenance, and local naming for the route $P,K,J,R,S,C,B,O,H,T,G,N$. Since those cited rows explicitly leave global confluence, strong normalization, subject reduction, conversion decidability, evaluator equality, quotient equality, residual-substitution discharge, and kernel consistency outside the packet, the bridged export is exactly the guarded evidence-preserving route.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond public route sync]
+\label{thm:metacic-parallel-diamond-frontier-public-route-sync}
+Every retained residual-budget consumer of $\MetaCICParallelDiamondFrontierUp$ that reads the public or bridged frontier must preserve the full route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+from public certificate through finite residual witness consumption, candidate SN residual budget, and bridged export. The synchronized route keeps the residual-substitution premise, critical-pair row, candidate-join row, residual-frontier row, closed-checker seal, closed-normal fragment, bounded-check row, obstruction row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ visible in one finite carrier. It refuses residual-substitution discharge, subject reduction, global Church--Rosser, evaluator equality, quotient term equality, and kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the public certificate of \autoref{thm:metacic-parallel-diamond-frontier-public-certificate}. It exposes the residual-substitution premise, critical-pair, candidate join, residual frontier, closed checker, closed-normal fragment, bounded check, obstruction, transport, replay, provenance, and local naming rows before any public consumer may read the frontier.
+
+Next use finite residual witness consumption, \autoref{thm:metacic-parallel-diamond-finite-residual-witness-consumption}. This forces the consumer to read the displayed route $P,K,J,R,S,C,B,O,H,T,G,N$ as finite witness data, rather than as a hidden residual-substitution theorem.
+
+Apply the candidate SN residual budget of \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-residual-budget}. It retains the budget rows $P,J,R,B,O$ inside the larger public route before a strong-normalization or confluence-facing consumer may use the handoff.
+
+Finally apply the bridged export theorem, \autoref{thm:metacic-parallel-diamond-frontier-bridged-export}. The export hands the guarded frontier to bridge-facing readers only with the same candidate, residual, obstruction, transport, replay, provenance, and local-name evidence visible. Since all cited routes leave residual-substitution discharge, subject reduction, global Church--Rosser, evaluator equality, quotient term equality, and kernel consistency outside the carrier, the synchronized public route cannot assert those endpoints.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond retained seed block sync]
+\label{thm:metacic-parallel-diamond-frontier-seed-block-sync}
+Let a finite candidate-mediated SN/confluence consumer chain read $\MetaCICParallelDiamondFrontierUp$ through the public or bridged frontier. At every successor handoff in that finite chain, the consumer must retain the residual-substitution premise row $P$, candidate-join row $J$, residual-frontier row $R$, bounded-check row $B$, and obstruction row $O$ before it may read the public route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N.
+$$
+Thus the finite induction seed block for such consumers is the retained row family $P,J,R,B,O$ together with the public route. The induction invariant does not discharge residual substitution, subject reduction, unrestricted Church--Rosser, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+The base handoff is the public certificate of \autoref{thm:metacic-parallel-diamond-frontier-public-certificate}. It exposes the residual premise, candidate join, residual frontier, bounded check, obstruction, transport, replay, provenance, and local naming rows before a consumer reads the frontier.
+
+For the successor step, apply finite residual witness consumption, \autoref{thm:metacic-parallel-diamond-finite-residual-witness-consumption}, and the candidate SN residual budget, \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-residual-budget}. These two routes force the next consumer to carry $P,J,R,B,O$ as retained finite evidence before inspecting the larger displayed route.
+
+The public and bridged reads are then synchronized by \autoref{thm:metacic-parallel-diamond-frontier-public-route-sync} and \autoref{thm:metacic-parallel-diamond-frontier-bridged-export}. Induction over the displayed finite consumer chain repeats the same successor handoff, so every stage retains $P,J,R,B,O$ before reading $P,K,J,R,S,C,B,O,H,T,G,N$.
+
+All cited routes explicitly refuse residual-substitution discharge, subject reduction, unrestricted Church--Rosser, evaluator equality, quotient term equality, and kernel consistency. The induction therefore preserves a finite seed block; it does not prove any of those external endpoints.
+\end{proof}
+
 \begin{closurestatus}{\MetaCICParallelDiamondFrontierUp}
   \constructivestory{A $\MetaCICParallelDiamondFrontierUp$ packet is generated from residual-substitution premise rows, critical-pair rows, candidate-join rows, residual-frontier rows, closed checker seal rows, closed-normal fragment rows, bounded-check rows, obstruction rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{thm:metacic-parallel-diamond-frontier-public-export} and \autoref{thm:metacic-parallel-diamond-frontier-public-seed-readiness} seed the finite residual-premise, critical-pair, candidate-join, residual-frontier, closed-checker, obstruction, transport, replay, provenance, and local naming route consumed by the MetaCIC parallel-diamond frontier.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:metacic-parallel-diamond-frontier-seed-block-sync}, \autoref{thm:metacic-parallel-diamond-frontier-public-closure}, and \autoref{thm:metacic-parallel-diamond-frontier-bridged-export} bind the retained premise rows $P,J,R,B,O$, candidate-normalization rows, local-join rows, frontier-export route $P,K,J,R,S,C,B,O,H,T,G,N$, and bridge-facing handoff surface before any public SN/confluence consumer reads the displayed frontier.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.MetaCICParallelDiamondFrontierUp.MetacicParallelDiamondFrontierObligations}
   \bridgestatus{none}
   \notclaimed{This chapter does not close residual-substitution compatibility, the full parallel diamond, subject reduction, arbitrary closed Church--Rosser, evaluator equality, quotient equality of terms, kernel consistency, or checked bridge interpretation beyond the displayed handoff.}
-  \upgradepath{Public closure requires residual-substitution compatibility and parallel-diamond obligation rows before any public, bridged, or mature claim for the finite handoff of \autoref{thm:metacic-parallel-diamond-bridged-handoff}.}
+  \upgradepath{Bridge checking requires a standard bridge over the retained-premise, candidate-normalization, local-join, and frontier-export route without adding residual-substitution discharge, subject reduction, quotient equality, or kernel consistency.}
 \end{closurestatus}

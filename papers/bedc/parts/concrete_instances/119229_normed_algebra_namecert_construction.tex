@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\NormedAlgebraUp$}
+\label{ch:concrete-instances-normed-algebra-namecert}
+\origin{human}
+
+Following Bourbaki and Rudin on normed algebras, the $\NormedAlgebraUp$ packet records a constructive algebra-over-analysis interface in which multiplication is compatible with a displayed norm. It sits after the normed-space carrier of \autoref{ch:concrete-instances-normedspace-namecert}, the ring multiplication surface of \autoref{ch:concrete-instances-ring-namecert}, the ordered real algebra rows of \autoref{ch:concrete-instances-real-alg-order-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the complete normed-space consumer boundary of \autoref{ch:concrete-instances-banach-namecert}. The packet names submultiplicative multiplication and continuous scalar multiplication as finite NameCert data; it is not a quotient algebra, a host topological algebra, a Hahn--Banach principle, or an ambient completeness theorem.
+
+\begin{definition}[Normed algebra NameCert surface]
+\label{def:normed-algebra-namecert-surface}
+A $\NormedAlgebraUp$ carrier is a finite $\BHist$ packet
+$$
+A=(V,+,0,-,\cdot,1,\nu,\alpha,\mu,\sigma,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V,+,0,-$ are the additive and scalar rows read from the $\NormedSpaceUp$ source.
+\item $\cdot,1$ are the multiplication and unit rows read through the $\RingUp$ source and transported over the same carrier classifier.
+\item $\nu$ is the $\RealUp$-valued norm row of the normed-space carrier.
+\item $\alpha$ is the ordered-real algebra row tying scalar multiplication to \autoref{ch:concrete-instances-real-alg-order-namecert}.
+\item $\mu$ is the submultiplicative product ledger, displaying $\nu(x\cdot y)\leq \nu(x)\nu(y)$ as a finite ordered-real comparison row.
+\item $\sigma$ is the scalar-continuity ledger, displaying the finite norm estimate for scalar multiplication before any Banach or bounded-operator consumer reads it.
+\item $H$ records componentwise $\hsame$ transport for carrier, additive, scalar, multiplicative, norm, product-ledger, scalar-continuity, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a normed-algebra request through $V,+,0,-,\cdot,1,\nu,\alpha,\mu,\sigma,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\NormedAlgebraUp$, $\NormedSpaceUp$, $\RingUp$, $\RealAlgOrderUp$, $\RealUp$, $\BanachUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NormedAlgebraUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for quotient algebra equality, a host topological algebra, a selected completion, Hahn--Banach separation, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Normed algebra submultiplicative product]
+\label{thm:normed-algebra-submultiplicative-product}
+Every accepted $\NormedAlgebraUp$ multiplication read factors through the shared $\NormedSpaceUp$, $\RingUp$, $\RealAlgOrderUp$, and $\RealUp$ rows before a product norm estimate is public. The only product estimate exposed by the packet is the finite ledger $\mu$ in \autoref{def:normed-algebra-namecert-surface}; it states that the norm of the displayed product is bounded by the displayed ordered-real product of the two input norms. No consumer may replace $\mu$ by a host algebra norm, quotient equality of products, a selected completion, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:normed-algebra-namecert-surface}. The rows $V,+,0,-,\nu$ supply the normed-space source, while $\cdot,1$ supply the ring multiplication over the same displayed carrier.
+
+The ordered comparison is carried by $\alpha$ and $\mu$. The row $\alpha$ supplies the ordered-real algebra context, and $\mu$ records the single finite submultiplicative ledger tying the product row to the two input norm rows.
+
+The structural rows $H,C,P,N$ preserve only the displayed packet. Since no row stores quotient algebra equality, host topological algebra data, a selected completion, Hahn--Banach separation, or ambient completeness, the product estimate is exactly the ledger $\mu$.
+\end{proof}
+
+\begin{theorem}[Normed algebra continuous scalar multiplication]
+\label{thm:normed-algebra-continuous-scalar-multiplication}
+Every accepted $\NormedAlgebraUp$ scalar-multiplication read factors through the $\NormedSpaceUp$ scalar rows, the $\RealAlgOrderUp$ ordered-scalar row, and the terminal $\RealUp$ norm comparison before it reaches a $\BanachUp$ or bounded-operator consumer. The handoff is the finite scalar-continuity ledger $\sigma$ together with $H,C,P,N$, not a host continuity theorem or a completed function-space object.
+\end{theorem}
+\begin{proof}
+Start with the normed-space part of the carrier. The scalar action and norm rows are displayed before any algebra-specific multiplication row is inspected.
+
+Next use the ordered-real algebra row $\alpha$. It places scalar multiplication in the same ordered $\RealUp$ comparison language as the norm and product ledgers.
+
+The scalar-continuity estimate is then the row $\sigma$. It is replayed by $C$, transported by $H$, sourced by $P$, and named by $N$, so a Banach or bounded-operator consumer receives only the displayed finite estimate.
+
+No excluded analytic object is generated by this route. Host continuity, quotient function equality, selected completion, Hahn--Banach separation, and ambient completeness have no coordinate in the packet.
+\end{proof}
+
+\closureat{NormedAlgebraUp}{seedStr}
+
+\begin{closurestatus}{\NormedAlgebraUp}
+  \constructivestory{A $\NormedAlgebraUp$ packet is generated from normed-space rows, ring multiplication rows, ordered-real algebra rows, Real norm comparisons, a submultiplicative product ledger, a scalar-continuity ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:normed-algebra-namecert-surface}, \autoref{thm:normed-algebra-submultiplicative-product}, and \autoref{thm:normed-algebra-continuous-scalar-multiplication} seed the constructive normed-algebra interface over normed-space, ring, ordered-real, Real, and Banach-facing rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Banach algebra completeness, Hahn--Banach separation, spectrum theory, quotient algebra equality, host topological algebra structure, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, additive and scalar row exposure, ring multiplication exposure, ordered-real comparison, submultiplicative product exactness, scalar-continuity handoff, transport, replay, provenance, and local naming for BEDC.Derived.NormedAlgebraUp.}
+\end{closurestatus}

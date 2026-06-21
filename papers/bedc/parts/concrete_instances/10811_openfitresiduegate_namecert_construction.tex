@@ -45,22 +45,36 @@ The verdict row $V$ is then bound by the classifier $C$. It records finite defea
 Finally the structural rows preserve the same surface. Transport through $H$, replay through $Q$, provenance through $P$, and local naming through $N$ provide no additional coordinate for final fit, host truth, or residue erasure. Hence the listed rows exhaust the local NameCert obligations.
 \end{proof}
 
+\begin{theorem}[Open-fit residue-gate scoped consumer factorization]
+\label{thm:open-fit-residue-gate-scoped-consumer-factorization}
+Every admissible $\OpenFitResidueGateUp$ consumer must factor through the trace request $T$, finite-fit row $F$, open-residue row $R$, verdict row $V$, classifier row $C$, transport $H$, replay $Q$, provenance $P$, and local NameCert row $N$ before treating finite undefeated fit as physically admissible. The factorization exposes finite undefeated fit only as a residue-aware packet read; it does not assert final fit, host physical truth, hidden observation closure, or residue erasure.
+\end{theorem}
+\begin{proof}
+Project the carrier $G=(T,F,R,V,C,H,Q,P,N)$ from \autoref{def:open-fit-residue-gate-carrier}. These nine rows are the only admitted route from an open-fit request to a verdict about finite undefeated fit.
+
+Apply \autoref{thm:open-fit-residue-gate-namecert-obligations}. The NameCert surface requires trace-request exposure, finite-fit exposure, open-residue exposure, verdict exposure, classifier exactness, transport, replay, provenance, and local naming before any consumer may read the packet as physically admissible at the finite prefix.
+
+The classifier row $C$ binds the finite-fit row to the residue and verdict rows. Therefore a consumer that reads $F$ without also reading $R$ and $V$ has not factored through the displayed gate.
+
+Transport through $H$, replay through $Q$, provenance through $P$, and naming through $N$ preserve the same finite packet. Since none of these rows contains final fit, host physical truth, hidden observation closure, or residue erasure, the scoped consumer factorization cannot claim any of those stronger conclusions.
+\end{proof}
+
 \falsifiablePrediction{A consumer that treats finite undefeated fit as final fit without the residue verdict row refutes the OpenFitResidueGateUp packet.}
 
 \independenceWitness{open-physical-fit, finite-observation-residue-boundary, observation-reflection-packet, reality-constrained-open-fit, gap-policy: none is bijective because the residue gate binds finite fit, open residue, refutation verdict, classifier, route, provenance, and local naming in one packet.}
 
 Later Lean development in \texttt{lean4/BEDC/Derived/OpenFitResidueGateUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \OpenFitResidueGateUp$ and $\mathsf{FieldFaithful}\ \OpenFitResidueGateUp$ instances.
 
-\closureat{OpenFitResidueGateUp}{obligationStr}
+\closureat{OpenFitResidueGateUp}{scopedStr}
 
 \begin{closurestatus}{\OpenFitResidueGateUp}
   \constructivestory{An $\OpenFitResidueGateUp$ packet is generated from trace request, finite-fit certificate, open-residue, verdict, classifier, transport, replay, provenance, and local NameCert rows, as a composite over open physical fit, finite observation residue boundary, observation reflection packet, and reality-constrained open fit surfaces.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:open-fit-residue-gate-carrier} and \autoref{thm:open-fit-residue-gate-namecert-obligations} bind carrier, NameCert obligations, TasteGate alignment, falsifiable prediction, independence witness, Nontrivial, and FieldFaithful rows into the displayed obligation surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:open-fit-residue-gate-carrier}, \autoref{thm:open-fit-residue-gate-namecert-obligations}, and \autoref{thm:open-fit-residue-gate-scoped-consumer-factorization} bind carrier, NameCert obligations, TasteGate alignment, consumer factorization, falsifiable prediction, independence witness, Nontrivial, and FieldFaithful rows into the displayed scoped surface.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.OpenFitResidueGateUp.TasteGate.OpenFitResidueGateTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not assert final fit, host physical truth, residue erasure, hidden observation closure, or bridge checking.}
-  \upgradepath{Scoped closure requires a consumer theorem showing that every admissible open-fit use factors through the displayed residue-gate obligation surface.}
+  \upgradepath{Public closure requires a public-object surface for open-fit residue-gate use beyond the local consumer factorization.}
 \end{closurestatus}

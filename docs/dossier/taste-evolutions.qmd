@@ -20,22 +20,20 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-20T10:41:03Z
+> 最后刷新: 2026-06-21T04:33:15Z
 
-**Daemon 状态**: monitor (monitor cycle 86, adjust_since_research 2, round_counter 15014, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 98, adjust_since_research 2, round_counter 15915, last_adjust rule_evolution_completed)
 
-**待处理 queue** (527 条 finding):
-- isolated_theorem: 371 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (536 条 finding):
+- isolated_theorem: 378 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 128 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- low_entropy_template: 28 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
+- low_entropy_template: 30 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 23 次
-- TASTE ALERT category=low_entropy_template: 10 次
-- TASTE ALERT category=cycle_exception: 7 次
-- TASTE ALERT category=dossier_snapshot_push_failed: 2 次
-- TASTE ALERT category=resolution_dossier_commit_failed: 1 次
-- TASTE ALERT category=resolution_gate_failed: 1 次
+- TASTE ALERT category=isolated_theorem: 28 次
+- TASTE ALERT category=low_entropy_template: 16 次
+- TASTE ALERT category=cycle_exception: 3 次
+- TASTE ALERT category=dossier_snapshot_push_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -343,6 +341,21 @@ BEDC/Derived/MetricProjectionUp.lean:417:65: error(lean.unknownIdentifier): Unkn
 - 2026-06-19T08:34:40Z: `resolved` `delete_theorem` for `BEDC.Derived.FilterLimitBasisUp.FilterLimitBasisTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:filterlimitbasis:BEDC.Derived.FilterLimitBasisUp.FilterLimitBasisTasteGate_single_carrier_alignment:dd551166`). Rationale: The declaration was an isolated public wrapper around existing local implementation facts: the BHist encode/decode round trip, existing BHistCarrier and ChapterTasteGate instances, and the empty encoding by rfl. Repository search found no Lean downstream consumers and only the removable paper marker, while the chapter already has substantive checked targets for NameCert obligations and CauchyFilterCompletion handoff. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-20T01:19:14Z: `resolved` `leave_with_rationale` for `BEDC.Derived.CauchyContinuousMapUp.CauchyContinuousMap_modulus_boundary_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.CauchyContinuousMapUp.CauchyContinuousMap_modulus_boundary_nonescape:16133241`). Rationale: The theorem is not a paper-only stray: the CauchyContinuousMap chapter has a primary leanchecked marker for it and later paper proofs use it as the modulus-facing boundary step before the uniform-window and uniform-modulus factorization claims. I attempted to add a Lean downstream consumer in the sibling UniformWindowObligation module, but the required lake build gate failed on BEDC.Derived.CauchyContinuousMapUp.UniformWindowObligation after the full project build reached the final stage, so I reverted the edit per instruction and am leaving the theorem with rationale rather than changing files. Gate results: lake_build=Some required targets logged failures: - BEDC.Derived.CauchyContinuousMapUp.UniformWindowObligation; error: build failed, audit=skipped, phase_d_lint=skipped.
+
+- 2026-06-20T19:19:50Z: `resolved` `leave_with_rationale` for `BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier_namecert_obligations:40d18d90`). Rationale: The theorem has real BEDC content: it constructs the local SemanticNameCert surface for the StepIndexedTotalHost carrier and exposes the carrier's unary, Cont, and Pkg obligations, so deleting it would remove the paper's canonical NameCert obligation target. I attempted to add a substantive downstream consumer in the separation sibling, but the required gate failed on BEDC.Derived.StepIndexedTotalHostUp.Separation because the new theorem referenced SemanticNameCert without that name being available in the sibling namespace/import context; per instruction, I reverted the edit and left the target unchanged. Gate results: lake_build=Some required targets logged failures:
+- BEDC.Derived.StepIndexedTotalHostUp.Separation
+BEDC/Derived/StepIndexedTotalHostUp/Separation.lean:43:10: error: Function expected at SemanticNameCert; Hint: The identifier `SemanticNameCert` is unknown
+error: build failed, audit=skipped, phase_d_lint=skipped.
+
+- 2026-06-20T20:54:03Z: `resolved` `add_downstream_user` for `BEDC.Derived.LocatedCompactnessUp.LocatedCompactnessCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:locatedcompactness:BEDC.Derived.LocatedCompactnessUp.LocatedCompactnessCarrier_namecert_obligations:08fe9837`). Rationale: The target is not a trivial wrapper: it constructs a SemanticNameCert for the located compactness carrier and is the Lean counterpart of the paper's NameCert obligations theorem. It had no downstream Lean consumer, so I added a sibling bridge theorem in LocatedCompactUp that explicitly calls this NameCert obligation, reads its ledger_sound field, and packages the resulting local NameCert row into a LocatedCompactCarrier handoff. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-20T22:44:03Z: `resolved` `add_downstream_user` for `BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_tail_window_admission` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_tail_window_admission:9c4efedc`). Rationale: The target is not a disposable wrapper: it extracts the displayed tail-window route through D,T,E,F,S from the NetConvergence carrier, and the paper uses that route as part of the later boundary and ledger nonescape story. It had no Lean consumer, so I added a sibling RealSealNonescape theorem that calls it directly and bridges the admitted tail window into a SemanticNameCert for the Real-seal route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-21T00:33:12Z: `resolved` `add_downstream_user` for `BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_stream_readback_route` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_stream_readback_route:9c4efedc`). Rationale: The theorem carries real BEDC content: it isolates the F-to-S-to-R-to-L Real-facing readback route that the paper later uses in the boundary readback theorem. Source grep showed no existing Lean consumer, so I added a downstream dependency by making NetConvergenceCarrier_boundary_readback call NetConvergenceCarrier_stream_readback_route and use its projected Cont rows in the SemanticNameCert ledger and returned boundary package. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-21T02:42:25Z: `resolved` `add_downstream_user` for `BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_sequentialcompact_dependency` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_sequentialcompact_dependency:9c4efedc`). Rationale: The target has real BEDC content: it packages a NetConvergence carrier plus displayed Cont routing into a SemanticNameCert for a cluster-facing read, and the existing NetClusterPoint chapter explicitly names its neighbourhood-hit row as a NetConvergenceUp interface. I added a NetClusterPoint sibling consumer theorem that invokes the isolated theorem directly and ties the resulting certificate to the NetClusterPoint finite-row surface, then marked that consumer in the NetClusterPoint paper chapter. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-21T04:32:50Z: `resolved` `delete_theorem` for `BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerClassifier_refl` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerClassifier_refl:d2955ab8`). Rationale: The theorem was an isolated reflexivity wrapper that only repackaged a single accepted carrier with componentwise hsame_refl fields into BoundedNormalEqualityCheckerClassifier. Exact repository grep found no Lean or paper consumer, the chapter only marks the classifier definition and stronger downstream boundary theorems, and the surrounding file already carries substantive classifier-stability, deterministic-readback, ledger, public-export, and bridge-facing results. Removing it loses no downstream BEDC content. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 

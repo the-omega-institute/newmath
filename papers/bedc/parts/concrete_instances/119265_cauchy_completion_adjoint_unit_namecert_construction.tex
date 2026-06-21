@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionAdjointUnitUp$}
+\label{ch:concrete-instances-cauchy-completion-adjoint-unit-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis and Kelley-style completion, the $\CauchyCompletionAdjointUnitUp$ packet records the unit row of the Cauchy-completion adjunction as finite BEDC certificate data. It sits after the metric completion carrier of \autoref{ch:concrete-instances-metriccompletion-namecert}, the dense embedding surface of \autoref{ch:concrete-instances-dense-embedding-namecert}, the $\StreamNameUp$ finite-window route of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only a source metric, unit map, dense row, finite stream windows, regular rational readback, transport, replay, provenance, and local NameCert row; it does not import quotient completion equality, selected limits, countable choice, or ambient real completeness.
+
+\begin{definition}[CauchyCompletionAdjointUnit carrier]
+\label{def:cauchy-completion-adjoint-unit-carrier}
+A $\CauchyCompletionAdjointUnitUp$ carrier is a finite $\BHist$ packet
+$$
+U=(X,J,D,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source metric row, read through the same metric source used by $\MetricCompletionUp$ and its dense-completion consumers.
+\item $J$ is the unit map row, sending displayed source points into the completion-facing readout without selecting completed representatives.
+\item $D$ is the dense row, recording that every accepted completion-side finite observation is reached through the displayed source image before a terminal seal is exposed.
+\item $S$ is the $\StreamNameUp$ finite-window row for source observations, completion observations, and requested tolerances.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the windows in $S$.
+\item $H$ records componentwise $\hsame$ transport for the source metric, unit map, dense row, window row, readback row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from source metric reads through the unit map, dense exposure, StreamName windows, RegSeqRat readback, and the terminal $\RealUp$-facing seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionAdjointUnitUp$, $\MetricCompletionUp$, $\DenseEmbeddingUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionAdjointUnitUp}$ row.
+\end{enumerate}
+Accepted packets are compared only through $X,J,D,S,R,H,C,P,N$ and their displayed replay paths.
+\end{definition}
+
+\begin{theorem}[CauchyCompletionAdjointUnit NameCert obligations]
+\label{thm:cauchy-completion-adjoint-unit-namecert-obligations}
+For every accepted $\CauchyCompletionAdjointUnitUp$ carrier $U=(X,J,D,S,R,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionAdjointUnitUp}$ surface consists exactly of source metric exposure, unit-map exposure, dense-row exposure, StreamName finite windows, RegSeqRat readback, componentwise transport, displayed replay, provenance, and local naming. Every unit consumer must read $X,J,D$ before it can consume the finite windows, readback, transport, replay, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-adjoint-unit-carrier}. The rows $X,J,D$ expose the source metric, the unit map, and the dense row that makes completion-side observations source-facing.
+
+The finite readback surface is downstream of those rows. The $\StreamNameUp$ row $S$ schedules only displayed source and completion observations, and the $\RegSeqRatUp$ row $R$ reads those windows before any $\RealUp$-facing seal is consumed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no row stores quotient equality, a selected completed representative, countable choice, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionAdjointUnit handoff]
+\label{thm:cauchy-completion-adjoint-unit-handoff}
+Every $\MetricCompletionUp$ or completion-adjoint consumer that reads the unit of a source metric from an accepted $\CauchyCompletionAdjointUnitUp$ packet factors through
+$$
+\DenseEmbeddingUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The exported handoff is the displayed finite unit-row surface for source-to-completion reads, not a quotient completion, selected representative, host equality theorem, countable-choice schedule, or ambient completeness principle for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $U=(X,J,D,S,R,H,C,P,N)$. By \autoref{thm:cauchy-completion-adjoint-unit-namecert-obligations}, the consumer first reads the source metric row $X$, unit map row $J$, and dense row $D$.
+
+The sibling route then fixes the public dependency surface. The unit read is interpreted through \autoref{ch:concrete-instances-metriccompletion-namecert} and \autoref{ch:concrete-instances-dense-embedding-namecert}; the finite observations pass through \autoref{ch:concrete-instances-streamname-namecert}; the regular rational readback is supplied by \autoref{ch:concrete-instances-regseqrat-namecert}; and the terminal real-facing boundary is sealed only through \autoref{ch:concrete-instances-real-namecert}.
+
+The structural rows $H,C,P,N$ preserve that route under transport, replay, provenance, and local naming. Since the carrier has no row for quotient completions, selected limits, host equality, countable choice, or ambient $\RealUp$ completeness, every accepted read remains inside the displayed finite unit-row surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyCompletionAdjointUnitUp$ reader that claims a completion unit while omitting the source metric, unit map, dense row, StreamName windows, RegSeqRat readback, hsame transport, Cont replay, Pkg provenance, or local NameCert data refutes the packet.}
+
+\independenceWitness{metriccompletion, dense-embedding, streamname, regseqrat, and real: $\CauchyCompletionAdjointUnitUp$ is not bijective to any listed sibling because it jointly carries the source metric, unit map, dense row, finite windows, regular rational readback, transport, replay, provenance, and local NameCert rows in one unit packet.}
+
+\closureat{CauchyCompletionAdjointUnitUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionAdjointUnitUp}
+  \constructivestory{A $\CauchyCompletionAdjointUnitUp$ packet is generated from a source metric row, unit map row, dense row, StreamName finite windows, RegSeqRat readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-adjoint-unit-carrier}, \autoref{thm:cauchy-completion-adjoint-unit-namecert-obligations}, and \autoref{thm:cauchy-completion-adjoint-unit-handoff} seed the finite completion-unit route over MetricCompletionUp, DenseEmbeddingUp, StreamNameUp, RegSeqRatUp, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected representatives, selected limits, countable choice, ambient $\RealUp$ completeness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source metric exposure, unit-map exactness, dense-row exactness, finite readback, transport, replay, provenance, and local naming for BEDC.Derived.CauchyCompletionAdjointUnitUp.}
+\end{closurestatus}

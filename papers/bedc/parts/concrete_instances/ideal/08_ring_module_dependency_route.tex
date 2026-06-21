@@ -1,1 +1,20 @@
-The $\IdealUp$ packet reads additive subgroup closure and absorption through two sibling surfaces: the $\RingUp$ multiplication surface of \autoref{ch:concrete-instances-ring-namecert} supplies ambient products $r\cdot_R x$ and $x\cdot_R r$, while the $\ModuleUp$ scalar-action surface of \autoref{ch:concrete-instances-module-namecert} records the same absorption pattern when ideals are consumed as submodule-like kernels over a fixed scalar carrier.
+\begin{theorem}[Ideal ring carrier dependency]
+\label{thm:ideal-ring-carrier-dependency}
+Any $\IdealUp$ absorption read must expose the $\RingUp$ multiplication
+surface of \autoref{ch:concrete-instances-ring-namecert} before it consumes
+ambient products $r\cdot_R x$ or $x\cdot_R r$. When the same read is used as
+a kernel or submodule-like row over a fixed scalar carrier, it must also expose
+the $\ModuleUp$ scalar-action surface of
+\autoref{ch:concrete-instances-module-namecert}. The dependency is a carrier
+route for absorption data, not a new algebraic theorem about rings or modules.
+\end{theorem}
+\begin{proof}
+Project the $\IdealUp$ carrier along its absorption rows. The only available
+ambient products are read through the displayed $\RingUp$ multiplication
+surface, so the absorption consumer must first expose that sibling route.
+
+For a kernel or submodule-like consumption, project the scalar-action row in
+the same carrier reading. The $\ModuleUp$ surface records the scalar action
+over the fixed scalar carrier, and the ideal read merely reuses that route to
+name the absorption pattern. No additional ring or module property is asserted.
+\end{proof}
