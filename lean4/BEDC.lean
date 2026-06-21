@@ -4760,6 +4760,7 @@ import BEDC.Derived.DyadicFloorUp
 import BEDC.Derived.DyadicFloorUp.Classifier
 import BEDC.Derived.DyadicFloorUp.TasteGate
 import BEDC.Derived.DyadicGeometricTailUp.TasteGate
+import BEDC.Derived.DyadicGridProjectionUp.TasteGate
 import BEDC.Derived.DyadicIntermediateValueUp.TasteGate
 import BEDC.Derived.DyadicIntervalArithmeticUp.EnclosureSoundness
 import BEDC.Derived.DyadicIntervalArithmeticUp.NameCertObligations
@@ -10390,6 +10391,7 @@ import BEDC.Derived.SetlikeUp.FamilyFiberModelSatisfactionRoute
 import BEDC.Derived.SetlikeUp.FamilyHandoffObligation
 import BEDC.Derived.SetlikeUp.MembershipCarrierRootSurface
 import BEDC.Derived.SetlikeUp.MembershipClassifierRootUnblock
+import BEDC.Derived.SetlikeUp.MembershipClassifierStabilityRoot
 import BEDC.Derived.SetlikeUp.MembershipClassifierTransport
 import BEDC.Derived.SetlikeUp.MembershipFamilyBHistInduction
 import BEDC.Derived.SetlikeUp.MembershipKernel
