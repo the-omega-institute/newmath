@@ -1822,6 +1822,7 @@ import BEDC.Derived.CauchyCutComparisonUp.TasteGate
 import BEDC.Derived.CauchyCutUp.TasteGate
 import BEDC.Derived.CauchyDedekindBridgeUp.TasteGate
 import BEDC.Derived.CauchyDedekindEquivalenceUp.TasteGate
+import BEDC.Derived.CauchyDedekindGapRouterUp.TasteGate
 import BEDC.Derived.CauchyDiagonalArgumentUp.TasteGate
 import BEDC.Derived.CauchyDiagonalBudgetUp
 import BEDC.Derived.CauchyDiagonalBudgetUp.SharedTailWindowExhaustion
@@ -6891,6 +6892,7 @@ import BEDC.Derived.LocatedApartnessUp.TasteGate
 import BEDC.Derived.LocatedArchimedeanUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSequenceUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSetUp
+import BEDC.Derived.LocatedCauchyBracketUp.TasteGate
 import BEDC.Derived.LocatedCauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.LocatedCauchyExtractionUp.TasteGate
 import BEDC.Derived.LocatedCauchyFilterBasisUp
@@ -10042,6 +10044,7 @@ import BEDC.Derived.RegularCauchyTailCollapseUp.TasteGate
 import BEDC.Derived.RegularCauchyTailComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyTailCompositionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEnvelopeUp.TasteGate
+import BEDC.Derived.RegularCauchyTailEquivalenceUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEstimateUp
 import BEDC.Derived.RegularCauchyTailEstimateUp.CompletionConsumerRoute
 import BEDC.Derived.RegularCauchyTailEstimateUp.FinitePrecisionInduction
