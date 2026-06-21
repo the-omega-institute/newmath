@@ -66,6 +66,7 @@ For a gap read, the same bounded ledger is inspected. The row $G$ records the ab
 \label{thm:bounded-search-refutation-obligation-scope}
 For an accepted $\BoundedSearchRefutationUp$ carrier $B=(A,K,F,R,G,H,C,P,N)$, every accepted frontier replay is derived by induction over the displayed finite depth row $K$. The base case is the initial frontier displayed in $F$, and the step case is exactly the displayed local edge extension in $F$ from a depth row already admitted by $K$ to its successor row. Consequently the bounded-search obligation surface contains no replay step outside $K$, no frontier entry outside $F$, and no refutation or $\Gap$ read outside the carrier rows of \autoref{def:bounded-search-refutation-carrier}.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundedSearchRefutationUp.BoundedSearchRefutationObligationScope}
 \begin{proof}
 The carrier inventory in \autoref{def:bounded-search-refutation-carrier} supplies the only rows used by the replay: the finite budget $K$, the frontier $F$, the refutation-or-gap rows $R,G$, and the transport, continuation, package, and naming rows $H,C,P,N$.
 
@@ -102,6 +103,7 @@ If a consumer reads $G$, non-escape gives the boundary. The row reports only tha
 
 Therefore the public boundary is a finite BEDC search certificate. It supports bounded refutation and bounded gap reporting, while refusing any global proof-search, truth-branch, or unbounded-depth conclusion.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedSearchRefutationUp.BoundedSearchRefutationNameCertBoundary}
 
 \begin{theorem}[BoundedSearchRefutation public export]
 \label{thm:bounded-search-refutation-public-export}
