@@ -38,6 +38,17 @@ def scan_file(path: Path, pattern: re.Pattern[str], label: str) -> list[str]:
     return violations
 
 
+def bedc_import_files(repo_root: Path) -> list[Path]:
+    files: list[Path] = []
+    aggregate = repo_root / "lean4" / "BEDC.lean"
+    if aggregate.exists():
+        files.append(aggregate)
+
+    bedc_dir = repo_root / "lean4" / "BEDC"
+    files.extend(sorted(bedc_dir.rglob("*.lean")))
+    return files
+
+
 def main() -> int:
     try:
         repo_root = find_repo_root()
@@ -51,7 +62,7 @@ def main() -> int:
         print(f"[no-back-edge] FAIL: missing {bedc_dir}")
         return 2
 
-    for path in sorted(bedc_dir.rglob("*.lean")):
+    for path in bedc_import_files(repo_root):
         violations.extend(scan_file(path, IMPORT_PATTERN, "forbidden import"))
 
     lakefile = repo_root / "lean4" / "lakefile.lean"
@@ -67,7 +78,7 @@ def main() -> int:
         print(f"[no-back-edge] FAIL: {len(violations)} forbidden back-edge(s)")
         return 1
 
-    print("[no-back-edge] PASS: BEDC imports no Mathlib or bridge modules")
+    print("[no-back-edge] PASS: BEDC.lean and BEDC imports no Mathlib or bridge modules")
     return 0
 
 
