@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\LipschitzFixedPointUp$}
+\label{ch:concrete-instances-lipschitz-fixed-point-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges constructive fixed-point theory, the $\LipschitzFixedPointUp$ packet records the finite endpoint certificate read by a Lipschitz contraction consumer after the contraction, modulus, and Cauchy-orbit rows are displayed. It sits after the Banach contraction route of \autoref{ch:concrete-instances-banach-contraction-namecert}, the constructive contraction modulus of \autoref{ch:concrete-instances-constructive-contraction-modulus-namecert}, and the orbit endpoint seal of \autoref{ch:concrete-instances-cauchy-fixed-point-orbit-seal-namecert}. The packet names the endpoint-facing certificate for a fixed-point read; it does not select a host fixed point, quotient a completion, use countable choice, or assert ambient $\RealUp$ completeness.
+
+\begin{definition}[Lipschitz fixed-point carrier]
+\label{def:lipschitz-fixed-point-carrier}
+A $\LipschitzFixedPointUp$ carrier is a finite $\BHist$ packet
+$$
+L=(B,M,O,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BanachContractionUp$ row that supplies the contractive self-map route and separated endpoint discipline.
+\item $M$ is the $\ConstructiveContractionModulusUp$ row that exposes the finite contraction modulus before the orbit tail is read.
+\item $O$ is the $\CauchyFixedPointOrbitSealUp$ row that carries the Picard orbit, Cauchy-modulus handoff, and endpoint seal boundary.
+\item $R$ is the $\RegSeqRatUp$ readback row for the finite regular tail windows inspected by the endpoint consumer.
+\item $E$ is the terminal $\RealUp$ endpoint seal available only after $B,M,O,R$ have been replayed.
+\item $H$ records componentwise $\hsame$ transport for contraction, modulus, orbit seal, readback, endpoint seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a fixed-point request through $B,M,O,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LipschitzFixedPointUp$, $\BanachContractionUp$, $\ConstructiveContractionModulusUp$, $\CauchyFixedPointOrbitSealUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LipschitzFixedPointUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows, their displayed transports, continuation replay, provenance, and local naming.
+\end{definition}
+
+\begin{theorem}[Lipschitz fixed-point NameCert obligations]
+\label{thm:lipschitz-fixed-point-namecert-obligations}
+For every accepted $\LipschitzFixedPointUp$ carrier $L=(B,M,O,R,E,H,C,P,N)$, the local $\NameCert_{\LipschitzFixedPointUp}$ surface consists exactly of contraction admission through $B$, modulus admission through $M$, orbit-seal admission through $O$, regular rational readback through $R$, terminal endpoint sealing through $E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lipschitz-fixed-point-carrier}. The projection exposes the contraction row, modulus row, orbit-seal row, readback row, endpoint seal, transport, replay, provenance, and local naming rows.
+
+The analytic rows are read in fixed order. The Banach contraction row supplies the contractive route, the constructive modulus row supplies the finite shrinkage budget, the orbit seal supplies the Picard Cauchy endpoint boundary, and the regular rational readback supplies the displayed tail windows before $E$ is available.
+
+The structural rows $H,C,P,N$ preserve and identify that same packet. Since the carrier has no coordinate for host fixed-point selection, quotient completion equality, countable choice, or ambient RealUp completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Lipschitz fixed-point Picard orbit Cauchy route]
+\label{thm:lipschitz-fixed-point-picard-orbit-cauchy}
+Every fixed-point endpoint consumer of an accepted $\LipschitzFixedPointUp$ carrier factors through the finite Picard orbit route
+$$
+\BanachContractionUp \longmapsto
+\ConstructiveContractionModulusUp \longmapsto
+\CauchyFixedPointOrbitSealUp \longmapsto
+\RegSeqRatUp \longmapsto
+\RealUp .
+$$
+The endpoint read therefore consumes the displayed contraction, modulus, orbit seal, regular readback, terminal seal, componentwise transport, replay, provenance, and local naming rows before any fixed-point row is public.
+\end{theorem}
+\begin{proof}
+Begin with an endpoint request. Carrier admission gives access to the contraction row $B$ before the modulus or orbit rows can be consumed.
+
+Next read $M,O,R$. The modulus row exposes the finite shrinkage data, the orbit-seal row exposes the Picard Cauchy boundary, and the regular rational readback records the finite tail windows inspected by the endpoint consumer.
+
+Finally read $E,H,C,P,N$. These rows seal, transport, replay, source, and name the same finite endpoint route, so the public fixed-point read remains inside the displayed Picard orbit certificate.
+\end{proof}
+
+\begin{theorem}[Lipschitz fixed-point non-escape]
+\label{thm:lipschitz-fixed-point-nonescape}
+An accepted $\LipschitzFixedPointUp$ carrier exports only the rows $B,M,O,R,E,H,C,P,N$ of \autoref{def:lipschitz-fixed-point-carrier}. It exports no host-selected fixed point, quotient completion representative, host equality of endpoints, countable-choice selector, untracked contraction modulus, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Inspect the carrier. Its only endpoint-facing rows are the contraction row $B$, modulus row $M$, orbit seal $O$, regular readback $R$, and terminal Real seal $E$.
+
+Apply the NameCert obligations of \autoref{thm:lipschitz-fixed-point-namecert-obligations}. Every accepted read remains inside those displayed rows and the structural rows $H,C,P,N$.
+
+The excluded objects would require additional carrier coordinates or continuation routes. Since none are present, no downstream consumer can recover host selection, quotient completion data, host endpoint equality, choice, an untracked modulus, or ambient RealUp completeness from the packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LipschitzFixedPointUp$ read is refuted if a fixed-point endpoint consumer reaches the terminal Real seal without displaying the BanachContraction row, ConstructiveContractionModulus row, CauchyFixedPointOrbitSeal row, RegSeqRat readback, componentwise transport, replay, provenance, and local NameCert row.}
+
+\independenceWitness{banach-contraction, constructive-contraction-modulus, cauchy-fixed-point-orbit-seal, regseqrat, real: none alone is bijective with $\LipschitzFixedPointUp$ because the packet jointly records contraction admission, finite modulus data, orbit sealing, regular readback, endpoint sealing, transport, replay, provenance, and local naming.}
+
+\closureat{LipschitzFixedPointUp}{seedStr}
+
+\begin{closurestatus}{\LipschitzFixedPointUp}
+  \constructivestory{A $\LipschitzFixedPointUp$ packet is generated from a BanachContraction row, a ConstructiveContractionModulus row, a CauchyFixedPointOrbitSeal row, RegSeqRat readback, a terminal RealUp endpoint seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lipschitz-fixed-point-carrier}, \autoref{thm:lipschitz-fixed-point-namecert-obligations}, \autoref{thm:lipschitz-fixed-point-picard-orbit-cauchy}, and \autoref{thm:lipschitz-fixed-point-nonescape} seed the finite endpoint certificate over contraction, modulus, orbit seal, regular readback, terminal Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host fixed-point selection, quotient completion equality, host endpoint equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, contraction exposure, modulus accountability, orbit-seal exactness, RegSeqRat readback, endpoint sealing, transport stability, replay stability, provenance, and local naming for BEDC.Derived.LipschitzFixedPointUp.}
+\end{closurestatus}

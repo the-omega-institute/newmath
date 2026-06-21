@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\LocalObservationDigestGateUp$}
+\label{ch:concrete-instances-local-observation-digest-gate-namecert}
+\origin{human}
+
+Following standard hash and provenance interface discipline, the $\LocalObservationDigestGateUp$ packet realizes the local boundary question family of \autoref{def:hash-like-boundary-gate} as finite NameCert data. It sits beside the digest provenance packet of \autoref{ch:concrete-instances-digestprovenancepacket-namecert}, the hash-like boundary gate of \autoref{ch:concrete-instances-hashlikeboundarygate-namecert}, and the observation-fiber digest surface of \autoref{ch:concrete-instances-observation-fiber-digest-namecert}. The packet is local: it records a visible token, source fiber, GAP provenance, exactness status, far-end status, and hidden-source refusal as rows of one carrier, while refusing any global hash, hidden source oracle, object-level $\mathsf{T}$ value, or digest equality as source equality.
+
+\begin{definition}[Local observation digest gate carrier]
+\label{def:local-observation-digest-gate-carrier}
+A $\LocalObservationDigestGateUp$ carrier is a finite $\BHist$ packet
+$$
+G=(V,F,Q,E,A,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the visible local digest token row exposed to observation consumers.
+\item $F$ is the source-fiber row that names the local observation fiber to which $V$ belongs.
+\item $Q$ is the GAP provenance row recording the visible source route and the refused hidden-source route.
+\item $E$ is the exactness-status row stating whether the visible token is allowed to support a local exactness claim.
+\item $A$ is the apophatic far-end status row recording the boundary side of the observation.
+\item $R$ is the hidden-source refusal row preventing digest equality from becoming source equality.
+\item $H$ records componentwise $\hsame$ transport for the visible token, fiber, GAP provenance, exactness status, far-end status, refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a local observation request through $V,F,Q,E,A,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocalObservationDigestGateUp$, $\DigestProvenancePacketUp$, $\HashLikeBoundaryGateUp$, $\ObservationFiberDigestUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocalObservationDigestGateUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $V,F,Q,E,A,R,H,C,P,N$. It has no coordinate for a global hash of the universe, hidden source recovery, object-level $\mathsf{T}$, quotient source equality, host collision semantics, theorem-input parameters, or detached certificate names.
+\end{definition}
+
+\begin{theorem}[Local observation digest gate obligations]
+\label{thm:local-observation-digest-gate-obligations}
+For every accepted $\LocalObservationDigestGateUp$ carrier
+$$
+G=(V,F,Q,E,A,R,H,C,P,N),
+$$
+the local $\NameCert_{\LocalObservationDigestGateUp}$ surface consists exactly of visible token admission through $V$, source-fiber admission through $F$, GAP provenance through $Q$, exactness status through $E$, apophatic far-end status through $A$, hidden-source refusal through $R$, and structural transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:local-observation-digest-gate-carrier}. The accepted packet exposes exactly the visible token, source fiber, GAP provenance, exactness status, far-end status, hidden-source refusal, transport, replay, provenance, and local naming rows.
+
+Read the digest side through $V,F,Q,E$. A consumer may use the visible token only together with the displayed fiber, the GAP provenance route, and the exactness-status row.
+
+Read the refusal side through $A,R$. The far-end status and hidden-source refusal rows block any conversion of digest equality into source equality or hidden source recovery.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the same local packet. Since no global hash, object-level $\mathsf{T}$ value, quotient equality, host collision row, theorem-input parameter, or detached certificate name occurs in the carrier, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Local observation digest gate boundary nonescape]
+\label{thm:local-observation-digest-gate-boundary-nonescape}
+Every accepted $\LocalObservationDigestGateUp$ consumer factors through the finite route
+$$
+\DigestProvenancePacketUp
+\longmapsto
+\HashLikeBoundaryGateUp
+\longmapsto
+V,F,Q,E,A,R
+\longmapsto
+\BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+The route supplies visible token, source fiber, GAP provenance, exactness status, far-end status, hidden-source refusal, transport, replay, provenance, and local naming. It supplies no global hash, hidden-source oracle, object-level $\mathsf{T}$ value, quotient source equality, host collision semantics, or detached theorem input.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:local-observation-digest-gate-obligations}. They require every consumer-visible digest read to pass through the displayed token, fiber, GAP provenance, exactness, far-end, refusal, and structural rows.
+
+The sibling $\DigestProvenancePacketUp$ route supplies the provenance discipline for visible digest tokens, while the sibling $\HashLikeBoundaryGateUp$ route supplies the boundary audit questions. This packet binds both to the same local observation rows $V,F,Q,E,A,R$.
+
+The transport, replay, provenance, and naming rows $H,C,P,N$ keep the route local. Therefore a consumer cannot leave the displayed packet to recover a hidden source, introduce a global hash, treat $\mathsf{T}$ as an object-level digest value, or use digest equality as source equality.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LocalObservationDigestGateUp$ consumer is refuted if it uses a visible digest token without displaying the source fiber, GAP provenance, exactness status, apophatic far-end status, hidden-source refusal, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{digestprovenancepacket, hashlikeboundarygate, observationfiberdigest: none alone is bijective with $\LocalObservationDigestGateUp$ because this packet jointly binds the visible token, source fiber, GAP provenance, exactness status, far-end status, hidden-source refusal, transport, replay, provenance, and local NameCert rows as one local gate.}
+
+\closureat{LocalObservationDigestGateUp}{seedStr}
+
+\begin{closurestatus}{\LocalObservationDigestGateUp}
+  \constructivestory{A $\LocalObservationDigestGateUp$ packet is generated from a visible token row, source-fiber row, GAP provenance row, exactness-status row, apophatic far-end status row, hidden-source refusal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:local-observation-digest-gate-carrier}, \autoref{thm:local-observation-digest-gate-obligations}, and \autoref{thm:local-observation-digest-gate-boundary-nonescape} seed the local observation digest boundary over visible token, source-fiber, GAP, exactness, far-end, and refusal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global hash semantics, hidden-source recovery, object-level T, quotient source equality, host collision semantics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, visible-token admission, source-fiber admission, GAP provenance, exactness status, far-end status, hidden-source refusal, transport, replay, provenance, and local naming for BEDC.Derived.LocalObservationDigestGateUp.}
+\end{closurestatus}
