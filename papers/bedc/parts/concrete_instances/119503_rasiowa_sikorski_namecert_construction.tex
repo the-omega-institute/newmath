@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\RasiowaSikorskiUp$}
+\label{ch:concrete-instances-rasiowa-sikorski-namecert}
+\origin{human}
+
+Following Rasiowa and Sikorski on dense-set forcing and its constructive readings, the $\RasiowaSikorskiUp$ packet records the finite dense-open refinement route that a completion-facing consumer may inspect before any generic-filter claim is public. It sits beside the finite Baire-category surface of \autoref{ch:concrete-instances-constructive-baire-category-namecert}, the Baire-space source of \autoref{ch:concrete-instances-bairespace-namecert}, the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed condition rows, dense-open request rows, finite refinements, finite-meet witnesses, generic-prefix rows, transport, replay, provenance, and local naming.
+
+\begin{definition}[Rasiowa-Sikorski carrier]
+\label{def:rasiowa-sikorski-carrier}
+A $\RasiowaSikorskiUp$ carrier is a finite $\BHist$ packet
+$$
+R=(P,D,Rf,F,G,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the condition row, listing the finite condition prefix currently visible to the packet.
+\item $D$ is the dense-open request row, recording only the displayed dense-open obligations being met.
+\item $Rf$ is the refinement row, naming the finite strengthening relation from the visible condition prefix into the requested dense-open row.
+\item $F$ is the finite-meet row, recording compatibility for the finite family of refinements already displayed.
+\item $G$ is the generic-prefix row, exposing a finite prefix that meets the displayed dense-open requests without selecting a host generic filter.
+\item $H$ records componentwise $\hsame$ transport for the condition, dense-open request, refinement, finite-meet, generic-prefix, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from condition inspection through dense-open admission, refinement, finite meets, generic-prefix exposure, transport, provenance, and local naming.
+\item $Q$ is the $\Pkg$ provenance over $\RasiowaSikorskiUp$, $\BaireSpaceUp$, $\MetricSpaceUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RasiowaSikorskiUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host generic filter, countable choice, arbitrary countable meets, quotient streams, selected generic points, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Rasiowa-Sikorski NameCert obligations]
+\label{thm:rasiowa-sikorski-namecert-obligations}
+For every accepted $\RasiowaSikorskiUp$ carrier $R=(P,D,Rf,F,G,H,C,Q,N)$, the local $\NameCert_{\RasiowaSikorskiUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the condition row, dense-open request row, refinement row, finite-meet row, generic-prefix row, componentwise transport, replay, provenance, and local naming rows;
+\item dense-open admission, requiring every public request in $D$ to be displayed before any refinement row can be consumed;
+\item refinement monotonicity, requiring $Rf$ to strengthen the visible condition prefix rather than replace it by an external selector;
+\item finite meet compatibility, requiring the finite family of displayed refinements to be checked by $F$ before the generic-prefix row is public;
+\item generic-prefix nonescape, requiring $G$ to expose only finite prefix data and no host generic filter or selected point;
+\item provenance, requiring $Q$ and $N$ to keep the route inside the displayed BaireSpace, MetricSpace, StreamName, Real, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rasiowa-sikorski-carrier}. The rows $P,D,Rf,F,G$ provide the condition, dense-open request, refinement, finite-meet, and generic-prefix data, while $H,C,Q,N$ provide transport, replay, provenance, and local naming.
+
+Dense-open admission is the row $D$. Since $Rf$ is downstream of $D$, a consumer cannot read a refinement before the corresponding displayed request is visible.
+
+Refinement monotonicity and finite meet compatibility are the rows $Rf$ and $F$. The refinement strengthens the visible condition prefix, and the finite meet row checks the displayed finite family before the prefix row $G$ can be exposed.
+
+The structural rows preserve the same route. Transport through $H$, replay through $C$, provenance through $Q$, and naming through $N$ do not add coordinates outside the finite packet, so the NameCert surface is exactly the listed obligation set.
+\end{proof}
+
+\begin{theorem}[Rasiowa-Sikorski finite dense-open route]
+\label{thm:rasiowa-sikorski-finite-dense-open-route}
+Every completion-facing consumer of an accepted $\RasiowaSikorskiUp$ carrier receives only finite dense-open refinement rows. More precisely, the consumer can read the condition row $P$, the dense-open request row $D$, the refinement row $Rf$, the finite-meet row $F$, the generic-prefix row $G$, and the structural rows $H,C,Q,N$, and it cannot read a host generic filter, countable choice, arbitrary countable meets, quotient stream equality, selected generic points, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use the obligation surface of \autoref{thm:rasiowa-sikorski-namecert-obligations}. It places every public completion-facing request behind the displayed condition and dense-open rows.
+
+The refinement row $Rf$ and finite-meet row $F$ are finite data. They record only the strengthenings and compatibility checks already present in the accepted packet.
+
+The generic-prefix row $G$ is downstream of those finite rows. It exposes a prefix meeting the displayed requests, not a completed generic filter or selected point.
+
+Finally $H,C,Q,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for countable choice, arbitrary countable meets, quotient streams, selected generic points, or ambient $\RealUp$ completeness, none of those objects can be exported to a completion-facing consumer.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RasiowaSikorskiUp$ read exposes condition rows, dense-open request rows, refinement rows, finite-meet rows, generic-prefix rows, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any completion-facing consumer receives the packet.}
+
+\independenceWitness{baire-space, constructive-baire-category, metricspace, streamname, real: $\RasiowaSikorskiUp$ is not bijective to any listed sibling because it jointly binds finite dense-open requests, monotone refinements, finite-meet compatibility, generic-prefix nonescape, transport, replay, provenance, and local naming while refusing host generic filters, countable choice, arbitrary countable meets, quotient streams, selected generic points, and ambient completeness.}
+
+\closureat{RasiowaSikorskiUp}{seedStr}
+
+\begin{closurestatus}{\RasiowaSikorskiUp}
+  \constructivestory{A $\RasiowaSikorskiUp$ packet is generated from displayed condition rows, dense-open request rows, refinement rows, finite-meet rows, generic-prefix rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rasiowa-sikorski-carrier}, \autoref{thm:rasiowa-sikorski-namecert-obligations}, and \autoref{thm:rasiowa-sikorski-finite-dense-open-route} seed the finite dense-open refinement surface for completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim countable choice, arbitrary countable meets, selected generic points, quotient streams, ambient $\RealUp$ completeness, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dense-open admission, refinement monotonicity, finite meet compatibility, generic-prefix nonescape, transport replay, provenance, and local naming for BEDC.Derived.RasiowaSikorskiUp.}
+\end{closurestatus}
