@@ -9730,6 +9730,7 @@ import BEDC.Derived.RegularCauchyDiagonalExchangeUp
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExtractionUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.Nonescape
+import BEDC.Derived.RegularCauchyDiagonalMeetUp.ObligationClosure
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.SharedThresholdFactorization
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalSealUp.TasteGate
