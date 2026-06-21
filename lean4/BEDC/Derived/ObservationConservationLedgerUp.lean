@@ -1,3 +1,4 @@
+import BEDC.Derived.ClosedObservationSystemUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
@@ -128,5 +129,64 @@ theorem ObservationConservationLedgerCarrier_gap_read_nonescape [AskSetup] [Pack
       provenancePkg,
       namePkg,
       rejectedPkg⟩
+
+theorem ObservationConservationLedgerClosedObservationGapHandoff [AskSetup] [PackageSetup]
+    {observation record conservation transport continuation provenance localName gapRead
+      ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.ClosedObservationSystemUp.ClosedObservationSystemCarrier observation record
+        conservation transport continuation provenance localName bundle pkg →
+      Cont continuation provenance gapRead →
+        PkgSig bundle gapRead pkg →
+          Cont conservation gapRead ledgerRead →
+            PkgSig bundle ledgerRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row ledgerRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    Cont observation record conservation ∧
+                      Cont continuation provenance gapRead ∧
+                        Cont conservation gapRead ledgerRead ∧ hsame row ledgerRead)
+                  (fun row : BHist =>
+                    UnaryHistory conservation ∧ UnaryHistory gapRead ∧ UnaryHistory row ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle gapRead pkg ∧
+                        PkgSig bundle ledgerRead pkg)
+                  hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig SemanticNameCert UnaryHistory
+  intro carrier gapRoute gapPkg ledgerRoute ledgerPkg
+  have socketPackage :=
+    BEDC.Derived.ClosedObservationSystemUp.ClosedObservationSystemCarrier_gap_socket_package
+      carrier gapRoute gapPkg
+  obtain ⟨_observationUnary, _recordUnary, conservationUnary, _continuationUnary,
+    _provenanceUnary, gapUnary, observationRecordConservation, continuationGap,
+    _transportSame, provenancePkg, gapReadPkg⟩ := socketPackage
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed conservationUnary gapUnary ledgerRoute
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro ledgerRead ⟨hsame_refl ledgerRead, ledgerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨observationRecordConservation, continuationGap, ledgerRoute, source.left⟩
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨conservationUnary, gapUnary, source.right, provenancePkg, gapReadPkg,
+          ledgerPkg⟩
+  }
 
 end BEDC.Derived.ObservationConservationLedgerUp
