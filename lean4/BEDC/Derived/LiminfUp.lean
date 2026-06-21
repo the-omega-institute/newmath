@@ -107,4 +107,96 @@ theorem LiminfNameCertObligations [AskSetup] [PackageSetup]
     ⟨cert, sequenceUnary, lowerCutUnary, dyadicUnary, terminalUnary, sealUnary,
       sequenceRoute, terminalRoute, terminalTransport, provenancePkg, sealPkg⟩
 
+theorem LiminfTailLowerEnvelopeCompatibility [AskSetup] [PackageSetup]
+    {sequence lowerCut dyadic upperEnvelope terminal transport replay provenance localName
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LiminfCarrier sequence lowerCut dyadic terminal transport replay provenance localName
+        bundle pkg →
+      UnaryHistory upperEnvelope →
+        Cont lowerCut upperEnvelope dyadic →
+          Cont terminal transport sealRead →
+            PkgSig bundle provenance pkg →
+              PkgSig bundle sealRead pkg →
+                SemanticNameCert
+                    (fun row : BHist =>
+                      (hsame row lowerCut ∨ hsame row upperEnvelope ∨ hsame row terminal) ∧
+                        UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row sequence ∨ hsame row lowerCut ∨ hsame row upperEnvelope ∨
+                        hsame row dyadic ∨ hsame row terminal ∨ hsame row sealRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont lowerCut upperEnvelope dyadic ∧
+                        Cont terminal transport sealRead ∧ PkgSig bundle provenance pkg ∧
+                          PkgSig bundle sealRead pkg)
+                    hsame ∧
+                  UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier upperEnvelopeUnary lowerUpperRoute terminalTransport provenancePkg sealPkg
+  have lowerCutUnary : UnaryHistory lowerCut := carrier.right.left
+  have terminalUnary : UnaryHistory terminal := carrier.right.right.right.left
+  have transportUnary : UnaryHistory transport := carrier.right.right.right.right.left
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed terminalUnary transportUnary terminalTransport
+  have lowerSource :
+      (fun row : BHist =>
+        (hsame row lowerCut ∨ hsame row upperEnvelope ∨ hsame row terminal) ∧
+          UnaryHistory row) lowerCut := by
+    exact ⟨Or.inl (hsame_refl lowerCut), lowerCutUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row lowerCut ∨ hsame row upperEnvelope ∨ hsame row terminal) ∧
+              UnaryHistory row)
+          (fun row : BHist =>
+            hsame row sequence ∨ hsame row lowerCut ∨ hsame row upperEnvelope ∨
+              hsame row dyadic ∨ hsame row terminal ∨ hsame row sealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont lowerCut upperEnvelope dyadic ∧
+              Cont terminal transport sealRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle sealRead pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro lowerCut lowerSource
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          constructor
+          · cases source.left with
+            | inl sameLower =>
+                exact Or.inl (hsame_trans (hsame_symm sameRows) sameLower)
+            | inr rest =>
+                cases rest with
+                | inl sameUpper =>
+                    exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameUpper))
+                | inr sameTerminal =>
+                    exact Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) sameTerminal))
+          · exact unary_transport source.right sameRows
+      }
+      pattern_sound := by
+        intro _row source
+        cases source.left with
+        | inl sameLower =>
+            exact Or.inr (Or.inl sameLower)
+        | inr rest =>
+            cases rest with
+            | inl sameUpper =>
+                exact Or.inr (Or.inr (Or.inl sameUpper))
+            | inr sameTerminal =>
+                exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sameTerminal))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.right, lowerUpperRoute, terminalTransport, provenancePkg, sealPkg⟩
+    }
+  exact ⟨cert, sealUnary⟩
+
 end BEDC.Derived.LiminfUp

@@ -70,3 +70,21 @@ Next apply the residual-normalization envelope, \autoref{thm:metacic-parallel-di
 
 Finally use the candidate strong-normalization handoff, \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff}. The handoff can export only the displayed budgeted join, so any consumer claiming global confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency has left the retained residual-premise surface.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual-join transport induction]
+\label{thm:metacic-parallel-diamond-frontier-residual-join-transport-induction}
+Let an accepted $\MetaCICParallelDiamondFrontierUp$ packet display the residual critical-pair rows, residual-normalization envelope, retained-premise budget rows, componentwise $\hsame$ transport, and displayed $\Cont$ replay over the finite spine
+$$
+P,K,J,R,S,C,B,O,H,T,G,N.
+$$
+If those rows are transported componentwise and replayed by the displayed continuation data, the resulting local join remains inside the same candidate-mediated diamond surface. In particular, residual critical-pair coverage, residual-normalization envelope data, and retained-premise budget scope are preserved as frontier-local rows, not reread as global confluence, unbounded normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Induct through the finite residual row list. The base row is the retained residual-substitution premise $P$; transport along the corresponding component of $H$ keeps the premise visible before any critical-pair or candidate row is consumed.
+
+For the critical-pair and local-join segment, use \autoref{thm:metacic-parallel-diamond-frontier-residual-join-obligations} and \autoref{thm:metacic-parallel-diamond-frontier-residual-critical-pair-coverage}. These theorems keep $K,J,R$ attached to the same carrier-local residual surface under replay by $T$.
+
+For the normalization and budget segment, apply \autoref{thm:metacic-parallel-diamond-frontier-residual-normalization-envelope} and \autoref{thm:metacic-parallel-diamond-frontier-residual-premise-budget-scope}. The rows $S,C,B,O$ remain visible before the candidate-mediated handoff can export a budgeted join.
+
+The structural rows $H,T,G,N$ then repack the transported list as the same local diamond surface. Since each induction step uses only displayed rows and continuation replay, no quotient term equality, global confluence theorem, unbounded normalization theorem, subject-reduction theorem, evaluator equality, or kernel-consistency certificate is introduced.
+\end{proof}
