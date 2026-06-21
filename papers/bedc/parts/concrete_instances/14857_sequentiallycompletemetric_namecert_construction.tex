@@ -136,6 +136,20 @@ Next read the distance-bound ledger. The row $D$ records the metric-distance wit
 Only after those rows are exposed can the route replay through $C$ toward \autoref{thm:sequentially-complete-metric-complete-metric-handoff}. The handoff therefore consumes $M$ and $D$ as late-bound evidence and cannot bypass them through quotient completion, selected representatives, countable choice, open-cover compactness, ambient completeness, or $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[SequentiallyCompleteMetric finite-modulus induction coverage]
+\label{thm:sequentially-complete-metric-induction-coverage}
+Let $Q=(X,S,M,L,D,H,C,P,N)$ be an accepted $\SequentiallyCompleteMetricUp$ carrier, and let $\rho$ be a finite late-distance request history addressed to the completion-facing read of $Q$. Every accepted late-distance read in $\rho$ factors by induction over the displayed $\StreamNameUp$ windows in $S$ and the modulus row $M$: the base read inspects the first admitted window, the successor read advances only through the displayed threshold selected by $M$ and the corresponding distance-bound entry in $D$, and the resulting read is replayed through $H,C,P,N$ before any $\CompleteMetricUp$ consumer may use it. The route introduces no quotient completion, representative selection, countable choice, open-cover compactness, ambient $\RealUp$ completeness, or independent completed carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The Cauchy-sequence obligation of \autoref{thm:sequentially-complete-metric-cauchy-sequence-obligation} exposes only the source metric $X$, the displayed stream windows $S$, the regular rational readback, the modulus row $M$, the displayed limit $L$, and the late-distance ledger $D$ before a completion-facing read is available.
+
+Induct on the finite displayed request history $\rho$. In the base case, the first accepted read has only the first admitted $\StreamNameUp$ window and the carrier rows projected above. Thus it is already routed through $S$ and $M$ before any distance comparison can be consumed.
+
+For the successor step, apply the induction hypothesis to the earlier displayed windows. The next request can advance only by reading the threshold supplied by $M$ and then the matching distance-bound entry in $D$; this is exactly the late-bound coverage route of \autoref{thm:sequentially-complete-metric-late-bound-coverage}. Replay through $H,C,P,N$ preserves the same finite route for the $\CompleteMetricUp$ handoff.
+
+Finally apply the nonescape boundary of \autoref{thm:sequentially-complete-metric-nonescape}. Since the carrier contains no coordinate for quotient completion, representative selection, countable choice, open-cover compactness, ambient completeness, $\RealUp$ completeness, or an independent completed carrier, the induction covers only the displayed finite modulus route.
+\end{proof}
+
 \begin{theorem}[SequentiallyCompleteMetric ledger nonescape]
 \label{thm:sequentially-complete-metric-nonescape}
 For every accepted $\SequentiallyCompleteMetricUp$ carrier $Q=(X,S,M,L,D,H,C,P,N)$, the local ledger cannot export quotient completion, selected representatives, countable choice, open-cover compactness, ambient completeness, or any assertion that $\RealUp$ is complete. Any consumer asking for those claims is returned to the displayed $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, modulus, late-bound, replay, provenance, and local naming rows.

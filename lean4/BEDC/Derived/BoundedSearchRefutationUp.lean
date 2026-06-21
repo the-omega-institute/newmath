@@ -231,4 +231,73 @@ theorem BoundedSearchRefutationNonEscape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, consumerUnary⟩
 
+theorem BoundedSearchRefutationObligationScope [AskSetup] [PackageSetup]
+    {A K F R G H C P N initialRead stepRead boundedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BoundedSearchRefutationCarrier A K F R G H C P N bundle pkg ->
+      Cont A K initialRead ->
+        Cont initialRead F stepRead ->
+          Cont stepRead N boundedRead ->
+            PkgSig bundle boundedRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row boundedRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row A ∨ hsame row K ∨ hsame row F ∨ hsame row R ∨
+                      hsame row G ∨ hsame row N ∨ hsame row initialRead ∨
+                        hsame row stepRead ∨ hsame row boundedRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont A K initialRead ∧
+                      Cont initialRead F stepRead ∧ Cont stepRead N boundedRead ∧
+                        PkgSig bundle boundedRead pkg)
+                  hsame ∧
+                UnaryHistory initialRead ∧ UnaryHistory stepRead ∧
+                  UnaryHistory boundedRead := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier initialRoute stepRoute boundedRoute boundedPkg
+  obtain ⟨aUnary, kUnary, fUnary, _rUnary, _gUnary, _hUnary, nUnary,
+    _propositionBudgetFrontier, _frontierRefutationTransport, _transportReplayGap,
+    _provenancePkg, _namePkg⟩ := carrier
+  have initialUnary : UnaryHistory initialRead :=
+    unary_cont_closed aUnary kUnary initialRoute
+  have stepUnary : UnaryHistory stepRead :=
+    unary_cont_closed initialUnary fUnary stepRoute
+  have boundedUnary : UnaryHistory boundedRead :=
+    unary_cont_closed stepUnary nUnary boundedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row boundedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row A ∨ hsame row K ∨ hsame row F ∨ hsame row R ∨
+              hsame row G ∨ hsame row N ∨ hsame row initialRead ∨
+                hsame row stepRead ∨ hsame row boundedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont A K initialRead ∧ Cont initialRead F stepRead ∧
+              Cont stepRead N boundedRead ∧ PkgSig bundle boundedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro boundedRead ⟨hsame_refl boundedRead, boundedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, initialRoute, stepRoute, boundedRoute, boundedPkg⟩
+  }
+  exact ⟨cert, initialUnary, stepUnary, boundedUnary⟩
+
 end BEDC.Derived.BoundedSearchRefutationUp
