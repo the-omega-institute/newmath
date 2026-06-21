@@ -299,6 +299,45 @@ is consumed through $E$ before the handoff, and the downstream packet receives
 only the displayed redex-frontier rows, not the off-carrier global claims.
 \end{proof}
 
+\begin{theorem}[MetaCICRedexFrontier residual-confluence handoff]
+\label{thm:metacic-redex-frontier-residual-confluence-handoff}
+Every residual-confluence consumer of an accepted
+$\MetaCICRedexFrontierUp$ carrier must first expose the four discharge rows
+$B,A,L,P$, the beta-boundary row $E$, the obstruction row $O$,
+componentwise transport $H$, displayed replay $C$, provenance $G$, and local
+naming $N$ before handing data to any residual or parallel-diamond confluence
+packet. The handoff exports only the finite redex-frontier surface; it exports
+no subject reduction, global confluence, normalization, substitution
+admissibility, hidden oracle, or dependent-codomain readback.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier
+$$
+R=(B,A,L,P,O,E,H,C,G,N).
+$$
+This displays the four discharge rows, beta-boundary row, obstruction row, and
+structural rows before any confluence-facing consumer can inspect the packet.
+
+Apply non-escape and the scoped package theorem,
+\autoref{thm:metacic-redex-frontier-nonescape} and
+\autoref{thm:metacic-redex-frontier-scope-package}. Together they force the
+consumer to read exactly the displayed primitive package, with $O$ retained and
+$H,C,G,N$ attached to the discharge rows.
+
+Use the normalization-window handoff and candidate normalization,
+\autoref{thm:metacic-redex-frontier-normalization-window-handoff} and
+\autoref{thm:metacic-redex-frontier-candidate-normalization}. These results
+route the beta-boundary row $E$ and the finite candidate surface to downstream
+normalization-window consumers without replacing the packet by a global
+normalization or subject-reduction theorem.
+
+Finally apply obstruction retention,
+\autoref{thm:metacic-redex-frontier-obstruction-retention}. A residual or
+parallel-diamond packet therefore receives only the finite candidate data with
+the obstruction still visible, so the excluded confluence, substitution,
+normalization, oracle, and dependent-codomain claims remain outside the export.
+\end{proof}
+
 \closureat{MetaCICRedexFrontierUp}{scopedStr}[BEDC.Derived.MetaCICRedexFrontierUp.MetaCICRedexFrontierTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\MetaCICRedexFrontierUp}
