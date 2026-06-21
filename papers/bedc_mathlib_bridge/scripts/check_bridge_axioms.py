@@ -13,6 +13,13 @@ AUDIT_TARGETS = (
     "BedcMathlibBridge.Constructive.Bool.msame_iff_toBool_eq",
     "BedcMathlibBridge.Constructive.Bool.toBool_b0_ne_b1",
     "BedcMathlibBridge.Constructive.Bool.not_msame_b0_b1_via_bridge",
+    "BedcMathlibBridge.Constructive.Int.relIff",
+    "BedcMathlibBridge.Constructive.Int.rightInv",
+    "BedcMathlibBridge.Constructive.Int.leftInvRel",
+    "BedcMathlibBridge.Constructive.Int.intRelQuotEquiv",
+    "BedcMathlibBridge.Constructive.Int.pairAdd_toInt",
+    "BedcMathlibBridge.Constructive.Int.pairNeg_toInt",
+    "BedcMathlibBridge.Constructive.Int.zero_toInt",
 )
 
 
