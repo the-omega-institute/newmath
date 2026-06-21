@@ -82,6 +82,7 @@ S,L,B,T,O,H,C,P,N,
 $$
 and no branch selector, selected Cantor point, countable-choice functional, quotient stream equality, open-cover compactness principle, or ambient $\RealUp$ completeness row is produced.
 \end{theorem}
+\leanchecked{BEDC.Derived.KleeneTreeUp.CantorFanDependencyRoute.KleeneTreeCantorFanDependencyRoute}
 \begin{proof}
 Project the carrier of \autoref{def:kleene-tree-carrier}. The only branch-facing data are the finite StreamName window $S$, the List prefix spine $L$, the Bool node ledger $B$, the finite tree ledger $T$, the obstruction row $O$, and the structural rows $H,C,P,N$.
 
@@ -180,6 +181,18 @@ Now apply \autoref{thm:kleene-tree-streamname-path-boundary}. The route through 
 The obstruction row contains no selected Cantor point, no path-coded real, no open-cover compactness principle, and no $\RealUp$ completeness theorem. Thus a RegSeqRat or Real completion read cannot escape the finite StreamName boundary supplied by the Kleene tree packet.
 \end{proof}
 \leanchecked{BEDC.Derived.KleeneTreeUp.KleeneTreeRealCompletionNonescape}
+
+\begin{theorem}[Kleene tree uniform-structure boundary]
+\label{thm:kleene-tree-uniform-structure-boundary}
+Any $\RealUniformStructureUp$-facing consumer of an accepted $\KleeneTreeUp$ obstruction must first pass through finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, the terminal $\RealUp$ boundary, and the $\RealUniformStructureUp$ L10 finite-source gate of \autoref{thm:real-uniform-structure-l10-gate}. The composed route exports no quotient stream equality, selected path, selected limit, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the Real-completion nonescape of \autoref{thm:kleene-tree-real-completion-nonescape}. It forces every RegSeqRat or Real completion-facing read sourced from the Kleene obstruction to pass through finite StreamName windows and the obstruction row before any Real seal is inspected.
+
+Next read the Real-uniform consumer through \autoref{ch:concrete-instances-real-uniform-structure-namecert}. Its L10 finite-source gate, \autoref{thm:real-uniform-structure-l10-gate}, requires the Real endpoint and seal row, Metric distance row, DyadicRatCore radius ledger, StreamName finite-window row, and RegSeqRat readback row before any UniformSpace or CauchyFilter handoff is available.
+
+Composing these two row orders gives the stated boundary. The Kleene side contributes only finite prefix and obstruction data, while the RealUniformStructure side contributes only the displayed L10 finite-source rows. Since neither route has a coordinate for quotient stream equality, selected paths, selected limits, open-cover compactness, or ambient Real completeness, the uniform-structure-facing consumer cannot export any of those objects.
+\end{proof}
 
 \begin{theorem}[KleeneTree scoped prefix-choice refusal]
 \label{thm:kleene-tree-scoped-prefix-choice-refusal}
