@@ -886,6 +886,7 @@ import BEDC.Derived.BishopCauchyConvergenceCriterionUp.TasteGate
 import BEDC.Derived.BishopCauchyCriterionCompletionUp.TasteGate
 import BEDC.Derived.BishopCauchyCriterionUp.TasteGate
 import BEDC.Derived.BishopCauchyDisplayCertificateUp
+import BEDC.Derived.BishopCauchyDisplayCertificateUp.TasteGate
 import BEDC.Derived.BishopCauchyLimitCriterionUp.TasteGate
 import BEDC.Derived.BishopCauchyMeanUp.TasteGate
 import BEDC.Derived.BishopCauchyModulusEquivalenceUp.TasteGate
@@ -1712,6 +1713,7 @@ import BEDC.Derived.CauchyCondensationUp.DyadicBlockTailTransport
 import BEDC.Derived.CauchyCondensationUp.DyadicTailObligation
 import BEDC.Derived.CauchyCondensationUp.RealSealObligation
 import BEDC.Derived.CauchyCondensationUp.RegSeqRatReadbackObligation
+import BEDC.Derived.CauchyCondensationUp.ScopedObligationRoute
 import BEDC.Derived.CauchyCondensationUp.TasteGate
 import BEDC.Derived.CauchyCondensationUp.TestDyadicBlockEquivalence
 import BEDC.Derived.CauchyContinuityCalibrationUp.TasteGate
@@ -1922,6 +1924,7 @@ import BEDC.Derived.CauchyModulusArithmeticUp.SumProductSharedThreshold
 import BEDC.Derived.CauchyModulusArithmeticUp.TasteGate
 import BEDC.Derived.CauchyModulusArithmeticUp.WindowedProductDistributivity
 import BEDC.Derived.CauchyModulusBridgeUp.TasteGate
+import BEDC.Derived.CauchyModulusCertificateUp.TasteGate
 import BEDC.Derived.CauchyModulusChoiceUp
 import BEDC.Derived.CauchyModulusChoiceUp.TasteGate
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
@@ -4298,6 +4301,7 @@ import BEDC.Derived.DefiniteDescriptionBoundaryUp.KernelDependencyBinding
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
+import BEDC.Derived.DeletedTychonoffPlankUp
 import BEDC.Derived.DemicontinuityUp
 import BEDC.Derived.DendriteUp.TasteGate
 import BEDC.Derived.DenjoyIntegralUp.TasteGate
@@ -5528,6 +5532,7 @@ import BEDC.Derived.FiniteCauchyNetExtractionUp.TasteGate
 import BEDC.Derived.FiniteChoiceUp.TasteGate
 import BEDC.Derived.FiniteChoiceWindowUp.TasteGate
 import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
+import BEDC.Derived.FiniteCoverNerveUp.NameCertObligations
 import BEDC.Derived.FiniteCoverNerveUp.TasteGate
 import BEDC.Derived.FiniteCoverRefinementUp.TasteGate
 import BEDC.Derived.FiniteCoverUniformModulusEnvelopeUp
@@ -6744,6 +6749,7 @@ import BEDC.Derived.LimitUp.RegSeqRatRealScope
 import BEDC.Derived.LimitUp.ScopedKernelRoute
 import BEDC.Derived.LimitUp.TasteGate
 import BEDC.Derived.LimitUp.ToleranceLedgerExactness
+import BEDC.Derived.LimsupLiminfGapUp.TasteGate
 import BEDC.Derived.LimsupUp.TasteGate
 import BEDC.Derived.LindelofSpaceUp.TasteGate
 import BEDC.Derived.LinearMapUp
@@ -8807,6 +8813,7 @@ import BEDC.Derived.PrefixTreeUp.TasteGate
 import BEDC.Derived.PremetricUp.TasteGate
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.PresburgerSubUniversalUp.TasteGate
+import BEDC.Derived.PriestleyDualityUp.TasteGate
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.DividesClosure
 import BEDC.Derived.PrimeUp.DivisionWithRemainder
@@ -9658,6 +9665,7 @@ import BEDC.Derived.RegularCauchyBinaryInterleavingUp.TasteGate
 import BEDC.Derived.RegularCauchyBishopLimitUp
 import BEDC.Derived.RegularCauchyCancellationUp.TasteGate
 import BEDC.Derived.RegularCauchyCanonicalModulusUp.TasteGate
+import BEDC.Derived.RegularCauchyCantorIntersectionUp.TasteGate
 import BEDC.Derived.RegularCauchyCategoryUp.TasteGate
 import BEDC.Derived.RegularCauchyClassifierNormalFormUp.TasteGate
 import BEDC.Derived.RegularCauchyCofinalLimitUp.TasteGate
@@ -9758,6 +9766,7 @@ import BEDC.Derived.RegularCauchyFiniteProductUp
 import BEDC.Derived.RegularCauchyFiniteSpliceUp.TasteGate
 import BEDC.Derived.RegularCauchyFiniteSumUp.TasteGate
 import BEDC.Derived.RegularCauchyFunctorUp
+import BEDC.Derived.RegularCauchyFunctorUp.TasteGate
 import BEDC.Derived.RegularCauchyFusionUp
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.Carrier
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.FiniteWindowUniquenessRoute
@@ -10779,6 +10788,7 @@ import BEDC.Derived.StoneCechCompactificationUp.TasteGate
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.StoneDualityUp.TasteGate
 import BEDC.Derived.StoneRepresentationBooleanAlgebraUp
+import BEDC.Derived.StoneRepresentationBooleanAlgebraUp.NameCertObligations
 import BEDC.Derived.StoneRepresentationBooleanAlgebraUp.TasteGate
 import BEDC.Derived.StoneWeierstrassUp.TasteGate
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.BridgeBoundary
