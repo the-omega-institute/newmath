@@ -600,6 +600,36 @@
       "required_data": [],
       "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_lucas_kernel_obstruction.py",
       "timeout_seconds": 60
+    },
+    {
+      "experiment_id": "verify-window6-golden-split-modp-law",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_golden_split_modp_law.py",
+      "claim_id": "window6.golden-split-modp.fibonacci-entry-point-law.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "prime_window_p_lt_120",
+          "split_iff_p_mod_5_1_or_4",
+          "inert_iff_p_mod_5_2_or_3",
+          "ramified_p5_double_root"
+        ]
+      }
+    },
+    {
+      "experiment_id": "verify-window6-fib-entry-point-congruence",
+      "script_path": "tools/fibonacci_reality/experiments/run_verify_window6_fib_entry_point_congruence.py",
+      "claim_id": "window6.fib-entry-point.fermat-congruence-law.certificate",
+      "required_data": [],
+      "timeout_seconds": 60,
+      "acceptance": {
+        "required_checks": [
+          "prime_window_p_lt_80",
+          "fib_entry_point_legendre_mod_5",
+          "lucas_fermat_congruence",
+          "ramified_p5_entry_point"
+        ]
+      }
     }
   ]
 }
