@@ -144,6 +144,7 @@ The carrier of \autoref{def:filter-limit-basis-carrier} has no row for quotient 
 \label{thm:filter-limit-basis-finite-prefix-stream-consumption}
 Let $B=(Q,F,L,W,R,D,E,H,C,P,N)$ be an accepted $\FilterLimitBasisUp$ carrier. Every accepted request that reaches the terminal row $E$ first consumes the finite prefix StreamName windows $W$, the RegSeqRat readback row $R$, and the DyadicRatCore tolerance row $D$ through the same $Q,F,L$ basis route. Consequently a Real or completion-facing read cannot replace the displayed finite-prefix route by a quotient filter, a selected limit, an ambient completeness row, or a detached stream representative.
 \end{theorem}
+\leanchecked{BEDC.Derived.FilterLimitBasisUp.FilterLimitBasisFinitePrefixStreamConsumption}
 \begin{proof}
 Project the carrier of \autoref{def:filter-limit-basis-carrier}. The only route to $E$ is the displayed chain through $Q,F,L,W,R,D$ followed by the structural rows $H,C,P,N$.
 
@@ -203,11 +204,11 @@ Use limit compatibility, window induction, and real-window exhaustion from \auto
 
 \independenceWitness{cauchyfiltercompletion, cauchyfilter, cauchyfilterlimit, streamname, regseqrat, dyadicratcore, real: none alone is bijective with $\FilterLimitBasisUp$ because the packet jointly records completion-boundary, saturated-filter, limit-boundary, finite-window, readback, tolerance, seal, transport, replay, provenance, and local NameCert rows.}
 
-\closureat{FilterLimitBasisUp}{seedStr}
+\closureat{FilterLimitBasisUp}{obligationStr}
 
 \begin{closurestatus}{\FilterLimitBasisUp}
   \constructivestory{A $\FilterLimitBasisUp$ packet is generated from a CauchyFilterCompletion row, a CauchyFilter row, a CauchyFilterLimit row, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:filter-limit-basis-carrier}, \autoref{thm:filter-limit-basis-namecert-obligations}, and \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff} seed the finite filter-limit basis route consumed by Cauchy-filter completion and Real readers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
