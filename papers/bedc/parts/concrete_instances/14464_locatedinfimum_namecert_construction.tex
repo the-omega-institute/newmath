@@ -65,6 +65,20 @@ For a nonempty window, read the next precision request together with the already
 The handoff and seal rows are structural at this stage. The row $R$ repacks the constructed window ledger as regular rational readback, and $E$ seals only that readback. The rows $H,C,P,N$ transport, replay, source, and name the same finite construction, so no completeness, quotient-equality, trichotomy, or choice principle enters the induction.
 \end{proof}
 
+\begin{theorem}[LocatedInfimum window ledger coverage]
+\label{thm:located-infimum-window-ledger-coverage}
+For an accepted $\LocatedInfimumUp$ packet $I=(F,L,G,W,R,E,H,C,P,N)$, every precision-window entry admitted by the induction of \autoref{thm:located-infimum-window-induction} is consumed by exactly one of the lower-bound ledger $L$, the greatest-lower-approximation ledger $G$, the $\RegSeqRatUp$ handoff row $R$, or the $\RealUp$ seal row $E$, with transport, replay, provenance, and local naming read only through $H,C,P,N$. The coverage remains internal to $F,L,G,W,R,E,H,C,P,N$ and exports no Dedekind completeness, arbitrary infimum operator, quotient real equality, trichotomy, countable choice, host completeness, or unlisted real-order oracle.
+\end{theorem}
+\begin{proof}
+Proceed by induction over the displayed finite precision window $W$. The empty window has no admitted precision entry, so there is no ledger row to consume.
+
+For a successor window, read the new precision entry and apply the lower-bound obligation of \autoref{thm:located-infimum-lower-bound-obligation}. If the entry asks for a lower-bound comparison, it is consumed by the displayed lower-bound ledger $L$ and no other analytic ledger receives that entry.
+
+If the entry asks for a greatest-lower-approximation witness, apply \autoref{thm:located-infimum-greatest-lower-bound-obligation}. The corresponding row is consumed by $G$ at the same precision, and the induction hypothesis covers the remaining window entries.
+
+The remaining Real-facing reads are structural consequences of the same covered entries. Classifier stability, \autoref{thm:located-infimum-classifier-stability}, preserves the assignment under $H,C,P,N$, while ledger exactness, \autoref{thm:located-infimum-ledger-exactness}, forces every regular-rational handoff and Real seal read through $R$ and $E$. Thus each admitted precision-window entry is covered by exactly one displayed analytic row before any handoff or seal is exported, and no forbidden endpoint has a carrier coordinate.
+\end{proof}
+
 \begin{theorem}[LocatedInfimum classifier stability]
 \label{thm:located-infimum-classifier-stability}
 Let $I=(F,L,G,W,R,E,H,C,P,N)$ be an accepted $\LocatedInfimumUp$ packet. Replacing any displayed component along the corresponding $\hsame$ transport in $H$ preserves lower-bound reads, greatest-lower-approximation reads, $\RegSeqRatUp$ handoff, $\RealUp$ seal access, continuation replay, provenance, and the local $\NameCert_{\LocatedInfimumUp}$ classifier. Thus the classifier is stable under componentwise BEDC transport.
