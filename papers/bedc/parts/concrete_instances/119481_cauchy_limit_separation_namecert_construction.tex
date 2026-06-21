@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CauchyLimitSeparationUp$}
+\label{ch:concrete-instances-cauchy-limit-separation-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyLimitSeparationUp$ packet records the finite separation data needed when two regular Cauchy presentations are compared at the real-name boundary. It sits after the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational carrier of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the uniqueness route of \autoref{ch:concrete-instances-regular-cauchy-limit-uniqueness-namecert}. The packet names limit separation as finite BEDC data; it does not assert quotient real equality, trichotomy, located apartness, selected limits, or ambient completeness.
+
+\begin{definition}[CauchyLimitSeparation carrier]
+\label{def:cauchy-limit-separation-carrier}
+A $\CauchyLimitSeparationUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,W,R,E,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger comparing the two inspected Cauchy windows.
+\item $W$ is the paired $\StreamNameUp$ finite-window row for the two presentations.
+\item $R$ is the paired $\RegSeqRatUp$ readback row obtained from those windows.
+\item $E$ is the $\RealUp$ boundary row reached only after the dyadic and regular-rational rows are displayed.
+\item $U$ is the $\RegularCauchyLimitUniquenessUp$ handoff row that records uniqueness-facing compatibility without quotienting the two presentations.
+\item $H$ stores componentwise $\hsame$ transport for the dyadic ledger, stream windows, regular readback, real boundary, uniqueness handoff, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay of the separation query through $D,W,R,E,U,H$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyLimitSeparationUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RegularCauchyLimitUniquenessUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyLimitSeparationUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through these rows. No coordinate stores quotient real equality, trichotomy, a selected limiting point, ambient completeness of $\RealUp$, located apartness of arbitrary reals, or host sequence extensionality.
+\end{definition}
+
+\begin{definition}[CauchyLimitSeparation classifier]
+\label{def:cauchy-limit-separation-classifier}
+The $\CauchyLimitSeparationUp$ classifier accepts a packet $S=(D,W,R,E,U,H,C,P,N)$ exactly when the dyadic tolerance ledger $D$, paired stream windows $W$, regular rational readback $R$, real boundary $E$, and uniqueness handoff $U$ are all displayed before transport, replay, provenance, and local naming are read. The classifier is therefore finite-row separation data over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\RegularCauchyLimitUniquenessUp$; it is not a quotient of real names or an ambient separation theorem.
+\end{definition}
+
+\begin{theorem}[CauchyLimitSeparation NameCert]
+\label{thm:cauchy-limit-separation-namecert}
+For every accepted $\CauchyLimitSeparationUp$ carrier $S=(D,W,R,E,U,H,C,P,N)$, the local $\NameCert_{\CauchyLimitSeparationUp}$ surface consists exactly of carrier admission, classifier stability for the displayed dyadic and stream windows, regular rational readback, real-boundary routing, uniqueness handoff compatibility, componentwise transport, displayed replay, provenance, and local naming. The surface refuses quotient real equality, trichotomy, located apartness for arbitrary real names, selected limits, host sequence extensionality, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-limit-separation-carrier}. The mathematical rows are $D,W,R,E,U$, and the structural rows are $H,C,P,N$.
+
+Use the classifier of \autoref{def:cauchy-limit-separation-classifier}. It requires the dyadic tolerance ledger and paired stream windows before the regular rational readback, then routes that readback to the real boundary and uniqueness handoff.
+
+Transport, replay, provenance, and naming preserve that same finite route. Since no carrier coordinate stores quotient equality, trichotomy, arbitrary located apartness, selected limits, host sequence extensionality, or ambient completeness, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchyLimitSeparation Real handoff]
+\label{thm:cauchy-limit-separation-real-handoff}
+Every $\RealUp$ uniqueness or separation consumer of an accepted $\CauchyLimitSeparationUp$ packet must read the dyadic tolerance ledger $D$, paired $\StreamNameUp$ windows $W$, $\RegSeqRatUp$ readback $R$, real boundary row $E$, and $\RegularCauchyLimitUniquenessUp$ handoff row $U$ before any conclusion about limit compatibility is consumed. The handoff supplies a finite Real-facing separation seal; it does not supply quotient real equality, selected limits, trichotomy, located apartness for arbitrary real names, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:cauchy-limit-separation-namecert}. The local NameCert surface forces every accepted read to expose $D,W,R,E,U,H,C,P,N$.
+
+The real-facing consumer then reads $E$ only after the dyadic tolerance ledger, stream windows, and regular rational readback have been displayed. The uniqueness-facing consumer reads $U$ as compatibility with \autoref{ch:concrete-instances-regular-cauchy-limit-uniqueness-namecert}, not as quotient equality of real names.
+
+Finally inspect the structural rows. The rows $H,C,P,N$ transport, replay, source, and name the same finite separation packet. Since the excluded global claims have no coordinate in $S$, the Real handoff remains a finite seal over the displayed rows.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CauchyLimitSeparationUp$ read is refuted if the real boundary row $E$ or uniqueness handoff $U$ is consumed while the dyadic tolerance ledger $D$, paired stream windows $W$, or regular rational readback $R$ is absent.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, regular-cauchy-limit-uniqueness: no listed sibling supplies the joint dyadic ledger, paired stream windows, regular rational readback, real boundary, uniqueness handoff, transport, replay, provenance, and local NameCert rows while refusing quotient real equality and ambient completeness.}
+
+\closureat{CauchyLimitSeparationUp}{seedStr}
+
+\begin{closurestatus}{\CauchyLimitSeparationUp}
+  \constructivestory{A $\CauchyLimitSeparationUp$ packet is generated from a DyadicRatCore tolerance ledger, paired StreamName windows, RegSeqRat readback, a RealUp boundary row, a RegularCauchyLimitUniqueness handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-limit-separation-carrier}, \autoref{def:cauchy-limit-separation-classifier}, \autoref{thm:cauchy-limit-separation-namecert}, and \autoref{thm:cauchy-limit-separation-real-handoff} seed the finite limit-separation packet consumed by Real-facing uniqueness arguments.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, trichotomy, located apartness for arbitrary real names, selected limits, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, dyadic tolerance routing, stream-window readback, regular rational handoff, Real boundary routing, uniqueness compatibility, transport, replay, provenance, and local naming for BEDC.Derived.CauchyLimitSeparationUp.}
+\end{closurestatus}
