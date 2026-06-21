@@ -987,6 +987,7 @@ import BEDC.Derived.BishopRealLineInterfaceUp
 import BEDC.Derived.BishopRealLineInterfaceUp.TasteGate
 import BEDC.Derived.BishopRealLocatedOrderUp.TasteGate
 import BEDC.Derived.BishopRealNormalizerUp.TasteGate
+import BEDC.Derived.BishopRealNumberUp.TasteGate
 import BEDC.Derived.BishopRealPrecisionUp.TasteGate
 import BEDC.Derived.BishopRealRegularCompletionUp.TasteGate
 import BEDC.Derived.BishopRealUniformCompletionUp.TasteGate
@@ -1401,6 +1402,7 @@ import BEDC.Derived.CalculusUp.LocatedCompactDependencyRoute
 import BEDC.Derived.CalculusUp.LowerEnvelopeRealFacingRoute
 import BEDC.Derived.CalculusUp.LowerEnvelopeRegularizationHandoff
 import BEDC.Derived.CalculusUp.PeanoDependencyRoute
+import BEDC.Derived.CalculusUp.PointwiseStreamMetricDependencyRoute
 import BEDC.Derived.CalculusUp.ProductMetricForwardLink
 import BEDC.Derived.CalculusUp.ProductMetricForwardLinkExport
 import BEDC.Derived.CalculusUp.ProductMetricForwardModulusRoute
@@ -4282,6 +4284,7 @@ import BEDC.Derived.DefiniteDescriptionBoundaryUp.KernelDependencyBinding
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
+import BEDC.Derived.DemicontinuityUp
 import BEDC.Derived.DendriteUp.TasteGate
 import BEDC.Derived.DenjoyIntegralUp.TasteGate
 import BEDC.Derived.DenjoyWolffBoundaryDynamicsUp.TasteGate
@@ -4910,6 +4913,7 @@ import BEDC.Derived.DyadicRatCoreUp.TerminalFourFaceTolerance
 import BEDC.Derived.DyadicRegularErrorEnvelopeUp
 import BEDC.Derived.DyadicRoundingUp
 import BEDC.Derived.DyadicRoundingWindowUp
+import BEDC.Derived.DyadicRoundingWindowUp.BridgeFacingHandoff
 import BEDC.Derived.DyadicRoundingWindowUp.TasteGate
 import BEDC.Derived.DyadicSandwichUp.TasteGate
 import BEDC.Derived.DyadicShrinkScheduleUp
@@ -10961,6 +10965,7 @@ import BEDC.Derived.ThreeManifoldUp
 import BEDC.Derived.TietzeExtensionUp.TasteGate
 import BEDC.Derived.TightLocatedCutUp.TasteGate
 import BEDC.Derived.TightRealIntervalUp.TasteGate
+import BEDC.Derived.ToeplitzLemmaUp.CesaroConsumerRoute
 import BEDC.Derived.ToeplitzLemmaUp.NameCertObligations
 import BEDC.Derived.ToeplitzLemmaUp.RegularSequenceHandoff
 import BEDC.Derived.ToeplitzLemmaUp.TasteGate
