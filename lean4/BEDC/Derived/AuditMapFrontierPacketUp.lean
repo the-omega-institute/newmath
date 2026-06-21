@@ -339,4 +339,111 @@ theorem AuditMapFrontierPacketCarrier_route_nonescape [AskSetup] [PackageSetup]
     }
   exact ⟨cert, replayReadUnary⟩
 
+theorem AuditMapFrontierPacketLedgerTotality [AskSetup] [PackageSetup]
+    {familyTag checked conditional obstruction frontier provenance route localName
+      ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory checked →
+      UnaryHistory conditional →
+        UnaryHistory obstruction →
+          UnaryHistory frontier →
+            UnaryHistory localName →
+              Cont checked conditional route →
+                Cont route frontier ledgerRead →
+                  PkgSig bundle provenance pkg →
+                    PkgSig bundle localName pkg →
+                      SemanticNameCert
+                          (fun row : BHist =>
+                            (hsame row checked ∨ hsame row conditional ∨
+                              hsame row obstruction ∨ hsame row frontier) ∧
+                              UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row checked ∨ hsame row conditional ∨
+                              hsame row obstruction ∨ hsame row frontier ∨
+                                hsame row ledgerRead)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont checked conditional route ∧
+                              Cont route frontier ledgerRead ∧
+                                PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg)
+                          hsame ∧
+                        UnaryHistory ledgerRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro checkedUnary conditionalUnary _obstructionUnary frontierUnary _localNameUnary
+    checkedRoute frontierRoute provenancePkg localNamePkg
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed checkedUnary conditionalUnary checkedRoute
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed routeUnary frontierUnary frontierRoute
+  have checkedSource :
+      (fun row : BHist =>
+        (hsame row checked ∨ hsame row conditional ∨ hsame row obstruction ∨
+          hsame row frontier) ∧ UnaryHistory row) checked := by
+    exact ⟨Or.inl (hsame_refl checked), checkedUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row checked ∨ hsame row conditional ∨ hsame row obstruction ∨
+              hsame row frontier) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row checked ∨ hsame row conditional ∨ hsame row obstruction ∨
+              hsame row frontier ∨ hsame row ledgerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont checked conditional route ∧
+              Cont route frontier ledgerRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle localName pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro checked checkedSource
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          constructor
+          · cases source.left with
+            | inl sameChecked =>
+                exact Or.inl (hsame_trans (hsame_symm sameRows) sameChecked)
+            | inr rest =>
+                cases rest with
+                | inl sameConditional =>
+                    exact Or.inr (Or.inl
+                      (hsame_trans (hsame_symm sameRows) sameConditional))
+                | inr restTail =>
+                    cases restTail with
+                    | inl sameObstruction =>
+                        exact Or.inr (Or.inr (Or.inl
+                          (hsame_trans (hsame_symm sameRows) sameObstruction)))
+                    | inr sameFrontier =>
+                        exact Or.inr (Or.inr (Or.inr
+                          (hsame_trans (hsame_symm sameRows) sameFrontier)))
+          · exact unary_transport source.right sameRows
+      }
+      pattern_sound := by
+        intro _row source
+        cases source.left with
+        | inl sameChecked =>
+            exact Or.inl sameChecked
+        | inr rest =>
+            cases rest with
+            | inl sameConditional =>
+                exact Or.inr (Or.inl sameConditional)
+            | inr restTail =>
+                cases restTail with
+                | inl sameObstruction =>
+                    exact Or.inr (Or.inr (Or.inl sameObstruction))
+                | inr sameFrontier =>
+                    exact Or.inr (Or.inr (Or.inr (Or.inl sameFrontier)))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.right, checkedRoute, frontierRoute, provenancePkg, localNamePkg⟩
+    }
+  exact ⟨cert, ledgerReadUnary⟩
+
 end BEDC.Derived.AuditMapFrontierPacketUp

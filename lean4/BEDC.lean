@@ -1376,6 +1376,8 @@ import BEDC.Derived.BusemannBoundaryUp.TasteGate
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CUNSpectralAntennaUp.TasteGate
+import BEDC.Derived.CalculusOfConstructionsUp.NameCertObligations
+import BEDC.Derived.CalculusOfConstructionsUp.TasteGate
 import BEDC.Derived.CalculusUp
 import BEDC.Derived.CalculusUp.CauchyDependencyRealCompletionReadback
 import BEDC.Derived.CalculusUp.CauchyDependencyRoute
@@ -2666,6 +2668,7 @@ import BEDC.Derived.CertifiedOnticTowerUp.TasteGate
 import BEDC.Derived.CertifiedPhysicalTruthUp
 import BEDC.Derived.CertifiedPhysicalTruthUp.TasteGate
 import BEDC.Derived.CertifiedUseProcessUp.NameCertSurface
+import BEDC.Derived.CertifiedUseProcessUp.NonprivateRuleFollowing
 import BEDC.Derived.CertifiedUseProcessUp.TasteGate
 import BEDC.Derived.CesaroConvergenceUp.TasteGate
 import BEDC.Derived.CevaUp.TasteGate
@@ -2684,6 +2687,7 @@ import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.Nonescape
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ObligationCarrier
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.RegSeqRatSealFactorization
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ScopedKernelRoute
+import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ScopedWindowConsumer
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.StageInduction
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.WindowRoute
@@ -6210,6 +6214,7 @@ import BEDC.Derived.HemicompactSpaceUp.TasteGate
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
+import BEDC.Derived.HigsonCompactificationUp
 import BEDC.Derived.HilbertAlexanderBlockerUp.FiniteHilbertRow
 import BEDC.Derived.HilbertAlexanderBlockerUp.NameCertObligations
 import BEDC.Derived.HilbertAlexanderBlockerUp.TasteGate
@@ -7030,6 +7035,7 @@ import BEDC.Derived.LogicContradictionMetaLoopUp.SiblingDependencyRoute
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
 import BEDC.Derived.LongLineUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
+import BEDC.Derived.LowDiscrepancySequenceUp.TasteGate
 import BEDC.Derived.LowerRealUp.DedekindCutAdmission
 import BEDC.Derived.LowerRealUp.DirectedLowerCutBudget
 import BEDC.Derived.LowerRealUp.LocatedCutLedger
@@ -10504,6 +10510,7 @@ import BEDC.Derived.SetlikeUp.MembershipFamilyBHistInduction
 import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
 import BEDC.Derived.SetlikeUp.MembershipStability
+import BEDC.Derived.SetlikeUp.RootCarrierMembership
 import BEDC.Derived.SetlikeUp.RootClassifierTransport
 import BEDC.Derived.SetlikeUp.RootFiniteRoutePackage
 import BEDC.Derived.SetlikeUp.RootMembershipFamilyExhaustion
