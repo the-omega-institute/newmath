@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\GaloisConnectionClosureOperatorUp$}
+\label{ch:concrete-instances-galois-connection-closure-operator-namecert}
+\origin{human}
+
+Birkhoff and Ore-style Galois-connection closure operators enter BEDC as finite closure-operator NameCert carriers rather than as ambient powerset laws. The $\GaloisConnectionClosureOperatorUp$ packet refines the adjunction packet of \autoref{ch:concrete-instances-galois-connection-namecert}: it names the source-side composite $G\circ F$ as its own closure surface, while leaving the bare two-map adjunction available to lattice, topological, and metric consumers. It also gives the closure-facing packets of \autoref{ch:concrete-instances-topological-closure-namecert} and \autoref{ch:concrete-instances-metric-closure-namecert} a reusable order-theoretic source for inflation, monotonicity, idempotence replay, and finite provenance.
+
+\begin{definition}[Galois-connection closure-operator carrier]
+\label{def:galois-connection-closure-operator-carrier}
+A $\GaloisConnectionClosureOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+C=(P,Q,F,G,M,A,O,I,D,H,R,L,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $P$ is the source ordered carrier inherited from the $\GaloisConnectionUp$ source row.
+\item $Q$ is the target ordered carrier inherited from the $\GaloisConnectionUp$ target row.
+\item $F$ is the displayed monotone map from $P$ to $Q$.
+\item $G$ is the displayed monotone map from $Q$ to $P$.
+\item $M$ records the two monotonicity ledgers for $F$ and $G$.
+\item $A$ records the adjunction inequality equivalence $F(x)\leq_Q y$ iff $x\leq_P G(y)$.
+\item $O$ is the displayed closure-operator row naming the composite $G\circ F$ on $P$.
+\item $I$ records the inflation ledger $x\leq_P O(x)$ obtained through the adjunction row.
+\item $D$ records the idempotence replay ledger $O(O(x))\leq_P O(x)$ together with the reverse inequality supplied by inflation and monotonicity.
+\item $H$ records componentwise $\hsame$ transport for the two ordered carriers, the two maps, the adjunction row, the closure row, the inflation row, the idempotence row, provenance, and local naming.
+\item $R$ records displayed $\Cont$ replay for order reads, adjunction reads, closure reads, lattice handoff, topological-closure handoff, and metric-closure handoff.
+\item $L$ is the $\Pkg$ provenance over $\GaloisConnectionClosureOperatorUp$, $\GaloisConnectionUp$, $\LatticeUp$, $\TopologicalClosureUp$, $\MetricClosureUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\GaloisConnectionClosureOperatorUp}$ row.
+\end{enumerate}
+The classifier compares packets only by the displayed ordered carriers, the two map rows, monotonicity, adjunction, the named composite closure row, inflation, idempotence replay, structural transport, continuation, provenance, and local naming. It has no coordinate for arbitrary joins, Moore families, quotient fixed-point lattices, choice-selected closures, or host powerset operations.
+\end{definition}
+\leandef{BEDC.Derived.GaloisConnectionClosureOperatorUp}
+
+\begin{theorem}[Galois-connection closure-operator NameCert obligations]
+\label{thm:galois-connection-closure-operator-namecert-obligations}
+For every accepted $\GaloisConnectionClosureOperatorUp$ carrier $C=(P,Q,F,G,M,A,O,I,D,H,R,L,N)$, the local $\NameCert_{\GaloisConnectionClosureOperatorUp}$ surface consists exactly of carrier admission for the ordered source and target rows, monotone-map exposure for $F$ and $G$, monotonicity exposure through $M$, adjunction exposure through $A$, closure-row exposure through $O$, inflation exposure through $I$, idempotence replay through $D$, componentwise transport through $H$, displayed replay through $R$, provenance through $L$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $C=(P,Q,F,G,M,A,O,I,D,H,R,L,N)$. The rows $P,Q,F,G,M,A$ reproduce the adjunction surface of \autoref{ch:concrete-instances-galois-connection-namecert}, so no closure row is read before the ordered carriers, maps, monotonicity, and inequality equivalence are visible.
+
+The row $O$ names only the composite $G\circ F$ on the source carrier. The inflation ledger $I$ is read from the adjunction row by specializing $F(x)\leq_Q F(x)$, and the monotonicity part of $M$ transports source inequalities through $O$.
+
+The row $D$ records the replay that makes applying $O$ twice return to the same displayed closure row. The reverse comparison is supplied by inflation applied to $O(x)$, while the forward comparison is the adjunction-and-monotonicity replay carried by $D$.
+
+Finally, $H,R,L,N$ transport, replay, source, and name the same finite packet. Since the carrier has no arbitrary joins, Moore-family row, quotient fixed-point lattice, choice-selected closure, or host powerset coordinate, the NameCert surface is exactly the listed finite surface.
+\end{proof}
+
+\begin{theorem}[Galois-connection closure-operator lattice handoff]
+\label{thm:galois-connection-closure-operator-lattice-handoff}
+Every $\LatticeUp$, $\TopologicalClosureUp$, or $\MetricClosureUp$ consumer of an accepted $\GaloisConnectionClosureOperatorUp$ packet reads the closure operator through the finite route
+$$
+P \longrightarrow F \longrightarrow Q \longrightarrow G \longrightarrow P
+$$
+together with the monotonicity ledger $M$, adjunction ledger $A$, closure row $O$, inflation ledger $I$, idempotence replay ledger $D$, componentwise transport $H$, displayed continuation $R$, provenance $L$, and local naming $N$. The handoff exports a reusable closure-operator NameCert packet, not an ambient complete lattice, a topological closure primitive, a metric completion theorem, or a host powerset operation.
+\end{theorem}
+\begin{proof}
+Start with the route displayed in \autoref{thm:galois-connection-closure-operator}. The new packet does not replace that route; it records the composite as the explicit row $O$ and keeps the original ordered carriers, maps, monotonicity ledger, and adjunction ledger visible.
+
+A lattice consumer may use $O$ only after reading $I$ and $D$, because those rows witness the closure-operator boundary needed for lattice-facing fixed rows. A topological or metric closure consumer may use the same row only through $R$, which replays the finite closure surface without adding an ambient topology, metric completion, or powerset theorem.
+
+The transport row $H$ and provenance row $L$ keep the handoff tied to the same adjunction packet. The local name $N$ therefore certifies a reusable closure-operator NameCert packet, while any stronger complete-lattice, topological, or metric conclusion must be supplied by the receiving chapter.
+\end{proof}
+
+\falsifiablePrediction{Deleting the adjunction row $A$ leaves a named composite $G\circ F$ but no finite route that certifies the inflation row $I$ of the closure operator.}
+
+\independenceWitness{galois-connection, lattice, topological-closure, metric-closure: $\GaloisConnectionUp$ supplies the adjunction without a separate closure-operator NameCert row; $\LatticeUp$ supplies order consumers without the adjunction-derived composite; $\TopologicalClosureUp$ and $\MetricClosureUp$ supply closure evidence for their own substrates without naming the source-side $G\circ F$ packet. None is bijective to $\GaloisConnectionClosureOperatorUp$ under NameCert-row preservation.}
+
+\closureat{GaloisConnectionClosureOperatorUp}{seedStr}
+
+\begin{closurestatus}{\GaloisConnectionClosureOperatorUp}
+  \constructivestory{A $\GaloisConnectionClosureOperatorUp$ packet is generated from two displayed ordered carrier rows, two monotone map rows, an adjunction-equivalence ledger, the named composite $G\circ F$, inflation, idempotence replay, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:galois-connection-closure-operator-carrier}, \autoref{thm:galois-connection-closure-operator-namecert-obligations}, and \autoref{thm:galois-connection-closure-operator-lattice-handoff} seed the finite closure-operator surface over displayed Galois-connection rows, adjunction-derived inflation, idempotence replay, lattice handoff, topological-closure handoff, metric-closure handoff, transport, replay, provenance, and local naming.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.GaloisConnectionClosureOperatorUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary joins, Moore-family representation, quotient fixed-point lattices, choice-selected closures, host powerset operations, metric completion, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotonicity ledgers, adjunction transport, inflation, idempotence replay, lattice handoff, closure-consumer handoff, provenance, and local naming for BEDC.Derived.GaloisConnectionClosureOperatorUp.}
+\end{closurestatus}

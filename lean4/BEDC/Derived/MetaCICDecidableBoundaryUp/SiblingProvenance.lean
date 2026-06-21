@@ -133,4 +133,62 @@ theorem MetaCICDecidableBoundary_bounded_checker_scope_handoff [AskSetup] [Packa
       fun row source => checkerScope.left.ledger_sound source,
       siblingScope.left, boundedUnary, siblingScope.right⟩
 
+theorem MetaCICDecidableBoundary_bounded_checker_fuel_handoff [AskSetup] [PackageSetup]
+    {checker structural bounded finished refusal transport replay provenance localName left right fuel
+      fuelPlus normalLeft normalRight equality witness closed checkerTransport checkerRoute
+      checkerProvenance checkerNameCert normalLeftPlus normalRightPlus equalityPlus witnessPlus
+      closedPlus checkerTransportPlus checkerRoutePlus checkerProvenancePlus checkerNameCertPlus
+      boundarySiblingRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICDecidableBoundaryCarrier checker structural bounded finished refusal transport replay
+        provenance localName bundle pkg →
+      BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier left right
+          fuel normalLeft normalRight equality witness closed checkerTransport checkerRoute
+          checkerProvenance checkerNameCert bundle pkg →
+        BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier left right
+            fuelPlus normalLeftPlus normalRightPlus equalityPlus witnessPlus closedPlus
+            checkerTransportPlus checkerRoutePlus checkerProvenancePlus checkerNameCertPlus
+            bundle pkg →
+          hsame fuel fuelPlus →
+            Cont normalLeftPlus normalRightPlus equalityPlus →
+              Cont equalityPlus witnessPlus checkerRoutePlus →
+                hsame checkerRoutePlus bounded →
+                  Cont provenance replay boundarySiblingRead →
+                    PkgSig bundle boundarySiblingRead pkg →
+                      UnaryHistory bounded ∧ UnaryHistory fuelPlus ∧
+                        UnaryHistory normalLeftPlus ∧ UnaryHistory normalRightPlus ∧
+                          UnaryHistory equalityPlus ∧ UnaryHistory checkerRoutePlus ∧
+                            Cont normalLeftPlus normalRightPlus equalityPlus ∧
+                              Cont equalityPlus witnessPlus checkerRoutePlus ∧
+                                PkgSig bundle checkerProvenancePlus pkg ∧
+                                  SemanticNameCert
+                                      (fun row : BHist =>
+                                        hsame row boundarySiblingRead ∧ UnaryHistory row)
+                                      (fun row : BHist =>
+                                        hsame row provenance ∨
+                                          hsame row boundarySiblingRead ∨
+                                            Cont provenance replay boundarySiblingRead)
+                                      (fun _ : BHist =>
+                                        PkgSig bundle provenance pkg ∧
+                                          PkgSig bundle boundarySiblingRead pkg)
+                                      hsame ∧
+                                    UnaryHistory boundarySiblingRead := by
+  -- BEDC touchpoint anchor: MetaCICDecidableBoundaryCarrier BHist Cont ProbeBundle PkgSig SemanticNameCert
+  intro boundaryCarrier checkerCarrier checkerCarrierPlus fuelSame equalityPlusRoute
+    checkerRoutePlusRoute checkerRoutePlusSame provenanceReplaySibling siblingPkg
+  have fuelScope :=
+    BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_fuel_monotonicity
+      checkerCarrier checkerCarrierPlus fuelSame equalityPlusRoute checkerRoutePlusRoute
+  have siblingScope :=
+    MetaCICDecidableBoundary_sibling_provenance boundaryCarrier provenanceReplaySibling siblingPkg
+  obtain ⟨_leftUnary, _rightUnary, _fuelUnary, fuelPlusUnary, normalLeftPlusUnary,
+    normalRightPlusUnary, equalityPlusUnary, checkerRoutePlusUnary, equalityPlusRouteRead,
+    checkerRoutePlusRouteRead, checkerProvenancePlusPkg⟩ := fuelScope
+  have boundedUnary : UnaryHistory bounded :=
+    unary_transport checkerRoutePlusUnary checkerRoutePlusSame
+  exact
+    ⟨boundedUnary, fuelPlusUnary, normalLeftPlusUnary, normalRightPlusUnary,
+      equalityPlusUnary, checkerRoutePlusUnary, equalityPlusRouteRead, checkerRoutePlusRouteRead,
+      checkerProvenancePlusPkg, siblingScope.left, siblingScope.right⟩
+
 end BEDC.Derived.MetaCICDecidableBoundaryUp
