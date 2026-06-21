@@ -2678,6 +2678,7 @@ import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ClassifierObligation
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.Nonescape
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ObligationCarrier
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.RegSeqRatSealFactorization
+import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ScopedKernelRoute
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.StageInduction
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.WindowRoute
@@ -11567,6 +11568,7 @@ import BEDC.Derived.WitnessedRefutationUp.TasteGate
 import BEDC.Derived.WobbleQuotientSpectralTriggerUp.TasteGate
 import BEDC.Derived.WobbleSaturationSealUp.TasteGate
 import BEDC.Derived.WritingItemAuditPacketUp.TasteGate
+import BEDC.Derived.WritingItemAuditUp
 import BEDC.Derived.WritingItemAuditUp.ObligationClosure
 import BEDC.Derived.WritingItemAuditUp.TasteGate
 import BEDC.Derived.WrrStatePhaseSpaceUp.TasteGate
