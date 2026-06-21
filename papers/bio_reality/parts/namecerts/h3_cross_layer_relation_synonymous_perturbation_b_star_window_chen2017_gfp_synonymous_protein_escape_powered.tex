@@ -1,47 +1,69 @@
-\subsection{Chen GFP synonymous-window protein escape record}\label{sec:h3-cross-layer-relation-synonymous-perturbation-b-star-window-chen2017-gfp-synonymous-protein-escape-powered}
 \origin{ai}
 
-\paragraph{Finite surface.}
-This record places the Chen GFP synonymous-variant panel on a finite cross-layer surface whose rows are synonymous coding changes and whose permitted readbacks are separated into RNA and protein slots. The verified run contains $3556$ synonymous variants, split into $1124$ rows in region $1$ and $2432$ rows in region $2$. The computation used $200$ realized null or resampling blocks and completed in $447.6606512069702$ seconds. The numerical contact retained here is therefore not an unrestricted statement about GFP biophysics. It is the finite row table
+\subsection{Chen GFP synonymous perturbation inside the $B^{\ast}_{Q6}$ window}
+\label{sec:chen-gfp-synonymous-perturbation-bstar-window}
+
+\paragraph{Finite row surface.}
+This record treats the Chen GFP synonymous-variant panel as a bounded perturbation contact for the $B^{\ast}_{Q6}$ residual window.  The carrier is not a free assertion that synonymous sequence geometry has become protein function.  It is the finite table of synonymous coding variants, split into two assayed regions, together with the measured out-of-frame mRNA control slope and the downstream protein escape readout.  The verified run contains $3556$ synonymous variants, with $1124$ variants in region 1 and $2432$ variants in region 2.  The permutation budget is $B=200$, and the recorded protein-on-out-of-frame-mRNA slope is $0.016523671594873352$.  The computation completed in $447.6606512069702$ seconds under run id $32de547f1ca8$.
+
 $$
 \begin{aligned}
- n_{\mathrm{var}} &= 3556,\\
- n_{\mathrm{region}\,1} &= 1124,\\
- n_{\mathrm{region}\,2} &= 2432,\\
- B_{\mathrm{actual}} &= 200.
+N_{\mathrm{var}} &= 3556,\\
+N_{\mathrm{region\ 1}} &= 1124,\\
+N_{\mathrm{region\ 2}} &= 2432,\\
+B &= 200,\\
+\widehat\beta_{P\mid m_{\mathrm{oof}}} &= 0.016523671594873352.
 \end{aligned}
 $$
-The row partition matters because the claim is a synonymous-window perturbation claim rather than a global codon-usage law. The admissible object is a controlled window-level association surface: synonymous residual coordinates are allowed to be compared with matched mRNA and protein readouts, but amino-acid sequence is fixed by construction and is not promoted to a new explanatory coordinate.
 
-\paragraph{Observed protein--RNA coupling.}
-The verified scalar carried by the run is the out-of-fold protein-on-mRNA slope
+The finite-row interpretation is therefore deliberately narrow.  The row set can ask whether a synonymous-window coordinate retains predictive contact with the GFP protein escape readout after the declared nuisance surfaces are separated.  It cannot, by itself, say that the coordinate is a translation mechanism, a folding mechanism, a physical-admissibility certificate, a molecular-function certificate, or a universal law.  The small positive out-of-frame mRNA slope is kept as a control-scale diagnostic rather than promoted into a translation or protein-realization explanation.
+
+\paragraph{Controlled mediation background.}
+The relevant cross-layer shape is $Q \to T \to P$: a $B^{\ast}_{Q6}$ coordinate $q_i$ may be discussed as protein-facing only when an intermediate translation readout $t_j$ is present and the downstream protein readout $p_k$ is matched to the same row surface.  A separate finite mediation computation on matched coding-sequence and protein-abundance rows supplies the main calibration for this rule.  In that computation, the $B^{\ast}_{Q6}$ coordinate list has nine entries: $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  The joined organism panels include, among others, $3739$ proteins for \emph{Escherichia coli} K12 MG1655, $5815$ proteins for \emph{Saccharomyces cerevisiae}, $19053$ proteins for human, and $19395$ proteins for mouse.
+
+For the matched mediation surface, the readout $T$ is the per-protein mean modeled tAI computed from codon counts, GtRNAdb tRNA gene-copy counts, and dos Reis wobble weights, while $P$ is $\log_{10}$ protein abundance in ppm.  The fitted mediation fractions remain in $[0,1]$ in the registered organism panels.  For example, the recorded mediation fractions are $0.612922252793667$ in \emph{E. coli} K12 MG1655, $0.9491551041216973$ in yeast, $0.27206289160119157$ in human, and $0.15488799907323988$ in mouse.  Their total and direct protein-abundance components are finite rather than symbolic:
+
 $$
 \begin{aligned}
- \widehat{\beta}_{P\mid M}^{\mathrm{oof}} &= 0.016523671594873352.
+M^{QTP}_{\mathrm{E.\ coli}} &= 0.612922252793667, & c_{QP} &= 0.10767526677985896, & c'_{QP\mid T} &= 0.04167869969498872,\\
+M^{QTP}_{\mathrm{yeast}} &= 0.9491551041216973, & c_{QP} &= 0.29837624994140827, & c'_{QP\mid T} &= 0.0151709093608293,\\
+M^{QTP}_{\mathrm{human}} &= 0.27206289160119157, & c_{QP} &= 0.04454565118019448, & c'_{QP\mid T} &= 0.03242643251185274,\\
+M^{QTP}_{\mathrm{mouse}} &= 0.15488799907323988, & c_{QP} &= 0.049827984062539195, & c'_{QP\mid T} &= 0.04211022731323921.
 \end{aligned}
 $$
-This number is deliberately read as a bounded fitted relation between a protein readout and an mRNA readout on the synonymous-variant panel. It does not by itself identify translation kinetics, folding escape, fluorescence maturation, degradation, or selection. Its role is narrower: it records that, after the run's row construction and out-of-fold evaluation, the protein slot retains a small positive dependence on the matched mRNA slot. Thus a direct synonymous-window to protein association cannot be read as protein realization unless the intervening RNA or translation layer is explicitly accounted for. In this chapter the slope is used as a local calibration pressure: protein output must be interpreted through the mRNA-controlled perturbation table, not as a free-standing consequence of a codon residual.
 
-\paragraph{Relation to the $B^{*}_{Q6}$ mediation grammar.}
-The surrounding finite grammar treats a residual coordinate $q_i$ as eligible for downstream protein discussion only along a mediated path
+This background is not imported as proof of the Chen GFP perturbation mechanism.  It supplies the finite discipline for reading the Chen row set: direct $Q \to P$ contact is weaker than a demonstrated $Q \to T \to P$ chain, and a synonymous protein-output result remains bounded until its own translation readout is joined to the same variants or an explicitly bounded proxy is declared.
+
+\paragraph{Translation-readout gate.}
+The modeled translation survival audit confirms that $B^{\ast}_{Q6}$ coordinates can be projected into a bounded codon-adaptation readout, but it also records the boundary of that projection.  Across the three-organism modeled-tAI panel, the computation used the same nine residual coordinates, $61$ sense-codon columns, and a coupling threshold of $0.01$.  It found $81$ entries above threshold and a maximum absolute modeled coupling of $3801961.031607896$.  The organism count was only $3$, so the run explicitly remains modeled-tAI bounded coupling rather than powered ribosome-profiling or proteomics validation.  The local tRNA payload covered all $20$ standard amino-acid families for \emph{E. coli} K12, human, and yeast, with matched FASTA header counts $87$, $432$, and $275$ respectively.
+
 $$
 \begin{aligned}
- q_i \longrightarrow T_j \longrightarrow P_k,
+\#\{(i,j): |S_{ij}| > 0.01\} &= 81,\\
+\max_{i,j}|S_{ij}| &= 3801961.031607896,\\
+N_{\mathrm{organisms}} &= 3,\\
+N_{\mathrm{sense\ codons}} &= 61.
 \end{aligned}
 $$
-where $T_j$ is a translation readout such as modeled tAI, stAI, ribosome occupancy, or translation efficiency, and $P_k$ is a matched protein-abundance readout. The broader mediation audit supplies a concrete comparison point: across $12$ organisms and $9$ residual coordinates, the modeled-tAI protein-abundance surface used joined protein counts ranging from $1656$ in \emph{Sulfolobus solfataricus} to $19395$ in mouse, with yeast carrying $5815$ joined proteins. In that audit the yeast mediated fraction was $0.9491551041216973$, with total $R^2_{QP}=0.29837624994140827$, direct $R^2_{QP\mid T}=0.0151709093608293$, and indirect difference $0.28320534058057895$. Those numbers are not imported as a result about the Chen GFP assay. They state the local rule for admissibility: when the protein layer is discussed, the finite computation must say whether the translation slot exists and whether conditioning on it changes the direct protein association.
 
-\paragraph{Translation-readout boundary.}
-The modeled translation-survival contact computed $9$ synonymous residual coordinates: $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$. In the bounded modeled-tAI audit over $3$ organisms, $81$ entries exceeded the coupling threshold $0.01$, and the maximum absolute entry was $3801961.031607896$. The same audit records that $3$ organisms are not enough for a powered survival conclusion requiring at least $40$ matched species. For the Chen GFP panel this distinction is essential. A synonymous variant can be placed on the same residual-coordinate vocabulary, but the Chen run does not automatically supply a measured ribosome-occupancy matrix, a translation-efficiency matrix, or a tAI-mediated organism panel. Therefore its protein escape surface remains a perturbation record with mRNA-aware protein readout, not a translation-mechanism proof.
+For the Chen GFP panel this means that the perturbation readout may be placed next to the modeled translation route, but it is not automatically a measured ribosome-occupancy contact.  A translation-realization claim would require same-variant or same-CDS translation rows, such as ribosome occupancy or translation efficiency, plus matched mRNA controls.  Without that additional contact, the Chen evidence remains a protein-output perturbation contact inside a synonymous-window audit.
 
-\paragraph{Admissible conclusion.}
-The ready conclusion is finite and conditional. The Chen GFP synonymous panel supplies $3556$ rows, with a nonzero out-of-fold protein-on-mRNA slope of $0.016523671594873352$ under the recorded computation. This supports a bounded protein-readout entry for the synonymous-window audit: protein measurements are present, the rows are finite, the region split is explicit, and the analysis was evaluated under $200$ realized null or resampling blocks. The result may be used to test whether a synonymous-window residual remains informative after matched RNA information is accounted for. It may not be used to assert that a $B^{*}_{Q6}$ coordinate has become a translation mechanism, a folding mechanism, a physical-admissibility certificate, a molecular-function explanation, a phenotype, or a universal biological law. Each of those stronger readings would require a separate layer-matched measurement surface and a statistic at that layer.
+\paragraph{Comparison with an independent synonymous protein-output panel.}
+The Nieuwkoop \emph{E. coli} mRFP synonymous perturbation run gives a useful finite comparator because it has an explicitly reported protein-output improvement under a related $B^{\ast}$ window.  That panel contains $1459$ variants with $B=200$.  Its controls-only model has $R^2=0.12648386762689323$, while controls plus the $B$-window orthogonal component have $R^2=0.1798829276988051$, giving $\Delta R^2=0.05339906007191191$ and $\Delta DL=19.089327473282296$ bits.  The within and matched permutation p-values are both $0.004975124378109453$, and the real-CAI audit records that the signal is robust rather than absorbed by the CAI control.
 
-\paragraph{No-promotion statement.}
-The finite record therefore has the following mathematical readback. Let $Q$ denote the admissible synonymous-window residual coordinates, $M$ the matched mRNA readout, and $P$ the matched protein readout. The verified Chen surface records the existence of a finite table with $|P|=|M|=3556$ aligned variant rows and the fitted scalar $\widehat{\beta}_{P\mid M}^{\mathrm{oof}}=0.016523671594873352$. The allowed claim is a controlled perturbation-layer protein-readout claim:
 $$
 \begin{aligned}
- (Q,M,P)_{\mathrm{Chen\ GFP}} \quad \text{is finite and protein-measured, but not layer-complete for mechanism.}
+R^2_{\mathrm{controls}} &= 0.12648386762689323,\\
+R^2_{\mathrm{controls}+B_{\perp}} &= 0.1798829276988051,\\
+\Delta R^2 &= 0.05339906007191191,\\
+\Delta DL_{\mathrm{bits}} &= 19.089327473282296,\\
+p_{\mathrm{within}} &= p_{\mathrm{matched}} = 0.004975124378109453.
 \end{aligned}
 $$
-No translation, folding, physical admissibility, molecular function, mechanism, or universality follows from this table alone. A future strengthening would need same-row translation measurements, matched mRNA controls, protein readouts, and a declared mediation statistic showing that $Q\to T$ survives before $Q\to P$ is interpreted as translation-conditioned protein realization.
+
+This comparator is not used to transfer the mRFP effect size to GFP.  It is used only to calibrate the kind of finite statement that is admissible: synonymous perturbation panels may support bounded protein-output contact when the row surface, control set, and null calculation are explicit.  Dataset-specific direction, gene-specific reporter context, and organism-specific codon adaptation are not population laws.
+
+\paragraph{Local verdict.}
+The Chen GFP synonymous perturbation record is ready as a bounded BioReality chapter because its finite row counts and control-slope diagnostic are present, and because its interpretation is constrained by already computed translation-mediated and modeled-translation audits.  The admissible statement is that the Chen panel contributes a finite synonymous-variant protein-output contact with $3556$ variants and a recorded out-of-frame mRNA slope of $0.016523671594873352$.  It may be compared to the $Q \to T \to P$ mediation grammar and to independent synonymous perturbation panels, but it does not by itself establish that any $B^{\ast}_{Q6}$ coordinate has survived a measured translation readout in the Chen rows.
+
+The cannot-claim boundary is local and strict.  No translation mechanism follows from the Chen GFP protein escape table unless a same-row translation contact supplies it.  No folding, physical admissibility, molecular function, organismal phenotype, selection principle, causal mechanism, or universal biological rule follows from the synonymous residual coordinates or from the protein readout alone.  A direct $Q_i \to P_k$ association remains below protein-realization mediation unless a $Q_i \to T_j$ step is measured or explicitly bounded and then shown to carry the downstream protein-abundance or protein-output contact under amino-acid composition, organism, GC3, coding-sequence length, $M$-density baseline, and matched mRNA controls.
