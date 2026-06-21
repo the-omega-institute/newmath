@@ -24,6 +24,7 @@ EXPERIMENT_ID = "codon_e1_frameshift_mpra_tcausal"
 CLAIM_ID = "bridge.genetic_code.codon_e1_frameshift_mpra_translation_dependent_function"
 
 BASES = ("U", "C", "A", "G")
+DINUCLEOTIDES = tuple(a + b for a in BASES for b in BASES)
 N_NULL = 100000
 N_BOOTSTRAP = 10000
 TOL = 1.0e-12
@@ -32,6 +33,25 @@ ESTIMABILITY_MIN_NORM_FRAC = 1.0e-6
 NULL_SEED = "codon_e1_frameshift_mpra_tcausal.synonymous_v_star_permutation"
 BOOTSTRAP_SEED = "codon_e1_frameshift_mpra_tcausal.two_stage_cluster_bootstrap"
 CSC_GATE_NULL_SEED = "codon_e1_frameshift_mpra_tcausal.csc_gate_synonymous_permutation"
+
+BASE_CONTROL_NAMES = [
+    "csc_pair_inframe",
+    "csc_pair_frameshift",
+    "tai_pair_inframe",
+    "tai_pair_frameshift",
+    "log1p_barcodes_inframe",
+    "log1p_barcodes_frameshift",
+    "log1p_min_barcodes",
+    "baseline_inframe_gc_fraction",
+    "baseline_frameshift_gc_fraction",
+    "baseline_inframe_gc3_fraction",
+    "baseline_frameshift_gc3_fraction",
+]
+GC_CONTROL_NAMES = [
+    "pair_gc_fraction",
+    "pair_gc3_fraction",
+    *[f"dinucleotide_{dinuc}_count" for dinuc in DINUCLEOTIDES],
+]
 
 CODON_TO_AA = {
     "UUU": "F", "UUC": "F", "UUA": "L", "UUG": "L",
@@ -359,6 +379,22 @@ def third_gc_fraction(codons: tuple[str, str]) -> float:
     return sum(codon[2] in {"G", "C"} for codon in codons) / len(codons)
 
 
+def dinucleotide_counts(codons: tuple[str, str]) -> list[float]:
+    seq = "".join(codons)
+    counts = {dinuc: 0.0 for dinuc in DINUCLEOTIDES}
+    for idx in range(len(seq) - 1):
+        counts[seq[idx : idx + 2]] += 1.0
+    return [counts[dinuc] for dinuc in DINUCLEOTIDES]
+
+
+def gc_control_values(codons: tuple[str, str]) -> list[float]:
+    return [
+        gc_fraction(codons),
+        third_gc_fraction(codons),
+        *dinucleotide_counts(codons),
+    ]
+
+
 def load_reporter_rows(v_star: dict[str, float], csc: dict[str, float], tai: dict[str, float]) -> list[dict[str, object]]:
     path = repo_root() / "tools" / "window_codon_bridge" / "synced" / "chen2023_codon_pair_mrna_effects.json"
     with path.open("r", encoding="utf-8") as handle:
@@ -397,7 +433,7 @@ def load_reporter_rows(v_star: dict[str, float], csc: dict[str, float], tai: dic
                     "in:" + translate_pair(codon_a, codon_b),
                     "fs:" + translate_pair(fs_a, fs_b),
                 ),
-                "controls": [
+                "base_controls": [
                     pair_score(codon_a, codon_b, csc),
                     pair_score_frameshift(codon_a, codon_b, csc),
                     pair_score(codon_a, codon_b, tai),
@@ -410,6 +446,7 @@ def load_reporter_rows(v_star: dict[str, float], csc: dict[str, float], tai: dic
                     third_gc_fraction((codon_a, codon_b)),
                     third_gc_fraction((fs_a, fs_b)),
                 ],
+                "gc_controls": gc_control_values((codon_a, codon_b)),
             }
         )
     return rows
@@ -441,10 +478,18 @@ def weighted_orthonormalize_columns(columns: list[list[float]], weights: list[fl
     return basis
 
 
+def row_control_values(row: dict[str, object], include_gc_controls: bool) -> list[float]:
+    values = list(row["base_controls"])  # type: ignore[arg-type]
+    if include_gc_controls:
+        values.extend(row["gc_controls"])  # type: ignore[arg-type]
+    return [float(value) for value in values]
+
+
 def residualizer(
     rows: list[dict[str, object]],
     indices: list[int] | None = None,
-    excluded_control_indices: set[int] | None = None,
+    include_gc_controls: bool = False,
+    excluded_control_names: set[str] | None = None,
 ):
     if indices is None:
         selected = list(range(len(rows)))
@@ -455,12 +500,16 @@ def residualizer(
         [str(rows[idx]["fixed_groups"][axis]) for idx in selected]  # type: ignore[index]
         for axis in range(2)
     ]
-    n_controls = len(rows[selected[0]]["controls"]) if selected else 0  # type: ignore[arg-type]
-    excluded = excluded_control_indices or set()
+    names = BASE_CONTROL_NAMES + (GC_CONTROL_NAMES if include_gc_controls else [])
+    excluded = excluded_control_names or set()
+    selected_controls = [row_control_values(rows[idx], include_gc_controls) for idx in selected]
     raw_control_columns = [
-        [float(rows[idx]["controls"][ctrl]) for idx in selected]  # type: ignore[index]
-        for ctrl in range(n_controls)
-        if ctrl not in excluded
+        [
+            control_values[ctrl]
+            for control_values in selected_controls
+        ]
+        for ctrl, name in enumerate(names)
+        if name not in excluded
     ]
 
     def absorb_fixed(vector: list[float]) -> list[float]:
@@ -692,6 +741,30 @@ def family_permutation_indices(
     return indices
 
 
+def two_sided_family_perm_p(
+    observed: float,
+    values: dict[str, float],
+    families: dict[str, list[str]],
+    sense_codons: list[str],
+    sense_index: dict[str, int],
+    h: list[float],
+    gram: list[list[float]],
+    delta_norm: float,
+    n_null: int,
+    seed: str,
+) -> float:
+    rng = random.Random(stable_seed(seed))
+    values_vector = vector_from_values(values, sense_codons)
+    ge = 0
+    observed_abs = abs(observed)
+    for _ in range(n_null):
+        p_vector = permuted_vector(values_vector, family_permutation_indices(families, sense_index, rng))
+        t_perm = corr_from_feature_quadratic(p_vector, h, gram, delta_norm)
+        if math.isfinite(t_perm) and abs(t_perm) >= observed_abs:
+            ge += 1
+    return (1 + ge) / (1 + n_null)
+
+
 def one_sided_family_perm_p(
     observed: float,
     values: dict[str, float],
@@ -715,17 +788,18 @@ def one_sided_family_perm_p(
     return (1 + ge) / (1 + n_null)
 
 
-def bootstrap_lower95(
+def bootstrap_ci95(
     rows: list[dict[str, object]],
     delta_resid: list[float],
     score_resid: list[float],
     weights: list[float],
-) -> float:
+    seed: str,
+) -> tuple[float, float]:
     by_strata: dict[str, list[int]] = defaultdict(list)
     for idx, row in enumerate(rows):
         by_strata[str(row["strata"])].append(idx)
     strata = sorted(by_strata)
-    rng = random.Random(stable_seed(BOOTSTRAP_SEED))
+    rng = random.Random(stable_seed(seed))
     values: list[float] = []
     for _ in range(N_BOOTSTRAP):
         indices: list[int] = []
@@ -742,7 +816,60 @@ def bootstrap_lower95(
         corr = weighted_corr(b_delta, b_score, b_weights)
         if math.isfinite(corr):
             values.append(corr)
-    return percentile(values, 0.025)
+    return percentile(values, 0.025), percentile(values, 0.975)
+
+
+def statistic_for_controls(
+    rows: list[dict[str, object]],
+    v_star: dict[str, float],
+    families: dict[str, list[str]],
+    sense_codons: list[str],
+    sense_index: dict[str, int],
+    include_gc_controls: bool,
+    seed_suffix: str,
+) -> dict[str, object]:
+    apply_resid, weights, n_control_rank = residualizer(rows, include_gc_controls=include_gc_controls)
+    delta = [float(row["delta_y"]) for row in rows]
+    score = [float(row["s"]) for row in rows]
+    delta_resid = apply_resid(delta)
+    score_resid = apply_resid(score)
+    score_raw_norm = weighted_norm(score, weights)
+    score_resid_norm = weighted_norm(score_resid, weights)
+    s_norm_frac = score_resid_norm / score_raw_norm if score_raw_norm > TOL else math.nan
+    t_causal = weighted_corr(delta_resid, score_resid, weights)
+    h, gram, delta_norm = residual_feature_quadratic(rows, sense_codons, sense_index, apply_resid, delta_resid, weights)
+    if not math.isfinite(t_causal) or not math.isfinite(s_norm_frac) or s_norm_frac <= ESTIMABILITY_MIN_NORM_FRAC:
+        p_two = math.nan
+        ci_low = math.nan
+        ci_high = math.nan
+    else:
+        p_two = two_sided_family_perm_p(
+            t_causal,
+            v_star,
+            families,
+            sense_codons,
+            sense_index,
+            h,
+            gram,
+            delta_norm,
+            N_NULL,
+            f"{NULL_SEED}.{seed_suffix}.two_sided",
+        )
+        ci_low, ci_high = bootstrap_ci95(
+            rows,
+            delta_resid,
+            score_resid,
+            weights,
+            f"{BOOTSTRAP_SEED}.{seed_suffix}",
+        )
+    return {
+        "T_causal": t_causal,
+        "p_two": p_two,
+        "bootstrap_ci_low": ci_low,
+        "bootstrap_ci_high": ci_high,
+        "s_residual_frac": s_norm_frac,
+        "n_control_rank": n_control_rank,
+    }
 
 
 def csc_gate(
@@ -755,7 +882,11 @@ def csc_gate(
     # Test CSC itself against the same frame/peptide/precision/composition/tAI
     # pipeline, excluding the CSC columns that would otherwise absorb the
     # positive-control score by construction.
-    apply_resid, weights, _ = residualizer(rows, excluded_control_indices={0, 1})
+    apply_resid, weights, _ = residualizer(
+        rows,
+        include_gc_controls=True,
+        excluded_control_names={"csc_pair_inframe", "csc_pair_frameshift"},
+    )
     delta_resid = apply_resid([float(row["delta_y"]) for row in rows])
     h, gram, delta_norm = residual_feature_quadratic(rows, sense_codons, sense_index, apply_resid, delta_resid, weights)
     score = [float(row["csc_pair"]) for row in rows]
@@ -781,15 +912,19 @@ def csc_gate(
 
 
 def main() -> None:
-    status = "needs_derivation"
     default_payload = {
         "T_causal": None,
-        "p": None,
-        "bootstrap_lo95": None,
+        "p_two_without_gc": None,
+        "p_two_with_gc": None,
+        "abs_T": None,
+        "bootstrap_ci_low": None,
+        "bootstrap_ci_high": None,
         "csc_gate_passed": False,
         "csc_control_corr": None,
         "n_codon_pairs": 0,
-        "s_residual_norm_frac": None,
+        "s_residual_frac_without_gc": None,
+        "s_residual_frac_with_gc": None,
+        "gc_controls_added": GC_CONTROL_NAMES,
         "v_star_excludes_scerevisiae": False,
         "reason": "statistic did not run",
     }
@@ -807,30 +942,24 @@ def main() -> None:
         if len(rows) < 100:
             raise ValueError("too few codon pairs after non-null and stop filters")
 
-        apply_resid, weights, n_control_rank = residualizer(rows)
-        delta = [float(row["delta_y"]) for row in rows]
-        score = [float(row["s"]) for row in rows]
-        delta_resid = apply_resid(delta)
-        score_resid = apply_resid(score)
-        score_raw_norm = weighted_norm(score, weights)
-        score_resid_norm = weighted_norm(score_resid, weights)
-        s_norm_frac = score_resid_norm / score_raw_norm if score_raw_norm > TOL else math.nan
-        t_causal = weighted_corr(delta_resid, score_resid, weights)
-        h, gram, delta_norm = residual_feature_quadratic(rows, sense_codons, sense_index, apply_resid, delta_resid, weights)
-        if not math.isfinite(t_causal) or not math.isfinite(s_norm_frac) or s_norm_frac <= ESTIMABILITY_MIN_NORM_FRAC:
-            emit(
-                "needs_derivation",
-                **{
-                    **default_payload,
-                    "T_causal": round_float(t_causal),
-                    "n_codon_pairs": len(rows),
-                    "s_residual_norm_frac": round_float(s_norm_frac),
-                    "v_star_excludes_scerevisiae": bool(v_meta["excluded_scerevisiae_entries"]),
-                    "v_star_n_non_yeast_organisms": v_meta["n_non_yeast_organisms"],
-                    "v_star_n_genus_weighted_groups": v_meta["n_genus_weighted_groups"],
-                    "reason": "codon-E1 pair score is undefined or absorbed by the primary control matrix",
-                },
-            )
+        without_gc = statistic_for_controls(
+            rows,
+            v_star,
+            families,
+            sense_codons,
+            sense_index,
+            include_gc_controls=False,
+            seed_suffix="without_gc",
+        )
+        with_gc = statistic_for_controls(
+            rows,
+            v_star,
+            families,
+            sense_codons,
+            sense_index,
+            include_gc_controls=True,
+            seed_suffix="with_gc",
+        )
 
         csc_passed, csc_corr, csc_p = csc_gate(
             rows,
@@ -839,53 +968,73 @@ def main() -> None:
             sense_codons,
             sense_index,
         )
-        p_value = one_sided_family_perm_p(
-            t_causal,
-            v_star,
-            families,
-            sense_codons,
-            sense_index,
-            h,
-            gram,
-            delta_norm,
-            N_NULL,
-            NULL_SEED,
-        )
-        lo95 = bootstrap_lower95(rows, delta_resid, score_resid, weights)
 
+        t_without = float(without_gc["T_causal"])
+        t_with = float(with_gc["T_causal"])
+        p_without = float(without_gc["p_two"])
+        p_with = float(with_gc["p_two"])
+        ci_low = float(with_gc["bootstrap_ci_low"])
+        ci_high = float(with_gc["bootstrap_ci_high"])
+        s_frac_without = float(without_gc["s_residual_frac"])
+        s_frac_with = float(with_gc["s_residual_frac"])
+        with_gc_estimable = (
+            math.isfinite(t_with)
+            and math.isfinite(s_frac_with)
+            and s_frac_with > ESTIMABILITY_MIN_NORM_FRAC
+        )
+        with_gc_significant = (
+            math.isfinite(p_with)
+            and p_with <= 0.01
+            and math.isfinite(ci_low)
+            and math.isfinite(ci_high)
+            and (ci_low > 0.0 or ci_high < 0.0)
+        )
         if not csc_passed:
             status = "needs_derivation"
-            reason = "CSC positive-control gate failed, so the reporter contrast is non-resolving for codon-E1."
-        elif p_value <= 0.01 and lo95 > 0.0:
-            status = "certified"
+            reason = "CSC positive-control gate failed under the augmented control matrix, so the reporter contrast is non-resolving."
+        elif not with_gc_estimable:
+            status = "needs_derivation"
+            reason = "The codon-E1 pair score is absorbed by the augmented GC3+dinucleotide control matrix."
+        elif with_gc_significant:
+            status = "needs_derivation"
             reason = (
-                "Assay-validity gate passes and codon-E1 loading predicts the translation-dependent "
-                "reporter mRNA contrast beyond peptide, frame, optimality, precision, and composition controls; "
-                "Delta-MFE is omitted as a documented sensitivity extension because ViennaRNA is unavailable."
+                "A sign-invariant codon-E1 association survives GC3+dinucleotide controls; exact Delta-MFE "
+                "control is still missing, so this is an escalation target rather than a certificate."
             )
         else:
             status = "coincidence"
             reason = (
-                "Assay-validity gate passes, but codon-E1 is null or typical under the synonymous-family "
-                "permutation/bootstrap criteria; Delta-MFE is omitted as a documented sensitivity extension."
+                "The apparent codon-E1 association collapses after GC3+dinucleotide sequence controls; "
+                "the reporter result is consistent with a GC/RNA-folding composition confound, not a "
+                "GC-orthogonal translation-dependent codon-E1 effect."
             )
 
         emit(
             status,
-            T_causal=round_float(t_causal),
-            p=round_float(p_value),
-            bootstrap_lo95=round_float(lo95),
+            T_causal=round_float(t_with),
+            T_causal_without_gc=round_float(t_without),
+            p_two_without_gc=round_float(p_without),
+            p_two_with_gc=round_float(p_with),
+            abs_T=round_float(abs(t_with)),
+            abs_T_without_gc=round_float(abs(t_without)),
+            bootstrap_ci_low=round_float(ci_low),
+            bootstrap_ci_high=round_float(ci_high),
+            bootstrap_ci_low_without_gc=round_float(float(without_gc["bootstrap_ci_low"])),
+            bootstrap_ci_high_without_gc=round_float(float(without_gc["bootstrap_ci_high"])),
             csc_gate_passed=bool(csc_passed),
             csc_control_corr=round_float(csc_corr),
             csc_control_p=round_float(csc_p),
             n_codon_pairs=len(rows),
-            s_residual_norm_frac=round_float(s_norm_frac),
+            s_residual_frac_without_gc=round_float(s_frac_without),
+            s_residual_frac_with_gc=round_float(s_frac_with),
+            gc_controls_added=GC_CONTROL_NAMES,
             v_star_excludes_scerevisiae=bool(v_meta["excluded_scerevisiae_entries"]),
             v_star_n_non_yeast_organisms=v_meta["n_non_yeast_organisms"],
             v_star_n_genus_weighted_groups=v_meta["n_genus_weighted_groups"],
             v_star_reference_sign_codon=v_meta["reference_sign_codon"],
             rank_B1=v_meta["rank_B1"],
-            n_primary_continuous_control_rank=n_control_rank,
+            n_control_rank_without_gc=without_gc["n_control_rank"],
+            n_control_rank_with_gc=with_gc["n_control_rank"],
             csc_source=csc_meta,
             tai_source=tai_meta,
             experiment_id=EXPERIMENT_ID,
