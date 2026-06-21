@@ -67,6 +67,22 @@ The kernel audit witness contributes accepted-declaration readback only through 
 Finally read $H,P,N$. These rows transport, source, and name the displayed carrier; they do not add a hidden kernel route. Therefore every exported kernel-facing route remains on the finite row sequence shown above.
 \end{proof}
 
+\begin{theorem}[Name eligibility proof obligation package]
+\label{thm:name-eligibility-proof-obligation-package}
+For an accepted $\NameEligibilityProofUp$ packet
+$$
+E=(T,S,C,Q,A,R,H,K,P,N),
+$$
+the rows $T,S,C,Q,A,R,H,K,P,N$ jointly bind the target name, source route, classifier route, strength, audit, refusal, transport, replay, provenance, and local naming as the finite obligation package for eligibility-before-use. A consumer may report the proposed name as licensed only through that displayed package.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:name-eligibility-proof-namecert-obligations}. It identifies $T,S,C,Q,A,R,H,K,P,N$ as the complete local NameCert surface for target-name admission, source eligibility, classifier eligibility, strength reporting, audit exposure, refusal exposure, transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:name-eligibility-proof-strength-noninflation}. It prevents the strength row $Q$ from promoting a name beyond the audit and replay rows actually displayed in the same packet.
+
+Finally apply \autoref{thm:name-eligibility-proof-kernel-route-nonescape}. It keeps every kernel-facing route on the row sequence $T,S,C,Q,A,R,H,K,P,N$. The three results compose into the stated eligibility-before-use package: the target name is not licensed before the source route, classifier route, strength, audit, refusal, transport, replay, provenance, and local naming rows have all been displayed.
+\end{proof}
+
 \falsifiablePrediction{If a NameEligibilityProofUp packet raises a seed-strength name to machine-checked strength without an audit row, the carrier is refuted.}
 
 \independenceWitness{machineinterfaceboundary, registryconsistencyaudit, kernelauditwitness, apophaticname: none is bijective because NameEligibilityProofUp simultaneously binds source eligibility, classifier eligibility, strength, audit, refusal, transport, replay, provenance, and local NameCert rows.}
