@@ -3017,7 +3017,9 @@ import BEDC.Derived.CompactFunctionAlgebraUp
 import BEDC.Derived.CompactGraphContinuityUp.TasteGate
 import BEDC.Derived.CompactImageClosedUp.TasteGate
 import BEDC.Derived.CompactIntervalChoiceSequenceUp.TasteGate
+import BEDC.Derived.CompactIntervalFixedPointUp.BisectionWindowMonotonicity
 import BEDC.Derived.CompactIntervalFixedPointUp.IntervalReturnRoute
+import BEDC.Derived.CompactIntervalFixedPointUp.ModulusResidualStability
 import BEDC.Derived.CompactIntervalFixedPointUp.NameCertObligations
 import BEDC.Derived.CompactIntervalFixedPointUp.PublicSeal
 import BEDC.Derived.CompactIntervalFixedPointUp.RealSealNonescape
@@ -7703,6 +7705,7 @@ import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedConversionNonescape
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedNormalFormSplit
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedSearchExhaustion
+import BEDC.Derived.MetacicDecidabilityWitnessUp.BridgeFacingSurface
 import BEDC.Derived.MetacicDecidabilityWitnessUp.CandidateNormalizationScope
 import BEDC.Derived.MetacicDecidabilityWitnessUp.DecidabilityWitnessPublicExport
 import BEDC.Derived.MetacicDecidabilityWitnessUp.FuelWindowExhaustion
@@ -7718,8 +7721,10 @@ import BEDC.Derived.MetacicNormalizationAuditUp.CandidateConfluenceBoundary
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateConfluenceHandoff
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierExtension
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierRefusal
+import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierRefusalTightening
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateLedgerLocality
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateMediatedSNClosure
+import BEDC.Derived.MetacicNormalizationAuditUp.CandidateMediatedSNConfluence
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateRoutePack
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateSubstitutionBoundary
 import BEDC.Derived.MetacicNormalizationAuditUp.ClosedTermBudgetTotality
@@ -10690,6 +10695,7 @@ import BEDC.Derived.StoneCechCompactificationUp.TasteGate
 import BEDC.Derived.StoneDualityUp
 import BEDC.Derived.StoneDualityUp.TasteGate
 import BEDC.Derived.StoneRepresentationBooleanAlgebraUp
+import BEDC.Derived.StoneRepresentationBooleanAlgebraUp.TasteGate
 import BEDC.Derived.StoneWeierstrassUp.TasteGate
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.BridgeBoundary
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.TasteGate
