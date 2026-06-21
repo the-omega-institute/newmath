@@ -119,6 +119,22 @@ The fuel-timeout exactness theorem binds $U$ to the displayed boundary $F$ and b
 Nontriviality and field faithfulness are therefore obligations on this same packet rather than additional semantic assumptions. A witness must preserve exactly the displayed rows, and any faithful field read lands back in one of $H,F,T,E,U,A,X,C,P,N$.
 \end{proof}
 
+\begin{theorem}[ReductionFuelBoundary scoped substrate route]
+\label{thm:reduction-fuel-boundary-scoped-substrate-route}
+Every scoped read of an accepted $\ReductionFuelBoundaryUp$ carrier factors through the displayed finite route
+$$
+H,F,T,E,U,A,X,C,P,N .
+$$
+The route exposes total-host reduction, finite fuel, bounded trace, typed endpoint, timeout refusal, audit separation, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The Lean TasteGate obligations for $\ReductionFuelBoundaryUp$ preserve these same carrier fields when they witness field faithfulness, nontriviality, and the local \texttt{taste\_gate} package.
+\end{theorem}
+\begin{proof}
+The carrier definition lists exactly the rows $H,F,T,E,U,A,X,C,P,N$. A scoped read therefore starts from the finite packet of \autoref{def:reduction-fuel-boundary-carrier}, not from an ambient substrate equality, an unbounded reduction trace, or an endpoint quotient.
+
+The NameCert obligations of \autoref{thm:reduction-fuel-boundary-namecert-obligations} expose those rows as the public surface. The total-host nonescape theorem \autoref{thm:reduction-fuel-boundary-total-host-nonescape} keeps every host-facing read inside the same route, while \autoref{thm:reduction-fuel-boundary-endpoint-timeout-disjointness} prevents the endpoint and timeout branches from being identified under transport or replay.
+
+It remains to align the paper route with the Lean evidence named below the theorem list. The required $\mathsf{FieldFaithful}\ \ReductionFuelBoundaryUp$, $\mathsf{Nontrivial}\ \ReductionFuelBoundaryUp$, and \texttt{taste\_gate} witnesses are obligations on the same finite carrier fields, so the Lean side preserves the carrier rows rather than adding a new substrate read.
+\end{proof}
+
 The Lean \texttt{lean4/BEDC/Derived/ReductionFuelBoundaryUp/TasteGate.lean} development must include explicit $\mathsf{Nontrivial}\ \ReductionFuelBoundaryUp$ and $\mathsf{FieldFaithful}\ \ReductionFuelBoundaryUp$ instances. These instances must preserve the total-host reduction row, finite fuel row, bounded trace row, endpoint row, timeout-refusal row, audit row, componentwise transports, displayed continuation routes, package provenance, and local naming row.
 
 \closureat{ReductionFuelBoundaryUp}{seedStr}
