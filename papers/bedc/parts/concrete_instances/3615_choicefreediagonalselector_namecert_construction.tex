@@ -51,6 +51,7 @@ $$
 $$
 If the rows $\varepsilon,W,S,R,E,H,C,P,N$ are transported componentwise through the displayed $H$ coordinate, then the window, stage, and non-escape results still force each selector read through StreamName observations, RegSeqRat handoff, and RealUp seal in that order.
 \end{theorem}
+\leanchecked{BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ClassifierObligation.ChoiceFreeDiagonalSelectorCarrier\_classifier\_obligation}
 \begin{proof}
 Read the transport row $H$ in the carrier definition. It is componentwise over the request, window, StreamName observations, RegSeqRat witness, RealUp seal, and structural rows.
 
@@ -96,6 +97,7 @@ S\longmapsto R\longmapsto E,
 $$
 with $H,C,P,N$ preserving that same factorization by transport, replay, provenance, and local naming.
 \end{theorem}
+\leanchecked{BEDC.Derived.ChoiceFreeDiagonalSelectorUp.RegSeqRatSealFactorization.ChoiceFreeDiagonalSelectorCarrier\_regseqrat\_seal\_factorization}
 \begin{proof}
 Project the carrier of \autoref{def:choice-free-diagonal-selector-carrier}. The only observation rows before the Real-facing endpoint are the finite StreamName family $S$ and the RegSeqRat witness row $R$.
 
@@ -103,6 +105,7 @@ Apply \autoref{thm:choice-free-diagonal-selector-window-route}. It forces each o
 
 The structural rows do not add another seal route. Componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$ preserve the same $S\longmapsto R\longmapsto E$ route, so every selector RealUp read factors through the RegSeqRat handoff first.
 \end{proof}
+\leanchecked{BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ChoiceFreeDiagonalSelectorRegSeqRatSealFactorization}
 
 \begin{definition}[Choice-free diagonal selector stage carrier]
 \label{def:choice-free-diagonal-selector-stage-carrier}
@@ -170,6 +173,18 @@ Apply the carrier, classifier, and ledger obligations of \autoref{thm:choice-fre
 Next use \autoref{thm:choice-free-diagonal-selector-window-route} and \autoref{thm:choice-free-diagonal-selector-regseqrat-seal-factorization}. They force every diagonal read through the displayed $\StreamNameUp\longmapsto \RegSeqRatUp\longmapsto \RealUp$ route before the RealUp seal can be consumed.
 
 Finally apply \autoref{def:choice-free-diagonal-selector-stage-carrier}, \autoref{thm:choice-free-diagonal-selector-stage-induction}, and \autoref{thm:choice-free-diagonal-selector-nonescape}. Stage induction preserves the same finite rows, and non-escape rules out host choice, quotient streams, selected host limits, hidden selectors, unbounded scans, and ambient completeness.
+\end{proof}
+
+\begin{theorem}[Choice-free diagonal selector scoped kernel route]
+\label{thm:choice-free-diagonal-selector-scope}
+Every accepted $\ChoiceFreeDiagonalSelectorUp$ selector route factors through $\StreamNameUp$ windows, $\RegSeqRatUp$ witness rows, $\RealUp$ seal rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ before any diagonal consumer can read the selector output. The route cannot add host choice, quotient streams, hidden cofinal selectors, unbounded $\StreamNameUp$ scans, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:choice-free-diagonal-selector-carrier}. Its displayed rows are the precision request, selected finite cofinal window, StreamName observations, RegSeqRat witness, RealUp seal, componentwise transport, route replay, provenance, and local naming.
+
+Apply the window route and RegSeqRat seal factorization, \autoref{thm:choice-free-diagonal-selector-window-route} and \autoref{thm:choice-free-diagonal-selector-regseqrat-seal-factorization}. They force every selector read through the finite $\StreamNameUp$ window rows before the $\RegSeqRatUp$ witness is assembled and before the $\RealUp$ seal row is available.
+
+Use stage induction to keep the same route across finite window prefixes. Then apply non-escape and the obligation closure theorem, \autoref{thm:choice-free-diagonal-selector-nonescape} and \autoref{thm:choice-free-diagonal-selector-obligation-closure}, to rule out host choice, quotient streams, hidden cofinal selection, unbounded scans, and ambient Real completeness. The remaining route is exactly the scoped kernel route through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 \end{proof}
 
 \closureat{ChoiceFreeDiagonalSelectorUp}{obligationStr}
