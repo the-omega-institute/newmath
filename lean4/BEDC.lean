@@ -5528,6 +5528,7 @@ import BEDC.Derived.FilterConvergenceUp.TasteGate
 import BEDC.Derived.FilterLimitBasisUp.ObligationClosureReadiness
 import BEDC.Derived.FilterLimitBasisUp.RealHandoffStability
 import BEDC.Derived.FilterLimitBasisUp.RealWindowExhaustion
+import BEDC.Derived.FilterLimitBasisUp.ScopedObligation
 import BEDC.Derived.FilterLimitBasisUp.TasteGate
 import BEDC.Derived.FilterLimitBasisUp.WindowBasisExhaustion
 import BEDC.Derived.FilterLimitCriterionUp
@@ -6954,6 +6955,8 @@ import BEDC.Derived.LocatedDyadicCompletionUp
 import BEDC.Derived.LocatedFormalBarUp.TasteGate
 import BEDC.Derived.LocatedHeineBorelSubcoverUp.TasteGate
 import BEDC.Derived.LocatedInfimumUp
+import BEDC.Derived.LocatedInfimumUp.GreatestLowerBoundObligation
+import BEDC.Derived.LocatedInfimumUp.LowerBoundObligation
 import BEDC.Derived.LocatedIntermediateValueUp.TasteGate
 import BEDC.Derived.LocatedIntervalBisectionUp.TasteGate
 import BEDC.Derived.LocatedIntervalBolzanoUp.TasteGate
@@ -7065,6 +7068,7 @@ import BEDC.Derived.LogicContradictionMetaLoopUp.SiblingDependencyRoute
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
 import BEDC.Derived.LongLineUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
+import BEDC.Derived.LovaszLocalLemmaUp
 import BEDC.Derived.LowDiscrepancySequenceUp.TasteGate
 import BEDC.Derived.LowerRealUp.DedekindCutAdmission
 import BEDC.Derived.LowerRealUp.DirectedLowerCutBudget
@@ -8477,6 +8481,7 @@ import BEDC.Derived.OptionUp.PayloadDescentImageClassifierSelectedVisible
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierStability
 import BEDC.Derived.OptionUp.PayloadDescentImageOccupancy
 import BEDC.Derived.OptionUp.PayloadDescentImagePublicReadback
+import BEDC.Derived.OptionUp.PayloadDescentImageSemanticCertificate
 import BEDC.Derived.OptionUp.PayloadDescentImageVisible
 import BEDC.Derived.OptionUp.PayloadDescentNormalForm
 import BEDC.Derived.OptionUp.PayloadDescentSharedReflection
@@ -10078,6 +10083,7 @@ import BEDC.Derived.RegularCauchyTailModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyTailModulusUp.WindowHandoff
 import BEDC.Derived.RegularCauchyTailMonotonicityUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
+import BEDC.Derived.RegularCauchyTailSealUp
 import BEDC.Derived.RegularCauchyTailSelectorUp
 import BEDC.Derived.RegularCauchyTailShiftUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSubsequenceUp.TasteGate
@@ -10546,6 +10552,7 @@ import BEDC.Derived.SetlikeUp.FamilyFiberFirstorderModeltheoryLock
 import BEDC.Derived.SetlikeUp.FamilyFiberModelSatisfactionRoute
 import BEDC.Derived.SetlikeUp.FamilyFiberObligations
 import BEDC.Derived.SetlikeUp.FamilyHandoffObligation
+import BEDC.Derived.SetlikeUp.FiniteMembershipInduction
 import BEDC.Derived.SetlikeUp.FirstOrderMembershipSubstitutionBoundary
 import BEDC.Derived.SetlikeUp.KernelMembershipObligation
 import BEDC.Derived.SetlikeUp.MembershipCarrierRootSurface
@@ -10556,6 +10563,7 @@ import BEDC.Derived.SetlikeUp.MembershipClassifierTransport
 import BEDC.Derived.SetlikeUp.MembershipFamilyBHistInduction
 import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
+import BEDC.Derived.SetlikeUp.MembershipSourceAdmission
 import BEDC.Derived.SetlikeUp.MembershipStability
 import BEDC.Derived.SetlikeUp.PublicNameCertExport
 import BEDC.Derived.SetlikeUp.RootCarrierMembership
