@@ -7777,6 +7777,7 @@ import BEDC.Derived.MetaCICOpenProblemLedgerUp.TasteGate
 import BEDC.Derived.MetaCICOpenProblemWitnessUp.TasteGate
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.CriticalPairEnvelope
+import BEDC.Derived.MetaCICParallelDiamondFrontierUp.ResidualJoinLocality
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.TasteGate
 import BEDC.Derived.MetaCICParallelDiamondSelectorUp
 import BEDC.Derived.MetaCICPiAdequacyBudgetUp.TasteGate
