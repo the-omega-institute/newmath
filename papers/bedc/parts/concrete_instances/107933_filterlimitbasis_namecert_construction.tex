@@ -187,6 +187,20 @@ Next apply \autoref{thm:filter-limit-basis-ledger-refusal}, \autoref{thm:filter-
 Finally use \autoref{thm:filter-limit-basis-window-induction} and \autoref{thm:filter-limit-basis-real-window-exhaustion}. Finite replay preserves the same window route through every ledger prefix, so the chapter has the paper-side obligation surface required for the next closure step without adding any object outside the accepted $\FilterLimitBasisUp$ carrier.
 \end{proof}
 
+\begin{theorem}[FilterLimitBasis scope exactness]
+\label{thm:filter-limit-basis-scope-exactness}
+Let $B=(Q,F,L,W,R,D,E,H,C,P,N)$ be an accepted $\FilterLimitBasisUp$ carrier. Every consumer read exported by the local limit-basis surface factors through the $\CauchyFilterCompletionUp$ row $Q$, the $\CauchyFilterUp$ row $F$, the $\CauchyFilterLimitUp$ row $L$, the $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readback row $R$, the $\DyadicRatCoreUp$ tolerance row $D$, the $\RealUp$ seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\FilterLimitBasisUp}$ row $N$ before any limit-basis export is read. The scope contains no selected limit, quotient filter, ultrafilter, countable-choice schedule, host filter equality, host real equality, or ambient real-completeness premise.
+\end{theorem}
+\begin{proof}
+Read the carrier rows in order. The completion row $Q$ and Cauchy-filter row $F$ determine the finite filter-basis request, and the limit-boundary row $L$ attaches the requested limit evidence to that same basis.
+
+The finite-prefix material then fixes the observation route. By \autoref{thm:filter-limit-basis-finite-prefix-stream-consumption}, the windows $W$, regular readback $R$, and dyadic tolerance ledger $D$ are consumed before the terminal $\RealUp$ seal $E$ can be inspected.
+
+The structural rows preserve exactness rather than adding new objects. Componentwise $\hsame$ transport in $H$ and displayed $\Cont$ replay in $C$ keep every consumer read on the same route, while $P$ and $N$ record only provenance and local naming.
+
+Therefore any exported limit-basis read has passed through $Q,F,L,W,R,D,E,H,C,P,N$. The refused objects have no carrier coordinate and no replay edge, so selected limits, quotient filters, countable choice, and ambient real completeness cannot be smuggled into the scope.
+\end{proof}
+
 \begin{theorem}[FilterLimitBasis scoped obligation]
 \label{thm:filterlimitbasis-scope-obligation}
 For an accepted $\FilterLimitBasisUp$ carrier $B=(Q,F,L,W,R,D,E,H,C,P,N)$, the obligation surface is scoped exactly by the displayed route through $\CauchyFilterCompletionUp$, $\CauchyFilterUp$, $\CauchyFilterLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert_{\FilterLimitBasisUp}$ rows. Every completion-facing, limit-facing, or Real-facing read must pass through those rows, and no quotient filter, selected limit, ultrafilter, countable-choice schedule, host filter equality, host real equality, ambient completeness, or bridge certificate is part of the scope.
