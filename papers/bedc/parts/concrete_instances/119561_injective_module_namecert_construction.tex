@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\InjectiveModuleUp$}
+\label{ch:concrete-instances-injective-module-namecert}
+\origin{human}
+
+Following Baer and Cartan--Eilenberg, the $\InjectiveModuleUp$ packet records the finite homological-algebra interface in which maps out of a displayed submodule inclusion extend into a chosen module row. It sits over the ring and module surfaces of \autoref{ch:concrete-instances-ring-namecert} and \autoref{ch:concrete-instances-module-namecert}, reads linear maps through \autoref{ch:concrete-instances-linearmap-namecert}, and keeps its exactness boundary compatible with the exact-sequence obligation surface of \autoref{ch:concrete-instances-abeliancat-namecert} and the displayed $\ExactSequenceUp$ handoff in \autoref{ch:concrete-instances-universal-coefficient-namecert}. The packet is an extension-lifting certificate; it is not a host injective object, a derived-functor computation, a quotient representative, or an ambient choice principle.
+
+\begin{definition}[Injective module carrier]
+\label{def:injective-module-carrier}
+An $\InjectiveModuleUp$ carrier is a finite $\BHist$ packet
+$$
+I=(R,M,S,F,E,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the scalar $\RingUp$ row and $M$ is the target $\ModuleUp$ row over that scalar source.
+\item $S$ is the submodule inclusion row, recording a displayed inclusion $A\hookrightarrow B$ inside the same module classifier window.
+\item $F$ is the source hom row, read as a $\LinearMapUp$ map from the submodule row $A$ into $M$.
+\item $E$ is the extended hom row, read as a $\LinearMapUp$ map from the ambient row $B$ into $M$.
+\item $B$ is the exact-sequence boundary row, recording that the restriction of $E$ along $S$ is the displayed source hom row $F$.
+\item $H$ records componentwise $\hsame$ transport for $R,M,S,F,E,B,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from an extension request through the module, inclusion, source hom, extended hom, and boundary rows.
+\item $P$ is the $\Pkg$ provenance over $\InjectiveModuleUp$, $\RingUp$, $\ModuleUp$, $\LinearMapUp$, $\ExactSequenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\InjectiveModuleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,M,S,F,E,B,H,C,P,N$. It has no coordinate for a host category of modules, a selected quotient representative, a global Ext calculation, an arbitrary splitting, or an unstated choice of extension.
+\end{definition}
+
+\begin{theorem}[Injective module NameCert obligations]
+\label{thm:injective-module-namecert-obligations}
+For every accepted $\InjectiveModuleUp$ carrier
+$$
+I=(R,M,S,F,E,B,H,C,P,N),
+$$
+the local $\NameCert_{\InjectiveModuleUp}$ surface consists exactly of scalar-ring admission, target-module admission, submodule-inclusion exposure, source-hom exposure, extended-hom exposure, exact-sequence boundary exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every extension-facing consumer must expose $R,M,S,F,E,B$ before it may consume transport, replay, provenance, or naming rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:injective-module-carrier}. The scalar row $R$ and target row $M$ are the only module data available to the classifier, and the inclusion row $S$ is the only displayed submodule input.
+
+The source hom row $F$ and extended hom row $E$ are both read through the $\LinearMapUp$ surface over the same scalar source. The boundary row $B$ records their restriction contact, so an extension request cannot bypass $S,F,E$, or the exact-sequence boundary by appealing to a host quotient or an external lifting theorem.
+
+Transport and replay preserve the same finite route componentwise, while provenance and the local naming row bind it to $\InjectiveModuleUp$. Since no other coordinates occur in the carrier, these rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Injective module extension lifting]
+\label{thm:injective-module-extension-lifting}
+Every extension-lifting read of an accepted $\InjectiveModuleUp$ packet factors through the displayed route
+$$
+\RingUp,\ModuleUp,\LinearMapUp,\ExactSequenceUp \longmapsto \InjectiveModuleUp .
+$$
+Concretely, a consumer must read the scalar ring row $R$, target module row $M$, submodule inclusion row $S$, source hom row $F$, extended hom row $E$, and exact-sequence boundary row $B$ before it may claim that the source map has been extended. The exported lift is the displayed row $E$ together with its boundary contact $B$; it is not a host injective-object theorem, Baer criterion over all ideals, Ext-vanishing statement, selected splitting, quotient representative, or ambient choice principle.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:injective-module-namecert-obligations}. It forces every extension-facing consumer to expose the ring, module, inclusion, source hom, extended hom, and boundary rows before any structural support row is read.
+
+The lift is therefore not a separate existence principle. It is the row $E$ already present in the finite carrier, checked against $F$ through the boundary row $B$ and replayed through the same $\Cont$ route.
+
+The sibling chapters supply the route components: $\RingUp$ and $\ModuleUp$ provide the scalar and target module rows, $\LinearMapUp$ provides the hom rows, and the exact-sequence surfaces keep the restriction boundary visible. The missing host coordinates exclude global injectivity, Ext computations, arbitrary splittings, quotient representatives, and choice-based extension selection.
+\end{proof}
+
+\closureat{InjectiveModuleUp}{seedStr}
+
+\begin{closurestatus}{\InjectiveModuleUp}
+  \constructivestory{An $\InjectiveModuleUp$ packet is generated from a scalar RingUp row, target ModuleUp row, submodule inclusion row, source LinearMapUp hom row, extended LinearMapUp hom row, ExactSequenceUp boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:injective-module-carrier}, \autoref{thm:injective-module-namecert-obligations}, and \autoref{thm:injective-module-extension-lifting} seed the finite extension-lifting surface over ring, module, submodule inclusion, linear-map, exact-sequence boundary, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, Baer criterion, Ext-vanishing, host injective objects, arbitrary splittings, quotient representatives, or choice-based extension selection.}
+  \upgradepath{Obligation closure requires checked carrier admission, module-row exposure, submodule-inclusion exposure, source-hom and extended-hom exposure, exact-boundary contact, transport, replay, provenance, and local naming for BEDC.Derived.InjectiveModuleUp.}
+\end{closurestatus}
