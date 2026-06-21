@@ -201,6 +201,18 @@ Apply the scoped kernel route of \autoref{thm:choice-free-diagonal-selector-scop
 The non-escape theorem and obligation closure theorem then rule out host choice, quotient streams, hidden selectors, unbounded StreamName scans, selected host limits, and ambient Real completeness. Since the accepted carrier has no other coordinates, preserving the same consumer window is exactly preserving the same scoped packet.
 \end{proof}
 
+\begin{theorem}[Choice-free diagonal selector public handoff]
+\label{thm:choice-free-diagonal-selector-public-handoff}
+The public selector export of an accepted $\ChoiceFreeDiagonalSelectorUp$ packet preserves the displayed $\StreamNameUp$ window, the $\RegSeqRatUp$ handoff, the $\RealUp$ seal delivery, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, the local $\NameCert$ row, and the nonescape restrictions of the finite selector route. Any public consumer that changes one of these rows is not consuming the same choice-free diagonal selector packet.
+\end{theorem}
+\begin{proof}
+Begin with the scoped kernel route and scoped window consumer. They force every selector read through the displayed finite $\StreamNameUp$ window, $\RegSeqRatUp$ witness row, $\RealUp$ seal row, transport, replay, provenance, and naming rows.
+
+Use the RegSeqRat seal factorization and stage induction to keep the handoff stable across finite prefixes. Each stage rebuilds the witness from the displayed window before the RealUp seal is delivered, so the public export cannot detach the seal from the selector route.
+
+Finally apply the nonescape theorem. It rules out host choice, quotient stream equality, selected host limits, hidden cofinal-window selection, unbounded StreamName scans, and ambient RealUp completeness. The public handoff therefore exposes exactly the same finite packet and no additional selector surface.
+\end{proof}
+
 \closureat{ChoiceFreeDiagonalSelectorUp}{scopedStr}
 
 \begin{closurestatus}{\ChoiceFreeDiagonalSelectorUp}

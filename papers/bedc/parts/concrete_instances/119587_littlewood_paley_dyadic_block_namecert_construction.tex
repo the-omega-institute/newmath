@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\LittlewoodPaleyDyadicBlockUp$}
+\label{ch:concrete-instances-littlewood-paley-dyadic-block-namecert}
+\origin{human}
+
+Following Littlewood and Paley on dyadic frequency decompositions, the $\LittlewoodPaleyDyadicBlockUp$ packet records the block-level inspection surface used before a square-function, Sobolev, or step-function approximation consumer reads a Littlewood--Paley estimate. It refines the aggregate Littlewood--Paley carrier of \autoref{ch:concrete-instances-littlewood-paley-namecert}, keeps dyadic endpoints on the $\DyadicRatCoreUp$ route of \autoref{ch:concrete-instances-dyadicratcore-namecert}, seals scalar comparisons only through \autoref{ch:concrete-instances-real-namecert}, and sits beside the finite step-function approximation packet of \autoref{ch:concrete-instances-step-function-uniform-approximation-namecert}. The packet names one displayed dyadic block and its local recomposition ledger; it does not assert Fourier inversion, unconditional series convergence, quotient function equality, a selected representative, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Littlewood--Paley dyadic-block carrier]
+\label{def:littlewood-paley-dyadic-block-carrier}
+A $\LittlewoodPaleyDyadicBlockUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,W,P,R,N,H,C,G)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the dyadic scale row, recording the selected block scale and its $\DyadicRatCoreUp$ tolerance data.
+\item $W$ is the frequency-window row, recording the annulus, cap, or finite window occupied by the block.
+\item $P$ is the projection row, recording the finite projection probe attached to $W$.
+\item $R$ is the recomposition and norm ledger, recording how this block contributes to the local square-function, Sobolev, or step-function readback before any global estimate is cited.
+\item $N$ is the local $\NameCert_{\LittlewoodPaleyDyadicBlockUp}$ row.
+\item $H$ records componentwise $\hsame$ transport for the scale, window, projection, ledger, naming, replay, and provenance rows.
+\item $C$ records displayed $\Cont$ replay from the selected scale through the window, projection, recomposition ledger, local name, and transport rows.
+\item $G$ is the $\Pkg$ provenance over $\LittlewoodPaleyDyadicBlockUp$, $\LittlewoodPaleyUp$, $\DyadicRatCoreUp$, $\RealUp$, $\StepFunctionUniformApproximationUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{enumerate}
+The classifier compares accepted packets only through $S,W,P,R,N,H,C,G$. It has no coordinate for an infinite frequency partition, an ambient Fourier transform, equality of completed function-space representatives, a global square-function theorem, or completeness of $\RealUp$.
+\end{definition}
+\leanstmt{BEDC.Derived.LittlewoodPaleyDyadicBlockUp}
+
+\begin{theorem}[Littlewood--Paley dyadic-block NameCert obligations]
+\label{thm:littlewood-paley-dyadic-block-namecert-obligations}
+For every accepted $\LittlewoodPaleyDyadicBlockUp$ carrier $B=(S,W,P,R,N,H,C,G)$, the local $\NameCert_{\LittlewoodPaleyDyadicBlockUp}$ surface consists exactly of carrier admission for the dyadic scale row $S$, frequency-window row $W$, projection row $P$, recomposition and norm ledger $R$, local naming row $N$, componentwise transport row $H$, displayed replay row $C$, and provenance row $G$. A downstream $\LittlewoodPaleyUp$, Sobolev, square-function, or step-function consumer may read the block only after those rows are visible.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:littlewood-paley-dyadic-block-carrier}. The rows $S,W,P,R,N,H,C,G$ are the full accepted packet, so a block read starts from a displayed dyadic scale and a displayed frequency window.
+
+The analytic rows are local. The projection row $P$ belongs to the same window $W$, and the recomposition ledger $R$ records only this block's contribution before any aggregate Littlewood--Paley read is formed.
+
+The structural rows preserve the same packet. Since $H,C,G,N$ transport, replay, source, and name only the displayed block, the local certificate cannot introduce an infinite partition, host Fourier inversion, quotient representative equality, or ambient real-completeness row.
+\end{proof}
+
+\begin{theorem}[Littlewood--Paley dyadic-block frequency-window route]
+\label{thm:littlewood-paley-dyadic-block-frequency-window-route}
+Every frequency-window read of an accepted $\LittlewoodPaleyDyadicBlockUp$ packet factors through
+$$
+\DyadicRatCoreUp,\ S,\ W,\ P,\ R,\ N,\ H,\ C,\ G
+$$
+before it can be handed to the aggregate $\LittlewoodPaleyUp$ carrier or to a step-function or Sobolev-facing consumer. The route exports a finite dyadic block, not Fourier inversion, unconditional recomposition, quotient function equality, selected representatives, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the dyadic row $S$. It fixes the block scale through displayed $\DyadicRatCoreUp$ data, so the window cannot be read as an unbounded frequency partition.
+
+Next read $W,P,R$. The window row names the finite frequency support, the projection row names the local probe, and the recomposition ledger records the block's contribution before an aggregate consumer is allowed to continue.
+
+Finally use $N,H,C,G$. These rows name, transport, replay, and source the same finite packet. Thus the handoff remains a local dyadic-block route and supplies no coordinate for the excluded analytic endpoints.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LittlewoodPaleyDyadicBlockUp$ read is refuted by any square-function or Sobolev-facing consumer that consumes the projection row before displaying the dyadic scale, frequency window, recomposition ledger, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{littlewood-paley, dyadicratcore, real, step-function-uniform-approximation, sobolev: none is bijective to $\LittlewoodPaleyDyadicBlockUp$ because this packet jointly carries one dyadic scale, one frequency window, one projection row, a local recomposition and norm ledger, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{LittlewoodPaleyDyadicBlockUp}{seedStr}
+
+\begin{closurestatus}{\LittlewoodPaleyDyadicBlockUp}
+  \constructivestory{A $\LittlewoodPaleyDyadicBlockUp$ packet is generated from one dyadic scale row, one frequency-window row, one projection row, one recomposition and norm ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:littlewood-paley-dyadic-block-carrier}, \autoref{thm:littlewood-paley-dyadic-block-namecert-obligations}, and \autoref{thm:littlewood-paley-dyadic-block-frequency-window-route} seed the finite block-level Littlewood--Paley route over dyadic scale, frequency window, projection, recomposition, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, Fourier inversion, unconditional dyadic recomposition, quotient function equality, selected representatives, global square-function estimates, ambient Real completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, frequency-window exactness, projection exposure, recomposition-ledger stability, transport, replay, provenance, and local naming for BEDC.Derived.LittlewoodPaleyDyadicBlockUp.}
+\end{closurestatus}
