@@ -1394,6 +1394,7 @@ import BEDC.Derived.CalculusUp.FiniteLimitSealPublicHandoff
 import BEDC.Derived.CalculusUp.FiniteLimitSealRoute
 import BEDC.Derived.CalculusUp.IntegralFiniteSumObligation
 import BEDC.Derived.CalculusUp.IntegralSumObligation
+import BEDC.Derived.CalculusUp.L10RealCompletionDependency
 import BEDC.Derived.CalculusUp.LimitDependencyRefusalBoundary
 import BEDC.Derived.CalculusUp.LimitDependencyRoute
 import BEDC.Derived.CalculusUp.LimitRealDerivativeReadback
@@ -3466,6 +3467,7 @@ import BEDC.Derived.ContinuationMonadUp.RootGeneratorCategoryLock
 import BEDC.Derived.ContinuationMonadUp.RootGeneratorHomRouteExhaustion
 import BEDC.Derived.ContinuationMonadUp.RootGeneratorObligation
 import BEDC.Derived.ContinuationMonadUp.RootKleisliAssociativityScope
+import BEDC.Derived.ContinuationMonadUp.RootKleisliAssociativitySurface
 import BEDC.Derived.ContinuationMonadUp.RootKleisliRoute
 import BEDC.Derived.ContinuationMonadUp.RootKleisliSourceTotality
 import BEDC.Derived.ContinuationMonadUp.RootNameCert
@@ -5037,6 +5039,7 @@ import BEDC.Derived.EpigraphUp.CarrierRowTransportSurface
 import BEDC.Derived.EpigraphUp.LedgerExactness
 import BEDC.Derived.EpigraphUp.LowerSemicontinuousHandoff
 import BEDC.Derived.EpigraphUp.LowerSetTransport
+import BEDC.Derived.EpigraphUp.ScopedKernelDependencies
 import BEDC.Derived.EpigraphUp.TasteGate
 import BEDC.Derived.EpigraphicalLimitUp
 import BEDC.Derived.EpigraphicalLimitUp.TasteGate
@@ -7569,6 +7572,7 @@ import BEDC.Derived.MetaCICDecidableBoundaryUp.SiblingProvenance
 import BEDC.Derived.MetaCICDecidableBoundaryUp.SubstitutionWindow
 import BEDC.Derived.MetaCICDecidableBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICDecidableBoundaryUp.WindowTotality
+import BEDC.Derived.MetaCICDecidableConversionFrontierUp.TasteGate
 import BEDC.Derived.MetaCICDecidableNeutralSpineUp.TasteGate
 import BEDC.Derived.MetaCICDecidableTypingFrontierUp.TasteGate
 import BEDC.Derived.MetaCICDependentCodomainStabilityBoundaryUp.TasteGate
@@ -10477,11 +10481,13 @@ import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
 import BEDC.Derived.SetlikeUp.MembershipStability
 import BEDC.Derived.SetlikeUp.RootClassifierTransport
+import BEDC.Derived.SetlikeUp.RootFiniteRoutePackage
 import BEDC.Derived.SetlikeUp.RootMembershipFamilyExhaustion
 import BEDC.Derived.SetlikeUp.RootMembershipFamilyObligations
 import BEDC.Derived.SetlikeUp.RootMembershipNonescapeLedger
 import BEDC.Derived.SetlikeUp.RootMembershipProvenance
 import BEDC.Derived.SetlikeUp.RootMembershipTransport
+import BEDC.Derived.SetlikeUp.RootModelTheorySatisfactionEnvelope
 import BEDC.Derived.SetlikeUp.RootNameCertObligations
 import BEDC.Derived.SetlikeUp.RootSubsetLedgerNonescape
 import BEDC.Derived.SetlikeUp.RootUnblockConsumerRoutes
