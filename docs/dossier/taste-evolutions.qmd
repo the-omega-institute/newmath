@@ -20,17 +20,17 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-21T09:04:59Z
+> 最后刷新: 2026-06-21T10:44:39Z
 
-**Daemon 状态**: monitor (monitor cycle 101, adjust_since_research 2, round_counter 16203, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 102, adjust_since_research 2, round_counter 16283, last_adjust rule_evolution_completed)
 
-**待处理 queue** (541 条 finding):
-- isolated_theorem: 381 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (544 条 finding):
+- isolated_theorem: 384 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 128 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 32 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 40 次
+- TASTE ALERT category=isolated_theorem: 36 次
 - TASTE ALERT category=low_entropy_template: 21 次
 - TASTE ALERT category=cycle_exception: 1 次
 
@@ -361,6 +361,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-21T07:38:01Z: `resolved` `add_downstream_user` for `BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_obligation_package` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_obligation_package:d2955ab8`). Rationale: The target is not a trivial restatement: it packages carrier rows, package-read continuation closure, and provenance/namecert package signatures for the bounded normal-equality checker. Exact full-name grep found no downstream Lean consumer, so I added a same-chapter public-consumer theorem that explicitly calls this obligation package and carries its package-read facts into the public-read boundary, then added the matching paper theorem and marker. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-21T09:04:28Z: `resolved` `leave_with_rationale` for `BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_namecert_ledger_read_boundary` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_namecert_ledger_read_boundary:d2955ab8`). Rationale: The target has real BEDC content: it consumes the local SemanticNameCert obligations and exposes the concrete local-read pattern and ledger boundary for the bounded normal-equality checker, matching the paper's ledger exactness theorem rather than merely restating carrier fields. I attempted add_downstream_user by adding a MetaCICDecidableBoundary sibling handoff theorem that explicitly called this target, but the required lake build ultimately failed on BEDC.Derived.MetaCICDecidableBoundaryUp.SiblingProvenance after the full build reached the final dependency sweep. Per instruction, I reverted the attempted change and switched to leave_with_rationale with no file changes. Gate results: lake_build=Some required targets logged failures: - BEDC.Derived.MetaCICDecidableBoundaryUp.SiblingProvenance; error: build failed, audit=skipped, phase_d_lint=skipped.
+
+- 2026-06-21T10:44:11Z: `resolved` `add_downstream_user` for `BEDC.Derived.ClosedObservationSystemUp.ClosedObservationSystemCarrier_gap_socket_package` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ClosedObservationSystemUp.ClosedObservationSystemCarrier_gap_socket_package:162e3462`). Rationale: The target has real BEDC content: it projects a ClosedObservationSystem carrier into conservation and GAP unary closure, continuation routes, transport, provenance package, and GAP package evidence. It was only paper-marked and not consumed by Lean code, so I added a sibling downstream theorem in ObservationConservationLedgerUp that calls it directly and uses its projected evidence to build a SemanticNameCert handoff from the closed-observation GAP socket into a conservation-ledger read. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
