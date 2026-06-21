@@ -191,4 +191,58 @@ theorem MetaCICDecidableBoundary_bounded_checker_fuel_handoff [AskSetup] [Packag
       equalityPlusUnary, checkerRoutePlusUnary, equalityPlusRouteRead, checkerRoutePlusRouteRead,
       checkerProvenancePlusPkg, siblingScope.left, siblingScope.right⟩
 
+theorem MetaCICDecidableBoundary_bounded_checker_readback_handoff [AskSetup] [PackageSetup]
+    {checker structural bounded finished refusal transport replay provenance localName left right fuel
+      normalLeft normalRight equality witness closed checkerTransport checkerRoute checkerProvenance
+      checkerNameCert normalLeftRead normalRightRead equalityRead finishedRead
+      boundarySiblingRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICDecidableBoundaryCarrier checker structural bounded finished refusal transport replay
+        provenance localName bundle pkg →
+      BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier left right
+          fuel normalLeft normalRight equality witness closed checkerTransport checkerRoute
+          checkerProvenance checkerNameCert bundle pkg →
+        hsame normalLeftRead normalLeft →
+          hsame normalRightRead normalRight →
+            hsame equalityRead equality →
+              Cont normalLeftRead normalRightRead equalityRead →
+                Cont equalityRead witness finishedRead →
+                  hsame finishedRead bounded →
+                    Cont provenance replay boundarySiblingRead →
+                      PkgSig bundle boundarySiblingRead pkg →
+                        UnaryHistory bounded ∧ UnaryHistory normalLeftRead ∧
+                          UnaryHistory normalRightRead ∧ UnaryHistory equalityRead ∧
+                            UnaryHistory finishedRead ∧
+                              Cont normalLeftRead normalRightRead equalityRead ∧
+                                Cont equalityRead witness finishedRead ∧
+                                  PkgSig bundle checkerProvenance pkg ∧
+                                    SemanticNameCert
+                                        (fun row : BHist =>
+                                          hsame row boundarySiblingRead ∧ UnaryHistory row)
+                                        (fun row : BHist =>
+                                          hsame row provenance ∨
+                                            hsame row boundarySiblingRead ∨
+                                              Cont provenance replay boundarySiblingRead)
+                                        (fun _ : BHist =>
+                                          PkgSig bundle provenance pkg ∧
+                                            PkgSig bundle boundarySiblingRead pkg)
+                                        hsame ∧
+                                      UnaryHistory boundarySiblingRead := by
+  -- BEDC touchpoint anchor: MetaCICDecidableBoundaryCarrier BHist Cont ProbeBundle PkgSig SemanticNameCert
+  intro boundaryCarrier checkerCarrier normalLeftSame normalRightSame equalitySame
+    equalityReadRoute finishedReadRoute finishedBoundedSame provenanceReplaySibling siblingPkg
+  have readbackScope :=
+    BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_deterministic_normal_form_readback
+      checkerCarrier normalLeftSame normalRightSame equalitySame equalityReadRoute finishedReadRoute
+  have siblingScope :=
+    MetaCICDecidableBoundary_sibling_provenance boundaryCarrier provenanceReplaySibling siblingPkg
+  obtain ⟨normalLeftReadUnary, normalRightReadUnary, equalityReadUnary, finishedReadUnary,
+    equalityReadRouteRead, finishedReadRouteRead, checkerProvenancePkg⟩ := readbackScope
+  have boundedUnary : UnaryHistory bounded :=
+    unary_transport finishedReadUnary finishedBoundedSame
+  exact
+    ⟨boundedUnary, normalLeftReadUnary, normalRightReadUnary, equalityReadUnary, finishedReadUnary,
+      equalityReadRouteRead, finishedReadRouteRead, checkerProvenancePkg, siblingScope.left,
+      siblingScope.right⟩
+
 end BEDC.Derived.MetaCICDecidableBoundaryUp
