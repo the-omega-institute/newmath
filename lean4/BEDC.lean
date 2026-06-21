@@ -7046,6 +7046,7 @@ import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
 import BEDC.Derived.LocatedRealUp.TasteGate
 import BEDC.Derived.LocatedRegSeqRatUp
 import BEDC.Derived.LocatedRegSeqRatUp.TasteGate
+import BEDC.Derived.LocatedRegularCauchyEquivalenceUp
 import BEDC.Derived.LocatedRegularRealCutUp.TasteGate
 import BEDC.Derived.LocatedRegularizationUp.TasteGate
 import BEDC.Derived.LocatedSequenceLimitUp.TasteGate
