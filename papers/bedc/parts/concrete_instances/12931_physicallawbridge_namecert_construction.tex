@@ -67,6 +67,36 @@ The row $G$ names the corresponding failure branch. It records omitted rows, fin
 Transport, replay, provenance, and naming do not erase those branches. They only replay the displayed packet. Therefore falsification remains a finite row inside $\PhysicalLawBridgeUp$ rather than a host verdict outside the carrier.
 \end{proof}
 
+\begin{theorem}[Physical law bridge obligation package]
+\label{thm:physical-law-bridge-obligation-package}
+For every accepted $\PhysicalLawBridgeUp$ carrier $P=(L,E,B,O,F,G,H,C,Q,N)$, the obligation package is exactly the displayed collection of carrier admission, law-certificate exposure, empirical-persistence exposure, bridge-audit exposure, scientific-object anchoring, open-fit exposure, falsification exposure, componentwise transport, replay, provenance, and local naming rows. A consumer may project one of these rows only as a projection of the package, not as a smaller physical-law bridge certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:physical-law-bridge-carrier}. The rows $L,E,B,O,F,G$ provide the law, empirical, bridge, object, fit, and falsification obligations.
+
+The structural rows $H,C,Q,N$ preserve and replay those obligations without introducing a hidden shortcut. Thus the accepted certificate is the full displayed package, and any smaller read is only a projection.
+\end{proof}
+
+\begin{theorem}[Physical law bridge field-faithful obligation]
+\label{thm:physical-law-bridge-field-faithful-obligation}
+No accepted $\PhysicalLawBridgeUp$ read can erase any of the rows $L,E,B,O,F,G,H,C,Q,N$. If two accepted reads agree after deleting one of these coordinates, the agreement is only a projection-level agreement and is not an accepted field-faithful bridge read.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:physical-law-bridge-obligation-package}. Each row is named as part of the obligation package and is transported by $H$ and replayed by $C$ before provenance and local naming are read.
+
+Deleting a row removes either a semantic obligation among $L,E,B,O,F,G$ or a structural obligation among $H,C,Q,N$. The resulting projection cannot be the same accepted local name, because the local $\NameCert_{\PhysicalLawBridgeUp}$ is issued only for the displayed packet.
+\end{proof}
+
+\begin{theorem}[Physical law bridge nontrivial obligation]
+\label{thm:physical-law-bridge-nontrivial-obligation}
+The law-recognized branch and the refusal or falsification branch of a $\PhysicalLawBridgeUp$ packet remain distinguishable. In particular, a carrier that exposes $L,E,B,O,F$ with no active failure row is not identified with a carrier whose row $G$ records omitted empirical persistence, missing theorem preservation, open-fit exit, or finite refutation.
+\end{theorem}
+\begin{proof}
+Read the falsification boundary of \autoref{thm:physical-law-bridge-falsification-boundary}. The row $G$ is the finite coordinate where omitted rows, refutations, preservation failures, and open-fit exits are recorded.
+
+The law-recognized branch depends on the displayed law, empirical, bridge, object, and fit rows without such a failure record. Since transport and replay preserve $G$ rather than erasing it, the two branches remain distinct inside the packet.
+\end{proof}
+
 \falsifiablePrediction{A PhysicalLawBridgeUp consumer that reads a law as bridge-recognized while omitting either empirical persistence, finite theorem-preservation, or falsification rows refutes the packet.}
 
 \independenceWitness{lawcertificate, empiricalregularitypersistence, scientificobject, standardbridgeauditpacket, openphysicalfit: non-bijection follows by row omission. $\LawCertificateUp$ lacks empirical-persistence, bridge-audit, scientific-object, and open-fit rows; $\EmpiricalRegularityPersistenceUp$ lacks bridge theorem-preservation and object anchoring; $\ScientificObjectUp$ lacks law-certificate and theorem-preservation rows; $\StandardBridgeAuditPacketUp$ lacks empirical persistence and open physical fit; $\OpenPhysicalFitUp$ lacks law-certificate, empirical-persistence, and bridge-audit rows.}
@@ -77,11 +107,10 @@ The Lean follow-up path \texttt{lean4/BEDC/Derived/PhysicalLawBridgeUp/TasteGate
 
 \begin{closurestatus}{\PhysicalLawBridgeUp}
   \constructivestory{A $\PhysicalLawBridgeUp$ packet is generated from law-certificate, empirical-persistence, standard-bridge-audit, scientific-object, open-physical-fit, failure, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:physical-law-bridge-carrier}, \autoref{thm:physical-law-bridge-namecert-surface}, \autoref{thm:physical-law-bridge-law-gap-nonescape}, and \autoref{thm:physical-law-bridge-falsification-boundary} bind the finite physical-law bridge carrier, NameCert surface, law-gap boundary, and falsification boundary.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:physical-law-bridge-carrier}, \autoref{thm:physical-law-bridge-namecert-surface}, \autoref{thm:physical-law-bridge-law-gap-nonescape}, \autoref{thm:physical-law-bridge-falsification-boundary}, \autoref{thm:physical-law-bridge-obligation-package}, \autoref{thm:physical-law-bridge-field-faithful-obligation}, and \autoref{thm:physical-law-bridge-nontrivial-obligation} bind the finite physical-law bridge carrier, NameCert surface, law-gap boundary, falsification boundary, obligation package, field-faithful read, and nontrivial branch distinction.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, final physical truth, total future prediction, host-model law identity, or law status without empirical persistence, theorem-preservation, open-fit, and falsification rows.}
   \upgradepath{Obligation closure requires checked carrier admission, NameCert surface, law-gap nonescape, falsification boundary, and TasteGate nontriviality with field faithfulness for $L,E,B,O,F,G,H,C,Q,N$.}
 \end{closurestatus}
