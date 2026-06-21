@@ -1376,8 +1376,6 @@ import BEDC.Derived.BusemannBoundaryUp.TasteGate
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CUNSpectralAntennaUp.TasteGate
-import BEDC.Derived.CalculusOfConstructionsUp.NameCertObligations
-import BEDC.Derived.CalculusOfConstructionsUp.TasteGate
 import BEDC.Derived.CalculusUp
 import BEDC.Derived.CalculusUp.CauchyDependencyRealCompletionReadback
 import BEDC.Derived.CalculusUp.CauchyDependencyRoute
@@ -4685,6 +4683,7 @@ import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.DirichletUniformConvergenceUp.TasteGate
 import BEDC.Derived.DirichletUniformModulusUp
+import BEDC.Derived.DirichletUniformModulusUp.TasteGate
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DiscreteGronwallUp
 import BEDC.Derived.DistanceFunctionCompletionUp.TasteGate
@@ -10510,7 +10509,6 @@ import BEDC.Derived.SetlikeUp.MembershipFamilyBHistInduction
 import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
 import BEDC.Derived.SetlikeUp.MembershipStability
-import BEDC.Derived.SetlikeUp.RootCarrierMembership
 import BEDC.Derived.SetlikeUp.RootClassifierTransport
 import BEDC.Derived.SetlikeUp.RootFiniteRoutePackage
 import BEDC.Derived.SetlikeUp.RootMembershipFamilyExhaustion
