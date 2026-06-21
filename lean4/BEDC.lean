@@ -947,6 +947,7 @@ import BEDC.Derived.BishopIntervalEnclosureUp
 import BEDC.Derived.BishopIntervalEnclosureUp.TasteGate
 import BEDC.Derived.BishopIntervalHalvingUp.TasteGate
 import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
+import BEDC.Derived.BishopIntervalNetExtractionUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletenessUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.BoundaryLedger
@@ -7781,6 +7782,7 @@ import BEDC.Derived.MetaCICOpenProblemLedgerUp.TasteGate
 import BEDC.Derived.MetaCICOpenProblemWitnessUp.TasteGate
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.CriticalPairEnvelope
+import BEDC.Derived.MetaCICParallelDiamondFrontierUp.ResidualJoinLocality
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.TasteGate
 import BEDC.Derived.MetaCICParallelDiamondSelectorUp
 import BEDC.Derived.MetaCICPiAdequacyBudgetUp.TasteGate
@@ -8646,6 +8648,7 @@ import BEDC.Derived.PhaseLedgerHorocycleUp.TasteGate
 import BEDC.Derived.PhaseRealCompletionExitUp.TasteGate
 import BEDC.Derived.PhenomenologicalFrameUp.TasteGate
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
+import BEDC.Derived.PhilosophyCannotClaimRegistryUp.ObligationBoundary
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.StatusExactness
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.TasteGate
 import BEDC.Derived.PhilosophyFormalTargetLedgerUp.NameCertObligations
