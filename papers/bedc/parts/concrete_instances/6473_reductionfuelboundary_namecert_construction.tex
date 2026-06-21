@@ -67,17 +67,69 @@ The componentwise transport and provenance rows preserve the same boundary. Movi
 Thus the packet realizes the total-host side of bounded substrate computation as finite fuel, trace, endpoint, timeout-refusal, audit, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 \end{proof}
 
+\begin{theorem}[ReductionFuelBoundary fuel-timeout exactness]
+\label{thm:reduction-fuel-boundary-fuel-timeout-exactness}
+For every accepted $\ReductionFuelBoundaryUp$ carrier
+$$
+Q=(H,F,T,E,U,A,X,C,P,N),
+$$
+the timeout refusal row $U$ is exact at the displayed fuel boundary $F$. A consumer may read timeout only through the common route from $H$ to $F$ to $T$ and then to $U$; it may not read timeout from a detached fuel row, from an absent bounded trace, from endpoint equality, or from a host-level nontermination predicate.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:reduction-fuel-boundary-carrier}. The rows $H,F,T,E,U,A,X,C,P,N$ are the whole accepted packet, so the timeout coordinate is not available independently of the fuel and trace coordinates.
+
+Use the NameCert obligations of \autoref{thm:reduction-fuel-boundary-namecert-obligations}. They expose finite fuel through $F$, bounded trace through $T$, typed endpoint readback through $E$, and timeout-refusal exactness through $U$ for the same carrier.
+
+Finally apply the total-host nonescape theorem \autoref{thm:reduction-fuel-boundary-total-host-nonescape}. Its route admits only $H,F,T,E,U,A,X,C,P,N$, so a timeout read must pass through $F$ and $T$ before reaching $U$, while detached fuel, absent traces, endpoint equality, and host-level nontermination have no exported row.
+\end{proof}
+
+\begin{theorem}[ReductionFuelBoundary endpoint-timeout disjointness]
+\label{thm:reduction-fuel-boundary-endpoint-timeout-disjointness}
+For every accepted $\ReductionFuelBoundaryUp$ carrier
+$$
+Q=(H,F,T,E,U,A,X,C,P,N),
+$$
+the typed endpoint row $E$ and timeout-refusal row $U$ are disjoint public reads. A downstream consumer may transport either branch through $X$, replay it through $C$, and package it through $P,N$, but it may not identify endpoint readback with timeout, quotient the endpoint, or turn timeout into convergence or divergence.
+\end{theorem}
+\begin{proof}
+Project the same carrier rows. The endpoint coordinate is $E$, the timeout coordinate is $U$, and the audit coordinate is $A$; these are displayed as separate rows in \autoref{def:reduction-fuel-boundary-carrier}.
+
+The NameCert obligations theorem exposes typed endpoint readback and timeout-refusal exactness as distinct obligations for the same packet. The audit row separates normal endpoint, timeout, missing fuel, detached trace, and host-substrate equality requests.
+
+Transport and replay do not merge the rows. The rows $X$ and $C$ preserve the branch already selected by $E$ or $U$, while $P$ and $N$ record provenance and local naming without adding quotient endpoint equality, convergence, divergence, or host equality.
+
+The total-host nonescape theorem then bars every remaining route. Since all exported reads stay inside $H,F,T,E,U,A,X,C,P,N$, there is no coordinate that identifies endpoint readback with timeout.
+\end{proof}
+
+\begin{theorem}[ReductionFuelBoundary obligation closure package]
+\label{thm:reduction-fuel-boundary-obligation-closure-package}
+For every accepted $\ReductionFuelBoundaryUp$ carrier
+$$
+Q=(H,F,T,E,U,A,X,C,P,N),
+$$
+\autoref{def:reduction-fuel-boundary-carrier}, \autoref{thm:reduction-fuel-boundary-namecert-obligations}, \autoref{thm:reduction-fuel-boundary-total-host-nonescape}, \autoref{thm:reduction-fuel-boundary-fuel-timeout-exactness}, and \autoref{thm:reduction-fuel-boundary-endpoint-timeout-disjointness} enumerate the full obligation surface: carrier admission, total-host reduction exposure, finite fuel exposure, bounded-trace exposure, typed-endpoint readback, timeout-refusal exactness, audit separation, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, nontrivial carrier presence, and field faithfulness for the same finite packet.
+\end{theorem}
+\begin{proof}
+The carrier definition gives the packet rows $H,F,T,E,U,A,X,C,P,N$. These rows supply the named carrier, host, fuel, trace, endpoint, timeout, audit, transport, continuation, provenance, and naming coordinates.
+
+The NameCert obligations theorem states that every public obligation is read through those rows. The total-host nonescape theorem prevents an external read of halting, nontermination, unbounded convergence, host-substrate equality, or quotient endpoint equality.
+
+The fuel-timeout exactness theorem binds $U$ to the displayed boundary $F$ and bounded trace $T$. The endpoint-timeout disjointness theorem keeps $E$ and $U$ separate under transport, replay, package provenance, and local naming.
+
+Nontriviality and field faithfulness are therefore obligations on this same packet rather than additional semantic assumptions. A witness must preserve exactly the displayed rows, and any faithful field read lands back in one of $H,F,T,E,U,A,X,C,P,N$.
+\end{proof}
+
 The Lean \texttt{lean4/BEDC/Derived/ReductionFuelBoundaryUp/TasteGate.lean} development must include explicit $\mathsf{Nontrivial}\ \ReductionFuelBoundaryUp$ and $\mathsf{FieldFaithful}\ \ReductionFuelBoundaryUp$ instances. These instances must preserve the total-host reduction row, finite fuel row, bounded trace row, endpoint row, timeout-refusal row, audit row, componentwise transports, displayed continuation routes, package provenance, and local naming row.
 
 \closureat{ReductionFuelBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\ReductionFuelBoundaryUp}
   \constructivestory{A $\ReductionFuelBoundaryUp$ packet is generated from a total-host reduction row, finite fuel row, bounded trace row, typed endpoint row, timeout-refusal row, audit row, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:reduction-fuel-boundary-carrier}, \autoref{thm:reduction-fuel-boundary-namecert-obligations}, and \autoref{thm:reduction-fuel-boundary-total-host-nonescape} specify the finite fuel boundary packet separating endpoint readback from timeout refusal.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:reduction-fuel-boundary-obligation-closure-package} enumerates carrier admission, host exposure, fuel exposure, bounded-trace exposure, endpoint readback, timeout exactness, audit separation, transport, replay, provenance, naming, nontriviality, and field faithfulness for the same packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove Lean verification, bridge checking, unbounded halting, global convergence, nontermination, quotient endpoint equality, or transfer of substrate universality to the total host.}
-  \upgradepath{Obligation closure requires checked carrier admission, fuel exposure, bounded-trace exposure, typed-endpoint readback, timeout-refusal exactness, audit separation, nontriviality, and field faithfulness for the same packet.}
+  \upgradepath{Scoped closure requires Lean coverage for the carrier rows, timeout exactness, endpoint-timeout separation, nontriviality, and field faithfulness for the same packet.}
 \end{closurestatus}
