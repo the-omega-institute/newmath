@@ -10,8 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive DiracPointMassUp : Type where
-  | mk (source point event unit distribution transport replay provenance name : BHist) :
-      DiracPointMassUp
+  | mk (X p E U D H C P N : BHist) : DiracPointMassUp
   deriving DecidableEq
 
 def diracPointMassEncodeBHist : BHist → RawEvent
@@ -26,82 +25,74 @@ def diracPointMassDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (diracPointMassDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (diracPointMassDecodeBHist tail)
 
-private theorem DiracPointMassTasteGate_single_carrier_alignment_decode_encode :
+private theorem DiracPointMassTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, diracPointMassDecodeBHist (diracPointMassEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def diracPointMassFields : DiracPointMassUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | DiracPointMassUp.mk source point event unit distribution transport replay provenance name =>
-      [source, point, event, unit, distribution, transport, replay, provenance, name]
+  | DiracPointMassUp.mk X p E U D H C P N => [X, p, E, U, D, H, C, P, N]
 
 def diracPointMassToEventFlow : DiracPointMassUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (diracPointMassFields x).map diracPointMassEncodeBHist
 
-private def diracPointMassEventAt : Nat → EventFlow → RawEvent
+private def diracPointMassEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => diracPointMassEventAt index rest
+  | Nat.succ index, _event :: rest => diracPointMassEventAtDefault index rest
 
-def diracPointMassFromEventFlow : EventFlow → Option DiracPointMassUp
+def diracPointMassFromEventFlow (ef : EventFlow) : Option DiracPointMassUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      some
-        (DiracPointMassUp.mk
-          (diracPointMassDecodeBHist (diracPointMassEventAt 0 flow))
-          (diracPointMassDecodeBHist (diracPointMassEventAt 1 flow))
-          (diracPointMassDecodeBHist (diracPointMassEventAt 2 flow))
-          (diracPointMassDecodeBHist (diracPointMassEventAt 3 flow))
-          (diracPointMassDecodeBHist (diracPointMassEventAt 4 flow))
-          (diracPointMassDecodeBHist (diracPointMassEventAt 5 flow))
-          (diracPointMassDecodeBHist (diracPointMassEventAt 6 flow))
-          (diracPointMassDecodeBHist (diracPointMassEventAt 7 flow))
-          (diracPointMassDecodeBHist (diracPointMassEventAt 8 flow)))
+  some
+    (DiracPointMassUp.mk
+      (diracPointMassDecodeBHist (diracPointMassEventAtDefault 0 ef))
+      (diracPointMassDecodeBHist (diracPointMassEventAtDefault 1 ef))
+      (diracPointMassDecodeBHist (diracPointMassEventAtDefault 2 ef))
+      (diracPointMassDecodeBHist (diracPointMassEventAtDefault 3 ef))
+      (diracPointMassDecodeBHist (diracPointMassEventAtDefault 4 ef))
+      (diracPointMassDecodeBHist (diracPointMassEventAtDefault 5 ef))
+      (diracPointMassDecodeBHist (diracPointMassEventAtDefault 6 ef))
+      (diracPointMassDecodeBHist (diracPointMassEventAtDefault 7 ef))
+      (diracPointMassDecodeBHist (diracPointMassEventAtDefault 8 ef)))
 
 private theorem DiracPointMassTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : DiracPointMassUp,
-      diracPointMassFromEventFlow (diracPointMassToEventFlow x) = some x := by
+    ∀ x : DiracPointMassUp, diracPointMassFromEventFlow (diracPointMassToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk source point event unit distribution transport replay provenance name =>
+  | mk X p E U D H C P N =>
       change
         some
           (DiracPointMassUp.mk
-            (diracPointMassDecodeBHist (diracPointMassEncodeBHist source))
-            (diracPointMassDecodeBHist (diracPointMassEncodeBHist point))
-            (diracPointMassDecodeBHist (diracPointMassEncodeBHist event))
-            (diracPointMassDecodeBHist (diracPointMassEncodeBHist unit))
-            (diracPointMassDecodeBHist (diracPointMassEncodeBHist distribution))
-            (diracPointMassDecodeBHist (diracPointMassEncodeBHist transport))
-            (diracPointMassDecodeBHist (diracPointMassEncodeBHist replay))
-            (diracPointMassDecodeBHist (diracPointMassEncodeBHist provenance))
-            (diracPointMassDecodeBHist (diracPointMassEncodeBHist name))) =
-          some
-            (DiracPointMassUp.mk source point event unit distribution transport replay
-              provenance name)
-      rw [DiracPointMassTasteGate_single_carrier_alignment_decode_encode source,
-        DiracPointMassTasteGate_single_carrier_alignment_decode_encode point,
-        DiracPointMassTasteGate_single_carrier_alignment_decode_encode event,
-        DiracPointMassTasteGate_single_carrier_alignment_decode_encode unit,
-        DiracPointMassTasteGate_single_carrier_alignment_decode_encode distribution,
-        DiracPointMassTasteGate_single_carrier_alignment_decode_encode transport,
-        DiracPointMassTasteGate_single_carrier_alignment_decode_encode replay,
-        DiracPointMassTasteGate_single_carrier_alignment_decode_encode provenance,
-        DiracPointMassTasteGate_single_carrier_alignment_decode_encode name]
+            (diracPointMassDecodeBHist (diracPointMassEncodeBHist X))
+            (diracPointMassDecodeBHist (diracPointMassEncodeBHist p))
+            (diracPointMassDecodeBHist (diracPointMassEncodeBHist E))
+            (diracPointMassDecodeBHist (diracPointMassEncodeBHist U))
+            (diracPointMassDecodeBHist (diracPointMassEncodeBHist D))
+            (diracPointMassDecodeBHist (diracPointMassEncodeBHist H))
+            (diracPointMassDecodeBHist (diracPointMassEncodeBHist C))
+            (diracPointMassDecodeBHist (diracPointMassEncodeBHist P))
+            (diracPointMassDecodeBHist (diracPointMassEncodeBHist N))) =
+          some (DiracPointMassUp.mk X p E U D H C P N)
+      rw [DiracPointMassTasteGate_single_carrier_alignment_decode X,
+        DiracPointMassTasteGate_single_carrier_alignment_decode p,
+        DiracPointMassTasteGate_single_carrier_alignment_decode E,
+        DiracPointMassTasteGate_single_carrier_alignment_decode U,
+        DiracPointMassTasteGate_single_carrier_alignment_decode D,
+        DiracPointMassTasteGate_single_carrier_alignment_decode H,
+        DiracPointMassTasteGate_single_carrier_alignment_decode C,
+        DiracPointMassTasteGate_single_carrier_alignment_decode P,
+        DiracPointMassTasteGate_single_carrier_alignment_decode N]
 
-private theorem DiracPointMassTasteGate_single_carrier_alignment_injective
+private theorem DiracPointMassTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : DiracPointMassUp} :
     diracPointMassToEventFlow x = diracPointMassToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -114,14 +105,14 @@ private theorem DiracPointMassTasteGate_single_carrier_alignment_injective
     (Eq.trans (DiracPointMassTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (DiracPointMassTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem DiracPointMassTasteGate_single_carrier_alignment_fields_faithful :
+private theorem DiracPointMassTasteGate_single_carrier_alignment_fields :
     ∀ x y : DiracPointMassUp, diracPointMassFields x = diracPointMassFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk source point event unit distribution transport replay provenance name =>
+  | mk X1 p1 E1 U1 D1 H1 C1 P1 N1 =>
       cases y with
-      | mk source' point' event' unit' distribution' transport' replay' provenance' name' =>
+      | mk X2 p2 E2 U2 D2 H2 C2 P2 N2 =>
           cases hfields
           rfl
 
@@ -138,14 +129,14 @@ instance diracPointMassChapterTasteGate : ChapterTasteGate DiracPointMassUp wher
     exact DiracPointMassTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (DiracPointMassTasteGate_single_carrier_alignment_injective heq)
+    exact hxy (DiracPointMassTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 instance diracPointMassFieldFaithful : FieldFaithful DiracPointMassUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := diracPointMassFields
-  field_faithful := DiracPointMassTasteGate_single_carrier_alignment_fields_faithful
+  field_faithful := DiracPointMassTasteGate_single_carrier_alignment_fields
 
-instance diracPointMassNontrivial : Nontrivial DiracPointMassUp where
+instance diracPointMassNontrivial : BEDC.Meta.TasteGate.Nontrivial DiracPointMassUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨DiracPointMassUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -160,22 +151,24 @@ def taste_gate : ChapterTasteGate DiracPointMassUp :=
   -- BEDC touchpoint anchor: BHist BMark
   diracPointMassChapterTasteGate
 
-namespace TasteGate
-
 theorem DiracPointMassTasteGate_single_carrier_alignment :
-    (∀ h : BHist, diracPointMassDecodeBHist (diracPointMassEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier DiracPointMassUp) ∧
-        Nonempty (ChapterTasteGate DiracPointMassUp) ∧
-          diracPointMassEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark BHistCarrier ChapterTasteGate
-  constructor
-  · exact DiracPointMassTasteGate_single_carrier_alignment_decode_encode
-  · constructor
-    · exact ⟨diracPointMassBHistCarrier⟩
-    · constructor
-      · exact ⟨diracPointMassChapterTasteGate⟩
-      · rfl
-
-end TasteGate
+    Nonempty (ChapterTasteGate DiracPointMassUp) ∧
+      Nonempty (FieldFaithful DiracPointMassUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial DiracPointMassUp) ∧
+          (∀ h : BHist, diracPointMassDecodeBHist (diracPointMassEncodeBHist h) = h) ∧
+            (∀ x : DiracPointMassUp,
+              diracPointMassFromEventFlow (diracPointMassToEventFlow x) = some x) ∧
+              (∀ x y : DiracPointMassUp,
+                diracPointMassToEventFlow x = diracPointMassToEventFlow y → x = y) ∧
+                diracPointMassEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  exact
+    ⟨⟨diracPointMassChapterTasteGate⟩,
+      ⟨diracPointMassFieldFaithful⟩,
+      ⟨diracPointMassNontrivial⟩,
+      DiracPointMassTasteGate_single_carrier_alignment_decode,
+      DiracPointMassTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => DiracPointMassTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.DiracPointMassUp
