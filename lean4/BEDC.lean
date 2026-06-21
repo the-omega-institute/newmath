@@ -6372,6 +6372,7 @@ import BEDC.Derived.HyperspaceUp.CauchyUniformNetHandoff
 import BEDC.Derived.HyperspaceUp.CompactCompleteHandoff
 import BEDC.Derived.HyperspaceUp.CompactHausdorffDistanceRoute
 import BEDC.Derived.HyperspaceUp.CompactMetricHandoff
+import BEDC.Derived.HyperspaceUp.CompactMetricVietorisMaturityRoute
 import BEDC.Derived.HyperspaceUp.CompactMetricVietorisUnblock
 import BEDC.Derived.HyperspaceUp.CompactSourceCarrierObligations
 import BEDC.Derived.HyperspaceUp.CompactSourceScope
@@ -6775,6 +6776,7 @@ import BEDC.Derived.LieGroupUp.PublicNamecertExport
 import BEDC.Derived.LieGroupUp.TasteGate
 import BEDC.Derived.LiminfUp
 import BEDC.Derived.LiminfUp.BoundedCutCompatibility
+import BEDC.Derived.LiminfUp.RealSealExhaustion
 import BEDC.Derived.LiminfUp.ZeroGapConvergence
 import BEDC.Derived.LimitComparisonTestUp.TasteGate
 import BEDC.Derived.LimitPointCompactUp.TasteGate
@@ -7829,6 +7831,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.BridgeExport
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BridgeFacingSurface
 import BEDC.Derived.MetacicDecidabilityWitnessUp.CandidateNormalizationScope
 import BEDC.Derived.MetacicDecidabilityWitnessUp.DecidabilityWitnessPublicExport
+import BEDC.Derived.MetacicDecidabilityWitnessUp.FormalTargetLedger
 import BEDC.Derived.MetacicDecidabilityWitnessUp.FuelWindowExhaustion
 import BEDC.Derived.MetacicDecidabilityWitnessUp.MatureNormalFormBoundary
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ParallelDiamondFuelMonotonicity
@@ -8658,6 +8661,7 @@ import BEDC.Derived.PhilosophyCannotClaimRegistryUp.GateInduction
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.ObligationBoundary
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.StatusExactness
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.TasteGate
+import BEDC.Derived.PhilosophyCannotClaimRegistryUp.UpgradeBoundaryExhaustion
 import BEDC.Derived.PhilosophyFormalTargetLedgerUp.NameCertObligations
 import BEDC.Derived.PhilosophyFormalTargetLedgerUp.Nonescape
 import BEDC.Derived.PhilosophyFormalTargetLedgerUp.SiblingDependency
