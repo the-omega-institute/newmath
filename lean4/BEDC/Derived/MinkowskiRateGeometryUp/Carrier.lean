@@ -81,4 +81,72 @@ theorem MinkowskiRateGeometryCarrier_namecert_obligations [AskSetup] [PackageSet
   }
   exact ⟨cert, distanceUnary⟩
 
+theorem MinkowskiRateGeometrySymmetry [AskSetup] [PackageSetup]
+    {config causal rate frame distance transport replay provenance localName
+      mirroredDistance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MinkowskiRateGeometryCarrier config causal rate frame distance transport replay provenance
+        localName bundle pkg ->
+      Cont frame rate mirroredDistance ->
+        PkgSig bundle mirroredDistance pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row mirroredDistance ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row distance ∨ hsame row mirroredDistance ∨ hsame row frame ∨
+                  hsame row rate)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont config causal rate ∧ Cont rate frame distance ∧
+                  Cont frame rate mirroredDistance ∧ PkgSig bundle distance pkg ∧
+                    PkgSig bundle mirroredDistance pkg)
+              hsame ∧ UnaryHistory mirroredDistance := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory SemanticNameCert hsame
+  intro carrier frameRateMirrored mirroredPkg
+  obtain ⟨_configUnary, _causalUnary, rateUnary, frameUnary, _distanceUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, configCausalRate,
+    rateFrameDistance, distancePkg⟩ := carrier
+  have mirroredUnary : UnaryHistory mirroredDistance :=
+    unary_cont_closed frameUnary rateUnary frameRateMirrored
+  have sourceMirrored :
+      (fun row : BHist => hsame row mirroredDistance ∧ UnaryHistory row)
+          mirroredDistance := by
+    exact ⟨hsame_refl mirroredDistance, mirroredUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row mirroredDistance ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row distance ∨ hsame row mirroredDistance ∨ hsame row frame ∨
+              hsame row rate)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont config causal rate ∧ Cont rate frame distance ∧
+              Cont frame rate mirroredDistance ∧ PkgSig bundle distance pkg ∧
+                PkgSig bundle mirroredDistance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro mirroredDistance sourceMirrored
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inl sourceRow.left)
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, configCausalRate, rateFrameDistance, frameRateMirrored,
+          distancePkg, mirroredPkg⟩
+  }
+  exact ⟨cert, mirroredUnary⟩
+
 end BEDC.Derived.MinkowskiRateGeometryUp

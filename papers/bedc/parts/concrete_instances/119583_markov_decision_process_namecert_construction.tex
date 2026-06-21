@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\MarkovDecisionProcessUp$}
+\label{ch:concrete-instances-markov-decision-process-namecert}
+\origin{human}
+
+Following Bellman and Puterman on Markov decision processes, the $\MarkovDecisionProcessUp$ packet records a finite policy-transition-reward interface before any optimality theorem or measurable selector is visible. It sits after the transition-row surface of \autoref{ch:concrete-instances-markovchain-namecert}, the normalized probability carrier of \autoref{ch:concrete-instances-probspace-namecert}, the Bellman recursion route of \autoref{ch:concrete-instances-dynamic-programming-namecert}, and the action-ledger surface of \autoref{ch:concrete-instances-policy-namecert}. The packet names displayed state rows, action rows, transition rows, reward rows, policy rows, Bellman-consumer routes, transports, replay, provenance, and local naming as BEDC data; it does not import optimal policy existence, measurable selection, infinite-horizon convergence, or host stochastic-process equality.
+
+\begin{definition}[MarkovDecisionProcess carrier]
+\label{def:markov-decision-process-carrier}
+A $\MarkovDecisionProcessUp$ carrier is a finite $\BHist$ packet
+$$
+D=(S,A,K,R,\Pi,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite state-observation row read through the same normalized probability source used by $\ProbSpaceUp$ consumers.
+\item $A$ is the finite action row whose visible choices are read through the action-ledger discipline of $\PolicyUp$.
+\item $K$ is the one-step transition row, exposed as a Markov-transition packet before any Bellman consumer can inspect the next-state law.
+\item $R$ is the reward row, a finite value-facing ledger whose scalar endpoints are read as displayed $\RealUp$ names rather than as a host utility function.
+\item $\Pi$ is the displayed policy row, recording which action ledger is paired with each visible state row.
+\item $V$ is the Bellman-consumer boundary row, storing the finite continuation by which dynamic-programming readers consume $S,A,K,R,\Pi$.
+\item $H$ records componentwise $\hsame$ transports for the state, action, transition, reward, policy, Bellman-boundary, provenance, and local name rows.
+\item $C$ records the displayed $\Cont$ replay by which consumers read the probability source, Markov transition, policy ledger, reward ledger, Bellman boundary, transports, provenance, and local naming row.
+\item $P$ is the $\Pkg$ provenance over $\MarkovDecisionProcessUp$, $\ProbSpaceUp$, $\MarkovChainUp$, $\DynamicProgrammingUp$, $\PolicyUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MarkovDecisionProcessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows and their rowwise transports, continuation routes, package provenance, and local naming provenance.
+\end{definition}
+
+\begin{theorem}[MarkovDecisionProcess NameCert obligations]
+\label{thm:markov-decision-process-namecert-obligations}
+For an accepted $\MarkovDecisionProcessUp$ carrier $D=(S,A,K,R,\Pi,V,H,C,P,N)$, the local $\NameCert_{\MarkovDecisionProcessUp}$ surface consists exactly of carrier admission for the displayed state, action, transition, reward, policy, Bellman-boundary, transport, replay, provenance, and naming rows; source compatibility with $\ProbSpaceUp$ and $\MarkovChainUp$; policy-ledger compatibility with $\PolicyUp$; Bellman-consumer compatibility with $\DynamicProgrammingUp$; componentwise $\hsame$ stability through $H$; displayed $\Cont$ replay through $C$; and non-escape from the finite packet.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. Its rows name the probability-sourced state surface, action ledger, one-step transition packet, reward ledger, policy row, Bellman-facing boundary, transport, replay, package, and local certificate.
+
+Read the dependency rows in consumer order. The normalized probability source is visible before the Markov transition row, the policy ledger is visible before an action-dependent reward row is consumed, and the dynamic-programming boundary is exposed only after $S,A,K,R,\Pi$ have been displayed.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for a selected optimizer, measurable policy selector, infinite-horizon limit, or host stochastic-process equality, the local NameCert obligations remain exactly the listed finite rows.
+\end{proof}
+
+\begin{theorem}[MarkovDecisionProcess Bellman consumer boundary]
+\label{thm:markov-decision-process-bellman-consumer-boundary}
+Every Bellman or dynamic-programming consumer of an accepted $\MarkovDecisionProcessUp$ packet reads the value-facing boundary through the finite route
+$$
+S\longmapsto A\longmapsto K\longmapsto R\longmapsto \Pi\longmapsto V.
+$$
+The route first displays the probability and transition data of \autoref{ch:concrete-instances-probspace-namecert} and \autoref{ch:concrete-instances-markovchain-namecert}, then the policy action ledger of \autoref{ch:concrete-instances-policy-namecert}, and only then the Bellman-facing continuation consumed by \autoref{ch:concrete-instances-dynamic-programming-namecert}.
+\end{theorem}
+\begin{proof}
+Start with a Bellman-facing read of the boundary row $V$. The carrier makes $V$ available only through the continuation replay that has already exposed the source state row, action row, transition row, reward row, and policy row.
+
+The source and transition reads are finite: $S$ is attached to the probability carrier and $K$ to the Markov-transition surface. The action read is also finite: $A$ and $\Pi$ are policy-ledger rows, not an external decision rule or measurable selector.
+
+Finally the reward row $R$ and boundary row $V$ are replayed as displayed certificate data. Thus a dynamic-programming consumer receives only the finite Bellman boundary over $S,A,K,R,\Pi,V$, with $H,C,P,N$ supplying transport, replay, provenance, and naming. Nothing in the route exports optimal policy existence, measurable selection, infinite-horizon convergence, or host stochastic-process equality.
+\end{proof}
+
+\begin{closurestatus}{\MarkovDecisionProcessUp}
+  \constructivestory{A $\MarkovDecisionProcessUp$ packet is generated from finite rows for displayed states, actions, one-step Markov transitions, rewards, policy ledgers, Bellman-consumer boundaries, componentwise hsame transports, Cont replay, package provenance, and local naming. Bellman-facing consumers read the packet through the finite route $S,A,K,R,\Pi,V$ before any dynamic-programming boundary is exposed.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter binds the MarkovDecisionProcess carrier, NameCert obligation surface, and Bellman consumer boundary as finite BEDC rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{It does not claim optimal policy existence, measurable selection, infinite-horizon convergence, host stochastic-process equality, stochastic-process completion, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier formation, policy-transition-reward compatibility, Bellman consumer routing, componentwise transport, and non-escape for the displayed packet.}
+\end{closurestatus}
