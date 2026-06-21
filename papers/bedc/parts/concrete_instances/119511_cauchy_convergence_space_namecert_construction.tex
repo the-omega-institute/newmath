@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\CauchyConvergenceSpaceUp$}
+\label{ch:concrete-instances-cauchy-convergence-space-namecert}
+\origin{human}
+
+Following Beattie and Butzmann's convergence-space treatment, the $\CauchyConvergenceSpaceUp$ packet records the finite naming surface by which Cauchy filter data, regular rational tails, and real-name readback travel toward completion-facing consumers. It sits over the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion-existence route of \autoref{ch:concrete-instances-metric-completion-existence-namecert}. The packet names convergence as displayed BEDC data; it does not identify quotient limits, choose subsequences, or import open-cover compactness.
+
+\begin{definition}[Cauchy convergence space carrier]
+\label{def:cauchy-convergence-space-carrier}
+A $\CauchyConvergenceSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+G=(X,B,T,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the certified-points row, recording the finite point names and their local classifier data.
+\item $B$ is the Cauchy-filter basis row, recording the finite basis requests available to convergence consumers.
+\item $T$ is the regular tail and modulus row, recording $\StreamNameUp$ windows and $\RegSeqRatUp$ readback bounds for the displayed basis requests.
+\item $L$ is the candidate limit real-name row, recording the $\RealUp$ seal reached only after $B$ and $T$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for certified points, basis requests, regular tail data, candidate limit names, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from point rows and Cauchy-filter basis rows through regular tail readback to the candidate $\RealUp$ seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyConvergenceSpaceUp$, $\CauchyFilterBasisUp$, $\CauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricCompletionExistenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyConvergenceSpaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient limit classes, choice-selected subsequences, host equality of limits, open-cover compactness, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy convergence space NameCert obligations]
+\label{thm:cauchy-convergence-space-namecert-obligations}
+For every accepted $\CauchyConvergenceSpaceUp$ carrier $G=(X,B,T,L,H,C,P,N)$, the local $\NameCert_{\CauchyConvergenceSpaceUp}$ surface consists exactly of carrier admission, classifier stability for certified points and basis requests, Cauchy-basis transport, regular-tail compatibility, completion readback through the candidate $\RealUp$ seal, ledger exactness through $\hsame$ and $\Cont$, package provenance, and local naming. The certificate refuses quotient limit classes, choice-selected subsequences, host equality of limits, open-cover compactness, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-convergence-space-carrier}. The rows display certified points, a Cauchy-filter basis, regular tail and modulus data, a candidate real-name limit, transport, replay, provenance, and local naming.
+
+Read the convergence rows in order. The basis row $B$ is attached to the certified point row $X$, the regular tail row $T$ supplies the finite $\StreamNameUp$ and $\RegSeqRatUp$ readbacks, and the candidate row $L$ is available only after those rows have been inspected.
+
+The structural rows preserve the same route. Componentwise $\hsame$ transport and displayed $\Cont$ replay keep the basis, tail, and candidate-limit rows on the same packet, while $P$ and $N$ source and name the packet.
+
+Since the carrier contains no quotient-limit coordinate, selected-subsequence coordinate, host-equality oracle, open-cover compactness row, or ambient-completeness theorem, the displayed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy convergence space real-completion handoff]
+\label{thm:cauchy-convergence-space-real-completion-handoff}
+Every $\RealUp$- or $\MetricCompletionExistenceUp$-facing consumer of an accepted $\CauchyConvergenceSpaceUp$ carrier receives only finite regular-Cauchy convergence data: certified points, Cauchy-filter basis rows, regular tail and modulus readbacks, the candidate real-name seal, componentwise transport, displayed replay, package provenance, and local naming. The handoff exports no quotient limit, choice-selected subsequence, host equality of limits, open-cover compactness claim, or ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Start with $G=(X,B,T,L,H,C,P,N)$. The only route from the Cauchy-basis data to the candidate real name passes through the finite basis row $B$ and the regular tail row $T$ before $L$ can be read.
+
+Apply \autoref{thm:cauchy-convergence-space-namecert-obligations}. It identifies the carrier admission, classifier stability, Cauchy-basis transport, regular-tail compatibility, completion readback, and ledger exactness rows that a consumer must preserve.
+
+The downstream handoff is therefore finite. A $\RealUp$ consumer reads the candidate seal only after regular Cauchy data have been displayed, and a $\MetricCompletionExistenceUp$ consumer receives the same displayed route as completion-facing evidence.
+
+The excluded objects have no carrier coordinate. Thus the handoff cannot supply quotient limits, selected subsequences, host equality of limits, open-cover compactness, or ambient completeness.
+\end{proof}
+
+\closureat{CauchyConvergenceSpaceUp}{seedStr}
+
+\begin{closurestatus}{\CauchyConvergenceSpaceUp}
+  \constructivestory{A $\CauchyConvergenceSpaceUp$ packet is generated from certified point rows, a Cauchy-filter basis, regular tail and modulus readback, a candidate Real name, componentwise hsame transport, displayed Cont replay, package provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-convergence-space-carrier}, \autoref{thm:cauchy-convergence-space-namecert-obligations}, and \autoref{thm:cauchy-convergence-space-real-completion-handoff} seed the finite Cauchy-convergence handoff from filter bases and regular Cauchy readback to Real and metric-completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient limits, choice-selected subsequences, host equality of limits, open-cover compactness, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, Cauchy-basis transport, regular-tail compatibility, completion readback, ledger exactness, provenance, and local naming for BEDC.Derived.CauchyConvergenceSpaceUp.}
+\end{closurestatus}
