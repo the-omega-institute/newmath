@@ -6887,6 +6887,7 @@ import BEDC.Derived.LocallyCompactUp.LocatedHandoffBoundary
 import BEDC.Derived.LocallyCompactUp.ProperMetricNonescape
 import BEDC.Derived.LocallyCompactUp.PropernessComparisonNonescape
 import BEDC.Derived.LocallyCompactUp.PropernessLocalityRootBoundary
+import BEDC.Derived.LocallyCompactUp.PublicNeighbourhoodBaseExport
 import BEDC.Derived.LocallyCompactUp.TasteGate
 import BEDC.Derived.LocallyConnectedContinuumUp
 import BEDC.Derived.LocallyConnectedUp.TasteGate
@@ -7532,6 +7533,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseSourceNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierSeed
+import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierStatusSeed
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondVisibleResidualConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealAuditCleanFloor
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealConsumerMinimality
@@ -7956,6 +7958,7 @@ import BEDC.Derived.MetricEmbeddingUp.SeparatedCompletionHandoff
 import BEDC.Derived.MetricEmbeddingUp.TasteGate
 import BEDC.Derived.MetricEntourageUp
 import BEDC.Derived.MetricEntourageUp.TasteGate
+import BEDC.Derived.MetricEntropyUp.TasteGate
 import BEDC.Derived.MetricGraphUp.TasteGate
 import BEDC.Derived.MetricIdentificationUp.TasteGate
 import BEDC.Derived.MetricProjectionUp
@@ -8666,6 +8669,7 @@ import BEDC.Derived.PhysicalInductionUp.TasteGate
 import BEDC.Derived.PhysicalLawBridgeUp.FalsificationBoundary
 import BEDC.Derived.PhysicalLawBridgeUp.LawGapNonescape
 import BEDC.Derived.PhysicalLawBridgeUp.NameCertSurface
+import BEDC.Derived.PhysicalLawBridgeUp.ObligationPackage
 import BEDC.Derived.PhysicalLawBridgeUp.TasteGate
 import BEDC.Derived.PhysicalModelAuditUp.NameCert
 import BEDC.Derived.PhysicalModelAuditUp.TasteGate
@@ -10369,6 +10373,7 @@ import BEDC.Derived.SemigroupUp
 import BEDC.Derived.SeminormedSpaceUp.TasteGate
 import BEDC.Derived.SemiringUp
 import BEDC.Derived.SemiringUp.TasteGate
+import BEDC.Derived.SeparableCompletionUp.NameCertObligations
 import BEDC.Derived.SeparableCompletionUp.TasteGate
 import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeparableMetricSpaceUp.TasteGate
