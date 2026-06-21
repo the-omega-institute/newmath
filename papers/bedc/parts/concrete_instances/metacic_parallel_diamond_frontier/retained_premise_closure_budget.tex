@@ -29,3 +29,19 @@ For the cons step, expose the head retained-premise read through the same closur
 
 Finally project the negative boundary attached to each step. Since neither the head read nor the inductive tail contains a row for subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, or kernel consistency, the finite composition cannot acquire any of those conclusions.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond retained-pair induction]
+\label{thm:metacic-parallel-diamond-frontier-retained-pair-induction}
+Every finite successor chain of candidate-mediated SN/confluence handoffs that reads the public or bridged $\MetaCICParallelDiamondFrontierUp$ route preserves the retained pair $(P,O)$ and the residual budget $(J,R,B)$ before each handoff. The induction invariant is read through the displayed public route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N,
+$$
+and it does not discharge residual substitution, subject reduction, global Church--Rosser, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+For the base chain, read the public certificate and finite residual witness consumption. The public route exposes $P,K,J,R,S,C,B,O,H,T,G,N$, while the finite witness row keeps the retained pair $P,O$ and the residual budget $J,R,B$ visible before the first handoff.
+
+For the successor step, apply candidate SN residual budget and public route sync, \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-residual-budget} and \autoref{thm:metacic-parallel-diamond-frontier-public-route-sync}. The head handoff carries $P,O$ as retained premise and obstruction data, and it carries $J,R,B$ as candidate join, residual frontier, and bounded-check budget data. The induction hypothesis supplies the same rows for the remaining finite chain.
+
+Finally compare with the retained seed block sync of \autoref{thm:metacic-parallel-diamond-frontier-seed-block-sync}. It identifies the retained handoff data as finite public-route evidence rather than residual-substitution discharge, subject reduction, unrestricted Church--Rosser, evaluator equality, quotient equality, or kernel consistency, so the whole finite chain preserves only the stated pair and residual budget.
+\end{proof}
