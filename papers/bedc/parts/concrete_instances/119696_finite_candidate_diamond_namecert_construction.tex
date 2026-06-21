@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCandidateDiamondUp$}
+\label{ch:concrete-instances-finite-candidate-diamond-namecert}
+\origin{ai}
+
+The $\FiniteCandidateDiamondUp$ packet realizes the recursor-as-authorized-generator audit route of \autoref{ch:recursor-as-authorized-generator} as a finite candidate-diamond ledger for MetaCIC confluence work. It sits after the authorized-generator recursor surface of \autoref{ch:concrete-instances-authorizedgeneratorrecursor-namecert}, the recursor-generator packet of \autoref{ch:concrete-instances-recursorgenerator-namecert}, the MetaCIC critical path of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the parallel diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, and the candidate strong-normalization boundary of \autoref{ch:concrete-instances-candidate-sn-confluence-boundary-namecert}. The packet records only finite local-join candidates, branch-audit rows, and route handoffs; it does not assert full confluence, normalization, global Church--Rosser, or host equality reflection.
+
+\begin{definition}[FiniteCandidateDiamond carrier]
+\label{def:finite-candidate-diamond-carrier}
+A $\FiniteCandidateDiamondUp$ carrier is a finite $\BHist$ packet
+$$
+D=(A,R,M,F,S,J,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\AuthorizedGeneratorRecursorUp$ row certifying that the inspected generator call is tied to an accepted constructor signature and branch package.
+\item $R$ is the $\RecursorGeneratorUp$ row recording the finite motive, branch, and output route.
+\item $M$ is the $\MetaCICCriticalPathUp$ row naming the local term-shape and reduction-frontier context.
+\item $F$ is the $\MetaCICParallelDiamondFrontierUp$ row exposing the two candidate one-step fronts.
+\item $S$ is the $\CandidateSNConfluenceBoundaryUp$ row recording the normalization-facing candidate boundary consumed by the audit.
+\item $J$ is the finite local-join candidate ledger, storing only displayed joins between the two frontier rows.
+\item $T$ is the TasteGate-expectation row for a Nontrivial carrier and FieldFaithful readback of the displayed rows.
+\item $H$ records componentwise $\hsame$ transport for authorized-generator, recursor-generator, critical-path, frontier, boundary, join-ledger, TasteGate, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a candidate-diamond audit through $A,R,M,F,S,J,T,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteCandidateDiamondUp$, $\AuthorizedGeneratorRecursorUp$, $\RecursorGeneratorUp$, $\MetaCICCriticalPathUp$, $\MetaCICParallelDiamondFrontierUp$, $\CandidateSNConfluenceBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteCandidateDiamondUp}$ row.
+\end{enumerate}
+The accepted carrier has no coordinate for global confluence, full normalization, quotient equality, proof irrelevance, host equality reflection, or an unrestricted search oracle.
+\end{definition}
+\leanstmt{BEDC.Derived.FiniteCandidateDiamondUp}
+
+\begin{theorem}[FiniteCandidateDiamond local-join obligation]
+\label{thm:finite-candidate-diamond-local-join-obligation}
+For every accepted $\FiniteCandidateDiamondUp$ packet $D=(A,R,M,F,S,J,T,H,C,P,N)$, each local-join obligation is read through the authorized-generator row $A$, recursor-generator row $R$, MetaCIC critical-path row $M$, parallel diamond frontier $F$, candidate strong-normalization boundary $S$, finite join ledger $J$, TasteGate-expectation row $T$, and the structural rows $H,C,P,N$. The obligation is local to the displayed candidate diamond and does not claim full confluence, normalization, global Church--Rosser, quotient equality, or host equality reflection.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-candidate-diamond-carrier}. The generator authorization and recursor generator rows $A,R$ are the only rows that can justify the branch package being audited.
+
+Read the MetaCIC rows next. The critical-path row $M$ fixes the term-shape context, the frontier row $F$ exposes the two candidate one-step fronts, and the boundary row $S$ records the normalization-facing candidate boundary in scope.
+
+The local join is then finite. The ledger $J$ stores the displayed candidate joins, while $T$ states the expected Nontrivial and FieldFaithful TasteGate surface for the carrier. The structural rows $H,C,P,N$ preserve and name the same route, so no unrestricted global confluence or host equality principle enters the obligation.
+\end{proof}
+
+\begin{theorem}[FiniteCandidateDiamond MetaCIC handoff]
+\label{thm:finite-candidate-diamond-metacic-handoff}
+Every MetaCIC consumer of an accepted $\FiniteCandidateDiamondUp$ packet receives candidate-diamond evidence only through the route
+$$
+\AuthorizedGeneratorRecursorUp \longrightarrow \RecursorGeneratorUp
+  \longrightarrow \MetaCICCriticalPathUp
+  \longrightarrow \MetaCICParallelDiamondFrontierUp
+  \longrightarrow \CandidateSNConfluenceBoundaryUp
+  \longrightarrow \NameCert_{\FiniteCandidateDiamondUp}.
+$$
+The handoff exposes a finite audit packet for candidate-mediated joins, not a proof of unrestricted confluence, normalization, quotient equality, or host equality reflection.
+\end{theorem}
+\begin{proof}
+Start with a MetaCIC consumer. The carrier forces the consumer to inspect $A$ and $R$ before it may treat any recursor-produced branch as an authorized generator output.
+
+The consumer then reads $M,F,S$. These rows tie the audit to a critical-path term context, a displayed parallel frontier, and a candidate strong-normalization boundary rather than to an ambient reduction universe.
+
+Finally apply \autoref{thm:finite-candidate-diamond-local-join-obligation}. The finite ledger $J$, TasteGate-expectation row $T$, and structural rows $H,C,P,N$ exhaust the handoff. Since the refused principles have no carrier row, the exported packet remains a finite MetaCIC audit route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteCandidateDiamondUp$ audit is refuted if a candidate local join is exposed without displaying authorizedgeneratorrecursor, recursorgenerator, metaciccriticalpath, metacic-parallel-diamond-frontier, candidate-sn-confluence-boundary, finite join-ledger, TasteGate expectation, replay, provenance, and local naming rows.}
+
+\independenceWitness{authorizedgeneratorrecursor, recursorgenerator, metaciccriticalpath, metacic-parallel-diamond-frontier, candidate-sn-confluence-boundary: none alone is bijective with $\FiniteCandidateDiamondUp$ because the packet jointly records generator authorization, recursor branch data, critical-path context, parallel frontier, candidate boundary, local join ledger, TasteGate expectation, transport, replay, provenance, and NameCert rows.}
+
+\begin{closurestatus}{\FiniteCandidateDiamondUp}
+  \constructivestory{A $\FiniteCandidateDiamondUp$ packet is generated from authorized-generator recursor data, recursor-generator branch data, MetaCIC critical-path rows, parallel diamond frontier rows, candidate strong-normalization boundary rows, a finite local-join ledger, TasteGate expectation, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-candidate-diamond-carrier}, \autoref{thm:finite-candidate-diamond-local-join-obligation}, and \autoref{thm:finite-candidate-diamond-metacic-handoff} bind the finite candidate-diamond audit seed for recursor-generator MetaCIC work.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.FiniteCandidateDiamondUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim full confluence, normalization, global Church--Rosser, quotient equality, proof irrelevance, host equality reflection, or a standard bridge.}
+  \upgradepath{Formal verification can encode carrier admission, local-join obligation routing, MetaCIC handoff, TasteGate Nontrivial and FieldFaithful expectations, transport, replay, provenance, and local naming for BEDC.Derived.FiniteCandidateDiamondUp.}
+\end{closurestatus}

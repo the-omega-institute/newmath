@@ -103,4 +103,78 @@ theorem NetConvergenceCarrier_tail_window_real_seal_bridge
     ⟨cert, directedRoute, filterRoute, windowRoute, streamRoute, sealRoute, streamSame,
       sealSame, sameF, sameS, sameL, fields⟩
 
+theorem NetConvergenceCarrier_moore_smith_real_seal_handoff
+    {D T E A F S R L H C P M sourceRead filterRead realRead streamRead sealRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M →
+      Cont D A sourceRead →
+        Cont sourceRead F filterRead →
+          Cont filterRead L realRead →
+            Cont F S streamRead →
+              Cont streamRead R sealRead →
+                hsame realRead D →
+                  hsame sealRead L →
+                    SemanticNameCert
+                        (fun row : BHist =>
+                          hsame row D ∧ NetConvergenceCarrier D T E A F S R L H C P M)
+                        (fun row : BHist =>
+                          Cont D A sourceRead ∧ Cont sourceRead F filterRead ∧
+                            hsame row D)
+                        (fun row : BHist =>
+                          Cont filterRead L realRead ∧ Cont F S streamRead ∧
+                            Cont streamRead R sealRead ∧ hsame realRead D ∧
+                              hsame sealRead L ∧ hsame row D ∧ hsame A A ∧ hsame F F ∧
+                                hsame L L)
+                        hsame ∧
+                      Cont D A sourceRead ∧ Cont sourceRead F filterRead ∧
+                        Cont filterRead L realRead ∧ Cont F S streamRead ∧
+                          Cont streamRead R sealRead ∧ hsame realRead D ∧ hsame sealRead L ∧
+                            hsame A A ∧ hsame F F ∧ hsame L L ∧
+                              netConvergenceFields
+                                  (NetConvergenceUp.mk D T E A F S R L H C P M) =
+                                [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  intro carrier sourceRoute filterRoute realRoute streamRoute sealRoute realSame sealSame
+  have mooreRows :=
+    NetConvergenceCarrier_moore_smith_dependency carrier sourceRoute filterRoute realRoute
+  obtain ⟨_sameD, sameA, sameF, sameL, sourceRoute', filterRoute', realRoute',
+    fields⟩ := mooreRows
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row D ∧ NetConvergenceCarrier D T E A F S R L H C P M)
+          (fun row : BHist =>
+            Cont D A sourceRead ∧ Cont sourceRead F filterRead ∧ hsame row D)
+          (fun row : BHist =>
+            Cont filterRead L realRead ∧ Cont F S streamRead ∧
+              Cont streamRead R sealRead ∧ hsame realRead D ∧ hsame sealRead L ∧
+                hsame row D ∧ hsame A A ∧ hsame F F ∧ hsame L L)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro D ⟨hsame_refl D, carrier⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨sourceRoute', filterRoute', source.left⟩
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨realRoute', streamRoute, sealRoute, realSame, sealSame, source.left, sameA,
+          sameF, sameL⟩
+  }
+  exact
+    ⟨cert, sourceRoute', filterRoute', realRoute', streamRoute, sealRoute, realSame,
+      sealSame, sameA, sameF, sameL, fields⟩
+
 end BEDC.Derived.NetConvergenceUp

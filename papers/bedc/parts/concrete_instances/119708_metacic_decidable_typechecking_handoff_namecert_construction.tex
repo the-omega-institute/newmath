@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICDecidableTypecheckingHandoffUp$}
+\label{ch:concrete-instances-metacic-decidable-typechecking-handoff-namecert}
+\origin{ai}
+
+The $\MetaCICDecidableTypecheckingHandoffUp$ packet realizes the MetaCIC decidability audit map of \autoref{ch:metacic-decidable-audit-map} as a finite boundary between checked type inference and bounded beta-conversion evidence. It reads the checker budget of \autoref{ch:concrete-instances-bounded-typechecking-budget-namecert}, the decidability boundary of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}, the typed frontier of \autoref{ch:concrete-instances-metacic-decidable-typing-frontier-namecert}, and the bounded normal-equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}. The packet keeps \texttt{inferTypeCtx} soundness and completeness separate from the conditional closed-normal comparison route; it does not claim unrestricted conversion decidability.
+
+\begin{definition}[MetaCIC decidable typechecking handoff carrier]
+\label{def:metacic-decidable-typechecking-handoff-carrier}
+A $\MetaCICDecidableTypecheckingHandoffUp$ carrier is a finite $\BHist$ packet
+$$
+K=(\Gamma,T,S,Q,B,F,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Gamma$ is the represented MetaCIC context row.
+\item $T$ is the \texttt{inferTypeCtx} checker row, including the context-indexed input and option-valued output.
+\item $S$ is the checked soundness and completeness row for the type-inference surface.
+\item $Q$ is the structural same-term checker row used before any normal comparison is requested.
+\item $B$ is the bounded normal-equality row, carrying displayed fuel and bounded normal forms.
+\item $F$ is the finished closed-normal boundary row required before a bounded comparison is promoted to the stronger closed-normal statement.
+\item $R$ is the refusal row recording that the packet does not export fuel-erased beta-conversion decidability when $F$ is absent.
+\item $H$ records componentwise $\hsame$ transport for the context, checker, soundness-completeness, same-term, bounded-normal, finished-boundary, refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the same checker and conversion-boundary route.
+\item $P$ records $\Pkg$ provenance over $\MetaCICDecidableTypecheckingHandoffUp$, $\BoundedTypecheckingBudgetUp$, $\MetaCICDecidableTypingFrontierUp$, $\BoundedNormalEqualityCheckerUp$, $\MetaCICDecidableBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ records the local $\NameCert_{\MetaCICDecidableTypecheckingHandoffUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host typechecker, proof-irrelevant term equality, unrestricted beta-conversion decider, hidden fuel, or external closedness oracle.
+\end{definition}
+
+\begin{theorem}[MetaCIC decidable typechecking handoff obligations]
+\label{thm:metacic-decidable-typechecking-handoff-obligations}
+For every accepted $\MetaCICDecidableTypecheckingHandoffUp$ carrier $K=(\Gamma,T,S,Q,B,F,R,H,C,P,N)$, the local $\NameCert_{\MetaCICDecidableTypecheckingHandoffUp}$ surface consists exactly of context admission, \texttt{inferTypeCtx} exposure, checked soundness-completeness exposure, structural same-term exposure, bounded normal-equality exposure, finished-boundary exposure when available, refusal-boundary retention, componentwise transport, displayed replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier. The context row $\Gamma$, checker row $T$, and theorem row $S$ form the typechecking side of the packet; they expose the checked \texttt{inferTypeCtx} interface without introducing a host typechecker.
+
+The equality side is separate. The row $Q$ supplies structural same-term readback, while $B$ supplies bounded normal-equality data at displayed fuel.
+
+The row $F$ is the boundary required before a bounded comparison can be used as closed-normal endpoint evidence. If $F$ is absent, the refusal row $R$ remains part of the same NameCert route and blocks any unrestricted conversion claim.
+
+Transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve this separation. No remaining coordinate can erase fuel, add a closedness oracle, or turn bounded beta conversion into global decidability.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable typechecking closed-normal boundary]
+\label{thm:metacic-decidable-typechecking-closed-normal-boundary}
+Every consumer of an accepted $\MetaCICDecidableTypecheckingHandoffUp$ packet factors through the finite route
+$$
+\Gamma,T,S,Q,B,F,R \longmapsto H,C,P,N .
+$$
+The rows $\Gamma,T,S$ make checked type inference public; the rows $Q,B$ make structural and bounded normal equality public; the row $F$ is required for a closed-normal endpoint read; and the row $R$ remains visible whenever that endpoint boundary is not supplied. The packet therefore separates checked type inference from conditional bounded beta conversion.
+\end{theorem}
+\begin{proof}
+Start with the typechecking route. The checker row $T$ is read in context $\Gamma$, and the row $S$ records the checked soundness and completeness surface for \texttt{inferTypeCtx}.
+
+Move to the conversion route. Structural same-term data $Q$ and bounded normal-equality data $B$ are finite checker rows; they do not by themselves state that fuel has reached finished closed normal forms.
+
+The endpoint condition is exactly $F$. When a consumer has $F$, it may use the bounded comparison as a closed-normal endpoint read; without $F$, it must keep the refusal row $R$ in scope.
+
+The replay rows $H,C,P,N$ carry no further oracle. Hence the public handoff is the displayed separation between checked type inference and conditional bounded beta conversion.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\MetaCICDecidableTypecheckingHandoffUp$ consumer is refuted if it exports unrestricted beta-conversion decidability while omitting the finished closed-normal boundary row $F$ and refusal row $R$.}
+
+\independenceWitness{bounded-typechecking-budget, metacic-decidable-boundary, metacic-decidable-typing-frontier, bounded-normal-equality-checker: no listed sibling is bijective to $\MetaCICDecidableTypecheckingHandoffUp$ because this packet jointly carries the type-inference theorem row, bounded conversion boundary, refusal row, transport, replay, provenance, and local naming.}
+
+\closureat{MetaCICDecidableTypecheckingHandoffUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICDecidableTypecheckingHandoffUp}
+  \constructivestory{A $\MetaCICDecidableTypecheckingHandoffUp$ packet is generated from a represented context, inferTypeCtx checker row, checked soundness-completeness row, same-term row, bounded normal-equality row, finished closed-normal boundary row, refusal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-decidable-typechecking-handoff-carrier}, \autoref{thm:metacic-decidable-typechecking-handoff-obligations}, and \autoref{thm:metacic-decidable-typechecking-closed-normal-boundary} seed the finite handoff separating checked type inference from conditional bounded beta conversion.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unrestricted beta-conversion decidability, fuel-erased normalization, a host typechecker, proof-irrelevant term equality, external closedness decision, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, inferTypeCtx soundness-completeness exposure, same-term exactness, bounded normal-equality exactness, finished-boundary retention, refusal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICDecidableTypecheckingHandoffUp.}
+\end{closurestatus}
