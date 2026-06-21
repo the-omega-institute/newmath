@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\CollectionwiseNormalUp$}
+\label{ch:concrete-instances-collectionwise-normal-namecert}
+\origin{human}
+
+Following Engelking and Kelley on collectionwise normal spaces, the $\CollectionwiseNormalUp$ packet records the finite BEDC surface in which a displayed discrete family of closed rows receives pairwise disjoint open neighborhoods and a locally finite refinement ledger. It sits above the closed-pair separation route of \autoref{ch:concrete-instances-normalspace-namecert}, beside the locally finite cover discipline of \autoref{ch:concrete-instances-paracompact-namecert}, and before separation-function consumers such as \autoref{ch:concrete-instances-urysohn-lemma-namecert}. The packet strengthens the normal-space and paracompact lattice by naming the finite familywise separation route; it does not import arbitrary choice of neighborhoods, host powersets, open-cover compactness, partition-of-unity weights, or an ambient point-set theorem.
+
+\begin{definition}[Collectionwise normal carrier]
+\label{def:collectionwise-normal-carrier}
+A $\CollectionwiseNormalUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(T,N,D,O,L,P,U,H,C,Z)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row on which the closed-family, open-neighborhood, and cover-refinement observations are read.
+\item $N$ is the $\NormalSpaceUp$ separation row, exposing the closed-pair route used for each displayed member of the family.
+\item $D$ is the discrete closed-family ledger, recording the finite family window and the local discreteness observations visible to the packet.
+\item $O$ is the disjoint open-neighborhood ledger, assigning to every displayed closed row in $D$ an open row over $T$ and recording pairwise disjointness inside the finite window.
+\item $L$ is the locally finite refinement ledger, read through the paracompact cover surface of \autoref{ch:concrete-instances-paracompact-namecert}.
+\item $P$ is the paracompact handoff row that keeps locally finite refinement data visible without selecting a subcover from an arbitrary host family.
+\item $U$ is the $\UrysohnLemmaUp$ handoff row, available only after the displayed normal-space and disjoint-neighborhood rows have been read.
+\item $H$ records componentwise $\hsame$ transport for the topology, normal-space, discrete-family, disjoint-neighborhood, locally finite refinement, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the discrete closed-family request through the normal-space route, disjoint open-neighborhood ledger, locally finite refinement ledger, paracompact handoff, and Urysohn handoff.
+\item $Z$ is the local $\NameCert_{\CollectionwiseNormalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,N,D,O,L,P,U,H,C,Z$. It has no coordinate for host-indexed families, selected complements, arbitrary choice of separating neighborhoods, open-cover compactness, quotient topology equality, or partition-of-unity data.
+\end{definition}
+\leanstmt{BEDC.Derived.CollectionwiseNormalUp}
+
+\begin{theorem}[Collectionwise normal NameCert obligations]
+\label{thm:collectionwise-normal-namecert-obligations}
+For every accepted $\CollectionwiseNormalUp$ carrier $Q=(T,N,D,O,L,P,U,H,C,Z)$, the local $\NameCert_{\CollectionwiseNormalUp}$ surface consists exactly of topology-source admission, normal-space separation exposure, discrete closed-family exposure, disjoint open-neighborhood exactness, locally finite refinement exposure, paracompact handoff, Urysohn handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, and local naming. No obligation is discharged by a selected family of host neighborhoods, arbitrary open-cover compactness, a host powerset, quotient topology equality, or partition-of-unity weights.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:collectionwise-normal-carrier}. The rows $T,N,D,O,L,P,U,H,C,Z$ are the whole local surface.
+
+The familywise separation rows are $N,D,O$. The normal-space route supplies closed-pair separation data, the discrete-family row fixes the finite family window, and the open-neighborhood ledger records the disjoint neighborhoods visible to the packet.
+
+The refinement and handoff rows are $L,P,U$. They route locally finite cover data through the paracompact sibling and expose the Urysohn-facing handoff only after the separation rows are visible.
+
+Transport, replay, and local naming are exhausted by $H,C,Z$. Since none of the excluded host objects is a carrier coordinate, the listed rows are exactly the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Collectionwise normal paracompact handoff]
+\label{thm:collectionwise-normal-paracompact-handoff}
+Every locally finite refinement read exported by an accepted $\CollectionwiseNormalUp$ packet must pass through the displayed route
+$$
+\NormalSpaceUp,\ D,\ O \longmapsto \ParacompactUp \longmapsto \UrysohnLemmaUp .
+$$
+The route exposes the closed-family separation data, disjoint open-neighborhood rows, paracompact locally finite refinement ledger, and Urysohn-facing handoff as finite BEDC rows; it does not select arbitrary subcovers, choose host neighborhoods, or import open-cover compactness as a primitive.
+\end{theorem}
+\begin{proof}
+Start with the normal-space and discrete-family rows. They determine which displayed closed rows are being separated and keep the family window visible before any refinement read occurs.
+
+Read the disjoint open-neighborhood ledger next. It supplies only the finite neighborhood rows stored in the carrier and does not choose a host family of separators.
+
+The locally finite refinement row then passes through the paracompact handoff. A separation-function consumer may continue to the Urysohn sibling only after the normal-space, disjoint-neighborhood, and refinement rows have been displayed.
+
+The structural rows preserve this same order under transport and replay. Because no coordinate stores arbitrary subcovers, selected neighborhoods, or open-cover compactness, the handoff remains a finite BEDC dependency route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CollectionwiseNormalUp$ read is refuted if it exports collectionwise separation without displaying the TopologyUp source row, NormalSpaceUp separation row, discrete closed-family ledger, disjoint open-neighborhood ledger, locally finite refinement row, ParacompactUp handoff, UrysohnLemmaUp handoff, hsame transport, Cont replay, and local NameCert row.}
+
+\independenceWitness{normalspace, paracompact, urysohn-lemma: $\CollectionwiseNormalUp$ is not bijective to any listed sibling because it jointly carries a discrete closed-family ledger, disjoint open-neighborhood ledger, locally finite refinement handoff, paracompact route, Urysohn route, transport, replay, and local naming in one packet.}
+
+\closureat{CollectionwiseNormalUp}{seedStr}
+
+\begin{closurestatus}{\CollectionwiseNormalUp}
+  \constructivestory{A $\CollectionwiseNormalUp$ packet is generated from a TopologyUp source row, NormalSpaceUp separation row, discrete closed-family ledger, disjoint open-neighborhood ledger, locally finite refinement row, ParacompactUp handoff, UrysohnLemmaUp handoff, componentwise hsame transport, displayed Cont replay, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:collectionwise-normal-carrier}, \autoref{thm:collectionwise-normal-namecert-obligations}, and \autoref{thm:collectionwise-normal-paracompact-handoff} seed the finite collectionwise normal separation surface over normal-space, paracompact, and Urysohn rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.CollectionwiseNormalUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary host-indexed collectionwise normality, selected complements, open-cover compactness, partition-of-unity data, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, discrete-family exposure, disjoint-neighborhood exactness, locally finite refinement handoff, paracompact route stability, Urysohn handoff discipline, transport, replay, provenance, and local naming for BEDC.Derived.CollectionwiseNormalUp.}
+\end{closurestatus}
