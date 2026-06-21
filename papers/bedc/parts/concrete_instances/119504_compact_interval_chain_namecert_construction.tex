@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CompactIntervalChainUp$}
+\label{ch:concrete-instances-compact-interval-chain-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\CompactIntervalChainUp$ packet records a nested finite chain of located compact interval rows as BEDC NameCert data. It sits over the compact interval carrier of \autoref{ch:concrete-instances-compact-real-interval-namecert}, the located endpoint surface of \autoref{ch:concrete-instances-locatedinterval-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the StreamName finite-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite chain data needed by nested-interval and compact-real consumers; it is not an arbitrary open-cover compactness theorem, a selected-subcover principle, a quotient real equality test, a countable-choice schedule, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Compact interval chain carrier]
+\label{def:compact-interval-chain-carrier}
+A $\CompactIntervalChainUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(L,E,D,W,R,A,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $L$ is the finite chain ledger of nested located compact interval rows, each row carrying displayed left and right endpoint names and an inclusion witness into the previous row.
+\item $E$ records endpoint rows for the chain, including the visible $\LocatedIntervalUp$ and $\CompactRealIntervalUp$ boundary data consumed by interval-local readers.
+\item $D$ is the $\DyadicRatCoreUp$ mesh and tolerance ledger, recording common scales, endpoint slack, diameter bounds, and dyadic containment checks for every row in the finite chain.
+\item $W$ is the $\StreamNameUp$ window schedule used to inspect endpoint and mesh data without opening an infinite stream or selecting a real representative.
+\item $R$ is the $\RegSeqRatUp$ readback row, repacking the endpoint, nesting, diameter, mesh, and tolerance checks as finite regular rational windows.
+\item $A$ is the terminal $\RealUp$ seal row for the displayed endpoint reads and compact interval seals.
+\item $H$ records componentwise $\hsame$ transport for chain rows, endpoint rows, dyadic mesh rows, StreamName windows, regular rational readbacks, Real seals, replay rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a chain request through $L,E,D,W,R,A,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CompactIntervalChainUp$, $\CompactRealIntervalUp$, $\LocatedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactIntervalChainUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $L,E,D,W,R,A,H,C,P,N$. It has no coordinate for arbitrary open covers, selected subcovers, quotient real equality, countable choice, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Compact interval chain NameCert obligations]
+\label{thm:compact-interval-chain-namecert-obligations}
+For every accepted $\CompactIntervalChainUp$ carrier
+$$
+Q=(L,E,D,W,R,A,H,C,P,N),
+$$
+the local $\NameCert_{\CompactIntervalChainUp}$ surface consists exactly of the displayed finite obligations: chain-row admission for $L$, endpoint and compact-interval admission for $E$, dyadic mesh and diameter admission for $D$, finite StreamName window admission for $W$, regular rational readback for $R$, terminal Real sealing for $A$, componentwise $\hsame$ transport for $H$, displayed replay for $C$, provenance for $P$, and local naming for $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-interval-chain-carrier}. The chain ledger $L$ gives only finitely many nested interval rows, and $E$ exposes the endpoint and compact-interval boundary attached to each row.
+
+Read the analytic rows next. The dyadic ledger $D$ supplies the common-scale, mesh, containment, endpoint-slack, and diameter data; $W$ restricts endpoint and mesh inspection to finite StreamName windows.
+
+The regular and Real-facing rows are downstream. The row $R$ repacks the inspected chain data as regular rational windows, and $A$ seals exactly those endpoint and compact-interval reads as $\RealUp$ data.
+
+Finally, $H,C,P,N$ transport, replay, source, and locally name the same finite packet. Since no carrier coordinate stores arbitrary open-cover compactness, selected subcovers, quotient real equality, countable choice, or ambient completeness, the displayed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Compact interval chain finite-cover induction]
+\label{thm:compact-interval-chain-finite-cover-induction}
+Every accepted finite $\CompactIntervalChainUp$ consumer that propagates a compact-interval estimate along the chain may use only induction over the displayed finite ledger $L$. At the base row it reads the endpoint, dyadic, StreamName, RegSeqRat, Real seal, transport, replay, provenance, and naming rows of the first interval; at each successor row it consumes the next inclusion and diameter data from $L,E,D,W,R,A,H,C,P,N$. The induction does not select subcovers, quotient real representatives, countable-choice schedules, or an ambient completeness witness.
+\end{theorem}
+\begin{proof}
+The base step is the first displayed interval row of $L$. By \autoref{thm:compact-interval-chain-namecert-obligations}, the consumer receives its endpoint rows, dyadic mesh and diameter data, StreamName windows, regular rational readback, Real seal, transport, replay, provenance, and local name as finite data.
+
+For the successor step, read the next chain row in $L$ together with the endpoint and compact-interval boundary in $E$. The dyadic ledger $D$ records the containment, diameter, and endpoint slack needed to pass the estimate from the previous row to the next row.
+
+The handoff remains finite because $W,R,A$ expose only the inspected windows, regular readbacks, and Real seals for the current row. The structural rows $H,C,P,N$ preserve the same route under transport, replay, provenance, and local naming.
+
+Induction over the finite ledger therefore proves the advertised propagation route. No step asks for an open-cover selector, quotient real equality, countable choice, or ambient $\RealUp$ completeness, because none of those objects appears in the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every $\CompactIntervalChainUp$ read factors through finite nested interval rows, compact endpoint rows, dyadic mesh and diameter ledgers, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, terminal $\RealUp$ seals, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and a local $\NameCert_{\CompactIntervalChainUp}$ row.}
+
+\independenceWitness{compactrealinterval, locatedinterval, dyadicratcore, streamname, regseqrat, real: $\CompactIntervalChainUp$ is not bijective to any listed sibling because it jointly carries a finite nested-chain ledger, compact endpoint rows, dyadic containment and diameter rows, finite stream windows, regular readbacks, Real seals, transport, replay, provenance, and local naming.}
+
+\closureat{CompactIntervalChainUp}{seedStr}
+
+\begin{closurestatus}{\CompactIntervalChainUp}
+  \constructivestory{A $\CompactIntervalChainUp$ packet is generated from finite nested located compact interval rows, endpoint rows, dyadic mesh and diameter ledgers, StreamName windows, RegSeqRat readback, Real seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-interval-chain-carrier}, \autoref{thm:compact-interval-chain-namecert-obligations}, and \autoref{thm:compact-interval-chain-finite-cover-induction} seed the finite nested compact interval chain carrier over compact endpoint rows, dyadic meshes, finite windows, regular readback, Real seals, and finite chain induction.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary open-cover compactness, selected subcovers, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking for $\CompactIntervalChainUp$.}
+  \upgradepath{Obligation closure requires checked chain-row admission, endpoint sealing, dyadic containment and diameter stability, StreamName window pullback, RegSeqRat readback, replay stability, and nonescape for BEDC.Derived.CompactIntervalChainUp.}
+\end{closurestatus}
