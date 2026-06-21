@@ -69,6 +69,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "lucas_fib_norm_relation_certificate",
     "fibonacci_entry_point_congruence_certificate",
     "pisano_period_modp_divisibility_certificate",
+    "modp_root_enumeration_certificate",
     "bedc_finite_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
@@ -110,6 +111,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "lucas_fib_norm_relation_certificate",
         "fibonacci_entry_point_congruence_certificate",
         "pisano_period_modp_divisibility_certificate",
+        "modp_root_enumeration_certificate",
         "bedc_finite_certificate",
     },
 }
@@ -130,6 +132,7 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "lucas_recurrence",
     "integer_recurrence_evaluation",
     "integer_prime_enumeration",
+    "modular_root_enumeration",
     "pisano_residue_pair_search",
     "mod_5_branch_divisibility_check",
     "fibonacci_residue_enumeration",
@@ -241,6 +244,7 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "prime_window",
     "pisano_period",
     "residue_pair_recurrence",
+    "quadratic_residue_class",
     "mod_5_quadratic_residue_class",
     "mod_5_divisibility_branch",
     "integer_norm_relation",
