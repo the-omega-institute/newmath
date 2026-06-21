@@ -65,6 +65,7 @@ For an accepted $\EpigraphUp$ carrier $E=(D,V,L,O,H,C,P,N)$, classifier stabilit
 \label{thm:epigraph-lower-set-transport}
 Every lower-set read exported by an accepted $\EpigraphUp$ packet preserves the rows $D,V,L,O,H,C,P,N$ before a $\LowerSemicontinuousUp$ consumer may inspect it. In particular, the comparison row $O$ can be transported only together with the displayed domain point, value row, lower-bound row, componentwise transport, replay, provenance, and local naming rows required by \autoref{thm:epigraph-namecert-obligations}.
 \end{theorem}
+\leanchecked{BEDC.Derived.EpigraphUp.EpigraphLowerSetTransport}
 \begin{proof}
 Project the carrier of \autoref{def:epigraph-carrier}. The lower-set information appears only as the comparison row $O$ attached to $D,V,L$.
 
@@ -77,6 +78,7 @@ The provenance and naming rows $P,N$ source the transported packet. Since no hos
 \label{thm:epigraph-ledger-exactness}
 For every accepted $\EpigraphUp$ carrier $E=(D,V,L,O,H,C,P,N)$, the ledger rows $C,P,N$ are exact for the classifier of \autoref{def:epigraph-classifier-stability}: they replay, source, and name only the displayed domain-point, value, lower-bound, comparison, and transport rows. Together with \autoref{thm:epigraph-namecert-obligations}, these rows close the obligation surface without asserting host topology, quotient graph equality, arbitrary function extensionality, selected minimizers, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.EpigraphUp.EpigraphLedgerExactness}
 \begin{proof}
 Read the classifier stability definition. It allows repeated reads only through $D,V,L,O,H,C,P,N$.
 
@@ -85,18 +87,30 @@ Use \autoref{thm:epigraph-namecert-obligations}. The NameCert surface already id
 Therefore the ledger is exact by exhaustion of carrier coordinates. No additional row can name host topology, quotient graph equality, arbitrary function extensionality, selected minimizers, or ambient completeness, so the obligation surface remains finite.
 \end{proof}
 
+\begin{theorem}[Epigraph scoped kernel dependencies]
+\label{thm:epigraph-scoped-kernel-dependencies}
+Every $\EpigraphUp$ consumer route factors through the displayed domain-point rows, function-value observation rows, lower-bound comparison rows, $\RealUp$ boundary rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of \autoref{def:epigraph-carrier}. The route exports no host subset of a product, function extensionality principle, selected minimizer, or ambient real-completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the carrier in \autoref{def:epigraph-carrier}. Its analytic rows are exactly $D,V,L,O$, with $V$ and $O$ reaching the $\RealUp$ boundary only through displayed value and lower-bound comparisons.
+
+Apply \autoref{thm:epigraph-lower-semicontinuous-handoff} to pass any lower-semicontinuity consumer through the same displayed value and comparison route. Then use \autoref{def:epigraph-classifier-stability} and \autoref{thm:epigraph-lower-set-transport} to keep repeated reads and transported lower-set reads on $D,V,L,O,H,C,P,N$.
+
+Finally apply \autoref{thm:epigraph-ledger-exactness}. The replay, provenance, and naming rows are exact for the displayed carrier, so no additional coordinate can supply a host product subset, function extensionality, selected minimizer, or ambient completeness principle.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\EpigraphUp$ read is refuted if the comparison row $O$ is preserved while the displayed domain point $D$, value row $V$, and lower-bound row $L$ are removed.}
 
 \independenceWitness{lowersemicontinuous, real: neither sibling is bijective with $\EpigraphUp$ because this packet jointly carries a domain-point row, function-value row, lower-bound row, comparison row, transport, replay, provenance, and local naming.}
 
-\closureat{EpigraphUp}{obligationStr}
+\closureat{EpigraphUp}{scopedStr}
 
 \begin{closurestatus}{\EpigraphUp}
   \constructivestory{An $\EpigraphUp$ packet is generated from a domain-point row, a function-value row, a lower-bound row, a comparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:epigraph-carrier}, \autoref{thm:epigraph-namecert-obligations}, \autoref{def:epigraph-classifier-stability}, \autoref{thm:epigraph-lower-set-transport}, and \autoref{thm:epigraph-ledger-exactness} close the finite epigraph obligation rows for lower-semicontinuity consumers.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:epigraph-carrier}, \autoref{thm:epigraph-namecert-obligations}, \autoref{def:epigraph-classifier-stability}, \autoref{thm:epigraph-lower-set-transport}, \autoref{thm:epigraph-ledger-exactness}, and \autoref{thm:epigraph-scoped-kernel-dependencies} close the finite epigraph dependency scope for lower-semicontinuity consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host epigraph topology, quotient graphs, arbitrary function extensionality, selected minimizers, ambient real completeness, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires checked consumer boundaries for lower-semicontinuity reads, transport, replay, provenance, and local naming for BEDC.Derived.EpigraphUp.}
+  \upgradepath{Lean verification requires checked consumer boundaries for lower-semicontinuity reads, transport, replay, provenance, and local naming for BEDC.Derived.EpigraphUp.}
 \end{closurestatus}

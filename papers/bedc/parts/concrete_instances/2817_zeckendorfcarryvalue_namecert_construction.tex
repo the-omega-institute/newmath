@@ -61,6 +61,22 @@ The value-preservation read is then routed through $F$ and $C$. The row $F$ stor
 The non-escape clauses are the remaining projections. The row $H$ prevents the value equality from becoming $\HSame(h,k)$, while $P$ and $N$ account for provenance and naming. Since none of the excluded objects is a coordinate of the packet, no consumer can extract it from the package.
 \end{proof}
 
+\begin{theorem}[Zeckendorf carry-value exactness obligation]
+\label{thm:zeckendorf-carry-value-obligation-value-row-exactness}
+For every accepted $\ZeckendorfCarryValueUp$ packet
+$$
+V=(h,k,G,N_h,N_k,F,H,C,P,N),
+$$
+the value-row exactness obligation is exactly the finite Fibonacci value row $F$ over the displayed carry packet $\mathtt{word\_011}\to\mathtt{word\_100}$. The row is read only after $G,N_h,N_k$ identify the carry source, target, and normality boundaries, and it is exported only through $H,C,P,N$. It records equality of the two displayed Fibonacci values without identifying the histories by $\HSame$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:zeckendorf-carry-value-carrier}. The rows $h,k,G,N_h,N_k$ fix the source as $\mathtt{word\_011}$, the target as $\mathtt{word\_100}$, the displayed carry row, and the two normality boundary rows.
+
+Now read the value coordinate. By \autoref{thm:zeckendorf-carry-value-namecert-package}, the row $F$ is the finite Fibonacci calculation attached to exactly those two displayed words, and the public value read factors through $h,k,G,N_h,N_k,F,H,C,P,N$.
+
+Finally apply the non-$\HSame$ boundary from \autoref{thm:zeckendorf-carry-value-non-hsame-boundary}. The value equality in $F$ and the negative history-sameness row in $H$ remain distinct coordinates, so exactness of the value row does not produce $\HSame(h,k)$.
+\end{proof}
+
 \begin{theorem}[Zeckendorf carry-value vision realization]
 \label{thm:zeckendorf-carry-value-vision-realization}
 The finite packet $V=(h,k,G,N_h,N_k,F,H,C,P,N)$ realizes the Fibonacci value-preservation reading of the displayed carry row as a concrete $\ZeckendorfCarryValueUp$ NameCert surface. It extends the carry classifier by adding the value row $F$ and its consumer route, while preserving the boundary that carry-relatedness and history sameness are different judgments.
@@ -88,16 +104,16 @@ The additional row is $F$, routed through $C$ and recorded with $P$ and $N$. Thu
 \end{proof}
 \leanchecked{BEDC.Derived.ZeckendorfCarryValueUp.ZeckendorfCarryValueUp\_classifier\_dependency\_rows}
 
-\closureat{ZeckendorfCarryValueUp}{seedStr}
+\closureat{ZeckendorfCarryValueUp}{obligationStr}
 
 \begin{closurestatus}{\ZeckendorfCarryValueUp}
   \constructivestory{A $\ZeckendorfCarryValueUp$ packet records the displayed carry from $\mathtt{word\_011}$ to $\mathtt{word\_100}$, the finite Fibonacci value equality for those two words, the normality boundary rows, and the non-$\HSame$ separation row in one finite $\BHist$ certificate.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:zeckendorf-carry-value-carrier}, \autoref{thm:zeckendorf-carry-value-non-hsame-boundary}, \autoref{thm:zeckendorf-carry-value-namecert-package}, and \autoref{thm:zeckendorf-carry-value-vision-realization} bind the seed finite value-preservation packet over $\ZCarryUp$, $\ZeckendorfNormalUp$, $\BHist$, $\HSame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:zeckendorf-carry-value-carrier}, \autoref{thm:zeckendorf-carry-value-non-hsame-boundary}, \autoref{thm:zeckendorf-carry-value-namecert-package}, \autoref{thm:zeckendorf-carry-value-obligation-value-row-exactness}, and \autoref{thm:zeckendorf-carry-value-vision-realization} bind the finite value-preservation obligations over $\ZCarryUp$, $\ZeckendorfNormalUp$, $\BHist$, $\HSame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.ZeckendorfCarryValueUp.ZeckendorfCarryValueTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close a Lean implementation, a bridge certificate, a global Zeckendorf normalizer, uniqueness of numerical interpretation, a kernel rewrite, or source-target $\HSame$.}
-  \upgradepath{Obligation closure requires checked carrier admission, finite value-row exactness, non-$\HSame$ preservation, continuation routing, and public non-escape for the displayed carry-value packet.}
+  \upgradepath{Scoped closure requires public consumer routing for the displayed carry-value packet and its finite non-$\HSame$ boundary.}
 \end{closurestatus}

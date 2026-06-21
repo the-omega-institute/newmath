@@ -36,6 +36,7 @@ $$
 $$
 of \autoref{def:choice-free-diagonal-selector-carrier}. The window route of \autoref{thm:choice-free-diagonal-selector-window-route}, the stage induction of \autoref{thm:choice-free-diagonal-selector-stage-induction}, and the non-escape theorem of \autoref{thm:choice-free-diagonal-selector-nonescape} may inspect those rows, but they cannot add a hidden selector row, quotient stream row, selected host limit, or ambient completeness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ObligationCarrier.ChoiceFreeDiagonalSelectorCarrier\_obligation\_carrier}
 \begin{proof}
 Project the carrier in \autoref{def:choice-free-diagonal-selector-carrier}. Its content rows are the precision request, selected cofinal window, StreamName observations, RegSeqRat witness, RealUp seal, componentwise transport, displayed replay, provenance, and local naming.
 
@@ -156,15 +157,30 @@ Apply \autoref{thm:choice-free-diagonal-selector-window-route}. It confines ever
 Since the carrier contains no coordinate for host choice, quotient stream equality, selected host limits, hidden selectors, unbounded observation scans, or RealUp completeness, no such object can be recovered from an accepted packet.
 \end{proof}
 
-\closureat{ChoiceFreeDiagonalSelectorUp}{seedStr}
+\begin{theorem}[Choice-free diagonal selector obligation closure]
+\label{thm:choice-free-diagonal-selector-obligation-closure}
+The $\ChoiceFreeDiagonalSelectorUp$ obligation surface is exactly the finite route over $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ assembled by the carrier, classifier, ledger, cofinal-window route, RegSeqRat seal factorization, stage carrier, stage induction, and non-escape theorems. It exports no host choice rule, quotient stream equality, selected host limit, hidden cofinal-window selector, unbounded StreamName scan, or ambient completeness principle for $\RealUp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ChoiceFreeDiagonalSelectorUp.taste\_gate}
+\begin{proof}
+Start with \autoref{def:choice-free-diagonal-selector-carrier}. The carrier displays the precision request, selected cofinal window, StreamName observations, RegSeqRat witness, RealUp seal, componentwise transport, replay, provenance, and local naming rows.
+
+Apply the carrier, classifier, and ledger obligations of \autoref{thm:choice-free-diagonal-selector-obligation-carrier}, \autoref{thm:choice-free-diagonal-selector-obligation-classifier}, and \autoref{thm:choice-free-diagonal-selector-obligation-ledger}. These identify the finite rows that the local classifier and ledger may inspect.
+
+Next use \autoref{thm:choice-free-diagonal-selector-window-route} and \autoref{thm:choice-free-diagonal-selector-regseqrat-seal-factorization}. They force every diagonal read through the displayed $\StreamNameUp\longmapsto \RegSeqRatUp\longmapsto \RealUp$ route before the RealUp seal can be consumed.
+
+Finally apply \autoref{def:choice-free-diagonal-selector-stage-carrier}, \autoref{thm:choice-free-diagonal-selector-stage-induction}, and \autoref{thm:choice-free-diagonal-selector-nonescape}. Stage induction preserves the same finite rows, and non-escape rules out host choice, quotient streams, selected host limits, hidden selectors, unbounded scans, and ambient completeness.
+\end{proof}
+
+\closureat{ChoiceFreeDiagonalSelectorUp}{obligationStr}
 
 \begin{closurestatus}{\ChoiceFreeDiagonalSelectorUp}
   \constructivestory{A $\ChoiceFreeDiagonalSelectorUp$ packet is generated from a precision request, selected cofinal window, finite StreamName observations, RegSeqRat witness, RealUp seal, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:choice-free-diagonal-selector-carrier}, \autoref{thm:choice-free-diagonal-selector-window-route}, and \autoref{thm:choice-free-diagonal-selector-nonescape} bind the finite choice-free diagonal selector carrier and its local non-escape boundary.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:choice-free-diagonal-selector-carrier}, \autoref{thm:choice-free-diagonal-selector-window-route}, \autoref{thm:choice-free-diagonal-selector-regseqrat-seal-factorization}, \autoref{thm:choice-free-diagonal-selector-stage-induction}, \autoref{thm:choice-free-diagonal-selector-nonescape}, and \autoref{thm:choice-free-diagonal-selector-obligation-closure} bind the finite choice-free diagonal selector obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, RealUp completeness, quotient stream equality, host choice, selected host limits, hidden cofinal-window selection, or a public standard bridge.}
-  \upgradepath{Formal closure requires checked carrier admission, cofinal-window selection, StreamName readback, RegSeqRat handoff, RealUp seal delivery, transport stability, route stability, provenance, and non-escape for the same finite packet.}
+  \upgradepath{Scoped closure requires checked consumer boundaries for the displayed StreamName window, RegSeqRat handoff, RealUp seal delivery, transport stability, route stability, provenance, and non-escape for the same finite packet.}
 \end{closurestatus}
