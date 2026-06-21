@@ -5539,6 +5539,7 @@ import BEDC.Derived.FilterLimitBasisUp.RealHandoffStability
 import BEDC.Derived.FilterLimitBasisUp.RealWindowExhaustion
 import BEDC.Derived.FilterLimitBasisUp.ScopeExactness
 import BEDC.Derived.FilterLimitBasisUp.ScopedObligation
+import BEDC.Derived.FilterLimitBasisUp.ScopedRoute
 import BEDC.Derived.FilterLimitBasisUp.TasteGate
 import BEDC.Derived.FilterLimitBasisUp.WindowBasisExhaustion
 import BEDC.Derived.FilterLimitCriterionUp
@@ -5764,6 +5765,7 @@ import BEDC.Derived.FiniteObservationRefutationUp.TasteGate
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.AuditHandoff
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.AuditNonclosure
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
+import BEDC.Derived.FiniteObservationTraceFilterUp.TasteGate
 import BEDC.Derived.FiniteOpenCoverNerveUp.TasteGate
 import BEDC.Derived.FiniteOrthonormalBasisUp.TasteGate
 import BEDC.Derived.FiniteOscillationEnvelopeUp.TasteGate
@@ -9064,6 +9066,8 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelConsumerAudit
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelDependencyRoute
 import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.NameCertLedger
+import BEDC.Derived.QuotientSoundnessBoundaryUp.NegativeBoundaryRoute
+import BEDC.Derived.QuotientSoundnessBoundaryUp.NegativeRouteVisibility
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameBridgeHandoff
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameConsumerClosure
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameOnlyDescent
