@@ -56,23 +56,6 @@ def BoundedNormalEqualityCheckerClassifier [AskSetup] [PackageSetup]
             hsame transport transport' ∧ hsame route route' ∧
               hsame provenance provenance' ∧ hsame nameCert nameCert'
 
-theorem BoundedNormalEqualityCheckerClassifier_refl [AskSetup] [PackageSetup]
-    {left right fuel normalLeft normalRight equality witness closed transport route provenance
-      nameCert : BHist}
-    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    BoundedNormalEqualityCheckerCarrier left right fuel normalLeft normalRight equality witness
-        closed transport route provenance nameCert bundle pkg ->
-      BoundedNormalEqualityCheckerClassifier left right fuel normalLeft normalRight equality
-        witness closed transport route provenance nameCert left right fuel normalLeft normalRight
-        equality witness closed transport route provenance nameCert bundle pkg := by
-  -- BEDC touchpoint anchor: BHist hsame ProbeBundle Pkg
-  intro carrier
-  exact
-    ⟨carrier, carrier, hsame_refl left, hsame_refl right, hsame_refl fuel,
-      hsame_refl normalLeft, hsame_refl normalRight, hsame_refl equality,
-      hsame_refl witness, hsame_refl closed, hsame_refl transport, hsame_refl route,
-      hsame_refl provenance, hsame_refl nameCert⟩
-
 theorem BoundedNormalEqualityCheckerCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {left right fuel normalLeft normalRight equality witness closed transport route provenance
       nameCert : BHist}
