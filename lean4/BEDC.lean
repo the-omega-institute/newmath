@@ -2678,7 +2678,6 @@ import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ClassifierObligation
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.Nonescape
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ObligationCarrier
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.RegSeqRatSealFactorization
-import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.ScopedKernelRoute
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.StageInduction
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
 import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.WindowRoute
@@ -10403,6 +10402,7 @@ import BEDC.Derived.SequentialRealCompletionUp.TasteGate
 import BEDC.Derived.SequentialSpaceUp
 import BEDC.Derived.SequentialSpaceUp.TasteGate
 import BEDC.Derived.SequentialUniformCompletionUp.TasteGate
+import BEDC.Derived.SequentiallyCompactCompletionUp.TasteGate
 import BEDC.Derived.SequentiallyCompleteMetricUp.CauchyFilterBridge
 import BEDC.Derived.SequentiallyCompleteMetricUp.CauchySequenceObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.CauchyTailStability
@@ -10592,6 +10592,7 @@ import BEDC.Derived.SigmaCompactUp.ProperMetricExhaustion
 import BEDC.Derived.SigmaCompactUp.TasteGate
 import BEDC.Derived.SignedBinaryExpansionUp
 import BEDC.Derived.SignedBinaryExpansionUp.TasteGate
+import BEDC.Derived.SignedDecimalExpansionUp.TasteGate
 import BEDC.Derived.SignedDigitCauchyModulusUp.TasteGate
 import BEDC.Derived.SignedDigitIntervalRealUp.TasteGate
 import BEDC.Derived.SignedDigitRealUp
@@ -11568,7 +11569,6 @@ import BEDC.Derived.WitnessedRefutationUp.TasteGate
 import BEDC.Derived.WobbleQuotientSpectralTriggerUp.TasteGate
 import BEDC.Derived.WobbleSaturationSealUp.TasteGate
 import BEDC.Derived.WritingItemAuditPacketUp.TasteGate
-import BEDC.Derived.WritingItemAuditUp
 import BEDC.Derived.WritingItemAuditUp.ObligationClosure
 import BEDC.Derived.WritingItemAuditUp.TasteGate
 import BEDC.Derived.WrrStatePhaseSpaceUp.TasteGate
