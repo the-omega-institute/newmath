@@ -49,3 +49,21 @@ Now factor that interface through the audit frontier. Apply \autoref{thm:metacic
 
 Finally use \autoref{thm:metacic-critical-path-root-unblock-consumer-readiness}. Every downstream MetaCIC consumer is restricted to the same bounded readiness surface, so the root-unblock packet opens consumer scheduling while refusing full closed consistency and closed subject reduction.
 \end{proof}
+
+\begin{theorem}[MetaCIC critical-path local-diamond discharge cover]
+\label{thm:metacic-critical-path-local-diamond-discharge-cover}
+Every accepted local-diamond discharge read of a $\MetaCICCriticalPathUp$ packet must display the candidate residual route, the normalization-obstruction source order, and the downstream readiness boundary before it can be consumed by confluence or strong-normalization frontier packets. The accepted read is a finite packet route through
+$$
+S,N,O,U,D,H,C,P,L
+$$
+together with the visible candidate residual budget, the obstruction-preserving source order, and the downstream consumer boundary. It exports no hidden global confluence theorem, no unbounded normalization theorem, and no host reduction equality.
+\end{theorem}
+\begin{proof}
+First expose the socket route. The discharge-socket totality theorem \autoref{thm:metacic-critical-path-discharge-socket-totality} forces every socket read through the displayed rows $S,N,O,U,D,H,C,P,L$, so a local-diamond discharge cannot start from an external confluence or normalization object.
+
+Next retain the visible discharge and candidate residual surface. The downstream discharge visibility theorem \autoref{thm:metacic-critical-path-downstream-discharge-visibility} keeps the downstream NameCert surface and the visible discharge row in the same packet provenance. The candidate residual route is therefore consumed as packet-local discharge data, not as a detached proof of confluence.
+
+Now order the normalization side. By \autoref{thm:metacic-critical-path-normalization-obstruction-source-order}, the read of $S$ and $N$ preserves the obstruction row $O$ and the discharge socket $D$ before any endpoint is consumed. This supplies the required normalization-obstruction source order for the local-diamond handoff.
+
+Finally apply the downstream readiness boundary, \autoref{thm:metacic-critical-path-downstream-readiness-boundary}. Confluence and strong-normalization frontier packets receive only the bounded readiness surface assembled above. Since the assembled route has no coordinate for global confluence, unbounded normalization, or host reduction equality, those endpoints remain outside the discharge cover.
+\end{proof}

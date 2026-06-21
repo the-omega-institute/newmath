@@ -76,6 +76,48 @@ Inspect the possible observation classes. Lower-bound reads come from $L$, great
 The remaining rows are structural. They transport, replay, source, or name the same finite rows, and therefore cannot create an unlisted completion principle or choice principle. Hence every exported observation is ledger-exact for $F,L,G,W,R,E,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[LocatedInfimum bounded-family handoff]
+\label{thm:located-infimum-bounded-family-handoff}
+For every accepted $\LocatedInfimumUp$ packet $I=(F,L,G,W,R,E,H,C,P,N)$, each bounded-family consumer reads the lower-bound and greatest-lower-approximation surface only through the displayed $\BoundedRealFamilyUp$ row $F$, the lower-bound ledger $L$, the witness ledger $G$, the precision window $W$, the $\StreamNameUp$ window discipline, the $\RegSeqRatUp$ handoff row $R$, the $\RealUp$ seal $E$, and the structural rows $H,C,P,N$. The route is the lower-bound companion of the $\LocatedSupremumUp$ packet and exports no arbitrary infimum operator.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The bounded-family source is $F$, so a downstream bounded-family argument cannot inspect a lower-bound or greatest-lower-approximation claim before it has read the displayed family row.
+
+The lower surface is then split between $L$ and $G$. The row $L$ supplies the finite lower-bound comparisons, while $G$ supplies the displayed witnesses that block stronger lower-bound candidates inside the same precision window $W$.
+
+The handoff remains finite. The $\StreamNameUp$ window discipline fixes the observations in scope, $R$ repacks them as $\RegSeqRatUp$ readback, and $E$ supplies the only $\RealUp$ seal available to the consumer.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. The dual reference to $\LocatedSupremumUp$ identifies the companion orientation, but it adds no ambient completeness field and no arbitrary infimum operator.
+\end{proof}
+
+\begin{theorem}[LocatedInfimum RegSeqRat seal factorization]
+\label{thm:located-infimum-regseqrat-seal-factorization}
+For every accepted $\LocatedInfimumUp$ packet $I=(F,L,G,W,R,E,H,C,P,N)$, the $\RegSeqRatUp$ row $R$ factors the real-seal export: any read of the $\RealUp$ seal $E$ must pass through the bounded-family row $F$, the lower-bound ledger $L$, the greatest-lower-approximation ledger $G$, the $\StreamNameUp$ precision window $W$, and then $R$. No consumer may reach $E$ directly from $F$, from $L$, from $G$, or from a $\LocatedSupremumUp$ comparison route.
+\end{theorem}
+\begin{proof}
+Start with a request for the real seal. By \autoref{def:located-infimum-carrier}, $E$ is reached only through the displayed family, lower-bound, greatest-lower-approximation, window, and regular-rational rows.
+
+The window row $W$ is the gate between ledger evidence and regular readback. It fixes which family reads, lower-bound comparisons, and greatest-lower witnesses are in scope before the regular sequence row is assembled.
+
+The row $R$ is therefore the unique $\RegSeqRatUp$ factor. It repacks the displayed $\StreamNameUp$ observations as regular rational data, and only then can $E$ be read as the public $\RealUp$ seal.
+
+The structural rows $H,C,P,N$ preserve this order under transport and replay. A $\LocatedSupremumUp$ comparison may provide the companion orientation, but it has no coordinate in $I$ that bypasses $W$ or $R$.
+\end{proof}
+
+\begin{theorem}[LocatedInfimum Real export nonescape]
+\label{thm:located-infimum-real-export-nonescape}
+For every accepted $\LocatedInfimumUp$ packet $I=(F,L,G,W,R,E,H,C,P,N)$, every $\RealUp$ observation exported by the local certificate is sourced by $F,L,G,W,R,E,H,C,P,N$ and remains inside the $\BoundedRealFamilyUp$, $\LocatedSupremumUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ route displayed by the carrier. The export cannot escape to Dedekind completeness, arbitrary infima, quotient real equality, trichotomy, countable choice, host completeness, or an unlisted real-order oracle.
+\end{theorem}
+\begin{proof}
+Take an exported $\RealUp$ observation. Ledger exactness forces it to be read from the displayed rows $F,L,G,W,R,E,H,C,P,N$, and the carrier has no second real-facing coordinate.
+
+The analytic route is bounded-family first, lower-bound and witness ledgers second, window and regular-rational handoff third, and real seal last. The $\StreamNameUp$ and $\RegSeqRatUp$ rows keep the export finite at each stage.
+
+The $\LocatedSupremumUp$ reference supplies only the companion lower-versus-upper orientation used by downstream real-order arguments. It does not add a hidden completeness or equality principle to the packet.
+
+Thus every exported real observation remains in the displayed route. Since the forbidden principles have no carrier row and no replay edge, the export cannot escape through them.
+\end{proof}
+
 \begin{closurestatus}{\LocatedInfimumUp}
   \constructivestory{A $\LocatedInfimumUp$ packet is generated from a bounded real family row, a lower-bound ledger, a greatest-lower-approximation ledger, a StreamName precision window, a RegSeqRat handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
