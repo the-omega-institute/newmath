@@ -883,7 +883,9 @@ import BEDC.Derived.BishopCauchyChoiceSequenceUp
 import BEDC.Derived.BishopCauchyComparisonUp.TasteGate
 import BEDC.Derived.BishopCauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.BishopCauchyConvergenceCriterionUp.TasteGate
+import BEDC.Derived.BishopCauchyCriterionCompletionUp.TasteGate
 import BEDC.Derived.BishopCauchyCriterionUp.TasteGate
+import BEDC.Derived.BishopCauchyDisplayCertificateUp
 import BEDC.Derived.BishopCauchyLimitCriterionUp.TasteGate
 import BEDC.Derived.BishopCauchyMeanUp.TasteGate
 import BEDC.Derived.BishopCauchyModulusEquivalenceUp.TasteGate
@@ -3000,6 +3002,7 @@ import BEDC.Derived.CofinalWindowRealSealUp.TasteGate
 import BEDC.Derived.CofinalWindowRealSealUp.TerminalMeet
 import BEDC.Derived.CofinalityFilterUp
 import BEDC.Derived.CohomologyUp
+import BEDC.Derived.CollectionwiseNormalUp
 import BEDC.Derived.CollisionKernelSpectrumUp
 import BEDC.Derived.CollisionKernelUp
 import BEDC.Derived.CollisionKernelUp.TasteGate
@@ -7707,6 +7710,7 @@ import BEDC.Derived.MetaCICOpenProblemWitnessUp.TasteGate
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.CriticalPairEnvelope
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.TasteGate
+import BEDC.Derived.MetaCICParallelDiamondSelectorUp
 import BEDC.Derived.MetaCICPiAdequacyBudgetUp.TasteGate
 import BEDC.Derived.MetaCICProofObjectAuditRouteUp.BlockedEdgeNonEscape
 import BEDC.Derived.MetaCICProofObjectAuditRouteUp.NameCertObligations
@@ -9739,6 +9743,7 @@ import BEDC.Derived.RegularCauchyFiniteObservationRouteUp.TasteGate
 import BEDC.Derived.RegularCauchyFiniteProductUp
 import BEDC.Derived.RegularCauchyFiniteSpliceUp.TasteGate
 import BEDC.Derived.RegularCauchyFiniteSumUp.TasteGate
+import BEDC.Derived.RegularCauchyFunctorUp
 import BEDC.Derived.RegularCauchyFusionUp
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.Carrier
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.FiniteWindowUniquenessRoute
