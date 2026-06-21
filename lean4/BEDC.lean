@@ -2666,6 +2666,7 @@ import BEDC.Derived.CertifiedOnticTowerUp.TasteGate
 import BEDC.Derived.CertifiedPhysicalTruthUp
 import BEDC.Derived.CertifiedPhysicalTruthUp.TasteGate
 import BEDC.Derived.CertifiedUseProcessUp.NameCertSurface
+import BEDC.Derived.CertifiedUseProcessUp.NonprivateRuleFollowing
 import BEDC.Derived.CertifiedUseProcessUp.TasteGate
 import BEDC.Derived.CesaroConvergenceUp.TasteGate
 import BEDC.Derived.CevaUp.TasteGate
@@ -6209,6 +6210,7 @@ import BEDC.Derived.HemicompactSpaceUp.TasteGate
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
+import BEDC.Derived.HigsonCompactificationUp
 import BEDC.Derived.HilbertAlexanderBlockerUp.FiniteHilbertRow
 import BEDC.Derived.HilbertAlexanderBlockerUp.NameCertObligations
 import BEDC.Derived.HilbertAlexanderBlockerUp.TasteGate
@@ -7028,6 +7030,7 @@ import BEDC.Derived.LogicContradictionMetaLoopUp.SiblingDependencyRoute
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
 import BEDC.Derived.LongLineUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
+import BEDC.Derived.LowDiscrepancySequenceUp.TasteGate
 import BEDC.Derived.LowerRealUp.DedekindCutAdmission
 import BEDC.Derived.LowerRealUp.DirectedLowerCutBudget
 import BEDC.Derived.LowerRealUp.LocatedCutLedger
