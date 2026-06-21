@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicMarkovPartitionUp$}
+\label{ch:concrete-instances-hyperbolic-markov-partition-namecert}
+\origin{ai}
+
+The $\HyperbolicMarkovPartitionUp$ packet realizes the observer-expansion symbolic-shadow route as finite Markov partition, transition, boundary, metric, transport, provenance, and NameCert rows. It sits after the finite symbolic partition surface of \autoref{ch:concrete-instances-finite-markov-partition-namecert}, the metric route of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, the Gromov boundary of \autoref{ch:concrete-instances-gromov-boundary-namecert}, the visual-boundary packet of \autoref{ch:concrete-instances-hyperbolic-visual-boundary-namecert}, and the shadowing route of \autoref{ch:concrete-instances-hyperbolic-shadowing-namecert}. The packet names symbolic shadow data only as finite BEDC rows; it does not import global Anosov dynamics, invariant measures, completed shift spaces, orbit quotients, or measure-theoretic coding.
+
+\begin{definition}[Hyperbolic Markov partition carrier]
+\label{def:hyperbolic-markov-partition-carrier}
+A $\HyperbolicMarkovPartitionUp$ carrier is a finite $\BHist$ packet
+$$
+M=(F,Q,A,B,V,S,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\FiniteMarkovPartitionUp$ row, exposing finite atoms, cylinder blocks, adjacency rows, and refinement data.
+\item $Q$ is the transition ledger, recording allowed symbolic moves between displayed atoms and refusing unlisted moves.
+\item $A$ is the $\HyperbolicMetricUp$ metric row used to read expansion and separation budgets.
+\item $B$ is the $\GromovBoundaryUp$ boundary row attached to the shadow endpoints.
+\item $V$ is the $\HyperbolicVisualBoundaryUp$ visual-boundary row used for finite visual-shadow readback.
+\item $S$ is the $\HyperbolicShadowingUp$ row, displaying the finite fellow-traveller or shadow route consumed by the symbolic read.
+\item $T$ is the symbolic-shadow transport row binding partition atoms, transitions, metric budgets, boundary endpoints, visual readbacks, and shadowing data as one route.
+\item $H$ records componentwise $\hsame$ transport for partition, transition, metric, boundary, visual-boundary, shadowing, symbolic-shadow transport, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a symbolic-shadow request through $F,Q,A,B,V,S,T,H$.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicMarkovPartitionUp$, $\FiniteMarkovPartitionUp$, $\HyperbolicMetricUp$, $\GromovBoundaryUp$, $\HyperbolicVisualBoundaryUp$, $\HyperbolicShadowingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HyperbolicMarkovPartitionUp}$ row.
+\end{enumerate}
+The classifier reads only $F,Q,A,B,V,S,T,H,C,P,N$. It has no coordinate for global Anosov dynamics, measure-theoretic coding, invariant measures, completed shift spaces, orbit quotients, or host boundary equality.
+\end{definition}
+
+\begin{theorem}[Hyperbolic Markov partition NameCert obligations]
+\label{thm:hyperbolic-markov-partition-namecert-obligations}
+For every accepted $\HyperbolicMarkovPartitionUp$ carrier
+$$
+M=(F,Q,A,B,V,S,T,H,C,P,N),
+$$
+the local $\NameCert_{\HyperbolicMarkovPartitionUp}$ surface consists exactly of finite Markov partition admission, transition-ledger exposure, hyperbolic metric budgeting, Gromov-boundary handoff, visual-boundary readback, shadowing-route admission, symbolic-shadow transport, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-markov-partition-carrier}. The visible symbolic rows are $F,Q$, and the visible hyperbolic rows are $A,B,V,S$.
+
+The symbolic-shadow transport row $T$ binds those rows before replay. Transport through $H$ and continuation through $C$ preserve the same finite route, while $P,N$ source and name it.
+
+Since the carrier has no coordinate for global Anosov dynamics, measure-theoretic coding, invariant measures, completed shift spaces, orbit quotients, or host boundary equality, the listed rows are exactly the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Hyperbolic Markov partition symbolic shadow route]
+\label{thm:hyperbolic-markov-partition-symbolic-shadow-route}
+Every symbolic-shadow read exported by an accepted $\HyperbolicMarkovPartitionUp$ packet factors through the finite Markov partition row $F$, the transition ledger $Q$, the $\HyperbolicMetricUp$ row $A$, the $\GromovBoundaryUp$ row $B$, the $\HyperbolicVisualBoundaryUp$ row $V$, the $\HyperbolicShadowingUp$ row $S$, and the symbolic-shadow transport row $T$ before it reaches $H,C,P,N$. A read that bypasses the transition ledger is not a read of this carrier.
+\end{theorem}
+\begin{proof}
+Begin with the finite symbolic side. The row $F$ supplies atoms, cylinder blocks, adjacency rows, and refinements, while $Q$ records the allowed transitions between the displayed atoms.
+
+Read the hyperbolic side next. Metric budgets, boundary endpoints, visual-boundary readbacks, and shadowing routes are carried by $A,B,V,S$ and then bound to the symbolic rows by $T$.
+
+Finally replay the same data through $H,C,P,N$. Without $Q$ the symbolic word has no displayed transition ledger, and without $A,B,V,S,T$ it has no hyperbolic shadow route, so any bypass changes the packet rather than exporting an accepted symbolic-shadow read.
+\end{proof}
+
+\falsifiablePrediction{Any symbolic-shadow read that bypasses the transition ledger $Q$ refutes the $\HyperbolicMarkovPartitionUp$ carrier.}
+
+\independenceWitness{finite-markov-partition, hyperbolic-metric, gromov-boundary, hyperbolic-visual-boundary, hyperbolic-shadowing: none is bijective with $\HyperbolicMarkovPartitionUp$ because the packet jointly carries finite Markov partition atoms, a transition ledger, hyperbolic metric budgets, Gromov-boundary endpoints, visual-boundary readback, shadowing data, symbolic-shadow transport, replay, provenance, and local naming.}
+
+The Lean follow-up must provide \texttt{Nontrivial HyperbolicMarkovPartitionUp} and \texttt{FieldFaithful HyperbolicMarkovPartitionUp} instances in \texttt{lean4/BEDC/Derived/HyperbolicMarkovPartitionUp/TasteGate.lean}.
+
+\closureat{HyperbolicMarkovPartitionUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicMarkovPartitionUp}
+  \constructivestory{A $\HyperbolicMarkovPartitionUp$ packet is generated from FiniteMarkovPartition rows, transition ledgers, HyperbolicMetric budgets, GromovBoundary endpoints, HyperbolicVisualBoundary readback, HyperbolicShadowing data, symbolic-shadow transport, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-markov-partition-carrier}, \autoref{thm:hyperbolic-markov-partition-namecert-obligations}, and \autoref{thm:hyperbolic-markov-partition-symbolic-shadow-route} seed the finite symbolic-shadow route over Markov partition, transition, metric, boundary, visual-boundary, shadowing, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global Anosov dynamics, measure-theoretic coding, invariant measures, completed shift spaces, orbit quotients, host boundary equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, transition-ledger exactness, metric and boundary handoff, shadowing readback, symbolic-shadow transport, replay, provenance, local naming, and TasteGate instances for BEDC.Derived.HyperbolicMarkovPartitionUp.}
+\end{closurestatus}
