@@ -883,7 +883,9 @@ import BEDC.Derived.BishopCauchyChoiceSequenceUp
 import BEDC.Derived.BishopCauchyComparisonUp.TasteGate
 import BEDC.Derived.BishopCauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.BishopCauchyConvergenceCriterionUp.TasteGate
+import BEDC.Derived.BishopCauchyCriterionCompletionUp.TasteGate
 import BEDC.Derived.BishopCauchyCriterionUp.TasteGate
+import BEDC.Derived.BishopCauchyDisplayCertificateUp
 import BEDC.Derived.BishopCauchyLimitCriterionUp.TasteGate
 import BEDC.Derived.BishopCauchyMeanUp.TasteGate
 import BEDC.Derived.BishopCauchyModulusEquivalenceUp.TasteGate
@@ -3464,7 +3466,6 @@ import BEDC.Derived.ContinuationMonadUp.RootGeneratorCategoryLock
 import BEDC.Derived.ContinuationMonadUp.RootGeneratorHomRouteExhaustion
 import BEDC.Derived.ContinuationMonadUp.RootGeneratorObligation
 import BEDC.Derived.ContinuationMonadUp.RootKleisliAssociativityScope
-import BEDC.Derived.ContinuationMonadUp.RootKleisliAssociativitySurface
 import BEDC.Derived.ContinuationMonadUp.RootKleisliRoute
 import BEDC.Derived.ContinuationMonadUp.RootKleisliSourceTotality
 import BEDC.Derived.ContinuationMonadUp.RootNameCert
@@ -9742,6 +9743,7 @@ import BEDC.Derived.RegularCauchyFiniteObservationRouteUp.TasteGate
 import BEDC.Derived.RegularCauchyFiniteProductUp
 import BEDC.Derived.RegularCauchyFiniteSpliceUp.TasteGate
 import BEDC.Derived.RegularCauchyFiniteSumUp.TasteGate
+import BEDC.Derived.RegularCauchyFunctorUp
 import BEDC.Derived.RegularCauchyFusionUp
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.Carrier
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.FiniteWindowUniquenessRoute
@@ -10480,7 +10482,6 @@ import BEDC.Derived.SetlikeUp.RootMembershipFamilyObligations
 import BEDC.Derived.SetlikeUp.RootMembershipNonescapeLedger
 import BEDC.Derived.SetlikeUp.RootMembershipProvenance
 import BEDC.Derived.SetlikeUp.RootMembershipTransport
-import BEDC.Derived.SetlikeUp.RootModelTheorySatisfactionEnvelope
 import BEDC.Derived.SetlikeUp.RootNameCertObligations
 import BEDC.Derived.SetlikeUp.RootSubsetLedgerNonescape
 import BEDC.Derived.SetlikeUp.RootUnblockConsumerRoutes
