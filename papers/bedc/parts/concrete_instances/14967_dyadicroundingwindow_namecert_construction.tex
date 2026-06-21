@@ -190,6 +190,22 @@ No remaining carrier coordinate can name quotient real equality, selected limits
 \end{proof}
 \leanchecked{BEDC.Derived.DyadicRoundingWindowUp.DyadicRoundingWindowCarrier\_ledger\_nonescape}
 
+\begin{theorem}[DyadicRoundingWindow mature completion boundary]
+\label{thm:dyadicroundingwindow-mature-completeness-boundary}
+The mature $\DyadicRoundingWindowUp$ packet exhausts precision-window rounding through the displayed rows
+$$
+S,q,D,A,R,E,H,C,P,N
+$$
+over $\StreamNameUp$, $\DyadicRoundingUp$, $\DyadicApproximationUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicRatCoreUp$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ data. Every rounded-observation consumer is confined to that route. No quotient real equality, selected limit, trichotomy, host rounding operation, or ambient completeness row is exported.
+\end{theorem}
+\begin{proof}
+Begin with the obligation package of \autoref{thm:dyadicroundingwindow-obligation-closure-package}. It identifies the carrier rows, precision-window classification, adjacent endpoint compatibility, dyadic readback, regular rational handoff, Real seal factorization, and ledger nonescape as one finite packet.
+
+Now apply the scoped consumer and kernel-dependency boundaries, \autoref{thm:dyadicroundingwindow-scoped-consumer-boundary} and \autoref{thm:dyadic-rounding-window-scoped-kernel-dependencies}. They force each consumer to pass through $\StreamNameUp$, $\DyadicRoundingUp$, $\DyadicApproximationUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ before the rounded observation is read.
+
+Finally read the bridge-facing handoff of \autoref{thm:dyadic-rounding-window-bridge-facing-handoff}. The handoff preserves the same rows $H,C,P,N$ and adds no coordinate for quotient real equality, selected limits, trichotomy, host rounding, or ambient completeness. Thus the completion boundary is exhausted by the displayed packet.
+\end{proof}
+
 \begin{theorem}[DyadicRoundingWindow obligation-closure package]
 \label{thm:dyadicroundingwindow-obligation-closure-package}
 The carrier of \autoref{def:dyadic-rounding-window-carrier}, together with \autoref{thm:dyadicroundingwindow-namecert-obligations}, \autoref{thm:dyadicroundingwindow-error-bound}, \autoref{thm:dyadicroundingwindow-precision-classification}, \autoref{thm:dyadicroundingwindow-adjacent-endpoint-compatibility}, \autoref{thm:dyadicroundingwindow-readback-handoff}, \autoref{thm:dyadicroundingwindow-real-seal-factorization}, and \autoref{thm:dyadicroundingwindow-ledger-nonescape}, assembles the full obligationClosure surface for $\DyadicRoundingWindowUp$. The closed surface is exactly the displayed packet over $\StreamNameUp$, $\DyadicRoundingUp$, $\DyadicApproximationUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
@@ -254,14 +270,14 @@ Use ledger nonescape from \autoref{thm:dyadicroundingwindow-ledger-nonescape}. T
 
 \independenceWitness{streamname, dyadicrounding, dyadicapproximation, regseqrat, real, dyadicratcore: $\DyadicRoundingWindowUp$ is not bijective to any listed sibling because it jointly carries a stream window, unary precision request, adjacent endpoint packet, dyadic readback, regular rational handoff, real seal, componentwise transport, continuation replay, provenance, and local naming.}
 
-\closureat{DyadicRoundingWindowUp}{bridgedStr}
+\closureat{DyadicRoundingWindowUp}{matureStr}
 
 \begin{closurestatus}{\DyadicRoundingWindowUp}
   \constructivestory{A $\DyadicRoundingWindowUp$ packet is generated from a StreamName window, a unary precision request, an adjacent DyadicRounding endpoint packet, a DyadicApproximation readback row, a RegSeqRat handoff, a RealUp seal, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{thm:dyadicroundingwindow-obligation-closure-package}, \autoref{thm:dyadic-rounding-window-scoped-kernel-dependencies}, and \autoref{thm:dyadic-rounding-window-bridge-facing-handoff} bind every public and standard-facing consumer to the displayed StreamName, DyadicRounding, DyadicApproximation, RegSeqRat, DyadicRatCore, RealUp, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:dyadicroundingwindow-obligation-closure-package}, \autoref{thm:dyadicroundingwindow-mature-completeness-boundary}, \autoref{thm:dyadic-rounding-window-scoped-kernel-dependencies}, and \autoref{thm:dyadic-rounding-window-bridge-facing-handoff} bind every public and standard-facing consumer to the displayed StreamName, DyadicRounding, DyadicApproximation, RegSeqRat, DyadicRatCore, RealUp, transport, replay, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient real equality, selected limits, trichotomy, host rounding, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Formal upgrade requires Lean verification for the scoped consumer boundary over precision-window classification, adjacent endpoint compatibility, readback handoff, Real seal factorization, ledger nonescape, transport, replay, provenance, and local naming.}
+  \upgradepath{No theory-axis upgrade remains; verification upgrade requires Lean checking for the mature precision-window boundary and bridge-facing handoff.}
 \end{closurestatus}
