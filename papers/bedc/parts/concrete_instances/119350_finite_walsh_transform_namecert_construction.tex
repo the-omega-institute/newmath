@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWalshTransformUp$}
+\label{ch:concrete-instances-finite-walsh-transform-namecert}
+\origin{human}
+
+Following Walsh and Hadamard finite transform theory, the $\FiniteWalshTransformUp$ packet records a dyadic binary-character transform over finite data without importing host Fourier analysis, ambient Hilbert-space completion, or an external orthogonality theorem. It sits next to the finite observation surface of \autoref{ch:concrete-instances-fourier-namecert}, the butterfly schedule of \autoref{ch:concrete-instances-fft-namecert}, the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}.
+
+\begin{definition}[Finite Walsh transform carrier]
+\label{def:finite-walsh-transform-carrier}
+A $\FiniteWalshTransformUp$ carrier is a finite $\BHist$ packet
+$$
+W=(S,B,X,A,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source-window row, listing the finite input coordinates and retained output coordinates.
+\item $B$ is the binary-character row, recording the displayed bitwise parity probes used to evaluate Walsh signs.
+\item $X$ is the signed accumulation row, containing the finite plus-minus summation ledger attached to the retained coordinates.
+\item $A$ is the Hadamard-stage row, naming the finite row/column stage data used by the transform read.
+\item $D$ is the $\DyadicRatCoreUp$ arithmetic row for normalized sums, sign changes, and dyadic scaling.
+\item $R$ is the readback row consumed by finite harmonic-analysis neighbours after $S,B,X,A,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the displayed source windows, binary characters, accumulation rows, stage rows, arithmetic rows, readback rows, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a finite coordinate request through $S,B,X,A,D,R$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteWalshTransformUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\FourierUp$, $\FftUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteWalshTransformUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,B,X,A,D,R,H,C,P,N$. It has no coordinate for host Fourier inversion, completed orthogonal bases, analytic convergence, quotient equality of functions, selected infinite spectra, or floating-point error analysis.
+\end{definition}
+
+\begin{theorem}[Finite Walsh transform NameCert obligations]
+\label{thm:finite-walsh-transform-namecert-obligations}
+For every accepted $\FiniteWalshTransformUp$ carrier $W=(S,B,X,A,D,R,H,C,P,N)$, the local $\NameCert_{\FiniteWalshTransformUp}$ surface consists exactly of carrier admission for the displayed source-window, binary-character, signed-accumulation, Hadamard-stage, dyadic-arithmetic, readback, transport, replay, provenance, and local naming rows; binary-character exactness through $B$; finite accumulation exactness through $X$; stage accountability through $A$; dyadic scaling through $D$; and public readback through $R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-walsh-transform-carrier}. Its visible inventory is exactly $S,B,X,A,D,R,H,C,P,N$, so every local naming duty begins with finite source and output windows rather than with a host transform.
+
+The transform-specific rows are then read in order. The binary-character row $B$ supplies the parity probes, the signed accumulation row $X$ records the finite plus-minus ledger, and the Hadamard-stage row $A$ names the row/column stage data used by the same finite request.
+
+The arithmetic endpoint is also explicit. The dyadic row $D$ accounts for scaling and sign changes before the readback row $R$ can be consumed by Fourier or FFT-facing neighbours.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no carrier coordinate stores inversion, completed orthogonality, convergence closure, quotient function equality, selected spectra, or floating-point analysis, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite Walsh transform binary-character handoff]
+\label{thm:finite-walsh-transform-binary-character-handoff}
+Every finite harmonic-analysis consumer of an accepted $\FiniteWalshTransformUp$ packet receives the Walsh read only through
+$$
+S,B \longmapsto X,A \longmapsto D,R \longmapsto H,C,P,N .
+$$
+The handoff may be compared with the Fourier observation surface of \autoref{ch:concrete-instances-fourier-namecert} and the butterfly schedule of \autoref{ch:concrete-instances-fft-namecert}, but it exports only finite binary-character rows, finite signed sums, Hadamard-stage data, dyadic scaling, and displayed readback.
+\end{theorem}
+\begin{proof}
+Start with the rows $S$ and $B$. The source-window row fixes the finite coordinates under inspection, while the binary-character row fixes the parity probes that determine the Walsh signs.
+
+Next read $X$ and $A$. The signed accumulation row records the finite sum attached to the retained coordinates, and the Hadamard-stage row records the finite stage data used by the same transform request.
+
+Only after those rows are displayed can the dyadic scaling and readback rows $D,R$ be consumed. Thus a Fourier or FFT-facing consumer receives a finite binary-character handoff rather than an ambient Fourier transform, completed basis theorem, inversion theorem, or analytic convergence claim.
+
+The structural rows $H,C,P,N$ preserve this factorization under transport, replay, provenance, and local naming. The packet therefore supplies a finite Walsh neighbour for harmonic-analysis consumers without adding host analytic structure.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteWalshTransformUp$ read factors through source windows, binary-character parity probes, signed accumulation rows, Hadamard-stage rows, dyadic scaling, readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before any finite harmonic-analysis consumer may cite it.}
+
+\independenceWitness{streamname, dyadicratcore, fourier, fft: $\FiniteWalshTransformUp$ is not bijective to any listed sibling because it jointly carries finite source windows, binary-character parity probes, signed plus-minus accumulation, Hadamard-stage data, dyadic scaling, readback, transport, replay, provenance, and local NameCert rows as one finite transform packet.}
+
+\closureat{FiniteWalshTransformUp}{seedStr}
+
+\begin{closurestatus}{\FiniteWalshTransformUp}
+  \constructivestory{A $\FiniteWalshTransformUp$ packet is generated from finite source windows, binary-character parity probes, signed accumulation rows, Hadamard-stage data, dyadic scaling, readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-walsh-transform-carrier}, \autoref{thm:finite-walsh-transform-namecert-obligations}, and \autoref{thm:finite-walsh-transform-binary-character-handoff} seed the finite binary-character transform route over StreamName, DyadicRatCore, Fourier, and FFT-facing rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host Fourier inversion, completed orthogonality, analytic convergence, quotient equality of functions, selected infinite spectra, floating-point error analysis, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, binary-character exactness, finite accumulation exactness, Hadamard-stage accountability, dyadic scaling, readback, transport, replay, provenance, and local naming for BEDC.Derived.FiniteWalshTransformUp.}
+\end{closurestatus}

@@ -5,6 +5,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.Derived.LocatedCompactnessUp.TasteGate
 import BEDC.Derived.LocatedCompactUp.TasteGate
 
 namespace BEDC.Derived.LocatedCompactUp
@@ -69,6 +70,41 @@ theorem LocatedCompactCarrier_totally_bounded_handoff [AskSetup] [PackageSetup]
               (And.intro carrier.right.right.right.right.right.right.right.left
                 (And.intro carrier.right.right.right.right.right.right.right.right.left
                   carrier.right.right.right.right.right.right.right.right.right))))))
+
+theorem LocatedCompactCarrier_from_located_compactness_namecert [AskSetup] [PackageSetup]
+    {metric compact closedBall localSupport radius stream transport replay provenance
+      localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.LocatedCompactnessUp.LocatedCompactnessCarrier metric compact closedBall
+        localSupport radius stream transport replay provenance localName bundle pkg ->
+      hsame transport (append metric localSupport) ->
+        hsame localName (append replay provenance) ->
+          LocatedCompactCarrier metric radius stream localSupport transport replay provenance
+              localName bundle pkg ∧
+            UnaryHistory localName ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: LocatedCompactnessCarrier LocatedCompactCarrier SemanticNameCert
+  intro carrier transportRow nameRow
+  have localCert :=
+    BEDC.Derived.LocatedCompactnessUp.LocatedCompactnessCarrier_namecert_obligations
+      (bundle := bundle) (pkg := pkg) carrier
+  have localSource :
+      (fun row : BHist =>
+        BEDC.Derived.LocatedCompactnessUp.LocatedCompactnessCarrier metric compact closedBall
+          localSupport radius stream transport replay provenance localName bundle pkg ∧
+            hsame row localName) localName := by
+    exact ⟨carrier, hsame_refl localName⟩
+  have localLedger := localCert.ledger_sound localSource
+  obtain ⟨metricUnary, _compactUnary, _closedBallUnary, localSupportUnary, radiusUnary,
+    streamUnary, _transportUnary, _replayUnary, provenanceUnary, _localNameUnary,
+    _metricCompactClosedBall, _closedBallSupportRadius, radiusStreamReplay,
+    _transportReplayProvenance, provenancePkg, _localNamePkg⟩ := carrier
+  have compactCarrier :
+      LocatedCompactCarrier metric radius stream localSupport transport replay provenance
+          localName bundle pkg := by
+    exact
+      ⟨metricUnary, radiusUnary, streamUnary, localSupportUnary, provenanceUnary,
+        localLedger.left, radiusStreamReplay, transportRow, provenancePkg, nameRow⟩
+  exact ⟨compactCarrier, localLedger⟩
 
 theorem LocatedCompactCarrier_public_finite_net_boundary [AskSetup] [PackageSetup]
     {X L F A H C P N finiteRead locatedRead publicRead : BHist}

@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRegularComparisonSealUp$}
+\label{ch:concrete-instances-cauchy-regular-comparison-seal-namecert}
+\origin{human}
+
+Following Bishop and Bridges, Constructive Analysis, the $\CauchyRegularComparisonSealUp$ packet names the finite comparison surface used when two regular Cauchy rows are inspected against one tolerance ledger. It sits after the observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet records comparison by displayed rows; it is not a quotient stream equality, a selected limit, countable choice, apartness trichotomy, or ambient $\RealUp$ completeness theorem.
+
+\begin{definition}[Cauchy regular comparison seal carrier]
+\label{def:cauchy-regular-comparison-seal-carrier}
+A $\CauchyRegularComparisonSealUp$ carrier is a finite $\BHist$ packet
+$$
+C=(A,B,D,W_A,W_B,R_A,R_B,Q,E_A,E_B,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two regular Cauchy rows being compared, each read as $\RegSeqRatUp$ data.
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance ledger that fixes the same precision request for both rows.
+\item $W_A$ and $W_B$ are the finite $\StreamNameUp$ schedule windows opened for the two rows after $D$ is displayed.
+\item $R_A$ and $R_B$ are the two $\RegSeqRatUp$ readback rows exposed by those windows.
+\item $Q$ is the finite comparison ledger recording which readback entries have been inspected under the common dyadic tolerance request.
+\item $E_A$ and $E_B$ are the two $\RealUp$ seal rows reached only after $A,B,D,W_A,W_B,R_A,R_B,Q$ have been consumed.
+\item $H$ records componentwise $\hsame$ transport for the regular rows, tolerance ledger, schedule windows, readbacks, comparison ledger, Real seals, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from each finite comparison request through
+$$
+A,B,D,W_A,W_B,R_A,R_B,Q \longmapsto E_A,E_B,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyRegularComparisonSealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRegularComparisonSealUp}$ row.
+\end{enumerate}
+The classifier accepts only packets in which the two regular rows are compared through the same dyadic tolerance ledger and the same finite schedule discipline before either terminal Real seal is public.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyRegularComparisonSealUp.CauchyRegularComparisonSealTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy regular comparison seal obligations]
+\label{thm:cauchy-regular-comparison-seal-obligations}
+For every accepted $\CauchyRegularComparisonSealUp$ carrier
+$$
+C=(A,B,D,W_A,W_B,R_A,R_B,Q,E_A,E_B,H,K,P,N),
+$$
+the local $\NameCert_{\CauchyRegularComparisonSealUp}$ surface consists exactly of exposure of the two regular Cauchy rows, the shared dyadic tolerance ledger, the two StreamName windows, the two RegSeqRat readbacks, the finite comparison ledger, the two terminal Real seals, componentwise transport, continuation replay, package provenance, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:cauchy-regular-comparison-seal-carrier}. The two compared rows are displayed as $A$ and $B$, and the only tolerance coordinate available to either side is the shared row $D$.
+
+The schedule windows $W_A,W_B$ and readbacks $R_A,R_B$ are opened after that shared ledger is visible. The comparison row $Q$ therefore records finite inspected readbacks under one tolerance request, rather than under unrelated representatives.
+
+The seals $E_A,E_B$ occur downstream of the same comparison route. The rows $H,K,P,N$ transport, replay, source, and name that displayed packet, and no excluded quotient, choice, trichotomy, or ambient-completeness coordinate occurs in the carrier.
+\end{proof}
+
+\begin{theorem}[Cauchy regular comparison seal stability]
+\label{thm:cauchy-regular-comparison-seal-stability}
+Every comparison-facing consumer of an accepted $\CauchyRegularComparisonSealUp$ carrier reads the route
+$$
+A,B,D \longmapsto W_A,W_B \longmapsto R_A,R_B \longmapsto Q \longmapsto E_A,E_B,H,P,N .
+$$
+Componentwise $\hsame$ transport preserves this route: replacing any displayed row by an $\hsame$-transported row changes neither the shared tolerance ledger nor the order in which the schedule windows, readbacks, comparison ledger, and terminal Real seals become available.
+\end{theorem}
+\begin{proof}
+Start with a comparison request. By the carrier definition the request first meets the two regular rows and the common dyadic tolerance ledger $D$.
+
+The StreamName windows and RegSeqRat readbacks are then attached to that same ledger. The comparison ledger $Q$ can only inspect readback entries already exposed by those windows, so it cannot introduce quotient equality or a selected representative.
+
+Finally, $\hsame$ transport is recorded componentwise by $H$ and continuation replay by $K$. These rows preserve the displayed order of access before $E_A$ and $E_B$ are read, which gives the stated stability boundary.
+\end{proof}
+
+\closureat{CauchyRegularComparisonSealUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRegularComparisonSealUp}
+  \constructivestory{A $\CauchyRegularComparisonSealUp$ packet is generated from two regular Cauchy rows, one shared DyadicRatCore tolerance ledger, two StreamName windows, two RegSeqRat readbacks, a finite comparison ledger, two terminal RealUp seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-regular-comparison-seal-carrier}, \autoref{thm:cauchy-regular-comparison-seal-obligations}, and \autoref{thm:cauchy-regular-comparison-seal-stability} seed the finite regular-Cauchy comparison route over StreamName, RegSeqRat, DyadicRatCore, Real, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected representatives, countable choice, apartness trichotomy, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared dyadic tolerance accounting, two-sided StreamName window routing, RegSeqRat readback, finite comparison stability, Real seal routing, transport, replay, provenance, and local naming for BEDC.Derived.CauchyRegularComparisonSealUp.}
+\end{closurestatus}

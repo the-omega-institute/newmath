@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\PoincareMapUp$}
+\label{ch:concrete-instances-poincare-map-namecert}
+\origin{human}
+
+Following Poincare and the standard return-map construction in dynamical systems, the $\PoincareMapUp$ packet records the finite section-to-section return surface used by a displayed flow before any downstream consumer treats the read as a map. It sits after the finite routed-flow carrier of \autoref{ch:concrete-instances-dynsystem-namecert}, the displayed ODE route of \autoref{ch:concrete-instances-ode-namecert}, the map-continuity packet of \autoref{ch:concrete-instances-continuousmap-namecert}, the metric-distance surface of \autoref{ch:concrete-instances-metric-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names a finite return certificate, not global recurrence, selected orbit representatives, quotient flow equality, host smooth transversality, or ambient Real completeness.
+
+\begin{definition}[Poincare map carrier]
+\label{def:poincare-map-carrier}
+A $\PoincareMapUp$ carrier is a finite $\BHist$ packet
+$$
+P=(D,O,M,S,T,W,R,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DynSystemUp$ routed-flow row exposing the finite transition relation inspected by the packet.
+\item $O$ is the $\OdeUp$ local evolution row used only through its displayed solution-step ledger.
+\item $M$ is the $\ContinuousMapUp$ row naming the section-to-section map surface.
+\item $S$ is the section row naming the displayed source and target section windows.
+\item $T$ is the first accepted return-time row inside the inspected window.
+\item $W$ is the $\StreamNameUp$ finite observation-window row for source, flow, and return reads.
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational return-time and section-coordinate data.
+\item $E$ is the terminal $\RealUp$ seal for the displayed return scale and coordinate reads.
+\item $H$ records componentwise $\hsame$ transport for the dynamic, ODE, map, section, return-time, window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the route
+$$
+D,O,M,S,T,W,R \longmapsto E .
+$$
+\item $Q$ is the $\Pkg$ provenance over $\PoincareMapUp$, $\DynSystemUp$, $\OdeUp$, $\ContinuousMapUp$, $\MetricUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PoincareMapUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,O,M,S,T,W,R,E,H,C,Q,N$. It has no coordinate for a global recurrence theorem, selected complete orbit, quotient flow equality, host transversality theorem, ambient completeness principle, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Poincare map NameCert obligations]
+\label{thm:poincare-map-namecert-obligations}
+For every accepted $\PoincareMapUp$ carrier
+$$
+P=(D,O,M,S,T,W,R,E,H,C,Q,N),
+$$
+the local $\NameCert_{\PoincareMapUp}$ surface consists exactly of routed dynamics through $D$, displayed ODE evolution through $O$, section-to-section map exposure through $M$, section-window admission through $S$, return-time admission through $T$, finite observation through $W$, regular rational readback through $R$, Real-seal handoff through $E$, and structural transport, replay, provenance, and local naming through $H,C,Q,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:poincare-map-carrier}. The rows $D,O,M,S$ expose the only dynamic, evolution, map, and section data visible to the packet before a return is read.
+
+The return data are then forced through $T,W,R,E$. The accepted return time is a displayed finite row, the observation window is a $\StreamNameUp$ row, the coordinate readback is a $\RegSeqRatUp$ row, and the scalar boundary is sealed only through $\RealUp$.
+
+Finally attach $H,C,Q,N$. Componentwise transport, continuation replay, package provenance, and local naming preserve the same finite packet and add no selected orbit, quotient flow equality, host transversality theorem, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Poincare map return nonescape]
+\label{thm:poincare-map-return-nonescape}
+Every accepted $\PoincareMapUp$ return read remains inside the finite carrier of \autoref{def:poincare-map-carrier}. In particular, a consumer can receive a section-to-section return map only after displaying the $\DynSystemUp$ route, $\OdeUp$ evolution ledger, $\ContinuousMapUp$ map row, section windows, finite return-time row, $\StreamNameUp$ observations, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. No accepted read may replace this route by global recurrence, a selected orbit representative, quotient flow equality, a host smooth-transversality theorem, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Let a consumer request a Poincare return map from an accepted carrier. Projection of \autoref{def:poincare-map-carrier} shows that the request first meets the displayed dynamic route $D$, ODE row $O$, map row $M$, and section row $S$.
+
+The return-time row $T$ is downstream from the displayed section data, and the observation row $W$ fixes the finite source, flow, and target windows. The regular rational readback $R$ and Real seal $E$ then expose only the registered return scale and section-coordinate reads.
+
+The structural rows $H,C,Q,N$ do not add analytic primitives. They transport equal displayed histories, replay the finite route, record package provenance, and attach the local name. Therefore every accepted return read stays inside the finite Poincare map certificate surface and cannot escape to the excluded host principles.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\PoincareMapUp$ consumer that reads a section-to-section return without displaying the DynSystem route, ODE evolution row, ContinuousMap surface, section window, finite return-time row, StreamName observations, RegSeqRat readback, and Real seal refutes the carrier surface.}
+
+\independenceWitness{dynsystem, ode, continuousmap, metric, real, streamname, regseqrat: no listed sibling supplies the whole packet $P=(D,O,M,S,T,W,R,E,H,C,Q,N)$, because each sibling contributes only a routed flow, evolution row, map surface, distance boundary, scalar seal, finite observation window, or rational readback while this chapter binds them into one return-map NameCert surface.}
+
+\closureat{PoincareMapUp}{seedStr}
+
+\begin{closurestatus}{\PoincareMapUp}
+  \constructivestory{A $\PoincareMapUp$ packet is generated from a finite DynSystem route, ODE evolution row, ContinuousMap section-to-section surface, section windows, finite return-time row, StreamName observations, RegSeqRat readback, Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:poincare-map-carrier}, \autoref{thm:poincare-map-namecert-obligations}, and \autoref{thm:poincare-map-return-nonescape} seed the finite Poincare return-map route through dynamics, ODE evolution, continuous-map exposure, section windows, return-time admission, finite observations, regular rational readback, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global recurrence, selected orbit representatives, quotient flow equality, host smooth transversality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dynamic routing, ODE evolution exposure, continuous-map exposure, section-window admission, return-time admission, observation-window exactness, regular rational readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.PoincareMapUp.}
+\end{closurestatus}

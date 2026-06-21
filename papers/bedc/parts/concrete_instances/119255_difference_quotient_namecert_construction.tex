@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\DifferenceQuotientUp$}
+\label{ch:concrete-instances-difference-quotient-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DifferenceQuotientUp$ packet records the finite secant-window surface by which a displayed real-valued map is inspected before a derivative-facing consumer reads any local-linear approximation. It sits over the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, and the calculus carrier of \autoref{ch:concrete-instances-calculus-namecert}. The packet names a finite secant slope window; it does not assert differentiability, a selected derivative, quotient equality of functions, or ambient completeness of $\RealUp$.
+
+\falsifiablePrediction{Every accepted $\DifferenceQuotientUp$ packet must expose two nearby $\RealUp$ endpoint rows, a secant numerator row, a nonzero denominator row, and a dyadic tolerance ledger before any secant slope read is public.}
+
+\independenceWitness{real, regseqrat, dyadicratcore, streamname, calculus: the difference-quotient carrier is not bijective to any sibling because it binds endpoint Real rows, secant numerator and denominator data, dyadic tolerance, regular rational readback, Real sealing, transport, replay, provenance, and local naming as one finite secant-window packet.}
+
+\begin{definition}[Difference quotient carrier]
+\label{def:difference-quotient-carrier}
+A $\DifferenceQuotientUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,Y,A,B,S,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\RealUp$ row for the base point of the secant window;
+\item $Y$ is the target $\RealUp$ row for the displayed function value read at the base point;
+\item $A$ is the nearby source $\RealUp$ endpoint row, displayed through a finite observation window;
+\item $B$ is the nearby target $\RealUp$ endpoint row, displaying the matching function value;
+\item $S$ is the secant numerator row, naming the finite difference between $B$ and $Y$ through regular rational readback;
+\item $D$ is the nonzero denominator row, naming the finite difference between $A$ and $X$ together with the visible nonzero-step boundary;
+\item $R$ is the $\DyadicRatCoreUp$ tolerance ledger for the requested endpoint and quotient comparisons;
+\item $E$ is the $\RegSeqRatUp$ readback row for the numerator, denominator, and quotient window inspected at the requested precision;
+\item $H$ records componentwise $\hsame$ transport for the endpoint, numerator, denominator, tolerance, readback, seal, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from endpoint observations to numerator and denominator rows, from those rows to regular readback, and from readback to the Real-facing seal;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the real, regular, dyadic, stream, and calculus sibling chapters listed above;
+\item $N$ is the local $\NameCert_{\DifferenceQuotientUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through $X,Y,A,B,S,D,R,E,H,C,P,N$. It has no coordinate for a host function-space quotient, an infinitesimal step, a completed derivative value, or a global differentiability claim.
+\end{definition}
+\leanchecked{BEDC.Derived.DifferenceQuotientUp.DifferenceQuotientTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[DifferenceQuotient NameCert obligations]
+\label{thm:difference-quotient-namecert-obligations}
+For the carrier of \autoref{def:difference-quotient-carrier}, the local $\NameCert_{\DifferenceQuotientUp}$ surface consists exactly of carrier admission for $Q=(X,Y,A,B,S,D,R,E,H,C,P,N)$, source and target endpoint exposure, secant numerator exposure, nonzero denominator exposure, dyadic tolerance accounting, regular rational readback, terminal Real sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every accepted secant-slope read must pass through the route
+$$
+(X,Y,A,B) \longmapsto (S,D) \longmapsto (R,E) \longmapsto C
+$$
+with $H,P,N$ attached as transport, provenance, and naming rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:difference-quotient-carrier}. The displayed tuple gives exactly the base source row, base target row, nearby endpoint rows, numerator row, denominator row, dyadic tolerance ledger, regular rational readback, transport, replay, provenance, and local naming coordinate.
+
+The analytic source is the constructive secant-window reading of Bishop--Bridges analysis. The rows $X,Y,A,B$ expose only two finite endpoint observations; $S$ and $D$ package the visible numerator and denominator; $R$ and $E$ control the requested tolerance and rational readback before any Real-facing seal is consumed.
+
+The sibling chapters supply the boundary discipline. The Real chapter supplies the terminal seal, the RegSeqRat chapter supplies rational readback, the DyadicRatCore chapter supplies tolerance accounting, the StreamName chapter supplies the finite observation schedule, and the Calculus chapter records how derivative-facing consumers may later read finite difference-quotient rows without importing a host derivative operator.
+
+Since no row of $Q$ is a completed derivative, a quotient equality of functions, an infinitesimal, or an ambient completeness principle, the NameCert obligations are exhausted by the displayed secant-window route.
+\end{proof}
+
+\begin{theorem}[DifferenceQuotient finite-window scope]
+\label{thm:difference-quotient-finite-window-scope}
+For every accepted $\DifferenceQuotientUp$ carrier $Q=(X,Y,A,B,S,D,R,E,H,C,P,N)$, a consumer may read only the finite secant-window rows displayed in \autoref{def:difference-quotient-carrier}. In particular, the packet supplies a finite route from two endpoint observations to a tolerance-controlled secant quotient, but it does not supply a differentiability witness, a limit over all steps, a quotient of functions, or a completed $\RealUp$ derivative.
+\end{theorem}
+\begin{proof}
+Read \autoref{thm:difference-quotient-namecert-obligations}. It identifies the public surface with endpoint exposure, numerator and denominator exposure, dyadic tolerance accounting, regular rational readback, Real sealing, transport, replay, provenance, and naming.
+
+Every allowed read must therefore pass through the finite route from $(X,Y,A,B)$ to $(S,D)$ and then through $R,E,C,H,P,N$. The carrier contains no additional row that ranges over all nonzero steps, selects a limiting value, or compares host functions extensionally.
+
+Thus the packet is exactly a secant-window interface. It can be consumed by later $\CalculusUp$ derivative rows as finite difference-quotient data, while the differentiability, limit, and completeness claims remain outside this chapter.
+\end{proof}
+
+\closureat{DifferenceQuotientUp}{seedStr}
+
+\begin{closurestatus}{\DifferenceQuotientUp}
+  \constructivestory{A $\DifferenceQuotientUp$ packet is generated from source and target $\RealUp$ endpoint rows, a secant numerator row, a nonzero denominator row, $\DyadicRatCoreUp$ tolerance data, $\RegSeqRatUp$ readback, a terminal Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:difference-quotient-carrier}, \autoref{thm:difference-quotient-namecert-obligations}, and \autoref{thm:difference-quotient-finite-window-scope} define the finite secant-window carrier and its local NameCert surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close differentiability, a derivative limit, quotient equality of functions, Real completeness, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires binding the endpoint, numerator, denominator, tolerance, readback, seal, transport, replay, provenance, and local naming rows to a formal DifferenceQuotient carrier.}
+\end{closurestatus}
