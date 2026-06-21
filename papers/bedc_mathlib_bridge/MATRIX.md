@@ -1,3 +1,3 @@
 | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
 | --- | --- | --- | --- | --- | --- |
-| BEDC.Derived.IntUp.IntPairClassifier | mathlib Int | adequacy(0-axiom) | toInt/relIff(cross-sum)/pairAdd/pairNeg/zero preservation | axioms=[] | additive difference-pair fragment; not-claimed full ordered-ring/Euclid/dvd |
+| BEDC.Derived.IntUp.IntPairClassifier + BEDC.Derived.PrimeUp.NatMul + BEDC.Derived.NatUp.NatUnaryPrefix | mathlib Int | adequacy(0-axiom) | toInt/relIff(cross-sum); pairAdd/pairNeg/zero preservation; CInt normalization with CInt≃+Int and CInt≃+*Int; multiplication derived from BEDC NatMul via natMul_bwordLength and natMulFn_rel; pairLe derived from NatUnaryPrefix with length-order reflection and totality | axioms=[] | constructive ring-equivalence certificate for normalized difference pairs; order exported as BEDC prefix/length-order evidence, not claimed as full mathlib LinearOrder/ordered-ring/Euclid/dvd |
