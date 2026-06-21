@@ -1,0 +1,51 @@
+\chapter{A Concrete Naming Certificate for $\FiniteOpenBallCoverUp$}
+\label{ch:concrete-instances-finite-open-ball-cover-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive metric analysis, the $\FiniteOpenBallCoverUp$ packet records a finite family of displayed open balls that covers the inspected metric rows by explicit membership witnesses. It sits over the metric source of \autoref{ch:concrete-instances-metric-namecert}, the real open-ball carrier of \autoref{ch:concrete-instances-real-open-ball-namecert}, the compact-metric finite-net surface of \autoref{ch:concrete-instances-compactmetric-namecert}, the total-boundedness route of \autoref{ch:concrete-instances-totallybounded-namecert}, and the finite epsilon-net witness of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}. The packet names a finite open-ball cover certificate only; it does not assert open-cover compactness, choose a subcover, prove total boundedness, or import ambient completeness.
+
+\begin{definition}[Finite open-ball cover carrier]
+\label{def:finite-open-ball-cover-carrier}
+A $\FiniteOpenBallCoverUp$ carrier is a finite $\BHist$ packet
+$$
+U=(X,\rho,B,I,M,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\MetricUp$ source row whose point and distance classifiers are used by every ball and membership witness.
+\item $\rho$ is the positive tolerance or radius schedule, read through $\RatUp$ or $\DyadicRatCoreUp$ rows before any cover claim is consumed.
+\item $B$ is the finite closed $\mathsf{ProbeBundle}$ of open-ball names. Each entry is a displayed $\OpenBallUp$ or $\RealOpenBallUp$ row with its centre, radius, and membership comparison ledger.
+\item $I$ is the index and center-admission ledger, recording that every named ball in $B$ has its center admitted by the metric source row $X$.
+\item $M$ is the membership ledger. For each inspected source point it displays a ball of $B$ and a metric-distance comparison witnessing membership in that ball.
+\item $W$ is the finite readback window that exposes the ball, center, radius, and membership rows to compact-metric, total-bounded, and uniform-continuity consumers.
+\item $H$ records componentwise $\hsame$ transport for the source, radius schedule, ball bundle, index ledger, membership ledger, readback window, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a cover request through $X,\rho,B,I,M,W,H$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteOpenBallCoverUp$, $\MetricUp$, $\OpenBallUp$, $\RealOpenBallUp$, $\CompactMetricUp$, $\TotallyBoundedUp$, $\FiniteEpsilonNetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteOpenBallCoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $X,\rho,B,I,M,W,H,C,P,N$. It has no coordinate for an arbitrary open cover, a host compactness theorem, a selected subcover, a countable choice schedule, quotient metric equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite open-ball cover NameCert obligations]
+\label{thm:finite-open-ball-cover-namecert-obligations}
+For every accepted $\FiniteOpenBallCoverUp$ carrier $U=(X,\rho,B,I,M,W,H,C,P,N)$, the local $\NameCert_{\FiniteOpenBallCoverUp}$ surface consists exactly of carrier admission, positive radius admission, finite ball-bundle visibility, center admission, membership coverage, finite readback, classifier transport, displayed replay, provenance, and local naming for the rows $X,\rho,B,I,M,W,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-open-ball-cover-carrier}. The only cover-facing rows are the metric source $X$, radius schedule $\rho$, finite ball bundle $B$, center ledger $I$, membership ledger $M$, and readback window $W$.
+
+The ball rows are visible before coverage is read. Each ball in $B$ exposes a centre and radius through the open-ball rows, while $I$ admits the centre as a point of the same metric source $X$.
+
+Membership coverage is then the row $M$. Each inspected point is paired with one displayed ball of $B$ and one metric-distance comparison read through $X$ and the radius schedule $\rho$.
+
+The structural rows preserve this finite route. Componentwise transport $H$, replay $C$, provenance $P$, and local naming $N$ can only move and name $X,\rho,B,I,M,W$; they do not add an arbitrary open cover, a selected subcover, compactness, countable choice, quotient metric equality, or ambient completeness.
+\end{proof}
+
+\begin{closurestatus}{\FiniteOpenBallCoverUp}
+  \constructivestory{A $\FiniteOpenBallCoverUp$ packet is generated from a MetricUp source row, a positive rational or dyadic radius schedule, a finite ProbeBundle of open-ball rows, center admissions, membership witnesses, finite readback windows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-open-ball-cover-carrier} and \autoref{thm:finite-open-ball-cover-namecert-obligations} seed the finite open-ball cover packet over displayed metric sources, open-ball rows, explicit membership witnesses, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected subcovers, total boundedness, compactness, countable choice, quotient metric equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, positive radius admission, finite ball-bundle visibility, center admission, membership coverage, finite readback, classifier transport, replay, provenance, and local naming for BEDC.Derived.FiniteOpenBallCoverUp.}
+\end{closurestatus}
