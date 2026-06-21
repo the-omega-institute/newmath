@@ -4284,6 +4284,7 @@ import BEDC.Derived.DefiniteDescriptionBoundaryUp.KernelDependencyBinding
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
+import BEDC.Derived.DemicontinuityUp
 import BEDC.Derived.DendriteUp.TasteGate
 import BEDC.Derived.DenjoyIntegralUp.TasteGate
 import BEDC.Derived.DenjoyWolffBoundaryDynamicsUp.TasteGate
@@ -4912,6 +4913,7 @@ import BEDC.Derived.DyadicRatCoreUp.TerminalFourFaceTolerance
 import BEDC.Derived.DyadicRegularErrorEnvelopeUp
 import BEDC.Derived.DyadicRoundingUp
 import BEDC.Derived.DyadicRoundingWindowUp
+import BEDC.Derived.DyadicRoundingWindowUp.BridgeFacingHandoff
 import BEDC.Derived.DyadicRoundingWindowUp.TasteGate
 import BEDC.Derived.DyadicSandwichUp.TasteGate
 import BEDC.Derived.DyadicShrinkScheduleUp
@@ -10963,6 +10965,7 @@ import BEDC.Derived.ThreeManifoldUp
 import BEDC.Derived.TietzeExtensionUp.TasteGate
 import BEDC.Derived.TightLocatedCutUp.TasteGate
 import BEDC.Derived.TightRealIntervalUp.TasteGate
+import BEDC.Derived.ToeplitzLemmaUp.CesaroConsumerRoute
 import BEDC.Derived.ToeplitzLemmaUp.NameCertObligations
 import BEDC.Derived.ToeplitzLemmaUp.RegularSequenceHandoff
 import BEDC.Derived.ToeplitzLemmaUp.TasteGate
