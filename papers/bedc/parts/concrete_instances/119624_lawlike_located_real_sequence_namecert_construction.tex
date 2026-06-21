@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\LawlikeLocatedRealSequenceUp$}
+\label{ch:concrete-instances-lawlike-located-real-sequence-namecert}
+\origin{human}
+
+Following Bishop and Brouwer on lawlike sequences in constructive analysis, the $\LawlikeLocatedRealSequenceUp$ packet records a finite interface for a displayed lawlike sequence of located real names. It sits over the stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the located-real comparison surface of \autoref{ch:concrete-instances-located-real-namecert}. The packet names the sequence interface used by Real and Completion consumers; it does not choose a host sequence, quotient streams, select limits, use countable choice, or assert ambient completeness of $\RealUp$.
+
+\begin{definition}[Lawlike located real sequence carrier]
+\label{def:lawlike-located-real-sequence-carrier}
+A $\LawlikeLocatedRealSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,W,D,R,E,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the lawlike source row, recording the finite rule ledger and admissible request boundary for the indexed sequence.
+\item $W$ is the $\StreamNameUp$ finite-window row, listing the inspected sequence indices and the finite observation windows available at those indices.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, carrying the dyadic precision budget for each inspected located real name.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows and dyadic tolerance data.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $W,D,R$ have been displayed.
+\item $Q$ is the $\LocatedRealUp$ row, exposing the located comparison or bracketing surface attached to the same Real seal.
+\item $H$ records componentwise $\hsame$ transport for lawlike source data, stream windows, dyadic tolerances, regular readbacks, Real seals, located comparisons, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from lawlike sequence inspection through finite windows, dyadic tolerances, regular readback, Real sealing, and located comparison.
+\item $P$ is the $\Pkg$ provenance over $\LawlikeLocatedRealSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\LocatedRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LawlikeLocatedRealSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,W,D,R,E,Q,H,C,P,N$. It has no coordinate for a selected host sequence, quotient stream equality, selected limits, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Lawlike located real sequence RegSeqRat readback]
+\label{thm:lawlike-located-real-sequence-regseqrat-readback}
+For every accepted $\LawlikeLocatedRealSequenceUp$ carrier $L=(S,W,D,R,E,Q,H,C,P,N)$, a Real-facing or LocatedReal-facing consumer may read the regular rational data only after the lawlike source row $S$, the finite $\StreamNameUp$ window row $W$, and the $\DyadicRatCoreUp$ tolerance row $D$ have been displayed. The readback row $R$ is therefore the unique local route from lawlike finite observations to the terminal $\RealUp$ seal $E$ and the located comparison row $Q$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lawlike-located-real-sequence-carrier}. The rows $S,W,D$ expose the lawlike source, inspected stream windows, and dyadic tolerance budget before any rational or real-facing row is available.
+
+The readback row $R$ is the only row typed as $\RegSeqRatUp$ data in the packet. It repacks the displayed windows and tolerance ledger as regular rational finite data, so a consumer cannot obtain a regular readback by bypassing $S,W,D$.
+
+The endpoint rows $E$ and $Q$ are downstream of the same readback. The Real seal $E$ and located comparison row $Q$ may be consumed only after $R$, while $H,C,P,N$ transport, replay, source, and name the same finite route.
+\end{proof}
+
+\begin{theorem}[Lawlike located real sequence choice-free modulus]
+\label{thm:lawlike-located-real-sequence-choice-free-modulus}
+Every modulus or comparison read exported by an accepted $\LawlikeLocatedRealSequenceUp$ carrier is bounded by the displayed finite route
+$$
+S,W,D,R,E,Q,H,C,P,N.
+$$
+The route may expose dyadic tolerance budgets, regular rational readbacks, Real seals, and located comparison rows for inspected windows, but it exports no selected infinite subsequence, countable-choice selector, quotient stream equality, selected limit, trichotomy, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier. Its only analytic rows are the lawlike source $S$, finite stream windows $W$, dyadic tolerance budget $D$, regular readback $R$, Real seal $E$, and located comparison row $Q$.
+
+A modulus request can inspect only the displayed tolerance row $D$ and its attached finite windows. By \autoref{thm:lawlike-located-real-sequence-regseqrat-readback}, any rational readback then passes through $R$ before the Real or located endpoint is consumed.
+
+The structural rows $H,C,P,N$ preserve this packet under componentwise transport, displayed replay, provenance, and local naming. Since the carrier has no coordinate for an infinite selector, quotient stream equality, selected limit, trichotomy, or ambient completeness, every exported modulus remains choice-free and finite-window based.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LawlikeLocatedRealSequenceUp$ consumer that reaches $\RegSeqRatUp$, $\RealUp$, or $\LocatedRealUp$ data without displaying the lawlike source row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance budget, structural replay, provenance, and local $\NameCert$ evidence refutes the carrier of \autoref{def:lawlike-located-real-sequence-carrier}.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, located-real: $\LawlikeLocatedRealSequenceUp$ is not bijective to any listed sibling because it jointly carries a lawlike source row, finite sequence-window ledger, dyadic tolerance budget, regular readback, Real seal, located comparison row, transport, replay, provenance, and local naming.}
+
+\closureat{LawlikeLocatedRealSequenceUp}{seedStr}
+
+\begin{closurestatus}{\LawlikeLocatedRealSequenceUp}
+  \constructivestory{A $\LawlikeLocatedRealSequenceUp$ packet is generated from a lawlike source row, finite StreamName windows, DyadicRatCore tolerance budgets, RegSeqRat readback, Real seals, LocatedReal comparison rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lawlike-located-real-sequence-carrier}, \autoref{thm:lawlike-located-real-sequence-regseqrat-readback}, and \autoref{thm:lawlike-located-real-sequence-choice-free-modulus} seed the finite lawlike located-sequence interface over StreamName windows, dyadic tolerance budgets, RegSeqRat readback, Real seals, LocatedReal comparison rows, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient streams, selected infinite subsequences, countable choice, selected limits, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-window compatibility, dyadic tolerance exactness, RegSeqRat readback, LocatedReal comparison stability, transport replay, provenance, and nonescape for BEDC.Derived.LawlikeLocatedRealSequenceUp.}
+\end{closurestatus}
