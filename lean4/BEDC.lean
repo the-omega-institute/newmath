@@ -5534,6 +5534,7 @@ import BEDC.Derived.FilterConvergenceUp.TasteGate
 import BEDC.Derived.FilterLimitBasisUp.ObligationClosureReadiness
 import BEDC.Derived.FilterLimitBasisUp.RealHandoffStability
 import BEDC.Derived.FilterLimitBasisUp.RealWindowExhaustion
+import BEDC.Derived.FilterLimitBasisUp.ScopeExactness
 import BEDC.Derived.FilterLimitBasisUp.ScopedObligation
 import BEDC.Derived.FilterLimitBasisUp.TasteGate
 import BEDC.Derived.FilterLimitBasisUp.WindowBasisExhaustion
@@ -6371,6 +6372,7 @@ import BEDC.Derived.HyperspaceUp.CauchyUniformNetHandoff
 import BEDC.Derived.HyperspaceUp.CompactCompleteHandoff
 import BEDC.Derived.HyperspaceUp.CompactHausdorffDistanceRoute
 import BEDC.Derived.HyperspaceUp.CompactMetricHandoff
+import BEDC.Derived.HyperspaceUp.CompactMetricVietorisMaturityRoute
 import BEDC.Derived.HyperspaceUp.CompactMetricVietorisUnblock
 import BEDC.Derived.HyperspaceUp.CompactSourceCarrierObligations
 import BEDC.Derived.HyperspaceUp.CompactSourceScope
@@ -6774,6 +6776,7 @@ import BEDC.Derived.LieGroupUp.PublicNamecertExport
 import BEDC.Derived.LieGroupUp.TasteGate
 import BEDC.Derived.LiminfUp
 import BEDC.Derived.LiminfUp.BoundedCutCompatibility
+import BEDC.Derived.LiminfUp.ZeroGapConvergence
 import BEDC.Derived.LimitComparisonTestUp.TasteGate
 import BEDC.Derived.LimitPointCompactUp.TasteGate
 import BEDC.Derived.LimitSelectorUp
@@ -10699,6 +10702,7 @@ import BEDC.Derived.SierpinskiCarpetUp.TasteGate
 import BEDC.Derived.SierpinskiContinuityClassifierUp
 import BEDC.Derived.SierpinskiGasketUp.TasteGate
 import BEDC.Derived.SierpinskiSpaceUp.TasteGate
+import BEDC.Derived.SigmaAlgebraUp.TasteGate
 import BEDC.Derived.SigmaCompactUp.CompactExhaustionSiblingRoute
 import BEDC.Derived.SigmaCompactUp.ProperMetricExhaustion
 import BEDC.Derived.SigmaCompactUp.TasteGate
