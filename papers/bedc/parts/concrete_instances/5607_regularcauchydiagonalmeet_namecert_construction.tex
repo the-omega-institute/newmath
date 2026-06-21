@@ -85,13 +85,29 @@ Apply the local NameCert obligations. They force every accepted read to remain i
 The excluded objects would require carrier coordinates or continuation routes not present in $D$. Since the packet contains only finite BEDC rows and their structural provenance, no downstream consumer can recover quotient streams, host equality, selected limits, choice selectors, analytic completeness, or an ambient completion principle from it.
 \end{proof}
 
+\begin{theorem}[RegularCauchyDiagonalMeet obligation closure]
+\label{thm:regular-cauchy-diagonal-meet-obligation-closure}
+The carrier of \autoref{def:regular-cauchy-diagonal-meet-carrier}, the NameCert obligations of \autoref{thm:regular-cauchy-diagonal-meet-namecert-obligations}, the shared-threshold factorization of \autoref{thm:regular-cauchy-diagonal-meet-shared-threshold-factorization}, the transport induction of \autoref{thm:regular-cauchy-diagonal-meet-transport-induction}, and the non-escape theorem of \autoref{thm:regular-cauchy-diagonal-meet-nonescape} exhaust the paper-side obligation surface for the diagonal meet route.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier
+$$
+D=(T,M,E,W,Q,H,C,P,N).
+$$
+The carrier definition displays exactly the tail-meet, shared-modulus, witness-envelope, diagonal-window, comparison, transport, continuation, provenance, and local naming rows available to a consumer.
+
+The NameCert obligations force every accepted read through those rows. The shared-threshold factorization orders the comparison route as $M,T,E,W,Q$, while the transport induction preserves the same route under componentwise $\hsame$.
+
+Finally apply non-escape. Quotient stream equality, host Real equality, selected limits, countable-choice diagonal selectors, analytic completeness, and ambient RealUp completion have no coordinate in $D$. Therefore no further obligation remains inside the displayed diagonal meet packet.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchyDiagonalMeetUp}
   \constructivestory{A $\RegularCauchyDiagonalMeetUp$ packet is generated from finite $\BHist$ rows for a regular-Cauchy tail meet, shared modulus meet, witness envelope, diagonal-window coverage, shared-threshold comparison, transports, continuations, provenance, and local naming. The Real-completion-facing comparison is routed by $\Cont$ through the shared modulus, tail meet, witness envelope, and diagonal coverage rows before $Q$ is exposed. Componentwise $\hsame$ preserves the same tail, modulus, envelope, coverage, and comparison rows, while $\Pkg$ records the tail-meet, modulus-meet, witness-envelope, diagonal-window, and Real dependencies. The packet is a finite diagonal meet, not completion.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the regular Cauchy diagonal-meet carrier, NameCert obligations, shared-threshold factorization, and non-escape theorem.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{This chapter binds the regular Cauchy diagonal-meet carrier, NameCert obligations, shared-threshold factorization, transport induction, non-escape theorem, and paper-side obligation closure for the displayed diagonal route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim quotient stream equality, host real equality, selected limits, countable-choice diagonal selectors, analytic completeness, or ambient RealUp completion.}
-  \upgradepath{Obligation closure requires Lean encodings of the diagonal-meet carrier, shared-threshold route, componentwise transport, and non-escape theorem.}
+  \upgradepath{Scoped closure requires a single consumer-facing boundary over the same rows, without adding RealUp completeness, quotient streams, selected limits, or choice selectors.}
 \end{closurestatus}
