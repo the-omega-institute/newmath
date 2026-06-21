@@ -61,6 +61,20 @@ The distance row $d$ reads both the source distance and the target distance. The
 The one-step Picard route $I$ records exactly this application-and-comparison pattern. Since $I$ has no infinite-orbit coordinate, the theorem exports only the adjacent-step contraction surface consumed by $\PicardContractionUp$.
 \end{proof}
 
+\begin{theorem}[ContractionMapping orbit induction spine]
+\label{thm:contraction-mapping-orbit-induction-spine}
+Let $K=(X,d,T,G,\lambda,M,I,H,C,P,N)$ be an accepted $\ContractionMappingUp$ carrier and let $\ell$ be a finite $\ListUp$ ledger displaying the Picard window from a base row $x_0$. Primitive induction over $\ell$ extends the one-step route $I$ to every adjacent displayed row of the window: the base read starts at $x_0$, each successor read is supplied by the graph row $G$, and every adjacent comparison is the instance of \autoref{thm:contraction-mapping-picard-step-contraction} read through the same $X,d,T,G,\lambda,M,I,H,C,P,N$ rows. The induction exports only the finite displayed chain; it does not construct an infinite orbit, choose an endpoint, or assert completeness.
+\end{theorem}
+\begin{proof}
+Induct on the finite $\ListUp$ ledger $\ell$. In the base case, the ledger exposes only the starting row $x_0$, so there is no adjacent comparison to export and no endpoint or completeness row can be read.
+
+For the successor step, assume the displayed prefix already factors every adjacent comparison through $X,d,T,G,\lambda,M,I,H,C,P,N$. The next row is admitted only by the graph row $G$ as the application of $T$ to the preceding displayed row.
+
+Apply \autoref{thm:contraction-mapping-picard-step-contraction} to that adjacent pair. The comparison is therefore the same finite one-step route $I$, with the same metric row $X,d$ and rational ledger $\lambda$; adjoining it to the prefix gives the next finite Picard window.
+
+The induction variable is the ledger itself, not a sequence object outside the packet. Thus the argument closes exactly the displayed adjacent rows and refuses an infinite orbit, selected endpoint, or ambient completeness claim.
+\end{proof}
+
 \begin{definition}[ContractionMapping Cauchy orbit ledger]
 \label{def:contraction-mapping-cauchy-orbit-ledger}
 For an accepted $\ContractionMappingUp$ carrier $K=(X,d,T,G,\lambda,M,I,H,C,P,N)$, a finite Cauchy-orbit ledger is a displayed packet
