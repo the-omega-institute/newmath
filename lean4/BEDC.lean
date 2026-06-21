@@ -6219,6 +6219,7 @@ import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
 import BEDC.Derived.HigsonCompactificationUp
+import BEDC.Derived.HigsonCompactificationUp.TasteGate
 import BEDC.Derived.HilbertAlexanderBlockerUp.FiniteHilbertRow
 import BEDC.Derived.HilbertAlexanderBlockerUp.NameCertObligations
 import BEDC.Derived.HilbertAlexanderBlockerUp.TasteGate
@@ -8828,6 +8829,7 @@ import BEDC.Derived.PremetricUp.TasteGate
 import BEDC.Derived.PreorderUp
 import BEDC.Derived.PresburgerSubUniversalUp.TasteGate
 import BEDC.Derived.PriestleyDualityUp.TasteGate
+import BEDC.Derived.PrimeNumberTheoremChebyshevWindowUp.TasteGate
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.DividesClosure
 import BEDC.Derived.PrimeUp.DivisionWithRemainder
@@ -10509,6 +10511,7 @@ import BEDC.Derived.SetlikeUp.FamilyHandoffObligation
 import BEDC.Derived.SetlikeUp.FirstOrderMembershipSubstitutionBoundary
 import BEDC.Derived.SetlikeUp.KernelMembershipObligation
 import BEDC.Derived.SetlikeUp.MembershipCarrierRootSurface
+import BEDC.Derived.SetlikeUp.MembershipClassifierPublicBoundary
 import BEDC.Derived.SetlikeUp.MembershipClassifierRootUnblock
 import BEDC.Derived.SetlikeUp.MembershipClassifierStabilityRoot
 import BEDC.Derived.SetlikeUp.MembershipClassifierTransport
