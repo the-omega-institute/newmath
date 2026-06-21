@@ -107,6 +107,20 @@ Now use bounded comparison non-escape and refusal exactness, \autoref{thm:metaci
 Thus a candidate-normal-form read may expose the finite checker, structural equality, bounded normal, side-condition, refusal, and replay rows, but it cannot become a global conversion decision, quotient equality, or host evaluation procedure.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable boundary bridge status]
+\label{thm:metacic-decidable-boundary-bridge-status}
+Any bridge consumer of an accepted $\MetaCICDecidableBoundaryUp$ packet receives only the finite checker row $T$, structural equality row $S$, bounded normal comparison row $B$, finished-normal side-condition row $F$, refusal row $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, package provenance $P$, and local naming $N$. The bridge surface cannot extract global $\mathsf{ClosedAt}$ decidability, unrestricted beta-conversion, quotient equality over represented terms, or host evaluation from the bounded comparison packet.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:metacic-decidable-boundary-namecert-obligations}. They expose exactly the finite checker, structural equality, bounded comparison, side-condition, refusal, transport, replay, provenance, and local naming rows of the packet.
+
+Use bounded-comparison nonescape, \autoref{thm:metacic-decidable-boundary-bounded-comparison-nonescape}. It keeps every comparison read tied to $B$ together with the finished-normal side-condition row $F$, so a bridge consumer cannot erase the bounded window and read $B$ as a global conversion oracle.
+
+Apply refusal exactness and candidate-normal-form reads, \autoref{thm:metacic-decidable-boundary-refusal-exactness} and \autoref{thm:metacic-decidable-boundary-candidate-normal-form}. The refusal row $R$ records the absent global endpoints, while candidate-normal inspection remains inside the same finite checker and comparison route.
+
+Finally, the structural rows $H,C,P,N$ only transport, replay, source, and name that displayed route. Since no carrier coordinate supplies global $\mathsf{ClosedAt}$ decidability, unrestricted beta-conversion, quotient equality, or host evaluation, no bridge consumer can recover those endpoints from the packet.
+\end{proof}
+
 \begin{theorem}[MetaCIC decidable boundary classifier stability]
 \label{thm:metacic-decidable-boundary-classifier-stability}
 Let $D=(T,S,B,F,R,H,C,P,N)$ be an accepted $\MetaCICDecidableBoundaryUp$ packet. Classifier reads of $T,S,B,F,R$ are stable only along the displayed componentwise $\hsame$ row $H$ and the finite $\Cont$ replay row $C$. This stability transports the bounded checker surface but does not identify sibling theorem rows, decide arbitrary closed terms, or erase the fuel boundary.
