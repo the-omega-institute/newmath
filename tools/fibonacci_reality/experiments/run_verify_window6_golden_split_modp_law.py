@@ -4,7 +4,15 @@
 from __future__ import annotations
 
 import json
+from datetime import UTC, datetime
 from typing import Any
+
+EXPERIMENT_ID = "verify-window6-golden-split-modp-law"
+CLAIM_ID = "window6.golden-split-modp.fibonacci-entry-point-law.certificate"
+
+
+def now_iso() -> str:
+    return datetime.now(UTC).isoformat()
 
 
 def check(name: str, passed: bool, reason: str) -> dict[str, Any]:
@@ -39,6 +47,7 @@ def has_root_mod_p(p: int) -> bool:
 
 
 def main() -> None:
+    started_at = now_iso()
     primes = primes_below(120)
     nonramified = [p for p in primes if p != 5]
     split_rows = [
@@ -87,6 +96,8 @@ def main() -> None:
     ]
     status = "passed" if all(item["passed"] for item in checks) else "failed"
     result = {
+        "experiment_id": EXPERIMENT_ID,
+        "claim_id": CLAIM_ID,
         "status": status,
         "checks": checks,
         "result": {
@@ -103,11 +114,11 @@ def main() -> None:
                 "alpha/137 as input, target, numerical proximity, or reverse fit",
             ],
         },
+        "started_at": started_at,
+        "completed_at": now_iso(),
     }
     print(json.dumps(result, ensure_ascii=False))
-    if status == "passed":
-        print("PASS verify-window6-golden-split-modp-law")
-    else:
+    if status != "passed":
         raise SystemExit(1)
 
 
