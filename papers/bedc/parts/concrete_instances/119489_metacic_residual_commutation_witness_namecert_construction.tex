@@ -4,6 +4,18 @@
 
 The $\MetaCICResidualCommutationWitnessUp$ packet realizes the residual-substitution boundary isolated by \autoref{ch:metacic-confluence-audit-map} as finite NameCert data. It records the local residual window, substitution-site ledger, candidate join row, and conditional confluence handoff that a later MetaCIC proof must consume before a residual beta branch can be read as commuting with substitution.
 
+\begin{theorem}[MetaCIC residual-commutation witness sibling route]
+\label{thm:metacic-residual-commutation-witness-sibling-route}
+Every $\MetaCICResidualCommutationWitnessUp$ consumer that reads a candidate join as confluence-facing evidence must first pass through the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert} and the residual-substitution compatibility surface of \autoref{ch:concrete-instances-metacic-residual-substitution-compatibility-namecert}. The witness records local residual windows and substitution-site ledgers, while those siblings provide the premise and compatibility surfaces that the witness cannot discharge by itself.
+\end{theorem}
+\begin{proof}
+Project the witness carrier. Its rows record a MetaCIC source window, a residual window, a substitution-site ledger, a candidate join row, and a conditional handoff, but no row supplies the residual-substitution premise.
+
+Read the residual-substitution boundary sibling first. It names the boundary that must be present before a local residual window can be treated as a substitution-sensitive branch rather than an isolated candidate.
+
+Then read the compatibility sibling. That surface supplies the comparison discipline needed before the candidate join can face the confluence audit map. The present witness therefore remains a local ledger until those sibling rows are displayed, and it cannot export premise-free confluence evidence.
+\end{proof}
+
 \begin{definition}[MetaCIC residual-commutation witness carrier]
 \label{def:metacic-residual-commutation-witness-carrier}
 A $\MetaCICResidualCommutationWitnessUp$ carrier is a finite $\BHist$ packet
