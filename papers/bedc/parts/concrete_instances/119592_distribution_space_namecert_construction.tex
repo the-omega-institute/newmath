@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\DistributionSpaceUp$}
+\label{ch:concrete-instances-distribution-space-namecert}
+\origin{human}
+
+Following Schwartz and Treves distribution theory, the $\DistributionSpaceUp$ packet records the finite test-action data needed to name a distribution-space interface without importing a host locally convex space, quotient of test functions, or selected representative of a distribution. It sits between the test-function and Schwartz-space carriers of \autoref{ch:concrete-instances-test-function-namecert} and \autoref{ch:concrete-instances-schwartz-space-namecert}, the weak-derivative boundary of \autoref{ch:concrete-instances-weak-derivative-namecert}, and the scalar readback rows of \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Distribution-space carrier]
+\label{def:distribution-space-carrier}
+A $\DistributionSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,A,B,U,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TestFunctionUp$ window row, listing the finite test probes, support windows, smoothness tags, and request indices visible to the packet.
+\item $A$ is the scalar action ledger, recording the displayed action value for each test probe and the finite dependency route by which the action is read.
+\item $B$ is the $\WeakDerivativeUp$ boundary row, recording which candidate derivative actions may consume the same test-action ledger.
+\item $U$ is the source row over $\SchwartzSpaceUp$ and $\TestFunctionUp$, exposing the finite test carrier rather than a host test-function equality relation.
+\item $R$ is the shared $\RegSeqRatUp$ and $\RealUp$ scalar readback row for action values, comparison tolerances, and terminal scalar boundaries.
+\item $H$ records componentwise $\hsame$ transport for test windows, scalar actions, weak-derivative boundaries, source rows, scalar readback, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from test selection through scalar action, derivative-boundary inspection, source readback, and scalar comparison.
+\item $P$ is the $\Pkg$ provenance over $\DistributionSpaceUp$, $\TestFunctionUp$, $\SchwartzSpaceUp$, $\WeakDerivativeUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DistributionSpaceUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through these rows. It has no coordinate for a host distribution space, quotient equality of test functions, selected distribution representative, countable-choice selector, global LF-space topology, or ambient Real completeness theorem.
+\end{definition}
+
+\begin{theorem}[Distribution-space NameCert obligations]
+\label{thm:distribution-space-namecert-obligations}
+For every accepted $\DistributionSpaceUp$ carrier $S=(T,A,B,U,R,H,C,P,N)$, the local $\NameCert_{\DistributionSpaceUp}$ surface consists exactly of carrier admission for the displayed rows, finite test-window admission through $T$, scalar-action readback through $A$, weak-derivative boundary exposure through $B$, $\SchwartzSpaceUp$ and $\TestFunctionUp$ source admission through $U$, $\RegSeqRatUp$ and $\RealUp$ scalar readback through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $S=(T,A,B,U,R,H,C,P,N)$. The displayed mathematical rows are the test-window row, scalar action ledger, weak-derivative boundary, source row, and scalar readback row.
+
+The structural rows transport, replay, source, and name the same displayed data. Since the carrier has no coordinate for a host distribution space, quotient test-function equality, selected representative, choice selector, global LF-space topology, or ambient Real completeness, none of those objects can discharge a local NameCert obligation.
+
+Thus the obligation surface is exactly the finite packet displayed above.
+\end{proof}
+
+\begin{theorem}[Distribution-space test-action handoff]
+\label{thm:distribution-space-test-action-handoff}
+Every $\WeakDerivativeUp$ or Sobolev-facing consumer of an accepted $\DistributionSpaceUp$ packet reads the finite route
+$$
+T \longmapsto A \longmapsto B \longmapsto U \longmapsto R \longmapsto H,C,P,N
+$$
+before it consumes any distribution-space action. The handoff exposes test windows, scalar action values, derivative-boundary access, source rows, scalar readback, transport, replay, provenance, and local naming, and it exports no host distribution-space object.
+\end{theorem}
+\begin{proof}
+Start with a consumer request for distribution-space action data. The request first opens the finite $\TestFunctionUp$ row $T$, so the visible tests and support windows are fixed before any scalar action is read.
+
+The scalar action ledger $A$ is then read against the same tests. The weak-derivative boundary row $B$ records which derivative-facing reads may consume that ledger, while $U$ keeps the source tied to the displayed $\SchwartzSpaceUp$ and $\TestFunctionUp$ rows.
+
+Finally the scalar readback row $R$ and the structural rows $H,C,P,N$ preserve and name the route. No host distribution space or quotient equality can be exported, because such data never appears in the carrier.
+\end{proof}
+
+\begin{theorem}[Distribution-space weak-derivative boundary]
+\label{thm:distribution-space-weak-derivative-boundary}
+Any $\WeakDerivativeUp$ read that consumes a $\DistributionSpaceUp$ packet must expose the same test-action row, scalar action ledger, weak-derivative boundary row, $\SchwartzSpaceUp$ or $\TestFunctionUp$ source row, $\RegSeqRatUp$ and $\RealUp$ scalar readback, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before the read can be handed to $\SobolevUp$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:distribution-space-test-action-handoff} to obtain the ordered route through $T,A,B,U,R,H,C,P,N$. The weak-derivative consumer cannot reach $B$ without first reading the test windows and scalar action ledger.
+
+The scalar readback row $R$ supplies the regular-rational and Real-facing boundary for the action values. The transport and replay rows keep the same test-action ledger visible when the packet is passed toward a Sobolev-facing consumer.
+
+Therefore any Sobolev handoff through $\WeakDerivativeUp$ must still display the distribution-space rows named in the statement. The absent host distribution-space, quotient, representative, choice, topology, and ambient completeness objects remain outside the boundary.
+\end{proof}
+
+\closureat{DistributionSpaceUp}{seedStr}
+
+\begin{closurestatus}{\DistributionSpaceUp}
+  \constructivestory{A $\DistributionSpaceUp$ packet is generated from finite TestFunctionUp windows, a scalar action ledger, a WeakDerivativeUp boundary, SchwartzSpaceUp and TestFunctionUp source rows, RegSeqRatUp and RealUp scalar readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:distribution-space-carrier}, \autoref{thm:distribution-space-namecert-obligations}, \autoref{thm:distribution-space-test-action-handoff}, and \autoref{thm:distribution-space-weak-derivative-boundary} seed the finite distribution-space interface over test actions, scalar readback, weak-derivative boundaries, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host distribution spaces, quotient test-function equality, selected representatives, countable choice, global LF-space topology, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, test-action exactness, scalar readback stability, weak-derivative boundary nonescape, and TasteGate field faithfulness for BEDC.Derived.DistributionSpaceUp.}
+\end{closurestatus}
