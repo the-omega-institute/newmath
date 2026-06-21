@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailSealUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-seal-namecert}
+\origin{human}
+
+Following Bishop--Bridges regular-Cauchy completion, the $\RegularCauchyTailSealUp$ packet names the finite tail-seal surface that a completion consumer must expose before a displayed $\RealUp$ endpoint can be read. It sits between the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}. The packet also factors through the sequential-completeness route of \autoref{ch:concrete-instances-regular-cauchy-sequential-completeness-namecert}; it is a reusable finite tail object, not a quotient stream, selected host limit, countable-choice schedule, or ambient completeness theorem for $\RealUp$.
+
+\begin{definition}[RegularCauchy tail-seal carrier]
+\label{def:regular-cauchy-tail-seal-carrier}
+A $\RegularCauchyTailSealUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(D,S,R,M,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, including the dyadic endpoints and comparison budget used by the tail request.
+\item $S$ is the finite $\StreamNameUp$ window row exposed by the request.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $S$ and checked against the tolerances in $D$.
+\item $M$ is the tail threshold and modulus row assigning each displayed tolerance a finite tail bound for $R$.
+\item $T$ is the terminal $\RealUp$ tail seal reached after $D,S,R,M$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the tolerance ledger, stream window, readback, modulus, terminal seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tail-seal request through $D,S,R,M,T$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailSealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RegularCauchySequentialCompletenessUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailSealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,M,T,H,C,P,N$. There is no coordinate for quotient stream equality, host real equality, a selected limit point, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.RegularCauchyTailSealUp}
+
+\begin{theorem}[RegularCauchy tail-seal NameCert obligations]
+\label{thm:regular-cauchy-tail-seal-namecert-obligations}
+For every accepted $\RegularCauchyTailSealUp$ carrier $Q=(D,S,R,M,T,H,C,P,N)$, the local $\NameCert_{\RegularCauchyTailSealUp}$ surface consists exactly of these finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed dyadic tolerance ledger, stream window, regular rational readback, threshold/modulus row, terminal $\RealUp$ seal, transport, replay, provenance, and local naming row;
+\item route exposure, requiring a consumer of $T$ to expose $D,S,R,M$ before the terminal tail seal is read;
+\item classifier stability, requiring componentwise $\hsame$ transport in $H$ to preserve the rows $D,S,R,M,T$ before accepted packets are identified;
+\item replay stability, requiring the displayed $\Cont$ row $C$ to replay the same tolerance-window-readback-threshold route;
+\item provenance and local naming, requiring $P$ and $N$ to name only the displayed finite packet and its sibling dependencies;
+\item ledger non-escape, requiring the packet to export no quotient stream equality, selected host limit, countable-choice schedule, host real equality, ambient $\RealUp$ completeness theorem, Lean verification, or bridge checking.
+\end{enumerate}
+No NameCert obligation is stored outside $D,S,R,M,T,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-tail-seal-carrier}. The accepted packet displays exactly the tolerance ledger $D$, window row $S$, readback row $R$, threshold/modulus row $M$, terminal seal $T$, and structural rows $H,C,P,N$.
+
+Route exposure is forced by the order of the displayed rows. A consumer must first read the dyadic tolerance in $D$, then the finite window in $S$, then the regular rational readback in $R$, and then the threshold/modulus row $M$ before $T$ is available as the $\RealUp$ tail seal.
+
+Classifier stability and replay stability are componentwise. The transport row $H$ preserves the visible rows, while $C$ replays the same route without adding a second tail source or a hidden limit coordinate.
+
+Finally $P$ and $N$ record provenance and local naming for the finite packet. Since none of the excluded objects occurs among the carrier coordinates, the ledger cannot export quotient streams, selected limits, choice schedules, host equality, ambient completeness, Lean verification, or bridge checking.
+\end{proof}
+
+\begin{closurestatus}{\RegularCauchyTailSealUp}
+  \constructivestory{A $\RegularCauchyTailSealUp$ packet is generated from a DyadicRatCore tolerance ledger, finite StreamName window, RegSeqRat readback, threshold/modulus row, terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-seal-carrier} and \autoref{thm:regular-cauchy-tail-seal-namecert-obligations} seed the finite tail-seal surface between regular-Cauchy readback data and the terminal $\RealUp$ seal.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.RegularCauchyTailSealUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter excludes quotient stream equality, selected host limits, countable choice, host real equality, ambient $\RealUp$ completeness, theorem-level Lean verification, and bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, route exposure, replay stability, and ledger non-escape for BEDC.Derived.RegularCauchyTailSealUp.}
+\end{closurestatus}
