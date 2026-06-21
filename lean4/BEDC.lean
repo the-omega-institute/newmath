@@ -1398,6 +1398,7 @@ import BEDC.Derived.CalculusUp.LimitRealTerminalExport
 import BEDC.Derived.CalculusUp.LocalLinearizationCarrier
 import BEDC.Derived.CalculusUp.LocalOperationNonescape
 import BEDC.Derived.CalculusUp.LocatedCompactDependencyRoute
+import BEDC.Derived.CalculusUp.LowerEnvelopeRealFacingRoute
 import BEDC.Derived.CalculusUp.PeanoDependencyRoute
 import BEDC.Derived.CalculusUp.ProductMetricForwardLink
 import BEDC.Derived.CalculusUp.ProductMetricForwardLinkExport
@@ -1701,6 +1702,7 @@ import BEDC.Derived.CauchyCondensationUp.DyadicBlockHandoff
 import BEDC.Derived.CauchyCondensationUp.DyadicBlockTailTransport
 import BEDC.Derived.CauchyCondensationUp.DyadicTailObligation
 import BEDC.Derived.CauchyCondensationUp.TasteGate
+import BEDC.Derived.CauchyCondensationUp.TestDyadicBlockEquivalence
 import BEDC.Derived.CauchyContinuityCalibrationUp.TasteGate
 import BEDC.Derived.CauchyContinuityPrincipleUp.RealSealBoundary
 import BEDC.Derived.CauchyContinuityPrincipleUp.TasteGate
@@ -6787,6 +6789,7 @@ import BEDC.Derived.LocalSelfCenterInscriptionSealUp.TasteGate
 import BEDC.Derived.LocalStencilObservationUp.TasteGate
 import BEDC.Derived.LocalTimeFiberUp
 import BEDC.Derived.LocalTimeFiberUp.TasteGate
+import BEDC.Derived.LocaleSpaceUp.TasteGate
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LocalityCellUp.TasteGate
 import BEDC.Derived.LocalizedCauchyRateUp.TasteGate
