@@ -5777,6 +5777,7 @@ import BEDC.Derived.FiniteTraceInductionGapUp.TasteGate
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteVitaliCoverUp.TasteGate
 import BEDC.Derived.FiniteVolumeUp.TasteGate
+import BEDC.Derived.FiniteWindowCompactnessUp.TasteGate
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteWindowEnvelopeUp.TasteGate
 import BEDC.Derived.FiniteWindowObserverUp
@@ -7673,6 +7674,7 @@ import BEDC.Derived.MetaCICOpenProblemLedgerUp.SourceRowScope
 import BEDC.Derived.MetaCICOpenProblemLedgerUp.TasteGate
 import BEDC.Derived.MetaCICOpenProblemWitnessUp.TasteGate
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp
+import BEDC.Derived.MetaCICParallelDiamondFrontierUp.CriticalPairEnvelope
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.TasteGate
 import BEDC.Derived.MetaCICPiAdequacyBudgetUp.TasteGate
 import BEDC.Derived.MetaCICProofObjectAuditRouteUp.BlockedEdgeNonEscape
@@ -7708,6 +7710,7 @@ import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedConversionNonescape
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedNormalFormSplit
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedSearchExhaustion
+import BEDC.Derived.MetacicDecidabilityWitnessUp.BridgeExport
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BridgeFacingSurface
 import BEDC.Derived.MetacicDecidabilityWitnessUp.CandidateNormalizationScope
 import BEDC.Derived.MetacicDecidabilityWitnessUp.DecidabilityWitnessPublicExport
@@ -9757,6 +9760,7 @@ import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
 import BEDC.Derived.RegularCauchyMinimumUp.LeftBound
 import BEDC.Derived.RegularCauchyMinimumUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusAlgebraUp.TasteGate
+import BEDC.Derived.RegularCauchyModulusCofinalRefinementUp
 import BEDC.Derived.RegularCauchyModulusCompressionUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusDominationUp
 import BEDC.Derived.RegularCauchyModulusExtractionUp.TasteGate
