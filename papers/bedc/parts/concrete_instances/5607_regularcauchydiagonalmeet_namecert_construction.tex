@@ -56,6 +56,22 @@ The shared-bound route is first read through $M$ and then consumed by $T$. This 
 Next the witness route is exposed through $E$, and the diagonal window coverage is exposed through $W$. Only after these rows have been displayed can $Q$ be consumed. Thus every comparison read factors through the stated finite route, with $H,C,P,N$ carrying transport, replay, provenance, and naming.
 \end{proof}
 
+\begin{theorem}[RegularCauchyDiagonalMeet transport induction]
+\label{thm:regular-cauchy-diagonal-meet-transport-induction}
+Let an accepted $\RegularCauchyDiagonalMeetUp$ carrier display the rows $M,T,E,W,Q$ and the componentwise transport row $H$ of \autoref{def:regular-cauchy-diagonal-meet-carrier}. If the shared modulus, tail meet, witness envelope, diagonal coverage, and comparison rows are transported componentwise along $H$, then every consumer route to the comparison row still factors through
+$$
+M \longmapsto T \longmapsto E \longmapsto W \longmapsto Q.
+$$
+The transported packet therefore preserves the displayed diagonal route without identifying quotient streams, selecting limits, or asserting host RealUp equality.
+\end{theorem}
+\begin{proof}
+Induct over the finite continuation route displayed in the carrier. The base read is the shared modulus row $M$; transporting it by the corresponding component of $H$ keeps the same shared-bound coordinate and supplies the first node of the route.
+
+For the tail-meet, witness-envelope, and diagonal-coverage steps, use the next component of $H$ together with the carrier rows $T,E,W$. Each step replaces only the visible row by an $\hsame$-transported row while preserving the continuation order recorded by $C$.
+
+At the final comparison step, apply the shared-threshold factorization theorem above. Since every transported read has already replayed $M,T,E,W$, the transported comparison row $Q$ is still reached through the same displayed route. No step introduces a quotient stream equality, selected limit, or host equality coordinate, because those objects are absent from the carrier.
+\end{proof}
+
 \begin{theorem}[RegularCauchyDiagonalMeet non-escape]
 \label{thm:regular-cauchy-diagonal-meet-nonescape}
 An accepted $\RegularCauchyDiagonalMeetUp$ carrier exports only the finite rows $T,M,E,W,Q,H,C,P,N$ of \autoref{def:regular-cauchy-diagonal-meet-carrier}. It exports no quotient stream equality, host real equality, selected limit, countable-choice diagonal selector, analytic completeness theorem, or ambient RealUp completion principle.
