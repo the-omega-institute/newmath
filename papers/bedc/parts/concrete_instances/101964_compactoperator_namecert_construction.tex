@@ -160,12 +160,29 @@ Use \autoref{thm:compact-operator-tail-modulus-consumer-exactness}. Downstream c
 The consumer boundary of \autoref{thm:compact-operator-ideal-consumer-boundary} then blocks an $\OperatorIdealUp$ or $\NuclearUp$ reader from replacing the finite image-net and modulus route by spectral theory. Spectral values, eigenspaces, resolvents, and trace data therefore remain explicit non-claims of the compact-operator certificate.
 \end{proof}
 
+\begin{theorem}[Compact operator obligation scope]
+\label{thm:compact-operator-obligation-scope}
+The $\CompactOperatorUp$ obligation surface is scoped exactly to the functional-analysis route of \autoref{thm:compact-operator-functional-analysis-route}, the approximation scheme of \autoref{def:compact-operator-approximation-scheme}, the bounded-image precompactness boundary of \autoref{thm:compact-operator-bounded-image-precompactness}, the ideal consumer boundary of \autoref{thm:compact-operator-ideal-consumer-boundary}, the tail-modulus exactness theorem of \autoref{thm:compact-operator-tail-modulus-consumer-exactness}, the finite-rank approximation boundary of \autoref{thm:compact-operator-finite-rank-approximation-boundary}, and the spectral refusal boundary of \autoref{thm:compact-operator-spectral-refusal-boundary}. The only primitive rows in scope are the source and target $\BanachUp$ rows, the $\BoundedLinearOperatorUp$ row, the finite image-net schedule, the tail/modulus row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row of \autoref{def:compact-operator-carrier}.
+
+No scoped obligation imports spectral data, trace-class data, host operator equality, choice-selected compactness, or an external compactness theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.CompactOperatorUp.CompactOperatorObligationScope}
+\begin{proof}
+Project the carrier $K=(S,T,B,N,M,H,C,P,L)$ of \autoref{def:compact-operator-carrier}. The carrier exposes only Banach endpoint rows, a bounded-linear-operator row, finite image-net schedules, a tail/modulus ledger, transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:compact-operator-namecert-obligations}. Carrier admission, finite-image-net stability, classifier transport, ledger non-escape, and bounded-operator compatibility are all stated over those same rows.
+
+Use the functional-analysis route and approximation scheme, \autoref{thm:compact-operator-functional-analysis-route} and \autoref{def:compact-operator-approximation-scheme}. They place every downstream compact read behind the Banach endpoints, bounded operator, finite schedules, and modulus ledger before any ideal or nuclear consumer is allowed to inspect compactness.
+
+Finally combine \autoref{thm:compact-operator-bounded-image-precompactness}, \autoref{thm:compact-operator-ideal-consumer-boundary}, \autoref{thm:compact-operator-tail-modulus-consumer-exactness}, \autoref{thm:compact-operator-finite-rank-approximation-boundary}, and \autoref{thm:compact-operator-spectral-refusal-boundary}. These theorems exhaust the bounded-image, ideal, tail-modulus, finite-rank, and spectral-refusal boundaries without adding any row outside the displayed packet.
+\end{proof}
+
 \closureat{CompactOperatorUp}{obligationStr}
 
 \begin{closurestatus}{\CompactOperatorUp}
   \constructivestory{A $\CompactOperatorUp$ packet is generated from source and target Banach rows, a bounded-linear-operator row, displayed finite image-net schedules, tail/modulus rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:compact-operator-carrier}, \autoref{thm:compact-operator-namecert-obligations}, and \autoref{thm:compact-operator-functional-analysis-route} seed the reusable compact-operator certificate consumed by FunctionalAnalysis, OperatorIdeal, and Nuclear rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:compact-operator-obligation-scope} binds the finite BEDC primitives $S,T,B,N,M,H,C,P,L$ to the Banach, bounded-linear-operator, functional-analysis, operator-ideal, and nuclear sibling routes used by the compact-operator certificate.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.CompactOperatorUp}
   \bridgestatus{none}

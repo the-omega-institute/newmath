@@ -12,6 +12,7 @@ The row $M$ is the finite $\BHist$ membership source, $Q$ is the classifier row 
 \begin{theorem}[SetLike root classifier transport]\label{thm:setlike-root-classifier-transport}
 Every $\hsame$ or $\Cont$ transport of the root carrier membership read of \autoref{def:setlike-root-carrier-membership} preserves the displayed membership classifier. A TypeLike, FirstOrder, ModelTheory, or root consumer that reads the transported packet receives $M,Q,I,R,E,H,C,P,N$ as one certified family route, and receives no host membership relation, ambient powerset, quotient equality of sets, selected representative, or external classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeRootClassifierTransport}
 \begin{proof}
 Project the route of \autoref{def:setlike-root-carrier-membership}. The membership read is based on $M$ and $Q$, while $I,R,E$ are downstream ledger rows over the same classifier.
 
@@ -23,6 +24,7 @@ Finally read $P$ and $N$. Provenance and local naming expose the same certified 
 \begin{theorem}[SetLike root NameCert obligations]\label{thm:setlike-root-namecert-obligations}
 The root $\NameCert_{\SetLikeUp}$ obligations for membership consumers are exactly carrier admission for \autoref{def:setlike-root-carrier-membership}, classifier transport for $M,Q$, bounded-comprehension ledger exposure for $I,R,E$, componentwise $\hsame$ and $\Cont$ preservation through $H,C$, provenance and local naming through $P,N$, and the boundary excluding host extensionality. Any root consumer that imports host set equality, ambient powersets, unrestricted separation, selected representatives, or an external membership classifier is outside the accepted packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeRootNameCertObligations}
 \begin{proof}
 Start with carrier admission. The definition presents the only membership carrier available to a root consumer: the finite route $M,Q,I,R,E,H,C,P,N$.
 
@@ -36,6 +38,7 @@ Finally attach provenance and local naming. Since $P,N$ name only the displayed 
 \begin{theorem}[SetLike membership classifier root unblock]\label{thm:setlike-membership-classifier-root-unblock}
 Every downstream membership read of an accepted $\SetLikeUp$ packet exposes the membership source $M$, the classifier row $Q$, the transport row $H$, the replay row $C$, the provenance row $P$, and the local naming row $N$ before the read may be consumed by a root dependency. The read therefore reaches TypeLike, FirstOrder, ModelTheory, or another root consumer only as the displayed finite membership classifier route, not as host membership, ambient powerset inclusion, unrestricted separation, quotient equality, or an external satisfaction relation.
 \end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeMembershipClassifierRootUnblock}
 \begin{proof}
 Project \autoref{def:setlike-root-carrier-membership}. The membership source and classifier are exactly $M$ and $Q$, and no other row supplies a membership predicate.
 
@@ -54,14 +57,44 @@ Use the rows $I$ and $R$ from \autoref{def:setlike-root-carrier-membership}. The
 
 Finally apply \autoref{thm:setlike-root-namecert-obligations}. The structural rows $H,C,P,N$ keep the same finite route available to root consumers and leave no coordinate for ambient powersets, unrestricted comprehension, host subset relations, selected representatives, or quotient equality.
 \end{proof}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeSubsetComprehensionRootUnblock}
 
 \begin{theorem}[SetLike extensionality root unblock]\label{thm:setlike-extensionality-root-unblock}
 Every extensional comparison exported by an accepted $\SetLikeUp$ packet is only the displayed classifier boundary $E$ over the membership rows $M,Q$ with support from $H,C,P,N$. A downstream root consumer may read that boundary as the packet's extensional comparison route, but it may not identify it with host set equality, quotient equality of sets, selected representatives, an ambient inclusion predicate, or an external extensionality principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeExtensionalityRootUnblock}
 \begin{proof}
 Project the extensional boundary of \autoref{def:setlike-root-carrier-membership}. The row $E$ is the only comparison coordinate, and it is tied to the same displayed membership source $M$ and classifier $Q$.
 
 Use the SetLike membership route and the root NameCert obligations. They make $E$ available only after the carrier rows have exposed the membership classifier and the structural preservation rows.
 
 Thus a root consumer receives an extensional boundary for the accepted packet, not host set equality. The rows $H,C,P,N$ preserve and name that boundary without adding quotient equality, selected representatives, ambient inclusion, or external extensionality.
+\end{proof}
+
+\begin{theorem}[SetLike root membership provenance exhaustion]\label{thm:setlike-root-membership-provenance-exhaustion}
+Every TypeLike, FirstOrder, ModelTheory, or root consumer of accepted $\SetLikeUp$ membership must exhaust the finite route $M,Q,I,R,E,H,C,P,N$ before exporting membership, subset, comprehension, or extensionality rows. In particular, the provenance row $P$ and the local naming row $N$ are required before any of the displayed membership classifier, subset implication, restricted-comprehension, or extensional boundary rows may leave the root packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeRootMembershipProvenanceExhaustion}
+\begin{proof}
+Project \autoref{def:setlike-root-carrier-membership}. The only accepted membership carrier is the displayed route $M,Q,I,R,E,H,C,P,N$, with $P$ and $N$ attached to the same packet as the membership and comparison rows.
+
+Apply \autoref{thm:setlike-root-classifier-transport} and \autoref{thm:setlike-root-namecert-obligations}. These results keep the membership classifier on $M,Q$ under $\hsame$ transport and $\Cont$ replay, while requiring provenance and local naming before downstream reads can treat the route as a NameCert surface.
+
+Use \autoref{thm:setlike-membership-classifier-root-unblock}, \autoref{thm:setlike-subset-comprehension-root-unblock}, and \autoref{thm:setlike-extensionality-root-unblock}. The membership, subset, comprehension, and extensionality exports are exactly the rows $M,Q,I,R,E$ supported by $H,C,P,N$.
+
+Thus any consumer that omits $P$ or $N$ has not exhausted the root route. The omitted coordinate would be precisely where host membership, powersets, unrestricted separation, selected representatives, quotient set equality, or external satisfaction could enter, so the accepted packet refuses that export.
+\end{proof}
+
+\begin{theorem}[SetLike root membership nonescape ledger]\label{thm:setlike-root-membership-nonescape-ledger}
+Every TypeLike, FirstOrder, ModelTheory, or root consumer that has exhausted the accepted $\SetLikeUp$ route $M,Q,I,R,E,H,C,P,N$ can export only the membership, subset, restricted-comprehension, and extensional-boundary rows already displayed in the SetLike packet. Such a consumer cannot introduce host membership, ambient powersets, unrestricted separation, quotient equality, selected representatives, or external satisfaction.
+\end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeRootMembershipNonescapeLedger}
+\begin{proof}
+Start from \autoref{def:setlike-root-carrier-membership}. The carrier route exposes exactly the membership source $M$, classifier $Q$, subset row $I$, restricted-comprehension row $R$, extensional boundary $E$, transport $H$, replay $C$, provenance $P$, and local naming $N$.
+
+Apply the root classifier and NameCert rows, \autoref{thm:setlike-root-classifier-transport} and \autoref{thm:setlike-root-namecert-obligations}. They keep the membership classifier on $M,Q$ and confine the accepted NameCert surface to the displayed finite route.
+
+Use the three root-unblock exports: \autoref{thm:setlike-membership-classifier-root-unblock}, \autoref{thm:setlike-subset-comprehension-root-unblock}, and \autoref{thm:setlike-extensionality-root-unblock}. These are exactly the membership, subset, restricted-comprehension, and extensional-boundary rows available to downstream root consumers.
+
+Finally use provenance exhaustion from \autoref{thm:setlike-root-membership-provenance-exhaustion}. Once $P,N$ have been read, no remaining carrier coordinate can supply host membership, ambient powersets, unrestricted separation, quotient equality, selected representatives, or external satisfaction. Hence the ledger is exhausted by the displayed SetLike packet.
 \end{proof}

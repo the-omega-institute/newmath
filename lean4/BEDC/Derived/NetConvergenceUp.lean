@@ -247,6 +247,8 @@ theorem NetConvergenceCarrier_boundary_readback
                       Cont realRead R L := by
   -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
   intro carrier directedTail cauchyRoute realRoute realSeal cauchySame boundarySame
+  have streamRows :=
+    NetConvergenceCarrier_stream_readback_route carrier realRoute realSeal boundarySame
   have cert :
       SemanticNameCert
           (fun row : BHist =>
@@ -274,9 +276,13 @@ theorem NetConvergenceCarrier_boundary_readback
       exact ⟨directedTail, cauchyRoute, source.left⟩
     ledger_sound := by
       intro _row source
-      exact ⟨realRoute, realSeal, source.left⟩
+      exact
+        ⟨streamRows.right.right.right.right.left,
+          streamRows.right.right.right.right.right.left, source.left⟩
   }
-  exact ⟨cert, directedTail, cauchyRoute, realRoute, realSeal⟩
+  exact
+    ⟨cert, directedTail, cauchyRoute, streamRows.right.right.right.right.left,
+      streamRows.right.right.right.right.right.left⟩
 
 theorem NetConvergenceCarrier_entourage_tail_stability
     {D T E A F S R L H C P M D' T' E' A' F' S' R' L' H' C' P' M' handoff

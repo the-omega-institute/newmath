@@ -13,3 +13,33 @@ Apply \autoref{thm:finite-limit-seal-route-nonescape} and \autoref{thm:finite-li
 
 The added dependency order records the same lattice edge: $\StreamNameUp$ supplies the finite windows, $\RegSeqRatUp$ supplies the rational readback, $\RealUp$ supplies the terminal seal, and $\MetricCompletionUp$ consumes that seal only through the completion route. Since the local packet has no coordinate for a selected limit or ambient completeness theorem, the dependency route is exactly the finite readback route already named by the carrier.
 \end{proof}
+
+\begin{theorem}[FiniteLimitSeal MetricCompletionFinite forward link]
+\label{thm:finite-limit-seal-metriccompletionfinite-forward-link}
+Every finite-limit seal consumed by a completion-facing route must expose its $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before entering $\MetricCompletionFiniteUp$. The forward link into \autoref{ch:concrete-instances-metriccompletionfinite-namecert} is a finite readback route, not a selected limit, quotient stream equality, countable-choice schedule, host real equality, trichotomy branch, or ambient Real completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the real dependency route above. It already forces a public $\FiniteLimitSealUp$ consumer to read finite stream windows, regular rational readback, terminal Real sealing, and the completion envelope before any local naming row is public.
+
+Next project the structural rows of \autoref{def:finite-limit-seal-carrier}. The same route carries $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data, so a completion-facing consumer cannot bypass the finite seal packet.
+
+Finally compose this route with \autoref{ch:concrete-instances-metriccompletionfinite-namecert}. A $\MetricCompletionFiniteUp$ consumer therefore receives the finite-limit seal only after the StreamName, RegSeqRat, DyadicRatCore, Real, transport, replay, provenance, and naming rows are exposed, with no selected limit, quotient stream equality, countable-choice schedule, host real equality, trichotomy branch, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[FiniteLimitSeal Real-completion route]
+\label{thm:finite-limit-seal-real-completion-route}
+Every accepted $\FiniteLimitSealUp$ completion-facing consumer factors through the route
+$$
+M,W,R,D,E,H,C,P,N.
+$$
+Here $W$ is supplied by $\StreamNameUp$, $R$ by $\RegSeqRatUp$, $D$ by $\DyadicRatCoreUp$, $E$ by $\RealUp$, and downstream completion is read only through $\MetricCompletionUp$ or $\MetricCompletionFiniteUp$. No selected limit, quotient stream equality, countable-choice schedule, host real equality, trichotomy branch, or ambient Real completeness enters the route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-limit-seal-carrier}. The completion-facing rows available to a consumer are the displayed modulus, window, readback, dyadic tolerance, Real seal, transport, replay, provenance, and local naming rows.
+
+Use route nonescape, \autoref{thm:finite-limit-seal-route-nonescape}. It prevents a completion consumer from bypassing $M,W,R,D,E$ or replacing them by a selected limit, quotient stream equality, host equality, trichotomy branch, or ambient completeness theorem.
+
+Apply the real dependency route above. It identifies $W$ as the $\StreamNameUp$ window row, $R$ as the $\RegSeqRatUp$ readback row, $D$ as the dyadic tolerance row, and $E$ as the terminal $\RealUp$ seal.
+
+Finally use the $\MetricCompletionFiniteUp$ forward link, \autoref{thm:finite-limit-seal-metriccompletionfinite-forward-link}. It records the finite completion handoff and leaves downstream completion only through $\MetricCompletionUp$ or $\MetricCompletionFiniteUp$, so the displayed route is exhausted by $M,W,R,D,E,H,C,P,N$.
+\end{proof}

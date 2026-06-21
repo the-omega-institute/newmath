@@ -4,6 +4,8 @@
 
 Following Riesz, Thorin, and Stein-Weiss, the $\RieszThorinInterpolationUp$ packet records the finite interpolation certificate by which two endpoint bounded-operator rows and a Hadamard three-lines strip estimate expose one interpolated norm bound. It sits after the strip-bound packet of \autoref{ch:concrete-instances-hadamard-three-lines-namecert}, the endpoint normed-space surface of \autoref{ch:concrete-instances-normedspace-namecert}, the bounded-operator row of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the interpolation carrier of \autoref{ch:concrete-instances-interpolation-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names the displayed certificate only; it does not import a host interpolation functor, quotient operator equality, selected extremal analytic family, countable choice, or ambient $\RealUp$ completeness.
 
+Every interpolated-bound consumer must read endpoint bounded-operator rows through \autoref{ch:concrete-instances-boundedlinearoperator-namecert} and the strip estimate through \autoref{ch:concrete-instances-hadamard-three-lines-namecert} before the $\RealUp$ norm-bound ledger is visible.
+
 \begin{definition}[Riesz-Thorin interpolation carrier]
 \label{def:riesz-thorin-interpolation-carrier}
 A $\RieszThorinInterpolationUp$ carrier is a finite $\BHist$ packet
@@ -44,12 +46,28 @@ The bound row $B$ reads only after those endpoint and strip rows are displayed. 
 Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since every excluded host object lacks a carrier coordinate, the listed rows exhaust the local NameCert obligations.
 \end{proof}
 
+\begin{theorem}[Riesz-Thorin horizontal dependency route]
+\label{thm:riesz-thorin-interpolation-horizontal-dependency-route}
+Every accepted interpolated-bound read for a $\RieszThorinInterpolationUp$ packet exposes the Hadamard three-lines strip row, endpoint $\NormedSpaceUp$ rows, endpoint $\BoundedLinearOperatorUp$ rows, interpolation-parameter row, and terminal $\RealUp$ bound row before the interpolated estimate is visible. Equivalently, every consumer route factors through the displayed dependency lattice
+$$
+X_0,X_1,Y_0,Y_1,A_0,A_1,E_0,E_1,S,\Theta,B,H,C,P,N
+$$
+and through the sibling certificate surfaces of \autoref{ch:concrete-instances-hadamard-three-lines-namecert}, \autoref{ch:concrete-instances-normedspace-namecert}, \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, \autoref{ch:concrete-instances-interpolation-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+\end{theorem}
+\begin{proof}
+Project the carrier $T=(X_0,X_1,Y_0,Y_1,A_0,A_1,E_0,E_1,S,\Theta,B,H,C,P,N)$ of \autoref{def:riesz-thorin-interpolation-carrier}. The rows $X_0,X_1,Y_0,Y_1$ are exactly the endpoint normed-space rows, and $A_0,A_1$ are exactly the endpoint bounded-operator rows over those spaces.
+
+The rows $E_0,E_1,\Theta$ record the endpoint exponent and interpolation-parameter data consumed by the strip comparison. The only strip-estimate coordinate is $S$, so the interpolated estimate cannot be read before the Hadamard three-lines surface named in \autoref{ch:concrete-instances-hadamard-three-lines-namecert} is displayed.
+
+The terminal bound row $B$ is downstream of the endpoint, operator, exponent, strip, and interpolation-parameter rows. The structural rows $H,C,P,N$ transport, replay, package, and name that same dependency lattice, and they introduce no bypass around the sibling NormedSpace, BoundedLinearOperator, Interpolation, HadamardThreeLines, or Real surfaces.
+\end{proof}
+
 \closureat{RieszThorinInterpolationUp}{seedStr}
 
 \begin{closurestatus}{\RieszThorinInterpolationUp}
   \constructivestory{A $\RieszThorinInterpolationUp$ packet is generated from endpoint NormedSpace rows, endpoint BoundedLinearOperator rows, endpoint exponent rows, a HadamardThreeLines strip-estimate row, an interpolation-parameter row, a RealUp norm-bound ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:riesz-thorin-interpolation-carrier} and \autoref{thm:riesz-thorin-interpolation-namecert-obligations} seed the finite Riesz-Thorin interpolation carrier over endpoint normed spaces, bounded operators, exponent rows, strip estimates, interpolation parameters, norm-bound ledgers, transport, replay, provenance, and local naming rows.}
+  \scopeclosed{\autoref{def:riesz-thorin-interpolation-carrier}, \autoref{thm:riesz-thorin-interpolation-namecert-obligations}, and \autoref{thm:riesz-thorin-interpolation-horizontal-dependency-route} seed the finite Riesz-Thorin interpolation carrier over endpoint normed spaces, bounded operators, exponent rows, strip estimates, interpolation parameters, norm-bound ledgers, transport, replay, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim host interpolation spaces, quotient operator equality, selected extremal analytic families, non-displayed exponent completion, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
