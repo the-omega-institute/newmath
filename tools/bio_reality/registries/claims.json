@@ -6549,6 +6549,40 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-21T03:46:05+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-21T03:46:06+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "435b0464eae8",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-21T04:33:48+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-21T04:33:48+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "e1c1536f1de4",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -9067,6 +9101,34 @@
             "failed": 0
           },
           "script_sha": "7dc1873d20ba4199"
+        }
+      ],
+      "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.synonymous_perturbation.b_star_window_yang_ecoli_endogenous_fitness_powered",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "New-domain perturbation test (E.coli ENDOGENOUS synonymous-edit fitness, not a reporter): on Yang 2024 PNAS genome-edit screen (46,686 synonymous edits across 30 E.coli genes, competition-coefficient fitness in 3 conditions: 11mM glucose aerobic / 50mM / 200mM sodium acetate; PMC10835057 SI sd03-05), the per-edit Δb_window = B*_Q6(mutated seq) - B*_Q6(target seq), residualized train-fold against gene + position + codon-family + real-genome ΔCAI + ΔtAI + ΔGC + WT-codon + edit-design confounds (NumberOfMutations, NumberOfImmunizingMutations) + c_r2, does NOT predict endogenous fitness beyond those controls: leave-gene-out L3(+Δb⊥) gives ΔLL<0 in all 3 conditions (glucose ΔR²=-0.041 p=0.57; 50mM acetate ΔR²=+0.045 p_block=0.0099 but ΔLL=-19.6 NEGATIVE = contradictory, no held-out DL gain; 200mM acetate ΔR²=-0.042 p=0.62). Verdict null: B_window carries no robust signal for E.coli endogenous fitness. The Nieuwkoop reporter signal (itself 5'-initiation-localized) does NOT manifest as endogenous fitness. (Nieuwkoop-β frozen-transfer was skipped: only a scalar chapter summary was committed, no reusable 9D β without relearning.) cannot_claim: edits are PAM/immunizing clusters not single-codon-causal (NumMutations/Immunizing controlled but incompletely); editing-efficiency not directly measured; E.coli not eukaryote; competition coefficient is multifactorial, not a translation/protein readout; Δb is local not whole-gene; RNA-MFE uncontrolled (stdlib).",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "b_star_window_yang_ecoli_endogenous_fitness_powered",
+      "history": [
+        {
+          "ts": "2026-06-21T03:44:25+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-21T03:54:18+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "906139f914b0",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "895f23b8927db834"
         }
       ],
       "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
