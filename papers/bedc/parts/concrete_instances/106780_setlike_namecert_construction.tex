@@ -111,6 +111,7 @@ Transport through $H$ and replay through $C$ preserve the same generated route, 
 \label{thm:setlike-finite-membership-induction}
 Every accepted finite $\SetLikeUp$ membership ledger whose rows are generated from displayed $\BHist$ membership observations and transported by $\hsame$ can be consumed by induction over the displayed ledger rows. The induction exports only the carrier row, membership row, classifier row, transport row, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\SetLikeUp}$ row; it exports no host powerset membership, quotient-set equality, unrestricted comprehension, selected representatives, or ambient extensional equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeFiniteMembershipInduction}
 \begin{proof}
 Start from the membership carrier of \autoref{def:setlike-membership-carrier}. Its displayed ledger exposes only $M,Q,H,C,P,N$, so the base case is the empty or initial membership observation together with the same carrier, replay, provenance, and naming rows.
 
@@ -152,6 +153,7 @@ The structural rows $H,C,P,N$ transport, replay, source, and name the same finit
 \label{thm:setlike-membership-source-admission}
 For every accepted $\SetLikeUp$ carrier $S=(M,Q,I,R,E,H,C,P,N)$, every membership read must expose the membership-source row $M$, displayed classifier row $Q$, componentwise transport row $H$, continuation replay row $C$, package provenance row $P$, and local naming row $N$ before the read is accepted. In particular, a membership consumer cannot replace $M,Q,H,C,P,N$ by an ambient element relation, a host powerset, selected representatives, or an external universe of sets.
 \end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeMembershipSourceAdmission}
 \begin{proof}
 Project the carrier of \autoref{def:setlike-carrier}. The only rows that open an element-in-set assertion are the membership source $M$ and displayed classifier $Q$.
 
