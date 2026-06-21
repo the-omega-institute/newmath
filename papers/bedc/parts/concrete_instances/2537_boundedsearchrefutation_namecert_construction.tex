@@ -103,16 +103,29 @@ If a consumer reads $G$, non-escape gives the boundary. The row reports only tha
 
 Therefore the public boundary is a finite BEDC search certificate. It supports bounded refutation and bounded gap reporting, while refusing any global proof-search, truth-branch, or unbounded-depth conclusion.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedSearchRefutationUp.BoundedSearchRefutationNameCertBoundary}
 
-\closureat{BoundedSearchRefutationUp}{scopedStr}
+\begin{theorem}[BoundedSearchRefutation public export]
+\label{thm:bounded-search-refutation-public-export}
+Every downstream consumer of an accepted $\BoundedSearchRefutationUp$ packet receives exactly the displayed finite frontier depth $K$, the contrary-record witness row $R$ when that row is present, the bounded $\Gap$ row $G$ when the frontier has no displayed witness, and the non-escape ledger $H,C,P,N$. The public export is the finite surface of \autoref{def:bounded-search-refutation-carrier}, \autoref{thm:bounded-search-refutation-obligations}, \autoref{thm:bounded-search-refutation-depth-soundness}, \autoref{thm:bounded-search-refutation-nonescape}, and \autoref{thm:bounded-search-refutation-namecert-boundary}; it exports no unbounded search, host truth predicate, excluded-middle branch, quotient proof equality, or witness outside the displayed frontier.
+\end{theorem}
+\begin{proof}
+Read the carrier first. The only public rows available to a consumer are the proposition row $A$, depth budget $K$, frontier $F$, witness-or-gap rows $R,G$, and the structural ledger $H,C,P,N$.
+
+Apply the NameCert obligations and depth soundness. These force the contrary-record witness, when present, to be read through the finite frontier generated inside $K$, and force the $\Gap$ row to report only bounded absence inside that same frontier.
+
+Finally use non-escape and the NameCert boundary. Since neither theorem supplies any coordinate beyond $A,K,F,R,G,H,C,P,N$, the public export is exactly the bounded frontier, contrary-record or $\Gap$ row, and non-escape ledger stated above.
+\end{proof}
+
+\closureat{BoundedSearchRefutationUp}{publicStr}
 
 \begin{closurestatus}{\BoundedSearchRefutationUp}
   \constructivestory{A $\BoundedSearchRefutationUp$ packet is generated from a proposition row, a finite depth budget, a bounded search frontier, a displayed refutation witness or $\Gap$ row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:bounded-search-refutation-carrier}, \autoref{thm:bounded-search-refutation-obligations}, \autoref{thm:bounded-search-refutation-depth-soundness}, \autoref{thm:bounded-search-refutation-obligation-scope}, \autoref{thm:bounded-search-refutation-nonescape}, and \autoref{thm:bounded-search-refutation-namecert-boundary} bind the finite bounded-search carrier, obligation scope, depth discipline, non-escape boundary, and NameCert consumer surface.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:bounded-search-refutation-carrier}, \autoref{thm:bounded-search-refutation-obligations}, \autoref{thm:bounded-search-refutation-depth-soundness}, \autoref{thm:bounded-search-refutation-obligation-scope}, \autoref{thm:bounded-search-refutation-nonescape}, \autoref{thm:bounded-search-refutation-namecert-boundary}, and \autoref{thm:bounded-search-refutation-public-export} bind the finite bounded-search carrier, obligation scope, depth discipline, non-escape boundary, NameCert consumer surface, and public export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close global proof search, excluded middle, host truth, quotient proof equality, or absence of refutations beyond the displayed budget.}
-  \upgradepath{Public closure requires a public consumer surface that exports the bounded refutation and bounded $\Gap$ rows without adding global proof search or unbounded-depth claims.}
+  \upgradepath{Bridge maturity requires a checked standard bridge that preserves the bounded refutation and bounded $\Gap$ rows without adding global proof search or unbounded-depth claims.}
 \end{closurestatus}
