@@ -8652,6 +8652,7 @@ import BEDC.Derived.PhaseLedgerHorocycleUp.TasteGate
 import BEDC.Derived.PhaseRealCompletionExitUp.TasteGate
 import BEDC.Derived.PhenomenologicalFrameUp.TasteGate
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
+import BEDC.Derived.PhilosophyCannotClaimRegistryUp.GateInduction
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.ObligationBoundary
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.StatusExactness
 import BEDC.Derived.PhilosophyCannotClaimRegistryUp.TasteGate
