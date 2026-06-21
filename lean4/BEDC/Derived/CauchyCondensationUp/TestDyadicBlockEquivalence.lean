@@ -41,8 +41,8 @@ theorem CauchyCondensationCarrier_test_dyadic_block_equivalence [AskSetup] [Pack
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
   intro carrier windowsBlocks blockSums tailTails readbackSeal sealConsumer consumerPkg
     _readbackSame
-  obtain ⟨_sourceUnary, windowsUnary, blocksUnary, sumsUnary, tailsUnary, sealUnary,
-    _transportUnary, _replayUnary, _provenanceUnary, localNameUnary, _provenancePkg,
+  obtain ⟨_sourceUnary, windowsUnary, blocksUnary, sumsUnary, tailsUnary, _readbackUnary,
+    sealUnary, _transportUnary, _replayUnary, _provenanceUnary, localNameUnary, _provenancePkg,
     _localNamePkg⟩ := carrier
   have blockReadUnary : UnaryHistory blockRead :=
     unary_cont_closed windowsUnary blocksUnary windowsBlocks
