@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\MengerTheoremUp$}
+\label{ch:concrete-instances-menger-theorem-namecert}
+\origin{human}
+
+Following Menger on finite graph connectivity, the $\MengerTheoremUp$ packet records the cut-path duality surface as finite BEDC data. It sits after the finite graph source of \autoref{ch:concrete-instances-graph-namecert}, the flow certificate route of \autoref{ch:concrete-instances-networkflow-namecert}, the matching certificate route of \autoref{ch:concrete-instances-matching-namecert}, the finite list accounting surface of \autoref{ch:concrete-instances-list-namecert}, and the natural-number ledger of \autoref{ch:concrete-instances-nat-namecert}. The packet names the displayed vertex pair, internally disjoint path family, separator row, cardinality comparison, flow/matching handoff, transport, replay, provenance, and local certificate; it is not a host max-flow theorem, not a selected infinite path family, not quotient graph equality, and not an ambient compactness or choice principle.
+
+\begin{definition}[Menger theorem carrier]
+\label{def:menger-theorem-carrier}
+A $\MengerTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+M=(G,s,t,\Pi,S,K,F,Q,L,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\GraphUp$ source row, carrying the finite vertex inventory, edge inventory, incidence data, and endpoint-adjacency checks.
+\item $s$ and $t$ are the two distinguished vertex rows, with the endpoint-separation witness that keeps the cut-path question nontrivial inside $G$.
+\item $\Pi$ is the internally disjoint path-family row, represented by finite $\ListUp$ data whose entries are paths from $s$ to $t$ and whose internal vertex ledgers are pairwise disjoint.
+\item $S$ is the separator row, recording a finite vertex cut that meets every displayed $s$--$t$ path while excluding the two distinguished endpoints.
+\item $K$ is the $\NatUp$ cardinality ledger, recording the common finite size comparison between the path family and the separator.
+\item $F$ is the $\NetworkFlowUp$ handoff row, reading the path and cut data through the finite unit-capacity flow boundary rather than through a host max-flow theorem.
+\item $Q$ is the $\MatchingUp$ handoff row, recording the auxiliary bipartite matching view used by finite alternating-route consumers.
+\item $L$ records the $\ListUp$ accounting discipline for path inventories, separator inventories, and duplicate checks.
+\item $A$ records the $\NatUp$ accounting discipline for lengths, family size, separator size, and equality of the two displayed finite cardinals.
+\item $H$ records componentwise $\hsame$ transport for graph source, endpoints, path-family, separator, cardinality, flow, matching, list, natural-number, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a cut-path duality query through $G,s,t,\Pi,S,K,F,Q,L,A,H$.
+\item $P$ is the $\Pkg$ provenance over $\MengerTheoremUp$, $\GraphUp$, $\NetworkFlowUp$, $\MatchingUp$, $\ListUp$, $\NatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MengerTheoremUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an infinite graph, a host max-flow/min-cut theorem, quotient equality of paths, selected path families outside the packet, or choice over separators.
+\end{definition}
+
+\begin{theorem}[Menger theorem NameCert obligations]
+\label{thm:menger-theorem-namecert-obligations}
+For every accepted $\MengerTheoremUp$ carrier $M=(G,s,t,\Pi,S,K,F,Q,L,A,H,C,P,N)$, the local $\NameCert_{\MengerTheoremUp}$ surface consists exactly of graph source admission through $G$, endpoint exposure through $s,t$, internally disjoint path-family exposure through $\Pi$, separator exposure through $S$, cardinality-ledger exposure through $K$, network-flow handoff through $F$, matching handoff through $Q$, list accounting through $L$, natural-number accounting through $A$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:menger-theorem-carrier}. The graph and endpoint rows $G,s,t$ fix the finite source of the cut-path question before either side of the duality can be read.
+
+The path-family row $\Pi$ and separator row $S$ are the two visible witnesses. The list ledger $L$ records path inventories, duplicate checks, and separator enumeration, while the natural-number ledger $A$ records the finite sizes inspected by the cardinality row $K$.
+
+The handoff rows $F$ and $Q$ keep the same data readable by network-flow and matching consumers. They do not replace the packet by an ambient max-flow/min-cut theorem or by a selected matching oracle; they replay the displayed graph, path, cut, and counting rows.
+
+Transport, continuation replay, provenance, and local naming are exactly $H,C,P,N$. Since no further coordinate stores infinite graph data, quotient path equality, a choice-selected path family, or a host theorem, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Menger theorem cut-path duality handoff]
+\label{thm:menger-theorem-cut-path-duality-handoff}
+Every cut-path duality consumer of an accepted $\MengerTheoremUp$ packet must read the finite route
+$$
+\GraphUp,\ \ListUp,\ \NatUp,\ \NetworkFlowUp,\ \MatchingUp
+\longmapsto
+G,s,t,\Pi,S,K,F,Q,L,A,H,C,P,N .
+$$
+The handoff states only that the displayed internally disjoint path-family row and displayed separator row meet in the same finite cardinality ledger. It does not export a theorem for infinite graphs, quotient equality of path objects, selected witnesses outside the packet, arbitrary host max-flow/min-cut, or countable choice.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:menger-theorem-namecert-obligations}. A consumer must expose the finite graph source and the two endpoint rows before it can inspect either the internally disjoint path family or the separator.
+
+Next read the list and natural-number ledgers. The path-family row $\Pi$ is a finite $\ListUp$ inventory of paths, the separator row $S$ is a finite $\ListUp$ inventory of vertices, and $K,A$ record the $\NatUp$ equality between their displayed sizes.
+
+Finally read the flow and matching handoffs. The $\NetworkFlowUp$ row presents the same data as a unit-capacity cut-flow boundary, while the $\MatchingUp$ row presents the same finite incidence discipline to alternating-route consumers. Both handoffs remain attached to $G,s,t,\Pi,S,K,L,A$.
+
+Thus the duality consumer receives a finite cut-path certificate and no stronger host theorem. The refused endpoints remain outside the carrier because no row supplies infinite graph data, quotient path equality, selected external witnesses, arbitrary max-flow/min-cut, or countable choice.
+\end{proof}
+
+\falsifiablePrediction{A purported $\MengerTheoremUp$ consumer is refuted if it reaches a cut-path duality conclusion while omitting any of the displayed graph source, endpoint, internally disjoint path-family, separator, cardinality, network-flow, matching, list, natural-number, transport, replay, provenance, or local NameCert rows.}
+
+\independenceWitness{graph, networkflow, matching, list, nat: no listed sibling is bijective to $\MengerTheoremUp$ because this packet jointly carries a distinguished graph source, two endpoint rows, internally disjoint path-family rows, separator rows, cardinality equality, flow handoff, matching handoff, finite list accounting, natural-number accounting, transport, replay, provenance, and local naming rows.}
+
+\closureat{MengerTheoremUp}{seedStr}
+
+\begin{closurestatus}{\MengerTheoremUp}
+  \constructivestory{A $\MengerTheoremUp$ packet is generated from a GraphUp source row, two distinguished vertex rows, an internally disjoint path-family row, a separator row, a NatUp cardinality ledger, NetworkFlowUp and MatchingUp handoff rows, ListUp and NatUp accounting rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:menger-theorem-carrier}, \autoref{thm:menger-theorem-namecert-obligations}, and \autoref{thm:menger-theorem-cut-path-duality-handoff} seed the finite graph cut-path duality certificate over graph, path-family, separator, counting, flow, matching, list, natural-number, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite graph Menger theorems, quotient path equality, selected external witnesses, arbitrary host max-flow/min-cut, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exposure, internally disjoint path-family exposure, separator exposure, cardinality-ledger exactness, NetworkFlow and Matching handoff exposure, List and Nat accounting, transport, replay, provenance, and local naming for BEDC.Derived.MengerTheoremUp.}
+\end{closurestatus}
