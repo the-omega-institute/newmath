@@ -94,4 +94,70 @@ theorem ForwardBindingGapLedgerNameCertObligations [AskSetup] [PackageSetup]
     ⟨cert, commitUnary, recordUnary, gapUnary, refusalUnary, citationUnary, commitRoute,
       refusalRoute, refusalTransport, provenancePkg, citationPkg⟩
 
+theorem ForwardBindingGapLedgerNoninternalization [AskSetup] [PackageSetup]
+    {commitment record gap refusal transport replay provenance localName refusalRead
+      namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ForwardBindingGapLedgerCarrier commitment record gap refusal transport replay provenance
+        localName bundle pkg →
+      Cont gap refusal refusalRead →
+        Cont refusalRead localName namedRead →
+          PkgSig bundle namedRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row commitment ∨ hsame row record ∨ hsame row gap ∨
+                    hsame row refusal ∨ hsame row refusalRead ∨ hsame row namedRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont gap refusal refusalRead ∧
+                    Cont refusalRead localName namedRead ∧ PkgSig bundle namedRead pkg)
+                hsame ∧
+              UnaryHistory refusalRead ∧ UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier refusalRoute namedRoute namedPkg
+  have gapUnary : UnaryHistory gap := carrier.right.right.left
+  have refusalUnary : UnaryHistory refusal := carrier.right.right.right.left
+  have localNameUnary : UnaryHistory localName :=
+    carrier.right.right.right.right.right.right.right.left
+  have refusalReadUnary : UnaryHistory refusalRead :=
+    unary_cont_closed gapUnary refusalUnary refusalRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed refusalReadUnary localNameUnary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row commitment ∨ hsame row record ∨ hsame row gap ∨
+              hsame row refusal ∨ hsame row refusalRead ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont gap refusal refusalRead ∧
+              Cont refusalRead localName namedRead ∧ PkgSig bundle namedRead pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨source.right, refusalRoute, namedRoute, namedPkg⟩
+    }
+  exact ⟨cert, refusalReadUnary, namedUnary⟩
+
 end BEDC.Derived.ForwardBindingGapLedgerUp

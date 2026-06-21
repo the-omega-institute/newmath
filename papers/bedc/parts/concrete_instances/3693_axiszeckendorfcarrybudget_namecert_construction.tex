@@ -68,13 +68,30 @@ Add the budget and boundary rows. The row $V$ carries the finite value-preservat
 Finally apply the structural rows $H,C,P,N$. They transport, route, package, and name only the displayed packet. Therefore every consumer-facing carry-budget read remains inside the listed rows and cannot become a source-target $\hsame$ proof or a kernel rewrite.
 \end{proof}
 
+\begin{theorem}[AxisZeckendorf carry-budget scope]
+\label{thm:axis-zeckendorf-carry-budget-scope}
+The scoped $\AxisZeckendorfCarryBudgetUp$ surface is exactly the kernel-visible packet
+$$
+B=(h,k,G,N_k,V,Q,H,C,P,N)
+$$
+of \autoref{def:axis-zeckendorf-carry-budget-carrier}. It exposes the $\BHist$ source and target rows, the $\ZCarryUp$ carry row, the $\ZeckendorfNormalUp$ target row, the value-budget ledger, the non-$\hsame$ boundary, the $\hsame$ transport rows, the $\Cont$ replay rows, the $\Pkg$ provenance row, and the local $\NameCert$ row, and it exports no source-target $\hsame$ proof, host arithmetic quotient, kernel rewrite, or global normalizer.
+\end{theorem}
+\begin{proof}
+Carrier scope is the displayed tuple of \autoref{def:axis-zeckendorf-carry-budget-carrier}. Its first four rows bind the $\BHist$ carry source and target through $\ZCarryUp$ and $\ZeckendorfNormalUp$, while the value-budget ledger records the finite Fibonacci equality that the public carry-budget read may use.
+
+The boundary and structural rows keep the scope kernel-local. The row $Q$ refuses source-target $\hsame$, the row $H$ transports only displayed coordinates, and the row $C$ replays only the named $\Cont$ routes.
+
+The provenance and naming rows close the packet. The $\Pkg$ row $P$ and the local $\NameCert$ row $N$ name the same finite carrier, so the chapter scope is the listed ledger surface rather than a quotient, rewrite, or normalization theorem.
+\end{proof}
+
 \closureat{AxisZeckendorfCarryBudgetUp}{seedStr}
 \closureat{AxisZeckendorfCarryBudgetUp}{obligationStr}
+\closureat{AxisZeckendorfCarryBudgetUp}{scopedStr}
 
 \begin{closurestatus}{\AxisZeckendorfCarryBudgetUp}
   \constructivestory{An $\AxisZeckendorfCarryBudgetUp$ packet is generated from the displayed carry source, carry target, normal-form target row, finite Fibonacci value-budget ledger, non-$\hsame$ boundary, componentwise transports, displayed continuation routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:axis-zeckendorf-carry-budget-carrier}, \autoref{thm:axis-zeckendorf-carry-budget-namecert-obligations}, and \autoref{thm:axis-zeckendorf-carry-budget-classifier-realization} bind the finite carry-budget carrier, value ledger, non-$\hsame$ boundary, route, provenance, and local naming surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:axis-zeckendorf-carry-budget-carrier}, \autoref{thm:axis-zeckendorf-carry-budget-namecert-obligations}, \autoref{thm:axis-zeckendorf-carry-budget-classifier-realization}, and \autoref{thm:axis-zeckendorf-carry-budget-scope} bind the finite carry-budget carrier, value ledger, non-$\hsame$ boundary, route, provenance, local naming, and kernel-scope surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
