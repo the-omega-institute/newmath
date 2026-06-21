@@ -142,6 +142,34 @@ It remains to align the paper route with the Lean evidence named below the theor
 
 The Lean \texttt{lean4/BEDC/Derived/ReductionFuelBoundaryUp/TasteGate.lean} development must include explicit $\mathsf{Nontrivial}\ \ReductionFuelBoundaryUp$ and $\mathsf{FieldFaithful}\ \ReductionFuelBoundaryUp$ instances. These instances must preserve the total-host reduction row, finite fuel row, bounded trace row, endpoint row, timeout-refusal row, audit row, componentwise transports, displayed continuation routes, package provenance, and local naming row.
 
+\begin{theorem}[ReductionFuelBoundary scoped timeout route]
+\label{thm:reduction-fuel-boundary-scoped-timeout-route}
+For every accepted $\ReductionFuelBoundaryUp$ carrier
+$$
+Q=(H,F,T,E,U,A,X,C,P,N),
+$$
+every scoped timeout read factors through the common route
+$$
+H,F,T,U,A,X,C,P,N,
+$$
+while every scoped endpoint read factors through
+$$
+H,F,T,E,A,X,C,P,N .
+$$
+The audit row $A$ keeps these branches disjoint and bars nontermination, convergence, quotient endpoint equality, and host-level halting reads.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reduction-fuel-boundary-carrier}. The accepted packet displays one total-host row, one fuel row, one bounded trace row, the endpoint row $E$, the timeout row $U$, and the common audit, transport, replay, provenance, and naming rows $A,X,C,P,N$.
+
+Use the NameCert obligations of \autoref{thm:reduction-fuel-boundary-namecert-obligations}. They expose timeout-refusal exactness and endpoint readback as public reads only inside the displayed packet, so neither branch can start from an external halting predicate, detached trace, quotient endpoint, or host-level convergence claim.
+
+The timeout branch is forced by \autoref{thm:reduction-fuel-boundary-fuel-timeout-exactness}. A timeout read must pass from $H$ through the same fuel and trace rows $F,T$ before reaching $U$, and then through $A,X,C,P,N$ for audit separation, transport, replay, provenance, and local naming.
+
+The endpoint branch is separated by \autoref{thm:reduction-fuel-boundary-endpoint-timeout-disjointness}. Endpoint readback uses $E$ instead of $U$, while the audit row $A$ prevents endpoint and timeout from being identified under transport or replay.
+
+Finally apply \autoref{thm:reduction-fuel-boundary-total-host-nonescape}. Since all scoped reads remain inside $H,F,T,E,U,A,X,C,P,N$, the packet exports no coordinate for nontermination, convergence, quotient endpoint equality, or host-level halting.
+\end{proof}
+
 \closureat{ReductionFuelBoundaryUp}{seedStr}
 
 \begin{closurestatus}{\ReductionFuelBoundaryUp}
