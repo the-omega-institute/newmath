@@ -208,6 +208,20 @@ The obligation route of \autoref{thm:liminf-obligation-tail-infimum-route} gives
 No carrier row remains after $T$ except the structural transport, replay, provenance, and local naming rows already listed. Hence the displayed Real seal exhausts the value-facing surface and the excluded host principles are not exported by the packet.
 \end{proof}
 
+\begin{theorem}[Liminf lower-cut readback scope]
+\label{thm:liminf-lower-cut-readback-scope}
+Every accepted $\LiminfUp$ lower-tail read must expose the bounded sequence source $S$, the finite lower-cut schedule $L$, the dyadic tolerance ledger $D$, and the terminal $\RealUp$ seal $T$ before any lower-cut readback is consumed. The source row is read through $\BoundedRealSequenceUp$, the lower observations through $\BoundedRealLowerCutUp$, the comparison rows through $\BoundedRealUpperCutUp$ and $\DyadicRatCoreUp$, and the terminal value only as the $\RealUp$ seal named in \autoref{def:liminf-carrier}, \autoref{thm:liminf-namecert-obligations}, \autoref{thm:liminf-tail-cut-route}, and \autoref{thm:liminf-real-seal-nonescape}.
+\end{theorem}
+\begin{proof}
+Project the carrier $I=(S,L,D,T,H,C,P,N)$ of \autoref{def:liminf-carrier}. The source row $S$ is the displayed bounded real sequence, and the schedule $L$ is the finite lower-cut ledger attached to tails of that same source.
+
+Use the NameCert obligations of \autoref{thm:liminf-namecert-obligations}. Their lower-tail exactness row routes each accepted lower observation through $\BoundedRealLowerCutUp$, while the upper-cut compatibility row routes comparisons through $\BoundedRealUpperCutUp$ using the dyadic tolerance ledger $D$.
+
+Apply the tail-cut route of \autoref{thm:liminf-tail-cut-route}. It orders the read as $S,L,D,T,H,C,P,N$, so the terminal value cannot be inspected before the bounded source, lower schedule, and dyadic comparison rows have been displayed.
+
+Finally use the Real-seal non-escape theorem, \autoref{thm:liminf-real-seal-nonescape}. The endpoint is only the row $T$, not a host infimum, trichotomy decision, selected subsequence, quotient stream equality, or ambient completeness principle.
+\end{proof}
+
 \begin{closurestatus}{\LiminfUp}
   \constructivestory{A $\LiminfUp$ packet is generated from a bounded RealUp sequence row, a finite tail lower-cut schedule, a dyadic tolerance ledger, a terminal RealUp seal, componentwise hsame transports, Cont replay routes, package provenance, and a local NameCert row.}
   \theoryclosure{\obligationClosure}
