@@ -1,0 +1,15 @@
+\begin{theorem}[Complete lattice order sibling route]
+\label{thm:complete-lattice-order-sibling-route}
+Every $\CompleteLatticeUp$ fixed-point read or family-boundary read factors first through the finite order sibling route
+$$
+\SetLikeUp,\PosetUp,\LatticeUp \longmapsto \CompleteLatticeUp .
+$$
+The $\SetLikeUp$ membership rows expose the displayed family, the $\PosetUp$ row supplies the antisymmetric comparison surface, and the $\LatticeUp$ row supplies the meet and join operations available before the complete-lattice schedules are read. Only after those sibling rows are visible may a consumer expose the complete-lattice join schedule, meet schedule, monotone-map row, or fixed-point boundary row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:complete-lattice-carrier}. The certified-family row $F$ is read as displayed membership data, so every family-boundary consumer begins with the $\SetLikeUp$ surface.
+
+The order row $O$ is not a free comparison relation. It is read through the antisymmetric $\PosetUp$ surface and the meet--join $\LatticeUp$ surface named in the carrier, so fixed-point consumers must expose those sibling rows before using $J,M,T$, or $B$.
+
+The join and meet schedules are therefore complete-lattice rows over an already visible membership and order route. They do not replace the sibling route by an ambient powerset, unrestricted supremum operator, quotient representative, or selected ordinal iteration.
+\end{proof}
