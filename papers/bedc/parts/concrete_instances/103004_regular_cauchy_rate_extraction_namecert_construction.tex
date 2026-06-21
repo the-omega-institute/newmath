@@ -107,12 +107,28 @@ After $M$ is read, the Real-facing transport is forced through $U$ and $E$. The 
 The induction therefore preserves the route invariant at every finite stage. Since every step is a replay of $S,D,R \mapsto M \mapsto U \mapsto E \mapsto H,C,P,N$, none of the excluded escape objects can enter the extended ledger.
 \end{proof}
 
-\closureat{RegularCauchyRateExtractionUp}{seedStr}
+\begin{theorem}[Regular Cauchy rate extraction obligation closure]
+\label{thm:regular-cauchy-rate-extraction-obligation-closure}
+\autoref{def:regular-cauchy-rate-extraction-carrier}, \autoref{thm:regular-cauchy-rate-extraction-namecert-obligations}, \autoref{thm:regular-cauchy-rate-extraction-modulus-readback}, and \autoref{thm:regular-cauchy-rate-extraction-finite-threshold-induction} jointly close the $\RegularCauchyRateExtractionUp$ obligation surface for the finite rate-readback route over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchyModulusUp$, $\RealCauchyModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:regular-cauchy-rate-extraction-carrier}. This gives exactly the rows $S,D,R,M,U,E,H,C,P,N$, with no coordinate outside the displayed finite packet.
+
+The NameCert-obligations theorem \autoref{thm:regular-cauchy-rate-extraction-namecert-obligations} accounts for carrier admission, window-readback exactness, threshold extraction exactness, Real-modulus compatibility, Real-seal nonescape, and structural stability. These rows cover the carrier, window, threshold, Real-facing handoff, and Real-seal obligations.
+
+The modulus-readback theorem \autoref{thm:regular-cauchy-rate-extraction-modulus-readback} supplies the consumer factorization. Every modulus or Real-facing read passes through $S,D,R \mapsto M \mapsto U \mapsto E \mapsto H,C,P,N$, so the rate is certificate data rather than host-side convergence data.
+
+The finite-threshold induction theorem \autoref{thm:regular-cauchy-rate-extraction-finite-threshold-induction} covers finite precision-ledger growth. Each displayed request reuses the same threshold route and adds no new carrier coordinate.
+
+Together these blocks exhaust the selected obligation surface. The closure therefore introduces no selected limit, quotient stream equality, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge credential.
+\end{proof}
+
+\closureat{RegularCauchyRateExtractionUp}{obligationStr}
 
 \begin{closurestatus}{\RegularCauchyRateExtractionUp}
   \constructivestory{A $\RegularCauchyRateExtractionUp$ packet is generated from StreamName windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a CauchyModulus threshold row, a RealCauchyModulus handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-rate-extraction-carrier}, \autoref{thm:regular-cauchy-rate-extraction-namecert-obligations}, \autoref{thm:regular-cauchy-rate-extraction-modulus-readback}, and \autoref{thm:regular-cauchy-rate-extraction-finite-threshold-induction} seed the finite rate-readback route from regular Cauchy rational data through displayed modulus thresholds, Real-facing modulus rows, finite threshold ledgers, and the terminal RealUp seal.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-rate-extraction-carrier}, \autoref{thm:regular-cauchy-rate-extraction-namecert-obligations}, \autoref{thm:regular-cauchy-rate-extraction-modulus-readback}, \autoref{thm:regular-cauchy-rate-extraction-finite-threshold-induction}, and \autoref{thm:regular-cauchy-rate-extraction-obligation-closure} close the finite rate-readback obligation surface from regular Cauchy rational data through displayed modulus thresholds, Real-facing modulus rows, finite threshold ledgers, and the terminal RealUp seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close selected limits, quotient equality of Cauchy streams, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
