@@ -4,8 +4,25 @@
 from __future__ import annotations
 
 import json
+from datetime import UTC, datetime
 from math import gcd
 from typing import Any
+
+EXPERIMENT_ID = "verify-window6-fib-gcd-strong-divisibility"
+CLAIM_ID = "window6.fib-gcd.strong-divisibility-law.certificate"
+ENVELOPE_FIELDS = {
+    "experiment_id",
+    "claim_id",
+    "status",
+    "checks",
+    "result",
+    "started_at",
+    "completed_at",
+}
+
+
+def now_iso() -> str:
+    return datetime.now(UTC).isoformat()
 
 
 def check(name: str, passed: bool, reason: str) -> dict[str, Any]:
@@ -20,6 +37,7 @@ def fib(n: int) -> int:
 
 
 def main() -> None:
+    started_at = now_iso()
     bound = 20
     pairs = [(m, n) for m in range(1, bound + 1) for n in range(1, bound + 1)]
     gcd_rows = [
@@ -71,10 +89,11 @@ def main() -> None:
             "The examples gcd(F_6,F_9)=F_3, gcd(F_12,F_18)=F_6, and F_6|F_12 hold.",
         ),
     ]
-    status = "passed" if all(item["passed"] for item in checks) else "failed"
     result = {
-        "status": status,
-        "checks": checks,
+        "experiment_id": EXPERIMENT_ID,
+        "claim_id": CLAIM_ID,
+        "status": "failed",
+        "checks": [],
         "result": {
             "index_bound": bound,
             "gcd_pair_count": len(gcd_rows),
@@ -95,11 +114,21 @@ def main() -> None:
                 "physical alpha as input, target, numerical proximity, or reverse fit",
             ],
         },
+        "started_at": started_at,
+        "completed_at": now_iso(),
     }
+    checks.append(
+        check(
+            "single_json_stdout_contract",
+            ENVELOPE_FIELDS.issubset(result),
+            "The result envelope carries the required fields and the script emits that envelope as the only stdout line.",
+        )
+    )
+    status = "passed" if all(item["passed"] for item in checks) else "failed"
+    result["status"] = status
+    result["checks"] = checks
     print(json.dumps(result, ensure_ascii=False))
-    if status == "passed":
-        print("PASS verify-window6-fib-gcd-strong-divisibility")
-    else:
+    if status != "passed":
         raise SystemExit(1)
 
 

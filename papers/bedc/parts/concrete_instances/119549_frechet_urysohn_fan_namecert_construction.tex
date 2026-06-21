@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\FrechetUrysohnFanUp$}
+\label{ch:concrete-instances-frechet-urysohn-fan-namecert}
+\origin{human}
+
+Following Kelley and Engelking on Frechet--Urysohn spaces and sequential fans, the $\FrechetUrysohnFanUp$ packet records the finite fan-indexed closure surface by which a sequential fan supplies a displayed Frechet--Urysohn closure handoff. It sits adjacent to the finite fan-bar carrier of \autoref{ch:concrete-instances-sequential-fan-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed fan arms, finite stream windows, regular rational tails, Real seals, closure witnesses, transport, replay, provenance, and local naming; it does not assert arbitrary topological nets, a selected branch through the fan, countable choice, host quotient equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Frechet-Urysohn fan carrier]
+\label{def:frechet-urysohn-fan-carrier}
+A $\FrechetUrysohnFanUp$ carrier is a finite $\BHist$ packet
+$$
+F=(A,W,R,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\SequentialFanUp$ arm row, recording the finite fan-bar surface and the displayed arm on which the closure read is made.
+\item $W$ is the $\StreamNameUp$ finite-window row for the inspected arm segments.
+\item $R$ is the $\RegSeqRatUp$ tail-readback row attached to those windows.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $A,W,R$ have been displayed.
+\item $L$ is the Frechet--Urysohn closure-witness row, recording that the named limit point is approached along the displayed fan arm through the same windows and tails.
+\item $H$ records componentwise $\hsame$ transport for arm, window, readback, Real-seal, closure-witness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a fan-closure request through $A,W,R,E,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FrechetUrysohnFanUp$, $\SequentialFanUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FrechetUrysohnFanUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,W,R,E,L,H,C,P,N$. It has no coordinate for arbitrary nets, selected fan branches, quotient stream equality, host real equality, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Frechet-Urysohn fan NameCert obligations]
+\label{thm:frechet-urysohn-fan-namecert-obligations}
+For every accepted $\FrechetUrysohnFanUp$ carrier
+$$
+F=(A,W,R,E,L,H,C,P,N),
+$$
+the local $\NameCert_{\FrechetUrysohnFanUp}$ surface consists exactly of sequential-fan arm admission through $A$, StreamName window exposure through $W$, RegSeqRat tail readback through $R$, terminal Real-seal ordering through $E$, Frechet--Urysohn closure-witness display through $L$, componentwise transport through $H$, displayed continuation replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The fan-facing data are the arm row $A$ and the finite windows $W$, while the analytic readback is carried by $R$ and then by the terminal Real seal $E$.
+
+The closure witness is row-local. The row $L$ can certify only the displayed arm and the windows already exposed by $A,W,R,E$; it has no coordinate for an arbitrary net, a selected branch outside the arm row, or a host closure operator.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier contains no hidden branch selector, quotient stream equality, host real equality, countable-choice row, or ambient completeness row, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Frechet-Urysohn fan stream-closure handoff]
+\label{thm:frechet-urysohn-fan-stream-closure-handoff}
+Every consumer that reads a $\FrechetUrysohnFanUp$ packet as a sequential-closure witness must factor through
+$$
+\SequentialFanUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+before the Frechet--Urysohn closure row $L$ is visible. The handoff exports the displayed fan arm, finite stream windows, regular rational tails, terminal Real seal, and closure witness only; it does not export arbitrary nets, selected branches, quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:frechet-urysohn-fan-namecert-obligations}. A closure-facing consumer first reads the sequential-fan arm row $A$, and this row is the only point at which the packet can consume the fan surface of \autoref{ch:concrete-instances-sequential-fan-namecert}.
+
+The finite StreamName windows $W$ and RegSeqRat readback $R$ are downstream of that same displayed arm. The Real seal $E$ is downstream of both, so the closure row $L$ cannot be read before the route has passed through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+
+Thus the consumer receives a finite stream-closure handoff, not an ambient topological closure theorem. The missing carrier coordinates exclude arbitrary nets, selected branches, quotient stream equality, selected limits, countable choice, and ambient $\RealUp$ completeness from the exported surface.
+\end{proof}
+
+\closureat{FrechetUrysohnFanUp}{seedStr}
+
+\begin{closurestatus}{\FrechetUrysohnFanUp}
+  \constructivestory{A $\FrechetUrysohnFanUp$ packet is generated from a SequentialFan arm row, StreamName finite-window rows, RegSeqRat tail readbacks, a terminal Real seal, a Frechet--Urysohn closure-witness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frechet-urysohn-fan-carrier}, \autoref{thm:frechet-urysohn-fan-namecert-obligations}, and \autoref{thm:frechet-urysohn-fan-stream-closure-handoff} seed the fan-indexed sequential-closure carrier over SequentialFan, StreamName, RegSeqRat, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary nets, selected fan branches, quotient stream equality, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked arm admission, finite-window exposure, tail readback, Real-seal ordering, closure-witness display, transport, replay, provenance, and local naming for BEDC.Derived.FrechetUrysohnFanUp.}
+\end{closurestatus}

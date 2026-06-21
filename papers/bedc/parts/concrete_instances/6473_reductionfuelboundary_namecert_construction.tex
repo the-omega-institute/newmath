@@ -139,6 +139,7 @@ The NameCert obligations of \autoref{thm:reduction-fuel-boundary-namecert-obliga
 
 It remains to align the paper route with the Lean evidence named below the theorem list. The required $\mathsf{FieldFaithful}\ \ReductionFuelBoundaryUp$, $\mathsf{Nontrivial}\ \ReductionFuelBoundaryUp$, and \texttt{taste\_gate} witnesses are obligations on the same finite carrier fields, so the Lean side preserves the carrier rows rather than adding a new substrate read.
 \end{proof}
+\leanchecked{BEDC.Derived.ReductionFuelBoundaryUp.ReductionFuelBoundaryScopedSubstrateRoute}
 
 The Lean \texttt{lean4/BEDC/Derived/ReductionFuelBoundaryUp/TasteGate.lean} development must include explicit $\mathsf{Nontrivial}\ \ReductionFuelBoundaryUp$ and $\mathsf{FieldFaithful}\ \ReductionFuelBoundaryUp$ instances. These instances must preserve the total-host reduction row, finite fuel row, bounded trace row, endpoint row, timeout-refusal row, audit row, componentwise transports, displayed continuation routes, package provenance, and local naming row.
 
@@ -169,11 +170,13 @@ The endpoint branch is separated by \autoref{thm:reduction-fuel-boundary-endpoin
 
 Finally apply \autoref{thm:reduction-fuel-boundary-total-host-nonescape}. Since all scoped reads remain inside $H,F,T,E,U,A,X,C,P,N$, the packet exports no coordinate for nontermination, convergence, quotient endpoint equality, or host-level halting.
 \end{proof}
+\leanchecked{BEDC.Derived.ReductionFuelBoundaryUp.ReductionFuelBoundaryScopedTimeoutRoute}
 
 \begin{theorem}[Reduction fuel boundary scoped route]
 \label{thm:reduction-fuel-boundary-scoped-route}
 Every accepted $\ReductionFuelBoundaryUp$ consumer must expose the bounded trace, step-indexed total host, typed normal form, $\ZNormalUp$ boundary, timeout ledger, endpoint-separation audit, and structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before reading the fuel boundary. The boundary read is therefore a scoped route through the displayed carrier rows of \autoref{def:reduction-fuel-boundary-carrier}, the obligation package of \autoref{thm:reduction-fuel-boundary-obligation-closure-package}, the substrate route of \autoref{thm:reduction-fuel-boundary-scoped-substrate-route}, and the timeout route of \autoref{thm:reduction-fuel-boundary-scoped-timeout-route}; it is not an unbounded halting predicate, a convergence theorem, a quotient endpoint, or a host-substrate equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.ReductionFuelBoundaryUp.ReductionFuelBoundaryScopedRoute}
 \begin{proof}
 Project the carrier rows. The total-host row $H$, fuel row $F$, bounded trace row $T$, typed endpoint row $E$, timeout row $U$, audit row $A$, transport row $X$, continuation row $C$, package row $P$, and local naming row $N$ are the complete classifier-visible surface.
 
@@ -182,12 +185,12 @@ The sibling route theorems fix the dependencies. The obligation package enumerat
 The remaining required names are structural rows of that packet. The $\ZNormalUp$ boundary is read only as part of the typed endpoint surface and audit separation, and the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows preserve the displayed route rather than adding a semantic shortcut. Thus any scoped consumer must read the listed rows before the fuel boundary can be consumed.
 \end{proof}
 
-\closureat{ReductionFuelBoundaryUp}{seedStr}
+\closureat{ReductionFuelBoundaryUp}{scopedStr}
 
 \begin{closurestatus}{\ReductionFuelBoundaryUp}
   \constructivestory{A $\ReductionFuelBoundaryUp$ packet is generated from a total-host reduction row, finite fuel row, bounded trace row, typed endpoint row, timeout-refusal row, audit row, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:reduction-fuel-boundary-obligation-closure-package} enumerates carrier admission, host exposure, fuel exposure, bounded-trace exposure, endpoint readback, timeout exactness, audit separation, transport, replay, provenance, naming, nontriviality, and field faithfulness for the same packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:reduction-fuel-boundary-carrier}, \autoref{thm:reduction-fuel-boundary-obligation-closure-package}, \autoref{thm:reduction-fuel-boundary-scoped-substrate-route}, \autoref{thm:reduction-fuel-boundary-scoped-timeout-route}, and \autoref{thm:reduction-fuel-boundary-scoped-route} bind the finite fuel, bounded trace, typed endpoint, timeout refusal, audit, transport, replay, provenance, and local naming rows as the complete scoped route for the boundary packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
