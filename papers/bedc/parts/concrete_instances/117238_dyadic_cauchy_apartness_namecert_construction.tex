@@ -62,12 +62,30 @@ Next the row $A$ turns the same positive dyadic separation into located apartnes
 The structural rows $H,C,P,N$ preserve this ordering under transport, replay, provenance, and local naming. Since the carrier has no row for the excluded host objects, the consumer receives only the stated finite located-comparison boundary.
 \end{proof}
 
+\begin{theorem}[Dyadic Cauchy apartness window induction]
+\label{thm:dyadic-cauchy-apartness-window-induction}
+Let
+$$
+K=(X,Y,W_X,W_Y,D,R_X,R_Y,A,E,H,C,P,N)
+$$
+be an accepted $\DyadicCauchyApartnessUp$ carrier. If the paired finite windows $W_X,W_Y$ are extended by one displayed $\StreamNameUp$ observation and the positive dyadic gap row $D$ transports through the corresponding $\RegSeqRatUp$ readbacks $R_X,R_Y$, then the same $\DyadicCauchyApartnessUp$ packet remains accepted and the located-apartness handoff still reaches the $\RealUp$ seal row $E$.
+\end{theorem}
+\begin{proof}
+Proceed by finite induction on the displayed paired window extension. The base case is the accepted carrier itself, where $W_X,W_Y,D,R_X,R_Y,A,E$ already expose the positive dyadic gap, the two regular readbacks, the located-apartness handoff, and the Real seal.
+
+For the successor step, append one displayed $\StreamNameUp$ observation to each of $W_X$ and $W_Y$. The transported positive dyadic gap remains the row $D$, and its two readbacks remain the corresponding $R_X$ and $R_Y$ rows after the window extension.
+
+The handoff row $A$ reads that same transported positive gap as located apartness evidence. Since the extension changes only displayed finite windows and their readbacks, $A$ still feeds the terminal seal row $E$.
+
+Finally $H,C,P,N$ transport, replay, source, and name the enlarged finite route. Thus the accepted packet is stable under the displayed one-step window extension, and the Real-facing consumer still receives the located-apartness handoff only through $E$.
+\end{proof}
+
 \closureat{DyadicCauchyApartnessUp}{seedStr}
 
 \begin{closurestatus}{\DyadicCauchyApartnessUp}
   \constructivestory{A $\DyadicCauchyApartnessUp$ packet is generated from two regular Cauchy name rows, paired StreamName windows, a DyadicRatCore positive-gap row, RegSeqRat readbacks, a LocatedRealApartness handoff, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dyadic-cauchy-apartness-carrier}, \autoref{thm:dyadic-cauchy-apartness-namecert-obligations}, and \autoref{thm:dyadic-cauchy-apartness-located-comparison-boundary} seed the finite constructive apartness boundary over dyadic positive gaps, stream windows, regular rational readbacks, located apartness, and Real sealing.}
+  \scopeclosed{\autoref{def:dyadic-cauchy-apartness-carrier}, \autoref{thm:dyadic-cauchy-apartness-namecert-obligations}, \autoref{thm:dyadic-cauchy-apartness-located-comparison-boundary}, and \autoref{thm:dyadic-cauchy-apartness-window-induction} seed the finite constructive apartness boundary over dyadic positive gaps, stream windows, regular rational readbacks, located apartness, window extension, and Real sealing.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient stream equality, trichotomy, selected representatives, countable choice, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
