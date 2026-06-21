@@ -1398,6 +1398,7 @@ import BEDC.Derived.CalculusUp.LimitRealTerminalExport
 import BEDC.Derived.CalculusUp.LocalLinearizationCarrier
 import BEDC.Derived.CalculusUp.LocalOperationNonescape
 import BEDC.Derived.CalculusUp.LocatedCompactDependencyRoute
+import BEDC.Derived.CalculusUp.LowerEnvelopeRealFacingRoute
 import BEDC.Derived.CalculusUp.PeanoDependencyRoute
 import BEDC.Derived.CalculusUp.ProductMetricForwardLink
 import BEDC.Derived.CalculusUp.ProductMetricForwardLinkExport
@@ -1701,6 +1702,7 @@ import BEDC.Derived.CauchyCondensationUp.DyadicBlockHandoff
 import BEDC.Derived.CauchyCondensationUp.DyadicBlockTailTransport
 import BEDC.Derived.CauchyCondensationUp.DyadicTailObligation
 import BEDC.Derived.CauchyCondensationUp.TasteGate
+import BEDC.Derived.CauchyCondensationUp.TestDyadicBlockEquivalence
 import BEDC.Derived.CauchyContinuityCalibrationUp.TasteGate
 import BEDC.Derived.CauchyContinuityPrincipleUp.RealSealBoundary
 import BEDC.Derived.CauchyContinuityPrincipleUp.TasteGate
@@ -2404,6 +2406,7 @@ import BEDC.Derived.CauchyTailEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyTailEstimateUp.TasteGate
 import BEDC.Derived.CauchyTailFilterBornologyUp.NameCertObligations
 import BEDC.Derived.CauchyTailFilterBornologyUp.TasteGate
+import BEDC.Derived.CauchyTailGluingUp.TasteGate
 import BEDC.Derived.CauchyTailIntersectionUp.TasteGate
 import BEDC.Derived.CauchyTailModulusFusionUp
 import BEDC.Derived.CauchyTailModulusFusionUp.TasteGate
@@ -9520,6 +9523,7 @@ import BEDC.Derived.ReducedProductUp
 import BEDC.Derived.ReductionFuelBoundaryUp.EndpointTimeoutDisjointness
 import BEDC.Derived.ReductionFuelBoundaryUp.FuelTimeoutExactness
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
+import BEDC.Derived.ReductionFuelBoundaryUp.TotalHostNonescape
 import BEDC.Derived.ReflectionGapBoundaryUp.Nonescape
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ReflectionLimitBoundaryUp.TasteGate
@@ -10449,6 +10453,7 @@ import BEDC.Derived.SetlikeUp.SubsetClassifierObligation
 import BEDC.Derived.SetlikeUp.SubsetComprehensionRootUnblock
 import BEDC.Derived.SetlikeUp.SubsetLedger
 import BEDC.Derived.SetlikeUp.TasteGate
+import BEDC.Derived.SetlikeUp.TypeModelSatisfactionBoundary
 import BEDC.Derived.SetlikeUp.TypelikeModeltheoryHandoff
 import BEDC.Derived.SharedTailNormalizerUp.TasteGate
 import BEDC.Derived.SheafUp

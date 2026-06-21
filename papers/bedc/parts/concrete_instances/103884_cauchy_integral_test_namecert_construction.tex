@@ -70,6 +70,20 @@ The handoff target is the regular Cauchy series-tail row $S$. The finite windows
 The carrier contains no row for a selected infinite sum and no row for a global completeness theorem. The packet therefore supplies a convergence-test handoff to the series-tail corridor, while leaving completed sums and completeness principles outside the named surface.
 \end{proof}
 
+\begin{theorem}[CauchyIntegralTest monotone-tail induction]
+\label{thm:cauchy-integral-test-monotone-tail-induction}
+Let $K=(F,I,S,W,R,H,C,P,N)$ be an accepted $\CauchyIntegralTestUp$ carrier. A monotone nonnegative tail window accepted by the carrier can be advanced by one finite observation step while preserving the integral-window row $I$, the $\RegSeqRatUp$ handoff rows $W,R$, and the $\RealUp$ seal route carried by the same structural rows. The induction step exports no Lebesgue measure, selected improper integral value, countable choice, quotient equality of functions, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:cauchy-integral-test-carrier}. The function row $F$ records the monotone nonnegative observations, and the stream row $W$ records the finite observation schedule that may be extended by one displayed tail point.
+
+Apply the tail boundary theorem of \autoref{thm:cauchy-integral-test-tail-boundary}. The advanced tail point is read through $F,W$ before the integral-window row $I$ and the readback row $R$ are inspected, so the new observation remains inside the same finite comparison corridor.
+
+Use the series handoff of \autoref{thm:cauchy-integral-test-series-handoff}. The series-tail row $S$ receives convergence evidence only through $W,R$, and the structural rows $H,C,P,N$ transport, replay, source, and name that same handoff after the one-step advance.
+
+Because the carrier has no coordinate for Lebesgue measure, selected improper integral values, countable choice, quotient equality of functions, or ambient $\RealUp$ completeness, the induction step preserves exactly the displayed BEDC route and exports none of those principles.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\CauchyIntegralTestUp$ packet that reaches a series-tail seal without displaying the nonnegative monotone $\RealUp$ row, a Darboux or Riemann integral tail-window row, finite $\StreamNameUp$ observations, and $\RegSeqRatUp$ readback fails the carrier surface.}
 
 \independenceWitness{Real, RegSeqRat, StreamName, DarbouxIntegral, RiemannIntegral, regular series-tail rows: none is bijective to $\CauchyIntegralTestUp$, because the listed siblings separately supply real observations, finite schedules, rational readback, integral windows, or series-tail evidence while this packet binds them to one constructive integral-test route with transport, replay, provenance, and local naming.}
