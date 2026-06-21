@@ -4679,6 +4679,7 @@ import BEDC.Derived.DiniUniformConvergenceUp.NameCertObligations
 import BEDC.Derived.DiniUniformConvergenceUp.TasteGate
 import BEDC.Derived.DiniUniformConvergenceUp.UniformModulusExtraction
 import BEDC.Derived.DiniUniformLimitModulusUp.TasteGate
+import BEDC.Derived.DiracPointMassUp.TasteGate
 import BEDC.Derived.DiracSequenceUp
 import BEDC.Derived.DirectedCofinalSubsetUp
 import BEDC.Derived.DirectedFilterUp.TasteGate
@@ -6961,6 +6962,7 @@ import BEDC.Derived.LocatedInfimumUp.BoundedFamilyHandoff
 import BEDC.Derived.LocatedInfimumUp.ClassifierStability
 import BEDC.Derived.LocatedInfimumUp.GreatestLowerBoundObligation
 import BEDC.Derived.LocatedInfimumUp.LowerBoundObligation
+import BEDC.Derived.LocatedInfimumUp.RegSeqRatSealFactorization
 import BEDC.Derived.LocatedInfimumUp.WindowInduction
 import BEDC.Derived.LocatedIntermediateValueUp.TasteGate
 import BEDC.Derived.LocatedIntervalBisectionUp.TasteGate
@@ -8658,6 +8660,7 @@ import BEDC.Derived.PhysicalInductionStabilitySealUp.NameCert
 import BEDC.Derived.PhysicalInductionStabilitySealUp.TasteGate
 import BEDC.Derived.PhysicalInductionUp.TasteGate
 import BEDC.Derived.PhysicalLawBridgeUp.FalsificationBoundary
+import BEDC.Derived.PhysicalLawBridgeUp.LawGapNonescape
 import BEDC.Derived.PhysicalLawBridgeUp.NameCertSurface
 import BEDC.Derived.PhysicalLawBridgeUp.TasteGate
 import BEDC.Derived.PhysicalModelAuditUp.NameCert
