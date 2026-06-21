@@ -1394,6 +1394,7 @@ import BEDC.Derived.CalculusUp.FiniteLimitSealPublicHandoff
 import BEDC.Derived.CalculusUp.FiniteLimitSealRoute
 import BEDC.Derived.CalculusUp.IntegralFiniteSumObligation
 import BEDC.Derived.CalculusUp.IntegralSumObligation
+import BEDC.Derived.CalculusUp.L10RealCompletionDependency
 import BEDC.Derived.CalculusUp.LimitDependencyRefusalBoundary
 import BEDC.Derived.CalculusUp.LimitDependencyRoute
 import BEDC.Derived.CalculusUp.LimitRealDerivativeReadback
@@ -6307,6 +6308,7 @@ import BEDC.Derived.HyperbolicHoroballShadowUp
 import BEDC.Derived.HyperbolicHoroballShadowUp.BoundaryHandoff
 import BEDC.Derived.HyperbolicHoroballShadowUp.NameCertObligations
 import BEDC.Derived.HyperbolicHoroballShadowUp.TasteGate
+import BEDC.Derived.HyperbolicHorocycleShadowModulusUp
 import BEDC.Derived.HyperbolicHorocycleUp.TasteGate
 import BEDC.Derived.HyperbolicMetricUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
@@ -6708,6 +6710,7 @@ import BEDC.Derived.LayeredRelationGateUp.TasteGate
 import BEDC.Derived.LayeredRelationSiteUp.TasteGate
 import BEDC.Derived.LeastUpperBoundUp.TasteGate
 import BEDC.Derived.LebesgueConstantUp
+import BEDC.Derived.LebesgueCoveringDimensionInductionUp
 import BEDC.Derived.LebesgueCoveringDimensionUp.TasteGate
 import BEDC.Derived.LebesgueDifferentiationUp.TasteGate
 import BEDC.Derived.LebesgueNumberLemmaUp.TasteGate
