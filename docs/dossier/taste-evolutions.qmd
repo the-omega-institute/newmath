@@ -20,19 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-21T13:55:18Z
+> 最后刷新: 2026-06-21T15:30:02Z
 
-**Daemon 状态**: monitor (monitor cycle 104, adjust_since_research 2, round_counter 16476, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 105, adjust_since_research 2, round_counter 16550, last_adjust rule_evolution_completed)
 
-**待处理 queue** (547 条 finding):
+**待处理 queue** (548 条 finding):
 - isolated_theorem: 386 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 128 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- low_entropy_template: 33 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
+- low_entropy_template: 34 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 40 次
-- TASTE ALERT category=low_entropy_template: 25 次
-- TASTE ALERT category=cycle_exception: 1 次
+- TASTE ALERT category=isolated_theorem: 41 次
+- TASTE ALERT category=low_entropy_template: 26 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -367,6 +366,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-21T12:30:55Z: `resolved` `add_downstream_user` for `BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_fuel_monotonicity` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_fuel_monotonicity:d2955ab8`). Rationale: The target is not staging-only or a trivial leftover: its surrounding chapter treats bounded normal equality checker fuel monotonicity as a real boundary claim, and the Lean theorem carries substantive fuel-plus route, continuation, package, and unary-history content. I added a sibling consumer theorem in MetaCICDecidableBoundaryUp that invokes the target directly and combines its fuel monotonicity output with existing sibling provenance, SemanticNameCert, PkgSig, Cont, and UnaryHistory structure. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-21T13:54:58Z: `resolved` `leave_with_rationale` for `BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_finished_soundness_boundary` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_finished_soundness_boundary:d2955ab8`). Rationale: The theorem has meaningful BEDC content: it derives unary closure for the equality-read and finished-read rows, preserves the displayed Cont readback routes, and exposes only the bounded checker provenance rather than a global conversion oracle. I attempted to add a downstream consumer in MetaCICDecidableBoundaryUp/SiblingProvenance.lean tying this finished boundary into the boundary carrier's bounded/finished rows and sibling provenance, but the required gate failed on that added theorem, so the change was reverted as instructed. The target should remain for now as legitimate near-term handoff material for a MetaCIC decidable-boundary consumer rather than being deleted. Gate results: lake_build=failed: Some required targets logged failures: BEDC.Derived.MetaCICDecidableBoundaryUp.SiblingProvenance; lean error tail: Unknown identifier `BEDC.Derived.BoundedNormalEqualityCheckerUp` in attempted downstream theorem, audit=skipped, phase_d_lint=skipped.
+
+- 2026-06-21T15:29:33Z: `resolved` `add_downstream_user` for `BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_deterministic_normal_form_readback` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BoundedNormalEqualityCheckerUp.BoundedNormalEqualityCheckerCarrier_deterministic_normal_form_readback:d2955ab8`). Rationale: The target theorem carries real BEDC content: it packages normal-left, normal-right, equality, finished-readback, route, and provenance facts from the bounded checker carrier. A sibling consumer in MetaCICDecidableBoundaryUp now uses it to hand readback evidence into the boundary provenance certificate, so the theorem is no longer isolated. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
