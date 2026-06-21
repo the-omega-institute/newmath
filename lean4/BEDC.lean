@@ -7475,6 +7475,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObjectwiseObligation
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
 import BEDC.Derived.MetaCICCriticalPathUp.LeanHandoffSurface
 import BEDC.Derived.MetaCICCriticalPathUp.LeanTargetIntake
+import BEDC.Derived.MetaCICCriticalPathUp.LocalDiamondDischargeCover
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNameNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.LocalNamingExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.MatureClosureWitness
@@ -10530,6 +10531,7 @@ import BEDC.Derived.SetlikeUp.BoundedComprehensionInduction
 import BEDC.Derived.SetlikeUp.BoundedComprehensionLedger
 import BEDC.Derived.SetlikeUp.ComprehensionLedgerObligation
 import BEDC.Derived.SetlikeUp.ComprehensionScope
+import BEDC.Derived.SetlikeUp.ExtensionalSubsetTransport
 import BEDC.Derived.SetlikeUp.ExtensionalityRoot
 import BEDC.Derived.SetlikeUp.FamilyFiberFirstorderModeltheoryLock
 import BEDC.Derived.SetlikeUp.FamilyFiberModelSatisfactionRoute
@@ -10546,6 +10548,7 @@ import BEDC.Derived.SetlikeUp.MembershipFamilyBHistInduction
 import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
 import BEDC.Derived.SetlikeUp.MembershipStability
+import BEDC.Derived.SetlikeUp.PublicNameCertExport
 import BEDC.Derived.SetlikeUp.RootCarrierMembership
 import BEDC.Derived.SetlikeUp.RootClassifierTransport
 import BEDC.Derived.SetlikeUp.RootFiniteRoutePackage
