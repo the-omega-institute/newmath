@@ -4713,6 +4713,7 @@ import BEDC.Derived.DyadicArchimedeanUp.NameCertObligations
 import BEDC.Derived.DyadicArchimedeanUp.ScaleExistence
 import BEDC.Derived.DyadicArchimedeanUp.StreamnameScaleTransport
 import BEDC.Derived.DyadicArchimedeanUp.TasteGate
+import BEDC.Derived.DyadicArzelaAscoliModulusUp.TasteGate
 import BEDC.Derived.DyadicBallUp
 import BEDC.Derived.DyadicBallUp.Core
 import BEDC.Derived.DyadicBallUp.FiniteIntersectionBasis
@@ -6147,6 +6148,7 @@ import BEDC.Derived.HausdorffSpaceUp.ClassifierSeparationRoute
 import BEDC.Derived.HausdorffSpaceUp.DiagonalNonescape
 import BEDC.Derived.HausdorffSpaceUp.OpenNeighborhoodTransport
 import BEDC.Derived.HausdorffSpaceUp.PointSeparationChoicefree
+import BEDC.Derived.HausdorffSpaceUp.PublicSeparationExport
 import BEDC.Derived.HausdorffSpaceUp.TasteGate
 import BEDC.Derived.HausdorffUniformCompletionUp.TasteGate
 import BEDC.Derived.HausdorffUniformSpaceUp.TasteGate
@@ -10411,9 +10413,11 @@ import BEDC.Derived.SeriesUp
 import BEDC.Derived.SetUp
 import BEDC.Derived.SetlikeUp.BoundedComprehensionFamilyHandoff
 import BEDC.Derived.SetlikeUp.BoundedComprehensionInduction
+import BEDC.Derived.SetlikeUp.BoundedComprehensionLedger
 import BEDC.Derived.SetlikeUp.ComprehensionLedgerObligation
 import BEDC.Derived.SetlikeUp.ComprehensionScope
 import BEDC.Derived.SetlikeUp.ExtensionalityRoot
+import BEDC.Derived.SetlikeUp.FamilyFiberFirstorderModeltheoryLock
 import BEDC.Derived.SetlikeUp.FamilyFiberModelSatisfactionRoute
 import BEDC.Derived.SetlikeUp.FamilyFiberObligations
 import BEDC.Derived.SetlikeUp.FamilyHandoffObligation
@@ -10428,6 +10432,7 @@ import BEDC.Derived.SetlikeUp.MembershipStability
 import BEDC.Derived.SetlikeUp.RootClassifierTransport
 import BEDC.Derived.SetlikeUp.RootMembershipFamilyExhaustion
 import BEDC.Derived.SetlikeUp.RootMembershipFamilyObligations
+import BEDC.Derived.SetlikeUp.RootMembershipNonescapeLedger
 import BEDC.Derived.SetlikeUp.RootMembershipProvenance
 import BEDC.Derived.SetlikeUp.RootMembershipTransport
 import BEDC.Derived.SetlikeUp.RootNameCertObligations
