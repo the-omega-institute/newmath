@@ -7331,6 +7331,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-21T13:59:55+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-21T13:59:55+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "fdc43dab8f1a",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -9908,6 +9925,34 @@
         }
       ],
       "linked_conjecture_id": "q6.translation-mediated.protein-abundance.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.translational_control.gcn4_u34_modification_translation_switch",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "tRNA-U34 thiolation loss → GCN4 translational switch (measured positive-control/anchor). On GSE45366 (PLoS Genet 2013, 10.1371/journal.pgen.1003675) yeast paired Ribo-seq/RNA-seq gene-level RPKM (WT, dncs6, duba4, 2 biological replicates each; CR-delimited; 5155 genes after RPKM>1 coverage floor), gene-level TE=FP_RPKM/T_RPKM. Pre-registered single sensor node GCN4 (YEL009C), frozen thresholds, corroborated by two independent U34-modification knockouts: all four paired dlog2 TE>0; median TE-fold ncs6=2.04 / uba4=2.00 (>=1.8); GCN4 RNA-fold ncs6=0.986 / uba4=1.000 (in [0.8,1.25], so the change is translational not transcriptional); GCN4 in the top 5% of all-ORF dTE (ncs6 rank 11/5155 pct 99.81, uba4 rank 19/5155 pct 99.65); technical-repeat cross-pairing gives the same call. Verdict GCN4_signaling_escape: U34-modification loss specifically and reproducibly switches GCN4 translation up at adequate (gene-level) resolution. Escapes the confound triangle: knockout is exogenous, GCN4 sequence unchanged across conditions, node/direction/thresholds pre-frozen and corroborated by two independent losses. cannot_claim: cannot attribute the switch to AAA/CAA/GAA codon pausing (no post-treatment codon-position data); cannot claim GCN2-independence (no matched gcn2D/rescue); REPLICATES known GCN4 translational control = measured positive-control/anchor (the program's first measured translational-control anchor at gene-level-TE resolution), NOT a novel discovery; gene-level TE only; ncs6/uba4 perturb global translation so the top-5% enrichment is relative to the all-ORF distribution; 2 biological replicates; RPKM is study-internal normalization.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "gcn4_u34_modification_translation_switch",
+      "history": [
+        {
+          "ts": "2026-06-21T13:55:40+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-21T13:59:56+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "f4e4f5c62558",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "b53be3b0bd181614"
+        }
+      ],
+      "linked_conjecture_id": "q6.rank-powered.translation-survival.cross-layer"
     }
   ]
 }
