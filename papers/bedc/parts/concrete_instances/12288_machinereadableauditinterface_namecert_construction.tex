@@ -124,6 +124,18 @@ Therefore the kernel route for the report is exactly the displayed route through
 \end{proof}
 \leanchecked{BEDC.Derived.MachineReadableAuditInterfaceUp.MachineReadableAuditInterface\_kernel\_scope}
 
+\begin{theorem}[Machine-readable audit interface bridge readiness]
+\label{thm:machine-readable-audit-interface-bridge-readiness}
+A bridge consumer of an accepted $\MachineReadableAuditInterfaceUp$ packet may read the schema, checker, export, refusal, report, transport, replay, provenance, and local naming rows. The bridge may not promote the report row to theorem evidence unless the checker row separately accepts the evidence claim and the refusal row leaves that claim unblocked.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:machine-readable-audit-interface-field-coverage}. It identifies schema, checker, export, refusal, report, transport, replay, provenance, and local naming as the complete readable surface of the packet.
+
+Next apply \autoref{thm:machine-readable-audit-interface-non-evidence-refusal}. The report row can be machine-readable audit data while still being blocked as theorem evidence by the refusal row.
+
+Finally use \autoref{thm:machine-readable-audit-interface-kernel-scope}. It places the checker and refusal rows on the same kernel route as the report row, so a bridge consumer can read the report but cannot treat it as theorem evidence without a separate checker acceptance and an unblocked refusal boundary.
+\end{proof}
+
 \closureat{MachineReadableAuditInterfaceUp}{seedStr}
 \closureat{MachineReadableAuditInterfaceUp}{obligationStr}
 \closureat{MachineReadableAuditInterfaceUp}{scopedStr}
