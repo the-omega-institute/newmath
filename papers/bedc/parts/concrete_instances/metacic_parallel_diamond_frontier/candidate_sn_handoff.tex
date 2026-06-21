@@ -35,3 +35,17 @@ Use finite residual witness consumption, \autoref{thm:metacic-parallel-diamond-f
 
 Finally invoke residual-row visibility, \autoref{thm:metacic-parallel-diamond-frontier-residual-row-visibility}. Since the residual-substitution and typed residual rows remain visible through $H,T,G,N$, a normalization-facing consumer receives only the typed candidate socket and cannot read it as global strong normalization, full confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond candidate SN frontier extension]
+\label{thm:metacic-parallel-diamond-frontier-candidate-sn-frontier-extension}
+Let $F=(P,K,J,R,S,C,B,O,H,T,G,N)$ be an accepted $\MetaCICParallelDiamondFrontierUp$ packet. If a consumer displays a candidate-normalization row $J$, a residual-pair frontier $R$, a bounded local-join checker $B$, and the retained substitution-boundary row $P$ through the same transport, replay, provenance, and local naming rows $H,T,G,N$, then the candidate strong-normalization handoff of $F$ extends to that bounded residual-join frontier. The conclusion is only a bounded candidate-mediated frontier handoff; it does not prove arbitrary closed Church--Rosser, premise-free confluence, global strong normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+First apply the candidate-mediated SN handoff of \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff}. It keeps the residual-substitution premise, critical-pair envelope, candidate row, finite residual witness, bounded checker rows, obstruction row, transport, replay, provenance, and local naming visible before any SN-facing consumer reads the frontier.
+
+Next use the typed candidate SN extension of \autoref{thm:metacic-parallel-diamond-frontier-typed-candidate-sn-extension}. That theorem places $J$ inside the typed residual window and prevents the candidate row from being retyped as a global normalization theorem.
+
+Now read the residual-frontier siblings. The critical-pair envelope and residual-substitution dependency route, \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope} and \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}, keep $K,R$ downstream of the retained premise $P$. Finite residual witness consumption and residual-row visibility, \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption} and \autoref{thm:metacic-parallel-diamond-frontier-residual-row-visibility}, keep the bounded checker and frontier rows attached to $H,T,G,N$.
+
+Therefore the displayed candidate-normalization row, residual-pair frontier, bounded local-join checker, and substitution-boundary row form a single bounded handoff. Since every step retains $P$ and the structural rows, the exported result remains a candidate-mediated frontier extension rather than an unrestricted Church--Rosser or global normalization theorem.
+\end{proof}
