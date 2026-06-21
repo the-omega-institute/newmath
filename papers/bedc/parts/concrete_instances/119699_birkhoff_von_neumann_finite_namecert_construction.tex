@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\BirkhoffVonNeumannFiniteUp$}
+\label{ch:concrete-instances-birkhoff-von-neumann-finite-namecert}
+\origin{human}
+
+Following Birkhoff and von Neumann on doubly stochastic matrices, the $\BirkhoffVonNeumannFiniteUp$ packet records the finite permutation-flow route by which a displayed doubly stochastic matrix is read as a convex ledger of permutation matrices. It sits after the finite matrix surface of \autoref{ch:concrete-instances-matrix-namecert}, the certified finite-position action rows of \autoref{ch:concrete-instances-permutation-namecert}, the capacity route of \autoref{ch:concrete-instances-networkflow-namecert}, the finite matching surface of \autoref{ch:concrete-instances-matching-namecert}, and the affine membership rows of \autoref{ch:concrete-instances-convexset-namecert}. The packet names only the finite BEDC route from matrix rows to permutation-flow rows and convex-combination ledgers; it is not the full Birkhoff polytope theorem over arbitrary host matrices.
+
+\begin{definition}[Birkhoff--von Neumann finite carrier]
+\label{def:birkhoff-von-neumann-finite-carrier}
+A $\BirkhoffVonNeumannFiniteUp$ carrier is a finite $\BHist$ packet
+$$
+B=(M,R,C,F,K,E,W,T,Q,H,J,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MatrixUp$ source row, recording the finite square matrix entries and the finite index spine on which all row and column reads occur.
+\item $R$ is the row-stochastic ledger, displaying each finite row sum and nonnegative-entry read.
+\item $C$ is the column-stochastic ledger, displaying each finite column sum and the same nonnegative-entry boundary.
+\item $F$ is the $\NetworkFlowUp$ support route, naming the bipartite residual graph whose positive entries are available for decomposition.
+\item $K$ is the $\MatchingUp$ row that exposes one finite perfect-matching or permutation-support step inside the currently displayed residual support.
+\item $E$ is the extraction row that records the scalar weight removed from the residual matrix along the displayed matching.
+\item $W$ is the convex-combination ledger, listing the finite weights, their total-one certificate, and the permutation-matrix rows they weight.
+\item $T$ is the transport row taking each matching row into a $\PermutationUp$ matrix exposure over the same finite index spine.
+\item $Q$ is the $\ConvexSetUp$ affine-membership row witnessing that the displayed convex combination remains inside the matrix carrier surface.
+\item $H$ records componentwise $\hsame$ transport for matrix, stochastic, flow, matching, extraction, convex-ledger, permutation-exposure, affine-membership, replay, provenance, and local naming rows.
+\item $J$ records displayed $\Cont$ replay from finite stochastic rows through support flow, matching exposure, extraction, convex ledger, and permutation-matrix exposure.
+\item $P$ is the $\Pkg$ provenance over $\BirkhoffVonNeumannFiniteUp$, $\MatrixUp$, $\PermutationUp$, $\NetworkFlowUp$, $\MatchingUp$, $\ConvexSetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BirkhoffVonNeumannFiniteUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these thirteen displayed rows. It does not read a host polytope, an arbitrary matrix space, an ambient linear-programming theorem, quotient matrix equality, choice-selected decompositions, or an infinite compactness argument.
+\end{definition}
+
+\begin{theorem}[Birkhoff--von Neumann NameCert obligations]
+\label{thm:birkhoff-von-neumann-namecert-obligations}
+For every accepted $\BirkhoffVonNeumannFiniteUp$ packet
+$$
+B=(M,R,C,F,K,E,W,T,Q,H,J,P,N),
+$$
+the local $\NameCert_{\BirkhoffVonNeumannFiniteUp}$ obligation surface consists exactly of finite matrix admission, row-stochastic exposure, column-stochastic exposure, finite network-flow support, matching extraction, scalar residual extraction, convex-combination ledger, permutation-matrix exposure, convex-set affine membership, componentwise transport, displayed replay, provenance, and local naming. Every downstream consumer must display $M,R,C,F,K,E,W,T,Q$ before reading a decomposition-facing or convexity-facing conclusion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:birkhoff-von-neumann-finite-carrier}. The matrix-facing data are exactly $M,R,C$: the finite square matrix entries, the row sums, the column sums, and the nonnegative-entry boundary.
+
+The decomposition-facing data are $F,K,E,W,T$. The support graph is read through the finite $\NetworkFlowUp$ route, a displayed $\MatchingUp$ row supplies one permutation support, the extraction row records the removed scalar weight, and the ledger $W$ records the resulting finite convex combination. The transport row $T$ turns each matching into the corresponding $\PermutationUp$ matrix exposure over the same index spine.
+
+The convex-facing data are then $Q,H,J,P,N$. The $\ConvexSetUp$ row reads the finite weight ledger and permutation-matrix exposures, while transport, replay, provenance, and local naming keep the same rows attached to the public certificate.
+
+No excluded principle is a coordinate of the carrier. Since there is no row for a host polytope, arbitrary matrix space, ambient linear-programming theorem, quotient matrix equality, choice-selected decomposition, or infinite compactness argument, the local NameCert surface cannot export any of them.
+\end{proof}
+
+\begin{theorem}[Birkhoff--von Neumann permutation-flow route]
+\label{thm:birkhoff-von-neumann-permutation-flow-route}
+Every decomposition-facing read exported by an accepted $\BirkhoffVonNeumannFiniteUp$ packet factors through the finite route
+$$
+\MatrixUp \longmapsto \NetworkFlowUp \longmapsto \MatchingUp \longmapsto \PermutationUp \longmapsto \ConvexSetUp .
+$$
+The route first displays the finite doubly stochastic matrix rows, then reads the residual support as a network-flow surface, exposes matching rows as permutation matrices, records the convex-combination ledger, and transports the result through replay, provenance, and the local $\NameCert$ row. It does not claim the full Birkhoff polytope theorem over arbitrary host matrices.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:birkhoff-von-neumann-namecert-obligations}. They require every decomposition-facing consumer to inspect the matrix row $M$, the row-stochastic ledger $R$, and the column-stochastic ledger $C$ before any matching or convex ledger can be read.
+
+Next read the support route. The $\NetworkFlowUp$ row $F$ exposes only the finite residual support graph, and the $\MatchingUp$ row $K$ supplies the displayed perfect-matching step used by the extraction row $E$.
+
+The transport row $T$ converts that matching support into a $\PermutationUp$ matrix exposure on the same finite index spine. The convex ledger $W$ and affine row $Q$ then record the weighted finite list through $\ConvexSetUp$.
+
+The structural rows $H,J,P,N$ replay and name the same route. Because every stage is tied to the displayed finite rows, the read cannot be replaced by a host polytope theorem, quotient matrix equality, selected decomposition oracle, or ambient compactness principle.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BirkhoffVonNeumannFiniteUp$ read is refuted if it exports a permutation-matrix convex decomposition without displaying the $\MatrixUp$ source row, row-stochastic ledger, column-stochastic ledger, $\NetworkFlowUp$ support route, $\MatchingUp$ extraction row, scalar residual extraction row, convex-combination ledger, $\PermutationUp$ matrix exposure, $\ConvexSetUp$ affine-membership row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.}
+
+\independenceWitness{matrix, permutation, networkflow, matching, convexset: $\BirkhoffVonNeumannFiniteUp$ is not bijective to any listed sibling because it jointly carries finite doubly stochastic matrix rows, residual support flow, matching extraction, scalar residual weights, permutation-matrix exposure, convex-combination membership, transport, replay, provenance, and local naming as one finite packet.}
+
+\closureat{BirkhoffVonNeumannFiniteUp}{seedStr}
+
+\begin{closurestatus}{\BirkhoffVonNeumannFiniteUp}
+  \constructivestory{A $\BirkhoffVonNeumannFiniteUp$ packet is generated from finite MatrixUp source rows, row-stochastic and column-stochastic ledgers, NetworkFlowUp support rows, MatchingUp extraction rows, scalar residual extraction, convex-combination ledgers, PermutationUp matrix exposures, ConvexSetUp affine-membership rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:birkhoff-von-neumann-finite-carrier}, \autoref{thm:birkhoff-von-neumann-namecert-obligations}, and \autoref{thm:birkhoff-von-neumann-permutation-flow-route} seed the finite permutation-flow certificate over MatrixUp, NetworkFlowUp, MatchingUp, PermutationUp, and ConvexSetUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, the full Birkhoff polytope theorem over arbitrary host matrices, host matrix equality, selected decompositions, linear-programming duality, or compactness.}
+  \upgradepath{Obligation closure requires checked carrier admission, stochastic ledger exposure, finite support-flow routing, matching extraction, scalar residual extraction, permutation-matrix exposure, convex-combination membership, transport, replay, provenance, and local naming for BEDC.Derived.BirkhoffVonNeumannFiniteUp.}
+\end{closurestatus}
