@@ -60,16 +60,46 @@ Replay the continuation row $C$. The read moves from the gauge source $G$ throug
 The structural rows $H,P,N$ do not add another integration object. They preserve the same finite route, and no excluded measure, compactness, choice, selected-sum, or completeness coordinate is available in the packet.
 \end{proof}
 
+\begin{theorem}[HenstockKurzweil gauge-window exactness]
+\label{thm:henstock-kurzweil-gauge-window-exactness}
+For every accepted $\HenstockKurzweilUp$ carrier $K=(G,I,S,W,D,R,E,H,C,P,N)$, the displayed gauge-window row $W$ is projected after the gauge-integral source, the Riemann-integral comparison, and the tagged-sum gauge rows $G,I,S$, and before any $\DyadicRatCoreUp$, $\RegSeqRatUp$, or $\RealUp$ read through $D,R,E$. No dyadic endpoint, regular rational readback, or real seal can be inspected without first replaying the same $G,I,S,W$ window.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:henstock-kurzweil-carrier}. The row order exposes $G,I,S,W$ as the complete gauge-window prefix, with $W$ recording the tag, cell, and local radius data used by the tagged-sum row $S$.
+
+Now inspect the numerical rows. The dyadic ledger $D$, regular rational readback $R$, and terminal real seal $E$ are downstream of that prefix, so each numerical read has already passed through the displayed window. Since the carrier has no independent dyadic, rational, or real coordinate, it cannot bypass $W$.
+\end{proof}
+
+\begin{theorem}[HenstockKurzweil RiemannSumGauge exposure]
+\label{thm:henstock-kurzweil-riemann-sum-exposure}
+For every accepted $\HenstockKurzweilUp$ carrier $K=(G,I,S,W,D,R,E,H,C,P,N)$, the row $S$ is the only tagged-sum exposure route. Any completion-facing, dyadic-facing, regular-readback-facing, or real-facing use of tagged Riemann data must factor through $S$ together with its displayed window $W$ and the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read the carrier rows $G,I,S,W$. The only row tagged as $\RiemannSumGaugeUp$ is $S$, and the only window attached to tagged-sum data is $W$.
+
+The downstream rows $D,R,E$ receive endpoint, tolerance, readback, and seal data from the same tagged-sum route. The structural rows $H,C,P,N$ transport, replay, source, and name the carrier, but they do not introduce a second tagged-sum row. Hence every tagged Riemann use remains exposed through $S$.
+\end{proof}
+
+\begin{theorem}[HenstockKurzweil Real seal nonescape]
+\label{thm:henstock-kurzweil-real-seal-nonescape}
+For every accepted $\HenstockKurzweilUp$ carrier $K=(G,I,S,W,D,R,E,H,C,P,N)$, the terminal $\RealUp$ seal row $E$ cannot be reached without replaying $G,I,S,W,D,R$. In particular, $E$ exposes no route through Lebesgue measure, open-cover compactness, selected infinite sums, countable choice, host integrand equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Replay the continuation row $C$ through the carrier projection. The real-facing row appears as $E$, after the gauge-integral source $G$, Riemann comparison $I$, tagged-sum gauge row $S$, displayed window $W$, dyadic ledger $D$, and regular rational readback $R$.
+
+The remaining rows $H,P,N$ preserve that same route by transport, provenance, and local naming. They cannot supply a measure object, compactness theorem, selected sum, choice principle, host equality, or ambient completeness field, because none of those coordinates occur in the carrier.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\HenstockKurzweilUp$ read factors through $\GaugeIntegralUp$, $\RiemannIntegralUp$, $\RiemannSumGaugeUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
 
-\closureat{HenstockKurzweilUp}{seedStr}
+\closureat{HenstockKurzweilUp}{obligationStr}
 
 \begin{closurestatus}{\HenstockKurzweilUp}
   \constructivestory{A $\HenstockKurzweilUp$ packet is generated from a GaugeIntegral row, RiemannIntegral comparison row, RiemannSumGauge tagged-window row, gauge-window ledger, DyadicRatCore endpoint and tolerance rows, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:henstock-kurzweil-carrier}, \autoref{thm:henstock-kurzweil-namecert-obligations}, and \autoref{thm:henstock-kurzweil-gauge-window-route} seed the finite gauge-window route over GaugeIntegralUp, RiemannIntegralUp, RiemannSumGaugeUp, DyadicRatCoreUp, RegSeqRatUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:henstock-kurzweil-carrier}, \autoref{thm:henstock-kurzweil-namecert-obligations}, \autoref{thm:henstock-kurzweil-gauge-window-route}, \autoref{thm:henstock-kurzweil-gauge-window-exactness}, \autoref{thm:henstock-kurzweil-riemann-sum-exposure}, and \autoref{thm:henstock-kurzweil-real-seal-nonescape} close the finite gauge-window obligation surface over GaugeIntegralUp, RiemannIntegralUp, RiemannSumGaugeUp, DyadicRatCoreUp, RegSeqRatUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, bridge checking, Lebesgue measure, open-cover compactness, countable choice, selected infinite sums, host integrand equality, or ambient RealUp completeness.}
-  \upgradepath{Obligation closure requires checked carrier admission, gauge-window exactness, RiemannSumGauge exposure, RiemannIntegral comparison, DyadicRatCore tolerance exactness, RegSeqRat readback, Real seal nonescape, and TasteGate field faithfulness for BEDC.Derived.HenstockKurzweilUp.}
+  \upgradepath{A formal route can encode checked carrier admission, RiemannIntegral comparison, DyadicRatCore tolerance exactness, RegSeqRat readback, and TasteGate field faithfulness for BEDC.Derived.HenstockKurzweilUp.}
 \end{closurestatus}
