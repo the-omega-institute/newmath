@@ -254,9 +254,9 @@ def _train_weighted_variant(
     }
 
 
-<<<<<<< HEAD
 def _take_boundary_batch(batch: BoundaryGatedBatch, indices: np.ndarray) -> BoundaryGatedBatch:
     idx = np.asarray(indices, dtype=np.int64)
+    action = None if batch.action is None else np.asarray(batch.action, dtype=np.float64)[idx]
     return BoundaryGatedBatch(
         z=batch.z[idx],
         z_pair=batch.z_pair[idx],
@@ -268,6 +268,7 @@ def _take_boundary_batch(batch: BoundaryGatedBatch, indices: np.ndarray) -> Boun
         gap_pair=batch.gap_pair[idx],
         radius=batch.radius,
         gap_width=batch.gap_width,
+        action=action,
     )
 
 
@@ -275,6 +276,10 @@ def _concat_boundary_batches(batches: Sequence[BoundaryGatedBatch]) -> BoundaryG
     if not batches:
         raise ValueError("at least one batch is required")
     first = batches[0]
+    actions = [batch.action for batch in batches]
+    action = None
+    if any(batch_action is not None for batch_action in actions):
+        action = np.concatenate([boundary_batch_action_array(batch) for batch in batches], axis=0)
     return BoundaryGatedBatch(
         z=np.concatenate([batch.z for batch in batches], axis=0),
         z_pair=np.concatenate([batch.z_pair for batch in batches], axis=0),
@@ -286,6 +291,7 @@ def _concat_boundary_batches(batches: Sequence[BoundaryGatedBatch]) -> BoundaryG
         gap_pair=np.concatenate([batch.gap_pair for batch in batches], axis=0),
         radius=first.radius,
         gap_width=first.gap_width,
+        action=action,
     )
 
 
@@ -350,6 +356,15 @@ def _active_gap_ledger_sampling(
             requested=int(budgets[reason]),
             selected=selected,
         )
+    shortfall = int(active_budget) - sum(len(indices) for indices in by_reason.values())
+    if shortfall > 0:
+        backfill = _choose_ranked_indices(
+            candidates["high_gap"],
+            requested=shortfall,
+            selected=selected,
+        )
+        by_reason["high_gap"].extend(backfill)
+        budgets["high_gap"] += len(backfill)
     selected_indices = np.asarray(
         [idx for reason in ("high_gap", "boundary_band", "unlogged_transition") for idx in by_reason[reason]],
         dtype=np.int64,
@@ -398,7 +413,8 @@ def _active_gap_guardrail(
         "coverage_expansion_reported": coverage_expansion_reported,
         "reported_coverage_delta": coverage_delta if coverage_expansion_reported else 0.0,
     }
-=======
+
+
 def train_torch_bedc_jepa_surface(
     train: BoundaryGatedBatch,
     *,
@@ -431,7 +447,6 @@ def evaluate_torch_bedc_jepa_surface(
     gap_override: np.ndarray | None = None,
 ) -> dict[str, float | str]:
     return _evaluate(name, scores, batch, gap_override=gap_override)
->>>>>>> origin/paper-bedc-quality-lab
 
 
 def _summarize_rows(rows: list[dict[str, Any]]) -> dict[str, float]:
@@ -784,6 +799,8 @@ def run_active_gap_ledger_curriculum(
     after = _evaluate("torch-active-gap-ledger-after", _scores(retrained_model, test), test)
     deltas = _metric_deltas(before, after)
     guardrail = _active_gap_guardrail(before, after, config)
+    torch = require_torch()
+    device_resolution = initial_model["device_resolution"]
     return {
         "schema_id": "bedc-jepa-active-gap-ledger-curriculum",
         "status": "executed" if guardrail["passed"] else "failed_guardrail",
@@ -798,6 +815,14 @@ def run_active_gap_ledger_curriculum(
             "seed": float(config.seed),
             "rho": float(config.rho),
             "radius": float(config.radius),
+        },
+        "torch_environment": {
+            "torch_version": str(getattr(torch, "__version__", "unknown")),
+            "cuda_available": bool(torch.cuda.is_available()),
+            "device": device_resolution,
+            "resolved_device": str(device_resolution.get("resolved_device", initial_model["device"])),
+            "device_resolution": device_resolution,
+            "cuda_device_name": str(torch.cuda.get_device_name(0)) if torch.cuda.is_available() else "",
         },
         "thresholds": asdict(config),
         "sampling": sampling,
