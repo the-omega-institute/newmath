@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICParallelDiamondSelectorUp$}
+\label{ch:concrete-instances-metacic-parallel-diamond-selector-namecert}
+\origin{ai}
+
+The $\MetaCICParallelDiamondSelectorUp$ packet realizes the closed parallel-diamond selector frontier named in \autoref{ch:metacic-open-problems} and \autoref{sec:metacic-open-problems-confluence} as finite MetaCIC NameCert data. It sits beside the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, the decidability boundary of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the residual-diamond witness of \autoref{ch:concrete-instances-metacic-residual-diamond-witness-namecert}, and the source confluence frontier of \autoref{ch:metacic-open-problems}. The packet names a selector ledger for one closed parallel-diamond candidate and its residual-substitution compatibility boundary; it does not assert arbitrary closed confluence, unrestricted residual substitution, subject reduction, quotient syntax equality, or a hidden evaluator oracle.
+
+\begin{definition}[MetaCIC parallel diamond selector carrier]
+\label{def:metacic-parallel-diamond-selector-carrier}
+A $\MetaCICParallelDiamondSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,R,D,K,L,O,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed closed-window row, recording the bounded closed MetaCIC source and type window under inspection.
+\item $R$ is the residual-pair frontier row, naming the two parallel residual branches whose diamond candidate is being selected.
+\item $D$ is the closed parallel-diamond candidate row, recording the displayed join candidate and its finite endpoint window.
+\item $K$ is the residual-substitution compatibility boundary row consumed before the candidate can be read as diamond-facing data.
+\item $L$ is the selector ledger, recording the finite rule that chooses between accepted candidate rows and retained obstruction rows inside the displayed window.
+\item $O$ is the obstruction-retention row for the surrounding confluence frontier.
+\item $G$ is the TasteGate route row, recording that the proposed Lean path requires both $\mathrm{Nontrivial}$ and $\mathrm{FieldFaithful}$ instances before the selector can be checked as a genuine carrier rather than a smoke packet.
+\item $H$ stores componentwise $\hsame$ transport for the typed window, residual frontier, candidate row, compatibility boundary, selector ledger, obstruction row, TasteGate route, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+T,R,K \longmapsto D,L \longmapsto O,G .
+$$
+\item $P$ is the $\Pkg$ provenance over $\MetaCICParallelDiamondSelectorUp$, MetaCIC confluence audit data, decidability-boundary data, normalization-frontier data, residual-diamond witness data, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICParallelDiamondSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,R,D,K,L,O,G,H,C,P,N$. It has no coordinate for full confluence, unrestricted residual substitution compatibility, global subject reduction, quotient syntax equality, hidden evaluator state, or host-level Church--Rosser.
+\end{definition}
+\leanstmt{BEDC.Derived.MetaCICParallelDiamondSelectorUp}
+
+\begin{theorem}[MetaCIC parallel diamond selector obligations]
+\label{thm:metacic-parallel-diamond-selector-obligations}
+For every accepted $\MetaCICParallelDiamondSelectorUp$ carrier $S=(T,R,D,K,L,O,G,H,C,P,N)$, the local $\NameCert_{\MetaCICParallelDiamondSelectorUp}$ surface consists exactly of typed-window exposure, residual-pair frontier exposure, closed parallel-diamond candidate exposure, residual-substitution compatibility boundary exposure, selector-ledger exactness, obstruction retention, TasteGate route retention, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier. The analytic rows are $T,R,D,K,L,O,G$, and the rows $H,C,P,N$ transport, replay, source, and name those rows.
+
+The selector is boundary-sensitive. The typed window and residual frontier determine the candidate range, while the compatibility row $K$ must be displayed before the diamond candidate $D$ can be consumed.
+
+The ledger row $L$ records the finite selector decision, and the obstruction row $O$ keeps the surrounding frontier visible. The TasteGate row $G$ prevents the paper carrier from being read as a checked Lean gate until the required Nontrivial and FieldFaithful instances exist.
+
+No further row is present. Thus full confluence, unrestricted substitution compatibility, subject reduction, quotient syntax equality, hidden evaluator state, and host Church--Rosser remain outside the local certificate.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel diamond selector frontier route]
+\label{thm:metacic-parallel-diamond-selector-frontier-route}
+Every accepted $\MetaCICParallelDiamondSelectorUp$ selector read routes its closed parallel-diamond candidate through
+$$
+T,R,K \longmapsto D,L \longmapsto O,G .
+$$
+The selector can be consumed by the MetaCIC confluence frontier only as a finite candidate-and-obstruction packet requiring later $\mathrm{Nontrivial}$ and $\mathrm{FieldFaithful}$ TasteGate instances; it is not a proof of arbitrary closed parallel diamond, unrestricted residual substitution compatibility, or closed Church--Rosser.
+\end{theorem}
+\begin{proof}
+Read the typed closed window $T$ and residual-pair frontier $R$ first. These rows determine the bounded source and the two residual branches under inspection.
+
+Next read the compatibility boundary $K$. The diamond candidate row $D$ is downstream from this boundary, so a consumer cannot treat the selector as evidence-free residual substitution.
+
+The selector ledger $L$ then chooses inside the displayed finite candidate range, while $O$ retains the open confluence frontier and $G$ records the Lean TasteGate obligations. Transport through $H$, replay through $C$, provenance through $P$, and naming through $N$ preserve the same route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICParallelDiamondSelectorUp$ read exposes metacicconfluenceauditpacket, metacicdecidableboundary, metacicnormalizationfrontier, metacicparallel\_diamond\_frontier, metacic-residual-diamond-witness, typed-window, residual-frontier, residual-substitution boundary, selector ledger, obstruction retention, TasteGate route, transport, replay, provenance, and local $\NameCert$ rows before any selector handoff is consumed.}
+
+\independenceWitness{metacicconfluenceauditpacket, metacicdecidableboundary, metacicnormalizationfrontier, metacicparallel\_diamond\_frontier, metacic-residual-diamond-witness: $\MetaCICParallelDiamondSelectorUp$ is not bijective to any listed sibling because it jointly carries a typed closed-window row, residual-pair frontier, closed parallel-diamond candidate, residual-substitution compatibility boundary, selector ledger, obstruction retention, TasteGate route, transport, replay, provenance, and local naming.}
+
+The proposed Lean path for $\MetaCICParallelDiamondSelectorUp$ requires Nontrivial and FieldFaithful TasteGate instances for the typed window, residual frontier, diamond candidate, residual-substitution boundary, selector ledger, and obstruction-retention rows before the selector can be checked as more than carrier syntax.
+
+\closureat{MetaCICParallelDiamondSelectorUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICParallelDiamondSelectorUp}
+  \constructivestory{A $\MetaCICParallelDiamondSelectorUp$ packet is generated from a typed closed-window row, residual-pair frontier row, closed parallel-diamond candidate row, residual-substitution compatibility boundary row, selector ledger, obstruction-retention row, TasteGate route, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-parallel-diamond-selector-carrier}, \autoref{thm:metacic-parallel-diamond-selector-obligations}, and \autoref{thm:metacic-parallel-diamond-selector-frontier-route} seed one finite selector packet for the MetaCIC closed parallel-diamond frontier.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.MetaCICParallelDiamondSelectorUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary closed parallel diamond, unrestricted residual substitution compatibility, closed Church--Rosser, subject reduction, quotient syntax equality, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked typed-window exposure, residual-pair frontier exposure, diamond-candidate exposure, residual-substitution boundary exposure, selector-ledger exactness, obstruction retention, Nontrivial and FieldFaithful TasteGate instances, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICParallelDiamondSelectorUp.}
+\end{closurestatus}
