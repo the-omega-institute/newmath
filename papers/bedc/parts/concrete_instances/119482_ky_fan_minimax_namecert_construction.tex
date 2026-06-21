@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\KyFanMinimaxUp$}
+\label{ch:concrete-instances-ky-fan-minimax-namecert}
+\origin{human}
+
+Following Ky Fan and the KKM minimax tradition, the $\KyFanMinimaxUp$ packet records a finite convex-compact minimax route as NameCert data rather than as a host separation or selection principle. It consumes the finite KKM cover surface of \autoref{ch:concrete-instances-kkm-finite-cover-namecert}, the convex carrier of \autoref{ch:concrete-instances-convexset-namecert}, the compact metric support of \autoref{ch:concrete-instances-compactmetric-namecert}, and the terminal scalar readback of \autoref{ch:concrete-instances-real-namecert}. The chapter separates this convex KKM route from the finite payoff-table certificate of \autoref{ch:concrete-instances-finite-game-minimax-namecert} and the spectral min-max route of \autoref{ch:concrete-instances-courant-fischer-minimax-namecert}.
+
+\begin{definition}[KyFanMinimax carrier]
+\label{def:ky-fan-minimax-carrier}
+A $\KyFanMinimaxUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,Y,K,A,L,U,V,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\CompactMetricUp$ support row for the compact convex source surface and its finite observation windows.
+\item $Y$ is the $\ConvexSetUp$ row recording the convex carrier and the finite affine-spine data used by the minimax read.
+\item $K$ is the $\KKMFiniteCoverUp$ row carrying the finite face-cover witness used to route the minimax inequality.
+\item $A$ is the admissible-bifunction row, recording the displayed two-variable real-valued comparison surface and its finite domain membership checks.
+\item $L$ is the lower-level-set convexity row, exposing the finite convex slices read by the KKM cover route.
+\item $U$ is the upper semicontinuity and compact-window row, tying each displayed scalar threshold to compact finite observations.
+\item $V$ is the minimax-value row, read as a $\RealUp$ seal only after the KKM, convexity, and compact-window rows have been displayed.
+\item $W$ is the witness-budget row, recording the finite threshold, cover, and comparison windows retained by downstream consumers.
+\item $H$ stores componentwise $\hsame$ transport for $X,Y,K,A,L,U,V,W$ and the local certificate row.
+\item $C$ stores displayed $\Cont$ replay for compact support, convex membership, KKM cover reads, bifunction comparisons, scalar threshold reads, and value-seal export.
+\item $P$ is the $\Pkg$ provenance over $\KyFanMinimaxUp$, $\KKMFiniteCoverUp$, $\ConvexSetUp$, $\CompactMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KyFanMinimaxUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host minimax selector, Hahn--Banach separation, arbitrary open-cover compactness, quotient equality of level sets, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[KyFanMinimax NameCert obligations]
+\label{thm:ky-fan-minimax-namecert-obligations}
+For every accepted $\KyFanMinimaxUp$ carrier $F=(X,Y,K,A,L,U,V,W,H,C,P,N)$, the local $\NameCert_{\KyFanMinimaxUp}$ surface consists exactly of compact source admission, convex carrier admission, finite KKM cover admission, bifunction comparison admission, lower-level convexity, compact-window upper-semicontinuity, value-seal readback, witness-budget exposure, componentwise transport, displayed replay, provenance, and local naming. A minimax read is admitted only after the compact, convex, KKM, bifunction, level-set, threshold-window, value, and witness rows are visible in the same finite packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ky-fan-minimax-carrier}. The compact and convex support rows are $X$ and $Y$, while $K$ supplies the finite KKM cover surface.
+
+Read the bifunction and level-set rows next. The row $A$ exposes only displayed comparison data, $L$ keeps the lower-level slices inside the convex carrier, and $U$ ties scalar thresholds to compact finite windows.
+
+The value and witness rows are downstream. The $\RealUp$ seal $V$ is read only after $K,L,U$ have supplied the finite KKM route, and $W$ records the finite cover and threshold windows consumed by later readers.
+
+Finally $H,C,P,N$ preserve the same packet under transport, replay, provenance, and local naming. Since the carrier has no row for host selection, separation, arbitrary compactness, quotient level-set equality, countable choice, or ambient real completeness, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[KyFanMinimax finite KKM route]
+\label{thm:ky-fan-minimax-kkm-route}
+Every accepted $\KyFanMinimaxUp$ minimax-value read factors through the finite route
+$$
+\KKMFiniteCoverUp,\quad \ConvexSetUp,\quad \CompactMetricUp,\quad \RealUp .
+$$
+More explicitly, the consumer must expose $X,Y,K,A,L,U,V,W,H,C,P,N$ before the value seal is public. The route exports no finite-game payoff-table saddle theorem, no spectral min-max theorem, no host minimax selector, no unrestricted compactness theorem, and no quotient equality of convex level sets.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier. The only cover-facing row is $K$, and it is the finite KKM cover row tied to the same compact and convex support rows $X,Y$.
+
+The level-set and compact-window rows $L,U$ are the bridge from the bifunction comparison row $A$ to the KKM cover. Thus a minimax consumer reads convex slices and compact finite windows before any scalar value seal is available.
+
+The terminal scalar read is $V$, and $W$ records the finite threshold and cover budget that reaches it. Transport, replay, provenance, and naming through $H,C,P,N$ preserve this route without adding a payoff-table, spectral, or host selection coordinate.
+
+Therefore every public value read is a finite KKM route through the named sibling surfaces, not a finite-game minimax theorem, Courant--Fischer theorem, host minimax selector, unrestricted compactness theorem, or quotient level-set equality.
+\end{proof}
+
+\closureat{KyFanMinimaxUp}{seedStr}
+
+\begin{closurestatus}{\KyFanMinimaxUp}
+  \constructivestory{A $\KyFanMinimaxUp$ packet is generated from CompactMetric support rows, ConvexSet carrier rows, a KKMFiniteCover row, bifunction comparison rows, lower-level convexity rows, compact-window threshold rows, a RealUp value seal, witness-budget rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ky-fan-minimax-carrier}, \autoref{thm:ky-fan-minimax-namecert-obligations}, and \autoref{thm:ky-fan-minimax-kkm-route} seed the finite Ky Fan minimax route over displayed compact, convex, KKM, bifunction, level-set, threshold, value, witness, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host minimax selection, Hahn--Banach separation, arbitrary open-cover compactness, finite-game minimax, spectral min-max, quotient equality of level sets, countable choice, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, KKM cover admission, convex level-set stability, compact-window stability, value-seal readback, witness-budget exposure, transport stability, replay stability, provenance, and local naming for BEDC.Derived.KyFanMinimaxUp.}
+\end{closurestatus}
