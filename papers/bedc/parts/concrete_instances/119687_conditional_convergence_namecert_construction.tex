@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\ConditionalConvergenceUp$}
+\label{ch:concrete-instances-conditional-convergence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real series, the $\ConditionalConvergenceUp$ packet records the finite route for a real series whose displayed partial sums converge while the absolute-value series is kept as a separate refused branch. It sits over the $\RealSeriesUp$ source of \autoref{ch:concrete-instances-realseries-namecert}, the absolute convergence boundary of \autoref{ch:concrete-instances-absolute-convergence-namecert}, the alternating-test sibling of \autoref{ch:concrete-instances-alternating-series-test-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names conditional convergence as a convergence-with-refusal certificate, not as absolute convergence, an alternating-test proof, a selected infinite sum, quotient equality of series, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Conditional convergence carrier]
+\label{def:conditional-convergence-carrier}
+A $\ConditionalConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,C,A,W,Q,D,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\RealSeriesUp$ source row, exposing only finite term and partial-sum windows.
+\item $C$ is the convergence row, recording the shared Cauchy-tail threshold and partial-sum comparison route for $S$.
+\item $A$ is the absolute-branch refusal row: it records that any $\AbsoluteConvergenceUp$ read must enter through the separate absolute-value series route and is not supplied by $K$.
+\item $W$ is the $\StreamNameUp$ finite-window row for the inspected terms, partial sums, and absolute-value probes.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the displayed partial-sum windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by both the convergence row and the absolute-branch refusal.
+\item $E$ is the terminal $\RealUp$ seal reached only after $C,W,Q,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for source, convergence, refusal, window, readback, tolerance, seal, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from series windows through convergence and refusal checks to the readback and seal rows.
+\item $P$ is the $\Pkg$ provenance over $\ConditionalConvergenceUp$, $\RealSeriesUp$, $\AbsoluteConvergenceUp$, $\AlternatingSeriesTestUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConditionalConvergenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,C,A,W,Q,D,E,H,T,P,N$. It has no coordinate for an absolute-convergence proof, an alternating-series-test derivation, a host infinite sum, selected limits, quotient stream equality, countable choice, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Conditional convergence NameCert obligations]
+\label{thm:conditional-convergence-namecert-obligations}
+For every accepted $\ConditionalConvergenceUp$ carrier $K=(S,C,A,W,Q,D,E,H,T,P,N)$, the local $\NameCert_{\ConditionalConvergenceUp}$ surface consists exactly of carrier admission, $\RealSeriesUp$ source exposure, convergence-row exposure, absolute-branch refusal, finite $\StreamNameUp$ window exposure, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance accounting, terminal $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through the displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:conditional-convergence-carrier}. The convergence side exposes only the real-series row $S$, the Cauchy-tail route $C$, the finite windows $W$, the regular readback $Q$, the dyadic ledger $D$, and the seal $E$.
+
+Read the refusal row $A$ separately. It does not provide an $\AbsoluteConvergenceUp$ witness; it records that any absolute-value series read must be supplied by the sibling absolute-convergence chapter and cannot be recovered from the conditional packet alone.
+
+The alternating-test sibling is likewise only a possible producer of examples or routes, not a coordinate of this carrier. The packet may cite $\AlternatingSeriesTestUp$ provenance when the source came from that route, but the public conditional-convergence certificate remains the displayed convergence-with-refusal surface.
+
+Finally $H,T,P,N$ transport, replay, source, and name the same rows. Since the carrier has no coordinate for absolute convergence, selected sums, quotient series equality, countable choice, or real completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Conditional convergence sibling separation]
+\label{thm:conditional-convergence-sibling-separation}
+Every Real-facing read of an accepted $\ConditionalConvergenceUp$ carrier factors through
+$$
+\RealSeriesUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert
+$$
+and keeps the $\AbsoluteConvergenceUp$ and $\AlternatingSeriesTestUp$ routes as distinct sibling routes. A consumer may not replace the absolute-branch refusal by an absolute-convergence proof, nor replace the conditional carrier by an alternating-test proof unless that proof is supplied as an external provenance row.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier and a Real-facing request. The request reaches $E$ only after the real-series source, convergence row, finite windows, regular readback, and dyadic ledger have been displayed.
+
+The absolute branch is controlled by $A$. Because $A$ is a refusal row rather than a convergence row for the absolute-value series, the request cannot read an $\AbsoluteConvergenceUp$ certificate from the conditional packet.
+
+The alternating-test route is separated by provenance. It can explain a source of examples, but it is not part of the classifier coordinates $S,C,A,W,Q,D,E,H,T,P,N$ unless explicitly recorded as provenance, and it does not erase the absolute-branch refusal.
+
+Thus the public read is conditional convergence: convergence of the displayed real series together with separation from absolute convergence and from a specific alternating-test derivation.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ConditionalConvergenceUp$ read is refuted if it reaches a $\RealUp$ seal without displaying the RealSeries source, finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, absolute-branch refusal, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{realseries, absoluteconvergence, alternating-series-test, streamname, regseqrat, dyadicratcore, real: none is bijective to $\ConditionalConvergenceUp$, because only this packet jointly carries a convergent RealSeries route and a separate refusal of the AbsoluteConvergence route while retaining StreamName, RegSeqRat, DyadicRatCore, Real, transport, replay, provenance, and local naming rows.}
+
+\closureat{ConditionalConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\ConditionalConvergenceUp}
+  \constructivestory{A $\ConditionalConvergenceUp$ packet is generated from a RealSeries source row, convergence-tail row, absolute-branch refusal row, StreamName finite windows, RegSeqRat readback, DyadicRatCore tolerance ledger, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:conditional-convergence-carrier}, \autoref{thm:conditional-convergence-namecert-obligations}, and \autoref{thm:conditional-convergence-sibling-separation} seed the finite convergence-with-refusal route distinguishing conditional convergence from absolute convergence and alternating-test provenance.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close absolute convergence, alternating-series-test correctness, selected infinite sums, quotient series equality, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, convergence-row exposure, absolute-branch refusal, window and readback exactness, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.ConditionalConvergenceUp.}
+\end{closurestatus}
