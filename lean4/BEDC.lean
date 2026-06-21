@@ -8478,6 +8478,7 @@ import BEDC.Derived.OptionUp.PayloadDescentImageClassifierSelectedVisible
 import BEDC.Derived.OptionUp.PayloadDescentImageClassifierStability
 import BEDC.Derived.OptionUp.PayloadDescentImageOccupancy
 import BEDC.Derived.OptionUp.PayloadDescentImagePublicReadback
+import BEDC.Derived.OptionUp.PayloadDescentImageSemanticCertificate
 import BEDC.Derived.OptionUp.PayloadDescentImageVisible
 import BEDC.Derived.OptionUp.PayloadDescentNormalForm
 import BEDC.Derived.OptionUp.PayloadDescentSharedReflection
