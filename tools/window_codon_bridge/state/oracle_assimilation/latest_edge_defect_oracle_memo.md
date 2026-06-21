@@ -1,14 +1,14 @@
 # Edge-Defect Oracle Memo
 
 - schema: `window_codon_oracle_memo.v1`
-- generated_ts: `2026-06-21T05:42:19Z`
-- source_task_id: `327c3367-48ca-4815-95b3-2210c81e49ca`
+- generated_ts: `2026-06-21T08:54:06Z`
+- source_task_id: `8e068bc5-6165-4cbb-b296-2f03c542670d`
 - source_conversation_id: `conv_6139d5d7cea7ab03`
-- oracle_response_chars: `3150`
+- oracle_response_chars: `2818`
 
 ## Strongest Mechanism
 
-A is ill-posed as a bridge back to Window6/Fibonacci. It is well-posed only as a Window6 self-diagnostic. The codon result lives in the Krawtchouk decomposition of
+A is ill-posed as a non-circular bridge back to Window6/Fibonacci. The codon-side result lives in a canonical spectral frame:
 
 ## Decisive Confounders
 
