@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\ClosedSubstitutionSelfCompileUp$}
+\label{ch:concrete-instances-closed-substitution-self-compile-namecert}
+\origin{ai}
+
+The $\ClosedSubstitutionSelfCompileUp$ packet realizes the closed-term substitution self-compile boundary as finite MetaCIC NameCert data. It sits after the closed boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, the substitution spine realizer of \autoref{ch:concrete-instances-metacic-substitution-spine-realizer-namecert}, the kernel acceptance witness of \autoref{ch:concrete-instances-kernelacceptancewitness-namecert}, and the MetaCIC critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. The packet records closed-term, substitution, binder-seal, replay, refusal, transport, provenance, and local naming rows before any compiler-facing consumer may read the self-compile handoff.
+
+\begin{definition}[Closed substitution self-compile carrier]
+\label{def:closed-substitution-self-compile-carrier}
+A $\ClosedSubstitutionSelfCompileUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,D,V,Q,B,L,R,F,K,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the MetaCIC closed-term source row.
+\item $D$ is the de Bruijn depth row at which the closed boundary is read.
+\item $V$ is the substitution payload row.
+\item $Q$ is the \texttt{ClosedAt} classifier row for $T$ at depth $D$.
+\item $B$ is the binder-seal row ensuring that the boundary is read before any recursive binder descent.
+\item $L$ is the displayed closed-substitution row for substituting $V$ into $T$ at depth $D$.
+\item $R$ is the replay row exposing the same closed substitution route to the compiler-facing consumer.
+\item $F$ is the refusal row for open-term substitution, unrestricted binder descent, and host evaluator equality.
+\item $K$ is the kernel-acceptance witness row tying the displayed MetaCIC packet to an accepted kernel-facing certificate.
+\item $A$ is the self-compile audit row recording that the compiler reads only $T,D,V,Q,B,L,R,F,K$.
+\item $H$ records componentwise $\hsame$ transport for the term, depth, payload, classifier, binder seal, substitution, replay, refusal, kernel, and audit rows.
+\item $C$ records displayed $\Cont$ replay from each compiler-facing query back through the same finite rows.
+\item $P$ is the $\Pkg$ provenance over $\ClosedSubstitutionSelfCompileUp$, $\ClosedSubstitutionBoundaryUp$, $\MetaCICSubstitutionSpineRealizerUp$, $\KernelAcceptanceWitnessUp$, $\MetaCICCriticalPathUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedSubstitutionSelfCompileUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for unrestricted substitution, host evaluator equality, open-term semantic preservation, quotient syntax equality, or global compiler correctness.
+\end{definition}
+
+\begin{theorem}[Closed substitution self-compile NameCert obligations]
+\label{thm:closed-substitution-self-compile-namecert-obligations}
+For every accepted $\ClosedSubstitutionSelfCompileUp$ carrier
+$$
+S=(T,D,V,Q,B,L,R,F,K,A,H,C,P,N),
+$$
+the local $\NameCert_{\ClosedSubstitutionSelfCompileUp}$ surface consists exactly of carrier admission for the closed MetaCIC term row, depth row, substitution payload row, closedness classifier, binder seal, closed-substitution row, replay row, refusal row, kernel-acceptance witness, self-compile audit row, componentwise transport, displayed replay, provenance, and local naming. A compiler-facing consumer may read the self-compile handoff only through those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:closed-substitution-self-compile-carrier}. The closed term, depth, payload, closedness classifier, binder seal, substitution row, replay row, refusal row, kernel row, and audit row are explicit coordinates.
+
+Read the boundary rows in order. The classifier $Q$ and binder seal $B$ are exposed before the substitution row $L$, so the packet is confined to the closed boundary rather than to unrestricted substitution under binders.
+
+Read the replay and refusal rows. The replay row $R$ is the only compiler-facing route for the closed substitution, while $F$ keeps open-term substitution, host evaluator equality, and quotient syntax equality outside the packet.
+
+Finally consume $K,A,H,C,P,N$. Kernel acceptance, self-compile audit, transport, replay, provenance, and local naming preserve the same finite surface and do not add global compiler correctness.
+\end{proof}
+
+\begin{theorem}[Closed substitution self-compile refusal boundary]
+\label{thm:closed-substitution-self-compile-refusal-boundary}
+Every accepted $\ClosedSubstitutionSelfCompileUp$ read keeps the refusal row $F$ visible whenever the compiler-facing handoff $A$ is consumed. Thus the packet can replay closed-term substitution through $R,A,H,C,P,N$, but it cannot claim unrestricted substitution, open-term semantic preservation, host evaluator equality, quotient syntax equality, or full compiler correctness.
+\end{theorem}
+\begin{proof}
+Start with the handoff row $A$. By the carrier definition, $A$ reads only the displayed rows $T,D,V,Q,B,L,R,F,K$ before transport, continuation, provenance, and local naming are consumed.
+
+The refusal row $F$ is part of that handoff inventory. Removing $F$ changes the carrier read, so an accepted handoff cannot silently turn the closed-boundary packet into an unrestricted substitution theorem.
+
+The structural rows $H,C,P,N$ replay and name the same finite packet. They preserve the visible refusal boundary and therefore block host evaluator equality, quotient syntax equality, open-term preservation, and full compiler correctness claims.
+\end{proof}
+
+\begin{theorem}[Closed substitution self-compile TasteGate readiness]
+\label{thm:closed-substitution-self-compile-tastegate-readiness}
+The Lean follow-up for $\ClosedSubstitutionSelfCompileUp$ must provide explicit $\Nontrivial\ \ClosedSubstitutionSelfCompileUp$ and $\FieldFaithful\ \ClosedSubstitutionSelfCompileUp$ instances for the same finite carrier. These instances must keep $T,D,V,Q,B,L,R,F,K,A,H,C,P,N$ as separate displayed rows before any checked TasteGate theorem can serve as a public self-compile gate.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:closed-substitution-self-compile-carrier}. Nontriviality is forced by the distinction between an accepted closed-boundary packet and a refused open-term substitution packet.
+
+Field faithfulness is forced by the row inventory. A read that collapses the binder seal, refusal row, kernel row, or audit row does not preserve the displayed carrier and therefore cannot serve as the public gate for this packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ClosedSubstitutionSelfCompileUp$ compiler-facing read exposes the closed term, substitution row, binder seal, replay row, refusal row, kernel acceptance row, self-compile audit row, transport, provenance, and local NameCert rows before the handoff is visible.}
+
+\independenceWitness{closedtermsubstitutionboundary, metacic-substitution-spine-realizer, kernelacceptancewitness, metaciccriticalpath: $\ClosedSubstitutionSelfCompileUp$ is not bijective to any listed sibling because it jointly carries the closed substitution boundary, binder seal, replay row, refusal row, kernel witness, self-compile audit, transport, provenance, and local naming surface.}
+
+\closureat{ClosedSubstitutionSelfCompileUp}{seedStr}
+
+\begin{closurestatus}{\ClosedSubstitutionSelfCompileUp}
+  \constructivestory{A $\ClosedSubstitutionSelfCompileUp$ packet is generated from a closed MetaCIC term row, de Bruijn depth row, substitution payload row, ClosedAt classifier, binder seal, closed-substitution row, replay row, refusal row, kernel acceptance witness, self-compile audit row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-substitution-self-compile-carrier}, \autoref{thm:closed-substitution-self-compile-namecert-obligations}, \autoref{thm:closed-substitution-self-compile-refusal-boundary}, and \autoref{thm:closed-substitution-self-compile-tastegate-readiness} seed the finite closed-substitution self-compile carrier, refusal boundary, handoff discipline, and TasteGate readiness surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted substitution, open-term semantic preservation, host evaluator equality, quotient syntax equality, full compiler correctness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, binder-seal routing, closed-substitution replay, refusal preservation, kernel acceptance handoff, self-compile audit visibility, transport, replay, provenance, local naming, and Nontrivial and FieldFaithful instances for BEDC.Derived.ClosedSubstitutionSelfCompileUp.}
+\end{closurestatus}
