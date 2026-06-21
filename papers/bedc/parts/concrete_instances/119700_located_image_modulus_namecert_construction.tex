@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\LocatedImageModulusUp$}
+\label{ch:concrete-instances-located-image-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\LocatedImageModulusUp$ packet isolates the finite locator-and-modulus witness used when a continuous image is read as located data in the L10 Real and Completion layer. It sits between the located compact image route of \autoref{ch:concrete-instances-located-compact-image-namecert}, the continuous-image compactness route of \autoref{ch:concrete-instances-continuous-image-compact-namecert}, the continuous-map graph surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet records how a displayed source locator and a displayed uniform modulus feed a finite target interval-cell ledger before any downstream image-location consumer sees a located-image boundary.
+
+\begin{definition}[Located image modulus carrier]
+\label{def:located-image-modulus-carrier}
+A $\LocatedImageModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(L,F,U,T,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the source locator row, read through the compact metric and located-source surfaces that answer finite distance-to-source requests before an image-location query is admitted.
+\item $F$ is the $\ContinuousMapUp$ row, exposing the displayed graph reads and pointwise continuity faces used to move a located source window into the target.
+\item $U$ is the uniform-modulus row for $F$ on the displayed compact metric source, converting each target tolerance request into a source locator radius.
+\item $T$ is the target interval-cell ledger, recording the finite target cells, target radii, and containment checks produced from the source locator and the modulus row.
+\item $S$ is the $\StreamNameUp$ window row that records which finite source and target observations are inspected by an image-location consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row carrying the rational approximants and tolerance comparisons for the source locator, target cells, and modulus response.
+\item $E$ is the terminal $\RealUp$ seal that compares the target-cell readback with the displayed located-image boundary.
+\item $H$ records componentwise $\hsame$ transport for the source locator, continuous-map row, modulus row, target interval-cell ledger, StreamName window, RegSeqRat readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a located-image request through $L,F,U,T,S,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedImageModulusUp$, $\LocatedCompactImageUp$, $\ContinuousImageCompactUp$, $\ContinuousMapUp$, $\CompactMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocatedImageModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $L,F,U,T,S,R,E,H,C,P,N$. It has no coordinate for a host image set, selected preimage, quotient equality of target names, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located image modulus NameCert obligations]
+\label{thm:located-image-modulus-namecert-obligations}
+For every accepted $\LocatedImageModulusUp$ carrier $M=(L,F,U,T,S,R,E,H,C,P,N)$, the local $\NameCert_{\LocatedImageModulusUp}$ surface consists exactly of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source locator, continuous-map row, uniform modulus, target interval-cell ledger, StreamName window, RegSeqRat readback, Real seal, componentwise transport, replay, provenance, and local naming rows;
+\item source-locator exposure, requiring every source-side locatedness read used by the image route to pass through $L$ before the map row is inspected;
+\item modulus-accountable image routing, requiring each target tolerance request to pass through $U$ for the displayed continuous-map row $F$ before any target cell is exposed;
+\item finite target-cell handoff, requiring the target interval-cell ledger $T$ to be assembled from the source locator, the modulus response, the finite StreamName window, and the RegSeqRat readback before the Real seal $E$ is read;
+\item non-escape, stating that host image sets, selected preimages, quotient equality, countable choice, and ambient $\RealUp$ completeness are not carrier coordinates and cannot discharge local obligations.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-image-modulus-carrier}. The rows $L,F,U,T,S,R,E,H,C,P,N$ are the complete visible packet.
+
+The source-locator row is read first. A source-side distance or locatedness request supplies only the finite information displayed by $L$, so no source representative is selected before the map row is consumed.
+
+Next the continuous-map and modulus rows route the image request. The row $F$ supplies the displayed graph read, while $U$ turns the target tolerance into the source radius that the locator row can answer.
+
+The target-cell handoff is finite. Rows $S$ and $R$ record the inspected windows and rational comparisons, $T$ records the corresponding target interval cells, and $E$ is the only Real-facing seal available to the consumer.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name this same route. Since the carrier contains no host image set, selected preimage, quotient equality, countable-choice schedule, or ambient completeness row, the obligations cannot export those objects.
+\end{proof}
+
+\begin{theorem}[Located image modulus finite-window handoff]
+\label{thm:located-image-modulus-finite-window-handoff}
+Every image-location consumer of an accepted $\LocatedImageModulusUp$ packet reads through the displayed route
+$$
+L,F,U,T,S,R,E,H,C,P,N .
+$$
+The consumer first receives the source locator, then the continuous-map row and uniform modulus, then the target interval-cell ledger through the finite $\StreamNameUp$ window and $\RegSeqRatUp$ readback, and finally the terminal $\RealUp$ seal. It receives no host image set, selected preimage, quotient equality of target names, countable-choice schedule, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier of \autoref{def:located-image-modulus-carrier}. Its source-facing data are the locator row $L$, the continuous-map row $F$, and the uniform-modulus row $U$.
+
+Route a target tolerance through those rows. The modulus row converts the target request into a source locator radius, the locator row answers through displayed finite data, and the map row supplies only the target reads attached to that inspected source window.
+
+The target handoff then passes through $S,R,T,E$. The StreamName row records the finite window, the RegSeqRat row records rational approximants and tolerances, the target interval-cell ledger records the cells produced by the route, and the Real seal compares the displayed readback with the image-location boundary.
+
+Finally replay the transport and provenance rows $H,C,P,N$. They preserve the same finite route and have no coordinate for host image sets, selected preimages, quotient equality, choice, or ambient completeness. Thus every image-location consumer receives exactly the displayed locator/modulus/window handoff.
+\end{proof}
+
+\closureat{LocatedImageModulusUp}{seedStr}
+
+\begin{closurestatus}{\LocatedImageModulusUp}
+  \constructivestory{A $\LocatedImageModulusUp$ packet is generated from a source locator, ContinuousMap row, uniform modulus, target interval-cell ledger, StreamName finite window, RegSeqRat readback, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-image-modulus-carrier}, \autoref{thm:located-image-modulus-namecert-obligations}, and \autoref{thm:located-image-modulus-finite-window-handoff} seed the finite locator-and-modulus route for continuous-image location consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, host image sets, selected preimages, quotient equality of target names, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-locator exposure, modulus-accountable image routing, finite target-cell handoff, transport, replay, provenance, local naming, and non-escape for BEDC.Derived.LocatedImageModulusUp.}
+\end{closurestatus}
