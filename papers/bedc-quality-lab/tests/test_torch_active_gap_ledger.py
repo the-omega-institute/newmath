@@ -279,3 +279,150 @@ def test_active_gap_ledger_cli_writes_fixed_report(monkeypatch):
     payload = json.loads(writes["payload"])
     assert payload["schema_id"] == "bedc-jepa-active-gap-ledger-curriculum"
     assert payload["minigrid_active_curriculum"]["status"] == "not_executed"
+
+
+def test_active_gap_ledger_controlled_cli_maps_args_writes_report_and_prints_summary(
+    monkeypatch,
+    capsys,
+):
+    script = ROOT / "scripts" / "run_active_gap_ledger_controlled.py"
+    writes = {}
+    calls = {}
+
+    class Device:
+        resolved_device = "cuda"
+
+    packet = {
+        "schema_id": "bedc-jepa-active-gap-ledger-controlled",
+        "arms": {
+            "real": {
+                "summary": {
+                    "gap_detection_auc": {"mean": 0.74},
+                    "certified_coverage_delta": {"mean": 0.03},
+                    "linear_identifiability_r2_delta": {"mean": 0.01},
+                    "bedc_debt_score_delta": {"mean": -0.02},
+                }
+            },
+            "coverage_preserving": {
+                "summary": {
+                    "gap_detection_auc": {"mean": 0.73},
+                    "certified_coverage_delta": {"mean": 0.04},
+                    "linear_identifiability_r2_delta": {"mean": 0.00},
+                    "bedc_debt_score_delta": {"mean": -0.01},
+                }
+            },
+            "placebo": {
+                "summary": {
+                    "gap_detection_auc": {"mean": 0.51},
+                    "certified_coverage_delta": {"mean": 0.00},
+                    "linear_identifiability_r2_delta": {"mean": -0.01},
+                    "bedc_debt_score_delta": {"mean": 0.01},
+                }
+            },
+        },
+        "decision": {
+            "verdict": "real-capability-win",
+            "placebo_gap_detection_auc": 0.51,
+            "placebo_certified_coverage_delta": 0.0,
+            "placebo_linear_identifiability_r2_delta": -0.01,
+            "qualifying_arms": ["real"],
+        },
+    }
+
+    def fake_choose_device(requested_device="auto"):
+        calls["requested_device"] = requested_device
+        return Device()
+
+    def fake_controlled(*, seeds, config, preserve_fraction):
+        calls["seeds"] = seeds
+        calls["config"] = config
+        calls["preserve_fraction"] = preserve_fraction
+        return packet
+
+    original_write_text = Path.write_text
+
+    def capture_write_text(self, data, *args, **kwargs):
+        if self == ROOT / "reports" / "active_gap_ledger_controlled.json":
+            writes["path"] = self
+            writes["payload"] = data
+            return len(data)
+        return original_write_text(self, data, *args, **kwargs)
+
+    monkeypatch.chdir(ROOT)
+    monkeypatch.setattr("bedc_quality_lab.model.choose_device", fake_choose_device)
+    monkeypatch.setattr(
+        "bedc_quality_lab.torch_bedc_jepa.run_active_gap_ledger_controlled",
+        fake_controlled,
+    )
+    monkeypatch.setattr(Path, "write_text", capture_write_text)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            str(script),
+            "--seeds",
+            "11,12",
+            "--epochs",
+            "7",
+            "--initial-train-count",
+            "90",
+            "--pool-count",
+            "210",
+            "--test-count",
+            "80",
+            "--active-budget",
+            "33",
+            "--preserve-fraction",
+            "0.25",
+        ],
+    )
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+
+    runpy.run_path(str(script), run_name="__main__")
+
+    assert calls["requested_device"] == "cuda"
+    assert calls["seeds"] == (11, 12)
+    assert calls["config"].initial_train_count == 90
+    assert calls["config"].pool_count == 210
+    assert calls["config"].test_count == 80
+    assert calls["config"].active_budget == 33
+    assert calls["config"].epochs == 7
+    assert calls["config"].gap_auc_floor == 0.0
+    assert calls["config"].gap_auc_min_delta == -1.0
+    assert calls["config"].latent_r2_min_delta == -1.0
+    assert calls["config"].unlogged_error_ceiling == 1.0
+    assert calls["config"].coverage_min_delta == -1.0
+    assert calls["preserve_fraction"] == 0.25
+    assert writes["path"].relative_to(ROOT).as_posix() == "reports/active_gap_ledger_controlled.json"
+    payload = json.loads(writes["payload"])
+    assert payload["schema_id"] == "bedc-jepa-active-gap-ledger-controlled"
+    assert payload["decision"]["verdict"] == "real-capability-win"
+    output = capsys.readouterr().out
+    assert "=== CONTROLLED RESULT ===" in output
+    assert "arm gap_auc coverage_delta r2_delta debt_delta" in output
+    assert "real 0.740000 0.030000 0.010000 -0.020000" in output
+    assert "VERDICT real-capability-win:" in output
+
+
+def test_active_gap_ledger_controlled_cli_rejects_non_cuda_device(monkeypatch):
+    script = ROOT / "scripts" / "run_active_gap_ledger_controlled.py"
+    calls = {"controlled": 0}
+
+    class Device:
+        resolved_device = "cpu"
+
+    monkeypatch.chdir(ROOT)
+    monkeypatch.setattr("bedc_quality_lab.model.choose_device", lambda requested_device="auto": Device())
+    monkeypatch.setattr(
+        "bedc_quality_lab.torch_bedc_jepa.run_active_gap_ledger_controlled",
+        lambda **kwargs: calls.__setitem__("controlled", calls["controlled"] + 1),
+    )
+    monkeypatch.setattr(sys, "argv", [str(script)])
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+
+    with pytest.raises(RuntimeError, match="requires cuda, got cpu"):
+        runpy.run_path(str(script), run_name="__main__")
+
+    assert calls["controlled"] == 0
