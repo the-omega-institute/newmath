@@ -4119,6 +4119,7 @@ import BEDC.Derived.CriticalLineWitnessUp.VisibleSourceReadbackLock
 import BEDC.Derived.CriticalLineWitnessUp.VisibleSourceTriad
 import BEDC.Derived.CriticalLineWitnessUp.WindowModulusExhaustion
 import BEDC.Derived.CriticalLineWitnessUp.WindowSource
+import BEDC.Derived.CriticalLineWitnessUp.ZeroLocalizationSourceWindow
 import BEDC.Derived.CriticalLineWitnessUp.ZeroRefusalLocality
 import BEDC.Derived.CriticalLineWitnessUp.ZeroRowSoundness
 import BEDC.Derived.CriticalLineWitnessUp.ZeroRowSourceScope
@@ -7270,6 +7271,7 @@ import BEDC.Derived.MetaCICCandidateSetSNHandoffUp.TasteGate
 import BEDC.Derived.MetaCICCandidateStrongNormalizationUp
 import BEDC.Derived.MetaCICCandidateStrongNormalizationUp.TasteGate
 import BEDC.Derived.MetaCICClosedNormalJoinCertificateUp
+import BEDC.Derived.MetaCICClosednessDecisionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationAuditUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationUp.TasteGate
 import BEDC.Derived.MetaCICClosurePreservationWitnessUp.TasteGate
@@ -7294,6 +7296,7 @@ import BEDC.Derived.MetaCICConfluenceDiamondLedgerUp
 import BEDC.Derived.MetaCICConfluenceDiamondLedgerUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceResidualCheckerUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceSubstitutionBoundaryUp.TasteGate
+import BEDC.Derived.MetaCICConversionEndpointSealUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPairLedgerUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPathUp
 import BEDC.Derived.MetaCICCriticalPathUp.AuditFrontierFactorization
