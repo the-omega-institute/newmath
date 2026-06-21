@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\LebesgueCoveringDimensionInductionUp$}
+\label{ch:concrete-instances-lebesgue-covering-dimension-induction-namecert}
+\origin{human}
+
+Following Hurewicz--Wallman and Engelking on dimension theory, the $\LebesgueCoveringDimensionInductionUp$ packet records the finite boundary-recursion route that compares Lebesgue covering dimension with the small and large inductive dimension surfaces. It sits over the topology source of \autoref{ch:concrete-instances-topology-namecert}, the normal separation row of \autoref{ch:concrete-instances-normalspace-namecert}, the finite-cover refinement row of \autoref{ch:concrete-instances-finite-cover-refinement-namecert}, the covering-dimension packet of \autoref{ch:concrete-instances-coveringdimension-namecert}, the small inductive dimension packet of \autoref{ch:concrete-instances-small-inductive-dimension-namecert}, and the large inductive dimension packet of \autoref{ch:concrete-instances-large-inductive-dimension-namecert}. The chapter names a displayed finite induction route; it does not import a host powerset of covers, arbitrary open-cover compactness, quotient equality of closed boundaries, or a global dimension theorem.
+
+\begin{definition}[Lebesgue covering dimension induction carrier]
+\label{def:lebesgue-covering-dimension-induction-carrier}
+A $\LebesgueCoveringDimensionInductionUp$ carrier is a finite $\BHist$ packet
+$$
+L=(T,C,S,I,N,F,B,H,R,P,Z)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row on which open covers, closed boundaries, and refinement windows are read.
+\item $C$ is the $\CoveringDimensionUp$ row recording the displayed finite order bound for a finite cover window.
+\item $S$ is the $\SmallInductiveDimensionUp$ boundary-decomposition row for the inspected closed neighbourhood frontier.
+\item $I$ is the $\LargeInductiveDimensionUp$ boundary-refinement row used to compare the closed frontier with the surrounding cover window.
+\item $N$ is the $\NormalSpaceUp$ separation row that turns a displayed closed boundary request into a finite neighbourhood-separation ledger.
+\item $F$ is the $\FiniteCoverRefinementUp$ row recording the finite refinement and order-control data consumed by the induction step.
+\item $B$ is the boundary-recursion ledger, storing the predecessor-dimension request, boundary carrier, and finite descent witness.
+\item $H$ stores componentwise $\hsame$ transport for the topology, cover, inductive-dimension, normal-space, refinement, boundary-recursion, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay of the route
+$$
+\TopologyUp,\ \NormalSpaceUp,\ \FiniteCoverRefinementUp
+\longmapsto
+\CoveringDimensionUp,\ \SmallInductiveDimensionUp,\ \LargeInductiveDimensionUp
+\longmapsto B .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LebesgueCoveringDimensionInductionUp$, $\TopologyUp$, $\NormalSpaceUp$, $\FiniteCoverRefinementUp$, $\CoveringDimensionUp$, $\SmallInductiveDimensionUp$, $\LargeInductiveDimensionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $Z$ is the local $\NameCert_{\LebesgueCoveringDimensionInductionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,C,S,I,N,F,B,H,R,P,Z$. It has no coordinate for arbitrary host open covers, selected infinite refinements, quotient equality of boundary carriers, completed lattices of closed sets, or external dimension equivalence theorems.
+\end{definition}
+\leandef{BEDC.Derived.LebesgueCoveringDimensionInductionUp}
+
+\begin{theorem}[Lebesgue covering dimension induction NameCert obligations]
+\label{thm:lebesgue-covering-dimension-induction-namecert-obligations}
+For every accepted $\LebesgueCoveringDimensionInductionUp$ carrier $L=(T,C,S,I,N,F,B,H,R,P,Z)$, the local $\NameCert_{\LebesgueCoveringDimensionInductionUp}$ surface consists exactly of topology-source exposure, covering-dimension order-bound exposure, small-inductive boundary exposure, large-inductive boundary-refinement exposure, normal-space separation exposure, finite-cover-refinement exactness, boundary-recursion descent, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lebesgue-covering-dimension-induction-carrier}. The analytic rows are $T,C,S,I,N,F,B$, and the structural rows are $H,R,P,Z$.
+
+The boundary recursion is not read from a global dimension theorem. The rows $S$ and $I$ expose the inductive boundary surfaces, $N$ supplies the finite normal-separation ledger, and $F$ records the finite refinement data needed for the covering-dimension comparison.
+
+The replay row $R$ orders these dependencies through the topology and normal-space sources before the boundary-recursion ledger is consumed. Transport, provenance, and local naming preserve the same displayed rows.
+
+Since no excluded host object is a carrier coordinate, the listed rows are exactly the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Lebesgue covering dimension induction boundary route]
+\label{thm:lebesgue-covering-dimension-induction-boundary-route}
+Every boundary-recursion read exported by an accepted $\LebesgueCoveringDimensionInductionUp$ packet must pass through
+$$
+\TopologyUp,\ \NormalSpaceUp,\ \FiniteCoverRefinementUp
+\longmapsto
+\CoveringDimensionUp,\ \SmallInductiveDimensionUp,\ \LargeInductiveDimensionUp
+\longmapsto
+B,H,R,P,Z .
+$$
+The route names a finite comparison between cover-order control and inductive boundary descent; it is not a proof of arbitrary covering-dimension equivalence, not a quotient boundary theorem, and not a host open-cover compactness principle.
+\end{theorem}
+\begin{proof}
+Begin with the topology row $T$ and the normal-space row $N$. These rows determine the displayed open and closed boundary windows on which the dimension comparison is allowed to speak.
+
+Read the finite-cover refinement row $F$ next. It supplies only the finite refinement and order-control data stored in the packet, so the argument cannot choose an arbitrary refinement outside the ledger.
+
+Now compare the three dimension rows. The covering-dimension row $C$ supplies the order-bound surface, while the small and large inductive rows $S,I$ supply boundary-decomposition and boundary-refinement surfaces for the recursion ledger $B$.
+
+Finally transport and replay the route through $H,R,P,Z$. The exported object is the finite boundary-recursion packet, so it cannot be reread as host open-cover compactness, quotient equality of boundaries, or a global dimension-equivalence theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LebesgueCoveringDimensionInductionUp$ read is refuted if it exports a boundary-recursion claim without displaying the TopologyUp source, NormalSpaceUp separation row, FiniteCoverRefinementUp refinement row, CoveringDimensionUp order-bound row, SmallInductiveDimensionUp boundary-decomposition row, LargeInductiveDimensionUp boundary-refinement row, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{covering-dimension, small-inductive-dimension, large-inductive-dimension, normalspace, finite-cover-refinement: none is bijective to $\LebesgueCoveringDimensionInductionUp$ because this packet jointly carries cover-order control, two inductive boundary surfaces, normal separation, finite refinement, boundary recursion, transport, replay, provenance, and local naming.}
+
+\closureat{LebesgueCoveringDimensionInductionUp}{seedStr}
+
+\begin{closurestatus}{\LebesgueCoveringDimensionInductionUp}
+  \constructivestory{A $\LebesgueCoveringDimensionInductionUp$ packet is generated from TopologyUp source rows, NormalSpaceUp separation rows, FiniteCoverRefinementUp rows, CoveringDimensionUp order-bound rows, SmallInductiveDimensionUp boundary rows, LargeInductiveDimensionUp boundary-refinement rows, a boundary-recursion ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lebesgue-covering-dimension-induction-carrier}, \autoref{thm:lebesgue-covering-dimension-induction-namecert-obligations}, and \autoref{thm:lebesgue-covering-dimension-induction-boundary-route} seed the finite boundary-recursion comparison among covering and inductive dimension packets.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.LebesgueCoveringDimensionInductionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary covering-dimension equivalence, host open-cover compactness, quotient equality of boundary carriers, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked row exposure for topology, normal separation, finite refinement, covering dimension, small and large inductive boundary routes, boundary recursion, transport, replay, provenance, and local naming for BEDC.Derived.LebesgueCoveringDimensionInductionUp.}
+\end{closurestatus}
