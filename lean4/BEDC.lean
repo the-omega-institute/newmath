@@ -4760,6 +4760,7 @@ import BEDC.Derived.DyadicFloorUp
 import BEDC.Derived.DyadicFloorUp.Classifier
 import BEDC.Derived.DyadicFloorUp.TasteGate
 import BEDC.Derived.DyadicGeometricTailUp.TasteGate
+import BEDC.Derived.DyadicGridProjectionUp.TasteGate
 import BEDC.Derived.DyadicIntermediateValueUp.TasteGate
 import BEDC.Derived.DyadicIntervalArithmeticUp.EnclosureSoundness
 import BEDC.Derived.DyadicIntervalArithmeticUp.NameCertObligations
