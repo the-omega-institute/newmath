@@ -155,6 +155,24 @@ Now attach the sibling $\BoundedRealLimsupUp$ packet. Its upper-envelope surface
 Therefore the zero-gap read can only identify the two envelope surfaces after the common route $S,L,D,T,H,C,P,N$ has been displayed. The packet exports no Real completeness principle, trichotomy, selected subsequence, quotient stream equality, host infimum, or host supremum as a substitute for that finite route.
 \end{proof}
 
+\begin{theorem}[Liminf tail lower-upper gap width]
+\label{thm:liminf-tail-lower-upper-gap-width}
+Let an accepted $\LiminfUp$ packet
+$$
+I=(S,L,D,T,H,C,P,N)
+$$
+be paired with a $\BoundedRealLimsupUp$ upper-envelope packet over the same bounded sequence row $S$. Any zero-gap or convergence-facing read from the pair is exposed only after the shared bounded sequence row $S$, lower-cut schedule $L$, upper-cut comparison surface, dyadic tolerance ledger $D$, terminal $\RealUp$ seal $T$, and structural rows $H,C,P,N$ have been displayed. The resulting gap-width handoff is a finite dyadic envelope route, not a Real completeness principle, host infimum or supremum, selected subsequence, or quotient stream equality.
+\end{theorem}
+\begin{proof}
+Start with lower-tail compatibility, \autoref{thm:liminf-tail-lower-envelope-compatibility}. It forces the $\LiminfUp$ half of the pair to expose $S,L,D,T$ before any lower-envelope consumer can inspect the terminal seal.
+
+Next apply monotone refinement, \autoref{thm:liminf-tail-envelope-monotone-refinement}. It keeps later tail reads on the same bounded-sequence, lower-cut, upper-comparison, dyadic-tolerance, and terminal-seal route whenever the schedule is refined without changing $S,D,T$.
+
+Finally use zero-gap convergence, \autoref{thm:liminf-limsup-zero-gap-convergence}. Once the $\BoundedRealLimsupUp$ packet is paired with the same $S$ and dyadic tolerance row $D$, a convergence-facing read can only pass through the shared finite gap-width route.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that route. Since the proof uses only the displayed lower envelope, upper comparison surface, dyadic ledger, and Real seal, it introduces no Real completeness, host infimum, host supremum, selected subsequence, or quotient stream equality.
+\end{proof}
+
 \begin{theorem}[Liminf Real seal non-escape]
 \label{thm:liminf-real-seal-nonescape}
 An accepted $\LiminfUp$ packet exposes its candidate value only as the terminal $\RealUp$ row $T$ reached through the displayed tail-cut route. In particular, it does not export Real completeness, trichotomy, a host infimum, quotient stream equality, selected subsequences, or open-cover compactness.
