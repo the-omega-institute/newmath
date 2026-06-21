@@ -7399,6 +7399,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-21T14:53:36+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-21T14:53:36+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "142ac05c4a8f",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -10004,6 +10021,34 @@
         }
       ],
       "linked_conjecture_id": "q6.rank-powered.translation-survival.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.translational_control.er_proximity_gated_isrib_translational_rescue",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "ER-proximity does NOT strongly gate ISRIB translational rescue (pre-registered non-anchor test; honest sub-threshold result). On GSE65778 (Sidrauski et al eLife 2015, 10.7554/eLife.05033) HEK ISRIB ribosome+RNA profiling (UT/ISRIB/Tm/Tm+ISRIB x RNA/Ribo x 2 reps, per-feature UCSC-gene CDS counts) joined by UCSC id to GSE61012 (Jan et al Science 2014, 10.1126/science.1257521) BirA-Sec61b ER-proximity log2.enrichment (TableS6); 4419 genes after count>=32 coverage floor. Per-gene ISRIB-rescue difference-in-differences I=[log2TE(Tm+ISRIB)-log2TE(Tm)]-[log2TE(ISRIB)-log2TE(UT)] (TE=ribo_frac/rna_frac, length cancels); D=median(I, ER-proximal top20%)-median(I, bottom20%); permutation within untreated-RNA-quintile x AA-length-quintile strata (10000x); RNA-only control D_RNA. Pre-registered thresholds frozen. Result: D=+0.238 with two-sided p~1e-4, both replicates same sign (0.200, 0.243), D_RNA=-0.022 (negligible, so the small trend is translational not transcriptional) — i.e. a statistically robust but SMALL (~1.18-fold) ER-proximal-rescue trend that does NOT reach the pre-registered biologically-meaningful magnitude threshold log2(1.25)=0.322. Frozen verdict no_compartment_selectivity: ISRIB's translational rescue is not strongly compartment-selective for ER-proximal mRNAs. Positive control PASSES (ATF4 Tm TE-LFC=+2.65, percentile 100, I=-2.29 = ISRIB reverses the canonical ISR induction), so the sub-threshold result is a REAL effect-size null, not measurement insensitivity. Escapes the confound triangle: ER axis from an independent experiment (not disguised-e_in), 2x2 same-feature DiD holds sequence composition constant and is stratified by expression/length, axis/quantiles/direction/thresholds all pre-frozen (not post-hoc). cannot_claim: no spike-in (no absolute ER-client synthesis/load); no translocon occupancy/folding-flux/survival readout (no mechanism/toxicity); HEK only; log2.enrichment is a BirA-Sec61b proximity proxy; ISRIB/Tm doses as in the study; 2 replicates; DiD is TE-level not flux; UCSC-id join may drop some genes.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "er_proximity_gated_isrib_translational_rescue",
+      "history": [
+        {
+          "ts": "2026-06-21T14:52:04+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-21T14:53:57+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "842b739606af",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "cbc5a39b189d497e"
+        }
+      ],
+      "linked_conjecture_id": "q6.mrna-controlled.translation-efficiency-boundary.cross-layer"
     }
   ]
 }
