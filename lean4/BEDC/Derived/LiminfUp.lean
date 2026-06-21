@@ -199,6 +199,78 @@ theorem LiminfTailLowerEnvelopeCompatibility [AskSetup] [PackageSetup]
     }
   exact ⟨cert, sealUnary⟩
 
+theorem LiminfTailCutRoute [AskSetup] [PackageSetup]
+    {sequence lowerCut dyadic terminal transport replay provenance localName sealRead
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LiminfCarrier sequence lowerCut dyadic terminal transport replay provenance localName
+        bundle pkg →
+      Cont terminal transport sealRead →
+        Cont sealRead replay consumerRead →
+          PkgSig bundle provenance pkg →
+            PkgSig bundle localName pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row sequence ∨ hsame row lowerCut ∨ hsame row dyadic ∨
+                      hsame row terminal ∨ hsame row sealRead ∨ hsame row consumerRead)
+                  (fun row : BHist =>
+                    PkgSig bundle localName pkg ∧ Cont sealRead replay consumerRead ∧
+                      hsame row consumerRead)
+                  hsame ∧
+                UnaryHistory consumerRead ∧ Cont sequence lowerCut dyadic ∧
+                  Cont dyadic terminal replay ∧ Cont terminal transport sealRead ∧
+                    Cont sealRead replay consumerRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier terminalSeal sealConsumer _provenancePkg localNamePkg
+  have sequenceRoute : Cont sequence lowerCut dyadic :=
+    carrier.right.right.right.right.right.right.right.right.left
+  have terminalRoute : Cont dyadic terminal replay :=
+    carrier.right.right.right.right.right.right.right.right.right.left
+  have terminalUnary : UnaryHistory terminal := carrier.right.right.right.left
+  have transportUnary : UnaryHistory transport := carrier.right.right.right.right.left
+  have replayUnary : UnaryHistory replay := carrier.right.right.right.right.right.left
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed terminalUnary transportUnary terminalSeal
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed sealUnary replayUnary sealConsumer
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row sequence ∨ hsame row lowerCut ∨ hsame row dyadic ∨
+              hsame row terminal ∨ hsame row sealRead ∨ hsame row consumerRead)
+          (fun row : BHist =>
+            PkgSig bundle localName pkg ∧ Cont sealRead replay consumerRead ∧
+              hsame row consumerRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro consumerRead ⟨hsame_refl consumerRead, consumerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨localNamePkg, sealConsumer, source.left⟩
+  }
+  exact ⟨cert, consumerUnary, sequenceRoute, terminalRoute, terminalSeal, sealConsumer⟩
+
 theorem LiminfTailEnvelopeMonotoneRefinement [AskSetup] [PackageSetup]
     {sequence lowerCut refinedLowerCut dyadic upperEnvelope terminal transport replay
       provenance localName sealRead : BHist}

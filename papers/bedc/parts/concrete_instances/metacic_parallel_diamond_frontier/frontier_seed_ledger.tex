@@ -1,0 +1,15 @@
+\begin{theorem}[MetaCIC frontier seed ledger]
+\label{thm:metacic-parallel-diamond-frontier-seed-ledger}
+An accepted $\MetaCICParallelDiamondFrontierUp$ frontier packet exposes a finite seed ledger
+$$
+\Sigma=(K,J,R,S,B,O,H,T,G,N)
+$$
+before any residual-join or parallel-diamond read becomes public. The ledger reads the critical-pair row $K$, candidate join row $J$, residual-frontier row $R$, seed-readiness row $S$, bounded checker row $B$, obstruction row $O$, $\hsame$ transport row $H$, $\Cont$ replay row $T$, $\Pkg$ provenance row $G$, and local $\NameCert$ row $N$ through the existing MetaCIC frontier rows. It is only a seed ledger for finite residual-join inspection, not a premise-free confluence theorem, subject-reduction theorem, evaluator equality, quotient term equality, or kernel-consistency certificate.
+\end{theorem}
+\begin{proof}
+Start with the seed package register of \autoref{thm:metacic-parallel-diamond-frontier-seed-package} and the seed readiness row of \autoref{thm:metacic-parallel-diamond-frontier-seed-readiness}. These rows expose $K,J,R,S,B,O$ as finite frontier data for a bounded residual-join request.
+
+Next use the residual join seed interface of \autoref{thm:metacic-parallel-diamond-frontier-residual-join-seed-interface}. It keeps the candidate join and residual frontier inside the same seed packet rather than turning them into an unconditional parallel diamond.
+
+Finally apply the structural rows supplied by \autoref{thm:metacic-parallel-diamond-frontier-scoped-seed-package-route}. The rows $H,T,G,N$ transport, replay, package, and name the same finite seed ledger, so public consumers receive only the displayed residual-join ledger and none of the refused global endpoints.
+\end{proof}
