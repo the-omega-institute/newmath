@@ -8117,6 +8117,7 @@ import BEDC.Derived.NatTransUp.VertCycleEmptyComponents
 import BEDC.Derived.NatTransUp.VerticalWhisker
 import BEDC.Derived.NatTransUp.ZeroHeadedComposition
 import BEDC.Derived.NatUp
+import BEDC.Derived.NatUp.AddIntUnaryChainOrphanLink
 import BEDC.Derived.NatUp.AddSourceSpineForwardLink
 import BEDC.Derived.NatUp.TasteGate
 import BEDC.Derived.NatUp.UnaryBridgeCutBoundary
@@ -9563,8 +9564,6 @@ import BEDC.Derived.ReducedProductUp
 import BEDC.Derived.ReductionFuelBoundaryUp.EndpointTimeoutDisjointness
 import BEDC.Derived.ReductionFuelBoundaryUp.FuelTimeoutExactness
 import BEDC.Derived.ReductionFuelBoundaryUp.ObligationClosurePackage
-import BEDC.Derived.ReductionFuelBoundaryUp.ScopedSubstrateRoute
-import BEDC.Derived.ReductionFuelBoundaryUp.ScopedTimeoutRoute
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
 import BEDC.Derived.ReductionFuelBoundaryUp.TotalHostNonescape
 import BEDC.Derived.ReflectionGapBoundaryUp.Nonescape
@@ -10496,6 +10495,7 @@ import BEDC.Derived.SetlikeUp.RootModelTheorySatisfactionEnvelope
 import BEDC.Derived.SetlikeUp.RootNameCertObligations
 import BEDC.Derived.SetlikeUp.RootSubsetLedgerNonescape
 import BEDC.Derived.SetlikeUp.RootUnblockConsumerRoutes
+import BEDC.Derived.SetlikeUp.RootUnblockKernelMembershipEnvelope
 import BEDC.Derived.SetlikeUp.SatisfactionHandoffObligation
 import BEDC.Derived.SetlikeUp.SubsetClassifierObligation
 import BEDC.Derived.SetlikeUp.SubsetComprehensionRootUnblock
