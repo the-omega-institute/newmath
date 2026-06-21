@@ -103,4 +103,58 @@ theorem CauchyCondensationCarrier_scoped_obligation_route [AskSetup] [PackageSet
   exact
     ⟨cert, blockReadUnary, tailReadUnary, readbackReadUnary, sealReadUnary, consumerReadUnary⟩
 
+theorem CauchyCondensationCarrier_obligation_closure_package [AskSetup] [PackageSetup]
+    {source windows blocks sums tails readback sealRow transportRow replayRow provenance localName
+      blockRead tailRead readbackRead sealRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCondensationCarrier source windows blocks sums tails readback sealRow transportRow
+        replayRow provenance localName bundle pkg →
+      Cont windows blocks blockRead →
+        Cont blockRead sums tailRead →
+          Cont tailRead tails readbackRead →
+            Cont readbackRead sealRow sealRead →
+              Cont sealRead localName consumerRead →
+                PkgSig bundle readbackRead pkg →
+                  PkgSig bundle sealRead pkg →
+                    PkgSig bundle consumerRead pkg →
+                      SemanticNameCert
+                          (fun row : BHist => hsame row localName ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row source ∨ hsame row windows ∨ hsame row blocks ∨
+                              hsame row sums ∨ hsame row tails ∨ hsame row readback ∨
+                                hsame row sealRow ∨ hsame row provenance ∨
+                                  hsame row localName)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ PkgSig bundle provenance pkg ∧
+                              PkgSig bundle localName pkg)
+                          hsame ∧
+                        SemanticNameCert
+                            (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                            (fun row : BHist =>
+                              hsame row source ∨ hsame row windows ∨ hsame row blocks ∨
+                                hsame row sums ∨ hsame row tails ∨ hsame row readbackRead ∨
+                                  hsame row sealRead ∨ hsame row consumerRead)
+                            (fun row : BHist =>
+                              UnaryHistory row ∧ Cont windows blocks blockRead ∧
+                                Cont blockRead sums tailRead ∧
+                                  Cont tailRead tails readbackRead ∧
+                                    Cont readbackRead sealRow sealRead ∧
+                                      Cont sealRead localName consumerRead ∧
+                                        PkgSig bundle consumerRead pkg)
+                            hsame ∧
+                          UnaryHistory blockRead ∧ UnaryHistory tailRead ∧
+                            UnaryHistory readbackRead ∧ UnaryHistory sealRead ∧
+                              UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: CauchyCondensationCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier windowsBlocks blockSums tailTails readbackSeal sealConsumer _readbackPkg
+    _sealPkg consumerPkg
+  have namecert := CauchyCondensationCarrier_namecert_obligations carrier
+  have route :=
+    CauchyCondensationCarrier_scoped_obligation_route carrier windowsBlocks blockSums
+      tailTails readbackSeal sealConsumer consumerPkg
+  exact
+    ⟨namecert.left, route.left, route.right.left, route.right.right.left,
+      route.right.right.right.left, route.right.right.right.right.left,
+      route.right.right.right.right.right⟩
+
 end BEDC.Derived.CauchyCondensationUp
