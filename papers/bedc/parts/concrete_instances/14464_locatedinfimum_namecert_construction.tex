@@ -56,6 +56,7 @@ The comparison is therefore local: the witness is checked against the lower surf
 \label{thm:located-infimum-window-induction}
 For an accepted $\LocatedInfimumUp$ packet $I=(F,L,G,W,R,E,H,C,P,N)$, induction over the finite precision-window row $W$ builds the displayed witness ledger $G$ from the bounded-family row $F$, lower-bound ledger $L$, precision window $W$, $\RegSeqRatUp$ handoff $R$, $\RealUp$ seal $E$, transport row $H$, continuation row $C$, provenance row $P$, and local naming row $N$. The induction uses no Dedekind completeness, arbitrary infimum operator, quotient real equality, trichotomy, countable choice, or host completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedInfimumUp.LocatedInfimumWindowInduction}
 \begin{proof}
 Proceed over the displayed finite window $W$. The empty window has no precision request, so the witness ledger contributes no greatest-lower-approximation entry.
 
@@ -82,6 +83,7 @@ The remaining Real-facing reads are structural consequences of the same covered 
 \label{thm:located-infimum-classifier-stability}
 Let $I=(F,L,G,W,R,E,H,C,P,N)$ be an accepted $\LocatedInfimumUp$ packet. Replacing any displayed component along the corresponding $\hsame$ transport in $H$ preserves lower-bound reads, greatest-lower-approximation reads, $\RegSeqRatUp$ handoff, $\RealUp$ seal access, continuation replay, provenance, and the local $\NameCert_{\LocatedInfimumUp}$ classifier. Thus the classifier is stable under componentwise BEDC transport.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedInfimumUp.LocatedInfimumClassifierStability}
 \begin{proof}
 Use the transport ledger $H$ component by component. The family row, lower-bound ledger, greatest-lower-approximation ledger, precision window, regular handoff, real seal, continuation row, provenance row, and name row each have their own displayed $\hsame$ transport.
 
@@ -121,6 +123,7 @@ Finally apply classifier stability from \autoref{thm:located-infimum-classifier-
 \label{thm:located-infimum-bounded-family-handoff}
 For every accepted $\LocatedInfimumUp$ packet $I=(F,L,G,W,R,E,H,C,P,N)$, each bounded-family consumer reads the lower-bound and greatest-lower-approximation surface only through the displayed $\BoundedRealFamilyUp$ row $F$, the lower-bound ledger $L$, the witness ledger $G$, the precision window $W$, the $\StreamNameUp$ window discipline, the $\RegSeqRatUp$ handoff row $R$, the $\RealUp$ seal $E$, and the structural rows $H,C,P,N$. The route is the lower-bound companion of the $\LocatedSupremumUp$ packet and exports no arbitrary infimum operator.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedInfimumUp.LocatedInfimumBoundedFamilyHandoff}
 \begin{proof}
 Project the accepted carrier. The bounded-family source is $F$, so a downstream bounded-family argument cannot inspect a lower-bound or greatest-lower-approximation claim before it has read the displayed family row.
 
