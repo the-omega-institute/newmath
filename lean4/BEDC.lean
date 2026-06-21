@@ -5769,6 +5769,7 @@ import BEDC.Derived.FinitePrefixStreamUp.RealCompletionBudgetRoute
 import BEDC.Derived.FinitePrefixStreamUp.TasteGate
 import BEDC.Derived.FinitePrefixStreamUp.WindowReadback
 import BEDC.Derived.FiniteProofTraceSieveUp
+import BEDC.Derived.FiniteRealCauchyClusterUp
 import BEDC.Derived.FiniteRealCoverUp.TasteGate
 import BEDC.Derived.FiniteRealRouteCommitmentUp.TasteGate
 import BEDC.Derived.FiniteRealSectionUp.DyadicSealFactorization
