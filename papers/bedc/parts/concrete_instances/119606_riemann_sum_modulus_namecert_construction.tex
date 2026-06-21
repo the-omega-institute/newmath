@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\RiemannSumModulusUp$}
+\label{ch:concrete-instances-riemann-sum-modulus-namecert}
+\origin{human}
+
+Following Riemann and Darboux, the $\RiemannSumModulusUp$ packet records the finite refinement-modulus surface that sits between the displayed Riemann sum of \autoref{ch:concrete-instances-riemannsum-namecert}, the tagged partition carrier of \autoref{ch:concrete-instances-tagged-partition-namecert}, and the mesh-bound packet of \autoref{ch:concrete-instances-riemann-sum-mesh-namecert}. Its tolerance rows are read through \autoref{ch:concrete-instances-dyadicratcore-namecert}, its regular rational and real-name handoff follows \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}, and its only public promise is a finite modulus for comparing sufficiently refined displayed sums.
+
+\begin{definition}[Riemann sum modulus carrier]
+\label{def:riemann-sum-modulus-carrier}
+A $\RiemannSumModulusUp$ carrier is a finite $\BHist$ packet
+$$
+U=(M,R,T,Q,D,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the mesh-budget row, carrying a dyadic mesh bound read through $\RiemannSumMeshUp$ and $\DyadicRatCoreUp$.
+\item $R$ is the refinement-witness row, recording that a displayed tagged partition refines the budget named by $M$.
+\item $T$ is the $\TaggedPartitionUp$ row whose cells, endpoints, and tag-containment data are the only partition data visible to the packet.
+\item $Q$ is the Riemann-sum comparison row, relating two displayed $\RiemannSumUp$ packets only through their common refinement budget and tagged-partition rows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used for the displayed comparison bound.
+\item $S$ is the $\RegSeqRatUp$ and $\RealUp$ handoff row, sealing rational readback before any Real-facing consumer reads the comparison.
+\item $H$ records componentwise $\hsame$ transport for $M,R,T,Q,D,S,C,P,N$.
+\item $C$ records displayed $\Cont$ replay through mesh budgets, refinement witnesses, tagged partitions, Riemann-sum comparisons, dyadic tolerances, and the regular-real handoff.
+\item $P$ is the $\Pkg$ provenance over $\RiemannSumModulusUp$, $\RiemannSumUp$, $\TaggedPartitionUp$, $\RiemannSumMeshUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannSumModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,R,T,Q,D,S,H,C,P,N$. It has no coordinate for host integrability, host limits, quotient equality of functions, selected tag families, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Riemann sum modulus NameCert obligations]
+\label{thm:riemann-sum-modulus-namecert-obligations}
+For the carrier of \autoref{def:riemann-sum-modulus-carrier}, the local $\NameCert_{\RiemannSumModulusUp}$ surface consists exactly of mesh-budget exposure, refinement-witness exposure, tagged-partition readback, Riemann-sum comparison, dyadic tolerance readback, RegSeqRat/Real handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming for the same packet
+$$
+U=(M,R,T,Q,D,S,H,C,P,N).
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $M,R,T,Q,D,S,H,C,P,N$ are exactly the mesh budget, refinement witness, tagged partition, comparison, tolerance, regular-real handoff, transport, replay, provenance, and local naming rows.
+
+Read the supporting packets in order. The budget row points to the finite mesh data of $\RiemannSumMeshUp$, the partition row points to $\TaggedPartitionUp$, and the comparison row reads only displayed $\RiemannSumUp$ packets that share the same refinement budget.
+
+The tolerance and handoff rows keep the comparison constructive. The dyadic row $D$ supplies the finite rational bound, while $S$ routes any later Real-facing read through $\RegSeqRatUp$ and $\RealUp$ seals. Since no further coordinate is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Riemann sum modulus refinement stability]
+\label{thm:riemann-sum-modulus-refinement-stability}
+Let $U=(M,R,T,Q,D,S,H,C,P,N)$ be an accepted $\RiemannSumModulusUp$ carrier. Any two accepted refinement reads that agree on the mesh-budget row $M$, the refinement-witness row $R$, the tagged-partition row $T$, and the dyadic tolerance row $D$ must export the same Riemann-sum comparison boundary through $Q,S,H,C,P,N$. The packet therefore stabilizes finite refinement comparison before any consumer asks for a limiting integral.
+\end{theorem}
+\begin{proof}
+Start with the four controlling rows $M,R,T,D$. They fix the displayed mesh budget, the finite refinement witness, the tagged partition whose cells and tags are read, and the dyadic tolerance used to compare sums.
+
+The comparison row $Q$ has no independent source of partition or tolerance data. It can compare Riemann sums only by replaying the same mesh, refinement, tagged-partition, and tolerance rows.
+
+Finally transport and replay through $H,C,P,N$. Componentwise $\hsame$ preserves the controlling rows, $\Cont$ replays the same finite route, and provenance and local naming add no selected refinement family or limiting process. Hence both reads expose the same comparison boundary.
+\end{proof}
+
+\begin{theorem}[Riemann sum modulus consumer handoff]
+\label{thm:riemann-sum-modulus-consumer-handoff}
+Every Darboux-facing or Riemann-integral-facing consumer of an accepted $\RiemannSumModulusUp$ carrier receives only the finite route
+$$
+\RiemannSumMeshUp \longmapsto \TaggedPartitionUp \longmapsto \RiemannSumUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+as instantiated by $M,R,T,Q,D,S,H,C,P,N$. The handoff supplies a tolerance-indexed refinement comparison for displayed sums, not integrability, host limits, quotient function equality, selected tags, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the mesh and partition side first. The consumer receives the finite budget $M$, the refinement witness $R$, and the tagged partition $T$ before any Riemann-sum comparison is visible.
+
+Next read the comparison and tolerance rows. The row $Q$ compares displayed $\RiemannSumUp$ packets only inside the budget fixed by $M,R,T$, and the row $D$ supplies the dyadic tolerance against which that comparison is checked.
+
+The regular-real handoff is terminal. The row $S$ seals the rational readback before a Real-facing consumer can inspect it, while $H,C,P,N$ preserve the same finite route. Thus the export is a refinement-modulus boundary for sums, not an ambient integral or a choice-selected refinement process.
+\end{proof}
+
+\falsifiablePrediction{Removing $R$ permits a consumer to compare Riemann sums across unrelated partitions while retaining the same mesh budget; the local classifier must reject such a packet because refinement has no displayed witness.}
+
+\independenceWitness{riemannsum, taggedpartition, riemann-sum-mesh, dyadicratcore, regseqrat, real: none is bijective with $\RiemannSumModulusUp$ because this carrier alone joins mesh budget, refinement witness, tagged-partition readback, sum comparison, dyadic tolerance, regular-real handoff, transport, replay, provenance, and local naming in one finite packet.}
+
+\closureat{RiemannSumModulusUp}{seedStr}
+
+\begin{closurestatus}{\RiemannSumModulusUp}
+  \constructivestory{A $\RiemannSumModulusUp$ packet is generated from a mesh-budget row, refinement-witness row, TaggedPartition row, Riemann-sum comparison row, DyadicRatCore tolerance row, RegSeqRat/Real handoff row, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-sum-modulus-carrier}, \autoref{thm:riemann-sum-modulus-namecert-obligations}, \autoref{thm:riemann-sum-modulus-refinement-stability}, and \autoref{thm:riemann-sum-modulus-consumer-handoff} seed the finite refinement-modulus handoff for displayed Riemann sums.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim integrability, host limits, quotient function equality, selected tags, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, refinement-witness stability, Riemann-sum comparison exactness, dyadic tolerance readback, RegSeqRat/Real handoff, transport, replay, provenance, and local naming for BEDC.Derived.RiemannSumModulusUp.}
+\end{closurestatus}
