@@ -11600,11 +11600,13 @@ import BEDC.Derived.Window6GaugeOrbit
 import BEDC.Derived.Window6GoldenSplitModPLaw
 import BEDC.Derived.Window6JointNecklace
 import BEDC.Derived.Window6LucasCount
+import BEDC.Derived.Window6LucasFibNormRelation
 import BEDC.Derived.Window6LucasKernelObstruction
 import BEDC.Derived.Window6ModP571Singularity
 import BEDC.Derived.Window6NecklaceOrbitCount
 import BEDC.Derived.Window6NecklaceSpectralDeterminant
 import BEDC.Derived.Window6ParryModPDescent
+import BEDC.Derived.Window6PisanoPeriodModP
 import BEDC.Derived.Window6SeamIdentification
 import BEDC.Derived.Window6TraceCycleIndexNecklace
 import BEDC.Derived.Window6TraceLucas
