@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICResidualLocalDiamondWitnessUp$}
+\label{ch:concrete-instances-metacic-residual-local-diamond-witness-namecert}
+\origin{ai}
+
+The $\MetaCICResidualLocalDiamondWitnessUp$ packet realizes the residual-substitution confluence frontier of \autoref{ch:metacic-open-problems} as a finite local-diamond witness for one admitted residual pair. It sits beside the conditional parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, the existing residual-diamond witness of \autoref{ch:concrete-instances-metacic-residual-diamond-witness-namecert}, the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, and the residual-checker packet of \autoref{ch:concrete-instances-metacic-confluence-residual-checker-namecert}. The packet records bounded local-join visibility and obstruction retention; it does not claim global confluence, subject reduction, kernel consistency, unrestricted residual-substitution compatibility, evaluator equality, or quotient term equality.
+
+\begin{definition}[MetaCIC residual local-diamond witness carrier]
+\label{def:metacic-residual-local-diamond-witness-carrier}
+A $\MetaCICResidualLocalDiamondWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+L=(A,P,J,O,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the residual-pair admission row, naming the typed window, source term, two residual branches, and finite observation budget for the local diamond.
+\item $P$ is the residual-substitution boundary row retained from the confluence frontier.
+\item $J$ is the bounded local-join checker row, recording the visible join candidate and finite checker status for the admitted pair.
+\item $O$ is the obstruction-retention row, recording that the packet does not discharge global confluence, subject reduction, kernel consistency, or unrestricted residual-substitution compatibility.
+\item $H$ records componentwise $\hsame$ transport for the admission, boundary, checker, obstruction, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the route
+$$
+A,P \longmapsto J \longmapsto O .
+$$
+\item $G$ is the $\Pkg$ provenance over $\MetaCICResidualLocalDiamondWitnessUp$, $\MetaCICParallelDiamondFrontierUp$, $\MetaCICResidualDiamondWitnessUp$, $\MetaCICResidualSubstitutionBoundaryUp$, $\MetaCICConfluenceResidualCheckerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICResidualLocalDiamondWitnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $A,P,J,O,H,C,G,N$. It has no coordinate for premise-free parallel diamond, global Church--Rosser, subject reduction, evaluator equality, quotient syntax equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual local-diamond witness obligations]
+\label{thm:metacic-residual-local-diamond-witness-obligations}
+For every accepted $\MetaCICResidualLocalDiamondWitnessUp$ carrier $L=(A,P,J,O,H,C,G,N)$, the local $\NameCert_{\MetaCICResidualLocalDiamondWitnessUp}$ surface consists exactly of residual-pair admission through $A$, residual-substitution boundary visibility through $P$, bounded local-join checker visibility through $J$, obstruction retention through $O$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-local-diamond-witness-carrier}. The confluence-facing rows are exactly the residual-pair admission, retained substitution boundary, bounded local-join checker, and obstruction-retention rows.
+
+The witness direction is local. The row $A$ fixes the admitted residual pair and finite observation budget, while $P$ keeps the residual-substitution boundary visible before the checker row is consumed.
+
+The checker row $J$ records only the bounded local join for that admitted pair. The obstruction row $O$ remains attached, and the structural rows $H,C,G,N$ transport, replay, source, and name the same finite packet. Since no global confluence, subject-reduction, quotient, evaluator, or consistency coordinate occurs, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual local-diamond nonescape]
+\label{thm:metacic-residual-local-diamond-nonescape}
+Every confluence-frontier consumer of an accepted $\MetaCICResidualLocalDiamondWitnessUp$ packet must read
+$$
+A,P,J,O,H,C,G,N
+$$
+before using the local-diamond witness. The handoff may feed the conditional $\MetaCICParallelDiamondFrontierUp$ route, but it cannot erase the residual-substitution boundary, promote the bounded checker to global confluence, discharge subject reduction, or certify kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the admission row $A$. It exposes only one finite residual pair, its typed window, and the observation budget inspected by the packet.
+
+Next read $P,J,O$. The residual-substitution boundary remains visible, the bounded checker supplies only local-join status for the admitted pair, and the obstruction row records every surrounding endpoint that remains outside the packet.
+
+Finally read the structural rows. Transport through $H$, replay through $C$, provenance through $G$, and local naming through $N$ preserve the same finite route. Thus the consumer receives a local-diamond witness with retained obstruction rows, not a global confluence or consistency theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICResidualLocalDiamondWitnessUp$ consumer that reads a local join without displaying residual-pair admission, residual-substitution boundary visibility, bounded checker status, obstruction retention, transport, replay, provenance, and local naming refutes the carrier surface.}
+
+\independenceWitness{metacic-parallel-diamond-frontier, metacic-residual-diamond-witness, metacic-residual-substitution-boundary, metacic-confluence-residual-checker: no listed sibling is bijective with $\MetaCICResidualLocalDiamondWitnessUp$ because this packet jointly carries residual-pair admission, retained substitution boundary, bounded local-join checker visibility, obstruction retention, transport, replay, provenance, and local naming.}
+
+\closureat{MetaCICResidualLocalDiamondWitnessUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICResidualLocalDiamondWitnessUp}
+  \constructivestory{A $\MetaCICResidualLocalDiamondWitnessUp$ packet is generated from residual-pair admission, residual-substitution boundary visibility, bounded local-join checker visibility, obstruction retention, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-local-diamond-witness-carrier}, \autoref{thm:metacic-residual-local-diamond-witness-obligations}, and \autoref{thm:metacic-residual-local-diamond-nonescape} seed the finite residual-pair local-diamond witness route for the MetaCIC confluence frontier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global confluence, subject reduction, kernel consistency, unrestricted residual-substitution compatibility, evaluator equality, quotient term equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked residual-pair admission, residual-substitution boundary visibility, bounded local-join checker visibility, obstruction retention, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICResidualLocalDiamondWitnessUp.}
+\end{closurestatus}
