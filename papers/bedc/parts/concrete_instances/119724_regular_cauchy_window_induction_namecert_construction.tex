@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyWindowInductionUp$}
+\label{ch:concrete-instances-regular-cauchy-window-induction-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyWindowInductionUp$ packet records the finite-window induction surface used by regular Cauchy real-name arguments. It sits over the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the located regular-Cauchy sibling of \autoref{ch:concrete-instances-located-regseqrat-namecert}. The packet supplies Real and Completion consumers with a displayed induction route for finite regular-Cauchy windows; it does not assert quotient stream equality, selected limits, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy window induction carrier]
+\label{def:regular-cauchy-window-induction-carrier}
+A $\RegularCauchyWindowInductionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,Q,W_0,D_0,R_0,S,W,D,R,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the regular Cauchy name row whose observations are accessed only through finite $\StreamNameUp$ windows.
+\item $Q$ is the requested dyadic tolerance row in $\DyadicRatCoreUp$.
+\item $W_0,D_0,R_0$ are the base window, base dyadic tolerance, and base $\RegSeqRatUp$ readback rows.
+\item $S$ is the finite successor schedule listing the displayed one-step window extensions.
+\item $W,D,R$ are the accumulated window, dyadic-budget, and regular-readback rows produced along the schedule $S$.
+\item $T$ is the tail-stability row saying that each accepted successor window preserves the already displayed regular-Cauchy tolerance obligation.
+\item $E$ is the terminal $\RealUp$ seal reached after the finite induction route has exposed $W,D,R,T$.
+\item $H$ records componentwise $\hsame$ transport for the name, tolerance request, windows, dyadic budgets, readbacks, tail-stability rows, Real seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through the base row, each successor window, the readback row, the tail-stability row, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyWindowInductionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyWindowInductionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these displayed rows. It has no coordinate for an infinite stream quotient, a selected limit, countable choice, host real equality, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy window induction NameCert obligations]
+\label{thm:regular-cauchy-window-induction-namecert-obligations}
+For every accepted $\RegularCauchyWindowInductionUp$ carrier
+$$
+K=(X,Q,W_0,D_0,R_0,S,W,D,R,T,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyWindowInductionUp}$ surface consists exactly of regular-name admission, dyadic tolerance admission, base-window admission, finite successor-window admission, accumulated $\StreamNameUp$ window replay, $\DyadicRatCoreUp$ budget replay, $\RegSeqRatUp$ readback stability, tail-stability preservation, terminal $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-window-induction-carrier}. The analytic data are the regular Cauchy name $X$, the requested tolerance $Q$, the base rows $W_0,D_0,R_0$, the successor schedule $S$, the accumulated rows $W,D,R$, the tail-stability row $T$, and the Real seal $E$.
+
+The base step is displayed by $W_0,D_0,R_0$. It reads one finite window through the dyadic budget and records the corresponding regular rational readback before any Real-facing seal is available.
+
+The successor schedule $S$ contains only finitely many one-step window extensions. Each extension adds a displayed $\StreamNameUp$ observation, transports its dyadic tolerance row through $D$, and refreshes the $\RegSeqRatUp$ readback in $R$.
+
+The row $T$ records the induction invariant: after each displayed successor step, the same regular-Cauchy tail obligation remains available for the accumulated window. Finally $E,H,C,P,N$ seal, transport, replay, source, and name exactly that finite route, so the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy finite-tail closure]
+\label{thm:regular-cauchy-window-induction-tail-closure}
+Let
+$$
+K=(X,Q,W_0,D_0,R_0,S,W,D,R,T,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWindowInductionUp$ carrier. Any finite extension of the displayed successor schedule $S$ by accepted one-step $\StreamNameUp$ observations remains within the same regular-Cauchy tail route, provided each new dyadic budget row transports through the corresponding $\RegSeqRatUp$ readback row. The accepted packet therefore supplies a finite induction principle for the displayed tail windows without identifying quotient streams or selecting a limiting real.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite list of displayed successor observations. The base case is $W_0,D_0,R_0$, which already exposes the requested window, dyadic budget, and readback rows.
+
+For the successor step, append one displayed $\StreamNameUp$ observation to the accumulated window row $W$. The transported dyadic budget row enters $D$, and the matching $\RegSeqRatUp$ readback enters $R$.
+
+The tail-stability row $T$ is then replayed for the enlarged finite window. Since $T$ is componentwise transported by $H$ and replayed by $C$, the accepted route remains the same local NameCert route after the one-step extension.
+
+Because the induction ranges only over the displayed finite schedule, no quotient stream equality, selected limit, countable-choice sequence, host real equality, or ambient completeness principle is introduced.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy window induction Real seal]
+\label{thm:regular-cauchy-window-induction-real-seal}
+Every $\RealUp$ or Completion consumer of an accepted $\RegularCauchyWindowInductionUp$ carrier must read the finite route
+$$
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RegularCauchyWindowInductionUp \longmapsto \RealUp .
+$$
+The consumer may use the displayed finite-window induction route to extend regular-Cauchy tail evidence, but it cannot extract quotient stream equality, a selected limit, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness from the packet.
+\end{theorem}
+\begin{proof}
+Start with a Real or Completion consumer of the accepted packet. The carrier exposes no Real-facing row before the base finite window, dyadic budget, and regular readback rows have been displayed.
+
+The consumer then follows the finite successor schedule $S$. Each successor step passes through the same window, dyadic-budget, readback, and tail-stability rows, so the induction route remains finite and displayed.
+
+Only after that route has been replayed does the seal row $E$ expose a $\RealUp$ endpoint. The structural rows $H,C,P,N$ preserve this ordering under transport, replay, provenance, and naming.
+
+Thus the Real-facing output is a seal for the displayed finite regular-Cauchy window induction route, not a source of quotient equality, selected limits, countable choice, host real equality, trichotomy, or ambient completeness.
+\end{proof}
+
+\closureat{RegularCauchyWindowInductionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyWindowInductionUp}
+  \constructivestory{A $\RegularCauchyWindowInductionUp$ packet is generated from a regular Cauchy name row, a dyadic tolerance request, base StreamName windows, finite successor window extensions, dyadic budget rows, RegSeqRat readbacks, tail-stability rows, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-window-induction-carrier}, \autoref{thm:regular-cauchy-window-induction-namecert-obligations}, \autoref{thm:regular-cauchy-window-induction-tail-closure}, and \autoref{thm:regular-cauchy-window-induction-real-seal} seed the finite-window induction route for regular Cauchy names through displayed StreamName windows, dyadic budgets, RegSeqRat readbacks, tail stability, and Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped treatment asks for checked carrier admission, finite successor-window induction, dyadic budget transport, regular readback stability, Real-seal nonescape, transport, replay, provenance, and local naming.}
+\end{closurestatus}
