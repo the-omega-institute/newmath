@@ -71,6 +71,24 @@ The window row $W$ then lists the finite spread prefixes and request windows ava
 The rows $H,C,P,N$ preserve the same route under transport, replay, provenance, and local naming. Since no row stores a completed branch, choice sequence, quotient equality, or completeness theorem, the discipline is exactly the finite root-window route.
 \end{proof}
 
+\begin{theorem}[CauchyRealSpread sibling route]
+\label{thm:cauchy-real-spread-sibling-route}
+For every accepted $\CauchyRealSpreadUp$ carrier
+$$
+S=(R,W,E,T,Q,A,H,C,P,N),
+$$
+any read exposing a spread of regular Cauchy names must factor through the sibling route consisting of the $\StreamNameUp$ window rows, the $\RegSeqRatUp$ readback rows, the terminal $\RealUp$ seal, and the diagonal-selection boundary of \autoref{ch:concrete-instances-cauchy-diagonal-selection-namecert}. The route is a finite dependency surface: it adds no selected host subsequence, no quotient stream equality, and no ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:cauchy-real-spread-carrier}. The rows $W,T$ display the finite windows and StreamName schedule, while $Q$ is the regular rational readback row and $A$ is the terminal Real seal.
+
+Use the route discipline of \autoref{thm:cauchy-real-spread-root-window-discipline}. A spread-indexed request begins from the root and window rows before it can expose StreamName observations.
+
+The regular readback then passes through $Q$ and reaches $A$ only after the finite schedule is visible. The diagonal-selection sibling of \autoref{ch:concrete-instances-cauchy-diagonal-selection-namecert} may consume this surface as a boundary for comparing displayed Cauchy windows, but it does not supply an external subsequence selector.
+
+Transport through $H$, replay through $C$, and naming through $P,N$ preserve the same sibling route. Since the carrier has no coordinate for a selected host subsequence, quotient stream equality, or ambient completeness, the exposed spread of regular Cauchy names remains inside the finite L10 route.
+\end{proof}
+
 \begin{theorem}[CauchyRealSpread extension readback stability]
 \label{thm:cauchy-real-spread-extension-readback-stability}
 For an accepted $\CauchyRealSpreadUp$ carrier $S=(R,W,E,T,Q,A,H,C,P,N)$, every readback along an admitted prefix extension is stable only when the extension law row $E$ remains visible between the root-window route $R,W$ and the $\StreamNameUp$ schedule $T$. The resulting readback passes through $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ as finite rows and never becomes a completed branch, a selected Cauchy representative, quotient real equality, or a Real-completeness assertion.
