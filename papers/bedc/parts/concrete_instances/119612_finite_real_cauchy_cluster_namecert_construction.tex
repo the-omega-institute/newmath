@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\FiniteRealCauchyClusterUp$}
+\label{ch:concrete-instances-finite-real-cauchy-cluster-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\FiniteRealCauchyClusterUp$ packet records the finite cluster-window route by which regular Cauchy real names are grouped before a Real or Completion consumer reads a seal. It sits after the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the Bishop regular Cauchy completion boundary of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}. The packet supplies a finite cluster ledger only; it does not import quotient representatives, selected limits, countable choice, host completeness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite real Cauchy cluster carrier]
+\label{def:finite-real-cauchy-cluster-carrier}
+A $\FiniteRealCauchyClusterUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,R,D,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite $\StreamNameUp$ window row. It records the inspected stream names, finite index windows, and observation cells available to the cluster route.
+\item $R$ is the $\RegSeqRatUp$ readback row. It exposes only the rational observations scheduled by $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row. It records the finite dyadic radius, comparison slack, and arithmetic budget used to compare the readbacks.
+\item $L$ is the cluster-window ledger. It records the accepted cluster cells, their finite membership evidence, the dyadic comparison used for each cell, and the finite overlap checks between cells.
+\item $E$ is the $\RealUp$ seal row. It records the terminal real-facing seals that may be read after $S,R,D,L$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the stream windows, regular rational readbacks, dyadic tolerances, cluster ledger, Real seals, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,R,D \longmapsto L \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteRealCauchyClusterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteRealCauchyClusterUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,L,E,H,C,P,N$. It has no coordinate for quotient representatives, selected limits, countable choice, host completeness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite real Cauchy cluster obligations]
+\label{thm:finite-real-cauchy-cluster-obligations}
+For every accepted $\FiniteRealCauchyClusterUp$ carrier
+$$
+K=(S,R,D,L,E,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteRealCauchyClusterUp}$ surface consists exactly of the following five finite obligations:
+\begin{enumerate}
+\item carrier admission for the stream-window, regular-readback, dyadic-tolerance, cluster-ledger, Real-seal, transport, replay, provenance, and local naming rows;
+\item finite window coverage, requiring every cluster cell in $L$ to cite only windows displayed by $S$ and readbacks displayed by $R$;
+\item cluster ledger exactness, requiring each membership, overlap, and separation comparison in $L$ to be checked against the same $\DyadicRatCoreUp$ tolerance row $D$;
+\item Real-seal nonescape, requiring every $\RealUp$ seal in $E$ to be reachable only after the finite route $S,R,D,L$ has been displayed;
+\item transport stability, requiring componentwise $\hsame$ transport through $H$ and displayed $\Cont$ replay through $C$ to preserve the same cluster-window route, with provenance and local naming exhausted by $P,N$.
+\end{enumerate}
+No obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $K=(S,R,D,L,E,H,C,P,N)$. The source rows are $S$ for finite stream windows, $R$ for regular rational readback, and $D$ for dyadic tolerance data.
+
+Finite window coverage follows because the cluster ledger $L$ has no observation coordinate of its own. Each listed cluster cell must cite an inspected window from $S$ and a readback from $R$ before it can be accepted.
+
+Ledger exactness follows from the placement of $D$. The membership, overlap, and separation entries in $L$ are compared only against the displayed dyadic tolerance row, so a cluster claim cannot switch to a host metric or hidden real representative.
+
+The Real-seal row $E$ is downstream of $L$. Hence a Real or Completion consumer reaches $E$ only after the finite stream, readback, tolerance, and cluster-ledger rows have already been displayed.
+
+Finally, $H$ and $C$ transport and replay the same route, while $P,N$ source and name the packet. Since the carrier contains no excluded coordinate, the five obligations exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{A $\FiniteRealCauchyClusterUp$ read is refuted whenever a Real or Completion consumer reaches a cluster seal without displaying the finite StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance row, cluster-window ledger, componentwise transport, replay, provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, bishop-regular-cauchy-completion: none alone is bijective with $\FiniteRealCauchyClusterUp$ because the packet jointly records finite stream windows, regular rational readbacks, dyadic tolerances, cluster cells, Real seals, transport, replay, provenance, and local naming.}
+
+\closureat{FiniteRealCauchyClusterUp}{seedStr}
+
+\begin{closurestatus}{\FiniteRealCauchyClusterUp}
+  \constructivestory{A $\FiniteRealCauchyClusterUp$ packet is generated from finite StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerances, a cluster-window ledger, Real seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-real-cauchy-cluster-carrier} and \autoref{thm:finite-real-cauchy-cluster-obligations} seed the finite cluster-window route over displayed StreamName, RegSeqRat, DyadicRatCore, Real, Bishop regular Cauchy completion, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.FiniteRealCauchyClusterUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient representatives, selected limits, countable choice, host completeness, ambient $\RealUp$ completeness, Lean proof obligations, axiom-clean audit, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite window coverage, cluster ledger exactness, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteRealCauchyClusterUp.}
+\end{closurestatus}
