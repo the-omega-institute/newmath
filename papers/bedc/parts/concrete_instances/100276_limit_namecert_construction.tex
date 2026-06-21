@@ -185,15 +185,25 @@ Each refused object needs an additional coordinate. Quotient stream equality and
 Because none of those coordinates occurs in the accepted packet, every completion-facing read remains inside the displayed scoped route.
 \end{proof}
 
-\closureat{LimitUp}{publicStr}
+\begin{theorem}[Limit standard bridge envelope]
+\label{thm:limit-standard-bridge-envelope}
+The public finite route of an accepted $\LimitUp$ packet can be read by a standard bridge only as the same displayed envelope through $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledgers, $\RealUp$ seals, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. The bridge-facing read remains valid only while quotient streams, selected representatives, host real equality, countable choice, and ambient completeness stay excluded from the packet.
+\end{theorem}
+\begin{proof}
+Apply the RegSeqRat Bishop handoff, the scoped kernel route, and the completion-scope refusal theorems, \autoref{thm:limit-regseqrat-bishop-handoff}, \autoref{thm:limit-scoped-kernel-route}, and \autoref{thm:limit-completion-scope-refusal}. Together they expose the same finite public route and rule out every excluded host coordinate.
+
+A standard bridge may therefore read the route only as this finite envelope. Adding quotient streams, representatives, host equality, countable choice, or ambient completeness would require rows absent from the accepted carrier and from the local $\NameCert_{\LimitUp}$ surface.
+\end{proof}
+
+\closureat{LimitUp}{bridgedStr}
 
 \begin{closurestatus}{\LimitUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:limit-regseqrat-bishop-handoff}, \autoref{thm:limit-real-completion-handoff}, and \autoref{thm:limit-consumer-handoff-exactness} supply the public consumer surface for the finite Limit route through StreamName, RegSeqRat, DyadicRatCore, Real, hsame, Cont, Pkg, and NameCert primitives.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:limit-regseqrat-bishop-handoff}, \autoref{thm:limit-real-completion-handoff}, \autoref{thm:limit-consumer-handoff-exactness}, and \autoref{thm:limit-standard-bridge-envelope} supply the bridged consumer envelope for the finite Limit route through StreamName, RegSeqRat, DyadicRatCore, Real, hsame, Cont, Pkg, and NameCert primitives.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.LimitUp.LimitRegSeqRatBishopHandoff}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \notclaimed{This chapter does not claim quotient stream equality, selected representatives, host real equality, trichotomy, countable choice, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Bridge closure requires a standard bridge that preserves the public Limit handoff without adding quotient streams, selected representatives, host real equality, countable choice, ambient completeness, or bridge checking.}
+  \upgradepath{Checked bridge closure requires a Lean standard bridge that preserves the public Limit handoff without adding quotient streams, selected representatives, host real equality, countable choice, ambient completeness, or bridge checking.}
   \constructivestory{A $\LimitUp$ packet is generated from StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a RealUp seal row, a limit transport row for RealLimitUp and CauchyLimitSealUp consumers, continuation replay, componentwise transport, package provenance, and local naming.}
 \end{closurestatus}
