@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\RegularSeqApartnessSeparatorUp$}
+\label{ch:concrete-instances-regular-seq-apartness-separator-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real numbers, a regular Cauchy comparison is allowed to produce apartness or located comparison data only after the finite equality-side readback has exposed the positive gap witness it uses. The $\RegularSeqApartnessSeparatorUp$ packet records that separator as NameCert data between the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the located-cut comparison boundary of \autoref{ch:concrete-instances-locatedcut-namecert}, and the apartness-field route of \autoref{ch:concrete-instances-real-apartness-field-namecert}. It is a finite boundary object for Real and Completion consumers; it does not claim trichotomy, quotient equality, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular sequence apartness separator carrier]
+\label{def:regular-seq-apartness-separator-carrier}
+A $\RegularSeqApartnessSeparatorUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,R,D,E,L,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the paired $\StreamNameUp$ finite-window schedule for the two regular sequence reads.
+\item $R$ is the paired $\RegSeqRatUp$ readback row computed from those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row that fixes the positive gap scale.
+\item $E$ is the terminal $\RealUp$ seal row available after $S,R,D$ have been displayed.
+\item $L$ is the $\LocatedCutUp$ comparison row read at the same dyadic scale.
+\item $A$ is the $\RealApartnessFieldUp$ apartness row exposed from the located comparison and the Real seal.
+\item $H$ stores componentwise $\hsame$ transport for the stream windows, regular readbacks, dyadic tolerance, Real seal, located comparison, apartness row, replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from a regular sequence comparison request through $S,R,D,E,L,A,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularSeqApartnessSeparatorUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\LocatedCutUp$, $\RealApartnessFieldUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularSeqApartnessSeparatorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for trichotomy, quotient stream equality, quotient real equality, selected representatives, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Regular sequence apartness separator obligation surface]
+\label{thm:regular-seq-apartness-separator-obligation-surface}
+For every accepted $\RegularSeqApartnessSeparatorUp$ carrier
+$$
+K=(S,R,D,E,L,A,H,C,P,N),
+$$
+the local $\NameCert_{\RegularSeqApartnessSeparatorUp}$ surface consists exactly of paired finite-window exposure, paired regular-rational readback, dyadic positive-gap accounting, terminal Real-seal routing, located-cut comparison exposure, apartness-field exposure, componentwise transport, continuation replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-seq-apartness-separator-carrier}. The analytic rows are $S,R,D,E,L,A$, and the structural rows are $H,C,P,N$.
+
+The stream and regular-rational rows $S,R$ expose the two sequence reads before any comparison is consumed. The dyadic row $D$ fixes the positive scale used by both the located comparison and the apartness read.
+
+The terminal seal $E$ is downstream of $S,R,D$. The located-cut row $L$ and apartness-field row $A$ are then read from that same displayed route, so no consumer can obtain apartness or located comparison data before the regular sequence and dyadic rows are visible.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since none of the excluded principles is a carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular sequence apartness separator sibling dependency]
+\label{thm:regular-seq-apartness-separator-sibling-dependency}
+Every Real-facing or Completion-facing consumer that reads apartness or located comparison data from a $\RegularSeqApartnessSeparatorUp$ packet must first pass through the sibling route
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp,\ \LocatedCutUp,\ \RealApartnessFieldUp .
+$$
+The route exports only the displayed finite separator rows $S,R,D,E,L,A,H,C,P,N$ and does not export trichotomy, quotient equality, selected representatives, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply the obligation surface of \autoref{thm:regular-seq-apartness-separator-obligation-surface}. It requires the stream windows, regular-rational readbacks, dyadic gap scale, Real seal, located-cut comparison, and apartness-field evidence to be displayed as one route before a local $\NameCert$ row is consumed.
+
+The sibling chapters named in the route supply exactly those rows: $\StreamNameUp$ supplies $S$, $\RegSeqRatUp$ supplies $R$, $\DyadicRatCoreUp$ supplies $D$, $\RealUp$ supplies $E$, $\LocatedCutUp$ supplies $L$, and $\RealApartnessFieldUp$ supplies $A$.
+
+The structural rows $H,C,P,N$ preserve that same route under transport, replay, provenance, and local naming. They add no total order branch, quotient equality test, representative selector, choice schedule, or completeness theorem, so the separator remains a finite boundary between equality-side readback and apartness-side use.
+\end{proof}
+
+\leanstmt{BEDC.Derived.RegularSeqApartnessSeparatorUp}
+
+\closureat{RegularSeqApartnessSeparatorUp}{seedStr}
+
+\begin{closurestatus}{\RegularSeqApartnessSeparatorUp}
+  \constructivestory{A $\RegularSeqApartnessSeparatorUp$ packet is generated from paired StreamName finite windows, paired RegSeqRat readbacks, a DyadicRatCore positive-gap row, a RealUp seal, a LocatedCut comparison row, a RealApartnessField apartness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-seq-apartness-separator-carrier}, \autoref{thm:regular-seq-apartness-separator-obligation-surface}, and \autoref{thm:regular-seq-apartness-separator-sibling-dependency} seed the finite separator route between regular sequence equality-side readback, located comparison, and apartness-field exposure.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim trichotomy, quotient stream equality, quotient real equality, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, regular-rational readback, dyadic positive-gap accounting, Real-seal routing, located-cut comparison exposure, apartness-field exposure, transport, replay, provenance, and local naming for BEDC.Derived.RegularSeqApartnessSeparatorUp.}
+\end{closurestatus}
