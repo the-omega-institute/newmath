@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\RiemannSumMeshUp$}
+\label{ch:concrete-instances-riemann-sum-mesh-namecert}
+\origin{human}
+
+Following Riemann and Bishop--Bridges, the $\RiemannSumMeshUp$ packet records the finite mesh data needed by constructive Riemann-sum consumers before any integral object is claimed. It sits between the dyadic arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, rational regular-sequence readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the calculus-facing packet of \autoref{ch:concrete-instances-calculus-namecert}.
+
+\falsifiablePrediction{Deleting the tag-containment row lets a consumer move a sample point outside its cell while keeping the same mesh width; the local classifier must reject that packet because the displayed Riemann sum no longer names a finite tagged partition.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, calculus: none is bijective because each sibling omits at least one of finite cell ordering, tag containment, dyadic mesh width, sample-value readback, or Real-seal nonescape required by $\RiemannSumMeshUp$.}
+
+\begin{definition}[RiemannSumMesh carrier]
+\label{def:riemann-sum-mesh-carrier}
+A $\RiemannSumMeshUp$ carrier is a finite $\BHist$ packet
+$$
+M=(I,C,W,T,S,V,R,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the closed interval row, with dyadic endpoint names read through $\DyadicRatCoreUp$;
+\item $C$ is the finite ordered cell row, listing adjacent subintervals whose endpoints cover $I$ without overlap;
+\item $W$ is the dyadic mesh-width row, recording each cell width and the displayed maximum mesh bound;
+\item $T$ is the tag-containment row, assigning one sample tag to each cell and witnessing that the tag lies inside that cell;
+\item $S$ is the finite $\StreamNameUp$ window row for the sampled input names used by the tagged partition;
+\item $V$ is the $\RegSeqRatUp$ sample-value row, giving rational approximants for the sampled function values at the displayed precision;
+\item $R$ is the $\RealUp$ seal row, recording that real-name reads are only the finite seals needed for the sample values;
+\item $H$ records componentwise $\hsame$ transport for $I,C,W,T,S,V,R,K,P,N$;
+\item $K$ records displayed $\Cont$ replay from dyadic interval data to cells, mesh widths, tags, stream windows, regular-sequence sample values, and the real seal;
+\item $P$ is the $\Pkg$ provenance over $\RiemannSumMeshUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CalculusUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\RiemannSumMeshUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through $I,C,W,T,S,V,R,H,K,P,N$. It has no coordinate for a host integral, selected limiting process, quotient function equality, countable-choice sampling schedule, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[RiemannSumMesh NameCert obligations]
+\label{thm:riemann-sum-mesh-namecert-obligations}
+For the carrier of \autoref{def:riemann-sum-mesh-carrier}, the local $\NameCert_{\RiemannSumMeshUp}$ surface consists exactly of finite interval admission, ordered cell exposure, dyadic mesh-width exposure, tag-containment exactness, $\StreamNameUp$ finite-window readback, $\RegSeqRatUp$ sample-value readback, $\RealUp$ seal nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming for the same packet
+$$
+M=(I,C,W,T,S,V,R,H,K,P,N).
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-sum-mesh-carrier}. The accepted packet displays the interval, cells, mesh widths, tags, sample windows, sample values, real seal, transport, replay, provenance, and naming rows as $I,C,W,T,S,V,R,H,K,P,N$.
+
+The dyadic rows provide the finite arithmetic support. The interval row $I$, ordered cell row $C$, and mesh row $W$ are read through $\DyadicRatCoreUp$, so adjacency, coverage, widths, and the maximum mesh bound are finite rational data.
+
+The tag and sample rows provide the calculus-facing support. The containment row $T$ fixes one displayed tag per cell, $S$ restricts the sampled input names to finite $\StreamNameUp$ windows, and $V$ reads only the displayed $\RegSeqRatUp$ approximants.
+
+The real seal and structural rows close the packet. The row $R$ bars ambient completeness reads, while $H,K,P,N$ preserve the same finite route under transport, replay, package provenance, and local naming. Hence the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[RiemannSumMesh Real-RegSeqRat handoff]
+\label{thm:riemann-sum-mesh-real-regseqrat-handoff}
+Every accepted $\RiemannSumMeshUp$ packet exports its sampled values to $\RealUp$ consumers only through the route
+$$
+\DyadicRatCoreUp\to\StreamNameUp\to\RegSeqRatUp\to\RealUp\to\CalculusUp\to\BHist\to\hsame\to\Cont\to\Pkg\to\NameCert .
+$$
+The route may read finite cell data, tag containment, dyadic mesh widths, stream windows, rational regular-sequence samples, and the real-name seal of the same carrier. It may not export a host integral, select a limiting refinement, quotient functions by extensional equality, introduce countable choice, or use ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the dyadic mesh rows. The interval, cell, and mesh-width coordinates $I,C,W$ determine the finite tagged partition support before a sampled value is read.
+
+Next read the tag and sample rows. The row $T$ keeps each sample tag inside its displayed cell, while $S$ and $V$ restrict evaluation to finite $\StreamNameUp$ windows and $\RegSeqRatUp$ rational approximants.
+
+Finally pass through the real seal and calculus-facing provenance. The row $R$ supplies only the displayed $\RealUp$ seal, and the replay and package rows $K,P,N$ route the packet toward $\CalculusUp$ without adding a limit selector, integral value, quotient function equality, choice schedule, or ambient completeness theorem.
+\end{proof}
+
+\closureat{RiemannSumMeshUp}{seedStr}
+
+\begin{closurestatus}{\RiemannSumMeshUp}
+  \constructivestory{A $\RiemannSumMeshUp$ packet is generated from a dyadic interval row, finite ordered cell row, dyadic mesh-width row, tag-containment row, finite StreamName window row, RegSeqRat sample-value row, Real seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-sum-mesh-carrier}, \autoref{thm:riemann-sum-mesh-namecert-obligations}, and \autoref{thm:riemann-sum-mesh-real-regseqrat-handoff} specify the finite tagged mesh packet used by constructive calculus consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not construct host integrals, selected refinement limits, quotient function equality, countable-choice sampling schedules, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cell ordering, tag containment, dyadic mesh-width exactness, RegSeqRat sample readback, Real-seal nonescape, transport, replay, provenance, and local naming for the same finite mesh packet.}
+\end{closurestatus}
