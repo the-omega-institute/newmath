@@ -3464,6 +3464,7 @@ import BEDC.Derived.ContinuationMonadUp.RootGeneratorCategoryLock
 import BEDC.Derived.ContinuationMonadUp.RootGeneratorHomRouteExhaustion
 import BEDC.Derived.ContinuationMonadUp.RootGeneratorObligation
 import BEDC.Derived.ContinuationMonadUp.RootKleisliAssociativityScope
+import BEDC.Derived.ContinuationMonadUp.RootKleisliAssociativitySurface
 import BEDC.Derived.ContinuationMonadUp.RootKleisliRoute
 import BEDC.Derived.ContinuationMonadUp.RootKleisliSourceTotality
 import BEDC.Derived.ContinuationMonadUp.RootNameCert
@@ -10479,6 +10480,7 @@ import BEDC.Derived.SetlikeUp.RootMembershipFamilyObligations
 import BEDC.Derived.SetlikeUp.RootMembershipNonescapeLedger
 import BEDC.Derived.SetlikeUp.RootMembershipProvenance
 import BEDC.Derived.SetlikeUp.RootMembershipTransport
+import BEDC.Derived.SetlikeUp.RootModelTheorySatisfactionEnvelope
 import BEDC.Derived.SetlikeUp.RootNameCertObligations
 import BEDC.Derived.SetlikeUp.RootSubsetLedgerNonescape
 import BEDC.Derived.SetlikeUp.RootUnblockConsumerRoutes
