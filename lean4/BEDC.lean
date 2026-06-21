@@ -8081,6 +8081,7 @@ import BEDC.Derived.MonoidUp.StdBridge
 import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.MonoidalCompletionUp.TasteGate
 import BEDC.Derived.MonotoneBarModulusUp
+import BEDC.Derived.MonotoneBoundedConvergenceUp
 import BEDC.Derived.MonotoneBoundedSequenceUp.TasteGate
 import BEDC.Derived.MonotoneCauchyCriterionUp.TasteGate
 import BEDC.Derived.MonotoneCauchySequenceUp.TasteGate

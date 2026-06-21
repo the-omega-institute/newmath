@@ -245,13 +245,27 @@ Finally combine the located handoff boundary and compact-window transport, \auto
 \end{proof}
 \leanchecked{BEDC.Derived.LocallyCompactUp.LocallyCompactCompactNeighbourhoodBasis}
 
+\begin{theorem}[LocallyCompact public neighbourhood-base export]
+\label{thm:locallycompact-public-neighbourhood-base-export}
+Let $L=(X,x,r,B,K,A,H,C,P,N)$ be an accepted $\LocallyCompactUp$ packet. The public neighbourhood-base read exported by $L$ is exactly the ten-row local carrier route: compact-ball access through $B,K$, local-cover access through the displayed center-radius window $X,x,r$, componentwise $\hsame$ transport through $H$, $\Cont$ replay through $C$, provenance through $P$, and local $\NameCert$ naming through $N$, with the optional located handoff $A$ attached to the same compact window. Every public read factors through those rows and exports no host-selected neighbourhood base, open-cover compactness, quotient point equality, countable choice, all-centers/all-radii properness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:locally-compact-carrier}. The public read has only the displayed source, point, radius, compact-ball, compact witness, located handoff, transport, replay, provenance, and local naming rows.
+
+Apply the compact-neighbourhood basis theorem, \autoref{thm:locallycompact-compact-neighbourhood-basis}. It identifies the neighbourhood basis as the finite center-radius route through $X,x,r,B,K,A,H,C,P,N$ and refuses external selectors.
+
+Use compact-window transport and the local properness-radius exhaustion route, \autoref{thm:locallycompact-compact-window-transport} and \autoref{thm:locallycompact-local-properness-radius-exhaustion}. These keep $\hsame$ transport, properness comparison, and completion-facing reads inside the same compact-ball window rather than turning the packet into a global properness family.
+
+Finally use the completion consumer route, \autoref{thm:locally-compact-completion-consumer-route}. The public export is therefore the carrier route itself with provenance and local NameCert rows visible; it is not open-cover compactness, quotient equality, choice, ambient completeness, or a host neighbourhood-base structure.
+\end{proof}
+
 \closureat{$\LocallyCompactUp$}{seedStr}
 \closureat{LocallyCompactUp}{obligationStr}
 
 \begin{closurestatus}{\LocallyCompactUp}
   \constructivestory{A $\LocallyCompactUp$ packet is generated from a metric source row, an inspected point row, a positive RatUp or RealUp radius ledger, a MetricClosedBall row, a CompactMetric witness for the displayed window, an optional LocatedCompact handoff, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:locally-compact-carrier}, \autoref{thm:locally-compact-namecert-obligations}, \autoref{thm:locally-compact-closed-ball-neighborhood-base}, \autoref{thm:locallycompact-compact-window-root-admission}, \autoref{thm:locallycompact-properness-locality-root-boundary}, \autoref{thm:locally-compact-completion-consumer-route}, and \autoref{thm:locallycompact-compact-neighbourhood-basis} bind the compact-neighbourhood scope to displayed $\TopologyUp$ neighbourhood rows, $\CompactMetricUp$ and finite-net rows, $\MetricUp$ and $\RealUp$ radius rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:locally-compact-carrier}, \autoref{thm:locally-compact-namecert-obligations}, \autoref{thm:locally-compact-closed-ball-neighborhood-base}, \autoref{thm:locallycompact-compact-window-root-admission}, \autoref{thm:locallycompact-properness-locality-root-boundary}, \autoref{thm:locally-compact-completion-consumer-route}, \autoref{thm:locallycompact-compact-neighbourhood-basis}, and \autoref{thm:locallycompact-public-neighbourhood-base-export} bind the compact-neighbourhood public surface to displayed $\TopologyUp$ neighbourhood rows, $\CompactMetricUp$ and finite-net rows, $\MetricUp$ and $\RealUp$ radius rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim open-cover compactness, a host neighbourhood base, quotient point equality, countable choice, ambient Real completeness, global properness, Lean verification, or bridge checking.}
