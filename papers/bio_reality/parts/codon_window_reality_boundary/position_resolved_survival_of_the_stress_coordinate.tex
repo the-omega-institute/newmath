@@ -1,0 +1,28 @@
+\subsection{Position-resolved survival of the $f_3$ stress coordinate}\label{subsec:q6-f3-stress-position-resolved-translation-survival-cross-layer}
+\origin{ai}
+
+\paragraph{Finite-row object.}
+This record concerns the $f_3$-stress member of $B^{\ast}_{Q6}$ after quotienting by amino-acid identity.  The intended table has one row for a coding-sequence window and keeps, in the same row, the residual $f_3$ coordinate, the local synonymous-codon count vector, a context-dependent wobble-weight surface, a position-indexed ribosome-footprint or translation-efficiency readout, an mRNA abundance control, and amino-acid or position-bin covariates.  The carrier is therefore not a codon-usage summary by itself.  It is a finite window table in which the $f_3$ direction is allowed to count only if the same window also carries a matched translation-layer measurement.
+
+\paragraph{Statistic to be tested.}
+Let $T_{w}$ denote the position-resolved translation readout in window $w$, and let $Z_w$ collect amino-acid composition, position bin, GC3, length, methionine density, local codon counts, mRNA abundance, coverage, mappability, and any simpler codon-usage baseline.  The entry attached to the $f_3$ coordinate is a controlled survival score
+$$
+\begin{aligned}
+S_{f_3}(T_{\mathrm{position}}\mid Z)
+  &= \Delta R^2\bigl(T_w; f_3(w), Z_w\bigr)\\
+  &= R^2\bigl(T_w \sim Z_w + f_3(w)\bigr) - R^2\bigl(T_w \sim Z_w\bigr),
+\end{aligned}
+$$
+with the rank-powered interpretation restricted to the case $S_{f_3}>0$ on held-out rows.  A positive modeled tAI or stAI association is not enough for this entry.  The wobble asymmetry condition is also local: the fitted or curated weight $w_c$ must differ from its $f_3$-reflected counterpart $w_c^{f_3}$ in the context used by the row, rather than being inserted as a formal symmetry-breaking assumption.
+
+\paragraph{Measured contacts named by the packet.}
+The required measurement side consists of codon-indexed or fixed-window ribosome occupancy, mRNA abundance from the same condition, and a codon-adaptation or wobble-weight annotation kept separate from the coordinate geometry.  The ribosome contact is explicitly position-resolved and is vulnerable to pausing, nuclease bias, fragment-length bias, frame ambiguity, mappability, start and stop edge effects, normalization, condition specificity, and annotation mismatch.  The mRNA contact separates translation-efficiency residuals from transcriptional abundance.  The codon-usage and tAI or stAI contacts can provide bounded sequence and adaptation annotations, but they do not observe ribosome dynamics directly.
+
+\paragraph{Calibration supplied by neighboring finite rows.}
+The present row is a conjectural survival boundary, but it is not unconstrained: other cross-layer rows in the same finite audit family give scale and failure-mode calibration.  The promoter-expression row used $75{,}111$ designed sequences, retained $8{,}027$ high-quality rows, analyzed a $2{,}500$-row subsample with seed $20260239$, and used $200$ permutations in a run lasting $530.4038379192352$ seconds.  The sgRNA position-nucleotide row used $n=5{,}310$ rows and reported a GC main correlation $r=-0.0582917$ in $24.6506$ seconds.  The UTR5 translation-initiation contact reports $n=80{,}000$ with no cross-sample value supplied.  The stop-context readthrough row joined $7{,}658$ rows before filtering, retained $4{,}982$ nonzero G418-induced RRTS rows, and had nonzero fraction $0.65056$ over a $303.534$ second run.  The finite-state dwell transducer row is recorded with status passed.  The translation-conditioned structural-order row is stronger but belongs to a different endpoint: it joined $3{,}412$ \emph{Escherichia coli} K12 MG1655 rows and $5{,}119$ \emph{Saccharomyces cerevisiae} rows, used $5$ folds, obtained two positive organism calls, and reported weighted full-control $\Delta R^2=0.004764742175882462$ with sign-flip $p=0.0029296875$.  Those numbers show that small positive controlled increments can be meaningful in this audit regime, but they do not substitute for the missing $f_3$ position-resolved ribosome table.
+
+\paragraph{Admission rule.}
+The record is admitted as a bounded cross-layer conjecture exactly when the row construction remains more restrictive than the claim.  The packet may request the same-organism, same-CDS, same-window statistic; it may not identify the request with a completed ribosome-occupancy experiment.  A survival entry is supported only after held-out improvement remains positive under amino-acid quotienting, position controls, GC3, length, methionine density, local codon counts, wobble weights, mRNA control, rank checks, and a simpler-baseline ablation.  If every controlled entry satisfies $S_{ij}\leq 0$ for the $B^{\ast}_{Q6}$ coordinate by translation-readout pair, then this contact has failed at the translation-readout interface, even though the coordinate may remain useful elsewhere.
+
+\paragraph{Local non-promotion boundary.}
+No translation realization, protein abundance, folding state, physical admissibility, biological function, mechanism, phenotype, or universal law follows from the $f_3$ coordinate, from codon-window geometry, from organism-level codon usage, or from modeled tAI or stAI weights alone.  Those conclusions require separate same-row contacts at their own layers.  In this chapter the only admissible claim is narrower: $f_3$-stress is a candidate position-resolved cross-layer coordinate, and it survives only where wobble-weight asymmetry is observed and the matched ribosome or translation-efficiency readout improves after the declared controls.

@@ -1,0 +1,58 @@
+\subsection{Position-Resolved CRISPR Efficiency as a Boundary Test for a Translation-Conditioned Residual Coordinate}\label{sec:bioreality-crispr-efficiency-sgrna-position-nt-efficiency-doench2016}
+\origin{ai}
+
+\paragraph{Finite row surface.}
+This record concerns a bounded finite table in which each row is an sgRNA-level CRISPR efficiency observation joined to sequence-derived covariates, with special attention to whether a proposed $f_3$-stress coordinate can be promoted beyond an internal coding-window residual. The attached finite assay for the row family $\mathrm{Doench2016}$ contains $n=5310$ sgRNA rows and reports a main GC association
+$$
+\begin{aligned}
+  r_{\mathrm{GC,main}} &= -0.0582917,
+  & n &= 5310,
+  & t_{\mathrm{run}} &= 24.6506\ \mathrm{s}.
+\end{aligned}
+$$
+The sign and size of this scalar are useful only as a weak finite-row diagnostic: the GC main effect is present as a measured row statistic, but it is small and does not by itself determine position-resolved ribosome occupancy, translation efficiency, or any downstream protein property. The relevant biological object is therefore not ``CRISPR efficiency explains translation''; it is a stricter question about whether a coding-window coordinate can survive against a measured readout after sequence, position, and composition controls have already been attached.
+
+\paragraph{Coordinate being tested.}
+The proposed coordinate is the $f_3$-stress residual after quotienting by amino-acid identity. For a coding-window row $u$, write $q_{f_3}(u)$ for the residual coordinate obtained after amino-acid composition has been removed, and write $Z(u)$ for the local control vector containing position bin, GC3, CDS length, methionine-density baseline, local synonymous-codon counts, mRNA abundance when available, and simpler codon-usage baselines. A permissible survival statistic has the schematic form
+$$
+\begin{aligned}
+  S_{f_3}(T_{\mathrm{position}}\mid Z)
+  &= \Delta\mathcal{L}\bigl(T_{\mathrm{position}}; Z, q_{f_3}\bigr)
+     - \Delta\mathcal{L}\bigl(T_{\mathrm{position}}; Z\bigr),\\
+  S_{f_3}(T_{\mathrm{position}}\mid Z) &> 0
+  \quad\hbox{only when the held-out position-resolved readout improves after all controls.}
+\end{aligned}
+$$
+Here $T_{\mathrm{position}}$ must be a same-window translation readout, such as codon-indexed ribosome-footprint occupancy or a carefully bounded translation-efficiency statistic with matched mRNA control. A modeled adaptation weight may enter the row as a bounded covariate, but it is not a ribosome-footprint observation.
+
+\paragraph{Wobble asymmetry condition.}
+The coordinate is meaningful for this boundary only if the wobble context is not symmetric under the $f_3$ transform. Locally, if $w_c$ denotes the context-specific wobble weight for codon $c$, the admissible case requires
+$$
+\begin{aligned}
+  w_c &\neq w_c^{f_3}
+  \quad\hbox{on the evaluated window,}\\
+  \operatorname{rank}\bigl(q_{f_3}, Z, T_{\mathrm{position}}\bigr) &> \operatorname{rank}(Z)
+  \quad\hbox{on the held-out panel.}
+\end{aligned}
+$$
+This condition is observational, not definitional. It may not be assumed from codon geometry alone. The row table must contain enough nondegenerate variation to distinguish a real residual contribution from a saturated position or composition fit.
+
+\paragraph{What the present CRISPR row proves.}
+The Doench finite-row result supplies a real, measured sgRNA-efficiency surface with $5310$ rows and a recorded GC association of $-0.0582917$. That supports a narrow statement: sequence-position covariates can be audited against an empirical CRISPR-efficiency endpoint in a finite design table. It does not yet supply the translation readout required by the $f_3$-stress survival claim. In particular, an sgRNA-efficiency endpoint is not a codon-indexed ribosome-footprint matrix, not a matched translation-efficiency denominator, and not a same-CDS position-window occupancy array.
+
+\paragraph{Scale comparison from another finite assay.}
+A separate finite-row regulatory assay in the same evidence register reports $75111$ designed promoter constructs, $8027$ high-quality rows, an analysis subsample of $2500$ rows, $200$ actual permutations, and runtime $530.4038379192352\ \mathrm{s}$. These numbers are not evidence for the CRISPR coordinate. They are included only to calibrate the finite-row standard expected here: a promoted cross-layer claim needs an explicit row count, an explicit controlled statistic, and a declared resampling or held-out testing surface. The CRISPR entry currently has the row count and a scalar GC diagnostic, while the position-resolved translation matrix is still absent.
+
+\paragraph{Boundary of admissible interpretation.}
+The admissible conclusion is therefore conditional and local. The present record may be used to state that the $f_3$-stress packet has a well-formed route to a finite controlled test, and that the CRISPR-efficiency row family contributes a measured sequence-efficiency endpoint with $n=5310$. It may not be used to infer translation realization, ribosome pausing, protein abundance, folding, physical admissibility, molecular function, mechanism, phenotype, or universality. Those conclusions would require separate layer-matched contacts. In particular, the following implications are not licensed:
+$$
+\begin{aligned}
+  q_{f_3} &\not\Rightarrow T_{\mathrm{position}},\\
+  T_{\mathrm{position}} &\not\Rightarrow \hbox{protein abundance},\\
+  \hbox{protein abundance} &\not\Rightarrow \hbox{folding, function, mechanism, or universality}.
+\end{aligned}
+$$
+Each arrow requires its own measured contact and its own controlled survival or mediation statistic.
+
+\paragraph{Local verdict.}
+The chapter is ready as a BioReality boundary record, not as a positive translation-survival result. The finite CRISPR table gives a concrete row surface and a measured GC association, while the required same-organism, same-CDS, same-window codon counts, wobble-weight surface, matched mRNA abundance, and position-resolved ribosome-footprint rows remain missing. A future positive claim would require $S_{f_3}(T_{\mathrm{position}}\mid Z)>0$ on held-out rows after amino-acid composition, position-bin, GC3, length, methionine-density, mRNA, codon-count, coverage, mappability, rank, and simpler-baseline controls.
