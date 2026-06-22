@@ -10770,6 +10770,7 @@ import BEDC.Derived.SetlikeUp.MembershipSourceAdmission
 import BEDC.Derived.SetlikeUp.MembershipStability
 import BEDC.Derived.SetlikeUp.NameCertObligations
 import BEDC.Derived.SetlikeUp.PublicNameCertExport
+import BEDC.Derived.SetlikeUp.RestrictedComprehensionKernelScope
 import BEDC.Derived.SetlikeUp.RestrictedComprehensionMembershipFactorization
 import BEDC.Derived.SetlikeUp.RootCarrierMembership
 import BEDC.Derived.SetlikeUp.RootClassifierTransport
@@ -10786,6 +10787,7 @@ import BEDC.Derived.SetlikeUp.RootTypeModelMembershipFactorization
 import BEDC.Derived.SetlikeUp.RootUnblockConsumerRoutes
 import BEDC.Derived.SetlikeUp.RootUnblockFirstOrderSignature
 import BEDC.Derived.SetlikeUp.RootUnblockKernelMembershipEnvelope
+import BEDC.Derived.SetlikeUp.RootUnblockModelTheorySatisfaction
 import BEDC.Derived.SetlikeUp.SatisfactionHandoffObligation
 import BEDC.Derived.SetlikeUp.SubsetClassifierExactness
 import BEDC.Derived.SetlikeUp.SubsetClassifierObligation
