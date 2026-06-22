@@ -7016,6 +7016,7 @@ import BEDC.Derived.LocatedInfimumUp.GreatestLowerBoundObligation
 import BEDC.Derived.LocatedInfimumUp.LowerBoundObligation
 import BEDC.Derived.LocatedInfimumUp.LowerCutStability
 import BEDC.Derived.LocatedInfimumUp.ObligationTailLattice
+import BEDC.Derived.LocatedInfimumUp.PublicExport
 import BEDC.Derived.LocatedInfimumUp.RealExportNonescape
 import BEDC.Derived.LocatedInfimumUp.RegSeqRatSealFactorization
 import BEDC.Derived.LocatedInfimumUp.SupremumDualRoute
@@ -10086,6 +10087,7 @@ import BEDC.Derived.RegularCauchyRoundingProjectionUp.TasteGate
 import BEDC.Derived.RegularCauchyScalarUp.RealHandoff
 import BEDC.Derived.RegularCauchyScalarUp.TasteGate
 import BEDC.Derived.RegularCauchyScaleUp
+import BEDC.Derived.RegularCauchyScaleUp.BridgeBoundary
 import BEDC.Derived.RegularCauchyScaleUp.ObligationScopePackage
 import BEDC.Derived.RegularCauchyScaleUp.RealSealHandoffObligation
 import BEDC.Derived.RegularCauchyScaleUp.ScaleCarrierObligation
@@ -10247,6 +10249,7 @@ import BEDC.Derived.RegulatedIntegralUp.PublicInterface
 import BEDC.Derived.RegulatedIntegralUp.RealCompletionRoute
 import BEDC.Derived.RegulatedIntegralUp.TasteGate
 import BEDC.Derived.RegulatedIntegralUp.VisibleStepHandoff
+import BEDC.Derived.RegulatedMeasureUp.TasteGate
 import BEDC.Derived.RegulatedPrimitiveUp.TasteGate
 import BEDC.Derived.RegulatedRealFunctionUp.IntegrationHandoff
 import BEDC.Derived.RegulatedRealFunctionUp.IntegrationHandoffBoundary
