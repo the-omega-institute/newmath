@@ -640,20 +640,27 @@ def write_markdown(payload: dict[str, Any]) -> None:
     OUT_MD.write_text("\n".join(lines), encoding="utf-8")
 
 
-def main() -> int:
+def generate() -> dict[str, Any]:
     payload = build_concordance()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     OUT_JSON.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     write_markdown(payload)
     counts = payload["counts"]
-    summary = {
+    relation_counts = counts["by_crosswalk_relation"]
+    return {
         "status": "generated",
         "n_fibonacci_bstarq6": counts["n_fibonacci_bstarq6"],
         "n_bio_bstarq6": counts["n_bio_bstarq6"],
         "n_duplicate": counts["n_duplicate"],
+        "n_param_divergence": relation_counts.get("param_divergence", 0),
+        "n_fibonacci_only": relation_counts.get("fibonacci_only", 0),
         "n_reopening_candidate": counts["n_reopening_candidate"],
         "n_homeless": counts["n_homeless"],
     }
+
+
+def main() -> int:
+    summary = generate()
     print(json.dumps(summary, sort_keys=False))
     return 0
 

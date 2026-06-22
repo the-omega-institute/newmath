@@ -17,6 +17,7 @@ Stop sentinel: tools/window_codon_bridge/.stop
 from __future__ import annotations
 import argparse, fnmatch, json, os, subprocess, sys, tempfile, time
 import fcntl
+import importlib
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent           # tools/window_codon_bridge
@@ -190,6 +191,157 @@ def sync_lane() -> dict:
     return summary
 
 
+def _concordance_row_key(row: dict) -> str:
+    parts = [
+        row.get("source", ""),
+        row.get("kind", ""),
+        row.get("path", ""),
+        row.get("experiment_id", ""),
+        row.get("claim_id", ""),
+        row.get("topic_key", ""),
+    ]
+    return "\0".join(str(part) for part in parts)
+
+
+def _concordance_homeless_key(row: dict) -> str:
+    parts = [
+        _concordance_row_key(row),
+        row.get("bridge_class", ""),
+        row.get("crosswalk_relation", ""),
+    ]
+    return "\0".join(str(part) for part in parts)
+
+
+def _concordance_watch_set(payload: dict) -> set[str]:
+    rows = payload.get("rows", [])
+    if not isinstance(rows, list):
+        return set()
+    watched = set()
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        if row.get("bridge_class") in {"bio_only", "math_stub", "needs_derivation"}:
+            watched.add(_concordance_homeless_key(row))
+    return watched
+
+
+def _concordance_reopening_set(payload: dict) -> set[str]:
+    rows = payload.get("rows", [])
+    if not isinstance(rows, list):
+        return set()
+    return {
+        _concordance_row_key(row)
+        for row in rows
+        if isinstance(row, dict) and row.get("bridge_class") == "reopening_candidate"
+    }
+
+
+def _concordance_summary(payload: dict) -> dict:
+    counts = payload.get("counts", {}) if isinstance(payload, dict) else {}
+    relation_counts = counts.get("by_crosswalk_relation", {}) if isinstance(counts, dict) else {}
+    return {
+        "status": "generated",
+        "n_fibonacci_bstarq6": counts.get("n_fibonacci_bstarq6", 0),
+        "n_bio_bstarq6": counts.get("n_bio_bstarq6", 0),
+        "n_duplicate": counts.get("n_duplicate", 0),
+        "n_param_divergence": relation_counts.get("param_divergence", 0),
+        "n_fibonacci_only": relation_counts.get("fibonacci_only", 0),
+        "n_reopening_candidate": counts.get("n_reopening_candidate", 0),
+        "n_homeless": counts.get("n_homeless", 0),
+    }
+
+
+def _load_committed_concordance() -> dict | None:
+    rel = "papers/window_codon_bridge/cross_branch_concordance.json"
+    proc = git("show", f"HEAD:{rel}")
+    if proc.returncode != 0:
+        return None
+    return json.loads(proc.stdout)
+
+
+def _load_worktree_concordance() -> dict:
+    path = REPO_ROOT / "papers" / "window_codon_bridge" / "cross_branch_concordance.json"
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _run_concordance_generator() -> tuple[dict, str]:
+    try:
+        module = importlib.import_module("cross_branch_concordance")
+        if hasattr(module, "generate"):
+            return module.generate(), "import"
+        if hasattr(module, "main"):
+            module.main()
+            return _concordance_summary(_load_worktree_concordance()), "import"
+    except ImportError:
+        pass
+    proc = subprocess.run(
+        [sys.executable, "tools/window_codon_bridge/cross_branch_concordance.py"],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+    )
+    if proc.returncode != 0:
+        raise RuntimeError(((proc.stderr or proc.stdout) or "").strip()[-500:])
+    parsed = None
+    for line in reversed((proc.stdout or "").strip().splitlines()):
+        if not line.strip().startswith("{"):
+            continue
+        parsed = json.loads(line)
+        break
+    if parsed is None:
+        parsed = _concordance_summary(_load_worktree_concordance())
+    return parsed, "subprocess"
+
+
+def concordance_lane() -> dict:
+    try:
+        previous = _load_committed_concordance()
+        generated_summary, mode = _run_concordance_generator()
+        current = _load_worktree_concordance()
+        summary = _concordance_summary(current)
+        if isinstance(generated_summary, dict):
+            summary.update(generated_summary)
+        changed = []
+        new_reopening_candidates = 0
+
+        if previous is None:
+            changed.append("baseline_missing")
+        else:
+            prev_counts = _concordance_summary(previous)
+            curr_counts = _concordance_summary(current)
+            for key in ("n_duplicate", "n_param_divergence", "n_fibonacci_only"):
+                if prev_counts.get(key) != curr_counts.get(key):
+                    changed.append(key)
+            prev_reopening = _concordance_reopening_set(previous)
+            curr_reopening = _concordance_reopening_set(current)
+            new_reopening_candidates = len(curr_reopening - prev_reopening)
+            if new_reopening_candidates:
+                changed.append("new_reopening_candidate")
+            if _concordance_watch_set(previous) != _concordance_watch_set(current):
+                changed.append("homeless_needs_derivation_set")
+
+        drift = bool(changed)
+        result = {
+            "ran": True,
+            "mode": mode,
+            "drift": drift,
+            "new_reopening_candidates": new_reopening_candidates,
+            "changed": changed,
+            "summary": summary,
+        }
+        if drift:
+            print(f"[concordance] drift: changed={changed} summary={summary}", flush=True)
+            if new_reopening_candidates:
+                print(f"[concordance] ALERT: {new_reopening_candidates} new reopening_candidate item(s)", flush=True)
+        else:
+            print(f"[concordance] ran mode={mode} drift=False summary={summary}", flush=True)
+        return result
+    except Exception as exc:
+        error = str(exc)
+        print(f"[concordance] skipped: {error}", flush=True)
+        return {"ran": False, "error": error}
+
+
 def publish_lane() -> dict:
     if git_busy():
         print("[publish] skipped (git busy)", flush=True)
@@ -337,6 +489,7 @@ def keep_lane():
         "tools/window_codon_bridge/registries/experiments.json",
         "tools/window_codon_bridge/oracle_inbox/candidates.jsonl",
         "papers/window_codon_bridge/bridge_ledger.jsonl",
+        "papers/window_codon_bridge/cross_branch_concordance.json",
     )
     # Everything committed alongside when (and only when) science changed; the
     # rebuilt PDF then reflects the new science. These paths alone are churn.
@@ -367,6 +520,7 @@ def main():
     ap.add_argument("--no-commit", action="store_true")
     ap.add_argument("--no-oracle", action="store_true")
     ap.add_argument("--no-derive", action="store_true")
+    ap.add_argument("--no-concordance", action="store_true")
     args = ap.parse_args()
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     with LOCK.open("w", encoding="utf-8") as lock_fh:
@@ -379,6 +533,7 @@ def main():
         lock_fh.flush()
         while not should_stop():
             sync = sync_lane()
+            concordance = {"ran": False, "reason": "disabled_by_flag"} if args.no_concordance else concordance_lane()
             summary = run_cycle()
             oracle = {"ran": False, "reason": "disabled_by_flag"} if args.no_oracle else oracle_lane.run_oracle_lane()
             assimilation = assimilation_lane()
@@ -386,7 +541,7 @@ def main():
             paper = paper_lane()
             keep = {} if args.no_commit else keep_lane()
             publish = {} if args.no_commit else publish_lane()
-            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} oracle={oracle} assimilation={assimilation} derivation={derivation} paper={paper} keep={keep} publish={publish}", flush=True)
+            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} concordance={concordance} oracle={oracle} assimilation={assimilation} derivation={derivation} paper={paper} keep={keep} publish={publish}", flush=True)
             if args.once:
                 break
             time.sleep(max(1.0, float(args.interval_seconds)))
