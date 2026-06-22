@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CuspNeighborhoodUp$}
+\label{ch:concrete-instances-cusp-neighborhood-namecert}
+\origin{human}
+
+Following Beardon and Ratcliffe on hyperbolic manifolds, the $\CuspNeighborhoodUp$ packet records a finite horoball-based cusp-neighborhood certificate at a displayed parabolic boundary end. It sits beside the horoball surface of \autoref{ch:concrete-instances-hyperbolic-horoball-namecert}, the upper-half-plane model of \autoref{ch:concrete-instances-poincare-half-plane-namecert}, the discrete action rows of \autoref{ch:concrete-instances-fuchsian-group-action-namecert}, the metric readback of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, and the terminal scalar seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed cusp data; it is not a quotient hyperbolic surface, a selected fundamental domain, a completed ideal boundary object, or an ambient finite-volume theorem.
+
+\begin{definition}[Cusp-neighborhood carrier]
+\label{def:cusp-neighborhood-carrier}
+A $\CuspNeighborhoodUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,H,S,M,R,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the parabolic boundary-point row, read in the same upper-half-plane boundary surface used by $\PoincareHalfPlaneUp$.
+\item $H$ is the $\HyperbolicHoroballUp$ row, recording the horoball attached to $B$ together with its displayed height or Busemann-threshold data.
+\item $S$ is the boundary-stabilizer row, recording the finite $\FuchsianGroupActionUp$ word data that preserves the same boundary point and horoball side.
+\item $M$ is the $\HyperbolicMetricUp$ metric-threshold readback row used to compare points with the horoball boundary.
+\item $R$ is the terminal $\RealUp$ seal for the threshold and metric comparison values.
+\item $E$ records the local cusp-neighborhood export row, namely the finite region accepted after the boundary point, horoball threshold, stabilizer word, metric readback, and Real seal have all been displayed.
+\item $T$ records componentwise $\hsame$ transport for $B,H,S,M,R,E$ and the local certificate row.
+\item $C$ records displayed $\Cont$ replay from the upper-half-plane boundary point through the horoball, stabilizer, metric threshold, Real seal, export, transport, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\CuspNeighborhoodUp$, $\HyperbolicHoroballUp$, $\PoincareHalfPlaneUp$, $\FuchsianGroupActionUp$, $\HyperbolicMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CuspNeighborhoodUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a quotient cusp surface, a selected fundamental domain, global discreteness of the ambient group, finite-volume completion, or a host ideal-boundary object.
+\end{definition}
+
+\begin{theorem}[Cusp-neighborhood NameCert obligations]
+\label{thm:cusp-neighborhood-namecert-obligations}
+For every accepted $\CuspNeighborhoodUp$ carrier
+$$
+K=(B,H,S,M,R,E,T,C,P,N),
+$$
+the local $\NameCert_{\CuspNeighborhoodUp}$ surface consists exactly of boundary-point admission through $B$, horoball and cusp-threshold exposure through $H$, boundary-stabilizer exposure through $S$, hyperbolic metric-threshold readback through $M$, Real sealing through $R$, local cusp-neighborhood export through $E$, componentwise $\hsame$ transport through $T$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The first five rows expose the parabolic boundary point, the horoball threshold, the stabilizer word data, the metric readback, and the terminal Real seal.
+
+Read the local export row $E$ only after those rows have been displayed. The export is therefore a cusp-neighborhood row over a named boundary end and horoball threshold, not an ambient quotient surface.
+
+Finally read $T,C,P,N$. These structural rows transport, replay, source, and name the same finite data. Since the carrier has no coordinate for quotienting by the full group, selecting a fundamental domain, completing the ideal boundary, or proving finite volume, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cusp-neighborhood horoball handoff]
+\label{thm:cusp-neighborhood-horoball-handoff}
+Every downstream consumer of an accepted $\CuspNeighborhoodUp$ packet receives the horoball route
+$$
+\PoincareHalfPlaneUp,\ \HyperbolicHoroballUp,\ \FuchsianGroupActionUp,\ \HyperbolicMetricUp,\ \RealUp
+$$
+only through the displayed boundary point $B$, horoball row $H$, boundary-stabilizer row $S$, metric-threshold row $M$, Real seal $R$, export row $E$, transport row $T$, replay row $C$, provenance row $P$, and local naming row $N$. The handoff supplies a finite cusp-neighborhood certificate, not a quotient manifold cusp, a selected fundamental region, a global parabolic subgroup theorem, or an ambient finite-volume claim.
+\end{theorem}
+\begin{proof}
+Start from the boundary row $B$ and the horoball row $H$. They are read through the upper-half-plane and horoball sibling certificates before any cusp-neighborhood export is available.
+
+Next read the stabilizer and metric rows. The row $S$ records only displayed action-word data preserving the same boundary side, and $M,R$ record the threshold comparison and its Real seal.
+
+The handoff row $E$ is therefore downstream of $B,H,S,M,R$. The structural rows $T,C,P,N$ preserve the same finite route, so a consumer receives only the listed rows and none of the excluded quotient, selection, global-group, or finite-volume objects.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\CuspNeighborhoodUp$ consumer that reaches a cusp-neighborhood export without first displaying $B,H,S,M,R,T,C,P,N$ fails to read the accepted carrier.}
+
+\independenceWitness{hyperbolic-horoball, poincare-half-plane, fuchsian-group-action, hyperbolic-metric, real: no listed sibling is bijective to $\CuspNeighborhoodUp$ because only this packet binds a boundary point, horoball threshold, boundary stabilizer, hyperbolic metric readback, Real seal, cusp export, transport, replay, provenance, and local NameCert row in one carrier.}
+
+\closureat{CuspNeighborhoodUp}{seedStr}
+
+\begin{closurestatus}{\CuspNeighborhoodUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cusp-neighborhood-carrier}, \autoref{thm:cusp-neighborhood-namecert-obligations}, and \autoref{thm:cusp-neighborhood-horoball-handoff} seed the horoball cusp-neighborhood route over boundary-point, horoball-threshold, boundary-stabilizer, metric-threshold, Real-seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, quotient cusp surfaces, selected fundamental domains, global parabolic subgroup theorems, completed ideal-boundary objects, ambient finite-volume claims, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary-point exactness, horoball-threshold exactness, boundary-stabilizer exactness, metric-threshold readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.CuspNeighborhoodUp.}
+  \constructivestory{A $\CuspNeighborhoodUp$ packet is generated from a parabolic boundary-point row, horoball threshold row, boundary-stabilizer row, HyperbolicMetric readback row, Real seal row, local cusp-neighborhood export row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
