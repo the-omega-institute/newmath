@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\MaschkeProjectorUp$}
+\label{ch:concrete-instances-maschke-projector-namecert}
+\origin{human}
+
+Following Maschke's theorem for finite-group representations, the $\MaschkeProjectorUp$ packet isolates the finite averaging-projector construction from the semisimplicity packet of \autoref{ch:concrete-instances-maschke-theorem-namecert}. It reads the finite group source of \autoref{ch:concrete-instances-group-namecert}, the represented vector source of \autoref{ch:concrete-instances-vecspace-namecert}, the representation-row bookkeeping of \autoref{ch:concrete-instances-representationring-namecert}, and the orthogonality-side ledger of \autoref{ch:concrete-instances-schurorthogonality-namecert}. The packet names the projector and invariant-complement route only; it does not close the full $\MaschkeTheoremUp$ semisimplicity certificate.
+
+\begin{definition}[Maschke projector carrier]
+\label{def:maschke-projector-carrier}
+A $\MaschkeProjectorUp$ carrier is a finite $\BHist$ packet
+$$
+P=(G,V,R,S,A,I,Q,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite $\GroupUp$ row supplying the finite averaging support, unit, inverse, and multiplication checks;
+\item $V$ is the $\VecSpaceUp$ row supplying the represented vector carrier, zero, addition, and scalar-action rows;
+\item $R$ is the $\RepresentationRingUp$ row naming the representation action consumed by the average;
+\item $S$ is the invariant-subspace row whose inclusion into $V$ is the target of the complement construction;
+\item $A$ is the averaging row that stores the finite group average of a raw projection along the representation action;
+\item $I$ is the invariance row recording that the averaged map commutes with the displayed group action;
+\item $Q$ is the complement row exposing the kernel-image decomposition read by downstream invariant-complement consumers;
+\item $H$ records componentwise $\hsame$ transport for $G,V,R,S,A,I,Q$;
+\item $C$ records displayed $\Cont$ replay for the averaging, invariance, and complement routes;
+\item $K$ is the $\Pkg$ provenance over $\GroupUp$, $\VecSpaceUp$, $\RepresentationRingUp$, $\SchurOrthogonalityUp$, $\BHist$, $\hsame$, $\Cont$, and local naming;
+\item $N$ is the local $\NameCert_{\MaschkeProjectorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host representation category, a quotient-subrepresentation carrier, a selected basis, a global semisimplicity theorem, or the full $\MaschkeTheoremUp$ packet.
+\end{definition}
+
+\begin{theorem}[Maschke projector NameCert obligations]
+\label{thm:maschke-projector-namecert-obligations}
+For every accepted $\MaschkeProjectorUp$ carrier
+$$
+P=(G,V,R,S,A,I,Q,H,C,K,N),
+$$
+the local $\NameCert_{\MaschkeProjectorUp}$ surface consists exactly of finite group admission through $G$, vector-source admission through $V$, representation-row admission through $R$, invariant-subspace admission through $S$, averaging-row exactness through $A$, invariance exposure through $I$, complement exposure through $Q$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $K$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:maschke-projector-carrier}. The group, vector, representation, invariant-subspace, averaging, invariance, and complement rows are exactly the analytic coordinates of the packet.
+
+The structural rows $H,C,K,N$ preserve the same finite surface. They transport, replay, source, and name the projector data without adding a host category or quotient representation.
+
+Since the full $\MaschkeTheoremUp$ packet is not a coordinate of the carrier, the local NameCert obligations stop at the averaging projector and its invariant-complement route.
+\end{proof}
+
+\begin{theorem}[Maschke projector invariant-complement route]
+\label{thm:maschke-projector-invariant-complement-route}
+Every invariant-complement consumer of an accepted $\MaschkeProjectorUp$ packet must read the route
+$$
+\GroupUp \longmapsto \VecSpaceUp \longmapsto \RepresentationRingUp \longmapsto A \longmapsto I \longmapsto Q .
+$$
+The averaging row $A$ is the only row that may turn a raw projection into an invariant projector, the invariance row $I$ is the only row that may expose equivariance of that projector, and the complement row $Q$ is the only row that may export the resulting invariant complement.
+\end{theorem}
+\begin{proof}
+Begin with the finite group and vector rows. They supply the finite averaging support and the represented target on which the average is computed.
+
+Next read the representation row. The action data from $\RepresentationRingUp$ is what lets the averaging row $A$ replay the group average as an internal row rather than as an external operator.
+
+The invariance row $I$ is downstream of $A$, and the complement row $Q$ is downstream of $I$. The Schur-orthogonality sibling may support the finite representation ledger, but it does not add a basis selector or a hidden semisimplicity theorem.
+
+Finally transport the route through $H,C,K,N$. These rows keep the invariant-complement consumer inside the displayed $\MaschkeProjectorUp$ packet and prevent a read of the larger $\MaschkeTheoremUp$ certificate.
+\end{proof}
+
+\falsifiablePrediction{A consumer that exports an invariant complement from finite-group representation data without reading the averaging row $A$, invariance row $I$, complement row $Q$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows refutes the $\MaschkeProjectorUp$ carrier.}
+
+\independenceWitness{maschke-theorem, group, vecspace, representationring, schurorthogonality: $\MaschkeProjectorUp$ binds the averaging projector, invariance exposure, and invariant-complement route in one finite NameCert packet; each named sibling lacks at least one of these rows as a local carrier obligation or carries a strictly larger semisimplicity surface.}
+
+\closureat{MaschkeProjectorUp}{seedStr}
+
+\begin{closurestatus}{\MaschkeProjectorUp}
+  \constructivestory{A $\MaschkeProjectorUp$ packet is generated from a finite $\GroupUp$ source row, a $\VecSpaceUp$ source row, a $\RepresentationRingUp$ action row, an invariant-subspace row, an averaging row, an invariance row, a complement row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:maschke-projector-carrier}, \autoref{thm:maschke-projector-namecert-obligations}, and \autoref{thm:maschke-projector-invariant-complement-route} seed the reusable finite averaging-projector certificate for downstream representation-theory packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the full $\MaschkeTheoremUp$ packet, a host representation category, quotient-subrepresentation carrier, selected basis, global semisimplicity theorem, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite group, vector, representation, invariant-subspace, averaging, invariance, complement, transport, replay, provenance, and local naming rows for BEDC.Derived.MaschkeProjectorUp.}
+\end{closurestatus}
