@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\MetacicTypedEqualityEliminatorUp$}
+\label{ch:concrete-instances-metacic-typed-equality-eliminator-namecert}
+\origin{ai}
+
+The $\MetacicTypedEqualityEliminatorUp$ packet realizes the Leibniz equality branch of \autoref{ch:metacic-typedexamples-audit-map} as finite NameCert data. It consumes the typed example gallery of \autoref{ch:concrete-instances-typedexamplegallery-namecert}, the typed-example reduction trace of \autoref{ch:concrete-instances-typed-example-reduction-trace-namecert}, the Church eliminator regression matrix of \autoref{ch:concrete-instances-church-eliminator-regression-matrix-namecert}, and the decidable-boundary route of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}. The packet names the equality type, reflexivity proof, eliminator motive, transport target, checker row, closedness row, reduction row, replay route, provenance row, and local NameCert row for selected typed examples; it does not claim global subject reduction, global confluence, erased host equality, or unrestricted proof irrelevance.
+
+\begin{definition}[MetaCIC typed equality eliminator carrier]
+\label{def:metacic-typed-equality-eliminator-carrier}
+A $\MetacicTypedEqualityEliminatorUp$ carrier is a finite $\BHist$ packet
+$$
+E=(T,Q,R,M,L,K,D,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite typed-example row selecting the Leibniz equality examples from the typed example gallery;
+\item $Q$ is the Leibniz equality type row, including the displayed source type, endpoints, and equality proposition;
+\item $R$ is the reflexivity proof row for the selected endpoint examples;
+\item $M$ is the motive row used by the typed eliminator;
+\item $L$ is the transport target row reached by eliminating the reflexivity proof against $M$;
+\item $K$ is the checker row recording the typed-example checker result for $Q,R,M,L$;
+\item $D$ is the closedness and reduction row, tying the selected equality proof to the typed-example reduction trace;
+\item $X$ is the Church eliminator regression row that compares the equality eliminator against neighbouring bool, nat, list, and sum eliminator examples;
+\item $H$ records componentwise $\hsame$ transport for the typed example, equality, reflexivity, motive, transport, checker, reduction, and regression rows;
+\item $C$ records displayed $\Cont$ replay from an equality-eliminator request through checker, closedness, reduction, transport, regression, provenance, and naming rows;
+\item $P$ records $\Pkg$ provenance over $\MetacicTypedEqualityEliminatorUp$, $\TypedExampleGalleryUp$, $\TypedExampleReductionTraceUp$, $\ChurchEliminatorRegressionMatrixUp$, $\MetaCICDecidableBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\MetacicTypedEqualityEliminatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,Q,R,M,L,K,D,X,H,C,P,N$. It has no coordinate for host equality, unrestricted subject reduction, global confluence, proof irrelevance, quotient syntax equality, or an erased equality-eliminator theorem.
+\end{definition}
+
+\begin{theorem}[MetaCIC typed equality eliminator NameCert obligations]
+\label{thm:metacic-typed-equality-eliminator-namecert-obligations}
+For every accepted $\MetacicTypedEqualityEliminatorUp$ carrier $E=(T,Q,R,M,L,K,D,X,H,C,P,N)$, the local $\NameCert_{\MetacicTypedEqualityEliminatorUp}$ surface consists exactly of typed-example exposure, Leibniz equality type exposure, reflexivity proof exposure, motive exposure, transport-target exposure, checker exposure, closedness and reduction exposure, Church-eliminator regression exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typed-equality-eliminator-carrier}. The rows $T,Q,R,M,L$ are the finite equality-eliminator data: a selected typed example, its Leibniz equality type, a reflexivity proof, a motive, and the transported target.
+
+Rows $K,D,X$ bind the same data to the checker, closedness, reduction, and regression surfaces. The checker row keeps the packet in the typed-example gallery, the reduction row ties it to the typed-example reduction trace, and the regression row compares it with the neighbouring Church eliminators without collapsing them into one theorem.
+
+Rows $H,C,P,N$ transport, replay, source, and name the finite surface. Since no row stores host equality, unrestricted subject reduction, global confluence, proof irrelevance, quotient syntax equality, or an erased eliminator theorem, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC typed equality eliminator reduction boundary]
+\label{thm:metacic-typed-equality-eliminator-reduction-boundary}
+Every accepted $\MetacicTypedEqualityEliminatorUp$ reduction read must retain the same typed-example row $T$, Leibniz equality row $Q$, reflexivity row $R$, motive row $M$, transport target $L$, checker row $K$, reduction row $D$, regression row $X$, and structural rows $H,C,P,N$. The packet therefore realizes selected Leibniz equality examples as finite checker, closedness, reduction, transport, replay, provenance, and NameCert rows, not as a global subject-reduction, confluence, or host-equality result.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier $E=(T,Q,R,M,L,K,D,X,H,C,P,N)$. The reduction row $D$ is not free-standing: it records the closedness and reduction trace for the selected equality data named by $T,Q,R,M,L$.
+
+Apply the NameCert obligations of \autoref{thm:metacic-typed-equality-eliminator-namecert-obligations}. They require every equality-eliminator read to replay the checker, closedness, reduction, regression, transport, continuation, provenance, and local naming rows.
+
+Thus a consumer cannot turn the selected Leibniz equality examples into a theorem about all typed reductions. Such a theorem would require additional subject-reduction and confluence rows beyond the carrier of \autoref{def:metacic-typed-equality-eliminator-carrier}.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\MetacicTypedEqualityEliminatorUp$ read that accepts a Leibniz equality eliminator without the typedexamplegallery, typed-example-reduction-trace, church-eliminator-regression-matrix, and metacicdecidableboundary rows refutes the packet.}
+
+\independenceWitness{typedexamplegallery, typed-example-reduction-trace, church-eliminator-regression-matrix, metacicdecidableboundary: the gallery supplies selected typed terms, the trace supplies reduction rows, the regression matrix supplies neighbouring eliminator comparisons, and the decidable boundary supplies checker limits, but none alone carries the equality type, reflexivity proof, motive, transport target, checker, closedness, reduction, regression, replay, provenance, and local NameCert rows.}
+
+The Lean follow-up in \texttt{lean4/BEDC/Derived/MetacicTypedEqualityEliminatorUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \MetacicTypedEqualityEliminatorUp$ and $\mathsf{FieldFaithful}\ \MetacicTypedEqualityEliminatorUp$ instances preserving $T,Q,R,M,L,K,D,X,H,C,P,N$ before any positive gate may treat this packet as field-faithful.
+
+\closureat{MetacicTypedEqualityEliminatorUp}{seedStr}
+
+\begin{closurestatus}{\MetacicTypedEqualityEliminatorUp}
+  \constructivestory{A $\MetacicTypedEqualityEliminatorUp$ packet is generated from selected typed-example rows, Leibniz equality types, reflexivity proofs, motives, transport targets, checker rows, closedness and reduction traces, Church-eliminator regression rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-typed-equality-eliminator-carrier}, \autoref{thm:metacic-typed-equality-eliminator-namecert-obligations}, and \autoref{thm:metacic-typed-equality-eliminator-reduction-boundary} seed the finite typed equality eliminator route over selected Leibniz equality examples, checker rows, closedness, reduction, transport, regression, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not claim global subject reduction, global confluence, host equality, proof irrelevance, quotient syntax equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Leibniz equality type exposure, reflexivity proof exposure, motive and transport exposure, checker stability, reduction-boundary stability, Nontrivial evidence, and FieldFaithful evidence for BEDC.Derived.MetacicTypedEqualityEliminatorUp.}
+\end{closurestatus}
