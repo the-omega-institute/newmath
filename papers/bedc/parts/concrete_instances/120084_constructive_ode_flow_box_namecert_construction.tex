@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveOdeFlowBoxUp$}
+\label{ch:concrete-instances-constructive-ode-flow-box-namecert}
+\origin{human}
+
+Following Coddington--Levinson and Bishop--Bridges, the $\ConstructiveOdeFlowBoxUp$ packet records the finite local flow-box surface by which an ordinary differential equation is read near a displayed nonstationary point through rational time-state windows, Picard local handoff rows, and Gronwall stability budgets. It sits after the ODE source of \autoref{ch:concrete-instances-ode-namecert}, the initial-value carrier of \autoref{ch:concrete-instances-initial-value-problem-namecert}, the Picard--Lindelof handoff of \autoref{ch:concrete-instances-picard-lindelof-namecert}, the Gronwall comparison surface of \autoref{ch:concrete-instances-gronwall-inequality-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a local coordinate and flow-window certificate; it does not select a host solution curve, assert global existence, quotient paths by equality, or invoke ambient real completeness.
+
+\begin{definition}[Constructive ODE flow-box carrier]
+\label{def:constructive-ode-flow-box-carrier}
+A $\ConstructiveOdeFlowBoxUp$ carrier is a finite $\BHist$ packet
+$$
+F=(O,I,L,P,G,R,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OdeUp$ source row, carrying the local time-state window and vector-field read.
+\item $I$ is the $\InitialValueProblemUp$ row naming the base point and initial-time boundary.
+\item $L$ is the local nonstationary and coordinate-window row, storing the rational box, transverse coordinate, and time strip on which the flow-box read is admitted.
+\item $P$ is the $\PicardLindelofUp$ local handoff row for the displayed initial-value data and box.
+\item $G$ is the $\GronwallInequalityUp$ stability row used to compare nearby Picard windows inside the same strip.
+\item $R$ is the $\RegSeqRatUp$ readback row for the local coordinate and flow-window approximants, and $E$ is the terminal $\RealUp$ seal reached only after $R$ is displayed.
+\item $H$ records componentwise $\hsame$ transport for the ODE source, initial-value row, local coordinate window, Picard handoff, Gronwall stability row, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through
+$$
+O,I,L,P,G,R,E \longmapsto H,Q,N .
+$$
+\item $Q$ is the $\Pkg$ provenance over $\ConstructiveOdeFlowBoxUp$, $\OdeUp$, $\InitialValueProblemUp$, $\PicardLindelofUp$, $\GronwallInequalityUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveOdeFlowBoxUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,I,L,P,G,R,E,H,C,Q,N$. It has no coordinate for a selected host solution, maximal continuation interval, quotient path equality, trichotomy on real values, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Constructive ODE flow-box obligations]
+\label{thm:constructive-ode-flow-box-namecert-obligations}
+For every accepted $\ConstructiveOdeFlowBoxUp$ carrier $F=(O,I,L,P,G,R,E,H,C,Q,N)$, the local $\NameCert_{\ConstructiveOdeFlowBoxUp}$ surface consists exactly of carrier admission for the displayed ODE source, initial-value row, local coordinate window, Picard--Lindelof handoff, Gronwall stability row, regular rational readback, Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constructive-ode-flow-box-carrier}. The ODE source and initial-value boundary are the rows $O$ and $I$, so every local flow-box read is tied to a displayed time-state window and base point.
+
+Read the local coordinate row $L$. It stores the finite box, transverse coordinate, and time strip on which the nonstationary hypothesis is visible to the packet, rather than as an external differentiable-chart theorem.
+
+The analytic handoff rows are $P,G,R,E$. The Picard row supplies the local solution-window handoff, the Gronwall row supplies stability inside the strip, the regular rational row records the finite approximants, and the Real seal is downstream of that readback.
+
+Finally $H,C,Q,N$ transport, replay, source, and name the same finite route. Since no carrier coordinate stores a selected host solution, maximal interval, quotient path equality, trichotomy, countable-choice schedule, or ambient completeness witness, those objects cannot enter the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Constructive ODE flow-box Picard local handoff]
+\label{thm:constructive-ode-flow-box-picard-local-handoff}
+Every accepted $\ConstructiveOdeFlowBoxUp$ packet hands its local flow-box read to downstream ODE consumers only through
+$$
+\OdeUp,\quad
+\InitialValueProblemUp,\quad
+\PicardLindelofUp,\quad
+\GronwallInequalityUp,\quad
+\RegSeqRatUp,\quad
+\RealUp .
+$$
+The local coordinate row $L$ must be displayed before the Picard handoff $P$ is consumed, and the Gronwall row $G$ must be displayed before any Real-facing seal $E$ is read. The route exports no selected solution curve, host flow map, quotient path equality, global existence theorem, countable choice, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with the source rows $O,I,L$. They fix the ODE request, initial-value boundary, and local coordinate box before any solution-window handoff is available.
+
+Apply the Picard--Lindelof row $P$ only after that local box is displayed. The handoff therefore reads finite Picard windows over the same time-state strip, not a host solution curve or global flow.
+
+Next read the Gronwall row $G$. It compares neighboring Picard windows inside the displayed strip and supplies the stability budget needed before the regular rational readback $R$ can be consumed.
+
+The terminal Real seal $E$ is downstream of $R$, while $H,C,Q,N$ preserve and name the same route. Coordinate exhaustion excludes selected solution curves, host flow maps, quotient path equality, global existence, countable choice, and ambient completeness from the exported handoff.
+\end{proof}
+
+\closureat{ConstructiveOdeFlowBoxUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveOdeFlowBoxUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-ode-flow-box-carrier}, \autoref{thm:constructive-ode-flow-box-namecert-obligations}, and \autoref{thm:constructive-ode-flow-box-picard-local-handoff} seed the finite local ODE flow-box packet from displayed ODE, initial-value, Picard, Gronwall, RegSeqRat, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected host solution curves, global existence, maximal continuation, quotient path equality, trichotomy, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, local coordinate-window exactness, Picard local handoff, Gronwall stability, RegSeqRat readback, Real seal discipline, transport, replay, provenance, and local naming for BEDC.Derived.ConstructiveOdeFlowBoxUp.}
+  \constructivestory{A $\ConstructiveOdeFlowBoxUp$ packet is generated from Ode, InitialValueProblem, local coordinate-window, PicardLindelof, GronwallInequality, RegSeqRat, Real, componentwise hsame, displayed Cont, Pkg provenance, and local NameCert rows.}
+\end{closurestatus}
