@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailInterleavingUp$}
+\label{ch:concrete-instances-cauchy-tail-interleaving-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive Cauchy-sequence practice, the $\CauchyTailInterleavingUp$ packet records the finite route by which two regular Cauchy tails are fused into one displayed tail schedule without choosing representatives of completed real names. It sits after the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the monotone selector corridor of \autoref{ch:concrete-instances-cauchy-subsequence-selector-namecert}. The packet is a choice-free fusion carrier for Real and Completion consumers; it is not a quotient of tails, a selected limit, a countable-choice functional, host real equality, or ambient completeness.
+
+\begin{definition}[Cauchy tail interleaving carrier]
+\label{def:cauchy-tail-interleaving-carrier}
+A $\CauchyTailInterleavingUp$ carrier is a finite $\BHist$ packet
+$$
+T=(R_0,R_1,S_0,S_1,M,W,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R_0$ and $R_1$ are the two $\RegSeqRatUp$ source rows whose Cauchy tails are being fused.
+\item $S_0$ and $S_1$ are the $\StreamNameUp$ finite-window rows used to inspect the two tails.
+\item $M$ is the $\CauchySubsequenceSelectorUp$ monotone corridor that records the displayed tail schedules used by the fusion.
+\item $W$ is the interleaving window row, recording for each inspected output window whether it reads the left tail, the right tail, or the shared comparison window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the two tail reads at the displayed windows.
+\item $E$ is the terminal $\RealUp$ seal exposed only after $R_0,R_1,S_0,S_1,M,W,D$ have been read.
+\item $H$ records componentwise $\hsame$ transport for the two sources, two window rows, selector corridor, interleaving row, tolerance ledger, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a fusion request through $R_0,R_1,S_0,S_1,M,W,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyTailInterleavingUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchySubsequenceSelectorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyTailInterleavingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows. It has no coordinate for quotient stream equality, selected representatives, a host limit, countable choice, real trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy tail interleaving NameCert obligations]
+\label{thm:cauchy-tail-interleaving-namecert-obligations}
+For every accepted $\CauchyTailInterleavingUp$ carrier $T=(R_0,R_1,S_0,S_1,M,W,D,E,H,C,P,N)$, the local $\NameCert_{\CauchyTailInterleavingUp}$ surface consists exactly of carrier admission, left-tail and right-tail source admission, finite-window admission, selector-corridor monotonicity, interleaving-window exactness, dyadic tolerance compatibility, $\RealUp$ seal non-escape, componentwise transport, displayed replay, package provenance, and local naming. Every obligation is read through the finite route
+$$
+R_0,R_1,S_0,S_1,M,W,D \longrightarrow E \longrightarrow H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-tail-interleaving-carrier}. The two regular rational sources, the two finite window rows, the selector corridor, the interleaving window, the dyadic tolerance ledger, and the terminal seal are all visible coordinates of the same packet.
+
+The selector-corridor obligation is supplied by $M$. It keeps the two tail schedules monotone and finite, while $W$ records which source tail each output window reads before any fused consumer receives a seal.
+
+The tolerance obligation is read from $D$ over the displayed windows. It compares only the inspected regular rational rows $R_0,R_1$ through $S_0,S_1,M,W$, so the certificate has no need for a quotient-tail equality or a selected representative.
+
+Transport through $H$, replay through $C$, provenance $P$, and local naming $N$ preserve the same route. Since the excluded quotient, choice, limit, trichotomy, host equality, and completeness objects are absent from the carrier coordinates, no NameCert obligation can discharge through them.
+\end{proof}
+
+\begin{theorem}[Cauchy tail interleaving Real seal handoff]
+\label{thm:cauchy-tail-interleaving-real-seal-handoff}
+Every $\RealUp$ or Completion-facing consumer of an accepted $\CauchyTailInterleavingUp$ packet must expose the two $\RegSeqRatUp$ source rows $R_0,R_1$, the two $\StreamNameUp$ finite-window rows $S_0,S_1$, the $\CauchySubsequenceSelectorUp$ corridor $M$, the interleaving window row $W$, and the $\DyadicRatCoreUp$ tolerance row $D$ before it reads the terminal seal $E$. The fused tail reaches Real and Completion consumers only through this displayed window-and-tolerance route, not through quotient tails, countable choice, selected limits, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $T=(R_0,R_1,S_0,S_1,M,W,D,E,H,C,P,N)$. The terminal seal $E$ is downstream of the two source rows, the two finite-window rows, the selector corridor, the interleaving row, and the dyadic tolerance ledger.
+
+Apply \autoref{thm:cauchy-tail-interleaving-namecert-obligations}. It forces carrier admission, source admission, finite-window admission, selector monotonicity, interleaving-window exactness, and dyadic tolerance compatibility before any consumer can read $E$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same data. Therefore the handoff cannot bypass $R_0,R_1,S_0,S_1,M,W,D$, and the absent quotient, choice, selected-limit, host-equality, and completeness principles remain outside the public route.
+\end{proof}
+
+\closureat{CauchyTailInterleavingUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailInterleavingUp}
+  \constructivestory{A $\CauchyTailInterleavingUp$ packet is generated from two RegSeqRat source rows, two finite StreamName window rows, a CauchySubsequenceSelector corridor, an interleaving window row, a DyadicRatCore tolerance ledger, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-interleaving-carrier}, \autoref{thm:cauchy-tail-interleaving-namecert-obligations}, and \autoref{thm:cauchy-tail-interleaving-real-seal-handoff} seed the finite choice-free fusion surface for two regular Cauchy tails before Real and Completion consumers read a terminal seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient tail equality, selected representatives, countable choice, selected limits, trichotomy, host real equality, Lean verification, bridge checking, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, left-tail and right-tail source admission, finite-window admission, selector-corridor monotonicity, interleaving-window exactness, dyadic tolerance compatibility, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyTailInterleavingUp.}
+\end{closurestatus}
