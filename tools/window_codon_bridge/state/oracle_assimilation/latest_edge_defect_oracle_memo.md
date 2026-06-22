@@ -1,14 +1,14 @@
 # Edge-Defect Oracle Memo
 
 - schema: `window_codon_oracle_memo.v1`
-- generated_ts: `2026-06-21T21:19:24Z`
-- source_task_id: `74d8e2d9-eefa-4040-aa59-ddbf93d205f0`
+- generated_ts: `2026-06-22T03:31:52Z`
+- source_task_id: `8eaf439b-fda4-4f95-bc84-00fa01fb26e7`
 - source_conversation_id: `conv_6139d5d7cea7ab03`
-- oracle_response_chars: `3265`
+- oracle_response_chars: `2894`
 
 ## Strongest Mechanism
 
-A is not well-posed as a non-circular bridge back to Window6/Fibonacci. It is only well-posed as a Window6 self-diagnostic or negative-control appendix. The codon result lives in a canonical product association scheme:
+A is ill-posed as a bridge back to Window6/Fibonacci. It is well-posed only as a Window6 self-diagnostic. The decisive problem is that “first-order” is not an absolute concept. It is first-order relative to a product structure. For codons, the product structure is canonical:
 
 ## Decisive Confounders
 
