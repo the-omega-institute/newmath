@@ -2328,6 +2328,23 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.alternative_splicing.splice_site_strength_psi_vastdb",
+   "experiment_id": "splice_site_strength_psi_vastdb",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib splice-site-strength vs measured median PSI over VastDB hg38 (tools/bio_reality/data/splice_site_strength_psi_vastdb.json; measured median PSI, predictor=in-script frozen MaxEntScan-style PWM on 9mer/23mer splice-site sequences). Spearman + residualized partial (GC+exon_len+intron_len) + permutation null + constitutive-vs-cassette stratification; positive controls = strong-site->high-PSI + constitutive>cassette SS. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Scientifically deterministic (all stats bit-identical; only wall-clock runtime_sec varies), pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_splice_site_strength_psi_vastdb.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T13:08:38+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
