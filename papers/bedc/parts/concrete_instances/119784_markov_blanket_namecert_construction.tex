@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\MarkovBlanketUp$}
+\label{ch:concrete-instances-markov-blanket-namecert}
+\origin{human}
+
+Following Pearl, \emph{Causality}, 2009, the $\MarkovBlanketUp$ packet records the finite causal-inference boundary around one displayed variable in a Bayesian network. It sits after the do-calculus surface of \autoref{ch:concrete-instances-do-calculus-namecert}, the intervention rows of \autoref{ch:concrete-instances-causal-intervention-namecert}, the normalized probability source of \autoref{ch:concrete-instances-probspace-namecert}, the random-variable carrier of \autoref{ch:concrete-instances-randomvar-namecert}, and the conditional-independence rows of \autoref{ch:concrete-instances-independence-namecert}. The packet names the parent, child, spouse, separating-set, d-separation, transport, replay, provenance, and local NameCert rows as BEDC data; it does not assert a host Bayesian-network semantics, global graph faithfulness, positivity, probabilistic completeness, or a selected causal model.
+
+\begin{definition}[Markov blanket carrier]
+\label{def:markov-blanket-carrier}
+A $\MarkovBlanketUp$ carrier is a finite $\BHist$ packet
+$$
+M=(V,G,P,C,S,B,D,I,H,R,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the focused $\RandomVarUp$ row whose local boundary is being named.
+\item $G$ is the finite directed-neighborhood row, exposing only the displayed parent, child, and co-parent incidences used by the certificate.
+\item $P$ is the parent row of $V$, read through the same probability source as $\ProbSpaceUp$.
+\item $C$ is the child row of $V$, recording the visible outgoing incidences.
+\item $S$ is the spouse row, containing the displayed co-parents of children in $C$.
+\item $B$ is the blanket row $P,C,S$ packaged as one finite boundary before any query consumer reads it.
+\item $D$ is the d-separation boundary row, recording that variables outside $B$ are screened from $V$ only through the displayed conditional-independence surface.
+\item $I$ is the $\IndependenceUp$ row used by the query consumer, with conditioning restricted to the displayed blanket row.
+\item $H$ records componentwise $\hsame$ transport for $V,G,P,C,S,B,D,I$ and the local naming row.
+\item $R$ records displayed $\Cont$ replay from a causal or probabilistic query through the finite blanket rows.
+\item $Q$ is the $\Pkg$ provenance over $\MarkovBlanketUp$, $\DoCalculusUp$, $\CausalInterventionUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\IndependenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MarkovBlanketUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $V,G,P,C,S,B,D,I,H,R,Q,N$. It has no coordinate for a full Bayesian network, graph-faithfulness theorem, global factorization, positivity assumption, selected interventional model, host conditional-probability equality, or completed probability semantics.
+\end{definition}
+
+\begin{theorem}[Markov blanket NameCert obligations]
+\label{thm:markov-blanket-namecert-obligations}
+For every accepted $\MarkovBlanketUp$ carrier $M=(V,G,P,C,S,B,D,I,H,R,Q,N)$, the local $\NameCert_{\MarkovBlanketUp}$ surface consists exactly of focused-variable admission, directed-neighborhood exposure, parent row exposure, child row exposure, spouse row exposure, blanket packaging, d-separation boundary admission, conditional-independence query admission, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:markov-blanket-carrier}. The focused variable and finite neighborhood are displayed as $V,G$, while the three boundary components are displayed as $P,C,S$ and repackaged by $B$.
+
+The causal and probabilistic dependencies are then read through the sibling rows named in the carrier. The probability source, random-variable row, causal-intervention surface, do-calculus surface, and independence row are all cited by $Q$ before a query can consume the boundary.
+
+Finally $H,R,Q,N$ transport, replay, source, and name only the same finite rows. Since no carrier coordinate stores a full Bayesian network semantics, graph-faithfulness theorem, global factorization, positivity assumption, selected interventional model, host conditional-probability equality, or completed probability semantics, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Markov blanket d-separation boundary]
+\label{thm:markov-blanket-d-separation-boundary}
+Every accepted d-separation read exported by a $\MarkovBlanketUp$ packet factors through the finite route
+$$
+V,G\longmapsto P,C,S\longmapsto B\longmapsto D\longmapsto I\longmapsto H,R,Q,N .
+$$
+The read can condition on the displayed blanket row $B$ and can cite $\IndependenceUp$ through $I$, but it cannot replace the route by a global Bayesian-network factorization, faithfulness assumption, positivity condition, or host conditional-probability equality.
+\end{theorem}
+\begin{proof}
+Start with the focused random variable $V$ and the directed-neighborhood row $G$. The parent, child, and spouse rows $P,C,S$ are the only displayed contributors to the blanket row $B$.
+
+The d-separation row $D$ is read after $B$ has been exposed. It does not store a global graph theorem; it records only the finite screening boundary consumed by the conditional-independence row $I$.
+
+The structural rows $H,R,Q,N$ then preserve, replay, source, and name this route. Because the carrier has no coordinate for global factorization, faithfulness, positivity, or host conditional-probability equality, the d-separation read remains a finite boundary route.
+\end{proof}
+
+\begin{theorem}[Markov blanket nonescape]
+\label{thm:markov-blanket-nonescape}
+No accepted $\MarkovBlanketUp$ consumer can export a selected causal model, completed probability semantics, full Bayesian-network object, global graph-faithfulness theorem, positivity assumption, quotient equality of random variables, or host conditional-probability equality from the blanket packet. Every exported read is confined to the displayed rows $V,G,P,C,S,B,D,I,H,R,Q,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates in \autoref{def:markov-blanket-carrier}. They display one focused variable, one finite directed-neighborhood row, three blanket components, one packaged blanket row, one d-separation boundary, one conditional-independence query row, and the structural transport, replay, provenance, and naming rows.
+
+The dependency chapters named in the introduction supply only sibling surfaces: do-calculus rows, intervention rows, probability rows, random-variable rows, and independence rows. None of those rows is copied into this packet as a selected global model or as completed probability semantics.
+
+Thus every accepted read is routed through $V,G,P,C,S,B,D,I,H,R,Q,N$. Since the refused objects have no displayed coordinate, no continuation, package, or local certificate row can export them.
+\end{proof}
+
+\falsifiablePrediction{A consumer that obtains a full Bayesian-network factorization or host conditional-probability equality from $B$ alone refutes the $\MarkovBlanketUp$ carrier.}
+
+\independenceWitness{do-calculus, causal-intervention, probspace, randomvar, independence: none is bijective with $\MarkovBlanketUp$ because the packet jointly carries a focused variable, finite neighborhood, parent, child, spouse, blanket, d-separation, conditional-independence, transport, replay, provenance, and local naming rows.}
+
+\closureat{MarkovBlanketUp}{seedStr}
+
+\begin{closurestatus}{\MarkovBlanketUp}
+  \constructivestory{A $\MarkovBlanketUp$ packet is generated from one focused RandomVar row, finite directed-neighborhood data, parent rows, child rows, spouse rows, a packaged blanket boundary, a d-separation boundary, an Independence query row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:markov-blanket-carrier}, \autoref{thm:markov-blanket-namecert-obligations}, \autoref{thm:markov-blanket-d-separation-boundary}, and \autoref{thm:markov-blanket-nonescape} seed the finite causal-inference blanket packet over focused-variable, neighborhood, boundary, d-separation, independence, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a full Bayesian-network semantics, global graph faithfulness, positivity, probabilistic completeness, selected causal model, quotient equality of random variables, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite blanket component exposure, d-separation boundary routing, conditional-independence query admission, transport, replay, provenance, local naming, and nonescape for BEDC.Derived.MarkovBlanketUp.}
+\end{closurestatus}
