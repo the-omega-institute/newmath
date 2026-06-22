@@ -345,6 +345,12 @@ def run_oracle_consultation(
         pdf_base64 = ""
         pdf_name = ""
         pdf_skipped_reason = pdf_skipped_reason or "resuming_existing_conversation"
+    if len(initial_prompt) > 4800:
+        initial_prompt = (
+            initial_prompt[:3200]
+            + "\n\n[... prompt truncated to fit oracle transport limit ...]\n\n"
+            + initial_prompt[-1400:]
+        )
     result = oracle_client.run_session(
         initial_prompt,
         topic=topic,
