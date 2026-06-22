@@ -256,6 +256,35 @@ The limit compatibility theorem and window-basis exhaustion theorem, \autoref{th
 Finally use finite-prefix StreamName consumption from \autoref{thm:filter-limit-basis-finite-prefix-stream-consumption}. The structural rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ replay and name that route without adding quotient filters, selected limits, countable choice, host equality, ambient completeness, or bridge data.
 \end{proof}
 
+\begin{theorem}[FilterLimitBasis cofinal Cauchy-entourage induction]
+\label{thm:filter-limit-basis-cofinal-cauchy-entourage-induction}
+Let $B=(Q,F,L,W,R,D,E,H,C,P,N)$ be an accepted $\FilterLimitBasisUp$ packet whose finite basis rows refine the Cauchy-filter route of $\CauchyFilterUp$, the completion boundary of $\CauchyFilterCompletionUp$, the Real-induced uniformity of $\RealUniformStructureUp$, the regular rational readback of $\RegSeqRatUp$, and the source-window surface of $\StreamNameUp$. Induction over the finite basis-window ledger produces a cofinal entourage route
+$$
+Q,F,L,W,R,D \longmapsto E \longmapsto H,C,P,N
+$$
+such that every Real-facing limit read must first pass through the displayed Cauchy-filter basis, the completion boundary, the Real-uniform entourage row, the StreamName windows, the RegSeqRat readback, and the dyadic tolerance ledger before any terminal $\RealUp$ seal is exposed. The route exports no selected limit, quotient filter, host filter equality, ultrafilter, countable-choice schedule, ambient Real completeness, or bridge certificate.
+\end{theorem}
+\begin{proof}
+Start with the finite ledger induction of \autoref{thm:filter-limit-basis-window-induction}. Its base case reads the displayed rows $Q,F,L,W,R,D$ before $E$, and its step case preserves the same route under every finite window read or structural replay.
+
+Use the real-window exhaustion theorem \autoref{thm:filter-limit-basis-real-window-exhaustion}. It identifies the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows as the visible Real-facing window route, so no terminal Real evidence is read before the basis windows and regular rational handoff are exposed.
+
+Finally apply the kernel scope upgrade of \autoref{thm:filter-limit-basis-kernel-scope-upgrade}. The upgraded scope places $\CauchyFilterCompletionUp$, $\CauchyFilterUp$, $\CauchyFilterLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ in one displayed kernel route. Since the accepted carrier has no coordinate for selected limits, quotient filters, host filter equality, ultrafilters, countable-choice schedules, ambient Real completeness, or bridge certificates, the induced entourage route is cofinal only inside that finite BEDC surface.
+\end{proof}
+
+\begin{theorem}[FilterLimitBasis scoped completion dependency]\label{thm:filterlimitbasis-scoped-dependency}
+Every completion-facing $\FilterLimitBasisUp$ read consumes $\CauchyFilterCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows before a filter-limit basis can be sealed. In carrier notation, the read must expose the completion row $Q$, finite windows $W$, regular readback $R$, dyadic tolerance ledger $D$, terminal real seal $E$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming $N$ before any $\NameCert_{\FilterLimitBasisUp}$ consumer treats the basis as sealed. The route does not claim selected limits, ultrafilters, countable choice, quotient filters, host filter equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:filter-limit-basis-carrier}. The completion-facing rows include $Q,W,R,D,E,H,C,P,N$, with the Cauchy-filter and limit rows attached by the same finite packet.
+
+Apply the CauchyFilterCompletion handoff of \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff}. It forces the completion row and the finite-prefix StreamName consumption to appear before the terminal Real seal is inspected.
+
+Use \autoref{thm:filter-limit-basis-finite-prefix-stream-consumption} and \autoref{thm:filter-limit-basis-real-window-exhaustion}. These results route the windows through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ before the structural rows replay and name the basis.
+
+The accepted carrier has no coordinate for selected limits, ultrafilters, countable choice, quotient filters, host filter equality, or ambient completeness. Hence the listed rows are the complete scoped dependency for the L10 completion handoff.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\FilterLimitBasisUp$ read is refuted if a $\CauchyFilterCompletionUp$ or $\RealUp$ consumer reaches the terminal seal without displaying the Cauchy-filter completion row, Cauchy-filter row, Cauchy-filter limit row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, transport, replay, provenance, and local naming.}
 
 \independenceWitness{cauchyfiltercompletion, cauchyfilter, cauchyfilterlimit, streamname, regseqrat, dyadicratcore, real: none alone is bijective with $\FilterLimitBasisUp$ because the packet jointly records completion-boundary, saturated-filter, limit-boundary, finite-window, readback, tolerance, seal, transport, replay, provenance, and local NameCert rows.}
