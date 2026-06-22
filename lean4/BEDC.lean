@@ -344,6 +344,7 @@ import BEDC.Derived.AuditMapFamilyUp.StrictLocalObstruction
 import BEDC.Derived.AuditMapFamilyUp.TasteGate
 import BEDC.Derived.AuditMapFrontierIndexUp.TasteGate
 import BEDC.Derived.AuditMapFrontierPacketUp
+import BEDC.Derived.AuditMapFrontierPacketUp.TasteGate
 import BEDC.Derived.AuditMapInterfaceUp
 import BEDC.Derived.AuditMapInterfaceUp.TasteGate
 import BEDC.Derived.AuditMapMethodologyUp.TasteGate
@@ -6301,6 +6302,7 @@ import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HellyTheoremUp.TasteGate
 import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
 import BEDC.Derived.HemicompactSpaceUp.TasteGate
+import BEDC.Derived.HenselLemmaUp.TasteGate
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
@@ -9053,6 +9055,7 @@ import BEDC.Derived.ProductMetricUp.TasteGate
 import BEDC.Derived.ProductRegularCauchyLimitUp.TasteGate
 import BEDC.Derived.ProductTopologyUp.TasteGate
 import BEDC.Derived.ProductUniformSpaceUp.TasteGate
+import BEDC.Derived.ProfiniteCompletionUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthGradientLedgerUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.ProjectionValuedMeasureUp
@@ -10741,7 +10744,6 @@ import BEDC.Derived.SetlikeUp.MembershipClassifierPublicBoundary
 import BEDC.Derived.SetlikeUp.MembershipClassifierRootUnblock
 import BEDC.Derived.SetlikeUp.MembershipClassifierStabilityRoot
 import BEDC.Derived.SetlikeUp.MembershipClassifierTransport
-import BEDC.Derived.SetlikeUp.MembershipClassifierTransportBoundary
 import BEDC.Derived.SetlikeUp.MembershipFamilyBHistInduction
 import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
