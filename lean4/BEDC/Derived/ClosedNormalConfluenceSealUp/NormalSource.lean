@@ -442,4 +442,50 @@ theorem ClosedNormalConfluenceSealKernelScope [AskSetup] [PackageSetup]
   }
   exact ⟨cert, routeLeftUnary, joinUnary, scopeUnary⟩
 
+theorem ClosedNormalConfluenceSealRouteStability
+    {source normal routeLeft routeRight join transports continuations provenance nameCert
+      source' normal' routeLeft' routeRight' join' transports' continuations' provenance'
+      nameCert' replay replay' : BHist} :
+    hsame source source' →
+      hsame normal normal' →
+        hsame routeLeft routeLeft' →
+          hsame routeRight routeRight' →
+            hsame join join' →
+              hsame transports transports' →
+                hsame continuations continuations' →
+                  hsame provenance provenance' →
+                    hsame nameCert nameCert' →
+                      Cont source normal routeLeft →
+                        Cont routeLeft routeRight join →
+                          Cont continuations provenance replay →
+                            Cont source' normal' routeLeft' →
+                              Cont routeLeft' routeRight' join' →
+                                Cont continuations' provenance' replay' →
+                                  hsame replay replay' ∧ hsame join join' ∧
+                                    hsame routeLeft routeLeft' := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ClosedNormalConfluenceSealUp
+  intro _sameSource _sameNormal sameRouteLeft _sameRouteRight sameJoin _sameTransports
+    sameContinuations sameProvenance _sameNameCert _sourceRoute _joinRoute replayRoute
+    _sourceRoute' _joinRoute' replayRoute'
+  have replaySame : hsame replay replay' :=
+    cont_respects_hsame sameContinuations sameProvenance replayRoute replayRoute'
+  exact ⟨replaySame, sameJoin, sameRouteLeft⟩
+
+theorem ClosedNormalConfluenceSealBoundaryNonescape
+    {source normal routeLeft routeRight join transports continuations provenance nameCert
+      boundaryRead : BHist} :
+    Cont source normal routeLeft →
+      Cont routeLeft routeRight join →
+        Cont join transports boundaryRead →
+          hsame boundaryRead boundaryRead ∧ hsame join join ∧ hsame routeLeft routeLeft := by
+  -- BEDC touchpoint anchor: BHist Cont hsame ClosedNormalConfluenceSealUp
+  intro sourceRoute joinRoute boundaryRoute
+  have boundarySame : hsame boundaryRead boundaryRead :=
+    cont_deterministic boundaryRoute boundaryRoute
+  have joinSame : hsame join join :=
+    cont_deterministic joinRoute joinRoute
+  have routeLeftSame : hsame routeLeft routeLeft :=
+    cont_deterministic sourceRoute sourceRoute
+  exact ⟨boundarySame, joinSame, routeLeftSame⟩
+
 end BEDC.Derived.ClosedNormalConfluenceSealUp
