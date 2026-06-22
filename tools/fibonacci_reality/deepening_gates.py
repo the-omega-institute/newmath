@@ -77,6 +77,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "closed_neighborhood_smith_certificate",
     "ordered_geodesic_enumerator_certificate",
     "matching_enumerator_certificate",
+    "ihara_hashimoto_zeta_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -129,6 +130,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "automath_paper_section",
         "ordered_geodesic_enumerator_certificate",
         "matching_enumerator_certificate",
+        "ihara_hashimoto_zeta_certificate",
     },
 }
 OVERCLAIM_GATES_ENABLED = True
@@ -159,6 +161,10 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "divisibility_remainder_enumeration",
     "bedc_finite_certificate",
     "finite_graph_enumeration",
+    "hashimoto_nonbacktracking_operator",
+    "ihara_zeta_factorization",
+    "bass_determinant_formula",
+    "closed_walk_trace_identity",
     "matching_polynomial_recurrence",
     "monomer_dimer_profile",
     "integer_matrix_determinant",
@@ -280,6 +286,12 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "divisibility_remainder_grid",
     "finite_graph",
     "hamming_edge_relation",
+    "directed_edge_carrier",
+    "hashimoto_nonbacktracking_operator",
+    "ihara_zeta_factorization",
+    "bass_determinant",
+    "closed_walk_trace_identity",
+    "primitive_cycle_mobius_inversion",
     "breadth_first_search",
     "shortest_path_counting",
     "ordered_geodesic_enumerator",
