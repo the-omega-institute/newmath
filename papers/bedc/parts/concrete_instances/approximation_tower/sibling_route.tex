@@ -1,0 +1,13 @@
+The sibling route makes the Real-facing use of $\ApproximationTowerUp$ explicit: the tower seal is never read as a kernel-only artifact, but through the same L10 rows named by the carrier and consumed by the Real route.
+
+\begin{theorem}[ApproximationTower sibling dependency route]
+\label{thm:approximation-tower-sibling-route}
+Every $\ApproximationTowerUp$ Real-facing consumer first reads the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ sibling route already named by \autoref{def:approximation-tower-carrier} before it reads the tower seal. In particular, the carrier rows $D,W,R,E$ are exposed as dyadic tolerance, stream window, regular rational readback, and terminal real seal data before the structural rows $H,C,P,N$ package the tower for downstream use.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $A=(L,W,D,R,E,H,C,P,N)$ of \autoref{def:approximation-tower-carrier}. The rows $D,W,R,E$ are named there as the $\DyadicRatCoreUp$ tolerance row, $\StreamNameUp$ window row, $\RegSeqRatUp$ readback row, and $\RealUp$ seal row.
+
+Apply \autoref{thm:approximation-tower-real-consumer-route}. A Real-facing consumer reaches the terminal seal only after the finite level ledger, the four sibling rows, and the structural rows have been displayed.
+
+Thus the tower seal is downstream from the dyadic tolerance, stream window, regular readback, and Real seal route already carried by $A$. The rows $H,C,P,N$ preserve and name that route; they do not introduce a separate kernel-only consumption path.
+\end{proof}
