@@ -4,6 +4,10 @@
 
 The $\ClassifierInformationBudgetUp$ packet realizes the classifier-level information distinction of \autoref{ch:visions-classifier-level-information} as finite BEDC data. It separates record growth from classifier shift by displaying before/after classifier-state rows, a $\SigRel$ handoff row, ledger-delta rows, transport, replay, provenance, and local naming. The packet is designed for discovery-classifier and TasteGate consumers that must know whether a route changes the classifier rather than merely extending a trace.
 
+The budget packet consumes the morphism-level route discipline of \autoref{ch:concrete-instances-classifiermorphism-namecert} and the boundary-exposure discipline of \autoref{ch:concrete-instances-classifierboundary-namecert} before interpreting a $\SigRel$ ledger delta as classifier-level information.
+
+It also consumes the before/after disagreement route of \autoref{ch:concrete-instances-classifier-shift-ledger-residue-namecert} and feeds the positive-claim boundary of \autoref{ch:concrete-instances-pipeline-discovery-classifier-namecert} together with the novelty ledger of \autoref{ch:concrete-instances-classifier-novelty-ledger-namecert}.
+
 \begin{definition}[Classifier information budget carrier]
 \label{def:classifier-information-budget-carrier}
 A $\ClassifierInformationBudgetUp$ carrier is a finite $\BHist$ packet
