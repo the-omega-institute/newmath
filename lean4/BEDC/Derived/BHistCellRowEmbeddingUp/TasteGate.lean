@@ -234,4 +234,13 @@ def taste_gate : ChapterTasteGate BHistCellRowEmbeddingUp :=
   -- BEDC touchpoint anchor: BHist BMark
   bhistCellRowEmbeddingChapterTasteGate
 
+theorem BHistCellRowEmbedding_tastegate_boundary (x : BHistCellRowEmbeddingUp) :
+    bhistCellRowEmbeddingFromEventFlow (bhistCellRowEmbeddingToEventFlow x) = some x ∧
+      (∃ fields : List BHist, fields = FieldFaithful.fields x) ∧
+        bhistCellRowEmbeddingEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  exact
+    ⟨bhistCellRowEmbedding_round_trip x,
+      ⟨⟨FieldFaithful.fields x, rfl⟩, rfl⟩⟩
+
 end BEDC.Derived.BHistCellRowEmbeddingUp
