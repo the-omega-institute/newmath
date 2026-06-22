@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.FKernel.Unary.History
@@ -12,6 +13,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -218,5 +220,95 @@ theorem TaylorModelCarrier_finite_jet_prefix_restriction [AskSetup] [PackageSetu
   exact
     ⟨subJetUnary, subEvalUnary, subEndpointUnary, coefficientReadUnary, evalRow,
       centerSubJet, subEvalReadback, subEndpointValidated, subEndpointPkg⟩
+
+theorem TaylorModelRemainderObligationRoute [AskSetup] [PackageSetup]
+    {center jet subJet remainder ledger eval validated readback provenance nameCert sameRows
+      route endpoint subEval subEndpoint coefficientRead remainderRead obligationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TaylorModelDisplayedFiniteJetSubwindow center jet subJet remainder ledger eval validated
+        readback provenance nameCert sameRows route endpoint bundle pkg ->
+      Cont center subJet subEval ->
+        Cont subEval readback subEndpoint ->
+          Cont subEndpoint validated coefficientRead ->
+            Cont subJet remainder remainderRead ->
+              Cont remainderRead ledger obligationRead ->
+                PkgSig bundle obligationRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row obligationRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row center ∨ hsame row subJet ∨ hsame row remainder ∨
+                          hsame row ledger ∨ hsame row subEval ∨ hsame row subEndpoint ∨
+                            hsame row coefficientRead ∨ hsame row obligationRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont center subJet subEval ∧
+                          Cont subEval readback subEndpoint ∧
+                            Cont subEndpoint validated coefficientRead ∧
+                              Cont subJet remainder remainderRead ∧
+                                Cont remainderRead ledger obligationRead ∧
+                                  PkgSig bundle obligationRead pkg)
+                      hsame ∧
+                    UnaryHistory obligationRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont SemanticNameCert
+  intro subwindow centerSubJet subEvalReadback subEndpointValidated subJetRemainder
+    remainderLedger obligationPkg
+  obtain ⟨carrier, subJetUnary, _sameSubJet, _subJetPkg⟩ := subwindow
+  obtain ⟨centerUnary, _jetUnary, remainderUnary, ledgerUnary, _evalUnary, validatedUnary,
+    readbackUnary, _provenanceUnary, _nameCertUnary, _sameRowsUnary, _routeUnary,
+    _endpointUnary, _ledgerRow, _evalRow, _sameRowsRoute, _centerJetEval,
+    _remainderLedgerReadback, _evalReadbackEndpoint, _endpointPkg, _provenancePkg,
+    _nameCertPkg⟩ := carrier
+  have subEvalUnary : UnaryHistory subEval :=
+    unary_cont_closed centerUnary subJetUnary centerSubJet
+  have subEndpointUnary : UnaryHistory subEndpoint :=
+    unary_cont_closed subEvalUnary readbackUnary subEvalReadback
+  have _coefficientReadUnary : UnaryHistory coefficientRead :=
+    unary_cont_closed subEndpointUnary validatedUnary subEndpointValidated
+  have remainderReadUnary : UnaryHistory remainderRead :=
+    unary_cont_closed subJetUnary remainderUnary subJetRemainder
+  have obligationReadUnary : UnaryHistory obligationRead :=
+    unary_cont_closed remainderReadUnary ledgerUnary remainderLedger
+  have sourceObligation :
+      (fun row : BHist => hsame row obligationRead ∧ UnaryHistory row) obligationRead := by
+    exact ⟨hsame_refl obligationRead, obligationReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row obligationRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row center ∨ hsame row subJet ∨ hsame row remainder ∨ hsame row ledger ∨
+              hsame row subEval ∨ hsame row subEndpoint ∨ hsame row coefficientRead ∨
+                hsame row obligationRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont center subJet subEval ∧
+              Cont subEval readback subEndpoint ∧
+                Cont subEndpoint validated coefficientRead ∧ Cont subJet remainder remainderRead ∧
+                  Cont remainderRead ledger obligationRead ∧ PkgSig bundle obligationRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro obligationRead sourceObligation
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, centerSubJet, subEvalReadback, subEndpointValidated,
+          subJetRemainder, remainderLedger, obligationPkg⟩
+  }
+  exact ⟨cert, obligationReadUnary⟩
 
 end BEDC.Derived.TaylorModelUp

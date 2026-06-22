@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICResidualJoinMatrixUp$}
+\label{ch:concrete-instances-metacic-residual-join-matrix-namecert}
+\origin{ai}
+
+The $\MetaCICResidualJoinMatrixUp$ packet realizes the residual-substitution conditional boundary of \autoref{sec:metacic-confluence-audit-map-conditional} as a finite matrix of retained premise rows, local residual branches, candidate joins, and audit consumers. It sits beside the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, the finite-window confluence packet of \autoref{ch:concrete-instances-finite-window-confluence-namecert}, the residual local-join packet of \autoref{ch:concrete-instances-parallel-diamond-residual-namecert}, the candidate-normalization confluence handoff of \autoref{ch:concrete-instances-metacic-candidate-normalization-confluence-handoff-namecert}, and the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}. The matrix is a concrete NameCert object for the confluence audit boundary; it is not an unconditional confluence theorem.
+
+\begin{definition}[MetaCIC residual-join matrix carrier]
+\label{def:metacic-residual-join-matrix-carrier}
+A $\MetaCICResidualJoinMatrixUp$ carrier is a finite $\BHist$ packet
+$$
+J=(P,F,L,R,K,S,A,O,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the residual-substitution premise row retained by the confluence audit boundary.
+\item $F$ is the $\MetaCICParallelDiamondFrontierUp$ row exposing the finite frontier of local peaks, residual premises, and obstruction rows.
+\item $L$ and $R$ are the left and right residual-branch rows, each read through $\ParallelDiamondResidualUp$ data.
+\item $K$ is the finite candidate-join row, recording the proposed common target and the branch-local routes to it.
+\item $S$ is the finite-window confluence row, read through $\FiniteWindowConfluenceUp$ before any matrix row is exported.
+\item $A$ is the candidate-normalization confluence handoff row, read through $\MetacicCandidateNormalizationConfluenceHandoffUp$ when normalization-facing consumers inspect the same matrix.
+\item $O$ is the confluence-audit consumer row, read through $\MetaCICConfluenceAuditPacketUp$ after $P,F,L,R,K,S,A$ remain visible.
+\item $H$ records componentwise $\hsame$ transport for premise, frontier, residual-branch, candidate-join, finite-window, handoff, audit-consumer, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a confluence query through $P,F,L,R,K,S,A,O,H$.
+\item $G$ is the $\Pkg$ provenance over $\MetaCICResidualJoinMatrixUp$, $\MetaCICParallelDiamondFrontierUp$, $\FiniteWindowConfluenceUp$, $\ParallelDiamondResidualUp$, $\MetacicCandidateNormalizationConfluenceHandoffUp$, $\MetaCICConfluenceAuditPacketUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICResidualJoinMatrixUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,F,L,R,K,S,A,O,H,C,G,N$. It has no coordinate for premise-free parallel diamond, unrestricted closed Church--Rosser, subject reduction, evaluator equality, quotient syntax equality, global normalization, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual-join matrix NameCert obligations]
+\label{thm:metacic-residual-join-matrix-namecert-obligations}
+For every accepted $\MetaCICResidualJoinMatrixUp$ carrier
+$$
+J=(P,F,L,R,K,S,A,O,H,C,G,N),
+$$
+the local $\NameCert_{\MetaCICResidualJoinMatrixUp}$ surface consists exactly of residual-substitution premise retention through $P$, frontier exposure through $F$, two residual-branch exposures through $L,R$, candidate-join exposure through $K$, finite-window confluence exposure through $S$, candidate-normalization confluence handoff through $A$, confluence-audit consumption through $O$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-join-matrix-carrier}. Its matrix rows are $P,F,L,R,K,S,A,O$, and its structural rows are $H,C,G,N$.
+
+The retained premise row $P$ is read before the frontier row $F$ can be consumed. The two residual rows $L,R$ and the candidate row $K$ then record the local join matrix under the same finite frontier.
+
+The finite-window row $S$ and candidate-normalization handoff row $A$ keep the matrix bounded for confluence and normalization-facing consumers. The audit row $O$ receives the matrix only after those rows remain visible.
+
+Finally $H,C,G,N$ transport, replay, source, and name the same packet. Since no excluded global endpoint is a carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-join matrix candidate-diamond boundary]
+\label{thm:metacic-residual-join-matrix-candidate-diamond-boundary}
+Every candidate-diamond consumer of an accepted $\MetaCICResidualJoinMatrixUp$ packet must expose the residual-substitution premise row $P$, the $\MetaCICParallelDiamondFrontierUp$ row $F$, both $\ParallelDiamondResidualUp$ branch rows $L,R$, the candidate-join row $K$, the $\FiniteWindowConfluenceUp$ row $S$, the $\MetacicCandidateNormalizationConfluenceHandoffUp$ row $A$, and the $\MetaCICConfluenceAuditPacketUp$ row $O$ before any local diamond read is public. The read is a bounded audit-matrix route, not a premise-free parallel diamond or closed Church--Rosser theorem.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:metacic-residual-join-matrix-namecert-obligations}. They force every accepted matrix read through the retained premise, frontier, two residual branches, candidate join, finite window, normalization handoff, audit consumer, and structural rows.
+
+Read the residual side first. The row $P$ keeps the substitution premise visible, while $F,L,R,K$ display the finite local peak, its two residual descendants, and the candidate common target.
+
+Read the bounded-audit side next. The row $S$ restricts the read to a finite confluence window, $A$ records the candidate-normalization handoff for the same matrix, and $O$ supplies the confluence-audit consumer row.
+
+The rows $H,C,G,N$ only preserve that displayed route. Therefore the matrix cannot be cited as a premise-free parallel diamond, closed Church--Rosser theorem, subject-reduction theorem, evaluator equality, quotient syntax equality, global normalization theorem, or kernel-consistency certificate.
+\end{proof}
+
+\falsifiablePrediction{If the residual-substitution premise row $P$ is omitted, the $\MetaCICResidualJoinMatrixUp$ classifier rejects the matrix even when the frontier, residual-branch, candidate-join, finite-window, candidate-normalization handoff, and confluence-audit rows are present.}
+
+\independenceWitness{metacic-parallel-diamond-frontier, finite-window-confluence, parallel-diamond-residual, metacic-candidate-normalization-confluence-handoff, metacicconfluenceauditpacket: none is bijective to $\MetaCICResidualJoinMatrixUp$ because this packet jointly carries retained residual-substitution premise data, frontier rows, two residual branches, one candidate join, finite-window confluence, candidate-normalization handoff, confluence-audit consumption, transport, replay, provenance, and local naming.}
+
+The Lean file \texttt{lean4/BEDC/Derived/MetaCICResidualJoinMatrixUp/TasteGate.lean} later supplies explicit $\Nontrivial\ \MetaCICResidualJoinMatrixUp$ and $\FieldFaithful\ \MetaCICResidualJoinMatrixUp$ instances, with field-projection witnesses keeping $P,F,L,R,K,S,A,O,H,C,G,N$ separate.
+
+\closureat{MetaCICResidualJoinMatrixUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICResidualJoinMatrixUp}
+  \constructivestory{A $\MetaCICResidualJoinMatrixUp$ packet is generated from a retained residual-substitution premise row, a parallel-diamond frontier row, two residual branch rows, a candidate-join row, a finite-window confluence row, a candidate-normalization confluence handoff row, a confluence-audit consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-join-matrix-carrier}, \autoref{thm:metacic-residual-join-matrix-namecert-obligations}, and \autoref{thm:metacic-residual-join-matrix-candidate-diamond-boundary} seed the finite residual-join matrix for MetaCIC confluence audit boundaries.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close premise-free parallel diamond, unrestricted closed Church--Rosser, subject reduction, evaluator equality, quotient syntax equality, global normalization, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, premise retention, frontier exposure, residual-branch exposure, candidate-join exposure, finite-window confluence exposure, candidate-normalization handoff, audit-consumer non-escape, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICResidualJoinMatrixUp.}
+\end{closurestatus}
