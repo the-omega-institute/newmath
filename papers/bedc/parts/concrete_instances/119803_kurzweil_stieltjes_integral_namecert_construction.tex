@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\KurzweilStieltjesIntegralUp$}
+\label{ch:concrete-instances-kurzweil-stieltjes-integral-namecert}
+\origin{human}
+
+Following Kurzweil, Henstock, and Stieltjes, the $\KurzweilStieltjesIntegralUp$ packet records a finite gauge-controlled Stieltjes integration surface in which a displayed integrand is read against a bounded-variation integrator through tagged gauges and regulated handoff rows. It sits after the Riemann--Stieltjes packet of \autoref{ch:concrete-instances-riemannstieltjes-namecert}, the gauge-integral surface of \autoref{ch:concrete-instances-gauge-integral-namecert}, the bounded-variation ledger of \autoref{ch:concrete-instances-boundedvariation-namecert}, the regulated-integral handoff of \autoref{ch:concrete-instances-regulatedintegral-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only a finite gauge-variation carrier; it does not assert measure completion, host quotient equality of integrands, a selected primitive, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Kurzweil--Stieltjes integral carrier]
+\label{def:kurzweil-stieltjes-integral-carrier}
+A $\KurzweilStieltjesIntegralUp$ carrier is a finite $\BHist$ packet
+$$
+K=(G,R,A,T,I,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\GaugeIntegralUp$ row exposing the finite gauge cover, tagged cells, and admissible local radii.
+\item $R$ is the $\RiemannStieltjesUp$ row supplying the tagged Stieltjes sum surface already accepted by the Riemann--Stieltjes certificate.
+\item $A$ is the $\BoundedVariationUp$ integrator ledger, including transported endpoint jumps and finite variation bounds for the displayed cells.
+\item $T$ is the gauge-tagged refinement row tying the cells of $G$ to the Stieltjes tags read by $R$.
+\item $I$ is the $\RegulatedIntegralUp$ handoff row reached only after the gauge, Stieltjes, variation, and refinement rows are present.
+\item $E$ is the terminal $\RealUp$ seal for the accepted integral value.
+\item $H$ records componentwise $\hsame$ transport for the gauge, Stieltjes, variation, refinement, handoff, real seal, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from gauge cells to tags, from bounded-variation jumps to Stieltjes sums, from refinement rows to the regulated handoff, and from the handoff to the $\RealUp$ seal.
+\item $P$ is the $\Pkg$ provenance over $\KurzweilStieltjesIntegralUp$, $\RiemannStieltjesUp$, $\GaugeIntegralUp$, $\BoundedVariationUp$, $\RegulatedIntegralUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\KurzweilStieltjesIntegralUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,R,A,T,I,E,H,C,P,N$. It has no coordinate for measure spaces, completed variation objects, host quotient equality of functions, selected antiderivatives, or ambient real completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.KurzweilStieltjesIntegralUp}
+
+\begin{theorem}[Kurzweil--Stieltjes integral NameCert obligations]
+\label{thm:kurzweil-stieltjes-integral-namecert-obligations}
+For an accepted $\KurzweilStieltjesIntegralUp$ carrier $K=(G,R,A,T,I,E,H,C,P,N)$, the local $\NameCert_{\KurzweilStieltjesIntegralUp}$ surface consists exactly of gauge admission, accepted Riemann--Stieltjes readback, bounded-variation integrator control, gauge-tagged refinement, regulated-integral handoff, terminal $\RealUp$ sealing, componentwise transport, displayed continuation replay, package provenance, and local naming through $G,R,A,T,I,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kurzweil-stieltjes-integral-carrier}. The rows $G,R,A,T,I,E,H,C,P,N$ are the complete public packet, so every accepted read is first a finite gauge read, then a Riemann--Stieltjes tagged-sum read, then a bounded-variation and refinement read.
+
+The regulated handoff row $I$ is downstream of those rows. Transport through $H$ and replay through $C$ preserve the displayed order, while $P$ and $N$ only record provenance and local naming. Since the carrier contains no measure, quotient, selected primitive, or ambient completeness coordinate, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Kurzweil--Stieltjes gauge-variation handoff]
+\label{thm:kurzweil-stieltjes-integral-gauge-variation-handoff}
+Every accepted $\KurzweilStieltjesIntegralUp$ consumer of a terminal $\RealUp$ value must read the route
+$$
+\GaugeIntegralUp,\ \RiemannStieltjesUp,\ \BoundedVariationUp,\ \RegulatedIntegralUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert
+$$
+through $G,R,A,T,I,E,H,C,P,N$ before it treats the output as an integral value. The route consumes existing gauge and bounded-variation rows and does not assert measure completion, host quotient equality, selected primitives, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $K=(G,R,A,T,I,E,H,C,P,N)$. The gauge row $G$ supplies the only admissible local cells, and the Riemann--Stieltjes row $R$ supplies the only tagged Stieltjes sum surface.
+
+The bounded-variation row $A$ controls the integrator contribution on the same displayed cells. The refinement row $T$ ties the gauge tags to the Stieltjes tags, so a downstream consumer cannot bypass either the gauge surface or the variation ledger.
+
+The handoff row $I$ then exposes the regulated-integral route, and the terminal seal $E$ is available only after that handoff. Structural transport, continuation replay, provenance, and local naming preserve the same order through $H,C,P,N$, leaving no coordinate for the excluded host objects.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\KurzweilStieltjesIntegralUp$ read is refuted if a consumer reaches a $\RealUp$ integral value without displaying the gauge row, accepted Riemann--Stieltjes row, bounded-variation ledger, regulated-integral handoff, and local $\NameCert$ row.}
+
+\independenceWitness{Riemann--Stieltjes, gauge-integral, bounded-variation, regulated-integral, and Real packets: the Riemann--Stieltjes packet records tagged Stieltjes sums without owning a gauge cell ledger, the gauge-integral packet records local gauge admission without Stieltjes variation control, the bounded-variation packet records integrator variation without naming an integral value, the regulated-integral packet records a handoff surface without a Stieltjes integrator, and the Real packet supplies only the terminal seal. None is bijective to $\KurzweilStieltjesIntegralUp$.}
+
+\closureat{KurzweilStieltjesIntegralUp}{seedStr}
+
+\begin{closurestatus}{\KurzweilStieltjesIntegralUp}
+  \constructivestory{A $\KurzweilStieltjesIntegralUp$ packet is generated from finite gauge rows, accepted Riemann--Stieltjes rows, bounded-variation integrator ledgers, gauge-tagged refinement rows, regulated-integral handoff rows, Real seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kurzweil-stieltjes-integral-carrier}, \autoref{thm:kurzweil-stieltjes-integral-namecert-obligations}, and \autoref{thm:kurzweil-stieltjes-integral-gauge-variation-handoff} seed the finite gauge-variation Stieltjes readback route.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.KurzweilStieltjesIntegralUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean theorem verification, bridge checking, measure completion, host quotient equality of integrands or integrators, selected primitives, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked gauge admission, accepted Riemann--Stieltjes readback, bounded-variation control, regulated handoff, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.KurzweilStieltjesIntegralUp.}
+\end{closurestatus}
