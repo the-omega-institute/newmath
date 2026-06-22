@@ -2327,6 +2327,7 @@ import BEDC.Derived.CauchyRateComparisonUp.TasteGate
 import BEDC.Derived.CauchyRateDominanceUp.TasteGate
 import BEDC.Derived.CauchyRateLatticeUp.NameCertObligations
 import BEDC.Derived.CauchyRateLatticeUp.TasteGate
+import BEDC.Derived.CauchyRateNormalFormUp.TasteGate
 import BEDC.Derived.CauchyRateRealizationUp
 import BEDC.Derived.CauchyRateRealizationUp.NoChoiceBoundary
 import BEDC.Derived.CauchyRateRealizationUp.Obligations
@@ -2831,6 +2832,7 @@ import BEDC.Derived.ClosedNormalConfluenceSealUp.CarrierAdmissionLedger
 import BEDC.Derived.ClosedNormalConfluenceSealUp.JoinWindowInversion
 import BEDC.Derived.ClosedNormalConfluenceSealUp.NormalSource
 import BEDC.Derived.ClosedNormalConfluenceSealUp.PublicExport
+import BEDC.Derived.ClosedNormalConfluenceSealUp.SubstitutionBoundary
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyBoundaryUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyWitnessUp.TasteGate
@@ -5577,6 +5579,7 @@ import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
 import BEDC.Derived.FiniteCoverNerveUp.CompactUniformHandoff
 import BEDC.Derived.FiniteCoverNerveUp.NameCertObligations
 import BEDC.Derived.FiniteCoverNerveUp.TasteGate
+import BEDC.Derived.FiniteCoverRadiusStabilityUp.TasteGate
 import BEDC.Derived.FiniteCoverRefinementUp.TasteGate
 import BEDC.Derived.FiniteCoverUniformModulusEnvelopeUp
 import BEDC.Derived.FiniteDifferenceTableUp.TasteGate
@@ -5964,6 +5967,7 @@ import BEDC.Derived.FrechetFilterUp.TailCommonRefinement
 import BEDC.Derived.FrechetFilterUp.TailNeighborhoodHandoff
 import BEDC.Derived.FrechetFilterUp.TasteGate
 import BEDC.Derived.FrechetMetricEmbeddingUp.TasteGate
+import BEDC.Derived.FrechetRieszUp.TasteGate
 import BEDC.Derived.FrechetUrysohnUp.TasteGate
 import BEDC.Derived.FredholmAlternativeUp.TasteGate
 import BEDC.Derived.FreeGroupUp.TasteGate
@@ -11725,6 +11729,7 @@ import BEDC.Derived.WeakDerivativeUp.TasteGate
 import BEDC.Derived.WeakKonigBoundaryUp.TasteGate
 import BEDC.Derived.WeakLawLargeNumbersUp.TasteGate
 import BEDC.Derived.WeakStarCompactnessUp.TasteGate
+import BEDC.Derived.WeakStarTopologyUp.TasteGate
 import BEDC.Derived.WeakTopologyUp.FunctionalWindowStability
 import BEDC.Derived.WeakTopologyUp.NamecertObligations
 import BEDC.Derived.WeakTopologyUp.TasteGate
