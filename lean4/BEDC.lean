@@ -1512,6 +1512,7 @@ import BEDC.Derived.CantorSetUp.NameCertObligations
 import BEDC.Derived.CantorSetUp.NestedIntervalHandoff
 import BEDC.Derived.CantorSetUp.NestedRealHandoff
 import BEDC.Derived.CantorSetUp.PrefixGapSeparation
+import BEDC.Derived.CantorSetUp.PublicMembershipRoute
 import BEDC.Derived.CantorSetUp.RealDiagonalNonSurjectionRoute
 import BEDC.Derived.CantorSetUp.RealMembershipHandoff
 import BEDC.Derived.CantorSetUp.RealSealMembershipBoundary
@@ -10310,6 +10311,7 @@ import BEDC.Derived.RiemannRearrangementUp.TasteGate
 import BEDC.Derived.RiemannRefinementCriterionUp.TasteGate
 import BEDC.Derived.RiemannRemovableDiscontinuityUp
 import BEDC.Derived.RiemannStieltjesIntegrationPartsUp.TasteGate
+import BEDC.Derived.RiemannStieltjesUp.DarbouxIntegralConsumerRoute
 import BEDC.Derived.RiemannStieltjesUp.MeshHandoff
 import BEDC.Derived.RiemannStieltjesUp.NameCertObligations
 import BEDC.Derived.RiemannStieltjesUp.PartitionCoverage
@@ -10688,6 +10690,7 @@ import BEDC.Derived.SetlikeUp.RootUnblockKernelMembershipEnvelope
 import BEDC.Derived.SetlikeUp.SatisfactionHandoffObligation
 import BEDC.Derived.SetlikeUp.SubsetClassifierObligation
 import BEDC.Derived.SetlikeUp.SubsetComprehensionRootUnblock
+import BEDC.Derived.SetlikeUp.SubsetComprehensionStability
 import BEDC.Derived.SetlikeUp.SubsetImplicationObligation
 import BEDC.Derived.SetlikeUp.SubsetImplicationWitness
 import BEDC.Derived.SetlikeUp.SubsetLedger

@@ -77,4 +77,92 @@ theorem UniformHomeomorphismCompletionConsumerBoundary [AskSetup] [PackageSetup]
     }
   exact ⟨cert, completionReadUnary, consumerReadUnary⟩
 
+theorem UniformHomeomorphismCompletionClassifierStability [AskSetup] [PackageSetup]
+    {source target forward inverse forwardUC inverseUC forwardMod inverseMod compatibility replay
+      provenance localName forwardRead inverseRead completionRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformHomeomorphismCarrier source target forward inverse forwardUC inverseUC forwardMod
+      inverseMod compatibility replay provenance localName bundle pkg ->
+      Cont forward forwardUC forwardRead ->
+        Cont inverse inverseUC inverseRead ->
+          Cont forwardRead inverseRead compatibility ->
+            Cont compatibility replay completionRead ->
+              Cont completionRead localName consumerRead ->
+                PkgSig bundle consumerRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row forwardRead ∨ hsame row inverseRead ∨
+                          hsame row compatibility ∨ hsame row completionRead ∨
+                            hsame row consumerRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont forward forwardUC forwardRead ∧
+                          Cont inverse inverseUC inverseRead ∧
+                            Cont forwardRead inverseRead compatibility ∧
+                              Cont compatibility replay completionRead ∧
+                                Cont completionRead localName consumerRead ∧
+                                  PkgSig bundle consumerRead pkg)
+                      hsame ∧
+                    UnaryHistory forwardRead ∧ UnaryHistory inverseRead ∧
+                      UnaryHistory completionRead ∧ UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier forwardRoute inverseRoute compatibilityRoute completionRoute consumerRoute
+    consumerPkg
+  obtain ⟨_sourceUnary, _targetUnary, forwardUnary, inverseUnary, forwardUCUnary,
+    inverseUCUnary, _forwardModUnary, _inverseModUnary, _compatibilityUnary, replayUnary,
+    _provenanceUnary, localNameUnary, _provenancePkg, _localNamePkg⟩ := carrier
+  have forwardReadUnary : UnaryHistory forwardRead :=
+    unary_cont_closed forwardUnary forwardUCUnary forwardRoute
+  have inverseReadUnary : UnaryHistory inverseRead :=
+    unary_cont_closed inverseUnary inverseUCUnary inverseRoute
+  have compatibilityUnary : UnaryHistory compatibility :=
+    unary_cont_closed forwardReadUnary inverseReadUnary compatibilityRoute
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed compatibilityUnary replayUnary completionRoute
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed completionReadUnary localNameUnary consumerRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row forwardRead ∨ hsame row inverseRead ∨ hsame row compatibility ∨
+              hsame row completionRead ∨ hsame row consumerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont forward forwardUC forwardRead ∧
+              Cont inverse inverseUC inverseRead ∧
+                Cont forwardRead inverseRead compatibility ∧
+                  Cont compatibility replay completionRead ∧
+                    Cont completionRead localName consumerRead ∧
+                      PkgSig bundle consumerRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro consumerRead ⟨hsame_refl consumerRead, consumerReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, forwardRoute, inverseRoute, compatibilityRoute, completionRoute,
+          consumerRoute, consumerPkg⟩
+  }
+  exact
+    ⟨cert, forwardReadUnary, inverseReadUnary, completionReadUnary, consumerReadUnary⟩
+
 end BEDC.Derived.UniformHomeomorphismUp
