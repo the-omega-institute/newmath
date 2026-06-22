@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\DyadicPiecewiseLinearInterpolationUp$}
+\label{ch:concrete-instances-dyadic-piecewise-linear-interpolation-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicPiecewiseLinearInterpolationUp$ packet records the finite dyadic mesh route by which endpoint rational data is read as a piecewise-linear interpolation graph before any regular Cauchy or Real consumer sees a completion-facing handoff. It sits after the midpoint arithmetic of \autoref{ch:concrete-instances-dyadicmidpoint-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular interpolation corridor of \autoref{ch:concrete-instances-regular-cauchy-interpolation-namecert}, the rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed finite mesh data; it is not a host function space, an ambient uniform-continuity theorem, a selected real limit, or a completeness principle for $\RealUp$.
+
+\begin{definition}[Dyadic piecewise-linear interpolation carrier]
+\label{def:dyadic-piecewise-linear-interpolation-carrier}
+A $\DyadicPiecewiseLinearInterpolationUp$ carrier is a finite $\BHist$ packet
+$$
+I=(M,E,S,G,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the finite dyadic mesh row. It lists ordered dyadic knots, endpoint inclusions, adjacent midpoint checks, and the local interval codes read through $\DyadicMidpointUp$ and $\DyadicRatCoreUp$.
+\item $E$ is the endpoint-value row. It assigns displayed dyadic rational values to the knots of $M$ and records the equality checks needed at shared segment endpoints.
+\item $S$ is the segment-slope row. For every adjacent knot pair it records the displayed dyadic numerator, denominator, nonzero interval-width witness, and rational slope ledger.
+\item $G$ is the interpolation graph row. It records the affine value rule on each mesh segment, the endpoint agreement rows, and the segment-membership row used when a downstream reader asks for a graph value.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained by reading the graph on dyadic refinement windows rather than by invoking a host function.
+\item $L$ is the terminal $\RealUp$ handoff row, available only after the mesh, endpoint, slope, graph, and regular rational readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for mesh knots, endpoint values, segment slopes, graph rows, regular rational readback, terminal handoff, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from an interpolation request through $M,E,S,G,R,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicPiecewiseLinearInterpolationUp$, $\DyadicMidpointUp$, $\DyadicRatCoreUp$, $\RegularCauchyInterpolationUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicPiecewiseLinearInterpolationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,E,S,G,R,L,H,C,P,N$. It has no coordinate for an external real-valued function, a host slope field, arbitrary real arithmetic, quotient stream equality, selected limits, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Dyadic piecewise-linear interpolation NameCert obligations]
+\label{thm:dyadic-piecewise-linear-interpolation-namecert-obligations}
+For every accepted $\DyadicPiecewiseLinearInterpolationUp$ carrier
+$$
+I=(M,E,S,G,R,L,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicPiecewiseLinearInterpolationUp}$ surface consists exactly of finite dyadic mesh admission, endpoint-value admission, segment-slope ledger construction, interpolation graph exposure, $\RegSeqRatUp$ readback, terminal $\RealUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:dyadic-piecewise-linear-interpolation-carrier}. The rows $M,E,S,G$ are the only mesh, endpoint, slope, and graph coordinates, while $R,L,H,C,P,N$ only read back, seal, transport, replay, source, and name those rows.
+
+The arithmetic obligations are local to the dyadic rows. The mesh row reads midpoint and dyadic rational evidence through $\DyadicMidpointUp$ and $\DyadicRatCoreUp$, the endpoint row records displayed values at mesh knots, and the slope row stores only the finite rational differences and interval-width witnesses for adjacent knots.
+
+The graph obligation is then a finite segment ledger. The row $G$ chooses a displayed segment by the membership row supplied by $M$, applies the affine rule recorded by $S$, and checks endpoint agreement against $E$.
+
+Finally $R$ reads the same graph through regular rational refinement windows, $L$ exposes the Real-facing seal only after that readback, and $H,C,P,N$ preserve the same route. Since no carrier coordinate stores a host function, arbitrary real arithmetic, quotient stream equality, selected limit, or ambient completeness principle, the listed rows exhaust the local certificate obligations.
+\end{proof}
+
+\begin{theorem}[Dyadic piecewise-linear interpolation RegSeqRat handoff]
+\label{thm:dyadic-piecewise-linear-interpolation-regseqrat-handoff}
+Every regular-rational or Real-and-Completion consumer of an accepted $\DyadicPiecewiseLinearInterpolationUp$ packet reads the interpolation route through
+$$
+\DyadicMidpointUp,\ \DyadicRatCoreUp,\ \RegularCauchyInterpolationUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp .
+$$
+Concretely, the consumer must first expose the dyadic mesh row $M$, endpoint-value row $E$, segment-slope row $S$, and interpolation graph row $G$ before it may read the $\RegSeqRatUp$ handoff $R$ or terminal seal $L$.
+\end{theorem}
+\begin{proof}
+Start from an accepted packet $I=(M,E,S,G,R,L,H,C,P,N)$. The only source of interval data is the finite mesh row $M$, and the only source of endpoint values is the row $E$ tied to that mesh.
+
+The segment-slope row $S$ and graph row $G$ turn this finite dyadic data into displayed affine segment reads. These rows are exactly the interpolation surface consumed by the regular interpolation corridor; no downstream consumer can bypass them to obtain a host function.
+
+The $\RegSeqRatUp$ row $R$ is downstream of the graph row and records rational refinement reads of the same finite interpolation ledger. The terminal $\RealUp$ row $L$ is available only after $R$ is displayed.
+
+The transport, replay, provenance, and naming rows preserve this order. Therefore every regular-rational or completion-facing handoff factors through the displayed dyadic mesh, endpoint, slope, graph, and readback rows, and it exports no independent real function, selected limit, quotient stream equality, or ambient completeness principle.
+\end{proof}
+
+\falsifiablePrediction{A completion-facing consumer that exports a $\RegSeqRatUp$ readback from $\DyadicPiecewiseLinearInterpolationUp$ while omitting one of the displayed mesh, endpoint, segment-slope, graph, transport, replay, provenance, or local naming rows is not reading this packet.}
+
+\independenceWitness{Nearest siblings: dyadicmidpoint, dyadicratcore, regular-cauchy-interpolation, regseqrat, real. The carrier is not bijective to DyadicMidpointUp or DyadicRatCoreUp because it adds finite mesh, endpoint, slope, and graph rows; not to RegularCauchyInterpolationUp because it fixes dyadic piecewise-linear data; not to RegSeqRatUp because it supplies the interpolation ledger before readback; and not to RealUp because it records the finite pre-seal route rather than a terminal real name alone.}
+
+\closureat{DyadicPiecewiseLinearInterpolationUp}{seedStr}
+
+\begin{closurestatus}{\DyadicPiecewiseLinearInterpolationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-piecewise-linear-interpolation-carrier}, \autoref{thm:dyadic-piecewise-linear-interpolation-namecert-obligations}, and \autoref{thm:dyadic-piecewise-linear-interpolation-regseqrat-handoff} seed the finite dyadic interpolation route from mesh rows and endpoint values to regular rational readback and a Real-facing seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function extensionality, arbitrary real arithmetic, quotient stream equality, selected limits, ambient Real completeness, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic mesh admission, endpoint-value stability, segment-slope ledger exactness, interpolation graph exposure, RegSeqRat readback, Real handoff, transport, replay, provenance, and local naming for BEDC.Derived.DyadicPiecewiseLinearInterpolationUp.}
+  \constructivestory{A $\DyadicPiecewiseLinearInterpolationUp$ packet is generated from finite dyadic mesh rows, endpoint-value rows, segment-slope rows, interpolation graph rows, RegSeqRat readback, a Real-facing seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
