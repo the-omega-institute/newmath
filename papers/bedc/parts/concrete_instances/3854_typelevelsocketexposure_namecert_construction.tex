@@ -64,15 +64,26 @@ Finally inspect $H,C,P,N$. They provide the only transport, continuation, proven
 \end{proof}
 \leanchecked{BEDC.Derived.TypeLevelSocketExposureUp.TypeLevelSocketExposureLedgerHostReturnExclusion}
 
-\closureat{TypeLevelSocketExposureUp}{seedStr}
+\begin{theorem}[Type-level socket exposure refusal exactness]
+\label{thm:type-level-socket-exposure-refusal-exactness}
+For every accepted $\TypeLevelSocketExposureUp$ carrier $E=(S,A,K,L,R,H,C,P,N)$, the refusal row $R$ excludes hidden axiom channels, theorem-valued outside premises, forbidden host dependencies, unlisted setup fields, and unmarked supply channels exactly because every consumer route factors through $S,A,K,L,R,H,C,P,N$. No refused channel can be reconstructed from the structural rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:type-level-socket-exposure-carrier}. The packet exposes the setup field, admitted carrier, classifier, ledger placement, refusal row, transport, continuation, provenance, and local naming as the finite tuple $S,A,K,L,R,H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:type-level-socket-exposure-namecert-obligations}. They make refusal-ledger exactness through $R$ one of the local rows rather than an external convention.
+
+Finally use ledger non-escape from \autoref{thm:type-level-socket-exposure-ledger-nonescape}. Since every consumer read factors through the displayed tuple, a hidden axiom channel, theorem-valued outside premise, forbidden host dependency, unlisted setup field, or unmarked supply channel has no carrier coordinate and no replay route through $H,C,P,N$.
+\end{proof}
+
+\closureat{TypeLevelSocketExposureUp}{obligationStr}
 
 \begin{closurestatus}{\TypeLevelSocketExposureUp}
   \constructivestory{A $\TypeLevelSocketExposureUp$ packet is generated from a setup-field exposure row, admitted carrier-shape row, classifier row, ledger-placement row, refusal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:type-level-socket-exposure-carrier}, \autoref{thm:type-level-socket-exposure-namecert-obligations}, and \autoref{thm:type-level-socket-exposure-ledger-nonescape} bind the finite NameCert surface for type-level outside-supply exposure.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{human}
   \notclaimed{This chapter does not close Lean verification, bridge checking, existence of any outside supply, global kernel soundness, all setup-field designs, or any hidden host principle.}
   \upgradepath{Obligation closure requires checked carrier admission, setup-field exposure, classifier visibility, ledger placement, refusal exactness, provenance, and non-escape for the same finite packet.}
 \end{closurestatus}
