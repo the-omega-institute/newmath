@@ -2831,6 +2831,7 @@ import BEDC.Derived.ClosedNormalConfluenceSealUp.CarrierAdmissionLedger
 import BEDC.Derived.ClosedNormalConfluenceSealUp.JoinWindowInversion
 import BEDC.Derived.ClosedNormalConfluenceSealUp.NormalSource
 import BEDC.Derived.ClosedNormalConfluenceSealUp.PublicExport
+import BEDC.Derived.ClosedNormalConfluenceSealUp.SubstitutionBoundary
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyBoundaryUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyWitnessUp.TasteGate
