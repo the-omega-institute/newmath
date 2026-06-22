@@ -10690,6 +10690,7 @@ import BEDC.Derived.SetlikeUp.RootUnblockKernelMembershipEnvelope
 import BEDC.Derived.SetlikeUp.SatisfactionHandoffObligation
 import BEDC.Derived.SetlikeUp.SubsetClassifierObligation
 import BEDC.Derived.SetlikeUp.SubsetComprehensionRootUnblock
+import BEDC.Derived.SetlikeUp.SubsetComprehensionStability
 import BEDC.Derived.SetlikeUp.SubsetImplicationObligation
 import BEDC.Derived.SetlikeUp.SubsetImplicationWitness
 import BEDC.Derived.SetlikeUp.SubsetLedger
