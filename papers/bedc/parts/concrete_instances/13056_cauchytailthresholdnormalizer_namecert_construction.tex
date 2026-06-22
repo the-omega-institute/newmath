@@ -71,6 +71,20 @@ Next read the normalized threshold $\Theta$. The two StreamName windows, dyadic 
 The agreement and Real rows are therefore downstream of the same finite threshold. The rows $A,E,H,C,P,L,N$ transport, replay, source, ledger, and name the displayed route, and the carrier contains no coordinate for a second route around $\Theta$.
 \end{proof}
 
+\begin{theorem}[Cauchy tail threshold normalizer shared-threshold uniqueness]
+\label{thm:cauchy-tail-threshold-normalizer-shared-threshold-uniqueness}
+Let $T$ and $T'$ be accepted $\CauchyTailThresholdNormalizerUp$ carriers read by $\RealUp$ or $\RealTailAgreementSealUp$ consumers. If the two consumers read the same shared-tail source row $S$ and the same seal-facing modulus row $M$ through classified normalizer packets, then both consumers expose the same normalized threshold row $\Theta$ before any $W_0,W_1,D,R,A,E$ row is available.
+
+In particular, the classifier cannot admit two downstream seal reads with the same $S,M$ source data and different normalized tail thresholds.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers through \autoref{def:cauchy-tail-threshold-normalizer-carrier}. In each carrier, the source and seal rows $S,M$ are followed by a single normalized threshold row before any window, tolerance, readback, agreement, or Real-seal row appears.
+
+Apply route exhaustion from \autoref{thm:cauchy-tail-threshold-normalizer-route-exhaustion}. A $\RealUp$ or $\RealTailAgreementSealUp$ consumer has no route around $\Theta$, so the downstream rows $W_0,W_1,D,R,A,E$ can be read only after the normalized threshold has been displayed.
+
+Finally use the classifier of \autoref{def:cauchy-tail-threshold-normalizer-classifier}. Classified packets are compared componentwise on the shared-tail source, seal row, normalized threshold, two windows, dyadic tolerance ledger, regular readback, agreement seal, and Real row. Since the two reads agree on $S$ and $M$ inside that classified normalizer surface, the threshold component exposed before the window rows is the same $\Theta$ in both reads.
+\end{proof}
+
 \begin{theorem}[Cauchy tail threshold normalizer noninternalization]
 \label{thm:cauchy-tail-threshold-normalizer-noninternalization}
 The $\CauchyTailThresholdNormalizerUp$ packet does not internalize quotient streams, selected host limits, host real equality, trichotomy, ambient completeness, or hidden threshold choice. Its public surface is exactly the finite shared-threshold route displayed by
