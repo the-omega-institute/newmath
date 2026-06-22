@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\PhaseCurvatureTransportUp$}
+\label{ch:concrete-instances-phase-curvature-transport-namecert}
+\origin{ai}
+
+The $\PhaseCurvatureTransportUp$ packet realizes the hyperbolic phase-geometry route as finite transport and curvature-budget data. It is adjacent to the curvature-budget surface of \autoref{ch:concrete-instances-hyperbolic-phase-curvature-budget-namecert}, the phase-holonomy route of \autoref{ch:concrete-instances-hyperbolic-phase-holonomy-index-namecert}, the disk metric surface of \autoref{ch:concrete-instances-poincare-disk-metric-namecert}, the hyperbolic metric interface of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The carrier records only finite disk, metric, boundary, phase, curvature-budget, Real-seal, transport, replay, provenance, and naming rows; it does not assert a global smooth connection, choose geodesic representatives, or identify boundary refusal with an interior phase center.
+
+\begin{definition}[Phase curvature transport carrier]
+\label{def:phase-curvature-transport-carrier}
+A $\PhaseCurvatureTransportUp$ carrier is a finite $\BHist$ packet
+$$
+C=(D,M,B,\Phi,K,R,H,T,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $D$ is the finite $\PoincareDiskMetricUp$ disk-window row, displaying the inspected disk probes and admissible boundary-facing routes.
+\item $M$ is the $\HyperbolicMetricUp$ readback row consumed by the packet before any phase transport is inspected.
+\item $B$ is the boundary-refusal row, recording which far-end or boundary reads are preserved as boundary data and not collapsed into interior centers.
+\item $\Phi$ is the phase-transport row, listing the finite phase windows, holonomy comparisons, and observer-expansion readbacks inspected by the packet.
+\item $K$ is the curvature-budget handoff row, reusing the budget discipline of \autoref{ch:concrete-instances-hyperbolic-phase-curvature-budget-namecert} for the displayed phase transport.
+\item $R$ is the $\RealUp$ seal for metric, phase, and curvature-budget readbacks reached only after $D,M,B,\Phi,K$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for disk, metric, boundary, phase, curvature-budget, real-seal, replay, provenance, and local-name rows.
+\item $T$ records displayed $\Cont$ replay from disk windows through metric readback, boundary refusal, phase transport, curvature-budget handoff, and real sealing.
+\item $P$ is the $\Pkg$ provenance over $\PhaseCurvatureTransportUp$, $\PoincareDiskMetricUp$, $\HyperbolicMetricUp$, $\HyperbolicPhaseCurvatureBudgetUp$, $\HyperbolicPhaseHolonomyIndexUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PhaseCurvatureTransportUp}$ row.
+\end{enumerate}
+The classifier accepts a packet only when disk reads pass through $D$, metric reads pass through $M$, boundary refusal is read from $B$, phase transport is displayed in $\Phi$, curvature-budget constraints are carried by $K$, and all Real-facing outputs preserve $R,H,T,P,N$. It has no coordinate for a global connection form, chosen geodesic representative, quotient boundary equality, hidden smooth curvature tensor, or an identification of the boundary refusal with an interior phase center.
+\end{definition}
+
+\begin{theorem}[Phase curvature transport NameCert obligations]
+\label{thm:phase-curvature-transport-namecert-obligations}
+For every accepted $\PhaseCurvatureTransportUp$ carrier $C=(D,M,B,\Phi,K,R,H,T,P,N)$, the local $\NameCert_{\PhaseCurvatureTransportUp}$ obligations are exactly carrier admission for the disk-window row, hyperbolic metric readback, boundary-refusal row, phase-transport row, curvature-budget handoff, real-name seal, componentwise transport, continuation replay, provenance, and local naming; metric exactness requiring all phase windows to read the same displayed disk and metric rows; boundary-refusal exactness requiring transport to preserve the boundary row before phase readback is sealed; curvature-budget exactness requiring $K$ to be consumed before any Real-facing phase output; and non-escape from global connection forms, chosen geodesic representatives, quotient boundary equality, hidden smooth curvature tensors, and interior-center collapse.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:phase-curvature-transport-carrier}. The finite disk row $D$, metric row $M$, boundary-refusal row $B$, phase-transport row $\Phi$, curvature-budget row $K$, and Real seal $R$ are the only geometric rows available to the classifier.
+
+Metric exactness is read first. A phase window cannot be consumed until the displayed disk probes have passed through $D$ and their hyperbolic metric readback has passed through $M$.
+
+Boundary and curvature data are then checked in order. The row $B$ keeps the far-end refusal as boundary data, while $K$ supplies the finite curvature-budget handoff for the phase transport in $\Phi$ before any Real-facing output is sealed by $R$.
+
+Finally, $H,T,P,N$ transport, replay, source, and name the same route. Because the carrier has no row for global connection forms, chosen geodesic representatives, quotient boundary equality, hidden smooth curvature tensors, or interior-center collapse, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{If the curvature-budget row is removed, phase transport can no longer force the same boundary refusal and metric-readback route.}
+
+\independenceWitness{hyperbolic-phase-curvature-budget, hyperbolic-phase-holonomy, poincare-disk-metric, hyperbolic-metric, real: not bijective because $\PhaseCurvatureTransportUp$ jointly carries phase transport, curvature-budget handoff, disk metric, boundary refusal, Real seal, replay, provenance, and local NameCert rows.}
+
+\begin{closurestatus}{\PhaseCurvatureTransportUp}
+  \constructivestory{A $\PhaseCurvatureTransportUp$ packet starts from finite Poincare disk windows, reads hyperbolic metric data, preserves boundary refusal, transports phase windows through a curvature-budget handoff, seals Real-facing outputs, and preserves the same route by hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:phase-curvature-transport-carrier} and \autoref{thm:phase-curvature-transport-namecert-obligations} seed the disk, metric, boundary-refusal, phase-transport, curvature-budget, Real-seal, transport, replay, provenance, and naming carrier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global smooth connection data, chosen geodesic representatives, quotient boundary equality, hidden curvature tensors, interior-center collapse, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric exactness, boundary-refusal exactness, curvature-budget exactness, Real-seal boundary, transport, replay, provenance, local naming, and Nontrivial and FieldFaithful instances in lean4/BEDC/Derived/PhaseCurvatureTransportUp/TasteGate.lean.}
+\end{closurestatus}
