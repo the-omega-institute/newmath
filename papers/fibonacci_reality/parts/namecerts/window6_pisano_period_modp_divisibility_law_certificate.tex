@@ -1,15 +1,32 @@
-\subsection{NameCert: Window Six Pisano Period Modp Divisibility Law}
-\label{sec:namecert-window6_pisano_period_modp_divisibility_law_certificate}
+\subsection{Finite Forced-Window Certificate for a Modulo Prime Period Divisibility Law}\label{sec:window6-pisano-period-modp-divisibility-law-certificate}
 \origin{ai}
 
-\paragraph{Statement.} The Pisano period pi(m) is the least k>0 such that (F\_k mod m, F\_\{k+1\} mod m)=(0,1). For primes p, the classical mod-p divisibility law is governed by p mod 5: if p mod 5 is 1 or 4 then pi(p) divides p-1; if p mod 5 is 2 or 3 then pi(p) divides 2*(p+1); and p=5 has pi(5)=20. This is the period-layer continuation of the Window6 golden-split and Fibonacci entry-point mod-p arc.
+\paragraph{Finite carrier.}
+The available sanitized record names a six-window period-divisibility certificate, but it supplies no finite rows, no prime set, no window relation, and no stated divisibility identity. A self-contained certificate would have to begin with an explicit finite carrier. The natural carrier for a six-window construction is a finite set of words such as $\{0,1\}^6$, which has exactly $2^6=64$ elements, or, for a prime modulus $p$, a state set such as $(\mathbb{Z}/p\mathbb{Z})^2$, which has exactly $p^2$ ordered pairs. These two carriers have different mathematical meanings: the first records binary length-six windows, while the second records consecutive residues for a Fibonacci-type recurrence. Since the sanitized facts do not identify which carrier is intended, the certificate cannot choose one without adding mathematical content not present in the input.
 
-\paragraph{Carrier.} The finite carrier is the Pisano residue-state recurrence (F\_k mod m, F\_\{k+1\} mod m) for Window6 Fibonacci counts, evaluated over named moduli and primes p<60.
+\paragraph{Finite transition relation.}
+A period certificate also requires an explicit transition relation. For a residue-state model one would usually specify a map of the form
+$$
+\begin{aligned}
+T_p(a,b)=(b,a+b)\quad \text{in }(\mathbb{Z}/p\mathbb{Z})^2,
+\end{aligned}
+$$
+and then prove that the matrix
+$$
+\begin{aligned}
+A=\begin{pmatrix}0&1\\1&1\end{pmatrix}
+\end{aligned}
+$$
+has determinant $-1$, hence is invertible modulo $p$ for every prime $p$. This would make every orbit finite and would define a period as the least positive $n$ such that $T_p^n(0,1)=(0,1)$. For a six-window model, however, the relation would instead be a finite directed graph on length-six words, with an edge rule describing which next symbol is forced by the previous window. The input does not provide that edge rule, so the relation cannot be recovered from the slug alone.
 
-\paragraph{Relations.} fuel-bounded forward Pisano period search on residue pairs; known Pisano values including pi(10)=60, pi(5)=20, pi(7)=16, and pi(11)=10; split prime branch p mod 5 in \{1,4\} with pi(p) dividing p-1; inert prime branch p mod 5 in \{2,3\} with pi(p) dividing 2*(p+1); ramified p=5 branch with pi(5)=20; period-layer refinement of the golden-split and Fibonacci entry-point mod-p arc
+\paragraph{Partition and exact counts.}
+A complete forced-window chapter must give the partition of the finite carrier used by the certificate. For example, it might partition $\{0,1\}^6$ by leading symbol, terminal symbol, cyclic class, parity of the number of ones, or membership in a forced-successor class. Those choices produce different exact counts and different incidence matrices. Likewise, a residue-state proof might separate $(0,0)$ from the $p^2-1$ nonzero states, or separate states by orbit under $T_p$. The sanitized facts do not state which partition is certified, so no exact block sizes, matrix dimensions, row sums, cycle lengths, or divisibility factors can be asserted.
 
-\paragraph{Counts and identities.} No exact count has been certified in the author-facing facts.
+\paragraph{Identity required for certification.}
+The divisibility law itself must be stated as an exact finite identity. Examples of possible targets include: a period divisibility statement between two moduli, a divisibility relation between a six-window cycle length and a residue-state period, or a divisibility relation between a matrix order and a counted orbit length. These are not interchangeable. A valid certificate must specify the finite integers $d$ and $N$ and prove $d\mid N$ by giving an integer quotient $q$ with $N=dq$, or by giving a finite orbit decomposition whose component lengths sum to $N$ and are compatible with $d$. No such integers, quotient, orbit decomposition, or factorization table are present in the sanitized record.
 
-\paragraph{Witness extraction.} The fallback records only the finite construction data already present in the sanitized packet.
+\paragraph{Witness extraction.}
+A self-contained construction would also need an extraction rule: from a finite row of the certificate, one must be able to read the carrier element, the successor relation, the block of the partition, and the exact integer identity being witnessed. Because there are no rows in the sanitized facts, there is no finite witness to extract. The chapter can therefore only describe the missing mathematical slots, not certify the period law.
 
-\paragraph{Not claimed.} /; No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed.
+\paragraph{Local boundary.}
+Nothing in the available record establishes any physical-constant identification, global flow law, external dependency, metrological comparison, or interpretation beyond a finite construction. Those claims would require a separate certificate with its own finite data and its own stated comparison rule.
