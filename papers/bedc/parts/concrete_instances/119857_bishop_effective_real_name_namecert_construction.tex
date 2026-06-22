@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\BishopEffectiveRealNameUp$}
+\label{ch:concrete-instances-bishop-effective-real-name-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopEffectiveRealNameUp$ packet records an effective real name as explicit dyadic approximation, precision and modulus visibility, finite StreamName windows, RegSeqRat readback, and RealUp seal rows. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}, and the fast threshold discipline of \autoref{ch:concrete-instances-fast-cauchy-modulus-namecert}. The packet is a finite L10 real-name interface; it does not assert quotient equality of streams or ambient completeness of $\RealUp$.
+
+\begin{definition}[Bishop effective real-name carrier]
+\label{def:bishop-effective-real-name-carrier}
+A $\BishopEffectiveRealNameUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,M,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ approximation ledger, storing the dyadic approximants and tolerance accounts exposed to the consumer.
+\item $M$ is the visible precision and modulus row that tells which dyadic tolerance is requested and which finite window may be opened.
+\item $S$ is the $\StreamNameUp$ finite-window row opened at the precision displayed by $M$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the dyadic approximants and the opened stream windows.
+\item $E$ is the $\RealUp$ seal row, exposed only after $D,M,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the approximation ledger, precision and modulus row, finite window, regular rational readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the effective name from a precision query through $D,M,S,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BishopEffectiveRealNameUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopEffectiveRealNameUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,M,S,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge data.
+\end{definition}
+
+\begin{theorem}[Bishop effective real-name NameCert obligations]
+\label{thm:bishop-effective-real-name-namecert-obligations}
+For every accepted $\BishopEffectiveRealNameUp$ carrier
+$$
+B=(D,M,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopEffectiveRealNameUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the $\DyadicRatCoreUp$ approximation ledger, precision and modulus row, $\StreamNameUp$ finite window, $\RegSeqRatUp$ readback, $\RealUp$ seal, transport, replay, provenance, and local naming rows;
+\item approximation-row exactness, requiring $D$ to display the dyadic approximants and tolerance accounts consumed by the readback;
+\item modulus visibility, requiring $M$ to expose the precision request and the finite threshold before any stream window is opened;
+\item finite-window exactness, requiring $S$ to be precisely the finite StreamName window opened by the visible row $M$;
+\item RegSeqRat handoff, requiring $R$ to read $D,M,S$ before exporting a regular rational name;
+\item Real seal nonescape, requiring $E$ to consume $D,M,S,R$ before any Real-facing row is public;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming for the same displayed rows through $H,C,P,N$.
+\end{enumerate}
+No Bishop effective real-name obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-effective-real-name-carrier}. The only approximation-bearing coordinates are the dyadic ledger $D$, the precision and modulus row $M$, the finite window $S$, and the regular rational readback $R$.
+
+The approximation-row exactness and modulus visibility clauses are read before any Real-facing seal is available. The row $M$ supplies the precision query and threshold, while $D$ supplies the dyadic tolerance account for that same query.
+
+The finite-window and handoff clauses then force the consumer through $S$ and $R$. The window $S$ is opened from the visible threshold, and $R$ reads the displayed dyadic data and window data as a regular rational name.
+
+Finally $E,H,C,P,N$ preserve the same finite route as a Real-facing seal, componentwise transport, replay, provenance, and local naming. Since the excluded objects have no carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop effective real-name Real seal handoff]
+\label{thm:bishop-effective-real-name-real-seal-handoff}
+Every Real-facing read of an accepted $\BishopEffectiveRealNameUp$ carrier first exposes the displayed route
+$$
+D,M,S,R,E,H,C,P,N .
+$$
+The handoff exports no quotient stream equality, selected limit, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge datum.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $B=(D,M,S,R,E,H,C,P,N)$. The Real seal row $E$ is listed downstream of the dyadic approximation ledger, precision and modulus row, finite StreamName window, and RegSeqRat readback.
+
+Apply \autoref{thm:bishop-effective-real-name-namecert-obligations}. Its RegSeqRat handoff and Real seal nonescape clauses require $R$ to consume $D,M,S$ and require $E$ to consume $D,M,S,R$ before a Real-facing row is public.
+
+The structural rows $H,C,P,N$ replay and name the same finite path. No separate coordinate supplies quotient stream equality, a selected limit, choice, trichotomy, host equality, ambient completeness, Lean verification, or bridge data, so the seal cannot bypass the displayed Bishop-style real-name interface.
+\end{proof}
+
+\falsifiablePrediction{Every $\BishopEffectiveRealNameUp$ Real-facing read factors through a DyadicRatCore approximation ledger, a visible precision and modulus row, a finite StreamName window, a RegSeqRat readback, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, fastcauchymodulus: $\BishopEffectiveRealNameUp$ is not bijective to any listed sibling because it jointly carries dyadic approximation, precision visibility, finite-window opening, regular rational readback, and Real-facing seal data as one certificate.}
+
+\closureat{BishopEffectiveRealNameUp}{seedStr}
+
+\begin{closurestatus}{\BishopEffectiveRealNameUp}
+  \constructivestory{A $\BishopEffectiveRealNameUp$ packet is generated from a DyadicRatCoreUp approximation ledger, a visible precision and modulus row, a StreamNameUp finite window, a RegSeqRatUp readback, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-effective-real-name-carrier}, \autoref{thm:bishop-effective-real-name-namecert-obligations}, and \autoref{thm:bishop-effective-real-name-real-seal-handoff} seed the finite Bishop-style effective real-name route from dyadic approximation evidence to the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, approximation-row exactness, modulus visibility, finite-window exactness, RegSeqRat handoff, Real seal nonescape, componentwise transport, displayed replay, provenance, and local naming for BEDC.Derived.BishopEffectiveRealNameUp.}
+\end{closurestatus}

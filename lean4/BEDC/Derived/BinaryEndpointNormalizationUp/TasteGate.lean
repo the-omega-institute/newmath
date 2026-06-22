@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BinaryEndpointNormalizationUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -271,5 +283,99 @@ theorem BinaryEndpointNormalizationTasteGate_single_carrier_alignment :
           (fun x y heq =>
             BinaryEndpointNormalizationTasteGate_single_carrier_alignment_injective heq)
           rfl))
+
+theorem BinaryEndpointNormalizationNameCertObligations [AskSetup] [PackageSetup]
+    {L R K D A W Q S H C P N carryRead approxRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory L ->
+      UnaryHistory R ->
+        UnaryHistory K ->
+          UnaryHistory D ->
+            UnaryHistory A ->
+              UnaryHistory W ->
+                UnaryHistory Q ->
+                  UnaryHistory S ->
+                    UnaryHistory H ->
+                      UnaryHistory C ->
+                        UnaryHistory P ->
+                          UnaryHistory N ->
+                            Cont W D carryRead ->
+                              Cont carryRead A approxRead ->
+                                Cont approxRead Q sealRead ->
+                                  PkgSig bundle P pkg ->
+                                    PkgSig bundle sealRead pkg ->
+                                      SemanticNameCert
+                                          (fun row : BHist =>
+                                            hsame row sealRead ∧ UnaryHistory row)
+                                          (fun row : BHist =>
+                                            hsame row L ∨ hsame row R ∨ hsame row K ∨
+                                              hsame row D ∨ hsame row A ∨ hsame row W ∨
+                                                hsame row Q ∨ hsame row S ∨
+                                                  hsame row H ∨ hsame row C ∨
+                                                    hsame row P ∨ hsame row N ∨
+                                                      hsame row carryRead ∨
+                                                        hsame row approxRead ∨
+                                                          hsame row sealRead)
+                                          (fun row : BHist =>
+                                            UnaryHistory row ∧ Cont W D carryRead ∧
+                                              Cont carryRead A approxRead ∧
+                                                Cont approxRead Q sealRead ∧
+                                                  PkgSig bundle P pkg ∧
+                                                    PkgSig bundle sealRead pkg)
+                                          hsame ∧
+                                        UnaryHistory carryRead ∧
+                                          UnaryHistory approxRead ∧
+                                            UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro _lUnary _rUnary _kUnary dUnary aUnary wUnary qUnary _sUnary _hUnary _cUnary
+    _pUnary _nUnary carryRoute approxRoute sealRoute provenancePkg sealPkg
+  have carryUnary : UnaryHistory carryRead :=
+    unary_cont_closed wUnary dUnary carryRoute
+  have approxUnary : UnaryHistory approxRead :=
+    unary_cont_closed carryUnary aUnary approxRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed approxUnary qUnary sealRoute
+  have sourceSeal :
+      (fun row : BHist => hsame row sealRead ∧ UnaryHistory row) sealRead := by
+    exact ⟨hsame_refl sealRead, sealUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row L ∨ hsame row R ∨ hsame row K ∨ hsame row D ∨
+              hsame row A ∨ hsame row W ∨ hsame row Q ∨ hsame row S ∨
+                hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                  hsame row carryRead ∨ hsame row approxRead ∨ hsame row sealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont W D carryRead ∧ Cont carryRead A approxRead ∧
+              Cont approxRead Q sealRead ∧ PkgSig bundle P pkg ∧
+                PkgSig bundle sealRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealRead sourceSeal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, carryRoute, approxRoute, sealRoute, provenancePkg, sealPkg⟩
+  }
+  exact ⟨cert, carryUnary, approxUnary, sealUnary⟩
 
 end BEDC.Derived.BinaryEndpointNormalizationUp
