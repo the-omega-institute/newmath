@@ -1,0 +1,23 @@
+\subsection{Finite-row object}\label{sec:q6-f3-stress-position-resolved-translation-survival-object}
+
+\paragraph{Carrier.} The object considered here is a finite coding-window table.  A row is eligible only when it carries, in the same organism and the same ordered coding sequence, an $f_3$-stress residual coordinate after quotienting by amino-acid identity, local synonymous codon counts, a context-specific wobble-weight surface, a position-resolved ribosome-footprint or translation-efficiency readout, an mRNA abundance control, and amino-acid or position-bin controls.  The proposed row-level statistic is not a codon-geometry score alone.  It is a controlled survival entry, written here as $S_{f_3}(T_{\mathrm{pos}}\mid Z)$, where $T_{\mathrm{pos}}$ is the position-resolved translation readout and $Z$ contains amino-acid composition, position bin, GC3, length, methionine density, mRNA abundance, coverage and mappability controls, and simpler codon-usage baselines.
+
+\paragraph{Coordinate.} For a local window $w$, let $x_{f_3}(w)$ denote the residual coordinate remaining after amino-acid quotienting.  Let $c(w)$ be the vector of synonymous codon counts and let $\omega(w)$ denote the wobble-weight context.  The proposed test is meaningful only when the measured context violates the symmetry condition that would make the $f_3$ direction invisible.  In notation, the required asymmetry is
+$$
+\begin{aligned}
+  \omega_c(w) \neq \omega^{f_3}_c(w)
+\end{aligned}
+$$
+for the codon contexts used in the window statistic.  This condition is observational: it must be supplied by the joined wobble-weight surface rather than assumed from the residual coordinate itself.
+
+\paragraph{Survival statistic.} A candidate survival entry compares a full controlled model against the admissible reduced baselines on held-out rows.  One compact form is
+$$
+\begin{aligned}
+  S_{f_3}(T_{\mathrm{pos}}\mid Z)
+  &= \Delta_{\mathrm{heldout}}\,\mathcal{L}\bigl(T_{\mathrm{pos}};
+       x_{f_3}, c, \omega, Z\bigr) \\
+  &\quad - \max_{B\in\mathcal{B}_{\mathrm{simple}}}
+       \Delta_{\mathrm{heldout}}\,\mathcal{L}\bigl(T_{\mathrm{pos}}; B, Z\bigr).
+\end{aligned}
+$$
+Here $\mathcal{B}_{\mathrm{simple}}$ contains the controls that can explain ordinary codon usage, amino-acid composition, positional structure, transcript abundance, GC3, length, and methionine-density effects without using the $f_3$ residual direction.  The proposed cross-layer call requires a positive held-out improvement after these ablations and after rank checks on the finite row panel.  A positive entry would say only that this coordinate improves a matched translation readout under the declared controls; it would not identify a molecular mechanism.
