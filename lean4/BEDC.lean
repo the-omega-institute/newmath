@@ -9780,6 +9780,7 @@ import BEDC.Derived.RegularCauchyAverageUp
 import BEDC.Derived.RegularCauchyAverageUp.TasteGate
 import BEDC.Derived.RegularCauchyBallUp.TasteGate
 import BEDC.Derived.RegularCauchyBinaryInterleavingUp.TasteGate
+import BEDC.Derived.RegularCauchyBinarySplittingUp.TasteGate
 import BEDC.Derived.RegularCauchyBishopLimitUp
 import BEDC.Derived.RegularCauchyCancellationUp.TasteGate
 import BEDC.Derived.RegularCauchyCanonicalModulusUp.TasteGate
