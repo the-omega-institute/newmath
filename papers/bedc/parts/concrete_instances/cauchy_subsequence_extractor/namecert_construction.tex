@@ -71,6 +71,24 @@ Read the selector chapter named in the statement. Its surface supplies the monot
 Finally apply the finite-window route of \autoref{thm:cauchy-subsequence-extractor-finite-window-route}. The Real and separability rows $R,L$ are reached only after $W,D,E$ have been displayed and transported through $H,T,P,N$, so the handoff cannot export countable choice, quotient real equality, or a global subsequence selector.
 \end{proof}
 
+\begin{theorem}[CauchySubsequenceExtractor completion witness route]
+\label{thm:cauchy-subsequence-extractor-completion-witness-route}
+Any accepted $\CauchySubsequenceExtractorUp$ read exposing
+$$
+C,Q,W,D,E,R,L,H,T,P,N
+$$
+may feed a $\BishopCompletionWitnessUp$ consumer only through the displayed $\CauchyUp$ source $C$, the $\RegSeqRatUp$ readback $Q$, the $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the finite extraction row $E$, and the terminal $\RealUp$ seal $R$. The route is the selector-lattice handoff of \autoref{thm:cauchy-subsequence-extractor-selector-lattice-handoff} followed by the finite-window route of \autoref{thm:cauchy-subsequence-extractor-finite-window-route}; it exports no countable choice, quotient real equality, arbitrary selected subsequence, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier $S=(C,Q,W,D,E,R,L,H,T,P,N)$. The rows $C,Q,W,D,E,R$ are the only Cauchy source, regular readback, stream-window, dyadic-tolerance, extraction, and Real-seal coordinates available to a completion-facing consumer.
+
+Apply the selector-lattice handoff of \autoref{thm:cauchy-subsequence-extractor-selector-lattice-handoff}. It keeps $E$ as a finite monotone selector-lattice row over the displayed $W$ and $D$ data, so the completion witness cannot receive an arbitrary subsequence selector.
+
+Now use the finite-window route of \autoref{thm:cauchy-subsequence-extractor-finite-window-route}. The same finite rows pass through $\CauchyUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ before the witness surface is readable.
+
+The structural rows $L,H,T,P,N$ preserve the displayed packet for separability readback, transport, replay, provenance, and local naming. They do not add countable choice, quotient real equality, arbitrary subsequence selection, or ambient completeness, so the only completion-witness route is the one stated above.
+\end{proof}
+
 \falsifiablePrediction{Every $\CauchySubsequenceExtractorUp$ consumer reaches $\RealUp$ or $\RealSeparabilityUp$ only after exposing $\CauchyUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, finite extraction data, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
 
 \independenceWitness{cauchy, regseqrat, streamname, dyadicratcore, real, real-separability: $\CauchySubsequenceExtractorUp$ is not bijective to any listed sibling because it jointly carries source rows, regular readback, finite windows, dyadic tolerance ledgers, monotone extraction data, terminal Real sealing, separability readback, transport, replay, provenance, and local naming.}
