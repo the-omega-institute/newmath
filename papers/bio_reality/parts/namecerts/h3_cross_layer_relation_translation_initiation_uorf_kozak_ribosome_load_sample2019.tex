@@ -1,0 +1,31 @@
+\subsection{Rank-admissible translation-initiation readout boundary for the uORF--Kozak ribosome-load sample}
+\label{sec:biorreality-uorf-kozak-ribosome-load-rank-admissible-boundary}
+\origin{ai}
+
+\paragraph{Finite-row object.}
+The object in this record is a finite translation-initiation readout surface, not a protein-level or phenotype-level assertion.  The observed uORF--Kozak packet has two row classes: $n_{\mathrm{fixed}}=41862$ rows in the fixed class and $n_{\mathrm{varying}}=16739$ rows in the varying class.  The two-sample comparison is concordant in the recorded run, and the computation took $131.941$ seconds.  The admissible carrier for this chapter is therefore a residualized finite table whose rows can support a translation-initiation contrast, together with a rank audit that decides whether a proposed $S^{QT}_{ij}$ entry is testable after controls.
+
+\paragraph{Residual coordinate side.}
+The synonymous residual side is the $B^{\ast}_{Q6}$ coordinate list computed from codon-count geometry after amino-acid quotienting.  In the recorded coupling run the codon-count ambient space has $61$ codon columns, and three organisms were loaded: \texttt{homo\_sapiens}, \texttt{saccharomyces\_cerevisiae}, and \texttt{escherichia\_coli\_k12}.  The nine residual coordinates available for the proxy coupling audit are
+$\mathrm{Arg}_{\mathrm{AGR}}$, $\mathrm{Ile}_{\mathrm{AUA}}$, $\mathrm{K}_{\mathrm{AAA}}$, $\mathrm{Leu}_{\mathrm{CUN}\,\mathrm{vs}\,\mathrm{UUR}}$, $\mathrm{Leu}_{\mathrm{UUA}\,\mathrm{vs}\,\mathrm{UUG}}$, $\mathrm{Ser}_{\mathrm{UCA}\,\mathrm{vs}\,\mathrm{UCG}}$, $\mathrm{Ser}_{\mathrm{UCR}\,\mathrm{vs}\,\mathrm{AGY}}$, $\mathrm{Thr}_{\mathrm{ACR}\,\mathrm{vs}\,\mathrm{ACY}}$, and $f_3$-stress.  Against the tRNA-Leu CUN-versus-UUR log-copy proxy readout, the finite coupling matrix has $9$ nonzero entries above the coupling threshold $0.01$, with maximum absolute proxy coefficient $1882464.1106377328$.  The proxy break condition, namely that all nine coordinates have $|A_{ij}|<0.01$, is not met.  This is evidence that the finite coordinate table is not numerically silent against the proxy readout; it is not yet evidence of translation survival.
+
+\paragraph{Rank gate.}
+For a proposed translation-initiation entry, the admissibility test first residualizes both the coordinate $q_i$ and the readout $T_j$ against the control block $Z$.  In this chapter $Z$ contains amino-acid composition, organism, GC3, length, and M-density baseline controls, with matched mRNA or simpler codon baselines added only when those rows are actually present.  A positive fitted score is not enough.  The row space after residualization must leave independent support for a held-out test; otherwise the apparent score is classified as a projection artifact.  The decision rule can be summarized as
+$$
+\begin{aligned}
+S^{QT}_{ij}\ \hbox{is reportable}
+&\Longrightarrow \operatorname{rank}(Q_i,T_j,Z)<n_{\mathrm{support}}\ \hbox{with held-out degrees of freedom},\\
+S^{QT}_{ij}\ \hbox{is refused}
+&\Longleftarrow \operatorname{rank}(Q_i,T_j,Z)\ \hbox{saturates the available support.}
+\end{aligned}
+$$
+Thus an all-$1.0$ fitted surface on an underpowered or rank-saturated design is read as a failed survival test, not as a perfect biological effect.
+
+\paragraph{Readout boundary.}
+The uORF--Kozak ribosome-load table supplies a translation-initiation readout boundary: it may test whether residual codon-topology coordinates retain signal at the translation-readout interface, but only after the rank and control gates above have been passed.  It does not itself measure folded structure, physical admissibility, molecular function, pathway realization, phenotype, or a universal law.  The nearby codon-composition mRNA half-life run is useful only as a separate stability-side comparison: it contains $n_{\mathrm{human}}=16500$, $n_{\mathrm{mouse}}=18924$, a raw rank correlation $\rho=0.126224$, and a non-CSC tAI circularity guard, with runtime $46.349$ seconds.  The branchpoint-expression control run is also separate: it has $n=10584$, expression control enabled, and runtime $138.47155$ seconds.  These rows show that transcript and splicing-side covariates can be controlled in finite panels, but they do not convert the uORF--Kozak readout into a protein-output or mechanism claim.
+
+\paragraph{Residual persistence audit.}
+The broader residual-basis computation reinforces why the rank gate is necessary.  With the stated regularizer $\lambda=0.01$ and description-length penalty $\log_2(1+n_{\mathrm{col}})$, four computed organisms remain persistent rather than compressible.  The recorded final residual ratios are $0.9791828971490305$ for \texttt{danio\_rerio}, $0.9979478314995476$ for \texttt{escherichia\_coli\_k12\_mg1655}, $0.9723341658092314$ for \texttt{homo\_sapiens}, and $0.9798667977250413$ for \texttt{saccharomyces\_cerevisiae}; \texttt{gallus\_gallus} and \texttt{mycobacterium\_smegmatis\_str\_mc2\_155} are marked needs-data.  The minimum final residual ratio among the computed organisms is $0.9723341658092314$, so the finite data do not support the story that the available readout blocks absorb the $B^{\ast}_{Q6}$ residual geometry.  They instead motivate the stricter rule used here: a translation-readout contact must be organism- or CDS-matched, residualized against $Z$, and non-saturated before any survival entry is admitted.
+
+\paragraph{Local verdict.}
+This chapter records a ready finite-row boundary for the claim that uORF--Kozak ribosome-load rows can participate in a rank-admissible translation-initiation test.  The supported content is narrow: $41862$ fixed rows, $16739$ varying rows, two-sample concordance, the nine-coordinate $B^{\ast}_{Q6}$ proxy-coupling list, and a refusal rule for rank-saturated or underpowered $S^{QT}_{ij}$ entries.  No translation survival is promoted merely from proxy coupling, modeled tAI or stAI contact, transcript abundance, or a saturated fitted score.  No folding, physical admissibility, molecular function, mechanism, phenotype, or universality follows unless a separate layer-matched contact supplies rows and a statistic for that layer.
