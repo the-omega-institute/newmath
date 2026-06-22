@@ -5730,6 +5730,7 @@ import BEDC.Derived.FiniteMapUp
 import BEDC.Derived.FiniteMarkovPartitionUp.TasteGate
 import BEDC.Derived.FiniteMetricEntropyUp.TasteGate
 import BEDC.Derived.FiniteMetricSpaceUp.TasteGate
+import BEDC.Derived.FiniteModulusBundleUp
 import BEDC.Derived.FiniteModulusCompactnessUp.TasteGate
 import BEDC.Derived.FiniteModulusDiagonalUp.RealSealHandoff
 import BEDC.Derived.FiniteModulusDiagonalUp.TasteGate
