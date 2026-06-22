@@ -9378,6 +9378,7 @@ import BEDC.Derived.RealNameClassifierUp.CommonWindowTransitivity
 import BEDC.Derived.RealNameClassifierUp.LedgerExhaustion
 import BEDC.Derived.RealNameClassifierUp.RefinementStability
 import BEDC.Derived.RealNameClassifierUp.ReflexiveWindow
+import BEDC.Derived.RealNameClassifierUp.ScopedKernelRoute
 import BEDC.Derived.RealNameClassifierUp.SealBoundary
 import BEDC.Derived.RealNameClassifierUp.SourcePacketRows
 import BEDC.Derived.RealNameClassifierUp.WindowTrichotomyRefusal
@@ -10424,7 +10425,6 @@ import BEDC.Derived.ScientificObjectUp.TasteGate
 import BEDC.Derived.ScientificObjectUp.TruthDomainGapScope
 import BEDC.Derived.ScottDomainUp.TasteGate
 import BEDC.Derived.ScottRealUp.TasteGate
-import BEDC.Derived.SearchableSpaceUp
 import BEDC.Derived.SecantMethodUp.TasteGate
 import BEDC.Derived.SecondCountableUp
 import BEDC.Derived.SelectedTailSeedUp.TasteGate
@@ -10631,8 +10631,6 @@ import BEDC.Derived.SetlikeUp.BoundedComprehensionFamilyHandoff
 import BEDC.Derived.SetlikeUp.BoundedComprehensionInduction
 import BEDC.Derived.SetlikeUp.BoundedComprehensionLedger
 import BEDC.Derived.SetlikeUp.BoundedComprehensionTransport
-import BEDC.Derived.SetlikeUp.BoundedComprehensionWitness
-import BEDC.Derived.SetlikeUp.ClassifierExtensionalNonescape
 import BEDC.Derived.SetlikeUp.ClassifierTransportRoute
 import BEDC.Derived.SetlikeUp.ComprehensionLedgerObligation
 import BEDC.Derived.SetlikeUp.ComprehensionScope
