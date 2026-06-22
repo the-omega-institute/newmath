@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedChoiceSequenceUp$}
+\label{ch:concrete-instances-bishop-located-choice-sequence-namecert}
+\origin{human}
+
+Following Bishop and Troelstra--van Dalen, the $\BishopLocatedChoiceSequenceUp$ packet records the finite located read by which a choice-sequence prefix is consumed by Bishop-style real analysis without importing a selected infinite choice function. It sits after the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the located choice-sequence surface of \autoref{ch:concrete-instances-located-real-choice-sequence-namecert}. The packet supplies an L10 boundary object for located choice-sequence reads; it is not a countable-choice selector, quotient stream equality, host real endpoint, selected limit, or ambient $\RealUp$ completeness principle.
+
+\begin{definition}[Bishop located choice sequence carrier]
+\label{def:bishop-located-choice-sequence-carrier}
+A $\BishopLocatedChoiceSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(Q,S,W,D,L,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the choice-sequence prefix row, recording only the inspected finite portion of the input sequence.
+\item $S$ is the $\StreamNameUp$ schedule row that names the finite observation window available to the read.
+\item $W$ is the located-window row, binding the inspected prefix to an explicit finite interval of observations.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by the located comparison.
+\item $L$ is the local locatedness row, saying that each displayed tolerance request is answered by finite prefix evidence.
+\item $R$ is the $\RegSeqRatUp$ readback row produced from $Q,S,W,D,L$.
+\item $E$ is the terminal $\RealUp$ seal reached only after the prefix, window, tolerance, locatedness, and regular readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the prefix, schedule, window, tolerance, locatedness, readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through exactly the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\BishopLocatedChoiceSequenceUp$, $\LocatedRealChoiceSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopLocatedChoiceSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $Q,S,W,D,L,R,E,H,C,P,N$. It has no coordinate for a completed choice function, countable choice, quotient stream equality, selected endpoint, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop located choice sequence NameCert obligations]
+\label{thm:bishop-located-choice-sequence-namecert-obligations}
+For every accepted $\BishopLocatedChoiceSequenceUp$ carrier
+$$
+B=(Q,S,W,D,L,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopLocatedChoiceSequenceUp}$ surface consists exactly of prefix exposure through $Q$, finite schedule exposure through $S$, located-window exposure through $W$, dyadic tolerance exposure through $D$, locatedness exposure through $L$, regular-rational readback through $R$, terminal Real sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. Every Real or Completion consumer of the packet must pass through these rows before it reads a located choice-sequence endpoint.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-located-choice-sequence-carrier}. The rows $Q,S,W$ expose only the finite prefix and observation window available to the consumer, while $D$ records the dyadic tolerance budget attached to that window.
+
+Read locatedness next. The row $L$ answers tolerance requests by displayed prefix evidence, so the regular readback $R$ can be consumed only after the finite window and tolerance ledger have been inspected.
+
+Finally consume the terminal seal and structural rows. The Real seal $E$, componentwise transport $H$, replay $C$, provenance $P$, and local name $N$ preserve the same finite route. Since no carrier coordinate supplies countable choice, quotient stream equality, a selected endpoint, host real equality, or ambient completeness, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bishop located choice sequence window exhaustion]
+\label{thm:bishop-located-choice-sequence-window-exhaustion}
+Every accepted $\BishopLocatedChoiceSequenceUp$ read that reaches a $\RegSeqRatUp$ readback or $\RealUp$ seal factors through the displayed route
+$$
+\LocatedRealChoiceSequenceUp,\ \StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp \longrightarrow \RealUp
+$$
+on the same $Q,S,W,D,L,R,E,H,C,P,N$ rows. The route exhausts the available finite windows and exports no countable-choice schedule, quotient stream equality, hidden infinite branch, selected limit, host real equality, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $B=(Q,S,W,D,L,R,E,H,C,P,N)$. By \autoref{thm:bishop-located-choice-sequence-namecert-obligations}, any Real-facing read must first display the prefix row, schedule row, located window, dyadic tolerance ledger, and locatedness row.
+
+The regular readback is then forced through $R$. It is produced from the displayed prefix-window route and cannot be replaced by a host stream, quotient equality, or selected infinite branch.
+
+The terminal seal $E$ is reached only after this readback, and $H,C,P,N$ preserve the same packet. Hence every downstream read exhausts the displayed windows and cannot introduce countable choice, selected limits, host real equality, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{A $\BishopLocatedChoiceSequenceUp$ read is rejected if it reaches a $\RegSeqRatUp$ readback or $\RealUp$ seal without displaying the choice-sequence prefix, StreamName schedule, located window, DyadicRatCore tolerance ledger, locatedness row, transport, replay, provenance, and local naming.}
+
+\independenceWitness{located-real-choice-sequence, streamname, regseqrat, dyadicratcore, real: $\BishopLocatedChoiceSequenceUp$ is not bijective to any listed sibling because it jointly carries a choice-sequence prefix, a finite observation schedule, a located window, a dyadic tolerance ledger, a locatedness row, regular readback, a Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{BishopLocatedChoiceSequenceUp}{seedStr}
+
+\begin{closurestatus}{\BishopLocatedChoiceSequenceUp}
+  \constructivestory{A $\BishopLocatedChoiceSequenceUp$ packet is generated from a choice-sequence prefix, StreamName finite schedule, located window, DyadicRatCore tolerance ledger, locatedness row, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-choice-sequence-carrier}, \autoref{thm:bishop-located-choice-sequence-namecert-obligations}, and \autoref{thm:bishop-located-choice-sequence-window-exhaustion} seed the finite located choice-sequence route over prefix, window, tolerance, locatedness, readback, Real sealing, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.BishopLocatedChoiceSequenceUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim countable choice, quotient stream equality, hidden infinite branches, selected limits, host real equality, ambient RealUp completeness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-window visibility, tolerance-ledger exposure, locatedness nonescape, RegSeqRat readback ordering, RealUp seal boundary control, transport, replay, provenance, and local naming for BEDC.Derived.BishopLocatedChoiceSequenceUp.}
+\end{closurestatus}

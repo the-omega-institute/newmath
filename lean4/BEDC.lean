@@ -954,6 +954,7 @@ import BEDC.Derived.BishopIntervalHalvingUp.TasteGate
 import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopIntervalNetExtractionUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
+import BEDC.Derived.BishopLocatedChoiceSequenceUp
 import BEDC.Derived.BishopLocatedCompletenessUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.BoundaryLedger
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.InductiveRoute
@@ -2826,6 +2827,8 @@ import BEDC.Derived.ClosedLamDomainSubjectReductionUp.TasteGate
 import BEDC.Derived.ClosedMetricBallUp.TasteGate
 import BEDC.Derived.ClosedMetricGraphUp
 import BEDC.Derived.ClosedNormalCanonicityUp.TasteGate
+import BEDC.Derived.ClosedNormalConfluenceSealUp.CarrierAdmissionLedger
+import BEDC.Derived.ClosedNormalConfluenceSealUp.JoinWindowInversion
 import BEDC.Derived.ClosedNormalConfluenceSealUp.NormalSource
 import BEDC.Derived.ClosedNormalConfluenceSealUp.PublicExport
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
@@ -11722,6 +11725,7 @@ import BEDC.Derived.WeakDerivativeUp.TasteGate
 import BEDC.Derived.WeakKonigBoundaryUp.TasteGate
 import BEDC.Derived.WeakLawLargeNumbersUp.TasteGate
 import BEDC.Derived.WeakStarCompactnessUp.TasteGate
+import BEDC.Derived.WeakStarTopologyUp.TasteGate
 import BEDC.Derived.WeakTopologyUp.FunctionalWindowStability
 import BEDC.Derived.WeakTopologyUp.NamecertObligations
 import BEDC.Derived.WeakTopologyUp.TasteGate
