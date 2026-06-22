@@ -10177,6 +10177,7 @@ import BEDC.Derived.RegularCauchyTailModulusReuseUp.TasteGate
 import BEDC.Derived.RegularCauchyTailModulusUp.TasteGate
 import BEDC.Derived.RegularCauchyTailModulusUp.WindowHandoff
 import BEDC.Derived.RegularCauchyTailMonotonicityUp.TasteGate
+import BEDC.Derived.RegularCauchyTailPairingUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSealUp
 import BEDC.Derived.RegularCauchyTailSelectorUp
@@ -11649,6 +11650,7 @@ import BEDC.Derived.UniformHomeomorphismUp.ClassifierBidirectionality
 import BEDC.Derived.UniformHomeomorphismUp.CompletionConsumerBoundary
 import BEDC.Derived.UniformHomeomorphismUp.InverseRouteExactness
 import BEDC.Derived.UniformHomeomorphismUp.NameCertObligations
+import BEDC.Derived.UniformHomeomorphismUp.ScopedRoute
 import BEDC.Derived.UniformHomeomorphismUp.TasteGate
 import BEDC.Derived.UniformIntegralLimitUp.TasteGate
 import BEDC.Derived.UniformInverseModulusUp.TasteGate
