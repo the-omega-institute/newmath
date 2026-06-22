@@ -602,6 +602,7 @@ import BEDC.Derived.AxiomPurityGateUp
 import BEDC.Derived.AxiomPurityGateUp.TasteGate
 import BEDC.Derived.AxiomPurityGateUp.WitnessPreservingConsumer
 import BEDC.Derived.AxiomQueryLedgerUp
+import BEDC.Derived.AxiomRefusalLedgerUp.AcceptedReadbackConsumer
 import BEDC.Derived.AxiomRefusalLedgerUp.NameCertObligations
 import BEDC.Derived.AxiomRefusalLedgerUp.TasteGate
 import BEDC.Derived.AxiomRequirementLedgerUp.TasteGate
@@ -9382,6 +9383,7 @@ import BEDC.Derived.RealNameClassifierUp.LedgerExhaustion
 import BEDC.Derived.RealNameClassifierUp.RefinementStability
 import BEDC.Derived.RealNameClassifierUp.ReflexiveWindow
 import BEDC.Derived.RealNameClassifierUp.ScopeRoute
+import BEDC.Derived.RealNameClassifierUp.ScopedKernelRoute
 import BEDC.Derived.RealNameClassifierUp.SealBoundary
 import BEDC.Derived.RealNameClassifierUp.SourcePacketRows
 import BEDC.Derived.RealNameClassifierUp.WindowTrichotomyRefusal
