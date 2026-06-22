@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\BackwardDifferentiationFormulaUp$}
+\label{ch:concrete-instances-backward-differentiation-formula-namecert}
+\origin{human}
+
+Following Gear and the classical backward differentiation formula tradition, the $\BackwardDifferentiationFormulaUp$ packet records an implicit linear multistep update as finite BEDC rows. It sits after the one-step Euler carrier of \autoref{ch:concrete-instances-euler-method-finite-step-namecert}, the staged Runge--Kutta route of \autoref{ch:concrete-instances-runge-kutta-finite-step-namecert}, the finite-difference stencil of \autoref{ch:concrete-instances-finite-difference-namecert}, the ODE naming surface of \autoref{ch:concrete-instances-ode-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite StreamName window of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic tolerance row of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet names a finite implicit step window; it does not claim global ODE existence, convergence order, selected limits, a solved nonlinear equation, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Backward differentiation formula carrier]
+\label{def:backward-differentiation-formula-carrier}
+A $\BackwardDifferentiationFormulaUp$ carrier is a finite $\BHist$ packet
+$$
+B=(O,W,C,D,R,S,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OdeUp$ source row naming the inspected right-hand side and the finite step request.
+\item $W$ is the $\StreamNameUp$ history window containing the displayed past solution values used by the multistep stencil.
+\item $C$ is the coefficient row for the selected backward differentiation stencil, including the current implicit coefficient and the finite list of past coefficients.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row for the step size, residual budget, and finite comparison windows.
+\item $R$ is the $\RegSeqRatUp$ readback row for every rational coefficient, history value, and residual budget consumed by the step.
+\item $S$ is the $\RealUp$ seal row for the current implicit residual after $O,W,C,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the ODE source, history window, coefficient row, tolerance row, readback row, seal row, replay row, provenance row, and local naming row.
+\item $K$ records displayed $\Cont$ replay from a finite step request through the same history, coefficient, tolerance, readback, and seal rows.
+\item $P$ records $\Pkg$ provenance over $\BackwardDifferentiationFormulaUp$, $\OdeUp$, $\FiniteDifferenceUp$, $\RungeKuttaFiniteStepUp$, $\EulerMethodFiniteStepUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ records the local $\NameCert_{\BackwardDifferentiationFormulaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for a chosen exact solution, a selected implicit root, global convergence, a host real-completeness theorem, or an infinite time grid.
+\end{definition}
+\leandef{BEDC.Derived.BackwardDifferentiationFormulaUp}
+
+\begin{theorem}[Backward differentiation formula NameCert obligations]
+\label{thm:backward-differentiation-formula-namecert-obligations}
+For every accepted $\BackwardDifferentiationFormulaUp$ carrier $B=(O,W,C,D,R,S,H,K,P,N)$, the local $\NameCert_{\BackwardDifferentiationFormulaUp}$ surface consists exactly of ODE source admission, finite history-window coverage, backward-stencil coefficient exposure, dyadic step and residual budget exposure, regular rational readback, terminal Real seal admission, componentwise transport, displayed replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The ODE source $O$, history window $W$, and coefficient row $C$ provide the finite implicit multistep stencil; no solution curve is present outside these rows.
+
+Read the numerical boundary through $D,R,S$. The dyadic row supplies the step and residual budget, the RegSeqRat row supplies rational readback for the displayed data, and the Real row seals only the displayed residual comparison.
+
+Transport and replay are then forced through $H$ and $K$. Provenance $P$ and local naming $N$ preserve the same finite packet, so the NameCert obligations are exactly the listed finite rows and not a convergence theorem or selected implicit solve.
+\end{proof}
+
+\begin{theorem}[Backward differentiation formula window stability]
+\label{thm:backward-differentiation-formula-window-stability}
+Let $B=(O,W,C,D,R,S,H,K,P,N)$ and $B'=(O',W',C',D',R',S',H',K',P',N')$ be accepted $\BackwardDifferentiationFormulaUp$ carriers. If the source, history, coefficient, tolerance, readback, and seal rows are componentwise transported by the displayed $\hsame$ data and replayed through the displayed $\Cont$ routes, then every finite-step consumer sees the same backward-stencil window and the same residual-budget ledger. The stable surface is the finite step packet; it exposes no selected exact solution, host implicit-root choice, infinite grid, global convergence theorem, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project both carriers. A finite-step consumer can inspect only $O,W,C,D,R,S$ before it reaches transport, replay, provenance, and local naming.
+
+Use the displayed $\hsame$ data to identify the corresponding ODE source, history window, coefficient row, dyadic budget, regular readback, and Real seal rows. The replay rows $K$ and $K'$ then route the same step request through the transported finite packet.
+
+Finally read $P,N$ and $P',N'$. These rows name and source the same finite backward-stencil window, so stability holds at the packet boundary and cannot be promoted to a selected solution, an implicit-root oracle, an infinite grid, convergence, or completeness.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\BackwardDifferentiationFormulaUp$ consumer is refuted if it reads an implicit step while omitting the history window $W$, coefficient row $C$, dyadic residual budget $D$, RegSeqRat readback row $R$, or Real seal row $S$.}
+
+\closureat{BackwardDifferentiationFormulaUp}{seedStr}
+
+\begin{closurestatus}{\BackwardDifferentiationFormulaUp}
+  \constructivestory{A $\BackwardDifferentiationFormulaUp$ packet is generated from an ODE source row, finite history window, backward-stencil coefficient row, dyadic step and residual budget, RegSeqRat readback, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:backward-differentiation-formula-carrier}, \autoref{thm:backward-differentiation-formula-namecert-obligations}, and \autoref{thm:backward-differentiation-formula-window-stability} seed the finite implicit multistep NameCert surface.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.BackwardDifferentiationFormulaUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global ODE existence, convergence order, selected limits, implicit-root choice, infinite time grids, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient-window exactness, residual-budget replay, transport, provenance, and local naming for BEDC.Derived.BackwardDifferentiationFormulaUp.}
+\end{closurestatus}
