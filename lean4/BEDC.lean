@@ -813,12 +813,14 @@ import BEDC.Derived.BanachSpaceUp.VectorOperationTransportObligation
 import BEDC.Derived.BanachSteinhausUp.TasteGate
 import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
+import BEDC.Derived.BarRecursionUp.TasteGate
 import BEDC.Derived.BarTheoremUp.TasteGate
 import BEDC.Derived.BareObjectRefusalUp.TasteGate
 import BEDC.Derived.BareissFractionFreeEliminationUp.TasteGate
 import BEDC.Derived.BarrBeckMonadicityUp
 import BEDC.Derived.BayesianUp
 import BEDC.Derived.BayesianUp.TasteGate
+import BEDC.Derived.BedcPhilosophyPackageUp.NameCertObligations
 import BEDC.Derived.BedcPhilosophyPackageUp.TasteGate
 import BEDC.Derived.BedcSelfSubstrateUp.ObligationSurface
 import BEDC.Derived.BedcSelfSubstrateUp.TasteGate
@@ -7618,6 +7620,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseExactBoundaryHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseSourceLedgerDischargeBudget
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseSourceNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondCandidateMediatedSNReadback
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierHandoffScope
@@ -9776,6 +9779,7 @@ import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationNonescapeRoute
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationPrefixExhaustion
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationRowPrecedence
 import BEDC.Derived.ReflectiveInquiryUp.Carrier
+import BEDC.Derived.ReflectiveInquiryUp.FieldFaithfulRowSeparation
 import BEDC.Derived.ReflectiveInquiryUp.GroundCompilerObligationRoute
 import BEDC.Derived.ReflectiveInquiryUp.LedgeredRoleCorrespondence
 import BEDC.Derived.ReflectiveInquiryUp.NameCertObligationSurface

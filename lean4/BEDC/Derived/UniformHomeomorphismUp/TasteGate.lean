@@ -192,4 +192,22 @@ theorem UniformHomeomorphismTasteGate_single_carrier_alignment :
       fun _ _ heq => uniformHomeomorphismToEventFlow_injective heq,
       rfl⟩
 
+theorem UniformHomeomorphismCarrier_field_projection_round_trip :
+    (∀ x : UniformHomeomorphismUp,
+      BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x ∧
+        ∃ fields : List BHist,
+          fields = uniformHomeomorphismFields x ∧ fields.length = 12) ∧
+      uniformHomeomorphismEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  constructor
+  · intro x
+    constructor
+    · change uniformHomeomorphismFromEventFlow (uniformHomeomorphismToEventFlow x) = some x
+      exact ChapterTasteGate.round_trip x
+    · exact
+        ⟨uniformHomeomorphismFields x, rfl, by
+          cases x
+          rfl⟩
+  · rfl
+
 end BEDC.Derived.UniformHomeomorphismUp

@@ -122,3 +122,20 @@ Finally use the readiness envelope and retained-frontier scope, \autoref{thm:met
 
 Thus a consumer of the handoff can only pass to an SN-facing or confluence-facing endpoint after retaining the displayed frontier rows. Since the cited routes contain no row for global Church--Rosser, subject reduction, quotient term equality, selected limits, ambient Real completeness, or kernel consistency, the scoped handoff exports none of those endpoints.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond candidate-mediated SN readback]
+\label{thm:metacic-parallel-diamond-candidate-mediated-sn-readback}
+Any SN-facing readback that consumes the $\MetaCICCriticalPathUp$ parallel-diamond frontier must preserve the candidate-mediated normalization row, the residual substitution budget, the local diamond witness, and the L10 four-object source ledger for $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before it reads a confluence endpoint. For an accepted packet $K=(S,N,O,U,D,H,C,P,L)$, the readback is therefore a same-packet route through the parallel-diamond handoff scope, the readiness envelope, the retained-frontier scope, and the mature L10 route.
+
+The route does not claim global Church--Rosser, subject reduction, MetaCIC kernel consistency, quotient equality, selected limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICParallelDiamondCandidateMediatedSNReadback}
+\begin{proof}
+Start with the parallel-diamond frontier handoff scope of \autoref{thm:metacic-critical-path-parallel-diamond-frontier-handoff-scope}. It requires every consumer of the handoff to retain the candidate-mediated strong-normalization frontier, residual-substitution budget, local diamond witness, and L10 source ledger before reading the packet as confluence-facing or normalization-facing evidence.
+
+Next use the readiness envelope of \autoref{thm:metacic-parallel-diamond-frontier-readiness-envelope}. The envelope identifies those rows as the finite precondition for any critical-path read of the parallel-diamond frontier.
+
+Now apply the retained-frontier scope of \autoref{thm:metacic-parallel-diamond-retained-frontier-scope}. It prevents an SN-facing readback from dropping the residual budget, local diamond witness, or L10 ledger while it remains on the candidate-mediated route.
+
+Finally compose with the mature L10 parallel-diamond route of \autoref{thm:metaciccriticalpath-mature-l10-parallel-diamond-route}. The composed route keeps $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as visible source faces of $K$, so the SN-facing readback reaches any endpoint only through the displayed frontier and exports none of the excluded global claims.
+\end{proof}
