@@ -173,4 +173,22 @@ theorem DcpoScottDomainCompatibility (x : DcpoUp) :
   | mk O I W S M F Q L H C P N =>
       exact ⟨O, I, W, S, M, F, Q, L, H, C, P, N, rfl, rfl, rfl, rfl, rfl⟩
 
+theorem DcpoCarrier_field_projection_round_trip :
+    (∀ x : DcpoUp,
+      BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x ∧
+        ∃ fields : List BHist,
+          fields = dcpoFields x ∧ fields.length = 12) ∧
+      dcpoEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  constructor
+  · intro x
+    constructor
+    · change dcpoFromEventFlow (dcpoToEventFlow x) = some x
+      exact ChapterTasteGate.round_trip x
+    · exact
+        ⟨dcpoFields x, rfl, by
+          cases x
+          rfl⟩
+  · rfl
+
 end BEDC.Derived.DcpoUp
