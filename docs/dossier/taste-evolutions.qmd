@@ -20,17 +20,17 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-22T13:16:36Z
+> 最后刷新: 2026-06-22T14:56:22Z
 
-**Daemon 状态**: monitor (monitor cycle 118, adjust_since_research 2, round_counter 17834, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 119, adjust_since_research 2, round_counter 17947, last_adjust rule_evolution_completed)
 
-**待处理 queue** (571 条 finding):
-- isolated_theorem: 407 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (572 条 finding):
+- isolated_theorem: 408 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 128 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 36 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 29 次
+- TASTE ALERT category=isolated_theorem: 27 次
 - TASTE ALERT category=low_entropy_template: 22 次
 - TASTE ALERT category=missing_origin: 2 次
 
@@ -395,6 +395,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-22T11:42:09Z: `resolved` `add_downstream_user` for `BEDC.Derived.TaylorModelUp.TaylorModelCarrier_validated_consumer_boundary` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.TaylorModelUp.TaylorModelCarrier_validated_consumer_boundary:93eae5d0`). Rationale: The theorem has meaningful BEDC content: it packages the validated-consumer boundary by deriving consumer UnaryHistory from the TaylorModel carrier and the endpoint-to-validated consumer route while preserving ledger, eval, provenance, and nameCert evidence. Exact repo inspection showed no Lean downstream caller before this change, while the paper treats the boundary as part of the TaylorModel public package. I added the same-family theorem TaylorModelCarrier_validated_consumer_namecert_handoff in the remainder-obligation sibling; it explicitly invokes the flagged boundary theorem and carries its evidence into a publicRead SemanticNameCert surface tied to Cont, PkgSig, UnaryHistory, hsame, provenance, and nameCert rows. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-22T13:16:05Z: `resolved` `add_downstream_user` for `BEDC.Derived.TaylorModelUp.TaylorModelCarrier_seed_public_package` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.TaylorModelUp.TaylorModelCarrier_seed_public_package:93eae5d0`). Rationale: The target is a meaningful TaylorModel public-package theorem: it packages a coefficient read, consumer closure, ledger/eval hsame rows, and endpoint/provenance/nameCert package rows from the carrier and consumer route. Grep showed no prior Lean consumer, only the paper marker and its declaration, so I added a sibling downstream theorem `TaylorModelCarrier_seed_public_namecert_route` in `RemainderObligationRoute.lean` that explicitly invokes this target and carries its package data into a `SemanticNameCert` public-read route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-22T14:55:45Z: `resolved` `add_downstream_user` for `BEDC.Derived.TaylorModelUp.TaylorModelCarrier_interval_remainder_soundness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.TaylorModelUp.TaylorModelCarrier_interval_remainder_soundness:93eae5d0`). Rationale: The target is not a removable wrapper: it transports the displayed remainder row through hsame, closes the replacement readback and endpoint by Cont, and preserves the endpoint package signature for the TaylorModel interval-remainder surface. It was isolated in Lean, with only the paper marker referencing it, so I added a sibling downstream theorem, TaylorModelCarrier_interval_remainder_namecert_handoff, that consumes this soundness theorem to build a SemanticNameCert handoff for an interval remainder public read through the validated row. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
