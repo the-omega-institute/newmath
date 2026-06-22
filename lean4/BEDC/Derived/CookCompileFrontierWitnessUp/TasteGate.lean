@@ -1,11 +1,15 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CookCompileFrontierWitnessUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -189,6 +193,76 @@ theorem CookCompileFrontierWitnessCarrier_stage_boundary_nonescape
     cookCompileFrontierWitnessToEventFlow_injective heq
   cases carrierEq
   exact hsame_refl s
+
+theorem CookCompileFrontierWitnessCarrier_obligation_surface
+    {s q a o h c p n stageRead auditRead routeRead : BHist} :
+    UnaryHistory s ->
+      UnaryHistory q ->
+        UnaryHistory a ->
+          UnaryHistory c ->
+            Cont s q stageRead ->
+              Cont stageRead a auditRead ->
+                Cont auditRead c routeRead ->
+                  UnaryHistory stageRead ∧
+                    UnaryHistory auditRead ∧
+                      UnaryHistory routeRead ∧
+                        List.Mem (cookCompileFrontierWitnessEncodeBHist s)
+                            (cookCompileFrontierWitnessToEventFlow
+                              (CookCompileFrontierWitnessUp.mk s q a o h c p n)) ∧
+                          List.Mem (cookCompileFrontierWitnessEncodeBHist q)
+                            (cookCompileFrontierWitnessToEventFlow
+                              (CookCompileFrontierWitnessUp.mk s q a o h c p n)) ∧
+                            List.Mem (cookCompileFrontierWitnessEncodeBHist a)
+                              (cookCompileFrontierWitnessToEventFlow
+                                (CookCompileFrontierWitnessUp.mk s q a o h c p n)) ∧
+                              List.Mem (cookCompileFrontierWitnessEncodeBHist c)
+                                (cookCompileFrontierWitnessToEventFlow
+                                  (CookCompileFrontierWitnessUp.mk s q a o h c p n)) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory
+  intro unaryS unaryQ unaryA unaryC stageCont auditCont routeCont
+  have stageReadUnary : UnaryHistory stageRead :=
+    unary_cont_closed unaryS unaryQ stageCont
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed stageReadUnary unaryA auditCont
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed auditReadUnary unaryC routeCont
+  have sMem :
+      List.Mem (cookCompileFrontierWitnessEncodeBHist s)
+        (cookCompileFrontierWitnessToEventFlow
+          (CookCompileFrontierWitnessUp.mk s q a o h c p n)) := by
+    simp only [cookCompileFrontierWitnessToEventFlow]
+    repeat
+      first
+      | exact List.Mem.head _
+      | apply List.Mem.tail
+  have qMem :
+      List.Mem (cookCompileFrontierWitnessEncodeBHist q)
+        (cookCompileFrontierWitnessToEventFlow
+          (CookCompileFrontierWitnessUp.mk s q a o h c p n)) := by
+    simp only [cookCompileFrontierWitnessToEventFlow]
+    repeat
+      first
+      | exact List.Mem.head _
+      | apply List.Mem.tail
+  have aMem :
+      List.Mem (cookCompileFrontierWitnessEncodeBHist a)
+        (cookCompileFrontierWitnessToEventFlow
+          (CookCompileFrontierWitnessUp.mk s q a o h c p n)) := by
+    simp only [cookCompileFrontierWitnessToEventFlow]
+    repeat
+      first
+      | exact List.Mem.head _
+      | apply List.Mem.tail
+  have cMem :
+      List.Mem (cookCompileFrontierWitnessEncodeBHist c)
+        (cookCompileFrontierWitnessToEventFlow
+          (CookCompileFrontierWitnessUp.mk s q a o h c p n)) := by
+    simp only [cookCompileFrontierWitnessToEventFlow]
+    repeat
+      first
+      | exact List.Mem.head _
+      | apply List.Mem.tail
+  exact ⟨stageReadUnary, auditReadUnary, routeReadUnary, sMem, qMem, aMem, cMem⟩
 
 instance cookCompileFrontierWitnessBHistCarrier :
     BHistCarrier CookCompileFrontierWitnessUp where
