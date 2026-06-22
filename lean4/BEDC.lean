@@ -954,6 +954,7 @@ import BEDC.Derived.BishopIntervalHalvingUp.TasteGate
 import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopIntervalNetExtractionUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
+import BEDC.Derived.BishopLocatedChoiceSequenceUp
 import BEDC.Derived.BishopLocatedCompletenessUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.BoundaryLedger
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.InductiveRoute
