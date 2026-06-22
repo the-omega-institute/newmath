@@ -1,0 +1,179 @@
+\chapter{A Concrete Naming Certificate for $\ChoiceSequenceSpreadUp$}
+\label{ch:concrete-instances-choice-sequence-spread-namecert}
+\origin{human}
+
+Following Brouwer on choice sequences and spreads, and Bishop--Bridges on
+lawlike finite approximations to constructive sequences, the
+$\ChoiceSequenceSpreadUp$ packet names the finite prefix surface through which a
+choice sequence is admitted by a spread law before any infinite branch, choice
+function, or completed real object is exposed. It sits after the
+$\SpreadLawUp$ admission row of
+\autoref{ch:concrete-instances-spread-law-namecert}, the finite observation
+schedule of \autoref{ch:concrete-instances-streamname-namecert}, the list spine
+of \autoref{ch:concrete-instances-list-namecert}, and the Boolean endpoint
+discipline of \autoref{ch:concrete-instances-bool-namecert}. The packet is a
+finite BEDC carrier for prefix inspection; it is not countable choice, not a
+selected infinite branch, and not an ambient fan theorem.
+
+\begin{definition}[Choice-sequence spread carrier]
+\label{def:choice-sequence-spread-carrier}
+A $\ChoiceSequenceSpreadUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(B,L,A,S,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BoolUp$ endpoint row used by each displayed binary choice.
+\item $L$ is the $\ListUp$ finite-prefix row, listing the inspected Boolean
+prefixes and their parent-prefix inclusions.
+\item $A$ is the $\SpreadLawUp$ admission row, recording that every displayed
+prefix in $L$ is accepted by the same spread law and that accepted extensions
+remain in the displayed prefix tree.
+\item $S$ is the $\StreamNameUp$ schedule row naming the finite moments at which
+the choice sequence is observed.
+\item $W$ is the prefix-window ledger aligning the StreamName observations with
+the finite List prefixes admitted by $A$.
+\item $R$ is the finite readback row, saying which Boolean endpoint in $B$ is
+read at each displayed position of the schedule.
+\item $H$ records componentwise $\hsame$ transport for
+$B,L,A,S,W,R,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+B \longmapsto L \longmapsto A \longmapsto S \longmapsto W
+\longmapsto R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ChoiceSequenceSpreadUp$,
+$\BoolUp$, $\ListUp$, $\SpreadLawUp$, $\StreamNameUp$, $\BHist$, $\hsame$,
+$\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ChoiceSequenceSpreadUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through
+$B,L,A,S,W,R,H,C,P,N$. It has no coordinate for a selected infinite branch,
+countable choice, quotient equality of streams, fan compactness, or ambient
+$\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Choice-sequence spread NameCert obligations]
+\label{thm:choice-sequence-spread-namecert-obligations}
+For every accepted $\ChoiceSequenceSpreadUp$ carrier
+$$
+Q=(B,L,A,S,W,R,H,C,P,N),
+$$
+the local $\NameCert_{\ChoiceSequenceSpreadUp}$ surface consists exactly of
+carrier admission for the Boolean endpoint row, List prefix row, SpreadLaw
+admission row, StreamName schedule row, prefix-window ledger, finite readback
+row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$
+provenance, and local naming. Every public read of the packet factors through
+those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:choice-sequence-spread-carrier}. The
+accepted tuple exposes exactly $B,L,A,S,W,R,H,C,P,N$, so the local certificate
+has no hidden row from which to read a branch selector or a host-level sequence.
+
+The prefix data are finite. The $\BoolUp$ row supplies the endpoints, the
+$\ListUp$ row lists the inspected prefixes, and the $\SpreadLawUp$ row admits
+only those displayed prefixes and their displayed extensions.
+
+The schedule data are finite as well. The $\StreamNameUp$ row names the observed
+positions, while $W$ and $R$ align those positions with the displayed prefix
+tree and endpoint reads.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the
+carrier has no coordinate for countable choice, quotient stream equality, fan
+compactness, or ambient $\RealUp$ completeness, the listed rows exhaust the
+NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Choice-sequence spread prefix closure]
+\label{thm:choice-sequence-spread-prefix-closure}
+Every accepted $\ChoiceSequenceSpreadUp$ carrier is closed under displayed
+prefix restriction: if a consumer reads a prefix from the ledger $L$ through the
+window $W$, then each earlier prefix on the same displayed branch is read
+through the same $\BoolUp$, $\ListUp$, $\SpreadLawUp$, $\StreamNameUp$,
+$\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Read the displayed prefix from the $L$ coordinate. The List row stores the
+parent-prefix inclusions for the finite prefixes currently under inspection.
+
+Apply the admission row $A$. Because $A$ is the same $\SpreadLawUp$ row for the
+whole packet, restricting to an earlier displayed prefix keeps the read inside
+the same spread-law admission surface.
+
+The window and schedule rows do not introduce a second branch. They only align
+the earlier prefix with already displayed $\StreamNameUp$ observations and
+Boolean endpoint reads.
+
+Transport, replay, provenance, and local naming through $H,C,P,N$ preserve the
+same finite packet. Thus prefix restriction remains inside the accepted
+$\ChoiceSequenceSpreadUp$ carrier and exports no infinite selector.
+\end{proof}
+
+\begin{theorem}[Choice-sequence spread StreamName handoff]
+\label{thm:choice-sequence-spread-streamname-handoff}
+Every $\StreamNameUp$ consumer of an accepted $\ChoiceSequenceSpreadUp$ packet
+must first expose the finite route
+$$
+\BoolUp \longmapsto \ListUp \longmapsto \SpreadLawUp \longmapsto
+\StreamNameUp \longmapsto W \longmapsto R .
+$$
+The schedule is therefore a finite observation handoff from spread-admitted
+prefixes to StreamName reads, not a selected branch or countable family of
+choices.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:choice-sequence-spread-namecert-obligations}. A
+StreamName-facing read can cite the packet only after the Boolean endpoint row,
+List prefix row, and SpreadLaw admission row have been displayed.
+
+The schedule row $S$ is downstream of that admission data. The window ledger
+$W$ records which displayed prefixes are observed, and the readback row $R$
+records the Boolean endpoints read at the displayed positions.
+
+The structural rows $H,C,P,N$ preserve this same route. They do not add a
+selector for a full infinite branch, a countable-choice function, or quotient
+equality of streams.
+\end{proof}
+
+\begin{theorem}[Choice-sequence spread nonescape]
+\label{thm:choice-sequence-spread-nonescape}
+No consumer of an accepted $\ChoiceSequenceSpreadUp$ carrier can extract
+anything beyond the displayed finite packet
+$$
+B,L,A,S,W,R,H,C,P,N .
+$$
+In particular the packet does not export a chosen infinite branch, countable
+choice, quotient equality of streams, fan compactness, bar induction, or
+ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:choice-sequence-spread-carrier} to enumerate the carrier
+coordinates. The only analytic surface available to consumers is the finite
+prefix route through $B,L,A,S,W,R$.
+
+Use \autoref{thm:choice-sequence-spread-prefix-closure} to keep every prefix
+restriction inside that same displayed route. No restricted read creates a new
+coordinate outside the packet.
+
+Use \autoref{thm:choice-sequence-spread-streamname-handoff} for
+StreamName-facing consumers. They receive only the finite observation handoff
+from spread-admitted prefixes to Boolean endpoint readback.
+
+The remaining rows $H,C,P,N$ are structural. They transport, replay, source, and
+name the finite packet, but they do not contain a branch selector, a
+countable-choice schedule, quotient stream equality, fan compactness, bar
+induction, or a completeness witness for $\RealUp$.
+\end{proof}
+
+\closureat{ChoiceSequenceSpreadUp}{seedStr}
+
+\begin{closurestatus}{\ChoiceSequenceSpreadUp}
+  \constructivestory{A $\ChoiceSequenceSpreadUp$ packet is generated from Boolean endpoint rows, List prefix rows, a SpreadLaw admission row, a StreamName schedule row, a prefix-window ledger, finite readback, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:choice-sequence-spread-carrier}, \autoref{thm:choice-sequence-spread-namecert-obligations}, \autoref{thm:choice-sequence-spread-prefix-closure}, \autoref{thm:choice-sequence-spread-streamname-handoff}, and \autoref{thm:choice-sequence-spread-nonescape} seed the finite spread-admitted choice-sequence prefix route and its StreamName handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected infinite branches, countable choice, quotient stream equality, fan compactness, bar induction, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, SpreadLaw prefix admission, StreamName schedule alignment, finite readback, prefix closure, nonescape, transport, replay, provenance, and local naming for BEDC.Derived.ChoiceSequenceSpreadUp.}
+\end{closurestatus}
