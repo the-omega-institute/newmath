@@ -78,6 +78,31 @@ parallel diamond, or a substitution-compatibility discharge, the accepted seal
 cannot be repacked into full closed Church--Rosser.
 \end{proof}
 
+\begin{theorem}[Closed normal confluence seal join-window inversion]
+\label{thm:closed-normal-confluence-seal-join-window-inversion}
+For every accepted $\ClosedNormalConfluenceSealUp$ carrier
+$Z=(t,n,r_1,r_2,j,H,C,P,N)$, any consumer that reads the join row $j$ must first
+expose the closed source row $t$, the beta-normality row $n$, and both displayed
+$\mathrm{BetaStarStep}$ routes $r_1,r_2$. Conversely, the row $j$ exports only
+the common target and residual routes attached to those two displayed routes.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:closed-normal-confluence-seal-carrier}. The join coordinate $j$ is
+not an independent global confluence field; it is listed after the closed source
+$t$, the beta-normality witness $n$, and the displayed routes $r_1,r_2$.
+
+Apply \autoref{thm:closed-normal-confluence-seal-normal-source}. It fixes the
+available source as the displayed closed beta-normal row and keeps both
+beta-star routes visible before the join is read.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name only this
+finite window. Therefore a consumer of $j$ recovers precisely the common target
+and residual routes attached to $r_1,r_2$, while arbitrary closed
+Church--Rosser, closed parallel diamond, substitution compatibility, subject
+reduction, and normalization remain outside the packet.
+\end{proof}
+
 \begin{theorem}[Closed normal confluence seal public export]
 \label{thm:closed-normal-confluence-seal-public-export}
 The public export of an accepted $\ClosedNormalConfluenceSealUp$ packet is
