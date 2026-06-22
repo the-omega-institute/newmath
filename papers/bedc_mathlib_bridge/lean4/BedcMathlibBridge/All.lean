@@ -2,3 +2,4 @@ import BedcMathlibBridge.Core.RelEquiv
 import BedcMathlibBridge.Core.RelQuotEquiv
 import BedcMathlibBridge.Adapter.MathlibEquiv
 import BedcMathlibBridge.Constructive
+import BedcMathlibBridge.Export

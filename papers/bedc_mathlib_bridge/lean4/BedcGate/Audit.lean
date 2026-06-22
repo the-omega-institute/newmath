@@ -17,11 +17,16 @@ structure Policy where
   bedcModulePrefix : Name
   trackedTypeHeads : Array Name
   operationClasses : Array Name
+  allowedPrimitivePrefixes : Array Name := #[]
   provenanceCutpoints : Array Name := #[]
   ignoredDeclPrefixes : Array Name := #[]
+  transportDenylist : Array Name := #[]
 
 def formatNames (names : Array Name) : String :=
   String.intercalate ", " (names.toList.map Name.toString)
+
+def matchesNamePrefix (pfx n : Name) : Bool :=
+  pfx == n || pfx.isPrefixOf n
 
 partial def hasGeneratedComponent : Name -> Bool
   | Name.anonymous => false
@@ -95,9 +100,10 @@ private def instanceTarget? (ci : ConstantInfo) : MetaM (Option (Name × NameSet
 private def auditDerivedDecl
     (p : Policy) (env : Environment) (n primitive : Name) : CommandElabM Unit := do
   unless isBedcPrimitive p env primitive do
-    throwError m!
-      "BEDC_GATE_B_FOREIGN_PRIMITIVE: `{n}` names `{primitive}`, \
-      but that declaration is not owned by the configured BEDC modules"
+    unless p.allowedPrimitivePrefixes.any (fun pfx => pfx.isPrefixOf primitive) do
+      throwError m!
+        "BEDC_GATE_B_FOREIGN_PRIMITIVE: `{n}` names `{primitive}`, \
+        but that declaration is not owned by the configured BEDC modules"
   let deps := ValueDeps.collect env n p.provenanceCutpoints
   unless deps.contains primitive do
     throwError m!
@@ -124,6 +130,15 @@ def auditGateB (p : Policy) : CommandElabM Nat := do
             throwError m!
               "BEDC_GATE_B_MISSING_ATTR: operation instance `{n}` has class `{cls}` \
               on a tracked BEDC carrier, but has no `@[bedcDerived ...]` annotation"
+          if relevant then
+            let deps := ValueDeps.collect env n p.provenanceCutpoints
+            let depArray := deps.toArray
+            let hits := p.transportDenylist.filter fun denied =>
+              depArray.any (fun dep => matchesNamePrefix denied dep)
+            unless hits.isEmpty do
+              throwError m!
+                "BEDC_GATE_B_TRANSPORT: operation instance `{n}` depends on \
+                denied transport/classical declaration(s): {formatNames hits}"
   return audited
 
 def audit (p : Policy) : CommandElabM Unit := do

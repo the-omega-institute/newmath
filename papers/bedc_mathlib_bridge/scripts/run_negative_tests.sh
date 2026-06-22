@@ -71,10 +71,129 @@ expect_fail BEDC_GATE_B_MISSING_DEP \
 expect_fail BEDC_GATE_B_MISSING_DEP \
   bash -c "cd '$LEAN_DIR' && lake env lean '$TMP_DIR/GateBCutpointGraft.lean'"
 
+cat > "$TMP_DIR/GateBTransport.lean" <<'EOF'
+import BedcMathlibBridge.CI.Policy
+import BedcGate.Audit
+import Lean
+
+open Lean Elab Command
+
+namespace BedcMathlibBridge.Negative.Transport
+
+open BedcMathlibBridge.Constructive.Int
+
+def transportedMulAnchor : Unit :=
+  let _ : Function.Injective (fun x : CInt => x) := fun _ _ h => h
+  ()
+
+@[bedcDerived CInt.toInt]
+instance instTransportMulCInt : Mul CInt where
+  mul x y :=
+    let _ := transportedMulAnchor
+    CInt.ofInt (x.toInt * y.toInt)
+
+end BedcMathlibBridge.Negative.Transport
+
+def transportPolicy : BedcGate.Policy :=
+  { BedcMathlibBridge.CI.policy with
+    bridgeDeclPrefix := `BedcMathlibBridge.Negative.Transport,
+    bridgeModulePrefix := `BedcMathlibBridge.Negative.Transport,
+    ignoredDeclPrefixes := #[] }
+
+run_cmd do
+  BedcGate.audit transportPolicy
+EOF
+
+expect_fail BEDC_GATE_B_TRANSPORT \
+  bash -c "cd '$LEAN_DIR' && lake env lean '$TMP_DIR/GateBTransport.lean'"
+
 cp "$ROOT/tests/negative/gate_c_missing.md" "$TMP_DIR/MISSING_IN_BEDC.md"
 cp "$ROOT/tests/negative/gate_c_matrix.json" "$TMP_DIR/matrix.json"
 
 expect_fail BEDC_GATE_C_SYNC \
   python3 "$ROOT/scripts/check_gap_sync.py" "$TMP_DIR/MISSING_IN_BEDC.md" "$TMP_DIR/matrix.json"
+
+cat > "$TMP_DIR/export_missing.md" <<'EOF'
+| row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
+| --- | --- | --- | --- | --- | --- | --- |
+| missing-export | fixture | fixture | adequacy(0-axiom) | fixture | axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"missing-export","kind":"exported_core","mathlib_class":"Dvd","mathlib_instance":"Int.instDvd","export_witness":"BedcMathlibBridge.Negative.missingWitness"} --> |
+EOF
+
+expect_fail BEDC_GATE_D_MISSING_WITNESS \
+  python3 "$ROOT/scripts/check_export_matrix.py" "$TMP_DIR/export_missing.md"
+
+python3 - "$ROOT/MATRIX.md" "$TMP_DIR/export_unclassified.md" <<'PY'
+from pathlib import Path
+import sys
+src = Path(sys.argv[1]).read_text()
+lines = [
+    line for line in src.splitlines()
+    if '"row_id":"int-repr-generic"' not in line
+]
+Path(sys.argv[2]).write_text("\n".join(lines) + "\n")
+PY
+
+expect_fail BEDC_GATE_D_UNCLASSIFIED \
+  python3 "$ROOT/scripts/check_export_matrix.py" "$TMP_DIR/export_unclassified.md"
+
+cat > "$TMP_DIR/GateDAxiomWitness.lean" <<'EOF'
+import BedcMathlibBridge.CI.ExportAudit
+
+noncomputable def BedcMathlibBridge.Negative.axiomWitness : Nat :=
+  Classical.choice (show Nonempty Nat from ⟨0⟩)
+
+run_cmd do
+  BedcMathlibBridge.CI.ExportAudit.audit #[
+    { rowId := "axiom-export", witness := `BedcMathlibBridge.Negative.axiomWitness }
+  ]
+EOF
+
+expect_fail BEDC_GATE_D_AXIOM \
+  bash -c "cd '$LEAN_DIR' && lake env lean '$TMP_DIR/GateDAxiomWitness.lean'"
+
+cat > "$TMP_DIR/GateSWeakenedSignature.lean" <<'EOF'
+import BedcMathlibBridge.Export.Int
+import BedcMathlibBridge.CI.IntMetadata
+import Lean
+
+open Lean Elab Command
+
+run_cmd do
+  let env ← getEnv
+  let some info := getStructureInfo? env `BedcMathlibBridge.Export.Int.IntExportWitness
+    | throwError "BEDC_GATE_S_SIGNATURE: missing IntExportWitness"
+  let fields := info.fieldInfo.qsort fun a b => Name.quickLt a.fieldName b.fieldName
+  let some field := fields[0]?
+    | throwError "BEDC_GATE_S_SIGNATURE: missing field"
+  let some ci := env.find? field.projFn
+    | throwError "BEDC_GATE_S_SIGNATURE: missing projection"
+  let actualHash := hash ci.type
+  if actualHash == 0 then
+    pure ()
+  else
+    throwError m!"BEDC_GATE_S_SIGNATURE: field `{field.fieldName}` type hash {actualHash}, expected 0"
+EOF
+
+expect_fail BEDC_GATE_S_SIGNATURE \
+  bash -c "cd '$LEAN_DIR' && lake env lean '$TMP_DIR/GateSWeakenedSignature.lean'"
+
+cat > "$TMP_DIR/GateDOrphan.lean" <<'EOF'
+import BedcMathlibBridge.CI.ExportAudit
+
+run_cmd do
+  BedcMathlibBridge.CI.ExportAudit.audit #[]
+EOF
+
+expect_fail BEDC_GATE_D_ORPHAN_WITNESS \
+  bash -c "cd '$LEAN_DIR' && lake env lean '$TMP_DIR/GateDOrphan.lean'"
+
+cat > "$TMP_DIR/boundary_fake.md" <<'EOF'
+| row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
+| --- | --- | --- | --- | --- | --- | --- |
+| fake-boundary | fixture | mathlib Int CommRing (`Int.instCommRing`) | boundary fact (not bridged) | fixture | expected_axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"fake-boundary","kind":"measured_boundary","mathlib_class":"CommRing","mathlib_instance":"Int.instCommRing","boundary_decl":"Int.instCommRing","expected_axioms":[]} --> |
+EOF
+
+expect_fail BEDC_GATE_E_AXIOM_MISMATCH \
+  python3 "$ROOT/scripts/check_boundary_axioms.py" "$TMP_DIR/boundary_fake.md"
 
 echo "[negative] all expected failures matched gate tokens"

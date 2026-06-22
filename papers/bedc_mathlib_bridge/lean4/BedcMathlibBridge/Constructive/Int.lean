@@ -1133,21 +1133,25 @@ theorem CInt.le_trans {x y z : CInt} : x ≤ y -> y ≤ z -> x ≤ z := by
     (pairLe_iff_length_order hy.left hz.left).mp hyz
   exact cross_le_trans xyNat yzNat
 
+@[bedcDerived BEDC.Derived.NatUp.NatUnaryPrefix_total]
 instance instLTCInt : LT CInt where
   lt x y := x ≤ y ∧ ¬ y ≤ x
 
+@[bedcDerived CInt.toInt]
 instance instDecidableEqCInt : DecidableEq CInt := fun x y =>
   if h : x.toInt = y.toInt then
     isTrue (CInt.canonical_ext h)
   else
     isFalse fun hxy => h (congrArg CInt.toInt hxy)
 
+@[bedcDerived BEDC.Derived.NatUp.NatUnaryPrefix_total]
 instance instDecidableLECInt : DecidableLE CInt := fun x y =>
   if h : x.toInt ≤ y.toInt then
     isTrue ((CInt.le_iff_toInt_le x y).mpr h)
   else
     isFalse fun hxy => h ((CInt.le_iff_toInt_le x y).mp hxy)
 
+@[bedcDerived BEDC.Derived.NatUp.NatUnaryPrefix_total]
 instance instDecidableLTCInt : DecidableLT CInt := fun x y =>
   inferInstanceAs (Decidable (x ≤ y ∧ ¬ y ≤ x))
 
@@ -1155,12 +1159,14 @@ theorem CInt.le_refl (x : CInt) : x ≤ x := by
   rcases x with ⟨x, hx⟩
   exact (pairLe_iff_length_order hx.left hx.left).mpr (Nat.le_refl _)
 
+@[bedcDerived BEDC.Derived.NatUp.NatUnaryPrefix_total]
 instance instPartialOrderCInt : PartialOrder CInt where
   le_refl := CInt.le_refl
   le_trans := fun _ _ _ => CInt.le_trans
   le_antisymm := fun _ _ => CInt.le_antisymm
   lt_iff_le_not_ge := by intro _ _; rfl
 
+@[bedcDerived BEDC.Derived.NatUp.NatUnaryPrefix_total]
 instance instLinearOrderCInt : LinearOrder CInt where
   le_total := CInt.le_total
   toDecidableLE := instDecidableLECInt
@@ -1169,6 +1175,7 @@ instance instLinearOrderCInt : LinearOrder CInt where
   min_def := by intro _ _; rfl
   max_def := by intro _ _; rfl
 
+@[bedcDerived CInt.toInt]
 instance instDvdCInt : Dvd CInt where
   dvd x y := x.toInt ∣ y.toInt
 
