@@ -225,4 +225,72 @@ theorem DoCalculusPacket_probability_handoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, adjustmentReadUnary, expectationReadUnary, probabilityReadUnary⟩
 
+theorem DoCalculusPacket_intervention_prefix_locality [AskSetup] [PackageSetup]
+    {intervention variables adjustment distribution independence expectation exported htrans replay
+      provenance localName prefixRead retainedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DoCalculusPacket intervention variables adjustment distribution independence expectation exported
+        htrans replay provenance localName bundle pkg ->
+      Cont intervention variables prefixRead ->
+        Cont prefixRead adjustment retainedRead ->
+          PkgSig bundle retainedRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row retainedRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row intervention ∨ hsame row variables ∨ hsame row prefixRead ∨
+                    hsame row adjustment ∨ hsame row retainedRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont intervention variables prefixRead ∧
+                    Cont prefixRead adjustment retainedRead ∧ PkgSig bundle retainedRead pkg)
+                hsame ∧
+              UnaryHistory prefixRead ∧ UnaryHistory retainedRead ∧
+                PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert ProbeBundle PkgSig
+  intro packet prefixRoute retainedRoute retainedPkg
+  obtain ⟨interventionUnary, variablesUnary, adjustmentUnary, _distributionUnary,
+    _independenceUnary, _expectationUnary, _exportedUnary, _htransUnary, _replayUnary,
+    _provenanceUnary, _localNameUnary, _interventionVariablesAdjustment,
+    _adjustmentDistributionIndependence, _independenceExpectationExport,
+    _htransReplayProvenance, localNamePkg⟩ := packet
+  have prefixReadUnary : UnaryHistory prefixRead :=
+    unary_cont_closed interventionUnary variablesUnary prefixRoute
+  have retainedReadUnary : UnaryHistory retainedRead :=
+    unary_cont_closed prefixReadUnary adjustmentUnary retainedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row retainedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row intervention ∨ hsame row variables ∨ hsame row prefixRead ∨
+              hsame row adjustment ∨ hsame row retainedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont intervention variables prefixRead ∧
+              Cont prefixRead adjustment retainedRead ∧ PkgSig bundle retainedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro retainedRead ⟨hsame_refl retainedRead, retainedReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, prefixRoute, retainedRoute, retainedPkg⟩
+  }
+  exact ⟨cert, prefixReadUnary, retainedReadUnary, localNamePkg⟩
+
 end BEDC.Derived.DoCalculusUp

@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\DescentDataUp$}
+\label{ch:concrete-instances-descent-data-namecert}
+\origin{human}
+
+Following Grothendieck on descent and SGA-style gluing, the $\DescentDataUp$ packet records local objects, restriction isomorphisms, cocycle comparisons, and effectivity rows as finite BEDC data. It sits over the coverage surface of \autoref{ch:concrete-instances-grothendieck-topology-namecert}, the restriction surface of \autoref{ch:concrete-instances-presheaf-namecert}, the locality and gluing surface of \autoref{ch:concrete-instances-sheaf-namecert}, the groupoid-valued descent surface of \autoref{ch:concrete-instances-stack-namecert}, and the object-arrow carrier of \autoref{ch:concrete-instances-category-namecert}. The packet names only the displayed descent rows and does not export a host quotient stack, selected gluing object, global representative choice, or ambient sheaf equality.
+
+\section{Descent Carrier}
+\label{sec:descent-data-carrier}
+
+\begin{definition}[Descent data carrier]\label{def:descent-data-carrier}
+A $\DescentDataUp$ carrier is a tuple $(U,L,R,C,E,H,T,P,N)$ with the following rows.
+\begin{enumerate}
+\item $U$ is a cover row over the displayed $\GrothendieckTopologyUp$ site, naming the finite cover or covering sieve from which the descent packet is read.
+\item $L$ is the family of local-object rows, one row for each certified member of $U$, read through the $\PreSheafUp$, $\SheafUp$, or $\StackUp$ restriction surface relevant to the target consumer.
+\item $R$ is the restriction-isomorphism row, assigning to each certified overlap a displayed comparison between the two restrictions of the corresponding local-object rows.
+\item $C$ is the cocycle row, asserting that on each displayed triple overlap the two composite restriction-isomorphism routes have the same classifier read.
+\item $E$ is the effectivity and gluing row, naming the accepted global row or gluing-readback surface that may be consumed after $C$ has been checked.
+\item $H$ is componentwise $\hsame$ transport for covers, local objects, restriction isomorphisms, cocycle witnesses, and effectivity witnesses.
+\item $T$ is displayed $\Cont$ replay for the route that reads $U$, then $L$, then $R$, then $C$, then $E$.
+\item $P$ is $\Pkg$ provenance for the site, cover, local-object source, overlap restriction source, cocycle source, and effectivity source.
+\item $N$ is a local $\NameCert$ row naming the accepted descent packet and every exported row.
+\end{enumerate}
+No component of the carrier is a host quotient of objects, a selected representative of a gluing class, a global choice function for local objects, or an equality of ambient sheaf sections outside the displayed classifier rows.
+\end{definition}
+
+\begin{theorem}[Descent data NameCert obligations]\label{thm:descent-data-namecert-obligations}
+Every accepted $\DescentDataUp$ packet exposes exactly the carrier, cover, local-object, restriction, cocycle, effectivity, transport, replay, provenance, and naming obligations listed in \autoref{def:descent-data-carrier}. A consumer may inspect the cover row $U$, local-object rows $L$, restriction-isomorphism rows $R$, cocycle row $C$, effectivity row $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$, but obtains no host quotient stack, selected global gluing, global choice of representatives, ambient sheaf equality, or standard bridge.
+\end{theorem}
+\begin{proof}
+Project the tuple $(U,L,R,C,E,H,T,P,N)$ from \autoref{def:descent-data-carrier}. The first five coordinates give the analytic descent data: a displayed cover, local objects over that cover, restriction isomorphisms on overlaps, a cocycle witness on triple overlaps, and the effectivity or gluing row.
+
+The remaining coordinates give the BEDC certificate discipline. Componentwise $\hsame$ moves each displayed row without replacing it by host equality, $\Cont$ replays the read order, $\Pkg$ records the site and gluing provenance, and $\NameCert$ names the packet and its exported rows.
+
+The exclusions follow by absence of carrier coordinates. A host quotient stack, a selected global gluing, a representative-choice operation, ambient sheaf equality, and a standard bridge would each require an additional row not present in the tuple, so they are outside the accepted certificate.
+\end{proof}
+
+\begin{theorem}[Descent cocycle and effectivity route]\label{thm:descent-data-cocycle-effectivity-route}
+Every stack or sheaf gluing consumer of a $\DescentDataUp$ packet must read the cocycle rows before the effectivity rows. The exported route is
+$$
+U\longrightarrow L\longrightarrow R\longrightarrow C\longrightarrow E,
+$$
+then $H,T,P,N$ transport, replay, source, and name the same route. This export supplies no host quotient of objects, no global choice of representatives, and no ambient sheaf equality.
+\end{theorem}
+\begin{proof}
+Start with the carrier order of \autoref{def:descent-data-carrier}. The cover row $U$ determines the displayed local indices, $L$ supplies the local objects on those indices, and $R$ supplies the overlap restriction-isomorphism rows.
+
+The effectivity row $E$ is certified only after the cocycle row $C$ has checked the triple-overlap composites. Thus a sheaf or stack gluing consumer reaches $E$ through the finite route $U,L,R,C$ rather than by an ambient existence principle.
+
+Finally apply the structural rows $H,T,P,N$. They transport the route componentwise, replay the same read order, record provenance, and name the resulting packet. Since none of these rows is a quotient, representative selector, choice function, or host equality witness, the exported route does not supply those objects.
+\end{proof}
+
+\begin{closurestatus}{\DescentDataUp}
+  \constructivestory{A $\DescentDataUp$ packet is generated from a Grothendieck-topology cover row, local-object rows, restriction-isomorphism rows, a cocycle row, an effectivity or gluing row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:descent-data-carrier}, \autoref{thm:descent-data-namecert-obligations}, and \autoref{thm:descent-data-cocycle-effectivity-route} bind the finite descent-data carrier and the cocycle-before-effectivity route for sheaf and stack consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host quotient stacks, selected gluings, global choice of representatives, ambient sheaf equality, or bridge checking.}
+  \upgradepath{Formal verification can encode carrier admission, cocycle-before-effectivity read order, componentwise transport, provenance, naming, and the absence of quotient, choice, and ambient-equality exports for BEDC.Derived.DescentDataUp.}
+\end{closurestatus}
