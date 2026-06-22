@@ -257,4 +257,26 @@ theorem ReflectiveInquiry_open_continuation_row_separation
   intro h
   cases h
 
+theorem ReflectiveInquiryNontrivialWitnessRoute :
+    ∃ q0 q1 : BHist,
+      q0 ≠ q1 ∧
+        reflectiveInquiryToEventFlow
+            (ReflectiveInquiryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty q0 BHist.Empty) ≠
+          reflectiveInquiryToEventFlow
+            (ReflectiveInquiryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty q1 BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  refine ⟨BHist.Empty, BHist.e0 BHist.Empty, ?_, ?_⟩
+  · intro h
+    cases h
+  · intro heq
+    have hPacket :
+        ReflectiveInquiryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty =
+          ReflectiveInquiryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty (BHist.e0 BHist.Empty) BHist.Empty :=
+      reflectiveInquiryToEventFlow_injective heq
+    cases hPacket
+
 end BEDC.Derived.ReflectiveInquiryUp
