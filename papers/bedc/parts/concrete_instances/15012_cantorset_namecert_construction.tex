@@ -110,6 +110,20 @@ The structural rows $H,K,P,N$ preserve this route under $\hsame$ transport and $
 \end{proof}
 \leanchecked{BEDC.Derived.CantorSetUp.CantorSetCarrier\_prefix\_gap\_separation}
 
+\begin{theorem}[Cantor set triadic-window split stability]
+\label{thm:cantor-set-triadic-window-split-stability}
+Let $C=(T,G,I,D,R,E,H,K,P,N)$ and $C'=(T',G',I',D',R',E',H',K',P',N')$ be accepted $\CantorSetUp$ carriers. If $T$ and $T'$ agree on the same retained ternary prefix window through a finite depth and $G$ and $G'$ display the same deleted-middle gap ledger through that depth, then every downstream $\RealUp$-facing read through $I,D,R,E$ and $I',D',R',E'$ factors through the same retained interval split at that depth. The factorization uses only retained prefixes, deleted gaps, endpoint ledgers, $\RegSeqRatUp$ handoff, and $\RealUp$ sealing; it uses no selected infinite branch, host powerset, quotient real equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The common finite prefix window is stored in $T$ and $T'$, while the common deleted-middle gap ledger is stored in $G$ and $G'$. By finite-prefix induction, the retained left-third or right-third decisions determine the same retained interval split at the inspected depth.
+
+Apply \autoref{thm:cantor-set-prefix-gap-separation}. The displayed gap ledgers are checked before any Real seal is consumed, so the common retained prefix excludes the same deleted gaps in both packets and routes both reads into the retained interval rows $I$ and $I'$.
+
+Now read the endpoint and Real-facing rows. The retained interval split is passed through $D$ and $D'$, then through the regular-rational handoff rows $R$ and $R'$, and finally through the $\RealUp$ seal rows $E$ and $E'$. The structural rows $H,K,P,N$ and $H',K',P',N'$ preserve the same finite route.
+
+Since neither carrier has a coordinate for an infinite branch selector, host powerset, quotient real equality, compactness theorem, or ambient completeness witness, the downstream reads can factor only through the displayed retained interval split.
+\end{proof}
+
 \begin{theorem}[Cantor set ternary-prefix classifier]
 \label{thm:cantor-set-ternary-prefix-classifier}
 For every accepted $\CantorSetUp$ carrier $C=(T,G,I,D,R,E,H,K,P,N)$, a finite prefix read is classified only by the retained left-third and right-third symbols recorded in $T$ before any deleted-gap ledger or $\RealUp$ row is read. The classifier therefore exposes a finite ternary-retention surface and not a host powerset, quotient real equality, selected infinite branch, compactness theorem, or ambient completeness principle.
