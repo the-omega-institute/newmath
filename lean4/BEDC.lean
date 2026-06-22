@@ -1974,7 +1974,6 @@ import BEDC.Derived.CauchyModulusExtractionUp
 import BEDC.Derived.CauchyModulusExtractionUp.StdBridge
 import BEDC.Derived.CauchyModulusExtractorUp.TasteGate
 import BEDC.Derived.CauchyModulusFunctorialityUp.TasteGate
-import BEDC.Derived.CauchyModulusLimiterUp.TasteGate
 import BEDC.Derived.CauchyModulusMajorantUp.TasteGate
 import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.CauchyModulusMeetUp.StdBridge
@@ -3055,7 +3054,6 @@ import BEDC.Derived.CofinalTailBudgetUp.StdBridge
 import BEDC.Derived.CofinalTailBudgetUp.TasteGate
 import BEDC.Derived.CofinalTailEquivalenceUp.CommonTailInduction
 import BEDC.Derived.CofinalTailEquivalenceUp.NameCertObligations
-import BEDC.Derived.CofinalTailEquivalenceUp.TailAgreementTransport
 import BEDC.Derived.CofinalTailEquivalenceUp.TasteGate
 import BEDC.Derived.CofinalTailMapUp
 import BEDC.Derived.CofinalTailMapUp.TasteGate
