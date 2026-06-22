@@ -149,6 +149,50 @@ Read the continuation side through \autoref{ch:concrete-instances-continuationau
 The context-free sibling \autoref{ch:concrete-instances-contextfreegrammar-namecert} may compare this bounded run with grammar yields only through the exposed finite word and endpoint surface. Since the packet has no coordinate for language quotienting, derivation trees, host evaluation, or infinite traces, the sibling bridge is exactly the finite-prefix route listed above.
 \end{proof}
 
+\begin{theorem}[FinitePrefixAutomaton obligation window]
+\label{thm:finite-prefix-automaton-obligation-window}
+Every accepted $\FinitePrefixAutomatonUp$ prefix-window read exposes exactly the finite rows
+$$
+Q,q_0,A,T,W,R,E,H,C,P,N .
+$$
+The window supplies the state ledger, initial row, accepting-state ledger, transition table, finite word, run ledger, endpoint and acceptance row, componentwise transport, displayed replay, provenance, and local $\NameCert$ row, and it supplies no host evaluator, quotient language equality, unlisted transition rule, or infinite trace.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:finiteprefixautomaton-carrier}. The carrier displays precisely $Q,q_0,A,T,W,R,E,H,C,P,N$ and has no additional coordinate through which a consumer could read outside automaton semantics.
+
+Apply the classifier and obligation surface of \autoref{def:finiteprefixautomaton-classifier} and \autoref{thm:finiteprefixautomaton-namecert-obligation-surface}. They bind prefix-source, transition, endpoint, acceptance, stability, replay, provenance, and local naming obligations to the same displayed rows.
+
+Finally use transition exactness, endpoint exactness, acceptance exactness, and the sibling bridge, \autoref{thm:finiteprefixautomaton-transition-exactness-obligation}, \autoref{thm:finiteprefixautomaton-endpoint-exactness-obligation}, \autoref{thm:finiteprefixautomaton-acceptance-exactness-obligation}, and \autoref{thm:finiteprefixautomaton-regularlanguage-sibling-bridge}. Those theorems keep every downstream finite-prefix read inside the listed packet and exclude host evaluators, quotient language equality, unlisted transition rules, and infinite traces.
+\end{proof}
+
+\begin{theorem}[FinitePrefixAutomaton deterministic readback]
+\label{thm:finite-prefix-automaton-deterministic-readback}
+For accepted $\FinitePrefixAutomatonUp$ packets with the same displayed table $T$ and finite word $W$, the same prefix-window read forces the same displayed endpoint row and the same acceptance row. The conclusion is computed by induction over finite prefixes using only $Q,q_0,A,T,W,R,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+For the empty prefix, the carrier and classifier force the run ledger to begin at the displayed initial row $q_0$. Thus two accepted reads with the same table and word have the same initial row inside the packet boundary.
+
+For the successor prefix, apply transition exactness from \autoref{thm:finiteprefixautomaton-transition-exactness-obligation}. The same transition table row and the same input mark from $W$ force the same displayed target row, while $H$ and $C$ only transport and replay that finite transition evidence.
+
+Induction over the finite word ledger gives the same displayed run endpoint. Endpoint exactness and acceptance exactness, \autoref{thm:finiteprefixautomaton-endpoint-exactness-obligation} and \autoref{thm:finiteprefixautomaton-acceptance-exactness-obligation}, then force the endpoint row and acceptance row read from $E$ and $A$. No host evaluator, quotient language equality, unlisted transition rule, or infinite trace is available to change the result.
+\end{proof}
+
+\begin{theorem}[FinitePrefixAutomaton regular-language handoff]
+\label{thm:finite-prefix-automaton-regular-language-handoff}
+Every $\RegularLanguageUp$ or $\ContinuationAutomatonUp$ consumer of an accepted $\FinitePrefixAutomatonUp$ packet receives only finite word rows, transition rows, endpoint rows, acceptance rows, transport rows, replay rows, provenance rows, and local naming rows from
+$$
+Q,q_0,A,T,W,R,E,H,C,P,N .
+$$
+The handoff exports no host evaluator, quotient language equality, unlisted transition rule, infinite trace, or derivation-tree comparison.
+\end{theorem}
+\begin{proof}
+Read the carrier and classifier first. They expose the finite word ledger $W$, transition table $T$, run ledger $R$, endpoint and acceptance row $E$, and the accepting-state ledger $A$, with transport, replay, provenance, and naming supplied by $H,C,P,N$.
+
+Apply the deterministic readback theorem above together with \autoref{thm:finiteprefixautomaton-prefix-run-determinacy}. The consumer receives a finite endpoint and acceptance read determined by the displayed word and transition table, not by an external evaluator.
+
+Finally apply the regular-language sibling bridge of \autoref{thm:finiteprefixautomaton-regularlanguage-sibling-bridge}. The $\RegularLanguageUp$ side reads only finite word, endpoint, and acceptance data, and the $\ContinuationAutomatonUp$ side reads only the displayed transition and replay rows. Quotient language equality, unlisted transition rules, infinite traces, and derivation-tree comparisons remain outside the handoff.
+\end{proof}
+
 \begin{closurestatus}{\FinitePrefixAutomatonUp}
   \constructivestory{A $\FinitePrefixAutomatonUp$ packet is generated from a finite automaton row, initial state, accepted prefix word, transition ledger, endpoint row, acceptance ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. The $\BHist$ carrier exposes a bounded run: each transition is read as a finite continuation step, the endpoint is determined by the displayed prefix, and the classifier admits acceptance only through the recorded endpoint and ledger rows. The construction therefore gives a finite-prefix automaton route that can be compared with adjacent language packets without quotienting languages.}
   \theoryclosure{\seedClosure}
