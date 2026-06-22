@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\ProjectionValuedMeasureUp$}
+\label{ch:concrete-instances-projection-valued-measure-namecert}
+\origin{human}
+
+Following von Neumann and the Reed--Simon treatment of spectral families, the $\ProjectionValuedMeasureUp$ packet isolates the finite projection-family interface used between $\SpectralMeasureUp$ and spectral-theorem consumers. It sits after the spectral-measure carrier of \autoref{ch:concrete-instances-spectral-measure-namecert}, the Hilbert carrier of \autoref{ch:concrete-instances-hilbert-namecert}, the bounded self-adjoint operator source of \autoref{ch:concrete-instances-bounded-self-adjoint-operator-namecert}, the event-measure rows of \autoref{ch:concrete-instances-measure-namecert}, and the consumer statement of \autoref{ch:concrete-instances-spectraltheorem-namecert}. Those siblings provide scalar measure windows, Hilbert endpoints, operator sources, event rows, and theorem-facing demand separately; this packet names the projection-valued family before any spectral theorem, functional calculus, or selected decomposition is read.
+
+\begin{definition}[Projection-valued measure carrier]
+\label{def:projection-valued-measure-carrier}
+A $\ProjectionValuedMeasureUp$ carrier is a finite $\BHist$ packet
+$$
+P=(H,A,E,\Pi,O,F,S,T,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the $\HilbertUp$ endpoint on which all projection rows act.
+\item $A$ is the $\BoundedSelfAdjointOperatorUp$ source row whose spectral projections are being requested.
+\item $E$ is the $\MeasureUp$ event-family row, recording only the displayed finite event requests.
+\item $\Pi$ is the projection-family row, assigning each displayed event in $E$ a projection endpoint over $H$.
+\item $O$ is the orthogonality row for disjoint displayed event pairs.
+\item $F$ is the finite-additivity row for displayed finite unions.
+\item $S$ is the scalar-window handoff row linking the projection family to the $\SpectralMeasureUp$ scalar measure windows.
+\item $T$ stores componentwise $\hsame$ transport for Hilbert, operator, event, projection, orthogonality, additivity, and scalar-window rows.
+\item $C$ stores displayed $\Cont$ replay from event requests through projection endpoints and scalar-window handoff.
+\item $K$ is the $\Pkg$ provenance over $\ProjectionValuedMeasureUp$, $\SpectralMeasureUp$, $\HilbertUp$, $\BoundedSelfAdjointOperatorUp$, $\MeasureUp$, $\SpectralTheoremUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ProjectionValuedMeasureUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for host sigma-additivity, quotient event equality, selected spectral decomposition, eigenbasis choice, unrestricted functional calculus, or a proof of the spectral theorem.
+\end{definition}
+
+\begin{definition}[Projection-valued measure classifier]
+\label{def:projection-valued-measure-classifier}
+For accepted $\ProjectionValuedMeasureUp$ packets $P$ and $P'$, the classifier $P\sim_{\ProjectionValuedMeasureUp}P'$ holds exactly when their displayed Hilbert rows, bounded self-adjoint operator rows, measure-event rows, projection endpoints, orthogonality ledgers, finite-additivity ledgers, scalar-window handoffs, continuation routes, package provenance, and local naming rows compare componentwise by the recorded $\hsame$ witnesses. The classifier does not compare completed measurable spaces, host projection-valued functions, countable projection families, or spectral theorem objects.
+\end{definition}
+
+\begin{theorem}[Projection-valued measure NameCert obligations]
+\label{thm:projection-valued-measure-namecert-obligations}
+For the carrier of \autoref{def:projection-valued-measure-carrier}, the local $\NameCert_{\ProjectionValuedMeasureUp}$ surface consists exactly of carrier admission for $P=(H,A,E,\Pi,O,F,S,T,C,K,N)$, Hilbert endpoint exposure through $H$, bounded self-adjoint source exposure through $A$, event-family exposure through $E$, projection-family exposure through $\Pi$, orthogonality through $O$, finite additivity through $F$, scalar-window handoff through $S$, componentwise transport through $T$, displayed replay through $C$, package provenance through $K$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $P=(H,A,E,\Pi,O,F,S,T,C,K,N)$. The first three rows supply the Hilbert endpoint, bounded self-adjoint source, and finite event family on which the projection-valued read is typed.
+
+Read the projection rows next. The projection-family row $\Pi$ assigns displayed events to projection endpoints, while $O$ and $F$ record orthogonality and finite additivity only for displayed event pairs and finite unions.
+
+The scalar-window handoff $S$ connects the projection ledger to $\SpectralMeasureUp$ without importing a completed measure space. Transport, replay, provenance, and local naming then preserve the same displayed rows, so the listed coordinates exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Projection-valued measure spectral-measure handoff]
+\label{thm:projection-valued-measure-spectral-measure-handoff}
+Every $\SpectralMeasureUp$ or $\SpectralTheoremUp$ consumer that reads projection-valued data from an accepted $\ProjectionValuedMeasureUp$ packet must pass through the finite route
+$$
+\HilbertUp,\ \BoundedSelfAdjointOperatorUp,\ \MeasureUp,\ \Pi,\ O,\ F,\ \SpectralMeasureUp
+$$
+before local naming. The route exposes the projection family, orthogonality, finite additivity, and scalar-window handoff, but it does not expose host sigma-additivity, a quotient event space, an eigenbasis selector, an unrestricted functional calculus, or a spectral theorem proof.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier. They expose only the Hilbert row, bounded self-adjoint source row, displayed event family, projection endpoints, orthogonality and finite-additivity ledgers, scalar-window handoff, transport, replay, provenance, and local naming.
+
+The $\SpectralMeasureUp$ sibling is reached through $S$, the scalar-window handoff row. This keeps scalar measure reads downstream of the projection ledger, rather than letting the spectral-measure chapter carry both the projection family and scalar window roles at once.
+
+Finally the $\SpectralTheoremUp$ consumer reads the same finite package through $K$ and $N$. Since the packet has no coordinate for completed measurable spaces, selected decompositions, functional calculus, or theorem proof data, the handoff is exhausted by the displayed projection-valued measure route.
+\end{proof}
+
+\falsifiablePrediction{A spectral-theorem consumer that reads projection-valued data without displaying Hilbert, bounded self-adjoint operator, event-family, projection, orthogonality, finite-additivity, scalar-window, transport, replay, provenance, and local NameCert rows refutes the $\ProjectionValuedMeasureUp$ carrier.}
+
+\independenceWitness{spectralmeasure, hilbert, boundedselfadjointoperator, measure, spectraltheorem: none is bijective to ProjectionValuedMeasureUp because this packet alone binds finite event rows to projection endpoints with orthogonality, finite additivity, scalar-window handoff, transport, replay, provenance, and local naming.}
+
+\closureat{ProjectionValuedMeasureUp}{seedStr}
+
+\begin{closurestatus}{\ProjectionValuedMeasureUp}
+  \constructivestory{A $\ProjectionValuedMeasureUp$ packet is generated from a Hilbert endpoint, bounded self-adjoint source, displayed measure-event rows, projection endpoints, orthogonality ledgers, finite-additivity ledgers, scalar-window handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:projection-valued-measure-carrier}, \autoref{def:projection-valued-measure-classifier}, \autoref{thm:projection-valued-measure-namecert-obligations}, and \autoref{thm:projection-valued-measure-spectral-measure-handoff} seed the finite projection-family interface consumed by SpectralMeasureUp and SpectralTheoremUp.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.ProjectionValuedMeasureUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host sigma-additivity, completed measurable spaces, quotient event equality, selected spectral decompositions, eigenbasis choices, unrestricted functional calculus, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, projection-family exposure, orthogonality, finite additivity, scalar-window handoff, transport, replay, provenance, and local naming for BEDC.Derived.ProjectionValuedMeasureUp.}
+\end{closurestatus}
