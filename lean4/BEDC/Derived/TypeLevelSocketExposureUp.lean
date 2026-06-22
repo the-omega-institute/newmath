@@ -190,4 +190,84 @@ theorem TypeLevelSocketExposureLedgerNonescape [AskSetup] [PackageSetup]
       setupCarrierExposure, classifierLedgerRefusal, routeNameCert, certProvenanceConsumer,
       certPkg, consumerPkg⟩
 
+theorem TypeLevelSocketExposureRefusalExactness [AskSetup] [PackageSetup]
+    {setup carrier classifier ledger refusal transport route provenance name exposureRead
+      refusalRead certRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    TypeLevelSocketExposureCarrier setup carrier classifier ledger refusal transport route
+        provenance name bundle pkg →
+      Cont setup carrier exposureRead →
+        Cont classifier ledger refusalRead →
+          Cont route name certRead →
+            Cont certRead provenance consumerRead →
+              PkgSig bundle certRead pkg →
+                PkgSig bundle consumerRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row refusalRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row setup ∨ hsame row carrier ∨ hsame row classifier ∨
+                          hsame row ledger ∨ hsame row refusal ∨ hsame row refusalRead ∨
+                            hsame row consumerRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont setup carrier exposureRead ∧
+                          Cont classifier ledger refusalRead ∧ Cont route name certRead ∧
+                            Cont certRead provenance consumerRead ∧
+                              PkgSig bundle consumerRead pkg)
+                      hsame ∧
+                    UnaryHistory refusalRead ∧ UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro exposureWitness setupCarrierExposure classifierLedgerRefusal routeNameCert
+    certProvenanceConsumer _certPkg consumerPkg
+  obtain ⟨setupUnary, carrierUnary, classifierUnary, ledgerUnary, _refusalUnary,
+    _transportUnary, routeUnary, provenanceUnary, nameUnary, _setupCarrierClassifier,
+    _classifierLedgerRefusal, _refusalTransportRoute, _namePkg⟩ := exposureWitness
+  have refusalReadUnary : UnaryHistory refusalRead :=
+    unary_cont_closed classifierUnary ledgerUnary classifierLedgerRefusal
+  have certReadUnary : UnaryHistory certRead :=
+    unary_cont_closed routeUnary nameUnary routeNameCert
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed certReadUnary provenanceUnary certProvenanceConsumer
+  have sourceRefusal :
+      (fun row : BHist => hsame row refusalRead ∧ UnaryHistory row) refusalRead := by
+    exact ⟨hsame_refl refusalRead, refusalReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row refusalRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row setup ∨ hsame row carrier ∨ hsame row classifier ∨
+              hsame row ledger ∨ hsame row refusal ∨ hsame row refusalRead ∨
+                hsame row consumerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont setup carrier exposureRead ∧
+              Cont classifier ledger refusalRead ∧ Cont route name certRead ∧
+                Cont certRead provenance consumerRead ∧ PkgSig bundle consumerRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro refusalRead sourceRefusal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, setupCarrierExposure, classifierLedgerRefusal, routeNameCert,
+          certProvenanceConsumer, consumerPkg⟩
+  }
+  exact ⟨cert, refusalReadUnary, consumerReadUnary⟩
+
 end BEDC.Derived.TypeLevelSocketExposureUp

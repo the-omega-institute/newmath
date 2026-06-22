@@ -6,6 +6,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -58,5 +59,38 @@ theorem CauchySchwarzRealInnerproductBound_norm_handoff_consumer [AskSetup] [Pac
   exact
     ⟨handoff.left, handoff.right.right.right, hsame_refl normRead, handoff.right.left,
       handoff.right.right.left⟩
+
+theorem CauchySchwarzRealInnerproductBound_namecert_consumer [AskSetup] [PackageSetup]
+    {V X Y I A B D Q S E H T P N boundRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySchwarzRealCarrier V X Y I A B D Q S E H T P N bundle pkg →
+      Cont V X I →
+        PkgSig bundle I pkg →
+          Cont I A D →
+            Cont D Q S →
+              Cont S E boundRead →
+                PkgSig bundle boundRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row I ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row V ∨ hsame row X ∨ hsame row Y ∨ hsame row I ∨
+                          hsame row A ∨ hsame row B ∨ hsame row D ∨ hsame row Q ∨
+                            hsame row S ∨ hsame row E ∨ hsame row I)
+                      (fun row : BHist => hsame row I ∧ PkgSig bundle I pkg)
+                      hsame ∧
+                    UnaryHistory boundRead ∧ PkgSig bundle boundRead pkg ∧
+                      hsame boundRead boundRead ∧ Cont V X I ∧ PkgSig bundle P pkg ∧
+                        PkgSig bundle I pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert UnaryHistory
+  intro carrier vectorRoute routePkg scalarRoute dyadicRoute sealRoute boundPkg
+  have obligations :=
+    CauchySchwarzRealCarrier_namecert_obligations carrier vectorRoute routePkg
+  have bound :=
+    CauchySchwarzRealInnerproductBound carrier vectorRoute scalarRoute dyadicRoute sealRoute
+      boundPkg
+  exact
+    ⟨obligations.left, bound.left, bound.right.left, bound.right.right,
+      obligations.right.right.left, obligations.right.right.right.left,
+      obligations.right.right.right.right⟩
 
 end BEDC.Derived.CauchySchwarzRealUp
