@@ -10226,6 +10226,7 @@ import BEDC.Derived.RegularCauchyTailAgreementUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBallUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBoundUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBudgetUp.TasteGate
+import BEDC.Derived.RegularCauchyTailCertificateUp.Nonescape
 import BEDC.Derived.RegularCauchyTailCertificateUp.PrimitiveScopeLock
 import BEDC.Derived.RegularCauchyTailCertificateUp.SelectorCoverage
 import BEDC.Derived.RegularCauchyTailCertificateUp.TasteGate
@@ -10754,6 +10755,7 @@ import BEDC.Derived.SetlikeUp.BoundedComprehensionObligation
 import BEDC.Derived.SetlikeUp.BoundedComprehensionTransport
 import BEDC.Derived.SetlikeUp.BoundedComprehensionWitness
 import BEDC.Derived.SetlikeUp.ClassifierExtensionalNonescape
+import BEDC.Derived.SetlikeUp.ClassifierTransportExactness
 import BEDC.Derived.SetlikeUp.ClassifierTransportRoute
 import BEDC.Derived.SetlikeUp.ComprehensionLedgerObligation
 import BEDC.Derived.SetlikeUp.ComprehensionScope
@@ -10778,6 +10780,7 @@ import BEDC.Derived.SetlikeUp.KernelMembershipSourceTotality
 import BEDC.Derived.SetlikeUp.LedgerScopeClosure
 import BEDC.Derived.SetlikeUp.MembershipCarrierAdmission
 import BEDC.Derived.SetlikeUp.MembershipCarrierRootSurface
+import BEDC.Derived.SetlikeUp.MembershipCarrierStability
 import BEDC.Derived.SetlikeUp.MembershipClassifierNonescape
 import BEDC.Derived.SetlikeUp.MembershipClassifierPublicBoundary
 import BEDC.Derived.SetlikeUp.MembershipClassifierRootUnblock
