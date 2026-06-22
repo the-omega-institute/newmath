@@ -56,6 +56,7 @@ FORCED_WINDOW_LAYER_ORDER = [
     "golden_mean_shift",
     "edge_flux_finite_count",
     "arithmetic_certificate",
+    "graph_invariant_certificate",
 ]
 FORCED_WINDOW_LAYERS = set(FORCED_WINDOW_LAYER_ORDER)
 FORCED_WINDOW_CERTIFICATE_KINDS = {
@@ -72,6 +73,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "modp_root_enumeration_certificate",
     "fibonacci_gcd_strong_divisibility_certificate",
     "bedc_finite_certificate",
+    "fibonacci_cube_critical_group_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -116,6 +118,12 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "fibonacci_gcd_strong_divisibility_certificate",
         "bedc_finite_certificate",
     },
+    "graph_invariant_certificate": {
+        "fibonacci_cube_critical_group_certificate",
+        "bedc_finite_certificate",
+        "lean_finite_certificate",
+        "automath_paper_section",
+    },
 }
 OVERCLAIM_GATES_ENABLED = True
 PROXY_OBJECTIVE_EVIDENCE_BASIS = {"internal_structure", "derived_probe"}
@@ -144,6 +152,10 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "integer_gcd_enumeration",
     "divisibility_remainder_enumeration",
     "bedc_finite_certificate",
+    "finite_graph_enumeration",
+    "integer_laplacian_determinant",
+    "smith_normal_form_determinantal_divisors",
+    "lean_statement_only",
 }
 FORCED_WINDOW_EVIDENCE_BASIS = EVIDENCE_BASIS | {"automath_certificate"} | FORCED_WINDOW_ARITHMETIC_BASIS
 CONTACT_KINDS = {
@@ -255,6 +267,11 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "lucas_doubling",
     "integer_gcd_grid",
     "divisibility_remainder_grid",
+    "finite_graph",
+    "hamming_edge_relation",
+    "integer_laplacian",
+    "smith_normal_form",
+    "critical_group",
 }
 MECHANISM_WORDS = {
     "cause",
