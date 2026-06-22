@@ -7892,6 +7892,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedSearchExhaustion
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BridgeExport
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BridgeFacingSurface
 import BEDC.Derived.MetacicDecidabilityWitnessUp.CandidateNormalizationScope
+import BEDC.Derived.MetacicDecidabilityWitnessUp.ConfluenceHandoffBoundary
 import BEDC.Derived.MetacicDecidabilityWitnessUp.DecidabilityWitnessPublicExport
 import BEDC.Derived.MetacicDecidabilityWitnessUp.FormalTargetLedger
 import BEDC.Derived.MetacicDecidabilityWitnessUp.FuelWindowExhaustion
@@ -11702,6 +11703,7 @@ import BEDC.Derived.UniformSequentialLimitUp.TasteGate
 import BEDC.Derived.UniformSpaceCompletionFilterUp.TasteGate
 import BEDC.Derived.UniformSpaceCompletionUp.TasteGate
 import BEDC.Derived.UniformSpaceUp
+import BEDC.Derived.UniformlyCauchyFilterUp.TasteGate
 import BEDC.Derived.UniformlyCauchySequenceUp.TasteGate
 import BEDC.Derived.UniformlyContinuousCompletionExtensionUp.TasteGate
 import BEDC.Derived.UniformlyConvexSpaceUp.TasteGate
