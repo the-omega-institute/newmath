@@ -1,45 +1,52 @@
+\subsection{Readout-dictionary partial mediation for the yeast $B^{*}_{Q6}$ abundance residual}
+\label{sec:bioreality-q6-readout-dictionary-partial-mediation}
 \origin{ai}
 
-\subsection{Partial Mediation Certificate for the $B^*_{Q6}$ Readout Dictionary}
-\label{sec:bioreality-partial-mediation-b-star-q6-readout-dictionary}
-
 \paragraph{Finite row surface.}
-The claim is a finite-row statement about whether a measured readout dictionary accounts for a nonzero part of the $B^*_{Q6}$ synonymous-residual signal in protein abundance.  The active source design is the $9$-dimensional $B^*_{Q6}$ residual coordinate matrix, residualized against the same sibling control basis $Z$ used by the protein-abundance and translation-readout tests.  The nine coordinates are $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3$-stress.  The target is residualized $\log_{10}$ protein abundance on a unified Saccharomyces cerevisiae context join.  The full available join has $n=4758$ usable rows from a base yeast context of $4759$ rows, and the certificate deliberately evaluates a fixed working join of $n=1800$ rows.  The control basis has rank $24$, the held-out design uses $5$ folds, the dictionary penalty is $\lambda_{DL}=0.01$, and the join threshold is $\rho_{join}=0.05$.
+The tested object is the yeast row surface obtained by joining coding-sequence codon counts, the nine $B^{*}_{Q6}$ synonymous residual coordinates, measured translation efficiency, mRNA-stability readouts, turnover-style readouts, and protein abundance on the same controlled context.  The source design is the $9$-dimensional $B^{*}_{Q6}$ coordinate block residualized against the sibling control basis $Z$: intercept, CDS length, amino-acid composition, GC3, and the $M$-density baseline.  The active certificate is a Saccharomyces cerevisiae computation with $n_{\mathrm{join}}=1800$ rows sampled from $4758$ available joined rows, base row count $4759$, $5$ folds, $\lambda_{\mathrm{DL}}=0.01$, and join retention parameter $\rho_{\mathrm{join}}=0.05$.  The fitted target is residualized $\log_{10}$ protein abundance on this unified yeast context join, and the control basis has rank $24$.
 
-\paragraph{Dictionary reduction statistic.}
-Let $Y_Z$ denote the residualized protein-abundance target and let $X_Q$ denote the residualized $B^*_{Q6}$ source design.  The tested dictionary family is the single-codon readout family produced by the minimal-dictionary compression run, with candidate measured readouts including measured translation efficiency, mRNA stability, and turnover.  The certificate reports the best selection-aware dictionary coverage $C^*$, the raw best family coverage, and the residual fraction left outside the selected dictionary:
+\paragraph{Dictionary certificate.}
+The readout dictionary search was run over the single-codon readout dictionary family and asked whether the $B^{*}_{Q6}$ abundance residual can be compressed by a small measured-readout subset.  The best raw coverage over the candidate family was $0.2745002077400602$, while the selected certificate coverage was
 $$
 \begin{aligned}
-C^* &= 0.24538211439730545,\\
-C_{raw} &= 0.2745002077400602,\\
-1-C^* &= 0.7546178856026946.
+C^{\star} &= 0.24538211439730545,\\
+1-C^{\star} &= 0.7546178856026946.
 \end{aligned}
 $$
-The selection-aware null threshold is $0.029149007242956115$ from $120$ deterministic permutations, while the naive fixed-subset null threshold is $0.00598374993486675$.  Thus the finite certificate is not merely a best-subset artifact: the selected dictionary explains about $24.54\%$ of the residual $B^*_{Q6}$ protein-abundance signal, and this exceeds the family-selection null boundary by a wide margin.  The same calculation also records that about $75.46\%$ of the residual signal remains outside the selected measured readout dictionary.
+The selection-aware null threshold was $0.029149007242956115$, and the naive fixed-subset null threshold was $0.00598374993486675$, both computed from $120$ deterministic row-label permutations.  Thus the reported module class is not a complete mediation class: it is a partial-reduction class.  The finite row result says that a subset of at most three measured readouts, namely measured translation efficiency, mRNA stability, and turnover, captures a statistically non-null part of the abundance residual, but roughly three quarters of the residual variance component remains outside that dictionary.
 
-\paragraph{Relation to direct protein-omics survival.}
-The partial-mediation certificate is meaningful only because the upstream direct protein-omics surface is already nonzero on powered organism panels.  In the direct $Q\to P$ survival run, all $15$ reported organisms were rank sufficient with $\operatorname{rank}(X_Q)=9$ after controls and $\operatorname{rank}(Z)=23$.  The protein-abundance readout was measured PAXdb $\log_{10}(abundance\_ppm)$ joined to real CDS codon counts.  Representative controlled $R^2_{QP}$ values were $0.29837624994140827$ in Saccharomyces cerevisiae, $0.10767526677985896$ in Escherichia coli K12 MG1655, $0.10217906758013379$ in Caenorhabditis elegans, $0.0646471273126996$ in Pseudomonas aeruginosa PAO1, $0.049827984062539195$ in Mus musculus, $0.04454565118019448$ in Homo sapiens, and $0.019256877907572044$ in Halobacterium salinarum.  The yeast join hit rate for this direct protein readout was $0.9156038419146592$ with $5815$ joined proteins, while the human join hit rate was $0.9779294769799313$ with $19053$ joined proteins.  These finite rows justify treating $Y_Z$ as a real measured protein-abundance target, but they do not by themselves identify a biological mechanism.
-
-\paragraph{Measured translation and mediation checks.}
-The same coordinate family also survives against measured ribosome-profiling translation-efficiency readouts.  In the measured TE run, the readout was $\log_{10}(TE)$ with $TE=RPF/mRNA$.  The controlled measured-TE survival values included $R^2_{QT}=0.13681931343730436$ for yeast on $5128$ genes with a ribosome-TE join hit rate of $0.8818572656921754$, $R^2_{QT}=0.009394266754822262$ for E. coli on $3415$ genes with hit rate $0.9133458143888741$, $R^2_{QT}=0.018837911344127926$ for human on $11554$ genes with hit rate $0.6064136881331024$, and $R^2_{QT}=0.04034217614654355$ for zebrafish on $13140$ genes with hit rate $0.9118667591950035$.  The measured $Q\to T\to P$ decomposition is strongest in yeast: $S_{QP}=0.3146818503437042$, $S_{QT}=0.13681931343730436$, and measured mediation fraction $0.4793069656345167$.  The corresponding fractions are $0.04091158340950673$ for E. coli, $0.0027966485036786744$ for human, and $0$ for zebrafish after clipping the negative raw fraction $-0.04801486048721136$ to the unit interval.  These numbers explain why the dictionary certificate is classified as partial rather than complete: measured TE is a real contributor in yeast, but not a universal absorber across the available panels.
-
-\paragraph{Joint readout structure.}
-A separate joint TE and mRNA-stability decomposition supports the same interpretation.  In yeast, the single and joint residual-abundance values were
+\paragraph{Relation to direct protein survival.}
+The same coordinate family has a strong direct protein-abundance association in yeast before readout conditioning.  On the PAXdb protein-abundance join, Saccharomyces cerevisiae used $5815$ joined proteins with join hit rate $0.9156038419146592$, and all nine coordinates survived the positive partial-$R^{2}$ threshold.  The direct controlled protein-abundance score was
 $$
 \begin{aligned}
-R^2_{QP} &= 0.2715520808117803,\\
-R^2_{QP\mid T} &= 0.1439989545940314,\\
-R^2_{QP\mid M} &= 0.25453612246767165,\\
-R^2_{QP\mid T,M} &= 0.13047582645538838.
+R^{2}_{QP}(\mathrm{yeast}) &= 0.29837624994140827.
 \end{aligned}
 $$
-This gives a joint mediation fraction of $0.5195182225621592$, with TE-only fraction $0.4697188319693239$, stability-only fraction $0.0626618595344251$, and right-tail permutation value $0.000999000999000999$.  In E. coli the corresponding joint fraction is $0.2404669586626661$, mostly stability-only at $0.23052056324898387$, while in human it is $0.16890712099923358$, with stability-only fraction $0.15314679870183337$.  The overlap mode was approximately independent in all three organisms under the fixed descriptive tolerance $0.05$.  The dictionary certificate therefore sits at the intersection of two finite findings: yeast has a strong measured-TE absorption component, while cross-organism panels show that mRNA stability can also absorb a nontrivial part of the direct $Q\to P$ signal.
+This direct value is useful only as the upstream abundance residual to be explained.  It does not by itself identify a translation mechanism, a protein-state mechanism, or a causal route.  The readout-dictionary certificate instead asks how much of that controlled abundance association can be reduced by measured finite readouts after the common residualization protocol.
 
-\paragraph{Local readout refinements.}
-The $f_3$-stress coordinate supplies a more localized example of a measured readout reducing a protein-abundance component.  In yeast, the dwell-mediation test used $n=1257$ joined rows, $5$ folds, and $120$ deterministic permutations.  The base model held-out $R^2$ was $0.1855578757644517$, the dwell-alone $R^2$ was $0.034336580953121976$, and the full model held-out $R^2$ was $0.20412261520502883$, giving a positive held-out increment $0.01856473944057712$.  The null $95\%$ threshold was $0.0013115362189692937$, and the approximate $f_3$-dwell association value was $p=7.873916057196935\times 10^{-9}$ with correlation $0.1615441450901653$.  The target component was the projection of residualized protein abundance onto residualized $f_3$-stress, with $\|P_{f3}\|^2=44.20095750389323$ and fraction $0.1999063916718794$ of the target.  This local result is compatible with the dictionary certificate because it identifies a finite measured readout that reduces part of the same abundance-side residual, without exhausting it.
+\paragraph{Measured translation and mediation coordinates.}
+Measured ribosome-derived translation efficiency is available on the yeast surface with $5128$ genes carrying TE readouts, ribosome-TE join hit rate $0.8818572656921754$, and residual degrees of freedom $5105$ after the $Z$ controls.  The measured TE survival score for the nine-coordinate block is
+$$
+\begin{aligned}
+R^{2}_{QT,\mathrm{meas}}(\mathrm{yeast}) &= 0.13681931343730436.
+\end{aligned}
+$$
+When measured TE and protein abundance are placed in the same three-way mediation surface, yeast has $5128$ joined rows, $S_{QP}=0.3146818503437042$, $S_{QT,\mathrm{meas}}=0.13681931343730436$, raw measured mediation fraction $0.4793069656345167$, and clipped measured mediation fraction $0.4793069656345167$.  This agrees with the dictionary certificate in the limited sense that measured translation readouts explain a real component of the protein-abundance residual.  It does not make the residual vanish.
 
-\paragraph{Four-case classification boundary.}
-The modeled-tAI four-case discriminant gives a useful warning about interpretation.  In yeast, all $9$ coordinates were classified as case $D$ on the modeled-tAI and measured-abundance surface, with $R^2_{QT}=0.8213457220900503$ and $R^2_{QP}=0.29837624994140827$.  In E. coli, $7$ coordinates were case $D$ and $2$ were positive-positive without mediation drop, with $R^2_{QT}=0.5416736993691318$ and $R^2_{QP}=0.10767526677985896$.  These are objective finite classifications over the selected modeled translation readout and protein-abundance readout, not a license to identify a physical pathway.  The partial-mediation certificate uses the stricter measured-readout dictionary and therefore reports a smaller, selection-aware coverage value rather than promoting the modeled-tAI classification into a mechanism.
+\paragraph{Joint readout decomposition.}
+The broader three-organism decomposition separates measured TE and mRNA stability.  In yeast, the single and joint controlled scores were
+$$
+\begin{aligned}
+R^{2}_{QP} &= 0.2715520808117803,\\
+R^{2}_{QP\mid T} &= 0.1439989545940314,\\
+R^{2}_{QP\mid M} &= 0.25453612246767165,\\
+R^{2}_{QP\mid T,M} &= 0.13047582645538838.
+\end{aligned}
+$$
+The corresponding fractions were $0.4697188319693239$ for the TE-only component, $0.0626618595344251$ for the stability-only component, and $0.5195182225621592$ for the joint TE-plus-stability component, with right-tail permutation value $0.000999000999000999$.  For comparison, Escherichia coli had joint fraction $0.2404669586626661$ with TE-only $0.01975521340963268$ and stability-only $0.23052056324898387$, while human had joint fraction $0.16890712099923358$ with TE-only $0.00549490864190343$ and stability-only $0.15314679870183337$; both reported the same right-tail permutation value $0.000999000999000999$.  These finite rows justify the dictionary interpretation: the reducible part is readout-dependent, not a single universal translation coefficient.
 
-\paragraph{Verdict.}
-The finite-row verdict is ready.  The selected measured readout dictionary accounts for $C^*=0.24538211439730545$ of the residual $B^*_{Q6}$ protein-abundance signal in the powered yeast context, above the selection-aware null $0.029149007242956115$, with $0.7546178856026946$ left unexplained.  The result is a partial reducibility statement: measured TE, mRNA stability, and turnover-like readouts capture a nonzero part of the direct $Q\to P$ association, but they do not collapse the residual coordinate family to known measured readouts.  No translation law, folding claim, physical-admissibility claim, molecular-function claim, causal mechanism, organismal phenotype, or universal biological rule follows from this certificate.  Such claims require their own layer-matched contacts and finite statistics; this chapter records only the measured dictionary coverage of a controlled protein-abundance residual.
+\paragraph{Irreducibility status.}
+A separate yeast irreducibility check used the same $n_{\mathrm{join}}=1800$, $5$ folds, $\lambda_{\mathrm{DL}}=0.01$, $\rho_{\mathrm{join}}=0.05$, and rank-$24$ control basis.  Its status semantics classify the registered source signal as real while allowing listed reduction families to refute a stronger irreducibility hypothesis.  The readout-dictionary certificate is therefore the more precise local statement: the $B^{*}_{Q6}$ protein-abundance residual is neither null nor fully explained by the available measured-readout dictionary.  It is partially reducible, with $C^{\star}=0.24538211439730545$, and still leaves $0.7546178856026946$ unexplained on this finite yeast surface.
+
+\paragraph{Scope boundary.}
+The certificate is a finite statistical decomposition over matched rows.  It supports a controlled association and a partial readout reduction, not a causal biological mechanism.  No claim about translation realization beyond the measured TE statistic, protein folding, physical admissibility, molecular function, phenotype, adaptation, or universality follows from these numbers.  Such claims require separate layer-matched contacts and their own controlled finite-row statistics.  In particular, the positive direct $q_i \to P_k$ association is not promoted to a mechanism unless the measured $q_i \to T_j$ step is present and conditioning on $T_j$ reduces the downstream $q_i \to P_k$ signal under the same control discipline.
