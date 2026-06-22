@@ -127,6 +127,54 @@ Use open-continuation preservation and ledgered role correspondence. They keep t
 The Lean TasteGate theorem is the verification touchpoint for single-carrier alignment on precisely this finite row list. It is therefore the marker required before any obligation-closure read moves past seed closure; it does not by itself upgrade the paper closure axis.
 \end{proof}
 
+\begin{theorem}[Reflective inquiry ground-compiler obligation route]
+\label{thm:reflective-inquiry-ground-compiler-obligation-route}
+The TasteGate alignment of \autoref{thm:reflective-inquiry-tastegate-obligation-closure} feeds the ground compiler exactly the displayed $\BHist$ rows
+$$
+P,F,S,K,A,R,L,H,C,Q,N .
+$$
+The physical source row $P$, formal source row $F$, signature row $S$, classifier row $K$, package row $A$, transport row $R$, ledger row $L$, replay row $H$, continuation row $C$, open-continuation row $Q$, and local naming row $N$ are the only carrier rows available to a compiler-side obligation read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reflective-inquiry-carrier}. Its coordinates are already $\BHist$ rows, so a ground-compiler read receives row data rather than a prose description of inquiry.
+
+Use \autoref{thm:reflective-inquiry-tastegate-obligation-closure}. The TasteGate marker verifies single-carrier alignment for the same finite row list, which is the input surface the ground compiler may inspect.
+
+Finally apply non-escape and ledgered role correspondence. They prevent the compiler route from adding a final truth oracle, source-domain identity, host validation row, or unledgered self-study claim outside $P,F,S,K,A,R,L,H,C,Q,N$.
+\end{proof}
+
+\begin{theorem}[Reflective inquiry FieldFaithful row separation]
+\label{thm:reflective-inquiry-field-faithful-row-separation}
+The carrier rows used by any future FieldFaithful witness for $\ReflectiveInquiryUp$ are separated by role: $P$ and $F$ are source rows, $S$ and $K$ are comparison and acceptance rows, $A$ is package admission, $R$ is componentwise transport, $L$ is ledger preservation, $H$ and $C$ are replay and continuation rows, $Q$ is open-continuation non-finality, and $N$ is local naming. No two of these roles are identified by the classifier.
+\end{theorem}
+\begin{proof}
+Read the classifier of \autoref{def:reflective-inquiry-classifier}. It compares accepted carriers componentwise through the displayed row names, so each row role remains visible under classifier agreement.
+
+Apply source separation and open-continuation preservation. Source separation keeps $P$ and $F$ distinct, while open-continuation preservation keeps $Q$ separate from replay $H$ and continuation $C$.
+
+Use the obligation surface for the remaining roles. Signature, classifier, package, transport, ledger, replay, continuation, non-finality, and naming are all named separately in the local $\NameCert_{\ReflectiveInquiryUp}$ surface, which is exactly the row separation a FieldFaithful witness must preserve.
+\end{proof}
+
+\begin{theorem}[Reflective inquiry nontrivial witness route]
+\label{thm:reflective-inquiry-nontrivial-witness-route}
+There are two accepted $\ReflectiveInquiryUp$ packet shapes with the same physical source, formal source, signature, classifier, package, transport, ledger, replay, continuation, and local naming rows, but with distinct open-continuation rows. They are displayed as
+$$
+I_0=(P,F,S,K,A,R,L,H,C,Q_0,N)
+$$
+and
+$$
+I_1=(P,F,S,K,A,R,L,H,C,Q_1,N),
+$$
+where $Q_0$ records one admissible further-inquiry opening and $Q_1$ records a different admissible further-inquiry opening.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The open-continuation row is an ordinary displayed coordinate, so replacing $Q$ by another accepted open-continuation row yields a packet shape with the same source, bridge, ledger, replay, continuation, and naming surface.
+
+The two packets remain accepted because each keeps the non-finality obligation in the same coordinate. The distinction is not a change of physical source, formal source, classifier, package, ledger, replay, or local name; it is exactly the difference between $Q_0$ and $Q_1$.
+
+Apply open-continuation preservation and non-escape. Both rows refuse a final truth oracle and keep inquiry open, while the packet exposes no hidden coordinate that could collapse the two accepted openings into host equality.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\ReflectiveInquiryUp$ packet cannot export a final truth oracle or identify physical reality with MetaCIC without losing either the physical-source row or the formal-source row.}
 
 \independenceWitness{observationreflectionpacket, physicalmodelaudit, reflectivestability, finitetraceevaluator, truthtotalreflection: none is bijective because $\ReflectiveInquiryUp$ carries both physical and formal source rows together with role correspondence, ledger preservation, and open-continuation non-finality.}
