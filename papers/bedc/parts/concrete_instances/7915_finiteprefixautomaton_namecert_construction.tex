@@ -55,6 +55,36 @@ The prefix-source, transition, endpoint, and acceptance obligations are read fro
 Stability and replay are supplied by $H$ and $C$. Since the packet has no coordinate for an external evaluator, quotient language, unlisted transition rule, or infinite trace, the non-escape obligation follows from the carrier boundary.
 \end{proof}
 
+\begin{theorem}[FinitePrefixAutomaton transition exactness obligation]
+\label{thm:finiteprefixautomaton-transition-exactness-obligation}
+For an accepted $\FinitePrefixAutomatonUp$ carrier $F=(Q,q_0,A,T,W,R,E,H,C,P,N)$, each adjacent prefix-run step in $R$ is witnessed by a displayed row of $T$ whose source state, input mark, target state, and $\Cont$ route are the rows read by the corresponding prefix window of $W$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:finiteprefixautomaton-carrier}. The transition table $T$, prefix word $W$, run ledger $R$, and continuation ledger $C$ are separate displayed coordinates.
+
+Apply the transition row of \autoref{thm:finiteprefixautomaton-namecert-obligation-surface}. It requires every adjacent run step to read a row of $T$ and the matching $\Cont$ route in $C$, so no host transition evaluator or unlisted rule can witness the step.
+\end{proof}
+
+\begin{theorem}[FinitePrefixAutomaton endpoint exactness obligation]
+\label{thm:finiteprefixautomaton-endpoint-exactness-obligation}
+For an accepted $\FinitePrefixAutomatonUp$ carrier $F=(Q,q_0,A,T,W,R,E,H,C,P,N)$, the endpoint row $E$ is exactly the last displayed row of the finite prefix-run ledger $R$.
+\end{theorem}
+\begin{proof}
+Read the endpoint coordinate of the carrier. The row $E$ is displayed independently of the transition table and cannot be supplied by an ambient evaluator.
+
+Use the endpoint obligation in \autoref{thm:finiteprefixautomaton-namecert-obligation-surface}. That obligation identifies $E$ with the last row of $R$, while $H$ only transports the displayed endpoint row and $C$ only replays the displayed route.
+\end{proof}
+
+\begin{theorem}[FinitePrefixAutomaton acceptance exactness obligation]
+\label{thm:finiteprefixautomaton-acceptance-exactness-obligation}
+For an accepted $\FinitePrefixAutomatonUp$ carrier $F=(Q,q_0,A,T,W,R,E,H,C,P,N)$, the acceptance bit recorded in $E$ is precisely the displayed membership read of the endpoint state in the accepting-state subledger $A$.
+\end{theorem}
+\begin{proof}
+Project the accepting ledger $A$ and endpoint row $E$ from the carrier. These rows are part of the finite packet, so acceptance is not read from a quotient language or external automaton semantics.
+
+Apply the acceptance obligation in \autoref{thm:finiteprefixautomaton-namecert-obligation-surface}. It binds the bit stored in $E$ to membership in $A$ for the endpoint state, and the remaining transport, replay, provenance, and naming rows preserve that displayed read.
+\end{proof}
+
 \begin{theorem}[FinitePrefixAutomaton prefix-run determinacy]
 \label{thm:finiteprefixautomaton-prefix-run-determinacy}
 For an accepted $\FinitePrefixAutomatonUp$ carrier $F=(Q,q_0,A,T,W,R,E,H,C,P,N)$, the displayed prefix word $W$ and transition table $T$ determine the prefix-run ledger $R$ componentwise inside the packet. If another accepted run ledger $R'$ is admitted over the same $Q,q_0,A,T,W,E,H,C,P,N$, then each prefix position of $R$ is $\hsame$ to the corresponding prefix position of $R'$ through the displayed transport rows in $H$.
