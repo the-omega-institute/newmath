@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\LinearBoundedAutomatonUp$}
+\label{ch:concrete-instances-linear-bounded-automaton-namecert}
+\origin{human}
+
+Following Hopcroft--Ullman and the Chomsky hierarchy presentation of bounded machine computation, the $\LinearBoundedAutomatonUp$ packet names finite accepting computations whose tape cells stay inside the input-length bound. It sits between the pushdown-automaton surface of \autoref{ch:concrete-instances-pushdown-automaton-namecert}, the context-sensitive grammar route of \autoref{ch:concrete-instances-context-sensitive-grammar-namecert}, the context-sensitive language carrier of \autoref{ch:concrete-instances-context-sensitive-language-namecert}, and the machine-code surface of \autoref{ch:concrete-instances-turingmachine-namecert}. The packet records bounded tape windows, transition rows, accepting histories, and the accepted-word classifier; it is not an unrestricted machine semantics, a host language set, complement theorem, grammar quotient, or ambient decidability principle.
+
+\begin{definition}[Linear bounded automaton carrier]
+\label{def:linear-bounded-automaton-carrier}
+A $\LinearBoundedAutomatonUp$ carrier is a finite $\BHist$ packet
+$$
+A=(Q,\Sigma,\Gamma,W,B,T,H_{\mathrm{run}},F,M,S,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite state row.
+\item $\Sigma$ is the finite input-alphabet row and $\Gamma$ is the finite tape-alphabet row.
+\item $W$ is the input word row, read through $\ListUp$ and $\NatUp$ length data.
+\item $B$ is the linear tape-bound ledger, naming the finite tape interval admitted for the input word.
+\item $T$ is the finite transition row over states, tape symbols, head moves, and boundary checks.
+\item $H_{\mathrm{run}}$ is the accepting-history ledger, listing each configuration window, applied transition, head position, and tape-bound witness.
+\item $F$ is the final-state row.
+\item $M$ records sibling comparison to $\ContextSensitiveGrammarUp$, $\ContextSensitiveLanguageUp$, and $\PushdownAutomatonUp$ consumers.
+\item $S$ is the accepted-word classifier, available only after $Q,\Sigma,\Gamma,W,B,T,H_{\mathrm{run}},F,M$ have been replayed.
+\item $C$ records displayed $\Cont$ replay from an acceptance query through the finite machine, tape-bound, transition, history, final-state, comparison, classifier, provenance, and naming rows.
+\item $P$ is the $\Pkg$ provenance over $\LinearBoundedAutomatonUp$, $\ContextSensitiveGrammarUp$, $\ContextSensitiveLanguageUp$, $\PushdownAutomatonUp$, $\ListUp$, $\NatUp$, $\BHist$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LinearBoundedAutomatonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an unbounded tape, a host language set, quotient configuration equality, selected infinite computation, global complement closure, or a general Turing-machine decision oracle.
+\end{definition}
+
+\begin{theorem}[Linear bounded automaton NameCert obligations]
+\label{thm:linear-bounded-automaton-namecert-obligations}
+For every accepted $\LinearBoundedAutomatonUp$ carrier
+$$
+A=(Q,\Sigma,\Gamma,W,B,T,H_{\mathrm{run}},F,M,S,C,P,N),
+$$
+the local $\NameCert_{\LinearBoundedAutomatonUp}$ surface consists exactly of finite state admission, input and tape alphabet admission, input-word admission, linear tape-bound replay, transition-row admission, accepting-history replay, final-state admission, sibling comparison, accepted-word classification, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+
+No accepted packet exports unrestricted Turing-machine computation, host language equality, quotient configuration equality, complement closure, an infinite accepting trace, or ambient decidability.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:linear-bounded-automaton-carrier}. The rows $Q,\Sigma,\Gamma,W$ fix the finite machine alphabet and input word, while $B$ fixes the only tape interval a computation may inspect.
+
+The transition and history rows are downstream. The row $T$ lists the permitted finite moves, and $H_{\mathrm{run}}$ records each configuration window together with its transition row and tape-bound witness.
+
+The classifier $S$ is exposed only after the final-state row $F$ and comparison row $M$ have been read. Thus a context-sensitive grammar or language consumer may use the accepted-word route, but it cannot replace the route by a host language object or an unrestricted machine semantics.
+
+Finally $C,P,N$ replay, source, and name the same finite route. Since the excluded objects are not carrier coordinates, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Linear bounded automaton bounded tape route]
+\label{thm:linear-bounded-automaton-bounded-tape-route}
+Every accepted-word read exported by a $\LinearBoundedAutomatonUp$ packet factors through the input row $W$, the linear tape-bound ledger $B$, the transition row $T$, and the accepting-history ledger $H_{\mathrm{run}}$ before the final-state row $F$ or accepted-word classifier $S$ is available. The comparison route to $\ContextSensitiveGrammarUp$, $\ContextSensitiveLanguageUp$, and $\PushdownAutomatonUp$ preserves only that finite bounded-tape computation surface; it exports no unbounded tape semantics, host language set, quotient configuration equality, selected infinite run, complement theorem, or global decidability result.
+\end{theorem}
+\begin{proof}
+Start with the input. By \autoref{def:linear-bounded-automaton-carrier}, the word row $W$ and bound ledger $B$ are read before any transition history can be inspected.
+
+Apply \autoref{thm:linear-bounded-automaton-namecert-obligations}. The accepting-history row $H_{\mathrm{run}}$ lists only transition applications from $T$ whose configuration windows stay within $B$, so neither the final-state row $F$ nor the classifier $S$ can bypass the bounded-tape ledger.
+
+The comparison row $M$ carries this same finite route to the context-sensitive and pushdown siblings. It does not contain a host language set, quotient configuration equality, or unbounded machine oracle.
+
+Replay and provenance through $C,P,N$ preserve the order of the displayed rows. Hence every accepted-word read remains a bounded-tape computation certificate and no stronger semantic object is exported.
+\end{proof}
+
+\falsifiablePrediction{Every $\LinearBoundedAutomatonUp$ read factors through finite state, input alphabet, tape alphabet, input word, tape-bound, transition, accepting-history, final-state, sibling comparison, accepted-word classifier, displayed $\Cont$, $\Pkg$, and local $\NameCert_{\LinearBoundedAutomatonUp}$ rows.}
+
+\independenceWitness{pushdownautomaton, contextsensitivegrammar, contextsensitivelanguage: $\LinearBoundedAutomatonUp$ is not bijective to any listed sibling because it jointly carries bounded tape windows, transition rows, accepting histories, and an accepted-word classifier, while the siblings separately record stack computation, noncontracting grammar syntax, or accepted context-sensitive language rows.}
+
+\closureat{LinearBoundedAutomatonUp}{seedStr}
+
+\begin{closurestatus}{\LinearBoundedAutomatonUp}
+  \constructivestory{A $\LinearBoundedAutomatonUp$ packet is generated from finite state rows, input and tape alphabet rows, an input-word row, a linear tape-bound ledger, transition rows, accepting-history rows, a final-state row, sibling comparison, accepted-word classification, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:linear-bounded-automaton-carrier}, \autoref{thm:linear-bounded-automaton-namecert-obligations}, and \autoref{thm:linear-bounded-automaton-bounded-tape-route} seed the bounded tape computation surface over finite machine rows, input windows, tape bounds, transition histories, sibling comparison, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, unrestricted Turing-machine semantics, host language equality, quotient configuration equality, selected infinite runs, complement closure, or global decidability.}
+  \upgradepath{Obligation closure requires checked finite-state admission, alphabet admission, bounded tape replay, transition-row exactness, accepting-history replay, classifier transport, sibling comparison, provenance, and local naming for BEDC.Derived.LinearBoundedAutomatonUp.}
+\end{closurestatus}

@@ -3910,6 +3910,7 @@ import BEDC.Derived.CriticalLineWitnessUp.PhaseRealTerminalNocompletenessBoundar
 import BEDC.Derived.CriticalLineWitnessUp.PhaseRealZetaRefusalLedger
 import BEDC.Derived.CriticalLineWitnessUp.PrimeZetaDependencyRoute
 import BEDC.Derived.CriticalLineWitnessUp.PublicConsumerFactorization
+import BEDC.Derived.CriticalLineWitnessUp.PublicRoute
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryConsumerNonescape
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryDownstreamLock
 import BEDC.Derived.CriticalLineWitnessUp.RHBoundaryNonclaim
@@ -6431,7 +6432,6 @@ import BEDC.Derived.HyperspaceUp.VietorisFiniteWindowObligations
 import BEDC.Derived.HyperspaceUp.VietorisHandoff
 import BEDC.Derived.HyperspaceUp.VietorisHitMissStability
 import BEDC.Derived.HyperspaceUp.VietorisLocatedRealDependency
-import BEDC.Derived.HyperspaceUp.VietorisMatureEnvelope
 import BEDC.Derived.HyperspaceUp.VietorisRefinementFactorization
 import BEDC.Derived.HyperspaceUp.VietorisRootUnblockObligations
 import BEDC.Derived.HyperspaceUp.VietorisUnionStability
@@ -6789,6 +6789,7 @@ import BEDC.Derived.LiminfUp.BoundedCutCompatibility
 import BEDC.Derived.LiminfUp.GapWidth
 import BEDC.Derived.LiminfUp.LowerCutReadbackScope
 import BEDC.Derived.LiminfUp.RealSealExhaustion
+import BEDC.Derived.LiminfUp.ScopedTailEnvelope
 import BEDC.Derived.LiminfUp.ZeroGapConvergence
 import BEDC.Derived.LimitComparisonTestUp.TasteGate
 import BEDC.Derived.LimitPointCompactUp.TasteGate
@@ -6984,7 +6985,9 @@ import BEDC.Derived.LocatedInfimumUp.ClassifierStability
 import BEDC.Derived.LocatedInfimumUp.GreatestLowerBoundObligation
 import BEDC.Derived.LocatedInfimumUp.LowerBoundObligation
 import BEDC.Derived.LocatedInfimumUp.LowerCutStability
+import BEDC.Derived.LocatedInfimumUp.RealExportNonescape
 import BEDC.Derived.LocatedInfimumUp.RegSeqRatSealFactorization
+import BEDC.Derived.LocatedInfimumUp.SupremumDualRoute
 import BEDC.Derived.LocatedInfimumUp.WindowInduction
 import BEDC.Derived.LocatedIntermediateValueUp.TasteGate
 import BEDC.Derived.LocatedIntervalBisectionUp.TasteGate
@@ -11584,7 +11587,6 @@ import BEDC.Derived.UniformEntourageSpaceUp.TasteGate
 import BEDC.Derived.UniformEquicontinuityModulusUp.TasteGate
 import BEDC.Derived.UniformFixedPointUp.TasteGate
 import BEDC.Derived.UniformHomeomorphismUp.BidirectionalModulusRoute
-import BEDC.Derived.UniformHomeomorphismUp.InverseRouteExactness
 import BEDC.Derived.UniformHomeomorphismUp.NameCertObligations
 import BEDC.Derived.UniformHomeomorphismUp.TasteGate
 import BEDC.Derived.UniformIntegralLimitUp.TasteGate
