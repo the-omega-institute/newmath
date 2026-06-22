@@ -822,7 +822,6 @@ import BEDC.Derived.BarrBeckMonadicityUp
 import BEDC.Derived.BayesianUp
 import BEDC.Derived.BayesianUp.TasteGate
 import BEDC.Derived.BedcPhilosophyPackageUp.NameCertObligations
-import BEDC.Derived.BedcPhilosophyPackageUp.ScopedObligations
 import BEDC.Derived.BedcPhilosophyPackageUp.TasteGate
 import BEDC.Derived.BedcSelfSubstrateUp.ObligationSurface
 import BEDC.Derived.BedcSelfSubstrateUp.TasteGate
@@ -1043,6 +1042,7 @@ import BEDC.Derived.BishopRegularRealRepresentationUp.TasteGate
 import BEDC.Derived.BishopRegularRealUp.TasteGate
 import BEDC.Derived.BishopSequenceLimitUp.TasteGate
 import BEDC.Derived.BishopSequenceUp.TasteGate
+import BEDC.Derived.BishopSpaceUp.TasteGate
 import BEDC.Derived.BishopSpeckerCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopSplineSpaceUp.TasteGate
 import BEDC.Derived.BishopUniformCompletionTheoremUp.TasteGate
@@ -3166,6 +3166,7 @@ import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
 import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
 import BEDC.Derived.CompactSubspaceModulusRestrictionUp.TasteGate
+import BEDC.Derived.CompactTotallyBoundedFunctionFamilyUp.TasteGate
 import BEDC.Derived.CompactTotallyBoundedUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityLedgerUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityModulusUp.TasteGate
@@ -9787,6 +9788,7 @@ import BEDC.Derived.ReflectiveInquiryUp.GroundCompilerObligationRoute
 import BEDC.Derived.ReflectiveInquiryUp.LedgeredRoleCorrespondence
 import BEDC.Derived.ReflectiveInquiryUp.NameCertObligationSurface
 import BEDC.Derived.ReflectiveInquiryUp.Nonescape
+import BEDC.Derived.ReflectiveInquiryUp.ObligationClosurePackage
 import BEDC.Derived.ReflectiveInquiryUp.TasteGate
 import BEDC.Derived.ReflectiveStabilityUp.TasteGate
 import BEDC.Derived.ReflexiveBanachUp.TasteGate
