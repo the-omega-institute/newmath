@@ -62,6 +62,42 @@ Apply the NameCert obligations of \autoref{thm:signed-dyadic-interval-namecert-o
 The downstream completion route is then read through $W,R,E$. Since those rows are reached only after the displayed containment row, every listed consumer sees the same transported interval packet and cannot replace it by host interval equality, quotient real equality, trichotomy, selected representatives, countable choice, or ambient $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[Signed dyadic interval endpoint sign exactness]
+\label{thm:signed-dyadic-interval-endpoint-sign-exactness}
+Let $S=(L,U,\sigma_L,\sigma_U,O,W,I,R,E,H,C,P,N)$ be an accepted $\SignedDyadicIntervalUp$ carrier. Under every transported read recorded by $H$ and every displayed replay recorded by $C$, the sign rows $\sigma_L$ and $\sigma_U$ remain attached respectively to the displayed $\DyadicRatCoreUp$ endpoint rows $L$ and $U$.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple in \autoref{def:signed-dyadic-interval-carrier}. The endpoint rows $L,U$ and the sign rows $\sigma_L,\sigma_U$ occur as named coordinates of the same finite packet, not as separately chosen representatives.
+
+Apply the obligation surface of \autoref{thm:signed-dyadic-interval-namecert-obligations}. Its endpoint sign exactness row is read through $\sigma_L,\sigma_U,H,C$, so componentwise $\hsame$ transport and displayed $\Cont$ replay move each sign row together with its endpoint row.
+
+No quotient real equality, selected representative, host interval equality, trichotomy, countable choice, or ambient $\RealUp$ completeness row is available in the carrier inventory. Therefore a consumer can read only the displayed attachment of $\sigma_L$ to $L$ and $\sigma_U$ to $U$.
+\end{proof}
+
+\begin{theorem}[Signed dyadic interval order stability]
+\label{thm:signed-dyadic-interval-order-stability}
+Let $S=(L,U,\sigma_L,\sigma_U,O,W,I,R,E,H,C,P,N)$ be an accepted $\SignedDyadicIntervalUp$ carrier. The lower-before-upper ledger $O$ is preserved under the componentwise $\hsame$ transport row $H$ and the displayed $\Cont$ replay row $C$; the preserved order read is the displayed dyadic comparison over $L$ and $U$, not host real order or trichotomy.
+\end{theorem}
+\begin{proof}
+Project $O,H,C$ from the carrier of \autoref{def:signed-dyadic-interval-carrier}. The order coordinate is a lower-before-upper dyadic ledger over the displayed endpoints $L,U$.
+
+Use \autoref{thm:signed-dyadic-interval-namecert-obligations}. The order-stability obligation requires the ledger $O$ to travel through the same componentwise transport and replay rows that carry the endpoints and their signs.
+
+Since the carrier contains no host real order, trichotomy, quotient equality, representative selector, countable-choice coordinate, or ambient completeness coordinate, the replayed order read cannot be replaced by any external comparison principle. It remains exactly the displayed dyadic ledger $O$ over $L,U$.
+\end{proof}
+
+\begin{theorem}[Signed dyadic interval completion boundary]
+\label{thm:signed-dyadic-interval-completion-boundary}
+Let $S=(L,U,\sigma_L,\sigma_U,O,W,I,R,E,H,C,P,N)$ be an accepted $\SignedDyadicIntervalUp$ carrier. Every $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer must read the route $W \longmapsto R \longmapsto E$ only after the signed endpoint rows $\sigma_L,\sigma_U$, the order ledger $O$, and the containment handoff $I$ have been displayed.
+\end{theorem}
+\begin{proof}
+Project the completion-facing coordinates $W,R,E$ from \autoref{def:signed-dyadic-interval-carrier}. They are ordered as the finite window, regular rational readback, and terminal real seal of the same signed interval packet.
+
+Apply \autoref{thm:signed-dyadic-interval-namecert-obligations} together with \autoref{thm:signed-dyadic-interval-containment-stability}. The obligation surface places the completion route after endpoint signs, endpoint order, and containment handoff, while containment stability ensures the handoff remains the displayed $\DyadicIntervalArithmeticUp$ row transported by $H$ and replayed by $C$.
+
+Thus a completion-facing consumer receives $W \longmapsto R \longmapsto E$ only through the displayed finite route. The carrier offers no quotient real equality, host interval equality, trichotomy, selected representatives, countable choice, or ambient $\RealUp$ completeness through which the consumer could bypass those rows.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\SignedDyadicIntervalUp$ read that exports containment to $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ without first exposing signed dyadic endpoints, endpoint order, the $\DyadicIntervalArithmeticUp$ containment row, componentwise transport, displayed replay, provenance, and local naming is outside the carrier surface.}
 
 \independenceWitness{dyadicratcore, streamname, regseqrat, real, dyadic-interval-arithmetic: no listed sibling supplies the joint packet containing signed dyadic endpoints, endpoint order, finite StreamName windows, DyadicIntervalArithmetic containment, RegSeqRat readback, Real seal, transport, replay, provenance, and local NameCert rows.}
@@ -71,7 +107,7 @@ The downstream completion route is then read through $W,R,E$. Since those rows a
 \begin{closurestatus}{\SignedDyadicIntervalUp}
   \constructivestory{A $\SignedDyadicIntervalUp$ packet is generated from lower and upper DyadicRatCore endpoint rows, signed-endpoint rows, an endpoint-order ledger, finite StreamName windows, a DyadicIntervalArithmetic containment handoff, RegSeqRat readback, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:signed-dyadic-interval-carrier}, \autoref{thm:signed-dyadic-interval-namecert-obligations}, and \autoref{thm:signed-dyadic-interval-containment-stability} seed the finite signed dyadic interval route from DyadicRatCore endpoints through StreamName, RegSeqRat, Real, and DyadicIntervalArithmetic consumers.}
+  \scopeclosed{\autoref{def:signed-dyadic-interval-carrier}, \autoref{thm:signed-dyadic-interval-namecert-obligations}, \autoref{thm:signed-dyadic-interval-containment-stability}, \autoref{thm:signed-dyadic-interval-endpoint-sign-exactness}, \autoref{thm:signed-dyadic-interval-order-stability}, and \autoref{thm:signed-dyadic-interval-completion-boundary} seed the finite signed dyadic interval route from DyadicRatCore endpoints through StreamName, RegSeqRat, Real, and DyadicIntervalArithmetic consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient real equality, host interval equality, trichotomy, selected representatives, countable choice, ambient Real completeness, Lean verification, or a public standard bridge.}
