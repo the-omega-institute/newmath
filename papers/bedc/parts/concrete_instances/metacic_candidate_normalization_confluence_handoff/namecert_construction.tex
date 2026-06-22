@@ -204,6 +204,24 @@ Use the consumer boundary, residual progress, decider boundary, and finite conve
 Therefore collapsing any one of $K,N,F,C,D,B,T,R,P,L$ would remove a row required by the carrier and by the displayed boundary theorems. Since the excluded global endpoints are not carrier coordinates, the obligation rows remain non-collapsible without promoting the packet beyond the finite handoff surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate handoff row readiness]
+\label{thm:metacic-candidate-normalization-confluence-handoff-candidate-row-readiness}
+Every confluence-facing or decidability-facing read of an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier
+$$
+H=(A,K,N,F,C,D,B,T,R,P,L)
+$$
+must expose the candidate row $K$ and the frontier row $F$ before the endpoint row $N$ or the residual rows $C,D,B$ are consumed. Thus the handoff exports only a finite premise-readiness route, not a global strong-normalization endpoint, full Church--Rosser theorem, unrestricted subject-reduction theorem, or global conversion decider.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}. The rows $K$ and $F$ are separate from $N,C,D,B$, so a consumer can only read endpoint, residual, or decidability data through the displayed handoff packet.
+
+Apply the boundary theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. Its candidate-gate exactness places $K$ and $F$ before $N$, while its confluence and decidability clauses keep $C,D,B$ on the residual and bounded-comparison side.
+
+Use the obligation rows theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-obligation-rows}. It makes $K,N,F,C,D,B,T,R,P,L$ non-collapsible rows, so neither transport nor replay may hide the candidate and frontier premises before a consumer reaches the endpoint or residual rows.
+
+Since the carrier contains no coordinate for global strong normalization, full Church--Rosser, unrestricted subject reduction, or global conversion decidability, the exposed route is exactly a local premise-readiness route for confluence-facing and decidability-facing consumers.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate retained-edge handoff]
 \label{thm:metacic-candidate-normalization-confluence-handoff-retained-edge}
 Every finite successor handoff from candidate normalization toward confluence in an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet must retain the candidate-gate rows $K,F,N$, the residual-envelope row $C$, the decidable-boundary row $D$, the blocked-edge row $B$, and the structural rows $T,R,P,L$ before any consumer reads endpoint or conversion data. The retained edge is a finite successor route inside $H=(A,K,N,F,C,D,B,T,R,P,L)$; it does not assert Church--Rosser, strong normalization, subject reduction, evaluator equality, quotient equality, or consistency.
