@@ -1,0 +1,45 @@
+\subsection{Translation- and abundance-conditioned protein-localization relation}\label{sec:q6-translation-abundance-conditioned-protein-localization}\origin{ai}
+
+\paragraph{Finite row surface.}
+This record concerns a finite matched table whose rows are coding-sequence entries indexed by organism and identifier.  Each row carries a synonymous residual coordinate $q_i$ from the $B^{*}_{Q6}$ coordinate system after amino-acid quotienting, together with same-row measurements or annotations for codon usage, organism identity, GC3, coding-sequence length, methionine density, mRNA abundance, a translation readout $T_j$, protein abundance, and a protein-localization readout $L_k$.  The intended claim is not that the coordinate itself names a compartment.  The intended claim is that a residual coordinate may be tested for a localization association only after the translation row and the abundance-control row have both been attached.
+
+\paragraph{Conditioned relation.}
+For a row $r$, write $q(r)$ for its $B^{*}_{Q6}$ residual coordinate, $T(r)$ for its same-row translation readout, $A(r)$ for its protein-abundance control, and $L(r)$ for its localization readout.  The admissible readout path is
+$$
+\begin{aligned}
+q(r) \longrightarrow T(r) \longrightarrow A(r) \longrightarrow L(r),
+\end{aligned}
+$$
+where the middle arrows express conditioning order rather than a mechanistic trafficking pathway.  The localization coordinate is therefore interpreted only through the finite relation
+$$
+\begin{aligned}
+\mathcal{R}_{QTL}
+  = \{(q(r),T(r),A(r),L(r)) : r \in \mathcal{D},\ T(r) \neq \varnothing,\ A(r) \neq \varnothing,\ L(r) \neq \varnothing\}.
+\end{aligned}
+$$
+Rows with $T(r)=\varnothing$ are not localization evidence for $q(r)$; they remain at the translation boundary.  Rows with $T(r)\neq\varnothing$ but $A(r)=\varnothing$ or $L(r)=\varnothing$ may support only the narrower translation-side or protein-abundance-side statement available from the observed coordinates.
+
+\paragraph{Observed finite contact.}
+The available verified localization-side contact is the run identified by \texttt{94942f5abfc4} for the fact \texttt{h3.cross\_layer\_relation.subcellular\_localization.mts\_propensity\_localization\_crossorganism\_mouse\_itzhak2017}.  Its joined protein-localization table contains $8944$ matched rows, of which $505$ are marked mitochondrial, with runtime $21.266$ seconds.  Thus the observed mitochondrial fraction in this joined surface is
+$$
+\begin{aligned}
+\frac{505}{8944} \approx 0.0565.
+\end{aligned}
+$$
+These numbers supply a concrete localization readout surface: there is a finite, nonempty protein-level compartment signal, and the mitochondrial class is sparse relative to the joined row count.  They do not, by themselves, supply the same-row $B^{*}_{Q6}$ residuals, ribosome-profiling translation efficiencies, matched mRNA controls, or protein-abundance controls required for the full conditioned claim.
+
+\paragraph{Null rule.}
+The row test is deliberately asymmetric.  A non-null localization label without a non-null translation readout is not a $q_i \to L_k$ observation.  A non-null protein-abundance value without a non-null localization readout is not a compartment observation.  A non-null translation readout and a non-null localization label without matched mRNA and protein-abundance controls may indicate that a row can be prepared for a stricter test, but it does not yet certify the conditioned cross-layer relation.  In compact form, the localization claim is admissible only on rows satisfying
+$$
+\begin{aligned}
+&q(r) \neq \varnothing,\quad T(r) \neq \varnothing,\quad mRNA(r) \neq \varnothing,\quad A(r) \neq \varnothing,\quad L(r) \neq \varnothing,\\
+&\text{and the fitted localization statistic for } q(r) \text{ remains non-null after amino-acid composition, organism, GC3, length, methionine density, mRNA, translation, and abundance controls.}
+\end{aligned}
+$$
+If the translation term is removed or becomes null, the row is compressed back to a translation-readout question.  If the abundance term is the only surviving protein-level association, the row is compressed back to a protein-abundance control question.
+
+\paragraph{Scientific boundary.}
+The $8944$ joined localization rows and $505$ mitochondrial rows are sufficient to show that a finite localization surface exists for the selected protein-level contact.  They are not sufficient to claim direct localization prediction from $B^{*}_{Q6}$ geometry.  They also do not establish translation realization, protein folding, physical admissibility, function, trafficking mechanism, compartment-identity mechanism, phenotype, or universality.  Each of those stronger interpretations would require its own matched contact and its own row-level statistic.  In this chapter, protein abundance is treated only as an intermediate control surface: it may absorb or mediate part of a translation-conditioned association, but it is not promoted to a localization mechanism.
+
+\paragraph{Operational verdict.}
+The present finite data support the existence of a measurable localization readout surface and fix its current row scale: $8944$ joined proteins and $505$ mitochondrial positives.  The full $B^{*}_{Q6}$ localization claim remains data-conditioned rather than established, because the supplied verified fact gives the localization side but not a second independent verified finite fact for the same-row translation, mRNA, abundance, and residual-coordinate joins.  The correct use of this record is therefore to keep the localization surface available for a conditioned test while refusing any direct coordinate-to-compartment reading until the missing same-row contacts are present.
