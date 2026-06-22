@@ -120,17 +120,36 @@ Apply \autoref{thm:aspect-chain-non-collapse}. The records-side and inscription-
 Apply \autoref{thm:aspect-chain-bridge-status}. Any standard bridge must be supplied as a separate row beyond the displayed carrier. Thus the handoff records the paper boundary for bridge consumers while leaving bridge verification outside this chapter.
 \end{proof}
 
+\begin{theorem}[AspectChain mature consumer completeness]
+\label{thm:aspect-chain-mature-consumer-completeness}
+The mature consumer surface of an accepted $\AspectChainUp$ packet is exhausted by the public export of \autoref{thm:aspect-chain-public-export}, the non-collapse boundary of \autoref{thm:aspect-chain-non-collapse}, the bridge-status boundary of \autoref{thm:aspect-chain-bridge-status}, and the bridge handoff of \autoref{thm:aspect-chain-bridge-handoff}. In particular, every mature consumer either reads the displayed packet rows
+$$
+R,I,G,L,O,H,C,P,N
+$$
+or asks for a bridge row whose absence is already recorded by the boundary and handoff theorems; no further consumer class receives private phenomenal access, host mental-state identity, host physical-object identity, global observer locality, or a bridge-checked interpretation from this packet.
+\end{theorem}
+\begin{proof}
+Start with the public export theorem. It identifies the only rows exported by an accepted carrier: records, inscription-event, GAP provenance, locality, other-minds, transport, replay, provenance, and local naming.
+
+Apply the non-collapse theorem to the same rows. It prevents a mature consumer from turning the records-side and inscription-event-side readings into host identities, private phenomenal access, or an ambient mind--matter identity predicate.
+
+For bridge-facing reads, use the bridge-status boundary and then the bridge handoff. The boundary states that the displayed rows do not themselves constitute a standard bridge, and the handoff orders exactly what a later bridge consumer must read before supplying any separate bridge row.
+
+These four surfaces cover the public, non-collapse, bridge-boundary, and bridge-handoff consumers of the packet. Since the carrier has no coordinate outside $R,I,G,L,O,H,C,P,N$ and the bridge row is explicitly external to the chapter, there is no remaining mature consumer class to close.
+\end{proof}
+
 \closureat{AspectChainUp}{seedStr}
 \closureat{AspectChainUp}{obligationStr}[BEDC.Derived.AspectChainUp.AspectChainTasteGate\_single\_carrier\_alignment]
 \closureat{AspectChainUp}{scopedStr}[BEDC.Derived.AspectChainUp.taste\_gate]
 \closureat{AspectChainUp}{publicStr}[BEDC.Derived.AspectChainUp.taste\_gate]
 \closureat{AspectChainUp}{bridgedStr}[BEDC.Derived.AspectChainUp.taste\_gate]
+\closureat{AspectChainUp}{matureStr}[BEDC.Derived.AspectChainUp.taste\_gate]
 
 \begin{closurestatus}{\AspectChainUp}
   \constructivestory{An $\AspectChainUp$ packet is generated from one records-side $\BHist$ row, one $\InscriptionEventUp$ row, public GAP provenance, a locality-cell row, an optional other-minds commitment row, componentwise hsame transports, displayed Cont routes, Pkg provenance, and a local NameCert row.}
   \leanchecked{BEDC.Derived.AspectChainUp.taste\_gate}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:aspect-chain-carrier}, \autoref{thm:aspect-chain-namecert-obligations}, \autoref{thm:aspect-chain-consumer-boundary}, \autoref{thm:aspect-chain-non-collapse}, \autoref{thm:aspect-chain-public-export}, and \autoref{thm:aspect-chain-bridge-handoff} bind the public records-side row, inscription-event row, GAP provenance, locality and other-minds rows, hsame transport, Cont routes, Pkg provenance, local NameCert rows, and bridge-facing handoff already listed by the packet.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:aspect-chain-carrier}, \autoref{thm:aspect-chain-namecert-obligations}, \autoref{thm:aspect-chain-consumer-boundary}, \autoref{thm:aspect-chain-non-collapse}, \autoref{thm:aspect-chain-public-export}, \autoref{thm:aspect-chain-bridge-status}, \autoref{thm:aspect-chain-bridge-handoff}, and \autoref{thm:aspect-chain-mature-consumer-completeness} bind the public records-side row, inscription-event row, GAP provenance, locality and other-minds rows, hsame transport, Cont routes, Pkg provenance, local NameCert rows, bridge-facing boundary, and mature consumer completeness already listed by the packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
