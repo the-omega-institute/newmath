@@ -60,6 +60,46 @@ The transport and replay rows $H$ and $C$ preserve that same packet under compon
 The provenance and local naming rows $P,N$ bind the packet to $\ExternalSupplyBoundaryUp$, $\SupplySocketLedgerUp$, $\SupplyKindRouterUp$, $\AuditMembraneUp$, and $\AuditGateBoundaryUp$ as sibling sources. Since none of the displayed rows supplies the refused content itself, the accepted boundary gate keeps the judged supply external.
 \end{proof}
 
+\begin{theorem}[BoundaryGate carrier admission]
+\label{thm:boundarygate-carrier-admission}
+Every admitted $\BoundaryGateUp$ carrier is admitted only as a finite $\BHist$ packet
+$$
+G=(B,Q,V,S,H,C,P,N)
+$$
+whose rows display the boundary form $B$, gate question $Q$, audit verdict $V$, visible site route $S$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. In particular, the verdict $V$ cannot be admitted apart from the boundary form $B$ and visible site route $S$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:boundary-gate-carrier}. The row inventory is exactly $B,Q,V,S,H,C,P,N$, so admission begins with the displayed boundary form, question, verdict, and site route.
+
+The structural rows do not add a detached verdict. The $\hsame$ row $H$ transports the same displayed data, the $\Cont$ row $C$ replays access through the same packet, and $P,N$ bind provenance and local naming to that inventory.
+
+Thus carrier admission is a row projection from the displayed packet. Since no carrier coordinate stores $V$ without $B$ and $S$, an admitted verdict remains attached to the boundary form and visible site route.
+\end{proof}
+
+\begin{theorem}[BoundaryGate classifier stability]
+\label{thm:boundarygate-classifier-stability}
+For any accepted $\BoundaryGateUp$ packet $G=(B,Q,V,S,H,C,P,N)$, the classifier is stable only under componentwise $\hsame$ transport of the displayed rows $B,Q,V,S,H,C,P,N$ and displayed $\Cont$ replay through the same $\Pkg$ and $\NameCert$ surface. A transported verdict remains the verdict for boundary form $B$ at visible site route $S$; it cannot become a route-free audit result.
+\end{theorem}
+\begin{proof}
+Start with the classifier rows displayed by the carrier. The boundary form, question, verdict, and site route are compared as named coordinates of one finite packet.
+
+Apply the transport row. Componentwise $\hsame$ preserves each displayed coordinate as the same row for classifier purposes, so a stable read carries $B,Q,V,S$ together rather than moving $V$ alone.
+
+Finally use the replay and provenance rows. The $\Cont$ row $C$, $\Pkg$ row $P$, and local $\NameCert$ row $N$ replay only the same packet, so classifier stability cannot detach the verdict from the boundary form or visible site route.
+\end{proof}
+
+\begin{theorem}[BoundaryGate ledger nonescape]
+\label{thm:boundarygate-ledger-nonescape}
+Every ledger read from an accepted $\BoundaryGateUp$ carrier $G=(B,Q,V,S,H,C,P,N)$ must expose the boundary form $B$, gate question $Q$, audit verdict $V$, visible site route $S$, $\BHist$ transport row $H$, $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$ together. No ledger consumer can export $V$ as supplied content, as a hidden boundary witness, or as a verdict detached from $B$ and $S$.
+\end{theorem}
+\begin{proof}
+Read the ledger-facing packet as displayed finite data. The rows $B,Q,V,S$ identify what is judged, which finite question is asked, what verdict is recorded, and where the boundary is read.
+
+Now inspect the structural route. The $\BHist$ transport row $H$ and $\Cont$ replay row $C$ keep ledger access inside the same carrier, while $P$ and $N$ record provenance and local naming.
+
+Because the carrier contains no extra row for supplied content, hidden boundary witnesses, or route-free verdicts, the ledger cannot export such data. The verdict remains a visible row of the boundary gate rather than an escaping object.
+\end{proof}
+
 \falsifiablePrediction{Any accepted BoundaryGateUp packet that admits boundary content without exposing both the boundary-form row and the audit-verdict row is rejected by the NameCert surface.}
 
 \independenceWitness{Nearest siblings: external-supply-boundary, supply-socket-ledger, supply-kind-router, audit-membrane, audit-gate-boundary. None is bijective because BoundaryGateUp carries the gate question and verdict rows together with the visible boundary form and site route, while the siblings isolate boundary, socket kind, kind routing, refusal replay, or gate-boundary inventory.}
