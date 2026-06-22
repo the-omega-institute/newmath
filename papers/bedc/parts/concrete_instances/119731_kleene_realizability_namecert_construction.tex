@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\KleeneRealizabilityUp$}
+\label{ch:concrete-instances-kleene-realizability-namecert}
+\origin{human}
+
+Following Kleene's realizability interpretation, the $\KleeneRealizabilityUp$ packet records realizer evidence as displayed finite computation rows before any constructive consumer may use it as proof content. It sits after the bounded computation surface of \autoref{ch:concrete-instances-computable-namecert}, the lambda-term carrier of \autoref{ch:concrete-instances-lambdacalc-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies choice-free L10 reasoning with finite witness readback data; it does not assert countable choice, quotient equality of programs, host evaluation, selected limits, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Kleene realizability carrier]
+\label{def:kleene-realizability-carrier}
+A $\KleeneRealizabilityUp$ carrier is a finite $\BHist$ packet
+$$
+K=(e,I,O,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $e$ is the code/index row, read through the $\ComputableUp$ bounded computation surface and, when the realizer is term-facing, through the $\LambdaCalcUp$ syntax surface.
+\item $I$ is the input packet row, consisting only of finite argument data such as $\StreamNameUp$ windows, $\RegSeqRatUp$ readback requests, or already displayed BEDC witnesses.
+\item $O$ is the output packet row returned by the finite computation trace.
+\item $T$ is the computation trace row, recording the inspected step sequence from the index $e$ and input packet $I$ to the output packet $O$.
+\item $R$ is the realizer-relation row saying that the displayed trace realizes the requested predicate or construction only through $e,I,O,T$.
+\item $H$ records componentwise $\hsame$ transport for the code/index, input packet, output packet, trace, realizer relation, replay, provenance, and local name rows.
+\item $C$ records displayed $\Cont$ replay from a consumer request through the input packet, computation trace, output packet, and realizer-relation row.
+\item $P$ is the $\Pkg$ provenance over $\KleeneRealizabilityUp$, $\ComputableUp$, $\LambdaCalcUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KleeneRealizabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by the displayed rows $e,I,O,T,R,H,C,P,N$. It has no coordinate for host execution, function extensionality, quotient equality of programs, countable choice, a selected infinite stream, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Kleene realizability finite witness readback]
+\label{thm:kleene-realizability-finite-witness-readback}
+For every accepted $\KleeneRealizabilityUp$ carrier
+$$
+K=(e,I,O,T,R,H,C,P,N),
+$$
+any witness read exported to a choice-free L10 consumer factors through the finite code/index row $e$, the input packet $I$, the output packet $O$, the computation trace $T$, the realizer relation $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$. The read may consume $\ComputableUp$, $\LambdaCalcUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows named by $P$, but it cannot extract a choice function, quotient program equality, host evaluator, selected limit, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kleene-realizability-carrier}. The possible witness data are exactly the code/index row $e$, the input row $I$, the output row $O$, the computation trace $T$, and the realizer relation $R$.
+
+The computation row $T$ is finite. It records the inspected route by which $e$ acts on the displayed input packet $I$ and reaches the output packet $O$, so the realizer relation can be read without invoking host execution.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name the same finite route. Provenance may cite the bounded computation, lambda-term, stream-window, regular rational, and real-name siblings, but it adds no further selection coordinate.
+
+Thus every exported witness remains a finite NameCert readback. Since no carrier row contains a choice function, quotient program equality, host evaluator, selected limit, or ambient completeness principle, no consumer can recover one from the packet.
+\end{proof}
+
+\begin{theorem}[Kleene realizability L10 nonescape]
+\label{thm:kleene-realizability-l10-nonescape}
+Every L10 read of an accepted $\KleeneRealizabilityUp$ packet preserves the finite witness boundary
+$$
+\ComputableUp \longmapsto \LambdaCalcUp \longmapsto \KleeneRealizabilityUp \longmapsto (\StreamNameUp,\RegSeqRatUp,\RealUp).
+$$
+The route may pass finite stream windows and regular rational readbacks to a real-facing consumer, but it never promotes realizability evidence into countable choice, quotient equality of programs, unrestricted beta-conversion, host-level evaluation, selected limits, or a global real-completeness assertion.
+\end{theorem}
+\begin{proof}
+Begin with the realizer witness readback of \autoref{thm:kleene-realizability-finite-witness-readback}. It forces every consumer to expose $e,I,O,T,R$ before any real-facing or stream-facing row can be consumed.
+
+If the consumer requests stream or real data, the provenance row routes that request through the finite $\StreamNameUp$ windows, the $\RegSeqRatUp$ readback row, and the terminal $\RealUp$ seal. These rows are consumed as displayed packet data, not as selected representatives of an infinite object.
+
+The replay rows $H$ and $C$ preserve only the visible computation trace and its realizer relation. They do not add quotient equality of programs, unrestricted beta-conversion, host execution, or an external choice operator.
+
+Therefore the L10 route remains a finite readback surface for constructive witness data and cannot escape to the global principles excluded by the carrier.
+\end{proof}
+
+\closureat{KleeneRealizabilityUp}{seedStr}
+
+\begin{closurestatus}{\KleeneRealizabilityUp}
+  \constructivestory{A $\KleeneRealizabilityUp$ packet is generated from a code/index row, finite input and output packets, a displayed computation trace, a realizer-relation row, componentwise hsame transport, displayed Cont replay, Pkg provenance over ComputableUp, LambdaCalcUp, StreamNameUp, RegSeqRatUp, and RealUp, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kleene-realizability-carrier}, \autoref{thm:kleene-realizability-finite-witness-readback}, and \autoref{thm:kleene-realizability-l10-nonescape} seed the finite realizer-witness route for choice-free L10 reasoning through displayed computation, input, output, trace, relation, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, quotient equality of programs, host execution, unrestricted beta-conversion, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped treatment asks for checked carrier admission, finite trace readback, realizer-relation exactness, L10 nonescape, transport, replay, provenance, and local naming for BEDC.Derived.KleeneRealizabilityUp.}
+\end{closurestatus}

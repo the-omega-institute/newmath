@@ -5565,6 +5565,7 @@ import BEDC.Derived.FiniteCauchyNetExtractionUp.TasteGate
 import BEDC.Derived.FiniteChoiceUp.TasteGate
 import BEDC.Derived.FiniteChoiceWindowUp.TasteGate
 import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
+import BEDC.Derived.FiniteCoverNerveUp.CompactUniformHandoff
 import BEDC.Derived.FiniteCoverNerveUp.NameCertObligations
 import BEDC.Derived.FiniteCoverNerveUp.TasteGate
 import BEDC.Derived.FiniteCoverRefinementUp.TasteGate
@@ -7082,6 +7083,7 @@ import BEDC.Derived.LocatedSupremumUp.TasteGate
 import BEDC.Derived.LocatedSupremumUp.WindowTransport
 import BEDC.Derived.LocatedUniformCauchyLimitUp.TasteGate
 import BEDC.Derived.LocatedUniformCauchyPrincipleUp.TasteGate
+import BEDC.Derived.LocatedUniformCompletionUp.DensityRoute
 import BEDC.Derived.LocatedUniformCompletionUp.TasteGate
 import BEDC.Derived.LocatedUniformContinuityUp.TasteGate
 import BEDC.Derived.LocatedUniformExtremeValueUp
@@ -9475,6 +9477,7 @@ import BEDC.Derived.RealUniformStructureUp.CoverReadHandoff
 import BEDC.Derived.RealUniformStructureUp.EntourageShrink
 import BEDC.Derived.RealUniformStructureUp.EntourageShrinkStability
 import BEDC.Derived.RealUniformStructureUp.FiniteIntersectionSubbasis
+import BEDC.Derived.RealUniformStructureUp.LocatedCauchyFilterHandoff
 import BEDC.Derived.RealUniformStructureUp.PositiveRadiusEntourageRefinement
 import BEDC.Derived.RealUniformStructureUp.RealEqualityFilterBoundary
 import BEDC.Derived.RealUniformStructureUp.SubbasisCompletionHandoff
@@ -10592,6 +10595,7 @@ import BEDC.Derived.SetUp
 import BEDC.Derived.SetlikeUp.BoundedComprehensionFamilyHandoff
 import BEDC.Derived.SetlikeUp.BoundedComprehensionInduction
 import BEDC.Derived.SetlikeUp.BoundedComprehensionLedger
+import BEDC.Derived.SetlikeUp.BoundedComprehensionTransport
 import BEDC.Derived.SetlikeUp.ClassifierTransportRoute
 import BEDC.Derived.SetlikeUp.ComprehensionLedgerObligation
 import BEDC.Derived.SetlikeUp.ComprehensionScope
@@ -10635,6 +10639,7 @@ import BEDC.Derived.SetlikeUp.RootUnblockKernelMembershipEnvelope
 import BEDC.Derived.SetlikeUp.SatisfactionHandoffObligation
 import BEDC.Derived.SetlikeUp.SubsetClassifierObligation
 import BEDC.Derived.SetlikeUp.SubsetComprehensionRootUnblock
+import BEDC.Derived.SetlikeUp.SubsetImplicationObligation
 import BEDC.Derived.SetlikeUp.SubsetImplicationWitness
 import BEDC.Derived.SetlikeUp.SubsetLedger
 import BEDC.Derived.SetlikeUp.TasteGate
