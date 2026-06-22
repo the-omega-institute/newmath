@@ -1,41 +1,59 @@
-\subsection{Translation-conditioned four-case discrimination for $B^{\ast}_{Q6}$ residuals}\label{subsec:bioreality-q6-fourcase-discriminant}
+\subsection{Translation-Conditioned Four-Case Discriminant for $B^{*}_{Q6}$ Residual Coordinates}\label{sec:bioreality-q6-fourcase-discriminant}
 \origin{ai}
 
-\paragraph{Finite panel and coordinate surface.}
-This record evaluates a finite cross-layer matrix whose rows are coding sequences and whose columns are the nine $B^{\ast}_{Q6}$ residual coordinates $K\_{AAA}$, $Arg\_{AGR}$, $Ile\_{AUA}$, $Leu\_{CUN\,vs\,UUR}$, $Leu\_{UUA\,vs\,UUG}$, $Ser\_{UCR\,vs\,AGY}$, $Ser\_{UCA\,vs\,UCG}$, $Thr\_{ACR\,vs\,ACY}$, and $f_3\text{-}stress$. The tested readouts are a protein-abundance column $P$, given by $\log_{10}(\mathrm{abundance\_ppm})$ from measured PAXdb abundance joined to real CDS codon counts, and a bounded translation-readout column $T$, given by per-protein mean modeled tAI, $\sum_c n_c w_c/\sum_c n_c$, using GtRNAdb all-tRNA copy counts with dos Reis wobble weights. The two organisms retained for this four-case run were \emph{Escherichia coli} K12 MG1655 and \emph{Saccharomyces cerevisiae}. The joined row counts were $3739$ CDS/protein rows for \emph{E. coli} and $5815$ rows for yeast; the tRNA organisms were recorded as \emph{escherichia coli} and \emph{saccharomyces cerevisiae}, respectively.
+\paragraph{Finite surface.}
+This record tests a finite cross-layer discriminant on the nine $B^{*}_{Q6}$ synonymous residual coordinates
+$K\_{AAA}$, $Arg\_{AGR}$, $Ile\_{AUA}$, $Leu\_{CUN\,vs\,UUR}$, $Leu\_{UUA\,vs\,UUG}$, $Ser\_{UCR\,vs\,AGY}$, $Ser\_{UCA\,vs\,UCG}$, $Thr\_{ACR\,vs\,ACY}$, and $f3\_{stress}$.
+The readout $P$ is measured protein abundance, encoded as $\log_{10}(\mathrm{abundance\_ppm})$ from PAXdb after joining protein rows to real CDS codon counts.
+The readout $T$ is a bounded per-protein modeled tAI surface,
+$\sum_c n_c w_c / \sum_c n_c$, using GtRNAdb all-tRNA copy counts and dos Reis wobble weights.
+The experiment therefore classifies a modeled codon-adaptation readout against measured abundance; it is not a ribosome-profiling experiment and is not a perturbation or rescue design.
 
-\paragraph{Residualization and rank checks.}
-For each organism, the design residualizes $Q$, $T$, and $P$ against a $24$-column control surface consisting of intercept, CDS length, amino-acid composition, GC3, and the $M$-density baseline. The effective control rank was $23$ in both organisms. After this residualization, both the $P$ and $T$ residualized $B^{\ast}_{Q6}$ designs had full coordinate rank $9$, so the four-case labels are not produced by a rank-deficient coordinate collapse. The finite diagnostics are
+\paragraph{Controlled regressions.}
+For each organism, the $Q$, $T$, and $P$ columns are residualized against a fixed covariate block containing CDS length, amino-acid composition, GC3, and the $M$-density baseline, with $24$ control columns and effective $Z$-rank $23$.
+Both computed organisms are rank-powered for the nine-coordinate $Q$ design: $\operatorname{rank}(\widetilde X)=9$ for the $T$ surface and also $9$ for the $P$ surface.
+The finite rows are not saturated: Escherichia coli K12 MG1655 has $3739$ joined CDS/protein rows and residual degrees of freedom $3716$, while Saccharomyces cerevisiae has $5815$ joined rows and residual degrees of freedom $5792$.
+The degeneracy guard is $0.999999$, and the four-case threshold is $10^{-12}$.
+The residual energies and explained energies are concrete:
 $$
 \begin{aligned}
-\mathrm{rank}(Z) &= 23,\\
-\mathrm{rank}(\widetilde Q_P) &= 9,\\
-\mathrm{rank}(\widetilde Q_T) &= 9,\\
-\mathrm{threshold} &= 10^{-12}.
+E_{P,Q}^{E.\ coli} &= 432.89050065533684, & E_{T,Q}^{E.\ coli} &= 0.256128714706293,\\
+\|P^{E.\ coli}_{\perp Z}\|^2 &= 4020.333671802061, & \|T^{E.\ coli}_{\perp Z}\|^2 &= 0.4728468725814029,\\
+E_{P,Q}^{S.\ cerevisiae} &= 882.6526210803958, & E_{T,Q}^{S.\ cerevisiae} &= 5.671703404506426,\\
+\|P^{S.\ cerevisiae}_{\perp Z}\|^2 &= 2958.1865890925337, & \|T^{S.\ cerevisiae}_{\perp Z}\|^2 &= 6.90537888244409.
 \end{aligned}
 $$
-For \emph{E. coli}, the residual degrees of freedom after $Z$ were $3716$, $P$ residual energy was $4020.333671802061$, $T$ residual energy was $0.4728468725814029$, $Q$ explained energy on $P$ was $432.89050065533684$, and $Q$ explained energy on $T$ was $0.256128714706293$. For yeast, the corresponding values were residual degrees of freedom $5792$, $P$ residual energy $2958.1865890925337$, $T$ residual energy $6.90537888244409$, $Q$ explained energy on $P$ $882.6526210803958$, and $Q$ explained energy on $T$ $5.671703404506426$.
-
-\paragraph{Four-case rule.}
-Each coordinate is classified by the signs of two controlled survivals and by whether the direct $Q \to P$ component is reduced after conditioning on $T$. In the notation of this chapter, $S^{QT}$ is the residual association between the $B^{\ast}_{Q6}$ coordinate block and the modeled tAI readout, $S^{QP}$ is the residual association between the same coordinate block and measured protein abundance, and the translation-conditioned comparison asks whether the $Q \to P$ signal is attenuated when $T$ is included. The computed organism-level surfaces were
+The corresponding aggregate residual association strengths are
 $$
 \begin{aligned}
-R^2_{QP}(\textit{E. coli}) &= 0.10767526677985896,\\
-R^2_{QT}(\textit{E. coli}) &= 0.5416736993691318,\\
-R^2_{QP}(\textit{S. cerevisiae}) &= 0.29837624994140827,\\
-R^2_{QT}(\textit{S. cerevisiae}) &= 0.8213457220900503.
+R^2_{QT}(E.\ coli) &= 0.5416736993691318, & R^2_{QP}(E.\ coli) &= 0.10767526677985896,\\
+R^2_{QT}(S.\ cerevisiae) &= 0.8213457220900503, & R^2_{QP}(S.\ cerevisiae) &= 0.29837624994140827.
 \end{aligned}
 $$
-Thus both organisms show positive aggregate $Q \to T$ and $Q \to P$ readback at the controlled matrix level, but the per-coordinate case call depends on whether the translation-conditioned comparison absorbs the direct protein-abundance signal.
+These values say that the modeled tAI surface is strongly aligned with the residual coordinate block in both organisms, and that protein abundance also retains a direct residual association after the same baseline controls.
 
-\paragraph{Observed case counts.}
-The finite four-case output is concentrated in case $D$ under this modeled-tAI readout. In \emph{E. coli}, the classification returned $0$ case-$A$ coordinates, $0$ case-$B$ coordinates, $0$ case-$C$ coordinates, $7$ case-$D$ coordinates, and $2$ coordinates that were positive for both $S^{QT}$ and $S^{QP}$ but did not show the required mediation drop. No coordinates were left unclassified. In yeast, the classification returned $0$ case-$A$, $0$ case-$B$, $0$ case-$C$, and $9$ case-$D$ coordinates, again with no unclassified coordinates and no positive-positive coordinates lacking the mediation drop. The module-level classification is therefore a bounded four-case discrimination result, not a universal biological law: the matrix separates direct protein-omics association, modeled translation-readout association, and translation-conditioned attenuation only inside the two joined, rank-sufficient organism panels.
+\paragraph{Four-case readback.}
+The discriminant assigns each coordinate to one of four finite cases using the sign pattern of $S^{QT}$ and $S^{QP}$ and the mediation-condition test for whether the direct $Q\to P$ component is reduced after conditioning on $T$.
+No coordinate is left unclassified in either organism.
+The Escherichia coli surface has case counts $A=0$, $B=0$, $C=0$, and $D=7$, with $2$ additional positive-positive coordinates that do not satisfy the mediation-drop condition.
+The Saccharomyces cerevisiae surface has $A=0$, $B=0$, $C=0$, and $D=9$, with no positive-positive coordinate failing the mediation-drop condition.
+Thus the computed panel supports a bounded four-case classification over modeled tAI and measured abundance rows, with all nine yeast coordinates and seven of nine E. coli coordinates passing the stricter positive-positive attenuation gate.
+The finite observation is a classification result, not a claim that codon residuals cause protein abundance.
 
-\paragraph{Comparison with measured-ribosome and abundance facts.}
-The broader finite row set gives important scale information for interpreting this four-case run. A direct protein-omics survival run over $15$ organisms found all nine $B^{\ast}_{Q6}$ coordinates surviving against PAXdb protein abundance after the same core controls; examples include $R^2_{QP}=0.10767526677985896$ for \emph{E. coli}, $0.29837624994140827$ for yeast, $0.04454565118019448$ for human, and $0.049827984062539195$ for mouse. The measured ribosome-profiling TE run, which uses $\log_{10}(\mathrm{TE})$ with $\mathrm{TE}=\mathrm{RPF}/\mathrm{mRNA}$, retained four organism panels and reported $R^2_{QT,meas}=0.009394266754822262$ for \emph{E. coli} on $3415$ TE-matched genes, $0.13681931343730436$ for yeast on $5128$ genes, $0.018837911344127926$ for human on $11554$ genes, and $0.04034217614654355$ for zebrafish on $13140$ genes. The measured $Q \to T \to P$ decomposition gave mediated fractions $0.04091158340950673$ for \emph{E. coli}, $0.4793069656345167$ for yeast, $0.0027966485036786744$ for human, and $0.0$ for zebrafish after truncating a raw suppressive fraction $-0.04801486048721136$ to the unit interval. These measured-readout numbers confirm that modeled tAI is not interchangeable with ribosome-profiling TE; it is a bounded readout surface whose four-case labels must be read as finite matrix classifications.
+\paragraph{Comparison with measured TE and downstream mediation records.}
+Separate measured-TE runs sharpen the boundary.  On ribosome-derived TE surfaces, the same nine-coordinate block has $R^2_{QT,meas}=0.009394266754822262$ in E. coli, $0.018837911344127926$ in human, $0.04034217614654355$ in zebrafish, and $0.13681931343730436$ in yeast, with all nine coordinates surviving the positive numerical threshold in each of those four organisms.
+Measured TE to abundance mediation is much weaker outside yeast: the measured mediated fractions are $0.04091158340950673$ in E. coli, $0.0027966485036786744$ in human, $0.0$ in zebrafish after clipping a negative raw fraction, and $0.4793069656345167$ in yeast.
+A joint measured-TE and mRNA-stability variance partition gives joint mediation fractions $0.2404669586626661$ for E. coli, $0.16890712099923358$ for human, and $0.5195182225621592$ for yeast, each with right-tail permutation value $0.000999000999000999$ under the registered pair-permutation test.
+The partial readout dictionary record on the yeast context join reports coverage $C^{*}=0.24538211439730545$, raw best coverage $0.2745002077400602$, selection-aware null $95\%$ value $0.029149007242956115$, and unexplained fraction $0.7546178856026946$ at $\lambda_{DL}=0.01$ and $\rho_{join}=0.05$.
+Together these auxiliary rows say that the four-case modeled-tAI discriminant is compatible with later measured-readout evidence, but measured TE and mRNA-stability do not exhaust the abundance residual.
 
-\paragraph{Related mediation scale.}
-A joint TE and mRNA-stability decomposition further constrains the interpretation of a case-$D$ call. On matched four-way joins, the row counts were $2517$ for \emph{E. coli}, $4759$ for yeast, and $11322$ for human. The joint mediation fractions were $0.2404669586626661$, $0.5195182225621592$, and $0.16890712099923358$, respectively, each with right-tail permutation probability $0.000999000999000999$. In yeast, the single-mediator split was $0.4697188319693239$ for measured TE alone and $0.0626618595344251$ for mRNA stability alone; in \emph{E. coli}, the analogous fractions were $0.01975521340963268$ and $0.23052056324898387$; in human they were $0.00549490864190343$ and $0.15314679870183337$. A separate yeast readout-dictionary certificate on $n=1800$ sampled rows used $\lambda_{DL}=0.01$, $\rho_{join}=0.05$, and $120$ permutations, with coverage $C^{\ast}=0.24538211439730545$, raw best coverage $0.2745002077400602$, selection-aware null $95\%$ value $0.029149007242956115$, and unexplained fraction $0.7546178856026946$. These values show that the direct protein-abundance residual is only partly reducible to the measured readout dictionary, even when a positive four-case or mediation label is present.
+\paragraph{Local interpretation.}
+The supported statement is finite and conditional: for the two modeled-tAI organisms with sufficient row rank, $B^{*}_{Q6}$ residual coordinates can be sorted by the four-case $S^{QT}/S^{QP}$ discriminant after the stated baseline controls, and the dominant observed output is the $D$ class.
+The result is strongest for yeast, where all nine coordinates are positive-positive with attenuation by the modeled $T$ readout, and more mixed for E. coli, where seven coordinates meet that same stricter label and two remain positive-positive without the required attenuation.
+The direct protein-omics survival surface is real in the same controlled sense, with $R^2_{QP}=0.10767526677985896$ in E. coli and $0.29837624994140827$ in yeast, but direct $Q\to P$ association alone is not a biological mechanism.
 
-\paragraph{Boundary of the claim.}
-The ready result is the following finite statement: in the two modeled-tAI panels, the $B^{\ast}_{Q6}$ residual matrix is rank-sufficient after controls, has positive controlled aggregate association with both $T$ and $P$, and assigns all classified yeast coordinates and seven of nine classified \emph{E. coli} coordinates to the case in which the modeled translation readout absorbs the direct protein-abundance association. This does not by itself assert observed translation dynamics, causal mediation, folding, physical admissibility, molecular function, phenotype, or universality. Modeled tAI is not ribosome occupancy, PAXdb abundance is not isolated protein production, and cross-sectional joins do not establish temporal order. Any stronger statement at the translation, post-translational, structural, physical, functional, mechanistic, or universal layer requires a separate matched contact and its own controlled finite statistic.
+\paragraph{Boundary.}
+No translation process, ribosome occupancy, folded structure, physical admissibility, molecular function, phenotype, causal mechanism, evolutionary direction, or universal biological law follows from this chapter by itself.
+The $T$ surface here is modeled tAI rather than observed ribosome motion; protein abundance is steady-state bulk proteomics and remains entangled with mRNA abundance, turnover, localization, degradation, post-translational state, sample handling, and condition.
+A stronger biological claim would require a separate matched contact at the relevant layer, joined to the same CDS units, and a controlled statistic showing that the $Q\to T$ step survives and that conditioning on the measured $T$ readout removes or reduces the direct $Q\to P$ signal.
+Until that layer-specific contact is present, the admissible conclusion is a finite four-case readback on residual coordinates, modeled tAI, and measured abundance rows only.

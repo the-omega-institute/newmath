@@ -8674,6 +8674,57 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-22T12:16:36+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-22T12:16:37+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "a0948c7d9f85",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-22T13:14:12+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-22T13:14:12+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "5581cc838ca0",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-22T14:04:40+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-22T14:04:40+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "107eed6ddf84",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -11739,6 +11790,105 @@
         }
       ],
       "linked_conjecture_id": "q6.f3-stress.position-resolved-translation-window.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.mirna_target_repression.mirna_seed_density_repression_agarwal2015",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "3'UTR miRNA canonical seed-match density crosses the readback boundary to predict measured post-transfection mRNA repression (log2FC) beyond 3'UTR length + AU-content + expression baseline (pre-registered; new layer = miRNA target repression; conclusive crosses_boundary). Agarwal 2015 eLife transfection compendium (11 confidently-seed-mapped transfections, 56682 miRNA-gene pairs); predictor = prior-frozen canonical site count (8mer/7mer-m8/7mer-A1), TargetScan seeds; partial rho=-0.133 (p~0) survives a dinucleotide-preserving shuffled-seed null (real -0.133 vs null95 -0.017, p=1e-3), the 8mer>7mer-m8>7mer-A1>no-site dose-series is reproduced, and leave-one-miRNA-out is 11/11 sign-concordant. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "mirna_seed_density_repression_agarwal2015",
+      "history": [
+        {
+          "ts": "2026-06-22T12:22:25+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-22T13:14:17+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "45f083dea984",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "cb37ae32c9d40180"
+        }
+      ],
+      "linked_conjecture_id": "q6.rank-powered.translation-conditioned.protein-mediation.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.dna_methylation.methylation_flanking_context_variance_gse40279",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Local flanking-sequence dinucleotide context does NOT cross the readback boundary to predict measured per-CpG methylation cross-individual variance beyond flanking-CpG-count + GC (pre-registered; new layer = DNA methylation; conclusive negative). GSE40279 (Hannum, 656 whole-blood 450K, n_probes=20000 subsample) + Illumina 450K manifest Forward_Sequence; readout = cross-individual variance of beta (the MEAN is the CpG-count trivial baseline, reproduced as positive control: Island vs OpenSea Delta=-0.495, CpG-count->mean-beta rho=-0.44); within exact flanking-CpG-count x GC-quintile bins the context increment is ~0.001 (<max-null 0.002, p_perm=0.053) -> composition_artifact. This is an effect-SIZE negative (~0.1% variance, near zero), not a large-n significance artifact. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "methylation_flanking_context_variance_gse40279",
+      "history": [
+        {
+          "ts": "2026-06-22T12:51:17+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-22T13:23:44+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "bd781331dc42",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "3669ffe841174fd3"
+        }
+      ],
+      "linked_conjecture_id": "q6.translation-conditioned.rna-half-life-rbp-bridge.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.alternative_splicing.splice_site_strength_psi_vastdb",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Splice-site sequence strength (frozen MaxEntScan-style 5'SS-9mer + 3'SS-23mer PWM) crosses the readback boundary to predict measured exon inclusion (median PSI) beyond GC + exon/intron length (pre-registered; new layer = alternative splicing; conclusive crosses_boundary). VastDB hg38 (29742 cassette/EX events, median PSI across samples); predictor computed in-script from the 9mer/23mer sequence fields (NOT VastDB numeric scores, NOT PSI-fit -> leakage-safe); partial rho=0.134 (p=1e-3) after GC+length control, survives permutation null (null95 +/-0.011), positive controls reproduced (top vs bottom strength median PSI 97.7 vs 66.4; constitutive-like SS > cassette). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "splice_site_strength_psi_vastdb",
+      "history": [
+        {
+          "ts": "2026-06-22T13:08:38+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-22T13:24:20+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "1ce9f7f16dbe",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "bce5824daa93f722"
+        }
+      ],
+      "linked_conjecture_id": "q6.translation-mediated.protein-localization-readout.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.translation_initiation.utr5_features_ribosome_load_sample2019",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "5'UTR sequence features (uAUG/uORF count, Kozak context, structure proxy) cross the readback boundary to predict measured mean ribosome load (MRL) beyond GC composition (pre-registered; new layer = translation initiation; conclusive crosses_boundary). Sample 2019 Optimus random-5'UTR MPRA (GSE114002, n=80000, length fixed 50nt -> length confound removed by design); predictor prior-frozen; GC-controlled partial rho=0.650 (p=1e-3), and crucially in the uAUG-free subset (dominant uORF effect removed, n=37272) Kozak+structure still predict MRL beyond GC (rho=0.102, p=1e-3); positive control reproduced (uAUG->lower MRL, Delta=2.09); held-out sign-concordant. Mechanism = 5' initiation, orthogonal to coding-codon TE. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "utr5_features_ribosome_load_sample2019",
+      "history": [
+        {
+          "ts": "2026-06-22T14:20:46+00:00",
+          "status": "open"
+        }
+      ]
     }
   ]
 }
