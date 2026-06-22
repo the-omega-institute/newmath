@@ -3,33 +3,48 @@
 \label{sec:bioreality-gcn4-u34-modification-translation-switch}
 
 \paragraph{Finite surface.}
-The record concerns a bounded cross-layer question: whether a codon-residual coordinate can be read as a switch-like translation surface once the amino-acid sequence, organism identity, GC3, CDS length, methionine-density, and simpler codon-usage baselines have been removed. The finite run associated with the GCN4 U34 modification switch retained $5155$ gene rows, with the recorded runtime scalar $0.0$ seconds. This row count is the only direct finite scalar presently attached to the GCN4-specific packet, so the chapter treats it as a filtered readout surface rather than as evidence of a completed mechanism.
+This record treats the GCN4 U34-modification episode as a finite cross-layer readout problem rather than as an immediate mechanistic law.  The finite row surface available for the named packet keeps $5155$ genes and reports a completed local run with recorded runtime $0.0$ seconds.  These rows are enough to register the packet as a concrete organism-level boundary object, but the available scalar record for the GCN4 packet does not include a fitted translation-efficiency coefficient, a perturbation contrast, a $p$-value, a module label, or a measured ribosome-occupancy survival score.  The chapter therefore reads the U34-modification switch as a constrained target for a same-row translation test: codon-residual coordinates may be compared with translation readouts only after amino-acid composition, organism identity, GC3, coding-sequence length, methionine-density, and simpler codon-usage baselines have been removed.
 
-\paragraph{Residual coordinate form.}
-Let $q_i$ denote one of the synonymous residual coordinates in the $B^{\ast}_{Q6}$ panel, and let $T_j$ denote a translation-readout coordinate. The admissible quantity is not the raw codon coordinate but its residue after amino-acid projection:
+\paragraph{Coordinate and readout discipline.}
+Let $q_i$ denote one of the $B^*_{Q6}$ synonymous residual coordinates after quotienting by amino-acid sequence, and let $T_j$ denote a bounded translation readout such as a modeled tAI or stAI coordinate, a translation-efficiency residual, or a position-resolved ribosome-footprint statistic when those rows are explicitly supplied.  The coordinate used in the switch test is not the raw codon-count direction.  It is the part of $q_i$ that remains after projecting away the amino-acid-sequence component:
 $$
 \begin{aligned}
-q_i^{\perp} &= q_i - P_{\tau}q_i,\\
-S^{QT}_{ij} &= S_{q_i}(T_j\mid Z_T).
+q_i^{\perp \tau} &= q_i - P_{\tau}q_i,\\
+S^{QT}_{ij} &= S_{q_i}(T_j\mid Z_T),
 \end{aligned}
 $$
-Here $Z_T$ contains the controls that prevent a codon-count or amino-acid-composition effect from being mistaken for translation control. For this packet, the U34 language is therefore interpreted as a possible boundary on translational readout, not as an automatic biological switch.
+where $Z_T$ contains amino-acid composition, organism, GC3, length, methionine-density, and simpler codon-usage controls.  The finite GCN4 row count fixes an actual table on which such a statistic could be asked, but it does not by itself provide the translation-readout column needed to answer it.
 
-\paragraph{Powered modeled-readout support.}
-The broader rank-powered modeled-tAI computation supplies the finite context in which such a switch boundary can be stated. That computation used $40$ organisms, $9$ residual coordinates, and $9$ modeled tAI readout columns, producing a $9\times 9$ survival matrix. The residualization design recorded $24$ control columns with $\operatorname{rank}(Z)=23$, residual degrees of freedom $17$, and $\operatorname{rank}(\widetilde X)=9$. The total modeled translation-readout statistic was $R^2_{QT}=0.9003849000036579$, with a positive partial-$R^2$ reporting threshold of $10^{-12}$ and a rank-degeneracy cutoff at $0.999999$. The coordinate list was
+\paragraph{Powered modeled-readout comparison.}
+The broader $B^*_{Q6}$ translation-readout memory supplies a useful finite calibration point.  A rank-powered modeled-tAI panel used $40$ organisms, $9$ residual coordinates, and $9$ modeled readout columns.  The recorded coordinates were $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  The control design contained $24$ control columns, had $\operatorname{rank}(Z)=23$, and left $17$ residual degrees of freedom after controls.  The residualized coordinate block had $\operatorname{rank}(\widetilde X)=9$, and the modeled translation-readout matrix had shape $9\times 9$.  The finite run reported
 $$
 \begin{aligned}
-&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
-&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress.
+N_{\mathrm{org}} &= 40,\\
+\operatorname{rank}(Z) &= 23,\\
+\operatorname{rank}(\widetilde X) &= 9,\\
+\mathrm{df}_{\mathrm{resid}} &= 17,\\
+R^2_{QT} &= 0.9003849000036579.
 \end{aligned}
 $$
-These numbers make the rank condition meaningful for modeled tAI or stAI readbacks. They do not by themselves identify a U34-modification mechanism for GCN4.
+This is a bounded codon-adaptation readout, not a ribosome-profile measurement.  Its role here is to show what a nondegenerate finite surface looks like when the residual rank is not saturated and when the statistic is computed only after declared controls.
 
-\paragraph{Rank-degenerate refusal.}
-The earlier three-organism modeled-tAI surface had $3$ organisms, $61$ sense codons, and the same $9$ synonymous residual coordinates. It reported $81$ entries above the coupling threshold $0.01$, with maximum absolute entry $3801961.031607896$. That surface is retained only as a bounded coupling check: with $n=3$, an all-saturated controlled matrix is not interpretable as biological translation survival. The switch claim therefore cannot be promoted from the three-organism table, even if the table contains large modeled couplings.
+\paragraph{Rank-saturation refusal.}
+A smaller modeled-tAI table with $3$ organisms is retained only as a refusal boundary.  It loaded Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K-12 style organism entries and produced nonzero bounded modeled-tAI coupling over a $61$-sense-codon count space.  The local threshold was $0.01$, all $81$ entries exceeded that threshold, and the maximum absolute entry was $3801961.031607896$.  The tRNA payload checks recorded $432$ matched FASTA headers for Homo sapiens, $275$ for Saccharomyces cerevisiae, and $87$ matched out of $89$ FASTA headers for the Escherichia coli K-12 payload, with all three payloads spanning $20$ standard amino-acid families.  Those facts confirm a finite modeled-contact calculation, but $N=3$ is not enough to support a rank-powered survival claim.  An all-saturated or nearly saturated surface is not biological survival; it is the null edge at which the statistic has lost discriminatory power.
 
-\paragraph{Switch readback.}
-The GCN4 U34 packet is ready only as a finite boundary statement. A positive statement would require a same-row comparison in which at least one $S^{QT}_{ij}$ remains strictly positive after all declared controls and simpler-baseline ablation, and in which the residual rank is not saturated. The existing $5155$ retained gene rows show that a GCN4-oriented finite surface was constructed, while the $40$-organism modeled panel shows that nondegenerate modeled translation-readout survival is possible in the surrounding residual basis. The chapter therefore states a conditional switch form: U34 modification may be tested as a translation-control boundary only after the relevant measured or explicitly bounded readout is joined to the same residualized codon surface.
+\paragraph{GCN4 switch interpretation.}
+The GCN4 U34-modification packet should therefore be read as a same-row switch question: after a finite gene table has been formed, does any residual coordinate survive into a translation readout in a way that is still positive after the declared controls?  The positive condition is
+$$
+\begin{aligned}
+\exists i,j\quad S^{QT}_{ij} > 0
+\end{aligned}
+$$
+with sufficient residual rank and with no all-$1.0$ projection artifact.  The break condition is
+$$
+\begin{aligned}
+\forall i,j\quad S^{QT}_{ij} \leq 0,
+\end{aligned}
+$$
+or the stronger practical failure that the joined table lacks a measured or explicitly bounded translation readout for the same gene rows.  The present GCN4 finite record supplies the $5155$-gene row universe, but it does not yet supply a same-row U34-modification contrast, ribosome-footprint response, translation-efficiency denominator, perturbation direction, or controlled $S^{QT}$ matrix.  Consequently the chapter can name the switch boundary and its admissible statistic, while refusing promotion to a completed translation mechanism.
 
 \paragraph{Local no-promotion rule.}
-No conclusion about ribosome occupancy, protein abundance, protein folding, physical admissibility, molecular function, perturbational mechanism, phenotype, or universality follows from the present record. Modeled tAI or stAI weights are codon-adaptation readouts, not observed ribosome dynamics. A GCN4 U34 switch requires its own layer-matched contact: measured ribosome profiling, translation-efficiency rows, perturbation-rescue rows, or an equivalently explicit bounded readout paired with the codon coordinates and controls. Until that contact is present, the result is a controlled finite-row boundary for a translation-readout hypothesis, not a completed biological mechanism.
+No translation-realization claim follows from codon residual geometry alone.  No ribosome occupancy follows from modeled tAI or stAI weights alone.  No protein abundance, folding, physical admissibility, molecular function, pathway mechanism, phenotype, or universal biological rule follows from $S^{QT}$ notation, from the $5155$ retained GCN4 rows, or from the $40$-organism modeled-tAI calibration.  Each higher layer requires its own finite contact: measured translation rows for ribosome or translation-efficiency statements, proteomics rows for protein-output statements, structure or physical-assay rows for folding and admissibility statements, and perturbation or functional-assay rows for mechanism and function.  Until such rows are joined to the same organism, coding-sequence, and control design, this packet remains a finite cross-layer boundary with a specified survival test rather than a biological law.
