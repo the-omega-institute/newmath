@@ -8810,6 +8810,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-22T17:37:30+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-22T17:37:30+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "6467c51ccfda",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -11994,11 +12011,39 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "3'UTR prior-motif density is a real but BOUNDED cross-layer contact for measured mRNA subcellular localization, beyond protein signal-peptide + 3'UTR length/GC/expression (pre-registered; new layer = mRNA localization; conclusive bounded). Fazal 2019 APEX-seq (GSE116008, HEK293T, ERM/NLS compartments, n=16040); the critical confounder is that ER localization's main axis is the CDS signal peptide, so signal-peptide presence (UniProt ft_signal) is controlled AND a no-signal-peptide subset (n=13739) is re-tested: 3'UTR motif still predicts ERM there (rho=0.026, perm p=0.004) and the signal-peptide-controlled partial is significant (ERM rho=0.027 p=1e-3; NLS rho=0.050 p=1e-3); positive controls reproduced (HSPA5/CALR/FN1->ERM+, NEAT1/MALAT1->NLS+, ACTB/GAPDH->ERM-). Effect is very small (rho^2~0.07%, below the crosses effect-size floor) -> bounded_descriptor_only. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "mrna_localization_3utr_motif_fazal2019",
       "history": [
         {
           "ts": "2026-06-22T17:30:56+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-22T17:40:58+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "73df479aecb9",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "d7eab903ef3069ed"
+        }
+      ],
+      "linked_conjecture_id": "q6.f3-stress.position-resolved-translation.localization-boundary.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.protein_degron_stability.degron_terminal_motif_stability_voutsinos2026",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "C-terminal degron motif (prior-frozen terminal residue identity) is a real but BOUNDED cross-layer contact for measured FACS peptide stability, beyond bulk amino-acid composition, with a confirmed terminal-POSITION effect (pre-registered; new layer = protein degron stability; conclusive bounded). Voutsinos 2026 KULL cytosolic degron map (212658 30-mer GPS/FACS peptides / 5303 proteins, self-contained); composition-orthogonalized terminal predictor gives partial rho=0.058 (perm p=1e-3) on the C-terminal tiles, and the disconfirmable position control passes (C-end residue effect 0.181 > same-residue internal 0.118, delta=0.064, p=1e-3); positive control reproduced (C-end G/A/W/Y unstable 0.56 > D/E/K stable 0.38, monotone). Effect below the crosses floor (|rho|<0.10) -> bounded_descriptor_only. Distinct from the N-end-rule endogenous-half-life layer. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "degron_terminal_motif_stability_voutsinos2026",
+      "history": [
+        {
+          "ts": "2026-06-22T17:41:33+00:00",
           "status": "open"
         }
       ]
