@@ -686,6 +686,7 @@ import BEDC.Derived.BHistNonaTupleNameCertUp
 import BEDC.Derived.BHistOctaSequenceNameCertUp
 import BEDC.Derived.BHistOctaTupleNameCertUp
 import BEDC.Derived.BHistPentaSequenceNameCertUp
+import BEDC.Derived.BackwardDifferentiationFormulaUp
 import BEDC.Derived.BaireCategoryChoiceFreeUp.TasteGate
 import BEDC.Derived.BaireCategoryTheoremUp.TasteGate
 import BEDC.Derived.BaireCategoryUp.CauchyThreadLimitHandoff
@@ -6988,6 +6989,7 @@ import BEDC.Derived.LocatedInfimumUp.ClassifierStability
 import BEDC.Derived.LocatedInfimumUp.GreatestLowerBoundObligation
 import BEDC.Derived.LocatedInfimumUp.LowerBoundObligation
 import BEDC.Derived.LocatedInfimumUp.LowerCutStability
+import BEDC.Derived.LocatedInfimumUp.ObligationTailLattice
 import BEDC.Derived.LocatedInfimumUp.RealExportNonescape
 import BEDC.Derived.LocatedInfimumUp.RegSeqRatSealFactorization
 import BEDC.Derived.LocatedInfimumUp.SupremumDualRoute
@@ -7350,6 +7352,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionSocketBudget
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedNormalizationCandidateLedger
 import BEDC.Derived.MetaCICCriticalPathUp.BridgeBoundary
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateConfluenceDecidableReflection
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateDeciderExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateDischargeBudgetRoute
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateDischargeFrontier
@@ -7719,6 +7722,7 @@ import BEDC.Derived.MetaCICNormalizationFrontierUp.AuditSealConsumerRoute
 import BEDC.Derived.MetaCICNormalizationFrontierUp.BoundaryDisjointness
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateConfluenceBudget
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateDischargeStability
+import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateEndpointPremiseRoute
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateEvidenceBoundary
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CandidateFinishedBoundaryTotality
 import BEDC.Derived.MetaCICNormalizationFrontierUp.CarrierAdmission
@@ -11336,6 +11340,7 @@ import BEDC.Derived.TypeLikeUp.DisplayedFamilyConsumerExhaustion
 import BEDC.Derived.TypeLikeUp.NameCertObligations
 import BEDC.Derived.TypeLikeUp.TasteGate
 import BEDC.Derived.TypePreservingCompilerUp
+import BEDC.Derived.TypecheckTraceDeciderUp
 import BEDC.Derived.TypedBetaCongruenceTriggerUp.TasteGate
 import BEDC.Derived.TypedExampleReductionTraceUp
 import BEDC.Derived.TypedFailureCertificateUp.TasteGate
