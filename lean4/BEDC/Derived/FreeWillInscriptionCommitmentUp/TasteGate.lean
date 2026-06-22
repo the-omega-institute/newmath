@@ -392,4 +392,54 @@ theorem FreeWillInscriptionCommitment_inscription_event_route
       exact ⟨ih, eventRoute, source⟩
   }
 
+theorem FreeWillInscriptionCommitment_nonescape :
+    (∀ (x : FreeWillInscriptionCommitmentUp) (extra : BHist),
+      freeWillInscriptionCommitmentFromEventFlow
+        (List.append (freeWillInscriptionCommitmentToEventFlow x)
+          [freeWillInscriptionCommitmentEncodeBHist extra]) = none) ∧
+      (∀ {B I G T R H C P N eventRead routeRead : BHist},
+        Cont I H eventRead →
+          Cont eventRead C routeRead →
+            SemanticNameCert
+              (fun row : BHist => hsame row routeRead)
+              (fun row : BHist =>
+                hsame row B ∨ hsame row I ∨ hsame row G ∨ hsame row T ∨
+                  hsame row R ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                    hsame row N ∨ hsame row eventRead ∨ hsame row routeRead)
+              (fun row : BHist =>
+                Cont I H eventRead ∧ Cont eventRead C routeRead ∧ hsame row routeRead)
+              hsame) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert BMark
+  constructor
+  · intro x extra
+    cases x with
+    | mk priorBoundary inscriptionEvent gapProvenance classifierTransport nonReduction
+        transports routes package nameCert =>
+        rfl
+  · intro B I G T R H C P N eventRead routeRead ih eventRoute
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro routeRead (hsame_refl routeRead)
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact hsame_trans (hsame_symm sameRows) source
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+          (Or.inr (Or.inr source)))))))))
+      ledger_sound := by
+        intro _row source
+        exact ⟨ih, eventRoute, source⟩
+    }
+
 end BEDC.Derived.FreeWillInscriptionCommitmentUp

@@ -70,11 +70,27 @@ The handoff is then the row $D$, preserved by $H$ and replayed by $C$. Since $P$
 \end{proof}
 \leanchecked{BEDC.Derived.BornologyUp.BornologyCarrier\_cauchy\_bornology\_handoff}
 
+\begin{theorem}[Bornology obligation closure route]
+\label{thm:bornology-obligation-closure-route}
+Every accepted $\BornologyUp$ obligation read exposes exactly the route
+$$
+F,S,U,E,D,H,C,P,N.
+$$
+The rows are the bounded-family source, subset-heredity ledger, finite-union ledger, singleton and source exposure, $\FilterBaseUp$ or $\UniformSpaceUp$ and $\CauchyBornologyUp$ handoff, componentwise transport, displayed replay, provenance, and local $\NameCert_{\BornologyUp}$ evidence. The route exports no host suprema, selected bounds, quotient families, countable choice, open-cover compactness, or ambient completeness premise.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:bornology-carrier} supplies the visible rows $F,S,U,E,D,H,C,P,N$. The NameCert obligations of \autoref{thm:bornology-namecert-obligations} identify those rows as carrier admission, bounded-family source exposure, heredity, finite union, source exposure, consumer handoff, transport, replay, provenance, and local naming.
+
+The bounded-family union stability theorem \autoref{thm:bornology-bounded-family-union-stability} keeps union and subfamily reads inside $U$ and $S$ after the source rows $F,E$ have been exposed. The CauchyBornology handoff of \autoref{thm:bornology-cauchy-bornology-handoff} routes every Cauchy consumer through the same displayed surface before any Cauchy-specific budget can be opened.
+
+Together these results exhaust the finite obligation route. Since none of the carrier rows names host suprema, selected bounds, quotient families, countable choice, open-cover compactness, or ambient completeness, no accepted obligation read can export those omitted principles.
+\end{proof}
+
 \closureat{BornologyUp}{seedStr}
 
 \begin{closurestatus}{\BornologyUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bornology-carrier}, \autoref{thm:bornology-namecert-obligations}, \autoref{thm:bornology-bounded-family-union-stability}, and \autoref{thm:bornology-cauchy-bornology-handoff} seed the finite bounded-family NameCert surface over bounded-set, filter-base, uniform-space, and Cauchy-bornology consumers.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:bornology-carrier}, \autoref{thm:bornology-namecert-obligations}, \autoref{thm:bornology-bounded-family-union-stability}, \autoref{thm:bornology-cauchy-bornology-handoff}, and \autoref{thm:bornology-obligation-closure-route} bind the finite bounded-family NameCert surface over bounded-set, filter-base, uniform-space, and Cauchy-bornology consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim host suprema, selected bounds, quotient families, countable choice, open-cover compactness, ambient completeness, Lean verification, or bridge checking.}
