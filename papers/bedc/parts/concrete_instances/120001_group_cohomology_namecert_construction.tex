@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\GroupCohomologyUp$}
+\label{ch:concrete-instances-group-cohomology-namecert}
+\origin{human}
+
+Following Brown and Cartan--Eilenberg on group cohomology, the $\GroupCohomologyUp$ packet names the finite BEDC surface by which a group action on abelian or module coefficients is read as cocycle and boundary data before any cohomology group is inspected. It depends on the action carrier of \autoref{ch:concrete-instances-group-namecert}, the coefficient rows of \autoref{ch:concrete-instances-abgroup-namecert} and \autoref{ch:concrete-instances-module-namecert}, and the cocycle-boundary interface of \autoref{ch:concrete-instances-cohomology-namecert}. The packet does not choose representatives in a quotient, import derived-functor machinery, assume projective resolutions, invoke countable choice, or claim an ambient exact-category theorem.
+
+\begin{definition}[Group cohomology carrier]
+\label{def:group-cohomology-carrier}
+A $\GroupCohomologyUp$ carrier is a finite $\BHist$ packet
+$$
+G=(A,M,W,D,Z,B,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\GroupUp$ action row naming the finite group-operation surface and its action on coefficient reads.
+\item $M$ is the coefficient row, read either through an $\AbGroupUp$ additive surface or through a compatible $\ModuleUp$ row.
+\item $W$ is the finite cochain-window ledger listing the displayed cochain arities and argument windows being inspected.
+\item $D$ is the coboundary row, recording the finite alternating action-and-face route from one cochain window to the next.
+\item $Z$ is the cocycle row, asserting that the displayed coboundary route sends the inspected cochain window to the zero coefficient row.
+\item $B$ is the boundary row, recording the finite predecessor window whose coboundary route yields a displayed cocycle.
+\item $T$ stores componentwise $\hsame$ transport for the group action, coefficient, cochain window, coboundary, cocycle, boundary, replay, provenance, and naming rows.
+\item $C$ stores displayed $\Cont$ replay for reading the action, coefficient module, cochain window, coboundary row, cocycle row, and boundary row in that order.
+\item $P$ is the $\Pkg$ provenance over $\GroupCohomologyUp$, $\GroupUp$, $\AbGroupUp$, $\ModuleUp$, $\CohomologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GroupCohomologyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient representatives, selected resolutions, derived functors, global exactness, countable choice, or an ambient category of modules.
+\end{definition}
+
+\begin{theorem}[Group cohomology NameCert obligations]
+\label{thm:group-cohomology-namecert-obligations}
+For the carrier of \autoref{def:group-cohomology-carrier}, the local $\NameCert_{\GroupCohomologyUp}$ surface consists of the following finite obligations:
+\begin{enumerate}
+\item action exposure: the $\GroupUp$ row $A$ is read before any cochain, cocycle, or boundary row is available;
+\item coefficient exposure: the $\AbGroupUp$ or $\ModuleUp$ coefficient row $M$ is displayed before the coboundary route is inspected;
+\item cochain-window exactness: the ledger $W$ lists the finite argument windows and arities used by the cochain read;
+\item coboundary routing: the row $D$ displays the finite alternating action-and-face route between the relevant cochain windows;
+\item cocycle admission: the row $Z$ is admitted only after $D$ has exposed a zero coboundary read in the coefficient surface;
+\item boundary admission: the row $B$ is admitted only through a displayed predecessor cochain window and its coboundary route;
+\item stability and replay: $T$ and $C$ preserve the same action, coefficient, cochain-window, coboundary, cocycle, boundary, provenance, and naming rows under $\hsame$ transport and $\Cont$ replay;
+\item non-escape: $P$ and $N$ expose the package provenance and local name without adding quotient representatives, selected resolutions, derived-functor objects, global exactness, countable choice, or ambient module-category data.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the displayed tuple $G=(A,M,W,D,Z,B,T,C,P,N)$. The first three obligations expose the action, coefficient row, and finite cochain-window ledger before any cohomology read is possible.
+
+The coboundary and cocycle obligations are local to the displayed windows. The row $D$ supplies the alternating action-and-face route, and $Z$ records zero coboundary only after that route has been read in the coefficient surface.
+
+The boundary obligation is likewise finite. The row $B$ names a predecessor window and its displayed coboundary route; it does not select a representative in a quotient or appeal to an external resolution.
+
+Finally $T,C,P,N$ preserve, replay, source, and name the same rows. Since the carrier has no coordinate for quotient representatives, selected resolutions, derived functors, global exactness, countable choice, or ambient module-category data, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Group cohomology cocycle-boundary route]
+\label{thm:group-cohomology-cocycle-boundary-route}
+Every accepted consumer of a $\GroupCohomologyUp$ packet must expose the group action row $A$, coefficient row $M$, cochain-window ledger $W$, cocycle row $Z$, and boundary row $B$ before any cohomology read is available. In particular, no consumer can inspect a cohomology class by bypassing the displayed $\GroupUp$ action, $\AbGroupUp$ or $\ModuleUp$ coefficient surface, finite cochain windows, coboundary route, cocycle row, and boundary row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:group-cohomology-carrier}. Its analytic rows appear as the action $A$, coefficient $M$, cochain window $W$, coboundary route $D$, cocycle row $Z$, and boundary row $B$ before the transport, replay, provenance, and naming rows are read.
+
+Apply the NameCert obligations of \autoref{thm:group-cohomology-namecert-obligations}. Action exposure and coefficient exposure make $A$ and $M$ prerequisites for every downstream read, while cochain-window exactness and coboundary routing place $W$ and $D$ before either $Z$ or $B$.
+
+Cocycle admission and boundary admission then force the two cohomology-facing rows to be displayed. The replay and non-escape clauses keep the consumer inside $A,M,W,D,Z,B,T,C,P,N$, so there is no route through quotient representatives, selected resolutions, derived functors, global exactness, countable choice, or ambient module-category data.
+\end{proof}
+
+\closureat{GroupCohomologyUp}{seedStr}
+
+\begin{closurestatus}{\GroupCohomologyUp}
+  \constructivestory{A $\GroupCohomologyUp$ packet is generated from a GroupUp action row, AbGroupUp or ModuleUp coefficient row, finite cochain-window ledger, coboundary route, cocycle row, boundary row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:group-cohomology-carrier}, \autoref{thm:group-cohomology-namecert-obligations}, and \autoref{thm:group-cohomology-cocycle-boundary-route} seed the finite NameCert surface for group cohomology reads over displayed action and coefficient rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, quotient representatives, selected resolutions, derived functors, global exactness, countable choice, ambient module-category data, or standard bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, action exposure, coefficient exposure, cochain-window exactness, coboundary routing, cocycle admission, boundary admission, transport, replay, provenance, and local naming for BEDC.Derived.GroupCohomologyUp.}
+\end{closurestatus}
