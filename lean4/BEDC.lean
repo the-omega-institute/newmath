@@ -601,6 +601,7 @@ import BEDC.Derived.AxiomDependencyTupleUp.ConsumerExhaustion
 import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
 import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
 import BEDC.Derived.AxiomDependencyTupleUp.SupplyLedgerReadback
+import BEDC.Derived.AxiomDependencyTupleUp.ZeroSupplyModeExactness
 import BEDC.Derived.AxiomPurityGateUp
 import BEDC.Derived.AxiomPurityGateUp.TasteGate
 import BEDC.Derived.AxiomPurityGateUp.WitnessPreservingConsumer
@@ -3046,6 +3047,7 @@ import BEDC.Derived.CofinalTailAgreementUp.TasteGate
 import BEDC.Derived.CofinalTailBudgetUp.NameCertObligations
 import BEDC.Derived.CofinalTailBudgetUp.StdBridge
 import BEDC.Derived.CofinalTailBudgetUp.TasteGate
+import BEDC.Derived.CofinalTailEquivalenceUp.NameCertObligations
 import BEDC.Derived.CofinalTailEquivalenceUp.TasteGate
 import BEDC.Derived.CofinalTailMapUp
 import BEDC.Derived.CofinalTailMapUp.TasteGate
@@ -5843,8 +5845,10 @@ import BEDC.Derived.FinitePhaseCylinderUp
 import BEDC.Derived.FinitePhaseSamplingUp
 import BEDC.Derived.FinitePrefixAutomatonUp.AcceptanceExactness
 import BEDC.Derived.FinitePrefixAutomatonUp.Determinacy
+import BEDC.Derived.FinitePrefixAutomatonUp.DeterministicReadback
 import BEDC.Derived.FinitePrefixAutomatonUp.EndpointExactness
 import BEDC.Derived.FinitePrefixAutomatonUp.PrefixRunNonescape
+import BEDC.Derived.FinitePrefixAutomatonUp.RegularLanguageHandoff
 import BEDC.Derived.FinitePrefixAutomatonUp.RegularLanguageSiblingBridge
 import BEDC.Derived.FinitePrefixAutomatonUp.TasteGate
 import BEDC.Derived.FinitePrefixAutomatonUp.TransitionExactness
@@ -9174,6 +9178,7 @@ import BEDC.Derived.QuotientRingUp
 import BEDC.Derived.QuotientSoundnessBoundaryUp
 import BEDC.Derived.QuotientSoundnessBoundaryUp.BoundaryReadiness
 import BEDC.Derived.QuotientSoundnessBoundaryUp.CarrierExposure
+import BEDC.Derived.QuotientSoundnessBoundaryUp.CauchyRefusalLink
 import BEDC.Derived.QuotientSoundnessBoundaryUp.Certificates
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ClassifierSubstitutionBarrier
 import BEDC.Derived.QuotientSoundnessBoundaryUp.ConsumerLedgerFrontier
@@ -9196,6 +9201,7 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.KernelNonescape
 import BEDC.Derived.QuotientSoundnessBoundaryUp.NameCertLedger
 import BEDC.Derived.QuotientSoundnessBoundaryUp.NegativeBoundaryRoute
 import BEDC.Derived.QuotientSoundnessBoundaryUp.NegativeRouteVisibility
+import BEDC.Derived.QuotientSoundnessBoundaryUp.NoHiddenEliminator
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameBridgeHandoff
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameConsumerClosure
 import BEDC.Derived.QuotientSoundnessBoundaryUp.PsameOnlyDescent
@@ -10237,6 +10243,7 @@ import BEDC.Derived.RegularCauchyTailCertificateUp.ObligationClosurePackage
 import BEDC.Derived.RegularCauchyTailCertificateUp.PrimitiveScopeLock
 import BEDC.Derived.RegularCauchyTailCertificateUp.SelectorCoverage
 import BEDC.Derived.RegularCauchyTailCertificateUp.TasteGate
+import BEDC.Derived.RegularCauchyTailCertificateUp.VisionHandoff
 import BEDC.Derived.RegularCauchyTailCollapseUp
 import BEDC.Derived.RegularCauchyTailCollapseUp.TasteGate
 import BEDC.Derived.RegularCauchyTailComparisonUp.TasteGate
