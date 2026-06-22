@@ -125,6 +125,28 @@ The public and bridged reads are then synchronized by \autoref{thm:metacic-paral
 All cited routes explicitly refuse residual-substitution discharge, subject reduction, unrestricted Church--Rosser, evaluator equality, quotient term equality, and kernel consistency. The induction therefore preserves a finite seed block; it does not prove any of those external endpoints.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond retained-premise induction step]
+\label{thm:metacic-parallel-diamond-frontier-retained-premise-induction-step}
+For one successor handoff in any finite candidate-mediated SN/confluence consumer chain of $\MetaCICParallelDiamondFrontierUp$, the premise budget rows
+$$
+P,J,R,B,O
+$$
+are preserved before the next consumer reads the full public route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N.
+$$
+The step preserves residual-substitution premise data, candidate-join data, residual-frontier data, bounded-check data, and obstruction data. It does not discharge residual substitution, subject reduction, full Church--Rosser, evaluator equality, quotient equality, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start from finite residual witness consumption, \autoref{thm:metacic-parallel-diamond-finite-residual-witness-consumption}. It forces the successor reader to consume the displayed route $P,K,J,R,S,C,B,O,H,T,G,N$ as finite witness data.
+
+Apply the candidate SN residual budget of \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-residual-budget}. This isolates $P,J,R,B,O$ as the premise rows that must be carried before any SN/confluence-facing read of the public handoff.
+
+Use public route sync, \autoref{thm:metacic-parallel-diamond-frontier-public-route-sync}, to keep the full route synchronized across public and bridged reads. Then apply bridged export, \autoref{thm:metacic-parallel-diamond-frontier-bridged-export}, which preserves the same guarded frontier rows for bridge-facing consumers.
+
+Finally read the retained seed block sync of \autoref{thm:metacic-parallel-diamond-frontier-seed-block-sync}. It supplies the finite-chain induction context, so the present successor handoff preserves the retained premise budget without proving any refused global endpoint.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond mature route]
 \label{thm:metacic-parallel-diamond-frontier-mature-route}
 Every bridge-facing or critical-path consumer of $\MetaCICParallelDiamondFrontierUp$ preserves the retained route
