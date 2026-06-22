@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\StepIndexedTraceUp$}
+\label{ch:concrete-instances-step-indexed-trace-namecert}
+\origin{ai}
+
+The $\StepIndexedTraceUp$ packet realizes the total-host/substrate bridge of \autoref{ch:visions-strong-normalization-vs-turing-completeness} as one finite trace object. It sits beside the total-host boundary of \autoref{ch:concrete-instances-step-indexed-total-host-namecert}, the bounded MetaCIC replay of \autoref{ch:concrete-instances-metacic-fuel-trace-namecert}, the bounded universal trace of \autoref{ch:concrete-instances-bounded-universal-trace-namecert}, the cellular substrate of \autoref{ch:concrete-instances-cellularautomaton-namecert}, and the MetaCIC strong-normalization boundary of \autoref{ch:concrete-instances-metacic-strong-normalization-boundary-namecert}. Those siblings expose totality, bounded replay, universal finite traces, local cellular rows, or normalization boundaries separately; this packet binds fuel, prefix, endpoint, refusal, replay, provenance, and local naming as one NameCert trace.
+
+\begin{definition}[Step-indexed trace carrier]
+\label{def:step-indexed-trace-carrier}
+A $\StepIndexedTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(F,S,Q,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the finite fuel row read by the total host.
+\item $S$ is the substrate row, either a $\CellularAutomatonUp$ local rule/orbit source or a MetaCIC bounded evaluator source.
+\item $Q$ is the finite prefix row containing the trace segment produced at fuel $F$.
+\item $E$ is the endpoint row reached at the end of the prefix, including normal-form or timeout readback when such a row is displayed.
+\item $R$ is the refusal row for every read that asks for global halting, an infinite orbit, a fuel-erased endpoint, a hidden normalizer, or an unbounded substrate theorem.
+\item $H$ records componentwise $\hsame$ transport for $F,S,Q,E,R$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from fuel to substrate source, from source to prefix, from prefix to endpoint, and from absent global claims to the refusal row.
+\item $P$ is the $\Pkg$ provenance over $\StepIndexedTraceUp$, $\StepIndexedTotalHostUp$, $\MetaCICFuelTraceUp$, $\BoundedUniversalTraceUp$, $\CellularAutomatonUp$, $\MetaCICStrongNormalizationBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StepIndexedTraceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,S,Q,E,R,H,C,P,N$. It has no coordinate for fuel-free halting, an all-time cellular orbit, unrestricted MetaCIC normalization, host evaluator equality, substrate theorem content, or quotient equality of traces.
+\end{definition}
+
+\begin{theorem}[Step-indexed trace NameCert obligations]
+\label{thm:step-indexed-trace-namecert-obligations}
+For every accepted $\StepIndexedTraceUp$ carrier
+$$
+T=(F,S,Q,E,R,H,C,P,N),
+$$
+the local $\NameCert_{\StepIndexedTraceUp}$ surface consists exactly of fuel exposure through $F$, substrate-source exposure through $S$, finite prefix exposure through $Q$, endpoint readback through $E$, refusal exactness through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The fuel row $F$ is the first public coordinate, and the substrate source $S$ is only read at that displayed fuel.
+
+The trace body is $Q,E$. The prefix row $Q$ records the finite segment, and the endpoint row $E$ records the finite readback reached by that segment.
+
+The refusal row $R$ is part of the same carrier, not an external convention. It rejects global halting, infinite orbit, fuel-erased endpoint, hidden normalizer, and unbounded theorem reads.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. Since no additional coordinate is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Total-host substrate handoff]
+\label{thm:step-indexed-trace-total-host-handoff}
+Every total-host or substrate consumer of an accepted $\StepIndexedTraceUp$ packet must read the route
+$$
+\StepIndexedTotalHostUp \longmapsto F \longmapsto S \longmapsto Q \longmapsto E \longmapsto R \longmapsto H,C,P,N .
+$$
+The route may pass through $\MetaCICFuelTraceUp$, $\BoundedUniversalTraceUp$, $\CellularAutomatonUp$, and $\MetaCICStrongNormalizationBoundaryUp$ as sibling evidence, but no consumer may erase $F$ and treat the prefix or endpoint as a global halting read.
+\end{theorem}
+\begin{proof}
+Start with the total-host boundary. A host consumer reaches this packet only through the fuel discipline already exposed by $\StepIndexedTotalHostUp$, so every trace read begins with $F$.
+
+Read the substrate side next. The row $S$ identifies the finite cellular or MetaCIC source, $Q$ records the prefix generated at the displayed fuel, and $E$ records the endpoint visible at that prefix.
+
+The sibling rows provide comparison evidence without replacing the packet. $\MetaCICFuelTraceUp$ accounts for bounded evaluator replay, $\BoundedUniversalTraceUp$ accounts for universal finite prefixes, $\CellularAutomatonUp$ accounts for local cellular rows, and $\MetaCICStrongNormalizationBoundaryUp$ accounts for the normal-form boundary.
+
+The refusal row $R$ then blocks the fuel-erased read. Transport, replay, provenance, and naming preserve the same packet, so no consumer can convert $Q$ or $E$ into global halting or unbounded substrate content.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\StepIndexedTraceUp$ packet that admits a global halting read without displaying fuel and prefix rows is rejected by the NameCert surface.}
+
+\independenceWitness{stepindexedtotalhost, metacic-fuel-trace, bounded-universal-trace, cellularautomaton, metacic-strong-normalization-boundary: none is bijective to $\StepIndexedTraceUp$ because this carrier binds the finite fuel, substrate source, prefix, endpoint, refusal, transport, replay, provenance, and local naming rows in one packet.}
+
+The Lean follow-up namespace $\mathsf{BEDC.Derived.StepIndexedTraceUp}$ must provide $\mathsf{Nontrivial}\ \StepIndexedTraceUp$ and $\mathsf{FieldFaithful}\ \StepIndexedTraceUp$ instances for the displayed fuel, source, prefix, endpoint, refusal, transport, replay, provenance, and naming rows.
+
+\closureat{StepIndexedTraceUp}{seedStr}
+
+\begin{closurestatus}{\StepIndexedTraceUp}
+  \constructivestory{A $\StepIndexedTraceUp$ packet is generated from finite fuel, a substrate source, a finite trace prefix, endpoint readback, refusal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:step-indexed-trace-carrier}, \autoref{thm:step-indexed-trace-namecert-obligations}, and \autoref{thm:step-indexed-trace-total-host-handoff} seed the finite trace packet for total-host and substrate consumers over $\StepIndexedTotalHostUp$, $\MetaCICFuelTraceUp$, $\BoundedUniversalTraceUp$, $\CellularAutomatonUp$, and $\MetaCICStrongNormalizationBoundaryUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close global halting, all-time cellular orbits, unrestricted MetaCIC normalization, host evaluator equality, substrate theorem content, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, fuel-prefix endpoint exposure, refusal exactness, transport and replay stability, Nontrivial and FieldFaithful instances, and local NameCert provenance for BEDC.Derived.StepIndexedTraceUp.}
+\end{closurestatus}

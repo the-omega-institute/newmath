@@ -75,11 +75,24 @@ The falsifiable prediction and independence witness give the same scope test. Om
 
 The Lean follow-up path \texttt{lean4/BEDC/Derived/ScienceBridgeUp/TasteGate.lean} must provide $\mathsf{Nontrivial}\ \ScienceBridgeUp$ and $\mathsf{FieldFaithful}\ \ScienceBridgeUp$ instances for the same finite $R,O,A,T,B,G,F,H,C,P,N$ carrier.
 
+\begin{theorem}[Science bridge standard-audit handoff]
+\label{thm:science-bridge-standard-audit-handoff}
+Every accepted bridge-facing consumer of a $\ScienceBridgeUp$ packet must pass through the $\StandardBridgeAuditPacketUp$ surface, the $\GapFailureBridgeAuditUp$ surface, the $\RealityConstrainedTruthCertUp$ surface, and the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before any bridge read is public. Consequently a consumer may not publish the bridge row while bypassing the standard audit route, erasing the gap or failure branch, replacing the truth certificate by host physical truth, or reading outside the displayed records and local naming rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:science-bridge-carrier}. The bridge-facing rows are already displayed as $B,G,T$ together with the records, failure, transport, replay, provenance, and naming rows.
+
+Apply \autoref{thm:science-bridge-namecert-obligations}. It requires standard-bridge audit exposure through $B$, gap/falsification exposure through $G$, reality-constrained truth exposure through $T$, and finite structural support through $R,H,C,P,N$ before the local certificate can be consumed.
+
+Use axis separation, \autoref{thm:science-bridge-axis-separation}. It prevents bridge preservation, gap/failure visibility, and truth certification from collapsing into one authority row, so the public bridge read remains routed through the standard audit handoff.
+\end{proof}
+
 \closureat{ScienceBridgeUp}{publicStr}
+\closureat{ScienceBridgeUp}{bridgedStr}
 
 \begin{closurestatus}{\ScienceBridgeUp}
   \constructivestory{A $\ScienceBridgeUp$ packet is generated from records, scientific-object, physical-model-audit, reality-constrained-truth, standard-bridge-audit, gap/falsification, failure-surface, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{thm:science-bridge-kernel-scope-grounding} is the public export surface for the finite carrier, obligation, axis-separation, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope of the science-bridge packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
