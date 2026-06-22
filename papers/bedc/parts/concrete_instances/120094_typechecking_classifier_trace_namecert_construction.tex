@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\TypecheckingClassifierTraceUp$}
+\label{ch:concrete-instances-typechecking-classifier-trace-namecert}
+\origin{ai}
+
+The $\TypecheckingClassifierTraceUp$ packet realizes the classifier-membership reading of \autoref{ch:visions-type-checking-as-classifier-membership} as finite context, rule, membership, refusal, replay, and NameCert rows. It sits beside the MetaCIC typed audit surfaces \autoref{ch:concrete-instances-metacictypedexamplesgallery-namecert}, \autoref{ch:concrete-instances-typed-example-reduction-trace-namecert}, \autoref{ch:concrete-instances-metacic-decidable-typing-frontier-namecert}, \autoref{ch:concrete-instances-metacic-typed-equality-eliminator-namecert}, and \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. Those siblings expose typed examples, reduction traces, decidable typing frontiers, equality eliminator checks, and diamond-frontier checks; this packet binds a type-checking run to its classifier-membership and refusal trace without exporting a host type theory.
+
+\begin{definition}[Typechecking classifier trace carrier]
+\label{def:typechecking-classifier-trace-carrier}
+A $\TypecheckingClassifierTraceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(\Gamma,t,\tau,R,E,J,S,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Gamma$ is the context row, recording the displayed typing context and its closed variable boundary.
+\item $t$ is the term row read as a finite $\BHist$ object rather than as host syntax.
+\item $\tau$ is the candidate type row.
+\item $R$ is the rule-ledger row, recording the finite typing rules inspected by the checker.
+\item $E$ is the $\Ext$-membership row, recording accepted classifier membership when the typing run succeeds.
+\item $J$ is the judgment-trace row, recording the derivation route from $\Gamma,t,\tau,R$ to the membership decision.
+\item $S$ is the subject-reduction handoff row, recording the typed $\Cont$ route exposed to reduction consumers.
+\item $U$ is the refusal row, recording the first visible classifier-membership failure when the term is not accepted.
+\item $H$ stores componentwise $\hsame$ transport for context, term, type, rule, membership, judgment, subject-reduction, refusal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a type-checking request through rule inspection, classifier membership, refusal, and reduction handoff.
+\item $P$ is the $\Pkg$ provenance over $\TypecheckingClassifierTraceUp$, MetaCIC typed example rows, $\Ext$, $\Cont$, $\SigRel$, $\BHist$, $\hsame$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TypecheckingClassifierTraceUp}$ row.
+\end{enumerate}
+The classifier compares accepted traces only through $\Gamma,t,\tau,R,E,J,S,U,H,C,P,N$. It has no coordinate for erased host conversion, unrestricted subject reduction, global confluence, proof irrelevance, proof-term erasure as equality, or an oracle deciding all type systems.
+\end{definition}
+
+\begin{theorem}[Typechecking classifier trace NameCert obligations]
+\label{thm:typechecking-classifier-trace-namecert-obligations}
+For every accepted $\TypecheckingClassifierTraceUp$ carrier $Q=(\Gamma,t,\tau,R,E,J,S,U,H,C,P,N)$, the local $\NameCert_{\TypecheckingClassifierTraceUp}$ surface consists exactly of context exposure, term exposure, candidate-type exposure, rule-ledger exposure, $\Ext$-membership exposure, judgment-trace exposure, subject-reduction handoff, refusal exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:typechecking-classifier-trace-carrier}. The rows $\Gamma,t,\tau,R$ display the finite data inspected by the checker before any classifier decision is made.
+
+Rows $E$ and $J$ record the positive membership route: $E$ stores the $\Ext$-membership read and $J$ stores the derivation trace that connects the context, term, type, and rule ledger to that read. The subject-reduction handoff $S$ is a separate continuation-facing row, not a theorem about all reductions.
+
+The refusal row $U$ records the negative route when membership fails. It keeps the failed rule, context boundary, term row, and type row visible instead of allowing the checker to disappear into host computation.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. Since the carrier has no further coordinate, these rows exhaust the local $\NameCert_{\TypecheckingClassifierTraceUp}$ obligations.
+\end{proof}
+
+\begin{theorem}[Typechecking classifier trace membership refusal]
+\label{thm:typechecking-classifier-trace-membership-refusal}
+Every $\TypecheckingClassifierTraceUp$ read chooses exactly one visible classifier route: either it exposes an $\Ext$-membership row through $E,J,S,H,C,P,N$, or it exposes a refusal row through $U,H,C,P,N$. In neither case may the trace replace classifier membership by erased host conversion, proof irrelevance, global confluence, or an unrestricted subject-reduction theorem.
+\end{theorem}
+\begin{proof}
+Read the rule ledger $R$ against the context, term, and candidate type rows $\Gamma,t,\tau$. The carrier has one positive membership coordinate $E$ and one refusal coordinate $U$.
+
+In the accepted case, the judgment trace $J$ binds the inspected rules to the $\Ext$-membership row $E$, and the subject-reduction handoff $S$ exports only the typed continuation route displayed by the packet. The structural rows $H,C,P,N$ keep this positive route named and replayable.
+
+In the refused case, the row $U$ records the visible classifier-membership failure. The same structural rows carry the failed route without turning it into a host conversion judgment.
+
+Thus a consumer receives either a displayed membership trace or a displayed refusal trace. The forbidden readings named in the theorem have no carrier coordinate and cannot be imported through the local NameCert.
+\end{proof}
+
+\falsifiablePrediction{If a $\TypecheckingClassifierTraceUp$ packet accepts a term while omitting either the $\Ext$-membership row or the visible rule ledger, the packet is refuted.}
+
+\independenceWitness{metacictypedexamplesgallery, typed-example-reduction-trace, metacic-decidable-typing-frontier, metacic-typed-equality-eliminator, metacic-parallel-diamond-frontier: the siblings expose typed examples, reduction rows, decidable checker frontiers, equality-eliminator rows, and diamond-frontier rows, but none alone binds context, term, type, rule ledger, membership, refusal, subject-reduction handoff, replay, provenance, and local NameCert rows into the same classifier trace.}
+
+The Lean TasteGate route for $\TypecheckingClassifierTraceUp$ must provide explicit $\Nontrivial\ \TypecheckingClassifierTraceUp$ and $\FieldFaithful\ \TypecheckingClassifierTraceUp$ instances in \texttt{lean4/BEDC/Derived/TypecheckingClassifierTraceUp/TasteGate.lean}. The nontriviality witness must expose at least one accepted or refused classifier trace, and the field-faithfulness witness must preserve $\Gamma,t,\tau,R,E,J,S,U,H,C,P,N$ as distinct rows before any checked marker may cite \texttt{BEDC.Derived.TypecheckingClassifierTraceUp}.
+
+\closureat{TypecheckingClassifierTraceUp}{seedStr}
+\closureat{TypecheckingClassifierTraceUp}{obligationStr}
+
+\begin{closurestatus}{\TypecheckingClassifierTraceUp}
+  \constructivestory{A $\TypecheckingClassifierTraceUp$ packet is generated from context, term, candidate type, rule ledger, Ext-membership, judgment trace, subject-reduction handoff, refusal, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:typechecking-classifier-trace-carrier}, \autoref{thm:typechecking-classifier-trace-namecert-obligations}, and \autoref{thm:typechecking-classifier-trace-membership-refusal} close the finite classifier-trace carrier and its membership-or-refusal obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, global subject reduction, global confluence, proof irrelevance, erased host conversion, or a general oracle for all type systems.}
+  \upgradepath{Lean closure requires checked carrier admission, rule-ledger exposure, Ext-membership exposure, refusal exposure, subject-reduction handoff, Nontrivial evidence, and FieldFaithful evidence for BEDC.Derived.TypecheckingClassifierTraceUp.}
+\end{closurestatus}

@@ -80,16 +80,37 @@ Apply the non-escape boundary of \autoref{thm:metacic-audit-map-family-nonescape
 Transport, continuation, provenance, and naming preserve the displayed ledger route; they do not add theorem content. Hence a frontier row can be replayed only as a frontier row of the same finite carrier, not as any of the excluded global MetaCIC conclusions.
 \end{proof}
 
+\begin{theorem}[MetaCIC audit-map family primitive scope]
+\label{thm:metacic-audit-map-family-primitive-scope}
+For every accepted $\MetaCICAuditMapFamilyUp$ carrier
+$$
+A=(M,S,O,F,D,H,C,P,N),
+$$
+every family read is scoped by the displayed BEDC primitives and named sibling rows. Local audit maps are read through $M$, synthesis rows through $S$, obstruction rows through $O$, frontier rows through $F$, dependency rows through $D$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+
+No accepted family packet introduces a global closure row, subject-reduction row, normalization row, confluence row, closed-consistency row, or host equality row beyond those displayed primitives.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $A=(M,S,O,F,D,H,C,P,N)$. The carrier definition lists exactly the local audit-map, synthesis, obstruction, frontier, dependency, transport, replay, provenance, and naming rows.
+
+Apply the NameCert obligations of \autoref{thm:metacic-audit-map-family-namecert-obligations}. They force each local audit-map read through $M$, each synthesis read through $S$, each obstruction read through $O$, each frontier read through $F$, and each dependency read through $D$ before any family consumer receives the packet.
+
+Apply non-escape and frontier-ledger non-escape from \autoref{thm:metacic-audit-map-family-nonescape} and \autoref{thm:metacic-audit-map-family-frontier-ledger-nonescape}. These rows keep frontier and obstruction data visible as displayed ledgers rather than hidden theorem discharge.
+
+Finally route replay, provenance, and naming through $H,C,P,N$. Since these rows only preserve and name the same finite packet, they introduce no global closure, subject reduction, normalization, confluence, closed consistency, or host equality row.
+\end{proof}
+
 \closureat{MetaCICAuditMapFamilyUp}{obligationStr}
+\closureat{MetaCICAuditMapFamilyUp}{scopedStr}[BEDC.Derived.MetaCICAuditMapFamilyUp.MetaCICAuditMapFamilyTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\MetaCICAuditMapFamilyUp}
   \constructivestory{A $\MetaCICAuditMapFamilyUp$ packet is generated from local MetaCIC audit-map rows, synthesis rows, obstruction rows, frontier rows, a cross-map dependency ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:metacic-audit-map-family-carrier}, \autoref{thm:metacic-audit-map-family-namecert-obligations}, \autoref{thm:metacic-audit-map-family-nonescape}, \autoref{thm:metacic-audit-map-family-dependency-readback}, and \autoref{thm:metacic-audit-map-family-frontier-ledger-nonescape} bind the finite MetaCIC audit-map family packet, dependency readback, frontier-ledger visibility, and non-escape boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:metacic-audit-map-family-carrier}, \autoref{thm:metacic-audit-map-family-namecert-obligations}, \autoref{thm:metacic-audit-map-family-nonescape}, \autoref{thm:metacic-audit-map-family-dependency-readback}, \autoref{thm:metacic-audit-map-family-frontier-ledger-nonescape}, and \autoref{thm:metacic-audit-map-family-primitive-scope} bind the finite MetaCIC audit-map family packet, dependency readback, frontier-ledger visibility, primitive dependency scope, and non-escape boundary.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.MetaCICAuditMapFamilyUp.MetaCICAuditMapFamilyTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close global MetaCIC closure, subject reduction, normalization, confluence, full closed consistency, or bridge checking.}
-  \upgradepath{Scoped closure requires primitive dependency rows for local audit-map reads, synthesis reads, obstruction reads, frontier reads, route replay, provenance, and naming over the same finite packet.}
+  \upgradepath{Further closure requires public export rows or a bridge row over local audit-map reads, synthesis reads, obstruction reads, frontier reads, route replay, provenance, and naming over the same finite packet.}
 \end{closurestatus}
