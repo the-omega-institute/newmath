@@ -134,4 +134,186 @@ theorem MetaCICCriticalPathCandidateDischargeMatrix [AskSetup] [PackageSetup]
   }
   exact ⟨cert, candidateUnary, residualUnary, checkerUnary, dischargeUnaryRead⟩
 
+theorem MetaCICCriticalPathL10CandidateSocketExhaustion [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName candidateRead residualRead checkerRead dyadicRead streamRead regseqRead
+      realRead socketRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg →
+      Cont route localName candidateRead →
+        Cont candidateRead handoff residualRead →
+          Cont residualRead obstruction checkerRead →
+            Cont checkerRead dischargeSocket socketRead →
+              PkgSig bundle socketRead pkg →
+                PkgSig bundle realRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row socketRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row candidateRead ∨ hsame row residualRead ∨
+                          hsame row checkerRead ∨ hsame row dyadicRead ∨
+                            hsame row streamRead ∨ hsame row regseqRead ∨
+                              hsame row realRead ∨ hsame row socketRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont route localName candidateRead ∧
+                          Cont candidateRead handoff residualRead ∧
+                            Cont residualRead obstruction checkerRead ∧
+                              Cont checkerRead dischargeSocket socketRead ∧
+                                PkgSig bundle socketRead pkg)
+                      hsame ∧
+                    UnaryHistory candidateRead ∧ UnaryHistory residualRead ∧
+                      UnaryHistory checkerRead ∧ UnaryHistory socketRead := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle SemanticNameCert hsame UnaryHistory
+  intro packet routeLocalNameCandidate candidateHandoffResidual residualObstructionChecker
+    checkerSocket socketPkg _realPkg
+  obtain ⟨_strongNormUnary, _normalFormUnary, obstructionUnary, handoffUnary,
+    socketUnary, _transportUnary, routeUnary, _provenanceUnary, localNameUnary,
+    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
+    _provenancePkg⟩ := packet
+  have candidateUnary : UnaryHistory candidateRead :=
+    unary_cont_closed routeUnary localNameUnary routeLocalNameCandidate
+  have residualUnary : UnaryHistory residualRead :=
+    unary_cont_closed candidateUnary handoffUnary candidateHandoffResidual
+  have checkerUnary : UnaryHistory checkerRead :=
+    unary_cont_closed residualUnary obstructionUnary residualObstructionChecker
+  have socketReadUnary : UnaryHistory socketRead :=
+    unary_cont_closed checkerUnary socketUnary checkerSocket
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row socketRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row candidateRead ∨ hsame row residualRead ∨ hsame row checkerRead ∨
+              hsame row dyadicRead ∨ hsame row streamRead ∨ hsame row regseqRead ∨
+                hsame row realRead ∨ hsame row socketRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont route localName candidateRead ∧
+              Cont candidateRead handoff residualRead ∧
+                Cont residualRead obstruction checkerRead ∧
+                  Cont checkerRead dischargeSocket socketRead ∧ PkgSig bundle socketRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro socketRead ⟨hsame_refl socketRead, socketReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, routeLocalNameCandidate, candidateHandoffResidual,
+          residualObstructionChecker, checkerSocket, socketPkg⟩
+  }
+  exact ⟨cert, candidateUnary, residualUnary, checkerUnary, socketReadUnary⟩
+
+theorem MetaCICCriticalPathCandidateDischargeMatrixFrontier [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName candidateRead residualRead checkerRead dyadicRead streamRead regseqRead
+      realRead socketRead frontierRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg →
+      Cont route localName candidateRead →
+        Cont candidateRead handoff residualRead →
+          Cont residualRead obstruction checkerRead →
+            Cont checkerRead dischargeSocket socketRead →
+              Cont socketRead provenance frontierRead →
+                PkgSig bundle socketRead pkg →
+                  PkgSig bundle frontierRead pkg →
+                    PkgSig bundle realRead pkg →
+                      SemanticNameCert
+                          (fun row : BHist => hsame row frontierRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row candidateRead ∨ hsame row residualRead ∨
+                              hsame row checkerRead ∨ hsame row socketRead ∨
+                                hsame row frontierRead ∨ hsame row dyadicRead ∨
+                                  hsame row streamRead ∨ hsame row regseqRead ∨
+                                    hsame row realRead)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont checkerRead dischargeSocket socketRead ∧
+                              Cont socketRead provenance frontierRead ∧
+                                PkgSig bundle frontierRead pkg)
+                          hsame ∧
+                        UnaryHistory socketRead ∧ UnaryHistory frontierRead := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle SemanticNameCert hsame UnaryHistory
+  intro packet routeLocalNameCandidate candidateHandoffResidual residualObstructionChecker
+    checkerSocket socketProvenanceFrontier _socketPkg frontierPkg _realPkg
+  obtain ⟨_strongNormUnary, _normalFormUnary, obstructionUnary, handoffUnary,
+    socketUnary, _transportUnary, routeUnary, provenanceUnary, localNameUnary,
+    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
+    _provenancePkg⟩ := packet
+  have candidateUnary : UnaryHistory candidateRead :=
+    unary_cont_closed routeUnary localNameUnary routeLocalNameCandidate
+  have residualUnary : UnaryHistory residualRead :=
+    unary_cont_closed candidateUnary handoffUnary candidateHandoffResidual
+  have checkerUnary : UnaryHistory checkerRead :=
+    unary_cont_closed residualUnary obstructionUnary residualObstructionChecker
+  have socketReadUnary : UnaryHistory socketRead :=
+    unary_cont_closed checkerUnary socketUnary checkerSocket
+  have frontierUnary : UnaryHistory frontierRead :=
+    unary_cont_closed socketReadUnary provenanceUnary socketProvenanceFrontier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row frontierRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row candidateRead ∨ hsame row residualRead ∨ hsame row checkerRead ∨
+              hsame row socketRead ∨ hsame row frontierRead ∨ hsame row dyadicRead ∨
+                hsame row streamRead ∨ hsame row regseqRead ∨ hsame row realRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont checkerRead dischargeSocket socketRead ∧
+              Cont socketRead provenance frontierRead ∧ PkgSig bundle frontierRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro frontierRead ⟨hsame_refl frontierRead, frontierUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inl source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, checkerSocket, socketProvenanceFrontier, frontierPkg⟩
+  }
+  exact ⟨cert, socketReadUnary, frontierUnary⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
