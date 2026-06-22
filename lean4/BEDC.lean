@@ -1512,6 +1512,7 @@ import BEDC.Derived.CantorSetUp.NameCertObligations
 import BEDC.Derived.CantorSetUp.NestedIntervalHandoff
 import BEDC.Derived.CantorSetUp.NestedRealHandoff
 import BEDC.Derived.CantorSetUp.PrefixGapSeparation
+import BEDC.Derived.CantorSetUp.PublicMembershipRoute
 import BEDC.Derived.CantorSetUp.RealDiagonalNonSurjectionRoute
 import BEDC.Derived.CantorSetUp.RealMembershipHandoff
 import BEDC.Derived.CantorSetUp.RealSealMembershipBoundary
@@ -9382,6 +9383,7 @@ import BEDC.Derived.RealNameClassifierUp.LedgerExhaustion
 import BEDC.Derived.RealNameClassifierUp.RefinementStability
 import BEDC.Derived.RealNameClassifierUp.ReflexiveWindow
 import BEDC.Derived.RealNameClassifierUp.ScopeRoute
+import BEDC.Derived.RealNameClassifierUp.ScopedKernelRoute
 import BEDC.Derived.RealNameClassifierUp.SealBoundary
 import BEDC.Derived.RealNameClassifierUp.SourcePacketRows
 import BEDC.Derived.RealNameClassifierUp.WindowTrichotomyRefusal
@@ -10306,6 +10308,7 @@ import BEDC.Derived.RiemannRearrangementUp.TasteGate
 import BEDC.Derived.RiemannRefinementCriterionUp.TasteGate
 import BEDC.Derived.RiemannRemovableDiscontinuityUp
 import BEDC.Derived.RiemannStieltjesIntegrationPartsUp.TasteGate
+import BEDC.Derived.RiemannStieltjesUp.DarbouxIntegralConsumerRoute
 import BEDC.Derived.RiemannStieltjesUp.MeshHandoff
 import BEDC.Derived.RiemannStieltjesUp.NameCertObligations
 import BEDC.Derived.RiemannStieltjesUp.PartitionCoverage
