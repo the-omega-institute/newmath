@@ -253,6 +253,7 @@ S,L,D,T,H,C,P,N
 $$
 read through $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; it exports no host infimum, trichotomy decision, selected subsequence, quotient stream equality, open-cover compactness, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LiminfUp.LiminfScopedTailEnvelope}
 \begin{proof}
 Start with the NameCert obligations of \autoref{thm:liminf-namecert-obligations}. They identify the accepted packet as the finite row family $S,L,D,T,H,C,P,N$ and place lower-tail exactness, upper-cut compatibility, terminal sealing, transport, replay, provenance, and local naming in that family.
 
@@ -261,6 +262,43 @@ Use the tail-cut route of \autoref{thm:liminf-tail-cut-route}. It orders every v
 Apply the bounded-cut compatibility obligation, \autoref{thm:liminf-obligation-bounded-cut-compatibility}. It forces lower-cut and upper-cut comparisons to use the same source row $S$ and the same tolerance ledger $D$, so the lower envelope cannot be paired with an unrelated upper surface.
 
 Finally read the lower-cut scope theorem, \autoref{thm:liminf-lower-cut-readback-scope}. It identifies the public lower-tail readback as a route through $\BoundedRealSequenceUp$, $\BoundedRealLowerCutUp$, $\BoundedRealUpperCutUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and the terminal $\RealUp$ seal, with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ preserving the same displayed rows.
+\end{proof}
+
+\begin{theorem}[Liminf lower-cut readback]
+\label{thm:liminf-lower-cut-readback}
+Every lower-tail observation exposed by an accepted $\LiminfUp$ carrier
+$$
+I=(S,L,D,T,H,C,P,N)
+$$
+is read through the $\BoundedRealLowerCutUp$ row $L$, compared through the shared $\DyadicRatCoreUp$ ledger $D$, and sealed only at the terminal $\RealUp$ row $T$. The readback may cite the bounded source $S$ and the upper comparison surface, but it does not expose a host infimum, a selected subsequence, trichotomy, quotient stream equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:liminf-carrier}. The source $S$ is the bounded sequence row, $L$ is the finite lower-tail schedule, $D$ is the dyadic tolerance ledger, and $T$ is the only terminal Real seal.
+
+Use \autoref{thm:liminf-lower-cut-readback-scope}. It already forces public lower-tail readback to pass through $\BoundedRealSequenceUp$, $\BoundedRealLowerCutUp$, $\BoundedRealUpperCutUp$, $\DyadicRatCoreUp$, and the terminal $\RealUp$ seal in that same displayed packet.
+
+The present readback only isolates the lower-cut side of that route. Every lower observation is therefore a read from $L$ compared against $D$, and the value-facing endpoint remains $T$ rather than a host infimum, selected subsequence, trichotomy decision, quotient stream equality, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Liminf regular-sequence route]
+\label{thm:liminf-regular-sequence-route}
+Every $\RegSeqRatUp$-facing consumer of an accepted $\LiminfUp$ packet must pass through
+$$
+\BoundedRealSequenceUp,\quad
+\BoundedRealLowerCutUp,\quad
+\BoundedRealUpperCutUp,\quad
+\DyadicRatCoreUp,\quad
+\RegSeqRatUp,\quad
+\RealUp
+$$
+before reading the liminf surface $S,L,D,T,H,C,P,N$. The route exposes finite regular-sequence and cut data only; it does not claim Real completeness, an actual infimum object, a quotient-real equality, a selected tail subsequence, or an open-cover compactness principle.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:liminf-scoped-tail-envelope}. The scoped envelope names the bounded sequence, lower-cut schedule, dyadic tolerance ledger, upper comparison surface, and terminal Real seal as the public order of the liminf packet.
+
+Next read the regular-sequence-facing part of the route. The bounded source row $S$ is interpreted through $\BoundedRealSequenceUp$, its lower and upper observations pass through $\BoundedRealLowerCutUp$ and $\BoundedRealUpperCutUp$, and all finite comparisons use the common $\DyadicRatCoreUp$ ledger $D$.
+
+The consumer may then pass through $\RegSeqRatUp$ and only finally through the $\RealUp$ seal $T$. The support rows $H,C,P,N$ transport, replay, source, and name the same finite packet, so the route supplies no host infimum, selected subsequence, quotient equality, Real-completeness principle, or compactness claim.
 \end{proof}
 
 \begin{closurestatus}{\LiminfUp}
