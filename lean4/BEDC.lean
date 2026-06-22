@@ -6866,6 +6866,7 @@ import BEDC.Derived.LipschitzMapUp.ScopedModulusRoute
 import BEDC.Derived.LipschitzMapUp.SeparatedCompletionNonescape
 import BEDC.Derived.LipschitzModulusUp.TasteGate
 import BEDC.Derived.LipschitzRealMapUp.TasteGate
+import BEDC.Derived.LipschitzRetractionUp.TasteGate
 import BEDC.Derived.LipschitzSpaceUp
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
