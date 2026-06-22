@@ -301,6 +301,20 @@ Use \autoref{thm:filter-limit-basis-finite-prefix-stream-consumption} and \autor
 The accepted carrier has no coordinate for selected limits, ultrafilters, countable choice, quotient filters, host filter equality, or ambient completeness. Hence the listed rows are the complete scoped dependency for the L10 completion handoff.
 \end{proof}
 
+\begin{theorem}[FilterLimitBasis public export]
+\label{thm:filter-limit-basis-public-export}
+Every public completion-facing read of $\FilterLimitBasisUp$ factors through the already scoped route from $\CauchyFilterCompletionUp$, $\CauchyFilterUp$, $\CauchyFilterLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. In carrier notation, the public export must expose $Q,F,L,W,R,D,E,H,C,P,N$ before a limit-basis consumer may read the seal. The export contains no quotient filters, ultrafilters, selected limits, countable-choice schedules, host equality, ambient Real completeness, or bridge certificate.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:filter-limit-basis-namecert-obligations}. They make carrier admission, completion-basis exposure, limit compatibility, Real handoff, and ledger refusal the only local public rows.
+
+Apply the handoff and limit-compatibility theorems, \autoref{thm:filter-limit-basis-cauchyfiltercompletion-handoff} and \autoref{thm:filter-limit-basis-limit-compatibility}. These force every completion-facing read through $Q,F,L,W,R,D$ before the terminal seal and keep the limit boundary attached to the same displayed filter-basis data.
+
+Use Real handoff stability from \autoref{thm:filter-limit-basis-real-handoff-stability} together with the scoped route of \autoref{thm:filter-limit-basis-kernel-scope-upgrade}. Componentwise transport, displayed replay, provenance, and local naming preserve the same route through $E,H,C,P,N$ and do not add a second public object.
+
+Finally apply the scoped completion dependency of \autoref{thm:filterlimitbasis-scoped-dependency}. Since that dependency already excludes selected limits, ultrafilters, countable choice, quotient filters, host equality, and ambient completeness, the public export is exactly the displayed finite route and carries no bridge certificate.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\FilterLimitBasisUp$ read is refuted if a $\CauchyFilterCompletionUp$ or $\RealUp$ consumer reaches the terminal seal without displaying the Cauchy-filter completion row, Cauchy-filter row, Cauchy-filter limit row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, transport, replay, provenance, and local naming.}
 
 \independenceWitness{cauchyfiltercompletion, cauchyfilter, cauchyfilterlimit, streamname, regseqrat, dyadicratcore, real: none alone is bijective with $\FilterLimitBasisUp$ because the packet jointly records completion-boundary, saturated-filter, limit-boundary, finite-window, readback, tolerance, seal, transport, replay, provenance, and local NameCert rows.}
