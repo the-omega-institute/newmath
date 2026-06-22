@@ -90,6 +90,27 @@ Apply \autoref{thm:finite-stream-section-sibling-lock}. It prevents a downstream
 Now apply \autoref{thm:finite-stream-streamname-dependency-route}. It forces any StreamName, RegSeqRat, DyadicRatCore, or Real reader to pass through $Q,L,W$ before the downstream rows are consumed. Therefore every StreamName consumer sees the finite route rather than an ambient infinite stream or an unlisted sibling packet.
 \end{proof}
 
+\begin{theorem}[FiniteStream window concatenation]
+\label{thm:finite-stream-window-concatenation}
+Let
+$$
+F_i=(Q_i,L_i,W_i,R_i,D_i,H_i,C_i,P_i,N_i)
+$$
+for $i=0,1$ be accepted $\FiniteStreamUp$ packets whose endpoint window rows match, so the final displayed row of $W_0$ is the initial displayed row of $W_1$ under the componentwise $\hsame$ transport. Then the concatenated finite observation schedule is accepted as a $\FiniteStreamUp$ packet whose $\StreamNameUp$ consumer reads the first finite window, then the second finite window, before any $\RegSeqRatUp$ or $\RealUp$ seal is exposed. The concatenated route remains finite:
+$$
+Q_0,Q_1,L_0,L_1,W_0,W_1 \longmapsto R,D,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Project the two carrier rows. The request rows $Q_i$, list spines $L_i$, and StreamName windows $W_i$ are the only schedule data available before downstream readback.
+
+Use the matching endpoint window rows to compose the finite lists. Concatenate the displayed request rows and their $\ListUp$ spines, identifying the shared endpoint only through the given componentwise $\hsame$ transport.
+
+The downstream rows are replayed componentwise. The transport row preserves the two windows, the displayed $\Cont$ replay reads $W_0$ and then $W_1$, and the provenance and local naming rows record the same finite route.
+
+Thus the consumer reaches any $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ seal only after both finite windows have been displayed. No infinite stream, selected limit, quotient stream equality, or ambient completeness row is exposed by the concatenation.
+\end{proof}
+
 \begin{theorem}[FiniteStream product window]
 \label{thm:finite-stream-product-window}
 Given two accepted $\FiniteStreamUp$ packets over displayed rows
