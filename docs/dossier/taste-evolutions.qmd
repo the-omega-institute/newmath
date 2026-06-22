@@ -20,9 +20,9 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-22T10:03:03Z
+> 最后刷新: 2026-06-22T11:42:28Z
 
-**Daemon 状态**: monitor (monitor cycle 116, adjust_since_research 2, round_counter 17649, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 117, adjust_since_research 2, round_counter 17726, last_adjust rule_evolution_completed)
 
 **待处理 queue** (570 条 finding):
 - isolated_theorem: 406 条; 代表样本 `derived`, `derived`, `derived`
@@ -30,8 +30,8 @@ date-modified: today
 - low_entropy_template: 36 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=low_entropy_template: 27 次
-- TASTE ALERT category=isolated_theorem: 25 次
+- TASTE ALERT category=isolated_theorem: 30 次
+- TASTE ALERT category=low_entropy_template: 25 次
 - TASTE ALERT category=missing_origin: 2 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -391,6 +391,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-22T08:20:58Z: `resolved` `delete_theorem` for `BEDC.Derived.TaylorModelUp.TaylorModelJetLedger_finite_transport` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.TaylorModelUp.TaylorModelJetLedger_finite_transport:93eae5d0`). Rationale: The target had no downstream Lean users and only appeared as a removable paper marker; its statement was an unconsumed existence wrapper around `append jet eval`, while the same chapter already uses the substantive finite-jet consumer route `TaylorModelFiniteJet_transport` in `TaylorModelUp/TasteGate.lean`. Deleting it removes isolated staging-only surface without losing the TaylorModel carrier, finite-jet, interval-remainder, or public-package content. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-22T10:02:29Z: `resolved` `delete_theorem` for `BEDC.Derived.TaylorModelUp.TaylorModelDisplayedFiniteJetSubwindow_admission` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.TaylorModelUp.TaylorModelDisplayedFiniteJetSubwindow_admission:93eae5d0`). Rationale: The declaration was an unconsumed admission wrapper for the displayed finite-jet subwindow: exact grep found no fully qualified references, no paper marker pointed to it, and the same file already contains the stronger carrier-level TaylorModelCarrier_finite_jet_prefix_restriction plus downstream remainder-obligation routes. Removing it preserves the meaningful TaylorModel surface while eliminating an isolated staging theorem. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-22T11:42:09Z: `resolved` `add_downstream_user` for `BEDC.Derived.TaylorModelUp.TaylorModelCarrier_validated_consumer_boundary` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.TaylorModelUp.TaylorModelCarrier_validated_consumer_boundary:93eae5d0`). Rationale: The theorem has meaningful BEDC content: it packages the validated-consumer boundary by deriving consumer UnaryHistory from the TaylorModel carrier and the endpoint-to-validated consumer route while preserving ledger, eval, provenance, and nameCert evidence. Exact repo inspection showed no Lean downstream caller before this change, while the paper treats the boundary as part of the TaylorModel public package. I added the same-family theorem TaylorModelCarrier_validated_consumer_namecert_handoff in the remainder-obligation sibling; it explicitly invokes the flagged boundary theorem and carries its evidence into a publicRead SemanticNameCert surface tied to Cont, PkgSig, UnaryHistory, hsame, provenance, and nameCert rows. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
