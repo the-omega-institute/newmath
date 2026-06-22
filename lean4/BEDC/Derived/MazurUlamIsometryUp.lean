@@ -408,4 +408,87 @@ theorem MazurUlamAffineLinearity [AskSetup] [PackageSetup]
     }
   exact ⟨cert, affineReadUnary, affineOutUnary⟩
 
+theorem MazurUlamIsometryCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {E F G M A H C P N midpointRead affineRead affineOut : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MazurUlamIsometryCarrier E F G M A H C P N bundle pkg →
+      Cont G M midpointRead →
+        Cont midpointRead A affineRead →
+          Cont affineRead H affineOut →
+            PkgSig bundle P pkg →
+              PkgSig bundle N pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row affineOut ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row E ∨ hsame row F ∨ hsame row G ∨ hsame row M ∨
+                        hsame row A ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                          hsame row N ∨ hsame row midpointRead ∨ hsame row affineRead ∨
+                            hsame row affineOut)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont G M midpointRead ∧
+                        Cont midpointRead A affineRead ∧ Cont affineRead H affineOut ∧
+                          PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                    hsame ∧
+                  UnaryHistory midpointRead ∧ UnaryHistory affineRead ∧
+                    UnaryHistory affineOut := by
+  -- BEDC touchpoint anchor: MazurUlamIsometryCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier midpointRoute affineRoute affineOutRoute provenancePkg namePkg
+  obtain ⟨_eUnary, _fUnary, gUnary, mUnary, aUnary, hUnary, _cUnary, _pUnary,
+    _nUnary, _carrierPkg⟩ := carrier
+  have midpointUnary : UnaryHistory midpointRead :=
+    unary_cont_closed gUnary mUnary midpointRoute
+  have affineReadUnary : UnaryHistory affineRead :=
+    unary_cont_closed midpointUnary aUnary affineRoute
+  have affineOutUnary : UnaryHistory affineOut :=
+    unary_cont_closed affineReadUnary hUnary affineOutRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row affineOut ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row E ∨ hsame row F ∨ hsame row G ∨ hsame row M ∨ hsame row A ∨
+              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row midpointRead ∨ hsame row affineRead ∨ hsame row affineOut)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont G M midpointRead ∧ Cont midpointRead A affineRead ∧
+              Cont affineRead H affineOut ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro affineOut ⟨hsame_refl affineOut, affineOutUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRows
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRows.left,
+            unary_transport sourceRows.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRows
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      exact sourceRows.left
+    ledger_sound := by
+      intro _row sourceRows
+      exact
+        ⟨sourceRows.right, midpointRoute, affineRoute, affineOutRoute, provenancePkg,
+          namePkg⟩
+  }
+  exact ⟨cert, midpointUnary, affineReadUnary, affineOutUnary⟩
+
 end BEDC.Derived.MazurUlamIsometryUp
