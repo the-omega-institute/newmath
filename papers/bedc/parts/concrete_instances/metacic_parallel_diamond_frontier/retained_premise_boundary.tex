@@ -1,0 +1,17 @@
+\begin{theorem}[MetaCIC parallel-diamond retained-premise boundary]
+\label{thm:metacic-parallel-diamond-retained-premise-boundary}
+Every candidate-mediated parallel-diamond consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet that reaches a residual join must first expose the retained-premise ledger, candidate-normalization scope, residual-substitution route, finite residual witness, and the supporting $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. In the frontier spine
+$$
+P,K,J,R,S,C,B,O,H,T,G,N ,
+$$
+the premise row $P$, candidate row $J$, residual rows $K,R,S,C,B,O$, transport row $H$, replay row $T$, provenance row $G$, and local naming row $N$ remain visible before any residual join can be consumed. The boundary does not provide a hidden strong-normalization oracle, host confluence primitive, detached residual equality, subject-reduction theorem, evaluator equality, quotient term equality, or kernel-consistency certificate.
+\end{theorem}
+\begin{proof}
+Start with the retained-premise discharge boundary, \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-discharge-boundary}. It keeps $P,K,S,C,B,O,H,T,G,N$ visible whenever a local diamond or frontier read consumes the candidate join $J$ and residual frontier $R$.
+
+Next apply the candidate strong-normalization handoff, \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff}. That handoff exposes the critical-pair envelope, residual-substitution row, candidate-normalization scope, finite residual witness, and residual-row visibility surface before a normalization-facing consumer can read the frontier.
+
+Now use the residual-substitution dependency route, \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}. It places the retained premise row before every critical-pair, candidate-join, residual-frontier, closed-checker, and obstruction read, so the residual join cannot be detached from the premise boundary.
+
+Finally attach the finite residual-diamond ledger, \autoref{thm:metacic-finite-residual-diamond-ledger-local-join-obligations}. The ledger records the local join only as bounded carrier-local data over $K,P,J,B,O,H,T,G,N$. Since every cited route preserves the same structural support rows, the residual join remains a retained-premise boundary rather than a hidden strong-normalization oracle, host confluence primitive, detached residual equality, subject-reduction theorem, evaluator equality, quotient term equality, or kernel-consistency certificate.
+\end{proof}
