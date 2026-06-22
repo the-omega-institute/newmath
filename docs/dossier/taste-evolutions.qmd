@@ -388,6 +388,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-22T06:39:43Z: `resolved` `add_downstream_user` for `BEDC.Derived.AxiomRefusalLedgerUp.AxiomRefusalLedger_noninternalization` (flag `isolated_theorem`, finding `isolated_theorem:axiomrefusalledger:BEDC.Derived.AxiomRefusalLedgerUp.AxiomRefusalLedger_noninternalization:23b6e15b`). Rationale: AxiomRefusalLedger_noninternalization is not staging-only or a trivial restatement: it constructs the accepted-read SemanticNameCert for the audit-to-accepted continuation. Added AxiomRefusalLedger_accepted_readback_consumer as a sibling Lean consumer that invokes it and exports the downstream consumer-read certificate, tying the noninternalization row to Cont, PkgSig, UnaryHistory, and SemanticNameCert. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-06-22T08:20:58Z: `resolved` `delete_theorem` for `BEDC.Derived.TaylorModelUp.TaylorModelJetLedger_finite_transport` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.TaylorModelUp.TaylorModelJetLedger_finite_transport:93eae5d0`). Rationale: The target had no downstream Lean users and only appeared as a removable paper marker; its statement was an unconsumed existence wrapper around `append jet eval`, while the same chapter already uses the substantive finite-jet consumer route `TaylorModelFiniteJet_transport` in `TaylorModelUp/TasteGate.lean`. Deleting it removes isolated staging-only surface without losing the TaylorModel carrier, finite-jet, interval-remainder, or public-package content. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
