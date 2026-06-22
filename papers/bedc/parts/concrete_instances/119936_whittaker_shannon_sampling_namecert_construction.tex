@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\WhittakerShannonSamplingUp$}
+\label{ch:concrete-instances-whittaker-shannon-sampling-namecert}
+\origin{human}
+
+Following Whittaker and Shannon sampling theory, the $\WhittakerShannonSamplingUp$ packet records the finite BEDC boundary by which a displayed bandlimited row, a sampling grid, and a reconstruction kernel may be consumed without importing an infinite host Fourier series. It sits downstream of the finite grid discipline of \autoref{ch:concrete-instances-finite-phase-sampling-namecert}, the transform rows of \autoref{ch:concrete-instances-fourier-transform-namecert}, the observed stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite sampling bridge for later Fourier and Real-completion consumers; it is not a theorem asserting host-level convergence of all sinc series, quotient equality of functions, or completeness of $\RealUp$.
+
+\begin{definition}[Whittaker-Shannon sampling carrier]
+\label{def:whittaker-shannon-sampling-carrier}
+A $\WhittakerShannonSamplingUp$ carrier is a finite $\BHist$ packet
+$$
+W=(B,G,K,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the finite bandlimit row, naming the Fourier-side cutoff, the admitted frequency window, and the aliasing exclusions read through $\FourierTransformUp$.
+\item $G$ is the sampling-grid row, displaying the finite grid points, mesh denominator, phase offsets, and the finite-grid compatibility inherited from $\FinitePhaseSamplingUp$.
+\item $K$ is the reconstruction-kernel row, recording the displayed kernel values and truncation window used by the sampled reconstruction route.
+\item $S$ is the $\StreamNameUp$ sample row, exposing exactly the observed sample stream entries consumed by the packet.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the same grid, kernel, and sample entries.
+\item $E$ is the terminal $\RealUp$ seal read only after $B,G,K,S,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the bandlimit row, grid row, kernel row, sample stream row, regular-rational readback, real seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a finite sampling request through $B,G,K,S,Q,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\WhittakerShannonSamplingUp$, $\FinitePhaseSamplingUp$, $\FourierTransformUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\WhittakerShannonSamplingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an infinite Fourier-series object, quotient equality of functions, unbounded choice of samples, host sinc convergence, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Whittaker-Shannon sampling NameCert obligations]
+\label{thm:whittaker-shannon-sampling-namecert-obligations}
+For every accepted $\WhittakerShannonSamplingUp$ carrier
+$$
+W=(B,G,K,S,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\WhittakerShannonSamplingUp}$ surface consists exactly of the five analytic rows $B,G,K,S,Q$ followed by the $\RealUp$ seal $E$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming $N$. A downstream consumer must therefore read the finite bandlimit row, the displayed sampling-grid row, the reconstruction-kernel row, the $\StreamNameUp$ sample row, and the $\RegSeqRatUp$ readback row before it reaches any Real-facing handoff. The certificate refuses host infinite Fourier series, quotient function equality, unbounded sample choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:whittaker-shannon-sampling-carrier}. The analytic sampling surface is exactly the finite tuple $B,G,K,S,Q$: bandlimit data, sampling grid, reconstruction kernel, observed samples, and regular-rational readback.
+
+The finite-grid row $G$ is read through \autoref{ch:concrete-instances-finite-phase-sampling-namecert}, while $B$ and $K$ provide the Fourier-side cutoff and reconstruction kernel consumed by the same displayed route. The sample row $S$ then binds the grid to concrete $\StreamNameUp$ observations, and $Q$ records the regular rational readback over those observations.
+
+The rows $E,H,C,P,N$ seal, transport, replay, source, and name the same finite packet. Since no carrier coordinate stores an infinite Fourier series, quotient equality of functions, an unbounded sample selector, or ambient Real completeness, no accepted consumer can project those objects from the local certificate.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\WhittakerShannonSamplingUp$ consumer that reaches a $\RealUp$ seal without first reading $B,G,K,S,Q,E,H,C,P,N$ refutes the carrier surface.}
+
+\independenceWitness{finite-phase-sampling, fourier-transform, streamname, regseqrat, real: no listed sibling supplies the joint packet containing a finite bandlimit row, sampling grid, reconstruction kernel, stream sample row, regular-rational readback, Real seal, transport, replay, provenance, and local NameCert row.}
+
+\closureat{WhittakerShannonSamplingUp}{seedStr}
+
+\begin{closurestatus}{\WhittakerShannonSamplingUp}
+  \constructivestory{A $\WhittakerShannonSamplingUp$ packet is generated from finite bandlimit rows, displayed sampling-grid rows, reconstruction-kernel rows, StreamName samples, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:whittaker-shannon-sampling-carrier} and \autoref{thm:whittaker-shannon-sampling-namecert-obligations} seed the finite sampling bridge from Fourier and finite phase sampling rows to StreamName, RegSeqRat, and Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host infinite Fourier series, quotient equality of functions, unbounded sample choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite bandlimit exposure, sampling-grid stability, reconstruction-kernel readback, StreamName and RegSeqRat handoff, Real seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.WhittakerShannonSamplingUp.}
+\end{closurestatus}
