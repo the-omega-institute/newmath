@@ -103,4 +103,83 @@ theorem UniformHomeomorphismNameCertObligations [AskSetup] [PackageSetup]
     }
   exact ⟨cert, namedRouteUnary⟩
 
+theorem UniformHomeomorphismBidirectionalModulusNonescape [AskSetup] [PackageSetup]
+    {source target forward inverse forwardUC inverseUC forwardMod inverseMod compatibility replay
+      provenance localName forwardRead inverseRead compatibilityRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformHomeomorphismCarrier source target forward inverse forwardUC inverseUC forwardMod
+      inverseMod compatibility replay provenance localName bundle pkg ->
+      Cont forward forwardUC forwardRead ->
+        Cont inverse inverseUC inverseRead ->
+          Cont forwardRead inverseRead compatibilityRead ->
+            Cont compatibilityRead replay namedRead ->
+              PkgSig bundle namedRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row forwardRead ∨ hsame row inverseRead ∨
+                        hsame row compatibilityRead ∨ hsame row namedRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont forward forwardUC forwardRead ∧
+                        Cont inverse inverseUC inverseRead ∧
+                          Cont forwardRead inverseRead compatibilityRead ∧
+                            Cont compatibilityRead replay namedRead ∧
+                              PkgSig bundle namedRead pkg)
+                    hsame ∧
+                  UnaryHistory forwardRead ∧ UnaryHistory inverseRead ∧
+                    UnaryHistory compatibilityRead ∧ UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig SemanticNameCert hsame
+  intro carrier forwardRoute inverseRoute compatibilityRoute namedRoute namedReadPkg
+  obtain ⟨_sourceUnary, _targetUnary, forwardUnary, inverseUnary, forwardUCUnary,
+    inverseUCUnary, _forwardModUnary, _inverseModUnary, _compatibilityUnary, replayUnary,
+    _provenanceUnary, _localNameUnary, _provenancePkg, _localNamePkg⟩ := carrier
+  have forwardReadUnary : UnaryHistory forwardRead :=
+    unary_cont_closed forwardUnary forwardUCUnary forwardRoute
+  have inverseReadUnary : UnaryHistory inverseRead :=
+    unary_cont_closed inverseUnary inverseUCUnary inverseRoute
+  have compatibilityReadUnary : UnaryHistory compatibilityRead :=
+    unary_cont_closed forwardReadUnary inverseReadUnary compatibilityRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed compatibilityReadUnary replayUnary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row forwardRead ∨ hsame row inverseRead ∨
+              hsame row compatibilityRead ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont forward forwardUC forwardRead ∧
+              Cont inverse inverseUC inverseRead ∧
+                Cont forwardRead inverseRead compatibilityRead ∧
+                  Cont compatibilityRead replay namedRead ∧ PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := ⟨namedRead, ⟨hsame_refl namedRead, namedReadUnary⟩⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source.left))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, forwardRoute, inverseRoute, compatibilityRoute, namedRoute,
+          namedReadPkg⟩
+  }
+  exact
+    ⟨cert, forwardReadUnary, inverseReadUnary, compatibilityReadUnary, namedReadUnary⟩
+
 end BEDC.Derived.UniformHomeomorphismUp
