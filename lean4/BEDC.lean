@@ -9010,7 +9010,6 @@ import BEDC.Derived.ProductTopologyUp.TasteGate
 import BEDC.Derived.ProductUniformSpaceUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthGradientLedgerUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
-import BEDC.Derived.ProjectionValuedMeasureUp
 import BEDC.Derived.ProjectiveSpaceUp
 import BEDC.Derived.ProjectiveTensorNormUp.TasteGate
 import BEDC.Derived.ProjectiveVarUp
@@ -10082,6 +10081,7 @@ import BEDC.Derived.RegularCauchyRoundingProjectionUp.TasteGate
 import BEDC.Derived.RegularCauchyScalarUp.RealHandoff
 import BEDC.Derived.RegularCauchyScalarUp.TasteGate
 import BEDC.Derived.RegularCauchyScaleUp
+import BEDC.Derived.RegularCauchyScaleUp.BridgeBoundary
 import BEDC.Derived.RegularCauchyScaleUp.ObligationScopePackage
 import BEDC.Derived.RegularCauchyScaleUp.RealSealHandoffObligation
 import BEDC.Derived.RegularCauchyScaleUp.ScaleCarrierObligation
