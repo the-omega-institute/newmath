@@ -6693,6 +6693,7 @@ import BEDC.Derived.KuratowskiConvergenceUp
 import BEDC.Derived.KuratowskiEmbeddingUp.TasteGate
 import BEDC.Derived.KuratowskiHyperspaceUp.TasteGate
 import BEDC.Derived.KuratowskiMeasureNoncompactnessUp.TasteGate
+import BEDC.Derived.KurzweilStieltjesIntegralUp
 import BEDC.Derived.LFunctionUp
 import BEDC.Derived.LLPOBoundaryUp.TasteGate
 import BEDC.Derived.LPDualityUp
