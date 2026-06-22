@@ -92,6 +92,18 @@ Apply \autoref{thm:effective-real-compact-interval-search-bisection-induction}. 
 Apply \autoref{thm:effective-real-compact-interval-search-extreme-value-handoff}. The final route reads $B,V,H,C,Q,N$ after the finite-net source rows, so the exported extreme-value handoff is a finite search certificate rather than an open-cover compactness, supremum-selection, trichotomy, quotient-equality, or completeness principle.
 \end{proof}
 
+\begin{theorem}[Effective real compact interval search L10 sibling dependency]
+\label{thm:effective-real-compact-interval-search-l10-sibling-dependency}
+Every accepted $\EffectiveRealCompactIntervalSearchUp$ packet must display the $\RealUp$ seal, the $\ClosedBoundedIntervalUp$ endpoint carrier, the $\ContinuousMapUp$ graph row, the $\UniformModulusUp$ tolerance row, the $\ClosedBoundedIntervalNetUp$ finite net, the $\FiniteEpsilonNetUp$ selector, the $\CompactNetModulusSelectorUp$ row, and the $\LocatedIntervalBisectionUp$ refinement before exporting any extremum handoff. The route is the finite-net and bisection dependency route of \autoref{thm:effective-real-compact-interval-search-net-handoff}, not an isolated kernel-only search packet.
+\end{theorem}
+\begin{proof}
+Project the carrier definition, \autoref{def:effective-real-compact-interval-search-carrier}. The rows $I,F,U,P,B,V$ expose the closed bounded interval source, continuous-map graph, uniform-modulus handoff, compact-net selector, bisection ledger, and value ledger, while the Real-facing seal is read through the displayed interval and value rows.
+
+Apply the finite-net handoff theorem, \autoref{thm:effective-real-compact-interval-search-net-handoff}. It forces the search route through the closed bounded interval net and finite epsilon-net surfaces before any bisection or extreme-value consumer can read the packet.
+
+The bisection row $B$ then supplies the located refinement consumed by the extremum handoff. The structural rows $H,C,Q,N$ only transport, replay, source, and name that same sibling-dependent route, so no extremum handoff is exported before the listed L10 siblings are displayed.
+\end{proof}
+
 \begin{theorem}[Effective real compact interval search inverse modulus bisection]
 \label{thm:effective-real-compact-interval-search-dyadic-bisection-inverse-modulus}
 For an accepted $\EffectiveRealCompactIntervalSearchUp$ carrier $S=(I,F,U,P,B,V,H,C,Q,N)$, a displayed $\UniformModulusUp$ tolerance row $U$ and a $\CompactNetModulusSelectorUp$ finite-net row $P$ determine a finite bisection depth in $B$ whose dyadic cell diameter is below the requested tolerance. The depth is read only through $P,B,V,H,C,Q,N$: the value ledger $V$ attaches comparisons to cells at that depth, $H$ transports the same cells under $\hsame$, $C$ replays the finite request, and $Q,N$ package and name the route. The construction exports no open-cover compactness proof, no host maximum, no quotient equality of functions, no trichotomy on $\RealUp$ values, and no ambient $\RealUp$ completeness assertion.
