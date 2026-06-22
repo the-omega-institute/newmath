@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\NavierStokesFiniteEnergyUp$}
+\label{ch:concrete-instances-navier-stokes-finite-energy-namecert}
+\origin{human}
+
+Following Leray and Temam, the $\NavierStokesFiniteEnergyUp$ packet records the finite-energy weak-solution surface for the incompressible Navier-Stokes equations as BEDC carrier data. It sits over the PDE relation row of \autoref{ch:concrete-instances-pde-namecert}, the finite-window comparison discipline of \autoref{ch:concrete-instances-ode-namecert}, the Sobolev weak-velocity packet of \autoref{ch:concrete-instances-sobolev-namecert}, the tagged energy-readback surface of \autoref{ch:concrete-instances-riemannintegral-namecert}, and the boundary-trace accounting of \autoref{ch:concrete-instances-boundedvariation-namecert}. The packet names only the displayed finite-energy route; it does not assert global smoothness, uniqueness, Clay Millennium problem resolution, measure completion, classical weak compactness, or a host pressure quotient.
+
+\begin{definition}[Navier-Stokes finite-energy carrier]
+\label{def:navier-stokes-finite-energy-carrier}
+A $\NavierStokesFiniteEnergyUp$ carrier is a finite $\BHist$ packet
+$$
+N=(D,V,R,E,W,B,H,C,P,M)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\PdeUp$ source row naming the incompressible Navier-Stokes relation, including the displayed velocity, pressure, viscosity, forcing, divergence-free, and initial-data slots.
+\item $V$ is the $\SobolevUp$ weak velocity-field row, read as a finite Sobolev packet for the velocity and its weak-gradient observations.
+\item $R$ is the pressure and residual row, recording the displayed pressure term, divergence constraint residual, forcing residual, and weak-form defect ledger without quotienting pressure by a host constant.
+\item $E$ is the energy-inequality ledger, read through $\RiemannIntegralUp$ rows for kinetic-energy and dissipation windows.
+\item $W$ is the finite time-window readback row. It names the time interval, endpoint observations, and ODE-facing comparison route used only as a finite evolution window.
+\item $B$ is the boundary row, recording no-slip, periodic, compact-support, or explicitly listed boundary data through bounded-variation and trace-facing ledgers.
+\item $H$ records componentwise $\hsame$ transport for the PDE source, weak velocity, pressure-residual, energy, time-window, boundary, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay through $D,V,R,E,W,B$ before a consumer reads the finite-energy packet.
+\item $P$ is the $\Pkg$ provenance over $\NavierStokesFiniteEnergyUp$, $\PdeUp$, $\OdeUp$, $\SobolevUp$, $\RiemannIntegralUp$, $\BoundedVariationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $M$ is the local $\NameCert_{\NavierStokesFiniteEnergyUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through these rows. It has no coordinate for a smooth global solution, a uniqueness theorem, a measure-completed function space, a compactness extraction theorem, or a quotient pressure representative.
+\end{definition}
+
+\begin{theorem}[Navier-Stokes finite-energy NameCert obligations]
+\label{thm:navier-stokes-finite-energy-obligations}
+For every accepted $\NavierStokesFiniteEnergyUp$ carrier $N=(D,V,R,E,W,B,H,C,P,M)$, the local $\NameCert_{\NavierStokesFiniteEnergyUp}$ surface consists exactly of PDE-source admission, Sobolev weak-velocity exposure, pressure and residual ledger visibility, energy-inequality readback, finite time-window readback, boundary-row exposure, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the displayed packet of \autoref{def:navier-stokes-finite-energy-carrier}. The analytic source is the PDE row $D$, while the weak velocity is read through the Sobolev row $V$ and the pressure-residual ledger $R$.
+
+The energy and time-window obligations are separate rows. The energy inequality is read through $E$ and its Riemann-integral provenance, while $W$ records only the finite evolution window and endpoint observations.
+
+The boundary and structural obligations are then visible through $B,H,C,P,M$. These rows transport, replay, source, and name the displayed carrier without adding smoothness, uniqueness, compactness extraction, measure completion, or pressure quotient data.
+\end{proof}
+
+\begin{theorem}[Navier-Stokes finite-energy nonescape]
+\label{thm:navier-stokes-finite-energy-nonescape}
+Every finite-energy read exported by an accepted $\NavierStokesFiniteEnergyUp$ carrier factors through
+$$
+D,V,R,E,W,B,H,C,P,M.
+$$
+It may expose the PDE source, Sobolev weak velocity, pressure-residual ledger, energy inequality, finite time-window, boundary row, transport, replay, provenance, and local $\NameCert$ evidence, but it cannot export global smoothness, uniqueness, Clay Millennium problem resolution, measure completion, classical weak compactness, or a host pressure quotient.
+\end{theorem}
+\begin{proof}
+Start with the route displayed in \autoref{def:navier-stokes-finite-energy-carrier}. Each consumer-facing read begins at the PDE row $D$ and then consumes the weak velocity $V$, pressure-residual ledger $R$, energy ledger $E$, finite time-window $W$, and boundary row $B$.
+
+The structural rows $H,C,P,M$ preserve the same finite route under transport, replay, provenance, and local naming. They do not introduce a second analytic source or a hidden host object.
+
+The excluded claims are absent by carrier inspection. No row names global smoothness, uniqueness, the Clay Millennium problem, measure completion, classical weak compactness, or a quotient pressure representative, so those claims cannot be recovered from an accepted packet.
+\end{proof}
+
+\closureat{NavierStokesFiniteEnergyUp}{seedStr}
+
+\begin{closurestatus}{\NavierStokesFiniteEnergyUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:navier-stokes-finite-energy-carrier}, \autoref{thm:navier-stokes-finite-energy-obligations}, and \autoref{thm:navier-stokes-finite-energy-nonescape} seed the finite-energy PDE carrier, NameCert obligation surface, and nonescape boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, global smoothness, uniqueness, Clay Millennium problem resolution, measure completion, classical weak compactness, host pressure quotients, or bridge checking.}
+  \upgradepath{Obligation closure asks for checked carrier admission, PDE-source exactness, Sobolev weak-velocity exposure, pressure-residual visibility, energy-window readback, boundary-row exposure, transport, replay, provenance, and local naming for BEDC.Derived.NavierStokesFiniteEnergyUp.}
+  \constructivestory{A $\NavierStokesFiniteEnergyUp$ packet is generated from PDE source rows, Sobolev weak velocity rows, pressure and residual rows, energy inequality ledgers, finite time-window readbacks, boundary rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
