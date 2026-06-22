@@ -54,6 +54,20 @@ Apply the classifier of \autoref{def:regular-cauchy-gluing-classifier}. A refine
 The glued readback row $Q$ is therefore the same row after refinement, and the $\RealUp$ seal $E$ is read only through $Q$ together with $H,C,P,N$. Since the carrier contains no quotient, selector, host-equality, choice, or completeness coordinate, none of those data can be exported by overlap stability.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy gluing overlap induction]
+\label{thm:regular-cauchy-gluing-overlap-induction}
+Let $G=(L,R,D,S,Q,E,H,C,P,N)$ be an accepted $\RegularCauchyGluingUp$ carrier. For any finite chain of displayed overlap refinements transported by $H$ and replayed by $C$, the glued $\RegSeqRatUp$ readback $Q$ and the terminal $\RealUp$ seal $E$ remain unchanged. The resulting route still factors through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyReindexingUp$, and it exports no quotient stream equality, selected representatives, host equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite refinement list.
+
+The empty list is the overlap-stability theorem of \autoref{thm:regular-cauchy-gluing-overlap-stability}: the common dyadic ledger $D$ and the finite observation row $S$ already determine the same glued readback $Q$ and seal $E$.
+
+For the step, assume the earlier refinements preserve $Q$ and $E$. Compose the next displayed refinement with the induction hypothesis, transport the component rows by $H$, and replay the same finite route by $C$.
+
+Apply the classifier of \autoref{def:regular-cauchy-gluing-classifier} componentwise. Since the classifier reads only $L,R,D,S,Q,E,H,C,P,N$, the next refinement cannot add a quotient, representative selector, host equality row, choice schedule, or completeness witness; it only repeats the finite route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyReindexingUp$.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy gluing Cauchy-reindexing handoff]
 \label{thm:regular-cauchy-gluing-cauchy-reindexing-handoff}
 Every accepted $\RegularCauchyGluingUp$ carrier factors its gluing route through the finite $\CauchyReindexingUp$ surface recorded in $P$. The handoff exposes the common dyadic refinement ledger $D$, the finite observation row $S$, and the glued regular readback row $Q$ as a reindexing-compatible route, and it exposes no global quotient of regular Cauchy names or ambient completeness principle.
@@ -99,7 +113,7 @@ Since quotient stream equality, selected representatives, host equality, choice 
 \begin{closurestatus}{\RegularCauchyGluingUp}
   \constructivestory{A $\RegularCauchyGluingUp$ packet is generated from two compatible regular Cauchy windows, a common $\DyadicRatCoreUp$ refinement ledger, finite $\StreamNameUp$ observations, a glued $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-gluing-carrier}, \autoref{def:regular-cauchy-gluing-classifier}, \autoref{thm:regular-cauchy-gluing-namecert-obligations}, \autoref{thm:regular-cauchy-gluing-overlap-stability}, \autoref{thm:regular-cauchy-gluing-cauchy-reindexing-handoff}, \autoref{thm:regular-cauchy-gluing-obligation-closure-handoff}, and \autoref{thm:regular-cauchy-gluing-real-seal-ordering} seed the finite gluing route for compatible regular Cauchy windows.}
+  \scopeclosed{\autoref{def:regular-cauchy-gluing-carrier}, \autoref{def:regular-cauchy-gluing-classifier}, \autoref{thm:regular-cauchy-gluing-namecert-obligations}, \autoref{thm:regular-cauchy-gluing-overlap-stability}, \autoref{thm:regular-cauchy-gluing-overlap-induction}, \autoref{thm:regular-cauchy-gluing-cauchy-reindexing-handoff}, \autoref{thm:regular-cauchy-gluing-obligation-closure-handoff}, and \autoref{thm:regular-cauchy-gluing-real-seal-ordering} seed the finite gluing route for compatible regular Cauchy windows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected representatives, host real equality, countable choice, ambient completeness of $\RealUp$, Lean verification, or bridge checking.}
