@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\TailWindowUniformSequenceUp$}
+\label{ch:concrete-instances-tail-window-uniform-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\TailWindowUniformSequenceUp$ packet records the finite tail-window interface used when a uniformly continuous sequence is inspected only through displayed windows and a shared modulus row. It refines the sequence route of \autoref{ch:concrete-instances-uniformly-continuous-sequence-namecert} through the modulus discipline of \autoref{ch:concrete-instances-uniformmodulus-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a tail-window surface without selected limits, quotient streams, countable choice, trichotomy, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Tail-window uniformly continuous sequence carrier]
+\label{def:tail-window-uniform-sequence-carrier}
+A $\TailWindowUniformSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(I,M,W_0,W_1,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the sequence-index window row naming the finite tail interval being inspected.
+\item $M$ is the shared $\UniformModulusUp$ row used by every read in the window.
+\item $W_0$ and $W_1$ are the paired $\StreamNameUp$ window reads cut from the same tail interval.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the two window reads and their shared modulus budget.
+\item $E$ is the terminal $\RealUp$ seal row available only after $I,M,W_0,W_1,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the index window, modulus, stream windows, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the index window through the shared modulus, StreamName windows, RegSeqRat readback, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\TailWindowUniformSequenceUp$, $\UniformlyContinuousSequenceUp$, $\UniformModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TailWindowUniformSequenceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a selected limiting value, quotient equality of streams, a private modulus per side of the window, countable choice, trichotomy, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Tail-window uniformly continuous sequence obligations]
+\label{thm:tail-window-uniform-sequence-obligations}
+For every accepted $\TailWindowUniformSequenceUp$ carrier
+$$
+T=(I,M,W_0,W_1,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\TailWindowUniformSequenceUp}$ surface consists of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed sequence-index window, shared modulus, paired StreamName reads, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming;
+\item shared-modulus exposure, requiring $M$ to be read before either window can be consumed as a uniformly continuous sequence tail;
+\item tail-window readback, requiring $W_0,W_1$ and $R$ to expose only the finite inspected tail interval named by $I$;
+\item Real-seal handoff, requiring $E$ to appear only after the shared modulus and regular readback rows have been displayed;
+\item nonescape for selected limits, quotient streams, private side moduli, countable choice, trichotomy, and ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tail-window-uniform-sequence-carrier}. The analytic coordinates are exactly the index window, shared modulus, two StreamName reads, regular readback, and terminal Real seal.
+
+Read the shared modulus row before the window rows. Since $M$ is common to $W_0$ and $W_1$, the two reads cannot choose separate tail thresholds or private uniform-continuity data.
+
+The RegSeqRat row repacks only the displayed window data. Thus a Real-facing consumer reaches $E$ through $I,M,W_0,W_1,R$ rather than through a selected limit or quotient stream.
+
+Finally the structural rows $H,C,P,N$ transport, replay, source, and name the same route. They do not add countable choice, trichotomy, private moduli, or ambient completeness, so the five listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\closureat{TailWindowUniformSequenceUp}{seedStr}
+
+\begin{closurestatus}{\TailWindowUniformSequenceUp}
+  \constructivestory{A $\TailWindowUniformSequenceUp$ packet is generated from a finite sequence-index window, a shared UniformModulus row, paired StreamName window reads, RegSeqRat readback, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tail-window-uniform-sequence-carrier} and \autoref{thm:tail-window-uniform-sequence-obligations} seed the finite tail-window route for uniformly continuous sequence consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, selected limits, quotient stream equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-modulus exposure, finite tail-window readback, Real-seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.TailWindowUniformSequenceUp.}
+\end{closurestatus}
