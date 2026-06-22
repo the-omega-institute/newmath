@@ -752,6 +752,7 @@ import BEDC.Derived.BaireOneFunctionUp
 import BEDC.Derived.BaireOneFunctionUp.Classifier
 import BEDC.Derived.BaireOneFunctionUp.OscillationLocality
 import BEDC.Derived.BaireOneFunctionUp.TasteGate
+import BEDC.Derived.BaireOneModulusUp.TasteGate
 import BEDC.Derived.BaireSpaceCompactOpenUp.TasteGate
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BaireSpaceUp.TasteGate
@@ -2826,6 +2827,7 @@ import BEDC.Derived.ClosedMetricBallUp.TasteGate
 import BEDC.Derived.ClosedMetricGraphUp
 import BEDC.Derived.ClosedNormalCanonicityUp.TasteGate
 import BEDC.Derived.ClosedNormalConfluenceSealUp.NormalSource
+import BEDC.Derived.ClosedNormalConfluenceSealUp.PublicExport
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyBoundaryUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyWitnessUp.TasteGate
@@ -6793,6 +6795,7 @@ import BEDC.Derived.LiminfUp.GapWidth
 import BEDC.Derived.LiminfUp.LowerCutReadback
 import BEDC.Derived.LiminfUp.LowerCutReadbackScope
 import BEDC.Derived.LiminfUp.RealSealExhaustion
+import BEDC.Derived.LiminfUp.RegularSequenceRoute
 import BEDC.Derived.LiminfUp.ScopedTailEnvelope
 import BEDC.Derived.LiminfUp.ZeroGapConvergence
 import BEDC.Derived.LimitComparisonTestUp.TasteGate
@@ -7278,6 +7281,7 @@ import BEDC.Derived.MaxCausalRateUp
 import BEDC.Derived.MaxCausalRateUp.TasteGate
 import BEDC.Derived.MaxRateReadGateUp.TasteGate
 import BEDC.Derived.MayerVietorisSequenceUp.TasteGate
+import BEDC.Derived.MazurUlamIsometryUp
 import BEDC.Derived.McShaneExtensionUp.TasteGate
 import BEDC.Derived.MeagreSetUp.TasteGate
 import BEDC.Derived.MeanErgodicUp.TasteGate
@@ -10269,6 +10273,7 @@ import BEDC.Derived.RichmanCompletionUp.TasteGate
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
 import BEDC.Derived.RiemannIntegrabilityCriterionUp.TasteGate
+import BEDC.Derived.RiemannIntegrabilityDiscontinuityUp.TasteGate
 import BEDC.Derived.RiemannIntegrabilityModulusUp.TasteGate
 import BEDC.Derived.RiemannIntegrableUp.DarbouxGapRoute
 import BEDC.Derived.RiemannIntegrableUp.TasteGate
@@ -10302,6 +10307,7 @@ import BEDC.Derived.RiemannSumUp.MatureFiniteMeshExamples
 import BEDC.Derived.RiemannSumUp.TasteGate
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.RieszFischerUp.TasteGate
+import BEDC.Derived.RieszInterpolationUp
 import BEDC.Derived.RieszInterpolationUp.TasteGate
 import BEDC.Derived.RieszLemmaUp.NormedSeparationWitness
 import BEDC.Derived.RieszLemmaUp.TasteGate
