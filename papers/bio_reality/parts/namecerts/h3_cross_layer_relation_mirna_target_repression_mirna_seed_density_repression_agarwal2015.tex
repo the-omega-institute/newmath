@@ -1,55 +1,33 @@
 \origin{ai}
 
-\subsection{A finite seed-density repression contact for miRNA targets}
+\subsection{Finite miRNA Seed-Density Repression Surface}
 \label{sec:bioreality-mirna-seed-density-repression-agarwal2015}
 
-\paragraph{Finite surface.}
-The miRNA target-repression record is a finite cross-layer surface whose rows are miRNA--target pairs and whose columns separate seed-density information from the downstream repression readout.  The registered run contains $11$ miRNAs and $56682$ miRNA--target pairs, with a recorded runtime of $1$ second.  Thus the chapter is not using an informal statement that miRNAs repress targets in general; it is using a bounded table whose first admissible mathematical object is a finite relation
+\paragraph{Finite carrier.}
+The miRNA target-repression record is a finite cross-layer surface whose rows are miRNA--target pairs and whose columns retain only the information needed to ask whether seed-density burden can be read as a repression-associated coordinate.  The attached computation contains $11$ miRNAs and $56{,}682$ miRNA--target rows, with the row construction completed in $1$ second under run $45f083dea984$.  Thus the evidence object is not a verbal association between miRNAs and repression; it is a finite matrix large enough to distinguish miRNA-specific row membership from a vacuous single-row example.
+
+\paragraph{Coordinate being tested.}
+For each row, the relevant coordinate is the seed-density side of the miRNA--target relation.  The biological readback is target repression in the Agarwal-style miRNA target setting, but the chapter only uses the registered finite-row count and the declared row type.  In particular, the claim is about a relation between miRNA seed burden and target repression, not about codon adaptation, ribosome occupancy, protein folding, organism fitness, or molecular function.  The finite data certify that the packet has a concrete row surface with many pairwise observations; they do not by themselves certify a mechanistic causal path.
+
+\paragraph{Rank and row sanity.}
+The nondegenerate facts are the observed row count $n_{pairs}=56{,}682$ and the miRNA count $n_{mirnas}=11$.  The matrix is therefore not a rank-degenerate $n=3$ boundary case and is not an all-entry artefact produced by too few biological units.  The basic row scale can be summarized as
 $$
 \begin{aligned}
-  \mathcal{D}_{\mathrm{miR}}
-    &\subseteq \{1,\ldots,11\}\times \{1,\ldots,56682\},\\
-  (m,g)&\mapsto \bigl(s_{mg},r_{mg}\bigr),
+  n_{mirnas} &= 11,\\
+  n_{pairs} &= 56{,}682,\\
+  n_{pairs}/n_{mirnas} &\approx 5{,}153.
 \end{aligned}
 $$
-where $s_{mg}$ denotes the finite seed-density or target-site coordinate available for miRNA $m$ and target entry $g$, and $r_{mg}$ denotes the matched repression readout.  The verified finite counts are the part of the record that is presently closed: the panel size is $n_{\mathrm{miRNA}}=11$ and the pair count is $n_{\mathrm{pair}}=56682$.
+This ratio is not used as an effect-size estimate.  It is only a finite-row adequacy check showing that the surface contains thousands of candidate target relations per assayed miRNA on average.
 
-\paragraph{Role in the BioReality dictionary.}
-The seed-density contact is deliberately narrower than the neighboring codon-usage and translation records.  It records an RNA-regulatory surface: a miRNA seed-density coordinate can be compared against target repression, but that comparison is not a translation-efficiency measurement, a codon-usage measurement, a protein-folding measurement, or a functional assay.  The appropriate local readback is therefore a four-way finite classification:
-$$
-\begin{aligned}
-  A &: \text{seed coordinate present and repression readout positive},\\
-  B &: \text{seed coordinate present and repression readout null},\\
-  C &: \text{seed coordinate absent and repression readout positive},\\
-  D &: \text{seed coordinate absent and repression readout null}.
-\end{aligned}
-$$
-This classification is a table operation on the $56682$ observed pairs.  It does not by itself identify the biochemical cause of repression, because repression can mix target-site architecture, transcript abundance, RNA decay, translation, and protein turnover.  The finite panel is therefore admitted as a measured RNA-regulatory contact, not as a mechanistic pathway certificate.
+\paragraph{Relation to translation and protein-abundance readouts.}
+This miRNA surface is deliberately kept separate from the B$^*_{Q6}$ translation and protein-abundance matrices.  In the measured translation-efficiency record, the B$^*_{Q6}$ surface used $9$ residual coordinates and reported measured $S^{QT}$ values across four organisms: $0.04034217614654355$ in \emph{Danio rerio}, $0.009394266754822262$ in \emph{Escherichia coli} K12 MG1655, $0.018837911344127926$ in human, and $0.13681931343730436$ in yeast.  In the measured translation-conditioned protein-abundance decomposition, the same four-organism surface had measured mediated fractions $0.0$, $0.04091158340950673$, $0.0027966485036786744$, and $0.4793069656345167$, respectively.  Those numbers show how a translation-layer mediation claim is allowed only when a measured translation readout is present and conditioning is explicitly computed.  The miRNA seed-density surface has no such attached $q_i \to T_j \to P_k$ matrix in the present record, so it remains a repression-readout relation rather than a translation-mediated protein mechanism.
 
-\paragraph{Separation from codon-residual translation records.}
-The same BioReality ledger contains a rank-powered $B^*_{Q6}$ codon-residual family with $9$ residual coordinates: $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  Those coordinates live on coding-sequence codon composition after controls for amino-acid composition, CDS length, $GC3$, and an $M$-density baseline.  The miRNA seed-density panel is not one of those coordinates.  Its admissible comparison to the codon-residual layer is only a finite cross-layer relation: one may ask whether a transcript-level repression coordinate changes the interpretation of a codon-residual association, but one may not identify miRNA seed density with translation efficiency.
+\paragraph{Protein-omics comparison boundary.}
+The direct protein-omics survival computation is also not imported as a mechanism for this miRNA chapter.  That separate surface used $15$ organisms, $9$ B$^*_{Q6}$ residual coordinates, and Z-residualized protein-abundance rows; for example, it reported $R^2_{QP}=0.29837624994140827$ in yeast, $0.10767526677985896$ in \emph{E. coli}, and $0.04454565118019448$ in human.  Those direct protein-abundance associations were explicitly marked as cross-sectional protein-omics correlations, not causal translation mechanisms.  The miRNA seed-density result is therefore not promoted into a protein-output or translation statement merely because other cross-layer protein matrices exist in the same evidence family.
 
-For calibration, the measured ribosome-TE record reports positive $B^*_{Q6}\to T$ survival in four organism-specific panels: $R^2_{QT}=0.04034217614654355$ for \emph{Danio rerio}, $0.009394266754822262$ for \emph{Escherichia coli} K12 MG1655, $0.018837911344127926$ for human, and $0.13681931343730436$ for yeast, each with $9$ surviving coordinates.  The joined TE row counts are $13140$, $3415$, $11554$, and $5128$, respectively.  These numbers are cited here only to mark the distinction between a measured translation-efficiency surface and the miRNA seed-density repression surface.  A miRNA seed-density row is not a ribosome-profiling row unless a separate joined dataset supplies the same transcript or CDS units with ribosome-footprint and matched mRNA measurements.
+\paragraph{Readback classification.}
+The finite miRNA record supports the following local classification.  First, the row surface is real enough for a bounded repression-readout chapter: $56{,}682$ pair rows over $11$ miRNAs are present.  Second, the available facts do not expose per-miRNA coefficients, confidence intervals, null permutations, repression-effect magnitudes, seed-site classes, transcript controls, or protein readouts.  Third, the chapter can state a finite seed-density repression surface, but it cannot state a measured translation-survival result, a protein-abundance mediation result, or a causal target-repression mechanism.  The admissible conclusion is therefore a bounded cross-layer relation: miRNA seed-density target rows have been instantiated at finite scale, and any stronger biological interpretation requires additional matched readout columns.
 
-\paragraph{Protein-abundance contrast.}
-The direct protein-omics record gives a separate downstream surface.  It reports $B^*_{Q6}\to P$ residual association against measured PAXdb protein abundance in $15$ organism panels, each with $9$ surviving coordinates.  The recorded $R^2_{QP}$ values include $0.061906245886660105$ for \emph{Bacillus subtilis} 168, $0.10767526677985896$ for \emph{E. coli} K12 MG1655, $0.04454565118019448$ for human, $0.049827984062539195$ for mouse, $0.29837624994140827$ for yeast, and $0.06397514251295629$ for \emph{Sulfolobus solfataricus}.  The joined protein row counts include $4042$, $3739$, $19053$, $19395$, $5815$, and $1656$ for those same panels.  These protein-abundance facts prevent a common over-reading of the miRNA table: a seed-density association with repression is not the same claim as a codon-residual association with steady-state protein abundance.  A valid downstream protein statement would require matched protein rows and an explicit conditioning calculation.
-
-\paragraph{Mediation boundary.}
-When a translation-contact is present, the codon-residual protein record uses explicit attenuation rather than verbal mechanism language.  In the measured translation-mediated abundance run, the mediated fractions were $0.0$ for \emph{Danio rerio}, $0.04091158340950673$ for \emph{E. coli} K12 MG1655, $0.0027966485036786744$ for human, and $0.4793069656345167$ for yeast.  The corresponding three-way joined row counts were $13140$, $3415$, $11554$, and $5128$.  These values show the local standard for a mediation statement: both $Q\to T$ and $Q\to P$ surfaces must be present, and conditioning on $T$ must be evaluated numerically.
-
-The miRNA seed-density record has not yet supplied an analogous miRNA-conditioned mediation table of the form
-$$
-\begin{aligned}
-  q_i &\longrightarrow T_j \longrightarrow P_k,\\
-  s_{mg} &\longrightarrow r_{mg}\quad\text{with matched }T_j\text{ and }P_k\text{ on the same rows}.
-\end{aligned}
-$$
-Consequently, the miRNA result can enter the paper as a measured repression contact with finite row support, but it cannot be promoted into a translation-mediated protein-abundance mechanism.  If a future joined table places miRNA seed density, matched transcript abundance, ribosome TE, protein abundance, and codon-residual coordinates on the same units, then the admissible test is attenuation: compare the direct seed-density or codon-residual association with the association after conditioning on the measured translation readout and transcript controls.
-
-\paragraph{Joint readout comparison.}
-The existing joint TE and mRNA-stability decomposition gives a second calibration for how multi-readout claims are handled.  In \emph{E. coli}, human, and yeast, the recorded $R^2_{QP}$ values are $0.1181743523064932$, $0.04274178488511215$, and $0.2715520808117803$.  After conditioning on both measured TE and mRNA stability, the incremental codon-residual values are $R^2_{QP\mid T,M}=0.08975732521542036$, $0.0355223930537993$, and $0.13047582645538838$.  The corresponding joint mediation fractions are $0.2404669586626661$, $0.16890712099923358$, and $0.5195182225621592$, with right-tail permutation values $0.000999000999000999$ in all three panels.  This is the correct mathematical style for cross-layer claims: the mediator columns are named, joined, residualized, and then compared by finite statistics.
-
-By contrast, the miRNA seed-density run presently contributes the finite facts $11$ and $56682$, not a joint TE--stability--protein decomposition.  Its chapter-level conclusion is therefore intentionally modest: the Agarwal-style seed-density surface is a real finite table for miRNA target repression, and it can constrain the RNA-regulatory side of a larger cross-layer dictionary, but it does not close translation, folding, physical admissibility, molecular function, causal mechanism, evolutionary direction, or universality.
-
-\paragraph{Local verdict.}
-The record is ready as a finite BioReality chapter because the row counts and scope are concrete: $11$ miRNAs, $56682$ target pairs, and a recorded one-second run.  The admissible claim is that a bounded miRNA seed-density repression surface exists and can be kept distinct from codon-residual translation and protein-abundance surfaces.  The inadmissible claims are equally explicit.  No translation claim follows without a measured translation contact; no protein-output claim follows without matched protein abundance; no folding, physical-admissibility, function, phenotype, mechanism, or universal biological law follows without a separate layer-matched measurement and a finite statistic on the same units.
+\paragraph{Cannot-claim boundary.}
+No translation, folding, physical admissibility, molecular function, causal mechanism, evolutionary directionality, phenotype, or universal biological rule follows from this surface alone.  A separate contact would be required for each promoted layer: ribosome profiling or equivalent translation-efficiency rows for translation, matched protein abundance for protein output, structural or physical assays for folding and admissibility, perturbation or rescue data for mechanism, and functional or phenotype assays for biological function.  Without those contacts, the miRNA seed-density chapter is a finite repression-coordinate record and nothing more.
