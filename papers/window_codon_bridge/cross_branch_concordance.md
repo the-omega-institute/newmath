@@ -6,8 +6,8 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 
 - bio_only: 55
 - duplicate_bio_program: 34
-- math_stub: 5
-- needs_derivation: 10
+- math_stub: 4
+- needs_derivation: 11
 
 ## B*_Q6 crosswalk summary
 
@@ -124,7 +124,6 @@ None. No intake item passed carrier-map, necessity, and matched-null gates toget
 | fibonacci | track_a | track_a_homeless | tools/fibonacci_reality/experiments/run_track_a_human_wobble_boundary_response.py | track-a.codon-wobble-boundary-response.human | bio_only | Track A human codon-wobble boundary response with a permutation null. |
 | fibonacci | track_a | track_a_homeless | tools/fibonacci_reality/experiments/run_track_a_yeast_wobble_boundary_response.py | track-a.codon-wobble-boundary-response.yeast | bio_only | Track A yeast codon-wobble boundary response with a permutation null. |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_fib_entry_point_fermat_congruence_law_certificate.tex | Window Six Fib Entry Point Fermat Congruence Law | math_stub | \subsection{NameCert: Window Six Fib Entry Point Fermat Congruence Law} \label{sec:namecert-window6_fib_entry_point_ferm |
-| fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_fib_gcd_strong_divisibility_law_certificate.tex | Window Six Fib Gcd Strong Divisibility Law | math_stub | \subsection{NameCert: Window Six Fib Gcd Strong Divisibility Law} \label{sec:namecert-window6_fib_gcd_strong_divisibilit |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_pisano_period_modp_divisibility_law_certificate.tex | Window Six Pisano Period Modp Divisibility Law | math_stub | \subsection{NameCert: Window Six Pisano Period Modp Divisibility Law} \label{sec:namecert-window6_pisano_period_modp_div |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_golden_split_modp_fibonacci_entry_point_law_certificate.tex | Window Six Golden Split Modp Fibonacci Entry Point Law | math_stub | \subsection{NameCert: Window Six Golden Split Modp Fibonacci Entry Point Law} \label{sec:namecert-window6_golden_split_m |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_lucas_fib_norm_relation_law_certificate.tex | Window Six Lucas Fib Norm Relation Law | math_stub | \subsection{NameCert: Window Six Lucas Fib Norm Relation Law} \label{sec:namecert-window6_lucas_fib_norm_relation_law_ce |
@@ -135,6 +134,7 @@ None. No intake item passed carrier-map, necessity, and matched-null gates toget
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/binet_golden_ratio_characteristic_recurrence.tex | binet_golden_ratio_characteristic_recurrence | needs_derivation | \origin{ai} \subsection{Golden-root characteristic recurrence certificate} \label{sec:binet-golden-ratio-characteristic- |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_lucas_kernel_coefficient_gauge_obstruction_certificate.tex | window6_lucas_kernel_coefficient_gauge_obstruction_certificate | needs_derivation | \origin{ai} \subsection{A six-window coefficient gauge obstruction from the matrix $\begin{pmatrix}1&1\\1&0\end{pmatrix} |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_parry_measure_stationary_covector_modp_descent_certificate.tex | window6_parry_measure_stationary_covector_modp_descent_certificate | needs_derivation | \origin{ai} \subsection{Missing finite data for the window-six stationary covector certificate}\label{sec:window6-parry- |
+| fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_fib_gcd_strong_divisibility_law_certificate.tex | window6_fib_gcd_strong_divisibility_law_certificate | needs_derivation | \origin{ai} \subsection{Forced-window Fibonacci gcd certificate} \label{sec:window6-fib-gcd-strong-divisibility-law-cert |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/zeckendorf_normal_cyclic_sector_character.tex | zeckendorf_normal_cyclic_sector_character | needs_derivation | \origin{ai} \subsection{Cyclic Zeckendorf-normal sectors and their rotation character} \label{sec:zeckendorf-normal-cycl |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/phi_m_factor_golden_mean_subshift.tex | phi_m_factor_golden_mean_subshift | needs_derivation | \origin{ai} \subsection{Finite windows for the golden-mean subshift} \label{sec:phi-m-factor-golden-mean-subshift} \para |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_three_rigidity_window_observation.tex | window6_three_rigidity_window_observation | needs_derivation | \origin{ai} \subsection{A width-six forced-window observation} \label{sec:window6-three-rigidity-window-observation} \pa |
