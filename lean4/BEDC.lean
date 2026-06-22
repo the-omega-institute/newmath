@@ -2476,6 +2476,7 @@ import BEDC.Derived.CauchyTailThresholdNormalizerUp.Classifier
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.CompositionScope
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RealFacingDeterminacy
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RouteExhaustion
+import BEDC.Derived.CauchyTailThresholdNormalizerUp.TailWindowInduction
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TasteGate
 import BEDC.Derived.CauchyTailWitnessEnvelopeUp.TasteGate
 import BEDC.Derived.CauchyTightnessUp.TasteGate
@@ -5838,6 +5839,7 @@ import BEDC.Derived.FinitePartitionMeshUp.TasteGate
 import BEDC.Derived.FinitePhaseCylinderUp
 import BEDC.Derived.FinitePhaseSamplingUp
 import BEDC.Derived.FinitePrefixAutomatonUp.Determinacy
+import BEDC.Derived.FinitePrefixAutomatonUp.EndpointExactness
 import BEDC.Derived.FinitePrefixAutomatonUp.RegularLanguageSiblingBridge
 import BEDC.Derived.FinitePrefixAutomatonUp.TasteGate
 import BEDC.Derived.FinitePrefixAutomatonUp.TransitionExactness
@@ -9367,6 +9369,7 @@ import BEDC.Derived.RealCauchyWitnessGridUp.TasteGate
 import BEDC.Derived.RealClassifierUp
 import BEDC.Derived.RealClosureUp.TasteGate
 import BEDC.Derived.RealCofinalModulusGateUp.TasteGate
+import BEDC.Derived.RealCompletenessDensityWindowUp
 import BEDC.Derived.RealCompletenessDiagonalSelectorUp.NameCertObligations
 import BEDC.Derived.RealCompletenessDiagonalSelectorUp.TasteGate
 import BEDC.Derived.RealCompletenessTailChoiceAuditUp.TasteGate
@@ -9900,6 +9903,7 @@ import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularCauchyComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionCounitUp
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.TasteGate
+import BEDC.Derived.RegularCauchyCompletionDensityUp
 import BEDC.Derived.RegularCauchyCompletionEndpointUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionEndpointUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionEnvelopeUp.TasteGate
