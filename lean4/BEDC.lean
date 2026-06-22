@@ -1290,6 +1290,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowRealSealPullback
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealCompleteness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealHandoff
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealReadbackCompleteness
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSelectorCertificate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSelectorFactorization
 import BEDC.Derived.BoundedMonotoneConvergenceSealUp.TasteGate
 import BEDC.Derived.BoundedMonotoneSubsequenceUp.TasteGate
@@ -1530,6 +1531,7 @@ import BEDC.Derived.CantorSetUp.ScopedRealSealRoute
 import BEDC.Derived.CantorSetUp.TasteGate
 import BEDC.Derived.CantorSetUp.TernaryPrefixClassifier
 import BEDC.Derived.CantorSetUp.TernaryPrefixDensity
+import BEDC.Derived.CantorSetUp.TriadicWindowSplitStability
 import BEDC.Derived.CantorSetUp.TriadicWindowStability
 import BEDC.Derived.CantorSpaceCompactnessUp.TasteGate
 import BEDC.Derived.CantorSpaceUp
@@ -7572,6 +7574,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourcePackage
 import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.MaturePackageConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
+import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurfaceCanonical
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineDecidabilityHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineFourFaceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.NormalAuditSocketHandoff
@@ -7892,6 +7895,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.BoundedSearchExhaustion
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BridgeExport
 import BEDC.Derived.MetacicDecidabilityWitnessUp.BridgeFacingSurface
 import BEDC.Derived.MetacicDecidabilityWitnessUp.CandidateNormalizationScope
+import BEDC.Derived.MetacicDecidabilityWitnessUp.ConfluenceHandoffBoundary
 import BEDC.Derived.MetacicDecidabilityWitnessUp.DecidabilityWitnessPublicExport
 import BEDC.Derived.MetacicDecidabilityWitnessUp.FormalTargetLedger
 import BEDC.Derived.MetacicDecidabilityWitnessUp.FuelWindowExhaustion
@@ -10360,6 +10364,7 @@ import BEDC.Derived.RieszMarkovUp.TasteGate
 import BEDC.Derived.RieszRepresentationFiniteLatticeUp.TasteGate
 import BEDC.Derived.RieszRepresentationUp.DualFunctionalRoute
 import BEDC.Derived.RieszRepresentationUp.HilbertFunctionalBridge
+import BEDC.Derived.RieszRepresentationUp.MeasureHandoff
 import BEDC.Derived.RieszRepresentationUp.TasteGate
 import BEDC.Derived.RieszSpaceUp.TasteGate
 import BEDC.Derived.RingOfIntegersUp
@@ -11702,6 +11707,7 @@ import BEDC.Derived.UniformSequentialLimitUp.TasteGate
 import BEDC.Derived.UniformSpaceCompletionFilterUp.TasteGate
 import BEDC.Derived.UniformSpaceCompletionUp.TasteGate
 import BEDC.Derived.UniformSpaceUp
+import BEDC.Derived.UniformlyCauchyFilterUp.TasteGate
 import BEDC.Derived.UniformlyCauchySequenceUp.TasteGate
 import BEDC.Derived.UniformlyContinuousCompletionExtensionUp.TasteGate
 import BEDC.Derived.UniformlyConvexSpaceUp.TasteGate
