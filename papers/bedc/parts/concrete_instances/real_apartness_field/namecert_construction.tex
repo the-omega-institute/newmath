@@ -6,6 +6,22 @@ Following Bishop and Bridges, the $\RealApartnessFieldUp$ packet records the con
 
 Every apartness-field read passes through the $\RealUp$ seal and real readback rows of \autoref{ch:concrete-instances-real-namecert}, the apartness/order bridge of \autoref{ch:concrete-instances-real-apartness-order-bridge-namecert}, the specialization order surface of \autoref{ch:concrete-instances-order-namecert}, and the field operation rows of \autoref{ch:concrete-instances-field-namecert} before it exports an apartness algebra surface.
 
+\begin{theorem}[Real apartness field located source route]
+\label{thm:real-apartness-field-located-source-route}
+Every accepted $\RealApartnessFieldUp$ inverse read or order-facing read first consumes the $\RealApartnessOrderBridgeUp$ route of \autoref{ch:concrete-instances-real-apartness-order-bridge-namecert} before the $\FieldUp$ inverse branch may be exposed. In carrier notation, the displayed packet
+$$
+F=(R,A,O,K,D,H,C,P,N)
+$$
+routes the real seal $R$, apartness row $A$, located-order row $O$, field row $K$, dyadic ledger $D$, transport $H$, replay $C$, provenance $P$, and local naming row $N$ through the apartness/order bridge before any consumer reads an inverse or order-facing field operation.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The inverse branch is stored in the field row $K$, but the carrier definition also displays the real seal $R$, apartness row $A$, located-order row $O$, dyadic ledger $D$, and the structural rows $H,C,P,N$ in the same finite packet.
+
+Read the bridge route cited by the introduction. The $\RealApartnessOrderBridgeUp$ chapter supplies the sibling route that ties apartness evidence to located order data before an order-facing consumer can use the real field surface.
+
+Now compose the existing NameCert obligations with inverse-guard stability. The obligation rows require inverse admission to consume $A$ and $D$, while located order compatibility consumes $O$ over the same real seal $R$. The transport and replay rows $H,C,P,N$ preserve that source route, so the field row $K$ exposes its inverse branch only after the apartness/order bridge has already been read.
+\end{proof}
+
 \begin{definition}[Real apartness field carrier]
 \label{def:real-apartness-field-carrier}
 A $\RealApartnessFieldUp$ carrier is a finite $\BHist$ packet
