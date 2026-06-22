@@ -127,6 +127,18 @@ Apply residual progress from \autoref{thm:metacic-candidate-normalization-residu
 The residual side is read against \autoref{ch:concrete-instances-parallel-diamond-residual-namecert}. Since the carrier contains no coordinates for unrestricted Church--Rosser, unconditional strong normalization, subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, or consistency, the rectangle remains a guarded handoff packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate normalization confluence handoff candidate residual join]
+\label{thm:metacic-candidate-normalization-confluence-handoff-candidate-residual-join}
+Let $H=(A,K,N,F,C,D,B,T,R,P,L)$ be an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier. If two candidate-normalization edges exported from $H$ expose candidate evidence $K$ and frontier evidence $F$, and every residual edge is routed through the residual-envelope row $C$ and blocked-edge row $B$, then any exported join row is guarded by $K$, $F$, $C$, $D$, $B$, and the structural rows $T,R,P,L$. The join row is a candidate-mediated residual handoff; it is not full Church--Rosser, unrestricted subject reduction, unconditional strong normalization, global conversion decidability, quotient syntax equality, host evaluator soundness, or closed consistency.
+\end{theorem}
+\begin{proof}
+Begin with the boundary theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. It forces any endpoint or comparison read to display $K,F,N$ before the consumer sees bounded normalization data, and it keeps $C,D,B$ visible on the residual and decidable-boundary side.
+
+Use residual progress from \autoref{thm:metacic-candidate-normalization-residual-progress}. Under the stated routing, residual edges either remain retained candidate premises through $K,F$ or become obstruction rows through $C,B$; neither route removes the candidate evidence.
+
+Finally apply the rectangle theorem \autoref{thm:metacic-candidate-normalization-confluence-rectangle}. The exported join row is therefore read only as the guarded rectangle output, with $T,R,P,L$ preserving the same finite route by transport, replay, provenance, and local naming. Since no excluded global theorem is a carrier coordinate, the join cannot be promoted beyond the candidate-mediated residual handoff.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate normalization confluence boundary]
 \label{thm:metacic-candidate-normalization-confluence-boundary}
 Let $H=(A,K,N,F,C,D,B,T,R,P,L)$ be an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier. If a bounded comparison exports a join row from $H$, then the read preserves candidate evidence $K$, the normalization frontier $F$, the residual envelope $C$, the decidable boundary $D$, the blocked-edge row $B$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local naming $L$. The exported join row is therefore a guarded candidate-normalization handoff. It cannot be read as unconditional strong normalization, full Church--Rosser, unrestricted subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, or closed consistency.
@@ -190,6 +202,24 @@ Apply the boundary theorem \autoref{thm:metacic-candidate-normalization-confluen
 Use the consumer boundary, residual progress, decider boundary, and finite conversion certificate boundary from \autoref{thm:metacic-candidate-normalization-confluence-handoff-consumer-boundary}, \autoref{thm:metacic-candidate-normalization-residual-progress}, \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-boundary}, and \autoref{thm:metacic-finite-conversion-certificate-boundary}. Together they force public reads to preserve candidate-mediated normalization, residual-envelope visibility, bounded conversion comparison, blocked-edge retention, transport, replay, provenance, and local naming as the same finite route.
 
 Therefore collapsing any one of $K,N,F,C,D,B,T,R,P,L$ would remove a row required by the carrier and by the displayed boundary theorems. Since the excluded global endpoints are not carrier coordinates, the obligation rows remain non-collapsible without promoting the packet beyond the finite handoff surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate handoff row readiness]
+\label{thm:metacic-candidate-normalization-confluence-handoff-candidate-row-readiness}
+Every confluence-facing or decidability-facing read of an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier
+$$
+H=(A,K,N,F,C,D,B,T,R,P,L)
+$$
+must expose the candidate row $K$ and the frontier row $F$ before the endpoint row $N$ or the residual rows $C,D,B$ are consumed. Thus the handoff exports only a finite premise-readiness route, not a global strong-normalization endpoint, full Church--Rosser theorem, unrestricted subject-reduction theorem, or global conversion decider.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}. The rows $K$ and $F$ are separate from $N,C,D,B$, so a consumer can only read endpoint, residual, or decidability data through the displayed handoff packet.
+
+Apply the boundary theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. Its candidate-gate exactness places $K$ and $F$ before $N$, while its confluence and decidability clauses keep $C,D,B$ on the residual and bounded-comparison side.
+
+Use the obligation rows theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-obligation-rows}. It makes $K,N,F,C,D,B,T,R,P,L$ non-collapsible rows, so neither transport nor replay may hide the candidate and frontier premises before a consumer reaches the endpoint or residual rows.
+
+Since the carrier contains no coordinate for global strong normalization, full Church--Rosser, unrestricted subject reduction, or global conversion decidability, the exposed route is exactly a local premise-readiness route for confluence-facing and decidability-facing consumers.
 \end{proof}
 
 \begin{theorem}[MetaCIC candidate retained-edge handoff]

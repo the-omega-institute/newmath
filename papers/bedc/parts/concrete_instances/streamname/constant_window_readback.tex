@@ -1,0 +1,11 @@
+\begin{theorem}[StreamName constant finite-window readback]
+\label{thm:streamname-constant-window}
+Let $q:\Hist$ be a displayed rational-history seed and let $I$ be a displayed finite unary observation window. A constant rational $\StreamNameUp$ read over $I$ factors pointwise through the same hidden seed $q$: every observed entry is classified by the $\RatUp$ carrier row for $q$, the finite window ledger records only the inspected unary observations, $\hsame$ transport identifies each readback with $q$, $\Cont$ replay replays the same finite row family, $\Pkg$ provenance names the constant-stream source, and the local $\NameCert_{\StreamNameUp}$ row packages these data. The packet exports no quotient stream equality, no selected limit, no countable choice, and no $\RealUp$ completeness assertion.
+\end{theorem}
+\begin{proof}
+Read the constant stream through \autoref{def:rat-stream-name-constant}. By definition, every unary observation in the finite window $I$ returns the same rational-history seed $q$.
+
+Apply \autoref{thm:rat-stream-name-constant-witness} at each displayed observation. The pointwise carrier and classifier rows are therefore the $\RatUp$ rows for the single seed $q$, and the $\hsame$ row transports every readback back to that seed.
+
+The finite window contributes only the inspected observation ledger. Replay and provenance package this finite family as a local $\StreamNameUp$ certificate, while no cited row contains quotient stream equality, a selected limit, countable choice, or ambient real completeness.
+\end{proof}

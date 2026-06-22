@@ -346,4 +346,74 @@ theorem DirectedSubnetCofinalReplay [AskSetup] [PackageSetup]
   }
   exact ⟨cert, targetReadUnary, replayReadUnary⟩
 
+theorem DirectedSubnetTargetFilterNonescape [AskSetup] [PackageSetup]
+    {I J Phi K L S R D A H C P N filterRead targetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DirectedSubnetCarrier I J Phi K L S R D A H C P N bundle pkg →
+      Cont Phi K filterRead →
+        Cont filterRead L targetRead →
+          PkgSig bundle targetRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row targetRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row I ∨ hsame row J ∨ hsame row Phi ∨ hsame row K ∨
+                    hsame row L ∨ hsame row targetRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont Phi K filterRead ∧
+                    Cont filterRead L targetRead ∧ PkgSig bundle targetRead pkg)
+                hsame ∧
+              UnaryHistory filterRead ∧ UnaryHistory targetRead := by
+  -- BEDC touchpoint anchor: DirectedSubnetCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier filterRoute targetRoute targetPkg
+  obtain ⟨_unaryI, _unaryJ, unaryPhi, unaryK, unaryL, _unaryS, _unaryR,
+    _unaryD, _unaryA, _unaryH, _unaryC, _unaryP, _unaryN, _provenancePkg,
+    _namePkg⟩ := carrier
+  have filterUnary : UnaryHistory filterRead :=
+    unary_cont_closed unaryPhi unaryK filterRoute
+  have targetUnary : UnaryHistory targetRead :=
+    unary_cont_closed filterUnary unaryL targetRoute
+  have sourceTarget :
+      (fun row : BHist => hsame row targetRead ∧ UnaryHistory row) targetRead := by
+    exact ⟨hsame_refl targetRead, targetUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row targetRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row I ∨ hsame row J ∨ hsame row Phi ∨ hsame row K ∨
+              hsame row L ∨ hsame row targetRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont Phi K filterRead ∧
+              Cont filterRead L targetRead ∧ PkgSig bundle targetRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro targetRead sourceTarget
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, filterRoute, targetRoute, targetPkg⟩
+  }
+  exact ⟨cert, filterUnary, targetUnary⟩
+
 end BEDC.Derived.DirectedSubnetUp

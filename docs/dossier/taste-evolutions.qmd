@@ -20,19 +20,20 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-22T14:56:22Z
+> 最后刷新: 2026-06-22T17:50:45Z
 
-**Daemon 状态**: monitor (monitor cycle 119, adjust_since_research 2, round_counter 17947, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 121, adjust_since_research 2, round_counter 18138, last_adjust rule_evolution_completed)
 
-**待处理 queue** (572 条 finding):
-- isolated_theorem: 408 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (576 条 finding):
+- isolated_theorem: 411 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 128 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- low_entropy_template: 36 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
+- low_entropy_template: 37 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 27 次
-- TASTE ALERT category=low_entropy_template: 22 次
-- TASTE ALERT category=missing_origin: 2 次
+- TASTE ALERT category=isolated_theorem: 31 次
+- TASTE ALERT category=low_entropy_template: 24 次
+- TASTE ALERT category=missing_origin: 1 次
+- TASTE ALERT category=resolution_json_parse_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -397,6 +398,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-22T13:16:05Z: `resolved` `add_downstream_user` for `BEDC.Derived.TaylorModelUp.TaylorModelCarrier_seed_public_package` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.TaylorModelUp.TaylorModelCarrier_seed_public_package:93eae5d0`). Rationale: The target is a meaningful TaylorModel public-package theorem: it packages a coefficient read, consumer closure, ledger/eval hsame rows, and endpoint/provenance/nameCert package rows from the carrier and consumer route. Grep showed no prior Lean consumer, only the paper marker and its declaration, so I added a sibling downstream theorem `TaylorModelCarrier_seed_public_namecert_route` in `RemainderObligationRoute.lean` that explicitly invokes this target and carries its package data into a `SemanticNameCert` public-read route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-22T14:55:45Z: `resolved` `add_downstream_user` for `BEDC.Derived.TaylorModelUp.TaylorModelCarrier_interval_remainder_soundness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.TaylorModelUp.TaylorModelCarrier_interval_remainder_soundness:93eae5d0`). Rationale: The target is not a removable wrapper: it transports the displayed remainder row through hsame, closes the replacement readback and endpoint by Cont, and preserves the endpoint package signature for the TaylorModel interval-remainder surface. It was isolated in Lean, with only the paper marker referencing it, so I added a sibling downstream theorem, TaylorModelCarrier_interval_remainder_namecert_handoff, that consumes this soundness theorem to build a SemanticNameCert handoff for an interval remainder public read through the validated row. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-22T16:21:32Z: `resolved` `leave_with_rationale` for `BEDC.Derived.TaylorModelUp.TaylorModelCarrier_finite_jet_prefix_restriction` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.TaylorModelUp.TaylorModelCarrier_finite_jet_prefix_restriction:93eae5d0`). Rationale: The theorem is not a trivial wrapper: it is the Lean target for the TaylorModel finite-jet prefix restriction proposition, and the paper uses it to justify the displayed subwindow read surface before the finite-jet remainder obligation route. I attempted to add a sibling consumer in TaylorModelUp/RemainderObligationRoute.lean tying this theorem into the existing SemanticNameCert remainder route, but lake build failed because the added proof used the reserved token `prefix`; per task instructions I reverted the edit and switched to leave_with_rationale, preserving the existing staging theorem for a clean downstream consumer. Gate results: lake_build=error: BEDC/Derived/TaylorModelUp/RemainderObligationRoute.lean:114:7: unexpected token 'prefix'; expected '(', ':=', '|' or term; Some required targets logged failures: BEDC.Derived.TaylorModelUp.RemainderObligationRoute, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
