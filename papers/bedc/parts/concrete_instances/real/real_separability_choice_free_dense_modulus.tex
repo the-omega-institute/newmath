@@ -1,0 +1,17 @@
+\begin{theorem}[Real separability choice-free dense modulus]
+\label{thm:real-separability-countable-dense-choice-free}
+For every accepted $\RealSeparabilityUp$ packet $S=(Q,D,W,R,E,T,H,C,P,N)$ and every finite precision request, the dyadic density row, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, and terminal $\RealUp$ seal produce a finite rational witness and modulus ledger without a selector over all reals. The witness is read from the displayed route
+$$
+Q,D,W,R,E,T,H,C,P,N
+$$
+and not from a host dense subset, countable-choice schedule, quotient stream, selected nearest point, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:real-separability-carrier}. The precision request first reads the rational enumeration row $Q$ and the dyadic tolerance row $D$.
+
+Use the dyadic witness family of \autoref{thm:real-separability-dyadic-witness-family}. It supplies the finite rational witnesses indexed by the displayed dyadic request and the finite StreamName window, not by a selector over all real points.
+
+Push the witness through the StreamName and RegSeqRat boundary. Window stability keeps the read inside $W$, and the regular-rational readback $R$ carries the same finite rational datum toward the Real-facing boundary.
+
+Finally seal via $E$ and record the modulus ledger through $T,H,C,P,N$. The rows only replay, transport, source, and name the finite density route, so no Classical.choice, quotient construction, host sequence selection, selected nearest point, or ambient completeness witness is introduced.
+\end{proof}
