@@ -59,6 +59,24 @@ Separated comparison and readback discipline are local to $S$ and $R$. The class
 Finally $H,K,P,N$ transport, replay, source, and name only the listed coordinates. Since the excluded completion principles have no carrier coordinate, they cannot appear as local NameCert obligations.
 \end{proof}
 
+\begin{theorem}[Moore--Smith net filter completion route]
+\label{thm:moore-smith-net-filter-completion-route}
+Let $M=(D,C,G,Q,S,R,A,H,K,P,N)$ be an accepted $\MooreSmithCompletionUp$ carrier, and let a completion-facing L10 read of $M$ display the same directed tail windows as a $\CauchyFilterCompletionCriterionUp$ bridge. Then every Cauchy-net read exported by $M$ factors through the finite route
+$$
+\DirectedSetUp \longmapsto \CauchyNetUp \longmapsto \CauchyFilterUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The completion consumer may inspect a limit boundary only after the directed-index rows $D$, the retained finite tail windows in $C$, the Cauchy-filter bridge, the $\StreamNameUp$ window schedule, the $\RegSeqRatUp$ readback row $R$, and the terminal $\RealUp$ seal $A$ have all been displayed through $H,K,P,N$. The route exports no quotient equality of nets or filters, selected limit, host completion point, countable-choice schedule, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $D$ and $C$ expose the directed index substrate and the Cauchy-net tail evidence before the convergence row $G$ or completion boundary row $Q$ is read.
+
+Now route the displayed tail windows through the Cauchy-filter bridge. The bridge hypothesis says that the same finite windows are served by the Cauchy-filter completion criterion surface, so the read passes from the net tail row into $\CauchyFilterUp$ data without quotienting nets or filters.
+
+The L10 numerical handoff is then forced through finite names. The bridge supplies the $\StreamNameUp$ inspection schedule, while the Moore--Smith carrier retains the $\RegSeqRatUp$ readback row $R$ and the terminal $\RealUp$ seal $A$ as downstream coordinates of the same route.
+
+Finally the structural rows $H,K,P,N$ preserve, replay, source, and name only these displayed coordinates. Since no carrier coordinate contains a selected limit, quotient equality, host completion point, choice schedule, or ambient completeness theorem, a completion consumer can read a limit boundary only through the route in the statement.
+\end{proof}
+
 \begin{theorem}[Moore--Smith completion net boundary]
 \label{thm:moore-smith-completion-net-boundary}
 Every $\MetricCompletionUp$ or $\UniformCompletionUp$ consumer of an accepted $\MooreSmithCompletionUp$ packet reads the boundary through the finite route
@@ -100,7 +118,7 @@ The structural rows $H,K,P,N$ preserve, replay, source, and name only these coor
 \begin{closurestatus}{\MooreSmithCompletionUp}
   \constructivestory{A $\MooreSmithCompletionUp$ packet is generated from a DirectedSetUp substrate, CauchyNetUp tail evidence, MooreSmithConvergenceUp boundary evidence, MetricCompletionUp and UniformCompletionUp completion reads, SeparatedMetricUp zero-distance comparison, RegSeqRatUp readback, a RealUp seal, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:moore-smith-completion-carrier}, \autoref{def:moore-smith-completion-classifier}, \autoref{thm:moore-smith-completion-namecert-obligations}, \autoref{thm:moore-smith-completion-net-boundary}, and \autoref{thm:moore-smith-completion-nonescape} seed the finite directed-net completion route between Moore--Smith convergence and metric or uniform completion consumers.}
+  \scopeclosed{\autoref{def:moore-smith-completion-carrier}, \autoref{def:moore-smith-completion-classifier}, \autoref{thm:moore-smith-completion-namecert-obligations}, \autoref{thm:moore-smith-net-filter-completion-route}, \autoref{thm:moore-smith-completion-net-boundary}, and \autoref{thm:moore-smith-completion-nonescape} seed the finite directed-net completion route between Moore--Smith convergence and metric or uniform completion consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close selected limits, quotient nets, ambient completeness, countable choice, host equality of completion points, $\RealUp$ completeness, Lean verification, or bridge checking.}
