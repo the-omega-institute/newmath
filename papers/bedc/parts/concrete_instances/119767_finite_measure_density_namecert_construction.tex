@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\FiniteMeasureDensityUp$}
+\label{ch:concrete-instances-finite-measure-density-namecert}
+\origin{human}
+
+Following Radon--Nikodym finite-density practice in constructive measure theory, the $\FiniteMeasureDensityUp$ packet records the finite-partition case where an absolutely continuous measure is read cellwise against a displayed base measure before any integration or probability consumer inspects a density. It sits after the finite measure surface of \autoref{ch:concrete-instances-measure-namecert}, the probability package of \autoref{ch:concrete-instances-probspace-namecert}, the distribution ledger of \autoref{ch:concrete-instances-distribution-namecert}, and the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names only finite partition cells, base-measure rows, absolutely-continuous measure rows, density ratios, certified $\RegSeqRatUp$ readback, terminal $\RealUp$ seals, structural transport, replay, provenance, and local naming; it does not claim sigma-completion, quotient measure classes, countable choice, or a general Radon--Nikodym theorem.
+
+\begin{definition}[Finite measure density carrier]
+\label{def:finite-measure-density-carrier}
+A $\FiniteMeasureDensityUp$ carrier is a finite $\BHist$ packet
+$$
+D=(P,M,A,Z,Q,R,E,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the finite partition row, listing the cells and refinement witnesses inspected by the density request.
+\item $M$ is the $\MeasureUp$ base-measure row, displaying the base value of each cell of $P$.
+\item $A$ is the absolutely-continuous measure row, displaying the second measure on the same cells and recording zero-base cells as zero-target cells.
+\item $Z$ is the density ledger, with one finite row for each cell carrying the rational ratio or the zero-cell witness used by the packet.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the finite base, target, and density values listed by $M,A,Z$.
+\item $R$ is the $\RealUp$ seal row for the displayed cell measures and cellwise densities.
+\item $E$ is the finite expectation or distribution handoff row consumed by $\ProbSpaceUp$ and $\DistributionUp$ requests.
+\item $H$ records componentwise $\hsame$ transport for partition, measure, absolute-continuity, density, readback, seal, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite density query through $P,M,A,Z,Q,R,E,H$.
+\item $G$ is the $\Pkg$ provenance over $\FiniteMeasureDensityUp$, $\MeasureUp$, $\ProbSpaceUp$, $\DistributionUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteMeasureDensityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for sigma-algebra completion, quotient measure classes, countable choice, non-finite partitions, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite measure density NameCert obligations]
+\label{thm:finite-measure-density-namecert-obligations}
+For every accepted $\FiniteMeasureDensityUp$ carrier
+$$
+D=(P,M,A,Z,Q,R,E,H,C,G,N),
+$$
+the local $\NameCert_{\FiniteMeasureDensityUp}$ surface consists exactly of carrier admission, finite partition exposure through $P$, base-measure exposure through $M$, absolutely-continuous measure exposure through $A$, cellwise density exactness through $Z$, regular-rational readback through $Q$, terminal Real sealing through $R$, probability and distribution handoff through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-measure-density-carrier}. The rows $P,M,A,Z,Q,R,E,H,C,G,N$ are the complete visible packet.
+
+The finite partition row $P$ is the only route to cells. The base-measure row $M$ and absolutely-continuous row $A$ are read on the same cells, so a zero-base cell can only be consumed through the displayed zero-target witness in $A$.
+
+The density ledger $Z$ is finite and cellwise. Each nonzero base cell carries its displayed ratio, while each zero-base cell carries the corresponding zero-target witness rather than a quotient or completion argument.
+
+The readback and seal rows $Q,R$ are downstream of $P,M,A,Z$, and the probability or distribution handoff $E$ consumes only that sealed finite route. The structural rows $H,C,G,N$ transport, replay, source, and name the same packet, so no sigma-completion, quotient measure class, countable choice, non-finite partition, or ambient completeness coordinate is available.
+\end{proof}
+
+\begin{theorem}[Finite Radon--Nikodym handoff]
+\label{thm:finite-measure-density-radon-nikodym-handoff}
+Every $\ProbSpaceUp$, $\DistributionUp$, or integration-facing consumer that reads an accepted $\FiniteMeasureDensityUp$ packet receives the finite route
+$$
+\MeasureUp \longmapsto (P,M,A) \longmapsto Z \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The route is a Radon--Nikodym density handoff for a displayed finite partition: it exports cellwise base values, absolutely-continuous target values, density rows, certified regular-rational readback, and Real seals, not a sigma-completed measure space, quotient density class, countable-choice selector, or general measure-class derivative.
+\end{theorem}
+\begin{proof}
+Start with the finite partition row $P$. It fixes the cells on which the base and target measures are compared, so the consumer cannot replace the packet by an unlisted partition or a completed sigma-algebra.
+
+Read the rows $M$ and $A$ cell by cell. Absolute continuity is represented only by the finite zero-cell witnesses in $A$, and nonzero cells are passed to the density ledger $Z$ as displayed arithmetic data.
+
+Now use the readback route. Row $Q$ gives the $\RegSeqRatUp$ values for the base, target, and density rows, while $R$ seals those displayed values as $\RealUp$ data. The handoff row $E$ passes the same sealed rows to probability and distribution consumers.
+
+Since the carrier has no quotient-density coordinate, no choice schedule over a countable partition, and no sigma-completion row, every accepted Radon--Nikodym-facing read remains the finite cellwise handoff stated above.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteMeasureDensityUp$ read exposes finite partition cells, MeasureUp base rows, absolutely-continuous target rows, density ledger rows, RegSeqRat readback, RealUp seals, probability or distribution handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming before any density consumer receives the packet.}
+
+\independenceWitness{measure, probspace, distribution, regseqrat, real: no listed sibling supplies the full eleven-row packet $D=(P,M,A,Z,Q,R,E,H,C,G,N)$, because the siblings contribute measure rows, probability packaging, distribution readback, regular rational values, or Real seals separately while this chapter binds them into one finite density NameCert carrier.}
+
+\closureat{FiniteMeasureDensityUp}{seedStr}
+
+\begin{closurestatus}{\FiniteMeasureDensityUp}
+  \constructivestory{A $\FiniteMeasureDensityUp$ packet is generated from finite partition cells, base-measure rows, absolutely-continuous target-measure rows, density ledger rows, RegSeqRat readback, RealUp seals, probability or distribution handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-measure-density-carrier}, \autoref{thm:finite-measure-density-namecert-obligations}, and \autoref{thm:finite-measure-density-radon-nikodym-handoff} seed the finite partition density route from displayed measure rows through RegSeqRat readback and Real seals to probability and distribution consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, sigma-completed measure spaces, quotient density classes, countable-choice selectors, non-finite partitions, or a general Radon--Nikodym theorem.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite partition exposure, base-measure exposure, absolute-continuity exposure, density-ledger exactness, regular-rational readback, Real seal exactness, probability and distribution handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteMeasureDensityUp.}
+\end{closurestatus}
