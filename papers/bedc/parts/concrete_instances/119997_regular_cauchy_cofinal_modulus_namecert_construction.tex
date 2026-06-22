@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCofinalModulusUp$}
+\label{ch:concrete-instances-regular-cauchy-cofinal-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy real names, the $\RegularCauchyCofinalModulusUp$ packet records the finite cofinal-modulus route by which a regular Cauchy name is read through a cofinal schedule without changing its modulus-controlled Real seal. The route sits over the dyadic tolerance carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the reindexing handoff of \autoref{ch:concrete-instances-cauchy-reindexing-namecert}.
+
+\begin{definition}[RegularCauchyCofinalModulus carrier]
+\label{def:regular-cauchy-cofinal-modulus-carrier}
+A $\RegularCauchyCofinalModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,K,U,D,W,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the source regular Cauchy data row.
+\item $K$ is the cofinal schedule row, recording the finite monotone route along which the source is read.
+\item $U$ is the modulus row that assigns a displayed request bound to the cofinal schedule.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used by the modulus.
+\item $W$ is the $\StreamNameUp$ window row opened by the cofinal schedule.
+\item $R$ is the $\RegSeqRatUp$ readback row on those windows.
+\item $E$ is the $\RealUp$ seal reached after the modulus, tolerance, window, and readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $S,K,U,D,W,R,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the same cofinal-modulus route.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyCofinalModulusUp$, $\CauchyReindexingUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularCauchyCofinalModulusUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, a selected representative, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.RegularCauchyCofinalModulusUp}
+
+\begin{theorem}[RegularCauchyCofinalModulus NameCert obligations]
+\label{thm:regular-cauchy-cofinal-modulus-namecert-obligations}
+For every accepted $\RegularCauchyCofinalModulusUp$ carrier $M=(S,K,U,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyCofinalModulusUp}$ surface consists exactly of source regular Cauchy admission through $S$, cofinal schedule exposure through $K$, modulus-row exposure through $U$, dyadic tolerance exposure through $D$, StreamName windows through $W$, RegSeqRat readback through $R$, Real sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+No accepted read exports quotient stream equality, a selected representative, countable choice, host real equality, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-cofinal-modulus-carrier}. Its analytic route is $S,K,U,D,W,R,E$, and its structural route is $H,C,P,N$.
+
+The source row $S$ is read only through the cofinal schedule $K$. The modulus row $U$ then binds each displayed request to the same cofinal route, while the dyadic tolerance row $D$ records the requested error surface.
+
+The window and readback rows $W$ and $R$ expose the finite StreamName and RegSeqRat data before the terminal Real seal $E$ is consumed. Transport, replay, provenance, and local naming preserve this same packet through $H,C,P,N$.
+
+Since the carrier contains no row for quotient stream equality, representatives, choice, host equality, trichotomy, or ambient completeness, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyCofinalModulus Real handoff]
+\label{thm:regular-cauchy-cofinal-modulus-real-handoff}
+Every Real-facing consumer of an accepted $\RegularCauchyCofinalModulusUp$ packet must read the finite route
+$$
+\CauchyReindexingUp,\quad \DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+through the displayed rows $K,D,W,R,E$ before the $\RealUp$ seal is exported. The cofinal schedule preserves the modulus-controlled seal only as this finite packet route; it is not a quotient of regular Cauchy names, a selected host real, a countable-choice schedule, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:regular-cauchy-cofinal-modulus-namecert-obligations}. It orders the source, cofinal schedule, modulus, dyadic tolerance, window, readback, and seal rows before any Real-facing consumer can inspect the packet.
+
+Read the cofinal schedule row $K$ as the handoff to \autoref{ch:concrete-instances-cauchy-reindexing-namecert}. The row does not create a second stream; it only records the displayed cofinal route along which the source regular Cauchy data are inspected.
+
+The dyadic, stream, and regular-readback rows $D,W,R$ then route the same requests through \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-regseqrat-namecert}. Only after those rows have been replayed may the consumer read the terminal $\RealUp$ seal $E$ of \autoref{ch:concrete-instances-real-namecert}.
+
+The structural rows $H,C,P,N$ preserve the same finite route. Because no row supplies quotient equality, selected representatives, choice, host equality, or ambient completeness, the Real handoff is exactly the displayed cofinal-modulus route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyCofinalModulusUp$ Real-facing read exposes source regular Cauchy data, a cofinal schedule, a modulus row, DyadicRatCore tolerance, StreamName windows, RegSeqRat readback, Real sealing, transport, replay, provenance, and local NameCert before the Real seal is consumed.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, cauchyreindexing, regularcauchycofinalmodulus: $\RegularCauchyCofinalModulusUp$ is not bijective to any listed sibling because it jointly carries the source regular Cauchy row, cofinal schedule, modulus row, tolerance, windows, readback, Real seal, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{RegularCauchyCofinalModulusUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCofinalModulusUp}
+  \constructivestory{A $\RegularCauchyCofinalModulusUp$ packet is generated from source regular Cauchy data, a cofinal schedule, a modulus row, DyadicRatCore tolerance, StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-cofinal-modulus-carrier}, \autoref{thm:regular-cauchy-cofinal-modulus-namecert-obligations}, and \autoref{thm:regular-cauchy-cofinal-modulus-real-handoff} seed the finite cofinal-modulus route over the L10 Real path.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient equality of regular Cauchy names, selected representatives, countable choice, trichotomy, host real equality, ambient Real completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal schedule exposure, modulus preservation, dyadic tolerance exactness, window readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyCofinalModulusUp.}
+\end{closurestatus}
