@@ -281,6 +281,24 @@ The witness packet is the front face of that ledger. Rows $F,A,T,S,I,E$ expose t
 Because the carrier has no coordinate for measure completion, selected limiting partitions, or quotient equality of integrands and integrators, exporting these rows as public data does not add a stronger analytic claim. It only makes the finite Riemann--Stieltjes witness available to downstream integration chapters.
 \end{proof}
 
+\begin{theorem}[Riemann--Stieltjes regulated-integral public bridge]
+\label{thm:riemann-stieltjes-regulated-integral-public-bridge}
+Any $\RegulatedIntegralUp$ or $\RiemannSumUp$ consumer of the public $\RiemannStieltjesUp$ witness packet must pass through the rows
+$$
+F,A,T,S,I,E,H,C,P,N
+$$
+before exporting an integration-facing read. The bridge exposes the regulated integrand, bounded-variation integrator, tagged partition, dyadic step approximation, regulated-integral handoff, Real endpoint seal, transport, replay, provenance, and local NameCert rows; it cannot substitute measure completion, selected limiting partitions, quotient integrand equality, quotient integrator equality, or a host limiting integral.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:riemann-stieltjes-namecert-obligations}. They identify the accepted carrier as the finite row family $F,A,T,S,I,E,H,C,P,N$ and make the regulated integrand, bounded-variation integrator, tagged sum, dyadic step approximation, handoff, endpoint seal, transport, replay, provenance, and naming rows visible.
+
+Apply the regulated-integral handoff of \autoref{thm:riemann-stieltjes-regulated-integral-handoff}. It places each endpoint-facing read behind $F,A,T,S,I$, so a $\RegulatedIntegralUp$ consumer cannot bypass the displayed handoff row.
+
+Use the Darboux mesh-refinement route, \autoref{thm:riemann-stieltjes-darboux-mesh-refinement}, together with the public witness export of \autoref{thm:riemann-stieltjes-public-witness-export}. The former confines $\RiemannSumUp$ reads to the visible tagged partition and dyadic step rows, while the latter makes exactly $F,A,T,S,I,E$ available as public witness data transported by $H,C,P,N$.
+
+Since no carrier coordinate stores measure completion, a selected limiting partition, quotient equality of integrands or integrators, or a host limiting integral, the bridge remains a public finite-packet handoff and not a stronger integration theorem.
+\end{proof}
+
 \closureat{RiemannStieltjesUp}{seedStr}
 
 \begin{closurestatus}{\RiemannStieltjesUp}
