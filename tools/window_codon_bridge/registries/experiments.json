@@ -440,6 +440,14 @@
    "status": "open",
    "timeout_seconds": 1800,
    "note": "Functional test of the certified codon-E1 positive: does codon-E1 have a TRANSLATION-DEPENDENT effect on mRNA level? Bridge reran the Chen-2023 yeast 8x-dicodon MPRA pipeline from raw SRA (PRJNA974090; in-frame pHPSC1142 + -1 frameshift pHPSC1114; validated against known destabilizing dipeptides KK/RR/KW/proline + frameshift relief) -> per-codon-pair Delta_y=y_inframe-y_frameshift. v_star=leave-S.cerevisiae-out cross-domain codon-E1 consensus (54 orgs, non-circular); T_causal=residualized weighted corr vs within-syn 100k permutation null + CSC validity gate. RESULT coincidence: baseline |T|=0.154 (two-sided p=0.005, CI excludes 0) COLLAPSES to |T|=0.029 (p=0.61, CI includes 0) after GC3+dinucleotide controls -> apparent association is the GC/RNA-folding composition confound (frame-invariant, survives the frameshift subtraction), NOT a GC-orthogonal codon-E1 translation effect. CSC gate passed (p=0.001). sshx-adjudicated (caught the one-sided/sign-arbitrary + omitted-GC flaw, GC control was the decisive fix). codon-E1 stays a conserved usage GEOMETRY without a detected direct functional phenotype. Exact ViennaRNA-DeltaMFE + MAVE causal version relayed to bio."
+  },
+  {
+   "experiment_id": "fibonacci_tracka_wobble_vs_codon_e1",
+   "claim_id": "bridge.fibonacci_tracka.wobble_boundary_vs_codon_e1",
+   "script_path": "tools/window_codon_bridge/experiments/run_fibonacci_tracka_wobble_vs_codon_e1.py",
+   "status": "open",
+   "timeout_seconds": 900,
+   "note": "Bridge adjudication of fibonacci_reality's homeless Track-A codon-wobble-boundary-response (its math-only paper gates out Codon/Wobble vocab). Track-A reproduces as a REAL cross-organism bio signal (yeast delta_r2=0.020 null-pct 1.0 n=5785; human delta_r2=0.0047 null-pct 1.0 n=18974: wobble-decoding-required codons show a tRNA-supply boundary). Adjudicated vs the bridge's certified positives: NOT codon-E1 (rho_E1=0.183 vs null 0.104, p=0.11 -> not significantly concentrated), NOT edge-hiding (|R| overlap 3 codons = chance, p=0.91), and the Window6 connection is q6_circular (no non-circular forcing map). VERDICT needs_derivation: a distinct bio-internal codon/tRNA supply-boundary fact, housed by the bridge, that does not reduce to the bridge's positives and does not create a new Window6 link."
   }
  ]
 }
