@@ -138,3 +138,21 @@ Next use finite residual witness consumption, \autoref{thm:metacic-parallel-diam
 
 Finally apply the residual-join obligation handoff and candidate-mediated SN handoff, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-obligation-handoff} and \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff}. They keep $P$ and $O$ visible through $H,T,G,N$ before the candidate-facing read is exported. Since the composed route never leaves $P,K,J,R,S,C,B,O,H,T,G,N$, it yields only the stated residual-join obligation carrier and none of the refused global endpoints.
 \end{proof}
+
+\begin{theorem}[MetaCIC residual-join frontier obligation]
+\label{thm:metacic-residual-join-frontier-obligation}
+Every candidate-mediated residual join exported by an accepted $\MetaCICParallelDiamondFrontierUp$ frontier must keep the retained residual-substitution premise row $P$ and the obstruction row $O$ visible through the same finite route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+before any local diamond handoff is consumed. Thus the consumer may read a bounded local join only while the critical-pair, candidate, finite residual witness, bounded checker, obstruction, transport, replay, provenance, and local naming rows remain carrier-local.
+
+The obligation does not export global confluence, subject reduction, evaluator equality, quotient term equality, unrestricted normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+First compose the residual-join obligation carrier of \autoref{thm:metacic-parallel-diamond-frontier-residual-join-obligation-carrier} with the residual-budget diamond obligation of \autoref{thm:metacic-parallel-diamond-residual-budget-obligation}. The carrier supplies the displayed route, and the budget obligation prevents the candidate diamond read from leaving that route before the handoff is visible.
+
+Next use finite residual witness consumption, \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}. This step keeps the residual witness, typed window, bounded checker rows, and obstruction row as displayed rows of the same packet rather than private side conditions.
+
+Finally apply the candidate strong-normalization handoff of \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff}. Since the handoff consumes only the displayed candidate-mediated surface and the rows $P$ and $O$ are still present through $H,T,G,N$, the exported join remains a local frontier obligation and none of the refused global endpoints is introduced.
+\end{proof}
