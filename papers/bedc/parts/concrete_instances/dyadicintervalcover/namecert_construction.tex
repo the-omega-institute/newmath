@@ -91,6 +91,18 @@ Thus the decision surface is exhausted by $M,R,Q,V,A$ together with the displaye
 \end{proof}
 \leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRegularSequenceWindowExhaustion}
 
+\begin{theorem}[DyadicIntervalCover RegSeqRat-StreamName coverage route]
+\label{thm:dyadic-interval-cover-regseqrat-streamname-coverage-route}
+Every $\DyadicIntervalCoverUp$ consumer that reads a $\RegSeqRatUp$ approximation through $\StreamNameUp$ windows must expose the rows $W,Q,M,R,V,A$ in that order before the cover-membership row is consumed. The route is stable under the componentwise $\hsame$ row $H$ and the displayed $\Cont$ replay row $C$, and it exports no quotient real equality, selected limit, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-interval-cover-carrier}. The StreamName window row $W$ is the only finite source window, the RegSeqRat readback row $Q$ is attached to that window, and the mesh, radius, membership, and seal rows are $M,R,V,A$.
+
+Apply \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion}. It exhausts every regular-name cover read through the displayed finite-window computation, so the membership row $V$ is not consumed until $W,Q,M,R$ have been opened and the visible Real seal boundary $A$ remains downstream.
+
+Finally use the seal boundary of \autoref{thm:dyadic-interval-cover-real-seal-boundary}. Componentwise transport and continuation replay preserve the same route, while quotient real equality, selected limits, countable choice, and Real completeness remain outside the packet.
+\end{proof}
+
 \begin{theorem}[DyadicIntervalCover finite-window carrier]
 \label{thm:dyadicintervalcover-finite-window-carrier}
 Every accepted $\DyadicIntervalCoverUp$ packet exposes only finite interval-window rows over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. For a carrier

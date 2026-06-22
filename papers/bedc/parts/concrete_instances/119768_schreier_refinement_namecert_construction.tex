@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\SchreierRefinementUp$}
+\label{ch:concrete-instances-schreier-refinement-namecert}
+\origin{human}
+
+Following Schreier and the Zassenhaus refinement route used in Jordan--Holder group theory, the $\SchreierRefinementUp$ packet records a finite refinement comparison between two displayed normal-series rows. It sits after the group carrier of \autoref{ch:concrete-instances-group-namecert}, the subgroup carrier of \autoref{ch:concrete-instances-subgroup-namecert}, the normal-subgroup route carried by the subgroup chapter, the quotient-group carrier of \autoref{ch:concrete-instances-quotientgroup-namecert}, and the composition-series consumer of \autoref{ch:concrete-instances-jordan-holder-namecert}. The packet names the finite row data needed by a refinement consumer; it does not assert Jordan--Holder uniqueness, group classification, a selected refinement outside the displayed rows, or quotient equality of host groups.
+
+\begin{definition}[Schreier refinement carrier]
+\label{def:schreier-refinement-carrier}
+A $\SchreierRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+S=(G,A,B,I,Q,R,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\GroupUp$ source row whose operation, unit, inverse, and classifier are read by both series.
+\item $A$ and $B$ are the two normal-series rows, each exposing a finite chain of $\SubgroupUp$ rows with normality read through the subgroup chapter's normal-subgroup route.
+\item $I$ is the subgroup-inclusion ledger comparing adjacent entries and cross-intersections in the two displayed rows.
+\item $Q$ is the $\QuotientGroupUp$ factor row attached to the adjacent quotients and intersection quotients exposed by the refinement.
+\item $R$ records the refinement maps that send each displayed factor row to its paired comparison factor.
+\item $T$ records componentwise $\hsame$ transport for the group source, series rows, inclusion ledger, quotient-factor rows, refinement maps, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a normal-series comparison request through $G,A,B,I,Q,R,T$.
+\item $P$ is the $\Pkg$ provenance over $\SchreierRefinementUp$, $\GroupUp$, $\SubgroupUp$, $\NormalSubgroupUp$, $\QuotientGroupUp$, $\JordanHolderUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SchreierRefinementUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host subgroup lattice, quotient primitive, selected refinement oracle, Jordan--Holder uniqueness, or finite-group classification.
+\end{definition}
+
+\begin{theorem}[Schreier refinement NameCert obligations]
+\label{thm:schreier-refinement-namecert-obligations}
+For every accepted $\SchreierRefinementUp$ carrier
+$$
+S=(G,A,B,I,Q,R,T,C,P,N),
+$$
+the local $\NameCert_{\SchreierRefinementUp}$ surface consists exactly of group-source admission, two normal-series row admissions, subgroup-inclusion accounting, quotient-factor exposure, refinement-map exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:schreier-refinement-carrier}. The group row $G$ is the only ambient algebraic source, while $A$ and $B$ are the only normal-series rows available to the packet.
+
+The comparison surface is finite. The inclusion ledger $I$ records only displayed subgroup inclusions and intersections, and the quotient row $Q$ records only the adjacent and refinement-factor rows read through $\QuotientGroupUp$.
+
+The refinement maps $R$ are then interpreted over those visible rows. Transport, replay, provenance, and local naming are supplied by $T,C,P,N$, so the listed obligations exhaust the local certificate surface without adding a quotient primitive, selected refinement oracle, host subgroup lattice, or classification theorem.
+\end{proof}
+
+\begin{theorem}[Schreier refinement normal-series lattice route]
+\label{thm:schreier-refinement-normal-series-lattice-route}
+Every $\JordanHolderUp$ or composition-series consumer that reads a $\SchreierRefinementUp$ packet must first expose the $\GroupUp$ source, both $\SubgroupUp$ normal-series rows, the normal-subgroup inclusion ledger, the $\QuotientGroupUp$ factor rows, the refinement maps, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The route supplies a finite normal-series refinement carrier only; it does not prove Jordan--Holder uniqueness, classify groups, select canonical series, or identify quotient factors by host equality.
+\end{theorem}
+\begin{proof}
+Begin with the group and series rows. The carrier requires $G,A,B$ before a refinement comparison can be consumed, so every downstream read is already tied to the displayed algebra and subgroup surfaces.
+
+Next read the lattice-facing rows $I,Q,R$. These rows expose subgroup inclusions, normal-series intersection data, quotient factors, and refinement maps as finite packet coordinates, with quotient-facing data routed through \autoref{ch:concrete-instances-quotientgroup-namecert}.
+
+Finally apply the structural rows $T,C,P,N$. They transport, replay, source, and name the same packet for $\JordanHolderUp$ consumers, while the refused endpoints remain absent from the carrier. Thus the normal-series lattice route is a displayed finite handoff rather than a uniqueness theorem or classification result.
+\end{proof}
+
+\falsifiablePrediction{A $\SchreierRefinementUp$ consumer that reaches a refinement-map row without first displaying $G,A,B,I,Q,T,C,P,N$ refutes the carrier surface.}
+
+\independenceWitness{group, subgroup, normal-subgroup, quotientgroup, jordan-holder: no listed sibling alone supplies the joint two-series refinement packet $S=(G,A,B,I,Q,R,T,C,P,N)$, because each sibling contributes only the ambient group rows, subgroup rows, normality route, quotient-factor rows, or composition-series consumer boundary.}
+
+\closureat{SchreierRefinementUp}{seedStr}
+
+\begin{closurestatus}{\SchreierRefinementUp}
+  \constructivestory{A $\SchreierRefinementUp$ packet is generated from a GroupUp source row, two normal-series rows, subgroup-inclusion and intersection rows, quotient-factor rows, refinement maps, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schreier-refinement-carrier}, \autoref{thm:schreier-refinement-namecert-obligations}, and \autoref{thm:schreier-refinement-normal-series-lattice-route} seed the finite normal-series refinement carrier over displayed group, subgroup, normality, quotient-factor, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim full Jordan--Holder uniqueness, group classification, selected canonical refinements, quotient primitive construction, Lean verification, bridge checking, or host quotient equality.}
+  \upgradepath{Obligation closure asks for checked carrier admission, two normal-series row admissions, subgroup-inclusion accounting, quotient-factor exposure, refinement-map exposure, transport, replay, provenance, and local naming for BEDC.Derived.SchreierRefinementUp.}
+\end{closurestatus}
