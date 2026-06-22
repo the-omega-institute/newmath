@@ -1,0 +1,13 @@
+\begin{theorem}[MetaCIC confluence candidate residual diamond handoff]
+\label{thm:metacic-confluence-candidate-residual-diamond-handoff}
+Every candidate-normalization read consumed by an accepted $\MetaCICConfluenceAuditPacketUp$ carrier must expose the residual-row packet $S,R,H,T,P,L$, the finite critical-pair window $D,C,A_0$, the substitution route through $S$, and the local join budget named by the MetaCIC critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert} before any diamond conclusion is exported. The handoff may route a candidate witness into the residual diamond boundary, but it does not export full confluence, subject reduction, full substitution compatibility, unrestricted Church--Rosser, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the accepted audit carrier of \autoref{def:metacic-confluence-audit-packet-carrier}. The residual-facing rows are the substitution boundary $S$, the subject-reduction separation row $R$, transport $H$, replay $T$, provenance $P$, and the local name $L$.
+
+Read the candidate-normalization sibling route of \autoref{lem:metacic-confluence-audit-candidate-normalization-sibling-route} and the candidate-normalization handoff of \autoref{thm:metacic-confluence-audit-candidate-normalization-handoff}. These keep candidate evidence inside the displayed audit surface and replay it through $T$ with componentwise transport through $H$.
+
+Now attach the residual and finite critical-pair windows. Theorems \autoref{thm:metacic-confluence-audit-residual-critical-pair-boundary}, \autoref{thm:metacic-confluence-audit-critical-pair-coverage}, and \autoref{thm:metacic-confluence-audit-finite-critical-pair-frontier} force each residual read into the displayed $D,C,A_0,S,R,H,T,P,L$ windows before any local diamond read can be interpreted.
+
+Finally use \autoref{thm:metacic-confluence-audit-obstruction-ledger-exhaustion}. The obstruction ledger exhausts the substitution, residual, candidate, and subject-reduction boundaries, while \autoref{ch:concrete-instances-metaciccriticalpath-namecert} supplies the critical-path budget consumed by the handoff. Thus the candidate read reaches only the residual diamond boundary and not the stronger MetaCIC principles excluded in the statement.
+\end{proof}
