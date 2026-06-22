@@ -48,6 +48,20 @@ Apply the complete-metric route through $K$. A Cauchy-thread request is therefor
 The finite observations are read through $S$ and the dyadic tolerance bounds through $R$. Only after those rows are displayed does the endpoint-distance row $E$ seal the resulting real-valued estimate. The transport, replay, provenance, and local naming rows preserve this order, matching the downstream complete-metric Baire surface of \autoref{ch:concrete-instances-complete-metric-baire-surface-namecert}.
 \end{proof}
 
+\begin{theorem}[Baire finite-prefix cylinder induction]
+\label{thm:baire-space-cylinder-induction}
+Let $C=(B,K,S,R,E,H,P,N)$ be an accepted $\BaireSpaceCompletenessUp$ packet, and let $\Lambda$ be a finite replay ledger whose entries refine the displayed $\BaireSpaceUp$ prefix-cylinder row by one finite prefix-cylinder observation at a time. Induction on $\Lambda$ preserves the invariant that the $\CompleteMetricUp$ Cauchy-thread route is read through the same $\BaireSpaceUp$ prefix surface $B$, $\StreamNameUp$ window row $S$, $\RegSeqRatUp$ tolerance row $R$, and terminal $\RealUp$ endpoint seal $E$. Thus every finite prefix-cylinder refinement ledger exports the same Baire-space completeness route and no selected branch, quotient completion, host stream equality, countable-choice schedule, or ambient $\RealUp$ completeness premise.
+\end{theorem}
+\begin{proof}
+For the empty ledger, use \autoref{thm:baire-space-completeness-cauchy-thread-route}. The accepted carrier already routes the Cauchy thread through $B,K,S,R,E,H,P,N$, so the invariant holds with no additional prefix-cylinder observation.
+
+For the induction step, assume the invariant for a finite replay ledger $\Lambda$ and extend it by one displayed prefix-cylinder observation. The new observation only refines the finite prefix row inside $B$; it does not create a new Cauchy-thread row, stream-window row, rational-tolerance row, or endpoint seal.
+
+Reuse the same finite observation and tolerance rows. The $\StreamNameUp$ row $S$ reads the extended prefix window, the $\RegSeqRatUp$ row $R$ reads the same dyadic tolerance scale, and $K$ keeps the Cauchy-thread route inside $\CompleteMetricUp$ before $E$ seals the endpoint distance.
+
+The structural rows $H,P,N$ transport, source, and name the extended replay ledger without adding any carrier coordinate. Therefore each finite ledger prefix preserves the displayed route, and induction over $\Lambda$ gives the stated cylinder-refinement invariant.
+\end{proof}
+
 \begin{closurestatus}{\BaireSpaceCompletenessUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:baire-space-completeness-carrier}, \autoref{thm:baire-space-completeness-namecert-obligations}, and \autoref{thm:baire-space-completeness-cauchy-thread-route} seed the finite NameCert route for the usual complete ultrametric on Baire space.}
