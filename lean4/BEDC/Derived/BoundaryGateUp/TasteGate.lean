@@ -1,6 +1,8 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BoundaryGateUp
@@ -8,6 +10,8 @@ namespace BEDC.Derived.BoundaryGateUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -288,5 +292,97 @@ theorem BoundaryGate_noninternalization (G : BoundaryGateUp) :
           intro _row source
           exact source
       }
+
+theorem BoundaryGateCarrierAdmission
+    {B Q V S H C P N boundaryRead verdictRead localRead : BHist} :
+    UnaryHistory B -> UnaryHistory Q -> UnaryHistory V -> UnaryHistory S ->
+      UnaryHistory H -> UnaryHistory C -> UnaryHistory P -> UnaryHistory N ->
+        Cont B Q boundaryRead -> Cont V S verdictRead -> Cont H C localRead ->
+          SemanticNameCert
+              (fun row : BHist =>
+                (hsame row B ∨ hsame row Q ∨ hsame row V ∨ hsame row S ∨
+                    hsame row localRead) ∧
+                  UnaryHistory row)
+              (fun row : BHist =>
+                hsame row B ∨ hsame row Q ∨ hsame row V ∨ hsame row S ∨
+                  hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                    hsame row boundaryRead ∨ hsame row verdictRead ∨ hsame row localRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont B Q boundaryRead ∧ Cont V S verdictRead ∧
+                  Cont H C localRead)
+              hsame ∧
+            UnaryHistory boundaryRead ∧ UnaryHistory verdictRead ∧ UnaryHistory localRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro bUnary qUnary vUnary sUnary hUnary cUnary _pUnary _nUnary
+    boundaryRoute verdictRoute localRoute
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed bUnary qUnary boundaryRoute
+  have verdictUnary : UnaryHistory verdictRead :=
+    unary_cont_closed vUnary sUnary verdictRoute
+  have localUnary : UnaryHistory localRead :=
+    unary_cont_closed hUnary cUnary localRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row B ∨ hsame row Q ∨ hsame row V ∨ hsame row S ∨
+                hsame row localRead) ∧
+              UnaryHistory row)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row Q ∨ hsame row V ∨ hsame row S ∨
+              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row boundaryRead ∨ hsame row verdictRead ∨ hsame row localRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont B Q boundaryRead ∧ Cont V S verdictRead ∧
+              Cont H C localRead)
+          hsame := {
+    core := {
+      carrier_inhabited := ⟨B, ⟨Or.inl (hsame_refl B), bUnary⟩⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameBoundary =>
+          exact Or.inl sameBoundary
+      | inr rest0 =>
+          cases rest0 with
+          | inl sameQuestion =>
+              exact Or.inr (Or.inl sameQuestion)
+          | inr rest1 =>
+              cases rest1 with
+              | inl sameVerdict =>
+                  exact Or.inr (Or.inr (Or.inl sameVerdict))
+              | inr rest2 =>
+                  cases rest2 with
+                  | inl sameSite =>
+                      exact Or.inr (Or.inr (Or.inr (Or.inl sameSite)))
+                  | inr sameLocal =>
+                      exact
+                        Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr (Or.inr sameLocal)))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, boundaryRoute, verdictRoute, localRoute⟩
+  }
+  exact ⟨cert, boundaryUnary, verdictUnary, localUnary⟩
 
 end BEDC.Derived.BoundaryGateUp
