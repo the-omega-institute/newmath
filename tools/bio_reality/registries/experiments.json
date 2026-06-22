@@ -2192,6 +2192,40 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.utr3_are.are_endogenous_3utr_halflife_transfer_rnadecaycafe",
+   "experiment_id": "are_endogenous_3utr_halflife_transfer_rnadecaycafe",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib endogenous ARE -> mRNA half-life transfer test (deepens synthetic ARE claim). tools/bio_reality/data/are_endogenous_halflife_rnadecaycafe.json: Ensembl BioMart longest 3'UTR x RNADecayCafe per-gene cross-cell-line median half-life; ARE_density (AUUUA/WAUUUAW/AU-cluster per kb); nested OLS log(HL) ~ length+GC+AU-dinuc (+/-ARE_density) with permutation null + length-quartile stratification; positive control = labile (TNF/FOS/...) short-tail + housekeeping long-tail + negative direction. Verdict transfers_endogenous / synthetic_only. Deterministic, <120s.",
+   "script_path": "tools/bio_reality/experiments/run_are_endogenous_3utr_halflife_transfer_rnadecaycafe.py",
+   "timeout_seconds": 720,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T05:07:51+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.subcellular_localization.mts_propensity_localization_crossorganism_mouse_itzhak2017",
+   "experiment_id": "mts_propensity_localization_crossorganism_mouse_itzhak2017",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-organism MTS-propensity localization test (deepens human MTS claim). tools/bio_reality/data/mts_localization_mouse_itzhak2017.json: Itzhak 2017 mouse-neuron Table S4 measured Prediction x mouse UniProt sequences; N-MTS (first-30aa net-basic + S/T + amphipathic moment) vs measured-mito (Mann-Whitney) with length+composition+charge-controlled permutation; carrier/tail-anchored defiance enrichment; positive control = marker-mito + Hspd1 + Atp1a1. Verdict conserved_mouse / partial_conserved / hela_specific. Deterministic, <120s.",
+   "script_path": "tools/bio_reality/experiments/run_mts_propensity_localization_crossorganism_mouse_itzhak2017.py",
+   "timeout_seconds": 720,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T05:19:22+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
