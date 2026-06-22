@@ -1,45 +1,17 @@
-import BEDC.FKernel.Ask
-import BEDC.FKernel.Bundle
-import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
-import BEDC.FKernel.NameCert
-import BEDC.FKernel.Package
-import BEDC.FKernel.Unary
-import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BrouwerFixedPointMetricUp
 
-open BEDC.FKernel.Ask
-open BEDC.FKernel.Bundle
-open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
-open BEDC.FKernel.NameCert
-open BEDC.FKernel.Package
-open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive BrouwerFixedPointMetricUp : Type where
   | mk (K X M G E R H C P N : BHist) : BrouwerFixedPointMetricUp
   deriving DecidableEq
-
-inductive BrouwerFixedPointMetricCarrier
-    (K X M G E R H C P N : BHist) : Prop where
-  | mk :
-      UnaryHistory K →
-        UnaryHistory X →
-          UnaryHistory M →
-            UnaryHistory G →
-              UnaryHistory E →
-                UnaryHistory R →
-                  UnaryHistory H →
-                    UnaryHistory C →
-                      UnaryHistory P →
-                        UnaryHistory N →
-                          BrouwerFixedPointMetricCarrier K X M G E R H C P N
 
 def brouwerFixedPointMetricEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -53,9 +25,8 @@ def brouwerFixedPointMetricDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (brouwerFixedPointMetricDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (brouwerFixedPointMetricDecodeBHist tail)
 
-private theorem brouwerFixedPointMetric_decode_encode_bhist :
-    ∀ h : BHist,
-      brouwerFixedPointMetricDecodeBHist (brouwerFixedPointMetricEncodeBHist h) = h := by
+private theorem BrouwerFixedPointMetricTasteGate_single_carrier_alignment_decode_encode :
+    ∀ h : BHist, brouwerFixedPointMetricDecodeBHist (brouwerFixedPointMetricEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -96,11 +67,10 @@ def brouwerFixedPointMetricFromEventFlow (ef : EventFlow) : Option BrouwerFixedP
       (brouwerFixedPointMetricDecodeBHist (brouwerFixedPointMetricEventAtDefault 8 ef))
       (brouwerFixedPointMetricDecodeBHist (brouwerFixedPointMetricEventAtDefault 9 ef)))
 
-private theorem brouwerFixedPointMetric_round_trip :
-    ∀ x : BrouwerFixedPointMetricUp,
-      brouwerFixedPointMetricFromEventFlow (brouwerFixedPointMetricToEventFlow x) = some x := by
+private theorem BrouwerFixedPointMetricTasteGate_single_carrier_alignment_round_trip
+    (x : BrouwerFixedPointMetricUp) :
+    brouwerFixedPointMetricFromEventFlow (brouwerFixedPointMetricToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk K X M G E R H C P N =>
       change
@@ -117,18 +87,19 @@ private theorem brouwerFixedPointMetric_round_trip :
             (brouwerFixedPointMetricDecodeBHist (brouwerFixedPointMetricEncodeBHist P))
             (brouwerFixedPointMetricDecodeBHist (brouwerFixedPointMetricEncodeBHist N))) =
           some (BrouwerFixedPointMetricUp.mk K X M G E R H C P N)
-      rw [brouwerFixedPointMetric_decode_encode_bhist K,
-        brouwerFixedPointMetric_decode_encode_bhist X,
-        brouwerFixedPointMetric_decode_encode_bhist M,
-        brouwerFixedPointMetric_decode_encode_bhist G,
-        brouwerFixedPointMetric_decode_encode_bhist E,
-        brouwerFixedPointMetric_decode_encode_bhist R,
-        brouwerFixedPointMetric_decode_encode_bhist H,
-        brouwerFixedPointMetric_decode_encode_bhist C,
-        brouwerFixedPointMetric_decode_encode_bhist P,
-        brouwerFixedPointMetric_decode_encode_bhist N]
+      rw [BrouwerFixedPointMetricTasteGate_single_carrier_alignment_decode_encode K,
+        BrouwerFixedPointMetricTasteGate_single_carrier_alignment_decode_encode X,
+        BrouwerFixedPointMetricTasteGate_single_carrier_alignment_decode_encode M,
+        BrouwerFixedPointMetricTasteGate_single_carrier_alignment_decode_encode G,
+        BrouwerFixedPointMetricTasteGate_single_carrier_alignment_decode_encode E,
+        BrouwerFixedPointMetricTasteGate_single_carrier_alignment_decode_encode R,
+        BrouwerFixedPointMetricTasteGate_single_carrier_alignment_decode_encode H,
+        BrouwerFixedPointMetricTasteGate_single_carrier_alignment_decode_encode C,
+        BrouwerFixedPointMetricTasteGate_single_carrier_alignment_decode_encode P,
+        BrouwerFixedPointMetricTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem brouwerFixedPointMetricToEventFlow_injective {x y : BrouwerFixedPointMetricUp} :
+private theorem BrouwerFixedPointMetricTasteGate_single_carrier_alignment_toEventFlow_injective
+    {x y : BrouwerFixedPointMetricUp} :
     brouwerFixedPointMetricToEventFlow x = brouwerFixedPointMetricToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -137,18 +108,18 @@ private theorem brouwerFixedPointMetricToEventFlow_injective {x y : BrouwerFixed
         brouwerFixedPointMetricFromEventFlow (brouwerFixedPointMetricToEventFlow y) :=
     congrArg brouwerFixedPointMetricFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (brouwerFixedPointMetric_round_trip x).symm
-      (Eq.trans hread (brouwerFixedPointMetric_round_trip y)))
+    (Eq.trans (BrouwerFixedPointMetricTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (BrouwerFixedPointMetricTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem brouwerFixedPointMetric_field_faithful :
+private theorem BrouwerFixedPointMetricTasteGate_single_carrier_alignment_fields_faithful :
     ∀ x y : BrouwerFixedPointMetricUp,
       brouwerFixedPointMetricFields x = brouwerFixedPointMetricFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk K X M G E R H C P N =>
+  | mk K₁ X₁ M₁ G₁ E₁ R₁ H₁ C₁ P₁ N₁ =>
       cases y with
-      | mk K' X' M' G' E' R' H' C' P' N' =>
+      | mk K₂ X₂ M₂ G₂ E₂ R₂ H₂ C₂ P₂ N₂ =>
           cases hfields
           rfl
 
@@ -162,105 +133,46 @@ instance brouwerFixedPointMetricChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      brouwerFixedPointMetricFromEventFlow (brouwerFixedPointMetricToEventFlow x) = some x
-    exact brouwerFixedPointMetric_round_trip x
+    change brouwerFixedPointMetricFromEventFlow (brouwerFixedPointMetricToEventFlow x) = some x
+    exact BrouwerFixedPointMetricTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (brouwerFixedPointMetricToEventFlow_injective heq)
+    exact hxy (BrouwerFixedPointMetricTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 instance brouwerFixedPointMetricFieldFaithful : FieldFaithful BrouwerFixedPointMetricUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := brouwerFixedPointMetricFields
-  field_faithful := brouwerFixedPointMetric_field_faithful
+  field_faithful := BrouwerFixedPointMetricTasteGate_single_carrier_alignment_fields_faithful
 
-instance brouwerFixedPointMetricNontrivial : Nontrivial BrouwerFixedPointMetricUp where
+instance brouwerFixedPointMetricNontrivial :
+    BEDC.Meta.TasteGate.Nontrivial BrouwerFixedPointMetricUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨BrouwerFixedPointMetricUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+    ⟨BrouwerFixedPointMetricUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      BrouwerFixedPointMetricUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      BrouwerFixedPointMetricUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
       by
         intro h
         cases h⟩
 
-def taste_gate : ChapterTasteGate BrouwerFixedPointMetricUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  brouwerFixedPointMetricChapterTasteGate
-
-theorem BrouwerFixedPointMetricCarrier_namecert_obligations [AskSetup] [PackageSetup]
-    {K X M G E R H C P N witness residual : BHist}
-    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    BrouwerFixedPointMetricCarrier K X M G E R H C P N →
-      Cont K X M →
-        Cont M G witness →
-          Cont witness E residual →
-            PkgSig bundle P pkg →
-              SemanticNameCert
-                  (fun row : BHist => hsame row residual ∧ UnaryHistory row)
-                  (fun row : BHist =>
-                    hsame row K ∨ hsame row X ∨ hsame row M ∨ hsame row G ∨
-                      hsame row E ∨ hsame row R ∨ hsame row H ∨ hsame row C ∨
-                        hsame row P ∨ hsame row N ∨ hsame row residual)
-                  (fun row : BHist =>
-                    UnaryHistory row ∧ Cont K X M ∧ Cont M G witness ∧
-                      Cont witness E residual ∧ PkgSig bundle P pkg)
-                  hsame ∧ UnaryHistory witness ∧ UnaryHistory residual := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
-  intro carrier compactMesh mapMesh witnessResidual provenancePkg
-  cases carrier with
-  | mk kUnary _xUnary mUnary gUnary eUnary _rUnary _hUnary _cUnary _pUnary _nUnary =>
-      have witnessUnary : UnaryHistory witness :=
-        unary_cont_closed mUnary gUnary mapMesh
-      have residualUnary : UnaryHistory residual :=
-        unary_cont_closed witnessUnary eUnary witnessResidual
-      have cert :
-          SemanticNameCert
-              (fun row : BHist => hsame row residual ∧ UnaryHistory row)
-              (fun row : BHist =>
-                hsame row K ∨ hsame row X ∨ hsame row M ∨ hsame row G ∨
-                  hsame row E ∨ hsame row R ∨ hsame row H ∨ hsame row C ∨
-                    hsame row P ∨ hsame row N ∨ hsame row residual)
-              (fun row : BHist =>
-                UnaryHistory row ∧ Cont K X M ∧ Cont M G witness ∧
-                  Cont witness E residual ∧ PkgSig bundle P pkg)
-              hsame := {
-        core := {
-          carrier_inhabited := Exists.intro residual ⟨hsame_refl residual, residualUnary⟩
-          equiv_refl := by
-            intro row _source
-            exact hsame_refl row
-          equiv_symm := by
-            intro _row _other sameRows
-            exact hsame_symm sameRows
-          equiv_trans := by
-            intro _row _middle _other sameLeft sameRight
-            exact hsame_trans sameLeft sameRight
-          carrier_respects_equiv := by
-            intro _row _other sameRows source
-            exact
-              ⟨hsame_trans (hsame_symm sameRows) source.left,
-                unary_transport source.right sameRows⟩
-        }
-        pattern_sound := by
-          intro _row source
-          right
-          right
-          right
-          right
-          right
-          right
-          right
-          right
-          right
-          right
-          exact source.left
-        ledger_sound := by
-          intro _row source
-          exact ⟨source.right, compactMesh, mapMesh, witnessResidual, provenancePkg⟩
-      }
-      exact ⟨cert, witnessUnary, residualUnary⟩
+theorem BrouwerFixedPointMetricTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate BrouwerFixedPointMetricUp) ∧
+      Nonempty (FieldFaithful BrouwerFixedPointMetricUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial BrouwerFixedPointMetricUp) ∧
+          (∀ h : BHist,
+            brouwerFixedPointMetricDecodeBHist (brouwerFixedPointMetricEncodeBHist h) = h) ∧
+            (∀ x : BrouwerFixedPointMetricUp,
+              brouwerFixedPointMetricFromEventFlow (brouwerFixedPointMetricToEventFlow x) =
+                some x) ∧
+              brouwerFixedPointMetricEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
+  exact
+    ⟨⟨brouwerFixedPointMetricChapterTasteGate⟩,
+      ⟨brouwerFixedPointMetricFieldFaithful⟩,
+      ⟨brouwerFixedPointMetricNontrivial⟩,
+      BrouwerFixedPointMetricTasteGate_single_carrier_alignment_decode_encode,
+      BrouwerFixedPointMetricTasteGate_single_carrier_alignment_round_trip,
+      rfl⟩
 
 end BEDC.Derived.BrouwerFixedPointMetricUp
