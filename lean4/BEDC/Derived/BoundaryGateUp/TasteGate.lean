@@ -385,4 +385,65 @@ theorem BoundaryGateCarrierAdmission
   }
   exact ⟨cert, boundaryUnary, verdictUnary, localUnary⟩
 
+theorem BoundaryGateClassifierStability
+    {B Q V S H C P N boundaryRead verdictRead stableRead : BHist} :
+    UnaryHistory B -> UnaryHistory Q -> UnaryHistory V -> UnaryHistory S ->
+      UnaryHistory H -> UnaryHistory C -> UnaryHistory P -> UnaryHistory N ->
+        Cont B Q boundaryRead -> Cont V S verdictRead ->
+          Cont boundaryRead verdictRead stableRead ->
+            SemanticNameCert
+                (fun row : BHist => hsame row stableRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row B ∨ hsame row Q ∨ hsame row V ∨ hsame row S ∨
+                    hsame row boundaryRead ∨ hsame row verdictRead ∨ hsame row stableRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont B Q boundaryRead ∧ Cont V S verdictRead ∧
+                    Cont boundaryRead verdictRead stableRead)
+                hsame ∧
+              UnaryHistory stableRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro bUnary qUnary vUnary sUnary _hUnary _cUnary _pUnary _nUnary
+    boundaryRoute verdictRoute stableRoute
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed bUnary qUnary boundaryRoute
+  have verdictUnary : UnaryHistory verdictRead :=
+    unary_cont_closed vUnary sUnary verdictRoute
+  have stableUnary : UnaryHistory stableRead :=
+    unary_cont_closed boundaryUnary verdictUnary stableRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row stableRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row Q ∨ hsame row V ∨ hsame row S ∨
+              hsame row boundaryRead ∨ hsame row verdictRead ∨ hsame row stableRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont B Q boundaryRead ∧ Cont V S verdictRead ∧
+              Cont boundaryRead verdictRead stableRead)
+          hsame := {
+    core := {
+      carrier_inhabited := ⟨stableRead, ⟨hsame_refl stableRead, stableUnary⟩⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, boundaryRoute, verdictRoute, stableRoute⟩
+  }
+  exact ⟨cert, stableUnary⟩
+
 end BEDC.Derived.BoundaryGateUp
