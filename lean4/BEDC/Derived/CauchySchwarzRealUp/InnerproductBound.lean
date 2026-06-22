@@ -35,4 +35,28 @@ theorem CauchySchwarzRealInnerproductBound [AskSetup] [PackageSetup]
     unary_cont_closed streamUnary eUnary sealRoute
   exact ⟨boundUnary, boundPkg, hsame_refl boundRead⟩
 
+theorem CauchySchwarzRealInnerproductBound_norm_handoff_consumer [AskSetup] [PackageSetup]
+    {V X Y I A B D Q S E H T P N vectorRead scalarRead squareRead readbackRead
+      sealRead normRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySchwarzRealCarrier V X Y I A B D Q S E H T P N bundle pkg →
+      Cont V X vectorRead →
+        Cont vectorRead I scalarRead →
+          Cont scalarRead D squareRead →
+            Cont squareRead Q readbackRead →
+              Cont readbackRead E sealRead →
+                Cont sealRead H normRead →
+                  PkgSig bundle normRead pkg →
+                    UnaryHistory normRead ∧ PkgSig bundle normRead pkg ∧
+                      hsame normRead normRead ∧ Cont sealRead H normRead ∧
+                        PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig UnaryHistory hsame
+  intro carrier vectorRoute scalarRoute squareRoute readbackRoute sealRoute normRoute normPkg
+  have handoff :=
+    CauchySchwarzRealCarrier_norm_bound_handoff carrier vectorRoute scalarRoute squareRoute
+      readbackRoute sealRoute normRoute normPkg
+  exact
+    ⟨handoff.left, handoff.right.right.right, hsame_refl normRead, handoff.right.left,
+      handoff.right.right.left⟩
+
 end BEDC.Derived.CauchySchwarzRealUp
