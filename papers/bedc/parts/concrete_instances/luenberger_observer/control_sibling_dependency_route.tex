@@ -1,0 +1,11 @@
+\begin{theorem}[LuenbergerObserverUp control sibling dependency route]
+\label{thm:luenberger-observer-control-sibling-dependency-route}
+Every deterministic observer correction read of an accepted $\LuenbergerObserverUp$ packet consumes the control sibling route through \autoref{ch:concrete-instances-controlobservability-namecert}, \autoref{ch:concrete-instances-controlcontrollability-namecert}, \autoref{ch:concrete-instances-observability-gramian-namecert}, \autoref{ch:concrete-instances-kalman-filter-namecert}, and \autoref{ch:concrete-instances-linearmap-namecert} before any observer-interface row is treated as public. The route exposes the plant-dynamics row, output-map row, observer-gain row, residual row, deterministic error-propagation ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\LuenbergerObserverUp}$; it exports no stochastic covariance update, pole-placement theorem, observer convergence theorem, or hidden analytic state trajectory.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:luenberger-observer-carrier}. Its rows $A,C,Y,G,R,E,H,T,P,N$ name the deterministic observer interface and the structural transport, replay, provenance, and local naming records.
+
+The output row is read through $\ControlObservabilityUp$, the finite control provenance through $\ControlControllabilityUp$, the dual readback through $\ObservabilityGramianUp$, the estimator boundary through $\KalmanFilterUp$, and the transition and gain rows through $\LinearMapUp$. These sibling chapters must therefore be displayed before a consumer treats the observer correction as public.
+
+Since the carrier contains no covariance recursion, pole-placement completeness row, convergence theorem, or host trajectory semantics, the public observer-interface read is exactly the displayed control sibling route.
+\end{proof}
