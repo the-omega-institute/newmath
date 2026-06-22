@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\BishopSpreadUp$}
+\label{ch:concrete-instances-bishop-spread-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopSpreadUp$ packet records spread data as a finite-prefix carrier rather than as a completed choice sequence. It sits beside the binary prefix surfaces of $\CantorSpaceUp$ in \autoref{ch:concrete-instances-cantorspace-namecert}, the fan restriction of $\FanSpaceUp$ in \autoref{ch:concrete-instances-fan-space-namecert}, the finite observation windows of $\StreamNameUp$ in \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback rows of $\RegSeqRatUp$ in \autoref{ch:concrete-instances-regseqrat-namecert}, and the bar-modulus rows of $\BishopBarInductionModulusUp$ in \autoref{ch:concrete-instances-bishop-bar-induction-modulus-namecert}. The packet supplies countable-name discipline for later $\RealUp$ and completion consumers without assuming a selected infinite branch, countable choice, or an ambient space of completed sequences.
+
+\section{Carrier and obligations}
+\label{sec:bishop-spread-carrier}
+
+\begin{definition}[Bishop spread carrier]
+\label{def:bishop-spread-carrier}
+A $\BishopSpreadUp$ carrier is a finite $\BHist$ packet
+$$
+S=(P,A,W,R,B,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+  \item $P$ is the finite-prefix tree row, whose nodes are finite natural-number lists and whose admissibility predicate is decidable on displayed prefixes.
+  \item $A$ is the apartness and compatibility row saying that two prefixes are compared only by the first displayed coordinate at which both rows are defined, or by prefix extension when no split is displayed.
+  \item $W$ is the $\StreamNameUp$ finite-window row exposing the inspected prefixes and requests.
+  \item $R$ is the $\RegSeqRatUp$ readback row available only when the prefix data is consumed by a regular-Cauchy or real-name consumer.
+  \item $B$ is the $\BishopBarInductionModulusUp$ bar-modulus handoff row for finite bars over the same prefix surface.
+  \item $H$ records componentwise $\hsame$ transport for prefix, apartness, window, readback, bar, replay, provenance, and naming rows.
+  \item $C$ records displayed $\Cont$ replay of the same finite-prefix route.
+  \item $G$ is the $\Pkg$ provenance over $\BishopSpreadUp$, $\CantorSpaceUp$, $\FanSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BishopBarInductionModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+  \item $N$ is the local $\NameCert_{\BishopSpreadUp}$ row.
+\end{enumerate}
+The classifier compares two carriers only through $P,A,W,R,B,H,C,G,N$. It has no coordinate for a selected infinite branch, a completed choice-sequence object, host equality of sequences, countable choice, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop spread NameCert obligations]
+\label{thm:bishop-spread-namecert-obligations}
+For every accepted $\BishopSpreadUp$ carrier $S=(P,A,W,R,B,H,C,G,N)$, the local $\NameCert_{\BishopSpreadUp}$ surface consists exactly of finite-prefix admission, apartness and prefix-compatibility admission, finite-window exposure, regular rational readback handoff, bar-modulus handoff, componentwise transport, displayed replay, provenance, and local naming. Every downstream $\RealUp$ or completion consumer must read the prefix rows through $W$ before it can inspect $R$ or $B$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-spread-carrier}. The rows $P$ and $A$ expose the finite-prefix substrate and its displayed apartness discipline before any branch-facing read is possible.
+
+Next read the countable-name route through $W$ and $R$. The $\StreamNameUp$ row supplies only finite windows, and the $\RegSeqRatUp$ row is reached only as a displayed readback for regular-Cauchy or real-name consumers.
+
+Finally use $B,H,C,G,N$ to carry the bar handoff, transport, replay, provenance, and local naming rows. Since no coordinate stores a selected infinite branch, completed choice sequence, host sequence equality, countable choice, quotient stream equality, or ambient completeness principle, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop spread finite-prefix induction]
+\label{thm:bishop-spread-finite-prefix-induction}
+Every induction or bar-style consumer of an accepted $\BishopSpreadUp$ packet must factor through the finite prefix rows $P,A,W$ and the displayed bar-modulus row $B$. The consumer may extend a prefix, inspect a finite bar, or pass the read to $\RegSeqRatUp$, but it cannot infer a completed branch, a chosen path through the spread, countable choice, host-level sequence equality, or a global continuity theorem from the packet alone.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:bishop-spread-namecert-obligations}. It forces every consumer to expose the prefix row, apartness row, and finite-window row before the bar or readback rows are inspected.
+
+For an induction read, extend only the displayed prefix in $P$ and transport the apartness row $A$ componentwise. This keeps the step inside the same finite-prefix carrier.
+
+For a bar-style read, use the $\BishopBarInductionModulusUp$ handoff row $B$. The handoff names finite bar coverage over the displayed prefixes, not a selected infinite path or a global theorem about all completed choice sequences.
+
+For a completion-facing read, pass through $W$ before $R$. The regular rational handoff therefore consumes finite windows and exports no branch selector, countable-choice schedule, quotient stream equality, host sequence equality, or ambient real completeness row.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopSpreadUp$ read exposes finite-prefix admission, prefix apartness, StreamName windows, RegSeqRat readback when requested, BishopBarInductionModulus handoff, componentwise hsame, Cont replay, Pkg provenance, and local NameCert rows before any RealUp or completion consumer is served.}
+
+\independenceWitness{cantorspace, fan-space, streamname, regseqrat, bishop-bar-induction-modulus: none is bijective with $\BishopSpreadUp$ because this packet alone binds spread-prefix admission, apartness, finite observation windows, regular-Cauchy readback, bar-modulus handoff, transport, replay, provenance, and local naming as one countable-name substrate.}
+
+\closureat{BishopSpreadUp}{seedStr}
+
+\begin{closurestatus}{\BishopSpreadUp}
+  \constructivestory{A $\BishopSpreadUp$ packet is generated from finite-prefix tree rows, apartness and prefix-compatibility rows, StreamName finite windows, optional RegSeqRat readback, BishopBarInductionModulus bar handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-spread-carrier}, \autoref{thm:bishop-spread-namecert-obligations}, and \autoref{thm:bishop-spread-finite-prefix-induction} seed the finite-prefix spread substrate for countable-name and regular-Cauchy consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed choice sequences, selected infinite branches, countable choice, quotient stream equality, host sequence equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-apartness stability, finite-window coverage, RegSeqRat readback, bar-modulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.BishopSpreadUp.}
+\end{closurestatus}
