@@ -104,16 +104,29 @@ The additional row is $F$, routed through $C$ and recorded with $P$ and $N$. Thu
 \end{proof}
 \leanchecked{BEDC.Derived.ZeckendorfCarryValueUp.ZeckendorfCarryValueUp\_classifier\_dependency\_rows}
 
+\begin{theorem}[Zeckendorf carry-value scoped public route]
+\label{thm:zeckendorf-carry-value-scoped-public-route}
+Every public carry-value read exported by $\ZeckendorfCarryValueUp$ passes through $\ZCarryUp$, $\ZeckendorfNormalUp$, the displayed source and target word rows, the Fibonacci value row, the non-$\HSame$ boundary, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows. The exported surface is value preservation for the displayed carry packet, not kernel history identification, quotient arithmetic, a global normalizer, or a host-level numerical oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:zeckendorf-carry-value-carrier}. The rows $h,k,G,N_h,N_k$ fix the displayed words, the $\ZCarryUp$ carry row, and the $\ZeckendorfNormalUp$ source and target normality boundaries before the value row is read.
+
+Next apply value-row exactness and the classifier dependency route, \autoref{thm:zeckendorf-carry-value-obligation-value-row-exactness} and \autoref{thm:zeckendorf-carry-value-classifier-dependency}. They keep the Fibonacci equality in $F$ over the carry classifier rather than as a replacement for the classifier.
+
+Finally apply the non-$\HSame$ boundary and the NameCert package, \autoref{thm:zeckendorf-carry-value-non-hsame-boundary} and \autoref{thm:zeckendorf-carry-value-namecert-package}. The rows $H,C,P,N$ export value preservation only through the finite public route, so no kernel history identification, quotient arithmetic, global normalizer, or host-level numerical oracle is introduced.
+\end{proof}
+
 \closureat{ZeckendorfCarryValueUp}{obligationStr}
+\closureat{ZeckendorfCarryValueUp}{scopedStr}[BEDC.Derived.ZeckendorfCarryValueUp.ZeckendorfCarryValueTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\ZeckendorfCarryValueUp}
   \constructivestory{A $\ZeckendorfCarryValueUp$ packet records the displayed carry from $\mathtt{word\_011}$ to $\mathtt{word\_100}$, the finite Fibonacci value equality for those two words, the normality boundary rows, and the non-$\HSame$ separation row in one finite $\BHist$ certificate.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:zeckendorf-carry-value-carrier}, \autoref{thm:zeckendorf-carry-value-non-hsame-boundary}, \autoref{thm:zeckendorf-carry-value-namecert-package}, \autoref{thm:zeckendorf-carry-value-obligation-value-row-exactness}, and \autoref{thm:zeckendorf-carry-value-vision-realization} bind the finite value-preservation obligations over $\ZCarryUp$, $\ZeckendorfNormalUp$, $\BHist$, $\HSame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:zeckendorf-carry-value-carrier}, \autoref{thm:zeckendorf-carry-value-non-hsame-boundary}, \autoref{thm:zeckendorf-carry-value-namecert-package}, \autoref{thm:zeckendorf-carry-value-obligation-value-row-exactness}, \autoref{thm:zeckendorf-carry-value-vision-realization}, \autoref{thm:zeckendorf-carry-value-classifier-dependency}, and \autoref{thm:zeckendorf-carry-value-scoped-public-route} bind the finite value-preservation public route over $\ZCarryUp$, $\ZeckendorfNormalUp$, $\BHist$, $\HSame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.ZeckendorfCarryValueUp.ZeckendorfCarryValueTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close a Lean implementation, a bridge certificate, a global Zeckendorf normalizer, uniqueness of numerical interpretation, a kernel rewrite, or source-target $\HSame$.}
-  \upgradepath{Scoped closure requires public consumer routing for the displayed carry-value packet and its finite non-$\HSame$ boundary.}
+  \upgradepath{Public closure requires a broader consumer export beyond the displayed carry-value packet and its finite non-$\HSame$ boundary.}
 \end{closurestatus}
