@@ -79,6 +79,7 @@ The Lean follow-up path \texttt{lean4/BEDC/Derived/ScienceBridgeUp/TasteGate.lea
 \label{thm:science-bridge-standard-audit-handoff}
 Every accepted bridge-facing consumer of a $\ScienceBridgeUp$ packet must pass through the $\StandardBridgeAuditPacketUp$ surface, the $\GapFailureBridgeAuditUp$ surface, the $\RealityConstrainedTruthCertUp$ surface, and the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before any bridge read is public. Consequently a consumer may not publish the bridge row while bypassing the standard audit route, erasing the gap or failure branch, replacing the truth certificate by host physical truth, or reading outside the displayed records and local naming rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ScienceBridgeUp.ScienceBridgeStandardAuditHandoff}
 \begin{proof}
 Project the carrier of \autoref{def:science-bridge-carrier}. The bridge-facing rows are already displayed as $B,G,T$ together with the records, failure, transport, replay, provenance, and naming rows.
 
@@ -91,6 +92,7 @@ Use axis separation, \autoref{thm:science-bridge-axis-separation}. It prevents b
 \label{thm:science-bridge-mature-failure-surface-export}
 Every mature $\ScienceBridgeUp$ consumer must preserve the records row, scientific-object row, physical-model-audit row, truth-certificate row, standard-bridge-audit row, gap/falsification row, and failure-surface row through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route. In particular, a mature read may not publish the bridge surface while dropping $R,O,A,T,B,G,F,H,C,P,N$ or replacing the gap/falsification and failure-surface rows by external scientific authority.
 \end{theorem}
+\leanchecked{BEDC.Derived.ScienceBridgeUp.ScienceBridgeMatureFailureSurfaceExport}
 \begin{proof}
 Project the carrier of \autoref{def:science-bridge-carrier}. The rows $R,O,A,T,B,G,F$ are distinct coordinates of the accepted packet, and $H,C,P,N$ are the only structural rows that transport, replay, source, and name them.
 
