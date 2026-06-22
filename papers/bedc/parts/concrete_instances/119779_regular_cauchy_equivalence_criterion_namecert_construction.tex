@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyEquivalenceCriterionUp$}
+\label{ch:concrete-instances-regular-cauchy-equivalence-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names, the $\RegularCauchyEquivalenceCriterionUp$ packet records the finite criterion by which two displayed regular rational names are accepted as the same real-name seal. It sits after the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the comparison-window route of \autoref{ch:concrete-instances-regular-cauchy-comparison-namecert}. The packet is a criterion surface: it names the displayed comparison windows that force the same $\RealUp$ seal, without quotienting streams, choosing representatives, invoking trichotomy, using countable choice, or asserting ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy equivalence criterion carrier]
+\label{def:regular-cauchy-equivalence-criterion-carrier}
+A $\RegularCauchyEquivalenceCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(L,R,W,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are the two $\RegSeqRatUp$ regular rational names being compared.
+\item $W$ is the shared $\StreamNameUp$ finite-window schedule on which the comparison is inspected.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the displayed windows.
+\item $Q$ is the $\RegularCauchyComparisonPrincipleUp$ comparison row witnessing that every displayed tolerance window closes along the same route.
+\item $E$ is the terminal $\RealUp$ seal reached only after $L,R,W,D,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two names, window schedule, dyadic ledger, comparison row, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the same finite comparison route.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyEquivalenceCriterionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyComparisonPrincipleUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularCauchyEquivalenceCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through the displayed rows $L,R,W,D,Q,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, trichotomy, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy equivalence criterion NameCert obligations]
+\label{thm:regular-cauchy-equivalence-criterion-namecert-obligations}
+For every accepted $\RegularCauchyEquivalenceCriterionUp$ carrier $K=(L,R,W,D,Q,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyEquivalenceCriterionUp}$ surface consists exactly of carrier admission for the two $\RegSeqRatUp$ rows, the shared $\StreamNameUp$ finite-window schedule, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegularCauchyComparisonPrincipleUp$ comparison row, the terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The obligation surface may use the criterion only after the comparison windows and dyadic ledger have been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-equivalence-criterion-carrier}. The two candidate real names enter only as $\RegSeqRatUp$ rows $L,R$, and every consumer-visible comparison request must first pass through the finite window schedule $W$.
+
+Read the tolerance and comparison rows. The dyadic ledger $D$ supplies the displayed budgets, while the $\RegularCauchyComparisonPrincipleUp$ row $Q$ records that the inspected windows close under those budgets before the terminal seal is consumed.
+
+Finally replay and transport the same route through $H,C,P,N$. These rows preserve the displayed comparison surface and add no quotient-stream equality, representative selector, trichotomy branch, countable-choice schedule, host real equality test, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy equivalence criterion Real seal]
+\label{thm:regular-cauchy-equivalence-criterion-real-seal}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyEquivalenceCriterionUp$ packet reaches seal equality only through the displayed route
+$$
+\RegSeqRatUp\times\RegSeqRatUp
+\longmapsto
+\StreamNameUp
+\longmapsto
+\DyadicRatCoreUp
+\longmapsto
+\RegularCauchyComparisonPrincipleUp
+\longmapsto
+\RealUp .
+$$
+Thus the criterion can certify that the two regular Cauchy names present the same real seal inside the finite comparison surface, but it does not export quotient stream equality, selected representatives, trichotomy, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:regular-cauchy-equivalence-criterion-namecert-obligations}. They force the consumer to keep both regular rational rows, the shared finite window, the dyadic tolerance ledger, and the comparison row visible before the Real seal is read.
+
+The terminal seal $E$ is therefore downstream of a displayed comparison route. Any accepted seal read is replayed by $C$, transported by $H$, sourced by $P$, and locally named by $N$ along the same finite packet.
+
+The excluded objects cannot be projected from the carrier. Since $K$ stores no quotient stream equality, representative selector, trichotomy branch, countable-choice schedule, host real equality test, or ambient completeness row, the real-seal conclusion remains a finite criterion rather than a quotient or completeness principle.
+\end{proof}
+
+\closureat{RegularCauchyEquivalenceCriterionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyEquivalenceCriterionUp}
+  \constructivestory{A $\RegularCauchyEquivalenceCriterionUp$ packet is generated from two RegSeqRat names, a shared StreamName finite-window schedule, a DyadicRatCore tolerance ledger, a RegularCauchyComparisonPrinciple row, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-equivalence-criterion-carrier}, \autoref{thm:regular-cauchy-equivalence-criterion-namecert-obligations}, and \autoref{thm:regular-cauchy-equivalence-criterion-real-seal} seed the finite equivalence criterion linking RegSeqRat comparison windows to RealUp seal equality.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, trichotomy, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, comparison-window exactness, dyadic tolerance stability, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyEquivalenceCriterionUp.}
+\end{closurestatus}
