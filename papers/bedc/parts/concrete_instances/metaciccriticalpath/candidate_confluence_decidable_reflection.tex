@@ -1,0 +1,11 @@
+\begin{theorem}[Candidate confluence decidable reflection]
+\label{thm:metacic-critical-path-candidate-confluence-decidable-reflection}
+Every $\MetaCICCriticalPathUp$ candidate schedule that exposes strong normalization rows, residual-local-diamond rows, and decidable audit rows factors any confluence-decidability consumer through the displayed critical-path route. The consumer first reads the candidate schedule, then the strong-normalization ledger, then the residual local-diamond ledger, and only then the decidable audit rows; it never appeals to an ambient typechecker oracle, global conversion decision procedure, unrestricted reduction search, quotient syntax equality, or host confluence theorem.
+\end{theorem}
+\begin{proof}
+Read the candidate schedule as finite $\BHist$ data. Its schedule rows name the reductions and residual windows that a later audit may inspect, so a decidability-facing consumer cannot start from an external typechecker answer.
+
+The strong-normalization ledger is consumed next. It supplies the terminating branch budget for the displayed schedule, while the residual-local-diamond ledger supplies the local join rows for overlapping residual windows.
+
+Finally the decidable audit rows package these two finite ledgers into the $\MetaCICCriticalPathUp$ route. Since each row is already part of the displayed candidate schedule, the consumer receives confluence decidability only as a certificate over those rows and not as an oracle for conversion, unrestricted reduction, quotient equality, or host confluence.
+\end{proof}

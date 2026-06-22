@@ -125,6 +125,7 @@ Finally apply classifier stability from \autoref{thm:located-infimum-classifier-
 \label{thm:located-infimum-supremum-dual-route}
 Every accepted $\LocatedInfimumUp$ packet whose bounded-family row is read through the dual upper-bound presentation first factors through the $\LocatedSupremumUp$ sibling of \autoref{ch:concrete-instances-locatedsupremum-namecert} and the $\BoundedRealFamilyUp$ row before exposing its lower-bound ledger $L$, greatest-lower-approximation ledger $G$, $\RegSeqRatUp$ handoff $R$, and terminal $\RealUp$ seal $E$. The resulting route is still the finite carrier route of \autoref{def:located-infimum-carrier}; it does not import a global supremum operator, arbitrary infimum operator, Dedekind completeness, quotient real equality, trichotomy, countable choice, or host completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedInfimumUp.LocatedInfimumSupremumDualRoute}
 \begin{proof}
 Start from the carrier of \autoref{def:located-infimum-carrier}. The bounded-family source is the row $F$, and the introduction identifies its upper-bound companion as the $\LocatedSupremumUp$ certificate of \autoref{ch:concrete-instances-locatedsupremum-namecert}.
 
@@ -133,6 +134,22 @@ Read the lower-bound side after that dual presentation. By \autoref{thm:located-
 Now read the greatest-lower-bound approximation side. Apply \autoref{thm:located-infimum-greatest-lower-bound-obligation}: the witnesses live in $G$ at precision rows of $W$, then pass through $R$ and $E$ before the local certificate exports an infimum-facing read.
 
 Thus the dual route has a fixed order: $\LocatedSupremumUp$ and $\BoundedRealFamilyUp$ supply the upper-bound and family presentation, while $L,G,R,E,H,C,P,N$ expose the lower-bound, approximation, handoff, seal, transport, replay, provenance, and local naming rows. Since \autoref{def:located-infimum-carrier} contains no global order-completeness or quotient coordinate, none is added by the dual read.
+\end{proof}
+
+\begin{theorem}[LocatedInfimum supremum-dual exactness]
+\label{thm:located-infimum-supremum-dual-exactness}
+For every accepted $\LocatedInfimumUp$ packet
+$$
+I=(F,L,G,W,R,E,H,C,P,N),
+$$
+any dual read through $\LocatedSupremumUp$ and $\BoundedRealFamilyUp$ preserves exactly the displayed lower-bound ledger $L$, greatest-lower witness ledger $G$, $\RegSeqRatUp$ handoff $R$, $\RealUp$ seal $E$, and structural rows $H,C,P,N$. The read exports no host infimum, arbitrary supremum operator, quotient real equality, trichotomy, choice principle, or completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the dual presentation of \autoref{thm:located-infimum-supremum-dual-route}. It may orient the bounded-family row $F$ through $\LocatedSupremumUp$ and $\BoundedRealFamilyUp$, but the carrier still exposes the lower-bound surface only through $L$ and the greatest-lower witness surface only through $G$.
+
+The real-facing handoff is unchanged. The row $R$ remains the only $\RegSeqRatUp$ readback before the terminal $\RealUp$ seal $E$, so the dual presentation cannot replace the lower-bound evidence by a host infimum or an arbitrary supremum operator.
+
+Finally $H,C,P,N$ preserve the same rows under transport, replay, provenance, and local naming. Since quotient real equality, trichotomy, choice, and completeness are not coordinates of \autoref{def:located-infimum-carrier}, exactness consists precisely of preserving $L,G,R,E,H,C,P,N$ and refusing those stronger principles.
 \end{proof}
 
 \begin{theorem}[LocatedInfimum bounded-family handoff]
@@ -169,6 +186,7 @@ The structural rows $H,C,P,N$ preserve this order under transport and replay. A 
 \label{thm:located-infimum-real-export-nonescape}
 For every accepted $\LocatedInfimumUp$ packet $I=(F,L,G,W,R,E,H,C,P,N)$, every $\RealUp$ observation exported by the local certificate is sourced by $F,L,G,W,R,E,H,C,P,N$ and remains inside the $\BoundedRealFamilyUp$, $\LocatedSupremumUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ route displayed by the carrier. The export cannot escape to Dedekind completeness, arbitrary infima, quotient real equality, trichotomy, countable choice, host completeness, or an unlisted real-order oracle.
 \end{theorem}
+\leanchecked{BEDC.Derived.LocatedInfimumUp.LocatedInfimumRealExportNonescape}
 \begin{proof}
 Take an exported $\RealUp$ observation. Ledger exactness forces it to be read from the displayed rows $F,L,G,W,R,E,H,C,P,N$, and the carrier has no second real-facing coordinate.
 
