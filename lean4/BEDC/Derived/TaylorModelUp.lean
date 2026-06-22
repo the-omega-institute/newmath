@@ -71,25 +71,6 @@ theorem TaylorModelDisplayedFiniteJetSubwindow_admission [AskSetup] [PackageSetu
     ⟨subJetUnary, subEvalUnary, subEndpointUnary, coefficientReadUnary, centerSubJet,
       subEvalReadback, subEndpointValidated, subEndpointPkg⟩
 
-theorem TaylorModelJetLedger_finite_transport [AskSetup] [PackageSetup]
-    {center jet remainder ledger eval validated readback provenance nameCert sameRows route
-      endpoint : BHist}
-    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    TaylorModelCarrier center jet remainder ledger eval validated readback provenance nameCert
-        sameRows route endpoint bundle pkg ->
-      exists coefficientRead : BHist,
-        UnaryHistory coefficientRead ∧ hsame coefficientRead (append jet eval) ∧
-          hsame eval (append center jet) ∧ PkgSig bundle endpoint pkg := by
-  intro carrier
-  obtain ⟨_centerUnary, jetUnary, _remainderUnary, _ledgerUnary, evalUnary,
-    _validatedUnary, _readbackUnary, _provenanceUnary, _nameCertUnary, _sameRowsUnary,
-    _routeUnary, _endpointUnary, _ledgerRow, evalRow, _sameRowsRoute, _evalRoute,
-    _readbackRoute, _endpointRoute, pkgEndpoint, _provenancePkg, _nameCertPkg⟩ := carrier
-  let coefficientRead : BHist := append jet eval
-  have coefficientReadUnary : UnaryHistory coefficientRead :=
-    unary_cont_closed jetUnary evalUnary (rfl : Cont jet eval coefficientRead)
-  exact ⟨coefficientRead, coefficientReadUnary, rfl, evalRow, pkgEndpoint⟩
-
 theorem TaylorModelCarrier_endpoint_closure [AskSetup] [PackageSetup]
     {center jet remainder ledger eval validated readback provenance nameCert sameRows route
       endpoint : BHist}
