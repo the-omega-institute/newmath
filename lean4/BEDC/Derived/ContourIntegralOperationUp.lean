@@ -291,6 +291,96 @@ theorem ContourIntegralOperationNameCertObligations [AskSetup] [PackageSetup]
     }
   · exact And.intro unaryI (And.intro unaryN (And.intro sameInputFace pkgP))
 
+theorem ContourIntegralOperationBridgeEnvelope [AskSetup] [PackageSetup]
+    {G F S M I H P N pathRead lawRead publicRead residueRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContourIntegralOperationCarrier G F S M I H P N ->
+      Cont G F pathRead ->
+        Cont S M lawRead ->
+          Cont lawRead P publicRead ->
+            Cont I P residueRead ->
+              PkgSig bundle P pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row N ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row G ∨ hsame row F ∨ hsame row S ∨ hsame row M ∨
+                        hsame row I ∨ hsame row H ∨ hsame row P ∨ hsame row N ∨
+                          hsame row pathRead ∨ hsame row lawRead ∨
+                            hsame row publicRead ∨ hsame row residueRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont S M lawRead ∧ Cont lawRead P publicRead ∧
+                        Cont I P residueRead ∧ PkgSig bundle P pkg)
+                    hsame ∧
+                  UnaryHistory pathRead ∧ UnaryHistory lawRead ∧
+                    UnaryHistory publicRead ∧ UnaryHistory residueRead ∧
+                      hsame H (append G F) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame PkgSig SemanticNameCert UnaryHistory
+  intro carrier pathRoute lawRoute publicRoute residueRoute pkgP
+  obtain
+    ⟨unaryG, unaryF, unaryS, unaryM, unaryP, sameInputFace, integralRoute,
+      exportRoute⟩ :=
+      carrier
+  have unaryI : UnaryHistory I :=
+    unary_cont_closed unaryS unaryM integralRoute
+  have unaryN : UnaryHistory N :=
+    unary_cont_closed unaryI unaryP exportRoute
+  have unaryPathRead : UnaryHistory pathRead :=
+    unary_cont_closed unaryG unaryF pathRoute
+  have unaryLawRead : UnaryHistory lawRead :=
+    unary_cont_closed unaryS unaryM lawRoute
+  have unaryPublicRead : UnaryHistory publicRead :=
+    unary_cont_closed unaryLawRead unaryP publicRoute
+  have unaryResidueRead : UnaryHistory residueRead :=
+    unary_cont_closed unaryI unaryP residueRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row N ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row G ∨ hsame row F ∨ hsame row S ∨ hsame row M ∨
+              hsame row I ∨ hsame row H ∨ hsame row P ∨ hsame row N ∨
+                hsame row pathRead ∨ hsame row lawRead ∨ hsame row publicRead ∨
+                  hsame row residueRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S M lawRead ∧ Cont lawRead P publicRead ∧
+              Cont I P residueRead ∧ PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro N ⟨hsame_refl N, unaryN⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inl sourceRow.left)))))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right, lawRoute, publicRoute, residueRoute, pkgP⟩
+  }
+  exact
+    ⟨cert, unaryPathRead, unaryLawRead, unaryPublicRead, unaryResidueRead,
+      sameInputFace⟩
+
 theorem ContourIntegralOperationClassifierStability
     {G F S M I H P N G' F' S' M' I' H' P' N' : BHist} :
     ContourIntegralOperationCarrier G F S M I H P N ->
