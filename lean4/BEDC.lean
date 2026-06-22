@@ -5735,6 +5735,7 @@ import BEDC.Derived.FiniteMapUp
 import BEDC.Derived.FiniteMarkovPartitionUp.TasteGate
 import BEDC.Derived.FiniteMetricEntropyUp.TasteGate
 import BEDC.Derived.FiniteMetricSpaceUp.TasteGate
+import BEDC.Derived.FiniteModulusBundleUp
 import BEDC.Derived.FiniteModulusCompactnessUp.TasteGate
 import BEDC.Derived.FiniteModulusDiagonalUp.RealSealHandoff
 import BEDC.Derived.FiniteModulusDiagonalUp.TasteGate
@@ -10368,6 +10369,7 @@ import BEDC.Derived.RieszLemmaUp.NormedSeparationWitness
 import BEDC.Derived.RieszLemmaUp.TasteGate
 import BEDC.Derived.RieszMarkovUp.TasteGate
 import BEDC.Derived.RieszRepresentationFiniteLatticeUp.TasteGate
+import BEDC.Derived.RieszRepresentationUp.BanachHilbertScope
 import BEDC.Derived.RieszRepresentationUp.DualFunctionalRoute
 import BEDC.Derived.RieszRepresentationUp.HilbertFunctionalBridge
 import BEDC.Derived.RieszRepresentationUp.MeasureHandoff
@@ -11200,6 +11202,7 @@ import BEDC.Derived.TanneryTheoremUp.NameCertObligations
 import BEDC.Derived.TanneryTheoremUp.TasteGate
 import BEDC.Derived.TaoMetastableCauchyUp.NameCertObligations
 import BEDC.Derived.TaoMetastableCauchyUp.TasteGate
+import BEDC.Derived.TarskiFixedPointUp.TasteGate
 import BEDC.Derived.TarskiTruthRefusalUp.TasteGate
 import BEDC.Derived.TasteGateAdmissionUp.TasteGate
 import BEDC.Derived.TasteGateAuditTraceUp.TasteGate
