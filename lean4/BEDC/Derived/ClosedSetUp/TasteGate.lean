@@ -220,4 +220,91 @@ theorem ClosedSetCarrier_metric_complement_boundary
     }
   exact ⟨cert, boundaryReadUnary, boundaryRoute⟩
 
+theorem ClosedSetScopeBasis
+    {T M S F O B H C P N topologyMetric metricSeparated complementRead boundaryRead
+      scopeRead : BHist} :
+    Cont T M topologyMetric ->
+      Cont topologyMetric S metricSeparated ->
+        Cont F O complementRead ->
+          Cont complementRead B boundaryRead ->
+            Cont boundaryRead N scopeRead ->
+              UnaryHistory T ->
+                UnaryHistory M ->
+                  UnaryHistory S ->
+                    UnaryHistory F ->
+                      UnaryHistory O ->
+                        UnaryHistory B ->
+                          UnaryHistory N ->
+                            SemanticNameCert
+                                (fun row : BHist => hsame row scopeRead ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row T ∨ hsame row M ∨ hsame row S ∨
+                                    hsame row F ∨ hsame row O ∨ hsame row B ∨
+                                      hsame row H ∨ hsame row C ∨ hsame row P ∨
+                                        hsame row N ∨ hsame row scopeRead)
+                                (fun row : BHist =>
+                                  UnaryHistory row ∧ Cont T M topologyMetric ∧
+                                    Cont topologyMetric S metricSeparated ∧
+                                      Cont F O complementRead ∧
+                                        Cont complementRead B boundaryRead ∧
+                                          Cont boundaryRead N scopeRead)
+                                hsame ∧
+                              UnaryHistory scopeRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro topologyMetricRoute metricSeparatedRoute complementRoute boundaryRoute scopeRoute
+    topologyUnary metricUnary separatedUnary complementUnary openUnary boundaryUnary namingUnary
+  have topologyMetricUnary : UnaryHistory topologyMetric :=
+    unary_cont_closed topologyUnary metricUnary topologyMetricRoute
+  have _metricSeparatedUnary : UnaryHistory metricSeparated :=
+    unary_cont_closed topologyMetricUnary separatedUnary metricSeparatedRoute
+  have complementReadUnary : UnaryHistory complementRead :=
+    unary_cont_closed complementUnary openUnary complementRoute
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed complementReadUnary boundaryUnary boundaryRoute
+  have scopeReadUnary : UnaryHistory scopeRead :=
+    unary_cont_closed boundaryReadUnary namingUnary scopeRoute
+  have sourceScope :
+      (fun row : BHist => hsame row scopeRead ∧ UnaryHistory row) scopeRead := by
+    exact ⟨hsame_refl scopeRead, scopeReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row scopeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row T ∨ hsame row M ∨ hsame row S ∨ hsame row F ∨ hsame row O ∨
+              hsame row B ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row scopeRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont T M topologyMetric ∧
+              Cont topologyMetric S metricSeparated ∧ Cont F O complementRead ∧
+                Cont complementRead B boundaryRead ∧ Cont boundaryRead N scopeRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro scopeRead sourceScope
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr sourceRow.left)))))))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, topologyMetricRoute, metricSeparatedRoute, complementRoute,
+          boundaryRoute, scopeRoute⟩
+  }
+  exact ⟨cert, scopeReadUnary⟩
+
 end BEDC.Derived.ClosedSetUp.TasteGate
