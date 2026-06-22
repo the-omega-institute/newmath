@@ -10653,6 +10653,7 @@ import BEDC.Derived.SetlikeUp.ComprehensionLedgerObligation
 import BEDC.Derived.SetlikeUp.ComprehensionScope
 import BEDC.Derived.SetlikeUp.ExtensionalBoundaryClassifierLock
 import BEDC.Derived.SetlikeUp.ExtensionalBoundaryRoute
+import BEDC.Derived.SetlikeUp.ExtensionalSubsetNameCertObligations
 import BEDC.Derived.SetlikeUp.ExtensionalSubsetTransport
 import BEDC.Derived.SetlikeUp.ExtensionalityRoot
 import BEDC.Derived.SetlikeUp.FamilyFiberFirstorderModeltheoryLock
@@ -10663,6 +10664,7 @@ import BEDC.Derived.SetlikeUp.FiniteFamilyMembershipRoute
 import BEDC.Derived.SetlikeUp.FiniteMembershipInduction
 import BEDC.Derived.SetlikeUp.FirstOrderMembershipSubstitutionBoundary
 import BEDC.Derived.SetlikeUp.KernelMembershipObligation
+import BEDC.Derived.SetlikeUp.LedgerScopeClosure
 import BEDC.Derived.SetlikeUp.MembershipCarrierAdmission
 import BEDC.Derived.SetlikeUp.MembershipCarrierRootSurface
 import BEDC.Derived.SetlikeUp.MembershipClassifierNonescape
