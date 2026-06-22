@@ -86,6 +86,26 @@ Finally use the classifier of \autoref{def:cauchy-tail-threshold-normalizer-clas
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyTailThresholdNormalizerUp.CauchyTailThresholdNormalizerSharedThresholdUniqueness}
 
+\begin{theorem}[Cauchy tail threshold normalizer Real-facing determinacy]
+\label{thm:cauchy-tail-threshold-normalizer-real-facing-determinacy}
+Let two accepted $\RealUp$ or $\RealTailAgreementSealUp$ consumers classify through the same $\CauchyTailThresholdNormalizerUp$ source row $S$ and seal row $M$. Then their $\StreamNameUp$ windows $W_0,W_1$, $\DyadicRatCoreUp$ tolerance ledger $D$, $\RegSeqRatUp$ readback $R$, and $\RealTailAgreementSealUp$ row $A$ are all read downstream of the same normalized threshold row $\Theta$.
+
+Equivalently, the Real-facing classifier surface exposes one finite route
+$$
+S,M,\Theta,W_0,W_1,D,R,A,E,H,C,P,L,N
+$$
+before either consumer can inspect a tail window, tolerance ledger, regular readback, or agreement-seal row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-tail-threshold-normalizer-carrier}. The normalized threshold row $\Theta$ is a displayed coordinate between the shared source and seal rows $S,M$ and the downstream $W_0,W_1,D,R,A,E$ rows.
+
+Apply route exhaustion from \autoref{thm:cauchy-tail-threshold-normalizer-route-exhaustion}. Any accepted $\RealUp$ or $\RealTailAgreementSealUp$ consumer must pass through $\Theta$ before reading the two StreamName windows, the dyadic tolerance ledger, the RegSeqRat readback, or the agreement-seal row.
+
+Apply shared-threshold uniqueness from \autoref{thm:cauchy-tail-threshold-normalizer-shared-threshold-uniqueness}. Since the two consumers classify through the same $S,M$ normalizer source and seal rows, the threshold exposed before the window rows is the same normalized row $\Theta$.
+
+Finally use the classifier of \autoref{def:cauchy-tail-threshold-normalizer-classifier}. It compares the downstream rows componentwise over the shared threshold surface, so $W_0,W_1,D,R,A$ are determined as reads below that same $\Theta$ rather than as private tail windows or side thresholds.
+\end{proof}
+
 \begin{theorem}[Cauchy tail threshold composition scope]
 \label{thm:cauchy-tail-threshold-composition-scope}
 Every accepted $\CauchyTailThresholdNormalizerUp$ carrier
@@ -94,6 +114,7 @@ T=(S,M,\Theta,W_0,W_1,D,R,A,E,H,C,P,L,N)
 $$
 composes the shared-tail source $S$, modulus seal $M$, normalized threshold $\Theta$, StreamName windows $W_0,W_1$, DyadicRatCore tolerance row $D$, RegSeqRat readback $R$, RealTailAgreementSeal row $A$, RealUp row $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, route-exhaustion ledger $L$, and local $\NameCert$ row $N$ into one finite route. No Real-facing consumer may bypass that route with private thresholds, quotient streams, selected host limits, trichotomy, host real equality, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyTailThresholdNormalizerUp.CauchyTailThresholdCompositionScope}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-tail-threshold-normalizer-carrier}. The displayed coordinates are exactly $S,M,\Theta,W_0,W_1,D,R,A,E,H,C,P,L,N$, so the route starts at the shared-tail and seal rows before any Real-facing read is exposed.
 
