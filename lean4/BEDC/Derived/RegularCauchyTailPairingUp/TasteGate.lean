@@ -10,23 +10,22 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RegularCauchyTailPairingUp : Type where
-  | mk (streamLeft streamRight readbackLeft readbackRight dyadicLeft dyadicRight window
-      handoff realSeal transports routes provenance name : BHist) : RegularCauchyTailPairingUp
+  | mk (S0 S1 R0 R1 D0 D1 W U E H C P N : BHist) : RegularCauchyTailPairingUp
   deriving DecidableEq
 
-def regularCauchyTailPairingEncodeBHist : BHist → List BMark
+def regularCauchyTailPairingEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: regularCauchyTailPairingEncodeBHist h
   | BHist.e1 h => BMark.b1 :: regularCauchyTailPairingEncodeBHist h
 
-def regularCauchyTailPairingDecodeBHist : List BMark → BHist
+def regularCauchyTailPairingDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (regularCauchyTailPairingDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyTailPairingDecodeBHist tail)
 
-private theorem regularCauchyTailPairing_decode_encode :
+private theorem regularCauchyTailPairingDecode_encode :
     ∀ h : BHist,
       regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -38,96 +37,75 @@ private theorem regularCauchyTailPairing_decode_encode :
 
 def regularCauchyTailPairingFields : RegularCauchyTailPairingUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchyTailPairingUp.mk streamLeft streamRight readbackLeft readbackRight
-      dyadicLeft dyadicRight window handoff realSeal transports routes provenance name =>
-      [streamLeft, streamRight, readbackLeft, readbackRight, dyadicLeft, dyadicRight,
-        window, handoff, realSeal, transports, routes, provenance, name]
+  | RegularCauchyTailPairingUp.mk S0 S1 R0 R1 D0 D1 W U E H C P N =>
+      [S0, S1, R0, R1, D0, D1, W, U, E, H, C, P, N]
 
 def regularCauchyTailPairingToEventFlow : RegularCauchyTailPairingUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map regularCauchyTailPairingEncodeBHist (regularCauchyTailPairingFields x)
+  | x => (regularCauchyTailPairingFields x).map regularCauchyTailPairingEncodeBHist
 
-def regularCauchyTailPairingFromEventFlow : EventFlow → Option RegularCauchyTailPairingUp
+private def regularCauchyTailPairingEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [streamLeft, streamRight, readbackLeft, readbackRight, dyadicLeft, dyadicRight,
-      window, handoff, realSeal, transports, routes, provenance, name] =>
-      some
-        (RegularCauchyTailPairingUp.mk
-          (regularCauchyTailPairingDecodeBHist streamLeft)
-          (regularCauchyTailPairingDecodeBHist streamRight)
-          (regularCauchyTailPairingDecodeBHist readbackLeft)
-          (regularCauchyTailPairingDecodeBHist readbackRight)
-          (regularCauchyTailPairingDecodeBHist dyadicLeft)
-          (regularCauchyTailPairingDecodeBHist dyadicRight)
-          (regularCauchyTailPairingDecodeBHist window)
-          (regularCauchyTailPairingDecodeBHist handoff)
-          (regularCauchyTailPairingDecodeBHist realSeal)
-          (regularCauchyTailPairingDecodeBHist transports)
-          (regularCauchyTailPairingDecodeBHist routes)
-          (regularCauchyTailPairingDecodeBHist provenance)
-          (regularCauchyTailPairingDecodeBHist name))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => regularCauchyTailPairingEventAtDefault index rest
+
+def regularCauchyTailPairingFromEventFlow
+    (ef : EventFlow) : Option RegularCauchyTailPairingUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (RegularCauchyTailPairingUp.mk
+      (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEventAtDefault 0 ef))
+      (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEventAtDefault 1 ef))
+      (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEventAtDefault 2 ef))
+      (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEventAtDefault 3 ef))
+      (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEventAtDefault 4 ef))
+      (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEventAtDefault 5 ef))
+      (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEventAtDefault 6 ef))
+      (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEventAtDefault 7 ef))
+      (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEventAtDefault 8 ef))
+      (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEventAtDefault 9 ef))
+      (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEventAtDefault 10 ef))
+      (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEventAtDefault 11 ef))
+      (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEventAtDefault 12 ef)))
 
 private theorem regularCauchyTailPairing_round_trip :
     ∀ x : RegularCauchyTailPairingUp,
-      regularCauchyTailPairingFromEventFlow
-        (regularCauchyTailPairingToEventFlow x) = some x := by
+      regularCauchyTailPairingFromEventFlow (regularCauchyTailPairingToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk streamLeft streamRight readbackLeft readbackRight dyadicLeft dyadicRight window
-      handoff realSeal transports routes provenance name =>
+  | mk S0 S1 R0 R1 D0 D1 W U E H C P N =>
       change
         some
           (RegularCauchyTailPairingUp.mk
-            (regularCauchyTailPairingDecodeBHist
-              (regularCauchyTailPairingEncodeBHist streamLeft))
-            (regularCauchyTailPairingDecodeBHist
-              (regularCauchyTailPairingEncodeBHist streamRight))
-            (regularCauchyTailPairingDecodeBHist
-              (regularCauchyTailPairingEncodeBHist readbackLeft))
-            (regularCauchyTailPairingDecodeBHist
-              (regularCauchyTailPairingEncodeBHist readbackRight))
-            (regularCauchyTailPairingDecodeBHist
-              (regularCauchyTailPairingEncodeBHist dyadicLeft))
-            (regularCauchyTailPairingDecodeBHist
-              (regularCauchyTailPairingEncodeBHist dyadicRight))
-            (regularCauchyTailPairingDecodeBHist
-              (regularCauchyTailPairingEncodeBHist window))
-            (regularCauchyTailPairingDecodeBHist
-              (regularCauchyTailPairingEncodeBHist handoff))
-            (regularCauchyTailPairingDecodeBHist
-              (regularCauchyTailPairingEncodeBHist realSeal))
-            (regularCauchyTailPairingDecodeBHist
-              (regularCauchyTailPairingEncodeBHist transports))
-            (regularCauchyTailPairingDecodeBHist
-              (regularCauchyTailPairingEncodeBHist routes))
-            (regularCauchyTailPairingDecodeBHist
-              (regularCauchyTailPairingEncodeBHist provenance))
-            (regularCauchyTailPairingDecodeBHist
-              (regularCauchyTailPairingEncodeBHist name))) =
-          some
-            (RegularCauchyTailPairingUp.mk streamLeft streamRight readbackLeft
-              readbackRight dyadicLeft dyadicRight window handoff realSeal transports routes
-              provenance name)
-      rw [regularCauchyTailPairing_decode_encode streamLeft,
-        regularCauchyTailPairing_decode_encode streamRight,
-        regularCauchyTailPairing_decode_encode readbackLeft,
-        regularCauchyTailPairing_decode_encode readbackRight,
-        regularCauchyTailPairing_decode_encode dyadicLeft,
-        regularCauchyTailPairing_decode_encode dyadicRight,
-        regularCauchyTailPairing_decode_encode window,
-        regularCauchyTailPairing_decode_encode handoff,
-        regularCauchyTailPairing_decode_encode realSeal,
-        regularCauchyTailPairing_decode_encode transports,
-        regularCauchyTailPairing_decode_encode routes,
-        regularCauchyTailPairing_decode_encode provenance,
-        regularCauchyTailPairing_decode_encode name]
+            (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist S0))
+            (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist S1))
+            (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist R0))
+            (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist R1))
+            (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist D0))
+            (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist D1))
+            (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist W))
+            (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist U))
+            (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist E))
+            (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist H))
+            (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist C))
+            (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist P))
+            (regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist N))) =
+          some (RegularCauchyTailPairingUp.mk S0 S1 R0 R1 D0 D1 W U E H C P N)
+      rw [regularCauchyTailPairingDecode_encode S0, regularCauchyTailPairingDecode_encode S1,
+        regularCauchyTailPairingDecode_encode R0, regularCauchyTailPairingDecode_encode R1,
+        regularCauchyTailPairingDecode_encode D0, regularCauchyTailPairingDecode_encode D1,
+        regularCauchyTailPairingDecode_encode W, regularCauchyTailPairingDecode_encode U,
+        regularCauchyTailPairingDecode_encode E, regularCauchyTailPairingDecode_encode H,
+        regularCauchyTailPairingDecode_encode C, regularCauchyTailPairingDecode_encode P,
+        regularCauchyTailPairingDecode_encode N]
 
 private theorem regularCauchyTailPairingToEventFlow_injective
     {x y : RegularCauchyTailPairingUp} :
-    regularCauchyTailPairingToEventFlow x = regularCauchyTailPairingToEventFlow y →
-      x = y := by
+    regularCauchyTailPairingToEventFlow x = regularCauchyTailPairingToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -144,15 +122,14 @@ private theorem regularCauchyTailPairing_fields_faithful :
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk streamLeft₁ streamRight₁ readbackLeft₁ readbackRight₁ dyadicLeft₁ dyadicRight₁
-      window₁ handoff₁ realSeal₁ transports₁ routes₁ provenance₁ name₁ =>
+  | mk S0₁ S1₁ R0₁ R1₁ D0₁ D1₁ W₁ U₁ E₁ H₁ C₁ P₁ N₁ =>
       cases y with
-      | mk streamLeft₂ streamRight₂ readbackLeft₂ readbackRight₂ dyadicLeft₂ dyadicRight₂
-          window₂ handoff₂ realSeal₂ transports₂ routes₂ provenance₂ name₂ =>
+      | mk S0₂ S1₂ R0₂ R1₂ D0₂ D1₂ W₂ U₂ E₂ H₂ C₂ P₂ N₂ =>
           cases hfields
           rfl
 
-instance regularCauchyTailPairingBHistCarrier : BHistCarrier RegularCauchyTailPairingUp where
+instance regularCauchyTailPairingBHistCarrier :
+    BHistCarrier RegularCauchyTailPairingUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := regularCauchyTailPairingToEventFlow
   fromEventFlow := regularCauchyTailPairingFromEventFlow
@@ -170,12 +147,14 @@ instance regularCauchyTailPairingChapterTasteGate :
     intro x y hxy heq
     exact hxy (regularCauchyTailPairingToEventFlow_injective heq)
 
-instance regularCauchyTailPairingFieldFaithful : FieldFaithful RegularCauchyTailPairingUp where
+instance regularCauchyTailPairingFieldFaithful :
+    FieldFaithful RegularCauchyTailPairingUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := regularCauchyTailPairingFields
   field_faithful := regularCauchyTailPairing_fields_faithful
 
-instance regularCauchyTailPairingNontrivial : Nontrivial RegularCauchyTailPairingUp where
+instance regularCauchyTailPairingNontrivial :
+    Nontrivial RegularCauchyTailPairingUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨RegularCauchyTailPairingUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -191,5 +170,18 @@ instance regularCauchyTailPairingNontrivial : Nontrivial RegularCauchyTailPairin
 def taste_gate : ChapterTasteGate RegularCauchyTailPairingUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regularCauchyTailPairingChapterTasteGate
+
+theorem RegularCauchyTailPairingTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      regularCauchyTailPairingDecodeBHist (regularCauchyTailPairingEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier RegularCauchyTailPairingUp) ∧
+      Nonempty (ChapterTasteGate RegularCauchyTailPairingUp) ∧
+      regularCauchyTailPairingEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨regularCauchyTailPairingDecode_encode,
+      ⟨regularCauchyTailPairingBHistCarrier⟩,
+      ⟨regularCauchyTailPairingChapterTasteGate⟩,
+      rfl⟩
 
 end BEDC.Derived.RegularCauchyTailPairingUp
