@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\DescriptionComplexityUp$}
+\label{ch:concrete-instances-description-complexity-namecert}
+\origin{ai}
+
+The $\DescriptionComplexityUp$ packet realizes the explanation-complexity information surface of \autoref{sec:visions-philosophy-explanation-complexity-information} as finite source-description, score-vector, public-weight, debt, classifier-novelty, minimal-witness, replay, provenance, and NameCert rows. It sits beside the existing $\ExplanationComplexityInformationUp$ packet of \autoref{ch:concrete-instances-explanation-complexity-information-namecert}, the $\KolmogorovComplexityUp$ compression boundary of \autoref{ch:concrete-instances-kolmogorov-complexity-namecert}, the $\HashUp$ certificate of \autoref{ch:concrete-instances-hash-namecert}, the finite prefix stream certificate of \autoref{ch:concrete-instances-finite-prefix-stream-certificate-namecert}, and the classifier-novelty witness of \autoref{ch:concrete-instances-classifier-novelty-witness-namecert}. The packet measures displayed descriptions inside a public protocol; it does not identify minimal text with Kolmogorov optimality, recover hidden source equality from hashes, infer classifier novelty from score motion alone, or certify positive discovery without a later TasteGate.
+
+\begin{definition}[Description complexity carrier]
+\label{def:description-complexity-carrier}
+A $\DescriptionComplexityUp$ carrier is a finite $\BHist$ packet
+$$
+D=(S,V,W,B,R,J,M,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source-description row naming the finite explanation text, feature list, circuit record, classifier specification, ledger summary, and verification surface.
+\item $V$ is the score-vector row refining the explanation-complexity coordinates of \autoref{def:philosophy-extended-explanation-complexity-vector}.
+\item $W$ is the public weight row used by the scalar score of \autoref{def:philosophy-explanation-score}.
+\item $B$ is the benefit and debt row recording coverage, prediction, transfer, intervention, verification, unification, and the debt components of \autoref{def:philosophy-explanation-debt}.
+\item $R$ is the replay row tying the description to finite prefix evidence through $\FinitePrefixStreamUp$ and to visible digest discipline through $\HashUp$.
+\item $J$ is the $\ClassifierNoveltyWitnessUp$ row, present only when the description claims classifier novelty rather than a score-only improvement.
+\item $M$ is the minimal-witness row: it records a displayed lower-bound boundary for the accepted description under $W$, not an absolute Kolmogorov minimum.
+\item $F$ is the comparison row to $\KolmogorovComplexityUp$ and $\ExplanationComplexityInformationUp$, separating source-description cost from compression optimality and net explanation information.
+\item $H$ records componentwise $\hsame$ transport for $S,V,W,B,R,J,M,F$.
+\item $C$ records displayed $\Cont$ replay through source description, score-vector accounting, public weights, debt, classifier novelty, minimal-witness boundary, sibling comparison, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\DescriptionComplexityUp$, $\ExplanationComplexityInformationUp$, $\KolmogorovComplexityUp$, $\HashUp$, $\FinitePrefixStreamUp$, $\ClassifierNoveltyWitnessUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DescriptionComplexityUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,V,W,B,R,J,M,F,H,C,P,N$. It has no coordinate for hidden semantic truth, host compression optimality, hash preimage recovery, undisplayed weights, classifier novelty without $J$, positive discovery without a separate gate, or a minimal witness detached from the displayed public protocol.
+\end{definition}
+
+\begin{theorem}[Description complexity NameCert obligations]
+\label{thm:description-complexity-namecert-obligations}
+For every accepted $\DescriptionComplexityUp$ carrier $D=(S,V,W,B,R,J,M,F,H,C,P,N)$, the local $\NameCert_{\DescriptionComplexityUp}$ surface consists exactly of carrier admission for source description, score-vector coordinates, public weights, benefit and debt accounting, finite replay and digest discipline, classifier-novelty witnessing when claimed, minimal-witness boundary, comparison to explanation-complexity and Kolmogorov-complexity siblings, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:description-complexity-carrier}. The description itself is $S$, while $V$ and $W$ expose the coordinate vector and public weights before any scalar score can be read.
+
+Read benefit and debt through $B$. This keeps the score from being interpreted as an explanation-quality verdict by itself, because debt and benefit remain visible in the same packet.
+
+The rows $R,J,M,F$ supply the boundary data. The replay row $R$ ties the source description to finite prefix and hash-visible evidence; $J$ records classifier novelty only when present; $M$ states a protocol-relative minimal-witness boundary; and $F$ separates description cost from Kolmogorov optimality and net explanation information.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for the excluded objects, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Description complexity minimal-witness boundary]
+\label{thm:description-complexity-minimal-witness-boundary}
+An accepted $\DescriptionComplexityUp$ packet may use its minimal-witness row $M$ only relative to the displayed source-description row $S$, score vector $V$, public weights $W$, benefit and debt row $B$, replay row $R$, classifier-novelty row $J$ when present, and sibling-comparison row $F$. It does not certify an absolute Kolmogorov minimum, a hidden source recovered from a hash, a classifier shift without $J$, or a positive discovery verdict without a later TasteGate.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:description-complexity-namecert-obligations}. They force $M$ to be read together with the public protocol rows $S,V,W,B$ and with the replay and sibling-comparison rows $R,F$.
+
+The Kolmogorov comparison is therefore only a boundary comparison. The packet may record that a description is minimal among displayed candidates under the public protocol, but it cannot project absolute compression optimality or hidden source equality.
+
+Classifier novelty is likewise explicit. If the row $J$ is absent, the packet has no classifier-shift witness; if $J$ is present, it is still only a row of this description-complexity packet and not a positive-discovery gate.
+
+Thus the minimal witness remains protocol-relative and finite. A later Lean file \texttt{TasteGate.lean} must provide $\Nontrivial\ \DescriptionComplexityUp$ and $\FieldFaithful\ \DescriptionComplexityUp$ instances before any checked TasteGate theorem can certify that these rows are distinct and nondegenerate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DescriptionComplexityUp$ minimal-witness read exposes the source description, score vector, public weights, benefit and debt accounting, finite-prefix replay, hash-visible provenance, classifier novelty when claimed, sibling comparison, transport, replay, provenance, and local NameCert naming.}
+
+\independenceWitness{explanation-complexity-information, kolmogorov-complexity, hash, namecert, finite-prefix-stream-certificate: none is bijective to $\DescriptionComplexityUp$ because this packet jointly carries source-description rows, score-vector rows, public weights, debt and benefit accounting, classifier-novelty witnessing, protocol-relative minimal-witness boundaries, finite replay, digest-visible provenance, transport, replay, provenance, and local naming.}
+
+\closureat{DescriptionComplexityUp}{seedStr}
+
+\begin{closurestatus}{\DescriptionComplexityUp}
+  \constructivestory{A $\DescriptionComplexityUp$ packet is generated from source-description rows, score-vector rows, public weights, benefit and debt accounting, finite replay, hash-visible provenance, classifier-novelty witnessing, protocol-relative minimal-witness boundaries, sibling comparison, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:description-complexity-carrier}, \autoref{thm:description-complexity-namecert-obligations}, \autoref{thm:description-complexity-minimal-witness-boundary}, the falsifiable prediction, and the independence witness seed the finite description-complexity packet for explanation-complexity information.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close absolute Kolmogorov optimality, hidden semantic truth, hash preimage recovery, classifier novelty without the displayed witness row, positive discovery, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-description exposure, score-vector and public-weight accounting, debt and benefit exposure, classifier-novelty row separation, minimal-witness boundary exactness, replay, provenance, local naming, and Nontrivial and FieldFaithful instances for BEDC.Derived.DescriptionComplexityUp.}
+\end{closurestatus}
