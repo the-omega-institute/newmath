@@ -85,6 +85,42 @@ Project the accepting ledger $A$ and endpoint row $E$ from the carrier. These ro
 Apply the acceptance obligation in \autoref{thm:finiteprefixautomaton-namecert-obligation-surface}. It binds the bit stored in $E$ to membership in $A$ for the endpoint state, and the remaining transport, replay, provenance, and naming rows preserve that displayed read.
 \end{proof}
 
+\begin{theorem}[FinitePrefixAutomaton displayed prefix-run determinism]
+\label{thm:finiteprefixautomaton-run-prefix-determinism}
+Let
+$$
+F=(Q,q_0,A,T,W,R,E,H,C,P,N)
+$$
+and
+$$
+F'=(Q,q_0,A,T,W,R',E',H',C',P',N')
+$$
+be accepted $\FinitePrefixAutomatonUp$ carriers with the same state ledger $Q$, initial row $q_0$, accepting ledger $A$, transition table $T$, and word ledger $W$. If the displayed $\Cont$ replay rows in $C$ and $C'$ match componentwise along the prefix windows of $W$, then the prefix-run ledgers $R$ and $R'$ are $\hsame$-equivalent at every displayed prefix position, and the endpoint rows $E$ and $E'$ name the same final state row.
+\end{theorem}
+\begin{proof}
+The empty prefix is forced by the shared initial row $q_0$. Both accepted carriers therefore begin their displayed run ledger at the same state row, with the componentwise transport rows recording the allowed $\hsame$ read.
+
+For the successor prefix step, project transition exactness from \autoref{thm:finiteprefixautomaton-transition-exactness-obligation}. The same table $T$, the same input mark from $W$, and the matching replay rows in $C$ and $C'$ force both run ledgers to use the same displayed transition row. Induction over the finite prefix ledger propagates the $\hsame$ comparison through every prefix position.
+
+Finally apply endpoint exactness from \autoref{thm:finiteprefixautomaton-endpoint-exactness-obligation}. Since each endpoint is the last displayed row of its run ledger, the prefixwise comparison identifies $E$ and $E'$ as the same final-state read inside the finite packet boundary.
+\end{proof}
+
+\begin{theorem}[FinitePrefixAutomaton prefix-run nonescape]
+\label{thm:finiteprefixautomaton-prefix-run-nonescape}
+Any downstream $\RegularLanguageUp$ or $\ContinuationAutomatonUp$ read of an accepted $\FinitePrefixAutomatonUp$ prefix run consults only the rows
+$$
+Q,q_0,A,T,W,R,E,H,C,P,N .
+$$
+It cannot use a host evaluator, a language quotient, an unlisted transition, or an infinite trace to justify a transition step, endpoint row, or acceptance bit.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligation surface of \autoref{thm:finiteprefixautomaton-namecert-obligation-surface}. It lists carrier admission, prefix-source binding, transition exactness, endpoint exactness, acceptance exactness, stability, replay, and non-escape as finite obligations over the displayed packet rows.
+
+The transition, endpoint, and acceptance exactness theorems then identify the only admissible reads of a run step, final row, and acceptance bit. Each read is projected from $Q,q_0,A,T,W,R,E,H,C,P,N$, with $H$ transporting the displayed rows and $C$ replaying only the displayed continuation witnesses.
+
+A $\RegularLanguageUp$ consumer may read the finite word, state, endpoint, and acceptance rows; a $\ContinuationAutomatonUp$ consumer may read the $\Cont$-labelled transition rows and replay routes. Neither consumer receives a coordinate for a host evaluator, quotient language, unlisted transition rule, or infinite trace, so those objects cannot enter the prefix-run justification.
+\end{proof}
+
 \begin{theorem}[FinitePrefixAutomaton prefix-run determinacy]
 \label{thm:finiteprefixautomaton-prefix-run-determinacy}
 For an accepted $\FinitePrefixAutomatonUp$ carrier $F=(Q,q_0,A,T,W,R,E,H,C,P,N)$, the displayed prefix word $W$ and transition table $T$ determine the prefix-run ledger $R$ componentwise inside the packet. If another accepted run ledger $R'$ is admitted over the same $Q,q_0,A,T,W,E,H,C,P,N$, then each prefix position of $R$ is $\hsame$ to the corresponding prefix position of $R'$ through the displayed transport rows in $H$.
