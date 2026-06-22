@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\ZTransformUp$}
+\label{ch:concrete-instances-z-transform-namecert}
+\origin{human}
+
+Following Widder and standard discrete transform theory, the $\ZTransformUp$ packet records a one-sided coefficient stream by finite shift, formal-power, radius, tolerance, transport, provenance, and local NameCert rows. It sits beside the coefficient-window surface of \autoref{ch:concrete-instances-generating-function-namecert}, the exponential-kernel transform route of \autoref{ch:concrete-instances-laplace-transform-namecert}, the positive-index series surface of \autoref{ch:concrete-instances-dirichlet-series-namecert}, the analytic power-series route of \autoref{ch:concrete-instances-realpowerseries-namecert}, the stream naming discipline of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names only finite one-sided transform data; it does not assert analytic convergence, inversion, a bilateral transform, host infinite sums, quotient series, or Lean verification.
+
+\begin{definition}[ZTransform carrier]
+\label{def:z-transform-carrier}
+A $\ZTransformUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(W,S,F,R,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite one-sided coefficient-window row, exposing only inspected nonnegative indices and their coefficient reads.
+\item $S$ is the shift row, recording how a finite delay or advance request reindexes the displayed one-sided window.
+\item $F$ is the formal-power readback row, reading the inspected coefficients as a finite $\FormalPowerSeriesUp$ or $\GeneratingFunctionUp$ prefix.
+\item $R$ is the radius ledger, recording the displayed convergence-radius or subradius data available to downstream $\RealPowerSeriesUp$ consumers.
+\item $T$ is the $\DyadicRatCoreUp$ tolerance ledger for coefficient budgets, radius budgets, and endpoint readback requests.
+\item $H$ records componentwise $\hsame$ transport for coefficient windows, shift rows, formal-power readback, radius and tolerance ledgers, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a transform request through $W,S,F,R,T,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ZTransformUp$, $\GeneratingFunctionUp$, $\LaplaceTransformUp$, $\DirichletSeriesUp$, $\RealPowerSeriesUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FormalPowerSeriesUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ZTransformUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $W,S,F,R,T,H,C,P,N$. It has no coordinate for analytic convergence, inverse-transform reconstruction, bilateral negative-index data, selected infinite sums, quotient equality of series, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[ZTransform NameCert obligations]
+\label{thm:z-transform-namecert-obligations}
+For every accepted $\ZTransformUp$ carrier $Z=(W,S,F,R,T,H,C,P,N)$, the local $\NameCert_{\ZTransformUp}$ surface consists exactly of one-sided coefficient-window admission, shift-row admission, formal-power readback, radius-ledger exposure, dyadic tolerance exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every transform read factors through the finite route
+$$
+W,S,F,R,T \longmapsto H,C,P,N .
+$$
+It exports no analytic convergence theorem, inversion theorem, bilateral transform, host infinite sum, quotient series equality, or Lean-checked target.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:z-transform-carrier}. The one-sided coefficient window $W$, shift row $S$, formal-power readback $F$, radius ledger $R$, and tolerance ledger $T$ are the only transform-facing rows in the packet.
+
+The structural rows preserve that visible route. Componentwise $\hsame$ transport can identify only displayed rows, and $\Cont$ replay can move only along the finite route from coefficient windows through local naming.
+
+The package and local NameCert rows cite the same packet. Since no excluded coordinate occurs in $Z$, the certificate cannot export analytic convergence, inversion, bilateral negative-index data, selected infinite sums, quotient series equality, or Lean verification.
+\end{proof}
+
+\begin{theorem}[ZTransform generating-function handoff]
+\label{thm:z-transform-generating-function-handoff}
+Every coefficient-facing consumer of an accepted $\ZTransformUp$ carrier reaches $\GeneratingFunctionUp$ or $\RealPowerSeriesUp$ data only through the displayed one-sided coefficient window, shift row, formal-power readback, radius ledger, dyadic tolerance ledger, transport, replay, provenance, and local naming rows. The handoff is therefore a finite formal-power route, not an analytic inversion principle, bilateral transform, host summation, or quotient-series equality.
+\end{theorem}
+\begin{proof}
+Start with the coefficient window $W$. It exposes only the inspected one-sided coefficients, so a consumer cannot obtain negative-index or bilateral data from the packet.
+
+Read the shift row $S$ and formal-power row $F$. The shift row reindexes the displayed finite window, while $F$ hands that same window to $\GeneratingFunctionUp$ or $\FormalPowerSeriesUp$ before any $\RealPowerSeriesUp$ endpoint consumer can inspect radius information.
+
+Finally use the radius and tolerance ledgers $R,T$ together with $H,C,P,N$. These rows keep the handoff inside finite NameCert data, so the consumer receives no analytic inversion theorem, host infinite sum, quotient series equality, countable-choice selector, or ambient completeness witness.
+\end{proof}
+
+\closureat{ZTransformUp}{seedStr}
+
+\begin{closurestatus}{\ZTransformUp}
+  \constructivestory{A $\ZTransformUp$ packet is generated from one-sided coefficient windows, shift rows, formal-power readback, radius ledgers, dyadic tolerance ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:z-transform-carrier}, \autoref{thm:z-transform-namecert-obligations}, and \autoref{thm:z-transform-generating-function-handoff} seed the finite one-sided transform route over coefficient windows, shifts, formal-power readback, radius and tolerance rows, transport, replay, provenance, and naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close analytic convergence, inversion theorems, bilateral transforms, host infinite sums, quotient series equality, Lean verification, bridge checking, countable choice, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, one-sided coefficient-window exactness, shift-row compatibility, formal-power readback, radius and tolerance ledger coverage, transport, replay, provenance, and local naming for BEDC.Derived.ZTransformUp.}
+\end{closurestatus}
