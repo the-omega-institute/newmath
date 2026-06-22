@@ -822,6 +822,7 @@ import BEDC.Derived.BarrBeckMonadicityUp
 import BEDC.Derived.BayesianUp
 import BEDC.Derived.BayesianUp.TasteGate
 import BEDC.Derived.BedcPhilosophyPackageUp.NameCertObligations
+import BEDC.Derived.BedcPhilosophyPackageUp.ScopedObligations
 import BEDC.Derived.BedcPhilosophyPackageUp.TasteGate
 import BEDC.Derived.BedcSelfSubstrateUp.ObligationSurface
 import BEDC.Derived.BedcSelfSubstrateUp.TasteGate
@@ -4352,6 +4353,7 @@ import BEDC.Derived.DedekindGapLocatedCutUp.TasteGate
 import BEDC.Derived.DedekindLocatedIntervalUp.TasteGate
 import BEDC.Derived.DedekindMacNeilleCompletionUp.CutClosure
 import BEDC.Derived.DedekindMacNeilleCompletionUp.NameCertObligations
+import BEDC.Derived.DedekindMacNeilleCompletionUp.RealSealNonescape
 import BEDC.Derived.DedekindMacNeilleCompletionUp.TasteGate
 import BEDC.Derived.DedekindRealUp.TasteGate
 import BEDC.Derived.DedekindUp
@@ -6299,6 +6301,7 @@ import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HellyTheoremUp.TasteGate
 import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
 import BEDC.Derived.HemicompactSpaceUp.TasteGate
+import BEDC.Derived.HenselLemmaUp.NewtonWitnessNonescape
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
@@ -7928,6 +7931,7 @@ import BEDC.Derived.MetacicDecidabilityWitnessUp.FuelWindowExhaustion
 import BEDC.Derived.MetacicDecidabilityWitnessUp.MatureNormalFormBoundary
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ParallelDiamondFuelMonotonicity
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ParallelDiamondFuelWindow
+import BEDC.Derived.MetacicDecidabilityWitnessUp.RouteLedgerCertificate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.ScopeAssignment
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TypingExactnessRoute
