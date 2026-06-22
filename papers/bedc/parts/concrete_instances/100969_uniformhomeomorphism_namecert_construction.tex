@@ -108,12 +108,36 @@ Finally use the carrier exclusions. Because no row stores quotient completion eq
 \end{proof}
 \leanchecked{BEDC.Derived.UniformHomeomorphismUp.UniformHomeomorphismCompletionConsumerBoundary}
 
+\begin{theorem}[UniformHomeomorphism bidirectional modulus nonescape]
+\label{thm:uniform-homeomorphism-bidirectional-modulus-nonescape}
+Every accepted $\UniformHomeomorphismUp$ carrier read that exposes either directed modulus row must expose the same displayed route through $\UniformSpaceUp$, $\UniformContinuityUp$, $\ContinuousMapUp$, $\DenseUniformEmbeddingUp$, $\UniformCompletionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The read may use the forward modulus $M$ only together with $X,Y,f,F$ and the inverse modulus $N$ only together with $Y,X,g,G$, and both routes must pass through $H,C,P,L$ before any completion-facing consumer can inspect them. No selected inverse, quotient completion equality, host function equality, countable-choice selector, or ambient completeness datum is exported by either direction.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-homeomorphism-carrier}. The forward route displays $X,Y,f,F,M$, and the inverse route displays $Y,X,g,G,N$; neither modulus is a free-standing row.
+
+Apply the bidirectional modulus route of \autoref{thm:uniform-homeomorphism-bidirectional-modulus-route}. It forces both directed chains to pass through the inverse-route compatibility row $H$ and then through the structural rows $C,P,L$.
+
+The completion consumer boundary of \autoref{thm:uniform-homeomorphism-completion-consumer-boundary} is reached only after those rows have been displayed. Since the carrier has no coordinate for a selected inverse, quotient completion equality, host function equality, countable-choice selector, or ambient completeness datum, no such datum can escape from either modulus route.
+\end{proof}
+
+\begin{theorem}[UniformHomeomorphism completion classifier stability]
+\label{thm:uniform-homeomorphism-completion-classifier-stability}
+Completion-facing classifier comparisons for accepted $\UniformHomeomorphismUp$ carriers are stable only along the displayed forward and inverse modulus rows. If two carriers are compared by a $\UniformCompletionUp$ consumer, then the comparison must preserve $X,Y,f,F,M$ and $Y,X,g,G,N$ before it reads $H,C,P,L$; a comparison that identifies completion endpoints while dropping one directed modulus is not a $\UniformHomeomorphismUp$ classifier comparison.
+\end{theorem}
+\begin{proof}
+Start with a completion-facing comparison. By \autoref{thm:uniform-homeomorphism-completion-consumer-boundary}, the consumer sees the packet only as the finite route $X,Y,f,g,F,G,M,N,H,C,P,L$.
+
+Use classifier bidirectionality from \autoref{thm:uniform-homeomorphism-obligation-classifier-bidirectionality}. It requires the forward graph, inverse graph, both uniform-continuity rows, and both modulus rows to be preserved simultaneously.
+
+It remains to exclude completion-only identifications. The carrier contains no quotient completion equality or host function equality row, and \autoref{thm:uniform-homeomorphism-bidirectional-modulus-nonescape} keeps both directed modulus routes visible before $H,C,P,L$ are consumed. Therefore completion-facing stability is exactly stability along the displayed forward and inverse modulus rows.
+\end{proof}
+
 \begin{closurestatus}{\UniformHomeomorphismUp}
   \constructivestory{A $\UniformHomeomorphismUp$ packet is generated from two UniformSpace rows, forward and inverse graph rows, forward and inverse UniformContinuity rows, two displayed modulus rows, inverse-route compatibility, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:uniform-homeomorphism-carrier}, \autoref{thm:uniform-homeomorphism-namecert-obligations}, \autoref{thm:uniform-homeomorphism-bidirectional-modulus-route}, \autoref{thm:uniform-homeomorphism-obligation-classifier-bidirectionality}, \autoref{thm:uniform-homeomorphism-inverse-route-exactness}, and \autoref{thm:uniform-homeomorphism-completion-consumer-boundary} seed the finite bidirectional uniform-equivalence packet for L10 completion consumers.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:uniform-homeomorphism-carrier}, \autoref{thm:uniform-homeomorphism-namecert-obligations}, \autoref{thm:uniform-homeomorphism-bidirectional-modulus-route}, \autoref{thm:uniform-homeomorphism-obligation-classifier-bidirectionality}, \autoref{thm:uniform-homeomorphism-inverse-route-exactness}, \autoref{thm:uniform-homeomorphism-completion-consumer-boundary}, \autoref{thm:uniform-homeomorphism-bidirectional-modulus-nonescape}, and \autoref{thm:uniform-homeomorphism-completion-classifier-stability} close the finite bidirectional-modulus obligation surface for L10 completion consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion equality, selected representatives, host equality, countable choice, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier bidirectionality, stability of both moduli, inverse-route exactness, and ledger non-escape proofs for BEDC.Derived.UniformHomeomorphismUp.}
+  \upgradepath{Public closure requires a public-object surface and Lean verification for the bidirectional modulus, classifier stability, inverse-route exactness, and ledger non-escape rows of BEDC.Derived.UniformHomeomorphismUp.}
 \end{closurestatus}

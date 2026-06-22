@@ -344,4 +344,68 @@ theorem MazurUlamIsometryTasteGate_single_carrier_alignment :
       · exact ⟨mazurUlamIsometryChapterTasteGate⟩
       · rfl
 
+theorem MazurUlamAffineLinearity [AskSetup] [PackageSetup]
+    {E F G M A H C P N affineRead affineOut : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MazurUlamIsometryCarrier E F G M A H C P N bundle pkg ->
+      Cont G M affineRead ->
+        Cont affineRead A affineOut ->
+          PkgSig bundle N pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row affineOut ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row G ∨ hsame row M ∨ hsame row A ∨ hsame row affineRead ∨
+                    hsame row affineOut)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont G M affineRead ∧ Cont affineRead A affineOut ∧
+                    PkgSig bundle N pkg)
+                hsame ∧ UnaryHistory affineRead ∧ UnaryHistory affineOut := by
+  -- BEDC touchpoint anchor: MazurUlamIsometryCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier graphMidpoint affineRoute namePkg
+  obtain ⟨_eUnary, _fUnary, gUnary, mUnary, aUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, _carrierPkg⟩ := carrier
+  have affineReadUnary : UnaryHistory affineRead :=
+    unary_cont_closed gUnary mUnary graphMidpoint
+  have affineOutUnary : UnaryHistory affineOut :=
+    unary_cont_closed affineReadUnary aUnary affineRoute
+  have source :
+      (fun row : BHist => hsame row affineOut ∧ UnaryHistory row) affineOut := by
+    exact ⟨hsame_refl affineOut, affineOutUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row affineOut ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row G ∨ hsame row M ∨ hsame row A ∨ hsame row affineRead ∨
+              hsame row affineOut)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont G M affineRead ∧ Cont affineRead A affineOut ∧
+              PkgSig bundle N pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro affineOut source
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRows
+          constructor
+          · exact hsame_trans (hsame_symm sameRows) sourceRows.left
+          · exact unary_transport sourceRows.right sameRows
+      }
+      pattern_sound := by
+        intro _row sourceRows
+        exact Or.inr (Or.inr (Or.inr (Or.inr sourceRows.left)))
+      ledger_sound := by
+        intro _row sourceRows
+        exact ⟨sourceRows.right, graphMidpoint, affineRoute, namePkg⟩
+    }
+  exact ⟨cert, affineReadUnary, affineOutUnary⟩
+
 end BEDC.Derived.MazurUlamIsometryUp
