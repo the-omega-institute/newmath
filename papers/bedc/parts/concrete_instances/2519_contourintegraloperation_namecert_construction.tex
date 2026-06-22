@@ -160,14 +160,27 @@ Finally apply \autoref{thm:contour-integral-public-export}. The exported packet 
 \end{proof}
 \leanchecked{BEDC.Derived.ContourIntegralOperationUp.ContourIntegralOperationClassifierStability}
 
+\begin{theorem}[Contour-integral operation bridge envelope]
+\label{thm:contour-integral-operation-bridge-envelope}
+The bridge-facing read of an accepted $\ContourIntegralOperationUp$ packet is exactly the $\mathsf{PLContour}$ row, the $\HolomorphicUp$ input row, the Riemann-sum ledger, the modulus row, the $\ComplexUp$ output row, the componentwise $\hsame$ transports, the displayed $\Cont$ routes, the $\Pkg$ provenance, and the local $\NameCert_{\ContourIntegralOperationUp}$ row. It exports no host analytic integral, path quotient, residue theorem, global branch selector, or analytic-continuation principle.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:contour-integral-namecert-obligations}. They expose the carrier rows and bind classifier stability, operation-law ledger exactness, uniqueness, and non-escape to the finite packet.
+
+Use the PL-contour boundary of \autoref{thm:contour-integral-pl-contour-boundary} and the Riemann-sum ledger of \autoref{thm:contour-integral-riemann-sum-ledger}. These keep the path side on the displayed $\mathsf{PLContour}$ row and the approximation side on the finite ledger plus modulus row.
+
+Finally apply the public export and classifier-stability theorems, \autoref{thm:contour-integral-public-export} and \autoref{thm:contour-integral-operation-classifier-stability}. The bridge-facing read is therefore the same finite operation packet under transport, with no coordinate from which host analytic integration, path quotients, residue calculus, global branch selection, or analytic continuation could be exported.
+\end{proof}
+
 \closureat{ContourIntegralOperationUp}{seedStr}
 \closureat{ContourIntegralOperationUp}{obligationStr}
 \closureat{ContourIntegralOperationUp}{scopedStr}
 \closureat{ContourIntegralOperationUp}{publicStr}
+\closureat{ContourIntegralOperationUp}{bridgedStr}
 
 \begin{closurestatus}{\ContourIntegralOperationUp}
   \constructivestory{A $\ContourIntegralOperationUp$ packet is generated from a displayed $\mathsf{PLContour}$ row, a $\HolomorphicUp$ input row, a finite Riemann-sum ledger, an explicit modulus row, an output $\ComplexUp$ history, componentwise $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{def:contour-integral-namecert-carrier}, \autoref{thm:contour-integral-namecert-obligations}, \autoref{thm:contour-integral-pl-contour-boundary}, \autoref{thm:contour-integral-riemann-sum-ledger}, and the public operation certificate of \autoref{thm:contour-integral-public-export} bind exactly the displayed $\mathsf{PLContour}$ row, $\HolomorphicUp$ input row, Riemann-sum ledger, modulus row, $\ComplexUp$ output row, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already named in the chapter.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
