@@ -7074,6 +7074,7 @@ import BEDC.Derived.LocatedRealBisectionSearchUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCriterionUp.TasteGate
 import BEDC.Derived.LocatedRealComparisonModulusUp.TasteGate
 import BEDC.Derived.LocatedRealComparisonUp.TasteGate
+import BEDC.Derived.LocatedRealCompletionUniversalUp.TasteGate
 import BEDC.Derived.LocatedRealContinuityUp.TasteGate
 import BEDC.Derived.LocatedRealFieldUp
 import BEDC.Derived.LocatedRealFieldUp.TasteGate
@@ -7976,6 +7977,7 @@ import BEDC.Derived.MetricCompletionMorphismUp.TasteGate
 import BEDC.Derived.MetricCompletionNaturalityUp.TasteGate
 import BEDC.Derived.MetricCompletionReflectorUp
 import BEDC.Derived.MetricCompletionReflectorUp.TasteGate
+import BEDC.Derived.MetricCompletionSeparableCoreUp.TasteGate
 import BEDC.Derived.MetricCompletionUniquenessUp.TasteGate
 import BEDC.Derived.MetricCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.MetricCompletionUp.BranchCoverage
@@ -10854,6 +10856,7 @@ import BEDC.Derived.SmythPowerdomainUp.TasteGate
 import BEDC.Derived.SnakeLemmaUp.TasteGate
 import BEDC.Derived.SobolevEmbeddingUp.TasteGate
 import BEDC.Derived.SobolevPoincareFiniteEnergyUp.TasteGate
+import BEDC.Derived.SobolevSpaceUp.TasteGate
 import BEDC.Derived.SobolevTraceBoundaryUp.TasteGate
 import BEDC.Derived.SobolevTraceCompactWindowUp.TasteGate
 import BEDC.Derived.SobolevTraceUp.TasteGate
