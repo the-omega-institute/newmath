@@ -10,23 +10,24 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CalkinWilfTreeUp : Type where
-  | mk (A Q L R S F H C P N : BHist) : CalkinWilfTreeUp
+  | mk (address rationalReadback leftChild rightChild sternBrocot farey transports routes
+      provenance name : BHist) : CalkinWilfTreeUp
   deriving DecidableEq
 
-def calkinWilfTreeEncodeBHist : BHist -> RawEvent
+def calkinWilfTreeEncodeBHist : BHist → List BMark
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: calkinWilfTreeEncodeBHist h
   | BHist.e1 h => BMark.b1 :: calkinWilfTreeEncodeBHist h
 
-def calkinWilfTreeDecodeBHist : RawEvent -> BHist
+def calkinWilfTreeDecodeBHist : List BMark → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (calkinWilfTreeDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (calkinWilfTreeDecodeBHist tail)
 
-private theorem CalkinWilfTreeTasteGate_single_carrier_alignment_decode :
-    forall h : BHist, calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist h) = h := by
+private theorem calkinWilfTree_decode_encode :
+    ∀ h : BHist, calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -34,90 +35,72 @@ private theorem CalkinWilfTreeTasteGate_single_carrier_alignment_decode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def calkinWilfTreeToEventFlow : CalkinWilfTreeUp -> EventFlow
+def calkinWilfTreeFields : CalkinWilfTreeUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | CalkinWilfTreeUp.mk A Q L R S F H C P N =>
-      [[BMark.b0],
-        calkinWilfTreeEncodeBHist A,
-        [BMark.b1, BMark.b0],
-        calkinWilfTreeEncodeBHist Q,
-        [BMark.b1, BMark.b1, BMark.b0],
-        calkinWilfTreeEncodeBHist L,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        calkinWilfTreeEncodeBHist R,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        calkinWilfTreeEncodeBHist S,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        calkinWilfTreeEncodeBHist F,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        calkinWilfTreeEncodeBHist H,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        calkinWilfTreeEncodeBHist C,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        calkinWilfTreeEncodeBHist P,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        calkinWilfTreeEncodeBHist N]
+  | CalkinWilfTreeUp.mk address rationalReadback leftChild rightChild sternBrocot farey
+      transports routes provenance name =>
+      [address, rationalReadback, leftChild, rightChild, sternBrocot, farey, transports,
+        routes, provenance, name]
 
-private def calkinWilfTreeEventAtDefault : Nat -> EventFlow -> RawEvent
+def calkinWilfTreeToEventFlow : CalkinWilfTreeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => calkinWilfTreeEventAtDefault index rest
+  | x => List.map calkinWilfTreeEncodeBHist (calkinWilfTreeFields x)
 
-def calkinWilfTreeFromEventFlow (ef : EventFlow) : Option CalkinWilfTreeUp :=
+def calkinWilfTreeFromEventFlow : EventFlow → Option CalkinWilfTreeUp
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (CalkinWilfTreeUp.mk
-      (calkinWilfTreeDecodeBHist (calkinWilfTreeEventAtDefault 1 ef))
-      (calkinWilfTreeDecodeBHist (calkinWilfTreeEventAtDefault 3 ef))
-      (calkinWilfTreeDecodeBHist (calkinWilfTreeEventAtDefault 5 ef))
-      (calkinWilfTreeDecodeBHist (calkinWilfTreeEventAtDefault 7 ef))
-      (calkinWilfTreeDecodeBHist (calkinWilfTreeEventAtDefault 9 ef))
-      (calkinWilfTreeDecodeBHist (calkinWilfTreeEventAtDefault 11 ef))
-      (calkinWilfTreeDecodeBHist (calkinWilfTreeEventAtDefault 13 ef))
-      (calkinWilfTreeDecodeBHist (calkinWilfTreeEventAtDefault 15 ef))
-      (calkinWilfTreeDecodeBHist (calkinWilfTreeEventAtDefault 17 ef))
-      (calkinWilfTreeDecodeBHist (calkinWilfTreeEventAtDefault 19 ef)))
+  | [address, rationalReadback, leftChild, rightChild, sternBrocot, farey, transports,
+      routes, provenance, name] =>
+      some
+        (CalkinWilfTreeUp.mk
+          (calkinWilfTreeDecodeBHist address)
+          (calkinWilfTreeDecodeBHist rationalReadback)
+          (calkinWilfTreeDecodeBHist leftChild)
+          (calkinWilfTreeDecodeBHist rightChild)
+          (calkinWilfTreeDecodeBHist sternBrocot)
+          (calkinWilfTreeDecodeBHist farey)
+          (calkinWilfTreeDecodeBHist transports)
+          (calkinWilfTreeDecodeBHist routes)
+          (calkinWilfTreeDecodeBHist provenance)
+          (calkinWilfTreeDecodeBHist name))
+  | _ => none
 
-private theorem CalkinWilfTreeTasteGate_single_carrier_alignment_round_trip :
-    forall x : CalkinWilfTreeUp,
+private theorem calkinWilfTree_round_trip :
+    ∀ x : CalkinWilfTreeUp,
       calkinWilfTreeFromEventFlow (calkinWilfTreeToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk A Q L R S F H C P N =>
+  | mk address rationalReadback leftChild rightChild sternBrocot farey transports routes
+      provenance name =>
       change
         some
           (CalkinWilfTreeUp.mk
-            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist A))
-            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist Q))
-            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist L))
-            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist R))
-            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist S))
-            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist F))
-            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist H))
-            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist C))
-            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist P))
-            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist N))) =
-          some (CalkinWilfTreeUp.mk A Q L R S F H C P N)
-      rw [CalkinWilfTreeTasteGate_single_carrier_alignment_decode A,
-        CalkinWilfTreeTasteGate_single_carrier_alignment_decode Q,
-        CalkinWilfTreeTasteGate_single_carrier_alignment_decode L,
-        CalkinWilfTreeTasteGate_single_carrier_alignment_decode R,
-        CalkinWilfTreeTasteGate_single_carrier_alignment_decode S,
-        CalkinWilfTreeTasteGate_single_carrier_alignment_decode F,
-        CalkinWilfTreeTasteGate_single_carrier_alignment_decode H,
-        CalkinWilfTreeTasteGate_single_carrier_alignment_decode C,
-        CalkinWilfTreeTasteGate_single_carrier_alignment_decode P,
-        CalkinWilfTreeTasteGate_single_carrier_alignment_decode N]
+            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist address))
+            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist rationalReadback))
+            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist leftChild))
+            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist rightChild))
+            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist sternBrocot))
+            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist farey))
+            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist transports))
+            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist routes))
+            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist provenance))
+            (calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist name))) =
+          some
+            (CalkinWilfTreeUp.mk address rationalReadback leftChild rightChild sternBrocot
+              farey transports routes provenance name)
+      rw [calkinWilfTree_decode_encode address,
+        calkinWilfTree_decode_encode rationalReadback,
+        calkinWilfTree_decode_encode leftChild,
+        calkinWilfTree_decode_encode rightChild,
+        calkinWilfTree_decode_encode sternBrocot,
+        calkinWilfTree_decode_encode farey,
+        calkinWilfTree_decode_encode transports,
+        calkinWilfTree_decode_encode routes,
+        calkinWilfTree_decode_encode provenance,
+        calkinWilfTree_decode_encode name]
 
-private theorem CalkinWilfTreeTasteGate_single_carrier_alignment_toEventFlow_injective
-    {x y : CalkinWilfTreeUp} :
-    calkinWilfTreeToEventFlow x = calkinWilfTreeToEventFlow y -> x = y := by
+private theorem calkinWilfTreeToEventFlow_injective {x y : CalkinWilfTreeUp} :
+    calkinWilfTreeToEventFlow x = calkinWilfTreeToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -125,22 +108,19 @@ private theorem CalkinWilfTreeTasteGate_single_carrier_alignment_toEventFlow_inj
         calkinWilfTreeFromEventFlow (calkinWilfTreeToEventFlow y) :=
     congrArg calkinWilfTreeFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (CalkinWilfTreeTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (CalkinWilfTreeTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (calkinWilfTree_round_trip x).symm
+      (Eq.trans hread (calkinWilfTree_round_trip y)))
 
-private def calkinWilfTreeFields : CalkinWilfTreeUp -> List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | CalkinWilfTreeUp.mk A Q L R S F H C P N => [A, Q, L, R, S, F, H, C, P, N]
-
-private theorem CalkinWilfTreeTasteGate_single_carrier_alignment_fields :
-    forall x y : CalkinWilfTreeUp, calkinWilfTreeFields x = calkinWilfTreeFields y -> x = y := by
+private theorem calkinWilfTree_fields_faithful :
+    ∀ x y : CalkinWilfTreeUp, calkinWilfTreeFields x = calkinWilfTreeFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk A1 Q1 L1 R1 S1 F1 H1 C1 P1 N1 =>
+  | mk address₁ rationalReadback₁ leftChild₁ rightChild₁ sternBrocot₁ farey₁ transports₁
+      routes₁ provenance₁ name₁ =>
       cases y with
-      | mk A2 Q2 L2 R2 S2 F2 H2 C2 P2 N2 =>
+      | mk address₂ rationalReadback₂ leftChild₂ rightChild₂ sternBrocot₂ farey₂ transports₂
+          routes₂ provenance₂ name₂ =>
           cases hfields
           rfl
 
@@ -154,15 +134,15 @@ instance calkinWilfTreeChapterTasteGate : ChapterTasteGate CalkinWilfTreeUp wher
   round_trip := by
     intro x
     change calkinWilfTreeFromEventFlow (calkinWilfTreeToEventFlow x) = some x
-    exact CalkinWilfTreeTasteGate_single_carrier_alignment_round_trip x
+    exact calkinWilfTree_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (CalkinWilfTreeTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy (calkinWilfTreeToEventFlow_injective heq)
 
 instance calkinWilfTreeFieldFaithful : FieldFaithful CalkinWilfTreeUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := calkinWilfTreeFields
-  field_faithful := CalkinWilfTreeTasteGate_single_carrier_alignment_fields
+  field_faithful := calkinWilfTree_fields_faithful
 
 instance calkinWilfTreeNontrivial : Nontrivial CalkinWilfTreeUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -178,19 +158,5 @@ instance calkinWilfTreeNontrivial : Nontrivial CalkinWilfTreeUp where
 def taste_gate : ChapterTasteGate CalkinWilfTreeUp :=
   -- BEDC touchpoint anchor: BHist BMark
   calkinWilfTreeChapterTasteGate
-
-theorem CalkinWilfTreeTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate CalkinWilfTreeUp) ∧
-      Nonempty (FieldFaithful CalkinWilfTreeUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial CalkinWilfTreeUp) ∧
-          (∀ h : BHist, calkinWilfTreeDecodeBHist (calkinWilfTreeEncodeBHist h) = h) ∧
-            calkinWilfTreeEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
-  exact
-    ⟨⟨calkinWilfTreeChapterTasteGate⟩,
-      ⟨calkinWilfTreeFieldFaithful⟩,
-      ⟨calkinWilfTreeNontrivial⟩,
-      CalkinWilfTreeTasteGate_single_carrier_alignment_decode,
-      rfl⟩
 
 end BEDC.Derived.CalkinWilfTreeUp
