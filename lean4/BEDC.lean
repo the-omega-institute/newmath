@@ -307,6 +307,8 @@ import BEDC.Derived.AscoliDiagonalUp.TasteGate
 import BEDC.Derived.AscoliEquicontinuityCriterionUp.TasteGate
 import BEDC.Derived.AscoliEquicontinuousSubsequenceUp.TasteGate
 import BEDC.Derived.AscoliModulusUp
+import BEDC.Derived.AspectChainUp.BridgeHandoff
+import BEDC.Derived.AspectChainUp.BridgeStatusBoundary
 import BEDC.Derived.AspectChainUp.ConsumerBoundary
 import BEDC.Derived.AspectChainUp.NameCertObligations
 import BEDC.Derived.AspectChainUp.PublicExport
@@ -3082,6 +3084,7 @@ import BEDC.Derived.CompactApartnessProfileUp.TasteGate
 import BEDC.Derived.CompactBaireUp.TasteGate
 import BEDC.Derived.CompactCauchyCoverUp.TasteGate
 import BEDC.Derived.CompactCauchyEquicontinuityUp
+import BEDC.Derived.CompactCompleteFixedPointUp
 import BEDC.Derived.CompactCompletionExtensionModulusUp.TasteGate
 import BEDC.Derived.CompactContinuityRadiusChoiceUp.TasteGate
 import BEDC.Derived.CompactContinuousImageTotalBoundedUp.TasteGate
