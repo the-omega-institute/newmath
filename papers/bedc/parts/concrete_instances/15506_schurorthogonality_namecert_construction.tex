@@ -120,14 +120,26 @@ Since no coordinate of $S$ stores a host character table, quotient conjugacy-cla
 \end{proof}
 \leanchecked{BEDC.Derived.SchurOrthogonalityUp.SchurOrthogonalityRowColumnOrthogonalityLedger}
 
-\closureat{SchurOrthogonalityUp}{obligationStr}
+\begin{theorem}[SchurOrthogonality scoped dependency package]
+\label{thm:schurorthogonality-scoped-dependency-package}
+For every accepted $\SchurOrthogonalityUp$ carrier $S=(G,V,X,\Phi,\Omega,H,C,P,N)$, the carrier row, NameCert obligation surface, character-pairing route, character inner-product ledger, representation-ring route, group-averaging ledger, and row-column orthogonality ledger bind the finite scope over $\GroupUp$, $\VecSpaceUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, $\InducedRepUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:schur-orthogonality-carrier} to project the displayed rows $G,V,X,\Phi,\Omega,H,C,P,N$. The NameCert obligations of \autoref{thm:schur-orthogonality-namecert-obligations} admit exactly those rows as the local Schur orthogonality surface.
+
+The character-pairing and inner-product routes are fixed by \autoref{thm:schur-orthogonality-character-pairing-route} and \autoref{thm:schurorthogonality-character-inner-product}. They force every orthogonality read through $G,V,X,\Phi$ before the orthogonality ledger $\Omega$ is consumed.
+
+The downstream package is then governed by \autoref{thm:schurorthogonality-representation-ring-route}, \autoref{thm:schurorthogonality-group-averaging-ledger}, and \autoref{thm:schurorthogonality-row-column-orthogonality-ledger}. These theorems expose only $\Omega,H,C,P,N$ as the finite route into $\RepresentationRingUp$ and $\InducedRepUp$ consumers, so the stated dependency package is the full scoped surface.
+\end{proof}
+
+\closureat{SchurOrthogonalityUp}{scopedStr}
 
 \begin{closurestatus}{\SchurOrthogonalityUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:schur-orthogonality-carrier}, \autoref{thm:schur-orthogonality-namecert-obligations}, and \autoref{thm:schur-orthogonality-character-pairing-route} bind the finite Schur orthogonality ledger over displayed $\GroupUp$, $\VecSpaceUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, and $\InducedRepUp$ rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:schurorthogonality-scoped-dependency-package} binds the finite Schur orthogonality route over displayed $\GroupUp$, $\VecSpaceUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, $\InducedRepUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close character-table computation, quotient conjugacy classes, host inner products, complete representation categories, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires checked carrier admission, character-pairing routing, row and column orthogonality ledger coverage, transport stability, and no-host-quotient boundary for the same finite packet.}
+  \upgradepath{Public closure requires a public-object interface and checked bridge route for the same finite Schur orthogonality packet.}
   \constructivestory{A $\SchurOrthogonalityUp$ packet is generated from displayed Group, VecSpace, and CharacterTheory sources, a finite character-pairing ledger, a finite row and column orthogonality ledger, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
 \end{closurestatus}
