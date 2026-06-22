@@ -1,14 +1,14 @@
 # Edge-Defect Oracle Memo
 
 - schema: `window_codon_oracle_memo.v1`
-- generated_ts: `2026-06-22T06:29:36Z`
-- source_task_id: `8eaf439b-fda4-4f95-bc84-00fa01fb26e7`
+- generated_ts: `2026-06-22T09:50:05Z`
+- source_task_id: `b4dc9131-1dff-4f60-9ae1-7bb699197ef7`
 - source_conversation_id: `conv_6139d5d7cea7ab03`
-- oracle_response_chars: `2894`
+- oracle_response_chars: `3169`
 
 ## Strongest Mechanism
 
-A is ill-posed as a bridge back to Window6/Fibonacci. It is well-posed only as a Window6 self-diagnostic. The decisive problem is that “first-order” is not an absolute concept. It is first-order relative to a product structure. For codons, the product structure is canonical:
+A is ill-posed as a bridge back to Window6/Fibonacci. The core reason is simple: “first-order” is not an invariant notion unless the product frame is fixed. For codons, the frame is canonical:
 
 ## Decisive Confounders
 
