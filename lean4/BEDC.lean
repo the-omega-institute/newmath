@@ -3617,6 +3617,7 @@ import BEDC.Derived.ContourReparameterizationLedgerUp.TasteGate
 import BEDC.Derived.ContourResidueHandoffUp.TasteGate
 import BEDC.Derived.ContourReversalLedgerUp.TasteGate
 import BEDC.Derived.ContourSumWindowUp.NameCertObligations
+import BEDC.Derived.ContourSumWindowUp.OutputSealNonescape
 import BEDC.Derived.ContourSumWindowUp.RefinementStability
 import BEDC.Derived.ContourSumWindowUp.SubdivisionExactness
 import BEDC.Derived.ContourSumWindowUp.TasteGate
@@ -8596,6 +8597,7 @@ import BEDC.Derived.OscillationFunctionUp.TasteGate
 import BEDC.Derived.OscillationModulusUp.TasteGate
 import BEDC.Derived.OsgoodCriterionUp.TasteGate
 import BEDC.Derived.OsgoodModulusUp.TasteGate
+import BEDC.Derived.OsgoodUniquenessUp.TasteGate
 import BEDC.Derived.OstrowskiInequalityUp.TasteGate
 import BEDC.Derived.OtherMindsCommitmentUp.Packet
 import BEDC.Derived.OtherMindsCommitmentUp.TasteGate
@@ -8633,6 +8635,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp.MarkerInventoryKindLock
 import BEDC.Derived.PaperLeanDriftWitnessUp.NameNormalizationNoescape
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObjectwiseDriftHandoff
 import BEDC.Derived.PaperLeanDriftWitnessUp.ObligationClosurePackage
+import BEDC.Derived.PaperLeanDriftWitnessUp.PublicExportRoute
 import BEDC.Derived.PaperLeanDriftWitnessUp.ResolutionConsumerReadiness
 import BEDC.Derived.PaperLeanDriftWitnessUp.ScopedClosurePackage
 import BEDC.Derived.PaperLeanDriftWitnessUp.StatusConsumerExactness
