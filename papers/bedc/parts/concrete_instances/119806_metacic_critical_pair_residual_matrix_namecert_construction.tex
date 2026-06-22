@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICCriticalPairResidualMatrixUp$}
+\label{ch:concrete-instances-metacic-critical-pair-residual-matrix-namecert}
+\origin{ai}
+
+The $\MetaCICCriticalPairResidualMatrixUp$ packet realizes the confluence audit map of \autoref{ch:metacic-confluence-audit-map} as a finite residual-overlap matrix for typed MetaCIC redexes. It sits beside the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, the typed normal-form readback surface of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, the subject-reduction boundary of \autoref{ch:concrete-instances-subjectreduction-namecert}, and the residual-diamond frontier of \autoref{ch:concrete-instances-metacic-residual-diamond-frontier-namecert}. The packet records only finite typed-redex, residual-row, join-candidate, closedness, substitution-boundary, transport, replay, provenance, and local naming data; it is not a broad confluence assertion.
+
+\falsifiablePrediction{Every accepted $\MetaCICCriticalPairResidualMatrixUp$ consumer must expose both residual rows and one join-candidate row before a parallel-diamond read is available.}
+
+\independenceWitness{metacic-parallel-diamond-frontier, metaciccriticalpath, typedreductionnormalform, subjectreduction: the parallel-diamond frontier records a conditional diamond handoff without this packet's typed overlap matrix; the critical-path packet records routing pressure without residual-row adjacency; the typed normal-form packet records endpoint readback without paired residual overlaps; and the subject-reduction packet records preservation boundaries without candidate joins. None is bijective to $\MetaCICCriticalPairResidualMatrixUp$.}
+
+\begin{definition}[MetaCIC residual join frontier carrier]
+\label{def:metacic-residual-join-frontier-carrier}
+A $\MetaCICCriticalPairResidualMatrixUp$ carrier is a finite $\BHist$ packet
+$$
+M=(Q,L,R,J,K,S,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the typed critical-pair row, recording the source term, typing boundary, redex labels, and inspected overlap window.
+\item $L$ and $R$ are the two residual rows, one for each branch descending from the overlap.
+\item $J$ is the join-candidate row, recording the proposed common target and the two branch-local routes to it.
+\item $K$ is the closedness and finite-support row for the inspected source and residual descendants.
+\item $S$ is the substitution-boundary row retaining the residual-substitution premise and any obstruction that remains outside the packet.
+\item $O$ is the parallel-diamond read row, exposed only after $Q,L,R,J,K,S$ have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for typed critical pairs, residual rows, join candidates, closedness rows, substitution-boundary rows, parallel-diamond reads, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a confluence query through $Q,L,R,J,K,S$ before $O$ is read.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICCriticalPairResidualMatrixUp$, $\MetaCICParallelDiamondFrontierUp$, $\MetaCICCriticalPathUp$, $\SubjectReductionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICCriticalPairResidualMatrixUp}$ row.
+\end{enumerate}
+The carrier exports no coordinate for premise-free confluence, unrestricted subject reduction, global normalization, evaluator equality, quotient syntax equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual join frontier diamond consumer]
+\label{thm:metacic-residual-join-frontier-diamond-consumer}
+Every parallel-diamond consumer of an accepted $\MetaCICCriticalPairResidualMatrixUp$ packet first factors through the typed critical-pair row $Q$, both residual rows $L,R$, one join-candidate row $J$, the closedness row $K$, and the substitution-boundary row $S$ before the parallel-diamond read row $O$ is exposed. The resulting read is a finite residual-join consumer for the confluence audit map, not a proof of unrestricted MetaCIC confluence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-join-frontier-carrier}. The parallel-diamond read row $O$ is downstream of $Q,L,R,J,K,S$ by construction.
+
+Read the overlap rows first. The typed critical-pair row $Q$ fixes the source, typing boundary, redex labels, and inspected overlap window; the two residual rows $L,R$ record the branch-local descendants; and $J$ supplies the candidate common target.
+
+Next read the boundary rows. The closedness row $K$ keeps the source and residual descendants inside the finite inspected support, while $S$ retains the substitution premise or obstruction rather than discharging it silently.
+
+Finally use $H,C,P,N$ for transport, replay, provenance, and local naming. These structural rows preserve the same finite matrix and add no premise-free confluence theorem, unrestricted subject reduction theorem, global normalization oracle, evaluator equality, quotient syntax equality, or kernel-consistency claim.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual join frontier NameCert obligations]
+\label{thm:metacic-residual-join-frontier-namecert-obligations}
+For every accepted $\MetaCICCriticalPairResidualMatrixUp$ carrier
+$$
+M=(Q,L,R,J,K,S,O,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICCriticalPairResidualMatrixUp}$ surface consists exactly of typed critical-pair exposure through $Q$, two residual-row exposures through $L,R$, join-candidate exposure through $J$, closedness and finite-support exposure through $K$, substitution-boundary retention through $S$, parallel-diamond read exposure through $O$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the tuple in \autoref{def:metacic-residual-join-frontier-carrier}. The carrier lists exactly the matrix rows $Q,L,R,J,K,S,O$ and the structural rows $H,C,P,N$.
+
+Apply the diamond-consumer theorem. It forces every confluence-facing read through the typed pair, both residual rows, a join candidate, closedness data, and the retained substitution boundary before the parallel-diamond row can be used.
+
+The structural rows account for all remaining obligations. Since the carrier has no other coordinate, its local NameCert cannot export unrestricted confluence, subject reduction, global normalization, evaluator equality, quotient syntax equality, or kernel consistency.
+\end{proof}
+
+\closureat{MetaCICCriticalPairResidualMatrixUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICCriticalPairResidualMatrixUp}
+  \constructivestory{A $\MetaCICCriticalPairResidualMatrixUp$ packet is generated from a typed critical-pair row, two residual rows, one join-candidate row, closedness and finite-support data, a retained substitution-boundary row, a parallel-diamond read row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-join-frontier-carrier}, \autoref{thm:metacic-residual-join-frontier-diamond-consumer}, and \autoref{thm:metacic-residual-join-frontier-namecert-obligations} seed the finite residual-overlap matrix consumed by MetaCIC parallel-diamond reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted MetaCIC confluence, premise-free parallel diamond, unrestricted subject reduction, global normalization, evaluator equality, quotient syntax equality, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typed critical-pair exposure, two residual-row exposures, join-candidate exposure, closedness exposure, substitution-boundary retention, diamond-read non-escape, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICCriticalPairResidualMatrixUp.}
+\end{closurestatus}

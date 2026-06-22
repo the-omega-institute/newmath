@@ -260,4 +260,10 @@ theorem AxiomRefusalLedgerTasteGate_single_carrier_alignment :
         exact axiomRefusalLedgerToEventFlow_injective heq
       · rfl
 
+theorem AxiomRefusalLedgerSiblingIndependence {x y : AxiomRefusalLedgerUp} :
+    axiomRefusalLedgerToEventFlow x = axiomRefusalLedgerToEventFlow y -> x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  exact axiomRefusalLedgerToEventFlow_injective heq
+
 end BEDC.Derived.AxiomRefusalLedgerUp

@@ -60,6 +60,45 @@ theorem CauchySchwarzRealInnerproductBound_norm_handoff_consumer [AskSetup] [Pac
     ⟨handoff.left, handoff.right.right.right, hsame_refl normRead, handoff.right.left,
       handoff.right.right.left⟩
 
+theorem CauchySchwarzRealInnerproductBound_dyadic_square_namecert_consumer
+    [AskSetup] [PackageSetup]
+    {V X Y I A B D Q S E H T P N vectorRead scalarRead squareRead readbackRead
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySchwarzRealCarrier V X Y I A B D Q S E H T P N bundle pkg →
+      Cont V X vectorRead →
+        PkgSig bundle vectorRead pkg →
+          Cont vectorRead I scalarRead →
+            Cont scalarRead D squareRead →
+              Cont squareRead Q readbackRead →
+                Cont readbackRead E sealRead →
+                  PkgSig bundle sealRead pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row vectorRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row V ∨ hsame row X ∨ hsame row Y ∨ hsame row I ∨
+                            hsame row A ∨ hsame row B ∨ hsame row D ∨ hsame row Q ∨
+                              hsame row S ∨ hsame row E ∨ hsame row vectorRead)
+                        (fun row : BHist => hsame row vectorRead ∧ PkgSig bundle vectorRead pkg)
+                        hsame ∧
+                      UnaryHistory scalarRead ∧ UnaryHistory squareRead ∧
+                        UnaryHistory readbackRead ∧ UnaryHistory sealRead ∧
+                          Cont scalarRead D squareRead ∧ Cont readbackRead E sealRead ∧
+                            PkgSig bundle P pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert UnaryHistory
+  intro carrier vectorRoute vectorPkg scalarRoute squareRoute readbackRoute sealRoute sealPkg
+  have obligations :=
+    CauchySchwarzRealCarrier_namecert_obligations carrier vectorRoute vectorPkg
+  have handoff :=
+    CauchySchwarzRealCarrier_dyadic_square_handoff carrier vectorRoute scalarRoute squareRoute
+      readbackRoute sealRoute sealPkg
+  obtain ⟨_vUnary, _xUnary, _iUnary, _dUnary, _qUnary, _eUnary, _vectorUnary,
+    scalarUnary, squareUnary, readbackUnary, sealUnary, _vectorRoute, _scalarRoute,
+    squareRouteOut, _readbackRoute, sealRouteOut, provenancePkg, sealPkgOut⟩ := handoff
+  exact
+    ⟨obligations.left, scalarUnary, squareUnary, readbackUnary, sealUnary,
+      squareRouteOut, sealRouteOut, provenancePkg, sealPkgOut⟩
+
 theorem CauchySchwarzRealInnerproductBound_namecert_consumer [AskSetup] [PackageSetup]
     {V X Y I A B D Q S E H T P N boundRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
