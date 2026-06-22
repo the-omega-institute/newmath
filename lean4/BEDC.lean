@@ -1963,6 +1963,7 @@ import BEDC.Derived.CauchyModulusCertificateUp.TasteGate
 import BEDC.Derived.CauchyModulusChoiceUp
 import BEDC.Derived.CauchyModulusChoiceUp.TasteGate
 import BEDC.Derived.CauchyModulusComparisonUp.TasteGate
+import BEDC.Derived.CauchyModulusCompletionSelectorUp.TasteGate
 import BEDC.Derived.CauchyModulusExtractionUp
 import BEDC.Derived.CauchyModulusExtractionUp.StdBridge
 import BEDC.Derived.CauchyModulusExtractorUp.TasteGate
@@ -5834,6 +5835,7 @@ import BEDC.Derived.FinitePhaseSamplingUp
 import BEDC.Derived.FinitePrefixAutomatonUp.Determinacy
 import BEDC.Derived.FinitePrefixAutomatonUp.RegularLanguageSiblingBridge
 import BEDC.Derived.FinitePrefixAutomatonUp.TasteGate
+import BEDC.Derived.FinitePrefixAutomatonUp.TransitionExactness
 import BEDC.Derived.FinitePrefixLimitBudgetUp.TasteGate
 import BEDC.Derived.FinitePrefixLimitStabilityUp.BudgetWindowLock
 import BEDC.Derived.FinitePrefixLimitStabilityUp.LedgerExactness
@@ -6869,6 +6871,7 @@ import BEDC.Derived.LimitUp.RegSeqRatRealScope
 import BEDC.Derived.LimitUp.ScopedKernelRoute
 import BEDC.Derived.LimitUp.TasteGate
 import BEDC.Derived.LimitUp.ToleranceLedgerExactness
+import BEDC.Derived.LimitedPrincipleOmniscienceUp.TasteGate
 import BEDC.Derived.LimsupLiminfGapUp.EndpointRoute
 import BEDC.Derived.LimsupLiminfGapUp.TasteGate
 import BEDC.Derived.LimsupUp.TasteGate
