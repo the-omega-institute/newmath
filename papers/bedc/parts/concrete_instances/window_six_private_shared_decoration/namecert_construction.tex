@@ -58,6 +58,21 @@ The enumeration row $E$ and defect row $D$ then record the finite count and defe
 Therefore every accepted consumer receives the finite packet described in the theorem, rather than biological semantics, quotient codon equality, hidden enumeration, or unrestricted trigger search.
 \end{proof}
 
+\begin{theorem}[Window-six private/shared decoration sibling lattice]\label{thm:window-six-private-shared-decoration-sibling-lattice}
+Every accepted $\WindowSixPrivateSharedDecorationUp$ packet consumes the sibling lattice
+$$
+\DnaWindowSixBoundaryTileUp,\ \SixBoundaryTileCoverageUp,\ \DnaBoundaryTriggerClosureUp,\ \DNAWindowSixTriggerThresholdUp
+$$
+before it exports the private/shared decoration ledger $B,S,T,E,D,H,C,P,N$. The lattice is finite and row-projection based: it displays boundary tiles, six-boundary coverage, trigger closure, and trigger-threshold evidence before the private block, shared row-set, trigger coverage, decoration count, and defect rows are consumed. It is not a biological mechanism, quotient codon semantics, stochastic evolutionary model, or hidden enumeration oracle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $W=(B,S,T,E,D,H,C,P,N)$ of \autoref{def:window-six-private-shared-decoration-carrier}. The private/shared ledger rows $B,S$, the trigger row $T$, the enumeration and defect rows $E,D$, and the structural rows $H,C,P,N$ are the only exported coordinates.
+
+Apply the enumeration handoff of \autoref{thm:window-six-private-shared-decoration-enumeration-handoff}. It forces every private/shared decoration read to pass through the boundary-tile, six-boundary coverage, boundary-trigger closure, and trigger-threshold siblings before $B,S,T,E,D,H,C,P,N$ are consumed.
+
+Thus the dependency is a finite sibling lattice: each sibling supplies a displayed row that is projected before the decoration ledger is exported. Since the carrier has no coordinate for biological mechanism, quotient codon equality, stochastic evolution, or hidden enumeration, none of those interpretations is introduced by the lattice.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\WindowSixPrivateSharedDecorationUp$ packet must expose private-block, shared-row-set, trigger-coverage, decoration-count, hsame, Cont, Pkg, and NameCert rows before it can export a private/shared window-six decoration read.}
 
 \independenceWitness{dna-window-six-boundary-tile, six-boundary-tile-coverage, dna-boundary-trigger-closure, dna-window-six-trigger-threshold: $\WindowSixPrivateSharedDecorationUp$ is not bijective to any listed sibling because the private/shared row-set ledger jointly carries private blocks, shared row sets, trigger coverage, decoration counts, defect rows, transport, replay, provenance, and local naming.}
