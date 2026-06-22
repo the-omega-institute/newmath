@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICResidualChoiceBudgetUp$}
+\label{ch:concrete-instances-metacic-residual-choice-budget-namecert}
+\origin{ai}
+
+The $\MetaCICResidualChoiceBudgetUp$ packet realizes the bounded residual-choice frontier of \autoref{sec:metacic-open-problems-confluence} as finite confluence-facing NameCert data. It sits beside the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, the residual checker of \autoref{ch:concrete-instances-metacic-confluence-residual-checker-namecert}, the residual-join budget of \autoref{ch:concrete-instances-metacic-residual-join-budget-namecert}, the residual-diamond budget of \autoref{ch:concrete-instances-metacic-residual-diamond-budget-namecert}, and the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. The packet records a finite choice boundary for residual pairs without claiming full residual substitution, unrestricted Church--Rosser, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+
+\falsifiablePrediction{Every accepted $\MetaCICResidualChoiceBudgetUp$ confluence read exposes a bounded choice-boundary row before any local-join candidate can be transported to a residual-diamond or parallel-diamond consumer.}
+
+\independenceWitness{metacic-residual-join-budget, metacic-residual-diamond-budget, metacic-parallel-diamond-frontier, metacic-confluence-residual-checker, metacic-residual-substitution-boundary: none is bijective to $\MetaCICResidualChoiceBudgetUp$ because this packet jointly carries typed windows, residual pairs, explicit choice-boundary rows, bounded local joins, obstruction retention, transport, replay, provenance, and local naming.}
+
+\begin{definition}[MetaCIC residual-choice budget carrier]
+\label{def:metacic-residual-choice-budget-carrier}
+A $\MetaCICResidualChoiceBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,R,Q,J,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed-window row, recording the closed term, local typing window, and bounded checker context in which a residual pair is inspected.
+\item $R$ is the residual-pair row, recording the two residual descendants and their branch-local exposure.
+\item $Q$ is the choice-boundary row, listing the finite branch choices still retained by the budget.
+\item $J$ is the bounded local-join row, recording candidate joins available only after $T,R,Q$ have been displayed.
+\item $O$ is the obstruction-retention row, naming residual-substitution discharge, unrestricted confluence, subject reduction, evaluator equality, quotient term equality, and kernel consistency as endpoints not supplied by the packet.
+\item $H$ stores componentwise $\hsame$ transport for the typed-window, residual-pair, choice-boundary, bounded-join, obstruction, replay, provenance, and naming rows.
+\item $C$ stores displayed $\Cont$ replay from a confluence query through $T,R,Q,J,O,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICResidualChoiceBudgetUp$, $\MetaCICResidualSubstitutionBoundaryUp$, $\MetaCICConfluenceResidualCheckerUp$, $\MetaCICResidualJoinBudgetUp$, $\MetaCICResidualDiamondBudgetUp$, $\MetaCICParallelDiamondFrontierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICResidualChoiceBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,R,Q,J,O,H,C,P,N$. It has no coordinate for full residual substitution, premise-free Church--Rosser, subject reduction, evaluator equality, quotient equality of terms, global conversion decidability, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual-choice budget obligations]
+\label{thm:metacic-residual-choice-budget-namecert-obligations}
+For every accepted $\MetaCICResidualChoiceBudgetUp$ carrier $B=(T,R,Q,J,O,H,C,P,N)$, the local $\NameCert_{\MetaCICResidualChoiceBudgetUp}$ surface consists exactly of typed-window exposure through $T$, residual-pair exposure through $R$, bounded choice-boundary retention through $Q$, bounded local-join exposure through $J$, obstruction retention through $O$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The confluence-facing rows are $T,R,Q,J,O$, and the structural rows are $H,C,P,N$.
+
+The choice boundary is retained as data. Row $Q$ is not discharged by the carrier; it records the finite branch choices that a local-join consumer must keep visible before reading $J$.
+
+The obstruction row then keeps the stronger endpoints outside the packet. Transport, replay, provenance, and local naming preserve the same bounded budget rather than turning it into residual-substitution discharge or unrestricted confluence.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-choice budget frontier route]
+\label{thm:metacic-residual-choice-budget-frontier-route}
+Every confluence consumer of an accepted $\MetaCICResidualChoiceBudgetUp$ packet must expose the typed-window row $T$, residual-pair row $R$, choice-boundary row $Q$, bounded local-join row $J$, obstruction row $O$, componentwise transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$ before it may hand the budget to a residual-join, residual-diamond, residual-checker, or parallel-diamond consumer. The route does not discharge residual substitution, prove Church--Rosser, prove subject reduction, identify evaluator equality, identify quotient term equality, or certify kernel consistency.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:metacic-residual-choice-budget-namecert-obligations}. It makes $T,R,Q,J,O,H,C,P,N$ the visible budget rows.
+
+Read the neighbouring MetaCIC packets through the provenance row. Residual-substitution boundary, residual checker, residual-join budget, residual-diamond budget, and parallel-diamond frontier consumers may inspect the same finite budget, but only after $Q$ and $O$ remain visible.
+
+Thus the handoff is bounded and conditional. Since no carrier coordinate supplies residual-substitution compatibility, unrestricted confluence, subject reduction, evaluator equality, quotient equality, or kernel consistency, none of those endpoints can be exported by the budget route.
+\end{proof}
+
+The Lean TasteGate surface for this packet requires future $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances in \texttt{lean4/BEDC/Derived/MetaCICResidualChoiceBudgetUp/TasteGate.lean}, with field-projection witnesses separating $T,R,Q,J,O,H,C,P,N$.
+
+\closureat{MetaCICResidualChoiceBudgetUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICResidualChoiceBudgetUp}
+  \constructivestory{A $\MetaCICResidualChoiceBudgetUp$ packet is generated from a typed-window row, residual-pair row, choice-boundary row, bounded local-join row, obstruction-retention row, componentwise transport, replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-choice-budget-carrier}, \autoref{thm:metacic-residual-choice-budget-namecert-obligations}, and \autoref{thm:metacic-residual-choice-budget-frontier-route} seed the finite residual-choice frontier over typed-window, residual-pair, choice-boundary, bounded local-join, obstruction, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim full residual substitution, unrestricted Church--Rosser, subject reduction, evaluator equality, quotient term equality, global conversion decidability, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typed-window exposure, residual-pair exposure, choice-boundary retention, bounded local-join exposure, obstruction retention, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICResidualChoiceBudgetUp.}
+\end{closurestatus}
