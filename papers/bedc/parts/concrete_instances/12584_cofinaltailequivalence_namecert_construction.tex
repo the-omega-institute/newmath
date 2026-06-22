@@ -74,6 +74,38 @@ Use \autoref{thm:cofinal-tail-equivalence-namecert-obligations}. It makes $R_0,R
 Use \autoref{thm:cofinal-tail-equivalence-tail-agreement-transport}. Any transport between the two routes preserves the shared tail-agreement surface and therefore cannot collapse the carrier to a one-route packet or import a host-level equality. The listed finite route is the whole Real-seal consumer surface.
 \end{proof}
 
+\begin{theorem}[Cofinal tail-equivalence common-tail induction]
+\label{thm:cofinal-tail-equivalence-common-tail-induction}
+Let $E=(R_0,R_1,W,Q,D,A,H,C,P,N)$ be an accepted $\CofinalTailEquivalenceUp$ carrier. Finite induction over the two displayed cofinal route rows $R_0$ and $R_1$ preserves the shared readback surface
+$$
+W,Q,D,A
+$$
+at every common threshold reached by both routes. In particular, the common threshold read still exposes the same $\StreamNameUp$ row $W$, $\RegSeqRatUp$ row $Q$, $\DyadicRatCoreUp$ ledger $D$, and $\RealTailAgreementSealUp$ row $A$, and it does not introduce quotient stream equality, a selected host limit, hidden tail selection, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-tail-equivalence-carrier}. The route coordinates $R_0$ and $R_1$ are the only cofinal rows, and both are paired with the same displayed $W,Q,D,A$ surface.
+
+For the base threshold, apply the NameCert obligations of \autoref{thm:cofinal-tail-equivalence-namecert-obligations}. They force both routes to display the StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealTailAgreementSeal consumer before any common-tail read is available.
+
+For the successor threshold, use the transport theorem \autoref{thm:cofinal-tail-equivalence-tail-agreement-transport}. Transport from one displayed route to the other changes only the route coordinate while preserving the shared readback and seal rows.
+
+The Real-seal consumer theorem \autoref{thm:cofinal-tail-equivalence-real-seal-consumer} then closes the induction step for completion-facing reads. Since the carrier has no coordinate for quotient equality, selected limits, hidden tail selection, countable choice, or ambient completeness, the induced common-tail read cannot export any of those surfaces.
+\end{proof}
+
+\begin{theorem}[Cofinal tail-equivalence RegSeqRat stability]
+\label{thm:cofinal-tail-equivalence-regseqrat-stability}
+Let $E=(R_0,R_1,W,Q,D,A,H,C,P,N)$ be an accepted $\CofinalTailEquivalenceUp$ carrier. Componentwise $\hsame$ transport of both cofinal routes through $H$ preserves the shared $\RegSeqRatUp$ readback $Q$ and keeps it tied to the same $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ ledger $D$, and $\RealTailAgreementSealUp$ consumer row $A$. This stability cannot create quotient stream equality, selected host limits, countable choice, ambient Real completeness, or host equality of completed reals.
+\end{theorem}
+\begin{proof}
+Start from the componentwise transport row $H$ in the carrier. It transports only the displayed coordinates $R_0,R_1,W,Q,D,A$ and the local certificate row; it is not a quotient constructor for regular sequences.
+
+Apply \autoref{thm:cofinal-tail-equivalence-tail-agreement-transport}. The theorem says that moving between the two cofinal routes preserves the shared readback surface $W,Q,D,A,H,C,P,N$.
+
+Now apply the common-tail induction theorem \autoref{thm:cofinal-tail-equivalence-common-tail-induction}. At each common threshold the same RegSeqRat row remains paired with the same StreamName, dyadic ledger, and Real-seal rows.
+
+Finally apply the Real-seal consumer theorem \autoref{thm:cofinal-tail-equivalence-real-seal-consumer}. Completion-facing consumers receive only the displayed finite route, so transport stability for $Q$ does not manufacture quotient stream equality, selected host limits, countable choice, ambient Real completeness, or host real equality.
+\end{proof}
+
 \closureat{CofinalTailEquivalenceUp}{seedStr}
 
 \begin{closurestatus}{\CofinalTailEquivalenceUp}
