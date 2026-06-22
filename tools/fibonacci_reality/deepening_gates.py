@@ -74,6 +74,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "fibonacci_gcd_strong_divisibility_certificate",
     "bedc_finite_certificate",
     "fibonacci_cube_critical_group_certificate",
+    "closed_neighborhood_smith_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -120,6 +121,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     },
     "graph_invariant_certificate": {
         "fibonacci_cube_critical_group_certificate",
+        "closed_neighborhood_smith_certificate",
         "bedc_finite_certificate",
         "lean_finite_certificate",
         "automath_paper_section",
@@ -153,6 +155,7 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "divisibility_remainder_enumeration",
     "bedc_finite_certificate",
     "finite_graph_enumeration",
+    "integer_matrix_determinant",
     "integer_laplacian_determinant",
     "smith_normal_form_determinantal_divisors",
     "lean_statement_only",
@@ -269,8 +272,11 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "divisibility_remainder_grid",
     "finite_graph",
     "hamming_edge_relation",
+    "closed_neighborhood_relation",
+    "integer_matrix_determinant",
     "integer_laplacian",
     "smith_normal_form",
+    "cyclic_cokernel",
     "critical_group",
 }
 MECHANISM_WORDS = {
@@ -2201,6 +2207,55 @@ def self_test() -> int:
         ],
         "null_reason": "",
     }
+    closed_neighborhood_smith_conjecture = {
+        "conjecture_id": "window6.fibonacci-cube.closed-neighborhood-smith",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 Fibonacci-cube closed-neighborhood Smith invariant",
+        "informal_statement": (
+            "For Gamma_6, the closed-neighborhood matrix N_6=I_21+A_6 has determinant -144 "
+            "and Smith normal form with one nontrivial invariant factor 144."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Finite graph Gamma_6 and its closed-neighborhood integer matrix.",
+            "distinctions": [
+                "finite Fibonacci-cube graph",
+                "closed-neighborhood relation",
+                "integer determinant",
+                "Smith normal form",
+                "cyclic cokernel",
+            ],
+            "readback": "The certificate records an internal graph invariant only.",
+            "internal_structure": [
+                "finite_graph",
+                "closed_neighborhood_relation",
+                "integer_matrix_determinant",
+                "smith_normal_form",
+                "cyclic_cokernel",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "finite_graph_enumeration",
+            "integer_matrix_determinant",
+            "smith_normal_form_determinantal_divisors",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+            "derived_probe",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window6_closed_neighborhood_smith.py",
+                "object": "verify-window6-closed-neighborhood-smith",
+                "kind": "closed_neighborhood_smith_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
     forced_window_results = gate_all(
         [
             edge_flux_conjecture,
@@ -2210,6 +2265,7 @@ def self_test() -> int:
             lucas_fib_norm_conjecture,
             fib_entry_point_conjecture,
             pisano_period_conjecture,
+            closed_neighborhood_smith_conjecture,
         ],
         [],
         [],
@@ -2243,6 +2299,9 @@ def self_test() -> int:
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     if forced_window_by_id["window6.pisano-period.modp-divisibility-law"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window6.fibonacci-cube.closed-neighborhood-smith"]["gate_status"] != "gate_passed":
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     print("[fibonacci-reality-gates] self-test ok")
