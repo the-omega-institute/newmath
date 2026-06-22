@@ -1,0 +1,35 @@
+\subsection{Position-Resolved Translation Window Test for $f_3$-Stress}
+\label{sec:q6-f3-stress-position-resolved-translation-window-cross-layer}
+
+\paragraph{Finite row under audit.}
+The record considered here is the claim with identifier \texttt{q6.f3-stress.position-resolved-translation-window.cross-layer}. Its biological object is not a protein-level phenotype and not a global translation rule. It is a finite coding-sequence window table whose rows are keyed by organism, coding sequence or protein identifier, codon-position bin, an $f_3$-stress residual coordinate, synonymous amino-acid composition controls, a wobble-weight asymmetry surface, a matched mRNA abundance control, and a position-resolved ribosome-occupancy readout. The intended row has the form
+$$
+\begin{aligned}
+ r = (&\mathrm{organism},\mathrm{CDS},\mathrm{bin},S_{f_3},A,\mathrm{GC3},\ell,M,\Delta w,\rho,\mu,b),
+\end{aligned}
+$$
+where $S_{f_3}$ is the third-position residual after amino-acid projection, $A$ records amino-acid-bin or position controls, $\mathrm{GC3}$ is the local third-position GC control, $\ell$ is window length, $M$ is the local methionine-density control, $\Delta w$ records whether the codon and its $f_3$-partner have unequal wobble weight, $\rho$ is the ribosome-occupancy residual after the declared controls, $\mu$ is the matched mRNA abundance control, and $b$ is the break condition for the row.
+
+\paragraph{Testable assertion.}
+The finite question is whether $S_{f_3}$ contributes to a bounded translation-window statistic after the synonymous projection has already removed amino-acid composition. The admissible comparison is local and rowwise: windows with nonzero $f_3$-stress are compared against windows compressed by the synonymous projection, and only within contexts where the attached wobble-weight surface distinguishes a codon from its $f_3$-partner. In symbols, the expected direction is not a direct claim that codon geometry causes translation; it is the weaker residual test
+$$
+\begin{aligned}
+ \rho \sim S_{f_3} + A + \mathrm{GC3} + \ell + M + \mu + \mathrm{baseline},
+ \qquad \Delta w \ne 0,
+\end{aligned}
+$$
+with the claim surviving only if the $S_{f_3}$ term improves the bounded position-resolved occupancy readout under rank, coverage, mappability, and simpler-baseline checks. When $\Delta w = 0$, the same codon-topology coordinate remains a boundary variable rather than a translation-layer variable, because no asymmetric wobble surface has been attached.
+
+\paragraph{Reality contacts required for promotion.}
+Three contacts are necessary for this chapter to become a ready finite-row assertion. First, a same-organism and same-CDS ribosome-profiling table must supply codon-indexed or fixed-window footprint occupancy rows. This contact can test a position-resolved ribosome-occupancy readback, but it is sensitive to ribosome pausing, nuclease bias, fragment-length bias, frame assignment, mappability, start and stop edge effects, normalization, condition specificity, and CDS annotation mismatch. Second, the same experimental condition must provide mRNA abundance so that translation efficiency is separated from transcription-layer abundance. Third, organism-scoped tAI or stAI weights may provide a bounded wobble-weight surface, but those modelled weights are annotations rather than observed ribosome dynamics.
+
+\paragraph{Finite facts already present.}
+The only verified scalar row supplied with this packet is not a direct $f_3$-stress translation-window result. It is the linked cross-layer solubility record \texttt{h3.cross\_layer\_relation.protein\_solubility.protein\_hydrophobic\_clustering\_solubility\_esol}, verified at \texttt{2026-06-22T11:51:41+00:00} with experiment run \texttt{8742a224b538}. That row reports $n=3198$ and runtime $60.0$ seconds. It is useful only as evidence that the surrounding BioReality table format can store finite cross-layer experiment rows with explicit run identifiers and scalar audit fields. It does not supply the missing ribosome-occupancy windows, does not provide $f_3$ residual coefficients, and does not establish translation survival for the present claim.
+
+\paragraph{Local cannot-claim boundary.}
+This record does not assert translation realization from codon or window geometry alone. It also does not assert measured translation efficiency from tAI or stAI weights alone. No protein abundance, folding state, structural order, physical admissibility, function, system phenotype, mechanism, or universal biological law follows from $S_{f_3}$, from $S_Q$-style notation, from codon tables, or from a wobble-weight model unless a separate matched contact at that layer supplies the corresponding readout. The row may only ask whether a position-resolved ribosome-occupancy residual survives the declared controls in wobble-asymmetric contexts.
+
+\paragraph{Audit verdict.}
+The present packet is therefore a well-specified boundary record rather than a ready empirical chapter. The carrier, distinctions, contacts, and break conditions are finite and coherent, but the focal row lacks the scalar outputs needed for a positive or negative survival statement: no joined same-window ribosome-occupancy table is supplied, no matched mRNA residuals are reported, no rank statistics are given, no $S_{f_3}$ coefficient or bounded effect size is present, and no $p$-value, confidence interval, module classification, hit rate, or window count is available for the focal test. Until those finite rows are joined and audited, $f_3$-stress remains at the codon-topology boundary for this claim.
+
+\origin{ai}
