@@ -31,6 +31,19 @@ STOP = SCRIPT_DIR / ".stop"
 STATE_DIR = SCRIPT_DIR / "state"
 LOCK = STATE_DIR / "supervisor.lock"
 DEFAULT_INTERVAL = 600.0
+PUBLISH_CHURN_PREFIXES = (
+    "papers/window_codon_bridge/intake_coverage.json",
+    "papers/window_codon_bridge/intake_coverage.md",
+    "papers/window_codon_bridge/cross_branch_concordance.json",
+    "papers/window_codon_bridge/cross_branch_concordance.md",
+    "tools/window_codon_bridge/state/oracle_assimilation/",
+)
+PUBLISH_SCIENCE_CONFLICT_PATHS = (
+    "tools/window_codon_bridge/registries/claims.json",
+    "tools/window_codon_bridge/registries/experiments.json",
+    "tools/window_codon_bridge/oracle_inbox/candidates.jsonl",
+    "papers/window_codon_bridge/bridge_ledger.jsonl",
+)
 
 sys.path.insert(0, str(SCRIPT_DIR))
 import runner  # noqa: E402
@@ -66,6 +79,126 @@ def git(*args) -> subprocess.CompletedProcess:
 
 def git_busy() -> bool:
     return subprocess.run(["pgrep", "-x", "git"], capture_output=True).returncode == 0
+
+
+def _publish_path(path: str) -> str:
+    normalized = path.strip().replace(os.sep, "/")
+    while normalized.startswith("./"):
+        normalized = normalized[2:]
+    return normalized
+
+
+def _is_publish_churn_path(path: str) -> bool:
+    normalized = _publish_path(path)
+    for prefix in PUBLISH_CHURN_PREFIXES:
+        if prefix.endswith("/"):
+            if normalized.startswith(prefix):
+                return True
+        elif normalized == prefix:
+            return True
+    return False
+
+
+def classify_publish_conflicts(files: list[str]) -> tuple[list[str], list[str]]:
+    churn = []
+    non_churn = []
+    for path in files:
+        normalized = _publish_path(path)
+        if not normalized:
+            continue
+        if _is_publish_churn_path(normalized):
+            churn.append(normalized)
+        else:
+            non_churn.append(normalized)
+    return churn, non_churn
+
+
+def _merge_head_present() -> bool:
+    return git("rev-parse", "-q", "--verify", "MERGE_HEAD").returncode == 0
+
+
+def _abort_merge_safely() -> bool:
+    if not _merge_head_present():
+        return True
+    git("merge", "--abort")
+    if not _merge_head_present():
+        return True
+    git("reset", "--merge")
+    return not _merge_head_present()
+
+
+def _publish_after_merge_conflict(publish_branch: str, ahead: int) -> dict:
+    conflicted = git("diff", "--name-only", "--diff-filter=U")
+    if conflicted.returncode != 0:
+        _abort_merge_safely()
+        return {"pushed": False, "ahead": ahead, "merge_error": True, "conflict_list_error": True}
+
+    files = [_publish_path(line) for line in (conflicted.stdout or "").splitlines() if line.strip()]
+    churn, non_churn = classify_publish_conflicts(files)
+    if non_churn or not files:
+        _abort_merge_safely()
+        shown = sorted(non_churn or files)
+        print(
+            f"[publish] deferred: science conflict on {shown}; left clean local HEAD, will retry next cycle",
+            flush=True,
+        )
+        return {"pushed": False, "deferred": "science_conflict", "files": shown}
+
+    for path in churn:
+        checkout = git("checkout", "--ours", "--", path)
+        if checkout.returncode != 0:
+            _abort_merge_safely()
+            return {
+                "pushed": False,
+                "ahead": ahead,
+                "merge_error": True,
+                "auto_resolve_error": path,
+            }
+        add = git("add", "--", path)
+        if add.returncode != 0:
+            _abort_merge_safely()
+            return {
+                "pushed": False,
+                "ahead": ahead,
+                "merge_error": True,
+                "auto_resolve_error": path,
+            }
+
+    commit = git("commit", "--no-edit")
+    if commit.returncode != 0:
+        _abort_merge_safely()
+        return {"pushed": False, "ahead": ahead, "merge_error": True, "merge_commit_error": True}
+
+    pushed = git("push", "origin", f"HEAD:{publish_branch}")
+    if pushed.returncode != 0:
+        _abort_merge_safely()
+        print(f"[publish] push failed: {((pushed.stderr or pushed.stdout) or '').strip()[-300:]}", flush=True)
+        return {"pushed": False, "ahead": ahead, "push_error": True}
+
+    print(f"[publish] auto-resolved {len(churn)} churn conflict(s), pushed", flush=True)
+    return {"pushed": True, "ahead": ahead, "auto_resolved": len(churn)}
+
+
+def _publish_reconcile_after_push_reject(publish_branch: str, ahead: int) -> dict:
+    fetched = git("fetch", "origin", publish_branch)
+    if fetched.returncode != 0:
+        return {"pushed": False, "ahead": ahead, "fetch_error": True}
+
+    merge = git("merge", "--no-edit", f"origin/{publish_branch}")
+    if merge.returncode == 0:
+        pushed = git("push", "origin", f"HEAD:{publish_branch}")
+        if pushed.returncode == 0:
+            return {"pushed": True, "ahead": ahead}
+        print(f"[publish] push failed: {((pushed.stderr or pushed.stdout) or '').strip()[-300:]}", flush=True)
+        return {"pushed": False, "ahead": ahead, "push_error": True}
+
+    print(f"[publish] merge failed: {((merge.stderr or merge.stdout) or '').strip()[-300:]}", flush=True)
+    try:
+        return _publish_after_merge_conflict(publish_branch, ahead)
+    except Exception as exc:
+        _abort_merge_safely()
+        print(f"[publish] merge handling failed: {str(exc)[-300:]}", flush=True)
+        return {"pushed": False, "ahead": ahead, "merge_error": True, "error": str(exc)[-200:]}
 
 
 def glob_prefix(pattern: str) -> str:
@@ -389,9 +522,23 @@ def concordance_lane() -> dict:
 
 
 def publish_lane() -> dict:
+    try:
+        return _publish_lane_impl()
+    except Exception as exc:
+        _abort_merge_safely()
+        print(f"[publish] failed: {str(exc)[-300:]}", flush=True)
+        return {"pushed": False, "publish_error": True, "error": str(exc)[-200:]}
+
+
+def _publish_lane_impl() -> dict:
     if git_busy():
         print("[publish] skipped (git busy)", flush=True)
         return {"skipped": "git_busy"}
+
+    if _merge_head_present():
+        print("[publish] aborting stale merge state before publish", flush=True)
+        if not _abort_merge_safely():
+            return {"pushed": False, "merge_error": True, "abort_error": True}
 
     manifest = load(SYNC_MANIFEST)
     publish_branch = str(manifest.get("publish_branch") or "")
@@ -413,15 +560,7 @@ def publish_lane() -> dict:
     r = git("push", "origin", f"HEAD:{publish_branch}")
     if r.returncode != 0:
         print(f"[publish] push failed, merging origin/{publish_branch}: {((r.stderr or r.stdout) or '').strip()[-300:]}", flush=True)
-        git("fetch", "origin", publish_branch)
-        merge = git("merge", "--no-edit", f"origin/{publish_branch}")
-        if merge.returncode != 0:
-            print(f"[publish] merge failed: {((merge.stderr or merge.stdout) or '').strip()[-300:]}", flush=True)
-            return {"pushed": False, "ahead": ahead, "merge_error": True}
-        r = git("push", "origin", f"HEAD:{publish_branch}")
-    if r.returncode != 0:
-        print(f"[publish] push failed: {((r.stderr or r.stdout) or '').strip()[-300:]}", flush=True)
-        return {"pushed": False, "ahead": ahead, "push_error": True}
+        return _publish_reconcile_after_push_reject(publish_branch, ahead)
     print(f"[publish] pushed {ahead} commits to origin/{publish_branch}", flush=True)
     return {"pushed": True, "ahead": ahead}
 
