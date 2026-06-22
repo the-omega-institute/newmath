@@ -25,3 +25,19 @@ Use \autoref{thm:streamname-extensionality-namecert-obligations} to read the dow
 
 Finally apply \autoref{thm:streamname-extensionality-seal-route}. The Real-facing comparison rows are exposed only after the seal route has replayed the finite window and regular rational readback, which gives the stated forward link to the sibling RegSeqRat and Real chapters.
 \end{proof}
+
+\begin{theorem}[StreamName extensionality tail reindex]
+\label{thm:streamname-extensionality-tail-reindex}
+Let $E=(X,Y,W,D,R,Q,H,C,P,N)$ and $E'=(X',Y',W',D',R',Q',H',C',P',N')$ be accepted $\StreamNameExtensionalityUp$ packets. Suppose $W'$ displays the same finite request window as $W$ after a tail shift and reindexing of the two $\StreamNameUp$ source rows, and suppose the shifted window has componentwise $\hsame$ agreement on the displayed entries, dyadic tolerance rows, regular rational readback rows, terminal comparison rows, replay rows, provenance rows, and local naming rows. Then the $\RegSeqRatUp$ readback and the $\RealUp$-facing seal route expose the same finite comparison data for $E$ and $E'$.
+
+The conclusion is only a displayed tail-window stability claim. It does not identify quotient streams, host functions, selected infinite streams, countable-choice schedules, or completed real representatives.
+\end{theorem}
+\begin{proof}
+Project the two accepted packets. The tail shift changes only the displayed request indices for the two source rows; the hypothesis supplies the reindexed window $W'$ and the componentwise $\hsame$ witnesses comparing it with $W$.
+
+Apply finite-window determinacy, \autoref{thm:streamname-extensionality-window-determinacy}, to the shifted window. The theorem identifies the public observation data available from the aligned windows, because the request, point certificate, and inspected entries agree after reindexing.
+
+Use the NameCert obligation theorem \autoref{thm:streamname-extensionality-namecert-obligations}. It forces the dyadic ledger, regular rational readback, terminal comparison, transport, replay, provenance, and local naming rows to be read from the same finite window data, so the tail shift cannot introduce a second comparison source.
+
+Finally apply the seal route and the RegSeqRat forward link, \autoref{thm:streamname-extensionality-seal-route} and \autoref{thm:streamname-extensionality-regseqrat-forward-link}. They route the aligned finite window through $\RegSeqRatUp$ and then through the $\RealUp$-facing seal before public comparison data is exposed. Since no quotient stream equality, host function extensionality, selected infinite stream, countable choice, or Real completeness coordinate appears in the carrier, the reindexed tail exposes exactly the same finite comparison data.
+\end{proof}
