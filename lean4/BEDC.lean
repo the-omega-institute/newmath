@@ -1388,6 +1388,7 @@ import BEDC.Derived.BrouwerBarInductionUp.TasteGate
 import BEDC.Derived.BrouwerContinuityPrincipleUp.TasteGate
 import BEDC.Derived.BrouwerDegreeUp.TasteGate
 import BEDC.Derived.BrouwerFiniteChoiceSequenceModulusUp.TasteGate
+import BEDC.Derived.BrouwerFixedPointMetricUp.TasteGate
 import BEDC.Derived.BrouwerFixedPointUp
 import BEDC.Derived.BrouwerFixedPointUp.TasteGate
 import BEDC.Derived.BrouwerMonotoneSequenceUp.TasteGate
@@ -6829,6 +6830,7 @@ import BEDC.Derived.LayeredRelationCertUp.PreservationBoundary
 import BEDC.Derived.LayeredRelationCertUp.TasteGate
 import BEDC.Derived.LayeredRelationDisplayUp.TasteGate
 import BEDC.Derived.LayeredRelationFailureBoundaryUp.TasteGate
+import BEDC.Derived.LayeredRelationGateUp.ClassifierObligation
 import BEDC.Derived.LayeredRelationGateUp.ConsumerRoute
 import BEDC.Derived.LayeredRelationGateUp.TasteGate
 import BEDC.Derived.LayeredRelationSiteUp.TasteGate
