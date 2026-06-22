@@ -59,6 +59,18 @@ The local-join ledger $L$ and bounded checker $B$ then record candidate common r
 Finally the obstruction row $O$ and structural rows $H,T,G,N$ preserve the same conditional boundary. They do not add a global confluence theorem, so the export remains a residual local-join packet for a later bridge.
 \end{proof}
 
+\begin{theorem}[ParallelDiamondResidual MetaCIC sibling route]
+\label{thm:parallel-diamond-residual-metacic-sibling-route}
+Every $\ParallelDiamondResidualUp$ read is a downstream residual-frontier consumer of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. Such a read must preserve the sibling frontier's residual-substitution premise, critical-pair row, candidate-join row, bounded-checker row, compatibility-handoff row, and obstruction row before it may export a residual local-join packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:parallel-diamond-residual-carrier}. Its rows $P,F,S,L,B,C,O,H,T,G,N$ display the residual frontier, residual-substitution boundary, local-join ledger, bounded checker, compatibility handoff, obstruction row, and structural certificate data.
+
+Apply the NameCert obligations theorem \autoref{thm:parallel-diamond-residual-namecert-obligations}. It requires any accepted read to expose $F,S,L,B,C,O$ before the residual local-join packet can be consumed, so the sibling frontier's premise, critical-pair, candidate-join, checker, handoff, and obstruction rows cannot be dropped.
+
+Finally use the conditional handoff theorem \autoref{thm:parallel-diamond-residual-conditional-handoff}. The handoff reaches the MetaCIC confluence route only as a residual-frontier consumer, and the rows $H,T,G,N$ preserve the same displayed boundary for \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}.
+\end{proof}
+
 \begin{theorem}[ParallelDiamondResidual obstruction retention]
 \label{thm:parallel-diamond-residual-obstruction-retention}
 While the obstruction row $O$ remains displayed in an accepted $\ParallelDiamondResidualUp$ packet

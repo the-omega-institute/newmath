@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\ResidueTheoremUp$}
+\label{ch:concrete-instances-residue-theorem-namecert}
+\origin{human}
+
+Following Ahlfors and Conway, the $\ResidueTheoremUp$ packet records the finite contour-residue surface by which a holomorphic-domain read with a displayed finite pole window is routed to a contour-integral ledger. It sits after the complex carrier of \autoref{ch:concrete-instances-complex-namecert}, the holomorphic source of \autoref{ch:concrete-instances-holomorphic-namecert}, the contour-integral operation of \autoref{ch:concrete-instances-contourintegraloperation-namecert}, the point-evaluation route of \autoref{ch:concrete-instances-cauchy-integral-formula-namecert}, and the winding-count ledger of \autoref{ch:concrete-instances-argument-principle-namecert}. The packet names only a finite contour, a displayed holomorphic-domain row outside the recorded pole window, residue rows, winding-index rows, contour-integral rows, transport, replay, provenance, and local naming; it does not import analytic continuation, unrestricted meromorphic function theory, selected roots, quotient contours, or classical choice.
+
+\begin{definition}[Residue theorem carrier]
+\label{def:residue-theorem-carrier}
+A $\ResidueTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+R=(G,D,P,Z,W,I,L,T,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite $\mathsf{PLContour}$ row with $\ComplexUp$ endpoint, segment, orientation, and non-boundary incidence data.
+\item $D$ is the $\HolomorphicUp$ domain row on the displayed neighbourhood of the contour image after the finite pole window has been removed.
+\item $P$ is the finite pole-window row, listing the inspected pole names, local punctured neighbourhood rows, and exclusion evidence from the contour image.
+\item $Z$ is the residue row, giving one local $\ResidueUp$ datum for each displayed pole in $P$.
+\item $W$ is the winding-index ledger, read through the $\ArgumentPrincipleUp$ counting surface when the contour winds around a displayed pole.
+\item $I$ is the $\ContourIntegralOperationUp$ row for the contour integral of the displayed holomorphic-domain input around $G$.
+\item $L$ is the residue-sum ledger, pairing the contour-integral row $I$ with the finite sum of the indexed residue rows $Z$ weighted by $W$.
+\item $T$ records componentwise $\hsame$ transport for the contour, holomorphic-domain, pole-window, residue, winding-index, contour-integral, and residue-sum rows.
+\item $C$ records displayed $\Cont$ replay for the same finite contour-residue route.
+\item $Q$ is the $\Pkg$ provenance over $\ResidueTheoremUp$, $\ComplexUp$, $\HolomorphicUp$, $\ContourIntegralOperationUp$, $\CauchyIntegralFormulaUp$, $\ArgumentPrincipleUp$, $\ResidueUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ResidueTheoremUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $G,D,P,Z,W,I,L,T,C,Q,N$. The carrier has no coordinate for analytic continuation, unrestricted meromorphic function theory, selected roots, quotient contours, ambient path homotopy, or classical choice.
+\end{definition}
+
+\begin{theorem}[Residue theorem NameCert obligations]
+\label{thm:residue-theorem-namecert-obligations}
+For every accepted $\ResidueTheoremUp$ carrier
+$$
+R=(G,D,P,Z,W,I,L,T,C,Q,N),
+$$
+the local $\NameCert_{\ResidueTheoremUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the contour row, holomorphic-domain row, finite pole-window row, residue rows, winding-index ledger, contour-integral operation row, residue-sum ledger, transport, replay, provenance, and local naming;
+\item contour exposure, requiring all integral and index reads to begin with the displayed $\mathsf{PLContour}$ row $G$ over $\ComplexUp$ endpoints and segments;
+\item holomorphic-domain exposure, requiring $D$ to display the function domain away from the finite pole window $P$ before any residue row is read;
+\item local residue exposure, requiring every row of $Z$ to be attached to an inspected pole of $P$ and to the point-evaluation discipline of $\CauchyIntegralFormulaUp$;
+\item winding-index exposure, requiring $W$ to be read through the finite counting surface of $\ArgumentPrincipleUp$ before the residue-sum ledger is public;
+\item contour-integral exposure, requiring $I$ to be the displayed $\ContourIntegralOperationUp$ row for the same contour and domain data;
+\item residue-sum exactness, requiring $L$ to pair only the displayed contour-integral row with the finite indexed residue rows;
+\item componentwise transport, displayed replay, provenance, and local naming through $T,C,Q,N$;
+\item nonescape, excluding analytic continuation, unrestricted meromorphic function theory, selected roots, quotient contours, ambient path homotopy, and classical choice.
+\end{enumerate}
+No residue-theorem obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:residue-theorem-carrier}. The contour row $G$, holomorphic-domain row $D$, pole-window row $P$, residue rows $Z$, winding ledger $W$, contour-integral row $I$, and residue-sum ledger $L$ are the only analytic rows available to the local certificate.
+
+The local residue part is finite. Each residue row in $Z$ is indexed by a displayed pole in $P$, and the Cauchy-integral formula dependency is read only as the point-evaluation and local kernel discipline attached to those displayed neighbourhoods.
+
+The contour side is finite as well. The winding ledger $W$ is read through the argument-principle counting surface for the same contour, and the integral row $I$ is the contour-integral operation row for $G$ and $D$.
+
+Finally the ledger $L$ pairs only those displayed rows, while $T,C,Q,N$ transport, replay, source, and name the same packet. Since none of the excluded objects occurs as a carrier coordinate, the local NameCert surface cannot export analytic continuation, unrestricted meromorphic function theory, selected roots, quotient contours, ambient path homotopy, or classical choice.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ResidueTheoremUp$ read is refuted if it omits the displayed contour row, holomorphic-domain row, finite pole window, residue rows, winding-index ledger, contour-integral row, residue-sum ledger, transport row, replay row, provenance row, or local $\NameCert$ row.}
+
+\independenceWitness{complex, holomorphic, contourintegraloperation, cauchy-integral-formula, argument-principle: $\ResidueTheoremUp$ is not bijective to any listed sibling because it jointly binds contour rows, holomorphic-domain rows, finite pole-window rows, local residue data, winding-index ledgers, contour-integral rows, residue-sum ledgers, transport, replay, provenance, and local naming.}
+
+\closureat{ResidueTheoremUp}{seedStr}
+
+\begin{closurestatus}{\ResidueTheoremUp}
+  \constructivestory{A $\ResidueTheoremUp$ packet is generated from a displayed PLContour row over ComplexUp endpoints, a HolomorphicUp domain row away from a finite pole window, residue rows, winding-index rows, a ContourIntegralOperationUp row, a residue-sum ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:residue-theorem-carrier} and \autoref{thm:residue-theorem-namecert-obligations} seed the finite contour-residue NameCert surface over $\ComplexUp$, $\HolomorphicUp$, $\ContourIntegralOperationUp$, $\CauchyIntegralFormulaUp$, $\ArgumentPrincipleUp$, $\ResidueUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, analytic continuation, unrestricted meromorphic function theory, selected roots, quotient contours, ambient path homotopy, or classical choice.}
+  \upgradepath{Obligation closure requires checked carrier admission, contour exposure, holomorphic-domain exposure, finite pole-window exposure, local residue exposure, winding-index exactness, contour-integral routing, residue-sum exactness, transport, replay, provenance, and local naming for BEDC.Derived.ResidueTheoremUp.}
+\end{closurestatus}
