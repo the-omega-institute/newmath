@@ -134,6 +134,20 @@ It remains to exclude completion-only identifications. The carrier contains no q
 \end{proof}
 \leanchecked{BEDC.Derived.UniformHomeomorphismUp.UniformHomeomorphismCompletionClassifierStability}
 
+\begin{theorem}[UniformHomeomorphism scoped L10 route]
+\label{thm:uniform-homeomorphism-scoped-route}
+Every L10 completion-facing read of an accepted $\UniformHomeomorphismUp$ packet factors through $\UniformSpaceUp$, $\UniformContinuityUp$, $\ContinuousMapUp$, $\DenseUniformEmbeddingUp$, $\UniformCompletionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before any completion consumer inspects it. The route may expose the displayed bidirectional modulus and inverse-route compatibility rows, but it never exposes quotient completion equality, selected representatives, countable choice, host map equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:uniform-homeomorphism-carrier}. Its source and target uniformities, directed graph rows, directed uniform-continuity rows, modulus rows, inverse-route compatibility, replay, provenance, and local naming are the only rows available to a completion-facing read.
+
+Apply the bidirectional modulus route of \autoref{thm:uniform-homeomorphism-bidirectional-modulus-route}. It forces a consumer to read both directed moduli before the inverse-route row can be inspected.
+
+Use inverse-route exactness from \autoref{thm:uniform-homeomorphism-inverse-route-exactness}. The composites are readable only through the displayed graph, continuity, modulus, and compatibility rows, so no host inverse or quotient-completion equality can be substituted.
+
+Finally apply the completion consumer boundary and completion classifier stability of \autoref{thm:uniform-homeomorphism-completion-consumer-boundary} and \autoref{thm:uniform-homeomorphism-completion-classifier-stability}. They place every L10 completion-facing comparison downstream of the same finite route through $\DenseUniformEmbeddingUp$, $\UniformCompletionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, while selected representatives, countable choice, host map equality, and ambient completeness remain outside the packet.
+\end{proof}
+
 \begin{closurestatus}{\UniformHomeomorphismUp}
   \constructivestory{A $\UniformHomeomorphismUp$ packet is generated from two UniformSpace rows, forward and inverse graph rows, forward and inverse UniformContinuity rows, two displayed modulus rows, inverse-route compatibility, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\obligationClosure}
