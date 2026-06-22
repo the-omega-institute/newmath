@@ -1,47 +1,45 @@
+\subsection{m6A site load and the RNA half-life boundary in GSE163500}\label{sec:bioreality-m6a-site-load-mrna-halflife-gse163500}
 \origin{ai}
 
-\subsection{Finite m6A Site-Load Boundary for mRNA Half-Life}
-\label{sec:bioreality-m6a-site-load-mrna-halflife-boundary-gse163500}
-
 \paragraph{Finite panel.}
-This record concerns a finite joined panel in which coding or transcript-associated RNA rows carry an m6A site-load coordinate and an mRNA half-life readout.  The row object is not a free biological universal: it is a keyed table with gene identifiers, treatment state, joined methylation coverage, transcript-length information, and half-life estimates.  In the audited GSE163500 boundary run, the retained joined panel contains $5837$ genes after applying the declared coverage rule
+This record concerns a finite joined panel in which coding or transcript-associated rows carry an m6A site-load coordinate, an RNA half-life readout, a coverage rule, and the covariates needed to keep the statement at the RNA-stability layer.  The realized GSE163500 join retained $5837$ genes after the declared coverage filter, namely $\min(\text{Mean T coverage DMSO},\text{Mean T coverage STM2457})$ at least the twentieth percentile among valid joined genes.  The row is therefore not a generic m6A claim: it is a bounded finite statistic over joined genes with half-life measurements under DMSO and STM2457, length control, and a declared permutation test.
+
+\paragraph{Observed boundary statistic.}
+The primary finite-row fact is the signed relation between m6A load and RNA half-life.  In the DMSO condition, the static Spearman association between m6A load and $\log_2$ half-life is negative:
 $$
 \begin{aligned}
-\min(\operatorname{MeanT}_{\mathrm{DMSO}},\operatorname{MeanT}_{\mathrm{STM2457}})
-  \geq \operatorname{percentile}_{20}(\mathrm{valid\ joined\ genes}).
+\rho_{\mathrm{static}}(\mathrm{m6A\ load},\log_2 \mathrm{HL}_{\mathrm{DMSO}})&=-0.388929.
 \end{aligned}
 $$
-The same finite run reports a static DMSO association between m6A load and half-life of $-0.388929$ by Spearman rank correlation, and a treatment-linked association between m6A load and the half-life change of $0.245804$.  After partialing transcript length, the finite statistic remains $0.227683$, with a two-sided permutation value $0.000999001$.  These numbers license a bounded statement about a methylation-load versus RNA-stability readout in the joined rows; they do not by themselves identify the molecular executor of decay.
-
-\paragraph{Readout statistic.}
-Let $i$ range over the retained rows, let $A_i$ denote the m6A site-load coordinate, let $L_i^{\mathrm{DMSO}}$ denote the DMSO log half-life readout, and let $\Delta L_i$ denote the treatment-linked log half-life change.  The run supplies the finite signs and magnitudes
+For the perturbation contrast, the observed association between m6A load and the half-life change is positive:
 $$
 \begin{aligned}
-\rho(A,L^{\mathrm{DMSO}}) &= -0.388929,\\
-\rho(A,\Delta L) &= 0.245804,\\
-\rho(A,\Delta L\mid \mathrm{length}) &= 0.227683,\\
-p_{\mathrm{perm,2s}} &= 0.000999001,\\
-N_{\mathrm{genes}} &= 5837.
+\rho_{\mathrm{causal}}(\mathrm{m6A\ load},\Delta\log_2 \mathrm{HL})&=0.245804,\\
+\rho_{\mathrm{partial,length}}(\mathrm{m6A\ load},\Delta\log_2 \mathrm{HL})&=0.227683.
 \end{aligned}
 $$
-The interpretation is therefore a boundary crossing in the narrow sense that the methylation-load coordinate remains coupled to an RNA half-life surface under the declared finite statistic.  The reported verdict is $\mathrm{crosses\_boundary}$, with the explicit status semantics that a pass supports the pre-registered boundary statistic and is not a mechanism or function claim.
-
-\paragraph{Cross-panel calibration.}
-A separate human m6A/half-life calibration record provides scale information rather than a replacement for the GSE163500 row claim.  That run contains $15845$ genes, $135300$ sites, and $1000$ permutations, with $3$ sign-concordant organism-scoped comparisons.  Its role here is to show that the m6A-load and half-life connection is not being introduced as a single-row anecdote: there is a larger finite human site-load surface in which sign concordance was also recorded.  The chapter nevertheless keeps the GSE163500 statistic primary, because its joined treatment readout is the row set that produced the concrete $5837$-gene boundary verdict.
-
-\paragraph{Coordinate, relation, and trigger.}
-The finite coordinate is the m6A load or site-load label attached to each retained RNA row.  The relation is the rank association between that coordinate and the half-life surface, with length-adjusted and permutation-tested forms kept separate.  The trigger is the observed persistence of the association after the declared coverage and length rules are applied.  In symbols, the positive boundary statement is only
+The length-controlled permutation calculation reports a two-sided value
 $$
 \begin{aligned}
-(A_i, L_i^{\mathrm{DMSO}}, \Delta L_i, \mathrm{length}_i, \mathrm{coverage}_i)_{i=1}^{5837}
-\quad\leadsto\quad
-\rho(A,\Delta L\mid \mathrm{length}) = 0.227683,
+p_{\mathrm{perm}}&=0.000999001.
 \end{aligned}
 $$
-with $p_{\mathrm{perm,2s}}=0.000999001$.  No additional layer is silently attached to this arrow.
+With these numbers, the finite panel crosses the predeclared RNA half-life boundary: m6A site load remains associated with the half-life change after the stated length adjustment and permutation audit.  The associated run id is $7\mathrm{cd}189\mathrm{f}15\mathrm{c}4\mathrm{b}$, and the row semantics explicitly restrict the result to a boundary statistic rather than a mechanism or function claim.
 
-\paragraph{Mandatory boundary.}
-This chapter does not infer translation from half-life.  It also does not infer protein abundance, folding, physical admissibility, biological function, phenotype, adaptation, causation, or a universal biological rule.  A decay-factor RBP bridge would require same-row measured local RBP occupancy, coordinate--occupancy decoupling, target-RBP loss, wild-type rescue, binding-defective rescue or non-target controls, transcription-rate controls, local RNA-structure controls, motif-density controls, GC and dinucleotide controls, codon-pair context, splice or isoform state, abundance controls, batch controls, and a matched translation readout before downstream interpretation.  The present finite rows supply an RNA half-life boundary with m6A load; they do not supply those RBP perturbation and rescue rows.
+\paragraph{Same-layer comparison records.}
+The interpretation is strengthened only in the narrow sense that other RNA-stability boundary records in the same finite audit family also stay within transcript-layer readouts.  A human cross-organism m6A load and half-life record used $15845$ genes and $135300$ sites, with $1000$ permutations and $3$ sign-concordant comparisons in run $\mathrm{d}7949\mathrm{df}4\mathrm{a}751$.  An ARE deletion RNA-stability record used $226$ BEAS2B rows and $2242$ Jurkat rows, reported sign concordance, and used $2000$ grading permutations in run $\mathrm{a}41440\mathrm{ab}2792$.  An endogenous $3'$ UTR half-life transfer record used $14933$ genes, with baseline $R^2=0.0657771$, test $R^2=0.0827561$, $\Delta R^2=0.016979$, $\beta_{\mathrm{ARE}}=-0.0607953$, and $p_{\mathrm{perm}}=0.00049975$ over $2000$ permutations in run $\mathrm{e}96\mathrm{bf}26\mathrm{e}626\mathrm{b}$.  These neighboring records do not certify the present m6A mechanism; they show that the paper treats RNA-stability evidence as finite transcript-layer statistics rather than as automatic promotion to protein, phenotype, or universal law.
 
-\paragraph{Admissible conclusion.}
-The admissible conclusion is that the GSE163500 joined finite panel supports a bounded m6A site-load to mRNA half-life readout: $5837$ retained genes, static Spearman $-0.388929$, treatment-linked Spearman $0.245804$, length-partial Spearman $0.227683$, and two-sided permutation value $0.000999001$.  The larger human calibration surface, with $15845$ genes and $135300$ sites, is consistent with treating the methylation-load surface as a real finite RNA-stability contact.  The result remains deliberately local: it is an RNA half-life boundary, not a translation, protein, structure, mechanism, function, or universality claim.
+\paragraph{Local licensing rule.}
+The GSE163500 result licenses only the following local sentence: within the finite joined panel, m6A site load is a bounded coordinate whose association with RNA half-life change is non-null under the stated coverage, length-control, and permutation procedure.  The statistic may be written as a finite-row readback
+$$
+\begin{aligned}
+(g_i, L_i, H_i^{\mathrm{DMSO}}, H_i^{\mathrm{STM2457}}, C_i)&\longmapsto (L_i,\Delta\log_2 H_i,C_i),
+\end{aligned}
+$$
+where $g_i$ is the joined gene row, $L_i$ is the m6A load, $H_i$ is the half-life readout, and $C_i$ denotes the declared coverage and length-control information.  The accepted statement is not that m6A load determines decay in general, but that this finite readout survives the named boundary test in this dataset.
+
+\paragraph{Refusal of overreach.}
+No translation conclusion follows from the RNA half-life statistic alone.  The row does not by itself measure ribosome occupancy, translation efficiency, protein abundance, protein folding, structural order, physical admissibility, biological function, phenotype, adaptation, causation, or a universal biological law.  The same-row translation readout named in the broader design is a boundary requirement for any later cross-layer interpretation; it is not supplied by this half-life statistic.  Likewise, the present finite rows do not contain measured local decay-factor RBP occupancy, coordinate--occupancy decoupling, target-RBP loss, wild-type rescue, binding-defective rescue, or non-target controls.  Therefore an RBP-mediated decay mechanism remains unlicensed here, even though the m6A load and half-life boundary itself is passed.
+
+\paragraph{Break conditions.}
+The chapter refuses promotion if the observed half-life association is treated as translation realization, protein output, folded structure, physical feasibility, function, phenotype, mechanism, adaptation, causation, or a global sequence law.  It also refuses promotion if a reader replaces the missing RBP occupancy and perturbation rows by the mere presence of an m6A coordinate.  A positive mechanism bridge would require a finite matched panel in which the same rows carry the m6A or synonymous coordinate, RNA half-life, measured local decay-factor RBP occupancy, target-RBP loss, wild-type rescue, binding-defective or non-target controls, transcription-rate and abundance controls, isoform state, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, batch, and an explicit same-row translation-readout boundary.  Until those rows exist and pass their own statistic, the present result remains a transcript-layer half-life boundary with no claim above that layer.

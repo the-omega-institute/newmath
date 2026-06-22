@@ -1,30 +1,38 @@
-\subsection{Human Prime-Editor Synonymous-Window Fitness Audit}\label{sec:h3-human-prime-editor-synonymous-window-fitness}\origin{ai}
+\subsection{Human prime-editor synonymous fitness window}
+\label{sec:bioreality-human-prime-editor-synonymous-fitness-window}
+\origin{ai}
 
 \paragraph{Finite row surface.}
-This record concerns a finite perturbation table whose rows are synonymous prime-editor edits grouped by gene-block folds.  The registered subject is the coordinate family named $B^{\ast}_{Q6}$, but the biological readback in this chapter is deliberately narrower than a protein-realization claim.  A row may contribute to the audit only as a synonymous edit with a measured fitness readout and an attached coding-sequence context; amino-acid identity, gene identity, GC3, coding-sequence length, and the $M$-density baseline remain controls rather than promoted explanatory coordinates.  The finite computation for this packet used $n_{\mathrm{genes}}=1822$ genes, $n_{\mathrm{syn}}=9000$ synonymous edits in the main analysis surface, and $n_{\mathrm{syn,compact}}=24000$ synonymous rows in the compact extraction.  The held-out design was capped at $3000$ rows per cell line and used $B=200$ resampling draws.
+This BioReality record concerns a human prime-editor synonymous-perturbation surface rather than a direct measurement of translation, protein abundance, folding, or molecular function.  The finite carrier is the set of synonymous edit rows that can be evaluated in a gene-block held-out design after projection to the $B^{\ast}_{Q6}$ window coordinates and after retaining only the available compact analysis rows.  The completed run has identifier $\mathrm{b1a1a8c7baae}$ and reports $1822$ genes, $9000$ synonymous edit rows in the main analysis surface, and $24000$ synonymous rows in the compact surface.  Each cell-line analysis was capped at $3000$ rows, the permutation or resampling budget recorded for the run was $B=200$, and the deterministic execution time was $295.329$ seconds.  The finite scale of the record is therefore
+$$
+\begin{aligned}
+N_{\mathrm{genes}} &= 1822,\\
+N_{\mathrm{syn}} &= 9000,\\
+N_{\mathrm{compact}} &= 24000,\\
+B &= 200,\\
+N_{\mathrm{cell\ cap}} &= 3000.
+\end{aligned}
+$$
+These numbers make the entry a finite perturbation audit: the row surface exists, the edit class is synonymous, and the predictive split is blocked by gene identity.
 
-\paragraph{Registered computation.}
-Let $q_i$ denote one of the nine $B^{\ast}_{Q6}$ residual coordinates and let $y$ denote the observed prime-editor fitness readout after the synonymous edit.  The row table is read as a controlled finite matrix rather than as a mechanistic path.  The fold design is gene-blocked: held-out rows come from genes not used for training, so direct gene dummy effects are intentionally absent from the predictive model.  In finite-row notation the registered scale is
-$$\begin{aligned}
-  n_{\mathrm{genes}} &= 1822,\\
-  n_{\mathrm{syn}} &= 9000,\\
-  n_{\mathrm{syn,compact}} &= 24000,\\
-  B &= 200,\\
-  n_{\max\,\mathrm{per\ cell\ line}} &= 3000.
-\end{aligned}$$
-The runtime of the registered execution was $295.329$ seconds.  These numbers identify the actual finite audit surface for the human prime-editor record; they do not by themselves establish translation, abundance, folding, or phenotype realization.
+\paragraph{Controlled readback.}
+The object tested here is not a codon-count association in an unstratified table.  It is a same-claim human perturbation table in which the held-out folds are gene-block folds.  The run explicitly records that direct gene dummy fixed effects are not inserted into the predictive held-out design because test genes are absent from the training folds.  This matters for the interpretation of any $B^{\ast}_{Q6}$ window signal: the model is not allowed to win by memorizing a gene label and then replaying that label in the test block.  The admissible readback is instead a finite map from synonymous edit rows to a held-out fitness readout, with gene identity used to define the split boundary rather than as a direct predictive coordinate.
 
-\paragraph{Relation to translation-mediated protein abundance.}
-The same coordinate family has a separate multi-organism protein-abundance mediation computation in which the translation coordinate $T$ is modeled as per-protein mean tAI and the abundance coordinate $Y$ is $\log_{10}$ protein abundance.  That computation is useful here only as a boundary comparison.  It reports nine $B^{\ast}_{Q6}$ coordinates and twelve organism rows with joined CDS and protein-abundance counts: for example $19053$ human proteins, $19395$ mouse proteins, $5815$ yeast proteins, $3739$ \emph{E. coli} K12 MG1655 proteins, and $1656$ \emph{Sulfolobus solfataricus} proteins.  In the human row of that separate mediation surface, the total residual-to-abundance coefficient was $c=0.04454565118019448$, the direct coefficient after modeled tAI was $c'=0.03242643251185274$, and the mediated difference was $c-c'=0.012119218668341744$, giving $M^{QTP}=0.27206289160119157$.  Those values show that a translation-conditioned protein-abundance matrix can be computed when the row surface contains $Q$, $T$, and $P$ together, but they are not imported as evidence that the human prime-editor fitness edits in this chapter realize protein abundance or molecular function.
+\paragraph{Relation to the translation-mediated protein-abundance packet.}
+The surrounding $Q \to T \to P$ mediation packet supplies a useful boundary for this chapter.  In the broader finite protein-abundance matrix, the $B^{\ast}_{Q6}$ residual basis contains $9$ coordinates:
+$$
+\begin{aligned}
+&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
+&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress.
+\end{aligned}
+$$
+That packet used matched coding sequence and protein-abundance rows across $12$ organisms, with $19053$ joined human proteins in the human abundance contact.  Its human statistical mediation fraction was $M^{QTP}=0.27206289160119157$, with total residual-to-protein abundance $R^2=0.04454565118019448$, direct residual-to-protein abundance after conditioning on modeled translation readout $R^2=0.03242643251185274$, and indirect difference $0.012119218668341744$.  Those values are not imported here as evidence for the prime-editor fitness result.  They only fix the local vocabulary: a downstream protein or fitness claim is not licensed by a raw residual coordinate unless a layer-matched translation or perturbation contact supplies the appropriate row surface.
 
-\paragraph{Translation-readout boundary.}
-A further bounded translation-readout contact used modeled tAI weights from GtRNAdb tRNA copy numbers and dos Reis wobble parameters.  It computed nine synonymous residual coordinates, including $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCA\_vs\_UCG$, $Ser\_UCR\_vs\_AGY$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  The modeled matrix used three organisms, not a powered multi-species survival panel: $n_{\mathrm{org}}=3$.  It found $81$ entries above the bounded coupling threshold $0.01$, with maximum absolute entry $3801961.031607896$, but the same record explicitly marks the powered-survival condition as unmet because three organisms are insufficient for the requested powered survival design.  Thus the human prime-editor chapter may mention the coordinate system and the perturbation rows, but it may not infer measured ribosome occupancy or translation survival from the modeled tAI contact.
+\paragraph{Translation-contact boundary.}
+The translation-survival contact also remains bounded.  The modeled-tAI audit computed the same $9$ residual coordinates in a $61$-sense-codon space across $3$ organisms and found $81$ entries above the bounded coupling threshold $0.01$, with maximum absolute modeled coupling $3801961.031607896$.  That record is explicitly underpowered for a powered survival claim because $3$ organisms are not enough for the requested species-level survival standard.  The prime-editor chapter therefore cannot treat modeled tAI, stAI, or residual-window geometry as observed ribosome occupancy.  At most, these records show that the coordinate system has finite contact routes and that the human perturbation table is large enough to be evaluated as a bounded synonymous-edit fitness surface.
 
-\paragraph{Chapter-specific readback.}
-The admissible conclusion is a finite perturbation audit: the human prime-editor data provide a gene-blocked synonymous-edit surface on which $B^{\ast}_{Q6}$ window coordinates can be tested against held-out fitness variation.  The row counts make the audit nontrivial, but the biological layer remains the assayed edit-fitness layer.  A direct association between a residual coordinate and the fitness readout is not a proof of translation mediation.  To promote such an association to a chain $Q_i\to T_j\to P_k$, the same rows would need a measured or explicitly bounded translation readout $T_j$, matched protein abundance $P_k$, matched mRNA abundance, and the declared controls in the same finite design.
+\paragraph{Local claim.}
+Within this chapter, the supported statement is deliberately narrow.  A human prime-editor synonymous-edit table has been assembled and evaluated on a finite gene-block held-out surface with $1822$ genes, $9000$ main synonymous rows, $24000$ compact synonymous rows, a $3000$ row cap per cell-line analysis, and $200$ resampling units.  The chapter may discuss the existence of a bounded $B^{\ast}_{Q6}$ window perturbation audit on human synonymous edits.  It may not state that the residual coordinates realize translation, protein abundance, folding, physical admissibility, molecular function, organismal phenotype, mechanism, selection, or a universal biological law.  Those stronger readings would require separate layer-specific contacts: measured translation rows for translation, matched protein rows for protein abundance, structure or physical assays for folding and admissibility, and functional or phenotype assays for biological function.
 
-\paragraph{Local no-promotion rule.}
-The chapter therefore closes at a controlled synonymous-perturbation readback.  No statement here asserts ribosome dynamics, translation realization, protein abundance, folding, physical admissibility, molecular function, organismal phenotype, mechanism, selection, or universality.  Each of those layers would require its own matched contact and a new finite statistic.  In particular, the human prime-editor rows do not license a shortcut from $Q_i$ to protein realization; any future protein-layer claim must first show a surviving $Q_i\to T_j$ translation step and then a downstream $Q_i\to T_j\to P_k$ matrix under amino-acid composition, organism, GC3, coding-sequence length, $M$-density, and mRNA controls.
-
-\paragraph{Verdict.}
-The finite evidence is ready for inclusion as a bounded BioReality chapter because the table size, resampling count, gene-block fold rule, and execution time are all recorded.  The scientific claim is intentionally modest: $B^{\ast}_{Q6}$ synonymous-window coordinates are being audited against human prime-editor fitness rows, not promoted to translation, protein, structure, function, or global biological law.
+\paragraph{Null interpretation.}
+The finite row counts do not by themselves encode a positive biological direction.  The safest mathematical reading is that the experiment has reached the row-complete audit stage for a human synonymous perturbation surface, while effect direction, effect size, and any mechanism-level promotion remain outside the numbers supplied in this record.  If later tables add signed coefficients, held-out $\Delta R^2$, description-length differences, or calibrated $p$-values, those quantities can refine the verdict.  In the present finite record, the durable content is the controlled perturbation surface and the no-promotion rule separating synonymous fitness prediction from translation, protein, structure, function, mechanism, and universality.
