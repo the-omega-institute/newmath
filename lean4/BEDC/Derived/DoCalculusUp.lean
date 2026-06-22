@@ -150,4 +150,79 @@ theorem DoCalculusPacket_intervention_non_escape [AskSetup] [PackageSetup]
     ⟨interventionReadUnary, localReadUnary, interventionRoute, localNamePkg,
       localReadSame⟩
 
+theorem DoCalculusPacket_probability_handoff [AskSetup] [PackageSetup]
+    {intervention variables adjustment distribution independence expectation exported htrans replay
+      provenance localName adjustmentRead expectationRead probabilityRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DoCalculusPacket intervention variables adjustment distribution independence expectation exported
+        htrans replay provenance localName bundle pkg ->
+      Cont adjustment independence adjustmentRead ->
+        Cont adjustmentRead expectation expectationRead ->
+          Cont expectationRead exported probabilityRead ->
+            PkgSig bundle probabilityRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row probabilityRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row adjustmentRead ∨ hsame row expectationRead ∨
+                      hsame row probabilityRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont adjustment independence adjustmentRead ∧
+                      Cont adjustmentRead expectation expectationRead ∧
+                        Cont expectationRead exported probabilityRead ∧
+                          PkgSig bundle probabilityRead pkg)
+                  hsame ∧
+                UnaryHistory adjustmentRead ∧ UnaryHistory expectationRead ∧
+                  UnaryHistory probabilityRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert ProbeBundle Pkg PkgSig
+  intro packet adjustmentRoute expectationRoute probabilityRoute probabilityPkg
+  obtain ⟨_interventionUnary, _variablesUnary, adjustmentUnary, _distributionUnary,
+    independenceUnary, expectationUnary, exportedUnary, _htransUnary, _replayUnary,
+    _provenanceUnary, _localNameUnary, _interventionVariablesAdjustment,
+    _adjustmentDistributionIndependence, _independenceExpectationExport,
+    _htransReplayProvenance, _localNamePkg⟩ := packet
+  have adjustmentReadUnary : UnaryHistory adjustmentRead :=
+    unary_cont_closed adjustmentUnary independenceUnary adjustmentRoute
+  have expectationReadUnary : UnaryHistory expectationRead :=
+    unary_cont_closed adjustmentReadUnary expectationUnary expectationRoute
+  have probabilityReadUnary : UnaryHistory probabilityRead :=
+    unary_cont_closed expectationReadUnary exportedUnary probabilityRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row probabilityRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row adjustmentRead ∨ hsame row expectationRead ∨ hsame row probabilityRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont adjustment independence adjustmentRead ∧
+              Cont adjustmentRead expectation expectationRead ∧
+                Cont expectationRead exported probabilityRead ∧ PkgSig bundle probabilityRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro probabilityRead ⟨hsame_refl probabilityRead, probabilityReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, adjustmentRoute, expectationRoute, probabilityRoute,
+          probabilityPkg⟩
+  }
+  exact ⟨cert, adjustmentReadUnary, expectationReadUnary, probabilityReadUnary⟩
+
 end BEDC.Derived.DoCalculusUp
