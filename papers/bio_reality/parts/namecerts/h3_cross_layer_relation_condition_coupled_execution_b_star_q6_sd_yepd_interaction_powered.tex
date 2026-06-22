@@ -1,31 +1,56 @@
 \origin{ai}
-
-\subsection{Condition-Coupled B$^*_{Q6}$ Residuals Against SD--YEPD Protein-Endpoint Contrast}
-\label{sec:bioreality-q6-sd-yepd-interaction-powered}
+\subsection{Condition-coupled $B^*_{Q6}$ residuals do not compress the SD--YEPD protein-abundance contrast}
+\label{sec:bioreality-q6-sd-yepd-condition-coupled-execution}
 
 \paragraph{Finite row object.}
-This record tests whether the B$^*_{Q6}$ residual coordinate family carries a condition-coupled signal for the signed SD--YEPD endpoint contrast.  The finite carrier is the matched gene table used in run \texttt{acc5921d7c06}: $2206$ coding-sequence rows, five held-out gene folds of sizes $447$, $475$, $444$, $451$, and $389$, and a signed target
-$\Delta P_g = z_{\mathrm{rank}}(P_{\mathrm{SD}})-z_{\mathrm{rank}}(P_{\mathrm{YEPD}})$.
-The constructed response has mean $-1.1858399826713623\cdot 10^{-18}$ and standard deviation $0.4434928347257967$.  The covariate table contains an intercept, log CDS sense-codon length, five train-fold PCA coordinates from the twenty amino-acid composition proportions, GC3 from ordered CDS codons, a mean pLDDT structural-order proxy with a missingness indicator, and an integrated PaxDb log$_{10}$ baseline abundance.  The complete-case count for the abundance-augmented control set is $1654$, and the structural-order proxy is missing in $4$ rows.
-
-\paragraph{Residual coordinates and fitted comparison.}
-The residualized coordinate block is fit train-only in each fold, so that $Q\sim C$ is learned on training genes and then applied to held-out genes with training residual scaling.  The ridge parameter is $\lambda=1.0$, and the reported coordinate list is
-$\{\mathrm{K\_AAA},\mathrm{Arg\_AGR},\mathrm{Ile\_AUA},\mathrm{Leu\_CUN\_vs\_UUR},\mathrm{Leu\_UUA\_vs\_UUG},\mathrm{Ser\_UCR\_vs\_AGY},\mathrm{Ser\_UCA\_vs\_UCG},\mathrm{Thr\_ACR\_vs\_ACY},f_3\text{-stress}\}$.
-The main held-out comparison has
+This record tests whether a residual synonymous-coordinate panel for $B^*_{Q6}$ contributes held-out information about a condition-coupled abundance contrast after the usual amino-acid and sequence-composition baselines have already been paid for.  The row object is a finite gene-indexed matrix, not a statement about a protein mechanism.  Its response column is
 $$
 \begin{aligned}
-R^2(M_0)&=0.008108769333748045, & R^2(M_1)&=0.005545435711181601,\\
-\Delta R^2&=-0.002563333622566444, & \Delta\log p_D&=-2.936811337346853,\\
-\mathrm{SSE}(M_0)&=430.68597066859365, & \mathrm{SSE}(M_1)&=431.7989876963185.
+\Delta P_g = z_{\mathrm{rank}}(P_{\mathrm{SD},g}) - z_{\mathrm{rank}}(P_{\mathrm{YEPD},g}),
 \end{aligned}
 $$
-The residual-code saving is $-2.8467939090648606$ nats.  With the coordinate encoding cost $38.494680999067235$ nats, the description-length change is $-41.3414749081321$ nats, so the coordinate block does not compress the signed condition contrast.
+computed on $2206$ genes, with empirical mean $-1.1858399826713623\times 10^{-18}$ and standard deviation $0.4434928347257967$.  The fitted residual-coordinate block has nine columns,
+$$
+\begin{aligned}
+Q = (&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
+&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress),
+\end{aligned}
+$$
+where each fold residualizes $Q$ against the control block on training genes only, applies the train-fit coefficients to held-out genes, and scales by the training residual scale.  The ridge value for this residualization is $\lambda=1.0$.  The five held-out folds have sizes $447$, $475$, $444$, $451$, and $389$.
 
-\paragraph{Null comparisons.}
-The positive gate is failed in every declared null comparison.  For the condition-sign-flip null, $B=300$, the null $95\%$ thresholds are $\Delta\log p_D=-0.05373328681116618$, $\Delta R^2=2.359796412121362\cdot 10^{-5}$, and description-length change $-38.4687437759017$ nats; the observed main statistic is below the joint requirement.  For the matched-$Q$ permutation null, $B=300$, the corresponding thresholds are $3.7150577222696484$, $0.003501567522117832$, and $-34.593988916260244$ nats.  For the synonymous-recoding null, $B=300$, the thresholds are $0.011353124037214002$, $0.00028102266970064793$, and $-38.18213471025496$ nats.  The synonymous recodings preserve per-amino-acid GC3-ending counts exactly, with mean absolute GC3 error $0.0$ and mean relative ENC-proxy error $0.09042494844341317$; the $95\%$ relative ENC-proxy error is $0.4059574704858408$.  The replicate placebo is not available because the SD/YEPD wrappers expose endpoint condition abundance rather than same-condition replicate abundance columns.
+\paragraph{Control surface.}
+The baseline model includes an intercept, log CDS sense-codon length, five train-fold PCA coordinates from the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, GC3 from ordered CDS codons, mean pLDDT with a missingness indicator, and integrated PaxDb log10 baseline abundance.  The structural-order proxy is nearly complete in this row set: only $4$ genes lack the structural-order proxy.  The complete-case count for the model using the fuller structural/protein-abundance surface is $1654$.  Thus the question tested here is deliberately narrow: after these covariates have been fixed, does the $B^*_{Q6}$ residual block improve held-out description of the SD--YEPD signed contrast?
 
-\paragraph{Anti-vacuity checks.}
-The negative call is not caused by absence of numerical variation.  Alternative side calculations move in different directions, but none is the declared main endpoint.  The absolute-delta-only side evidence has $\Delta\log p_D=-3.8682101284448436$, $\Delta R^2=-0.0030746447001754884$, residual-code saving $-3.5938977348833916$ nats, and description-length change $-42.08857873395063$ nats.  The endpoint-mean side evidence has $\Delta\log p_D=7.4632216658321795$ and $\Delta R^2=0.0026536465383733$, but after the same encoding cost its description-length change is still $-30.29464161255981$ nats.  Adding endpoint mean rank as an extra control for the signed-delta target gives $\Delta\log p_D=-2.7093968327387756$, $\Delta R^2=-0.002354084610949325$, residual-code saving $-2.6130013210868746$ nats, and description-length change $-41.10768232015411$ nats.
+\paragraph{Held-out result.}
+The observed comparison is negative.  On all $2206$ held-out genes, the baseline model has $R^2=0.008108769333748045$ and SSE $430.68597066859365$, while the model with the residual-coordinate block has $R^2=0.005545435711181601$ and SSE $431.7989876963185$.  The held-out changes are
+$$
+\begin{aligned}
+\Delta R^2 &= -0.002563333622566444,\\
+\Delta \log p_{\mathrm{heldout}} &= -2.936811337346853.
+\end{aligned}
+$$
+The residual code saving is $-2.8467939090648606$ nats.  After charging the coordinate encoding cost $38.494680999067235$ nats, the description-length change is
+$$
+\begin{aligned}
+\Delta L = -41.3414749081321\ \mathrm{nats},
+\end{aligned}
+$$
+so the description-length gate is not passed.  In this finite row sense, the residual-coordinate block is not a compressive explanation of the signed SD--YEPD contrast.
 
-\paragraph{Local verdict.}
-For this finite table the condition-coupled B$^*_{Q6}$ residual block is a tested non-survivor for the signed SD--YEPD contrast.  In the notation of this chapter, the controlled survival entry for the declared target satisfies $S^{QT}_{ij}\leq 0$ for the fitted coordinate block, because held-out fit worsens, log predictive density decreases, and the description-length gate is not met after the coordinate cost.  The appropriate scientific reading is therefore a bounded refusal: the run reports no compressible $Q$ interaction for this condition contrast.  It does not license a claim about translation realization, ribosome occupancy, protein mediation, folding, physical admissibility, molecular function, mechanism, phenotype, or universality.  Any such higher-layer conclusion would require a separate layer-matched contact and a separately reported controlled statistic.
+\paragraph{Null comparison.}
+The failure is also stable against the three applicable null families.  The condition-sign-flip null used $300$ realized draws, with publishable target $1000$; its $95\%$ thresholds were $\Delta \log p=-0.05373328681116618$ and $\Delta R^2=2.359796412121362\times 10^{-5}$.  The matched-$Q$ permutation null used $300$ realized draws, again with publishable target $1000$; its $95\%$ thresholds were $\Delta \log p=3.7150577222696484$ and $\Delta R^2=0.003501567522117832$.  The synonymous-recoding null used $300$ realized draws, with publishable target $1000$; its $95\%$ thresholds were $\Delta \log p=0.011353124037214002$ and $\Delta R^2=0.00028102266970064793$.  The actual held-out pair $(-2.936811337346853,-0.002563333622566444)$ is below every applicable joint threshold.  The replicate-placebo null is unavailable here because the SD and YEPD wrappers expose endpoint condition abundance columns rather than same-condition replicate abundance columns.
+
+\paragraph{Side checks.}
+Two anti-vacuity side surfaces confirm that the negative result is specific to the declared signed target rather than to a complete absence of measurable signal in the surrounding data.  The absolute-delta-only side surface is also negative, with $\Delta \log p=-3.8682101284448436$, $\Delta R^2=-0.0030746447001754884$, residual code saving $-3.5938977348833916$ nats, and description-length change $-42.08857873395063$ nats.  The signed-delta surface with endpoint mean-rank abundance added as an extra control is negative as well, with $\Delta \log p=-2.7093968327387756$, $\Delta R^2=-0.002354084610949325$, residual code saving $-2.6130013210868746$ nats, and description-length change $-41.10768232015411$ nats.  By contrast, the endpoint mean-abundance side surface has $\Delta \log p=7.4632216658321795$ and $\Delta R^2=0.0026536465383733$, but after the same coordinate encoding cost its description-length change remains negative at $-30.29464161255981$ nats.  That side surface is not used for the main conclusion.
+
+\paragraph{Verdict.}
+The finite-row verdict is
+$$
+\begin{aligned}
+\mathrm{verdict} = \mathrm{no\_compressible\_q\_interaction}.
+\end{aligned}
+$$
+The positive gate fails both parts: the description-length drop is not positive, and the held-out $\Delta R^2$ and $\Delta\log p$ do not exceed all applicable null $95\%$ thresholds.  The experiment therefore records a bounded refusal: these nine $B^*_{Q6}$ residual coordinates do not survive as a controlled predictor of the signed SD--YEPD endpoint abundance contrast in this finite panel.
+
+\paragraph{Local interpretation boundary.}
+This chapter does not establish a translation-efficiency survivor, because the target row is the signed rank-normalized endpoint abundance contrast rather than a matched ribosome-profiling TE readout.  It also does not establish protein mediation, folding, physical admissibility, biological function, mechanism, phenotype, or a universal rule.  Such claims would require separate layer-matched contacts and their own finite statistics.  The only licensed readback is the negative controlled-compression result for the declared $B^*_{Q6}$ residual block against the SD--YEPD condition-coupled abundance contrast under the listed covariates and nulls.
