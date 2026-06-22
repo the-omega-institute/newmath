@@ -15,7 +15,7 @@ Flags: --once (single cycle, no sleep), --interval-seconds N.
 Stop sentinel: tools/window_codon_bridge/.stop
 """
 from __future__ import annotations
-import argparse, json, os, subprocess, sys, tempfile, time
+import argparse, fnmatch, json, os, subprocess, sys, tempfile, time
 import fcntl
 from pathlib import Path
 
@@ -67,6 +67,26 @@ def git_busy() -> bool:
     return subprocess.run(["pgrep", "-x", "git"], capture_output=True).returncode == 0
 
 
+def glob_prefix(pattern: str) -> str:
+    wildcard_positions = [pos for token in "*?[" if (pos := pattern.find(token)) >= 0]
+    if not wildcard_positions:
+        return pattern
+    prefix = pattern[: min(wildcard_positions)]
+    if "/" in prefix:
+        return prefix.rsplit("/", 1)[0]
+    return "."
+
+
+def ls_matching(branch: str, pattern: str) -> subprocess.CompletedProcess:
+    prefix = glob_prefix(pattern)
+    listing = git("ls-tree", "-r", "--name-only", f"origin/{branch}", "--", prefix)
+    if listing.returncode != 0:
+        return listing
+    paths = sorted(p for p in (listing.stdout or "").splitlines() if p and fnmatch.fnmatch(p, pattern))
+    listing.stdout = "\n".join(paths) + ("\n" if paths else "")
+    return listing
+
+
 def sync_lane() -> dict:
     if git_busy():
         print("[sync] skipped (git busy)", flush=True)
@@ -95,6 +115,71 @@ def sync_lane() -> dict:
             print(f"[sync] pending: {branch}:{src}", flush=True)
             continue
         out = r.stdout or ""
+        target = SYNCED_DIR / dest
+        old = target.read_text(encoding="utf-8") if target.exists() else None
+        if old != out:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(out, encoding="utf-8")
+            summary["materialized"].append(dest)
+            print(f"[sync] materialized {dest}", flush=True)
+
+    # Bridge intake sometimes needs a visible surface, not every source body.
+    # These optional manifest keys are additive: existing single-file entries
+    # keep their behavior, while glob materialization and inventories let the
+    # daemon watch compact cross-branch surfaces without changing registries.
+    for item in manifest.get("materialize_globs", []):
+        branch = str(item.get("branch") or "")
+        src_glob = str(item.get("src_glob") or "")
+        dest_dir = str(item.get("dest_dir") or "")
+        strip_prefix = str(item.get("strip_prefix") or "")
+        if not branch or not src_glob or not dest_dir:
+            continue
+        listing = ls_matching(branch, src_glob)
+        if listing.returncode != 0:
+            summary["pending"].append(dest_dir)
+            print(f"[sync] pending glob: {branch}:{src_glob}", flush=True)
+            continue
+        paths = sorted(p for p in (listing.stdout or "").splitlines() if p)
+        for src_path in paths:
+            rel = src_path
+            if strip_prefix and src_path.startswith(strip_prefix.rstrip("/") + "/"):
+                rel = src_path[len(strip_prefix.rstrip("/") + "/") :]
+            dest = str(Path(dest_dir) / rel)
+            r = git("show", f"origin/{branch}:{src_path}")
+            if r.returncode != 0:
+                summary["pending"].append(dest)
+                print(f"[sync] pending: {branch}:{src_path}", flush=True)
+                continue
+            out = r.stdout or ""
+            target = SYNCED_DIR / dest
+            old = target.read_text(encoding="utf-8") if target.exists() else None
+            if old != out:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(out, encoding="utf-8")
+                summary["materialized"].append(dest)
+                print(f"[sync] materialized {dest}", flush=True)
+
+    for item in manifest.get("materialize_inventories", []):
+        branch = str(item.get("branch") or "")
+        src_glob = str(item.get("src_glob") or "")
+        dest = str(item.get("dest") or "")
+        if not branch or not src_glob or not dest:
+            continue
+        listing = ls_matching(branch, src_glob)
+        if listing.returncode != 0:
+            summary["pending"].append(dest)
+            print(f"[sync] pending inventory: {branch}:{src_glob}", flush=True)
+            continue
+        paths = sorted(p for p in (listing.stdout or "").splitlines() if p)
+        out = json.dumps(
+            {
+                "branch": branch,
+                "src_glob": src_glob,
+                "paths": paths,
+            },
+            indent=2,
+            sort_keys=True,
+        ) + "\n"
         target = SYNCED_DIR / dest
         old = target.read_text(encoding="utf-8") if target.exists() else None
         if old != out:
