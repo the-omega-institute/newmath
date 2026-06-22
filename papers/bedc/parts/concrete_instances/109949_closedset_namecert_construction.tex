@@ -73,12 +73,23 @@ Transport and replay are then supplied by $H$ and $C$, while $P$ and $N$ record 
 \end{proof}
 \leanchecked{BEDC.Derived.ClosedSetUp.TasteGate.ClosedSetCarrier\_metric\_complement\_boundary}
 
+\begin{theorem}[ClosedSet scope basis]\label{thm:closedset-scope-basis}
+The $\ClosedSetUp$ scope is fixed by the carrier and metric-complement boundary rows over $\MetricUp$, $\TopologyUp$, $\hsame$, $\Cont$, and the local $\NameCert_{\ClosedSetUp}$ surface. A consumer may read closed-boundary data only after the topology row, metric row, separated-metric row, classifier row, open-neighborhood complement ledger, metric complement boundary, componentwise transport, displayed replay, provenance, and local naming rows have been exposed. The scope refuses host powerset semantics, detached open-set lattices, quotient equality of names, selected limit points, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:closedset-carrier}. Its displayed rows contain exactly the topology, metric, separated-metric, classifier, complement, metric-boundary, transport, replay, provenance, and local naming data.
+
+Apply the NameCert obligations of \autoref{thm:closedset-namecert-obligations} and the metric complement boundary route of \autoref{thm:closedset-metric-complement-boundary}. These two results force every closed-boundary read through $\TopologyUp$, $\MetricUp$, $\hsame$, $\Cont$, and $\NameCert$ before any consumer can inspect the boundary.
+
+Because the accepted packet has no coordinate for a host powerset, detached open-set lattice, quotient equality, selected limit point, or ambient completeness theorem, the stated rows exhaust the ClosedSet scope basis.
+\end{proof}
+
 \closureat{ClosedSetUp}{seedStr}
 
 \begin{closurestatus}{\ClosedSetUp}
   \constructivestory{A $\ClosedSetUp$ packet is generated from topological, metric, separated-metric, membership-classifier, open-neighborhood complement, metric complement boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:closedset-carrier}, \autoref{thm:closedset-namecert-obligations}, and \autoref{thm:closedset-metric-complement-boundary} enumerate the finite closed-set carrier, local NameCert obligation surface, and metric complement boundary route over the displayed topology, metric, separated-metric, complement, transport, replay, provenance, local naming, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:closedset-carrier}, \autoref{thm:closedset-namecert-obligations}, \autoref{thm:closedset-metric-complement-boundary}, and \autoref{thm:closedset-scope-basis} enumerate the finite closed-set carrier, local NameCert obligation surface, metric complement boundary route, and scope basis over the displayed topology, metric, separated-metric, complement, transport, replay, provenance, local naming, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, bridge checking, host powerset semantics, detached open-set lattices, selected limit points, quotient equality of names, countable choice, ambient $\RealUp$ completeness, or compact-image closedness outside the displayed consumer route.}
