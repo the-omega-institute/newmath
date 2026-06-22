@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicOperatorTraceUp$}
+\label{ch:concrete-instances-hyperbolic-operator-trace-namecert}
+\origin{ai}
+
+The $\HyperbolicOperatorTraceUp$ packet realizes the reversible transport trace surface of \autoref{sec:hyperbolic-reversible-liouville} as finite NameCert data. It sits beside the Cayley operator route of \autoref{ch:concrete-instances-hyperbolic-operator-cayley-namecert}, the holonomy surface of \autoref{ch:concrete-instances-hyperbolic-phase-holonomy-namecert}, the metric route of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, the reversible transport certificate of \autoref{ch:concrete-instances-unitarygroup-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names an operator trace only after reversible disk transport, classifier preservation, boundary refusal, and Real-seal readout have all been displayed.
+
+\begin{definition}[Hyperbolic operator trace carrier]
+\label{def:hyperbolic-operator-trace-carrier}
+A $\HyperbolicOperatorTraceUp$ carrier is a finite $\BHist$ packet
+$$
+T=(D,O,U,L,B,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the finite disk-transport row recording the inspected Poincare-disk or hyperbolic disk windows and the reversible route between them.
+\item $O$ is the operator row whose finite action is read only on the displayed disk-transport window.
+\item $U$ is the reversible classifier-preservation row, recording the transport witness that preserves the relevant phase or inner-product classifier.
+\item $L$ is the trace ledger row, recording the finite trace read, normalization, visible source ledger, and comparison budget.
+\item $B$ is the boundary-refusal row excluding unlogged boundary collapse, hidden ambient Hilbert-space operators, global spectral measures, and unbounded functional calculus.
+\item $R$ is the $\RealUp$ seal readout row for the trace value or trace comparison exposed by $L$.
+\item $H$ records componentwise $\hsame$ transport for disk transport, operator, reversible classifier preservation, trace ledger, boundary refusal, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through disk transport, operator read, classifier preservation, trace ledger inspection, boundary refusal, Real-seal readout, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicOperatorTraceUp$, $\HyperbolicOperatorCayleyUp$, $\HyperbolicPhaseHolonomyUp$, $\HyperbolicMetricUp$, $\UnitaryGroupUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HyperbolicOperatorTraceUp}$ row.
+\end{enumerate}
+The Lean-side follow-up for this carrier must provide \texttt{Nontrivial HyperbolicOperatorTraceUp} and \texttt{FieldFaithful HyperbolicOperatorTraceUp} TasteGate instances in \texttt{lean4/BEDC/Derived/HyperbolicOperatorTraceUp/TasteGate.lean}.
+\end{definition}
+
+\begin{theorem}[Hyperbolic operator trace NameCert obligations]
+\label{thm:hyperbolic-operator-trace-namecert-obligations}
+For every accepted $\HyperbolicOperatorTraceUp$ carrier $T=(D,O,U,L,B,R,H,C,P,N)$, the local $\NameCert_{\HyperbolicOperatorTraceUp}$ surface consists exactly of finite disk-transport exposure, operator-row admission, reversible classifier-preservation exposure, trace-ledger readout, boundary-refusal exposure, $\RealUp$ seal readout, componentwise transport, displayed replay, provenance, and local naming. A trace read that omits $U$, $L$, or $B$ is not an accepted trace read of this packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-operator-trace-carrier}. The rows $D,O,U,L,B,R$ expose the disk transport, operator window, reversible classifier-preservation witness, trace ledger, boundary refusal, and Real-seal readout.
+
+The trace row is not read in isolation. It is admitted only after the reversible transport row $U$ preserves the displayed classifier over the disk route $D$, and the ledger row $L$ records the finite trace value together with its source and comparison budget.
+
+The boundary-refusal row $B$ blocks unlogged operator reads, boundary collapse, global spectral measures, and host Hilbert-space constructions. The Real-seal row $R$ is therefore a readout of the displayed trace ledger, not a substitute for the transport and refusal rows.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the same packet. Since no additional coordinate stores an ambient operator trace, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\HyperbolicOperatorTraceUp$ packet that exposes a trace read without the reversible transport row, boundary-refusal row, and trace ledger refutes the classifier.}
+
+\independenceWitness{hyperbolic-operator-cayley, hyperbolic-phase-holonomy, hyperbolic-metric, unitarygroup, real: HyperbolicOperatorTraceUp is not bijective to any listed sibling because it binds reversible disk transport, operator trace, boundary refusal, and Real-seal readout in one carrier.}
+
+\closureat{HyperbolicOperatorTraceUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicOperatorTraceUp}
+  \constructivestory{A $\HyperbolicOperatorTraceUp$ packet is generated from finite disk transport, an operator row, reversible classifier preservation, a trace ledger, a boundary-refusal row, a Real-seal readout, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-operator-trace-carrier} and \autoref{thm:hyperbolic-operator-trace-namecert-obligations} seed the reversible disk-transport trace surface over hyperbolic operator, holonomy, metric, unitary, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global spectral traces, host Hilbert-space operators, unbounded functional calculus, boundary collapse, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, reversible disk transport, operator-trace ledger exactness, boundary refusal, Real-seal readout, Nontrivial and FieldFaithful TasteGate instances, transport, replay, provenance, and local naming for BEDC.Derived.HyperbolicOperatorTraceUp.}
+\end{closurestatus}
