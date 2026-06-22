@@ -1,0 +1,102 @@
+\chapter{A Concrete Naming Certificate for $\BisectionCauchyUp$}
+\label{ch:concrete-instances-bisection-cauchy-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive nested intervals and regular real names, the $\BisectionCauchyUp$ packet records the finite route by which located interval bisection data are read as a regular Cauchy rational name. It consumes the located bisection surface of \autoref{ch:concrete-instances-located-interval-bisection-namecert}, the closed bounded interval endpoint carrier of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the textbook interval-bisection-to-regular-Cauchy handoff as finite BEDC data; it does not assert ambient $\RealUp$ completeness, choose an infinite branch, quotient Cauchy streams, or select a host real.
+
+\begin{definition}[Bisection Cauchy carrier]
+\label{def:bisection-cauchy-carrier}
+A $\BisectionCauchyUp$ carrier is a finite $\BHist$ packet
+$$
+B=(I,L,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\ClosedBoundedIntervalUp$ source interval row, including endpoint containment and the displayed starting width.
+\item $L$ is the $\LocatedIntervalBisectionUp$ ledger whose finite stages retain a located subinterval and record the side decision used at each bisection.
+\item $D$ is the $\DyadicRatCoreUp$ midpoint, radius, and tolerance row used to measure the retained interval diameters.
+\item $W$ is the $\StreamNameUp$ finite-window row listing the bisection stages inspected by the downstream Cauchy request.
+\item $R$ is the $\RegSeqRatUp$ readback row formed from the retained dyadic centers and their displayed error budgets.
+\item $E$ is the terminal $\RealUp$ seal reached only after the interval, bisection, dyadic, stream, and regular-rational rows have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the interval, bisection, dyadic, stream, regular-rational, real-seal, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion-facing request through $I,L,D,W,R,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\BisectionCauchyUp$, $\LocatedIntervalBisectionUp$, $\ClosedBoundedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BisectionCauchyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,L,D,W,R,E,H,C,P,N$. It has no coordinate for a chosen infinite branch, quotient stream equality, host real equality, countable choice, selected representatives, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bisection Cauchy NameCert obligations]
+\label{thm:bisection-cauchy-namecert-obligations}
+For every accepted $\BisectionCauchyUp$ carrier
+$$
+B=(I,L,D,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\BisectionCauchyUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the closed bounded source interval, located bisection ledger, dyadic tolerance ledger, finite stream windows, regular rational readback, terminal real seal, transport, replay, provenance, and local naming rows;
+\item source agreement, requiring $I$ and $L$ to name the same displayed interval before any midpoint or retained half is read;
+\item dyadic diameter control, requiring each retained half in $L$ to expose its midpoint and width through $D$;
+\item finite-window extraction, requiring $W$ to list only stages already present in the located bisection ledger;
+\item regular-readback handoff, requiring $R$ to read retained centers with the dyadic error budgets supplied by $D$ before $E$ is exposed;
+\item non-escape, excluding chosen infinite branches, quotient stream equality, host real equality, countable choice, selected representatives, and ambient $\RealUp$ completeness from the local certificate.
+\end{enumerate}
+No NameCert obligation is stored outside $I,L,D,W,R,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bisection-cauchy-carrier}. The displayed packet provides exactly the source interval, located bisection ledger, dyadic ledger, finite windows, regular readback, terminal seal, transport, replay, provenance, and local naming rows.
+
+Source agreement is read through $I$ and $L$. The bisection ledger has no independent interval source; every retained half is a row below the closed bounded interval named by $I$.
+
+Dyadic diameter control is supplied by $D$. Each bisection stage replaces one retained interval by a displayed half and records the midpoint and width needed for the next finite tolerance request.
+
+The stream window $W$ only selects finitely many already displayed stages. The regular readback $R$ then reads the retained centers together with their dyadic error budgets, and the terminal seal $E$ is visible only after that readback.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for chosen infinite branches, quotient stream equality, host real equality, countable choice, selected representatives, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bisection Cauchy RegSeqRat handoff]
+\label{thm:bisection-cauchy-regseqrat-handoff}
+Every completion-facing consumer of an accepted $\BisectionCauchyUp$ packet must read the finite route
+$$
+I,L,D \longmapsto W,R,E \longmapsto H,C,P,N
+$$
+before it can treat the bisection data as a $\RegSeqRatUp$ regular Cauchy name or pass the result to the terminal $\RealUp$ seal. The consumer receives closed bounded interval data, located bisection stages, dyadic midpoint and diameter budgets, finite stream windows, regular rational readback, componentwise transport, continuation replay, provenance, and local naming. It receives no chosen infinite branch, quotient Cauchy stream, selected representative, countable-choice schedule, host real equality, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the source interval and bisection ledger. The row $I$ supplies the closed bounded interval, and $L$ supplies the finite retained halves that a completion-facing request may inspect.
+
+Apply the NameCert obligations of \autoref{thm:bisection-cauchy-namecert-obligations}. They force the retained intervals to expose their midpoint and diameter budgets through $D$ before any stream window is consumed.
+
+The finite observation row $W$ selects only displayed bisection stages. The row $R$ reads those selected centers as a regular rational Cauchy name with the dyadic budgets supplied by $D$, and $E$ is the terminal real-name seal available only after that readback.
+
+The structural rows $H,C,P,N$ preserve the same finite route for downstream completion consumers. Because no excluded coordinate is present in the carrier, the handoff is a regular-rational name route rather than a quotient stream, selected limit, countable-choice, host equality, or ambient-completeness assertion.
+\end{proof}
+
+\begin{theorem}[Bisection Cauchy closed-interval boundary]
+\label{thm:bisection-cauchy-closed-interval-boundary}
+Every accepted $\BisectionCauchyUp$ packet keeps the $\ClosedBoundedIntervalUp$ source row visible until the $\RegSeqRatUp$ handoff has been exported. Thus a consumer that reads the terminal $\RealUp$ seal $E$ also reads the original interval row $I$, the located bisection ledger $L$, and the dyadic diameter row $D$ before any regular-rational or Real-facing output is available.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bisection-cauchy-carrier}. The terminal seal $E$ is downstream of the interval, bisection, dyadic, stream, and regular-rational rows.
+
+Apply \autoref{thm:bisection-cauchy-regseqrat-handoff}. The route to $E$ factors through $I,L,D,W,R$ before the structural rows package the output.
+
+Therefore the closed bounded source interval remains part of every Real-facing read. The packet has no alternative Real output coordinate outside this route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BisectionCauchyUp$ consumer that reaches a $\RegSeqRatUp$ readback or $\RealUp$ seal without reading $I,L,D,W,R,E,H,C,P,N$ refutes the carrier surface.}
+
+\independenceWitness{located-interval-bisection, closedboundedinterval, dyadicratcore, streamname, regseqrat, real: no listed sibling supplies the joint packet containing the source interval, located bisection ledger, dyadic midpoint and diameter rows, finite windows, regular rational readback, terminal Real seal, transport, replay, provenance, and local NameCert row.}
+
+\closureat{BisectionCauchyUp}{seedStr}
+
+\begin{closurestatus}{\BisectionCauchyUp}
+  \constructivestory{A $\BisectionCauchyUp$ packet is generated from a ClosedBoundedIntervalUp source, a LocatedIntervalBisectionUp ledger, DyadicRatCore midpoint and diameter budgets, StreamName finite windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bisection-cauchy-carrier}, \autoref{thm:bisection-cauchy-namecert-obligations}, and \autoref{thm:bisection-cauchy-regseqrat-handoff} seed the finite interval-bisection route from closed bounded interval and dyadic rows to regular Cauchy and Real-seal consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, chosen infinite branches, quotient Cauchy streams, selected representatives, countable choice, host real equality, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, source agreement, dyadic diameter control, finite-window extraction, regular-readback handoff, and non-escape for BEDC.Derived.BisectionCauchyUp.}
+\end{closurestatus}
