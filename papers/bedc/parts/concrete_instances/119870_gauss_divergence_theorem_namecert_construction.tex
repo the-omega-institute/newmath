@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\GaussDivergenceTheoremUp$}
+\label{ch:concrete-instances-gauss-divergence-theorem-namecert}
+\origin{human}
+
+Following Gauss and Stokes, the $\GaussDivergenceTheoremUp$ packet records the finite flux-boundary route by which a displayed vector field, its divergence row, an oriented boundary, and compatible integration readbacks are named as one boundary-flux certificate. It sits beside the differential-form surface of \autoref{ch:concrete-instances-diffform-namecert}, the manifold carrier of \autoref{ch:concrete-instances-manifold-namecert}, the tagged integration boundary of \autoref{ch:concrete-instances-riemannintegral-namecert}, the terminal scalar seal of \autoref{ch:concrete-instances-real-namecert}, and the graph/readback discipline of \autoref{ch:concrete-instances-continuousmap-namecert}. The packet is a finite BEDC route for the classical divergence theorem; it does not import measure completion, host vector calculus, selected representatives, quotient equality of fields, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Gauss divergence theorem carrier]
+\label{def:gauss-divergence-theorem-carrier}
+A $\GaussDivergenceTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+G=(M,V,D,B,W,I,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the manifold and chart-window row, read through $\ManifoldUp$ and carrying only the finite domain windows visible to the certificate;
+\item $V$ is the vector-field row, read through $\ContinuousMapUp$ and the differential-form interface $\DiffFormUp$ without adding a host vector-field object;
+\item $D$ is the divergence row obtained from the same displayed vector-field and chart rows;
+\item $B$ is the oriented-boundary row for the domain window, including incidence, normal-orientation, and boundary-chart data;
+\item $W$ is the domain-window row that keeps the interior integration request and the boundary integration request tied to the same finite region;
+\item $I$ is the integral and readback row, routing both the divergence integral and the boundary flux integral through $\RiemannIntegralUp$ and the terminal $\RealUp$ seal;
+\item $T$ records componentwise $\hsame$ transport for the manifold, vector-field, divergence, boundary, window, and integration rows;
+\item $R$ records displayed $\Cont$ replay from a chart-window request through the vector-field, divergence, boundary, and integral readback rows;
+\item $P$ is the $\Pkg$ provenance over $\GaussDivergenceTheoremUp$, $\ManifoldUp$, $\DiffFormUp$, $\ContinuousMapUp$, $\RiemannIntegralUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and sibling $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\GaussDivergenceTheoremUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host divergence theorem, a completed measure space, a selected boundary parametrization, quotient equality of vector fields, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Gauss divergence theorem NameCert obligations]
+\label{thm:gauss-divergence-theorem-namecert-obligations}
+For every accepted $\GaussDivergenceTheoremUp$ carrier $G=(M,V,D,B,W,I,T,R,P,N)$, the local $\NameCert_{\GaussDivergenceTheoremUp}$ surface is exhausted by carrier admission for the manifold chart window, vector-field row, divergence row, oriented-boundary row, domain-window row, integral and readback row, componentwise transport, displayed replay, provenance, and local naming. The obligations are discharged only over the finite route
+$$
+M,V,D,B,W,I,T,R,P,N .
+$$
+No local obligation is stored in a host vector-calculus theorem, a measure-completion carrier, a quotient field equality, a selected representative, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:gauss-divergence-theorem-carrier}. The analytic rows are exactly $M,V,D,B,W,I$: the finite chart window, displayed vector field, divergence row, oriented boundary, shared domain window, and integration readback.
+
+The divergence and boundary rows remain tied to the same source. The row $D$ is read from $V$ over the chart data in $M$, while $B$ and $W$ keep the boundary and interior integration requests on one finite domain window.
+
+Finally attach $T,R,P,N$. These structural rows transport, replay, source, and name the same packet. Since none of the rows stores host vector calculus, measure completion, quotient equality, selected representatives, or ambient real completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Gauss divergence theorem flux-boundary route]
+\label{thm:gauss-divergence-theorem-flux-boundary-route}
+Every $\GaussDivergenceTheoremUp$ consumer that reads a boundary-flux statement must first read the finite route
+$$
+\ManifoldUp,\ \ContinuousMapUp,\ \DiffFormUp,\ \RiemannIntegralUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert
+$$
+through the rows $M,V,D,B,W,I,T,R,P,N$ of \autoref{def:gauss-divergence-theorem-carrier}. The divergence integral and the oriented boundary flux are therefore two readbacks of the same displayed finite window, not a host vector-calculus theorem, a completed measure-space comparison, a selected boundary parametrization, or a quotient equality of vector fields.
+\end{theorem}
+\begin{proof}
+Begin with the carrier inventory. The manifold row $M$ and domain-window row $W$ make the finite region visible before either integral read is public.
+
+Next read the vector-field and divergence rows. The vector-field row $V$ is routed through $\ContinuousMapUp$ and $\DiffFormUp$, and the divergence row $D$ is a displayed row over the same chart data. The boundary row $B$ supplies the oriented boundary needed by the flux read.
+
+The integral row $I$ then routes the interior divergence read and the boundary flux read through $\RiemannIntegralUp$ and the terminal $\RealUp$ seal. The structural rows $T,R,P,N$ preserve that route and add no host theorem, measure completion, quotient equality, selected representative, or ambient completeness coordinate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\GaussDivergenceTheoremUp$ packet whose oriented-boundary row or domain-window row is removed loses the displayed flux-boundary route; with both rows present, every flux read factors through the same finite carrier.}
+
+\independenceWitness{diffform, manifold, riemannintegral, real, continuousmap: none is bijective with $\GaussDivergenceTheoremUp$ because the packet jointly carries vector-field, divergence, oriented-boundary, domain-window, integral readback, transport, replay, provenance, and local naming rows.}
+
+\closureat{GaussDivergenceTheoremUp}{seedStr}
+
+\begin{closurestatus}{\GaussDivergenceTheoremUp}
+  \constructivestory{A $\GaussDivergenceTheoremUp$ packet is generated from a displayed manifold chart window, vector-field row, divergence row, oriented-boundary row, domain-window row, integral and readback row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gauss-divergence-theorem-carrier}, \autoref{thm:gauss-divergence-theorem-namecert-obligations}, and \autoref{thm:gauss-divergence-theorem-flux-boundary-route} seed the finite flux-boundary packet over displayed manifold, vector-field, divergence, oriented-boundary, domain-window, integration, readback, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, measure completion, host vector calculus, selected representatives, quotient equality of vector fields, or ambient completeness of $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, divergence-row exactness, oriented-boundary compatibility, domain-window stability, integral readback, transport, replay, provenance, and ledger non-escape for BEDC.Derived.GaussDivergenceTheoremUp.}
+\end{closurestatus}

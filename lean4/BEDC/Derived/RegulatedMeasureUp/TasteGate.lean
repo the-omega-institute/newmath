@@ -179,6 +179,8 @@ def taste_gate : ChapterTasteGate RegulatedMeasureUp :=
   -- BEDC touchpoint anchor: BHist BMark
   regulatedMeasureChapterTasteGate
 
+namespace TasteGate
+
 theorem RegulatedMeasureTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate RegulatedMeasureUp) ∧
       Nonempty (FieldFaithful RegulatedMeasureUp) ∧
@@ -192,5 +194,7 @@ theorem RegulatedMeasureTasteGate_single_carrier_alignment :
       ⟨regulatedMeasureNontrivial⟩,
       RegulatedMeasureTasteGate_single_carrier_alignment_decode,
       rfl⟩
+
+end TasteGate
 
 end BEDC.Derived.RegulatedMeasureUp
