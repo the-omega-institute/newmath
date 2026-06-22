@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-rouche-theorem-namecert}
 \origin{human}
 
-Following Ahlfors and Conway, the $\RoucheTheoremUp$ packet names the finite contour-zero stability surface that lets a holomorphic perturbation be compared with a base holomorphic function along a displayed boundary. It sits beside the residue ledger of \autoref{ch:concrete-instances-residue-namecert}, the point-evaluation route of \autoref{ch:concrete-instances-cauchy-integral-formula-namecert}, the contour socket of \autoref{ch:concrete-instances-contourintegralsocket-namecert}, and the complex differentiability and real-comparison infrastructure already exposed by their neighbouring chapters. The chapter records only certificate-bound contour admissibility, boundary dominance, and finite zero-count ledger handoffs; it does not claim global analytic continuation, host winding-number completeness, or an unrestricted homotopy theorem.
+Following Ahlfors and Conway, the $\RoucheTheoremUp$ packet names the finite contour-zero stability surface that lets a holomorphic perturbation be compared with a base holomorphic function along a displayed boundary. It sits beside the residue ledger of \autoref{ch:concrete-instances-residue-namecert}, the point-evaluation route of \autoref{ch:concrete-instances-cauchy-integral-formula-namecert}, the contour socket of \autoref{ch:concrete-instances-contourintegralsocket-namecert}, and the complex differentiability and real-comparison infrastructure already exposed by their neighbouring chapters. Its zero-count read is explicitly routed through the argument-principle and Riemann zero-count ledger siblings before the Rouche boundary-dominance row exports stability. The chapter records only certificate-bound contour admissibility, boundary dominance, and finite zero-count ledger handoffs; it does not claim global analytic continuation, host winding-number completeness, or an unrestricted homotopy theorem.
 
 \begin{definition}[Rouche theorem carrier]
 \label{def:rouche-theorem-carrier}
@@ -71,6 +71,18 @@ Begin with the contour and holomorphic rows. The row $C$ fixes the admissible co
 Next read the zero-count route. The ledger $Z$ may be consumed through the argument-principle sibling of \autoref{ch:concrete-instances-argument-principle-namecert} or through the Riemann zero-count ledger of \autoref{ch:concrete-instances-riemann-zero-count-ledger-namecert}, but in either case the route remains attached to the same contour row and boundary-dominance row $B$.
 
 Finally apply the analytic handoffs and structural rows. The row $I$ records the residue and Cauchy-integral formula handoffs of \autoref{ch:concrete-instances-residue-namecert} and \autoref{ch:concrete-instances-cauchy-integral-formula-namecert}; then $L,H,P,N$ publish, transport, source, and name the resulting stability ledger. No displayed coordinate supplies an ambient analytic-continuation oracle or unrestricted homotopy theorem.
+\end{proof}
+
+\begin{theorem}[Rouche theorem holomorphic winding dependency]
+\label{thm:rouche-theorem-holomorphic-winding-dependency}
+Any accepted $\RoucheTheoremUp$ zero-count consumer must read the $\HolomorphicUp$ or complex-differentiability source rows $F,G$, the contour integral socket, and the $\ArgumentPrincipleUp$ or $\RiemannZeroCountLedgerUp$ ledger before the boundary-dominance row $B$ can export zero-count stability through $L$. The Rouche packet therefore publishes zero-count stability only as a route through the named holomorphic and winding-number boundaries, not as a detached contour-zero oracle.
+\end{theorem}
+\begin{proof}
+Start with the holomorphic route of \autoref{thm:rouche-theorem-holomorphic-route}. It exposes the paired holomorphic and complex-differentiability rows, the argument-principle or Riemann zero-count ledger route, and the contour row before the stability ledger is public.
+
+Apply contour zero stability from \autoref{thm:rouche-namecert-contour-zero-stability}. The row $B$ can compare $f$ and $g$ only on the displayed contour boundary, and the stability row $L$ records equality of the displayed zero-count ledgers after the residue and Cauchy-integral handoffs are visible.
+
+The contour socket and ledger route are therefore prerequisites for the Rouche export. Since no carrier coordinate stores ambient analytic continuation, host winding-number completeness, or unrestricted homotopy invariance, the zero-count consumer receives only the named holomorphic and winding-boundary dependency.
 \end{proof}
 
 \falsifiablePrediction{A packet that omits contour admissibility $C$, either holomorphic row $F,G$, the boundary-dominance row $B$, or the residue and Cauchy-integral handoff row $I$ cannot be accepted as a $\RoucheTheoremUp$ packet, even if it records a candidate zero-count equality.}
