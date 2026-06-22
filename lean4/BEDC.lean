@@ -752,6 +752,7 @@ import BEDC.Derived.BaireOneFunctionUp
 import BEDC.Derived.BaireOneFunctionUp.Classifier
 import BEDC.Derived.BaireOneFunctionUp.OscillationLocality
 import BEDC.Derived.BaireOneFunctionUp.TasteGate
+import BEDC.Derived.BaireOneModulusUp.TasteGate
 import BEDC.Derived.BaireSpaceCompactOpenUp.TasteGate
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BaireSpaceUp.TasteGate
@@ -2826,6 +2827,7 @@ import BEDC.Derived.ClosedMetricBallUp.TasteGate
 import BEDC.Derived.ClosedMetricGraphUp
 import BEDC.Derived.ClosedNormalCanonicityUp.TasteGate
 import BEDC.Derived.ClosedNormalConfluenceSealUp.NormalSource
+import BEDC.Derived.ClosedNormalConfluenceSealUp.PublicExport
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyBoundaryUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyWitnessUp.TasteGate
@@ -10271,6 +10273,7 @@ import BEDC.Derived.RichmanCompletionUp.TasteGate
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
 import BEDC.Derived.RiemannIntegrabilityCriterionUp.TasteGate
+import BEDC.Derived.RiemannIntegrabilityDiscontinuityUp.TasteGate
 import BEDC.Derived.RiemannIntegrabilityModulusUp.TasteGate
 import BEDC.Derived.RiemannIntegrableUp.DarbouxGapRoute
 import BEDC.Derived.RiemannIntegrableUp.TasteGate
