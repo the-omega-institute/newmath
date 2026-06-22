@@ -21,3 +21,15 @@ Now apply the dependency route of \autoref{thm:metacic-parallel-diamond-frontier
 
 Finally use the premise-retention and route surfaces already recorded in the chapter. They keep the displayed rows $P,K,J,R,S,C,B,O,H,T,G,N$ visible for every accepted consumer, so the shared handoff is deterministic only at the finite route boundary and remains separate from the refused confluence and kernel endpoints.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual-substitution confluence budget]
+\label{thm:metacic-parallel-diamond-frontier-residual-substitution-confluence-budget}
+Every residual-substitution route that contributes to the $\MetaCICParallelDiamondFrontierUp$ parallel-diamond frontier must expose, in order, the retained premise row $P$, residual pair row $R$, local join row $J$, substitution dependency row $S$, and finite budget row $B$ before any candidate-mediated strong-normalization handoff may consume it. The budget is a finite row of the frontier carrier, not a global confluence theorem, subject-reduction theorem, evaluator equality, quotient term equality, or kernel-consistency witness.
+\end{theorem}
+\begin{proof}
+Project the frontier carrier of \autoref{def:metacic-parallel-diamond-frontier-carrier}. The retained premise, residual pair, local join, substitution dependency, and budget rows are displayed carrier coordinates, so a consumer cannot read the candidate handoff before these rows are present.
+
+Apply the residual-substitution dependency route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}. It places the retained premise boundary before the critical-pair and candidate-join rows and keeps residual substitution as a visible dependency of the frontier.
+
+Finally use residual-join locality from the surrounding frontier rows. The local join is certified only inside the finite $P,R,J,S,B$ route, and the candidate-mediated handoff consumes that route as a bounded frontier witness. Since no row stores global confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency, none of those endpoints is exported by the budget.
+\end{proof}
