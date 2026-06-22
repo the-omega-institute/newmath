@@ -90,6 +90,18 @@ Apply the NameCert obligations of \autoref{thm:type-level-socket-exposure-namece
 Use ledger non-escape from \autoref{thm:type-level-socket-exposure-ledger-nonescape} and refusal exactness from \autoref{thm:type-level-socket-exposure-refusal-exactness}. Since every consumer read factors through the displayed tuple and the refusal row excludes the hidden channels, no excluded premise can acquire a separate scope coordinate.
 \end{proof}
 
+\begin{theorem}[TypeLevelSocketExposure kernel grounding]
+\label{thm:type-level-socket-exposure-scope-kernel-grounding}
+Every accepted $\TypeLevelSocketExposureUp$ read is grounded by the displayed $\BHist$ carrier rows $S,A,K,L,R,H,C,P,N$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, the refusal ledger $R$, and the local $\NameCert_{\TypeLevelSocketExposureUp}$ row $N$. Consequently the read cannot import outside supply, host type equality, hidden setup fields, theorem-valued outside premises, or global kernel soundness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:type-level-socket-exposure-carrier}. The accepted read starts with the setup-field row $S$, admitted carrier row $A$, classifier row $K$, ledger row $L$, refusal row $R$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$.
+
+Apply the NameCert obligations of \autoref{thm:type-level-socket-exposure-namecert-obligations}. Those obligations make the carrier rows, refusal ledger, transport, replay, provenance, and local naming the complete local certificate surface.
+
+Use ledger non-escape, refusal exactness, and scope exactness from \autoref{thm:type-level-socket-exposure-ledger-nonescape}, \autoref{thm:type-level-socket-exposure-refusal-exactness}, and \autoref{thm:type-level-socket-exposure-scope-exactness}. Since every consumer route is already confined to $S,A,K,L,R,H,C,P,N$, no outside supply, host type equality, hidden setup field, theorem-valued premise, or global kernel soundness can enter through a separate coordinate.
+\end{proof}
+
 \closureat{TypeLevelSocketExposureUp}{obligationStr}
 
 \begin{closurestatus}{\TypeLevelSocketExposureUp}
