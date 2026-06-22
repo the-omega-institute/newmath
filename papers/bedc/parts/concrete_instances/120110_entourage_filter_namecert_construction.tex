@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\EntourageFilterUp$}
+\label{ch:concrete-instances-entourage-filter-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on uniform structures and filters, the $\EntourageFilterUp$ packet names the finite route by which displayed entourages generate a filter-base surface before any Cauchy-filter or completion-facing consumer can read it. It sits between the uniform-space carrier of \autoref{ch:concrete-instances-uniformspace-namecert}, the filter-base route of \autoref{ch:concrete-instances-filterbase-namecert}, the Cauchy-filter surface of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the real-uniform route of \autoref{ch:concrete-instances-real-uniform-structure-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet is a finite entourage-to-filter interface; it is not a quotient filter, a selected limit, countable choice, host equality, or an ambient $\RealUp$ completeness principle.
+
+\begin{definition}[Entourage-filter carrier]
+\label{def:entourage-filter-carrier}
+An $\EntourageFilterUp$ carrier is a finite $\BHist$ packet
+$$
+E=(U,B,G,F,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformSpaceUp$ entourage-data row, exposing only the displayed diagonal, symmetry, refinement, and composition requests.
+\item $B$ is the $\FilterBaseUp$ generation row, recording the finite basis entries generated from the displayed entourage requests.
+\item $G$ is the $\CauchyFilterUp$ handoff row, naming the Cauchy-facing consumer only after the generated filter-base row has been displayed.
+\item $F$ is the $\RealUniformStructureUp$ completion-facing route row, used only as a reader of the displayed uniform entourage and filter-base data.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and radius row, recording precision requests when an L10 completion route compares entourage requests with dyadic bounds.
+\item $H$ records componentwise $\hsame$ transport for the uniform entourage, filter-base generation, Cauchy handoff, real-uniform route, dyadic tolerance, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an entourage request through $U,B,G,F,D,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\EntourageFilterUp$, $\UniformSpaceUp$, $\FilterBaseUp$, $\CauchyFilterUp$, $\RealUniformStructureUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EntourageFilterUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $U,B,G,F,D,H,C,P,N$. It has no coordinate for quotient filters, selected limits, countable-choice schedules, host equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Entourage-filter NameCert obligations]
+\label{thm:entourage-filter-namecert-obligations}
+For every accepted $\EntourageFilterUp$ carrier
+$$
+E=(U,B,G,F,D,H,C,P,N),
+$$
+the local $\NameCert_{\EntourageFilterUp}$ surface consists exactly of carrier admission for the uniform entourage row $U$, filter-base generation through $B$, Cauchy-filter handoff through $G$, completion nonescape through the real-uniform route $F$ and dyadic tolerance row $D$, and provenance locality through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:entourage-filter-carrier}. The accepted packet exposes exactly the uniform entourage, filter-base, Cauchy handoff, real-uniform route, dyadic tolerance, transport, replay, provenance, and local naming rows.
+
+The entourage-to-filter generation is the passage from $U$ to $B$. The row $U$ supplies displayed uniform-space requests, and $B$ records the finite basis entries generated from those requests before any Cauchy-facing row is public.
+
+The Cauchy and completion-facing reads are downstream. The row $G$ names the $\CauchyFilterUp$ handoff only after $B$ has been displayed, while $F$ and $D$ record the real-uniform and dyadic tolerance route used by completion consumers.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no excluded quotient, selected limit, countable-choice, host-equality, or ambient-completeness coordinate occurs in the carrier, the listed rows exhaust the local obligations.
+\end{proof}
+
+\begin{theorem}[Entourage-filter Cauchy handoff]
+\label{thm:entourage-filter-cauchy-handoff}
+Every completion-facing consumer of an accepted $\EntourageFilterUp$ carrier $E=(U,B,G,F,D,H,C,P,N)$ reads through
+$$
+\UniformSpaceUp
+\longmapsto
+\FilterBaseUp
+\longmapsto
+\CauchyFilterUp
+\longmapsto
+\RealUniformStructureUp
+\longmapsto
+\DyadicRatCoreUp
+\longmapsto
+\BHist,\hsame,\Cont,\Pkg,\NameCert
+$$
+before any completion use is available. The route exports no quotient filter, selected limit, countable-choice schedule, host equality, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:entourage-filter-namecert-obligations}. It places every accepted completion-facing read on the displayed uniform entourage row, generated filter-base row, Cauchy-filter handoff row, real-uniform route row, and dyadic tolerance row.
+
+Read $U$ and $B$ first. This makes the entourage request and its generated filter-base entries visible before a consumer can ask for Cauchy readiness through $G$.
+
+Next read $G,F,D$. The Cauchy handoff remains a finite consumer row, while the real-uniform and dyadic rows record only the tolerance and radius data needed by the L10 completion route.
+
+The structural rows $H,C,P,N$ preserve the same route under transport, replay, provenance, and local naming. Therefore any completion use is downstream of the displayed packet, and the excluded quotient, choice, host-equality, selected-limit, and ambient-completeness endpoints are unavailable.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\EntourageFilterUp$ completion read is refuted if it reaches a Cauchy-filter or real-uniform completion consumer without displaying the UniformSpace entourage row, FilterBase generation row, CauchyFilter handoff row, DyadicRatCore tolerance row, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{uniformspace, filterbase, cauchyfilter, real-uniform-structure, dyadicratcore: no listed sibling supplies the whole $\EntourageFilterUp$ packet because the packet jointly binds displayed uniform entourages, finite filter-base generation, Cauchy handoff, completion-facing tolerance data, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{EntourageFilterUp}{seedStr}
+
+\begin{closurestatus}{\EntourageFilterUp}
+  \constructivestory{An $\EntourageFilterUp$ packet is generated from UniformSpace entourage data, FilterBase generation rows, a CauchyFilter handoff row, RealUniformStructure completion-facing route data, DyadicRatCore tolerance and radius rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:entourage-filter-carrier}, \autoref{thm:entourage-filter-namecert-obligations}, and \autoref{thm:entourage-filter-cauchy-handoff} seed the finite route by which displayed uniform entourages generate a filter-base surface for Cauchy-filter and completion-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.EntourageFilterUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected limits, countable choice, host equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, entourage-to-filter generation, Cauchy handoff, completion nonescape, transport, replay, provenance, and local naming for BEDC.Derived.EntourageFilterUp.}
+\end{closurestatus}

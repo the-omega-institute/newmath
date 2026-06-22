@@ -32,6 +32,7 @@ The carrier exposes one bounded finite-prefix run. It contains no quotient of ac
 \label{def:finiteprefixautomaton-classifier}
 The $\FinitePrefixAutomatonUp$ classifier accepts a packet $F=(Q,q_0,A,T,W,R,E,H,C,P,N)$ exactly when the prefix ledger $R$ starts at $q_0$, every successive prefix step is witnessed by a displayed row of $T$ and a corresponding $\Cont$ route in $C$, the endpoint row in $E$ is the last row of $R$, and the acceptance bit in $E$ is read from membership in $A$. The classifier reads only the displayed state, mark, transition, run, endpoint, transport, continuation, package, and local naming rows.
 \end{definition}
+\leandef{BEDC.Derived.FinitePrefixAutomatonUp.FinitePrefixAutomatonClassifier}
 
 \begin{theorem}[FinitePrefixAutomaton NameCert obligation surface]
 \label{thm:finiteprefixautomaton-namecert-obligation-surface}
@@ -107,6 +108,7 @@ For the successor prefix step, project transition exactness from \autoref{thm:fi
 
 Finally apply endpoint exactness from \autoref{thm:finiteprefixautomaton-endpoint-exactness-obligation}. Since each endpoint is the last displayed row of its run ledger, the prefixwise comparison identifies $E$ and $E'$ as the same final-state read inside the finite packet boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.FinitePrefixAutomatonUp.FinitePrefixAutomatonCarrier\_prefix\_run\_displayed\_determinism}
 
 \begin{theorem}[FinitePrefixAutomaton prefix-run nonescape]
 \label{thm:finiteprefixautomaton-prefix-run-nonescape}
