@@ -10455,6 +10455,8 @@ import BEDC.Derived.SchwartzSpaceUp.TasteGate
 import BEDC.Derived.SchwarzLemmaUp.TasteGate
 import BEDC.Derived.SchwarzPickDiskContractionUp.TasteGate
 import BEDC.Derived.SchwarzReflectionRouteUp.TasteGate
+import BEDC.Derived.ScienceBridgeUp.MatureFailureSurfaceExport
+import BEDC.Derived.ScienceBridgeUp.StandardAuditHandoff
 import BEDC.Derived.ScienceBridgeUp.TasteGate
 import BEDC.Derived.ScientificIdealizationResidueSealUp.NameCertObligations
 import BEDC.Derived.ScientificIdealizationResidueSealUp.ScopeRefinement
@@ -10693,6 +10695,7 @@ import BEDC.Derived.SetlikeUp.FamilyFiberObligations
 import BEDC.Derived.SetlikeUp.FamilyHandoffObligation
 import BEDC.Derived.SetlikeUp.FiniteFamilyMembershipRoute
 import BEDC.Derived.SetlikeUp.FiniteMembershipInduction
+import BEDC.Derived.SetlikeUp.FirstOrderMembershipHandoff
 import BEDC.Derived.SetlikeUp.FirstOrderMembershipSubstitutionBoundary
 import BEDC.Derived.SetlikeUp.KernelMembershipObligation
 import BEDC.Derived.SetlikeUp.LedgerScopeClosure
