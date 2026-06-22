@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\UniformLimitIntegralUp$}
+\label{ch:concrete-instances-uniform-limit-integral-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive integration, the $\UniformLimitIntegralUp$ packet records the finite BEDC route by which a uniformly convergent family of Riemann-integrable real-valued names yields an integral read for the displayed limit. It sits after the uniform-limit continuity boundary of \autoref{ch:concrete-instances-uniform-limit-continuous-namecert}, the Riemann-integral carrier of \autoref{ch:concrete-instances-riemannintegral-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-name window of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the displayed route from uniform convergence, integral packets, regular rational readback, and Real sealing; it does not import host function equality, selected limiting partitions, countable choice, measure completion, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Uniform limit integral carrier]
+\label{def:uniform-limit-integral-carrier}
+A $\UniformLimitIntegralUp$ carrier is a finite $\BHist$ packet
+$$
+I=(F,U,J,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the finite family row, listing the displayed real-valued approximants and their common interval window;
+\item $U$ is the uniform-limit row, read through $\UniformLimitContinuousUp$, recording the shared modulus and the displayed limit-name route;
+\item $J$ is the $\RiemannIntegralUp$ row for the approximants, exposing only tagged-mesh, Darboux-gap, and integral-readback data already present in the Riemann packet;
+\item $W$ is the finite window row through $\StreamNameUp$, recording the observation schedule used by the approximants, the limit read, and the integral read;
+\item $Q$ is the regular rational readback row through $\RegSeqRatUp$, recording the rational Cauchy data used to compare integral values at a requested tolerance;
+\item $E$ is the terminal $\RealUp$ seal row for the limit integral value;
+\item $H$ records componentwise $\hsame$ transport for $F,U,J,W,Q,E$;
+\item $C$ records displayed $\Cont$ replay through the uniform-limit, Riemann-integral, stream-window, regular-rational, and Real-seal rows;
+\item $P$ is the $\Pkg$ provenance over $\UniformLimitIntegralUp$, $\UniformLimitContinuousUp$, $\RiemannIntegralUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\UniformLimitIntegralUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host equality of functions, a selected sequence of partitions, a measure-completion object, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Uniform limit integral NameCert obligations]
+\label{thm:uniform-limit-integral-namecert-obligations}
+For the carrier of \autoref{def:uniform-limit-integral-carrier}, the local $\NameCert_{\UniformLimitIntegralUp}$ surface consists exactly of carrier exposure for $I=(F,U,J,W,Q,E,H,C,P,N)$, uniform-limit exposure through $U$, Riemann-integral packet exposure through $J$, stream-window and regular-rational readback through $W,Q$, terminal Real sealing through $E$, structural transport through $H,C,P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:uniform-limit-integral-carrier}. The finite family, uniform-limit, Riemann-integral, stream-window, regular-rational, and Real-seal rows are separate displayed coordinates before the local name is consumed.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same finite packet. Since the carrier has no host function-equality, selected-partition, measure-completion, choice, or ambient-completeness coordinate, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Uniform limit integral Riemann handoff]
+\label{thm:uniform-limit-integral-riemann-handoff}
+Every $\RiemannIntegralUp$ consumer of an accepted $\UniformLimitIntegralUp$ packet must read the finite route
+$$
+F \longmapsto U \longmapsto J \longmapsto W \longmapsto Q \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the integral of the displayed limit is available only after the uniform-limit row, the Riemann-integral row, the stream-window row, the regular-rational readback row, and the Real-seal row are all exposed.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:uniform-limit-integral-namecert-obligations}. The Riemann handoff row $J$ is downstream of the displayed family and uniform-limit rows, while the integral value is downstream of the stream-window and regular-rational readback rows.
+
+The continuation row $C$ replays the route in the order shown, and the provenance row $P$ records the allowed sibling packets. A Riemann-integral consumer therefore receives a finite BEDC handoff, not an external limiting theorem or a hidden partition-selection principle.
+\end{proof}
+
+\begin{theorem}[Uniform limit integral Real seal nonescape]
+\label{thm:uniform-limit-integral-real-seal}
+The terminal $\RealUp$ seal of an accepted $\UniformLimitIntegralUp$ packet is reached only through $F,U,J,W,Q,E,H,C,P,N$. It cannot be read as host equality of integrals, quotient equality of functions, a selected limiting partition family, countable choice, measure completion, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:uniform-limit-integral-carrier}. The Real-facing coordinate is the row $E$, and $E$ is displayed only after the uniform-limit, Riemann-integral, stream-window, and regular-rational readback rows have been exposed.
+
+Apply the Riemann handoff theorem \autoref{thm:uniform-limit-integral-riemann-handoff}. Any consumer that reaches $E$ has already passed through the finite route $F,U,J,W,Q,H,C,P,N$. None of those rows contains a host equality, quotient, selected partition family, countable-choice schedule, measure-completion object, or ambient-completeness theorem, so the Real seal cannot escape the displayed packet.
+\end{proof}
+
+\closureat{UniformLimitIntegralUp}{seedStr}
+
+\begin{closurestatus}{\UniformLimitIntegralUp}
+  \constructivestory{A $\UniformLimitIntegralUp$ packet is generated from finite family rows, a uniform-limit row, a Riemann-integral handoff row, stream-window rows, regular-rational readback, a terminal Real seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-limit-integral-carrier}, \autoref{thm:uniform-limit-integral-namecert-obligations}, \autoref{thm:uniform-limit-integral-riemann-handoff}, and \autoref{thm:uniform-limit-integral-real-seal} seed the finite uniform-limit integral route over $\UniformLimitContinuousUp$, $\RiemannIntegralUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host equality of functions, selected limiting partitions, countable choice, measure completion, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, uniform-limit exposure, Riemann-integral handoff, stream-window readback, regular-rational comparison, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.UniformLimitIntegralUp.}
+\end{closurestatus}
