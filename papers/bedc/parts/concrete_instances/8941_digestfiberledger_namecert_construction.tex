@@ -46,6 +46,7 @@ The NameCert obligations are therefore exhausted by the rows of $D$. Since the c
 \label{thm:digest-fiber-ledger-nonescape}
 Every accepted $\DigestFiberLedgerUp$ consumer of a visible digest row factors through the displayed fiber-membership row $F$, GAP provenance row $G$, apophatic refusal row $A$, componentwise transport row $H$, continuation routes $C$, package provenance $P$, and local naming row $N$. No consumer can use equality of visible digest rows as equality of source histories unless an additional exactness certificate is displayed outside the $\DigestFiberLedgerUp$ packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.DigestFiberLedgerUp.DigestFiberLedgerNonEscape}
 \begin{proof}
 Start with an accepted packet $D=(V,F,G,A,H,C,P,N)$. The visible row $V$ is only the digest-facing surface, while $F$ and $G$ record the fiber and its provenance.
 
@@ -66,6 +67,22 @@ Apply \autoref{thm:digest-fiber-ledger-namecert-obligations} and \autoref{thm:di
 The negative export claim is again coordinate-level. Since $D$ contains no source equality row, no preimage-selection row, no universe-digest row, and no internal far-end row, none of those objects can be exported by a public digest read.
 \end{proof}
 
+\begin{theorem}[DigestFiberLedger bridge schema boundary]
+\label{thm:digest-fiber-ledger-bridge-schema}
+Any bridge consumer for a public $\DigestFiberLedgerUp$ export must preserve the eight displayed rows
+$$
+(V,F,G,A,H,C,P,N)
+$$
+of \autoref{def:digest-fiber-ledger-carrier}. To claim that digest equality reflects source equality, the consumer must also add a separate standard-bridge row witnessing the exact source-equality route; the public export alone is not such a bridge.
+\end{theorem}
+\begin{proof}
+Start with the carrier $D=(V,F,G,A,H,C,P,N)$. The NameCert obligations of \autoref{thm:digest-fiber-ledger-namecert-obligations} make these rows the complete local packet: visible digest, fiber membership, GAP provenance, apophatic refusal, transport, continuation, package provenance, and local naming.
+
+Apply the non-escape theorem \autoref{thm:digest-fiber-ledger-nonescape}. It rules out reading equality of visible digest rows as equality of source histories unless an additional exactness certificate is displayed outside the packet.
+
+Finally apply the public export theorem \autoref{thm:digest-fiber-ledger-public-export}. The exported surface retains $V,F,G,A,H,C,P,N$ and exports no source equality row, hidden preimage selector, global universe digest, or internal far-end object. Hence a standard bridge must be an extra row, not a consequence of public export itself.
+\end{proof}
+
 \falsifiablePrediction{A consumer that identifies digest equality with source equality without the GAP fiber row refutes the DigestFiberLedgerUp packet.}
 
 \independenceWitness{Nearest siblings: hash, apophaticname, supplysocketledger, apophaticgatequestion, inscriptiongapledger. The carrier is not bijective to any sibling because it simultaneously stores digest visibility, fiber membership, GAP provenance, and apophatic non-internalization rows, while each sibling omits at least one of those obligations.}
@@ -81,7 +98,7 @@ The proposed Lean \texttt{TasteGate.lean} boundary is \texttt{lean4/BEDC/Derived
   \constructivestory{A $\DigestFiberLedgerUp$ packet is generated from a visible digest row, hidden fiber-membership row, GAP provenance row, apophatic refusal row, componentwise $\hsame$ transport, displayed continuation routes, package provenance, and a local NameCert row.}
   \leanchecked{BEDC.Derived.DigestFiberLedgerUp.taste\_gate}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:digest-fiber-ledger-carrier}, \autoref{thm:digest-fiber-ledger-namecert-obligations}, \autoref{thm:digest-fiber-ledger-nonescape}, and \autoref{thm:digest-fiber-ledger-public-export} bind the displayed digest, fiber, GAP, refusal, transport, continuation, provenance, local naming, and public export packet.}
+  \scopeclosed{\autoref{def:digest-fiber-ledger-carrier}, \autoref{thm:digest-fiber-ledger-namecert-obligations}, \autoref{thm:digest-fiber-ledger-nonescape}, \autoref{thm:digest-fiber-ledger-public-export}, and \autoref{thm:digest-fiber-ledger-bridge-schema} bind the displayed digest, fiber, GAP, refusal, transport, continuation, provenance, local naming, public export, and bridge-schema boundary packet.}
   \formalstatus{\encodedDefV}
   \bridgestatus{none}
   \origin{ai}

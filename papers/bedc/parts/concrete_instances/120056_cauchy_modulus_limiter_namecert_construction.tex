@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\CauchyModulusLimiterUp$}
+\label{ch:concrete-instances-cauchy-modulus-limiter-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\CauchyModulusLimiterUp$ packet records the finite limiter row by which a regular-Cauchy tail modulus is read before a Real-facing consumer receives a bounded tail window. It sits after the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the shared threshold discipline of \autoref{ch:concrete-instances-cauchy-tail-threshold-normalizer-namecert}. The packet names the limiter as displayed finite NameCert data; it does not choose a host limit, compare quotient streams, use countable choice, or assert ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy modulus limiter carrier]
+\label{def:cauchy-modulus-limiter-carrier}
+A $\CauchyModulusLimiterUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(M,L,T,W,R,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source Cauchy modulus row attached to a regular-Cauchy rational presentation.
+\item $L$ is the limiter row, naming the finite bound through which the source modulus is allowed to serve a downstream tail request.
+\item $T$ is the normalized tail-threshold row read through $\CauchyTailThresholdNormalizerUp$.
+\item $W$ is the $\StreamNameUp$ readback window opened at the limited tail threshold.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same finite window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger comparing the limiter row with the requested precision.
+\item $H$ records componentwise $\hsame$ transport for the modulus, limiter, threshold, readback, dyadic, replay, provenance, and local name rows.
+\item $C$ records displayed $\Cont$ replay from a Real-facing tail request through $M,L,T,W,R,D,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyModulusLimiterUp$, $\CauchyTailThresholdNormalizerUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyModulusLimiterUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a selected limit, quotient stream equality, countable-choice schedule, host real equality, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Cauchy modulus limiter NameCert obligations]
+\label{thm:cauchy-modulus-limiter-namecert-obligations}
+For every accepted $\CauchyModulusLimiterUp$ carrier $Q=(M,L,T,W,R,D,H,C,P,N)$, the local $\NameCert_{\CauchyModulusLimiterUp}$ surface consists exactly of source modulus admission, limiter-row exposure, normalized tail-threshold exposure, StreamName readback, RegSeqRat readback, dyadic tolerance comparison, componentwise transport, displayed replay, package provenance, local naming, and non-escape from selected limits, quotient streams, countable choice, host equality, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-modulus-limiter-carrier}. The analytic rows are $M,L,T,W,R,D$, and the structural rows are $H,C,P,N$.
+
+The limiter obligation is the ordered read from the source modulus $M$ to the limiter row $L$ and then to the normalized threshold $T$. This records the finite bound before any downstream tail window can be opened.
+
+The readback obligations are downstream of the threshold. The rows $W$ and $R$ expose the finite StreamName and RegSeqRat data, while $D$ supplies the dyadic comparison needed by a precision request.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since the carrier omits selected limits, quotient streams, countable choice, host equality, and ambient completeness, the displayed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy modulus limiter tail-bound induction]
+\label{thm:cauchy-modulus-limiter-tail-bound-induction}
+Every accepted $\CauchyModulusLimiterUp$ carrier $Q=(M,L,T,W,R,D,H,C,P,N)$ supports finite induction over the limiter row: the base tail request reads $M,L,T$, and each later bounded request preserves the same $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, transport, replay, provenance, and local naming route. Thus a $\RealUp$ consumer sees a bounded tail-modulus certificate rather than a private modulus parameter or an ambient completeness claim.
+\end{theorem}
+\begin{proof}
+The base step is the first accepted tail request. It reads the source modulus $M$, the limiter row $L$, and the normalized threshold $T$ before any window or real-facing seal is available.
+
+For the successor step, assume the current bounded request has already been routed through $M,L,T,W,R,D,H,C,P,N$. A later request reuses the same limiter row and advances only inside the displayed finite tail discipline; the StreamName window $W$, RegSeqRat readback $R$, and dyadic comparison ledger $D$ remain downstream of that row.
+
+The structural rows $H,C,P,N$ preserve the route across the induction step. Therefore every bounded tail read factors through the same finite limiter packet, and no excluded limit, quotient, choice, host equality, or completeness coordinate can be extracted.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyModulusLimiterUp$ read must display the source modulus, limiter row, normalized threshold, StreamName window, RegSeqRat readback, DyadicRatCore comparison, hsame transport, Cont replay, Pkg provenance, and local NameCert row before a Real-facing bounded tail request is consumed.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, cauchytailthresholdnormalizer: $\CauchyModulusLimiterUp$ is not bijective to any listed sibling because it jointly carries a source modulus, limiter row, normalized tail threshold, finite stream window, regular rational readback, dyadic tolerance comparison, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyModulusLimiterUp}{seedStr}
+
+\begin{closurestatus}{\CauchyModulusLimiterUp}
+  \constructivestory{A $\CauchyModulusLimiterUp$ packet is generated from a regular-Cauchy source modulus, a finite limiter row, a normalized tail threshold, StreamName and RegSeqRat readbacks, a DyadicRatCore tolerance ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-modulus-limiter-carrier}, \autoref{thm:cauchy-modulus-limiter-namecert-obligations}, and \autoref{thm:cauchy-modulus-limiter-tail-bound-induction} seed the finite limiter route for regular-Cauchy tail moduli read by Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient streams, countable choice, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, limiter-row exactness, threshold normalization, StreamName and RegSeqRat readback, dyadic tolerance comparison, transport, replay, provenance, and nonescape for BEDC.Derived.CauchyModulusLimiterUp.}
+\end{closurestatus}
