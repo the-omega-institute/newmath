@@ -99,6 +99,8 @@ Apply the NameCert obligations of \autoref{thm:layered-relation-gate-namecert-ob
 \label{thm:layered-relation-gate-classifier-obligation}
 A $\LayeredRelationGateUp$ classifier read may export a passing verdict only after comparing the preserved row $P$ with the not-preserved row $N$ over the same source, layer, and refusal rows $A,B,L,F$. The verdict row $G$ is therefore not a classifier for identity between $A$ and $B$.
 \end{theorem}
+\leanchecked{BEDC.Derived.LayeredRelationGateUp.LayeredRelationGateClassifier\_obligation}
+\leanvariant{BEDC.Derived.LayeredRelationGateUp.LayeredRelationGateCarrier\_classifier\_obligation}
 \begin{proof}
 Start from \autoref{thm:layered-relation-gate-namecert-obligations}. The preserved and not-preserved disclosures are separate obligations, and both are upstream of verdict export.
 
@@ -114,6 +116,7 @@ Use the consumer route of \autoref{thm:layered-relation-gate-consumer-route}. Th
 
 Apply \autoref{thm:layered-relation-gate-namecert-obligations} and \autoref{thm:layered-relation-gate-same-schema-nonidentity}. They keep $F$ as the displayed failure-boundary row and place the refused readings in $N$ rather than in the exported relation. Without $F$, the same-schema consumer has no visible ledger separating the accepted relation from the forbidden readings.
 \end{proof}
+\leanchecked{BEDC.Derived.LayeredRelationGateUp.LayeredRelationGate\_ledger\_obligation}
 
 The Lean follow-up must provide $\Nontrivial\ \LayeredRelationGateUp$ and $\FieldFaithful\ \LayeredRelationGateUp$ instances in \texttt{lean4/BEDC/Derived/LayeredRelationGateUp/TasteGate.lean}.
 

@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCompletionDensityUp$}
+\label{ch:concrete-instances-regular-cauchy-completion-density-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley on constructive dense completions, the $\RegularCauchyCompletionDensityUp$ packet records the finite non-quotient density route that sits between the dyadic source of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window names of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal seal of \autoref{ch:concrete-instances-real-namecert}, and the dense-source face of \autoref{ch:concrete-instances-cauchy-completion-density-source-namecert}. It gives Real-completion consumers a carrier-local approximation surface before any quotient completion, selected limit, countable-choice principle, or ambient $\RealUp$ completeness theorem is available.
+
+\begin{definition}[RegularCauchyCompletionDensity carrier]
+\label{def:regular-cauchy-completion-density-carrier}
+A $\RegularCauchyCompletionDensityUp$ carrier is a finite $\BHist$ packet
+$$
+X=(D,S,R,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the dense dyadic source row, read through $\CauchyCompletionDensitySourceUp$ and the $\DyadicRatCoreUp$ tolerance ledger.
+\item $S$ is the finite $\StreamNameUp$ window service row used to expose source observations only at requested stages.
+\item $R$ is the $\RegSeqRatUp$ readback row carrying the regular rational representative and its displayed modulus discipline.
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance row recording precision requests, slack rows, and dyadic comparison evidence.
+\item $E$ is the $\RealUp$ seal row reached after the dense source, stream window, regular-rational readback, and tolerance rows have been exposed.
+\item $H$ stores componentwise $\hsame$ transport for dense-source, stream-window, regular-rational, tolerance, seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from each approximation request through $D,S,R,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over the dense dyadic source, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularCauchyCompletionDensityUp}$ row.
+\end{enumerate}
+The classifier reads accepted packets only through these rows and replay paths. It has no coordinate for quotient completions, selected representatives, selected limits, countable choice, host equality of completion classes, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.RegularCauchyCompletionDensityUp}
+
+\begin{theorem}[RegularCauchyCompletionDensity NameCert obligations]
+\label{thm:regular-cauchy-completion-density-namecert-obligations}
+For every accepted $\RegularCauchyCompletionDensityUp$ carrier $X=(D,S,R,Q,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyCompletionDensityUp}$ surface consists exactly of carrier admission for the dense dyadic source row, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance accounting, $\RealUp$ seal, componentwise transport, displayed replay, provenance, and local naming. Any completion-facing consumer must read $D,S,R,Q$ before it can consume the seal row $E$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-completion-density-carrier}. The tuple displays dense-source, stream-window, regular-rational, dyadic-tolerance, Real-seal, transport, replay, provenance, and naming rows.
+
+The dense-source row is source-facing and finite. The StreamName row exposes only requested windows, the RegSeqRat row supplies the regular rational readback, and the DyadicRatCore row supplies the tolerance ledger used before the Real seal is read.
+
+The seal row $E$ is downstream of those rows. Since the packet has no quotient-completion coordinate, selected-limit coordinate, countable-choice coordinate, or ambient-completeness coordinate, the local NameCert obligations are exhausted by the displayed finite route.
+\end{proof}
+
+\begin{theorem}[RegularCauchyCompletionDensity dyadic approximation]
+\label{thm:regular-cauchy-completion-density-dyadic-approximation}
+Every accepted $\RegularCauchyCompletionDensityUp$ packet supplies a finite dyadic approximation route
+$$
+\CauchyCompletionDensitySourceUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp \longmapsto \RealUp .
+$$
+For each requested approximation window, the consumer reads the dense source row $D$, the stream window row $S$, the regular-rational readback row $R$, the dyadic tolerance row $Q$, transport $H$, replay $C$, provenance $P$, and local naming $N$ before reading the $\RealUp$ seal row $E$.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:regular-cauchy-completion-density-namecert-obligations}. They force every completion-facing read to pass through the dense source, stream window, regular rational readback, and dyadic tolerance rows before the seal row can be consumed.
+
+The sibling chapters determine the approximation route. The dense-source packet fixes the source boundary, $\StreamNameUp$ restricts observation to finite windows, $\RegSeqRatUp$ gives the regular rational representative, and $\DyadicRatCoreUp$ supplies the tolerance ledger.
+
+Transport and replay preserve that displayed route. Therefore the exported approximation is a finite dyadic source-to-seal packet, not a quotient completion, selected limit, countable-choice principle, host equality comparison, or ambient $\RealUp$ completeness theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyCompletionDensityUp$ consumer that reaches a $\RealUp$ seal while omitting the dense source, stream window, RegSeqRat readback, DyadicRatCore tolerance, transport, replay, provenance, or local naming row refutes the packet.}
+
+\independenceWitness{cauchy-completion-density-source, dyadicratcore, streamname, regseqrat, real: no listed sibling is bijective with $\RegularCauchyCompletionDensityUp$ because the packet jointly carries dense-source evidence, finite observation windows, regular rational readback, dyadic tolerance accounting, Real-seal handoff, transport, replay, provenance, and local naming.}
+
+\closureat{RegularCauchyCompletionDensityUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCompletionDensityUp}
+  \constructivestory{A $\RegularCauchyCompletionDensityUp$ packet is generated from a dense dyadic source row, finite StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-completion-density-carrier}, \autoref{thm:regular-cauchy-completion-density-namecert-obligations}, and \autoref{thm:regular-cauchy-completion-density-dyadic-approximation} seed the dense dyadic approximation route consumed by constructive Cauchy completion readers.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RegularCauchyCompletionDensityUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completions, selected representatives, selected limits, countable choice, trichotomy, host equality, ambient $\RealUp$ completeness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dense-source exactness, StreamName window readback, RegSeqRat handoff, DyadicRatCore tolerance accounting, RealUp seal non-escape, transport replay, provenance, and TasteGate field faithfulness for BEDC.Derived.RegularCauchyCompletionDensityUp.}
+\end{closurestatus}
