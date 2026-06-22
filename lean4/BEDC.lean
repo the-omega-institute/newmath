@@ -6730,6 +6730,7 @@ import BEDC.Derived.KnotUp
 import BEDC.Derived.KochCurveUp.TasteGate
 import BEDC.Derived.KolmogorovContinuityUp
 import BEDC.Derived.KolmogorovContinuityUp.TasteGate
+import BEDC.Derived.KolmogorovQuotientUp.TasteGate
 import BEDC.Derived.KolmogorovReflectionUp.TasteGate
 import BEDC.Derived.KolmogorovRieszFiniteTranslationUp
 import BEDC.Derived.KolmogorovUp
@@ -9422,6 +9423,7 @@ import BEDC.Derived.RealDiagonalWindowCoverageUp
 import BEDC.Derived.RealDiagonalWindowCoverageUp.TasteGate
 import BEDC.Derived.RealDyadicEmbeddingUp.TasteGate
 import BEDC.Derived.RealDyadicOrderEmbeddingUp.TasteGate
+import BEDC.Derived.RealEqualityReflectionUp.TasteGate
 import BEDC.Derived.RealEqualityUp
 import BEDC.Derived.RealEqualityUp.TasteGate
 import BEDC.Derived.RealExponentialUp
