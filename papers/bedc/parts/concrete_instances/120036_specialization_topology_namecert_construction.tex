@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\SpecializationTopologyUp$}
+\label{ch:concrete-instances-specialization-topology-namecert}
+\origin{human}
+
+Following Kolmogorov's $T_0$ separation reading and Alexandroff's order-theoretic presentation of finite topologies, the $\SpecializationTopologyUp$ packet records the classical route from displayed opens to the specialization preorder as finite BEDC NameCert data. It sits after the indexed-open carrier of \autoref{ch:concrete-instances-topology-namecert}, the preorder carrier of \autoref{ch:concrete-instances-preorder-namecert}, and the observable-open classifier of \autoref{ch:concrete-instances-sierpinski-space-namecert}. The packet names only the finite topology/preorder/Sierpinski bridge; it does not import host opens, quotient point equality, excluded middle over opens, selected representatives, open-cover compactness, or ambient point-set topology.
+
+\begin{definition}[Specialization topology carrier]
+\label{def:specialization-topology-carrier}
+A $\SpecializationTopologyUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ indexed-open row, carrying the open indices, finite membership reads, finite-intersection rows, union rows, and boundary rows supplied by \autoref{ch:concrete-instances-topology-namecert}.
+\item $S$ is the $\SierpinskiSpaceUp$ observable-truth row, reading each displayed open-membership request as a two-observation classifier rather than as a host proposition.
+\item $R$ is the $\PreorderUp$ specialization row, where $x \preceq y$ is recorded only by the displayed implication route saying that every observable open true at $x$ is also true at $y$.
+\item $H$ stores componentwise $\hsame$ transport for the topology row, Sierpinski row, specialization-preorder row, replay, provenance, and local name.
+\item $C$ stores displayed $\Cont$ replay from a topology membership request through $S$ into the specialization row $R$.
+\item $P$ is the $\Pkg$ provenance over $\SpecializationTopologyUp$, $\TopologyUp$, $\SierpinskiSpaceUp$, $\PreorderUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SpecializationTopologyUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $T,S,R,H,C,P,N$. There is no coordinate for a host lattice of opens, quotient point equality, proof irrelevance for open membership, excluded middle, selected representatives, or open-cover compactness.
+\end{definition}
+\leandef{BEDC.Derived.SpecializationTopologyUp.SpecializationTopologyUp}
+
+\begin{theorem}[Specialization topology NameCert obligations]
+\label{thm:specialization-topology-namecert-obligations}
+For every accepted $\SpecializationTopologyUp$ carrier $K=(T,S,R,H,C,P,N)$, the local $\NameCert_{\SpecializationTopologyUp}$ surface consists exactly of carrier admission for the topology, Sierpinski truth, specialization preorder, transport, replay, provenance, and local naming rows; topology exactness through $T$; observable-open exactness through $S$; specialization-preorder exactness through $R$; and provenance exhaustion through $P,N$. No obligation is discharged by host opens, quotient point equality, proof irrelevance, excluded middle over open membership, selected representatives, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:specialization-topology-carrier}. The only visible rows are $T,S,R,H,C,P,N$, so each local obligation must be read from the indexed topology row, the observable-truth row, the specialization-preorder row, or the structural rows.
+
+Topology exactness is supplied by $T$. The packet can inspect only the named open indices and their displayed closure witnesses, so it has no access to a host lattice of all opens.
+
+Observable-open exactness is supplied by $S$. Each membership request becomes Sierpinski classifier data before it is used by the preorder row, and therefore remains displayed truth data rather than an ambient proposition.
+
+Specialization exactness is supplied by $R$. Reflexivity and transitivity are read as preorder data over the observable implication route. The remaining rows $H,C,P,N$ transport, replay, source, and name that finite route, while the refused host objects are absent from the carrier.
+\end{proof}
+
+\begin{theorem}[Specialization topology Sierpinski-preorder route]
+\label{thm:specialization-topology-sierpinski-preorder-route}
+Every consumer that reads a specialization comparison from an accepted $\SpecializationTopologyUp$ packet must factor through the finite route
+$$
+\TopologyUp \longmapsto \SierpinskiSpaceUp \longmapsto \PreorderUp .
+$$
+The topology row supplies open indices, the Sierpinski row supplies observable truth values for those indices, and the preorder row records only the resulting specialization implication. The route exports no host-open lattice, quotient point equality, selected representative function, excluded middle over opens, proof irrelevance, or open-cover compactness principle.
+\end{theorem}
+\begin{proof}
+Start with $T$. A specialization read can ask only for open indices and membership requests already displayed by the $\TopologyUp$ row.
+
+Replay the request through $S$. The $\SierpinskiSpaceUp$ row turns each open-membership read into observable truth data, so the consumer never receives an ambient truth predicate over all host opens.
+
+Feed those truth rows into $R$. The $\PreorderUp$ row records the implication route for specialization comparisons and supplies the preorder surface available to downstream order consumers.
+
+Since the carrier contains no quotient point coordinate, selected representative row, excluded-middle row, proof-irrelevance row, or open-cover compactness row, none of those objects can be exported by the route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SpecializationTopologyUp$ read must display a Topology indexed-open row, a SierpinskiSpace observable-truth row, a Preorder specialization row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert before any specialization comparison is consumed.}
+
+\independenceWitness{topology, preorder, sierpinski-space: $\SpecializationTopologyUp$ is not bijective to any listed sibling because it jointly carries indexed-open rows, observable Sierpinski truth rows, specialization-preorder rows, transport, replay, provenance, and local naming in one finite bridge packet.}
+
+\closureat{SpecializationTopologyUp}{seedStr}
+
+\begin{closurestatus}{\SpecializationTopologyUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:specialization-topology-carrier}, \autoref{thm:specialization-topology-namecert-obligations}, and \autoref{thm:specialization-topology-sierpinski-preorder-route} seed the finite topology, Sierpinski-truth, and specialization-preorder bridge surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host opens, quotient point equality, proof irrelevance, excluded middle over opens, selected representatives, open-cover compactness, Lean NameCert verification, or bridge checking for $\SpecializationTopologyUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, topology exactness, Sierpinski observable-truth exactness, specialization-preorder exactness, transport, replay, provenance, and local naming for BEDC.Derived.SpecializationTopologyUp.}
+  \constructivestory{A $\SpecializationTopologyUp$ packet is generated from a Topology indexed-open row, a SierpinskiSpace observable-truth row, a Preorder specialization row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
