@@ -78,6 +78,18 @@ Apply \autoref{thm:contour-sum-window-namecert-obligations}. Contour route stabi
 Finally use \autoref{thm:contour-sum-window-cauchy-boundary}. Since every Cauchy-facing read factors through $\gamma,f,S,R,I,H,C,P,N$, refinement has no coordinate for a host contour integral, a fresh analytic input, a quotient value, or a selected limit.
 \end{proof}
 
+\begin{theorem}[ContourSumWindow residue boundary]
+\label{thm:contour-sum-window-residue-boundary}
+Any residue-facing consumer of an accepted $\ContourSumWindowUp$ carrier must first expose the $\mathsf{PLContour}$ row $\gamma$, the $\HolomorphicUp$ row $f$, the subdivision and sample row $S$, the Riemann-sum ledger $R$, the $\ComplexUp$ output row $I$, and the structural rows $H,C,P,N$ before reading a residue handoff. The boundary exports no host contour integral, no residue theorem, no quotient complex value, no selected limiting process, and no ambient analytic function-space object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:contour-sum-window-carrier}. The rows available to a residue-facing consumer are exactly $\gamma,f,S,R,I,H,C,P,N$, with $I$ read only after the finite Riemann-sum ledger $R$ has been displayed.
+
+Apply subdivision exactness, \autoref{thm:contour-sum-window-subdivision-exactness}. It forces each summand to be read from the subdivision and sample row $S$ together with the ledger $R$, so a residue handoff cannot replace the window by an unlisted contour-integral value.
+
+Apply refinement stability, \autoref{thm:contour-sum-window-refinement-stability}, and then the Cauchy boundary theorem \autoref{thm:contour-sum-window-cauchy-boundary}. The same contour, holomorphic input, subdivision, ledger, output, transport, replay, provenance, and naming rows remain visible at the boundary, while host contour integrals, residue theorems, quotient values, selected limits, and ambient analytic function spaces remain outside the packet.
+\end{proof}
+
 \begin{theorem}[ContourSumWindow output seal nonescape]
 \label{thm:contour-sum-window-output-seal-nonescape}
 For every accepted $\ContourSumWindowUp$ carrier $W=(\gamma,f,S,R,I,H,C,P,N)$, the $\ComplexUp$ output row $I$ is sealed only after the $\mathsf{PLContour}$ row $\gamma$, the $\HolomorphicUp$ row $f$, the subdivision row $S$, and the Riemann-sum ledger $R$ have been displayed. The sealed output exports no quotient complex value, no selected limiting value, and no host contour integral.
