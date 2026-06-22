@@ -1110,6 +1110,7 @@ import BEDC.Derived.BoolUpEndpoint
 import BEDC.Derived.BooleanTriggerLatticeUp.TasteGate
 import BEDC.Derived.BooleanalgebraUp
 import BEDC.Derived.BooleanalgebraUp.ObligationClosurePackage
+import BEDC.Derived.BooleanalgebraUp.PublicNameCertExport
 import BEDC.Derived.BorelCantelliUp.TasteGate
 import BEDC.Derived.BorelFunctionUp.TasteGate
 import BEDC.Derived.BorelHierarchyUp.TasteGate
@@ -1290,6 +1291,7 @@ import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowRealSealPullback
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealCompleteness
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealHandoff
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSealReadbackCompleteness
+import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSelectorCertificate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.WindowSelectorFactorization
 import BEDC.Derived.BoundedMonotoneConvergenceSealUp.TasteGate
 import BEDC.Derived.BoundedMonotoneSubsequenceUp.TasteGate
@@ -5563,6 +5565,7 @@ import BEDC.Derived.FilterConvergenceUp.TasteGate
 import BEDC.Derived.FilterLimitBasisUp.CofinalCauchyEntourageInduction
 import BEDC.Derived.FilterLimitBasisUp.CofinalSubbasisScope
 import BEDC.Derived.FilterLimitBasisUp.ObligationClosureReadiness
+import BEDC.Derived.FilterLimitBasisUp.PublicExport
 import BEDC.Derived.FilterLimitBasisUp.RealHandoffStability
 import BEDC.Derived.FilterLimitBasisUp.RealWindowExhaustion
 import BEDC.Derived.FilterLimitBasisUp.ScopeExactness
@@ -7575,6 +7578,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourcePackage
 import BEDC.Derived.MetaCICCriticalPathUp.MatureL10SourceSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.MaturePackageConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurface
+import BEDC.Derived.MetaCICCriticalPathUp.NameCertObligationSurfaceCanonical
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineDecidabilityHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.NeutralSpineFourFaceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.NormalAuditSocketHandoff
