@@ -2226,6 +2226,32 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.protein_thermal_stability.scd_charge_patterning_thermal_stability_meltome_human",
+   "experiment_id": "scd_charge_patterning_thermal_stability_meltome_human",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib charge-patterning (SCD) vs measured thermal stability (Tm) test over FLIP/Meltome Atlas human_cell split (tools/bio_reality/data/scd_charge_patterning_thermal_stability_meltome_human.json; measured TPP Tm, predictor=SCD computed from charge positions, leakage-free self-contained). SCD (Sawle-Ghosh, composition-invariant) vs Tm (Spearman) with composition-stratified label-permutation null (length x charged_frac x net_charge terciles, B=3000) + residualized partial (length+20aa+net_charge+charged_frac+disorder_proxy) + held-out protein split; positive control = known composition effect (DEKR/IVL vs Tm). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Deterministic fixed-seed, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_scd_charge_patterning_thermal_stability_meltome_human.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T10:03:16+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [
+     "fasta_parsed",
+     "scd_computed",
+     "composition_perm_null",
+     "partial_residualized",
+     "held_out",
+     "positive_control",
+     "order_sanity",
+     "thermal_boundary_verdict"
+    ],
+    "criteria": {}
+   }
   }
  ]
 }

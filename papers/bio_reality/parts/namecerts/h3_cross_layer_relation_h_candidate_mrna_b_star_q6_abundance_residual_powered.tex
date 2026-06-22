@@ -1,39 +1,44 @@
 \origin{ai}
-\subsection{B-star-Q6 mRNA absorption as a bounded cross-layer readout}
-\label{sec:b-star-q6-mrna-absorption-cross-layer}
+
+\subsection{A rank-powered mRNA candidate test for the $B^{\ast}_{Q6}$ abundance residual}
+\label{sec:bioreality-q6-h-candidate-mrna-abundance-residual}
 
 \paragraph{Finite panel.}
-This record fixes a finite coding-sequence panel in which nine $B^*_{Q6}$ synonymous residual coordinates are evaluated against protein abundance after a modeled translation-weight component has already been removed.  The coordinates are $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\_vs\_UUR}$, $Leu_{UUA\_vs\_UUG}$, $Ser_{UCR\_vs\_AGY}$, $Ser_{UCA\_vs\_UCG}$, $Thr_{ACR\_vs\_ACY}$, and $f3\_stress$.  The control design uses an intercept, $\log(\mathrm{cds\_len\_nt})$, the twenty amino-acid composition proportions computed from real CDS codon counts, GC3 from the same codon counts, and an $M$-density baseline equal to the fraction of sense codons on the union support of the nine projected $B^*_{Q6}$ vectors.  In every organism the reported control matrix has $24$ columns and rank $23$, so the row is not read as an unconstrained residual fit.
+This record fixes a finite cross-layer panel in which the $B^{\ast}_{Q6}$ coordinates are treated as amino-acid-quotient-surviving synonymous residual coordinates, not as amino-acid sequence effects.  The tested coordinate family has nine columns,
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\_vs\_UUR}$, $Leu_{UUA\_vs\_UUG}$, $Ser_{UCR\_vs\_AGY}$, $Ser_{UCA\_vs\_UCG}$, $Thr_{ACR\_vs\_ACY}$, and $f3\_stress$.  Each organism row is residualized against the same control design: an intercept, $\log(\mathrm{cds\_len\_nt})$, twenty amino-acid composition proportions $(A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y)$ computed from real coding-sequence codon counts, $GC3$, and an $M$-density baseline equal to the fraction of sense codons on the union support of the nine projected $B^{\ast}_{Q6}$ vectors.  The resulting control matrix has $24$ columns and rank $23$ in all four organism panels.
 
-\paragraph{Joined rows.}
-The four organism joins are not interchangeable, because mRNA availability changes the protein-id support.  For \emph{Danio rerio}, $n=13140$ rows enter the all-readout join, with $14410$ CDS-protein abundance rows available and $13140$ valid mRNA rows.  For \emph{Escherichia coli} K12 MG1655, $n=3415$, with $3739$ reported joined CDS rows, $3747$ valid abundance rows by protein, and $3415$ valid mRNA rows.  For \emph{Homo sapiens}, $n=11554$, with $19053$ reported joined CDS rows, $19483$ valid abundance rows by protein, and $11554$ valid mRNA rows.  For \emph{Saccharomyces cerevisiae}, $n=5128$, with $5815$ reported joined CDS rows, $6351$ valid abundance rows by protein, and $5128$ valid mRNA rows.  These row counts define the actual finite carrier of the calculation; no result below is asserted outside these joins.
+\paragraph{Joined rows and rank condition.}
+The row counts are large enough to avoid the three-row rank-saturation failure mode.  The joined panels contain $13140$ rows for \emph{Danio rerio}, $3415$ rows for \emph{Escherichia coli} K12 MG1655, $11554$ rows for \emph{Homo sapiens}, and $5128$ rows for \emph{Saccharomyces cerevisiae}.  The corresponding reported coding-sequence joins before the mRNA restriction are $14410$, $3739$, $19053$, and $5815$, respectively.  Valid protein-abundance counts by protein identifier are $14410$, $3747$, $19483$, and $6351$, while valid mRNA counts by protein identifier are exactly the working row counts $13140$, $3415$, $11554$, and $5128$.  Thus the present object is not a fitted all-$1.0$ residual surface; it is a finite projection test on thousands of matched rows, with rank recorded before interpreting any downstream residual.
 
-\paragraph{Modeled-translation complement.}
-Let $P_Q$ denote the protein-abundance component associated with the $B^*_{Q6}$ coordinate block after the declared controls, and let $P_{Q\perp Tmod}$ denote its residual after the modeled translation-weight component.  The computed complement fractions are
+\paragraph{Modeled complement before mRNA projection.}
+For each organism the modeled-tAI complement abundance residual is summarized by the squared norm $\|P_Q\|^2$, the squared norm after projection away from the modeled translation component $\|P_{Q\perp T_{mod}}\|^2$, and the ratio $d_{modeled}$.  The four computed triples are
 $$
 \begin{aligned}
- d_{\mathrm{Danio}} &= 0.8424312412078521,\\
- d_{\mathrm{Ecoli}} &= 0.6628211177352172,\\
- d_{\mathrm{Human}} &= 0.8566190269974241,\\
- d_{\mathrm{Yeast}} &= 0.22386566043976477.
+\textit{Danio rerio}:&\quad \|P_Q\|^2=1092.0114815505467,\quad \|P_{Q\perp T_{mod}}\|^2=919.9445878158525,\quad d_{modeled}=0.8424312412078521,\\
+\textit{E. coli}:&\quad \|P_Q\|^2=393.78692095732885,\quad \|P_{Q\perp T_{mod}}\|^2=261.0102870984463,\quad d_{modeled}=0.6628211177352172,\\
+\textit{H. sapiens}:&\quad \|P_Q\|^2=565.3850201235074,\quad \|P_{Q\perp T_{mod}}\|^2=484.31956581711796,\quad d_{modeled}=0.8566190269974241,\\
+\textit{S. cerevisiae}:&\quad \|P_Q\|^2=675.3275479192903,\quad \|P_{Q\perp T_{mod}}\|^2=151.18264752811882,\quad d_{modeled}=0.22386566043976477.
 \end{aligned}
 $$
-The corresponding squared energies are $\|P_Q\|^2=1092.0114815505467$ and $\|P_{Q\perp Tmod}\|^2=919.9445878158525$ in \emph{Danio rerio}; $393.78692095732885$ and $261.0102870984463$ in \emph{E. coli}; $565.3850201235074$ and $484.31956581711796$ in human; and $675.3275479192903$ and $151.18264752811882$ in yeast.  The comparison against the full-abundance CDS reference join passes the $0.02$ tolerance in \emph{E. coli}, where the difference is $0.00017488612263594217$, and in yeast, where the difference is $0.012133464712697745$.  It does not pass in zebrafish, where the difference is $0.03219747984141397$, or in human, where it is $0.06427590857052146$; those failures are support-shape warnings, not biological counterexamples.
+These numbers say only how much of the $B^{\ast}_{Q6}$ protein-abundance residual remains after the modeled translation-weight component is removed.  They do not yet supply an observed translation-survival matrix $S^{QT}$.
 
-\paragraph{mRNA absorption.}
-The H-candidate test projects $P_{Q\perp Tmod}$ onto residualized $\log_{10}$ mRNA within the same joined rows.  The resulting mRNA absorption is small in all four organisms:
+\paragraph{mRNA as an $H$-candidate covariate.}
+The tested $H$-candidate is residualized $\log_{10}$ mRNA abundance.  It is applied after the modeled-tAI complement step, by projecting $\widehat P_{Q\perp T_{mod}}$ onto the mRNA residual.  The absorption fractions are small in all four organisms: $0.011973033879985792$ for \emph{Danio rerio}, $0.0017706954554908886$ for \emph{E. coli}, $0.007858222847072218$ for \emph{H. sapiens}, and $0.0018976054721605224$ for \emph{S. cerevisiae}.  The corresponding combined residual ratios are
 $$
 \begin{aligned}
- a_{\mathrm{Danio}} &= 0.011973033879985792, & d_{\mathrm{combined}} &= 0.8322280386743373,\\
- a_{\mathrm{Ecoli}} &= 0.0017706954554908886, & d_{\mathrm{combined}} &= 0.6615987644523418,\\
- a_{\mathrm{Human}} &= 0.007858222847072218, & d_{\mathrm{combined}} &= 0.8498079619223776,\\
- a_{\mathrm{Yeast}} &= 0.0018976054721605224, & d_{\mathrm{combined}} &= 0.223360891719316.
+ d_{combined}(\textit{Danio rerio})&=0.8322280386743373,\\
+ d_{combined}(\textit{E. coli})&=0.6615987644523418,\\
+ d_{combined}(\textit{H. sapiens})&=0.8498079619223776,\\
+ d_{combined}(\textit{S. cerevisiae})&=0.223360891719316.
 \end{aligned}
 $$
-Thus this finite row does not promote mRNA abundance to a causal explanation of the residual protein-abundance component.  It says only that, after the modeled translation-weight complement is formed and the declared controls are applied, residualized mRNA absorbs about $1.20\%$ of the complement in zebrafish, $0.18\%$ in \emph{E. coli}, $0.79\%$ in human, and $0.19\%$ in yeast.  Low absorption is also not evidence that the residual is a discovered translation mechanism; it may point to turnover, localization, condition mismatch, measurement noise, or an unmeasured layer.
+The finite interpretation is therefore descriptive: mRNA accounts for roughly one percent or less of the modeled-complement residual in these panels.  A low absorption value is not evidence that the missing component has been found elsewhere, and a high value would not by itself prove a transcript mechanism.
 
-\paragraph{RNA-stability comparison.}
-A separate cross-domain half-life calculation supplies a useful guardrail.  In the \emph{E. coli} half-life join, $2720$ stable ids remain, the CDS join hit rate is $0.9978649586335735$, the residual degrees of freedom after controls are $2697$, $\mathrm{rank}(X)=9$, $\mathrm{rank}(M)=1$, and $\mathrm{rank}(XM)=10$.  The variance partition reports $R^2_{QP}=0.11632311854858134$, $R^2_{QP\mid M}=0.0875945621412319$, mediation fraction $0.24697202727892137$, and right-tail permutation value $0.000999000999000999$.  In the human half-life join, $16165$ stable ids remain, the CDS join hit rate is $0.9779294769799313$, the residual degrees of freedom after controls are $16142$, $\mathrm{rank}(X)=9$, $\mathrm{rank}(M)=1$, and $\mathrm{rank}(XM)=10$.  The corresponding values are $R^2_{QP}=0.04095215557813418$, $R^2_{QP\mid M}=0.03517257842112907$, mediation fraction $0.1411299863319291$, and right-tail permutation value $0.000999000999000999$.  These rows show that an RNA-stability readout can absorb a measurable part of the abundance association in organism-matched finite panels, but they remain observational variance decompositions.
+\paragraph{Join-sensitivity self-check.}
+The mRNA restriction changes the protein-identifier join in two organisms enough to matter.  Against the full-abundance coding-sequence join reference, the absolute differences in $d_{modeled}$ are $0.03219747984141397$ for \emph{Danio rerio}, $0.00017488612263594217$ for \emph{E. coli}, $0.06427590857052146$ for \emph{H. sapiens}, and $0.012133464712697745$ for \emph{S. cerevisiae}.  With the declared tolerance $0.02$, only \emph{E. coli} and \emph{S. cerevisiae} match the complement experiment.  The two failures are not biological counterexamples; they are row-set warnings showing that mRNA availability changes the joined panel used by the $H$-candidate projection.
 
-\paragraph{Verdict.}
-The chapter claim is therefore a bounded cross-layer relation: $B^*_{Q6}$ residual coordinates may be carried into an abundance-readout discussion only through explicit joined rows, declared controls, rank diagnostics, and a separated readout equation.  The present mRNA-abundance row is computed and admissible as a descriptive H-candidate projection, with strongest numerical message that residualized mRNA abundance absorbs little of the modeled-translation complement in the four reported organisms.  No translation realization, ribosome-mediated mechanism, protein folding, physical admissibility, molecular function, phenotype, causal pathway, or universal biological rule follows from this row.  Such a promotion would require a separate layer-matched contact, such as measured translation efficiency for $S^{QT}$, matched protein readout for $S^{QP}$, or an explicitly conditioned mediation surface for $M^{QTP}$.
+\paragraph{Cross-domain stability comparison.}
+A related two-organism stability panel gives an additional finite check on the same $B^{\ast}_{Q6}$ coordinate family.  The \emph{E. coli} three-way join uses $2720$ stable identifiers from $3739$ reported joined coding sequences and $2947$ valid half-life records, with a reported coding-sequence hit rate $0.9978649586335735$.  The human three-way join uses $16165$ stable identifiers from $19053$ reported joined coding sequences and $19480$ valid consensus records, with hit rate $0.9779294769799313$; $16150$ joins come from Ensembl gene identifiers and $15$ from the gene-symbol fallback.  The computed mediation fractions are $0.24697202727892137$ for \emph{E. coli} and $0.1411299863319291$ for human, both with deterministic right-tail permutation value $0.000999000999000999$.  These statistics are variance partitions for matched half-life readouts, not pathway proofs.  They are useful here only because they reinforce the rule that each downstream layer must be evaluated with its own joined rows and its own controls.
+
+\paragraph{Local interpretation boundary.}
+The admissible conclusion is narrow.  The panel computes a rank-powered descriptive projection of the modeled-tAI complement abundance residual onto residualized mRNA, under amino-acid composition, organism, $GC3$, length, and $M$-density controls.  It supports reporting the four $d_{modeled}$ values, the four mRNA absorption fractions, the four $d_{combined}$ values, the row counts, and the join-sensitivity failures.  It does not establish observed translation survival, protein folding, physical admissibility, molecular function, causal mechanism, phenotype, or universality.  A positive protein-abundance residual, a modeled adaptation-weight association, or an mRNA projection may enter a cross-layer claim only after an observed or explicitly bounded $S^{QT}$ translation-readout surface is estimated first; any later $S^{QP}$ or $M^{QTP}$ interpretation must remain conditioned on that prior translation step and on its own layer-matched contact.
