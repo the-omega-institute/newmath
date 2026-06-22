@@ -124,15 +124,31 @@ The stability obligation is supplied by \autoref{thm:finite-window-real-seal-aud
 
 Lean development for this route provides \texttt{Nontrivial FiniteWindowRealSealAuditUp} and \texttt{FieldFaithful FiniteWindowRealSealAuditUp} in \texttt{lean4/BEDC/Derived/FiniteWindowRealSealAuditUp/TasteGate.lean}.
 
+\begin{theorem}[Finite-window Real-seal audit scoped dependency]
+\label{thm:finite-window-real-seal-audit-scoped-dependency}
+For every accepted $\FiniteWindowRealSealAuditUp$ carrier
+$$
+A=(W,D,R,E,F,H,C,P,N),
+$$
+the row $W$ is scoped by $\StreamNameUp$, the row $D$ by $\DyadicRatCoreUp$, the row $R$ by $\RegSeqRatUp$, the row $E$ by $\RealUp$, the row $F$ by the finite $\BHist$ audit refusal, the row $H$ by $\hsame$, the row $C$ by $\Cont$, the row $P$ by $\Pkg$, and the row $N$ by $\NameCert$. Thus each obligation named by the audit packet has a displayed BEDC primitive or sibling-chapter scope before any Real-seal consumer route is admitted.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-real-seal-audit-carrier}. Its displayed rows already name the four route faces $W,D,R,E$, the audit row $F$, and the structural rows $H,C,P,N$.
+
+Apply the NameCert obligations and non-escape theorem, \autoref{thm:finite-window-real-seal-audit-namecert-obligations} and \autoref{thm:finite-window-real-seal-audit-nonescape}. They identify the StreamName window, DyadicRatCore tolerance ledger, RegSeqRat readback, RealUp seal, and audit refusal as the only admitted consumer route.
+
+Use four-face minimality and refusal transport, \autoref{thm:finite-window-real-seal-audit-four-face-minimality} and \autoref{thm:finite-window-real-seal-audit-refusal-transport}, to keep those scopes componentwise under $\hsame$ and displayed $\Cont$ replay. The obligation-closure theorem then packages the same rows through $\Pkg$ provenance and the local $\NameCert$ row, so every dependency has an explicit BEDC primitive or sibling-chapter scope.
+\end{proof}
+
 \begin{closurestatus}{\FiniteWindowRealSealAuditUp}
   \constructivestory{The finite-window Real-seal audit is generated from a $BHist$ packet whose window rows, tolerance rows, audit witness, and Real-seal handoff are all visible before any consumer route is admitted. The carrier convention first names the finite window, then records the audit row that checks the handoff, and finally allows $\Cont$ only to continue that audited route. If the representing history changes, $hsame$ transports the same audit packet rather than creating a new window. The resulting NameCert object is a local audit surface: it certifies that Real-seal use is confined to the displayed finite packet and that forbidden coordinates remain absent.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{This chapter binds the finite-window Real-seal audit carrier, NameCert obligations, non-escape theorem, four-face minimality, refusal transport of \autoref{thm:finite-window-real-seal-audit-refusal-transport}, and obligation closure of \autoref{thm:finite-window-real-seal-audit-obligation-closure}.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{This chapter binds the finite-window Real-seal audit carrier, NameCert obligations, non-escape theorem, four-face minimality, refusal transport of \autoref{thm:finite-window-real-seal-audit-refusal-transport}, obligation closure of \autoref{thm:finite-window-real-seal-audit-obligation-closure}, and scoped dependency theorem of \autoref{thm:finite-window-real-seal-audit-scoped-dependency}.}
   \formalstatus{\axiomCleanV}
   \leanchecked{BEDC.Derived.FiniteWindowRealSealAuditUp.taste\_gate}
   \leantarget{BEDC.Derived.FiniteWindowRealSealAuditUp.FiniteWindowRealSealAuditTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim all Real windows are audited, that finite windows are complete, or that unaudited host limits are admissible.}
-  \upgradepath{Reaching scopedClosure requires explicit dependency scopes over $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \upgradepath{The next paper-side step is public export of the scoped audit consumer route; Lean-side axiom-clean status remains independent.}
 \end{closurestatus}
