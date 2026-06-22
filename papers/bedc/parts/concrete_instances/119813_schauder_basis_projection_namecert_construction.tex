@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\SchauderBasisProjectionUp$}
+\label{ch:concrete-instances-schauder-basis-projection-namecert}
+\origin{human}
+
+Following Schauder and Banach basis theory, the $\SchauderBasisProjectionUp$ packet records finite coordinate projections licensed by displayed Schauder basis data. It sits after the basis packet of \autoref{ch:concrete-instances-schauder-basis-namecert}, the bounded coordinate readback of \autoref{ch:concrete-instances-coordinate-functional-namecert}, the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the norm row of \autoref{ch:concrete-instances-norm-namecert}, the Banach completion surface of \autoref{ch:concrete-instances-banach-namecert}, the regular rational scalar route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The certificate names the projection window and its norm-controlled finite sum without invoking Hamel bases, arbitrary dual vectors, Hahn--Banach extension, quotient functionals, or choice.
+
+\begin{definition}[Schauder basis projection carrier]
+\label{def:schauder-basis-projection-carrier}
+A $\SchauderBasisProjectionUp$ carrier is a finite $\BHist$ packet
+$$
+P=(B,I,Q,C,V,N,R,H,T,S,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\SchauderBasisUp$ source row naming the basis-vector stream, partial-sum route, coordinate requests, tail estimates, and reconstruction data.
+\item $I$ is the finite index-window row, recording the initial segment or finite coordinate set on which the projection is read.
+\item $Q$ is the $\CoordinateFunctionalUp$ row family for the displayed coordinate reads licensed by $B$ and indexed by $I$.
+\item $C$ is the $\RegSeqRatUp$ coefficient row, naming the rational scalar approximants used by the coordinate reads in $Q$.
+\item $V$ is the $\VecSpaceUp$ row naming finite linear-combination syntax, vector addition, scalar action, and the zero vector used to assemble the projected vector.
+\item $N$ is the $\NormUp$ and $\BanachUp$ budget row, recording the bound that treats the finite projection as a norm-controlled operation on the displayed Banach-space carrier.
+\item $R$ is the $\RealUp$ readback row for the projection norm estimate, tail estimate, and completion-facing tolerance.
+\item $H$ records componentwise $\hsame$ transport for the Schauder source, index window, coordinate functional rows, coefficient names, vector operations, norm and Banach budget, real readback, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from a projection request through $B,I,Q,C,V,N,R$.
+\item $S$ records $\Pkg$ provenance over $\SchauderBasisProjectionUp$, $\SchauderBasisUp$, $\CoordinateFunctionalUp$, $\VecSpaceUp$, $\NormUp$, $\BanachUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\SchauderBasisProjectionUp}$ row.
+\end{enumerate}
+The classifier compares packets only through $B,I,Q,C,V,N,R,H,T,S,L$. It has no coordinate for a Hamel basis selector, an arbitrary dual-space element, a Hahn--Banach extension, a quotient functional, countable choice, unconditional convergence, or a projection outside the displayed finite window.
+\end{definition}
+
+\begin{theorem}[Schauder basis projection NameCert obligations]
+\label{thm:schauder-basis-projection-namecert-obligations}
+For every accepted $\SchauderBasisProjectionUp$ carrier $P=(B,I,Q,C,V,N,R,H,T,S,L)$, the local $\NameCert_{\SchauderBasisProjectionUp}$ surface consists exactly of carrier admission, Schauder basis source exposure through $B$, finite window exposure through $I$, coordinate-functional exposure through $Q$, regular rational coefficient exposure through $C$, vector assembly through $V$, norm and Banach budget exposure through $N$, real readback through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, $\Pkg$ provenance through $S$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:schauder-basis-projection-carrier}. The accepted packet exposes exactly the tuple $B,I,Q,C,V,N,R,H,T,S,L$.
+
+The analytic route is fixed by $B,I,Q,C,V,N,R$. The Schauder row supplies the basis source, the index row supplies the finite projection window, the coordinate-functional rows supply the licensed coefficient reads, the regular rational row names the scalar approximants, the vector row assembles the finite linear combination, and the norm and real rows display the boundedness and tolerance data.
+
+The structural rows $H,T,S,L$ preserve that same route under transport, replay, provenance, and naming. Since no carrier coordinate stores a Hamel selector, arbitrary dual vector, Hahn--Banach extension, quotient functional, choice schedule, unconditional convergence proof, or off-window projection, none of those objects becomes a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Schauder basis projection real completion handoff]
+\label{thm:schauder-basis-projection-real-completion-handoff}
+Let $P=(B,I,Q,C,V,N,R,H,T,S,L)$ be an accepted $\SchauderBasisProjectionUp$ carrier. A downstream Real or completion-facing consumer may read the finite projection only after the $\SchauderBasisUp$ source row $B$, the $\CoordinateFunctionalUp$ rows $Q$, the coefficient names $C$, the vector assembly row $V$, the norm and Banach budget row $N$, and the real readback row $R$ have all been exposed along the same transport and replay route. The handoff exports a bounded finite coordinate projection and its displayed tolerance data, but no Hamel basis, no arbitrary functional, no quotient functional, no Hahn--Banach extension, and no choice-selected projection.
+\end{theorem}
+\begin{proof}
+Begin with a projection request. The finite window $I$ determines which coordinate rows in $Q$ are read from the Schauder source $B$, and the regular rational row $C$ names the scalar approximants for those reads.
+
+Assemble the projected vector through $V$. The vector-space row supplies the finite linear-combination syntax for the selected basis vectors and coefficients, while $N$ supplies the norm and Banach budget that lets the projection be treated as a bounded finite operation.
+
+Expose the Real-facing estimate through $R$. The real readback row names the norm and tolerance data that a completion consumer receives, and the transport, replay, provenance, and local naming rows $H,T,S,L$ keep that read tied to the same finite packet.
+
+Therefore the completion-facing handoff is exactly the displayed route through $B,I,Q,C,V,N,R,H,T,S,L$. The omitted principles have no carrier coordinate, so they cannot be exported by the projection certificate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SchauderBasisProjectionUp$ projection read factors through a SchauderBasis source row, finite index window, CoordinateFunctional rows, RegSeqRat coefficient names, VecSpace finite linear-combination syntax, Norm and Banach budget rows, Real tolerance readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+
+\independenceWitness{schauder-basis, coordinate-functional, vecspace, norm, banach, regseqrat, real: no listed sibling supplies the whole packet $P=(B,I,Q,C,V,N,R,H,T,S,L)$, because the projection carrier binds a displayed Schauder source, finite window, coordinate reads, scalar names, vector assembly, norm budget, completion-facing Real tolerance, transport, replay, provenance, and local naming in one finite route.}
+
+\closureat{SchauderBasisProjectionUp}{seedStr}
+
+\begin{closurestatus}{\SchauderBasisProjectionUp}
+  \constructivestory{A $\SchauderBasisProjectionUp$ packet is generated from a SchauderBasis source row, finite index-window row, CoordinateFunctional row family, RegSeqRat coefficient row, VecSpace finite linear-combination row, Norm and Banach budget row, Real readback row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schauder-basis-projection-carrier}, \autoref{thm:schauder-basis-projection-namecert-obligations}, and \autoref{thm:schauder-basis-projection-real-completion-handoff} seed the finite coordinate-projection route licensed by displayed Schauder basis and coordinate-functional data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Hamel bases, arbitrary dual vectors, Hahn--Banach extension, quotient functionals, countable choice, unconditional convergence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, coordinate-readback exactness, vector assembly, norm-budget exposure, Real completion handoff, transport, replay, provenance, and local naming for the displayed Schauder basis projection packet.}
+\end{closurestatus}
