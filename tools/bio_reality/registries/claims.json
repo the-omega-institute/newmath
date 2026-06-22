@@ -8844,6 +8844,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-22T20:24:09+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-22T20:24:09+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "3e68dd74f3a6",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -12140,14 +12157,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "CPE x PAS-distance grammar does NOT cross the readback boundary to predict measured somatic poly(A) tail length beyond 3'UTR length+GC+expression (pre-registered; new layer = poly(A) tail length; conclusive negative). Subtelny 2014 PAL-seq (GSE52809 HeLa n=6796 + yeast cross-organism); the codon-optimality angle is excluded a priori (Subtelny showed tail<->TE coupling is embryo-only, absent in somatic = disguised-e_in); the length-invariant CPE-grammar (CPEB UUUUAU relative to PAS, the uncharacterized-in-somatic-cells frontier) gives partial rho=-0.018 (p=0.13, n.s.) after controlling length+GC+log(RPKM), and is not cross-species concordant -> composition_artifact. Positive control reproduced (replication-dependent histone short tails 48.5 vs global median 87.5; RP genes 74.8) so the readout is valid -> a real negative: CPE-grammar (characterized in oocyte/embryo/neuron) does NOT operate on somatic tail length. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "cpe_grammar_polya_taillength_subtelny2014",
       "history": [
         {
           "ts": "2026-06-22T20:05:17+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-22T20:24:41+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "9581dc27a332",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "2ae1117bea87e463"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.translation-conditioned.rna-half-life-rbp-bridge.cross-layer"
     },
     {
       "claim_id": "h3.cross_layer_relation.translation_termination.stop_context_readthrough_g418_wangen2020",
@@ -12155,15 +12185,28 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "Extended stop-codon sequence context (beyond stop-identity + +4nt) crosses the readback boundary to predict measured G418-induced ribosome readthrough (RRTS) beyond stop-identity+4+3'UTR-length+GC, on held-out transcripts (pre-registered; new layer = translation termination; conclusive crosses_boundary). Wangen & Green eLife 52611 G418 sheet (n=4982 non-zero-RRTS transcripts); core positive control reproduced (UGA 0.42 > UAG 0.35 > UAA 0.31, UGA-C highest stop+4); nested held-out model adds delta R²=0.0154 from extended context over the stop-identity+4+log(UTR3)+GC baseline (perm p=1e-3, held-out not in-sample). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "stop_context_readthrough_g418_wangen2020",
       "history": [
         {
           "ts": "2026-06-22T20:06:53+00:00",
           "status": "open",
           "reason": "re-added after registry lost-update race (daemon bio-X rewrote claims.json clobbering the mid-cycle append; experiment entry survived)"
+        },
+        {
+          "ts": "2026-06-22T20:29:45+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "fe18fff6841f",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "fc327739dfd6f4c5"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.f3-stress.position-resolved-translation-survival.cross-layer"
     },
     {
       "claim_id": "h3.cross_layer_relation.mtor_translation.topscore_mtor_translation_thoreen2012",
@@ -12171,11 +12214,39 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "5' TOP motif strength (TOPscore, Philippe 2020) crosses the readback boundary to predict measured mTOR-inhibition translation suppression (Torin1 TE log2FC) beyond 5'UTR length+GC+baseline expression (pre-registered; new layer = mTOR translation control; conclusive crosses_boundary). TOPscore (PMC7071917 sd05, 8832 genes) vs Thoreen 2012 GSE36892 Torin1 MEF ribosome-profiling TE log2FC (n=6494, human-mouse gene-symbol ortholog join); partial rho=-0.138 (perm p=1e-3, |rho|>0.10) after controlling 5'UTR length+GC+baseline expression (the composition control Philippe 2020 did not perform); positive control reproduced (RP/RPL/RPS TE median -1.29 vs non-RP +0.09, RP far more suppressed). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "topscore_mtor_translation_thoreen2012",
       "history": [
         {
           "ts": "2026-06-22T20:23:51+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-22T20:29:55+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "0c2bbfd3e2d9",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "2e49acdc83c90d95"
+        }
+      ],
+      "linked_conjecture_id": "q6.translation-conditioned.rna-half-life-rbp-bridge.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.branchpoint_usage.branchpoint_motif_usage_mercer2015",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Branchpoint motif/PPT strength is a real but BOUNDED cross-layer contact for measured lariat coverage (a branchpoint-usage proxy), beyond intron length+GC+3'SS strength+BP-3'SS distance+gene expression (pre-registered; new layer = branchpoint usage; conclusive bounded). Mercer 2015 lariat-seq (PMC4315302, n=10584 high-confidence branchpoints with coverage+intron+GTEx-v8 expression, hg19); U2-prior motif+PPT partial rho=-0.048 (perm p=1e-3, beyond null95=0.019 but below the 0.10 crosses floor); positive control reproduced (BP-3'SS distance median 25nt, 92.7% in 18-40nt, branchpoint-A 78.4%); circularity guarded (main readout = continuous coverage not 0/1 detection; motif<->detection rho=-0.032 ~ 0). Negative direction is plausible (strong BP -> efficient splicing -> faster lariat debranching -> less lariat-intermediate coverage). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "branchpoint_motif_usage_mercer2015",
+      "history": [
+        {
+          "ts": "2026-06-22T20:39:51+00:00",
           "status": "open"
         }
       ]
