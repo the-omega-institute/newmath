@@ -59,6 +59,18 @@ The local-join ledger $L$ and bounded checker $B$ then record candidate common r
 Finally the obstruction row $O$ and structural rows $H,T,G,N$ preserve the same conditional boundary. They do not add a global confluence theorem, so the export remains a residual local-join packet for a later bridge.
 \end{proof}
 
+\begin{theorem}[ParallelDiamondResidual MetaCIC sibling route]
+\label{thm:parallel-diamond-residual-metacic-sibling-route}
+Every $\ParallelDiamondResidualUp$ read is a downstream residual-frontier consumer of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. Such a read must preserve the sibling frontier's residual-substitution premise, critical-pair row, candidate-join row, bounded-checker row, compatibility-handoff row, and obstruction row before it may export a residual local-join packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:parallel-diamond-residual-carrier}. Its rows $P,F,S,L,B,C,O,H,T,G,N$ display the residual frontier, residual-substitution boundary, local-join ledger, bounded checker, compatibility handoff, obstruction row, and structural certificate data.
+
+Apply the NameCert obligations theorem \autoref{thm:parallel-diamond-residual-namecert-obligations}. It requires any accepted read to expose $F,S,L,B,C,O$ before the residual local-join packet can be consumed, so the sibling frontier's premise, critical-pair, candidate-join, checker, handoff, and obstruction rows cannot be dropped.
+
+Finally use the conditional handoff theorem \autoref{thm:parallel-diamond-residual-conditional-handoff}. The handoff reaches the MetaCIC confluence route only as a residual-frontier consumer, and the rows $H,T,G,N$ preserve the same displayed boundary for \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}.
+\end{proof}
+
 \begin{theorem}[ParallelDiamondResidual obstruction retention]
 \label{thm:parallel-diamond-residual-obstruction-retention}
 While the obstruction row $O$ remains displayed in an accepted $\ParallelDiamondResidualUp$ packet
@@ -73,6 +85,24 @@ Project the carrier of \autoref{def:parallel-diamond-residual-carrier}. The rows
 Apply the NameCert obligations theorem \autoref{thm:parallel-diamond-residual-namecert-obligations}. It requires the residual frontier $F$, substitution boundary $S$, local-join ledger $L$, bounded checker $B$, compatibility handoff $C$, and obstruction row $O$ to remain visible before the residual local-join packet can be consumed.
 
 Finally use the conditional handoff theorem \autoref{thm:parallel-diamond-residual-conditional-handoff}. Since that handoff supplies only finite residual-frontier, local-join, bounded-checker, compatibility, and obstruction data, any consumer that removes $O$ and reads the packet as one of the refused endpoints has left the displayed $\NameCert_{\ParallelDiamondResidualUp}$ surface.
+\end{proof}
+
+\begin{theorem}[ParallelDiamondResidual frontier obstruction route]
+\label{thm:parallel-diamond-residual-frontier-obstruction-route}
+An accepted $\ParallelDiamondResidualUp$ packet
+$$
+J=(P,F,S,L,B,C,O,H,T,G,N)
+$$
+can be consumed by $\MetaCICParallelDiamondFrontierUp$ from \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert} only while the obstruction row $O$, bounded checker $B$, residual frontier $F$, and substitution boundary $S$ remain displayed. The frontier consumer receives a residual-frontier dependency packet over $F,S,B,O,H,T,G,N$, not a premise-free diamond, full Church--Rosser theorem, closed arbitrary-term confluence theorem, or discharged substitution boundary.
+\end{theorem}
+\begin{proof}
+Project the residual packet $J=(P,F,S,L,B,C,O,H,T,G,N)$. The rows $F,S,B,O$ expose the residual frontier, substitution-sensitive boundary, bounded checker, and obstruction data that a frontier consumer must inspect.
+
+Apply obstruction retention, \autoref{thm:parallel-diamond-residual-obstruction-retention}. It forbids any consumer from reading the packet as a premise-free parallel diamond while $O$ is still a displayed coordinate.
+
+Now read the MetaCIC frontier chapter named in the statement. Its residual-join surface consumes finite frontier, checker, substitution-boundary, and obstruction rows before any candidate diamond read is public, so the same $F,S,B,O$ rows remain part of the dependency rather than surrounding prose.
+
+Finally transport and replay the packet through $H,T,G,N$. These structural rows preserve the displayed dependency for $\MetaCICParallelDiamondFrontierUp$ and add no global confluence, quotienting, or substitution-discharge coordinate.
 \end{proof}
 
 \falsifiablePrediction{Every $\ParallelDiamondResidualUp$ handoff reaches $\MetacicResidualSubstitutionCompatibilityUp$ only through displayed parallel peaks, residual frontiers, $\MetacicResidualSubstitutionBoundaryUp$, $\MetacicLocalJoinLedgerUp$, bounded residual checks, obstruction rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}

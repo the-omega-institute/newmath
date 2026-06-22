@@ -160,4 +160,83 @@ theorem ForwardBindingGapLedgerNoninternalization [AskSetup] [PackageSetup]
     }
   exact ⟨cert, refusalReadUnary, namedUnary⟩
 
+theorem ForwardBindingGapLedgerCarrier_sibling_dependency [AskSetup] [PackageSetup]
+    {commit record gap refusal transport route provenance name recordRead gapRead refusalRead
+      dependencyRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory commit ->
+      UnaryHistory record ->
+        UnaryHistory gap ->
+          UnaryHistory refusal ->
+            UnaryHistory route ->
+              UnaryHistory name ->
+                Cont record gap recordRead ->
+                  Cont gap refusal gapRead ->
+                    Cont refusal route refusalRead ->
+                      Cont recordRead refusalRead dependencyRead ->
+                        PkgSig bundle dependencyRead pkg ->
+                          SemanticNameCert
+                              (fun row : BHist =>
+                                hsame row dependencyRead ∧ UnaryHistory row)
+                              (fun row : BHist =>
+                                hsame row commit ∨ hsame row record ∨ hsame row gap ∨
+                                  hsame row refusal ∨ hsame row route ∨
+                                    hsame row dependencyRead)
+                              (fun row : BHist =>
+                                UnaryHistory row ∧ Cont record gap recordRead ∧
+                                  Cont gap refusal gapRead ∧ Cont refusal route refusalRead ∧
+                                    PkgSig bundle dependencyRead pkg)
+                              hsame ∧
+                            UnaryHistory recordRead ∧ UnaryHistory gapRead ∧
+                              UnaryHistory refusalRead ∧ UnaryHistory dependencyRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro _commitUnary recordUnary gapUnary refusalUnary routeUnary _nameUnary recordGap
+    gapRefusal refusalRoute dependencyRoute dependencyPkg
+  have recordReadUnary : UnaryHistory recordRead :=
+    unary_cont_closed recordUnary gapUnary recordGap
+  have gapReadUnary : UnaryHistory gapRead :=
+    unary_cont_closed gapUnary refusalUnary gapRefusal
+  have refusalReadUnary : UnaryHistory refusalRead :=
+    unary_cont_closed refusalUnary routeUnary refusalRoute
+  have dependencyReadUnary : UnaryHistory dependencyRead :=
+    unary_cont_closed recordReadUnary refusalReadUnary dependencyRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row dependencyRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row commit ∨ hsame row record ∨ hsame row gap ∨
+              hsame row refusal ∨ hsame row route ∨ hsame row dependencyRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont record gap recordRead ∧ Cont gap refusal gapRead ∧
+              Cont refusal route refusalRead ∧ PkgSig bundle dependencyRead pkg)
+          hsame := by
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro dependencyRead
+          ⟨hsame_refl dependencyRead, dependencyReadUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+              unary_transport sourceRow.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.right, recordGap, gapRefusal, refusalRoute, dependencyPkg⟩
+    }
+  exact
+    ⟨cert, recordReadUnary, gapReadUnary, refusalReadUnary, dependencyReadUnary⟩
+
 end BEDC.Derived.ForwardBindingGapLedgerUp
