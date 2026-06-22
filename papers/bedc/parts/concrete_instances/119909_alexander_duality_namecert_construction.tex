@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\AlexanderDualityUp$}
+\label{ch:concrete-instances-alexander-duality-namecert}
+\origin{human}
+
+Following Hatcher and Spanier, the $\AlexanderDualityUp$ packet records the finite simplicial complement route behind Alexander duality as BEDC NameCert data. It sits after the simplicial-complex carrier of \autoref{ch:concrete-instances-simplicialcomplex-namecert}, the homology and cohomology rows of \autoref{ch:concrete-instances-homology-namecert} and \autoref{ch:concrete-instances-cohomology-namecert}, the compact metric support of \autoref{ch:concrete-instances-compactmetric-namecert}, and the circle boundary carrier of \autoref{ch:concrete-instances-s1-namecert}. The chapter names the finite complement-window and boundary rows used by the duality read; it does not import a classical point-set complement, open-cover compactness, selected deformation retracts, quotient homology equality, choice, or ambient local compactness.
+
+\begin{definition}[Alexander duality carrier]
+\label{def:alexander-duality-carrier}
+An $\AlexanderDualityUp$ carrier is a finite $\BHist$ packet
+$$
+A=(K,L,H,C,M,S,W,B,D,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the finite $\SimplicialComplexUp$ row naming the inspected subcomplex and its face-incidence ledger.
+\item $L$ is the finite ambient sphere or compact support row, read through $\CompactMetricUp$ and the boundary discipline of $\SOneUp$ when the inspected window is one-dimensional.
+\item $H$ is the $\HomologyUp$ row for the displayed complement window.
+\item $C$ is the $\CohomologyUp$ row for the displayed subcomplex window.
+\item $M$ is the compact-metric witness row that keeps complement membership and boundary reads finite.
+\item $S$ is the sphere-boundary row, recording the visible boundary orientation and the inspected sphere coordinate windows.
+\item $W$ is the complement-window ledger, listing the finite faces and boundary cells whose complement is available to the duality read.
+\item $B$ is the boundary-link row, pairing each inspected face of $K$ with the corresponding complement-window boundary cell.
+\item $D$ is the duality-degree ledger, recording the inspected degree shift and the finite source and target windows.
+\item $T$ records componentwise $\hsame$ transport for the simplicial, homology, cohomology, compact-support, sphere-boundary, complement-window, boundary-link, and degree rows.
+\item $R$ records displayed $\Cont$ replay for consumers that ask for the same finite duality route.
+\item $P$ is the $\Pkg$ provenance over $\AlexanderDualityUp$, $\SimplicialComplexUp$, $\HomologyUp$, $\CohomologyUp$, $\CompactMetricUp$, $\SOneUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AlexanderDualityUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for an ambient point-set complement, an arbitrary sphere model, a selected deformation retract, quotient homology equality, open-cover compactness, countable choice, or external excision.
+\end{definition}
+
+\begin{theorem}[Alexander duality NameCert obligations]
+\label{thm:alexander-duality-namecert-obligations}
+For every accepted $\AlexanderDualityUp$ carrier $A=(K,L,H,C,M,S,W,B,D,T,R,P,N)$, the local $\NameCert_{\AlexanderDualityUp}$ surface consists exactly of carrier admission for the simplicial-complex row $K$, compact sphere-support row $L$, complement homology row $H$, subcomplex cohomology row $C$, compact-metric row $M$, sphere-boundary row $S$, complement-window ledger $W$, boundary-link row $B$, degree ledger $D$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local naming $N$. A consumer may read the displayed duality window from these rows, but it receives no unrestricted Alexander duality theorem outside the finite carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:alexander-duality-carrier}. The rows $K,L,H,C,M,S,W,B,D,T,R,P,N$ are the entire accepted inventory, so every local certificate obligation must be read from those rows.
+
+The topological input is finite. The simplicial row $K$, compact support row $L$, compact-metric witness $M$, sphere-boundary row $S$, and complement-window ledger $W$ expose only the inspected faces, boundary cells, and complement windows.
+
+The algebraic input is finite as well. The homology row $H$, cohomology row $C$, boundary-link row $B$, and degree ledger $D$ identify the inspected duality source and target windows without introducing quotient representatives or a global exactness principle.
+
+Finally the structural rows $T,R,P,N$ transport, replay, source, and name exactly that packet. Hence the local certificate cannot export an ambient point-set complement, selected deformation retract, quotient homology equality, open-cover compactness, choice, or external excision.
+\end{proof}
+
+\begin{theorem}[Alexander duality simplicial complement route]
+\label{thm:alexander-duality-simplicial-complement-route}
+Every homology or cohomology consumer of an accepted $\AlexanderDualityUp$ packet must first read the finite route
+$$
+\SimplicialComplexUp,\ \CompactMetricUp,\ \SOneUp
+\longmapsto
+W,S,B,D
+\longmapsto
+\HomologyUp,\ \CohomologyUp .
+$$
+The route exposes a displayed complement window, sphere-boundary row, boundary-link ledger, and degree-shift row before the homology and cohomology windows are consumed. It is a finite simplicial complement route, not a classical point-set complement, a host duality isomorphism, a selected deformation retract, quotient homology equality, or a choice principle.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:alexander-duality-namecert-obligations}. They force every consumer to read $K,L,M,S,W,B,D$ before the algebraic windows $H$ and $C$ are available.
+
+The complement route is then determined by $W,S,B,D$. The window ledger $W$ lists the complement cells, the sphere-boundary row $S$ fixes the inspected boundary support, the boundary-link row $B$ pairs subcomplex faces with complement cells, and the degree ledger $D$ records the finite shift read by the algebraic rows.
+
+It remains to pass the route to homology and cohomology consumers. The transport and replay rows $T,R$ preserve the displayed route, while $P,N$ source and name it. Since no other coordinate is present, the consumer receives only the finite simplicial complement route and not an ambient complement theorem, selected deformation retract, quotient equality, or choice datum.
+\end{proof}
+
+\falsifiablePrediction{If the complement-window ledger $W$ is read without the displayed $\SimplicialComplexUp$, $\CompactMetricUp$, sphere-boundary, boundary-link, and degree rows, an accepted $\AlexanderDualityUp$ consumer must refuse the homology/cohomology handoff rather than treating the complement as a host point-set object.}
+
+\independenceWitness{simplicialcomplex, homology, cohomology, compactmetric, s1: $\AlexanderDualityUp$ is not bijective to any listed sibling because it jointly carries complement-window rows, sphere-boundary rows, boundary-link ledgers, degree-shift rows, homology/cohomology windows, transport, replay, provenance, and local naming.}
+
+\closureat{AlexanderDualityUp}{seedStr}
+
+\begin{closurestatus}{\AlexanderDualityUp}
+  \constructivestory{An $\AlexanderDualityUp$ packet is generated from a finite SimplicialComplexUp source row, compact sphere-support rows, complement HomologyUp rows, subcomplex CohomologyUp rows, CompactMetricUp finite support, SOneUp boundary windows when present, complement-window ledgers, boundary-link rows, a degree ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:alexander-duality-carrier}, \autoref{thm:alexander-duality-namecert-obligations}, and \autoref{thm:alexander-duality-simplicial-complement-route} seed the finite simplicial complement route for Alexander duality packets over simplicial, homology, cohomology, compact-metric, and sphere-boundary rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, unrestricted Alexander duality, classical point-set complements, selected deformation retracts, quotient homology equality, open-cover compactness, countable choice, or external excision.}
+  \upgradepath{Obligation closure requires checked carrier admission, complement-window exactness, sphere-boundary exactness, boundary-link stability, degree-ledger readback, homology/cohomology handoff, transport, replay, provenance, and local naming for BEDC.Derived.AlexanderDualityUp.}
+\end{closurestatus}
