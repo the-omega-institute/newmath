@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\JordanOscillationDecompositionUp$}
+\label{ch:concrete-instances-jordan-oscillation-decomposition-namecert}
+\origin{human}
+
+Following Jordan's bounded-variation decomposition theorem, the $\JordanOscillationDecompositionUp$ packet records the finite oscillation route by which a bounded-variation real function is read as two monotone variation ledgers before completion-facing consumers inspect any real output. It sits after the bounded-variation surface of \autoref{ch:concrete-instances-boundedvariation-namecert}, the finite oscillation partition row of \autoref{ch:concrete-instances-finite-oscillation-partition-namecert}, the finite oscillation variation handoff of \autoref{ch:concrete-instances-finite-oscillation-variation-namecert}, the Darboux-sum boundary of \autoref{ch:concrete-instances-darboux-sum-namecert}, and the $\RegSeqRatUp$ and $\RealUp$ readback endpoints of \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed partitions, positive and negative variation rows, finite oscillation ledgers, certified numeric readback, structural transport, replay, provenance, and local naming data; it does not assert host function equality, a quotient measure, a selected supremum over all partitions, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Jordan oscillation decomposition carrier]
+\label{def:jordan-oscillation-decomposition-carrier}
+A $\JordanOscillationDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+J=(I,B,P,O,V_{+},V_{-},D,R,E,H,C,S,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealUp$ interval and endpoint source row.
+\item $B$ is the $\BoundedVariationUp$ source ledger over the same endpoint row.
+\item $P$ is the accepted $\FiniteOscillationPartitionUp$ row, including the displayed cells and refinement witnesses used by the packet.
+\item $O$ is the finite oscillation ledger, recording the oscillation budget visible on each displayed cell.
+\item $V_{+}$ is the positive-variation row, listing the finite upward adjacent-difference reads along $P$.
+\item $V_{-}$ is the negative-variation row, listing the finite downward adjacent-difference reads along $P$.
+\item $D$ is the Darboux-facing comparison row, present only after $P,O,V_{+},V_{-}$ have been displayed.
+\item $R$ is the $\RegSeqRatUp$ readback row for the finite variation and oscillation budgets.
+\item $E$ is the terminal $\RealUp$ seal for endpoint, value, oscillation, and variation reads.
+\item $H$ records componentwise $\hsame$ transport for interval, bounded-variation, partition, oscillation, two variation, Darboux, readback, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay through the same finite rows.
+\item $S$ is the $\Pkg$ provenance over $\JordanOscillationDecompositionUp$, $\BoundedVariationUp$, $\FiniteOscillationPartitionUp$, $\DarbouxSumUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\JordanOscillationDecompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $I,B,P,O,V_{+},V_{-},D,R,E,H,C,S,N$. Its stability predicate is componentwise: refinement of $P$ may split an oscillation cell only by appending finite rows to $O,V_{+},V_{-}$ and by replaying the same $D,R,E,H,C,S,N$ boundary. There is no coordinate for host function equality, quotient measure, external variation supremum, selected refinement family, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Jordan oscillation decomposition NameCert obligations]
+\label{thm:jordan-oscillation-decomposition-namecert-obligations}
+For every accepted $\JordanOscillationDecompositionUp$ carrier $J=(I,B,P,O,V_{+},V_{-},D,R,E,H,C,S,N)$, the local $\NameCert_{\JordanOscillationDecompositionUp}$ surface consists exactly of carrier admission, interval and endpoint exposure through $I$, bounded-variation source exposure through $B$, finite oscillation partition exposure through $P$, oscillation-ledger exactness through $O$, positive and negative variation-ledger exactness through $V_{+}$ and $V_{-}$, Darboux-facing comparison through $D$, regular-rational readback through $R$, terminal Real seal through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $S$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:jordan-oscillation-decomposition-carrier}. The visible rows are precisely the interval, bounded-variation source, finite oscillation partition, oscillation ledger, positive and negative variation ledgers, Darboux comparison, readback, Real seal, transport, replay, provenance, and local name.
+
+The partition row $P$ is the sole route to local oscillation data. Refining a cell replaces one finite oscillation row by finitely many displayed subcell rows and appends the corresponding adjacent-difference entries to $V_{+}$ and $V_{-}$.
+
+The two variation rows are finite $\BHist$ data. Positive variation records upward adjacent differences and negative variation records downward adjacent differences, both read against the same displayed partition and bounded-variation source row $B$.
+
+The Darboux, readback, and Real rows are downstream. Row $D$ can compare only the displayed finite ledgers, $R$ reads only their certified regular-rational budgets, and $E$ seals only those readback values as Real-facing output. Thus no hidden host equality, quotient measure, selected supremum, choice principle, or ambient completeness coordinate enters the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite-variation scope of Jordan oscillation decomposition]
+\label{thm:jordan-oscillation-decomposition-finite-variation-scope}
+Every completion-facing or Darboux-facing read of an accepted $\JordanOscillationDecompositionUp$ packet factors through the finite route
+$$
+\BoundedVariationUp \longmapsto \FiniteOscillationPartitionUp \longmapsto (V_{+},V_{-}) \longmapsto \DarbouxSumUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The route exposes a Jordan-style positive and negative variation decomposition over displayed oscillation partitions, not a host equality between functions, a quotient measure construction, an external total-variation supremum, a choice-selected partition net, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the bounded-variation row $B$ and the displayed interval row $I$. They give the packet a finite source ledger before any decomposition rows are visible.
+
+Next use the oscillation partition row $P$. Each refinement step is a finite ledger operation: oscillation entries in $O$ are subdivided, and the upward and downward adjacent-difference entries are appended to $V_{+}$ and $V_{-}$.
+
+The Darboux row $D$ reads only that finite partition and the two variation ledgers. It can compare upper and lower finite sums, but it has no row for quotient equality of functions, measure completion, or a selected family of refinements.
+
+Finally, $\RegSeqRatUp$ and $\RealUp$ readback occurs only through $R$ and $E$. Since those rows are downstream of the certified finite classifiers $P,O,V_{+},V_{-},D$, every completion-facing output remains inside the displayed finite-variation scope.
+\end{proof}
+
+\closureat{JordanOscillationDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\JordanOscillationDecompositionUp}
+  \constructivestory{A $\JordanOscillationDecompositionUp$ packet is generated from a Real interval row, bounded-variation source ledger, finite oscillation partition, oscillation budget rows, positive and negative variation ledgers, Darboux comparison, RegSeqRat readback, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:jordan-oscillation-decomposition-carrier}, \autoref{thm:jordan-oscillation-decomposition-namecert-obligations}, and \autoref{thm:jordan-oscillation-decomposition-finite-variation-scope} seed the finite Jordan decomposition route from bounded-variation ledgers through oscillation partitions to Real and RegSeqRat readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host function equality, quotient measure construction, external total-variation suprema, selected partition nets, countable choice, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-variation source exposure, finite oscillation partition exposure, positive and negative variation-ledger exactness, Darboux comparison, regular-rational readback, Real seal exactness, transport, replay, provenance, and local naming for BEDC.Derived.JordanOscillationDecompositionUp.}
+\end{closurestatus}
