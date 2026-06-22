@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\TypecheckTraceDeciderUp$}
+\label{ch:concrete-instances-typecheck-trace-decider-namecert}
+\origin{ai}
+
+The $\TypecheckTraceDeciderUp$ packet realizes the MetaCIC decidability audit map of \autoref{ch:metacic-decidable-audit-map} as finite checker-trace data. It reads \texttt{inferTypeCtx}, \texttt{checkSameTerm}, \texttt{normalizeBounded}, and bounded normal-equality comparison as displayed rows, then keeps refusal and provenance visible before any NameCert consumer can replay the trace. The packet is adjacent to \autoref{ch:concrete-instances-metacic-decidable-typechecking-handoff-namecert}, \autoref{ch:concrete-instances-metacic-decidable-typing-frontier-namecert}, \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, and \autoref{ch:concrete-instances-metacic-fuel-trace-namecert}; it does not claim unrestricted conversion decidability or fuel-erased normalization.
+
+\begin{definition}[Type-check trace decider carrier]
+\label{def:typecheck-trace-decider-carrier}
+A $\TypecheckTraceDeciderUp$ carrier is a finite $\BHist$ packet
+$$
+T=(G,I,Q,B,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the represented MetaCIC context row consumed by \texttt{inferTypeCtx}.
+\item $I$ is the type-check trace row, recording the checker input, option-valued output, and the local soundness-completeness witness surface.
+\item $Q$ is the same-term row exposed by \texttt{checkSameTerm} before a typing trace compares represented terms.
+\item $B$ is the bounded-normal comparison row, carrying \texttt{normalizeBounded} fuel and the corresponding bounded normal-equality check.
+\item $R$ is the refusal row recording that the packet does not export unrestricted beta-conversion decidability, host definitional equality, or a hidden normalizer endpoint.
+\item $H$ records componentwise $\hsame$ transport for the context, checker trace, same-term row, bounded-normal row, refusal row, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay through the same checker, comparison, refusal, transport, provenance, and local naming route.
+\item $P$ records $\Pkg$ provenance over $\TypecheckTraceDeciderUp$, $\MetaCICDecidableTypecheckingHandoffUp$, $\MetaCICDecidableTypingFrontierUp$, $\BoundedNormalEqualityCheckerUp$, $\MetaCICFuelTraceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ records the local $\NameCert_{\TypecheckTraceDeciderUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host typechecker, proof-irrelevant term equality, fuel-erased normalization, unrestricted conversion, or an external closedness oracle.
+\end{definition}
+\leandef{BEDC.Derived.TypecheckTraceDeciderUp}
+
+\begin{theorem}[Type-check trace decider obligations]
+\label{thm:typecheck-trace-decider-obligations}
+For every accepted $\TypecheckTraceDeciderUp$ carrier $T=(G,I,Q,B,R,H,C,P,N)$, the local $\NameCert_{\TypecheckTraceDeciderUp}$ surface consists exactly of context admission, \texttt{inferTypeCtx} trace exposure, \texttt{checkSameTerm} exposure, bounded-normal comparison exposure, refusal-boundary retention, componentwise transport, displayed replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $G$ and $I$ expose the finite checker trace for \texttt{inferTypeCtx}; they do not add a host typechecker.
+
+Read the comparison side through $Q$ and $B$. Structural same-term data and bounded-normal comparison data are displayed as finite rows with their fuel and outputs still visible.
+
+The refusal row $R$ remains part of the NameCert route whenever a consumer asks for unrestricted conversion, fuel-erased normalization, or external closedness. Transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve the same finite trace and add no hidden oracle.
+\end{proof}
+
+\begin{theorem}[Type-check trace decider replay boundary]
+\label{thm:typecheck-trace-decider-replay-boundary}
+Every consumer of an accepted $\TypecheckTraceDeciderUp$ packet factors through
+$$
+G,I,Q,B,R \longmapsto H,C,P,N .
+$$
+The rows $G,I$ make the checked typing trace public, $Q$ makes structural same-term checking public, $B$ makes bounded normal comparison public, and $R$ keeps the conversion refusal visible. Thus the packet supplies a finite trace decider surface, not an unrestricted conversion or normalization theorem.
+\end{theorem}
+\begin{proof}
+Start from a consumer read and project the context and checker trace rows $G,I$. The typing decision surface is the displayed \texttt{inferTypeCtx} trace.
+
+Next project the equality rows. The same-term row $Q$ is structural, while $B$ is bounded by the displayed \texttt{normalizeBounded} fuel and comparison output.
+
+Finally route the read through $R,H,C,P,N$. The refusal row blocks stronger conversion readings, and transport, replay, provenance, and local naming preserve only the finite trace packet.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\TypecheckTraceDeciderUp$ consumer is refuted if it promotes \texttt{normalizeBounded} to fuel-erased conversion or omits the refusal row $R$ while reading bounded normal-equality data.}
+
+\independenceWitness{metacic-decidable-typechecking-handoff, metacic-decidable-typing-frontier, bounded-normal-equality-checker, metacic-fuel-trace: no listed sibling is bijective to $\TypecheckTraceDeciderUp$ because this packet jointly carries checked typing traces, same-term checks, bounded-normal comparison, refusal, transport, replay, provenance, and local naming.}
+
+The Lean follow-up is finite: the carrier declaration should support `Nontrivial TypecheckTraceDeciderUp` and `FieldFaithful TypecheckTraceDeciderUp` instances by encoding the rows $G,I,Q,B,R,H,C,P,N$ into a displayed event-flow route.
+
+\closureat{TypecheckTraceDeciderUp}{seedStr}
+
+\begin{closurestatus}{\TypecheckTraceDeciderUp}
+  \constructivestory{A $\TypecheckTraceDeciderUp$ packet is generated from a represented context, inferTypeCtx trace row, checkSameTerm row, normalizeBounded comparison row, refusal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:typecheck-trace-decider-carrier}, \autoref{thm:typecheck-trace-decider-obligations}, and \autoref{thm:typecheck-trace-decider-replay-boundary} seed the finite trace-decider NameCert surface.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.TypecheckTraceDeciderUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted beta-conversion decidability, fuel-erased normalization, host typechecking, proof-irrelevant term equality, external closedness decision, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, inferTypeCtx trace exactness, same-term exactness, bounded-normal comparison exactness, refusal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.TypecheckTraceDeciderUp.}
+\end{closurestatus}
