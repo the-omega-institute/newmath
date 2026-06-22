@@ -138,7 +138,7 @@ private theorem finitePrefixAutomatonToEventFlow_injective
     (Eq.trans (finitePrefixAutomaton_round_trip x).symm
       (Eq.trans hread (finitePrefixAutomaton_round_trip y)))
 
-private def finitePrefixAutomatonFields : FinitePrefixAutomatonUp → List BHist
+def finitePrefixAutomatonFields : FinitePrefixAutomatonUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | FinitePrefixAutomatonUp.mk Q q0 A T W R E H C P N => [Q, q0, A, T, W, R, E, H, C, P, N]
 
