@@ -70,11 +70,25 @@ The Real-facing boundary is reached only at $E$. The remaining rows $T,C,P,N$ tr
 Because the carrier omits host weak convergence, measure completion, quotient function equality, selected subsequences, countable choice, and ambient Real completeness, every accepted consumer read is exhausted by the displayed finite-window route.
 \end{proof}
 
+\begin{theorem}[Helly--Bray distribution forward link]
+\label{thm:helly-bray-selection-distribution-forward-link}
+Every $\DistributionUp$, $\MeasureUp$, or $\ProkhorovTightProbabilityUp$ consumer that cites an accepted $\HellyBraySelectionUp$ carrier must first read the $\BoundedVariationUp$ source row, the $\JordanVariationDecompositionUp$ signed-variation row, the $\StreamNameUp$ finite-window rows, the $\RegSeqRatUp$ readback row, and the terminal $\RealUp$ seal rows of \autoref{def:helly-bray-selection-carrier}. The downstream route to \autoref{ch:concrete-instances-distribution-namecert}, \autoref{ch:concrete-instances-measure-namecert}, and \autoref{ch:concrete-instances-prokhorov-tight-probability-namecert} therefore receives only bounded-variation source data, Jordan variation data, displayed windows, rational readback, Real seals, componentwise transport, replay, provenance, and local naming. It receives no host weak convergence theorem, measure completion, quotient equality, selected subsequence, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $H=(B,J,S,R,E,T,C,P,N)$. The only distribution-facing source row is $B$, and the only signed-measure decomposition row available to the packet is $J$.
+
+Use the finite-window route of \autoref{thm:helly-bray-selection-finite-window-route}. It forces every Real-facing and variation-facing read through $S,R,E$ before the transport, replay, provenance, and local naming rows can be consumed.
+
+Now attach a downstream distribution, measure, or tight-probability request. Since those consumers cite the Helly--Bray packet only through the displayed route, the request reaches \autoref{ch:concrete-instances-distribution-namecert}, \autoref{ch:concrete-instances-measure-namecert}, or \autoref{ch:concrete-instances-prokhorov-tight-probability-namecert} after $B,J,S,R,E,T,C,P,N$ have already been displayed.
+
+The excluded objects are not carrier coordinates. Thus the forward link cannot export host weak convergence, measure completion, quotient equality, selected subsequences, countable choice, or ambient Real completeness to any distribution-facing consumer.
+\end{proof}
+
 \closureat{HellyBraySelectionUp}{seedStr}
 
 \begin{closurestatus}{\HellyBraySelectionUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:helly-bray-selection-carrier}, \autoref{thm:helly-bray-selection-namecert-obligations}, and \autoref{thm:helly-bray-selection-finite-window-route} seed the finite Helly--Bray selection route over bounded-variation data, Jordan signed-variation rows, finite StreamName windows, RegSeqRat readback, Real seals, transport, replay, provenance, and local naming.}
+  \scopeclosed{\autoref{def:helly-bray-selection-carrier}, \autoref{thm:helly-bray-selection-namecert-obligations}, \autoref{thm:helly-bray-selection-finite-window-route}, and \autoref{thm:helly-bray-selection-distribution-forward-link} seed the finite Helly--Bray selection route over bounded-variation data, Jordan signed-variation rows, finite StreamName windows, RegSeqRat readback, Real seals, transport, replay, provenance, local naming, and distribution-facing consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host weak convergence, measure completion, quotient function equality, selected subsequences, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
