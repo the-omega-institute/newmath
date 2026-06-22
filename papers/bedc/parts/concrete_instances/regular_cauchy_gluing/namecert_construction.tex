@@ -54,6 +54,18 @@ Apply the classifier of \autoref{def:regular-cauchy-gluing-classifier}. A refine
 The glued readback row $Q$ is therefore the same row after refinement, and the $\RealUp$ seal $E$ is read only through $Q$ together with $H,C,P,N$. Since the carrier contains no quotient, selector, host-equality, choice, or completeness coordinate, none of those data can be exported by overlap stability.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy gluing common-refinement exactness]
+\label{thm:regular-cauchy-gluing-common-refinement-exactness}
+Let $G=(L,R,D,S,Q,E,H,C,P,N)$ be an accepted $\RegularCauchyGluingUp$ carrier. Every glued readback exported from $G$ must expose the common $\DyadicRatCoreUp$ refinement row $D$ before the $\RegSeqRatUp$ readback row $Q$ and the $\RealUp$ seal row $E$. The exactness route is transported by $H$ and replayed by $C$, and it exports no quotient stream equality, selected representative, host real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The row $D$ is the common dyadic refinement ledger shared by the two local regular Cauchy windows, while $Q$ is the glued regular readback and $E$ is the terminal Real seal.
+
+Apply overlap stability from \autoref{thm:regular-cauchy-gluing-overlap-stability}. Any accepted refinement of the overlap preserves the same $Q$ and $E$ only through the displayed ledger and observation rows, so a glued readback cannot bypass $D$.
+
+Finally use the Cauchy-reindexing handoff of \autoref{thm:regular-cauchy-gluing-cauchy-reindexing-handoff}. It reads $D,S,Q$ as the finite reindexing-compatible route before any Real-facing consumer reaches $E$, with $H,C,P,N$ preserving and naming the same route.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy gluing overlap induction]
 \label{thm:regular-cauchy-gluing-overlap-induction}
 Let $G=(L,R,D,S,Q,E,H,C,P,N)$ be an accepted $\RegularCauchyGluingUp$ carrier. For any finite chain of displayed overlap refinements transported by $H$ and replayed by $C$, the glued $\RegSeqRatUp$ readback $Q$ and the terminal $\RealUp$ seal $E$ remain unchanged. The resulting route still factors through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\CauchyReindexingUp$, and it exports no quotient stream equality, selected representatives, host equality, countable choice, or ambient completeness.
