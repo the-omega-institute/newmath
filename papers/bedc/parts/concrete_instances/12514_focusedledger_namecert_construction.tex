@@ -67,6 +67,27 @@ The fourth obligation is \autoref{thm:focused-ledger-audit-closure}. The fifth o
 \end{proof}
 \leanchecked{BEDC.Derived.FocusedLedgerUp.FocusedLedgerNameCert\_obligation\_surface}
 
+\begin{definition}[Focused ledger kernel scope]
+\label{def:focused-ledger-kernel-scope}
+The kernel scope of a $\FocusedLedgerUp$ consumer is the displayed $\BHist$ route
+$$
+I,H,T,F,S,D,G,R,J,Q,\rho,A,C,P,N
+$$
+from \autoref{def:focused-ledger-carrier}. A consumer is kernel-scoped when carrier admission, selector, digest, gap, relation, invariant, dependence, self-proxy, audit refusals, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming are all read through this route before any focused-ledger conclusion is exported.
+\end{definition}
+
+\begin{theorem}[Focused ledger kernel-scope route]
+\label{thm:focused-ledger-kernel-scope-route}
+Every $\FocusedLedgerUp$ consumer factors carrier admission, selector rows, digest rows, gap rows, relation rows, invariant rows, dependence rows, self-proxy rows, audit refusals, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and $\NameCert$ naming through the kernel scope of \autoref{def:focused-ledger-kernel-scope}. In particular, it cannot route the focused ledger through a subject parameter, global clock, hidden chooser, object-level time coordinate, unledgered compression step, or meta-closure oracle.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligation surface, \autoref{thm:focused-ledger-namecert-obligation-surface}. Its carrier-admission and classifier-stability rows already name the selected history, selector ledger, digest ledger, relation row, invariant row, dependence row, and self-proxy row as displayed coordinates.
+
+Next apply audit closure, \autoref{thm:focused-ledger-audit-closure}. The six refusals rule out the omitted subject, clock, chooser, compression, object-level time, and meta-closure coordinates before the consumer reaches replay or naming.
+
+Finally read the kernel scope definition. The route ends with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row, so any exported focused-ledger conclusion remains inside the displayed $\BHist$ kernel rows.
+\end{proof}
+
 \begin{theorem}[Focused ledger sibling independence]
 \label{thm:focused-ledger-sibling-independence}
 $\FocusedLedgerUp$ is not bijective with $\ConsciousUniverseSpaceUp$, $\ObserverHistIdentityUp$, $\InterHistLocalityLedgerUp$, $\InscriptionEventUp$, or $\OnticResidueLedgerUp$. The focused ledger carries the whole focus-selector-digest-gap-relation-invariant-audit tuple, while each sibling omits at least one of the required focused-ledger rows or one audit refusal.
