@@ -1,3 +1,5 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
@@ -6,6 +8,8 @@ import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.DecidableBarUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
@@ -119,5 +123,85 @@ theorem DecidableBarCarrier_namecert_obligations
       exact ⟨source.right, source.left⟩
   }
   exact ⟨cert, depthUnary, nameUnary⟩
+
+theorem DecidableBarRealCompletionBoundary [AskSetup] [PackageSetup]
+    {C S W R D H T P N streamRead barRead depthRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DecidableBarCarrier C S W R D H T P N →
+      Cont C S streamRead →
+        Cont W R barRead →
+          Cont barRead D depthRead →
+            Cont depthRead N namedRead →
+              PkgSig bundle namedRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row C ∨ hsame row S ∨ hsame row W ∨ hsame row R ∨
+                        hsame row D ∨ hsame row H ∨ hsame row T ∨ hsame row P ∨
+                          hsame row N ∨ hsame row streamRead ∨ hsame row barRead ∨
+                            hsame row depthRead ∨ hsame row namedRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont C S streamRead ∧ Cont W R barRead ∧
+                        Cont barRead D depthRead ∧ Cont depthRead N namedRead ∧
+                          PkgSig bundle namedRead pkg)
+                    hsame ∧
+                  UnaryHistory streamRead ∧ UnaryHistory barRead ∧
+                    UnaryHistory depthRead ∧ UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier streamRoute barRoute depthRoute namedRoute namedPkg
+  obtain
+    ⟨unaryC, unaryS, unaryW, unaryR, unaryD, _unaryH, _unaryT, _unaryP, unaryN,
+      _sameH, _carrierStreamRoute, _carrierDepthRoute⟩ := carrier
+  have streamUnary : UnaryHistory streamRead :=
+    unary_cont_closed unaryC unaryS streamRoute
+  have barUnary : UnaryHistory barRead :=
+    unary_cont_closed unaryW unaryR barRoute
+  have depthUnary : UnaryHistory depthRead :=
+    unary_cont_closed barUnary unaryD depthRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed depthUnary unaryN namedRoute
+  have namedSource :
+      (fun row : BHist => hsame row namedRead ∧ UnaryHistory row) namedRead :=
+    ⟨hsame_refl namedRead, namedUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row C ∨ hsame row S ∨ hsame row W ∨ hsame row R ∨ hsame row D ∨
+              hsame row H ∨ hsame row T ∨ hsame row P ∨ hsame row N ∨
+                hsame row streamRead ∨ hsame row barRead ∨ hsame row depthRead ∨
+                  hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont C S streamRead ∧ Cont W R barRead ∧
+              Cont barRead D depthRead ∧ Cont depthRead N namedRead ∧
+                PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead namedSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+          (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, streamRoute, barRoute, depthRoute, namedRoute, namedPkg⟩
+  }
+  exact ⟨cert, streamUnary, barUnary, depthUnary, namedUnary⟩
 
 end BEDC.Derived.DecidableBarUp
