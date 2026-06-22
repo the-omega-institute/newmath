@@ -71,6 +71,26 @@ Next read the normalized threshold $\Theta$. The two StreamName windows, dyadic 
 The agreement and Real rows are therefore downstream of the same finite threshold. The rows $A,E,H,C,P,L,N$ transport, replay, source, ledger, and name the displayed route, and the carrier contains no coordinate for a second route around $\Theta$.
 \end{proof}
 
+\begin{theorem}[Cauchy tail threshold normalizer tail-window induction]
+\label{thm:cauchy-tail-threshold-normalizer-tail-window-induction}
+Every accepted $\CauchyTailThresholdNormalizerUp$ packet normalizes a threshold read by finite induction over the displayed $\StreamNameUp$ tail windows. The base window is the threshold row $\Theta$ exposed between $S,M$ and $W_0,W_1$; each successor window preserves the $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, route-exhaustion ledger, and local $\NameCert$ row.
+
+Consequently every Real-facing consumer must pass through the same finite induction surface before reading a tail window. The induction exports no quotient stream equality, selected limit, trichotomy, countable choice, ambient Real completeness, private side threshold, or second Real seal route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-tail-threshold-normalizer-carrier}. Its threshold row $\Theta$ is displayed before the two $\StreamNameUp$ windows, so the base step is the finite threshold read itself, not a hidden limit or quotient-stream representative.
+
+For the successor step, use the componentwise transport row $H$. Moving from one displayed tail window to the next preserves the shared-tail source, seal row, threshold row, tolerance ledger, regular readback, agreement-seal handoff, Real consumer row, continuation replay, provenance, route ledger, and local naming row component by component.
+
+The $\DyadicRatCoreUp$ and $\RegSeqRatUp$ rows supply the numerical readback discipline at each displayed window. The $\RealUp$ seal row is downstream of those rows, so no successor step can inspect a Real-facing value before the window, tolerance, and readback data have been presented.
+
+Finally apply route exhaustion from \autoref{thm:cauchy-tail-threshold-normalizer-route-exhaustion}. Every accepted Real-facing consumer already factors through
+$$
+S\longmapsto M\longmapsto\Theta\longmapsto(W_0,W_1,D,R)\longmapsto(A,E,H,C,P,L,N),
+$$
+so the induction has no coordinate for quotient equality, selected limits, trichotomy, countable choice, ambient completeness, private side thresholds, or a second Real seal route.
+\end{proof}
+
 \begin{theorem}[Cauchy tail threshold normalizer shared-threshold uniqueness]
 \label{thm:cauchy-tail-threshold-normalizer-shared-threshold-uniqueness}
 Let $T$ and $T'$ be accepted $\CauchyTailThresholdNormalizerUp$ carriers read by $\RealUp$ or $\RealTailAgreementSealUp$ consumers. If the two consumers read the same shared-tail source row $S$ and the same seal-facing modulus row $M$ through classified normalizer packets, then both consumers expose the same normalized threshold row $\Theta$ before any $W_0,W_1,D,R,A,E$ row is available.
@@ -105,6 +125,7 @@ Apply shared-threshold uniqueness from \autoref{thm:cauchy-tail-threshold-normal
 
 Finally use the classifier of \autoref{def:cauchy-tail-threshold-normalizer-classifier}. It compares the downstream rows componentwise over the shared threshold surface, so $W_0,W_1,D,R,A$ are determined as reads below that same $\Theta$ rather than as private tail windows or side thresholds.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyTailThresholdNormalizerUp.CauchyTailThresholdNormalizerRealFacingDeterminacy}
 
 \begin{theorem}[Cauchy tail threshold composition scope]
 \label{thm:cauchy-tail-threshold-composition-scope}
