@@ -6793,6 +6793,7 @@ import BEDC.Derived.LiminfUp.GapWidth
 import BEDC.Derived.LiminfUp.LowerCutReadback
 import BEDC.Derived.LiminfUp.LowerCutReadbackScope
 import BEDC.Derived.LiminfUp.RealSealExhaustion
+import BEDC.Derived.LiminfUp.RegularSequenceRoute
 import BEDC.Derived.LiminfUp.ScopedTailEnvelope
 import BEDC.Derived.LiminfUp.ZeroGapConvergence
 import BEDC.Derived.LimitComparisonTestUp.TasteGate
@@ -7278,6 +7279,7 @@ import BEDC.Derived.MaxCausalRateUp
 import BEDC.Derived.MaxCausalRateUp.TasteGate
 import BEDC.Derived.MaxRateReadGateUp.TasteGate
 import BEDC.Derived.MayerVietorisSequenceUp.TasteGate
+import BEDC.Derived.MazurUlamIsometryUp
 import BEDC.Derived.McShaneExtensionUp.TasteGate
 import BEDC.Derived.MeagreSetUp.TasteGate
 import BEDC.Derived.MeanErgodicUp.TasteGate
@@ -10301,6 +10303,7 @@ import BEDC.Derived.RiemannSumUp.MatureFiniteMeshExamples
 import BEDC.Derived.RiemannSumUp.TasteGate
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.RieszFischerUp.TasteGate
+import BEDC.Derived.RieszInterpolationUp
 import BEDC.Derived.RieszLemmaUp.NormedSeparationWitness
 import BEDC.Derived.RieszLemmaUp.TasteGate
 import BEDC.Derived.RieszMarkovUp.TasteGate
