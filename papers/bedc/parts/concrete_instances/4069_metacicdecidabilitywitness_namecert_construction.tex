@@ -123,6 +123,22 @@ unbounded strong normalisation, global confluence, and ambient decidability
 outside the exported surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidability witness confluence-handoff boundary]
+\label{thm:metacic-decidability-witness-confluence-handoff-boundary}
+Every confluence or decidability consumer of an accepted $\MetacicDecidabilityWitnessUp$ packet must read the bounded checker rows
+$$
+T,S,B,F,R,H,C,P,N
+$$
+together with any confluence-normal-fragment sibling row as bounded evidence only. The handoff cannot export $\mathrm{BetaParallelDiamondClosed}$, full closed Church--Rosser, subject reduction, quotient syntax equality, kernel consistency, unrestricted beta-conversion decidability, or a host evaluator.
+\end{theorem}
+\begin{proof}
+Start with the bounded normal-form split of \autoref{thm:metacic-decidability-witness-bounded-normal-form-split}. It confines normal-form inspection to the displayed typing, same-term, bounded beta, finished-normal, refusal, transport, replay, provenance, and local naming rows.
+
+Apply the typing-exactness route of \autoref{thm:metacic-decidability-witness-typing-exactness-route}. A confluence or decidability consumer cannot combine $S,B,F$ as checker evidence before $T$ exposes the inferTypeCtx exactness row.
+
+Finally use bounded-search exhaustion, \autoref{thm:metacic-decidability-witness-bounded-search-exhaustion}. It exhausts all requested finite conversion and typing reads inside the displayed depth bound. A confluence-normal-fragment sibling row may therefore be consumed only as another bounded row beside $T,S,B,F,R,H,C,P,N$, with the global diamond, Church--Rosser, subject-reduction, quotient-equality, consistency, and evaluator endpoints still absent.
+\end{proof}
+
 \begin{definition}[MetaCIC parallel-diamond fuel window]
 \label{def:metacic-parallel-diamond-fuel-window}
 A $\MetacicDecidabilityWitnessUp$ parallel-diamond fuel-window packet is a finite $\BHist$ row
