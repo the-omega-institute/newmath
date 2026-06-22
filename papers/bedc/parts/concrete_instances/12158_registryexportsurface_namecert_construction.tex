@@ -141,6 +141,46 @@ Use \autoref{thm:registry-export-surface-nonescape}, \autoref{thm:registry-expor
 Finally apply \autoref{thm:registry-export-surface-nonsmuggling-ledger-exhaustion}. The non-smuggling row connects the public route to the cannot-claim, large-model-output-verifier, focused-ledger, GroundCompiler-recognition, and physical NameCert audit sibling surfaces named in the chapter introduction. Since no checked $\StdBridge$ row is displayed, the result is a bridged paper route while the bridge verification axis remains unchanged.
 \end{proof}
 
+\begin{theorem}[Registry export surface obligation rows]
+\label{thm:registry-export-surface-obligation-rows}
+For every accepted $\RegistryExportSurfaceUp$ packet $E=(R,B,S,M,A,U,H,C,P,N)$, the registration row $R$, blocking row $B$, status row $S$, machine-target row $M$, audit row $A$, and non-smuggling row $U$, together with $H,C,P,N$, exhaust the public obligation surface. No registry export obligation remains outside registration, blocking, status exactness, machine-target exposure, audit replay, non-smuggling accountability, componentwise transport, continuation replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:registry-export-surface-carrier}. Its visible coordinates are exactly $R,B,S,M,A,U,H,C,P,N$, and the definition excludes unregistered claims, private blocking overrides, hidden machine targets, and prose-only export routes.
+
+Apply \autoref{thm:registry-export-surface-namecert-obligations}. The obligation list already assigns carrier admission, registration and blocking coverage, status exactness, machine-target and audit exposure, non-smuggling accountability, and transport/replay/provenance/name rows to these coordinates.
+
+It remains to exclude a public obligation outside the list. Use \autoref{thm:registry-export-surface-public-bridge-route}: the public bridge route reads the same registration, blocking, status, machine-target, audit, and non-smuggling rows before connecting to sibling surfaces. Hence every public obligation is already one of the displayed rows.
+\end{proof}
+
+\begin{theorem}[Registry export surface ledger nonescape]
+\label{thm:registry-export-surface-ledger-nonescape}
+No accepted $\RegistryExportSurfaceUp$ export route can bypass the blocking and non-smuggling ledger. Any route that exports a registry claim must read $B$ and $U$ through the same status, machine-target, audit, transport, replay, provenance, and local $\NameCert$ rows that name the carrier.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:registry-export-surface-nonescape}. It states that every public consumer exporting a registry claim reads $R,B,S,M,A,U,H,C,P,N$ and cannot recover the export from prose synthesis, model output, hidden registry state, or a machine target that bypasses $B$.
+
+The status exactness theorem, \autoref{thm:registry-export-surface-status-exactness}, keeps blocked and exported readings separate while preserving $R,B,M,A,U$. Thus the blocking row cannot be erased by relabeling a blocked status as an exported status.
+
+Finally use \autoref{thm:registry-export-surface-nonsmuggling-ledger-exhaustion}. It identifies $U,H,C,P,N$ as the ledger route refusing prose, host-semantic, model-output, and hidden-registry-state readings. A route that bypasses $B$ or $U$ is therefore outside the accepted carrier, not an export route from it.
+\end{proof}
+
+\begin{theorem}[Registry export surface machine-readable blocking route]
+\label{thm:registry-export-surface-machine-readable-blocking-route}
+Every machine-readable $\RegistryExportSurfaceUp$ export factors through blocking, audit, transport, replay, provenance, and local $\NameCert$ rows:
+$$
+B,A,H,C,P,N .
+$$
+The machine target $M$ may read a registry claim only along this route, with status supplied by $S$ and non-smuggling accountability supplied by $U$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:registry-export-surface-machine-target-audit-route}. It already factors every machine-target export through $M,A,H,C,P,N$ and states that the factorization cannot bypass the blocking row $B$.
+
+Next apply \autoref{thm:registry-export-surface-ledger-nonescape}. The blocking row $B$ and non-smuggling row $U$ remain in the same ledger as the status row $S$, so a machine-readable export cannot read $M$ and $A$ while discarding the rows that decide whether the claim is blocked or forbidden.
+
+The bridge route of \autoref{thm:registry-export-surface-public-bridge-route} supplies the public consumer side. It connects the displayed registry rows to the sibling export surfaces without adding a hidden machine target. Therefore every machine-readable export factors through the listed blocking, audit, transport, replay, provenance, and local naming rows.
+\end{proof}
+
 \closureat{RegistryExportSurfaceUp}{seedStr}
 \closureat{RegistryExportSurfaceUp}{obligationStr}
 \closureat{RegistryExportSurfaceUp}{scopedStr}
