@@ -321,6 +321,24 @@ Every coordinate consumed by the seal is named in the carrier or in the listed d
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyScaleUp.RegularCauchyScaleCarrier\_real\_seal\_handoff\_obligation}
 
+\begin{theorem}[RegularCauchyScale rational scalar bridge boundary]
+\label{thm:regular-cauchy-scale-rational-scalar-bridge-boundary}
+Every bridge-facing consumer of a scaled regular Cauchy packet
+$$
+S=(Q,A,W,D_Q,D_A,D,E,R,H,C,P,N)
+$$
+must expose the $\RatUp$ scalar row $Q$, the $\RegSeqRatUp$ source row $A$, the $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ endpoint rows $D_Q,D_A,D$, the $\FiniteErrorBudgetUp$ ledger $E$, the $\RegSeqRatUp$ readback $R$, the componentwise $\hsame$ transport $H$, the displayed $\Cont$ replay $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\RegularCauchyScaleUp}$ row $N$ before it reads the $\RealUp$ seal. The bridge boundary therefore exports rational scaling only through the displayed finite packet, not through quotient streams, selected limits, host real equality, ambient completeness, or an external real-scalar law.
+\end{theorem}
+\begin{proof}
+Start with source factorization in \autoref{thm:regular-cauchy-scale-source-factorization}. It orders every scaled read through the scalar row $Q$, the source row $A$, the aligned stream window $W$, and the dyadic endpoint rows $D_Q,D_A,D$.
+
+Next apply the window budget theorem \autoref{thm:regular-cauchy-scale-window-budget}. The finite error ledger $E$ is exposed before the scale read is admitted, so the bridge-facing consumer receives a displayed tolerance account rather than a hidden real estimate.
+
+Use the $\RegSeqRatUp$ handoff in \autoref{thm:regular-cauchy-scale-regseqrat-handoff}. The readback row $R$ is available only after the scalar, source, window, endpoint, and budget rows have been read, and classifier stability keeps the same route under componentwise $\hsame$ transport and displayed $\Cont$ replay.
+
+Finally apply the $\RealUp$ seal boundary \autoref{thm:regular-cauchy-scale-realup-seal-boundary}. The seal can be consumed only through $R,H,C,P,N$, so the rational-scalar bridge boundary is exactly the displayed carrier route and no quotient, selected-limit, ambient-completeness, or host scalar-action coordinate remains.
+\end{proof}
+
 \begin{theorem}[RegularCauchyScale shared-tail normalization]
 \label{thm:regular-cauchy-scale-shared-tail-normalization}
 Let

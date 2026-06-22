@@ -877,6 +877,7 @@ import BEDC.Derived.BinderContextSubstitutionSealUp.ClosedTermBoundaryDependency
 import BEDC.Derived.BinderContextSubstitutionSealUp.CompilerHandoff
 import BEDC.Derived.BinderContextSubstitutionSealUp.ObligationConsumer
 import BEDC.Derived.BinderContextSubstitutionSealUp.TasteGate
+import BEDC.Derived.BirkhoffContractionUp.TasteGate
 import BEDC.Derived.BirkhoffInterpolationUp.TasteGate
 import BEDC.Derived.BisectionConvergenceUp.TasteGate
 import BEDC.Derived.BisectionMethodUp.TasteGate
@@ -5556,6 +5557,7 @@ import BEDC.Derived.FilterLimitBasisUp.ObligationClosureReadiness
 import BEDC.Derived.FilterLimitBasisUp.RealHandoffStability
 import BEDC.Derived.FilterLimitBasisUp.RealWindowExhaustion
 import BEDC.Derived.FilterLimitBasisUp.ScopeExactness
+import BEDC.Derived.FilterLimitBasisUp.ScopedCompletionDependency
 import BEDC.Derived.FilterLimitBasisUp.ScopedObligation
 import BEDC.Derived.FilterLimitBasisUp.ScopedRoute
 import BEDC.Derived.FilterLimitBasisUp.TasteGate
@@ -6865,6 +6867,7 @@ import BEDC.Derived.LipschitzMapUp.ScopedModulusRoute
 import BEDC.Derived.LipschitzMapUp.SeparatedCompletionNonescape
 import BEDC.Derived.LipschitzModulusUp.TasteGate
 import BEDC.Derived.LipschitzRealMapUp.TasteGate
+import BEDC.Derived.LipschitzRetractionUp.TasteGate
 import BEDC.Derived.LipschitzSpaceUp
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
@@ -6982,6 +6985,7 @@ import BEDC.Derived.LocatedCompleteIntervalUp.TasteGate
 import BEDC.Derived.LocatedCompleteMetricUp.TasteGate
 import BEDC.Derived.LocatedCompletionCriterionUp.TasteGate
 import BEDC.Derived.LocatedCompletionFunctorUp.TasteGate
+import BEDC.Derived.LocatedCompletionMonadUp.TasteGate
 import BEDC.Derived.LocatedCompletionSealUp.TasteGate
 import BEDC.Derived.LocatedCompletionSpaceUp.TasteGate
 import BEDC.Derived.LocatedCompletionUniversalPropertyUp.TasteGate
@@ -9207,6 +9211,7 @@ import BEDC.Derived.RationalIntervalUp.RefinementNormalForm
 import BEDC.Derived.RationalIntervalUp.TerminalSeal
 import BEDC.Derived.RationalIntervalUp.TerminalSealCompatibility
 import BEDC.Derived.RationalNestedIntervalLimitUp.TasteGate
+import BEDC.Derived.RationalOpenIntervalBasisUp.NameCertObligations
 import BEDC.Derived.RationalOpenIntervalBasisUp.TasteGate
 import BEDC.Derived.RationalRealEmbeddingUp.TasteGate
 import BEDC.Derived.RationalRootIntervalUp.TasteGate
@@ -10692,6 +10697,7 @@ import BEDC.Derived.SetlikeUp.RootNameCertObligations
 import BEDC.Derived.SetlikeUp.RootSubsetLedgerNonescape
 import BEDC.Derived.SetlikeUp.RootTypeModelMembershipFactorization
 import BEDC.Derived.SetlikeUp.RootUnblockConsumerRoutes
+import BEDC.Derived.SetlikeUp.RootUnblockFirstOrderSignature
 import BEDC.Derived.SetlikeUp.RootUnblockKernelMembershipEnvelope
 import BEDC.Derived.SetlikeUp.SatisfactionHandoffObligation
 import BEDC.Derived.SetlikeUp.SubsetClassifierObligation
@@ -10701,6 +10707,7 @@ import BEDC.Derived.SetlikeUp.SubsetImplicationObligation
 import BEDC.Derived.SetlikeUp.SubsetImplicationWitness
 import BEDC.Derived.SetlikeUp.SubsetLedger
 import BEDC.Derived.SetlikeUp.TasteGate
+import BEDC.Derived.SetlikeUp.TypeLikeFirstOrderModelTheoryConsumerBoundary
 import BEDC.Derived.SetlikeUp.TypeModelSatisfactionBoundary
 import BEDC.Derived.SetlikeUp.TypelikeModeltheoryHandoff
 import BEDC.Derived.SharedTailNormalizerUp.TasteGate
@@ -11648,6 +11655,7 @@ import BEDC.Derived.UniformHomeomorphismUp.NameCertObligations
 import BEDC.Derived.UniformHomeomorphismUp.TasteGate
 import BEDC.Derived.UniformIntegralLimitUp.TasteGate
 import BEDC.Derived.UniformInverseModulusUp.TasteGate
+import BEDC.Derived.UniformLebesgueNumberUp.TasteGate
 import BEDC.Derived.UniformLimitContinuityUp
 import BEDC.Derived.UniformLimitContinuityUp.TasteGate
 import BEDC.Derived.UniformLimitContinuousUp.TasteGate
