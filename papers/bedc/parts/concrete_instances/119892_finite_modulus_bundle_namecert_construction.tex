@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\FiniteModulusBundleUp$}
+\label{ch:concrete-instances-finite-modulus-bundle-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive uniform continuity and explicit moduli, the $\FiniteModulusBundleUp$ packet records the finite L10 data that lets a Real and Completion consumer read one displayed uniform modulus together with the finite windows, regular rational readback, and terminal seal it controls. It sits beside the uniform-modulus certificate of \autoref{ch:concrete-instances-uniformmodulus-namecert}, the uniformly continuous sequence route of \autoref{ch:concrete-instances-uniformly-continuous-sequence-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names shared finite modulus data; it is not a host function, a quotient stream equality, a choice of infinitely many witnesses, or an ambient $\RealUp$ completeness theorem.
+
+\begin{definition}[FiniteModulusBundle carrier]
+\label{def:finite-modulus-bundle-carrier}
+A $\FiniteModulusBundleUp$ carrier is a finite $\BHist$ packet
+$$
+B=(U,Q,W,R,E,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformModulusUp$ row carrying the requested uniform modulus schedule.
+\item $Q$ is the query ledger that lists the finite precision requests and source-window requests served by $U$.
+\item $W$ is the $\StreamNameUp$ finite-window row exposing exactly the observations named by $Q$.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback assembled from the displayed modulus requests and stream windows.
+\item $E$ is the terminal $\RealUp$ seal row, available only after the finite readback row has been displayed.
+\item $S$ is the $\UniformlyContinuousSequenceUp$ handoff row that records which sequence-facing consumer may reuse the same modulus bundle.
+\item $H$ records componentwise $\hsame$ transport for the modulus, query, window, readback, seal, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an L10 consumer request through $U,Q,W,R,E,S,H$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteModulusBundleUp$, $\UniformModulusUp$, $\UniformlyContinuousSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteModulusBundleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $U,Q,W,R,E,S,H,C,P,N$. It has no coordinate for a host function, quotient equality of streams, a selected infinite witness family, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.FiniteModulusBundleUp}
+
+\begin{theorem}[FiniteModulusBundle NameCert obligations]
+\label{thm:finite-modulus-bundle-namecert-obligations}
+For every accepted $\FiniteModulusBundleUp$ carrier
+$$
+B=(U,Q,W,R,E,S,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteModulusBundleUp}$ surface consists exactly of uniform-modulus schedule admission through $U$, finite request listing through $Q$, stream-window exposure through $W$, regular rational readback through $R$, terminal real-name sealing through $E$, uniformly continuous sequence handoff through $S$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-modulus-bundle-carrier}. The row $U$ is the only coordinate that stores the uniform modulus schedule, and $Q$ is the only coordinate that lists the finite consumer requests governed by that schedule.
+
+The stream and numeric rows are downstream of those requests. The row $W$ exposes exactly the named finite observations, $R$ records the regular rational readback obtained from those observations, and $E$ seals that readback as the terminal real-facing row.
+
+The sequence handoff and structural rows do not add hidden analytic data. The row $S$ records the sequence-facing reuse boundary, while $H,C,P,N$ transport, replay, source, and name the same displayed packet. Since the carrier lists no host function, quotient stream equality, infinite selected witness family, countable-choice schedule, or ambient completeness coordinate, the displayed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[FiniteModulusBundle uniform-sequence handoff]
+\label{thm:finite-modulus-bundle-uniform-sequence-handoff}
+Every uniformly continuous sequence consumer of an accepted $\FiniteModulusBundleUp$ packet factors through
+$$
+\UniformModulusUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+\longmapsto
+\UniformlyContinuousSequenceUp
+\longmapsto
+\BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The consumer may reuse the displayed modulus schedule only after the finite request ledger, stream-window rows, regular rational readback, and terminal Real seal have been exposed. It obtains no host function equality, quotient stream equality, selected infinite witness family, countable-choice principle, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with a consumer read of $B=(U,Q,W,R,E,S,H,C,P,N)$. The read first exposes the uniform modulus row $U$ and the finite request ledger $Q$, so the consumer sees a displayed schedule and a finite list of requests rather than an external function.
+
+Next the consumer reads $W,R,E$. The stream row supplies the requested windows, the regular rational row records their finite readback, and the Real row seals only that displayed readback.
+
+Finally the handoff row $S$ records the uniformly continuous sequence boundary that may reuse the schedule. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, so the consumer cannot project any of the excluded host, quotient, choice, or completeness data from the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteModulusBundleUp$ read exposes the UniformModulus schedule row, finite request ledger, StreamName finite-window row, RegSeqRat readback row, RealUp seal row, UniformlyContinuousSequence handoff row, hsame transport, Cont replay, Pkg provenance, and local NameCert row before a sequence-facing L10 consumer may reuse a modulus.}
+
+\independenceWitness{uniformmodulus, uniformly-continuous-sequence, streamname, regseqrat, real: $\FiniteModulusBundleUp$ is not bijective to any listed sibling because it jointly carries a shared uniform-modulus schedule, finite request ledger, stream windows, regular rational readback, terminal Real sealing, sequence handoff, transport, replay, provenance, and local naming as one finite L10 packet.}
+
+\closureat{FiniteModulusBundleUp}{seedStr}
+
+\begin{closurestatus}{\FiniteModulusBundleUp}
+  \constructivestory{A $\FiniteModulusBundleUp$ packet is generated from a UniformModulus schedule row, a finite request ledger, StreamName finite windows, RegSeqRat readback, a RealUp seal, a UniformlyContinuousSequence handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-modulus-bundle-carrier}, \autoref{thm:finite-modulus-bundle-namecert-obligations}, and \autoref{thm:finite-modulus-bundle-uniform-sequence-handoff} seed the shared finite-modulus packet for the L10 Real and Completion route.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.FiniteModulusBundleUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean theorem verification, bridge checking, host function equality, quotient stream equality, selected infinite witness families, countable choice, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite request exactness, stream-window exactness, regular readback, Real sealing, sequence handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteModulusBundleUp.}
+\end{closurestatus}
