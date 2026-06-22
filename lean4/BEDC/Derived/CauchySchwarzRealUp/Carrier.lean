@@ -150,4 +150,45 @@ theorem CauchySchwarzRealCarrier_norm_bound_handoff [AskSetup] [PackageSetup]
     unary_cont_closed sealUnary hUnary normRoute
   exact ⟨normUnary, normRoute, provenancePkg, normPkg⟩
 
+theorem CauchySchwarzRealCarrier_nonescape_boundary [AskSetup] [PackageSetup]
+    {V X Y I A B D Q S E H T P N vectorRead scalarRead squareRead readbackRead sealRead
+      boundRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySchwarzRealCarrier V X Y I A B D Q S E H T P N bundle pkg →
+      Cont V X vectorRead →
+        Cont vectorRead I scalarRead →
+          Cont scalarRead D squareRead →
+            Cont squareRead Q readbackRead →
+              Cont readbackRead E sealRead →
+                Cont sealRead T boundRead →
+                  PkgSig bundle boundRead pkg →
+                    UnaryHistory vectorRead ∧ UnaryHistory scalarRead ∧
+                      UnaryHistory squareRead ∧ UnaryHistory readbackRead ∧
+                        UnaryHistory sealRead ∧ UnaryHistory boundRead ∧
+                          Cont V X vectorRead ∧ Cont vectorRead I scalarRead ∧
+                            Cont scalarRead D squareRead ∧
+                              Cont squareRead Q readbackRead ∧
+                                Cont readbackRead E sealRead ∧ Cont sealRead T boundRead ∧
+                                  PkgSig bundle P pkg ∧ PkgSig bundle boundRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro carrier vectorRoute scalarRoute squareRoute readbackRoute sealRoute boundRoute boundPkg
+  obtain ⟨vUnary, xUnary, _yUnary, iUnary, _aUnary, _bUnary, dUnary, qUnary,
+    _sUnary, eUnary, _hUnary, tUnary, _pUnary, _nUnary, provenancePkg⟩ := carrier
+  have vectorUnary : UnaryHistory vectorRead :=
+    unary_cont_closed vUnary xUnary vectorRoute
+  have scalarUnary : UnaryHistory scalarRead :=
+    unary_cont_closed vectorUnary iUnary scalarRoute
+  have squareUnary : UnaryHistory squareRead :=
+    unary_cont_closed scalarUnary dUnary squareRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed squareUnary qUnary readbackRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackUnary eUnary sealRoute
+  have boundUnary : UnaryHistory boundRead :=
+    unary_cont_closed sealUnary tUnary boundRoute
+  exact
+    ⟨vectorUnary, scalarUnary, squareUnary, readbackUnary, sealUnary, boundUnary,
+      vectorRoute, scalarRoute, squareRoute, readbackRoute, sealRoute, boundRoute,
+      provenancePkg, boundPkg⟩
+
 end BEDC.Derived.CauchySchwarzRealUp
