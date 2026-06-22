@@ -117,6 +117,40 @@ Now read the uniqueness row $Q$. Because both endpoint reads share $I$ and $F$, 
 Finally transport and replay the classification through $H$ and $C$, with provenance and naming supplied by $G$ and $N$. These support rows do not add a selected solution curve, global continuation, or ambient completeness coordinate, so the uniqueness handoff stays local to the packet.
 \end{proof}
 
+\begin{theorem}[Picard--Lindelof local uniqueness induction]
+\label{thm:picard-lindelof-local-uniqueness-induction}
+Let
+$$
+P=(I,F,L,R,Q,U,H,C,G,N)
+$$
+be an accepted $\PicardLindelofUp$ carrier, and let $W_0,\ldots,W_m$ be a finite list of Picard windows displayed by the route $L$ inside the nonescape row $U$. If the initial window $W_0$ reads the same initial cell $I$ and Lipschitz ledger $F$, and each successor window is obtained by the displayed $\PicardContractionUp$ step recorded in $L$, then every endpoint window $W_i$ is classified by the same local classifier $Q$ after the route has passed through $L,R,H,C,G,N$. The induction preserves the shared $I,F,U$ rows at every stage and exports no host function equality, global solver, maximal continuation, or selected solution curve.
+\end{theorem}
+\begin{proof}
+The base window is $W_0$. By the carrier definition, $W_0$ is read from the initial cell $I$, the Lipschitz vector-field ledger $F$, and the nonescape window $U$ before any endpoint classifier is visible.
+
+For the successor step, use \autoref{thm:picard-lindelof-picard-iteration-route}. The PicardContraction row $L$ is the only available step rule, and every step in $L$ reads vector-field values through $F$ while remaining inside the same local window $U$.
+
+The finite induction therefore preserves the three shared rows $I,F,U$ along the whole displayed list. At each stage, the convergence-facing data is still the same complete-metric row $R$, and the support rows $H,C,G,N$ transport, replay, source, and name the same packet.
+
+Apply \autoref{thm:picard-lindelof-gronwall-uniqueness-handoff} at the endpoint stage. Since the endpoint read still shares $I$ and $F$ and remains inside $U$, the classifier $Q$ supplies the local uniqueness read without introducing a host equality of functions, a global solver coordinate, or any continuation beyond the displayed finite windows.
+\end{proof}
+
+\begin{theorem}[Picard--Lindelof Cauchy completion route]
+\label{thm:picard-lindelof-cauchy-completion-route}
+Every completion-facing endpoint read of an accepted $\PicardLindelofUp$ carrier
+$$
+P=(I,F,L,R,Q,U,H,C,G,N)
+$$
+must pass from the Picard route $L$ through the complete-metric row $R$ before the local uniqueness classifier $Q$ is exposed. The displayed Cauchy modulus is stored only in the finite rows of $L$ and $R$, is replayed only through $H,C,G,N$, and is not a claim of ambient $\RealUp$ completeness, a selected limit representative, a quotient equality, or a global ODE solution.
+\end{theorem}
+\begin{proof}
+Start with the Picard route. By \autoref{thm:picard-lindelof-picard-iteration-route}, an endpoint read first opens $I,F,L,U$ and reads each approximant through the $\PicardContractionUp$ sibling route of \autoref{ch:concrete-instances-picardcontraction-namecert}.
+
+The completion-facing read then enters $R$. The complete-metric row is the only carrier coordinate that can expose Cauchy convergence data, and it is supplied through the $\CompleteMetricUp$ sibling route of \autoref{ch:concrete-instances-completemetric-namecert}.
+
+Only after this route may $Q$ classify the endpoint. The support rows $H,C,G,N$ keep the Cauchy modulus attached to the displayed finite packet, so the public endpoint remains a local NameCert read rather than a selected limit, an ambient completeness theorem, or a global solution object.
+\end{proof}
+
 \falsifiablePrediction{Every $\PicardLindelofUp$ local endpoint read factors through one initial time-state cell, one Lipschitz vector-field ledger, one PicardContraction route, one CompleteMetric convergence row, one local uniqueness classifier, one nonescape window row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{ode, lipschitzmap, completemetric, picardcontraction, banachfixedpoint: $\PicardLindelofUp$ is not bijective to any listed sibling because it jointly carries the initial time-state cell, vector-field Lipschitz ledger, Picard iteration route, complete-metric convergence row, local uniqueness classifier, nonescape window, and the transport/replay/provenance rows tying them together.}

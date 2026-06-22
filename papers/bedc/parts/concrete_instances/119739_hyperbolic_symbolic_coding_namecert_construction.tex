@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicSymbolicCodingUp$}
+\label{ch:concrete-instances-hyperbolic-symbolic-coding-namecert}
+\origin{human}
+
+Following Hadamard, Morse, and Bowen on geodesic dynamics and symbolic coding for hyperbolic systems, the $\HyperbolicSymbolicCodingUp$ packet records the finite Markov-partition coding surface used by the hyperbolic observer-expansion vision of \autoref{ch:visions-hyperbolic-phase-geometry-observer-expansion}. It sits after the Markov partition carrier of \autoref{ch:concrete-instances-hyperbolic-markov-partition-namecert}, the geodesic-flow carrier of \autoref{ch:concrete-instances-hyperbolic-geodesic-flow-namecert}, the subshift carrier of \autoref{ch:concrete-instances-subshift-namecert}, and the boundary-shadow carrier of \autoref{ch:concrete-instances-hyperbolic-boundary-shadow-namecert}. The packet names a finite symbolic coding route only; it does not import invariant measures, completed shift spaces, orbit quotients, global Anosov theorems, or host boundary equality.
+
+\begin{definition}[Hyperbolic symbolic coding carrier]
+\label{def:hyperbolic-symbolic-coding-carrier}
+A $\HyperbolicSymbolicCodingUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,G,Q,B,T,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\HyperbolicMarkovPartitionUp$ row, exposing finite atoms, transition ledgers, and partition refinements.
+\item $G$ is the $\HyperbolicGeodesicFlowUp$ row, exposing the finite flow window to be coded.
+\item $Q$ is the $\SubshiftUp$ code row, recording the finite symbolic word or cylinder data admitted by the Markov transition ledger.
+\item $B$ is the $\HyperbolicBoundaryShadowUp$ row, binding the coded flow window to displayed boundary-shadow data.
+\item $T$ is the transport row from Markov partition atoms and geodesic-flow windows to subshift code rows and boundary shadows.
+\item $A$ is the adjacency and admissibility ledger, recording the exact finite transition checks used before a code row is accepted.
+\item $H$ records componentwise $\hsame$ transport for Markov partition, geodesic-flow, subshift-code, boundary-shadow, adjacency, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a coding request through $M,G,Q,B,T,A,H$.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicSymbolicCodingUp$, $\HyperbolicMarkovPartitionUp$, $\HyperbolicGeodesicFlowUp$, $\SubshiftUp$, $\HyperbolicBoundaryShadowUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HyperbolicSymbolicCodingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,G,Q,B,T,A,H,C,P,N$. It has no coordinate for invariant measures, completed shift spaces, orbit quotients, global Anosov dynamics, measure-theoretic coding, or host boundary equality.
+\end{definition}
+
+\begin{theorem}[Hyperbolic symbolic coding NameCert obligations]
+\label{thm:hyperbolic-symbolic-coding-namecert-obligations}
+For every accepted $\HyperbolicSymbolicCodingUp$ carrier $S=(M,G,Q,B,T,A,H,C,P,N)$, the local $\NameCert_{\HyperbolicSymbolicCodingUp}$ surface consists exactly of Markov-partition admission, geodesic-flow admission, subshift-code admission, boundary-shadow admission, coding transport, adjacency and admissibility checking, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-symbolic-coding-carrier}. The rows $M,G,Q,B$ supply the finite Markov partition, the finite geodesic-flow window, the symbolic code row, and the boundary-shadow row.
+
+The rows $T,A$ bind those data as a coding route. They record how partition atoms and flow windows are transported to code rows and which finite adjacency checks are required before the code is admitted.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the same finite route. Since invariant measures, completed shift spaces, orbit quotients, global Anosov dynamics, measure-theoretic coding, and host boundary equality are absent from the carrier, they cannot be local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Hyperbolic symbolic coding flow-partition handoff]
+\label{thm:hyperbolic-symbolic-coding-flow-partition-handoff}
+Every coding-facing consumer of an accepted $\HyperbolicSymbolicCodingUp$ packet reads the $\HyperbolicMarkovPartitionUp$ row $M$, the $\HyperbolicGeodesicFlowUp$ row $G$, the $\SubshiftUp$ row $Q$, and the $\HyperbolicBoundaryShadowUp$ row $B$ through the same finite transport and admissibility rows $T,A$ before the coding route reaches replay, provenance, and local naming. A read that bypasses either the Markov transition ledger or the geodesic-flow window is outside this carrier.
+\end{theorem}
+\begin{proof}
+Begin with the Markov partition row. It supplies the finite atoms, transition ledger, and refinement data that make the code admissible.
+
+Read the flow row next. The geodesic-flow window is the dynamic object being coded, so the symbolic row $Q$ cannot be consumed before $G$ has been displayed.
+
+Now bind the boundary and code rows. The boundary-shadow row $B$ keeps the code attached to the displayed hyperbolic boundary data, while $T,A$ record the finite transport and transition checks from $M,G$ to $Q,B$.
+
+Finally replay the same route through $H,C,P,N$. Without the Markov transition ledger or the geodesic-flow window, a consumer has a different object, not an accepted $\HyperbolicSymbolicCodingUp$ handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HyperbolicSymbolicCodingUp$ read must expose HyperbolicMarkovPartition, HyperbolicGeodesicFlow, Subshift, HyperbolicBoundaryShadow, transport, adjacency, hsame, Cont, Pkg, and local NameCert rows before a coding-facing consumer may inspect the symbolic route.}
+
+\independenceWitness{hyperbolic-markov-partition, hyperbolic-geodesic-flow, subshift, hyperbolic-boundary-shadow: no listed sibling is bijective to $\HyperbolicSymbolicCodingUp$ because this packet jointly carries Markov atoms, geodesic-flow windows, symbolic code rows, boundary shadows, transport, admissibility, replay, provenance, and local naming as one coding surface.}
+
+\closureat{HyperbolicSymbolicCodingUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicSymbolicCodingUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-symbolic-coding-carrier}, \autoref{thm:hyperbolic-symbolic-coding-namecert-obligations}, and \autoref{thm:hyperbolic-symbolic-coding-flow-partition-handoff} seed the finite symbolic coding route over HyperbolicMarkovPartition, HyperbolicGeodesicFlow, Subshift, HyperbolicBoundaryShadow, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close invariant measures, completed shift spaces, orbit quotients, global Anosov dynamics, measure-theoretic coding, host boundary equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Markov-partition admission, geodesic-flow admission, subshift-code admission, boundary-shadow admission, transport, adjacency checking, replay, provenance, and local naming for BEDC.Derived.HyperbolicSymbolicCodingUp.}
+  \constructivestory{A $\HyperbolicSymbolicCodingUp$ packet is generated from HyperbolicMarkovPartition rows, HyperbolicGeodesicFlow windows, Subshift code rows, HyperbolicBoundaryShadow rows, transport rows, adjacency ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
