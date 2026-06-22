@@ -1,13 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FinitePrefixAutomatonUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -278,5 +288,230 @@ theorem FinitePrefixAutomatonNameCertObligationSurface (F : FinitePrefixAutomato
           intro _row source
           exact source
       }
+
+def FinitePrefixAutomatonCarrier [AskSetup] [PackageSetup]
+    (Q q0 A T W R E H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  UnaryHistory Q ∧ UnaryHistory q0 ∧ UnaryHistory A ∧ UnaryHistory T ∧
+    UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory H ∧
+      UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧ hsame Q T ∧
+        hsame q0 W ∧ hsame A R ∧ hsame H E ∧ hsame C T ∧ hsame P W ∧
+          hsame N R ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem FinitePrefixAutomatonObligationWindow [AskSetup] [PackageSetup]
+    {Q q0 A T W R E H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FinitePrefixAutomatonCarrier Q q0 A T W R E H C P N bundle pkg ->
+      SemanticNameCert
+        (fun row : BHist =>
+          (hsame row Q ∨ hsame row q0 ∨ hsame row A ∨ hsame row T ∨
+            hsame row W ∨ hsame row R ∨ hsame row E ∨ hsame row H ∨
+              hsame row C ∨ hsame row P ∨ hsame row N) ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row T ∨ hsame row W ∨ hsame row R ∨ hsame row E)
+        (fun row : BHist =>
+          UnaryHistory row ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier
+  obtain ⟨unaryQ, unaryQ0, unaryA, unaryT, unaryW, unaryR, unaryE, unaryH,
+    unaryC, unaryP, unaryN, sameQT, sameQ0W, sameAR, sameHE, sameCT, samePW,
+    sameNR, pkgP, pkgN⟩ := carrier
+  have sourceAtT :
+      (hsame T Q ∨ hsame T q0 ∨ hsame T A ∨ hsame T T ∨ hsame T W ∨
+        hsame T R ∨ hsame T E ∨ hsame T H ∨ hsame T C ∨ hsame T P ∨
+          hsame T N) ∧ UnaryHistory T :=
+    ⟨Or.inr (Or.inr (Or.inr (Or.inl (hsame_refl T)))), unaryT⟩
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro T sourceAtT
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        have otherUnary : UnaryHistory other :=
+          unary_transport source.right sameRows
+        cases source.left with
+        | inl sameQ =>
+            exact ⟨Or.inl (hsame_trans (hsame_symm sameRows) sameQ), otherUnary⟩
+        | inr sourceRest =>
+            cases sourceRest with
+            | inl sameQ0 =>
+                exact ⟨Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameQ0)),
+                  otherUnary⟩
+            | inr sourceRest =>
+                cases sourceRest with
+                | inl sameA =>
+                    exact
+                      ⟨Or.inr
+                        (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameA))),
+                        otherUnary⟩
+                | inr sourceRest =>
+                    cases sourceRest with
+                    | inl sameT =>
+                        exact
+                          ⟨Or.inr
+                            (Or.inr
+                              (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameT)))),
+                            otherUnary⟩
+                    | inr sourceRest =>
+                        cases sourceRest with
+                        | inl sameW =>
+                            exact
+                              ⟨Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inl
+                                        (hsame_trans (hsame_symm sameRows) sameW))))),
+                                otherUnary⟩
+                        | inr sourceRest =>
+                            cases sourceRest with
+                            | inl sameR =>
+                                exact
+                                  ⟨Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inl
+                                              (hsame_trans (hsame_symm sameRows) sameR)))))),
+                                    otherUnary⟩
+                            | inr sourceRest =>
+                                cases sourceRest with
+                                | inl sameE =>
+                                    exact
+                                      ⟨Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inl
+                                                    (hsame_trans (hsame_symm sameRows)
+                                                      sameE))))))),
+                                        otherUnary⟩
+                                | inr sourceRest =>
+                                    cases sourceRest with
+                                    | inl sameH =>
+                                        exact
+                                          ⟨Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inl
+                                                          (hsame_trans (hsame_symm sameRows)
+                                                            sameH)))))))),
+                                            otherUnary⟩
+                                    | inr sourceRest =>
+                                        cases sourceRest with
+                                        | inl sameC =>
+                                            exact
+                                              ⟨Or.inr
+                                                (Or.inr
+                                                  (Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inr
+                                                          (Or.inr
+                                                            (Or.inr
+                                                              (Or.inl
+                                                                (hsame_trans
+                                                                  (hsame_symm sameRows)
+                                                                  sameC))))))))),
+                                                otherUnary⟩
+                                        | inr sourceRest =>
+                                            cases sourceRest with
+                                            | inl sameP =>
+                                                exact
+                                                  ⟨Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inr
+                                                          (Or.inr
+                                                            (Or.inr
+                                                              (Or.inr
+                                                                (Or.inr
+                                                                  (Or.inr
+                                                                    (Or.inl
+                                                                      (hsame_trans
+                                                                        (hsame_symm sameRows)
+                                                                        sameP)))))))))),
+                                                    otherUnary⟩
+                                            | inr sameN =>
+                                                exact
+                                                  ⟨Or.inr
+                                                    (Or.inr
+                                                      (Or.inr
+                                                        (Or.inr
+                                                          (Or.inr
+                                                            (Or.inr
+                                                              (Or.inr
+                                                                (Or.inr
+                                                                  (Or.inr
+                                                                    (Or.inr
+                                                                      (hsame_trans
+                                                                        (hsame_symm sameRows)
+                                                                        sameN)))))))))),
+                                                    otherUnary⟩
+    }
+    pattern_sound := by
+      intro row source
+      cases source.left with
+      | inl sameQ =>
+          exact Or.inl (hsame_trans sameQ sameQT)
+      | inr sourceRest =>
+          cases sourceRest with
+          | inl sameQ0 =>
+              exact Or.inr (Or.inl (hsame_trans sameQ0 sameQ0W))
+          | inr sourceRest =>
+              cases sourceRest with
+              | inl sameA =>
+                  exact Or.inr (Or.inr (Or.inl (hsame_trans sameA sameAR)))
+              | inr sourceRest =>
+                  cases sourceRest with
+                  | inl sameT =>
+                      exact Or.inl sameT
+                  | inr sourceRest =>
+                      cases sourceRest with
+                      | inl sameW =>
+                          exact Or.inr (Or.inl sameW)
+                      | inr sourceRest =>
+                          cases sourceRest with
+                          | inl sameR =>
+                              exact Or.inr (Or.inr (Or.inl sameR))
+                          | inr sourceRest =>
+                              cases sourceRest with
+                              | inl sameE =>
+                                  exact Or.inr (Or.inr (Or.inr sameE))
+                              | inr sourceRest =>
+                                  cases sourceRest with
+                                  | inl sameH =>
+                                      exact Or.inr (Or.inr (Or.inr (hsame_trans sameH sameHE)))
+                                  | inr sourceRest =>
+                                      cases sourceRest with
+                                      | inl sameC =>
+                                          exact Or.inl (hsame_trans sameC sameCT)
+                                      | inr sourceRest =>
+                                          cases sourceRest with
+                                          | inl sameP =>
+                                              exact Or.inr (Or.inl (hsame_trans sameP samePW))
+                                          | inr sameN =>
+                                              exact Or.inr (Or.inr (Or.inl (hsame_trans sameN sameNR)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, pkgP, pkgN⟩
+  }
 
 end BEDC.Derived.FinitePrefixAutomatonUp
