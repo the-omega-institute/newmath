@@ -15,3 +15,17 @@ Now attach candidate normalization scope and finite residual witnesses. Candidat
 
 The four rows therefore assemble exactly the seed-status surface over $P,K,J,R,S,C,B,O,H,T,G,N$. Since each component is a carrier projection and the ledger exposes no outside equality or kernel theorem, replay and provenance cannot escape the displayed seed packet.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond seed-status exactness]
+\label{thm:metacic-parallel-diamond-frontier-seed-status-exactness}
+Any consumer of the $\MetaCICParallelDiamondFrontierUp$ seed-status surface must preserve the same critical-pair envelope $P,K$, the same residual-join rows $J,R,S$, the same candidate-normalization row $C$, the same bounded residual witness rows $B,O$, and the same structural rows $H,T,G,N$. Changing any one of these displayed rows is not the same seed-status packet.
+
+The exactness claim is only packet-local. It does not assert unrestricted confluence, evaluator equality, quotient term equality, subject reduction, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metacic-parallel-diamond-seed-status}. The seed-status surface exported there is the displayed packet route $P,K,J,R,S,C,B,O,H,T,G,N$ assembled from the critical-pair envelope, residual locality, candidate normalization, and finite witness consumption rows.
+
+Each of those rows is a carrier projection. The critical-pair envelope fixes $P,K$; residual locality fixes $J,R,S$; candidate normalization fixes $C$ while keeping the obstruction row visible; finite witness consumption fixes $B,O$ together with the transport, replay, provenance, and local naming rows $H,T,G,N$.
+
+Therefore a downstream consumer that changes any listed row has changed the packet being consumed. Since the route never exports a global evaluator, quotient equality, subject-reduction theorem, or kernel-consistency theorem, the exactness surface remains a finite seed invariant rather than a global confluence result.
+\end{proof}
