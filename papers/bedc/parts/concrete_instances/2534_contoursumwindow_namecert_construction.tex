@@ -52,12 +52,48 @@ The Cauchy-facing consumer can therefore inspect the displayed ledger and its tr
 The non-escape clauses of \autoref{thm:contour-sum-window-namecert-obligations} close the boundary. They keep Cauchy-style cancellation and boundary reads inside the displayed contour, subdivision, Riemann-sum, output, transport, continuation, package, and naming rows, with no open-cover compactness or quotient-value surface added.
 \end{proof}
 
+\begin{theorem}[ContourSumWindow subdivision exactness]
+\label{thm:contour-sum-window-subdivision-exactness}
+For every accepted $\ContourSumWindowUp$ carrier $W=(\gamma,f,S,R,I,H,C,P,N)$, each summand exposed by the window is read only through the displayed subdivision and sample row $S$ together with the Riemann-sum ledger $R$. No summand may be supplied by a host contour integral, a selected limit, an unlisted mesh, or an ambient analytic function-space object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:contour-sum-window-carrier}. The row $S$ names the finite segment subdivision, sample point, and mesh witness for every segment, while $R$ records the finite summands and their mesh comparison.
+
+Use \autoref{thm:contour-sum-window-namecert-obligations}. Its subdivision ledger exactness clause makes $S$ and $R$ the only admissible readback for summand data, and its non-escape clause removes host integration, selected limits, quotient values, and unlisted analytic objects from the packet.
+
+The Cauchy-facing boundary theorem \autoref{thm:contour-sum-window-cauchy-boundary} preserves the same rows for every boundary read. Thus the subdivision and Riemann-sum ledger are the complete summand surface.
+\end{proof}
+
+\begin{theorem}[ContourSumWindow refinement stability]
+\label{thm:contour-sum-window-refinement-stability}
+Let $W=(\gamma,f,S,R,I,H,C,P,N)$ be an accepted $\ContourSumWindowUp$ carrier. Any subdivision refinement accepted by the window must replay through the displayed continuation row $C$ after preserving $\gamma$, $f$, $S$, $R$, and $I$ componentwise through $H$. The refinement route cannot introduce a host contour integral, a new holomorphic input, a quotient complex value, or a selected limiting process.
+\end{theorem}
+\begin{proof}
+Read the transport coordinates in \autoref{def:contour-sum-window-carrier}. The row $H$ transports the contour, input, subdivision, ledger, and output componentwise, and the row $C$ records subdivision refinement as one of the finite continuation routes of the packet.
+
+Apply \autoref{thm:contour-sum-window-namecert-obligations}. Contour route stability and output readback require refinement to keep the same displayed rows before any consumer can inspect the refined window.
+
+Finally use \autoref{thm:contour-sum-window-cauchy-boundary}. Since every Cauchy-facing read factors through $\gamma,f,S,R,I,H,C,P,N$, refinement has no coordinate for a host contour integral, a fresh analytic input, a quotient value, or a selected limit.
+\end{proof}
+
+\begin{theorem}[ContourSumWindow output seal nonescape]
+\label{thm:contour-sum-window-output-seal-nonescape}
+For every accepted $\ContourSumWindowUp$ carrier $W=(\gamma,f,S,R,I,H,C,P,N)$, the $\ComplexUp$ output row $I$ is sealed only after the $\mathsf{PLContour}$ row $\gamma$, the $\HolomorphicUp$ row $f$, the subdivision row $S$, and the Riemann-sum ledger $R$ have been displayed. The sealed output exports no quotient complex value, no selected limiting value, and no host contour integral.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The output row $I$ is classified as the window value associated to the displayed ledger $R$, and $R$ itself is computed from the samples listed in $S$ against the contour and input rows $\gamma$ and $f$.
+
+Use \autoref{thm:contour-sum-window-namecert-obligations} to read output readback through $I$ and package provenance through $P$. These clauses make the output seal depend on the visible contour, holomorphic-input, subdivision, and Riemann-sum rows.
+
+The boundary theorem \autoref{thm:contour-sum-window-cauchy-boundary} keeps the same seal for Cauchy-facing consumers. It therefore exports only the finite contour-window output row and refuses quotient complex values, selected limits, and host contour integration.
+\end{proof}
+
 \closureat{ContourSumWindowUp}{seedStr}
 
 \begin{closurestatus}{\ContourSumWindowUp}
   \constructivestory{A $\ContourSumWindowUp$ packet is generated from a displayed $\mathsf{PLContour}$ row, a $\HolomorphicUp$ input row, finite subdivision and sample rows, a Riemann-sum ledger, a $\ComplexUp$ output row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:contour-sum-window-carrier}, \autoref{thm:contour-sum-window-namecert-obligations}, and \autoref{thm:contour-sum-window-cauchy-boundary} display the finite contour-window carrier, obligation surface, ledger exactness, route stability, and Cauchy-facing boundary.}
+  \scopeclosed{\autoref{def:contour-sum-window-carrier}, \autoref{thm:contour-sum-window-namecert-obligations}, \autoref{thm:contour-sum-window-cauchy-boundary}, \autoref{thm:contour-sum-window-subdivision-exactness}, \autoref{thm:contour-sum-window-refinement-stability}, and \autoref{thm:contour-sum-window-output-seal-nonescape} display the finite contour-window carrier, obligation surface, ledger exactness, route stability, Cauchy-facing boundary, subdivision exactness, refinement stability, and output-seal nonescape.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
