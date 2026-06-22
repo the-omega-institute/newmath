@@ -237,4 +237,43 @@ theorem LocatedInfimumSupremumDualExactness [AskSetup] [PackageSetup]
   }
   exact ⟨cert, exactReadUnary⟩
 
+theorem LocatedInfimumObligationBoundary [AskSetup] [PackageSetup]
+    {family lower greatest window regseq realSeal transport route provenance name lowerRead
+      greatestRead windowRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedInfimumCarrier family lower greatest window regseq realSeal transport route provenance
+        name bundle pkg →
+      Cont lower greatest lowerRead →
+        Cont family window greatestRead →
+          Cont window regseq windowRead →
+            Cont windowRead realSeal sealRead →
+              PkgSig bundle lowerRead pkg →
+                PkgSig bundle sealRead pkg →
+                  UnaryHistory family ∧ UnaryHistory lower ∧ UnaryHistory greatest ∧
+                    UnaryHistory window ∧ UnaryHistory regseq ∧ UnaryHistory realSeal ∧
+                      UnaryHistory lowerRead ∧ UnaryHistory greatestRead ∧
+                        UnaryHistory windowRead ∧ UnaryHistory sealRead ∧
+                          Cont lower greatest lowerRead ∧ Cont family window greatestRead ∧
+                            Cont window regseq windowRead ∧
+                              Cont windowRead realSeal sealRead ∧
+                                PkgSig bundle lowerRead pkg ∧
+                                  PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: LocatedInfimumCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier lowerGreatest familyWindow windowRegseq windowReadSeal lowerPkg sealPkg
+  obtain ⟨familyUnary, lowerUnary, greatestUnary, windowUnary, regseqUnary, realSealUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary, _regseqRealSealRoute,
+    _carrierProvenancePkg, _namePkg⟩ := carrier
+  have lowerReadUnary : UnaryHistory lowerRead :=
+    unary_cont_closed lowerUnary greatestUnary lowerGreatest
+  have greatestReadUnary : UnaryHistory greatestRead :=
+    unary_cont_closed familyUnary windowUnary familyWindow
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed windowUnary regseqUnary windowRegseq
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed windowReadUnary realSealUnary windowReadSeal
+  exact
+    ⟨familyUnary, lowerUnary, greatestUnary, windowUnary, regseqUnary, realSealUnary,
+      lowerReadUnary, greatestReadUnary, windowReadUnary, sealReadUnary, lowerGreatest,
+      familyWindow, windowRegseq, windowReadSeal, lowerPkg, sealPkg⟩
+
 end BEDC.Derived.LocatedInfimumUp

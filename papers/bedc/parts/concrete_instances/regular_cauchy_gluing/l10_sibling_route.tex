@@ -41,6 +41,18 @@ selected representatives, host real equality, choice, or ambient completeness,
 the L10 sibling route remains a finite local NameCert route.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy gluing RegSeqRat route]
+\label{thm:regular-cauchy-gluing-regseqrat-route}
+Every glued readback row of an accepted $\RegularCauchyGluingUp$ packet must pass through the existing $\RegSeqRatUp$ sibling surface of \autoref{ch:concrete-instances-regseqrat-namecert} and the $\CauchyReindexingUp$ handoff of \autoref{ch:concrete-instances-cauchy-reindexing-namecert} before the terminal $\RealUp$ seal is visible. The local obligations of \autoref{thm:regular-cauchy-gluing-namecert-obligations} therefore expose a regular rational readback and a reindexing route before any Real-facing consumer may read the glued value.
+\end{theorem}
+\begin{proof}
+Start from the local L10 route of \autoref{thm:regular-cauchy-gluing-l10-sibling-route}. It already orders the dyadic ledger, finite StreamName windows, $\RegSeqRatUp$ readback, $\CauchyReindexingUp$ handoff, and terminal $\RealUp$ seal before the gluing NameCert row is exported.
+
+Apply the local obligations of \autoref{thm:regular-cauchy-gluing-namecert-obligations}. The glued readback row is one of the displayed certificate rows, so it cannot be consumed without the same regular rational surface and structural support rows.
+
+Use \autoref{thm:regular-cauchy-gluing-cauchy-reindexing-handoff}. The reindexing handoff keeps the dyadic, stream, and regular readback data aligned before the terminal Real seal appears. Thus a Real-facing read factors through RegSeqRat and CauchyReindexing rather than bypassing them.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy gluing pasting nonescape]
 \label{thm:regular-cauchy-gluing-pasting-nonescape}
 Every accepted pasting consumer of a $\RegularCauchyGluingUp$ packet must read the finite route of \autoref{def:regular-cauchy-gluing-carrier}, satisfy the local obligations of \autoref{thm:regular-cauchy-gluing-namecert-obligations}, and pass through the L10 sibling route of \autoref{thm:regular-cauchy-gluing-l10-sibling-route} before it exports any NameCert row. In particular, the consumer must display the $\DyadicRatCoreUp$ tolerance rows, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\CauchyReindexingUp$ handoff, and terminal $\RealUp$ seal.
