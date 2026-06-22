@@ -5842,6 +5842,7 @@ import BEDC.Derived.FinitePhaseCylinderUp
 import BEDC.Derived.FinitePhaseSamplingUp
 import BEDC.Derived.FinitePrefixAutomatonUp.AcceptanceExactness
 import BEDC.Derived.FinitePrefixAutomatonUp.Determinacy
+import BEDC.Derived.FinitePrefixAutomatonUp.DeterministicReadback
 import BEDC.Derived.FinitePrefixAutomatonUp.EndpointExactness
 import BEDC.Derived.FinitePrefixAutomatonUp.PrefixRunNonescape
 import BEDC.Derived.FinitePrefixAutomatonUp.RegularLanguageSiblingBridge
@@ -10234,6 +10235,7 @@ import BEDC.Derived.RegularCauchyTailCertificateUp.Nonescape
 import BEDC.Derived.RegularCauchyTailCertificateUp.PrimitiveScopeLock
 import BEDC.Derived.RegularCauchyTailCertificateUp.SelectorCoverage
 import BEDC.Derived.RegularCauchyTailCertificateUp.TasteGate
+import BEDC.Derived.RegularCauchyTailCertificateUp.VisionHandoff
 import BEDC.Derived.RegularCauchyTailCollapseUp
 import BEDC.Derived.RegularCauchyTailCollapseUp.TasteGate
 import BEDC.Derived.RegularCauchyTailComparisonUp.TasteGate
