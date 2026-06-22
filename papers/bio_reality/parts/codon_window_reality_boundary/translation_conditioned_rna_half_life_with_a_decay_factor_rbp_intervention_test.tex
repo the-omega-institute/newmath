@@ -1,0 +1,44 @@
+\subsection{Translation-conditioned RNA half-life with a decay-factor RBP intervention test}
+\label{sec:q6-translation-conditioned-rna-half-life-rbp-bridge-cross-layer}
+
+\paragraph{Finite object.}
+This record concerns a finite matched panel of coding-transcript rows.  Each row carries a synonymous residual coordinate label in the $B^*_{Q6}$ coordinate system after quotienting by amino-acid identity, a same-row translation readout, an RNA half-life readout, local occupancy information for a prespecified decay-factor RNA-binding protein at the editable RNA window, and matched controls for transcription rate, abundance, isoform state, sequence composition, local RNA structure, codon-pair context, batch, and motif density.  The intended comparison is not high-coordinate versus low-coordinate codons in isolation.  It is the residual RNA half-life contrast that remains after amino-acid sequence and the same-row translation boundary have both been attached.
+
+\paragraph{Predicate tested by the panel.}
+Let $i$ range over the finite matched rows, let $q_i \in \{\mathrm{high},\mathrm{low}\}$ denote the residual coordinate label, let $T_i$ denote the translation readout, let $H_i$ denote the RNA half-life readout, and let $O_i$ denote measured local occupancy by the declared decay-factor RBP.  The admissible readout is a conditioned finite statistic of the form
+$$
+\begin{aligned}
+\Delta_H
+  &= \operatorname{Stat}\bigl(H_i \mid q_i, T_i, C_i\bigr),\\
+C_i
+  &= (\mathrm{transcription}_i,\mathrm{structure}_i,\mathrm{motif}_i,\mathrm{GC/dinucleotide}_i,
+      \mathrm{codon\ pair}_i,\mathrm{isoform}_i,\mathrm{abundance}_i,\mathrm{batch}_i).
+\end{aligned}
+$$
+A positive cross-layer RBP interpretation is allowed only if the same finite rows also show the occupancy and intervention pattern
+$$
+\begin{aligned}
+q_i \leadsto H_i
+&\quad\text{with local measured } O_i \text{ changed at the declared window},\\
+\Delta_H^{\mathrm{target\ loss}} &\approx 0,\\
+\Delta_H^{\mathrm{wild\ type\ rescue}} &\approx \Delta_H^{\mathrm{original}},\\
+\Delta_H^{\mathrm{binding\ defective\ rescue}} &\not\approx \Delta_H^{\mathrm{original}},\\
+\Delta_H^{\mathrm{non\ target\ rescue}} &\not\approx \Delta_H^{\mathrm{original}}.
+\end{aligned}
+$$
+This makes the RBP condition an experimentally separated finite-row requirement rather than a name attached after observing an RNA half-life difference.
+
+\paragraph{Null comparison.}
+The null model is exchangeability of the high-coordinate and low-coordinate labels with respect to RNA half-life once transcription rate, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, batch, amino-acid composition, and the matched translation readout have been fixed.  A half-life association that survives these controls but lacks measured local RBP occupancy, target-RBP loss collapse, and wild-type rescue remains an RNA-stability association.  It is not promoted to an RBP-mediated cross-layer relation by coordinate geometry alone.
+
+\paragraph{Contacts presently attached.}
+The attached RNA half-life contacts provide organism-scoped transcript or gene rows with curated mRNA half-life estimates or consensus half-life readouts.  Their resolution is per-gene or per-transcript, keyed by organism-specific identifiers before any same-window RBP statistic is computed.  The matched mRNA abundance contact supplies the abundance control needed to separate transcription-layer signal from translation-layer signal.  The ribosome-profiling contact supplies per-CDS ribosome occupancy or translation-efficiency readouts, paired with matched mRNA abundance as $\mathrm{TE}=\mathrm{RPF}/\mathrm{mRNA}$.  These contacts are necessary for the boundary of the conjecture, but they do not by themselves provide same-window decay-factor RBP occupancy, target-RBP loss, wild-type rescue, or binding-defective rescue.
+
+\paragraph{Finite scalar anchors already present in the record.}
+The record is linked to three already measured cross-layer finite-row anchors.  The DNA methylation flanking-context anchor used $n=656$ individuals and $20{,}000$ probes, with baseline $R^2=0.0129735$ and no cross-cohort scalar reported in the row.  The RBP binding anchor used $900$ total peaks and recorded $3$ cross-RBP concordant cases, with runtime $223.648043$ seconds.  The meiotic recombination anchor recorded $52{,}963$ hotspots, with runtime $168.443$ seconds.  These numbers are not evidence for the present RNA half-life conjecture; they are finite-row calibration examples showing how this paper records bounded cross-layer contacts only when row counts and scalar outputs are explicitly named.
+
+\paragraph{Local exclusion rule.}
+The chapter authorizes only the following finite readback: a translation-conditioned RNA half-life residual, a local RBP occupancy change at the declared window, collapse after loss of the target RBP, restoration under wild-type rescue, and failure of binding-defective or non-target controls to restore the effect.  It does not license translation realization from RNA half-life alone.  It also does not license claims about folding, physical admissibility, protein function, phenotype, adaptation, a general biological law, or a biochemical explanation unless a separate layer-matched contact supplies the corresponding measurement.  RNA-structure-only, motif-density-only, transcription-rate, isoform-state, transcript-abundance, GC/dinucleotide, codon-pair-context, and batch explanations remain live alternatives unless the finite matched panel rules them out by the declared controls.
+
+\paragraph{Status of the conjecture.}
+The present finite data are sufficient to state the test and its rejection conditions, but not sufficient to report a positive RBP bridge.  The required positive row would contain, on the same matched panel, the $B^*_{Q6}$ residual coordinate label, the translation readout, the RNA half-life readout, local occupancy of the nominated decay-factor RBP, target-RBP loss, wild-type rescue, binding-defective rescue, non-target rescue, and the control covariates listed above.  Until such rows are attached with a declared finite statistic, the coordinate remains a bounded descriptor and any half-life contrast remains a finite RNA-stability association rather than a certified cross-layer RBP relation.
