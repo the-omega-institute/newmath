@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\HautusTestUp$}
+\label{ch:concrete-instances-hautus-test-namecert}
+\origin{human}
+
+Following Hautus and standard finite-dimensional control theory, the $\HautusTestUp$ packet records the finite rank-test surface for controllability and observability of a displayed linear plant. It sits after the controllability certificate of \autoref{ch:concrete-instances-controlcontrollability-namecert}, the observability certificate of \autoref{ch:concrete-instances-controlobservability-namecert}, the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the linear-map carrier of \autoref{ch:concrete-instances-linearmap-namecert}, and the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}. The packet names only finite matrix-pencil rows, eigenvalue probes, rank windows, transport, replay, provenance, and local naming data; it does not import a spectral decomposition theorem, analytic transfer-function equality, a host quotient state space, or an infinite-dimensional control result.
+
+\begin{definition}[HautusTest carrier]
+\label{def:hautus-test-carrier}
+A $\HautusTestUp$ carrier is a finite $\BHist$ packet
+$$
+H=(X,U,Y,A,B,C,\Lambda,\Pi,Q,O,M,V,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the finite state row, $U$ is the input row, and $Y$ is the output row, each read through displayed $\VecSpaceUp$ coordinates.
+\item $A:X\to X$, $B:U\to X$, and $C:X\to Y$ are the finite plant, input, and output rows, read through $\LinearMapUp$ and $\MatrixUp$ presentations.
+\item $\Lambda$ is the finite eigenvalue-probe ledger for the displayed plant row $A$; it records only the probes used by the packet.
+\item $\Pi$ is the matrix-pencil ledger containing the displayed rows for $sI-A$, the controllability pencil $(sI-A,B)$, and the observability pencil $(sI-A,C)$ at every probe $s$ named by $\Lambda$.
+\item $Q$ is the controllability rank-window row consumed by $\ControlControllabilityUp$.
+\item $O$ is the observability rank-window row consumed by $\ControlObservabilityUp$.
+\item $M$ records the finite matrix-entry and rank-readback rows used by $\Pi,Q,O$.
+\item $V$ records the vector-space basis and dimension rows against which the rank windows are measured.
+\item $T$ records componentwise $\hsame$ transport for $X,U,Y,A,B,C,\Lambda,\Pi,Q,O,M,V$ and the local certificate row.
+\item $R$ records displayed $\Cont$ replay from the plant rows through the probe ledger, matrix-pencil rows, controllability window, and observability window.
+\item $P$ is the $\Pkg$ provenance over $\HautusTestUp$, $\ControlControllabilityUp$, $\ControlObservabilityUp$, $\MatrixUp$, $\LinearMapUp$, $\VecSpaceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HautusTestUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host spectral decomposition, quotient state-space semantics, selected canonical bases, transfer-function equality, stochastic covariance, or infinite-dimensional observability and controllability theorems.
+\end{definition}
+
+\begin{theorem}[HautusTest NameCert obligations]
+\label{thm:hautus-test-namecert-obligations}
+For every accepted $\HautusTestUp$ carrier
+$$
+H=(X,U,Y,A,B,C,\Lambda,\Pi,Q,O,M,V,T,R,P,N),
+$$
+the local $\NameCert_{\HautusTestUp}$ surface consists exactly of finite state, input, and output admission through $X,U,Y$, plant admission through $A,B,C$, eigenvalue-probe admission through $\Lambda$, matrix-pencil admission through $\Pi$, controllability rank-window admission through $Q$, observability rank-window admission through $O$, matrix readback through $M$, vector-space and dimension readback through $V$, componentwise $\hsame$ transport through $T$, displayed $\Cont$ replay through $R$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hautus-test-carrier}. The rows $X,U,Y,A,B,C$ display the finite control-system data before any rank test is visible.
+
+The probe ledger $\Lambda$ and matrix-pencil ledger $\Pi$ then expose the finite rows for $sI-A$, $(sI-A,B)$, and $(sI-A,C)$. The row $Q$ is the controllability read of those rows, while $O$ is the observability read of the same plant and probe surface.
+
+Finally $M,V,T,R,P,N$ record matrix readback, vector-space dimension readback, transport, replay, provenance, and local naming. Since the carrier contains no coordinate for host spectral decomposition, quotient state spaces, selected canonical bases, transfer functions, stochastic covariance, or infinite-dimensional semantics, these displayed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[HautusTest controllability-observability handoff]
+\label{thm:hautus-test-controllability-observability-handoff}
+Every downstream finite-control consumer of an accepted $\HautusTestUp$ packet that asks for a rank-test certificate must read the same displayed route
+$$
+\MatrixUp,\LinearMapUp,\VecSpaceUp
+\longmapsto
+\Lambda,\Pi,Q,O,M,V,T,R,P,N .
+$$
+The controllability side reaches $\ControlControllabilityUp$ only through $Q$, and the observability side reaches $\ControlObservabilityUp$ only through $O$. Both rows are tied to the same plant rows $A,B,C$, the same matrix-pencil ledger $\Pi$, and the same vector-space dimension row $V$.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:hautus-test-namecert-obligations}. It forces the finite plant rows, probe ledger, matrix-pencil ledger, controllability rank window, and observability rank window to be displayed before a consumer can read the certificate.
+
+The controllability handoff is the row $Q$ over $(sI-A,B)$, and the observability handoff is the row $O$ over $(sI-A,C)$. Both are measured against the same matrix row $M$ and vector-space row $V$, so neither handoff can replace the shared packet by a separate ambient rank theorem.
+
+The structural rows $T,R,P,N$ then transport, replay, source, and name exactly that finite route. A consumer that bypasses $Q$ or $O$, or that reads an unlogged spectral decomposition, quotient state space, transfer function, stochastic covariance, or infinite-dimensional theorem, has left the accepted $\HautusTestUp$ packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\HautusTestUp$ packet is refuted by any finite-control consumer that reads a controllability or observability rank result while bypassing the displayed probe ledger $\Lambda$, the matrix-pencil ledger $\Pi$, or either rank-window row $Q,O$.}
+
+\independenceWitness{controlcontrollability, controlobservability, matrix, linearmap, vecspace: none is bijective to $\HautusTestUp$ because the Hautus-test packet jointly carries plant rows, eigenvalue probes, two matrix-pencil rank windows, shared matrix readback, vector-space dimension readback, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{HautusTestUp}{seedStr}
+
+\begin{closurestatus}{\HautusTestUp}
+  \constructivestory{A $\HautusTestUp$ packet is generated from finite state, input, output, plant, eigenvalue-probe, matrix-pencil, controllability rank-window, observability rank-window, matrix readback, vector-space dimension, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hautus-test-carrier}, \autoref{thm:hautus-test-namecert-obligations}, \autoref{thm:hautus-test-controllability-observability-handoff}, the displayed falsifiable prediction, and the displayed independence witness seed the finite Hautus rank-test NameCert surface over controllability, observability, matrix, linear-map, and vector-space rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, host spectral decomposition, quotient state-space semantics, selected canonical bases, transfer-function equality, stochastic covariance, or infinite-dimensional control theory.}
+  \upgradepath{Obligation closure requires checked carrier admission, probe-ledger admission, matrix-pencil exactness, controllability and observability rank-window admission, transport, replay, provenance, and local naming for BEDC.Derived.HautusTestUp.}
+\end{closurestatus}
