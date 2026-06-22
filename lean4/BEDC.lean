@@ -10420,6 +10420,7 @@ import BEDC.Derived.ScientificObjectUp.TasteGate
 import BEDC.Derived.ScientificObjectUp.TruthDomainGapScope
 import BEDC.Derived.ScottDomainUp.TasteGate
 import BEDC.Derived.ScottRealUp.TasteGate
+import BEDC.Derived.SearchableSpaceUp
 import BEDC.Derived.SecantMethodUp.TasteGate
 import BEDC.Derived.SecondCountableUp
 import BEDC.Derived.SelectedTailSeedUp.TasteGate
