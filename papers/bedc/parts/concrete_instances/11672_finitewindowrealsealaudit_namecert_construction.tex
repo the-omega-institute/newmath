@@ -122,6 +122,60 @@ The ledger-refusal obligation is supplied by \autoref{thm:finite-window-real-sea
 The stability obligation is supplied by \autoref{thm:finite-window-real-seal-audit-refusal-transport}. Componentwise $\hsame$ transport carries the refusal row and preserves the forced route through the displayed finite-window, dyadic-tolerance, RegSeqRat, and Real-seal faces. The TasteGate alignment target records that the same single carrier is the Lean-side audit surface for this packet, so the listed rows form the obligation-closure boundary for $\FiniteWindowRealSealAuditUp$.
 \end{proof}
 
+\begin{theorem}[Finite-window Real-seal audit StreamName--Dyadic scope]
+\label{thm:finite-window-real-seal-audit-streamname-scope}
+For every accepted $\FiniteWindowRealSealAuditUp$ carrier
+$$
+A=(W,D,R,E,F,H,C,P,N),
+$$
+the visible request window $W$ is scoped by the displayed $\StreamNameUp$ finite-window row, and the tolerance ledger $D$ is scoped by the displayed $\DyadicRatCoreUp$ row attached to the same window. No accepted consumer may replace $W$ or $D$ by a hidden stream, quotient stream equality, selected tolerance, host real equality, countable-choice row, or ambient-completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-real-seal-audit-carrier}. The first two route faces are $W$ and $D$: $W$ names the visible StreamName request window, and $D$ records the dyadic tolerance ledger attached to that same window.
+
+Apply the NameCert obligations of \autoref{thm:finite-window-real-seal-audit-namecert-obligations}. They place $W$ and $D$ in the local certificate before the RegSeqRat readback, terminal Real seal, audit refusal, transport, continuation, provenance, and naming rows.
+
+Use non-escape and four-face minimality, \autoref{thm:finite-window-real-seal-audit-nonescape} and \autoref{thm:finite-window-real-seal-audit-four-face-minimality}. A consumer has no bypass coordinate for a hidden stream or selected tolerance, and neither $F,H,C,P,N$ can manufacture a missing StreamName window or DyadicRatCore ledger.
+
+Finally apply refusal transport, \autoref{thm:finite-window-real-seal-audit-refusal-transport}. Componentwise $\hsame$ transport carries the same $W,D$ scope to any accepted target carrier, so the StreamName--Dyadic entry remains the displayed finite-window scope for the route.
+\end{proof}
+
+\begin{theorem}[Finite-window Real-seal audit RegSeqRat scope]
+\label{thm:finite-window-real-seal-audit-regseqrat-scope}
+For every accepted $\FiniteWindowRealSealAuditUp$ carrier
+$$
+A=(W,D,R,E,F,H,C,P,N),
+$$
+the row $R$ is a $\RegSeqRatUp$ readback row whose admissibility is scoped by the preceding finite $\BHist$ packet, componentwise $\hsame$ transport through $H$, and displayed $\Cont$ replay through $C$. The readback cannot be detached from $W,D$ or replaced by a quotient stream, selected host limit, host real equality, countable-choice row, or ambient-completeness row.
+\end{theorem}
+\begin{proof}
+Read the carrier in \autoref{def:finite-window-real-seal-audit-carrier}. The row $R$ is not a free regular-rational name; it is the RegSeqRat readback reached from the already displayed $W,D$ rows inside the same finite $\BHist$ packet.
+
+Apply the NameCert obligations of \autoref{thm:finite-window-real-seal-audit-namecert-obligations}. The certificate inventory records $R$ together with the componentwise $\hsame$ row $H$ and the displayed $\Cont$ replay row $C$, so the readback is scoped by the same finite route rather than by an external completion object.
+
+Use \autoref{thm:finite-window-real-seal-audit-nonescape} and \autoref{thm:finite-window-real-seal-audit-four-face-minimality}. Since accepted consumers must pass through $W,D,R,E$ and each face is necessary, $R$ cannot be recovered from the refusal, continuation, provenance, or naming rows after the fact.
+
+Apply refusal transport, \autoref{thm:finite-window-real-seal-audit-refusal-transport}. Transported carriers preserve the refusal row and force the target consumer through $W',D',R'$ before $E'$, which keeps the RegSeqRat readback under the transported $\BHist$, $\hsame$, and $\Cont$ scope.
+\end{proof}
+
+\begin{theorem}[Finite-window Real-seal audit Real-seal non-escape scope]
+\label{thm:finite-window-real-seal-audit-real-seal-nonescape-scope}
+For every accepted $\FiniteWindowRealSealAuditUp$ carrier
+$$
+A=(W,D,R,E,F,H,C,P,N),
+$$
+the terminal row $E$ is scoped as the displayed $\RealUp$ seal reached only after $W,D,R$ have been exposed. The row $F$ records the non-escape refusal, $P$ records $\Pkg$ provenance for the sibling packets and kernel rows, and $N$ records the local $\NameCert_{\FiniteWindowRealSealAuditUp}$ name; none of these rows exports a hidden completion route, detached Real seal, selected limit, quotient stream equality, host real equality, countable-choice row, or ambient-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-real-seal-audit-carrier}. The row $E$ is the terminal RealUp seal row, while $F,P,N$ are respectively the audit-refusal row, the package provenance row, and the local NameCert row for the same finite packet.
+
+Apply the NameCert obligations of \autoref{thm:finite-window-real-seal-audit-namecert-obligations}. They identify $E,F,P,N$ as displayed rows of one certificate and place the Real seal after the StreamName, DyadicRatCore, and RegSeqRat faces.
+
+Use non-escape and four-face minimality, \autoref{thm:finite-window-real-seal-audit-nonescape} and \autoref{thm:finite-window-real-seal-audit-four-face-minimality}. A Real-seal consumer must reach $E$ through $W,D,R$, and the supporting rows $F,P,N$ can refuse, package, and name only that route.
+
+Finally apply refusal transport, \autoref{thm:finite-window-real-seal-audit-refusal-transport}. Under componentwise $\hsame$ transport the target carrier still exposes only $W',D',R',E',F',H',C',P',N'$, so the Real seal remains non-escaping and the $\Pkg$ and $\NameCert$ rows remain local to the displayed route.
+\end{proof}
+
 Lean development for this route provides \texttt{Nontrivial FiniteWindowRealSealAuditUp} and \texttt{FieldFaithful FiniteWindowRealSealAuditUp} in \texttt{lean4/BEDC/Derived/FiniteWindowRealSealAuditUp/TasteGate.lean}.
 
 \begin{theorem}[Finite-window Real-seal audit scoped dependency]
@@ -135,15 +189,15 @@ the row $W$ is scoped by $\StreamNameUp$, the row $D$ by $\DyadicRatCoreUp$, the
 \begin{proof}
 Project the carrier of \autoref{def:finite-window-real-seal-audit-carrier}. Its displayed rows already name the four route faces $W,D,R,E$, the audit row $F$, and the structural rows $H,C,P,N$.
 
-Apply the NameCert obligations and non-escape theorem, \autoref{thm:finite-window-real-seal-audit-namecert-obligations} and \autoref{thm:finite-window-real-seal-audit-nonescape}. They identify the StreamName window, DyadicRatCore tolerance ledger, RegSeqRat readback, RealUp seal, and audit refusal as the only admitted consumer route.
+Apply the three explicit scope lemmas, \autoref{thm:finite-window-real-seal-audit-streamname-scope}, \autoref{thm:finite-window-real-seal-audit-regseqrat-scope}, and \autoref{thm:finite-window-real-seal-audit-real-seal-nonescape-scope}. They bind the StreamName window, DyadicRatCore tolerance ledger, RegSeqRat readback, RealUp seal, audit refusal, package provenance, and local naming rows to the displayed finite route.
 
-Use four-face minimality and refusal transport, \autoref{thm:finite-window-real-seal-audit-four-face-minimality} and \autoref{thm:finite-window-real-seal-audit-refusal-transport}, to keep those scopes componentwise under $\hsame$ and displayed $\Cont$ replay. The obligation-closure theorem then packages the same rows through $\Pkg$ provenance and the local $\NameCert$ row, so every dependency has an explicit BEDC primitive or sibling-chapter scope.
+Use the obligation-closure theorem, \autoref{thm:finite-window-real-seal-audit-obligation-closure}, to package the same rows through carrier admission, classifier scope, stability, exactness, and ledger refusal. Thus every dependency has an explicit BEDC primitive or sibling-chapter scope.
 \end{proof}
 
 \begin{closurestatus}{\FiniteWindowRealSealAuditUp}
   \constructivestory{The finite-window Real-seal audit is generated from a $BHist$ packet whose window rows, tolerance rows, audit witness, and Real-seal handoff are all visible before any consumer route is admitted. The carrier convention first names the finite window, then records the audit row that checks the handoff, and finally allows $\Cont$ only to continue that audited route. If the representing history changes, $hsame$ transports the same audit packet rather than creating a new window. The resulting NameCert object is a local audit surface: it certifies that Real-seal use is confined to the displayed finite packet and that forbidden coordinates remain absent.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{This chapter binds the finite-window Real-seal audit carrier, NameCert obligations, non-escape theorem, four-face minimality, refusal transport of \autoref{thm:finite-window-real-seal-audit-refusal-transport}, obligation closure of \autoref{thm:finite-window-real-seal-audit-obligation-closure}, and scoped dependency theorem of \autoref{thm:finite-window-real-seal-audit-scoped-dependency}.}
+  \scopeclosed{This chapter binds the finite-window Real-seal audit carrier, NameCert obligations, non-escape theorem, four-face minimality, refusal transport of \autoref{thm:finite-window-real-seal-audit-refusal-transport}, obligation closure of \autoref{thm:finite-window-real-seal-audit-obligation-closure}, explicit scope lemmas of \autoref{thm:finite-window-real-seal-audit-streamname-scope}, \autoref{thm:finite-window-real-seal-audit-regseqrat-scope}, and \autoref{thm:finite-window-real-seal-audit-real-seal-nonescape-scope}, and scoped dependency theorem of \autoref{thm:finite-window-real-seal-audit-scoped-dependency}.}
   \formalstatus{\axiomCleanV}
   \leanchecked{BEDC.Derived.FiniteWindowRealSealAuditUp.taste\_gate}
   \leantarget{BEDC.Derived.FiniteWindowRealSealAuditUp.FiniteWindowRealSealAuditTasteGate\_single\_carrier\_alignment}

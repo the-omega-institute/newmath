@@ -111,4 +111,86 @@ theorem DirectedSubnetCarrier_cauchynet_handoff [AskSetup] [PackageSetup]
     namePkg⟩ := carrier
   exact ⟨unary_cont_closed unaryK unaryPhi route, provenancePkg, namePkg⟩
 
+theorem DirectedSubnetCofinalReplay [AskSetup] [PackageSetup]
+    {I J phi K L S R D A H C P N targetRead replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DirectedSubnetCarrier I J phi K L S R D A H C P N bundle pkg →
+      Cont J phi targetRead →
+        Cont targetRead I replayRead →
+          PkgSig bundle N pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row replayRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row I ∨ hsame row J ∨ hsame row phi ∨ hsame row K ∨
+                    hsame row L ∨ hsame row S ∨ hsame row R ∨ hsame row D ∨
+                      hsame row A ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                        hsame row N ∨ hsame row targetRead ∨ hsame row replayRead)
+                (fun row : BHist =>
+                  hsame row replayRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                hsame ∧
+              UnaryHistory targetRead ∧ UnaryHistory replayRead := by
+  -- BEDC touchpoint anchor: DirectedSubnetCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier targetRoute replayRoute namePkg
+  obtain ⟨sourceUnary, targetUnary, mapUnary, _sourceCauchyUnary, _targetCauchyUnary,
+    _windowUnary, _readbackUnary, _toleranceUnary, _sealUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _localNameUnary, provenancePkg, _carrierNamePkg⟩ :=
+    carrier
+  have targetReadUnary : UnaryHistory targetRead :=
+    unary_cont_closed targetUnary mapUnary targetRoute
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed targetReadUnary sourceUnary replayRoute
+  have sourceReplay :
+      (fun row : BHist => hsame row replayRead ∧ UnaryHistory row) replayRead := by
+    exact ⟨hsame_refl replayRead, replayReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row replayRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row I ∨ hsame row J ∨ hsame row phi ∨ hsame row K ∨
+              hsame row L ∨ hsame row S ∨ hsame row R ∨ hsame row D ∨
+                hsame row A ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                  hsame row N ∨ hsame row targetRead ∨ hsame row replayRead)
+          (fun row : BHist =>
+            hsame row replayRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro replayRead sourceReplay
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, provenancePkg, namePkg⟩
+  }
+  exact ⟨cert, targetReadUnary, replayReadUnary⟩
+
 end BEDC.Derived.DirectedSubnetUp
