@@ -65,6 +65,18 @@ The closed-normal theorem readback is the row $K$, consumed together with the ty
 Non-escape follows by inspection of the packet. None of its rows names host consistency, closed subject reduction, hidden normalization transport, or an ambient logical shortcut, so the NameCert surface cannot export those claims.
 \end{proof}
 
+\begin{theorem}[Closed-normal consistency scoped route]
+\label{thm:closed-normal-consistency-scoped-route}
+Every scoped read of a $\ClosedNormalConsistencyUp$ packet must expose the empty-context typing row, internal false row, beta-strong normality row, checked closed-normal theorem row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\ClosedNormalConsistencyUp}$ row. The same read separately preserves the subject-reduction frontier of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}: it does not import the four subject-reduction discharge rows, a closed subject-reduction theorem, or a transport from arbitrary closed proofs to beta-strong normal inhabitants of the same false type.
+\end{theorem}
+\begin{proof}
+The carrier and classifier of \autoref{def:closed-normal-consistency-packet} and \autoref{def:closed-normal-consistency-classifier} restrict every accepted packet to $T,F,S,K,H,C,P,N$. These rows display the empty-context typing, false-type, beta-strong, checked theorem, transport, replay, provenance, and local naming data.
+
+The normal-fragment boundary of \autoref{thm:closed-normal-consistency-normal-fragment-boundary} supplies the positive read only inside the beta-strong fragment. The subject-reduction frontier of \autoref{thm:closed-normal-consistency-subject-reduction-frontier} keeps the sibling obstruction packet separate from that read.
+
+Finally, the NameCert obligation surface of \autoref{thm:closed-normal-consistency-namecert-obligation-surface} records the same finite rows as the local obligation boundary. Composing these displays yields a scoped route for the normal-fragment certificate while preserving the subject-reduction frontier as a distinct BEDC object.
+\end{proof}
+
 \begin{corollary}[Closed-normal consistency strict local obstruction]
 \label{cor:closed-normal-consistency-strict-local-obstruction}
 For an accepted $\ClosedNormalConsistencyUp$ packet, the obstruction carried by the normal-fragment boundary is strict and local. It blocks only the converse route that would turn an arbitrary closed proof candidate into a beta-strong normal inhabitant of the same displayed false row, and only the reuse route that would treat $T,F,S,K,H,C,P,N$ as evidence for host consistency, closed subject reduction, hidden normalization transport, or an ambient logical shortcut. The displayed separation cannot be reinterpreted as a global impossibility theorem, a host theorem, or hidden external validation outside the named $\NameCert_{\ClosedNormalConsistencyUp}$ surface.
@@ -80,8 +92,8 @@ Therefore any attempted consumer interpretation outside those rows must ask for 
 \closureat{ClosedNormalConsistencyUp}{seedStr}
 
 \begin{closurestatus}{\ClosedNormalConsistencyUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:closed-normal-consistency-packet}, \autoref{def:closed-normal-consistency-classifier}, \autoref{thm:closed-normal-consistency-normal-fragment-boundary}, \autoref{thm:closed-normal-consistency-subject-reduction-frontier}, and \autoref{thm:closed-normal-consistency-namecert-obligation-surface} enumerate the carrier, classifier, closed-normal readback, beta-strong exposure, transport and replay, provenance, and subject-reduction frontier obligations.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:closed-normal-consistency-packet}, \autoref{def:closed-normal-consistency-classifier}, \autoref{thm:closed-normal-consistency-normal-fragment-boundary}, \autoref{thm:closed-normal-consistency-subject-reduction-frontier}, \autoref{thm:closed-normal-consistency-namecert-obligation-surface}, and \autoref{thm:closed-normal-consistency-scoped-route} enumerate the carrier, classifier, closed-normal readback, beta-strong exposure, transport and replay, provenance, subject-reduction frontier obligations, and scoped route.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.MetaCIC.closed\_normal\_consistency\_assembly}
   \bridgestatus{none}
