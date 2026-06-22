@@ -67,6 +67,26 @@ The sibling chapters locate the boundary. $\ScientificObjectUp$ in \autoref{ch:c
 \end{proof}
 \leanchecked{BEDC.Derived.PhysicalRecordInvariantUp.PhysicalRecordInvariantTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[Physical record invariant kernel scope]
+\label{thm:physical-record-invariant-kernel-scope}
+Every accepted $\PhysicalRecordInvariantUp$ packet that exports frame-independent record content exposes
+$$
+R,I,O,H,C,P,N
+$$
+as $\BHist$ carrier data, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before any $\ScientificObjectUp$, $\RealityConstrainedFailureSurfaceUp$, or $\CausalCommitmentUp$ consumer reads it.
+
+Erasing any one of $R,I,O,H,C,P,N$ leaves the scoped carrier for frame-independent physical content.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:physical-record-invariant-carrier}. The packet displays physical records, inter-history invariance, observer symmetry, transport, replay, provenance, and local naming as separate rows of the same finite $\BHist$ carrier.
+
+Use classifier stability from \autoref{thm:physical-record-invariant-classifier-stability}. A consumer may transport the record content only componentwise, so the physical-record row, invariant row, observer-symmetry row, and local naming row cannot be collapsed into a bare scientific object.
+
+Use ledger exactness from \autoref{thm:physical-record-invariant-ledger-exactness}. The physical-record ledger and invariant row must be visible before exported content is read, and observer symmetry constrains the presentation without replacing either row.
+
+Finally apply the NameCert surface theorem \autoref{thm:physical-record-invariant-namecert-surface}. It keeps every accepted read on $R,I,O,H,C,P,N$ and refuses the sibling shortcuts: $\ScientificObjectUp$ cannot supply the invariant row, $\RealityConstrainedFailureSurfaceUp$ cannot supply the positive record carrier, and $\CausalCommitmentUp$ cannot supply the observer-symmetric readback. Removing any listed row therefore removes the packet from the scoped carrier.
+\end{proof}
+
 \begin{theorem}[Physical record invariant falsifiable prediction]
 \label{thm:physical-record-invariant-falsifiable-prediction}
 Any accepted $\PhysicalRecordInvariantUp$ packet whose observer-symmetry row $O$ is erased fails the classifier-stability obligation against $\RealityConstrainedFailureSurfaceUp$ consumers. Such a packet may still expose records or defeats, but it no longer carries frame-independent physical content.
