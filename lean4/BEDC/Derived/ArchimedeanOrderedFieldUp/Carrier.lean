@@ -107,4 +107,101 @@ theorem ArchimedeanOrderedFieldNameCertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, ledgerUnary, routeUnary, localCertFromRoute⟩
 
+theorem ArchimedeanOrderedFieldRationalBoundWindow [AskSetup] [PackageSetup]
+    {real alg rat bound ledger transport route provenance localCert comparisonRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ArchimedeanOrderedFieldCarrier real alg rat bound ledger transport route provenance
+        localCert bundle pkg →
+      Cont bound rat comparisonRead →
+        PkgSig bundle comparisonRead pkg →
+          SemanticNameCert
+              (fun row : BHist =>
+                (hsame row rat ∨ hsame row bound ∨ hsame row ledger ∨
+                    hsame row comparisonRead) ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row real ∨ hsame row rat ∨ hsame row bound ∨
+                  hsame row ledger ∨ hsame row comparisonRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont real alg ledger ∧ Cont ledger bound route ∧
+                  Cont bound rat comparisonRead ∧ PkgSig bundle comparisonRead pkg)
+              hsame ∧ UnaryHistory comparisonRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
+  intro carrier boundRatRead comparisonPkg
+  obtain ⟨realUnary, algUnary, ratUnary, boundUnary, ledgerUnary, provenanceUnary,
+    localCertUnary, realAlgLedger, ledgerBoundRoute, routeProvenanceCert,
+      provenancePkg, localCertPkg⟩ := carrier
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed boundUnary ratUnary boundRatRead
+  have sourceComparison :
+      (hsame comparisonRead rat ∨ hsame comparisonRead bound ∨ hsame comparisonRead ledger ∨
+          hsame comparisonRead comparisonRead) ∧ UnaryHistory comparisonRead :=
+    ⟨Or.inr (Or.inr (Or.inr (hsame_refl comparisonRead))), comparisonUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row rat ∨ hsame row bound ∨ hsame row ledger ∨
+                hsame row comparisonRead) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row real ∨ hsame row rat ∨ hsame row bound ∨
+              hsame row ledger ∨ hsame row comparisonRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont real alg ledger ∧ Cont ledger bound route ∧
+              Cont bound rat comparisonRead ∧ PkgSig bundle comparisonRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro comparisonRead sourceComparison
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        exact
+          ⟨by
+            cases source.left with
+            | inl rowRat =>
+                exact Or.inl (hsame_trans (hsame_symm sameRows) rowRat)
+            | inr rest =>
+                cases rest with
+                | inl rowBound =>
+                    exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) rowBound))
+                | inr restTail =>
+                    cases restTail with
+                    | inl rowLedger =>
+                        exact
+                          Or.inr
+                            (Or.inr
+                              (Or.inl (hsame_trans (hsame_symm sameRows) rowLedger)))
+                    | inr rowComparison =>
+                        exact
+                          Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (hsame_trans (hsame_symm sameRows) rowComparison))),
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro row source
+      cases source.left with
+      | inl rowRat => exact Or.inr (Or.inl rowRat)
+      | inr rest =>
+          cases rest with
+          | inl rowBound => exact Or.inr (Or.inr (Or.inl rowBound))
+          | inr restTail =>
+              cases restTail with
+              | inl rowLedger => exact Or.inr (Or.inr (Or.inr (Or.inl rowLedger)))
+              | inr rowComparison =>
+                  exact Or.inr (Or.inr (Or.inr (Or.inr rowComparison)))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, realAlgLedger, ledgerBoundRoute, boundRatRead, comparisonPkg⟩
+  }
+  exact ⟨cert, comparisonUnary⟩
+
 end BEDC.Derived.ArchimedeanOrderedFieldUp
