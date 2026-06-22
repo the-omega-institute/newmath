@@ -752,6 +752,7 @@ import BEDC.Derived.BaireOneFunctionUp
 import BEDC.Derived.BaireOneFunctionUp.Classifier
 import BEDC.Derived.BaireOneFunctionUp.OscillationLocality
 import BEDC.Derived.BaireOneFunctionUp.TasteGate
+import BEDC.Derived.BaireOneModulusUp.TasteGate
 import BEDC.Derived.BaireSpaceCompactOpenUp.TasteGate
 import BEDC.Derived.BaireSpaceUp
 import BEDC.Derived.BaireSpaceUp.TasteGate
@@ -2826,6 +2827,7 @@ import BEDC.Derived.ClosedMetricBallUp.TasteGate
 import BEDC.Derived.ClosedMetricGraphUp
 import BEDC.Derived.ClosedNormalCanonicityUp.TasteGate
 import BEDC.Derived.ClosedNormalConfluenceSealUp.NormalSource
+import BEDC.Derived.ClosedNormalConfluenceSealUp.PublicExport
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyBoundaryUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyWitnessUp.TasteGate
@@ -9127,6 +9129,7 @@ import BEDC.Derived.RadialWobbleSpectrumUp.TasteGate
 import BEDC.Derived.RadonMeasureUp
 import BEDC.Derived.RadonMeasureUp.TasteGate
 import BEDC.Derived.RadonNikodymUp.TasteGate
+import BEDC.Derived.RadonTheoremUp.NameCertObligations
 import BEDC.Derived.RadonTheoremUp.TasteGate
 import BEDC.Derived.RaikovCompletionUp.TasteGate
 import BEDC.Derived.RamseyUp
@@ -10270,6 +10273,7 @@ import BEDC.Derived.RichmanCompletionUp.TasteGate
 import BEDC.Derived.RiemannHilbertUp
 import BEDC.Derived.RiemannHilbertUp.PublicCertificateExport
 import BEDC.Derived.RiemannIntegrabilityCriterionUp.TasteGate
+import BEDC.Derived.RiemannIntegrabilityDiscontinuityUp.TasteGate
 import BEDC.Derived.RiemannIntegrabilityModulusUp.TasteGate
 import BEDC.Derived.RiemannIntegrableUp.DarbouxGapRoute
 import BEDC.Derived.RiemannIntegrableUp.TasteGate
@@ -11601,6 +11605,8 @@ import BEDC.Derived.UniformEntourageSpaceUp.TasteGate
 import BEDC.Derived.UniformEquicontinuityModulusUp.TasteGate
 import BEDC.Derived.UniformFixedPointUp.TasteGate
 import BEDC.Derived.UniformHomeomorphismUp.BidirectionalModulusRoute
+import BEDC.Derived.UniformHomeomorphismUp.ClassifierBidirectionality
+import BEDC.Derived.UniformHomeomorphismUp.CompletionConsumerBoundary
 import BEDC.Derived.UniformHomeomorphismUp.InverseRouteExactness
 import BEDC.Derived.UniformHomeomorphismUp.NameCertObligations
 import BEDC.Derived.UniformHomeomorphismUp.TasteGate
