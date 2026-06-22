@@ -18,6 +18,22 @@ Now consume the finite residual witness of \autoref{thm:metacic-parallel-diamond
 Finally apply residual-row visibility, \autoref{thm:metacic-parallel-diamond-frontier-residual-row-visibility}. The residual row remains visible through $H,T,G,N$, so confluence and decidability consumers receive only the displayed candidate-mediated budget rather than a discharged substitution theorem, global normalization theorem, evaluator equality, quotient equality, or kernel-consistency certificate.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond candidate SN handoff scope]
+\label{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff-scope}
+Every candidate-mediated strong-normalization consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet must expose the residual-substitution premise row, critical-pair row, candidate join row, residual-frontier row, closed-checker row, closed-normal-fragment row, obstruction row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before using the handoff. In the displayed spine
+$$
+P,K,J,R,S,C,B,O,H,T,G,N ,
+$$
+the consumer reads $P$ as the retained substitution premise, $K$ as the critical-pair row, $J$ as the candidate join row, $R$ as the residual-frontier row, $S,C,B$ as closed-checker, closed-normal-fragment, and bounded-check rows, $O$ as the obstruction row, and $H,T,G,N$ as transport, replay, provenance, and local naming. The scope is only a candidate-mediated SN handoff; it is not full substitution discharge, global confluence, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the candidate-mediated SN handoff of \autoref{thm:metacic-parallel-diamond-frontier-candidate-sn-handoff}. It already forces the accepted packet to display the residual-substitution premise, critical-pair envelope, residual-frontier rows, checker rows, obstruction row, transport, replay, provenance, and local naming before a confluence or decidability consumer reads the frontier.
+
+Next use the retained-premise discharge boundary and residual-substitution dependency route. They keep $P$ visible as a premise row rather than a discharged substitution theorem, so the candidate handoff cannot be read as premise-free confluence or subject reduction.
+
+Finally apply residual-row visibility. The rows $K,J,R,S,C,B,O$ remain attached to $H,T,G,N$, and every displayed $\Cont$ replay preserves the same local $\NameCert$ route. Thus the consumer obtains exactly the scoped candidate-mediated handoff and none of the excluded global equality or consistency claims.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel diamond typed candidate SN extension]
 \label{thm:metacic-parallel-diamond-frontier-typed-candidate-sn-extension}
 Every candidate-mediated strong-normalization handoff consumed from an accepted $\MetaCICParallelDiamondFrontierUp$ packet must retain the residual-substitution premise, critical-pair envelope, candidate row, typed-window row, closed-checker row, bounded-check row, obstruction row, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local $\NameCert$ row before any normalization-facing consumer reads it. In the frontier spine
