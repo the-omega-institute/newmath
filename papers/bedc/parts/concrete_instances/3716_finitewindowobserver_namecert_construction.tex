@@ -147,13 +147,28 @@ Now use carrier transport, bundle exhaustion, StreamName readback, and inscripti
 
 Finally apply ledger non-escape, \autoref{thm:finite-window-observer-ledger-nonescape}. Since all cited rows belong to the same packet and no cited theorem exports private psychology, global observer identity, hidden agency predicates, unbounded history, or external semantic observation, the five obligations are exactly the obligation-closure surface for this packet.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteWindowObserverUp.FiniteWindowObserverObligationClosureSurface}
+
+\begin{theorem}[FiniteWindowObserver obligation closure route]
+\label{thm:finite-window-observer-obligation-closure-route}
+For every accepted $\FiniteWindowObserverUp$ carrier $W=(O,F,I,K,D,H,C,P,N)$, the carrier of \autoref{def:finite-window-observer-carrier}, the NameCert obligations of \autoref{thm:finite-window-observer-namecert-obligations}, carrier transport of \autoref{thm:finite-window-observer-carrier-transport}, bundle exhaustion of \autoref{thm:finite-window-observer-bundle-exhaustion}, StreamName window readback of \autoref{thm:finite-window-observer-streamname-window-readback}, inscription handoff of \autoref{thm:finite-window-observer-inscription-handoff}, ledger non-escape of \autoref{thm:finite-window-observer-ledger-nonescape}, and the obligation-closure surface of \autoref{thm:finite-window-observer-obligation-closure-surface} form a finite induction route from rows $O,F,I,K,D,H,C,P,N$ to the five obligation rows: carrier admission, classifier transport, checker replay and admission, downstream consumer handoff, and ledger non-escape. No consumer can bypass that row order.
+\end{theorem}
+\begin{proof}
+Project the carrier $W=(O,F,I,K,D,H,C,P,N)$. The base row $O$ supplies the prior observation state, and the selected window row $F$ is the first public finite bundle available to any downstream read.
+
+Induct over the displayed route $O \to F \to I \to K \to D$. At the $F$ step, \autoref{thm:finite-window-observer-bundle-exhaustion} closes the selected finite bundle. At the $I,K,D$ steps, \autoref{thm:finite-window-observer-streamname-window-readback} and \autoref{thm:finite-window-observer-inscription-handoff} force the StreamName-facing and inscription-facing reads to consume the same finite window before any consumer interface is visible.
+
+The structural rows preserve the induction. Carrier transport from \autoref{thm:finite-window-observer-carrier-transport} keeps the route stable under $\hsame$, while the displayed $\Cont$ replay row $C$, provenance row $P$, and local naming row $N$ keep the same packet fixed throughout the read.
+
+Finally apply the NameCert obligations and ledger non-escape. Theorems~\ref{thm:finite-window-observer-namecert-obligations} and~\ref{thm:finite-window-observer-ledger-nonescape}, together with the obligation-closure surface of \autoref{thm:finite-window-observer-obligation-closure-surface}, identify the five obligation rows and exclude private psychology, global observer identity, hidden agency predicates, unbounded histories, and external semantic observation. Thus the finite route closes the obligations at the paper level, and a consumer cannot skip any row in the displayed order.
+\end{proof}
 
 \closureat{FiniteWindowObserverUp}{obligationStr}
 
 \begin{closurestatus}{\FiniteWindowObserverUp}
   \constructivestory{A $\FiniteWindowObserverUp$ packet is generated from a prior observation state, a finite selected public window, an inscription record, an accepted checker row, a downstream interface, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:finite-window-observer-obligation-closure-surface} enumerates the carrier admission, classifier transport, checker replay and admission, downstream consumer handoff, and ledger non-escape obligations over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \scopeclosed{\autoref{thm:finite-window-observer-obligation-closure-surface} and \autoref{thm:finite-window-observer-obligation-closure-route} enumerate the carrier admission, classifier transport, checker replay and admission, downstream consumer handoff, and ledger non-escape obligations over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close private psychology, global observer identity, hidden agency predicates, unbounded observation histories, external semantic observation, Lean verification, or bridge checking.}
