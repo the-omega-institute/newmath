@@ -13,6 +13,12 @@ inductive WeakStarTopologyUp : Type where
   | mk (V W L T R H C P N : BHist) : WeakStarTopologyUp
   deriving DecidableEq
 
+instance weakStarTopologyInhabited : Inhabited WeakStarTopologyUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  default :=
+    WeakStarTopologyUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+      BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+
 def weakStarTopologyEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
@@ -37,6 +43,18 @@ private theorem WeakStarTopologyTasteGate_single_carrier_alignment_decode_encode
 def weakStarTopologyFields : WeakStarTopologyUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | WeakStarTopologyUp.mk V W L T R H C P N => [V, W, L, T, R, H, C, P, N]
+
+private theorem WeakStarTopologyTasteGate_single_carrier_alignment_fields :
+    ∀ x y : WeakStarTopologyUp, weakStarTopologyFields x = weakStarTopologyFields y →
+      x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk V1 W1 L1 T1 R1 H1 C1 P1 N1 =>
+      cases y with
+      | mk V2 W2 L2 T2 R2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
 
 def weakStarTopologyToEventFlow : WeakStarTopologyUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
@@ -126,16 +144,19 @@ def taste_gate : ChapterTasteGate WeakStarTopologyUp :=
   -- BEDC touchpoint anchor: BHist BMark
   weakStarTopologyChapterTasteGate
 
+instance weakStarTopologyFieldFaithful : FieldFaithful WeakStarTopologyUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := weakStarTopologyFields
+  field_faithful := WeakStarTopologyTasteGate_single_carrier_alignment_fields
+
 theorem WeakStarTopologyTasteGate_single_carrier_alignment :
     (∀ h : BHist, weakStarTopologyDecodeBHist (weakStarTopologyEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier WeakStarTopologyUp) ∧
-        Nonempty (ChapterTasteGate WeakStarTopologyUp) ∧
-          weakStarTopologyEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+      FieldFaithful.field_count WeakStarTopologyUp = 9 ∧
+        weakStarTopologyEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
   exact
     ⟨WeakStarTopologyTasteGate_single_carrier_alignment_decode_encode,
-      ⟨weakStarTopologyBHistCarrier⟩,
-      ⟨weakStarTopologyChapterTasteGate⟩,
+      rfl,
       rfl⟩
 
 end BEDC.Derived.WeakStarTopologyUp
