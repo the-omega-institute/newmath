@@ -80,4 +80,27 @@ theorem BedcPhilosophyPackage_audit_map_nonescape [AskSetup] [PackageSetup]
       carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.left,
       carrier.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right.right⟩
 
+theorem BedcPhilosophyPackageRegistryLedgerExactness [AskSetup] [PackageSetup]
+    {T R M G D S C A H K N registryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BedcPhilosophyPackageCarrier T R M G D S C A H K N bundle pkg ->
+      Cont R M registryRead ->
+        PkgSig bundle registryRead pkg ->
+          UnaryHistory T ∧ UnaryHistory R ∧ UnaryHistory M ∧ UnaryHistory G ∧
+            UnaryHistory D ∧ UnaryHistory S ∧ UnaryHistory C ∧ UnaryHistory A ∧
+              UnaryHistory registryRead ∧ Cont R M registryRead ∧
+                PkgSig bundle registryRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  intro carrier registryRoute registryPkg
+  obtain ⟨thesisUnary, registryUnary, theoremMapUnary, gapMapUnary, traditionUnary,
+    cannotClaimUnary, closureUnary, auditUnary, _transportUnary, _routeUnary,
+      _nameUnary, _thesisRegistryRoute, _theoremGapRoute, _cannotAuditRoute,
+      _closureAuditRoute, _routePkg, _namePkg⟩ := carrier
+  have registryReadUnary : UnaryHistory registryRead :=
+    unary_cont_closed registryUnary theoremMapUnary registryRoute
+  exact
+    ⟨thesisUnary, registryUnary, theoremMapUnary, gapMapUnary, traditionUnary,
+      cannotClaimUnary, closureUnary, auditUnary, registryReadUnary,
+      registryRoute, registryPkg⟩
+
 end BEDC.Derived.BedcPhilosophyPackageUp
