@@ -183,6 +183,7 @@ The tolerance obligation and refinement stability theorems account for the class
 \label{thm:real-name-classifier-obligation-closure-route}
 The source packet of \autoref{def:real-name-classifier-source}, together with the tolerance obligation, reflexive window route, common-window symmetry, common-window transitivity, shared-window equivalence, finite window coverage, trichotomy refusal, refinement stability, seal boundary, and ledger exhaustion, assembles the full obligation surface for $\RealNameClassifierUp$ over $\RegularCauchyNameUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The assembled route closes the finite classifier obligations for equality inspection of two regular Cauchy real names while excluding quotient Cauchy classes, host sequence equality, selected limits, countable choice, trichotomy, and $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealNameClassifierUp.RealNameClassifierObligationClosureRoute}
 \begin{proof}
 The carrier is fixed by \autoref{def:real-name-classifier-source}. Its rows are exactly the two regular Cauchy sources, the common stream window, two dyadic tolerance rows, the finite classifier row, two regular rational readbacks, componentwise transport, continuation replay, package provenance, the terminal real seal, and local naming.
 
@@ -193,6 +194,24 @@ The remaining classifier-facing obligations are supplied by \autoref{thm:real-na
 The boundary obligations are supplied by \autoref{thm:real-name-classifier-refinement-stability}, \autoref{thm:real-name-classifier-seal-boundary}, and \autoref{thm:real-name-classifier-ledger-exhaustion}. They show that refinement only transports the same finite route, that the $\RealUp$ seal is reached after the displayed classifier data, and that no ledger coordinate remains for a hidden equality oracle or completion principle.
 
 Combining these rows gives the named obligation surface for $\RealNameClassifierUp$. Since every cited row is internal to the displayed packet, the route still excludes quotient Cauchy classes, host sequence equality, selected limits, countable choice, trichotomy, and $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[RealNameClassifier scoped kernel route]
+\label{thm:real-name-classifier-scope-route}
+The obligation closure route of \autoref{thm:real-name-classifier-obligation-closure-route} is scoped exactly by the displayed packet rows
+$$
+A,B,W,D_A,D_B,T,R_A,R_B,H,K,P,S,N
+$$
+and by the primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. Any accepted equality-inspection consumer of $\RealNameClassifierUp$ must consume the tolerance obligation, finite window coverage, refinement stability, seal boundary, and ledger exhaustion through those rows before it reads the local classifier surface. The route exports no quotient Cauchy class, host sequence equality, selected limit, countable choice, trichotomy, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the source packet of \autoref{def:real-name-classifier-source}. Its carrier rows are precisely $A,B,W,D_A,D_B,T,R_A,R_B,H,K,P,S,N$, and its structural primitives are the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Apply the tolerance obligation and finite window coverage, \autoref{thm:real-name-classifier-tolerance-obligation} and \autoref{thm:real-name-classifier-window-coverage}. They force every classifier read through the common $\StreamNameUp$ window, the two $\DyadicRatCoreUp$ tolerance rows, the finite classifier row, and the two $\RegSeqRatUp$ readbacks before any real-facing seal is inspected.
+
+Next use refinement stability, \autoref{thm:real-name-classifier-refinement-stability}. Refining the observation window changes only the displayed window route and transported dyadic rows, so the same componentwise transport, replay, provenance, and local naming rows remain in force.
+
+Finally use the seal boundary and ledger exhaustion, \autoref{thm:real-name-classifier-seal-boundary} and \autoref{thm:real-name-classifier-ledger-exhaustion}. The $\RealUp$ seal is reached only after the finite classifier data has been displayed, and the ledger contains no coordinate beyond the rows listed above. Thus the scoped route is exactly the displayed kernel surface and no excluded completion or equality principle is exported.
 \end{proof}
 
 \begin{closurestatus}{\RealNameClassifierUp}
