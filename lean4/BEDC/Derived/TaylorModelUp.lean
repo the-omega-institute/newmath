@@ -38,39 +38,6 @@ def TaylorModelDisplayedFiniteJetSubwindow [AskSetup] [PackageSetup]
       sameRows route endpoint bundle pkg ∧
     UnaryHistory subJet ∧ hsame subJet jet ∧ PkgSig bundle subJet pkg
 
-theorem TaylorModelDisplayedFiniteJetSubwindow_admission [AskSetup] [PackageSetup]
-    {center jet subJet remainder ledger eval validated readback provenance nameCert sameRows route
-      endpoint subEval subEndpoint coefficientRead : BHist}
-    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    TaylorModelDisplayedFiniteJetSubwindow center jet subJet remainder ledger eval validated
-        readback provenance nameCert sameRows route endpoint bundle pkg ->
-      Cont center subJet subEval ->
-        Cont subEval readback subEndpoint ->
-          Cont subEndpoint validated coefficientRead ->
-            PkgSig bundle subEndpoint pkg ->
-              UnaryHistory subJet ∧ UnaryHistory subEval ∧ UnaryHistory subEndpoint ∧
-                UnaryHistory coefficientRead ∧ Cont center subJet subEval ∧
-                  Cont subEval readback subEndpoint ∧
-                    Cont subEndpoint validated coefficientRead ∧
-                      PkgSig bundle subEndpoint pkg := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory PkgSig
-  intro subwindow centerSubJet subEvalReadback subEndpointValidated subEndpointPkg
-  obtain ⟨carrier, subJetUnary, _sameSubJet, _subJetPkg⟩ := subwindow
-  obtain ⟨centerUnary, _jetUnary, _remainderUnary, _ledgerUnary, _evalUnary,
-    validatedUnary, readbackUnary, _provenanceUnary, _nameCertUnary, _sameRowsUnary,
-    _routeUnary, _endpointUnary, _ledgerRow, _evalRow, _sameRowsRoute, _centerJetEval,
-    _remainderLedgerReadback, _evalReadbackEndpoint, _endpointPkg, _provenancePkg,
-    _nameCertPkg⟩ := carrier
-  have subEvalUnary : UnaryHistory subEval :=
-    unary_cont_closed centerUnary subJetUnary centerSubJet
-  have subEndpointUnary : UnaryHistory subEndpoint :=
-    unary_cont_closed subEvalUnary readbackUnary subEvalReadback
-  have coefficientReadUnary : UnaryHistory coefficientRead :=
-    unary_cont_closed subEndpointUnary validatedUnary subEndpointValidated
-  exact
-    ⟨subJetUnary, subEvalUnary, subEndpointUnary, coefficientReadUnary, centerSubJet,
-      subEvalReadback, subEndpointValidated, subEndpointPkg⟩
-
 theorem TaylorModelCarrier_endpoint_closure [AskSetup] [PackageSetup]
     {center jet remainder ledger eval validated readback provenance nameCert sameRows route
       endpoint : BHist}

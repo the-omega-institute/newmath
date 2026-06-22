@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneRealFunctionUp$}
+\label{ch:concrete-instances-monotone-real-function-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real functions of bounded variation, the $\MonotoneRealFunctionUp$ packet records a displayed monotone real-function route as finite NameCert data. It reads endpoint and value names through $\RealUp$ and \autoref{ch:concrete-instances-real-namecert}, finite approximation windows through $\StreamNameUp$ and \autoref{ch:concrete-instances-streamname-namecert}, rational readback through $\RegSeqRatUp$ and \autoref{ch:concrete-instances-regseqrat-namecert}, order comparisons through $\TotalOrderUp$ and \autoref{ch:concrete-instances-totalorder-namecert}, bounded-window control through $\BoundedRealSequenceUp$ and \autoref{ch:concrete-instances-boundedrealsequence-namecert}, and cumulative variation handoff through $\TotalVariationFunctionUp$ and \autoref{ch:concrete-instances-total-variation-function-namecert}. The packet names the finite monotonicity and variation ledger; it is not a selected-limit theorem, a trichotomy principle for arbitrary reals, a quotient of functions, or a use of ambient real completeness.
+
+\begin{definition}[Monotone real function carrier]
+\label{def:monotone-real-function-carrier}
+A $\MonotoneRealFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+M=(I,W,V,O,B,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the source interval and finite window schedule, including the displayed endpoint names and the inspected input rows.
+\item $W$ is the $\StreamNameUp$ window row for the inspected source positions and value requests.
+\item $V$ is the $\RealUp$ value row for the displayed function values reached from $I$ and $W$.
+\item $O$ is the $\TotalOrderUp$ comparison ledger witnessing monotonicity for each displayed ordered pair of source windows.
+\item $B$ is the $\BoundedRealSequenceUp$ bounded-window row attached to the finite value sequence read by the packet.
+\item $L$ is the variation-bound ledger, recording the finite nonnegative steps permitted by the monotone comparison rows and the handoff boundary toward $\TotalVariationFunctionUp$.
+\item $H$ records componentwise $\hsame$ transport for interval, window, value, order-comparison, bounded-window, variation-ledger, replay, provenance, and local-name rows.
+\item $C$ records displayed $\Cont$ replay from an inspected source pair through the window row, value row, order comparison, bounded-window row, and variation ledger.
+\item $P$ is the $\Pkg$ provenance over $\MonotoneRealFunctionUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\TotalOrderUp$, $\BoundedRealSequenceUp$, $\TotalVariationFunctionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MonotoneRealFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,W,V,O,B,L,H,C,P,N$. It has no coordinate for selected limits, real trichotomy, quotient equality of functions, countable choice, an external variation supremum, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Monotone real function NameCert obligations]
+\label{thm:monotone-real-function-namecert-obligations}
+For every accepted $\MonotoneRealFunctionUp$ carrier $M=(I,W,V,O,B,L,H,C,P,N)$, the local $\NameCert_{\MonotoneRealFunctionUp}$ surface consists exactly of carrier admission for the displayed interval and window rows, $\StreamNameUp$ windows, $\RealUp$ value rows, $\TotalOrderUp$ monotonicity comparisons, $\BoundedRealSequenceUp$ bounded-window row, variation-bound ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Each monotonicity read must use the same source-window row $I,W$ and the same value row $V$ before it may consume the comparison ledger $O$ or the variation ledger $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:monotone-real-function-carrier}. The only analytic rows exposed by the packet are $I,W,V,O,B,L$.
+
+The monotonicity clause is finite. For each displayed ordered pair of source windows, the source interval and stream rows determine the two value rows, and the order comparison is then read from $O$ as a $\TotalOrderUp$ row over those displayed $\RealUp$ values.
+
+The remaining rows do not add analytic content. They transport, replay, source, and name the same finite packet through $H,C,P,N$, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Monotone real function Real seal boundary]
+\label{thm:monotone-real-function-real-seal-boundary}
+Every $\RealUp$ value read exported by an accepted $\MonotoneRealFunctionUp$ carrier factors through the finite route
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \TotalOrderUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The route exposes source windows, rational readback, real-value seals, and displayed order comparisons before any monotone-function consumer can read the value. It exports no selected limit, quotient function equality, countable-choice schedule, trichotomy premise, or ambient real-completeness object.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $M=(I,W,V,O,B,L,H,C,P,N)$. A value read first opens the source interval and stream windows $I,W$, then reads the rational approximation and terminal real seal represented by $V$.
+
+Only after the value rows are displayed may a monotone consumer inspect $O$. The transport and continuation rows keep this order attached to the same local name, while provenance records the visible dependency surface.
+
+Since no row of the carrier stores selected limits, quotient functions, countable choice, trichotomy, or ambient completeness, the public Real-facing seal boundary is exactly the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Monotone real function variation-ledger handoff]
+\label{thm:monotone-real-function-variation-ledger}
+Every $\TotalVariationFunctionUp$ or bounded-variation consumer of an accepted $\MonotoneRealFunctionUp$ carrier receives the finite variation-bound ledger $L$ only after the displayed source windows, $\RealUp$ value rows, $\TotalOrderUp$ monotonicity comparisons, and $\BoundedRealSequenceUp$ bounded-window row have been exposed. Thus the variation handoff is a finite monotone ledger over displayed rows, not a supremum over all partitions, quotient equality of real-valued functions, selected endpoint limit, countable-choice schedule, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+The variation ledger is downstream of the monotonicity comparisons. The carrier first supplies $I,W,V$, then $O$ records the finite order comparisons for displayed source pairs, and $B$ records the bounded window of values used by the ledger.
+
+The handoff row $L$ can therefore be consumed only as a finite ledger attached to those rows. The continuation and provenance rows route this ledger toward $\TotalVariationFunctionUp$ without adding an external partition supremum or host function object.
+
+The exclusions follow from the carrier boundary: selected limits, quotient function equality, countable choice, ambient completeness, and unrestricted variation suprema are absent from $I,W,V,O,B,L,H,C,P,N$.
+\end{proof}
+
+\closureat{MonotoneRealFunctionUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneRealFunctionUp}
+  \constructivestory{A $\MonotoneRealFunctionUp$ packet is generated from source interval windows, StreamName request rows, RealUp value rows, TotalOrderUp comparison rows witnessing monotonicity, a BoundedRealSequenceUp bounded-window row, a finite variation-bound ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-real-function-carrier}, \autoref{thm:monotone-real-function-namecert-obligations}, \autoref{thm:monotone-real-function-real-seal-boundary}, and \autoref{thm:monotone-real-function-variation-ledger} seed the finite monotone real-function packet for Real and variation-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, real trichotomy, quotient function equality, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, displayed monotonicity comparisons, Real-seal boundary, bounded-window routing, variation-ledger handoff, transport, replay, provenance, and local naming for BEDC.Derived.MonotoneRealFunctionUp.}
+\end{closurestatus}
