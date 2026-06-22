@@ -54,6 +54,18 @@ Apply the NameCert obligations of \autoref{thm:digest-fiber-ledger-namecert-obli
 The absence claim follows from the carrier inventory. No coordinate in $D$ turns digest equality into source equality, selects a preimage, exposes a global universe digest, or internalizes the apophatic far end; any such use requires a separate displayed exactness certificate.
 \end{proof}
 
+\begin{theorem}[DigestFiberLedger public export]
+\label{thm:digest-fiber-ledger-public-export}
+Every public digest read exported by an accepted $\DigestFiberLedgerUp$ carrier exposes exactly the visible digest row, fiber-membership row, GAP provenance row, apophatic refusal row, componentwise $\hsame$ row, displayed $\Cont$ row, $\Pkg$ provenance row, and local $\NameCert_{\DigestFiberLedgerUp}$ row. It exports no source equality, hidden preimage selector, global universe digest, or internal far-end object.
+\end{theorem}
+\begin{proof}
+Apply the carrier inventory of \autoref{def:digest-fiber-ledger-carrier}. The public read begins at the visible digest coordinate $V$, but the same carrier also displays $F,G,A,H,C,P,N$ as mandatory rows.
+
+Apply \autoref{thm:digest-fiber-ledger-namecert-obligations} and \autoref{thm:digest-fiber-ledger-nonescape}. Together they force every accepted consumer to retain the fiber, GAP, refusal, transport, continuation, provenance, and local naming rows when the visible digest is cited.
+
+The negative export claim is again coordinate-level. Since $D$ contains no source equality row, no preimage-selection row, no universe-digest row, and no internal far-end row, none of those objects can be exported by a public digest read.
+\end{proof}
+
 \falsifiablePrediction{A consumer that identifies digest equality with source equality without the GAP fiber row refutes the DigestFiberLedgerUp packet.}
 
 \independenceWitness{Nearest siblings: hash, apophaticname, supplysocketledger, apophaticgatequestion, inscriptiongapledger. The carrier is not bijective to any sibling because it simultaneously stores digest visibility, fiber membership, GAP provenance, and apophatic non-internalization rows, while each sibling omits at least one of those obligations.}
@@ -63,15 +75,16 @@ The proposed Lean \texttt{TasteGate.lean} boundary is \texttt{lean4/BEDC/Derived
 \closureat{DigestFiberLedgerUp}{seedStr}
 \closureat{DigestFiberLedgerUp}{obligationStr}[BEDC.Derived.DigestFiberLedgerUp.taste\_gate]
 \closureat{DigestFiberLedgerUp}{scopedStr}[BEDC.Derived.DigestFiberLedgerUp.taste\_gate]
+\closureat{DigestFiberLedgerUp}{publicStr}[BEDC.Derived.DigestFiberLedgerUp.taste\_gate]
 
 \begin{closurestatus}{\DigestFiberLedgerUp}
   \constructivestory{A $\DigestFiberLedgerUp$ packet is generated from a visible digest row, hidden fiber-membership row, GAP provenance row, apophatic refusal row, componentwise $\hsame$ transport, displayed continuation routes, package provenance, and a local NameCert row.}
   \leanchecked{BEDC.Derived.DigestFiberLedgerUp.taste\_gate}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:digest-fiber-ledger-carrier}, \autoref{thm:digest-fiber-ledger-namecert-obligations}, and \autoref{thm:digest-fiber-ledger-nonescape} bind the displayed digest, fiber, GAP, refusal, transport, continuation, provenance, and local naming packet.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:digest-fiber-ledger-carrier}, \autoref{thm:digest-fiber-ledger-namecert-obligations}, \autoref{thm:digest-fiber-ledger-nonescape}, and \autoref{thm:digest-fiber-ledger-public-export} bind the displayed digest, fiber, GAP, refusal, transport, continuation, provenance, local naming, and public export packet.}
   \formalstatus{\encodedDefV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close source equality from digest equality, hidden preimage selection, global universe digest exposure, Lean verification, or bridge verification.}
-  \upgradepath{Public closure requires a public export theorem over the same digest, fiber, GAP, refusal, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \upgradepath{Bridged closure requires a checked public schema bridge for the same digest, fiber, GAP, refusal, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
 \end{closurestatus}
