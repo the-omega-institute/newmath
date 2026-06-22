@@ -6097,6 +6097,7 @@ import BEDC.Derived.GaloisGroupUp.AssociativeActionRow
 import BEDC.Derived.GaloisGroupUp.DependencySurface
 import BEDC.Derived.GaloisGroupUp.FixedBasePublicSurface
 import BEDC.Derived.GaloisGroupUp.IdentityRowClosure
+import BEDC.Derived.GammaConvergenceUp.TasteGate
 import BEDC.Derived.GammaFunctionUp
 import BEDC.Derived.GammaUp
 import BEDC.Derived.GammaUp.TasteGate
@@ -10548,6 +10549,7 @@ import BEDC.Derived.ScientificObjectUp.TasteGate
 import BEDC.Derived.ScientificObjectUp.TruthDomainGapScope
 import BEDC.Derived.ScottDomainUp.TasteGate
 import BEDC.Derived.ScottRealUp.TasteGate
+import BEDC.Derived.ScottTopologyUp.TasteGate
 import BEDC.Derived.SearchableSpaceUp
 import BEDC.Derived.SecantMethodUp.TasteGate
 import BEDC.Derived.SecondCountableUp
