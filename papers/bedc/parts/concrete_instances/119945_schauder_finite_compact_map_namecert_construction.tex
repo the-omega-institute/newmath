@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\SchauderFiniteCompactMapUp$}
+\label{ch:concrete-instances-schauder-finite-compact-map-namecert}
+\origin{human}
+
+Following Schauder's compact-map approximation method, the $\SchauderFiniteCompactMapUp$ packet records the finite BEDC carrier that sits between compact metric approximation data and the fixed-point endpoint consumers of \autoref{ch:concrete-instances-schauder-fixed-point-namecert}, \autoref{ch:concrete-instances-banach-fixed-point-namecert}, and the L10 compact-metric route. It uses the compact metric surface of \autoref{ch:concrete-instances-compactmetric-namecert}, the convex carrier of \autoref{ch:concrete-instances-convexset-namecert}, the continuous-map rows of \autoref{ch:concrete-instances-continuousmap-namecert}, and the uniform-modulus handoff of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet names a finite approximation and residual ledger; it does not select a host fixed point, import open-cover compactness, or add a limiting point choice.
+
+\begin{definition}[Schauder finite compact-map carrier]
+\label{def:schauder-finite-compact-map-carrier}
+A $\SchauderFiniteCompactMapUp$ carrier is a finite $\BHist$ packet
+$$
+S=(K,Q,F,U,E,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row, including the compact metric inspection surface and the finite cover windows used by downstream L10 compact-metric consumers.
+\item $Q$ is the $\ConvexSetUp$ row for the admitted compact convex region in which approximation points and residual tests are read.
+\item $F$ is the $\ContinuousMapUp$ self-map row, carrying graph access, source membership, target membership, and displayed continuity data.
+\item $U$ is the $\UniformModulusUp$ row that turns the local continuity information for $F$ into a tolerance-facing approximation budget over $K$.
+\item $E$ is the finite $\FiniteEpsilonNetUp$ approximation row, listing the displayed net centers, cover witnesses, and projection choices available to the packet.
+\item $D$ is the displacement-budget row comparing each net approximation with its mapped image at the tolerance requested by $U$.
+\item $R$ is the fixed-point residual row, recording the finite residual comparison exported to $\SchauderFixedPointUp$, $\BanachFixedPointUp$, or another L10 compact-metric fixed-point consumer.
+\item $H$ stores componentwise $\hsame$ transport for $K,Q,F,U,E,D,R$ and the local certificate row.
+\item $C$ stores displayed $\Cont$ replay from compact source, convex membership, continuous-map reads, uniform-modulus reads, finite net approximation, displacement budget, residual row, provenance, and local name.
+\item $P$ is the $\Pkg$ provenance over $\SchauderFiniteCompactMapUp$, $\CompactMetricUp$, $\ConvexSetUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\FiniteEpsilonNetUp$, $\SchauderFixedPointUp$, $\BanachFixedPointUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SchauderFiniteCompactMapUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for an ambient compactness theorem, a selected fixed point, quotient equality of approximants, a hidden limit point, or a detached self-map outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[Schauder finite compact-map NameCert obligations]
+\label{thm:schauder-finite-compact-map-namecert-obligations}
+For every accepted $\SchauderFiniteCompactMapUp$ carrier $S=(K,Q,F,U,E,D,R,H,C,P,N)$, the local $\NameCert_{\SchauderFiniteCompactMapUp}$ surface consists exactly of compact metric admission through $K$, convex carrier admission through $Q$, continuous self-map admission through $F$, uniform-modulus accountability through $U$, finite epsilon-net approximation through $E$, displacement-budget exposure through $D$, fixed-point residual exposure through $R$, and structural transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\leanstmt{BEDC.Derived.SchauderFiniteCompactMapUp}
+\begin{proof}
+Project the carrier of \autoref{def:schauder-finite-compact-map-carrier}. The compact source, convex region, continuous self-map, uniform modulus, finite epsilon-net, displacement budget, residual row, transport, replay, provenance, and local naming row are all displayed before a consumer can read the packet.
+
+The approximation side is read in fixed order. The compact metric and convex rows admit the finite domain surface, the continuous-map row supplies the self-map, and the uniform-modulus row supplies the tolerance budget. The finite epsilon-net row then lists the centers and cover witnesses available to the displacement-budget row.
+
+The residual row is downstream-facing only after those approximation rows have been replayed. Since the remaining rows $H,C,P,N$ only transport, replay, source, and name the same finite packet, the listed rows exhaust the local NameCert surface and exclude the host principles named in the carrier.
+\end{proof}
+
+\begin{theorem}[Schauder finite compact-map residual route]
+\label{thm:schauder-finite-compact-map-residual-route}
+Every fixed-point consumer of an accepted $\SchauderFiniteCompactMapUp$ packet factors through the finite route
+$$
+\CompactMetricUp \longmapsto
+\ConvexSetUp \longmapsto
+\ContinuousMapUp \longmapsto
+\UniformModulusUp \longmapsto
+\FiniteEpsilonNetUp \longmapsto
+R .
+$$
+The residual row $R$ may be consumed by $\SchauderFixedPointUp$, $\BanachFixedPointUp$, or another L10 compact-metric endpoint only after the compact source, convex carrier, continuous-map row, uniform-modulus row, finite epsilon-net approximation, displacement budget, componentwise transport, replay, provenance, and local naming rows have all been displayed.
+\end{theorem}
+\begin{proof}
+Begin with a fixed-point consumer. The continuation row $C$ must expose $K,Q,F,U,E,D$ before the residual row $R$ is available.
+
+The compact metric and convex rows bind the finite domain surface. The continuous-map row and uniform-modulus row bind the self-map and tolerance budget. The finite epsilon-net row and displacement-budget row are then the only approximation rows available to the consumer.
+
+Thus $R$ is a residual read from the displayed finite approximation packet, not a selected fixed point or a host compactness theorem. The structural rows $H,C,P,N$ preserve the same packet under transport, replay, provenance, and local naming.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SchauderFiniteCompactMapUp$ read is refuted if a fixed-point residual row is consumed without displaying compact metric support, convex carrier membership, continuous self-map data, uniform-modulus accountability, finite epsilon-net approximation, displacement budget, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+
+\independenceWitness{compactmetric, convexset, continuousmap, uniformmodulus, banach-fixed-point, schauder-fixed-point: none alone is bijective with $\SchauderFiniteCompactMapUp$ because this packet jointly records finite epsilon-net approximation, displacement-budget comparison, residual export, transport, replay, provenance, and local naming.}
+
+\closureat{SchauderFiniteCompactMapUp}{seedStr}
+
+\begin{closurestatus}{\SchauderFiniteCompactMapUp}
+  \constructivestory{A $\SchauderFiniteCompactMapUp$ packet is generated from CompactMetric rows, ConvexSet carrier rows, ContinuousMap self-map rows, UniformModulus budget rows, finite epsilon-net approximation rows, displacement-budget rows, fixed-point residual rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schauder-finite-compact-map-carrier}, \autoref{thm:schauder-finite-compact-map-namecert-obligations}, and \autoref{thm:schauder-finite-compact-map-residual-route} seed the finite compact-map approximation packet over compact metric, convex, continuous-map, uniform-modulus, finite-net, displacement-budget, residual, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.SchauderFiniteCompactMapUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host fixed-point selector, open-cover compactness, quotient equality of approximants, hidden limiting points, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact metric exposure, convex carrier exposure, continuous-map replay, uniform-modulus accountability, finite epsilon-net approximation, displacement-budget exposure, residual export, transport stability, replay stability, provenance, and local naming for BEDC.Derived.SchauderFiniteCompactMapUp.}
+\end{closurestatus}
