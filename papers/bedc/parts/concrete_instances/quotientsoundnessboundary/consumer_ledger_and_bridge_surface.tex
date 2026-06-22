@@ -61,6 +61,24 @@ $\mathsf{Quot.sound}$ dependency crosses the package boundary.
 \end{proof}
 \leanvariant{BEDC.Derived.QuotientSoundnessBoundaryUp.QuotientSoundnessBoundary\_consumer\_route\_certificate}
 
+\begin{theorem}[QuotientSoundnessBoundary no hidden eliminator]
+\label{thm:quotient-soundness-boundary-no-hidden-eliminator}
+After the representative-demand rows $A$ and refusal verdict row $V$ have been read, every accepted downstream consumer of a $\QuotientSoundnessBoundaryUp$ packet has only the displayed $\psame$ route
+$$
+E,T,H,C,P,N.
+$$
+The consumer cannot recover a quotient eliminator, representative selector, erased derivation map, host quotient recursion principle, or $\mathsf{Quot.sound}$ dependency from any later transport, replay, provenance, or naming row.
+\end{theorem}
+\begin{proof}
+First read consumer ledger coverage. It places every downstream quotient-like consumer inside the finite rows $E,A,V,T,H,C,P,N$ and separates refused representative-style requests from the surviving classifier-respecting transport route.
+
+Next use downstream handoff readiness. Once the rows $A,V$ have recorded refusal, the only positive handoff available to a consumer is the displayed $E,T,H,C,P,N$ route with $\psame$ transport, componentwise $\hsame$ stability, displayed $\Cont$ locality, $\Pkg$ provenance, and local naming.
+
+Apply the root nonimport ledger and the public non-escape boundary. These results remove quotient eliminators, representative selectors, erased derivation recovery, host quotient recursion, and $\mathsf{Quot.sound}$ from the packet boundary, so no later structural row can reintroduce one.
+
+Thus every accepted downstream consumer remains on the visible refusal-before-transport route and has no hidden quotient eliminator to recover.
+\end{proof}
+
 \begin{theorem}[QuotientSoundnessBoundary refusal transport sibling handoff]
 \label{thm:quotient-soundness-boundary-refusal-transport-sibling-handoff}
 Every downstream quotient-like sibling that consumes a

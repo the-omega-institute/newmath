@@ -107,6 +107,24 @@ Finally use the classifier of \autoref{def:cauchy-tail-threshold-normalizer-clas
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyTailThresholdNormalizerUp.CauchyTailThresholdNormalizerSharedThresholdUniqueness}
 
+\begin{theorem}[Cauchy tail threshold normalizer window cofinality]
+\label{thm:cauchy-tail-threshold-normalizer-window-cofinality}
+Let $T$ be an accepted $\CauchyTailThresholdNormalizerUp$ packet with shared source row $S$, seal row $M$, and normalized threshold row $\Theta$. Every later finite $\StreamNameUp$ window read by a $\RealTailAgreementSealUp$ or $\RealUp$ consumer factors through a finite successor of the same $\Theta$. No such consumer can introduce a private later threshold outside the displayed normalizer route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-tail-threshold-normalizer-carrier}. The rows $S,M,\Theta$ appear before $W_0,W_1,D,R,A,E$, so every seal-facing window read is downstream of the normalized threshold already displayed by the packet.
+
+Use route exhaustion from \autoref{thm:cauchy-tail-threshold-normalizer-route-exhaustion}. A $\RealTailAgreementSealUp$ or $\RealUp$ consumer has no route around
+$$
+S\longmapsto M\longmapsto\Theta\longmapsto(W_0,W_1,D,R)\longmapsto(A,E,H,C,P,L,N),
+$$
+and therefore any later finite StreamName window must be a successor window in that same finite route.
+
+Apply shared-threshold uniqueness from \autoref{thm:cauchy-tail-threshold-normalizer-shared-threshold-uniqueness}. If a later consumer tried to introduce a private threshold while keeping the same $S,M$ rows, the classified normalizer surface would expose two thresholds before the downstream window rows, contradicting the uniqueness row.
+
+Finally transport the displayed successor window componentwise through $H$ and replay it through $C$. The rows $P,L,N$ keep the provenance, route-exhaustion ledger, and local NameCert attached to the same $\Theta$, so the consumer receives a cofinal finite-window route rather than a hidden side threshold.
+\end{proof}
+
 \begin{theorem}[Cauchy tail threshold normalizer Real-facing determinacy]
 \label{thm:cauchy-tail-threshold-normalizer-real-facing-determinacy}
 Let two accepted $\RealUp$ or $\RealTailAgreementSealUp$ consumers classify through the same $\CauchyTailThresholdNormalizerUp$ source row $S$ and seal row $M$. Then their $\StreamNameUp$ windows $W_0,W_1$, $\DyadicRatCoreUp$ tolerance ledger $D$, $\RegSeqRatUp$ readback $R$, and $\RealTailAgreementSealUp$ row $A$ are all read downstream of the same normalized threshold row $\Theta$.
