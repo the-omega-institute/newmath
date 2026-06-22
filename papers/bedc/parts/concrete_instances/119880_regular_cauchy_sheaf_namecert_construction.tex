@@ -1,0 +1,52 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySheafUp$}
+\label{ch:concrete-instances-regular-cauchy-sheaf-namecert}
+\origin{human}
+
+Following Godement's sheaf gluing viewpoint and Bishop--Bridges regular Cauchy names, $\RegularCauchySheafUp$ records finite cover-indexed local regular-Cauchy windows whose compatible overlaps glue to a $\RealUp$ seal without quotient representatives or countable choice. The packet sits after the finite gluing surface of \autoref{ch:concrete-instances-regular-cauchy-gluing-namecert}, the stream-name interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, and the reindexing route of \autoref{ch:concrete-instances-cauchy-reindexing-namecert}.
+
+\begin{definition}[Regular Cauchy sheaf carrier]
+\label{def:regular-cauchy-sheaf-carrier}
+A $\RegularCauchySheafUp$ carrier is a finite $\BHist$ packet
+$$
+S=(U,R,O,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the finite cover-window ledger. It lists the cover indices, the displayed refinements between windows, and the finite overlap pairs on which local regular Cauchy data are compared.
+\item $R$ is the restriction-map row. For each displayed refinement in $U$, it records the finite restriction route that transports a local $\StreamNameUp$ observation and its $\RegSeqRatUp$ readback to the smaller window.
+\item $O$ is the overlap ledger. It records the pairwise compatibility witnesses consumed by $\RegularCauchyGluingUp$ and the finite overlap-induction route used when several refinements are chained.
+\item $Q$ is the glued $\RegSeqRatUp$ readback row. It is obtained by reading all local regular rational rows through $U,R,O,H,C$ and not by selecting representatives of a quotient.
+\item $E$ is the terminal $\RealUp$ seal reached only after the finite cover windows, restrictions, overlap ledgers, and glued readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the cover ledger, restriction maps, overlap ledgers, glued readback, real seal, replay, provenance, and local certificate.
+\item $C$ records displayed $\Cont$ replay of the same finite descent route.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchySheafUp$, $\RegularCauchyGluingUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyReindexingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchySheafUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that the local windows in $U$ restrict through $R$, agree on every displayed overlap in $O$, glue to $Q$, and then seal as $E$. It has no coordinate for quotient sheaves, selected global representatives, countable choice, global completeness of $\RealUp$, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy sheaf NameCert obligations]
+\label{thm:regular-cauchy-sheaf-namecert-obligations}
+For every accepted $\RegularCauchySheafUp$ carrier $S=(U,R,O,Q,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchySheafUp}$ surface consists exactly of finite cover-window admission through $U$, restriction-map exactness through $R$, pairwise overlap compatibility and finite overlap induction through $O$, glued $\RegSeqRatUp$ readback through $Q$, terminal $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The cover windows are finite because $U$ displays the inspected indices, their refinements, and the overlap pairs consumed by the descent route.
+
+For a single overlap, apply the $\RegularCauchyGluingUp$ surface named in $P$. It compares the local $\StreamNameUp$ observations and $\RegSeqRatUp$ readbacks through the displayed overlap data and preserves the glued readback row.
+
+For a finite chain of overlaps, induct on the displayed refinement list in $O$. The empty chain reads the local row already present in $U$, and the step composes the next restriction row from $R$ with the induction hypothesis before applying the gluing classifier to the next overlap.
+
+The rows $H$ and $C$ transport and replay the same finite route, while $P$ records the route through $\CauchyReindexingUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchyGluingUp$, and $\RealUp$. Repacking these projections gives the listed local $\NameCert$ obligations, with no quotient sheaf, representative selector, countable choice, global completeness principle, Lean verification, or bridge claim.
+\end{proof}
+
+\closureat{RegularCauchySheafUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySheafUp}
+  \constructivestory{A $\RegularCauchySheafUp$ packet is generated from finite cover windows, displayed restriction maps, finite overlap ledgers, a glued $\RegSeqRatUp$ readback, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-sheaf-carrier} and \autoref{thm:regular-cauchy-sheaf-namecert-obligations} seed the finite sheaf-style descent carrier and its local NameCert obligation surface over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient sheaves, selected global representatives, countable choice, global completeness of $\RealUp$, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite cover-window admission, restriction-map exactness, overlap compatibility, finite overlap induction, glued RegSeqRat readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchySheafUp.}
+\end{closurestatus}
