@@ -1,0 +1,91 @@
+\chapter{Tug-of-war game NameCert construction}
+\label{ch:concrete-instances-tug-of-war-game-namecert}
+\origin{human}
+
+Following Peres--Schramm--Sheffield--Wilson on tug-of-war games and infinity-harmonic limits, the $\TugOfWarGameUp$ packet records a finite alternating-play game as displayed BEDC data before any metric or PDE-facing consumer may read its value. It sits beside the viscosity-solution boundary of \autoref{ch:concrete-instances-viscosity-solution-namecert}, the metric and compact-metric sources of \autoref{ch:concrete-instances-metric-namecert} and \autoref{ch:concrete-instances-compactmetric-namecert}, the finite real-cover packet of \autoref{ch:concrete-instances-finite-real-cover-namecert}, and the fixed-point discipline around \autoref{ch:concrete-instances-banach-contraction-namecert}. The packet names finite play, legal moves, strategy/payoff classification, stopping, transport, replay, provenance, and local naming; it does not assert comparison, uniqueness, measurable strategy selection, martingale convergence, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Tug-of-war game carrier]
+\label{def:tug-of-war-game-carrier}
+A $\TugOfWarGameUp$ carrier is a finite $\BHist$ packet
+$$
+G=(X,A,B,L,S,V,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\MetricUp$ or $\CompactMetricUp$ source row whose inspected positions and distance comparisons constrain every move.
+\item $A$ and $B$ are the two finite action rows, recording the legal alternatives available to the first and second player at each inspected position.
+\item $L$ is the legal-move ledger. It records the metric or finite-cover witness that each displayed action remains inside the admitted neighbour set.
+\item $S$ is the strategy/payoff classifier row. It records only finite response tables, payoff comparisons, and player-role tags visible in the packet.
+\item $V$ is the value-readback row, exposing the finite dynamic-programming value requested by a viscosity-solution or fixed-point consumer.
+\item $T$ is the payoff and stopping ledger, recording terminal positions, stopping flags, terminal payoff rows, and the finite horizon at which a replay stops.
+\item $H$ records componentwise $\hsame$ transport for the source, action, legal-move, strategy/payoff, value, stopping, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for legal moves: a consumer request must replay $X,A,B,L,S,V,T,H$ before a value row is exported.
+\item $P$ is the $\Pkg$ provenance over $\TugOfWarGameUp$, $\MetricUp$, $\CompactMetricUp$, $\FiniteRealCoverUp$, $\ViscositySolutionUp$, $\BanachContractionUp$, $\DynamicProgrammingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TugOfWarGameUp}$ row.
+\end{enumerate}
+The classifier has no coordinate for host strategies, measurable selectors, infinite plays, optional-stopping theorems, quotient value functions, comparison principles, or ambient real completeness.
+\end{definition}
+
+\begin{definition}[Tug-of-war strategy and payoff classifier]
+\label{def:tug-of-war-game-strategy-payoff-classifier}
+Two accepted $\TugOfWarGameUp$ carriers
+$$
+G=(X,A,B,L,S,V,T,H,C,P,N)
+$$
+and
+$$
+G'=(X',A',B',L',S',V',T',H',C',P',N')
+$$
+are classified together exactly when the stored $\hsame$ rows transport the source positions, both action rows, the legal-move ledger, the strategy/payoff table, the value-readback row, the payoff and stopping ledger, the provenance, and the local name, and when $C$ and $C'$ replay the same legal-move route. The comparison is finite-observation equality of the displayed game packet, not equality of host strategies or of an ambient value function.
+\end{definition}
+
+\begin{theorem}[Tug-of-war game carrier obligation]
+\label{thm:tug-of-war-game-carrier-obligation}
+For every accepted $\TugOfWarGameUp$ carrier $G=(X,A,B,L,S,V,T,H,C,P,N)$, the local $\NameCert_{\TugOfWarGameUp}$ surface consists exactly of the following five rows:
+\begin{enumerate}
+\item finite play carrier admission through $X,A,B,L$;
+\item strategy/payoff classifier admission through $S$ and \autoref{def:tug-of-war-game-strategy-payoff-classifier};
+\item componentwise $\hsame$ stability through $H$;
+\item displayed $\Cont$ replay for legal moves through $C$;
+\item payoff and stopping ledger admission through $T$, with value readback through $V$ and provenance/local naming through $P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tug-of-war-game-carrier}. The finite play data are precisely the source row, the two action rows, and the legal-move ledger.
+
+The classifier row $S$ and \autoref{def:tug-of-war-game-strategy-payoff-classifier} compare only displayed response tables and payoff comparisons. Componentwise transport $H$ preserves those rows, while $C$ replays the same legal moves before any value row is read.
+
+The remaining game-specific information is the payoff and stopping ledger $T$, together with value readback, provenance, and local naming. Since no host strategy, infinite play, measurable selector, optional-stopping theorem, quotient value function, comparison principle, or ambient completeness row is stored in $G$, the five displayed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Tug-of-war game payoff ledger]
+\label{thm:tug-of-war-game-payoff-ledger}
+Every payoff or value read exported by an accepted $\TugOfWarGameUp$ packet factors through
+$$
+X,A,B,L \longmapsto S \longmapsto V \longmapsto T \longmapsto H,C,P,N.
+$$
+Thus a viscosity-solution, finite-cover, compact-metric, metric, or Banach-contraction neighbour receives only the displayed finite game ledger: legal moves, finite strategy/payoff classification, value readback, stopping data, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Begin with a payoff-facing consumer. Carrier projection exposes $X,A,B,L$ before any player-role, payoff, or value row is available, so legal moves are certified before they are scored.
+
+Next read the finite classifier and value rows. The row $S$ records the response table and payoff comparison visible at the inspected positions, while $V$ records the value read requested by the downstream consumer.
+
+Finally the stopping ledger $T$ seals the terminal positions and horizon, and $H,C,P,N$ transport, replay, source, and name the same route. The exported read therefore remains a finite game-value ledger and cannot become a host strategy selector, infinite-play value theorem, optional-stopping argument, viscosity comparison theorem, fixed-point existence theorem, quotient equality, or ambient real-completeness claim.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\TugOfWarGameUp$ value read that omits the metric or compact-metric source, both action rows, the legal-move ledger, the strategy/payoff classifier, the value-readback row, the payoff and stopping ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, or local $\NameCert$ row refutes the carrier.}
+
+\independenceWitness{viscosity-solution, compactmetric, metric, finite-real-cover, banach-contraction: none is bijective with $\TugOfWarGameUp$ because this packet jointly binds alternating finite play, two action rows, legal-move replay, payoff classification, stopping data, value readback, transport, provenance, and local naming.}
+
+\closureat{TugOfWarGameUp}{seedStr}
+
+\begin{closurestatus}{\TugOfWarGameUp}
+  \constructivestory{A $\TugOfWarGameUp$ packet is generated from metric or compact-metric position rows, two finite action rows, a legal-move ledger, finite strategy/payoff classification, value readback, a payoff and stopping ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tug-of-war-game-carrier}, \autoref{def:tug-of-war-game-strategy-payoff-classifier}, \autoref{thm:tug-of-war-game-carrier-obligation}, and \autoref{thm:tug-of-war-game-payoff-ledger} seed the finite game-value route over legal moves, payoff classification, stopping, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close viscosity comparison, game-value existence or uniqueness, measurable strategy selection, infinite-play convergence, optional stopping, quotient value equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite play admission, strategy/payoff classifier stability, legal-move replay, payoff and stopping ledger exactness, value-readback nonescape, transport, provenance, and local naming for BEDC.Derived.TugOfWarGameUp.}
+\end{closurestatus}
