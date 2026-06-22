@@ -116,6 +116,18 @@ private theorem regularCauchyTailPairingToEventFlow_injective
     (Eq.trans (regularCauchyTailPairing_round_trip x).symm
       (Eq.trans hread (regularCauchyTailPairing_round_trip y)))
 
+private theorem regularCauchyTailPairing_fields_faithful :
+    ∀ x y : RegularCauchyTailPairingUp,
+      regularCauchyTailPairingFields x = regularCauchyTailPairingFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk S0₁ S1₁ R0₁ R1₁ D0₁ D1₁ W₁ U₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk S0₂ S1₂ R0₂ R1₂ D0₂ D1₂ W₂ U₂ E₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
+
 instance regularCauchyTailPairingBHistCarrier :
     BHistCarrier RegularCauchyTailPairingUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -135,6 +147,12 @@ instance regularCauchyTailPairingChapterTasteGate :
     intro x y hxy heq
     exact hxy (regularCauchyTailPairingToEventFlow_injective heq)
 
+instance regularCauchyTailPairingFieldFaithful :
+    FieldFaithful RegularCauchyTailPairingUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := regularCauchyTailPairingFields
+  field_faithful := regularCauchyTailPairing_fields_faithful
+
 instance regularCauchyTailPairingNontrivial :
     Nontrivial RegularCauchyTailPairingUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -148,6 +166,10 @@ instance regularCauchyTailPairingNontrivial :
       by
         intro h
         cases h⟩
+
+def taste_gate : ChapterTasteGate RegularCauchyTailPairingUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  regularCauchyTailPairingChapterTasteGate
 
 theorem RegularCauchyTailPairingTasteGate_single_carrier_alignment :
     (∀ h : BHist,
