@@ -213,4 +213,90 @@ theorem ContinuationTraceNormalFormCarrier_terminal_result_determinacy [AskSetup
       replayNormalEndpoint, traceRouteReplay, replayNormalEndpoint, endpointTransportEndpointRead,
       provenancePkg, endpointReadPkg⟩
 
+theorem ContinuationTraceNormalFormTypedBoundaryNonescape [AskSetup] [PackageSetup]
+    {source trace terminal terminalRead normal transport route provenance cert replay
+      terminalReplay typedRead endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationTraceNormalFormCarrier source trace terminal terminalRead normal transport route
+        provenance cert bundle pkg →
+      Cont trace route replay →
+        Cont replay terminalRead terminalReplay →
+          Cont terminalReplay normal typedRead →
+            Cont typedRead transport endpointRead →
+              PkgSig bundle endpointRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row trace ∨ hsame row terminalRead ∨ hsame row normal ∨
+                        hsame row transport ∨ hsame row route ∨ hsame row typedRead ∨
+                          hsame row endpointRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont trace route replay ∧
+                        Cont replay terminalRead terminalReplay ∧
+                          Cont terminalReplay normal typedRead ∧
+                            Cont typedRead transport endpointRead ∧
+                              PkgSig bundle endpointRead pkg)
+                    hsame ∧
+                  UnaryHistory replay ∧ UnaryHistory terminalReplay ∧
+                    UnaryHistory typedRead ∧ UnaryHistory endpointRead := by
+  -- BEDC touchpoint anchor: ContinuationTraceNormalFormCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier traceRouteReplay replayTerminalRead terminalReplayNormal typedTransportEndpoint
+    endpointPkg
+  obtain ⟨_sourceUnary, traceUnary, _terminalUnary, terminalReadUnary, normalUnary,
+    transportUnary, routeUnary, _provenanceUnary, _certUnary, _sourceTraceTerminal,
+    _terminalReadRoute, _provenancePkg⟩ := carrier
+  have replayUnary : UnaryHistory replay :=
+    unary_cont_closed traceUnary routeUnary traceRouteReplay
+  have terminalReplayUnary : UnaryHistory terminalReplay :=
+    unary_cont_closed replayUnary terminalReadUnary replayTerminalRead
+  have typedReadUnary : UnaryHistory typedRead :=
+    unary_cont_closed terminalReplayUnary normalUnary terminalReplayNormal
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed typedReadUnary transportUnary typedTransportEndpoint
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row trace ∨ hsame row terminalRead ∨ hsame row normal ∨
+              hsame row transport ∨ hsame row route ∨ hsame row typedRead ∨
+                hsame row endpointRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont trace route replay ∧
+              Cont replay terminalRead terminalReplay ∧ Cont terminalReplay normal typedRead ∧
+                Cont typedRead transport endpointRead ∧ PkgSig bundle endpointRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpointRead ⟨hsame_refl endpointRead, endpointUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRows
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRows.left,
+            unary_transport sourceRows.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRows
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr sourceRows.left)))))
+    ledger_sound := by
+      intro _row sourceRows
+      exact
+        ⟨sourceRows.right, traceRouteReplay, replayTerminalRead, terminalReplayNormal,
+          typedTransportEndpoint, endpointPkg⟩
+  }
+  exact ⟨cert, replayUnary, terminalReplayUnary, typedReadUnary, endpointUnary⟩
+
 end BEDC.Derived.ContinuationTraceNormalFormUp
