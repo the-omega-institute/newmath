@@ -86,6 +86,24 @@ Finally, $P$ and $N$ route the refined mesh through the local package and classi
 \end{proof}
 \leanchecked{BEDC.Derived.RiemannStieltjesUp.RiemannStieltjesCarrier\_darboux\_mesh\_refinement}
 
+\begin{theorem}[Riemann--Stieltjes Darboux integral consumer route]
+\label{thm:riemann-stieltjes-darboux-integral-consumer-route}
+Every $\DarbouxIntegralUp$ consumer of an accepted $\RiemannStieltjesUp$ carrier
+$$
+R=(F,A,T,S,I,E,H,C,P,N)
+$$
+must read the displayed bounded-variation row $A$, tagged-sum row $T$, dyadic-step row $S$, regulated-integral handoff $I$, Real seal $E$, and structural rows $H,C,P,N$ before it treats the packet as a Darboux-facing integral route. The consumer receives a finite Stieltjes mesh with bounded-variation control and regulated handoff; it receives no selected limiting partition, host integrand quotient, host integrator quotient, measure completion, or ambient real equality.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:riemann-stieltjes-namecert-obligations}. They expose carrier admission, tagged-sum refinement stability, bounded-variation ledger control, regulated-integral handoff, and local nonescape as the finite rows of the accepted packet.
+
+Apply the regulated-integral handoff theorem, \autoref{thm:riemann-stieltjes-regulated-integral-handoff}. The Darboux-facing consumer cannot reach the endpoint seal $E$ directly; it must first read the integrand row $F$, the bounded-variation row $A$, the tagged-sum row $T$, the dyadic-step row $S$, and the handoff row $I$.
+
+Apply Darboux mesh refinement, \autoref{thm:riemann-stieltjes-darboux-mesh-refinement}. The mesh part of the consumer is therefore the displayed $T,S$ refinement with integrator control supplied by $A$ and the regulated route supplied by $I$.
+
+Finally, transport, replay, provenance, and local naming are exactly $H,C,P,N$. Since the carrier has no coordinate for selected limiting partitions, host quotients, measure completion, or ambient real equality, every $\DarbouxIntegralUp$ consumer remains on the displayed Riemann--Stieltjes route.
+\end{proof}
+
 \begin{theorem}[Riemann--Stieltjes bounded-variation jump boundary]
 \label{thm:riemann-stieltjes-bounded-variation-jump-boundary}
 Every accepted $\RiemannStieltjesUp$ carrier reads integrator jump data only through the displayed $\BoundedVariationUp$ row before the tagged-sum and regulated-integral rows are consumed. For
