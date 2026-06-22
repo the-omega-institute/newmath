@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\LedgerModeClassifierUp$}
+\label{ch:concrete-instances-ledger-mode-classifier-namecert}
+\origin{ai}
+
+The $\LedgerModeClassifierUp$ packet realizes the evidence-mode taxonomy of \autoref{sec:visions-philosophy-hardenable-ledger-only-classifiers} as finite NameCert data. It sits beside the hard-certificate layer of \autoref{sec:visions-philosophy-hard-certificate-layer}, the certified model-quality ledger of \autoref{ch:concrete-instances-certified-model-quality-ledger-namecert}, the positive interpretability classifier of \autoref{ch:concrete-instances-positive-interpretability-classifier-namecert}, and the tensor-source certificate surface of \autoref{ch:concrete-instances-tensorproduct-namecert}. The carrier names evidence modes, mode completeness, hardening frontier, ledger-only residue, transport, replay, provenance, and local naming as one classifier packet rather than as a prose taxonomy.
+
+\begin{definition}[Ledger-mode classifier carrier]
+\label{def:ledger-mode-classifier-carrier}
+A $\LedgerModeClassifierUp$ carrier is a finite $\BHist$ packet
+$$
+M=(E,C,F,R,G,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the evidence-mode row, recording for each classifier-relevant NameCert field whether its support is empirical, paper, formal, hybrid, ledger-only, or open.
+\item $C$ is the mode-completeness row, asserting that every source, pattern, classifier, stability, and ledger field has a declared mode and that no accepted row remains open.
+\item $F$ is the hardening-frontier row, listing the hardenable rows that are not yet hardened and separating them from the non-hardenable residue.
+\item $R$ is the ledger-only residue row, recording the exact non-hardenable or not-yet-hardened residue that must remain visible to classifier-strength consumers.
+\item $G$ is the gap-refusal row, refusing any classifier-strength read when a required evidence-mode row, hardening-frontier row, or ledger-only residue row is absent.
+\item $H$ records componentwise $\hsame$ transport for evidence modes, mode completeness, hardening frontier, residue exactness, gap refusal, replay, provenance, and local naming.
+\item $T$ records displayed $\Cont$ replay from a classifier-strength request through $E,C,F,R,G,H$ and back to the same ledger-mode surface.
+\item $P$ is the $\Pkg$ provenance over $\LedgerModeClassifierUp$, the hard-certificate layer, certified model quality, positive interpretability classifier novelty, Tensor NameCert, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LedgerModeClassifierUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a hidden hardened proof, unledgered classifier strength, open-mode acceptance, certified model quality by itself, interpretability novelty by itself, or Tensor NameCert field by itself.
+\end{definition}
+
+\begin{theorem}[Ledger-mode classifier NameCert obligations]
+\label{thm:ledger-mode-classifier-namecert-obligations}
+For every accepted $\LedgerModeClassifierUp$ carrier $M=(E,C,F,R,G,H,T,P,N)$, the local $\NameCert_{\LedgerModeClassifierUp}$ surface consists exactly of evidence-mode exposure through $E$, mode-completeness through $C$, hardening-frontier exposure through $F$, ledger-only residue exactness through $R$, gap refusal through $G$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, $\Pkg$ provenance through $P$, and local naming through $N$. Any classifier-strength consumer must read those rows before it may inspect ledger-only status.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:ledger-mode-classifier-carrier}. The rows $E,C,F,R,G$ are the analytic rows: they display evidence modes, certify mode completeness, expose the hardening frontier, record the ledger-only residue, and refuse gap-bearing reads.
+
+The structural rows $H$ and $T$ preserve and replay the same surface. A transported or replayed classifier-strength request therefore still carries the evidence-mode ledger and hardening-frontier exposure before ledger-only status is inspected.
+
+The provenance and local naming rows $P,N$ attach the packet to its philosophy and model-quality siblings. Since the carrier has no hidden hardened proof, no unledgered strength row, and no open-mode acceptance coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Ledger-mode classifier consumer boundary]
+\label{thm:ledger-mode-classifier-consumer-boundary}
+Every accepted $\LedgerModeClassifierUp$ read exposes its evidence-mode ledger $E$, mode-completeness row $C$, hardening-frontier row $F$, ledger-only residue row $R$, and gap-refusal row $G$ before any certified model-quality, interpretability-novelty, Tensor NameCert, or classifier-strength consumer may inspect ledger-only status. A consumer that omits any of these rows is outside the accepted ledger-mode classifier surface.
+\end{theorem}
+\begin{proof}
+Read the NameCert obligations. They require $E,C,F,R,G$ as the analytic rows of every accepted packet, with $H,T,P,N$ preserving, replaying, sourcing, and naming the same data.
+
+The certified model-quality, interpretability-novelty, Tensor NameCert, and classifier-strength consumers named by $P$ receive only the exported packet. If such a consumer omits $E$, it cannot determine evidence mode; if it omits $C$, it cannot determine mode completeness; if it omits $F$ or $R$, it cannot separate hardenable frontier from ledger-only residue; and if it omits $G$, it cannot refuse a mode gap.
+
+Thus ledger-only status is not a free-standing predicate. It is inspected only after the displayed evidence-mode, completeness, frontier, residue, and refusal rows have been read.
+\end{proof}
+
+\begin{theorem}[Ledger-mode classifier TasteGate boundary]
+\label{thm:ledger-mode-classifier-tastegate-boundary}
+The future Lean \texttt{TasteGate.lean} development for $\LedgerModeClassifierUp$ must provide explicit $\Nontrivial\ \LedgerModeClassifierUp$ and $\FieldFaithful\ \LedgerModeClassifierUp$ instances for the carrier of \autoref{def:ledger-mode-classifier-carrier}. Nontriviality must separate an accepted mode-complete ledger from a gap-bearing candidate, and field faithfulness must preserve $E,C,F,R,G,H,T,P,N$ as distinct rows before a classifier-strength consumer can cite a checked carrier-alignment theorem.
+\end{theorem}
+\begin{proof}
+Nontriviality is forced by the gap-refusal row. A packet with declared evidence modes, mode completeness, hardening-frontier exposure, and ledger-only residue exactness is not the same carrier as one whose mode or frontier row is absent.
+
+Field faithfulness is forced by the consumer boundary. Dropping $E$, $C$, $F$, $R$, or $G$ changes which classifier-strength reads are legal, while dropping $H,T,P,N$ changes transport, replay, provenance, or local naming.
+
+Therefore a checked TasteGate surface must keep the accepted and refused sides distinct and must preserve all nine displayed rows. Otherwise ledger-only status could be inspected without the finite evidence-mode ledger that defines it.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LedgerModeClassifierUp$ read must display its evidence-mode ledger and hardening-frontier row before any classifier-strength consumer may inspect ledger-only status.}
+
+\independenceWitness{hard-certificate-layer, certified-model-quality, interpretability-classifier-novelty, tensor-namecert: $\LedgerModeClassifierUp$ is not bijective to these siblings because it jointly carries mode declarations, gap refusal, hardening-frontier exposure, and ledger-only residue exactness.}
+
+\closureat{LedgerModeClassifierUp}{seedStr}
+
+\begin{closurestatus}{\LedgerModeClassifierUp}
+  \constructivestory{A $\LedgerModeClassifierUp$ packet is generated from evidence-mode rows, mode completeness, a hardening-frontier ledger, ledger-only residue exactness, gap refusal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ledger-mode-classifier-carrier}, \autoref{thm:ledger-mode-classifier-namecert-obligations}, \autoref{thm:ledger-mode-classifier-consumer-boundary}, and \autoref{thm:ledger-mode-classifier-tastegate-boundary} seed the finite classifier surface for evidence modes, mode gaps, hardening frontier, and ledger-only residue.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim checked TasteGate instances, certified model quality, interpretability classifier novelty, Tensor NameCert completeness, formal hardening of any row, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, evidence-mode exactness, mode-completeness refusal, hardening-frontier exposure, ledger-only residue exactness, nontriviality, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.LedgerModeClassifierUp.}
+\end{closurestatus}

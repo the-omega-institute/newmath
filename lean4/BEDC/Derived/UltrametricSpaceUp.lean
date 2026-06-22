@@ -459,4 +459,89 @@ theorem UltrametricSpaceRootExampleHandoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, comparisonReadUnary, triangleReadUnary, ballReadUnary, exampleReadUnary⟩
 
+theorem UltrametricSpaceStrongTriangleBridgeRoute [AskSetup] [PackageSetup]
+    (U : UltrametricSpaceUp)
+    {M V T B E H K P N comparisonRead triangleRead ballRead exampleRead bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ultrametricSpaceFields U = [M, V, T, B, E, H, K, P, N] ->
+      UnaryHistory M ->
+        UnaryHistory V ->
+          UnaryHistory T ->
+            UnaryHistory B ->
+              UnaryHistory E ->
+                UnaryHistory K ->
+                  Cont M V comparisonRead ->
+                    Cont comparisonRead T triangleRead ->
+                      Cont triangleRead B ballRead ->
+                        Cont ballRead E exampleRead ->
+                          Cont exampleRead K bridgeRead ->
+                            PkgSig bundle P pkg ->
+                              SemanticNameCert
+                                  (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row M ∨ hsame row V ∨ hsame row T ∨
+                                      hsame row B ∨ hsame row E ∨ hsame row K ∨
+                                        Cont M V comparisonRead ∨
+                                          Cont comparisonRead T triangleRead ∨
+                                            Cont triangleRead B ballRead ∨
+                                              Cont ballRead E exampleRead ∨
+                                                Cont exampleRead K bridgeRead)
+                                  (fun row : BHist =>
+                                    PkgSig bundle P pkg ∧ hsame row bridgeRead)
+                                  hsame ∧
+                                UnaryHistory comparisonRead ∧ UnaryHistory triangleRead ∧
+                                  UnaryHistory ballRead ∧ UnaryHistory exampleRead ∧
+                                    UnaryHistory bridgeRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro _fields metricUnary comparisonUnary triangleUnary ballUnary exampleUnary replayUnary
+    comparisonRoute triangleRoute ballRoute exampleRoute bridgeRoute provenancePkg
+  have comparisonReadUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed metricUnary comparisonUnary comparisonRoute
+  have triangleReadUnary : UnaryHistory triangleRead :=
+    unary_cont_closed comparisonReadUnary triangleUnary triangleRoute
+  have ballReadUnary : UnaryHistory ballRead :=
+    unary_cont_closed triangleReadUnary ballUnary ballRoute
+  have exampleReadUnary : UnaryHistory exampleRead :=
+    unary_cont_closed ballReadUnary exampleUnary exampleRoute
+  have bridgeReadUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed exampleReadUnary replayUnary bridgeRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row V ∨ hsame row T ∨ hsame row B ∨ hsame row E ∨
+              hsame row K ∨ Cont M V comparisonRead ∨
+                Cont comparisonRead T triangleRead ∨ Cont triangleRead B ballRead ∨
+                  Cont ballRead E exampleRead ∨ Cont exampleRead K bridgeRead)
+          (fun row : BHist => PkgSig bundle P pkg ∧ hsame row bridgeRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro bridgeRead ⟨hsame_refl bridgeRead, bridgeReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr (Or.inr (Or.inr bridgeRoute)))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨provenancePkg, source.left⟩
+  }
+  exact
+    ⟨cert, comparisonReadUnary, triangleReadUnary, ballReadUnary, exampleReadUnary,
+      bridgeReadUnary⟩
+
 end BEDC.Derived.UltrametricSpaceUp
