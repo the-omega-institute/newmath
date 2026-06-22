@@ -51,6 +51,7 @@ W,Q,D,A,H,C,P,N.
 $$
 The transport preserves the StreamName readback, RegSeqRat readback, DyadicRatCore ledger, and RealTailAgreementSeal consumer row, and it exports no quotient stream equality, host real equality, selected limit, hidden tail selector, countable-choice row, or ambient completeness theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.CofinalTailEquivalenceUp.CofinalTailEquivalenceTailAgreementTransport}
 \begin{proof}
 Begin with the two route coordinates of \autoref{def:cofinal-tail-equivalence-carrier}. The only relation between them inside the packet is the componentwise $\hsame$ table $H$ and the displayed continuation replay $C$.
 
@@ -120,6 +121,20 @@ Apply \autoref{thm:cofinal-tail-equivalence-namecert-obligations} and \autoref{t
 Finally use \autoref{thm:cofinal-tail-equivalence-real-seal-consumer}. The Real-facing read reaches only the displayed $\RealTailAgreementSealUp$ consumer after $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ have been displayed, so the listed rows are the whole scoped readback surface.
 \end{proof}
 
+\begin{theorem}[Cofinal tail-equivalence scoped closure]
+\label{thm:cofinal-tail-equivalence-scoped-closure}
+The scope readback theorem, together with the Real-seal consumer, common-tail induction, and RegSeqRat stability theorems, binds every exported $\CofinalTailEquivalenceUp$ consumer to the displayed $\BHist$ carrier, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, local $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealTailAgreementSealUp$, and the named cofinal-tail sibling rows of \autoref{def:cofinal-tail-equivalence-carrier}. No exported consumer can leave that scope by reading quotient stream equality, selected host limits, hidden tail selection, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cofinal-tail-equivalence-scope-readback}. It identifies the only rows available to the scoped proof surface: the displayed carrier, transport, replay, provenance, local naming, StreamName readback, RegSeqRat readback, DyadicRatCore ledger, RealTailAgreementSeal consumer, and cofinal-tail siblings.
+
+Apply \autoref{thm:cofinal-tail-equivalence-real-seal-consumer}. Completion-facing reads reach the Real-tail agreement row only after the two cofinal routes and the shared finite readback rows have been displayed.
+
+Apply \autoref{thm:cofinal-tail-equivalence-common-tail-induction} and \autoref{thm:cofinal-tail-equivalence-regseqrat-stability}. These theorems keep common-threshold and transport reads on the same StreamName, RegSeqRat, DyadicRatCore, and RealTailAgreementSeal surface.
+
+Thus the scope is closed around exactly the named finite rows. The excluded quotient, selection, choice, host equality, and ambient-completeness objects are absent from the carrier and cannot be projected by any exported consumer.
+\end{proof}
+
 \closureat{CofinalTailEquivalenceUp}{seedStr}
 \closureat{CofinalTailEquivalenceUp}{obligationStr}[BEDC.Derived.CofinalTailEquivalenceUp.CofinalTailEquivalenceTasteGate\_single\_carrier\_alignment]
 \closureat{CofinalTailEquivalenceUp}{scopedStr}[BEDC.Derived.CofinalTailEquivalenceUp.CofinalTailEquivalenceTasteGate\_single\_carrier\_alignment]
@@ -127,7 +142,7 @@ Finally use \autoref{thm:cofinal-tail-equivalence-real-seal-consumer}. The Real-
 \begin{closurestatus}{\CofinalTailEquivalenceUp}
   \constructivestory{A $\CofinalTailEquivalenceUp$ packet is generated from two cofinal tail routes, a shared StreamName window, a shared RegSeqRat readback, a shared DyadicRatCore ledger, a RealTailAgreementSeal consumer row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:cofinal-tail-equivalence-carrier}, \autoref{thm:cofinal-tail-equivalence-namecert-obligations}, \autoref{thm:cofinal-tail-equivalence-tail-agreement-transport}, \autoref{thm:cofinal-tail-equivalence-real-seal-consumer}, \autoref{thm:cofinal-tail-equivalence-common-tail-induction}, \autoref{thm:cofinal-tail-equivalence-regseqrat-stability}, and \autoref{thm:cofinal-tail-equivalence-scope-readback} bind the carrier, NameCert obligations, tail-agreement transport, Real-seal consumer route, common-tail induction, RegSeqRat stability, and scoped readback surface.}
+  \scopeclosed{\autoref{def:cofinal-tail-equivalence-carrier}, \autoref{thm:cofinal-tail-equivalence-namecert-obligations}, \autoref{thm:cofinal-tail-equivalence-tail-agreement-transport}, \autoref{thm:cofinal-tail-equivalence-real-seal-consumer}, \autoref{thm:cofinal-tail-equivalence-common-tail-induction}, \autoref{thm:cofinal-tail-equivalence-regseqrat-stability}, \autoref{thm:cofinal-tail-equivalence-scope-readback}, and \autoref{thm:cofinal-tail-equivalence-scoped-closure} bind the carrier, NameCert obligations, tail-agreement transport, Real-seal consumer route, common-tail induction, RegSeqRat stability, scoped readback surface, and scoped closure theorem.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.CofinalTailEquivalenceUp.CofinalTailEquivalenceTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}

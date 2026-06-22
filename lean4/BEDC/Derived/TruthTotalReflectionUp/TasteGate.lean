@@ -247,4 +247,40 @@ theorem TruthTotalReflectionAttemptRowStability (x : TruthTotalReflectionUp) :
           hsame_refl sentence, hsame_refl attempt, hsame_refl diagonal,
           hsame_refl transports, hsame_refl routes⟩
 
+theorem TruthTotalReflectionConsumerSurfaceExhaustion (x : TruthTotalReflectionUp) :
+    ∃ sentence attempt diagonal transport route provenance nameCert : BHist,
+      x = TruthTotalReflectionUp.mk sentence attempt diagonal transport route provenance nameCert ∧
+        List.Mem [BMark.b0] (BHistCarrier.toEventFlow x) ∧
+        List.Mem [BMark.b1, BMark.b0] (BHistCarrier.toEventFlow x) ∧
+        List.Mem [BMark.b1, BMark.b1, BMark.b0] (BHistCarrier.toEventFlow x) ∧
+        List.Mem [BMark.b1, BMark.b1, BMark.b1, BMark.b0] (BHistCarrier.toEventFlow x) ∧
+        List.Mem [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0]
+          (BHistCarrier.toEventFlow x) ∧
+        List.Mem [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0]
+          (BHistCarrier.toEventFlow x) ∧
+        List.Mem
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0]
+          (BHistCarrier.toEventFlow x) := by
+  -- BEDC touchpoint anchor: BHist BMark BHistCarrier
+  cases x with
+  | mk sentence attempt diagonal transport route provenance nameCert =>
+      exact
+        ⟨sentence, attempt, diagonal, transport, route, provenance, nameCert, rfl,
+          List.Mem.head _,
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)),
+          List.Mem.tail _ (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))))),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+              (List.Mem.head _)))))))),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+              (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))))))))),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+              (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+                (List.Mem.head _))))))))))))⟩
+
 end BEDC.Derived.TruthTotalReflectionUp
