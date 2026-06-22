@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\BishopCompletionReflectorUp$}
+\label{ch:concrete-instances-bishop-completion-reflector-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopCompletionReflectorUp$ packet records the finite reflector data that sends a regular Cauchy presentation into its separated completion object. It sits after the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the Cauchy completion criterion of \autoref{ch:concrete-instances-cauchycompletioncriterion-namecert}. The packet names a finite completion reflector only; it does not import quotient completions, selected limits, choice sequences, or ambient completeness for $\RealUp$.
+
+\begin{definition}[BishopCompletionReflector carrier]\label{def:bishop-completion-reflector-carrier}
+A $\BishopCompletionReflectorUp$ carrier is a finite $\BHist$ packet
+$$
+R=(Q,S,E,A,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the regular Cauchy input row, read through $\RegSeqRatUp$ finite windows and the Cauchy criterion route.
+\item $S$ is the separated identity row, recording when two regular Cauchy inputs have the same separated completion readback.
+\item $E$ is the completion seal row, exposing the terminal $\RealUp$ name reached from the regular Cauchy input.
+\item $A$ is the reflector arrow row, sending the accepted regular Cauchy input to the separated completion seal.
+\item $L$ is the finite ledger recording the order in which regular input, separated identity, completion seal, and reflector arrow are consumed.
+\item $H$ records componentwise $\hsame$ transport for $Q,S,E,A,L,C,P,N$.
+\item $C$ records displayed $\Cont$ replay for the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\BishopCompletionReflectorUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyCompletionCriterionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCompletionReflectorUp}$ row.
+\end{enumerate}
+Two accepted carriers are classified together only by the displayed rows $Q,S,E,A,L,H,C,P,N$. The classifier has no coordinate for quotient real equality, a chosen completion point, countable choice, host completion functoriality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[BishopCompletionReflector NameCert obligations]\label{thm:bishop-completion-reflector-namecert-obligations}
+For every accepted $\BishopCompletionReflectorUp$ carrier $R=(Q,S,E,A,L,H,C,P,N)$, the local $\NameCert_{\BishopCompletionReflectorUp}$ surface consists exactly of regular Cauchy input admission through $Q$, separated identity exposure through $S$, completion seal exposure through $E$, reflector arrow admission through $A$, finite ledger order through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. No obligation is supplied by quotient completion semantics, selected limits, countable choice, host functorial completions, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-completion-reflector-carrier}. The tuple displays the regular input, separated identity, completion seal, reflector arrow, ledger, transport, replay, provenance, and local naming rows.
+
+The local NameCert reads these rows in the order recorded by $L$. Regular Cauchy input is consumed through $Q$, separated identity through $S$, terminal completion naming through $E$, and the reflector arrow through $A$.
+
+Transport and replay are supplied by $H$ and $C$, while $P$ and $N$ record provenance and local naming. Since the carrier has no coordinate for quotient completion semantics, selected limits, countable choice, host functorial completions, or ambient Real completeness, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[BishopCompletionReflector universal arrow]\label{thm:bishop-completion-reflector-universal-arrow}
+Every accepted $\BishopCompletionReflectorUp$ packet exports a finite universal-arrow route from regular Cauchy input to separated completion readback:
+$$
+\RegSeqRatUp,\ \CauchyCompletionCriterionUp
+\longmapsto
+\RealUp
+\longmapsto
+\BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The route states that a completion-facing consumer must read the regular Cauchy input, separated identity, completion seal, reflector arrow, ledger, transport, replay, provenance, and local naming rows before treating the reflected object as sealed. It does not assert a quotient universal property, choose a limit representative, or use countable choice.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $R=(Q,S,E,A,L,H,C,P,N)$. The source of the arrow is the regular Cauchy input row $Q$, and the target is the completion seal $E$ read after the separated identity row $S$.
+
+The reflector arrow row $A$ records the finite handoff from $Q$ through $S$ to $E$. The ledger $L$ fixes the order of this handoff, so the consumer cannot inspect the terminal seal before the regular input and separated identity rows have been displayed.
+
+The structural rows $H,C,P,N$ transport, replay, name, and package the same route. Because no accepted row stores quotient completion semantics, selected representatives, choice schedules, or host completeness, the universal arrow is exactly the finite BEDC reflector route stated above.
+\end{proof}
+
+\closureat{BishopCompletionReflectorUp}{seedStr}
+
+\begin{closurestatus}{\BishopCompletionReflectorUp}
+  \constructivestory{A $\BishopCompletionReflectorUp$ packet is generated from regular Cauchy input, separated identity, completion seal, reflector arrow, finite ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-completion-reflector-carrier}, \autoref{thm:bishop-completion-reflector-namecert-obligations}, and \autoref{thm:bishop-completion-reflector-universal-arrow} record the seed reflector carrier, local NameCert obligation surface, and finite universal-arrow route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient completion semantics, selected limits, countable choice, host functorial completions, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked regular Cauchy input admission, separated identity exposure, completion seal exposure, reflector arrow admission, ledger order, transport, replay, provenance, and local naming for BEDC.Derived.BishopCompletionReflectorUp.}
+\end{closurestatus}
