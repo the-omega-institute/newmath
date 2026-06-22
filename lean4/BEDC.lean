@@ -6429,6 +6429,7 @@ import BEDC.Derived.HyperspaceUp.VietorisFiniteWindowObligations
 import BEDC.Derived.HyperspaceUp.VietorisHandoff
 import BEDC.Derived.HyperspaceUp.VietorisHitMissStability
 import BEDC.Derived.HyperspaceUp.VietorisLocatedRealDependency
+import BEDC.Derived.HyperspaceUp.VietorisMatureEnvelope
 import BEDC.Derived.HyperspaceUp.VietorisRefinementFactorization
 import BEDC.Derived.HyperspaceUp.VietorisRootUnblockObligations
 import BEDC.Derived.HyperspaceUp.VietorisUnionStability
@@ -7050,6 +7051,7 @@ import BEDC.Derived.LocatedRealUp.ScopeRealSealConsumer
 import BEDC.Derived.LocatedRealUp.TasteGate
 import BEDC.Derived.LocatedRegSeqRatUp
 import BEDC.Derived.LocatedRegSeqRatUp.TasteGate
+import BEDC.Derived.LocatedRegularCauchyEquivalenceUp
 import BEDC.Derived.LocatedRegularRealCutUp.TasteGate
 import BEDC.Derived.LocatedRegularizationUp.TasteGate
 import BEDC.Derived.LocatedSequenceLimitUp.TasteGate
@@ -11580,6 +11582,7 @@ import BEDC.Derived.UniformEntourageSpaceUp.TasteGate
 import BEDC.Derived.UniformEquicontinuityModulusUp.TasteGate
 import BEDC.Derived.UniformFixedPointUp.TasteGate
 import BEDC.Derived.UniformHomeomorphismUp.BidirectionalModulusRoute
+import BEDC.Derived.UniformHomeomorphismUp.InverseRouteExactness
 import BEDC.Derived.UniformHomeomorphismUp.NameCertObligations
 import BEDC.Derived.UniformHomeomorphismUp.TasteGate
 import BEDC.Derived.UniformIntegralLimitUp.TasteGate
