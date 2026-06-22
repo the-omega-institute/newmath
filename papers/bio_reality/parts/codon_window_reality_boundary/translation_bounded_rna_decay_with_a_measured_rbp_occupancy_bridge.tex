@@ -1,0 +1,36 @@
+\subsection{Translation-bounded RNA decay with a measured RBP occupancy bridge}
+\label{sec:q6-translation-bounded-rna-decay-rbp-bridge-cross-layer}
+\origin{ai}
+
+\paragraph{Finite row object.}
+The record considered here is a finite matched panel of RNA/CDS windows.  Each row carries a synonymous residual coordinate label from the $B^{*}_{Q6}$ construction, a same-row translation readout when available, an RNA half-life readout, a matched mRNA abundance control, and, only when externally supplied, prespecified decay-factor RBP occupancy and perturbation columns.  The row is not interpreted as a transcript-wide law.  It is a local finite comparison unit whose admissible question is whether high-coordinate and low-coordinate synonymous windows remain distinguishable in RNA half-life after amino-acid composition, local sequence composition, codon-pair context, motif density, local RNA-structure proxies, splice or isoform state, transcript abundance, batch, and the same-row translation boundary have been fixed.
+
+\paragraph{Admissible statistic.}
+For a finite set $W$ of joined windows, let $q(w)$ be the residual coordinate class, $h(w)$ the half-life readout, $m(w)$ the matched mRNA abundance control, $t(w)$ the same-row translation readout, and $o(w)$ the measured occupancy state of the declared decay-factor RBP.  A positive cross-layer reading is allowed only for rows in which $t(w)$ is present and $o(w)$ is measured independently enough to test coordinate/occupancy decoupling.  The intended finite contrast has the form
+$$
+\begin{aligned}
+\Delta_{h} &= \operatorname{Stat}\{h(w):q(w)=\mathrm{high},\,t(w)\ \mathrm{present}\}
+           - \operatorname{Stat}\{h(w):q(w)=\mathrm{low},\,t(w)\ \mathrm{present}\},\\
+\Delta_{h\mid o} &= \operatorname{Stat}\{h(w):o(w)=\mathrm{occupied}\}
+           - \operatorname{Stat}\{h(w):o(w)=\mathrm{unoccupied}\},
+\end{aligned}
+$$
+with the comparison evaluated after the declared controls have been applied.  The coordinate label may support the RBP-mediated reading only if the half-life effect follows measured occupancy rather than merely following $q(w)$ when occupancy is absent, unchanged, or confounded with coordinate state.
+
+\paragraph{Perturbation requirement.}
+The finite row panel must contain a target-RBP loss condition and a wild-type rescue condition, together with binding-defective or non-target controls.  The required pattern is directional and local: the half-life contrast attributed to the RBP must collapse after target-RBP loss, return under wild-type rescue, and fail to return under the binding-defective or non-target controls.  If the loss condition does not reduce the coordinate-associated half-life effect, or if the wild-type rescue does not restore it while the control rescues remain inactive, the row set is retained only as an RNA-stability association.  In that case the $B^{*}_{Q6}$ label is a bounded descriptor of the finite panel, not a licensed mechanism or downstream biological realization.
+
+\paragraph{Translation boundary.}
+RNA half-life alone is not a translation readout.  The same-row translation measurement is a gate on interpretation, not a decoration on the table.  Rows missing the translation readout can be used to describe RNA stability under matched transcript controls, but they cannot promote the observation to a cross-layer relation involving translation or protein output.  Conversely, the presence of ribosome profiling or translation-efficiency data does not by itself imply mature protein abundance, folding, structural order, function, phenotype, adaptation, or a universal sequence rule.  Each of those layers would require its own matched contact and its own finite statistic.
+
+\paragraph{Available contacts.}
+The half-life contact supplies organism-scoped transcript or gene rows with curated mRNA half-life estimates or normalized consensus readouts, keyed by dataset provenance.  Its known limitations are platform dependence, growth condition and cell-type dependence, transcript-isoform ambiguity, gene/CDS mapping loss, normalization differences, and half-life estimation method.  The matched mRNA abundance contact separates transcription-layer signal from translation-layer signal by allowing translation efficiency to be read as $\mathrm{TE}=\mathrm{RPF}/\mathrm{mRNA}$ when a ribosome-profiling row is joined to the matching RNA-seq row.  The ribosome-profiling contact supplies per-CDS ribosome occupancy or translation-efficiency estimates, but it remains vulnerable to stalling sites, library-preparation bias, isoform ambiguity, and dataset normalization variance.  None of these three contacts, by itself, supplies same-window RBP occupancy, target-RBP loss, wild-type rescue, or binding-defective control behavior.
+
+\paragraph{Finite calibration from already checked rows.}
+Two nearby checked finite surfaces provide scale but not direct support for the present RBP-decay claim.  The protein thermal-stability surface contains $n=6961$ rows and is recorded under run $8873440304f9$, with deterministic runtime bucket $70.0$ seconds and an independently verified shell time below $300$ seconds.  The ubiquitylation-occupancy surface contains $10410$ sites on $2883$ proteins, used $2000$ actual permutations, and is recorded under run $0b96a8e4da3c$.  These numbers show that the project already admits finite cross-layer panels with declared row counts and bounded computation, but they do not measure RNA half-life, RBP occupancy, or RBP perturbation.  They therefore function only as calibration examples for row-bounded reporting discipline.
+
+\paragraph{Null condition.}
+The null state is exchangeability of high-coordinate and low-coordinate synonymous windows with respect to RNA half-life after the declared controls are attached.  In practical terms, once transcription rate, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, batch, amino-acid composition, and the same-row translation boundary are accounted for, the coordinate labels should not predict half-life unless the measured decay-factor RBP occupancy and perturbation pattern carry the effect.  Failure of this condition leaves no positive RBP-decay bridge.
+
+\paragraph{Local cannot-claim boundary.}
+This chapter licenses only a finite conditional reading: a $B^{*}_{Q6}$ coordinate-associated RNA half-life difference may be treated as an RBP-mediated cross-layer relation when the same-row translation readout is present, matched mRNA controls are present, measured decay-factor RBP occupancy tracks the half-life effect under coordinate/occupancy decoupling, target-RBP loss collapses the effect, and wild-type rescue restores it while binding-defective or non-target controls do not.  Without those rows, the record remains a bounded RNA-stability association.  It does not establish translation, mature protein output, folding, physical admissibility, function, phenotype, adaptation, causation, mechanism, or universality.
