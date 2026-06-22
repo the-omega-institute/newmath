@@ -75,12 +75,35 @@ Q,O,R \longmapsto B .
 $$
 It is not a route through trichotomy, quotient real equality, selected least bounds, a host ordered-field carrier, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.ArchimedeanOrderedFieldUp.ArchimedeanOrderedFieldRationalBoundWindow}
 \begin{proof}
 Project the carrier $F=(R,A,Q,O,B,H,C,P,N)$. The rational source row $Q$, Archimedean bound row $O$, endpoint family $R$, and comparison ledger $B$ are displayed coordinates of the same finite packet.
 
 Apply the NameCert obligations of \autoref{thm:archimedean-ordered-field-namecert-obligations}. Classifier transport keeps the rational source, bound, endpoint, and ledger rows componentwise aligned, while Archimedean comparison stability ties every rational-bound read to $Q,O$ over the same endpoints $R$.
 
 Finally use the RealAlgOrder handoff of \autoref{thm:archimedean-ordered-field-realalgorder-handoff}. Ordered-field reads may consume $B$ only after the displayed algebra/order route and the rational-bound route have been replayed, and the carrier has no coordinate for the excluded trichotomy, quotient, least-bound, host-field, or completeness data.
+\end{proof}
+
+\begin{theorem}[ArchimedeanOrderedField comparison ledger exactness]
+\label{thm:archimedean-ordered-field-comparison-ledger-exactness}
+For an accepted $\ArchimedeanOrderedFieldUp$ packet with carrier
+$$
+F=(R,A,Q,O,B,H,C,P,N),
+$$
+every ordered-field, Archimedean comparison, or rational-embedding consumer of the local comparison ledger $B$ reads $B$ only through the displayed route $R,A,Q,O,H,C,P,N$. Here $A$ is the $\RealAlgOrderUp$ row, $O$ is the $\ArchimedeanRealUp$ row, $Q$ is the $\RatUp$ source row, and $R$ is the $\RealUp$ endpoint family.
+
+Thus the ledger is an exhaustive consumer interface for those comparison reads, not a channel for trichotomy, quotient reals, selected least bounds, host ordered-field carriers, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition of \autoref{def:archimedean-ordered-field-carrier}. The only coordinates adjacent to the ledger are the endpoint family $R$, the algebra/order row $A$, the rational source row $Q$, the Archimedean bound row $O$, the transport table $H$, the continuation routes $C$, the provenance row $P$, and the local naming row $N$.
+
+Apply the NameCert obligations of \autoref{thm:archimedean-ordered-field-namecert-obligations}. Carrier admission and classifier transport force every consumer-visible ledger row to be one of the displayed rows of $F$.
+
+Field-row stability and Archimedean comparison stability keep ordered-field, rational-embedding, and rational-bound reads attached to the same $R,A,Q,O$ coordinates.
+
+The handoff theorem \autoref{thm:archimedean-ordered-field-realalgorder-handoff} identifies the ordered-field side with $A$ over $R$ and the Archimedean side with $O$ and $Q$ over the same endpoints. The rational-bound window of \autoref{thm:archimedean-ordered-field-rational-bound-window} then forces any Archimedean comparison read to pass through $Q,O,R$ before it reaches $B$.
+
+It follows that a downstream ordered-field, Archimedean comparison, or rational-embedding consumer has no remaining entry point into $B$ except the route $R,A,Q,O,H,C,P,N$. Since the carrier and the cited obligations store no trichotomy, quotient-reals construction, selected least-bound operation, host ordered-field carrier, or ambient real-completeness coordinate, the ledger cannot export any of those structures.
 \end{proof}
 
 \begin{theorem}[ArchimedeanOrderedField root obligation package]
