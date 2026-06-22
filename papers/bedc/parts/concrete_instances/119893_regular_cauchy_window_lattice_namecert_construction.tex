@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyWindowLatticeUp$}
+\label{ch:concrete-instances-regular-cauchy-window-lattice-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyWindowLatticeUp$ packet records the finite common-window lattice by which left and right regular Cauchy readings can share one dyadic refinement route before any $\RegSeqRatUp$ readback or $\RealUp$ seal is consumed. It sits after the dyadic arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the common-modulus meet route of \autoref{ch:concrete-instances-cauchymodulusmeet-namecert}.
+
+\begin{definition}[Regular Cauchy window lattice carrier]
+\label{def:regular-cauchy-window-lattice-carrier}
+A $\RegularCauchyWindowLatticeUp$ carrier is a finite $\BHist$ packet
+$$
+W=(L,R,D,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $R$ are the left and right regular-Cauchy window rows. Each row exposes the requested precision, the finite source indices, and the local regularity budget visible to a $\RegSeqRatUp$ readback.
+\item $D$ is the common $\DyadicRatCoreUp$ refinement ledger. It records the shared dyadic radii, endpoint comparisons, radius meets, and refinement witnesses used by both windows.
+\item $S$ is the $\StreamNameUp$ finite-observation row listing exactly the source observations inspected on the left window, right window, and overlap.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained only after $L,R,D,S$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row reached only through the displayed common-window route.
+\item $H$ records componentwise $\hsame$ transport for the two windows, common dyadic ledger, finite observations, regular readback, real seal, replay, provenance, and local certificate.
+\item $C$ records displayed $\Cont$ replay of the same finite common-window route.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyWindowLatticeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyModulusMeetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyWindowLatticeUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that the two windows share the displayed refinement ledger before either downstream readback is consumed. It has no coordinate for quotient equality of regular sequences, selected representatives, countable choice, host real equality, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy window lattice NameCert obligations]
+\label{thm:regular-cauchy-window-lattice-namecert-obligations}
+For every accepted $\RegularCauchyWindowLatticeUp$ carrier
+$$
+W=(L,R,D,S,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyWindowLatticeUp}$ surface consists exactly of left and right regular-Cauchy window admission, common $\DyadicRatCoreUp$ refinement through $D$, finite $\StreamNameUp$ observation through $S$, $\RegSeqRatUp$ readback through $Q$, terminal $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows before the seal are the two window rows $L,R$, the common dyadic ledger $D$, the finite observation row $S$, and the regular readback row $Q$.
+
+The common-window condition is finite. The row $D$ stores the radius meets and endpoint comparisons, while $S$ records exactly the observations used to inspect both windows. Thus $Q$ reads a single shared refinement route rather than two unrelated regular-sequence witnesses.
+
+The remaining rows $H,C,P,N$ transport, replay, source, and name this same route. Since quotient equality, selected representatives, countable choice, host equality, and ambient completeness are absent from the carrier coordinates, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy window lattice RegSeqRat handoff]
+\label{thm:regular-cauchy-window-lattice-regseqrat-handoff}
+Every accepted $\RegularCauchyWindowLatticeUp$ carrier exposes its $\RegSeqRatUp$ readback $Q$ only after the left and right regular-Cauchy windows $L,R$, the common $\DyadicRatCoreUp$ refinement ledger $D$, and the finite $\StreamNameUp$ observation row $S$ have been displayed. The handoff exports the common-window packet to $\RegSeqRatUp$ consumers without exporting quotient equality of regular sequences or a selected representative.
+\end{theorem}
+\begin{proof}
+Read the carrier rows in order. The two source windows $L,R$ provide the local regular-Cauchy requests, but neither is a complete readback route for a downstream consumer on its own.
+
+The ledger $D$ and observation row $S$ form the common refinement surface. They display the dyadic meets, overlap comparisons, and inspected indices that make the two window reads compatible inside one finite packet.
+
+Only then is the readback row $Q$ available. The structural rows $H,C,P,N$ preserve and name this handoff, and the carrier has no coordinate from which a quotient equality or selected representative could be read.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy window lattice Real seal nonescape]
+\label{thm:regular-cauchy-window-lattice-real-seal-nonescape}
+Let $W=(L,R,D,S,Q,E,H,C,P,N)$ be an accepted $\RegularCauchyWindowLatticeUp$ carrier. Any downstream $\RealUp$ read of the seal row $E$ must first expose the common dyadic ledger $D$, the finite observation row $S$, and the $\RegSeqRatUp$ readback row $Q$. Consequently the Real-facing route cannot bypass the finite common-window lattice by appealing to host real equality, quotient sequence equality, countable choice, selected representatives, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The seal row $E$ is listed after the two window rows, the common dyadic ledger, the finite observation row, and the regular readback row.
+
+The $\RegSeqRatUp$ handoff of \autoref{thm:regular-cauchy-window-lattice-regseqrat-handoff} keeps $D,S,Q$ visible before a Real-facing consumer can inspect $E$. The same route is transported by $H$ and replayed by $C$ with provenance $P$ and local naming $N$.
+
+No excluded principle is stored in $W$. Thus a $\RealUp$ seal read is a read of the finite common-window lattice, not an escape to host equality, quotient equality, choice, representatives, or completeness.
+\end{proof}
+
+\closureat{RegularCauchyWindowLatticeUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyWindowLatticeUp}
+  \constructivestory{A $\RegularCauchyWindowLatticeUp$ packet is generated from left and right regular-Cauchy windows, a common $\DyadicRatCoreUp$ refinement ledger, finite $\StreamNameUp$ observations, $\RegSeqRatUp$ readback, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-window-lattice-carrier}, \autoref{thm:regular-cauchy-window-lattice-namecert-obligations}, \autoref{thm:regular-cauchy-window-lattice-regseqrat-handoff}, and \autoref{thm:regular-cauchy-window-lattice-real-seal-nonescape} seed the finite common-window lattice route for regular Cauchy readbacks and Real seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of regular sequences, selected representatives, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common dyadic-refinement exactness, finite observation exposure, RegSeqRat handoff, Real seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyWindowLatticeUp.}
+\end{closurestatus}
