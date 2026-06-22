@@ -166,6 +166,7 @@ Apply the classifier and obligation surface of \autoref{def:finiteprefixautomato
 
 Finally use transition exactness, endpoint exactness, acceptance exactness, and the sibling bridge, \autoref{thm:finiteprefixautomaton-transition-exactness-obligation}, \autoref{thm:finiteprefixautomaton-endpoint-exactness-obligation}, \autoref{thm:finiteprefixautomaton-acceptance-exactness-obligation}, and \autoref{thm:finiteprefixautomaton-regularlanguage-sibling-bridge}. Those theorems keep every downstream finite-prefix read inside the listed packet and exclude host evaluators, quotient language equality, unlisted transition rules, and infinite traces.
 \end{proof}
+\leanchecked{BEDC.Derived.FinitePrefixAutomatonUp.FinitePrefixAutomatonObligationWindow}
 
 \begin{theorem}[FinitePrefixAutomaton deterministic readback]
 \label{thm:finite-prefix-automaton-deterministic-readback}
@@ -178,6 +179,7 @@ For the successor prefix, apply transition exactness from \autoref{thm:finitepre
 
 Induction over the finite word ledger gives the same displayed run endpoint. Endpoint exactness and acceptance exactness, \autoref{thm:finiteprefixautomaton-endpoint-exactness-obligation} and \autoref{thm:finiteprefixautomaton-acceptance-exactness-obligation}, then force the endpoint row and acceptance row read from $E$ and $A$. No host evaluator, quotient language equality, unlisted transition rule, or infinite trace is available to change the result.
 \end{proof}
+\leanchecked{BEDC.Derived.FinitePrefixAutomatonUp.FinitePrefixAutomatonCarrier\_deterministic\_readback}
 
 \begin{theorem}[FinitePrefixAutomaton regular-language handoff]
 \label{thm:finite-prefix-automaton-regular-language-handoff}
@@ -194,6 +196,7 @@ Apply the deterministic readback theorem above together with \autoref{thm:finite
 
 Finally apply the regular-language sibling bridge of \autoref{thm:finiteprefixautomaton-regularlanguage-sibling-bridge}. The $\RegularLanguageUp$ side reads only finite word, endpoint, and acceptance data, and the $\ContinuationAutomatonUp$ side reads only the displayed transition and replay rows. Quotient language equality, unlisted transition rules, infinite traces, and derivation-tree comparisons remain outside the handoff.
 \end{proof}
+\leanchecked{BEDC.Derived.FinitePrefixAutomatonUp.FinitePrefixAutomaton\_regular\_language\_handoff}
 
 \begin{closurestatus}{\FinitePrefixAutomatonUp}
   \constructivestory{A $\FinitePrefixAutomatonUp$ packet is generated from a finite automaton row, initial state, accepted prefix word, transition ledger, endpoint row, acceptance ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. The $\BHist$ carrier exposes a bounded run: each transition is read as a finite continuation step, the endpoint is determined by the displayed prefix, and the classifier admits acceptance only through the recorded endpoint and ledger rows. The construction therefore gives a finite-prefix automaton route that can be compared with adjacent language packets without quotienting languages.}
