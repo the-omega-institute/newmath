@@ -179,9 +179,25 @@ The tolerance obligation and refinement stability theorems account for the class
 \end{proof}
 \leanchecked{BEDC.Derived.RealNameClassifierUp.RealNameClassifierLedgerExhaustion}
 
+\begin{theorem}[RealNameClassifier obligation closure route]
+\label{thm:real-name-classifier-obligation-closure-route}
+The source packet of \autoref{def:real-name-classifier-source}, together with the tolerance obligation, reflexive window route, common-window symmetry, common-window transitivity, shared-window equivalence, finite window coverage, trichotomy refusal, refinement stability, seal boundary, and ledger exhaustion, assembles the full obligation surface for $\RealNameClassifierUp$ over $\RegularCauchyNameUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The assembled route closes the finite classifier obligations for equality inspection of two regular Cauchy real names while excluding quotient Cauchy classes, host sequence equality, selected limits, countable choice, trichotomy, and $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The carrier is fixed by \autoref{def:real-name-classifier-source}. Its rows are exactly the two regular Cauchy sources, the common stream window, two dyadic tolerance rows, the finite classifier row, two regular rational readbacks, componentwise transport, continuation replay, package provenance, the terminal real seal, and local naming.
+
+The first classifier-facing obligations are supplied by \autoref{thm:real-name-classifier-tolerance-obligation}, \autoref{thm:realnameclassifier-reflexive-window}, \autoref{thm:real-name-classifier-common-window-symmetry}, and \autoref{thm:real-name-classifier-common-window-transitivity}. These results account for tolerance comparison, reflexive reuse of the common window, exchange of the two sources, and compatible composition through a shared middle source.
+
+The remaining classifier-facing obligations are supplied by \autoref{thm:real-name-classifier-shared-window-equivalence}, \autoref{thm:real-name-classifier-window-coverage}, and \autoref{thm:real-name-classifier-window-trichotomy-refusal}. They account for equivalence-style reuse on the displayed window, finite window coverage, and refusal of a trichotomy row.
+
+The boundary obligations are supplied by \autoref{thm:real-name-classifier-refinement-stability}, \autoref{thm:real-name-classifier-seal-boundary}, and \autoref{thm:real-name-classifier-ledger-exhaustion}. They show that refinement only transports the same finite route, that the $\RealUp$ seal is reached after the displayed classifier data, and that no ledger coordinate remains for a hidden equality oracle or completion principle.
+
+Combining these rows gives the named obligation surface for $\RealNameClassifierUp$. Since every cited row is internal to the displayed packet, the route still excludes quotient Cauchy classes, host sequence equality, selected limits, countable choice, trichotomy, and $\RealUp$ completeness.
+\end{proof}
+
 \begin{closurestatus}{\RealNameClassifierUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-name-classifier-source}, \autoref{thm:real-name-classifier-tolerance-obligation}, \autoref{thm:real-name-classifier-refinement-stability}, \autoref{thm:real-name-classifier-seal-boundary}, and \autoref{thm:real-name-classifier-ledger-exhaustion} seed the finite classifier surface for equality inspection of two regular Cauchy real names.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:real-name-classifier-obligation-closure-route} assembles the finite classifier obligation surface for equality inspection of two regular Cauchy real names from the source packet, window obligations, seal boundary, and ledger exhaustion.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient Cauchy classes, host sequence equality, selected limits, countable choice, trichotomy, or $\RealUp$ completeness.}
