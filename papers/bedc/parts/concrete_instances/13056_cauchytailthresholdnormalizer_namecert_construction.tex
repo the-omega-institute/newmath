@@ -182,6 +182,26 @@ Inspect the structural coordinates next. Transport, continuation, provenance, ro
 Apply route exhaustion from \autoref{thm:cauchy-tail-threshold-normalizer-route-exhaustion}. Every downstream seal consumer already factors through $S,M,\Theta,W_0,W_1,D,R,A,E,H,C,P,L,N$, so there is no remaining public coordinate in which an excluded object could be read.
 \end{proof}
 
+\begin{theorem}[Cauchy tail threshold normalizer obligation ledger]
+\label{thm:cauchy-tail-threshold-normalizer-obligation-ledger}
+For every accepted $\CauchyTailThresholdNormalizerUp$ packet
+$$
+T=(S,M,\Theta,W_0,W_1,D,R,A,E,H,C,P,L,N),
+$$
+the Real-facing route exposes exactly the shared-tail source $S$, modulus seal $M$, normalized threshold $\Theta$, two $\StreamNameUp$ windows $W_0,W_1$, $\DyadicRatCoreUp$ ledger $D$, $\RegSeqRatUp$ readback $R$, $\RealTailAgreementSealUp$ row $A$, $\RealUp$ row $E$, componentwise transport $H$, displayed replay $C$, provenance $P$, route-exhaustion ledger $L$, and local $\NameCert$ row $N$ before any Real-facing consumer reads a tail window.
+
+No accepted route adds quotient-stream equality, selected host limits, host real equality, trichotomy, ambient completeness, a private side threshold, or a second Real seal route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-tail-threshold-normalizer-carrier} and its classifier in \autoref{def:cauchy-tail-threshold-normalizer-classifier}. The exposed coordinates are precisely $S,M,\Theta,W_0,W_1,D,R,A,E,H,C,P,L,N$, compared componentwise over the same threshold surface.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-tail-threshold-normalizer-namecert-obligations} and route exhaustion of \autoref{thm:cauchy-tail-threshold-normalizer-route-exhaustion}. They place the shared-tail source and modulus seal before $\Theta$, and place the two StreamName windows, dyadic ledger, RegSeqRat readback, RealTailAgreementSeal row, and Real row downstream of that threshold.
+
+Apply shared-threshold uniqueness and Real-facing determinacy from \autoref{thm:cauchy-tail-threshold-normalizer-shared-threshold-uniqueness} and \autoref{thm:cauchy-tail-threshold-normalizer-real-facing-determinacy}. These rows prevent two Real-facing consumers with the same source and seal rows from reading private threshold windows or incompatible downstream readbacks.
+
+Finally use noninternalization, \autoref{thm:cauchy-tail-threshold-normalizer-noninternalization}. The excluded quotient, limit, equality, trichotomy, completeness, private-threshold, and second-seal objects have no carrier coordinate, so the listed rows form the complete L10 obligation ledger before any Real-facing tail-window read.
+\end{proof}
+
 \falsifiablePrediction{Removing the normalized shared-tail row permits two RealUp seal consumers to read incompatible finite windows through private thresholds.}
 
 \independenceWitness{cauchysharedtailmodulus, cauchytailmodulusseal, realtailagreementseal, regseqrat, real: not bijective because the normalizer carries the common threshold, both window readbacks, both seal-facing routes, and the route-exhaustion ledger simultaneously.}
