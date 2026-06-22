@@ -25,3 +25,19 @@ Apply the obligation surface of \autoref{thm:metacic-parallel-diamond-frontier-o
 
 Finally use the closurestatus export route and guard, \autoref{thm:metacic-parallel-diamond-frontier-closurestatus-export} and \autoref{thm:metacic-parallel-diamond-frontier-closurestatus-guard}. These theorems keep the closurestatus reader on the same retained route and exclude subject reduction, arbitrary Church--Rosser, evaluator equality, quotient term equality, and kernel consistency from the exported target shape.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond frontier retained-premise target boundary]
+\label{thm:metacic-parallel-diamond-frontier-retained-premise-target-boundary}
+The next formal boundary for $\MetaCICParallelDiamondFrontierUp$ is precisely preservation of the retained residual-substitution premise row $P$ through the finite route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+The target asks that a reader carrying $P$ through the critical-pair row $K$, candidate-join row $J$, residual-frontier row $R$, checker row $S$, closed-normal fragment row $C$, bounded-check row $B$, obstruction row $O$, transport row $H$, replay row $T$, provenance row $G$, and local naming row $N$ still reaches the same retained premise boundary. It does not ask for subject reduction, arbitrary Church--Rosser, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Apply the formal-target request theorem, \autoref{thm:metacic-parallel-diamond-frontier-formal-target-request}. It already restricts the Lean-facing request to the displayed carrier rows and identifies $P$ as retained premise data rather than a discharged global theorem.
+
+Next read the obligation surface of \autoref{thm:metacic-parallel-diamond-frontier-obligations}. That surface is the finite packet $P,K,J,R,S,C,B,O,H,T,G,N$, so retained-premise preservation is the exact boundary visible to the local NameCert route.
+
+Finally use the closurestatus guard, \autoref{thm:metacic-parallel-diamond-frontier-closurestatus-guard}. The guard keeps the exported target on the retained route and refuses subject reduction, arbitrary Church--Rosser, evaluator equality, quotient term equality, and kernel consistency.
+\end{proof}
