@@ -2362,6 +2362,142 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.mrna_localization.mrna_localization_3utr_motif_fazal2019",
+   "experiment_id": "mrna_localization_3utr_motif_fazal2019",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib 3'UTR-motif vs measured mRNA subcellular localization over Fazal 2019 APEX-seq (tools/bio_reality/data/mrna_localization_3utr_motif_fazal2019.json; measured ERM/NLS log2 enrichment, predictor=prior-frozen 3'UTR motifs). Signal-peptide-controlled residualized partial (UniProt ft_signal + length+GC+expr) + no-signal-peptide subset re-test + permutation null; positive controls = HSPA5/NEAT1/GAPDH. Verdict crosses_boundary (|rho|>=0.10) / bounded_descriptor_only (significant but smaller) / composition_artifact. Deterministic (science fields bit-identical), pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_mrna_localization_3utr_motif_fazal2019.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T17:30:56+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.protein_degron_stability.degron_terminal_motif_stability_voutsinos2026",
+   "experiment_id": "degron_terminal_motif_stability_voutsinos2026",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib C-terminal-degron-motif vs measured FACS peptide stability over Voutsinos 2026 (tools/bio_reality/data/degron_terminal_motif_stability_voutsinos2026.json; measured degron_score, predictor=prior-frozen terminal identity orthogonalized to bulk composition). Composition-controlled partial Spearman + permutation null + terminal-vs-internal-same-residue position control; positive control = C-end G/A unstable vs D/E/K stable. Verdict crosses_boundary (|rho|>=0.10) / bounded_descriptor_only / composition_artifact. Deterministic (science fields bit-identical), pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_degron_terminal_motif_stability_voutsinos2026.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T17:41:33+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.rbp_binding.rbns_affinity_eclip_binding_encode",
+   "experiment_id": "rbns_affinity_eclip_binding_encode",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib RBNS-affinity vs eCLIP-binding cross-layer over ENCODE (tools/bio_reality/data/rbns_affinity_eclip_binding_encode.json; predictor=RBNS in-vitro k-mer R, readout=eCLIP in-vivo peak vs GC-matched control). Peak-vs-control AUROC + dinucleotide-shuffle null + label-permutation + cross-RBP; positive control = RBFOX2 GCATG / HNRNPC poly-U / PUM1 UGUA enriched in peaks. Verdict crosses_boundary (AUROC>=0.60, beats dinuc null, cross-RBP) / bounded_descriptor_only / composition_artifact. Deterministic (science fields bit-identical), pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_rbns_affinity_eclip_binding_encode.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T18:09:57+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.meiotic_recombination.prdm9_motif_dsb_hotspot_pratto2014",
+   "experiment_id": "prdm9_motif_dsb_hotspot_pratto2014",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib PRDM9-motif vs measured DSB hotspot strength over Pratto 2014 (tools/bio_reality/data/prdm9_motif_dsb_hotspot_pratto2014.json; measured DMC1 SSDS AA/AC strength, predictor=external Altemose-2017/Myers PRDM9-A and PRDM9-C PWMs on hg19 sequence). GC/CpG-controlled partial Spearman + allele-specific differential (A-C motif -> AA-AC strength) + real-C-PWM falsification + permutation null + GC-stratified; positive control = A-motif center enrichment. Verdict crosses_boundary (|rho|>=0.10, allele-specific, C-falsification passes) / bounded_descriptor_only / composition_artifact. Deterministic (science fields bit-identical), pure stdlib, hg19 streamed.",
+   "script_path": "tools/bio_reality/experiments/run_prdm9_motif_dsb_hotspot_pratto2014.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T18:55:43+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.translation_termination.stop_context_readthrough_g418_wangen2020",
+   "experiment_id": "stop_context_readthrough_g418_wangen2020",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib stop-context vs measured G418-induced readthrough over Wangen 2020 (tools/bio_reality/data/stop_context_readthrough_g418_wangen2020.json; measured RRTS G418 sheet, predictor=stop-identity+4 baseline + extended context). Nested held-out OLS (M0=stop+4+log(UTR3)+GC, M1=+extended context) incremental R² + permutation null; positive control = UGA>UAG>UAA + UGA-C highest. Verdict crosses_boundary (held-out delta R²>=1%, core posctrl) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic (science fields bit-identical), pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_stop_context_readthrough_g418_wangen2020.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T19:37:26+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.polya_tail_length.cpe_grammar_polya_taillength_subtelny2014",
+   "experiment_id": "cpe_grammar_polya_taillength_subtelny2014",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib CPE-grammar vs measured poly(A) tail length over Subtelny 2014 (tools/bio_reality/data/cpe_grammar_polya_taillength_subtelny2014.json; measured PAL-seq Mean TL, predictor=prior-frozen length-invariant CPE x PAS distance/phase grammar; codon angle excluded). Length+GC+expression residualized partial + permutation null + cross-species; positive control = histone/RP short tails. Verdict crosses_boundary (|rho|>=0.10) / bounded_descriptor_only / composition_artifact. Deterministic (science fields bit-identical), pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_cpe_grammar_polya_taillength_subtelny2014.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T20:05:17+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.mtor_translation.topscore_mtor_translation_thoreen2012",
+   "experiment_id": "topscore_mtor_translation_thoreen2012",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib TOPscore vs measured mTOR-inhibition TE log2FC over Philippe-2020 TOPscore + Thoreen-2012 GSE36892 (tools/bio_reality/data/topscore_mtor_translation_thoreen2012.json; measured Torin1 TE log2FC, predictor=prior TOPscore). Length+GC+expression residualized partial + permutation null; positive control = RP mRNAs most-suppressed. Verdict crosses_boundary (|rho|>=0.10) / bounded_descriptor_only / composition_artifact. Deterministic, pure stdlib, human-mouse ortholog join.",
+   "script_path": "tools/bio_reality/experiments/run_topscore_mtor_translation_thoreen2012.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T20:23:51+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.branchpoint_usage.branchpoint_motif_usage_mercer2015",
+   "experiment_id": "branchpoint_motif_usage_mercer2015",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib branchpoint-motif vs measured lariat coverage over Mercer 2015 (tools/bio_reality/data/branchpoint_motif_usage_mercer2015.json; measured S1 lariat coverage, predictor=prior U2 branchpoint motif+PPT; circularity-guarded via continuous coverage not detection). Residualized partial (intron length+GC+3'SS+BP-3'SS dist+GTEx expression) + permutation null; positive control = BP-3'SS distance distribution. Verdict crosses_boundary (|rho|>=0.10) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib, hg19.",
+   "script_path": "tools/bio_reality/experiments/run_branchpoint_motif_usage_mercer2015.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T20:39:51+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
