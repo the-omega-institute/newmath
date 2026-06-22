@@ -74,3 +74,21 @@ Apply the refinement theorem \autoref{thm:coveringdimension-finite-cover-order-r
 Use the nonescape theorem \autoref{thm:coveringdimension-finite-cover-order-nonescape} and the root theorem \autoref{thm:covering-dimension-finite-cover-order-root}. Together they rule out arbitrary open-cover compactness, ambient dimension theory, and choice-selected refinements, so the public order table remains scoped to the displayed root rows and the structural $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
 \end{proof}
 \leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionFiniteCoverOrderScope}
+
+\begin{theorem}[Finite covering-dimension sibling dependency ledger]
+\label{thm:finite-covering-dimension-sibling-dependency-ledger}
+Every finite covering-dimension read carried by the $\CoveringDimensionUp$ family is admitted only through the sibling ledger
+$$
+\CompactMetricUp,\FiniteEpsilonNetUp,\MetricUp,\RegSeqRatUp,\RealUp,\SimplicialComplexUp,\CompactCoverLebesgueLedgerUp,\RealSeparabilityUp,\MetricCompletionUp .
+$$
+The finite cover rows, refinement rows, and order table of $O_{\mathrm{fin}}$ remain the controlling dependency surface for that read. A downstream consumer may use those siblings to inspect compact finite-net support, metric containment, rational or Real seals, nerve incidence, Lebesgue-radius compatibility, Real-separability windows, and completion-facing scale data, but it cannot replace the displayed finite cover/order ledger by open-cover compactness, a selected refinement, host dimension data, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the finite-cover order carrier of \autoref{def:coveringdimension-finite-cover-order-carrier}. It exposes the compact source row, finite epsilon-net support, metric ledger, regular-rational comparison rows, Real seal rows, simplicial nerve row, finite order table, and structural transport, replay, provenance, and naming rows.
+
+Apply \autoref{thm:coveringdimension-finite-cover-order-scope}. This forces every public order-table read to pass through the displayed source rows before the table is public. The finite cover and refinement information therefore remains a rowwise $\BHist$ ledger, not a host overlap oracle.
+
+Now read the surrounding sibling routes: the finite-cover root admission and Lebesgue-ledger route bind compact-cover radius evidence, the Real-separability route binds rational windows, and the metric-completion route binds completion-facing scale data. These routes attach their evidence to the same $O_{\mathrm{fin}}$ surface and do not introduce another cover selector.
+
+Thus the sibling dependency ledger is exactly the finite BEDC route listed in the statement. It supports finite covering-dimension consumers while excluding arbitrary open-cover compactness, selected refinements, host dimension predicates, and ambient completion principles.
+\end{proof}
