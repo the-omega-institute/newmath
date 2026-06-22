@@ -178,6 +178,18 @@ Finally read the taste-gate marker as the carrier-side field-faithfulness witnes
 \end{proof}
 \leanchecked{BEDC.Derived.LawCertificateUp.LawCertificateBridgeCarrierRoute}
 
+\begin{theorem}[Law certificate mature consumer route]
+\label{thm:law-certificate-mature-consumer-route}
+Every downstream consumer of an accepted $\LawCertificateUp$ packet must preserve the source-fit row $F$, equation-pattern row $P$, classifier row $C$, continuation-stability row $S$, failure-surface row $E$, ledger row $Ld$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $R$, $\Pkg$ provenance row $Q$, and local $\NameCert$ row $N$. Such a consumer may not read the packet as an equation-only law, total prediction, or final-fit oracle.
+\end{theorem}
+\begin{proof}
+Start with the carrier and classifier of \autoref{def:law-certificate-carrier} and \autoref{def:law-certificate-classifier}. They make $F,P,C,S,E,Ld,H,R,Q,N$ the complete accepted comparison surface, so no downstream route begins from the equation pattern alone.
+
+Apply the NameCert obligations, failure-surface nonescape, and continuation-scope theorems, namely \autoref{thm:law-certificate-namecert-obligations}, \autoref{thm:law-certificate-failure-surface-nonescape}, and \autoref{thm:law-certificate-continuation-scope}. These results keep source fit, classifier comparison, stability, failure exposure, and ledger accountability visible whenever law status is consumed.
+
+Finally apply the public export route and bridge-carrier route of \autoref{thm:law-certificate-public-export-route} and \autoref{thm:law-certificate-bridge-carrier-route}. They transport only the displayed packet through $\hsame$, $\Cont$, $\Pkg$, and local naming, and therefore exclude an equation-only law, total prediction, detached final-fit oracle, hidden stability premise, or ledger-free physical truth.
+\end{proof}
+
 Together with the existing TasteGate marker for \texttt{BEDC.Derived.LawCertificateUp.taste\_gate}, the checked bridge-carrier route records the bridge evidence needed for paper-side bridged closure: the abstract interface consumes only the displayed carrier rows and their field-faithful separation.
 
 The Lean follow-up file \texttt{lean4/BEDC/Derived/LawCertificateUp/TasteGate.lean} must provide explicit $\Nontrivial\ \LawCertificateUp$ and $\FieldFaithful\ \LawCertificateUp$ instances, with witness-pair and field-projection proofs preserving $F,P,C,S,E,Ld,H,R,Q,N$ as separate displayed fields.
@@ -194,10 +206,10 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/LawCertificateUp/TasteGate.le
 
 \begin{closurestatus}{\LawCertificateUp}
   \constructivestory{A $\LawCertificateUp$ packet is generated from finite source-fit, equation-pattern, classifier, continuation-stability, failure-surface, ledger, componentwise hsame, displayed Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:law-certificate-carrier}, \autoref{def:law-certificate-classifier}, \autoref{thm:law-certificate-namecert-obligations}, \autoref{thm:law-certificate-failure-surface-nonescape}, \autoref{thm:law-certificate-continuation-scope}, \autoref{thm:law-certificate-carrier-admission}, \autoref{thm:law-certificate-classifier-stability}, \autoref{thm:law-certificate-ledger-nonescape}, \autoref{thm:law-certificate-scope-transport}, \autoref{thm:law-certificate-public-export-route}, and \autoref{thm:law-certificate-bridge-carrier-route} bind the finite law-certificate carrier, classifier, obligation surface, failure-surface boundary, continuation scope, carrier admission, classifier stability, ledger nonescape, accepted consumer-route scope, public export route, and checked bridge-carrier route.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:law-certificate-carrier}, \autoref{def:law-certificate-classifier}, \autoref{thm:law-certificate-namecert-obligations}, \autoref{thm:law-certificate-failure-surface-nonescape}, \autoref{thm:law-certificate-continuation-scope}, \autoref{thm:law-certificate-carrier-admission}, \autoref{thm:law-certificate-classifier-stability}, \autoref{thm:law-certificate-ledger-nonescape}, \autoref{thm:law-certificate-scope-transport}, \autoref{thm:law-certificate-public-export-route}, \autoref{thm:law-certificate-bridge-carrier-route}, and \autoref{thm:law-certificate-mature-consumer-route} bind the finite law-certificate carrier, classifier, obligation surface, failure-surface boundary, continuation scope, carrier admission, classifier stability, ledger nonescape, accepted consumer-route scope, public export route, checked bridge-carrier route, and mature downstream consumer route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{paperBridge}
   \notclaimed{This chapter does not close Lean verification, bridge checking, total physical law, all-history prediction, equation-only law status, hidden stability, ledger-free physical truth, or final-fit oracle behavior.}
-  \upgradepath{The next paper-side step is mature treatment of law-certificate consumers; Lean-side verification remains independent of the bridge construction recorded here.}
+  \upgradepath{The paper-side closure axis is complete at the mature consumer route; Lean-side verification remains independent of the bridge construction recorded here.}
 \end{closurestatus}
