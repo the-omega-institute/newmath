@@ -877,6 +877,7 @@ import BEDC.Derived.BinderContextSubstitutionSealUp.ClosedTermBoundaryDependency
 import BEDC.Derived.BinderContextSubstitutionSealUp.CompilerHandoff
 import BEDC.Derived.BinderContextSubstitutionSealUp.ObligationConsumer
 import BEDC.Derived.BinderContextSubstitutionSealUp.TasteGate
+import BEDC.Derived.BirkhoffContractionUp.TasteGate
 import BEDC.Derived.BirkhoffInterpolationUp.TasteGate
 import BEDC.Derived.BisectionConvergenceUp.TasteGate
 import BEDC.Derived.BisectionMethodUp.TasteGate
@@ -5551,7 +5552,6 @@ import BEDC.Derived.FilterBaseUp.TasteGate
 import BEDC.Derived.FilterCompletionMonadUp.TasteGate
 import BEDC.Derived.FilterCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.FilterConvergenceUp.TasteGate
-import BEDC.Derived.FilterLimitBasisUp.CofinalCauchyEntourageInduction
 import BEDC.Derived.FilterLimitBasisUp.ObligationClosureReadiness
 import BEDC.Derived.FilterLimitBasisUp.RealHandoffStability
 import BEDC.Derived.FilterLimitBasisUp.RealWindowExhaustion
@@ -6982,6 +6982,7 @@ import BEDC.Derived.LocatedCompleteIntervalUp.TasteGate
 import BEDC.Derived.LocatedCompleteMetricUp.TasteGate
 import BEDC.Derived.LocatedCompletionCriterionUp.TasteGate
 import BEDC.Derived.LocatedCompletionFunctorUp.TasteGate
+import BEDC.Derived.LocatedCompletionMonadUp.TasteGate
 import BEDC.Derived.LocatedCompletionSealUp.TasteGate
 import BEDC.Derived.LocatedCompletionSpaceUp.TasteGate
 import BEDC.Derived.LocatedCompletionUniversalPropertyUp.TasteGate
@@ -8106,7 +8107,6 @@ import BEDC.Derived.MetrizableCompletionUp.TasteGate
 import BEDC.Derived.MetrizableSpaceUp.TasteGate
 import BEDC.Derived.MichaelSelectionUp.TasteGate
 import BEDC.Derived.MilnorFibrationUp
-import BEDC.Derived.MinimalCauchyFilterUp.NameCertObligations
 import BEDC.Derived.MinimalCauchyFilterUp.RegularHandoff
 import BEDC.Derived.MinimalCauchyFilterUp.TasteGate
 import BEDC.Derived.MinimalRealizationUp.TasteGate
@@ -10318,7 +10318,6 @@ import BEDC.Derived.RiemannStieltjesUp.DarbouxIntegralConsumerRoute
 import BEDC.Derived.RiemannStieltjesUp.MeshHandoff
 import BEDC.Derived.RiemannStieltjesUp.NameCertObligations
 import BEDC.Derived.RiemannStieltjesUp.PartitionCoverage
-import BEDC.Derived.RiemannStieltjesUp.PublicWitnessExport
 import BEDC.Derived.RiemannStieltjesUp.RegulatedIntegralPublicBridge
 import BEDC.Derived.RiemannStieltjesUp.RouteClosure
 import BEDC.Derived.RiemannStieltjesUp.StepIntegratorExactness
@@ -11171,7 +11170,6 @@ import BEDC.Derived.TasteGateStabilityUp.TasteGate
 import BEDC.Derived.TauberianRemainderUp
 import BEDC.Derived.TauberianRemainderUp.TasteGate
 import BEDC.Derived.TaylorModelUp
-import BEDC.Derived.TaylorModelUp.RemainderObligationRoute
 import BEDC.Derived.TaylorModelUp.TasteGate
 import BEDC.Derived.TaylorPolynomialUp.TasteGate
 import BEDC.Derived.TaylorRemainderUp
