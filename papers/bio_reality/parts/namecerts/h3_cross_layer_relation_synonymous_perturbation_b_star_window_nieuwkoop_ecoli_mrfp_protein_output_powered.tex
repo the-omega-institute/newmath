@@ -1,70 +1,54 @@
-\subsection{Nieuwkoop E. coli mRFP synonymous-window protein-output audit}\label{sec:bioreality-nieuwkoop-ecoli-mrfp-protein-output}
 \origin{ai}
 
-\paragraph{Finite surface.}
-This record concerns a finite perturbation table from the Nieuwkoop $E. coli$ mRFP synonymous-variant assay.  The rows are individual synonymous constructs, the observed endpoint is protein-output variation for the reporter, and the tested BEDC-side object is the projected $B^*$ window residual component after the ordinary coding-sequence controls have already been fitted.  The finite table contains $1459$ variants.  The registered comparison used $B=200$ matched null draws and evaluated whether the residual window coordinate $b_{\perp}$ adds held-out explanatory power beyond the control layer.  In this chapter the notation $Q$ denotes the finite residual-coordinate block, $P$ denotes the reporter protein-output readout, and $Z$ denotes the local control surface including the ordinary synonymous and adaptation baselines available for this experiment.  The admissible readback is therefore not a free biological interpretation of codon geometry; it is the bounded finite-row statement that $Q$ improves a controlled model for the mRFP output rows in this dataset.
+\subsection{Nieuwkoop \textit{E. coli} mRFP synonymous-window protein-output readout}
+\label{sec:bioreality-nieuwkoop-ecoli-mrfp-protein-output}
 
-\paragraph{Controlled improvement.}
-The fitted control model without the $B^*$ residual term gives
+\paragraph{Finite row surface.}
+The Nieuwkoop \textit{E. coli} mRFP packet is a bounded perturbation readout for synonymous coding variation in a reporter setting.  The finite surface has $1459$ measured variants, and the fitted comparison uses $B=200$ resampling blocks.  The observed endpoint is reporter protein output rather than a direct molecular event such as ribosome transit, folding, catalytic activity, or fitness.  The coordinate used in the final row table is the B-star window component orthogonalized against the declared control surface, written here as $B_{\perp}$, and the comparison is made after retaining real CAI information as a separate baseline rather than letting the synonymous coordinate silently absorb it.
+
+\paragraph{Controlled protein-output increment.}
+The registered fit compares an $L_2$ control model against an $L_3$ model that adds $B_{\perp}$.  The control-only fit has
 $$
 \begin{aligned}
-R^2_{L2}(P\mid Z) &= 0.12648386762689323.
+R^2_{L_2} &= 0.12648386762689323,
 \end{aligned}
 $$
-After adding the residual window component, the full model gives
+while the augmented fit has
 $$
 \begin{aligned}
-R^2_{L3}(P\mid Z,b_{\perp}) &= 0.1798829276988051,\\
-\Delta R^2 &= 0.05339906007191191.
+R^2_{L_3} &= 0.1798829276988051.
 \end{aligned}
 $$
-The description-length comparison points in the same direction:
+The finite-row gain is therefore
 $$
 \begin{aligned}
-\Delta \mathrm{DL} &= 19.089327473282296\ \mathrm{bits}.
+\Delta R^2 &= 0.05339906007191191,\\
+\Delta DL_{\mathrm{bits}} &= 19.089327473282296.
 \end{aligned}
 $$
-The matched and within-design randomization tests both returned
+The matched and within-design tests both report
 $$
 \begin{aligned}
 p_{\mathrm{matched}} &= 0.004975124378109453,\\
 p_{\mathrm{within}} &= 0.004975124378109453.
 \end{aligned}
 $$
-Thus the finite-row verdict is positive for this particular reporter-output surface: the $B^*$ window residual is not absorbed by the registered control model and contributes a nonzero, permutation-supported increment for mRFP protein output in the Nieuwkoop $E. coli$ variant rows.
+Thus, on this finite reporter surface, the B-star window residual contributes a positive and resampling-supported increment to mRFP output after the declared control layer is present.  The local conclusion is not that synonymous geometry is generally protein-realizing; it is that this specific perturbation table contains a measurable reporter-output component that is not removed by the control model used in the run.
 
-\paragraph{Adaptation-baseline audit.}
-A separate real-CAI audit was attached because a positive synonymous-window result could otherwise be a disguised codon-adaptation effect.  The run reports that real CAI does not absorb the residual signal, with \texttt{real\_cai\_absorbs=false} and \texttt{real\_cai\_robust=true}.  The absolute correlation between the real-CAI score and the proxy adaptation score was only
+\paragraph{CAI separation.}
+The run records that real CAI does not absorb the B-star window increment: \texttt{real\_cai\_absorbs=false} and \texttt{real\_cai\_robust=true}.  The real CAI versus proxy correlation is only
 $$
 \begin{aligned}
-\rho_{\mathrm{real\ CAI,proxy}} &= 0.17884920449487354.
+r_{\mathrm{CAI,proxy}} &= 0.17884920449487354,
 \end{aligned}
 $$
-This is important for the scope of the result.  The chapter is not claiming that CAI is irrelevant in general, nor that a single reporter experiment determines a species-wide law.  It says only that, on these $1459$ rows, the registered $B^*$ residual term remains informative after the available real-CAI control is included.
+which is small enough to keep the CAI baseline and the B-star residual from being treated as the same finite coordinate.  This matters because the admissible claim is a residual-output statement under controls, not a restatement of ordinary codon-adaptation preference.  The compact finite artifact used by the computation is recorded as \texttt{/tmp/nieuwkoop\_mrfp\_compact\_real\_cai.json}; in this prose record it functions only as the row source for the reported scalars, not as an additional biological assumption.
 
-\paragraph{Five-prime boundary check.}
-The companion boundary audit separates the main protein-output increment from a simple first-codons explanation.  In the $1459$-variant boundary run, the start-window residual increment was essentially zero,
-$$
-\begin{aligned}
-\Delta R^2_{\mathrm{start}} &= 1.7624020537495221\times 10^{-9},\\
-\Delta \ell_{\mathrm{start}} &= 3.26370933437133\times 10^{-6}.
-\end{aligned}
-$$
-The downstream residual did not provide a stable positive addition after the stronger intermediate model: the downstream increment was
-$$
-\begin{aligned}
-\Delta R^2_{\mathrm{downstream}} &= -0.001126409133973234,\\
-\Delta \ell_{\mathrm{downstream}} &= -2.082967365015851,\\
-p_{\mathrm{block}} &= 0.1691542288557214.
-\end{aligned}
-$$
-The same audit reports \texttt{sign\_stable=false}, with a downstream null $95\%$ reference value of $0.5254770343527547$.  The stepwise model values were $R^2=0.06748192482378434$ at step $1$, $R^2=0.6060702157093043$ at step $2$, and $R^2=0.6049438075310105$ at step $3$.  These numbers prevent the chapter from being read as a broad positional law.  The positive result belongs to the registered finite residual window used in the protein-output audit, not to an unrestricted claim about every downstream synonymous position.
+\paragraph{Five-prime boundary audit.}
+A companion boundary audit on the same Nieuwkoop family reports $1459$ variants and $B=200$ blocks.  Its stepwise fit separates a start-neighborhood component from the downstream B-star window component.  The first step gives $R^2=0.06748192482378434$; adding the second-stage term raises the fit to $R^2=0.6060702157093043$ with $\Delta LL=628.6217154500001$ against the first step.  The downstream third step then gives $R^2=0.6049438075310105$ and $\Delta LL=-2.082965600280344$ against the second step, with a downstream $\Delta R^2=-0.001126409133973234$, block $p=0.1691542288557214$, and null95 threshold $0.5254770343527547$.  The start-window scalar itself is essentially zero, with $\Delta R^2=1.7624020537495221\times 10^{-9}$ and $\Delta LL=3.26370933437133\times 10^{-6}$.  The audit also records \texttt{sign\_stable=false}.  Taken together, the positive mRFP-output result is best read as a controlled reporter-output increment on the declared B-star residual table, while the separate boundary audit prevents it from being promoted into a stable positional law about the five-prime boundary.
 
-\paragraph{Relation to translation mediation.}
-The broader $B^*_Q6$ mediation program supplies useful guardrails but does not replace the experiment-specific evidence.  In a separate modeled-tAI survival audit, only $3$ organisms were available, the modeled-tAI matrix had $81$ entries above the $0.01$ bounded-contact threshold, and the largest absolute entry was $3801961.031607896$.  That run explicitly remained modeled and underpowered for species-level survival because $3$ organisms are fewer than the requested $40$ matched species.  In a different cross-organism protein-abundance decomposition, $12$ organisms were joined, including $3739$ proteins for \textit{E. coli} K-12 MG1655, and the \textit{E. coli} modeled mediation fraction was $0.612922252793667$ with $c=0.10767526677985896$, $c'=0.04167869969498872$, and indirect increment $0.06599656708487024$.  Those surrounding audits show that translation-conditioned protein-abundance questions are finite and testable, but they do not turn the Nieuwkoop reporter perturbation into a measured ribosome-occupancy result.
+\paragraph{Allowed conclusion.}
+The finite evidence supports a narrow claim: in the Nieuwkoop \textit{E. coli} mRFP synonymous-variant table, adding the B-star window residual to the control model improves held finite-row description of reporter protein output by $\Delta R^2=0.05339906007191191$ and $19.089327473282296$ bits, with matched and within-design $p$-values both equal to $0.004975124378109453$.  Because real CAI remains explicitly separated and does not absorb the increment, the result is a reporter-output residual effect rather than a codon-adaptation-only explanation.
 
-\paragraph{Local verdict.}
-The supported local statement is the following.  On the Nieuwkoop $E. coli$ mRFP synonymous-variant table, the registered $B^*$ window residual improves the controlled protein-output fit by $\Delta R^2=0.05339906007191191$ and $19.089327473282296$ description-length bits, with both matched and within-design randomization $p$-values equal to $0.004975124378109453$.  The signal is not removed by the real-CAI audit, and the separate five-prime boundary audit blocks a broad positional extrapolation.  The result is therefore a positive finite reporter-output contact for this construct panel.
-
-\paragraph{Boundary.}
-No stronger biological layer follows from these rows alone.  The result does not by itself establish translation-rate causation, ribosome dynamics, folding, physical admissibility, molecular function, organismal fitness, mechanism, selection, or a universal rule.  A direct $Q\to P$ improvement is admissible here only as controlled reporter protein-output prediction.  Any claim that the same coordinate realizes a translation step would require a separate translation readout such as ribosome profiling, translation efficiency, or a matched tAI/stAI contact evaluated on the same relevant rows.  Any claim about folding, function, phenotype, or physical feasibility would require its own layer-matched measurement rather than being inferred from synonymous residual geometry or from the mRFP output association.
+\paragraph{Local no-promotion rule.}
+This chapter does not infer translation realization, folding, physical admissibility, molecular function, mechanism, phenotype, selection, or universality from the reporter-output increment.  A protein-output association is not the same object as a measured translation step.  To cross that boundary, a separate layer-matched contact would have to provide translation readouts such as ribosome occupancy or translation efficiency, matched mRNA controls, and then a controlled $Q_i \to T_j \to P_k$ mediation statistic.  Without that additional contact, the present result remains a finite synonymous-perturbation reporter-output record for \textit{E. coli} mRFP, not a general biological law and not a claim about folding, function, physical feasibility, or mechanism.

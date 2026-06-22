@@ -1,0 +1,29 @@
+\subsection{Position-resolved $f_3$-stress translation survival}
+\label{sec:q6-f3-stress-position-resolved-translation-survival-cross-layer}
+
+\paragraph{Finite carrier.}
+This record isolates one proposed cross-layer coordinate: the $f_3$-stress residual after quotienting by amino-acid identity.  The intended table is finite.  Each row is a coding-sequence window, keyed by organism, transcript or CDS identifier, codon index or local position bin, and experimental condition.  The row contains the residual $f_3$ coordinate, synonymous codon counts in the same window, a bounded wobble-weight context, a matched position-resolved ribosome-footprint or translation-efficiency readout, an mRNA control from the same condition, and amino-acid or position-bin controls.  The coordinate is therefore not a codon-usage summary alone: it is eligible for survival only when the same row carries the readout and the confounder surface.
+
+\paragraph{Statistic.}
+Let $T_{p}$ denote the position-resolved translation readout in a fixed window and let $Z$ collect amino-acid composition, position bin, GC3, length, methionine density, mRNA abundance, coverage, mappability, and simpler codon-usage baselines.  The proposed entry is the controlled survival score
+$$
+\begin{aligned}
+S_{f_3}(T_{p}\mid Z)
+  &= \operatorname{rank}\bigl(\Delta R^2(f_3\text{-stress};T_p\mid Z)\bigr),\\
+\Delta R^2(f_3\text{-stress};T_p\mid Z)
+  &= R^2(T_p\sim Z+f_3\text{-stress})-R^2(T_p\sim Z).
+\end{aligned}
+$$
+A positive entry is not accepted from geometry alone.  It must remain positive on held-out rows after the amino-acid, position, GC3, length, methionine-density, mRNA, and simpler-baseline ablations have been applied.  The wobble-weight condition is also explicit: the context weight $w_c$ must be observed to differ from its $f_3$-symmetrized counterpart $w_c^{f_3}$ in the analyzed panel, rather than inserted as an assumption.
+
+\paragraph{Available finite evidence.}
+The present finite data do not yet contain the same-CDS, same-window ribosome-footprint rows required for this $f_3$ entry.  They do, however, give calibrated neighboring contacts.  In the promoter-expression boundary run, $75{,}111$ designed sequences yielded $8{,}027$ high-quality rows; the analysis used $2{,}500$ high-quality rows, $200$ permutations, subsample seed $20260239$, and runtime $530.4038379192352$ seconds.  A finite-state dwell-transducer contact for the $B^*_{Q6}$ family has status \texttt{passed}.  A translation-conditioned structural-order boundary run joined $3{,}412$ rows for \textit{Escherichia coli} K-12 MG1655 and $5{,}119$ rows for \textit{Saccharomyces cerevisiae}, used $5$ folds with minimum joined count $300$, and reported two positive organism-level calls.  Its aggregate full-control $\Delta R^2$ had minimum $0.002688284523492457$, median and mean $0.005284160876443678$, maximum $0.007880037229394898$, and $2$ positive out of $2$ entries; the weighted full-control value was $0.004764742175882462$, while the permuted full-control values were both negative, with mean $-0.00212186632044159$.  The sign-flip probability for a positive full-control effect was $0.0029296875$.  These numbers show that finite row-joined cross-layer tests are already being carried by the surrounding program, but they are not position-resolved $f_3$-stress survival rows.
+
+\paragraph{Readout contacts.}
+The translation-initiation contact supplies an $80{,}000$-row feature panel with runtime $172.864$ seconds and no cross-sample value in the supplied record.  The termination-readthrough contact supplies a G418-induced nonzero RRTS subset: $7{,}658$ rows before the nonzero filter, $4{,}982$ retained rows, nonzero fraction $0.65056$, endpoint defined as a rank-average scaled to $[0,1]$, and runtime $303.534$ seconds for the sheet \texttt{G418 2.0mg|mL 24hr merged}.  These contacts demonstrate row-scale translation readouts at initiation and termination boundaries, but neither one supplies the required codon-indexed or fixed-window ribosome occupancy joined to the $f_3$ residual coordinate.
+
+\paragraph{Survival rule.}
+The claim is supported only if the finite window table produces at least one strictly positive held-out entry for $S_{f_3}(T_p\mid Z)$ after the declared controls and ablations.  Failure is equally sharp: if every admissible row panel gives $S_{f_3}(T_p\mid Z)\leq 0$, then the $f_3$ coordinate does not survive as a powered position-resolved translation readout in this contact.  Negative survival would not show that the $Q6$ residual basis is biologically irrelevant; it would only close this particular readout interface.
+
+\paragraph{Local exclusion rule.}
+No translation realization, protein abundance, folding state, physical admissibility, biological function, mechanistic account, phenotype, or universal law follows from the residual coordinate, the wobble-weight surface, modeled tAI or stAI values, or organism-level codon tables.  Those interpretations require separately matched rows at the relevant layer.  In this chapter the $f_3$ object is only a bounded candidate coordinate for a controlled position-resolved ribosome-occupancy or translation-efficiency survival test.
