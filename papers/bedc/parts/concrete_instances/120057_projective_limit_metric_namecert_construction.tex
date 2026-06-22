@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\ProjectiveLimitMetricUp$}
+\label{ch:concrete-instances-projective-limit-metric-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on projective limits of metric spaces, the $\ProjectiveLimitMetricUp$ packet records a finite projection-window presentation of a compatible metric family. It sits beside $\InverseLimitMetricUp$ in \autoref{ch:concrete-instances-inverse-limit-metric-namecert}: the sibling names finite inverse-limit metric observations, while this chapter names the projective-limit metric carrier that later completion chapters can consume through displayed windows, distance rows, and completion handoff data.
+
+\begin{definition}[ProjectiveLimitMetric carrier]
+\label{def:projective-limit-metric-carrier}
+A $\ProjectiveLimitMetricUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,W,\Pi,B,\Delta,K,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the finite diagram ledger naming the metric-space indices visible to the packet;
+\item $W$ is the finite projection-window row, including the $\StreamNameUp$ windows used to read nodes and projection paths;
+\item $\Pi$ is the bonding-map compatibility row for every displayed composable projection path inside $W$;
+\item $B$ records the $\MetricSpaceUp$ distance rows carried by the displayed nodes;
+\item $\Delta$ records the projective-limit distance read as the finite compatible family of nodewise distance rows;
+\item $K$ records the $\CompleteMetricUp$ and $\CauchyFilterCompletionUp$ completion handoff accepted by downstream completion consumers;
+\item $Q$ records the $\RegSeqRatUp$ readback rows used by the finite distance comparisons;
+\item $R$ is the $\RealUp$ seal for the displayed distance values after the regular rational readbacks have been checked;
+\item $E$ records the sibling dependency on $\InverseLimitMetricUp$ and keeps the inverse-limit metric packet as a named dependency rather than as a hidden host object;
+\item $H$ records componentwise $\hsame$ transport for the diagram, projection-window, bonding, distance, completion, readback, and seal rows;
+\item $C$ records displayed $\Cont$ replay from projection windows to distance reads and from distance reads to the completion handoff;
+\item $P$ records $\Pkg$ provenance over $\ProjectiveLimitMetricUp$, $\InverseLimitMetricUp$, $\MetricSpaceUp$, $\CompleteMetricUp$, $\CauchyFilterCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\ProjectiveLimitMetricUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a quotient completion, selected representative family, ambient projective-limit object, hidden bonding-map chooser, or global completeness oracle.
+\end{definition}
+
+\begin{theorem}[ProjectiveLimitMetric NameCert obligations]
+\label{thm:projective-limit-metric-namecert-obligations}
+For every accepted $\ProjectiveLimitMetricUp$ carrier $M=(D,W,\Pi,B,\Delta,K,Q,R,E,H,C,P,N)$, the local $\NameCert_{\ProjectiveLimitMetricUp}$ surface consists of exactly these obligation rows: carrier admission for the finite diagram and projection windows, bonding-map compatibility, $\MetricSpaceUp$ distance-row visibility, projective-limit distance readback, $\CompleteMetricUp$ and $\CauchyFilterCompletionUp$ completion handoff, $\InverseLimitMetricUp$ sibling dependency, $\StreamNameUp$ window routing, $\RegSeqRatUp$ readback, $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:projective-limit-metric-carrier}. The rows $D,W,\Pi$ expose the finite diagram, projection windows, and bonding-map checks before any distance or completion row is read.
+
+Next read the metric rows. The rows $B,\Delta,Q,R$ keep every distance comparison inside the displayed $\MetricSpaceUp$, $\RegSeqRatUp$, and $\RealUp$ data, while $E$ records the sibling dependency on \autoref{ch:concrete-instances-inverse-limit-metric-namecert}.
+
+Finally use $K,H,C,P,N$. The completion handoff is a displayed row, transport is componentwise, replay is routed through $C$, and provenance and naming are local. No omitted quotient, representative family, ambient projective limit, chooser, or completeness oracle can enter the NameCert surface.
+\end{proof}
+
+\begin{theorem}[ProjectiveLimitMetric completion handoff]
+\label{thm:projective-limit-metric-completion-handoff}
+Every completion consumer of $\ProjectiveLimitMetricUp$ must read the finite projection-window route
+$$
+D,W,\Pi,B,\Delta,K,Q,R,E,H,C,P,N
+$$
+before using the projective-limit metric as a completion input. The exported handoff is the displayed $K$ row over $\CompleteMetricUp$ and $\CauchyFilterCompletionUp$, with distance values sealed through $\RegSeqRatUp$ and $\RealUp$ and with the $\InverseLimitMetricUp$ sibling dependency still visible.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:projective-limit-metric-namecert-obligations}. They force the consumer to enter through the finite diagram, projection-window, bonding, distance, readback, real-seal, and sibling-dependency rows.
+
+Then project the completion row $K$. Since $K$ is listed after the finite distance read and before transport, replay, provenance, and naming, a consumer cannot treat completion as a quotient completion equality or as a selected family of representatives.
+
+The structural rows $H,C,P,N$ finish the route. They preserve the displayed packet under componentwise transport, replay only the visible route, record provenance, and name the local certificate. Hence the completion handoff remains a finite projection-window consumer of the projective-limit metric packet.
+\end{proof}
+
+\closureat{ProjectiveLimitMetricUp}{seedStr}
+
+\begin{closurestatus}{\ProjectiveLimitMetricUp}
+  \constructivestory{A $\ProjectiveLimitMetricUp$ packet is generated from finite diagram rows, projection-window rows, bonding-map compatibility, MetricSpace distance rows, completion handoff data, StreamName windows, RegSeqRat readbacks, Real seals, sibling dependency, transport, replay, provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:projective-limit-metric-carrier}, \autoref{thm:projective-limit-metric-namecert-obligations}, and \autoref{thm:projective-limit-metric-completion-handoff} seed the finite projection-window metric packet and its completion-facing handoff surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, public-object export, quotient completion equality, selected representatives, or ambient projective-limit existence.}
+  \upgradepath{Obligation closure requires checked carrier admission, bonding compatibility, distance-row visibility, completion handoff, StreamName routing, RegSeqRat readback, RealUp sealing, transport, replay, provenance, and local naming for BEDC.Derived.ProjectiveLimitMetricUp.}
+\end{closurestatus}
