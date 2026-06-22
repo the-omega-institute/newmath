@@ -251,6 +251,52 @@ def _concordance_summary(payload: dict) -> dict:
     }
 
 
+def _load_worktree_coverage() -> dict:
+    path = REPO_ROOT / "papers" / "window_codon_bridge" / "intake_coverage.json"
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _run_coverage_generator() -> tuple[dict, str]:
+    try:
+        module = importlib.import_module("intake_coverage")
+        if hasattr(module, "generate"):
+            return module.generate(), "import"
+        if hasattr(module, "main"):
+            module.main()
+            return _load_worktree_coverage().get("summary", {}), "import"
+    except ImportError:
+        pass
+    proc = subprocess.run(
+        [sys.executable, "tools/window_codon_bridge/intake_coverage.py"],
+        cwd=str(REPO_ROOT),
+        capture_output=True,
+        text=True,
+    )
+    if proc.returncode != 0:
+        raise RuntimeError(((proc.stderr or proc.stdout) or "").strip()[-500:])
+    parsed = None
+    for line in reversed((proc.stdout or "").strip().splitlines()):
+        if not line.strip().startswith("{"):
+            continue
+        parsed = json.loads(line)
+        break
+    if parsed is None:
+        parsed = _load_worktree_coverage().get("summary", {})
+    return parsed, "subprocess"
+
+
+def coverage_lane() -> dict:
+    try:
+        summary, mode = _run_coverage_generator()
+        result = {"ran": True, "mode": mode, "summary": summary}
+        print(f"[coverage] ran mode={mode} summary={summary}", flush=True)
+        return result
+    except Exception as exc:
+        error = str(exc)
+        print(f"[coverage] skipped: {error}", flush=True)
+        return {"ran": False, "error": error}
+
+
 def _load_committed_concordance() -> dict | None:
     rel = "papers/window_codon_bridge/cross_branch_concordance.json"
     proc = git("show", f"HEAD:{rel}")
@@ -489,6 +535,7 @@ def keep_lane():
         "tools/window_codon_bridge/registries/experiments.json",
         "tools/window_codon_bridge/oracle_inbox/candidates.jsonl",
         "papers/window_codon_bridge/bridge_ledger.jsonl",
+        "papers/window_codon_bridge/intake_coverage.json",
         "papers/window_codon_bridge/cross_branch_concordance.json",
     )
     # Everything committed alongside when (and only when) science changed; the
@@ -521,6 +568,7 @@ def main():
     ap.add_argument("--no-oracle", action="store_true")
     ap.add_argument("--no-derive", action="store_true")
     ap.add_argument("--no-concordance", action="store_true")
+    ap.add_argument("--no-coverage", action="store_true")
     args = ap.parse_args()
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     with LOCK.open("w", encoding="utf-8") as lock_fh:
@@ -533,6 +581,7 @@ def main():
         lock_fh.flush()
         while not should_stop():
             sync = sync_lane()
+            coverage = {"ran": False, "reason": "disabled_by_flag"} if args.no_coverage else coverage_lane()
             concordance = {"ran": False, "reason": "disabled_by_flag"} if args.no_concordance else concordance_lane()
             summary = run_cycle()
             oracle = {"ran": False, "reason": "disabled_by_flag"} if args.no_oracle else oracle_lane.run_oracle_lane()
@@ -541,7 +590,7 @@ def main():
             paper = paper_lane()
             keep = {} if args.no_commit else keep_lane()
             publish = {} if args.no_commit else publish_lane()
-            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} concordance={concordance} oracle={oracle} assimilation={assimilation} derivation={derivation} paper={paper} keep={keep} publish={publish}", flush=True)
+            print(f"[{summary['ts']}] bridge cycle executed={summary['executed']} verdicts={summary['verdicts']} sync={sync} coverage={coverage} concordance={concordance} oracle={oracle} assimilation={assimilation} derivation={derivation} paper={paper} keep={keep} publish={publish}", flush=True)
             if args.once:
                 break
             time.sleep(max(1.0, float(args.interval_seconds)))
