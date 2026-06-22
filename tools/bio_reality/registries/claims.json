@@ -8912,6 +8912,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-22T23:26:29+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-22T23:26:29+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "1dcafe54ccda",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -12489,14 +12506,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "The yeast-derived NatA/NatB N-terminal sequence rules (FROZEN, not re-learned) TRANSFER to HUMAN: they predict measured human N-terminal acetylation occupancy beyond aa-composition+length (cross-organism conservation deepening of the yeast N-terminal-acetylation contact; pre-registered; conclusive transfers_conserved). Charting the N-Terminal Acetylome (PMC8509067, Table S1; readout = NTA siCTR corr% continuous occupancy, 96 distinct values, n=1426). Frozen yeast seq-prior partial Spearman=0.453 controlling aa-composition+length (incremental R2=19.9%, perm p=5e-4, B=2000; abundance NOT controlled -- the source table lacks per-protein abundance, honestly noted). NON-CIRCULARITY conserved and STRONGER than yeast: within a fixed 2nd residue (n=1426), 3rd-residue acidity (P2') predicts occupancy at partial rho=0.343 (p=5e-4) vs yeast 0.174 -- so the contact is not merely 'is it a NatA substrate'. Positive controls reproduced (human NatB 99.9% vs NatA 90.4%; NatA 2nd-residue gradient Ser 99.9% / Ala 97.6% / Thr 84.4% / Gly 33.3% / Val 10.9%). AUROC=0.776 (saturated vs lower occupancy). readout = measured continuous occupancy (leakage-guarded); predictor = FROZEN yeast NatA/NatB rule, GC-orthogonal amino-acid identity. Caveat: human occupancy is more saturated than yeast (NatA ~90%) but retains continuous variation (96 distinct values); abundance uncontrolled. Verdict transfers_conserved / bounded_descriptor_only / not_conserved.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "nterminal_acetylation_occupancy_human",
       "history": [
         {
           "ts": "2026-06-22T22:58:11+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-22T23:26:35+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "90ea6b5f7fc7",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "4251bd082e2c4e61"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.f3-stress.position-resolved-translation-window.cross-layer"
     },
     {
       "claim_id": "h3.cross_layer_relation.translation_initiation.uorf_kozak_endogenous_te_ribonn",
@@ -12504,14 +12534,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "The frozen uAUG/uORF rule (from the Sample2019 MPRA, NOT re-learned) TRANSFERS to endogenous measured translation efficiency: uAUG count predicts endogenous per-transcript TE beyond 5'UTR length+GC, in the correct (negative) direction, across 3 human cell types (MPRA-to-endogenous deepening of the uORF/Kozak crosses; pre-registered; conclusive transfers_to_endogenous, resolving the MPRA-reporter caveat). RiboBase/RiboNN endogenous TE (log RPF/mRNA ribosome profiling; n=10982 transcripts; 5'UTR from GENCODE v46 header coords). Frozen uAUG partial Spearman: HEK293 -0.193, HeLa -0.172, K562 -0.132 (all perm p=1e-3, all 3 cell types concordant, correct uAUG->lower-TE direction). Positive control reproduced (uAUG delta-TE: HEK293 -0.517, HeLa -0.443, K562 -0.373, all negative). HONEST attenuation: incremental R2 ~0.3% (vs the MPRA's 38-46%) -- the uORF mechanism is real and conserved endogenously but heavily diluted by full-length-context confounds; the contact transfers in direction+significance, NOT in magnitude. Main-ORF Kozak -3 purine is correct-direction but sub-floor endogenously (partial rho 0.04-0.05). readout = measured endogenous TE (leakage-guarded); predictor = FROZEN MPRA uAUG rule. Verdict transfers_to_endogenous / bounded_descriptor_only / not_conserved.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "uorf_kozak_endogenous_te_ribonn",
       "history": [
         {
           "ts": "2026-06-22T23:14:05+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-22T23:27:44+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "df8ff968197f",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "1a620f811f0820be"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.h-ranking-table.direction-aware.cross-layer"
     },
     {
       "claim_id": "h3.cross_layer_relation.crispr_efficiency.sgrna_position_nt_crossdataset_luo2020",
@@ -12519,11 +12562,39 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "The frozen Doench2016 sgRNA position-nt model (80-dim 20x4, fit on Doench2016 plasmid/endogenous-protocol activity and NOT re-fit) TRANSFERS cross-protocol to predict independent Luo2020 measured SpCas9 activity (surrogate-lentivirus HEK293T, different lab): partial r=0.577 controlling protospacer GC (super-GC incremental R2=32.0% over GC-only R2=4.0%, perm p=5e-4, B=2000, n=10543), with Doench positional signs reproduced on Luo2020 (pos20-G +0.379, pos20-T -0.236, PAM-proximal T -0.369). Cross-protocol/cross-lab deepening of the CRISPR sgRNA position-nt crosses (pre-registered; conclusive transfers_cross_dataset; the fully-cross-protocol Doench2016(plasmid)->Luo2020(lentivirus) leg, cleaner than a within-HEK293T-platform transfer). readout = Luo2020 measured indel% (GSE173708 / CRISPRon resource; leakage-guarded, NOT a Rule-Set-2/DeepSpCas9/CRISPRon predicted score); predictor = FROZEN Doench2016 position-nt model, GC-controlled. Caveat: same species (human), surrogate-lentivirus HEK293T specific, position-nt heuristic, observational non-causal. Verdict transfers_cross_dataset / bounded_descriptor_only / not_replicated.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "sgrna_position_nt_crossdataset_luo2020",
       "history": [
         {
           "ts": "2026-06-22T23:19:21+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-22T23:28:18+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "2e9cce255c01",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "ff2310147ace464d"
+        }
+      ],
+      "linked_conjecture_id": "q6.f3-stress.position-resolved-translation-survival.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.mirna_target_repression.mirna_seed_crossdataset_agarwal2015",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "The frozen TargetScan canonical seed-match rule (8mer/7mer-m8/7mer-A1, NOT re-learned) TRANSFERS cross-dataset to predict independent Agarwal2015 measured miRNA target repression: seed-match strength predicts measured log2FC beyond 3'UTR length+GC, negative direction, across 7/7 independent miRNAs (cross-dataset/cross-cell-line deepening of the miRNA-target crosses; pre-registered; conclusive transfers_cross_dataset). Agarwal2015 eLife HCT116 7-miRNA transfection compendium (n=55170 miRNA-transcript observations; measured microarray log2FC; 3'UTR from Ensembl BioMart). Frozen seed partial Spearman=-0.198 controlling 3'UTR length+GC (perm p=1e-3); per-miRNA median -0.225; all 7 miRNAs negative (miR-16 -0.226, miR-106b -0.255, miR-200a -0.225, miR-200b -0.281, miR-215 -0.110, let-7c -0.188, miR-103). Positive control reproduced 7/7: 8mer < 7mer-m8 < no-site gradient (e.g. miR-16 8mer -0.124 < 7mer-m8 -0.064 < no-site +0.027). readout = measured log2FC (leakage-guarded, NOT TargetScan context++/PCT); predictor = FROZEN TargetScan canonical seed geometry. Verdict transfers_cross_dataset / bounded_descriptor_only / not_replicated.",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "mirna_seed_crossdataset_agarwal2015",
+      "history": [
+        {
+          "ts": "2026-06-22T23:42:47+00:00",
           "status": "open"
         }
       ]
