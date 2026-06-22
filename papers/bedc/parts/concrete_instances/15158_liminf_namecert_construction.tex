@@ -117,6 +117,24 @@ The structural rows $H,C,P,N$ only transport, replay, source, and name this orde
 \end{proof}
 \leanchecked{BEDC.Derived.LiminfUp.LiminfTailLowerEnvelopeCompatibility}
 
+\begin{theorem}[Liminf RegSeqRat lower-cut public export]
+\label{thm:liminf-regseqrat-lower-cut-public-export}
+Every $\RegSeqRatUp$ or Real-and-Completion consumer of an accepted $\LiminfUp$ packet receives the lower-envelope claim only after the displayed route exposes the bounded sequence row $S$, the $\BoundedRealLowerCutUp$ tail schedule $L$, the $\BoundedRealUpperCutUp$ tolerance comparison through the $\DyadicRatCoreUp$ ledger $D$, and the terminal $\RealUp$ seal $T$. The public export is the finite packet
+$$
+S,L,D,T,H,C,P,N
+$$
+read through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; it does not export a host infimum, selected tail subsequence, quotient stream equality, trichotomy decision, open-cover compactness, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:liminf-carrier}. Its public read surface is exactly the row family $S,L,D,T,H,C,P,N$, where $S$ is the bounded sequence source, $L$ is the finite lower-tail schedule, $D$ is the dyadic tolerance ledger, and $T$ is the terminal Real seal.
+
+Apply the route theorem \autoref{thm:liminf-tail-cut-route}. It orders every consumer read through $S,L,D,T$ before the structural rows $H,C,P,N$ can transport, replay, source, and name the packet.
+
+Use the lower-envelope compatibility theorem, \autoref{thm:liminf-tail-lower-envelope-compatibility}. It identifies the lower side with $\BoundedRealLowerCutUp$ and the comparison side with $\BoundedRealUpperCutUp$ through the same $\DyadicRatCoreUp$ ledger before any Real-and-Completion consumer may inspect $T$.
+
+The export is therefore public only as a finite RegSeqRat-facing handoff. Since no carrier row stores a host infimum, selected subsequence, quotient stream equality, trichotomy decision, open-cover compactness, or ambient completeness principle, the lower-envelope claim cannot be strengthened beyond those displayed rows.
+\end{proof}
+
 \begin{theorem}[Liminf tail-envelope monotone refinement]
 \label{thm:liminf-tail-envelope-monotone-refinement}
 Let an accepted $\LiminfUp$ packet $I=(S,L,D,T,H,C,P,N)$ be paired with bounded upper-envelope data from $\BoundedRealLimsupUp$. If the displayed tail schedule $L$ is refined by a later monotone tail schedule while preserving the same bounded sequence row $S$, lower-cut route through $\BoundedRealLowerCutUp$, upper-cut tolerance ledger $D$, and terminal $\RealUp$ seal $T$, then every gap-width or zero-gap convergence consumer reads the refined packet through the same bounded-sequence, lower-envelope, upper-tolerance, and terminal-seal route.
@@ -272,6 +290,7 @@ I=(S,L,D,T,H,C,P,N)
 $$
 is read through the $\BoundedRealLowerCutUp$ row $L$, compared through the shared $\DyadicRatCoreUp$ ledger $D$, and sealed only at the terminal $\RealUp$ row $T$. The readback may cite the bounded source $S$ and the upper comparison surface, but it does not expose a host infimum, a selected subsequence, trichotomy, quotient stream equality, or ambient Real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LiminfUp.LiminfLowerCutReadback}
 \begin{proof}
 Project the carrier of \autoref{def:liminf-carrier}. The source $S$ is the bounded sequence row, $L$ is the finite lower-tail schedule, $D$ is the dyadic tolerance ledger, and $T$ is the only terminal Real seal.
 
