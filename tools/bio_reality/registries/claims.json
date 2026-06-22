@@ -8878,6 +8878,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-22T21:49:07+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-22T21:49:07+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "405499680f80",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -12315,14 +12332,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "pri-miRNA hairpin primary-sequence motifs (basal-UG / CNNC / apical-UGU / mismatched-GHG; Auyeung 2013 + Fang & Bartel 2015 priors, fold-anchored to per-backbone scaffold landmarks, no de-novo folding) are a real but BOUNDED cross-layer contact for measured Drosha processing efficiency, beyond GC + stem length (pre-registered; new layer = pri-miRNA processing; conclusive bounded). Fang & Bartel 2015 GSE67937 (mir125 n=53186 full + mir16/mir30 n=20000 each high-input downsampled; measured readout = log2[(selection/input)variant / (selection/input)WT] from selection-vs-input deep sequencing). Combined-motif partial Spearman on the most-powered backbone mir125 rho=0.081 (perm p=1e-3, beyond null95=0.0085 but below the 0.10 crosses floor) -> bounded. Cross-backbone sign-concordant (mir125 0.081 / mir16 0.237 / mir30 0.139) but magnitude heterogeneous; the most-powered backbone is sub-floor. Positive control reproduced (CNNC enhances processing: present mean -1.92 vs absent -2.96, delta +1.04, r=0.165). GC inert (main r=-0.048); GHG component degenerate (0.0). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "primirna_motif_drosha_processing_fang2015",
       "history": [
         {
           "ts": "2026-06-22T21:14:43+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-22T21:55:57+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "9cfc036ef9a5",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "acb822fce8cd2576"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.f3-stress.position-resolved-translation-survival.cross-layer"
     },
     {
       "claim_id": "h3.cross_layer_relation.translation_initiation.uorf_kozak_ribosome_load_sample2019",
@@ -12330,14 +12360,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "5'UTR upstream-AUG/uORF count (and main-ORF Kozak context) is a real cross-layer contact for measured mean ribosome load (translation-initiation output), beyond 5'UTR length+GC (pre-registered; new layer = translation initiation; conclusive crosses). Sample 2019 GSE114002 polysome-seq MRL, two independent native-human samples (fixed-length 50nt n=41862 + varying-length 25-100nt n=16739). uAUG count after length+GC control: incremental R2=45.6% (fixed) / 38.0% (varying), partial rho=-0.71/-0.64, perm p=1e-3 (non-degenerate null), two-sample concordant; survives GC-stratification (uAUG lowers MRL in every GC quintile of both samples, deltas -1.76..-2.27). Positive control reproduced (no-uAUG MRL 6.07 vs uAUG 4.27, delta -1.80, monotone dose-response 6.07->4.41->3.91->3.60, raw rho -0.55/-0.51). Main-ORF Kozak -3 purine is a subtler grammar that crosses in fixed-length (partial rho 0.125, incr R2 1.2%) but is sub-floor in varying-length (rho 0.080). HONESTY: the uAUG->lower-load effect is partly mechanically direct (uORFs consume scanning ribosomes); the non-vacuous contribution is the composition-controlled magnitude + the subtler Kozak-context grammar. predictor = literature priors (Kozak scanning model); readout = measured polysome MRL, leakage-guarded. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "uorf_kozak_ribosome_load_sample2019",
       "history": [
         {
           "ts": "2026-06-22T21:22:49+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-22T21:58:09+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "22595b48828f",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "bb8461270af7519f"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.rank-admissible.translation-survival-gate.cross-layer"
     },
     {
       "claim_id": "h3.cross_layer_relation.exon_inclusion.ese_hexamer_exon_inclusion_adamson2018",
@@ -12345,14 +12388,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "Exonic splicing enhancer (ESE) hexamer regulatory code change (Ke 2011 ESEseq prior) is a real cross-layer contact for measured exon inclusion (delta-PSI), beyond splice-site strength change, variant type, and exon GC (pre-registered; new layer = exon inclusion; distinct from the already-covered splice-site PWM layer; conclusive crosses). Adamson 2018 Vex-seq (Genome Biology, GitHub scottiadamson/Vex-seq; n=1037 variants with both delta-ESEseq and measured delta-PSI). Main partial r(delta-ESEseq, delta-PSI | delta-MaxEntScan 3'/5'SS + variant type + local GC) = 0.286 (incremental R2=8.1%, perm p=5e-4, B=2000). delta-ESEseq vs delta-MaxEnt collinearity = -0.008 (orthogonal -> not a splice-site artifact). Positive control reproduced (raw Pearson 0.285 / Spearman 0.304, ESE strengthening raises inclusion). Two cell-line concordant (HepG2 r=0.285, K562 r=0.265, both p=5e-4); SNV-only subset robust (n=1013, partial r=0.285, no indel-length confound); exonic >10nt-from-both-splice-sites subset stronger (n=830, partial r=0.319, variant cannot touch the splice site). predictor traces to Ke 2011 frozen ESEseq hexamer table (source TSV lacked exon sequences so the deterministic Ke2011 application ESE_seq_changes.tsv was used; ESEseq_simple.tsv 4096-hexamer prior verified complete). readout = measured delta-PSI deep-sequencing ratio, leakage-guarded. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "ese_hexamer_exon_inclusion_adamson2018",
       "history": [
         {
           "ts": "2026-06-22T21:29:07+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-22T21:58:14+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "8c0a6b9aeaf4",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "eee6dfcf87f3ae42"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary"
     },
     {
       "claim_id": "h3.cross_layer_relation.mrna_stability.codon_composition_mrna_halflife_agarwal2022",
@@ -12360,11 +12416,39 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "Codon composition optimality (tAI from tRNA gene-copy numbers -- a non-CSC tRNA-pool predictor that escapes the CSC circularity) is a real but BOUNDED cross-layer contact for measured mRNA half-life, beyond GC3+GC3^2+CDS length (pre-registered; new layer = mRNA stability; conclusive bounded). Agarwal & Kelley 2022 half-life compendium (n_human=16500 genes x 54 measured decay experiments; cross-species mouse n=18924). After GC3+GC3^2+log(CDS length) control, tAI partial Spearman=0.130 (incremental R2=1.35%, perm p=1e-3, null95 +/-0.015) -- marginal, right at the floor. Cross-species concordant (mouse partial rho=0.089). Positive control reproduced (high tAI -> longer half-life; tAI raw rho=0.126, optimal-codon-fraction rho=0.097). BOUNDED not crosses because the signal is METHOD-DEPENDENT and not method-universal: it lives in the 4sU metabolic-labeling subset (mean rho=0.096, 27/33 columns positive) but NOT the ActD transcription-inhibition subset (mean rho=0.043, only 11/17 -- below the 0.10 floor); consistent with the raw optimal-codon-fraction predictor giving 36/54 same-sign (also bounded). Circularity escaped (tAI = tRNA-pool prior with zero contact to the half-life readout, NOT CSC). Upgrade path: ActD/4sU stratified re-confirmation + cross-species held-out. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "codon_composition_mrna_halflife_agarwal2022",
       "history": [
         {
           "ts": "2026-06-22T21:48:26+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-22T21:59:00+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "74d321d44dd7",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "6cf29fb498404863"
+        }
+      ],
+      "linked_conjecture_id": "q6.rank-admissible.translation-survival-gate.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.nterminal_acetylation.nterminal_acetylation_occupancy_kron2018",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "N-terminal sequence rules (NatA/NatB substrate specificity: 2nd-residue identity P1' + 3rd-residue acidity P2') are a real cross-layer contact for measured N-terminal acetylation occupancy (continuous stoichiometry), beyond protein aa-composition+length+abundance (pre-registered; new layer = N-terminal acetylation; conclusive crosses with non-circularity gate passed). Kron 2018 yeast NtAc (PXD004326 / PMC6283290; n=657 N-termini, NatA=426; readout = measured NtAc% by N-terminal COFRADIC differential labeling, continuous 0-100% occupancy with >10 distinct values, NOT binary presence). seq-prior partial Spearman=0.674 controlling aa-composition+log(length)+log(abundance) (incremental R2=39.2%, perm p=1e-3); AUROC=0.942 (high>=80% vs low<=20% occupancy). NON-CIRCULARITY PROVEN: within a FIXED 2nd residue (NatA window P1' in {S,A,T}, n=359) the 3rd-residue acidity (P2') still predicts continuous occupancy at partial rho=0.174 (p=1e-3) and occupancy spans the full 0-100% range at each fixed P1' -- so the contact is not merely 'is it a NatA substrate' (the definitional part). Positive controls reproduced (NatB 95.9% vs NatA 67.0%; NatA 2nd-residue gradient Ser 97.6% -> Thr 44.1% -> Ala 38.6% -> Val 2.6% -> Gly 0.65%; acidic-3rd boost +26.3pp). readout = measured continuous occupancy (leakage-guarded); predictor = NatA/NatB literature priors, GC-orthogonal amino-acid identity. Honest caveat: the headline 0.674 is partly definitional via P1'; the non-vacuous contribution is the within-fixed-P1' 3rd-residue grammar (rho=0.174). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "nterminal_acetylation_occupancy_kron2018",
+      "history": [
+        {
+          "ts": "2026-06-22T22:06:41+00:00",
           "status": "open"
         }
       ]
