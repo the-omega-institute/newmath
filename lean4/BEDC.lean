@@ -718,6 +718,7 @@ import BEDC.Derived.BaireCategoryUp.RefinementChoiceFree
 import BEDC.Derived.BaireCategoryUp.SourceRouteNonescape
 import BEDC.Derived.BaireCategoryUp.TasteGate
 import BEDC.Derived.BaireGenericResidualUp.TasteGate
+import BEDC.Derived.BaireMeasurableFunctionUp.TasteGate
 import BEDC.Derived.BaireMetricUp
 import BEDC.Derived.BaireMetricUp.BaireSpacePrefixDensityRoute
 import BEDC.Derived.BaireMetricUp.CauchyPrefixThread
@@ -10715,6 +10716,7 @@ import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
 import BEDC.Derived.SetlikeUp.MembershipSourceAdmission
 import BEDC.Derived.SetlikeUp.MembershipStability
+import BEDC.Derived.SetlikeUp.NameCertObligations
 import BEDC.Derived.SetlikeUp.PublicNameCertExport
 import BEDC.Derived.SetlikeUp.RestrictedComprehensionMembershipFactorization
 import BEDC.Derived.SetlikeUp.RootCarrierMembership
@@ -10733,6 +10735,7 @@ import BEDC.Derived.SetlikeUp.RootUnblockConsumerRoutes
 import BEDC.Derived.SetlikeUp.RootUnblockFirstOrderSignature
 import BEDC.Derived.SetlikeUp.RootUnblockKernelMembershipEnvelope
 import BEDC.Derived.SetlikeUp.SatisfactionHandoffObligation
+import BEDC.Derived.SetlikeUp.SubsetClassifierExactness
 import BEDC.Derived.SetlikeUp.SubsetClassifierObligation
 import BEDC.Derived.SetlikeUp.SubsetComprehensionRootUnblock
 import BEDC.Derived.SetlikeUp.SubsetComprehensionStability
