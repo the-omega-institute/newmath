@@ -214,6 +214,24 @@ evaluator equality, global confluence, strong normalization, or kernel
 consistency, the premise transport is exhausted at that boundary.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond frontier residual local confluence]
+\label{thm:metacic-parallel-diamond-frontier-residual-local-confluence}
+Let an accepted $\MetaCICParallelDiamondFrontierUp$ packet expose the finite rows
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+If the bounded checker rows accept both residual branches from the displayed critical-pair and residual-premise surface, then the consumer receives a carrier-local diamond handoff between the two residual endpoints through the displayed candidate join row $J$. The handoff is bounded by the same packet rows and does not claim global confluence, strong normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+First read the residual grid of \autoref{thm:metacic-parallel-diamond-frontier-residual-grid}. It exposes the critical-pair envelope, residual-substitution dependency, candidate-normalization scope, finite residual witness, local NameCert row, transport, replay, and provenance as one finite packet.
+
+Next apply residual-premise transport exhaustion, \autoref{thm:metacic-parallel-diamond-frontier-residual-premise-transport-exhaustion}. It keeps the transported premise surface inside $P,K,J,R,S,C,B,O,H,T,G,N$ after both residual branches have been checked.
+
+Now consume the finite witness and checker rows using \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}. The bounded witness exposes the two residual endpoints before the candidate join row can be handed to a consumer.
+
+Finally apply residual-join witness locality, \autoref{thm:metacic-parallel-diamond-residual-join-witness-locality}. It keeps $J$ carrier-local, retains $P$ and $O$ through $H,T,G,N$, and prevents the bounded handoff from becoming global confluence, strong normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond residual-join witness locality]
 \label{thm:metacic-parallel-diamond-residual-join-witness-locality}
 Every accepted residual-join witness for
