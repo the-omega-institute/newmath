@@ -36,6 +36,7 @@ R=(B,A,L,P,E,I,U,H,C,Q,N),
 $$
 the four discharge rows $B,A,L,P$, explicit bundle packaging through $E$, invocation selection through $I$, consumer handoff through $U$, componentwise transport through $H$, displayed continuation reads through $C$, package provenance through $Q$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionRouteUp.SubjectReductionRouteNameCertObligations}
 \begin{proof}
 Project the displayed tuple $R$. The first four coordinates are the socket-level subject-reduction discharge rows, while $E$ is the presentation of that same four-row packet.
 
@@ -48,6 +49,7 @@ Finally read $H,C,Q,N$. These rows supply transport, route replay, provenance, a
 \label{thm:subject-reduction-route-bundle-setup-correspondence}
 In every accepted $\SubjectReductionRouteUp$ carrier, the explicit bundle row $E$ determines the discharge packet $B,A,L,P$. Bundle invocation changes none of the discharge rows, adds no new discharge premise, and removes no row required by the subject-reduction consumer.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionRouteUp.SubjectReductionRouteBundleCorrespondence}
 \begin{proof}
 The carrier definition fixes $B,A,L,P$ before the public route is inspected. The bundle row $E$ packages those four rows directly.
 
@@ -82,17 +84,34 @@ The bundle correspondence theorem shows that the public route reaches the four-r
 Thus the public handoff is a finite naming certificate for route delivery only. It supplies a stable consumer-facing packet while keeping discharge inhabitation and bridge checking on their own axes.
 \end{proof}
 
+\begin{theorem}[SubjectReductionRoute finite route surface]
+\label{thm:subject-reduction-route-finite-route-surface}
+Every accepted $\SubjectReductionRouteUp$ carrier binds the subject-reduction route classifier, compiler handoff, and discharge socket rows on the single finite path
+$$
+\SubjectReductionRouteClassifierUp \longmapsto \TypePreservingCompilerUp \longmapsto \SubjectReductionDischargeSocketUp \longmapsto (B,A,L,P,E,I,U,H,C,Q,N).
+$$
+The route first names the classifier row that selects the explicit bundle presentation, then names the type-preserving compiler handoff row through which the consumer reaches that bundle, and finally exposes the socket-level discharge rows $B,A,L,P$. It exports no closed subject-reduction theorem, no additional discharge inhabitant, no host conversion principle, no erased semantics, and no bridge status.
+\end{theorem}
+\begin{proof}
+Project the carrier $R=(B,A,L,P,E,I,U,H,C,Q,N)$. The package provenance row $Q$ names the $\SubjectReductionRouteClassifierUp$, $\TypePreservingCompilerUp$, and $\SubjectReductionDischargeSocketUp$ sources before the local naming row is read.
+
+Apply \autoref{thm:subject-reduction-route-bundle-setup-correspondence}. The explicit bundle row $E$ determines exactly the four discharge rows $B,A,L,P$, so the classifier can select only that displayed presentation.
+
+Apply \autoref{thm:subject-reduction-route-public-handoff}. The compiler-facing consumer reaches the same four-row bundle through $I$ and $U$, while $H,C,Q,N$ transport, replay, source, and name the route. Since \autoref{thm:subject-reduction-route-obstruction-nonescape} excludes closed discharge, host conversion, erased semantics, and bridge data, the stated finite path is the whole scoped surface.
+\end{proof}
+
 \closureat{SubjectReductionRouteUp}{seedStr}
 \closureat{SubjectReductionRouteUp}{obligationStr}[BEDC.Derived.SubjectReductionRouteUp.SubjectReductionRouteTasteGate\_single\_carrier\_alignment]
+\closureat{SubjectReductionRouteUp}{scopedStr}[BEDC.Derived.SubjectReductionRouteUp.SubjectReductionRouteTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\SubjectReductionRouteUp}
   \constructivestory{A $\SubjectReductionRouteUp$ packet is generated from four subject-reduction discharge rows, an explicit bundle row, an invocation row, a consumer handoff row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:subject-reduction-route-carrier}, \autoref{thm:subject-reduction-route-namecert-obligations}, \autoref{thm:subject-reduction-route-bundle-setup-correspondence}, \autoref{thm:subject-reduction-route-obstruction-nonescape}, and \autoref{thm:subject-reduction-route-public-handoff} bind the carrier, NameCert obligations, bundle correspondence, obstruction non-escape, and public handoff surface for the finite route packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-route-carrier}, \autoref{thm:subject-reduction-route-namecert-obligations}, \autoref{thm:subject-reduction-route-bundle-setup-correspondence}, \autoref{thm:subject-reduction-route-obstruction-nonescape}, \autoref{thm:subject-reduction-route-public-handoff}, and \autoref{thm:subject-reduction-route-finite-route-surface} bind the carrier, NameCert obligations, bundle correspondence, obstruction non-escape, public handoff, and classifier--compiler--socket route surface for the finite route packet.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.SubjectReductionRouteUp.SubjectReductionRouteTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove any MetaCIC discharge row, construct closed subject reduction, provide Lean verification, or bridge the packet to a public schema.}
-  \upgradepath{Obligation closure requires checked carrier admission, bundle correspondence, obstruction non-escape, public handoff exactness, provenance, and local naming for the same finite route packet.}
+  \upgradepath{Public export and bridge work require a public SubjectReductionRouteUp schema surface and a checked standard bridge for the same finite route packet.}
 \end{closurestatus}
