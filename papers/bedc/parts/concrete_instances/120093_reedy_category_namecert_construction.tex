@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\ReedyCategoryUp$}
+\label{ch:concrete-instances-reedy-category-namecert}
+\origin{human}
+
+Following Reedy and Quillen, the $\ReedyCategoryUp$ packet records the degree-directed category surface used by latching and matching constructions as finite NameCert data. It sits after the categorical carrier of \autoref{ch:concrete-instances-category-namecert}, the functorial transport surface of \autoref{ch:concrete-instances-functor-namecert}, the simplicial-set row family of \autoref{ch:concrete-instances-simplicialset-namecert}, and the model-category lifting and factorisation surface of \autoref{ch:concrete-instances-modelcat-namecert}. Those sibling chapters expose categories, functors, simplicial degrees, and model-category classes separately; this carrier binds degree, direct maps, inverse maps, unique direct-inverse factorisation, latching boundary, matching boundary, transport, replay, provenance, and local naming into one finite packet.
+
+\begin{definition}[Reedy category carrier]
+\label{def:reedy-category-carrier}
+A $\ReedyCategoryUp$ carrier is a finite $\BHist$ packet
+$$
+R=(C,D,A^{+},A^{-},F,L,M,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the consumed $\CategoryUp$ row, recording objects, morphisms, identities, composition, and the categorical classifier boundary.
+\item $D$ is the degree row, assigning a displayed natural degree to every object visible in the packet.
+\item $A^{+}$ is the direct-map row, recording morphisms that strictly raise degree unless they are identities.
+\item $A^{-}$ is the inverse-map row, recording morphisms that strictly lower degree unless they are identities.
+\item $F$ is the factorisation row, recording the unique decomposition of every displayed morphism as an inverse map followed by a direct map.
+\item $L$ is the latching-boundary row, recording the finite direct-source boundary used by diagram consumers.
+\item $M$ is the matching-boundary row, recording the finite inverse-target boundary used by diagram consumers.
+\item $H$ stores componentwise $\hsame$ transport for the category, degree, direct, inverse, factorisation, latching, matching, replay, provenance, and local naming rows.
+\item $T$ stores displayed $\Cont$ replay from a Reedy request through degree comparison, direct-inverse factorisation, latching boundary, matching boundary, and sibling category-theory consumers.
+\item $P$ is the $\Pkg$ provenance over $\ReedyCategoryUp$, $\CategoryUp$, $\FunctorUp$, $\SimplicialSetUp$, $\ModelCatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ReedyCategoryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $C,D,A^{+},A^{-},F,L,M,H,T,P,N$. It has no coordinate for a host indexing category, a hidden well-foundedness proof, a selected factorisation outside $F$, an ambient latching colimit, an ambient matching limit, or a model-category theorem.
+\end{definition}
+
+\begin{theorem}[Reedy category NameCert obligations]
+\label{thm:reedy-category-namecert-obligations}
+For every accepted $\ReedyCategoryUp$ carrier $R=(C,D,A^{+},A^{-},F,L,M,H,T,P,N)$, the local $\NameCert_{\ReedyCategoryUp}$ surface consists exactly of carrier admission, degree exposure, direct-map exposure, inverse-map exposure, direct-inverse factorisation, latching-boundary exposure, matching-boundary exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reedy-category-carrier}. The category row $C$ supplies the displayed object and morphism boundary, while the degree row $D$ gives the measure used to separate direct and inverse maps.
+
+Rows $A^{+}$ and $A^{-}$ expose the two Reedy morphism classes. The factorisation row $F$ binds them by recording the unique inverse-then-direct decomposition of every displayed morphism; this is the row that prevents a consumer from choosing a hidden decomposition.
+
+The latching row $L$ and matching row $M$ are then read as finite boundary ledgers over the same degree and morphism rows. They prepare the sibling routes to $\FunctorUp$, $\SimplicialSetUp$, and $\ModelCatUp$ without importing a host latching colimit or matching limit.
+
+Finally $H,T,P,N$ transport, replay, source, and name the same rows. Since the carrier has no further coordinate, the listed rows exhaust the local $\NameCert_{\ReedyCategoryUp}$ obligations.
+\end{proof}
+
+\begin{theorem}[Reedy category degree-factorization ledger]
+\label{thm:reedy-category-degree-factorization-ledger}
+Every displayed morphism read from an accepted $\ReedyCategoryUp$ carrier factors through the degree ledger
+$$
+C,D,A^{-},A^{+},F
+$$
+before it can be consumed by a latching row, matching row, functor row, simplicial-set row, or model-category row. The factorisation is recorded in $F$ and is transported only through $H,T,P,N$.
+\end{theorem}
+\begin{proof}
+Start with a morphism in the category row $C$. The degree row $D$ determines whether a non-identity component may be read as direct or inverse, and the rows $A^{+}$ and $A^{-}$ record the two permitted directions.
+
+Apply the factorisation row $F$. It supplies the unique inverse-then-direct decomposition attached to the displayed morphism, so the latching boundary $L$ and matching boundary $M$ consume the same finite ledger rather than an ambient choice of decomposition.
+
+The sibling consumers do not add a second factorisation route. $\FunctorUp$ reads the displayed functorial transport, $\SimplicialSetUp$ reads degree-indexed simplex rows, and $\ModelCatUp$ reads lifting and factorisation classes, all through the same packet route $H,T,P,N$.
+
+Thus every downstream read of a Reedy morphism factors through the displayed degree-factorisation ledger.
+\end{proof}
+
+\closureat{ReedyCategoryUp}{seedStr}
+\closureat{ReedyCategoryUp}{obligationStr}
+
+\begin{closurestatus}{\ReedyCategoryUp}
+  \constructivestory{A $\ReedyCategoryUp$ packet is generated from a category row, degree row, direct-map row, inverse-map row, factorisation row, latching-boundary row, matching-boundary row, componentwise transport, continuation replay, provenance, and local naming.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:reedy-category-carrier}, \autoref{thm:reedy-category-namecert-obligations}, and \autoref{thm:reedy-category-degree-factorization-ledger} close the finite carrier and obligation surface for degree-directed Reedy category reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, ambient latching colimits, ambient matching limits, full Reedy model structures, or host category equivalence.}
+  \upgradepath{Lean closure requires checked carrier admission, degree exposure, direct and inverse map exposure, factorisation uniqueness, latching and matching boundary exposure, transport, replay, provenance, and local naming for BEDC.Derived.ReedyCategoryUp.}
+\end{closurestatus}
