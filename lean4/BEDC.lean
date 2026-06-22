@@ -3650,6 +3650,7 @@ import BEDC.Derived.ContourReversalLedgerUp.TasteGate
 import BEDC.Derived.ContourSumWindowUp.NameCertObligations
 import BEDC.Derived.ContourSumWindowUp.OutputSealNonescape
 import BEDC.Derived.ContourSumWindowUp.RefinementStability
+import BEDC.Derived.ContourSumWindowUp.ResidueBoundary
 import BEDC.Derived.ContourSumWindowUp.SubdivisionExactness
 import BEDC.Derived.ContourSumWindowUp.TasteGate
 import BEDC.Derived.ContractionMappingTheoremUp.TasteGate
@@ -6208,6 +6209,7 @@ import BEDC.Derived.HadamardProductSeriesUp.TasteGate
 import BEDC.Derived.HadamardThreeCircleUp.TasteGate
 import BEDC.Derived.HadamardThreeLinesUp.TasteGate
 import BEDC.Derived.HahnBanachUp.TasteGate
+import BEDC.Derived.HahnDecompositionUp.TasteGate
 import BEDC.Derived.HalfOpenRealIntervalUp.TasteGate
 import BEDC.Derived.HallMarriageUp.TasteGate
 import BEDC.Derived.HaltedTmRoundTripUp.TasteGate
@@ -11005,6 +11007,7 @@ import BEDC.Derived.SolvableRadicalsUp
 import BEDC.Derived.SorgenfreyLineUp.TasteGate
 import BEDC.Derived.SpanningTreeUp
 import BEDC.Derived.SpecializationOrderUp.TasteGate
+import BEDC.Derived.SpecializationTopologyUp
 import BEDC.Derived.SpeckerSequenceBoundaryUp.TasteGate
 import BEDC.Derived.SpeckerSequenceUp
 import BEDC.Derived.SpeckerSequenceUp.TasteGate
