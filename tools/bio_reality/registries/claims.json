@@ -8827,6 +8827,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-22T19:37:15+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-22T19:37:15+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "d3164b30cdd6",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -12039,14 +12056,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "C-terminal degron motif (prior-frozen terminal residue identity) is a real but BOUNDED cross-layer contact for measured FACS peptide stability, beyond bulk amino-acid composition, with a confirmed terminal-POSITION effect (pre-registered; new layer = protein degron stability; conclusive bounded). Voutsinos 2026 KULL cytosolic degron map (212658 30-mer GPS/FACS peptides / 5303 proteins, self-contained); composition-orthogonalized terminal predictor gives partial rho=0.058 (perm p=1e-3) on the C-terminal tiles, and the disconfirmable position control passes (C-end residue effect 0.181 > same-residue internal 0.118, delta=0.064, p=1e-3); positive control reproduced (C-end G/A/W/Y unstable 0.56 > D/E/K stable 0.38, monotone). Effect below the crosses floor (|rho|<0.10) -> bounded_descriptor_only. Distinct from the N-end-rule endogenous-half-life layer. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "degron_terminal_motif_stability_voutsinos2026",
       "history": [
         {
           "ts": "2026-06-22T17:41:33+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-22T19:37:56+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "1a932ef5684e",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "5289283af652086c"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.translation-bounded.rna-decay-rbp-bridge.cross-layer"
     },
     {
       "claim_id": "h3.cross_layer_relation.rbp_binding.rbns_affinity_eclip_binding_encode",
@@ -12054,14 +12084,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "RBNS in-vitro k-mer affinity does NOT cross the readback boundary to predict eCLIP in-vivo binding BEYOND dinucleotide composition (pre-registered; new layer = RBP binding, in-vitro->in-vivo; conclusive negative). ENCODE RBNS + eCLIP for RBFOX2/HNRNPC/PUM1 (900 peaks + GC-matched controls, UCSC hg38 peak sequences); motifs ARE enriched in peaks (positive control passes: GCATG 0.49 vs 0.25, poly-U 0.92 vs 0.78, UGUA fold 20) and raw peak-vs-control affinity AUROC is weakly positive (0.53-0.59, label-perm p=5e-4), BUT the signal does not survive a dinucleotide-shuffle null (dinuc_null_p 0.40-0.60) and AUROC<0.60 with cross-RBP inconsistency -> composition_artifact. Honest caveat: for low-complexity motifs (poly-U) the dinuc-shuffle null is conservative-by-design (preserves the motif), so the negative for the 'beyond-dinuc-composition' claim partly reflects null design; n=300 peaks/RBP. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "rbns_affinity_eclip_binding_encode",
       "history": [
         {
           "ts": "2026-06-22T18:09:57+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-22T19:41:39+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "b225890251c2",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "ec35a402e308c808"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.translation-conditioned.rna-half-life-rbp-bridge.cross-layer"
     },
     {
       "claim_id": "h3.cross_layer_relation.meiotic_recombination.prdm9_motif_dsb_hotspot_pratto2014",
@@ -12069,26 +12112,39 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "PRDM9-A binding motif (external prior PWM) crosses the readback boundary to predict measured meiotic DSB hotspot strength beyond GC/CpG composition, with a passing allele-specific killer test AND falsification (pre-registered; new layer = meiotic recombination/DSB, DNA layer; conclusive crosses_boundary). Pratto 2014 DMC1 SSDS (GSE59836, 52963 hotspots with AA/AC strength, hg19); A-PWM->AA-strength partial rho=0.253 (perm p=1e-3, GC/CpG-controlled, all GC strata positive 0.30/0.22/0.17); the allele-specific differential (A-motif minus C-motif score)->(AA minus AC strength) rho=0.272 (p=1e-3, which GC/CpG composition cannot fake since it affects both alleles equally); and the real Altemose-2017 PRDM9-C PWM does NOT predict AA (falsification passes: C->AA rho=-0.024, A far more predictive, gap 0.278). Positive control reproduced (A-motif center-vs-flank enrichment 1.41). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "prdm9_motif_dsb_hotspot_pratto2014",
       "history": [
         {
           "ts": "2026-06-22T18:55:43+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-22T19:44:28+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "e57a09da690c",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "ae73a68aad845418"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.translation-conditioned.rna-half-life-rbp-bridge.cross-layer"
     },
     {
-      "claim_id": "h3.cross_layer_relation.translation_termination.stop_context_readthrough_g418_wangen2020",
+      "claim_id": "h3.cross_layer_relation.polya_tail_length.cpe_grammar_polya_taillength_subtelny2014",
       "hypothesis_level": "H3",
       "claimed_layer": "cross_layer_relation",
-      "statement": "Extended stop-codon sequence context (beyond stop-identity + +4nt) crosses the readback boundary to predict measured G418-induced ribosome readthrough (RRTS) beyond stop-identity+4+3'UTR-length+GC, on held-out transcripts (pre-registered; new layer = translation termination; conclusive crosses_boundary). Wangen & Green eLife 52611 G418 sheet (n=4982 non-zero-RRTS transcripts; untreated was 90% zeros so the standard induced-readthrough condition is used); core positive control reproduced (UGA 0.42 > UAG 0.35 > UAA 0.31, and UGA-C highest stop+4); nested held-out model adds delta R²=0.0154 from extended context (nt_-6..-1, +5..+10) over the stop-identity+4+log(UTR3)+GC baseline (perm p=1e-3, non-degenerate null), held-out (not in-sample). (Strict UAA-U/G-lowest sub-pattern slightly deviates but the core hierarchy holds.) Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
+      "statement": "CPE x PAS-distance grammar does NOT cross the readback boundary to predict measured somatic poly(A) tail length beyond 3'UTR length+GC+expression (pre-registered; new layer = poly(A) tail length; conclusive negative). Subtelny 2014 PAL-seq (GSE52809 HeLa n=6796 + yeast cross-organism); the codon-optimality angle is excluded a priori (Subtelny showed tail<->TE coupling is embryo-only, absent in somatic = disguised-e_in); the length-invariant CPE-grammar (CPEB UUUUAU relative to PAS, the uncharacterized-in-somatic-cells frontier) gives partial rho=-0.018 (p=0.13, n.s.) after controlling length+GC+log(RPKM), and is not cross-species concordant -> composition_artifact. Positive control reproduced (replication-dependent histone short tails 48.5 vs global median 87.5; RP genes 74.8) so the readout is valid -> a real negative: CPE-grammar (characterized in oocyte/embryo/neuron) does NOT operate on somatic tail length. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
       "status": "open",
-      "experiment_id": "stop_context_readthrough_g418_wangen2020",
+      "experiment_id": "cpe_grammar_polya_taillength_subtelny2014",
       "history": [
         {
-          "ts": "2026-06-22T19:37:26+00:00",
+          "ts": "2026-06-22T20:05:17+00:00",
           "status": "open"
         }
       ]
