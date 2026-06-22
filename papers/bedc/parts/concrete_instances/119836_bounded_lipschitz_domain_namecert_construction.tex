@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\BoundedLipschitzDomainUp$}
+\label{ch:concrete-instances-bounded-lipschitz-domain-namecert}
+\origin{human}
+
+Following Evans and Adams--Fournier, the $\BoundedLipschitzDomainUp$ packet records the finite boundary-chart data needed before Sobolev trace, PDE boundary estimates, Lipschitz extension, and compact metric arguments may read a domain as bounded with Lipschitz boundary. It sits over the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the Lipschitz-function carrier of \autoref{ch:concrete-instances-lipschitz-function-namecert}, the Lipschitz-modulus carrier of \autoref{ch:concrete-instances-lipschitz-modulus-namecert}, the compact-metric carrier of \autoref{ch:concrete-instances-compactmetric-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite boundary-domain certificate only; it does not import host open-set equality, selected boundary charts, quotient metric equality, countable choice, or ambient compactness.
+
+\begin{definition}[Bounded Lipschitz domain carrier]
+\label{def:bounded-lipschitz-domain-carrier}
+A $\BoundedLipschitzDomainUp$ carrier is a finite $\BHist$ packet
+$$
+D=(O,M,F,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the open-set and topology row, naming the domain membership tests, boundary-neighbourhood windows, and local topology data read through $\TopologyUp$.
+\item $M$ is the $\MetricUp$ row, naming the distance comparisons used by the boundedness and boundary-chart reads.
+\item $F$ is the finite boundary-chart cover row. Each chart names a displayed neighbourhood, a local coordinate window, and the finite overlap data needed to compare adjacent chart reads.
+\item $L$ is the Lipschitz constant and modulus row, read through $\LipschitzFunctionUp$ and $\LipschitzModulusUp$ for every boundary chart and overlap comparison in $F$.
+\item $R$ is the $\RealUp$ tolerance row, recording the finite radius, height, and boundedness tolerances used by $M,F,L$ before any real-valued boundary estimate is sealed.
+\item $H$ records componentwise $\hsame$ transport for the topology, metric, chart-cover, Lipschitz, tolerance, replay, provenance, and local certificate rows.
+\item $C$ records displayed $\Cont$ replay from a domain or boundary request through $O,M,F,L,R,H$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedLipschitzDomainUp$, $\TopologyUp$, $\MetricUp$, $\LipschitzFunctionUp$, $\LipschitzModulusUp$, $\CompactMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedLipschitzDomainUp}$ row.
+\end{enumerate}
+The carrier predicate asserts that the finite chart cover in $F$ covers the displayed boundary windows from $O$, that each chart is read with the Lipschitz data in $L$, that boundedness and chart tolerances are sealed through $R$, and that all downstream reads pass through $H,C,P,N$. It has no coordinate for host open-set equality, a selected atlas outside $F$, quotient metric equality, countable choice, or ambient compactness.
+\end{definition}
+
+\begin{theorem}[Bounded Lipschitz domain NameCert obligations]
+\label{thm:bounded-lipschitz-domain-namecert-obligations}
+For every accepted $\BoundedLipschitzDomainUp$ carrier $D=(O,M,F,L,R,H,C,P,N)$, the local $\NameCert_{\BoundedLipschitzDomainUp}$ surface consists exactly of carrier admission, displayed topology and open-set exposure through $O$, metric distance exposure through $M$, finite boundary-chart cover exposure through $F$, Lipschitz constant and modulus exposure through $L$, real tolerance sealing through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $O,M,F,L,R$ are the only analytic coordinates, and they respectively expose the topology, metric, boundary-chart cover, Lipschitz data, and real tolerance data.
+
+Read the structural rows next. The row $H$ transports those analytic coordinates componentwise, $C$ replays a domain or boundary request through the displayed route, $P$ records the allowed sibling sources, and $N$ names the local certificate.
+
+Since the carrier contains no further coordinate, every NameCert obligation is one of the listed rows. Host open-set equality, selected atlases, quotient metric equality, countable-choice schedules, and ambient compactness cannot be exported by the packet.
+\end{proof}
+
+\begin{theorem}[Bounded Lipschitz domain finite-chart handoff]
+\label{thm:bounded-lipschitz-domain-finite-chart-handoff}
+Every Sobolev trace, PDE boundary, Lipschitz extension, or compact metric consumer of an accepted $\BoundedLipschitzDomainUp$ carrier must read the finite boundary-chart cover $F$ after the topology and metric rows $O,M$ and before the Lipschitz row $L$ and real tolerance row $R$ are consumed. The handoff route exposes only finite chart windows, finite overlap comparisons, Lipschitz constants and moduli, real tolerances, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Begin with a consumer request. The domain membership and boundary-neighbourhood data are read through $O$, and the distance comparisons needed by boundedness and chart windows are read through $M$.
+
+The finite chart row $F$ is then the only boundary-cover coordinate available to the consumer. Its overlap data are finite packet data, so a downstream trace, PDE, extension, or compactness read cannot replace them by a host atlas or selected cover.
+
+After $F$ is displayed, the Lipschitz constants and moduli in $L$ and the real tolerances in $R$ can be read. The structural rows $H,C,P,N$ preserve the same finite route, so the handoff exports no host open-set equality, quotient metric equality, countable-choice schedule, or ambient compactness theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BoundedLipschitzDomainUp$ boundary read exposes topology, metric, finite boundary-chart cover, Lipschitz constant and modulus, Real tolerance, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+
+\independenceWitness{metric, topology, lipschitz-function, lipschitz-modulus, compactmetric, real: $\BoundedLipschitzDomainUp$ is not bijective to any listed sibling because it jointly carries displayed open-set topology rows, metric rows, finite boundary-chart cover rows, Lipschitz constant and modulus rows, Real tolerance rows, transport, replay, provenance, and local naming.}
+
+\closureat{BoundedLipschitzDomainUp}{seedStr}
+
+\begin{closurestatus}{\BoundedLipschitzDomainUp}
+  \constructivestory{A $\BoundedLipschitzDomainUp$ packet is generated from displayed open-set and topology rows, metric rows, finite boundary-chart cover rows, Lipschitz constant and modulus rows, Real tolerance rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-lipschitz-domain-carrier}, \autoref{thm:bounded-lipschitz-domain-namecert-obligations}, and \autoref{thm:bounded-lipschitz-domain-finite-chart-handoff} seed the finite boundary-domain packet for bounded Lipschitz domains.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Sobolev trace, PDE regularity, Lipschitz extension, compactness, host open-set equality, selected boundary charts, quotient metric equality, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite boundary-chart cover exposure, Lipschitz constant and modulus exposure, Real tolerance sealing, transport, replay, provenance, and local naming for BEDC.Derived.BoundedLipschitzDomainUp.}
+\end{closurestatus}
