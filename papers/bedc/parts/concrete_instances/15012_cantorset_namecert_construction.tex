@@ -201,6 +201,22 @@ Finally apply Real seal nonescape, \autoref{thm:cantor-set-real-seal-nonescape}.
 \end{proof}
 \leanchecked{BEDC.Derived.CantorSetUp.CantorSetDownstreamMembershipConsumer}
 
+\begin{theorem}[Cantor set public membership route]
+\label{thm:cantor-set-public-membership-route}
+Every public closed-set, finite-net, bounded-sequence, or locator-facing consumer of an accepted $\CantorSetUp$ packet must read the finite route
+$$
+T,G,I,D,R,E,H,K,P,N
+$$
+through $\NestedIntervalUp$, $\DyadicIntervalUp$, $\RegSeqRatUp$, and $\RealUp$ before it treats the packet as membership data. The route exports the ternary-prefix ledger, deleted-gap ledger, retained nested interval row, endpoint ledger, regular-rational readback, terminal Real seal, transport, replay, provenance, and local naming rows, and it exports no host powerset, quotient Real equality, selected infinite branch, open-cover compactness theorem, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the downstream membership consumer theorem, \autoref{thm:cantor-set-downstream-membership-consumer}. It already places closed-set, interval-membership, and locator-facing reads downstream of the finite rows $T,G,I,D,R,E,H,K,P,N$.
+
+Use the bounded-sequence and finite-net routes, \autoref{thm:cantor-set-root-bounded-sequence-window} and \autoref{thm:cantor-set-root-finite-net-subsequence-refusal}. These make the bounded-window and finite-net consumers read the same ternary-prefix, retained-interval, endpoint, readback, and Real-seal route before any downstream package is visible.
+
+Finally apply closed-interval nonescape, \autoref{thm:cantor-set-closed-interval-nonescape}. The closed-set and interval consumers receive only the displayed finite rows, while the locator-facing route remains a Real-facing membership read through the same terminal seal. Hence the public membership surface is exactly the stated route through the four sibling packets and no excluded compactness or completeness datum is exported.
+\end{proof}
+
 \begin{theorem}[Cantor set Real seal nonescape]
 \label{thm:cantor-set-real-seal-nonescape}
 For every accepted $\CantorSetUp$ carrier $C=(T,G,I,D,R,E,H,K,P,N)$, every $\RealUp$-facing read factors through the finite route
@@ -396,10 +412,10 @@ Thus the existing obligation rows acquire scoped kernel support through the list
 
 \begin{closurestatus}{\CantorSetUp}
   \constructivestory{A $\CantorSetUp$ packet is generated from a finite ternary retained-prefix ledger, a deleted-middle gap ledger, a retained NestedInterval row, a DyadicInterval or rational endpoint ledger, a RegSeqRat handoff, a RealUp seal, componentwise transport, continuation replay, provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:cantor-set-carrier}, \autoref{thm:cantor-set-namecert-obligations}, finite-prefix induction, deleted-gap ledger exhaustion, Real membership handoff, prefix-gap separation, nested-interval handoff, and Real-seal nonescape bind the scoped kernel surface for the middle-third Cantor subset through retained prefixes, deleted gaps, nested intervals, endpoint rows, regular readback, and the $\RealUp$ seal.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:cantor-set-carrier}, \autoref{thm:cantor-set-namecert-obligations}, finite-prefix induction, deleted-gap ledger exhaustion, Real membership handoff, prefix-gap separation, nested-interval handoff, Real-seal nonescape, and \autoref{thm:cantor-set-public-membership-route} bind the public membership route for closed-set, finite-net, bounded-sequence, and locator-facing consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close located compactness, open-cover compactness, host powerset equality, quotient real equality, selected infinite branches, ambient $\RealUp$ completeness, or Lean verification.}
-  \upgradepath{Scoped closure requires a public consumer route that reuses the checked prefix, gap, finite-window, endpoint, real-seal, and non-escape rows without adding compactness or completeness principles.}
+  \upgradepath{Bridged closure requires checked public bridge evidence for the displayed membership route without adding compactness or completeness principles.}
 \end{closurestatus}
