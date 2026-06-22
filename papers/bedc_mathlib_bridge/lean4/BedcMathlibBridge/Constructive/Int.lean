@@ -1035,6 +1035,14 @@ theorem CInt.toInt_zero : (0 : CInt).toInt = 0 := by
 theorem CInt.toInt_one : (1 : CInt).toInt = 1 := by
   exact CInt.toInt_ofInt 1
 
+instance instNontrivialCInt : Nontrivial CInt where
+  exists_pair_ne := by
+    refine ⟨0, 1, ?_⟩
+    intro h
+    have hInt := congrArg CInt.toInt h
+    rw [CInt.toInt_zero, CInt.toInt_one] at hInt
+    cases hInt
+
 theorem CInt.toInt_add (x y : CInt) : (x + y).toInt = x.toInt + y.toInt := by
   rcases x with ⟨x, hx⟩
   rcases y with ⟨y, hy⟩
@@ -1124,6 +1132,48 @@ theorem CInt.le_trans {x y z : CInt} : x ≤ y -> y ≤ z -> x ≤ z := by
       bwordLength y.1 + bwordLength z.2 ≤ bwordLength z.1 + bwordLength y.2 :=
     (pairLe_iff_length_order hy.left hz.left).mp hyz
   exact cross_le_trans xyNat yzNat
+
+instance instLTCInt : LT CInt where
+  lt x y := x ≤ y ∧ ¬ y ≤ x
+
+instance instDecidableEqCInt : DecidableEq CInt := fun x y =>
+  if h : x.toInt = y.toInt then
+    isTrue (CInt.canonical_ext h)
+  else
+    isFalse fun hxy => h (congrArg CInt.toInt hxy)
+
+instance instDecidableLECInt : DecidableLE CInt := fun x y =>
+  if h : x.toInt ≤ y.toInt then
+    isTrue ((CInt.le_iff_toInt_le x y).mpr h)
+  else
+    isFalse fun hxy => h ((CInt.le_iff_toInt_le x y).mp hxy)
+
+instance instDecidableLTCInt : DecidableLT CInt := fun x y =>
+  inferInstanceAs (Decidable (x ≤ y ∧ ¬ y ≤ x))
+
+theorem CInt.le_refl (x : CInt) : x ≤ x := by
+  rcases x with ⟨x, hx⟩
+  exact (pairLe_iff_length_order hx.left hx.left).mpr (Nat.le_refl _)
+
+instance instPartialOrderCInt : PartialOrder CInt where
+  le_refl := CInt.le_refl
+  le_trans := fun _ _ _ => CInt.le_trans
+  le_antisymm := fun _ _ => CInt.le_antisymm
+  lt_iff_le_not_ge := by intro _ _; rfl
+
+instance instLinearOrderCInt : LinearOrder CInt where
+  le_total := CInt.le_total
+  toDecidableLE := instDecidableLECInt
+  toDecidableEq := instDecidableEqCInt
+  toDecidableLT := instDecidableLTCInt
+  min_def := by intro _ _; rfl
+  max_def := by intro _ _; rfl
+
+instance instDvdCInt : Dvd CInt where
+  dvd x y := x.toInt ∣ y.toInt
+
+theorem CInt.dvd_iff_toInt_dvd (x y : CInt) : x ∣ y ↔ x.toInt ∣ y.toInt := by
+  rfl
 
 def CInt.toIntEquiv : CInt ≃ _root_.Int where
   toFun := CInt.toInt
