@@ -10304,6 +10304,7 @@ import BEDC.Derived.RiemannSumUp.TasteGate
 import BEDC.Derived.RiemannianMetricUp
 import BEDC.Derived.RieszFischerUp.TasteGate
 import BEDC.Derived.RieszInterpolationUp
+import BEDC.Derived.RieszInterpolationUp.TasteGate
 import BEDC.Derived.RieszLemmaUp.NormedSeparationWitness
 import BEDC.Derived.RieszLemmaUp.TasteGate
 import BEDC.Derived.RieszMarkovUp.TasteGate
