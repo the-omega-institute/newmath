@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyBisimulationUp$}
+\label{ch:concrete-instances-regular-cauchy-bisimulation-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyBisimulationUp$ packet records equality-facing comparison of two regular Cauchy real names by finite paired windows rather than by quotient real equality. It sits after the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window route of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the uniqueness route of \autoref{ch:concrete-instances-regular-cauchy-uniqueness-namecert}. The packet names a non-quotient comparison surface for Real and Completion consumers; it does not select representatives, collapse names by quotient equality, import countable choice, or appeal to ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy bisimulation carrier]
+\label{def:regular-cauchy-bisimulation-carrier}
+A $\RegularCauchyBisimulationUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,Y,W_X,W_Y,D_X,D_Y,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RegSeqRatUp$ source rows whose regular rational approximants are being compared.
+\item $W_X$ and $W_Y$ are paired $\StreamNameUp$ windows exposing the finite observations of $X$ and $Y$ at the same inspected precisions.
+\item $D_X$ and $D_Y$ are $\DyadicRatCoreUp$ tolerance ledgers recording the error budgets and comparison radii used for the two source rows.
+\item $M$ is the finite matching relation pairing inspected windows whose dyadic distance is below the displayed joint tolerance.
+\item $H$ records componentwise $\hsame$ transport for $X,Y,W_X,W_Y,D_X,D_Y,M,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of each paired-window comparison through the source rows, stream windows, tolerance ledgers, matching relation, provenance, and local naming row.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyBisimulationUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RegularCauchyUniquenessUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyBisimulationUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one symmetric paired-window comparison certificate. It has no coordinate for quotient real equality, selected representatives, infinite branch selection, countable choice, host equality of real numbers, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy bisimulation NameCert obligations]
+\label{thm:regular-cauchy-bisimulation-namecert-obligations}
+For every accepted $\RegularCauchyBisimulationUp$ carrier $B=(X,Y,W_X,W_Y,D_X,D_Y,M,H,C,P,N)$, the local $\NameCert_{\RegularCauchyBisimulationUp}$ surface consists exactly of carrier admission, paired-window exposure, dyadic tolerance comparison, symmetric step matching, $\RealUp$ seal nonescape, componentwise transport, displayed replay, provenance, and local naming. In particular, every comparison read remains inside the displayed route
+$$
+X,Y \longmapsto W_X,W_Y \longmapsto D_X,D_Y \longmapsto M
+$$
+before a Real-facing consumer may use the comparison.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-bisimulation-carrier}. The rows $X,Y,W_X,W_Y,D_X,D_Y,M$ expose exactly two regular rational source rows, their paired stream windows, their dyadic tolerance ledgers, and the finite matching relation.
+
+The matching relation is symmetric because every admitted comparison step is stored as a paired-window relation between the two displayed sources. Reading the pair in the opposite direction uses the same windows and the same dyadic tolerance data, so no quotient-real equality or selected representative is introduced.
+
+The Real-facing seal is downstream of the displayed source rows. The $\RealUp$ consumer can only receive a comparison after the $\RegSeqRatUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$ rows have been replayed through $C$ and transported through $H$.
+
+Finally $P$ and $N$ source and name the same finite packet. Since the carrier has no coordinate for host equality, branch selection, choice, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{RegularCauchyBisimulationUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyBisimulationUp}
+  \constructivestory{A $\RegularCauchyBisimulationUp$ packet is generated from two $\RegSeqRatUp$ source rows, paired $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledgers, a finite symmetric matching relation, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-bisimulation-carrier} and \autoref{thm:regular-cauchy-bisimulation-namecert-obligations} seed the paired-window comparison surface over RegSeqRat, StreamName, DyadicRatCore, Real, and regular-Cauchy uniqueness rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, representative selection, countable choice, infinite branch selection, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, paired-window exposure, dyadic tolerance comparison, symmetric step matching, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyBisimulationUp.}
+\end{closurestatus}

@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySubdivisionUp$}
+\label{ch:concrete-instances-regular-cauchy-subdivision-namecert}
+\origin{human}
+
+Following Bishop and Bridges, finite subdivision arguments for regular Cauchy data are useful only after the mesh, tolerance ledger, window reads, rational readback, and real-name seal are all visible as finite data. The $\RegularCauchySubdivisionUp$ packet sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence boundary of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the rational scaling route of \autoref{ch:concrete-instances-regularcauchyscale-namecert}. It records a finite subdivision induction surface rather than a selected limit, a quotient real equality, or an ambient compactness theorem.
+
+\begin{definition}[Regular Cauchy subdivision carrier]
+\label{def:regular-cauchy-subdivision-carrier}
+A $\RegularCauchySubdivisionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the finite subdivision mesh row, listing the inspected subintervals, endpoints, adjacency witnesses, and boundary cells;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, carrying the dyadic mesh width, endpoint tolerances, and local error budgets used on each mesh cell;
+\item $W$ is the $\StreamNameUp$ window family, exposing the finite stream windows inspected on each subdivision cell;
+\item $R$ is the $\RegSeqRatUp$ readback row, reading every inspected window as regular rational data over the displayed dyadic ledger;
+\item $E$ is the $\RealUp$ seal row, available only after the mesh, dyadic tolerance ledger, StreamName windows, and RegSeqRat readback rows have been displayed;
+\item $H$ records componentwise $\hsame$ transport for $M,D,W,R,E,C,P,N$;
+\item $C$ records displayed $\Cont$ replay for the subdivision route;
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchySubdivisionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RegularCauchyScaleUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchySubdivisionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for selected limits, quotient real equality, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy subdivision NameCert obligations]
+\label{thm:regular-cauchy-subdivision-namecert-obligations}
+For every accepted $\RegularCauchySubdivisionUp$ carrier $S=(M,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchySubdivisionUp}$ surface consists exactly of carrier admission for the finite mesh, mesh compatibility between adjacent cells, readback stability through the displayed $\StreamNameUp$ windows and $\RegSeqRatUp$ rows, $\RealUp$ seal nonescape through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The row $M$ supplies the finite mesh and its adjacency witnesses, while $D$ supplies the dyadic width and tolerance ledger used on every mesh cell.
+
+Read the window and rational rows next. The family $W$ exposes only finitely many StreamName windows, and $R$ reads those windows as regular rational data over the same dyadic ledger. Mesh compatibility is therefore checked by comparing adjacent displayed rows, not by selecting a limit.
+
+Finally replay the seal and structural rows. The row $E$ is downstream of the mesh, tolerance, window, and readback data, while $H,C,P,N$ only transport, replay, source, and name that same finite route. These projections exhaust the local NameCert obligations and leave no selected limits, quotient real equality, countable choice, open-cover compactness, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy subdivision regular-window induction]
+\label{thm:regular-cauchy-subdivision-regular-window-induction}
+Every induction over an accepted $\RegularCauchySubdivisionUp$ packet is finite induction over the displayed mesh row $M$. The base cells read their tolerance data through $D$, their inspected windows through $W$, and their regular rational data through $R$; each adjacent step preserves the same $\RealUp$ seal row $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, provenance $P$, and local naming row $N$. Consequently the induction route exports only finite subdivision data and never exports selected limits, quotient real equality, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Induct over the finite list of mesh cells carried by $M$. In the base cell, the tolerance ledger $D$, window family $W$, and readback row $R$ provide the inspected regular Cauchy data before any Real-facing seal is available.
+
+For an adjacent cell, use the mesh compatibility row inside $M$ together with the dyadic ledger $D$. The next window read remains inside $W$, the regular rational read remains inside $R$, and the terminal seal is still the displayed row $E$.
+
+The structural rows are copied componentwise along the induction. The rows $H,C,P,N$ transport, replay, source, and name the same finite subdivision route, so the induction closes inside the carrier projections and cannot introduce selected limits, quotient real equality, countable choice, open-cover compactness, or ambient completeness.
+\end{proof}
+
+\closureat{RegularCauchySubdivisionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySubdivisionUp}
+  \constructivestory{A $\RegularCauchySubdivisionUp$ packet is generated from a finite subdivision mesh, dyadic tolerance ledger, StreamName window family, RegSeqRat readback rows, a RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-subdivision-carrier}, \autoref{thm:regular-cauchy-subdivision-namecert-obligations}, and \autoref{thm:regular-cauchy-subdivision-regular-window-induction} seed the finite subdivision induction route between regular rational windows and Real-name sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close selected limits, quotient real equality, countable choice, open-cover compactness, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mesh compatibility, readback stability, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchySubdivisionUp.}
+\end{closurestatus}
