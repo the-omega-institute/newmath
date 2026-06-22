@@ -1,10 +1,12 @@
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.HeineBorelIntervalUp
@@ -36,7 +38,7 @@ def heineBorelIntervalDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (heineBorelIntervalDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (heineBorelIntervalDecodeBHist tail)
 
-private theorem HeineBorelIntervalNetCoverage_decode :
+theorem HeineBorelIntervalTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -80,7 +82,7 @@ def heineBorelIntervalFromEventFlow (eventFlow : EventFlow) : Option HeineBorelI
       (heineBorelIntervalDecodeBHist (heineBorelIntervalEventAtDefault 12 eventFlow))
       (heineBorelIntervalDecodeBHist (heineBorelIntervalEventAtDefault 13 eventFlow)))
 
-private theorem HeineBorelIntervalNetCoverage_round_trip :
+theorem HeineBorelIntervalTasteGate_single_carrier_alignment_round_trip :
     ∀ x : HeineBorelIntervalUp,
       heineBorelIntervalFromEventFlow (heineBorelIntervalToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -89,31 +91,38 @@ private theorem HeineBorelIntervalNetCoverage_round_trip :
   | mk A B K M Z F T S R E Q C P N =>
       change
         some
-            (HeineBorelIntervalUp.mk
-              (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist A))
-              (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist B))
-              (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist K))
-              (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist M))
-              (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist Z))
-              (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist F))
-              (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist T))
-              (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist S))
-              (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist R))
-              (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist E))
-              (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist Q))
-              (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist C))
-              (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist P))
-              (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist N))) =
+          (HeineBorelIntervalUp.mk
+            (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist A))
+            (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist B))
+            (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist K))
+            (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist M))
+            (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist Z))
+            (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist F))
+            (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist T))
+            (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist S))
+            (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist R))
+            (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist E))
+            (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist Q))
+            (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist C))
+            (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist P))
+            (heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist N))) =
           some (HeineBorelIntervalUp.mk A B K M Z F T S R E Q C P N)
-      rw [HeineBorelIntervalNetCoverage_decode A, HeineBorelIntervalNetCoverage_decode B,
-        HeineBorelIntervalNetCoverage_decode K, HeineBorelIntervalNetCoverage_decode M,
-        HeineBorelIntervalNetCoverage_decode Z, HeineBorelIntervalNetCoverage_decode F,
-        HeineBorelIntervalNetCoverage_decode T, HeineBorelIntervalNetCoverage_decode S,
-        HeineBorelIntervalNetCoverage_decode R, HeineBorelIntervalNetCoverage_decode E,
-        HeineBorelIntervalNetCoverage_decode Q, HeineBorelIntervalNetCoverage_decode C,
-        HeineBorelIntervalNetCoverage_decode P, HeineBorelIntervalNetCoverage_decode N]
+      rw [HeineBorelIntervalTasteGate_single_carrier_alignment_decode A,
+        HeineBorelIntervalTasteGate_single_carrier_alignment_decode B,
+        HeineBorelIntervalTasteGate_single_carrier_alignment_decode K,
+        HeineBorelIntervalTasteGate_single_carrier_alignment_decode M,
+        HeineBorelIntervalTasteGate_single_carrier_alignment_decode Z,
+        HeineBorelIntervalTasteGate_single_carrier_alignment_decode F,
+        HeineBorelIntervalTasteGate_single_carrier_alignment_decode T,
+        HeineBorelIntervalTasteGate_single_carrier_alignment_decode S,
+        HeineBorelIntervalTasteGate_single_carrier_alignment_decode R,
+        HeineBorelIntervalTasteGate_single_carrier_alignment_decode E,
+        HeineBorelIntervalTasteGate_single_carrier_alignment_decode Q,
+        HeineBorelIntervalTasteGate_single_carrier_alignment_decode C,
+        HeineBorelIntervalTasteGate_single_carrier_alignment_decode P,
+        HeineBorelIntervalTasteGate_single_carrier_alignment_decode N]
 
-private theorem HeineBorelIntervalNetCoverage_toEventFlow_injective
+theorem HeineBorelIntervalTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : HeineBorelIntervalUp} :
     heineBorelIntervalToEventFlow x = heineBorelIntervalToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -123,8 +132,8 @@ private theorem HeineBorelIntervalNetCoverage_toEventFlow_injective
         heineBorelIntervalFromEventFlow (heineBorelIntervalToEventFlow y) :=
     congrArg heineBorelIntervalFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (HeineBorelIntervalNetCoverage_round_trip x).symm
-      (Eq.trans hread (HeineBorelIntervalNetCoverage_round_trip y)))
+    (Eq.trans (HeineBorelIntervalTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (HeineBorelIntervalTasteGate_single_carrier_alignment_round_trip y)))
 
 instance heineBorelIntervalBHistCarrier : BHistCarrier HeineBorelIntervalUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -133,10 +142,29 @@ instance heineBorelIntervalBHistCarrier : BHistCarrier HeineBorelIntervalUp wher
 
 instance heineBorelIntervalChapterTasteGate : ChapterTasteGate HeineBorelIntervalUp where
   -- BEDC touchpoint anchor: BHist BMark
-  round_trip := fun x => HeineBorelIntervalNetCoverage_round_trip x
+  round_trip := by
+    intro x
+    change heineBorelIntervalFromEventFlow (heineBorelIntervalToEventFlow x) = some x
+    exact HeineBorelIntervalTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (HeineBorelIntervalNetCoverage_toEventFlow_injective heq)
+    exact hxy (HeineBorelIntervalTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+def taste_gate : ChapterTasteGate HeineBorelIntervalUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  heineBorelIntervalChapterTasteGate
+
+theorem HeineBorelIntervalTasteGate_single_carrier_alignment :
+    (∀ h : BHist, heineBorelIntervalDecodeBHist (heineBorelIntervalEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier HeineBorelIntervalUp) ∧
+        Nonempty (ChapterTasteGate HeineBorelIntervalUp) ∧
+          heineBorelIntervalEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨HeineBorelIntervalTasteGate_single_carrier_alignment_decode,
+      ⟨heineBorelIntervalBHistCarrier⟩,
+      ⟨heineBorelIntervalChapterTasteGate⟩,
+      rfl⟩
 
 def HeineBorelIntervalCoverageRoute [AskSetup] [PackageSetup]
     (x : HeineBorelIntervalUp) (net mesh coverageRead : BHist)
@@ -152,7 +180,7 @@ def HeineBorelIntervalCoverageRoute [AskSetup] [PackageSetup]
 theorem HeineBorelIntervalNetCoverage [AskSetup] [PackageSetup]
     (x : HeineBorelIntervalUp) {net mesh coverageRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    HeineBorelIntervalCoverageRoute x net mesh coverageRead bundle pkg ->
+    HeineBorelIntervalCoverageRoute x net mesh coverageRead bundle pkg →
       SemanticNameCert
           (fun row : BHist => hsame row coverageRead ∧ UnaryHistory row)
           (fun row : BHist => hsame row net ∨ hsame row mesh ∨ hsame row coverageRead)
