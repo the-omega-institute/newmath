@@ -217,4 +217,99 @@ theorem BetaSubstitutionDischargeCarrier_replay_exactness [AskSetup] [PackageSet
   }
   exact ⟨cert, bodyReadUnary, codomainReadUnary⟩
 
+theorem BetaSubstitutionDischargeCarrier_context_induction [AskSetup] [PackageSetup]
+    {context domain body argument codomain subst transport replay provenance localName bodyRead
+      codomainRead transportedRead replayRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BetaSubstitutionDischargeCarrier context domain body argument codomain subst transport
+        replay provenance localName bundle pkg →
+      Cont body subst bodyRead →
+        Cont codomain subst codomainRead →
+          Cont bodyRead transport transportedRead →
+            Cont transportedRead replay replayRead →
+              Cont replayRead localName namedRead →
+                PkgSig bundle provenance pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row context ∨ hsame row domain ∨ hsame row body ∨
+                          hsame row argument ∨ hsame row codomain ∨ hsame row subst ∨
+                            hsame row transport ∨ hsame row replay ∨
+                              hsame row provenance ∨ hsame row localName ∨
+                                hsame row bodyRead ∨ hsame row codomainRead ∨
+                                  hsame row transportedRead ∨ hsame row replayRead ∨
+                                    hsame row namedRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont body subst bodyRead ∧
+                          Cont codomain subst codomainRead ∧
+                            Cont bodyRead transport transportedRead ∧
+                              Cont transportedRead replay replayRead ∧
+                                Cont replayRead localName namedRead ∧
+                                  PkgSig bundle provenance pkg)
+                      hsame ∧
+                    UnaryHistory bodyRead ∧ UnaryHistory codomainRead ∧
+                      UnaryHistory transportedRead ∧ UnaryHistory replayRead ∧
+                        UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BetaSubstitutionDischargeCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier bodySubst codomainSubst bodyTransport transportedReplay replayName packageRead
+  obtain ⟨_contextUnary, _domainUnary, bodyUnary, _argumentUnary, codomainUnary,
+    substUnary, transportUnary, replayUnary, provenanceUnary, localNameUnary,
+    _bodyArgumentSubst, _substTransportReplay, _provenancePkg⟩ := carrier
+  have bodyReadUnary : UnaryHistory bodyRead :=
+    unary_cont_closed bodyUnary substUnary bodySubst
+  have codomainReadUnary : UnaryHistory codomainRead :=
+    unary_cont_closed codomainUnary substUnary codomainSubst
+  have transportedUnary : UnaryHistory transportedRead :=
+    unary_cont_closed bodyReadUnary transportUnary bodyTransport
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed transportedUnary replayUnary transportedReplay
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed replayReadUnary localNameUnary replayName
+  have _provenanceUnary : UnaryHistory provenance := provenanceUnary
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row context ∨ hsame row domain ∨ hsame row body ∨
+              hsame row argument ∨ hsame row codomain ∨ hsame row subst ∨
+                hsame row transport ∨ hsame row replay ∨ hsame row provenance ∨
+                  hsame row localName ∨ hsame row bodyRead ∨ hsame row codomainRead ∨
+                    hsame row transportedRead ∨ hsame row replayRead ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont body subst bodyRead ∧ Cont codomain subst codomainRead ∧
+              Cont bodyRead transport transportedRead ∧ Cont transportedRead replay replayRead ∧
+                Cont replayRead localName namedRead ∧ PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right; right; right; right; right; right; right
+      right; right; right; right; right; right; right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, bodySubst, codomainSubst, bodyTransport, transportedReplay,
+          replayName, packageRead⟩
+  }
+  exact
+    ⟨cert, bodyReadUnary, codomainReadUnary, transportedUnary, replayReadUnary,
+      namedReadUnary⟩
+
 end BEDC.Derived.BetaSubstitutionDischargeUp
