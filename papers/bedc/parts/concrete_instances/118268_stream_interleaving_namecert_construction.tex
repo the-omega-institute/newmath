@@ -61,6 +61,18 @@ The even part of the requested window is routed to $E$, and the odd part is rout
 The shared rows $Q,D,H,C,P,N$ then read, compare, transport, replay, source, and name the two branches as one packet. Thus the interleaved window is the displayed parity merge and nothing else.
 \end{proof}
 
+\begin{theorem}[Stream interleaving finite-stream source window]
+\label{thm:stream-interleaving-finite-stream-source-window}
+In every accepted $\StreamInterleavingUp$ packet, the even and odd source windows may be read as $\FiniteStreamUp$ request-list-window packets before the parity split row $W$ is consumed. The finite-source read is the one exposed by \autoref{ch:concrete-instances-finite-stream-namecert}, and the parity merge is then the split of \autoref{thm:stream-interleaving-parity-window-split}.
+\end{theorem}
+\begin{proof}
+Project the carrier as $I=(E,O,W,Q,D,R,H,C,P,N)$. The rows $E$ and $O$ are the two displayed source windows, so a consumer first reads them as finite request/list/window packets rather than as host streams.
+
+The $\FiniteStreamUp$ source discipline supplies exactly those finite requests and lists for the two source windows. Thus $E$ and $O$ are available before any output position is assigned by $W$.
+
+Finally consume the parity split row $W$. It merges the two finite source windows into the displayed output route while the shared rows $Q,D,R,H,C,P,N$ retain regular rational readback, dyadic comparison, Real sealing, transport, replay, provenance, and local naming. No host sequence equality or countable choice is introduced.
+\end{proof}
+
 \begin{theorem}[Stream interleaving RegSeqRat readback]
 \label{thm:stream-interleaving-regseqrat-readback}
 Every regular-Cauchy consumer of an accepted $\StreamInterleavingUp$ packet must read
