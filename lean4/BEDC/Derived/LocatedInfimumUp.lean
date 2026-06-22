@@ -150,4 +150,91 @@ theorem LocatedInfimumWindowLedgerCoverage [AskSetup] [PackageSetup]
   }
   exact ⟨cert, windowReadUnary, sealReadUnary⟩
 
+theorem LocatedInfimumSupremumDualExactness [AskSetup] [PackageSetup]
+    {family lower greatest window regseq realSeal transport route provenance name supremumRead
+      familyRead lowerRead sealRead exactRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedInfimumCarrier family lower greatest window regseq realSeal transport route provenance
+        name bundle pkg ->
+      Cont family window supremumRead ->
+        Cont supremumRead lower familyRead ->
+          Cont familyRead greatest lowerRead ->
+            Cont lowerRead realSeal sealRead ->
+              Cont sealRead name exactRead ->
+                PkgSig bundle exactRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row exactRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row family ∨ hsame row lower ∨ hsame row greatest ∨
+                          hsame row window ∨ hsame row regseq ∨ hsame row realSeal ∨
+                            hsame row sealRead ∨ hsame row exactRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont family window supremumRead ∧
+                          Cont supremumRead lower familyRead ∧
+                            Cont familyRead greatest lowerRead ∧
+                              Cont lowerRead realSeal sealRead ∧
+                                Cont sealRead name exactRead ∧
+                                  PkgSig bundle exactRead pkg)
+                      hsame ∧
+                    UnaryHistory exactRead := by
+  -- BEDC touchpoint anchor: LocatedInfimumCarrier BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier familyWindow supremumLower familyGreatest lowerReal sealName exactPkg
+  obtain ⟨familyUnary, lowerUnary, greatestUnary, windowUnary, _regseqUnary,
+    realSealUnary, _transportUnary, _routeUnary, _provenanceUnary, nameUnary,
+    _regseqRealSealRoute, _carrierProvenancePkg, _carrierNamePkg⟩ := carrier
+  have supremumUnary : UnaryHistory supremumRead :=
+    unary_cont_closed familyUnary windowUnary familyWindow
+  have familyReadUnary : UnaryHistory familyRead :=
+    unary_cont_closed supremumUnary lowerUnary supremumLower
+  have lowerReadUnary : UnaryHistory lowerRead :=
+    unary_cont_closed familyReadUnary greatestUnary familyGreatest
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed lowerReadUnary realSealUnary lowerReal
+  have exactReadUnary : UnaryHistory exactRead :=
+    unary_cont_closed sealReadUnary nameUnary sealName
+  have sourceExact :
+      (fun row : BHist => hsame row exactRead ∧ UnaryHistory row) exactRead := by
+    exact ⟨hsame_refl exactRead, exactReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exactRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row family ∨ hsame row lower ∨ hsame row greatest ∨ hsame row window ∨
+              hsame row regseq ∨ hsame row realSeal ∨ hsame row sealRead ∨
+                hsame row exactRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont family window supremumRead ∧
+              Cont supremumRead lower familyRead ∧ Cont familyRead greatest lowerRead ∧
+                Cont lowerRead realSeal sealRead ∧ Cont sealRead name exactRead ∧
+                  PkgSig bundle exactRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro exactRead sourceExact
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+        Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, familyWindow, supremumLower, familyGreatest, lowerReal,
+          sealName, exactPkg⟩
+  }
+  exact ⟨cert, exactReadUnary⟩
+
 end BEDC.Derived.LocatedInfimumUp
