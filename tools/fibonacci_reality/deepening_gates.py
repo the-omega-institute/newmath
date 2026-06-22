@@ -76,6 +76,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "fibonacci_cube_critical_group_certificate",
     "closed_neighborhood_smith_certificate",
     "ordered_geodesic_enumerator_certificate",
+    "matching_enumerator_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -127,6 +128,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "lean_finite_certificate",
         "automath_paper_section",
         "ordered_geodesic_enumerator_certificate",
+        "matching_enumerator_certificate",
     },
 }
 OVERCLAIM_GATES_ENABLED = True
@@ -157,6 +159,8 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "divisibility_remainder_enumeration",
     "bedc_finite_certificate",
     "finite_graph_enumeration",
+    "matching_polynomial_recurrence",
+    "monomer_dimer_profile",
     "integer_matrix_determinant",
     "integer_laplacian_determinant",
     "smith_normal_form_determinantal_divisors",
@@ -280,6 +284,9 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "shortest_path_counting",
     "ordered_geodesic_enumerator",
     "euler_zigzag_certificate",
+    "matching_polynomial_recurrence",
+    "monomer_dimer_profile",
+    "bipartition_parity",
     "closed_neighborhood_relation",
     "integer_matrix_determinant",
     "integer_laplacian",
@@ -2264,6 +2271,54 @@ def self_test() -> int:
         ],
         "null_reason": "",
     }
+    matching_enumerator_conjecture = {
+        "conjecture_id": "window6.fibonacci-cube.matching-enumerator",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 Fibonacci-cube matching enumerator",
+        "informal_statement": (
+            "For Gamma_6, exact finite graph enumeration computes the matching polynomial, "
+            "Hosoya index, maximum matching count, monomer profile, and bipartition parity."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Finite Fibonacci-cube graph Gamma_6 and its matching recurrence state space.",
+            "distinctions": [
+                "finite Fibonacci-cube graph",
+                "Hamming edge relation",
+                "matching polynomial recurrence",
+                "monomer-dimer profile",
+                "bipartition parity",
+            ],
+            "readback": "The certificate records only internal finite graph invariants.",
+            "internal_structure": [
+                "finite_graph",
+                "hamming_edge_relation",
+                "matching_polynomial_recurrence",
+                "monomer_dimer_profile",
+                "bipartition_parity",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "finite_graph_enumeration",
+            "matching_polynomial_recurrence",
+            "monomer_dimer_profile",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window6_matching_enumerator.py",
+                "object": "verify-window6-matching-enumerator",
+                "kind": "matching_enumerator_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
     forced_window_results = gate_all(
         [
             edge_flux_conjecture,
@@ -2274,6 +2329,7 @@ def self_test() -> int:
             fib_entry_point_conjecture,
             pisano_period_conjecture,
             closed_neighborhood_smith_conjecture,
+            matching_enumerator_conjecture,
         ],
         [],
         [],
@@ -2310,6 +2366,9 @@ def self_test() -> int:
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     if forced_window_by_id["window6.fibonacci-cube.closed-neighborhood-smith"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window6.fibonacci-cube.matching-enumerator"]["gate_status"] != "gate_passed":
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     print("[fibonacci-reality-gates] self-test ok")
