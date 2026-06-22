@@ -150,6 +150,28 @@ Apply \autoref{thm:fast-cauchy-modulus-namecert-obligations}. Its regular and Re
 Therefore the handoff cannot escape the displayed fast-modulus route. It exposes only the readback or seal certified by the finite carrier rows.
 \end{proof}
 
+\begin{theorem}[Fast Cauchy modulus consumer factorization]
+\label{thm:fast-cauchy-modulus-consumer-factorization}
+Let
+$$
+M_{\mathrm{fast}}=(M,F,S,D,Q,E,H,C,P,N)
+$$
+be an accepted $\FastCauchyModulusUp$ carrier. Every $\RegSeqRatUp$ or $\RealUp$ consumer of this carrier factors through the displayed route
+$$
+\CauchyModulusUp,\quad \StreamNameUp,\quad \DyadicRatCoreUp,\quad \RegSeqRatUp,\quad \RealUp,\quad \BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert .
+$$
+In particular, the consumer reads the precision query, threshold discipline, finite window, dyadic ledger, and handoff rows before any Real-facing seal. No hidden selector, quotient stream equality, selected limit, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness row, Lean verification row, or bridge datum remains available outside the displayed carrier.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier from \autoref{def:fast-cauchy-modulus-carrier}. The visible rows are exactly the source modulus $M$, fast discipline $F$, finite window $S$, dyadic ledger $D$, precision query $Q$, handoff $E$, transport $H$, replay $C$, provenance $P$, and local name $N$.
+
+Apply \autoref{thm:fast-cauchy-modulus-threshold-dichotomy}. The precision query can select only the direct fast threshold or the doubled-window threshold displayed by $F$ from the same source modulus row $M$.
+
+Apply \autoref{thm:fast-cauchy-modulus-window-exactness}. The StreamName window $S$ and DyadicRatCore ledger $D$ are determined by the selected threshold and the same query row $Q$.
+
+Finally use \autoref{thm:fast-cauchy-modulus-handoff-nonescape}. The handoff row $E$ is downstream of $M,F,S,D,Q$, while $H,C,P,N$ preserve the same route as transport, replay, provenance, and local naming. Since the refused objects have no carrier coordinate, every RegSeqRat or RealUp consumer factors through the displayed threshold, window, ledger, and handoff rows.
+\end{proof}
+
 \falsifiablePrediction{Every $\FastCauchyModulusUp$ precision read factors through one CauchyModulus row, one fast or doubled threshold discipline row, one StreamName finite window, one DyadicRatCore tolerance ledger, one precision query, one RegSeqRat and RealUp handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{cauchymodulus, streamname, dyadicratcore, regseqrat, real: $\FastCauchyModulusUp$ is not bijective to any listed sibling because it jointly carries the source modulus row, the fast or doubled threshold choice, the opened finite window, the dyadic slack ledger, and the regular-rational or Real-facing handoff as one certificate.}
