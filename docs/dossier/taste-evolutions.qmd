@@ -384,6 +384,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-22T03:23:10Z: `resolved` `add_downstream_user` for `BEDC.Derived.CauchySchwarzRealUp.CauchySchwarzRealCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:cauchyschwarzreal:BEDC.Derived.CauchySchwarzRealUp.CauchySchwarzRealCarrier_namecert_obligations:a0aa65be`). Rationale: The target is not a disposable wrapper: it constructs the SemanticNameCert surface for the CauchySchwarzReal carrier, and the paper uses it as the chapter closure target. It had no Lean-side consumer, so I added CauchySchwarzRealInnerproductBound_namecert_consumer in the sibling InnerproductBound module, where the inner-product boundary route now explicitly calls the NameCert obligations theorem and combines that certificate with the downstream bound route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-06-22T05:03:03Z: `resolved` `add_downstream_user` for `BEDC.Derived.CauchySchwarzRealUp.CauchySchwarzRealCarrier_dyadic_square_handoff` (flag `isolated_theorem`, finding `isolated_theorem:cauchyschwarzreal:BEDC.Derived.CauchySchwarzRealUp.CauchySchwarzRealCarrier_dyadic_square_handoff:a0aa65be`). Rationale: The handoff carries the finite dyadic-square route from vector source through scalar, square, readback, and Real seal rows, so deleting it would remove actual BEDC route content. I added a sibling NameCert-facing consumer in the inner-product-bound file that depends on this handoff and combines it with the carrier NameCert obligations, making the previously isolated theorem a real downstream premise. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
