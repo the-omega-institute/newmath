@@ -6,9 +6,29 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Meta.TasteGate
+
+theorem FilterLimitBasisCarrier_field_projection_round_trip :
+    (∀ x : FilterLimitBasisUp,
+      BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x ∧
+        ∃ fields : List BHist,
+          fields = filterLimitBasisFields x ∧ fields.length = 11) ∧
+      filterLimitBasisEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro x
+    constructor
+    · change filterLimitBasisFromEventFlow (filterLimitBasisToEventFlow x) = some x
+      exact ChapterTasteGate.round_trip x
+    · exact
+        ⟨filterLimitBasisFields x, rfl, by
+          cases x
+          rfl⟩
+  · rfl
 
 theorem FilterLimitBasisWindowBasisExhaustion [AskSetup] [PackageSetup]
     {Q F L W R D E H C P N basis limit window readback tolerance realSeal localRead : BHist}
