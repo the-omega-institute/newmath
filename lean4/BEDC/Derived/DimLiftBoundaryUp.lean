@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 /-!
@@ -10,6 +11,7 @@ namespace BEDC.Derived.DimLiftBoundaryUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -345,5 +347,33 @@ theorem DimLiftBoundaryPacket_single_carrier_alignment :
   · constructor
     · exact DimLiftBoundaryPacket_single_carrier_alignment_decode
     · exact DimLiftBoundaryPacket_single_carrier_alignment_round
+
+theorem DimLiftBoundaryCarrier_namecert_obligations {Z N A F R H C P Q : BHist} :
+    SemanticNameCert
+        (fun row : BHist => hsame row Q)
+        (fun row : BHist =>
+          hsame row Z ∨ hsame row N ∨ hsame row A ∨ hsame row F ∨ hsame row R ∨
+            hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row Q)
+        (fun row : BHist => hsame row row)
+        hsame ∧
+      Nonempty DimLiftBoundaryUp := by
+  -- BEDC touchpoint anchor: BHist BMark NameCert SemanticNameCert
+  constructor
+  · constructor
+    · constructor
+      · exact ⟨Q, hsame_refl Q⟩
+      · intro h _source
+        exact hsame_refl h
+      · intro h k same
+        exact hsame_symm same
+      · intro h k r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      · intro h k sameHK sourceH
+        exact hsame_trans (hsame_symm sameHK) sourceH
+    · intro h source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source)))))))
+    · intro h _source
+      exact hsame_refl h
+  · exact Nonempty.intro (DimLiftBoundaryUp.mk Z N A F R H C P Q)
 
 end BEDC.Derived.DimLiftBoundaryUp

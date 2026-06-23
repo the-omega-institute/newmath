@@ -6000,6 +6000,7 @@ import BEDC.Derived.FiniteUniformDiscrepancyUp
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteVitaliCoverUp.TasteGate
 import BEDC.Derived.FiniteVolumeUp.TasteGate
+import BEDC.Derived.FiniteWindowBaireCategoryUp.TasteGate
 import BEDC.Derived.FiniteWindowCompactnessUp.TasteGate
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteWindowEnvelopeUp.TasteGate
