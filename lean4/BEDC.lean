@@ -6728,6 +6728,7 @@ import BEDC.Derived.IntervalHalvingUp.DyadicNestedHandoff
 import BEDC.Derived.IntervalHalvingUp.TasteGate
 import BEDC.Derived.IntervalImageConnectedUp.TasteGate
 import BEDC.Derived.IntervalLengthUp.TasteGate
+import BEDC.Derived.IntervalNewtonUp
 import BEDC.Derived.IntervalNewtonUp.TasteGate
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.InverseFunctionUp.TasteGate
@@ -10499,9 +10500,11 @@ import BEDC.Derived.RegularRealCauchySelectorUp.TasteGate
 import BEDC.Derived.RegularSeqApartnessSeparatorUp
 import BEDC.Derived.RegularSequenceBishopUp
 import BEDC.Derived.RegularSequenceBishopUp.TasteGate
+import BEDC.Derived.RegularSequenceClusterWitnessUp.TasteGate
 import BEDC.Derived.RegularSequenceLimitUp.TasteGate
 import BEDC.Derived.RegularSequenceLocalizationUp.TasteGate
 import BEDC.Derived.RegularSequenceModulusUp.TasteGate
+import BEDC.Derived.RegularSequenceTailMetricUp.TasteGate
 import BEDC.Derived.RegularTopologicalSpaceUp.TasteGate
 import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RegularityModulusUp.CarrierSurface
@@ -10698,6 +10701,7 @@ import BEDC.Derived.S1Up.VisibleSourceUnitEquationPackage
 import BEDC.Derived.SamuelCompactificationUp.TasteGate
 import BEDC.Derived.SamuelCompletionUp
 import BEDC.Derived.SamuelCompletionUp.TasteGate
+import BEDC.Derived.SardRegularValueUp
 import BEDC.Derived.SardTheoremFiniteJetUp.TasteGate
 import BEDC.Derived.SchauderBasisUp.TasteGate
 import BEDC.Derived.SchauderFiniteCompactMapUp
