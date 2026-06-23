@@ -1,0 +1,13 @@
+\begin{theorem}[MetaCIC candidate handoff normalization-audit forward link]
+\label{thm:metacic-candidate-normalization-confluence-handoff-normalization-audit-forward-link}
+Every confluence-facing consumer of an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet must first read the $\MetacicNormalizationAuditUp$ packet of \autoref{ch:concrete-instances-metacicnormalizationaudit-namecert}. In particular, the handoff consumes the audit carrier of \autoref{def:metacic-normalization-audit-carrier}, the candidate evidence row of \autoref{thm:metacic-normalization-audit-candidate-boundary}, the closed projection route of \autoref{thm:metacic-normalization-audit-closed-term-projection-route}, the finite strong-normalization scope of \autoref{thm:metacic-normalization-audit-sn-scope}, the application boundary of \autoref{thm:metacic-normalization-audit-candidate-mediated-sn-closure}, and the confluence refusal row of \autoref{thm:metacic-normalization-audit-confluence-refusal-split} before candidate normalization is routed to any confluence-facing endpoint.
+\end{theorem}
+\begin{proof}
+Start with the normalization-audit carrier. The rows $R,C,S,A,N,F,H,T,P,L$ separate candidate evidence, closed projection, finite strong-normalization scope, application boundary, confluence refusal, replay, transport, provenance, and local naming.
+
+Apply the candidate boundary and closed-term projection route. They force any normalization read to expose candidate evidence and checked closed projection before the finite SN inventory can be consumed.
+
+Next apply the finite SN scope and candidate-mediated SN closure theorems. These rows keep the SN export inside the candidate ledger and retain the application boundary, so the handoff cannot convert candidate normalization into an evidence-free endpoint.
+
+Finally use the confluence refusal split. The refusal row $N$ remains visible when the handoff approaches a confluence-facing consumer, excluding global confluence, unrestricted subject reduction, quotient syntax equality, and host evaluator evidence from the forwarded route.
+\end{proof}
