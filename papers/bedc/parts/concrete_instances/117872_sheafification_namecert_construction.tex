@@ -100,6 +100,54 @@ The ledger $L$ records the matching-family and refinement checks. The ledger $G$
 Finally use $H,R,Q,N$. Componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming preserve the same route from $P$ through $L$ and $G$ to the $\SheafUp$ target row. They do not introduce a quotient of compatible families or a host sheafification functor, so the gluing read is exact at the displayed BEDC surface.
 \end{proof}
 
+\begin{theorem}[Sheafification separated refinement exactness]
+\label{thm:sheafification-separated-refinement-exactness}
+Let
+$$
+A=(C,T,J,P,L,G,S,H,R,Q,N)
+$$
+be an accepted $\SheafificationUp$ carrier. Every separated-refinement read of $A$ must pass through the displayed category row $C$, topology-window row $T$, Grothendieck-coverage row $J$, presheaf-restriction row $P$, and locality ledger $L$ before any separated sheaf-facing row may be consumed. The route is transported by $\hsame$ through $H$, replayed by $\Cont$ through $R$, sourced by $\Pkg$ through $Q$, and named only by the local $\NameCert_{\SheafificationUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+The carrier definition exposes separated refinement only as a locality entry in $L$. That row is indexed by the displayed source data $C,T,J,P$, so a separated read with no prior source exposure has no cover, no restriction comparison, and no matching-family ledger on which to stand.
+
+Now apply the structural rows. The $\hsame$ transport $H$ moves the same displayed components, $\Cont$ replay $R$ records the same route, $\Pkg$ provenance $Q$ identifies the sibling packets, and $N$ names the local certificate. None of these rows creates an independent host reflector or quotient-compatible-family object.
+
+Thus every separated-refinement read factors through $C,T,J,P,L$ before reaching the sheaf-facing surface.
+\end{proof}
+
+\begin{theorem}[Sheafification plus gluing replay]
+\label{thm:sheafification-plus-gluing-replay}
+For an accepted $\SheafificationUp$ carrier
+$$
+A=(C,T,J,P,L,G,S,H,R,Q,N),
+$$
+every plus-style gluing replay must pass through the locality ledger $L$, gluing ledger $G$, sheaf row $S$, componentwise transport row $H$, and displayed replay row $R$. The replay remains a finite $\BHist$ route using $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data; it is not a quotient construction of compatible families.
+\end{theorem}
+\begin{proof}
+First read $L$. It records the compatible matching-family rows over the displayed cover and restriction data. Then read $G$, which records the accepted glued section row for those compatible families.
+
+The sheaf row $S$ is downstream of that locality-and-gluing pair. Transport through $H$ and replay through $R$ carry the same finite route into a sheaf-facing consumer without adding a separate plus object.
+
+Finally $Q$ and $N$ package and name the route. Since the carrier has no coordinate for quotient families or selected covers, the plus-style replay is exactly the displayed path through $L,G,S,H,R$.
+\end{proof}
+
+\begin{theorem}[Sheafification local NameCert nonescape]
+\label{thm:sheafification-local-namecert-nonescape}
+For every accepted $\SheafificationUp$ packet
+$$
+A=(C,T,J,P,L,G,S,H,R,Q,N),
+$$
+the local $\NameCert_{\SheafificationUp}$ row $N$ cannot export a host reflector, a quotient compatible-family object, selected covers, or a topos-level reflector. Any consumer of $N$ receives only the finite $\BHist$ route through $C,T,J,P,L,G,S,H,R,Q$ together with the displayed $\hsame$, $\Cont$, and $\Pkg$ evidence.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The exposed rows are exactly the category, topology-window, coverage, presheaf, locality, gluing, sheaf, transport, replay, provenance, and local naming rows.
+
+The excluded objects are absent from that tuple. A host reflector, quotient compatible-family object, selected cover system, or topos-level reflector would require an additional coordinate or an additional classifier comparison.
+
+Because $N$ names only the displayed package and because $H,R,Q$ preserve the same route, the local certificate has no escape path to any of those excluded host constructions.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\SheafificationUp$ read displays CategoryUp, TopologyUp or GrothendieckTopologyUp, PreSheafUp, locality, gluing, SheafUp, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any sheaf-facing consumer can use the target row.}
 
 \independenceWitness{category, topology, grothendieck topology, presheaf, sheaf: $\SheafificationUp$ is not bijective to any listed sibling because it binds locality refinement and gluing handoff rows between a displayed presheaf source and a displayed sheaf target.}
