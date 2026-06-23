@@ -194,4 +194,143 @@ theorem IntervalNewtonContainmentObligation [AskSetup] [PackageSetup]
     unary_cont_closed unaryN unaryK containmentRoute
   exact ⟨unaryB, unaryN, unaryK, unaryContainment, containmentRoute, localPkg⟩
 
+theorem IntervalNewtonKrawczykRadiusLock [AskSetup] [PackageSetup]
+    {box fn deriv correction containment validated realSeal transport replay provenance localName
+      radiusRead remainderRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IntervalNewtonCarrier box fn deriv correction containment validated realSeal transport replay
+        provenance localName bundle pkg →
+      Cont correction deriv radiusRead →
+        Cont radiusRead realSeal remainderRead →
+          Cont containment validated consumerRead →
+            PkgSig bundle consumerRead pkg →
+              SemanticNameCert
+                (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row correction ∨ hsame row deriv ∨ hsame row radiusRead ∨
+                    hsame row remainderRead ∨ hsame row consumerRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont correction deriv radiusRead ∧
+                    Cont radiusRead realSeal remainderRead ∧
+                      Cont containment validated consumerRead ∧
+                        PkgSig bundle consumerRead pkg)
+                hsame ∧ UnaryHistory radiusRead ∧ UnaryHistory remainderRead ∧
+                  UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier correctionDerivRadius radiusRealSealRemainder containmentValidatedConsumer
+    consumerPkg
+  obtain ⟨_boxUnary, _fnUnary, derivUnary, correctionUnary, containmentUnary,
+    validatedUnary, realSealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _validatedLocal, _localPkg⟩ := carrier
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed correctionUnary derivUnary correctionDerivRadius
+  have remainderUnary : UnaryHistory remainderRead :=
+    unary_cont_closed radiusUnary realSealUnary radiusRealSealRemainder
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed containmentUnary validatedUnary containmentValidatedConsumer
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row correction ∨ hsame row deriv ∨ hsame row radiusRead ∨
+            hsame row remainderRead ∨ hsame row consumerRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont correction deriv radiusRead ∧
+            Cont radiusRead realSeal remainderRead ∧ Cont containment validated consumerRead ∧
+              PkgSig bundle consumerRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro consumerRead
+        ⟨hsame_refl consumerRead, consumerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, correctionDerivRadius, radiusRealSealRemainder,
+          containmentValidatedConsumer, consumerPkg⟩
+  }
+  exact ⟨cert, radiusUnary, remainderUnary, consumerUnary⟩
+
+theorem IntervalNewtonValidatedConsumerBoundary [AskSetup] [PackageSetup]
+    {box fn deriv correction containment validated realSeal transport replay provenance localName
+      validatedRead boundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IntervalNewtonCarrier box fn deriv correction containment validated realSeal transport replay
+        provenance localName bundle pkg →
+      Cont containment validated validatedRead →
+        Cont validatedRead realSeal boundaryRead →
+          PkgSig bundle boundaryRead pkg →
+            SemanticNameCert
+              (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row containment ∨ hsame row validated ∨ hsame row validatedRead ∨
+                  hsame row realSeal ∨ hsame row boundaryRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont containment validated validatedRead ∧
+                  Cont validatedRead realSeal boundaryRead ∧ PkgSig bundle boundaryRead pkg)
+              hsame ∧ UnaryHistory validatedRead ∧ UnaryHistory boundaryRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier containmentValidatedRead validatedRealSealBoundary boundaryPkg
+  obtain ⟨_boxUnary, _fnUnary, _derivUnary, _correctionUnary, containmentUnary,
+    validatedUnary, realSealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _validatedLocal, _localPkg⟩ := carrier
+  have validatedReadUnary : UnaryHistory validatedRead :=
+    unary_cont_closed containmentUnary validatedUnary containmentValidatedRead
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed validatedReadUnary realSealUnary validatedRealSealBoundary
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row containment ∨ hsame row validated ∨ hsame row validatedRead ∨
+            hsame row realSeal ∨ hsame row boundaryRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont containment validated validatedRead ∧
+            Cont validatedRead realSeal boundaryRead ∧ PkgSig bundle boundaryRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro boundaryRead
+        ⟨hsame_refl boundaryRead, boundaryUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, containmentValidatedRead, validatedRealSealBoundary, boundaryPkg⟩
+  }
+  exact ⟨cert, validatedReadUnary, boundaryUnary⟩
+
 end BEDC.Derived.IntervalNewtonUp
