@@ -5125,6 +5125,7 @@ import BEDC.Derived.EffectiveMetricSpaceUp.TasteGate
 import BEDC.Derived.EffectiveModulusCompactFamilyUp.TasteGate
 import BEDC.Derived.EffectiveModulusUp
 import BEDC.Derived.EffectiveModulusUp.TasteGate
+import BEDC.Derived.EffectivePolishSpaceUp.RealizerHandoff
 import BEDC.Derived.EffectivePolishSpaceUp.TasteGate
 import BEDC.Derived.EffectiveRegularRealExtensionalityUp
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
@@ -6365,6 +6366,7 @@ import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
 import BEDC.Derived.HemicompactSpaceUp.TasteGate
 import BEDC.Derived.HenselLemmaUp.NewtonWitnessNonescape
 import BEDC.Derived.HenselLemmaUp.TasteGate
+import BEDC.Derived.HenstockGaugePartitionUp
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
