@@ -50,6 +50,14 @@ ANCHOR_ASSEMBLY_ACCESSIONS = (
     "GCF_000008725.1",
     "GCF_000011965.2",
     "GCF_000196095.1",
+    "GCF_000008525.1",
+    "GCF_000009725.1",
+    "GCF_000006905.1",
+    "GCF_000009425.1",
+    "GCF_000006885.1",
+    "GCF_000008805.1",
+    "GCF_000007125.1",
+    "GCF_000195815.1",
 )
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -453,7 +461,13 @@ def fetch_species_payload(summary: dict[str, object], paxdb_taxids: set[str]) ->
     protein_text, protein_contact = ncbi.fetch_assembly_file(ftp_path, "protein.faa.gz")
     gbff_text = ""
     gbff_contact: dict[str, object] = {"reachable": False, "skipped": True}
-    if not gff_text:
+    need_gbff = False
+    if gff_text:
+        gff_trna_counts, gff_trna_meta = ncbi.parse_gff_trna_and_tables(gff_text)
+        need_gbff = int(gff_trna_meta.get("n_trna_with_anticodon", 0)) == 0 or not gff_trna_meta.get("transl_table_counts")
+        if gff_trna_counts:
+            del gff_trna_counts
+    if not gff_text or need_gbff:
         gbff_text, gbff_contact = ncbi.fetch_assembly_file(ftp_path, "genomic.gbff.gz")
     table, trna_counts, trna_meta = parse_gff_tables_and_trna(gff_text, gbff_text)
     cds_records, cds_meta = parse_cds_records(cds_text) if cds_text else ([], {"n_accepted_cds": 0})
