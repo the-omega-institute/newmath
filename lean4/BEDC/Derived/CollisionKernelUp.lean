@@ -363,4 +363,33 @@ theorem CollisionKernelCarrier_fiber_classifier_composition [AskSetup] [PackageS
     ⟨matrixReadUnary, shadowReadUnary, matrixRoute, shadowRoute, provenancePkg,
       nameCertPkg⟩
 
+theorem CollisionKernelCarrier_downstream_non_escape_package [AskSetup] [PackageSetup]
+    {window fold ledger matrix moment shadow transport route provenance nameCert matrixRead
+      shadowRead terminal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CollisionKernelCarrier window fold ledger matrix moment shadow transport route provenance
+        nameCert bundle pkg ->
+      Cont ledger matrix matrixRead ->
+        Cont moment matrix shadowRead ->
+          Cont matrixRead nameCert terminal ->
+            PkgSig bundle terminal pkg ->
+              UnaryHistory matrixRead ∧ UnaryHistory shadowRead ∧ UnaryHistory terminal ∧
+                Cont ledger matrix matrixRead ∧ Cont moment matrix shadowRead ∧
+                  Cont matrixRead nameCert terminal ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle nameCert pkg ∧ PkgSig bundle terminal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier matrixReadRoute shadowReadRoute terminalRoute terminalPkg
+  obtain ⟨_windowUnary, _foldUnary, ledgerUnary, matrixUnary, momentUnary, _shadowUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, nameCertUnary, _windowRoute,
+    _ledgerRoute, _momentRoute, provenancePkg, nameCertPkg⟩ := carrier
+  have matrixReadUnary : UnaryHistory matrixRead :=
+    unary_cont_closed ledgerUnary matrixUnary matrixReadRoute
+  have shadowReadUnary : UnaryHistory shadowRead :=
+    unary_cont_closed momentUnary matrixUnary shadowReadRoute
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed matrixReadUnary nameCertUnary terminalRoute
+  exact
+    ⟨matrixReadUnary, shadowReadUnary, terminalUnary, matrixReadRoute, shadowReadRoute,
+      terminalRoute, provenancePkg, nameCertPkg, terminalPkg⟩
+
 end BEDC.Derived.CollisionKernelUp
