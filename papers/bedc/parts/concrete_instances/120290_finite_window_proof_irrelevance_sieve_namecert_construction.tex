@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWindowProofIrrelevanceSieveUp$}
+\label{ch:concrete-instances-finite-window-proof-irrelevance-sieve-namecert}
+\origin{human}
+
+Following Bishop and Bridges on proof-relevant constructive data and Troelstra--van Dalen on realizability-style finite evidence, the $\FiniteWindowProofIrrelevanceSieveUp$ packet records the finite boundary at which proof-token identity remains available as evidence while the public classifier ignores it. It sits beside the finite observation service of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}, and the shared-tail normalizer of \autoref{ch:concrete-instances-cauchy-tail-threshold-normalizer-namecert}. The packet is a finite sieve for Real and Completion-facing reads: it preserves the proof-token ledger as local evidence, but no displayed stream, regular-rational, dyadic, or Real row may classify two packets differently merely because the retained proof token has a different identity.
+
+\begin{definition}[FiniteWindowProofIrrelevanceSieve carrier]
+\label{def:finite-window-proof-irrelevance-sieve-carrier}
+A $\FiniteWindowProofIrrelevanceSieveUp$ carrier is a finite $\BHist$ packet
+$$
+S=(W,R,D,E,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite $\StreamNameUp$ window row, recording the observable prefixes used by the consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the finite reads.
+\item $E$ is the terminal $\RealUp$ or Completion-facing seal row, available only after $W,R,D$ have been displayed.
+\item $Q$ is the proof-token ledger retained inside the packet as evidence for how the finite windows were justified; $Q$ is not a coordinate of the public classifier.
+\item $H$ records componentwise $\hsame$ transport for the window, readback, dyadic, seal, proof-token, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite read request through $W,R,D,E,Q,H$.
+\item $P$ is the $\Pkg$ provenance row over $\FiniteWindowProofIrrelevanceSieveUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteWindowProofIrrelevanceSieveUp}$ row.
+\end{enumerate}
+The public classifier compares accepted packets only through $W,R,D,E,H,C,P,N$. The row $Q$ may be inspected by the local proof ledger, but it cannot create a public distinction after the same finite windows, regular readback, dyadic tolerance data, and seal row have been displayed.
+\end{definition}
+
+\begin{theorem}[FiniteWindowProofIrrelevanceSieve NameCert obligations]
+\label{thm:finite-window-proof-irrelevance-sieve-namecert-obligations}
+For every accepted $\FiniteWindowProofIrrelevanceSieveUp$ carrier
+$$
+S=(W,R,D,E,Q,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteWindowProofIrrelevanceSieveUp}$ surface consists exactly of carrier admission for the finite window, regular readback, dyadic tolerance, Real or Completion seal, proof-token ledger, transport, replay, provenance, and local naming rows; public-readback preservation requiring every public consumer to expose the same $W,R,D,E$ rows before classification; proof-token erasure requiring the classifier to ignore identity changes in $Q$ once $W,R,D,E,H,C,P,N$ are fixed; ledger nonescape requiring $Q$ to remain a retained evidence row rather than a public classifier coordinate; componentwise $\hsame$ transport for all displayed rows; displayed $\Cont$ replay through the same finite route; $\Pkg$ provenance over the listed sibling carriers; and the local naming obligation for $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:finite-window-proof-irrelevance-sieve-carrier}. The packet displays the finite observation row $W$, the regular rational readback $R$, the dyadic tolerance ledger $D$, the terminal seal row $E$, and the retained proof-token ledger $Q$ before transport, replay, provenance, and naming are inspected.
+
+Public-readback preservation is read componentwise. A public consumer sees $W,R,D,E,H,C,P,N$ in the same order as the carrier, so two accepted packets with the same visible rows offer the same StreamName, RegSeqRat, DyadicRatCore, and Real-facing data.
+
+Proof-token erasure and ledger nonescape are the same finite sieve boundary. The row $Q$ remains present as evidence for local reconstruction, but it is not an argument of the public classifier. Replacing $Q$ while preserving the visible rows therefore cannot change the public readback class.
+
+Transport and replay are handled row by row. The $\hsame$ row $H$ transports each displayed component without turning $Q$ into a public coordinate, and the $\Cont$ row $C$ replays finite read requests through the same window, readback, dyadic, seal, and retained-ledger route.
+
+Finally, $P$ and $N$ source and name the same finite packet. Since the carrier has no extra public coordinate beyond $W,R,D,E,H,C,P,N$, the listed clauses exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteWindowProofIrrelevanceSieveUp$ public read exposes the StreamNameUp windows, RegSeqRat readback, DyadicRatCore tolerance ledger, RealUp or Completion-facing seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row before classification; a read whose only difference is proof-token identity in $Q$ has the same public classifier value.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, cauchytailthresholdnormalizer: none is bijective to $\FiniteWindowProofIrrelevanceSieveUp$ because the packet jointly carries public finite reads and a retained proof-token ledger while refusing to let proof-token identity escape into the public classifier.}
+
+\closureat{FiniteWindowProofIrrelevanceSieveUp}{seedStr}
+
+\begin{closurestatus}{\FiniteWindowProofIrrelevanceSieveUp}
+  \constructivestory{A $\FiniteWindowProofIrrelevanceSieveUp$ packet is generated from finite StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealUp or Completion-facing seal, a retained proof-token ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-window-proof-irrelevance-sieve-carrier} and \autoref{thm:finite-window-proof-irrelevance-sieve-namecert-obligations} seed the finite public-readback route that retains proof-token evidence while erasing proof-token identity from the classifier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotienting of displayed streams, proof irrelevance for all BEDC objects, selected limits, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, public-readback preservation, proof-token erasure, ledger nonescape, hsame transport, Cont replay, Pkg provenance, and local naming for BEDC.Derived.FiniteWindowProofIrrelevanceSieveUp.}
+\end{closurestatus}
