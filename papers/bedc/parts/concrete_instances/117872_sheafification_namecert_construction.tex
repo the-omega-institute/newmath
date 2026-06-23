@@ -132,6 +132,34 @@ The sheaf row $S$ is downstream of that locality-and-gluing pair. Transport thro
 Finally $Q$ and $N$ package and name the route. Since the carrier has no coordinate for quotient families or selected covers, the plus-style replay is exactly the displayed path through $L,G,S,H,R$.
 \end{proof}
 
+\begin{theorem}[Sheafification source obligation package]
+\label{thm:sheafification-source-obligation-package}
+For an accepted $\SheafificationUp$ packet
+$$
+A=(C,T,J,P,L,G,S,H,R,Q,N),
+$$
+every sheaf-facing consumer must expose the $\CategoryUp$ source $C$, the $\TopologyUp$ or $\GrothendieckTopologyUp$ cover rows $T,J$, the $\PreSheafUp$ restriction row $P$, locality rows $L$, gluing rows $G$, the $\SheafUp$ target row $S$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $R$, $\Pkg$ provenance $Q$, and the local $\NameCert_{\SheafificationUp}$ row $N$ before it reads $S$.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:sheafification-coverage-exactness}. It forces every locality read through $C,T,J,P$ before the ledger $L$ is available.
+
+Next use \autoref{thm:sheafification-locality-refinement} and \autoref{thm:sheafification-gluing-exactness}. Locality rows in $L$ are stable under displayed refinement, and the sheaf target $S$ is consumed only after $L$ and $G$ have displayed compatible local sections over the presheaf row $P$.
+
+The structural rows complete the package. The tuple projection supplies $H,R,Q,N$, and these rows transport, replay, source, and name the same route rather than adding a host reflector, quotient family, selected cover, or topos object.
+\end{proof}
+
+\begin{theorem}[Sheafification local gluing induction]
+\label{thm:sheafification-local-gluing-induction}
+Finite induction over displayed cover-refinement rows in an accepted $\SheafificationUp$ packet preserves the route from locality to gluing: the base cover reads $C,T,J,P,L$, and each displayed refinement transports matching-family data by $H$ and replays the same $\Cont$ route $R$ before the gluing row $G$ and sheaf target $S$ are consumed. The induction exports no quotient of compatible families, selected cover system, host reflector, or ambient powerset equality.
+\end{theorem}
+\begin{proof}
+For the base cover, use \autoref{thm:sheafification-coverage-exactness}. The locality ledger is typed only after $C,T,J,P$ have been displayed, so the base matching-family row is already inside the finite carrier.
+
+For a refinement step, apply \autoref{thm:sheafification-locality-refinement}. The displayed $\GrothendieckTopologyUp$ refinement row and the transport row $H$ preserve matching-family data over the same presheaf row $P$.
+
+Finally use \autoref{thm:sheafification-gluing-exactness} together with \autoref{thm:sheafification-plus-gluing-replay}. The gluing ledger $G$ and target row $S$ are read only after the preserved locality route has been replayed by $R$, so finite induction stays inside $L,G,S,H,R,Q,N$ and never produces an external quotient or choice coordinate.
+\end{proof}
+
 \begin{theorem}[Sheafification local NameCert nonescape]
 \label{thm:sheafification-local-namecert-nonescape}
 For every accepted $\SheafificationUp$ packet
