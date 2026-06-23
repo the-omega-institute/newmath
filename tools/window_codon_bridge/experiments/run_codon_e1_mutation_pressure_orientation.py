@@ -221,11 +221,10 @@ def component_vectors(sense_codons: list[str], families: dict[str, list[str]], i
     return rows
 
 
-def basis_without_named_components(b1_basis: list[list[Fraction]], remove: list[list[float]]) -> list[list[float]]:
-    b1_float = [[float(value) for value in q] for q in b1_basis]
-    remove_basis = span_basis([project_onto_fraction_basis(b1_basis, vector) for vector in remove])
+def basis_without_named_components(b1_basis: list[list[float]], remove: list[list[float]]) -> list[list[float]]:
+    remove_basis = span_basis([project_onto_orthonormal(b1_basis, vector) for vector in remove])
     keep = []
-    for q in b1_float:
+    for q in b1_basis:
         reduced = residualize_against(remove_basis, q)
         for prior in keep:
             reduced = subtract(reduced, scale(dot(prior, reduced), prior))
@@ -239,7 +238,7 @@ def gc_equilibrium_basis(
     sense_codons: list[str],
     families: dict[str, list[str]],
     index: dict[str, int],
-    b1_basis: list[list[Fraction]],
+    b1_basis: list[list[float]],
 ) -> tuple[list[str], list[list[float]]]:
     raw_rows: list[tuple[str, list[float]]] = []
     for pos in range(3):
@@ -256,7 +255,7 @@ def gc_equilibrium_basis(
     names = []
     vectors = []
     for name, raw in raw_rows:
-        projected = project_onto_fraction_basis(b1_basis, project_syn_float(raw, families, index))
+        projected = project_onto_orthonormal(b1_basis, project_syn_float(raw, families, index))
         names.append(name)
         vectors.append(projected)
     return names, span_basis(vectors)
@@ -375,27 +374,27 @@ def apply_permutation(vector: list[float], permutation: dict[str, str], sense_co
 def endpoint_cos(
     d: list[float],
     z: list[float],
-    b1_basis: list[list[Fraction]],
+    b1_basis: list[list[float]],
     endpoint_basis: list[list[float]] | None,
     gc_basis: list[list[float]],
 ) -> float | None:
     if endpoint_basis is None:
-        x = project_onto_fraction_basis(b1_basis, d)
-        y = project_onto_fraction_basis(b1_basis, z)
+        x = project_onto_orthonormal(b1_basis, d)
+        y = project_onto_orthonormal(b1_basis, z)
     else:
         x = project_onto_orthonormal(endpoint_basis, d)
         y = project_onto_orthonormal(endpoint_basis, z)
     if gc_basis:
         x = residualize_against(gc_basis, x)
         y = residualize_against(gc_basis, y)
-        x = project_onto_fraction_basis(b1_basis, x)
-        y = project_onto_fraction_basis(b1_basis, y)
+        x = project_onto_orthonormal(b1_basis, x)
+        y = project_onto_orthonormal(b1_basis, y)
     return vector_cos(x, y)
 
 
 def compute_rows(
     panel: dict[str, object],
-    b1_basis: list[list[Fraction]],
+    b1_basis: list[list[float]],
     endpoint_bases: dict[str, list[list[float]] | None],
     gc_basis: list[list[float]],
     sense_codons: list[str],
@@ -430,7 +429,7 @@ def relabeled_stat(
     rows: list[dict[str, object]],
     permutation: dict[str, str],
     endpoint: str,
-    b1_basis: list[list[Fraction]],
+    b1_basis: list[list[float]],
     endpoint_basis: list[list[float]] | None,
     gc_basis: list[list[float]],
     sense_codons: list[str],
@@ -449,7 +448,7 @@ def null_distribution(
     rows: list[dict[str, object]],
     families: dict[str, list[str]],
     endpoint: str,
-    b1_basis: list[list[Fraction]],
+    b1_basis: list[list[float]],
     endpoint_basis: list[list[float]] | None,
     gc_basis: list[list[float]],
     sense_codons: list[str],
@@ -462,6 +461,45 @@ def null_distribution(
     for _ in range(N_NULL):
         permutation = family_permutation(families, rng, gc_stratified)
         values.append(relabeled_stat(rows, permutation, endpoint, b1_basis, endpoint_basis, gc_basis, sense_codons, index))
+    return values
+
+
+def batch_null_distributions(
+    rows: list[dict[str, object]],
+    families: dict[str, list[str]],
+    endpoints: dict[str, list[list[float]] | None],
+    b1_basis: list[list[float]],
+    gc_basis: list[list[float]],
+    sense_codons: list[str],
+    index: dict[str, int],
+    seed: str,
+    gc_stratified: bool,
+) -> dict[str, list[float]]:
+    rng = random.Random(stable_seed(seed))
+    values = {endpoint: [] for endpoint in endpoints}
+    for _ in range(N_NULL):
+        permutation = family_permutation(families, rng, gc_stratified)
+        relabeled_by_endpoint = {endpoint: [] for endpoint in endpoints}
+        for row in rows:
+            d = [float(value) for value in row["d"]]  # type: ignore[union-attr]
+            z = [float(value) for value in row["z"]]  # type: ignore[union-attr]
+            zp = apply_permutation(z, permutation, sense_codons, index)
+            base_row = {"species_key": row["species_key"]}
+            for endpoint, basis in endpoints.items():
+                relabeled_by_endpoint[endpoint].append(
+                    {
+                        **base_row,
+                        f"C_{endpoint}": endpoint_cos(
+                            d,
+                            zp,
+                            b1_basis,
+                            basis,
+                            gc_basis if endpoint == "gc_equilibrium_residualized" else [],
+                        ),
+                    }
+                )
+        for endpoint in endpoints:
+            values[endpoint].append(statistic(relabeled_by_endpoint[endpoint], f"C_{endpoint}")[0])
     return values
 
 
@@ -523,7 +561,8 @@ def main() -> None:
     sense_codons = sense_codon_order()
     index = {codon: idx for idx, codon in enumerate(sense_codons)}
     families = families_by_aa(sense_codons)
-    b1_basis = build_b1_basis_exact(full_codons, sense_codons, families, index)
+    exact_b1_basis = build_b1_basis_exact(full_codons, sense_codons, families, index)
+    b1_basis = span_basis([[float(value) for value in vector] for vector in exact_b1_basis])
     components = component_vectors(sense_codons, families, index)
     minus_p3w = basis_without_named_components(b1_basis, [components["p3_W"]])
     minus_all_p3 = basis_without_named_components(b1_basis, [components[f"p3_{char}"] for char in ("R", "W", "K")])
@@ -535,14 +574,20 @@ def main() -> None:
         "gc_equilibrium_residualized": None,
     }
     rows = compute_rows(panel, b1_basis, endpoints, gc_basis, sense_codons, families, index)
+    null_global_by_endpoint = batch_null_distributions(
+        rows, families, endpoints, b1_basis, gc_basis, sense_codons, index, NULL_SEED, False
+    )
+    null_gc_by_endpoint = batch_null_distributions(
+        rows, families, endpoints, b1_basis, gc_basis, sense_codons, index, GC_NULL_SEED, True
+    )
     endpoint_payload: dict[str, object] = {}
     primary_ok = False
     any_nonprimary_significant = False
     for endpoint, basis in endpoints.items():
         key = f"C_{endpoint}"
         observed, per_species = statistic(rows, key)
-        null_global = null_distribution(rows, families, endpoint, b1_basis, basis, gc_basis, sense_codons, index, NULL_SEED + "." + endpoint, False)
-        null_gc = null_distribution(rows, families, endpoint, b1_basis, basis, gc_basis, sense_codons, index, GC_NULL_SEED + "." + endpoint, True)
+        null_global = null_global_by_endpoint[endpoint]
+        null_gc = null_gc_by_endpoint[endpoint]
         p_global = p_value_ge(observed, null_global)
         p_gc = p_value_ge(observed, null_gc)
         lower = bootstrap_lower95(per_species, BOOTSTRAP_SEED + "." + endpoint)
@@ -580,7 +625,7 @@ def main() -> None:
         n_clades=int(panel["n_clades"]),
         n_species=int(panel["n_species"]),
         species=list(panel["species"]),
-        rank_B1=len(b1_basis),
+        rank_B1=len(exact_b1_basis),
         rank_minus_p3W=len(minus_p3w),
         rank_minus_all_p3=len(minus_all_p3),
         gc_equilibrium_basis={
