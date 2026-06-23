@@ -20,6 +20,31 @@ CHOICE_STATUS_TO_LEAN = {
     "unprobed": "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.ChoiceStatus.unprobed",
 }
 
+PLACE_TO_LEAN = {
+    "finite_p": "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.Place.finiteP",
+    "infinite_archimedean": (
+        "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.Place.infiniteArchimedean"
+    ),
+    "object_base": "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.Place.objectBase",
+    "n_a": "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.Place.nA",
+}
+
+LOCATEDNESS_TO_LEAN = {
+    "located": "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.Locatedness.located",
+    "arbitrary": "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.Locatedness.arbitrary",
+    "n_a": "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.Locatedness.nA",
+}
+
+QUOTIENT_STATUS_TO_LEAN = {
+    "structural_quotient": (
+        "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.QuotientStatus.structuralQuotient"
+    ),
+    "quotient_free": (
+        "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.QuotientStatus.quotientFree"
+    ),
+    "n_a": "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.QuotientStatus.nA",
+}
+
 
 def find_bridge_root() -> Path:
     here = Path(__file__).resolve()
@@ -37,6 +62,9 @@ def render_audit(rows: list[dict[str, object]]) -> str:
     entries = []
     for row in rows:
         choice_status = str(row["choice_status"])
+        place = str(row["place"])
+        locatedness = str(row["locatedness"])
+        quotient_status = str(row["quotient_status"])
         entries.append(
             "{ rowId := "
             + lean_string(str(row["row_id"]))
@@ -44,7 +72,10 @@ def render_audit(rows: list[dict[str, object]]) -> str:
             + f", mathlibFootprint := #[{render_axioms(row['mathlib_footprint'])}]"
             + f", bedcIrreducibleDecl := {lean_name(str(row['bedc_irreducible_decl']))}"
             + f", bedcIrreducibleFootprint := #[{render_axioms(row['bedc_irreducible_footprint'])}]"
-            + f", choiceStatus := {CHOICE_STATUS_TO_LEAN[choice_status]} }}"
+            + f", choiceStatus := {CHOICE_STATUS_TO_LEAN[choice_status]}"
+            + f", place := {PLACE_TO_LEAN[place]}"
+            + f", locatedness := {LOCATEDNESS_TO_LEAN[locatedness]}"
+            + f", quotientStatus := {QUOTIENT_STATUS_TO_LEAN[quotient_status]} }}"
         )
     body = ",\n  ".join(entries)
     return (

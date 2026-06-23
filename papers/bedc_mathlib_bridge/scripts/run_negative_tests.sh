@@ -203,6 +203,15 @@ EOF
 expect_fail BEDC_GATE_E_AXIOM_MISMATCH \
   python3 "$ROOT/scripts/check_boundary_axioms.py" "$TMP_DIR/boundary_fake.md"
 
+cat > "$TMP_DIR/boundary_tag_fake.md" <<'EOF'
+| row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
+| --- | --- | --- | --- | --- | --- | --- |
+| fake-tag-boundary | fixture | mathlib Int CommRing (`Int.instCommRing`) | boundary fact (not bridged) | fixture | mathlib_footprint=[propext] | fixture <!-- bedc-bridge-row: {"row_id":"fake-tag-boundary","kind":"measured_boundary","mathlib_class":"CommRing","mathlib_instance":"Int.instCommRing","mathlib_decl":"Int.instCommRing","mathlib_footprint":["propext"],"bedc_irreducible_decl":"Int.instCommRing","bedc_irreducible_footprint":["propext"],"choice_status":"unprobed","probe_status":"unprobed","place":"finite_prime","locatedness":"n_a","quotient_status":"structural_quotient"} --> |
+EOF
+
+expect_fail BEDC_GATE_E_SCHEMA \
+  python3 "$ROOT/scripts/check_boundary_axioms.py" "$TMP_DIR/boundary_tag_fake.md"
+
 cat > "$TMP_DIR/boundary_choice_fake.md" <<'EOF'
 | row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -211,5 +220,14 @@ EOF
 
 expect_fail BEDC_GATE_E_REDUCIBLE_CHOICE \
   python3 "$ROOT/scripts/check_boundary_axioms.py" "$TMP_DIR/boundary_choice_fake.md"
+
+cat > "$TMP_DIR/boundary_real_fake.md" <<'EOF'
+| row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
+| --- | --- | --- | --- | --- | --- | --- |
+| fake-real-boundary | fixture | synthesized mathlib SupSet Real | boundary fact (not bridged) | fixture | mathlib_footprint=[] | fixture <!-- bedc-bridge-row: {"row_id":"fake-real-boundary","kind":"measured_boundary","mathlib_class":"SupSet","mathlib_instance":"ConditionallyCompleteLattice.toSupSet","mathlib_decl":"BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.auditRealSupSet","mathlib_footprint":[],"bedc_irreducible_decl":"BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.auditRealSupSet","bedc_irreducible_footprint":[],"choice_status":"principled_irreducible","probe_status":"unprobed","place":"infinite_archimedean","locatedness":"arbitrary","quotient_status":"structural_quotient"} --> |
+EOF
+
+expect_fail BEDC_GATE_E_AXIOM_MISMATCH \
+  python3 "$ROOT/scripts/check_boundary_axioms.py" "$TMP_DIR/boundary_real_fake.md"
 
 echo "[negative] all expected failures matched gate tokens"

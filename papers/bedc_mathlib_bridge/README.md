@@ -14,6 +14,8 @@ Int exported witness 的 ring/order/divisibility slot 绑定同一个 canonical 
 
 接入一个 anchor 的步骤：在 `lean4/BedcMathlibBridge/Export/<Anchor>.lean` 定义 `<Anchor>ExportWitness` 和具体 witness；把 0-axiom export 文件纳入 `BedcMathlibBridge.Export` 与 `BedcMathlibBridge.All`；把 witness 加入 `BedcMathlibBridge.CI.ExportAudit.exportWitnessRegistry`；在 `MATRIX.md` 行内写稳定 `row_id`、四分类、`mathlib_class`、`mathlib_instance` 与 `export_witness` metadata；运行 Gate A/D/S。
 
-boundary fact 行不写桥定理。Gate E 从 `MATRIX.md` 读取 `boundary_decl` 与排序后的 `expected_axioms`，对实际 declaration 运行 `collectAxioms` 并精确比对，同时拒绝 hard-forbidden axioms。`BedcMathlibBridge.Audit.BoundaryFactAxiomGuard` 不被 `BedcMathlibBridge.All` import，避免 classical footprint 污染 bridge surface。
+boundary fact 行不写桥定理。Gate E 从 `MATRIX.md` 读取 `boundary_decl` / `mathlib_decl` 与排序后的 `expected_axioms` / `mathlib_footprint`，对实际 declaration 运行 `collectAxioms` 并精确比对，同时拒绝 hard-forbidden axioms。每行可带 `place`、`locatedness`、`quotient_status` metadata；缺省为 `n_a`，枚举值由 `scripts/matrix_metadata.py` 校验。`BedcMathlibBridge.Audit.BoundaryFactAxiomGuard` 不被 `BedcMathlibBridge.All` import，避免 classical footprint 污染 bridge surface。
 
 当前 Int replacement probe 的结论以 `MATRIX.md` 和 Gate E 实测为准：canonical CInt add/mul/order/dvd wrappers 保持 0-axiom export；bundled CommRing/EuclideanDomain 的 from-scratch replacement probe 使用 term-mode 证明后仍有残留公理 footprint，因此诚实记录为 measured boundary，而不作为 exported witness。
+
+mathlib 的实数任意上确界 / 条件完备序，以及 p 进整数和 p 进数的公开结构，在 `MATRIX.md` 中作为 measured boundary 记录。实测 footprint 为 `Classical.choice`、`Quot.sound`、`propext`，即 mathlib 侧经 Cauchy quotient 与 choice；BEDC canonical CZp / CQp 与 located-sup 替代是 0-axiom 目标，此矩阵不构造、不声称。`infinite_archimedean` 上的 `located` / `arbitrary` 只是 harness tag，不是把无穷位写成数论 prime 的 Lean 定理。

@@ -5,7 +5,10 @@ import Mathlib.Algebra.EuclideanDomain.Int
 import Mathlib.Algebra.Order.Ring.Int
 import Mathlib.Algebra.Order.ZeroLEOne
 import Mathlib.Data.Int.ConditionallyCompleteOrder
+import Mathlib.Data.Real.Basic
+import Mathlib.NumberTheory.Padics.PadicIntegers
 import Mathlib.Order.Basic
+import Mathlib.Order.ConditionallyCompleteLattice.Basic
 
 namespace BedcMathlibBridge.Audit.BoundaryFactAxiomGuard
 
@@ -18,6 +21,25 @@ inductive ChoiceStatus where
   | unprobed
 deriving BEq, Repr
 
+inductive Place where
+  | finiteP
+  | infiniteArchimedean
+  | objectBase
+  | nA
+deriving BEq, Repr
+
+inductive Locatedness where
+  | located
+  | arbitrary
+  | nA
+deriving BEq, Repr
+
+inductive QuotientStatus where
+  | structuralQuotient
+  | quotientFree
+  | nA
+deriving BEq, Repr
+
 structure BoundaryExpectation where
   rowId : String
   mathlibDecl : Name
@@ -25,6 +47,9 @@ structure BoundaryExpectation where
   bedcIrreducibleDecl : Name
   bedcIrreducibleFootprint : Array Name
   choiceStatus : ChoiceStatus
+  place : Place
+  locatedness : Locatedness
+  quotientStatus : QuotientStatus
 
 /--
 Audit-only names for synthesized Int instances that have no standalone mathlib
@@ -38,6 +63,19 @@ noncomputable def auditIntSupSet : SupSet _root_.Int :=
   inferInstance
 
 noncomputable def auditIntInfSet : InfSet _root_.Int :=
+  inferInstance
+
+noncomputable def auditRealConditionallyCompleteLinearOrder :
+    ConditionallyCompleteLinearOrder _root_.Real :=
+  inferInstance
+
+noncomputable def auditRealSupSet : SupSet _root_.Real :=
+  inferInstance
+
+noncomputable def auditPadicIntCommRing (p : Nat) [Fact p.Prime] : CommRing ℤ_[p] :=
+  inferInstance
+
+noncomputable def auditPadicField (p : Nat) [Fact p.Prime] : Field ℚ_[p] :=
   inferInstance
 
 def formatNames (names : Array Name) : String :=
@@ -70,6 +108,9 @@ def forbiddenAxioms : Array Name := #[
 def classicalChoice : Name :=
   `Classical.choice
 
+def quotSound : Name :=
+  `Quot.sound
+
 def intersection (xs ys : Array Name) : Array Name :=
   xs.filter fun x => containsName ys x
 
@@ -98,7 +139,7 @@ def auditFootprint (rowId : String) (label : String) (decl : Name)
   return actualSorted
 
 def auditOne (e : BoundaryExpectation) : CommandElabM Unit := do
-  let _ ← auditFootprint e.rowId "mathlib" e.mathlibDecl e.mathlibFootprint
+  let mathlib ← auditFootprint e.rowId "mathlib" e.mathlibDecl e.mathlibFootprint
   let irreducible ←
     auditFootprint e.rowId "BEDC-irreducible" e.bedcIrreducibleDecl
       e.bedcIrreducibleFootprint
@@ -113,6 +154,17 @@ def auditOne (e : BoundaryExpectation) : CommandElabM Unit := do
       "BEDC_GATE_E_CHOICE_STATUS_MISMATCH: row `{e.rowId}` is marked \
       `principled_irreducible`, but its BEDC-irreducible footprint has no \
       `Classical.choice`"
+  if !containsName mathlib quotSound &&
+      e.quotientStatus == QuotientStatus.structuralQuotient then
+    throwError m!
+      "BEDC_GATE_E_QUOTIENT_STATUS_MISMATCH: row `{e.rowId}` is marked \
+      `structural_quotient`, but its mathlib footprint has no \
+      `Quot.sound`"
+  if containsName mathlib quotSound &&
+      e.quotientStatus == QuotientStatus.quotientFree then
+    throwError m!
+      "BEDC_GATE_E_QUOTIENT_STATUS_MISMATCH: row `{e.rowId}` is marked \
+      `quotient_free`, but its mathlib footprint has `Quot.sound`"
 
 def audit (expected : Array BoundaryExpectation) : CommandElabM Unit := do
   for e in expected do

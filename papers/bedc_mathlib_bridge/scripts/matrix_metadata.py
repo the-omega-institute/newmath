@@ -10,6 +10,9 @@ from typing import Any
 
 ROW_METADATA_RE = re.compile(r"<!--\s*bedc-bridge-row:\s*(\{.*?\})\s*-->")
 DECL_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)*")
+PLACE_VALUES = {"finite_p", "infinite_archimedean", "object_base", "n_a"}
+LOCATEDNESS_VALUES = {"located", "arbitrary", "n_a"}
+QUOTIENT_STATUS_VALUES = {"structural_quotient", "quotient_free", "n_a"}
 
 
 @dataclass
@@ -229,6 +232,19 @@ def boundary_rows(path: Path) -> list[dict[str, Any]]:
             {"eliminated", "principled_irreducible", "unprobed"},
             row,
         )
+        place = validate_enum(row.metadata.get("place", "n_a"), "place", PLACE_VALUES, row)
+        locatedness = validate_enum(
+            row.metadata.get("locatedness", "n_a"),
+            "locatedness",
+            LOCATEDNESS_VALUES,
+            row,
+        )
+        quotient_status = validate_enum(
+            row.metadata.get("quotient_status", "n_a"),
+            "quotient_status",
+            QUOTIENT_STATUS_VALUES,
+            row,
+        )
         probe_status = validate_enum(
             row.metadata.get("probe_status", "unprobed"),
             "probe_status",
@@ -253,6 +269,9 @@ def boundary_rows(path: Path) -> list[dict[str, Any]]:
                 "bedc_irreducible_decl": bedc_irreducible_decl,
                 "bedc_irreducible_footprint": bedc_irreducible_footprint,
                 "choice_status": choice_status,
+                "place": place,
+                "locatedness": locatedness,
+                "quotient_status": quotient_status,
                 "probe_status": probe_status,
                 "mathlib_class": mathlib_class,
                 "mathlib_instance": mathlib_instance,
