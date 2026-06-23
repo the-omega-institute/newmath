@@ -264,4 +264,275 @@ theorem WassersteinCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, provenancePkg⟩
 
+theorem WassersteinFiniteCouplingObligationSurface [AskSetup] [PackageSetup]
+    {M K mu nu Gamma A B C H R P N marginalLeft marginalRight costRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    WassersteinTransportPlanCarrier M K mu nu Gamma A B C H R P N bundle pkg →
+      Cont Gamma A marginalLeft →
+        Cont Gamma B marginalRight →
+          Cont Gamma C costRead →
+            Cont costRead N publicRead →
+              PkgSig bundle publicRead pkg →
+                SemanticNameCert
+                    (fun row : BHist =>
+                      (hsame row Gamma ∨ hsame row marginalLeft ∨
+                          hsame row marginalRight ∨ hsame row costRead ∨
+                            hsame row publicRead) ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row M ∨ hsame row K ∨ hsame row mu ∨ hsame row nu ∨
+                        hsame row Gamma ∨ hsame row A ∨ hsame row B ∨ hsame row C ∨
+                          hsame row marginalLeft ∨ hsame row marginalRight ∨
+                            hsame row costRead ∨ hsame row publicRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont Gamma A marginalLeft ∧
+                        Cont Gamma B marginalRight ∧ Cont Gamma C costRead ∧
+                          Cont costRead N publicRead ∧ PkgSig bundle publicRead pkg)
+                    hsame ∧
+                  UnaryHistory marginalLeft ∧ UnaryHistory marginalRight ∧
+                    UnaryHistory costRead ∧ UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert UnaryHistory
+  intro carrier marginalLeftCont marginalRightCont costReadCont publicReadCont publicPkg
+  obtain ⟨_mUnary, _kUnary, _muUnary, _nuUnary, gammaUnary, aUnary, bUnary, cUnary,
+    _hUnary, _rUnary, _pUnary, nUnary, _provenancePkg⟩ := carrier
+  have marginalLeftUnary : UnaryHistory marginalLeft :=
+    unary_cont_closed gammaUnary aUnary marginalLeftCont
+  have marginalRightUnary : UnaryHistory marginalRight :=
+    unary_cont_closed gammaUnary bUnary marginalRightCont
+  have costReadUnary : UnaryHistory costRead :=
+    unary_cont_closed gammaUnary cUnary costReadCont
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed costReadUnary nUnary publicReadCont
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row Gamma ∨ hsame row marginalLeft ∨
+                hsame row marginalRight ∨ hsame row costRead ∨
+                  hsame row publicRead) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row K ∨ hsame row mu ∨ hsame row nu ∨
+              hsame row Gamma ∨ hsame row A ∨ hsame row B ∨ hsame row C ∨
+                hsame row marginalLeft ∨ hsame row marginalRight ∨
+                  hsame row costRead ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont Gamma A marginalLeft ∧
+              Cont Gamma B marginalRight ∧ Cont Gamma C costRead ∧
+                Cont costRead N publicRead ∧ PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro Gamma
+        (And.intro (Or.inl (hsame_refl Gamma)) gammaUnary)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases source with
+        | intro sourceRow sourceUnary =>
+            constructor
+            · cases sourceRow with
+              | inl sameGamma =>
+                  exact Or.inl (hsame_trans (hsame_symm sameRows) sameGamma)
+              | inr rest =>
+                  cases rest with
+                  | inl sameMarginalLeft =>
+                      exact Or.inr
+                        (Or.inl (hsame_trans (hsame_symm sameRows) sameMarginalLeft))
+                  | inr rest =>
+                      cases rest with
+                      | inl sameMarginalRight =>
+                          exact Or.inr
+                            (Or.inr
+                              (Or.inl
+                                (hsame_trans (hsame_symm sameRows) sameMarginalRight)))
+                      | inr rest =>
+                          cases rest with
+                          | inl sameCostRead =>
+                              exact Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inl
+                                      (hsame_trans (hsame_symm sameRows) sameCostRead))))
+                          | inr samePublicRead =>
+                              exact Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (hsame_trans (hsame_symm sameRows) samePublicRead))))
+            · exact unary_transport sourceUnary sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source with
+      | intro sourceRow _sourceUnary =>
+          cases sourceRow with
+          | inl sameGamma =>
+              exact Or.inr
+                (Or.inr
+                  (Or.inr (Or.inr (Or.inl sameGamma))))
+          | inr rest =>
+              cases rest with
+              | inl sameMarginalLeft =>
+                  exact Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr (Or.inl sameMarginalLeft))))))))
+              | inr rest =>
+                  cases rest with
+                  | inl sameMarginalRight =>
+                      exact Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr (Or.inl sameMarginalRight)))))))))
+                  | inr rest =>
+                      cases rest with
+                      | inl sameCostRead =>
+                          exact Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr (Or.inl sameCostRead))))))))))
+                      | inr samePublicRead =>
+                          exact Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr samePublicRead))))))))))
+    ledger_sound := by
+      intro _row source
+      cases source with
+      | intro _sourceRow sourceUnary =>
+          exact ⟨sourceUnary, marginalLeftCont, marginalRightCont, costReadCont,
+            publicReadCont, publicPkg⟩
+  }
+  exact ⟨cert, marginalLeftUnary, marginalRightUnary, costReadUnary, publicReadUnary⟩
+
+theorem WassersteinTransportPlanPublicRoute [AskSetup] [PackageSetup]
+    {M K mu nu Gamma A B C H R P N marginalLeft marginalRight costRead routeRead
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    WassersteinTransportPlanCarrier M K mu nu Gamma A B C H R P N bundle pkg →
+      Cont M Gamma routeRead →
+        Cont Gamma A marginalLeft →
+          Cont Gamma B marginalRight →
+            Cont routeRead C costRead →
+              Cont costRead N publicRead →
+                PkgSig bundle publicRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row M ∨ hsame row K ∨ hsame row mu ∨ hsame row nu ∨
+                          hsame row Gamma ∨ hsame row A ∨ hsame row B ∨ hsame row C ∨
+                            hsame row routeRead ∨ hsame row marginalLeft ∨
+                              hsame row marginalRight ∨ hsame row costRead ∨
+                                hsame row publicRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont M Gamma routeRead ∧
+                          Cont Gamma A marginalLeft ∧ Cont Gamma B marginalRight ∧
+                            Cont routeRead C costRead ∧ Cont costRead N publicRead ∧
+                              PkgSig bundle publicRead pkg)
+                      hsame ∧
+                    UnaryHistory routeRead ∧ UnaryHistory marginalLeft ∧
+                      UnaryHistory marginalRight ∧ UnaryHistory costRead ∧
+                        UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert UnaryHistory
+  intro carrier routeReadCont marginalLeftCont marginalRightCont costReadCont publicReadCont
+    publicPkg
+  obtain ⟨mUnary, _kUnary, _muUnary, _nuUnary, gammaUnary, aUnary, bUnary, cUnary,
+    _hUnary, _rUnary, _pUnary, nUnary, _provenancePkg⟩ := carrier
+  have routeReadUnary : UnaryHistory routeRead :=
+    unary_cont_closed mUnary gammaUnary routeReadCont
+  have marginalLeftUnary : UnaryHistory marginalLeft :=
+    unary_cont_closed gammaUnary aUnary marginalLeftCont
+  have marginalRightUnary : UnaryHistory marginalRight :=
+    unary_cont_closed gammaUnary bUnary marginalRightCont
+  have costReadUnary : UnaryHistory costRead :=
+    unary_cont_closed routeReadUnary cUnary costReadCont
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed costReadUnary nUnary publicReadCont
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row K ∨ hsame row mu ∨ hsame row nu ∨
+              hsame row Gamma ∨ hsame row A ∨ hsame row B ∨ hsame row C ∨
+                hsame row routeRead ∨ hsame row marginalLeft ∨
+                  hsame row marginalRight ∨ hsame row costRead ∨
+                    hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont M Gamma routeRead ∧
+              Cont Gamma A marginalLeft ∧ Cont Gamma B marginalRight ∧
+                Cont routeRead C costRead ∧ Cont costRead N publicRead ∧
+                  PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead
+        (And.intro (hsame_refl publicRead) publicReadUnary)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases source with
+        | intro samePublic sourceUnary =>
+            exact ⟨hsame_trans (hsame_symm sameRows) samePublic,
+              unary_transport sourceUnary sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      cases source with
+      | intro samePublic _sourceUnary =>
+          exact Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr samePublic)))))))))))
+    ledger_sound := by
+      intro _row source
+      cases source with
+      | intro _samePublic sourceUnary =>
+          exact ⟨sourceUnary, routeReadCont, marginalLeftCont, marginalRightCont,
+            costReadCont, publicReadCont, publicPkg⟩
+  }
+  exact ⟨cert, routeReadUnary, marginalLeftUnary, marginalRightUnary, costReadUnary,
+    publicReadUnary⟩
+
 end BEDC.Derived.WassersteinUp
