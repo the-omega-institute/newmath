@@ -116,6 +116,18 @@ Finally apply terminal seal routing, \autoref{thm:limsup-terminal-seal-routing}.
 \end{proof}
 \leanchecked{BEDC.Derived.LimsupUp.LimsupTailSealScope}
 
+\begin{theorem}[Limsup scope kernel dependencies]
+\label{thm:limsup-scope-kernel-dependencies}
+Every accepted $\LimsupUp$ consumer must expose the bounded sequence row $S$, the bounded upper-cut and lower-cut rows read through $U$ and $D$, the $\DyadicRatCoreUp$ tolerance ledger, the $\RealSequenceLimitUp$ route, the terminal $\RealUp$ seal $T$, componentwise $\BHist$ and $\hsame$ data, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\LimsupUp}$ row before it may read the limsup surface.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:limsup-tail-upper-cut-exactness}. It fixes $U$ as the only upper-tail route from the bounded sequence row $S$ through finite $\BoundedRealUpperCutUp$ data.
+
+Next apply \autoref{thm:limsup-tail-lower-cut-compatibility}. The lower side is tied to the same tail data through the dyadic tolerance ledger $D$, so the $\DyadicRatCoreUp$ comparison budget and the bounded lower-cut surface are visible before any limsup read is made.
+
+Finally use \autoref{thm:limsup-terminal-seal-routing}. The terminal $\RealUp$ row $T$ is reached only after $S,U,D$ have been replayed, and the structural rows $H,C,P,N$ supply the $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ scope. The $\RealSequenceLimitUp$ dependency is therefore a routed sibling row, not a replacement for the displayed kernel package.
+\end{proof}
+
 \begin{theorem}[Limsup tail-cut route]
 \label{thm:limsup-tail-cut-route}
 Every Real-and-Completion consumer of an accepted $\LimsupUp$ packet factors through the finite route
