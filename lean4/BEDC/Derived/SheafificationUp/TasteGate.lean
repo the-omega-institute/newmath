@@ -1,5 +1,8 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SheafificationUp.TasteGate
@@ -137,3 +140,55 @@ theorem SheafificationTasteGate_single_carrier_alignment :
       rfl⟩
 
 end BEDC.Derived.SheafificationUp.TasteGate
+
+namespace BEDC.Derived.SheafificationUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Ask
+
+def SheafificationCarrier [AskSetup] [PackageSetup]
+    (C T J P L G S H R Q N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist BMark
+  UnaryHistory C ∧ UnaryHistory T ∧ UnaryHistory J ∧ UnaryHistory P ∧
+    UnaryHistory L ∧ UnaryHistory G ∧ UnaryHistory S ∧ UnaryHistory H ∧
+      UnaryHistory R ∧ UnaryHistory Q ∧ UnaryHistory N ∧ PkgSig bundle N pkg
+
+theorem SheafificationCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {C T J P L G S H R Q N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SheafificationCarrier C T J P L G S H R Q N bundle pkg →
+      PkgSig bundle N pkg →
+        SemanticNameCert
+          (fun row : BHist => hsame row N ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row C ∨ hsame row T ∨ hsame row J ∨ hsame row P ∨
+              hsame row L ∨ hsame row G ∨ hsame row S ∨ hsame row H ∨
+                hsame row R ∨ hsame row Q ∨ hsame row N)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle N pkg)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist BMark NameCert SemanticNameCert Pkg
+  intro carrier pkgSig
+  have unaryN : UnaryHistory N := carrier.right.right.right.right.right.right.right.right.right.right.left
+  constructor
+  · constructor
+    · exact ⟨N, And.intro (hsame_refl N) unaryN⟩
+    · intro h _source
+      exact hsame_refl h
+    · intro h k same
+      exact hsame_symm same
+    · intro h k r sameHK sameKR
+      exact hsame_trans sameHK sameKR
+    · intro h k sameHK sourceH
+      exact And.intro (hsame_trans (hsame_symm sameHK) sourceH.left)
+        (unary_transport sourceH.right sameHK)
+  · intro h source
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+      (Or.inr (Or.inr source.left)))))))))
+  · intro h source
+    exact And.intro source.right pkgSig
+
+end BEDC.Derived.SheafificationUp
