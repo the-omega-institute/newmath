@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\SeparatedCauchyCompletionUp$}
+\label{ch:concrete-instances-separated-cauchy-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style completion discipline, the $\SeparatedCauchyCompletionUp$ packet records a separated Cauchy completion as displayed regular rational names with an explicit separation seal. It sits after the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the completion interface of \autoref{ch:concrete-instances-completion-namecert}, the separated-completion surface of \autoref{ch:concrete-instances-separatedcompletion-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is quotient-free: equality is read through displayed regular windows and separation evidence rather than through an ambient quotient of Cauchy streams.
+
+\begin{definition}[SeparatedCauchyCompletion carrier]
+\label{def:separated-cauchy-completion-carrier}
+A $\SeparatedCauchyCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(R,W,D,C,E,Q,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source row for the regular rational Cauchy name.
+\item $W$ is the $\StreamNameUp$ finite-window schedule through which consumers inspect $R$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for window comparison and separation tests.
+\item $C$ is the $\CompletionUp$ handoff row recording that the displayed name is completion-facing.
+\item $E$ is the $\SeparatedCompletionUp$ seal that turns zero-distance comparison into displayed sameness without quotienting streams.
+\item $Q$ is the terminal $\RealUp$ readback row reached only through $R,W,D,C,E$.
+\item $H$ records componentwise $\hsame$ transport for the regular name, schedule, dyadic ledger, completion row, separated seal, and real readback.
+\item $T$ records displayed $\Cont$ replay for the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\SeparatedCauchyCompletionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CompletionUp$, $\SeparatedCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SeparatedCauchyCompletionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a quotient class of Cauchy streams, a selected host limit, countable choice, trichotomy, or ambient completeness outside the displayed route.
+\end{definition}
+
+\begin{theorem}[SeparatedCauchyCompletion NameCert obligations]
+\label{thm:separated-cauchy-completion-namecert-obligations}
+For every accepted $\SeparatedCauchyCompletionUp$ carrier $S=(R,W,D,C,E,Q,H,T,P,N)$, the local $\NameCert_{\SeparatedCauchyCompletionUp}$ surface consists exactly of carrier admission for the displayed packet, regular rational source exposure through $R$, finite $\StreamNameUp$ window exposure through $W$, $\DyadicRatCoreUp$ tolerance exposure through $D$, completion handoff through $C$, separated-completion sealing through $E$, terminal $\RealUp$ readback through $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The displayed rows of \autoref{def:separated-cauchy-completion-carrier} are precisely the regular rational source, finite window schedule, dyadic tolerance ledger, completion handoff, separated seal, real readback, transport, replay, provenance, and local naming rows.
+
+The separation step is finite because it can only read the windows named by $W$ and the dyadic tolerances recorded in $D$. The completion row $C$ therefore receives a regular rational name together with its explicit tolerance route, not an ambient quotient object.
+
+The separated seal $E$ is downstream of that route, and $Q$ can be read only after $E$ has been exposed. The structural rows $H,T,P,N$ preserve the same route under transport, replay, sourcing, and naming, so the local certificate contains exactly the listed obligations.
+\end{proof}
+
+\begin{theorem}[SeparatedCauchyCompletion regular-sequence scope]
+\label{thm:separated-cauchy-completion-regseqrat-scope}
+Every completion-facing consumer of an accepted $\SeparatedCauchyCompletionUp$ carrier reads the finite route
+$$
+\RegSeqRatUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \CompletionUp \longmapsto \SeparatedCompletionUp \longmapsto \RealUp .
+$$
+The $\RegSeqRatUp$ row supplies the displayed regular name, the $\StreamNameUp$ row supplies finite windows, the $\DyadicRatCoreUp$ row supplies comparison tolerances, the $\CompletionUp$ row records the completion-facing handoff, the $\SeparatedCompletionUp$ row records the separation seal, and the $\RealUp$ row is the only terminal readback. The route exports no quotient stream, selected host limit, countable-choice schedule, trichotomy, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the carrier rows. The source row $R$ and window row $W$ expose only finite pieces of the regular rational name, while $D$ records the dyadic comparisons available at those windows.
+
+Use \autoref{thm:separated-cauchy-completion-namecert-obligations}. It places the completion handoff $C$ after $R,W,D$ and the separated seal $E$ after the completion-facing data, so a consumer cannot reach the Real readback before the displayed separation evidence is visible.
+
+Finally read $Q$ through the structural rows $H,T,P,N$. Since the carrier has no coordinate for quotient streams, selected host limits, countable choice, trichotomy, or ambient completeness, the regular-sequence scope is exhausted by the displayed route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SeparatedCauchyCompletionUp$ packet whose $\RealUp$ readback is consumed without exposing the $\RegSeqRatUp$ source row, $\StreamNameUp$ finite windows, $\DyadicRatCoreUp$ tolerance ledger, $\CompletionUp$ handoff, and $\SeparatedCompletionUp$ seal refutes the carrier surface.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, completion, separatedcompletion, real: no listed sibling supplies the whole packet $S=(R,W,D,C,E,Q,H,T,P,N)$, because each sibling contributes only a regular name, finite windows, dyadic tolerances, completion handoff, separation seal, or terminal real readback while this chapter binds them into one quotient-free NameCert surface.}
+
+\closureat{SeparatedCauchyCompletionUp}{seedStr}
+
+\begin{closurestatus}{\SeparatedCauchyCompletionUp}
+  \constructivestory{A $\SeparatedCauchyCompletionUp$ packet is generated from a RegSeqRatUp source row, StreamNameUp finite windows, a DyadicRatCore tolerance ledger, a CompletionUp handoff, a SeparatedCompletionUp seal, a RealUp readback row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:separated-cauchy-completion-carrier}, \autoref{thm:separated-cauchy-completion-namecert-obligations}, and \autoref{thm:separated-cauchy-completion-regseqrat-scope} seed the quotient-free separated Cauchy completion carrier, local NameCert obligations, and regular-sequence consumer scope.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected host limits, countable choice, trichotomy, ambient RealUp completeness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regular rational source exposure, finite-window exposure, dyadic tolerance confinement, completion handoff, separated seal scope, Real readback, transport, replay, provenance, and local naming for BEDC.Derived.SeparatedCauchyCompletionUp.}
+\end{closurestatus}

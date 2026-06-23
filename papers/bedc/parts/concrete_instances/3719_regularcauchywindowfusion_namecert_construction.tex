@@ -255,6 +255,26 @@ Then apply \autoref{thm:regular-cauchy-window-fusion-scoped-kernel-route}. The s
 Finally use \autoref{thm:regular-cauchy-window-fusion-tail-window-coverage}. The tail selected by $W$ is consumed through that same displayed packet, so a tail-window consumer and a budget-meet consumer cannot factor through different selected-subsequence, quotient-stream, or ambient-completeness routes.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy window fusion cofinal-tail closure]
+\label{thm:regular-cauchy-window-fusion-cofinal-tail-closure}
+Let
+$$
+F=(R,W,S,D,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWindowFusionUp$ packet whose shared window route satisfies tail-window coverage and tail-budget meet. Then $F$ exports a single cofinal-tail closure surface through the rows $R,W,S,D,E,H,C,P,N$. Every $\RealUp$ or $\RegSeqRatUp$ consumer must pass through that same surface before reading the terminal seal $E$.
+
+The closure surface exports no selected limits, quotient stream equality, trichotomy decision, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with tail-window coverage, \autoref{thm:regular-cauchy-window-fusion-tail-window-coverage}. It forces any displayed cofinal tail of the shared window route to remain inside the same finite observation packet rather than producing a separate selected subsequence.
+
+Next apply the tail-budget meet theorem \autoref{thm:regular-cauchy-window-fusion-tail-budget-meet}. The tail-window consumer and the budget-meet consumer both read $R,W,S,D,E,H,C,P,N$, so the regular readback row $S$ and dyadic ledger row $D$ meet before the terminal seal $E$ is used.
+
+Use finite-window exactness, \autoref{thm:regular-cauchy-window-fusion-finite-window-exactness}, to identify this packet as the only finite route from the RatUp seed through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.
+
+Finally apply Real seal nonescape, \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape}. The seal row $E$ cannot be read through selected limits, quotient stream equality, trichotomy, or ambient completeness, and the structural rows only transport, replay, source, and name the same route. Hence every $\RealUp$ or $\RegSeqRatUp$ consumer must pass through the single cofinal-tail closure surface before reading the terminal seal.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy window fusion kernel scope]
 \label{thm:regular-cauchy-window-fusion-kernel-scope}
 Every accepted $\RegularCauchyWindowFusionUp$ read is scoped by the concrete $\BHist$ packet
