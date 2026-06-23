@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\NoetherianInductionUp$}
+\label{ch:concrete-instances-noetherian-induction-namecert}
+\origin{human}
+
+Following Emmy Noether's finite-chain viewpoint and the algebraic use in Atiyah--Macdonald, the $\NoetherianInductionUp$ packet records descent arguments as finite BEDC rows rather than as host well-founded induction. It sits beside the ideal-chain surface of \autoref{ch:concrete-instances-noetherian-ring-namecert}, the module-chain surface of \autoref{ch:concrete-instances-noetherian-module-namecert}, the finite rank discipline of \autoref{ch:concrete-instances-well-founded-tree-rank-namecert}, and the chain-cover carrier of \autoref{ch:concrete-instances-finite-chain-decomposition-namecert}. The packet gives algebra chapters a reusable finite descent certificate while leaving ambient Noetherian induction, selected counterexample chains, classical minimal elements, and quotient carrier equality outside the public surface.
+
+\begin{definition}[Noetherian induction carrier]
+\label{def:noetherian-induction-carrier}
+A $\NoetherianInductionUp$ carrier is a finite $\BHist$ packet
+$$
+I=(S,D,O,E,T,R,P,N,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source row, naming the $\NoetherianRingUp$ or $\NoetherianModuleUp$ surface from which the descent request is read.
+\item $D$ is the descending-chain row, listing the inspected obstruction chain and the finite predecessor relation used by the request.
+\item $O$ is the obstruction row, recording the currently unclosed counterexample or subobject boundary.
+\item $E$ is the descent-step row, recording the finite step that replaces a visible obstruction by a strictly earlier row in $D$.
+\item $T$ is the stabilization row, exposing the finite stage at which the displayed chain cannot continue to produce fresh obstructions.
+\item $R$ is the transport row for the source, chain, obstruction, descent-step, stabilization, replay, provenance, and local naming rows.
+\item $P$ is the displayed replay row, specifying how a consumer replays the same finite descent route before using the stabilized conclusion.
+\item $N$ is the $\Pkg$ provenance over $\NoetherianInductionUp$, $\NoetherianRingUp$, $\NoetherianModuleUp$, $\WellFoundedTreeRankUp$, $\FiniteChainDecompositionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\NoetherianInductionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host well-founded induction, a globally selected minimal counterexample, an infinite descending chain, quotient subobject equality, classical choice, or an ambient Noetherian principle.
+\end{definition}
+
+\begin{theorem}[Noetherian induction NameCert obligations]
+\label{thm:noetherian-induction-namecert-obligations}
+For every accepted $\NoetherianInductionUp$ carrier
+$$
+I=(S,D,O,E,T,R,P,N,L),
+$$
+the local $\NameCert_{\NoetherianInductionUp}$ surface consists exactly of source admission through $S$, descending-chain exposure through $D$, obstruction visibility through $O$, descent-step exposure through $E$, stabilization exposure through $T$, componentwise transport through $R$, displayed replay through $P$, provenance through $N$, and local naming through $L$. A consumer may use the induction packet only after the finite chain, the current obstruction, and the step-to-earlier-row witness are displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:noetherian-induction-carrier}. The source row $S$ fixes the Noetherian ring or module surface before a descent request is read, and the row $D$ names the finite chain on which the request is evaluated.
+
+The obstruction row $O$ and the descent-step row $E$ are paired. A consumer cannot cite a smaller obstruction unless $E$ displays the finite predecessor relation inside the same chain row $D$.
+
+The stabilization row $T$ closes the displayed descent by giving a finite stage where no fresh obstruction row remains available. Transport and replay through $R$ and $P$ preserve the same source, chain, obstruction, step, and stabilization rows, while $N$ and $L$ source and name the packet.
+
+Since host well-founded induction, selected minimal counterexamples, infinite descending chains, quotient subobject equality, choice, and ambient Noetherian principles have no coordinate in the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Noetherian induction chain descent]
+\label{thm:noetherian-induction-chain-descent}
+Every accepted $\NoetherianInductionUp$ descent read factors through the finite route
+$$
+\NoetherianRingUp,\ \NoetherianModuleUp,\ \WellFoundedTreeRankUp,\ \FiniteChainDecompositionUp .
+$$
+The chain row supplies the inspected predecessor spine, the rank row or chain decomposition bounds the visible descent, the obstruction row is consumed by the displayed descent step, and the stabilization row records the endpoint where no new obstruction can be produced. The read exports no host well-founded induction theorem, no selected minimal counterexample, no infinite descending chain, and no classical choice principle.
+\end{theorem}
+\begin{proof}
+Start from the source row. If the descent request is algebraic, the relevant $\NoetherianRingUp$ or $\NoetherianModuleUp$ packet supplies the finite chain-stabilization surface; if the request is purely order-theoretic, the $\WellFoundedTreeRankUp$ and $\FiniteChainDecompositionUp$ siblings supply the finite rank or chain-spine rows.
+
+Next read $D,O,E$. The chain row exposes the inspected predecessor sequence, the obstruction row names the current failed subclaim, and the descent-step row replaces it by an earlier displayed row. This is finite chain descent, not an appeal to a host induction principle.
+
+Finally consume $T,R,P,N,L$. Stabilization prevents an endless supply of fresh obstruction rows, while transport, replay, provenance, and local naming keep the argument on the same finite packet. The excluded host induction, selector, infinite-chain, quotient, and choice objects therefore cannot be exported by an accepted read.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\NoetherianInductionUp$ consumer is refuted if it reaches a stabilized conclusion without first displaying the source row, finite descending-chain row, obstruction row, descent-step row, stabilization row, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{Nearest siblings: noetherian-ring, noetherian-module, well-founded-tree-rank, and finite-chain-decomposition. None is bijective to $\NoetherianInductionUp$ because this packet jointly carries a descent request, obstruction row, finite descent step, stabilization row, replay, provenance, and local naming for a single induction-facing read.}
+
+\closureat{NoetherianInductionUp}{seedStr}
+
+\begin{closurestatus}{\NoetherianInductionUp}
+  \constructivestory{A $\NoetherianInductionUp$ packet is generated from a Noetherian ring or module source row, finite descending-chain row, obstruction row, descent-step row, stabilization row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:noetherian-induction-carrier}, \autoref{thm:noetherian-induction-namecert-obligations}, and \autoref{thm:noetherian-induction-chain-descent} seed the finite descent packet over source, chain, obstruction, step, stabilization, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host well-founded induction, selected minimal counterexamples, infinite descending chains, quotient subobject equality, classical choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source exposure, descending-chain exposure, obstruction visibility, descent-step exactness, stabilization exposure, transport, replay, provenance, and local naming for BEDC.Derived.NoetherianInductionUp.}
+\end{closurestatus}
