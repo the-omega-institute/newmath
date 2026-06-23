@@ -199,6 +199,22 @@ Finally apply ledger exhaustion from \autoref{thm:real-classifier-ledger-exhaust
 \end{proof}
 \leanchecked{BEDC.Derived.RealClassifierPublicExactnessSurface}
 
+\begin{theorem}[RealClassifier audit route]
+\label{thm:real-classifier-audit-route}
+For every accepted $\RealClassifierUp$ carrier
+$$
+Q=(X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N),
+$$
+the audit-facing classifier route is exactly the ordered read through the two $\RealUp$ seals $X,Y$, the $\RegSeqRatUp$ readbacks $R_X,R_Y$, the shared $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RealNameClassifierUp$ row $C$, the $\RegularCauchyEquivalenceUp$ row $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $K$, $\Pkg$ provenance $P$, and the local $\NameCert_{\RealClassifierUp}$ row $N$. No audit read may replace that route by quotient stream equality, host real equality, selected limits, trichotomy, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Use the RegSeqRat handoff theorem \autoref{thm:real-classifier-regseqrat-handoff}. It forces every classifier read to expose the regular rational sources and readbacks before the public classifier boundary is reached.
+
+Apply window scope and source scope, \autoref{thm:real-classifier-window-scope} and \autoref{thm:real-classifier-source-scope}. These identify the shared StreamName window, dyadic tolerance ledger, classifier row, equivalence row, terminal Real seals, and structural rows as the complete source list for the read.
+
+Finally use the public exactness surface of \autoref{thm:realclassifier-public-exactness-surface}. Since that theorem already binds every public classifier read to the exact finite route through $X,Y,R_X,R_Y,W,D,C,E,H,K,P,N$, the audit route is the same ordered source read and has no ambient equality, choice, or completeness endpoint.
+\end{proof}
+
 \closureat{RealClassifierUp}{scopedStr}
 
 \begin{closurestatus}{\RealClassifierUp}

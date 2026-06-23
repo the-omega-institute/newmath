@@ -117,6 +117,18 @@ Apply the NameCert obligations and depth soundness. These force the contrary-rec
 Finally use non-escape and the NameCert boundary. Since neither theorem supplies any coordinate beyond $A,K,F,R,G,H,C,P,N$, the public export is exactly the bounded frontier, contrary-record or $\Gap$ row, and non-escape ledger stated above.
 \end{proof}
 
+\begin{theorem}[BoundedSearchRefutation bounded frontier bridge]
+\label{thm:bounded-search-refutation-bounded-frontier-bridge}
+Every bridge consumer of an accepted $\BoundedSearchRefutationUp$ packet must first read the finite depth budget $K$, the bounded frontier $F$, the witness-or-gap rows $R,G$, and the structural rows $H,C,P,N$ before handing the packet to any standard bounded-refutation interface. The bridge read is therefore the displayed route through the same bounded frontier exported by \autoref{thm:bounded-search-refutation-public-export}; it adds no global proof search, no truth predicate over certificates, no excluded-middle branch, and no witness outside $F$.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:bounded-search-refutation-obligations}. They identify $K,F,R,G,H,C,P,N$ as the finite rows through which any accepted refutation or bounded $\Gap$ read must pass.
+
+Use depth soundness and obligation scope, \autoref{thm:bounded-search-refutation-depth-soundness} and \autoref{thm:bounded-search-refutation-obligation-scope}. These force every replayed witness route to remain inside the displayed depth budget and frontier, while a $\Gap$ read remains only a bounded frontier report.
+
+Finally combine non-escape, the NameCert boundary, and the public export, \autoref{thm:bounded-search-refutation-nonescape}, \autoref{thm:bounded-search-refutation-namecert-boundary}, and \autoref{thm:bounded-search-refutation-public-export}. Since the public packet has no coordinate beyond $A,K,F,R,G,H,C,P,N$, a standard bounded-refutation bridge can consume exactly those rows and cannot import any unbounded or classical proof-search endpoint.
+\end{proof}
+
 \closureat{BoundedSearchRefutationUp}{publicStr}
 
 \begin{closurestatus}{\BoundedSearchRefutationUp}
