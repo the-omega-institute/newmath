@@ -1333,6 +1333,7 @@ import BEDC.Derived.BoundedNestedRealChoiceSealUp.TasteGate
 import BEDC.Derived.BoundedNormalConversionBridgeUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
 import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
+import BEDC.Derived.BoundedNormalEqualityFrontierUp.TasteGate
 import BEDC.Derived.BoundedNormalizationCandidateUp.TasteGate
 import BEDC.Derived.BoundedOscillationUp.PartitionRoute
 import BEDC.Derived.BoundedOscillationUp.TasteGate
