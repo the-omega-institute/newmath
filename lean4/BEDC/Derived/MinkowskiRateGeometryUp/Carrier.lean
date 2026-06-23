@@ -171,4 +171,73 @@ theorem MinkowskiRateGeometryNonescape [AskSetup] [PackageSetup]
     ⟨configUnary, causalUnary, rateUnary, frameUnary, boundaryUnary, configCausalRate,
       rateFrameBoundary, distancePkg, boundaryPkg⟩
 
+theorem MinkowskiRateGeometryCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {config causal rate frame distance transport replay provenance localName stableDistance :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MinkowskiRateGeometryCarrier config causal rate frame distance transport replay provenance
+        localName bundle pkg ->
+      Cont rate frame stableDistance ->
+        hsame stableDistance distance ->
+          PkgSig bundle distance pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row stableDistance ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row config ∨ hsame row causal ∨ hsame row rate ∨ hsame row frame ∨
+                    hsame row distance ∨ hsame row stableDistance ∨
+                      hsame row transport ∨ hsame row replay)
+                (fun row : BHist =>
+                  hsame row stableDistance ∧ Cont config causal rate ∧
+                    Cont rate frame stableDistance ∧ PkgSig bundle distance pkg)
+                hsame ∧ UnaryHistory stableDistance := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier rateFrameStable sameStableDistance distancePkg
+  obtain ⟨_configUnary, _causalUnary, rateUnary, frameUnary, distanceUnary, _transportUnary,
+    _replayUnary, _provenanceUnary, _localNameUnary, configCausalRate, _rateFrameDistance,
+    _carrierPkg⟩ := carrier
+  have stableUnaryFromRoute : UnaryHistory stableDistance :=
+    unary_cont_closed rateUnary frameUnary rateFrameStable
+  have stableUnaryFromDistance : UnaryHistory stableDistance :=
+    unary_transport distanceUnary (hsame_symm sameStableDistance)
+  have sourceStable :
+      (fun row : BHist => hsame row stableDistance ∧ UnaryHistory row) stableDistance := by
+    exact ⟨hsame_refl stableDistance, stableUnaryFromDistance⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row stableDistance ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row config ∨ hsame row causal ∨ hsame row rate ∨ hsame row frame ∨
+              hsame row distance ∨ hsame row stableDistance ∨ hsame row transport ∨
+                hsame row replay)
+          (fun row : BHist =>
+            hsame row stableDistance ∧ Cont config causal rate ∧
+              Cont rate frame stableDistance ∧ PkgSig bundle distance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro stableDistance sourceStable
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr
+        (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sourceRow.left)))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, configCausalRate, rateFrameStable, distancePkg⟩
+  }
+  exact ⟨cert, stableUnaryFromRoute⟩
+
 end BEDC.Derived.MinkowskiRateGeometryUp
