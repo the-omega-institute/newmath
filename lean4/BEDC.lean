@@ -3271,6 +3271,7 @@ import BEDC.Derived.CompactUniformFiniteCoverSelectorUp.TasteGate
 import BEDC.Derived.CompactUniformFiniteNetRealizationUp.TasteGate
 import BEDC.Derived.CompactUniformFiniteNetUp.TasteGate
 import BEDC.Derived.CompactUniformHomeomorphismUp.TasteGate
+import BEDC.Derived.CompactUniformLocalModulusNerveUp
 import BEDC.Derived.CompactUniformLocalToGlobalModulusUp.TasteGate
 import BEDC.Derived.CompactUniformModulusCertificateUp.TasteGate
 import BEDC.Derived.CompactUniformModulusCompositionUp.TasteGate
