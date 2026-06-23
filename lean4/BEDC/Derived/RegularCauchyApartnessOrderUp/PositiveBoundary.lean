@@ -113,4 +113,48 @@ theorem RegularCauchyApartnessOrderPositiveBoundary [AskSetup] [PackageSetup]
       cert, budgetUnary, directionUnary, windowUnary, dyadicUnary, regularUnary,
       sealUnary⟩
 
+theorem RegularCauchyApartnessOrderLocatedComparisonScope [AskSetup] [PackageSetup]
+    {X A O M W D R E H C P N budgetWindow positiveBound regularRead realSeal named : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory X ->
+      UnaryHistory A ->
+      UnaryHistory W ->
+          UnaryHistory D ->
+            UnaryHistory R ->
+              UnaryHistory E ->
+                UnaryHistory N ->
+                  Cont A W budgetWindow ->
+                    Cont budgetWindow D positiveBound ->
+                      Cont positiveBound R regularRead ->
+                        Cont regularRead E realSeal ->
+                          Cont realSeal N named ->
+                            PkgSig bundle P pkg ->
+                              UnaryHistory budgetWindow ∧
+                                UnaryHistory positiveBound ∧
+                                  UnaryHistory regularRead ∧
+                                    UnaryHistory realSeal ∧
+                                      UnaryHistory named ∧
+                                        Cont A W budgetWindow ∧
+                                          Cont budgetWindow D positiveBound ∧
+                                            Cont positiveBound R regularRead ∧
+                                              Cont regularRead E realSeal ∧
+                                                Cont realSeal N named ∧
+                                                  PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro _xUnary aUnary wUnary dUnary rUnary eUnary nUnary budgetRoute positiveRoute
+    regularRoute sealRoute namedRoute pkgSig
+  have budgetUnary : UnaryHistory budgetWindow :=
+    unary_cont_closed aUnary wUnary budgetRoute
+  have positiveUnary : UnaryHistory positiveBound :=
+    unary_cont_closed budgetUnary dUnary positiveRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed positiveUnary rUnary regularRoute
+  have sealUnary : UnaryHistory realSeal :=
+    unary_cont_closed regularUnary eUnary sealRoute
+  have namedUnary : UnaryHistory named :=
+    unary_cont_closed sealUnary nUnary namedRoute
+  exact
+    ⟨budgetUnary, positiveUnary, regularUnary, sealUnary, namedUnary, budgetRoute,
+      positiveRoute, regularRoute, sealRoute, namedRoute, pkgSig⟩
+
 end BEDC.Derived.RegularCauchyApartnessOrderUp
