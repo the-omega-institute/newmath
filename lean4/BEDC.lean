@@ -2513,6 +2513,7 @@ import BEDC.Derived.CauchyTailThresholdNormalizerUp.ObligationLedger
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RealFacingDeterminacy
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RealSealHandoff
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RouteExhaustion
+import BEDC.Derived.CauchyTailThresholdNormalizerUp.ScopedKernelRoute
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TailWindowInduction
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TasteGate
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.UniformThresholdInduction
@@ -3273,6 +3274,7 @@ import BEDC.Derived.CompactUniformFiniteCoverSelectorUp.TasteGate
 import BEDC.Derived.CompactUniformFiniteNetRealizationUp.TasteGate
 import BEDC.Derived.CompactUniformFiniteNetUp.TasteGate
 import BEDC.Derived.CompactUniformHomeomorphismUp.TasteGate
+import BEDC.Derived.CompactUniformLocalModulusNerveUp
 import BEDC.Derived.CompactUniformLocalToGlobalModulusUp.TasteGate
 import BEDC.Derived.CompactUniformModulusCertificateUp.TasteGate
 import BEDC.Derived.CompactUniformModulusCompositionUp.TasteGate
@@ -5107,6 +5109,7 @@ import BEDC.Derived.DyadicTailBoundUp.ZeroPacket
 import BEDC.Derived.DyadicTailRadiusComparisonUp.TasteGate
 import BEDC.Derived.DyadicTailRadiusLedgerUp
 import BEDC.Derived.DyadicTailRadiusLedgerUp.TasteGate
+import BEDC.Derived.DyadicTentFunctionUp
 import BEDC.Derived.DyadicToleranceLadderUp.TasteGate
 import BEDC.Derived.DyadicToleranceScaleUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
@@ -10411,6 +10414,7 @@ import BEDC.Derived.RegularCauchyUniformityUp.TasteGate
 import BEDC.Derived.RegularCauchyUniquenessUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowFusionUp.BudgetMeet
 import BEDC.Derived.RegularCauchyWindowFusionUp.NameCertObligations
+import BEDC.Derived.RegularCauchyWindowFusionUp.SharedWindowHandoff
 import BEDC.Derived.RegularCauchyWindowFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
 import BEDC.Derived.RegularCauchyWitnessScheduleUp

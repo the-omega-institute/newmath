@@ -140,6 +140,28 @@ theorem CollisionKernelCarrier_moment_readback_exhaustion [AskSetup] [PackageSet
     ⟨momentUnary, matrixUnary, shadowUnary, momentReadUnary, shadowReadUnary, momentRoute,
       momentReadRoute, shadowReadRoute, momentReadSame, provenancePkg, nameCertPkg⟩
 
+theorem CollisionKernelMomentLedgerNoninterference [AskSetup] [PackageSetup]
+    {window fold ledger matrix moment shadow transport route provenance nameCert momentRead
+      shadowRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CollisionKernelCarrier window fold ledger matrix moment shadow transport route provenance
+        nameCert bundle pkg ->
+      Cont moment matrix momentRead ->
+        Cont moment matrix shadowRead ->
+          hsame momentRead shadow ->
+            UnaryHistory window ∧ UnaryHistory fold ∧ UnaryHistory matrix ∧
+              UnaryHistory provenance ∧ UnaryHistory nameCert ∧
+                Cont moment matrix momentRead ∧ Cont moment matrix shadowRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier momentReadRoute shadowReadRoute _momentReadSame
+  obtain ⟨windowUnary, foldUnary, _ledgerUnary, matrixUnary, _momentUnary, _shadowUnary,
+    _transportUnary, _routeUnary, provenanceUnary, nameCertUnary, _windowRoute, _ledgerRoute,
+    _momentRoute, provenancePkg, nameCertPkg⟩ := carrier
+  exact
+    ⟨windowUnary, foldUnary, matrixUnary, provenanceUnary, nameCertUnary, momentReadRoute,
+      shadowReadRoute, provenancePkg, nameCertPkg⟩
+
 theorem CollisionKernelCarrier_zero_window_determinacy [AskSetup] [PackageSetup]
     {window fold ledger matrix moment moment' shadow shadow' transport route provenance nameCert
       transport' route' provenance' nameCert' : BHist}
