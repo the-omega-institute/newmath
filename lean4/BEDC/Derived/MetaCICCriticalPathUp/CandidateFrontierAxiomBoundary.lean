@@ -129,4 +129,77 @@ theorem MetaCICCriticalPathCandidateFrontierAxiomBoundary [AskSetup] [PackageSet
   }
   exact ⟨cert, candidateUnary, frontierUnary, socketUnary, realSealPkg⟩
 
+theorem MetaCICCriticalPathCandidateFrontierAxiomFrontier [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName candidateRead l10Read axiomBoundaryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg →
+      Cont route dischargeSocket candidateRead →
+        Cont candidateRead localName l10Read →
+          Cont l10Read obstruction axiomBoundaryRead →
+            PkgSig bundle axiomBoundaryRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row axiomBoundaryRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row candidateRead ∨ hsame row l10Read ∨
+                      hsame row obstruction ∨ hsame row dischargeSocket ∨
+                        hsame row axiomBoundaryRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ PkgSig bundle axiomBoundaryRead pkg ∧
+                      PkgSig bundle provenance pkg)
+                  hsame ∧
+                UnaryHistory candidateRead ∧ UnaryHistory l10Read ∧
+                  UnaryHistory axiomBoundaryRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro packet routeDischargeCandidate candidateLocalNameL10 l10ObstructionBoundary
+    boundaryPkg
+  obtain ⟨_strongNormUnary, _normalFormUnary, obstructionUnary, _handoffUnary,
+    dischargeSocketUnary, _transportUnary, routeUnary, _provenanceUnary, localNameUnary,
+    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
+    provenancePkg⟩ := packet
+  have candidateUnary : UnaryHistory candidateRead :=
+    unary_cont_closed routeUnary dischargeSocketUnary routeDischargeCandidate
+  have l10Unary : UnaryHistory l10Read :=
+    unary_cont_closed candidateUnary localNameUnary candidateLocalNameL10
+  have axiomBoundaryUnary : UnaryHistory axiomBoundaryRead :=
+    unary_cont_closed l10Unary obstructionUnary l10ObstructionBoundary
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row axiomBoundaryRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row candidateRead ∨ hsame row l10Read ∨ hsame row obstruction ∨
+              hsame row dischargeSocket ∨ hsame row axiomBoundaryRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle axiomBoundaryRead pkg ∧
+              PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro axiomBoundaryRead
+          ⟨hsame_refl axiomBoundaryRead, axiomBoundaryUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, boundaryPkg, provenancePkg⟩
+  }
+  exact ⟨cert, candidateUnary, l10Unary, axiomBoundaryUnary⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
