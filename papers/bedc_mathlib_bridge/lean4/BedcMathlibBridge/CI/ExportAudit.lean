@@ -1,3 +1,4 @@
+import BEDC.Derived.LocatedSupremumUp.Core
 import BedcMathlibBridge.All
 import BedcMathlibBridge.CI.IntMetadata
 import Lean
@@ -23,7 +24,10 @@ structure ExportRegistration where
 
 def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Int.cintIntExport,
-    witnessType := `BedcMathlibBridge.Export.Int.IntExportWitness }
+    witnessType := `BedcMathlibBridge.Export.Int.IntExportWitness },
+  { witness := `BEDC.Derived.LocatedSupremumUp.locatedSupremumExport,
+    witnessType :=
+      `BEDC.Derived.LocatedSupremumUp.LocatedSupremumExportWitness }
 ]
 
 def formatNames (names : Array Name) : String :=

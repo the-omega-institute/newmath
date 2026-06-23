@@ -7047,6 +7047,7 @@ import BEDC.Derived.LocatedSubsetUp.TasteGate
 import BEDC.Derived.LocatedSupremumModulusUp
 import BEDC.Derived.LocatedSupremumUp.Carrier
 import BEDC.Derived.LocatedSupremumUp.CofinalWindowTotality
+import BEDC.Derived.LocatedSupremumUp.Core
 import BEDC.Derived.LocatedSupremumUp.DyadicBracket
 import BEDC.Derived.LocatedSupremumUp.MonotoneConvergenceConsumerEnvelope
 import BEDC.Derived.LocatedSupremumUp.MonotoneSequenceHandoff
