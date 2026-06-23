@@ -105,6 +105,37 @@ def dot(left: list[float], right: list[float]) -> float:
     return sum(a * b for a, b in zip(left, right))
 
 
+def vector_norm(vector: list[float]) -> float:
+    return math.sqrt(dot(vector, vector))
+
+
+def subtract(left: list[float], right: list[float]) -> list[float]:
+    return [a - b for a, b in zip(left, right)]
+
+
+def scale(factor: float, vector: list[float]) -> list[float]:
+    return [factor * value for value in vector]
+
+
+def orthonormal_basis(columns: list[list[float]], tol: float = TOL) -> list[list[float]]:
+    basis: list[list[float]] = []
+    for column in columns:
+        working = column[:]
+        for q in basis:
+            working = subtract(working, scale(dot(q, working), q))
+        norm = vector_norm(working)
+        if norm > tol:
+            basis.append(scale(1.0 / norm, working))
+    return basis
+
+
+def residualize(vector: list[float], basis: list[list[float]]) -> list[float]:
+    out = vector[:]
+    for q in basis:
+        out = subtract(out, scale(dot(q, out), q))
+    return out
+
+
 def solve_linear(matrix: list[list[float]], rhs: list[float]) -> list[float] | None:
     n = len(rhs)
     aug = [row[:] + [rhs[idx]] for idx, row in enumerate(matrix)]
@@ -216,18 +247,28 @@ def genome_beta(
     y, boundary, columns, meta = design_columns(genome, codons, families, q_basis, w_mode)
     if boundary_override is not None:
         columns[0] = family_center(boundary_override, codons, families)
-    beta = ols_beta(y, columns)
-    if beta is None:
+    control_columns = columns[1:]
+    control_basis = orthonormal_basis(control_columns)
+    residual_boundary = residualize(columns[0], control_basis)
+    residual_y = residualize(y, control_basis)
+    residual_boundary_norm_sq = dot(residual_boundary, residual_boundary)
+    if residual_boundary_norm_sq <= TOL:
         return None
+    beta_boundary = dot(residual_boundary, residual_y) / residual_boundary_norm_sq
+    # Coefficients for controls are diagnostic only.  If the full normal
+    # equation is singular, the boundary estimate above remains the endpoint.
+    beta = ols_beta(y, columns)
     return {
         "assembly_accession": genome["assembly_accession"],
         "organism": genome["organism"],
         "genus": genome["genus"],
-        "beta_boundary": beta[1],
-        "beta_supply": beta[2],
-        "beta_gc3": beta[3],
-        "beta_b1_projection": beta[4 : 4 + len(q_basis)],
-        "beta_edge_incident": beta[4 + len(q_basis)],
+        "beta_boundary": beta_boundary,
+        "beta_supply": beta[2] if beta is not None else None,
+        "beta_gc3": beta[3] if beta is not None else None,
+        "beta_b1_projection": beta[4 : 4 + len(q_basis)] if beta is not None else None,
+        "beta_edge_incident": beta[4 + len(q_basis)] if beta is not None else None,
+        "control_rank": len(control_basis),
+        "boundary_residual_sd_after_controls": math.sqrt(residual_boundary_norm_sq / len(residual_boundary)),
         "meta": meta,
     }
 

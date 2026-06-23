@@ -6,7 +6,7 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 
 - bio_only: 55
 - duplicate_bio_program: 34
-- math_stub: 11
+- math_stub: 12
 - needs_derivation: 15
 
 ## B*_Q6 crosswalk summary
@@ -17,7 +17,7 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 - bio_only: 50
 - duplicate: 9
 - fibonacci_only: 1
-- namecert_watchlist: 26
+- namecert_watchlist: 27
 - param_divergence: 25
 - track_a_homeless: 4
 
@@ -124,6 +124,7 @@ None. No intake item passed carrier-map, necessity, and matched-null gates toget
 | fibonacci | track_a | track_a_homeless | tools/fibonacci_reality/experiments/run_track_a_human_wobble_boundary_response.py | track-a.codon-wobble-boundary-response.human | bio_only | Track A human codon-wobble boundary response with a permutation null. |
 | fibonacci | track_a | track_a_homeless | tools/fibonacci_reality/experiments/run_track_a_yeast_wobble_boundary_response.py | track-a.codon-wobble-boundary-response.yeast | bio_only | Track A yeast codon-wobble boundary response with a permutation null. |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_betweenness_triple_certificate.tex | Window Fibonacci Cube Betweenness Triple | math_stub | \subsection{NameCert: Window Fibonacci Cube Betweenness Triple} \label{sec:namecert-window_fibonacci_cube_betweenness_tr |
+| fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_saturated_chain_certificate.tex | Window Fibonacci Cube Saturated Chain | math_stub | \subsection{NameCert: Window Fibonacci Cube Saturated Chain} \label{sec:namecert-window_fibonacci_cube_saturated_chain_c |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_fibonacci_cube_closed_neighborhood_smith_certificate.tex | Window Six Fibonacci Cube Closed Neighborhood Smith | math_stub | \subsection{NameCert: Window Six Fibonacci Cube Closed Neighborhood Smith} \label{sec:namecert-window6_fibonacci_cube_cl |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_closed_neighborhood_transfer_certificate.tex | Window Fibonacci Cube Closed Neighborhood Transfer | math_stub | \subsection{NameCert: Window Fibonacci Cube Closed Neighborhood Transfer} \label{sec:namecert-window_fibonacci_cube_clos |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_fibonacci_cube_critical_group_snf_certificate.tex | Window Six Fibonacci Cube Critical Group Snf | math_stub | \subsection{NameCert: Window Six Fibonacci Cube Critical Group Snf} \label{sec:namecert-window6_fibonacci_cube_critical_ |
