@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\FinitelyPresentedModuleUp$}
+\label{ch:concrete-instances-finitely-presented-module-namecert}
+\origin{human}
+
+Following Bourbaki and Atiyah--Macdonald on finite module presentations, the $\FinitelyPresentedModuleUp$ packet records a module by a finite generator row and a finite relation matrix. It sits after the ambient $\RingUp$ and $\ModuleUp$ carriers of \autoref{ch:concrete-instances-ring-namecert} and \autoref{ch:concrete-instances-module-namecert}, reads relation coefficients through the finite $\MatrixUp$ surface of \autoref{ch:concrete-instances-matrix-namecert}, keeps Noetherian consumers aligned with \autoref{ch:concrete-instances-noetherian-module-namecert}, and supplies the presentation route used by the normal-form row of \autoref{ch:concrete-instances-smith-normal-form-namecert}. The packet names only displayed generators, finite relations, exactness witnesses, transport, replay, provenance, and local naming; it does not quotient an ambient free module, select representatives, import a host category of modules, or assert that arbitrary modules admit finite presentations.
+
+\begin{definition}[Finitely presented module carrier]
+\label{def:finitely-presented-module-carrier}
+A $\FinitelyPresentedModuleUp$ carrier is a finite $\BHist$ packet
+$$
+P=(R,M,G,A,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the ambient $\RingUp$ row.
+\item $M$ is the target $\ModuleUp$ row over $R$.
+\item $G$ is the finite generator ledger, listing the displayed generator names and their landing rows in $M$.
+\item $A$ is the finite $\MatrixUp$ relation row whose columns name relation words among the generators.
+\item $E$ is the presentation-exactness ledger, recording that the generator map is exposed and that the displayed relations are exactly the kernel rows read by the certificate.
+\item $H$ records componentwise $\hsame$ transport for $R,M,G,A,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a presentation request through $R,M,G,A,E,H,Q,N$.
+\item $Q$ is the $\Pkg$ provenance over $\FinitelyPresentedModuleUp$, $\RingUp$, $\ModuleUp$, $\MatrixUp$, $\NoetherianModuleUp$, $\SmithNormalFormUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FinitelyPresentedModuleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,M,G,A,E,H,C,Q,N$. It has no coordinate for host quotient-module equality, selected normal forms, ambient free-module representatives, a chosen presentation category, or a theorem that every module over $R$ is finitely presented.
+\end{definition}
+
+\begin{theorem}[Finitely presented module NameCert obligations]
+\label{thm:finitely-presented-module-namecert-obligations}
+For every accepted $\FinitelyPresentedModuleUp$ carrier
+$$
+P=(R,M,G,A,E,H,C,Q,N),
+$$
+the local $\NameCert_{\FinitelyPresentedModuleUp}$ surface consists exactly of ambient ring exposure, module exposure, finite generator-ledger exposure, finite relation-matrix exposure, presentation-exactness exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A Noetherian-module or Smith-normal-form consumer may read the packet only through these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finitely-presented-module-carrier}. The rows $R,M,G,A,E,H,C,Q,N$ are the complete finite packet, so carrier admission and classifier exactness are componentwise projections.
+
+Read the algebraic rows next. The ring row $R$ and module row $M$ identify the ambient algebraic surface, the generator ledger $G$ displays the finite source family, and the relation matrix $A$ records the finite relation words through the already named $\MatrixUp$ route.
+
+Finally inspect $E,H,C,Q,N$. The exactness ledger binds generators and relations to the same module row, while transport, replay, provenance, and local naming preserve only the displayed packet. Since the carrier has no coordinate for quotient equality, selected representatives, host module categories, or hidden normal-form output, the stated rows are exactly the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finitely presented module presentation exactness]
+\label{thm:finitely-presented-module-presentation-exactness}
+Every $\NoetherianModuleUp$ or $\SmithNormalFormUp$ consumer of an accepted $\FinitelyPresentedModuleUp$ carrier reaches the target module only through the finite route
+$$
+\RingUp,\ModuleUp \longmapsto \MatrixUp \longmapsto \FinitelyPresentedModuleUp .
+$$
+The consumer must read the ambient ring row $R$, target module row $M$, generator ledger $G$, relation matrix $A$, and exactness ledger $E$ before any normal-form or Noetherian-facing row is consumed. Thus the packet exports finite presentation exactness, not a quotient-module object, selected representatives, ambient basis choice, or a host theorem that presentations exist for all modules.
+\end{theorem}
+\begin{proof}
+Start with the ambient rows. The $\RingUp$ and $\ModuleUp$ coordinates are read before the presentation rows, so every downstream consumer sees which module surface is being presented.
+
+Next read the finite presentation rows. The generator ledger $G$ displays the finite source family, the $\MatrixUp$ row $A$ displays the relation coefficients, and the exactness ledger $E$ states that these displayed relations are the rows used by the certificate.
+
+The downstream handoff then passes through $H,C,Q,N$. Componentwise transport, continuation replay, provenance, and local naming carry the same packet into $\NoetherianModuleUp$ and $\SmithNormalFormUp$ contexts. They cannot add quotient equality, selected representatives, ambient basis choices, or an existence theorem outside the displayed presentation route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FinitelyPresentedModuleUp$ read exposes a $\RingUp$ row, a $\ModuleUp$ row, a finite generator ledger, a finite $\MatrixUp$ relation row, a presentation-exactness ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before a Noetherian-module or Smith-normal-form consumer reads the presented module.}
+
+\independenceWitness{ring, module, matrix, noetherian-module, smith-normal-form: $\FinitelyPresentedModuleUp$ is not bijective to any listed sibling because it jointly carries an ambient ring, target module, finite generator ledger, relation matrix, presentation-exactness ledger, transport, replay, provenance, and local naming.}
+
+\closureat{FinitelyPresentedModuleUp}{seedStr}
+
+\begin{closurestatus}{\FinitelyPresentedModuleUp}
+  \constructivestory{A $\FinitelyPresentedModuleUp$ packet is generated from an ambient RingUp row, a target ModuleUp row, a finite generator ledger, a finite MatrixUp relation row, a presentation-exactness ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finitely-presented-module-carrier}, \autoref{thm:finitely-presented-module-namecert-obligations}, and \autoref{thm:finitely-presented-module-presentation-exactness} seed the finite module-presentation route for NoetherianModuleUp and SmithNormalFormUp consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim quotient-module equality, selected representatives, ambient basis choice, universal finite presentability, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, generator-ledger exposure, relation-matrix exposure, presentation-exactness routing, Noetherian consumer boundary, Smith-normal-form handoff, transport, replay, provenance, and local naming for BEDC.Derived.FinitelyPresentedModuleUp.}
+\end{closurestatus}

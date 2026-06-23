@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICResidualPeakSchedulerUp$}
+\label{ch:concrete-instances-metacic-residual-peak-scheduler-namecert}
+\origin{ai}
+
+The $\MetaCICResidualPeakSchedulerUp$ packet realizes the residual-substitution boundary of \autoref{ch:metacic-confluence-audit-map} as finite local-peak scheduling data. It sits beside the critical-path carrier of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, the candidate-normalization handoff of \autoref{ch:concrete-instances-metacic-candidate-normalization-confluence-handoff-namecert}, the residual local-join packet of \autoref{ch:concrete-instances-parallel-diamond-residual-namecert}, and the audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}. The scheduler names which residual peak is inspected, which residual rows remain visible, which candidate joins are budgeted, and which blocked edge is retained; it does not claim full MetaCIC confluence.
+
+\begin{definition}[MetaCIC residual peak-scheduler carrier]
+\label{def:metacic-residual-peak-scheduler-carrier}
+A $\MetaCICResidualPeakSchedulerUp$ carrier is a finite $\BHist$ packet
+$$
+S=(P,R,J,B,T,U,H,C,Q,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $P$ is the local peak row, naming the source term, the two outgoing parallel or residual reductions, and the syntactic redex frontier inspected by the scheduler.
+\item $R$ is the residual-row ledger, displaying the residual substitutions and branch-local redex descendants that remain visible after the peak is decomposed.
+\item $J$ is the candidate-join budget, recording the finite list of candidate common reducts and the bounded checks attached to them.
+\item $B$ is the blocked-edge row, retaining the residual-substitution compatibility or residual beta branch that has not been discharged.
+\item $T$ is the transport row from the sibling critical-path and parallel-diamond frontier packets.
+\item $U$ is the replay row from candidate normalization through the residual local-join packet and back to the confluence audit packet.
+\item $H$ stores componentwise $\hsame$ transport for the local peak, residual rows, candidate joins, blocked edge, transport, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay for the finite scheduler route.
+\item $Q$ is the $\Pkg$ provenance over $\MetaCICResidualPeakSchedulerUp$, the MetaCIC critical path, the parallel-diamond frontier, candidate normalization, the residual local-join packet, the audit packet, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICResidualPeakSchedulerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an unconditional parallel diamond, a completed residual-substitution proof, a global Church--Rosser theorem, or a hidden proof search procedure.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual peak-scheduler NameCert obligations]
+\label{thm:metacic-residual-peak-scheduler-namecert-obligations}
+For every accepted $\MetaCICResidualPeakSchedulerUp$ carrier
+$$
+S=(P,R,J,B,T,U,H,C,Q,N),
+$$
+the local $\NameCert_{\MetaCICResidualPeakSchedulerUp}$ surface consists exactly of local peak exposure, residual-row visibility, candidate-join budget exposure, blocked-edge retention, sibling transport, candidate-normalization replay, componentwise transport, displayed continuation replay, provenance, and local naming. Any accepted consumer that reaches a candidate join must expose $P,R,J,B,T,U,H,C,Q,N$ before treating the join as available to the confluence audit route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-peak-scheduler-carrier}. The local peak $P$, residual rows $R$, candidate budget $J$, and blocked edge $B$ are explicit coordinates, so the scheduler cannot hide the residual-substitution boundary behind an unconditional diamond claim.
+
+Read the sibling transport and replay rows. The row $T$ imports only the finite critical-path and parallel-frontier data, while $U$ replays candidate normalization through the residual local-join packet and back to the audit packet.
+
+Finally read the structural rows. Componentwise transport $H$, displayed replay $C$, provenance $Q$, and local naming $N$ preserve the same finite scheduler surface for downstream consumers, excluding completed confluence, hidden proof search, or a discharged residual beta branch.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual peak-scheduler diamond handoff]
+\label{thm:metacic-residual-peak-scheduler-diamond-handoff}
+Every conditional diamond or confluence-audit consumer of a $\MetaCICResidualPeakSchedulerUp$ packet factors through the finite route
+$$
+P,R,J,B,T,U,H,C,Q,N .
+$$
+The route may pass candidate joins to the parallel-diamond frontier and residual local-join packets, but it must retain the blocked-edge row $B$ whenever residual-substitution compatibility or residual beta-branch compatibility has not been supplied. Therefore the handoff is a finite audit boundary, not a proof of the full parallel diamond.
+\end{theorem}
+\begin{proof}
+Start with the local peak and residual rows. They determine which branch pair and which residual descendants are visible to the scheduler before any candidate common reduct is considered.
+
+Use the candidate-join budget next. The row $J$ supplies only bounded candidate joins, and the blocked-edge row $B$ travels with the same packet whenever a compatibility edge remains unavailable.
+
+The transport and replay rows complete the handoff. The rows $T,U,H,C,Q,N$ connect the packet to the critical-path, parallel-frontier, candidate-normalization, residual-local-join, and audit-packet siblings while preserving the blocked edge. Thus downstream diamond consumers receive a scheduled finite boundary rather than an unconditional diamond theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICResidualPeakSchedulerUp$ consumer that reaches a candidate join without first exposing local peak, residual rows, scheduler budget, blocked edge, transport, replay, provenance, and local NameCert rows refutes the carrier surface.}
+
+\independenceWitness{metaciccriticalpath, metacic-parallel-diamond-frontier, metacic-candidate-normalization-confluence-handoff, parallel-diamond-residual, metacic-confluence-audit-packet: no listed sibling jointly carries local peak scheduling, residual-row visibility, candidate-join budget, blocked-edge retention, transport, replay, provenance, and local naming.}
+
+The paired Lean surface for this packet must provide $\mathsf{Nontrivial}\ \MetaCICResidualPeakSchedulerUp$ and $\mathsf{FieldFaithful}\ \MetaCICResidualPeakSchedulerUp$ instances in a \texttt{TasteGate.lean} file, with an explicit witness for nontriviality and projection proofs for every displayed field.
+
+\closureat{MetaCICResidualPeakSchedulerUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICResidualPeakSchedulerUp}
+  \constructivestory{A $\MetaCICResidualPeakSchedulerUp$ packet is generated from a local MetaCIC peak, visible residual rows, a finite candidate-join budget, a retained blocked edge, sibling transport, replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-peak-scheduler-carrier}, \autoref{thm:metacic-residual-peak-scheduler-namecert-obligations}, and \autoref{thm:metacic-residual-peak-scheduler-diamond-handoff} seed the finite residual-peak scheduling route for the confluence audit boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close residual-substitution compatibility, full parallel diamond, arbitrary closed-term Church--Rosser, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked local-peak exposure, residual-row visibility, candidate-join budget exactness, blocked-edge retention, sibling transport, replay, provenance, and local naming for BEDC.Derived.MetaCICResidualPeakSchedulerUp.}
+\end{closurestatus}
