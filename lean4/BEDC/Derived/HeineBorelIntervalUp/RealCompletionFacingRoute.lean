@@ -1,4 +1,5 @@
 import BEDC.Derived.HeineBorelIntervalUp.PublicFiniteNetExport
+import BEDC.Derived.HeineBorelIntervalUp.RealSealDescent
 
 namespace BEDC.Derived.HeineBorelIntervalUp
 
@@ -20,36 +21,76 @@ theorem HeineBorelIntervalRealCompletionFacingRoute [AskSetup] [PackageSetup]
       UnaryHistory T →
         UnaryHistory E →
           UnaryHistory N →
-            Cont coverageRead T stableRead →
-              HeineBorelIntervalFiniteNetInductionRoute
-                  (HeineBorelIntervalUp.mk A B K M Z F T S R E Q C P N)
-                  stableRead inductionRead bundle pkg →
-                Cont inductionRead E sealRead →
-                  Cont sealRead N publicRead →
-                    Cont publicRead C completionRead →
-                      PkgSig bundle stableRead pkg →
-                        PkgSig bundle sealRead pkg →
-                          PkgSig bundle publicRead pkg →
-                            PkgSig bundle completionRead pkg →
-                              SemanticNameCert
-                                  (fun row : BHist =>
-                                    hsame row completionRead ∧ UnaryHistory row)
-                                  (fun row : BHist =>
-                                    hsame row coverageRead ∨ hsame row stableRead ∨
-                                      hsame row inductionRead ∨ hsame row sealRead ∨
-                                        hsame row publicRead ∨ hsame row completionRead)
-                                  (fun row : BHist =>
-                                    UnaryHistory row ∧ Cont coverageRead T stableRead ∧
-                                      Cont inductionRead E sealRead ∧
-                                        Cont sealRead N publicRead ∧
-                                          Cont publicRead C completionRead ∧
-                                            PkgSig bundle completionRead pkg)
-                                  hsame ∧
-                                UnaryHistory completionRead := by
+            UnaryHistory R →
+              Cont coverageRead T stableRead →
+                HeineBorelIntervalFiniteNetInductionRoute
+                    (HeineBorelIntervalUp.mk A B K M Z F T S R E Q C P N)
+                    stableRead inductionRead bundle pkg →
+                  Cont inductionRead E sealRead →
+                    Cont sealRead N publicRead →
+                      Cont publicRead R completionRead →
+                        PkgSig bundle stableRead pkg →
+                          PkgSig bundle sealRead pkg →
+                            PkgSig bundle publicRead pkg →
+                              PkgSig bundle completionRead pkg →
+                                SemanticNameCert
+                                    (fun row : BHist =>
+                                      hsame row completionRead ∧ UnaryHistory row)
+                                    (fun row : BHist =>
+                                      hsame row coverageRead ∨ hsame row stableRead ∨
+                                        hsame row inductionRead ∨ hsame row sealRead ∨
+                                          hsame row publicRead ∨ hsame row completionRead)
+                                    (fun row : BHist =>
+                                      UnaryHistory row ∧ Cont coverageRead T stableRead ∧
+                                        Cont inductionRead E sealRead ∧
+                                          Cont sealRead N publicRead ∧
+                                            Cont publicRead R completionRead ∧
+                                              PkgSig bundle completionRead pkg)
+                                    hsame ∧
+                                  UnaryHistory completionRead := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
-  intro coverageRoute tailUnary eUnary nUnary coverageTailStable inductionRoute
+  intro coverageRouteSource tailUnary eUnary nUnary rUnary coverageTailStable inductionRoute
     inductionSeal sealPublic publicCompletion stablePkg sealPkg publicPkg completionPkg
-  have surfaceResult :
+  have coverageRoute :
+      HeineBorelIntervalCoverageRoute
+        (HeineBorelIntervalUp.mk A B K M Z F T S R E Q C P N)
+        net mesh coverageRead bundle pkg :=
+    coverageRouteSource
+  have _coverageResult :
+      SemanticNameCert
+          (fun row : BHist => hsame row coverageRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row net ∨ hsame row mesh ∨ hsame row coverageRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont net mesh coverageRead ∧
+              PkgSig bundle coverageRead pkg)
+          hsame ∧
+        UnaryHistory coverageRead :=
+    HeineBorelIntervalNetCoverage
+      (HeineBorelIntervalUp.mk A B K M Z F T S R E Q C P N)
+      coverageRoute
+  obtain ⟨kUnary, mUnary, zUnary, fUnary, qUnary, cUnary, pUnary, nUnary,
+    netRoute, coverageThroughMesh, finiteCoverageRoute, replayRoute, meshSameM,
+    coveragePkg⟩ := coverageRouteSource
+  have coverageThroughM : Cont net M coverageRead := by
+    cases meshSameM
+    exact coverageThroughMesh
+  have coverageRouteForTail :
+      HeineBorelIntervalCoverageRoute
+        (HeineBorelIntervalUp.mk A B K M Z F T S R E Q C P N)
+        net M coverageRead bundle pkg :=
+    ⟨kUnary, mUnary, zUnary, fUnary, qUnary, cUnary, pUnary, nUnary, netRoute,
+      coverageThroughM, finiteCoverageRoute, replayRoute, hsame_refl M, coveragePkg⟩
+  have _tailResult :
+      SemanticNameCert
+          (fun row : BHist => hsame row stableRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row coverageRead ∨ hsame row T ∨ hsame row stableRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont coverageRead T stableRead ∧
+              PkgSig bundle stableRead pkg)
+          hsame ∧
+        UnaryHistory stableRead :=
+    HeineBorelIntervalTailStability coverageRouteForTail tailUnary coverageTailStable stablePkg
+  have publicResult :
       SemanticNameCert
           (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
           (fun row : BHist =>
@@ -65,12 +106,9 @@ theorem HeineBorelIntervalRealCompletionFacingRoute [AskSetup] [PackageSetup]
     HeineBorelIntervalNameCertObligationSurface
       coverageRoute tailUnary eUnary nUnary coverageTailStable inductionRoute
       inductionSeal sealPublic stablePkg sealPkg publicPkg
-  have publicUnary : UnaryHistory publicRead := surfaceResult.right.right.right.right
-  obtain ⟨_kUnary, _mUnary, _zUnary, _fUnary, _qUnary, cUnary, _pUnary, _nUnary,
-    _netRoute, _coverageThroughMesh, _finiteCoverageRoute, _replayRoute, _meshSame,
-    _coveragePkg⟩ := coverageRoute
+  have publicUnary : UnaryHistory publicRead := publicResult.right.right.right.right
   have completionUnary : UnaryHistory completionRead :=
-    unary_cont_closed publicUnary cUnary publicCompletion
+    unary_cont_closed publicUnary rUnary publicCompletion
   have cert :
       SemanticNameCert
           (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
@@ -80,7 +118,7 @@ theorem HeineBorelIntervalRealCompletionFacingRoute [AskSetup] [PackageSetup]
           (fun row : BHist =>
             UnaryHistory row ∧ Cont coverageRead T stableRead ∧
               Cont inductionRead E sealRead ∧ Cont sealRead N publicRead ∧
-                Cont publicRead C completionRead ∧ PkgSig bundle completionRead pkg)
+                Cont publicRead R completionRead ∧ PkgSig bundle completionRead pkg)
           hsame := {
     core := {
       carrier_inhabited := Exists.intro completionRead
