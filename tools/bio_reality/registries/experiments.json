@@ -2498,6 +2498,125 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.crispr_efficiency.sgrna_position_nt_efficiency_doench2016",
+   "experiment_id": "sgrna_position_nt_efficiency_doench2016",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib position-nt vs measured SpCas9 knockout activity over Doench 2016 Azimuth (tools/bio_reality/data/sgrna_position_nt_efficiency_doench2016.json; label=score_drug_gene_rank measured, predictions column excluded as leakage; predictor=prior 80-dim 20x4 position-nt one-hot). Held-out (80/20) incremental R2 of position-nt+GC over GC-only + permutation null; residualized control on GC; positive controls = pos20==G favored / T@PAM-proximal disfavored / poly-T disfavored (Doench signs); cross-dataset anchor = Doench 2014. Verdict crosses_boundary (held-out |rho|>=0.10 or delta-R2>=1%) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_sgrna_position_nt_efficiency_doench2016.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T20:54:20+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.primirna_processing.primirna_motif_drosha_processing_fang2015",
+   "experiment_id": "primirna_motif_drosha_processing_fang2015",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib pri-miRNA motif vs measured Drosha processing efficiency over Fang & Bartel 2015 GSE67937 (tools/bio_reality/data/primirna_motif_drosha_processing_fang2015.json; measured log2 selection/input vs WT; predictor=prior basal-UG/CNNC/apical-UGU/GHG motifs fold-anchored to per-backbone scaffold landmarks, no de-novo folding). Residualized partial (GC + stem length + backbone) + permutation null; positive control = CNNC enhances processing; cross-backbone (mir125/mir16/mir30) concordance. Verdict crosses_boundary (|rho|>=0.10) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib, no RNA folding.",
+   "script_path": "tools/bio_reality/experiments/run_primirna_motif_drosha_processing_fang2015.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T21:14:43+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.translation_initiation.uorf_kozak_ribosome_load_sample2019",
+   "experiment_id": "uorf_kozak_ribosome_load_sample2019",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib uAUG/uORF+Kozak vs measured mean ribosome load over Sample 2019 GSE114002 (tools/bio_reality/data/uorf_kozak_ribosome_load_sample2019.json; readout=rl MRL measured polysome-seq, leakage-guarded; predictor=prior uAUG count + Kozak -3 purine). Residualized partial (5'UTR length+GC) + permutation null + GC-stratified model-free check, on two independent native-human samples (fixed-50nt + varying-25to100nt). Positive control = uAUG lowers MRL (dose-response). Verdict crosses_boundary (|rho|>=0.10 or incr R2>=1%) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_uorf_kozak_ribosome_load_sample2019.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T21:22:49+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.exon_inclusion.ese_hexamer_exon_inclusion_adamson2018",
+   "experiment_id": "ese_hexamer_exon_inclusion_adamson2018",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib ESE hexamer code (delta-ESEseq, Ke2011 prior) vs measured exon inclusion (delta-PSI) over Adamson 2018 Vex-seq (tools/bio_reality/data/ese_hexamer_exon_inclusion_adamson2018.json; readout=measured delta-PSI, predictor=delta-ESEseq from frozen Ke2011 table). Residualized partial (delta-MaxEntScan splice-site strength + variant type + GC) + permutation null; positive control = ESE strengthening raises inclusion; two cell-line (HepG2/K562) + SNV-only + exonic >10nt-from-SS subsets. Verdict crosses_boundary (|r|>=0.10) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_ese_hexamer_exon_inclusion_adamson2018.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T21:29:07+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.mrna_stability.codon_composition_mrna_halflife_agarwal2022",
+   "experiment_id": "codon_composition_mrna_halflife_agarwal2022",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib codon-optimality (tAI, non-CSC tRNA-pool prior) vs measured mRNA half-life over Agarwal & Kelley 2022 compendium (tools/bio_reality/data/codon_composition_mrna_halflife_agarwal2022.json; readout=measured half-life, predictor=tAI from tRNA gene-copy numbers, circularity-escaped). Residualized partial (GC3+GC3^2+log CDS length) + permutation null; 54-column per-experiment same-sign + method-subset (4sU/ActD) robustness diagnostic; cross-species mouse. Verdict crosses_boundary (|rho|>=0.10 AND >=40/54 same-sign AND both 4sU+ActD method subsets cross floor) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_codon_composition_mrna_halflife_agarwal2022.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T21:48:26+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.nterminal_acetylation.nterminal_acetylation_occupancy_kron2018",
+   "experiment_id": "nterminal_acetylation_occupancy_kron2018",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib N-terminal NatA/NatB sequence rules vs measured N-terminal acetylation continuous occupancy over Kron 2018 (tools/bio_reality/data/nterminal_acetylation_occupancy_kron2018.json; readout=NtAc% continuous occupancy, predictor=NatA/NatB P1'+P2' priors). Residualized partial (aa-composition+length+abundance) + permutation null + AUROC; non-circularity gate = within-fixed-P1' P2'-acidity residual must clear 0.10. Positive controls = NatB>NatA, 2nd-residue gradient, acidic-3rd boost. Verdict crosses_boundary (overall |rho|>=0.10 AND within-fixed-P1' residual>=0.10) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_nterminal_acetylation_occupancy_kron2018.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T22:06:41+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.nterminal_acetylation.nterminal_acetylation_occupancy_human",
+   "experiment_id": "nterminal_acetylation_occupancy_human",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-organism transfer: frozen yeast NatA/NatB N-terminal rule vs measured HUMAN N-terminal acetylation continuous occupancy over PMC8509067 Table S1 (tools/bio_reality/data/nterminal_acetylation_occupancy_human.json; readout=NTA corr% continuous occupancy, predictor=FROZEN yeast NatA/NatB P1'+P2' prior, not re-learned). Residualized partial (aa-composition+length) + permutation null + AUROC; non-circularity gate = within-fixed-P1' P2'-acidity residual >=0.10; positive controls = human NatB>NatA + 2nd-residue gradient. Verdict transfers_conserved (|rho|>=0.10 AND within-fixed-P1'>=0.10) / bounded_descriptor_only / not_conserved / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_nterminal_acetylation_occupancy_human.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T22:58:11+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
