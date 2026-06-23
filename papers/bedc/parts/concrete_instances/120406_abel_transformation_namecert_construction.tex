@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\AbelTransformationUp$}
+\label{ch:concrete-instances-abel-transformation-namecert}
+\origin{human}
+
+Following Abel and Hardy, the $\AbelTransformationUp$ packet records the finite boundary identity that rewrites a displayed coefficient-weighted tail through partial sums, adjacent coefficient differences, and endpoint terms. It sits beside the finite summation-by-parts surface of \autoref{ch:concrete-instances-summation-by-parts-namecert}, the Abel summation route of \autoref{ch:concrete-instances-abel-summation-namecert}, the Abel-test consumer of \autoref{ch:concrete-instances-abel-test-namecert}, and the Dirichlet-test consumer of \autoref{ch:concrete-instances-dirichlet-test-namecert}. The packet names only a displayed Abel-transform window; it does not import infinite sums, selected limits, quotient series equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Abel transformation carrier]
+\label{def:abel-transformation-carrier}
+An $\AbelTransformationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,P,C,\Delta,B,W,T,R,D,E,H,K,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\SeriesUp$ source row, exposing the inspected finite term window and its partial-sum cells.
+\item $P$ is the partial-sum row used by the Abel transform on the same finite interval.
+\item $C$ is the coefficient-window row, naming the scalar coefficients paired with the partial sums.
+\item $\Delta$ is the adjacent-difference ledger for the coefficient window.
+\item $B$ is the boundary-term row, recording the two endpoint products of the displayed window.
+\item $W$ is the finite transform row, collecting the boundary terms and interior difference-weighted partial sums.
+\item $T$ is the convergence-test handoff row consumed by $\AbelSummationUp$, $\AbelTestUp$, or $\DirichletTestUp$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $W$ and the displayed handoff.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the additions, subtractions, products, and endpoint comparisons in $W$.
+\item $E$ is the terminal $\RealUp$ seal reached only after $S,P,C,\Delta,B,W,T,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, partial-sum, coefficient, difference, boundary, transform, handoff, readback, dyadic, endpoint, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay of the route
+$$
+S,P,C,\Delta,B,W,T,R,D \longmapsto E .
+$$
+\item $Q$ is the $\Pkg$ provenance over $\AbelTransformationUp$, $\SummationByPartsUp$, $\AbelSummationUp$, $\AbelTestUp$, $\DirichletTestUp$, $\SeriesUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AbelTransformationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,P,C,\Delta,B,W,T,R,D,E,H,K,Q,N$. It has no coordinate for an infinite sum, selected limit, quotient series equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Abel transformation NameCert obligations]
+\label{thm:abel-transformation-namecert-obligations}
+For every accepted $\AbelTransformationUp$ carrier
+$$
+A=(S,P,C,\Delta,B,W,T,R,D,E,H,K,Q,N),
+$$
+the local $\NameCert_{\AbelTransformationUp}$ surface consists exactly of carrier admission for the displayed finite packet; source and partial-sum exposure through $S$ and $P$; coefficient-window and adjacent-difference exposure through $C$ and $\Delta$; boundary-term exactness through $B$; transform-row exactness through $W$; convergence-test handoff through $T$; regular readback, dyadic accounting, and endpoint sealing through $R,D,E$; and transport, replay, provenance, and local naming through $H,K,Q,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The projection exposes exactly the rows $S,P,C,\Delta,B,W,T,R,D,E,H,K,Q,N$, so every local naming obligation is attached to one displayed coordinate.
+
+The analytic rows are finite. The source row $S$ and partial-sum row $P$ display the inspected cumulative sums, the coefficient row $C$ displays the paired coefficients, $\Delta$ displays adjacent differences, and $B$ displays the endpoint products determined by the same window.
+
+The transform row $W$ is then forced by those rows. It records the finite Abel-transform boundary and interior difference-weighted partial-sum terms, so a convergence-test consumer can read $T$ only after the transform data have been displayed.
+
+Finally $R,D,E,H,K,Q,N$ preserve and seal the same route. Because the carrier has no coordinate for infinite summation, selected limits, quotient series equality, countable choice, trichotomy, or ambient real completeness, the listed rows exhaust the local $\NameCert_{\AbelTransformationUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Abel transformation summation handoff]
+\label{thm:abel-transformation-summation-handoff}
+Every accepted $\AbelTransformationUp$ packet hands a convergence-test consumer only the finite route
+$$
+\SummationByPartsUp \longmapsto S,P,C,\Delta,B,W,T \longmapsto R,D,E,H,K,Q,N .
+$$
+The downstream $\AbelSummationUp$, $\AbelTestUp$, and $\DirichletTestUp$ chapters may consume the displayed transform row, but they receive no infinite sum, selected limit, quotient series equality, countable choice, trichotomy, or ambient $\RealUp$ completeness from this packet.
+\end{theorem}
+\begin{proof}
+Begin with the summation-by-parts dependency. The packet reads the same finite identity surface as \autoref{ch:concrete-instances-summation-by-parts-namecert}, but specializes the visible handoff to the Abel-transform row $W$.
+
+The Abel-facing consumers then read only $T$. An $\AbelSummationUp$ consumer uses the transform window as a summation boundary, an $\AbelTestUp$ consumer combines it with its coefficient-control rows, and a $\DirichletTestUp$ consumer combines it with bounded partial sums and tail estimates. In each case the contribution of this chapter remains the displayed finite packet.
+
+The regular and real-facing route is downstream of $W$ and $T$. Rows $R,D,E$ read back, account for, and seal the same finite transform, while $H,K,Q,N$ transport, replay, source, and name that route. No excluded summation or completeness datum is present in the carrier.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\AbelTransformationUp$ consumer that reaches an $\AbelSummationUp$, $\AbelTestUp$, $\DirichletTestUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ row without reading the displayed source, partial-sum, coefficient, adjacent-difference, boundary, transform, and handoff rows refutes the carrier surface.}
+
+\independenceWitness{summation-by-parts, abel-summation, abel-test, dirichlet-test, series, regseqrat, dyadicratcore, real: no listed sibling supplies the whole fourteen-row packet $A=(S,P,C,\Delta,B,W,T,R,D,E,H,K,Q,N)$, because each sibling contributes only an identity surface, transform consumer, convergence-test consumer, source series, regular readback, dyadic ledger, or endpoint seal while this chapter binds the finite Abel-transform window itself.}
+
+\closureat{AbelTransformationUp}{seedStr}
+
+\begin{closurestatus}{\AbelTransformationUp}
+  \constructivestory{An $\AbelTransformationUp$ packet is generated from a SeriesUp finite source row, partial-sum windows, coefficient windows, adjacent-difference rows, boundary-term rows, a finite Abel-transform row, AbelSummation/AbelTest/DirichletTest handoff rows, RegSeqRat readback, DyadicRatCore tolerance accounting, a RealUp endpoint seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:abel-transformation-carrier}, \autoref{thm:abel-transformation-namecert-obligations}, and \autoref{thm:abel-transformation-summation-handoff} seed the finite Abel-transform identity packet over $\SummationByPartsUp$, $\AbelSummationUp$, $\AbelTestUp$, $\DirichletTestUp$, $\SeriesUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite summation, quotient series equality, selected convergence witnesses, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite Abel-transform exactness, convergence-test handoff, regular readback, dyadic accounting, endpoint sealing, transport and replay stability, provenance exhaustion, and TasteGate field faithfulness for BEDC.Derived.AbelTransformationUp.}
+\end{closurestatus}
