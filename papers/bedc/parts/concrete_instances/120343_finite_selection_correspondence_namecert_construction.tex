@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\FiniteSelectionCorrespondenceUp$}
+\label{ch:concrete-instances-finite-selection-correspondence-namecert}
+\origin{human}
+
+Following Berge and Aliprantis--Border on finite correspondences and measurable selection language, the $\FiniteSelectionCorrespondenceUp$ packet records only finite displayed selection rows. It sits beside the metric source of \autoref{ch:concrete-instances-metric-namecert}, the compact metric ledger of \autoref{ch:concrete-instances-compactmetric-namecert}, the set-like membership surface of \autoref{ch:concrete-instances-setlike-namecert}, the finite transport-plan route of \autoref{ch:concrete-instances-wasserstein-namecert}, and the distribution ledger of \autoref{ch:concrete-instances-distribution-namecert}. The packet is a finite correspondence interface; it does not export a global selector, countable choice, measurable-selection theorem, optimizer, or ambient completion.
+
+\begin{definition}[Finite selection correspondence carrier]
+\label{def:finite-selection-correspondence-carrier}
+A $\FiniteSelectionCorrespondenceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,K,S,W,R,D,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the displayed $\MetricUp$ source row;
+\item $K$ is an optional $\CompactMetricUp$ finite-support or finite-net ledger read by compact consumers;
+\item $S$ is the $\SetLikeUp$ graph row listing finite source points and finite admissible value rows;
+\item $W$ is the displayed selection-window table, whose entries are finite pairs already present in $S$;
+\item $R$ is the readback row consumed by finite $\WassersteinUp$ and $\DistributionUp$ interfaces;
+\item $D$ is the refusal ledger recording that no global selector, countable-choice schedule, optimizer, or measurable-selection theorem is exported;
+\item $H$ records componentwise $\hsame$ transport for the metric, compact, graph, window, readback, refusal, provenance, and naming rows;
+\item $C$ records displayed $\Cont$ replay from graph rows to finite windows and from windows to downstream finite consumers;
+\item $P$ is the $\Pkg$ provenance over $\FiniteSelectionCorrespondenceUp$, $\MetricUp$, $\CompactMetricUp$, $\SetLikeUp$, $\WassersteinUp$, $\DistributionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FiniteSelectionCorrespondenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets componentwise by $\hsame$ on these rows.
+\end{definition}
+\leanstmt{BEDC.Derived.FiniteSelectionCorrespondenceUp}
+
+\begin{theorem}[Finite selection correspondence obligation surface]
+\label{thm:finite-selection-correspondence-obligation-surface}
+For every accepted $\FiniteSelectionCorrespondenceUp$ carrier $F=(M,K,S,W,R,D,H,C,P,N)$, the local obligation surface consists exactly of the displayed metric source, compact-support ledger, set-like graph row, finite selection windows, downstream readback row, refusal ledger, componentwise transport, replay, provenance, and local naming rows. Any finite transport, compact metric, or distribution consumer must read $S$ and $W$ before consuming $R$, and $D$ remains visible on every route, so no choice principle or selected global function is exported.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-selection-correspondence-carrier}. The only admissible correspondence data are the finite graph row $S$ and the finite selection-window table $W$ over the displayed metric source $M$ and optional compact row $K$.
+
+The downstream readback row $R$ is attached to those finite rows. A $\WassersteinUp$ or $\DistributionUp$ consumer may therefore receive a finite support or finite provenance route, but it must receive it through the listed $S,W,R$ coordinates rather than through a hidden selector.
+
+Finally read the structural rows. The componentwise $\hsame$ row $H$, the displayed $\Cont$ replay row $C$, the $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$ preserve the same finite route, while $D$ records the refusal of global selection, countable choice, optimizer extraction, and measurable-selection principles. Hence the displayed rows exhaust the finite selection correspondence obligation surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteSelectionCorrespondenceUp$ consumer that reads a selected value without first exposing the finite graph row $S$ and finite selection window $W$, or that exports a global selector after reading $D$, is outside the carrier surface.}
+
+\independenceWitness{metric, compactmetric, setlike, wasserstein, distribution: no listed sibling supplies the joint finite correspondence packet with displayed metric source, compact-support ledger, set-like graph row, finite selection windows, transport and distribution readback, refusal ledger, componentwise transport, replay, provenance, and local naming.}
+
+\closureat{FiniteSelectionCorrespondenceUp}{seedStr}
+
+\begin{closurestatus}{\FiniteSelectionCorrespondenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-selection-correspondence-carrier} and \autoref{thm:finite-selection-correspondence-obligation-surface} seed the finite displayed correspondence interface over Metric, CompactMetric, SetLike, Wasserstein, Distribution, transport, replay, provenance, and local NameCert rows.}
+  \constructivestory{A $\FiniteSelectionCorrespondenceUp$ packet is generated from a displayed Metric source row, optional CompactMetric finite-support row, SetLike graph row, finite selection-window table, downstream readback row, refusal ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.FiniteSelectionCorrespondenceUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global selectors, measurable selection, optimizer existence, countable choice, ambient measure completion, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite graph-window exhaustion, downstream readback preservation, refusal-ledger nonescape, Nontrivial, and FieldFaithful instances for BEDC.Derived.FiniteSelectionCorrespondenceUp.}
+\end{closurestatus}
