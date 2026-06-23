@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CompactCoverOrderBoundUp$}
+\label{ch:concrete-instances-compact-cover-order-bound-namecert}
+\origin{human}
+
+Following the constructive Heine--Cantor cover discipline, the $\CompactCoverOrderBoundUp$ packet records a finite overlap bound for the compact-uniform-continuity route. It sits beside the compact source certificate of \autoref{ch:concrete-instances-compact-namecert}, the uniform-continuity carrier of \autoref{ch:concrete-instances-compactuniformcontinuity-namecert}, the finite star-refinement route of \autoref{ch:concrete-instances-finite-cover-star-refinement-modulus-namecert}, the mesh-chain cover route of \autoref{ch:concrete-instances-finite-cover-mesh-chain-namecert}, the local-modulus nerve of \autoref{ch:concrete-instances-compact-uniform-local-modulus-nerve-namecert}, and the tolerance-only handoff of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet names bounded-overlap cover rows before a uniform modulus is read; it does not choose an optimal cover, a least Lebesgue number, or an ambient compactness principle.
+
+\begin{definition}[CompactCoverOrderBound carrier]
+\label{def:compact-cover-order-bound-carrier}
+A $\CompactCoverOrderBoundUp$ carrier is a finite $\BHist$ packet
+$$
+O=(K,C,S,M,B,U,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactUp$ source row exposing the finite cover only through displayed compact data.
+\item $C$ is the finite cover row, read as bundled centers, radii, or cells rather than as an ambient open-cover object.
+\item $S$ is the star-refinement and mesh-chain row that records which cover cells may meet after refinement.
+\item $M$ is the pointwise local-modulus row consumed by compact-uniform-continuity arguments.
+\item $B$ is the finite cover-order bound row: for each displayed cell, it lists the finite family of neighboring cells allowed to overlap it.
+\item $U$ is the downstream $\UniformModulusUp$ handoff row reached through the bound $B$ and the local-modulus row $M$.
+\item $H$ records componentwise $\hsame$ transport for the compact source, cover, refinement, local-modulus, bound, and uniform-modulus rows.
+\item $T$ records displayed $\Cont$ replay for the same finite cover-order route.
+\item $P$ is the $\Pkg$ provenance over $\CompactCoverOrderBoundUp$, $\CompactUp$, $\CompactUniformContinuityUp$, $\FiniteCoverStarRefinementModulusUp$, $\FiniteCoverMeshChainUp$, $\CompactUniformLocalModulusNerveUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactCoverOrderBoundUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an optimal subcover, a least Lebesgue number, an infinite locally finite family, countable choice, or an external compactness oracle.
+\end{definition}
+
+\begin{theorem}[CompactCoverOrderBound NameCert obligations]
+\label{thm:compact-cover-order-bound-namecert-obligations}
+For every accepted $\CompactCoverOrderBoundUp$ carrier $O=(K,C,S,M,B,U,H,T,P,N)$, the local $\NameCert_{\CompactCoverOrderBoundUp}$ surface consists exactly of carrier admission for the displayed packet, compact source exposure through $K$, finite cover exposure through $C$, star-refinement and mesh-chain exposure through $S$, local-modulus exposure through $M$, finite cover-order bound exposure through $B$, uniform-modulus handoff through $U$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows of \autoref{def:compact-cover-order-bound-carrier} are precisely the compact source, finite cover, refinement mesh, local-modulus, order-bound, uniform-modulus, transport, replay, provenance, and naming rows.
+
+The cover-order row is finite because $B$ records only the displayed neighboring cells allowed by $C$ and $S$. No proof step ranges over an arbitrary open cover or over an infinite locally finite family.
+
+The uniform-modulus handoff $U$ is downstream of the local-modulus row $M$ and the finite overlap bound $B$. The structural rows $H,T,P,N$ preserve the same bounded-overlap route, so the local certificate contains exactly the listed obligations.
+\end{proof}
+
+\begin{theorem}[CompactCoverOrderBound uniform-modulus scope]
+\label{thm:compact-cover-order-bound-uniform-modulus-scope}
+Every uniform-modulus consumer of an accepted $\CompactCoverOrderBoundUp$ carrier reads the finite route
+$$
+\CompactUp \longmapsto \FiniteCoverStarRefinementModulusUp \longmapsto \FiniteCoverMeshChainUp \longmapsto \CompactUniformLocalModulusNerveUp \longmapsto \UniformModulusUp .
+$$
+The cover-order bound row $B$ is consumed before the $\UniformModulusUp$ handoff $U$, and it confines the handoff to bounded-overlap finite cover rows. The route exports no optimal cover, least Lebesgue number, infinite cover selection, countable-choice schedule, or external compactness oracle.
+\end{theorem}
+\begin{proof}
+Begin with the compact source row $K$ and the finite cover row $C$. These rows expose a displayed finite family, not an arbitrary open-cover quantifier.
+
+Use \autoref{thm:compact-cover-order-bound-namecert-obligations}. The obligation surface places the star-refinement row $S$, local-modulus row $M$, and cover-order bound row $B$ before any uniform-modulus read is available.
+
+Finally read $U$ through $H,T,P,N$. The transport and replay rows preserve the same finite neighboring-cell list, while provenance and naming keep the route tied to the displayed carrier. Since no other cover-selection coordinate exists, the uniform-modulus scope is exactly the bounded-overlap finite cover route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CompactCoverOrderBoundUp$ packet whose $\UniformModulusUp$ handoff is consumed without first exposing the finite cover row, star-refinement row, local-modulus row, and cover-order bound row refutes the carrier surface.}
+
+\independenceWitness{compact, compactuniformcontinuity, finite-cover-star-refinement-modulus, finite-cover-mesh-chain, compact-uniform-local-modulus-nerve, uniformmodulus: no listed sibling supplies the whole packet $O=(K,C,S,M,B,U,H,T,P,N)$, because each sibling contributes only compact source data, a uniform-continuity route, star-refinement data, mesh-chain data, local-modulus nerve data, or terminal uniform-modulus handoff while this chapter binds them into one bounded-overlap NameCert surface.}
+
+\closureat{CompactCoverOrderBoundUp}{seedStr}
+
+\begin{closurestatus}{\CompactCoverOrderBoundUp}
+  \constructivestory{A $\CompactCoverOrderBoundUp$ packet is generated from a CompactUp source row, finite cover rows, star-refinement and mesh-chain rows, a local-modulus row, a finite cover-order bound row, a UniformModulusUp handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-cover-order-bound-carrier}, \autoref{thm:compact-cover-order-bound-namecert-obligations}, and \autoref{thm:compact-cover-order-bound-uniform-modulus-scope} seed the bounded-overlap finite cover carrier, local NameCert obligations, and uniform-modulus consumer scope.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close optimal finite covers, least Lebesgue numbers, infinite cover selection, countable choice, ambient compactness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact source exposure, finite cover exposure, refinement exposure, local-modulus exposure, cover-order bound confinement, uniform-modulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.CompactCoverOrderBoundUp.}
+\end{closurestatus}
