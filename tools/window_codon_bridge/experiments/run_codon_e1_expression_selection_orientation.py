@@ -482,18 +482,158 @@ def build_strata(
                         "species": species,
                         "aa": aa,
                         "codons": codons,
+                        "codon_indices": [fetch_probe.ncbi.sense_codon_order_rna().index(codon) for codon in codons],
                         "counts": y,
                         "x": x,
                         "offset": np.asarray([offsets[codon] for codon in codons], dtype=float),
                         "gene_gc3": float(gene["gc3"]),
                         "gene_length": float(gene["length_codons"]),
                         "expr_rank": expr,
+                        "expr": expr,
                     }
                 )
     by_genus = Counter(str(row["genus"]) for row in strata)
     for row in strata:
         row["weight"] = 1.0 / max(by_genus[str(row["genus"])], 1)
     return strata
+
+
+def prepare_design(strata: list[dict[str, object]], species_order: list[str]) -> dict[str, np.ndarray | list[str] | int]:
+    starts: list[int] = []
+    lengths: list[int] = []
+    counts: list[float] = []
+    offsets: list[float] = []
+    weights: list[float] = []
+    genus_ids: list[int] = []
+    species_ids: list[int] = []
+    codon_ids: list[int] = []
+    exprs: list[float] = []
+    x_rows: list[list[float]] = []
+    genus_order = sorted({str(row["genus"]) for row in strata})
+    genus_index = {genus: idx for idx, genus in enumerate(genus_order)}
+    species_index = {species: idx for idx, species in enumerate(species_order)}
+    cursor = 0
+    for row in strata:
+        x = row["x"]
+        y = row["counts"]
+        off = row["offset"]
+        codon_indices = row["codon_indices"]
+        assert isinstance(x, np.ndarray) and isinstance(y, np.ndarray) and isinstance(off, np.ndarray)
+        assert isinstance(codon_indices, list)
+        n = len(y)
+        starts.append(cursor)
+        lengths.append(n)
+        cursor += n
+        counts.extend(float(v) for v in y)
+        offsets.extend(float(v) for v in off)
+        weights.extend([float(row["weight"])] * n)
+        genus_ids.extend([genus_index[str(row["genus"])]] * n)
+        species_ids.extend([species_index[str(row["species"])]] * n)
+        codon_ids.extend(int(v) for v in codon_indices)
+        exprs.extend([float(row["expr"])] * n)
+        x_rows.extend(x.tolist())
+    group_totals = np.add.reduceat(np.asarray(counts, dtype=float), np.asarray(starts, dtype=int))
+    alt_group_totals = np.repeat(group_totals, np.asarray(lengths, dtype=int))
+    return {
+        "x": np.asarray(x_rows, dtype=float),
+        "counts": np.asarray(counts, dtype=float),
+        "offset": np.asarray(offsets, dtype=float),
+        "weight": np.asarray(weights, dtype=float),
+        "genus_id": np.asarray(genus_ids, dtype=int),
+        "species_id": np.asarray(species_ids, dtype=int),
+        "codon_id": np.asarray(codon_ids, dtype=int),
+        "expr": np.asarray(exprs, dtype=float),
+        "starts": np.asarray(starts, dtype=int),
+        "lengths": np.asarray(lengths, dtype=int),
+        "group_total_by_alt": alt_group_totals,
+        "n_groups": len(starts),
+        "n_genera": len(genus_order),
+        "genus_order": genus_order,
+    }
+
+
+def fit_design(
+    design: dict[str, np.ndarray | list[str] | int],
+    start: np.ndarray | None = None,
+    x0_override: np.ndarray | None = None,
+) -> dict[str, object]:
+    x = np.asarray(design["x"], dtype=float).copy()
+    if x0_override is not None:
+        x[:, 0] = x0_override
+    counts = np.asarray(design["counts"], dtype=float)
+    offset = np.asarray(design["offset"], dtype=float)
+    weight = np.asarray(design["weight"], dtype=float)
+    starts = np.asarray(design["starts"], dtype=int)
+    lengths = np.asarray(design["lengths"], dtype=int)
+    group_total = np.asarray(design["group_total_by_alt"], dtype=float)
+    genus_id = np.asarray(design["genus_id"], dtype=int)
+    n_genera = int(design["n_genera"])
+    p = x.shape[1]
+    beta = np.zeros(p, dtype=float) if start is None else start.astype(float).copy()
+    group_index = np.repeat(np.arange(int(design["n_groups"]), dtype=int), lengths)
+
+    for _ in range(MAX_NEWTON):
+        eta = offset + x @ beta
+        group_max = np.maximum.reduceat(eta, starts)
+        exp_eta = np.exp(eta - group_max[group_index])
+        denom = np.add.reduceat(exp_eta, starts)
+        probs = exp_eta / denom[group_index]
+        resid = counts - group_total * probs
+        grad = x.T @ (weight * resid)
+        wx = weight * group_total * probs
+        info = x.T @ (x * wx[:, None])
+        xbar = np.zeros((int(design["n_groups"]), p), dtype=float)
+        for col in range(p):
+            xbar[:, col] = np.add.reduceat(probs * x[:, col], starts)
+        group_weight_total = np.add.reduceat(weight * group_total * probs, starts)
+        for group in range(int(design["n_groups"])):
+            info -= group_weight_total[group] * np.outer(xbar[group], xbar[group])
+        info += RIDGE * np.eye(p)
+        try:
+            step = np.linalg.solve(info, grad)
+        except np.linalg.LinAlgError:
+            step = np.linalg.pinv(info) @ grad
+        beta += step
+        if float(np.max(np.abs(step))) < BETA_TOL or float(np.max(np.abs(grad))) < GRAD_TOL:
+            break
+
+    eta = offset + x @ beta
+    group_max = np.maximum.reduceat(eta, starts)
+    exp_eta = np.exp(eta - group_max[group_index])
+    denom = np.add.reduceat(exp_eta, starts)
+    probs = exp_eta / denom[group_index]
+    resid = counts - group_total * probs
+    grad = x.T @ (weight * resid)
+    wx = weight * group_total * probs
+    info = x.T @ (x * wx[:, None])
+    xbar = np.zeros((int(design["n_groups"]), p), dtype=float)
+    for col in range(p):
+        xbar[:, col] = np.add.reduceat(probs * x[:, col], starts)
+    group_weight_total = np.add.reduceat(weight * group_total * probs, starts)
+    for group in range(int(design["n_groups"])):
+        info -= group_weight_total[group] * np.outer(xbar[group], xbar[group])
+    info += RIDGE * np.eye(p)
+    inv_info = np.linalg.pinv(info)
+    scores = np.zeros((n_genera, p), dtype=float)
+    for col in range(p):
+        scores[:, col] = np.bincount(genus_id, weights=weight * resid * x[:, col], minlength=n_genera)
+    meat = scores.T @ scores
+    robust = inv_info @ meat @ inv_info
+    se = np.sqrt(np.maximum(np.diag(robust), 0.0))
+    z = float(beta[0] / se[0]) if se[0] > 0.0 else math.inf
+    lse = group_max + np.log(denom)
+    loglik = float(np.sum(weight * (counts * eta - group_total * probs * lse[group_index])))
+    return {
+        "beta": beta,
+        "se": se,
+        "z": z,
+        "p": normal_two_sided_p(z),
+        "ci": (float(beta[0] - 1.96 * se[0]), float(beta[0] + 1.96 * se[0])),
+        "loglik": loglik,
+        "max_abs_grad": float(np.max(np.abs(grad))),
+        "n_strata": int(design["n_groups"]),
+        "n_clusters": n_genera,
+    }
 
 
 def logsumexp(values: np.ndarray) -> float:
@@ -591,19 +731,28 @@ def permute_e1_scores(
 
 
 def matched_null(
-    organisms: list[dict[str, object]],
-    genes_by_species: dict[str, list[dict[str, object]]],
+    design: dict[str, np.ndarray | list[str] | int],
     e1_scores: dict[str, dict[str, float]],
+    species_order: list[str],
+    sense_codons: list[str],
     families: dict[str, list[str]],
-    tai_by_species: dict[str, dict[str, float]],
     observed_beta: float,
+    start: np.ndarray,
 ) -> tuple[float, dict[str, object]]:
     rng = random.Random(stable_seed(NULL_SEED))
+    species_id = np.asarray(design["species_id"], dtype=int)
+    codon_id = np.asarray(design["codon_id"], dtype=int)
+    expr = np.asarray(design["expr"], dtype=float)
     values = []
     for _ in range(N_PERMUTATIONS):
         perm_scores = permute_e1_scores(e1_scores, families, rng)
-        strata = build_strata(organisms, genes_by_species, perm_scores, families, tai_by_species)
-        fit = fit_conditional_logit(strata)
+        per_species = []
+        for species in species_order:
+            vals = standardize_feature(perm_scores[species])
+            per_species.append(np.asarray([vals[codon] for codon in sense_codons], dtype=float))
+        score_matrix = np.vstack(per_species)
+        x0 = expr * score_matrix[species_id, codon_id]
+        fit = fit_design(design, start=start, x0_override=x0)
         values.append(float(fit["beta"][0]))
     p = (sum(value >= observed_beta for value in values) + 1) / (len(values) + 1)
     return p, {
@@ -696,10 +845,21 @@ def main() -> None:
         }
 
     strata = build_strata(usable, genes_by_species, e1_scores, families, tai_by_species)
-    fit = fit_conditional_logit(strata)
+    species_order = [str(org["assembly_accession"]) for org in usable]
+    design = prepare_design(strata, species_order)
+    fit = fit_design(design)
     positive_strata = build_strata(usable, genes_by_species, e1_scores, families, tai_by_species, positive=True)
-    positive_fit = fit_conditional_logit(positive_strata)
-    p_null, null_meta = matched_null(usable, genes_by_species, e1_scores, families, tai_by_species, float(fit["beta"][0]))
+    positive_design = prepare_design(positive_strata, species_order)
+    positive_fit = fit_design(positive_design)
+    p_null, null_meta = matched_null(
+        design,
+        e1_scores,
+        species_order,
+        sense_codons,
+        families,
+        float(fit["beta"][0]),
+        np.asarray(fit["beta"], dtype=float),
+    )
 
     beta = float(fit["beta"][0])
     p = float(fit["p"])
