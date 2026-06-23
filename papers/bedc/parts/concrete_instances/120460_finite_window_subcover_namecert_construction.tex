@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWindowSubcoverUp$}
+\label{ch:concrete-instances-finite-window-subcover-namecert}
+\origin{human}
+
+Following Bishop finite subcover and finite-net arguments, the $\FiniteWindowSubcoverUp$ packet records the Real-completeness subcover route as explicit windows rather than as an ambient Heine--Borel theorem. It realizes the route of \autoref{ch:visions-real-completeness} through displayed $\FiniteStreamUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows. The packet is a finite-window NameCert surface for later completion consumers; it does not assert general open-cover compactness, arbitrary subcover selection, countable choice, quotient stream equality, or full ambient Real completeness.
+
+\begin{definition}[Finite-window subcover carrier]
+\label{def:finite-window-subcover-carrier}
+A $\FiniteWindowSubcoverUp$ carrier is a finite $\BHist$ packet
+$$
+B=(U,F,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the displayed cover-request row, naming the finite family of cover cells and the requested observation budget.
+\item $F$ is the $\FiniteStreamUp$ source row, exposing the finite list of candidate cover cells and sampled source points.
+\item $S$ is the $\StreamNameUp$ window row through which the source observations and cover-membership reads are opened.
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational endpoints, radii, or membership thresholds visible in $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording the finite mesh, overlap, and radius comparisons.
+\item $E$ is the terminal $\RealUp$ seal reached only after $F,S,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the cover request, finite stream, window, readback, tolerance, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Real-completeness finite-window request through $U,F,S,R,D,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteWindowSubcoverUp$, $\FiniteStreamUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteWindowSubcoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $U,F,S,R,D,E,H,C,P,N$. It has no coordinate for a host open-cover object, arbitrary subcover selector, countable choice, quotient real equality, or ambient $\RealUp$ completeness proof.
+\end{definition}
+
+\begin{theorem}[Finite-window subcover NameCert obligations]
+\label{thm:finite-window-subcover-namecert-obligations}
+For every accepted $\FiniteWindowSubcoverUp$ carrier
+$$
+B=(U,F,S,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteWindowSubcoverUp}$ surface consists exactly of cover-request visibility through $U$, finite source and candidate-cell exposure through $F$, $\StreamNameUp$ window reads through $S$, $\RegSeqRatUp$ readback through $R$, dyadic tolerance accounting through $D$, terminal $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-window-subcover-carrier}. The packet exposes only $U,F,S,R,D,E,H,C,P,N$.
+
+The cover-facing data are finite. Row $U$ fixes the request, row $F$ lists the displayed candidates, and row $S$ opens only the inspected StreamName windows.
+
+The numerical readback stays within $R,D,E$. The regular rational row reads the displayed endpoints or thresholds, the dyadic row supplies the finite tolerance ledger, and the Real seal is downstream from those rows.
+
+Transport, replay, provenance, and local naming preserve this route without adding a host open-cover object, arbitrary subcover selector, countable-choice witness, quotient real equality, or ambient Real-completeness theorem.
+\end{proof}
+
+\begin{theorem}[Heine--Borel finite-window subcover route]
+\label{thm:heine-borel-finite-window-subcover-route}
+Every subcover read exported by an accepted $\FiniteWindowSubcoverUp$ carrier stays inside the displayed finite windows $U,F,S,R,D,E,H,C,P,N$. In particular, cover-cell membership is read through $\FiniteStreamUp$ and $\StreamNameUp$, rational thresholds are read through $\RegSeqRatUp$, tolerance comparisons are read through $\DyadicRatCoreUp$, and the terminal value is sealed through $\RealUp$. The route does not assert general open-cover compactness, arbitrary subcover selection, countable choice, quotient stream equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:finite-window-subcover-namecert-obligations}. It forces the cover request, finite candidate list, and source observation windows to be displayed before any subcover-facing read is public.
+
+Next read the numerical rows. The rational thresholds in $R$ and dyadic comparisons in $D$ are attached to the same finite StreamName windows, so no cover membership can be imported from outside $U,F,S$.
+
+Finally consume the Real seal $E$ only after the finite readback route has been displayed. The support rows $H,C,P,N$ preserve that route uniformly, and the carrier contains no coordinate for the excluded open-cover, selector, choice, quotient, or ambient-completeness principles.
+\end{proof}
+
+\closureat{FiniteWindowSubcoverUp}{seedStr}
+
+\begin{closurestatus}{\FiniteWindowSubcoverUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-window-subcover-carrier}, \autoref{thm:finite-window-subcover-namecert-obligations}, and \autoref{thm:heine-borel-finite-window-subcover-route} seed the finite-window subcover route through cover requests, FiniteStream candidates, StreamName windows, RegSeqRat readback, dyadic tolerance, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close general open-cover compactness, arbitrary subcover selection, countable choice, quotient stream equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite candidate visibility, StreamName window exactness, RegSeqRat readback, DyadicRatCore tolerance accounting, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteWindowSubcoverUp.}
+  \constructivestory{A $\FiniteWindowSubcoverUp$ packet is generated from a cover request, a FiniteStream candidate list, StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

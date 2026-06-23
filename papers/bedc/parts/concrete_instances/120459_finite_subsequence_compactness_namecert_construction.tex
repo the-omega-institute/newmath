@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\FiniteSubsequenceCompactnessUp$}
+\label{ch:concrete-instances-finite-subsequence-compactness-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive sequential compactness, the $\FiniteSubsequenceCompactnessUp$ packet records the finite-window subsequence route that can be consumed before any full compactness or completeness theorem is available. It sits beside the finite source interfaces of \autoref{ch:concrete-instances-finite-stream-namecert} and \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal seal of \autoref{ch:concrete-instances-real-namecert}, and the real Bolzano--Weierstrass and sequential compactness routes of \autoref{ch:concrete-instances-real-bolzano-weierstrass-namecert} and \autoref{ch:concrete-instances-sequential-compact-real-namecert}. The packet names a bounded finite source window and a displayed subsequence schedule; it is not a host subsequence selector, countable-choice principle, quotient stream equality, open-cover compactness theorem, or ambient $\RealUp$ completeness assertion.
+
+\begin{definition}[Finite subsequence compactness carrier]
+\label{def:finite-subsequence-compactness-carrier}
+A $\FiniteSubsequenceCompactnessUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,S,L,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the finite source-window row, listing the bounded block of source observations available to the compactness consumer.
+\item $S$ is the subsequence schedule row, recording only the displayed monotone index cells selected inside $F$.
+\item $L$ is the compact or located source row, exposing the finite compact support, located interval, or finite-net witness from which the schedule is read.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the scheduled observations.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic mesh, comparison radius, and readback precision used by $R$.
+\item $E$ is the terminal $\RealUp$ seal reached only after $F,S,L,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source window, subsequence schedule, compact source, readback, tolerance, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite compactness request through $F,S,L,R,D,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteSubsequenceCompactnessUp$, $\FiniteStreamUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteSubsequenceCompactnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,S,L,R,D,E,H,C,P,N$. It has no coordinate for a host-selected infinite subsequence, quotient stream equality, countable choice, open-cover compactness, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Finite subsequence compactness NameCert obligations]
+\label{thm:finite-subsequence-compactness-namecert-obligations}
+For every accepted $\FiniteSubsequenceCompactnessUp$ carrier
+$$
+K=(F,S,L,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteSubsequenceCompactnessUp}$ surface consists exactly of finite source-window admission through $F$, subsequence schedule visibility through $S$, compact or located source exposure through $L$, $\RegSeqRatUp$ readback through $R$, dyadic tolerance accounting through $D$, terminal $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-subsequence-compactness-carrier}. The only rows available to a compactness consumer are $F,S,L,R,D,E,H,C,P,N$.
+
+The source and schedule rows are finite. Row $F$ exposes the inspected source block, row $S$ records the monotone schedule inside that block, and row $L$ supplies the displayed compact or located support before any readback is public.
+
+The analytic read proceeds through $R,D,E$. The regular rational row reads only scheduled observations, the dyadic row fixes the tolerance ledger, and the Real seal is downstream from both.
+
+Finally $H,C,P,N$ preserve and name the same route. Since the carrier has no coordinate for host subsequence selection, quotient stream equality, countable choice, open-cover compactness, or ambient real completeness, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[Finite subsequence Real-seal nonescape]
+\label{thm:finite-subsequence-compactness-real-seal-nonescape}
+Every $\RealUp$-facing read exported by an accepted $\FiniteSubsequenceCompactnessUp$ carrier must pass through the finite source window $F$, subsequence schedule $S$, compact or located source row $L$, $\RegSeqRatUp$ readback row $R$, and $\DyadicRatCoreUp$ tolerance row $D$ before the terminal seal $E$ can be consumed. The route exports a displayed finite-window subsequence packet and no selected infinite subsequence, quotient stream equality, countable choice, open-cover compactness theorem, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:finite-subsequence-compactness-namecert-obligations}. It places $F,S,L$ before any regular rational or real-facing read.
+
+The readback rows $R$ and $D$ then account for the scheduled rational observations and the dyadic tolerance used to compare them. Therefore a Real-facing consumer cannot reach $E$ without first reading the displayed finite source and schedule route.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that same route. They add no hidden selector, quotient stream, choice principle, open-cover compactness theorem, or ambient completeness object, so Real-seal access remains finite-window local.
+\end{proof}
+
+\closureat{FiniteSubsequenceCompactnessUp}{seedStr}
+
+\begin{closurestatus}{\FiniteSubsequenceCompactnessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-subsequence-compactness-carrier}, \autoref{thm:finite-subsequence-compactness-namecert-obligations}, and \autoref{thm:finite-subsequence-compactness-real-seal-nonescape} seed the finite-window subsequence compactness route through finite source windows, displayed schedules, compact or located support, RegSeqRat readback, dyadic tolerance, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host subsequence selection, quotient stream equality, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite source-window visibility, subsequence-schedule monotonicity, compact-source exposure, RegSeqRat readback, dyadic tolerance accounting, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteSubsequenceCompactnessUp.}
+  \constructivestory{A $\FiniteSubsequenceCompactnessUp$ packet is generated from a finite source window, a displayed subsequence schedule, compact or located source support, RegSeqRat readback, DyadicRatCore tolerance, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
