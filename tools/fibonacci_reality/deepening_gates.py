@@ -75,6 +75,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "bedc_finite_certificate",
     "fibonacci_cube_critical_group_certificate",
     "closed_neighborhood_smith_certificate",
+    "closed_neighborhood_transfer_certificate",
     "ordered_geodesic_enumerator_certificate",
     "geodesic_run_factorization_certificate",
     "matching_enumerator_certificate",
@@ -127,6 +128,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "graph_invariant_certificate": {
         "fibonacci_cube_critical_group_certificate",
         "closed_neighborhood_smith_certificate",
+        "closed_neighborhood_transfer_certificate",
         "bedc_finite_certificate",
         "lean_finite_certificate",
         "automath_paper_section",
@@ -172,6 +174,11 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "matching_polynomial_recurrence",
     "monomer_dimer_profile",
     "fibonacci_cube_family_enumeration",
+    "fibonacci_cube_recursive_decomposition",
+    "closed_neighborhood_block_recurrence",
+    "integral_smith_transfer_reduction",
+    "identity_link_pivot",
+    "no_scalar_determinant_recurrence",
     "theta_class_square_incidence",
     "forced_fibonacci_factorization",
     "integer_matrix_determinant",
@@ -311,6 +318,12 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "monomer_dimer_profile",
     "bipartition_parity",
     "closed_neighborhood_relation",
+    "prefix_recursive_vertex_order",
+    "closed_neighborhood_block_matrix",
+    "identity_link_pivot",
+    "integral_smith_transfer_reduction",
+    "determinant_transfer",
+    "cokernel_transfer",
     "integer_matrix_determinant",
     "integer_laplacian",
     "smith_normal_form",
@@ -2299,6 +2312,59 @@ def self_test() -> int:
         ],
         "null_reason": "",
     }
+    closed_neighborhood_transfer_conjecture = {
+        "conjecture_id": "window.fibonacci-cube.closed-neighborhood-transfer",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Fibonacci cube family closed-neighborhood transfer law",
+        "informal_statement": (
+            "For the Fibonacci cube family Gamma_m, exact finite audits verify the prefix block "
+            "recurrence for N_m=I+A and the identity-link integral Smith transfer through R_m. "
+            "The certificate records internal graph invariants only."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Fibonacci cube family Gamma_m and closed-neighborhood integer matrices N_m.",
+            "distinctions": [
+                "prefix recursive vertex order",
+                "closed-neighborhood block matrix",
+                "identity-link pivot",
+                "determinant and cokernel transfer",
+            ],
+            "readback": "The finite audit records determinant and Smith cokernel transfer without biological or physical realization claims.",
+            "internal_structure": [
+                "fibonacci_cube_family",
+                "prefix_recursive_vertex_order",
+                "closed_neighborhood_block_matrix",
+                "identity_link_pivot",
+                "integral_smith_transfer_reduction",
+                "determinant_transfer",
+                "cokernel_transfer",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "fibonacci_cube_recursive_decomposition",
+            "closed_neighborhood_block_recurrence",
+            "integral_smith_transfer_reduction",
+            "identity_link_pivot",
+            "no_scalar_determinant_recurrence",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+            "derived_probe",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window_closed_neighborhood_transfer.py",
+                "object": "verify-window-closed-neighborhood-transfer",
+                "kind": "closed_neighborhood_transfer_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
     matching_enumerator_conjecture = {
         "conjecture_id": "window6.fibonacci-cube.matching-enumerator",
         "track": "forced_window_bedc",
@@ -2357,6 +2423,7 @@ def self_test() -> int:
             fib_entry_point_conjecture,
             pisano_period_conjecture,
             closed_neighborhood_smith_conjecture,
+            closed_neighborhood_transfer_conjecture,
             matching_enumerator_conjecture,
         ],
         [],
@@ -2394,6 +2461,9 @@ def self_test() -> int:
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     if forced_window_by_id["window6.fibonacci-cube.closed-neighborhood-smith"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window.fibonacci-cube.closed-neighborhood-transfer"]["gate_status"] != "gate_passed":
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     if forced_window_by_id["window6.fibonacci-cube.matching-enumerator"]["gate_status"] != "gate_passed":
