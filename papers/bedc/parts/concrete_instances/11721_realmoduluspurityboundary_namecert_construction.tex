@@ -99,6 +99,24 @@ Apply \autoref{thm:real-modulus-purity-boundary-nonescape}. Since the accepted p
 Finally use \autoref{thm:real-modulus-purity-boundary-constructive-prediction}. Downstream RealUp and RegSeqRat reads are predicted by the finite modulus route already displayed by $D,S,R_0,L,B,H,C,P,N$, so the host-choice request is isolated as a refusal obligation of $B$ rather than as an admissible Real-completion operation.
 \end{proof}
 
+\begin{theorem}[Real modulus-purity boundary scoped obligation package]
+\label{thm:real-modulus-purity-boundary-scope-package}
+The carrier of \autoref{def:real-modulus-purity-boundary-carrier}, together with \autoref{thm:real-modulus-purity-boundary-namecert-obligations}, \autoref{thm:real-modulus-purity-boundary-nonescape}, \autoref{thm:real-modulus-purity-boundary-constructive-prediction}, and \autoref{thm:real-modulus-purity-boundary-host-choice-refusal}, assembles the full obligation surface over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, explicit modulus budget, axiom-refusal row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$. Every admitted consumer of the packet must expose the same row tuple
+$$
+D,S,R_0,L,B,H,C,P,N
+$$
+before any Real-facing read is exported.
+\end{theorem}
+\begin{proof}
+Project the carrier as $R=(D,S,R_0,L,B,H,C,P,N)$. The dyadic row $D$, finite StreamName window $S$, RegSeqRat readback $R_0$, Real seal $L$, and modulus-refusal row $B$ are the analytic coordinates of the packet.
+
+Use the NameCert obligations to expose those coordinates in dependency order. The dyadic and window rows precede the readback, the readback precedes the Real seal, and the explicit budget row records both the finite modulus path and the refused axiom imports.
+
+Apply non-escape and constructive prediction. These theorems force every downstream RealUp or RegSeqRat read to return to the displayed finite route and prevent a selected limit, quotient stream, countable choice, $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, or $\mathsf{propext}$ coordinate from being repacked as an admitted consumer field.
+
+Finally apply host-choice refusal. The support rows $H,C,P,N$ transport, replay, source, and name only the same displayed route, so no hidden selected limit, quotient stream, countable choice, proof-extensional coordinate, or host-completeness coordinate remains outside the scoped obligation package.
+\end{proof}
+
 The Lean file \texttt{lean4/BEDC/Derived/RealModulusPurityBoundaryUp/TasteGate.lean} provides explicit \texttt{Nontrivial RealModulusPurityBoundaryUp} and \texttt{FieldFaithful RealModulusPurityBoundaryUp} instances for the carrier of \autoref{def:real-modulus-purity-boundary-carrier}.
 
 \begin{closurestatus}{\RealModulusPurityBoundaryUp}
