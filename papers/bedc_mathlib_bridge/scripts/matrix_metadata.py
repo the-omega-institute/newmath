@@ -94,25 +94,38 @@ def validate_decl(value: Any, field: str, row: MatrixRow) -> str:
     return text
 
 
-def validate_axioms(value: Any, row: MatrixRow) -> list[str]:
+def validate_axiom_list(value: Any, row: MatrixRow, field: str) -> list[str]:
     if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
         raise MatrixMetadataError(
-            f"line {row.line_no}: metadata field `expected_axioms` must be a string array"
+            f"line {row.line_no}: metadata field `{field}` must be a string array"
         )
     axioms = [item.strip() for item in value]
     if any(not item for item in axioms):
-        raise MatrixMetadataError(f"line {row.line_no}: empty expected axiom name")
+        raise MatrixMetadataError(f"line {row.line_no}: empty `{field}` axiom name")
     for item in axioms:
         if DECL_RE.fullmatch(item) is None:
-            raise MatrixMetadataError(f"line {row.line_no}: invalid expected axiom name `{item}`")
+            raise MatrixMetadataError(f"line {row.line_no}: invalid `{field}` axiom name `{item}`")
     if axioms != sorted(axioms):
-        raise MatrixMetadataError(f"line {row.line_no}: expected_axioms must be sorted")
+        raise MatrixMetadataError(f"line {row.line_no}: `{field}` must be sorted")
     dupes = sorted(name for name, count in Counter(axioms).items() if count > 1)
     if dupes:
         raise MatrixMetadataError(
-            f"line {row.line_no}: duplicate expected axiom(s): {', '.join(dupes)}"
+            f"line {row.line_no}: duplicate `{field}` axiom(s): {', '.join(dupes)}"
         )
     return axioms
+
+
+def validate_axioms(value: Any, row: MatrixRow) -> list[str]:
+    return validate_axiom_list(value, row, "expected_axioms")
+
+
+def validate_enum(value: Any, field: str, allowed: set[str], row: MatrixRow) -> str:
+    if not isinstance(value, str) or value not in allowed:
+        raise MatrixMetadataError(
+            f"line {row.line_no}: metadata field `{field}` must be one of "
+            + ", ".join(sorted(allowed))
+        )
+    return value
 
 
 def validate_common_row(row: MatrixRow) -> None:
@@ -182,16 +195,69 @@ def export_rows(path: Path) -> list[tuple[str, str, str, str]]:
     return out
 
 
-def boundary_rows(path: Path) -> list[tuple[str, str, list[str], str, str]]:
-    out: list[tuple[str, str, list[str], str, str]] = []
+def boundary_rows(path: Path) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
     for row in load_rows(path):
         if row.metadata["kind"] != "measured_boundary":
             continue
-        decl = validate_decl(row.metadata.get("boundary_decl"), "boundary_decl", row)
-        axioms = validate_axioms(row.metadata.get("expected_axioms"), row)
+        mathlib_decl = validate_decl(
+            row.metadata.get("mathlib_decl", row.metadata.get("boundary_decl")),
+            "mathlib_decl",
+            row,
+        )
+        mathlib_footprint = validate_axiom_list(
+            row.metadata.get("mathlib_footprint", row.metadata.get("expected_axioms")),
+            row,
+            "mathlib_footprint",
+        )
+        bedc_irreducible_decl = validate_decl(
+            row.metadata.get("bedc_irreducible_decl", mathlib_decl),
+            "bedc_irreducible_decl",
+            row,
+        )
+        bedc_irreducible_footprint = validate_axiom_list(
+            row.metadata.get(
+                "bedc_irreducible_footprint",
+                row.metadata.get("expected_axioms"),
+            ),
+            row,
+            "bedc_irreducible_footprint",
+        )
+        choice_status = validate_enum(
+            row.metadata.get("choice_status"),
+            "choice_status",
+            {"eliminated", "principled_irreducible", "unprobed"},
+            row,
+        )
+        probe_status = validate_enum(
+            row.metadata.get("probe_status", "unprobed"),
+            "probe_status",
+            {"probed", "unprobed"},
+            row,
+        )
+        if choice_status == "eliminated" and probe_status != "probed":
+            raise MatrixMetadataError(
+                f"line {row.line_no}: choice_status `eliminated` requires probe_status `probed`"
+            )
+        if choice_status == "unprobed" and probe_status != "unprobed":
+            raise MatrixMetadataError(
+                f"line {row.line_no}: choice_status `unprobed` requires probe_status `unprobed`"
+            )
         mathlib_class = validate_decl(row.metadata.get("mathlib_class"), "mathlib_class", row)
         mathlib_instance = validate_decl(row.metadata.get("mathlib_instance"), "mathlib_instance", row)
-        out.append((row.cells["row_id"], decl, axioms, mathlib_class, mathlib_instance))
+        out.append(
+            {
+                "row_id": row.cells["row_id"],
+                "mathlib_decl": mathlib_decl,
+                "mathlib_footprint": mathlib_footprint,
+                "bedc_irreducible_decl": bedc_irreducible_decl,
+                "bedc_irreducible_footprint": bedc_irreducible_footprint,
+                "choice_status": choice_status,
+                "probe_status": probe_status,
+                "mathlib_class": mathlib_class,
+                "mathlib_instance": mathlib_instance,
+            }
+        )
     return out
 
 

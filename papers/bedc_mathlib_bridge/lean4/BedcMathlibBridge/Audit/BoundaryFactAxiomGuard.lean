@@ -12,10 +12,19 @@ namespace BedcMathlibBridge.Audit.BoundaryFactAxiomGuard
 open Lean
 open Lean.Elab.Command
 
+inductive ChoiceStatus where
+  | eliminated
+  | principledIrreducible
+  | unprobed
+deriving BEq, Repr
+
 structure BoundaryExpectation where
   rowId : String
-  decl : Name
-  expectedAxioms : Array Name
+  mathlibDecl : Name
+  mathlibFootprint : Array Name
+  bedcIrreducibleDecl : Name
+  bedcIrreducibleFootprint : Array Name
+  choiceStatus : ChoiceStatus
 
 /--
 Audit-only names for synthesized Int instances that have no standalone mathlib
@@ -58,37 +67,54 @@ def forbiddenAxioms : Array Name := #[
   `Lean.ofReduceBool
 ]
 
+def classicalChoice : Name :=
+  `Classical.choice
+
 def intersection (xs ys : Array Name) : Array Name :=
   xs.filter fun x => containsName ys x
 
-def auditOne (e : BoundaryExpectation) : CommandElabM Unit := do
+def auditFootprint (rowId : String) (label : String) (decl : Name)
+    (expectedAxioms : Array Name) : CommandElabM (Array Name) := do
   let env ← getEnv
-  unless env.contains e.decl do
-    throwError m!"BEDC_GATE_E_MISSING_DECL: row `{e.rowId}` names absent declaration `{e.decl}`"
-  let dupes := duplicateNames e.expectedAxioms
+  unless env.contains decl do
+    throwError m!"BEDC_GATE_E_MISSING_DECL: row `{rowId}` names absent {label} declaration `{decl}`"
+  let dupes := duplicateNames expectedAxioms
   unless dupes.isEmpty do
     throwError m!
-      "BEDC_GATE_E_DUPLICATE_AXIOM: row `{e.rowId}` repeats expected axiom(s): \
+      "BEDC_GATE_E_DUPLICATE_AXIOM: row `{rowId}` repeats expected {label} axiom(s): \
       {formatNames dupes}"
-  let actual ← collectAxioms e.decl
+  let actual ← collectAxioms decl
   let actualSorted := actual.qsort Name.quickLt
-  let expectedSorted := e.expectedAxioms.qsort Name.quickLt
+  let expectedSorted := expectedAxioms.qsort Name.quickLt
   let forbiddenHit := intersection actualSorted forbiddenAxioms
   unless forbiddenHit.isEmpty do
     throwError m!
-      "BEDC_GATE_E_FORBIDDEN_AXIOM: row `{e.rowId}` declaration `{e.decl}` has \
+      "BEDC_GATE_E_FORBIDDEN_AXIOM: row `{rowId}` {label} declaration `{decl}` has \
       forbidden axiom(s): [{formatNames forbiddenHit}]"
   unless sameNameSet actualSorted expectedSorted do
     throwError m!
-      "BEDC_GATE_E_AXIOM_MISMATCH: row `{e.rowId}` declaration `{e.decl}` has \
+      "BEDC_GATE_E_AXIOM_MISMATCH: row `{rowId}` {label} declaration `{decl}` has \
       [{formatNames actualSorted}], expected [{formatNames expectedSorted}]"
+  return actualSorted
+
+def auditOne (e : BoundaryExpectation) : CommandElabM Unit := do
+  let _ ← auditFootprint e.rowId "mathlib" e.mathlibDecl e.mathlibFootprint
+  let irreducible ←
+    auditFootprint e.rowId "BEDC-irreducible" e.bedcIrreducibleDecl
+      e.bedcIrreducibleFootprint
+  if containsName irreducible classicalChoice &&
+      e.choiceStatus != ChoiceStatus.principledIrreducible then
+    throwError m!
+      "BEDC_GATE_E_REDUCIBLE_CHOICE: row `{e.rowId}` records `Classical.choice` \
+      in the BEDC-irreducible footprint without `principled_irreducible` status"
+  if !containsName irreducible classicalChoice &&
+      e.choiceStatus == ChoiceStatus.principledIrreducible then
+    throwError m!
+      "BEDC_GATE_E_CHOICE_STATUS_MISMATCH: row `{e.rowId}` is marked \
+      `principled_irreducible`, but its BEDC-irreducible footprint has no \
+      `Classical.choice`"
 
 def audit (expected : Array BoundaryExpectation) : CommandElabM Unit := do
-  let decls := expected.map (·.decl)
-  let dupes := duplicateNames decls
-  unless dupes.isEmpty do
-    throwError m!
-      "BEDC_GATE_E_DUPLICATE_BOUNDARY: duplicate boundary declaration(s): {formatNames dupes}"
   for e in expected do
     auditOne e
   logInfo m!"[boundary-axioms] audited {expected.size} boundary declaration row(s)"

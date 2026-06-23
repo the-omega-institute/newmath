@@ -12,6 +12,15 @@ from matrix_metadata import MatrixMetadataError, boundary_rows, lean_name, lean_
 TOKEN = "BEDC_GATE_E_SCHEMA"
 
 
+CHOICE_STATUS_TO_LEAN = {
+    "eliminated": "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.ChoiceStatus.eliminated",
+    "principled_irreducible": (
+        "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.ChoiceStatus.principledIrreducible"
+    ),
+    "unprobed": "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.ChoiceStatus.unprobed",
+}
+
+
 def find_bridge_root() -> Path:
     here = Path(__file__).resolve()
     for parent in (here.parent, *here.parents):
@@ -20,14 +29,22 @@ def find_bridge_root() -> Path:
     raise RuntimeError("cannot locate papers/bedc_mathlib_bridge root")
 
 
-def render_audit(rows: list[tuple[str, str, list[str], str, str]]) -> str:
+def render_axioms(axioms: list[str]) -> str:
+    return ", ".join(lean_name(axiom) for axiom in axioms)
+
+
+def render_audit(rows: list[dict[str, object]]) -> str:
     entries = []
-    for row_id, decl, axioms, _class_name, _instance_name in rows:
-        axiom_terms = ", ".join(lean_name(axiom) for axiom in axioms)
+    for row in rows:
+        choice_status = str(row["choice_status"])
         entries.append(
             "{ rowId := "
-            + lean_string(row_id)
-            + f", decl := {lean_name(decl)}, expectedAxioms := #[{axiom_terms}] }}"
+            + lean_string(str(row["row_id"]))
+            + f", mathlibDecl := {lean_name(str(row['mathlib_decl']))}"
+            + f", mathlibFootprint := #[{render_axioms(row['mathlib_footprint'])}]"
+            + f", bedcIrreducibleDecl := {lean_name(str(row['bedc_irreducible_decl']))}"
+            + f", bedcIrreducibleFootprint := #[{render_axioms(row['bedc_irreducible_footprint'])}]"
+            + f", choiceStatus := {CHOICE_STATUS_TO_LEAN[choice_status]} }}"
         )
     body = ",\n  ".join(entries)
     return (

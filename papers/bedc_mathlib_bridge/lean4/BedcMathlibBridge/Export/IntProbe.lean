@@ -63,4 +63,18 @@ theorem int_euclidean_constructive_probe :
       _root_.Int.emod_nonneg,
       _root_.Int.emod_lt⟩
 
+theorem int_ordered_ring_constructive_probe :
+    (∀ a b : _root_.Int, 0 ≤ a -> 0 ≤ b -> 0 ≤ a * b) ∧
+      (∀ a b c : _root_.Int, a ≤ b -> a + c ≤ b + c) := by
+  exact
+    ⟨fun _ _ ha hb => _root_.Int.mul_nonneg ha hb,
+      fun _ _ _ h => _root_.Int.add_le_add_right h _⟩
+
+theorem int_strict_ordered_ring_constructive_probe :
+    (∀ a b : _root_.Int, 0 < a -> 0 < b -> 0 < a * b) ∧
+      (∀ a b c : _root_.Int, a ≤ b -> a + c ≤ b + c) := by
+  exact
+    ⟨fun _ _ ha hb => _root_.Int.mul_pos ha hb,
+      fun _ _ _ h => _root_.Int.add_le_add_right h _⟩
+
 end BedcMathlibBridge.Export.IntProbe
