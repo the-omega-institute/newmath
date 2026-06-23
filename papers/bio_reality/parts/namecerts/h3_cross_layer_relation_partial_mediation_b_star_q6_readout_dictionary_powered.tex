@@ -1,31 +1,67 @@
 \origin{ai}
-\subsection{Partial mediation by a measured readout dictionary}
-\label{sec:bioreality-q6-partial-mediation-readout-dictionary}
 
-\paragraph{Finite row surface.}
-The powered partial-mediation certificate is a finite yeast readout calculation over the nine $B^{*}_{Q6}$ synonymous residual coordinates $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f3\_stress$.  The active organism is \emph{Saccharomyces cerevisiae}.  The design uses $n=1800$ rows from $4758$ available joined rows, with a reported base panel size $4759$, five folds, $\rho_{join}=0.05$, and $\lambda_{DL}=0.01$.  The source design is the $B^{*}_{Q6}$ nine-dimensional residual coordinate matrix after the same sibling controls $Z$ used by the surrounding protein-abundance and translation-readout calculations; the target is residualized $\log_{10}$ protein abundance on the unified yeast context join.  The residual-control basis has rank $24$.
+\subsection{Selection-aware partial mediation by a measured readout dictionary}
+\label{subsec:b-star-q6-readout-dictionary-partial-mediation}
 
-\paragraph{Dictionary reduction certificate.}
-The tested reduction family is the single-codon readout dictionary produced by the minimal dictionary compression run.  Over this family, the best raw coverage is $0.2745002077400602$.  After selection-aware calibration, the retained coverage is
+\paragraph{Finite surface.}
+This record concerns a finite yeast row surface in which the source design is the nine-dimensional $B^{*}_{Q6}$ synonymous residual coordinate matrix after the same sibling control residualization used for the abundance residual experiments. The active organism is \emph{Saccharomyces cerevisiae}. The row pool has $4758$ available joined records, the fitted certificate uses $n=1800$ rows, and the base context count is $4759$. The source matrix is residualized against a control basis of rank $24$, with dictionary regularization parameter $\lambda_{\mathrm{DL}}=0.01$, join threshold $\rho_{\mathrm{join}}=0.05$, five folds, and $120$ deterministic row-label permutations. The target is the residualized $\log_{10}$ protein-abundance readout on the unified yeast context join.
+
+\paragraph{Dictionary certificate.}
+The tested readout dictionary is the measured three-channel family
+$R=\{\mathrm{measured\_te},\mathrm{mrna\_stability},\mathrm{turnover}\}$,
+restricted to subsets of size at most $3$. The certificate reports positive selection-aware coverage but not full reduction of the source-to-abundance residual. Its central scalars are
 $$
 \begin{aligned}
-C^{*} &= 0.24538211439730545,\\
-1-C^{*} &= 0.7546178856026946.
+C^{\star} &= 0.24538211439730545,\\
+C^{\mathrm{raw}}_{\mathrm{best}} &= 0.2745002077400602,\\
+N^{95}_{\mathrm{selection}} &= 0.029149007242956115,\\
+N^{95}_{\mathrm{fixed}} &= 0.00598374993486675,\\
+U &= 0.7546178856026946.
 \end{aligned}
 $$
-The certificate therefore says that the yeast residual protein-abundance signal is real, but only partially absorbed by a small measured-readout dictionary.  The selected dictionary is bounded by three named measured readouts: measured translation efficiency, mRNA stability, and turnover.  The selection-aware null threshold is $0.029149007242956115$, while the naive fixed-subset null threshold is $0.00598374993486675$, both computed with $120$ deterministic permutations under seed \texttt{sha256:b\_star\_q6\_partial\_mediation\_certificate\_powered:deterministic}.  Since $C^{*}$ is far above the selection-aware threshold but still far below $1$, the finite row result is neither a null outcome nor a complete explanation.
+Thus the selected dictionary explains about $24.54\%$ of the residual signal under the selection-aware null, while about $75.46\%$ remains outside the measured dictionary. The finite conclusion is therefore partial mediation, not collapse: the $B^{*}_{Q6}$ abundance residual is real on this yeast join and is significantly reducible to the measured readout family, but the available measured readouts do not exhaust it.
 
-\paragraph{Readout context.}
-The same coordinate system has a direct protein-omics survival surface against measured PAXdb protein abundance.  In yeast, the direct $Q\to P$ surface reports $R^{2}_{QP}=0.29837624994140827$ with all nine coordinates surviving after length, amino-acid composition, GC3, and M-density controls; the yeast protein-abundance join contains $5815$ CDS rows with hit rate $0.9156038419146592$.  The measured ribosome-TE calculation supplies the translation readout side: yeast has $5128$ genes with measured TE, a ribosome-TE join hit rate $0.8818572656921754$, and $R^{2}_{QT,meas}=0.13681931343730436$, again with nine surviving coordinates.  The measured TE to abundance mediation calculation reports, for yeast, $S_{QP}=0.3146818503437042$, $S_{QT,meas}=0.13681931343730436$, and measured mediated fraction $0.4793069656345167$.  These numbers explain why a dictionary containing measured TE can absorb a nontrivial part of the protein-abundance residual, while the partial-mediation certificate records that the absorption remains incomplete.
+\paragraph{Readout support.}
+The same yeast surface has direct measured-TE survival and direct protein-abundance survival. For measured ribosome-derived translation efficiency, the yeast join has $5128$ genes with TE, a reported ribosome-TE join hit rate of $0.8818572656921754$, residual degrees of freedom $5105$, and $R^{2}_{QT,\mathrm{meas}}=0.13681931343730436$ with all $9$ coordinates surviving the positive threshold. For direct measured protein abundance, yeast has $5815$ joined proteins, a join hit rate of $0.9156038419146592$, residual degrees of freedom $5792$, $R^{2}_{QP}=0.29837624994140827$, and all $9$ coordinates surviving. These two surfaces justify treating measured TE and protein abundance as present readouts on the yeast finite matrix, while still keeping them as observational readouts rather than interventions.
 
-\paragraph{Joint mediator geometry.}
-The larger yeast variance partition gives a compatible readout split.  With measured TE and mRNA stability jointly conditioned, yeast has $R^{2}_{QP}=0.2715520808117803$, $R^{2}_{QP\mid T}=0.1439989545940314$, $R^{2}_{QP\mid M}=0.25453612246767165$, and $R^{2}_{QP\mid T,M}=0.13047582645538838$.  The associated joint mediation fraction is $0.5195182225621592$, with TE-only fraction $0.4697188319693239$, stability-only fraction $0.0626618595344251$, and right-tail permutation value $0.000999000999000999$.  The overlap diagnostic is approximately additive: the joint-minus-single-sum term is $-0.012862468941589822$ against a descriptive tolerance $0.05$.  This places the dictionary certificate in the same finite-row regime: several measured layers reduce the signal, but no listed readout family removes the residual.
+\paragraph{Measured mediation scale.}
+On the measured TE--protein abundance join, yeast has $5128$ three-way joined rows, $6351$ valid abundance records, and $5128$ valid TE records. The measured mediation decomposition gives
+$$
+\begin{aligned}
+S_{QP} &= 0.3146818503437042,\\
+S_{QT}^{\mathrm{meas}} &= 0.13681931343730436,\\
+M^{QTP}_{\mathrm{raw}} &= 0.4793069656345167,\\
+M^{QTP}_{\mathrm{clipped}} &= 0.4793069656345167.
+\end{aligned}
+$$
+This value says that conditioning on measured TE absorbs a substantial part of the direct codon-residual to protein-abundance association in yeast. It is compatible with the dictionary certificate: measured TE contributes materially, but the dictionary-level unexplained fraction remains large.
 
-\paragraph{Four-case readback.}
-The modeled-tAI four-case discriminant gives an important local warning.  In yeast, the modeled translation readout has $R^{2}_{QT}=0.8213457220900503$ and the protein-abundance readout has $R^{2}_{QP}=0.29837624994140827$, yet the nine coordinates are classified as case D with zero positive-positive entries lacking a mediation drop.  In \emph{E. coli}, the same discriminant reports seven case-D coordinates and two positive-positive entries without a mediation drop.  Thus the dictionary result should be read as a finite readout-compression and partial-mediation statement, not as a universal label for every organism or every translation proxy.
+\paragraph{Joint mediator comparison.}
+A separate three-readout variance partition on the yeast four-way join reports $n=4759$ joined rows, $R^{2}_{QP}=0.2715520808117803$, $R^{2}_{QP\mid T}=0.1439989545940314$, $R^{2}_{QP\mid M}=0.25453612246767165$, and $R^{2}_{QP\mid T,M}=0.13047582645538838$. The corresponding fractions are
+$$
+\begin{aligned}
+\mu_{T} &= 0.4697188319693239,\\
+\mu_{M} &= 0.0626618595344251,\\
+\mu_{T,M} &= 0.5195182225621592,\\
+\mu_{T,M}-(\mu_T+\mu_M) &= -0.012862468941589822.
+\end{aligned}
+$$
+The right-tail permutation value for the joint mediator statistic is $0.000999000999000999$. The overlap classification is approximately independent under the fixed descriptive tolerance $0.05$, so measured TE and mRNA stability behave like partly separable reductions of the same abundance residual rather than a single duplicated channel.
 
-\paragraph{Residual remainder.}
-The unexplained fraction $0.7546178856026946$ is biologically meaningful as a boundary, not as an unnamed mechanism.  Related finite contacts show why this boundary matters.  Yeast $f3\_stress$ dwell mediation has held-out $\Delta R^{2}=0.01856473944057712$ against a null95 value $0.0013115362189692937$, with $f3$--dwell correlation $0.1615441450901653$ and approximate $p=7.873916057196935\times 10^{-9}$.  Its positional refinement assigns the leading dwell segment to the $5'$ window, with the $5'$ gate passing and the $3'$ body gate failing.  Separate human turnover testing leaves turnover absorption at only $3.5740764900116538\times 10^{-6}$, below its null95 $0.0004342285066808464$, while localization absorption in yeast is $0.011225105608516642$ over a null95 $0.004958116973149795$.  The structural-order ramp calculation is positive but not localized: the primary $50$-codon ramp has weighted $f3$ ramp held-out $\Delta R^{2}=0.0011165640103326878$, body $\Delta R^{2}=-0.00026157313923957926$, ramp sign-flip $p=0.0478515625$, and paired ramp-minus-body $p=0.05859375$.  These neighboring finite contacts support a conservative interpretation: the dictionary isolates a measurable part of the $Q6$ abundance residual, while the remaining mass is still distributed across additional measured or unmeasured layers.
+\paragraph{Case readback.}
+The modeled-tAI four-case discriminant also places the yeast coordinate set in the translation-positive and protein-positive stratum. Its yeast readout reports $R^{2}_{QT}=0.8213457220900503$, $R^{2}_{QP}=0.29837624994140827$, and coordinate count $9$, with case counts
+$$
+\begin{aligned}
+A &= 0,\\
+B &= 0,\\
+C &= 0,\\
+D &= 9.
+\end{aligned}
+$$
+The finite interpretation is not that modeled tAI proves a mechanism. It is that, on the bounded modeled-readout discriminant, all nine yeast residual coordinates fall in the positive translation-positive protein-abundance class after the declared controls. The measured-readout mediation surface then supplies the stronger finite contact for the present certificate.
 
-\paragraph{Local boundary.}
-This section does not promote a direct $q_i\to P_k$ association into a translation mechanism.  A positive protein-omics association is only downstream evidence unless the same rows contain a measured translation readout and conditioning on that readout reduces the protein-abundance signal.  The present certificate also does not establish folding, physical admissibility, molecular function, phenotype, adaptation, causation, or universality.  Those claims would require separate layer-matched contacts and their own finite statistics.  Here the admissible statement is narrower: on a powered yeast panel, a small measured readout dictionary containing measured TE, mRNA stability, and turnover covers $24.538\%$ of the residualized $B^{*}_{Q6}\to$ protein-abundance signal after selection-aware calibration, while $75.462\%$ remains outside that dictionary.
+\paragraph{Local dwell refinement.}
+For the $f_{3}$ stress coordinate on the yeast dwell join, the same style of finite residual projection gives $n=1257$, base $n=1800$, fold count $5$, and $P_{f3}$ fraction $0.1999063916718794$. The base held-out value is $R^{2}=0.1855578757644517$, the full dwell value is $R^{2}=0.20412261520502883$, and the held-out increment is $0.01856473944057712$. The deterministic null has mean $-0.0032911642620130563$, $95$th percentile $0.0013115362189692937$, maximum $0.005001350039772926$, and the $f_{3}$--dwell correlation has approximate $p=7.873916057196935\times 10^{-9}$. This is a local measured-readout refinement of one coordinate, not a replacement for the dictionary-level partial coverage number.
+
+\paragraph{Boundary of the claim.}
+The certificate is a finite observational mediation certificate over measured rows. It supports the statement that, in the yeast joined panel, a selected dictionary containing measured TE, mRNA stability, and turnover explains a statistically non-null part of the $B^{*}_{Q6}$ abundance residual, while leaving most of that residual unexplained. It does not by itself establish a translation mechanism, a folding statement, physical feasibility, molecular function, phenotype, evolutionary direction, or a universal biological law. Any such stronger statement would require its own layer-matched measurement surface and a separate controlled statistic. In particular, direct $q_i\to P_k$ survival is only a protein-omics association until a measured $q_i\to T_j$ readout is present and conditioning on $T_j$ reduces the direct association on the same joined rows.
