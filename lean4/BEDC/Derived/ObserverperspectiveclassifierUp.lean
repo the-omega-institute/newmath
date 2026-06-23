@@ -84,4 +84,29 @@ theorem ObserverPerspectiveClassifierLedgerExactness [AskSetup] [PackageSetup]
       universeLocality, localityTransport, transportGap, gapRoutePublicRead, provenancePkg,
       namePkg, publicReadPkg⟩
 
+theorem ObserverPerspectiveClassifierLocalityCellComparison [AskSetup] [PackageSetup]
+    {observerLeft observerRight universeLeft universeRight locality gap transport route
+      provenance name comparison : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverPerspectiveClassifierCarrier observerLeft observerRight universeLeft universeRight
+        locality gap transport route provenance name bundle pkg →
+      Cont locality gap comparison →
+        UnaryHistory locality ∧ UnaryHistory gap ∧ UnaryHistory comparison ∧
+          hsame comparison transport ∧ Cont universeLeft universeRight locality ∧
+            Cont locality gap comparison ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory hsame Cont PkgSig
+  intro carrier localityGapComparison
+  obtain ⟨_observerLeftUnary, _observerRightUnary, _universeLeftUnary,
+    _universeRightUnary, localityUnary, gapUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _observerUniverse, universeLocality, localityTransport,
+    _transportGap, provenancePkg, namePkg⟩ := carrier
+  have comparisonUnary : UnaryHistory comparison :=
+    unary_cont_closed localityUnary gapUnary localityGapComparison
+  have comparisonSameTransport : hsame comparison transport :=
+    cont_deterministic localityGapComparison localityTransport
+  exact
+    ⟨localityUnary, gapUnary, comparisonUnary, comparisonSameTransport, universeLocality,
+      localityGapComparison, provenancePkg, namePkg⟩
+
 end BEDC.Derived.ObserverperspectiveclassifierUp
