@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\DyadicTentFunctionUp$}
+\label{ch:concrete-instances-dyadic-tent-function-namecert}
+\origin{human}
+
+Following Schauder and Bishop--Bridges constructive approximation, the $\DyadicTentFunctionUp$ packet isolates the finite tent basis element used by dyadic interpolation arguments before a consumer invokes an entire Faber--Schauder system or a polygonal approximation chapter. It sits between the rational and real readback surfaces of \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-real-namecert}, the system-level construction of \autoref{ch:concrete-instances-faber-schauder-system-namecert}, the interpolation route of \autoref{ch:concrete-instances-dyadic-piecewise-linear-interpolation-namecert}, and the approximation handoff of \autoref{ch:concrete-instances-piecewise-linear-approximation-namecert}.
+
+\begin{definition}[Dyadic tent-function carrier]
+\label{def:dyadic-tent-function-carrier}
+A $\DyadicTentFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+T=(C,S,H,L,R,E,D,A,M,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the dyadic center row, read through $\DyadicRatCoreUp$.
+\item $S$ is the dyadic support-window row, recording the left and right dyadic endpoints.
+\item $H$ is the height row, normalized as the visible peak value.
+\item $L$ and $R$ are the left-slope and right-slope rows, each carried by finite dyadic arithmetic.
+\item $E$ records endpoint vanishing and peak agreement for the three displayed dyadic breakpoints.
+\item $D$ is the dyadic-to-real readback row consumed before any $\RealUp$ graph evaluation.
+\item $A$ records the affine-piece admission rows for the two support halves.
+\item $M$ records componentwise $\hsame$ transport for center, support, height, slopes, endpoint rows, readback, and affine pieces.
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\RealUp$, $\FaberSchauderSystemUp$, $\DyadicPiecewiseLinearInterpolationUp$, $\PiecewiseLinearApproximationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DyadicTentFunctionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an infinite coefficient family, an external real-valued function object, a completed approximation theorem, or a selected ambient representative.
+\end{definition}
+
+\begin{theorem}[DyadicTentFunction NameCert obligations]
+\label{thm:dyadic-tent-function-namecert-obligations}
+For the carrier of \autoref{def:dyadic-tent-function-carrier}, the local $\NameCert_{\DyadicTentFunctionUp}$ surface consists exactly of carrier admission for
+$$
+T=(C,S,H,L,R,E,D,A,M,P,N),
+$$
+dyadic center display through $C$, support-window display through $S$, height display through $H$, slope display through $L,R$, endpoint and peak display through $E$, dyadic-to-real readback through $D$, affine-piece admission through $A$, componentwise transport through $M$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier. The center, support, height, slope, endpoint, readback, and affine-piece rows are all displayed before the provenance and naming rows are read.
+
+The dyadic rows are consumed through $\DyadicRatCoreUp$, while the graph-facing handoff to $\RealUp$ occurs only through the readback row $D$. The system and interpolation chapters may reuse this packet as one basis element, but the packet itself does not expose a Faber--Schauder family or a polygonal approximation theorem.
+
+The structural rows preserve the same displayed rows. Thus the listed fields exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[DyadicTentFunction modulus handoff]
+\label{thm:dyadic-tent-function-modulus-handoff}
+Every accepted $\DyadicTentFunctionUp$ packet exposes a finite modulus handoff to dyadic interpolation consumers through the same support-window, slope, endpoint, and dyadic-to-real readback rows
+$$
+S,L,R,E,D,A,M,P,N.
+$$
+A $\FaberSchauderSystemUp$, $\DyadicPiecewiseLinearInterpolationUp$, or $\PiecewiseLinearApproximationUp$ consumer may use the packet as a single tent primitive only after those rows have been displayed, and cannot infer an infinite basis expansion, a global approximation bound, or a hidden real-function representative from the packet alone.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:dyadic-tent-function-namecert-obligations}. The support, slope, endpoint, readback, and affine-piece rows are separate displayed coordinates of the same carrier.
+
+The interpolation-facing handoff reads $S,L,R,E$ before it reads the real graph route through $D$. Transport through $M$ preserves those rows componentwise, so refining the ambient interpolation context does not detach the tent primitive from its dyadic support and slope data.
+
+The excluded objects are not carrier coordinates. Hence the packet supplies only the finite tent-function primitive and its modulus-facing handoff.
+\end{proof}
+
+\falsifiablePrediction{Any interpolation consumer that reads a DyadicTentFunctionUp graph row while omitting the displayed support-window and slope rows is rejected by the local classifier.}
+
+\independenceWitness{Nearest siblings: faberschaudersystem, dyadicpiecewiselinearinterpolation, piecewiselinearapproximation, dyadicratcore, real. The carrier is not bijective to the system-level or approximation-level packets because it stores one finite tent primitive rather than a family, mesh, or global error ledger.}
+
+\closureat{DyadicTentFunctionUp}{seedStr}
+
+\begin{closurestatus}{\DyadicTentFunctionUp}
+  \constructivestory{A $\DyadicTentFunctionUp$ packet is generated from dyadic center, support, height, slope, endpoint, readback, affine-piece, transport, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter records the finite carrier and local NameCert surface for one dyadic tent primitive before system-level and approximation-level consumers read it.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.DyadicTentFunctionUp}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{It does not close a Faber--Schauder basis theorem, uniform approximation theorem, external function equality, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exactness, dyadic-to-real readback, affine-piece replay, and consumer handoff for the same finite packet.}
+\end{closurestatus}
+\leanstmt{BEDC.Derived.DyadicTentFunctionUp}

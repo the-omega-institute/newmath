@@ -152,6 +152,24 @@ Use route-union exactness and positive-blocker union from \autoref{thm:metacic-a
 Finally apply obligation closure, \autoref{thm:metacic-audit-synthesis-obligation-closure}. Its exact obligation surface is already the stated finite package, so the route is scope-stable under the named BEDC primitives and sibling packets, with the excluded MetaCIC claims remaining outside the accepted packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC audit synthesis scoped closure]
+\label{thm:metacic-audit-synthesis-scope-closure}
+For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
+$$
+M=(S,C,N,U,D,A,B,H,R,P,L),
+$$
+the scoped packet surface is exactly the row inventory $S,C,N,U,D,A,B,H,R,P,L$ together with the certificate surface, critical-path non-escape, consistency-blocker ledger, closed-normal boundary, route-union exactness, positive-blocker union, and obligation-closure theorems. It therefore exports no subject reduction, unrestricted Church--Rosser theorem, candidate-free normalization, global beta-conversion decidability, quotient equality of MetaCIC terms, or full closed consistency beyond that finite packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-audit-synthesis-packet-carrier}. Its rows $S,C,N,U,D,A,B,H,R,P,L$ are the only accepted coordinates, and the certificate surface of \autoref{thm:metacic-audit-synthesis-certificate-surface} identifies them as the complete local $\NameCert_{\MetaCICAuditSynthesisPacketUp}$ surface.
+
+Use the non-escape and blocker theorems next. \autoref{thm:metacic-audit-synthesis-critical-path-nonescape} keeps every consumer inside the displayed critical path, while \autoref{thm:metacic-audit-synthesis-consistency-blocker-ledger} keeps the subject-reduction row and blocker row visible whenever the positive rows are read.
+
+Now combine the closed-normal boundary with the route-union results. \autoref{thm:metacic-audit-synthesis-closed-normal-boundary} confines the closed-normal branch to the named finite boundary, and \autoref{thm:metacic-audit-synthesis-route-union-exactness} together with \autoref{thm:metacic-audit-synthesis-positive-blocker-union} binds positive rows and blockers through the same $H,R,P,L$ rows.
+
+Finally apply obligation closure, \autoref{thm:metacic-audit-synthesis-obligation-closure}. Since all required reads are already finite row projections and all excluded MetaCIC claims have no carrier coordinate, the scoped closure is exactly the stated packet surface.
+\end{proof}
+
 \closureat{MetaCICAuditSynthesisPacketUp}{seedStr}
 \closureat{MetaCICAuditSynthesisPacketUp}{obligationStr}
 
