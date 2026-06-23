@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\PreuniformBaseUp$}
+\label{ch:concrete-instances-preuniform-base-namecert}
+\origin{human}
+
+Following Bourbaki and Willard, the $\PreuniformBaseUp$ packet names the finite entourage-base data that can feed uniformity and completion consumers before a full uniformity object has been closed. It sits below the filter route of \autoref{ch:concrete-instances-entourage-filter-namecert}, the regular-Cauchy uniformity route of \autoref{ch:concrete-instances-regularcauchyuniformity-namecert}, and the Real-specific entourage basis of \autoref{ch:concrete-instances-real-uniform-entourage-base-namecert}. The packet is a displayed preuniform basis surface; it is not a quotient uniformity, not a selected completion, not host equality, and not an ambient Real completeness principle.
+
+\begin{definition}[Preuniform-base carrier]
+\label{def:preuniform-base-carrier}
+A $\PreuniformBaseUp$ carrier is a finite $\BHist$ packet
+$$
+B=(E,D,S,M,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the entourage-base row whose entries name only displayed binary-neighborhood requests.
+\item $D$ is the diagonal witness row, recording that each admitted base entourage contains the displayed diagonal request.
+\item $S$ is the symmetry witness row, sending each admitted base request to a displayed symmetric refinement.
+\item $M$ is the finite-meet and refinement witness row, displaying a common smaller base request for each accepted finite pair.
+\item $R$ is the consumer route to $\EntourageFilterUp$, $\RegularCauchyUniformityUp$, and $\RealUniformEntourageBaseUp$.
+\item $H$ records componentwise $\hsame$ transport for the base row, diagonal row, symmetry row, finite-meet row, consumer route, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a downstream entourage request through $E,D,S,M,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\PreuniformBaseUp$, $\EntourageFilterUp$, $\RegularCauchyUniformityUp$, $\RealUniformEntourageBaseUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PreuniformBaseUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,D,S,M,R,H,C,P,N$. It has no coordinate for a completed uniformity, quotient filter, selected limit, host equality, countable-choice selector, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Preuniform-base NameCert obligations]
+\label{thm:preuniform-base-namecert-obligations}
+For every accepted $\PreuniformBaseUp$ carrier
+$$
+B=(E,D,S,M,R,H,C,P,N),
+$$
+the local $\NameCert_{\PreuniformBaseUp}$ surface consists exactly of carrier admission for the displayed entourage-base row $E$, diagonal exposure through $D$, symmetry exposure through $S$, finite-meet and refinement exposure through $M$, downstream consumer routing through $R$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, local naming through $N$, and non-escape for completed uniformities, quotient filters, selected limits, host equality, countable-choice selectors, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:preuniform-base-carrier}. The accepted packet exposes exactly one entourage-base row, one diagonal row, one symmetry row, one finite-meet refinement row, one consumer route, and four structural rows.
+
+The basis obligations are local to $E,D,S,M$. The diagonal row supplies the displayed diagonal containment, the symmetry row supplies a displayed symmetric refinement, and the meet row supplies a displayed common refinement for each finite pair before any downstream filter or uniformity consumer is opened.
+
+The consumer route is downstream. The row $R$ permits $\EntourageFilterUp$, $\RegularCauchyUniformityUp$, and $\RealUniformEntourageBaseUp$ readers to consume the same basis data, while $H,C,P,N$ transport, replay, source, and name that data without adding a completed uniformity or a quotient filter.
+
+Since the carrier has no coordinate for selected limits, host equality, countable choice, or ambient Real completeness, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Preuniform-base downstream handoff]
+\label{thm:preuniform-base-downstream-handoff}
+Every $\EntourageFilterUp$, $\RegularCauchyUniformityUp$, or $\RealUniformEntourageBaseUp$ consumer of an accepted $\PreuniformBaseUp$ carrier must first read the displayed route
+$$
+E\longmapsto D,S,M\longmapsto R\longmapsto H,C,P,N.
+$$
+The handoff exports a preuniform basis only as finite entourage-base data, not as a completed uniformity, quotient filter, selected limit, host equality, countable-choice selector, or ambient Real completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:preuniform-base-namecert-obligations}. It places every accepted consumer read on the displayed base row $E$ and then on the diagonal, symmetry, and finite-meet rows $D,S,M$.
+
+Only after those rows are visible may the route $R$ be read. The route records the three downstream consumers named in the statement, and each of them receives the same finite basis surface rather than a private completion object.
+
+The remaining rows $H,C,P,N$ preserve the same route under transport, continuation replay, provenance, and local naming. Because the carrier lacks completed-uniformity, quotient-filter, selected-limit, host-equality, choice, and Real-completeness coordinates, the downstream handoff cannot export any of those endpoints.
+\end{proof}
+
+\falsifiablePrediction{A downstream uniformity or completion consumer is refuted if it reads a PreuniformBase route without displaying the entourage-base row, diagonal row, symmetry row, finite-meet refinement row, consumer route, componentwise transport, continuation replay, package provenance, and local NameCert row.}
+
+\independenceWitness{entourage-filter, regular-cauchy-uniformity, real-uniform-entourage-base: no listed sibling supplies the whole $\PreuniformBaseUp$ packet because those chapters consume or specialize basis data, while this packet keeps the preuniform diagonal, symmetry, finite-meet, and downstream route rows as one carrier-local certificate.}
+
+\closureat{PreuniformBaseUp}{seedStr}
+
+\begin{closurestatus}{\PreuniformBaseUp}
+  \constructivestory{A $\PreuniformBaseUp$ packet is generated from displayed entourage-base rows, diagonal witnesses, symmetry witnesses, finite-meet refinement witnesses, a consumer route to EntourageFilter, RegularCauchyUniformity, and RealUniformEntourageBase rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:preuniform-base-carrier}, \autoref{thm:preuniform-base-namecert-obligations}, and \autoref{thm:preuniform-base-downstream-handoff} seed the finite preuniform basis surface below the existing uniformity and completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full uniformities, quotient filters, selected limits, host equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagonal exposure, symmetry exposure, finite-meet refinement, consumer routing, transport, replay, provenance, and local naming for BEDC.Derived.PreuniformBaseUp.}
+\end{closurestatus}
