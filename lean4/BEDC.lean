@@ -8552,6 +8552,7 @@ import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.PadicUp.IntegerTower
 import BEDC.Derived.PadicUp.IntegerTower.RingCompletion
+import BEDC.Derived.PadicUp.Localization
 import BEDC.Derived.PadicUp.Multiplicative
 import BEDC.Derived.PainleveKuratowskiConvergenceUp.TasteGate
 import BEDC.Derived.PaperLeanDriftWitnessUp
