@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\HenstockGaugePartitionUp$}
+\label{ch:concrete-instances-henstock-gauge-partition-namecert}
+\origin{human}
+
+Following Henstock's gauge integration and Cousin-style fine partitions, the $\HenstockGaugePartitionUp$ packet names the finite tagged partition object that sits between the existence route of \autoref{ch:concrete-instances-cousin-lemma-namecert}, the fine-partition ledger of \autoref{ch:concrete-instances-fine-partition-gauge-namecert}, the control route of \autoref{ch:concrete-instances-henstock-lemma-namecert}, and the integration consumer of \autoref{ch:concrete-instances-gauge-integral-namecert}. It records only displayed tagged intervals, pointwise gauge-radius rows, endpoint readback through located intervals and $\RealUp$, finite fineness and coverage ledgers, replay, provenance, and a local certificate.
+
+\begin{definition}[Henstock gauge partition carrier]
+\label{def:henstock-gauge-partition-carrier}
+A $\HenstockGaugePartitionUp$ carrier is a finite $\BHist$ packet
+$$
+P=(I,G,T,E,F,C,D,R,Q,N)
+$$
+whose rows expose:
+\begin{enumerate}
+\item $I$, the interval source row read through $\LocatedIntervalUp$ and sealed against the endpoint order available in $\RealUp$;
+\item $G$, the gauge-radius row assigning a positive local radius to every admitted tag over the displayed interval;
+\item $T$, the finite tagged-interval ledger listing tags, left and right endpoints, cell order, and cell membership;
+\item $E$, the endpoint readback row carrying the $\LocatedIntervalUp$ boundary data and the terminal $\RealUp$ endpoint seal for each tagged cell;
+\item $F$, the fineness ledger stating that every tagged interval of $T$ lies inside the radius supplied by $G$ at its tag;
+\item $C$, the coverage ledger stating that the finite tagged intervals cover the displayed interval without leaving a named gap;
+\item $D$, the disjointness ledger stating that distinct interiors in the tagged-interval list do not overlap;
+\item $R$, the displayed $\Cont$ replay row preserving the route from interval and gauge data to the same finite partition packet;
+\item $Q$, the $\Pkg$ provenance over $\HenstockGaugePartitionUp$, $\GaugeIntegralUp$, $\FinePartitionGaugeUp$, $\CousinLemmaUp$, $\HenstockLemmaUp$, $\LocatedIntervalUp$, $\RealUp$, $\BHist$, $\Cont$, and $\NameCert$;
+\item $N$, the local $\NameCert_{\HenstockGaugePartitionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,G,T,E,F,C,D,R,Q,N$. It has no coordinate for a choice-selected partition family, open-cover compactness, quotient equality of functions, an external integral theorem, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.HenstockGaugePartitionUp}
+
+\begin{theorem}[Henstock gauge partition NameCert obligations]
+\label{thm:henstock-gauge-partition-namecert-obligations}
+For every accepted $\HenstockGaugePartitionUp$ carrier $P=(I,G,T,E,F,C,D,R,Q,N)$, the local $\NameCert_{\HenstockGaugePartitionUp}$ surface is exhausted by interval-source admission, gauge-radius admission, finite tagged-interval admission, endpoint readback through $\LocatedIntervalUp$ and $\RealUp$, fineness, coverage, disjointness, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every $\FinePartitionGaugeUp$, $\HenstockLemmaUp$, or $\GaugeIntegralUp$ consumer must read these rows before using the partition as a gauge-fine object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:henstock-gauge-partition-carrier}. The analytic rows are $I,G,T,E,F,C,D$, and the structural rows are $R,Q,N$.
+
+The endpoint and fineness obligations are read before any integral-facing consumer can use the packet. The endpoint row $E$ binds each tagged interval to located endpoint data and to the terminal $\RealUp$ seal, while $F$ checks the cell against the radius supplied by $G$ at the displayed tag.
+
+Coverage and disjointness are finite ledger rows on the same tagged-interval list. The replay and provenance rows preserve that finite route, and the local certificate has no coordinate for host choice, open-cover compactness, quotient equality, external integration, or ambient completeness. Hence the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Henstock gauge partition fineness ledger]
+\label{thm:henstock-gauge-partition-fineness-ledger}
+Every accepted $\HenstockGaugePartitionUp$ carrier exposes a single finite route
+$$
+I,G,T,E \longmapsto F \longmapsto C,D
+$$
+from located endpoint data and positive gauge radii to the coverage and disjointness ledgers. The row $F$ is the only fineness witness visible to $\FinePartitionGaugeUp$ and $\HenstockLemmaUp$ consumers, and it is read from the same tags and endpoints displayed by $T$ and $E$.
+\end{theorem}
+\begin{proof}
+Start with $I,G,T,E$. These rows name the displayed interval, the positive radius assigned to each admitted tag, the finite tagged-interval list, and the located endpoint readback.
+
+The fineness row $F$ consumes exactly those rows. It cannot change the tag list or endpoints because it is a ledger row over the tagged intervals already listed in $T$ and read back in $E$.
+
+The coverage and disjointness rows $C,D$ are downstream finite checks on the same list. Thus any fine-partition or Henstock-lemma consumer that reads the packet receives the displayed fineness ledger before it receives coverage or disjointness as usable partition data.
+\end{proof}
+
+\begin{theorem}[Henstock gauge partition integral consumer handoff]
+\label{thm:henstock-gauge-partition-integral-consumer}
+Every $\GaugeIntegralUp$ consumer of an accepted $\HenstockGaugePartitionUp$ carrier factors through the partition route
+$$
+I,G,T,E,F,C,D \longmapsto R,Q,N .
+$$
+The consumer receives located endpoint readback, $\RealUp$ endpoint sealing, gauge fineness, coverage, disjointness, replay, provenance, and local naming; it receives no selected family of partitions, no open-cover compactness theorem, no quotient equality of functions, and no ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Read the finite partition rows first. The interval row $I$, gauge row $G$, tagged-interval row $T$, and endpoint row $E$ bind the consumer to one displayed partition packet.
+
+Next consume the ledger rows $F,C,D$. They certify gauge fineness, coverage, and interior disjointness over the same finite list, so the gauge-integral consumer does not import a separate existence theorem at the point of use.
+
+Finally read the replay, provenance, and local naming rows. These rows preserve the route into $\GaugeIntegralUp$, $\FinePartitionGaugeUp$, $\CousinLemmaUp$, and $\HenstockLemmaUp$ without adding any host choice, compactness, quotient, external integral, or ambient completeness coordinate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HenstockGaugePartitionUp$ packet must expose interval source, gauge-radius, finite tagged-interval, located endpoint, Real seal, fineness, coverage, disjointness, replay, provenance, and local NameCert rows before a gauge-integral consumer reads it.}
+
+\independenceWitness{gaugeintegral, finepartitiongauge, cousinlemma, henstocklemma, locatedinterval, real: $\HenstockGaugePartitionUp$ is not bijective to any listed sibling because it jointly carries finite tagged intervals, pointwise gauge-radius data, located endpoint readback, fineness, coverage, disjointness, replay, provenance, and local naming before the integral consumer handoff.}
+
+\closureat{HenstockGaugePartitionUp}{seedStr}
+
+\begin{closurestatus}{\HenstockGaugePartitionUp}
+  \constructivestory{A $\HenstockGaugePartitionUp$ packet is generated from interval source data, gauge-radius data, finite tagged intervals, located endpoint readback, Real endpoint sealing, fineness, coverage, disjointness, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:henstock-gauge-partition-carrier}, \autoref{thm:henstock-gauge-partition-namecert-obligations}, \autoref{thm:henstock-gauge-partition-fineness-ledger}, and \autoref{thm:henstock-gauge-partition-integral-consumer} seed the finite Henstock gauge-partition object between fine-partition, Henstock-lemma, and gauge-integral consumers.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected partition families, open-cover compactness, quotient equality of functions, external integral theorems, ambient Real completeness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked interval admission, gauge-radius admission, finite tagged-interval admission, endpoint readback, fineness, coverage, disjointness, replay, provenance, and local naming for BEDC.Derived.HenstockGaugePartitionUp.}
+\end{closurestatus}
