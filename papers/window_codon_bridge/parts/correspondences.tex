@@ -119,6 +119,8 @@ Codon E1 Alternative Code Deformation & Codon-E1 alternative-code deformation: t
 Codon E1 Trna Decoding Supply Orientation & Codon-E1 tRNA decoding-supply orientation certificate: tests whether the synonymous codon-usage residual E1 direction aligns, within the same RefSeq complete bacterial/archaeal genome accession, with that genome's tRNA anticodon decoding-supply E1 direction (frozen standard-code rank-6 B1, reused not refit; cos statistic; genus-weighted; global + restricted synonymous relabel nulls; full-residual positive control; B1-minus-p3W + GC3 collapse gate). Deepens the certified codon-E1 result as a mechanism-orientation probe; decoding-supply orientation concordance only, NOT Window6 forcing, NOT causal proof. & \texttt{refuted} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.codon_e1_mutation_pressure_orientation status=coincidence
 Codon E1 Mutation Pressure Orientation & Codon-E1 mutation-pressure orientation test (drift-vs-selection): does a clade's real SBS mutation spectrum orient the synonymous codon-usage residual within the frozen codon-E1 subspace beyond shared GC-equilibrium composition? Verdict = coincidence: on the retained panel the apparent usage-vs-mutation E1 alignment (full-B1 / minus-p3W significant under the plain synonymous relabel null) COLLAPSES under GC control -- the GC-equilibrium-stratified relabel null and the GC-equilibrium-residualized PRIMARY endpoint both fail (primary p\_gc=0.044, bootstrap lower95<0) -- so the alignment is GC/composition, not a certified codon-E1 mutation-pressure mechanism. SCOPE CAVEATS: panel is Mycobacterium-only (n=6 species / 7 clades; other Ruis clades dropped for missing reference accession), and the GC-residualized primary endpoint degenerates to per-species cos in \{-1,+1\} (near-1D residual), so this is a scoped non-certification, NOT a strong refutation. Ruis public SBS rates are rescaled (no raw event counts; not certified on count strength). Frozen B1 reused not refit. Not Window6 forcing, not causal proof. & \texttt{coincidence} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.codon_e1_expression_selection_orientation status=refuted
+Codon E1 Expression Selection Orientation & Codon-E1 expression-selection orientation test (first selection-mechanism candidate): do high-protein-abundance genes preferentially use synonymous codons along the leave-one-genus-out universal codon-E1 direction, after GC3/gene-length/tRNA-supply controls and matched nulls? Verdict = REFUTED on a 5-genus PaxDB-v6/RefSeq matched panel (11041 matched genes): beta\_e1xexpr=0.0201 is positive but robust p=0.042 and matched-null p=0.036 do NOT clear the preregistered p<=0.01 bar, so expression-selection is not certified as a codon-E1 orienter. The positive control PASSES (high-expression genes do carry synonymous bias, beta=0.061 p=2e-5; method valid/powered) and PC1 stability passes (eigengap 25.6, bootstrap sign-consistency 1.0). CAVEAT: only 5 genera (Pseudomonas/Salmonella/Staphylococcus dropped for unparseable tRNA anticodons) limits power; the weak positive trend leaves room for a broader-panel re-test. With tRNA-supply (refuted) and mutation-pressure/GC-drift (coincidence), all three obvious mechanisms fail to specifically orient codon-E1 at the certification bar. NOTE: experiment script requires numpy (run via venv); not reproducible under the daemon's numpy-free system python3, so this claim is registered terminal with an independently verified verdict. Not Window6 forcing, not causal proof. & \texttt{refuted} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -1366,3 +1368,27 @@ reused not refit. Not Window6 forcing, not causal proof.
 \textbf{Why.} drift-orientation concordance only; not Window6; not causal proof.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_codon\_e1\_mutation\_pressure\_orientation.py
+
+\subsection{Codon E1 Expression Selection Orientation}\label{sec:bridge-codon-e1-expression-selection-orientation}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.codon_e1_expression_selection_orientation status=refuted
+\textbf{Statement.} Codon-E1 expression-selection orientation test (first selection-mechanism candidate): do
+high-protein-abundance genes preferentially use synonymous codons along the leave-one-genus-out
+universal codon-E1 direction, after GC3/gene-length/tRNA-supply controls and matched nulls? Verdict
+= REFUTED on a 5-genus PaxDB-v6/RefSeq matched panel (11041 matched genes): beta\_e1xexpr=0.0201 is
+positive but robust p=0.042 and matched-null p=0.036 do NOT clear the preregistered p<=0.01 bar, so
+expression-selection is not certified as a codon-E1 orienter. The positive control PASSES
+(high-expression genes do carry synonymous bias, beta=0.061 p=2e-5; method valid/powered) and PC1
+stability passes (eigengap 25.6, bootstrap sign-consistency 1.0). CAVEAT: only 5 genera
+(Pseudomonas/Salmonella/Staphylococcus dropped for unparseable tRNA anticodons) limits power; the
+weak positive trend leaves room for a broader-panel re-test. With tRNA-supply (refuted) and
+mutation-pressure/GC-drift (coincidence), all three obvious mechanisms fail to specifically orient
+codon-E1 at the certification bar. NOTE: experiment script requires numpy (run via venv); not
+reproducible under the daemon's numpy-free system python3, so this claim is registered terminal with
+an independently verified verdict. Not Window6 forcing, not causal proof.
+
+\textbf{Verdict.} \texttt{refuted}.
+
+\textbf{Why.} orchestrator-verified via venv (numpy); beta=0.0201 robust p=0.042 matched-null p=0.036; positive
+control + PC1 stability passed; n=5 genera.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_codon\_e1\_expression\_selection\_orientation.py
