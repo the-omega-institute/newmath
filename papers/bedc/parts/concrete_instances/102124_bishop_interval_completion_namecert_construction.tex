@@ -103,12 +103,50 @@ Next the enclosure rows $E,L,U,A$ expose the interval-completion evidence throug
 The terminal seal $R$ is then read as the $\RealUp$ handoff, with $T,H,C,P,N$ preserving the route under transport, replay, provenance, and local naming. The consumer surface is precisely the listed sibling route, so the excluded quotient, choice, trichotomy, host-equality, completeness, quotient-endpoint, and host-representative readings are outside the packet.
 \end{proof}
 
+\begin{theorem}[Bishop interval completion nested-enclosure induction]
+\label{thm:bishop-interval-completion-nested-enclosure-induction}
+Let
+$$
+K=(I,S,Q,D,E,L,U,A,R,T,H,C,P,N)
+$$
+be an accepted $\BishopIntervalCompletionUp$ carrier. For every finite displayed chain of enclosure refinements starting from $K$, if each successor step refines the visible enclosure row through the same interval-completion route, then every stage preserves the source interval row $I$, StreamName window $S$, RegSeqRat readback $Q$, DyadicRatCore tolerance ledger $D$, enclosure row $E$, lower and upper bounds $L,U$, admission row $A$, terminal real seal $R$, route ledger $T$, and structural rows $H,C,P,N$ as displayed carrier data.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the finite displayed refinement chain.
+
+For the empty chain, the claim is the carrier projection of \autoref{def:bishop-interval-completion-carrier}. The rows $I,S,Q,D,E,L,U,A,R,T,H,C,P,N$ are precisely the visible coordinates of the accepted packet.
+
+At a successor step, the induction hypothesis supplies the same source interval, finite window, rational readback, dyadic tolerance, enclosure, bounds, admission, seal, ledger, and structural rows at the previous stage. The route separation of \autoref{thm:bishop-interval-completion-route-separation} forces the next refinement to pass through $I,S,Q,D,E,L,U,A$ before the terminal $\RealUp$ seal can be consumed.
+
+The public route theorem then repacks the successor stage through the same displayed route to $\RealUp$. Since no refinement coordinate contains quotient completion, selected limits, countable choice, trichotomy, host real equality, ambient completeness, quotient endpoint equality, or a host representative, the successor preserves exactly the displayed carrier rows.
+\end{proof}
+
+\begin{theorem}[Bishop interval completion dyadic window covering]
+\label{thm:bishop-interval-completion-dyadic-window-covering}
+For any finite family of $\BishopIntervalCompletionUp$ completion requests over the same interval source row $I$, the family is covered by a finite family of StreamName windows and DyadicRatCore tolerance rows before the terminal $\RealUp$ seal is consumed. More precisely, after reindexing the requests in route order, each request is witnessed by displayed rows
+$$
+S_j,Q_j,D_j,E_j,L_j,U_j,A_j
+$$
+over the same source $I$, and the terminal real-name handoff for the family occurs only after these finite window and tolerance rows have been displayed.
+\end{theorem}
+\begin{proof}
+Induct on the finite request family.
+
+For the empty family, no window or tolerance row is required, and there is no terminal real-name handoff to consume.
+
+For a successor family, apply the induction hypothesis to the previous requests. This gives a finite cover by displayed StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance ledgers, enclosures, bounds, and admission rows over the same interval source.
+
+For the new request, use \autoref{thm:bishop-interval-completion-nested-enclosure-induction}. It preserves the source row $I$ while exposing the successor request through its displayed $S,Q,D,E,L,U,A$ rows. Appending these rows to the previous finite cover gives the required family of windows and dyadic tolerance rows.
+
+Finally, \autoref{thm:bishop-interval-completion-route-separation} and \autoref{thm:bishop-interval-completion-public-route} place every terminal $\RealUp$ seal strictly after the displayed finite-window and tolerance evidence. Thus the family is covered before any real-name seal is consumed.
+\end{proof}
+
 \closureat{BishopIntervalCompletionUp}{seedStr}
 
 \begin{closurestatus}{\BishopIntervalCompletionUp}
   \constructivestory{A $\BishopIntervalCompletionUp$ packet is generated from a rational or located interval source row, a finite StreamName window, RegSeqRat readback, DyadicRatCore tolerance ledger, RealIntervalEnclosure row, displayed completion bounds, interval admission, terminal RealUp seal, route ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bishop-interval-completion-carrier}, \autoref{def:bishop-interval-completion-classifier}, \autoref{thm:bishop-interval-completion-obligations}, \autoref{thm:bishop-interval-completion-route-separation}, and \autoref{thm:bishop-interval-completion-public-route} seed the finite constructive interval-completion certificate over RationalInterval, LocatedInterval, StreamName, RegSeqRat, DyadicRatCore, RealIntervalEnclosure, and RealUp consumers.}
+  \scopeclosed{\autoref{def:bishop-interval-completion-carrier}, \autoref{def:bishop-interval-completion-classifier}, \autoref{thm:bishop-interval-completion-obligations}, \autoref{thm:bishop-interval-completion-route-separation}, \autoref{thm:bishop-interval-completion-public-route}, \autoref{thm:bishop-interval-completion-nested-enclosure-induction}, and \autoref{thm:bishop-interval-completion-dyadic-window-covering} seed the finite constructive interval-completion certificate over RationalInterval, LocatedInterval, StreamName, RegSeqRat, DyadicRatCore, RealIntervalEnclosure, and RealUp consumers.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.BishopIntervalCompletionUp.BishopIntervalCompletionTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
