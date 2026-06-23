@@ -605,6 +605,7 @@ import BEDC.Derived.AxiomDependencyTupleUp.AuditConsumerCompleteness
 import BEDC.Derived.AxiomDependencyTupleUp.BHistRowScope
 import BEDC.Derived.AxiomDependencyTupleUp.ConsumerExhaustion
 import BEDC.Derived.AxiomDependencyTupleUp.ConsumerLedgerOrder
+import BEDC.Derived.AxiomDependencyTupleUp.ConsumerReadiness
 import BEDC.Derived.AxiomDependencyTupleUp.DownstreamConsumerSupplyBoundary
 import BEDC.Derived.AxiomDependencyTupleUp.HostSupplyNonescape
 import BEDC.Derived.AxiomDependencyTupleUp.KernelSupplyVisibility
@@ -9572,7 +9573,9 @@ import BEDC.Derived.RealModulusPurityBoundaryUp.ConstructivePrediction
 import BEDC.Derived.RealModulusPurityBoundaryUp.DyadicWitnessStability
 import BEDC.Derived.RealModulusPurityBoundaryUp.HostChoiceRefusal
 import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
+import BEDC.Derived.RealModulusPurityBoundaryUp.ScopeBinding
 import BEDC.Derived.RealModulusPurityBoundaryUp.ScopePackage
+import BEDC.Derived.RealModulusPurityBoundaryUp.SourceNonescape
 import BEDC.Derived.RealModulusPurityBoundaryUp.TailBudgetExhaustion
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
 import BEDC.Derived.RealNameClassifierUp

@@ -213,13 +213,31 @@ The diagonal cofinal tail is therefore consumed only through the stationary wind
 Consequently the consumer remains inside $R,W,S,D,E,H,C,P,N$. Selected subsequences, quotient stream equality, and ambient Real completeness are not carrier coordinates, so none can be used before the fused window is consumed.
 \end{proof}
 
+\begin{theorem}[RegularCauchyWindowFusion tail-budget meet]
+\label{thm:regular-cauchy-window-fusion-tail-budget-meet}
+Let
+$$
+F=(R,W,S,D,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWindowFusionUp$ carrier. Any $\RealUp$-facing tail-window consumer and any budget-meet consumer read the same finite packet $R,W,S,D,E,H,C,P,N$. The tail selected by $W$, the $\RegSeqRatUp$ readback $S$, the dyadic ledger $D$, and the terminal seal $E$ cannot split into separate selected-subsequence, quotient-stream, or ambient-completeness routes.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:regular-cauchy-window-fusion-finite-window-exactness}. It identifies $R,W,S,D,E,H,C,P,N$ as the unique finite observation-window route available to any $\RealUp$- or completion-facing read.
+
+Next use \autoref{thm:regular-cauchy-window-fusion-budget-meet}. It forces the regular readback row $S$ and the dyadic ledger row $D$ to meet at the same terminal seal $E$ through $H,C,P,N$.
+
+Then apply \autoref{thm:regular-cauchy-window-fusion-scoped-kernel-route}. The scoped route is exactly the L10 packet over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and the structural rows.
+
+Finally use \autoref{thm:regular-cauchy-window-fusion-tail-window-coverage}. The tail selected by $W$ is consumed through that same displayed packet, so a tail-window consumer and a budget-meet consumer cannot factor through different selected-subsequence, quotient-stream, or ambient-completeness routes.
+\end{proof}
+
 \closureat{RegularCauchyWindowFusionUp}{obligationStr}[BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionUpTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RegularCauchyWindowFusionUp}
   \constructivestory{A $\RegularCauchyWindowFusionUp$ packet is generated from a RatUp seed classifier, a finite $\StreamNameUp$ constant window, a $\RegSeqRatUp$ seal readback, a $\DyadicRatCoreUp$ observation ledger, a $\RealUp$ finite-window seal, displayed $\hsame$ transports, $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
   \leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.taste\_gate}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-window-fusion-carrier}, \autoref{thm:regular-cauchy-window-fusion-namecert-obligations}, \autoref{thm:regular-cauchy-window-fusion-shared-window-handoff}, \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape}, \autoref{thm:regular-cauchy-window-fusion-selector-budget-compatibility}, \autoref{thm:regular-cauchy-window-fusion-downstream-package}, and \autoref{thm:regular-cauchy-window-fusion-budget-meet} bind the shared finite observation-window packet, selector-budget compatibility duty, and regular-dyadic seal meet for stationary regular Cauchy routes.}
+  \scopeclosed{\autoref{def:regular-cauchy-window-fusion-carrier}, \autoref{thm:regular-cauchy-window-fusion-namecert-obligations}, \autoref{thm:regular-cauchy-window-fusion-shared-window-handoff}, \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape}, \autoref{thm:regular-cauchy-window-fusion-selector-budget-compatibility}, \autoref{thm:regular-cauchy-window-fusion-downstream-package}, \autoref{thm:regular-cauchy-window-fusion-budget-meet}, and \autoref{thm:regular-cauchy-window-fusion-tail-budget-meet} bind the shared finite observation-window packet, selector-budget compatibility duty, regular-dyadic seal meet, and tail-budget meet for stationary regular Cauchy routes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
