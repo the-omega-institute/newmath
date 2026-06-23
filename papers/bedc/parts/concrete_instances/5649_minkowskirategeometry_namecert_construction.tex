@@ -144,16 +144,38 @@ The NameCert obligations require every entry of $D$ to be induced by $L$ rather 
 Use non-escape and the TasteGate marker to close the ledger boundary. Since the carrier is field-faithful for $G,X,R,L,D,H,C,P,N$ and contains no metric-tensor or manifold coordinate, the public ledger is exactly the finite rate-induced distance-shape row.
 \end{proof}
 
+\begin{theorem}[Minkowski rate geometry scope binding]
+\label{thm:minkowski-rate-geometry-scope-binding}
+The finite rate-to-geometry packet is scoped only over $\MultiHistConfigUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, $\LorentzFrameRateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the displayed TasteGate marker
+$$
+\texttt{BEDC.Derived.MinkowskiRateGeometryUp.MinkowskiRateGeometryTasteGate\_single\_carrier\_alignment}.
+$$
+Within that scope, promotion reads only the finite carrier $G,X,R,L,D,H,C,P,N$ and never a metric tensor, coordinate chart, synchronized clock, global frame, host real-valued speed, curved spacetime, or ambient Lorentz manifold.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:minkowski-rate-geometry-carrier}. Its public rows are the multi-Hist configuration $G$, cross-Hist causal family $X$, maximum-rate row $R$, Lorentz-frame-rate row $L$, distance-shape ledger $D$, transport $H$, continuation $C$, provenance $P$, and local name $N$.
+
+Apply the NameCert obligations of \autoref{thm:minkowski-rate-geometry-namecert-obligations}. They force upstream exactness through $\MultiHistConfigUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, and $\LorentzFrameRateUp$ before any distance-shape row is visible.
+
+Use non-escape and ledger exactness from \autoref{thm:minkowski-rate-geometry-nonescape} and \autoref{thm:minkowski-rate-geometry-ledger-exactness}. These theorems keep every geometry read inside the rate-induced ledger and rule out external metric, coordinate, clock, frame, speed, spacetime, and manifold coordinates.
+
+Finally read the TasteGate marker
+$$
+\texttt{BEDC.Derived.MinkowskiRateGeometryUp.MinkowskiRateGeometryTasteGate\_single\_carrier\_alignment}.
+$$
+It aligns field faithfulness with the same single carrier; it does not enlarge the scope. Therefore promotion is bound exactly to the listed finite packet and its displayed kernel rows.
+\end{proof}
+
 \falsifiablePrediction{Deleting the observer-symmetry row permits two observers over the same MaxCausalRateUp packet to read incompatible geometry rows, while deleting the MaxCausalRateUp row leaves no rate-induced distance boundary.}
 
 \independenceWitness{Nearest siblings: multihistconfig, crosshistcausal, maxcausalrate, lorentzframerate, and observerlocalitytransport; no bijection exists because this carrier adds a symmetric distance-shape ledger that each sibling explicitly lacks or refuses.}
 
-\closureat{MinkowskiRateGeometryUp}{obligationStr}
+\closureat{MinkowskiRateGeometryUp}{scopedStr}
 
 \begin{closurestatus}{\MinkowskiRateGeometryUp}
   \constructivestory{A $\MinkowskiRateGeometryUp$ packet is generated from a multi-Hist configuration, finite cross-Hist causal rows, a maximum-rate row, an observer-symmetric Lorentz-frame-rate row, a symmetric distance-shape ledger, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:minkowski-rate-geometry-carrier}, \autoref{thm:minkowski-rate-geometry-namecert-obligations}, \autoref{thm:minkowski-rate-geometry-symmetry}, \autoref{thm:minkowski-rate-geometry-nonescape}, \autoref{thm:minkowski-rate-geometry-tastegate-obligation}, \autoref{thm:minkowski-rate-geometry-carrier-envelope}, \autoref{thm:minkowski-rate-geometry-classifier-stability}, and \autoref{thm:minkowski-rate-geometry-ledger-exactness} specify the finite rate-to-geometry packet, its NameCert obligations, observer-symmetry boundary, non-escape surface, TasteGate instance surface, carrier envelope, classifier stability, and ledger exactness.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:minkowski-rate-geometry-carrier}, \autoref{thm:minkowski-rate-geometry-namecert-obligations}, \autoref{thm:minkowski-rate-geometry-symmetry}, \autoref{thm:minkowski-rate-geometry-nonescape}, \autoref{thm:minkowski-rate-geometry-tastegate-obligation}, \autoref{thm:minkowski-rate-geometry-carrier-envelope}, \autoref{thm:minkowski-rate-geometry-classifier-stability}, \autoref{thm:minkowski-rate-geometry-ledger-exactness}, and \autoref{thm:minkowski-rate-geometry-scope-binding} specify the finite rate-to-geometry packet, its NameCert obligations, observer-symmetry boundary, non-escape surface, TasteGate instance surface, carrier envelope, classifier stability, ledger exactness, and finite scope binding.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
