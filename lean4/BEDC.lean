@@ -1664,6 +1664,7 @@ import BEDC.Derived.CauchyApproximationTreeUp.TasteGate
 import BEDC.Derived.CauchyBicategoryUp
 import BEDC.Derived.CauchyBornologicalUniformityUp.TasteGate
 import BEDC.Derived.CauchyBornologyUp.TasteGate
+import BEDC.Derived.CauchyBoundSelectorUp.TasteGate
 import BEDC.Derived.CauchyBoundednessCriterionUp.TasteGate
 import BEDC.Derived.CauchyCarrierNameCertUp
 import BEDC.Derived.CauchyChainCriterionUp.TasteGate
@@ -8075,6 +8076,7 @@ import BEDC.Derived.MetricBallUp.RegSeqRatRealWindowBoundary
 import BEDC.Derived.MetricBallUp.TasteGate
 import BEDC.Derived.MetricBallUp.TopologyHandoff
 import BEDC.Derived.MetricBornologyUp.TasteGate
+import BEDC.Derived.MetricCauchyFilterBridgeUp.TasteGate
 import BEDC.Derived.MetricCauchyNetClusterUp.TasteGate
 import BEDC.Derived.MetricClosedBallUp
 import BEDC.Derived.MetricClosedBallUp.CenterTransportScope
@@ -10702,6 +10704,7 @@ import BEDC.Derived.SeparatedUniformSpaceUp.TasteGate
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeqUp.TasteGate
 import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
+import BEDC.Derived.SequentialArchimedeanRealUp.TasteGate
 import BEDC.Derived.SequentialCauchyFilterUp.TasteGate
 import BEDC.Derived.SequentialCauchyRegularizationUp.TasteGate
 import BEDC.Derived.SequentialCauchySelectorUp.TasteGate
