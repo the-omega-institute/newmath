@@ -77,6 +77,37 @@ internal far-end object, global universe digest, or unledgered fiber consumer,
 no accepted read can obtain any of those objects from the packet.
 \end{proof}
 
+\begin{theorem}[HashLikeFiberBoundary fiber-digest stability]
+\label{thm:hashlikefiberboundary-fiber-digest-stability}
+Any accepted transport of a $\HashLikeFiberBoundaryUp$ packet that preserves the
+visible digest row $D$ and the hidden fiber ledger row $F$ must preserve the
+same GAP provenance row $G$, apophatic boundary row $T$, and refusal row $R$
+through the displayed packet
+$$
+D,F,G,T,R,H,C,P,N.
+$$
+Thus the fiber-digest route cannot be replayed as a digest-only route, a
+selected preimage route, or a far-end object route.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of
+\autoref{def:hash-like-fiber-boundary-carrier}. The rows $D$ and $F$ are not
+free-standing coordinates; they are displayed together with $G,T,R,H,C,P,N$ in
+one finite packet.
+
+Apply the NameCert obligations of
+\autoref{thm:hash-like-fiber-boundary-namecert-obligations}. They identify the
+accepted surface with digest exposure, hidden fiber-ledger exposure, GAP
+provenance, apophatic far-end boundary naming, refusal, transport, replay,
+provenance, and local naming for the same rows.
+
+Use noninternalization
+\autoref{thm:hash-like-fiber-boundary-noninternalization}. Once transport
+preserves $D$ and $F$, the far-end boundary can still be read only through
+$G,T,R,H,C,P,N$, so the transport preserves the GAP, apophatic boundary, and
+refusal rows rather than creating a digest-only or selected-preimage route.
+\end{proof}
+
 \begin{theorem}[HashLikeFiberBoundary noninternalization]
 \label{thm:hash-like-fiber-boundary-noninternalization}
 Every accepted $\HashLikeFiberBoundaryUp$ consumer that reads the far-end row
