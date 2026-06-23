@@ -12928,6 +12928,21 @@
           "status": "open"
         }
       ]
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.rna_m6a_stoichiometry.m6a_stoichiometry_exon_architecture_glori",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Transcript exon-junction architecture (host-exon length; distance-to-nearest-splice-junction) is a REAL but BOUNDED cross-layer predictor of measured m6A stoichiometry -- the INVERSE-direction deepening (m6A LEVEL as readout, architecture as predictor; distinct from the covered m6A-as-predictor). GLORI (Liu 2022, GSE210563; NormeRatio absolute m6A stoichiometry, n=60000 sites across 3 conditions HeLa/293T/hypoxia, 49668 distinct values). Controlling local GC + RRACH 5-mer (+coverage): host-EXON-LENGTH partial Spearman=0.157 (>=0.10) but distance-to-junction partial rho=0.086 (sub-floor). The matched null (proximal-vs-distal m6A in GC/RRACH/condition-matched strata) is strong: distal-minus-proximal=0.174 m6A fraction (p=1e-3), reproduced across all 3 conditions (0.17-0.18) -- confirming a genuine architectural (EJC) effect on m6A level surviving GC+RRACH matching. Positive control reproduced (EJC suppression: short-exon m6A 0.174 vs long-exon 0.415; proximal median 0.240 vs distal 0.405). NON-CIRCULAR: predictor is transcript architecture (exon length / junction distance), NOT the DRACH site's own sequence (EJC reporter assay: suppressed sequences get methylated out of exon context). BOUNDED because the effect is split -- exon-length clears the floor (0.157) but the EJC-distance continuous metric is sub-floor (0.086); a real architecture descriptor, not a uniform crossing. readout = measured m6A stoichiometry (leakage-guarded); coverage confound r=-0.136. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "m6a_stoichiometry_exon_architecture_glori",
+      "history": [
+        {
+          "ts": "2026-06-23T03:47:00+00:00",
+          "status": "open"
+        }
+      ]
     }
   ]
 }
