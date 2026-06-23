@@ -1,4 +1,4 @@
-import BEDC.Derived.RealModulusPurityBoundaryUp.ScopeBinding
+import BEDC.Derived.RealModulusPurityBoundaryUp.ScopePackage
 
 namespace BEDC.Derived.RealModulusPurityBoundaryUp
 
@@ -10,9 +10,9 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-theorem RealModulusPurityBoundaryTailBudgetExhaustion [AskSetup] [PackageSetup]
+theorem RealModulusPurityBoundaryDyadicWitnessStability [AskSetup] [PackageSetup]
     {x : RealModulusPurityBoundaryUp}
-    {D S R0 L B H C P N routeRL routeLB predicted consumer tailRead : BHist}
+    {D S R0 L B H C P N routeRL routeLB predicted consumer dyadicRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     realModulusPurityBoundaryFields x = [D, S, R0, L, B, H, C, P, N] →
       Cont D S R0 →
@@ -20,7 +20,7 @@ theorem RealModulusPurityBoundaryTailBudgetExhaustion [AskSetup] [PackageSetup]
           Cont routeRL B routeLB →
             Cont routeLB H predicted →
               Cont routeLB N consumer →
-                Cont consumer B tailRead →
+                Cont H S dyadicRead →
                   UnaryHistory D →
                     UnaryHistory S →
                       UnaryHistory L →
@@ -30,34 +30,34 @@ theorem RealModulusPurityBoundaryTailBudgetExhaustion [AskSetup] [PackageSetup]
                               PkgSig bundle P pkg →
                                 PkgSig bundle N pkg →
                                   PkgSig bundle predicted pkg →
-                                    PkgSig bundle tailRead pkg →
+                                    PkgSig bundle dyadicRead pkg →
                                       SemanticNameCert
                                           (fun row : BHist =>
-                                            (hsame row predicted ∨ hsame row consumer ∨
-                                                hsame row tailRead) ∧
+                                            (hsame row predicted ∨ hsame row dyadicRead ∨
+                                                hsame row consumer) ∧
                                               UnaryHistory row)
                                           (fun row : BHist =>
                                             hsame row D ∨ hsame row S ∨ hsame row R0 ∨
                                               hsame row L ∨ hsame row B ∨ hsame row H ∨
                                                 hsame row N ∨ hsame row predicted ∨
-                                                  hsame row consumer ∨ hsame row tailRead)
+                                                  hsame row dyadicRead ∨ hsame row consumer)
                                           (fun row : BHist =>
                                             UnaryHistory row ∧ Cont D S R0 ∧
                                               Cont R0 L routeRL ∧
                                                 Cont routeRL B routeLB ∧
                                                   Cont routeLB H predicted ∧
                                                     Cont routeLB N consumer ∧
-                                                      Cont consumer B tailRead ∧
+                                                      Cont H S dyadicRead ∧
                                                         PkgSig bundle P pkg)
                                           hsame ∧
-                                        UnaryHistory tailRead := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
-  intro fields routeR0 routeRLCont routeLBCont predictedCont consumerCont consumerTail
-    unaryD unaryS unaryL unaryB unaryH unaryN provenancePkg namePkg predictedPkg _tailPkg
+                                        UnaryHistory dyadicRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
+  intro fields routeR0 routeRLCont routeLBCont predictedCont consumerCont dyadicCont
+    unaryD unaryS unaryL unaryB unaryH unaryN provenancePkg namePkg predictedPkg _dyadicPkg
   have scopeResult :
       SemanticNameCert
-          (fun row : BHist =>
-            (hsame row predicted ∨ hsame row consumer) ∧ UnaryHistory row)
+          (fun row : BHist => (hsame row predicted ∨ hsame row consumer) ∧
+            UnaryHistory row)
           (fun row : BHist =>
             hsame row D ∨ hsame row S ∨ hsame row R0 ∨ hsame row L ∨ hsame row B ∨
               hsame row H ∨ hsame row N ∨ hsame row predicted ∨ hsame row consumer)
@@ -73,26 +73,25 @@ theorem RealModulusPurityBoundaryTailBudgetExhaustion [AskSetup] [PackageSetup]
       unaryL unaryB unaryH unaryN provenancePkg namePkg predictedPkg
   have predictedUnary : UnaryHistory predicted := scopeResult.right.right.right.left
   have consumerUnary : UnaryHistory consumer := scopeResult.right.right.right.right
-  have tailUnary : UnaryHistory tailRead :=
-    unary_cont_closed consumerUnary unaryB consumerTail
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed unaryH unaryS dyadicCont
   have cert :
       SemanticNameCert
           (fun row : BHist =>
-            (hsame row predicted ∨ hsame row consumer ∨ hsame row tailRead) ∧
+            (hsame row predicted ∨ hsame row dyadicRead ∨ hsame row consumer) ∧
               UnaryHistory row)
           (fun row : BHist =>
             hsame row D ∨ hsame row S ∨ hsame row R0 ∨ hsame row L ∨ hsame row B ∨
-              hsame row H ∨ hsame row N ∨ hsame row predicted ∨ hsame row consumer ∨
-                hsame row tailRead)
+              hsame row H ∨ hsame row N ∨ hsame row predicted ∨ hsame row dyadicRead ∨
+                hsame row consumer)
           (fun row : BHist =>
             UnaryHistory row ∧ Cont D S R0 ∧ Cont R0 L routeRL ∧
               Cont routeRL B routeLB ∧ Cont routeLB H predicted ∧
-                Cont routeLB N consumer ∧ Cont consumer B tailRead ∧
-                  PkgSig bundle P pkg)
+                Cont routeLB N consumer ∧ Cont H S dyadicRead ∧ PkgSig bundle P pkg)
           hsame := {
     core := {
-      carrier_inhabited := Exists.intro tailRead
-        ⟨Or.inr (Or.inr (hsame_refl tailRead)), tailUnary⟩
+      carrier_inhabited := Exists.intro dyadicRead
+        ⟨Or.inr (Or.inl (hsame_refl dyadicRead)), dyadicUnary⟩
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -110,10 +109,10 @@ theorem RealModulusPurityBoundaryTailBudgetExhaustion [AskSetup] [PackageSetup]
               exact Or.inl (hsame_trans (hsame_symm sameRows) predictedSame)
           | inr rest =>
               cases rest with
-              | inl consumerSame =>
-                  exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) consumerSame))
-              | inr tailSame =>
-                  exact Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) tailSame))
+              | inl dyadicSame =>
+                  exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) dyadicSame))
+              | inr consumerSame =>
+                  exact Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) consumerSame))
         · exact unary_transport source.right sameRows
     }
     pattern_sound := by
@@ -125,20 +124,20 @@ theorem RealModulusPurityBoundaryTailBudgetExhaustion [AskSetup] [PackageSetup]
               (Or.inl predictedSame)))))))
       | inr rest =>
           cases rest with
-          | inl consumerSame =>
+          | inl dyadicSame =>
               exact
                 Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
-                  (Or.inr (Or.inl consumerSame))))))))
-          | inr tailSame =>
+                  (Or.inr (Or.inl dyadicSame))))))))
+          | inr consumerSame =>
               exact
                 Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
-                  (Or.inr (Or.inr tailSame))))))))
+                  (Or.inr (Or.inr consumerSame))))))))
     ledger_sound := by
       intro _row source
       exact
         ⟨source.right, routeR0, routeRLCont, routeLBCont, predictedCont, consumerCont,
-          consumerTail, provenancePkg⟩
+          dyadicCont, provenancePkg⟩
   }
-  exact ⟨cert, tailUnary⟩
+  exact ⟨cert, dyadicUnary⟩
 
 end BEDC.Derived.RealModulusPurityBoundaryUp
