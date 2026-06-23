@@ -58,6 +58,26 @@ The shared finite window and dyadic ledger are then forced by $W$ and $D$. A con
 The same-real handoff is supplied by $Z$ and $Q$. The null row records the zero-tail route for the displayed difference, and the comparison row records the common regular Cauchy comparison route. Since the carrier contains no coordinate for quotient streams, host equality, selected limits, or ambient completeness, none can be exported by the consumer read.
 \end{proof}
 
+\begin{theorem}[Zero-tail symmetry route]
+\label{thm:regular-real-tail-equivalence-zero-tail-symmetry}
+Let
+$$
+T=(R_0,R_1,W,D,Z,Q,E,H,C,P,N)
+$$
+be an accepted $\RegularRealTailEquivalenceUp$ carrier. Swapping the two source rows gives the same Real-facing tail-equivalence route through
+$$
+(R_1,R_0,W,D,Z,Q,E,H,C,P,N).
+$$
+The only equality witnesses consumed by the $\RealUp$ seal are the zero-tail row $Z$ and the regular Cauchy comparison row $Q$, and both are read through the shared finite window and dyadic ledger $W,D$. Thus the certificate is symmetric in $R_0$ and $R_1$ without adding quotient stream equality, selected representatives, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-real-tail-equivalence-carrier}. The source rows $R_0$ and $R_1$ are the only ordered coordinates affected by the swap; the shared window, dyadic ledger, null row, comparison row, seal, transport, replay, provenance, and local name remain the displayed rows of the same packet.
+
+Use the NameCert obligations of \autoref{thm:regular-real-tail-equivalence-namecert-obligations}. They require every same-real read to expose $W,D,Z,Q$ before $E$ is available, so the seal consumes the zero-tail and regular Cauchy comparison witnesses rather than the presentation order of the two source rows.
+
+Apply the RegSeqRat route of \autoref{thm:regular-real-tail-equivalence-regseqrat-route}. It confines both source rows to the shared finite-window and tolerance path. After the two sources are swapped, the rows $H,C,P,N$ transport, replay, package, and name the same finite route, so no quotient stream, selected representative, host real equality, or ambient completeness datum is introduced.
+\end{proof}
+
 \begin{theorem}[Regular real tail equivalence Real seal nonescape]
 \label{thm:regular-real-tail-equivalence-real-seal-nonescape}
 Every $\RealUp$-facing read of an accepted $\RegularRealTailEquivalenceUp$ carrier reaches the seal row $E$ only through the finite route
@@ -79,7 +99,7 @@ Use the RegSeqRat route of \autoref{thm:regular-real-tail-equivalence-regseqrat-
 \begin{closurestatus}{\RegularRealTailEquivalenceUp}
   \constructivestory{A $\RegularRealTailEquivalenceUp$ packet is generated from two $\RegSeqRatUp$ source rows, a shared $\StreamNameUp$ window, a $\DyadicRatCoreUp$ tolerance ledger, a $\NullSequenceUp$ zero-tail row, a $\RegularCauchyComparisonUp$ comparison route, a $\RealUp$ seal boundary, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-real-tail-equivalence-carrier}, \autoref{thm:regular-real-tail-equivalence-namecert-obligations}, \autoref{thm:regular-real-tail-equivalence-regseqrat-route}, and \autoref{thm:regular-real-tail-equivalence-real-seal-nonescape} bind the carrier, local NameCert surface, regular-rational route, and Real seal nonescape boundary for same-real tail equivalence.}
+  \scopeclosed{\autoref{def:regular-real-tail-equivalence-carrier}, \autoref{thm:regular-real-tail-equivalence-namecert-obligations}, \autoref{thm:regular-real-tail-equivalence-regseqrat-route}, \autoref{thm:regular-real-tail-equivalence-zero-tail-symmetry}, and \autoref{thm:regular-real-tail-equivalence-real-seal-nonescape} bind the carrier, local NameCert surface, regular-rational route, zero-tail symmetry route, and Real seal nonescape boundary for same-real tail equivalence.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not prove quotient stream equality, host real equality, selected representatives, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking for $\RegularRealTailEquivalenceUp$.}

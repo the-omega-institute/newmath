@@ -333,4 +333,79 @@ theorem IntervalNewtonValidatedConsumerBoundary [AskSetup] [PackageSetup]
   }
   exact ⟨cert, validatedReadUnary, boundaryUnary⟩
 
+theorem IntervalNewtonValidatedHandoffObligation [AskSetup] [PackageSetup]
+    {B F D N K V R H C P L validatedRead transportedRead replayRead handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IntervalNewtonCarrier B F D N K V R H C P L bundle pkg ->
+      Cont V R validatedRead ->
+        Cont H C transportedRead ->
+          Cont validatedRead transportedRead replayRead ->
+            Cont replayRead L handoffRead ->
+              PkgSig bundle handoffRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row handoffRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row V ∨ hsame row R ∨ hsame row H ∨ hsame row C ∨
+                        hsame row P ∨ hsame row L ∨ hsame row handoffRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont V R validatedRead ∧
+                        Cont H C transportedRead ∧
+                          Cont validatedRead transportedRead replayRead ∧
+                            Cont replayRead L handoffRead ∧
+                              PkgSig bundle handoffRead pkg)
+                    hsame ∧
+                  UnaryHistory validatedRead ∧ UnaryHistory transportedRead ∧
+                    UnaryHistory replayRead ∧ UnaryHistory handoffRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier validatedRoute transportedRoute replayRoute handoffRoute handoffPkg
+  obtain ⟨_unaryB, _unaryF, _unaryD, _unaryN, _unaryK, unaryV, unaryR, unaryH,
+    unaryC, _unaryP, unaryL, _validatedLocal, _localPkg⟩ := carrier
+  have validatedUnary : UnaryHistory validatedRead :=
+    unary_cont_closed unaryV unaryR validatedRoute
+  have transportedUnary : UnaryHistory transportedRead :=
+    unary_cont_closed unaryH unaryC transportedRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed validatedUnary transportedUnary replayRoute
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed replayUnary unaryL handoffRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row handoffRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row V ∨ hsame row R ∨ hsame row H ∨ hsame row C ∨
+              hsame row P ∨ hsame row L ∨ hsame row handoffRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont V R validatedRead ∧ Cont H C transportedRead ∧
+              Cont validatedRead transportedRead replayRead ∧
+                Cont replayRead L handoffRead ∧ PkgSig bundle handoffRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro handoffRead
+        ⟨hsame_refl handoffRead, handoffUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, validatedRoute, transportedRoute, replayRoute, handoffRoute,
+          handoffPkg⟩
+  }
+  exact ⟨cert, validatedUnary, transportedUnary, replayUnary, handoffUnary⟩
+
 end BEDC.Derived.IntervalNewtonUp
