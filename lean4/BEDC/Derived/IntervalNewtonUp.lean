@@ -179,4 +179,19 @@ theorem IntervalNewtonCorrectionTransportScope [AskSetup] [PackageSetup]
   }
   exact ⟨cert, narrowedUnary, validatedUnary⟩
 
+theorem IntervalNewtonContainmentObligation [AskSetup] [PackageSetup]
+    {B F D N K V R H C P L containment : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    IntervalNewtonCarrier B F D N K V R H C P L bundle pkg →
+      Cont N K containment →
+        UnaryHistory B ∧ UnaryHistory N ∧ UnaryHistory K ∧ UnaryHistory containment ∧
+          Cont N K containment ∧ PkgSig bundle L pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier containmentRoute
+  obtain ⟨unaryB, _unaryF, _unaryD, unaryN, unaryK, _unaryV, _unaryR, _unaryH,
+    _unaryC, _unaryP, _unaryL, _localRoute, localPkg⟩ := carrier
+  have unaryContainment : UnaryHistory containment :=
+    unary_cont_closed unaryN unaryK containmentRoute
+  exact ⟨unaryB, unaryN, unaryK, unaryContainment, containmentRoute, localPkg⟩
+
 end BEDC.Derived.IntervalNewtonUp
