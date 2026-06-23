@@ -76,6 +76,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "fibonacci_cube_critical_group_certificate",
     "closed_neighborhood_smith_certificate",
     "ordered_geodesic_enumerator_certificate",
+    "geodesic_run_factorization_certificate",
     "matching_enumerator_certificate",
     "ihara_hashimoto_zeta_certificate",
     "theta_square_factorization_certificate",
@@ -130,6 +131,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "lean_finite_certificate",
         "automath_paper_section",
         "ordered_geodesic_enumerator_certificate",
+        "geodesic_run_factorization_certificate",
         "matching_enumerator_certificate",
         "ihara_hashimoto_zeta_certificate",
         "theta_square_factorization_certificate",
@@ -177,6 +179,8 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "smith_normal_form_determinantal_divisors",
     "shortest_path_counting",
     "euler_zigzag_certificate",
+    "euler_zigzag_run_factorization",
+    "diametral_special_case",
     "lean_statement_only",
 }
 FORCED_WINDOW_EVIDENCE_BASIS = EVIDENCE_BASIS | {"automath_certificate"} | FORCED_WINDOW_ARITHMETIC_BASIS
@@ -301,6 +305,8 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "shortest_path_counting",
     "ordered_geodesic_enumerator",
     "euler_zigzag_certificate",
+    "diff_run_factorization",
+    "euler_zigzag_run_count",
     "matching_polynomial_recurrence",
     "monomer_dimer_profile",
     "bipartition_parity",
