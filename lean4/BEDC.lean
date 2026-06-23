@@ -8550,11 +8550,13 @@ import BEDC.Derived.PadicUp
 import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.PadicUp.EmptyAlignment
+import BEDC.Derived.PadicUp.ExactDivision
 import BEDC.Derived.PadicUp.FieldCore
 import BEDC.Derived.PadicUp.IntegerTower
 import BEDC.Derived.PadicUp.IntegerTower.RingCompletion
 import BEDC.Derived.PadicUp.Localization
 import BEDC.Derived.PadicUp.Multiplicative
+import BEDC.Derived.PadicUp.PrimeInverse
 import BEDC.Derived.PadicUp.UnitInverse
 import BEDC.Derived.PainleveKuratowskiConvergenceUp.TasteGate
 import BEDC.Derived.PaperLeanDriftWitnessUp
