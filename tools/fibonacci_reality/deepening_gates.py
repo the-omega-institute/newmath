@@ -78,6 +78,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "ordered_geodesic_enumerator_certificate",
     "matching_enumerator_certificate",
     "ihara_hashimoto_zeta_certificate",
+    "theta_square_factorization_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -131,6 +132,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "ordered_geodesic_enumerator_certificate",
         "matching_enumerator_certificate",
         "ihara_hashimoto_zeta_certificate",
+        "theta_square_factorization_certificate",
     },
 }
 OVERCLAIM_GATES_ENABLED = True
@@ -167,6 +169,9 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "closed_walk_trace_identity",
     "matching_polynomial_recurrence",
     "monomer_dimer_profile",
+    "fibonacci_cube_family_enumeration",
+    "theta_class_square_incidence",
+    "forced_fibonacci_factorization",
     "integer_matrix_determinant",
     "integer_laplacian_determinant",
     "smith_normal_form_determinantal_divisors",
@@ -305,6 +310,11 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "smith_normal_form",
     "cyclic_cokernel",
     "critical_group",
+    "fibonacci_cube_family",
+    "theta_class_coordinate_partition",
+    "induced_four_cycle_incidence",
+    "three_segment_fibonacci_factorization",
+    "finite_family_enumeration",
 }
 MECHANISM_WORDS = {
     "cause",
