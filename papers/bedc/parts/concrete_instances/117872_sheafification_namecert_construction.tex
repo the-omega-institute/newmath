@@ -542,6 +542,46 @@ Read $N$ next. The local $\NameCert_{\SheafificationUp}$ row names the same rout
 Finally apply the nonescape theorems already present in the chapter. The plus, separated-refinement, and cover-gluing boundaries keep every read inside $C,T,J,P,L,G,S,H,R,Q,N$, so provenance and naming cannot enlarge the packet beyond the displayed route.
 \end{proof}
 
+\begin{theorem}[Sheafification root-obligation carrier]
+\label{thm:sheafification-root-obligation-carrier}
+Every root-obligation read of an accepted $\SheafificationUp$ carrier $A=(C,T,J,P,L,G,S,H,R,Q,N)$ must display all eleven carrier rows before the local $\NameCert_{\SheafificationUp}$ row is consumed. The sibling route is ordered through $\CategoryUp$, $\TopologyUp$, $\GrothendieckTopologyUp$, $\PreSheafUp$, and $\SheafUp$, and the BEDC primitives visible along the route are $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sheafification-carrier}. The rows $C,T,J,P,L,G,S,H,R,Q,N$ are the only coordinates available to a root read.
+
+Read the sibling route in order. Category data in $C$ precedes topological windows in $T$, coverage in $J$, presheaf restriction data in $P$, locality and gluing ledgers in $L,G$, and the sheaf target in $S$.
+
+The remaining rows are structural projections. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row record the same ordered carrier and do not transport parameters from an outside reflector.
+\end{proof}
+
+\begin{theorem}[Sheafification kernel-scope package]
+\label{thm:sheafification-kernel-scope-package}
+For every accepted $\SheafificationUp$ carrier $A=(C,T,J,P,L,G,S,H,R,Q,N)$, the kernel-scope package exposed to downstream category or sheaf consumers is exactly
+$$
+C,T,J,P,L,G,S,H,R,Q,N .
+$$
+The package names the $\BHist$ rows for the sibling route through $\CategoryUp$, $\TopologyUp$, $\GrothendieckTopologyUp$, $\PreSheafUp$, and $\SheafUp$, the $\hsame$ and $\Cont$ replay rows, the $\Pkg$ source row, and the local $\NameCert$ row; it exports no detached reflector or quotient-family carrier.
+\end{theorem}
+\begin{proof}
+Start with the displayed package. Each coordinate is a carrier projection from \autoref{def:sheafification-carrier}, so the kernel scope is finite before any consumer reads it.
+
+The route through the siblings is row-ordered rather than parameter-transported. The presheaf row $P$ is read only after $C,T,J$, the locality and gluing rows $L,G$ are read only after $P$, and the sheaf row $S$ is read only after the locality and gluing ledgers.
+
+The structural rows $H,R,Q,N$ then package the same route. Since they are $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ projections over the displayed $\BHist$ coordinates, they cannot introduce a separate sheafification object.
+\end{proof}
+
+\begin{theorem}[Sheafification locality-gluing ledger readiness]
+\label{thm:sheafification-locality-gluing-ledger-readiness}
+In an accepted $\SheafificationUp$ carrier $A=(C,T,J,P,L,G,S,H,R,Q,N)$, a locality or gluing consumer may read $L$ or $G$ only after the source route $C,T,J,P$ has been displayed and before the sheaf target row $S$ is consumed. Thus the ledger is ready exactly when the $\CategoryUp$, $\TopologyUp$, $\GrothendieckTopologyUp$, and $\PreSheafUp$ sibling rows are already visible, and its readback to $\SheafUp$ remains inside the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet.
+\end{theorem}
+\begin{proof}
+Inspect the row order. The source rows $C,T,J,P$ provide the category, topology, coverage, and presheaf restriction data on which any locality or gluing ledger entry depends.
+
+The locality row $L$ and gluing row $G$ are therefore ready only after that source route is displayed. Their output is the sheaf target row $S$, so a consumer cannot read $S$ before the same ledger has been exposed.
+
+Transport, replay, provenance, and naming preserve the ledger. Rows $H,R,Q,N$ record $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data for the same finite packet, so ledger readiness is a projection and row-order claim rather than parameter transport.
+\end{proof}
+
 \begin{theorem}[Sheafification plus nonescape]
 \label{thm:sheafification-plus-nonescape}
 Every plus-style read of an accepted $\SheafificationUp$ carrier remains inside the finite route
