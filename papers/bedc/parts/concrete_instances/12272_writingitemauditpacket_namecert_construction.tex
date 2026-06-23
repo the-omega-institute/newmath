@@ -91,6 +91,18 @@ Apply the gap-exposure theorem \autoref{thm:writing-item-audit-packet-gap-exposu
 Finally use the independence of the two status axes from \autoref{thm:philosophy-theory-formal-independent}. The row $T$ reports paper closure scope and the row $F$ reports machine-facing status; neither row can discharge the other. The structural rows $H,A,P,N$ replay exactly that separated packet, so the published claim remains scoped by both axes and by the exposed gap row.
 \end{proof}
 
+\begin{theorem}[Writing-item audit packet mature consumer]
+\label{thm:writing-item-audit-packet-mature-consumer}
+Every downstream consumer of a bridged $\WritingItemAuditPacketUp$ packet must preserve the permitted-claim row $Q$, closure-bound row $T$, formal-status row $F$, exposed-gap row $G$, componentwise transport row $H$, replay row $A$, provenance row $P$, and local $\NameCert_{\WritingItemAuditPacketUp}$ row $N$ before exporting the audit packet as a consumer-facing writing item.
+\end{theorem}
+\begin{proof}
+Start with the scoped-claim route of \autoref{thm:writing-item-audit-packet-scoped-claim-route}. It already forces every permitted consumer read through $T,F,G,Q,H,A,P,N$ before the claim is published.
+
+Now impose the downstream export boundary. A consumer that exports the packet as a writing item has to present the same permitted claim text, the same closure and formal-status rows, and the same exposed gap row, because \autoref{thm:writing-item-audit-packet-closure-bound} forbids any stronger claim and \autoref{thm:writing-item-audit-packet-gap-exposure} forbids hiding $G$.
+
+The structural rows are equally load-bearing. The transport row $H$, replay row $A$, provenance row $P$, and local naming row $N$ are the only route by which the packet remains the displayed $\WritingItemAuditPacketUp$ carrier. Dropping any of them exports a different object rather than the bridged audit packet.
+\end{proof}
+
 \falsifiablePrediction{A consumer whose claim text exceeds its displayed closure-status row refutes the $\WritingItemAuditPacketUp$ packet.}
 
 \independenceWitness{registrylayer, objectknowledgecertificate, registryconsistencyaudit, machinereadableauditinterface: none is bijective to $\WritingItemAuditPacketUp$ because the registry layer lacks per-item permitted claim text, the object-knowledge certificate lacks the writing-kind and formal-status rows, the registry-consistency audit lacks the item-kind and permitted-claim rows, and the machine-readable audit interface lacks the carrier-classifier-ledger writing discipline as one finite NameCert surface.}
@@ -102,14 +114,15 @@ The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \WritingItemAudit
 \closureat{WritingItemAuditPacketUp}{scopedStr}
 \closureat{WritingItemAuditPacketUp}{publicStr}
 \closureat{WritingItemAuditPacketUp}{bridgedStr}
+\closureat{WritingItemAuditPacketUp}{matureStr}
 
 \begin{closurestatus}{\WritingItemAuditPacketUp}
   \constructivestory{The writing-item audit packet is generated from $BHist$ rows that name a writing kind, permitted claim text, closure-status row, formal-status row, gap row, and the classifier-ledger discipline that binds them. The carrier first reads the item from the ledger, then attaches the audit packet, and finally permits $\Cont$ extensions only when the same closure, formal-status, and gap rows remain visible. The $hsame$ relation makes the packet stable under changes of representative history. The NameCert obligations, closure-bound theorem, gap-exposure theorem, prediction, and independence witness define a local audit mechanism: a writing item is admissible only when its permitted text and exposed bounds are carried by the packet.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{The scope is exactly the $\BHist$ rows $K,C,R,L,T,F,G,Q,H,A,P,N$, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, local $\NameCert$ naming, and the carrier, obligation, closure-bound, gap-exposure, and scoped-claim route surfaces of \autoref{def:writing-item-audit-packet-carrier}, \autoref{thm:writing-item-audit-packet-namecert-obligations}, \autoref{thm:writing-item-audit-packet-closure-bound}, \autoref{thm:writing-item-audit-packet-gap-exposure}, and \autoref{thm:writing-item-audit-packet-scoped-claim-route}, with the scoped-claim route serving as the bridge-facing audit-packet handoff.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The scope is exactly the $\BHist$ rows $K,C,R,L,T,F,G,Q,H,A,P,N$, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, local $\NameCert$ naming, and the carrier, obligation, closure-bound, gap-exposure, scoped-claim route, and mature consumer surfaces of \autoref{def:writing-item-audit-packet-carrier}, \autoref{thm:writing-item-audit-packet-namecert-obligations}, \autoref{thm:writing-item-audit-packet-closure-bound}, \autoref{thm:writing-item-audit-packet-gap-exposure}, \autoref{thm:writing-item-audit-packet-scoped-claim-route}, and \autoref{thm:writing-item-audit-packet-mature-consumer}, with the mature consumer route serving as the downstream audit-packet handoff.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim full document closure, correctness of unaudited writing items, or hidden gap discharge outside the packet rows.}
-  \upgradepath{Mature closure requires downstream examples that consume the bridged writing-item audit packet while preserving the permitted claim, closure-bound, formal-status, and exposed-gap rows.}
+  \upgradepath{Verification upgrade requires Lean encoding of the mature consumer route while preserving the permitted claim, closure-bound, formal-status, exposed-gap, transport, replay, provenance, and local NameCert rows.}
 \end{closurestatus}
