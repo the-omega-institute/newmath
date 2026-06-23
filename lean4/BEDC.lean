@@ -7462,6 +7462,7 @@ import BEDC.Derived.MarkovPrincipleBoundaryUp
 import BEDC.Derived.MarkovPrincipleBoundaryUp.IshiharaSpeckerRoute
 import BEDC.Derived.MarkovPrincipleBoundaryUp.TasteGate
 import BEDC.Derived.MartingaleConvergenceUp.TasteGate
+import BEDC.Derived.MartingaleFiltrationUp.TasteGate
 import BEDC.Derived.MartingaleStoppingConvergenceUp
 import BEDC.Derived.MartingaleUp
 import BEDC.Derived.MaschkeProjectorUp.TasteGate
@@ -8840,6 +8841,7 @@ import BEDC.Derived.OrderedVectorSpaceUp
 import BEDC.Derived.OresmeHarmonicDivergenceUp.TasteGate
 import BEDC.Derived.OrthogonalPolynomialUp.TasteGate
 import BEDC.Derived.OrthogonalProjectionTheoremUp.TasteGate
+import BEDC.Derived.OscillationDerivativeUp.TasteGate
 import BEDC.Derived.OscillationFunctionUp.TasteGate
 import BEDC.Derived.OscillationModulusUp.TasteGate
 import BEDC.Derived.OsgoodCriterionUp.TasteGate
@@ -10715,7 +10717,6 @@ import BEDC.Derived.S1Up.VisibleSourceUnitEquationPackage
 import BEDC.Derived.SamuelCompactificationUp.TasteGate
 import BEDC.Derived.SamuelCompletionUp
 import BEDC.Derived.SamuelCompletionUp.TasteGate
-import BEDC.Derived.SardRegularValueUp
 import BEDC.Derived.SardTheoremFiniteJetUp.TasteGate
 import BEDC.Derived.SchauderBasisUp.TasteGate
 import BEDC.Derived.SchauderFiniteCompactMapUp
