@@ -1965,6 +1965,7 @@ import BEDC.Derived.CauchyLocatednessUp.TasteGate
 import BEDC.Derived.CauchyMajorantSequenceUp
 import BEDC.Derived.CauchyMajorantSequenceUp.TasteGate
 import BEDC.Derived.CauchyMajorantSeriesUp.TasteGate
+import BEDC.Derived.CauchyMatrixUp.TasteGate
 import BEDC.Derived.CauchyMergeUp
 import BEDC.Derived.CauchyMeshRefinementUp.TasteGate
 import BEDC.Derived.CauchyMetastabilityUp.TasteGate
@@ -1984,6 +1985,7 @@ import BEDC.Derived.CauchyModulusCompletionSelectorUp.TasteGate
 import BEDC.Derived.CauchyModulusExtractionUp
 import BEDC.Derived.CauchyModulusExtractionUp.StdBridge
 import BEDC.Derived.CauchyModulusExtractorUp.TasteGate
+import BEDC.Derived.CauchyModulusFunctorUp.TasteGate
 import BEDC.Derived.CauchyModulusFunctorialityUp.TasteGate
 import BEDC.Derived.CauchyModulusLimiterUp.TasteGate
 import BEDC.Derived.CauchyModulusMajorantUp.TasteGate
@@ -4928,6 +4930,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.BridgeRefinementBoundary
 import BEDC.Derived.DyadicIntervalCoverUp.BridgeWindow
 import BEDC.Derived.DyadicIntervalCoverUp.CellRefinementExhaustion
 import BEDC.Derived.DyadicIntervalCoverUp.CompactUniformWindowRoute
+import BEDC.Derived.DyadicIntervalCoverUp.ContentSplitRoute
 import BEDC.Derived.DyadicIntervalCoverUp.EndpointComparisonTotality
 import BEDC.Derived.DyadicIntervalCoverUp.FiniteBridgeBudget
 import BEDC.Derived.DyadicIntervalCoverUp.FiniteCoverBridgeScope
@@ -8233,6 +8236,7 @@ import BEDC.Derived.MinimalCauchyFilterUp.NameCertObligations
 import BEDC.Derived.MinimalCauchyFilterUp.RegularHandoff
 import BEDC.Derived.MinimalCauchyFilterUp.TasteGate
 import BEDC.Derived.MinimalRealizationUp.TasteGate
+import BEDC.Derived.MinimalTriggerLiftBundleUp.TasteGate
 import BEDC.Derived.MinkowskiDimensionUp
 import BEDC.Derived.MinkowskiInequalityUp.TasteGate
 import BEDC.Derived.MinkowskiRateGeometryUp.Carrier
