@@ -5667,6 +5667,7 @@ import BEDC.Derived.FiniteCauchyModulusComparisonUp
 import BEDC.Derived.FiniteCauchyNetExtractionUp.TasteGate
 import BEDC.Derived.FiniteChoiceUp.TasteGate
 import BEDC.Derived.FiniteChoiceWindowUp.TasteGate
+import BEDC.Derived.FiniteContractionOrbitErrorUp
 import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
 import BEDC.Derived.FiniteCoverNerveUp.CompactUniformHandoff
 import BEDC.Derived.FiniteCoverNerveUp.NameCertObligations
