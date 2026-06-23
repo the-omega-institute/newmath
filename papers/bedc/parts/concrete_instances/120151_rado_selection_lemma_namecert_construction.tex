@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\RadoSelectionLemmaUp$}
+\label{ch:concrete-instances-rado-selection-lemma-namecert}
+\origin{human}
+
+Following Rado's selection lemma and the finite matroid/transversal tradition, the $\RadoSelectionLemmaUp$ packet records the certificate surface by which a finite family of local choices is assembled into a global independent selection. It reads the finite-index rows of \autoref{ch:concrete-instances-list-namecert} and \autoref{ch:concrete-instances-nat-namecert}, the independence carrier of \autoref{ch:concrete-instances-matroid-namecert}, and the edge-selection boundary of \autoref{ch:concrete-instances-matching-namecert}. The chapter names only the displayed finite selection packet and its $\NameCert$ obligations; it does not assert an infinite choice principle, a host transversal selector, quotient equality of selections, or an ambient maximality theorem.
+
+\begin{definition}[Rado selection lemma carrier]
+\label{def:rado-selection-lemma-carrier}
+A $\RadoSelectionLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+R=(I,A,M,G,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite index surface, presented by $\ListUp$ rows and bounded by $\NatUp$ row counters.
+\item $A$ assigns to each displayed index row a finite admissible choice list, with every choice row kept inside the same $\BHist$ carrier.
+\item $M$ is the $\MatroidUp$ independence row on the displayed ground, including the hereditary and exchange fields used by local selections.
+\item $G$ is the $\MatchingUp$ incidence row recording the finite bipartite choice graph between index rows and admissible choice rows.
+\item $S$ is the selected transversal row, displaying one carried choice for each index row and recording that the selected choices are independent in $M$.
+\item $H$ records componentwise $\hsame$ transport for $I,A,M,G,S$.
+\item $C$ records displayed $\Cont$ replay of the finite route from the index rows and admissible choices through matroid independence and matching incidence to the selected transversal row.
+\item $P$ is the $\Pkg$ provenance over $\RadoSelectionLemmaUp$, $\MatroidUp$, $\MatchingUp$, $\ListUp$, $\NatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RadoSelectionLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed finite rows and their componentwise transport, replay, provenance, and local naming data.
+\end{definition}
+
+\begin{theorem}[Rado selection lemma NameCert obligations]
+\label{thm:rado-selection-lemma-namecert-obligations}
+For every accepted $\RadoSelectionLemmaUp$ carrier
+$$
+R=(I,A,M,G,S,H,C,P,N),
+$$
+the local $\NameCert_{\RadoSelectionLemmaUp}$ surface consists exactly of the finite-index admission rows, admissible-choice rows, matroid independence rows, matching incidence rows, selected-transversal row, componentwise transport, displayed replay, provenance, and local naming row. No obligation row is stored outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rado-selection-lemma-carrier}. Its finite data are the index surface $I$, admissible choice rows $A$, matroid row $M$, matching row $G$, and selected transversal row $S$.
+
+The NameCert admission clauses are rowwise. The finite-index part is read through $\ListUp$ and $\NatUp$, the independence requirements are read through $\MatroidUp$, and the incidence constraints are read through $\MatchingUp$ before the selected row $S$ is available.
+
+Transport and replay preserve the same surface. The $H$ row moves each displayed component by $\hsame$, the $C$ row replays the same finite route, and $P,N$ source and name the resulting packet. Since none of these rows contains an infinite choice principle, a host transversal selector, quotient equality of selections, or an ambient maximality theorem, the listed rows exhaust the local $\NameCert$ obligations.
+\end{proof}
+
+\closureat{RadoSelectionLemmaUp}{seedStr}
+
+\begin{closurestatus}{\RadoSelectionLemmaUp}
+  \constructivestory{A $\RadoSelectionLemmaUp$ packet is generated from finite index rows, admissible choice lists, a matroid independence row, a matching incidence row, a selected transversal row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rado-selection-lemma-carrier} and \autoref{thm:rado-selection-lemma-namecert-obligations} seed the finite Rado selection NameCert surface over $\ListUp$, $\NatUp$, $\MatroidUp$, and $\MatchingUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite choice, host transversal selection, quotient equality of selections, ambient maximality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-index stability, matroid independence transport, matching incidence transport, selected-transversal exactness, and a Lean obligation surface for BEDC.Derived.RadoSelectionLemmaUp.}
+\end{closurestatus}
