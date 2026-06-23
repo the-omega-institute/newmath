@@ -411,4 +411,109 @@ theorem ParsevalRootObligationSurface [AskSetup] [PackageSetup]
   exact
     ⟨cert, coefficientUnary, energyUnary, toleranceReadUnary, sealReadUnary, namedUnary⟩
 
+theorem ParsevalKernelScopePackage [AskSetup] [PackageSetup]
+    {fourier source pairing integral readback tolerance sealRow transport replay provenance name
+      coefficientRead energyRead toleranceRead sealRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ParsevalCarrier fourier source pairing integral readback tolerance sealRow transport replay
+        provenance name bundle pkg →
+      Cont fourier source coefficientRead →
+        Cont pairing integral energyRead →
+          Cont energyRead tolerance toleranceRead →
+            Cont toleranceRead sealRow sealRead →
+              Cont sealRead name namedRead →
+                PkgSig bundle provenance pkg →
+                  PkgSig bundle name pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row fourier ∨ hsame row source ∨ hsame row pairing ∨
+                            hsame row integral ∨ hsame row readback ∨
+                              hsame row tolerance ∨ hsame row sealRow ∨
+                                hsame row transport ∨ hsame row replay ∨
+                                  hsame row provenance ∨ hsame row name ∨
+                                    hsame row namedRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont fourier source coefficientRead ∧
+                            Cont pairing integral energyRead ∧
+                              Cont energyRead tolerance toleranceRead ∧
+                                Cont toleranceRead sealRow sealRead ∧
+                                  Cont sealRead name namedRead ∧
+                                    PkgSig bundle provenance pkg ∧
+                                      PkgSig bundle name pkg)
+                        hsame ∧
+                      UnaryHistory coefficientRead ∧ UnaryHistory energyRead ∧
+                        UnaryHistory toleranceRead ∧ UnaryHistory sealRead ∧
+                          UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: ParsevalCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier coefficientRoute energyRoute toleranceRoute sealRoute namedRoute
+    provenancePkg namePkg
+  obtain ⟨fourierUnary, sourceUnary, pairingUnary, integralUnary, _readbackUnary,
+    toleranceUnary, sealUnary, _transportUnary, _replayUnary, _provenanceUnary, nameUnary,
+    _fourierSourcePairing, _pairingIntegralReadback, _readbackToleranceSeal,
+    _sealTransportReplay, _carrierProvenancePkg, _carrierNamePkg⟩ := carrier
+  have coefficientUnary : UnaryHistory coefficientRead :=
+    unary_cont_closed fourierUnary sourceUnary coefficientRoute
+  have energyUnary : UnaryHistory energyRead :=
+    unary_cont_closed pairingUnary integralUnary energyRoute
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed energyUnary toleranceUnary toleranceRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed toleranceReadUnary sealUnary sealRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed sealReadUnary nameUnary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row fourier ∨ hsame row source ∨ hsame row pairing ∨
+              hsame row integral ∨ hsame row readback ∨ hsame row tolerance ∨
+                hsame row sealRow ∨ hsame row transport ∨ hsame row replay ∨
+                  hsame row provenance ∨ hsame row name ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont fourier source coefficientRead ∧
+              Cont pairing integral energyRead ∧ Cont energyRead tolerance toleranceRead ∧
+                Cont toleranceRead sealRow sealRead ∧ Cont sealRead name namedRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr source.left))))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, coefficientRoute, energyRoute, toleranceRoute, sealRoute,
+          namedRoute, provenancePkg, namePkg⟩
+  }
+  exact
+    ⟨cert, coefficientUnary, energyUnary, toleranceReadUnary, sealReadUnary, namedUnary⟩
+
 end BEDC.Derived.ParsevalUp
