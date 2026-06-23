@@ -610,6 +610,7 @@ import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
 import BEDC.Derived.AxiomDependencyTupleUp.SubjectReductionSocketDependencyRoute
 import BEDC.Derived.AxiomDependencyTupleUp.SupplyLedgerReadback
 import BEDC.Derived.AxiomDependencyTupleUp.ZeroSupplyModeExactness
+import BEDC.Derived.AxiomDependencyTupleUp.ZeroSupplyModeSoundness
 import BEDC.Derived.AxiomPurityGateUp
 import BEDC.Derived.AxiomPurityGateUp.TasteGate
 import BEDC.Derived.AxiomPurityGateUp.WitnessPreservingConsumer
@@ -1406,6 +1407,7 @@ import BEDC.Derived.BrouwerOperationUp.TasteGate
 import BEDC.Derived.BrouwerSpreadBarUp.TasteGate
 import BEDC.Derived.BrouwerSpreadUp.TasteGate
 import BEDC.Derived.BrouwerianCounterexampleUp.TasteGate
+import BEDC.Derived.BrownianBridgeUp.TasteGate
 import BEDC.Derived.BrownianUp
 import BEDC.Derived.BudgetedRealSealRouteUp.NameCertObligations
 import BEDC.Derived.BudgetedRealSealRouteUp.TasteGate
@@ -2487,7 +2489,6 @@ import BEDC.Derived.CauchyTailRequestUp.TasteGate
 import BEDC.Derived.CauchyTailSupremumUp.TasteGate
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.Classifier
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.CompositionScope
-import BEDC.Derived.CauchyTailThresholdNormalizerUp.EncodedObligationReadback
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RealFacingDeterminacy
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RouteExhaustion
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TailWindowInduction
@@ -3135,6 +3136,7 @@ import BEDC.Derived.CompactIntervalUniformContinuityUp.TasteGate
 import BEDC.Derived.CompactLebesgueNumberLedgerUp.TasteGate
 import BEDC.Derived.CompactLebesgueNumberUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
+import BEDC.Derived.CompactLipschitzUniformHandoffUp.TasteGate
 import BEDC.Derived.CompactLocatedIntervalSubcoverUp.TasteGate
 import BEDC.Derived.CompactMetricClosedBallUp.TasteGate
 import BEDC.Derived.CompactMetricCompletionUp.Core
@@ -9863,7 +9865,6 @@ import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationNonescapeRoute
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationPrefixExhaustion
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationRowPrecedence
 import BEDC.Derived.ReflectiveInquiryUp.Carrier
-import BEDC.Derived.ReflectiveInquiryUp.ClassifierAuditCertificate
 import BEDC.Derived.ReflectiveInquiryUp.FieldFaithfulRowSeparation
 import BEDC.Derived.ReflectiveInquiryUp.GroundCompilerObligationRoute
 import BEDC.Derived.ReflectiveInquiryUp.LedgeredRoleCorrespondence
