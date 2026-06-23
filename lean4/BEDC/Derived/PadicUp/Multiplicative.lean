@@ -246,6 +246,13 @@ theorem IsPadicValNat_mul_add_exact {p j k s x y z : BHist} :
   exact IsPadicValNat_mul_add_exact_with_obstruction left right add product
     (IsPadicValNat_mul_add_exact_obstruction euclid left right add product)
 
+theorem IsPadicValNat_mul_add_exact_of_prime {p j k s x y z : BHist} :
+    NatPrime p -> IsPadicValNat p x j -> IsPadicValNat p y k -> NatAdd j k s ->
+      NatMul x y z -> IsPadicValNat p z s := by
+  intro prime left right add product
+  exact IsPadicValNat_mul_add_exact (NatPrime.toNatEuclidPrime prime)
+    left right add product
+
 theorem IsPadicValNat_add_min_lower {p k x y z : BHist} :
     IsPadicValNat p x k -> IsPadicValNat p y k -> NatAdd x y z ->
       PDvdNat p k z := by
