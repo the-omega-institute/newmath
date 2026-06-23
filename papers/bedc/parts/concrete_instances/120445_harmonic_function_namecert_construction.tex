@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\HarmonicFunctionUp$}
+\label{ch:concrete-instances-harmonic-function-namecert}
+\origin{human}
+
+Following Weyl and Bishop--Bridges, the $\HarmonicFunctionUp$ packet records the finite NameCert surface of a harmonic-function read over a compact metric chart. It sits over the terminal real-name rows of \autoref{ch:concrete-instances-real-namecert}, the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the compact finite-net surface of \autoref{ch:concrete-instances-compactmetric-namecert}, the graph and modulus rows of \autoref{ch:concrete-instances-continuousmap-namecert}, and the local differential-equation vocabulary of $\PdeUp$. The packet names a constructive finite-means harmonicity certificate only; it does not assert global Dirichlet solvability, classical smoothness, distributional equality, unique continuation, maximum principle completeness, quotient equality of functions, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Harmonic-function carrier]
+\label{def:harmonic-function-carrier}
+A $\HarmonicFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+H=(R,M,K,F,L,A,V,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RealUp$ value row, exposing the real-name windows consumed by the function values.
+\item $M$ is the $\MetricSpaceUp$ chart row, recording the source distance comparisons used by ball and boundary reads.
+\item $K$ is the $\CompactMetricUp$ finite-window row for the compact chart windows on which the certificate is inspected.
+\item $F$ is the $\ContinuousMapUp$ graph row, recording the pointwise function reads and their local continuity witnesses.
+\item $L$ is the $\PdeUp$ Laplace row, naming the displayed local equation $\Delta F=0$ only through finite stencil, ball, or chart data.
+\item $A$ is the averaging row. It records the finite boundary samples, weights, tolerances, and mean-value readback requested around each inspected ball.
+\item $V$ is the verification row requiring the displayed Laplace row and averaging row to agree on every accepted inspection window.
+\item $E$ records componentwise $\hsame$ transport for real values, metric balls, compact windows, continuous graph reads, Laplace rows, averaging rows, verification rows, replay, provenance, and local naming.
+\item $T$ records displayed $\Cont$ replay for the route
+$$
+R,M,K,F,L,A \longmapsto V \longmapsto E,C,P,N .
+$$
+\item $C$ is the consumer handoff row for local Dirichlet, mean-value, and PDE-facing requests that accept only the displayed finite route.
+\item $P$ is the $\Pkg$ provenance over $\HarmonicFunctionUp$, $\RealUp$, $\MetricSpaceUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\PdeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HarmonicFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these twelve rows. It has no coordinate for a host smooth function, selected Poisson kernel, global boundary-value solution, distributional equality, quotient map equality, excluded-middle regularity argument, or ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Harmonic-function NameCert obligations]
+\label{thm:harmonic-function-namecert-obligations}
+For every accepted $\HarmonicFunctionUp$ carrier
+$$
+H=(R,M,K,F,L,A,V,E,T,C,P,N),
+$$
+the local $\NameCert_{\HarmonicFunctionUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for $\RealUp$ values, $\MetricSpaceUp$ chart distances, $\CompactMetricUp$ finite windows, $\ContinuousMapUp$ graph reads, $\PdeUp$ Laplace rows, averaging rows, verification rows, transport, replay, consumer handoff, provenance, and local naming;
+\item metric-ball exactness, requiring every averaging window and Laplace stencil to be attached to the same displayed chart row $M$ and compact window row $K$;
+\item continuity compatibility, requiring every value consumed by $L$ or $A$ to be exposed first through $F$ and read through $R$;
+\item Laplace--mean agreement, requiring $V$ to compare the displayed $\PdeUp$ Laplace row with the finite averaging row before any harmonic read is exported;
+\item non-escape of host smoothness, global Dirichlet solvability, selected Poisson kernels, distributional equality, quotient equality of functions, choice principles, and ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:harmonic-function-carrier}. The analytic rows are precisely $R,M,K,F,L,A,V$, and the structural rows $E,T,C,P,N$ preserve, replay, hand off, source, and name the same finite route.
+
+Metric-ball exactness is local. The row $M$ supplies the distance comparisons for balls and boundaries, while $K$ supplies the compact finite windows on which those comparisons are inspected. Thus neither $L$ nor $A$ can choose a detached chart.
+
+Continuity compatibility then forces every value read through the graph row $F$ and the real row $R$ before a Laplace or averaging check may consume it. The verification row $V$ is the only row that compares the displayed $\PdeUp$ equation with the finite mean-value data.
+
+Finally, $E,T,C,P,N$ add only transport, replay, consumer routing, provenance, and local naming. Since the carrier has no row for a host smooth function, global boundary-value solution, selected kernel, quotient equality, choice principle, or ambient completeness theorem, those claims cannot be exported by the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Harmonic-function mean-value route]
+\label{thm:harmonic-function-mean-value-route}
+Every accepted $\HarmonicFunctionUp$ mean-value or local Dirichlet read factors through
+$$
+\RealUp,\ \MetricSpaceUp,\ \CompactMetricUp,\ \ContinuousMapUp,\ \PdeUp
+$$
+before it reaches the consumer handoff row. In particular, the exported harmonicity read is the displayed agreement between a finite Laplace row and a finite averaging row inside the same compact metric chart, not a host-theoretic solution operator.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:harmonic-function-namecert-obligations}. Carrier admission lists the real, metric, compact, continuous-map, PDE, averaging, and verification rows as the entire analytic surface.
+
+The metric-ball exactness and continuity compatibility clauses bind those rows to the same chart and graph reads. Hence a mean-value read cannot bypass $R,M,K,F$ before inspecting $L$ and $A$.
+
+The verification row $V$ then compares the Laplace and averaging displays, and the handoff row $C$ exports only the route replayed by $E,T$ and sourced by $P,N$. Therefore a local Dirichlet or harmonicity consumer receives finite NameCert data rather than a global solution operator, selected kernel, quotient function, or ambient completeness principle.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HarmonicFunctionUp$ packet exposes RealUp value rows, MetricSpaceUp chart rows, CompactMetricUp finite windows, ContinuousMapUp graph rows, PdeUp Laplace rows, finite averaging rows, verification rows, transport, replay, consumer handoff, provenance, and local naming.}
+
+\independenceWitness{real, metricspace, compactmetric, continuousmap, pde: $\HarmonicFunctionUp$ is not identical to any listed sibling because it binds finite mean-value rows and local Laplace rows into one compact metric chart certificate before exporting harmonic-function reads.}
+
+\closureat{HarmonicFunctionUp}{seedStr}
+
+\begin{closurestatus}{\HarmonicFunctionUp}
+  \constructivestory{A $\HarmonicFunctionUp$ packet is generated from RealUp value rows, MetricSpaceUp chart distance rows, CompactMetricUp finite windows, ContinuousMapUp graph rows, PdeUp Laplace rows, finite averaging rows, a Laplace--mean verification row, componentwise hsame transport, displayed Cont replay, a consumer handoff row, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:harmonic-function-carrier}, \autoref{thm:harmonic-function-namecert-obligations}, and \autoref{thm:harmonic-function-mean-value-route} seed the compact metric finite-means packet for local harmonic-function reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global Dirichlet solvability, classical smoothness, distributional equality, unique continuation, maximum principle completeness, selected Poisson kernels, quotient equality of maps, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric-ball exactness, continuity compatibility, Laplace--mean agreement, consumer handoff, provenance, and local naming for BEDC.Derived.HarmonicFunctionUp.}
+\end{closurestatus}

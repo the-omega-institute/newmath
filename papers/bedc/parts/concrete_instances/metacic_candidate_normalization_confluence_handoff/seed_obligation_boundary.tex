@@ -9,3 +9,15 @@ Use seed closure and premise exposure from \autoref{thm:metacic-candidate-normal
 
 Finally apply decider-row exhaustion from \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-row-exhaustion}. The structural rows $T,R,P,L$ preserve the same finite packet, so the bounded endpoint is consumed only after the seed-obligation rows have been exposed.
 \end{proof}
+
+\begin{theorem}[MetaCIC candidate handoff residual frontier scope]
+\label{thm:metacic-candidate-normalization-confluence-handoff-residual-frontier-scope}
+Every accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet routes residual-envelope data $C$ and blocked-edge data $B$ through the normalization frontier $F$ and decidable boundary $D$ before any endpoint-facing consumer reads the packet. Hence the handoff is a scoped frontier certificate: it cannot be read as unconditional strong normalization, unrestricted confluence, global conversion decidability, quotient syntax equality, or host evaluator soundness.
+\end{theorem}
+\begin{proof}
+Start from the seed-obligation exposure of \autoref{thm:metacic-candidate-normalization-confluence-handoff-seed-obligations}. The accepted packet displays $K,F,C,D,B$ and the structural rows before bounded endpoint consumption, so the residual envelope and blocked edge are not hidden premises.
+
+Apply the boundary theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary} together with premise exposure from \autoref{thm:metacic-candidate-normalization-confluence-handoff-premise-exposure}. These force candidate evidence to pass through the normalization frontier before a confluence-facing read can consume the endpoint.
+
+Finally use decider-row exhaustion from \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-row-exhaustion}. Since the decidable boundary row is exhausted before endpoint consumption, no consumer can replace the displayed residual frontier by global conversion decidability, quotient syntax equality, unrestricted confluence, unconditional strong normalization, or host evaluator soundness.
+\end{proof}
