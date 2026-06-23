@@ -27,7 +27,7 @@ theorem HeineBorelIntervalCoverRefusalBoundary [AskSetup] [PackageSetup]
                 Cont inductionRead E sealRead →
                   Cont sealRead N publicRead →
                     Cont publicRead C consumerRead →
-                      Cont consumerRead Q refusalRead →
+                      Cont consumerRead N refusalRead →
                         PkgSig bundle stableRead pkg →
                           PkgSig bundle sealRead pkg →
                             PkgSig bundle publicRead pkg →
@@ -42,15 +42,16 @@ theorem HeineBorelIntervalCoverRefusalBoundary [AskSetup] [PackageSetup]
                                             hsame row publicRead ∨ hsame row consumerRead ∨
                                               hsame row refusalRead)
                                       (fun row : BHist =>
-                                        UnaryHistory row ∧ Cont coverageRead T stableRead ∧
-                                          Cont inductionRead E sealRead ∧
-                                            Cont sealRead N publicRead ∧
-                                              Cont publicRead C consumerRead ∧
-                                                Cont consumerRead Q refusalRead ∧
-                                                  PkgSig bundle refusalRead pkg)
+                                        UnaryHistory row ∧
+                                          Cont coverageRead T stableRead ∧
+                                            Cont inductionRead E sealRead ∧
+                                              Cont sealRead N publicRead ∧
+                                                Cont publicRead C consumerRead ∧
+                                                  Cont consumerRead N refusalRead ∧
+                                                    PkgSig bundle refusalRead pkg)
                                       hsame ∧
                                     UnaryHistory refusalRead := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
   intro coverageRoute tailUnary eUnary nUnary coverageTailStable inductionRoute
     inductionSeal sealPublic publicConsumer consumerRefusal stablePkg sealPkg publicPkg
     consumerPkg refusalPkg
@@ -70,11 +71,8 @@ theorem HeineBorelIntervalCoverRefusalBoundary [AskSetup] [PackageSetup]
       coverageRoute tailUnary eUnary nUnary coverageTailStable inductionRoute
       inductionSeal sealPublic publicConsumer stablePkg sealPkg publicPkg consumerPkg
   have consumerUnary : UnaryHistory consumerRead := publicResult.right
-  obtain ⟨_kUnary, _mUnary, _zUnary, _fUnary, qUnary, _cUnary, _pUnary, _nUnary,
-    _netRoute, _coverageThroughMesh, _finiteCoverageRoute, _replayRoute, _meshSame,
-    _coveragePkg⟩ := coverageRoute
   have refusalUnary : UnaryHistory refusalRead :=
-    unary_cont_closed consumerUnary qUnary consumerRefusal
+    unary_cont_closed consumerUnary nUnary consumerRefusal
   have cert :
       SemanticNameCert
           (fun row : BHist => hsame row refusalRead ∧ UnaryHistory row)
@@ -85,7 +83,7 @@ theorem HeineBorelIntervalCoverRefusalBoundary [AskSetup] [PackageSetup]
           (fun row : BHist =>
             UnaryHistory row ∧ Cont coverageRead T stableRead ∧
               Cont inductionRead E sealRead ∧ Cont sealRead N publicRead ∧
-                Cont publicRead C consumerRead ∧ Cont consumerRead Q refusalRead ∧
+                Cont publicRead C consumerRead ∧ Cont consumerRead N refusalRead ∧
                   PkgSig bundle refusalRead pkg)
           hsame := {
     core := {

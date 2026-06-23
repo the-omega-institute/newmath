@@ -9570,6 +9570,7 @@ import BEDC.Derived.RealModulusCriterionUp.TasteGate
 import BEDC.Derived.RealModulusExtractionUp.TasteGate
 import BEDC.Derived.RealModulusFusionUp
 import BEDC.Derived.RealModulusPurityBoundaryUp.ConstructivePrediction
+import BEDC.Derived.RealModulusPurityBoundaryUp.DyadicWitnessStability
 import BEDC.Derived.RealModulusPurityBoundaryUp.HostChoiceRefusal
 import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
 import BEDC.Derived.RealModulusPurityBoundaryUp.ScopePackage
@@ -11626,6 +11627,7 @@ import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.TruthTotalReflectionUp.CarrierPrimitiveScope
 import BEDC.Derived.TruthTotalReflectionUp.DiagonalObstruction
+import BEDC.Derived.TruthTotalReflectionUp.DiagonalRouteScope
 import BEDC.Derived.TruthTotalReflectionUp.LedgerNonescape
 import BEDC.Derived.TruthTotalReflectionUp.RefusalLedgerExactness
 import BEDC.Derived.TruthTotalReflectionUp.RootRouteTotality
