@@ -92,6 +92,26 @@ Apply the NameCert obligations theorem \autoref{thm:real-classifier-namecert-obl
 Finally combine the RegSeqRat handoff of \autoref{thm:real-classifier-regseqrat-handoff} with the real seal non-escape theorem \autoref{thm:real-classifier-real-seal-nonescape}. The handoff forces every regular-rational read through $S_X,S_Y,R_X,R_Y,W,D,C,E$, and seal non-escape rules out the listed quotient, host-equality, choice, order, and completeness endpoints.
 \end{proof}
 
+\begin{theorem}[RealClassifier tolerance-window determinacy]
+\label{thm:real-classifier-tolerance-window-determinacy}
+Let
+$$
+Q=(X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N)
+$$
+and
+$$
+Q'=(X',Y',S'_X,S'_Y,R'_X,R'_Y,W',D,C',E',H',K',P',N')
+$$
+be accepted $\RealClassifierUp$ carriers. Suppose the two packets share the same $\DyadicRatCoreUp$ tolerance ledger $D$, expose the same $\StreamNameUp$ window through $W$ and $W'$, use the same $\RegSeqRatUp$ handoff surface through $S_X,S_Y,R_X,R_Y$ and $S'_X,S'_Y,R'_X,R'_Y$, reach the same terminal $\RealUp$ seal boundary through $X,Y$ and $X',Y'$, and transport the displayed rows through the same $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ routes carried by $H,K,P,N$ and $H',K',P',N'$. Then $Q$ and $Q'$ expose the same public classifier decision surface: every accepted classifier read of either packet is the finite route through the common tolerance ledger, common window, regular rational readback, real seal boundary, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Apply the RegSeqRat handoff theorem \autoref{thm:real-classifier-regseqrat-handoff} to both carriers. The hypotheses identify the tolerance ledger, finite window, and regular rational readback surfaces, so each classifier read reaches the public boundary through the same displayed $D,W,S_X,S_Y,R_X,R_Y$ route.
+
+Next apply the real seal non-escape theorem \autoref{thm:real-classifier-real-seal-nonescape}. It rules out quotient stream equality, host real equality, selected limits, trichotomy, countable choice, and ambient completeness as alternative endpoints, leaving only the displayed terminal seal boundary named in the hypotheses.
+
+Finally apply ledger exhaustion from \autoref{thm:real-classifier-ledger-exhaustion}. The structural rows $H,K,P,N$ and $H',K',P',N'$ can only transport, replay, source, and locally name the displayed packet, so two accepted packets with the same tolerance, window, handoff, seal, transport, replay, provenance, and local naming routes expose the same classifier decision surface.
+\end{proof}
+
 \closureat{RealClassifierUp}{seedStr}
 
 \begin{closurestatus}{\RealClassifierUp}
