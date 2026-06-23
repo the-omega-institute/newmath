@@ -126,4 +126,76 @@ theorem AxiomDependencyTupleHsameContScope [AskSetup] [PackageSetup]
     ⟨transportUnary, routeUnary, replayUnary, transportSame, modeWitnessRoute,
       routeSupplyLocalName, transportRouteReplay, provenancePkg⟩
 
+theorem AxiomDependencyTupleRestrictedSupplyLedgerTotality [AskSetup] [PackageSetup]
+    {mode witness supply transport route provenance localName supplyRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxiomDependencyTupleCarrier mode witness supply transport route provenance localName
+        bundle pkg →
+      hsame mode (BHist.e0 BHist.Empty) →
+        Cont supply route supplyRead →
+          Cont supplyRead localName namedRead →
+            PkgSig bundle supplyRead pkg →
+              PkgSig bundle namedRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row mode ∨ hsame row witness ∨ hsame row supply ∨
+                        hsame row route ∨ hsame row supplyRead ∨ hsame row namedRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont mode witness route ∧
+                        Cont route supply localName ∧ Cont supply route supplyRead ∧
+                          Cont supplyRead localName namedRead ∧
+                            PkgSig bundle provenance pkg ∧
+                              PkgSig bundle supplyRead pkg ∧ PkgSig bundle namedRead pkg)
+                    hsame ∧
+                  UnaryHistory supplyRead ∧ UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier _restrictedMode supplyRouteRead supplyReadNamed supplyReadPkg namedReadPkg
+  obtain ⟨_modeCases, _modeUnary, _witnessUnary, supplyUnary, _transportUnary, routeUnary,
+    localNameUnary, _transportSame, modeWitnessRoute, routeSupplyLocalName,
+    provenancePkg⟩ := carrier
+  have supplyReadUnary : UnaryHistory supplyRead :=
+    unary_cont_closed supplyUnary routeUnary supplyRouteRead
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed supplyReadUnary localNameUnary supplyReadNamed
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row mode ∨ hsame row witness ∨ hsame row supply ∨ hsame row route ∨
+              hsame row supplyRead ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont mode witness route ∧ Cont route supply localName ∧
+              Cont supply route supplyRead ∧ Cont supplyRead localName namedRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle supplyRead pkg ∧
+                  PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, modeWitnessRoute, routeSupplyLocalName, supplyRouteRead,
+          supplyReadNamed, provenancePkg, supplyReadPkg, namedReadPkg⟩
+  }
+  exact ⟨cert, supplyReadUnary, namedReadUnary⟩
+
 end BEDC.Derived.AxiomDependencyTupleUp
