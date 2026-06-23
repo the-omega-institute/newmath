@@ -159,6 +159,22 @@ Finally $P$ and $L$ provide provenance and local naming. Since the route still p
 \end{proof}
 \leanchecked{BEDC.Derived.IntervalNewtonUp.IntervalNewtonValidatedHandoffObligation}
 
+\begin{theorem}[Interval Newton Real readback scope]
+\label{thm:interval-newton-real-readback-scope}
+Let $I=(B,F,D,N,K,V,R,H,C,P,L)$ be an accepted $\IntervalNewtonUp$ carrier. Any $\RealUp$-facing or $\RegSeqRatUp$-facing validated enclosure read first exposes the interval box $B$, function-enclosure row $F$, derivative or slope row $D$, correction row $N$, and containment ledger $K$. It then exposes the validated row $V$ and only then the readback row $R$.
+
+Transport through $H$, replay through $C$, provenance through $P$, and local naming through $L$ preserve that same route. They cannot add a solver oracle, selected zero, quotient real equality, floating-point semantics, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:interval-newton-carrier}. The only Real-facing or RegSeqRat-facing readback coordinate is $R$, and it is stored with $B,F,D,N,K,V,H,C,P,L$ in the same finite packet.
+
+Apply \autoref{thm:interval-newton-krawczyk-enclosure}. The Krawczyk or interval Newton enclosure is assembled from the displayed box, function, derivative or slope, correction, and containment rows before it can be named as an enclosure.
+
+Use \autoref{thm:interval-newton-interval-arithmetic-soundness-obligation}. This keeps $B,F,D,N$ inside the interval-arithmetic replay named by $P$ before the containment ledger $K$ and validated row $V$ become consumer-visible.
+
+Finally apply \autoref{thm:interval-newton-validated-handoff-obligation}. The handoff places $V$ before $R$, and $H,C,P,L$ only transport, replay, name, and package the same route. Since no excluded datum is a carrier coordinate, the Real or RegSeqRat readback cannot export one.
+\end{proof}
+
 \closureat{IntervalNewtonUp}{obligationStr}
 
 \begin{closurestatus}{\IntervalNewtonUp}

@@ -5704,6 +5704,7 @@ import BEDC.Derived.FiniteBracketingIntervalUp.TasteGate
 import BEDC.Derived.FiniteBranchingCauchyTreeUp.TasteGate
 import BEDC.Derived.FiniteCandidateDiamondUp
 import BEDC.Derived.FiniteCauchyApproximationUp
+import BEDC.Derived.FiniteCauchyCompletenessCriterionUp
 import BEDC.Derived.FiniteCauchyFilterUp.TasteGate
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
 import BEDC.Derived.FiniteCauchyModulusComparisonUp
@@ -9066,6 +9067,7 @@ import BEDC.Derived.PoincareDiskPhaseTransportUp.TasteGate
 import BEDC.Derived.PoincareInequalityUp
 import BEDC.Derived.PoincareInequalityUp.TasteGate
 import BEDC.Derived.PoincareTriangleDefectUp.TasteGate
+import BEDC.Derived.PoincareVisualRadiusLadderUp.TasteGate
 import BEDC.Derived.PointedCompleteMetricSpaceUp
 import BEDC.Derived.PointedCompleteMetricSpaceUp.CauchyBasepointRoute
 import BEDC.Derived.PointedCompleteMetricSpaceUp.TasteGate
@@ -12131,6 +12133,7 @@ import BEDC.Derived.VariationMeasureUp.TasteGate
 import BEDC.Derived.VariationNormUp.TasteGate
 import BEDC.Derived.VariationOfConstantsUp.TasteGate
 import BEDC.Derived.VariationSeminormUp.TasteGate
+import BEDC.Derived.VariationalEquationUp.TasteGate
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.VectorBundleUp
 import BEDC.Derived.VerificationFailureRoadmapUp.TasteGate
