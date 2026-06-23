@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\IntegralTestUp$}
+\label{ch:concrete-instances-integral-test-namecert}
+\origin{human}
+
+Following Hardy's treatment of convergence tests and the Bishop--Bridges constructive reading of monotone real functions, the $\IntegralTestUp$ packet records the textbook integral test as finite NameCert data for Real and Completion consumers. It sits beside the narrower $\CauchyIntegralTestUp$ route of \autoref{ch:concrete-instances-cauchy-integral-test-namecert}, the source-series surface of \autoref{ch:concrete-instances-realseries-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite comparison route from a nonnegative decreasing tail to a convergence handoff; it does not choose an improper integral value, select an infinite sum, quotient partial-sum streams, invoke countable choice, or claim ambient $\RealUp$ completeness.
+
+\begin{definition}[IntegralTest carrier]
+\label{def:integral-test-carrier}
+An $\IntegralTestUp$ carrier is a finite $\BHist$ packet
+$$
+I=(S,F,W,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\RealSeriesUp$ source row, exposing the inspected nonnegative tail only through finite partial-sum windows.
+\item $F$ is the monotone real-function comparison row, recording the decreasing majorant or minorant data used by the integral test.
+\item $W$ is the finite $\StreamNameUp$ window row for the series tail and the matching integral cells.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row for endpoint, mesh, and tail-budget comparisons.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the displayed tail windows and dyadic tolerances.
+\item $E$ is the terminal $\RealUp$ seal reached from $Q$ and from no independent completed-sum coordinate.
+\item $H$ records componentwise $\hsame$ transport for the source series, comparison function, windows, dyadic budgets, readback, and seal.
+\item $C$ records displayed $\Cont$ replay for the same comparison route.
+\item $P$ is the $\Pkg$ provenance over $\IntegralTestUp$, $\CauchyIntegralTestUp$, $\RealSeriesUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\IntegralTestUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a selected improper integral, a host infinite sum, quotient equality of series names, countable choice, trichotomy, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[IntegralTest NameCert obligations]
+\label{thm:integral-test-namecert-obligations}
+For every accepted $\IntegralTestUp$ carrier $I=(S,F,W,D,Q,E,H,C,P,N)$, the local $\NameCert_{\IntegralTestUp}$ surface consists exactly of carrier admission for the displayed packet, $\RealSeriesUp$ source exposure through $S$, monotone comparison exposure through $F$, finite $\StreamNameUp$ tail-window exposure through $W$, $\DyadicRatCoreUp$ tolerance exposure through $D$, $\RegSeqRatUp$ readback through $Q$, terminal $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows of \autoref{def:integral-test-carrier} are precisely the series source, monotone comparison function, finite windows, dyadic tolerances, regular readback, terminal seal, transport, replay, provenance, and local naming rows.
+
+The comparison part is finite: $S$ exposes only inspected series tails, $F$ exposes only the monotone comparison data, $W$ names the windows, and $D$ names the dyadic budgets. The readback row $Q$ is therefore downstream of displayed tail and integral-cell data.
+
+The terminal row $E$ can then be read only after $Q$ has been exposed. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, so the local certificate contains exactly the listed obligations and no host summation or ambient completeness row.
+\end{proof}
+
+\begin{theorem}[IntegralTest Cauchy series handoff]
+\label{thm:integral-test-cauchy-series-handoff}
+Every accepted $\IntegralTestUp$ carrier hands convergence evidence to Real and Completion consumers only through the displayed route
+$$
+\RealSeriesUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The $\CauchyIntegralTestUp$ sibling supplies the narrower Cauchy-tail comparison corridor, while $\IntegralTestUp$ keeps the general textbook comparison surface visible as its own finite carrier. The handoff exports no selected infinite sum, selected improper integral, quotient stream equality, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier rows. The source series row $S$ and comparison row $F$ are not endpoint seals; they only expose finite tail and monotone comparison data.
+
+Use \autoref{thm:integral-test-namecert-obligations}. It places $W,D,Q,E$ after the source and comparison rows, so every endpoint-facing read must pass through finite windows, dyadic budgets, and regular rational readback before the Real seal is visible.
+
+The $\CauchyIntegralTestUp$ route is a compatible sibling because it supplies the Cauchy-tail corridor for the same kind of integral comparison. This chapter keeps the broader $\IntegralTestUp$ carrier distinct: the provenance row cites the sibling but the route is still exhausted by $S,F,W,D,Q,E,H,C,P,N$.
+
+Since no carrier coordinate stores a selected sum, improper integral value, quotient stream equality, choice schedule, or ambient completeness principle, none can be exported by the handoff.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\IntegralTestUp$ packet that reaches a $\RealUp$ seal without first exposing the $\RealSeriesUp$ source row, monotone comparison row, finite $\StreamNameUp$ window row, $\DyadicRatCoreUp$ tolerance row, and $\RegSeqRatUp$ readback refutes the carrier surface.}
+
+\independenceWitness{cauchy-integral-test, realseries, regseqrat, dyadicratcore, real: no listed sibling supplies the whole packet $I=(S,F,W,D,Q,E,H,C,P,N)$, because each sibling contributes only a Cauchy-tail corridor, source-series row, regular readback, dyadic tolerance ledger, or terminal seal while this chapter binds them into one integral-test NameCert surface.}
+
+\closureat{IntegralTestUp}{seedStr}
+
+\begin{closurestatus}{\IntegralTestUp}
+  \constructivestory{An $\IntegralTestUp$ packet is generated from a RealSeriesUp source row, a monotone comparison-function row, finite StreamNameUp windows, a DyadicRatCore tolerance ledger, RegSeqRatUp readback, a RealUp terminal seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:integral-test-carrier}, \autoref{thm:integral-test-namecert-obligations}, and \autoref{thm:integral-test-cauchy-series-handoff} seed the finite integral-test carrier, local NameCert obligations, and Cauchy-series handoff route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected improper integrals, selected infinite sums, quotient series equality, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone comparison exposure, finite-window exposure, dyadic tolerance confinement, regular readback, terminal seal scope, transport, replay, provenance, and local naming for BEDC.Derived.IntegralTestUp.}
+\end{closurestatus}
