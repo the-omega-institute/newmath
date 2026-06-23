@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\MaxFlowMinCutUp$}
+\label{ch:concrete-instances-max-flow-min-cut-namecert}
+\origin{human}
+
+Following Ford--Fulkerson and the finite network-flow tradition, the $\MaxFlowMinCutUp$ packet records the displayed certificate surface for maximum-flow/minimum-cut duality as finite BEDC data. It sits after the residual-capacity and cut rows of \autoref{ch:concrete-instances-networkflow-namecert}, the alternating-incidence discipline of \autoref{ch:concrete-instances-matching-namecert}, the directed graph carrier of \autoref{ch:concrete-instances-graph-namecert}, the finite list accounting surface of \autoref{ch:concrete-instances-list-namecert}, and the natural-number ledger of \autoref{ch:concrete-instances-nat-namecert}. The packet names a feasible flow, residual reachability ledger, displayed cut, augmenting-path refusal, value/capacity comparison, transport, replay, provenance, and local certificate; it is not a host optimization theorem, not quotient equality of flows, and not an unbounded search principle.
+
+\begin{definition}[Max-flow min-cut carrier]
+\label{def:max-flow-min-cut-carrier}
+A $\MaxFlowMinCutUp$ carrier is a finite $\BHist$ packet
+$$
+X=(G,s,t,U,F,R,A,K,V,M,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\GraphUp$ and $\NetworkFlowUp$ source row, carrying the finite directed graph, source and sink endpoints, and edge inventory.
+\item $s$ and $t$ are the distinguished endpoint rows for the inspected flow problem.
+\item $U$ is the capacity ledger, recording the displayed capacity bound for every inspected edge.
+\item $F$ is the feasible-flow row, exposing edge-flow values, conservation checks, and the flow-value history through $\NetworkFlowUp$.
+\item $R$ is the residual reachability row, recording exactly which vertices are reached from $s$ by residual arcs in the displayed finite residual graph.
+\item $A$ is the augmenting-path audit row, whose positive entries are finite path witnesses and whose terminal entry is the displayed refusal of any remaining $s$--$t$ residual path.
+\item $K$ is the cut row obtained from the residual reachability boundary, with crossing-edge saturation and reverse-edge zero-flow checks displayed edge by edge.
+\item $V$ is the $\NatUp$ value/capacity comparison ledger, recording that the flow value and the displayed cut capacity have the same finite unary total.
+\item $M$ is the $\MatchingUp$ sibling row, exposing the same alternating-path and saturated-boundary discipline to bipartite matching and cover consumers.
+\item $L$ records the $\ListUp$ accounting discipline for path lists, reachable-vertex lists, cut-edge lists, and fold-order witnesses.
+\item $H$ records componentwise $\hsame$ transport for source, endpoints, capacity, flow, residual reachability, augmenting audit, cut, value ledger, matching sibling, list accounting, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a max-flow/min-cut query through $G,s,t,U,F,R,A,K,V,M,L,H$.
+\item $P$ is the $\Pkg$ provenance over $\MaxFlowMinCutUp$, $\NetworkFlowUp$, $\MatchingUp$, $\GraphUp$, $\ListUp$, $\NatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MaxFlowMinCutUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host max-flow theorem, selected optimizer outside the packet, infinite graph, quotient flow equality, or choice over augmenting paths.
+\end{definition}
+
+\begin{theorem}[Max-flow min-cut NameCert obligations]
+\label{thm:max-flow-min-cut-namecert-obligations}
+For every accepted $\MaxFlowMinCutUp$ carrier
+$$
+X=(G,s,t,U,F,R,A,K,V,M,L,H,C,P,N),
+$$
+the local $\NameCert_{\MaxFlowMinCutUp}$ surface consists exactly of network-flow source admission through $G$, endpoint exposure through $s,t$, capacity exposure through $U$, feasible-flow exposure through $F$, residual reachability through $R$, augmenting-path audit through $A$, cut exposure through $K$, value/capacity comparison through $V$, matching sibling exposure through $M$, list accounting through $L$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:max-flow-min-cut-carrier}. The source, endpoint, capacity, feasible-flow, residual, augmenting, cut, value, matching, and list rows are exactly $G,s,t,U,F,R,A,K,V,M,L$.
+
+The feasible-flow row $F$ is read only after the source and capacity rows. The residual reachability row $R$ and augmenting audit row $A$ then inspect the finite residual graph determined by the same $G,s,t,U,F$ data, so the audit cannot detach from the displayed network.
+
+The cut row $K$ is obtained from the terminal residual boundary. The value ledger $V$ compares the flow value to the capacity of that same cut, while the matching sibling row $M$ exposes the alternating-route discipline without replacing the packet by a matching oracle.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite rows. Since no carrier coordinate stores a host max-flow theorem, selected optimizer, quotient flow equality, infinite graph, or choice over paths, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Max-flow min-cut augmenting cut handoff]
+\label{thm:max-flow-min-cut-augmenting-cut-handoff}
+Every duality-facing consumer of an accepted $\MaxFlowMinCutUp$ packet must read the finite route
+$$
+\NetworkFlowUp,\ \MatchingUp,\ \GraphUp,\ \ListUp,\ \NatUp
+\longmapsto
+G,s,t,U,F,R,A,K,V,M,L,H,C,P,N .
+$$
+The handoff states only that the displayed feasible flow has no displayed residual augmenting path and that the residual boundary cut has the same displayed finite value. It exports no global optimizer, no hidden residual network, no quotient equality of flows, and no theorem for infinite networks.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:max-flow-min-cut-namecert-obligations}. A duality-facing consumer must expose $G,s,t,U,F$ before it can inspect either an augmenting path or a cut boundary.
+
+Next read $R$ and $A$. If $A$ contains a positive augmenting witness, it is a finite path list in the displayed residual graph. If the terminal audit row refuses such a path, that refusal is recorded against the same residual reachability boundary $R$.
+
+Now read $K,V,M,L$. The cut row $K$ is the boundary determined by $R$, the value ledger $V$ compares the displayed flow value with the displayed cut capacity, the matching row $M$ keeps the alternating-route sibling visible, and the list row $L$ supplies the finite inventories used by all folds.
+
+Transport, replay, provenance, and local naming through $H,C,P,N$ preserve that route. Thus the consumer receives a finite augmenting-path/cut certificate and no stronger host max-flow/min-cut endpoint.
+\end{proof}
+
+\falsifiablePrediction{A purported $\MaxFlowMinCutUp$ consumer is refuted if it reaches a maximum-flow/minimum-cut conclusion while omitting any of the displayed network source, endpoints, capacity, feasible-flow, residual reachability, augmenting audit, cut, value/capacity, matching sibling, list accounting, transport, replay, provenance, or local NameCert rows.}
+
+\independenceWitness{networkflow, matching, graph, list, nat: no listed sibling is bijective to $\MaxFlowMinCutUp$ because this packet jointly carries feasible-flow rows, residual reachability, augmenting-path audit, cut boundary, value/capacity comparison, matching sibling exposure, finite list accounting, transport, replay, provenance, and local naming rows.}
+
+\closureat{MaxFlowMinCutUp}{seedStr}
+
+\begin{closurestatus}{\MaxFlowMinCutUp}
+  \constructivestory{A $\MaxFlowMinCutUp$ packet is generated from NetworkFlowUp source rows, endpoint rows, capacity rows, feasible-flow rows, residual reachability rows, augmenting-path audit rows, cut rows, NatUp value/capacity ledgers, MatchingUp sibling rows, ListUp accounting rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:max-flow-min-cut-carrier}, \autoref{thm:max-flow-min-cut-namecert-obligations}, and \autoref{thm:max-flow-min-cut-augmenting-cut-handoff} seed the finite augmenting-path and cut-certificate route over network-flow, matching, graph, list, natural-number, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host max-flow theorem, selected optimizers for arbitrary networks, infinite-network duality, quotient equality of flows, hidden residual networks, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exposure, capacity exposure, feasible-flow exposure, residual reachability exactness, augmenting-path refusal, cut-boundary saturation, value/capacity comparison, Matching and List sibling handoffs, transport, replay, provenance, and local naming for BEDC.Derived.MaxFlowMinCutUp.}
+\end{closurestatus}

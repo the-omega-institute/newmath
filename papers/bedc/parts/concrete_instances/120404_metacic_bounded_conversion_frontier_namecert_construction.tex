@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICBoundedConversionFrontierUp$}
+\label{ch:concrete-instances-metacic-bounded-conversion-frontier-namecert}
+\origin{ai}
+
+The $\MetaCICBoundedConversionFrontierUp$ packet realizes the decidability audit map of \autoref{ch:metacic-decidable-audit-map} as a bounded finite conversion-checker boundary. It is distinct from the conversion-facing frontier of \autoref{ch:concrete-instances-metacic-decidable-conversion-frontier-namecert}: this packet names the checker fuel, normalization endpoint, comparison row, refusal ledger, transport, replay, provenance, and local certificate before any broader decidability frontier can be cited. It sits beside the bounded equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, the fuel trace of \autoref{ch:concrete-instances-metacic-fuel-trace-namecert}, the bounded conversion bridge of \autoref{ch:concrete-instances-bounded-normal-conversion-bridge-namecert}, and the normal-form consistency seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}.
+
+\falsifiablePrediction{Every accepted $\MetaCICBoundedConversionFrontierUp$ read exposes checker fuel, bounded normalizer endpoints, structural comparison, finished-normal evidence, bridge handoff, consistency seal, refusal, transport, replay, provenance, and local $\NameCert$ rows before any conversion-frontier conclusion is consumed.}
+
+\independenceWitness{bounded-normal-equality-checker, metacic-fuel-trace, bounded-normal-conversion-bridge, normal-form-consistency-seal, metacic-decidable-conversion-frontier: the equality checker records comparison output without the full refusal ledger; the fuel trace records normalization budget without the bridge and seal pair; the bridge compares finished normal forms without naming the checker packet; the seal records closed normal-form safety without the local fuel ledger; and the decidable conversion frontier is a broader consumer of bounded rows. None is bijective to $\MetaCICBoundedConversionFrontierUp$.}
+
+\begin{definition}[MetaCIC bounded conversion frontier carrier]
+\label{def:metacic-bounded-conversion-frontier-carrier}
+A $\MetaCICBoundedConversionFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+B=(Q,F,N,E,S,R,D,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the bounded checker row, recording the two closed terms, the finite fuel value, and the Boolean comparison produced by the checker.
+\item $F$ is the $\MetaCICFuelTraceUp$ row, exposing the exact bounded normalizer schedule used by $Q$.
+\item $N$ is the bounded normalizer endpoint row, recording the two computed normal forms and the finished-normal evidence available at that fuel.
+\item $E$ is the structural equality row, reading the endpoint comparison through $\Term.eq$ rather than through quotient syntax equality.
+\item $S$ is the $\BoundedNormalEqualityCheckerUp$ row, packaging the local bounded normal-equality check as a finite NameCert surface.
+\item $R$ is the $\BoundedNormalConversionBridgeUp$ row, transporting a positive bounded comparison to the finished-normal conversion boundary when the displayed endpoint evidence is present.
+\item $D$ is the refusal row, naming the excluded endpoints: global closed conversion decidability, arbitrary-fuel completeness, evaluator equality, subject reduction, confluence, quotient syntax equality, and kernel consistency.
+\item $H$ records componentwise $\hsame$ transport for checker, fuel, endpoint, comparison, checker-surface, bridge, refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a bounded conversion query through $Q,F,N,E,S,R,D,H$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICBoundedConversionFrontierUp$, $\BoundedNormalEqualityCheckerUp$, $\MetaCICFuelTraceUp$, $\BoundedNormalConversionBridgeUp$, $\NormalFormConsistencySealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\MetaCICBoundedConversionFrontierUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $Q,F,N,E,S,R,D,H,C,P,L$. It has no coordinate for global conversion decidability, arbitrary-fuel completeness, evaluator equality, subject reduction, confluence, quotient syntax equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC bounded conversion frontier obligations]
+\label{thm:metacic-bounded-conversion-frontier-obligations}
+For every accepted $\MetaCICBoundedConversionFrontierUp$ carrier
+$$
+B=(Q,F,N,E,S,R,D,H,C,P,L),
+$$
+the local $\NameCert_{\MetaCICBoundedConversionFrontierUp}$ surface consists exactly of checker exposure through $Q$, fuel-trace exposure through $F$, endpoint exposure through $N$, structural comparison through $E$, bounded equality-checker exposure through $S$, bounded bridge exposure through $R$, refusal retention through $D$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-bounded-conversion-frontier-carrier}. Rows $Q,F,N,E,S,R,D$ are the bounded checker, fuel, endpoint, comparison, checker-surface, bridge, and refusal data.
+
+The checker row $Q$ is read only with its fuel trace $F$ and endpoint row $N$. The comparison row $E$ therefore compares displayed bounded normal forms, not quotient syntax objects or evaluator outputs.
+
+The bounded equality-checker row $S$ and bridge row $R$ keep positive comparison data inside the finished-normal boundary. The refusal row $D$ remains part of the same packet and prevents the bounded result from becoming global conversion decidability.
+
+Finally $H,C,P,L$ transport, replay, source, and name the same finite rows. Since no carrier coordinate stores arbitrary-fuel completeness, subject reduction, confluence, evaluator equality, quotient syntax equality, or kernel consistency, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC bounded conversion frontier nonescape]
+\label{thm:metacic-bounded-conversion-frontier-nonescape}
+Every positive read exported by an accepted $\MetaCICBoundedConversionFrontierUp$ carrier factors through
+$$
+\MetaCICFuelTraceUp,\ \BoundedNormalEqualityCheckerUp,\ \BoundedNormalConversionBridgeUp,\ \NormalFormConsistencySealUp
+\longmapsto
+Q,F,N,E,S,R,D,H,C,P,L .
+$$
+The read is a finite bounded conversion-checker certificate. It does not export global closed conversion decidability, arbitrary-fuel completeness, evaluator equality, subject reduction, confluence, quotient syntax equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:metacic-bounded-conversion-frontier-obligations}. A positive read must expose the checker row $Q$, the fuel trace $F$, the endpoint row $N$, and the structural comparison row $E$ before the bounded equality-checker row can be consumed.
+
+Next read the bridge row $R$. It is attached to the same finished-normal endpoint evidence and to the normal-form consistency seal named in the provenance row $P$, so it transports only the displayed bounded comparison.
+
+The refusal row $D$ is then still present. It names the global endpoints that the bounded checker does not supply, including closed conversion decidability, arbitrary-fuel completeness, evaluator equality, subject reduction, confluence, quotient syntax equality, and kernel consistency.
+
+Transport and replay through $H,C,P,L$ preserve this boundary. Hence the packet can feed the broader decidability frontier, but it cannot itself be cited as a global conversion decider.
+\end{proof}
+
+\closureat{MetaCICBoundedConversionFrontierUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICBoundedConversionFrontierUp}
+  \constructivestory{A $\MetaCICBoundedConversionFrontierUp$ packet is generated from bounded checker rows, MetaCICFuelTraceUp rows, bounded normalizer endpoint rows, Term.eq comparison rows, BoundedNormalEqualityCheckerUp rows, BoundedNormalConversionBridgeUp rows, refusal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-bounded-conversion-frontier-carrier}, \autoref{thm:metacic-bounded-conversion-frontier-obligations}, and \autoref{thm:metacic-bounded-conversion-frontier-nonescape} seed the finite bounded conversion-checker frontier over checker, fuel, endpoint, comparison, bridge, refusal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global closed conversion decidability, arbitrary-fuel completeness, evaluator equality, subject reduction, confluence, quotient syntax equality, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, checker exposure, fuel-trace exactness, endpoint exposure, Term.eq comparison, bounded equality-checker compatibility, bridge compatibility, refusal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICBoundedConversionFrontierUp.}
+\end{closurestatus}
