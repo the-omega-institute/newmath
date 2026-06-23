@@ -200,13 +200,31 @@ Finally apply the regular-language sibling bridge of \autoref{thm:finiteprefixau
 \end{proof}
 \leanchecked{BEDC.Derived.FinitePrefixAutomatonUp.FinitePrefixAutomaton\_regular\_language\_handoff}
 
+\begin{theorem}[FinitePrefixAutomaton public obligation certificate]
+\label{thm:finiteprefixautomaton-obligation-public-certificate}
+The carrier, classifier, obligation surface, transition exactness, endpoint exactness, acceptance exactness, deterministic readback, and regular-language handoff together expose the full finite prefix automaton public obligation certificate over
+$$
+Q,q_0,A,T,W,R,E,H,C,P,N .
+$$
+The certificate exports no host evaluator, quotient language equality, unlisted transition, derivation tree, or infinite trace.
+\end{theorem}
+\begin{proof}
+Read the carrier and classifier of \autoref{def:finiteprefixautomaton-carrier} and \autoref{def:finiteprefixautomaton-classifier}. They make $Q,q_0,A,T,W,R,E,H,C,P,N$ the displayed packet surface and leave no outside automaton coordinate.
+
+Apply the NameCert obligation surface of \autoref{thm:finiteprefixautomaton-namecert-obligation-surface}. It binds carrier admission, prefix-source exposure, transition rows, endpoint and acceptance rows, transport, replay, provenance, and local naming to that same packet.
+
+Use transition, endpoint, and acceptance exactness from \autoref{thm:finiteprefixautomaton-transition-exactness-obligation}, \autoref{thm:finiteprefixautomaton-endpoint-exactness-obligation}, and \autoref{thm:finiteprefixautomaton-acceptance-exactness-obligation}. These theorems force every accepted read through the displayed transition table, run ledger, endpoint row, and accepting-state row.
+
+Finally apply deterministic readback and the regular-language handoff, \autoref{thm:finite-prefix-automaton-deterministic-readback} and \autoref{thm:finite-prefix-automaton-regular-language-handoff}. They keep all public consumers on the finite prefix route and exclude host evaluators, quotient language equality, unlisted transitions, derivation trees, and infinite traces.
+\end{proof}
+
 \begin{closurestatus}{\FinitePrefixAutomatonUp}
   \constructivestory{A $\FinitePrefixAutomatonUp$ packet is generated from a finite automaton row, initial state, accepted prefix word, transition ledger, endpoint row, acceptance ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. The $\BHist$ carrier exposes a bounded run: each transition is read as a finite continuation step, the endpoint is determined by the displayed prefix, and the classifier admits acceptance only through the recorded endpoint and ledger rows. The construction therefore gives a finite-prefix automaton route that can be compared with adjacent language packets without quotienting languages.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{This chapter binds the finite-prefix automaton carrier, obligation surface, determinacy, non-escape, and sibling bridge theorem.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{It does not claim language equality, derivation-tree equivalence, host evaluator correctness, infinite traces, or quotient automaton semantics.}
-  \upgradepath{To reach obligationClosure, check the finite transition ledger, endpoint determinacy, and acceptance classifier as a BEDC carrier.}
+  \upgradepath{Scoped closure requires binding the displayed obligation certificate to the exact BEDC primitives and sibling dependencies already displayed in the chapter.}
 \end{closurestatus}
