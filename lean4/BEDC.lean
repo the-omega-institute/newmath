@@ -6359,6 +6359,7 @@ import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
 import BEDC.Derived.HemicompactSpaceUp.TasteGate
 import BEDC.Derived.HenselLemmaUp.NewtonWitnessNonescape
 import BEDC.Derived.HenselLemmaUp.TasteGate
+import BEDC.Derived.HenstockGaugePartitionUp
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
