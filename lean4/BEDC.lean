@@ -1008,6 +1008,7 @@ import BEDC.Derived.BishopLocatedCompletionEmbeddingUp
 import BEDC.Derived.BishopLocatedCompletionEmbeddingUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
+import BEDC.Derived.BishopLocatedConvexHullUp
 import BEDC.Derived.BishopLocatedDiagonalUp.TasteGate
 import BEDC.Derived.BishopLocatedFilterBaseUp.TasteGate
 import BEDC.Derived.BishopLocatedIntervalRefinementMapUp.TasteGate
@@ -7501,6 +7502,8 @@ import BEDC.Derived.MetaCICAuditMapFamilyUp
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CertificateSurface
+import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ClosedNormalBoundary
+import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ConsistencyBlockerLedger
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CriticalPathNonescape
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.TasteGate
 import BEDC.Derived.MetaCICBetaAuditUp
