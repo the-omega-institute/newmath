@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\CompactOpenEquicontinuityUp$}
+\label{ch:concrete-instances-compact-open-equicontinuity-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges on compact-open topology and equicontinuous families, the $\CompactOpenEquicontinuityUp$ packet records the finite compact-family certificate by which compact source windows, continuous-map graph rows, equicontinuity-family witnesses, and uniform-modulus handoffs are read together before an Arzela--Ascoli consumer may inspect a compact-open family. It sits over the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the graph-and-modulus rows of \autoref{ch:concrete-instances-continuousmap-namecert}, the family-wide equicontinuity surface of \autoref{ch:concrete-instances-equicontinuityfamily-namecert}, the finite tolerance handoff of \autoref{ch:concrete-instances-uniformmodulus-namecert}, and the compact-family consumer of \autoref{ch:concrete-instances-arzelaascoli-namecert}. The packet names a compact-open equicontinuity boundary as displayed NameCert data; it is not a host compact-open topology, a selected subnet, quotient equality of functions, countable choice, or ambient completeness of a function space.
+
+\begin{definition}[Compact-open equicontinuity carrier]
+\label{def:compact-open-equicontinuity-carrier}
+A $\CompactOpenEquicontinuityUp$ carrier is a finite $\BHist$ packet
+$$
+E=(K,F,A,U,O,S,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row, listing the finite compact windows and coverage entries through which the compact-open inspection is performed.
+\item $F$ is the $\ContinuousMapUp$ family graph row, recording the finite graph evaluations visible on those compact windows.
+\item $A$ is the $\EquicontinuityFamilyUp$ row, carrying the family-wide local equicontinuity witnesses attached to the same compact windows.
+\item $U$ is the $\UniformModulusUp$ handoff row obtained from the compact-window and family-equicontinuity data.
+\item $O$ is the compact-open observation ledger: a finite list of compact-window requests, tolerance requests, and graph-value windows that the consumer may inspect.
+\item $S$ is the $\StreamNameUp$ finite-window row for graph values and tolerance reads.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those stream windows.
+\item $Q$ is the terminal $\RealUp$ seal row for value-facing and tolerance-facing reads.
+\item $H$ records componentwise $\hsame$ transport for compact-window, continuous-map, equicontinuity-family, uniform-modulus, observation, stream, readback, Real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+K,F,A,O \longmapsto U,S,R,Q,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CompactOpenEquicontinuityUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\EquicontinuityFamilyUp$, $\UniformModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompactOpenEquicontinuityUp}$ row.
+\end{enumerate}
+The carrier exports only these displayed rows. It has no coordinate for a host compact-open topology, function-space compactness theorem, selected convergent subnet, quotient equality of functions, countable choice, external modulus oracle, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Compact-open equicontinuity NameCert obligations]
+\label{thm:compact-open-equicontinuity-namecert-obligations}
+For every accepted $\CompactOpenEquicontinuityUp$ carrier
+$$
+E=(K,F,A,U,O,S,R,Q,H,C,P,N),
+$$
+the local $\NameCert_{\CompactOpenEquicontinuityUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item compact-window admission, requiring every compact-open request to expose the compact metric row $K$ and the finite observation ledger $O$ before any family read is consumed;
+\item continuous-family exposure, requiring graph values to be read through the $\ContinuousMapUp$ row $F$, the stream window $S$, the regular readback row $R$, and the terminal Real seal $Q$;
+\item equicontinuity synchronization, requiring the $\EquicontinuityFamilyUp$ row $A$ and the $\UniformModulusUp$ row $U$ to share the compact-window and tolerance requests listed by $O$;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and locally name only the displayed rows of the carrier;
+\item exclusion of host compact-open topology, selected subnets, quotient function equality, countable choice, external modulus choice, function-space compactness, and ambient completeness.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-open-equicontinuity-carrier}. The compact-window data are exactly $K$ and $O$, so any compact-open request begins with the displayed finite compact source and its inspection ledger.
+
+The family values are then read through $F,S,R,Q$. This places every visible graph value behind the ContinuousMap row, StreamName window, RegSeqRat readback, and terminal Real seal, not behind a host function graph or quotient equality of maps.
+
+The equicontinuity synchronization clause reads $A$ and $U$ over the same ledger $O$. Thus the family-wide equicontinuity witness and the downstream uniform-modulus handoff are tied to the compact windows already exposed by $K$.
+
+Finally, $H,C,P,N$ only transport, replay, source, and locally name the displayed rows. Since no row stores host compact-open topology, selected subnets, quotient function equality, countable choice, external modulus choice, function-space compactness, or ambient completeness, none of those objects can discharge a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Compact-open equicontinuity Ascoli handoff]
+\label{thm:compact-open-equicontinuity-ascoli-handoff}
+Every $\ArzelaAscoliUp$ or compact-family consumer of an accepted $\CompactOpenEquicontinuityUp$ carrier must read the compact metric row $K$, continuous-map family row $F$, equicontinuity-family row $A$, uniform-modulus handoff $U$, compact-open observation ledger $O$, stream window $S$, regular readback row $R$, terminal Real seal $Q$, and structural rows $H,C,P,N$ in the displayed dependency order. The handoff may cite the packet as the compact-open equicontinuity boundary for the family, but it may not replace that boundary by host compact-open topology, a selected convergent subnet, quotient equality of functions, countable choice, a function-space compactness theorem, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the obligation theorem \autoref{thm:compact-open-equicontinuity-namecert-obligations}. It forces every compact-family read to expose $K$ and $O$ before the family graph or equicontinuity rows are consumed.
+
+Next read the ContinuousMap and equicontinuity rows. The graph values pass through $F,S,R,Q$, while the family-wide equicontinuity data pass through $A$ and the shared uniform-modulus handoff $U$.
+
+The Ascoli-facing boundary is then the structural replay of the same finite route. Rows $H,C,P,N$ preserve the order from compact windows to graph values, equicontinuity witnesses, and uniform-modulus output, so the consumer receives a displayed compact-open equicontinuity packet and no extra function-space compactness or choice-selected convergence object.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CompactOpenEquicontinuityUp$ read exposes compact metric, continuous-map, equicontinuity-family, uniform-modulus, compact-open observation, StreamName, RegSeqRat, RealUp, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{compactmetric, continuousmap, equicontinuityfamily, uniformmodulus, arzelaascoli: $\CompactOpenEquicontinuityUp$ is not identical to any listed sibling because it binds compact-open observation ledgers to family-wide equicontinuity and a uniform-modulus handoff before an Arzela--Ascoli consumer reads the family boundary.}
+
+\closureat{CompactOpenEquicontinuityUp}{seedStr}
+
+\begin{closurestatus}{\CompactOpenEquicontinuityUp}
+  \constructivestory{A $\CompactOpenEquicontinuityUp$ packet is generated from CompactMetric finite-window rows, ContinuousMap graph rows, EquicontinuityFamily witnesses, a UniformModulus handoff, a compact-open observation ledger, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-open-equicontinuity-carrier}, \autoref{thm:compact-open-equicontinuity-namecert-obligations}, and \autoref{thm:compact-open-equicontinuity-ascoli-handoff} seed the compact-open equicontinuity route from compact windows and continuous family graphs to a UniformModulus and ArzelaAscoli-facing handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host compact-open topology, selected convergent subnets, quotient equality of functions, countable choice, external modulus choice, function-space compactness, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, continuous-family exposure, equicontinuity synchronization, compact-open observation exactness, UniformModulus handoff, RealUp seal ordering, replay, provenance, and local naming for BEDC.Derived.CompactOpenEquicontinuityUp.}
+\end{closurestatus}
