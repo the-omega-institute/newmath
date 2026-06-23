@@ -79,6 +79,18 @@ Therefore sibling routing is exhaustive for public reads of the assembly carrier
 \end{proof}
 \leanchecked{BEDC.Derived.ClosedConsistencyAssemblyUp.ClosedConsistencyAssemblySiblingRouting}
 
+\begin{theorem}[Closed-consistency assembly obligation handoff]
+\label{thm:closed-consistency-assembly-obligation-handoff}
+The carrier of \autoref{def:closed-consistency-assembly-carrier}, the classifier of \autoref{def:closed-consistency-assembly-classifier}, the NameCert obligations of \autoref{thm:closed-consistency-assembly-namecert-obligations}, the boundary nonescape theorem of \autoref{thm:closed-consistency-assembly-boundary-nonescape}, and the sibling routing theorem of \autoref{thm:closed-consistency-assembly-sibling-routing} are exactly the obligation-closure surface for $\ClosedConsistencyAssemblyUp$. Any downstream handoff must therefore read the closedness, empty-context typing, endpoint, exclusion, boundary, obstruction, ledger, replay, provenance, and local naming rows through those displayed obligations, without importing full closed consistency or closed subject reduction as an ambient theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier and classifier. They expose the finite row list $L,T,E,F,S,O,D,R,P,N$ and compare only those rows by componentwise transport, replay, and provenance.
+
+Apply the NameCert obligation, boundary nonescape, and sibling routing theorems. The NameCert theorem identifies the local fields, the nonescape theorem blocks a detached consistency conclusion, and sibling routing confines every public read to the closed-normal, normal-false-exclusion, reduction-boundary, normal-form-seal, and closed-normal-packet sources.
+
+Thus the public handoff surface is exhausted by the existing carrier, classifier, NameCert, boundary, and routing rows. No further paper obligation is exposed before a checked TasteGate marker and formal bridge evidence are available.
+\end{proof}
+
 \closureat{ClosedConsistencyAssemblyUp}{seedStr}
 
 \begin{closurestatus}{\ClosedConsistencyAssemblyUp}
