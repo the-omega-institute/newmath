@@ -44,6 +44,31 @@ theorem AxiomDependencyTupleCarrier_mode_exhaustion [AskSetup] [PackageSetup]
     ⟨modeCases, witnessUnary, supplyUnary, routeUnary, localNameUnary, modeWitnessRoute,
       routeSupplyLocalName, provenancePkg⟩
 
+theorem AxiomDependencyTupleCounterexampleSocketNonexport [AskSetup] [PackageSetup]
+    {mode witness supply transport route provenance localName audit escape : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxiomDependencyTupleCarrier mode witness supply transport route provenance localName
+        bundle pkg →
+      Cont witness supply audit →
+        Cont audit route escape →
+          PkgSig bundle escape pkg →
+            UnaryHistory witness ∧ UnaryHistory supply ∧ UnaryHistory audit ∧
+              UnaryHistory escape ∧ Cont witness supply audit ∧ Cont audit route escape ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle escape pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier witnessSupplyAudit auditRouteEscape escapePkg
+  obtain
+    ⟨_modeCases, witnessUnary, supplyUnary, routeUnary, _localNameUnary, _modeWitnessRoute,
+      _routeSupplyLocalName, provenancePkg⟩ :=
+    AxiomDependencyTupleCarrier_mode_exhaustion carrier
+  have auditUnary : UnaryHistory audit :=
+    unary_cont_closed witnessUnary supplyUnary witnessSupplyAudit
+  have escapeUnary : UnaryHistory escape :=
+    unary_cont_closed auditUnary routeUnary auditRouteEscape
+  exact
+    ⟨witnessUnary, supplyUnary, auditUnary, escapeUnary, witnessSupplyAudit, auditRouteEscape,
+      provenancePkg, escapePkg⟩
+
 theorem AxiomDependencyTupleRestrictedSupplyLedger_exactness [AskSetup] [PackageSetup]
     {mode witness supply transport route provenance localName supplyRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
