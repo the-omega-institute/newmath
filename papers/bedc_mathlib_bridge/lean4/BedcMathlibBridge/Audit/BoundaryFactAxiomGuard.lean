@@ -72,6 +72,32 @@ noncomputable def auditRealConditionallyCompleteLinearOrder :
 noncomputable def auditRealSupSet : SupSet _root_.Real :=
   inferInstance
 
+/--
+Audit-only carrier touchpoint for mathlib `Real`. In the current mathlib
+implementation, even declarations whose type merely exposes `Real` inherit the
+Cauchy-completion footprint.
+-/
+def auditRealCarrier (x : _root_.Real) : _root_.Real :=
+  x
+
+/--
+Located-shaped LUB data keeps the candidate point and both `IsLUB` obligations
+as explicit fields. This is the verification shape used to measure the gap
+between consuming a supplied supremum and synthesizing one through `sSup`.
+-/
+structure LocatedLUBData {α : Type u} [LE α] (s : Set α) where
+  point : α
+  upper : point ∈ upperBounds s
+  least : point ∈ lowerBounds (upperBounds s)
+
+def locatedIsLUBCore {α : Type u} [LE α] {s : Set α} (data : LocatedLUBData s) :
+    IsLUB s data.point :=
+  ⟨data.upper, data.least⟩
+
+def auditRealLocatedIsLUB {s : Set _root_.Real} (data : LocatedLUBData s) :
+    IsLUB s data.point :=
+  locatedIsLUBCore data
+
 noncomputable def auditPadicIntCommRing (p : Nat) [Fact p.Prime] : CommRing ℤ_[p] :=
   inferInstance
 
