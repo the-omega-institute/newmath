@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\ParacompactLocallyFiniteUp$}
+\label{ch:concrete-instances-paracompact-locally-finite-namecert}
+\origin{human}
+
+Following Bourbaki and Dugundji on paracompact covers and locally finite refinements, the $\ParacompactLocallyFiniteUp$ packet records the finite BEDC handoff by which a displayed paracompact cover request is read as a locally finite cover ledger. It sits between the paracompact refinement carrier of \autoref{ch:concrete-instances-paracompact-namecert}, the locally finite cover surface of \autoref{ch:concrete-instances-locally-finite-cover-namecert}, and the indexed-open topology rows of \autoref{ch:concrete-instances-topology-namecert}. The packet names only the displayed cover request, refinement assignment, local finite windows, transport, replay, provenance, and local NameCert rows needed by later partition-of-unity consumers; it does not assert a full partition of unity, a choice-selected refinement theorem, arbitrary subcover extraction, host powerset equality, or open-cover compactness.
+
+\begin{definition}[Paracompact locally finite carrier]
+\label{def:paracompact-locally-finite-carrier}
+A $\ParacompactLocallyFiniteUp$ carrier is a finite $\BHist$ packet
+$$
+P=(T,A,Q,R,L,W,I,H,C,S,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row, exposing the indexed open operations on which the cover request and local windows are read.
+\item $A$ is the displayed open-cover request row, naming the cover cells before any refinement or local-finiteness read is available.
+\item $Q$ is the $\ParacompactUp$ refinement source row, carrying the finite paracompact packet whose locally finite refinement ledger is being handed off.
+\item $R$ is the refinement-assignment row, listing the displayed refinement cells and their assignment back into the cover request $A$.
+\item $L$ is the $\LocallyFiniteCoverUp$ ledger row, recording the local neighbourhood windows and finite incidence lists used to read the refinement as locally finite.
+\item $W$ is the coverage and containment row, recording that the displayed refinement covers the same source region as $A$ and that every refinement cell is contained in its assigned cover cell.
+\item $I$ is the downstream interface row consumed by $\PartitionOfUnityUp$ only as support-window data, with no weight or sum-to-one coordinate.
+\item $H$ records componentwise $\hsame$ transport for the topology, cover request, paracompact source, refinement assignment, locally finite ledger, coverage, downstream interface, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a paracompact cover request through $T,A,Q,R,L,W,I,H,S,N$.
+\item $S$ is the $\Pkg$ provenance over $\ParacompactLocallyFiniteUp$, $\ParacompactUp$, $\LocallyFiniteCoverUp$, $\TopologyUp$, $\PartitionOfUnityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ParacompactLocallyFiniteUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,A,Q,R,L,W,I,H,C,S,N$. It has no coordinate for a selected host-indexed refinement family, arbitrary subcover choice, partition-of-unity weights, countable choice, quotient open equality, or a global paracompactness theorem detached from the displayed packet.
+\end{definition}
+
+\begin{theorem}[Paracompact locally finite NameCert obligations]
+\label{thm:paracompact-locally-finite-namecert-obligations}
+For every accepted $\ParacompactLocallyFiniteUp$ carrier
+$$
+P=(T,A,Q,R,L,W,I,H,C,S,N),
+$$
+the local $\NameCert_{\ParacompactLocallyFiniteUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the topology source, cover request, paracompact source, refinement assignment, locally finite ledger, coverage and containment row, downstream interface, transport, replay, provenance, and local naming;
+\item topology and cover exposure, requiring every refinement read to display $T$ and $A$ before any locally finite ledger is consumed;
+\item paracompact-source exposure, requiring the refinement assignment $R$ to be read through the displayed $\ParacompactUp$ packet $Q$;
+\item local-finiteness exactness, requiring $L$ to expose the neighbourhood windows and finite incidence lists supplied by $\LocallyFiniteCoverUp$ before the refinement can be used as locally finite;
+\item coverage and containment exactness, requiring $W$ to record both coverage of the displayed source region and containment inside assigned cover cells;
+\item downstream-interface discipline, requiring $I$ to expose only support-window data for $\PartitionOfUnityUp$ and no weights or sum-to-one rows;
+\item $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ stability, requiring $H,C,S,N$ to preserve exactly the listed rows.
+\end{enumerate}
+No local obligation for the paracompact-to-locally-finite handoff is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:paracompact-locally-finite-carrier}. The accepted tuple displays exactly the topology source, open-cover request, paracompact packet, refinement assignment, locally finite ledger, coverage and containment row, downstream support interface, transport, replay, provenance, and local naming.
+
+Topology and cover exposure are forced by row order. A refinement read starts with $T$ and $A$, so the handoff cannot begin from an unlogged host-indexed cover family.
+
+Paracompact-source exposure is the projection to $Q$ and $R$. The refinement assignment is usable only as a row transported from the displayed $\ParacompactUp$ packet, with each refinement cell assigned back into the cover request.
+
+Local-finiteness exactness is the projection to $L$. The row records neighbourhood windows and finite incidence lists in the sense of \autoref{ch:concrete-instances-locally-finite-cover-namecert}; the existence of a refinement family alone is not read as local finiteness.
+
+Coverage and containment are read from $W$, while the downstream support boundary is read from $I$. These rows make the handoff available to later partition-of-unity work only as cover and support-window data, not as weights, sums, or selected functions.
+
+Finally $H,C,S,N$ transport, replay, source, and name the same finite route. Since the classifier has no further coordinate, selected refinements, arbitrary subcover choice, partition-of-unity data, countable choice, quotient open equality, and detached global paracompactness cannot be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Paracompact locally finite handoff route]
+\label{thm:paracompact-locally-finite-handoff-route}
+Every accepted $\ParacompactLocallyFiniteUp$ packet exports the finite route
+$$
+\TopologyUp \longrightarrow \ParacompactUp \longrightarrow \LocallyFiniteCoverUp
+$$
+before any partition-of-unity consumer may read support-window data from it. The exported route is a handoff from displayed paracompact refinement rows to displayed locally finite cover windows; it is not a choice-based refinement theorem, an arbitrary open-cover compactness theorem, a full partition of unity, or an ambient point-set topology construction.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:paracompact-locally-finite-carrier}. The rows $T,A,Q$ display the topology, cover request, and paracompact source before the refinement assignment is available.
+
+Use the obligation theorem \autoref{thm:paracompact-locally-finite-namecert-obligations}. It forces the refinement assignment $R$, locally finite ledger $L$, and coverage row $W$ to remain visible before a consumer reads the handoff.
+
+The downstream interface row $I$ is only support-window data. It may be consumed by $\PartitionOfUnityUp$ after the locally finite route is displayed, but the carrier contains no weight, sum-to-one, selected-function, or arbitrary subcover coordinate.
+
+The structural rows $H,C,S,N$ preserve this order, so every exported read factors through the displayed topology, paracompact refinement, and locally finite cover surfaces.
+\end{proof}
+
+\closureat{ParacompactLocallyFiniteUp}{seedStr}
+
+\begin{closurestatus}{\ParacompactLocallyFiniteUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:paracompact-locally-finite-carrier}, \autoref{thm:paracompact-locally-finite-namecert-obligations}, and \autoref{thm:paracompact-locally-finite-handoff-route} seed the finite topology, paracompact refinement, locally finite cover, coverage, support-interface, transport, replay, provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full partition-of-unity construction, choice-based refinement selection, arbitrary subcover extraction, open-cover compactness, quotient open equality, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, topology and cover exposure, paracompact-source exposure, local-finiteness exactness, coverage and containment exactness, downstream-interface discipline, transport stability, replay stability, and non-escape proofs for BEDC.Derived.ParacompactLocallyFiniteUp.}
+  \constructivestory{A $\ParacompactLocallyFiniteUp$ packet is generated from a $\TopologyUp$ source row, an open-cover request row, a $\ParacompactUp$ refinement source row, a refinement assignment, a $\LocallyFiniteCoverUp$ local-window ledger, coverage and containment data, a $\PartitionOfUnityUp$ support interface, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

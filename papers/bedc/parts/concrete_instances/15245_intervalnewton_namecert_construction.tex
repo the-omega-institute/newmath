@@ -65,6 +65,22 @@ If the correction row is presented as a Newton step, its provenance is the finit
 Finally project $K$ and $V$. The containment ledger $K$ records the narrowed box, and the validated row $V$ is the only downstream enclosure exported by the packet. No separate analytic root theorem, host solver state, or floating-point rounding semantics is consulted.
 \end{proof}
 
+\begin{theorem}[Interval Newton correction transport scope]
+\label{thm:interval-newton-correction-transport-scope}
+Let $I=(B,F,D,N,K,V,R,H,C,P,L)$ be an accepted $\IntervalNewtonUp$ carrier. Every transported correction row exported by $I$ factors through the visible interval box $B$, the $\IntervalArithmeticUp$ operation rows named in $P$, the finite $\TaylorModelUp$ row or derivative and slope row $D$, the $\NewtonIterationUp$ correction provenance for $N$, and the $\ValidatedNumericsUp$ row $V$ before the validated enclosure is exported.
+
+Consequently the transported correction cannot read a solver oracle, a host zero, floating-point semantics, quotient real equality, or ambient completeness outside the displayed carrier rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:interval-newton-carrier}. The correction surface is $B,F,D,N,K,V$, while $R,H,C,P,L$ supply readback, transport, replay, provenance, and local naming.
+
+Invoke \autoref{thm:interval-newton-krawczyk-enclosure}. It forces every Krawczyk or interval Newton enclosure to narrow the displayed box $B$ only through $\IntervalArithmeticUp$ operations and through the displayed $\NewtonIterationUp$ or $\TaylorModelUp$ rows used to form $N$ and $D$.
+
+The transported row then passes through $H$ and $C$ without changing its dependency route. The validated export is $V$, so a downstream validated-numerics consumer reads the correction only after the interval, derivative or Taylor-model, Newton-iteration, containment, and validation rows have appeared.
+
+No excluded datum is a carrier coordinate or a provenance row in $P$. Thus the correction transport remains inside the visible interval, Taylor-model or derivative, Newton-iteration, validated-numerics, transport, replay, and local naming rows.
+\end{proof}
+
 \begin{theorem}[Interval Newton validated consumer boundary]
 \label{thm:interval-newton-validated-consumer-boundary}
 Every $\ValidatedNumericsUp$ or root-isolation consumer of an accepted $\IntervalNewtonUp$ packet reads the correction only through the displayed carrier
