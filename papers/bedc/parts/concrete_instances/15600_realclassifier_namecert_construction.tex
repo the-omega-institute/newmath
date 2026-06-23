@@ -76,6 +76,22 @@ Since no coordinate carries quotient stream equality, host real equality, select
 \end{proof}
 \leanchecked{BEDC.Derived.RealClassifierRealSealNonescape}
 
+\begin{theorem}[RealClassifier ledger exhaustion]
+\label{thm:real-classifier-ledger-exhaustion}
+For every accepted $\RealClassifierUp$ carrier
+$$
+Q=(X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N),
+$$
+all public classifier reads are exhausted by the displayed structural rows $H,K,P,N$ together with the finite analytic rows $X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E$. In particular, no public read can export quotient stream equality, host real equality, selected limits, trichotomy, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:real-classifier-carrier}. The analytic access rows are exactly the two real seals, their regular rational sources and readbacks, the common stream window, the dyadic tolerance ledger, the classifier row, and the regular-Cauchy equivalence boundary.
+
+Apply the NameCert obligations theorem \autoref{thm:real-classifier-namecert-obligations}. Its fifth row states that $H,K,P,N$ transport, replay, source, and locally name only the displayed finite packet, so there is no hidden classifier read outside the carrier.
+
+Finally combine the RegSeqRat handoff of \autoref{thm:real-classifier-regseqrat-handoff} with the real seal non-escape theorem \autoref{thm:real-classifier-real-seal-nonescape}. The handoff forces every regular-rational read through $S_X,S_Y,R_X,R_Y,W,D,C,E$, and seal non-escape rules out the listed quotient, host-equality, choice, order, and completeness endpoints.
+\end{proof}
+
 \closureat{RealClassifierUp}{seedStr}
 
 \begin{closurestatus}{\RealClassifierUp}
