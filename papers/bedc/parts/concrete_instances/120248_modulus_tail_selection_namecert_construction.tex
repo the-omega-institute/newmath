@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\ModulusTailSelectionUp$}
+\label{ch:concrete-instances-modulus-tail-selection-namecert}
+\origin{human}
+
+Bishop and Bridges present Cauchy convergence through explicit moduli, finite tail estimates, and regular rational readback before a completed real object is consumed. The $\ModulusTailSelectionUp$ packet records the local selector that turns a displayed modulus request into the finite tail threshold read by Real and Completion consumers. It sits after the tail-selection criterion of \autoref{ch:concrete-instances-cauchy-tail-selection-criterion-namecert}, the convergence-modulus schedule of \autoref{ch:concrete-instances-cauchy-convergence-modulus-namecert}, the modulus certificate of \autoref{ch:concrete-instances-cauchy-modulus-certificate-namecert}, and the Cauchy estimate ledger of \autoref{ch:concrete-instances-cauchy-estimate-namecert}. The packet exports a finite handoff from modulus data to regular readback and Real sealing; it does not assert quotient stream equality, a selected limit, countable choice, host sequence convergence, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Modulus tail selection carrier]
+\label{def:modulus-tail-selection-carrier}
+A $\ModulusTailSelectionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M,T,S,R,D,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $M$ is the modulus request row, naming the requested dyadic tolerance and the accepted convergence-modulus surface to be queried.
+\item $T$ is the displayed tail threshold selected for the request in $M$.
+\item $S$ is the $\StreamNameUp$ window row opened at and beyond the threshold $T$.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the displayed tail windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used by the modulus request, the tail threshold, and the Cauchy estimate comparison.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $M,T,S,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the modulus request, tail threshold, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a modulus request through $M,T,S,R,D,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ModulusTailSelectionUp$, $\CauchyTailSelectionCriterionUp$, $\CauchyConvergenceModulusUp$, $\CauchyModulusCertificateUp$, $\CauchyEstimateUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ModulusTailSelectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,T,S,R,D,E,H,C,P,N$. It has no coordinate for quotient Cauchy classes, selected representatives, selected limits, countable choice, host real equality, hidden unbounded search, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Modulus tail selection NameCert obligations]
+\label{thm:modulus-tail-selection-namecert-obligations}
+For every accepted $\ModulusTailSelectionUp$ carrier $K=(M,T,S,R,D,E,H,C,P,N)$, the local $\NameCert_{\ModulusTailSelectionUp}$ surface consists exactly of carrier admission for the modulus request, displayed tail threshold, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, Real seal, componentwise transport, displayed replay, package provenance, and local naming. The carrier consumes the sibling surfaces of \autoref{ch:concrete-instances-cauchy-tail-selection-criterion-namecert}, \autoref{ch:concrete-instances-cauchy-convergence-modulus-namecert}, \autoref{ch:concrete-instances-cauchy-modulus-certificate-namecert}, and \autoref{ch:concrete-instances-cauchy-estimate-namecert} before exporting any tail-read row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:modulus-tail-selection-carrier}. The analytic rows are precisely the modulus request $M$, selected threshold $T$, finite windows $S$, regular rational readback $R$, dyadic tolerance row $D$, and terminal seal $E$.
+
+The request and threshold rows are read first. The request $M$ is the displayed query into the convergence-modulus and certificate surfaces, while $T$ is the finite threshold returned to the tail-selection route.
+
+The readback rows are downstream of that threshold. The row $S$ exposes only StreamName windows at and beyond $T$, the row $R$ gives the matching RegSeqRat readback, and the row $D$ supplies the dyadic tolerance arithmetic used by the estimate ledger.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and name the same finite route. Since the carrier has no coordinate for quotient names, selected limits, countable choice, host equality, hidden unbounded search, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Modulus tail selection Cauchy handoff]
+\label{thm:modulus-tail-selection-cauchy-handoff}
+Every Real or Completion consumer of an accepted $\ModulusTailSelectionUp$ packet must read the route
+$$
+\CauchyConvergenceModulusUp,\ \CauchyModulusCertificateUp
+\longmapsto
+M,T
+\longmapsto
+\StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp
+\longmapsto
+\CauchyEstimateUp,\ \RealUp
+$$
+through $M,T,S,R,D,E,H,C,P,N$. Thus the packet supplies a finite tail-selection certificate between convergence moduli and RegSeqRat/RealUp reads without claiming ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the sibling modulus surfaces. The convergence-modulus schedule supplies the admissible request row, and the modulus certificate makes the displayed threshold eligible for downstream tail reads.
+
+Apply the tail-selection criterion. The request row $M$ and threshold row $T$ bind the requested dyadic tolerance to one displayed tail threshold, rather than to a hidden search over all later indices.
+
+Read the finite windows and estimates next. The StreamName row $S$ opens the selected tail windows, the RegSeqRat row $R$ supplies their rational readback, the DyadicRatCore row $D$ supplies the tolerance arithmetic, and the Cauchy estimate surface records the comparison consumed before the Real seal.
+
+The Real row $E$ is therefore reached only after the finite modulus, threshold, window, readback, tolerance, and estimate route has been displayed. The structural rows $H,C,P,N$ preserve that route under transport, replay, provenance, and local naming, so no ambient completeness or choice principle is exported.
+\end{proof}
+
+\falsifiablePrediction{A $\ModulusTailSelectionUp$ read is refuted whenever a Real or Completion consumer uses a selected tail threshold without displaying the modulus request, tail threshold, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, Real seal, transport, replay, provenance, and local $\NameCert$ rows.}
+
+\independenceWitness{cauchy-tail-selection-criterion, cauchy-convergence-modulus, cauchy-modulus-certificate, cauchy-estimate, streamname, regseqrat, dyadicratcore, real: none alone is bijective with $\ModulusTailSelectionUp$ because the selector jointly records the request, threshold, window, readback, tolerance, seal, transport, replay, provenance, and local naming route.}
+
+\closureat{ModulusTailSelectionUp}{seedStr}
+
+\begin{closurestatus}{\ModulusTailSelectionUp}
+  \constructivestory{A $\ModulusTailSelectionUp$ packet is generated from a modulus request, displayed tail threshold, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance row, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:modulus-tail-selection-carrier}, \autoref{thm:modulus-tail-selection-namecert-obligations}, and \autoref{thm:modulus-tail-selection-cauchy-handoff} seed the finite selector route from convergence-modulus data to RegSeqRat readback and Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient Cauchy classes, selected representatives, selected limits, countable choice, host real equality, hidden unbounded search, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, request exposure, threshold selection, StreamName window coverage, RegSeqRat readback, DyadicRatCore tolerance accounting, Cauchy estimate handoff, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.ModulusTailSelectionUp.}
+\end{closurestatus}

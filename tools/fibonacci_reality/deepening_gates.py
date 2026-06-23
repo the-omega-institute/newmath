@@ -75,9 +75,17 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "bedc_finite_certificate",
     "fibonacci_cube_critical_group_certificate",
     "closed_neighborhood_smith_certificate",
+    "closed_neighborhood_transfer_certificate",
     "ordered_geodesic_enumerator_certificate",
+    "geodesic_run_factorization_certificate",
     "matching_enumerator_certificate",
     "ihara_hashimoto_zeta_certificate",
+    "theta_square_factorization_certificate",
+    "theta_cube_decomposition_certificate",
+    "median_zero_triple_certificate",
+    "betweenness_triple_certificate",
+    "saturated_chain_certificate",
+    "disjoint_tuple_metallic_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -125,12 +133,20 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "graph_invariant_certificate": {
         "fibonacci_cube_critical_group_certificate",
         "closed_neighborhood_smith_certificate",
+        "closed_neighborhood_transfer_certificate",
         "bedc_finite_certificate",
         "lean_finite_certificate",
         "automath_paper_section",
         "ordered_geodesic_enumerator_certificate",
+        "geodesic_run_factorization_certificate",
         "matching_enumerator_certificate",
         "ihara_hashimoto_zeta_certificate",
+        "theta_square_factorization_certificate",
+        "theta_cube_decomposition_certificate",
+        "median_zero_triple_certificate",
+        "betweenness_triple_certificate",
+        "saturated_chain_certificate",
+        "disjoint_tuple_metallic_certificate",
     },
 }
 OVERCLAIM_GATES_ENABLED = True
@@ -167,12 +183,40 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "closed_walk_trace_identity",
     "matching_polynomial_recurrence",
     "monomer_dimer_profile",
+    "fibonacci_cube_family_enumeration",
+    "fibonacci_cube_recursive_decomposition",
+    "weight_graded_poset",
+    "saturated_chain_count",
+    "maximal_word_factorial_sum",
+    "binomial_factorial_closed_form",
+    "closed_neighborhood_block_recurrence",
+    "integral_smith_transfer_reduction",
+    "identity_link_pivot",
+    "no_scalar_determinant_recurrence",
+    "theta_class_square_incidence",
+    "theta_class_cube_incidence",
+    "forced_fibonacci_factorization",
+    "forced_fibonacci_segment_factorization",
+    "cube_polynomial_coordinate_resolution",
     "integer_matrix_determinant",
     "integer_laplacian_determinant",
     "smith_normal_form_determinantal_divisors",
     "shortest_path_counting",
     "euler_zigzag_certificate",
+    "euler_zigzag_run_factorization",
+    "diametral_special_case",
     "lean_statement_only",
+    "median_majority_operation",
+    "disjoint_support_triple_count",
+    "disjoint_support_tuples",
+    "geodesic_interval_betweenness",
+    "quartic_characteristic_polynomial",
+    "distinct_from_wiener",
+    "transfer_matrix",
+    "transfer_matrix_recurrence",
+    "metallic_ratio_recurrence",
+    "pell_type_recurrence",
+    "fibonacci_pell_unification",
 }
 FORCED_WINDOW_EVIDENCE_BASIS = EVIDENCE_BASIS | {"automath_certificate"} | FORCED_WINDOW_ARITHMETIC_BASIS
 CONTACT_KINDS = {
@@ -296,15 +340,49 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "shortest_path_counting",
     "ordered_geodesic_enumerator",
     "euler_zigzag_certificate",
+    "diff_run_factorization",
+    "euler_zigzag_run_count",
     "matching_polynomial_recurrence",
     "monomer_dimer_profile",
     "bipartition_parity",
     "closed_neighborhood_relation",
+    "prefix_recursive_vertex_order",
+    "closed_neighborhood_block_matrix",
+    "identity_link_pivot",
+    "integral_smith_transfer_reduction",
+    "determinant_transfer",
+    "cokernel_transfer",
     "integer_matrix_determinant",
     "integer_laplacian",
     "smith_normal_form",
     "cyclic_cokernel",
     "critical_group",
+    "fibonacci_cube_family",
+    "weight_graded_poset",
+    "saturated_chain_count",
+    "maximal_word_factorial_sum",
+    "binomial_factorial_closed_form",
+    "graph_metric",
+    "geodesic_interval_betweenness",
+    "ordered_triple_count",
+    "theta_class_coordinate_partition",
+    "induced_four_cycle_incidence",
+    "induced_cube_incidence",
+    "three_segment_fibonacci_factorization",
+    "all_dimension_fibonacci_segment_factorization",
+    "cube_polynomial_coordinate_resolution",
+    "finite_family_enumeration",
+    "median_majority_operation",
+    "ordered_triple_fiber",
+    "disjoint_support_condition",
+    "disjoint_support_ordered_tuples",
+    "four_state_transfer_matrix",
+    "quartic_characteristic_polynomial",
+    "forced_order_four_recurrence",
+    "finite_transfer_matrix",
+    "metallic_ratio_recurrence",
+    "pell_type_recurrence",
+    "fibonacci_pell_median_anchor_unification",
 }
 MECHANISM_WORDS = {
     "cause",
@@ -2283,6 +2361,59 @@ def self_test() -> int:
         ],
         "null_reason": "",
     }
+    closed_neighborhood_transfer_conjecture = {
+        "conjecture_id": "window.fibonacci-cube.closed-neighborhood-transfer",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Fibonacci cube family closed-neighborhood transfer law",
+        "informal_statement": (
+            "For the Fibonacci cube family Gamma_m, exact finite audits verify the prefix block "
+            "recurrence for N_m=I+A and the identity-link integral Smith transfer through R_m. "
+            "The certificate records internal graph invariants only."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Fibonacci cube family Gamma_m and closed-neighborhood integer matrices N_m.",
+            "distinctions": [
+                "prefix recursive vertex order",
+                "closed-neighborhood block matrix",
+                "identity-link pivot",
+                "determinant and cokernel transfer",
+            ],
+            "readback": "The finite audit records determinant and Smith cokernel transfer without biological or physical realization claims.",
+            "internal_structure": [
+                "fibonacci_cube_family",
+                "prefix_recursive_vertex_order",
+                "closed_neighborhood_block_matrix",
+                "identity_link_pivot",
+                "integral_smith_transfer_reduction",
+                "determinant_transfer",
+                "cokernel_transfer",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "fibonacci_cube_recursive_decomposition",
+            "closed_neighborhood_block_recurrence",
+            "integral_smith_transfer_reduction",
+            "identity_link_pivot",
+            "no_scalar_determinant_recurrence",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+            "derived_probe",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window_closed_neighborhood_transfer.py",
+                "object": "verify-window-closed-neighborhood-transfer",
+                "kind": "closed_neighborhood_transfer_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
     matching_enumerator_conjecture = {
         "conjecture_id": "window6.fibonacci-cube.matching-enumerator",
         "track": "forced_window_bedc",
@@ -2331,6 +2462,165 @@ def self_test() -> int:
         ],
         "null_reason": "",
     }
+    betweenness_triple_conjecture = {
+        "conjecture_id": "window.fibonacci-cube.betweenness-triple",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Fibonacci cube family geodesic-betweenness triple count",
+        "informal_statement": (
+            "For Gamma_m, the geodesic-betweenness count A_m sums geodesic-interval cardinalities. "
+            "A four-state transfer matrix forces the order-four integer recurrence and quartic "
+            "characteristic polynomial as a graph-invariant certificate."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Fibonacci cube family Gamma_m with graph metric and geodesic intervals.",
+            "distinctions": [
+                "fibonacci cube family enumeration",
+                "geodesic interval betweenness",
+                "ordered triple count",
+                "four-state transfer matrix",
+                "quartic characteristic polynomial",
+                "distinction from the Wiener index",
+            ],
+            "readback": "The certificate records only internal finite graph invariants.",
+            "internal_structure": [
+                "fibonacci_cube_family",
+                "graph_metric",
+                "geodesic_interval_betweenness",
+                "ordered_triple_count",
+                "four_state_transfer_matrix",
+                "quartic_characteristic_polynomial",
+                "forced_order_four_recurrence",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "fibonacci_cube_family_enumeration",
+            "geodesic_interval_betweenness",
+            "transfer_matrix_recurrence",
+            "quartic_characteristic_polynomial",
+            "distinct_from_wiener",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+            "derived_probe",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window_betweenness_triple.py",
+                "object": "verify-window-betweenness-triple",
+                "kind": "betweenness_triple_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
+    saturated_chain_conjecture = {
+        "conjecture_id": "window.fibonacci-cube.saturated-chain",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Fibonacci cube family saturated upward chain count",
+        "informal_statement": (
+            "For Gamma_m with Hamming-weight oriented cover edges, C_m counts directed saturated chains "
+            "from 0^m to a maximal word and agrees with a maximal-word factorial sum and a "
+            "binomial-factorial closed form."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Fibonacci cube family Gamma_m with Hamming-weight orientation on cover edges.",
+            "distinctions": [
+                "fibonacci cube family enumeration",
+                "weight-graded poset",
+                "saturated upward chains",
+                "maximal-word factorial sum",
+                "binomial-factorial closed form",
+            ],
+            "readback": "The certificate records only internal finite graph and poset integer invariants.",
+            "internal_structure": [
+                "fibonacci_cube_family",
+                "weight_graded_poset",
+                "saturated_chain_count",
+                "maximal_word_factorial_sum",
+                "binomial_factorial_closed_form",
+                "finite_family_enumeration",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "fibonacci_cube_family_enumeration",
+            "weight_graded_poset",
+            "saturated_chain_count",
+            "maximal_word_factorial_sum",
+            "binomial_factorial_closed_form",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+            "derived_probe",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window_saturated_chain.py",
+                "object": "verify-window-saturated-chain",
+                "kind": "saturated_chain_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
+    disjoint_tuple_metallic_conjecture = {
+        "conjecture_id": "window.fibonacci-cube.disjoint-tuple-metallic",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Fibonacci cube family disjoint-support ordered tuple metallic recurrence",
+        "informal_statement": (
+            "For Gamma_m, the ordered k-tuple count with pairwise-disjoint supports satisfies "
+            "D^(k)_m=kD^(k)_{m-1}+D^(k)_{m-2} as a finite graph-invariant certificate."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Fibonacci cube family Gamma_m with ordered k-tuples of vertices.",
+            "distinctions": [
+                "fibonacci cube family enumeration",
+                "ordered k-tuples",
+                "pairwise-disjoint support condition",
+                "finite transfer matrix",
+                "metallic-ratio recurrence",
+            ],
+            "readback": "The certificate records only internal finite graph and recurrence invariants.",
+            "internal_structure": [
+                "fibonacci_cube_family",
+                "disjoint_support_ordered_tuples",
+                "finite_transfer_matrix",
+                "metallic_ratio_recurrence",
+                "fibonacci_pell_median_anchor_unification",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "fibonacci_cube_family_enumeration",
+            "disjoint_support_tuples",
+            "metallic_ratio_recurrence",
+            "transfer_matrix",
+            "fibonacci_pell_unification",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+            "derived_probe",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window_disjoint_tuple_metallic.py",
+                "object": "verify-window-disjoint-tuple-metallic",
+                "kind": "disjoint_tuple_metallic_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
     forced_window_results = gate_all(
         [
             edge_flux_conjecture,
@@ -2341,7 +2631,11 @@ def self_test() -> int:
             fib_entry_point_conjecture,
             pisano_period_conjecture,
             closed_neighborhood_smith_conjecture,
+            closed_neighborhood_transfer_conjecture,
             matching_enumerator_conjecture,
+            betweenness_triple_conjecture,
+            saturated_chain_conjecture,
+            disjoint_tuple_metallic_conjecture,
         ],
         [],
         [],
@@ -2380,7 +2674,19 @@ def self_test() -> int:
     if forced_window_by_id["window6.fibonacci-cube.closed-neighborhood-smith"]["gate_status"] != "gate_passed":
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
+    if forced_window_by_id["window.fibonacci-cube.closed-neighborhood-transfer"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
     if forced_window_by_id["window6.fibonacci-cube.matching-enumerator"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window.fibonacci-cube.betweenness-triple"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window.fibonacci-cube.saturated-chain"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window.fibonacci-cube.disjoint-tuple-metallic"]["gate_status"] != "gate_passed":
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     print("[fibonacci-reality-gates] self-test ok")

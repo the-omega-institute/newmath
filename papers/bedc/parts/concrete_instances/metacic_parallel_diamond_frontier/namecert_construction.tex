@@ -158,6 +158,7 @@ Finally read the closure trace through $H,T,G,N$. Transport, replay, provenance,
 \label{thm:metacic-parallel-diamond-frontier-route}
 Every confluence-audit consumer that reads an accepted $\MetaCICParallelDiamondFrontierUp$ packet must expose the residual-substitution premise row $P$, critical-pair row $K$, candidate-join row $J$, residual-frontier row $R$, closed-checker seal $S$, closed-normal fragment $C$, bounded-check row $B$, obstruction row $O$, transport row $H$, replay row $T$, provenance row $G$, and local name row $N$ before using a conditional parallel-diamond handoff. The route does not turn the residual-substitution premise into a theorem, does not prove full Church--Rosser, and does not discharge subject reduction, evaluator equality, quotient term equality, or kernel consistency.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICParallelDiamondFrontierUp.MetacicParallelDiamondFrontierRoute}
 \begin{proof}
 Begin with the carrier of \autoref{def:metacic-parallel-diamond-frontier-carrier}. It displays exactly the premise, peak, join, residual, checker, fragment, bounded-check, obstruction, transport, replay, provenance, and local naming rows.
 
@@ -755,3 +756,16 @@ Apply the retained-premise handoff and residual-substitution scope, \autoref{thm
 
 Finally use the obstruction, public export, and normalization-frontier handoff rows of \autoref{thm:metacic-parallel-diamond-frontier-obstruction-triad}, \autoref{thm:metacic-parallel-diamond-frontier-public-export}, and \autoref{thm:metacic-parallel-diamond-normalization-frontier-handoff}. The resulting scope is finite, candidate-mediated, and local to $P,K,J,R,S,C,B,O,H,T,G,N$, so none of the refused global endpoints is exported.
 \end{proof}
+
+\closureat{MetaCICParallelDiamondFrontierUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICParallelDiamondFrontierUp}
+  \constructivestory{A $\MetaCICParallelDiamondFrontierUp$ packet is generated from residual-substitution premise rows, critical-pair rows, candidate-join rows, residual-frontier rows, closed checker seal rows, closed-normal fragment rows, bounded-check rows, obstruction rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:metacic-parallel-diamond-frontier-seed-closure-status}, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-induction}, \autoref{thm:metacic-parallel-diamond-frontier-public-export}, and \autoref{thm:metacic-parallel-diamond-frontier-scoped-closure-status} bind the retained premise rows, local-join rows, frontier-export route $P,K,J,R,S,C,B,O,H,T,G,N$, and bridge-facing handoff surface before any public SN/confluence consumer reads the displayed frontier.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.MetaCICParallelDiamondFrontierUp.MetacicParallelDiamondFrontierObligations}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close residual-substitution compatibility, the full parallel diamond, subject reduction, arbitrary closed Church--Rosser, evaluator equality, quotient equality of terms, kernel consistency, or checked bridge interpretation beyond the displayed handoff.}
+  \upgradepath{Bridge checking requires a standard bridge over the retained-premise, candidate-normalization, local-join, and frontier-export route without adding residual-substitution discharge, subject reduction, quotient equality, or kernel consistency.}
+\end{closurestatus}

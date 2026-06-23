@@ -46,6 +46,7 @@ Finally inspect the carrier list. No coordinate names a god's-eye observer, host
 \label{thm:observer-perspective-classifier-locality-cell-comparison}
 Every accepted $\ObserverPerspectiveClassifierUp$ packet compares $U_0$ and $U_1$ only after the observer rows $O_0,O_1$, the locality-cell evidence $L$, and the paired $\mathsf{GAP}$ commitments $G$ have been displayed in the same finite carrier. A consumer may classify the two perspectives through $H$ and $C$, but it cannot replace the locality-cell comparison by a single ambient world, a shared external spacetime, or direct access to either observer's private $\mathsf{Self}$ row.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierLocalityCellComparison}
 \begin{proof}
 Project the accepted packet and read the two observer rows $O_0,O_1$ together with their universe-for-observer surfaces $U_0,U_1$.
 
@@ -62,6 +63,7 @@ O_0,O_1,U_0,U_1,L,G,H,C,P,N.
 $$
 The ledger is exact: observer rows, universe-for-observer surfaces, locality-cell evidence, paired $\mathsf{GAP}$ commitments, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and the local $\NameCert$ row are available, and no other comparison primitive is available.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierLedgerExactness}
 \begin{proof}
 The carrier definition displays all rows of the packet. The mathematical comparison data are $O_0,O_1,U_0,U_1,L,G$, and the structural data are $H,C,P,N$.
 
@@ -98,6 +100,7 @@ Apply the obligation theorem \autoref{thm:observer-perspective-classifier-namece
 
 The locality comparison theorem \autoref{thm:observer-perspective-classifier-locality-cell-comparison} supplies the admissible comparison route, while \autoref{thm:observer-perspective-classifier-ledger-exactness} says that the ledger has no further comparison coordinate. Finally \autoref{thm:observer-perspective-classifier-nonescape} rules out a god's-eye observer and any unlisted observer-neutral witness, so the comparison is stable only through the displayed packet rows.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierAnchorChangeStability}
 
 \begin{theorem}[ObserverPerspectiveClassifier GAP commitment readback]
 \label{thm:observer-perspective-classifier-gap-commitment-readback}
@@ -110,11 +113,13 @@ By \autoref{thm:observer-perspective-classifier-namecert-obligations}, the compa
 
 The exactness theorem \autoref{thm:observer-perspective-classifier-ledger-exactness} then prevents a consumer from dropping $G$ while still claiming the public verdict. The non-escape theorem \autoref{thm:observer-perspective-classifier-nonescape} prevents replacing $G$ by hidden synchronization or host equality, so the paired commitment row must be read before the verdict is exported.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierGapCommitmentReadback}
 
 \begin{theorem}[ObserverPerspectiveClassifier comparison-route totality]
 \label{thm:observer-perspective-classifier-comparison-route-totality}
 Every accepted comparison route for an $\ObserverPerspectiveClassifierUp$ carrier factors through all of the public classifier layers: observer rows $O_0,O_1$, universe-for-observer surfaces $U_0,U_1$, locality evidence $L$, paired $\mathsf{GAP}$ commitments $G$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierComparisonRouteTotality}
 \begin{proof}
 Start with the finite packet in \autoref{def:observer-perspective-classifier-carrier}. Its displayed rows already enumerate the observer, universe, locality, commitment, transport, continuation, provenance, and naming layers.
 
@@ -127,6 +132,7 @@ It remains to account for transport, routing, provenance, and local naming. The 
 \label{thm:observer-perspective-classifier-state-totality}
 Every accepted public verdict for an $\ObserverPerspectiveClassifierUp$ carrier exposes both $\ConsciousObserverStateUp$ rows $O_0,O_1$ and their universe-for-observer surfaces $U_0,U_1$ before the verdict is public. In particular, a row that exports a comparison verdict without first displaying the two observer-state rows and the two attached universe surfaces is not an accepted classifier verdict for the carrier $Q=(O_0,O_1,U_0,U_1,L,G,H,C,P,N)$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierStateTotality}
 \begin{proof}
 Unpack the carrier tuple of \autoref{def:observer-perspective-classifier-carrier}. Its first four displayed comparison rows are exactly $O_0,O_1,U_0,U_1$, with $O_0,O_1$ naming the two conscious-observer state surfaces and $U_0,U_1$ naming the corresponding universe-for-observer surfaces.
 
@@ -139,6 +145,7 @@ Finally \autoref{thm:observer-perspective-classifier-nonescape} rules out replac
 \label{thm:observer-perspective-classifier-locality-refinement}
 Let $Q=(O_0,O_1,U_0,U_1,L,G,H,C,P,N)$ be an accepted $\ObserverPerspectiveClassifierUp$ carrier. If a locality-cell row $L'$ refines the displayed locality evidence $L$ and the same paired $\mathsf{GAP}$ row $G$ is transported with $L'$ through the recorded $\hsame$ row, the displayed $\Cont$ routes, and the $\Pkg$ provenance, then the public comparison route is the same accepted route with $L'$ in the locality coordinate. No public consumer gains an additional comparison primitive by refining $L$ in this way.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierLocalityRefinement}
 \begin{proof}
 Begin with the carrier definition. The locality coordinate and the paired commitment coordinate occur as the adjacent public comparison rows $L,G$, while $H,C,P$ record the componentwise transports, displayed reading routes, and provenance for those same rows.
 
@@ -162,6 +169,7 @@ For the reverse direction, swap the two observer rows together with their univer
 
 It remains to exclude partial swaps. The non-escape theorem \autoref{thm:observer-perspective-classifier-nonescape} rules out any unlisted observer-neutral witness that could repair a swap of only one face. Hence acceptedness is preserved exactly when the paired observer rows, universe surfaces, locality evidence, paired commitment row, transports, routes, provenance, comparison route, and local naming row are swapped together.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierPerspectiveStability}
 
 \begin{theorem}[ObserverPerspectiveClassifier dependency scope]
 \label{thm:observer-perspective-classifier-dependency-scope}
@@ -179,6 +187,7 @@ Finally apply \autoref{thm:observer-perspective-classifier-ledger-exactness} and
 \label{thm:observer-perspective-classifier-alignment-consumer}
 Every downstream cross-perspective consumer of an accepted $\ObserverPerspectiveClassifierUp$ verdict must read the comparison through the displayed locality row, paired $\mathsf{GAP}$ commitment row, transport row, continuation row, provenance row, and local $\NameCert$ row. A consumer that bypasses one of those displayed rows is not reading the public classifier verdict.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierAlignmentConsumer}
 \begin{proof}
 Start from an accepted public verdict. By \autoref{thm:observer-perspective-classifier-comparison-route-totality}, the verdict route factors through $O_0,O_1,U_0,U_1,L,G,H,C,P,N$ in the public classifier layers.
 
@@ -241,6 +250,7 @@ It remains to exclude partial verdicts. Ledger exactness \autoref{thm:observer-p
 \label{thm:observer-perspective-classifier-two-state-no-confusion}
 For accepted $\ObserverPerspectiveClassifierUp$ carrier reads $Q=(O_0,O_1,U_0,U_1,L,G,H,C,P,N)$ and $Q'=(O'_0,O'_1,U'_0,U'_1,L',G',H',C',P',N')$, equality of the public classifier verdict forces agreement on both conscious-observer state rows and both universe-for-observer rows before locality and alignment rows are compared. If any one of $O_0,O_1,U_0,U_1$ differs from the corresponding displayed row in $Q'$, the two reads are different public carrier reads rather than the same classifier verdict.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierTwoStateNoConfusion}
 \begin{proof}
 Start with the carrier definition. It presents each accepted read as a finite ordered $\BHist$ packet, so the state and universe-for-observer rows are public coordinates of the verdict rather than hidden parameters.
 
@@ -406,11 +416,13 @@ The local naming obligations in \autoref{thm:observer-perspective-classifier-nam
 
 It remains to account for downstream consumers. Apply dependency scope, alignment consumer, locality-cell exhaustion, carrier transport, classifier determinacy, and ledger exhaustion. These results force any exported verdict through the same observer-state, locality-cell, paired commitment, transport, continuation, provenance, and naming rows, and non-escape rules out every bypass named in the statement.
 \end{proof}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierVerdictSourceExhaustion}
 
 \begin{theorem}[ObserverPerspectiveClassifier public readback criterion]
 \label{thm:observer-perspective-classifier-public-readback-criterion}
 A local $\NameCert_{\ObserverPerspectiveClassifierUp}$ read is public exactly when it factors through the displayed observer-state rows $O_0,O_1$, the universe-for-observer rows $U_0,U_1$, the locality-cell row $L$, the paired $\mathsf{GAP}$ row $G$, the componentwise $\hsame$ transports in $H$, the $\Cont$ routes in $C$, the $\Pkg$ provenance row $P$, and the local naming row $N$. Any read omitting one of these rows, or replacing it by an ambient observer-neutral witness, is not the public classifier readback.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierPublicReadbackCriterion}
 \begin{proof}
 For the forward direction, assume a public readback has been exported. Comparison-route totality and state totality send the read through the two observer-state rows, the two universe-for-observer surfaces, the displayed locality row, the paired commitment row, and then through $H,C,P,N$.
 

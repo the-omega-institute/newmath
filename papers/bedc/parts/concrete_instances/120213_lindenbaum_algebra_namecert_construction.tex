@@ -1,0 +1,103 @@
+\chapter{A Concrete Naming Certificate for $\LindenbaumAlgebraUp$}
+\label{ch:concrete-instances-lindenbaum-algebra-namecert}
+\origin{human}
+
+Following the Lindenbaum-Tarski algebra for first-order logic, the $\LindenbaumAlgebraUp$ packet records formula syntax modulo displayed provable-equivalence evidence as finite NameCert data. It sits beside the syntax-and-deduction surface of \autoref{ch:concrete-instances-firstorder-namecert}, the satisfaction-facing carrier of \autoref{ch:concrete-instances-modeltheory-namecert}, the term-and-substitution surface of \autoref{ch:concrete-instances-lambdacalc-namecert}, and the MetaCIC route boundary of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. The packet gives MetaCIC a finite algebraic consumer route for formula rows without importing host quotient carriers, Boolean prime ideals, maximal theories, completeness, or choice principles.
+
+\begin{definition}[Lindenbaum algebra carrier]
+\label{def:lindenbaum-algebra-carrier}
+A $\LindenbaumAlgebraUp$ carrier is a finite $\BHist$ packet
+$$
+L=(F,D,E,B,S,K,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\FirstOrderUp$ formula-source row, naming the finite formulas admitted by the packet.
+\item $D$ is the deduction row, recording the finite proof traces whose conclusions are visible to the packet.
+\item $E$ is the provable-equivalence ledger, containing pairs of formula rows together with displayed derivations in both directions.
+\item $B$ is the finite Boolean-operation row for negation, conjunction, disjunction, implication, top, and bottom on admitted formulas.
+\item $S$ is the substitution row, read through the $\LambdaCalcUp$ term-and-substitution boundary when term substitution is required.
+\item $K$ is the MetaCIC consumer-route row, recording when the syntax algebra may be passed to $\MetaCICCriticalPathUp$ as finite formula data.
+\item $H$ records componentwise $\hsame$ transport for the formula, deduction, equivalence, operation, substitution, consumer-route, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a syntax-algebra request through $F,D,E,B,S,K,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LindenbaumAlgebraUp$, $\FirstOrderUp$, $\ModelTheoryUp$, $\LambdaCalcUp$, $\MetaCICCriticalPathUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LindenbaumAlgebraUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,D,E,B,S,K,H,C,P,N$. It has no coordinate for a host quotient set of formulas, a selected representative of an equivalence class, a Boolean prime ideal, a maximal consistent theory, a completeness theorem, semantic truth in all structures, or Classical choice.
+\end{definition}
+
+\begin{theorem}[Lindenbaum algebra NameCert obligations]
+\label{thm:lindenbaum-algebra-namecert-obligations}
+For every accepted $\LindenbaumAlgebraUp$ carrier
+$$
+L=(F,D,E,B,S,K,H,C,P,N),
+$$
+the local $\NameCert_{\LindenbaumAlgebraUp}$ surface consists exactly of carrier admission for the $\FirstOrderUp$ formula row $F$, deduction exposure through $D$, provable-equivalence exposure through $E$, finite Boolean-operation exposure through $B$, substitution exposure through $S$, MetaCIC consumer routing through $K$, componentwise transport $H$, displayed replay $C$, package provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lindenbaum-algebra-carrier}. The formula, deduction, provable-equivalence, Boolean-operation, substitution, and consumer-route data are precisely the rows $F,D,E,B,S,K$.
+
+The NameCert read cannot replace these rows by a host algebra. The equivalence ledger $E$ stores displayed derivations in both directions for named formula pairs, while $B$ stores only finite operation rows on admitted formulas.
+
+Substitution and MetaCIC consumption are likewise explicit rows. The row $S$ keeps term substitution inside the displayed $\LambdaCalcUp$ boundary, and $K$ records the route by which a MetaCIC consumer receives formula data.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no excluded quotient carrier, representative selection, prime ideal, maximal theory, completeness witness, semantic-totality row, or choice principle occurs in $L$, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Lindenbaum algebra substitution stability]
+\label{thm:lindenbaum-algebra-substitution-stability}
+In an accepted $\LindenbaumAlgebraUp$ packet, every substitution read factors through the displayed route
+$$
+F,D,E \longmapsto S \longmapsto H,C,P,N .
+$$
+If two formula rows are related by the provable-equivalence ledger $E$, then any admitted substitution instance may be compared only after the same equivalence evidence has been transported through the substitution row $S$ and the componentwise $\hsame$ row $H$.
+\end{theorem}
+\begin{proof}
+Begin with the equivalence ledger. A comparison of formula rows is visible only when $E$ contains the two displayed derivations connecting the formulas.
+
+The substitution row $S$ is downstream of that ledger. It may form a substituted formula row only from the admitted formula source $F$ and the displayed substitution boundary, so it cannot silently quotient formulas or choose a representative.
+
+Transport is then componentwise. The row $H$ moves the formula, equivalence, and substitution rows together, while $C,P,N$ replay, source, and name that same route. Thus substitution stability is a property of the finite displayed ledger, not of an ambient equality of host formula classes.
+\end{proof}
+
+\begin{theorem}[Lindenbaum algebra finite Boolean operations]
+\label{thm:lindenbaum-algebra-finite-boolean-operations}
+Every Boolean operation exported by an accepted $\LindenbaumAlgebraUp$ packet is read from the finite operation row $B$ together with the visible formula and provable-equivalence rows $F,D,E$. In particular, a consumer may use negation, conjunction, disjunction, implication, top, and bottom only as displayed operations on admitted formula rows, and no consumer receives a completed Boolean algebra of host equivalence classes.
+\end{theorem}
+\begin{proof}
+Inspect the operation row $B$. Its entries name the operation kind and the admitted input and output formula rows, all of which are read through $F$.
+
+Compatibility with provable equivalence is checked only through $D$ and $E$. The deduction row gives the finite proof traces, and the equivalence ledger records the bidirectional derivations needed to compare operation outputs.
+
+The structural rows then preserve this operation surface under transport and replay. Because the carrier contains no quotient set, ideal, ultrafilter, maximal theory, or semantic completion row, finite Boolean operations remain displayed syntax operations rather than a host Boolean algebra.
+\end{proof}
+
+\begin{theorem}[Lindenbaum algebra MetaCIC consumer route]
+\label{thm:lindenbaum-algebra-metacic-consumer-route}
+Every $\MetaCICCriticalPathUp$ consumer of an accepted $\LindenbaumAlgebraUp$ packet factors through
+$$
+\FirstOrderUp,\ \ModelTheoryUp,\ \LambdaCalcUp,\ F,D,E,B,S,K,H,C,P,N .
+$$
+The consumer receives finite formula rows, deduction traces, provable-equivalence evidence, Boolean-operation rows, substitution rows, and local NameCert provenance; it does not receive a host quotient carrier, semantic completeness theorem, Boolean prime ideal, maximal theory, or Classical-choice selection function.
+\end{theorem}
+\begin{proof}
+The route begins with the first-order syntax row $F$ and the deduction row $D$. These rows supply the formula endpoints and proof traces consumed by the syntax algebra.
+
+The algebraic information is displayed next. The equivalence ledger $E$ records bidirectional provability evidence, and the operation row $B$ records finite Boolean syntax operations on admitted formulas.
+
+Substitution and MetaCIC routing are separate downstream rows. The row $S$ keeps substitution inside the displayed lambda-calculus or term boundary, while $K$ is the only row that exports the packet to $\MetaCICCriticalPathUp$.
+
+The remaining rows $H,C,P,N$ preserve the same packet under transport, replay, provenance, and local naming. Therefore the MetaCIC consumer sees exactly the finite syntax-algebra surface and cannot infer quotient-class, maximality, completeness, or choice data from the route.
+\end{proof}
+
+\closureat{LindenbaumAlgebraUp}{seedStr}
+
+\begin{closurestatus}{\LindenbaumAlgebraUp}
+  \constructivestory{A $\LindenbaumAlgebraUp$ packet is generated from FirstOrder formula rows, finite deduction traces, provable-equivalence ledger rows, finite Boolean-operation rows, substitution rows, a MetaCIC consumer-route row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lindenbaum-algebra-carrier}, \autoref{thm:lindenbaum-algebra-namecert-obligations}, \autoref{thm:lindenbaum-algebra-substitution-stability}, \autoref{thm:lindenbaum-algebra-finite-boolean-operations}, and \autoref{thm:lindenbaum-algebra-metacic-consumer-route} seed the finite provable-equivalence syntax-algebra surface for MetaCIC consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host quotient carriers, selected representatives, Boolean prime ideals, maximal theories, semantic completeness, Classical choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, deduction exposure, provable-equivalence exactness, finite Boolean-operation confinement, substitution stability, MetaCIC route nonescape, transport stability, continuation replay, and provenance exhaustion for BEDC.Derived.LindenbaumAlgebraUp.}
+\end{closurestatus}

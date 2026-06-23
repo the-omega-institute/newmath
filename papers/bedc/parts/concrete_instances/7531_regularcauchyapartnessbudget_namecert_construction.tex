@@ -151,6 +151,29 @@ Apply the Real seal refusal and non-escape theorems. A reciprocal-window consume
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyApartnessBudgetUp.RegularCauchyApartnessBudgetCarrier\_reciprocal\_window\_boundary}
 
+\begin{theorem}[Regular Cauchy apartness-budget public interface]
+\label{thm:regular-cauchy-apartness-budget-public-interface}
+Every public reciprocal-window or $\RealUp$-seal consumer of an accepted $\RegularCauchyApartnessBudgetUp$ packet
+$$
+B=(X,A,M,W,D,R,E,H,C,P,N)
+$$
+factors through the same finite interface
+$$
+A,M,W,D,R,E,H,C,P,N.
+$$
+This interface composes lower-bound scope, lower-bound determinacy, Real-seal refusal, and reciprocal-window boundary. It exports no host nonzero real, trichotomy principle, quotient stream, selected representative, total reciprocal operation, or ambient completeness theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyApartnessBudgetUp.RegularCauchyApartnessBudgetCarrier\_public\_interface}
+\begin{proof}
+First apply lower-bound scope, \autoref{thm:regular-cauchy-apartness-budget-lower-bound-scope}. It confines every lower-bound read to the apartness row, modulus row, finite window, dyadic lower-bound row, regular readback, transport, replay, provenance, and local naming rows.
+
+Next apply lower-bound determinacy, \autoref{thm:regular-cauchy-apartness-budget-lower-bound-determinacy}. Once $A,M,W,D,R$ and the structural rows are fixed, a public consumer has no second carrier coordinate from which to read a different dyadic lower-bound handoff.
+
+Use Real-seal refusal, \autoref{thm:regular-cauchy-apartness-budget-real-seal-refusal}, before any $\RealUp$-seal consumer reaches $E$. The seal is public only after the same apartness and lower-bound route has been displayed.
+
+Finally apply the reciprocal-window boundary, \autoref{thm:regular-cauchy-apartness-budget-reciprocal-window-boundary}. A reciprocal consumer reads exactly the finite route $A,M,W,D,R,H,C,P,N$, and a Real-seal consumer adds only the downstream seal row $E$ on that route. Since non-escape excludes host nonzero reals, trichotomy, quotient streams, selected representatives, total reciprocals, and ambient completeness, the listed interface is the full public surface.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy apartness-budget positive-window determinacy]
 \label{thm:regular-cauchy-apartness-budget-positive-window-determinacy}
 Let $B=(X,A,M,W,D,R,E,H,C,P,N)$ and $B'=(X',A,M,W,D,R,E',H',C',P',N')$ be accepted $\RegularCauchyApartnessBudgetUp$ packets with the same displayed apartness row $A$, modulus row $M$, $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ lower-bound row $D$, $\RegSeqRatUp$ readback $R$, and structural rows for the lower-bound route. Then every reciprocal-window consumer reads the same positive lower-bound handoff from $B$ and $B'$. No host nonzero real, trichotomy branch, quotient stream, or selected representative can alter that read.
@@ -189,6 +212,7 @@ Apply positive-window determinacy, \autoref{thm:regular-cauchy-apartness-budget-
 
 Finally use non-escape. Host nonzero reals, trichotomy, quotient streams, selected representatives, total reciprocals, and ambient completeness are not packet fields, so they cannot reverse the monotone refinement of the lower-bound route.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyApartnessBudgetUp.RegularCauchyApartnessBudgetCarrier\_lower\_bound\_modulus\_monotonicity}
 
 \begin{theorem}[Regular Cauchy apartness-budget L10 scope binding]
 \label{thm:regular-cauchy-apartness-budget-l10-scope-binding}
@@ -205,18 +229,41 @@ Finally apply non-escape and Real-seal refusal. The excluded host objects are no
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyApartnessBudgetUp.RegularCauchyApartnessBudgetCarrier\_l10\_scope\_binding}
 
+\begin{theorem}[Regular Cauchy apartness-budget cofinal window refinement]
+\label{thm:regular-cauchy-apartness-budget-formal-target}
+Let
+$$
+B=(X,A,M,W,D,R,E,H,C,P,N)
+$$
+and
+$$
+B'=(X',A,M',W',D,R,E',H',C',P',N')
+$$
+be accepted $\RegularCauchyApartnessBudgetUp$ packets sharing the apartness row $A$, $\DyadicRatCoreUp$ lower-bound row $D$, and $\RegSeqRatUp$ readback row $R$. Suppose the $\StreamNameUp$ windows $W$ and $W'$ are cofinally comparable through displayed modulus, window, transport, replay, provenance, and local-name rows. Then every $\RealUp$ or reciprocal-window consumer reads the same Real-facing apartness-budget handoff from the two packets. Refinement is allowed only through the displayed rows $M,W,H,C,P,N$ and $M',W',H',C',P',N'$; it cannot replace $A$, weaken $D$, detach $R$, import a host nonzero real, or introduce a total reciprocal operation.
+\end{theorem}
+\begin{proof}
+First apply lower-bound scope, \autoref{thm:regular-cauchy-apartness-budget-lower-bound-scope}. It confines each lower-bound read to the apartness row, modulus row, finite StreamName window, dyadic lower-bound row, regular readback, transport, replay, provenance, and local naming rows.
+
+Next apply positive-window determinacy, \autoref{thm:regular-cauchy-apartness-budget-positive-window-determinacy}. Cofinal comparability makes the two window routes meet along the displayed finite-window surface, so a reciprocal-window consumer has no second carrier coordinate from which to read a different positive handoff.
+
+Use lower-bound modulus monotonicity, \autoref{thm:regular-cauchy-apartness-budget-lower-bound-modulus-monotonicity}, in both cofinal directions. Each refinement may expose more finite window information, but with $A,D,R$ fixed it cannot weaken or replace the lower-bound handoff.
+
+Finally apply the reciprocal-window boundary, \autoref{thm:regular-cauchy-apartness-budget-reciprocal-window-boundary}, Real-seal refusal, \autoref{thm:regular-cauchy-apartness-budget-real-seal-refusal}, and L10 scope binding, \autoref{thm:regular-cauchy-apartness-budget-l10-scope-binding}. These results keep every reciprocal-window or Real-facing consumer on the displayed finite route and exclude host nonzero witnesses, quotient streams, selected representatives, total reciprocals, and ambient completeness from the handoff.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyApartnessBudgetUp.RegularCauchyApartnessBudgetCarrier\_cofinal\_window\_refinement}
+
 \falsifiablePrediction{Any accepted reciprocal-window consumer that omits the displayed apartness-budget row is not a RegularCauchyApartnessBudgetUp carrier read.}
 
 \independenceWitness{Nearest siblings: cauchyinversebudget, apartnessreal, regseqrat, dyadicratcore, streamname. The carrier is not bijective to CauchyInverseBudgetUp because it has no reciprocal readback row; not to ApartnessRealUp because it keeps finite regular-Cauchy window budgets rather than a completed Real apartness predicate; not to RegSeqRatUp because it adds nonzero lower-bound rows; not to DyadicRatCoreUp because it includes stream-window and Real-seal routes; not to StreamNameUp because it includes dyadic lower-bound and apartness ledger rows.}
 
 The Lean TasteGate route is expected to provide \texttt{Nontrivial RegularCauchyApartnessBudgetUp} with an explicit witness pair and \texttt{FieldFaithful RegularCauchyApartnessBudgetUp} with \texttt{.mk}-derived fields and a match/injection proof.
 
-\closureat{RegularCauchyApartnessBudgetUp}{seedStr}
+\closureat{RegularCauchyApartnessBudgetUp}{publicStr}
 
 \begin{closurestatus}{\RegularCauchyApartnessBudgetUp}
   \constructivestory{A $\RegularCauchyApartnessBudgetUp$ packet is generated from a regular-Cauchy source, a finite nonzero-apartness budget, a modulus row, a finite StreamName window, a DyadicRatCore lower-bound readback, a RegSeqRat readback, a RealUp seal, componentwise transports, displayed routes, provenance, and local naming.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-apartness-budget-carrier}, \autoref{thm:regular-cauchy-apartness-budget-namecert-obligations}, \autoref{thm:regular-cauchy-apartness-budget-nonescape}, the falsifiable prediction, and the independence witness bind the seed surface for finite nonzero-apartness budgets before Real-seal or reciprocal-window consumption.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:regular-cauchy-apartness-budget-public-interface} exports the public reciprocal-window and $\RealUp$-seal surface, while \autoref{thm:regular-cauchy-apartness-budget-l10-scope-binding} gives the exact L10 dependency scope over $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\CauchyInverseBudgetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ before consumption.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
