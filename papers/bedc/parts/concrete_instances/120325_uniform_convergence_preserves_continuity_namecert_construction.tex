@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\UniformConvergencePreservesContinuityUp$}
+\label{ch:concrete-instances-uniform-convergence-preserves-continuity-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Kelley, the $\UniformConvergencePreservesContinuityUp$ packet records the standard constructive route from uniformly convergent continuous real-valued functions to a continuous limit. It reads the finite sup-norm boundary of \autoref{ch:concrete-instances-continuous-sup-norm-namecert}, the uniform-limit metric handoff of \autoref{ch:concrete-instances-uniform-limit-metric-namecert}, the real-function uniform Cauchy schedule of \autoref{ch:concrete-instances-real-function-uniform-cauchy-namecert}, the continuous-map source of \autoref{ch:concrete-instances-continuousmap-namecert}, the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite continuity-preservation boundary; it does not choose a host limiting function, identify functions by quotient equality, or import ambient completeness outside the displayed rows.
+
+\begin{definition}[Uniform convergence preserves continuity carrier]
+\label{def:uniform-convergence-preserves-continuity-carrier}
+A $\UniformConvergencePreservesContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+U=(L,A,S,K,F,G,R,W,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\UniformLimitMetricUp$ row that receives a uniform convergence request.
+\item $A$ is the $\RealFunctionUniformCauchyUp$ row recording the real-valued uniform Cauchy schedule for the approximating function rows.
+\item $S$ is the $\ContinuousSupNormUp$ sibling row that supplies the finite sup-norm comparison boundary.
+\item $K$ is the $\CompactMetricUp$ source row over which all source-window reads are made.
+\item $F$ is the $\ContinuousMapUp$ row for the approximating continuous maps over $K$.
+\item $G$ is the displayed limit-row request, storing only the finite continuity test to be replayed for the limit candidate.
+\item $R$ is the terminal $\RealUp$ difference-and-triangle seal reached after the source, approximant, and limit rows have been displayed.
+\item $W$ is the finite window ledger, recording the source refinement, uniform tail bound, and pointwise comparison windows used in the continuity test.
+\item $M$ is the modulus-transfer row that transports the approximant continuity modulus through the uniform tail and Real seal.
+\item $H$ records componentwise $\hsame$ transport for $L,A,S,K,F,G,R,W,M,C,P,N$.
+\item $C$ records displayed $\Cont$ replay through the same rows.
+\item $P$ is the $\Pkg$ provenance over $\UniformConvergencePreservesContinuityUp$, $\UniformLimitMetricUp$, $\RealFunctionUniformCauchyUp$, $\ContinuousSupNormUp$, $\ContinuousMapUp$, $\CompactMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformConvergencePreservesContinuityUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for a choice-selected limit, quotient equality of functions, open-cover compactness, host supremum selection, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.UniformConvergencePreservesContinuityUp}
+
+\begin{theorem}[Uniform convergence preserves continuity NameCert obligations]
+\label{thm:uniform-convergence-preserves-continuity-namecert-obligations}
+For every accepted $\UniformConvergencePreservesContinuityUp$ carrier $U=(L,A,S,K,F,G,R,W,M,H,C,P,N)$, the local $\NameCert_{\UniformConvergencePreservesContinuityUp}$ surface consists exactly of uniform-limit metric admission through $L$, real-function uniform Cauchy schedule exposure through $A$, continuous sup-norm boundary exposure through $S$, compact metric source exposure through $K$, approximating continuous-map exposure through $F$, displayed limit-row request through $G$, Real difference-and-triangle sealing through $R$, finite window exposure through $W$, modulus transfer through $M$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-convergence-preserves-continuity-carrier}. The tuple displays the uniform-limit row, uniform Cauchy schedule, sup-norm comparison row, compact source, approximating continuous-map row, limit-row request, Real seal, window ledger, modulus transfer, transport, replay, provenance, and local naming.
+
+The rows $K,F,W,M$ supply the only continuity information available to the packet. The rows $A,S,L$ place that same information under a uniform tail comparison, so the continuity test for the limit is read through the displayed uniform-convergence boundary rather than through a host-selected limiting function.
+
+The Real seal $R$ is terminal. It records the triangle comparison after the approximant continuity row and the uniform tail row have both been displayed.
+
+Finally, $H,C,P,N$ preserve, replay, source, and name the same route. Since no carrier coordinate stores quotient equality of functions, a selected limit, host supremum data, open-cover compactness, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Uniform convergence preserves continuity Real route]
+\label{thm:uniform-convergence-preserves-continuity-real-route}
+Every accepted $\UniformConvergencePreservesContinuityUp$ carrier routes a limit-continuity request through the finite chain
+$$
+\ContinuousMapUp \longmapsto \ContinuousSupNormUp \longmapsto \RealFunctionUniformCauchyUp \longmapsto \UniformLimitMetricUp \longmapsto \RealUp .
+$$
+More explicitly, every displayed tolerance request first reads the compact source and approximating continuous-map rows, then the sup-norm and uniform Cauchy rows, then the finite window and modulus-transfer rows, and finally the terminal Real difference-and-triangle seal. The route exports no host function equality, selected limit object, quotient function space, or ambient compactness beyond the displayed $\CompactMetricUp$ source.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:uniform-convergence-preserves-continuity-namecert-obligations}. The compact source $K$ and approximating continuous-map row $F$ fix the source windows and pointwise Real reads that may be inspected.
+
+The sibling sup-norm row $S$ and the uniform Cauchy schedule $A$ then place the approximating function rows under one finite uniform comparison. The uniform-limit metric row $L$ consumes that comparison as the displayed convergence request.
+
+The finite ledger $W$ and modulus-transfer row $M$ carry the approximant continuity test across the same tolerance window. The Real seal $R$ is reached only after the approximant continuity, uniform tail, and limit-row request have all been displayed.
+
+Thus the accepted route is exactly the finite chain shown above, with $H,C,P,N$ adding only transport, replay, provenance, and local naming. Nothing in the carrier can produce host function equality, selected limit data, quotient function-space equality, or compactness outside the displayed $\CompactMetricUp$ row.
+\end{proof}
+
+\closureat{UniformConvergencePreservesContinuityUp}{seedStr}
+
+\begin{closurestatus}{\UniformConvergencePreservesContinuityUp}
+  \constructivestory{A $\UniformConvergencePreservesContinuityUp$ packet is generated from UniformLimitMetric, RealFunctionUniformCauchy, ContinuousSupNorm, CompactMetric, ContinuousMap, displayed limit-row, Real difference-and-triangle seal, finite window, modulus-transfer, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-convergence-preserves-continuity-carrier}, \autoref{thm:uniform-convergence-preserves-continuity-namecert-obligations}, and \autoref{thm:uniform-convergence-preserves-continuity-real-route} seed the continuity-preservation boundary for uniformly convergent continuous real-valued function rows over a displayed compact metric source.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, selected limit construction, quotient function spaces, open-cover compactness, ambient $\RealUp$ completeness, checked obligation rows, or bridge checking for $\UniformConvergencePreservesContinuityUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-source and continuous-map stability, sup-norm boundary exactness, uniform Cauchy schedule exactness, uniform-limit handoff, Real triangle-seal nonescape, replay stability, and local naming for BEDC.Derived.UniformConvergencePreservesContinuityUp.}
+\end{closurestatus}
