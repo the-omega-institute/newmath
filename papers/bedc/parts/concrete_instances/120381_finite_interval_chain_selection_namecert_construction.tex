@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\FiniteIntervalChainSelectionUp$}
+\label{ch:concrete-instances-finite-interval-chain-selection-namecert}
+\origin{human}
+
+Following Bishop and Bridges on nested intervals and constructive real approximation, the $\FiniteIntervalChainSelectionUp$ packet records the finite L10 surface by which a nested dyadic interval chain exposes a cofinal inspected subchain before Real and Completion consumers read a limit-facing seal. It sits over the dyadic arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}, and the nested interval selector route of \autoref{ch:concrete-instances-dyadic-nested-interval-selector-namecert}. The packet names only the finite displayed rows needed by downstream Bolzano--Weierstrass, nested-interval, and completion arguments; it is not countable choice, quotient stream equality, a selected host limit, interval compactness, or real trichotomy.
+
+\begin{definition}[Finite interval chain selection carrier]
+\label{def:finite-interval-chain-selection-carrier}
+A $\FiniteIntervalChainSelectionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,C,D,W,R,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the nested dyadic interval row, recording the finite list of retained endpoint pairs and the inclusion certificates between adjacent rows.
+\item $C$ is the cofinal unary index row, recording the inspected stages and the monotone refinement map from requested windows to retained interval rows.
+\item $D$ is the $\DyadicRatCoreUp$ diameter-budget row, carrying dyadic upper bounds for retained interval lengths at the inspected stages.
+\item $W$ is the $\StreamNameUp$ finite-window row exposing exactly the queried stages of the chain and cofinal map.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same windows, so endpoint and midpoint observations are regular rational reads rather than host real values.
+\item $E$ is the terminal $\RealUp$ seal row available only after the nested row, cofinal row, diameter ledger, stream window, and regular readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the nested rows, cofinal index row, diameter ledger, window, readback, seal, provenance, replay, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from a requested precision through $C,D,W,R,E$ and back to the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\FiniteIntervalChainSelectionUp$, $\NestedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteIntervalChainSelectionUp}$ row.
+\end{enumerate}
+The carrier exports this finite chain-selection packet and no coordinate for a countable-choice functional, quotient stream equality, host-selected limit, trichotomy of real endpoints, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite interval chain selection NameCert obligations]
+\label{thm:finite-interval-chain-selection-namecert-obligations}
+For every accepted $\FiniteIntervalChainSelectionUp$ carrier
+$$
+S=(I,C,D,W,R,E,H,T,P,N),
+$$
+the local $\NameCert_{\FiniteIntervalChainSelectionUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed nested dyadic interval row, cofinal unary index row, diameter-budget row, stream window, regular readback, terminal seal, transport, replay, provenance, and local naming data;
+\item nesting preservation, requiring every retained row of $I$ exposed through $C$ to remain included in the preceding displayed dyadic interval row;
+\item cofinal refinement, requiring every requested window in $W$ to be met by some unary index of $C$ whose dyadic diameter budget in $D$ is within the requested tolerance;
+\item Real seal handoff, requiring the terminal $\RealUp$ row $E$ to be consumed only after $I,C,D,W,R$ have been displayed and replayed through $H,T,P,N$;
+\item nonescape from countable choice, quotient streams, selected host limits, trichotomy, interval compactness, or ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-interval-chain-selection-carrier}. Its analytic rows are exactly the nested dyadic interval row $I$, cofinal index row $C$, diameter-budget row $D$, finite stream window $W$, regular rational readback $R$, and terminal Real seal $E$.
+
+Nesting preservation and cofinal refinement are read from $I,C,D,W$. The retained interval rows are finite $\BHist$ rows, and the cofinal map is a displayed unary index row, so every refinement request is witnessed inside the packet before any Real-facing read is available.
+
+The Real seal handoff then factors through $R$ and $E$. Regular rational readback supplies the endpoint and midpoint observations for the same finite windows, while $E$ is terminal in the route through $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Finally, $H,T,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for countable choice, quotient stream equality, a host-selected limit, real trichotomy, interval compactness, or ambient completeness, the local certificate cannot export any of those principles.
+\end{proof}
+
+\closureat{FiniteIntervalChainSelectionUp}{seedStr}
+
+\begin{closurestatus}{\FiniteIntervalChainSelectionUp}
+  \constructivestory{A $\FiniteIntervalChainSelectionUp$ packet is generated from nested dyadic interval rows, a cofinal unary index row, a DyadicRatCoreUp diameter-budget ledger, StreamNameUp finite windows, RegSeqRatUp readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-interval-chain-selection-carrier} and \autoref{thm:finite-interval-chain-selection-namecert-obligations} seed the finite L10 chain-selection route from nested dyadic interval rows through cofinal inspected windows, dyadic diameter budgets, regular rational readback, and the RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim countable choice, quotient stream equality, selected host limits, real trichotomy, interval compactness, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, nesting preservation, cofinal refinement, diameter-budget exactness, RealUp seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteIntervalChainSelectionUp.}
+\end{closurestatus}
