@@ -1,11 +1,15 @@
-\subsection{Finite six-window Lucas--Fibonacci norm relation certificate}\label{sec:window6-lucas-fib-norm-relation-law-certificate}
+\subsection{NameCert: Window Six Lucas Fib Norm Relation Law}
+\label{sec:namecert-window6_lucas_fib_norm_relation_law_certificate}
 \origin{ai}
 
-\paragraph{Available data.}
-The supplied record names a six-window Lucas--Fibonacci norm-relation certificate, but it supplies no finite rows, no carrier table, no declared predicates, no relation matrix, no partition, no counts, no identities, and no extraction rule. A self-contained mathematical certificate for this topic cannot be written without specifying the finite objects whose verification is being recorded.
+\paragraph{Statement.} The Window6 Lucas/Fibonacci sequence pair satisfies the finite norm witness L\_n\textasciicircum{}2 - 5*F\_n\textasciicircum{}2 = 4*(-1)\textasciicircum{}n and the finite Lucas doubling witness L\_(2n)=L\_n\textasciicircum{}2 - 2*(-1)\textasciicircum{}n.
 
-\paragraph{Required finite structure.}
-To make this chapter mathematical rather than nominal, the data must include the carrier, for example whether the underlying set is exactly $\{0,1\}^6$, a set of six-tuples over another alphabet, or a quotient of such words. It must also include the exact predicates imposed on each word, the finite relation whose rows define the law, and the exact partition or kernel used to compare the Lucas and Fibonacci sides. If matrices are part of the certificate, their entries and dimensions must be given explicitly. If a norm is part of the certificate, the norm formula and the finite value table must be supplied.
+\paragraph{Carrier.} sequence\_layer: Window6 Lucas cyclic counts and Window6 Fibonacci linear counts; window6\_anchor: L\_n is the cyclic Window6 count and F\_n is the Fibonacci recurrence count used by the Window6 linear sequence layer; witness\_window: 0<=n<=40 in the Python certificate and 0<=n<=25 in the Lean finite witness
 
-\paragraph{Boundary.}
-No physical-constant identification, global flow law, external dependency, metrological comparison, or interpretation beyond the finite construction follows from the present data. In particular, no numerical match can be separated into a certified finite spectral construction and a tuning risk note until the finite spectral data and the numerical target are both supplied.
+\paragraph{Relations.} direct Fibonacci recurrence evaluation; direct Lucas recurrence evaluation; integer norm identity L\_n\textasciicircum{}2 - 5*F\_n\textasciicircum{}2 = 4*(-1)\textasciicircum{}n; Lucas doubling identity L\_(2n)=L\_n\textasciicircum{}2 - 2*(-1)\textasciicircum{}n; Window6 cyclic count L\_n and linear count F\_n anchors; no physical-constant input or numerical reverse fit
+
+\paragraph{Counts and identities.} For every 0<=n<=40 in the certificate window, L\_n\textasciicircum{}2 - 5*F\_n\textasciicircum{}2 = 4*(-1)\textasciicircum{}n.; For every 0<=n<=40 in the certificate window, L\_(2n)=L\_n\textasciicircum{}2 - 2*(-1)\textasciicircum{}n.; At n=5, 11\textasciicircum{}2 - 5*5\textasciicircum{}2 = -4; at n=8, 47\textasciicircum{}2 - 5*21\textasciicircum{}2 = 4.
+
+\paragraph{Witness extraction.} lean4/BEDC/Derived/Window6LucasFibNormRelation.lean
+
+\paragraph{Not claimed.} physical fine-structure constant or any physical constant; physical /137 as input, target, numerical proximity, or reverse fit
