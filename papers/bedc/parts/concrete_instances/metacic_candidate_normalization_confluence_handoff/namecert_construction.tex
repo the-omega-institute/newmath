@@ -280,6 +280,20 @@ Use residual progress and the guarded rectangle from \autoref{thm:metacic-candid
 Finally apply the handoff decider boundary of \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-boundary}. The bounded comparison passes through $D$ after the displayed endpoint and residual rows, so no consumer can read the certificate as one of the excluded global endpoints.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate normalization public handoff]
+\label{thm:metacic-candidate-normalization-confluence-handoff-public}
+Any public confluence or decidability consumer of an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet preserves candidate evidence $K$, normal endpoint $N$, normalization frontier $F$, residual envelope $C$, decidable boundary $D$, blocked edge $B$, transport $T$, replay $R$, provenance $P$, and local naming $L$ before reading a bounded endpoint or conversion row. The handoff does not assert unconditional strong normalization, full Church--Rosser, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, global conversion decidability, or closed consistency.
+\end{theorem}
+\begin{proof}
+First apply the finite conversion certificate boundary of \autoref{thm:metacic-finite-conversion-certificate-boundary}. It keeps the bounded endpoint read inside the displayed endpoint, frontier, residual-envelope, decidable-boundary, blocked-edge, transport, replay, provenance, and local naming route.
+
+Next use residual progress from \autoref{thm:metacic-candidate-normalization-residual-progress}. Residual data remain visible either as retained candidate premises through $K,F$ or as obstruction rows through $C,B$, so a public confluence consumer cannot erase them before reading a bounded endpoint.
+
+Now apply the confluence rectangle and decidable-boundary theorems, \autoref{thm:metacic-candidate-normalization-confluence-rectangle} and \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-boundary}. They route bounded comparison through $D$ only after the candidate, endpoint, frontier, residual-envelope, and blocked-edge rows have been displayed.
+
+Finally combine obligation stability and public endpoint handoff from \autoref{thm:metacic-candidate-normalization-handoff-obligation-stability} and \autoref{thm:metacic-finite-conversion-endpoint-handoff}. The structural rows $T,R,P,L$ preserve the same finite packet, and none of the excluded global endpoints is a carrier coordinate.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization audit-map realization]
 \label{thm:metacic-candidate-normalization-handoff-vision-concretization}
 The $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet is the concrete finite $\NameCert$ realization of the normalization audit-map route of \autoref{ch:metacic-normalization-audit-map}. Its carrier displays candidate evidence $K$, bounded endpoint row $N$, frontier row $F$, residual-envelope row $C$, decidable-boundary row $D$, blocked-edge row $B$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local naming $L$ as one guarded handoff. The realization does not assert unconditional strong normalization, full Church--Rosser, unrestricted subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, or closed consistency.
