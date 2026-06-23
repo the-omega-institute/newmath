@@ -4431,6 +4431,7 @@ import BEDC.Derived.DedekindMacNeilleCompletionUp.RealSealNonescape
 import BEDC.Derived.DedekindMacNeilleCompletionUp.TasteGate
 import BEDC.Derived.DedekindRealUp.TasteGate
 import BEDC.Derived.DedekindUp
+import BEDC.Derived.DefectFlowPartitionSkeletonUp.TasteGate
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.KernelDependencyBinding
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
@@ -6727,7 +6728,6 @@ import BEDC.Derived.IntervalHalvingUp.DyadicNestedHandoff
 import BEDC.Derived.IntervalHalvingUp.TasteGate
 import BEDC.Derived.IntervalImageConnectedUp.TasteGate
 import BEDC.Derived.IntervalLengthUp.TasteGate
-import BEDC.Derived.IntervalNewtonUp
 import BEDC.Derived.IntervalNewtonUp.TasteGate
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.InverseFunctionUp.TasteGate
@@ -10499,11 +10499,9 @@ import BEDC.Derived.RegularRealCauchySelectorUp.TasteGate
 import BEDC.Derived.RegularSeqApartnessSeparatorUp
 import BEDC.Derived.RegularSequenceBishopUp
 import BEDC.Derived.RegularSequenceBishopUp.TasteGate
-import BEDC.Derived.RegularSequenceClusterWitnessUp.TasteGate
 import BEDC.Derived.RegularSequenceLimitUp.TasteGate
 import BEDC.Derived.RegularSequenceLocalizationUp.TasteGate
 import BEDC.Derived.RegularSequenceModulusUp.TasteGate
-import BEDC.Derived.RegularSequenceTailMetricUp.TasteGate
 import BEDC.Derived.RegularTopologicalSpaceUp.TasteGate
 import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RegularityModulusUp.CarrierSurface
