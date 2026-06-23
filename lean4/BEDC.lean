@@ -8075,6 +8075,7 @@ import BEDC.Derived.MetricBallUp.RegSeqRatRealWindowBoundary
 import BEDC.Derived.MetricBallUp.TasteGate
 import BEDC.Derived.MetricBallUp.TopologyHandoff
 import BEDC.Derived.MetricBornologyUp.TasteGate
+import BEDC.Derived.MetricCauchyFilterBridgeUp.TasteGate
 import BEDC.Derived.MetricCauchyNetClusterUp.TasteGate
 import BEDC.Derived.MetricClosedBallUp
 import BEDC.Derived.MetricClosedBallUp.CenterTransportScope
