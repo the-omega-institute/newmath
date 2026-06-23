@@ -53,21 +53,54 @@ def uniformCompletionKleisliToEventFlow : UniformCompletionKleisliUp → EventFl
 
 def uniformCompletionKleisliFromEventFlow : EventFlow → Option UniformCompletionKleisliUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [U, A, B, M, S, R, E, H, C, P, N] =>
-      some
-        (UniformCompletionKleisliUp.mk
-          (uniformCompletionKleisliDecodeBHist U)
-          (uniformCompletionKleisliDecodeBHist A)
-          (uniformCompletionKleisliDecodeBHist B)
-          (uniformCompletionKleisliDecodeBHist M)
-          (uniformCompletionKleisliDecodeBHist S)
-          (uniformCompletionKleisliDecodeBHist R)
-          (uniformCompletionKleisliDecodeBHist E)
-          (uniformCompletionKleisliDecodeBHist H)
-          (uniformCompletionKleisliDecodeBHist C)
-          (uniformCompletionKleisliDecodeBHist P)
-          (uniformCompletionKleisliDecodeBHist N))
-  | _ => none
+  | [] => none
+  | U :: restA =>
+      match restA with
+      | [] => none
+      | A :: restB =>
+          match restB with
+          | [] => none
+          | B :: restM =>
+              match restM with
+              | [] => none
+              | M :: restS =>
+                  match restS with
+                  | [] => none
+                  | S :: restR =>
+                      match restR with
+                      | [] => none
+                      | R :: restE =>
+                          match restE with
+                          | [] => none
+                          | E :: restH =>
+                              match restH with
+                              | [] => none
+                              | H :: restC =>
+                                  match restC with
+                                  | [] => none
+                                  | C :: restP =>
+                                      match restP with
+                                      | [] => none
+                                      | P :: restN =>
+                                          match restN with
+                                          | [] => none
+                                          | N :: rest =>
+                                              match rest with
+                                              | [] =>
+                                                  some
+                                                    (UniformCompletionKleisliUp.mk
+                                                      (uniformCompletionKleisliDecodeBHist U)
+                                                      (uniformCompletionKleisliDecodeBHist A)
+                                                      (uniformCompletionKleisliDecodeBHist B)
+                                                      (uniformCompletionKleisliDecodeBHist M)
+                                                      (uniformCompletionKleisliDecodeBHist S)
+                                                      (uniformCompletionKleisliDecodeBHist R)
+                                                      (uniformCompletionKleisliDecodeBHist E)
+                                                      (uniformCompletionKleisliDecodeBHist H)
+                                                      (uniformCompletionKleisliDecodeBHist C)
+                                                      (uniformCompletionKleisliDecodeBHist P)
+                                                      (uniformCompletionKleisliDecodeBHist N))
+                                              | _ :: _ => none
 
 private theorem UniformCompletionKleisliTasteGate_single_carrier_alignment_round_trip :
     ∀ x : UniformCompletionKleisliUp,

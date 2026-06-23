@@ -54,22 +54,58 @@ def kolmogorovComplexityToEventFlow : KolmogorovComplexityUp → EventFlow
 
 def kolmogorovComplexityFromEventFlow : EventFlow → Option KolmogorovComplexityUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [p, U, I, O, F, L, B, E, T, C, P, N] =>
-      some
-        (KolmogorovComplexityUp.mk
-          (kolmogorovComplexityDecodeBHist p)
-          (kolmogorovComplexityDecodeBHist U)
-          (kolmogorovComplexityDecodeBHist I)
-          (kolmogorovComplexityDecodeBHist O)
-          (kolmogorovComplexityDecodeBHist F)
-          (kolmogorovComplexityDecodeBHist L)
-          (kolmogorovComplexityDecodeBHist B)
-          (kolmogorovComplexityDecodeBHist E)
-          (kolmogorovComplexityDecodeBHist T)
-          (kolmogorovComplexityDecodeBHist C)
-          (kolmogorovComplexityDecodeBHist P)
-          (kolmogorovComplexityDecodeBHist N))
-  | _ => none
+  | [] => none
+  | p :: restU =>
+      match restU with
+      | [] => none
+      | U :: restI =>
+          match restI with
+          | [] => none
+          | I :: restO =>
+              match restO with
+              | [] => none
+              | O :: restF =>
+                  match restF with
+                  | [] => none
+                  | F :: restL =>
+                      match restL with
+                      | [] => none
+                      | L :: restB =>
+                          match restB with
+                          | [] => none
+                          | B :: restE =>
+                              match restE with
+                              | [] => none
+                              | E :: restT =>
+                                  match restT with
+                                  | [] => none
+                                  | T :: restC =>
+                                      match restC with
+                                      | [] => none
+                                      | C :: restP =>
+                                          match restP with
+                                          | [] => none
+                                          | P :: restN =>
+                                              match restN with
+                                              | [] => none
+                                              | N :: rest =>
+                                                  match rest with
+                                                  | [] =>
+                                                      some
+                                                        (KolmogorovComplexityUp.mk
+                                                          (kolmogorovComplexityDecodeBHist p)
+                                                          (kolmogorovComplexityDecodeBHist U)
+                                                          (kolmogorovComplexityDecodeBHist I)
+                                                          (kolmogorovComplexityDecodeBHist O)
+                                                          (kolmogorovComplexityDecodeBHist F)
+                                                          (kolmogorovComplexityDecodeBHist L)
+                                                          (kolmogorovComplexityDecodeBHist B)
+                                                          (kolmogorovComplexityDecodeBHist E)
+                                                          (kolmogorovComplexityDecodeBHist T)
+                                                          (kolmogorovComplexityDecodeBHist C)
+                                                          (kolmogorovComplexityDecodeBHist P)
+                                                          (kolmogorovComplexityDecodeBHist N))
+                                                  | _ :: _ => none
 
 private theorem KolmogorovComplexityTasteGate_single_carrier_alignment_round_trip :
     ∀ x : KolmogorovComplexityUp,
