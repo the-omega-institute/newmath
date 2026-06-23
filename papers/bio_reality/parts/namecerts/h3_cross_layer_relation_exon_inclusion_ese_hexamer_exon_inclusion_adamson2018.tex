@@ -1,47 +1,57 @@
+\subsection{ESE-hexamer exon-inclusion collinearity and the translation-readout boundary}\label{sec:h3-cross-layer-relation-exon-inclusion-ese-hexamer-exon-inclusion-adamson2018}
 \origin{ai}
 
-\subsection{ESE hexamer and splice-window separation}
-\label{sec:bioreality-ese-hexamer-exon-inclusion-adamson2018}
-
-\paragraph{Finite row.}
-The finite record considered here is the splice-layer table keyed by the claim identifier \texttt{h3.cross\_layer\_relation.exon\_inclusion.ese\_hexamer\_exon\_inclusion\_adamson2018}.  Its measured row count is $n=1037$, and the computed collinearity between the ESEseq exon-inclusion perturbation coordinate and the MaxEnt splice-score perturbation coordinate is
+\paragraph{Finite row object.}
+This record isolates a cross-layer question whose observed row surface is splice-regulatory rather than translational. The admissible table is finite: it has $n=1037$ Adamson-style exon-inclusion rows, and the recorded scalar is
 $$
 \begin{aligned}
-\operatorname{collinear}(\Delta ESEseq,\Delta MaxEnt)=-0.008429245619.
+\operatorname{corr}(\Delta \mathrm{ESEseq},\Delta \mathrm{MaxEnt})=-0.008429245619.
 \end{aligned}
 $$
-The run certificate attached to this row is \texttt{8c0a6b9aeaf4}, with reported runtime $4.569444656$ seconds.  Thus the chapter is not using a symbolic splice story: it is using a finite matrix whose primary numerical outcome is a near-zero signed association between two splice-window coordinates on $1037$ assayed rows.
+The near-zero value is the chapter-level fact. It says that, on this finite surface, the ESE-hexamer perturbation coordinate and the MaxEnt splice-site coordinate do not form a strong collinear axis. Consequently the ESE signal can be treated as a distinct finite splice-regulatory coordinate for this dataset, but only at the level of exon-inclusion readout. The runtime recorded for the finite computation is $4.569444656$ seconds, so the row object is not a theoretical proxy for an unavailable experiment; it is a completed finite table with a concrete cardinality, a concrete scalar relation, and a fixed computation trace.
 
-\paragraph{Coordinate being tested.}
-The biological coordinate is an exon-inclusion surface built from ESE hexamer perturbation scores and a matched splice-model perturbation coordinate.  The first coordinate records how hexamer-level exon-splicing-enhancer information changes the observed or assayed inclusion tendency.  The second coordinate records the corresponding change in a splice-strength model.  The row is therefore a cross-layer relation only in a narrow sense: it compares an enhancer-sequence readout to a splice-window score readout.  It does not compare codon topology to translation, ribosome flow, protein abundance, folding, stability, localization, phenotype, or fitness.
-
-\paragraph{Numerical verdict.}
-The finite statistic is close to zero, with negative sign and magnitude below $10^{-2}$:
+\paragraph{Local coordinate separation.}
+The biological coordinate in this chapter is not protein output and not a translation mechanism. It is an exon-inclusion coordinate indexed by an ESE-hexamer perturbation surface and compared with a splice-site-strength surface. The measured scalar $-0.008429245619$ gives the local relation between the two splice-layer summaries. Since the magnitude is small, the finite row data do not support a reduction of the ESE coordinate to the MaxEnt coordinate. The correct readback is therefore bounded:
 $$
 \begin{aligned}
-\left| -0.008429245619 \right| &= 0.008429245619,\\
-0.008429245619 &< 0.01.
+\Delta \mathrm{ESEseq} &\not\equiv \Delta \mathrm{MaxEnt},\\
+|\operatorname{corr}(\Delta \mathrm{ESEseq},\Delta \mathrm{MaxEnt})|&=0.008429245619,\\
+ n&=1037.
 \end{aligned}
 $$
-For this row, the practical reading is separation rather than reinforcement.  The ESEseq perturbation coordinate and the MaxEnt splice perturbation coordinate are not behaving as the same one-dimensional signal on the measured table.  A positive exon-inclusion statement would therefore need to be carried by the ESE hexamer readout itself, or by a separately specified inclusion model, rather than by treating the MaxEnt perturbation coordinate as an interchangeable proxy.
+This is a relation statement, not a mechanism statement. It permits a finite-row claim that the two splice-layer axes are empirically non-collinear in the recorded table. It does not license any assertion about translation efficiency, ribosome pausing, folding, protein abundance, physical admissibility, biological function, phenotype, or universality.
 
-\paragraph{Relation to the finite codon geometry.}
-The row also sits beside a finite codon-topology scaffold used elsewhere in the same audit packet.  The saturation record reports
+\paragraph{Background finite geometry used only as a guardrail.}
+The accompanying finite codon geometry supplies a boundary check rather than an exon-inclusion mechanism. The saturated $f_3$ residue list is
 $$
 \begin{aligned}
-M &= \{AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
-&\qquad UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\},\\
-\operatorname{Sat}_{f_3}(R) &= \{AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
-&\qquad UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+\operatorname{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
+&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
 \end{aligned}
 $$
-The two codons $ACA$ and $ACG$ are present in $M$ but absent from the displayed $f_3$-saturation list, while the recorded $f_3$ boundary list is empty.  The quotient-geometry record gives the $M$-vector $(20,38,26,8,1)$, quotient vector $(10,14,6,1)$, and quotient size $10$.  These numbers may constrain codon-window residual coordinates, but they do not turn the splice-window ESE table into a translation table.  In this chapter they serve only as a finite coordinate background: the splice row remains a splice row.
+The larger finite set $M=\operatorname{Med}(R)\cup\{\mathrm{ACA}\}$ is
+$$
+\begin{aligned}
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\end{aligned}
+$$
+The boundary list for $f_3$ is empty, so this geometry contributes no positive edge case that would convert the splice-layer result into a translation-layer result. The finite quotient geometry has $|\pi_M|=10$, with $M$-vector profile $(20,38,26,8,1)$ and quotient-vector profile $(10,14,6,1)$. These numbers are useful because they prevent a false promotion from a combinatorial codon coordinate to a biological readout. They do not explain the Adamson exon-inclusion rows; they only state which codon-side finite objects are already fixed when cross-layer language is being audited.
 
-\paragraph{Admissible reading.}
-The admissible conclusion is that the Adamson-style ESE hexamer exon-inclusion finite row supports a bounded splice-layer separation claim.  On $1037$ rows, the ESEseq perturbation direction and the MaxEnt perturbation direction have collinearity $-0.008429245619$, so the measured table does not justify collapsing those two coordinates into a single splice signal.  The result is compatible with the view that enhancer-hexamer effects and splice-strength-model effects can occupy different local directions in a finite exon-inclusion assay.
+\paragraph{Comparison with other finite-row surfaces.}
+The same audit table contains several other bounded row counts, and they sharpen the scope of this chapter. A splice MaxEnt cross-organism mouse VASTDB surface has $n=50633$ and records that every tissue direction in its finite summary is positive. An alternative-polyadenylation PAS-strength surface has $24740$ genes and $296950$ PAS rows. A thermal-stability surface has $8092$ protein rows and a UniProt sequence match rate of $0.963104$. These are separate readout layers. Their row counts show that the BioReality ledger is not restricted to the $1037$ Adamson exon-inclusion rows, but none of those other surfaces supplies the missing mediation needed to promote the ESE-hexamer relation into translation, folding, function, or organismal phenotype.
 
-\paragraph{Local null boundary.}
-This chapter does not infer translation, ribosome occupancy, translation efficiency, protein abundance, folded structure, physical admissibility, molecular function, mechanism, phenotype, adaptation, or universality from the ESE hexamer row.  None of those conclusions follows from the splice-window statistic above.  A later claim at any of those layers would need its own matched biological table, its own row keys, and its own controlled statistic.  In particular, modeled codon weights, codon-window residuals, or quotient geometry cannot be promoted into a translation mechanism unless a separate position-resolved ribosome or translation-efficiency contact is joined and survives the declared controls.
+\paragraph{Position-resolved translation boundary.}
+The linked $f_3$ translation-boundary conjecture requires a different finite table: same-organism, same-CDS, same-window codon counts, bounded wobble-weight rows, matched mRNA abundance, and position-resolved ribosome-footprint occupancy. That table is not supplied by the Adamson exon-inclusion fact. Therefore the only admissible translation statement here is negative-scope: an ESE-hexamer exon-inclusion relation can coexist with codon-side coordinates, but it is not itself a position-resolved ribosome-occupancy statistic. A future translation row would need a non-vacuous statistic of the form
+$$
+\begin{aligned}
+S_{f_3\text{-stress}}(\mathrm{position\ resolved\ ribosome\ occupancy}\mid Z)>0,
+\end{aligned}
+$$
+where $Z$ includes amino-acid composition or position bins, organism, $\mathrm{GC3}$, coding-sequence length, $M$-density, mRNA abundance, rank sufficiency, coverage, mappability, and simpler-baseline ablations. In the present finite data, that statistic is absent. Hence the Adamson scalar is ready for a splice-layer chapter, while the translation-readout promotion remains unavailable.
 
-\paragraph{Break condition.}
-The record would fail its stated interpretation if the near-zero collinearity were described as evidence that ESEseq and MaxEnt are the same signal, or if the splice-window comparison were used as support for translation or protein-layer claims.  It would also fail if the codon-topology lists were treated as observations of splicing or ribosome behavior.  The finite-row result is narrower: it records a measured splice-coordinate comparison with $n=1037$ and a near-zero signed association between two exon-inclusion-related perturbation coordinates.
+\paragraph{Non-promotion boundary.}
+The structural-order ramp surface illustrates the same discipline numerically. Its primary ramp size is $50$, with five folds and minimum joined count $300$. The weighted held-out $R^2$ increment for the $f_3$ ramp is $0.0011165640103326878$, while the body increment is $-0.00026157313923957926$ and the ramp-minus-body increment is $0.001378137149572267$. The ramp sign-flip probability is $0.0478515625$, the body sign-flip probability is $0.54296875$, and the paired ramp-minus-body sign-flip probability is $0.05859375$. Its local classification is \emph{ramp positive but not localized}. This comparison is not imported as evidence for ESE biology; it is used to keep the logic honest. Even when a nearby finite surface has small positive translation-adjacent increments, the claim still cannot move into protein abundance, structural order, physical admissibility, function, mechanism, phenotype, or universal law without a layer-matched contact and the appropriate controlled statistic.
+
+\paragraph{Chapter claim.}
+The ready claim is therefore deliberately narrow. In the $1037$-row Adamson ESE-hexamer exon-inclusion surface, the ESEseq perturbation coordinate is almost uncorrelated with the MaxEnt splice-site coordinate, with observed collinearity $-0.008429245619$. This supports a finite splice-layer non-collinearity record: ESE-hexamer perturbation and splice-site-strength perturbation should not be collapsed into a single explanatory axis for this row table. The same chapter explicitly refuses stronger interpretations. No translation realization follows from the ESE scalar; no ribosome-occupancy, protein-abundance, folding, physical-admissibility, functional, mechanistic, phenotypic, or universal biological conclusion follows unless a separate finite contact supplies that layer and survives the relevant controls.

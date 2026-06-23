@@ -1,25 +1,36 @@
 \origin{ai}
-\subsection{Finite scaffold anchoring for pri-miRNA processing motifs}
+
+\subsection{Finite Drosha-Landmark Motif Certificate for the Fang Pri-miRNA Surface}
 \label{sec:bioreality-primirna-motif-drosha-processing-fang2015}
 
-\paragraph{Claim surface.}
-The finite record for \texttt{h3.cross\_layer\_relation.primirna\_processing.primirna\_motif\_drosha\_processing\_fang2015} is a bounded claim about pri-miRNA processing geometry, not a claim about coding-sequence translation.  The row table is interpreted as a scaffold-indexed sequence assay in which mature-arm landmarks determine the local windows used for motif evaluation.  The verified run reports that the wild-type consensus was obtained from input-count-weighted bases; mature $5p$ and $3p$ sequences were matched exactly in each fixed scaffold; and the windows were then anchored to three named scaffold landmarks: the basal flank at the $5p$ Drosha end, the downstream basal flank after the $3p$ Drosha end, and the apical loop between the mature arms.  No de-novo RNA-structure inference was used in this anchoring step.  Thus the carrier is a finite landmarked pri-miRNA table with observed sequence windows and processing-oriented motif coordinates, rather than a free structural model of the hairpin.
+\paragraph{Row carrier.}
+The Fang pri-miRNA processing record is treated here as a finite landmark-anchored table, not as a free RNA-folding model.  A row is a designed or observed pri-miRNA scaffold entry whose mature $5p$ and $3p$ arms are matched exactly inside a fixed scaffold, together with local sequence windows placed relative to the Drosha-processing landmarks.  The usable coordinates are the basal flank at the $5p$ Drosha end, the downstream basal flank after the $3p$ Drosha end, and the apical-loop interval between the mature arms.  The finite certificate records that the wild-type consensus was derived from input-count-weighted bases, that the mature $5p/3p$ sequences were matched exactly in each fixed scaffold, and that no de-novo RNA-structure inference was used.  Thus the scientific object certified by this row is a motif-position processing surface for pri-miRNA landmarks, not a structural folding surface.
 
-\paragraph{Finite numerical content.}
-The Fang2015 processing run \texttt{9cfc036ef9a5} records a main GC association of $r=-0.0479934$ and a runtime of $409.285$ seconds.  The sign and magnitude are treated only as a weak scalar diagnostic for the finite window table; they are not used as evidence for a general GC law.  The anchored scaffold construction is the operative datum: each motif row must inherit its position from the exact mature-arm match and the declared basal or apical landmark.  For comparison of scale only, the separate random-promoter expression run \texttt{8d1d1ac78ab7} used $n_{\mathrm{designed}}=75111$, $n_{\mathrm{hq}}=8027$, an analysis subset of $2500$ high-quality rows, $200$ permutations, seed $20260239$, and runtime $530.4038379192352$ seconds.  That promoter table is not imported as evidence for miRNA processing; it only shows that this BioReality ledger keeps each finite assay surface keyed to its own row construction, endpoint, and controls.
-
-\paragraph{Local statistic.}
-Let $W$ be the finite set of anchored pri-miRNA windows after exact mature-arm matching.  A row $w\in W$ carries a scaffold identifier, a landmark class $\ell(w)$, a local sequence context, and a processing readout from the Fang-style assay.  The admissible local summary has the form
+\paragraph{Observed finite scalars.}
+The verified run for the pri-miRNA processing claim is $9cfc036ef9a5$.  Its recorded runtime is $409.285$ seconds, and the reported main GC correlation is
 $$
 \begin{aligned}
-S_{\mathrm{Drosha}}(w\mid Z) &= \Delta\mathcal{L}\bigl(\mathrm{readout}(w);\, \mathrm{motif}(w), Z(w)\bigr),\\
-Z(w) &= \{\mathrm{GC},\ \mathrm{scaffold},\ \mathrm{landmark},\ \mathrm{arm\ identity},\ \mathrm{input\ count\ weight}\}.
+ r_{\mathrm{GC,main}} &= -0.0479934 .
 \end{aligned}
 $$
-Here $S_{\mathrm{Drosha}}$ denotes only a controlled finite-row processing statistic.  The verified scalar $r=-0.0479934$ is compatible with this framing because it is reported as a single GC-main diagnostic, while the scientific object of the chapter is the landmarked motif table.  A positive processing claim would require the motif term to improve held-out or permutation-calibrated prediction after the scaffold and composition controls are present in the same rows.
+This scalar is small in magnitude and is therefore used only as a local control diagnostic: it says that the finite motif-processing readout is not being summarized as a strong GC-only effect.  The row certificate instead depends on the scaffold-consensus construction and on the landmark anchoring described above.  As a calibration point for what counts as a separate finite experimental surface in this paper, the same audit ledger contains a random-promoter transcription record with $n_{\mathrm{designed}}=75111$, $n_{\mathrm{HQ}}=8027$, an analysis subsample of $2500$, $200$ actual permutations, seed $20260239$, and runtime $530.4038379192352$ seconds.  Those promoter numbers are not evidence for Drosha processing; they are cited only to make explicit that each BioReality row family must carry its own finite counts, run identifier, and scalar readout.
 
-\paragraph{Interpretation discipline.}
-This chapter does not identify a translation coordinate, a ribosome-occupancy coordinate, or a protein-output coordinate.  The contact is pri-miRNA processing through fixed sequence landmarks.  The exact-match mature-arm rule prevents the motif windows from floating across incompatible hairpin coordinates, and the absence of de-novo structure inference keeps the finite carrier tied to observed scaffold sequence rather than inferred folding geometry.  Consequently, the valid conclusion is narrow: the run supplies an anchored finite surface on which basal-flank, downstream-basal, and apical-loop motif effects can be tested against Drosha-oriented processing readouts.
+\paragraph{Processing claim.}
+Within this chapter the admissible claim is bounded: local pri-miRNA sequence motifs, when indexed against the fixed Drosha landmarks, define a finite processing-readout surface for the Fang scaffold system.  The anchoring rule is part of the claim.  Moving the basal or apical windows to a different coordinate system would define a different row family.  In notation, the chapter certifies a finite map of the form
+$$
+\begin{aligned}
+  (\text{scaffold},\;5p/3p\text{ match},\;\text{landmark window},\;\text{local motif state},\;Z)
+  \longmapsto
+  \text{Drosha-processing readout},
+\end{aligned}
+$$
+where $Z$ includes the scaffold identity and local composition controls needed to keep motif position distinct from a broad sequence-composition surrogate.  The scalar $r_{\mathrm{GC,main}}=-0.0479934$ is kept in the chapter precisely to prevent over-reading a GC trend as the processing mechanism.
 
-\paragraph{Cannot-claim boundary.}
-No translation realization follows from this pri-miRNA processing record.  No protein abundance, protein folding, physical admissibility, molecular function, cellular mechanism, phenotype, or universal biological law follows from the anchored motif table or from the reported GC diagnostic.  Such claims would require separate finite contacts at the relevant layer, with matched rows and their own controls.  In particular, a coding-sequence wobble-weight surface, a ribosome-footprint matrix, a translation-efficiency denominator, or a protein-level endpoint cannot be inferred from the Fang2015 scaffold anchoring note.  The record is therefore ready only as a self-contained finite processing chapter: exact mature-arm matching fixes the window coordinates; the three scaffold landmarks define the motif sites; $r=-0.0479934$ is a local GC-main diagnostic; and any larger biological interpretation remains outside the claim unless separately measured.
+\paragraph{Name certificate.}
+The name certified by this finite row is \texttt{h3.cross\_layer\_relation.primirna\_processing.primirna\_motif\_drosha\_processing\_fang2015}.  Its content is a pri-miRNA motif-to-processing relation under fixed-scaffold landmark anchoring.  The certificate does not assert that the motif windows reconstruct RNA secondary structure, that they identify a universal Microprocessor rule, or that they transfer unchanged to unrelated pri-miRNA architectures.  The phrase ``Drosha processing'' is therefore read operationally: a row is admissible only when the mature-arm matches and the basal or apical landmark window are present in the same finite scaffold record.
+
+\paragraph{No-promotion boundary.}
+No translation, protein abundance, protein folding, physical admissibility, molecular function, phenotype, mechanism, or universality follows from this certificate.  The Fang row family concerns pri-miRNA processing landmarks.  It does not provide ribosome occupancy, translation efficiency, codon-adaptation weights, protein-state measurements, physical assays, or perturbation-rescue evidence.  Any later claim at those layers would require a separate finite contact with its own rows, controls, and held-out readout.  In particular, a motif association at the Drosha-processing surface is not a general RNA mechanism unless an independent perturbation or rescue surface is attached, and it is not a translation-layer result under any reading of the present finite data.
+
+\paragraph{Break condition.}
+The chapter would fail its local certificate if the scaffold landmarks were replaced by inferred RNA structure without the fixed mature-arm match, if the motif windows were allowed to drift away from the $5p$ basal, $3p$ downstream basal, or apical-loop landmarks, or if the small GC diagnostic were promoted into the biological explanation.  It would also fail if the row were cited as evidence for translation, folding, physical admissibility, function, phenotype, or a universal law.  The supported reading is narrower and sufficient: a finite, landmark-anchored pri-miRNA motif surface was run under the Fang processing packet, with run id $9cfc036ef9a5$, runtime $409.285$ seconds, and $r_{\mathrm{GC,main}}=-0.0479934$.
