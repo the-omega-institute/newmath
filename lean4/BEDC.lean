@@ -3194,8 +3194,10 @@ import BEDC.Derived.CompactOpenMetricUp.TasteGate
 import BEDC.Derived.CompactOpenTopologyUp.TasteGate
 import BEDC.Derived.CompactOpenUniformConvergenceUp.TasteGate
 import BEDC.Derived.CompactOperatorUp
+import BEDC.Derived.CompactOperatorUp.ApproximationScheme
 import BEDC.Derived.CompactOperatorUp.FiniteRankApproximationBoundary
 import BEDC.Derived.CompactOperatorUp.ObligationScope
+import BEDC.Derived.CompactOperatorUp.PublicExportStatus
 import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
 import BEDC.Derived.CompactOperatorUp.TasteGate
 import BEDC.Derived.CompactOscillationEnvelopeUp.TasteGate
@@ -6359,6 +6361,7 @@ import BEDC.Derived.HautusTestUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeatKernelUp
 import BEDC.Derived.HeineBorelFiniteNetUp.TasteGate
+import BEDC.Derived.HeineBorelIntervalUp.MeshRefinement
 import BEDC.Derived.HeineBorelIntervalUp.NetInduction
 import BEDC.Derived.HeineBorelIntervalUp.RealSealDescent
 import BEDC.Derived.HeineBorelIntervalUp.TailStability
@@ -11586,6 +11589,7 @@ import BEDC.Derived.TriggerHypergraphReliabilityUp.Factorization
 import BEDC.Derived.TriggerHypergraphReliabilityUp.TasteGate
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
+import BEDC.Derived.TruthTotalReflectionUp.DiagonalObstruction
 import BEDC.Derived.TruthTotalReflectionUp.LedgerNonescape
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
 import BEDC.Derived.TubeLemmaUp.TasteGate
