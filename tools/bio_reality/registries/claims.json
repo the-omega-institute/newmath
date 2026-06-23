@@ -8929,6 +8929,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-23T00:25:55+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-23T00:25:55+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "94a80d6cb15d",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -12590,14 +12607,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "The frozen TargetScan canonical seed-match rule (8mer/7mer-m8/7mer-A1, NOT re-learned) TRANSFERS cross-dataset to predict independent Agarwal2015 measured miRNA target repression: seed-match strength predicts measured log2FC beyond 3'UTR length+GC, negative direction, across 7/7 independent miRNAs (cross-dataset/cross-cell-line deepening of the miRNA-target crosses; pre-registered; conclusive transfers_cross_dataset). Agarwal2015 eLife HCT116 7-miRNA transfection compendium (n=55170 miRNA-transcript observations; measured microarray log2FC; 3'UTR from Ensembl BioMart). Frozen seed partial Spearman=-0.198 controlling 3'UTR length+GC (perm p=1e-3); per-miRNA median -0.225; all 7 miRNAs negative (miR-16 -0.226, miR-106b -0.255, miR-200a -0.225, miR-200b -0.281, miR-215 -0.110, let-7c -0.188, miR-103). Positive control reproduced 7/7: 8mer < 7mer-m8 < no-site gradient (e.g. miR-16 8mer -0.124 < 7mer-m8 -0.064 < no-site +0.027). readout = measured log2FC (leakage-guarded, NOT TargetScan context++/PCT); predictor = FROZEN TargetScan canonical seed geometry. Verdict transfers_cross_dataset / bounded_descriptor_only / not_replicated.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "mirna_seed_crossdataset_agarwal2015",
       "history": [
         {
           "ts": "2026-06-22T23:42:47+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-23T00:32:36+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "50f22b191476",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "43d15adfab37cb23"
         }
-      ]
+      ],
+      "linked_conjecture_id": "decay-factor-rbp.rna-half-life.with-translation-boundary.cross-layer"
     },
     {
       "claim_id": "h3.cross_layer_relation.apa_usage.apa_pas_strength_crossdataset_polyasite_mouse",
@@ -12605,14 +12635,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "The frozen PAS-strength rule (canonical hexamer ladder + AU-rich + GU/U-rich, NOT re-learned) TRANSFERS cross-dataset/cross-organism to measured poly(A)-site usage in the independent PolyASite 2.0 mouse atlas: genome-wide (n=167610 clusters, 20110 genes) the full 4-term strength predicts within-gene relative usage beyond local GC+position at partial Spearman=+0.123 (perm p=1e-3, null95 +/-0.015), same positive sign as the human PolyA_DB result (+0.244); the cleaner hexamer+GU-only score (dropping the GC-collinear AU-rich term) is even stronger at +0.158. Cross-organism deepening of the PAS->APA crosses (pre-registered; conclusive transfers_cross_dataset; the scout's chr19-only sign-flip was a small-chromosome artifact, NOT seen genome-wide). Positive control reproduced (median TPM AATAAA 0.024 > ATTAAA 0.0098 > variant 0.0035 > none 0.0009). readout = measured 178-library 3'-seq cluster TPM usage (leakage-guarded); predictor = FROZEN PAS rule recomputed from mm10 genome (not the atlas's own signal call). HONEST caveat: the AU-rich term is collinear with local GC (pearson -0.92), so the transferable signal is mainly the hexamer+GU geometry (+0.158); the full strength (+0.123) is slightly diluted by the AU-rich/GC confound but still clears the floor with correct sign. Verdict transfers_cross_dataset / bounded_descriptor_only / not_replicated.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "apa_pas_strength_crossdataset_polyasite_mouse",
       "history": [
         {
           "ts": "2026-06-23T00:01:41+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-23T00:37:33+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "2ac7a388b975",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "981e8fb15ac246c6"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.direct-protein-omics-survival.with-translation-boundary.cross-layer"
     },
     {
       "claim_id": "h3.cross_layer_relation.stop_readthrough.stop_readthrough_crossdataset_wangen2020",
@@ -12620,26 +12663,39 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "The frozen stop-codon-context rule (stop identity UGA>UAG>UAA + downstream +1 nt C>U>A>G, NOT re-learned) TRANSFERS cross-dataset to predict measured ribosome readthrough in the independent Wangen & Green 2020 genome-wide ribosome-profiling dataset (human HEK293T; a different measurement modality than the original): frozen-rule Spearman vs measured RRTS clears |rho|>=0.10 in 4 aminoglycoside-stimulated conditions (G418 0.5 rho=0.223, G418 2.0 0.185, paromomycin 0.153, gentamicin 0.147; perm p=1e-3 each), positive control reproduced (UGA 0.304 > UAG 0.207 > UAA 0.178; UGAC highest of 16 stop4nt classes). Cross-dataset deepening of the stop-readthrough crosses (pre-registered >=3 stimulated conditions |rho|>=0.10, met). HONEST SCOPE: the ROBUST transfer is dose-dependent, concentrated in the strongest readthrough inducers -- under additional strict log-expression residualization only the 2 G418 conditions clearly survive (expr-residual 0.17-0.20), while milder inducers (gentamicin/paromomycin) drop to 0.07-0.09 and basal/untreated readthrough is at the measurement noise floor (rho=0.03). readout = measured RRTS (3'UTR/CDS ribosome density ratio; leakage-guarded); predictor = FROZEN stop-context rule, not re-fit. Verdict transfers_cross_dataset / bounded_descriptor_only / not_replicated.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "stop_readthrough_crossdataset_wangen2020",
       "history": [
         {
           "ts": "2026-06-23T00:12:14+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-23T00:39:47+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "7c85e126c888",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "cbbe078a9eaa8204"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.f3-stress.position-resolved-translation-survival.cross-layer"
     },
     {
-      "claim_id": "h3.cross_layer_relation.exon_inclusion.splice_maxent_crossorganism_mouse_vastdb",
+      "claim_id": "h3.cross_layer_relation.recombination_hotspot.prdm9_motif_dsb_crossdataset_pratto2014",
       "hypothesis_level": "H3",
       "claimed_layer": "cross_layer_relation",
-      "statement": "The frozen Yeo-Burge splice-site MaxEnt rule (3'ss acceptor, species-universal PWM, NOT re-learned) is CONSERVED in MOUSE: it predicts measured mouse exon inclusion (PSI) beyond exon length+GC, same positive direction as human, across all 6 VastDB tissues (cross-organism deepening of the splice-site->PSI crosses; pre-registered; conclusive conserved_mouse). VastDB mm10 cassette-exon subset (n=50633; measured RNA-seq PSI; 3'ss MaxEnt from VastDB SPLICE_SITE_SCORES; the 663MB PSI_TABLE + 344MB EVENT_INFO were stream-decompressed without landing on disk). Frozen MaxEnt partial Spearman=0.165 controlling log(exon length)+GC (perm p=1e-3), all 6 tissues positive (0.180-0.186), same sign as human (+0.134). Positive control reproduced (strong acceptor median PSI 99.995 / mean 92.9 vs weak acceptor mean 68.6, delta +24.3). readout = measured mouse PSI (leakage-guarded, MaxEnt is a separate file/axis); predictor = FROZEN human-defined Yeo-Burge MaxEnt PWM. Caveat: 3'ss acceptor only (5'ss donor not a single column in VastDB mm10), VastDB-atlas cassette-exon subset, mm10, observational. Verdict conserved_mouse / bounded_descriptor_only / not_conserved.",
+      "statement": "Cross-dataset/cross-individual transfer of the PRDM9-motif->DSB-hotspot crossing is NOT replicated with the frozen Myers-2008 PRDM9-A CONSENSUS PWM (a deliberately simple frozen predictor): on Pratto2014 GSE59836 DMC1-SSDS hotspots from independent PRDM9-A homozygotes (hg19, n_A=21636, n_C=21512), the consensus PWM marks hotspot PRESENCE (AUROC 0.830 vs GC-matched background, p=1e-3) -- so the PRDM9-A motif IS enriched at independent-individual hotspots -- but does NOT predict hotspot STRENGTH (partial Spearman=-0.019 after GC control, sub-floor) and FAILS allele-specificity (A-set rho -0.019 ~ C-specific rho -0.019, gap 0.0007). Pre-registered conclusive not_replicated. HONEST SCOPE: this is a limitation of the crude consensus PWM, NOT a refutation of the original PRDM9 strength-crossing -- the proper allele-specific strength test requires the richer Altemose-2017 PRDM9-A PWM, distributed as an R-serialized RDX2 binary and not stdlib-accessible. So motif-PRESENCE transfer is confirmed (AUROC 0.83) while STRENGTH/allele-specific cross-dataset transfer is UNCONFIRMED (needs the richer PWM). readout = measured DMC1-SSDS hotspot strength (leakage-guarded); predictor = FROZEN Myers consensus PWM, GC-controlled with GC-matched shuffled null. Verdict transfers_cross_dataset / bounded_descriptor_only / not_replicated.",
       "depends_on": [],
       "status": "open",
-      "experiment_id": "splice_maxent_crossorganism_mouse_vastdb",
+      "experiment_id": "prdm9_motif_dsb_crossdataset_pratto2014",
       "history": [
         {
-          "ts": "2026-06-23T00:26:30+00:00",
+          "ts": "2026-06-23T00:48:19+00:00",
           "status": "open"
         }
       ]
