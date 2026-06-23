@@ -81,6 +81,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "matching_enumerator_certificate",
     "ihara_hashimoto_zeta_certificate",
     "theta_square_factorization_certificate",
+    "theta_cube_decomposition_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -137,6 +138,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "matching_enumerator_certificate",
         "ihara_hashimoto_zeta_certificate",
         "theta_square_factorization_certificate",
+        "theta_cube_decomposition_certificate",
     },
 }
 OVERCLAIM_GATES_ENABLED = True
@@ -180,7 +182,10 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "identity_link_pivot",
     "no_scalar_determinant_recurrence",
     "theta_class_square_incidence",
+    "theta_class_cube_incidence",
     "forced_fibonacci_factorization",
+    "forced_fibonacci_segment_factorization",
+    "cube_polynomial_coordinate_resolution",
     "integer_matrix_determinant",
     "integer_laplacian_determinant",
     "smith_normal_form_determinantal_divisors",
@@ -332,7 +337,10 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "fibonacci_cube_family",
     "theta_class_coordinate_partition",
     "induced_four_cycle_incidence",
+    "induced_cube_incidence",
     "three_segment_fibonacci_factorization",
+    "all_dimension_fibonacci_segment_factorization",
+    "cube_polynomial_coordinate_resolution",
     "finite_family_enumeration",
 }
 MECHANISM_WORDS = {
