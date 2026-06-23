@@ -152,6 +152,24 @@ Use real seal non-escape from \autoref{thm:real-classifier-real-seal-nonescape}.
 Finally apply ledger exhaustion from \autoref{thm:real-classifier-ledger-exhaustion}. The structural rows $H,K,P,N$ only transport, replay, source, and name the displayed finite packet, so every accepted public read consumes $W$ and $D$ before it reaches $C$ or $E$.
 \end{proof}
 
+\begin{theorem}[RealClassifier common-window quotient refusal]
+\label{thm:real-classifier-common-window-quotient-refusal}
+For accepted $\RealClassifierUp$ carriers, a public equality or classifier read is admissible only when both terminal $\RealUp$ seals are compared through the same $\StreamNameUp$ window $W$ and the same $\DyadicRatCoreUp$ ledger $D$. Any attempted read that identifies the terminal $\RealUp$ seals directly, without displaying both $W$ and $D$, leaves the carrier surface and cannot be cited as $\RealClassifierUp$ evidence.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier
+$$
+Q=(X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N).
+$$
+The carrier exposes the two terminal seals only together with their regular rational source rows, readbacks, common window, tolerance ledger, classifier row, equivalence boundary, and structural rows.
+
+Apply the RegSeqRat handoff of \autoref{thm:real-classifier-regseqrat-handoff}. It forces every public classifier read through $S_X,S_Y,R_X,R_Y,W,D,C,E$ before the terminal boundary is consumed.
+
+Apply real seal non-escape from \autoref{thm:real-classifier-real-seal-nonescape}. It rules out a direct host equality or quotient equality read on $X,Y$ as an endpoint supplied by the carrier.
+
+Use ledger exhaustion from \autoref{thm:real-classifier-ledger-exhaustion} and window scope from \autoref{thm:real-classifier-window-scope}. These keep the structural rows $H,K,P,N$ tied to the same finite packet and require the common window $W$ and ledger $D$ before any $\RealNameClassifierUp$ or $\RegularCauchyEquivalenceUp$ row is consumed. A read that omits either row is therefore outside the accepted $\RealClassifierUp$ evidence surface.
+\end{proof}
+
 \begin{theorem}[RealClassifier source scope]
 \label{thm:real-classifier-source-scope}
 Every accepted $\RealClassifierUp$ public read factors through exactly the source scopes named by the carrier: the terminal $\RealUp$ seals $X,Y$, the regular rational source and readback rows $S_X,S_Y,R_X,R_Y$, the common $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ ledger $D$, the $\RealNameClassifierUp$ row $C$, the $\RegularCauchyEquivalenceUp$ row $E$, and the structural rows $H,K,P,N$. No quotient stream equality, host real equality, trichotomy, countable choice, selected limit, or ambient completeness principle can bypass those scopes.

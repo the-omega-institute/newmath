@@ -121,6 +121,37 @@ Use \autoref{thm:contour-sum-window-namecert-obligations} to read output readbac
 The boundary theorem \autoref{thm:contour-sum-window-cauchy-boundary} keeps the same seal for Cauchy-facing consumers. It therefore exports only the finite contour-window output row and refuses quotient complex values, selected limits, and host contour integration.
 \end{proof}
 
+\begin{theorem}[ContourSumWindow public finite-window certificate]
+\label{thm:contoursumwindow-public-certificate}
+The public $\ContourSumWindowUp$ certificate is exactly the finite route through
+the $\mathsf{PLContour}$ row, holomorphic input row, subdivision row,
+Riemann-sum ledger, $\ComplexUp$ output seal, componentwise transport,
+continuation replay, package provenance, and local NameCert. Any consumer of
+the certificate must read
+$$
+\gamma,f,S,R,I,H,C,P,N
+$$
+as the same finite packet before it can inspect the window output.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of
+\autoref{thm:contour-sum-window-namecert-obligations}. They identify the public
+surface with carrier admission, subdivision ledger exactness, contour route
+stability, output readback, package provenance, and non-escape from host
+analytic objects.
+
+Use subdivision exactness and refinement stability next. Theorems
+\autoref{thm:contour-sum-window-subdivision-exactness} and
+\autoref{thm:contour-sum-window-refinement-stability} keep every summand and
+every refinement replay attached to $\gamma,f,S,R,I,H,C,P,N$.
+
+Finally apply the residue boundary and output-seal nonescape theorems,
+\autoref{thm:contour-sum-window-residue-boundary} and
+\autoref{thm:contour-sum-window-output-seal-nonescape}. They force any
+residue-facing or output-facing read to pass through the same finite rows and
+therefore repack the displayed window as the public certificate.
+\end{proof}
+
 \closureat{ContourSumWindowUp}{seedStr}
 
 \begin{closurestatus}{\ContourSumWindowUp}
