@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\JordanVariationUp$}
+\label{ch:concrete-instances-jordan-variation-namecert}
+\origin{human}
+
+Following Bishop and Bridges on functions of bounded variation and the classical Jordan treatment of positive and negative variation, the $\JordanVariationUp$ packet records signed variation as finite NameCert data over displayed partition ledgers. It sits after the bounded-variation surface of \autoref{ch:concrete-instances-boundedvariation-namecert}, the cumulative total-variation route of \autoref{ch:concrete-instances-total-variation-function-namecert}, the variation-measure ledger of \autoref{ch:concrete-instances-variation-measure-namecert}, the uniform partition row of \autoref{ch:concrete-instances-uniform-partition-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only finite positive and negative variation rows attached to displayed partitions; it does not import a signed measure, a quotient of functions, selected representatives, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Jordan variation carrier]
+\label{def:jordan-variation-carrier}
+A $\JordanVariationUp$ carrier is a finite $\BHist$ packet
+$$
+J=(F,V^{+},V^{-},T,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the bounded-variation source row, read through $\BoundedVariationUp$ and the displayed real-valued endpoint names.
+\item $V^{+}$ is the positive-variation row, listing finite positive edge contributions on the displayed partition ledger.
+\item $V^{-}$ is the negative-variation row, listing finite negative edge contributions on the same partition ledger.
+\item $T$ is the total-variation readback row, recording the equality of the displayed total ledger with the finite sum of $V^{+}$ and $V^{-}$ rows.
+\item $L$ is the partition ledger, recording the uniform-partition source, refinement tags, endpoint order, and finite edge names used by all three variation rows.
+\item $R$ is the $\RealUp$ seal row for endpoint values, edge readback, and total-variation comparison.
+\item $H$ records componentwise $\hsame$ transport for the source, positive row, negative row, total-variation row, partition ledger, real seal, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from carrier admission through positive variation, negative variation, total readback, partition transport, real-seal readback, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\BoundedVariationUp$, $\TotalVariationFunctionUp$, $\VariationMeasureUp$, $\UniformPartitionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\JordanVariationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host signed measure, a quotient equality class of functions, selected representatives of real values, an unlisted partition family, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Jordan variation NameCert obligations]
+\label{thm:jordan-variation-namecert-obligations}
+For the carrier of \autoref{def:jordan-variation-carrier}, the local $\NameCert_{\JordanVariationUp}$ surface consists exactly of carrier admission for $J$, bounded-variation source admission through $F$, positive and negative variation admission through $V^{+}$ and $V^{-}$, total-variation readback through $T$, partition-ledger exposure through $L$, real-seal readback through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+Every accepted consumer reads signed variation from this finite surface before it may pass the packet to regulated, Riemann--Stieltjes, or variation-measure routes.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the finite packet $J=(F,V^{+},V^{-},T,L,R,H,C,P,N)$. The bounded-variation source row $F$ and the partition ledger $L$ are present before either signed row is inspected.
+
+The split exactness is then read from $V^{+}$, $V^{-}$, and $T$. The positive and negative rows record finite edge contributions on the same displayed ledger, while $T$ records their total-variation readback through the $\TotalVariationFunctionUp$ and $\RealUp$ routes.
+
+The partition ledger cannot escape the packet. Refinements, endpoint order, edge names, and uniform-partition source are recorded in $L$ and transported only through $H$ and $C$; no consumer receives an unlisted partition family or a host supremum.
+
+Finally read $P$ and $N$. Provenance ties the carrier to the bounded-variation, total-variation, variation-measure, uniform-partition, and real-name siblings, and the local NameCert row names exactly that finite surface. Since no coordinate stores a signed measure, quotient equality, selected representative, or ambient completeness principle, each such read is refused at the carrier boundary.
+\end{proof}
+
+\falsifiablePrediction{If a JordanVariationUp packet exports a positive or negative variation row without the common partition ledger $L$ and real seal $R$, the carrier is refuted.}
+
+\independenceWitness{boundedvariation, total-variation-function, variation-measure, uniform-partition, and real: none is bijective to $\JordanVariationUp$ because this packet stores the signed positive row, signed negative row, total-variation readback, partition ledger, Real seal, transport, replay, provenance, and local NameCert rows together as one finite surface.}
+
+\closureat{JordanVariationUp}{seedStr}
+
+\begin{closurestatus}{\JordanVariationUp}
+  \constructivestory{A $\JordanVariationUp$ packet is generated by displaying a bounded-variation source, positive variation row, negative variation row, total-variation readback, partition ledger, Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local $\NameCert$ row in one finite $\BHist$ carrier.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:jordan-variation-carrier} and \autoref{thm:jordan-variation-namecert-obligations} seed the finite signed-variation surface over $\BoundedVariationUp$, $\TotalVariationFunctionUp$, $\VariationMeasureUp$, $\UniformPartitionUp$, and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host signed measures, quotient equality of functions, selected representatives, unlisted partition families, countable choice, bridge checking, Lean verification, or ambient completeness of $\RealUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, split exactness, total-variation readback, partition-ledger nonescape, transport, replay, provenance, and refusal rows for the displayed packet.}
+\end{closurestatus}
