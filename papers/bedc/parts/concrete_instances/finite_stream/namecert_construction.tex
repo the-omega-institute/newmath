@@ -129,6 +129,24 @@ Next use \autoref{thm:finite-stream-streamname-dependency-route} and \autoref{th
 The product window is therefore formed only after both component routes are visible. Pair the two displayed StreamName windows componentwise, then read $R_0,R_1$, $D_0,D_1$, $H_0,H_1$, $C_0,C_1$, $P_0,P_1$, and $N_0,N_1$ along the same finite request/list routes. Since neither carrier contains a host product stream, quotient stream equality, selected limit, or ambient completeness coordinate, the paired read remains a finite product-window route.
 \end{proof}
 
+\begin{theorem}[FiniteStream finite-window factorization]
+\label{thm:finite-stream-window-factorization}
+Every accepted $\FiniteStreamUp$ packet consumed by a $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ finite-window route factors through the list-indexed finite request surface
+$$
+Q,L,W,R,D,H,C,P,N.
+$$
+The factorization first exposes the finite request row $Q$ and $\ListUp$ prefix spine $L$, then the displayed $\StreamNameUp$ window $W$, then the $\RegSeqRatUp$ readback boundary $R$ and $\DyadicRatCoreUp$ tolerance row $D$, and finally the componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. It exports no infinite stream, quotient stream equality, countable choice, selected limit, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:finite-stream-carrier}. The packet inventory gives $Q,L,W,R,D,H,C,P,N$ and no coordinate outside that finite list.
+
+Use the StreamName route of \autoref{thm:finite-stream-streamname-route}. It forces every StreamName-facing consumer to display $Q,L,W$ before the downstream rows are available.
+
+Next use the product-window theorem, \autoref{thm:finite-stream-product-window}, in the singleton component case. The same argument that blocks a product read from bypassing its two request/list surfaces blocks a one-window read from bypassing its single request/list surface.
+
+It remains to identify the unavailable coordinates. The carrier contains no completed stream, quotient stream equality, countable-choice schedule, selected limit, or ambient Real completeness row, so the finite-window route factors exactly through the displayed request, window, readback, transport, replay, provenance, and naming rows.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\FiniteStreamUp$ read is refuted if it reaches a $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer without displaying the finite request row, $\ListUp$ prefix spine, finite-window handoff, regular-rational readback boundary, dyadic tolerance row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence.}
 
 \independenceWitness{list, streamname, regseqrat, dyadicratcore, real: $\FiniteStreamUp$ is not bijective to any listed sibling because it jointly carries a finite request row, a List prefix spine, a StreamName window handoff, RegSeqRat readback boundary, DyadicRatCore tolerance row, transport, replay, provenance, and local naming as one finite schedule packet.}
