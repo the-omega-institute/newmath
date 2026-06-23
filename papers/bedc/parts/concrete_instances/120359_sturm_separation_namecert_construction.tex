@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\SturmSeparationUp$}
+\label{ch:concrete-instances-sturm-separation-namecert}
+\origin{human}
+
+Following Sturm and Coddington--Levinson on zero separation for scalar second-order equations, the $\SturmSeparationUp$ packet records the finite BEDC surface by which two displayed solution-window rows witness alternating zero windows before any global solution theorem is used. It sits beside the real-name boundary of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the local ODE source of \autoref{ch:concrete-instances-ode-namecert}, the interval carrier of \autoref{ch:concrete-instances-interval-namecert}, and the continuous-map handoff of \autoref{ch:concrete-instances-continuousmap-namecert}. It also consumes the Sturm sequence, comparison, and root-count siblings of \autoref{ch:concrete-instances-sturm-sequence-namecert}, \autoref{ch:concrete-instances-sturm-comparison-namecert}, and \autoref{ch:concrete-instances-sturm-root-count-namecert}. The packet names separation data as displayed rows only; it is not global ODE completeness, a selected classical solution curve, quotient real equality, sign trichotomy, or hidden choice.
+
+\begin{definition}[Sturm separation carrier]
+\label{def:sturm-separation-carrier}
+A $\SturmSeparationUp$ carrier is a finite $\BHist$ packet
+$$
+S=(O,I,F,G,Z,A,B,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OdeUp$ source row for the scalar second-order equation and its local solution-window request.
+\item $I$ is the $\IntervalUp$ row naming the inspected compact interval and its left, middle, and right subwindows.
+\item $F$ and $G$ are two $\ContinuousMapUp$ solution-observation rows over the interval window.
+\item $Z$ is the zero-window ledger, recording the displayed zeros of $F$ and the adjacent zero-search windows for $G$.
+\item $A$ is the alternation ledger, recording which $G$ zero-window is read between adjacent $F$ zero-windows and which $F$ zero-window is read between adjacent $G$ zero-windows.
+\item $B$ is the $\SturmComparisonUp$ coefficient and comparison handoff row.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint and tolerance ledger for the zero windows and comparison inequalities.
+\item $R$ is the $\RegSeqRatUp$ readback row for the endpoint, coefficient, and solution-observation windows.
+\item $E$ is the terminal $\RealUp$ seal reached only after $O,I,F,G,Z,A,B,D,R$ are displayed.
+\item $H$ records componentwise $\hsame$ transport for the ODE, interval, solution rows, zero ledgers, comparison rows, dyadic ledger, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a separation request through the ODE source, interval window, solution observations, zero ledgers, comparison handoff, dyadic and regular readbacks, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\SturmSeparationUp$, $\OdeUp$, $\IntervalUp$, $\ContinuousMapUp$, $\SturmSequenceUp$, $\SturmComparisonUp$, $\SturmRootCountUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SturmSeparationUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for global ODE completeness, host solution equality, excluded-middle sign trichotomy, quotient real equality, or a selected classical solution curve.
+\end{definition}
+
+\begin{theorem}[Sturm separation NameCert obligations]
+\label{thm:sturm-separation-namecert-obligations}
+For every accepted $\SturmSeparationUp$ carrier
+$$
+S=(O,I,F,G,Z,A,B,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\SturmSeparationUp}$ surface consists exactly of carrier admission, ODE-source exposure, interval-window exposure, two continuous solution-observation rows, zero-window exposure, alternation-ledger exposure, Sturm comparison handoff, dyadic endpoint and tolerance accounting, regular rational readback, terminal Real sealing, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sturm-separation-carrier}. The rows $O,I,F,G$ are the only displayed source rows, so a separation read cannot inspect a host solution space before the local ODE, interval, and continuous-map observations are opened.
+
+Read the zero data through $Z$ and the alternation data through $A$. These rows record finite adjacent windows rather than an ambient zero set or a trichotomy oracle.
+
+Use the Sturm comparison handoff row $B$ together with the dyadic and regular readback rows $D,R$. They place coefficient comparisons, endpoint tolerances, and solution observations on the same finite windows before the terminal seal $E$ is available.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no displayed coordinate names global completeness, host solution equality, quotient real equality, hidden choice, or selected classical curves, those objects are not local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Sturm separation zero interlacing route]
+\label{thm:sturm-separation-zero-interlacing-route}
+Every accepted $\SturmSeparationUp$ zero-interlacing read factors through the displayed route
+$$
+O,I,F,G \longmapsto Z,A \longmapsto B,D,R \longmapsto E \longmapsto H,C,P,N .
+$$
+The route exposes one local ODE source, one inspected interval, two continuous solution-observation rows, finite zero-window and alternation ledgers, the Sturm comparison handoff, dyadic endpoint accounting, regular rational readback, a terminal Real seal, transport, replay, provenance, and local naming. It exports no global ODE completeness theorem, selected solution curve, quotient real equality, sign trichotomy, or hidden choice principle.
+\end{theorem}
+\begin{proof}
+Start with a consumer of zero separation. The ODE source row $O$ and interval row $I$ must be displayed before any solution observation is read, and the two solution rows $F,G$ are available only as $\ContinuousMapUp$ observations over that interval.
+
+The zero-window ledger $Z$ then names the inspected adjacent windows. The alternation ledger $A$ records the finite interlacing claim by pointing from each displayed zero-window of one solution row to the displayed search window of the other.
+
+Apply the Sturm comparison handoff $B$ with the dyadic and regular readback rows $D,R$. This binds coefficient comparisons, endpoint tolerances, and solution-window readbacks to the same finite route before the $\RealUp$ seal $E$ is readable.
+
+The structural rows $H,C,P,N$ preserve and name that route. Hence every accepted zero-interlacing read is the finite packet above, with no appeal to global completeness, selected solution curves, quotient real equality, sign trichotomy, or hidden choice.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SturmSeparationUp$ consumer that reads zero separation without first displaying $O,I,F,G,Z,A,B,D,R,E,H,C,P,N$ refutes the carrier surface.}
+
+\independenceWitness{real, regseqrat, dyadicratcore, ode, interval, continuousmap, sturmsequence, sturmcomparison, sturmrootcount: no listed sibling supplies the joint packet containing one ODE source, one interval window, two continuous solution-observation rows, zero-window and alternation ledgers, Sturm comparison handoff, dyadic endpoint accounting, regular rational readback, Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{SturmSeparationUp}{seedStr}
+
+\begin{closurestatus}{\SturmSeparationUp}
+  \constructivestory{A $\SturmSeparationUp$ packet is generated from an OdeUp source row, an IntervalUp window, two ContinuousMap solution-observation rows, zero-window and alternation ledgers, a SturmComparison handoff, DyadicRatCore endpoint accounting, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sturm-separation-carrier}, \autoref{thm:sturm-separation-namecert-obligations}, and \autoref{thm:sturm-separation-zero-interlacing-route} seed the finite zero-interlacing route for displayed scalar ODE solution windows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close classical global ODE completeness, selected solution curves, quotient real equality, sign trichotomy, hidden choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, ODE and interval exposure, continuous solution-window exposure, zero-window exactness, alternation-ledger exactness, Sturm comparison handoff, dyadic and regular readback discipline, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.SturmSeparationUp.}
+\end{closurestatus}
