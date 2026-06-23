@@ -248,6 +248,46 @@ Next apply \autoref{thm:sheafification-plus-gluing-replay}. The plus-style gluin
 The provenance and local naming rows $Q,N$ record the same route. Since \autoref{thm:sheafification-local-namecert-nonescape} excludes host quotients, selected covers, and topos-level reflectors, the replay remains inside the finite BEDC carrier.
 \end{proof}
 
+\begin{theorem}[Sheafification site-plus boundary obligations]
+\label{thm:sheafification-site-plus-boundary-obligations}
+Every accepted $\SheafificationUp$ carrier records the site-to-plus boundary as finite $\BHist$ rows: the displayed site rows $C,T,J$, presheaf restriction row $P$, separated-plus locality row $L$, gluing row $G$, sheaf handoff row $S$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $R$, $\Pkg$ provenance $Q$, and local $\NameCert$ row $N$. A plus consumer must read the site and presheaf rows before it may consume separated-plus, locality, or gluing rows.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple $A=(C,T,J,P,L,G,S,H,R,Q,N)$ from \autoref{def:sheafification-carrier}. The displayed site is the finite source surface $C,T,J$, and the presheaf row is $P$.
+
+Read the site row before plus construction. The coverage and presheaf restriction obligations force every plus request to expose $C,T,J,P$ before any separated-refinement row in $L$ is available.
+
+Use componentwise transport and replay. The rows $H$ and $R$ preserve this order under $\hsame$ transport and displayed $\Cont$ replay, while $Q,N$ record provenance and local naming for exactly the same finite route.
+\end{proof}
+
+\begin{theorem}[Sheafification plus separation obligation]
+\label{thm:sheafification-plus-separation-obligation}
+For every accepted $\SheafificationUp$ read, separatedness is consumed as a displayed plus row before any gluing handoff is exported. The finite route is
+$$
+C,T,J,P,L \longmapsto G \longmapsto S,H,R,Q,N ,
+$$
+where $C,T,J$ are site rows, $P$ is the presheaf row, $L$ is the separated-plus locality row, $G$ is the gluing row, $S$ is the sheaf-facing target row, and $H,R,Q,N$ are the $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ structural rows.
+\end{theorem}
+\begin{proof}
+First project the displayed carrier. The separated-plus information occurs in $L$, not in a quotient of compatible families and not in a host reflector.
+
+Read separatedness before gluing. By \autoref{thm:sheafification-separated-refinement-exactness} and \autoref{thm:sheafification-separated-refinement-transport}, a consumer reaches $G$ only after $L$ has already been read over the site and presheaf rows.
+
+Finally use the sheaf handoff ledger. The rows $S,H,R,Q,N$ transport, replay, record, and name the post-gluing handoff, so stability is componentwise and no separate sheafification object is introduced.
+\end{proof}
+
+\begin{theorem}[Sheafification locality gluing obligation]
+\label{thm:sheafification-locality-gluing-obligation}
+Every locality-to-gluing read of an accepted $\SheafificationUp$ packet is anchored in finite BEDC data: $\BHist$ site rows, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, the local $\NameCert$ row, and the displayed site, presheaf, separated-plus, locality, and gluing rows of the carrier. Gluing stability is therefore a componentwise replay property of $C,T,J,P,L,G,S,H,R,Q,N$, not a quotient-family or topos-reflection principle.
+\end{theorem}
+\begin{proof}
+Start with the locality row $L$. It is attached to the displayed category, topology or Grothendieck coverage, and presheaf rows $C,T,J,P$, so local matching has no detached cover selector.
+
+Then read the gluing row $G$. The plus gluing replay theorem routes the local matching data through $G$ and into the sheaf-facing row $S$ only after the separated-plus boundary has been exposed.
+
+Transport and replay finish the stability claim. Componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $R$, $\Pkg$ provenance $Q$, and local $\NameCert$ row $N$ preserve the same finite route for downstream consumers.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\SheafificationUp$ read displays CategoryUp, TopologyUp or GrothendieckTopologyUp, PreSheafUp, locality, gluing, SheafUp, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any sheaf-facing consumer can use the target row.}
 
 \independenceWitness{category, topology, grothendieck topology, presheaf, sheaf: $\SheafificationUp$ is not bijective to any listed sibling because it binds locality refinement and gluing handoff rows between a displayed presheaf source and a displayed sheaf target.}

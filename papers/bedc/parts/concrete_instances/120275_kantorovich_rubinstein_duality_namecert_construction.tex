@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\KantorovichRubinsteinDualityUp$}
+\label{ch:concrete-instances-kantorovich-rubinstein-duality-namecert}
+\origin{human}
+
+Following Kantorovich and Rubinstein, the $\KantorovichRubinsteinDualityUp$ packet records the finite dual-test surface that compares a Wasserstein transport-cost row with a Lipschitz test-function row. It consumes the transport-plan carrier of \autoref{ch:concrete-instances-wasserstein-namecert}, the finite-support linear-programming surface of \autoref{ch:concrete-instances-optimaltransport-namecert}, the probability rows of \autoref{ch:concrete-instances-probspace-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, the test-function carrier of \autoref{ch:concrete-instances-lipschitz-function-namecert}, and the terminal scalar seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the displayed duality handoff; it does not assert measure completion, arbitrary Polish-space duality, selected optimal plans, selected extremal functions, quotient function-space equality, or an ambient real-valued supremum.
+
+\begin{definition}[Kantorovich--Rubinstein duality carrier]
+\label{def:kantorovich-rubinstein-duality-carrier}
+A $\KantorovichRubinsteinDualityUp$ carrier is a finite $\BHist$ packet
+$$
+D=(W,T,\mu,\nu,M,L,R,B,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $W$ is a $\WassersteinUp$ transport-plan row whose cost ledger is already displayed.
+\item $T$ is an $\OptimalTransportUp$ finite-support certificate row exposing the primal finite linear-programming surface.
+\item $\mu$ and $\nu$ are $\ProbSpaceUp$ source and target probability rows read by both the primal and dual ledgers.
+\item $M$ is the $\MetricUp$ source row used by the transport cost and the Lipschitz constraint.
+\item $L$ is a $\LipschitzFunctionUp$ test-function row whose displayed constant is bounded by $1$ against $M$.
+\item $R$ is the $\RealUp$ scalar row comparing the transport-cost ledger with the displayed test-function difference.
+\item $B$ is the dual-bound ledger: every accepted read of $R$ factors through the $1$-Lipschitz test row $L$, the probability rows $\mu,\nu$, and the primal transport row $W$.
+\item $H$ records componentwise $\hsame$ transport for $W,T,\mu,\nu,M,L,R,B,C,P,N$.
+\item $C$ stores displayed $\Cont$ replay from the transport and test-function rows to the scalar bound row.
+\item $P$ is the $\Pkg$ provenance over $\KantorovichRubinsteinDualityUp$, $\WassersteinUp$, $\OptimalTransportUp$, $\ProbSpaceUp$, $\MetricUp$, $\LipschitzFunctionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KantorovichRubinsteinDualityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for completed measures, arbitrary bounded continuous functions, an unlisted supremum, a selected optimal coupling, a selected extremal Lipschitz function, quotient function-space equality, or host real equality.
+\end{definition}
+
+\begin{theorem}[Kantorovich--Rubinstein NameCert obligations]
+\label{thm:kantorovich-rubinstein-duality-namecert-obligations}
+For every accepted $\KantorovichRubinsteinDualityUp$ carrier
+$$
+D=(W,T,\mu,\nu,M,L,R,B,H,C,P,N),
+$$
+the local $\NameCert_{\KantorovichRubinsteinDualityUp}$ surface consists exactly of carrier admission, Wasserstein transport-cost exposure through $W$, finite primal certificate exposure through $T$, probability marginal exposure through $\mu,\nu$, metric readback through $M$, $1$-Lipschitz test exposure through $L$, scalar comparison through $R$, dual-bound accounting through $B$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kantorovich-rubinstein-duality-carrier}. Its analytic rows are $W,T,\mu,\nu,M,L,R,B$, and its structural rows are $H,C,P,N$.
+
+The primal side is forced by $W$ and $T$. The Wasserstein row supplies the displayed transport-cost ledger, while the optimal-transport row supplies the finite linear-programming certificate that bounds the same finite support surface.
+
+The dual side is forced by $L,\mu,\nu,M,R,B$. The Lipschitz row is read against the metric row $M$, the probability rows provide the two displayed integrals or finite sums, and $B$ records only the resulting scalar comparison in $R$.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since no row stores completed measures, arbitrary bounded continuous functions, an unlisted supremum, selected optimizers, quotient function-space equality, or host real equality, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Kantorovich--Rubinstein Lipschitz-test handoff]
+\label{thm:kantorovich-rubinstein-duality-lipschitz-test-handoff}
+Every consumer that reads a scalar dual bound from an accepted $\KantorovichRubinsteinDualityUp$ carrier must first expose the finite route
+$$
+W,T,\mu,\nu,M,L,R,B,H,C,P,N.
+$$
+In particular, the Lipschitz-test handoff cannot reach the $\RealUp$ comparison row $R$ without reading the $\WassersteinUp$ transport ledger, the $\OptimalTransportUp$ finite primal certificate, the two $\ProbSpaceUp$ marginals, the $\MetricUp$ source, and the $\LipschitzFunctionUp$ test row.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations. They make the displayed carrier route the complete public surface of the accepted packet.
+
+The transport side must be read before the scalar comparison. The rows $W$ and $T$ expose the primal cost and finite-support certificate, while $\mu,\nu$ and $M$ supply the probability and metric data shared with the dual test.
+
+The Lipschitz side then supplies the only dual-test row. The row $L$ carries the $1$-Lipschitz constraint against $M$, and $B$ records the comparison that reaches $R$.
+
+Thus any consumer of $R$ has already traversed the listed finite route. Because the carrier has no coordinate for completed measures, unlisted test functions, selected optimizers, quotient function-space equality, or host real equality, no stronger Kantorovich--Rubinstein duality theorem is exported.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\KantorovichRubinsteinDualityUp$ consumer that reaches the scalar dual-bound row without reading $W,T,\mu,\nu,M,L,R,B,H,C,P,N$ refutes the duality carrier.}
+
+\independenceWitness{wasserstein, optimaltransport, probspace, metric, lipschitz-function, real: none of these siblings alone carries the joint packet containing transport cost, finite primal certificate, two probability marginals, metric source, Lipschitz test row, scalar comparison, dual-bound ledger, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{KantorovichRubinsteinDualityUp}{seedStr}
+
+\begin{closurestatus}{\KantorovichRubinsteinDualityUp}
+  \constructivestory{A $\KantorovichRubinsteinDualityUp$ packet is generated from a Wasserstein transport-cost row, an OptimalTransport finite primal certificate, two ProbSpace marginal rows, a Metric source row, a LipschitzFunction test row, a Real scalar comparison row, a dual-bound ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kantorovich-rubinstein-duality-carrier}, \autoref{thm:kantorovich-rubinstein-duality-namecert-obligations}, and \autoref{thm:kantorovich-rubinstein-duality-lipschitz-test-handoff} seed the displayed finite duality route from transport cost to Lipschitz-test scalar comparison.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean theorem verification, bridge checking, measure completion, arbitrary Polish-space duality, selected optimal plans, selected extremal functions, quotient function-space equality, or ambient $\RealUp$ supremum claims.}
+  \upgradepath{Obligation closure requires checked carrier admission, transport-cost exposure, finite primal certificate exposure, marginal readback, metric compatibility, Lipschitz-test compatibility, scalar comparison nonescape, transport, replay, provenance, and local naming for BEDC.Derived.KantorovichRubinsteinDualityUp.}
+\end{closurestatus}
