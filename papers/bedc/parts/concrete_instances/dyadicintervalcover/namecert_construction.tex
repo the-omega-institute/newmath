@@ -603,6 +603,16 @@ Apply \autoref{thm:dyadicintervalcover-root-refinement-obligations}. A displayed
 Use \autoref{thm:dyadicintervalcover-root-ledger-obligations}. The ledger is exhausted by $R,V$ against $L,U,M,W,Q,A,H,C,P,N$, hence the induction has no extra coordinate from which to read compactness, a selected subcover, quotient stream equality, countable choice, or Real completeness.
 \end{proof}
 
+\begin{theorem}[DyadicIntervalCover finite mesh induction]
+\label{thm:dyadic-interval-cover-finite-mesh-induction}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Finite induction over the displayed mesh rows preserves the endpoint rows $L,U$, mesh and radius rows $M,R$, membership row $V$, $\StreamNameUp$ window $W$, $\RegSeqRatUp$ readback $Q$, $\RealUp$ seal $A$, and structural rows $H,C,P,N$. The induction exports no selected subcover, quotient equality, countable choice, open-cover compactness, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:dyadic-interval-cover-mesh-refinement-induction} for the finite induction spine and \autoref{thm:dyadicintervalcover-root-refinement-obligations} for the endpoint, mesh, radius, membership, window, readback, and seal rows preserved at each step.
+
+Use \autoref{thm:dyadicintervalcover-ledger-exactness} to keep the route exhausted by $L,U,M,R,V,W,Q,A,H,C,P,N$, and then apply \autoref{thm:dyadicintervalcover-real-seal-nonescape-obligation}. The Real seal remains downstream of the same finite projection, so the induction has no coordinate for selected subcovers, quotient equality, countable choice, open-cover compactness, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[DyadicIntervalCover endpoint comparison totality]
 \label{thm:dyadic-interval-cover-endpoint-comparison-totality}
 For an accepted $\DyadicIntervalCoverUp$ carrier $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$, every cover decision compares lower and upper $\DyadicRatCoreUp$ endpoint rows through the displayed mesh and tolerance ledger before the terminal $\RealUp$ seal is read. The comparison route is total for the finite displayed cover rows because each membership row $V$ is checked against $L,U,M,R,W,Q$ and then transported, replayed, packaged, and named only by $H,C,P,N$.

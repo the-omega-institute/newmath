@@ -1664,6 +1664,7 @@ import BEDC.Derived.CauchyApproximationTreeUp.TasteGate
 import BEDC.Derived.CauchyBicategoryUp
 import BEDC.Derived.CauchyBornologicalUniformityUp.TasteGate
 import BEDC.Derived.CauchyBornologyUp.TasteGate
+import BEDC.Derived.CauchyBoundSelectorUp.TasteGate
 import BEDC.Derived.CauchyBoundednessCriterionUp.TasteGate
 import BEDC.Derived.CauchyCarrierNameCertUp
 import BEDC.Derived.CauchyChainCriterionUp.TasteGate
@@ -10703,6 +10704,7 @@ import BEDC.Derived.SeparatedUniformSpaceUp.TasteGate
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeqUp.TasteGate
 import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
+import BEDC.Derived.SequentialArchimedeanRealUp.TasteGate
 import BEDC.Derived.SequentialCauchyFilterUp.TasteGate
 import BEDC.Derived.SequentialCauchyRegularizationUp.TasteGate
 import BEDC.Derived.SequentialCauchySelectorUp.TasteGate
@@ -11988,6 +11990,8 @@ import BEDC.Derived.WeakCompactnessUp
 import BEDC.Derived.WeakDerivativeUp.TasteGate
 import BEDC.Derived.WeakKonigBoundaryUp.TasteGate
 import BEDC.Derived.WeakLawLargeNumbersUp.TasteGate
+import BEDC.Derived.WeakOmniscienceBoundaryUp.NameCertObligations
+import BEDC.Derived.WeakOmniscienceBoundaryUp.TasteGate
 import BEDC.Derived.WeakStarCompactnessUp.TasteGate
 import BEDC.Derived.WeakStarTopologyUp.TasteGate
 import BEDC.Derived.WeakTopologyUp.FunctionalWindowStability
