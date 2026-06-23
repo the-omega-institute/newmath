@@ -89,7 +89,7 @@ def build_paper_writeback_packet() -> dict[str, Any]:
     quality_backend = _load_json("bedc_jepa_quality_backend_candidate.json")
     native_boundary = _load_json("bedc_jepa_vjepa2_ac_native_boundary.json")
 
-    contact_ready = manifest.get("contact_ready_claims", {})
+    contact_ready = manifest.get("evidence_ready_claims", {})
     checks = review_bundle.get("checks", {})
     if not isinstance(contact_ready, Mapping) or not isinstance(checks, Mapping):
         raise ValueError("manifest and review bundle must expose metric mappings")

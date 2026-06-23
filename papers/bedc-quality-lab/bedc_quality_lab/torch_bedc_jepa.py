@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass, replace
 from collections.abc import Sequence
 from typing import Any
 
@@ -24,6 +24,24 @@ from bedc_quality_lab.model import choose_device, covariance_loss, mean_loss, re
 @dataclass(frozen=True)
 class TorchBedcJepaResult:
     summary: dict[str, object]
+
+
+@dataclass(frozen=True)
+class ActiveGapLedgerConfig:
+    seed: int = 4242
+    initial_train_count: int = 512
+    pool_count: int = 1536
+    test_count: int = 512
+    active_budget: int = 192
+    epochs: int = 80
+    rho: float = 0.84
+    radius: float = 1.0
+    boundary_band_width: float = 0.14
+    gap_auc_floor: float = 0.98
+    gap_auc_min_delta: float = 0.0
+    latent_r2_min_delta: float = 0.0
+    unlogged_error_ceiling: float = 0.02
+    coverage_min_delta: float = 0.0
 
 
 def _experiment_debt_score(
@@ -233,6 +251,219 @@ def _train_weighted_variant(
         "device": device,
         "device_resolution": device_resolution.to_dict(),
         "objective_weights": dict(weights),
+    }
+
+
+def _take_boundary_batch(batch: BoundaryGatedBatch, indices: np.ndarray) -> BoundaryGatedBatch:
+    idx = np.asarray(indices, dtype=np.int64)
+    action = None if batch.action is None else np.asarray(batch.action, dtype=np.float64)[idx]
+    return BoundaryGatedBatch(
+        z=batch.z[idx],
+        z_pair=batch.z_pair[idx],
+        x=batch.x[idx],
+        x_pair=batch.x_pair[idx],
+        distinction=batch.distinction[idx],
+        distinction_pair=batch.distinction_pair[idx],
+        gap=batch.gap[idx],
+        gap_pair=batch.gap_pair[idx],
+        radius=batch.radius,
+        gap_width=batch.gap_width,
+        action=action,
+    )
+
+
+def _concat_boundary_batches(batches: Sequence[BoundaryGatedBatch]) -> BoundaryGatedBatch:
+    if not batches:
+        raise ValueError("at least one batch is required")
+    first = batches[0]
+    actions = [batch.action for batch in batches]
+    action = None
+    if any(batch_action is not None for batch_action in actions):
+        action = np.concatenate([boundary_batch_action_array(batch) for batch in batches], axis=0)
+    return BoundaryGatedBatch(
+        z=np.concatenate([batch.z for batch in batches], axis=0),
+        z_pair=np.concatenate([batch.z_pair for batch in batches], axis=0),
+        x=np.concatenate([batch.x for batch in batches], axis=0),
+        x_pair=np.concatenate([batch.x_pair for batch in batches], axis=0),
+        distinction=np.concatenate([batch.distinction for batch in batches], axis=0),
+        distinction_pair=np.concatenate([batch.distinction_pair for batch in batches], axis=0),
+        gap=np.concatenate([batch.gap for batch in batches], axis=0),
+        gap_pair=np.concatenate([batch.gap_pair for batch in batches], axis=0),
+        radius=first.radius,
+        gap_width=first.gap_width,
+        action=action,
+    )
+
+
+def _metric_deltas(before: dict[str, Any], after: dict[str, Any]) -> dict[str, float]:
+    keys = (
+        "gap_detection_auc",
+        "certified_coverage",
+        "bedc_debt_score",
+        "unlogged_error_rate",
+        "linear_identifiability_r2",
+        "distinction_accuracy_outside_gap",
+    )
+    return {key: float(after[key]) - float(before[key]) for key in keys}
+
+
+def _choose_ranked_indices(candidates: np.ndarray, *, requested: int, selected: set[int]) -> list[int]:
+    chosen: list[int] = []
+    if requested <= 0:
+        return chosen
+    for raw in candidates:
+        idx = int(raw)
+        if idx in selected:
+            continue
+        selected.add(idx)
+        chosen.append(idx)
+        if len(chosen) >= requested:
+            break
+    return chosen
+
+
+def _sampling_budgets(active_budget: int) -> dict[str, int]:
+    if active_budget < 0:
+        raise ValueError("active_budget must be non-negative")
+    base = active_budget // 3
+    return {
+        "high_gap": active_budget - 2 * base,
+        "boundary_band": base,
+        "unlogged_transition": base,
+    }
+
+
+def _active_gap_ledger_sampling(
+    pool: BoundaryGatedBatch,
+    scores: dict[str, np.ndarray],
+    *,
+    active_budget: int,
+    arm: str = "real",
+    preserve_fraction: float = 0.5,
+    rng: np.random.Generator | None = None,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    if arm not in {"real", "coverage_preserving", "placebo"}:
+        raise ValueError(f"unsupported active gap-ledger arm: {arm}")
+    if not 0.0 <= float(preserve_fraction) <= 1.0:
+        raise ValueError("preserve_fraction must be in [0, 1]")
+    budgets = _sampling_budgets(active_budget)
+    gap_scores = np.asarray(scores["gap"], dtype=np.float64)
+    score_source = "true_gap"
+    if arm == "placebo":
+        if rng is None:
+            rng = np.random.default_rng(0)
+        gap_scores = gap_scores[np.asarray(rng.permutation(gap_scores.shape[0]), dtype=np.int64)]
+        score_source = "scrambled_gap"
+    distinction_scores = np.asarray(scores["distinction"], dtype=np.float64)
+    errors = (distinction_scores >= 0.5) != pool.distinction
+    selected: set[int] = set()
+    anchor_indices: list[int] = []
+    anchor_requested = 0
+    if arm == "coverage_preserving":
+        anchor_requested = int(round(int(active_budget) * float(preserve_fraction)))
+        anchor_candidates = np.asarray(
+            [
+                int(idx)
+                for idx in np.argsort(gap_scores)
+                if (not bool(pool.gap[int(idx)])) and float(gap_scores[int(idx)]) < 0.5
+            ],
+            dtype=np.int64,
+        )
+        anchor_indices = _choose_ranked_indices(
+            anchor_candidates,
+            requested=anchor_requested,
+            selected=selected,
+        )
+        budgets = _sampling_budgets(max(0, int(active_budget) - len(anchor_indices)))
+    candidates = {
+        "high_gap": np.argsort(-gap_scores),
+        "boundary_band": np.flatnonzero(pool.gap),
+        "unlogged_transition": np.flatnonzero(errors & (gap_scores < 0.5)),
+    }
+    by_reason: dict[str, list[int]] = {}
+    for reason in ("high_gap", "boundary_band", "unlogged_transition"):
+        by_reason[reason] = _choose_ranked_indices(
+            candidates[reason],
+            requested=int(budgets[reason]),
+            selected=selected,
+        )
+    shortfall = int(active_budget) - len(anchor_indices) - sum(len(indices) for indices in by_reason.values())
+    if shortfall > 0:
+        backfill = _choose_ranked_indices(
+            candidates["high_gap"],
+            requested=shortfall,
+            selected=selected,
+        )
+        by_reason["high_gap"].extend(backfill)
+        budgets["high_gap"] += len(backfill)
+    selected_indices = np.asarray(
+        [
+            *anchor_indices,
+            *[idx for reason in ("high_gap", "boundary_band", "unlogged_transition") for idx in by_reason[reason]],
+        ],
+        dtype=np.int64,
+    )
+    reason_rows = {
+        reason: {
+            "requested": int(budgets[reason]),
+            "selected": int(len(by_reason[reason])),
+            "candidate_count": int(np.asarray(candidates[reason]).shape[0]),
+            "indices": [int(idx) for idx in by_reason[reason]],
+        }
+        for reason in ("high_gap", "boundary_band", "unlogged_transition")
+    }
+    if arm == "coverage_preserving":
+        reason_rows = {
+            "support_anchor": {
+                "requested": int(anchor_requested),
+                "selected": int(len(anchor_indices)),
+                "candidate_count": int(
+                    np.sum((~np.asarray(pool.gap, dtype=bool)) & (gap_scores < 0.5))
+                ),
+                "indices": [int(idx) for idx in anchor_indices],
+            },
+            **reason_rows,
+        }
+        reason_order = ["support_anchor", "high_gap", "boundary_band", "unlogged_transition"]
+    else:
+        reason_order = ["high_gap", "boundary_band", "unlogged_transition"]
+    return selected_indices, {
+        "budget": int(active_budget),
+        "selected": int(selected_indices.shape[0]),
+        "selected_indices": [int(idx) for idx in selected_indices.tolist()],
+        "arm": arm,
+        "score_source": score_source,
+        "preserve_fraction": float(preserve_fraction) if arm == "coverage_preserving" else 0.0,
+        "reason_order": reason_order,
+        "reasons": reason_rows,
+        "mutually_exclusive": bool(selected_indices.shape[0] == len(set(int(idx) for idx in selected_indices.tolist()))),
+        "pool_count": int(pool.z.shape[0]),
+    }
+
+
+def _active_gap_guardrail(
+    before: dict[str, Any],
+    after: dict[str, Any],
+    config: ActiveGapLedgerConfig,
+) -> dict[str, Any]:
+    deltas = _metric_deltas(before, after)
+    checks = {
+        "gap_auc_floor": float(after["gap_detection_auc"]) >= float(config.gap_auc_floor),
+        "gap_auc_regression": float(deltas["gap_detection_auc"]) >= float(config.gap_auc_min_delta),
+        "latent_r2_regression": float(deltas["linear_identifiability_r2"]) >= float(config.latent_r2_min_delta),
+        "unlogged_error_ceiling": float(after["unlogged_error_rate"]) <= float(config.unlogged_error_ceiling),
+        "coverage_gate": float(deltas["certified_coverage"]) >= float(config.coverage_min_delta),
+    }
+    failures = [name for name, passed in checks.items() if not passed]
+    passed = not failures
+    coverage_delta = float(deltas["certified_coverage"])
+    coverage_expansion_reported = bool(passed and coverage_delta > 0.0)
+    return {
+        "passed": bool(passed),
+        "checks": checks,
+        "failures": failures,
+        "coverage_expansion_reported": coverage_expansion_reported,
+        "reported_coverage_delta": coverage_delta if coverage_expansion_reported else 0.0,
     }
 
 
@@ -553,6 +784,297 @@ def run_torch_bedc_jepa_benchmark(*, seed: int = 4242) -> dict[str, object]:
             - float(latent["distinction_accuracy_outside_gap"]),
             "latent_r2_delta": float(bedc["linear_identifiability_r2"]) - float(latent["linear_identifiability_r2"]),
         },
+    }
+
+
+def run_active_gap_ledger_curriculum(
+    config: ActiveGapLedgerConfig | None = None,
+    **overrides: Any,
+) -> dict[str, Any]:
+    return _run_active_gap_ledger_curriculum_arm(config, arm="real", **overrides)
+
+
+def _run_active_gap_ledger_curriculum_arm(
+    config: ActiveGapLedgerConfig | None = None,
+    *,
+    arm: str,
+    preserve_fraction: float = 0.5,
+    **overrides: Any,
+) -> dict[str, Any]:
+    if config is None:
+        config = ActiveGapLedgerConfig(**overrides)
+    elif overrides:
+        raise ValueError("pass either config or keyword overrides, not both")
+    if config.initial_train_count <= 0:
+        raise ValueError("initial_train_count must be positive")
+    if config.pool_count <= 0:
+        raise ValueError("pool_count must be positive")
+    if config.test_count <= 0:
+        raise ValueError("test_count must be positive")
+    if config.active_budget <= 0:
+        raise ValueError("active_budget must be positive")
+    if config.epochs <= 0:
+        raise ValueError("epochs must be positive")
+
+    train = make_boundary_gated_batch(
+        config.initial_train_count,
+        rho=config.rho,
+        radius=config.radius,
+        gap_width=config.boundary_band_width,
+        seed=config.seed,
+    )
+    pool = make_boundary_gated_batch(
+        config.pool_count,
+        rho=config.rho,
+        radius=config.radius,
+        gap_width=config.boundary_band_width,
+        seed=config.seed + 100,
+    )
+    test = make_boundary_gated_batch(
+        config.test_count,
+        rho=config.rho,
+        radius=config.radius,
+        gap_width=config.boundary_band_width,
+        seed=config.seed + 1,
+    )
+    initial_model = _train_weighted_variant(
+        train,
+        seed=config.seed,
+        epochs=config.epochs,
+        weights=_variant_weights(bedc_objective=True),
+    )
+    before = _evaluate("torch-active-gap-ledger-before", _scores(initial_model, test), test)
+    pool_scores = _scores(initial_model, pool)
+    selected_indices, sampling = _active_gap_ledger_sampling(
+        pool,
+        pool_scores,
+        active_budget=config.active_budget,
+        arm=arm,
+        preserve_fraction=preserve_fraction,
+        rng=np.random.default_rng(config.seed + 919),
+    )
+    selected_train = _take_boundary_batch(pool, selected_indices)
+    retrain = _concat_boundary_batches([train, selected_train])
+    retrained_model = _train_weighted_variant(
+        retrain,
+        seed=config.seed + 101,
+        epochs=config.epochs,
+        weights=_variant_weights(bedc_objective=True),
+    )
+    after = _evaluate("torch-active-gap-ledger-after", _scores(retrained_model, test), test)
+    deltas = _metric_deltas(before, after)
+    guardrail = _active_gap_guardrail(before, after, config)
+    torch = require_torch()
+    device_resolution = initial_model["device_resolution"]
+    return {
+        "schema_id": "bedc-jepa-active-gap-ledger-curriculum",
+        "status": "executed" if guardrail["passed"] else "failed_guardrail",
+        "source": {
+            "name": "boundary-gated-ou-world",
+            "training": "torch-active-gap-ledger-curriculum",
+            "arm": arm,
+            "train_count_initial": float(config.initial_train_count),
+            "train_count_after_active_sampling": float(retrain.z.shape[0]),
+            "pool_count": float(config.pool_count),
+            "test_count": float(config.test_count),
+            "epochs": float(config.epochs),
+            "seed": float(config.seed),
+            "rho": float(config.rho),
+            "radius": float(config.radius),
+        },
+        "torch_environment": {
+            "torch_version": str(getattr(torch, "__version__", "unknown")),
+            "cuda_available": bool(torch.cuda.is_available()),
+            "device": device_resolution,
+            "resolved_device": str(device_resolution.get("resolved_device", initial_model["device"])),
+            "device_resolution": device_resolution,
+            "cuda_device_name": str(torch.cuda.get_device_name(0)) if torch.cuda.is_available() else "",
+        },
+        "thresholds": asdict(config),
+        "sampling": sampling,
+        "metrics_before": before,
+        "metrics_after": after,
+        "deltas": deltas,
+        "guardrail": guardrail,
+        "minigrid_active_curriculum": {
+            "status": "not_executed",
+            "cannot_claim": [
+                "MiniGrid active retraining improvement",
+                "MiniGrid invalid-transition reduction",
+                "MiniGrid OOD or planner improvement",
+            ],
+            "evidence_boundary": "No executed MiniGrid active retraining path is present in this record.",
+        },
+        "cannot_claim": [
+            "public MiniGrid active retraining",
+            "native V-JEPA2-AC active retraining",
+            "natural-video active curriculum",
+            "robot-control active curriculum",
+        ],
+    }
+
+
+def _controlled_metric_summary(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    metric_keys = (
+        "gap_detection_auc",
+        "bedc_debt_score",
+        "certified_coverage",
+        "linear_identifiability_r2",
+        "unlogged_error_rate",
+    )
+    delta_keys = (
+        "gap_detection_auc",
+        "bedc_debt_score",
+        "certified_coverage",
+        "linear_identifiability_r2",
+        "unlogged_error_rate",
+    )
+    summary: dict[str, Any] = {}
+    for key in metric_keys:
+        values = [float(row["metrics_after"][key]) for row in rows]
+        summary[key] = {
+            "mean": float(np.mean(values)) if values else 0.0,
+            "ci95": _ci95(values),
+        }
+    for key in delta_keys:
+        values = [float(row["deltas"][key]) for row in rows]
+        summary[f"{key}_delta"] = {
+            "mean": float(np.mean(values)) if values else 0.0,
+            "ci95": _ci95(values),
+        }
+    return summary
+
+
+def _controlled_arm_row(packet: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "seed": int(float(packet["source"]["seed"])),
+        "status": packet["status"],
+        "sampling": packet["sampling"],
+        "guardrail": packet["guardrail"],
+        "metrics_before": {
+            "gap_detection_auc": float(packet["metrics_before"]["gap_detection_auc"]),
+            "bedc_debt_score": float(packet["metrics_before"]["bedc_debt_score"]),
+            "certified_coverage": float(packet["metrics_before"]["certified_coverage"]),
+            "linear_identifiability_r2": float(packet["metrics_before"]["linear_identifiability_r2"]),
+            "unlogged_error_rate": float(packet["metrics_before"]["unlogged_error_rate"]),
+        },
+        "metrics_after": {
+            "gap_detection_auc": float(packet["metrics_after"]["gap_detection_auc"]),
+            "bedc_debt_score": float(packet["metrics_after"]["bedc_debt_score"]),
+            "certified_coverage": float(packet["metrics_after"]["certified_coverage"]),
+            "linear_identifiability_r2": float(packet["metrics_after"]["linear_identifiability_r2"]),
+            "unlogged_error_rate": float(packet["metrics_after"]["unlogged_error_rate"]),
+        },
+        "deltas": {
+            "gap_detection_auc": float(packet["deltas"]["gap_detection_auc"]),
+            "bedc_debt_score": float(packet["deltas"]["bedc_debt_score"]),
+            "certified_coverage": float(packet["deltas"]["certified_coverage"]),
+            "linear_identifiability_r2": float(packet["deltas"]["linear_identifiability_r2"]),
+            "unlogged_error_rate": float(packet["deltas"]["unlogged_error_rate"]),
+        },
+    }
+
+
+def _controlled_decision(summary: dict[str, Any]) -> dict[str, Any]:
+    placebo = summary["placebo"]
+    placebo_auc = float(placebo["gap_detection_auc"]["mean"])
+    placebo_coverage_delta = float(placebo["certified_coverage_delta"]["mean"])
+    placebo_r2_delta = float(placebo["linear_identifiability_r2_delta"]["mean"])
+    qualifying: list[str] = []
+    for arm in ("real", "coverage_preserving"):
+        row = summary[arm]
+        auc = float(row["gap_detection_auc"]["mean"])
+        coverage_delta = float(row["certified_coverage_delta"]["mean"])
+        r2_delta = float(row["linear_identifiability_r2_delta"]["mean"])
+        beats_placebo_net = (
+            auc >= placebo_auc
+            and coverage_delta >= placebo_coverage_delta
+            and r2_delta >= placebo_r2_delta
+        )
+        if auc >= placebo_auc and coverage_delta >= 0.0 and r2_delta >= -0.005 and beats_placebo_net:
+            qualifying.append(arm)
+    if qualifying:
+        verdict = "real-capability-win"
+        deciding_arm = qualifying[0]
+    else:
+        regress_everywhere = all(
+            float(summary[arm]["certified_coverage_delta"]["mean"]) < 0.0
+            or float(summary[arm]["linear_identifiability_r2_delta"]["mean"]) < -0.005
+            for arm in ("real", "coverage_preserving", "placebo")
+        )
+        verdict = "decisive-negative-saturation" if regress_everywhere else "partial"
+        deciding_arm = ""
+    return {
+        "verdict": verdict,
+        "qualifying_arms": qualifying,
+        "deciding_arm": deciding_arm,
+        "placebo_gap_detection_auc": placebo_auc,
+        "placebo_certified_coverage_delta": placebo_coverage_delta,
+        "placebo_linear_identifiability_r2_delta": placebo_r2_delta,
+    }
+
+
+def run_active_gap_ledger_controlled(
+    *,
+    seeds: Sequence[int] = (4242, 4259, 4276),
+    config: ActiveGapLedgerConfig | None = None,
+    preserve_fraction: float = 0.5,
+) -> dict[str, Any]:
+    if not seeds:
+        raise ValueError("at least one seed is required")
+    base_config = config if config is not None else ActiveGapLedgerConfig()
+    arms = ("real", "coverage_preserving", "placebo")
+    runs: dict[str, list[dict[str, Any]]] = {arm: [] for arm in arms}
+    packets: dict[str, list[dict[str, Any]]] = {arm: [] for arm in arms}
+    for seed in seeds:
+        seed_config = replace(base_config, seed=int(seed))
+        for arm in arms:
+            packet = _run_active_gap_ledger_curriculum_arm(
+                seed_config,
+                arm=arm,
+                preserve_fraction=preserve_fraction,
+            )
+            packets[arm].append(packet)
+            runs[arm].append(_controlled_arm_row(packet))
+    summary = {arm: _controlled_metric_summary(rows) for arm, rows in runs.items()}
+    decision = _controlled_decision(summary)
+    first_packet = packets[arms[0]][0]
+    return {
+        "schema_id": "bedc-jepa-active-gap-ledger-controlled",
+        "status": "executed",
+        "source": {
+            "name": "boundary-gated-ou-world",
+            "training": "torch-active-gap-ledger-controlled",
+            "seeds": [int(seed) for seed in seeds],
+            "initial_train_count": float(base_config.initial_train_count),
+            "pool_count": float(base_config.pool_count),
+            "test_count": float(base_config.test_count),
+            "active_budget": float(base_config.active_budget),
+            "epochs": float(base_config.epochs),
+            "preserve_fraction": float(preserve_fraction),
+            "identical_seed_pool_budget_per_arm": True,
+        },
+        "torch_environment": first_packet["torch_environment"],
+        "arms": {
+            arm: {
+                "runs": runs[arm],
+                "summary": summary[arm],
+            }
+            for arm in arms
+        },
+        "decision_rule": {
+            "gap_auc_not_lower_than_placebo": True,
+            "coverage_delta_floor": 0.0,
+            "latent_r2_delta_floor": -0.005,
+            "net_placebo_comparison": "coverage and R2 deltas not worse than placebo while final gap AUC is at least placebo",
+        },
+        "decision": decision,
+        "cannot_claim": [
+            "public MiniGrid controlled active retraining",
+            "native V-JEPA2-AC controlled active retraining",
+            "natural-video controlled active curriculum",
+            "robot-control controlled active curriculum",
+        ],
     }
 
 

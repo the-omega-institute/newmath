@@ -29,6 +29,8 @@ The BEDC-JEPA evidence packet contains:
 - true torch retraining loss-term ablation for `full_s3`,
   `minus_l_unlogged`, `minus_l_gap`, `minus_l_stab`, and
   `minus_l_intervention`;
+- torch OU active gap-ledger curriculum with a train, score, sample, and
+  retrain loop plus MiniGrid `not_executed` / `cannot_claim` boundary rows;
 - CUDA-gated K-step action-conditioned latent-prediction record on the shared
   torch BEDC-JEPA train/eval surface, with separate rollout-precision and
   gap-calibration claim gates plus a shuffled-gap placebo comparator;
@@ -57,6 +59,7 @@ Main record-building commands:
 .\.venv-cuda\Scripts\python.exe scripts\run_bedc_jepa_experiment.py
 .\.venv-cuda\Scripts\python.exe scripts\run_torch_bedc_jepa.py
 .\.venv-cuda\Scripts\python.exe scripts\run_torch_retraining_loss_ablation.py
+.\.venv-cuda\Scripts\python.exe scripts\run_torch_active_gap_ledger.py
 .\.venv-cuda\Scripts\python.exe scripts\run_bedc_multistep_latent_prediction.py
 .\.venv-cuda\Scripts\python.exe scripts\run_bedc_latent_claim_certificate.py
 .\.venv-cuda\Scripts\python.exe scripts\run_vjepa2_ac_minigrid_claim_certificate.py
@@ -98,6 +101,12 @@ Script entrypoints are discovered directly from the local source tree:
 Get-ChildItem .\scripts\*.py | Sort-Object Name | Select-Object -ExpandProperty Name
 ```
 
+Local helper entrypoints: `check_gpu.py`,
+`reconcile_admission_artifact.py`, `run_fair_alignment_control_ledger.py`,
+`run_gap_head_pair_rule_bounded_capsule.py`, `run_jepa_wm_l1.py`,
+`run_jepa_wm_l1_evaluator_calibration.py`,
+`run_minigrid_doorkey_task_probe.py`, and `run_model_comparison.py`.
+
 On systems with `make`, the rollup target runs the record-level build chain:
 
 ```powershell
@@ -122,6 +131,7 @@ Important generated records live under `reports/`:
 - `bedc_jepa_torch_objective.json`
 - `bedc_multistep_latent_prediction.json`
 - `bedc_jepa_retraining_loss_ablation.json`
+- `bedc_jepa_active_gap_ledger.json`
 - `bedc_latent_claim_certificates.json`
 - `namecert_closure_routing.json`
 - `namecert_closure_verify.json`
