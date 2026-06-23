@@ -74,6 +74,7 @@ Let $I=(B,F,D,N,K,V,R,H,C,P,L)$ be an accepted $\IntervalNewtonUp$ carrier whose
 
 In particular, the exported zero-enclosure read factors through the visible rows $B,F,D,N,K,V,R,H,C,P,L$: $N$ supplies the correction radius, $D$ supplies the slope or $\TaylorModelUp$ remainder row, $R$ supplies the real-name seal route, and $V$ supplies the validated-consumer boundary.
 \end{theorem}
+\leanchecked{BEDC.Derived.IntervalNewtonUp.IntervalNewtonKrawczykRadiusLock}
 \begin{proof}
 Project the accepted carrier of \autoref{def:interval-newton-carrier}. The correction radius is not a separate analytic datum; it is part of the displayed correction row $N$, and its containment is read with the ledger $K$.
 
@@ -90,6 +91,7 @@ Let $I=(B,F,D,N,K,V,R,H,C,P,L)$ be an accepted $\IntervalNewtonUp$ carrier. Ever
 
 Consequently the transported correction cannot read a solver oracle, a host zero, floating-point semantics, quotient real equality, or ambient completeness outside the displayed carrier rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.IntervalNewtonUp.IntervalNewtonCorrectionTransportScope}
 \begin{proof}
 Project the carrier of \autoref{def:interval-newton-carrier}. The correction surface is $B,F,D,N,K,V$, while $R,H,C,P,L$ supply readback, transport, replay, provenance, and local naming.
 
@@ -108,6 +110,7 @@ I=(B,F,D,N,K,V,R,H,C,P,L).
 $$
 The consumer receives the interval box, function enclosure, derivative or slope enclosure, correction row, containment ledger, validated enclosure row, real-name readback route, transport rows, replay routes, provenance, and local naming row. It receives no solver oracle, no host zero, no floating-point semantics, no quotient real equality, and no completeness datum.
 \end{theorem}
+\leanchecked{BEDC.Derived.IntervalNewtonUp.IntervalNewtonValidatedConsumerBoundary}
 \begin{proof}
 Project the accepted carrier. A validated or root-isolation consumer can inspect only the fields $B,F,D,N,K,V,R,H,C,P,L$.
 
@@ -155,14 +158,14 @@ The handoff itself is $V$ together with $R$. These rows expose the validated enc
 Finally $P$ and $L$ provide provenance and local naming. Since the route still points back to $B,F,D,N,K$, the validated consumer can read only the correction already certified by containment and interval-arithmetic soundness.
 \end{proof}
 
-\closureat{IntervalNewtonUp}{seedStr}
+\closureat{IntervalNewtonUp}{obligationStr}
 
 \begin{closurestatus}{\IntervalNewtonUp}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \constructivestory{An $\IntervalNewtonUp$ packet is generated from a displayed interval box, function enclosure, derivative or slope enclosure, finite Newton or Krawczyk correction row, containment ledger, validated readback row, real-name route, transport witnesses, replay routes, provenance, and local $\NameCert$ row.}
-  \scopeclosed{The seed scope records the finite carrier, six-row NameCert obligation surface, Krawczyk enclosure route, and validated consumer boundary for interval Newton and Krawczyk certificates.}
+  \scopeclosed{The displayed obligation surface records carrier admission, correction containment, interval-arithmetic soundness, validated-consumer handoff, transport, and ledger non-escape for the same interval Newton and Krawczyk packet rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close solver correctness, existence of a zero, uniqueness, floating-point hardware semantics, classical real completeness, quotient real equality, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, correction containment, interval-arithmetic soundness, validated-consumer handoff, transport, and ledger non-escape for the same finite packet rows.}
+  \upgradepath{Scoped closure requires a checked route showing that containment, arithmetic soundness, validated handoff, transport, and non-escape remain stable under every accepted consumer of the displayed packet.}
 \end{closurestatus}

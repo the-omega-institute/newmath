@@ -10,6 +10,44 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+theorem AxiomRefusalLedger_namecert_audit_surface_consumer [AskSetup] [PackageSetup]
+    {A S Q F R G H C P N nameRead alternativeRead auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory A →
+      UnaryHistory S →
+        UnaryHistory Q →
+          UnaryHistory F →
+            UnaryHistory R →
+              UnaryHistory G →
+                UnaryHistory C →
+                  UnaryHistory N →
+                    Cont A S nameRead →
+                      Cont Q F alternativeRead →
+                        Cont R G auditRead →
+                          hsame H BHist.Empty →
+                            PkgSig bundle P pkg →
+                              (∃ row : BHist,
+                                  (hsame row N ∧ Cont A S nameRead ∧
+                                    Cont Q F alternativeRead ∧ Cont R G auditRead ∧
+                                      hsame H BHist.Empty) ∧
+                                    (hsame row N ∧ PkgSig bundle P pkg)) ∧
+                                UnaryHistory nameRead ∧ UnaryHistory alternativeRead ∧
+                                  UnaryHistory auditRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro unaryA unaryS unaryQ unaryF unaryR unaryG _unaryC unaryN nameRoute
+    alternativeRoute auditRoute transportEmpty provenancePkg
+  have obligations :=
+    AxiomRefusalLedger_namecert_obligations (A := A) (S := S) (Q := Q) (F := F)
+      (R := R) (G := G) (H := H) (C := C) (P := P) (N := N)
+      (nameRead := nameRead) (alternativeRead := alternativeRead) (auditRead := auditRead)
+      (bundle := bundle) (pkg := pkg) unaryA unaryS unaryQ unaryF unaryR unaryG
+      _unaryC unaryN nameRoute alternativeRoute auditRoute transportEmpty provenancePkg
+  have surfaceWitness :=
+    semanticNameCert_pattern_ledger_witness obligations.left
+  exact
+    ⟨surfaceWitness, obligations.right.left, obligations.right.right.left,
+      obligations.right.right.right⟩
+
 theorem AxiomRefusalLedger_accepted_readback_consumer [AskSetup] [PackageSetup]
     {A S Q F R G H C P N nameRead alternativeRead auditRead acceptedRead consumer
       consumerRead : BHist}

@@ -20,9 +20,9 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-23T19:17:03Z
+> 最后刷新: 2026-06-23T20:54:35Z
 
-**Daemon 状态**: monitor (monitor cycle 145, adjust_since_research 2, round_counter 19696, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 146, adjust_since_research 2, round_counter 19767, last_adjust rule_evolution_completed)
 
 **待处理 queue** (621 条 finding):
 - isolated_theorem: 447 条; 代表样本 `derived`, `derived`, `derived`
@@ -30,7 +30,7 @@ date-modified: today
 - low_entropy_template: 46 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 38 次
+- TASTE ALERT category=isolated_theorem: 39 次
 - TASTE ALERT category=low_entropy_template: 29 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -402,6 +402,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-23T08:28:48Z: `resolved` `leave_with_rationale` for `BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateFrontierAxiomBoundary` (flag `isolated_theorem`, finding `isolated_theorem:metaciccriticalpath:BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateFrontierAxiomBoundary:b433cc6b`). Rationale: The target declaration was inspected in CandidateFrontierAxiomBoundary.lean, the metaciccriticalpath chapter hub and sibling files were read, and repo search found no downstream Lean or paper use of the full target; the paper uses the sibling MetaCICCriticalPathCandidateFrontierAxiomFrontier theorem instead. I initially removed the isolated theorem, but the required audit gate failed on an unrelated pre-existing duplicate paper marker for BEDC.Derived.RieszRepresentationUp.RieszRepresentationScopeBinding, so I reverted the deletion exactly as instructed and leave the finding for daemon logging. Gate results: lake_build=interrupted after audit failure; no Lean error observed before stop, audit=FAIL: duplicate \leanchecked / \leantarget X for BEDC.Derived.RieszRepresentationUp.RieszRepresentationScopeBinding at parts/concrete_instances/100143_rieszrepresentation_namecert_construction.tex:139 and :147, phase_d_lint=ok.
 
 - 2026-06-23T19:16:45Z: `resolved` `delete_theorem` for `BEDC.Derived.TaylorModelUp.TaylorModelCarrier_endpoint_closure` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.TaylorModelUp.TaylorModelCarrier_endpoint_closure:93eae5d0`). Rationale: The theorem was an unconsumed wrapper around TaylorModelCarrier field projection plus unary closure along the recorded Cont routes. Full-name grep found no paper marker or Lean use, while the chapter's checked public surface is carried by the NameCert obligation, interval-remainder soundness, validated consumer boundary, seed package, and remainder route declarations; the endpoint closure content is already rebuilt directly inside the NameCert obligation theorem. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-23T20:54:11Z: `resolved` `add_downstream_user` for `BEDC.Derived.AxiomRefusalLedgerUp.AxiomRefusalLedger_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:axiomrefusalledger:BEDC.Derived.AxiomRefusalLedgerUp.AxiomRefusalLedger_namecert_obligations:23b6e15b`). Rationale: The target is the chapter's main NameCert obligation and carries real BEDC content by packaging the semantic NameCert surface with the three readback histories, so deleting it would remove the canonical Lean witness behind the paper marker. I added a sibling consumer theorem in AcceptedReadbackConsumer.lean that explicitly invokes the target, extracts its SemanticNameCert surface through semanticNameCert_pattern_ledger_witness, and exposes the resulting audit surface together with the name, alternative, and audit readback histories. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
