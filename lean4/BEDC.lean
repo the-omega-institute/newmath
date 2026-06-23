@@ -12080,6 +12080,7 @@ import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.SeparationHandoff
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
 import BEDC.Derived.Window6CyclicCount
+import BEDC.Derived.Window6DisjointPairPell
 import BEDC.Derived.Window6Doubling
 import BEDC.Derived.Window6EdgeCokernelClock
 import BEDC.Derived.Window6EdgeFluxModP3
