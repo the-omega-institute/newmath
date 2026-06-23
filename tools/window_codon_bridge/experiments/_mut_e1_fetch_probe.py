@@ -14,6 +14,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import gzip
 from itertools import product
 from pathlib import Path
 from typing import Any
@@ -145,6 +146,17 @@ def github_contents(path: str) -> tuple[list[dict[str, object]], dict[str, objec
     return [item for item in payload if isinstance(item, dict)], contact
 
 
+def github_html_items(path: str) -> tuple[list[dict[str, object]], dict[str, object]]:
+    url = f"https://github.com/chrisruis/Mutational_spectra_data/tree/main/{path}"
+    text, contact = fetch_text(url, timeout=45, attempts=2)
+    if not text:
+        return [], contact
+    prefix = re.escape("/chrisruis/Mutational_spectra_data/blob/main/" + path.strip("/") + "/")
+    names = sorted(set(urllib.parse.unquote(name) for name in re.findall(prefix + r'([^"?#<>]+)', text)))
+    contact["n_html_items"] = len(names)
+    return [{"name": name, "path": f"{path}/{name}", "type": "file"} for name in names], contact
+
+
 def raw_url(path: str) -> str:
     return f"{RUIS_RAW_BASE}/{path}"
 
@@ -182,15 +194,52 @@ def reference_accessions_from_items(clade: str, items: list[dict[str, object]]) 
             continue
         if name.startswith(clade):
             continue
-        match = re.match(r"^([A-Z]{1,4}_?\d+(?:\.\d+)?|[A-Z]{2}\d{6}(?:\.\d+)?)\.(?:fa|fasta|fna)$", name)
+        match = re.match(r"^((?:NC|NZ|NW|NT|CP|CM|CU|BX|AL|AE|GCF)_?\d+(?:\.\d+)?|[A-Z]{2}\d{6}(?:\.\d+)?|GCF_\d+(?:\.\d+)?)(?:_1)?\.(?:fa|fasta|fna)$", name)
         if match:
             accessions.append(match.group(1))
     return sorted(set(accessions))
 
 
+def https_ftp_path(ftp_path: str) -> str:
+    if ftp_path.startswith("ftp://"):
+        return "https://" + ftp_path[len("ftp://") :]
+    return ftp_path
+
+
+def assembly_gbff_for_gcf(accession: str) -> tuple[str, dict[str, object]]:
+    search = ncbi_url("esearch", {"db": "assembly", "term": accession, "retmax": 1})
+    text, search_contact = fetch_text(search, timeout=45, attempts=2)
+    match = re.search(r"<Id>(\d+)</Id>", text or "")
+    if not match:
+        return "", {"search": search_contact, "error": "assembly_id_not_found"}
+    time.sleep(NCBI_DELAY_SECONDS)
+    summary = ncbi_url("esummary", {"db": "assembly", "id": match.group(1), "report": "full"})
+    text, summary_contact = fetch_text(summary, timeout=60, attempts=2)
+    ftp_match = re.search(r"<FtpPath_RefSeq>([^<]+)</FtpPath_RefSeq>", text or "")
+    if not ftp_match:
+        ftp_match = re.search(r"<FtpPath_GenBank>([^<]+)</FtpPath_GenBank>", text or "")
+    if not ftp_match:
+        return "", {"search": search_contact, "summary": summary_contact, "error": "assembly_ftp_not_found"}
+    ftp = https_ftp_path(ftp_match.group(1)).rstrip("/")
+    stem = ftp.rsplit("/", 1)[-1]
+    url = f"{ftp}/{stem}_genomic.gbff.gz"
+    payload, gbff_contact = fetch_bytes(url, timeout=120, attempts=3)
+    if not payload:
+        return "", {"search": search_contact, "summary": summary_contact, "gbff": gbff_contact}
+    try:
+        text = gzip.decompress(payload).decode("utf-8", "replace")
+    except Exception as exc:
+        return "", {"search": search_contact, "summary": summary_contact, "gbff": {**gbff_contact, "decompress_error": f"{type(exc).__name__}:{exc}"}}
+    return text, {"search": search_contact, "summary": summary_contact, "gbff": gbff_contact}
+
+
 def ncbi_efetch_url(accession: str, rettype: str) -> str:
     params = urllib.parse.urlencode({"db": "nuccore", "id": accession, "rettype": rettype, "retmode": "text"})
     return f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?{params}"
+
+
+def ncbi_url(endpoint: str, params: dict[str, object]) -> str:
+    return f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/{endpoint}.fcgi?{urllib.parse.urlencode(params)}"
 
 
 def parse_origin(lines: list[str]) -> str:
@@ -435,12 +484,17 @@ def fetch_clade_payload(clade: str, spectrum: dict[str, float], items: list[dict
             "drop_reason": "no_reference_accession_in_clade_directory",
         }
     accession = accessions[0]
-    fasta_url = ncbi_efetch_url(accession, "fasta_cds_na")
-    fasta_text, fasta_contact = fetch_text(fasta_url, timeout=90, attempts=2)
-    time.sleep(NCBI_DELAY_SECONDS)
-    gb_url = ncbi_efetch_url(accession, "gbwithparts")
-    gb_text, gb_contact = fetch_text(gb_url, timeout=120, attempts=3)
-    time.sleep(NCBI_DELAY_SECONDS)
+    if accession.startswith("GCF_"):
+        fasta_text = ""
+        fasta_contact = {"reachable": None, "note": "assembly accession; genomic gbff fetched from assembly FTP"}
+        gb_text, gb_contact = assembly_gbff_for_gcf(accession)
+    else:
+        fasta_url = ncbi_efetch_url(accession, "fasta_cds_na")
+        fasta_text, fasta_contact = fetch_text(fasta_url, timeout=90, attempts=2)
+        time.sleep(NCBI_DELAY_SECONDS)
+        gb_url = ncbi_efetch_url(accession, "gbwithparts")
+        gb_text, gb_contact = fetch_text(gb_url, timeout=120, attempts=3)
+        time.sleep(NCBI_DELAY_SECONDS)
     if not gb_text:
         return {
             "clade": clade,
@@ -520,6 +574,9 @@ def build_probe(
     spectra, sbs_contact = load_all_sbs()
     clade_items, clade_contact = github_contents("data/clade_spectra")
     clade_names = [str(item["name"]) for item in clade_items if item.get("type") == "dir" and str(item.get("name")) in spectra]
+    if not clade_names:
+        clade_names = list(spectra)
+        clade_contact = {**clade_contact, "fallback": "all_sbs_header_clade_order"}
 
     attempts: list[dict[str, object]] = []
     clades: list[dict[str, object]] = []
@@ -529,6 +586,9 @@ def build_probe(
         if len(attempts) >= max_attempts:
             break
         items, contact = github_contents(f"data/clade_spectra/{clade}")
+        if not items:
+            items, html_contact = github_html_items(f"data/clade_spectra/{clade}")
+            contact = {**contact, "html_fallback": html_contact}
         accessions = reference_accessions_from_items(clade, items)
         cache_key = accessions[0] if accessions else ""
         if cache_key and cache_key in accession_cache:
