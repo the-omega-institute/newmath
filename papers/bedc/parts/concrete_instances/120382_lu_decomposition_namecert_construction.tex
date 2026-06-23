@@ -1,0 +1,110 @@
+\chapter{A Concrete Naming Certificate for $\LUDecompositionUp$}
+\label{ch:concrete-instances-lu-decomposition-namecert}
+\origin{human}
+
+Following Golub and Van Loan on matrix computations, the $\LUDecompositionUp$ packet records Gaussian elimination as a finite lower-upper factorization ledger. It consumes the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the vector-space source of \autoref{ch:concrete-instances-vecspace-namecert}, the linear-map presentation of \autoref{ch:concrete-instances-linearmap-namecert}, the determinant boundary of \autoref{ch:concrete-instances-determinant-namecert}, and the rank accounting surface of \autoref{ch:concrete-instances-rank-nullity-namecert}. The packet names only displayed pivot rows, row-update ledgers, triangular factors, determinant sign and diagonal-product handoffs, rank-sensitive zero-pivot boundaries, transport, replay, provenance, and local NameCert data; it does not import host Gaussian elimination, quotient matrix equality, selected inverses outside the pivot ledger, or an ambient matrix algorithm.
+
+\begin{definition}[LU decomposition carrier]
+\label{def:lu-decomposition-carrier}
+An $\LUDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+L=(V,A,\Pi,E,L_0,U_0,S,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the finite $\VecSpaceUp$ source and target row on which the matrix acts.
+\item $A$ is the consumed $\MatrixUp$ row for the square matrix being factored, together with its $\LinearMapUp$ action readback.
+\item $\Pi$ is the permutation and pivot-order ledger, listing the finite pivot rows and the row exchanges actually used.
+\item $E$ is the elimination ledger. For each pivot stage it records the displayed multiplier row, the affected row interval, and the resulting entry-update equations.
+\item $L_0$ is the lower-triangular factor row, with unit diagonal entries and multiplier entries read only from $E$.
+\item $U_0$ is the upper-triangular factor row produced by the same pivot sequence.
+\item $S$ is the triangular exactness row saying that the displayed permutation of $A$ is replayed by the product $L_0U_0$ through the same matrix and linear-map rows.
+\item $D$ is the determinant boundary row, carrying the permutation sign and the diagonal-product readback through $\DeterminantUp$.
+\item $R$ is the rank-sensitive boundary row, read through $\RankNullityUp$, that records where a zero-pivot branch stops, swaps, or exposes rank deficiency.
+\item $H$ records componentwise $\hsame$ transport for the vector-space, matrix, pivot, elimination, triangular-factor, exactness, determinant, rank, replay, provenance, and local-name rows.
+\item $C$ records displayed $\Cont$ replay from an LU-facing consumer back through $V,A,\Pi,E,L_0,U_0,S,D,R,H$.
+\item $P$ is the $\Pkg$ provenance over $\LUDecompositionUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinearMapUp$, $\DeterminantUp$, $\RankNullityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LUDecompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host field-inversion oracle, quotient row-equivalence theorem, unlogged pivot choice, selected inverse matrix, spectral decomposition, or ambient Gaussian-elimination procedure.
+\end{definition}
+
+\begin{theorem}[LU decomposition NameCert obligations]
+\label{thm:lu-decomposition-namecert-obligations}
+For every accepted $\LUDecompositionUp$ carrier
+$$
+L=(V,A,\Pi,E,L_0,U_0,S,D,R,H,C,P,N),
+$$
+the local $\NameCert_{\LUDecompositionUp}$ surface consists exactly of finite vector-space admission through $V$, matrix and linear-map admission through $A$, pivot-order admission through $\Pi$, elimination-ledger admission through $E$, lower-triangular and upper-triangular factor admission through $L_0,U_0$, triangular exactness through $S$, determinant boundary readback through $D$, rank-sensitive zero-pivot boundary readback through $R$, componentwise transport through $H$, displayed replay through $C$, sibling provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $V$ and $A$ display the finite vector-space, matrix, and linear-map surface before any pivot row is visible.
+
+The pivot and elimination data are then exactly $\Pi,E$. These rows determine the multiplier entries in $L_0$ and the updated upper-triangular entries in $U_0$, so no separate elimination trace or hidden inverse can be read.
+
+The rows $S,D,R$ attach the triangular product, determinant handoff, and rank-sensitive boundary to the same displayed route. Finally $H,C,P,N$ transport, replay, source, and name only those rows. Hence the listed inventory exhausts the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[LU decomposition pivot ledger]
+\label{thm:lu-decomposition-pivot-ledger}
+Every finite linear-system, determinant, rank, or matrix-factorization consumer of an accepted $\LUDecompositionUp$ packet must first read the pivot route
+$$
+V,A,\Pi,E,L_0,U_0,S,D,R,H,C,P,N.
+$$
+At each stage the pivot row in $\Pi$ precedes the multiplier and row-update rows in $E$, and the lower and upper triangular factors expose only entries recorded by that same finite route.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The source vector-space and matrix rows fix the finite domain in which pivoting can be read.
+
+Read $\Pi$ before $E$. The pivot order and row-exchange ledger determine which update rows are admissible, while $E$ records the multipliers and row transformations that later appear in $L_0$ and $U_0$.
+
+The triangular exactness and support rows then preserve the same route. Since the carrier contains no additional pivot-choice coordinate, no consumer can replace this route by a host Gaussian-elimination algorithm, quotient row-equivalence theorem, or selected inverse outside the ledger.
+\end{proof}
+
+\begin{theorem}[LU decomposition triangular factor route]
+\label{thm:lu-decomposition-triangular-factor-route}
+The triangular factor read exported by an accepted $\LUDecompositionUp$ packet factors through
+$$
+\MatrixUp,\ \VecSpaceUp,\ \LinearMapUp
+\longmapsto
+\Pi,E,L_0,U_0,S
+\longmapsto
+H,C,P,N.
+$$
+The row $L_0$ is lower triangular with unit diagonal because its off-diagonal entries are the displayed multiplier rows from $E$, and the row $U_0$ is upper triangular because every lower-entry cancellation is recorded in the same elimination ledger.
+\end{theorem}
+\begin{proof}
+Read the matrix, vector-space, and linear-map sources. These rows determine the square finite matrix presentation against which a triangular factorization can be checked.
+
+Next read the pivot and elimination ledgers. The lower factor receives only the multiplier entries already named in $E$, and the upper factor receives only the updated rows produced by replaying those same elimination equations.
+
+The exactness row $S$ ties the displayed product $L_0U_0$ to the permuted source matrix. The support rows $H,C,P,N$ preserve that factor route and add no host equality of matrices, unlogged row operation, or external triangularization theorem.
+\end{proof}
+
+\begin{theorem}[LU decomposition determinant boundary]
+\label{thm:lu-decomposition-determinant-boundary}
+Every determinant read from an accepted $\LUDecompositionUp$ packet factors through the permutation sign row in $\Pi$, the upper-triangular diagonal row of $U_0$, the triangular exactness row $S$, and the determinant handoff row $D$. The read is therefore a displayed boundary through $\DeterminantUp$, not a host determinant algorithm or an unrestricted row-operation principle.
+\end{theorem}
+\begin{proof}
+Begin with the pivot ledger. The row $\Pi$ records the finite permutation and hence the sign contribution available to the determinant boundary.
+
+Read the triangular rows next. Since $L_0$ has unit diagonal by the displayed elimination ledger, the determinant contribution is routed through the diagonal entries of $U_0$ together with the exactness row $S$.
+
+The handoff row $D$ is the only determinant-facing coordinate in the carrier. Transport and replay through $H,C,P,N$ preserve that coordinate, so a consumer cannot obtain an ambient determinant computation, hidden row-equivalence theorem, or quotient matrix equality from the LU packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LUDecompositionUp$ consumer is refuted if it reads a triangular factor, determinant boundary, or rank-sensitive zero-pivot result without first exposing the displayed $\MatrixUp$, $\VecSpaceUp$, $\LinearMapUp$, $\DeterminantUp$, $\RankNullityUp$, pivot, elimination, exactness, transport, replay, provenance, and local-name rows.}
+
+\independenceWitness{matrix, vecspace, linearmap, determinant, ranknullity: none is bijective to $\LUDecompositionUp$ because the LU packet jointly carries a pivot ledger, an elimination ledger, two triangular factor rows, determinant-boundary data, rank-sensitive zero-pivot data, and structural support rows.}
+
+\closureat{LUDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\LUDecompositionUp}
+  \constructivestory{An $\LUDecompositionUp$ packet is generated from MatrixUp, VecSpaceUp, and LinearMapUp source rows, a finite permutation and pivot ledger, displayed elimination-update equations, lower and upper triangular factor rows, triangular exactness, DeterminantUp sign and diagonal-product readback, RankNullityUp zero-pivot boundary data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lu-decomposition-carrier}, \autoref{thm:lu-decomposition-namecert-obligations}, \autoref{thm:lu-decomposition-pivot-ledger}, \autoref{thm:lu-decomposition-triangular-factor-route}, and \autoref{thm:lu-decomposition-determinant-boundary} seed the finite LU factorization route over matrix, vector-space, linear-map, determinant, rank-nullity, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, host Gaussian elimination, quotient row-equivalence, arbitrary pivot selection outside the displayed ledger, inverse-matrix construction, spectral decomposition, or ambient matrix-algorithm correctness.}
+  \upgradepath{Obligation closure requires checked carrier admission, pivot-ledger exactness, elimination-update replay, triangular-factor exactness, determinant boundary soundness, rank-sensitive zero-pivot boundary soundness, transport, replay, provenance, and local naming for BEDC.Derived.LUDecompositionUp.}
+\end{closurestatus}
