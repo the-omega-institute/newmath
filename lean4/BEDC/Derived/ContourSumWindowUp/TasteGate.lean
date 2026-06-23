@@ -1,11 +1,23 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ContourSumWindowUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -289,5 +301,100 @@ theorem ContourSumWindowTasteGate_single_carrier_alignment :
       · intro x y heq
         exact contourSumWindowToEventFlow_injective heq
       · rfl
+
+theorem ContourSumWindowTasteGateProvenance [AskSetup] [PackageSetup]
+    {contour holomorphic subdivision riemann output transport continuation provenance name
+      witnessRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory contour →
+      UnaryHistory holomorphic →
+        UnaryHistory subdivision →
+          UnaryHistory riemann →
+            UnaryHistory output →
+              UnaryHistory transport →
+                UnaryHistory continuation →
+                  Cont contour holomorphic subdivision →
+                    Cont transport continuation witnessRead →
+                      PkgSig bundle provenance pkg →
+                        Nonempty (ChapterTasteGate ContourSumWindowUp) ∧
+                          (SemanticNameCert
+                                (fun row : BHist => hsame row witnessRead ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row contour ∨ hsame row holomorphic ∨
+                                    hsame row subdivision ∨ hsame row riemann ∨
+                                      hsame row output ∨ hsame row transport ∨
+                                        hsame row continuation ∨ hsame row provenance ∨
+                                          hsame row name ∨ hsame row witnessRead)
+                                (fun row : BHist =>
+                                  UnaryHistory row ∧
+                                    Cont transport continuation witnessRead ∧
+                                      PkgSig bundle provenance pkg)
+                                hsame) ∧
+                            ((∀ h : BHist,
+                                contourSumWindowDecodeBHist (contourSumWindowEncodeBHist h) =
+                                  h) ∧
+                              (∀ x : ContourSumWindowUp,
+                                contourSumWindowFromEventFlow
+                                    (contourSumWindowToEventFlow x) =
+                                  some x) ∧
+                                (∀ x y : ContourSumWindowUp,
+                                  contourSumWindowToEventFlow x =
+                                      contourSumWindowToEventFlow y →
+                                    x = y) ∧
+                                  contourSumWindowEncodeBHist BHist.Empty =
+                                    ([] : List BMark)) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro _contourUnary _holomorphicUnary _subdivisionUnary _riemannUnary _outputUnary
+    transportUnary continuationUnary _subdivisionRoute witnessRoute provenancePkg
+  have witnessUnary : UnaryHistory witnessRead :=
+    unary_cont_closed transportUnary continuationUnary witnessRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row witnessRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row contour ∨ hsame row holomorphic ∨ hsame row subdivision ∨
+              hsame row riemann ∨ hsame row output ∨ hsame row transport ∨
+                hsame row continuation ∨ hsame row provenance ∨ hsame row name ∨
+                  hsame row witnessRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont transport continuation witnessRead ∧
+              PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro witnessRead ⟨hsame_refl witnessRead, witnessUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, witnessRoute, provenancePkg⟩
+  }
+  exact
+    ⟨Nonempty.intro contourSumWindowChapterTasteGate, cert,
+      ContourSumWindowTasteGate_single_carrier_alignment⟩
 
 end BEDC.Derived.ContourSumWindowUp

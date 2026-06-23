@@ -194,4 +194,168 @@ theorem RealClassifierCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨source.right, namePkg⟩
   }
 
+theorem RealClassifierWindowScope [AskSetup] [PackageSetup]
+    {X Y SX SY RX RY W D C E H K P N windowRead classifierRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealClassifierCarrier X Y SX SY RX RY W D C E H K P N bundle pkg ->
+      Cont W D windowRead ->
+        Cont windowRead E classifierRead ->
+          PkgSig bundle classifierRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row classifierRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row SX ∨ hsame row SY ∨ hsame row RX ∨ hsame row RY ∨
+                    hsame row W ∨ hsame row D ∨ hsame row C ∨ hsame row E ∨
+                      hsame row classifierRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont W D windowRead ∧
+                    Cont windowRead E classifierRead ∧ PkgSig bundle classifierRead pkg)
+                hsame ∧ UnaryHistory windowRead ∧ UnaryHistory classifierRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig Cont hsame SemanticNameCert UnaryHistory
+  intro carrier windowRoute classifierRoute classifierPkg
+  obtain ⟨_xUnary, _yUnary, _sxUnary, _syUnary, _rxUnary, _ryUnary, wUnary,
+    dUnary, _cUnary, eUnary, _hUnary, _kUnary, _pUnary, _nUnary, _sealPkg⟩ :=
+    carrier
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed wUnary dUnary windowRoute
+  have classifierUnary : UnaryHistory classifierRead :=
+    unary_cont_closed windowUnary eUnary classifierRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row classifierRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row SX ∨ hsame row SY ∨ hsame row RX ∨ hsame row RY ∨
+              hsame row W ∨ hsame row D ∨ hsame row C ∨ hsame row E ∨
+                hsame row classifierRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont W D windowRead ∧
+              Cont windowRead E classifierRead ∧ PkgSig bundle classifierRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro classifierRead
+        ⟨hsame_refl classifierRead, classifierUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+        Or.inr <| Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, windowRoute, classifierRoute, classifierPkg⟩
+  }
+  exact ⟨cert, windowUnary, classifierUnary⟩
+
+theorem RealClassifierToleranceWindowDeterminacy [AskSetup] [PackageSetup]
+    {X Y SX SY RX RY W D C E H K P N X' Y' SX' SY' RX' RY' C' E' H' K' P' N'
+      leftReg rightReg leftRead rightRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealClassifierCarrier X Y SX SY RX RY W D C E H K P N bundle pkg →
+      RealClassifierCarrier X' Y' SX' SY' RX' RY' W D C' E' H' K' P' N' bundle pkg →
+        Cont SX RX leftReg →
+          Cont leftReg D leftRead →
+            PkgSig bundle leftRead pkg →
+              Cont SX' RX' rightReg →
+                Cont rightReg D rightRead →
+                  PkgSig bundle rightRead pkg →
+                    SemanticNameCert
+                        (fun row : BHist =>
+                          (hsame row leftRead ∨ hsame row rightRead) ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row W ∨ hsame row D ∨ hsame row leftRead ∨
+                            hsame row rightRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ PkgSig bundle leftRead pkg ∧
+                            PkgSig bundle rightRead pkg)
+                        hsame ∧
+                      UnaryHistory leftRead ∧ UnaryHistory rightRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro leftCarrier rightCarrier leftRegRoute leftClassRoute leftPkg
+    rightRegRoute rightClassRoute rightPkg
+  have leftResult :
+      SemanticNameCert
+          (fun row : BHist => hsame row leftRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row SX ∨ hsame row SY ∨ hsame row RX ∨ hsame row RY ∨
+              hsame row W ∨ hsame row D ∨ hsame row C ∨ hsame row E ∨
+                hsame row leftRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont SX RX leftReg ∧ Cont leftReg D leftRead ∧
+              PkgSig bundle leftRead pkg)
+          hsame ∧
+        UnaryHistory leftReg ∧ UnaryHistory leftRead :=
+    RealClassifierRegSeqRatHandoff leftCarrier leftRegRoute leftClassRoute leftPkg
+  have rightResult :
+      SemanticNameCert
+          (fun row : BHist => hsame row rightRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row SX' ∨ hsame row SY' ∨ hsame row RX' ∨ hsame row RY' ∨
+              hsame row W ∨ hsame row D ∨ hsame row C' ∨ hsame row E' ∨
+                hsame row rightRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont SX' RX' rightReg ∧ Cont rightReg D rightRead ∧
+              PkgSig bundle rightRead pkg)
+          hsame ∧
+        UnaryHistory rightReg ∧ UnaryHistory rightRead :=
+    RealClassifierRegSeqRatHandoff rightCarrier rightRegRoute rightClassRoute rightPkg
+  have leftUnary : UnaryHistory leftRead := leftResult.right.right
+  have rightUnary : UnaryHistory rightRead := rightResult.right.right
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row leftRead ∨ hsame row rightRead) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row W ∨ hsame row D ∨ hsame row leftRead ∨ hsame row rightRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle leftRead pkg ∧
+              PkgSig bundle rightRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro leftRead
+        ⟨Or.inl (hsame_refl leftRead), leftUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        constructor
+        · cases source.left with
+          | inl leftSame =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) leftSame)
+          | inr rightSame =>
+              exact Or.inr (hsame_trans (hsame_symm sameRows) rightSame)
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl leftSame =>
+          exact Or.inr (Or.inr (Or.inl leftSame))
+      | inr rightSame =>
+          exact Or.inr (Or.inr (Or.inr rightSame))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, leftPkg, rightPkg⟩
+  }
+  exact ⟨cert, leftUnary, rightUnary⟩
+
 end BEDC.Derived
