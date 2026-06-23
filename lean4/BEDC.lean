@@ -12136,6 +12136,7 @@ import BEDC.Derived.Window6JointNecklace
 import BEDC.Derived.Window6LucasCount
 import BEDC.Derived.Window6LucasFibNormRelation
 import BEDC.Derived.Window6LucasKernelObstruction
+import BEDC.Derived.Window6MedianZeroTriplePell
 import BEDC.Derived.Window6ModP571Singularity
 import BEDC.Derived.Window6NecklaceOrbitCount
 import BEDC.Derived.Window6NecklaceSpectralDeterminant
