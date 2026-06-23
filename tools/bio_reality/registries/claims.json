@@ -8946,6 +8946,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-23T01:35:47+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-23T01:35:47+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "a48966015f41",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -12691,14 +12708,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "Cross-dataset/cross-individual transfer of the PRDM9-motif->DSB-hotspot crossing is NOT replicated with the frozen Myers-2008 PRDM9-A CONSENSUS PWM (a deliberately simple frozen predictor): on Pratto2014 GSE59836 DMC1-SSDS hotspots from independent PRDM9-A homozygotes (hg19, n_A=21636, n_C=21512), the consensus PWM marks hotspot PRESENCE (AUROC 0.830 vs GC-matched background, p=1e-3) -- so the PRDM9-A motif IS enriched at independent-individual hotspots -- but does NOT predict hotspot STRENGTH (partial Spearman=-0.019 after GC control, sub-floor) and FAILS allele-specificity (A-set rho -0.019 ~ C-specific rho -0.019, gap 0.0007). Pre-registered conclusive not_replicated. HONEST SCOPE: this is a limitation of the crude consensus PWM, NOT a refutation of the original PRDM9 strength-crossing -- the proper allele-specific strength test requires the richer Altemose-2017 PRDM9-A PWM, distributed as an R-serialized RDX2 binary and not stdlib-accessible. So motif-PRESENCE transfer is confirmed (AUROC 0.83) while STRENGTH/allele-specific cross-dataset transfer is UNCONFIRMED (needs the richer PWM). readout = measured DMC1-SSDS hotspot strength (leakage-guarded); predictor = FROZEN Myers consensus PWM, GC-controlled with GC-matched shuffled null. Verdict transfers_cross_dataset / bounded_descriptor_only / not_replicated.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "prdm9_motif_dsb_crossdataset_pratto2014",
       "history": [
         {
           "ts": "2026-06-23T00:48:19+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-23T01:38:55+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "a5e9df27ecd0",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "c418bd483a29da7e"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.translation-conditioned.rbp-rna-half-life.cross-layer"
     },
     {
       "claim_id": "h3.cross_layer_relation.exon_inclusion.splice_maxent_crossorganism_mouse_vastdb",
@@ -12706,14 +12736,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "The frozen Yeo-Burge splice-site MaxEnt rule (3'ss acceptor, species-universal PWM, NOT re-learned) is CONSERVED in MOUSE: it predicts measured mouse exon inclusion (PSI) beyond exon length+GC, same positive direction as human, across all 6 VastDB tissues (cross-organism deepening of the splice-site->PSI crosses; conclusive conserved_mouse). VastDB mm10 cassette-exon subset (n=50633; measured RNA-seq PSI; 3'ss MaxEnt from VastDB SPLICE_SITE_SCORES; the 663MB PSI_TABLE + 344MB EVENT_INFO were stream-decompressed without landing on disk). Frozen MaxEnt partial Spearman=0.165 controlling log(exon length)+GC (perm p=1e-3), all 6 tissues positive (0.180-0.186), same sign as human (+0.134). Positive control reproduced (strong acceptor median PSI 99.995 / mean 92.9 vs weak acceptor mean 68.6, delta +24.3). readout = measured mouse PSI (leakage-guarded); predictor = FROZEN human-defined Yeo-Burge MaxEnt PWM. Caveat: 3'ss acceptor only, VastDB-atlas cassette subset, mm10, observational. Verdict conserved_mouse / bounded_descriptor_only / not_conserved. (Re-added after daemon registry lost-update clobber.)",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "splice_maxent_crossorganism_mouse_vastdb",
       "history": [
         {
           "ts": "2026-06-23T00:49:20+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-23T01:45:45+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "70fafd816698",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "327319c317e29708"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary"
     },
     {
       "claim_id": "h3.cross_layer_relation.mtor_translation.topscore_mtor_translation_crossdataset_hsieh2012",
@@ -12721,14 +12764,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "The frozen 5'TOP rule's effect on mTOR-inhibition translation PARTIALLY transfers to the independent Hsieh2012 PP242/PC3 dataset as a BOUNDED contact (cross-dataset deepening of the TOP-mTOR crosses; different drug PP242 vs Torin1, cell PC3 vs MEF, lab). The canonical-TOP positive control reproduces strongly (ribosomal-protein TOP genes median TE log2FC=-1.34, rank percentile 0.012 -- bottom 1.2%, strongly suppressed under PP242), and TOP genes are more suppressed than GC+expression+5'UTR-length-matched controls (top-minus-control median TE=-0.30, n=34 matched pairs). BUT the GRADED frozen TOP-score does NOT predict TE log2FC after controlling 5'UTR length+GC+baseline expression (partial Spearman=-0.034, p=0.075, within permutation null band [-0.046,0.047]); non-RP genes flagged TOP by the canonical rule are not suppressed (rank 0.646). The GC+5'UTR-length control (absent from the quick recon, which saw a strong length+expression-matched effect) collapses the continuous graded signal -- so the transfer is CATEGORICAL (strong-TOP/RP genes suppressed) but NOT graded; conclusive bounded_descriptor_only. readout = measured ribo-seq TE log2FC (leakage-guarded); predictor = FROZEN Thoreen canonical 5'TOP rule. Verdict transfers_cross_dataset / bounded_descriptor_only / not_replicated.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "topscore_mtor_translation_crossdataset_hsieh2012",
       "history": [
         {
           "ts": "2026-06-23T01:01:25+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-23T01:45:49+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "4b61f2a99385",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "8d0f612ab54f8e4c"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.h-ranking-table.direction-aware.cross-layer"
     },
     {
       "claim_id": "h3.cross_layer_relation.protein_acetylation.lysine_acetylation_cys_proximity_occupancy_hansen2019",
@@ -12736,26 +12792,39 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "Measured lysine-acetylation occupancy (continuous stoichiometry) IS predicted by local sequence context, but the predictive signal is NON-ENZYMATIC cysteine-proximity chemistry, NOT the KAT/p300/CBP enzymatic regulatory motif -- a BOUNDED chemistry descriptor, not a regulatory-code crossing (new layer = protein acetylation; Hansen/Weinert 2019 PXD012004, n=6288 sites, 5921 distinct stoichiometry values, within-fixed-K). Local-Cys score (Cys within +/-5 of the acetylated K) predicts occupancy at partial Spearman=0.513 controlling protein abundance (AUROC=0.758, permutation-significant), and it is local-positional (near-K Cys rho=0.512 >> far-K/window-edge Cys rho=0.177), consistent with documented Cys-catalyzed S->N acetyl transfer (non-enzymatic). The intended KAT/p300/CBP enzymatic motif (nearby basic/acidic/small-G/A) is NULL after controlling abundance+Cys (partial rho=-0.044, no component survives), and the Cys-free subset (n=4213) has ZERO residual sequence signal (rho=-0.051) -- so the entire predictive signal is Cys-chemistry and the regulatory enzymatic-motif hypothesis is refuted. readout = measured acetylation stoichiometry (leakage-guarded); predictors = frozen local-Cys + KAT-motif priors. HONEST: a strong real sequence->occupancy contact, but mechanistically spontaneous chemistry not a regulatory code; the KAT-motif regulatory sub-claim is null. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "lysine_acetylation_cys_proximity_occupancy_hansen2019",
       "history": [
         {
           "ts": "2026-06-23T01:17:41+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-23T01:45:58+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "4c330420a1bf",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "3be13fa35b9936f0"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.translation-conditioned.rna-half-life-rbp-bridge.cross-layer"
     },
     {
-      "claim_id": "h3.cross_layer_relation.protein_degron_stability.degron_cterminal_crossdataset_koren2018",
+      "claim_id": "h3.cross_layer_relation.protein_thermal_stability.scd_charge_patterning_tm_crossdataset_meltome",
       "hypothesis_level": "H3",
       "claimed_layer": "cross_layer_relation",
-      "statement": "The frozen C-terminal degron rule (C-end small/G/A/aromatic destabilizing, D/E/K stabilizing, NOT re-learned) TRANSFERS cross-dataset to predict measured protein stability in the independent Koren 2018 C-terminal GPS screen (cross-dataset deepening UPGRADING the original bounded Voutsinos degron contact; different lab/library/readout). Koren 2018 Cell (n=22564 23-mer C-terminal peptides on GFP, measured PSI from FACS bins). Frozen C-end degron score predicts PSI at Spearman rho=-0.206, surviving bulk-aa-composition control at partial rho=-0.183 (perm p=1e-3, correct sign), and the effect is end-position-specific (G terminal-minus-internal=-0.31, A=-0.22, D=+0.02 -- not bulk composition). Positive control reproduced (most-destabilizing C-end W -0.31/G -0.28/C -0.22/Y -0.21/A -0.20; most-stabilizing D +0.35/K +0.26/E +0.25). Supplementary bottom-25%-tail AUROC=0.594 (marginal, <0.60, reported NOT as a hard gate -- the composition-controlled rank-correlation transfer is load-bearing; the codex's initial AUROC-only demotion to not_replicated was corrected per the gate-on-core-effect-size discipline). readout = measured GPS-FACS PSI (leakage-guarded); predictor = FROZEN C-end degron rule. Verdict transfers_cross_dataset / bounded_descriptor_only / not_replicated.",
+      "statement": "SCD (sequence charge decoration, charge-PATTERNING) is a REAL but WEAK (BOUNDED) cross-dataset predictor of measured protein thermal stability (Tm) (cross-dataset deepening of the SCD-Tm contact; independent Meltome Atlas Jarzab 2020 TPP/lysate-melting, multi-organism, n=8092). Frozen Sawle-Ghosh SCD predicts Tm beyond length+aa-composition+bulk-charge, and it BEATS the charge-position-shuffle null (which holds composition/FCR/NCPR/net-charge fixed by construction) in ALL 3 organisms tested -- H.sapiens partial rho=-0.062 (n=5364, shuffle-null p=1e-3), E.coli -0.074 (n=1829, p=2e-3), T.thermophilus -0.086 (n=899, p=6e-3) -- confirming a genuine charge-patterning signal orthogonal to composition. BUT |partial rho| is 0.06-0.09 in every organism, below the 0.10 crosses floor -> bounded_descriptor_only (real non-composition patterning effect but small cross-dataset). Per-organism analysis excludes the OGT confound; positive control reproduced (thermophile T.thermophilus Tm 84.7C vs mesophile ~52C). readout = measured TPP Tm (leakage-guarded); predictor = FROZEN Sawle-Ghosh SCD (His neutral). Confirms the original bounded SCD-Tm characterization holds cross-dataset. Verdict transfers_cross_dataset / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
       "status": "open",
-      "experiment_id": "degron_cterminal_crossdataset_koren2018",
+      "experiment_id": "scd_charge_patterning_tm_crossdataset_meltome",
       "history": [
         {
-          "ts": "2026-06-23T01:43:36+00:00",
+          "ts": "2026-06-23T02:26:46+00:00",
           "status": "open"
         }
       ]

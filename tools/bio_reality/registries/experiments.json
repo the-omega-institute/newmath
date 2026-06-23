@@ -2787,6 +2787,23 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.protein_thermal_stability.scd_charge_patterning_tm_crossdataset_meltome",
+   "experiment_id": "scd_charge_patterning_tm_crossdataset_meltome",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-dataset deepening: frozen Sawle-Ghosh SCD (charge-patterning) vs measured Meltome Atlas Tm (tools/bio_reality/data/scd_charge_patterning_tm_crossdataset_meltome.json; readout=measured TPP Tm, predictor=FROZEN SCD; UniProt seqs). Per-organism (exclude OGT) partial Spearman controlling length+20-aa-comp+bulk-charge + charge-position-shuffle null (composition-fixed); positive control = thermophile>mesophile Tm. Verdict transfers_cross_dataset (|partial rho|>=0.10 + beats shuffle null) / bounded_descriptor_only (beats shuffle null but |rho|<0.10) / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_scd_charge_patterning_tm_crossdataset_meltome.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T02:26:46+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
