@@ -2771,6 +2771,7 @@ import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
 import BEDC.Derived.ClaimStatusAuditUp
 import BEDC.Derived.ClaimStatusAuditUp.NameCertObligations
 import BEDC.Derived.ClaimStatusAuditUp.TasteGate
+import BEDC.Derived.ClarksonInequalityUp.TasteGate
 import BEDC.Derived.ClassFieldUp
 import BEDC.Derived.ClassFieldUp.TasteGate
 import BEDC.Derived.ClassifierBoundaryUp
@@ -5137,6 +5138,7 @@ import BEDC.Derived.EilenbergZilberUp
 import BEDC.Derived.EkelandVariationalPrincipleUp.TasteGate
 import BEDC.Derived.EllipticCurveUp
 import BEDC.Derived.EllipticCurveUp.TasteGate
+import BEDC.Derived.EmpiricalRegularityPersistenceUp.BridgeRoute
 import BEDC.Derived.EmpiricalRegularityPersistenceUp.TasteGate
 import BEDC.Derived.EmptyBoundarySelectorLedgerUp.TasteGate
 import BEDC.Derived.EmptyBoundaryStepUp
@@ -5799,6 +5801,7 @@ import BEDC.Derived.FiniteMarkovPartitionUp.TasteGate
 import BEDC.Derived.FiniteMetricEntropyUp.TasteGate
 import BEDC.Derived.FiniteMetricSpaceUp.TasteGate
 import BEDC.Derived.FiniteModulusBundleUp
+import BEDC.Derived.FiniteModulusCompactUniformEquicontinuityUp.TasteGate
 import BEDC.Derived.FiniteModulusCompactnessUp.TasteGate
 import BEDC.Derived.FiniteModulusDiagonalUp.RealSealHandoff
 import BEDC.Derived.FiniteModulusDiagonalUp.TasteGate
@@ -10126,6 +10129,7 @@ import BEDC.Derived.RegularCauchyMaxUp.SumAbsFactorization
 import BEDC.Derived.RegularCauchyMaxUp.TasteGate
 import BEDC.Derived.RegularCauchyMaximumUp.TasteGate
 import BEDC.Derived.RegularCauchyMeshCofinalityUp.TasteGate
+import BEDC.Derived.RegularCauchyMeshGluingUp.TasteGate
 import BEDC.Derived.RegularCauchyMeshUp.TasteGate
 import BEDC.Derived.RegularCauchyMetricUp
 import BEDC.Derived.RegularCauchyMetricUp.ScopedKernelRoute
