@@ -38,27 +38,6 @@ def TaylorModelDisplayedFiniteJetSubwindow [AskSetup] [PackageSetup]
       sameRows route endpoint bundle pkg ∧
     UnaryHistory subJet ∧ hsame subJet jet ∧ PkgSig bundle subJet pkg
 
-theorem TaylorModelCarrier_endpoint_closure [AskSetup] [PackageSetup]
-    {center jet remainder ledger eval validated readback provenance nameCert sameRows route
-      endpoint : BHist}
-    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    TaylorModelCarrier center jet remainder ledger eval validated readback provenance nameCert
-        sameRows route endpoint bundle pkg ->
-      UnaryHistory eval ∧ UnaryHistory readback ∧ UnaryHistory endpoint ∧
-        Cont eval readback endpoint ∧ PkgSig bundle nameCert pkg := by
-  intro carrier
-  obtain ⟨centerUnary, jetUnary, remainderUnary, ledgerUnary, _evalUnary,
-    _validatedUnary, _readbackUnary, _provenanceUnary, _nameCertUnary, _sameRowsUnary,
-    _routeUnary, _endpointUnary, _ledgerRow, _evalRow, _sameRowsRoute, evalRoute,
-    readbackRoute, endpointRoute, _endpointPkg, _provenancePkg, nameCertPkg⟩ := carrier
-  have evalClosed : UnaryHistory eval :=
-    unary_cont_closed centerUnary jetUnary evalRoute
-  have readbackClosed : UnaryHistory readback :=
-    unary_cont_closed remainderUnary ledgerUnary readbackRoute
-  have endpointClosed : UnaryHistory endpoint :=
-    unary_cont_closed evalClosed readbackClosed endpointRoute
-  exact ⟨evalClosed, readbackClosed, endpointClosed, endpointRoute, nameCertPkg⟩
-
 theorem TaylorModelCarrier_interval_remainder_soundness [AskSetup] [PackageSetup]
     {center jet remainder ledger eval validated readback provenance nameCert sameRows route
       endpoint remainder' readback' : BHist}
