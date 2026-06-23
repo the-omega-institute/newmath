@@ -1,6 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 /-!
@@ -12,6 +13,7 @@ namespace BEDC.Derived.DimLiftBoundaryUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -374,6 +376,50 @@ theorem DimLiftBoundaryCarrier_namecert_obligations {Z N A F R H C P Q : BHist} 
       exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source)))))))
     · intro h _source
       exact hsame_refl h
+  · exact Nonempty.intro (DimLiftBoundaryUp.mk Z N A F R H C P Q)
+
+theorem DimLiftBoundaryNonEscape {Z N A F R H C P Q consumerRead refusalRead : BHist} :
+    Cont A R refusalRead →
+      Cont C Q consumerRead →
+        hsame consumerRead refusalRead →
+          SemanticNameCert
+              (fun row : BHist => hsame row consumerRead)
+              (fun row : BHist =>
+                hsame row Z ∨ hsame row N ∨ hsame row A ∨ hsame row F ∨ hsame row R ∨
+                  hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row Q ∨
+                    hsame row refusalRead ∨ hsame row consumerRead)
+              (fun _row : BHist => Cont A R refusalRead ∧ Cont C Q consumerRead)
+              hsame ∧
+            Nonempty DimLiftBoundaryUp := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert DimLiftBoundaryUp
+  intro refusalRoute consumerRoute sameBoundary
+  constructor
+  · constructor
+    · constructor
+      · exact Exists.intro consumerRead (hsame_refl consumerRead)
+      · intro row _source
+        exact hsame_refl row
+      · intro _row _other sameRows
+        exact hsame_symm sameRows
+      · intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    · intro _row source
+      have _refusalSame : hsame _row refusalRead :=
+        hsame_trans source sameBoundary
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      exact Or.inr source
+    · intro _row _source
+      exact ⟨refusalRoute, consumerRoute⟩
   · exact Nonempty.intro (DimLiftBoundaryUp.mk Z N A F R H C P Q)
 
 end BEDC.Derived.DimLiftBoundaryUp
