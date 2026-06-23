@@ -82,6 +82,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "ihara_hashimoto_zeta_certificate",
     "theta_square_factorization_certificate",
     "theta_cube_decomposition_certificate",
+    "median_zero_triple_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -139,6 +140,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "ihara_hashimoto_zeta_certificate",
         "theta_square_factorization_certificate",
         "theta_cube_decomposition_certificate",
+        "median_zero_triple_certificate",
     },
 }
 OVERCLAIM_GATES_ENABLED = True
@@ -194,6 +196,10 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "euler_zigzag_run_factorization",
     "diametral_special_case",
     "lean_statement_only",
+    "median_majority_operation",
+    "disjoint_support_triple_count",
+    "transfer_matrix_recurrence",
+    "pell_type_recurrence",
 }
 FORCED_WINDOW_EVIDENCE_BASIS = EVIDENCE_BASIS | {"automath_certificate"} | FORCED_WINDOW_ARITHMETIC_BASIS
 CONTACT_KINDS = {
@@ -342,6 +348,11 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "all_dimension_fibonacci_segment_factorization",
     "cube_polynomial_coordinate_resolution",
     "finite_family_enumeration",
+    "median_majority_operation",
+    "ordered_triple_fiber",
+    "disjoint_support_condition",
+    "finite_transfer_matrix",
+    "pell_type_recurrence",
 }
 MECHANISM_WORDS = {
     "cause",
