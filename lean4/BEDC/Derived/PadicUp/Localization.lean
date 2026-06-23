@@ -1,4 +1,4 @@
-import BEDC.Derived.PadicUp.IntegerTower.RingCompletion
+import BEDC.Derived.PadicUp.PrimeInverse
 
 namespace BEDC.Derived.PadicUp
 
