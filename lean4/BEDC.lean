@@ -8722,6 +8722,7 @@ import BEDC.Derived.ObserverperspectiveclassifierUp.AlignmentConsumer
 import BEDC.Derived.ObserverperspectiveclassifierUp.ComparisonRouteTotality
 import BEDC.Derived.ObserverperspectiveclassifierUp.DependencyScope
 import BEDC.Derived.ObserverperspectiveclassifierUp.GapCommitmentReadback
+import BEDC.Derived.ObserverperspectiveclassifierUp.LocalityCellExhaustion
 import BEDC.Derived.ObserverperspectiveclassifierUp.NameCertObligations
 import BEDC.Derived.ObserverperspectiveclassifierUp.ObserverStateGapRoute
 import BEDC.Derived.ObserverperspectiveclassifierUp.PerspectiveStability
@@ -9274,6 +9275,7 @@ import BEDC.Derived.ProductTopologyUp.TasteGate
 import BEDC.Derived.ProductUniformSpaceUp.TasteGate
 import BEDC.Derived.ProfiniteCompletionUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthGradientLedgerUp.TasteGate
+import BEDC.Derived.ProgrammeStrengthLedgerUp.PublicReportInterface
 import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.ProjectionValuedMeasureUp
 import BEDC.Derived.ProjectiveSpaceUp
@@ -11160,6 +11162,7 @@ import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.SheafificationUp.CoverageExactness
+import BEDC.Derived.SheafificationUp.GluingExactness
 import BEDC.Derived.SheafificationUp.TasteGate
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SierpinskiCarpetUp.TasteGate
