@@ -431,6 +431,16 @@ def parse_genbank_trna_anticodons(text: str) -> tuple[dict[str, int], dict[str, 
     return dict(sorted(anticodon_counts.items())), meta
 
 
+def parse_genbank_transl_tables(text: str) -> dict[str, int]:
+    counts: Counter[str] = Counter()
+    blocks = re.findall(r"^     CDS\s+.*?(?=^     \S|\Z)", text, flags=re.MULTILINE | re.DOTALL)
+    for block in blocks:
+        match = re.search(r"/transl_table=(\d+)", block)
+        if match:
+            counts[match.group(1)] += 1
+    return dict(sorted(counts.items(), key=lambda item: int(item[0])))
+
+
 def sample_counts(counts: dict[str, int], keys: list[str] | None = None, limit: int = 10) -> dict[str, int]:
     if keys is None:
         keys = sorted(counts, key=lambda key: (-counts[key], key))[:limit]
@@ -446,7 +456,8 @@ def fetch_assembly_payload(summary: dict[str, object]) -> dict[str, object]:
     gbff_contact: dict[str, object] = {"reachable": False, "skipped": True}
     gbff_trna_counts: dict[str, int] = {}
     gbff_trna_meta: dict[str, object] = {}
-    if int(trna_meta.get("n_trna_with_anticodon", 0)) == 0:
+    gff_table_counts = trna_meta.get("transl_table_counts", {}) if isinstance(trna_meta, dict) else {}
+    if int(trna_meta.get("n_trna_with_anticodon", 0)) == 0 or not gff_table_counts:
         gbff_text, gbff_contact = fetch_assembly_file(ftp_path, "genomic.gbff.gz")
         gbff_trna_counts, gbff_trna_meta = parse_genbank_trna_anticodons(gbff_text) if gbff_text else ({}, {})
         if int(gbff_trna_meta.get("n_trna_with_anticodon", 0)) > 0:
@@ -456,6 +467,9 @@ def fetch_assembly_payload(summary: dict[str, object]) -> dict[str, object]:
         trna_meta = {**trna_meta, "source": "genomic.gff.gz"}
     codon_counts, cds_meta = count_cds_codons(cds_text) if cds_text else ({}, {})
     table_counts = trna_meta.get("transl_table_counts", {}) if isinstance(trna_meta, dict) else {}
+    if not table_counts and gbff_text:
+        table_counts = parse_genbank_transl_tables(gbff_text)
+        trna_meta = {**trna_meta, "transl_table_counts": table_counts}
     observed_tables = sorted(int(key) for key in table_counts) if table_counts else []
     ok_tables = len(observed_tables) == 1 and observed_tables[0] in {1, 11}
     ok = (
