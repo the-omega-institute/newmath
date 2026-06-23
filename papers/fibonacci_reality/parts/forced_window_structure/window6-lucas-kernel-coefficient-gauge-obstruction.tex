@@ -1,67 +1,84 @@
 \origin{ai}
+\subsection{Lucas kernel obstruction for the forced window}
+\label{sec:window-lucas-kernel-coefficient-gauge-obstruction}
 
-\subsection{Forced Lucas Kernel for the Slots $7,17,27$}
-\label{sec:window6-lucas-kernel-coefficient-gauge-obstruction}
-
-\paragraph{Finite carrier.}
-The construction uses only integer arithmetic in the quadratic companion-matrix carrier. Let
+\paragraph{Carrier.}
+The finite carrier is the integer companion matrix
 $$
 \begin{aligned}
 M=\begin{pmatrix}1&1\\1&0\end{pmatrix}.
 \end{aligned}
 $$
-This is the companion matrix for the polynomial $x^2-x-1$. The finite data of the packet are the three exponent positions $7,17,27$, the Lucas integer $L_{10}$, and the integer powers of $M$ needed to test the corresponding relation. The Lucas sequence is fixed from first principles by
+It represents multiplication by the class of $x$ in the rank-two integer algebra $\mathbb{Z}[x]/(x^2-x-1)$, because the relation $x^2=x+1$ is exactly the recurrence encoded by the two columns of $M$. The Lucas values used in this packet are fixed from first principles by $L_0=2$, $L_1=1$, and $L_{n+2}=L_{n+1}+L_n$. Direct recurrence evaluation gives the exact integer $L_{10}=123$. The finite window under study is not a continuum or a measured signal; it is the three-element exponent set
 $$
 \begin{aligned}
-L_0&=2,\\
-L_1&=1,\\
-L_{n+2}&=L_{n+1}+L_n.
+S=\{7,17,27\}.
 \end{aligned}
 $$
-Direct recurrence evaluation gives $L_{10}=123$. No limiting argument, approximation, real embedding, or interpretation of the eigenvalues is used in this arithmetic certificate.
+The coefficient module attached to this window is $\mathbb{Z}^3$, with a triple $(a,b,c)$ read as the integer matrix combination
+$$
+\begin{aligned}
+(a,b,c)\longmapsto aM^7+bM^{17}+cM^{27}.
+\end{aligned}
+$$
 
-\paragraph{Predicate and slot partition.}
-For an ordered coefficient triple $(a,b,c)$ attached respectively to the exponent slots $(27,17,7)$, define the finite annihilation predicate
+\paragraph{Predicate and finite relation.}
+Define the annihilation predicate $A(a,b,c)$ on $\mathbb{Z}^3$ by
 $$
 \begin{aligned}
-A(a,b,c) \quad\text{to mean}\quad aM^{27}+bM^{17}+cM^7=0.
+A(a,b,c)\quad\text{if and only if}\quad aM^7+bM^{17}+cM^{27}=0.
 \end{aligned}
 $$
-The only partition used here is the separation between the active three-slot block $\{7,17,27\}$ and all other exponents, which play no role in the certificate. Inside that active block, the coefficient direction is the integer triple
-$$
-\begin{aligned}
-(1,-123,1).
-\end{aligned}
-$$
-Thus the claimed finite test is exactly $A(1,-123,1)$.
-
-\paragraph{Integer matrix witnesses.}
-The powers are obtained by direct integer matrix multiplication. The certified values needed for the base relation include
+All matrix powers in this predicate are ordinary integer powers of the displayed $2\times 2$ matrix. The certificate uses the directly computed identities
 $$
 \begin{aligned}
 M^{10}&=\begin{pmatrix}89&55\\55&34\end{pmatrix},\\
 M^{20}&=\begin{pmatrix}10946&6765\\6765&4181\end{pmatrix}.
 \end{aligned}
 $$
-With the identity matrix $I$, direct subtraction gives
+From these exact matrices one verifies entry by entry that
 $$
 \begin{aligned}
-M^{20}-123M^{10}+I&=0.
+M^{20}-123M^{10}+I=0.
 \end{aligned}
 $$
-This is the same as the polynomial relation $x^{20}-123x^{10}+1=0$ after evaluating $x$ at the matrix $M$ in the quotient determined by $x^2-x-1$.
-
-\paragraph{Forced relation at the selected slots.}
-Multiplying the displayed base identity on the right, equivalently within this matrix carrier, by $M^7$ yields the three-slot identity
+Multiplication on the left by $M^7$ gives the finite-window identity
 $$
 \begin{aligned}
-M^{27}-123M^{17}+M^7&=0.
+M^{27}-123M^{17}+M^7=0.
 \end{aligned}
 $$
-Therefore the predicate $A(1,-123,1)$ holds. The witness is finite and inspectable: the integer $123$ is produced by the Lucas recurrence, the matrices $M^7$, $M^{17}$, and $M^{27}$ are obtained by ordinary integer matrix powering, and the four entries of the resulting matrix sum are all zero.
+Thus the triple
+$$
+\begin{aligned}
+k=(1,-123,1)
+\end{aligned}
+$$
+satisfies $A(1,-123,1)$. This is the Lucas-kernel direction for the forced window $\{7,17,27\}$: the middle coefficient is exactly $-L_{10}$, and the outer coefficients are both $1$.
 
-\paragraph{Coefficient gauge.}
-The same calculation also fixes the local ambiguity of coefficient descriptions on the active block. Any coefficient triple assigned to the slots $7,17,27$ is determined only modulo the integer span of the direction $(1,-123,1)$ when the relation is read through this three-slot annihilation test. In other words, adding an integer multiple of $(1,-123,1)$ changes the displayed slot coefficients while preserving the finite matrix equality tested by $A$. This is a coefficient-gauge obstruction, not a measurement claim and not a selection rule for a preferred representative.
+\paragraph{Partition of coefficient space.}
+The kernel direction determines an equivalence relation on coefficient triples. For $(a,b,c),(a',b',c')\in\mathbb{Z}^3$, set
+$$
+\begin{aligned}
+(a,b,c)\sim(a',b',c')
+\end{aligned}
+$$
+when there is an integer $t$ such that
+$$
+\begin{aligned}
+(a-a',b-b',c-c')=t(1,-123,1).
+\end{aligned}
+$$
+This partitions $\mathbb{Z}^3$ into cosets of the rank-one subgroup $\mathbb{Z}(1,-123,1)$. The finite certificate therefore distinguishes a relation in the three exponent positions but does not choose a unique representative of a coefficient class. If one triple is used as a representative, then every triple
+$$
+\begin{aligned}
+(a+t,b-123t,c+t)
+\end{aligned}
+$$
+for $t\in\mathbb{Z}$ lies in the same coefficient class for the purpose of this window. The obstruction is exactly this gauge freedom: the arithmetic relation fixes the direction annihilating the slots, while any attempted coefficient selection must supply additional information before it can prefer one representative over another.
 
-\paragraph{Boundary of the construction.}
-The certificate proves only the finite companion-matrix relation just displayed. It does not identify $123$, the coefficient vector, or the matrix spectrum with any physical constant. It does not infer coefficients from numerical proximity, metrological data, or an external comparison. It also does not choose a unique coefficient representative in the quotient by the Lucas-kernel direction. No global flow law, no physical representation map, no external dependency, and no interpretation beyond this finite arithmetic construction follows without a separate certificate supplying that bridge.
+\paragraph{Witness extraction.}
+The witness is extracted by finite integer arithmetic only. First compute $L_{10}=123$ from the displayed Lucas recurrence. Next compute $M^{10}$ and $M^{20}$ by repeated multiplication of $M$ over $\mathbb{Z}$. The equality $M^{20}-123M^{10}+I=0$ is then an equality of four integer entries. Finally multiply by $M^7$, again inside integer matrices, to obtain $M^{27}-123M^{17}+M^7=0$. Reading the coefficients in the ordered exponent list $(7,17,27)$ gives $(1,-123,1)$. No limiting argument, approximation, real embedding, or physical measurement is used.
+
+\paragraph{Boundary.}
+This subsection proves only a finite companion-matrix relation and the induced coefficient-class partition for the three forced exponents. It does not identify any physical constant, does not infer the coefficient $123$ from numerical proximity, does not impose a global dynamical law, and does not compare the construction with metrological data. A separate representation certificate would be needed before this arithmetic packet could be connected to any physical interpretation.
