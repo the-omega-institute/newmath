@@ -75,6 +75,7 @@ The local $\NameCert_{\CollisionKernelUp}$ obligation surface consists of five f
 \item non-escape from host spectra or measure: the packet exports no host spectral object, measure space, infinite Hankel operator, quotient fiber, ambient moment problem, or unrecorded collision-counting operation.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.CollisionKernelUp.CollisionKernelCarrier\_namecert\_obligation\_surface}
 \begin{proof}
 The carrier row is the finite packet of \autoref{def:collision-kernel-bhist-carrier}, and \autoref{thm:collision-kernel-zero-window-packet} gives a concrete inhabitant.
 
@@ -175,6 +176,20 @@ First isolate the ledger. By \autoref{thm:collision-kernel-fiber-ledger-exactnes
 Next compose the transports. The classifier-transport scope in \autoref{thm:collision-kernel-classifier-transport-scope} permits only componentwise $\hsame$ movement along the displayed rows and only the displayed $\Cont$ routes for replaying consumers.
 
 The classifier definition then has no further input to inspect. Applying \autoref{def:collision-kernel-classifier} after the composed ledger transport yields the same finite classification, and \autoref{thm:collision-kernel-hankel-shadow-boundary} keeps any shadow read on the same ledger boundary.
+\end{proof}
+
+\begin{theorem}[CollisionKernel scoped dependency route]
+\label{thm:collision-kernel-scoped-route}
+Every scoped $\CollisionKernelUp$ consumer must read the finite window and target-fiber ledger through $\FoldMomentKernelUp$, $\GoldenMeanShiftUp$, $\ZeckendorfNormalUp$, $\ListUp$, and $\NatUp$ provenance before any Hankel-shadow or moment-index row is exported. The route has no host spectrum, ambient measure, quotient fiber, or infinite Hankel operator.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:collision-kernel-bhist-carrier}. The rows $W,F,L,M,I,S,H,C,P,N$ are the only displayed coordinates, and the provenance row $P$ names $\FoldMomentKernelUp$, $\GoldenMeanShiftUp$, $\ZeckendorfNormalUp$, $\ListUp$, and $\NatUp$ as the finite source route for scoped reads.
+
+Use fiber-ledger exactness from \autoref{thm:collision-kernel-fiber-ledger-exactness}. Every matrix entry reaches the target-fiber ledger $L$ through the finite window $W$ and fold-source row $F$, so a consumer cannot read a target fiber independently of the sibling provenance.
+
+Apply moment readback exhaustion and classifier transport scope from \autoref{thm:collision-kernel-moment-readback-exhaustion} and \autoref{thm:collision-kernel-classifier-transport-scope}. Moment-index and Hankel-shadow rows are exported only after $I,M,S,L,H,C,P,N$ have preserved the same finite packet.
+
+Thus the sibling dependency rows exhaust the scoped route before any moment or shadow read is visible. Since the carrier contains no spectrum, measure, quotient fiber, or infinite Hankel coordinate, no such object is exported by the route.
 \end{proof}
 
 \begin{theorem}[CollisionKernel moment ledger noninterference]
