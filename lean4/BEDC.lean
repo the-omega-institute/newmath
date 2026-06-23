@@ -602,6 +602,8 @@ import BEDC.Derived.AxiomDependencyMapUp.TasteGate
 import BEDC.Derived.AxiomDependencyTupleUp
 import BEDC.Derived.AxiomDependencyTupleUp.ConsumerExhaustion
 import BEDC.Derived.AxiomDependencyTupleUp.ConsumerLedgerOrder
+import BEDC.Derived.AxiomDependencyTupleUp.DownstreamConsumerSupplyBoundary
+import BEDC.Derived.AxiomDependencyTupleUp.KernelSupplyVisibility
 import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
 import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
 import BEDC.Derived.AxiomDependencyTupleUp.SupplyLedgerReadback
@@ -7104,6 +7106,7 @@ import BEDC.Derived.LocatedInfimumUp.SupremumDualRoute
 import BEDC.Derived.LocatedInfimumUp.TasteGate
 import BEDC.Derived.LocatedInfimumUp.WindowInduction
 import BEDC.Derived.LocatedIntermediateValueUp.TasteGate
+import BEDC.Derived.LocatedIntervalBisectionUp.NestedWindowRoute
 import BEDC.Derived.LocatedIntervalBisectionUp.TasteGate
 import BEDC.Derived.LocatedIntervalBolzanoUp.TasteGate
 import BEDC.Derived.LocatedIntervalCompactnessUp.TasteGate
@@ -10450,6 +10453,7 @@ import BEDC.Derived.RiemannRefinementCriterionUp.TasteGate
 import BEDC.Derived.RiemannRemovableDiscontinuityUp
 import BEDC.Derived.RiemannStieltjesIntegrationPartsUp.TasteGate
 import BEDC.Derived.RiemannStieltjesUp.DarbouxIntegralConsumerRoute
+import BEDC.Derived.RiemannStieltjesUp.DarbouxMeshRefinement
 import BEDC.Derived.RiemannStieltjesUp.MeshHandoff
 import BEDC.Derived.RiemannStieltjesUp.NameCertObligations
 import BEDC.Derived.RiemannStieltjesUp.PartitionCoverage
