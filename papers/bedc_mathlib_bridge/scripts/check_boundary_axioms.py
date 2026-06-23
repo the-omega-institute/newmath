@@ -45,6 +45,20 @@ QUOTIENT_STATUS_TO_LEAN = {
     "n_a": "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.QuotientStatus.nA",
 }
 
+AXIOM_STATUS_TO_LEAN = {
+    "eliminated": "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.AxiomStatus.eliminated",
+    "mathlib_intrinsic": (
+        "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.AxiomStatus.mathlibIntrinsic"
+    ),
+    "structural_quotient": (
+        "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.AxiomStatus.structuralQuotient"
+    ),
+    "principled_irreducible": (
+        "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.AxiomStatus.principledIrreducible"
+    ),
+    "unprobed": "BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.AxiomStatus.unprobed",
+}
+
 
 def find_bridge_root() -> Path:
     here = Path(__file__).resolve()
@@ -58,6 +72,14 @@ def render_axioms(axioms: list[str]) -> str:
     return ", ".join(lean_name(axiom) for axiom in axioms)
 
 
+def render_axiom_status(status: dict[str, str]) -> str:
+    entries = [
+        f"({lean_name(axiom)}, {AXIOM_STATUS_TO_LEAN[value]})"
+        for axiom, value in sorted(status.items())
+    ]
+    return ", ".join(entries)
+
+
 def render_audit(rows: list[dict[str, object]]) -> str:
     entries = []
     for row in rows:
@@ -65,6 +87,9 @@ def render_audit(rows: list[dict[str, object]]) -> str:
         place = str(row["place"])
         locatedness = str(row["locatedness"])
         quotient_status = str(row["quotient_status"])
+        axiom_status = row["axiom_status"]
+        if not isinstance(axiom_status, dict):
+            raise MatrixMetadataError("axiom_status must be a dictionary after parsing")
         entries.append(
             "{ rowId := "
             + lean_string(str(row["row_id"]))
@@ -75,7 +100,8 @@ def render_audit(rows: list[dict[str, object]]) -> str:
             + f", choiceStatus := {CHOICE_STATUS_TO_LEAN[choice_status]}"
             + f", place := {PLACE_TO_LEAN[place]}"
             + f", locatedness := {LOCATEDNESS_TO_LEAN[locatedness]}"
-            + f", quotientStatus := {QUOTIENT_STATUS_TO_LEAN[quotient_status]} }}"
+            + f", quotientStatus := {QUOTIENT_STATUS_TO_LEAN[quotient_status]}"
+            + f", axiomStatus := #[{render_axiom_status(axiom_status)}] }}"
         )
     body = ",\n  ".join(entries)
     return (

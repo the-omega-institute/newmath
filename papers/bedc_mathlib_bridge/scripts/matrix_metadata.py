@@ -13,6 +13,13 @@ DECL_RE = re.compile(r"[A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)*")
 PLACE_VALUES = {"finite_p", "infinite_archimedean", "object_base", "n_a"}
 LOCATEDNESS_VALUES = {"located", "arbitrary", "n_a"}
 QUOTIENT_STATUS_VALUES = {"structural_quotient", "quotient_free", "n_a"}
+AXIOM_STATUS_VALUES = {
+    "eliminated",
+    "mathlib_intrinsic",
+    "structural_quotient",
+    "principled_irreducible",
+    "unprobed",
+}
 
 
 @dataclass
@@ -120,6 +127,39 @@ def validate_axiom_list(value: Any, row: MatrixRow, field: str) -> list[str]:
 
 def validate_axioms(value: Any, row: MatrixRow) -> list[str]:
     return validate_axiom_list(value, row, "expected_axioms")
+
+
+def validate_axiom_status(value: Any, row: MatrixRow, footprint: list[str]) -> dict[str, str]:
+    if value is None:
+        raise MatrixMetadataError(
+            f"BEDC_GATE_E_AXIOM_UNCLASSIFIED: line {row.line_no}: "
+            "metadata field `axiom_status` is required for boundary footprints"
+        )
+    if not isinstance(value, dict):
+        raise MatrixMetadataError(
+            f"line {row.line_no}: metadata field `axiom_status` must be an object"
+        )
+    out: dict[str, str] = {}
+    for key, status in value.items():
+        if not isinstance(key, str) or DECL_RE.fullmatch(key) is None:
+            raise MatrixMetadataError(
+                f"line {row.line_no}: invalid `axiom_status` axiom name `{key}`"
+            )
+        if not isinstance(status, str) or status not in AXIOM_STATUS_VALUES:
+            raise MatrixMetadataError(
+                f"line {row.line_no}: `axiom_status.{key}` must be one of "
+                + ", ".join(sorted(AXIOM_STATUS_VALUES))
+            )
+        out[key] = status
+    for axiom in footprint:
+        status = out.get(axiom)
+        if status is None or status == "unprobed":
+            raise MatrixMetadataError(
+                f"BEDC_GATE_E_AXIOM_UNCLASSIFIED: line {row.line_no}: "
+                f"`{axiom}` in bedc_irreducible_footprint requires classified "
+                "`axiom_status`"
+            )
+    return out
 
 
 def validate_enum(value: Any, field: str, allowed: set[str], row: MatrixRow) -> str:
@@ -259,6 +299,11 @@ def boundary_rows(path: Path) -> list[dict[str, Any]]:
             raise MatrixMetadataError(
                 f"line {row.line_no}: choice_status `unprobed` requires probe_status `unprobed`"
             )
+        axiom_status = validate_axiom_status(
+            row.metadata.get("axiom_status"),
+            row,
+            bedc_irreducible_footprint,
+        )
         mathlib_class = validate_decl(row.metadata.get("mathlib_class"), "mathlib_class", row)
         mathlib_instance = validate_decl(row.metadata.get("mathlib_instance"), "mathlib_instance", row)
         out.append(
@@ -273,6 +318,7 @@ def boundary_rows(path: Path) -> list[dict[str, Any]]:
                 "locatedness": locatedness,
                 "quotient_status": quotient_status,
                 "probe_status": probe_status,
+                "axiom_status": axiom_status,
                 "mathlib_class": mathlib_class,
                 "mathlib_instance": mathlib_instance,
             }

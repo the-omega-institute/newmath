@@ -21,6 +21,14 @@ inductive ChoiceStatus where
   | unprobed
 deriving BEq, Repr
 
+inductive AxiomStatus where
+  | eliminated
+  | mathlibIntrinsic
+  | structuralQuotient
+  | principledIrreducible
+  | unprobed
+deriving BEq, Repr
+
 inductive Place where
   | finiteP
   | infiniteArchimedean
@@ -50,6 +58,7 @@ structure BoundaryExpectation where
   place : Place
   locatedness : Locatedness
   quotientStatus : QuotientStatus
+  axiomStatus : Array (Name × AxiomStatus)
 
 /--
 Audit-only names for synthesized Int instances that have no standalone mathlib
@@ -121,6 +130,9 @@ def duplicateNames (xs : Array Name) : Array Name := Id.run do
       seen := seen.push x
   return dupes
 
+def duplicateStatusKeys (xs : Array (Name × AxiomStatus)) : Array Name :=
+  duplicateNames (xs.map (·.1))
+
 def sameNameSet (xs ys : Array Name) : Bool :=
   xs.size == ys.size && xs.all (fun x => containsName ys x)
 
@@ -136,6 +148,10 @@ def classicalChoice : Name :=
 
 def quotSound : Name :=
   `Quot.sound
+
+def axiomStatus? (xs : Array (Name × AxiomStatus)) (x : Name) : Option AxiomStatus :=
+  xs.findSome? fun entry =>
+    if entry.1 == x then some entry.2 else none
 
 def intersection (xs ys : Array Name) : Array Name :=
   xs.filter fun x => containsName ys x
@@ -164,11 +180,42 @@ def auditFootprint (rowId : String) (label : String) (decl : Name)
       [{formatNames actualSorted}], expected [{formatNames expectedSorted}]"
   return actualSorted
 
+def auditAxiomStatus (e : BoundaryExpectation)
+    (irreducible : Array Name) : CommandElabM Unit := do
+  let dupes := duplicateStatusKeys e.axiomStatus
+  unless dupes.isEmpty do
+    throwError m!
+      "BEDC_GATE_E_DUPLICATE_AXIOM_STATUS: row `{e.rowId}` repeats axiom_status key(s): \
+      {formatNames dupes}"
+  for axName in irreducible do
+    match axiomStatus? e.axiomStatus axName with
+    | none =>
+        throwError m!
+          "BEDC_GATE_E_AXIOM_UNCLASSIFIED: row `{e.rowId}` records `{axName}` \
+          in the BEDC-irreducible footprint without axiom_status"
+    | some AxiomStatus.unprobed =>
+        throwError m!
+          "BEDC_GATE_E_AXIOM_UNCLASSIFIED: row `{e.rowId}` records `{axName}` \
+          in the BEDC-irreducible footprint with `unprobed` axiom_status"
+    | some AxiomStatus.eliminated =>
+        throwError m!
+          "BEDC_GATE_E_REDUCIBLE_AXIOM: row `{e.rowId}` records `{axName}` \
+          in the BEDC-irreducible footprint despite `eliminated` axiom_status"
+    | some AxiomStatus.mathlibIntrinsic => pure ()
+    | some AxiomStatus.structuralQuotient => pure ()
+    | some AxiomStatus.principledIrreducible => pure ()
+  for entry in e.axiomStatus do
+    if entry.2 == AxiomStatus.eliminated && containsName irreducible entry.1 then
+      throwError m!
+        "BEDC_GATE_E_REDUCIBLE_AXIOM: row `{e.rowId}` marks `{entry.1}` \
+        `eliminated`, but the BEDC-irreducible footprint still contains it"
+
 def auditOne (e : BoundaryExpectation) : CommandElabM Unit := do
   let mathlib ← auditFootprint e.rowId "mathlib" e.mathlibDecl e.mathlibFootprint
   let irreducible ←
     auditFootprint e.rowId "BEDC-irreducible" e.bedcIrreducibleDecl
       e.bedcIrreducibleFootprint
+  auditAxiomStatus e irreducible
   if containsName irreducible classicalChoice &&
       e.choiceStatus != ChoiceStatus.principledIrreducible then
     throwError m!

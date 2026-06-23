@@ -54,6 +54,27 @@ theorem cInt_commRing_constructive_probe :
                     (CInt.toInt_mul x z).symm).trans
                   (CInt.toInt_add (x * y) (x * z)).symm))))⟩
 
+private theorem int_pos_of_nat_succ (n : Nat) :
+    (0 : _root_.Int) < (Nat.succ n : _root_.Int) := by
+  exact _root_.Int.natCast_pos.mpr (Nat.succ_pos n)
+
+private theorem int_emod_lt_natAbs_constructive
+    (a : _root_.Int) {b : _root_.Int} (hb : b ≠ 0) :
+    a % b < (b.natAbs : _root_.Int) := by
+  cases b with
+  | ofNat n =>
+      cases n with
+      | zero =>
+          contradiction
+      | succ n =>
+          change a % (_root_.Int.ofNat (Nat.succ n)) < _root_.Int.ofNat (Nat.succ n)
+          exact _root_.Int.emod_lt_of_pos a (int_pos_of_nat_succ n)
+  | negSucc n =>
+      rw [_root_.Int.negSucc_eq]
+      rw [_root_.Int.emod_neg]
+      change a % (_root_.Int.ofNat (Nat.succ n)) < _root_.Int.ofNat (Nat.succ n)
+      exact _root_.Int.emod_lt_of_pos a (int_pos_of_nat_succ n)
+
 theorem int_euclidean_constructive_probe :
     (∀ a b : _root_.Int, b * (a / b) + a % b = a) ∧
       (∀ a : _root_.Int, ∀ {b : _root_.Int}, b ≠ 0 -> 0 ≤ a % b) ∧
@@ -61,7 +82,7 @@ theorem int_euclidean_constructive_probe :
   exact
     ⟨_root_.Int.mul_ediv_add_emod,
       _root_.Int.emod_nonneg,
-      _root_.Int.emod_lt⟩
+      int_emod_lt_natAbs_constructive⟩
 
 theorem int_ordered_ring_constructive_probe :
     (∀ a b : _root_.Int, 0 ≤ a -> 0 ≤ b -> 0 ≤ a * b) ∧

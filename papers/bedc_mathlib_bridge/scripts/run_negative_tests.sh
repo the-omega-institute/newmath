@@ -197,7 +197,7 @@ expect_fail BEDC_GATE_D_ORPHAN_WITNESS \
 cat > "$TMP_DIR/boundary_fake.md" <<'EOF'
 | row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
 | --- | --- | --- | --- | --- | --- | --- |
-| fake-boundary | fixture | mathlib Int CommRing (`Int.instCommRing`) | boundary fact (not bridged) | fixture | mathlib_footprint=[] | fixture <!-- bedc-bridge-row: {"row_id":"fake-boundary","kind":"measured_boundary","mathlib_class":"CommRing","mathlib_instance":"Int.instCommRing","mathlib_decl":"Int.instCommRing","mathlib_footprint":[],"bedc_irreducible_decl":"Int.instCommRing","bedc_irreducible_footprint":["propext"],"choice_status":"unprobed","probe_status":"unprobed"} --> |
+| fake-boundary | fixture | mathlib Int CommRing (`Int.instCommRing`) | boundary fact (not bridged) | fixture | mathlib_footprint=[] | fixture <!-- bedc-bridge-row: {"row_id":"fake-boundary","kind":"measured_boundary","mathlib_class":"CommRing","mathlib_instance":"Int.instCommRing","mathlib_decl":"Int.instCommRing","mathlib_footprint":[],"bedc_irreducible_decl":"Int.instCommRing","bedc_irreducible_footprint":["propext"],"choice_status":"unprobed","probe_status":"unprobed","axiom_status":{"propext":"mathlib_intrinsic"}} --> |
 EOF
 
 expect_fail BEDC_GATE_E_AXIOM_MISMATCH \
@@ -206,7 +206,7 @@ expect_fail BEDC_GATE_E_AXIOM_MISMATCH \
 cat > "$TMP_DIR/boundary_tag_fake.md" <<'EOF'
 | row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
 | --- | --- | --- | --- | --- | --- | --- |
-| fake-tag-boundary | fixture | mathlib Int CommRing (`Int.instCommRing`) | boundary fact (not bridged) | fixture | mathlib_footprint=[propext] | fixture <!-- bedc-bridge-row: {"row_id":"fake-tag-boundary","kind":"measured_boundary","mathlib_class":"CommRing","mathlib_instance":"Int.instCommRing","mathlib_decl":"Int.instCommRing","mathlib_footprint":["propext"],"bedc_irreducible_decl":"Int.instCommRing","bedc_irreducible_footprint":["propext"],"choice_status":"unprobed","probe_status":"unprobed","place":"finite_prime","locatedness":"n_a","quotient_status":"structural_quotient"} --> |
+| fake-tag-boundary | fixture | mathlib Int CommRing (`Int.instCommRing`) | boundary fact (not bridged) | fixture | mathlib_footprint=[propext] | fixture <!-- bedc-bridge-row: {"row_id":"fake-tag-boundary","kind":"measured_boundary","mathlib_class":"CommRing","mathlib_instance":"Int.instCommRing","mathlib_decl":"Int.instCommRing","mathlib_footprint":["propext"],"bedc_irreducible_decl":"Int.instCommRing","bedc_irreducible_footprint":["propext"],"choice_status":"unprobed","probe_status":"unprobed","place":"finite_prime","locatedness":"n_a","quotient_status":"structural_quotient","axiom_status":{"propext":"mathlib_intrinsic"}} --> |
 EOF
 
 expect_fail BEDC_GATE_E_SCHEMA \
@@ -215,16 +215,43 @@ expect_fail BEDC_GATE_E_SCHEMA \
 cat > "$TMP_DIR/boundary_choice_fake.md" <<'EOF'
 | row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
 | --- | --- | --- | --- | --- | --- | --- |
-| fake-choice-boundary | fixture | mathlib Int EuclideanDomain (`Int.euclideanDomain`) | boundary fact (not bridged) | fixture | bedc_irreducible_footprint=[Classical.choice] | fixture <!-- bedc-bridge-row: {"row_id":"fake-choice-boundary","kind":"measured_boundary","mathlib_class":"EuclideanDomain","mathlib_instance":"Int.euclideanDomain","boundary_decl":"Int.euclideanDomain","mathlib_footprint":["Classical.choice","Quot.sound","propext"],"bedc_irreducible_decl":"Int.euclideanDomain","bedc_irreducible_footprint":["Classical.choice","Quot.sound","propext"],"choice_status":"eliminated","probe_status":"probed"} --> |
+| fake-choice-boundary | fixture | mathlib Int EuclideanDomain (`Int.euclideanDomain`) | boundary fact (not bridged) | fixture | bedc_irreducible_footprint=[Classical.choice] | fixture <!-- bedc-bridge-row: {"row_id":"fake-choice-boundary","kind":"measured_boundary","mathlib_class":"EuclideanDomain","mathlib_instance":"Int.euclideanDomain","boundary_decl":"Int.euclideanDomain","mathlib_footprint":["Classical.choice","Quot.sound","propext"],"bedc_irreducible_decl":"Int.euclideanDomain","bedc_irreducible_footprint":["Classical.choice","Quot.sound","propext"],"choice_status":"eliminated","probe_status":"probed","axiom_status":{"Classical.choice":"principled_irreducible","Quot.sound":"mathlib_intrinsic","propext":"mathlib_intrinsic"}} --> |
 EOF
 
 expect_fail BEDC_GATE_E_REDUCIBLE_CHOICE \
   python3 "$ROOT/scripts/check_boundary_axioms.py" "$TMP_DIR/boundary_choice_fake.md"
 
+cat > "$TMP_DIR/boundary_axiom_missing_fake.md" <<'EOF'
+| row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
+| --- | --- | --- | --- | --- | --- | --- |
+| fake-axiom-missing-boundary | fixture | mathlib Int CommRing (`Int.instCommRing`) | boundary fact (not bridged) | fixture | bedc_irreducible_footprint=[propext] | fixture <!-- bedc-bridge-row: {"row_id":"fake-axiom-missing-boundary","kind":"measured_boundary","mathlib_class":"CommRing","mathlib_instance":"Int.instCommRing","mathlib_decl":"Int.instCommRing","mathlib_footprint":["propext"],"bedc_irreducible_decl":"Int.instCommRing","bedc_irreducible_footprint":["propext"],"choice_status":"unprobed","probe_status":"unprobed"} --> |
+EOF
+
+expect_fail BEDC_GATE_E_AXIOM_UNCLASSIFIED \
+  python3 "$ROOT/scripts/check_boundary_axioms.py" "$TMP_DIR/boundary_axiom_missing_fake.md"
+
+cat > "$TMP_DIR/boundary_axiom_unclassified_fake.md" <<'EOF'
+| row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
+| --- | --- | --- | --- | --- | --- | --- |
+| fake-axiom-unclassified-boundary | fixture | mathlib Int CommRing (`Int.instCommRing`) | boundary fact (not bridged) | fixture | bedc_irreducible_footprint=[propext] | fixture <!-- bedc-bridge-row: {"row_id":"fake-axiom-unclassified-boundary","kind":"measured_boundary","mathlib_class":"CommRing","mathlib_instance":"Int.instCommRing","mathlib_decl":"Int.instCommRing","mathlib_footprint":["propext"],"bedc_irreducible_decl":"Int.instCommRing","bedc_irreducible_footprint":["propext"],"choice_status":"unprobed","probe_status":"unprobed","axiom_status":{"propext":"unprobed"}} --> |
+EOF
+
+expect_fail BEDC_GATE_E_AXIOM_UNCLASSIFIED \
+  python3 "$ROOT/scripts/check_boundary_axioms.py" "$TMP_DIR/boundary_axiom_unclassified_fake.md"
+
+cat > "$TMP_DIR/boundary_reducible_axiom_fake.md" <<'EOF'
+| row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
+| --- | --- | --- | --- | --- | --- | --- |
+| fake-reducible-axiom-boundary | fixture | mathlib Int CommRing (`Int.instCommRing`) | boundary fact (not bridged) | fixture | bedc_irreducible_footprint=[propext] | fixture <!-- bedc-bridge-row: {"row_id":"fake-reducible-axiom-boundary","kind":"measured_boundary","mathlib_class":"CommRing","mathlib_instance":"Int.instCommRing","mathlib_decl":"Int.instCommRing","mathlib_footprint":["propext"],"bedc_irreducible_decl":"Int.instCommRing","bedc_irreducible_footprint":["propext"],"choice_status":"unprobed","probe_status":"unprobed","axiom_status":{"propext":"eliminated"}} --> |
+EOF
+
+expect_fail BEDC_GATE_E_REDUCIBLE_AXIOM \
+  python3 "$ROOT/scripts/check_boundary_axioms.py" "$TMP_DIR/boundary_reducible_axiom_fake.md"
+
 cat > "$TMP_DIR/boundary_real_fake.md" <<'EOF'
 | row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
 | --- | --- | --- | --- | --- | --- | --- |
-| fake-real-boundary | fixture | synthesized mathlib SupSet Real | boundary fact (not bridged) | fixture | mathlib_footprint=[] | fixture <!-- bedc-bridge-row: {"row_id":"fake-real-boundary","kind":"measured_boundary","mathlib_class":"SupSet","mathlib_instance":"ConditionallyCompleteLattice.toSupSet","mathlib_decl":"BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.auditRealSupSet","mathlib_footprint":[],"bedc_irreducible_decl":"BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.auditRealSupSet","bedc_irreducible_footprint":[],"choice_status":"principled_irreducible","probe_status":"unprobed","place":"infinite_archimedean","locatedness":"arbitrary","quotient_status":"structural_quotient"} --> |
+| fake-real-boundary | fixture | synthesized mathlib SupSet Real | boundary fact (not bridged) | fixture | mathlib_footprint=[] | fixture <!-- bedc-bridge-row: {"row_id":"fake-real-boundary","kind":"measured_boundary","mathlib_class":"SupSet","mathlib_instance":"ConditionallyCompleteLattice.toSupSet","mathlib_decl":"BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.auditRealSupSet","mathlib_footprint":[],"bedc_irreducible_decl":"BedcMathlibBridge.Audit.BoundaryFactAxiomGuard.auditRealSupSet","bedc_irreducible_footprint":[],"choice_status":"principled_irreducible","probe_status":"unprobed","place":"infinite_archimedean","locatedness":"arbitrary","quotient_status":"structural_quotient","axiom_status":{}} --> |
 EOF
 
 expect_fail BEDC_GATE_E_AXIOM_MISMATCH \
