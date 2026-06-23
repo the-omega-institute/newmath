@@ -109,4 +109,34 @@ theorem ObserverPerspectiveClassifierLocalityCellComparison [AskSetup] [PackageS
     ⟨localityUnary, gapUnary, comparisonUnary, comparisonSameTransport, universeLocality,
       localityGapComparison, provenancePkg, namePkg⟩
 
+theorem ObserverPerspectiveClassifierAnchorChangeStability [AskSetup] [PackageSetup]
+    {observerLeft observerRight universeLeft universeRight locality gap transport route
+      provenance name leftRead rightRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverPerspectiveClassifierCarrier observerLeft observerRight universeLeft universeRight
+        locality gap transport route provenance name bundle pkg →
+      Cont observerLeft observerRight leftRead →
+        Cont observerRight observerLeft rightRead →
+          PkgSig bundle leftRead pkg →
+            PkgSig bundle rightRead pkg →
+              UnaryHistory observerLeft ∧ UnaryHistory observerRight ∧
+                UnaryHistory leftRead ∧ UnaryHistory rightRead ∧
+                  Cont observerLeft observerRight leftRead ∧
+                    Cont observerRight observerLeft rightRead ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                        PkgSig bundle leftRead pkg ∧ PkgSig bundle rightRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier leftAnchor rightAnchor leftPkg rightPkg
+  obtain ⟨observerLeftUnary, observerRightUnary, _universeLeftUnary, _universeRightUnary,
+    _localityUnary, _gapUnary, _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    _observerUniverse, _universeLocality, _localityTransport, _transportGap, provenancePkg,
+    namePkg⟩ := carrier
+  have leftReadUnary : UnaryHistory leftRead :=
+    unary_cont_closed observerLeftUnary observerRightUnary leftAnchor
+  have rightReadUnary : UnaryHistory rightRead :=
+    unary_cont_closed observerRightUnary observerLeftUnary rightAnchor
+  exact
+    ⟨observerLeftUnary, observerRightUnary, leftReadUnary, rightReadUnary, leftAnchor,
+      rightAnchor, provenancePkg, namePkg, leftPkg, rightPkg⟩
+
 end BEDC.Derived.ObserverperspectiveclassifierUp
