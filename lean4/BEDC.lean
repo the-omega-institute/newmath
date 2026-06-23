@@ -10515,6 +10515,7 @@ import BEDC.Derived.RegularCauchyWindowFusionUp.ObligationInventory
 import BEDC.Derived.RegularCauchyWindowFusionUp.PublicExport
 import BEDC.Derived.RegularCauchyWindowFusionUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyWindowFusionUp.ScopedKernelRoute
+import BEDC.Derived.RegularCauchyWindowFusionUp.ScopedRowExhaustion
 import BEDC.Derived.RegularCauchyWindowFusionUp.SelectorBudgetCompatibility
 import BEDC.Derived.RegularCauchyWindowFusionUp.SharedWindowHandoff
 import BEDC.Derived.RegularCauchyWindowFusionUp.TailHandoff
