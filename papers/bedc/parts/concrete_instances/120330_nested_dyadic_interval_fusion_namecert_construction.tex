@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\NestedDyadicIntervalFusionUp$}
+\label{ch:concrete-instances-nested-dyadic-interval-fusion-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style constructive analysis, the $\NestedDyadicIntervalFusionUp$ packet records the finite fusion route by which a nested dyadic interval stream supplies one regular rational readback before the terminal $\RealUp$ name is consumed. It sits after the dyadic endpoint and comparison rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names only the displayed prefix, shrinking-width, fusion, readback, transport, replay, provenance, and local naming rows; it is not a quotient stream, a selected host limit, a countable-choice selector, trichotomy, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Nested dyadic interval fusion carrier]
+\label{def:nested-dyadic-interval-fusion-carrier}
+A $\NestedDyadicIntervalFusionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,D,W,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the nested dyadic interval prefix row, storing the finite chain of left and right endpoint cells.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint and width ledger for those cells, including the displayed containment and shrinking-width comparisons.
+\item $W$ is the fusion-window row, selecting the common finite prefix that every downstream read must inspect.
+\item $S$ is the $\StreamNameUp$ observation schedule attached to the same prefix.
+\item $R$ is the $\RegSeqRatUp$ readback row formed from the scheduled dyadic observations.
+\item $E$ is the $\RealUp$ terminal seal row, available only after $I,D,W,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval prefix, dyadic ledger, fusion window, stream schedule, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a fusion request through $I,D,W,S,R,E$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\NestedDyadicIntervalFusionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NestedDyadicIntervalFusionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,D,W,S,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected completed limits, host real equality, countable choice, trichotomy, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Nested dyadic interval fusion NameCert obligations]
+\label{thm:nested-dyadic-interval-fusion-namecert-obligations}
+For every accepted $\NestedDyadicIntervalFusionUp$ carrier
+$$
+F=(I,D,W,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\NestedDyadicIntervalFusionUp}$ surface consists exactly of nested-prefix exposure through $I$, dyadic endpoint and width exposure through $D$, common fusion-window exposure through $W$, finite observation scheduling through $S$, regular rational readback through $R$, terminal real sealing through $E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:nested-dyadic-interval-fusion-carrier}. The projection exposes the finite interval prefix, dyadic ledger, fusion window, schedule, regular readback, real seal, transport, replay, provenance, and naming rows.
+
+The analytic rows are ordered. The dyadic ledger $D$ can be read only after a prefix $I$ is displayed, the fusion window $W$ restricts all later observations to a common finite prefix, and the stream schedule $S$ names the observations allowed inside that prefix.
+
+The regular and real-facing rows are downstream. The readback row $R$ is formed from the scheduled dyadic observations, and the terminal seal $E$ is available only after that readback is displayed.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same route. Since the carrier contains no quotient stream, selected limit, host real equality, choice, trichotomy, or ambient completeness coordinate, the listed rows exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[Nested dyadic interval fusion Real handoff]
+\label{thm:nested-dyadic-interval-fusion-real-handoff}
+Every $\RealUp$-facing consumer of an accepted $\NestedDyadicIntervalFusionUp$ packet factors through
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+using the finite rows $I,D,W,S,R,E,H,C,P,N$. The handoff exposes a common nested dyadic prefix and one regular rational readback route before the terminal seal is consumed; it does not expose quotient real equality, a selected host limit, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations. They force a Real-facing consumer to expose $I,D,W,S,R$ before the seal row $E$ is available.
+
+Read the sibling surfaces in order. The dyadic rational core supplies endpoint and width comparisons for $D$, the stream-name interface supplies the finite observation schedule $S$, and the regular rational interface supplies the readback row $R$.
+
+Finally consume the terminal seal through $\RealUp$. The rows $H,C,P,N$ preserve the same finite fusion route under transport, replay, provenance, and local naming, so no downstream consumer can replace the route by a quotient stream, a selected limit, or an ambient completeness principle.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\NestedDyadicIntervalFusionUp$ read displays the nested dyadic prefix, DyadicRatCore endpoint ledger, common fusion window, StreamName schedule, RegSeqRat readback, RealUp seal, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any Real-facing consumer can use the terminal seal.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: none is bijective to $\NestedDyadicIntervalFusionUp$ because only this packet binds a common nested dyadic prefix, a fusion window, scheduled observations, regular rational readback, terminal real sealing, transport, replay, provenance, and local naming as one finite route.}
+
+\closureat{NestedDyadicIntervalFusionUp}{seedStr}
+
+\begin{closurestatus}{\NestedDyadicIntervalFusionUp}
+  \constructivestory{A $\NestedDyadicIntervalFusionUp$ packet is generated from nested dyadic interval prefixes, DyadicRatCore endpoint and width rows, one common fusion window, StreamName finite observations, RegSeqRat readback, a RealUp terminal seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:nested-dyadic-interval-fusion-carrier}, \autoref{thm:nested-dyadic-interval-fusion-namecert-obligations}, and \autoref{thm:nested-dyadic-interval-fusion-real-handoff} seed the finite nested dyadic interval fusion route from displayed dyadic prefix data to a Real-facing readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected host limits, host real equality, countable choice, trichotomy, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic prefix exposure, fusion-window scheduling, RegSeqRat readback, Real handoff, transport, replay, provenance, and local naming for BEDC.Derived.NestedDyadicIntervalFusionUp.}
+\end{closurestatus}
