@@ -23,7 +23,9 @@ def MinkowskiRateGeometryCarrier [AskSetup] [PackageSetup]
   UnaryHistory config ∧ UnaryHistory causal ∧ UnaryHistory rate ∧ UnaryHistory frame ∧
     UnaryHistory distance ∧ UnaryHistory transport ∧ UnaryHistory replay ∧
       UnaryHistory provenance ∧ UnaryHistory localName ∧ Cont config causal rate ∧
-        Cont rate frame distance ∧ PkgSig bundle distance pkg
+        Cont rate frame distance ∧ Cont distance transport replay ∧
+          PkgSig bundle distance pkg ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle localName pkg
 
 theorem MinkowskiRateGeometryCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {config causal rate frame distance transport replay provenance localName : BHist}
@@ -42,7 +44,7 @@ theorem MinkowskiRateGeometryCarrier_namecert_obligations [AskSetup] [PackageSet
   intro carrier
   obtain ⟨_configUnary, _causalUnary, _rateUnary, _frameUnary, distanceUnary, _transportUnary,
     _replayUnary, _provenanceUnary, _localNameUnary, configCausalRate, rateFrameDistance,
-    distancePkg⟩ := carrier
+    _distanceTransportReplay, distancePkg, _provenancePkg, _localNamePkg⟩ := carrier
   have sourceDistance :
       (fun row : BHist => hsame row distance ∧ UnaryHistory row) distance := by
     exact ⟨hsame_refl distance, distanceUnary⟩
@@ -103,7 +105,8 @@ theorem MinkowskiRateGeometrySymmetry [AskSetup] [PackageSetup]
   intro carrier frameRateMirrored mirroredPkg
   obtain ⟨_configUnary, _causalUnary, rateUnary, frameUnary, _distanceUnary,
     _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, configCausalRate,
-    rateFrameDistance, distancePkg⟩ := carrier
+    rateFrameDistance, _distanceTransportReplay, distancePkg, _provenancePkg,
+    _localNamePkg⟩ := carrier
   have mirroredUnary : UnaryHistory mirroredDistance :=
     unary_cont_closed frameUnary rateUnary frameRateMirrored
   have sourceMirrored :
@@ -164,12 +167,56 @@ theorem MinkowskiRateGeometryNonescape [AskSetup] [PackageSetup]
   intro carrier rateFrameBoundary boundaryPkg
   obtain ⟨configUnary, causalUnary, rateUnary, frameUnary, _distanceUnary,
     _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, configCausalRate,
-    _rateFrameDistance, distancePkg⟩ := carrier
+    _rateFrameDistance, _distanceTransportReplay, distancePkg, _provenancePkg,
+    _localNamePkg⟩ := carrier
   have boundaryUnary : UnaryHistory boundaryRead :=
     unary_cont_closed rateUnary frameUnary rateFrameBoundary
   exact
     ⟨configUnary, causalUnary, rateUnary, frameUnary, boundaryUnary, configCausalRate,
       rateFrameBoundary, distancePkg, boundaryPkg⟩
+
+theorem MinkowskiRateGeometryCarrier_envelope [AskSetup] [PackageSetup]
+    {G X R L D H C P N read : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MinkowskiRateGeometryCarrier G X R L D H C P N bundle pkg →
+      Cont D C read →
+        PkgSig bundle read pkg →
+          UnaryHistory G ∧ UnaryHistory X ∧ UnaryHistory R ∧ UnaryHistory L ∧
+            UnaryHistory D ∧ UnaryHistory read ∧ Cont D C read ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle read pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier distanceReplayRead readPkg
+  obtain ⟨configUnary, causalUnary, rateUnary, frameUnary, distanceUnary, _transportUnary,
+    replayUnary, _provenanceUnary, _localNameUnary, _configCausalRate, _rateFrameDistance,
+    _distanceTransportReplay, _distancePkg, provenancePkg, _localNamePkg⟩ := carrier
+  have readUnary : UnaryHistory read :=
+    unary_cont_closed distanceUnary replayUnary distanceReplayRead
+  exact
+    ⟨configUnary, causalUnary, rateUnary, frameUnary, distanceUnary, readUnary,
+      distanceReplayRead, provenancePkg, readPkg⟩
+
+theorem MinkowskiRateGeometryScopeBinding [AskSetup] [PackageSetup]
+    {G X R L D H C P N promoted : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MinkowskiRateGeometryCarrier G X R L D H C P N bundle pkg →
+      Cont G X R →
+        Cont R L D →
+          Cont D N promoted →
+            PkgSig bundle promoted pkg →
+              UnaryHistory promoted ∧ Cont G X R ∧ Cont R L D ∧
+                Cont D N promoted ∧ PkgSig bundle P pkg ∧
+                  PkgSig bundle promoted pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier configCausalRate rateFrameDistance distanceNamePromoted promotedPkg
+  obtain ⟨_configUnary, _causalUnary, _rateUnary, _frameUnary, distanceUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, localNameUnary, _carrierConfigCausalRate,
+    _carrierRateFrameDistance, _distanceTransportReplay, _distancePkg, provenancePkg,
+    _localNamePkg⟩ := carrier
+  have promotedUnary : UnaryHistory promoted :=
+    unary_cont_closed distanceUnary localNameUnary distanceNamePromoted
+  exact
+    ⟨promotedUnary, configCausalRate, rateFrameDistance, distanceNamePromoted,
+      provenancePkg, promotedPkg⟩
 
 theorem MinkowskiRateGeometryCarrier_classifier_stability [AskSetup] [PackageSetup]
     {config causal rate frame distance transport replay provenance localName stableDistance :
@@ -194,7 +241,7 @@ theorem MinkowskiRateGeometryCarrier_classifier_stability [AskSetup] [PackageSet
   intro carrier rateFrameStable sameStableDistance distancePkg
   obtain ⟨_configUnary, _causalUnary, rateUnary, frameUnary, distanceUnary, _transportUnary,
     _replayUnary, _provenanceUnary, _localNameUnary, configCausalRate, _rateFrameDistance,
-    _carrierPkg⟩ := carrier
+    _distanceTransportReplay, _carrierDistancePkg, _provenancePkg, _localNamePkg⟩ := carrier
   have stableUnaryFromRoute : UnaryHistory stableDistance :=
     unary_cont_closed rateUnary frameUnary rateFrameStable
   have stableUnaryFromDistance : UnaryHistory stableDistance :=

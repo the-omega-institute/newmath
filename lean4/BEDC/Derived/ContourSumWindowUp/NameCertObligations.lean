@@ -16,6 +16,15 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def ContourSumWindowCarrier [AskSetup] [PackageSetup]
+    (gamma f S R I H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  UnaryHistory gamma ∧ UnaryHistory f ∧ UnaryHistory S ∧ UnaryHistory R ∧
+    UnaryHistory I ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+      UnaryHistory N ∧ Cont gamma f S ∧ Cont S R I ∧ Cont I H C ∧
+        PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
 theorem ContourSumWindowCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {contour holomorphic subdivision riemann output transport continuation provenance name
       ledgerRead outputRead : BHist}
@@ -97,5 +106,25 @@ theorem ContourSumWindowCarrier_namecert_obligations [AskSetup] [PackageSetup]
         exact ⟨source.right, provenancePkg, outputPkg⟩
   }
   exact ⟨cert, ledgerUnary, outputReadUnary⟩
+
+theorem ContourSumWindowPublicFiniteWindowCertificate [AskSetup] [PackageSetup]
+    {gamma f S R I H C P N outputRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContourSumWindowCarrier gamma f S R I H C P N bundle pkg →
+      Cont R I outputRead →
+        PkgSig bundle outputRead pkg →
+          UnaryHistory gamma ∧ UnaryHistory f ∧ UnaryHistory S ∧ UnaryHistory R ∧
+            UnaryHistory I ∧ UnaryHistory outputRead ∧ Cont R I outputRead ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle outputRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier riemannOutputRead outputPkg
+  obtain ⟨gammaUnary, fUnary, subdivisionUnary, riemannUnary, outputUnary, _transportUnary,
+    _continuationUnary, _provenanceUnary, _nameUnary, _contourRoute, _windowRoute,
+    _continuationRoute, provenancePkg, _namePkg⟩ := carrier
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed riemannUnary outputUnary riemannOutputRead
+  exact
+    ⟨gammaUnary, fUnary, subdivisionUnary, riemannUnary, outputUnary, outputReadUnary,
+      riemannOutputRead, provenancePkg, outputPkg⟩
 
 end BEDC.Derived.ContourSumWindowUp
