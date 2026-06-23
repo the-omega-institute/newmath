@@ -25,6 +25,20 @@ def CollisionKernelCarrier [AskSetup] [PackageSetup]
         Cont ledger matrix shadow ∧ Cont moment matrix shadow ∧
           PkgSig bundle provenance pkg ∧ PkgSig bundle nameCert pkg
 
+def CollisionKernelClassifier [AskSetup] [PackageSetup]
+    (window fold ledger matrix moment shadow transport route provenance nameCert window' fold'
+      ledger' matrix' moment' shadow' transport' route' provenance' nameCert' : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame
+  CollisionKernelCarrier window fold ledger matrix moment shadow transport route provenance
+      nameCert bundle pkg ∧
+    CollisionKernelCarrier window' fold' ledger' matrix' moment' shadow' transport' route'
+        provenance' nameCert' bundle pkg ∧
+      hsame window window' ∧ hsame fold fold' ∧ hsame ledger ledger' ∧
+        hsame matrix matrix' ∧ hsame moment moment' ∧ hsame shadow shadow' ∧
+          hsame transport transport' ∧ hsame route route' ∧ hsame provenance provenance' ∧
+            hsame nameCert nameCert'
+
 theorem CollisionKernelCarrier_zero_window_packet [AskSetup] [PackageSetup]
     {window fold ledger matrix moment shadow transport route provenance nameCert : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
