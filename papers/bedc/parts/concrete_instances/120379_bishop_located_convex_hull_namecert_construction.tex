@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedConvexHullUp$}
+\label{ch:concrete-instances-bishop-located-convex-hull-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopLocatedConvexHullUp$ packet records finite located convex-hull approximation data as BEDC naming evidence. It sits over the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the convex membership surface of \autoref{ch:concrete-instances-convexset-namecert}, the compact finite-read boundary of \autoref{ch:concrete-instances-compact-namecert}, the polytope witness rows of \autoref{ch:concrete-instances-polytope-namecert}, and the bounded-support convex-hull route of \autoref{ch:concrete-instances-caratheodory-convex-hull-namecert}. The packet names a finite approximation surface for located convex hulls; it does not import host convex-hull equality, selected closest points, quotient subsets, ambient $\RealUp$ completeness, or countable choice.
+
+\begin{definition}[Bishop located convex-hull carrier]
+\label{def:bishop-located-convex-hull-carrier}
+A $\BishopLocatedConvexHullUp$ carrier is a finite $\BHist$ packet
+$$
+L=(R,M,C,K,P,A,W,D,Q,H,T,S,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RealUp$ scalar seal through which tolerances, coefficients, and metric radii are read.
+\item $M$ is the $\MetricSpaceUp$ ambient row carrying the distance reads used by the located approximation.
+\item $C$ is the $\ConvexSetUp$ source row naming the convex family under inspection.
+\item $K$ is the $\CompactUp$ finite-read boundary for the inspected source window.
+\item $P$ is the $\PolytopeUp$ finite witness row that stores the displayed approximating hull.
+\item $A$ is the $\CaratheodoryConvexHullUp$ bounded-support handoff row.
+\item $W$ records the located tolerance window and the finite mesh radius used by the approximation read.
+\item $D$ records the displayed distance-to-hull comparison rows, read only through $R,M,C,K,P,A,W$.
+\item $Q$ records the finite coefficient ledger for the approximating convex combination.
+\item $H$ records componentwise $\hsame$ transport for the real, metric, convex, compact, polytope, support, window, distance, coefficient, continuation, provenance, and naming rows.
+\item $T$ is the displayed $\Cont$ replay from a tolerance request through the same finite rows.
+\item $S$ is the $\Pkg$ provenance over $\BishopLocatedConvexHullUp$, $\RealUp$, $\MetricSpaceUp$, $\ConvexSetUp$, $\CompactUp$, $\PolytopeUp$, $\CaratheodoryConvexHullUp$, $\BHist$, $\hsame$, $\Cont$, and local $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopLocatedConvexHullUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host convex-hull equality, a selected nearest point, quotient subset equality, ambient completeness, separation, or countable choice.
+\end{definition}
+
+\begin{theorem}[Bishop located convex-hull NameCert obligations]
+\label{thm:bishop-located-convex-hull-namecert-obligations}
+For the carrier of \autoref{def:bishop-located-convex-hull-carrier}, the local $\NameCert_{\BishopLocatedConvexHullUp}$ surface consists exactly of carrier exposure for $L$, real and metric readback through $R,M$, convex-source exposure through $C$, compact finite-read exposure through $K$, polytope approximation exposure through $P$, Caratheodory bounded-support exposure through $A$, tolerance-window exposure through $W$, distance-comparison exposure through $D$, coefficient-ledger exposure through $Q$, componentwise transport through $H$, displayed continuation replay through $T$, package provenance through $S$, and local naming through $N$. Classifier stability is tested only by replaying those displayed rows under $\hsame$ transport.
+\end{theorem}
+
+\begin{theorem}[Bishop located convex-hull finite approximation]
+\label{thm:bishop-located-convex-hull-finite-approximation}
+Every accepted $\BishopLocatedConvexHullUp$ packet exposes a finite approximation route
+$$
+\RealUp,\ \MetricSpaceUp,\ \ConvexSetUp,\ \CompactUp,\ \PolytopeUp,\ \CaratheodoryConvexHullUp
+$$
+before any located convex-hull distance read is available. The tolerance row $W$, distance row $D$, and coefficient row $Q$ therefore witness a finite located approximation of the convex hull, not a host equality of hulls, a selected closest point, quotient subset equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+
+\falsifiablePrediction{An accepted $\BishopLocatedConvexHullUp$ consumer that reads a located convex-hull approximation without the displayed real, metric, convex, compact, polytope, Caratheodory, tolerance, distance, and coefficient rows refutes the carrier surface.}
+
+\independenceWitness{real, metric, convexset, compact, polytope, caratheodory-convex-hull: no listed sibling is bijective to $\BishopLocatedConvexHullUp$ because this packet jointly binds finite located tolerance windows, metric distance comparisons, compact finite-read boundaries, polytope approximants, bounded-support hull rows, transport, replay, provenance, and local naming.}
+
+\closureat{BishopLocatedConvexHullUp}{seedStr}
+
+\begin{closurestatus}{\BishopLocatedConvexHullUp}
+  \constructivestory{A $\BishopLocatedConvexHullUp$ packet is generated from real-name scalar reads, a metric ambient row, a convex source row, a compact finite-read boundary, a polytope approximant, a Caratheodory bounded-support handoff, located tolerance and distance rows, a coefficient ledger, componentwise transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-convex-hull-carrier}, \autoref{thm:bishop-located-convex-hull-namecert-obligations}, and \autoref{thm:bishop-located-convex-hull-finite-approximation} bind the finite located approximation carrier and its NameCert obligation surface.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.BishopLocatedConvexHullUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host convex-hull equality, nearest-point selection, quotient subset equality, separation, ambient Real completeness, countable choice, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, located distance comparison, finite approximation exactness, support handoff, transport, provenance, and local naming for BEDC.Derived.BishopLocatedConvexHullUp.}
+\end{closurestatus}
