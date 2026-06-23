@@ -973,6 +973,7 @@ import BEDC.Derived.BishopDyadicSqueezeUp.TasteGate
 import BEDC.Derived.BishopEquicontinuityModulusUp
 import BEDC.Derived.BishopFanCompactUniformUp.TasteGate
 import BEDC.Derived.BishopFanModulusUp
+import BEDC.Derived.BishopFanModulusUp.Nonescape
 import BEDC.Derived.BishopFanModulusUp.RealWindowHandoff
 import BEDC.Derived.BishopFanModulusUp.TasteGate
 import BEDC.Derived.BishopFixedPointIntervalUp.TasteGate
@@ -6554,6 +6555,7 @@ import BEDC.Derived.HyperbolicMetricUp.TasteGate
 import BEDC.Derived.HyperbolicObserverExpansionUp.TasteGate
 import BEDC.Derived.HyperbolicObserverShadowMetricUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
+import BEDC.Derived.HyperbolicPhaseObserverExpansionUp.TasteGate
 import BEDC.Derived.HyperbolicPoissonKernelUp.TasteGate
 import BEDC.Derived.HyperbolicSelfCenterReadingUp.TasteGate
 import BEDC.Derived.HyperbolicTranslationLengthUp.TasteGate
@@ -6740,6 +6742,7 @@ import BEDC.Derived.IntervalHalvingUp.TasteGate
 import BEDC.Derived.IntervalImageConnectedUp.TasteGate
 import BEDC.Derived.IntervalLengthUp.TasteGate
 import BEDC.Derived.IntervalNewtonUp
+import BEDC.Derived.IntervalNewtonUp.RealReadbackScope
 import BEDC.Derived.IntervalNewtonUp.TasteGate
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.InverseFunctionUp.TasteGate
@@ -7540,6 +7543,7 @@ import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CriticalPathNonescape
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.DischargeProjection
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ObligationClosure
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.PositiveBlockerUnion
+import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ScopeClosure
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ScopeStability
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.TasteGate
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.TransportObstruction
@@ -8720,8 +8724,11 @@ import BEDC.Derived.ObserverTraceSealUp.TasteGate
 import BEDC.Derived.ObserverperspectiveclassifierUp
 import BEDC.Derived.ObserverperspectiveclassifierUp.AlignmentConsumer
 import BEDC.Derived.ObserverperspectiveclassifierUp.ComparisonRouteTotality
+import BEDC.Derived.ObserverperspectiveclassifierUp.CrossAlignmentLocalitySoundness
 import BEDC.Derived.ObserverperspectiveclassifierUp.DependencyScope
 import BEDC.Derived.ObserverperspectiveclassifierUp.GapCommitmentReadback
+import BEDC.Derived.ObserverperspectiveclassifierUp.LocalityCellExhaustion
+import BEDC.Derived.ObserverperspectiveclassifierUp.LocalityCommitmentInversion
 import BEDC.Derived.ObserverperspectiveclassifierUp.NameCertObligations
 import BEDC.Derived.ObserverperspectiveclassifierUp.ObserverStateGapRoute
 import BEDC.Derived.ObserverperspectiveclassifierUp.PerspectiveStability
@@ -9274,6 +9281,7 @@ import BEDC.Derived.ProductTopologyUp.TasteGate
 import BEDC.Derived.ProductUniformSpaceUp.TasteGate
 import BEDC.Derived.ProfiniteCompletionUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthGradientLedgerUp.TasteGate
+import BEDC.Derived.ProgrammeStrengthLedgerUp.PublicReportInterface
 import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.ProjectionValuedMeasureUp
 import BEDC.Derived.ProjectiveSpaceUp
@@ -11161,6 +11169,9 @@ import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.SheafificationUp.CoverageExactness
+import BEDC.Derived.SheafificationUp.GluingExactness
+import BEDC.Derived.SheafificationUp.SheafHandoff
+import BEDC.Derived.SheafificationUp.SourceLocalityObligation
 import BEDC.Derived.SheafificationUp.TasteGate
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SierpinskiCarpetUp.TasteGate
