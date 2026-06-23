@@ -90,4 +90,108 @@ theorem SetlikeRootComprehensionScope [AskSetup] [PackageSetup] (S : SetlikeUp)
   }
   exact ⟨cert, restrictedUnary, extensionalUnary, scopedUnary⟩
 
+theorem SetlikeComprehensionScope [AskSetup] [PackageSetup] (S : SetlikeUp)
+    {M Q I R E H C P N restrictedRead implicationRead comprehensionRead transportedRead
+      replayRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    setlikeFields S = [M, Q, I, R, E, H, C, P, N] ->
+      UnaryHistory M ->
+        UnaryHistory Q ->
+          UnaryHistory I ->
+            UnaryHistory R ->
+              UnaryHistory H ->
+                UnaryHistory C ->
+                  UnaryHistory P ->
+                    UnaryHistory N ->
+                      Cont M Q restrictedRead ->
+                        Cont restrictedRead I implicationRead ->
+                          Cont implicationRead R comprehensionRead ->
+                            Cont comprehensionRead H transportedRead ->
+                              Cont transportedRead C replayRead ->
+                                Cont replayRead N namedRead ->
+                                  PkgSig bundle P pkg ->
+                                    SemanticNameCert
+                                        (fun row : BHist =>
+                                          hsame row namedRead ∧ UnaryHistory row)
+                                        (fun row : BHist =>
+                                          hsame row M ∨ hsame row Q ∨ hsame row I ∨
+                                            hsame row R ∨ hsame row H ∨ hsame row C ∨
+                                              hsame row P ∨ hsame row N ∨
+                                                hsame row restrictedRead ∨
+                                                  hsame row implicationRead ∨
+                                                    hsame row comprehensionRead ∨
+                                                      hsame row transportedRead ∨
+                                                        hsame row replayRead ∨
+                                                          hsame row namedRead)
+                                        (fun row : BHist =>
+                                          UnaryHistory row ∧ Cont M Q restrictedRead ∧
+                                            Cont restrictedRead I implicationRead ∧
+                                              Cont implicationRead R comprehensionRead ∧
+                                                Cont comprehensionRead H transportedRead ∧
+                                                  Cont transportedRead C replayRead ∧
+                                                    Cont replayRead N namedRead ∧
+                                                      PkgSig bundle P pkg)
+                                        hsame ∧
+                                      UnaryHistory comprehensionRead ∧
+                                        UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: SetlikeUp setlikeFields BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro fields rowsM rowsQ rowsI rowsR rowsH rowsC rowsP rowsN restrictedRoute
+    implicationRoute comprehensionRoute transportedRoute replayRoute namedRoute packageRead
+  have _acceptedFields : setlikeFields S = [M, Q, I, R, E, H, C, P, N] := fields
+  have restrictedUnary : UnaryHistory restrictedRead :=
+    unary_cont_closed rowsM rowsQ restrictedRoute
+  have implicationUnary : UnaryHistory implicationRead :=
+    unary_cont_closed restrictedUnary rowsI implicationRoute
+  have comprehensionUnary : UnaryHistory comprehensionRead :=
+    unary_cont_closed implicationUnary rowsR comprehensionRoute
+  have transportedUnary : UnaryHistory transportedRead :=
+    unary_cont_closed comprehensionUnary rowsH transportedRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed transportedUnary rowsC replayRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed replayUnary rowsN namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row Q ∨ hsame row I ∨ hsame row R ∨ hsame row H ∨
+              hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row restrictedRead ∨
+                hsame row implicationRead ∨ hsame row comprehensionRead ∨
+                  hsame row transportedRead ∨ hsame row replayRead ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont M Q restrictedRead ∧ Cont restrictedRead I implicationRead ∧
+              Cont implicationRead R comprehensionRead ∧
+                Cont comprehensionRead H transportedRead ∧ Cont transportedRead C replayRead ∧
+                  Cont replayRead N namedRead ∧ PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+        Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+          Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, restrictedRoute, implicationRoute, comprehensionRoute,
+          transportedRoute, replayRoute, namedRoute, packageRead⟩
+  }
+  exact ⟨cert, comprehensionUnary, namedUnary⟩
+
 end BEDC.Derived.SetlikeUp
