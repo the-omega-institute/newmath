@@ -84,4 +84,43 @@ theorem CevaCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, sideUnary, concurrenceUnary, namedUnary⟩
 
+theorem CevaCarrier_incidence_nonescape [AskSetup] [PackageSetup]
+    {T S L X H C P N sideRead concurrenceRead named terminal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory T ->
+      UnaryHistory S ->
+        UnaryHistory L ->
+          UnaryHistory X ->
+            Cont T S sideRead ->
+              Cont L X concurrenceRead ->
+                Cont sideRead concurrenceRead named ->
+                  Cont concurrenceRead named terminal ->
+                    PkgSig bundle P pkg ->
+                      PkgSig bundle N pkg ->
+                        PkgSig bundle terminal pkg ->
+                          UnaryHistory T ∧ UnaryHistory S ∧ UnaryHistory L ∧
+                            UnaryHistory X ∧ UnaryHistory sideRead ∧
+                              UnaryHistory concurrenceRead ∧ UnaryHistory named ∧
+                                UnaryHistory terminal ∧ Cont T S sideRead ∧
+                                  Cont L X concurrenceRead ∧
+                                    Cont sideRead concurrenceRead named ∧
+                                      Cont concurrenceRead named terminal ∧
+                                        PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧
+                                          PkgSig bundle terminal pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro tUnary sUnary lUnary xUnary sideRoute concurrenceRoute namedRoute terminalRoute
+    packageRead nameRead terminalPkg
+  have sideUnary : UnaryHistory sideRead :=
+    unary_cont_closed tUnary sUnary sideRoute
+  have concurrenceUnary : UnaryHistory concurrenceRead :=
+    unary_cont_closed lUnary xUnary concurrenceRoute
+  have namedUnary : UnaryHistory named :=
+    unary_cont_closed sideUnary concurrenceUnary namedRoute
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed concurrenceUnary namedUnary terminalRoute
+  exact
+    ⟨tUnary, sUnary, lUnary, xUnary, sideUnary, concurrenceUnary, namedUnary, terminalUnary,
+      sideRoute, concurrenceRoute, namedRoute, terminalRoute, packageRead, nameRead,
+      terminalPkg⟩
+
 end BEDC.Derived.CevaUp
