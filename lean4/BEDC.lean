@@ -610,6 +610,7 @@ import BEDC.Derived.AxiomDependencyTupleUp.KernelSupplyVisibility
 import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
 import BEDC.Derived.AxiomDependencyTupleUp.RestrictedSupplyLedgerNonpromotion
 import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
+import BEDC.Derived.AxiomDependencyTupleUp.SocketBoundary
 import BEDC.Derived.AxiomDependencyTupleUp.SubjectReductionSocketDependencyRoute
 import BEDC.Derived.AxiomDependencyTupleUp.SupplyLedgerReadback
 import BEDC.Derived.AxiomDependencyTupleUp.SupplyProvenanceSiblingRoute
@@ -5125,6 +5126,7 @@ import BEDC.Derived.EffectiveMetricSpaceUp.TasteGate
 import BEDC.Derived.EffectiveModulusCompactFamilyUp.TasteGate
 import BEDC.Derived.EffectiveModulusUp
 import BEDC.Derived.EffectiveModulusUp.TasteGate
+import BEDC.Derived.EffectivePolishSpaceUp.RealizerHandoff
 import BEDC.Derived.EffectivePolishSpaceUp.TasteGate
 import BEDC.Derived.EffectiveRegularRealExtensionalityUp
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
@@ -6356,6 +6358,8 @@ import BEDC.Derived.HautusTestUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeatKernelUp
 import BEDC.Derived.HeineBorelFiniteNetUp.TasteGate
+import BEDC.Derived.HeineBorelIntervalUp.NetInduction
+import BEDC.Derived.HeineBorelIntervalUp.TailStability
 import BEDC.Derived.HeineBorelIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelLocatedIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelNetCompactnessUp.TasteGate
@@ -6485,6 +6489,7 @@ import BEDC.Derived.HyperbolicHoroballShadowUp.TasteGate
 import BEDC.Derived.HyperbolicHorocycleShadowModulusUp
 import BEDC.Derived.HyperbolicHorocycleUp.TasteGate
 import BEDC.Derived.HyperbolicMetricUp.TasteGate
+import BEDC.Derived.HyperbolicObserverShadowMetricUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
 import BEDC.Derived.HyperbolicPoissonKernelUp.TasteGate
 import BEDC.Derived.HyperbolicSelfCenterReadingUp.TasteGate
@@ -11332,6 +11337,7 @@ import BEDC.Derived.SylowUp
 import BEDC.Derived.SylowUp.TasteGate
 import BEDC.Derived.SylvesterInertiaUp.TasteGate
 import BEDC.Derived.SymGroupUp
+import BEDC.Derived.SymmetryRestorationStabilizerUp.TasteGate
 import BEDC.Derived.SymplecticUp
 import BEDC.Derived.SymplecticUp.LedgerExactnessObligation
 import BEDC.Derived.SynchronizationCertificateUp.Locality
