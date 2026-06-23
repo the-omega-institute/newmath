@@ -9973,6 +9973,7 @@ import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
 import BEDC.Derived.RegularCauchyAlgebraCoherenceUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.L10ScopeBinding
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundDeterminacy
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundModulusMonotonicity
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundScope
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.PositiveWindowDeterminacy
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.RealSealRefusal
