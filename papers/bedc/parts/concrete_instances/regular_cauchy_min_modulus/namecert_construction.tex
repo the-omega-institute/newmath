@@ -84,6 +84,24 @@ Apply the L10 route theorem, \autoref{thm:regular-cauchy-min-modulus-l10-route}.
 Because the carrier contains no quotient stream, selected limit, hidden completion object, countable-choice selector, or ambient completeness coordinate, the preserved positive gap is only the displayed dyadic request exported by the finite packet.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy minimum-modulus finite-window induction]
+\label{thm:regular-cauchy-min-modulus-induction}
+Let
+$$
+R=(S_0,S_1,M,m,W,Q,D,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyMinModulusUp$ carrier. Extending both source schedules by one displayed finite $\StreamNameUp$ and $\RegSeqRatUp$ window preserves the same minimum-modulus row exactly when the $\CauchyModulusMeetUp$ row and the $\DyadicRatCoreUp$ tolerance ledger replay through $\hsame$ and $\Cont$. The base read is the carrier route for $S_0,S_1,M,m,W,Q,D$, and the step read uses the meet-compatibility and finite-minimum exactness rows of \autoref{thm:regular-cauchy-min-modulus-namecert-obligations}.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the displayed finite window extension. In the base case, no new window has been appended, so \autoref{def:regular-cauchy-min-modulus-carrier} supplies the existing rows $S_0,S_1,M,m,W,Q,D,E,H,C,P,N$ and the minimum row is the admitted row of the carrier.
+
+For the induction step, append one source window to each schedule and read it through the displayed $\StreamNameUp$ and $\RegSeqRatUp$ rows $W,Q$. The meet-compatibility row of \autoref{thm:regular-cauchy-min-modulus-namecert-obligations} forces the appended requests to pass through the same $\CauchyModulusMeetUp$ row $M$ before $m$ is consumed.
+
+The finite-minimum exactness row then uses the $\DyadicRatCoreUp$ ledger $D$ to compare the transported thresholds. Transport through $H$ and replay through $C$ preserve the same displayed comparison data, so the appended window keeps the minimum-modulus row precisely when $M$ and $D$ replay through $\hsame$ and $\Cont$.
+
+Applying the induction hypothesis to the earlier windows and the step argument to the appended window yields preservation for the whole finite extension, with no quotient stream equality, countable choice, selected limit, or ambient completeness coordinate.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\RegularCauchyMinModulusUp$ consumer that reaches a $\RegSeqRatUp$ readback or $\RealUp$ seal without reading $S_0,S_1,M,m,W,Q,D,E,H,C,P,N$ refutes the carrier surface.}
 
 \independenceWitness{cauchymodulusmeet, streamname, regseqrat, dyadicratcore, real: no listed sibling supplies the joint packet containing two regular-Cauchy schedules, a shared meet row, a finite minimum row, stream windows, regular rational readback, dyadic tolerance ledger, terminal Real seal, transport, replay, provenance, and local NameCert row.}
