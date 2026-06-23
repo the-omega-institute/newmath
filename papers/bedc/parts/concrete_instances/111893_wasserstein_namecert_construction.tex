@@ -51,12 +51,48 @@ Finite coupling support follows by inspecting $\Gamma$. Every entry is indexed b
 Finally read the cost ledger $C$ through $\RealUp$. It sums only the metric costs named for listed support pairs against the visible coupling entries. The replay, provenance, and local naming rows preserve this same finite route, so the five obligation rows exhaust the Wasserstein transport-plan packet without adding Monge, optimality, completion, duality, or minimizer data.
 \end{proof}
 
+\begin{theorem}[Wasserstein metric coupling scope]
+\label{thm:wasserstein-metric-coupling-scope}
+Every accepted $\WassersteinUp$ carrier $W=(M,K,\mu,\nu,\Gamma,A,B,C,H,R,P,N)$ exposes its coupling table $\Gamma$ only over the displayed $\MetricUp$ source $M$ and, when present, the $\CompactMetricUp$ finite-cover row $K$. The structural rows $H,R,P,N$ preserve the same metric and compact-source rows before any coupling entry is read, so the packet does not export an unlisted ambient metric space, quotient support, or optimizer carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:wasserstein-transport-plan-carrier}. The rows $M$ and $K$ are the only source rows available before a coupling entry can be inspected.
+
+The finite table $\Gamma$ names entries by displayed source pairs. Since $H$ transports those source rows componentwise and $R$ replays routes from the metric and marginal rows to $\Gamma$, a consumer cannot retarget the table to a different metric source.
+
+The provenance and local name rows $P,N$ record the same finite route. Thus the metric coupling scope is exactly the displayed $M,K,\Gamma,H,R,P,N$ surface, with no hidden support quotient or selected optimizer.
+\end{proof}
+
+\begin{theorem}[Wasserstein marginal exactness scope]
+\label{thm:wasserstein-marginal-exactness-scope}
+For every accepted $\WassersteinUp$ carrier $W=(M,K,\mu,\nu,\Gamma,A,B,C,H,R,P,N)$, the marginal packets $\mu,\nu$ are read back from the finite coupling table only through the ledgers $A$ and $B$. The rows $H,R,P,N$ preserve the two marginal packets, the table $\Gamma$, and the readback ledgers together, so no consumer may replace marginal exactness by an ambient probability-space theorem, a detached distribution equality, or an unlisted coupling completion.
+\end{theorem}
+\begin{proof}
+Start with the marginal coordinates $\mu$ and $\nu$. By the carrier definition they are the only $\ProbSpaceUp$ or $\DistributionUp$ marginal packets named by $W$.
+
+The readback ledgers $A$ and $B$ attach those marginals to finite row and column sums of $\Gamma$. Marginal exactness is therefore a displayed ledger assertion, not an external equality principle over all probability measures.
+
+Finally inspect $H,R,P,N$. They transport, replay, source, and locally name the same marginal packets, coupling table, and readback ledgers. The scope is exhausted by $\mu,\nu,\Gamma,A,B,H,R,P,N$, so no ambient completion or detached distribution equality is available.
+\end{proof}
+
+\begin{theorem}[Wasserstein real cost readback scope]
+\label{thm:wasserstein-real-cost-readback-scope}
+Every real-valued cost consumed from an accepted $\WassersteinUp$ carrier $W=(M,K,\mu,\nu,\Gamma,A,B,C,H,R,P,N)$ is read through the displayed ledger $C$, which sums metric costs from $M$ over listed support pairs of $\Gamma$ and then hands the scalar to the $\RealUp$ consumer. The structural rows $H,R,P,N$ keep $C$ attached to $M,K,\mu,\nu,\Gamma,A,B$, so the packet does not assert Kantorovich duality, optimal value existence, selected minimizers, or an ambient real-completeness principle.
+\end{theorem}
+\begin{proof}
+Read the cost row $C$ after the metric and coupling rows have been displayed. Its summands are metric costs from $M$ on listed support pairs of $\Gamma$ multiplied by the corresponding coupling entries.
+
+The marginal rows $\mu,\nu$ and ledgers $A,B$ stay in scope because they determine which finite table is being costed. The optional compact row $K$ may constrain the source route, but it does not add a selected optimal plan.
+
+The rows $H,R,P,N$ preserve this same cost ledger before it reaches the $\RealUp$ consumer. Hence the cost readback scope is finite and displayed; duality, optimizer existence, minimizer selection, and ambient real completeness remain outside the carrier.
+\end{proof}
+
 \closureat{WassersteinUp}{obligationStr}
 
 \begin{closurestatus}{\WassersteinUp}
   \constructivestory{A $\WassersteinUp$ packet is generated from a metric source, optional compact ledger, two displayed probability or distribution marginals, a finite coupling support table, marginal-readback ledgers, a real-valued transport-cost ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:wasserstein-transport-plan-carrier} and \autoref{thm:wasserstein-namecert-obligations} close the finite transport-plan carrier and NameCert obligation surface for Wasserstein-style metric coupling packets.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:wasserstein-transport-plan-carrier}, \autoref{thm:wasserstein-namecert-obligations}, \autoref{thm:wasserstein-metric-coupling-scope}, \autoref{thm:wasserstein-marginal-exactness-scope}, and \autoref{thm:wasserstein-real-cost-readback-scope} close the finite transport-plan carrier, NameCert obligation surface, metric coupling scope, marginal exactness scope, and Real cost readback scope for Wasserstein-style metric coupling packets.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Monge maps, optimal plan existence, measure-theoretic completion, Kantorovich duality, choice-selected minimizers, Lean verification, or bridge checking.}
