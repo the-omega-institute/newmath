@@ -9014,6 +9014,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-23T05:05:12+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-23T05:05:12+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "c8cbca36f97e",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -12951,6 +12968,23 @@
             "failed": 0
           },
           "script_sha": "1e177d0d71be05b1"
+        },
+        {
+          "ts": "2026-06-23T05:05:12+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-23T05:05:33+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "83bc6fb5f1fe",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "1e177d0d71be05b1"
         }
       ]
     },
@@ -13062,6 +13096,22 @@
             "failed": 0
           },
           "script_sha": "5634df263a621f25"
+        }
+      ],
+      "linked_conjecture_id": "q6.translation-conditioned.rna-half-life-rbp-bridge.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.transcription_elongation_kinetics.pol2_elongation_rate_kmer_context_jonkers2014",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Gene-body higher-order k-mer context (sequence order/structure beyond mononucleotide composition) predicts measured Pol II transcription elongation rate -- a real but SMALL cross-layer contact (NEW layer = transcription-elongation kinetics; Jonkers & Lis 2014 DIRECTLY-measured GRO-seq flavopiridol-release rates, GSE48895 / eLife 02407, mm9, n=1176 genes, 1137 distinct). Controlling 1-mer composition (which itself predicts rate at held-out R^2=0.072), adding composition-ORTHOGONAL context-excess features (ex2 = dinucleotide minus mono-product; ex3 = trinucleotide minus Markov-1 expectation) raises held-out R^2 to 0.0965 -- incremental held-out R^2=0.0247 (>=1% floor) and BEATS a full-genome label-permutation null (B=1000, p=0.001; null mean=-0.052, i.e. random labels give a NEGATIVE held-out increment = the high-dimensional overfitting penalty, so the observed positive increment is genuine context signal). Held-out (0.0247) << in-sample (0.138) confirms real cross-validated shrinkage, not overfitting. NON-CIRCULAR + NON-disguised-e_in: rate is Jonkers GRO-seq DIRECTLY measured (NOT the Danko/Siepel k-mer-model-derived local rate, which would be circular); the predictor is composition-orthogonal by construction. Positive control reproduced (1-mer baseline_corr=0.248; spearman C=-0.212 slows / T=+0.248 speeds / GC=-0.176; matches Liu/Danko/Siepel C-slow/T-fast). The decisive context-vs-composition null was CORRECTED from a degenerate n=5 mono-shuffle (which had falsely yielded composition_artifact) to a non-degenerate full-genome context-excess + label-permutation test. readout = measured Pol II elongation rate (leakage-guarded); predictor = FROZEN gene-body k-mer context-excess. Small effect: ~2.5% incremental held-out variance, observational mouse-ES, not causal. Verdict crosses_boundary (small) / bounded_descriptor_only / composition_artifact.",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "pol2_elongation_rate_kmer_context_jonkers2014",
+      "history": [
+        {
+          "ts": "2026-06-23T05:04:16+00:00",
+          "status": "open"
         }
       ],
       "linked_conjecture_id": "q6.translation-conditioned.rna-half-life-rbp-bridge.cross-layer"

@@ -2872,6 +2872,23 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.transcription_elongation_kinetics.pol2_elongation_rate_kmer_context_jonkers2014",
+   "experiment_id": "pol2_elongation_rate_kmer_context_jonkers2014",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib gene-body k-mer context-excess vs measured Pol II elongation rate over Jonkers & Lis 2014 (GSE48895 / eLife 02407, mm9; tools/bio_reality/data/pol2_elongation_rate_kmer_context_jonkers2014.json; readout=measured rate kb/min, predictor=FROZEN 1-mer composition baseline + composition-orthogonal context-excess [ex2 dinucleotide vs mono-product, ex3 trinucleotide vs Markov-1]). Held-out 5-fold CV incremental R^2 over 1-mer baseline + full-genome label-permutation null (B=1000, n=1176, non-degenerate) + positive control (composition C-slow/T-fast). Verdict crosses_boundary (incr held-out R^2>=0.01 AND beats label-perm null p<0.01 AND positive control) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib. Decisive null corrected from degenerate n=5 mono-shuffle to context-excess label-permutation.",
+   "script_path": "tools/bio_reality/experiments/run_pol2_elongation_rate_kmer_context_jonkers2014.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T05:04:16+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
