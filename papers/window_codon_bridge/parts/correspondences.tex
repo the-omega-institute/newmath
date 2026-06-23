@@ -123,6 +123,8 @@ Codon E1 Mutation Pressure Orientation & Codon-E1 mutation-pressure orientation 
 Codon E1 Expression Selection Orientation & Codon-E1 expression-selection orientation test (first selection-mechanism candidate): do high-protein-abundance genes preferentially use synonymous codons along the leave-one-genus-out universal codon-E1 direction, after GC3/gene-length/tRNA-supply controls and matched nulls? Verdict = REFUTED on a 5-genus PaxDB-v6/RefSeq matched panel (11041 matched genes): beta\_e1xexpr=0.0201 is positive but robust p=0.042 and matched-null p=0.036 do NOT clear the preregistered p<=0.01 bar, so expression-selection is not certified as a codon-E1 orienter. The positive control PASSES (high-expression genes do carry synonymous bias, beta=0.061 p=2e-5; method valid/powered) and PC1 stability passes (eigengap 25.6, bootstrap sign-consistency 1.0). CAVEAT: only 5 genera (Pseudomonas/Salmonella/Staphylococcus dropped for unparseable tRNA anticodons) limits power; the weak positive trend leaves room for a broader-panel re-test. With tRNA-supply (refuted) and mutation-pressure/GC-drift (coincidence), all three obvious mechanisms fail to specifically orient codon-E1 at the certification bar. NOTE: experiment script requires numpy (run via venv); not reproducible under the daemon's numpy-free system python3, so this claim is registered terminal with an independently verified verdict. Not Window6 forcing, not causal proof. & \texttt{refuted} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.edge_hiding_alternative_code_reassignment status=certified
 Edge Hiding Alternative Code Reassignment & Edge-hiding alternative-code reassignment local edge-preservation: a path-level evolutionary certificate for the certified edge-hiding positive. Tests whether natural NCBI alternative genetic-code variants, when they reassign codons relative to the standard code, locally pick the codon identities that best preserve synonymous Hamming-edge hiding on H(3,4) -- beyond what the same source->target reassignment TYPE would give at random. CERTIFIED: under an exact transition-matrix-matched permutation null (preserving exact reassignment counts/source-outflow/target-inflow/degeneracy profile, breaking only which specific codons are reassigned), natural reassignments are systematically more edge-preserving, cluster-combined Stouffer p=1.4e-7 (e\_all primary) and 1.0e-7 (e\_sense), directions consistent, over K\_analyzed=11 exact-transition clusters, not single-mito-cluster driven. SCOPE/CAVEATS: the evidence is predominantly MITOCHONDRIAL (9 mito tables, Stouffer p=1.5e-7); the nuclear/non-mito direction is positive but underpowered (K=2, p=0.12); per-table exact-permutation p-values are coarse (small null supports), so certification rests on cluster-level combination of exact-permutation evidence, NOT a high-power population test; 13/25 low-reassignment tables (R<=2) are excluded from certification. This deepens the certified edge-hiding extremality with an evolutionary-conservation dimension; it is NOT a causal/selection proof and NOT a separate Window6 repetition. numpy-free / daemon-reproducible. & \texttt{certified} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.edge_hiding_reassignment_specificity status=certified
+Edge Hiding Reassignment Specificity & Edge-hiding reassignment specificity vs physicochemical/Freeland-Hurst conservation: is the certified path-level edge-hiding conservation a SPECIFIC synonymous-edge constraint, or a byproduct of amino-acid physicochemical (Freeland-Hurst polar-requirement) conservation during reassignment? CERTIFIED-SPECIFIC: natural NCBI alternative-code reassignments retain synonymous edge-hiding BEYOND exact transition-matrix matched nulls even after conditioning on missense-only physicochemical conservation, under BOTH a PR-stratified matched null (WOEC730101 polar requirement; T\_spec=3.82, p=5.0e-6) AND an omnibus physicochemical matched null (min-percentile over PR/Grantham-polarity/Grantham-volume/Kyte-Doolittle-hydropathy, the maximal concession to a physicochemical explanation; T\_spec=3.73, p=5.0e-6); all gates pass (raw-path reproduced, nondegenerate clusters, dominance<=50\% with leave-one-largest-out direction still positive on both nulls, missense-only F\_p non-tautology). K\_analyzed=11 exact-transition clusters. CRITICAL HONEST SCOPE (per adversarial vet): this tests reducibility to MISSENSE-only physicochemical conservation, NOT independence from a full error-minimization objective that counts identity (synonymous) edges as zero-cost -- because edge-hiding IS the identity endpoint of physicochemical conservation, that independence is ill-posed and is intentionally NOT claimed. The F\_p physicochemical confound is defined only on missense edges (raw Freeland-Hurst error load is descriptive, never a control, to avoid conditioning on the target). Predominantly mitochondrial evidence (inherited from the underlying reassignment panel). Not causal, not an independent Window6 repetition; deepens the certified edge-hiding positive by showing its evolutionary conservation is not reducible to missense physicochemical similarity. numpy-free / daemon-reproducible. & \texttt{certified} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -1421,3 +1423,33 @@ daemon-reproducible.
 this is not a causal proof.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_edge\_hiding\_alternative\_code\_reassignment.py
+
+\subsection{Edge Hiding Reassignment Specificity}\label{sec:bridge-edge-hiding-reassignment-specificity}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.edge_hiding_reassignment_specificity status=certified
+\textbf{Statement.} Edge-hiding reassignment specificity vs physicochemical/Freeland-Hurst conservation: is the
+certified path-level edge-hiding conservation a SPECIFIC synonymous-edge constraint, or a byproduct
+of amino-acid physicochemical (Freeland-Hurst polar-requirement) conservation during reassignment?
+CERTIFIED-SPECIFIC: natural NCBI alternative-code reassignments retain synonymous edge-hiding BEYOND
+exact transition-matrix matched nulls even after conditioning on missense-only physicochemical
+conservation, under BOTH a PR-stratified matched null (WOEC730101 polar requirement; T\_spec=3.82,
+p=5.0e-6) AND an omnibus physicochemical matched null (min-percentile over
+PR/Grantham-polarity/Grantham-volume/Kyte-Doolittle-hydropathy, the maximal concession to a
+physicochemical explanation; T\_spec=3.73, p=5.0e-6); all gates pass (raw-path reproduced,
+nondegenerate clusters, dominance<=50\% with leave-one-largest-out direction still positive on both
+nulls, missense-only F\_p non-tautology). K\_analyzed=11 exact-transition clusters. CRITICAL HONEST
+SCOPE (per adversarial vet): this tests reducibility to MISSENSE-only physicochemical conservation,
+NOT independence from a full error-minimization objective that counts identity (synonymous) edges as
+zero-cost -- because edge-hiding IS the identity endpoint of physicochemical conservation, that
+independence is ill-posed and is intentionally NOT claimed. The F\_p physicochemical confound is
+defined only on missense edges (raw Freeland-Hurst error load is descriptive, never a control, to
+avoid conditioning on the target). Predominantly mitochondrial evidence (inherited from the
+underlying reassignment panel). Not causal, not an independent Window6 repetition; deepens the
+certified edge-hiding positive by showing its evolutionary conservation is not reducible to missense
+physicochemical similarity. numpy-free / daemon-reproducible.
+
+\textbf{Verdict.} \texttt{certified}.
+
+\textbf{Why.} Scope: this test asks whether the certified edge-hiding signal is reducible to missense-only
+physicochemical conservation.
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_edge\_hiding\_reassignment\_specificity.py
