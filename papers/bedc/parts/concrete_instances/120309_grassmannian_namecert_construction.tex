@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\GrassmannianUp$}
+\label{ch:concrete-instances-grassmannian-namecert}
+\origin{human}
+
+Following Griffiths and Harris on Grassmannians and Plucker coordinates, the $\GrassmannianUp$ packet records a finite subspace-row certificate before any consumer reads a Grassmannian as an ambient projective variety. It sits after the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the finite matrix ledger of \autoref{ch:concrete-instances-matrix-namecert}, the determinant boundary of \autoref{ch:concrete-instances-determinant-namecert}, the alternating-word carrier of \autoref{ch:concrete-instances-exterior-algebra-namecert}, and the homogeneous-coordinate surface of \autoref{ch:concrete-instances-projectivespace-namecert}. The packet names only displayed spanning rows, rank minors, wedge coordinates, projective incidence, transport, replay, provenance, and local naming; it does not select a host quotient vector space, import a scheme, assert Schubert calculus, or expose an ambient moduli object.
+
+\begin{definition}[Grassmannian carrier]
+\label{def:grassmannian-carrier}
+A $\GrassmannianUp$ carrier is a finite $\BHist$ packet
+$$
+G=(V,M,D,E,Q,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $V$ is the consumed $\VecSpaceUp$ source row, displaying the ambient vector carrier, scalar action, and finite list of candidate generators.
+\item $M$ is the $\MatrixUp$ coordinate row whose columns display the chosen finite generator table and the row operations visible to downstream consumers.
+\item $D$ is the $\DeterminantUp$ minor ledger, recording the rank-window minors used to certify the displayed dimension and nonzero Plucker coordinates.
+\item $E$ is the $\ExteriorAlgebraUp$ wedge row, carrying the alternating product of the displayed generator rows and the induced coordinate table.
+\item $Q$ is the $\ProjectiveSpaceUp$ homogeneous-coordinate row for the wedge coordinate, read only after $V,M,D,E$ are visible.
+\item $H$ records componentwise $\hsame$ transport for $V,M,D,E,Q$ and for the package and local naming rows.
+\item $C$ records the displayed $\Cont$ replay routes by which consumers read the vector row, matrix table, determinant ledger, exterior coordinate, and projective endpoint in that order.
+\item $P$ is the $\Pkg$ provenance over $\VecSpaceUp$, $\MatrixUp$, $\DeterminantUp$, $\ExteriorAlgebraUp$, $\ProjectiveSpaceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\GrassmannianUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a selected basis outside the displayed table, quotient subspace equality, a host projective variety, Schubert stratification, moduli functor, or scheme-theoretic Plucker ideal.
+\end{definition}
+
+\begin{theorem}[Grassmannian NameCert obligations]
+\label{thm:grassmannian-namecert-obligations}
+For the carrier of \autoref{def:grassmannian-carrier}, the local $\NameCert_{\GrassmannianUp}$ surface consists exactly of carrier admission for $G=(V,M,D,E,Q,H,C,P,N)$, vector-source exposure through $V$, matrix-coordinate exposure through $M$, determinant-rank exposure through $D$, exterior-coordinate exposure through $E$, projective-coordinate exposure through $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. Any accepted $\GrassmannianUp$ consumer must read those rows before it may cite a subspace, rank, Plucker coordinate, or homogeneous endpoint.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The only admitted packet is $G=(V,M,D,E,Q,H,C,P,N)$, so the local certificate can expose no data beyond those displayed coordinates.
+
+The algebraic source is consumed in order. The vector-space row $V$ supplies the ambient finite vector operations, the matrix row $M$ displays the generator table, and the determinant row $D$ certifies the rank-window minors visible in that table.
+
+The geometric endpoint is then read through $E$ and $Q$. The exterior row $E$ turns the generator table into an alternating coordinate, and the projective row $Q$ names its homogeneous class only after the preceding rows have been displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the carrier has no slot for quotient subspace equality, a host projective variety, Schubert data, a moduli functor, or a scheme-theoretic Plucker ideal, none of those objects is exported by the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Grassmannian Plucker ledger]
+\label{thm:grassmannian-plucker-ledger}
+Every Plucker-facing read of an accepted $\GrassmannianUp$ packet factors through the finite route
+$$
+\VecSpaceUp,\ \MatrixUp,\ \DeterminantUp,\ \ExteriorAlgebraUp,\ \ProjectiveSpaceUp,\ H,\ C,\ P,\ N .
+$$
+The determinant minors and alternating wedge coordinate are ledger rows of the same carrier $G=(V,M,D,E,Q,H,C,P,N)$, and the projective endpoint $Q$ cannot be consumed as an independent projective variety, quotient-subspace classifier, Schubert cell, moduli point, or hidden comparison row.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:grassmannian-namecert-obligations}. It forces every accepted read to expose the vector source, matrix table, determinant ledger, exterior coordinate, projective endpoint, and structural rows of one packet.
+
+Read the Plucker coordinate through the determinant and exterior rows. The row $D$ supplies exactly the visible minors of $M$, and the row $E$ packages the same data as an alternating coordinate rather than as a separate ambient construction.
+
+Now consume the projective endpoint. The row $Q$ is available only after $V,M,D,E$ have been projected, while $H,C,P,N$ keep transport, replay, provenance, and local naming tied to the same finite carrier.
+
+Thus the Plucker ledger is a row-exhaustion statement for the displayed packet. No independent projective variety, quotient-subspace equality, Schubert cell, moduli point, or hidden comparison row is present in $G$, so no consumer can read one from the accepted certificate.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\GrassmannianUp$ consumer that reads a Plucker coordinate or homogeneous endpoint without displaying $V,M,D,E,Q,H,C,P,N$ refutes the carrier surface.}
+
+\independenceWitness{vecspace, matrix, determinant, exterior-algebra, projectivespace: no listed sibling is bijective to $\GrassmannianUp$ because this packet jointly binds a vector-space source row, finite generator matrix, determinant minor ledger, exterior wedge coordinate, projective homogeneous endpoint, transport, replay, provenance, and local NameCert row.}
+
+\closureat{GrassmannianUp}{seedStr}
+
+\begin{closurestatus}{\GrassmannianUp}
+  \constructivestory{A $\GrassmannianUp$ packet is generated from VecSpace rows, Matrix generator rows, Determinant minor rows, ExteriorAlgebra wedge rows, a ProjectiveSpace homogeneous-coordinate row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:grassmannian-carrier}, \autoref{thm:grassmannian-namecert-obligations}, and \autoref{thm:grassmannian-plucker-ledger} seed the finite Grassmannian NameCert surface over displayed linear-algebra and Plucker-coordinate rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean theorem verification, bridge checking, Schubert calculus, moduli interpretation, scheme-theoretic Plucker ideals, quotient subspace equality, or a host projective variety.}
+  \upgradepath{Obligation closure requires checked carrier admission, vector-source exposure, matrix-coordinate exposure, determinant minor exposure, exterior-coordinate exposure, projective-coordinate exposure, transport, replay, provenance, and local naming for BEDC.Derived.GrassmannianUp.}
+\end{closurestatus}

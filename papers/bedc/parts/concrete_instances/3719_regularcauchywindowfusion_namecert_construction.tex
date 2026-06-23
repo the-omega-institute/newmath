@@ -232,6 +232,24 @@ Then apply \autoref{thm:regular-cauchy-window-fusion-scoped-kernel-route}. The s
 Finally use \autoref{thm:regular-cauchy-window-fusion-tail-window-coverage}. The tail selected by $W$ is consumed through that same displayed packet, so a tail-window consumer and a budget-meet consumer cannot factor through different selected-subsequence, quotient-stream, or ambient-completeness routes.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy window fusion scoped row exhaustion]
+\label{thm:regular-cauchy-window-fusion-scoped-row-exhaustion}
+For every accepted finite L10 $\RegularCauchyWindowFusionUp$ packet
+$$
+F=(R,W,S,D,E,H,C,P,N),
+$$
+the scoped public surface exposes exactly the RatUp seed row $R$, the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $S$, the $\DyadicRatCoreUp$ ledger row $D$, the $\RealUp$ seal row $E$, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\RegularCauchyWindowFusionUp}$ row $N$. No selected limit, quotient stream equality, trichotomy decision, ambient completeness proof, independent Real carrier, hidden comparison, or external downstream row can be consumed outside those displayed rows.
+\end{theorem}
+\begin{proof}
+Begin with the shared-window handoff and finite-window exactness. Theorems~\ref{thm:regular-cauchy-window-fusion-shared-window-handoff} and \ref{thm:regular-cauchy-window-fusion-finite-window-exactness} identify $R,W,S,D,E$ as one finite observation-window route from the RatUp seed through the stream, regular-sequence, dyadic, and Real-facing rows.
+
+Next apply the Real seal non-escape and selector-budget compatibility results. Theorems~\ref{thm:regular-cauchy-window-fusion-real-seal-nonescape} and \ref{thm:regular-cauchy-window-fusion-selector-budget-compatibility} force any route to $E$ to stay under $R,W,S,D,H,C,P,N$ and rule out selector or budget changes before the displayed seal is read.
+
+Now use the downstream package and budget meet theorems. Theorems~\ref{thm:regular-cauchy-window-fusion-downstream-package} and \ref{thm:regular-cauchy-window-fusion-budget-meet} repack exactly $R,W,S,D,E,H,C,P,N$ for Real and completion-facing consumers, and they make the regular readback and dyadic ledger meet at the same displayed seal row.
+
+Finally combine the scoped kernel route, finite-window exactness, tail-window coverage, and tail-budget meet. Theorems~\ref{thm:regular-cauchy-window-fusion-scoped-kernel-route}, \ref{thm:regular-cauchy-window-fusion-finite-window-exactness}, \ref{thm:regular-cauchy-window-fusion-tail-window-coverage}, and \ref{thm:regular-cauchy-window-fusion-tail-budget-meet} leave no carrier coordinate outside $R,W,S,D,E,H,C,P,N$ from which a selected limit, quotient stream equality, trichotomy decision, ambient completeness proof, independent Real carrier, hidden comparison, or external downstream row could be read. Hence the finite L10 fusion packet is scoped exactly by those rows.
+\end{proof}
+
 \closureat{RegularCauchyWindowFusionUp}{obligationStr}[BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionUpTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RegularCauchyWindowFusionUp}
