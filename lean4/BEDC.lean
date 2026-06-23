@@ -936,6 +936,8 @@ import BEDC.Derived.BishopCauchyRealUp
 import BEDC.Derived.BishopCauchyRealUp.TasteGate
 import BEDC.Derived.BishopCauchyRepresentationComparisonUp.TasteGate
 import BEDC.Derived.BishopCauchySequenceUp.TasteGate
+import BEDC.Derived.BishopChainConnectedUp.IntervalHandoff
+import BEDC.Derived.BishopChainConnectedUp.TasteGate
 import BEDC.Derived.BishopCompactIntervalUp.TasteGate
 import BEDC.Derived.BishopCompactnessCriterionUp.TasteGate
 import BEDC.Derived.BishopCompleteMetricUp.TasteGate
@@ -3507,6 +3509,7 @@ import BEDC.Derived.ConstructivePolishSpaceUp.TasteGate
 import BEDC.Derived.ConstructiveRealLineUp.TasteGate
 import BEDC.Derived.ConstructiveRealModulusUp
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
+import BEDC.Derived.ConstructiveRiemannSumUp
 import BEDC.Derived.ConstructiveSobolevEnergyUp.TasteGate
 import BEDC.Derived.ConstructiveUniformLimitUp.TasteGate
 import BEDC.Derived.ContactUp
