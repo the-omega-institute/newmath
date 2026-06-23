@@ -1,36 +1,43 @@
-\subsection{Position-Resolved Ribosome-Occupancy Boundary for $f_3$-Stress}\label{sec:q6-f3-stress-position-resolved-ribosome-occupancy-translation-boundary}
-\origin{ai}
+\subsection{Position-Resolved Ribosome Occupancy Boundary for $f_3$-Stress}
+\label{sec:q6-f3-stress-position-resolved-ribosome-occupancy-translation-window-cross-layer}
 
-\paragraph{Finite coordinate.}
-This record isolates a single cross-layer test: whether an $f_3$-stress residual, computed only after the synonymous-codon quotient has removed amino-acid composition, has any bounded survival against a position-resolved translation readout. The row type is a finite CDS-window table indexed by organism, coding sequence, codon position modulo $3$, local counts of the $f_3$-paired codons, a bounded wobble-weight surface, a matched mRNA control, and a codon-indexed or local-window ribosome-occupancy readout. The response is not protein abundance, folding, molecular function, physical admissibility, phenotype, or a global biological law. The only admissible response is a same-window ribosome-footprint occupancy statistic, or a translation-efficiency residual formed after the matched mRNA row has been joined.
+\paragraph{Finite row.}
+This record concerns finite coding-sequence windows in which the $B^{*}_{Q6}$ $f_3$-stress coordinate is kept separate from its proposed translation-window readout.  A row contains an ordered CDS window, codon-count coordinates, an amino-acid quotient residual, wobble-weight asymmetry values, matched position-resolved ribosome-footprint occupancy or a translation-efficiency residual, and the control columns needed to prevent a codon-geometry statistic from being mistaken for a translation measurement.  The intended statistic is a bounded per-window quantity $S_{f3}(\mathrm{ribosome\ occupancy\ position}\mid Z)$, where $Z$ includes amino-acid-bin or position controls, GC3, CDS length, $M$-density, organism identity, matched mRNA abundance, coverage, mappability, and simpler baseline terms.
 
-\paragraph{Quotient support already present.}
-The available finite coordinate facts determine the codon-side support but do not yet supply the ribosome-footprint rows. In the $f_3$ saturation run, the set $M=\operatorname{Med}(R)\cup\{\mathrm{ACA},\mathrm{ACG}\}$ contains $20$ codons:
-$$\begin{aligned}
+\paragraph{Verified finite saturation data.}
+The available finite computation supplies one concrete saturation certificate for the $f_3$ boundary.  In run $76d3dc408a57$, the set recorded as $M=\mathrm{Med}_R\cup\{\mathrm{ACA}\}$ contains exactly $20$ codons:
+$$
+\begin{aligned}
 M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
 &\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}$$
-The corresponding saturated $f_3$ support removes $\mathrm{ACA}$ and $\mathrm{ACG}$ and leaves $18$ codons:
-$$\begin{aligned}
-\operatorname{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
-&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}$$
-The recorded boundary list for $f_3$ is empty, so no additional boundary codon is currently certified by that finite run. The quotient geometry run records an $M$ face vector $(20,38,26,8,1)$, quotient face vector $(10,14,6,1)$, and $|\pi_M|=10$. Thus the codon coordinate is finite and quotient-compressed before any translation readout is considered.
+\end{aligned}
+$$
+The $f_3$-saturation of $R$ contains exactly $18$ codons:
+$$
+\begin{aligned}
+\mathrm{Sat}_{f3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\end{aligned}
+$$
+Thus the two codons present in the $20$-codon $M$ list but absent from the $18$-codon saturated list are $\mathrm{ACA}$ and $\mathrm{ACG}$.  The recorded $f_3$ boundary set is empty, so its finite cardinality is $0$:
+$$
+\begin{aligned}
+|M|&=20,\\
+|\mathrm{Sat}_{f3}(R)|&=18,\\
+M\setminus \mathrm{Sat}_{f3}(R)&=\{\mathrm{ACA},\mathrm{ACG}\},\\
+|\partial_{f3}|&=0.
+\end{aligned}
+$$
+These numbers do not by themselves measure ribosome behavior.  They only certify the finite coordinate surface on which a later same-window translation readout would have to be attached.
 
-\paragraph{Required survival statistic.}
-For a fixed organism, coding sequence, and window $w$, let $X_{f_3}(w)$ be the amino-acid-quotient-surviving $f_3$-stress coordinate, let $Y_{\mathrm{RPF}}(w)$ be the matched position-resolved ribosome-occupancy or TE residual, and let $Z(w)$ collect organism, GC3, CDS length, $M$-density, mRNA abundance, position bin, amino-acid bin, coverage, and mappability controls. The only positive readback has the form
-$$\begin{aligned}
-S_{f_3\text{-}\mathrm{stress}}(Y_{\mathrm{RPF}}\mid Z)>0,
-\end{aligned}$$
-where the model matrix is full rank after the controls are attached and where simpler codon-count or wobble-weight baselines fail to remove the same signal. If the controlled increment is non-positive, rank-degenerate, or supported only by modelled tAI or stAI weights without ribosome-footprint rows, the coordinate remains a codon-topology residual and is not promoted to a translation claim.
+\paragraph{Cross-layer test.}
+The conjectural relation is that $f_3$-stress may remain visible in a position-resolved ribosome-occupancy or translation-efficiency residual only after amino-acid sequence has been quotiented away and after standard sequence and transcript controls have been applied.  The trigger is wobble-weight asymmetry: a codon $c$ and its third-position $f_3$ mate $c^{f_3}$ must have unequal translation weights, written $w_c\ne w_{c^{f_3}}$.  Without that asymmetry, the row has no declared reason to expect a third-position stress coordinate to survive at the translation layer.  Even with asymmetry, the row must have enough rank after controls; a low-rank or nearly single-organism fit is treated as a null boundary, not as evidence of translation-layer survival.
 
-\paragraph{Empirical contacts and present gap.}
-The required empirical contacts are codon-usage rows per organism, tAI or stAI weights as bounded annotations, matched mRNA abundance for the same experimental condition, and codon-indexed ribosome-profiling rows. The codon-usage and wobble-weight contacts can define covariates, but they do not observe ribosome motion. The matched mRNA contact is needed to separate footprint occupancy from transcript abundance. The position-resolved ribosome-occupancy contact is still marked as pending same-organism, same-CDS, codon-indexed curation; therefore this chapter records a finite test boundary rather than a completed positive survival result.
+\paragraph{Required observation rows.}
+A supporting dataset must join the same organism, the same CDS or transcript identifier, the same local codon window, and the same experimental condition.  The row must include ordered codon positions, per-window codon counts, the $f_3$ residual after amino-acid quotient, modeled tAI or stAI weights, position-resolved ribosome-footprint occupancy, and matched mRNA abundance so that a translation-efficiency residual can be formed.  The ribosome-footprint component must be indexed at codon or local-window resolution before the statistic is computed; an organism-level codon-usage table, a modeled codon-adaptation table, or an unmatched ribosome-profiling run is not enough.
 
-\paragraph{Calibration against nearby finite probes.}
-The surrounding finite probes show why the boundary must be kept narrow. A separate structural-order ramp run used $5$ folds, minimum joined size $300$, and primary ramp length $50$. It reported a positive ramp increment, with weighted $f_3$ ramp held-out $\Delta R^2=0.0011165640103326878$ and sign-flip probability $0.0478515625$, while the body increment was negative, weighted $f_3$ body held-out $\Delta R^2=-0.00026157313923957926$ with probability $0.54296875$. The paired ramp-minus-body increment was $0.001378137149572267$ with probability $0.05859375$, so the recorded classification was positive ramp evidence without passing the localization gate. That result is informative about a different readout and cannot substitute for position-resolved ribosome occupancy. Other cross-layer finite contacts likewise remain layer-specific: the alternative-polyadenylation table contains $24{,}740$ genes and $296{,}950$ PAS rows, while the exon-inclusion contact contains $1{,}037$ rows and records $\operatorname{collinearity}(\Delta\mathrm{ESEseq},\Delta\mathrm{MaxEnt})=-0.008429245619$. These scalar facts show that finite biological contacts can be joined and audited, but they do not measure this chapter's ribosome-occupancy response.
+\paragraph{Acceptance rule.}
+The claim survives only if the fitted bounded statistic remains non-vacuous after the listed controls and after ablation against simpler baselines.  In finite-row terms, the design matrix must distinguish the $f_3$ residual coordinate from amino-acid composition, GC3, length, $M$-density, organism effects, mRNA abundance, coverage, mappability, and generic codon-count summaries.  A positive association that vanishes under amino-acid-bin control, matched mRNA normalization, position control, or baseline ablation is read as a compositional or sampling artifact.  A positive association supported only by a rank-degenerate matrix is also rejected, because the data then cannot separate the proposed residual from the controls.
 
 \paragraph{Local boundary.}
-The chapter therefore has a precise negative discipline. From $f_3$-stress, quotient geometry, codon-window counts, or modelled translation weights alone, one may not infer translation realization, protein abundance, folding, physical admissibility, biological function, mechanism, phenotype, or universality. Such statements require a separate matched contact at that layer. The only claim reserved here is conditional: if same-organism, same-CDS, same-window ribosome-footprint rows are joined to the codon coordinate and the controlled survival statistic remains positive under rank checks, baseline ablations, and null comparisons, then $f_3$-stress may be reported as a bounded predictor of the translation readout. If those rows are absent, underpowered, rank-degenerate, or non-positive after controls, the correct outcome is null or needs-data rather than downstream biological promotion.
-
-\origin{ai}
+This chapter does not infer protein abundance, folding, physical admissibility, molecular function, mechanism, phenotype, or universality from the $f_3$ coordinate or from the finite saturation certificate.  It also does not treat modeled tAI or stAI values as measured ribosome dynamics.  The only admissible reading is narrower: the finite $20$-codon and $18$-codon saturation rows define a coordinate boundary, and a separate matched ribosome-occupancy plus mRNA contact would be needed before a translation-window residual could be claimed.  Until those same-window external rows are present and rank-sufficient, $f_3$-stress remains a code-read residual rather than a realized translation-layer effect.

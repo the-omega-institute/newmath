@@ -1,0 +1,62 @@
+\subsection{Position-resolved ribosome occupancy as the admissible readout for $f_3$-stress}
+\label{subsec:q6-f3-stress-position-resolved-ribosome-occupancy-translation-boundary}
+
+\paragraph{Finite coordinate.}
+The record considered here is not a claim about protein output or cellular phenotype. It is a finite-window test for whether an $f_3$-stress residual, computed after the amino-acid quotient has removed composition-level synonymous freedom, has any bounded remaining association with a position-resolved ribosome-occupancy or translation-efficiency residual. The row key must include organism, coding sequence, codon position modulo $3$, a local window of $f_3$-paired codon counts, a bounded wobble-weight surface, a matched mRNA control, and a codon-indexed or fixed-window ribosome-footprint readout. Without all of these columns in the same finite row, the object is only a proposed measurement interface.
+
+The finite codon-side data give the coordinate a nontrivial but sharply bounded domain. In the saturation row, the set $M=\operatorname{Med}(R)\cup\{\mathrm{ACA},\mathrm{ACG}\}$ is recorded as the following $20$ codons:
+$$
+\begin{aligned}
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\end{aligned}
+$$
+The corresponding $f_3$-saturation row is $M$ with $\mathrm{ACA}$ and $\mathrm{ACG}$ removed, hence $18$ codons:
+$$
+\begin{aligned}
+\operatorname{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
+&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\end{aligned}
+$$
+The recorded $f_3$ boundary set is empty. Thus the codon-topology part is finite and explicit, but it does not by itself measure ribosome motion.
+
+\paragraph{Quotient geometry.}
+The amino-acid quotient gives a second finite check on what may enter the residual. The recorded $M$-complex has $f$-vector $(20,38,26,8,1)$, while the quotient has $f$-vector $(10,14,6,1)$ and $10$ quotient vertices. The listed quotient vertices are
+$$
+\begin{aligned}
+&(0,0,0,0,1),\ (0,0,0,1,1),\ (0,0,1,0,1),\ (0,0,1,1,1),\ (0,1,0,0,0),\\
+&(0,1,0,0,1),\ (1,0,0,0,1),\ (1,0,0,1,1),\ (1,0,1,0,1),\ (1,0,1,1,1).
+\end{aligned}
+$$
+These numbers justify treating $f_3$-stress as a controlled residual coordinate rather than as a raw codon-count contrast. The admissible statistic must therefore be a partial survival entry of the form
+$$
+\begin{aligned}
+S_{f_3\text{-stress}}(\mathrm{position\ resolved\ ribosome\ occupancy}\mid Z),
+\end{aligned}
+$$
+where $Z$ contains organism, amino-acid composition or amino-acid bins, GC3, coding-sequence length, $M$-density, matched mRNA abundance, position, coverage, mappability, and simpler codon-baseline terms. A positive uncontrolled association is not enough; the rank of the controlled design matrix must remain nondegenerate after these columns are attached.
+
+\paragraph{Available cross-layer calibration.}
+The closest powered finite row in the current packet is not a ribosome-occupancy row. It is a structural-order ramp calibration with $5$ folds, minimum joined count $300$, and primary ramp length $50$. That row reports $2$ primary organisms, weighted held-out increments $0.0011165640103326878$ for the $f_3$ ramp and $-0.00026157313923957926$ for the $f_3$ body, with ramp-minus-body increment $0.001378137149572267$. The sign-flip probabilities are $0.0478515625$ for the ramp, $0.54296875$ for the body, and $0.05859375$ for the paired ramp-minus-body comparison. Its recorded conclusion is $\mathrm{ramp\_positive\_but\_not\_localized}$: the ramp signal is positive, but the paired localization gate does not pass. This supports caution rather than promotion. It says that a finite $f_3$-derived coordinate can produce a small controlled positive signal in one adjacent readout, while also showing that localization and downstream interpretation can fail under the stricter paired gate.
+
+Other finite rows show that the surrounding empirical machinery can handle large joined biological tables, but they do not supply this chapter's missing ribosome-footprint statistic. The alternative-polyadenylation row contains $24740$ genes and $296950$ polyadenylation sites. The ESE exon-inclusion row contains $1037$ observations and reports $\operatorname{corr}(\Delta\mathrm{ESEseq},\Delta\mathrm{MaxEnt})=-0.008429245619$. The mouse VASTDB splice row contains $50633$ observations and records all-tissue positivity as true. These rows are useful as finite evidence that controlled cross-layer tables can be assembled, yet none is a same-organism, same-CDS, same-window ribosome-occupancy table for $f_3$-stress.
+
+\paragraph{Decision rule.}
+The chapter is therefore classified as needing more data. A ready result would require a row-wise table in which codon-window counts, amino-acid-quotient residuals, wobble or tAI/stAI weights, matched mRNA abundance, and position-resolved ribosome-footprint occupancy are joined before the statistic is computed. The support condition is
+$$
+\begin{aligned}
+S_{f_3\text{-stress}}(\mathrm{occupancy}\mid Z)>0
+\end{aligned}
+$$
+with adequate rank, nonvacuous sample size, and survival after simpler-baseline ablation. The break condition is
+$$
+\begin{aligned}
+S_{f_3\text{-stress}}(\mathrm{occupancy}\mid Z)\leq 0
+\end{aligned}
+$$
+for all admissible windows, or a rank-deficient design after the controls are included. In the latter case, $f_3$-stress remains a code-topology residual and not a promoted biological coupling.
+
+\paragraph{Local boundary.}
+No translation realization, protein abundance, folding state, physical admissibility, molecular function, mechanism, phenotype, or universal biological rule follows from the finite codon geometry, from modeled tAI or stAI weights, or from the structural-order ramp row. Such conclusions require a separate matched contact at the relevant layer. For this chapter, the only admissible target is the controlled position-resolved ribosome-occupancy survival statistic itself, and that statistic has not yet been supplied as a finite joined row.
+
+\origin{ai}
