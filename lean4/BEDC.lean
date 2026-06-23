@@ -9570,6 +9570,7 @@ import BEDC.Derived.RealModulusFusionUp
 import BEDC.Derived.RealModulusPurityBoundaryUp.ConstructivePrediction
 import BEDC.Derived.RealModulusPurityBoundaryUp.HostChoiceRefusal
 import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
+import BEDC.Derived.RealModulusPurityBoundaryUp.ScopeBinding
 import BEDC.Derived.RealModulusPurityBoundaryUp.ScopePackage
 import BEDC.Derived.RealModulusPurityBoundaryUp.TailBudgetExhaustion
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
