@@ -6542,6 +6542,7 @@ import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
 import BEDC.Derived.HyperbolicPoissonKernelUp.TasteGate
 import BEDC.Derived.HyperbolicSelfCenterReadingUp.TasteGate
 import BEDC.Derived.HyperbolicTranslationLengthUp.TasteGate
+import BEDC.Derived.HyperbolicVisualBoundaryUp.TasteGate
 import BEDC.Derived.HyperbolicVisualMetricUp.TasteGate
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.NameCertObligations
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.TasteGate
@@ -7509,6 +7510,7 @@ import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CertificateSurface
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ClosedNormalBoundary
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ConsistencyBlockerLedger
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CriticalPathNonescape
+import BEDC.Derived.MetaCICAuditSynthesisPacketUp.PositiveBlockerUnion
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.TasteGate
 import BEDC.Derived.MetaCICBetaAuditUp
 import BEDC.Derived.MetaCICBetaAuditUp.ReductionConversionBoundary
@@ -8064,6 +8066,7 @@ import BEDC.Derived.MetaCICTypedParallelDiamondBoundaryUp
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
 import BEDC.Derived.MetaClosureWitnessLedgerUp.TasteGate
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.PremiseExposure
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.SeedClosure
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.TasteGate
 import BEDC.Derived.MetacicClosedBetaTraceEnvelopeUp
@@ -8681,6 +8684,7 @@ import BEDC.Derived.ObserverperspectiveclassifierUp.ComparisonRouteTotality
 import BEDC.Derived.ObserverperspectiveclassifierUp.GapCommitmentReadback
 import BEDC.Derived.ObserverperspectiveclassifierUp.NameCertObligations
 import BEDC.Derived.ObserverperspectiveclassifierUp.PerspectiveStability
+import BEDC.Derived.ObserverperspectiveclassifierUp.PublicReadbackCriterion
 import BEDC.Derived.ObserverperspectiveclassifierUp.StateTotality
 import BEDC.Derived.ObserverperspectiveclassifierUp.TwoStateNoConfusion
 import BEDC.Derived.OdeComparisonUp.TasteGate
@@ -9959,6 +9963,8 @@ import BEDC.Derived.ReductionFuelBoundaryUp.ScopedSubstrateRoute
 import BEDC.Derived.ReductionFuelBoundaryUp.ScopedTimeoutRoute
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
 import BEDC.Derived.ReductionFuelBoundaryUp.TotalHostNonescape
+import BEDC.Derived.ReflectionGapAuditUp
+import BEDC.Derived.ReflectionGapAuditUp.TasteGate
 import BEDC.Derived.ReflectionGapBoundaryUp.Nonescape
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ReflectionLimitBoundaryUp.TasteGate
@@ -12038,6 +12044,7 @@ import BEDC.Derived.UpcrossingUp.ScopedDecisionRoute
 import BEDC.Derived.UpcrossingUp.TasteGate
 import BEDC.Derived.UpgradeRegistryUp.NameCertObligations
 import BEDC.Derived.UpgradeRegistryUp.NoncompletionSurface
+import BEDC.Derived.UpgradeRegistryUp.PublicExport
 import BEDC.Derived.UpgradeRegistryUp.StatusPreservation
 import BEDC.Derived.UpgradeRegistryUp.TasteGate
 import BEDC.Derived.UpperDarbouxSumUp
