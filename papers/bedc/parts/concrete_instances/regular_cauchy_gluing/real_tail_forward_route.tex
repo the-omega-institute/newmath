@@ -1,0 +1,13 @@
+\begin{theorem}[Regular Cauchy gluing Real-tail forward route]
+\label{thm:regular-cauchy-gluing-real-tail-forward-route}
+Every $\RealUp$-facing or $\CompletionUp$-facing read of an accepted $\RegularCauchyGluingUp$ packet that asks for a tail-agreement seal is a forward dependency of the $\RealTailAgreementSealUp$ route in \autoref{ch:concrete-instances-realtailagreementseal-namecert}. Concretely, the gluing packet first exposes the common $\DyadicRatCoreUp$ refinement ledger $D$, the paired $\StreamNameUp$ observation row $S$, the glued $\RegSeqRatUp$ readback $Q$, and the local $\RealUp$ seal $E$; only then may the consumer enter the Real-tail agreement and Cauchy-limit seal route through $\RealTailAgreementSealUp$, $\CauchyLimitSealUp$, $\RealUp$, and $\CompletionUp$.
+\end{theorem}
+\begin{proof}
+Project the accepted gluing carrier $G=(L,R,D,S,Q,E,H,C,P,N)$ from \autoref{def:regular-cauchy-gluing-carrier}. The Real-facing rows available before any tail agreement are exactly the common dyadic ledger $D$, finite observation row $S$, glued regular readback $Q$, terminal seal $E$, transport row $H$, replay row $C$, provenance row $P$, and local name row $N$.
+
+Apply the Real seal ordering theorem \autoref{thm:regular-cauchy-gluing-real-seal-ordering}. It forces the route to display $D,S,Q$ before $E$ is readable, so a consumer cannot jump from the two local windows directly to a Real-tail agreement row.
+
+Now use the Real-tail agreement completion-consumer boundary of \autoref{ch:concrete-instances-realtailagreementseal-namecert}. That boundary receives paired windows, dyadic readback, agreement, Cauchy-limit sealing, and Real or Completion endpoints as one finite route. Feeding it from $\RegularCauchyGluingUp$ therefore makes the gluing read a forward dependency of that Real-tail route rather than a separate kernel island.
+
+The exclusions are inherited from the two carriers. Neither \autoref{def:regular-cauchy-gluing-carrier} nor the Real-tail agreement route supplies quotient stream equality, selected representatives, host convergence, countable choice, or ambient completeness as a row, so no such object can be exported by this forward dependency.
+\end{proof}
