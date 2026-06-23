@@ -7479,6 +7479,7 @@ import BEDC.Derived.MertensCauchyProductTheoremUp.TasteGate
 import BEDC.Derived.MetaCICAuditMapFamilyUp
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
+import BEDC.Derived.MetaCICAuditSynthesisPacketUp.TasteGate
 import BEDC.Derived.MetaCICBetaAuditUp
 import BEDC.Derived.MetaCICBetaAuditUp.ReductionConversionBoundary
 import BEDC.Derived.MetaCICBetaAuditUp.SubjectReductionObstructionLedger
@@ -9573,6 +9574,7 @@ import BEDC.Derived.RealModulusPurityBoundaryUp.ConstructivePrediction
 import BEDC.Derived.RealModulusPurityBoundaryUp.DyadicWitnessStability
 import BEDC.Derived.RealModulusPurityBoundaryUp.HostChoiceRefusal
 import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
+import BEDC.Derived.RealModulusPurityBoundaryUp.ScopeBinding
 import BEDC.Derived.RealModulusPurityBoundaryUp.ScopePackage
 import BEDC.Derived.RealModulusPurityBoundaryUp.SourceNonescape
 import BEDC.Derived.RealModulusPurityBoundaryUp.TailBudgetExhaustion
