@@ -178,6 +178,20 @@ Next compose the transports. The classifier-transport scope in \autoref{thm:coll
 The classifier definition then has no further input to inspect. Applying \autoref{def:collision-kernel-classifier} after the composed ledger transport yields the same finite classification, and \autoref{thm:collision-kernel-hankel-shadow-boundary} keeps any shadow read on the same ledger boundary.
 \end{proof}
 
+\begin{theorem}[CollisionKernel scoped dependency route]
+\label{thm:collision-kernel-scoped-route}
+Every scoped $\CollisionKernelUp$ consumer must read the finite window and target-fiber ledger through $\FoldMomentKernelUp$, $\GoldenMeanShiftUp$, $\ZeckendorfNormalUp$, $\ListUp$, and $\NatUp$ provenance before any Hankel-shadow or moment-index row is exported. The route has no host spectrum, ambient measure, quotient fiber, or infinite Hankel operator.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:collision-kernel-bhist-carrier}. The rows $W,F,L,M,I,S,H,C,P,N$ are the only displayed coordinates, and the provenance row $P$ names $\FoldMomentKernelUp$, $\GoldenMeanShiftUp$, $\ZeckendorfNormalUp$, $\ListUp$, and $\NatUp$ as the finite source route for scoped reads.
+
+Use fiber-ledger exactness from \autoref{thm:collision-kernel-fiber-ledger-exactness}. Every matrix entry reaches the target-fiber ledger $L$ through the finite window $W$ and fold-source row $F$, so a consumer cannot read a target fiber independently of the sibling provenance.
+
+Apply moment readback exhaustion and classifier transport scope from \autoref{thm:collision-kernel-moment-readback-exhaustion} and \autoref{thm:collision-kernel-classifier-transport-scope}. Moment-index and Hankel-shadow rows are exported only after $I,M,S,L,H,C,P,N$ have preserved the same finite packet.
+
+Thus the sibling dependency rows exhaust the scoped route before any moment or shadow read is visible. Since the carrier contains no spectrum, measure, quotient fiber, or infinite Hankel coordinate, no such object is exported by the route.
+\end{proof}
+
 \begin{theorem}[CollisionKernel moment ledger noninterference]
 \label{thm:collision-kernel-moment-ledger-noninterference}
 In an accepted $\CollisionKernelUp$ packet $K=(W,F,L,M,I,S,H,C,P,N)$, a moment read or Hankel-shadow read may alter only the displayed moment-index row $I$ or Hankel-shadow row $S$ of the consumer route. It cannot alter the finite source window $W$, fold-source row $F$, matrix row $M$, package provenance $P$, or local $\NameCert$ row $N$.
