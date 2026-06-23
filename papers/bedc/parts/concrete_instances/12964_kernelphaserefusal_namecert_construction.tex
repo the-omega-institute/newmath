@@ -51,6 +51,34 @@ Use \autoref{thm:kernel-phase-refusal-phase-order}. When the verdict places $T$ 
 The structural rows do not alter this boundary. Componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ naming replay the same finite object, so every listed stronger reading lies outside the accepted $\KernelPhaseRefusalUp$ surface.
 \end{proof}
 
+\begin{theorem}[Kernel phase-refusal admissibility obligation]
+\label{thm:kernel-phase-refusal-admissibility-obligation}
+For the carrier $K=(P,T,D,R,A,H,C,Q,N)$ of \autoref{def:kernel-phase-refusal-carrier}, any accepted $\KernelPhaseRefusalUp$ packet must expose the admissibility row $A$ as the claim-registry, upgrade-registry, formal-target-ledger, and closure-status-reference read before the verdict row $R$ can classify the attempted target $T$.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(P,T,D,R,A,H,C,Q,N)$. The admissibility coordinate $A$ is separate from the target row $T$ and the verdict row $R$, so the packet cannot classify $T$ using an implicit host-side admissibility check.
+
+Use phase order from \autoref{thm:kernel-phase-refusal-phase-order}. The current phase $P$, attempted target $T$, and dependency blocker $D$ must be read in the displayed order before a later-phase target can be treated as available.
+
+Now read the sibling registries named by the carrier. $\ClaimRegistryLayerUp$, $\UpgradeRegistryUp$, $\PhilosophyFormalTargetLedgerUp$, and $\ClosureStatusReferenceUp$ are exactly the rows stored by $A$ for this classifier read.
+
+Finally apply the off-table boundary of \autoref{thm:kernel-phase-refusal-offtable-boundary}. Since the packet has no hidden queue or priority override, $R$ can classify $T$ only after the displayed admissibility row has been exposed.
+\end{proof}
+
+\begin{theorem}[Kernel phase-refusal transport obligation]
+\label{thm:kernel-phase-refusal-transport-obligation}
+For every accepted $\KernelPhaseRefusalUp$ packet $K=(P,T,D,R,A,H,C,Q,N)$, componentwise $\hsame$ transport through $H$ and displayed $\Cont$ replay through $C$ preserve the phase row $P$, target row $T$, blocker row $D$, verdict row $R$, admissibility row $A$, provenance row $Q$, and local name $N$. Such transport cannot turn a blocked or off-table verdict into an accepted target.
+\end{theorem}
+\begin{proof}
+Project $K=(P,T,D,R,A,H,C,Q,N)$. The rows being transported are exactly the displayed coordinates of the carrier; $H$ supplies componentwise $\hsame$ and $C$ replays the same route under $\Cont$.
+
+Use \autoref{thm:kernel-phase-refusal-phase-order}. The blocker row remains part of the same packet whenever the attempted target lies outside the current phase, so transport cannot erase $D$ while preserving the classifier read.
+
+Apply \autoref{thm:kernel-phase-refusal-offtable-boundary}. The verdict row exports only the visible refusal boundary and never stores a bridge-completion claim, blocker discharge, host-priority override, or hidden target queue.
+
+It follows that $H$ and $C$ preserve the displayed $P,T,D,R,A,Q,N$ rows as classifier data. A blocked or off-table verdict therefore remains a blocked or off-table verdict under the packet transport, and no formal verification or phase completion is claimed here.
+\end{proof}
+
 \falsifiablePrediction{A packet whose attempted target lies above the current phase without a displayed dependency-blocker row cannot be accepted by the phase-refusal classifier.}
 
 \independenceWitness{claimregistrylayer, upgraderegistry, philosophyformaltargetledger, closurestatusreference: this carrier binds phase order, target admissibility, and refusal verdict in one packet, while the siblings store claims, upgrade rows, formal targets, or closure references without the phase-refusal classifier.}
