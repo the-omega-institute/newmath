@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICCandidatePruningBudgetUp$}
+\label{ch:concrete-instances-metacic-candidate-pruning-budget-namecert}
+\origin{ai}
+
+The $\MetaCICCandidatePruningBudgetUp$ packet realizes the audit-synthesis frontier of \autoref{sec:metacic-audit-synthesis-frontier-shape} as finite candidate-pruning data. It sits beside the residual-choice budget of \autoref{ch:concrete-instances-metacic-residual-choice-budget-namecert}, the candidate-normalization confluence handoff of \autoref{ch:concrete-instances-metacic-candidate-normalization-confluence-handoff-namecert}, the residual diamond frontier of \autoref{ch:concrete-instances-metacic-residual-diamond-frontier-namecert}, and the normal-form consistency seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}. The packet records bounded proof-search pruning as a displayed candidate ledger and checker budget; it does not assert global confluence, normalization, subject reduction, kernel consistency, or an unbounded proof-search oracle.
+
+\begin{definition}[MetaCIC candidate-pruning budget carrier]
+\label{def:metacic-candidate-pruning-budget-carrier}
+A $\MetaCICCandidatePruningBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,K,Q,R,C,O,H,J,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed closed-window row naming the MetaCIC source fragment, context boundary, and closedness budget under inspection.
+\item $K$ is the candidate row listing the finite candidate proofs, terms, residual joins, or normal endpoints admitted for pruning.
+\item $Q$ is the pruning-budget row recording the finite fuel, rank, residual-depth, and branch-count limits used by the candidate search.
+\item $R$ is the residual-frontier row naming the remaining unpruned residual choices and the frontier routes shared with \autoref{ch:concrete-instances-metacic-residual-choice-budget-namecert} and \autoref{ch:concrete-instances-metacic-residual-diamond-frontier-namecert}.
+\item $C$ is the bounded-checker row. It records the local checker that may inspect $T,K,Q,R$ and reject a pruning read when the candidate row or checker budget is absent.
+\item $O$ is the obstruction row retaining the confluence, normalization, and subject-reduction boundaries not discharged by the bounded checker.
+\item $H$ records componentwise $\hsame$ transport for typed windows, candidates, pruning budget, residual frontier, bounded checker, obstruction, replay, provenance, and local naming rows.
+\item $J$ records displayed $\Cont$ replay from an audit-synthesis request through $T,K,Q,R,C,O,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICCandidatePruningBudgetUp$, $\MetaCICResidualChoiceBudgetUp$, $\MetaCICParallelDiamondFrontierUp$, $\MetacicCandidateNormalizationConfluenceHandoffUp$, $\NormalFormConsistencySealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICCandidatePruningBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,K,Q,R,C,O,H,J,P,N$. It has no coordinate for candidate-free pruning, unbounded checker search, global confluence, global normalization, subject reduction, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC candidate-pruning budget obligations]
+\label{thm:metacic-candidate-pruning-budget-obligations}
+For every accepted $\MetaCICCandidatePruningBudgetUp$ carrier
+$$
+B=(T,K,Q,R,C,O,H,J,P,N),
+$$
+the local $\NameCert_{\MetaCICCandidatePruningBudgetUp}$ surface consists exactly of typed closed-window exposure, candidate row exposure, pruning-budget exposure, residual-frontier exposure, bounded-checker exposure, obstruction retention, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape from candidate-free pruning, unbounded checker search, global confluence, global normalization, subject reduction, and kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-pruning-budget-carrier}. The typed window $T$ fixes the inspected closed fragment before any proof-search pruning read can be accepted.
+
+The pruning data are $K,Q,R,C$. The candidate row $K$ lists the finite objects being pruned, the budget row $Q$ bounds the search, the residual-frontier row $R$ retains the unpruned boundary, and the bounded checker $C$ is the only local checker allowed to inspect that display.
+
+The obstruction row $O$ remains visible. It prevents a bounded pruning result from becoming global confluence, normalization, subject reduction, or kernel consistency.
+
+Finally $H,J,P,N$ transport, replay, source, and name the same finite route. Since no excluded endpoint is a carrier coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate-pruning bounded checker rejection]
+\label{thm:metacic-candidate-pruning-bounded-checker-rejection}
+Every accepted $\MetaCICCandidatePruningBudgetUp$ pruning read must expose both the candidate row $K$ and the bounded-checker row $C$ on the same route as $T,Q,R,O,H,J,P,N$. A read that supplies a pruning budget without the candidate row and bounded checker is outside the classifier.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $B=(T,K,Q,R,C,O,H,J,P,N)$. The classifier of \autoref{def:metacic-candidate-pruning-budget-carrier} compares accepted packets only through the full displayed inventory, including $K$ and $C$.
+
+Apply the obligation theorem above. It makes candidate exposure and bounded-checker exposure separate mandatory NameCert clauses before the residual-frontier and pruning-budget rows can be consumed.
+
+Therefore a read with $Q$ but without $K$ and $C$ is not an accepted packet. Transport through $H$, replay through $J$, provenance through $P$, and naming through $N$ preserve the same displayed route and do not add a hidden candidate or checker.
+\end{proof}
+
+The Lean boundary for this carrier must provide explicit $\mathsf{Nontrivial}\ \MetaCICCandidatePruningBudgetUp$ and $\mathsf{FieldFaithful}\ \MetaCICCandidatePruningBudgetUp$ instances before a checked TasteGate theorem may read the displayed rows $T,K,Q,R,C,O,H,J,P,N$ as one carrier.
+
+\falsifiablePrediction{A MetaCIC pruning read that lacks either the candidate row $K$ or the bounded-checker row $C$ is rejected by the $\MetaCICCandidatePruningBudgetUp$ classifier even when it names a pruning budget row.}
+
+\independenceWitness{metacic-proof-search-frontier, metacic-residual-choice-budget, metacic-parallel-diamond-frontier, metacic-candidate-normalization-confluence-handoff, normalformconsistencyseal: none is bijective to $\MetaCICCandidatePruningBudgetUp$ because this packet jointly carries typed windows, candidates, pruning budgets, residual frontiers, bounded checker, obstruction retention, transport, replay, provenance, and local naming.}
+
+\closureat{MetaCICCandidatePruningBudgetUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICCandidatePruningBudgetUp}
+  \constructivestory{A $\MetaCICCandidatePruningBudgetUp$ packet is generated from a typed closed-window row, candidate row, pruning-budget row, residual-frontier row, bounded-checker row, obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-candidate-pruning-budget-carrier}, \autoref{thm:metacic-candidate-pruning-budget-obligations}, and \autoref{thm:metacic-candidate-pruning-bounded-checker-rejection} seed the finite candidate-pruning budget route for the MetaCIC audit-synthesis frontier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global confluence, normalization, subject reduction, kernel consistency, unbounded proof-search pruning, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate exposure, pruning-budget exactness, residual-frontier exposure, bounded-checker rejection, obstruction retention, transport, replay, provenance, local naming, and TasteGate Nontrivial and FieldFaithful instances for BEDC.Derived.MetaCICCandidatePruningBudgetUp.}
+\end{closurestatus}
