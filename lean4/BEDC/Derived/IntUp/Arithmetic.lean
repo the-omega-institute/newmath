@@ -36,6 +36,31 @@ def pairAdd (x y : BHist × BHist) : BHist × BHist :=
 def pairNeg (x : BHist × BHist) : BHist × BHist :=
   (x.2, x.1)
 
+def intSub (x y : BHist × BHist) : BHist × BHist :=
+  pairAdd x (pairNeg y)
+
+theorem pairAdd_carrier {x y : BHist × BHist} :
+    BEDC.Derived.IntUp.IntPairCarrier x.1 x.2 ->
+      BEDC.Derived.IntUp.IntPairCarrier y.1 y.2 ->
+        BEDC.Derived.IntUp.IntPairCarrier (pairAdd x y).1 (pairAdd x y).2 := by
+  intro hx hy
+  exact
+    ⟨unary_append_closed hx.left hy.left,
+      unary_append_closed hx.right hy.right⟩
+
+theorem pairNeg_carrier {x : BHist × BHist} :
+    BEDC.Derived.IntUp.IntPairCarrier x.1 x.2 ->
+      BEDC.Derived.IntUp.IntPairCarrier (pairNeg x).1 (pairNeg x).2 := by
+  intro hx
+  exact ⟨hx.right, hx.left⟩
+
+theorem intSub_carrier {x y : BHist × BHist} :
+    BEDC.Derived.IntUp.IntPairCarrier x.1 x.2 ->
+      BEDC.Derived.IntUp.IntPairCarrier y.1 y.2 ->
+        BEDC.Derived.IntUp.IntPairCarrier (intSub x y).1 (intSub x y).2 := by
+  intro hx hy
+  exact pairAdd_carrier hx (pairNeg_carrier hy)
+
 def natMulFn (d : BHist) : BHist -> BHist
   | BHist.Empty => BHist.Empty
   | BHist.e0 _ => BHist.Empty

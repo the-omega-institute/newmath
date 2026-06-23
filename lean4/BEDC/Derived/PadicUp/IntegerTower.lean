@@ -841,6 +841,19 @@ def zpAdd (p : BHist) (x y : ZpInt p) : ZpInt p :=
     trunc := fun N NUnary => zpAddTrunc p N x.prime NUnary (x.trunc N NUnary) (y.trunc N NUnary)
     compat := zpAdd_compat p x y }
 
+def zpMulTrunc (p N : BHist) (prime : NatPrime p) (NUnary : UnaryHistory N)
+    (x y : ZpTrunc p N) : ZpTrunc p N :=
+  fromNatModPow p N (natMulFn x.val y.val) prime NUnary
+
+def intSub (x y : BHist × BHist) : BHist × BHist :=
+  BEDC.Derived.IntUp.intSub x y
+
+theorem intSub_pair_carrier {x y : BHist × BHist} :
+    IntPairCarrier x.1 x.2 -> IntPairCarrier y.1 y.2 ->
+      IntPairCarrier (intSub x y).1 (intSub x y).2 := by
+  intro hx hy
+  exact BEDC.Derived.IntUp.intSub_carrier hx hy
+
 def natDistanceInt (x y : BHist) : BMark × BHist :=
   if bwordLength y ≤ bwordLength x then
     (BMark.b0, zpuNatToUnary (bwordLength x - bwordLength y))
@@ -861,5 +874,9 @@ theorem Ball_carrier {p N x y : BHist} :
     Ball p N x y -> IntCarrier (natDistanceInt x y).1 (natDistanceInt x y).2 := by
   intro ball
   exact ball.left
+
+theorem natDistanceInt_magnitude_unary (x y : BHist) :
+    UnaryHistory (natDistanceInt x y).2 :=
+  (natDistanceInt_carrier x y).right
 
 end BEDC.Derived.PadicUp
