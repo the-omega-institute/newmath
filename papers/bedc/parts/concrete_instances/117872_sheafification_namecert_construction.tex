@@ -190,6 +190,42 @@ Next use \autoref{thm:sheafification-locality-refinement} and \autoref{thm:sheaf
 The structural rows complete the package. The tuple projection supplies $H,R,Q,N$, and these rows transport, replay, source, and name the same route rather than adding a host reflector, quotient family, selected cover, or topos object.
 \end{proof}
 
+\begin{theorem}[Sheafification source cover locality]
+\label{thm:sheafification-source-cover-locality}
+Every locality read of an accepted $\SheafificationUp$ source package exposes the $\CategoryUp$ row $C$, the $\TopologyUp$ window row $T$, the $\GrothendieckTopologyUp$ coverage row $J$, and the $\PreSheafUp$ restriction row $P$ before any locality row in $L$ is consumed. The exposure is a finite source obligation surface, not a host cover selector or ambient reflector.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sheafification-carrier}. The only rows that can type a cover-local request are $C,T,J,P$.
+
+Apply coverage exactness and the source obligation package, \autoref{thm:sheafification-coverage-exactness} and \autoref{thm:sheafification-source-obligation-package}. These force the category source, topology window, Grothendieck coverage, and presheaf restriction rows to be displayed before $L$ is read.
+
+The structural rows $H,R,Q,N$ only transport, replay, source, and name that displayed route. They do not add a host cover choice, so every source-cover locality read remains inside the finite package.
+\end{proof}
+
+\begin{theorem}[Sheafification presheaf locality transport]
+\label{thm:sheafification-presheaf-locality-transport}
+For an accepted $\SheafificationUp$ packet, locality rows in $L$ transport along the displayed $\PreSheafUp$ restriction row $P$ and the componentwise $\hsame$ row $H$. After transport, the locality read still lies over the same $C,T,J,P$ source surface and still precedes the gluing row $G$.
+\end{theorem}
+\begin{proof}
+Read $P$ and $L$ from the carrier. The presheaf row records restriction comparisons over the displayed category, topology, and coverage rows, while $L$ records matching-family rows over those restrictions.
+
+Use locality refinement, \autoref{thm:sheafification-locality-refinement}. Refining a displayed cover and transporting component sections by $H$ preserves locality over the same presheaf row rather than creating a new family outside the packet.
+
+Finally apply gluing exactness, \autoref{thm:sheafification-gluing-exactness}. The transported locality rows remain before $G$ and $S$, so the presheaf-locality transport is still a finite BEDC route through $P,L,H,R,Q,N$.
+\end{proof}
+
+\begin{theorem}[Sheafification gluing ledger scope]
+\label{thm:sheafification-gluing-ledger-scope}
+Every gluing ledger row $G$ of an accepted $\SheafificationUp$ packet is consumed only after the locality ledger $L$ has displayed compatible local data and only before the $\SheafUp$ row $S$ is read. A gluing consumer therefore sees the route $C,T,J,P,L,G,S,H,R,Q,N$ and no detached quotient of compatible families.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:sheafification-source-obligation-package}. It places source exposure and locality before any sheaf-facing consumer reads $S$.
+
+Next apply \autoref{thm:sheafification-gluing-exactness} and \autoref{thm:sheafification-plus-gluing-replay}. They identify $G$ as the ledger row consumed after locality and before the sheaf target row, with replay still occurring through $H$ and $R$.
+
+The local non-escape theorem, \autoref{thm:sheafification-local-namecert-nonescape}, rules out host reflectors and quotient compatible-family objects. Thus $G$ is scoped exactly between $L$ and $S$ inside the displayed carrier.
+\end{proof}
+
 \begin{theorem}[Sheafification local gluing induction]
 \label{thm:sheafification-local-gluing-induction}
 Finite induction over displayed cover-refinement rows in an accepted $\SheafificationUp$ packet preserves the route from locality to gluing: the base cover reads $C,T,J,P,L$, and each displayed refinement transports matching-family data by $H$ and replays the same $\Cont$ route $R$ before the gluing row $G$ and sheaf target $S$ are consumed. The induction exports no quotient of compatible families, selected cover system, host reflector, or ambient powerset equality.
