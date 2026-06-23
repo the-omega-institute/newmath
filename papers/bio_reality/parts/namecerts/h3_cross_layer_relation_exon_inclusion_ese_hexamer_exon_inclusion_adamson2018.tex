@@ -1,42 +1,47 @@
-\subsection{ESE hexamer scores and exon-inclusion readout}\label{subsec:bioreality-ese-hexamer-exon-inclusion-adamson2018}
 \origin{ai}
 
-\paragraph{Finite table.}
-This record concerns a finite exon-inclusion table whose rows compare an exonic splicing-enhancer hexamer coordinate against a splice-model coordinate on the same candidate-exon surface.  The verified row count is $n=1037$, and the finite audit reports
+\subsection{ESE hexamer and splice-window separation}
+\label{sec:bioreality-ese-hexamer-exon-inclusion-adamson2018}
+
+\paragraph{Finite row.}
+The finite record considered here is the splice-layer table keyed by the claim identifier \texttt{h3.cross\_layer\_relation.exon\_inclusion.ese\_hexamer\_exon\_inclusion\_adamson2018}.  Its measured row count is $n=1037$, and the computed collinearity between the ESEseq exon-inclusion perturbation coordinate and the MaxEnt splice-score perturbation coordinate is
 $$
 \begin{aligned}
-\operatorname{corr}(\Delta ESEseq,\Delta MaxEnt)=-0.008429245619.
+\operatorname{collinear}(\Delta ESEseq,\Delta MaxEnt)=-0.008429245619.
 \end{aligned}
 $$
-The computation finished in $4.569444656$ seconds under run id $8c0a6b9aeaf4$.  The scalar is intentionally read as a collinearity diagnostic, not as a positive exon-inclusion effect size.  Its magnitude is close to zero, so the admissible statement is that the two coordinates are nearly linearly separated on this finite Adamson-style splice-variant table.  The table therefore supports a local cross-layer distinction between hexamer-level enhancer scoring and splice-site strength scoring, while leaving the actual inclusion-response coefficient to the experiment-specific inclusion readout and its controls.
+The run certificate attached to this row is \texttt{8c0a6b9aeaf4}, with reported runtime $4.569444656$ seconds.  Thus the chapter is not using a symbolic splice story: it is using a finite matrix whose primary numerical outcome is a near-zero signed association between two splice-window coordinates on $1037$ assayed rows.
 
-\paragraph{Coordinate separation.}
-The chapter uses the ESE--MaxEnt comparison as an exon-level example of finite coordinate bookkeeping.  It is not a translation-readout chapter.  The surrounding finite registry contains codon-topology facts that are useful only as a negative control for scope.  In the $f_3$ saturation audit, the set $M=Med_R\cup\{ACA\}$ contains the twenty codons
+\paragraph{Coordinate being tested.}
+The biological coordinate is an exon-inclusion surface built from ESE hexamer perturbation scores and a matched splice-model perturbation coordinate.  The first coordinate records how hexamer-level exon-splicing-enhancer information changes the observed or assayed inclusion tendency.  The second coordinate records the corresponding change in a splice-strength model.  The row is therefore a cross-layer relation only in a narrow sense: it compares an enhancer-sequence readout to a splice-window score readout.  It does not compare codon topology to translation, ribosome flow, protein abundance, folding, stability, localization, phenotype, or fitness.
+
+\paragraph{Numerical verdict.}
+The finite statistic is close to zero, with negative sign and magnitude below $10^{-2}$:
 $$
 \begin{aligned}
-&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
-&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG,
+\left| -0.008429245619 \right| &= 0.008429245619,\\
+0.008429245619 &< 0.01.
 \end{aligned}
 $$
-and $Sat_{f_3}(R)$ contains the same list with $ACA$ and $ACG$ absent, namely eighteen codons.  The recorded $f_3$ boundary is empty.  Separately, the quotient audit records $|\pi_M|=10$, an $M$-vector $(20,38,26,8,1)$, and a quotient $f$-vector $(10,14,6,1)$.  Those data certify that a codon-side residual coordinate can be finite and explicit, but they do not enter the ESE hexamer inclusion statistic unless a same-row splice or expression surface is attached.  In this exon-inclusion record, the finite observable is the $1037$-row enhancer/splice-score table, not a codon-window, wobble-weight, ribosome-occupancy, or protein-output matrix.
+For this row, the practical reading is separation rather than reinforcement.  The ESEseq perturbation coordinate and the MaxEnt splice perturbation coordinate are not behaving as the same one-dimensional signal on the measured table.  A positive exon-inclusion statement would therefore need to be carried by the ESE hexamer readout itself, or by a separately specified inclusion model, rather than by treating the MaxEnt perturbation coordinate as an interchangeable proxy.
 
-\paragraph{What the finite result says.}
-The near-zero collinearity means that the ESE hexamer perturbation coordinate is not merely a duplicate of the MaxEnt splice-site perturbation coordinate on the audited finite rows.  A useful local reading is therefore:
+\paragraph{Relation to the finite codon geometry.}
+The row also sits beside a finite codon-topology scaffold used elsewhere in the same audit packet.  The saturation record reports
 $$
 \begin{aligned}
-&\text{ESE coordinate present} \\
-&\quad\wedge\; \text{splice-site coordinate present} \\
-&\quad\wedge\; \operatorname{corr}(\Delta ESEseq,\Delta MaxEnt)=-0.008429245619 \\
-&\quad\Longrightarrow\; \text{non-collinearity of these two finite exon-level coordinates.}
+M &= \{AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&\qquad UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\},\\
+\operatorname{Sat}_{f_3}(R) &= \{AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&\qquad UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
 \end{aligned}
 $$
-This is weaker than a claim that ESEseq alone predicts exon inclusion.  It says that an inclusion model is allowed to keep the hexamer coordinate as a separate candidate regressor after checking that it is not linearly collapsed into the splice-site-score coordinate.  The finite claim is especially narrow because the supplied number is a coordinate-correlation statistic; it is not a regression coefficient for inclusion, a causal perturbation estimate, or a conserved splicing law.
+The two codons $ACA$ and $ACG$ are present in $M$ but absent from the displayed $f_3$-saturation list, while the recorded $f_3$ boundary list is empty.  The quotient-geometry record gives the $M$-vector $(20,38,26,8,1)$, quotient vector $(10,14,6,1)$, and quotient size $10$.  These numbers may constrain codon-window residual coordinates, but they do not turn the splice-window ESE table into a translation table.  In this chapter they serve only as a finite coordinate background: the splice row remains a splice row.
 
-\paragraph{Nearby finite checks.}
-Two other finite biological-surface audits help delimit the scale of this record without changing its claim.  A mouse VASTDB splice-MaxEnt cross-organism row set reports $n=50633$ and $all\_tissue\_positive=true$ in $410.672546$ seconds.  An alternative-polyadenylation surface reports $24740$ genes and $296950$ PAS rows.  These facts show that the BioReality registry can carry larger splice and transcript-processing tables, but they are separate surfaces.  The Adamson ESE hexamer chapter uses only the $1037$-row ESE--MaxEnt collinearity result as its direct finite evidence.  The larger splice and APA audits are mentioned only to keep the layer boundaries explicit: exon inclusion, splice-site scoring, and PAS relative usage are different finite readouts and cannot be substituted for one another without a declared join key and a fresh statistic.
+\paragraph{Admissible reading.}
+The admissible conclusion is that the Adamson-style ESE hexamer exon-inclusion finite row supports a bounded splice-layer separation claim.  On $1037$ rows, the ESEseq perturbation direction and the MaxEnt perturbation direction have collinearity $-0.008429245619$, so the measured table does not justify collapsing those two coordinates into a single splice signal.  The result is compatible with the view that enhancer-hexamer effects and splice-strength-model effects can occupy different local directions in a finite exon-inclusion assay.
 
-\paragraph{Boundary against downstream promotion.}
-No translation, folding, physical admissibility, molecular function, mechanism, phenotype, or universality follows from this ESE hexamer audit.  The finite data do not contain ribosome-footprint rows, matched mRNA denominators for translation efficiency, tAI or stAI wobble-weight surfaces, protein abundance, structure measurements, perturbation-rescue assays, or phenotype labels.  The structural-order ramp audit in the registry is likewise separate: for the primary ramp length $50$, the recorded held-out increments are $0.0011165640103326878$ for the ramp and $-0.00026157313923957926$ for the body, with sign-flip probabilities $0.0478515625$ and $0.54296875$ respectively, and the verdict is $ramp\_positive\_but\_not\_localized$.  Those numbers do not convert the ESE hexamer result into a structural or translational statement.  They only reinforce the rule used here: each biological layer must bring its own finite rows, controls, and break condition.
+\paragraph{Local null boundary.}
+This chapter does not infer translation, ribosome occupancy, translation efficiency, protein abundance, folded structure, physical admissibility, molecular function, mechanism, phenotype, adaptation, or universality from the ESE hexamer row.  None of those conclusions follows from the splice-window statistic above.  A later claim at any of those layers would need its own matched biological table, its own row keys, and its own controlled statistic.  In particular, modeled codon weights, codon-window residuals, or quotient geometry cannot be promoted into a translation mechanism unless a separate position-resolved ribosome or translation-efficiency contact is joined and survives the declared controls.
 
-\paragraph{Admissible conclusion.}
-The ready claim is a finite coordinate-separation statement for exon inclusion analysis.  On $1037$ Adamson-style rows, $\Delta ESEseq$ and $\Delta MaxEnt$ have collinearity $-0.008429245619$, so the ESE hexamer coordinate can be retained as a distinct exon-level candidate signal rather than being discarded as a linear restatement of splice-site strength.  A stronger inclusion-survival claim would require the same rows to include the actual inclusion response, organism or cell-condition labels, coverage and assay controls, and a model comparison against simpler splice-site and sequence-composition baselines.  Until those rows are supplied, the chapter stops at finite non-collinearity of two exon-level coordinates.
+\paragraph{Break condition.}
+The record would fail its stated interpretation if the near-zero collinearity were described as evidence that ESEseq and MaxEnt are the same signal, or if the splice-window comparison were used as support for translation or protein-layer claims.  It would also fail if the codon-topology lists were treated as observations of splicing or ribosome behavior.  The finite-row result is narrower: it records a measured splice-coordinate comparison with $n=1037$ and a near-zero signed association between two exon-inclusion-related perturbation coordinates.
