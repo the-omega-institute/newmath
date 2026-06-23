@@ -228,6 +228,7 @@ The non-escape theorem \autoref{thm:observer-perspective-classifier-nonescape} e
 \label{thm:observer-perspective-classifier-locality-cell-exhaustion}
 In an accepted $\ObserverPerspectiveClassifierUp$ carrier $Q=(O_0,O_1,U_0,U_1,L,G,H,C,P,N)$, the locality coordinate $L$ is exhausted by the public $\LocalityCellUp$ or $\ObserverLocalityCellUp$ packet together with the rows $H,C,P,N$. No ambient world row, hidden synchronization map, host equality, or unrecorded locality witness can replace that public locality-cell data.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierLocalityCellExhaustion}
 \begin{proof}
 Read the carrier as a finite ledger. The locality row $L$ is not an abstract parameter: it is tied to the componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$.
 
@@ -240,6 +241,7 @@ It remains to rule out replacements. The dependency-scope theorem \autoref{thm:o
 \label{thm:observer-perspective-classifier-locality-commitment-inversion}
 Let $Q=(O_0,O_1,U_0,U_1,L,G,H,C,P,N)$ be an accepted $\ObserverPerspectiveClassifierUp$ carrier read inside the public $\BHist$ packet. Any accepted public comparison verdict determines the displayed locality row $L$ and paired $\mathsf{GAP}$ commitment row $G$ through the finite rows $Q$, with $H$ the componentwise $\hsame$ transport row, $C$ the displayed $\Cont$ route row, $P$ the $\Pkg$ provenance row, and $N$ the local $\NameCert$ row. A verdict that omits either $L$ or $G$ is outside the public classifier.
 \end{theorem}
+\leanchecked{BEDC.Derived.ObserverperspectiveclassifierUp.ObserverPerspectiveClassifierLocalityCommitmentInversion}
 \begin{proof}
 Project the carrier from \autoref{def:observer-perspective-classifier-carrier}. The public read has only the finite coordinates $O_0,O_1,U_0,U_1,L,G,H,C,P,N$, so the comparison verdict cannot choose an unlisted locality or commitment coordinate.
 
@@ -433,6 +435,39 @@ The carrier transport theorem \autoref{thm:observerperspectiveclassifier-carrier
 For the reverse direction, suppose the read factors through all displayed rows in the stated order. Ledger exactness reconstructs the public ledger, the obligation unblock package supplies the local naming obligations, and NameCert ledger scope closes the read through the finite $\NameCert_{\ObserverPerspectiveClassifierUp}$ row.
 
 Finally apply non-escape and ledger exhaustion. They exclude every ambient replacement, hidden synchronization route, host-equality shortcut, private observer row, and unrecorded cross-perspective witness, so omitting any displayed row leaves the public readback surface.
+\end{proof}
+
+\begin{theorem}[ObserverPerspectiveClassifier sibling carrier dependency]
+\label{thm:observer-perspective-classifier-sibling-carrier-dependency}
+An $\ObserverPerspectiveClassifierUp$ verdict cannot be exported until the
+sibling carrier rows from
+\autoref{ch:concrete-instances-consciousobserverstate-namecert},
+\autoref{ch:concrete-instances-crossperspectivealignment-namecert},
+\autoref{ch:concrete-instances-localitycell-namecert}, and
+\autoref{ch:concrete-instances-observer-locality-cell-namecert} have been
+displayed in the same finite public route. In particular, the classifier may
+read the two conscious-observer state rows, the public cross-perspective
+alignment row, and the locality-cell evidence before emitting a verdict, but it
+cannot replace those sibling rows by an ambient observer-neutral world,
+unrecorded alignment channel, or hidden locality coordinate.
+\end{theorem}
+\begin{proof}
+Read the dependency scope theorem
+\autoref{thm:observer-perspective-classifier-dependency-scope}. It identifies
+the accepted row family with the public observer-state, locality-cell,
+cross-perspective alignment, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$ rows.
+
+The alignment-consumer and locality-cell exhaustion theorems then place any
+downstream comparison through the displayed $L,G,H,C,P,N$ route. Thus the
+classifier must have already displayed the sibling observer-state,
+cross-perspective alignment, locality-cell, and observer-locality-cell carrier
+rows before the verdict is public.
+
+Finally apply non-escape and ledger exhaustion. They remove ambient worlds,
+hidden synchronization maps, unrecorded alignment channels, and hidden locality
+coordinates from the accepted packet surface, leaving only the displayed
+sibling carrier dependency.
 \end{proof}
 
 \begin{theorem}[ObserverPerspectiveClassifier scoped consumer boundary]
