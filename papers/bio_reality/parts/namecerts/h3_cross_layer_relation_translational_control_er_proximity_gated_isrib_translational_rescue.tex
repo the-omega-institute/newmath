@@ -1,41 +1,30 @@
-\subsection{mRNA-Controlled Translation-Efficiency Boundary for B*\_Q6 Residual Coordinates}\label{sec:bioreality-q6-mrna-controlled-te-boundary}
 \origin{ai}
 
-\paragraph{Finite row object.}
-This record concerns finite CDS-by-organism rows in which each coding sequence carries a synonymous residual coordinate $q_i$ from the $B^*_{Q6}$ residual basis after the amino-acid quotient has already been imposed.  The row is not accepted as a translation row merely because it contains codon usage, a codon-adaptation score, or a ribosome-associated name.  It must also carry a same-condition mRNA abundance surface, because the relevant question is whether the $Q_i$ coordinate leaves a translation-efficiency residual once transcript abundance has been charged to the transcription layer.  The finite carrier therefore has the form
-$$
-\begin{aligned}
-  x_g = (q_i(g), Z_g, m_g, t_g),
-\end{aligned}
-$$
-where $g$ ranges over retained CDS rows, $Z_g$ contains the amino-acid-composition, organism, GC3, length, and M-density controls, $m_g$ is the matched mRNA abundance control, and $t_g$ is a translation-efficiency or ribosome-occupancy readout only when the same row supplies the required denominator or residualization surface.
+\subsection{mRNA-gated translation-efficiency rescue at the Q6 boundary}
+\label{sec:bioreality-q6-mrna-gated-te-rescue}
 
-\paragraph{Observed finite statistic.}
-The verified finite run is experiment $842b739606af$, checked at $2026$-$06$-$23$T$15$:$23$:$52+00$:$00$.  It retained $4419$ genes and compared the upper and lower residual-coordinate tails with $n_{\mathrm{top}}=883$ and $n_{\mathrm{bottom}}=883$.  The observed translation-layer contrast was $D=0.23767000000000027$, while the matched RNA contrast was $D_{\mathrm{RNA}}=-0.0224999999999973$.  The two replicate contrasts were concordant in sign, with
-$$
-\begin{aligned}
-  D_{\mathrm{rep},a} &= 0.19967000000000013,\\
-  D_{\mathrm{rep},b} &= 0.24280000000000035,\\
-  \mathrm{same\_sign} &= \mathrm{true}.
-\end{aligned}
-$$
-The permutation count was $10000$, giving a two-sided permutation value $p_{\mathrm{two}}=9.999000099990002\times 10^{-5}$, and the runtime was $20.019$ seconds.  The declared threshold was $D_{\mathrm{thresh}}=0.32192809488736235$, so the run records a directionally stable finite contrast but not a threshold-exceeding translation-realization certificate:
-$$
-\begin{aligned}
-  0 < D &= 0.23767000000000027 < 0.32192809488736235 = D_{\mathrm{thresh}},\\
-  D_{\mathrm{RNA}} &= -0.0224999999999973.
-\end{aligned}
-$$
-This numerical shape is the reason the chapter is a boundary record rather than a positive mechanism claim.  The signal is not absorbed by the same-row RNA control in the raw contrast comparison, but it also does not cross the stated effect threshold.
+\paragraph{Finite-row object.}
+The record concerns finite CDS-by-organism rows in which each retained coding sequence carries a synonymous residual coordinate $q_i$ from the $B^*_{Q6}$ basis, a matched transcript-abundance measurement, and a translation-layer readout such as ribosome occupancy or translation efficiency. The biological question is not whether codon usage, modeled adaptation weights, or a residual coordinate can be narrated as translation. The question is narrower: after amino-acid composition, organism identity, GC3, CDS length, methionine-density, and matched mRNA abundance are already in the conditioning surface, does any $q_i$ retain a nonzero relation to the translation-efficiency residual?
 
-\paragraph{Local decision rule.}
-For each residual coordinate $q_i$, the admissible comparison is not $q_i$ against translation wording, but $q_i$ against a residualized translation-efficiency surface after the matched transcript abundance and the standard sequence controls have been attached.  In finite-row notation, the test asks whether a residual coefficient or description-length gain survives the conditioning step
+\paragraph{Control ordering.}
+The transcript layer is a mandatory gate. A coordinate may associate with mRNA abundance and still fail to survive as a translation-efficiency coordinate. In the finite table, this means that the $Q_i \to \mathrm{RNA}$ surface is estimated before any $Q_i \to \mathrm{TE}$ interpretation is admitted. The translation readout is therefore the residual remaining after the same-row mRNA control has been attached, not a raw ribosome or codon-usage association. The local test can be summarized as
 $$
 \begin{aligned}
-  q_i \longrightarrow t_g \mid (Z_g,m_g),
+\mathrm{TE}_g &= \mathrm{RPF}_g / \mathrm{mRNA}_g,\\
+\widehat{\epsilon}^{\mathrm{TE}}_g &= \mathrm{Residual}\bigl(\mathrm{TE}_g \mid \mathrm{AA}_g,\mathrm{organism}_g,\mathrm{GC3}_g,\mathrm{length}_g,M_g,\mathrm{mRNA}_g\bigr),\\
+S_i &= \Delta\mathrm{Fit}\bigl(\widehat{\epsilon}^{\mathrm{TE}}_g ; q_{ig}\bigr).
 \end{aligned}
 $$
-and refuses the stronger reading whenever the detectable association can be explained at the mRNA surface or by the baseline sequence covariates.  The present run supports a sharply bounded readout: the finite rows show a positive measured contrast in the translation-efficiency direction, a near-zero opposite-signed RNA contrast, and replicate agreement in the translation contrast, but the declared threshold is not reached.
+Here $g$ ranges over retained CDS rows. A positive biological reading is allowed only for the residual part of $S_i$ that is not absorbed by transcript abundance or by the standard sequence controls.
 
-\paragraph{Scientific boundary.}
-This chapter does not infer translation realization from codon usage, tAI, stAI, ribosome-contact vocabulary, or protein abundance wording.  A positive $Q_i$ association with mRNA abundance remains a transcription-layer association unless a same-row TE or ribosome-occupancy residual survives after mRNA control.  Likewise, even a surviving TE residual would remain a translation-readout statement only.  No folded structure, physical admissibility, protein function, cellular phenotype, causal mechanism, adaptation claim, or universal biological law follows from these rows.  Each such assertion requires its own layer-matched measurement and its own finite statistic.  The present numerical record therefore licenses the following local reading and no more: in $4419$ retained CDS rows, the $B^*_{Q6}$ residual-coordinate contrast is positive and replicate-consistent for the measured translation-efficiency direction, is not mirrored by the RNA contrast, and remains below the declared threshold for promotion beyond a guarded translation-efficiency boundary.
+\paragraph{Observed finite statistics.}
+The recorded run is $842b739606af$. It retained $4419$ genes and compared top and bottom coordinate strata of size $883$ each. The main separation statistic was $D=0.23767000000000027$, while the matched RNA control contrast was $D_{\mathrm{RNA}}=-0.0224999999999973$. The two replicate contrasts had the same sign, with $D_{\mathrm{rep\_a}}=0.19967000000000013$ and $D_{\mathrm{rep\_b}}=0.24280000000000035$, and the run explicitly records $\mathrm{same\_sign}=\mathrm{true}$. The permutation count was $10000$, with two-sided value $p_{\mathrm{two}}=9.999000099990002\cdot 10^{-5}$ and runtime $20.019$ seconds. The declared comparison threshold was $D_{\mathrm{thresh}}=0.32192809488736235$, so the finite row signal is best read as a significant, same-direction translation-side contrast that remains numerically below the stated threshold for that scalar.
+
+\paragraph{Interpretive verdict.}
+The decisive feature is the asymmetry between $D$ and $D_{\mathrm{RNA}}$. A positive translation-side contrast of about $0.23767$ appears together with an RNA contrast close to zero and slightly negative. That pattern supports the local boundary claim: the packet is not merely reporting that $B^*_{Q6}$ coordinates track transcript abundance. Instead, the run gives a finite-row reason to preserve the mRNA-gated translation-efficiency question as an admissible BioReality target. The evidence is still row-scoped and statistic-scoped. It does not turn $q_i$ into a mechanism, and it does not identify a universal codon law. It says that the translation-efficiency residual should not be collapsed into the mRNA layer for this run.
+
+\paragraph{Layer restrictions.}
+Codon-usage summaries, tAI or stAI weights, ribosome-profiling routes, and matched mRNA abundance occupy different observational roles. Codon usage provides sequence composition. Adaptation weights provide bounded modeled translation annotations. Ribosome profiling can provide occupancy or TE rows only when joined to the same CDS identifiers. Matched mRNA abundance supplies the denominator or covariate required to separate transcription from translation. None of these contacts, alone or by spelling normalization, supplies folded structure, physical admissibility, molecular function, phenotype, mechanism, protein localization, protein stability, post-translational state, or a global biological rule.
+
+\paragraph{Local no-promotion rule.}
+The present chapter therefore permits only the following bounded statement: in run $842b739606af$, a finite matched CDS table with $4419$ retained genes, $883$ top rows, and $883$ bottom rows produced a same-sign translation-side separation with $D=0.23767000000000027$, weak RNA-layer contrast $D_{\mathrm{RNA}}=-0.0224999999999973$, and $p_{\mathrm{two}}=9.999000099990002\cdot 10^{-5}$ under $10000$ permutations. No translation realization, folding claim, physical-admissibility claim, functional claim, mechanistic claim, phenotype claim, or universality claim follows unless a separate layer-matched measurement supplies that layer and a declared finite statistic survives its own controls.

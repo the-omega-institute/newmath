@@ -1,30 +1,42 @@
 \origin{ai}
+\subsection{Human N-terminal Acetylation Occupancy as a Bounded Cross-Layer Record}
+\label{sec:bioreality-human-nterminal-acetylation-occupancy-f3-stress-boundary}
 
-\subsection{Position-resolved translation-window boundary for the human N-terminal acetylation row}
-\label{subsec:bioreality-nterminal-acetylation-f3-stress-window}
+\paragraph{Finite row.}
+The row under consideration is the BioReality record
+$\mathrm{h3.cross\_layer\_relation.nterminal\_acetylation.nterminal\_acetylation\_occupancy\_human}$.
+Its verified finite contact is a human N-terminal acetylation occupancy panel with $n=1426$ rows, experiment run id $90\mathrm{ea}6\mathrm{b}5\mathrm{f}7\mathrm{fc}7$, and recorded runtime $5.372$ seconds.  The row also records that the abundance-controlled condition is false.  Thus the admissible readout is not a protein-abundance-conditioned statement: it is only a finite occupancy row whose strongest local description is that the frozen yeast rule transfers to human under the preregistered gates.  The companion BioReality record
+$\mathrm{h3.cross\_layer\_relation.protein\_solubility.protein\_hydrophobic\_clustering\_solubility\_esol}$
+has experiment run id $8742\mathrm{a}224\mathrm{b}538$, $n=3198$ rows, and runtime $60.0$ seconds.  It is cited here only as an independent finite cross-layer assay row in the same audit surface, not as evidence for acetylation, ribosome occupancy, or the $f_3$-stress statistic.
 
-\paragraph{Finite-row object.}
-This record concerns a finite table of coding-sequence windows in which each row is indexed by organism, CDS or protein identifier, a codon-position bin, a residual third-position stress coordinate, a wobble-weight asymmetry flag, amino-acid-composition controls, a matched translation-window readout when available, and an explicit break condition.  The row is not a claim that codon geometry has already produced translation, folding, localization, stability, function, mechanism, phenotype, or a universal biological rule.  It is a bounded test format: a synonymous residual coordinate may be compared with a position-resolved ribosome-occupancy residual only after amino-acid composition, position or amino-acid bin, GC3, length, methionine density, codon-count controls, matched mRNA abundance, coverage, mappability, and rank sufficiency have been attached to the same finite surface.
-
-The verified human N-terminal acetylation entry has claim id \texttt{h3.cross\_layer\_relation.nterminal\_acetylation.nterminal\_acetylation\_occupancy\_human}.  Its recorded run is \texttt{90ea6b5f7fc7}; the table size is $n=1426$ and the runtime is $5.372$ seconds.  The row explicitly records \texttt{abundance\_controlled=false}, so the chapter cannot read this finite result as a protein-output or abundance-normalized statement.  The same record states that a predeclared yeast-derived rule transfers to human under preregistered gates, but that transfer is only a finite rule-survival statement for the named acetylation occupancy task.  It does not itself provide codon-indexed ribosome-footprint rows, matched mRNA denominators, wobble-weight matrices, or a computed $f_3$-stress translation-window statistic.
-
-\paragraph{Local coordinate and admissible statistic.}
-For a window $i$, the intended coordinate separates third-position topology from amino-acid composition before asking whether any translation readout remains.  The admissible comparison has the form
+\paragraph{Coordinate being certified.}
+The mathematical object certified by this chapter is a finite coding-sequence window table carrying a residual third-position coordinate $f_3$, synonymous amino-acid composition controls, a wobble-weight asymmetry surface, and a matched translation readout whenever such a readout exists.  A row has the form
 $$
 \begin{aligned}
-T_i &= \alpha + \beta S_i^{f_3} + \gamma^\top Z_i + \varepsilon_i,\\
-Z_i &= (\text{amino-acid bin},\ \text{position bin},\ \mathrm{GC3},\ \text{length},\ \text{methionine density},\ \text{mRNA control},\ \text{coverage controls}),
+(\mathrm{organism},\mathrm{CDS},b,s_{f_3},a,w,\rho,\beta),
 \end{aligned}
 $$
-where $T_i$ is a matched position-resolved ribosome-occupancy or explicitly bounded translation-window residual, and $S_i^{f_3}$ is the residual third-position stress coordinate after amino-acid projection.  The coefficient $\beta$ is interpretable only inside rows where the wobble surface is asymmetric, for example where $w_c \neq w_{c^{f_3}}$, and only when the design matrix has adequate rank after the control columns are included.  If the same finite window lacks joined footprint occupancy, matched mRNA abundance, or wobble weights, then $S_i^{f_3}$ remains a sequence-coordinate descriptor and not a translation-layer measurement.
+where $b$ is a codon-position or local-window bin, $s_{f_3}$ is the residual after amino-acid projection, $a$ records the amino-acid-bin and composition controls, $w$ records whether the third-position wobble weight is symmetric or asymmetric, $\rho$ is the matched position-resolved ribosome-occupancy residual when present, and $\beta$ is the break condition.  The human acetylation occupancy row supplies a finite cross-layer biological measurement, but it does not by itself supply the joined position-resolved ribosome-footprint matrix required for $\rho$ in this coordinate.
 
-\paragraph{Relation to the acetylation row.}
-The acetylation result and the translation-window proposal occupy different layers.  The acetylation row supplies a concrete human finite-table fact: $1426$ rows were evaluated in run \texttt{90ea6b5f7fc7}, and the run records successful transfer of a predeclared yeast-derived occupancy rule under its own gates.  The absence of abundance control is material: any downstream reading as protein abundance, protein output, or global translation efficiency is blocked in this chapter.  The $f_3$-stress translation-window coordinate may be used here only as a proposed cross-layer boundary test asking whether a same-CDS, same-window translation readout survives the listed controls.  It cannot be imported into the N-terminal acetylation row as an already observed ribosome-occupancy mechanism.
+\paragraph{Admissible relation.}
+The admissible relation is conditional and finite.  The $f_3$ coordinate may be tested against a translation-window residual only after joining same-organism, same-CDS, same-window codon counts, bounded tAI or stAI wobble weights, matched mRNA abundance, and codon-indexed or window-indexed ribosome-footprint occupancy.  The statistic must be evaluated after amino-acid-bin or position controls, GC3, coding-sequence length, methionine-density baseline, codon-count controls, matched mRNA control, coverage filters, mappability filters, rank checks, and simpler-baseline ablation.  In symbolic form, the target is not a free-standing biological law but a bounded conditional contrast
+$$
+\begin{aligned}
+\Delta_{f_3}
+&= \mathrm{Err}(T_{\mathrm{window}}\mid Z)
+   - \mathrm{Err}(T_{\mathrm{window}}\mid Z,s_{f_3},w),\\
+Z
+&= (\mathrm{amino\ acid\ controls},\mathrm{position},\mathrm{GC3},
+\mathrm{length},M,\mathrm{codon\ counts},\mathrm{mRNA}),
+\end{aligned}
+$$
+computed only on rows where the design matrix has sufficient rank and the break condition is not triggered.  The human acetylation occupancy result with $n=1426$ rows is therefore a separate finite biological success row, while the $f_3$ translation-window coordinate remains a requested joined-readout statistic unless the ribosome-occupancy surface is actually attached.
 
-A second verified finite row, \texttt{h3.cross\_layer\_relation.protein\_solubility.protein\_hydrophobic\_clustering\_solubility\_esol}, records run \texttt{8742a224b538} with $n=3198$ and runtime $60.0$ seconds.  This linked row is useful only as a scope comparator: it shows that another BioReality table exists at a different protein-level readout, not that the present N-terminal acetylation claim has folding, solubility, or structural-order evidence.  No solubility statistic, hydrophobic-clustering coefficient, or protein-structure contact is transferred into the acetylation or $f_3$-stress translation-window statement.
+\paragraph{What the row supports.}
+The human N-terminal acetylation row supports a narrow statement: within the recorded finite panel, the preregistered human occupancy rule is compatible with a conserved yeast-derived rule, and the audit records this without an abundance-control claim.  The solubility row with $n=3198$ is useful only as a second example that the BioReality table can contain concrete finite cross-layer readouts with explicit row counts and runtimes.  These two rows establish that the audit surface is not merely symbolic: it contains finite measurements.  They do not establish that the $f_3$ coordinate has survived a position-resolved translation-window test.
 
-\paragraph{Break condition and local boundary.}
-The chapter breaks if review eligibility, a contact name, modeled tAI or stAI weights, wobble asymmetry, $S^{QT}$ notation, or codon-window geometry is treated as measured position-resolved ribosome occupancy.  It also breaks if the human acetylation finite row is read as evidence for translation mechanism, folding, physical admissibility, localization, stability, function, phenotype, or universality.  The only permitted positive reading is narrower: a finite human acetylation occupancy row exists with $n=1426$, runtime $5.372$ seconds, and no abundance control; a separate protein-solubility row exists with $n=3198$ and runtime $60.0$ seconds; and the $f_3$-stress construction names the exact additional same-window translation table that would be needed before any translation-readout survival claim could be made.
+\paragraph{Local cannot-claim boundary.}
+No translation realization follows from codon-window geometry alone.  No ribosome-occupancy claim follows from modeled tAI or stAI weights alone.  No protein abundance claim follows here because the human acetylation row explicitly records $\mathrm{abundance\_controlled}=\mathrm{false}$.  No folding, structural order, physical admissibility, localization, stability, biological function, phenotype, mechanism, adaptation, causation, or universal law follows from the $f_3$ coordinate, from wobble asymmetry, from the acetylation occupancy row, or from the solubility row.  Each such layer would require its own matched finite contact and its own controlled statistic.
 
-\paragraph{Conclusion.}
-This BioReality record is therefore ready as a bounded chapter-specific statement, not as a promoted biological mechanism.  It records a finite human N-terminal acetylation occupancy fact and a linked solubility-table comparator, while keeping the position-resolved $f_3$-stress translation-window test at boundary status until organism-matched CDS windows, codon counts, wobble weights, matched mRNA abundance, ribosome-footprint occupancy, and nondegenerate controlled statistics are supplied in the same row family.
+\paragraph{Break condition.}
+The record breaks if review eligibility, contact naming, wobble-weight annotation, $S^{QT}$ notation, codon-window shape, or the $f_3$ residual is treated as a computed same-window ribosome-occupancy statistic.  It also breaks if the human acetylation result is used as a proxy for translation efficiency or if the solubility panel is used as evidence for acetylation occupancy.  The present chapter certifies only a bounded cross-layer record: a verified human acetylation finite row, a second finite assay row for audit anchoring, and a precise statement of what additional joined translation data would be required before the $f_3$ coordinate could be promoted beyond boundary status.

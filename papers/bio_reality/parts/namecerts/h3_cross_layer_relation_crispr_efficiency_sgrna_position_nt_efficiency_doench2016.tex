@@ -1,37 +1,38 @@
 \origin{ai}
 
-\subsection{Position-resolved guide-sequence efficiency as a finite cross-layer contact}
-\label{sec:bioreality-crispr-sgrna-position-nt-efficiency-doench2016}
+\subsection{CRISPR Position-Efficiency Rows as a Boundary for the $f_3$-Stress Translation Question}
+\label{sec:bioreality-crispr-position-efficiency-f3-stress-boundary}
 
 \paragraph{Finite row surface.}
-The Doench guide-efficiency panel supplies a finite row surface for testing whether nucleotide identity at guide-relative positions carries predictive information for CRISPR activity after ordinary sequence controls are taken into account.  In the finite-row audit used here, the Doench contact contains $n=5310$ guide rows and records the main GC association as $r=-0.0582917$, with the verification run completed under experiment id \texttt{b6c6363256e0} in $24.6506$ seconds.  The numerical content is deliberately modest: it licenses only a bounded statement about a guide-position nucleotide surface and its association with measured guide efficiency in this dataset.  It does not, by itself, identify a translation coordinate, a ribosome-footprint statistic, a protein-output channel, or a mechanism of nuclease action.
+The finite table attached to this record is a CRISPR guide-efficiency surface, not a ribosome-footprint surface.  Its primary checked row count is $n=5310$ for the Doench-style position-nucleotide efficiency analysis, with run id $\mathrm{b6c6363256e0}$, runtime $24.6506$ seconds, and reported GC main correlation
+$\mathrm{gc\_main\_r}=-0.0582917$.  A second CRISPR contact in the same claim family gives a cross-protocol Luo panel with $n=10543$, run id $\mathrm{2e9cce255c01}$, runtime $33.705459$ seconds, and $\mathrm{cross\_protocol}=\mathrm{true}$.  These two finite surfaces support a narrow statement: position-resolved nucleotide features can be joined to guide activity rows, and a small GC-axis association is recorded in the Doench surface.  They do not supply coding-sequence windows, synonymous codon residuals, wobble-weight rows, mRNA controls, or codon-indexed ribosome occupancy.
 
-\paragraph{Controlled coordinate represented by the claim.}
-Let $G$ denote the finite table of guide rows.  Each row carries a guide identifier, a position-indexed nucleotide string, the measured efficiency endpoint, and the covariates used by the finite audit.  The local scientific claim is that the table supports a position-resolved sequence-efficiency contact, not that every sequence feature is mechanistically causal.  In schematic finite-row form, the contact is only the following bounded object:
+\paragraph{Coordinate requested by the conjecture.}
+The proposed cross-layer coordinate is the $f_3$-stress residual after quotienting by amino-acid identity.  A row capable of testing it would have to contain an ordered coding-window key, local synonymous codon counts, a context-dependent wobble-weight surface with $w_c \ne w_c^{f_3}$, a matched translation readout $T_{\mathrm{position}}$, mRNA abundance for the same molecule and condition, and controls for amino-acid composition or position bins.  In such a table, the intended survival entry is a controlled finite statistic of the form
 $$
 \begin{aligned}
-G &= \{g_1,\ldots,g_{5310}\},\\
-E(g_i) &= \text{measured guide-efficiency endpoint for row } g_i,\\
-X_{p,b}(g_i) &= \mathbf{1}\{\text{base } b \text{ occurs at guide position } p \text{ in row } g_i\},\\
-Z(g_i) &= \text{the fitted control context retained by the audit.}
+S_{f_3}(T_{\mathrm{position}}\mid Z) &> 0,\\
+Z &= \{\mathrm{AA},\mathrm{position},\mathrm{GC3},\mathrm{length},M\text{-}\mathrm{density},\mathrm{mRNA},\mathrm{baseline}\}.
 \end{aligned}
 $$
-The reported scalar $r=-0.0582917$ is therefore read as a weak finite-sample GC-direction summary on this guide-efficiency surface.  Its sign and magnitude are not promoted to a universal rule.  They only say that the verified Doench panel contains a small negative main GC association under the recorded run conditions.
+The present CRISPR guide-efficiency rows do not instantiate that matrix.  They therefore cannot be promoted into evidence for $S_{f_3}(T_{\mathrm{position}}\mid Z)$, even though they are useful finite biological rows for a different cross-layer question about guide sequence and editing efficiency.
 
-\paragraph{Relation to cross-dataset routing.}
-A separate CRISPR contact records a Luo cross-dataset route with $n=10543$ rows, \texttt{cross\_protocol=true}, and \texttt{frozen\_source=Doench2016 repo}, verified under experiment id \texttt{2e9cce255c01} in $33.705459$ seconds.  That second finite surface is useful because it distinguishes a single-study efficiency association from a broader protocol-transfer question.  The Doench contact and the Luo contact are not merged into one empirical claim here.  Instead, the Doench surface is used as the primary finite guide-efficiency table, while the Luo route records that a protocol-separated comparison surface exists.  The two row counts, $5310$ and $10543$, should be kept distinct, since they answer different audit questions.
+\paragraph{What the verified CRISPR facts do show.}
+The Doench surface records a finite guide panel of size $5310$ and a weak negative GC-main correlation.  The Luo cross-protocol surface records a larger guide panel of size $10543$ and confirms that the guide-efficiency family is not confined to one protocol snapshot.  Taken together, the rows justify keeping the claim as a finite biological contact for CRISPR guide efficiency, with position-nucleotide information and GC covariates.  They do not contain codon-window translation measurements.  The distinction matters because an sgRNA position effect is a nucleotide-design readout for a guide molecule, whereas $f_3$-stress survival asks whether synonymous coding-window residuals improve a translation-layer readout after a demanding control set.
 
-\paragraph{Why this is not a translation-readout claim.}
-The claim identifier belongs to a CRISPR-efficiency surface, whereas the surrounding conjectural packet asks about an $f_3$-stress synonymous residual coordinate surviving against position-resolved ribosome occupancy or translation-efficiency readouts.  The Doench guide table does not contain same-CDS codon windows, synonymous codon counts, wobble-weight rows, matched mRNA abundance, or codon-indexed ribosome-footprint occupancy.  Consequently no statistic of the form
+\paragraph{Comparison with powered translation-adjacent rows.}
+Other verified rows show what a stronger translation-adjacent claim looks like.  The structural-order boundary run $\mathrm{1b97387835f7}$ reports $5$ folds, joined structural-order counts $3412$ for $\mathrm{Escherichia\ coli\ K12\ MG1655}$ and $5119$ for yeast, a positive weighted full-control $\Delta R^2=0.004764742175882462$, and a sign-flip probability $p=0.0029296875$.  That record also reports two positive organism calls for the full-control statistic.  A separate stop-readthrough crossdataset row, run $\mathrm{7c85e126c888}$, has $n=55886$ and untreated $\rho=0.032718$.  These facts are cited only as calibration examples of finite-row survival or crossdataset readback: they do not transfer their positive statistics to the CRISPR guide-efficiency rows and do not fill the missing $f_3$ translation-window matrix.
+
+\paragraph{Rank and ablation condition.}
+A positive chapter-level claim would require held-out improvement over simpler alternatives.  In finite-row terms, the admissible test is not merely that the $f_3$ coordinate can be computed.  The required inequality is
 $$
 \begin{aligned}
-S_{f_3}(T_{\mathrm{position}}\mid Z)
+\Delta_{\mathrm{heldout}} &= \mathcal{L}(T_{\mathrm{position}}\mid Z,\mathrm{baseline})
+ - \mathcal{L}(T_{\mathrm{position}}\mid Z,\mathrm{baseline},f_3),\\
+\Delta_{\mathrm{heldout}} &> 0,
 \end{aligned}
 $$
-is computed by the Doench guide-efficiency run.  The verified CRISPR rows can support a guide-position nucleotide-efficiency chapter, but they cannot be used as a substitute for the missing translation table.  In particular, a guide-position efficiency endpoint is not a ribosome-occupancy endpoint, and a GC association in guide design is not evidence that an $f_3$ synonymous residual has survived amino-acid, position-bin, GC3, length, methionine-density, mRNA, rank, and baseline-ablation controls.
+with enough nondegenerate rank after amino-acid or position-bin controls.  The Doench row count $5310$ and Luo row count $10543$ are large enough to make the CRISPR guide-efficiency question empirically meaningful, but row count alone is not the same as the required coding-window rank.  The needed rows must be same-organism, same-CDS, and same-window rows; sgRNA activity rows do not automatically provide those keys.
 
-\paragraph{Admissible statement.}
-The admissible local statement is the following.  The Doench finite-row audit provides a bounded position-resolved CRISPR guide-efficiency contact with $5310$ rows and a recorded main GC association $r=-0.0582917$.  A related Luo cross-protocol surface exists with $10543$ rows and is explicitly marked as cross-protocol.  These two facts make the guide-efficiency claim suitable for a finite BioReality chapter about position-indexed guide sequence features.  They do not establish an $f_3$ translation-survival entry, nor do they attach any same-row ribosome, translation-efficiency, mRNA-control, protein-abundance, structural, physical, functional, phenotypic, mechanistic, or universal biological readout.
-
-\paragraph{Local no-promotion boundary.}
-No translation, folding, physical admissibility, molecular function, system phenotype, mechanism, or universality follows from this chapter.  Such claims would require a separate layer-matched contact with its own rows and its own controlled statistic.  For the $f_3$ translation-survival question, the required next table would have to join the same organism, the same CDS, the same local coding window, synonymous codon counts, bounded wobble weights, matched mRNA abundance, and position-resolved ribosome-footprint or translation-efficiency readouts.  Until that joined table exists and shows positive held-out improvement after the declared controls, the CRISPR guide-efficiency surface remains a guide-design contact only.
+\paragraph{Local boundary.}
+This chapter therefore records a bounded negative boundary for the requested $f_3$-stress translation interpretation.  The verified CRISPR facts may support guide-efficiency statements about position-nucleotide features and GC covariates.  They may not be used to infer translation realization, ribosome pausing, protein abundance, folding, physical admissibility, molecular function, cellular mechanism, phenotype, or universality.  Any such inference would require a separate layer-matched contact: codon-indexed ribosome footprints or translation-efficiency rows, matched mRNA controls, and the declared survival statistic computed on the same coding windows.  Until that table exists, the safe conclusion is that the CRISPR finite rows are real and useful, while the $f_3$-stress translation-survival claim remains uninstantiated for this subject.
