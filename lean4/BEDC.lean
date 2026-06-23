@@ -1495,6 +1495,7 @@ import BEDC.Derived.CalculusUp.RootUnblockRegSeqRatRealSealFactorization
 import BEDC.Derived.CalculusUp.RootUnblockRiemannEndpointReadback
 import BEDC.Derived.CalculusUp.SourceWindowObligation
 import BEDC.Derived.CalculusUp.TasteGate
+import BEDC.Derived.CalderonZygmundOperatorUp.NameCertObligations
 import BEDC.Derived.CalderonZygmundOperatorUp.TasteGate
 import BEDC.Derived.CalkinWilfTreeUp.TasteGate
 import BEDC.Derived.CandidateEvidenceSNRouteUp.TasteGate
@@ -5857,8 +5858,10 @@ import BEDC.Derived.FinitePartitionMeshUp.TasteGate
 import BEDC.Derived.FinitePhaseCylinderUp
 import BEDC.Derived.FinitePhaseSamplingUp
 import BEDC.Derived.FinitePrefixAutomatonUp.AcceptanceExactness
+import BEDC.Derived.FinitePrefixAutomatonUp.Classifier
 import BEDC.Derived.FinitePrefixAutomatonUp.Determinacy
 import BEDC.Derived.FinitePrefixAutomatonUp.DeterministicReadback
+import BEDC.Derived.FinitePrefixAutomatonUp.DisplayedPrefixRunDeterminism
 import BEDC.Derived.FinitePrefixAutomatonUp.EndpointExactness
 import BEDC.Derived.FinitePrefixAutomatonUp.PrefixRunNonescape
 import BEDC.Derived.FinitePrefixAutomatonUp.RegularLanguageHandoff
@@ -5939,6 +5942,7 @@ import BEDC.Derived.FiniteTraceEvaluatorUp.TasteGate
 import BEDC.Derived.FiniteTraceGapSocketUp.ReplayRoutePackage
 import BEDC.Derived.FiniteTraceGapSocketUp.TasteGate
 import BEDC.Derived.FiniteTraceInductionGapUp.TasteGate
+import BEDC.Derived.FiniteUniformDiscrepancyUp
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteVitaliCoverUp.TasteGate
 import BEDC.Derived.FiniteVolumeUp.TasteGate
