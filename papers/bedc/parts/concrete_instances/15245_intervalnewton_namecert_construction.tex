@@ -101,6 +101,42 @@ Use \autoref{thm:interval-newton-krawczyk-enclosure} for the correction read. Th
 Thus every consumer-facing row is a projection of the finite packet. Since no carrier coordinate names a solver oracle, selected zero, hardware arithmetic semantics, quotient-real equality witness, or completeness theorem, those data cannot be exported by the boundary.
 \end{proof}
 
+\begin{theorem}[Interval Newton containment obligation]
+\label{thm:interval-newton-containment-obligation}
+For every accepted $\IntervalNewtonUp$ carrier $I=(B,F,D,N,K,V,R,H,C,P,L)$, the containment obligation is exactly the visible pair $(N,K)$. The correction row $N$ may be consumed only with the containment and narrowing ledger $K$, and every $\hsame$ transport or $\Cont$ replay of the correction must preserve the same box row $B$, the same correction row $N$, and the same containment ledger $K$ before the local $\NameCert_{\IntervalNewtonUp}$ row $L$ is read.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only correction coordinate is $N$, and the only containment coordinate attached to it is $K$.
+
+Use \autoref{thm:interval-newton-namecert-obligations}. It requires correction containment as a named row of the local NameCert surface, so a consumer cannot detach $N$ from the ledger $K$.
+
+Transport and replay then use $H$ and $C$. Since those rows are componentwise over the carrier coordinates, they preserve $B,N,K$ before the local naming row $L$ is exposed.
+\end{proof}
+
+\begin{theorem}[Interval Newton interval-arithmetic soundness obligation]
+\label{thm:interval-newton-interval-arithmetic-soundness-obligation}
+For every accepted $\IntervalNewtonUp$ carrier $I=(B,F,D,N,K,V,R,H,C,P,L)$, interval-arithmetic soundness is the obligation that the box row $B$, the function-enclosure row $F$, the derivative or slope row $D$, and the correction row $N$ are all replayed through the $\IntervalArithmeticUp$ rows named by $P$. When $D$ is supplied by a finite $\TaylorModelUp$ remainder packet, the same obligation routes the Taylor remainder through interval endpoint operations before $K$ and $V$ are visible to consumers.
+\end{theorem}
+\begin{proof}
+Read the arithmetic provenance from $P$. It names the interval-arithmetic surface through which endpoint, enclosure, derivative or slope, and correction operations are replayed.
+
+Apply \autoref{thm:interval-newton-krawczyk-enclosure}. The narrowing claim is not a free analytic assertion; it is assembled from $B,F,D,N$ through the displayed interval operations.
+
+If the derivative or slope row is supplied by $\TaylorModelUp$, the finite Taylor remainder is still routed through the same interval endpoint operations before containment is recorded in $K$. The validated row $V$ is therefore downstream of the interval-arithmetic replay, not a replacement for it.
+\end{proof}
+
+\begin{theorem}[Interval Newton validated handoff obligation]
+\label{thm:interval-newton-validated-handoff-obligation}
+For every accepted $\IntervalNewtonUp$ carrier $I=(B,F,D,N,K,V,R,H,C,P,L)$, the validated handoff obligation is the route from the validated enclosure row $V$ and readback row $R$ through the transport row $H$, replay row $C$, provenance row $P$, and local naming row $L$. A downstream $\ValidatedNumericsUp$ consumer may read the correction only after $V,R,H,C,P,L$ expose the same interval box, correction containment, and provenance rows already present in $B,F,D,N,K$.
+\end{theorem}
+\begin{proof}
+Start from the validated consumer boundary. It says the consumer receives the displayed carrier rows and no solver oracle, host zero, floating-point semantics, quotient real equality, or completeness datum.
+
+The handoff itself is $V$ together with $R$. These rows expose the validated enclosure and readback route, while $H$ and $C$ preserve them under transport and replay.
+
+Finally $P$ and $L$ provide provenance and local naming. Since the route still points back to $B,F,D,N,K$, the validated consumer can read only the correction already certified by containment and interval-arithmetic soundness.
+\end{proof}
+
 \closureat{IntervalNewtonUp}{seedStr}
 
 \begin{closurestatus}{\IntervalNewtonUp}
