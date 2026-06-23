@@ -6,7 +6,7 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 
 - bio_only: 55
 - duplicate_bio_program: 34
-- math_stub: 9
+- math_stub: 10
 - needs_derivation: 15
 
 ## B*_Q6 crosswalk summary
@@ -17,7 +17,7 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 - bio_only: 50
 - duplicate: 9
 - fibonacci_only: 1
-- namecert_watchlist: 24
+- namecert_watchlist: 25
 - param_divergence: 25
 - track_a_homeless: 4
 
@@ -132,6 +132,7 @@ None. No intake item passed carrier-map, necessity, and matched-null gates toget
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_geodesic_run_factorization_certificate.tex | Window Fibonacci Cube Geodesic Run Factorization | math_stub | \subsection{NameCert: Window Fibonacci Cube Geodesic Run Factorization} \label{sec:namecert-window_fibonacci_cube_geodes |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_theta_square_factorization_certificate.tex | Window Fibonacci Cube Theta Square Factorization | math_stub | \subsection{NameCert: Window Fibonacci Cube Theta Square Factorization} \label{sec:namecert-window_fibonacci_cube_theta_ |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_fibonacci_cube_ihara_zeta_certificate.tex | Window Six Fibonacci Cube Ihara Zeta | math_stub | \subsection{NameCert: Window Six Fibonacci Cube Ihara Zeta} \label{sec:namecert-window6_fibonacci_cube_ihara_zeta_certif |
+| fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_median_zero_triple_certificate.tex | Window Fibonacci Cube Median Zero Triple | math_stub | \subsection{NameCert: Window Fibonacci Cube Median Zero Triple} \label{sec:namecert-window_fibonacci_cube_median_zero_tr |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/f_a2_window6_modpstar_571_spectral_collision_certificate.tex | f_a2_window6_modpstar_571_spectral_collision_certificate | needs_derivation | \origin{ai} \subsection{Forced Window6 arithmetic certificate at the prime $571$} \label{subsec:f-a2-window6-modpstar-57 |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/f_a0_window6_fibonacci_sixframe_lock_certificate.tex | f_a0_window6_fibonacci_sixframe_lock_certificate | needs_derivation | \origin{ai} \subsection{Finite forced-window Fibonacci certificate} \label{sec:f-a0-window6-fibonacci-sixframe-lock-cert |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/f_a1_window6_edge_flux_mod3_obstruction_certificate.tex | f_a1_window6_edge_flux_mod3_obstruction_certificate | needs_derivation | \origin{ai} \subsection{A forced-window obstruction from edge flux modulo three} \label{sec:f-a1-window6-edge-flux-mod3- |
