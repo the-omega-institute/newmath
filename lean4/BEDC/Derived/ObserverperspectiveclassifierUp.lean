@@ -166,4 +166,37 @@ theorem ObserverPerspectiveClassifierLocalityRefinement [AskSetup] [PackageSetup
         provenancePkg, namePkg⟩,
       refinedLocalityUnary⟩
 
+theorem ObserverPerspectiveClassifierVerdictSourceExhaustion [AskSetup] [PackageSetup]
+    {observerLeft observerRight universeLeft universeRight locality gap transport route
+      provenance name publicRead verdict : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverPerspectiveClassifierCarrier observerLeft observerRight universeLeft universeRight
+        locality gap transport route provenance name bundle pkg ->
+      Cont gap route publicRead ->
+        Cont publicRead name verdict ->
+          PkgSig bundle publicRead pkg ->
+            PkgSig bundle verdict pkg ->
+              UnaryHistory observerLeft ∧ UnaryHistory observerRight ∧
+                UnaryHistory universeLeft ∧ UnaryHistory universeRight ∧
+                  UnaryHistory locality ∧ UnaryHistory gap ∧ UnaryHistory transport ∧
+                    UnaryHistory route ∧ UnaryHistory publicRead ∧ UnaryHistory verdict ∧
+                      Cont gap route publicRead ∧ Cont publicRead name verdict ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                          PkgSig bundle publicRead pkg ∧ PkgSig bundle verdict pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier gapRoutePublicRead publicReadNameVerdict publicReadPkg verdictPkg
+  obtain ⟨observerLeftUnary, observerRightUnary, universeLeftUnary, universeRightUnary,
+    localityUnary, gapUnary, transportUnary, routeUnary, _provenanceUnary, nameUnary,
+    _observerUniverse, _universeLocality, _localityTransport, _transportGap, provenancePkg,
+    namePkg⟩ := carrier
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed gapUnary routeUnary gapRoutePublicRead
+  have verdictUnary : UnaryHistory verdict :=
+    unary_cont_closed publicReadUnary nameUnary publicReadNameVerdict
+  exact
+    ⟨observerLeftUnary, observerRightUnary, universeLeftUnary, universeRightUnary,
+      localityUnary, gapUnary, transportUnary, routeUnary, publicReadUnary, verdictUnary,
+      gapRoutePublicRead, publicReadNameVerdict, provenancePkg, namePkg, publicReadPkg,
+      verdictPkg⟩
+
 end BEDC.Derived.ObserverperspectiveclassifierUp
