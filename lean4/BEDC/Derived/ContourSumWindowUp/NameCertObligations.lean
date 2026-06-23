@@ -127,4 +127,99 @@ theorem ContourSumWindowPublicFiniteWindowCertificate [AskSetup] [PackageSetup]
     ⟨gammaUnary, fUnary, subdivisionUnary, riemannUnary, outputUnary, outputReadUnary,
       riemannOutputRead, provenancePkg, outputPkg⟩
 
+theorem ContourSumWindowFiniteWindowObligationSurface [AskSetup] [PackageSetup]
+    {gamma f S R I H C P N outputRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContourSumWindowCarrier gamma f S R I H C P N bundle pkg →
+      Cont R I outputRead →
+        Cont outputRead N publicRead →
+          PkgSig bundle outputRead pkg →
+            PkgSig bundle publicRead pkg →
+              SemanticNameCert
+                  (fun row : BHist =>
+                    (hsame row outputRead ∨ hsame row publicRead) ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row gamma ∨ hsame row f ∨ hsame row S ∨ hsame row R ∨
+                      hsame row I ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                        hsame row N ∨ hsame row outputRead ∨ hsame row publicRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont R I outputRead ∧
+                      Cont outputRead N publicRead ∧ PkgSig bundle P pkg ∧
+                        PkgSig bundle publicRead pkg)
+                  hsame ∧
+                UnaryHistory outputRead ∧ UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier outputRoute publicRoute _outputPkg publicPkg
+  obtain ⟨_gammaUnary, _fUnary, _sUnary, rUnary, iUnary, _hUnary, _cUnary, _pUnary,
+    nUnary, _gammaRoute, _windowRoute, _continuationRoute, provenancePkg, _namePkg⟩ :=
+    carrier
+  have outputUnary : UnaryHistory outputRead :=
+    unary_cont_closed rUnary iUnary outputRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed outputUnary nUnary publicRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row outputRead ∨ hsame row publicRead) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row gamma ∨ hsame row f ∨ hsame row S ∨ hsame row R ∨
+              hsame row I ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N ∨ hsame row outputRead ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont R I outputRead ∧ Cont outputRead N publicRead ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead ⟨Or.inr (hsame_refl publicRead),
+        publicUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        constructor
+        · cases source.left with
+          | inl sameOutput =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameOutput)
+          | inr samePublic =>
+              exact Or.inr (hsame_trans (hsame_symm sameRows) samePublic)
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameOutput =>
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          exact Or.inl sameOutput
+      | inr samePublic =>
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          exact Or.inr samePublic
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, outputRoute, publicRoute, provenancePkg, publicPkg⟩
+  }
+  exact ⟨cert, outputUnary, publicUnary⟩
+
 end BEDC.Derived.ContourSumWindowUp
