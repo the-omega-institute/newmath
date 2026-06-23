@@ -152,15 +152,41 @@ Use real seal non-escape from \autoref{thm:real-classifier-real-seal-nonescape}.
 Finally apply ledger exhaustion from \autoref{thm:real-classifier-ledger-exhaustion}. The structural rows $H,K,P,N$ only transport, replay, source, and name the displayed finite packet, so every accepted public read consumes $W$ and $D$ before it reaches $C$ or $E$.
 \end{proof}
 
-\closureat{RealClassifierUp}{obligationStr}
+\begin{theorem}[RealClassifier source scope]
+\label{thm:real-classifier-source-scope}
+Every accepted $\RealClassifierUp$ public read factors through exactly the source scopes named by the carrier: the terminal $\RealUp$ seals $X,Y$, the regular rational source and readback rows $S_X,S_Y,R_X,R_Y$, the common $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ ledger $D$, the $\RealNameClassifierUp$ row $C$, the $\RegularCauchyEquivalenceUp$ row $E$, and the structural rows $H,K,P,N$. No quotient stream equality, host real equality, trichotomy, countable choice, selected limit, or ambient completeness principle can bypass those scopes.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:real-classifier-carrier}. Its source rows are precisely the two terminal seals, the two regular rational source rows, the two readback rows, the common window, the dyadic ledger, the classifier row, the regular-Cauchy equivalence row, and the structural rows $H,K,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:real-classifier-namecert-obligations}. Carrier admission, tolerance classifier stability, the RegSeqRat handoff, real seal non-escape, and ledger exhaustion account for every accepted public read.
+
+Use the RegSeqRat handoff of \autoref{thm:real-classifier-regseqrat-handoff} and the real seal non-escape theorem \autoref{thm:real-classifier-real-seal-nonescape}. These force the read through $S_X,S_Y,R_X,R_Y,W,D,C,E$ over the displayed seals $X,Y$ and rule out host equality or quotient-stream shortcuts.
+
+Finally combine ledger exhaustion from \autoref{thm:real-classifier-ledger-exhaustion}, tolerance-window determinacy from \autoref{thm:real-classifier-tolerance-window-determinacy}, and window scope from \autoref{thm:real-classifier-window-scope}. The structural rows $H,K,P,N$ only transport, replay, source, and name the same finite packet, so no listed non-source principle remains as a bypass.
+\end{proof}
+
+\begin{theorem}[RealClassifier public exactness surface]
+\label{thm:realclassifier-public-exactness-surface}
+Every accepted $\RealClassifierUp$ public classifier read is exactly the finite route through the two $\RealUp$ seals, the $\RegSeqRatUp$ readbacks, the shared $\StreamNameUp$ window, the $\DyadicRatCoreUp$ tolerance data, the $\RealNameClassifierUp$ row, the $\RegularCauchyEquivalenceUp$ row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RealClassifierUp}$ row. No accepted public read exports host real equality, quotient stream equality, a selected limit, trichotomy, or a completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations from \autoref{def:real-classifier-carrier} and \autoref{thm:real-classifier-namecert-obligations}. They list the two terminal seals, regular rational source and readback rows, common StreamName window, dyadic tolerance ledger, classifier row, equivalence boundary, and structural rows as the complete local surface.
+
+Use the RegSeqRat handoff of \autoref{thm:real-classifier-regseqrat-handoff} and the real seal non-escape theorem \autoref{thm:real-classifier-real-seal-nonescape}. These force every regular-rational read through $S_X,S_Y,R_X,R_Y,W,D,C,E$ over the displayed seals $X,Y$ and rule out host real equality, quotient stream equality, selected limits, trichotomy, countable choice, and ambient completeness as endpoints.
+
+Finally apply ledger exhaustion from \autoref{thm:real-classifier-ledger-exhaustion}, tolerance-window determinacy from \autoref{thm:real-classifier-tolerance-window-determinacy}, and window scope from \autoref{thm:real-classifier-window-scope}. The shared window and tolerance ledger determine the public classifier route, while $H,K,P,N$ transport, replay, source, and locally name that exact finite packet.
+\end{proof}
+
+\closureat{RealClassifierUp}{scopedStr}
 
 \begin{closurestatus}{\RealClassifierUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:real-classifier-carrier}, \autoref{thm:real-classifier-namecert-obligations}, \autoref{thm:real-classifier-regseqrat-handoff}, \autoref{thm:real-classifier-real-seal-nonescape}, \autoref{thm:real-classifier-ledger-exhaustion}, \autoref{thm:real-classifier-tolerance-window-determinacy}, and \autoref{thm:real-classifier-window-scope} display the finite obligation surface for two terminal RealUp seals.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:real-classifier-carrier}, \autoref{thm:real-classifier-namecert-obligations}, \autoref{thm:real-classifier-regseqrat-handoff}, \autoref{thm:real-classifier-real-seal-nonescape}, \autoref{thm:real-classifier-ledger-exhaustion}, \autoref{thm:real-classifier-tolerance-window-determinacy}, \autoref{thm:real-classifier-window-scope}, \autoref{thm:real-classifier-source-scope}, and \autoref{thm:realclassifier-public-exactness-surface} bind every public read to the exact RealUp seals, RegSeqRat readbacks, StreamName window, DyadicRatCore ledger, RealNameClassifier row, RegularCauchyEquivalence row, and structural hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.RealClassifierUp}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, host real equality, selected limits, trichotomy, countable choice, ambient completeness, or bridge checking.}
-  \upgradepath{Scoped closure requires binding these obligation rows to their exact DyadicRatCore, StreamName, RegSeqRat, RealNameClassifier, RegularCauchyEquivalence, and RealUp source scopes.}
+  \upgradepath{The next paper-side step is a public export theorem for the same exact classifier route, while formal verification remains encodedDefV.}
   \constructivestory{A $\RealClassifierUp$ packet is generated from two RealUp seals, regular rational readbacks, one common StreamName window, DyadicRatCore tolerance data, a RealNameClassifier row, a RegularCauchyEquivalence row, componentwise transport, continuation replay, package provenance, and local naming.}
 \end{closurestatus}
