@@ -1,0 +1,15 @@
+\begin{theorem}[MetaCIC observation confluence budget]
+\label{thm:metacic-observation-confluence-budget}
+Every observation-level confluence consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet must expose the residual-substitution premise row $P$, critical-pair row $K$, residual-frontier row $R$, closed-checker row $S$, closed-normal fragment row $C$, bounded-check row $B$, and obstruction row $O$ before reading any local join through the candidate row $J$. The observation budget is the finite frontier route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+It may cite the retained-premise route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope} and the public frontier route of \autoref{thm:metacic-parallel-diamond-frontier-route}, but it does not prove residual-substitution compatibility, subject reduction, arbitrary closed Church--Rosser, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the carrier and obligation basis of \autoref{def:metacic-parallel-diamond-frontier-carrier} and \autoref{thm:metacic-parallel-diamond-frontier-obligation-basis}. They make $P,K,J,R,S,C,B,O,H,T,G,N$ the consumer-visible packet, with $P$ and $O$ ordinary rows rather than external assumptions.
+
+Apply residual-substitution scope and the frontier route, \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope} and \autoref{thm:metacic-parallel-diamond-frontier-route}. These force the premise row, critical-pair row, residual-frontier row, closed-checker row, and closed-normal fragment row to remain visible before the conditional handoff is consumed.
+
+Finally use local-join scope \autoref{thm:metacic-parallel-diamond-frontier-local-join-scope}. A local join can be read only after the candidate row has been placed inside the same typed-window surface with $B$ and $O$ still exposed. Thus the theorem records an observation budget for finite confluence consumers, not a closed confluence proof or a discharge of the residual-substitution obstruction.
+\end{proof}
