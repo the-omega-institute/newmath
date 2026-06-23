@@ -13,3 +13,17 @@ Apply the NameCert obligations of \autoref{thm:finite-stream-namecert-obligation
 
 Now name $\RealUp$ as the downstream seal consumer. Since the carrier exposes only the finite request, window, readback, tolerance, transport, replay, provenance, and naming rows, the Real seal can be consumed only after those rows are visible, and the argument supplies no Real completeness theorem or quotient stream equality.
 \end{proof}
+
+\begin{theorem}[FiniteStream uniform Real seal route]
+\label{thm:finite-stream-real-seal-uniform-route}
+Every family of accepted $\FiniteStreamUp$ packets consumed by a common $\RealUp$ or $\RegSeqRatUp$ finite-window reader uses the same displayed request, list, and window route $Q,L,W$ before reaching $R,D,H,C,P,N$. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve that route uniformly across the family. The route exports no quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory of \autoref{def:finite-stream-carrier}. Each accepted packet exposes the same row pattern $Q,L,W,R,D,H,C,P,N$, so a common finite-window reader can compare packets only through those displayed rows.
+
+Apply \autoref{thm:finite-stream-namecert-obligations}. The request row $Q$ and list row $L$ must be visible before the $\StreamNameUp$ window $W$, and the readback and tolerance rows $R,D$ are downstream from that window.
+
+Use \autoref{thm:finite-stream-section-sibling-lock} to keep sibling section reads on the same finite route. Then apply \autoref{thm:finite-stream-real-seal-dependency-route}; any Real-facing consumer reaches the terminal seal only after $Q,L,W,R,D,H,C,P,N$ are displayed.
+
+The componentwise transport row $H$ and displayed replay row $C$ preserve the route uniformly for the whole family, while $P,N$ source and name it. Since none of the packets carries quotient stream equality, selected limits, countable choice, or ambient Real completeness, the common reader receives only the uniform finite-window route.
+\end{proof}
