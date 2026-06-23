@@ -1,0 +1,11 @@
+\begin{theorem}[ParallelDiamondResidual MetaCIC route]
+\label{thm:parallel-diamond-residual-metacic-route}
+Every $\ParallelDiamondResidualUp$ residual-join packet is a downstream consumer of $\MetaCICParallelDiamondFrontierUp$ from \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. Before any confluence-facing read is exported, the packet must preserve the residual-substitution boundary, local-join ledger, compatibility handoff, bounded checker, and obstruction rows displayed by the frontier route.
+\end{theorem}
+\begin{proof}
+Project the residual packet of \autoref{def:parallel-diamond-residual-carrier}. Its rows $F,S,L,B,C,O$ expose the residual frontier, substitution boundary, local-join ledger, bounded checker, compatibility handoff, and obstruction boundary.
+
+Apply the MetaCIC sibling route of \autoref{thm:parallel-diamond-residual-metacic-sibling-route}. It makes the residual packet a downstream consumer of the frontier chapter and keeps the frontier premise, critical-pair row, candidate-join row, checker row, handoff row, and obstruction row visible.
+
+Finally use the frontier obstruction route of \autoref{thm:parallel-diamond-residual-frontier-obstruction-route}. Since the frontier consumer receives only the displayed dependency packet over the residual rows and structural transports, no confluence-facing read can bypass the listed boundary rows.
+\end{proof}
