@@ -1,0 +1,27 @@
+\begin{theorem}[MetaCIC parallel-diamond frontier critical-pair route]
+\label{thm:metacic-parallel-diamond-frontier-critical-pair-route}
+Every critical-pair read of an accepted $\MetaCICParallelDiamondFrontierUp$ carrier exposes candidate membership, bounded local peak rows, residual envelope rows, retained premise rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before any join row is consumed. For a carrier
+$$
+F=(P,K,J,R,S,C,B,O,H,T,G,N),
+$$
+the read must display the retained premise $P$, local peak row $K$, residual envelope $R$, bounded checker rows $S,C,B$, obstruction row $O$, and structural rows $H,T,G,N$ before the candidate-join row $J$ can serve a confluence consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-parallel-diamond-frontier-carrier}. The only rows available to a critical-pair consumer are $P,K,J,R,S,C,B,O,H,T,G,N$, with $P$ retaining the premise and $K,R,S,C,B,O$ displaying the local peak, residual, checker, and obstruction envelope.
+
+Apply critical-pair exhaustion and residual-substitution scope, \autoref{thm:metacic-parallel-diamond-critical-pair-exhaustion} and \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope}. They force the local peak through $K$ under the retained premise $P$ and keep the residual frontier $R$ visible before the candidate join is read.
+
+Finally use the critical-path retained-premise handoff and seed closure status, \autoref{thm:metacic-parallel-diamond-frontier-critical-path-retained-premise-handoff} and \autoref{thm:metacic-parallel-diamond-frontier-seed-closure-status}. These routes pass the same critical-pair read through $H,T,G,N$ without consuming $J$ as a detached join or erasing the obstruction row.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond frontier residual-join nonescape]
+\label{thm:metacic-parallel-diamond-frontier-join-nonescape}
+Every residual-join read exported by an accepted $\MetaCICParallelDiamondFrontierUp$ carrier is a candidate-mediated local join through $P,K,J,R,S,C,B,O,H,T,G,N$. The frontier cannot be consumed as full Church--Rosser, unrestricted subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, closed consistency, or a discharged residual-substitution theorem.
+\end{theorem}
+\begin{proof}
+Start from the residual-join induction and public export theorems, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-induction} and \autoref{thm:metacic-parallel-diamond-frontier-public-export}. They keep finite residual joins inside the displayed route through the retained premise, critical-pair, candidate, residual, checker, obstruction, transport, replay, provenance, and naming rows.
+
+Use local-join scope and the retained-premise handoff, \autoref{thm:metacic-parallel-diamond-frontier-local-join-scope} and \autoref{thm:metacic-parallel-diamond-frontier-critical-path-retained-premise-handoff}. A join can be read only through the candidate row $J$ under the same premise $P$ and residual envelope $R$; it is not a premise-free confluence endpoint.
+
+The refused endpoints remain outside the carrier. Since $O$ is still visible and no row supplies subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, closed consistency, or residual-substitution discharge, the exported join remains candidate-mediated and local.
+\end{proof}
