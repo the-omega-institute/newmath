@@ -259,6 +259,82 @@ theorem RealClassifierWindowScope [AskSetup] [PackageSetup]
   }
   exact ⟨cert, windowUnary, classifierUnary⟩
 
+theorem RealClassifierPublicExactnessSurface [AskSetup] [PackageSetup]
+    {X Y SX SY RX RY W D C E H K P N windowRead classifierRead exactRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealClassifierCarrier X Y SX SY RX RY W D C E H K P N bundle pkg ->
+      Cont W D windowRead ->
+        Cont windowRead E classifierRead ->
+          Cont classifierRead N exactRead ->
+            PkgSig bundle exactRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row exactRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row X ∨ hsame row Y ∨ hsame row SX ∨ hsame row SY ∨
+                      hsame row RX ∨ hsame row RY ∨ hsame row W ∨ hsame row D ∨
+                        hsame row C ∨ hsame row E ∨ hsame row H ∨ hsame row K ∨
+                          hsame row P ∨ hsame row N ∨ hsame row exactRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont W D windowRead ∧
+                      Cont windowRead E classifierRead ∧
+                        Cont classifierRead N exactRead ∧ PkgSig bundle exactRead pkg)
+                  hsame ∧
+                UnaryHistory windowRead ∧ UnaryHistory classifierRead ∧
+                  UnaryHistory exactRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig Cont hsame SemanticNameCert UnaryHistory
+  intro carrier windowRoute classifierRoute exactRoute exactPkg
+  obtain ⟨_xUnary, _yUnary, _sxUnary, _syUnary, _rxUnary, _ryUnary, wUnary,
+    dUnary, _cUnary, eUnary, _hUnary, _kUnary, _pUnary, nUnary, _sealPkg⟩ :=
+    carrier
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed wUnary dUnary windowRoute
+  have classifierUnary : UnaryHistory classifierRead :=
+    unary_cont_closed windowUnary eUnary classifierRoute
+  have exactUnary : UnaryHistory exactRead :=
+    unary_cont_closed classifierUnary nUnary exactRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exactRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row Y ∨ hsame row SX ∨ hsame row SY ∨
+              hsame row RX ∨ hsame row RY ∨ hsame row W ∨ hsame row D ∨
+                hsame row C ∨ hsame row E ∨ hsame row H ∨ hsame row K ∨
+                  hsame row P ∨ hsame row N ∨ hsame row exactRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont W D windowRead ∧
+              Cont windowRead E classifierRead ∧ Cont classifierRead N exactRead ∧
+                PkgSig bundle exactRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro exactRead
+        ⟨hsame_refl exactRead, exactUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+          Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+            Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, windowRoute, classifierRoute, exactRoute, exactPkg⟩
+  }
+  exact ⟨cert, windowUnary, classifierUnary, exactUnary⟩
+
 theorem RealClassifierToleranceWindowDeterminacy [AskSetup] [PackageSetup]
     {X Y SX SY RX RY W D C E H K P N X' Y' SX' SY' RX' RY' C' E' H' K' P' N'
       leftReg rightReg leftRead rightRead : BHist}

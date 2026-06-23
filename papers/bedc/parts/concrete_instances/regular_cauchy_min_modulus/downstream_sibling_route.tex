@@ -1,0 +1,13 @@
+\begin{theorem}[Regular Cauchy minimum-modulus downstream sibling route]
+\label{thm:regular-cauchy-min-modulus-downstream-sibling-route}
+Any $\CauchyTailThresholdNormalizerUp$ consumer reading a normalized shared threshold through \autoref{ch:concrete-instances-cauchy-tail-threshold-normalizer-namecert} must preserve the $\RegularCauchyMinModulusUp$ row as the finite lower-bound and modulus witness before any $\RealTailAgreementSealUp$ or $\RealUp$ seal read. In particular, the downstream route factors through the same source schedules, meet row, minimum row, finite windows, regular-rational readback, dyadic tolerance ledger, transport, replay, provenance, and local naming rows exposed by \autoref{thm:regular-cauchy-min-modulus-forward-sibling-route}, \autoref{thm:regular-cauchy-min-modulus-hub-route}, and \autoref{thm:regular-cauchy-min-modulus-sibling-route}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-min-modulus-carrier}. The displayed packet carries $S_0,S_1,M,m,W,Q,D,E,H,C,P,N$, so the minimum row $m$ is read together with the meet, window, regular-rational, dyadic, seal, transport, replay, provenance, and naming rows.
+
+Apply the forward and hub routes. They force downstream consumers to keep the minimum-modulus row downstream of the $\CauchyModulusMeetUp$ row and upstream of the Real-facing readback surface, rather than reading $m$ as an isolated scalar.
+
+Now read the threshold normalizer. Its normalized shared threshold is a Real-facing consumer route, so it must expose the RegularCauchyMinModulus row before passing to the $\RealTailAgreementSealUp$ handoff or the terminal $\RealUp$ seal.
+
+Finally use the Real dependency route. It already excludes quotient stream equality, selected limits, countable-choice schedules, and ambient Real completeness, so the downstream sibling relation is exactly the finite lower-bound and modulus witness carried by the accepted packet.
+\end{proof}
