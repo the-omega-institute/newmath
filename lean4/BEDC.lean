@@ -607,6 +607,7 @@ import BEDC.Derived.AxiomDependencyTupleUp.DownstreamConsumerSupplyBoundary
 import BEDC.Derived.AxiomDependencyTupleUp.KernelSupplyVisibility
 import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
 import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
+import BEDC.Derived.AxiomDependencyTupleUp.SubjectReductionSocketDependencyRoute
 import BEDC.Derived.AxiomDependencyTupleUp.SupplyLedgerReadback
 import BEDC.Derived.AxiomDependencyTupleUp.ZeroSupplyModeExactness
 import BEDC.Derived.AxiomPurityGateUp
@@ -8403,6 +8404,7 @@ import BEDC.Derived.NestedIntervalSelectionUp.TasteGate
 import BEDC.Derived.NestedIntervalTheoremUp.TasteGate
 import BEDC.Derived.NestedIntervalUp
 import BEDC.Derived.NestedIntervalsTheoremUp.TasteGate
+import BEDC.Derived.NestedRadicalConvergenceUp.TasteGate
 import BEDC.Derived.NestedShrinkingIntervalUp.TasteGate
 import BEDC.Derived.NetClusterPointUp.NeighbourhoodHitRoute
 import BEDC.Derived.NetClusterPointUp.TasteGate
@@ -9506,6 +9508,7 @@ import BEDC.Derived.RealMinMaxUp.TasteGate
 import BEDC.Derived.RealModulusCriterionUp.TasteGate
 import BEDC.Derived.RealModulusExtractionUp.TasteGate
 import BEDC.Derived.RealModulusFusionUp
+import BEDC.Derived.RealModulusPurityBoundaryUp.HostChoiceRefusal
 import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
 import BEDC.Derived.RealNameClassifierUp
@@ -10809,7 +10812,6 @@ import BEDC.Derived.SetlikeUp.ExtensionalBoundaryClassifierLock
 import BEDC.Derived.SetlikeUp.ExtensionalBoundaryConsumerExactness
 import BEDC.Derived.SetlikeUp.ExtensionalBoundaryObligation
 import BEDC.Derived.SetlikeUp.ExtensionalBoundaryRoute
-import BEDC.Derived.SetlikeUp.ExtensionalBoundaryWitness
 import BEDC.Derived.SetlikeUp.ExtensionalLedgerKernelNonescape
 import BEDC.Derived.SetlikeUp.ExtensionalSubsetNameCertObligations
 import BEDC.Derived.SetlikeUp.ExtensionalSubsetTransport
@@ -10840,7 +10842,6 @@ import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
 import BEDC.Derived.SetlikeUp.MembershipSourceAdmission
 import BEDC.Derived.SetlikeUp.MembershipStability
-import BEDC.Derived.SetlikeUp.ModelTheorySatisfactionBoundary
 import BEDC.Derived.SetlikeUp.NameCertObligations
 import BEDC.Derived.SetlikeUp.PublicNameCertExport
 import BEDC.Derived.SetlikeUp.RestrictedComprehensionKernelScope
