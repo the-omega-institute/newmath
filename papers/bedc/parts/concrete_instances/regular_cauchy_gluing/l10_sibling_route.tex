@@ -136,3 +136,15 @@ For an interleaving-facing read, use the public sibling surface of \autoref{ch:c
 
 For a comparison-facing read, use \autoref{ch:concrete-instances-cauchy-interleaving-comparison-namecert}. That packet supplies the even--odd comparison and shared threshold rows as a separate finite consumer surface. Thus any cofinal or interleaving continuation is downstream of the existing L10 sibling dependency, and none of those rows is smuggled into the gluing carrier itself.
 \end{proof}
+
+\begin{theorem}[Regular Cauchy gluing tail-agreement composition]
+\label{thm:regular-cauchy-gluing-tail-agreement-composition}
+Any $\RealUp$ or $\CompletionUp$ consumer that reads a glued $\RegularCauchyGluingUp$ packet through \autoref{thm:regular-cauchy-gluing-sibling-route} must continue through the $\RealTailAgreementSealUp$ route of \autoref{ch:concrete-instances-realtailagreementseal-namecert} before treating the glued readback as completion-facing tail agreement. The composed route also reads the Cauchy limit seal of \autoref{ch:concrete-instances-cauchylimitseal-namecert}; the gluing packet alone exports no ambient tail equality, selected representative, quotient sequence equality, or completeness witness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-gluing-sibling-route}. It permits downstream consumers only after the finite $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BishopRealCompletionUp$, and terminal $\RealUp$ rows have been displayed.
+
+A completion-facing tail read then has an additional boundary. The $\RealTailAgreementSealUp$ chapter supplies the route that turns a Real-facing readback into displayed tail-agreement data, and the $\CauchyLimitSealUp$ chapter supplies the limit-facing seal used by completion consumers.
+
+Thus the row order is finite: first the local gluing sibling route, then the tail-agreement seal, and finally the Cauchy-limit seal. Because each step only reuses displayed rows, no consumer can replace the route by host tail equality, a selected Cauchy representative, quotient sequence equality, or ambient completeness.
+\end{proof}

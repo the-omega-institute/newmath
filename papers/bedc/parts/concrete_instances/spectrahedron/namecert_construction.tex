@@ -62,6 +62,24 @@ The convex provenance row $V$ then records the accepted parameter surface as a $
 Finally $T,C,P,N$ preserve and name the same finite route under transport and replay. No excluded analytic or host object is stored in the carrier, so every consumer factors through the displayed handoff.
 \end{proof}
 
+\begin{theorem}[Spectrahedron semidefinite-cone route]
+\label{thm:spectrahedron-semidefinite-cone-route}
+For every accepted $\SpectrahedronUp$ carrier
+$$
+Q=(X,L,A,S,K,V,T,C,P,N),
+$$
+each accepted affine-pencil read must display the $\MatrixUp$ rows $A,S$, the $\LinearMapUp$ row $L$, the $\VecSpaceUp$ parameter row $X$, the $\SemidefiniteConeUp$ membership row $K$, and the $\ConvexSetUp$ provenance row $V$ before the local $\NameCert_{\SpectrahedronUp}$ row $N$ is public. The route exports no host spectral calculus, determinant inequality, quotient matrix equality, selected feasible point, or analytic closure principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:spectrahedron-carrier}. The affine-pencil read begins at the $\VecSpaceUp$ parameter row $X$, passes through the $\LinearMapUp$ row $L$, reads the $\MatrixUp$ offset row $A$, and names the displayed pencil matrix as $S$.
+
+Apply the NameCert obligations of \autoref{thm:spectrahedron-namecert-obligations}. They require the semidefinite-cone membership row $K$ and the convex-set provenance row $V$ as local obligations of the same packet, not as external analytic facts.
+
+The semidefinite-cone handoff theorem \autoref{thm:spectrahedron-semidefinite-cone-handoff} then forces every feasibility-facing consumer through $K$ and $V$ before the transport, replay, provenance, and naming rows $T,C,P,N$ are read.
+
+Because the carrier contains no coordinate for spectral decomposition, determinant feasibility, quotient equality of matrix pencils, selected feasible points, or analytic closedness, the public route cannot export any of those host objects.
+\end{proof}
+
 \closureat{SpectrahedronUp}{seedStr}
 
 \begin{closurestatus}{\SpectrahedronUp}
