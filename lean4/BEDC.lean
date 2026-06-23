@@ -6000,6 +6000,7 @@ import BEDC.Derived.FiniteUniformDiscrepancyUp
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteVitaliCoverUp.TasteGate
 import BEDC.Derived.FiniteVolumeUp.TasteGate
+import BEDC.Derived.FiniteWindowBaireCategoryUp.TasteGate
 import BEDC.Derived.FiniteWindowCompactnessUp.TasteGate
 import BEDC.Derived.FiniteWindowEnvelopeUp
 import BEDC.Derived.FiniteWindowEnvelopeUp.TasteGate
@@ -7491,6 +7492,7 @@ import BEDC.Derived.MetaCICAuditMapFamilyUp
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CertificateSurface
+import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CriticalPathNonescape
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.TasteGate
 import BEDC.Derived.MetaCICBetaAuditUp
 import BEDC.Derived.MetaCICBetaAuditUp.ReductionConversionBoundary
@@ -8654,6 +8656,7 @@ import BEDC.Derived.ObserverTimeStepUp.TasteGate
 import BEDC.Derived.ObserverTraceKernelUp.TasteGate
 import BEDC.Derived.ObserverTraceSealUp.TasteGate
 import BEDC.Derived.ObserverperspectiveclassifierUp
+import BEDC.Derived.ObserverperspectiveclassifierUp.AlignmentConsumer
 import BEDC.Derived.ObserverperspectiveclassifierUp.ComparisonRouteTotality
 import BEDC.Derived.ObserverperspectiveclassifierUp.GapCommitmentReadback
 import BEDC.Derived.ObserverperspectiveclassifierUp.NameCertObligations
