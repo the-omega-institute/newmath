@@ -2486,6 +2486,7 @@ import BEDC.Derived.CauchyTailRequestUp.TasteGate
 import BEDC.Derived.CauchyTailSupremumUp.TasteGate
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.Classifier
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.CompositionScope
+import BEDC.Derived.CauchyTailThresholdNormalizerUp.EncodedObligationReadback
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RealFacingDeterminacy
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RouteExhaustion
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TailWindowInduction
@@ -9859,6 +9860,7 @@ import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationNonescapeRoute
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationPrefixExhaustion
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationRowPrecedence
 import BEDC.Derived.ReflectiveInquiryUp.Carrier
+import BEDC.Derived.ReflectiveInquiryUp.ClassifierAuditCertificate
 import BEDC.Derived.ReflectiveInquiryUp.FieldFaithfulRowSeparation
 import BEDC.Derived.ReflectiveInquiryUp.GroundCompilerObligationRoute
 import BEDC.Derived.ReflectiveInquiryUp.LedgeredRoleCorrespondence
