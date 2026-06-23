@@ -228,4 +228,69 @@ theorem BedcPhilosophyPackageRegistryLedgerExactness [AskSetup] [PackageSetup]
       cannotClaimUnary, closureUnary, auditUnary, registryReadUnary,
       registryRoute, registryPkg⟩
 
+theorem BedcPhilosophyPackage_bridge_boundary [AskSetup] [PackageSetup]
+    {T R M G D S C A H K N bridgeRead : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    BedcPhilosophyPackageCarrier T R M G D S C A H K N bundle pkg →
+      Cont K N bridgeRead →
+        PkgSig bundle bridgeRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row T ∨ hsame row R ∨ hsame row M ∨ hsame row G ∨
+                  hsame row D ∨ hsame row S ∨ hsame row C ∨ hsame row A ∨
+                    hsame row H ∨ hsame row K ∨ hsame row N ∨ hsame row bridgeRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont K N bridgeRead ∧ PkgSig bundle K pkg ∧
+                  PkgSig bundle N pkg ∧ PkgSig bundle bridgeRead pkg)
+              hsame ∧
+            UnaryHistory bridgeRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig SemanticNameCert hsame
+  intro carrier bridgeRoute bridgePkg
+  obtain ⟨_unaryT, _unaryR, _unaryM, _unaryG, _unaryD, _unaryS, _unaryC,
+    _unaryA, _unaryH, unaryK, unaryN, _thesisRegistryRoute, _theoremGapRoute,
+    _cannotAuditRoute, _closureAuditRoute, pkgK, pkgN⟩ := carrier
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed unaryK unaryN bridgeRoute
+  have sourceBridge :
+      (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row) bridgeRead := by
+    exact ⟨hsame_refl bridgeRead, bridgeUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row T ∨ hsame row R ∨ hsame row M ∨ hsame row G ∨
+              hsame row D ∨ hsame row S ∨ hsame row C ∨ hsame row A ∨
+                hsame row H ∨ hsame row K ∨ hsame row N ∨ hsame row bridgeRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont K N bridgeRead ∧ PkgSig bundle K pkg ∧
+              PkgSig bundle N pkg ∧ PkgSig bundle bridgeRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro bridgeRead sourceBridge
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr (Or.inr source.left))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, bridgeRoute, pkgK, pkgN, bridgePkg⟩
+  }
+  exact ⟨cert, bridgeUnary⟩
+
 end BEDC.Derived.BedcPhilosophyPackageUp
