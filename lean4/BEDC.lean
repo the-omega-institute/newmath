@@ -2766,6 +2766,7 @@ import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
 import BEDC.Derived.ClaimStatusAuditUp
 import BEDC.Derived.ClaimStatusAuditUp.NameCertObligations
 import BEDC.Derived.ClaimStatusAuditUp.TasteGate
+import BEDC.Derived.ClarksonInequalityUp.TasteGate
 import BEDC.Derived.ClassFieldUp
 import BEDC.Derived.ClassFieldUp.TasteGate
 import BEDC.Derived.ClassifierBoundaryUp
