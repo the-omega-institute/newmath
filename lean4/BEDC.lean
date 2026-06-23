@@ -986,6 +986,7 @@ import BEDC.Derived.BishopIntervalEnclosureUp.TasteGate
 import BEDC.Derived.BishopIntervalHalvingUp.TasteGate
 import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopIntervalNetExtractionUp.TasteGate
+import BEDC.Derived.BishopLocatedBallCoverUp
 import BEDC.Derived.BishopLocatedCauchyCompletionStabilityUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopLocatedChoiceSequenceUp
