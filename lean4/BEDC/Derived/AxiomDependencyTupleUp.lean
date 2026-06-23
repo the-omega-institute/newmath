@@ -359,4 +359,94 @@ theorem AxiomDependencyTupleAuditMapRowCoverage [AskSetup] [PackageSetup]
   }
   exact ⟨cert, replayUnary, auditUnary⟩
 
+theorem AxiomDependencyTuplePublicInterfaceExactness [AskSetup] [PackageSetup]
+    {mode witness supply transport route provenance localName replayRead auditRead
+      dependencyRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxiomDependencyTupleCarrier mode witness supply transport route provenance localName
+        bundle pkg →
+      Cont transport route replayRead →
+        Cont replayRead localName auditRead →
+          Cont auditRead localName dependencyRead →
+            PkgSig bundle auditRead pkg →
+              PkgSig bundle dependencyRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row dependencyRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row mode ∨ hsame row witness ∨ hsame row supply ∨
+                        hsame row transport ∨ hsame row route ∨ hsame row localName ∨
+                          hsame row replayRead ∨ hsame row auditRead ∨
+                            hsame row dependencyRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont mode witness route ∧
+                        Cont route supply localName ∧ Cont transport route replayRead ∧
+                          Cont replayRead localName auditRead ∧
+                            Cont auditRead localName dependencyRead ∧
+                              PkgSig bundle provenance pkg ∧
+                                PkgSig bundle auditRead pkg ∧
+                                  PkgSig bundle dependencyRead pkg)
+                    hsame ∧
+                  UnaryHistory replayRead ∧ UnaryHistory auditRead ∧
+                    UnaryHistory dependencyRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier transportRouteReplay replayLocalAudit auditLocalDependency auditReadPkg
+    dependencyReadPkg
+  obtain ⟨_modeCases, _modeUnary, _witnessUnary, _supplyUnary, transportUnary,
+    routeUnary, localNameUnary, _transportSame, modeWitnessRoute, routeSupplyLocalName,
+    provenancePkg⟩ := carrier
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed transportUnary routeUnary transportRouteReplay
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed replayUnary localNameUnary replayLocalAudit
+  have dependencyUnary : UnaryHistory dependencyRead :=
+    unary_cont_closed auditUnary localNameUnary auditLocalDependency
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row dependencyRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row mode ∨ hsame row witness ∨ hsame row supply ∨ hsame row transport ∨
+              hsame row route ∨ hsame row localName ∨ hsame row replayRead ∨
+                hsame row auditRead ∨ hsame row dependencyRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont mode witness route ∧ Cont route supply localName ∧
+              Cont transport route replayRead ∧ Cont replayRead localName auditRead ∧
+                Cont auditRead localName dependencyRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle auditRead pkg ∧ PkgSig bundle dependencyRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro dependencyRead ⟨hsame_refl dependencyRead, dependencyUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr (Or.inr (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, modeWitnessRoute, routeSupplyLocalName, transportRouteReplay,
+          replayLocalAudit, auditLocalDependency, provenancePkg, auditReadPkg,
+          dependencyReadPkg⟩
+  }
+  exact ⟨cert, replayUnary, auditUnary, dependencyUnary⟩
+
 end BEDC.Derived.AxiomDependencyTupleUp
