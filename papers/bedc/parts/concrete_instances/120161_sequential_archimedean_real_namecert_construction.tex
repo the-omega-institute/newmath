@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\SequentialArchimedeanRealUp$}
+\label{ch:concrete-instances-sequential-archimedean-real-namecert}
+\origin{human}
+
+Following Bishop and Bridges on real-number names and explicit Archimedean bounds, the $\SequentialArchimedeanRealUp$ packet records the finite sequential request that turns a displayed $\RealUp$ name into a witnessed rational or dyadic bound for a requested observation index. It sits over the natural-number request surface of \autoref{ch:concrete-instances-nat-namecert}, the rational and dyadic witness surfaces of \autoref{ch:concrete-instances-rat-namecert} and \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a sequential Archimedean handoff; it is not trichotomy, a Dedekind cut, quotient representative selection, countable choice, or a completeness theorem for $\RealUp$.
+
+\begin{definition}[Sequential Archimedean real carrier]
+\label{def:sequential-archimedean-real-carrier}
+A $\SequentialArchimedeanRealUp$ carrier is a finite $\BHist$ packet
+$$
+S=(R,i,Q,D,W,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RealUp$ name whose sequential Archimedean bound is being requested.
+\item $i$ is the unary $\NatUp$ index row naming the requested observation and bound scale.
+\item $Q$ is the $\RatUp$ witness row exporting the rational bound visible at that request.
+\item $D$ is the $\DyadicRatCoreUp$ witness row presenting the same bound in the dyadic scale consumed by finite windows.
+\item $W$ is the $\StreamNameUp$ window opened at the displayed index and bound request.
+\item $G$ is the $\RegSeqRatUp$ readback row extracted from the same window.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $i,Q,D,W,G$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the real name, index request, rational witness, dyadic witness, finite window, regular readback, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the unary request through the StreamName window, RegSeqRat readback, rational and dyadic witnesses, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\SequentialArchimedeanRealUp$, $\RealUp$, $\NatUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialArchimedeanRealUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $R,i,Q,D,W,G,E,H,C,P,N$. It has no coordinate for trichotomy, Dedekind cuts, quotient representatives, countable-choice schedules, selected completed streams, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Sequential Archimedean real NameCert obligations]
+\label{thm:sequential-archimedean-real-namecert-obligations}
+For every accepted $\SequentialArchimedeanRealUp$ carrier
+$$
+S=(R,i,Q,D,W,G,E,H,C,P,N),
+$$
+the local $\NameCert_{\SequentialArchimedeanRealUp}$ surface consists exactly of carrier admission for the displayed real name, unary index request, rational witness, dyadic witness, finite window, regular readback, Real seal, componentwise transport, continuation replay, provenance, and local naming rows; request compatibility binding $i$ to the same window $W$ that produces $G$; rational-dyadic witness coherence binding $Q$ and $D$ to the same sequential bound; Real-seal ordering requiring $E$ to be read only after $i,Q,D,W,G$; and non-escape excluding trichotomy, Dedekind cuts, quotient representatives, countable choice, selected completed streams, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequential-archimedean-real-carrier}. The rows $R,i,Q,D,W,G,E,H,C,P,N$ are the complete packet inventory, so carrier admission has no hidden coordinate.
+
+The request compatibility clause follows from the order of the rows. The unary $\NatUp$ request $i$ opens the $\StreamNameUp$ window $W$, and the $\RegSeqRatUp$ readback $G$ is extracted from that same finite window before any Real-facing seal is available.
+
+The rational and dyadic witnesses are read together. The $\RatUp$ row $Q$ and $\DyadicRatCoreUp$ row $D$ describe one displayed sequential bound for $R$ at the request $i$, transported componentwise through $H$ and replayed through $C$.
+
+Finally the Real seal and non-escape clauses use the absence of further coordinates. Since $E$ is the only terminal $\RealUp$ seal and the packet contains no trichotomy branch, Dedekind cut, quotient representative, countable-choice schedule, selected completed stream, or completeness object, every accepted consumer remains inside the displayed finite route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SequentialArchimedeanRealUp$ Real-facing read exposes a RealUp name, a NatUp unary request, RatUp and DyadicRatCoreUp bound witnesses, a StreamNameUp finite window, RegSeqRatUp readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row before using the sequential Archimedean handoff.}
+
+\independenceWitness{real, nat, rat, dyadicratcore, streamname, regseqrat: $\SequentialArchimedeanRealUp$ is not bijective to any listed sibling because it jointly carries a unary sequential request, rational and dyadic bound witnesses, finite stream windows, regular rational readback, terminal Real sealing, transport, replay, provenance, and local naming while refusing trichotomy, Dedekind cuts, quotient representatives, countable choice, selected completed streams, and Real completeness.}
+
+\closureat{SequentialArchimedeanRealUp}{seedStr}
+
+\begin{closurestatus}{\SequentialArchimedeanRealUp}
+  \constructivestory{A $\SequentialArchimedeanRealUp$ packet is generated from a RealUp name, a NatUp unary request, RatUp and DyadicRatCoreUp witness rows, a StreamNameUp finite window, RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-archimedean-real-carrier} and \autoref{thm:sequential-archimedean-real-namecert-obligations} seed the finite sequential Archimedean bound route over explicit index requests, rational and dyadic witnesses, finite windows, regular readbacks, and RealUp seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close trichotomy, Dedekind cuts, quotient representatives, countable choice, selected completed streams, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, request compatibility, rational-dyadic witness coherence, Real-seal ordering, transport, replay, provenance, local naming, and non-escape for BEDC.Derived.SequentialArchimedeanRealUp.}
+\end{closurestatus}
