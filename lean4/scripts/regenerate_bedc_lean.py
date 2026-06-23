@@ -26,6 +26,7 @@ AGGREGATE_IMPORT_OMIT = {
     "BEDC.Derived.GeneratorAuditClosureUp.SubstitutionShiftAudit",
     "BEDC.Derived.KockZoberleinCauchyCompletionUp",
     "BEDC.Derived.LocatedCompletionUp.TasteGate",
+    "BEDC.Derived.RieszRepresentationUp.ScopeBinding",
 }
 
 
