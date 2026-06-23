@@ -85,6 +85,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "median_zero_triple_certificate",
     "betweenness_triple_certificate",
     "saturated_chain_certificate",
+    "disjoint_tuple_metallic_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -145,6 +146,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "median_zero_triple_certificate",
         "betweenness_triple_certificate",
         "saturated_chain_certificate",
+        "disjoint_tuple_metallic_certificate",
     },
 }
 OVERCLAIM_GATES_ENABLED = True
@@ -206,11 +208,15 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "lean_statement_only",
     "median_majority_operation",
     "disjoint_support_triple_count",
+    "disjoint_support_tuples",
     "geodesic_interval_betweenness",
     "quartic_characteristic_polynomial",
     "distinct_from_wiener",
+    "transfer_matrix",
     "transfer_matrix_recurrence",
+    "metallic_ratio_recurrence",
     "pell_type_recurrence",
+    "fibonacci_pell_unification",
 }
 FORCED_WINDOW_EVIDENCE_BASIS = EVIDENCE_BASIS | {"automath_certificate"} | FORCED_WINDOW_ARITHMETIC_BASIS
 CONTACT_KINDS = {
@@ -369,11 +375,14 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "median_majority_operation",
     "ordered_triple_fiber",
     "disjoint_support_condition",
+    "disjoint_support_ordered_tuples",
     "four_state_transfer_matrix",
     "quartic_characteristic_polynomial",
     "forced_order_four_recurrence",
     "finite_transfer_matrix",
+    "metallic_ratio_recurrence",
     "pell_type_recurrence",
+    "fibonacci_pell_median_anchor_unification",
 }
 MECHANISM_WORDS = {
     "cause",
@@ -2561,6 +2570,57 @@ def self_test() -> int:
         ],
         "null_reason": "",
     }
+    disjoint_tuple_metallic_conjecture = {
+        "conjecture_id": "window.fibonacci-cube.disjoint-tuple-metallic",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Fibonacci cube family disjoint-support ordered tuple metallic recurrence",
+        "informal_statement": (
+            "For Gamma_m, the ordered k-tuple count with pairwise-disjoint supports satisfies "
+            "D^(k)_m=kD^(k)_{m-1}+D^(k)_{m-2} as a finite graph-invariant certificate."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Fibonacci cube family Gamma_m with ordered k-tuples of vertices.",
+            "distinctions": [
+                "fibonacci cube family enumeration",
+                "ordered k-tuples",
+                "pairwise-disjoint support condition",
+                "finite transfer matrix",
+                "metallic-ratio recurrence",
+            ],
+            "readback": "The certificate records only internal finite graph and recurrence invariants.",
+            "internal_structure": [
+                "fibonacci_cube_family",
+                "disjoint_support_ordered_tuples",
+                "finite_transfer_matrix",
+                "metallic_ratio_recurrence",
+                "fibonacci_pell_median_anchor_unification",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "fibonacci_cube_family_enumeration",
+            "disjoint_support_tuples",
+            "metallic_ratio_recurrence",
+            "transfer_matrix",
+            "fibonacci_pell_unification",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+            "derived_probe",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window_disjoint_tuple_metallic.py",
+                "object": "verify-window-disjoint-tuple-metallic",
+                "kind": "disjoint_tuple_metallic_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
     forced_window_results = gate_all(
         [
             edge_flux_conjecture,
@@ -2575,6 +2635,7 @@ def self_test() -> int:
             matching_enumerator_conjecture,
             betweenness_triple_conjecture,
             saturated_chain_conjecture,
+            disjoint_tuple_metallic_conjecture,
         ],
         [],
         [],
@@ -2623,6 +2684,9 @@ def self_test() -> int:
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     if forced_window_by_id["window.fibonacci-cube.saturated-chain"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window.fibonacci-cube.disjoint-tuple-metallic"]["gate_status"] != "gate_passed":
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     print("[fibonacci-reality-gates] self-test ok")
