@@ -69,15 +69,53 @@ The support rows $H,C,P,N$ preserve and replay only those displayed coordinates.
 
 The Lean taste-gate file for this carrier should provide explicit \texttt{Nontrivial AxisCarryDiamondRouteUp} and \texttt{FieldFaithful AxisCarryDiamondRouteUp} instances for the displayed row inventory.
 
-\closureat{AxisCarryDiamondRouteUp}{seedStr}
+\begin{theorem}[Axis carry diamond-route obligation surface]
+\label{thm:axis-carry-diamond-route-obligation-surface}
+For every accepted $\AxisCarryDiamondRouteUp$ carrier
+$$
+D=(a,b,c,n,\rho_0,\rho_1,\nu_0,\nu_1,\eta,H,C,P,N),
+$$
+the local obligation surface consists exactly of carrier admission for the displayed rows, classifier stability over those same rows, route exposure for $\rho_0,\rho_1$, shared-target normality for $\eta$, componentwise value-ledger transport for $\nu_0,\nu_1$, non-$\hsame$ boundary preservation in $H$, continuation replay in $C$, package provenance in $P$, and local naming in $N$. No obligation is stored outside the finite tuple.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:axis-carry-diamond-route-carrier}. The rows $a,b,c,n,\rho_0,\rho_1,\nu_0,\nu_1,\eta,H,C,P,N$ are the complete row inventory.
+
+Apply the two-step confluence and non-escape theorems. They force every route, target, value, transport, replay, provenance, and naming read to remain inside that inventory.
+
+Thus the admission and classifier obligations range over exactly the displayed packet, while the excluded host equality, quotient, hidden normalizer, global confluence, and kernel rewrite objects have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[Axis carry diamond-route target-ledger exactness]
+\label{thm:axis-carry-diamond-route-target-ledger-exactness}
+For an accepted $\AxisCarryDiamondRouteUp$ carrier $D=(a,b,c,n,\rho_0,\rho_1,\nu_0,\nu_1,\eta,H,C,P,N)$, the shared target-normality ledger $\eta$ may be read only after both route rows $\rho_0,\rho_1$ and both value ledgers $\nu_0,\nu_1$ have been displayed. A consumer that reads $\eta$ while omitting either route row or either value ledger is not reading the accepted diamond-route packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:axis-carry-diamond-route-names-two-step-confluence}. It places $\eta$ downstream of the two route rows and the two value ledgers in the public diamond handoff.
+
+Then apply non-escape. Since the carrier has no second target-normality coordinate and no hidden normalizer, $\eta$ cannot be detached from $\rho_0,\rho_1,\nu_0,\nu_1,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Axis carry diamond-route value-ledger stability]
+\label{thm:axis-carry-diamond-route-value-ledger-stability}
+Let $D=(a,b,c,n,\rho_0,\rho_1,\nu_0,\nu_1,\eta,H,C,P,N)$ and $D'=(a',b',c',n',\rho'_0,\rho'_1,\nu'_0,\nu'_1,\eta',H',C',P',N')$ be accepted $\AxisCarryDiamondRouteUp$ carriers related componentwise by the displayed transport and continuation rows. Then the value ledgers $\nu_0,\nu_1$ are stable routewise: the first ledger is transported only along the $\rho_0$ route, the second ledger only along the $\rho_1$ route, and both remain tied to the shared target-normality row before any diamond consumer can use them.
+\end{theorem}
+\begin{proof}
+Project both carrier tuples. The only value-ledger coordinates are $\nu_0$ and $\nu_1$, and the only route coordinates governing them are $\rho_0$ and $\rho_1$.
+
+Use the transport rows $H,H'$ and continuation rows $C,C'$. They replay the componentwise route and value data without adding a cross-route ledger or a host arithmetic equality.
+
+Finally apply target-ledger exactness and non-escape. The ledgers stay attached to their route rows and the shared target ledger, so a consumer cannot swap, merge, or replace them by quotient normal forms, global carry confluence, or kernel rewriting.
+\end{proof}
+
+\closureat{AxisCarryDiamondRouteUp}{obligationStr}[BEDC.Derived.AxisCarryDiamondRouteUp.AxisCarryDiamondRouteTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\AxisCarryDiamondRouteUp}
   \constructivestory{An $\AxisCarryDiamondRouteUp$ packet is generated from an overlap source row, two carry-successor rows, a shared normal target, two carry-normalization route rows, two value ledgers, a shared target-normality ledger, non-$\hsame$ boundary rows, componentwise transports, continuation routes, provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:axis-carry-diamond-route-carrier}, \autoref{thm:axis-carry-diamond-route-names-two-step-confluence}, and \autoref{thm:axis-carry-diamond-route-nonescape} specify the finite two-route diamond carrier, shared target ledger, and non-escape boundary.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:axis-carry-diamond-route-carrier}, \autoref{thm:axis-carry-diamond-route-names-two-step-confluence}, \autoref{thm:axis-carry-diamond-route-nonescape}, \autoref{thm:axis-carry-diamond-route-obligation-surface}, \autoref{thm:axis-carry-diamond-route-target-ledger-exactness}, and \autoref{thm:axis-carry-diamond-route-value-ledger-stability} specify the finite two-route diamond carrier, obligation rows, shared target ledger, value-ledger stability, and non-escape boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, arbitrary carry confluence, host arithmetic quotienting, global normalization, source-target $\hsame$, or kernel rewriting.}
-  \upgradepath{Obligation closure requires checked carrier admission, paired route rows, shared target-normality, value-ledger exactness, non-$\hsame$ preservation, route replay, provenance, and local naming for the same finite packet.}
+  \upgradepath{Further closure requires Lean-checked carrier admission, paired route rows, shared target-normality, value-ledger exactness, non-$\hsame$ preservation, route replay, provenance, and local naming for the same finite packet.}
 \end{closurestatus}
