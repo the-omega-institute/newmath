@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\SchurDecompositionUp$}
+\label{ch:concrete-instances-schur-decomposition-namecert}
+\origin{human}
+
+Following Schur and standard finite-dimensional spectral theory, the $\SchurDecompositionUp$ packet records the finite route by which a displayed square matrix is read through a unitary change-of-basis ledger, an upper-triangular row, and a diagonal spectral readback. It consumes the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the linear-map surface of \autoref{ch:concrete-instances-linearmap-namecert}, the inner-product rows of \autoref{ch:concrete-instances-innerproduct-namecert}, the unitary-row discipline of \autoref{ch:concrete-instances-unitarygroup-namecert}, and the real-spectrum boundary of \autoref{ch:concrete-instances-real-spectrum-namecert}. The packet names only finite matrix, unitary, triangular, spectral, transport, replay, provenance, and local NameCert data; it does not import host diagonalization, quotient matrix equality, a selected eigenbasis outside the displayed rows, or ambient spectral theory.
+
+\begin{definition}[Schur decomposition carrier]
+\label{def:schur-decomposition-carrier}
+A $\SchurDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+D=(A,F,U,T,\Delta,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the source square-matrix row, read through $\MatrixUp$ and the underlying $\LinearMapUp$ action surface.
+\item $F$ is the scalar-field or complex-real spectrum boundary row, exposing the finite scalar readback interface used by the diagonal entries.
+\item $U$ is the unitary change-of-basis ledger, read through $\InnerProductUp$ and $\UnitaryGroupUp$.
+\item $T$ is the upper-triangular matrix ledger obtained after the displayed unitary change of basis.
+\item $\Delta$ is the diagonal spectral readback row, listing the diagonal scalar reads of $T$ through the spectrum boundary $F$.
+\item $E$ is the residual triangular exactness row saying that the displayed source matrix is replayed by the $U,T$ route and that no off-ledger remainder is exported.
+\item $H$ records componentwise $\hsame$ transport for the source matrix, scalar boundary, unitary ledger, triangular ledger, diagonal readback, exactness row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the source matrix through the scalar boundary, unitary change of basis, triangular ledger, diagonal spectral readback, and residual exactness row.
+\item $P$ is the $\Pkg$ provenance over $\SchurDecompositionUp$, $\MatrixUp$, $\LinearMapUp$, $\InnerProductUp$, $\UnitaryGroupUp$, $\RealSpectrumUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SchurDecompositionUp}$ row.
+\end{enumerate}
+The classifier accepts only packets displaying all ten rows. It has no coordinate for a host eigenbasis, quotient matrix equality, normal diagonalization, selected spectral ordering outside $\Delta$, or an ambient theorem asserting that every host matrix has been decomposed.
+\end{definition}
+
+\begin{theorem}[Schur decomposition NameCert obligations]
+\label{thm:schur-decomposition-namecert-obligations}
+For every accepted $\SchurDecompositionUp$ carrier
+$$
+D=(A,F,U,T,\Delta,E,H,C,P,N),
+$$
+the local $\NameCert_{\SchurDecompositionUp}$ surface consists exactly of source matrix admission for $A$, scalar or spectrum-boundary admission for $F$, unitary-ledger admission for $U$, upper-triangular ledger admission for $T$, diagonal spectral readback for $\Delta$, residual triangular exactness for $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, sibling provenance through $P$, and local naming through $N$.
+
+No Schur decomposition obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source row $A$ is the only matrix being named, and $F$ is the only scalar or spectrum boundary through which diagonal entries may be read.
+
+The unitary and triangular data are displayed separately. The ledger $U$ records the change-of-basis route, while $T$ records the upper-triangular matrix obtained on that route.
+
+The diagonal readback $\Delta$ and exactness row $E$ then tie the spectrum-facing entries and triangular residual to the same replay path. The support rows $H,C,P,N$ transport, replay, source, and name this finite route, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Schur decomposition unitary triangular handoff]
+\label{thm:schur-decomposition-unitary-triangular-handoff}
+Every finite-dimensional spectral, matrix-factorization, or linear-map consumer of an accepted $\SchurDecompositionUp$ carrier must first read
+$$
+A,F,U,T,\Delta,E,H,C,P,N.
+$$
+The unitary handoff is visible only through $U$ after the source matrix row $A$ and scalar boundary $F$ have been displayed, and the triangular handoff is visible only through $T,\Delta,E$ after that unitary ledger has been read. The handoff exports no host eigenbasis, quotient matrix equality, unrestricted diagonalization theorem, or selected ordering of spectrum entries outside the displayed diagonal ledger.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier. The consumer first reads $A$ and $F$, so the matrix and scalar boundary are fixed before any change-of-basis row is available.
+
+The unitary row $U$ then supplies the displayed change-of-basis ledger. Since the carrier has no other change-of-basis coordinate, any spectral or factorization consumer must pass through this ledger.
+
+Finally $T,\Delta,E$ expose the upper-triangular matrix, the diagonal spectral readback, and the residual exactness row on the same route. Transport, replay, provenance, and local naming through $H,C,P,N$ preserve the route and add no host-level diagonalization or quotient equality.
+\end{proof}
+
+\begin{theorem}[Schur decomposition spectrum non-escape]
+\label{thm:schur-decomposition-spectrum-nonescape}
+Every spectrum-boundary read from an accepted $\SchurDecompositionUp$ carrier factors through the displayed diagonal ledger $\Delta$ and the residual triangular exactness row $E$ after the source matrix, scalar boundary, unitary ledger, and upper-triangular ledger have already been read. A consumer cannot detach a diagonal entry from $A,F,U,T,\Delta,E,H,C,P,N$ and treat it as an ambient host eigenvalue, a quotient representative, or a hidden spectral selector.
+\end{theorem}
+\begin{proof}
+Read the carrier rows in order. The diagonal spectral ledger $\Delta$ appears only after the source matrix, scalar boundary, unitary ledger, and upper-triangular ledger have been displayed.
+
+The exactness row $E$ keeps the diagonal readback attached to the residual triangular route. It does not provide a second spectral interface or a host eigenvalue selector.
+
+The structural rows $H,C,P,N$ preserve that same finite route. Hence every spectrum-facing consumer remains inside the displayed packet and cannot obtain quotient representatives, hidden eigenvalue choices, or an ambient spectral theorem from the carrier.
+\end{proof}
+
+\leanstmt{BEDC.Derived.SchurDecompositionUp}
+
+\closureat{SchurDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\SchurDecompositionUp}
+  \constructivestory{A $\SchurDecompositionUp$ packet is generated from a source MatrixUp row, scalar or RealSpectrumUp boundary, unitary change-of-basis ledger, upper-triangular matrix ledger, diagonal spectral readback, residual exactness row, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:schur-decomposition-carrier}, \autoref{thm:schur-decomposition-namecert-obligations}, \autoref{thm:schur-decomposition-unitary-triangular-handoff}, and \autoref{thm:schur-decomposition-spectrum-nonescape} seed the finite Schur decomposition packet over matrix, linear-map, inner-product, unitary, spectrum, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, host diagonalization, quotient matrix equality, selected eigenbasis construction, spectral ordering outside the displayed ledger, or ambient finite-dimensional spectral theory.}
+  \upgradepath{Obligation closure requires checked source-matrix admission, scalar-boundary admission, unitary-ledger exactness, triangular-ledger exactness, diagonal spectral readback, residual non-escape, transport stability, replay stability, and NameCert obligations for BEDC.Derived.SchurDecompositionUp.}
+\end{closurestatus}

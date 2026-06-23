@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\SimpsonRuleUp$}
+\label{ch:concrete-instances-simpson-rule-namecert}
+\origin{human}
+
+Following Simpson and the Newton--Cotes quadrature tradition, the $\SimpsonRuleUp$ packet records the finite three-point closed quadrature rule as BEDC NameCert data before an integration-facing consumer may read its approximation or error row. It sits after the finite exactness interface of \autoref{ch:concrete-instances-quadrature-namecert}, the Newton--Cotes node-and-weight packet of \autoref{ch:concrete-instances-newton-cotes-namecert}, the Taylor remainder packet of \autoref{ch:concrete-instances-taylor-remainder-namecert}, the tagged integral route of \autoref{ch:concrete-instances-riemannintegral-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the midpoint/endpoints rule with displayed weights, a displayed Taylor or Peano error row, and the regular rational to Real handoff; it does not import host integration, measure theory, selected limits, quotient function equality, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Simpson rule carrier]
+\label{def:simpson-rule-carrier}
+A $\SimpsonRuleUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,M,E,W,Q,T,R,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the compact interval row, naming the displayed left and right endpoints, the orientation data, and the compact-interval source used by the rule.
+\item $M$ is the midpoint row, recording the finite construction of the midpoint between the two endpoint names and its membership in the same interval row.
+\item $E$ is the endpoint sample row, exposing the two endpoint samples and the midpoint sample as the only function reads used by the rule.
+\item $W$ is the Simpson weight row, recording the finite rational weights $1,4,1$ together with the common denominator and interval-width factor.
+\item $Q$ is the finite quadrature row, combining $E$ and $W$ into the displayed three-point weighted sum.
+\item $T$ is the Taylor or Peano error row, recording the displayed fourth-order remainder budget or Peano kernel budget used by the packet.
+\item $R$ is the $\RiemannIntegralUp$ and Darboux handoff row, exposing the tagged-integral or Darboux-facing consumer route only after $I,M,E,W,Q,T$ have been displayed.
+\item $D$ is the $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ seal row, recording the regular-rational readback, dyadic tolerance schedule, and terminal Real seal for the weighted sum and error row.
+\item $H$ records componentwise $\hsame$ transport for interval, midpoint, sample, weight, quadrature, error, handoff, seal, provenance, replay, and naming rows.
+\item $C$ records displayed $\Cont$ replay from the interval request through midpoint construction, endpoint and midpoint samples, Simpson weights, finite quadrature row, error row, integral handoff, regular-rational readback, dyadic tolerance, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\SimpsonRuleUp$, $\QuadratureUp$, $\NewtonCotesUp$, $\TaylorRemainderUp$, $\RiemannIntegralUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SimpsonRuleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,M,E,W,Q,T,R,D,H,C,P,N$. It has no coordinate for a host integral, an undisplayed mesh limit, a selected antiderivative, quotient function equality, a hidden fourth derivative, an open-cover compactness principle, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Simpson rule NameCert obligations]
+\label{thm:simpson-rule-namecert-obligations}
+For every accepted $\SimpsonRuleUp$ carrier
+$$
+S=(I,M,E,W,Q,T,R,D,H,C,P,N),
+$$
+the local $\NameCert_{\SimpsonRuleUp}$ surface consists exactly of compact-interval admission, midpoint construction, endpoint and midpoint sample exposure, Simpson weight exposure, finite quadrature-row exactness, Taylor or Peano error-row exposure, Riemann and Darboux handoff, RegSeqRat/Dyadic/Real sealing, componentwise transport, displayed continuation replay, provenance, local naming, and non-escape from host integration, undisplayed mesh limits, selected antiderivatives, quotient function equality, hidden differentiability data, open-cover compactness, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:simpson-rule-carrier}. The interval row $I$ and midpoint row $M$ are the only source rows from which the three sampling sites can be read.
+
+The numerical rule is then finite. Row $E$ exposes exactly the two endpoint samples and the midpoint sample, while $W$ exposes the rational weight pattern $1,4,1$ with its denominator and interval-width factor.
+
+The quadrature and error rows are downstream of those displayed samples. Row $Q$ combines only $E$ and $W$, and row $T$ records the Taylor or Peano error budget without adding a hidden derivative or host analytic function.
+
+Finally, $R,D,H,C,P,N$ transport, replay, source, seal, and name the same route. Since no carrier coordinate stores a host integral, selected limit, quotient function equality, compactness principle, or ambient real completeness, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Simpson rule quadrature-error non-escape]
+\label{thm:simpson-rule-quadrature-error-nonescape}
+Every Riemann-facing, Darboux-facing, or real-seal read of an accepted $\SimpsonRuleUp$ packet factors through
+$$
+I,M,E,W,Q,T \longmapsto R \longmapsto D .
+$$
+In particular, a consumer must expose the compact interval, midpoint row, endpoint and midpoint samples, Simpson weights, finite quadrature row, and Taylor or Peano error row before the integral handoff and RegSeqRat/Dyadic/Real seal are available. The packet exports no host integration theorem, undisplayed limiting partition, quotient function equality, hidden differentiability assumption, open-cover compactness principle, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a consumer read of the accepted packet. The NameCert obligations of \autoref{thm:simpson-rule-namecert-obligations} place every read downstream of $I,M,E,W,Q,T,R,D,H,C,P,N$.
+
+The endpoint and midpoint data must be displayed first. The interval row fixes the endpoints, the midpoint row fixes the middle sample site, and the sample row exposes only those three function reads.
+
+The Simpson weights and finite weighted sum are then the only quadrature rows. The error row is attached to that same three-point rule, so an integral-facing read cannot bypass $Q$ or $T$.
+
+Only after those rows are present may $R$ and $D$ be inspected. The Riemann/Darboux handoff and the RegSeqRat/Dyadic/Real seal are therefore finite readback rows, not host analytic integration, quotient function equality, selected limiting partitions, compactness, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{A $\SimpsonRuleUp$ consumer that reaches a $\RiemannIntegralUp$ handoff, Darboux-facing read, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance row, or $\RealUp$ seal without displaying $I,M,E,W,Q,T$ refutes the carrier of \autoref{def:simpson-rule-carrier}.}
+
+\independenceWitness{quadrature, newton-cotes, taylor-remainder, riemannintegral, real: none is bijective to $\SimpsonRuleUp$ because this packet jointly carries the compact interval, midpoint, endpoint and midpoint samples, Simpson weights, finite quadrature row, Taylor or Peano error row, Riemann/Darboux handoff, RegSeqRat/Dyadic/Real seal, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{SimpsonRuleUp}{seedStr}
+
+\begin{closurestatus}{\SimpsonRuleUp}
+  \constructivestory{A $\SimpsonRuleUp$ packet is generated from a compact interval row, midpoint row, endpoint and midpoint sample row, Simpson weight row, finite quadrature row, Taylor or Peano error row, Riemann/Darboux handoff row, RegSeqRat/Dyadic/Real seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:simpson-rule-carrier}, \autoref{thm:simpson-rule-namecert-obligations}, and \autoref{thm:simpson-rule-quadrature-error-nonescape} seed the finite three-point Simpson quadrature carrier and its error-to-readback route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host integration, measure theory, selected limits, quotient function equality, hidden differentiability data, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, midpoint construction, three-sample exposure, Simpson weight exposure, quadrature-row exactness, Taylor or Peano error exposure, Riemann/Darboux handoff, RegSeqRat/Dyadic/Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.SimpsonRuleUp.}
+\end{closurestatus}
