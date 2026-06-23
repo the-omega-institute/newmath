@@ -169,6 +169,24 @@ Use the consistency blocker ledger and closed-normal boundary next. \autoref{thm
 Finally apply scope stability from \autoref{thm:metacic-audit-synthesis-scope-stability}. The only scoped sibling able to name the missing transport edge is the discharge-obligation ledger, so a route that has not read that ledger cannot carry closed-normal evidence across the subject-reduction blocker. The transport obstruction is therefore part of the packet surface itself.
 \end{proof}
 
+\begin{theorem}[MetaCIC audit synthesis discharge projection]
+\label{thm:metacic-audit-synthesis-discharge-projection}
+For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
+$$
+M=(S,C,N,U,D,A,B,H,R,P,L),
+$$
+any synthesis consumer that requests the closed-normal consistency branch through rows $N,A$ must also expose the subject-reduction blocker rows $S,B$ and the discharge-obligation ledger sibling of \autoref{ch:concrete-instances-metacic-discharge-obligation-ledger-namecert} before it may export that branch. Therefore the route cannot be repacked as subject reduction, full consistency, arbitrary Church--Rosser, candidate-free normalization, global beta-conversion decidability, or quotient equality of MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Start with the certificate surface of \autoref{thm:metacic-audit-synthesis-certificate-surface}. The rows $S,C,N,U,D,A,B,H,R,P,L$ are one accepted packet, so a consumer that reads $N,A$ is still reading inside the same carrier.
+
+Apply the consistency blocker ledger from \autoref{thm:metacic-audit-synthesis-consistency-blocker-ledger}. It keeps $S$ and $B$ visible whenever the positive rows are read, preventing the closed-normal branch from being detached from the subject-reduction boundary.
+
+Use the closed-normal boundary of \autoref{thm:metacic-audit-synthesis-closed-normal-boundary}. The rows $N,A$ name only the finite closed-normal endpoint and normal-false exclusion surface; they do not discharge transport across $S,B$.
+
+Finally apply the transport obstruction of \autoref{thm:metacic-audit-synthesis-transport-obstruction}. The discharge-obligation ledger sibling is the named projection through which the missing subject-reduction discharge must remain visible. Hence any export that omits $S,B$ and that ledger leaves the accepted packet surface rather than producing a closed-normal consistency export.
+\end{proof}
+
 \begin{theorem}[MetaCIC audit synthesis scoped closure]
 \label{thm:metacic-audit-synthesis-scope-closure}
 For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
@@ -193,7 +211,7 @@ Finally apply obligation closure, \autoref{thm:metacic-audit-synthesis-obligatio
 \begin{closurestatus}{\MetaCICAuditSynthesisPacketUp}
   \constructivestory{A $\MetaCICAuditSynthesisPacketUp$ packet is generated from subject-reduction obstruction, confluence, normalization, substitution, decidable-checking, closed-normal assembly, blocker, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:metacic-audit-synthesis-packet-carrier}, \autoref{thm:metacic-audit-synthesis-certificate-surface}, \autoref{thm:metacic-audit-synthesis-critical-path-nonescape}, \autoref{thm:metacic-audit-synthesis-consistency-blocker-ledger}, \autoref{thm:metacic-audit-synthesis-closed-normal-boundary}, \autoref{thm:metacic-audit-synthesis-route-union-exactness}, \autoref{thm:metacic-audit-synthesis-positive-blocker-union}, \autoref{thm:metacic-audit-synthesis-obligation-closure}, and \autoref{thm:metacic-audit-synthesis-scope-stability} bind the finite MetaCIC audit synthesis packet and its blocker ledger as one obligation surface.}
+  \scopeclosed{\autoref{def:metacic-audit-synthesis-packet-carrier}, \autoref{thm:metacic-audit-synthesis-certificate-surface}, \autoref{thm:metacic-audit-synthesis-critical-path-nonescape}, \autoref{thm:metacic-audit-synthesis-consistency-blocker-ledger}, \autoref{thm:metacic-audit-synthesis-closed-normal-boundary}, \autoref{thm:metacic-audit-synthesis-route-union-exactness}, \autoref{thm:metacic-audit-synthesis-positive-blocker-union}, \autoref{thm:metacic-audit-synthesis-obligation-closure}, \autoref{thm:metacic-audit-synthesis-scope-stability}, and \autoref{thm:metacic-audit-synthesis-discharge-projection} bind the finite MetaCIC audit synthesis packet and its blocker ledger as one obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
