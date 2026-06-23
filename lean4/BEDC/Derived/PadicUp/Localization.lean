@@ -126,6 +126,40 @@ def pPowZp (p : BHist) (prime : NatPrime p) : Nat -> ZpInt p
   | 0 => zpOne p prime
   | n + 1 => zpMul p (pPowZp p prime n) (pUnitZp p prime)
 
+def zpLevel {p : BHist} (x : ZpInt p) (N : BHist) (NUnary : UnaryHistory N) :
+    ZpTrunc p N :=
+  x.trunc N NUnary
+
+def zpPowP (p : BHist) (prime : NatPrime p) (k : Nat) : ZpInt p :=
+  pPowZp p prime k
+
+theorem nat_dvd_cancel_left {c a b : BHist} :
+    UnaryHistory c -> (hsame c BHist.Empty -> False) ->
+      UnaryHistory a -> UnaryHistory b ->
+        NatDivides (natMulFn c a) (natMulFn c b) -> NatDivides a b := by
+  intro cUnary cNonempty aUnary bUnary divides
+  exact NatDivides_multiplier_after_common_multiplicand_cancel
+    cUnary cNonempty aUnary
+    (natMulFn_rel cUnary aUnary)
+    (natMulFn_rel cUnary bUnary)
+    divides
+
+theorem natToZp_mul {p a b : BHist}
+    (prime : NatPrime p) (aUnary : UnaryHistory a) (bUnary : UnaryHistory b) :
+    ZpEq (zpMul p (natToZp p prime a aUnary) (natToZp p prime b bUnary))
+      (natToZp p prime (natMulFn a b) (natMulFn_unary aUnary bUnary)) := by
+  intro N NUnary
+  change hsame
+    (natModFn (pPowCanon p N)
+      (natMulFn
+        (natModFn (pPowCanon p N) a)
+        (natModFn (pPowCanon p N) b)))
+    (natModFn (pPowCanon p N) (natMulFn a b))
+  have MUnary : UnaryHistory (pPowCanon p N) := pPowCanon_unary p N
+  have MNonempty : hsame (pPowCanon p N) BHist.Empty -> False :=
+    pPowCanon_nonempty_of_prime prime NUnary
+  exact hsame_symm (mod_mul_compat MUnary MNonempty aUnary bUnary)
+
 theorem zpAdd_congr {p : BHist} {x x' y y' : ZpInt p} :
     ZpEq x x' -> ZpEq y y' ->
       ZpEq (zpAdd p x y) (zpAdd p x' y') := by
@@ -158,6 +192,233 @@ theorem zpMul_right_congr {p : BHist} {x y y' : ZpInt p} :
     ZpEq y y' -> ZpEq (zpMul p x y) (zpMul p x y') := by
   intro sameY
   exact zpMul_congr (ZpEq_refl x) sameY
+
+theorem pPowZp_natToZp (p : BHist) (prime : NatPrime p) (k : Nat) :
+    ZpEq (pPowZp p prime k)
+      (natToZp p prime (pPowCanon p (zpuNatToUnary k))
+        (pPowCanon_unary p (zpuNatToUnary k))) := by
+  induction k with
+  | zero =>
+      unfold pPowZp zpOne
+      intro N NUnary
+      change hsame (natModFn (pPowCanon p N) NatOne)
+        (natModFn (pPowCanon p N) (pPowCanon p (zpuNatToUnary 0)))
+      have samePower : hsame NatOne (pPowCanon p (zpuNatToUnary 0)) := by
+        change hsame NatOne (pPowCanon p BHist.Empty)
+        exact PPow_functional (PPow.zero prime.left)
+          (pPowCanon_PPow prime.left unary_empty)
+      exact natModFn_hsame_arg_transport (M := pPowCanon p N) samePower
+  | succ k ih =>
+      change ZpEq (zpMul p (pPowZp p prime k) (pUnitZp p prime))
+        (natToZp p prime (pPowCanon p (zpuNatToUnary (Nat.succ k)))
+          (pPowCanon_unary p (zpuNatToUnary (Nat.succ k))))
+      have mulToNat :
+          ZpEq
+            (zpMul p
+              (natToZp p prime (pPowCanon p (zpuNatToUnary k))
+                (pPowCanon_unary p (zpuNatToUnary k)))
+              (natToZp p prime p prime.left))
+            (natToZp p prime
+              (natMulFn (pPowCanon p (zpuNatToUnary k)) p)
+              (natMulFn_unary (pPowCanon_unary p (zpuNatToUnary k)) prime.left)) :=
+        natToZp_mul prime (pPowCanon_unary p (zpuNatToUnary k)) prime.left
+      have raw :
+          ZpEq (zpMul p (pPowZp p prime k) (pUnitZp p prime))
+            (natToZp p prime
+              (natMulFn (pPowCanon p (zpuNatToUnary k)) p)
+              (natMulFn_unary (pPowCanon_unary p (zpuNatToUnary k)) prime.left)) := by
+        exact ZpEq_trans (zpMul_left_congr ih) mulToNat
+      have samePower :
+          hsame (natMulFn (pPowCanon p (zpuNatToUnary k)) p)
+            (pPowCanon p (zpuNatToUnary (Nat.succ k))) := by
+        have prevPow : PPow p (zpuNatToUnary k)
+            (pPowCanon p (zpuNatToUnary k)) :=
+          pPowCanon_PPow prime.left (zpuNatToUnary_unary k)
+        have forwardMul :
+            NatMul p (pPowCanon p (zpuNatToUnary k))
+              (natMulFn p (pPowCanon p (zpuNatToUnary k))) :=
+          natMulFn_rel prime.left (pPowCanon_unary p (zpuNatToUnary k))
+        have reverseMul :
+            NatMul (pPowCanon p (zpuNatToUnary k)) p
+              (natMulFn (pPowCanon p (zpuNatToUnary k)) p) :=
+          natMulFn_rel (pPowCanon_unary p (zpuNatToUnary k)) prime.left
+        have sameForwardReverse :
+            hsame (natMulFn p (pPowCanon p (zpuNatToUnary k)))
+              (natMulFn (pPowCanon p (zpuNatToUnary k)) p) :=
+          NatMul_comm_hsame prime.left
+            (pPowCanon_unary p (zpuNatToUnary k)) forwardMul reverseMul
+        have stepPowRaw : PPow p (BHist.e1 (zpuNatToUnary k))
+            (natMulFn (pPowCanon p (zpuNatToUnary k)) p) := by
+          exact PPow_result_hsame_transport
+            (PPow.succ prevPow forwardMul) sameForwardReverse
+        have stepPow :
+            PPow p (zpuNatToUnary (Nat.succ k))
+              (natMulFn (pPowCanon p (zpuNatToUnary k)) p) := by
+          change PPow p (BHist.e1 (zpuNatToUnary k))
+            (natMulFn (pPowCanon p (zpuNatToUnary k)) p)
+          exact stepPowRaw
+        exact PPow_functional stepPow
+          (pPowCanon_PPow prime.left (zpuNatToUnary_unary (Nat.succ k)))
+      exact ZpEq_trans raw (by
+        intro N NUnary
+        exact natModFn_hsame_arg_transport (M := pPowCanon p N) samePower)
+
+theorem zp_trunc_drop_nat {p N K : BHist} (x : ZpInt p)
+    (NUnary : UnaryHistory N) (KUnary : UnaryHistory K) :
+    hsame
+      (natModFn (pPowCanon p N)
+        (x.trunc (BEDC.FKernel.Cont.append N K)
+          (unary_append_closed NUnary KUnary)).val)
+      (x.trunc N NUnary).val := by
+  induction K with
+  | Empty =>
+      change hsame
+        (natModFn (pPowCanon p N) (x.trunc N NUnary).val)
+        (x.trunc N NUnary).val
+      exact natModFn_of_strict (pPowCanon_unary p N)
+        (pPowCanon_nonempty_of_prime x.prime NUnary)
+        (BoundedNat_unary (pPowCanon_unary p N) (x.trunc N NUnary))
+        (x.trunc N NUnary).isLt
+  | e0 _ ih =>
+      cases KUnary
+  | e1 K ih =>
+      have KTailUnary : UnaryHistory K := unary_e1_inversion KUnary
+      let L := BEDC.FKernel.Cont.append N K
+      have LUnary : UnaryHistory L := unary_append_closed NUnary KTailUnary
+      change hsame
+        (natModFn (pPowCanon p N)
+          (x.trunc (BHist.e1 L) (unary_e1_closed LUnary)).val)
+        (x.trunc N NUnary).val
+      have step := x.compat L LUnary
+      unfold reduce fromNatModPow ZpEqTrunc natMod at step
+      have outer :
+          hsame
+            (natModFn (pPowCanon p N)
+              (natModFn (pPowCanon p L)
+                (x.trunc (BHist.e1 L) (unary_e1_closed LUnary)).val))
+            (natModFn (pPowCanon p N)
+              (x.trunc (BHist.e1 L) (unary_e1_closed LUnary)).val) :=
+        natModFn_rem_rem_of_dvd
+          (pPowCanon_unary p N)
+          (pPowCanon_nonempty_of_prime x.prime NUnary)
+          (pPowCanon_unary p L)
+          (pPowCanon_nonempty_of_prime x.prime LUnary)
+          (BoundedNat_unary (pPowCanon_unary p (BHist.e1 L))
+            (x.trunc (BHist.e1 L) (unary_e1_closed LUnary)))
+          (pow_dvd_pow_of_le x.prime NUnary LUnary
+            ⟨K, KTailUnary, rfl⟩)
+      have stepMod :
+          hsame
+            (natModFn (pPowCanon p N)
+              (natModFn (pPowCanon p L)
+                (x.trunc (BHist.e1 L) (unary_e1_closed LUnary)).val))
+            (natModFn (pPowCanon p N) (x.trunc L LUnary).val) :=
+        natModFn_hsame_arg_transport (M := pPowCanon p N) step
+      have tailDrop := ih KTailUnary
+      change hsame
+        (natModFn (pPowCanon p N) (x.trunc L LUnary).val)
+        (x.trunc N NUnary).val at tailDrop
+      exact hsame_trans (hsame_symm outer) (hsame_trans stepMod tailDrop)
+
+theorem powP_mul_eq_zero_cancel {p : BHist} (prime : NatPrime p) (k : Nat)
+    (z : ZpInt p) :
+    ZpEq (zpMul p (zpPowP p prime k) z) (zpZero p prime) ->
+      ZpEq z (zpZero p prime) := by
+  intro zeroScaled N NUnary
+  let K := zpuNatToUnary k
+  have KUnary : UnaryHistory K := zpuNatToUnary_unary k
+  let NK := BEDC.FKernel.Cont.append N K
+  have NKUnary : UnaryHistory NK := unary_append_closed NUnary KUnary
+  have zeroAtNK := zeroScaled NK NKUnary
+  unfold zpPowP at zeroAtNK
+  have powerToNat := pPowZp_natToZp p prime k
+  have zeroAtNK' :
+      hsame
+        (natModFn (pPowCanon p NK)
+          (natMulFn
+            (natModFn (pPowCanon p NK) (pPowCanon p K))
+            (z.trunc NK NKUnary).val))
+        BHist.Empty := by
+    change hsame
+      (natModFn (pPowCanon p NK)
+        (natMulFn ((zpPowP p prime k).trunc NK NKUnary).val
+          (z.trunc NK NKUnary).val))
+      (natModFn (pPowCanon p NK) BHist.Empty) at zeroAtNK
+    have lhsTransport :
+        hsame
+          (natModFn (pPowCanon p NK)
+            (natMulFn ((zpPowP p prime k).trunc NK NKUnary).val
+              (z.trunc NK NKUnary).val))
+          (natModFn (pPowCanon p NK)
+            (natMulFn
+              (natModFn (pPowCanon p NK) (pPowCanon p K))
+              (z.trunc NK NKUnary).val)) := by
+      exact natModFn_hsame_arg_transport (M := pPowCanon p NK)
+        (natMulFn_hsame_transport (powerToNat NK NKUnary) (hsame_refl _))
+    exact hsame_trans (hsame_symm lhsTransport) zeroAtNK
+  have MUnary : UnaryHistory (pPowCanon p NK) := pPowCanon_unary p NK
+  have MNonempty : hsame (pPowCanon p NK) BHist.Empty -> False :=
+    pPowCanon_nonempty_of_prime prime NKUnary
+  have productUnary :
+      UnaryHistory (natMulFn (pPowCanon p K) (z.trunc NK NKUnary).val) :=
+    natMulFn_unary (pPowCanon_unary p K)
+      (BoundedNat_unary (pPowCanon_unary p NK) (z.trunc NK NKUnary))
+  have dividesBigProduct :
+      NatDivides (pPowCanon p NK)
+        (natMulFn (pPowCanon p K) (z.trunc NK NKUnary).val) := by
+    have reduceLeft :
+        hsame
+          (natModFn (pPowCanon p NK)
+            (natMulFn (pPowCanon p K) (z.trunc NK NKUnary).val))
+          (natModFn (pPowCanon p NK)
+            (natMulFn
+              (natModFn (pPowCanon p NK) (pPowCanon p K))
+              (z.trunc NK NKUnary).val)) := by
+      exact hsame_symm
+        (natModFn_mul_left_reduce_same_mod MUnary MNonempty
+          (pPowCanon_unary p K)
+          (BoundedNat_unary (pPowCanon_unary p NK) (z.trunc NK NKUnary)))
+    have modZero :
+        hsame
+          (natModFn (pPowCanon p NK)
+            (natMulFn (pPowCanon p K) (z.trunc NK NKUnary).val))
+          BHist.Empty :=
+      hsame_trans reduceLeft zeroAtNK'
+    exact (dvd_iff_mod_zero MUnary MNonempty productUnary).mpr modZero
+  have pNDividesZAtNK : NatDivides (pPowCanon p N) (z.trunc NK NKUnary).val := by
+    have powProduct : NatMul (pPowCanon p N) (pPowCanon p K) (pPowCanon p NK) := by
+      have powN := pPowCanon_PPow prime.left NUnary
+      have powK := pPowCanon_PPow prime.left KUnary
+      have productTotal := NatMul_total (pPowCanon_unary p N) (pPowCanon_unary p K)
+      cases productTotal with
+      | intro product productData =>
+          have add : NatAdd N K NK := ⟨NUnary, KUnary, rfl⟩
+          have powProduct : PPow p NK product := PPow_add powN powK add productData.right
+          have sameProduct : hsame product (pPowCanon p NK) :=
+            PPow_functional powProduct (pPowCanon_PPow prime.left NKUnary)
+          exact (NatMul_result_hsame_transport productData.right sameProduct).right
+    have divisorSame :
+        hsame (pPowCanon p NK) (natMulFn (pPowCanon p K) (pPowCanon p N)) :=
+      NatMul_comm_hsame (pPowCanon_unary p N) (pPowCanon_unary p K)
+        powProduct (natMulFn_rel (pPowCanon_unary p K) (pPowCanon_unary p N))
+    have dividesTransported :
+        NatDivides (natMulFn (pPowCanon p K) (pPowCanon p N))
+          (natMulFn (pPowCanon p K) (z.trunc NK NKUnary).val) :=
+      (NatDivides_divisor_hsame_transport dividesBigProduct divisorSame).right
+    exact nat_dvd_cancel_left
+      (pPowCanon_unary p K)
+      (pPowCanon_nonempty_of_prime prime KUnary)
+      (pPowCanon_unary p N)
+      (BoundedNat_unary (pPowCanon_unary p NK) (z.trunc NK NKUnary))
+      dividesTransported
+  have zDrop := zp_trunc_drop_nat z NUnary KUnary
+  have zNKModZero :
+      hsame (natModFn (pPowCanon p N) (z.trunc NK NKUnary).val) BHist.Empty :=
+    (dvd_iff_mod_zero (pPowCanon_unary p N)
+      (pPowCanon_nonempty_of_prime z.prime NUnary)
+      (BoundedNat_unary (pPowCanon_unary p NK) (z.trunc NK NKUnary))).mp
+      pNDividesZAtNK
+  exact hsame_trans (hsame_symm zDrop) zNKModZero
 
 theorem zpMul_zero_right (p : BHist) (x : ZpInt p) :
     ZpEq (zpMul p x (zpZero p x.prime)) (zpZero p x.prime) := by
@@ -309,6 +570,68 @@ theorem zpScale_zero (p : BHist) (prime zeroPrime : NatPrime p) (n : Nat) :
   exact ZpEq_trans (zpMul_zero_right p (pPowZp p prime n))
     (zpZero_prime_irrel (pPowZp p prime n).prime zeroPrime)
 
+def zpSub (p : BHist) (x y : ZpInt p) : ZpInt p :=
+  zpAdd p x (zpNeg p y)
+
+theorem zpSub_eq_zero_to_eq {p : BHist} {x y : ZpInt p} (prime : NatPrime p) :
+    ZpEq (zpSub p x y) (zpZero p prime) -> ZpEq x y := by
+  intro subZero
+  have xToAddZero : ZpEq x (zpAdd p x (zpZero p y.prime)) :=
+    ZpEq_symm (zpZero_add_right p y.prime x)
+  have zeroToNegAdd : ZpEq (zpZero p y.prime) (zpAdd p (zpNeg p y) y) :=
+    ZpEq_symm (zpAdd_neg_left p y)
+  have xToAddNegYPlusY :
+      ZpEq x (zpAdd p x (zpAdd p (zpNeg p y) y)) :=
+    ZpEq_trans xToAddZero (zpAdd_congr (ZpEq_refl x) zeroToNegAdd)
+  have assocBack :
+      ZpEq (zpAdd p x (zpAdd p (zpNeg p y) y))
+        (zpAdd p (zpAdd p x (zpNeg p y)) y) :=
+    ZpEq_symm (zpAdd_assoc p x (zpNeg p y) y)
+  have replaceSub :
+      ZpEq (zpAdd p (zpAdd p x (zpNeg p y)) y)
+        (zpAdd p (zpZero p y.prime) y) :=
+    zpAdd_congr (ZpEq_trans subZero (zpZero_prime_irrel prime y.prime)) (ZpEq_refl y)
+  have zeroAdd : ZpEq (zpAdd p (zpZero p y.prime) y) y :=
+    zpZero_add_left p y.prime y
+  exact ZpEq_trans xToAddNegYPlusY
+    (ZpEq_trans assocBack (ZpEq_trans replaceSub zeroAdd))
+
+theorem zpMul_sub_zero_of_mul_eq {p : BHist} (a x y : ZpInt p) :
+    ZpEq (zpMul p a x) (zpMul p a y) ->
+      ZpEq (zpMul p a (zpSub p x y)) (zpZero p a.prime) := by
+  intro same
+  unfold zpSub
+  have distX :
+      ZpEq (zpMul p a (zpAdd p x (zpNeg p y)))
+        (zpAdd p (zpMul p a x) (zpMul p a (zpNeg p y))) :=
+    zpMul_add_distrib p a x (zpNeg p y)
+  have replaceX :
+      ZpEq (zpAdd p (zpMul p a x) (zpMul p a (zpNeg p y)))
+        (zpAdd p (zpMul p a y) (zpMul p a (zpNeg p y))) :=
+    zpAdd_congr same (ZpEq_refl _)
+  have distY :
+      ZpEq (zpMul p a (zpAdd p y (zpNeg p y)))
+        (zpAdd p (zpMul p a y) (zpMul p a (zpNeg p y))) :=
+    zpMul_add_distrib p a y (zpNeg p y)
+  have yNegZero : ZpEq (zpAdd p y (zpNeg p y)) (zpZero p y.prime) :=
+    zpAdd_neg_right p y
+  have mulYNegZero :
+      ZpEq (zpMul p a (zpAdd p y (zpNeg p y))) (zpZero p a.prime) :=
+    ZpEq_trans (zpMul_right_congr yNegZero) (zpMul_zero_right p a)
+  exact ZpEq_trans distX
+    (ZpEq_trans replaceX (ZpEq_trans (ZpEq_symm distY) mulYNegZero))
+
+theorem powP_mul_left_cancel {p : BHist} (prime : NatPrime p) (k : Nat)
+    (x y : ZpInt p) :
+    ZpEq (zpMul p (zpPowP p prime k) x) (zpMul p (zpPowP p prime k) y) ->
+      ZpEq x y := by
+  intro same
+  have diffZero : ZpEq (zpSub p x y) (zpZero p prime) :=
+    powP_mul_eq_zero_cancel prime k (zpSub p x y)
+      (ZpEq_trans (zpMul_sub_zero_of_mul_eq (zpPowP p prime k) x y same)
+        (zpZero_prime_irrel (zpPowP p prime k).prime prime))
+  exact zpSub_eq_zero_to_eq prime diffZero
+
 structure QpInt (p : BHist) where
   shift : Nat
   value : ZpInt p
@@ -319,6 +642,9 @@ def zpToQp {p : BHist} (z : ZpInt p) : QpInt p :=
 def QpCrossEq {p : BHist} (prime : NatPrime p) (x y : QpInt p) : Prop :=
   ZpEq (zpScale p prime y.shift x.value) (zpScale p prime x.shift y.value)
 
+def QpRawEq {p : BHist} (prime : NatPrime p) (x y : QpInt p) : Prop :=
+  QpCrossEq prime x y
+
 def QpEq {p : BHist} (x y : QpInt p) : Prop :=
   ∀ prime : NatPrime p, ∃ pad : Nat,
     ZpEq (zpScale p prime (pad + y.shift) x.value)
@@ -328,6 +654,20 @@ theorem QpCrossEq_to_QpEq {p : BHist} {x y : QpInt p} :
     (∀ prime : NatPrime p, QpCrossEq prime x y) -> QpEq x y := by
   intro cross prime
   exact ⟨0, by simpa using cross prime⟩
+
+theorem QpRawEq_to_QpEq {p : BHist} {x y : QpInt p} :
+    (∀ prime : NatPrime p, QpRawEq prime x y) -> QpEq x y := by
+  intro raw
+  exact QpCrossEq_to_QpEq raw
+
+theorem QpRawEq_refl {p : BHist} (prime : NatPrime p) (x : QpInt p) :
+    QpRawEq prime x x := by
+  exact ZpEq_refl _
+
+theorem QpRawEq_symm {p : BHist} {x y : QpInt p} (prime : NatPrime p) :
+    QpRawEq prime x y -> QpRawEq prime y x := by
+  intro same
+  exact ZpEq_symm same
 
 theorem QpEq_refl {p : BHist} (x : QpInt p) : QpEq x x := by
   intro prime
@@ -395,6 +735,12 @@ theorem QpEq_trans {p : BHist} {x y z : QpInt p} :
               (pad + x.shift) z.value
               (qpNat_trans_right padXY padYZ y.shift x.shift)
           exact ⟨pad, ZpEq_trans leftTarget (ZpEq_trans chain rightTarget)⟩
+
+theorem QpRawEq_trans_to_QpEq {p : BHist} {x y z : QpInt p} :
+    (∀ prime : NatPrime p, QpRawEq prime x y) ->
+      (∀ prime : NatPrime p, QpRawEq prime y z) -> QpEq x z := by
+  intro sameXY sameYZ
+  exact QpEq_trans (QpRawEq_to_QpEq sameXY) (QpRawEq_to_QpEq sameYZ)
 
 theorem QpEq_of_shift_value {p : BHist} {x y : QpInt p} :
     x.shift = y.shift -> ZpEq x.value y.value -> QpEq x y := by
