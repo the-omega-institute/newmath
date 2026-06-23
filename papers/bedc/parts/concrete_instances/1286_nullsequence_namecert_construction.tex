@@ -53,6 +53,18 @@ The modulus coordinate $M$ chooses the finite window $W$ where the relevant tail
 Conversely, a $\RealUp$ equality read that is certified by this packet can project only the difference stream, tolerance schedule, window, bound, seal, continuation, and provenance rows. Those are exactly the coordinates of \autoref{def:null-sequence-namecert-carrier}, so the classifier consumption is neither stronger nor weaker than the displayed null-difference packet.
 \end{proof}
 
+\begin{theorem}[NullSequence downstream Real-completion consumer route]
+\label{thm:null-sequence-downstream-real-consumer-route}
+Every $\RealUp$ equality or completion-facing seal that consumes a $\NullSequenceUp$ null-difference packet must route through the displayed $\RegSeqRatUp$ difference stream, the $\DyadicRatCoreUp$ tolerance row, the $\StreamNameUp$ observation window, and the $\CauchyModulusUp$ or $\RegularityModulusUp$ threshold before reading the $\RealUp$ seal. In particular, any downstream read shared with the $\RealTailAgreementSealUp$ budget route of \autoref{ch:concrete-instances-realtailagreementseal-namecert} or a completion-facing handoff such as \autoref{ch:concrete-instances-regularcauchyuniformity-namecert} receives the null-difference evidence only through those displayed finite rows.
+\end{theorem}
+\begin{proof}
+Start with the Real classifier consumption theorem \autoref{thm:null-sequence-real-classifier-consumption}. It identifies the packet consumed by a $\RealUp$ equality read as the displayed null-difference row together with its tolerance, window, threshold, seal, continuation, and provenance rows.
+
+Apply the carrier projection of \autoref{def:null-sequence-namecert-carrier}. The difference stream is a $\RegSeqRatUp$ row, the tolerance request is a $\DyadicRatCoreUp$ row, the observation service is a $\StreamNameUp$ row, and the threshold is supplied by $\CauchyModulusUp$ or $\RegularityModulusUp$ before the seal is public.
+
+The cited downstream siblings consume the same finite route rather than a hidden host limit. Since no coordinate of the packet exports a quotient stream, selected limit, trichotomy, or ambient completeness proof, every Real or completion-facing seal read remains downstream of the displayed null-sequence rows.
+\end{proof}
+
 \begin{definition}[NullSequence tolerance-window exactness package]
 \label{def:null-sequence-tolerance-window-exactness-package}
 For an accepted $\NullSequenceUp$ packet
