@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\GrothendieckSpectralSequenceUp$}
+\label{ch:concrete-instances-grothendieck-spectral-sequence-namecert}
+\origin{human}
+
+Following Grothendieck's Tohoku paper and Weibel's homological algebra account, the $\GrothendieckSpectralSequenceUp$ packet records the finite NameCert surface for the classical composite-derived-functor spectral sequence. It sits after the abelian-category carrier of \autoref{ch:concrete-instances-abeliancat-namecert}, the category, functor, and natural-transformation rows of \autoref{ch:concrete-instances-category-namecert}, \autoref{ch:concrete-instances-functor-namecert}, and \autoref{ch:concrete-instances-nattrans-namecert}, the derived-functor spine of \autoref{ch:concrete-instances-derivedfunctor-namecert}, and the page ledger of \autoref{ch:concrete-instances-spectralseq-namecert}. The packet names only the displayed composite-functor source, acyclicity ledger, page rows, filtration target, transport, replay, provenance, and local naming data; it is not a host proof of the full Grothendieck spectral sequence and does not claim convergence beyond the finite route recorded below.
+
+\begin{definition}[Grothendieck spectral sequence carrier]
+\label{def:grothendieck-spectral-sequence-carrier}
+A $\GrothendieckSpectralSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+G=(A,C,F,G_0,\eta,D,E,P,T,H,R,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\AbelianCatUp$ source row in which exactness, injective or acyclic resolutions, and homology reads are interpreted.
+\item $C$ is the $\CategoryUp$ dependency row for the source, middle, and target categories of the composite construction.
+\item $F$ and $G_0$ are the two $\FunctorUp$ rows whose composite is being inspected.
+\item $\eta$ is the $\NatTransUp$ comparison row recording the displayed compatibility data used by the composite-functor route.
+\item $D$ is the $\DerivedFunctorUp$ row for the inner and outer derived-functor reads, including the resolution, degree, cycle-boundary, and $\Cont$ ledgers visible to downstream consumers.
+\item $E$ is the $\SpectralSeqUp$ page row, carrying the displayed $E_2$ page, differential rows, successor-page route, and filtration readback boundary.
+\item $P$ is the finite acyclicity and resolution-compatibility ledger that allows the inner derived-functor row to feed the outer derived-functor row.
+\item $T$ is the target filtration row, recording only the displayed filtration boundary of the composite derived functor.
+\item $H$ records componentwise $\hsame$ transport for the abelian, category, functor, natural-transformation, derived-functor, spectral-sequence, acyclicity, target-filtration, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from the composite source through $F,G_0,\eta,D,P,E,T$.
+\item $Q$ is the $\Pkg$ provenance over $\GrothendieckSpectralSequenceUp$, $\AbelianCatUp$, $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\DerivedFunctorUp$, $\SpectralSeqUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\GrothendieckSpectralSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,C,F,G_0,\eta,D,E,P,T,H,R,Q,N$. It has no coordinate for host derived-category equality, a global convergence theorem, chosen resolutions outside the displayed ledger, exactness beyond the acyclicity row, or quotient equality of pages.
+\end{definition}
+
+\begin{theorem}[Grothendieck spectral sequence NameCert obligations]
+\label{thm:grothendieck-spectral-sequence-namecert-obligations}
+For every accepted $\GrothendieckSpectralSequenceUp$ carrier $G=(A,C,F,G_0,\eta,D,E,P,T,H,R,Q,N)$, the local $\NameCert_{\GrothendieckSpectralSequenceUp}$ surface consists exactly of carrier admission for those thirteen rows; source exposure through $\AbelianCatUp$ and $\CategoryUp$; functorial exposure through the two $\FunctorUp$ rows and the $\NatTransUp$ comparison row; derived-functor exposure through $D$; spectral-sequence page exposure through $E$; acyclicity and resolution compatibility through $P$; target-filtration exposure through $T$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $R$; $\Pkg$ provenance through $Q$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:grothendieck-spectral-sequence-carrier}. The only source rows are $A,C,F,G_0,\eta$, and the only homological rows are $D,E,P,T$.
+
+Read the functorial source first. The category and abelian-category rows type the two functors and the natural-transformation comparison, so the composite route is a displayed BEDC route rather than an ambient functor category.
+
+Next read the homological ledger. The derived-functor row $D$ supplies the inner and outer derived reads, $P$ records the acyclicity and resolution-compatibility budget, $E$ records the spectral-sequence page ledger, and $T$ records the target filtration boundary.
+
+Finally use $H,R,Q,N$. Transport, replay, provenance, and local naming preserve exactly those displayed rows. Since no carrier coordinate stores a host convergence theorem, chosen external resolution, derived-category equality, or quotient page equality, those data are not NameCert obligations of the packet.
+\end{proof}
+
+\begin{theorem}[Grothendieck spectral sequence derived-functor route]
+\label{thm:grothendieck-spectral-sequence-derived-functor-route}
+Every derived-functor consumer of an accepted $\GrothendieckSpectralSequenceUp$ packet must factor through the finite route
+$$
+\AbelianCatUp,\ \CategoryUp,\ \FunctorUp,\ \NatTransUp
+\longmapsto \DerivedFunctorUp
+\longmapsto \SpectralSeqUp
+\longmapsto T,H,R,Q,N .
+$$
+The route exposes the composite source, the acyclicity ledger, the page ledger, and the target-filtration boundary before any derived-functor output is read. It does not export a host Grothendieck spectral sequence theorem, global convergence assertion, selected resolution outside $P$, or quotient equality of spectral-sequence pages.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:grothendieck-spectral-sequence-namecert-obligations}. They force every read through the abelian and categorical source rows, the two functor rows, and the natural-transformation comparison row before any derived-functor or spectral-sequence row is consumed.
+
+The derived-functor handoff is then the row $D$. It is scoped by the existing $\DerivedFunctorUp$ surface and by the acyclicity and resolution-compatibility row $P$, so the consumer receives only displayed resolution, degree, cycle-boundary, and continuation ledgers.
+
+The spectral-sequence handoff is the row $E$, followed by the target filtration row $T$. These rows are read through the existing $\SpectralSeqUp$ page ledger and do not add a separate convergence theorem.
+
+Finally $H,R,Q,N$ preserve, replay, source, and name the same route. Thus the accepted consumer sees a finite composite-derived-functor packet and no unlisted host-level exactness or convergence data.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\GrothendieckSpectralSequenceUp$ consumer that reads a target-filtration row must first expose the $\AbelianCatUp$, $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\DerivedFunctorUp$, $\SpectralSeqUp$, acyclicity, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows listed in the carrier.}
+
+\independenceWitness{abelian category, category, functor, natural transformation, derived functor, spectral sequence: none is bijective to $\GrothendieckSpectralSequenceUp$, because this packet binds the composite-functor source, acyclicity ledger, derived-functor handoff, page ledger, and target-filtration boundary into one local NameCert surface.}
+
+\closureat{GrothendieckSpectralSequenceUp}{seedStr}
+
+\begin{closurestatus}{\GrothendieckSpectralSequenceUp}
+  \constructivestory{A $\GrothendieckSpectralSequenceUp$ packet is generated from AbelianCatUp source rows, CategoryUp source rows, two FunctorUp rows, a NatTransUp comparison row, a DerivedFunctorUp handoff, a SpectralSeqUp page ledger, an acyclicity and resolution-compatibility ledger, a target-filtration row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:grothendieck-spectral-sequence-carrier}, \autoref{thm:grothendieck-spectral-sequence-namecert-obligations}, and \autoref{thm:grothendieck-spectral-sequence-derived-functor-route} seed the finite composite-derived-functor spectral-sequence route over the displayed dependency rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host derived-category equality, a full Grothendieck spectral sequence theorem, global convergence, selected external resolutions, quotient page equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, composite-functor source exposure, acyclicity-ledger exactness, derived-functor handoff, spectral-sequence page routing, target-filtration nonescape, transport, replay, provenance, and local naming for BEDC.Derived.GrothendieckSpectralSequenceUp.}
+\end{closurestatus}
