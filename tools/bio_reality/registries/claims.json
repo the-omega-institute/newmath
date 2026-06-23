@@ -8963,6 +8963,23 @@
             "failed": 1
           },
           "script_sha": "e495337cbec8100f"
+        },
+        {
+          "ts": "2026-06-23T02:43:34+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-23T02:43:34+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "8629de3c43c9",
+          "checks": {
+            "total": 5,
+            "passed": 4,
+            "failed": 1
+          },
+          "script_sha": "e495337cbec8100f"
         }
       ]
     },
@@ -12820,14 +12837,27 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "SCD (sequence charge decoration, charge-PATTERNING) is a REAL but WEAK (BOUNDED) cross-dataset predictor of measured protein thermal stability (Tm) (cross-dataset deepening of the SCD-Tm contact; independent Meltome Atlas Jarzab 2020 TPP/lysate-melting, multi-organism, n=8092). Frozen Sawle-Ghosh SCD predicts Tm beyond length+aa-composition+bulk-charge, and it BEATS the charge-position-shuffle null (which holds composition/FCR/NCPR/net-charge fixed by construction) in ALL 3 organisms tested -- H.sapiens partial rho=-0.062 (n=5364, shuffle-null p=1e-3), E.coli -0.074 (n=1829, p=2e-3), T.thermophilus -0.086 (n=899, p=6e-3) -- confirming a genuine charge-patterning signal orthogonal to composition. BUT |partial rho| is 0.06-0.09 in every organism, below the 0.10 crosses floor -> bounded_descriptor_only (real non-composition patterning effect but small cross-dataset). Per-organism analysis excludes the OGT confound; positive control reproduced (thermophile T.thermophilus Tm 84.7C vs mesophile ~52C). readout = measured TPP Tm (leakage-guarded); predictor = FROZEN Sawle-Ghosh SCD (His neutral). Confirms the original bounded SCD-Tm characterization holds cross-dataset. Verdict transfers_cross_dataset / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "scd_charge_patterning_tm_crossdataset_meltome",
       "history": [
         {
           "ts": "2026-06-23T02:26:46+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-23T02:52:07+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "72424b9e9d53",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "7b0882b08515ecfd"
         }
-      ]
+      ],
+      "linked_conjecture_id": "q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary"
     },
     {
       "claim_id": "h3.cross_layer_relation.protein_degron_stability.degron_cterminal_crossdataset_koren2018",
@@ -12835,12 +12865,24 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "The frozen C-terminal degron rule (C-end small/G/A/aromatic destabilizing, D/E/K stabilizing, NOT re-learned) TRANSFERS cross-dataset to predict measured protein stability in the independent Koren 2018 C-terminal GPS screen (cross-dataset deepening UPGRADING the original bounded Voutsinos degron contact). Koren 2018 Cell (n=22564 23-mer C-terminal peptides on GFP, measured PSI from FACS bins). Frozen C-end degron score predicts PSI at Spearman rho=-0.206, surviving bulk-aa-composition control at partial rho=-0.183 (perm p=1e-3, correct sign), end-position-specific (G terminal-minus-internal=-0.31). Positive control reproduced (W -0.31/G -0.28/C -0.22/Y -0.21/A -0.20 destabilizing; D +0.35/K +0.26/E +0.25 stabilizing). Supplementary bottom-25%-tail AUROC=0.594 (marginal, reported NOT as a hard gate). readout = measured GPS-FACS PSI (leakage-guarded); predictor = FROZEN C-end degron rule. Verdict transfers_cross_dataset / bounded_descriptor_only / not_replicated. (Re-added after daemon registry lost-update clobber.)",
       "depends_on": [],
-      "status": "open",
+      "status": "needs_data",
       "experiment_id": "degron_cterminal_crossdataset_koren2018",
       "history": [
         {
           "ts": "2026-06-23T02:27:15+00:00",
           "status": "open"
+        },
+        {
+          "ts": "2026-06-23T02:52:36+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "5bdb1111560f",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "1e177d0d71be05b1"
         }
       ]
     },
@@ -12850,11 +12892,39 @@
       "claimed_layer": "cross_layer_relation",
       "statement": "PUS-enzyme recognition motifs (TRUB1 GU-Psi-CN, PUS7 UN-Psi-AR; position-wise base-identity, frozen literature priors) predict measured mRNA pseudouridine (Psi) stoichiometry beyond local GC+U content -- a real cross-layer contact (NEW layer = RNA pseudouridylation; Dai 2022 BID-seq, GSE179798, n=2040 Psi sites across HeLa/HEK293T/A549). Frozen-motif identity score (max TRUB1/PUS7) predicts per-site Psi fraction (Frac_Ave%) at partial Spearman=0.301 controlling local GC+U content (perm p=5e-4, B=2000) -- so it is NOT a U-content/composition artifact (the key confound for a U-modification). Motif-class ordering TRUB1 (67.6%) > PUS7 (46.5%) > other (26.8%), Cohen's d(TRUB1 vs other)=2.0, reproduced across ALL 3 independent cell lines (HeLa/HEK293T/A549, concordant; per-dataset d=1.4-3.1). Positive control reproduced in all 3 datasets. NON-CIRCULAR: Psi sites are called by the independent BID-seq chemical deletion signal (Deletion_Ave), the PUS motif is a post-hoc sequence rule. predictor = FROZEN PUS position-identity motifs, GC-orthogonal (high-GC and low-GC PUS motifs both elevate Psi); readout = measured Psi stoichiometry (leakage-guarded), conditional on detected Psi sites. Distinct from the snoRNA-Nm dead-end (2'-O-methyl, GC-collinear). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
       "depends_on": [],
-      "status": "open",
+      "status": "passed",
       "experiment_id": "pseudouridine_pus_motif_stoichiometry_dai2022",
       "history": [
         {
           "ts": "2026-06-23T02:40:42+00:00",
+          "status": "open"
+        },
+        {
+          "ts": "2026-06-23T02:52:41+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "cf233b5f0446",
+          "checks": {
+            "total": 0,
+            "passed": 0,
+            "failed": 0
+          },
+          "script_sha": "3d234be75a63ab2b"
+        }
+      ],
+      "linked_conjecture_id": "q6.translation-conditioned.rna-half-life-rbp-bridge.cross-layer"
+    },
+    {
+      "claim_id": "h3.cross_layer_relation.rna_m6am_methylation.m6am_flanking_identity_stoichiometry_crownseq",
+      "hypothesis_level": "H3",
+      "claimed_layer": "cross_layer_relation",
+      "statement": "Flanking initiator sequence-identity around the cap-proximal adenosine predicts measured m6Am methylation stoichiometry beyond local GC+coverage -- a real cross-layer contact (NEW layer = RNA m6Am cap methylation; CROWN-seq, eLife 104139, n=31886 HEK sites + 9 cell lines, 19406 distinct stoichiometry values). Position-resolved nucleotide-identity score (-5..+5, +1=A held FIXED and excluded from the score) predicts per-site m6Am level at partial Spearman=0.268 controlling flanking GC%+log(coverage) (full data; variable-subset 0.168; low-tail<0.8 0.099), and it BEATS the GC-matched permutation null (which holds flanking GC fixed and shuffles position-identity, p=8e-4) -- so the signal is NOT a GC/composition artifact. Reproduced across ALL 9 cell lines (concordant, partial rho 0.06-0.16, all positive). Positive control reproduced (SSCA+1GC 0.958 vs VA+1RR 0.713; +2G 0.902 vs +2A 0.837; PCIF1-KO built-in null collapses to mean 0.0096, confirming the readout is the modification). NON-CIRCULAR: +1=A (the modifiable base) held fixed and excluded from the predictor; only flanking identity varies. HONEST: distribution is right-skewed (34% saturated >=0.95), so the discriminative signal concentrates in the variable/low-tail sites, reported separately. readout = measured m6Am stoichiometry (leakage-guarded); predictor = FROZEN position-identity (GC-orthogonal). Distinct from m6A (internal, METTL3). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact.",
+      "depends_on": [],
+      "status": "open",
+      "experiment_id": "m6am_flanking_identity_stoichiometry_crownseq",
+      "history": [
+        {
+          "ts": "2026-06-23T03:18:55+00:00",
           "status": "open"
         }
       ]
