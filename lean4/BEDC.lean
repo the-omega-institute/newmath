@@ -2739,6 +2739,7 @@ import BEDC.Derived.CertifiedUseProcessUp.NameCertSurface
 import BEDC.Derived.CertifiedUseProcessUp.NonprivateRuleFollowing
 import BEDC.Derived.CertifiedUseProcessUp.TasteGate
 import BEDC.Derived.CesaroConvergenceUp.TasteGate
+import BEDC.Derived.CevaUp.NameCertObligations
 import BEDC.Derived.CevaUp.TasteGate
 import BEDC.Derived.ChainConnectedMetricUp.TasteGate
 import BEDC.Derived.ChannelTerminationHaltingBoundaryUp.TasteGate
@@ -8266,6 +8267,7 @@ import BEDC.Derived.MinimalTriggerLiftBundleUp.TasteGate
 import BEDC.Derived.MinkowskiDimensionUp
 import BEDC.Derived.MinkowskiInequalityUp.TasteGate
 import BEDC.Derived.MinkowskiRateGeometryUp.Carrier
+import BEDC.Derived.MinkowskiRateGeometryUp.LedgerExactness
 import BEDC.Derived.MinkowskiRateGeometryUp.TasteGate
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.MirskyTheoremUp
@@ -10380,6 +10382,7 @@ import BEDC.Derived.RegularCauchyTriangleBoundUp
 import BEDC.Derived.RegularCauchyTriangleBoundUp.TasteGate
 import BEDC.Derived.RegularCauchyUniformityUp.TasteGate
 import BEDC.Derived.RegularCauchyUniquenessUp.TasteGate
+import BEDC.Derived.RegularCauchyWindowFusionUp.BudgetMeet
 import BEDC.Derived.RegularCauchyWindowFusionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyWindowFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
