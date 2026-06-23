@@ -10242,6 +10242,7 @@ import BEDC.Derived.RegularCauchyOscillationCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyPicardSealUp.TasteGate
 import BEDC.Derived.RegularCauchyPositivePartUp
 import BEDC.Derived.RegularCauchyPositivePartUp.TasteGate
+import BEDC.Derived.RegularCauchyPowerUp.TasteGate
 import BEDC.Derived.RegularCauchyProductBudgetUp.BilinearWindow
 import BEDC.Derived.RegularCauchyProductBudgetUp.FalsifiablePrediction
 import BEDC.Derived.RegularCauchyProductBudgetUp.IndependenceWitness
@@ -10417,6 +10418,7 @@ import BEDC.Derived.RegularCauchyUniformityUp.TasteGate
 import BEDC.Derived.RegularCauchyUniquenessUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowFusionUp.BudgetMeet
 import BEDC.Derived.RegularCauchyWindowFusionUp.NameCertObligations
+import BEDC.Derived.RegularCauchyWindowFusionUp.ObligationInventory
 import BEDC.Derived.RegularCauchyWindowFusionUp.SharedWindowHandoff
 import BEDC.Derived.RegularCauchyWindowFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
