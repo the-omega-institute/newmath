@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\FinitePrefixObservationInterfaceUp$}
+\label{ch:concrete-instances-finite-prefix-observation-interface-namecert}
+\origin{human}
+
+Following Bishop and Bridges on finite approximations to real data, the $\FinitePrefixObservationInterfaceUp$ packet records the finite read surface by which a $\StreamNameUp$ schedule is observed before a regular rational or real-facing consumer uses it. It sits after the countable-name gate of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only finite prefix indices, finite observation rows, handoff rows, transport, replay, provenance, and local naming; it is not a countable choice principle and not a host equality test for streams or completed reals.
+
+\begin{definition}[Finite-prefix observation interface carrier]
+\label{def:finite-prefix-observation-interface-carrier}
+A $\FinitePrefixObservationInterfaceUp$ carrier is a finite $\BHist$ packet
+$$
+O=(I,F,S,R,D,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite prefix index row naming the inspected initial segment of a $\StreamNameUp$ schedule.
+\item $F$ is the finite observation row storing exactly the reads made at the indices named by $I$.
+\item $S$ is the $\StreamNameUp$ handoff row whose public requests are restricted to the displayed prefix.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same finite stream observations.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the precision, radius, and comparison budget attached to the prefix read.
+\item $H$ records componentwise $\hsame$ transport for the prefix index, observation row, stream handoff, regular readback, dyadic ledger, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from the finite prefix index through $F,S,R,D$ to the consumer-facing boundary.
+\item $P$ records $\Pkg$ provenance over $\FinitePrefixObservationInterfaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FinitePrefixObservationInterfaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a countable-choice schedule, infinite stream equality, selected limit, host real equality, trichotomy, or ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Finite-prefix observation NameCert obligations]
+\label{thm:finite-prefix-observation-interface-namecert-obligations}
+For every accepted $\FinitePrefixObservationInterfaceUp$ carrier
+$$
+O=(I,F,S,R,D,H,K,P,N),
+$$
+the local $\NameCert_{\FinitePrefixObservationInterfaceUp}$ surface consists exactly of finite prefix admission through $I$, finite observation exposure through $F$, $\StreamNameUp$ handoff through $S$, $\RegSeqRatUp$ readback through $R$, $\DyadicRatCoreUp$ tolerance accounting through $D$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-prefix-observation-interface-carrier}. The prefix index $I$ determines the only inspected positions, and the observation row $F$ stores only the finite reads at those positions.
+
+The stream handoff $S$ is consumed through that prefix before the regular rational readback $R$ is available. The dyadic ledger $D$ records the tolerance data attached to the same finite observation row, so a consumer cannot replace the readback by a selected infinite stream, host real value, or unbounded choice schedule.
+
+The structural rows $H,K,P,N$ keep the route local. Componentwise $\hsame$ transport preserves the displayed prefix rows, $\Cont$ replay reuses the same finite route, $\Pkg$ provenance records the sibling packets, and the local $\NameCert$ names no data beyond the carrier.
+\end{proof}
+
+\begin{theorem}[Finite-prefix observation handoff boundary]
+\label{thm:finite-prefix-observation-interface-handoff-boundary}
+Every downstream read of an accepted $\FinitePrefixObservationInterfaceUp$ packet factors through the finite route
+$$
+I \longmapsto F \longmapsto S \longmapsto R \longmapsto D
+$$
+with structural transport, replay, provenance, and local naming through $H,K,P,N$. The read may be handed to $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumers only as this displayed finite prefix boundary, not as countable choice, infinite stream equality, selected limit, host real equality, or completeness data.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $O=(I,F,S,R,D,H,K,P,N)$. The carrier definition gives a single route from the prefix index to the observation row and then to the stream, regular rational, and dyadic tolerance rows.
+
+The NameCert obligations of \autoref{thm:finite-prefix-observation-interface-namecert-obligations} account for every accepted public read. Since those obligations list only $I,F,S,R,D,H,K,P,N$, a consumer has no separate coordinate from which to extract an infinite schedule, a host equality decision, or a completion principle.
+
+Finally use the structural rows. Transport by $H$ and replay by $K$ preserve the same finite prefix route, while $P$ and $N$ record provenance and local naming without adding analytic content.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FinitePrefixObservationInterfaceUp$ read displays a finite prefix index, finite observation row, StreamName handoff, RegSeqRat readback, DyadicRatCore tolerance ledger, hsame transport, Cont replay, Pkg provenance, and local NameCert before any downstream real-facing consumer can use the observation boundary.}
+
+\independenceWitness{stream name, regular rational sequence, dyadic rational core, real: $\FinitePrefixObservationInterfaceUp$ is not bijective to any listed sibling because it binds finite prefix observation rows between a StreamName schedule and RegSeqRat or Real-facing readback.}
+
+\closureat{FinitePrefixObservationInterfaceUp}{seedStr}
+
+\begin{closurestatus}{\FinitePrefixObservationInterfaceUp}
+  \constructivestory{A $\FinitePrefixObservationInterfaceUp$ packet is generated from a finite prefix index, a finite observation row, a StreamName handoff, a RegSeqRat readback, DyadicRatCore tolerance data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-prefix-observation-interface-carrier} and \autoref{thm:finite-prefix-observation-interface-namecert-obligations} seed the finite observation route from StreamName schedules to regular rational and real-facing readback data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, infinite stream equality, selected limits, host real equality, trichotomy, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked prefix admission, finite observation exposure, StreamName handoff, RegSeqRat readback, DyadicRatCore tolerance accounting, transport, replay, provenance, and local naming for BEDC.Derived.FinitePrefixObservationInterfaceUp.}
+\end{closurestatus}
