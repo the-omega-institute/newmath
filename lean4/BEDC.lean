@@ -1573,6 +1573,7 @@ import BEDC.Derived.CantorSpaceUp
 import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
 import BEDC.Derived.CantorTernarySetUp.TasteGate
 import BEDC.Derived.CaratheodoryConvexHullUp.TasteGate
+import BEDC.Derived.CaratheodoryMeasureExtensionUp.TasteGate
 import BEDC.Derived.CaristiFixedPointUp.TasteGate
 import BEDC.Derived.CartanAngularBoundaryInvariantUp
 import BEDC.Derived.CatColimitUp
@@ -1667,6 +1668,7 @@ import BEDC.Derived.CauchyApproximationTreeUp.TasteGate
 import BEDC.Derived.CauchyBicategoryUp
 import BEDC.Derived.CauchyBornologicalUniformityUp.TasteGate
 import BEDC.Derived.CauchyBornologyUp.TasteGate
+import BEDC.Derived.CauchyBoundSelectorUp.NameCertObligations
 import BEDC.Derived.CauchyBoundSelectorUp.TasteGate
 import BEDC.Derived.CauchyBoundednessCriterionUp.TasteGate
 import BEDC.Derived.CauchyCarrierNameCertUp
@@ -3314,6 +3316,7 @@ import BEDC.Derived.CompleteArchimedeanFieldUp
 import BEDC.Derived.CompleteArchimedeanFieldUp.TasteGate
 import BEDC.Derived.CompleteBaireSpaceUp.TasteGate
 import BEDC.Derived.CompleteMetricBaireSurfaceUp.TasteGate
+import BEDC.Derived.CompleteMetricNestedBallsUp.TasteGate
 import BEDC.Derived.CompleteMetricProductUp
 import BEDC.Derived.CompleteMetricProductUp.TasteGate
 import BEDC.Derived.CompleteMetricSpaceUp.TasteGate
@@ -6804,6 +6807,7 @@ import BEDC.Derived.KleeneTreeUp.UniformStructureBoundary
 import BEDC.Derived.KleisliTraceUp.TasteGate
 import BEDC.Derived.KnotUp
 import BEDC.Derived.KochCurveUp.TasteGate
+import BEDC.Derived.KolmogorovComplexityUp.TasteGate
 import BEDC.Derived.KolmogorovContinuityUp
 import BEDC.Derived.KolmogorovContinuityUp.TasteGate
 import BEDC.Derived.KolmogorovQuotientUp.TasteGate
@@ -10544,12 +10548,14 @@ import BEDC.Derived.RieszLemmaUp.NormedSeparationWitness
 import BEDC.Derived.RieszLemmaUp.TasteGate
 import BEDC.Derived.RieszMarkovUp.TasteGate
 import BEDC.Derived.RieszRepresentationFiniteLatticeUp.TasteGate
+import BEDC.Derived.RieszRepresentationUp
 import BEDC.Derived.RieszRepresentationUp.BanachHilbertScope
 import BEDC.Derived.RieszRepresentationUp.BranchBoundaryNonescape
 import BEDC.Derived.RieszRepresentationUp.DualFunctionalRoute
 import BEDC.Derived.RieszRepresentationUp.HilbertFunctionalBridge
 import BEDC.Derived.RieszRepresentationUp.MeasureHandoff
 import BEDC.Derived.RieszRepresentationUp.ObligationClosure
+import BEDC.Derived.RieszRepresentationUp.ScopeBinding
 import BEDC.Derived.RieszRepresentationUp.TasteGate
 import BEDC.Derived.RieszSpaceUp.TasteGate
 import BEDC.Derived.RingOfIntegersUp
@@ -11869,6 +11875,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.UniversalExtensionUniquenessLedge
 import BEDC.Derived.UniformCompletionFunctorUp.UniversalExtensionUniquenessRoute
 import BEDC.Derived.UniformCompletionFunctorUp.UniversalHandoff
 import BEDC.Derived.UniformCompletionFunctorUp.WindowFunctoriality
+import BEDC.Derived.UniformCompletionKleisliUp.TasteGate
 import BEDC.Derived.UniformCompletionMonadUp
 import BEDC.Derived.UniformCompletionMonadUp.TasteGate
 import BEDC.Derived.UniformCompletionReflectorUp.NameCertObligations
