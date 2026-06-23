@@ -316,4 +316,83 @@ theorem MetaCICCriticalPathCandidateDischargeMatrixFrontier [AskSetup] [PackageS
   }
   exact ⟨cert, socketReadUnary, frontierUnary⟩
 
+theorem MetaCICCriticalPathRetainedPremiseDischargeBoundary [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName candidateRead residualRead checkerRead retainedRead dyadicRead streamRead
+      regseqRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg →
+      Cont route localName candidateRead →
+        Cont candidateRead handoff residualRead →
+          Cont residualRead obstruction checkerRead →
+            Cont checkerRead dischargeSocket retainedRead →
+              PkgSig bundle retainedRead pkg →
+                PkgSig bundle realRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row retainedRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row candidateRead ∨ hsame row residualRead ∨
+                          hsame row checkerRead ∨ hsame row retainedRead ∨
+                            hsame row dyadicRead ∨ hsame row streamRead ∨
+                              hsame row regseqRead ∨ hsame row realRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont checkerRead dischargeSocket retainedRead ∧
+                          PkgSig bundle retainedRead pkg)
+                      hsame ∧
+                    UnaryHistory candidateRead ∧ UnaryHistory residualRead ∧
+                      UnaryHistory checkerRead ∧ UnaryHistory retainedRead := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle SemanticNameCert hsame UnaryHistory
+  intro packet routeLocalNameCandidate candidateHandoffResidual residualObstructionChecker
+    checkerRetained retainedPkg _realPkg
+  obtain ⟨_strongNormUnary, _normalFormUnary, obstructionUnary, handoffUnary,
+    socketUnary, _transportUnary, routeUnary, _provenanceUnary, localNameUnary,
+    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
+    _provenancePkg⟩ := packet
+  have candidateUnary : UnaryHistory candidateRead :=
+    unary_cont_closed routeUnary localNameUnary routeLocalNameCandidate
+  have residualUnary : UnaryHistory residualRead :=
+    unary_cont_closed candidateUnary handoffUnary candidateHandoffResidual
+  have checkerUnary : UnaryHistory checkerRead :=
+    unary_cont_closed residualUnary obstructionUnary residualObstructionChecker
+  have retainedUnary : UnaryHistory retainedRead :=
+    unary_cont_closed checkerUnary socketUnary checkerRetained
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row retainedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row candidateRead ∨ hsame row residualRead ∨ hsame row checkerRead ∨
+              hsame row retainedRead ∨ hsame row dyadicRead ∨ hsame row streamRead ∨
+                hsame row regseqRead ∨ hsame row realRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont checkerRead dischargeSocket retainedRead ∧
+              PkgSig bundle retainedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro retainedRead ⟨hsame_refl retainedRead, retainedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inl source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, checkerRetained, retainedPkg⟩
+  }
+  exact ⟨cert, candidateUnary, residualUnary, checkerUnary, retainedUnary⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
