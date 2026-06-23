@@ -1,5 +1,6 @@
 import BEDC.Derived.PrimeUp
 import BEDC.Derived.PrimeUp.NatMulComm
+import BEDC.Derived.PrimeUp.ResultCancel
 import BEDC.Derived.PrimeUp.NatMulTransport
 
 namespace BEDC.Derived.PrimeUp
@@ -7,6 +8,22 @@ namespace BEDC.Derived.PrimeUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+
+def NatEuclidPrime (p : BHist) : Prop :=
+  NatPrime p ∧
+    ∀ {x y z : BHist}, UnaryHistory x -> UnaryHistory y -> NatMul x y z ->
+      NatDivides p z -> NatDivides p x ∨ NatDivides p y
+
+theorem NatEuclidPrime_prime {p : BHist} :
+    NatEuclidPrime p -> NatPrime p := by
+  intro prime
+  exact prime.left
+
+theorem NatEuclidPrime_product_left_or_right {p x y z : BHist} :
+    NatEuclidPrime p -> UnaryHistory x -> UnaryHistory y -> NatMul x y z ->
+      NatDivides p z -> NatDivides p x ∨ NatDivides p y := by
+  intro prime xUnary yUnary product dividesProduct
+  exact prime.right xUnary yUnary product dividesProduct
 
 theorem NatDivides_cont_closed {d x y z : BHist} :
     NatDivides d x → NatDivides d y → Cont x y z → NatDivides d z := by
@@ -73,6 +90,33 @@ theorem NatDivides_mul_left_closed {d x q z : BHist} :
         (NatDivides_dividend_hsame_transport qDividesProduct (hsame_symm sameProduct)).right
       exact NatDivides_transitive divides qDividesZ
 
+theorem NatDivides_multiplier_after_common_multiplicand_cancel
+    {a b ab q z : BHist} :
+    UnaryHistory a -> (hsame a BHist.Empty -> False) -> UnaryHistory b ->
+      NatMul a b ab -> NatMul a q z -> NatDivides ab z -> NatDivides b q := by
+  intro aUnary aNonempty bUnary productAB productAQ dividesABZ
+  cases dividesABZ with
+  | intro r rData =>
+      cases rData with
+      | intro rUnary productABR =>
+          have productBRTotal := NatMul_total bUnary rUnary
+          cases productBRTotal with
+          | intro br brData =>
+              have productABrTotal := NatMul_total aUnary brData.left
+              cases productABrTotal with
+              | intro displayed displayedData =>
+                  have sameDisplayedZ : hsame displayed z :=
+                    hsame_symm
+                      (NatMul_assoc_hsame aUnary bUnary rUnary productAB productABR
+                        brData.right displayedData.right)
+                  have sameQBR : hsame q br :=
+                    NatMul_nonempty_multiplicand_result_cancel aUnary aNonempty
+                      productAQ displayedData.right (hsame_symm sameDisplayedZ)
+                  exact
+                    (NatDivides_dividend_hsame_transport
+                      (Exists.intro r (And.intro rUnary brData.right))
+                      (hsame_symm sameQBR)).right
+
 private theorem NatDivides_product_closed_unary_hsame_aux {h k : BHist} :
     UnaryHistory h -> UnaryHistory k ->
       BEDC.FKernel.ExternalBinary.bwordLength h =
@@ -111,6 +155,120 @@ private theorem NatDivides_product_closed_nat_mul_assoc_aux (a b c : Nat) :
         _ = a * (b * c) + a * b := congrArg (fun x => x + a * b) ih
         _ = a * (b * c + b) := (Nat.mul_add a (b * c) b).symm
         _ = a * (b * Nat.succ c) := congrArg (fun x => a * x) (Nat.mul_succ b c).symm
+
+theorem NatMul_product_factor_quotient {d e q r x y p s z : BHist} :
+    UnaryHistory d -> UnaryHistory e -> UnaryHistory q -> UnaryHistory r ->
+      NatMul d q x -> NatMul e r y -> NatMul d e p -> NatMul q r s ->
+        NatMul x y z -> NatMul p s z := by
+  intro dUnary eUnary qUnary rUnary productDQ productER productDE productQR productXY
+  have pUnary : UnaryHistory p := NatMul_result_unary dUnary productDE
+  have sUnary : UnaryHistory s := NatMul_result_unary qUnary productQR
+  have displayedTotal := NatMul_total pUnary sUnary
+  cases displayedTotal with
+  | intro displayed displayedData =>
+      have xUnary : UnaryHistory x := NatMul_result_unary dUnary productDQ
+      have zUnary : UnaryHistory z := NatMul_result_unary xUnary productXY
+      have sameDisplayed : hsame z displayed := by
+        have lengthEq :
+            BEDC.FKernel.ExternalBinary.bwordLength z =
+              BEDC.FKernel.ExternalBinary.bwordLength displayed := by
+          calc
+            BEDC.FKernel.ExternalBinary.bwordLength z =
+                BEDC.FKernel.ExternalBinary.bwordLength x *
+                  BEDC.FKernel.ExternalBinary.bwordLength y :=
+              NatMul_bwordLength productXY
+            _ =
+                (BEDC.FKernel.ExternalBinary.bwordLength d *
+                    BEDC.FKernel.ExternalBinary.bwordLength q) *
+                  (BEDC.FKernel.ExternalBinary.bwordLength e *
+                    BEDC.FKernel.ExternalBinary.bwordLength r) :=
+              congrArg
+                (fun n => n * BEDC.FKernel.ExternalBinary.bwordLength y)
+                (NatMul_bwordLength productDQ) |>.trans
+                (congrArg
+                  (fun n =>
+                    (BEDC.FKernel.ExternalBinary.bwordLength d *
+                      BEDC.FKernel.ExternalBinary.bwordLength q) * n)
+                  (NatMul_bwordLength productER))
+            _ =
+                (BEDC.FKernel.ExternalBinary.bwordLength d *
+                    BEDC.FKernel.ExternalBinary.bwordLength e) *
+                  (BEDC.FKernel.ExternalBinary.bwordLength q *
+                    BEDC.FKernel.ExternalBinary.bwordLength r) := by
+              calc
+                (BEDC.FKernel.ExternalBinary.bwordLength d *
+                    BEDC.FKernel.ExternalBinary.bwordLength q) *
+                  (BEDC.FKernel.ExternalBinary.bwordLength e *
+                    BEDC.FKernel.ExternalBinary.bwordLength r) =
+                    BEDC.FKernel.ExternalBinary.bwordLength d *
+                      (BEDC.FKernel.ExternalBinary.bwordLength q *
+                        (BEDC.FKernel.ExternalBinary.bwordLength e *
+                          BEDC.FKernel.ExternalBinary.bwordLength r)) :=
+                  NatDivides_product_closed_nat_mul_assoc_aux
+                    (BEDC.FKernel.ExternalBinary.bwordLength d)
+                    (BEDC.FKernel.ExternalBinary.bwordLength q)
+                    (BEDC.FKernel.ExternalBinary.bwordLength e *
+                      BEDC.FKernel.ExternalBinary.bwordLength r)
+                _ =
+                    BEDC.FKernel.ExternalBinary.bwordLength d *
+                      ((BEDC.FKernel.ExternalBinary.bwordLength q *
+                          BEDC.FKernel.ExternalBinary.bwordLength e) *
+                        BEDC.FKernel.ExternalBinary.bwordLength r) :=
+                  congrArg
+                    (fun n => BEDC.FKernel.ExternalBinary.bwordLength d * n)
+                    (NatDivides_product_closed_nat_mul_assoc_aux
+                      (BEDC.FKernel.ExternalBinary.bwordLength q)
+                      (BEDC.FKernel.ExternalBinary.bwordLength e)
+                      (BEDC.FKernel.ExternalBinary.bwordLength r)).symm
+                _ =
+                    BEDC.FKernel.ExternalBinary.bwordLength d *
+                      ((BEDC.FKernel.ExternalBinary.bwordLength e *
+                          BEDC.FKernel.ExternalBinary.bwordLength q) *
+                        BEDC.FKernel.ExternalBinary.bwordLength r) :=
+                  congrArg
+                    (fun n =>
+                      BEDC.FKernel.ExternalBinary.bwordLength d *
+                        (n * BEDC.FKernel.ExternalBinary.bwordLength r))
+                    (Nat.mul_comm
+                      (BEDC.FKernel.ExternalBinary.bwordLength q)
+                      (BEDC.FKernel.ExternalBinary.bwordLength e))
+                _ =
+                    BEDC.FKernel.ExternalBinary.bwordLength d *
+                      (BEDC.FKernel.ExternalBinary.bwordLength e *
+                        (BEDC.FKernel.ExternalBinary.bwordLength q *
+                          BEDC.FKernel.ExternalBinary.bwordLength r)) :=
+                  congrArg
+                    (fun n => BEDC.FKernel.ExternalBinary.bwordLength d * n)
+                    (NatDivides_product_closed_nat_mul_assoc_aux
+                      (BEDC.FKernel.ExternalBinary.bwordLength e)
+                      (BEDC.FKernel.ExternalBinary.bwordLength q)
+                      (BEDC.FKernel.ExternalBinary.bwordLength r))
+                _ =
+                    (BEDC.FKernel.ExternalBinary.bwordLength d *
+                      BEDC.FKernel.ExternalBinary.bwordLength e) *
+                        (BEDC.FKernel.ExternalBinary.bwordLength q *
+                          BEDC.FKernel.ExternalBinary.bwordLength r) :=
+                  (NatDivides_product_closed_nat_mul_assoc_aux
+                    (BEDC.FKernel.ExternalBinary.bwordLength d)
+                    (BEDC.FKernel.ExternalBinary.bwordLength e)
+                    (BEDC.FKernel.ExternalBinary.bwordLength q *
+                      BEDC.FKernel.ExternalBinary.bwordLength r)).symm
+            _ =
+                BEDC.FKernel.ExternalBinary.bwordLength p *
+                  BEDC.FKernel.ExternalBinary.bwordLength s :=
+              congrArg
+                (fun n =>
+                  n *
+                    (BEDC.FKernel.ExternalBinary.bwordLength q *
+                      BEDC.FKernel.ExternalBinary.bwordLength r))
+                (NatMul_bwordLength productDE).symm |>.trans
+                (congrArg
+                  (fun n => BEDC.FKernel.ExternalBinary.bwordLength p * n)
+                  (NatMul_bwordLength productQR).symm)
+            _ = BEDC.FKernel.ExternalBinary.bwordLength displayed :=
+              (NatMul_bwordLength displayedData.right).symm
+        exact NatDivides_product_closed_unary_hsame_aux zUnary displayedData.left lengthEq
+      exact (NatMul_result_hsame_transport displayedData.right (hsame_symm sameDisplayed)).right
 
 theorem NatDivides_product_closed {d e x y p z : BHist} :
     UnaryHistory d -> UnaryHistory e -> UnaryHistory x -> UnaryHistory y ->
