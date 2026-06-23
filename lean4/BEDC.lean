@@ -2487,6 +2487,7 @@ import BEDC.Derived.CauchyTailRequestUp.TasteGate
 import BEDC.Derived.CauchyTailSupremumUp.TasteGate
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.Classifier
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.CompositionScope
+import BEDC.Derived.CauchyTailThresholdNormalizerUp.EncodedObligationReadback
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RealFacingDeterminacy
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RouteExhaustion
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TailWindowInduction
@@ -9862,6 +9863,7 @@ import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationNonescapeRoute
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationPrefixExhaustion
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationRowPrecedence
 import BEDC.Derived.ReflectiveInquiryUp.Carrier
+import BEDC.Derived.ReflectiveInquiryUp.ClassifierAuditCertificate
 import BEDC.Derived.ReflectiveInquiryUp.FieldFaithfulRowSeparation
 import BEDC.Derived.ReflectiveInquiryUp.GroundCompilerObligationRoute
 import BEDC.Derived.ReflectiveInquiryUp.LedgeredRoleCorrespondence
@@ -10812,6 +10814,7 @@ import BEDC.Derived.SetlikeUp.ExtensionalBoundaryClassifierLock
 import BEDC.Derived.SetlikeUp.ExtensionalBoundaryConsumerExactness
 import BEDC.Derived.SetlikeUp.ExtensionalBoundaryObligation
 import BEDC.Derived.SetlikeUp.ExtensionalBoundaryRoute
+import BEDC.Derived.SetlikeUp.ExtensionalBoundaryWitness
 import BEDC.Derived.SetlikeUp.ExtensionalLedgerKernelNonescape
 import BEDC.Derived.SetlikeUp.ExtensionalSubsetNameCertObligations
 import BEDC.Derived.SetlikeUp.ExtensionalSubsetTransport
@@ -10842,6 +10845,7 @@ import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
 import BEDC.Derived.SetlikeUp.MembershipSourceAdmission
 import BEDC.Derived.SetlikeUp.MembershipStability
+import BEDC.Derived.SetlikeUp.ModelTheorySatisfactionBoundary
 import BEDC.Derived.SetlikeUp.NameCertObligations
 import BEDC.Derived.SetlikeUp.PublicNameCertExport
 import BEDC.Derived.SetlikeUp.RestrictedComprehensionKernelScope
