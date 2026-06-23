@@ -1155,6 +1155,7 @@ import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.BorsukUlamUp.TasteGate
 import BEDC.Derived.BoundaryAdmissionDecisionUp.TasteGate
 import BEDC.Derived.BoundaryGateUp.TasteGate
+import BEDC.Derived.BoundaryOrbitInventoryPolynomialUp.TasteGate
 import BEDC.Derived.BoundaryPressureLedgerUp.NameCertObligations
 import BEDC.Derived.BoundaryPressureLedgerUp.TasteGate
 import BEDC.Derived.BoundedBetaComparisonUp.TasteGate
@@ -5363,6 +5364,7 @@ import BEDC.Derived.FanfunctionalUp.UniformModulusConsumerBoundary
 import BEDC.Derived.FanfunctionalUp.UniformModulusScope
 import BEDC.Derived.FanfunctionalUp.UniformmodulusConsumerScope
 import BEDC.Derived.FarEndDiagramUp.TasteGate
+import BEDC.Derived.FarEndDiagrammaticsUp.TasteGate
 import BEDC.Derived.FareySequenceUp.AdjacencyDensity
 import BEDC.Derived.FareySequenceUp.AdjacencyObligation
 import BEDC.Derived.FareySequenceUp.AdjacentDyadicWindow
@@ -10013,6 +10015,7 @@ import BEDC.Derived.RegularCauchyAffineCombinationUp.ObligationSurface
 import BEDC.Derived.RegularCauchyAffineCombinationUp.Stability
 import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
 import BEDC.Derived.RegularCauchyAlgebraCoherenceUp.TasteGate
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.CofinalWindowRefinement
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.L10ScopeBinding
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundDeterminacy
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundModulusMonotonicity
