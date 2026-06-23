@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\RiemannIntegrabilityUniformPartitionUp$}
+\label{ch:concrete-instances-riemann-integrability-uniform-partition-namecert}
+\origin{human}
+
+Following Riemann, Darboux, and Bishop--Bridges constructive analysis, the $\RiemannIntegrabilityUniformPartitionUp$ packet records the finite uniform-partition route by which a displayed real-valued integrand is admitted to a Riemann-integrability criterion. It sits after the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the criterion surface of \autoref{ch:concrete-instances-riemann-sum-criterion-namecert}, and the compact-continuity route of \autoref{ch:concrete-instances-continuous-compact-riemann-integrability-namecert}. The packet names a finite equal-mesh integrability surface; it does not import host-level limits of partitions, quotient equality of functions, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Riemann integrability uniform-partition carrier]
+\label{def:riemann-integrability-uniform-partition-carrier}
+A $\RiemannIntegrabilityUniformPartitionUp$ carrier is a finite $\BHist$ packet
+$$
+U=(I,F,M,E,S,Q,R,D,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealUp$ closed-interval source row, exposing the two endpoint seals and the admitted interval direction.
+\item $F$ is the integrand readback row, storing only displayed evaluation windows on the interval source.
+\item $M$ is the uniform mesh row, recording a positive dyadic mesh-width and a finite cell count.
+\item $E$ is the equal-cell ledger, listing the uniform partition cells and their endpoint coverage through $I$ and $M$.
+\item $S$ is the finite Riemann-sum row, read through the same cells and the displayed integrand windows.
+\item $Q$ is the $\RiemannSumCriterionUp$ comparison row, recording the finite criterion request over the displayed uniform mesh.
+\item $R$ is the $\RegSeqRatUp$ readback row for the sum values and comparison tolerances.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row for mesh size, oscillation budget, and rational error comparison.
+\item $T$ is the terminal handoff row, by which a $\ContinuousCompactRiemannIntegrabilityUp$ or integration-facing consumer may read the accepted uniform-partition criterion.
+\item $H$ records componentwise $\hsame$ transport for interval, integrand, mesh, cells, sums, criterion, rational readback, dyadic tolerance, terminal handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+I,F,M,E \longmapsto S \longmapsto Q \longmapsto R,D \longmapsto T .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RiemannIntegrabilityUniformPartitionUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RiemannSumCriterionUp$, $\ContinuousCompactRiemannIntegrabilityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannIntegrabilityUniformPartitionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,F,M,E,S,Q,R,D,T,H,C,P,N$. It has no coordinate for a host partition limit, selected refining sequence, quotient function equality, measure completion, countable choice, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Riemann integrability uniform-partition obligations]
+\label{thm:riemann-integrability-uniform-partition-obligations}
+For every accepted $\RiemannIntegrabilityUniformPartitionUp$ carrier
+$$
+U=(I,F,M,E,S,Q,R,D,T,H,C,P,N),
+$$
+the local $\NameCert_{\RiemannIntegrabilityUniformPartitionUp}$ surface consists exactly of interval admission, integrand-window exposure, uniform-mesh admission, equal-cell endpoint coverage, finite Riemann-sum readback, Riemann-sum criterion comparison, regular rational readback, dyadic tolerance accounting, terminal consumer handoff, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-integrability-uniform-partition-carrier}. The rows $I,F,M,E$ expose the interval, integrand windows, uniform mesh, and equal cells before any sum or criterion is read.
+
+The integration-facing data are then $S$ and $Q$. The finite sum row $S$ is tied to the same equal-cell ledger, and the criterion row $Q$ is the only place where the Riemann-sum comparison is recorded.
+
+The numerical boundary is $R$ and $D$. Regular rational readback and dyadic tolerances are displayed before the terminal row $T$ is available to consumers.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since the carrier contains no host partition limit, selected refining sequence, quotient function equality, measure-completion row, countable-choice selector, or ambient completeness theorem, the listed rows exhaust the local obligations.
+\end{proof}
+
+\begin{theorem}[Uniform-partition criterion non-escape]
+\label{thm:riemann-integrability-uniform-partition-nonescape}
+Every accepted $\RiemannIntegrabilityUniformPartitionUp$ consumer that reads a Riemann-integrability claim factors through the finite route
+$$
+\RealUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RiemannSumCriterionUp,\ \ContinuousCompactRiemannIntegrabilityUp
+$$
+as displayed by $I,R,D,Q,T$ and by the structural rows $H,C,P,N$. No consumer may replace that route by a host partition-limit theorem, quotient equality of functions, a selected sequence of refinements, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted consumer read. By the carrier definition, the only terminal handoff is $T$, and it is downstream of the interval, integrand, mesh, equal-cell, sum, criterion, rational, and dyadic tolerance rows.
+
+Use the criterion row $Q$ to locate the Riemann-sum comparison inside the sibling surface of \autoref{ch:concrete-instances-riemann-sum-criterion-namecert}. The comparison does not stand alone; it reads the same finite uniform cells and sum row.
+
+Read the numerical rows through $R$ and $D$. These rows keep sum values, mesh bounds, and tolerances in $\RegSeqRatUp$ and $\DyadicRatCoreUp$ form before any $\RealUp$ terminal seal is consumed.
+
+The terminal consumer may then connect to the compact-continuity route of \autoref{ch:concrete-instances-continuous-compact-riemann-integrability-namecert}, but only through the displayed handoff $T$. The structural rows $H,C,P,N$ preserve the same packet, so no excluded host object is available.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RiemannIntegrabilityUniformPartitionUp$ consumer that reaches a Riemann-integrability claim without displaying the uniform mesh, equal cells, finite sum row, Riemann-sum criterion row, regular rational readback, dyadic tolerance row, terminal handoff, transport, replay, provenance, and local naming rows refutes the carrier surface.}
+
+\independenceWitness{real, regseqrat, dyadicratcore, riemann-sum-criterion, continuous-compact-riemann-integrability: no listed sibling is bijective with $\RiemannIntegrabilityUniformPartitionUp$ because this packet binds the uniform mesh, equal-cell ledger, finite Riemann-sum readback, criterion comparison, rational and dyadic tolerance boundary, terminal handoff, transport, replay, provenance, and local naming rows as one finite certificate.}
+
+\closureat{RiemannIntegrabilityUniformPartitionUp}{seedStr}
+
+\begin{closurestatus}{\RiemannIntegrabilityUniformPartitionUp}
+  \constructivestory{A $\RiemannIntegrabilityUniformPartitionUp$ packet is generated from a RealUp interval source row, displayed integrand windows, a uniform mesh row, an equal-cell ledger, finite Riemann-sum readback, a RiemannSumCriterion comparison row, RegSeqRat readback, a DyadicRatCore tolerance row, terminal consumer handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-integrability-uniform-partition-carrier}, \autoref{thm:riemann-integrability-uniform-partition-obligations}, and \autoref{thm:riemann-integrability-uniform-partition-nonescape} seed the finite uniform-partition Riemann-integrability surface over Real, RegSeqRat, DyadicRatCore, RiemannSumCriterion, compact-continuity, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host Riemann integration theorem, host partition limits, selected refining sequences, quotient function equality, measure completion, countable choice, open-cover compactness, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, uniform-mesh exactness, equal-cell endpoint coverage, finite Riemann-sum readback, criterion comparison, rational and dyadic tolerance nonescape, terminal handoff, transport, replay, provenance, and local naming for BEDC.Derived.RiemannIntegrabilityUniformPartitionUp.}
+\end{closurestatus}
