@@ -1907,6 +1907,7 @@ import BEDC.Derived.CauchyExtensionOperatorUp.TasteGate
 import BEDC.Derived.CauchyFilterBaseUp.TasteGate
 import BEDC.Derived.CauchyFilterBasisCompletionUp.TasteGate
 import BEDC.Derived.CauchyFilterCategoryUp
+import BEDC.Derived.CauchyFilterClusterUp.NameCertObligations
 import BEDC.Derived.CauchyFilterClusterUp.TasteGate
 import BEDC.Derived.CauchyFilterCompletenessUp
 import BEDC.Derived.CauchyFilterCompletionCriterionUp.BasisRoute
@@ -6405,6 +6406,7 @@ import BEDC.Derived.HeineBorelLocatedIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelNetCompactnessUp.TasteGate
 import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellingerDistanceUp
+import BEDC.Derived.HellySelectionUp.NameCertObligations
 import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HellyTheoremUp.TasteGate
 import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
@@ -7288,6 +7290,7 @@ import BEDC.Derived.LocatedUniformExtremeValueUp
 import BEDC.Derived.LocatedUniformLimitUp.TasteGate
 import BEDC.Derived.LocatedUniformSpaceUp.TasteGate
 import BEDC.Derived.LocatedWeakKonigUp
+import BEDC.Derived.LocatedWeakKonigUp.TasteGate
 import BEDC.Derived.LocatedZeroUniquenessUp
 import BEDC.Derived.LocatednessModulusUp
 import BEDC.Derived.LocatednessModulusUp.TasteGate
