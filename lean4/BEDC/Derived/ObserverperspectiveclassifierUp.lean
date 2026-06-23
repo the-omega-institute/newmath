@@ -139,4 +139,31 @@ theorem ObserverPerspectiveClassifierAnchorChangeStability [AskSetup] [PackageSe
     ⟨observerLeftUnary, observerRightUnary, leftReadUnary, rightReadUnary, leftAnchor,
       rightAnchor, provenancePkg, namePkg, leftPkg, rightPkg⟩
 
+theorem ObserverPerspectiveClassifierLocalityRefinement [AskSetup] [PackageSetup]
+    {observerLeft observerRight universeLeft universeRight locality refinedLocality gap transport
+      route provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverPerspectiveClassifierCarrier observerLeft observerRight universeLeft universeRight
+        locality gap transport route provenance name bundle pkg →
+      hsame refinedLocality locality →
+        Cont universeLeft universeRight refinedLocality →
+          Cont refinedLocality gap transport →
+            ObserverPerspectiveClassifierCarrier observerLeft observerRight universeLeft
+                universeRight refinedLocality gap transport route provenance name bundle pkg ∧
+              UnaryHistory refinedLocality := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro carrier sameRefinedLocality universeRefinedLocality refinedLocalityTransport
+  obtain ⟨observerLeftUnary, observerRightUnary, universeLeftUnary, universeRightUnary,
+    localityUnary, gapUnary, transportUnary, routeUnary, provenanceUnary, nameUnary,
+    observerUniverse, _universeLocality, _localityTransport, transportGap, provenancePkg,
+    namePkg⟩ := carrier
+  have refinedLocalityUnary : UnaryHistory refinedLocality :=
+    unary_transport_symm localityUnary sameRefinedLocality
+  exact
+    ⟨⟨observerLeftUnary, observerRightUnary, universeLeftUnary, universeRightUnary,
+        refinedLocalityUnary, gapUnary, transportUnary, routeUnary, provenanceUnary, nameUnary,
+        observerUniverse, universeRefinedLocality, refinedLocalityTransport, transportGap,
+        provenancePkg, namePkg⟩,
+      refinedLocalityUnary⟩
+
 end BEDC.Derived.ObserverperspectiveclassifierUp
