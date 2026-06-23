@@ -83,6 +83,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "theta_square_factorization_certificate",
     "theta_cube_decomposition_certificate",
     "median_zero_triple_certificate",
+    "betweenness_triple_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -141,6 +142,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "theta_square_factorization_certificate",
         "theta_cube_decomposition_certificate",
         "median_zero_triple_certificate",
+        "betweenness_triple_certificate",
     },
 }
 OVERCLAIM_GATES_ENABLED = True
@@ -198,6 +200,9 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "lean_statement_only",
     "median_majority_operation",
     "disjoint_support_triple_count",
+    "geodesic_interval_betweenness",
+    "quartic_characteristic_polynomial",
+    "distinct_from_wiener",
     "transfer_matrix_recurrence",
     "pell_type_recurrence",
 }
@@ -341,6 +346,9 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "cyclic_cokernel",
     "critical_group",
     "fibonacci_cube_family",
+    "graph_metric",
+    "geodesic_interval_betweenness",
+    "ordered_triple_count",
     "theta_class_coordinate_partition",
     "induced_four_cycle_incidence",
     "induced_cube_incidence",
@@ -351,6 +359,9 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "median_majority_operation",
     "ordered_triple_fiber",
     "disjoint_support_condition",
+    "four_state_transfer_matrix",
+    "quartic_characteristic_polynomial",
+    "forced_order_four_recurrence",
     "finite_transfer_matrix",
     "pell_type_recurrence",
 }
@@ -2432,6 +2443,61 @@ def self_test() -> int:
         ],
         "null_reason": "",
     }
+    betweenness_triple_conjecture = {
+        "conjecture_id": "window.fibonacci-cube.betweenness-triple",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Fibonacci cube family geodesic-betweenness triple count",
+        "informal_statement": (
+            "For Gamma_m, the geodesic-betweenness count A_m sums geodesic-interval cardinalities. "
+            "A four-state transfer matrix forces the order-four integer recurrence and quartic "
+            "characteristic polynomial as a graph-invariant certificate."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Fibonacci cube family Gamma_m with graph metric and geodesic intervals.",
+            "distinctions": [
+                "fibonacci cube family enumeration",
+                "geodesic interval betweenness",
+                "ordered triple count",
+                "four-state transfer matrix",
+                "quartic characteristic polynomial",
+                "distinction from the Wiener index",
+            ],
+            "readback": "The certificate records only internal finite graph invariants.",
+            "internal_structure": [
+                "fibonacci_cube_family",
+                "graph_metric",
+                "geodesic_interval_betweenness",
+                "ordered_triple_count",
+                "four_state_transfer_matrix",
+                "quartic_characteristic_polynomial",
+                "forced_order_four_recurrence",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "fibonacci_cube_family_enumeration",
+            "geodesic_interval_betweenness",
+            "transfer_matrix_recurrence",
+            "quartic_characteristic_polynomial",
+            "distinct_from_wiener",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+            "derived_probe",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window_betweenness_triple.py",
+                "object": "verify-window-betweenness-triple",
+                "kind": "betweenness_triple_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
     forced_window_results = gate_all(
         [
             edge_flux_conjecture,
@@ -2444,6 +2510,7 @@ def self_test() -> int:
             closed_neighborhood_smith_conjecture,
             closed_neighborhood_transfer_conjecture,
             matching_enumerator_conjecture,
+            betweenness_triple_conjecture,
         ],
         [],
         [],
@@ -2486,6 +2553,9 @@ def self_test() -> int:
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     if forced_window_by_id["window6.fibonacci-cube.matching-enumerator"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window.fibonacci-cube.betweenness-triple"]["gate_status"] != "gate_passed":
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     print("[fibonacci-reality-gates] self-test ok")
