@@ -84,6 +84,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "theta_cube_decomposition_certificate",
     "median_zero_triple_certificate",
     "betweenness_triple_certificate",
+    "saturated_chain_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -143,6 +144,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "theta_cube_decomposition_certificate",
         "median_zero_triple_certificate",
         "betweenness_triple_certificate",
+        "saturated_chain_certificate",
     },
 }
 OVERCLAIM_GATES_ENABLED = True
@@ -181,6 +183,10 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "monomer_dimer_profile",
     "fibonacci_cube_family_enumeration",
     "fibonacci_cube_recursive_decomposition",
+    "weight_graded_poset",
+    "saturated_chain_count",
+    "maximal_word_factorial_sum",
+    "binomial_factorial_closed_form",
     "closed_neighborhood_block_recurrence",
     "integral_smith_transfer_reduction",
     "identity_link_pivot",
@@ -346,6 +352,10 @@ FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMET
     "cyclic_cokernel",
     "critical_group",
     "fibonacci_cube_family",
+    "weight_graded_poset",
+    "saturated_chain_count",
+    "maximal_word_factorial_sum",
+    "binomial_factorial_closed_form",
     "graph_metric",
     "geodesic_interval_betweenness",
     "ordered_triple_count",
@@ -2498,6 +2508,59 @@ def self_test() -> int:
         ],
         "null_reason": "",
     }
+    saturated_chain_conjecture = {
+        "conjecture_id": "window.fibonacci-cube.saturated-chain",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Fibonacci cube family saturated upward chain count",
+        "informal_statement": (
+            "For Gamma_m with Hamming-weight oriented cover edges, C_m counts directed saturated chains "
+            "from 0^m to a maximal word and agrees with a maximal-word factorial sum and a "
+            "binomial-factorial closed form."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Fibonacci cube family Gamma_m with Hamming-weight orientation on cover edges.",
+            "distinctions": [
+                "fibonacci cube family enumeration",
+                "weight-graded poset",
+                "saturated upward chains",
+                "maximal-word factorial sum",
+                "binomial-factorial closed form",
+            ],
+            "readback": "The certificate records only internal finite graph and poset integer invariants.",
+            "internal_structure": [
+                "fibonacci_cube_family",
+                "weight_graded_poset",
+                "saturated_chain_count",
+                "maximal_word_factorial_sum",
+                "binomial_factorial_closed_form",
+                "finite_family_enumeration",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "fibonacci_cube_family_enumeration",
+            "weight_graded_poset",
+            "saturated_chain_count",
+            "maximal_word_factorial_sum",
+            "binomial_factorial_closed_form",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+            "derived_probe",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window_saturated_chain.py",
+                "object": "verify-window-saturated-chain",
+                "kind": "saturated_chain_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
     forced_window_results = gate_all(
         [
             edge_flux_conjecture,
@@ -2511,6 +2574,7 @@ def self_test() -> int:
             closed_neighborhood_transfer_conjecture,
             matching_enumerator_conjecture,
             betweenness_triple_conjecture,
+            saturated_chain_conjecture,
         ],
         [],
         [],
@@ -2556,6 +2620,9 @@ def self_test() -> int:
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     if forced_window_by_id["window.fibonacci-cube.betweenness-triple"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window.fibonacci-cube.saturated-chain"]["gate_status"] != "gate_passed":
         print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
         return 1
     print("[fibonacci-reality-gates] self-test ok")
