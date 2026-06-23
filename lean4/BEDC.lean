@@ -10365,6 +10365,7 @@ import BEDC.Derived.RegularCauchyTriangleBoundUp
 import BEDC.Derived.RegularCauchyTriangleBoundUp.TasteGate
 import BEDC.Derived.RegularCauchyUniformityUp.TasteGate
 import BEDC.Derived.RegularCauchyUniquenessUp.TasteGate
+import BEDC.Derived.RegularCauchyWindowFusionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyWindowFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
 import BEDC.Derived.RegularCauchyWitnessScheduleUp
@@ -10868,6 +10869,7 @@ import BEDC.Derived.SetlikeUp.KernelMembershipObligation
 import BEDC.Derived.SetlikeUp.KernelMembershipSourceTotality
 import BEDC.Derived.SetlikeUp.LedgerScopeClosure
 import BEDC.Derived.SetlikeUp.MembershipBoundarySubcarrier
+import BEDC.Derived.SetlikeUp.MembershipCarrier
 import BEDC.Derived.SetlikeUp.MembershipCarrierAdmission
 import BEDC.Derived.SetlikeUp.MembershipCarrierRootSurface
 import BEDC.Derived.SetlikeUp.MembershipCarrierStability
