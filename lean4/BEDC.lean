@@ -3507,6 +3507,7 @@ import BEDC.Derived.ConstructivePolishSpaceUp.TasteGate
 import BEDC.Derived.ConstructiveRealLineUp.TasteGate
 import BEDC.Derived.ConstructiveRealModulusUp
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
+import BEDC.Derived.ConstructiveRiemannSumUp
 import BEDC.Derived.ConstructiveSobolevEnergyUp.TasteGate
 import BEDC.Derived.ConstructiveUniformLimitUp.TasteGate
 import BEDC.Derived.ContactUp
@@ -7521,6 +7522,7 @@ import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CertificateSurface
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ClosedNormalBoundary
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ConsistencyBlockerLedger
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CriticalPathNonescape
+import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ObligationClosure
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.PositiveBlockerUnion
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ScopeStability
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.TasteGate
@@ -10123,6 +10125,7 @@ import BEDC.Derived.RegularCauchyDiagonalArgumentUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExtractionUp.TasteGate
+import BEDC.Derived.RegularCauchyDiagonalLimitUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.Nonescape
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.ObligationClosure
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.ScopedConsumerBoundary
