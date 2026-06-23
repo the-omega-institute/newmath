@@ -572,6 +572,152 @@ theorem natModFn_append_hsame_transport {M a b c d : BHist} :
   cases sameC
   rfl
 
+theorem natModFn_hsame_arg_transport {M a b : BHist} :
+    hsame a b -> hsame (natModFn M a) (natModFn M b) := by
+  intro same
+  cases same
+  rfl
+
+theorem mod_idem {M a : BHist} :
+    UnaryHistory M -> (hsame M BHist.Empty -> False) -> UnaryHistory a ->
+      hsame (natModFn M (natModFn M a)) (natModFn M a) := by
+  intro MUnary MNonempty aUnary
+  exact natModFn_rem_rem_of_dvd MUnary MNonempty MUnary MNonempty aUnary
+    (NatDivides_reflexive_pair MUnary).right
+
+theorem dvd_iff_mod_zero {M a : BHist} :
+    UnaryHistory M -> (hsame M BHist.Empty -> False) -> UnaryHistory a ->
+      (NatDivides M a ↔ hsame (natModFn M a) BHist.Empty) := by
+  intro MUnary MNonempty aUnary
+  exact dvd_iff_rem_zero MUnary MNonempty
+    (natModFn_spec MUnary aUnary MNonempty)
+
+theorem mod_add_compat {M a b : BHist} :
+    UnaryHistory M -> (hsame M BHist.Empty -> False) ->
+      UnaryHistory a -> UnaryHistory b ->
+        hsame (natModFn M (BEDC.FKernel.Cont.append a b))
+          (natModFn M (BEDC.FKernel.Cont.append (natModFn M a) (natModFn M b))) := by
+  intro MUnary MNonempty aUnary bUnary
+  exact hsame_symm (natModFn_add_reduce_same_mod MUnary MNonempty aUnary bUnary)
+
+theorem natModFn_add_congruence {M a b c d : BHist} :
+    UnaryHistory M -> (hsame M BHist.Empty -> False) ->
+      UnaryHistory a -> UnaryHistory c -> UnaryHistory b -> UnaryHistory d ->
+        hsame (natModFn M a) (natModFn M b) ->
+          hsame (natModFn M c) (natModFn M d) ->
+            hsame (natModFn M (BEDC.FKernel.Cont.append a c))
+              (natModFn M (BEDC.FKernel.Cont.append b d)) := by
+  intro MUnary MNonempty aUnary cUnary bUnary dUnary sameA sameC
+  have leftReduce :
+      hsame (natModFn M (BEDC.FKernel.Cont.append a c))
+        (natModFn M (BEDC.FKernel.Cont.append (natModFn M a) (natModFn M c))) :=
+    mod_add_compat MUnary MNonempty aUnary cUnary
+  have middle :
+      hsame
+        (natModFn M (BEDC.FKernel.Cont.append (natModFn M a) (natModFn M c)))
+        (natModFn M (BEDC.FKernel.Cont.append (natModFn M b) (natModFn M d))) :=
+    natModFn_append_hsame_transport sameA sameC
+  have rightReduce :
+      hsame
+        (natModFn M (BEDC.FKernel.Cont.append (natModFn M b) (natModFn M d)))
+        (natModFn M (BEDC.FKernel.Cont.append b d)) :=
+    natModFn_add_reduce_same_mod MUnary MNonempty bUnary dUnary
+  exact hsame_trans leftReduce (hsame_trans middle rightReduce)
+
+theorem natMulFn_hsame_transport {a b c d : BHist} :
+    hsame a b -> hsame c d -> hsame (natMulFn a c) (natMulFn b d) := by
+  intro sameA sameC
+  cases sameA
+  cases sameC
+  rfl
+
+theorem natMulFn_comm_hsame {a b : BHist} :
+    UnaryHistory a -> UnaryHistory b -> hsame (natMulFn a b) (natMulFn b a) := by
+  intro aUnary bUnary
+  exact NatMul_comm_hsame aUnary bUnary
+    (natMulFn_rel aUnary bUnary) (natMulFn_rel bUnary aUnary)
+
+theorem natModFn_mul_left_reduce_same_mod {M a b : BHist} :
+    UnaryHistory M -> (hsame M BHist.Empty -> False) ->
+      UnaryHistory a -> UnaryHistory b ->
+        hsame (natModFn M (natMulFn (natModFn M a) b))
+          (natModFn M (natMulFn a b)) := by
+  intro MUnary MNonempty aUnary bUnary
+  induction b with
+  | Empty =>
+      rfl
+  | e0 _ =>
+      cases bUnary
+  | e1 tail ih =>
+      have tailUnary : UnaryHistory tail := unary_e1_inversion bUnary
+      have ihTail :
+          hsame (natModFn M (natMulFn (natModFn M a) tail))
+            (natModFn M (natMulFn a tail)) :=
+        ih tailUnary
+      change
+        hsame
+          (natModFn M
+            (BEDC.FKernel.Cont.append (natMulFn (natModFn M a) tail) (natModFn M a)))
+          (natModFn M (BEDC.FKernel.Cont.append (natMulFn a tail) a))
+      have remAUnary : UnaryHistory (natModFn M a) :=
+        natModFn_unary MUnary aUnary MNonempty
+      exact natModFn_add_congruence MUnary MNonempty
+        (natMulFn_unary remAUnary tailUnary) remAUnary
+        (natMulFn_unary aUnary tailUnary) aUnary
+        ihTail (mod_idem MUnary MNonempty aUnary)
+
+theorem natModFn_mul_right_reduce_same_mod {M a b : BHist} :
+    UnaryHistory M -> (hsame M BHist.Empty -> False) ->
+      UnaryHistory a -> UnaryHistory b ->
+        hsame (natModFn M (natMulFn a (natModFn M b)))
+          (natModFn M (natMulFn a b)) := by
+  intro MUnary MNonempty aUnary bUnary
+  have remBUnary : UnaryHistory (natModFn M b) :=
+    natModFn_unary MUnary bUnary MNonempty
+  have leftComm :
+      hsame (natModFn M (natMulFn a (natModFn M b)))
+        (natModFn M (natMulFn (natModFn M b) a)) :=
+    natModFn_hsame_arg_transport (M := M)
+      (natMulFn_comm_hsame aUnary remBUnary)
+  have reduceLeft :
+      hsame (natModFn M (natMulFn (natModFn M b) a))
+        (natModFn M (natMulFn b a)) :=
+    natModFn_mul_left_reduce_same_mod MUnary MNonempty bUnary aUnary
+  have rightComm :
+      hsame (natModFn M (natMulFn b a))
+        (natModFn M (natMulFn a b)) :=
+    natModFn_hsame_arg_transport (M := M)
+      (natMulFn_comm_hsame bUnary aUnary)
+  exact hsame_trans leftComm (hsame_trans reduceLeft rightComm)
+
+theorem mod_mul_compat {M a b : BHist} :
+    UnaryHistory M -> (hsame M BHist.Empty -> False) ->
+      UnaryHistory a -> UnaryHistory b ->
+        hsame (natModFn M (natMulFn a b))
+          (natModFn M (natMulFn (natModFn M a) (natModFn M b))) := by
+  intro MUnary MNonempty aUnary bUnary
+  have remAUnary : UnaryHistory (natModFn M a) :=
+    natModFn_unary MUnary aUnary MNonempty
+  have reduceRight :
+      hsame (natModFn M (natMulFn (natModFn M a) (natModFn M b)))
+        (natModFn M (natMulFn (natModFn M a) b)) :=
+    natModFn_mul_right_reduce_same_mod MUnary MNonempty remAUnary bUnary
+  have reduceLeft :
+      hsame (natModFn M (natMulFn (natModFn M a) b))
+        (natModFn M (natMulFn a b)) :=
+    natModFn_mul_left_reduce_same_mod MUnary MNonempty aUnary bUnary
+  exact hsame_symm (hsame_trans reduceRight reduceLeft)
+
+theorem natModFn_of_strict {M a : BHist} :
+    UnaryHistory M -> (hsame M BHist.Empty -> False) ->
+      UnaryHistory a -> NatUnaryStrictPrefix a M -> hsame (natModFn M a) a := by
+  intro MUnary MNonempty aUnary aStrict
+  have displayed : NatDivRem M a BHist.Empty a :=
+    ⟨BHist.Empty, NatMul.zero MUnary,
+      And.intro unary_empty (And.intro aUnary (cont_left_unit a)),
+      aStrict⟩
+  exact (natModFn_unique MUnary aUnary MNonempty displayed).right
+
 structure BoundedNat (M : BHist) where
   val : BHist
   isLt : NatUnaryStrictPrefix val M
@@ -845,6 +991,343 @@ def zpMulTrunc (p N : BHist) (prime : NatPrime p) (NUnary : UnaryHistory N)
     (x y : ZpTrunc p N) : ZpTrunc p N :=
   fromNatModPow p N (natMulFn x.val y.val) prime NUnary
 
+theorem zpMul_compat (p : BHist) (x y : ZpInt p) :
+    ZpCompatible p x.prime
+      (fun N NUnary => zpMulTrunc p N x.prime NUnary (x.trunc N NUnary) (y.trunc N NUnary)) := by
+  intro N NUnary
+  unfold reduce zpMulTrunc fromNatModPow ZpEqTrunc natMod
+  have MUnary : UnaryHistory (pPowCanon p N) := pPowCanon_unary p N
+  have KUnary : UnaryHistory (pPowCanon p (BHist.e1 N)) :=
+    pPowCanon_unary p (BHist.e1 N)
+  have MNonempty : hsame (pPowCanon p N) BHist.Empty -> False :=
+    pPowCanon_nonempty_of_prime x.prime NUnary
+  have KNonempty : hsame (pPowCanon p (BHist.e1 N)) BHist.Empty -> False :=
+    pPowCanon_nonempty_of_prime x.prime (unary_e1_closed NUnary)
+  have xNextUnary : UnaryHistory (x.trunc (BHist.e1 N) (unary_e1_closed NUnary)).val :=
+    BoundedNat_unary KUnary (x.trunc (BHist.e1 N) (unary_e1_closed NUnary))
+  have yNextUnary : UnaryHistory (y.trunc (BHist.e1 N) (unary_e1_closed NUnary)).val :=
+    BoundedNat_unary KUnary (y.trunc (BHist.e1 N) (unary_e1_closed NUnary))
+  have pref : NatUnaryPrefix N (BHist.e1 N) :=
+    ⟨BHist.e1 BHist.Empty, unary_e1_closed unary_empty, cont_intro rfl⟩
+  have dividesMK : NatDivides (pPowCanon p N) (pPowCanon p (BHist.e1 N)) :=
+    pow_dvd_pow_of_le x.prime NUnary (unary_e1_closed NUnary) pref
+  have xCompat := x.compat N NUnary
+  have yCompat := y.compat N NUnary
+  unfold reduce fromNatModPow ZpEqTrunc natMod at xCompat yCompat
+  have outerRem :
+      hsame
+        (natModFn (pPowCanon p N)
+          (natModFn (pPowCanon p (BHist.e1 N))
+            (natMulFn
+              (x.trunc (BHist.e1 N) (unary_e1_closed NUnary)).val
+              (y.trunc (BHist.e1 N) (unary_e1_closed NUnary)).val)))
+        (natModFn (pPowCanon p N)
+          (natMulFn
+            (x.trunc (BHist.e1 N) (unary_e1_closed NUnary)).val
+            (y.trunc (BHist.e1 N) (unary_e1_closed NUnary)).val)) := by
+    exact natModFn_rem_rem_of_dvd MUnary MNonempty KUnary KNonempty
+      (natMulFn_unary xNextUnary yNextUnary) dividesMK
+  have reduceNextProduct :
+      hsame
+        (natModFn (pPowCanon p N)
+          (natMulFn
+            (x.trunc (BHist.e1 N) (unary_e1_closed NUnary)).val
+            (y.trunc (BHist.e1 N) (unary_e1_closed NUnary)).val))
+        (natModFn (pPowCanon p N)
+          (natMulFn
+            (natModFn (pPowCanon p N)
+              (x.trunc (BHist.e1 N) (unary_e1_closed NUnary)).val)
+            (natModFn (pPowCanon p N)
+              (y.trunc (BHist.e1 N) (unary_e1_closed NUnary)).val))) := by
+    exact mod_mul_compat MUnary MNonempty xNextUnary yNextUnary
+  have compatTransport :
+      hsame
+        (natModFn (pPowCanon p N)
+          (natMulFn
+            (natModFn (pPowCanon p N)
+              (x.trunc (BHist.e1 N) (unary_e1_closed NUnary)).val)
+            (natModFn (pPowCanon p N)
+              (y.trunc (BHist.e1 N) (unary_e1_closed NUnary)).val)))
+        (natModFn (pPowCanon p N)
+          (natMulFn (x.trunc N NUnary).val (y.trunc N NUnary).val)) :=
+    natModFn_hsame_arg_transport (M := pPowCanon p N)
+      (natMulFn_hsame_transport xCompat yCompat)
+  change hsame
+    (natModFn (pPowCanon p N)
+      (natModFn (pPowCanon p (BHist.e1 N))
+        (natMulFn
+          (x.trunc (BHist.e1 N) (unary_e1_closed NUnary)).val
+          (y.trunc (BHist.e1 N) (unary_e1_closed NUnary)).val)))
+    (natModFn (pPowCanon p N)
+      (natMulFn (x.trunc N NUnary).val (y.trunc N NUnary).val))
+  exact hsame_trans outerRem
+    (hsame_trans reduceNextProduct compatTransport)
+
+def zpMul (p : BHist) (x y : ZpInt p) : ZpInt p :=
+  { prime := x.prime
+    trunc := fun N NUnary => zpMulTrunc p N x.prime NUnary (x.trunc N NUnary) (y.trunc N NUnary)
+    compat := zpMul_compat p x y }
+
+theorem ZpEq_refl {p : BHist} (x : ZpInt p) : ZpEq x x := by
+  intro N NUnary
+  exact hsame_refl _
+
+theorem ZpEq_symm {p : BHist} {x y : ZpInt p} :
+    ZpEq x y -> ZpEq y x := by
+  intro same N NUnary
+  exact hsame_symm (same N NUnary)
+
+theorem ZpEq_trans {p : BHist} {x y z : ZpInt p} :
+    ZpEq x y -> ZpEq y z -> ZpEq x z := by
+  intro sameXY sameYZ N NUnary
+  exact hsame_trans (sameXY N NUnary) (sameYZ N NUnary)
+
+theorem zpAdd_comm (p : BHist) (x y : ZpInt p) :
+    ZpEq (zpAdd p x y) (zpAdd p y x) := by
+  intro N NUnary
+  unfold zpAdd zpAddTrunc fromNatModPow natMod
+  have MUnary : UnaryHistory (pPowCanon p N) := pPowCanon_unary p N
+  have xUnary : UnaryHistory (x.trunc N NUnary).val :=
+    BoundedNat_unary MUnary (x.trunc N NUnary)
+  have yUnary : UnaryHistory (y.trunc N NUnary).val :=
+    BoundedNat_unary MUnary (y.trunc N NUnary)
+  exact natModFn_hsame_arg_transport (M := pPowCanon p N)
+    (unary_append_comm xUnary yUnary)
+
+theorem zpMul_comm (p : BHist) (x y : ZpInt p) :
+    ZpEq (zpMul p x y) (zpMul p y x) := by
+  intro N NUnary
+  unfold zpMul zpMulTrunc fromNatModPow natMod
+  have MUnary : UnaryHistory (pPowCanon p N) := pPowCanon_unary p N
+  have xUnary : UnaryHistory (x.trunc N NUnary).val :=
+    BoundedNat_unary MUnary (x.trunc N NUnary)
+  have yUnary : UnaryHistory (y.trunc N NUnary).val :=
+    BoundedNat_unary MUnary (y.trunc N NUnary)
+  exact natModFn_hsame_arg_transport (M := pPowCanon p N)
+    (natMulFn_comm_hsame xUnary yUnary)
+
+theorem zpZero_add_left (p : BHist) (prime : NatPrime p) (x : ZpInt p) :
+    ZpEq (zpAdd p (zpZero p prime) x) x := by
+  intro N NUnary
+  change hsame
+    (natModFn (pPowCanon p N)
+      (BEDC.FKernel.Cont.append
+        (natModFn (pPowCanon p N) BHist.Empty) (x.trunc N NUnary).val))
+    (x.trunc N NUnary).val
+  have MUnary : UnaryHistory (pPowCanon p N) := pPowCanon_unary p N
+  have MNonempty : hsame (pPowCanon p N) BHist.Empty -> False :=
+    pPowCanon_nonempty_of_prime prime NUnary
+  have xStrict : NatUnaryStrictPrefix (x.trunc N NUnary).val (pPowCanon p N) :=
+    (x.trunc N NUnary).isLt
+  have xUnary : UnaryHistory (x.trunc N NUnary).val :=
+    BoundedNat_unary MUnary (x.trunc N NUnary)
+  have leftEmpty :
+      hsame (natModFn (pPowCanon p N) BHist.Empty) BHist.Empty := by
+    rfl
+  have raw :
+      hsame
+        (natModFn (pPowCanon p N)
+          (BEDC.FKernel.Cont.append
+            (natModFn (pPowCanon p N) BHist.Empty) (x.trunc N NUnary).val))
+        (natModFn (pPowCanon p N) (x.trunc N NUnary).val) := by
+    cases leftEmpty
+    exact natModFn_hsame_arg_transport (M := pPowCanon p N)
+      (append_empty_left (x.trunc N NUnary).val)
+  exact hsame_trans raw (natModFn_of_strict MUnary MNonempty xUnary xStrict)
+
+theorem zpZero_add_right (p : BHist) (prime : NatPrime p) (x : ZpInt p) :
+    ZpEq (zpAdd p x (zpZero p prime)) x := by
+  exact ZpEq_trans (zpAdd_comm p x (zpZero p prime))
+    (zpZero_add_left p prime x)
+
+theorem zpAdd_assoc (p : BHist) (x y z : ZpInt p) :
+    ZpEq (zpAdd p (zpAdd p x y) z) (zpAdd p x (zpAdd p y z)) := by
+  intro N NUnary
+  change hsame
+    (natModFn (pPowCanon p N)
+      (BEDC.FKernel.Cont.append
+        (natModFn (pPowCanon p N)
+          (BEDC.FKernel.Cont.append (x.trunc N NUnary).val (y.trunc N NUnary).val))
+        (z.trunc N NUnary).val))
+    (natModFn (pPowCanon p N)
+      (BEDC.FKernel.Cont.append
+        (x.trunc N NUnary).val
+        (natModFn (pPowCanon p N)
+          (BEDC.FKernel.Cont.append (y.trunc N NUnary).val (z.trunc N NUnary).val))))
+  have MUnary : UnaryHistory (pPowCanon p N) := pPowCanon_unary p N
+  have MNonempty : hsame (pPowCanon p N) BHist.Empty -> False :=
+    pPowCanon_nonempty_of_prime x.prime NUnary
+  have xUnary : UnaryHistory (x.trunc N NUnary).val :=
+    BoundedNat_unary MUnary (x.trunc N NUnary)
+  have yUnary : UnaryHistory (y.trunc N NUnary).val :=
+    BoundedNat_unary MUnary (y.trunc N NUnary)
+  have zUnary : UnaryHistory (z.trunc N NUnary).val :=
+    BoundedNat_unary MUnary (z.trunc N NUnary)
+  have xyUnary :
+      UnaryHistory (BEDC.FKernel.Cont.append (x.trunc N NUnary).val (y.trunc N NUnary).val) :=
+    unary_append_closed xUnary yUnary
+  have yzUnary :
+      UnaryHistory (BEDC.FKernel.Cont.append (y.trunc N NUnary).val (z.trunc N NUnary).val) :=
+    unary_append_closed yUnary zUnary
+  have leftToRaw :
+      hsame
+        (natModFn (pPowCanon p N)
+          (BEDC.FKernel.Cont.append
+            (natModFn (pPowCanon p N)
+              (BEDC.FKernel.Cont.append (x.trunc N NUnary).val (y.trunc N NUnary).val))
+            (z.trunc N NUnary).val))
+        (natModFn (pPowCanon p N)
+          (BEDC.FKernel.Cont.append
+            (BEDC.FKernel.Cont.append (x.trunc N NUnary).val (y.trunc N NUnary).val)
+            (z.trunc N NUnary).val)) := by
+    exact hsame_symm
+      (natModFn_add_congruence MUnary MNonempty
+        xyUnary zUnary
+        (natModFn_unary MUnary xyUnary MNonempty) zUnary
+        (hsame_symm (mod_idem MUnary MNonempty xyUnary)) (hsame_refl _))
+  have rawAssoc :
+      hsame
+        (natModFn (pPowCanon p N)
+          (BEDC.FKernel.Cont.append
+            (BEDC.FKernel.Cont.append (x.trunc N NUnary).val (y.trunc N NUnary).val)
+            (z.trunc N NUnary).val))
+        (natModFn (pPowCanon p N)
+          (BEDC.FKernel.Cont.append
+            (x.trunc N NUnary).val
+            (BEDC.FKernel.Cont.append (y.trunc N NUnary).val (z.trunc N NUnary).val))) :=
+    natModFn_hsame_arg_transport (M := pPowCanon p N)
+      (BEDC.FKernel.Cont.append_assoc
+        (x.trunc N NUnary).val (y.trunc N NUnary).val (z.trunc N NUnary).val)
+  have rawToRight :
+      hsame
+        (natModFn (pPowCanon p N)
+          (BEDC.FKernel.Cont.append
+            (x.trunc N NUnary).val
+            (BEDC.FKernel.Cont.append (y.trunc N NUnary).val (z.trunc N NUnary).val)))
+        (natModFn (pPowCanon p N)
+          (BEDC.FKernel.Cont.append
+            (x.trunc N NUnary).val
+            (natModFn (pPowCanon p N)
+              (BEDC.FKernel.Cont.append (y.trunc N NUnary).val (z.trunc N NUnary).val)))) := by
+    exact natModFn_add_congruence MUnary MNonempty
+      xUnary yzUnary xUnary (natModFn_unary MUnary yzUnary MNonempty)
+      (hsame_refl _) (hsame_symm (mod_idem MUnary MNonempty yzUnary))
+  exact hsame_trans leftToRaw (hsame_trans rawAssoc rawToRight)
+
+theorem zpOne_mul_left (p : BHist) (prime : NatPrime p) (x : ZpInt p) :
+    ZpEq (zpMul p (zpOne p prime) x) x := by
+  intro N NUnary
+  change hsame
+    (natModFn (pPowCanon p N)
+      (natMulFn (natModFn (pPowCanon p N) NatOne) (x.trunc N NUnary).val))
+    (x.trunc N NUnary).val
+  have MUnary : UnaryHistory (pPowCanon p N) := pPowCanon_unary p N
+  have MNonempty : hsame (pPowCanon p N) BHist.Empty -> False :=
+    pPowCanon_nonempty_of_prime prime NUnary
+  have xUnary : UnaryHistory (x.trunc N NUnary).val :=
+    BoundedNat_unary MUnary (x.trunc N NUnary)
+  have xStrict : NatUnaryStrictPrefix (x.trunc N NUnary).val (pPowCanon p N) :=
+    (x.trunc N NUnary).isLt
+  have productReduce :
+      hsame
+        (natModFn (pPowCanon p N)
+          (natMulFn (natModFn (pPowCanon p N) NatOne) (x.trunc N NUnary).val))
+        (natModFn (pPowCanon p N) (natMulFn NatOne (x.trunc N NUnary).val)) :=
+    natModFn_mul_left_reduce_same_mod MUnary MNonempty
+      (unary_e1_closed unary_empty) xUnary
+  have productUnit :
+      hsame
+        (natModFn (pPowCanon p N) (natMulFn NatOne (x.trunc N NUnary).val))
+        (natModFn (pPowCanon p N) (x.trunc N NUnary).val) :=
+    natModFn_hsame_arg_transport (M := pPowCanon p N)
+      (NatMul_unit_left_hsame xUnary
+        (natMulFn_rel (unary_e1_closed unary_empty) xUnary))
+  exact hsame_trans productReduce
+    (hsame_trans productUnit (natModFn_of_strict MUnary MNonempty xUnary xStrict))
+
+theorem zpOne_mul_right (p : BHist) (prime : NatPrime p) (x : ZpInt p) :
+    ZpEq (zpMul p x (zpOne p prime)) x := by
+  exact ZpEq_trans (zpMul_comm p x (zpOne p prime))
+    (zpOne_mul_left p prime x)
+
+theorem zpMul_assoc (p : BHist) (x y z : ZpInt p) :
+    ZpEq (zpMul p (zpMul p x y) z) (zpMul p x (zpMul p y z)) := by
+  intro N NUnary
+  change hsame
+    (natModFn (pPowCanon p N)
+      (natMulFn
+        (natModFn (pPowCanon p N)
+          (natMulFn (x.trunc N NUnary).val (y.trunc N NUnary).val))
+        (z.trunc N NUnary).val))
+    (natModFn (pPowCanon p N)
+      (natMulFn
+        (x.trunc N NUnary).val
+        (natModFn (pPowCanon p N)
+          (natMulFn (y.trunc N NUnary).val (z.trunc N NUnary).val))))
+  have MUnary : UnaryHistory (pPowCanon p N) := pPowCanon_unary p N
+  have MNonempty : hsame (pPowCanon p N) BHist.Empty -> False :=
+    pPowCanon_nonempty_of_prime x.prime NUnary
+  have xUnary : UnaryHistory (x.trunc N NUnary).val :=
+    BoundedNat_unary MUnary (x.trunc N NUnary)
+  have yUnary : UnaryHistory (y.trunc N NUnary).val :=
+    BoundedNat_unary MUnary (y.trunc N NUnary)
+  have zUnary : UnaryHistory (z.trunc N NUnary).val :=
+    BoundedNat_unary MUnary (z.trunc N NUnary)
+  have xyUnary : UnaryHistory (natMulFn (x.trunc N NUnary).val (y.trunc N NUnary).val) :=
+    natMulFn_unary xUnary yUnary
+  have yzUnary : UnaryHistory (natMulFn (y.trunc N NUnary).val (z.trunc N NUnary).val) :=
+    natMulFn_unary yUnary zUnary
+  have leftToRaw :
+      hsame
+        (natModFn (pPowCanon p N)
+          (natMulFn
+            (natModFn (pPowCanon p N)
+              (natMulFn (x.trunc N NUnary).val (y.trunc N NUnary).val))
+            (z.trunc N NUnary).val))
+        (natModFn (pPowCanon p N)
+          (natMulFn
+            (natMulFn (x.trunc N NUnary).val (y.trunc N NUnary).val)
+            (z.trunc N NUnary).val)) :=
+    natModFn_mul_left_reduce_same_mod MUnary MNonempty xyUnary zUnary
+  have rawAssoc :
+      hsame
+        (natModFn (pPowCanon p N)
+          (natMulFn
+            (natMulFn (x.trunc N NUnary).val (y.trunc N NUnary).val)
+            (z.trunc N NUnary).val))
+        (natModFn (pPowCanon p N)
+          (natMulFn
+            (x.trunc N NUnary).val
+            (natMulFn (y.trunc N NUnary).val (z.trunc N NUnary).val))) := by
+    have assocSame :
+        hsame
+          (natMulFn
+            (natMulFn (x.trunc N NUnary).val (y.trunc N NUnary).val)
+            (z.trunc N NUnary).val)
+          (natMulFn
+            (x.trunc N NUnary).val
+            (natMulFn (y.trunc N NUnary).val (z.trunc N NUnary).val)) :=
+      NatMul_assoc_hsame xUnary yUnary zUnary
+        (natMulFn_rel xUnary yUnary)
+        (natMulFn_rel xyUnary zUnary)
+        (natMulFn_rel yUnary zUnary)
+        (natMulFn_rel xUnary yzUnary)
+    exact natModFn_hsame_arg_transport (M := pPowCanon p N) assocSame
+  have rawToRight :
+      hsame
+        (natModFn (pPowCanon p N)
+          (natMulFn
+            (x.trunc N NUnary).val
+            (natMulFn (y.trunc N NUnary).val (z.trunc N NUnary).val)))
+        (natModFn (pPowCanon p N)
+          (natMulFn
+            (x.trunc N NUnary).val
+            (natModFn (pPowCanon p N)
+              (natMulFn (y.trunc N NUnary).val (z.trunc N NUnary).val)))) := by
+    exact hsame_symm
+      (natModFn_mul_right_reduce_same_mod MUnary MNonempty xUnary yzUnary)
+  exact hsame_trans leftToRaw (hsame_trans rawAssoc rawToRight)
+
 def intSub (x y : BHist × BHist) : BHist × BHist :=
   BEDC.Derived.IntUp.intSub x y
 
@@ -869,6 +1352,34 @@ theorem natDistanceInt_carrier (x y : BHist) :
 
 def Ball (p N x y : BHist) : Prop :=
   PDvdInt p N (natDistanceInt x y)
+
+theorem same_residue_iff_ball {p N x y : BHist} :
+    NatPrime p -> UnaryHistory N ->
+      (hsame (natModFn (pPowCanon p N) (natDistanceInt x y).2) BHist.Empty ↔
+        Ball p N x y) := by
+  intro prime NUnary
+  unfold Ball
+  have MUnary : UnaryHistory (pPowCanon p N) := pPowCanon_unary p N
+  have MNonempty : hsame (pPowCanon p N) BHist.Empty -> False :=
+    pPowCanon_nonempty_of_prime prime NUnary
+  have magnitudeUnary : UnaryHistory (natDistanceInt x y).2 :=
+    (natDistanceInt_carrier x y).right
+  have powCanon : PPow p N (pPowCanon p N) :=
+    pPowCanon_PPow prime.left NUnary
+  constructor
+  · intro remZero
+    have dividesMagnitude : NatDivides (pPowCanon p N) (natDistanceInt x y).2 :=
+      (dvd_iff_mod_zero MUnary MNonempty magnitudeUnary).mpr remZero
+    exact And.intro (natDistanceInt_carrier x y)
+      (Exists.intro (pPowCanon p N) (And.intro powCanon dividesMagnitude))
+  · intro padicDivides
+    cases padicDivides.right with
+    | intro pk pkData =>
+        have samePower : hsame pk (pPowCanon p N) :=
+          PPow_functional pkData.left powCanon
+        have dividesMagnitude : NatDivides (pPowCanon p N) (natDistanceInt x y).2 :=
+          (NatDivides_divisor_hsame_transport pkData.right samePower).right
+        exact (dvd_iff_mod_zero MUnary MNonempty magnitudeUnary).mp dividesMagnitude
 
 theorem Ball_carrier {p N x y : BHist} :
     Ball p N x y -> IntCarrier (natDistanceInt x y).1 (natDistanceInt x y).2 := by
