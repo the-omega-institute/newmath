@@ -191,6 +191,28 @@ Use \autoref{thm:regular-cauchy-window-fusion-budget-meet}. Any two downstream r
 Finally apply \autoref{thm:regular-cauchy-window-fusion-scoped-kernel-route}. It identifies the scoped kernel route with $W,S,D,E,H,C,P,N$ and excludes quotient stream equality, selected limits, trichotomy, ambient completeness, and hidden $\RealUp$ comparisons. Therefore the displayed packet exhausts the finite Real-facing window.
 \end{proof}
 
+\begin{theorem}[RegularCauchyWindowFusion tail-window coverage]
+\label{thm:regular-cauchy-window-fusion-tail-window-coverage}
+Let
+$$
+F=(R,W,S,D,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyWindowFusionUp$ carrier. Any $\RealUp$-facing consumer of $F$ must expose the diagonal cofinal tail selected by the stationary window route, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RegSeqRatUp$ readback $S$, the $\StreamNameUp$ schedule $W$, and the terminal $\RealUp$ seal $E$ before consuming the fused window. The exposed route is exactly the finite packet
+$$
+R,W,S,D,E,H,C,P,N,
+$$
+so no consumer may replace the tail-window route by a selected subsequence, quotient stream equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The only schedule row is $W$, the only regular-rational readback is $S$, the only dyadic tolerance ledger is $D$, and the only terminal Real-facing seal is $E$.
+
+Apply \autoref{thm:regular-cauchy-window-fusion-finite-window-exactness}. It identifies the route from the RatUp seed through $W,S,D,E$ as the unique finite observation-window path available to a $\RealUp$- or completion-facing consumer.
+
+The diagonal cofinal tail is therefore consumed only through the stationary window route already displayed by $W$ and routed by $C$. The support rows $H,P,N$ transport, source, and name the same packet without adding a second selector.
+
+Consequently the consumer remains inside $R,W,S,D,E,H,C,P,N$. Selected subsequences, quotient stream equality, and ambient Real completeness are not carrier coordinates, so none can be used before the fused window is consumed.
+\end{proof}
+
 \closureat{RegularCauchyWindowFusionUp}{obligationStr}[BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionUpTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RegularCauchyWindowFusionUp}
