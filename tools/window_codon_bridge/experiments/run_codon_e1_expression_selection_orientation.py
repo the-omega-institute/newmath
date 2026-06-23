@@ -764,12 +764,13 @@ def matched_null(
     }
 
 
-def per_genus_beta(strata: list[dict[str, object]]) -> dict[str, float]:
+def per_genus_beta(strata: list[dict[str, object]], species_order: list[str]) -> dict[str, float]:
     out: dict[str, float] = {}
     for genus in sorted({str(row["genus"]) for row in strata}):
-        subset = [dict(row, weight=1.0 / max(sum(str(r["genus"]) == genus for r in strata), 1)) for row in strata if str(row["genus"]) == genus]
+        count = max(sum(str(r["genus"]) == genus for r in strata), 1)
+        subset = [dict(row, weight=1.0 / count) for row in strata if str(row["genus"]) == genus]
         if subset:
-            out[genus] = float(fit_conditional_logit(subset)["beta"][0])
+            out[genus] = float(fit_design(prepare_design(subset, species_order))["beta"][0])
     return out
 
 
@@ -885,7 +886,7 @@ def main() -> None:
         "expression_by_tRNA_supply interaction",
         "genus-cluster equal weighting",
     ]
-    per_genus = per_genus_beta(strata)
+    per_genus = per_genus_beta(strata, species_order)
     yield_audit = [
         {
             "assembly_accession": org["assembly_accession"],
