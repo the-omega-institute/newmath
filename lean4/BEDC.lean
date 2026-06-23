@@ -1008,6 +1008,7 @@ import BEDC.Derived.BishopLocatedCompletionEmbeddingUp
 import BEDC.Derived.BishopLocatedCompletionEmbeddingUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
+import BEDC.Derived.BishopLocatedConvexHullUp
 import BEDC.Derived.BishopLocatedDiagonalUp.TasteGate
 import BEDC.Derived.BishopLocatedFilterBaseUp.TasteGate
 import BEDC.Derived.BishopLocatedIntervalRefinementMapUp.TasteGate
@@ -8062,6 +8063,8 @@ import BEDC.Derived.MetaCICTypedParallelDiamondBoundaryUp
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
 import BEDC.Derived.MetaClosureWitnessLedgerUp.TasteGate
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.SeedClosure
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.TasteGate
 import BEDC.Derived.MetacicClosedBetaTraceEnvelopeUp
 import BEDC.Derived.MetacicConfluenceAuditWitnessUp.ConditionalBoundary
 import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
@@ -9955,6 +9958,8 @@ import BEDC.Derived.ReductionFuelBoundaryUp.ScopedSubstrateRoute
 import BEDC.Derived.ReductionFuelBoundaryUp.ScopedTimeoutRoute
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
 import BEDC.Derived.ReductionFuelBoundaryUp.TotalHostNonescape
+import BEDC.Derived.ReflectionGapAuditUp
+import BEDC.Derived.ReflectionGapAuditUp.TasteGate
 import BEDC.Derived.ReflectionGapBoundaryUp.Nonescape
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ReflectionLimitBoundaryUp.TasteGate
@@ -12033,6 +12038,7 @@ import BEDC.Derived.UpcrossingUp.ScopedDecisionRoute
 import BEDC.Derived.UpcrossingUp.TasteGate
 import BEDC.Derived.UpgradeRegistryUp.NameCertObligations
 import BEDC.Derived.UpgradeRegistryUp.NoncompletionSurface
+import BEDC.Derived.UpgradeRegistryUp.PublicExport
 import BEDC.Derived.UpgradeRegistryUp.StatusPreservation
 import BEDC.Derived.UpgradeRegistryUp.TasteGate
 import BEDC.Derived.UpperDarbouxSumUp
@@ -12078,6 +12084,7 @@ import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
 import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.WLPOBoundaryUp.TasteGate
 import BEDC.Derived.WRRHotspotCubeUp.TasteGate
+import BEDC.Derived.WassersteinUp.MarginalExactnessScope
 import BEDC.Derived.WassersteinUp.MetricCouplingScope
 import BEDC.Derived.WassersteinUp.TasteGate
 import BEDC.Derived.WeakCompactnessUp
