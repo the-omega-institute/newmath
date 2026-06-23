@@ -1,0 +1,17 @@
+\begin{theorem}[MetaCIC parallel-diamond retained-premise scope]
+\label{thm:metacic-parallel-diamond-frontier-retained-premise-scope}
+Every retained premise used by a $\MetaCICParallelDiamondFrontierUp$ read must be displayed as one of the residual-pair, candidate-normalization, local-join, closed-checker, or obstruction rows already named in the frontier carrier
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+In particular, a retained premise can be consumed only as carrier-local evidence through those rows, and cannot be read as an unconditional closed parallel-diamond theorem, subject-reduction theorem, evaluator equality, quotient term equality, or kernel-consistency certificate.
+\end{theorem}
+\begin{proof}
+Project the frontier carrier of \autoref{def:metacic-parallel-diamond-frontier-carrier}. The residual-pair and premise-retention rows are $P,K,R$, the candidate-normalization row is $J$, the local-join and closed-checker rows are $S,C,B$, and the obstruction row is $O$.
+
+Apply the residual boundary route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}. It places every residual-pair use behind the retained premise row and keeps the critical-pair and residual-frontier rows visible.
+
+Next use the candidate-normalization and local-join boundaries, \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope} and \autoref{thm:metacic-finite-residual-diamond-ledger-local-join-obligations}. These theorems allow candidate and local-join data to be read only through the displayed finite route, with the retained premise still attached.
+
+Finally apply the retained-premise discharge boundary and obstruction ledger, \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-discharge-boundary} and \autoref{thm:metacic-parallel-diamond-frontier-residual-obstruction-budget}. The closed-checker and obstruction rows remain visible through the structural rows $H,T,G,N$, so no consumer can reread the retained premise as an unconditional closed parallel diamond or any of the refused kernel-level endpoints.
+\end{proof}

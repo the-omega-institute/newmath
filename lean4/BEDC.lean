@@ -601,6 +601,7 @@ import BEDC.Derived.AxiomDependencyAuditMapUp
 import BEDC.Derived.AxiomDependencyMapUp
 import BEDC.Derived.AxiomDependencyMapUp.TasteGate
 import BEDC.Derived.AxiomDependencyTupleUp
+import BEDC.Derived.AxiomDependencyTupleUp.AuditConsumerCompleteness
 import BEDC.Derived.AxiomDependencyTupleUp.ConsumerExhaustion
 import BEDC.Derived.AxiomDependencyTupleUp.ConsumerLedgerOrder
 import BEDC.Derived.AxiomDependencyTupleUp.DownstreamConsumerSupplyBoundary
@@ -611,6 +612,7 @@ import BEDC.Derived.AxiomDependencyTupleUp.RestrictedSupplyLedgerNonpromotion
 import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
 import BEDC.Derived.AxiomDependencyTupleUp.SubjectReductionSocketDependencyRoute
 import BEDC.Derived.AxiomDependencyTupleUp.SupplyLedgerReadback
+import BEDC.Derived.AxiomDependencyTupleUp.SupplyProvenanceSiblingRoute
 import BEDC.Derived.AxiomDependencyTupleUp.ZeroSupplyModeExactness
 import BEDC.Derived.AxiomDependencyTupleUp.ZeroSupplyModeSoundness
 import BEDC.Derived.AxiomPurityGateUp
@@ -5259,6 +5261,7 @@ import BEDC.Derived.FableBranchWitnessUp.EmptyBoundarySelectorDependency
 import BEDC.Derived.FableBranchWitnessUp.TasteGate
 import BEDC.Derived.FableClockOrderUp
 import BEDC.Derived.FableMachineBoundaryUp.NameCertObligations
+import BEDC.Derived.FableMachineBoundaryUp.SelectorNonescape
 import BEDC.Derived.FableMachineBoundaryUp.TasteGate
 import BEDC.Derived.FableMachineClockUp.Obligations
 import BEDC.Derived.FableMachineClockUp.StepLedgerExactness
@@ -9430,6 +9433,7 @@ import BEDC.Derived.RealCauchyRateUp.TasteGate
 import BEDC.Derived.RealCauchySumUp.TasteGate
 import BEDC.Derived.RealCauchyWitnessGridUp.TasteGate
 import BEDC.Derived.RealClassifierUp
+import BEDC.Derived.RealClassifierUp.LedgerExhaustion
 import BEDC.Derived.RealClosureUp.TasteGate
 import BEDC.Derived.RealCofinalModulusGateUp.TasteGate
 import BEDC.Derived.RealCompletenessDensityWindowUp
@@ -9939,6 +9943,7 @@ import BEDC.Derived.RegularCauchyAffineCombinationUp.ObligationSurface
 import BEDC.Derived.RegularCauchyAffineCombinationUp.Stability
 import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
 import BEDC.Derived.RegularCauchyAlgebraCoherenceUp.TasteGate
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.L10ScopeBinding
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundDeterminacy
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundScope
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.PositiveWindowDeterminacy
