@@ -99,12 +99,24 @@ Use GAP exposure and LawCertificate consumption, \autoref{thm:empirical-regulari
 Finally apply nonescape, \autoref{thm:empirical-regularity-persistence-nonescape}. It excludes bare equations, records-only reads, model syntax, hidden calibration, omitted ledgers, unlisted continuations, and off-packet future-persistence assertions, leaving exactly the stated public interface.
 \end{proof}
 
+\begin{theorem}[Empirical regularity persistence bridge route]
+\label{thm:empirical-regularity-persistence-bridge-route}
+Every $\LawCertificateUp$-facing bridge read of an accepted $\EmpiricalRegularityPersistenceUp$ packet factors through the displayed measurement row $M$, observed regularity row $R$, classifier row $K$, future-persistence GAP row $G$, stability row $S$, failure row $F$, componentwise transport row $H$, displayed replay row $C$, provenance row $P$, and local naming row $N$. The bridge may read the error-ledger row $L$ as support for the same route, but it cannot replace the packet by a bare equation, records-only regularity claim, model syntax, hidden calibration assumption, all-future truth, or law status detached from those rows.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:empirical-regularity-public-interface}. The public read exported by the packet is exactly the displayed measurement, regularity, classifier, GAP, law-certificate consumption, stability, failure, transport, replay, provenance, and local naming surface, with the error ledger retained as support.
+
+Apply \autoref{thm:empirical-regularity-lawcertificate-consumption}. A law-certificate consumer must pass through both the records side and the future-facing GAP side before reading any law-facing surface.
+
+Finally use \autoref{thm:empirical-regularity-persistence-nonescape}. The excluded replacements are not coordinates of the accepted carrier, so a bridge read that omits the listed rows leaves the packet.
+\end{proof}
+
 \closureat{EmpiricalRegularityPersistenceUp}{publicStr}
 
 \begin{closurestatus}{\EmpiricalRegularityPersistenceUp}
   \constructivestory{An $\EmpiricalRegularityPersistenceUp$ packet is generated from finite measurement rows, observed regularity rows, classifier exposure, error-ledger rows, a Type IV future-persistence GAP, LawCertificate consumption, stability, failure, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:empirical-regularity-persistence-carrier}, \autoref{def:empirical-regularity-persistence-classifier}, \autoref{thm:empirical-regularity-persistence-gap-exposure}, \autoref{thm:empirical-regularity-lawcertificate-consumption}, \autoref{thm:empirical-regularity-persistence-nonescape}, and \autoref{thm:empirical-regularity-public-interface} bind the finite observed-regularity and future-persistence packet exactly to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:empirical-regularity-persistence-carrier}, \autoref{def:empirical-regularity-persistence-classifier}, \autoref{thm:empirical-regularity-persistence-gap-exposure}, \autoref{thm:empirical-regularity-lawcertificate-consumption}, \autoref{thm:empirical-regularity-persistence-nonescape}, \autoref{thm:empirical-regularity-public-interface}, and \autoref{thm:empirical-regularity-persistence-bridge-route} bind the finite observed-regularity and future-persistence packet exactly to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
