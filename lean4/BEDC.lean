@@ -1907,6 +1907,7 @@ import BEDC.Derived.CauchyExtensionOperatorUp.TasteGate
 import BEDC.Derived.CauchyFilterBaseUp.TasteGate
 import BEDC.Derived.CauchyFilterBasisCompletionUp.TasteGate
 import BEDC.Derived.CauchyFilterCategoryUp
+import BEDC.Derived.CauchyFilterClusterUp.NameCertObligations
 import BEDC.Derived.CauchyFilterClusterUp.TasteGate
 import BEDC.Derived.CauchyFilterCompletenessUp
 import BEDC.Derived.CauchyFilterCompletionCriterionUp.BasisRoute
@@ -6406,6 +6407,7 @@ import BEDC.Derived.HeineBorelLocatedIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelNetCompactnessUp.TasteGate
 import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellingerDistanceUp
+import BEDC.Derived.HellySelectionUp.NameCertObligations
 import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HellyTheoremUp.TasteGate
 import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
@@ -7289,6 +7291,7 @@ import BEDC.Derived.LocatedUniformExtremeValueUp
 import BEDC.Derived.LocatedUniformLimitUp.TasteGate
 import BEDC.Derived.LocatedUniformSpaceUp.TasteGate
 import BEDC.Derived.LocatedWeakKonigUp
+import BEDC.Derived.LocatedWeakKonigUp.TasteGate
 import BEDC.Derived.LocatedZeroUniquenessUp
 import BEDC.Derived.LocatednessModulusUp
 import BEDC.Derived.LocatednessModulusUp.TasteGate
@@ -8665,6 +8668,7 @@ import BEDC.Derived.ObserverperspectiveclassifierUp.AlignmentConsumer
 import BEDC.Derived.ObserverperspectiveclassifierUp.ComparisonRouteTotality
 import BEDC.Derived.ObserverperspectiveclassifierUp.GapCommitmentReadback
 import BEDC.Derived.ObserverperspectiveclassifierUp.NameCertObligations
+import BEDC.Derived.ObserverperspectiveclassifierUp.PerspectiveStability
 import BEDC.Derived.ObserverperspectiveclassifierUp.StateTotality
 import BEDC.Derived.ObserverperspectiveclassifierUp.TwoStateNoConfusion
 import BEDC.Derived.OdeComparisonUp.TasteGate
@@ -10437,6 +10441,7 @@ import BEDC.Derived.RegularCauchyUniquenessUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowFusionUp.BudgetMeet
 import BEDC.Derived.RegularCauchyWindowFusionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyWindowFusionUp.ObligationInventory
+import BEDC.Derived.RegularCauchyWindowFusionUp.SelectorBudgetCompatibility
 import BEDC.Derived.RegularCauchyWindowFusionUp.SharedWindowHandoff
 import BEDC.Derived.RegularCauchyWindowFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
