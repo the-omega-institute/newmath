@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\LebesgueCriterionRiemannIntegrabilityUp$}
+\label{ch:concrete-instances-lebesgue-criterion-riemann-integrability-namecert}
+\origin{human}
+
+Following Riemann, Lebesgue, and Bishop--Bridges constructive analysis, the $\LebesgueCriterionRiemannIntegrabilityUp$ packet records the finite discontinuity-ledger route by which a bounded real function on a displayed compact interval is admitted to the Riemann integrability boundary. It sits beside the finite discontinuity packet of \autoref{ch:concrete-instances-riemann-integrability-discontinuity-namecert}, the Darboux oscillation criterion of \autoref{ch:concrete-instances-darboux-oscillation-criterion-namecert}, the Darboux finite-sum surface of \autoref{ch:concrete-instances-darboux-sum-namecert}, and the Riemann integral readback of \autoref{ch:concrete-instances-riemannintegral-namecert}. The packet names only the finite BEDC rows needed to route discontinuity evidence into Darboux gap control; it does not import a measure-zero theorem, a countable exceptional set, quotient function equality, selected partitions, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Lebesgue criterion for Riemann integrability carrier]
+\label{def:lebesgue-criterion-riemann-integrability-carrier}
+A $\LebesgueCriterionRiemannIntegrabilityUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,F,O,D,J,U,V,G,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealUp$ compact-interval row naming the endpoints and orientation on which the bounded-function read is made.
+\item $F$ is the bounded-function observation row, exposing only the finite windows requested by the criterion.
+\item $O$ is the local oscillation row that records the displayed oscillation tests used to detect discontinuity candidates.
+\item $D$ is the finite discontinuity ledger row, listing the displayed discontinuity names and their interval windows.
+\item $J$ is the Darboux cell-routing row, separating the cells assigned to $D$ from the continuity cells read through $O$.
+\item $U$ and $V$ are the upper and lower $\DarbouxSumUp$ rows over the displayed cell route.
+\item $G$ is the finite Darboux gap row comparing $U$ and $V$ against a dyadic tolerance.
+\item $R$ is the $\RegSeqRatUp$ readback row for the displayed gap comparison.
+\item $E$ is the $\RiemannIntegralUp$ handoff row, visible only after $I,F,O,D,J,U,V,G,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval, function, oscillation, ledger, Darboux, gap, readback, handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the interval and bounded-function request through the discontinuity ledger, Darboux comparison, regular readback, and Riemann handoff.
+\item $P$ is the $\Pkg$ provenance over $\LebesgueCriterionRiemannIntegrabilityUp$, $\RiemannIntegrabilityDiscontinuityUp$, $\DarbouxSumUp$, $\RegSeqRatUp$, $\RiemannIntegralUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LebesgueCriterionRiemannIntegrabilityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for measure completion, null-set equality, countable exceptional families, selected refinement sequences, quotient functions, host integration, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Lebesgue criterion NameCert obligations]
+\label{thm:lebesgue-criterion-riemann-integrability-namecert-obligations}
+For every accepted $\LebesgueCriterionRiemannIntegrabilityUp$ carrier
+$$
+L=(I,F,O,D,J,U,V,G,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\LebesgueCriterionRiemannIntegrabilityUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the interval, bounded-function observation, oscillation test, discontinuity ledger, Darboux routing, Darboux sums, gap, regular readback, Riemann handoff, transport, replay, provenance, and local naming rows;
+\item discontinuity-ledger exposure, requiring every discontinuity candidate consumed by the criterion to appear in the finite ledger $D$ with a displayed interval window;
+\item off-ledger continuity routing, requiring $J$ to send every non-ledger cell through the oscillation row $O$ before any Darboux comparison is read;
+\item Darboux gap control, requiring $U,V,G$ to compare upper and lower finite sums only over the cells exposed by $D,J$;
+\item Riemann handoff nonescape, requiring $E$ to be read only after the finite discontinuity, Darboux, and regular readback rows are visible.
+\end{enumerate}
+Thus the packet supplies a finite BEDC surface for the Lebesgue-style discontinuity criterion without exporting measure-zero data or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lebesgue-criterion-riemann-integrability-carrier}. The analytic rows are exactly $I,F,O,D,J,U,V,G,R,E$; the remaining rows $H,C,P,N$ transport, replay, source, and name that same packet.
+
+The discontinuity side is read first. The ledger $D$ lists only displayed discontinuity windows, while $J$ records how the remaining cells are routed through the oscillation row $O$. No countable exceptional family or measure object is present in this route.
+
+The Darboux side then reads the same cell route. The upper and lower rows $U,V$ compute finite sums over the displayed cells, and the gap row $G$ compares them before the regular readback $R$ is consumed.
+
+Finally the Riemann handoff $E$ is downstream of those rows. Since the carrier omits measure completion, null-set equality, selected refinement limits, quotient function equality, countable choice, host integration, and ambient completeness, the listed obligations exhaust the local $\NameCert_{\LebesgueCriterionRiemannIntegrabilityUp}$ surface.
+\end{proof}
+
+\begin{theorem}[Lebesgue criterion Darboux discontinuity route]
+\label{thm:lebesgue-criterion-riemann-integrability-darboux-discontinuity-route}
+Every $\RiemannIntegralUp$ or $\DarbouxSumUp$ consumer of an accepted $\LebesgueCriterionRiemannIntegrabilityUp$ carrier must read the finite route
+$$
+I,F,O,D,J \longmapsto U,V \longmapsto G \longmapsto R \longmapsto E .
+$$
+Consequently the criterion exposes Riemann integrability only through displayed discontinuity ledgers, Darboux finite sums, and regular readback; it does not expose a measure-zero certificate, a countable discontinuity set, quotient function equality, selected partitions, countable choice, host integration, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:lebesgue-criterion-riemann-integrability-namecert-obligations}. They force any criterion consumer to display the discontinuity ledger $D$, the off-ledger oscillation route $O$, and the cell-routing row $J$ before a Darboux comparison is available.
+
+The Darboux rows are then fixed by the displayed route. Rows $U$ and $V$ compute upper and lower finite sums on the same cells, while $G$ records the finite upper-minus-lower gap.
+
+The regular readback row $R$ exposes the gap before the Riemann handoff $E$ is consumed. The structural rows $H,C,P,N$ preserve the same packet and add no measure, quotient, choice, host-integration, or completeness endpoint.
+\end{proof}
+
+\falsifiablePrediction{A purported $\LebesgueCriterionRiemannIntegrabilityUp$ read that reaches a $\RiemannIntegralUp$ handoff without displaying the interval, bounded-function observation, oscillation, finite discontinuity ledger, Darboux cell route, upper and lower Darboux rows, finite gap, $\RegSeqRatUp$ readback, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows refutes the carrier of \autoref{def:lebesgue-criterion-riemann-integrability-carrier}.}
+
+\independenceWitness{riemann-integrability-discontinuity, darboux-oscillation-criterion, darboux-sum, riemannintegral: $\LebesgueCriterionRiemannIntegrabilityUp$ is not bijective with any listed sibling because it joins oscillation-ledger exposure, finite discontinuity routing, Darboux gap control, regular readback, Riemann handoff, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{LebesgueCriterionRiemannIntegrabilityUp}{seedStr}
+
+\begin{closurestatus}{\LebesgueCriterionRiemannIntegrabilityUp}
+  \constructivestory{A $\LebesgueCriterionRiemannIntegrabilityUp$ packet is generated from a Real interval-domain row, bounded-function observations, oscillation tests, a finite discontinuity ledger, Darboux cell routing, upper and lower Darboux rows, a finite gap row, RegSeqRat readback, RiemannIntegral handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lebesgue-criterion-riemann-integrability-carrier}, \autoref{thm:lebesgue-criterion-riemann-integrability-namecert-obligations}, and \autoref{thm:lebesgue-criterion-riemann-integrability-darboux-discontinuity-route} seed the finite discontinuity-ledger route from Lebesgue-style criterion data to Darboux gap control and Riemann handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure-zero equivalence, countable exceptional families, null-set equality, quotient function equality, selected refinement sequences, host integration, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, discontinuity-ledger exposure, off-ledger continuity routing, Darboux gap control, Riemann handoff nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LebesgueCriterionRiemannIntegrabilityUp.}
+\end{closurestatus}
