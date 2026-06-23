@@ -126,10 +126,16 @@ def parse_aaindex1(text: str) -> dict[str, dict[str, object]]:
         record = raw_record.strip()
         if not record:
             continue
+        header = ""
+        for line in record.splitlines():
+            if line.startswith("H "):
+                header = line.split(None, 1)[1].strip()
+                break
+        if header not in TARGET_INDICES:
+            continue
         parsed = parse_index_record(record)
         index_id = str(parsed["id"])
-        if index_id in TARGET_INDICES:
-            records[index_id] = parsed
+        records[index_id] = parsed
     missing = [index_id for index_id in TARGET_INDICES if index_id not in records]
     if missing:
         raise ValueError(f"AAindex1 missing target indices {missing}")
