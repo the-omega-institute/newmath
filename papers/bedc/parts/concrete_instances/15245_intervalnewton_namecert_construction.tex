@@ -68,12 +68,29 @@ If the correction row is presented as a Newton step, its provenance is the finit
 Finally project $K$ and $V$. The containment ledger $K$ records the narrowed box, and the validated row $V$ is the only downstream enclosure exported by the packet. No separate analytic root theorem, host solver state, or floating-point rounding semantics is consulted.
 \end{proof}
 
+\begin{theorem}[Interval Newton Krawczyk radius lock]
+\label{thm:interval-newton-krawczyk-radius-lock}
+Let $I=(B,F,D,N,K,V,R,H,C,P,L)$ be an accepted $\IntervalNewtonUp$ carrier whose interval-arithmetic row supplies a Krawczyk enclosure. Then the correction radius, the Taylor or slope remainder row, the $\RealUp$ seal, and the $\ValidatedNumericsUp$ consumer boundary remain in the same finite packet $I$ before any zero-enclosure read is exported.
+
+In particular, the exported zero-enclosure read factors through the visible rows $B,F,D,N,K,V,R,H,C,P,L$: $N$ supplies the correction radius, $D$ supplies the slope or $\TaylorModelUp$ remainder row, $R$ supplies the real-name seal route, and $V$ supplies the validated-consumer boundary.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:interval-newton-carrier}. The correction radius is not a separate analytic datum; it is part of the displayed correction row $N$, and its containment is read with the ledger $K$.
+
+Apply \autoref{thm:interval-newton-krawczyk-enclosure}. A Krawczyk enclosure can narrow the displayed box only through the interval-arithmetic operation rows named in $P$ and through the displayed $\NewtonIterationUp$ or $\TaylorModelUp$ rows used to form $N$ and $D$.
+
+Use the interval-arithmetic soundness obligation of \autoref{thm:interval-newton-namecert-obligations}. It keeps the box, function, slope or Taylor remainder, and correction enclosures inside the same finite interval-arithmetic replay before $K$ and $V$ are visible.
+
+Finally apply the validated-consumer handoff obligation of \autoref{thm:interval-newton-namecert-obligations} together with \autoref{thm:interval-newton-validated-consumer-boundary}. The validated row $V$ and readback row $R$ are downstream of $B,F,D,N,K$, so no zero-enclosure read can leave the packet before the correction radius, remainder row, real-name route, and validated boundary have all been bound.
+\end{proof}
+
 \begin{theorem}[Interval Newton correction transport scope]
 \label{thm:interval-newton-correction-transport-scope}
 Let $I=(B,F,D,N,K,V,R,H,C,P,L)$ be an accepted $\IntervalNewtonUp$ carrier. Every transported correction row exported by $I$ factors through the visible interval box $B$, the $\IntervalArithmeticUp$ operation rows named in $P$, the finite $\TaylorModelUp$ row or derivative and slope row $D$, the $\NewtonIterationUp$ correction provenance for $N$, and the $\ValidatedNumericsUp$ row $V$ before the validated enclosure is exported.
 
 Consequently the transported correction cannot read a solver oracle, a host zero, floating-point semantics, quotient real equality, or ambient completeness outside the displayed carrier rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.IntervalNewtonUp.IntervalNewtonCorrectionTransportScope}
 \begin{proof}
 Project the carrier of \autoref{def:interval-newton-carrier}. The correction surface is $B,F,D,N,K,V$, while $R,H,C,P,L$ supply readback, transport, replay, provenance, and local naming.
 
@@ -113,6 +130,7 @@ Use \autoref{thm:interval-newton-namecert-obligations}. It requires correction c
 
 Transport and replay then use $H$ and $C$. Since those rows are componentwise over the carrier coordinates, they preserve $B,N,K$ before the local naming row $L$ is exposed.
 \end{proof}
+\leanchecked{BEDC.Derived.IntervalNewtonUp.IntervalNewtonContainmentObligation}
 
 \begin{theorem}[Interval Newton interval-arithmetic soundness obligation]
 \label{thm:interval-newton-interval-arithmetic-soundness-obligation}
