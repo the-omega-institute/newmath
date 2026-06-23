@@ -265,6 +265,7 @@ Finally read the obligation ledger. It names exactly the same rows as the finite
 \label{thm:cauchy-tail-threshold-normalizer-uniform-threshold-induction}
 Every $\StreamNameUp$ tail-window successor read of an accepted $\CauchyTailThresholdNormalizerUp$ carrier preserves the single normalized threshold row $\Theta$ across the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ readback, the $\RealTailAgreementSealUp$ handoff, and every $\RealUp$ consumer row. In particular, no successor window may replace the shared $S,M,\Theta$ surface by a private threshold before exposing $W_0,W_1,D,R,A,E,H,C,P,L,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyTailThresholdNormalizerUp.CauchyTailThresholdNormalizerUniformThresholdInduction}
 \begin{proof}
 Use the tail-window induction row of \autoref{thm:cauchy-tail-threshold-normalizer-tail-window-induction}. Its base case reads $\Theta$ immediately after the shared source $S$ and seal row $M$; its successor step preserves the displayed windows $W_0,W_1$ together with the dyadic, regular-rational, agreement-seal, and Real rows.
 
@@ -293,6 +294,24 @@ Use Real-facing determinacy next. Once $S$ and $M$ are fixed, the windows $W_0,W
 The composition and noninternalization rows then keep $H,C,P,L,N$ as transport, replay, provenance, ledger, and naming data for the same route. They do not create an additional seal handoff, so every Real-facing consumer factors through $S,M,\Theta,W_0,W_1,D,R,A$ before exposing $E,H,C,P,L,N$.
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyTailThresholdNormalizerUp.CauchyTailThresholdNormalizerRealSealHandoff}
+
+\begin{theorem}[Cauchy tail threshold normalizer scoped kernel route]
+\label{thm:cauchy-tail-threshold-normalizer-scoped-kernel-route}
+Every accepted $\CauchyTailThresholdNormalizerUp$ carrier
+$$
+T=(S,M,\Theta,W_0,W_1,D,R,A,E,H,C,P,L,N)
+$$
+scopes its public threshold-normalizer route over exactly $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealTailAgreementSealUp$, and $\RealUp$. Any $\RealUp$-facing read must expose those rows before using the normalized threshold $\Theta$, and the scoped route exports no quotient stream, selected host limit, trichotomy, ambient completeness, side threshold, or second $\RealUp$ seal.
+\end{theorem}
+\begin{proof}
+Project the carrier and route-exhaustion rows. The accepted packet displays $S,M,\Theta,W_0,W_1,D,R,A,E,H,C,P,L,N$, and \autoref{thm:cauchy-tail-threshold-normalizer-route-exhaustion} forces every public read through that finite route.
+
+Use tail-window induction, shared-threshold uniqueness, and window cofinality. These theorems keep both $\StreamNameUp$ windows and the $\DyadicRatCoreUp$ tolerance ledger downstream of the same normalized threshold, so no side threshold can be selected by a later consumer.
+
+Apply Real-facing determinacy and the Real-seal handoff. They require the $\RegSeqRatUp$ readback and $\RealTailAgreementSealUp$ row to be exposed before the terminal $\RealUp$ seal, and they prevent a second seal route from being projected out of the carrier.
+
+Finally read transport, replay, provenance, ledger, and local naming. The rows $H,C,P,L,N$ are exactly the $\hsame$, $\Cont$, $\Pkg$, route-ledger, and $\NameCert$ boundary over the same finite packet, so the scoped route has no quotient stream, selected host limit, trichotomy, ambient completeness, or hidden threshold coordinate to export.
+\end{proof}
 
 \closureat{CauchyTailThresholdNormalizerUp}{seedStr}
 \closureat{CauchyTailThresholdNormalizerUp}{obligationStr}
