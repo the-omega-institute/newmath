@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\AsymptoticCompactnessUp$}
+\label{ch:concrete-instances-asymptotic-compactness-namecert}
+\origin{human}
+
+Following Hale and Temam, the $\AsymptoticCompactnessUp$ packet records the dynamical compactness condition that long-time tails of a dissipative evolution admit compact finite-window capture. In BEDC form it consumes the dynamical-system certificate of \autoref{ch:concrete-instances-dynsystem-namecert}, the metric certificate of \autoref{ch:concrete-instances-metric-namecert}, the compactness certificate of \autoref{ch:concrete-instances-compact-namecert}, and the stream-window naming surface of \autoref{ch:concrete-instances-streamname-namecert}. The packet is a finite NameCert carrier for tail capture; it is not an ambient compactness theorem for the whole phase space and not a hidden choice principle for selecting convergent subsequences.
+
+\begin{definition}[Asymptotic compactness packet carrier]
+\label{def:asymptotic-compactness-packet-carrier}
+An $\AsymptoticCompactnessUp$ carrier is a finite $\BHist$ packet
+$$
+A=(D,M,K,S,T,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DynSystemUp$ flow row whose long-time orbit tail is being read;
+\item $M$ is the $\MetricUp$ phase-distance row used to compare tail windows;
+\item $K$ is the $\CompactUp$ candidate capture row for the selected finite tail window;
+\item $S$ is the $\StreamNameUp$ schedule naming the finite sequence of requested tail times;
+\item $T$ is the absorbing-tail row, recording that all sufficiently late windows selected by $S$ are routed into the compact candidate row $K$;
+\item $W$ is the finite-window attractor ledger, storing the compact capture window, its metric tolerance rows, and the associated dynamical endpoints;
+\item $H$ records componentwise $\hsame$ transport for the dynamical, metric, compact, stream, tail, and window rows;
+\item $C$ records displayed $\Cont$ replay from an orbit-tail request through $D,M,K,S,T,W,H$;
+\item $P$ is the $\Pkg$ provenance over $\DynSystemUp$, $\MetricUp$, $\CompactUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\AsymptoticCompactnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,M,K,S,T,W,H,C,P,N$. It has no coordinate for a compact whole phase space, a selected limit point, a host-level sequential compactness principle, or a global attractor object outside the displayed finite ledger.
+\end{definition}
+
+\begin{theorem}[Asymptotic compactness absorbing tail carrier]
+\label{thm:asymptotic-compactness-absorbing-tail-carrier}
+Every accepted $\AsymptoticCompactnessUp$ carrier exposes an absorbing-tail row $T$ before any compact read is consumed. Concretely, a downstream consumer may read the compact row $K$ only as a capture surface for tail windows selected by the stream schedule $S$ and produced by the dynamical row $D$ under the metric row $M$. Thus the carrier records finite tail capture rather than compactness of the entire phase carrier.
+\end{theorem}
+
+\begin{theorem}[Asymptotic compactness finite-window attractor ledger]
+\label{thm:asymptotic-compactness-finite-window-attractor-ledger}
+For every accepted $\AsymptoticCompactnessUp$ carrier
+$$
+A=(D,M,K,S,T,W,H,C,P,N),
+$$
+the finite-window attractor ledger $W$ is exhausted by the compact capture row $K$, the stream-selected tail windows from $S$, the dynamical endpoints produced by $D$, the metric tolerance comparisons from $M$, and the structural rows $H,C,P,N$. Agreement on those rows cannot be repacked as a selected limit, a full global attractor, a compact phase-space certificate, or a choice-backed subsequence selector.
+\end{theorem}
+
+\begin{theorem}[Asymptotic compactness NameCert obligations]
+\label{thm:asymptotic-compactness-namecert-obligations}
+The local $\NameCert_{\AsymptoticCompactnessUp}$ obligation surface consists exactly of carrier admission for $D,M,K,S,T,W,H,C,P,N$, classifier transport through the displayed $\hsame$ rows, continuation replay through $C$, provenance through $P$, absorbing-tail exposure through $T$, finite-window attractor ledger exposure through $W$, and local naming through $N$. No consumer-visible row claims a selected orbit limit, a compact ambient phase space, or a global attractor outside the finite BEDC packet.
+\end{theorem}
+
+\independenceWitness{dynsystem, metric, compact, streamname: none is bijective to $\AsymptoticCompactnessUp$ because this packet jointly carries dynamical flow rows, metric tolerance rows, compact capture rows, stream-selected tail windows, absorbing-tail exposure, finite-window attractor ledger rows, transport, replay, provenance, and local NameCert data.}
+
+\closureat{AsymptoticCompactnessUp}{seedStr}
+
+\begin{closurestatus}{\AsymptoticCompactnessUp}
+  \constructivestory{An $\AsymptoticCompactnessUp$ packet is generated from dynamical-system flow rows, metric comparison rows, compact capture rows, stream-selected tail windows, absorbing-tail exposure, finite-window attractor ledgers, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:asymptotic-compactness-packet-carrier}, \autoref{thm:asymptotic-compactness-absorbing-tail-carrier}, \autoref{thm:asymptotic-compactness-finite-window-attractor-ledger}, and \autoref{thm:asymptotic-compactness-namecert-obligations} name the finite tail-capture carrier and its immediate obligation rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not construct a global attractor, select convergent subsequences, prove compactness of the whole phase space, or bridge-check the dynamical compactness packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, absorbing-tail exactness, finite-window ledger exactness, replay, provenance, and local naming for the same packet.}
+\end{closurestatus}
