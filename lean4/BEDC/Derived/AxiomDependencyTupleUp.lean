@@ -105,4 +105,25 @@ theorem AxiomDependencyTupleRestrictedSupplyLedger_exactness [AskSetup] [Package
   }
   exact ⟨cert, supplyReadUnary⟩
 
+theorem AxiomDependencyTupleHsameContScope [AskSetup] [PackageSetup]
+    {mode witness supply transport route provenance localName replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxiomDependencyTupleCarrier mode witness supply transport route provenance localName
+        bundle pkg ->
+      Cont transport route replayRead ->
+        UnaryHistory transport ∧ UnaryHistory route ∧ UnaryHistory replayRead ∧
+          hsame transport transport ∧ Cont mode witness route ∧
+            Cont route supply localName ∧ Cont transport route replayRead ∧
+              PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory hsame Cont PkgSig
+  intro carrier transportRouteReplay
+  obtain ⟨_modeCases, _modeUnary, _witnessUnary, _supplyUnary, transportUnary,
+    routeUnary, _localNameUnary, transportSame, modeWitnessRoute, routeSupplyLocalName,
+    provenancePkg⟩ := carrier
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed transportUnary routeUnary transportRouteReplay
+  exact
+    ⟨transportUnary, routeUnary, replayUnary, transportSame, modeWitnessRoute,
+      routeSupplyLocalName, transportRouteReplay, provenancePkg⟩
+
 end BEDC.Derived.AxiomDependencyTupleUp
