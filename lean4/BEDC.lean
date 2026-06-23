@@ -10809,6 +10809,7 @@ import BEDC.Derived.SetlikeUp.ExtensionalBoundaryClassifierLock
 import BEDC.Derived.SetlikeUp.ExtensionalBoundaryConsumerExactness
 import BEDC.Derived.SetlikeUp.ExtensionalBoundaryObligation
 import BEDC.Derived.SetlikeUp.ExtensionalBoundaryRoute
+import BEDC.Derived.SetlikeUp.ExtensionalBoundaryWitness
 import BEDC.Derived.SetlikeUp.ExtensionalLedgerKernelNonescape
 import BEDC.Derived.SetlikeUp.ExtensionalSubsetNameCertObligations
 import BEDC.Derived.SetlikeUp.ExtensionalSubsetTransport
@@ -10839,6 +10840,7 @@ import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
 import BEDC.Derived.SetlikeUp.MembershipSourceAdmission
 import BEDC.Derived.SetlikeUp.MembershipStability
+import BEDC.Derived.SetlikeUp.ModelTheorySatisfactionBoundary
 import BEDC.Derived.SetlikeUp.NameCertObligations
 import BEDC.Derived.SetlikeUp.PublicNameCertExport
 import BEDC.Derived.SetlikeUp.RestrictedComprehensionKernelScope
