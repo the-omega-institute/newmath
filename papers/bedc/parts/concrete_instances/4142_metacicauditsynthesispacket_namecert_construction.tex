@@ -152,6 +152,22 @@ Use route-union exactness and positive-blocker union from \autoref{thm:metacic-a
 Finally apply obligation closure, \autoref{thm:metacic-audit-synthesis-obligation-closure}. Its exact obligation surface is already the stated finite package, so the route is scope-stable under the named BEDC primitives and sibling packets, with the excluded MetaCIC claims remaining outside the accepted packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC audit synthesis transport obstruction]
+\label{thm:metacic-audit-synthesis-transport-obstruction}
+For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
+$$
+M=(S,C,N,U,D,A,B,H,R,P,L),
+$$
+the closed-normal branch $A$ and the normal-false exclusion rows cannot be transported across the subject-reduction blocker $S,B$ without first reading the discharge-obligation ledger of \autoref{ch:concrete-instances-metacic-discharge-obligation-ledger-namecert}. Consequently the packet may replay closed-normal evidence only as finite audit data, not as a discharged subject-reduction route.
+\end{theorem}
+\begin{proof}
+Begin with critical-path non-escape from \autoref{thm:metacic-audit-synthesis-critical-path-nonescape}. Every consumer route stays inside $S,C,N,U,D,A,B,H,R,P,L$, so any transport out of the closed-normal branch must pass through the displayed blocker rows rather than through an external MetaCIC theorem.
+
+Use the consistency blocker ledger and closed-normal boundary next. \autoref{thm:metacic-audit-synthesis-consistency-blocker-ledger} keeps $S$ and $B$ persistent across agreement on the positive rows, while \autoref{thm:metacic-audit-synthesis-closed-normal-boundary} confines $A$ and the normal-false exclusion branch to the finite closed-normal endpoint.
+
+Finally apply scope stability from \autoref{thm:metacic-audit-synthesis-scope-stability}. The only scoped sibling able to name the missing transport edge is the discharge-obligation ledger, so a route that has not read that ledger cannot carry closed-normal evidence across the subject-reduction blocker. The transport obstruction is therefore part of the packet surface itself.
+\end{proof}
+
 \begin{theorem}[MetaCIC audit synthesis scoped closure]
 \label{thm:metacic-audit-synthesis-scope-closure}
 For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
