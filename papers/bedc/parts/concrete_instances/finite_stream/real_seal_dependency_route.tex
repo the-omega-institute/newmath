@@ -1,0 +1,15 @@
+\begin{theorem}[FiniteStream Real seal dependency route]
+\label{thm:finite-stream-real-seal-dependency-route}
+Every $\RealUp$-facing read of an accepted $\FiniteStreamUp$ packet must expose the carrier rows
+$$
+Q,L,W,R,D,H,C,P,N
+$$
+from \autoref{def:finite-stream-carrier} before any terminal $\RealUp$ seal is consumed. The row $W$ is read through the $\StreamNameUp$ window, $R$ through the $\RegSeqRatUp$ readback boundary, and $D$ through the $\DyadicRatCoreUp$ tolerance route. The downstream seal is the $\RealUp$ consumer of \autoref{ch:concrete-instances-real-namecert}; the route asserts neither ambient $\RealUp$ completeness nor quotient stream equality.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:finite-stream-carrier}. Its displayed inventory is exactly $Q,L,W,R,D,H,C,P,N$, with no hidden completed stream or selected limit coordinate.
+
+Apply the NameCert obligations of \autoref{thm:finite-stream-namecert-obligations}. They force the finite request row $Q$ and $\ListUp$ spine $L$ to appear before the $\StreamNameUp$ window $W$, and they place the $\RegSeqRatUp$ boundary $R$ and $\DyadicRatCoreUp$ tolerance row $D$ downstream of that window.
+
+Now name $\RealUp$ as the downstream seal consumer. Since the carrier exposes only the finite request, window, readback, tolerance, transport, replay, provenance, and naming rows, the Real seal can be consumed only after those rows are visible, and the argument supplies no Real completeness theorem or quotient stream equality.
+\end{proof}
