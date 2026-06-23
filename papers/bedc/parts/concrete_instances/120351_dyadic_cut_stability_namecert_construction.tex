@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\DyadicCutStabilityUp$}
+\label{ch:concrete-instances-dyadic-cut-stability-namecert}
+\origin{human}
+
+Bishop-style located cut stability asks that a located lower-and-upper cut presentation remain stable when finite dyadic tolerance rows, regular rational readback, and the terminal real-name seal are replayed through the same certificate surface. The $\DyadicCutStabilityUp$ packet records that stability as finite BEDC data. It sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the Dedekind real carrier of \autoref{ch:concrete-instances-dedekind-real-namecert}, and the located cut real carrier of \autoref{ch:concrete-instances-located-cut-real-namecert}. The packet names a stability route for displayed cuts; it does not assert Dedekind completeness, quotient equality of real names, trichotomy, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic cut stability carrier]
+\label{def:dyadic-cut-stability-carrier}
+A $\DyadicCutStabilityUp$ carrier is a finite $\BHist$ packet
+$$
+S=(L,U,D,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the rounded lower-cut row, recording finite lower witnesses and the rounded-lower readback used by a located cut consumer.
+\item $U$ is the rounded upper-cut row, recording finite upper witnesses and the rounded-upper readback used by the same consumer.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and readback row, storing dyadic width requests, comparison windows, and the finite tolerance ledger linking $L$ and $U$.
+\item $Q$ is the $\RegSeqRatUp$ witness row, translating the dyadic ledger into regular rational observations before the real seal is exposed.
+\item $R$ is the terminal $\RealUp$ seal row reached only after $L,U,D,Q$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the rounded lower cut, rounded upper cut, dyadic ledger, regular-rational witness, real seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from located-cut inspection through $L,U,D,Q,R,H$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicCutStabilityUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\DedekindRealUp$, $\LocatedCutRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DyadicCutStabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,D,Q,R,H,C,P,N$. It has no coordinate for a host Dedekind supremum, quotient equality of real names, a selected cut representative, trichotomy, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Dyadic cut stability NameCert obligations]
+\label{thm:dyadic-cut-stability-namecert-obligations}
+For an accepted $\DyadicCutStabilityUp$ packet $S=(L,U,D,Q,R,H,C,P,N)$, the local $\NameCert_{\DyadicCutStabilityUp}$ obligations are exhausted by rounded lower-cut exposure through $L$, rounded upper-cut exposure through $U$, $\DyadicRatCoreUp$ tolerance and readback through $D$, $\RegSeqRatUp$ witness readback through $Q$, $\RealUp$ sealing through $R$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-cut-stability-carrier}. The accepted packet displays exactly the lower cut, upper cut, dyadic tolerance, regular rational witness, real seal, transport, replay, provenance, and naming rows.
+
+Read the cut rows first. The lower and upper rows are rounded before the dyadic tolerance row is consumed, so a located-cut consumer receives both sides of the cut as finite data rather than as a detached real equality claim.
+
+Next use $D,Q,R$. The dyadic ledger records the finite comparison windows, the regular rational row reads those windows as regular observations, and the real seal is reached only after those rows have been displayed.
+
+Finally apply $H,C,P,N$. These rows preserve and replay the same packet under componentwise transport, package the cited sibling chapters, and expose the local name. Since the carrier has no further coordinate, the listed rows exhaust the local $\NameCert$ obligations.
+\end{proof}
+
+\begin{theorem}[Dyadic cut stability transport]
+\label{thm:dyadic-cut-stability-transport}
+Every $\DyadicCutStabilityUp$ transport read preserves the rounded lower-cut row $L$, rounded upper-cut row $U$, dyadic tolerance row $D$, regular rational witness row $Q$, real seal row $R$, componentwise $\hsame$ row $H$, displayed $\Cont$ replay row $C$, provenance row $P$, and local $\NameCert$ row $N$ before any located-cut consumer reads stability. The transport exports no Dedekind completeness theorem, quotient real equality, trichotomy, selected representative, countable-choice schedule, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:dyadic-cut-stability-namecert-obligations}. They force every accepted read to display $L,U,D,Q,R,H,C,P,N$ before the local name is consumed.
+
+Use the sibling route recorded in $P$. The dyadic tolerance core supplies $D$, the regular rational chapter supplies $Q$, the real chapter supplies $R$, and the Dedekind and located-cut chapters supply the cut-facing provenance for $L$ and $U$.
+
+Transport is then componentwise through $H$ and replayed through $C$. These rows can preserve the displayed lower and upper cut data together with their dyadic and regular-rational readback, but they cannot create a new coordinate for a host completion or quotient equality.
+
+Thus every located-cut stability consumer reads the same finite packet before it reaches the stability conclusion. The excluded completeness, equality, trichotomy, representative, choice, and ambient real-completion claims are not carrier rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DyadicCutStabilityUp$ read that omits a rounded lower cut, rounded upper cut, dyadic tolerance ledger, RegSeqRat witness, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, or local NameCert row is outside the carrier surface.}
+
+\independenceWitness{dyadicratcore, regseqrat, real, dedekind-real, located-cut-real: none is bijective to DyadicCutStabilityUp because the packet jointly carries rounded lower and upper cut rows, dyadic tolerance/readback, regular rational witness, Real seal, hsame transport, Cont replay, Pkg provenance, and one local NameCert row while refusing quotient equality and ambient completeness.}
+
+\closureat{DyadicCutStabilityUp}{seedStr}
+
+\begin{closurestatus}{\DyadicCutStabilityUp}
+  \constructivestory{A $\DyadicCutStabilityUp$ packet is generated from rounded lower-cut rows, rounded upper-cut rows, DyadicRatCore tolerance and readback rows, RegSeqRat witness rows, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-cut-stability-carrier}, \autoref{thm:dyadic-cut-stability-namecert-obligations}, and \autoref{thm:dyadic-cut-stability-transport} seed the finite located-cut stability route over DyadicRatCore, RegSeqRat, Real, Dedekind real, located cut real, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, Dedekind completeness, quotient equality of real names, trichotomy, selected representatives, countable choice, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked rounded lower-cut exposure, rounded upper-cut exposure, DyadicRatCore tolerance/readback, RegSeqRat witness readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.DyadicCutStabilityUp.}
+\end{closurestatus}
