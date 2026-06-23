@@ -1,0 +1,17 @@
+\begin{theorem}[ProofTraceNormalForm typed classifier route]
+\label{thm:proof-trace-normal-form-typed-classifier-route}
+Every terminal $\ProofTraceNormalFormUp$ read must expose the typed endpoint boundary of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, preservation through \autoref{ch:concrete-instances-subjectreduction-namecert}, classifier membership through \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, and the checker packet of \autoref{ch:concrete-instances-type-checking-classifier-membership-namecert} before the terminal row $V$ is read. The route is carried by
+$$
+F=(T,E,R,S,V,J,H,C,P,N)
+$$
+and exports no host conversion, semantic term equality, quotient representative, erased proof semantics, or normalization oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $T,E,R,S,V,J,H,C,P,N$ of \autoref{def:proof-trace-normal-form-carrier}. The membership row $E$ is the classifier boundary, the replay row $R$ is the displayed typed route, the preservation row $S$ is the subject-reduction handoff, the terminal row $V$ is the typed normal-form endpoint, and $J$ is the finite checker packet.
+
+Apply \autoref{thm:proof-trace-normal-form-terminal-route}. It orders the route through proof trace, classifier membership, typed replay, subject reduction, terminal boundary, and checker alignment before any terminal read is exported.
+
+Apply \autoref{thm:proof-trace-normal-form-finite-candidate-induction}. It keeps the same rows visible over the finite proof trace, so the typed endpoint boundary, preservation handoff, classifier-membership row, and checker packet cannot be replaced by host conversion or an oracle.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since \autoref{thm:proof-trace-normal-form-namecert-obligations} lists no coordinate for semantic term equality, quotient representatives, erased proof semantics, or normalization oracles, a terminal read of $V$ must follow the displayed typed-classifier sibling route.
+\end{proof}
