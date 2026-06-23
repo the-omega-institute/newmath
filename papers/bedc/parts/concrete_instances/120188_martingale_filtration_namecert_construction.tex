@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\MartingaleFiltrationUp$}
+\label{ch:concrete-instances-martingale-filtration-namecert}
+\origin{human}
+
+Following Doob on filtrations and martingales, the $\MartingaleFiltrationUp$ packet records the finite observation schedule that a martingale or stopped martingale may consume before it reads conditional-expectation data. It sits between the probability source of \autoref{ch:concrete-instances-probspace-namecert}, the random-variable endpoint rows used by \autoref{ch:concrete-instances-martingale-namecert}, the finite stopping decisions of \autoref{ch:concrete-instances-stoppingtime-namecert}, and the conditional-expectation faces of \autoref{ch:concrete-instances-condexp-namecert}. The packet gives martingale and stopping-time consumers an explicit filtration carrier; it is not a completed sigma-algebra tower, a selected optional process, an almost-sure quotient, or a measure-completion theorem.
+
+\begin{definition}[Martingale filtration carrier]
+\label{def:martingale-filtration-carrier}
+A $\MartingaleFiltrationUp$ carrier is a finite $\BHist$ packet
+$$
+F=(\Omega,W,A,C,S,B,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Omega$ is the $\ProbSpaceUp$ row naming the probability source and its event classifier.
+\item $W$ is a finite filtration-window ledger whose entries name the inspected times and the event rows available at each time.
+\item $A$ is the adaptedness row tying each displayed $\RandomVarUp$ endpoint read to the corresponding entry of $W$.
+\item $C$ is the family of $\CondExpUp$ faces that compare successor endpoint rows against the previous filtration entry.
+\item $S$ is the bounded stopping-window row recording which entries of $W$ may be stopped and read by $\StoppingTimeUp$ or $\BoundedStoppingTimeUp$ consumers.
+\item $B$ is the optional-stopping handoff row for bounded windows, read only after $W,A,C,S$ have been displayed.
+\item $T$ records componentwise $\hsame$ transport for the probability source, filtration window, adaptedness, conditional-expectation faces, stopping rows, handoff, provenance, and local naming.
+\item $R$ records displayed $\Cont$ replay of the same finite route.
+\item $P$ is the $\Pkg$ provenance over $\MartingaleFiltrationUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\CondExpUp$, $\MartingaleUp$, $\StoppingTimeUp$, $\BoundedStoppingTimeUp$, $\OptionalStoppingUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MartingaleFiltrationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for completed filtrations, countable joins of sigma-algebras, optional projections, unbounded stopping choices, almost-sure quotient equality, or ambient measure completion.
+\end{definition}
+
+\begin{theorem}[Martingale filtration NameCert obligations]
+\label{thm:martingale-filtration-namecert-obligations}
+For every accepted $\MartingaleFiltrationUp$ carrier $F=(\Omega,W,A,C,S,B,T,R,P,N)$, the local $\NameCert_{\MartingaleFiltrationUp}$ surface consists exactly of carrier admission, finite filtration-window exposure, adaptedness of endpoint rows through $A$, conditional-expectation exposure through $C$, bounded stopping-window exposure through $S$, optional-stopping handoff through $B$, componentwise transport through $T$, displayed replay through $R$, provenance through $P$, and local naming through $N$. Every public martingale or stopping-time read of the packet must preserve those rows before it reaches a $\MartingaleUp$, $\StoppingTimeUp$, $\BoundedStoppingTimeUp$, or $\OptionalStoppingUp$ consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:martingale-filtration-carrier}. The only analytic coordinates are the probability source, the finite filtration window, adaptedness rows, conditional-expectation faces, bounded stopping rows, and optional-stopping handoff.
+
+The martingale-facing route first reads $W$ and $A$. Thus each endpoint row is attached to a visible filtration entry before the $\MartingaleUp$ consumer reads conditional-expectation information.
+
+The stopping-facing route then reads $S$ and $B$. The stopping row records the bounded decision window, while the handoff row records the optional-stopping surface only after the same $W,A,C$ rows have already been exposed.
+
+Finally $T,R,P,N$ transport, replay, source, and name only that displayed packet. Since the carrier omits completed filtrations, countable joins, optional projections, unbounded stopping choices, almost-sure quotient equality, and measure completion, no local obligation can export those endpoints.
+\end{proof}
+
+\begin{theorem}[Martingale filtration stopping-window handoff]
+\label{thm:martingale-filtration-stopping-window-handoff}
+Every accepted $\MartingaleFiltrationUp$ public read that is consumed by a $\StoppingTimeUp$, $\BoundedStoppingTimeUp$, or $\OptionalStoppingUp$ row first factors through the common finite window $W$, the adaptedness row $A$, the conditional-expectation faces $C$, and the bounded stopping-window row $S$. Hence a stopped martingale read receives the same finite filtration rows that the $\MartingaleUp$ conditional-expectation read uses, rather than an ambient filtration or an unbounded stopping selector.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $F=(\Omega,W,A,C,S,B,T,R,P,N)$. The window $W$ is the only filtration coordinate, so every time-indexed event read begins there.
+
+Apply the NameCert obligations of \autoref{thm:martingale-filtration-namecert-obligations}. They force martingale endpoint rows through $A$ and conditional-expectation faces through $C$ before any public martingale consumer can read the packet.
+
+For stopping consumers, the same obligation surface forces bounded stopping reads through $S$ before the optional-stopping handoff $B$ is available. The structural rows $T,R,P,N$ preserve the same finite route, so the stopped read cannot replace the displayed window by a completed filtration, an unbounded stopping rule, or an almost-sure quotient.
+\end{proof}
+
+\closureat{MartingaleFiltrationUp}{seedStr}
+
+\begin{closurestatus}{\MartingaleFiltrationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:martingale-filtration-carrier}, \autoref{thm:martingale-filtration-namecert-obligations}, and \autoref{thm:martingale-filtration-stopping-window-handoff} seed the finite filtration-window packet consumed by martingale and bounded-stopping rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed filtrations, countable joins of sigma-algebras, optional projections, unbounded stopping choices, almost-sure quotient equality, measure completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, adaptedness routing, conditional-expectation face exposure, bounded stopping-window handoff, transport, replay, provenance, and local naming for BEDC.Derived.MartingaleFiltrationUp.}
+  \constructivestory{A $\MartingaleFiltrationUp$ packet is generated from a probability-space row, a finite filtration-window ledger, adapted random-variable endpoint rows, conditional-expectation faces, bounded stopping-window rows, an optional-stopping handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
