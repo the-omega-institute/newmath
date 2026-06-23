@@ -131,6 +131,24 @@ Next apply the real seal non-escape theorem \autoref{thm:real-classifier-real-se
 Finally apply ledger exhaustion from \autoref{thm:real-classifier-ledger-exhaustion}. The structural rows $H,K,P,N$ and $H',K',P',N'$ can only transport, replay, source, and locally name the displayed packet, so two accepted packets with the same tolerance, window, handoff, seal, transport, replay, provenance, and local naming routes expose the same classifier decision surface.
 \end{proof}
 
+\begin{theorem}[RealClassifier window scope]
+\label{thm:real-classifier-window-scope}
+Every accepted $\RealClassifierUp$ public read factors through the common $\StreamNameUp$ window $W$ and the $\DyadicRatCoreUp$ ledger $D$ before a $\RealNameClassifierUp$ row or a $\RegularCauchyEquivalenceUp$ row can be consumed. In carrier notation, for
+$$
+Q=(X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N),
+$$
+the public classifier boundary is the finite route through $S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N$ over the two terminal $\RealUp$ seals $X,Y$, not a direct equality test on completed real names.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-classifier-carrier}. The only common inspection coordinate is $W$, and the only tolerance and comparison-budget coordinate is $D$.
+
+Apply the RegSeqRat handoff theorem \autoref{thm:real-classifier-regseqrat-handoff}. It forces every regular-rational classifier read through $S_X,S_Y,R_X,R_Y,W,D,C,E$ before the public classifier boundary is reached.
+
+Use real seal non-escape from \autoref{thm:real-classifier-real-seal-nonescape}. Since the terminal seals $X,Y$ do not expose host real equality, quotient stream equality, selected limits, trichotomy, countable choice, or ambient completeness, the read cannot bypass the common window and ledger by inspecting the seals directly.
+
+Finally apply ledger exhaustion from \autoref{thm:real-classifier-ledger-exhaustion}. The structural rows $H,K,P,N$ only transport, replay, source, and name the displayed finite packet, so every accepted public read consumes $W$ and $D$ before it reaches $C$ or $E$.
+\end{proof}
+
 \closureat{RealClassifierUp}{seedStr}
 
 \begin{closurestatus}{\RealClassifierUp}
