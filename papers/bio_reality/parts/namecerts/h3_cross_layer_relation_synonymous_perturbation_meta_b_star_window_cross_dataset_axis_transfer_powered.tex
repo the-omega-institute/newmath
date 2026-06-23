@@ -1,58 +1,41 @@
+\subsection{Cross-dataset axis transfer for synonymous perturbation windows}
+\label{sec:bioreality-q6-cross-dataset-axis-transfer}
 \origin{ai}
-\subsection{Cross-dataset axis transfer for synonymous-perturbation windows}
-\label{sec:biorreality-cross-dataset-axis-transfer-synonymous-perturbation-meta}
 
-\paragraph{Finite carrier.}
-The record is a finite mediation-and-transfer surface whose rows are indexed by a B$^\ast_{Q6}$ residual coordinate $q_i$, a translation or expression-proximal readout $t_j$, and a matched protein, abundance, fitness, or perturbation readout $p_k$.  The admissible coordinates are the nine residual axes computed throughout the packet,
+\paragraph{Finite surface.}
+This record fixes a finite mediation and perturbation surface whose rows are not free biological narratives, but matched triples of the form $(q_i,t_j,p_k)$ and perturbation-window readouts.  The $q_i$ coordinates are the nine $B^*_{Q6}$ residual axes
 $$
 \begin{aligned}
-Q=\{&\mathrm{K\_AAA},\mathrm{Arg\_AGR},\mathrm{Ile\_AUA},\mathrm{Leu\_CUN\_vs\_UUR},\mathrm{Leu\_UUA\_vs\_UUG},\\
-&\mathrm{Ser\_UCR\_vs\_AGY},\mathrm{Ser\_UCA\_vs\_UCG},\mathrm{Thr\_ACR\_vs\_ACY},\mathrm{f3\_stress}\}.
+&K\_AAA,\; Arg\_AGR,\; Ile\_AUA,\; Leu\_CUN\_vs\_UUR,\; Leu\_UUA\_vs\_UUG,\\
+&Ser\_UCR\_vs\_AGY,\; Ser\_UCA\_vs\_UCG,\; Thr\_ACR\_vs\_ACY,\; f3\_stress .
 \end{aligned}
 $$
-The meta run identified by experiment id \texttt{2cd06dd54208} executed the cross-dataset axis-transfer audit with $B=200$ resampling units and runtime $974.407$ seconds.  Its role is not to introduce a new biological layer; it asks whether the same residual-window axes that appear in separate synonymous-perturbation assays can be read as a transportable finite axis family rather than as isolated dataset-specific encodings.
+The meta-run for the cross-dataset transfer audit used $B=200$ resampling draws and completed in $974.407$ seconds.  Its role is to ask whether the same residual-axis family remains usable when the organism, assay, local synonymous-edit design, and output scale are changed.  It is therefore a transfer audit across finite rows, not a license to replace a layer-specific measurement with the codon residual itself.
 
-\paragraph{Perturbation rows used by the transfer surface.}
-The transfer surface is anchored by heterogeneous finite assays.  The yeast synonymous-mutation row contains $20$ genes, $1783$ synonymous mutants, and $21$ coding-sequence map hits; its codon-stability coefficient audit reports real-versus-proxy correlation $0.39717918221186976$, with \texttt{real\_csc\_absorbs=false} and \texttt{real\_csc\_robust=true}.  The human prime-editor row contains $1822$ genes, $9000$ synonymous edits in the main analysis table, and $24000$ synonymous edits in the compact table, using gene-block held-out folds rather than gene dummy fixed effects.  The Chen GFP row contains $3556$ variants, partitioned as $1124$ in region 1 and $2432$ in region 2, with out-of-frame mRNA-to-protein slope $0.016523671594873352$.  The Nieuwkoop E. coli mRFP protein-output row contains $1459$ variants and gives
+\paragraph{Perturbation panel.}
+The panel contains several non-equivalent perturbation contacts.  The yeast synonymous-mutation run used $20$ genes, $1783$ synonymous mutants, $21$ CDS-map hits, and a real codon-stability-coefficient comparison with correlation $0.39717918221186976$ between the real and proxy contrasts; the real coefficient did not absorb the residual signal and was reported as robust.  The human prime-editor run used $1822$ genes, $9000$ synonymous rows in the main analysis, and $24000$ synonymous rows in the compact representation, with held-out folds blocked by gene and a maximum of $3000$ rows per cell line.  The Chen GFP synonymous protein-escape audit used $3556$ variants split as $1124$ in region 1 and $2432$ in region 2, and reported an out-of-frame mRNA to protein slope of $0.016523671594873352$.  The Nieuwkoop E. coli mRFP protein-output run used $1459$ variants and found
 $$
 \begin{aligned}
 R^2_{\mathrm{controls}}&=0.12648386762689323,\\
-R^2_{\mathrm{controls}+B_\perp}&=0.1798829276988051,\\
+R^2_{\mathrm{controls}+B^\perp}&=0.1798829276988051,\\
 \Delta R^2&=0.05339906007191191,\\
-\Delta \mathrm{DL}_{\mathrm{bits}}&=19.089327473282296,\\
-p_{\mathrm{matched}}&=0.004975124378109453,
+\Delta DL&=19.089327473282296\;\mathrm{bits},\\
+p_{\mathrm{matched}}&=0.004975124378109453,\qquad p_{\mathrm{within}}=0.004975124378109453.
 \end{aligned}
 $$
-with the same value for the within-null tail probability and with the real CAI audit marked robust rather than absorbing.  The 5-prime boundary audit on the same variant count keeps the downstream-window result negative, with $\Delta R^2=-0.001126409133973234$, $\Delta\ell=-2.082967365015851$, block-tail probability $0.1691542288557214$, and \texttt{sign\_stable=false}; the strong explanatory jump in that audit is instead from step 1 to step 2, where $R^2$ moves from $0.06748192482378434$ to $0.6060702157093043$ and $\Delta\ell=628.6217154500001$.  The Yang endogenous E. coli fitness row supplies $30$ genes and $46686$ synonymous edits.  The distributed-recoding row supplies $47$ AmpR rows, $53$ GmR rows, $19$ multi-$D$ strata, \texttt{ampr\_slope=0.0}, and \texttt{ampr\_independent\_p=1.0}.  These rows are deliberately non-isomorphic: protein output, reporter abundance, endogenous fitness, boundary localization, and distributed recoding are kept as separate readout types.
+The same assay family also has a five-prime boundary audit on $1459$ variants: after the step from $R^2=0.06748192482378434$ to $R^2=0.6060702157093043$, adding the downstream $B$ term gave $\Delta R^2=-0.001126409133973234$ and $\Delta LL=-2.082967365015851$, while the start-window term gave only $\Delta R^2=1.7624020537495221\times 10^{-9}$.  This negative boundary result is part of the transfer surface: a reusable axis must survive the assay-specific nulls, not merely be named in the coordinate system.
 
-\paragraph{Transfer statistic.}
-The transfer audit treats a positive cross-dataset statement as requiring the same residual-window direction to survive outside its source assay after the local controls for that assay are respected.  In finite terms, each source assay contributes a signed or ranked axis vector, each target assay contributes a held-out improvement or null-calibrated score, and the meta row asks whether the transported axis has positive predictive contact beyond the local baseline.  A schematic row has the form
-$$
-\begin{aligned}
-(q_i,d_a,d_b)&\longmapsto \left(\Delta R^2_{i,a\to b},\Delta \mathrm{DL}_{i,a\to b},p_{i,a\to b}\right),\\
-\mathrm{support}&\Longrightarrow \Delta R^2_{i,a\to b}>0\ \text{and}\ \Delta \mathrm{DL}_{i,a\to b}>0\ \text{under the declared null class}.
-\end{aligned}
-$$
-The supplied finite row for the meta experiment records the powered resampling size and completed runtime but does not expose the per-axis transferred $\Delta R^2$, $\Delta\mathrm{DL}$, or tail-probability list.  Therefore the chapter reports the meta audit as a completed bounded transfer run and uses the linked assays to state the admissible carrier and row population; it does not assert a particular winning transferred axis from the meta row alone.
+\paragraph{Endogenous and distributed recoding rows.}
+The Yang E. coli endogenous-fitness contact contributes $30$ genes and $46686$ synonymous edits.  The matched distributed-recoding contact contributes $47$ AmpR rows, $53$ GmR rows, and $19$ multi-row $D$ strata.  In that run the AmpR slope was $0.0$ with independent $p=1.0$, so it supplies a bounded negative or non-supporting finite row rather than a positive propagation claim.  These rows matter because the cross-dataset claim would be too weak if it only repeated one reporter construct; they also prevent promotion from a reporter-specific positive result to a general rule.
 
-\paragraph{Relation to translation-mediated protein abundance.}
-The broader cross-layer table gives a finite mediation benchmark for what a positive translation-conditioned protein-abundance claim looks like.  Across $12$ organisms, matched CDS and protein-abundance rows range from $1656$ joined proteins in \textit{Sulfolobus solfataricus} to $19395$ in mouse and $19053$ in human.  The mediation fractions $M^{QTP}$ are in the unit interval for every organism, with examples
-$$
-\begin{aligned}
-M^{QTP}_{\mathrm{yeast}}&=0.9491551041216973,\\
-M^{QTP}_{\mathrm{Ecoli}}&=0.612922252793667,\\
-M^{QTP}_{\mathrm{human}}&=0.27206289160119157,\\
-M^{QTP}_{\mathrm{mouse}}&=0.15488799907323988,\\
-M^{QTP}_{\mathrm{Sulfolobus}}&=0.01850668564589326.
-\end{aligned}
-$$
-For yeast, the total residual-to-protein association is $R^2_{QP}=0.29837624994140827$, the direct association after modeled tAI conditioning is $R^2_{QP\mid T}=0.0151709093608293$, and the indirect difference is $0.28320534058057895$.  In E. coli K12 MG1655 the corresponding values are $0.10767526677985896$, $0.04167869969498872$, and $0.06599656708487024$.  These values justify using a mediated row type in the meta chapter, but they do not by themselves prove that any synonymous perturbation in the transfer audit acts through measured ribosome dynamics.  The only translation-readout survival matrix with modeled tAI over three organisms reports $81$ entries above threshold $0.01$ and maximum absolute coupling $3801961.031607896$, while also recording that $3$ organisms are insufficient for powered survival.  Thus modeled tAI contact is bounded evidence for a codon-adaptation readout, not an observation of ribosome motion.
+\paragraph{Axis identity and translation-conditioned context.}
+A separate structural-order axis audit computed all nine residual axes and identified $f3\_stress$ as the only fold-level sign-flip survivor.  Its weighted held-out increment was $0.0031744502294756994$ with sign-flip right-tail probability $0.03125$, while examples of non-surviving axes include $Leu\_CUN\_vs\_UUR$ with increment $-0.0003205780368125179$ and $Thr\_ACR\_vs\_ACY$ with increment $-0.00045340330387383447$.  The transfer paper therefore treats axis identity as empirical and finite: one axis may dominate a particular held-out readout, and the remaining axes are not silently upgraded.
 
-\paragraph{Axis identity and negative controls.}
-The structural-order axis audit supplies an independent axis-identity constraint: among the same nine axes, only $\mathrm{f3\_stress}$ passes the fold-level sign-flip gate, with weighted held-out increment $0.0031744502294756994$ and sign-flip probability $0.03125$.  Other axes remain below that gate, for example $\mathrm{Arg\_AGR}$ has increment $0.0020139270616115154$ with probability $0.142578125$, and $\mathrm{Leu\_CUN\_vs\_UUR}$ has increment $-0.0003205780368125179$ with probability $0.779296875$.  Separate negative or bounded audits prevent over-reading: the mass-balance run on $120$ genes and $718$ intervals has $\Delta R^2=-0.07584438093220836$, $\Delta\mathrm{DL}=-668.8046070381928$ bits, $p_{\mathrm{TEbin}}=0.6831683168316832$, and $p_{\mathrm{timeshuffle}}=0.9306930693069307$; the turnover residual audit on $3290$ genes has $\Delta R^2=-0.005461979433706483$, $\Delta\mathrm{DL}=-13.68819707902732$ bits, $p_{\mathrm{matchedbin}}=0.8855721393034826$, and $p_{\mathrm{recoded}}=1.0$.  The evolutionary selection-imprint audit over $80$ orthogroups, $240$ rows, and $3$ species reports positive ordinary correlation language but rejects the strong imprint gate: $\Delta R^2=0.03250515015613468$, leave-clade-out $\Delta R^2=-0.0021477729853302424$, and null-95 cutoff $0.05427157066522958$.
+\paragraph{Mediation numbers.}
+The matched protein-abundance mediation panel gives a larger cross-organism context for why a direct $q_i\to p_k$ association is not enough.  Across twelve organisms, the controlled joint $9$-coordinate mediation decomposition reported positive bounded fractions, for example $M^{QTP}=0.9491551041216973$ in \emph{Saccharomyces cerevisiae}, $0.612922252793667$ in \emph{Escherichia coli} K12 MG1655, $0.6084594553474505$ in \emph{Bacillus subtilis}, $0.27206289160119157$ in human, and $0.01850668564589326$ in \emph{Sulfolobus solfataricus}.  The yeast row had total residual association $c=0.29837624994140827$, direct association after modeled tAI conditioning $c'=0.0151709093608293$, and indirect difference $0.28320534058057895$.  These values justify keeping the chain notation $q_i\to t_j\to p_k$ in the chapter, but they do not turn modeled tAI into observed ribosome motion or turn steady-state protein abundance into folding, localization, or function.
 
-\paragraph{Local no-promotion rule.}
-The finite-row transfer claim is confined to controlled axis transport across synonymous-perturbation readout tables.  A direct $q_i\to p_k$ association is not admitted as a protein-realization or mechanistic result unless a same-row $q_i\to t_j$ translation step is present and survives the declared controls.  No claim about translation dynamics, folding, physical admissibility, molecular function, causal mechanism, phenotype, selection, or universality follows from this chapter unless a separate layer-matched measurement supplies that contact.  Amino-acid sequence, organism, GC3, coding-sequence length, M-density baseline, and matched mRNA abundance remain controls.  CUN/UUR sign direction, one-organism behavior, and reporter-specific effects are not promoted into population laws.
+\paragraph{Structure and turnover guards.}
+The yeast structure-mediation row joined $4759$ genes and reported $R^2_{QP}=0.2715520808117803$, $R^2_{QP\mid S}=0.2706601505000995$, $R^2_{QP\mid T,M}=0.13773967696311287$, and $R^2_{QP\mid T,M,S}=0.13759011208318542$.  Its structure-only fraction was $0.003284564452662019$, the structure-incremental fraction was $0.0005507778820193332$, and the right-tail permutation probabilities were $0.027972027972027972$ for $S_Q$ structure association and $0.1258741258741259$ for the incremental structure fraction.  In contrast, the turnover audit used $3290$ genes and gave $R^2_{L2}=0.055740851626933985$, $R^2_{L3}=0.050278872193227464$, $\Delta R^2=-0.005461979433706483$, $\Delta DL=-13.68819707902732$ bits, $p_{\mathrm{matchedbin}}=0.8855721393034826$, and $p_{\mathrm{recoded}}=1.0$.  The mass-balance row likewise remained negative for the added layer, with $R^2_{L2}=0.9712443377743347$, $R^2_{L3}=0.8953999568421264$, $\Delta R^2=-0.07584438093220836$, $\Delta DL=-668.8046070381928$ bits, $p_{TEbin}=0.6831683168316832$, and $p_{\mathrm{timeshuffle}}=0.9306930693069307$ on $120$ genes and $718$ intervals.  These guards are part of the mathematical object: transfer is permitted only where the finite rows survive their controls.
 
-\paragraph{Verdict.}
-The chapter is ready as a bounded meta-record: the cross-dataset run completed with $B=200$ and runtime $974.407$ seconds, and the linked finite assays provide enough row counts, null outcomes, and positive bounded readouts to define the transfer carrier without using generic placeholders.  The positive content is the existence of a completed finite transfer audit over the B$^\ast_{Q6}$ perturbation-window axis family.  The chapter intentionally withholds a named transferred winning axis because the exposed meta row does not provide the per-axis transfer scores needed for that stronger statement.
+\paragraph{Local verdict.}
+The chapter supports a narrow statement: the $B^*_{Q6}$ synonymous-window axis family has a reusable finite audit surface across yeast, human, E. coli reporter, E. coli endogenous, GFP, and distributed-recoding rows, and at least some rows show residual improvement or mediation-compatible attenuation after the declared controls.  It does not support a stronger biological statement by itself.  No translation realization follows without a measured or explicitly bounded translation readout; no protein-realization statement follows from a direct $q_i\to p_k$ association when the $q_i\to t_j$ step is absent, null, or untested; and no folding, physical admissibility, molecular function, mechanism, organismal phenotype, selection law, or universal biological rule follows unless a separate layer-matched contact supplies that readout and the corresponding controlled statistic.

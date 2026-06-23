@@ -1,31 +1,36 @@
+\subsection{Dynamic mass-balance closure for the $B^{\ast}_{Q6}$ ribosome-footprint and protein-abundance surface}
+\label{sec:bioreality-q6-rpf-protein-mass-balance}
 \origin{ai}
 
-\subsection{Dynamic Mass-Balance Closure for the $B^*_{Q6}$ RPF--Protein Surface}
-\label{subsec:b-star-q6-rpf-protein-closure-dynamic-powered}
+\paragraph{Finite row object.}
+This record concerns a finite mediation surface whose rows join three kinds of coordinates: $q_i$ in the nine-dimensional $B^{\ast}_{Q6}$ residual basis, $t_j$ in translation-layer readouts, and $p_k$ in matched protein-abundance measurements.  The intended readback is not a direct residual-to-protein arrow.  A residual coordinate may enter the protein-abundance part of the analysis only after the same finite row surface has exposed a translation readout slot and after amino-acid composition, organism identity, $GC3$, coding-sequence length, $M$-density baseline, and matched mRNA abundance have remained controls.  In this chapter the tested surface is narrower still: it asks whether a dynamic mass-balance model that already contains a strong baseline can be improved by the $B^{\ast}_{Q6}$-attached ribosome-footprint and protein-abundance closure terms.
 
-\paragraph{Finite row surface.}
-This record tests whether the $B^*_{Q6}$ residual coordinates add a dynamic mass-balance closure term beyond a high-performing measured baseline. The finite surface contains genes with matched coding-sequence coordinates, ribosome-footprint or translation-efficiency information, and downstream protein-abundance readouts. The powered run used $120$ genes after a fixed subsample cap, selected from $4434$ eligible genes, and evaluated $718$ interval rows. The measured baseline was deliberately strong: an $M$-only layer already reached $R^2=0.9960628201518571$, and adding the estimated expression-rate slot gave $R^2=0.996410628851051$. The later dynamic layers did not improve that surface. The reported sequence of fits is
+The concrete run used $120$ genes, sampled from $4434$ eligible genes before the fixed cap, and produced $718$ time or interval rows.  The fixed cap is part of the finite-row definition: it prevents the fit from being read as an unconstrained population law and keeps the reported comparison tied to a bounded, reproducible matrix.
+
+\paragraph{Model ladder and numerical verdict.}
+The measured ladder begins with an $M$-only baseline and then adds successive dynamic and residual layers.  The registered values were
 $$
 \begin{aligned}
-R^2_{L0,M} &= 0.9960628201518571,\\
-R^2_{L1,M+E_{\mathrm{stat}}} &= 0.996410628851051,\\
-R^2_{L2} &= 0.9712443377743347,\\
-R^2_{L3} &= 0.8953999568421264.
+R^2(L_0) &= 0.9960628201518571,\\
+R^2(L_1) &= 0.996410628851051,\\
+R^2(L_2) &= 0.9712443377743347,\\
+R^2(L_3) &= 0.8953999568421264.
 \end{aligned}
 $$
-The final contrast was negative, with $\Delta R^2=-0.07584438093220836$ and $\Delta DL=-668.8046070381928$ bits. The two null checks also gave no support for a positive dynamic closure term: the TE-bin null had $p=0.6831683168316832$, and the time-shuffle null had $p=0.9306930693069307$.
+The final comparison for the tested closure term was negative:
+$$
+\begin{aligned}
+\Delta R^2 &= -0.07584438093220836,\\
+\Delta \mathrm{DL}_{\mathrm{bits}} &= -668.8046070381928.
+\end{aligned}
+$$
+The two effective-null checks also failed to support the promoted reading.  The translation-efficiency-bin null gave $p=0.6831683168316832$, and the time-shuffle null gave $p=0.9306930693069307$.  These are not marginal positive tests; they are large-tail probabilities under the declared null comparisons.  The finite-row conclusion is therefore that the dynamic mass-balance closure did not find a positive $B^{\ast}_{Q6}$ increment after the stronger baseline and null controls were applied.
 
-\paragraph{Readout discipline.}
-The tested object is not a free association from a synonymous residual coordinate to a protein-output claim. It is a controlled finite-row question: after a measured or explicitly bounded translation readout is present, does the $B^*_{Q6}$ surface improve a dynamic RPF--protein mass-balance fit beyond simpler measured quantities? In this run the answer is negative. The sign and size of the fitted contrast say that the additional dynamic $B^*_{Q6}$ closure layer reduced held-out explanatory performance rather than providing a powered improvement. The numerical statement is therefore a bounded nonpromotion result, not a weak positive result.
+\paragraph{Relation to the wider translation and protein-abundance matrix.}
+The negative dynamic mass-balance verdict should be separated from other finite surfaces in the same biological region.  A separate observable-execution decomposition in yeast reported $3289$ genes and concluded that at least one observed rate-proxy slot passed both effective null classes.  Another cross-organism modeled-tAI and protein-abundance decomposition used twelve organism-scoped joined surfaces, with examples including $5815$ yeast proteins, $19053$ human proteins, $19395$ mouse proteins, and $3739$ Escherichia coli K12 MG1655 proteins.  In that modeled-tAI surface, the yeast mediation fraction was $0.9491551041216973$, while human and mouse had fractions $0.27206289160119157$ and $0.15488799907323988$, respectively.  Those numbers show that some bounded translation-readout or modeled-mediation surfaces can be nonzero, but they do not overturn the present dynamic closure result.  The present claim is about the finite mass-balance ladder above, where the added closure layer degraded the registered fit and failed both null checks.
 
-\paragraph{Relation to the surviving rate slot.}
-A separate observable-execution decomposition run found a real rate-proxy subblock in \emph{Saccharomyces cerevisiae}, with $3289$ genes and the verdict that at least one observed rate proxy slot passed both effective null classes. That positive rate-slot result is important because it prevents the present chapter from claiming that translation-layer observables are absent in general. The present finite-row test asks a narrower question: whether the specific $B^*_{Q6}$ dynamic mass-balance closure improves the matched RPF--protein surface. The answer remains no, because the mass-balance run reports $R^2_{L3}=0.8953999568421264$ below $R^2_{L2}=0.9712443377743347$ and below the already strong $M$-only layer.
+\paragraph{Permitted readback.}
+The allowed statement is a closure refusal for this finite surface.  The $B^{\ast}_{Q6}$ residual coordinates can remain in the codon-count or translation-readout audit ledger, and they can be compared with ribosome-footprint or protein-abundance rows when those rows are explicitly joined and controlled.  For this run, however, the dynamic mass-balance protein-closure claim is not supported: $L_3$ did not improve on $L_2$, the description-length increment was negative, and both null probes returned high $p$-values.  Thus the packet remains bounded at a controlled audit status rather than entering a positive protein-realization fit.
 
-\paragraph{Relation to modeled translation-mediated abundance.}
-The broader translation-mediated protein-abundance surface already has a finite controlled decomposition over twelve organism-level joins, including $4042$ joined proteins in \emph{Bacillus subtilis}, $3739$ in \emph{Escherichia coli} K12 MG1655, $5815$ in \emph{Saccharomyces cerevisiae}, $19053$ in human, and $19395$ in mouse. In that modeled $Q\to T\to P$ decomposition, the yeast mediated fraction was $0.9491551041216973$, with $c=0.29837624994140827$, $c'=0.0151709093608293$, and indirect component $0.28320534058057895$. Those numbers justify treating translation-conditioned protein abundance as an admissible finite statistical surface. They do not rescue the present dynamic closure test: the present run replaces the broader cross-sectional mediation question with a stricter interval-level mass-balance question, and its own powered contrast is negative.
-
-\paragraph{Proteostasis boundary.}
-The turnover audit gives the same local caution from another downstream direction. In $3290$ genes, after expression, TE, pLDDT, N-end, and related controls, the $B^*_{Q6}$ turnover residual contrast was $\Delta R^2=-0.005461979433706483$ and $\Delta DL=-13.68819707902732$ bits, with $p_{\mathrm{matched\ bin}}=0.8855721393034826$ and $p_{\mathrm{recoded}}=1.0$. Thus the mass-balance result is not an isolated refusal caused by one unlucky null design. Across the downstream protein-state checks cited here, the finite evidence supports a bounded translation/protein-abundance interface but not a promoted dynamic protein-realization mechanism.
-
-\paragraph{Local verdict.}
-For this chapter the finite-row verdict is a closed negative for the proposed dynamic mass-balance promotion. The available numbers support the sentence: $B^*_{Q6}$ residual coordinates may be carried into controlled translation and protein-abundance matrices, but the tested RPF--protein dynamic closure layer is not supported by the powered mass-balance run. No translation mechanism, protein folding, physical admissibility, molecular function, organismal phenotype, selection law, or universal biological rule follows from these rows. Such claims would require a separate layer-matched measurement and its own controlled statistic; they are not licensed by the negative dynamic closure contrast reported here.
+\paragraph{Local no-promotion boundary.}
+No stronger biological interpretation follows from this table.  The run does not by itself establish translation realization, ribosome mechanism, folding, physical admissibility, molecular function, organismal phenotype, selection, or universality.  A direct $q_i \to p_k$ association is not admissible as protein realization unless a separately measured or explicitly bounded $q_i \to t_j$ translation step survives the declared controls, and even such a step would still not prove folding, function, mechanism, or a general biological law.  The present evidence is only a finite negative result for a dynamic ribosome-footprint and protein-abundance mass-balance closure test.
