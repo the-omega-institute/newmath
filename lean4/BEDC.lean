@@ -2513,6 +2513,7 @@ import BEDC.Derived.CauchyTailThresholdNormalizerUp.RealSealHandoff
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RouteExhaustion
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TailWindowInduction
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TasteGate
+import BEDC.Derived.CauchyTailThresholdNormalizerUp.UniformThresholdInduction
 import BEDC.Derived.CauchyTailWitnessEnvelopeUp.TasteGate
 import BEDC.Derived.CauchyTightnessUp.TasteGate
 import BEDC.Derived.CauchyUniformContinuityPrincipleUp.TasteGate
@@ -7865,6 +7866,7 @@ import BEDC.Derived.MetaCICIdentityBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICIdentityUp.TasteGate
 import BEDC.Derived.MetaCICLocalConfluenceFrontierUp
 import BEDC.Derived.MetaCICLocalDiamondWitnessUp.TasteGate
+import BEDC.Derived.MetaCICLocalJoinLedgerUp.TasteGate
 import BEDC.Derived.MetaCICNormalAuditSocketUp.TasteGate
 import BEDC.Derived.MetaCICNormalizationAuditPacketUp
 import BEDC.Derived.MetaCICNormalizationAuditPacketUp.TasteGate
@@ -8273,6 +8275,8 @@ import BEDC.Derived.MinimalCauchyFilterUp.NameCertObligations
 import BEDC.Derived.MinimalCauchyFilterUp.RegularHandoff
 import BEDC.Derived.MinimalCauchyFilterUp.TasteGate
 import BEDC.Derived.MinimalRealizationUp.TasteGate
+import BEDC.Derived.MinimalTriggerHomologyCoreUp.NameCertObligations
+import BEDC.Derived.MinimalTriggerHomologyCoreUp.TasteGate
 import BEDC.Derived.MinimalTriggerLiftBundleUp.TasteGate
 import BEDC.Derived.MinkowskiDimensionUp
 import BEDC.Derived.MinkowskiInequalityUp.TasteGate
