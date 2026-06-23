@@ -32,7 +32,8 @@ theorem MinkowskiRateGeometryCarrier_ledger_exactness [AskSetup] [PackageSetup]
   intro carrier rateFrameLedger ledgerPkg
   obtain ⟨_configUnary, _causalUnary, rateUnary, frameUnary, _distanceUnary,
     _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, configCausalRate,
-    rateFrameDistance, distancePkg⟩ := carrier
+    rateFrameDistance, _distanceTransportReplay, distancePkg, _provenancePkg,
+    _localNamePkg⟩ := carrier
   have ledgerUnary : UnaryHistory ledgerRead :=
     unary_cont_closed rateUnary frameUnary rateFrameLedger
   have cert :
