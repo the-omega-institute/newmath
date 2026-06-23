@@ -604,6 +604,7 @@ import BEDC.Derived.AxiomDependencyTupleUp
 import BEDC.Derived.AxiomDependencyTupleUp.ConsumerExhaustion
 import BEDC.Derived.AxiomDependencyTupleUp.ConsumerLedgerOrder
 import BEDC.Derived.AxiomDependencyTupleUp.DownstreamConsumerSupplyBoundary
+import BEDC.Derived.AxiomDependencyTupleUp.HostSupplyNonescape
 import BEDC.Derived.AxiomDependencyTupleUp.KernelSupplyVisibility
 import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
 import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
@@ -2489,6 +2490,8 @@ import BEDC.Derived.CauchyTailRequestUp.TasteGate
 import BEDC.Derived.CauchyTailSupremumUp.TasteGate
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.Classifier
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.CompositionScope
+import BEDC.Derived.CauchyTailThresholdNormalizerUp.EncodedObligationReadback
+import BEDC.Derived.CauchyTailThresholdNormalizerUp.ObligationLedger
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RealFacingDeterminacy
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RouteExhaustion
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TailWindowInduction
@@ -8585,6 +8588,7 @@ import BEDC.Derived.ObserverTimeStepUp.TasteGate
 import BEDC.Derived.ObserverTraceKernelUp.TasteGate
 import BEDC.Derived.ObserverTraceSealUp.TasteGate
 import BEDC.Derived.ObserverperspectiveclassifierUp
+import BEDC.Derived.ObserverperspectiveclassifierUp.NameCertObligations
 import BEDC.Derived.OdeComparisonUp.TasteGate
 import BEDC.Derived.OdeUp
 import BEDC.Derived.OlivierTheoremUp.TasteGate
@@ -9511,6 +9515,7 @@ import BEDC.Derived.RealMinMaxUp.TasteGate
 import BEDC.Derived.RealModulusCriterionUp.TasteGate
 import BEDC.Derived.RealModulusExtractionUp.TasteGate
 import BEDC.Derived.RealModulusFusionUp
+import BEDC.Derived.RealModulusPurityBoundaryUp.ConstructivePrediction
 import BEDC.Derived.RealModulusPurityBoundaryUp.HostChoiceRefusal
 import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
@@ -9865,6 +9870,7 @@ import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationNonescapeRoute
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationPrefixExhaustion
 import BEDC.Derived.ReflectionRuntimeCheckpointUp.ValidationRowPrecedence
 import BEDC.Derived.ReflectiveInquiryUp.Carrier
+import BEDC.Derived.ReflectiveInquiryUp.ClassifierAuditCertificate
 import BEDC.Derived.ReflectiveInquiryUp.FieldFaithfulRowSeparation
 import BEDC.Derived.ReflectiveInquiryUp.GroundCompilerObligationRoute
 import BEDC.Derived.ReflectiveInquiryUp.LedgeredRoleCorrespondence
@@ -10491,6 +10497,7 @@ import BEDC.Derived.RieszRepresentationUp.BranchBoundaryNonescape
 import BEDC.Derived.RieszRepresentationUp.DualFunctionalRoute
 import BEDC.Derived.RieszRepresentationUp.HilbertFunctionalBridge
 import BEDC.Derived.RieszRepresentationUp.MeasureHandoff
+import BEDC.Derived.RieszRepresentationUp.ObligationClosure
 import BEDC.Derived.RieszRepresentationUp.TasteGate
 import BEDC.Derived.RieszSpaceUp.TasteGate
 import BEDC.Derived.RingOfIntegersUp
