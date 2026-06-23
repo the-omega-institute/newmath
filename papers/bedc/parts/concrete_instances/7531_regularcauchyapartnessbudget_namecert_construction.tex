@@ -242,6 +242,20 @@ Finally compose the public interface with L10 scope binding, \autoref{thm:regula
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyApartnessBudgetUp.RegularCauchyApartnessBudgetCarrier\_bridge\_scope}
 
+\begin{theorem}[Regular Cauchy apartness-budget route composition]
+\label{thm:regular-cauchy-apartness-budget-route-composition}
+Every accepted $\RegularCauchyApartnessBudgetUp$ packet composes the apartness row $A$, modulus row $M$, $\StreamNameUp$ window row $W$, $\DyadicRatCoreUp$ lower-bound readback $D$, $\RegSeqRatUp$ readback $R$, $\RealUp$ seal row $E$, reciprocal-window boundary, transport row $H$, replay row $C$, provenance row $P$, and local $\NameCert$ row $N$ through one finite L10 route. Any bridge-facing consumer that reaches a $\RealUp$ apartness handoff or a reciprocal-window read must traverse that route in order; it receives no host nonzero real, trichotomy branch, quotient stream, selected representative, total reciprocal operation, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with lower-bound scope, \autoref{thm:regular-cauchy-apartness-budget-lower-bound-scope}. It places the apartness row, modulus row, StreamName window, DyadicRatCore lower-bound row, RegSeqRat readback, transport, replay, provenance, and local naming rows on the same finite lower-bound route.
+
+Apply the reciprocal-window boundary, \autoref{thm:regular-cauchy-apartness-budget-reciprocal-window-boundary}. A reciprocal consumer can read a positive lower-bound handoff only after the displayed window and readback rows have been presented on that route.
+
+Use the public interface and L10 scope binding, \autoref{thm:regular-cauchy-apartness-budget-public-interface} and \autoref{thm:regular-cauchy-apartness-budget-l10-scope-binding}. These results attach the route to the $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, and $\CauchyInverseBudgetUp$ siblings before any bridge-facing read.
+
+Finally apply bridge scope, \autoref{thm:regular-cauchy-apartness-budget-bridge-scope}. The bridge-facing consumer therefore receives the composed finite route $A,M,W,D,R,E,H,C,P,N$ and no coordinate for a host nonzero real or total reciprocal.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy apartness-budget cofinal window refinement]
 \label{thm:regular-cauchy-apartness-budget-formal-target}
 Let
