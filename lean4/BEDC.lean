@@ -8075,7 +8075,6 @@ import BEDC.Derived.MetricBallUp.RegSeqRatRealWindowBoundary
 import BEDC.Derived.MetricBallUp.TasteGate
 import BEDC.Derived.MetricBallUp.TopologyHandoff
 import BEDC.Derived.MetricBornologyUp.TasteGate
-import BEDC.Derived.MetricCauchyFilterBridgeUp.TasteGate
 import BEDC.Derived.MetricCauchyNetClusterUp.TasteGate
 import BEDC.Derived.MetricClosedBallUp
 import BEDC.Derived.MetricClosedBallUp.CenterTransportScope
@@ -11988,6 +11987,8 @@ import BEDC.Derived.WeakCompactnessUp
 import BEDC.Derived.WeakDerivativeUp.TasteGate
 import BEDC.Derived.WeakKonigBoundaryUp.TasteGate
 import BEDC.Derived.WeakLawLargeNumbersUp.TasteGate
+import BEDC.Derived.WeakOmniscienceBoundaryUp.NameCertObligations
+import BEDC.Derived.WeakOmniscienceBoundaryUp.TasteGate
 import BEDC.Derived.WeakStarCompactnessUp.TasteGate
 import BEDC.Derived.WeakStarTopologyUp.TasteGate
 import BEDC.Derived.WeakTopologyUp.FunctionalWindowStability
