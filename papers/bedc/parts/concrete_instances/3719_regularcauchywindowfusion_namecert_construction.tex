@@ -232,6 +232,24 @@ Then apply \autoref{thm:regular-cauchy-window-fusion-scoped-kernel-route}. The s
 Finally use \autoref{thm:regular-cauchy-window-fusion-tail-window-coverage}. The tail selected by $W$ is consumed through that same displayed packet, so a tail-window consumer and a budget-meet consumer cannot factor through different selected-subsequence, quotient-stream, or ambient-completeness routes.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy window fusion kernel scope]
+\label{thm:regular-cauchy-window-fusion-kernel-scope}
+Every accepted $\RegularCauchyWindowFusionUp$ read is scoped by the concrete $\BHist$ packet
+$$
+F=(R,W,S,D,E,H,C,P,N),
+$$
+the componentwise $\hsame$ row $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance row $P$, local $\NameCert_{\RegularCauchyWindowFusionUp}$ row $N$, and the four L10 rows $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. The accepted read cannot be replaced by a selected limit, quotient stream equality, trichotomy, ambient completeness, or hidden $\RealUp$ comparison.
+\end{theorem}
+\begin{proof}
+Begin with the shared-window handoff of \autoref{thm:regular-cauchy-window-fusion-shared-window-handoff}. It binds the seed row $R$, the $\StreamNameUp$ row $W$, the $\RegSeqRatUp$ readback $S$, and the $\DyadicRatCoreUp$ ledger $D$ to one displayed finite observation window.
+
+Next apply the Real seal non-escape theorem \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape}. The $\RealUp$ row $E$ is reachable only after $R,W,S,D$ and remains under the support rows $H,C,P,N$.
+
+Use the downstream package and budget-meet theorems, \autoref{thm:regular-cauchy-window-fusion-downstream-package} and \autoref{thm:regular-cauchy-window-fusion-budget-meet}. They repack exactly $R,W,S,D,E,H,C,P,N$ for completion-facing consumers and force regular and dyadic reads to meet at the displayed seal row.
+
+Finally combine finite-window exactness and tail-window coverage, \autoref{thm:regular-cauchy-window-fusion-finite-window-exactness} and \autoref{thm:regular-cauchy-window-fusion-tail-window-coverage}. These blocks leave no carrier coordinate from which a selected limit, quotient stream equality, trichotomy decision, ambient completeness proof, or hidden $\RealUp$ comparison could be read. Hence every accepted fusion read remains inside the concrete kernel scope named above.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy window fusion scoped row exhaustion]
 \label{thm:regular-cauchy-window-fusion-scoped-row-exhaustion}
 For every accepted finite L10 $\RegularCauchyWindowFusionUp$ packet
