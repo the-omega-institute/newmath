@@ -214,6 +214,28 @@ The diagonal cofinal tail is therefore consumed only through the stationary wind
 Consequently the consumer remains inside $R,W,S,D,E,H,C,P,N$. Selected subsequences, quotient stream equality, and ambient Real completeness are not carrier coordinates, so none can be used before the fused window is consumed.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy window fusion tail stability]
+\label{thm:regular-cauchy-window-fusion-tail-stability}
+Let
+$$
+F=(R,W,S,D,E,H,C,P,N)
+$$
+and
+$$
+F'=(R,W',S',D,E,H',C',P',N')
+$$
+be accepted $\RegularCauchyWindowFusionUp$ packets with the same $\RatUp$ seed row $R$, $\DyadicRatCoreUp$ ledger $D$, $\RealUp$ seal $E$, and support rows for transport, replay, provenance, and naming. Suppose the $\StreamNameUp$ and $\RegSeqRatUp$ window $(W',S')$ is displayed as a cofinal tail of $(W,S)$ inside the accepted packet data. Then $F$ and $F'$ export the same finite $\RealUp$-facing handoff through $E$, and neither packet exports a selected limit, quotient stream, independent Real carrier, trichotomy decision, ambient completeness proof, or hidden comparison row.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-window-fusion-shared-window-handoff}. It binds the seed, stream window, regular readback, dyadic ledger, and Real seal into one finite observation route for each accepted packet.
+
+Apply \autoref{thm:regular-cauchy-window-fusion-finite-window-exactness} to $F$. The only Real-facing route from the shared $\RatUp$ seed through $W,S,D$ reaches the displayed seal $E$.
+
+Apply \autoref{thm:regular-cauchy-window-fusion-tail-window-coverage} to $F'$. Because $(W',S')$ is a displayed cofinal tail of $(W,S)$ and the ledger $D$ and seal $E$ are shared, the tail packet is consumed through the same finite route rather than through a second selector.
+
+Finally use \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape}. The shared Real seal exports no selected limit, quotient stream equality, independent Real carrier, trichotomy decision, ambient completeness proof, or hidden comparison row. The structural rows of both packets only transport, replay, source, and name that handoff, so replacing the displayed window by its cofinal tail preserves the exported $\RealUp$-facing surface.
+\end{proof}
+
 \begin{theorem}[RegularCauchyWindowFusion tail-budget meet]
 \label{thm:regular-cauchy-window-fusion-tail-budget-meet}
 Let
