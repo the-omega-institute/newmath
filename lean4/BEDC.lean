@@ -5511,6 +5511,7 @@ import BEDC.Derived.FieldUp.AffineCentralizerNormalizerSubgroup
 import BEDC.Derived.FieldUp.AffineCompositeInverseReverseCoherence
 import BEDC.Derived.FieldUp.AffineCompositeProductWitnessIndependence
 import BEDC.Derived.FieldUp.AffineEquation
+import BEDC.Derived.FieldUp.AlgebraHierarchyExitWitness
 import BEDC.Derived.FieldUp.AlgebraReductCompatibility
 import BEDC.Derived.FieldUp.AssembledCertificateBoundary
 import BEDC.Derived.FieldUp.CanonicalExitActionInversePackage
@@ -11592,6 +11593,7 @@ import BEDC.Derived.TriggerHypergraphReliabilityUp.Factorization
 import BEDC.Derived.TriggerHypergraphReliabilityUp.TasteGate
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
+import BEDC.Derived.TruthTotalReflectionUp.CarrierPrimitiveScope
 import BEDC.Derived.TruthTotalReflectionUp.DiagonalObstruction
 import BEDC.Derived.TruthTotalReflectionUp.LedgerNonescape
 import BEDC.Derived.TruthTotalReflectionUp.RefusalLedgerExactness
