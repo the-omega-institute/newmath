@@ -3325,6 +3325,7 @@ import BEDC.Derived.CompleteArchimedeanFieldUp
 import BEDC.Derived.CompleteArchimedeanFieldUp.TasteGate
 import BEDC.Derived.CompleteBaireSpaceUp.TasteGate
 import BEDC.Derived.CompleteMetricBaireSurfaceUp.TasteGate
+import BEDC.Derived.CompleteMetricContractionPrincipleUp.TasteGate
 import BEDC.Derived.CompleteMetricNestedBallsUp.TasteGate
 import BEDC.Derived.CompleteMetricProductUp
 import BEDC.Derived.CompleteMetricProductUp.TasteGate
@@ -11867,6 +11868,7 @@ import BEDC.Derived.UniformCauchyModulusUp.TasteGate
 import BEDC.Derived.UniformCauchyNetUp.TasteGate
 import BEDC.Derived.UniformCauchySequenceSpaceUp
 import BEDC.Derived.UniformCauchySequenceUp.TasteGate
+import BEDC.Derived.UniformCauchySeriesUp.TailThreshold
 import BEDC.Derived.UniformCauchySeriesUp.TasteGate
 import BEDC.Derived.UniformCauchySubsequenceUp.TasteGate
 import BEDC.Derived.UniformClosureUp.TasteGate
