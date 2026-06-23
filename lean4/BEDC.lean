@@ -1008,6 +1008,7 @@ import BEDC.Derived.BishopLocatedCompletionEmbeddingUp
 import BEDC.Derived.BishopLocatedCompletionEmbeddingUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
+import BEDC.Derived.BishopLocatedConvexHullUp
 import BEDC.Derived.BishopLocatedDiagonalUp.TasteGate
 import BEDC.Derived.BishopLocatedFilterBaseUp.TasteGate
 import BEDC.Derived.BishopLocatedIntervalRefinementMapUp.TasteGate
@@ -10454,6 +10455,7 @@ import BEDC.Derived.RegularCauchyWindowFusionUp.ObligationInventory
 import BEDC.Derived.RegularCauchyWindowFusionUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyWindowFusionUp.SelectorBudgetCompatibility
 import BEDC.Derived.RegularCauchyWindowFusionUp.SharedWindowHandoff
+import BEDC.Derived.RegularCauchyWindowFusionUp.TailWindowCoverage
 import BEDC.Derived.RegularCauchyWindowFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
 import BEDC.Derived.RegularCauchyWitnessScheduleUp

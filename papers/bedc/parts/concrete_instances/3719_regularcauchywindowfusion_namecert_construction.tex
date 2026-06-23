@@ -122,6 +122,18 @@ The sibling inputs named in the introduction supply exactly those rows: $\Stream
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionSelectorBudgetCompatibility}
 
+\begin{theorem}[Regular Cauchy window fusion tail handoff]
+\label{thm:regular-cauchy-window-fusion-tail-handoff}
+Any downstream $\RegularSequenceTailMetricUp$ or $\RealUp$ consumer of an accepted $\RegularCauchyWindowFusionUp$ packet must use the same finite $\StreamNameUp$ window $W$, $\RegSeqRatUp$ readback $S$, $\DyadicRatCoreUp$ ledger $D$, and support rows $H,C,P,N$ before reading the $\RealUp$ seal row $E$. A tail-facing consumer cannot replace the shared window by a selected limit, quotient stream, or independent completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the shared-window handoff, \autoref{thm:regular-cauchy-window-fusion-shared-window-handoff}. It binds the RatUp seed row, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, and $\DyadicRatCoreUp$ ledger to one finite observation packet.
+
+Apply Real seal non-escape and selector-budget compatibility, \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape} and \autoref{thm:regular-cauchy-window-fusion-selector-budget-compatibility}. They force every route to $E$ through $R,W,S,D,H,C,P,N$ and reject any budget or selector change before the seal is read.
+
+The tail-facing consumer therefore inherits the same handoff. Whether the downstream read is $\RegularSequenceTailMetricUp$ or $\RealUp$, it can consume only the displayed rows of the accepted fusion packet before $E$; selected limits, quotient streams, and independent completeness witnesses are not carrier coordinates.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy window fusion downstream package]
 \label{thm:regular-cauchy-window-fusion-downstream-package}
 The carrier of \autoref{def:regular-cauchy-window-fusion-carrier}, the local NameCert obligations, the shared-window handoff, and the Real seal non-escape theorem assemble a downstream package for $\RealCompletenessUp$, $\StationaryDiagonalWindowRouteUp$, $\CauchyModulusComparisonUp$, and $\DiagonalCofinalTailUp$ consumers. The package exposes exactly
@@ -216,6 +228,7 @@ The diagonal cofinal tail is therefore consumed only through the stationary wind
 
 Consequently the consumer remains inside $R,W,S,D,E,H,C,P,N$. Selected subsequences, quotient stream equality, and ambient Real completeness are not carrier coordinates, so none can be used before the fused window is consumed.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionTailWindowCoverage}
 
 \begin{theorem}[Regular Cauchy window fusion tail stability]
 \label{thm:regular-cauchy-window-fusion-tail-stability}
