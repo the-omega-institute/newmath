@@ -6530,6 +6530,8 @@ import BEDC.Derived.HyperbolicPoissonKernelUp.TasteGate
 import BEDC.Derived.HyperbolicSelfCenterReadingUp.TasteGate
 import BEDC.Derived.HyperbolicTranslationLengthUp.TasteGate
 import BEDC.Derived.HyperbolicVisualMetricUp.TasteGate
+import BEDC.Derived.HyperbolicVisualShadowMetricUp.NameCertObligations
+import BEDC.Derived.HyperbolicVisualShadowMetricUp.TasteGate
 import BEDC.Derived.HyperconvexMetricUp.TasteGate
 import BEDC.Derived.HyperfunctionUp
 import BEDC.Derived.HyperfunctionUp.TasteGate
@@ -10245,6 +10247,7 @@ import BEDC.Derived.RegularCauchyOscillationCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyPicardSealUp.TasteGate
 import BEDC.Derived.RegularCauchyPositivePartUp
 import BEDC.Derived.RegularCauchyPositivePartUp.TasteGate
+import BEDC.Derived.RegularCauchyPowerUp.TasteGate
 import BEDC.Derived.RegularCauchyProductBudgetUp.BilinearWindow
 import BEDC.Derived.RegularCauchyProductBudgetUp.FalsifiablePrediction
 import BEDC.Derived.RegularCauchyProductBudgetUp.IndependenceWitness
@@ -10420,6 +10423,7 @@ import BEDC.Derived.RegularCauchyUniformityUp.TasteGate
 import BEDC.Derived.RegularCauchyUniquenessUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowFusionUp.BudgetMeet
 import BEDC.Derived.RegularCauchyWindowFusionUp.NameCertObligations
+import BEDC.Derived.RegularCauchyWindowFusionUp.ObligationInventory
 import BEDC.Derived.RegularCauchyWindowFusionUp.SharedWindowHandoff
 import BEDC.Derived.RegularCauchyWindowFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowIntersectionUp.TasteGate
@@ -11058,6 +11062,7 @@ import BEDC.Derived.SheafUp.RouteExactnessPacket
 import BEDC.Derived.SheafUp.SchemeConsumption
 import BEDC.Derived.SheafUp.StableRestrictionRow
 import BEDC.Derived.SheafUp.TripleOverlapRoute
+import BEDC.Derived.SheafificationUp.TasteGate
 import BEDC.Derived.ShortestPathUp
 import BEDC.Derived.SierpinskiCarpetUp.TasteGate
 import BEDC.Derived.SierpinskiContinuityClassifierUp
@@ -11648,6 +11653,7 @@ import BEDC.Derived.TruthTotalReflectionUp.DiagonalObstruction
 import BEDC.Derived.TruthTotalReflectionUp.DiagonalRouteScope
 import BEDC.Derived.TruthTotalReflectionUp.DownstreamBoundaryPackage
 import BEDC.Derived.TruthTotalReflectionUp.LedgerNonescape
+import BEDC.Derived.TruthTotalReflectionUp.PublicConsumerInterface
 import BEDC.Derived.TruthTotalReflectionUp.RefusalLedgerExactness
 import BEDC.Derived.TruthTotalReflectionUp.RootRouteTotality
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
@@ -11919,6 +11925,7 @@ import BEDC.Derived.UniformContinuityModulusUp.TasteGate
 import BEDC.Derived.UniformContinuityUp
 import BEDC.Derived.UniformContinuityUp.TasteGate
 import BEDC.Derived.UniformConvergenceCauchyCriterionUp.TasteGate
+import BEDC.Derived.UniformConvergencePreservesContinuityUp
 import BEDC.Derived.UniformConvergenceSeriesUp.TasteGate
 import BEDC.Derived.UniformConvergenceSpaceUp.TasteGate
 import BEDC.Derived.UniformConvergenceTestUp.TasteGate
