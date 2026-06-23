@@ -88,6 +88,18 @@ The marginal rows $\mu,\nu$ and ledgers $A,B$ stay in scope because they determi
 The rows $H,R,P,N$ preserve this same cost ledger before it reaches the $\RealUp$ consumer. Hence the cost readback scope is finite and displayed; duality, optimizer existence, minimizer selection, and ambient real completeness remain outside the carrier.
 \end{proof}
 
+\begin{theorem}[Wasserstein finite coupling obligation surface]
+\label{thm:wasserstein-finite-coupling-obligation-surface}
+For every accepted $\WassersteinUp$ carrier $W=(M,K,\mu,\nu,\Gamma,A,B,C,H,R,P,N)$, every coupling entry exposed to a consumer is one of the displayed rows of $\Gamma$, every marginal read is routed through $A$ and $B$, and every cost read is routed through $C$. The structural rows $H,R,P,N$ preserve that same finite route from metric source and optional compact support through marginal exactness and real-valued cost readback. Thus the packet exports no Monge map, optimizer, dual certificate, ambient measure completion, or selected minimizer.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier of \autoref{def:wasserstein-transport-plan-carrier}. The only coupling-support coordinate is $\Gamma$, so each accepted coupling entry is indexed by a visible source pair and mass row already named by the packet.
+
+Apply the NameCert obligations of \autoref{thm:wasserstein-namecert-obligations}, the metric coupling scope of \autoref{thm:wasserstein-metric-coupling-scope}, and the marginal exactness scope of \autoref{thm:wasserstein-marginal-exactness-scope}. These identify $A$ and $B$ as the only marginal readback ledgers and keep the table attached to $M,K,\mu,\nu$.
+
+Finally use the real cost readback scope of \autoref{thm:wasserstein-real-cost-readback-scope}. The row $C$ is the only exported cost ledger, and $H,R,P,N$ only transport, replay, source, and name the same finite route. Since no carrier coordinate stores a Monge map, optimizer, dual certificate, ambient measure completion, or selected minimizer, the finite support and provenance rows exhaust the Wasserstein obligation surface.
+\end{proof}
+
 \closureat{WassersteinUp}{obligationStr}
 
 \begin{closurestatus}{\WassersteinUp}
