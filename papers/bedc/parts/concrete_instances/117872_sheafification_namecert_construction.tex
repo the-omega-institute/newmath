@@ -60,6 +60,46 @@ Use the topology and site rows to interpret covers as displayed $\TopologyUp$ wi
 The handoff to $\SheafUp$ is therefore the same row package, transported by $H$ and replayed by $R$. The provenance and local naming rows $Q,N$ name the consumed siblings without adding a host reflector or quotient object.
 \end{proof}
 
+\begin{theorem}[Sheafification coverage exactness]
+\label{thm:sheafification-coverage-exactness}
+Every cover-local read of an accepted $\SheafificationUp$ packet
+$$
+A=(C,T,J,P,L,G,S,H,R,Q,N)
+$$
+must expose the category row $C$, topology-window row $T$, Grothendieck-coverage row $J$, and presheaf-restriction row $P$ before any locality data in $L$ may be consumed.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier tuple. The only cover source coordinates are $C,T,J,P$: $C$ supplies the $\CategoryUp$ objects and arrows, $T$ supplies the $\TopologyUp$ windows, $J$ supplies the $\GrothendieckTopologyUp$ covering and pullback-stability rows, and $P$ supplies the $\PreSheafUp$ restriction data over that source.
+
+The locality ledger $L$ is typed by those displayed cover and restriction rows. A read that reaches $L$ without first exposing $C,T,J,P$ has no BEDC row from which cover-locality can be interpreted.
+
+The structural rows $H,R,Q,N$ preserve this order. Componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row can carry the exposed source route, but none of them supplies an independent coverage coordinate. Thus coverage exactness forces every locality read through $C,T,J,P$ first.
+\end{proof}
+
+\begin{theorem}[Sheafification locality refinement]
+\label{thm:sheafification-locality-refinement}
+For an accepted $\SheafificationUp$ packet, every matching-family row recorded in $L$ is stable under displayed $\GrothendieckTopologyUp$ refinement and componentwise $\hsame$ transport: replacing a cover by a displayed refinement in $J$ and transporting the component section rows by $H$ yields another locality row still recorded by $L$ over the same presheaf row $P$.
+\end{theorem}
+\begin{proof}
+Read $L$ from the carrier tuple after $C,T,J,P$ have been exposed. By definition, $L$ is the locality-refinement ledger, so its entries are indexed by the displayed cover-refinement comparisons carried by the Grothendieck-topology row $J$.
+
+Now apply the transport row $H$. It records componentwise $\hsame$ transport for the category, topology, site, presheaf, locality, gluing, sheaf, replay, provenance, and local naming rows. Transporting the component sections therefore preserves the same $P$-restriction comparisons rather than changing to a host family.
+
+The replay row $R$ and provenance row $Q$ keep this refinement inside the same $\SheafificationUp$ package, and $N$ names it as part of the local $\NameCert_{\SheafificationUp}$ surface. Hence matching-family rows in $L$ are stable under the displayed refinement and transport data.
+\end{proof}
+
+\begin{theorem}[Sheafification gluing exactness]
+\label{thm:sheafification-gluing-exactness}
+The sheaf target row $S$ of an accepted $\SheafificationUp$ packet is consumed only after the locality ledger $L$ and gluing ledger $G$ have displayed compatible local sections for the presheaf row $P$ over the cover rows $T,J$.
+\end{theorem}
+\begin{proof}
+Begin with the route theorem \autoref{thm:sheafification-sheaf-handoff}. It places the sheaf-facing row $S$ downstream of the displayed category, topology, Grothendieck coverage, presheaf, locality, and gluing rows.
+
+The ledger $L$ records the matching-family and refinement checks. The ledger $G$ records the accepted glued section row for compatible local families. Therefore $S$ has no independent coordinate from which a sheaf target can be read before $L$ and $G$ have been displayed.
+
+Finally use $H,R,Q,N$. Componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming preserve the same route from $P$ through $L$ and $G$ to the $\SheafUp$ target row. They do not introduce a quotient of compatible families or a host sheafification functor, so the gluing read is exact at the displayed BEDC surface.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\SheafificationUp$ read displays CategoryUp, TopologyUp or GrothendieckTopologyUp, PreSheafUp, locality, gluing, SheafUp, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any sheaf-facing consumer can use the target row.}
 
 \independenceWitness{category, topology, grothendieck topology, presheaf, sheaf: $\SheafificationUp$ is not bijective to any listed sibling because it binds locality refinement and gluing handoff rows between a displayed presheaf source and a displayed sheaf target.}
