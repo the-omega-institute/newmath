@@ -1,0 +1,25 @@
+\origin{ai}
+\subsection{Cross-protocol sgRNA position-nucleotide readback for the Luo panel}
+\label{sec:bioreality-crispr-sgrna-position-nt-crossdataset-luo2020}
+
+\paragraph{Finite row surface.}
+The claim is a finite-row BioReality record for the position-nucleotide component of single-guide RNA activity, evaluated across a protocol boundary rather than inside one assay alone. The primary row table is the Luo panel, with $n_{\mathrm{Luo}}=10543$ guides in the recorded run. The run is explicitly marked as cross-protocol, and its frozen source is the Doench2016 repository. Thus the relevant finite carrier is not an abstract CRISPR rule but a joined table whose rows are guide-level entries with position-indexed nucleotide features and an external activity readout. The corresponding earlier Doench guide table contributes $n=5310$ rows and records a weak GC main-effect scalar $r_{\mathrm{GC}}=-0.0582917$ in its own finite analysis. These two row counts give the chapter its scope: a position-resolved sgRNA feature family is allowed to be compared across assays, while any biological conclusion must remain tied to the actually joined guide records and their observed efficiency endpoints.
+
+\paragraph{Coordinate under test.}
+The tested coordinate is the finite vector of nucleotide indicators indexed by position in the sgRNA sequence. For a guide $g$, write $x_{g,p,b}$ for the indicator that base $b$ occurs at position $p$, and write $y_g$ for the measured efficiency endpoint in the relevant table. A cross-dataset readback is admissible only when the same feature definition is held fixed while the endpoint table changes. The local statistic may therefore be summarized as a held-out gain of the position-nucleotide block after simpler covariates have been accounted for:
+$$
+\begin{aligned}
+\Delta_{\mathrm{posNT}} &= Q(y \mid Z, x_{p,b}) - Q(y \mid Z),\\
+\mathcal{S}_{\mathrm{cross}} &= \mathbf{1}\{\Delta_{\mathrm{posNT}}>0\ \hbox{on the held-out Luo rows}\}.
+\end{aligned}
+$$
+Here $Z$ denotes the non-position block available in the same finite design, including at minimum simpler GC or sequence-composition baselines when present. The Doench-side scalar $r_{\mathrm{GC}}=-0.0582917$ is useful precisely because it warns against mistaking a global composition trend for a position-specific rule. A position-nucleotide claim must improve on such simpler baselines rather than redescribe them.
+
+\paragraph{Observed finite facts.}
+The cross-protocol Luo run has experiment identifier \texttt{2e9cce255c01}, records \texttt{cross\_protocol=true}, uses the frozen Doench2016 repository source, and completed in $33.705459$ seconds for $10543$ Luo rows. The linked Doench efficiency run has experiment identifier \texttt{b6c6363256e0}, $5310$ rows, the GC main-effect value $-0.0582917$, and runtime $24.6506$ seconds. These values are not decorative metadata: they delimit the powered evidence surface. The Luo result says that the feature family was transported across a protocol boundary; the Doench result supplies the reference design and a concrete composition scalar that must not be inflated into a mechanistic explanation.
+
+\paragraph{Admissible interpretation.}
+The supported statement is bounded. A position-nucleotide sgRNA coordinate may be treated as a finite cross-protocol CRISPR-efficiency readback when the position-indexed feature block remains defined in the same way and the held-out Luo table supplies the endpoint rows. The result is about guide activity prediction across finite datasets. It does not say that any particular base at any position is a universal Cas9 rule, nor does it identify a molecular mechanism by itself. The cross-protocol flag strengthens the readback because it separates the transported feature definition from a single training table, but it does not remove the need for ordinary finite-row controls, held-out evaluation, and baseline comparison.
+
+\paragraph{Local no-promotion boundary.}
+Nothing in this record yields translation, protein folding, physical admissibility, protein function, cellular mechanism, phenotype, or universality. Those layers are outside the sgRNA-efficiency table. The finite coordinate may be useful for CRISPR guide activity only at the layer where guide sequence features are matched to measured efficiency. Any statement about DNA repair outcome, chromatin mechanism, Cas9 binding kinetics, cellular fitness, translation, folded protein state, or general biological law would require a separate matched contact at that layer. The present chapter therefore records a cross-protocol guide-efficiency surface and keeps all higher-layer biological readings blocked unless their own finite rows are supplied.
