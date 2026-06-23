@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\StirlingFactorialBudgetUp$}
+\label{ch:concrete-instances-stirling-factorial-budget-namecert}
+\origin{human}
+
+Following Stirling and Robbins, the $\StirlingFactorialBudgetUp$ packet records the finite denominator and growth-control data needed when factorial estimates feed constructive real power series. It sits between the Gamma normalization route of \autoref{ch:concrete-instances-gamma-namecert}, the exponential and trigonometric series consumers of \autoref{ch:concrete-instances-real-exponential-namecert} and \autoref{ch:concrete-instances-real-sine-namecert}, and the L10 real substrate carried by \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The carrier names a finite factorial-growth budget, not an asymptotic oracle, selected limit, or ambient analytic completeness theorem.
+
+\begin{definition}[Stirling factorial-budget carrier]
+\label{def:stirling-factorial-budget-carrier}
+A $\StirlingFactorialBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+F=(K,A,B,D,W,R,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $K$ is the factorial index window recording the finite interval of $n$-values inspected by the downstream Gamma or power-series consumer.
+\item $A$ is the lower Stirling-style comparison ledger, storing the finite rational inequalities used to dominate reciprocal factorial denominators from below.
+\item $B$ is the upper Robbins-style slack ledger, storing the finite rational inequalities used to bound factorial growth from above.
+\item $D$ is the $\DyadicRatCoreUp$ denominator ledger carrying common dyadic refinements, radius comparisons, and slack transport for $A$ and $B$.
+\item $W$ is the $\StreamNameUp$ window service naming which coefficient windows are read by the consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same denominator and coefficient windows.
+\item $E$ is the $\RealUp$ handoff row consumed by the Gamma, exponential, or sine series route only after $K,A,B,D,W,R$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the index window, comparison ledgers, dyadic denominator row, stream window, regular-rational readback, real handoff, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a finite precision request through the same factorial-budget route.
+\item $P$ is the $\Pkg$ provenance over $\StirlingFactorialBudgetUp$, the Gamma and real-series consumers, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StirlingFactorialBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for a real-valued asymptotic expansion, a hidden analytic limit, selected denominator normalization, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Stirling factorial-budget NameCert obligations]
+\label{thm:stirling-factorial-budget-namecert-obligations}
+For every accepted $\StirlingFactorialBudgetUp$ carrier
+$$
+F=(K,A,B,D,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\StirlingFactorialBudgetUp}$ surface consists exactly of carrier admission, factorial index-window exposure, lower and upper Stirling-style comparison exposure, dyadic denominator refinement, stream-window exposure, regular-rational readback, Real-facing handoff, componentwise transport, displayed replay, provenance, and local naming. Any accepted consumer that uses a factorial denominator estimate must expose $K,A,B,D,W,R,E,H,C,P,N$ before using the estimate inside Gamma, exponential, or sine coefficient control.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stirling-factorial-budget-carrier}. The finite rows $K,A,B,D,W,R,E,H,C,P,N$ are the only rows available to the classifier, so every budget read starts from the displayed index window and the two rational comparison ledgers.
+
+Read the denominator surface next. The $\DyadicRatCoreUp$ ledger $D$ carries the common denominator refinement needed by both Stirling-style bounds, while $W$ and $R$ attach the same finite budget to stream windows and regular-rational readback.
+
+Finally consume the Real-facing and structural rows. The row $E$ is available only after the comparison and readback rows have been displayed, and $H,C,P,N$ preserve, replay, record, and name the same finite packet. Thus the NameCert surface exports finite factorial-budget data rather than an analytic asymptotic principle.
+\end{proof}
+
+\begin{theorem}[Stirling factorial-budget Gamma and power-series handoff]
+\label{thm:stirling-factorial-budget-gamma-series-handoff}
+Every Gamma, real-exponential, or real-sine coefficient consumer that reads a $\StirlingFactorialBudgetUp$ packet factors through the finite route
+$$
+K,A,B,D,W,R,E,H,C,P,N .
+$$
+The Gamma route reads $K,A,B,D$ as finite factorial-growth control before passing to its Real-facing row, while the exponential and sine series routes read $W,R,E$ as the coefficient-window handoff. None of these consumers receives a selected asymptotic expansion, quotient real equality, host convergence theorem, or ambient analytic completeness principle from the packet.
+\end{theorem}
+\begin{proof}
+Start with the Gamma-side read. The factorial index window $K$ and the comparison ledgers $A,B$ are finite rational data, and the dyadic denominator ledger $D$ is the only denominator refinement exported to the Gamma consumer.
+
+Now read the power-series side. The coefficient windows $W$ and regular-rational readback $R$ attach the same budget to the real exponential and real sine consumers before the Real-facing row $E$ is consumed.
+
+Transport and replay close the handoff. The rows $H,C,P,N$ keep the Gamma and power-series consumers over the same finite packet, so the handoff is a BEDC NameCert route and not a hidden appeal to Stirling asymptotics as an external analytic object.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\StirlingFactorialBudgetUp$ consumer that uses a factorial denominator estimate without exposing index-window, lower-bound, upper-bound, dyadic-denominator, stream-window, RegSeqRat, Real handoff, transport, replay, provenance, and local NameCert rows refutes the carrier surface.}
+
+\independenceWitness{gamma-function, real-exponential, real-sine, dyadicratcore, streamname, regseqrat, real: no listed sibling jointly carries finite factorial index windows, two-sided Stirling-style rational comparison ledgers, dyadic denominator refinement, coefficient-window readback, Real-facing handoff, transport, replay, provenance, and local naming.}
+
+\closureat{StirlingFactorialBudgetUp}{seedStr}
+
+\begin{closurestatus}{\StirlingFactorialBudgetUp}
+  \constructivestory{A $\StirlingFactorialBudgetUp$ packet is generated from a finite factorial index window, two-sided rational Stirling-style comparison ledgers, dyadic denominator refinements, coefficient windows, regular-rational readback, a Real-facing handoff, transport, replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stirling-factorial-budget-carrier}, \autoref{thm:stirling-factorial-budget-namecert-obligations}, and \autoref{thm:stirling-factorial-budget-gamma-series-handoff} seed the finite factorial-growth budget route for Gamma and real power-series consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Stirling's formula as a real asymptotic theorem, Gamma normalization, power-series convergence, quotient real equality, selected denominator normalization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, two-sided factorial comparison exactness, dyadic denominator transport, coefficient-window readback, Real-facing handoff, replay, provenance, and local naming for BEDC.Derived.StirlingFactorialBudgetUp.}
+\end{closurestatus}
