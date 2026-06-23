@@ -1,4 +1,4 @@
-import BEDC.Derived.IntUp
+import BEDC.Derived.IntUp.Order
 import BEDC.Derived.NatUp
 import BEDC.Derived.PrimeUp
 import BEDC.FKernel.ExternalBinary
@@ -11,10 +11,8 @@ namespace BedcMathlibBridge.Constructive.Int
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
-open BEDC.FKernel.ExternalBinary (bwordLength bwordLength_append)
-
-abbrev append : BHist -> BHist -> BHist :=
-  BEDC.FKernel.ExternalBinary.append
+open BEDC.FKernel.ExternalBinary (append bwordLength bwordLength_append)
+open BEDC.Derived.IntUp
 
 def toInt (x : BHist × BHist) : _root_.Int :=
   (bwordLength x.1 : _root_.Int) - (bwordLength x.2 : _root_.Int)
@@ -558,27 +556,6 @@ private theorem diff_to_cross {a b c d : Nat}
   rw [subNatNat_eq_diffNorm a b, subNatNat_eq_diffNorm c d] at h
   exact diffNorm_eq_cross h
 
-def natToUnary : Nat -> BHist
-  | 0 => BHist.Empty
-  | n + 1 => BHist.e1 (natToUnary n)
-
-private theorem natToUnary_unary (n : Nat) : UnaryHistory (natToUnary n) := by
-  induction n with
-  | zero =>
-      exact unary_empty
-  | succ _ ih =>
-      exact unary_e1_closed ih
-
-private theorem natToUnary_length (n : Nat) : bwordLength (natToUnary n) = n := by
-  have bridge := BEDC.Derived.NatUp.NatUp_unary_standard_bridge
-  rcases bridge with ⟨emptyLength, succLength, _noZero, _sameIff, _contAdd⟩
-  induction n with
-  | zero =>
-      exact emptyLength
-  | succ n ih =>
-      change bwordLength (BHist.e1 (natToUnary n)) = Nat.succ n
-      rw [succLength (natToUnary n) (natToUnary_unary n), ih]
-
 def ofInt (z : _root_.Int) : BHist × BHist :=
   match z with
   | _root_.Int.ofNat n => (natToUnary n, BHist.Empty)
@@ -681,128 +658,6 @@ def intRelQuotEquiv :
     rcases b with ⟨⟨q, m⟩, carrierB⟩
     exact relIff carrierA.left carrierA.right carrierB.left carrierB.right
 
-def pairAdd (x y : BHist × BHist) : BHist × BHist :=
-  (append x.1 y.1, append x.2 y.2)
-
-def pairNeg (x : BHist × BHist) : BHist × BHist :=
-  (x.2, x.1)
-
-theorem natMul_bwordLength {d q n : BHist} :
-    BEDC.Derived.PrimeUp.NatMul d q n ->
-      bwordLength n = bwordLength d * bwordLength q := by
-  intro mul
-  induction mul with
-  | zero _hd =>
-      exact (Nat.mul_zero (bwordLength d)).symm
-  | succ previous step ih =>
-      calc
-        bwordLength _ = bwordLength (BEDC.FKernel.Cont.append _ d) := congrArg bwordLength step
-        _ = bwordLength _ + bwordLength d := bwordLength_append _ d
-        _ = bwordLength d * bwordLength _ + bwordLength d :=
-          congrArg (fun x => x + bwordLength d) ih
-        _ = bwordLength d * Nat.succ (bwordLength _) :=
-          (Nat.mul_succ (bwordLength d) (bwordLength _)).symm
-
-def natMulFn (d : BHist) : BHist -> BHist
-  | BHist.Empty => BHist.Empty
-  | BHist.e0 _ => BHist.Empty
-  | BHist.e1 q => append (natMulFn d q) d
-
-theorem natMulFn_unary {d q : BHist} :
-    UnaryHistory d -> UnaryHistory q -> UnaryHistory (natMulFn d q) := by
-  intro hd hq
-  induction q with
-  | Empty =>
-      exact unary_empty
-  | e0 _ =>
-      cases hq
-  | e1 q ih =>
-      exact unary_append_closed (ih hq) hd
-
-theorem natMulFn_rel {d q : BHist} :
-    UnaryHistory d -> UnaryHistory q -> BEDC.Derived.PrimeUp.NatMul d q (natMulFn d q) := by
-  intro hd hq
-  induction q with
-  | Empty =>
-      exact BEDC.Derived.PrimeUp.NatMul.zero hd
-  | e0 _ =>
-      cases hq
-  | e1 q ih =>
-      exact BEDC.Derived.PrimeUp.NatMul.succ (ih hq) (BEDC.FKernel.Cont.cont_intro rfl)
-
-theorem natMulFn_bwordLength {d q : BHist} :
-    UnaryHistory d -> UnaryHistory q ->
-      bwordLength (natMulFn d q) = bwordLength d * bwordLength q := by
-  intro hd hq
-  exact natMul_bwordLength (natMulFn_rel hd hq)
-
-def pairMul (x y : BHist × BHist) : BHist × BHist :=
-  (append (natMulFn x.1 y.1) (natMulFn x.2 y.2),
-    append (natMulFn x.1 y.2) (natMulFn x.2 y.1))
-
-def pairLe (x y : BHist × BHist) : Prop :=
-  ∃ tail : BHist, UnaryHistory tail ∧
-    BEDC.FKernel.Cont.Cont (append x.1 y.2) tail (append y.1 x.2)
-
-theorem pairMul_carrier {x y : BHist × BHist}
-    (hx : BEDC.Derived.IntUp.IntPairCarrier x.1 x.2)
-    (hy : BEDC.Derived.IntUp.IntPairCarrier y.1 y.2) :
-    BEDC.Derived.IntUp.IntPairCarrier (pairMul x y).1 (pairMul x y).2 := by
-  rcases x with ⟨p, n⟩
-  rcases y with ⟨q, m⟩
-  exact
-    ⟨unary_append_closed (natMulFn_unary hx.left hy.left) (natMulFn_unary hx.right hy.right),
-      unary_append_closed (natMulFn_unary hx.left hy.right) (natMulFn_unary hx.right hy.left)⟩
-
-theorem pairLe_reflects_length_order {x y : BHist × BHist}
-    (hx : BEDC.Derived.IntUp.IntPairCarrier x.1 x.2)
-    (hy : BEDC.Derived.IntUp.IntPairCarrier y.1 y.2) :
-    pairLe x y ->
-      ∃ k : Nat,
-        bwordLength y.1 + bwordLength x.2 =
-          bwordLength x.1 + bwordLength y.2 + k := by
-  intro hle
-  rcases hle with ⟨tail, tailUnary, cont⟩
-  refine ⟨bwordLength tail, ?_⟩
-  have bridge := BEDC.Derived.NatUp.NatUp_unary_standard_bridge
-  have sourceUnary : UnaryHistory (append x.1 y.2) := unary_append_closed hx.left hy.right
-  have lengthEq := bridge.right.right.right.right sourceUnary tailUnary cont
-  rw [bwordLength_append y.1 x.2] at lengthEq
-  rw [bwordLength_append x.1 y.2] at lengthEq
-  exact lengthEq
-
-theorem pairLe_of_length_order {x y : BHist × BHist}
-    (hx : BEDC.Derived.IntUp.IntPairCarrier x.1 x.2)
-    (hy : BEDC.Derived.IntUp.IntPairCarrier y.1 y.2) :
-    (bwordLength x.1 + bwordLength y.2 ≤ bwordLength y.1 + bwordLength x.2) ->
-      pairLe x y := by
-  intro hle
-  cases nat_le_iff_exists_add_right.mp hle with
-  | intro k hk =>
-      refine ⟨natToUnary k, natToUnary_unary k, ?_⟩
-      apply BEDC.FKernel.Cont.cont_intro
-      have lengthEq :
-          bwordLength (append (append x.1 y.2) (natToUnary k)) =
-            bwordLength (append y.1 x.2) := by
-        rw [bwordLength_append (append x.1 y.2) (natToUnary k)]
-        rw [bwordLength_append x.1 y.2]
-        rw [natToUnary_length k]
-        rw [bwordLength_append y.1 x.2]
-        exact hk.symm
-      exact ((BEDC.Derived.NatUp.NatUp_unary_standard_bridge.right.right.right.left
-        (unary_append_closed (unary_append_closed hx.left hy.right) (natToUnary_unary k))
-        (unary_append_closed hy.left hx.right)).mpr lengthEq).symm
-
-theorem pairLe_iff_length_order {x y : BHist × BHist}
-    (hx : BEDC.Derived.IntUp.IntPairCarrier x.1 x.2)
-    (hy : BEDC.Derived.IntUp.IntPairCarrier y.1 y.2) :
-    pairLe x y ↔
-      bwordLength x.1 + bwordLength y.2 ≤ bwordLength y.1 + bwordLength x.2 := by
-  constructor
-  · intro hle
-    exact nat_le_iff_exists_add_right.mpr (pairLe_reflects_length_order hx hy hle)
-  · exact pairLe_of_length_order hx hy
-
 theorem toInt_le_iff_length_order {x y : BHist × BHist} :
     toInt x ≤ toInt y ↔
       bwordLength x.1 + bwordLength y.2 ≤ bwordLength y.1 + bwordLength x.2 := by
@@ -838,18 +693,6 @@ theorem pairLe_iff_toInt_le {x y : BHist × BHist}
     exact toInt_le_iff_length_order.mpr ((pairLe_iff_length_order hx hy).mp hle)
   · intro hle
     exact (pairLe_iff_length_order hx hy).mpr (toInt_le_iff_length_order.mp hle)
-
-theorem pairLe_total {x y : BHist × BHist}
-    (hx : BEDC.Derived.IntUp.IntPairCarrier x.1 x.2)
-    (hy : BEDC.Derived.IntUp.IntPairCarrier y.1 y.2) :
-    pairLe x y ∨ pairLe y x := by
-  have leftUnary : UnaryHistory (append x.1 y.2) := unary_append_closed hx.left hy.right
-  have rightUnary : UnaryHistory (append y.1 x.2) := unary_append_closed hy.left hx.right
-  cases BEDC.Derived.NatUp.NatUnaryPrefix_total leftUnary rightUnary with
-  | inl left =>
-      exact Or.inl left
-  | inr right =>
-      exact Or.inr right
 
 theorem pairAdd_toInt {x y : BHist × BHist}
     (_hx : BEDC.Derived.IntUp.IntPairCarrier x.1 x.2)

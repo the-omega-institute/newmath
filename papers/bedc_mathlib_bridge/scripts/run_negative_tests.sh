@@ -107,6 +107,13 @@ EOF
 expect_fail BEDC_GATE_B_TRANSPORT \
   bash -c "cd '$LEAN_DIR' && lake env lean '$TMP_DIR/GateBTransport.lean'"
 
+mkdir -p "$TMP_DIR/BedcMathlibBridge/Constructive"
+cp "$ROOT/tests/negative/BedcMathlibBridge/Constructive/ThinLayerNegative.lean" \
+  "$TMP_DIR/BedcMathlibBridge/Constructive/ThinLayerNegative.lean"
+
+expect_fail BEDC_GATE_THIN_LAYER \
+  bash -c "cd '$LEAN_DIR' && lake env lean '$TMP_DIR/BedcMathlibBridge/Constructive/ThinLayerNegative.lean'"
+
 cp "$ROOT/tests/negative/gate_c_missing.md" "$TMP_DIR/MISSING_IN_BEDC.md"
 cp "$ROOT/tests/negative/gate_c_matrix.json" "$TMP_DIR/matrix.json"
 

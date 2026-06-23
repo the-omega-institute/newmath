@@ -42,6 +42,11 @@ jobs:
           cd papers/bedc_mathlib_bridge/lean4
           lake build BedcMathlibBridge.CI.Audit
 
+      - name: Gate T thin layer
+        run: |
+          cd papers/bedc_mathlib_bridge/lean4
+          lake build BedcMathlibBridge.Audit.ThinLayerGuard
+
       - name: Gate C gap sync
         run: |
           python3 papers/bedc_mathlib_bridge/scripts/check_gap_sync.py \

@@ -6463,11 +6463,13 @@ import BEDC.Derived.InscriptionPointUp.TasteGate
 import BEDC.Derived.InscriptionRouteAuditUp.TasteGate
 import BEDC.Derived.InscriptionTraceClassifierUp.TasteGate
 import BEDC.Derived.IntUp
+import BEDC.Derived.IntUp.Arithmetic
 import BEDC.Derived.IntUp.BalancedContext
 import BEDC.Derived.IntUp.Bridge
 import BEDC.Derived.IntUp.CanonicalReadback
 import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.IntUp.OneSidedContext
+import BEDC.Derived.IntUp.Order
 import BEDC.Derived.IntUp.PairCarrierInduction
 import BEDC.Derived.IntUp.PositiveAppendContext
 import BEDC.Derived.IntUp.StdBridge
