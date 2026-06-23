@@ -172,6 +172,24 @@ Apply \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape}. The seal r
 Apply \autoref{thm:regular-cauchy-window-fusion-downstream-package} and \autoref{thm:regular-cauchy-window-fusion-budget-meet}. Downstream consumers receive exactly $R,W,S,D,E,H,C,P,N$, so no excluded coordinate is available inside the accepted packet.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy window fusion finite-window exactness]
+\label{thm:regular-cauchy-window-fusion-finite-window-exactness}
+For every accepted $\RegularCauchyWindowFusionUp$ carrier
+$$
+F=(R,W,S,D,E,H,C,P,N),
+$$
+the displayed rows expose exactly one finite observation-window route from the RatUp seed through the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows. Every $\RealUp$- or completion-facing consumer of $F$ must use this route before reading the real seal $E$, and the packet contains no second route through selected limits, quotient stream equality, trichotomy, ambient completeness, independent real carriers, or hidden comparison rows.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-window-fusion-shared-window-handoff}. It binds the RatUp seed row $R$, stream window $W$, regular readback $S$, and dyadic ledger $D$ to one displayed finite observation window.
+
+Apply \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape}. The real seal $E$ is reachable only after that shared route and under the structural rows $H,C,P,N$.
+
+Use \autoref{thm:regular-cauchy-window-fusion-budget-meet}. Any two downstream reads that pass through $S$ and $D$ meet at the same seal row $E$, so the regular and dyadic sides cannot split into distinct completion-facing routes.
+
+Finally apply \autoref{thm:regular-cauchy-window-fusion-scoped-kernel-route}. It identifies the scoped kernel route with $W,S,D,E,H,C,P,N$ and excludes quotient stream equality, selected limits, trichotomy, ambient completeness, and hidden $\RealUp$ comparisons. Therefore the displayed packet exhausts the finite Real-facing window.
+\end{proof}
+
 \closureat{RegularCauchyWindowFusionUp}{obligationStr}[BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionUpTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RegularCauchyWindowFusionUp}
