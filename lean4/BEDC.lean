@@ -6726,6 +6726,8 @@ import BEDC.Derived.IntervalHalvingUp.DyadicNestedHandoff
 import BEDC.Derived.IntervalHalvingUp.TasteGate
 import BEDC.Derived.IntervalImageConnectedUp.TasteGate
 import BEDC.Derived.IntervalLengthUp.TasteGate
+import BEDC.Derived.IntervalNewtonUp
+import BEDC.Derived.IntervalNewtonUp.TasteGate
 import BEDC.Derived.IntervalUp
 import BEDC.Derived.InverseFunctionUp.TasteGate
 import BEDC.Derived.InverseLimitMetricUp.TasteGate
@@ -6997,6 +6999,7 @@ import BEDC.Derived.LimitUp.ToleranceLedgerExactness
 import BEDC.Derived.LimitedPrincipleOmniscienceUp.TasteGate
 import BEDC.Derived.LimsupLiminfGapUp.EndpointRoute
 import BEDC.Derived.LimsupLiminfGapUp.TasteGate
+import BEDC.Derived.LimsupUp.LowerCutCompatibility
 import BEDC.Derived.LimsupUp.TailCutRoute
 import BEDC.Derived.LimsupUp.TasteGate
 import BEDC.Derived.LindelofSpaceUp.TasteGate
@@ -8068,6 +8071,8 @@ import BEDC.Derived.MetaCICTypedParallelDiamondBoundaryUp
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
 import BEDC.Derived.MetaClosureWitnessLedgerUp.TasteGate
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.PremiseExposure
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ResidualDiamondRetention
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.SeedClosure
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.TasteGate
 import BEDC.Derived.MetacicClosedBetaTraceEnvelopeUp
@@ -10491,9 +10496,11 @@ import BEDC.Derived.RegularRealCauchySelectorUp.TasteGate
 import BEDC.Derived.RegularSeqApartnessSeparatorUp
 import BEDC.Derived.RegularSequenceBishopUp
 import BEDC.Derived.RegularSequenceBishopUp.TasteGate
+import BEDC.Derived.RegularSequenceClusterWitnessUp.TasteGate
 import BEDC.Derived.RegularSequenceLimitUp.TasteGate
 import BEDC.Derived.RegularSequenceLocalizationUp.TasteGate
 import BEDC.Derived.RegularSequenceModulusUp.TasteGate
+import BEDC.Derived.RegularSequenceTailMetricUp.TasteGate
 import BEDC.Derived.RegularTopologicalSpaceUp.TasteGate
 import BEDC.Derived.RegularityModulusUp
 import BEDC.Derived.RegularityModulusUp.CarrierSurface
