@@ -1333,6 +1333,7 @@ import BEDC.Derived.BoundedNestedRealChoiceSealUp.TasteGate
 import BEDC.Derived.BoundedNormalConversionBridgeUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
 import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
+import BEDC.Derived.BoundedNormalEqualityFrontierUp.TasteGate
 import BEDC.Derived.BoundedNormalizationCandidateUp.TasteGate
 import BEDC.Derived.BoundedOscillationUp.PartitionRoute
 import BEDC.Derived.BoundedOscillationUp.TasteGate
@@ -9537,6 +9538,7 @@ import BEDC.Derived.RealDecimalNormalFormUp.TasteGate
 import BEDC.Derived.RealDiagonalCompletionUp
 import BEDC.Derived.RealDiagonalCompletionUp.TasteGate
 import BEDC.Derived.RealDiagonalMeshBudgetUp
+import BEDC.Derived.RealDiagonalModulusUp.TasteGate
 import BEDC.Derived.RealDiagonalNonSurjectionUp
 import BEDC.Derived.RealDiagonalNonSurjectionUp.NameCertObligations
 import BEDC.Derived.RealDiagonalRegularitySealUp.TasteGate
@@ -10010,6 +10012,7 @@ import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundDeterminacy
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundModulusMonotonicity
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundScope
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.PositiveWindowDeterminacy
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.PublicInterface
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.RealSealRefusal
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.ReciprocalWindowBoundary
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.TasteGate
@@ -12038,6 +12041,7 @@ import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
 import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.WLPOBoundaryUp.TasteGate
 import BEDC.Derived.WRRHotspotCubeUp.TasteGate
+import BEDC.Derived.WassersteinUp.MetricCouplingScope
 import BEDC.Derived.WassersteinUp.TasteGate
 import BEDC.Derived.WeakCompactnessUp
 import BEDC.Derived.WeakDerivativeUp.TasteGate
