@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\OscillationDerivativeUp$}
+\label{ch:concrete-instances-oscillation-derivative-namecert}
+\origin{human}
+
+Following Lebesgue and Baire, the $\OscillationDerivativeUp$ packet records the finite-window derivative step by which a real-valued function on a displayed metric source exposes its local oscillation boundary before any rank, Baire-one, or discontinuity consumer reads the data. It sits over the $\MetricSpaceUp$ source of \autoref{ch:concrete-instances-metric-namecert}, the $\ContinuousMapUp$ function-surface row of \autoref{ch:concrete-instances-continuousmap-namecert}, the $\RealUp$ value seal of \autoref{ch:concrete-instances-real-namecert}, the Baire-one oscillation neighbours \autoref{ch:concrete-instances-baire-one-uniform-oscillation-namecert} and \autoref{ch:concrete-instances-baire-one-modulus-namecert}, and the downstream oscillation-rank route of \autoref{ch:concrete-instances-oscillation-rank-namecert}. The packet names only a displayed finite derivative window; it does not construct a transfinite rank, choose neighbourhood bases by countable choice, identify functions by quotient equality, or import ambient completeness.
+
+\begin{definition}[OscillationDerivative carrier]
+\label{def:oscillation-derivative-carrier}
+An $\OscillationDerivativeUp$ carrier is a finite $\BHist$ packet
+$$
+D=(F,X,W,O,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the function-surface row, read through $\ContinuousMapUp$ or an adjacent real-valued function packet, naming the displayed source-to-$\RealUp$ value observations.
+\item $X$ is the $\MetricSpaceUp$ source row, carrying the visible metric comparisons and named source points used by the derivative request.
+\item $W$ is the metric/Real finite-window row: it pairs a finite neighbourhood schedule around the inspected source points with the $\RealUp$ value windows read from $F$.
+\item $O$ is the oscillation-bound row, recording the displayed lower and upper value comparisons and the rational bound tested inside $W$.
+\item $R$ is the refinement ledger, recording which finite neighbourhood windows survive the derivative step and which are discarded at the displayed bound.
+\item $H$ records componentwise $\hsame$ transport for the function surface, metric source, finite windows, oscillation bounds, refinement ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an oscillation-derivative request through $F,X,W,O,R$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\OscillationDerivativeUp$, $\ContinuousMapUp$, $\MetricSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OscillationDerivativeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a completed derivative hierarchy, a selected neighbourhood basis, quotient equality of functions, point-set measurability, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.OscillationDerivativeUp.TasteGate.OscillationDerivativeTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[OscillationDerivative NameCert obligations]
+\label{thm:oscillation-derivative-namecert-obligations}
+For every accepted $\OscillationDerivativeUp$ carrier $D=(F,X,W,O,R,H,C,P,N)$, the local $\NameCert_{\OscillationDerivativeUp}$ surface consists exactly of carrier admission for the displayed rows; function-surface admission through $F$; metric-source compatibility through $X$; finite neighbourhood and value-window admission through $W$; oscillation-bound exactness through $O$; refinement-ledger exactness through $R$; componentwise transport stability through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:oscillation-derivative-carrier}. The accepted packet exposes exactly the rows $F,X,W,O,R,H,C,P,N$, so each local NameCert obligation must be read from one of these rows.
+
+The analytic rows are read in finite order. The function-surface row $F$ supplies the displayed real-valued observations, the metric row $X$ supplies the source comparisons, and the finite-window row $W$ binds neighbourhood inspection to the value windows already visible through $F$.
+
+The derivative step is then the route through $O$ and $R$. The oscillation-bound row records the tested lower and upper value comparisons at a rational bound, while the refinement ledger records only the displayed surviving and discarded windows.
+
+Transport and replay preserve that route. The rows $H$ and $C$ cannot add a completed hierarchy, selected neighbourhood basis, quotient function equality, countable choice, point-set measurability, or ambient completeness principle, while $P$ and $N$ source and name only the listed packet. Hence the displayed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[OscillationDerivative finite-window handoff]
+\label{thm:oscillation-derivative-finite-window-handoff}
+Every Baire-one, oscillation-rank, or discontinuity-boundary consumer of an accepted $\OscillationDerivativeUp$ carrier factors through the finite route
+$$
+F,X,W,O,R \longmapsto H,C,P,N .
+$$
+Thus the consumer may inspect the displayed function surface, metric source, finite neighbourhood schedule, Real value windows, oscillation-bound row, and refinement ledger, but it receives no completed rank hierarchy, no quotient function equality, no selected neighbourhood basis, no point-set measurability theorem, no countable-choice principle, and no ambient real-completion theorem.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the refinement row $R$. Carrier admission makes $R$ available only after the function surface $F$, metric source $X$, finite window $W$, and oscillation-bound row $O$ have been displayed.
+
+Replay the continuation row $C$. The request opens the source and function-surface data, reads the named finite neighbourhood schedule, inspects the corresponding $\RealUp$ value windows, and only then exposes the oscillation-bound and refinement rows.
+
+The handoff is therefore the stated finite route. Componentwise transport through $H$ preserves the same rows, and $P,N$ source and name only that packet. None of the excluded host objects can be recovered from the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\OscillationDerivativeUp$ consumer that exports a derivative-window row must display the ContinuousMap or function-surface row, MetricSpace source row, finite neighbourhood schedule, RealUp value windows, oscillation-bound row, refinement ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming before any Baire-one, oscillation-rank, or discontinuity-boundary handoff is available.}
+
+\independenceWitness{continuousmap, metricspace, real, baire-one-uniform-oscillation, baire-one-modulus, oscillation-rank: no listed sibling supplies the whole nine-row packet $D=(F,X,W,O,R,H,C,P,N)$, because each sibling contributes only the function surface, metric source, value seal, Baire-one oscillation window, modulus companion, or rank consumer while this chapter binds the derivative-window refinement ledger into one local NameCert carrier.}
+
+\closureat{OscillationDerivativeUp}{seedStr}
+
+\begin{closurestatus}{\OscillationDerivativeUp}
+  \constructivestory{An $\OscillationDerivativeUp$ packet is generated from a function-surface row, MetricSpace source row, finite neighbourhood and RealUp value windows, an oscillation-bound row, a refinement ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:oscillation-derivative-carrier}, \autoref{thm:oscillation-derivative-namecert-obligations}, and \autoref{thm:oscillation-derivative-finite-window-handoff} seed the finite-window oscillation-derivative certificate over displayed function-surface, metric-source, Real-value, oscillation-bound, refinement-ledger, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.OscillationDerivativeUp.TasteGate.OscillationDerivativeTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed derivative hierarchies, transfinite ranks, quotient function equality, selected neighbourhood bases, point-set measurability, countable choice, ambient $\RealUp$ completeness, axiom purity, or bridge checking.}
+  \upgradepath{Obligation closure asks for checked carrier admission, function-surface admission, metric-source compatibility, finite-window admission, oscillation-bound exactness, refinement-ledger exactness, transport, replay, provenance, and local naming for BEDC.Derived.OscillationDerivativeUp.}
+\end{closurestatus}

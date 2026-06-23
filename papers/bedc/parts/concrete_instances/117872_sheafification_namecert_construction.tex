@@ -502,6 +502,46 @@ Apply coverage exactness and locality refinement, \autoref{thm:sheafification-co
 Finally use gluing exactness \autoref{thm:sheafification-gluing-exactness}. Since $S$ is consumed only after $L$ and $G$ over the same $P$, restriction compatibility remains downstream of $C,T,J,P$ and cannot become an independent reflector route.
 \end{proof}
 
+\begin{theorem}[Sheafification source-locality obligation]
+\label{thm:sheafification-source-locality-obligation}
+Every source-locality read of an accepted $\SheafificationUp$ carrier $A=(C,T,J,P,L,G,S,H,R,Q,N)$ must expose $C,T,J,P$ before any locality row in $L$ is consumed. Thus locality is read only after the displayed category source, topology or site window, Grothendieck coverage row, and presheaf restriction comparisons are visible in the same finite packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sheafification-carrier}. The rows $C,T,J,P$ are the only source rows for category objects, open or site windows, covering data, and presheaf restrictions.
+
+The locality ledger $L$ is indexed by those displayed source rows. A read of $L$ without $C,T,J,P$ would have no BEDC cover row and no presheaf restriction comparison from which locality could be interpreted.
+
+The structural rows preserve the order. Componentwise transport through $H$, replay through $R$, provenance through $Q$, and local naming through $N$ carry the displayed source-locality route, but none of them supplies an independent source coordinate.
+\end{proof}
+
+\begin{theorem}[Sheafification gluing-target obligation]
+\label{thm:sheafification-gluing-target-obligation}
+For every accepted $\SheafificationUp$ carrier $A=(C,T,J,P,L,G,S,H,R,Q,N)$, the sheaf target row $S$ is reachable only through the locality ledger $L$ and gluing ledger $G$ over the same displayed cover rows $C,T,J$ and presheaf row $P$. No consumer may read $S$ as a detached sheafification reflector, quotient family, or selected compatible-family representative.
+\end{theorem}
+\begin{proof}
+Begin with the source rows $C,T,J,P$. They display the category, topology or site windows, Grothendieck coverage, and presheaf restrictions on which the gluing request is based.
+
+The locality row $L$ records matching-family data over that source, and the gluing row $G$ records the accepted glued section. Therefore $S$ is a target row only after the same cover and presheaf rows have passed through $L$ and $G$.
+
+Use transport and replay through $H$ and $R$. These rows preserve the displayed route to $S$, while $Q,N$ source and name it. Since the carrier has no reflector, quotient-family, or selected-representative coordinate, the gluing target cannot be read through any other path.
+\end{proof}
+
+\begin{theorem}[Sheafification provenance-naming obligation]
+\label{thm:sheafification-provenance-naming-obligation}
+In an accepted $\SheafificationUp$ carrier $A=(C,T,J,P,L,G,S,H,R,Q,N)$, the provenance row $Q$ and local naming row $N$ name only the displayed route
+$$
+C,T,J,P,L,G,S,H,R .
+$$
+They cannot add a host reflector, quotient-family datum, selected cover system, topos object, ambient powerset equality, or separate sheafification functor.
+\end{theorem}
+\begin{proof}
+Read $Q$ from the carrier. Its provenance is over the displayed $\SheafificationUp$, $\CategoryUp$, $\TopologyUp$, $\GrothendieckTopologyUp$, $\PreSheafUp$, $\SheafUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+
+Read $N$ next. The local $\NameCert_{\SheafificationUp}$ row names the same route from source data through locality and gluing to the sheaf target; it has no separate field for quotient families or host reflectors.
+
+Finally apply the nonescape theorems already present in the chapter. The plus, separated-refinement, and cover-gluing boundaries keep every read inside $C,T,J,P,L,G,S,H,R,Q,N$, so provenance and naming cannot enlarge the packet beyond the displayed route.
+\end{proof}
+
 \begin{theorem}[Sheafification plus nonescape]
 \label{thm:sheafification-plus-nonescape}
 Every plus-style read of an accepted $\SheafificationUp$ carrier remains inside the finite route
@@ -528,6 +568,18 @@ For the base refinement, apply coverage exactness \autoref{thm:sheafification-co
 For the successor step, use locality refinement \autoref{thm:sheafification-locality-refinement}. The next displayed cover refinement preserves matching-family data over the same presheaf row $P$ and transports it componentwise through $H$.
 
 Finally apply gluing exactness \autoref{thm:sheafification-gluing-exactness}. The gluing row $G$ and sheaf target $S$ are consumed only after the preserved locality data are replayed through $R$ and recorded by $Q,N$, so the induction stays inside the finite carrier.
+\end{proof}
+
+\begin{theorem}[Sheafification cover-refinement budget]
+\label{thm:sheafification-cover-refinement-budget}
+Every accepted $\SheafificationUp$ carrier exposes cover rows, plus-locality rows, separated refinement rows, gluing rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before any sheaf target consumes the refinement budget. The budget is therefore a finite row obligation over $C,T,J,P,L,G,S,H,R,Q,N$, not a host quotient of compatible families, selected cover system, ambient sheafification reflector, topos reflection object, or cover-choice principle.
+\end{theorem}
+\begin{proof}
+Start with the source obligation package in \autoref{thm:sheafification-namecert-obligations}. It exposes the source category, topology or Grothendieck topology, presheaf row, locality rows, gluing rows, sheaf target, transport, replay, provenance, and local naming as one finite packet.
+
+Apply cover basis stability and the plus-locality and gluing ledger results already established in the chapter. Coverage exactness keeps every refinement request inside the displayed cover basis, while locality refinement and gluing exactness force the plus and gluing reads to remain attached to the same presheaf route.
+
+Finally use cover-refinement finite induction, \autoref{thm:sheafification-cover-refinement-finite-induction}. Since each refinement step preserves the same $L,G,H,R,Q,N$ structure, a downstream sheaf consumer can spend only the displayed refinement budget and cannot import a host reflector, quotient-family construction, selected covers, or topos object.
 \end{proof}
 
 \falsifiablePrediction{Every accepted $\SheafificationUp$ read displays CategoryUp, TopologyUp or GrothendieckTopologyUp, PreSheafUp, locality, gluing, SheafUp, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any sheaf-facing consumer can use the target row.}
