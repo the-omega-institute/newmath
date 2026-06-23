@@ -1333,7 +1333,6 @@ import BEDC.Derived.BoundedNestedRealChoiceSealUp.TasteGate
 import BEDC.Derived.BoundedNormalConversionBridgeUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
 import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
-import BEDC.Derived.BoundedNormalEqualityFrontierUp.TasteGate
 import BEDC.Derived.BoundedNormalizationCandidateUp.TasteGate
 import BEDC.Derived.BoundedOscillationUp.PartitionRoute
 import BEDC.Derived.BoundedOscillationUp.TasteGate
@@ -6530,6 +6529,8 @@ import BEDC.Derived.HyperbolicPoissonKernelUp.TasteGate
 import BEDC.Derived.HyperbolicSelfCenterReadingUp.TasteGate
 import BEDC.Derived.HyperbolicTranslationLengthUp.TasteGate
 import BEDC.Derived.HyperbolicVisualMetricUp.TasteGate
+import BEDC.Derived.HyperbolicVisualShadowMetricUp.NameCertObligations
+import BEDC.Derived.HyperbolicVisualShadowMetricUp.TasteGate
 import BEDC.Derived.HyperconvexMetricUp.TasteGate
 import BEDC.Derived.HyperfunctionUp
 import BEDC.Derived.HyperfunctionUp.TasteGate
