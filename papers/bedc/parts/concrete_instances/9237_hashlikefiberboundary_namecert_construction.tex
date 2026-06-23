@@ -103,6 +103,34 @@ equality, or completeness principle has no coordinate in the carrier and
 therefore no accepted route.
 \end{proof}
 
+\begin{theorem}[HashLikeFiberBoundary consumer route]
+\label{thm:hash-like-fiber-boundary-consumer-route}
+Every accepted $\HashLikeFiberBoundaryUp$ consumer reads the displayed rows
+$$
+D,F,G,T,R,H,C,P,N
+$$
+in that order before any digest, fiber, GAP, far-end boundary, or refusal endpoint is consumed. The route first exposes the $\HashUp$ digest row, then the $\DigestFiberLedgerUp$ fiber row and GAP provenance, then the $\ApophaticFixedPointFiberUp$ and $\ApophaticFixedPointUp$ far-end boundary and refusal rows, and only then the transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hash-like-fiber-boundary-carrier}. The rows $D,F,G,T,R$ are ordered as digest, hidden fiber, GAP provenance, far-end boundary, and refusal data, while $H,C,P,N$ preserve and name that same route.
+
+Apply the NameCert obligations of \autoref{thm:hash-like-fiber-boundary-namecert-obligations}. They identify local admission with precisely the rows $D,F,G,T,R,H,C,P,N$, so a consumer has no accepted entry point outside the displayed packet.
+
+Finally use noninternalization \autoref{thm:hash-like-fiber-boundary-noninternalization}. The far-end row can be consumed only after the digest and fiber ledger have been read and only with the refusal row attached, so the consumer route is exactly the ordered route stated above.
+\end{proof}
+
+\begin{theorem}[HashLikeFiberBoundary transport stability]
+\label{thm:hash-like-fiber-boundary-transport-stability}
+$\hsame$ transport and $\Cont$ replay preserve the same digest, fiber, GAP, far-end, and refusal route of an accepted $\HashLikeFiberBoundaryUp$ packet. Transport may move the rows componentwise, and replay may expose the route again, but neither operation adds selected preimage recovery, digest-as-source equality, internal far-end objects, global universe digests, host equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the consumer route of \autoref{thm:hash-like-fiber-boundary-consumer-route}. It fixes the ordered path through $D,F,G,T,R,H,C,P,N$ before any endpoint is consumed.
+
+The carrier row $H$ records componentwise $\hsame$ transport for those same rows, and the row $C$ records displayed $\Cont$ replay. Therefore transporting or replaying an accepted packet preserves the digest row, the hidden fiber ledger, GAP provenance, far-end boundary, refusal row, provenance, and local naming route.
+
+Apply noninternalization \autoref{thm:hash-like-fiber-boundary-noninternalization}. Since the carrier contains no coordinate for selected preimage recovery, digest-as-source equality, internal far-end objects, global universe digests, host equality, or ambient completeness, neither transport nor replay can create such a coordinate.
+\end{proof}
+
 \falsifiablePrediction{Any accepted HashLikeFiberBoundaryUp consumer that reads the far-end row as a digest value violates the noninternalization theorem.}
 
 \independenceWitness{Nearest siblings: hash, digestfiberledger, apophatic-fixed-point-fiber, and apophaticfixedpoint. None is bijective to HashLikeFiberBoundaryUp because each sibling omits at least one row among digest visibility, hidden fiber membership, GAP provenance, apophatic far-end refusal, and consumer non-escape.}
@@ -113,11 +141,11 @@ The Lean TasteGate boundary is \texttt{lean4/BEDC/Derived/HashLikeFiberBoundaryU
 
 \begin{closurestatus}{\HashLikeFiberBoundaryUp}
   \constructivestory{A $\HashLikeFiberBoundaryUp$ packet is generated from visible digest, hidden fiber-ledger, GAP provenance, apophatic far-end boundary, far-end refusal, componentwise transport, displayed continuation, provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:hash-like-fiber-boundary-carrier}, \autoref{thm:hash-like-fiber-boundary-namecert-obligations}, \autoref{thm:hash-like-fiber-boundary-noninternalization}, the falsifiable prediction, and the independence witness bind the finite digest, fiber, GAP, far-end, refusal, transport, continuation, provenance, and local naming packet.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:hash-like-fiber-boundary-carrier}, \autoref{thm:hash-like-fiber-boundary-namecert-obligations}, \autoref{thm:hash-like-fiber-boundary-noninternalization}, \autoref{thm:hash-like-fiber-boundary-consumer-route}, \autoref{thm:hash-like-fiber-boundary-transport-stability}, the falsifiable prediction, and the independence witness bind the finite digest, fiber, GAP, far-end, refusal, transport, continuation, provenance, and local naming packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close selected preimage recovery, digest-as-source equality, internal far-end objects, global universe digests, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires explicit carrier, NameCert, noninternalization, and consumer-route obligation theorems for the displayed packet.}
+  \upgradepath{Scoped closure requires binding those obligations to $\HashUp$, $\DigestFiberLedgerUp$, $\ApophaticFixedPointFiberUp$, $\ApophaticFixedPointUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
 \end{closurestatus}
