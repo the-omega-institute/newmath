@@ -1418,6 +1418,7 @@ import BEDC.Derived.BrouwerBarInductionUp.ChoiceBoundary
 import BEDC.Derived.BrouwerBarInductionUp.NameCertObligations
 import BEDC.Derived.BrouwerBarInductionUp.PrefixStability
 import BEDC.Derived.BrouwerBarInductionUp.TasteGate
+import BEDC.Derived.BrouwerChoiceSequenceUp
 import BEDC.Derived.BrouwerContinuityPrincipleUp.TasteGate
 import BEDC.Derived.BrouwerDegreeUp.TasteGate
 import BEDC.Derived.BrouwerFiniteChoiceSequenceModulusUp.TasteGate
