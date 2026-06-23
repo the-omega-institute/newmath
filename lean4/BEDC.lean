@@ -6801,6 +6801,7 @@ import BEDC.Derived.KleeneTreeUp.UniformStructureBoundary
 import BEDC.Derived.KleisliTraceUp.TasteGate
 import BEDC.Derived.KnotUp
 import BEDC.Derived.KochCurveUp.TasteGate
+import BEDC.Derived.KolmogorovComplexityUp.TasteGate
 import BEDC.Derived.KolmogorovContinuityUp
 import BEDC.Derived.KolmogorovContinuityUp.TasteGate
 import BEDC.Derived.KolmogorovQuotientUp.TasteGate
@@ -10546,6 +10547,7 @@ import BEDC.Derived.RieszRepresentationUp.DualFunctionalRoute
 import BEDC.Derived.RieszRepresentationUp.HilbertFunctionalBridge
 import BEDC.Derived.RieszRepresentationUp.MeasureHandoff
 import BEDC.Derived.RieszRepresentationUp.ObligationClosure
+import BEDC.Derived.RieszRepresentationUp.ScopeBinding
 import BEDC.Derived.RieszRepresentationUp.TasteGate
 import BEDC.Derived.RieszSpaceUp.TasteGate
 import BEDC.Derived.RingOfIntegersUp
@@ -11864,6 +11866,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.UniversalExtensionUniquenessLedge
 import BEDC.Derived.UniformCompletionFunctorUp.UniversalExtensionUniquenessRoute
 import BEDC.Derived.UniformCompletionFunctorUp.UniversalHandoff
 import BEDC.Derived.UniformCompletionFunctorUp.WindowFunctoriality
+import BEDC.Derived.UniformCompletionKleisliUp.TasteGate
 import BEDC.Derived.UniformCompletionMonadUp
 import BEDC.Derived.UniformCompletionMonadUp.TasteGate
 import BEDC.Derived.UniformCompletionReflectorUp.NameCertObligations
