@@ -6542,6 +6542,7 @@ import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
 import BEDC.Derived.HyperbolicPoissonKernelUp.TasteGate
 import BEDC.Derived.HyperbolicSelfCenterReadingUp.TasteGate
 import BEDC.Derived.HyperbolicTranslationLengthUp.TasteGate
+import BEDC.Derived.HyperbolicVisualBoundaryUp.TasteGate
 import BEDC.Derived.HyperbolicVisualMetricUp.TasteGate
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.NameCertObligations
 import BEDC.Derived.HyperbolicVisualShadowMetricUp.TasteGate
@@ -6994,6 +6995,7 @@ import BEDC.Derived.LimitUp.ToleranceLedgerExactness
 import BEDC.Derived.LimitedPrincipleOmniscienceUp.TasteGate
 import BEDC.Derived.LimsupLiminfGapUp.EndpointRoute
 import BEDC.Derived.LimsupLiminfGapUp.TasteGate
+import BEDC.Derived.LimsupUp.TailCutRoute
 import BEDC.Derived.LimsupUp.TasteGate
 import BEDC.Derived.LindelofSpaceUp.TasteGate
 import BEDC.Derived.LinearMapUp
@@ -9960,6 +9962,8 @@ import BEDC.Derived.ReductionFuelBoundaryUp.ScopedSubstrateRoute
 import BEDC.Derived.ReductionFuelBoundaryUp.ScopedTimeoutRoute
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
 import BEDC.Derived.ReductionFuelBoundaryUp.TotalHostNonescape
+import BEDC.Derived.ReflectionGapAuditUp
+import BEDC.Derived.ReflectionGapAuditUp.TasteGate
 import BEDC.Derived.ReflectionGapBoundaryUp.Nonescape
 import BEDC.Derived.ReflectionGapBoundaryUp.TasteGate
 import BEDC.Derived.ReflectionLimitBoundaryUp.TasteGate
@@ -11683,6 +11687,7 @@ import BEDC.Derived.TriggerHypergraphReliabilityUp.TasteGate
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.TruthTotalReflectionUp.CarrierPrimitiveScope
+import BEDC.Derived.TruthTotalReflectionUp.ConsumerRouteScope
 import BEDC.Derived.TruthTotalReflectionUp.DiagonalObstruction
 import BEDC.Derived.TruthTotalReflectionUp.DiagonalRouteScope
 import BEDC.Derived.TruthTotalReflectionUp.DownstreamBoundaryPackage
@@ -12038,6 +12043,7 @@ import BEDC.Derived.UpcrossingUp.ScopedDecisionRoute
 import BEDC.Derived.UpcrossingUp.TasteGate
 import BEDC.Derived.UpgradeRegistryUp.NameCertObligations
 import BEDC.Derived.UpgradeRegistryUp.NoncompletionSurface
+import BEDC.Derived.UpgradeRegistryUp.PublicExport
 import BEDC.Derived.UpgradeRegistryUp.StatusPreservation
 import BEDC.Derived.UpgradeRegistryUp.TasteGate
 import BEDC.Derived.UpperDarbouxSumUp
