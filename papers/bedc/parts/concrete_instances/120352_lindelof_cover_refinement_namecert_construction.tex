@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\LindelofCoverRefinementUp$}
+\label{ch:concrete-instances-lindelof-cover-refinement-namecert}
+\origin{human}
+
+Following Lindelof and Kelley on countable subcovers and cover refinements, the $\LindelofCoverRefinementUp$ packet records the finite route from a displayed Lindelof cover read to a countable refinement ledger. It sits over the countable-subcover carrier of \autoref{ch:concrete-instances-lindelof-space-namecert}, the countable-base window of \autoref{ch:concrete-instances-second-countable-namecert}, the generated-open classifier of \autoref{ch:concrete-instances-topology-namecert}, and the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}. The packet names only displayed cover rows, countable subcover ledgers, base-cell refinements, transport, replay, provenance, and local naming; it does not select arbitrary subcovers, assert compactness, or expose a host open-family oracle.
+
+\begin{definition}[Lindelof cover-refinement carrier]
+\label{def:lindelof-cover-refinement-carrier}
+A $\LindelofCoverRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+R=(X,T,L,B,U,S,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source topology row whose finite histories supply the inspected points and opens.
+\item $T$ is the $\TopologyUp$ generated-open classifier row used by every cover and refinement read.
+\item $L$ is the accepted $\LindelofSpaceUp$ countable-subcover row.
+\item $B$ is the $\SecondCountableUp$ countable-base window that names the basic cells available for refinement.
+\item $U$ is the displayed open-cover enumeration row.
+\item $S$ is the countable subcover ledger inherited from the Lindelof row.
+\item $F$ is the cover-refinement ledger, recording which basic cells refine into which displayed subcover entries.
+\item $H$ stores componentwise $\hsame$ transport for the source topology, topology classifier, Lindelof row, base window, cover enumeration, subcover ledger, refinement ledger, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from point and basic-cell reads through $T,L,B,U,S,F,H,P,N$.
+\item $P$ is the $\Pkg$ provenance row over $\LindelofCoverRefinementUp$, $\LindelofSpaceUp$, $\SecondCountableUp$, $\TopologyUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LindelofCoverRefinementUp}$ row.
+\end{enumerate}
+The carrier exports a countable refinement only as the displayed ledger $F$ over the displayed subcover ledger $S$. It has no coordinate for arbitrary cover choice, compactness, equality of opens outside $T$, or a hidden enumeration of all open families.
+\end{definition}
+
+\begin{theorem}[Lindelof cover-refinement NameCert obligations]
+\label{thm:lindelof-cover-refinement-namecert-obligations}
+Every accepted $\LindelofCoverRefinementUp$ carrier
+$$
+R=(X,T,L,B,U,S,F,H,C,P,N)
+$$
+exposes exactly the rows $X,T,L,B,U,S,F,H,C,P,N$ as its local NameCert obligation surface. A consumer may read countable cover refinement only after it has read the topology classifier, Lindelof subcover row, second-countable base window, displayed cover enumeration, subcover ledger, refinement ledger, componentwise transport, replay, provenance, and local name. The same consumer receives no compactness theorem, no host subcover selector, no quotient equality of opens, and no unbounded cover-family object.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:lindelof-cover-refinement-carrier}. The finite row list $X,T,L,B,U,S,F,H,C,P,N$ is the whole surface available to a NameCert consumer.
+
+The cover read starts with $X,T,L,U,S$. These rows expose the displayed topology, generated-open classifier, Lindelof countable-subcover route, cover enumeration, and subcover ledger.
+
+The refinement read then passes through $B$ and $F$. The base window names the basic cells, while the refinement ledger records their displayed containment in the subcover entries.
+
+Finally $H,C,P,N$ transport, replay, source, and name that same route. Since no other coordinate is present, the packet cannot export compactness, a host subcover selector, quotient equality of opens, or an unbounded cover-family oracle.
+\end{proof}
+
+\begin{theorem}[Lindelof countable-subcover refinement route]
+\label{thm:lindelof-cover-refinement-countable-subcover-route}
+Every countable-subcover read of an accepted $\LindelofCoverRefinementUp$ carrier factors through the finite route
+$$
+X,T,L,B,U,S,F,H,C,P,N.
+$$
+The route first consumes the $\LindelofSpaceUp$ subcover ledger, then refines it through the displayed $\SecondCountableUp$ base window, and finally replays the refinement through the $\TopologyUp$ classifier and $\StreamNameUp$ inspection discipline. It does not treat $\LindelofSpaceUp$ as an undifferentiated cover oracle.
+\end{theorem}
+\begin{proof}
+Start with the Lindelof row $L$ and its displayed cover enumeration $U$ and subcover ledger $S$. These rows provide the only countable-subcover data visible to the carrier.
+
+Next read the second-countable base window $B$ and the refinement ledger $F$. Each refinement step is tied to a displayed basic cell and to a displayed subcover entry, so the route remains inside finite base-window inspection.
+
+The topology and stream rows $T$ and $C$ replay the same refinement through generated-open membership and finite inspection windows. Transport and provenance through $H,P,N$ preserve the local NameCert boundary and prevent the route from becoming a compactness principle or an unrestricted cover selector.
+\end{proof}
+
+\closureat{LindelofCoverRefinementUp}{seedStr}
+
+\begin{closurestatus}{\LindelofCoverRefinementUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lindelof-cover-refinement-carrier}, \autoref{thm:lindelof-cover-refinement-namecert-obligations}, and \autoref{thm:lindelof-cover-refinement-countable-subcover-route} seed the finite countable-cover refinement interface over displayed topology rows, Lindelof subcover ledgers, second-countable base windows, cover enumerations, refinement ledgers, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim compactness, arbitrary subcover choice, quotient equality of opens, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, countable-subcover routing, base-refinement replay, transport, provenance, and local naming for BEDC.Derived.LindelofCoverRefinementUp.}
+  \constructivestory{A $\LindelofCoverRefinementUp$ packet is generated from one source topology row, one Topology classifier row, one LindelofSpace subcover row, one SecondCountable base-window row, one displayed cover enumeration row, one subcover ledger, one cover-refinement ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
