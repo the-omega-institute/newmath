@@ -1,4 +1,4 @@
-import BEDC.Derived.RealModulusPurityBoundaryUp.ScopePackage
+import BEDC.Derived.RealModulusPurityBoundaryUp.ScopeBinding
 
 namespace BEDC.Derived.RealModulusPurityBoundaryUp
 
