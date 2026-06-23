@@ -94,16 +94,32 @@ Selector-ledger exactness and branch/clock compatibility are the middle projecti
 Inscription non-escape is supplied by \autoref{thm:fable-machine-boundary-inscription-nonescape}. Consumer non-escape is supplied by \autoref{thm:fable-machine-boundary-selector-nonescape}. The remaining rows $T,C,P,N$ only transport, replay, source, and name this finite route, so the listed clauses exhaust the obligation surface.
 \end{proof}
 
+\begin{theorem}[FableMachineBoundary scoped kernel route]
+\label{thm:fable-machine-boundary-scoped-kernel-route}
+Every boundary, inscription, selector, branch, and clock consumer accepted by a $\FableMachineBoundaryUp$ packet factors through the displayed rows
+$$
+H,E,L,S,W,K,T,C,P,N
+$$
+and through the sibling surfaces $\EmptyFableLedgerUp$, $\FableBranchWitnessUp$, $\FableMachineClockUp$, and $\SelectorLedgerUp$. The closed scope is limited to the generated $\BHist$ row, the displayed $\Ext$ edge, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, local $\NameCert$ naming, and the four sibling surfaces; it does not include a hidden chooser row, observer-substance coordinate, host trace quotient, global branch policy, or truth oracle.
+\end{theorem}
+\begin{proof}
+Begin with the obligation-closure theorem \autoref{thm:fable-machine-boundary-obligation-closure}. It fixes carrier admission, empty-boundary admission, selector-ledger exactness, branch and clock compatibility, inscription non-escape, and consumer non-escape as the complete finite obligation surface over $H,E,L,S,W,K,T,C,P,N$.
+
+Next apply the selector non-escape theorem \autoref{thm:fable-machine-boundary-selector-nonescape}. It confines every selector-facing read to the displayed ledger row $L$, enacted selector row $S$, fable-branch witness $W$, local clock $K$, and the structural rows that transport and name them.
+
+Finally use the inscription non-escape theorem \autoref{thm:fable-machine-boundary-inscription-nonescape}. Its sibling route through $\EmptyFableLedgerUp$, $\FableBranchWitnessUp$, $\FableMachineClockUp$, and $\SelectorLedgerUp$ supplies the same finite surface for boundary inscriptions, so no consumer route leaves the displayed kernel scope.
+\end{proof}
+
 \falsifiablePrediction{Any accepted FableMachineBoundaryUp packet factors through the displayed empty-boundary selector ledger and admits no consumer route to a hidden chooser row.}
 
 \independenceWitness{Nearest siblings: empty-fable-ledger, fablebranchwitness, fablemachineclock, selectorledger, emptyboundaryselector. FableMachineBoundaryUp is not bijective to any of them because it simultaneously carries the empty-boundary slot, enacted selector row, and no-hidden-chooser boundary; each sibling lacks at least one of those obligation rows.}
 
-\closureat{FableMachineBoundaryUp}{obligationStr}
+\closureat{FableMachineBoundaryUp}{scopedStr}
 
 \begin{closurestatus}{\FableMachineBoundaryUp}
   \constructivestory{A $\FableMachineBoundaryUp$ packet is generated from a displayed $\Hist$ row, empty-boundary slot, finite selector ledger, enacted selector row, fable-branch witness, local fable-clock row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:fable-machine-boundary-carrier}, \autoref{thm:fable-machine-boundary-namecert-obligations}, \autoref{thm:fable-machine-boundary-selector-nonescape}, \autoref{thm:fable-machine-boundary-inscription-nonescape}, \autoref{thm:fable-machine-boundary-obligation-closure}, the falsifiable prediction, the independence witness, and the TasteGate marker close the displayed carrier, NameCert obligations, selector non-escape, inscription non-escape, obligation surface, no-hidden-chooser boundary, sibling separation, and finite alignment evidence for Empty-fable machine boundaries.}
+  \scopeclosed{\autoref{thm:fable-machine-boundary-scoped-kernel-route} closes the displayed boundary, inscription, selector, branch, and clock consumer scope over $H,E,L,S,W,K,T,C,P,N$ and the sibling Empty-fable surfaces.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.FableMachineBoundaryUp.FableMachineBoundaryTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
