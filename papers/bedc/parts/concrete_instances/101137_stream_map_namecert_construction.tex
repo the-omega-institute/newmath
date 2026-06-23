@@ -250,6 +250,20 @@ Next use \autoref{thm:stream-map-finite-window-functoriality}, \autoref{thm:stre
 Finally apply \autoref{thm:stream-map-namecert-obligation-surface}, \autoref{thm:stream-map-obligation-closure-package}, and \autoref{thm:stream-map-regseq-real-handoff}. The local NameCert surface and handoff theorem exhaust the structural rows $H,C,P,N$, so the scoped obligation route has no coordinate for quotient stream equality, host function extensionality, selected limits, countable choice, or ambient Real completeness.
 \end{proof}
 
+\begin{theorem}[Stream map scope kernel route]
+\label{thm:stream-map-scope-kernel-route}
+For every accepted $\StreamMapUp$ carrier $M=(S,T,F,W,Q,D,R,H,C,P,N)$, every consumer read that reaches $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ factors through the displayed rows $S,T,F,W,Q,D,R,H,C,P,N$ and the kernel primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The route exports no quotient stream equality, host function extensionality, selected limit, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:stream-map-pointwise-stability}. It keeps the source cell, target cell, and point-map row attached to the accepted carrier rather than to an external function.
+
+Use \autoref{def:stream-map-pointwise-carrier-transport}. The transport row is componentwise $\hsame$ over the displayed carrier cells, so a transported read still names $S,T,F,W,Q,D,R,H,C,P,N$.
+
+Next apply \autoref{thm:stream-map-finite-window-functoriality}. It forces each mapped observation through the finite source and target windows before any regular-rational, dyadic, or Real-facing row is public.
+
+Finally use \autoref{thm:stream-map-regseq-real-handoff} and \autoref{thm:stream-map-namecert-obligation-surface}. The handoff accounts for the $Q,D,R$ rows, while the NameCert surface accounts for $H,C,P,N$ as $\BHist$-based transport, displayed replay, provenance, and local naming. Since no carrier coordinate stores quotient stream equality, host function extensionality, selected limits, countable choice, or ambient completeness, every such consumer read factors through the stated kernel route.
+\end{proof}
+
 \closureat{StreamMapUp}{seedStr}
 
 \begin{closurestatus}{\StreamMapUp}
