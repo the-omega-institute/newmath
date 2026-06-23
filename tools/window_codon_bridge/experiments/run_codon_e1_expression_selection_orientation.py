@@ -586,8 +586,7 @@ def fit_design(
         for col in range(p):
             xbar[:, col] = np.add.reduceat(probs * x[:, col], starts)
         group_weight_total = np.add.reduceat(weight * group_total * probs, starts)
-        for group in range(int(design["n_groups"])):
-            info -= group_weight_total[group] * np.outer(xbar[group], xbar[group])
+        info -= xbar.T @ (xbar * group_weight_total[:, None])
         info += RIDGE * np.eye(p)
         try:
             step = np.linalg.solve(info, grad)
@@ -610,8 +609,7 @@ def fit_design(
     for col in range(p):
         xbar[:, col] = np.add.reduceat(probs * x[:, col], starts)
     group_weight_total = np.add.reduceat(weight * group_total * probs, starts)
-    for group in range(int(design["n_groups"])):
-        info -= group_weight_total[group] * np.outer(xbar[group], xbar[group])
+    info -= xbar.T @ (xbar * group_weight_total[:, None])
     info += RIDGE * np.eye(p)
     inv_info = np.linalg.pinv(info)
     scores = np.zeros((n_genera, p), dtype=float)
