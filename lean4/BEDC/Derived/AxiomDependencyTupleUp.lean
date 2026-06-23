@@ -289,4 +289,74 @@ theorem AxiomDependencyTupleRootUnblockSpine [AskSetup] [PackageSetup]
   }
   exact ⟨cert, rootReadUnary⟩
 
+theorem AxiomDependencyTupleAuditMapRowCoverage [AskSetup] [PackageSetup]
+    {mode witness supply transport route provenance localName replayRead auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxiomDependencyTupleCarrier mode witness supply transport route provenance localName
+        bundle pkg →
+      Cont transport route replayRead →
+        Cont replayRead localName auditRead →
+          PkgSig bundle auditRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row auditRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row mode ∨ hsame row witness ∨ hsame row supply ∨
+                    hsame row transport ∨ hsame row route ∨ hsame row localName ∨
+                      hsame row replayRead ∨ hsame row auditRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont mode witness route ∧
+                    Cont route supply localName ∧ Cont transport route replayRead ∧
+                      Cont replayRead localName auditRead ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle auditRead pkg)
+                hsame ∧
+              UnaryHistory replayRead ∧ UnaryHistory auditRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier transportRouteReplay replayLocalAudit auditReadPkg
+  obtain ⟨_modeCases, _modeUnary, _witnessUnary, _supplyUnary, transportUnary,
+    routeUnary, localNameUnary, _transportSame, modeWitnessRoute, routeSupplyLocalName,
+    provenancePkg⟩ := carrier
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed transportUnary routeUnary transportRouteReplay
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed replayUnary localNameUnary replayLocalAudit
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row auditRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row mode ∨ hsame row witness ∨ hsame row supply ∨ hsame row transport ∨
+              hsame row route ∨ hsame row localName ∨ hsame row replayRead ∨
+                hsame row auditRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont mode witness route ∧ Cont route supply localName ∧
+              Cont transport route replayRead ∧ Cont replayRead localName auditRead ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle auditRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro auditRead ⟨hsame_refl auditRead, auditUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, modeWitnessRoute, routeSupplyLocalName, transportRouteReplay,
+          replayLocalAudit, provenancePkg, auditReadPkg⟩
+  }
+  exact ⟨cert, replayUnary, auditUnary⟩
+
 end BEDC.Derived.AxiomDependencyTupleUp
