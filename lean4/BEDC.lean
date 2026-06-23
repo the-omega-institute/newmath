@@ -102,6 +102,7 @@ import BEDC.Derived.AntipodalTriggerLedgerUp.TasteGate
 import BEDC.Derived.ApartnessCompletionUp.TasteGate
 import BEDC.Derived.ApartnessContinuityUp.TasteGate
 import BEDC.Derived.ApartnessCotransitivityUp.TasteGate
+import BEDC.Derived.ApartnessCutUp.TasteGate
 import BEDC.Derived.ApartnessRealUp
 import BEDC.Derived.ApartnessRealUp.LocatedWindowPositiveGap
 import BEDC.Derived.ApartnessRealUp.MatureConsumerCoverage
@@ -7324,6 +7325,7 @@ import BEDC.Derived.LocatedWeakKonigUp.TasteGate
 import BEDC.Derived.LocatedZeroUniquenessUp
 import BEDC.Derived.LocatednessModulusUp
 import BEDC.Derived.LocatednessModulusUp.TasteGate
+import BEDC.Derived.LocatednessPrincipleUp.TasteGate
 import BEDC.Derived.LogicContradictionMetaLoopUp.NameCertObligations
 import BEDC.Derived.LogicContradictionMetaLoopUp.SiblingDependencyRoute
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
@@ -9441,6 +9443,7 @@ import BEDC.Derived.RatUp.RepresentativeStabilityPackage
 import BEDC.Derived.RatUp.StdBridge
 import BEDC.Derived.RatUp.UnaryContextEndpoint
 import BEDC.Derived.RatioCauchyTransferUp.TasteGate
+import BEDC.Derived.RationalBallDomainUp.TasteGate
 import BEDC.Derived.RationalBallUp
 import BEDC.Derived.RationalBallUp.TasteGate
 import BEDC.Derived.RationalBestApproximationUp.TasteGate
