@@ -110,6 +110,56 @@ theorem NestedClosedBallCarrier_diameter_tail_stability
     ⟨centerWindowUnary, readbackWindowUnary, diameterReadUnary, laterWindowUnary,
       replayReadUnary, readbackDiameterRoute, diameterLaterRoute, rfl⟩
 
+theorem NestedClosedBallKernelScopeBinding
+    {M K F S R D E H C P N centerWindow readbackWindow dyadicSeal realSeal packageRead
+      scopeRead : BHist} :
+    Cont F S centerWindow ->
+      Cont centerWindow R readbackWindow ->
+        Cont readbackWindow D dyadicSeal ->
+          Cont dyadicSeal E realSeal ->
+            Cont realSeal P packageRead ->
+              Cont packageRead N scopeRead ->
+                UnaryHistory F ->
+                  UnaryHistory S ->
+                    UnaryHistory R ->
+                      UnaryHistory D ->
+                        UnaryHistory E ->
+                          UnaryHistory P ->
+                            UnaryHistory N ->
+                              UnaryHistory centerWindow ∧ UnaryHistory readbackWindow ∧
+                                UnaryHistory dyadicSeal ∧ UnaryHistory realSeal ∧
+                                  UnaryHistory packageRead ∧ UnaryHistory scopeRead ∧
+                                    Cont F S centerWindow ∧
+                                      Cont centerWindow R readbackWindow ∧
+                                        Cont readbackWindow D dyadicSeal ∧
+                                          Cont dyadicSeal E realSeal ∧
+                                            Cont realSeal P packageRead ∧
+                                              Cont packageRead N scopeRead ∧
+                                                TasteGate.NestedClosedBallTasteGate_single_carrier_alignment_fields
+                                                    (TasteGate.NestedClosedBallUp.mk M K F S R
+                                                      D E H C P N) =
+                                                  [M, K, F, S, R, D, E, H, C, P, N] := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro filterStreamRoute centerReadbackRoute readbackDyadicRoute dyadicRealRoute
+    realPackageRoute packageScopeRoute filterUnary streamUnary readbackUnary dyadicUnary
+    realUnary packageUnary nameUnary
+  have centerWindowUnary : UnaryHistory centerWindow :=
+    unary_cont_closed filterUnary streamUnary filterStreamRoute
+  have readbackWindowUnary : UnaryHistory readbackWindow :=
+    unary_cont_closed centerWindowUnary readbackUnary centerReadbackRoute
+  have dyadicSealUnary : UnaryHistory dyadicSeal :=
+    unary_cont_closed readbackWindowUnary dyadicUnary readbackDyadicRoute
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed dyadicSealUnary realUnary dyadicRealRoute
+  have packageReadUnary : UnaryHistory packageRead :=
+    unary_cont_closed realSealUnary packageUnary realPackageRoute
+  have scopeReadUnary : UnaryHistory scopeRead :=
+    unary_cont_closed packageReadUnary nameUnary packageScopeRoute
+  exact
+    ⟨centerWindowUnary, readbackWindowUnary, dyadicSealUnary, realSealUnary,
+      packageReadUnary, scopeReadUnary, filterStreamRoute, centerReadbackRoute,
+      readbackDyadicRoute, dyadicRealRoute, realPackageRoute, packageScopeRoute, rfl⟩
+
 theorem NestedClosedBallNameCertObligations
     {M K F S R D E H C P N filterRead windowRead readbackRead diameterRead sealRead :
       BHist} :
