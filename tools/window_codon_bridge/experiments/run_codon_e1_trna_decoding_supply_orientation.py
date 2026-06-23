@@ -301,13 +301,10 @@ def apply_permutation_vector(
 
 
 def projector_without_vector(q_basis: list[list[float]], vector: list[float]) -> list[list[float]]:
-    working = vector[:]
-    for q in q_basis:
-        working = subtract(working, scale(dot(q, working), q))
-    working_norm = norm(working)
-    if working_norm <= TOL:
+    vector_norm = norm(vector)
+    if vector_norm <= TOL:
         return [q[:] for q in q_basis]
-    unit = scale(1.0 / working_norm, working)
+    unit = scale(1.0 / vector_norm, vector)
     keep: list[list[float]] = []
     for q in q_basis:
         reduced = subtract(q, scale(dot(unit, q), unit))
@@ -346,7 +343,9 @@ def chemical_character(character: str, base_char: str) -> float:
 
 def build_panel(force_refresh: bool = False) -> dict[str, object]:
     if PANEL_CACHE_PATH.exists() and not force_refresh:
-        return json.loads(PANEL_CACHE_PATH.read_text(encoding="utf-8"))
+        cached = json.loads(PANEL_CACHE_PATH.read_text(encoding="utf-8"))
+        if int(cached.get("n_genomes", 0)) >= N_PANEL_TARGET:
+            return cached
     summaries, source_status = fetch_probe.candidate_summaries(retmax=260)
     organisms: list[dict[str, object]] = []
     attempts: list[dict[str, object]] = []
