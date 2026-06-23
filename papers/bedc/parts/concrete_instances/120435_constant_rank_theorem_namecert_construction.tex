@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\ConstantRankTheoremUp$}
+\label{ch:concrete-instances-constant-rank-theorem-namecert}
+\origin{human}
+
+Following Spivak and Lee on the constant rank theorem, the $\ConstantRankTheoremUp$ packet records the finite theorem-level route from a displayed smooth map, a stable rank window, and derivative-control data to a local normal-form read. It sits beside the derivative carrier of \autoref{ch:concrete-instances-derivative-namecert}, the inverse-function theorem route of \autoref{ch:concrete-instances-inverse-function-theorem-namecert}, the implicit-function theorem route of \autoref{ch:concrete-instances-implicit-function-theorem-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the BEDC certificate a differential-topology consumer inspects before using a local normal form; it does not import a host smooth-manifold primitive, quotient chart equality, ambient choice of coordinates, or bridge verification.
+
+\begin{definition}[Constant rank theorem carrier]
+\label{def:constant-rank-theorem-carrier}
+A $\ConstantRankTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+T=(F,R,D,I,G,L,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the displayed map row, including source and target coordinate windows, base point, target value, and the finite classifier for the theorem read.
+\item $R$ is the rank-window row, recording the inspected minor, its nonvanishing witness, the neighbouring minor constraints, and the radius over which the rank is displayed as constant.
+\item $D$ is the $\DerivativeUp$ control row for the displayed map on the same source and target windows.
+\item $I$ is the $\InverseFunctionTheoremUp$ handoff row used to isolate the invertible coordinate block supplied by $R$ and $D$.
+\item $G$ is the $\ImplicitFunctionTheoremUp$ handoff row used to solve the complementary coordinate equations inside the same local window.
+\item $L$ is the local normal-form row, recording the source chart, target chart, rank projection, zero complementary coordinates, and the route by which the normal-form read is obtained from $F,R,D,I,G$.
+\item $S$ is the $\StreamNameUp$ observation row for source coordinates, target coordinates, rank-window tests, and endpoint reads.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the rational approximation data exposed by $S$ and used by the derivative and rank-window comparisons.
+\item $E$ is the terminal $\RealUp$ seal row for every real-facing coordinate, derivative, rank, and normal-form read.
+\item $H$ records componentwise $\hsame$ transport for the map, rank-window, derivative, inverse-function, implicit-function, normal-form, observation, readback, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay through
+$$
+F,R,D,I,G,L,S,Q,E \longmapsto \NameCert_{\ConstantRankTheoremUp}.
+$$
+\item $P$ is the $\Pkg$ provenance over $\ConstantRankTheoremUp$, $\DerivativeUp$, $\InverseFunctionTheoremUp$, $\ImplicitFunctionTheoremUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstantRankTheoremUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,R,D,I,G,L,S,Q,E,H,C,P,N$. The carrier has no coordinate for a host constant-rank theorem, an ambient smooth-manifold structure, selected chart germs, quotient equality of maps, unrecorded coordinate choices, global submersion or immersion theorems, Lean theorem checking, or bridge checking.
+\end{definition}
+\leanstmt{BEDC.Derived.ConstantRankTheoremUp}
+
+\begin{theorem}[Constant rank theorem NameCert obligations]
+\label{thm:constant-rank-theorem-namecert-obligations}
+For every accepted $\ConstantRankTheoremUp$ carrier
+$$
+T=(F,R,D,I,G,L,S,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\ConstantRankTheoremUp}$ surface consists exactly of carrier admission for the displayed map row, rank-window exactness through $R$, derivative-control exposure through $D$, inverse-function handoff through $I$, implicit-function handoff through $G$, local normal-form exposure through $L$, finite StreamName observations through $S$, RegSeqRat readback through $Q$, terminal Real sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:constant-rank-theorem-carrier}. The rows $F,R,D$ are the only source of the displayed map, constant-rank window, and derivative-control data.
+
+The theorem handoffs are then forced. The row $I$ exposes the inverse-function theorem route for the invertible block selected by the rank window, while $G$ exposes the implicit-function theorem route for the complementary equations. The normal-form row $L$ is downstream of those two handoffs and cannot be read before them.
+
+The observation and completion rows come last. Stream observations $S$ feed the regular rational readback $Q$, and $E$ seals the Real-facing coordinate and derivative reads. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, so no host constant-rank theorem, manifold primitive, selected chart germ, quotient equality, unrecorded coordinate choice, global submersion theorem, or bridge check is present.
+\end{proof}
+
+\begin{theorem}[Constant rank theorem local normal-form route]
+\label{thm:constant-rank-theorem-local-normal-form-route}
+Every accepted $\ConstantRankTheoremUp$ local normal-form read factors through the finite route
+$$
+\DerivativeUp \longmapsto \InverseFunctionTheoremUp \longmapsto \ImplicitFunctionTheoremUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+as instantiated by $D,I,G,S,Q,E$ together with the displayed map row $F$, rank-window row $R$, and local normal-form row $L$. A consumer may read local source and target chart data, the rank projection, zero complementary coordinates, finite observations, regular rational readback, terminal Real sealing, componentwise transport, displayed replay, provenance, and local naming; it may not read a host smooth-manifold theorem, quotient chart equality, selected chart germ, untracked coordinate choice, global immersion or submersion theorem, or normalization oracle.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $T=(F,R,D,I,G,L,S,Q,E,H,C,P,N)$. The displayed map and rank-window rows fix the coordinate block and the local radius, while $D$ supplies the derivative-control data in the same window.
+
+The local theorem route first uses $I$ to isolate the invertible block and then uses $G$ to solve the complementary coordinate equations. The row $L$ records the resulting source chart, target chart, rank projection, and zero complementary coordinates only after those handoffs are visible.
+
+The finite observation route then reads source, target, rank, and endpoint data through $S$, rational comparisons through $Q$, and Real-facing coordinates through $E$. Transport, replay, provenance, and local naming preserve the same path through $H,C,P,N$. Since the carrier has no host theorem, manifold primitive, quotient chart equality, chart-germ selector, untracked coordinate choice, global theorem, or oracle coordinate, the normal-form read is exhausted by the displayed BEDC rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ConstantRankTheoremUp$ local normal-form read exposes one displayed map row, one rank-window row, one Derivative control row, one InverseFunctionTheorem handoff, one ImplicitFunctionTheorem handoff, one local normal-form row, StreamName observations, RegSeqRat readback, one RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{derivative, inverse-function-theorem, implicit-function-theorem, streamname, regseqrat, real: $\ConstantRankTheoremUp$ is not bijective to any listed sibling because it jointly carries rank-window data, derivative control, inverse and implicit theorem handoffs, local normal-form data, finite observation, rational readback, terminal Real sealing, transport, replay, provenance, and local naming as one certificate.}
+
+\closureat{ConstantRankTheoremUp}{seedStr}
+
+\begin{closurestatus}{\ConstantRankTheoremUp}
+  \constructivestory{A $\ConstantRankTheoremUp$ packet is generated from a displayed map row, rank-window row, Derivative control row, InverseFunctionTheorem handoff, ImplicitFunctionTheorem handoff, local normal-form row, StreamName observations, RegSeqRat readbacks, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constant-rank-theorem-carrier}, \autoref{thm:constant-rank-theorem-namecert-obligations}, and \autoref{thm:constant-rank-theorem-local-normal-form-route} seed the finite theorem-level local normal-form route over rank-window, derivative, theorem-handoff, observation, regular rational, and Real completion rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host constant-rank theorems, ambient smooth-manifold primitives, selected chart germs, quotient chart equality, unrecorded coordinate choices, global immersion or submersion theorems, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rank-window exactness, derivative-control exposure, inverse-function handoff, implicit-function handoff, local normal-form exposure, Real completion routing, provenance exactness, and local naming for BEDC.Derived.ConstantRankTheoremUp.}
+\end{closurestatus}
