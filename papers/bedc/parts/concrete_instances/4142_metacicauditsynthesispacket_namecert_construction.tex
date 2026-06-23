@@ -26,6 +26,7 @@ with the following visible rows:
 \end{enumerate}
 The classifier compares accepted synthesis packets only through the displayed rows $S,C,N,U,D,A,B,H,R,P,L$. The carrier has no coordinate for a hidden proof of subject reduction, an ambient consistency theorem, quotient equality of MetaCIC terms, or an external normalization oracle.
 \end{definition}
+\leanchecked{BEDC.Derived.MetaCICAuditSynthesisPacketUp.MetaCICAuditSynthesisPacketTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[MetaCIC audit synthesis certificate surface]
 \label{thm:metacic-audit-synthesis-certificate-surface}
@@ -133,13 +134,31 @@ Next combine the consistency-blocker ledger of \autoref{thm:metacic-audit-synthe
 Finally apply route-union exactness, \autoref{thm:metacic-audit-synthesis-route-union-exactness}, and the positive-blocker union theorem, \autoref{thm:metacic-audit-synthesis-positive-blocker-union}. They bind the positive rows and blocker rows into one package through the same transport, replay, provenance, and local naming rows. Thus the obligation surface is precisely the stated finite package, with no additional MetaCIC theorem hidden outside it.
 \end{proof}
 
+\begin{theorem}[MetaCIC audit synthesis scope stability]
+\label{thm:metacic-audit-synthesis-scope-stability}
+For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
+$$
+M=(S,C,N,U,D,A,B,H,R,P,L),
+$$
+every packet route through $S,C,N,U,D,A,B,H,R,P,L$ is scoped by the BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, together with the cited sibling packets \autoref{ch:concrete-instances-closednormalconsistencypacket-namecert}, \autoref{ch:concrete-instances-normalfalseexclusion-namecert}, and \autoref{ch:concrete-instances-metacic-discharge-obligation-ledger-namecert}. No accepted route can leave this scoped surface to claim subject reduction, arbitrary Church--Rosser, candidate-free normalization, global beta-conversion decidability, full consistency, or quotient equality of MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Start with the certificate surface of \autoref{thm:metacic-audit-synthesis-certificate-surface}. It identifies the finite carrier rows and the local naming row, so every accepted packet route is a projection from one $\BHist$ package with componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ data.
+
+Apply critical-path non-escape from \autoref{thm:metacic-audit-synthesis-critical-path-nonescape}. The only rows available to a consumer are $S,C,N,U,D,A,B,H,R,P,L$, and the sibling closed-normal and normal-false packets supply only the displayed closed-normal branch.
+
+Use route-union exactness and positive-blocker union from \autoref{thm:metacic-audit-synthesis-route-union-exactness} and \autoref{thm:metacic-audit-synthesis-positive-blocker-union}. These keep the positive rows and blocker rows in one route union through the same transport, replay, provenance, and naming rows, while the discharge-obligation ledger fixes the subject-reduction boundary as a ledger row rather than a solved transport edge.
+
+Finally apply obligation closure, \autoref{thm:metacic-audit-synthesis-obligation-closure}. Its exact obligation surface is already the stated finite package, so the route is scope-stable under the named BEDC primitives and sibling packets, with the excluded MetaCIC claims remaining outside the accepted packet.
+\end{proof}
+
 \closureat{MetaCICAuditSynthesisPacketUp}{seedStr}
 \closureat{MetaCICAuditSynthesisPacketUp}{obligationStr}
 
 \begin{closurestatus}{\MetaCICAuditSynthesisPacketUp}
   \constructivestory{A $\MetaCICAuditSynthesisPacketUp$ packet is generated from subject-reduction obstruction, confluence, normalization, substitution, decidable-checking, closed-normal assembly, blocker, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:metacic-audit-synthesis-packet-carrier}, \autoref{thm:metacic-audit-synthesis-certificate-surface}, \autoref{thm:metacic-audit-synthesis-critical-path-nonescape}, \autoref{thm:metacic-audit-synthesis-consistency-blocker-ledger}, \autoref{thm:metacic-audit-synthesis-closed-normal-boundary}, \autoref{thm:metacic-audit-synthesis-route-union-exactness}, \autoref{thm:metacic-audit-synthesis-positive-blocker-union}, and \autoref{thm:metacic-audit-synthesis-obligation-closure} bind the finite MetaCIC audit synthesis packet and its blocker ledger as one obligation surface.}
+  \scopeclosed{\autoref{def:metacic-audit-synthesis-packet-carrier}, \autoref{thm:metacic-audit-synthesis-certificate-surface}, \autoref{thm:metacic-audit-synthesis-critical-path-nonescape}, \autoref{thm:metacic-audit-synthesis-consistency-blocker-ledger}, \autoref{thm:metacic-audit-synthesis-closed-normal-boundary}, \autoref{thm:metacic-audit-synthesis-route-union-exactness}, \autoref{thm:metacic-audit-synthesis-positive-blocker-union}, \autoref{thm:metacic-audit-synthesis-obligation-closure}, and \autoref{thm:metacic-audit-synthesis-scope-stability} bind the finite MetaCIC audit synthesis packet and its blocker ledger as one obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

@@ -288,6 +288,42 @@ Then read the gluing row $G$. The plus gluing replay theorem routes the local ma
 Transport and replay finish the stability claim. Componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $R$, $\Pkg$ provenance $Q$, and local $\NameCert$ row $N$ preserve the same finite route for downstream consumers.
 \end{proof}
 
+\begin{theorem}[Sheafification site source exposure]
+\label{thm:sheafification-site-source-exposure}
+Every plus, locality, or gluing read of an accepted $\SheafificationUp$ carrier must expose the $\CategoryUp$ row $C$, the $\TopologyUp$ or $\GrothendieckTopologyUp$ cover rows $T,J$, and the $\PreSheafUp$ restriction row $P$ before any locality ledger $L$, gluing ledger $G$, or sheaf target row $S$ is consumed. The source exposure is therefore the finite route through the displayed category, topology or site, Grothendieck coverage, and presheaf rows, not a host reflector or quotient compatible-family object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sheafification-carrier}. Its plus and locality data occur only in $L$ and $G$, and those rows are typed by the displayed source rows $C,T,J,P$.
+
+Apply the coverage exactness theorem \autoref{thm:sheafification-coverage-exactness}. It already forces every locality read to expose the category, topology-window, Grothendieck-coverage, and presheaf-restriction rows before the locality ledger can be consumed.
+
+The separated-refinement and plus-carrier obligations preserve the same order. They admit no host reflector and no quotient compatible-family coordinate, so every plus, locality, or gluing read is sourced by the displayed site and presheaf rows.
+\end{proof}
+
+\begin{theorem}[Sheafification plus gluing transport]
+\label{thm:sheafification-plus-gluing-transport}
+Every plus-style gluing read of an accepted $\SheafificationUp$ carrier transports cover-local matching data through componentwise $\hsame$ and replays it through displayed $\Cont$ before the $\SheafUp$ handoff is consumed. The route from $P$ through $L$ and $G$ to $S$ is therefore preserved by $H,R,Q,N$ as finite BEDC data.
+\end{theorem}
+\begin{proof}
+Start with the plus gluing replay theorem \autoref{thm:sheafification-plus-gluing-replay}. It places every plus-style gluing read through the locality ledger $L$, gluing ledger $G$, sheaf row $S$, transport row $H$, and replay row $R$.
+
+Use the cover-local gluing obligation \autoref{thm:sheafification-cover-local-gluing-obligation}. It says that matching-family and gluing reads replay through componentwise $\hsame$ transport and displayed $\Cont$ before a sheaf-facing carrier row is consumed.
+
+Finally apply the separated-refinement transport theorem and the local nonescape theorem. They keep the transported read over the same displayed source rows and exclude quotient families, selected covers, host reflectors, and topos-level reflectors.
+\end{proof}
+
+\begin{theorem}[Sheafification obligation closure package]
+\label{thm:sheafification-obligation-closure-package}
+The carrier of \autoref{def:sheafification-carrier}, the source exposure of \autoref{thm:sheafification-site-source-exposure}, the plus gluing transport of \autoref{thm:sheafification-plus-gluing-transport}, the $\SheafUp$ handoff of \autoref{thm:sheafification-sheaf-handoff}, the $\Pkg$ provenance row $Q$, and the local $\NameCert_{\SheafificationUp}$ row $N$ assemble the obligation package for $\SheafificationUp$. The package consists exactly of the displayed category, topology or site, Grothendieck coverage, presheaf restriction, locality, gluing, sheaf target, componentwise transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+First assemble the source side. The carrier definition lists $C,T,J,P,L,G,S,H,R,Q,N$, and the site source exposure theorem forces every plus, locality, and gluing read through $C,T,J,P$ before $L,G,S$ are consumed.
+
+Next assemble the transport and replay side. The plus gluing transport theorem preserves cover-local matching and gluing data through $H$ and $R$, while the sheaf handoff theorem identifies $S$ as the only sheaf-facing row exported by the packet.
+
+Finally use the package and naming rows. The provenance row $Q$ records the sibling sources, and $N$ names the same finite route as the local NameCert surface. Since no host reflector, quotient compatible-family object, selected cover system, topos object, or ambient powerset equality occurs in the carrier, the obligation package is exactly the displayed BEDC route.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\SheafificationUp$ read displays CategoryUp, TopologyUp or GrothendieckTopologyUp, PreSheafUp, locality, gluing, SheafUp, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any sheaf-facing consumer can use the target row.}
 
 \independenceWitness{category, topology, grothendieck topology, presheaf, sheaf: $\SheafificationUp$ is not bijective to any listed sibling because it binds locality refinement and gluing handoff rows between a displayed presheaf source and a displayed sheaf target.}
