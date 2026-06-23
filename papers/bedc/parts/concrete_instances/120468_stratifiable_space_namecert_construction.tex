@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\StratifiableSpaceUp$}
+\label{ch:concrete-instances-stratifiable-space-namecert}
+\origin{human}
+
+Following Borges and Engelking on stratifiable spaces, the $\StratifiableSpaceUp$ packet records the finite neighborhood-stratum route by which closed-set data are turned into open refinements visible to topology consumers. It sits beside the topological carrier of \autoref{ch:concrete-instances-topology-namecert}, the metric-refinement surface of \autoref{ch:concrete-instances-metric-namecert}, the open-cover carrier of \autoref{ch:concrete-instances-open-cover-namecert}, and the locally finite cover route of \autoref{ch:concrete-instances-paracompact-locally-finite-namecert}. The certificate names only the displayed stratum rows, monotone refinement comparisons, and downstream cover handoff; it does not import a host metrization theorem, paracompactness theorem, selected point neighborhoods, countable choice, or ambient lattice equality.
+
+\begin{definition}[$\StratifiableSpaceUp$ neighborhood-stratum carrier]
+\label{def:stratifiable-space-carrier}
+A $\StratifiableSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,F,G,M,U,R,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the underlying $\TopologyUp$ source row, including the finite open-set tests used by the packet.
+\item $F$ is the closed-request row family. Each entry names the closed row whose neighborhoods are to be stratified.
+\item $G$ is the stratum ledger. For every displayed closed row and finite index, it records an open neighborhood row $G(F,n)$.
+\item $M$ is the monotonicity ledger, recording the displayed implication from $F_0 \subseteq F_1$ to $G(F_0,n) \subseteq G(F_1,n)$ and the nesting comparison from $G(F,n+1)$ to $G(F,n)$.
+\item $U$ is the separation ledger. It records that each closed row $F$ remains inside the corresponding open stratum and that exterior witnesses are kept outside some finite stratum window.
+\item $R$ is the refinement handoff row for open-cover consumers. It exposes the finite cover rows obtained from the visible strata.
+\item $L$ is the locally finite route row, read through \autoref{ch:concrete-instances-paracompact-locally-finite-namecert} only after $G,M,U,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $X,F,G,M,U,R,L,C,P,N$.
+\item $C$ records displayed $\Cont$ replay for topology admission, closed-row admission, stratum reads, monotone comparison, separation readback, refinement export, locally finite handoff, and the local naming row.
+\item $P$ is the $\Pkg$ provenance over $\StratifiableSpaceUp$, $\TopologyUp$, $\MetricSpaceUp$, $\OpenCoverUp$, $\ParacompactLocallyFiniteUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StratifiableSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,F,G,M,U,R,L,H,C,P,N$. It has no coordinate for a host metrization theorem, an ambient paracompactness theorem, arbitrary neighborhood choice, or equality of open-set lattices outside the displayed finite rows.
+\end{definition}
+
+\begin{theorem}[$\StratifiableSpaceUp$ NameCert obligations]
+\label{thm:stratifiable-space-namecert-obligations}
+For every accepted $\StratifiableSpaceUp$ carrier
+$$
+S=(X,F,G,M,U,R,L,H,C,P,N),
+$$
+the local $\NameCert_{\StratifiableSpaceUp}$ surface consists exactly of topology-source admission through $X$, closed-request visibility through $F$, open-stratum exposure through $G$, monotone and nesting comparison through $M$, separation readback through $U$, cover-refinement export through $R$, locally finite handoff through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stratifiable-space-carrier}. The displayed rows expose the topological source, closed requests, strata, monotone comparisons, separation witnesses, refinement handoff, locally finite route, transport, replay, provenance, and local name.
+
+The stratum obligations are local to $F,G,M,U$. The closed row is visible before any open neighborhood is read, the stratum ledger supplies the indexed open rows, and the monotonicity ledger records the two comparisons needed by downstream cover consumers.
+
+The cover-facing data are exported only after the stratum route has been displayed. Rows $R$ and $L$ hand the finite refinement surface to open-cover and locally finite consumers, while $H,C,P,N$ preserve the same finite packet without importing a host metrization theorem, arbitrary choices of neighborhoods, or ambient equality of topological lattices.
+\end{proof}
+
+\begin{theorem}[Metric-topology refinement handoff]
+\label{thm:stratifiable-space-metric-topology-refinement-handoff}
+Let $S=(X,F,G,M,U,R,L,H,C,P,N)$ be an accepted $\StratifiableSpaceUp$ carrier. Every metric-style neighborhood refinement read exported by $S$ factors through the finite route
+$$
+X,F,G,M,U,H,C,P,N \longmapsto R \longmapsto L .
+$$
+In particular, a downstream topology or cover-refinement consumer may read the displayed closed rows, open strata, monotone comparisons, separation windows, and refinement handoff, but it cannot replace them by a host metrization theorem, an arbitrary open-cover selector, or a paracompactness theorem outside the packet.
+\end{theorem}
+\begin{proof}
+Start with the topology source row $X$ and the closed-request rows $F$. They fix the only closed sets whose neighborhoods the packet is allowed to expose.
+
+Read the stratum data next. The rows $G,M,U$ display the open neighborhoods, the monotone and nesting comparisons, and the finite separation windows, so every refinement read has a visible stratum witness.
+
+Finally pass through $R$ and $L$. The refinement row exports the finite cover data, and the locally finite row is reached only through the displayed refinement route. Componentwise transport, replay, provenance, and local naming keep the handoff inside the same $\BHist$ packet.
+\end{proof}
+
+\closureat{StratifiableSpaceUp}{seedStr}
+
+\begin{closurestatus}{\StratifiableSpaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stratifiable-space-carrier}, \autoref{thm:stratifiable-space-namecert-obligations}, and \autoref{thm:stratifiable-space-metric-topology-refinement-handoff} seed the finite neighborhood-stratum route through topology source rows, closed requests, indexed open strata, monotone comparisons, separation windows, cover refinement, locally finite handoff, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close metrization, paracompactness, arbitrary neighborhood selection, equality of ambient open-set lattices, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, closed-request visibility, open-stratum exposure, monotone comparison, separation readback, cover-refinement export, locally finite handoff, transport, replay, provenance, and local naming for BEDC.Derived.StratifiableSpaceUp.}
+  \constructivestory{A $\StratifiableSpaceUp$ packet is generated from a topology source, closed-request rows, indexed open-stratum rows, monotone and nesting comparison rows, separation rows, a cover-refinement handoff, a locally finite route, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
