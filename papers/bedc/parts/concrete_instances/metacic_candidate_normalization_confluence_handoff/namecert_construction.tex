@@ -354,6 +354,20 @@ Use \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-boun
 Finally apply \autoref{thm:metacic-finite-conversion-endpoint-handoff}. Any bounded join read remains inside the finite certificate route, so no consumer can read the envelope as an unconditional confluence or normalization theorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate-normalization confluence handoff obligation surface]
+\label{thm:metacic-candidate-normalization-confluence-handoff-obligation-surface}
+For every accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet, the handoff exposes finite obligation rows for candidate evidence $K$, residual envelope $C$, decidable-boundary routing $D$, blocked-edge retention $B$, bounded endpoint readback $N$, componentwise transport $T$, replay $R$, provenance $P$, and local naming $L$. The route remains guarded by the audit anchor $A$ and frontier row $F$, and it exports none of strong normalization, full Church--Rosser, subject reduction, evaluator equality, quotient syntax equality, host evaluator soundness, or closed consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}. The displayed rows $A,K,N,F,C,D,B,T,R,P,L$ are the only coordinates available to a confluence-facing consumer.
+
+Apply the boundary theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary} and the premise-exposure theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-premise-exposure}. They force candidate evidence and frontier data to remain visible before endpoint, residual, or bounded-comparison rows are consumed.
+
+Use residual-diamond retention from \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention} and normal-endpoint readback from \autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-endpoint-readback}. These route residual evidence through $C,B$ and endpoint reads through $N$ without collapsing the decidable-boundary row $D$.
+
+Finally read $T,R,P,L$ as structural rows. They transport, replay, source, and locally name the same finite handoff, so the obligation surface is exhausted by the displayed coordinates and cannot be reinterpreted as any of the refused global MetaCIC endpoints.
+\end{proof}
+
 \begin{theorem}[Finite-observation MetaCIC diamond-envelope handoff]
 \label{thm:finite-observation-metacic-diamond-envelope-handoff}
 Every confluence or normalization consumer of a finite-observation MetaCIC diamond envelope receives a bounded join only through the candidate evidence, bounded endpoint, residual-envelope, local checker, blocked-edge, transport, replay, provenance, and local $\NameCert$ rows of \autoref{thm:finite-observation-metacic-diamond-envelope-namecert-obligations}. The handoff exports the bounded finite-observation route and no global Church--Rosser theorem, unconditional strong-normalization theorem, unrestricted subject-reduction theorem, global conversion decider, evaluator equality, quotient syntax equality, or consistency endpoint.

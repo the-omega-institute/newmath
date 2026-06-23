@@ -2,23 +2,15 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-/-!
-# FiniteWindowBaireCategoryUp TasteGate carrier.
--/
-
-namespace BEDC.Derived.FiniteWindowBaireCategoryUp.TasteGate
+namespace BEDC.Derived.FiniteWindowBaireCategoryUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
-/-- Finite Baire-category window packet with the twelve displayed BEDC rows. -/
 inductive FiniteWindowBaireCategoryUp : Type where
-  | mk :
-      (metric denseWindow radiusLedger centerLedger streamSchedule regularReadback realSeal
-        completionTransport transport replay provenance name : BHist) →
-      FiniteWindowBaireCategoryUp
+  | mk (M U D Q S R E T H C P N : BHist) : FiniteWindowBaireCategoryUp
   deriving DecidableEq
 
 def finiteWindowBaireCategoryEncodeBHist : BHist → RawEvent
@@ -33,15 +25,18 @@ def finiteWindowBaireCategoryDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (finiteWindowBaireCategoryDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (finiteWindowBaireCategoryDecodeBHist tail)
 
-private theorem finiteWindowBaireCategory_decode_encode :
+private theorem finiteWindowBaireCategory_decode_encode_bhist :
     ∀ h : BHist,
       finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def finiteWindowBaireCategoryFields : FiniteWindowBaireCategoryUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -52,36 +47,35 @@ def finiteWindowBaireCategoryToEventFlow : FiniteWindowBaireCategoryUp → Event
   -- BEDC touchpoint anchor: BHist BMark
   | x => (finiteWindowBaireCategoryFields x).map finiteWindowBaireCategoryEncodeBHist
 
-private def finiteWindowBaireCategoryEventAt : Nat → EventFlow → RawEvent
+private def finiteWindowBaireCategoryEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => finiteWindowBaireCategoryEventAt index rest
+  | Nat.succ index, _event :: rest => finiteWindowBaireCategoryEventAtDefault index rest
 
-def finiteWindowBaireCategoryFromEventFlow (ef : EventFlow) :
-    Option FiniteWindowBaireCategoryUp :=
+def finiteWindowBaireCategoryFromEventFlow
+    (ef : EventFlow) : Option FiniteWindowBaireCategoryUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (FiniteWindowBaireCategoryUp.mk
-      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAt 0 ef))
-      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAt 1 ef))
-      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAt 2 ef))
-      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAt 3 ef))
-      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAt 4 ef))
-      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAt 5 ef))
-      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAt 6 ef))
-      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAt 7 ef))
-      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAt 8 ef))
-      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAt 9 ef))
-      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAt 10 ef))
-      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAt 11 ef)))
+      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAtDefault 0 ef))
+      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAtDefault 1 ef))
+      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAtDefault 2 ef))
+      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAtDefault 3 ef))
+      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAtDefault 4 ef))
+      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAtDefault 5 ef))
+      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAtDefault 6 ef))
+      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAtDefault 7 ef))
+      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAtDefault 8 ef))
+      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAtDefault 9 ef))
+      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAtDefault 10 ef))
+      (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEventAtDefault 11 ef)))
 
-private theorem finiteWindowBaireCategory_round_trip :
-    ∀ x : FiniteWindowBaireCategoryUp,
-      finiteWindowBaireCategoryFromEventFlow (finiteWindowBaireCategoryToEventFlow x) = some x := by
+private theorem finiteWindowBaireCategory_round_trip
+    (x : FiniteWindowBaireCategoryUp) :
+    finiteWindowBaireCategoryFromEventFlow (finiteWindowBaireCategoryToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk M U D Q S R E T H C P N =>
       change
@@ -100,12 +94,18 @@ private theorem finiteWindowBaireCategory_round_trip :
             (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEncodeBHist P))
             (finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEncodeBHist N))) =
           some (FiniteWindowBaireCategoryUp.mk M U D Q S R E T H C P N)
-      rw [finiteWindowBaireCategory_decode_encode M, finiteWindowBaireCategory_decode_encode U,
-        finiteWindowBaireCategory_decode_encode D, finiteWindowBaireCategory_decode_encode Q,
-        finiteWindowBaireCategory_decode_encode S, finiteWindowBaireCategory_decode_encode R,
-        finiteWindowBaireCategory_decode_encode E, finiteWindowBaireCategory_decode_encode T,
-        finiteWindowBaireCategory_decode_encode H, finiteWindowBaireCategory_decode_encode C,
-        finiteWindowBaireCategory_decode_encode P, finiteWindowBaireCategory_decode_encode N]
+      rw [finiteWindowBaireCategory_decode_encode_bhist M]
+      rw [finiteWindowBaireCategory_decode_encode_bhist U]
+      rw [finiteWindowBaireCategory_decode_encode_bhist D]
+      rw [finiteWindowBaireCategory_decode_encode_bhist Q]
+      rw [finiteWindowBaireCategory_decode_encode_bhist S]
+      rw [finiteWindowBaireCategory_decode_encode_bhist R]
+      rw [finiteWindowBaireCategory_decode_encode_bhist E]
+      rw [finiteWindowBaireCategory_decode_encode_bhist T]
+      rw [finiteWindowBaireCategory_decode_encode_bhist H]
+      rw [finiteWindowBaireCategory_decode_encode_bhist C]
+      rw [finiteWindowBaireCategory_decode_encode_bhist P]
+      rw [finiteWindowBaireCategory_decode_encode_bhist N]
 
 private theorem finiteWindowBaireCategoryToEventFlow_injective
     {x y : FiniteWindowBaireCategoryUp} :
@@ -137,21 +137,56 @@ instance finiteWindowBaireCategoryChapterTasteGate :
     intro x y hxy heq
     exact hxy (finiteWindowBaireCategoryToEventFlow_injective heq)
 
-theorem FiniteWindowBaireCategoryTasteGate_single_carrier_alignment :
-    Nonempty (BHistCarrier FiniteWindowBaireCategoryUp) ∧
-      Nonempty (ChapterTasteGate FiniteWindowBaireCategoryUp) ∧
-        (∀ h : BHist,
-          finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEncodeBHist h) = h) ∧
-          (∀ x : FiniteWindowBaireCategoryUp,
-            finiteWindowBaireCategoryFromEventFlow
-              (finiteWindowBaireCategoryToEventFlow x) = some x) ∧
-            finiteWindowBaireCategoryEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact
-    ⟨⟨finiteWindowBaireCategoryBHistCarrier⟩,
-      ⟨finiteWindowBaireCategoryChapterTasteGate⟩,
-      finiteWindowBaireCategory_decode_encode,
-      finiteWindowBaireCategory_round_trip,
-      rfl⟩
+instance finiteWindowBaireCategoryFieldFaithful :
+    FieldFaithful FiniteWindowBaireCategoryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := finiteWindowBaireCategoryFields
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk M1 U1 D1 Q1 S1 R1 E1 T1 H1 C1 P1 N1 =>
+        cases y with
+        | mk M2 U2 D2 Q2 S2 R2 E2 T2 H2 C2 P2 N2 =>
+            cases h
+            rfl
 
-end BEDC.Derived.FiniteWindowBaireCategoryUp.TasteGate
+instance finiteWindowBaireCategoryNontrivial : Nontrivial FiniteWindowBaireCategoryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨FiniteWindowBaireCategoryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      FiniteWindowBaireCategoryUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+theorem FiniteWindowBaireCategoryTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate FiniteWindowBaireCategoryUp) ∧
+      Nonempty (FieldFaithful FiniteWindowBaireCategoryUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial FiniteWindowBaireCategoryUp) ∧
+          finiteWindowBaireCategoryEncodeBHist BHist.Empty = ([] : List BMark) ∧
+            (∀ h : BHist,
+              finiteWindowBaireCategoryDecodeBHist (finiteWindowBaireCategoryEncodeBHist h) =
+                h) ∧
+              (∀ x : FiniteWindowBaireCategoryUp,
+                finiteWindowBaireCategoryFromEventFlow (finiteWindowBaireCategoryToEventFlow x) =
+                  some x) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  constructor
+  · exact ⟨finiteWindowBaireCategoryChapterTasteGate⟩
+  · constructor
+    · exact ⟨finiteWindowBaireCategoryFieldFaithful⟩
+    · constructor
+      · exact ⟨finiteWindowBaireCategoryNontrivial⟩
+      · constructor
+        · rfl
+        · constructor
+          · intro h
+            exact finiteWindowBaireCategory_decode_encode_bhist h
+          · intro x
+            exact finiteWindowBaireCategory_round_trip x
+
+end BEDC.Derived.FiniteWindowBaireCategoryUp
