@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\WhitneyExtensionUp$}
+\label{ch:concrete-instances-whitney-extension-namecert}
+\origin{human}
+
+Following Whitney's extension theorem for compatible finite jets on closed subsets of Euclidean space, the $\WhitneyExtensionUp$ packet records the finite BEDC handoff from a displayed jet surface to extension-facing consumers. It sits after the finite-jet compatibility surface of \autoref{ch:concrete-instances-whitney-extension-finite-jet-namecert}, the finite Taylor enclosure rows of \autoref{ch:concrete-instances-taylormodel-namecert}, and the manifold carrier of \autoref{ch:concrete-instances-manifold-namecert}. The packet names only the rows by which a finite jet table, remainder ledger, chart window, transport, replay, provenance, and local naming are made available to downstream derivative or smooth-manifold consumers; it is not a host theorem selecting an arbitrary global smooth extension.
+
+\begin{definition}[Whitney extension carrier]
+\label{def:whitney-extension-carrier}
+A $\WhitneyExtensionUp$ carrier is a finite $\BHist$ packet
+$$
+W=(J,T,M,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $J$ is the $\WhitneyExtensionFiniteJetUp$ compatibility row, including the closed-set classifier, finite jet table, and Whitney comparison ledger already exposed by the finite-jet chapter.
+\item $T$ is the $\TaylorModelUp$ local Taylor-row handoff, retaining only displayed center, finite coefficient, and remainder-enclosure data needed to read local polynomial approximants.
+\item $M$ is the $\ManifoldUp$ or Euclidean chart-window row on which the finite jet and Taylor rows are interpreted.
+\item $E$ is the extension-handoff ledger, recording which jet requests are eligible for derivative-facing or smooth-manifold consumers after $J,T,M$ have been displayed.
+\item $R$ is the readback row for derivative, smooth-chart, and validated-local-model consumers.
+\item $H$ records componentwise $\hsame$ transport for $J,T,M,E,R,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a finite extension request through $J,T,M,E,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\WhitneyExtensionUp$, $\WhitneyExtensionFiniteJetUp$, $\TaylorModelUp$, $\ManifoldUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\WhitneyExtensionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $J,T,M,E,R,H,C,P,N$. It has no coordinate for a selected smooth function, arbitrary global extension operator, compactness theorem, quotient equality, choice principle, or ambient completeness claim.
+\end{definition}
+
+\begin{theorem}[Whitney extension NameCert obligations]
+\label{thm:whitney-extension-namecert-obligations}
+For every accepted $\WhitneyExtensionUp$ carrier $W=(J,T,M,E,R,H,C,P,N)$, the local $\NameCert_{\WhitneyExtensionUp}$ surface consists exactly of carrier admission for the rows named in \autoref{def:whitney-extension-carrier}, finite-jet compatibility inherited through $J$, Taylor-row handoff through $T$, chart-window exposure through $M$, extension-handoff eligibility through $E$, derivative or smooth-chart readback through $R$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only analytic source is the finite Whitney jet row $J$, and the only local approximation source is the Taylor-model row $T$ over the displayed chart window $M$.
+
+The extension-handoff row $E$ is downstream of those three sources. It records that a consumer may request the displayed extension-facing data only after the finite compatibility, Taylor remainder, and chart rows are visible in the same packet.
+
+The readback row $R$ exposes exactly that handoff to derivative or smooth-chart consumers. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve the same route and add no hidden extension object.
+\end{proof}
+
+\begin{theorem}[Whitney extension jet handoff]
+\label{thm:whitney-extension-jet-handoff}
+Every derivative-facing, validated-local-model, or smooth-chart consumer reading an accepted $\WhitneyExtensionUp$ packet must factor through the displayed route
+$$
+\WhitneyExtensionFiniteJetUp,\TaylorModelUp,\ManifoldUp
+\longmapsto E \longmapsto R \longmapsto H,C,P,N .
+$$
+The consumer receives the finite jet compatibility surface, Taylor-row local approximation data, chart-window interpretation, and extension-handoff ledger. It receives no arbitrary global smooth extension, no selected representative function, no compactness theorem, no quotient equality, no cover choice, and no ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with a consumer read. By \autoref{def:whitney-extension-carrier}, the consumer can inspect only $J,T,M$ before reaching the extension-handoff ledger $E$.
+
+Read $E$ next. It is a finite row stating that the displayed jet and Taylor data can be handed to the requested derivative-facing or smooth-chart endpoint; it does not contain a host extension function.
+
+Finally pass through $R,H,C,P,N$. These rows expose, transport, replay, source, and name the same finite handoff. Since the carrier has no coordinate for a global smooth extension or selected representative, every consumer route remains inside the displayed rows.
+\end{proof}
+
+\closureat{WhitneyExtensionUp}{seedStr}
+
+\begin{closurestatus}{\WhitneyExtensionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:whitney-extension-carrier}, \autoref{thm:whitney-extension-namecert-obligations}, and \autoref{thm:whitney-extension-jet-handoff} seed the finite Whitney extension handoff over finite jets, Taylor rows, manifold chart windows, readback, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the classical global Whitney extension theorem, a selected smooth extension operator, compactness, arbitrary choice, quotient equality, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-jet compatibility, Taylor-row handoff, chart-window exposure, extension-handoff eligibility, readback, transport, replay, provenance, and local naming for BEDC.Derived.WhitneyExtensionUp.}
+  \constructivestory{A $\WhitneyExtensionUp$ packet is generated from a WhitneyExtensionFiniteJetUp compatibility row, a TaylorModelUp local Taylor row, a ManifoldUp chart window, an extension-handoff ledger, derivative or smooth-chart readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
