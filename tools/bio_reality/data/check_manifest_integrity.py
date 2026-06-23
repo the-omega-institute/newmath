@@ -43,7 +43,9 @@ def main() -> int:
             failures.append(f"{data_path}: missing provenance object")
             continue
         raw_payload_text = payload.get("raw_payload_text")
+        has_raw_payload = False
         if isinstance(raw_payload_text, str):
+            has_raw_payload = True
             raw_bytes = raw_payload_text.encode("utf-8")
             raw_sha = hashlib.sha256(raw_bytes).hexdigest()
             if manifest.get("sha256") != raw_sha:
@@ -52,12 +54,15 @@ def main() -> int:
                 failures.append(f"{manifest_path}: byte_size does not match raw_payload_text")
         provenance_raw_base64 = provenance.get("raw_payload_base64")
         if isinstance(provenance_raw_base64, str):
+            has_raw_payload = True
             raw_bytes = base64.b64decode(provenance_raw_base64.encode("ascii"), validate=True)
             raw_sha = hashlib.sha256(raw_bytes).hexdigest()
             if manifest.get("sha256") != raw_sha:
                 failures.append(f"{manifest_path}: sha256 does not match raw_payload_base64")
             if manifest.get("byte_size") != len(raw_bytes):
                 failures.append(f"{manifest_path}: byte_size does not match raw_payload_base64")
+        if not has_raw_payload:
+            failures.append(f"{data_path}: missing raw payload field for manifest replay")
         checks = {
             "sha256": provenance.get("payload_sha256"),
             "byte_size": provenance.get("payload_byte_size"),

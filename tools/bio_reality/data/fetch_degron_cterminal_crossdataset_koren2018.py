@@ -222,6 +222,8 @@ def write_manifest(payload: bytes, content_type: str) -> None:
 def main() -> int:
     payload, content_type = fetch_bytes(SOURCE_URL)
     data = parse_payload(payload)
+    if data["meta"]["n"] != len(data["peptides"]):
+        raise RuntimeError("parsed peptide count does not match metadata n")
     data["provenance"] = provenance(payload, content_type)
     OUT_PATH.write_text(json.dumps(data, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
     write_manifest(payload, content_type)
