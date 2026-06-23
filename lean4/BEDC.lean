@@ -8721,6 +8721,7 @@ import BEDC.Derived.ObserverTraceSealUp.TasteGate
 import BEDC.Derived.ObserverperspectiveclassifierUp
 import BEDC.Derived.ObserverperspectiveclassifierUp.AlignmentConsumer
 import BEDC.Derived.ObserverperspectiveclassifierUp.ComparisonRouteTotality
+import BEDC.Derived.ObserverperspectiveclassifierUp.CrossAlignmentLocalitySoundness
 import BEDC.Derived.ObserverperspectiveclassifierUp.DependencyScope
 import BEDC.Derived.ObserverperspectiveclassifierUp.GapCommitmentReadback
 import BEDC.Derived.ObserverperspectiveclassifierUp.LocalityCellExhaustion
