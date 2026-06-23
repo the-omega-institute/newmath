@@ -15,7 +15,7 @@ inductive TruthTotalReflectionUp : Type where
       TruthTotalReflectionUp
   deriving DecidableEq
 
-private def truthTotalReflectionEncodeBHist : BHist → RawEvent
+def truthTotalReflectionEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: truthTotalReflectionEncodeBHist h
@@ -39,7 +39,7 @@ private theorem truthTotalReflection_decode_encode_bhist :
   | e1 h ih =>
       exact congrArg BHist.e1 ih
 
-private def truthTotalReflectionToEventFlow : TruthTotalReflectionUp → EventFlow
+def truthTotalReflectionToEventFlow : TruthTotalReflectionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | TruthTotalReflectionUp.mk sentenceCodes extensionAttempt diagonal transport route
       provenance name =>
