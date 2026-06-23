@@ -12089,6 +12089,7 @@ import BEDC.Derived.Window6FibGcdStrongDivisibility
 import BEDC.Derived.Window6FibonacciCount
 import BEDC.Derived.Window6DisjointPairPell
 import BEDC.Derived.Window6MedianZeroTriplePell
+import BEDC.Derived.Window6BetweennessOrderFour
 import BEDC.Derived.Window6Foldbin
 import BEDC.Derived.Window6GaugeOrbit
 import BEDC.Derived.Window6GoldenSplitModPLaw
