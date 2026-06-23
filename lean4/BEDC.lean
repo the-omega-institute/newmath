@@ -5017,6 +5017,7 @@ import BEDC.Derived.DyadicLocatedCutUp.KernelCarrier
 import BEDC.Derived.DyadicLocatedCutUp.TasteGate
 import BEDC.Derived.DyadicMaxUp.TasteGate
 import BEDC.Derived.DyadicMeshCompositionUp.TasteGate
+import BEDC.Derived.DyadicMeshDiameterUp
 import BEDC.Derived.DyadicMeshGaugeUp.TasteGate
 import BEDC.Derived.DyadicMeshScaleNormalizationUp.TasteGate
 import BEDC.Derived.DyadicMeshUp
@@ -7481,6 +7482,7 @@ import BEDC.Derived.MertensCauchyProductTheoremUp.TasteGate
 import BEDC.Derived.MetaCICAuditMapFamilyUp
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
+import BEDC.Derived.MetaCICAuditSynthesisPacketUp.TasteGate
 import BEDC.Derived.MetaCICBetaAuditUp
 import BEDC.Derived.MetaCICBetaAuditUp.ReductionConversionBoundary
 import BEDC.Derived.MetaCICBetaAuditUp.SubjectReductionObstructionLedger
