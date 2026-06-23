@@ -610,6 +610,7 @@ import BEDC.Derived.AxiomDependencyTupleUp.KernelSupplyVisibility
 import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
 import BEDC.Derived.AxiomDependencyTupleUp.RestrictedSupplyLedgerNonpromotion
 import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
+import BEDC.Derived.AxiomDependencyTupleUp.SocketBoundary
 import BEDC.Derived.AxiomDependencyTupleUp.SubjectReductionSocketDependencyRoute
 import BEDC.Derived.AxiomDependencyTupleUp.SupplyLedgerReadback
 import BEDC.Derived.AxiomDependencyTupleUp.SupplyProvenanceSiblingRoute
@@ -879,6 +880,7 @@ import BEDC.Derived.BilinFormUp.ObligationSurfaceEmptyLedger
 import BEDC.Derived.BilinFormUp.SemanticNameCertificate
 import BEDC.Derived.BilinFormUp.SwappedLedgerTransport
 import BEDC.Derived.BilinFormUp.ZeroLeftPairing
+import BEDC.Derived.BinaryEndpointNormalizationUp.DualPrefixBoundary
 import BEDC.Derived.BinaryEndpointNormalizationUp.RealSealNonescape
 import BEDC.Derived.BinaryEndpointNormalizationUp.TasteGate
 import BEDC.Derived.BinaryEndpointUniquenessUp.TasteGate
@@ -6355,6 +6357,7 @@ import BEDC.Derived.HautusTestUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeatKernelUp
 import BEDC.Derived.HeineBorelFiniteNetUp.TasteGate
+import BEDC.Derived.HeineBorelIntervalUp.TailStability
 import BEDC.Derived.HeineBorelIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelLocatedIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelNetCompactnessUp.TasteGate
@@ -9940,6 +9943,7 @@ import BEDC.Derived.RegularCauchyAbsUp.RealSealBoundary
 import BEDC.Derived.RegularCauchyAbsUp.RegSeqRatHandoff
 import BEDC.Derived.RegularCauchyAbsUp.TasteGate
 import BEDC.Derived.RegularCauchyAdditionUp.TasteGate
+import BEDC.Derived.RegularCauchyAdditionUp.UniformModulus
 import BEDC.Derived.RegularCauchyAdditionUp.WindowSumStability
 import BEDC.Derived.RegularCauchyAffineCombinationUp.Ledger
 import BEDC.Derived.RegularCauchyAffineCombinationUp.ObligationSurface
