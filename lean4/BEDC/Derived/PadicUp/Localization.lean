@@ -144,6 +144,68 @@ theorem nat_dvd_cancel_left {c a b : BHist} :
     (natMulFn_rel cUnary bUnary)
     divides
 
+theorem prime_not_dvd_nonzero_bounded {p : BHist} (prime : NatPrime p)
+    (r : BoundedNat p) :
+    (hsame r.val BHist.Empty -> False) -> NatDivides p r.val -> False := by
+  intro rNonzero divides
+  exact natDivides_nonempty_strict_absurd prime.left
+    (BoundedNat_unary prime.left r)
+    (fun rEmpty => rNonzero rEmpty)
+    r.isLt
+    divides
+
+theorem prime_mul_left_cancel_nonzero_bounded {p b z : BHist}
+    (prime : NatPrime p) (r : BoundedNat p) :
+    (hsame r.val BHist.Empty -> False) ->
+      UnaryHistory b -> NatMul r.val b z -> NatDivides p z -> NatDivides p b := by
+  intro rNonzero bUnary product dividesProduct
+  have euclid : NatEuclidPrime p := NatPrime.toNatEuclidPrime prime
+  have split :=
+    NatEuclidPrime_product_left_or_right euclid
+      (BoundedNat_unary prime.left r)
+      bUnary
+      product
+      dividesProduct
+  cases split with
+  | inl dividesR =>
+      exact False.elim (prime_not_dvd_nonzero_bounded prime r rNonzero dividesR)
+  | inr dividesB =>
+      exact dividesB
+
+theorem prime_mod_mul_left_zero_cancel_nonzero_bounded {p b : BHist}
+    (prime : NatPrime p) (r : BoundedNat p) :
+    (hsame r.val BHist.Empty -> False) ->
+      UnaryHistory b ->
+        hsame (natModFn p (natMulFn r.val b)) BHist.Empty ->
+          hsame (natModFn p b) BHist.Empty := by
+  intro rNonzero bUnary productZero
+  have rUnary : UnaryHistory r.val := BoundedNat_unary prime.left r
+  have pNonempty : hsame p BHist.Empty -> False := NatPrime_empty_absurd prime
+  have productUnary : UnaryHistory (natMulFn r.val b) :=
+    natMulFn_unary rUnary bUnary
+  have dividesProduct : NatDivides p (natMulFn r.val b) :=
+    (dvd_iff_mod_zero prime.left pNonempty productUnary).mpr productZero
+  have dividesB : NatDivides p b :=
+    prime_mul_left_cancel_nonzero_bounded prime r rNonzero bUnary
+      (natMulFn_rel rUnary bUnary)
+      dividesProduct
+  exact (dvd_iff_mod_zero prime.left pNonempty bUnary).mp dividesB
+
+theorem prime_mod_mul_nonzero_bounded {p : BHist}
+    (prime : NatPrime p) (r b : BoundedNat p) :
+    (hsame r.val BHist.Empty -> False) ->
+      (hsame b.val BHist.Empty -> False) ->
+        hsame (natModFn p (natMulFn r.val b.val)) BHist.Empty -> False := by
+  intro rNonzero bNonzero productZero
+  have bUnary : UnaryHistory b.val := BoundedNat_unary prime.left b
+  have pNonempty : hsame p BHist.Empty -> False := NatPrime_empty_absurd prime
+  have bZeroMod :
+      hsame (natModFn p b.val) BHist.Empty :=
+    prime_mod_mul_left_zero_cancel_nonzero_bounded prime r rNonzero bUnary productZero
+  have bRemSame : hsame (natModFn p b.val) b.val :=
+    natModFn_of_strict prime.left pNonempty bUnary b.isLt
+  exact bNonzero (hsame_trans (hsame_symm bRemSame) bZeroMod)
+
 theorem natToZp_mul {p a b : BHist}
     (prime : NatPrime p) (aUnary : UnaryHistory a) (bUnary : UnaryHistory b) :
     ZpEq (zpMul p (natToZp p prime a aUnary) (natToZp p prime b bUnary))
