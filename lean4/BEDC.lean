@@ -972,6 +972,7 @@ import BEDC.Derived.BishopDyadicSqueezeUp.TasteGate
 import BEDC.Derived.BishopEquicontinuityModulusUp
 import BEDC.Derived.BishopFanCompactUniformUp.TasteGate
 import BEDC.Derived.BishopFanModulusUp
+import BEDC.Derived.BishopFanModulusUp.RealWindowHandoff
 import BEDC.Derived.BishopFanModulusUp.TasteGate
 import BEDC.Derived.BishopFixedPointIntervalUp.TasteGate
 import BEDC.Derived.BishopIntervalApartnessModulusUp.TasteGate
@@ -4420,6 +4421,7 @@ import BEDC.Derived.DecimalStreamUp.TasteGate
 import BEDC.Derived.DedekindCauchyComparisonUp.TasteGate
 import BEDC.Derived.DedekindCauchySandwichUp.TasteGate
 import BEDC.Derived.DedekindCompletionBoundaryUp
+import BEDC.Derived.DedekindCutArithmeticUp.TasteGate
 import BEDC.Derived.DedekindCutBoundaryUp
 import BEDC.Derived.DedekindCutBoundaryUp.NameCertObligations
 import BEDC.Derived.DedekindCutCauchyBoundaryUp.TasteGate
@@ -8130,6 +8132,7 @@ import BEDC.Derived.MetacicNormalizationAuditUp.CandidateMediatedSNConfluence
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateResidualReplayHandoff
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateRoutePack
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateSubstitutionBoundary
+import BEDC.Derived.MetacicNormalizationAuditUp.CandidateSubstitutionScope
 import BEDC.Derived.MetacicNormalizationAuditUp.ClosedTermBudgetTotality
 import BEDC.Derived.MetacicNormalizationAuditUp.ConfluenceRefusalSplit
 import BEDC.Derived.MetacicNormalizationAuditUp.ConfluenceSocket
@@ -9682,6 +9685,7 @@ import BEDC.Derived.RealOrderTopologyUp.TasteGate
 import BEDC.Derived.RealOscillationUp
 import BEDC.Derived.RealOscillationUp.TasteGate
 import BEDC.Derived.RealPlaneUp
+import BEDC.Derived.RealPolynomialUp.EvaluationStability
 import BEDC.Derived.RealPolynomialUp.TasteGate
 import BEDC.Derived.RealPowerSeriesUp
 import BEDC.Derived.RealPowerSeriesUp.Carrier
@@ -10074,6 +10078,7 @@ import BEDC.Derived.RegularCauchyAffineCombinationUp.ObligationSurface
 import BEDC.Derived.RegularCauchyAffineCombinationUp.Stability
 import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
 import BEDC.Derived.RegularCauchyAlgebraCoherenceUp.TasteGate
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.BridgeScope
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.CofinalWindowRefinement
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.L10ScopeBinding
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundDeterminacy
@@ -10492,7 +10497,9 @@ import BEDC.Derived.RegularCauchyWindowFusionUp.BudgetMeet
 import BEDC.Derived.RegularCauchyWindowFusionUp.DownstreamPackage
 import BEDC.Derived.RegularCauchyWindowFusionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyWindowFusionUp.ObligationInventory
+import BEDC.Derived.RegularCauchyWindowFusionUp.PublicExport
 import BEDC.Derived.RegularCauchyWindowFusionUp.RealSealNonescape
+import BEDC.Derived.RegularCauchyWindowFusionUp.ScopedKernelRoute
 import BEDC.Derived.RegularCauchyWindowFusionUp.SelectorBudgetCompatibility
 import BEDC.Derived.RegularCauchyWindowFusionUp.SharedWindowHandoff
 import BEDC.Derived.RegularCauchyWindowFusionUp.TailHandoff
