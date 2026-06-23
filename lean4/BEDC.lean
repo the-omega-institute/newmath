@@ -6529,6 +6529,8 @@ import BEDC.Derived.HyperbolicPoissonKernelUp.TasteGate
 import BEDC.Derived.HyperbolicSelfCenterReadingUp.TasteGate
 import BEDC.Derived.HyperbolicTranslationLengthUp.TasteGate
 import BEDC.Derived.HyperbolicVisualMetricUp.TasteGate
+import BEDC.Derived.HyperbolicVisualShadowMetricUp.NameCertObligations
+import BEDC.Derived.HyperbolicVisualShadowMetricUp.TasteGate
 import BEDC.Derived.HyperconvexMetricUp.TasteGate
 import BEDC.Derived.HyperfunctionUp
 import BEDC.Derived.HyperfunctionUp.TasteGate
