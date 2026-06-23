@@ -616,6 +616,36 @@ The route through the siblings is row-ordered rather than parameter-transported.
 The structural rows $H,R,Q,N$ then package the same route. Since they are $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ projections over the displayed $\BHist$ coordinates, they cannot introduce a separate sheafification object.
 \end{proof}
 
+\begin{theorem}[Sheafification cover-site gluing ledger]
+\label{thm:sheafification-cover-site-gluing-ledger}
+For every accepted $\SheafificationUp$ carrier $A=(C,T,J,P,L,G,S,H,R,Q,N)$, a cover-site gluing read must expose $C,T,J,P,L,G,S,H,R,Q,N$ in the displayed carrier order. The category row $C$, topology row $T$, Grothendieck coverage row $J$, presheaf row $P$, locality row $L$, gluing row $G$, sheaf target row $S$, $\hsame$ transport $H$, $\Cont$ replay $R$, $\Pkg$ provenance $Q$, and local $\NameCert$ row $N$ form the ledger; no site consumer may read $G$ or $S$ before this source route is visible.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:sheafification-coverage-exactness} to force the source rows $C,T,J,P$ before locality is consumed. Then apply \autoref{thm:sheafification-gluing-exactness} and \autoref{thm:sheafification-plus-gluing-replay}; together they place $L$ before $G$, $G$ before $S$, and keep replay inside $H,R$.
+
+The package rows $Q,N$ name the same route by \autoref{thm:sheafification-namecert-obligations}. Hence the cover-site ledger is the displayed finite carrier route rather than a host site object or quotient of compatible families.
+\end{proof}
+
+\begin{theorem}[Sheafification refinement stability budget]
+\label{thm:sheafification-refinement-stability-budget}
+Every finite refinement budget used by an accepted $\SheafificationUp$ carrier is spent inside $C,T,J,P,L,G,S,H,R,Q,N$: refinements are read from $J$, presheaf compatibility from $P$, locality stability from $L$, gluing from $G$, transport from $H$, replay from $R$, provenance from $Q$, and naming from $N$ before the sheaf target $S$ is consumed.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:sheafification-locality-refinement} for each displayed refinement row. It keeps matching-family data over the same presheaf row $P$ and uses componentwise transport $H$ rather than an external cover selector.
+
+Now apply \autoref{thm:sheafification-cover-refinement-finite-induction}. Finite induction preserves the same $L,G,H,R,Q,N$ structure at every refinement step, and \autoref{thm:sheafification-gluing-exactness} keeps $S$ downstream of locality and gluing. Thus the budget is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Sheafification target nonescape ledger]
+\label{thm:sheafification-target-nonescape-ledger}
+For an accepted $\SheafificationUp$ carrier $A=(C,T,J,P,L,G,S,H,R,Q,N)$, every target-facing read of $S$ remains inside the cover, presheaf, locality, gluing, transport, replay, provenance, and local naming rows of that tuple. It exports no host sheafification functor, quotient compatible-family object, selected cover system, topos reflector, or ambient powerset equality.
+\end{theorem}
+\begin{proof}
+First use \autoref{thm:sheafification-target-handoff-obligation}. The final handoff to a $\SheafUp$ consumer factors through $C,T,J,P,L,G,S,H,R,Q,N$.
+
+Then apply \autoref{thm:sheafification-local-namecert-nonescape} and \autoref{thm:sheafification-plus-nonescape}. These nonescape boundaries exclude host reflectors, quotient compatible-family data, selected covers, topos objects, and ambient powerset equality because none of them is a carrier coordinate.
+\end{proof}
+
 \begin{theorem}[Sheafification locality-gluing ledger readiness]
 \label{thm:sheafification-locality-gluing-ledger-readiness}
 In an accepted $\SheafificationUp$ carrier $A=(C,T,J,P,L,G,S,H,R,Q,N)$, a locality or gluing consumer may read $L$ or $G$ only after the source route $C,T,J,P$ has been displayed and before the sheaf target row $S$ is consumed. Thus the ledger is ready exactly when the $\CategoryUp$, $\TopologyUp$, $\GrothendieckTopologyUp$, and $\PreSheafUp$ sibling rows are already visible, and its readback to $\SheafUp$ remains inside the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet.
