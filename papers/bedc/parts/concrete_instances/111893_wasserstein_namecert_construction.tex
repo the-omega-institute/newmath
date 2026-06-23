@@ -88,6 +88,7 @@ The marginal rows $\mu,\nu$ and ledgers $A,B$ stay in scope because they determi
 
 The rows $H,R,P,N$ preserve this same cost ledger before it reaches the $\RealUp$ consumer. Hence the cost readback scope is finite and displayed; duality, optimizer existence, minimizer selection, and ambient real completeness remain outside the carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.WassersteinUp.WassersteinRealCostReadbackScope}
 
 \begin{theorem}[Wasserstein finite coupling obligation surface]
 \label{thm:wasserstein-finite-coupling-obligation-surface}
@@ -99,6 +100,18 @@ Project the displayed carrier of \autoref{def:wasserstein-transport-plan-carrier
 Apply the NameCert obligations of \autoref{thm:wasserstein-namecert-obligations}, the metric coupling scope of \autoref{thm:wasserstein-metric-coupling-scope}, and the marginal exactness scope of \autoref{thm:wasserstein-marginal-exactness-scope}. These identify $A$ and $B$ as the only marginal readback ledgers and keep the table attached to $M,K,\mu,\nu$.
 
 Finally use the real cost readback scope of \autoref{thm:wasserstein-real-cost-readback-scope}. The row $C$ is the only exported cost ledger, and $H,R,P,N$ only transport, replay, source, and name the same finite route. Since no carrier coordinate stores a Monge map, optimizer, dual certificate, ambient measure completion, or selected minimizer, the finite support and provenance rows exhaust the Wasserstein obligation surface.
+\end{proof}
+
+\begin{theorem}[Wasserstein transport-plan public route]
+\label{thm:wasserstein-transport-plan-public-route}
+Every public Wasserstein read of an accepted carrier $W=(M,K,\mu,\nu,\Gamma,A,B,C,H,R,P,N)$ factors through the displayed $\MetricUp$ source $M$, the optional $\CompactMetricUp$ row $K$, the two $\ProbSpaceUp$ or $\DistributionUp$ marginal rows $\mu,\nu$, the finite coupling table $\Gamma$, the marginal ledgers $A,B$, the $\RealUp$ cost ledger $C$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $R$, $\Pkg$ provenance $P$, and the local $\NameCert_{\WassersteinUp}$ row $N$. The route exports no Monge map, optimizer, Kantorovich duality certificate, measure completion, or selected minimizer.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:wasserstein-namecert-obligations}. They make carrier admission, marginal exactness, finite coupling support, cost readback, and provenance exhaustion the complete local certificate surface.
+
+Next apply metric coupling scope and marginal exactness scope, \autoref{thm:wasserstein-metric-coupling-scope} and \autoref{thm:wasserstein-marginal-exactness-scope}. The table $\Gamma$ stays attached to $M,K,\mu,\nu$, and the only marginal reads are the finite ledgers $A$ and $B$.
+
+Finally use real cost readback scope and the finite coupling obligation surface, \autoref{thm:wasserstein-real-cost-readback-scope} and \autoref{thm:wasserstein-finite-coupling-obligation-surface}. They keep $C$ as the sole Real-valued cost route and force $H,R,P,N$ to preserve the same displayed packet, so the public read has no hidden optimizer, dual object, completion, Monge map, or selected minimizer.
 \end{proof}
 
 \closureat{WassersteinUp}{obligationStr}
