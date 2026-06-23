@@ -610,7 +610,6 @@ import BEDC.Derived.AxiomDependencyTupleUp.KernelSupplyVisibility
 import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
 import BEDC.Derived.AxiomDependencyTupleUp.RestrictedSupplyLedgerNonpromotion
 import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
-import BEDC.Derived.AxiomDependencyTupleUp.SocketBoundary
 import BEDC.Derived.AxiomDependencyTupleUp.SubjectReductionSocketDependencyRoute
 import BEDC.Derived.AxiomDependencyTupleUp.SupplyLedgerReadback
 import BEDC.Derived.AxiomDependencyTupleUp.SupplyProvenanceSiblingRoute
@@ -2772,6 +2771,7 @@ import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
 import BEDC.Derived.ClaimStatusAuditUp
 import BEDC.Derived.ClaimStatusAuditUp.NameCertObligations
 import BEDC.Derived.ClaimStatusAuditUp.TasteGate
+import BEDC.Derived.ClarksonInequalityUp.TasteGate
 import BEDC.Derived.ClassFieldUp
 import BEDC.Derived.ClassFieldUp.TasteGate
 import BEDC.Derived.ClassifierBoundaryUp
@@ -5125,6 +5125,7 @@ import BEDC.Derived.EffectiveMetricSpaceUp.TasteGate
 import BEDC.Derived.EffectiveModulusCompactFamilyUp.TasteGate
 import BEDC.Derived.EffectiveModulusUp
 import BEDC.Derived.EffectiveModulusUp.TasteGate
+import BEDC.Derived.EffectivePolishSpaceUp.RealizerHandoff
 import BEDC.Derived.EffectivePolishSpaceUp.TasteGate
 import BEDC.Derived.EffectiveRegularRealExtensionalityUp
 import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
@@ -6354,7 +6355,6 @@ import BEDC.Derived.HautusTestUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeatKernelUp
 import BEDC.Derived.HeineBorelFiniteNetUp.TasteGate
-import BEDC.Derived.HeineBorelIntervalUp.TailStability
 import BEDC.Derived.HeineBorelIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelLocatedIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelNetCompactnessUp.TasteGate
@@ -6366,6 +6366,7 @@ import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
 import BEDC.Derived.HemicompactSpaceUp.TasteGate
 import BEDC.Derived.HenselLemmaUp.NewtonWitnessNonescape
 import BEDC.Derived.HenselLemmaUp.TasteGate
+import BEDC.Derived.HenstockGaugePartitionUp
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
