@@ -63,6 +63,24 @@ The row $E$ records the regular-Cauchy equivalence boundary before any real-faci
 \end{proof}
 \leanchecked{BEDC.Derived.RealClassifierRegSeqRatHandoff}
 
+\begin{theorem}[RealClassifier regular-sequence induction]
+\label{thm:realclassifier-regular-sequence-induction}
+Let
+$$
+Q=(X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N)
+$$
+be an accepted $\RealClassifierUp$ carrier. Every classifier read whose $\StreamNameUp$ requests lie in the common finite window $W$ is consumed by induction over the displayed request rows of $W$: the base read uses the first dyadic tolerance row through $D$, compares the two regular names through $C$, and records the visible regular-Cauchy boundary through $E$; the step appends the next inspected request in $W$ and replays the same finite packet through $H,K,P,N$. The induction exports only the rows of \autoref{def:real-classifier-carrier} and the obligations of \autoref{thm:real-classifier-namecert-obligations}; it does not export quotient stream equality, host real equality, trichotomy, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply the RegSeqRat handoff theorem \autoref{thm:real-classifier-regseqrat-handoff}. It forces every regular-rational classifier read to pass through $S_X,S_Y,R_X,R_Y,W,D,C,E$ before the public classifier boundary is reached.
+
+For the base request, read the first displayed row of the finite window $W$. The dyadic tolerance information is the row $D$, the comparison of the two regular names is the row $C$, and the regular-Cauchy boundary visible before the terminal seals is the row $E$.
+
+For the induction step, append one further inspected request from $W$. The NameCert obligations of \autoref{thm:real-classifier-namecert-obligations} keep the appended request inside the same carrier, while $H$ transports the displayed rows, $K$ replays the continuation route, $P$ records provenance, and $N$ locally names the same packet.
+
+The carrier definition \autoref{def:real-classifier-carrier} has no coordinate for quotient stream equality, host real equality, trichotomy, countable choice, or ambient completeness. Thus the induction is a finite read over the common StreamName window and cannot be used as any of those ambient principles.
+\end{proof}
+
 \begin{theorem}[RealClassifier real seal non-escape]
 \label{thm:real-classifier-real-seal-nonescape}
 Every $\RealUp$ consumer of an accepted $\RealClassifierUp$ carrier sees only the finite rows $X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N$. The consumer obtains no quotient equality of streams, host real equality, selected limit, trichotomy witness, countable-choice schedule, or ambient completeness principle from the classifier packet.

@@ -607,6 +607,7 @@ import BEDC.Derived.AxiomDependencyTupleUp.DownstreamConsumerSupplyBoundary
 import BEDC.Derived.AxiomDependencyTupleUp.HostSupplyNonescape
 import BEDC.Derived.AxiomDependencyTupleUp.KernelSupplyVisibility
 import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
+import BEDC.Derived.AxiomDependencyTupleUp.RestrictedSupplyLedgerNonpromotion
 import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
 import BEDC.Derived.AxiomDependencyTupleUp.SubjectReductionSocketDependencyRoute
 import BEDC.Derived.AxiomDependencyTupleUp.SupplyLedgerReadback
@@ -5875,6 +5876,7 @@ import BEDC.Derived.FinitePrefixAutomatonUp.DeterministicReadback
 import BEDC.Derived.FinitePrefixAutomatonUp.DisplayedPrefixRunDeterminism
 import BEDC.Derived.FinitePrefixAutomatonUp.EndpointExactness
 import BEDC.Derived.FinitePrefixAutomatonUp.PrefixRunNonescape
+import BEDC.Derived.FinitePrefixAutomatonUp.PublicObligationCertificate
 import BEDC.Derived.FinitePrefixAutomatonUp.RegularLanguageHandoff
 import BEDC.Derived.FinitePrefixAutomatonUp.RegularLanguageSiblingBridge
 import BEDC.Derived.FinitePrefixAutomatonUp.TasteGate
@@ -6880,6 +6882,7 @@ import BEDC.Derived.LayeredRelationFailureBoundaryUp.TasteGate
 import BEDC.Derived.LayeredRelationGateUp.ClassifierObligation
 import BEDC.Derived.LayeredRelationGateUp.ConsumerRoute
 import BEDC.Derived.LayeredRelationGateUp.LedgerObligation
+import BEDC.Derived.LayeredRelationGateUp.SameSchemaNonidentity
 import BEDC.Derived.LayeredRelationGateUp.TasteGate
 import BEDC.Derived.LayeredRelationSiteUp.TasteGate
 import BEDC.Derived.LeastUpperBoundUp.TasteGate
@@ -10824,6 +10827,7 @@ import BEDC.Derived.SetlikeUp.ExtensionalBoundaryObligation
 import BEDC.Derived.SetlikeUp.ExtensionalBoundaryRoute
 import BEDC.Derived.SetlikeUp.ExtensionalBoundaryWitness
 import BEDC.Derived.SetlikeUp.ExtensionalLedgerKernelNonescape
+import BEDC.Derived.SetlikeUp.ExtensionalSubsetCarrier
 import BEDC.Derived.SetlikeUp.ExtensionalSubsetNameCertObligations
 import BEDC.Derived.SetlikeUp.ExtensionalSubsetTransport
 import BEDC.Derived.SetlikeUp.ExtensionalityRefusalObligation
@@ -10839,6 +10843,7 @@ import BEDC.Derived.SetlikeUp.FirstOrderMembershipSubstitutionBoundary
 import BEDC.Derived.SetlikeUp.KernelMembershipObligation
 import BEDC.Derived.SetlikeUp.KernelMembershipSourceTotality
 import BEDC.Derived.SetlikeUp.LedgerScopeClosure
+import BEDC.Derived.SetlikeUp.MembershipBoundarySubcarrier
 import BEDC.Derived.SetlikeUp.MembershipCarrierAdmission
 import BEDC.Derived.SetlikeUp.MembershipCarrierRootSurface
 import BEDC.Derived.SetlikeUp.MembershipCarrierStability
@@ -11554,6 +11559,7 @@ import BEDC.Derived.TriggerHypergraphReliabilityUp.Factorization
 import BEDC.Derived.TriggerHypergraphReliabilityUp.TasteGate
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
+import BEDC.Derived.TruthTotalReflectionUp.LedgerNonescape
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
 import BEDC.Derived.TubeLemmaUp.TasteGate
 import BEDC.Derived.TubularNeighborhoodUp
