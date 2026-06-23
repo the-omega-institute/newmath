@@ -2753,6 +2753,23 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.protein_acetylation.lysine_acetylation_cys_proximity_occupancy_hansen2019",
+   "experiment_id": "lysine_acetylation_cys_proximity_occupancy_hansen2019",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib lysine-acetylation occupancy determinants over Hansen/Weinert 2019 (tools/bio_reality/data/lysine_acetylation_cys_proximity_occupancy_hansen2019.json; readout=measured continuous stoichiometry, predictors=frozen local-Cys + KAT-motif priors; within-fixed-K). Abundance-controlled partial Spearman + permutation null + AUROC; near-vs-far-Cys (local-positional vs bulk); KAT-motif survival after abundance+Cys; Cys-free-subset residual. Positive control = Cys-proximity raises stoichiometry. Verdict crosses_boundary (KAT motif survives) / bounded_descriptor_only (Cys-chemistry real but KAT null) / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_lysine_acetylation_cys_proximity_occupancy_hansen2019.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T01:17:41+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }
