@@ -1,0 +1,11 @@
+\begin{theorem}[Machine export boundary registry export dependency]
+\label{thm:machine-export-boundary-registry-export-dependency}
+Every $\MachineExportBoundaryUp$ read must pass through the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert} before any machine-facing export is consumed. The remaining sibling rows are the $\MachineReadableAuditInterfaceUp$ audit route, the $\CannotClaimExportGateUp$ refusal route, and the $\NameCertMorphismUp$ certificate-preserving handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier $E=(R,T,A,F,H,C,P,N)$ from \autoref{def:machine-export-boundary-carrier}. The registry row $R$ precedes the target row $T$, so the export is visible first as a registry status and only then as a machine-facing route.
+
+Read the remaining sibling rows through $A,F,P$. The audit route supplies the machine-readable report and non-evidence boundary, the refusal route keeps blocked claims visible, and the morphism row appears as certificate-preserving provenance before the local name is consumed.
+
+Transport and replay through $H,C$ preserve the same route. Therefore no accepted $\MachineExportBoundaryUp$ consumer reaches machine-facing export before registry export, audit readback, refusal visibility, and NameCert morphism provenance have all been displayed.
+\end{proof}

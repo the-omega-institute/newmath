@@ -134,6 +134,46 @@ The sheaf row $S$ is downstream of that locality-and-gluing pair. Transport thro
 Finally $Q$ and $N$ package and name the route. Since the carrier has no coordinate for quotient families or selected covers, the plus-style replay is exactly the displayed path through $L,G,S,H,R$.
 \end{proof}
 
+\begin{theorem}[Sheafification plus-construction boundary]
+\label{thm:sheafification-plus-construction-boundary}
+For an accepted $\SheafificationUp$ carrier
+$$
+A=(C,T,J,P,L,G,S,H,R,Q,N),
+$$
+every plus-construction read factors through $C,T,J,P,L,G,S,H,R,Q,N$ and cannot read quotient compatible-family data. The plus-facing consumer receives the displayed category source, topology window, Grothendieck coverage, presheaf restriction, locality ledger, gluing ledger, sheaf target row, transport, replay, provenance, and local naming rows, but no host quotient object and no selected compatible-family representative.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:sheafification-carrier}. The tuple exposes exactly the rows $C,T,J,P,L,G,S,H,R,Q,N$, so any plus-construction read starts inside that finite surface.
+
+Use \autoref{thm:sheafification-coverage-exactness} and \autoref{thm:sheafification-plus-gluing-replay}. Coverage exactness forces the source rows $C,T,J,P$ before locality is consumed, while plus gluing replay keeps the plus-style route inside $L,G,S,H,R$.
+
+Finally apply \autoref{thm:sheafification-local-namecert-nonescape}. Since quotient compatible-family data and selected representatives are absent from the carrier and excluded by the local certificate boundary, the plus-construction read cannot escape the displayed rows.
+\end{proof}
+
+\begin{theorem}[Sheafification separated-reflection route]
+\label{thm:sheafification-separated-reflection-route}
+For an accepted $\SheafificationUp$ carrier, separated reflection is visible only through the displayed presheaf restriction row $P$ and locality row $L$ before the sheaf row $S$ is consumed. The route may use $C,T,J$ to interpret covers and $H,R,Q,N$ to transport, replay, source, and name the read, but it has no independent host reflector row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:sheafification-separated-refinement-exactness}. A separated-refinement read must expose $C,T,J,P,L$ before any sheaf-facing row is available.
+
+The presheaf row $P$ supplies the restriction comparisons, and the locality row $L$ records their cover-local separated behavior. The sheaf row $S$ is downstream of that pair by \autoref{thm:sheafification-gluing-exactness}, so it cannot be consumed as an independent reflector.
+
+The structural rows $H,R,Q,N$ preserve the same route. They transport, replay, source, and name the displayed separated-reflection boundary without adding a host reflector or quotient compatible-family object.
+\end{proof}
+
+\begin{theorem}[Sheafification cover-gluing nonescape]
+\label{thm:sheafification-cover-gluing-nonescape}
+Every cover-gluing read of an accepted $\SheafificationUp$ carrier consumes $\GrothendieckTopologyUp$ coverage, $\PreSheafUp$ restriction, the locality ledger $L$, and the gluing ledger $G$ before reaching the sheaf row $S$. The read exports no host reflector, selected cover family, quotient of compatible families, or topos-level reflection object.
+\end{theorem}
+\begin{proof}
+First expose the cover source. By \autoref{thm:sheafification-coverage-exactness}, the Grothendieck coverage row $J$ and presheaf restriction row $P$ are read before any locality ledger entry in $L$ can be consumed.
+
+Next apply \autoref{thm:sheafification-gluing-exactness}. The gluing ledger $G$ is the displayed row that records accepted glued sections, and the sheaf row $S$ is read only after locality and gluing data are available.
+
+The non-escape boundary follows from \autoref{thm:sheafification-local-namecert-nonescape}. Since host reflectors, selected cover families, quotient compatible-family objects, and topos-level reflectors are not carrier coordinates, cover gluing remains inside $J,P,L,G,S,H,R,Q,N$.
+\end{proof}
+
 \begin{theorem}[Sheafification source obligation package]
 \label{thm:sheafification-source-obligation-package}
 For an accepted $\SheafificationUp$ packet
