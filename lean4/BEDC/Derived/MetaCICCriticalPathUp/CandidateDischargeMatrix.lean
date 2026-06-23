@@ -395,4 +395,94 @@ theorem MetaCICCriticalPathRetainedPremiseDischargeBoundary [AskSetup] [PackageS
   }
   exact ⟨cert, candidateUnary, residualUnary, checkerUnary, retainedUnary⟩
 
+theorem MetaCICCriticalPathDischargeMatrixLeanTargetIndex [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
+      localName dyadic stream regseq realSeal candidateRead residualRead checkerRead
+      dischargeRead frontierRead retainedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathOpenPhaseSourceLedger strongNorm normalForm obstruction unblock
+        discharge handoff continuation provenance localName dyadic stream regseq realSeal
+        bundle pkg →
+      Cont continuation localName candidateRead →
+        Cont candidateRead realSeal residualRead →
+          Cont residualRead obstruction checkerRead →
+            Cont checkerRead discharge dischargeRead →
+              Cont dischargeRead handoff frontierRead →
+                Cont frontierRead provenance retainedRead →
+                  PkgSig bundle retainedRead pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row retainedRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row candidateRead ∨ hsame row residualRead ∨
+                            hsame row checkerRead ∨ hsame row dischargeRead ∨
+                              hsame row frontierRead ∨ hsame row retainedRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ PkgSig bundle retainedRead pkg ∧
+                            PkgSig bundle realSeal pkg)
+                        hsame ∧
+                      UnaryHistory retainedRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro ledger continuationLocalNameCandidate candidateRealResidual
+    residualObstructionChecker checkerDischargeRead dischargeHandoffFrontier
+    frontierProvenanceRetained retainedPkg
+  obtain ⟨packet, _dyadicUnary, _streamUnary, _regseqUnary, realSealUnary,
+    _dyadicStreamRegseq, _regseqRealSealHandoff, realSealPkg⟩ := ledger
+  obtain ⟨_strongNormUnary, _normalFormUnary, obstructionUnary, _unblockUnary,
+    dischargeUnary, handoffUnary, continuationUnary, provenanceUnary, localNameUnary,
+    _strongNormNormalFormContinuation, _unblockObstructionDischarge, _handoffLocalName,
+    _provenancePkg⟩ := packet
+  have candidateUnary : UnaryHistory candidateRead :=
+    unary_cont_closed continuationUnary localNameUnary continuationLocalNameCandidate
+  have residualUnary : UnaryHistory residualRead :=
+    unary_cont_closed candidateUnary realSealUnary candidateRealResidual
+  have checkerUnary : UnaryHistory checkerRead :=
+    unary_cont_closed residualUnary obstructionUnary residualObstructionChecker
+  have dischargeReadUnary : UnaryHistory dischargeRead :=
+    unary_cont_closed checkerUnary dischargeUnary checkerDischargeRead
+  have frontierUnary : UnaryHistory frontierRead :=
+    unary_cont_closed dischargeReadUnary handoffUnary dischargeHandoffFrontier
+  have retainedUnary : UnaryHistory retainedRead :=
+    unary_cont_closed frontierUnary provenanceUnary frontierProvenanceRetained
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row retainedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row candidateRead ∨ hsame row residualRead ∨ hsame row checkerRead ∨
+              hsame row dischargeRead ∨ hsame row frontierRead ∨ hsame row retainedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle retainedRead pkg ∧
+              PkgSig bundle realSeal pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro retainedRead ⟨hsame_refl retainedRead, retainedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, retainedPkg, realSealPkg⟩
+  }
+  exact ⟨cert, retainedUnary⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
