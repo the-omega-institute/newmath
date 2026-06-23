@@ -65,6 +65,33 @@ The support rows $H,C,P,N$ preserve and name the separation. Transport and repla
 Thus every public report must keep the rows jointly visible. Any route that infers bridge status from formal status, erases a blocker from $D$, or replaces $R$ by prose from a sibling chapter leaves the accepted $\ProgrammeStrengthLedgerUp$ carrier.
 \end{proof}
 
+\begin{theorem}[ProgrammeStrengthLedger public report interface]
+\label{thm:programmestrengthledger-public-report-interface}
+A public strength report exported from an accepted $\ProgrammeStrengthLedgerUp$
+carrier may expose the claim-site row $Q$ only together with the reported
+strength row $S$, dependency row $D$, theory/formal status pair $V$,
+bridge-status row $B$, refusal row $R$, componentwise transport row $H$,
+displayed replay row $C$, provenance row $P$, and local naming row $N$. Such a
+report may not promote theory closure from formal status, bridge status from
+verification status, or the reported strength beyond the row displayed by $S$.
+\end{theorem}
+\begin{proof}
+Start with the no-strength-inflation theorem
+\autoref{thm:programme-strength-ledger-no-strength-inflation}. It blocks any
+route that reads $Q$ as a stronger seed, certificate, machine-check, or bridge
+claim than the displayed row $S$ permits.
+
+Apply the axis-separation theorem
+\autoref{thm:programme-strength-ledger-axis-separation}. It keeps $Q,S,D,V,B,R$
+as distinct audit coordinates, so a public report cannot derive theory closure
+from verification status or bridge status from the formal axis.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name exactly that
+joint display. Therefore the public consumer surface is the full row family
+$Q,S,D,V,B,R,H,C,P,N$, with no promotion coordinate outside the accepted
+carrier.
+\end{proof}
+
 \falsifiablePrediction{A packet that omits $S$ or $V$ can still name a claim site, but it cannot export a reported BEDC strength.}
 
 \independenceWitness{bedcphilosophypackage, upgraderegistry, verificationfailureroadmap, gapfailurebridgeaudit, formalconstantempiricalvalueboundary: no listed sibling is bijective with $\ProgrammeStrengthLedgerUp$ because none preserves claim site, strength row, dependency row, theory/formal status pair, bridge row, refusal row, transport, replay, provenance, and local NameCert together. The package carrier stores programme rows without owning the strength audit packet; the upgrade registry records current and next obligations without binding refusal and bridge rows; the verification-failure roadmap records blockers without exporting a strength ledger; the gap-failure bridge audit records bridge blockers without the full status pair; and the empirical-value boundary separates formal and empirical constants rather than claim-strength reporting.}
