@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\DyadicMeshDiameterUp$}
+\label{ch:concrete-instances-dyadic-mesh-diameter-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicMeshDiameterUp$ packet names the finite diameter ledger carried by a dyadic mesh before interval-net and compactness consumers read it. It sits after the dyadic rational carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the interval-net surface of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}, the interval diameter ledger of \autoref{ch:concrete-instances-dyadic-interval-diameter-namecert}, the closed bounded interval net route of \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter isolates the mesh-scale and diameter rows that a finite net exposes before any consumer treats the mesh as a compactness witness.
+
+\begin{definition}[Dyadic mesh diameter carrier]
+\label{def:dyadic-mesh-diameter-carrier}
+A $\DyadicMeshDiameterUp$ carrier is a finite $\BHist$ packet
+$$
+W=(M,E,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the mesh-scale row, recording the finite dyadic subdivision level used by the net.
+\item $E$ is the endpoint row family, listing the dyadic endpoint data inspected by adjacent mesh cells.
+\item $D$ is the dyadic diameter ledger, recording the displayed diameter bound attached to the mesh.
+\item $R$ is the refinement row, relating a finer mesh scale to the same endpoint and diameter ledger surface.
+\item $H$ records componentwise $\hsame$ transport for mesh scale, endpoint rows, diameter ledger, refinement row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay for interval-net, closed bounded interval net, and finite compactness consumers.
+\item $P$ is the $\Pkg$ provenance over $\DyadicMeshDiameterUp$, $\DyadicIntervalNetUp$, $\DyadicIntervalDiameterUp$, $\ClosedBoundedIntervalNetUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicMeshDiameterUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,E,D,R,H,C,P,N$. It has no coordinate for an open-cover compactness proof, a completed real interval value, a selected limiting point, quotient equality of real names, or an unlisted mesh.
+\end{definition}
+\leandef{BEDC.Derived.DyadicMeshDiameterUp}
+
+\begin{theorem}[Dyadic mesh diameter NameCert obligations]
+\label{thm:dyadic-mesh-diameter-namecert-obligations}
+For every accepted $\DyadicMeshDiameterUp$ carrier
+$$
+W=(M,E,D,R,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicMeshDiameterUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed mesh scale, endpoint family, diameter ledger, refinement row, transport, replay, provenance, and local naming;
+\item classifier transport by common refinement, requiring two mesh reads to compare only after both expose the shared refinement row $R$ and the componentwise transport row $H$;
+\item diameter bound exactness, requiring every interval-net diameter read to pass through the displayed dyadic ledger $D$;
+\item refinement monotonicity, requiring a finer accepted mesh to preserve or decrease the displayed dyadic diameter bound;
+\item ledger nonescape, requiring $P,N$ to source and name no open-cover compactness proof, completed real interval value, selected limit, quotient real equality, or unlisted mesh.
+\end{enumerate}
+No local obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-mesh-diameter-carrier}. The accepted packet displays exactly one mesh-scale row, one endpoint-family row, one dyadic diameter ledger, one refinement row, and the structural rows that transport, replay, source, and name them.
+
+Classifier transport is read through $R$ and $H$. A comparison of two mesh reads must first move both packets to the displayed common refinement surface; only then can the componentwise transport row compare mesh scale, endpoint rows, and diameter ledger data.
+
+Diameter bound exactness is read from $D$. The interval-net consumer therefore receives a dyadic ledger value rather than a host metric diameter or a real-valued supremum.
+
+Refinement monotonicity is the finite ledger clause attached to $R$. Refining the mesh may preserve the previous displayed bound or replace it by a smaller dyadic bound, but the route contains no coordinate that can increase the bound while still naming the same accepted refinement.
+
+Finally, $P$ and $N$ keep the obligation surface local to the displayed rows. Since the excluded objects are absent from the carrier, no compactness theorem, completed real value, selected limit, quotient equality, or hidden mesh can enter the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dyadic mesh diameter refinement monotonicity]
+\label{thm:dyadic-mesh-diameter-refinement-monotonicity}
+Let $W=(M,E,D,R,H,C,P,N)$ be an accepted $\DyadicMeshDiameterUp$ carrier. Any accepted refinement read through $R$ and replayed through $C$ exposes a diameter ledger that is the same as $D$ or a dyadic bound below $D$. Thus mesh refinement can only decrease or preserve the displayed dyadic diameter bound before interval-net, closed bounded interval net, or compactness consumers read the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-mesh-diameter-carrier}. The only row that records a mesh diameter is $D$, and the only row that records a mesh refinement is $R$.
+
+An accepted refinement must be replayed through $C$ while preserving the same endpoint and provenance surface through $H,P,N$. Therefore the refined packet can expose only the original diameter ledger or the dyadic ledger named by the refinement row.
+
+The NameCert obligations of \autoref{thm:dyadic-mesh-diameter-namecert-obligations} require the refinement row to preserve or lower the displayed dyadic bound. Since there is no coordinate for an external diameter operation or a hidden mesh, no larger bound can be introduced by a valid refinement read.
+\end{proof}
+
+\closureat{DyadicMeshDiameterUp}{seedStr}
+
+\begin{closurestatus}{\DyadicMeshDiameterUp}
+  \constructivestory{A $\DyadicMeshDiameterUp$ packet is generated from a mesh-scale row, dyadic endpoint rows, a diameter ledger, a refinement row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-mesh-diameter-carrier}, \autoref{thm:dyadic-mesh-diameter-namecert-obligations}, and \autoref{thm:dyadic-mesh-diameter-refinement-monotonicity} seed the finite dyadic mesh diameter route used by interval-net and compactness consumers.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.DyadicMeshDiameterUp}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close open-cover compactness, completed RealUp interval values, selected limits, quotient real equality, ambient completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport by common refinement, diameter bound exactness, refinement monotonicity, ledger nonescape, transport, replay, provenance, and local naming for BEDC.Derived.DyadicMeshDiameterUp.}
+\end{closurestatus}
