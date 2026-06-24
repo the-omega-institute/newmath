@@ -418,6 +418,54 @@ theorem SubordinateModulusCoverLedgerHandoffObligation [AskSetup] [PackageSetup]
   }
   exact ⟨cert, coverageUnary, comparisonsUnary⟩
 
+theorem SubordinateModulusCoverCompactCoverageExactness [AskSetup] [PackageSetup]
+    {E bundleSpine centers radii precision pointwise coverage comparisons transport route
+      provenance name coverageRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubordinateModulusCoverCarrier E bundleSpine centers radii precision pointwise coverage
+        comparisons transport route provenance name bundle pkg →
+      Cont centers coverage coverageRead →
+        PkgSig bundle coverageRead pkg →
+          UnaryHistory bundleSpine ∧ UnaryHistory centers ∧ UnaryHistory coverage ∧
+            UnaryHistory coverageRead ∧ Cont centers coverage coverageRead ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                PkgSig bundle coverageRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier centersCoverageRead coverageReadPkg
+  obtain ⟨_eUnary, bundleSpineUnary, centersUnary, _radiiUnary, _precisionUnary,
+    _pointwiseUnary, coverageUnary, _comparisonsUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _bundleCoverageRoute, _comparisonRoute, provenancePkg,
+    namePkg⟩ := carrier
+  have coverageReadUnary : UnaryHistory coverageRead :=
+    unary_cont_closed centersUnary coverageUnary centersCoverageRead
+  exact
+    ⟨bundleSpineUnary, centersUnary, coverageUnary, coverageReadUnary, centersCoverageRead,
+      provenancePkg, namePkg, coverageReadPkg⟩
+
+theorem SubordinateModulusCoverPointwiseCompatibility [AskSetup] [PackageSetup]
+    {E bundleSpine centers radii precision pointwise coverage comparisons transport route
+      provenance name pointwiseRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubordinateModulusCoverCarrier E bundleSpine centers radii precision pointwise coverage
+        comparisons transport route provenance name bundle pkg →
+      Cont centers pointwise pointwiseRead →
+        PkgSig bundle pointwiseRead pkg →
+          UnaryHistory centers ∧ UnaryHistory precision ∧ UnaryHistory pointwise ∧
+            UnaryHistory pointwiseRead ∧ Cont centers pointwise pointwiseRead ∧
+              PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                PkgSig bundle pointwiseRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier centersPointwiseRead pointwiseReadPkg
+  obtain ⟨_eUnary, _bundleSpineUnary, centersUnary, _radiiUnary, precisionUnary,
+    pointwiseUnary, _coverageUnary, _comparisonsUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _bundleCoverageRoute, _comparisonRoute, provenancePkg,
+    namePkg⟩ := carrier
+  have pointwiseReadUnary : UnaryHistory pointwiseRead :=
+    unary_cont_closed centersUnary pointwiseUnary centersPointwiseRead
+  exact
+    ⟨centersUnary, precisionUnary, pointwiseUnary, pointwiseReadUnary, centersPointwiseRead,
+      provenancePkg, namePkg, pointwiseReadPkg⟩
+
 theorem SubordinateModulusCoverUniformHandoff
     {tolerance bundle centers radii precision pointwise coverage comparisons transport routes
       provenance nameCert : BHist} :
@@ -494,5 +542,33 @@ theorem SubordinateModulusCoverClassifierStabilityObligation
           comparisons transport routes provenance nameCert),
       transportedSameRoutes,
       rfl⟩
+
+theorem SubordinateModulusCoverRadiusStability [AskSetup] [PackageSetup]
+    {E bundleSpine centers radii precision pointwise coverage comparisons transport route
+      provenance name transportedRadii transportedPrecision transportedCoverage
+      transportedComparisons : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubordinateModulusCoverCarrier E bundleSpine centers radii precision pointwise coverage
+        comparisons transport route provenance name bundle pkg →
+      hsame transportedRadii radii →
+        hsame transportedPrecision precision →
+          hsame transportedCoverage coverage →
+            hsame transportedComparisons comparisons →
+              UnaryHistory transportedRadii ∧ UnaryHistory transportedPrecision ∧
+                UnaryHistory transportedCoverage ∧ UnaryHistory transportedComparisons ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame PkgSig UnaryHistory
+  intro carrier sameRadii samePrecision sameCoverage sameComparisons
+  obtain ⟨_eUnary, _bundleUnary, _centersUnary, radiiUnary, precisionUnary,
+    _pointwiseUnary, coverageUnary, comparisonsUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _coverageRoute, _comparisonRoute, provenancePkg,
+    namePkg⟩ := carrier
+  exact
+    ⟨unary_transport_symm radiiUnary sameRadii,
+      unary_transport_symm precisionUnary samePrecision,
+      unary_transport_symm coverageUnary sameCoverage,
+      unary_transport_symm comparisonsUnary sameComparisons,
+      provenancePkg,
+      namePkg⟩
 
 end BEDC.Derived.SubordinateModulusCoverUp

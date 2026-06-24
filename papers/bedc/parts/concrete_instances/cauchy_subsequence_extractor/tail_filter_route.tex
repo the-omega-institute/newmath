@@ -1,0 +1,15 @@
+\begin{theorem}[CauchySubsequenceExtractor tail-filter route]
+\label{thm:cauchy-subsequence-extractor-tail-filter-route}
+Every accepted $\CauchySubsequenceExtractorUp$ route
+$$
+S=(C,Q,W,D,E,R,L,H,T,P,N)
+$$
+consumes the tail-filter or cofinal-subsequence surface before exporting the subsequence selector row $E$. In particular, a consumer that reads $E$ must first expose either the Cauchy sequence tail-filter route of \autoref{ch:concrete-instances-cauchy-sequence-tail-filter-namecert} or the cofinal-subsequence filter route of \autoref{ch:concrete-instances-cofinal-subsequence-filter-namecert}, together with the displayed source row $C$, regular readback $Q$, finite window $W$, and dyadic ledger $D$. The exported selector is therefore a tail/cofinal-filter read, not an isolated selector coordinate.
+\end{theorem}
+\begin{proof}
+Start from the carrier rows of \autoref{def:cauchy-subsequence-extractor-carrier}. The extraction row $E$ is not available before the source row $C$, regular readback $Q$, finite window $W$, and dyadic tolerance ledger $D$ have been displayed.
+
+Use the selector-lattice handoff and finite-window route, \autoref{thm:cauchy-subsequence-extractor-selector-lattice-handoff} and \autoref{thm:cauchy-subsequence-extractor-finite-window-route}. They bind the selector schedule to the same finite subsequence route that later feeds $\RealUp$ and $\RealSeparabilityUp$ consumers.
+
+Finally attach the tail-filter siblings. A tail-filter or cofinal-subsequence read supplies the late-window discipline that makes the selector row finite and monotone; the structural rows $H,T,P,N$ then replay, transport, source, and name that same route. Since no carrier coordinate stores a free selector, countable choice, quotient stream equality, or ambient completeness, every exported selector remains downstream of the tail/cofinal filter surface.
+\end{proof}
