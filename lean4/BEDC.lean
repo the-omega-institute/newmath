@@ -8553,6 +8553,7 @@ import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.PadicUp.ExactDivision
 import BEDC.Derived.PadicUp.FieldCore
 import BEDC.Derived.PadicUp.IntegerTower
+import BEDC.Derived.PadicUp.IntegerTower.Completeness
 import BEDC.Derived.PadicUp.IntegerTower.RingCompletion
 import BEDC.Derived.PadicUp.Localization
 import BEDC.Derived.PadicUp.Multiplicative
