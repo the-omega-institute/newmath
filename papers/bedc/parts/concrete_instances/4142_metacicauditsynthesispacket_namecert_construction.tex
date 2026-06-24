@@ -287,6 +287,22 @@ Finally apply the discharge projection of \autoref{thm:metacic-audit-synthesis-d
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICAuditSynthesisPacketUp.MetaCICAuditSynthesisBlockerPreservingPositiveProjection}
 
+\begin{theorem}[MetaCIC audit synthesis residual-diamond handoff]
+\label{thm:metacic-audit-synthesis-residual-diamond-handoff}
+Every consumer that reads residual-diamond or parallel-diamond frontier data through an accepted $\MetaCICAuditSynthesisPacketUp$ packet
+$$
+M=(S,C,N,U,D,A,B,H,R,P,L)
+$$
+must expose the rows $S,C,N,U,D,A,B,H,R,P,L$ and the discharge-obligation ledger before treating candidate-normalization or confluence rows as a residual join. The read may use the candidate-normalization row $N$ and confluence row $C$ only as blocker-preserving frontier data; it does not export subject reduction, full consistency, unrestricted Church--Rosser, candidate-free normalization, global beta-conversion decidability, or quotient equality of MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Start with the public transport gate, \autoref{thm:metacic-audit-synthesis-public-transport-gate}. A residual-diamond consumer is a public projection from the same finite packet, so it must keep the subject-reduction row $S$, candidate and confluence rows $N,C$, blocker row $B$, and structural rows $H,R,P,L$ visible.
+
+Use blocker-preserving positive projection and candidate-normalization handoff, \autoref{thm:metacic-audit-synthesis-blocker-preserving-positive-projection} and \autoref{thm:metacic-audit-synthesis-candidate-normalization-handoff}. These theorems allow positive frontier rows to be read, but only with the blocker and discharge information still attached.
+
+Finally apply transport obstruction and discharge projection, \autoref{thm:metacic-audit-synthesis-transport-obstruction} and \autoref{thm:metacic-audit-synthesis-discharge-projection}. The discharge-obligation ledger remains the named boundary for the missing subject-reduction edge, so a candidate-normalization or confluence row cannot be repacked as a residual join unless the entire blocker-preserving packet is exposed.
+\end{proof}
+
 \begin{theorem}[MetaCIC audit synthesis scoped closure]
 \label{thm:metacic-audit-synthesis-scope-closure}
 For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
