@@ -132,6 +132,43 @@ theorem ErgodicMeasurePreservingCarrier_decomposition_ledger [AskSetup] [Package
       (And.intro classifier.right.right.right.right.right.left
         (And.intro endpointReadback classifier.right.right.right.right.right.right)))
 
+theorem ErgodicMeasurePreservingCarrier_invariant_subledger_restriction_stays_carried
+    [AskSetup] [PackageSetup]
+    {dyn measure invariant retained transport ledger provenance endpoint restrictedEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ErgodicMeasurePreservingCarrier dyn measure invariant transport ledger provenance endpoint
+        bundle pkg ->
+      hsame retained invariant ->
+        Cont retained transport ledger ->
+          Cont provenance ledger restrictedEndpoint ->
+            PkgSig bundle restrictedEndpoint pkg ->
+              ErgodicMeasurePreservingCarrier dyn measure retained transport ledger provenance
+                  restrictedEndpoint bundle pkg ∧
+                hsame ledger (append retained transport) ∧
+                  PkgSig bundle restrictedEndpoint pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg hsame UnaryHistory
+  intro carrier sameRetained retainedLedger restrictedEndpointRow restrictedPkg
+  have source :
+      ErgodicBHistSourceSurface dyn measure invariant transport ledger provenance endpoint
+        bundle pkg := carrier.left
+  have retainedUnary : UnaryHistory retained :=
+    unary_transport
+      (unary_transport (unary_append_closed source.left source.right.left)
+        (hsame_symm carrier.right))
+      (hsame_symm sameRetained)
+  have retainedReadback : hsame retained (append dyn measure) :=
+    hsame_trans sameRetained carrier.right
+  have restrictedSource :
+      ErgodicBHistSourceSurface dyn measure retained transport ledger provenance
+        restrictedEndpoint bundle pkg :=
+    ⟨source.left, source.right.left, source.right.right.left, source.right.right.right.left,
+      retainedLedger, restrictedEndpointRow, restrictedPkg⟩
+  have restrictedCarrier :
+      ErgodicMeasurePreservingCarrier dyn measure retained transport ledger provenance
+        restrictedEndpoint bundle pkg :=
+    ⟨restrictedSource, retainedReadback⟩
+  exact ⟨restrictedCarrier, retainedLedger, restrictedPkg⟩
+
 def ErgodicMeasurePreservingSurface [AskSetup] [PackageSetup]
     (dynamic measure invariant transport route endpoint : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
