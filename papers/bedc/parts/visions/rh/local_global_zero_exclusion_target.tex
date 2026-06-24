@@ -264,6 +264,134 @@ $$
 $$
 \end{definition}
 
+\section{Positive Defect Certificates}
+\label{sec:rh-positive-defect-certificates}
+
+\begin{definition}[Finite radial energy]
+\label{def:rh-finite-radial-energy}
+For a nonempty finite prime window $S$ and positive weights
+$(w_p)_{p\in S}$, the finite radial energy of a row $s$ is
+$$
+E_S(s)
+:=
+\sum_{p\in S}
+w_p\bigl(\log |p^{1/2-s}|\bigr)^2.
+$$
+Using the centered form
+$$
+p^{1/2-s}=p^{-\delta(s)}e^{-i\tau(s)\log p},
+$$
+this energy is
+$$
+E_S(s)
+=
+\delta(s)^2
+\sum_{p\in S}w_p(\log p)^2.
+$$
+\end{definition}
+
+\begin{proposition}[Finite radial energy detects the fixed half]
+\label{prop:rh-finite-radial-energy-detects-fixed-half}
+For every nonempty finite prime window $S$ with positive weights,
+$$
+E_S(s)=0
+\quad\Longleftrightarrow\quad
+\mathsf{OnCritLine}(s).
+$$
+\end{proposition}
+
+\begin{proof}
+The weight sum
+$$
+\sum_{p\in S}w_p(\log p)^2
+$$
+is positive because $S$ is nonempty, every displayed weight is positive,
+and every prime has $\log p>0$.  Hence
+$E_S(s)=0$ exactly when $\delta(s)^2=0$, equivalently
+$\delta(s)=0$.  This is the fixed-half condition
+$\Re(s)=1/2$, namely $\mathsf{OnCritLine}(s)$.
+\end{proof}
+
+\begin{definition}[Constructive bad-zero packet]
+\label{def:rh-constructive-bad-zero-packet}
+For a displayed positive rational $q$, a constructive bad-zero packet is
+$$
+\mathsf{BadZero}_q(s)
+:=
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\bigl(|\delta(s)|\ge q\bigr).
+$$
+The third row is a positive radial-defect certificate.  It is stronger than
+the bare negation $\delta(s)\neq0$ and is the form consumed by finite-window
+apartness arguments.
+\end{definition}
+
+\begin{proposition}[Bad zeros create finite radial energy]
+\label{prop:rh-bad-zero-creates-finite-radial-energy}
+If $\mathsf{BadZero}_q(s)$ holds and $S$ is a nonempty finite prime window
+with positive weights, then
+$$
+E_S(s)
+\ge
+q^2\sum_{p\in S}w_p(\log p)^2
+>
+0.
+$$
+\end{proposition}
+
+\begin{proof}
+The defect row of \autoref{def:rh-constructive-bad-zero-packet} gives
+$|\delta(s)|\ge q$.  Squaring and substituting into
+\autoref{def:rh-finite-radial-energy} gives the displayed lower bound.  The
+right-hand weight sum is positive by the proof of
+\autoref{prop:rh-finite-radial-energy-detects-fixed-half}, so the energy is
+positive.
+\end{proof}
+
+\begin{principle}[No tail absorption row]
+\label{prin:rh-no-tail-absorption-row}
+Finite radial energy is a certificate interface, not a completed-carrier
+exclusion by itself.  The missing carrier-level row is the assertion that a
+positive finite-window radial defect cannot be absorbed by the remaining
+Euler tail, the archimedean completion row, or the functional-equation
+transport while still carrying a zero ledger:
+$$
+\mathsf{CompletedCarrier}(s)
+\times
+\sum_{S\subset_{\mathrm{fin}}\PrimeUp}
+\bigl(E_S(s)>0\bigr)
+\Longrightarrow
+\mathsf{Apart}_{0}(\zeta(s)).
+$$
+This is the radial-energy presentation of
+\autoref{def:rh-defect-zero-incompatibility}.  It must be proved as a
+carrier-rigidity statement; it is not a consequence of finite enumeration
+alone.
+\end{principle}
+
+\begin{theorem}[Bad-zero contradiction route]
+\label{thm:rh-bad-zero-contradiction-route}
+Assume source compatibility, archimedean completion, and the no-tail
+absorption row of \autoref{prin:rh-no-tail-absorption-row}.  Assume also
+that $\mathsf{Apart}_{0}(\zeta(s))$ contradicts
+$\mathsf{ZetaZero}(s)$.  Then no constructive bad-zero packet exists.
+\end{theorem}
+
+\begin{proof}
+Assume $\mathsf{BadZero}_q(s)$.  Choose a nonempty finite prime window $S$
+with positive weights.  By
+\autoref{prop:rh-bad-zero-creates-finite-radial-energy}, this packet
+supplies $E_S(s)>0$.  Source compatibility identifies this finite-window
+defect with a projection of the same source row as the zero ledger, and the
+archimedean completion row places the data in the completed carrier.  The
+no-tail absorption row yields $\mathsf{Apart}_{0}(\zeta(s))$, contradicting
+the $\mathsf{ZetaZero}(s)$ component of
+\autoref{def:rh-constructive-bad-zero-packet}.
+\end{proof}
+
 \section{Obligation Assembly}
 \label{sec:rh-local-global-obligation-assembly}
 
