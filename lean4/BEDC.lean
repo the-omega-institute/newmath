@@ -9587,6 +9587,7 @@ import BEDC.Derived.RationalIntervalRefinementUp
 import BEDC.Derived.RationalIntervalRefinementUp.ChainExactness
 import BEDC.Derived.RationalIntervalRefinementUp.RetainedWindowInduction
 import BEDC.Derived.RationalIntervalRefinementUp.TasteGate
+import BEDC.Derived.RationalIntervalSequenceUp.TasteGate
 import BEDC.Derived.RationalIntervalSubdivisionUp.TasteGate
 import BEDC.Derived.RationalIntervalUp
 import BEDC.Derived.RationalIntervalUp.BisectionRefinementNesting
@@ -12425,6 +12426,7 @@ import BEDC.Derived.ZetaContinuationApplicationUp.SourceTriadExhaustion
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationApplicationUp.VisibleBoundaryLock
 import BEDC.Derived.ZetaContinuationApplicationUp.ZetaBasicSourceLock
+import BEDC.Derived.ZetaContinuationSocketUp
 import BEDC.Derived.ZetaContinuationSocketUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.AnalyticReadbackObligation
