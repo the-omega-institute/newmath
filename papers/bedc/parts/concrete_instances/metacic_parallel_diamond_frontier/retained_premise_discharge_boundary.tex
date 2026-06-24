@@ -16,10 +16,13 @@ A candidate-mediated diamond consumer of $\MetaCICParallelDiamondFrontierUp$ may
 $$
 P,\ K,\ J,\ R,\ S,\ C,\ B,\ O,\ H,\ T,\ G,\ N .
 $$
+This discharge is local consumption of the displayed route: the retained residual-substitution premise row $P$ must remain present in $P,K,J,R,S,C,B,O,H,T,G,N$ while the consumer reads $J$ and $R$.
 The route still does not provide full residual-substitution discharge, subject reduction, Church--Rosser, evaluator equality, quotient term equality, global normalization, or kernel consistency.
 \end{theorem}
 \begin{proof}
 Apply \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-discharge-boundary}. It already forces every candidate join and residual frontier read to keep the retained premise, critical-pair, checker, normal-fragment, bounded-check, obstruction, and structural rows visible.
+
+The criterion is a visibility condition on the retained premise, not a proof that residual substitution has been eliminated.
 
 The present route narrows that boundary to the local consumer order $P,K,J,R,S,C,B,O,H,T,G,N$. Reading $J$ and $R$ is therefore allowed only after the retained-premise and critical-pair rows have been exposed, and before the closed-checker, closed-normal fragment, bounded-check, obstruction, transport, replay, provenance, and naming rows close the local packet.
 
