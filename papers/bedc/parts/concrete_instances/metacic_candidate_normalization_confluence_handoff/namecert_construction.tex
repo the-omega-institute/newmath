@@ -156,6 +156,20 @@ Finally use \autoref{thm:metacic-candidate-normalization-confluence-handoff-cons
 \end{proof}
 \leanchecked{BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.MetacicCandidateNormalizationConfluenceHandoffResidualProgress}
 
+\begin{theorem}[MetaCIC candidate normalization confluence bounded join window]
+\label{thm:metacic-candidate-normalization-confluence-bounded-join-window}
+Let $H=(A,K,N,F,C,D,B,T,R,P,L)$ be an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier. A confluence-facing consumer may export a join read from $H$ only after the candidate evidence $K$, normalization-frontier row $F$, residual envelope $C$, decidable-boundary row $D$, blocked-edge row $B$, and structural rows $T,R,P,L$ remain visible before the endpoint row $N$ is consumed. The window is finite and carrier-internal: it does not assert full Church--Rosser, unrestricted subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, or closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the handoff boundary of \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. It exposes $K$ and $F$ before $N$, keeps $C$ and $B$ visible for confluence-facing reads, and routes bounded comparison through $D$.
+
+Use premise exposure from \autoref{thm:metacic-candidate-normalization-confluence-handoff-premise-exposure}. A public confluence consumer cannot read the endpoint row before the candidate, frontier, residual-envelope, decidable-boundary, and blocked-edge rows are displayed in the same packet.
+
+Apply residual-diamond retention from \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention}. It prevents a join read from treating $N$ as detached joinability data; the read must retain $K,C,D,B$ on the residual route.
+
+Finally use normal-endpoint readback from \autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-endpoint-readback}. The structural rows $T,R,P,L$ preserve, replay, source, and name the same finite route before $N$ is consumed. Since no excluded global endpoint is a carrier coordinate, the exported join is available only through this bounded window.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate normalization confluence rectangle]
 \label{thm:metacic-candidate-normalization-confluence-rectangle}
 Let $H=(A,K,N,F,C,D,B,T,R,P,L)$ be an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier. If both candidate-normalization edges of a bounded comparison are admitted by the candidate gate and each residual edge is read through the residual envelope, then the handoff packet either displays a common bounded endpoint row or records a residual obstruction row through $C$ and $B$. The rectangle is guarded by the candidate and residual rows; it does not assert full Church--Rosser, unconditional strong normalization, unrestricted subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, or consistency.
