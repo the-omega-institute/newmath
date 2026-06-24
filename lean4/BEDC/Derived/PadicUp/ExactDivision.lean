@@ -759,14 +759,12 @@ theorem qpInvApart_value_identity {p : BHist} (x : QpInt p) (hx : QpApart0 x)
 theorem qpInvApart_mul {p : BHist} (x : QpInt p) (hx : QpApart0 x) :
     QpEq (qpMul x (qpInvApart x hx)) (qpOne p x.value.prime) := by
   intro prime
-  exact ⟨0, by
-    rw [Nat.zero_add, Nat.zero_add]
-    unfold qpMul qpOne
-    dsimp
-    exact ZpEq_trans
-      (zpOne_mul_left p prime
-        (zpMul p x.value (qpInvApart x hx).value))
-      (qpInvApart_value_identity x hx prime)⟩
+  unfold QpRawEq QpCrossEq qpMul qpOne
+  dsimp
+  exact ZpEq_trans
+    (zpOne_mul_left p prime
+      (zpMul p x.value (qpInvApart x hx).value))
+    (qpInvApart_value_identity x hx prime)
 
 theorem qpInvApart_mul_right {p : BHist} (x : QpInt p) (hx : QpApart0 x) :
     QpEq (qpMul (qpInvApart x hx) x) (qpOne p x.value.prime) := by

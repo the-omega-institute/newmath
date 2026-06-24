@@ -707,20 +707,36 @@ def QpCrossEq {p : BHist} (prime : NatPrime p) (x y : QpInt p) : Prop :=
 def QpRawEq {p : BHist} (prime : NatPrime p) (x y : QpInt p) : Prop :=
   QpCrossEq prime x y
 
-def QpEq {p : BHist} (x y : QpInt p) : Prop :=
+def QpSatEq {p : BHist} (x y : QpInt p) : Prop :=
   ∀ prime : NatPrime p, ∃ pad : Nat,
     ZpEq (zpScale p prime (pad + y.shift) x.value)
       (zpScale p prime (pad + x.shift) y.value)
 
+def QpEq {p : BHist} (x y : QpInt p) : Prop :=
+  ∀ prime : NatPrime p, QpRawEq prime x y
+
 theorem QpCrossEq_to_QpEq {p : BHist} {x y : QpInt p} :
     (∀ prime : NatPrime p, QpCrossEq prime x y) -> QpEq x y := by
-  intro cross prime
-  exact ⟨0, by simpa using cross prime⟩
+  intro cross
+  exact cross
 
 theorem QpRawEq_to_QpEq {p : BHist} {x y : QpInt p} :
     (∀ prime : NatPrime p, QpRawEq prime x y) -> QpEq x y := by
   intro raw
-  exact QpCrossEq_to_QpEq raw
+  exact raw
+
+theorem QpEq_to_QpRawEq {p : BHist} {x y : QpInt p} :
+    QpEq x y -> ∀ prime : NatPrime p, QpRawEq prime x y := by
+  intro same
+  exact same
+
+theorem QpEq_iff_QpRawEq {p : BHist} (x y : QpInt p) :
+    QpEq x y ↔ ∀ prime : NatPrime p, QpRawEq prime x y := by
+  constructor
+  · intro same
+    exact QpEq_to_QpRawEq same
+  · intro raw
+    exact QpRawEq_to_QpEq raw
 
 theorem QpRawEq_refl {p : BHist} (prime : NatPrime p) (x : QpInt p) :
     QpRawEq prime x x := by
@@ -731,86 +747,126 @@ theorem QpRawEq_symm {p : BHist} {x y : QpInt p} (prime : NatPrime p) :
   intro same
   exact ZpEq_symm same
 
+theorem QpRawEq_trans {p : BHist} {x y z : QpInt p} (prime : NatPrime p) :
+    QpRawEq prime x y -> QpRawEq prime y z -> QpRawEq prime x z := by
+  intro sameXY sameYZ
+  have leftLift :
+      ZpEq
+        (zpScale p prime y.shift (zpScale p prime z.shift x.value))
+        (zpScale p prime z.shift (zpScale p prime y.shift x.value)) := by
+    exact zpScale_nested_reindex p prime y.shift z.shift z.shift y.shift
+      x.value (Nat.add_comm y.shift z.shift)
+  have xyLift :
+      ZpEq
+        (zpScale p prime z.shift (zpScale p prime y.shift x.value))
+        (zpScale p prime z.shift (zpScale p prime x.shift y.value)) :=
+    zpScale_congr prime sameXY
+  have middleSwap :
+      ZpEq
+        (zpScale p prime z.shift (zpScale p prime x.shift y.value))
+        (zpScale p prime x.shift (zpScale p prime z.shift y.value)) := by
+    exact zpScale_nested_reindex p prime z.shift x.shift x.shift z.shift
+      y.value (Nat.add_comm z.shift x.shift)
+  have yzLift :
+      ZpEq
+        (zpScale p prime x.shift (zpScale p prime z.shift y.value))
+        (zpScale p prime x.shift (zpScale p prime y.shift z.value)) :=
+    zpScale_congr prime sameYZ
+  have rightLift :
+      ZpEq
+        (zpScale p prime x.shift (zpScale p prime y.shift z.value))
+        (zpScale p prime y.shift (zpScale p prime x.shift z.value)) := by
+    exact zpScale_nested_reindex p prime x.shift y.shift y.shift x.shift
+      z.value (Nat.add_comm x.shift y.shift)
+  have common :
+      ZpEq
+        (zpScale p prime y.shift (zpScale p prime z.shift x.value))
+        (zpScale p prime y.shift (zpScale p prime x.shift z.value)) :=
+    ZpEq_trans leftLift
+      (ZpEq_trans xyLift
+        (ZpEq_trans middleSwap (ZpEq_trans yzLift rightLift)))
+  unfold QpRawEq QpCrossEq
+  exact powP_mul_left_cancel prime y.shift
+    (zpScale p prime z.shift x.value)
+    (zpScale p prime x.shift z.value)
+    common
+
+theorem QpRawEq_to_QpSatEq {p : BHist} {x y : QpInt p} :
+    (∀ prime : NatPrime p, QpRawEq prime x y) -> QpSatEq x y := by
+  intro raw prime
+  exact ⟨0, by simpa using raw prime⟩
+
+theorem QpSatEq_to_QpRawEq {p : BHist} {x y : QpInt p} :
+    QpSatEq x y -> ∀ prime : NatPrime p, QpRawEq prime x y := by
+  intro same prime
+  cases same prime with
+  | intro pad padSame =>
+      have leftTarget :
+          ZpEq
+            (zpScale p prime pad (zpScale p prime y.shift x.value))
+            (zpScale p prime (pad + y.shift) x.value) :=
+        zpScale_scale p prime pad y.shift x.value
+      have rightTarget :
+          ZpEq
+            (zpScale p prime (pad + x.shift) y.value)
+            (zpScale p prime pad (zpScale p prime x.shift y.value)) :=
+        ZpEq_symm (zpScale_scale p prime pad x.shift y.value)
+      have common :
+          ZpEq
+            (zpScale p prime pad (zpScale p prime y.shift x.value))
+            (zpScale p prime pad (zpScale p prime x.shift y.value)) :=
+        ZpEq_trans leftTarget (ZpEq_trans padSame rightTarget)
+      unfold QpRawEq QpCrossEq
+      exact powP_mul_left_cancel prime pad
+        (zpScale p prime y.shift x.value)
+        (zpScale p prime x.shift y.value)
+        common
+
+theorem QpRawEq_iff_QpSatEq {p : BHist} (x y : QpInt p) :
+    (∀ prime : NatPrime p, QpRawEq prime x y) ↔ QpSatEq x y := by
+  constructor
+  · intro raw
+    exact QpRawEq_to_QpSatEq raw
+  · intro sat
+    exact QpSatEq_to_QpRawEq sat
+
+theorem QpSatEq_to_QpEq {p : BHist} {x y : QpInt p} :
+    QpSatEq x y -> QpEq x y := by
+  intro sat
+  exact QpRawEq_to_QpEq (QpSatEq_to_QpRawEq sat)
+
+theorem QpEq_to_QpSatEq {p : BHist} {x y : QpInt p} :
+    QpEq x y -> QpSatEq x y := by
+  intro same
+  exact QpRawEq_to_QpSatEq (QpEq_to_QpRawEq same)
+
 theorem QpEq_refl {p : BHist} (x : QpInt p) : QpEq x x := by
   intro prime
-  exact ⟨0, ZpEq_refl _⟩
+  exact QpRawEq_refl prime x
 
 theorem QpEq_symm {p : BHist} {x y : QpInt p} :
     QpEq x y -> QpEq y x := by
   intro same prime
-  cases same prime with
-  | intro pad padSame =>
-      exact ⟨pad, ZpEq_symm padSame⟩
+  exact QpRawEq_symm prime (same prime)
 
 theorem QpEq_trans {p : BHist} {x y z : QpInt p} :
     QpEq x y -> QpEq y z -> QpEq x z := by
   intro sameXY sameYZ prime
-  cases sameXY prime with
-  | intro padXY eqXY =>
-      cases sameYZ prime with
-      | intro padYZ eqYZ =>
-          let pad := padXY + padYZ + y.shift
-          have leftLift :
-              ZpEq
-                (zpScale p prime (padYZ + z.shift)
-                  (zpScale p prime (padXY + y.shift) x.value))
-                (zpScale p prime (padYZ + z.shift)
-                  (zpScale p prime (padXY + x.shift) y.value)) :=
-            zpScale_congr prime eqXY
-          have rightLift :
-              ZpEq
-                (zpScale p prime (padXY + x.shift)
-                  (zpScale p prime (padYZ + z.shift) y.value))
-                (zpScale p prime (padXY + x.shift)
-                  (zpScale p prime (padYZ + y.shift) z.value)) :=
-            zpScale_congr prime eqYZ
-          have middleSwap :
-              ZpEq
-                (zpScale p prime (padYZ + z.shift)
-                  (zpScale p prime (padXY + x.shift) y.value))
-                (zpScale p prime (padXY + x.shift)
-                  (zpScale p prime (padYZ + z.shift) y.value)) := by
-            exact ZpEq_trans
-              (zpScale_scale p prime (padYZ + z.shift) (padXY + x.shift) y.value)
-              (ZpEq_trans
-                (zpScale_nat_eq prime y.value (by
-                  rw [Nat.add_comm (padYZ + z.shift) (padXY + x.shift)]))
-                (ZpEq_symm
-                  (zpScale_scale p prime (padXY + x.shift) (padYZ + z.shift) y.value)))
-          have chain :=
-            ZpEq_trans leftLift (ZpEq_trans middleSwap rightLift)
-          have leftTarget :
-              ZpEq
-                (zpScale p prime (pad + z.shift) x.value)
-                (zpScale p prime (padYZ + z.shift)
-                  (zpScale p prime (padXY + y.shift) x.value)) := by
-            exact ZpEq_symm
-              (zpScale_scale_to p prime (padYZ + z.shift) (padXY + y.shift)
-                (pad + z.shift) x.value
-                (qpNat_trans_left padXY padYZ y.shift z.shift))
-          have rightTarget :
-              ZpEq
-                (zpScale p prime (padXY + x.shift)
-                  (zpScale p prime (padYZ + y.shift) z.value))
-                (zpScale p prime (pad + x.shift) z.value) := by
-            exact zpScale_scale_to p prime (padXY + x.shift) (padYZ + y.shift)
-              (pad + x.shift) z.value
-              (qpNat_trans_right padXY padYZ y.shift x.shift)
-          exact ⟨pad, ZpEq_trans leftTarget (ZpEq_trans chain rightTarget)⟩
+  exact QpRawEq_trans prime (sameXY prime) (sameYZ prime)
 
 theorem QpRawEq_trans_to_QpEq {p : BHist} {x y z : QpInt p} :
     (∀ prime : NatPrime p, QpRawEq prime x y) ->
       (∀ prime : NatPrime p, QpRawEq prime y z) -> QpEq x z := by
   intro sameXY sameYZ
-  exact QpEq_trans (QpRawEq_to_QpEq sameXY) (QpRawEq_to_QpEq sameYZ)
+  intro prime
+  exact QpRawEq_trans prime (sameXY prime) (sameYZ prime)
 
 theorem QpEq_of_shift_value {p : BHist} {x y : QpInt p} :
     x.shift = y.shift -> ZpEq x.value y.value -> QpEq x y := by
   intro shiftEq valueEq prime
-  exact ⟨0, by
-    rw [Nat.zero_add, Nat.zero_add]
-    rw [← shiftEq]
-    exact zpScale_congr prime valueEq⟩
+  unfold QpRawEq QpCrossEq
+  rw [← shiftEq]
+  exact zpScale_congr prime valueEq
 
 def qpZero (p : BHist) (prime : NatPrime p) : QpInt p :=
   { shift := 0, value := zpZero p prime }
@@ -848,16 +904,14 @@ theorem qpAdd_value_canonical {p : BHist} (prime : NatPrime p) (x y : QpInt p) :
 theorem qpRescale_eq {p : BHist} (n : Nat) (x : QpInt p) :
     QpEq (qpRescale n x) x := by
   intro prime
-  exact ⟨0, by
-    rw [Nat.zero_add, Nat.zero_add]
-    unfold qpRescale
-    dsimp
-    have innerPrime :
-        ZpEq (zpScale p prime x.shift (zpScale p x.value.prime n x.value))
-          (zpScale p prime x.shift (zpScale p prime n x.value)) :=
-      zpScale_congr prime (zpScale_prime_irrel x.value.prime prime n x.value)
-    exact ZpEq_trans innerPrime
-      (zpScale_scale p prime x.shift n x.value)⟩
+  unfold QpRawEq QpCrossEq qpRescale
+  dsimp
+  have innerPrime :
+      ZpEq (zpScale p prime x.shift (zpScale p x.value.prime n x.value))
+        (zpScale p prime x.shift (zpScale p prime n x.value)) :=
+    zpScale_congr prime (zpScale_prime_irrel x.value.prime prime n x.value)
+  exact ZpEq_trans innerPrime
+    (zpScale_scale p prime x.shift n x.value)
 
 theorem qpMul_comm {p : BHist} (x y : QpInt p) :
     QpEq (qpMul x y) (qpMul y x) := by
@@ -878,12 +932,10 @@ theorem qpMul_assoc {p : BHist} (x y z : QpInt p) :
 theorem qpOne_mul_left (p : BHist) (prime : NatPrime p) (x : QpInt p) :
     QpEq (qpMul (qpOne p prime) x) x := by
   intro prime'
-  exact ⟨0, by
-    rw [Nat.zero_add, Nat.zero_add]
-    unfold qpMul qpOne
-    dsimp
-    rw [Nat.zero_add]
-    exact zpScale_congr prime' (zpOne_mul_left p prime x.value)⟩
+  unfold QpRawEq QpCrossEq qpMul qpOne
+  dsimp
+  rw [Nat.zero_add]
+  exact zpScale_congr prime' (zpOne_mul_left p prime x.value)
 
 theorem qpOne_mul_right (p : BHist) (prime : NatPrime p) (x : QpInt p) :
     QpEq (qpMul x (qpOne p prime)) x := by
@@ -894,150 +946,161 @@ theorem qpMul_respects {p : BHist} {x x' y y' : QpInt p} :
     QpEq x x' -> QpEq y y' ->
       QpEq (qpMul x y) (qpMul x' y') := by
   intro sameX sameY prime
-  cases sameX prime with
-  | intro padX eqX =>
-      cases sameY prime with
-      | intro padY eqY =>
-          let pad := padX + padY
-          have leftSplit :
-              ZpEq
-                (zpScale p prime (pad + (x'.shift + y'.shift))
-                  (zpMul p x.value y.value))
-                (zpMul p
-                  (zpScale p prime (padX + x'.shift) x.value)
-                  (zpScale p prime (padY + y'.shift) y.value)) := by
-            exact zpScale_mul_split_to p prime (padX + x'.shift)
-              (padY + y'.shift) (pad + (x'.shift + y'.shift))
-              x.value y.value
-              (qpNat_mul_respects_target padX padY x'.shift y'.shift)
-          have middle :
-              ZpEq
-                (zpMul p
-                  (zpScale p prime (padX + x'.shift) x.value)
-                  (zpScale p prime (padY + y'.shift) y.value))
-                (zpMul p
-                  (zpScale p prime (padX + x.shift) x'.value)
-                  (zpScale p prime (padY + y.shift) y'.value)) :=
-            zpMul_congr eqX eqY
-          have rightSplit :
-              ZpEq
-                (zpMul p
-                  (zpScale p prime (padX + x.shift) x'.value)
-                  (zpScale p prime (padY + y.shift) y'.value))
-                (zpScale p prime (pad + (x.shift + y.shift))
-                  (zpMul p x'.value y'.value)) := by
-            exact ZpEq_symm
-              (zpScale_mul_split_to p prime (padX + x.shift)
-                (padY + y.shift) (pad + (x.shift + y.shift))
-                x'.value y'.value
-                (qpNat_mul_respects_target padX padY x.shift y.shift))
-          exact ⟨pad, ZpEq_trans leftSplit (ZpEq_trans middle rightSplit)⟩
+  let padX := 0
+  let padY := 0
+  let pad := padX + padY
+  have eqX : ZpEq (zpScale p prime (padX + x'.shift) x.value)
+      (zpScale p prime (padX + x.shift) x'.value) := by
+    simpa [QpRawEq, QpCrossEq, padX] using sameX prime
+  have eqY : ZpEq (zpScale p prime (padY + y'.shift) y.value)
+      (zpScale p prime (padY + y.shift) y'.value) := by
+    simpa [QpRawEq, QpCrossEq, padY] using sameY prime
+  have leftSplit :
+      ZpEq
+        (zpScale p prime (pad + (x'.shift + y'.shift))
+          (zpMul p x.value y.value))
+        (zpMul p
+          (zpScale p prime (padX + x'.shift) x.value)
+          (zpScale p prime (padY + y'.shift) y.value)) := by
+    exact zpScale_mul_split_to p prime (padX + x'.shift)
+      (padY + y'.shift) (pad + (x'.shift + y'.shift))
+      x.value y.value
+      (qpNat_mul_respects_target padX padY x'.shift y'.shift)
+  have middle :
+      ZpEq
+        (zpMul p
+          (zpScale p prime (padX + x'.shift) x.value)
+          (zpScale p prime (padY + y'.shift) y.value))
+        (zpMul p
+          (zpScale p prime (padX + x.shift) x'.value)
+          (zpScale p prime (padY + y.shift) y'.value)) :=
+    zpMul_congr eqX eqY
+  have rightSplit :
+      ZpEq
+        (zpMul p
+          (zpScale p prime (padX + x.shift) x'.value)
+          (zpScale p prime (padY + y.shift) y'.value))
+        (zpScale p prime (pad + (x.shift + y.shift))
+          (zpMul p x'.value y'.value)) := by
+    exact ZpEq_symm
+      (zpScale_mul_split_to p prime (padX + x.shift)
+        (padY + y.shift) (pad + (x.shift + y.shift))
+        x'.value y'.value
+        (qpNat_mul_respects_target padX padY x.shift y.shift))
+  have chain := ZpEq_trans leftSplit (ZpEq_trans middle rightSplit)
+  simpa [QpRawEq, QpCrossEq, qpMul, pad, padX, padY] using chain
 
 theorem qpAdd_respects {p : BHist} {x x' y y' : QpInt p} :
     QpEq x x' -> QpEq y y' ->
       QpEq (qpAdd x y) (qpAdd x' y') := by
   intro sameX sameY prime
-  cases sameX prime with
-  | intro padX eqX =>
-      cases sameY prime with
-      | intro padY eqY =>
-          let pad := padX + padY
-          let leftShift := pad + (x'.shift + y'.shift)
-          let rightShift := pad + (x.shift + y.shift)
-          have leftCanon :
-              ZpEq (zpScale p prime leftShift (qpAdd x y).value)
-                (zpAdd p
-                  (zpScale p prime leftShift (zpScale p prime y.shift x.value))
-                  (zpScale p prime leftShift (zpScale p prime x.shift y.value))) := by
-            exact ZpEq_trans
-              (zpScale_congr prime (qpAdd_value_canonical prime x y))
-              (zpScale_add_distrib p prime leftShift
-                (zpScale p prime y.shift x.value)
-                (zpScale p prime x.shift y.value))
-          have rightCanon :
-              ZpEq (zpScale p prime rightShift (qpAdd x' y').value)
-                (zpAdd p
-                  (zpScale p prime rightShift (zpScale p prime y'.shift x'.value))
-                  (zpScale p prime rightShift (zpScale p prime x'.shift y'.value))) := by
-            exact ZpEq_trans
-              (zpScale_congr prime (qpAdd_value_canonical prime x' y'))
-              (zpScale_add_distrib p prime rightShift
-                (zpScale p prime y'.shift x'.value)
-                (zpScale p prime x'.shift y'.value))
-          have xLeft :
-              ZpEq
-                (zpScale p prime leftShift (zpScale p prime y.shift x.value))
-                (zpScale p prime (padY + y.shift + y'.shift)
-                  (zpScale p prime (padX + x'.shift) x.value)) := by
-            dsimp [leftShift, pad]
-            exact zpScale_nested_reindex p prime
-              ((padX + padY) + (x'.shift + y'.shift)) y.shift
-              (padY + y.shift + y'.shift) (padX + x'.shift) x.value
-              (qpNat_lift_left_one padX padY x'.shift y'.shift y.shift)
-          have xMiddle :
-              ZpEq
-                (zpScale p prime (padY + y.shift + y'.shift)
-                  (zpScale p prime (padX + x'.shift) x.value))
-                (zpScale p prime (padY + y.shift + y'.shift)
-                  (zpScale p prime (padX + x.shift) x'.value)) :=
-            zpScale_congr prime eqX
-          have xRight :
-              ZpEq
-                (zpScale p prime (padY + y.shift + y'.shift)
-                  (zpScale p prime (padX + x.shift) x'.value))
-                (zpScale p prime rightShift (zpScale p prime y'.shift x'.value)) := by
-            dsimp [rightShift, pad]
-            exact zpScale_nested_reindex p prime
-              (padY + y.shift + y'.shift) (padX + x.shift)
-              ((padX + padY) + (x.shift + y.shift)) y'.shift x'.value
-              (qpNat_lift_right_one padX padY x.shift y.shift y'.shift)
-          have xTerm :
-              ZpEq
-                (zpScale p prime leftShift (zpScale p prime y.shift x.value))
-                (zpScale p prime rightShift (zpScale p prime y'.shift x'.value)) :=
-            ZpEq_trans xLeft (ZpEq_trans xMiddle xRight)
-          have yLeft :
-              ZpEq
-                (zpScale p prime leftShift (zpScale p prime x.shift y.value))
-                (zpScale p prime (padX + x.shift + x'.shift)
-                  (zpScale p prime (padY + y'.shift) y.value)) := by
-            dsimp [leftShift, pad]
-            exact zpScale_nested_reindex p prime
-              ((padX + padY) + (x'.shift + y'.shift)) x.shift
-              (padX + x.shift + x'.shift) (padY + y'.shift) y.value
-              (qpNat_lift_left_pair_swap padX padY x'.shift y'.shift x.shift)
-          have yMiddle :
-              ZpEq
-                (zpScale p prime (padX + x.shift + x'.shift)
-                  (zpScale p prime (padY + y'.shift) y.value))
-                (zpScale p prime (padX + x.shift + x'.shift)
-                  (zpScale p prime (padY + y.shift) y'.value)) :=
-            zpScale_congr prime eqY
-          have yRight :
-              ZpEq
-                (zpScale p prime (padX + x.shift + x'.shift)
-                  (zpScale p prime (padY + y.shift) y'.value))
-                (zpScale p prime rightShift (zpScale p prime x'.shift y'.value)) := by
-            dsimp [rightShift, pad]
-            exact zpScale_nested_reindex p prime
-              (padX + x.shift + x'.shift) (padY + y.shift)
-              ((padX + padY) + (x.shift + y.shift)) x'.shift y'.value
-              (Eq.symm (qpNat_lift_left_pair padX padY x.shift y.shift x'.shift))
-          have yTerm :
-              ZpEq
-                (zpScale p prime leftShift (zpScale p prime x.shift y.value))
-                (zpScale p prime rightShift (zpScale p prime x'.shift y'.value)) :=
-            ZpEq_trans yLeft (ZpEq_trans yMiddle yRight)
-          have middle :
-              ZpEq
-                (zpAdd p
-                  (zpScale p prime leftShift (zpScale p prime y.shift x.value))
-                  (zpScale p prime leftShift (zpScale p prime x.shift y.value)))
-                (zpAdd p
-                  (zpScale p prime rightShift (zpScale p prime y'.shift x'.value))
-                  (zpScale p prime rightShift (zpScale p prime x'.shift y'.value))) :=
-            zpAdd_congr xTerm yTerm
-          exact ⟨pad, ZpEq_trans leftCanon (ZpEq_trans middle (ZpEq_symm rightCanon))⟩
+  let padX := 0
+  let padY := 0
+  let pad := padX + padY
+  let leftShift := pad + (x'.shift + y'.shift)
+  let rightShift := pad + (x.shift + y.shift)
+  have eqX : ZpEq (zpScale p prime (padX + x'.shift) x.value)
+      (zpScale p prime (padX + x.shift) x'.value) := by
+    simpa [QpRawEq, QpCrossEq, padX] using sameX prime
+  have eqY : ZpEq (zpScale p prime (padY + y'.shift) y.value)
+      (zpScale p prime (padY + y.shift) y'.value) := by
+    simpa [QpRawEq, QpCrossEq, padY] using sameY prime
+  have leftCanon :
+      ZpEq (zpScale p prime leftShift (qpAdd x y).value)
+        (zpAdd p
+          (zpScale p prime leftShift (zpScale p prime y.shift x.value))
+          (zpScale p prime leftShift (zpScale p prime x.shift y.value))) := by
+    exact ZpEq_trans
+      (zpScale_congr prime (qpAdd_value_canonical prime x y))
+      (zpScale_add_distrib p prime leftShift
+        (zpScale p prime y.shift x.value)
+        (zpScale p prime x.shift y.value))
+  have rightCanon :
+      ZpEq (zpScale p prime rightShift (qpAdd x' y').value)
+        (zpAdd p
+          (zpScale p prime rightShift (zpScale p prime y'.shift x'.value))
+          (zpScale p prime rightShift (zpScale p prime x'.shift y'.value))) := by
+    exact ZpEq_trans
+      (zpScale_congr prime (qpAdd_value_canonical prime x' y'))
+      (zpScale_add_distrib p prime rightShift
+        (zpScale p prime y'.shift x'.value)
+        (zpScale p prime x'.shift y'.value))
+  have xLeft :
+      ZpEq
+        (zpScale p prime leftShift (zpScale p prime y.shift x.value))
+        (zpScale p prime (padY + y.shift + y'.shift)
+          (zpScale p prime (padX + x'.shift) x.value)) := by
+    dsimp [leftShift, pad]
+    exact zpScale_nested_reindex p prime
+      ((padX + padY) + (x'.shift + y'.shift)) y.shift
+      (padY + y.shift + y'.shift) (padX + x'.shift) x.value
+      (qpNat_lift_left_one padX padY x'.shift y'.shift y.shift)
+  have xMiddle :
+      ZpEq
+        (zpScale p prime (padY + y.shift + y'.shift)
+          (zpScale p prime (padX + x'.shift) x.value))
+        (zpScale p prime (padY + y.shift + y'.shift)
+          (zpScale p prime (padX + x.shift) x'.value)) :=
+    zpScale_congr prime eqX
+  have xRight :
+      ZpEq
+        (zpScale p prime (padY + y.shift + y'.shift)
+          (zpScale p prime (padX + x.shift) x'.value))
+        (zpScale p prime rightShift (zpScale p prime y'.shift x'.value)) := by
+    dsimp [rightShift, pad]
+    exact zpScale_nested_reindex p prime
+      (padY + y.shift + y'.shift) (padX + x.shift)
+      ((padX + padY) + (x.shift + y.shift)) y'.shift x'.value
+      (qpNat_lift_right_one padX padY x.shift y.shift y'.shift)
+  have xTerm :
+      ZpEq
+        (zpScale p prime leftShift (zpScale p prime y.shift x.value))
+        (zpScale p prime rightShift (zpScale p prime y'.shift x'.value)) :=
+    ZpEq_trans xLeft (ZpEq_trans xMiddle xRight)
+  have yLeft :
+      ZpEq
+        (zpScale p prime leftShift (zpScale p prime x.shift y.value))
+        (zpScale p prime (padX + x.shift + x'.shift)
+          (zpScale p prime (padY + y'.shift) y.value)) := by
+    dsimp [leftShift, pad]
+    exact zpScale_nested_reindex p prime
+      ((padX + padY) + (x'.shift + y'.shift)) x.shift
+      (padX + x.shift + x'.shift) (padY + y'.shift) y.value
+      (qpNat_lift_left_pair_swap padX padY x'.shift y'.shift x.shift)
+  have yMiddle :
+      ZpEq
+        (zpScale p prime (padX + x.shift + x'.shift)
+          (zpScale p prime (padY + y'.shift) y.value))
+        (zpScale p prime (padX + x.shift + x'.shift)
+          (zpScale p prime (padY + y.shift) y'.value)) :=
+    zpScale_congr prime eqY
+  have yRight :
+      ZpEq
+        (zpScale p prime (padX + x.shift + x'.shift)
+          (zpScale p prime (padY + y.shift) y'.value))
+        (zpScale p prime rightShift (zpScale p prime x'.shift y'.value)) := by
+    dsimp [rightShift, pad]
+    exact zpScale_nested_reindex p prime
+      (padX + x.shift + x'.shift) (padY + y.shift)
+      ((padX + padY) + (x.shift + y.shift)) x'.shift y'.value
+      (Eq.symm (qpNat_lift_left_pair padX padY x.shift y.shift x'.shift))
+  have yTerm :
+      ZpEq
+        (zpScale p prime leftShift (zpScale p prime x.shift y.value))
+        (zpScale p prime rightShift (zpScale p prime x'.shift y'.value)) :=
+    ZpEq_trans yLeft (ZpEq_trans yMiddle yRight)
+  have middle :
+      ZpEq
+        (zpAdd p
+          (zpScale p prime leftShift (zpScale p prime y.shift x.value))
+          (zpScale p prime leftShift (zpScale p prime x.shift y.value)))
+        (zpAdd p
+          (zpScale p prime rightShift (zpScale p prime y'.shift x'.value))
+          (zpScale p prime rightShift (zpScale p prime x'.shift y'.value))) :=
+    zpAdd_congr xTerm yTerm
+  have chain := ZpEq_trans leftCanon (ZpEq_trans middle (ZpEq_symm rightCanon))
+  simpa [QpRawEq, QpCrossEq, qpAdd, leftShift, rightShift, pad, padX, padY]
+    using chain
 
 theorem qpAdd_assoc {p : BHist} (x y z : QpInt p) :
     QpEq (qpAdd (qpAdd x y) z) (qpAdd x (qpAdd y z)) := by
@@ -1123,21 +1186,19 @@ theorem qpAdd_comm {p : BHist} (x y : QpInt p) :
 theorem qpZero_add_left (p : BHist) (prime : NatPrime p) (x : QpInt p) :
     QpEq (qpAdd (qpZero p prime) x) x := by
   intro prime'
-  exact ⟨0, by
-    rw [Nat.zero_add, Nat.zero_add]
-    unfold qpAdd qpZero
-    dsimp
-    rw [Nat.zero_add]
-    have leftZero :
-        ZpEq (zpMul p (pPowZp p prime x.shift) (zpZero p prime))
-          (zpZero p prime) :=
-      zpMul_zero_right p (pPowZp p prime x.shift)
-    have rightOne :
-        ZpEq (zpMul p (pPowZp p prime 0) x.value) x.value :=
-      zpOne_mul_left p prime x.value
-    exact ZpEq_trans
-      (zpScale_congr prime' (zpAdd_congr leftZero rightOne))
-      (zpScale_congr prime' (zpZero_add_left p prime x.value))⟩
+  unfold QpRawEq QpCrossEq qpAdd qpZero
+  dsimp
+  rw [Nat.zero_add]
+  have leftZero :
+      ZpEq (zpMul p (pPowZp p prime x.shift) (zpZero p prime))
+        (zpZero p prime) :=
+    zpMul_zero_right p (pPowZp p prime x.shift)
+  have rightOne :
+      ZpEq (zpMul p (pPowZp p prime 0) x.value) x.value :=
+    zpOne_mul_left p prime x.value
+  exact ZpEq_trans
+    (zpScale_congr prime' (zpAdd_congr leftZero rightOne))
+    (zpScale_congr prime' (zpZero_add_left p prime x.value))
 
 theorem qpZero_add_right (p : BHist) (prime : NatPrime p) (x : QpInt p) :
     QpEq (qpAdd x (qpZero p prime)) x := by
@@ -1153,40 +1214,39 @@ theorem qpZero_prime_irrel {p : BHist} (prime prime' : NatPrime p) :
 theorem qpAdd_neg_left {p : BHist} (x : QpInt p) :
     QpEq (qpAdd (qpNeg x) x) (qpZero p x.value.prime) := by
   intro prime
-  exact ⟨0, by
-    rw [Nat.zero_add, Nat.zero_add]
-    have scaleZeroLeft :
-        ZpEq (zpScale p prime 0 (qpAdd (qpNeg x) x).value)
-          (qpAdd (qpNeg x) x).value :=
-      zpOne_mul_left p prime (qpAdd (qpNeg x) x).value
-    have canon :
-        ZpEq (qpAdd (qpNeg x) x).value
-          (zpAdd p
-            (zpScale p prime x.shift (zpNeg p x.value))
-            (zpScale p prime x.shift x.value)) :=
-      qpAdd_value_canonical prime (qpNeg x) x
-    have folded :
-        ZpEq
-          (zpAdd p
-            (zpScale p prime x.shift (zpNeg p x.value))
-            (zpScale p prime x.shift x.value))
-          (zpScale p prime x.shift (zpZero p x.value.prime)) :=
-      ZpEq_trans
-        (ZpEq_symm
-          (zpScale_add_distrib p prime x.shift (zpNeg p x.value) x.value))
-        (zpScale_congr prime (zpAdd_neg_left p x.value))
-    have leftZero :
-        ZpEq (zpScale p prime x.shift (zpZero p x.value.prime))
-          (zpZero p x.value.prime) :=
-      zpScale_zero p prime x.value.prime x.shift
-    have rightZero :
-        ZpEq (zpScale p prime (x.shift + x.shift) (qpZero p x.value.prime).value)
-          (zpZero p x.value.prime) :=
-      zpScale_zero p prime x.value.prime (x.shift + x.shift)
-    exact ZpEq_trans scaleZeroLeft
-      (ZpEq_trans canon
-        (ZpEq_trans folded
-          (ZpEq_trans leftZero (ZpEq_symm rightZero))))⟩
+  unfold QpRawEq QpCrossEq
+  have scaleZeroLeft :
+      ZpEq (zpScale p prime 0 (qpAdd (qpNeg x) x).value)
+        (qpAdd (qpNeg x) x).value :=
+    zpOne_mul_left p prime (qpAdd (qpNeg x) x).value
+  have canon :
+      ZpEq (qpAdd (qpNeg x) x).value
+        (zpAdd p
+          (zpScale p prime x.shift (zpNeg p x.value))
+          (zpScale p prime x.shift x.value)) :=
+    qpAdd_value_canonical prime (qpNeg x) x
+  have folded :
+      ZpEq
+        (zpAdd p
+          (zpScale p prime x.shift (zpNeg p x.value))
+          (zpScale p prime x.shift x.value))
+        (zpScale p prime x.shift (zpZero p x.value.prime)) :=
+    ZpEq_trans
+      (ZpEq_symm
+        (zpScale_add_distrib p prime x.shift (zpNeg p x.value) x.value))
+      (zpScale_congr prime (zpAdd_neg_left p x.value))
+  have leftZero :
+      ZpEq (zpScale p prime x.shift (zpZero p x.value.prime))
+        (zpZero p x.value.prime) :=
+    zpScale_zero p prime x.value.prime x.shift
+  have rightZero :
+      ZpEq (zpScale p prime (x.shift + x.shift) (qpZero p x.value.prime).value)
+        (zpZero p x.value.prime) :=
+    zpScale_zero p prime x.value.prime (x.shift + x.shift)
+  exact ZpEq_trans scaleZeroLeft
+    (ZpEq_trans canon
+      (ZpEq_trans folded
+        (ZpEq_trans leftZero (ZpEq_symm rightZero))))
 
 theorem qpAdd_neg_right {p : BHist} (x : QpInt p) :
     QpEq (qpAdd x (qpNeg x)) (qpZero p x.value.prime) := by
