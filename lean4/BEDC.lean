@@ -2945,6 +2945,7 @@ import BEDC.Derived.ClosedBoundedIntervalUp.TasteGate
 import BEDC.Derived.ClosedBoundedSequenceUp.TasteGate
 import BEDC.Derived.ClosedConsistencyAssemblyUp.BoundaryNonescape
 import BEDC.Derived.ClosedConsistencyAssemblyUp.Classifier
+import BEDC.Derived.ClosedConsistencyAssemblyUp.ObligationHandoff
 import BEDC.Derived.ClosedConsistencyAssemblyUp.SiblingRouting
 import BEDC.Derived.ClosedConsistencyAssemblyUp.TasteGate
 import BEDC.Derived.ClosedConsistencyGapUp.TasteGate
@@ -5250,6 +5251,7 @@ import BEDC.Derived.EgorovUp.MeasureLedgerNonescape
 import BEDC.Derived.EgorovUp.TasteGate
 import BEDC.Derived.EigenUp
 import BEDC.Derived.EilenbergMooreCompletionAlgebraUp.TasteGate
+import BEDC.Derived.EilenbergSteenrodAxiomsUp.TasteGate
 import BEDC.Derived.EilenbergZilberUp
 import BEDC.Derived.EkelandVariationalPrincipleUp.TasteGate
 import BEDC.Derived.EllipticCurveUp
@@ -5923,6 +5925,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.WindowCoverageExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.WindowRadiusLedgerCoherence
 import BEDC.Derived.FiniteLebesgueNumberUp.WindowRadiusSourceLock
 import BEDC.Derived.FiniteLimitSealEnvelopeUp.TasteGate
+import BEDC.Derived.FiniteLipschitzExtensionUp
 import BEDC.Derived.FiniteLipschitzIterationUp.TasteGate
 import BEDC.Derived.FiniteLowerBoundFoldUp.NameCertObligations
 import BEDC.Derived.FiniteLowerBoundFoldUp.TasteGate
@@ -11683,6 +11686,7 @@ import BEDC.Derived.SubjectReductionUp
 import BEDC.Derived.SubordinateFiniteModulusCoverUp.TasteGate
 import BEDC.Derived.SubordinateModulusCoverUp.LedgerExactness
 import BEDC.Derived.SubordinateModulusCoverUp.ObligationClosureRoute
+import BEDC.Derived.SubordinateModulusCoverUp.ScopeDependency
 import BEDC.Derived.SubordinateModulusCoverUp.TasteGate
 import BEDC.Derived.SubsequenceLimitUp.TasteGate
 import BEDC.Derived.SubshiftOfFiniteTypeUp.TasteGate
