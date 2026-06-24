@@ -5737,6 +5737,7 @@ import BEDC.Derived.FiniteDimensionalNormEquivalenceUp
 import BEDC.Derived.FiniteDimensionalNormEquivalenceUp.TasteGate
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.NameCertObligations
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.TasteGate
+import BEDC.Derived.FiniteDyadicBisectionUp.TasteGate
 import BEDC.Derived.FiniteDyadicRefinementBudgetUp.TasteGate
 import BEDC.Derived.FiniteEpsilonNetUp.TasteGate
 import BEDC.Derived.FiniteEpsilonWitnessUp.TasteGate
@@ -7031,6 +7032,7 @@ import BEDC.Derived.LimsupUp
 import BEDC.Derived.LimsupUp.LowerCutCompatibility
 import BEDC.Derived.LimsupUp.RealSealNonescape
 import BEDC.Derived.LimsupUp.ScopeKernelDependencies
+import BEDC.Derived.LimsupUp.ScopedTailCutExhaustion
 import BEDC.Derived.LimsupUp.TailCutRoute
 import BEDC.Derived.LimsupUp.TailLowerCutCompatibility
 import BEDC.Derived.LimsupUp.TailUpperCutExactness
@@ -10883,6 +10885,7 @@ import BEDC.Derived.SequenceFilterBridgeUp.FilterToSequenceRoute
 import BEDC.Derived.SequenceFilterBridgeUp.SequenceToFilterRoute
 import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
 import BEDC.Derived.SequentialArchimedeanRealUp.TasteGate
+import BEDC.Derived.SequentialArchimedeanWindowUp.TasteGate
 import BEDC.Derived.SequentialCauchyFilterUp.TasteGate
 import BEDC.Derived.SequentialCauchyRegularizationUp.TasteGate
 import BEDC.Derived.SequentialCauchySelectorUp.TasteGate

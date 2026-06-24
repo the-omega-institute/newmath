@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCauchyFilterBasisRefinementUp$}
+\label{ch:concrete-instances-finite-cauchy-filter-basis-refinement-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Kelley filter-base terminology, the $\FiniteCauchyFilterBasisRefinementUp$ packet records the finite common-refinement layer used by the L10 Cauchy-filter route before located or regular completion consumers read the basis. It sits after the basis generator of \autoref{ch:concrete-instances-cauchy-filter-basis-namecert} and the finite meet packet of \autoref{ch:concrete-instances-cauchy-filter-meet-namecert}, and before the located filter route of \autoref{ch:concrete-instances-located-cauchy-filter-namecert}. Its readback support passes through the stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names a finite refinement packet only; it does not complete a quotient filter, select a limit, invoke countable choice, identify host equality, decide trichotomy, or assume ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite Cauchy filter basis refinement carrier]
+\label{def:finite-cauchy-filter-basis-refinement-carrier}
+A $\FiniteCauchyFilterBasisRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,R,D,M,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the source $\CauchyFilterBasisUp$ row whose finite basis elements are being compared.
+\item $R$ is the refinement request row. It names the finite pair or finite family of basis requests that must be jointly refined before a located or regular completion consumer may read them.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the same requests, including the displayed radius and inclusion budget used to compare regular rational observations.
+\item $M$ is the finite meet and common-refinement witness, read through $\CauchyFilterMeetUp$, that names a displayed basis element refining every request recorded in $R$.
+\item $S$ is the support row carrying the $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks used by $B,R,D,M$.
+\item $H$ records componentwise $\hsame$ transport for $B,R,D,M,S$ and for the continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a refinement request through the support row $S$, the tolerance ledger $D$, the meet witness $M$, and then the downstream located or regular consumer boundary.
+\item $P$ is the $\Pkg$ provenance over $\FiniteCauchyFilterBasisRefinementUp$, $\CauchyFilterBasisUp$, $\CauchyFilterMeetUp$, $\LocatedCauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteCauchyFilterBasisRefinementUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,R,D,M,S,H,C,P,N$. It has no coordinate for completed filters, quotient Cauchy names, selected representatives, countable-choice schedules, trichotomy decisions, host real equality, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Finite Cauchy filter basis refinement NameCert obligations]
+\label{thm:finite-cauchy-filter-basis-refinement-namecert-obligations}
+For every accepted $\FiniteCauchyFilterBasisRefinementUp$ carrier $K=(B,R,D,M,S,H,C,P,N)$, the local $\NameCert_{\FiniteCauchyFilterBasisRefinementUp}$ surface consists exactly of carrier admission for the source basis row, refinement request row, dyadic tolerance ledger, finite meet witness, stream and regular-rational support row, componentwise transport, displayed replay, provenance, and local naming. Every located or regular completion-facing consumer must first read $B,R,D,M,S$ and then pass through $H,C,P,N$ before any downstream filter or $\RealUp$ seal is inspected.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-cauchy-filter-basis-refinement-carrier}. Its mathematical rows are exactly the source basis $B$, refinement request $R$, tolerance ledger $D$, meet witness $M$, and support row $S$.
+
+The support row is not an independent completion principle. It only displays the $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks that the basis, request, tolerance, and meet rows already use.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name that route. Since no carrier coordinate stores a completed filter, quotient name, selected limit, choice schedule, trichotomy decision, host real equality, or ambient completeness proof, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite Cauchy filter basis refinement common refinement]
+\label{thm:finite-cauchy-filter-basis-refinement-common-refinement}
+Let $K=(B,R,D,M,S,H,C,P,N)$ be an accepted $\FiniteCauchyFilterBasisRefinementUp$ carrier. Every request listed in $R$ has a displayed common refinement read through the meet row $M$, and that refinement is checked against the same stream windows, regular rational readbacks, and dyadic tolerance ledger carried by $S$ and $D$. Thus a consumer receives a finite common-refinement certificate, not a completed filter object or a choice of limit.
+\end{theorem}
+\begin{proof}
+Read the request row $R$ together with the basis row $B$. The accepted carrier requires these requests to be basis-level requests over the same displayed observation surface.
+
+Apply the meet row $M$. It supplies the common-refinement witness through $\CauchyFilterMeetUp$, so every listed request is refined by a displayed basis element before the consumer sees a downstream filter boundary.
+
+Finally replay the witness through $S,D,H,C,P,N$. The stream windows, regular rational readbacks, and dyadic tolerances remain visible, while the structural rows add only transport, replay, provenance, and local naming. Hence the certificate is finite and does not select a completed filter or limit.
+\end{proof}
+
+\begin{theorem}[Finite Cauchy filter basis refinement Real seal boundary]
+\label{thm:finite-cauchy-filter-basis-refinement-real-seal-boundary}
+Every $\RealUp$-facing read exposed by an accepted $\FiniteCauchyFilterBasisRefinementUp$ packet factors through the finite route
+$$
+\CauchyFilterBasisUp,\ \CauchyFilterMeetUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \LocatedCauchyFilterUp,\ \RealUp .
+$$
+The route may hand a common-refinement certificate to located or regular completion consumers, but it cannot turn that certificate into quotient filter equality, selected convergence, countable choice, host equality of real names, trichotomy, or ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:finite-cauchy-filter-basis-refinement-namecert-obligations}. They force every downstream read to expose the basis, request, tolerance, meet, and support rows before structural replay is available.
+
+Use common refinement from \autoref{thm:finite-cauchy-filter-basis-refinement-common-refinement}. The meet witness is a finite basis-level certificate checked against the same stream, regular rational, and dyadic rows; it is not a completed filter or a selected limit.
+
+The only real-facing route in the provenance row passes through the located filter boundary and then the terminal $\RealUp$ seal. Since the carrier has no coordinate for quotient filters, selected convergence, choice, host equality, trichotomy, or ambient completeness, the Real-facing read remains a boundary handoff rather than a completeness principle.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteCauchyFilterBasisRefinementUp$ consumer that claims a basis refinement must display a $\CauchyFilterBasisUp$ row, a refinement request row, a $\DyadicRatCoreUp$ tolerance ledger, a $\CauchyFilterMeetUp$ witness, $\StreamNameUp$ and $\RegSeqRatUp$ support rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.}
+
+\independenceWitness{cauchy-filter-basis, cauchy-filter-meet, located-cauchy-filter, streamname, regseqrat, dyadicratcore, real: no listed sibling is bijective to $\FiniteCauchyFilterBasisRefinementUp$ because this packet jointly binds source basis data, a refinement request, a dyadic tolerance ledger, a finite meet witness, readback support, downstream handoff provenance, transport, replay, and local naming.}
+
+\closureat{FiniteCauchyFilterBasisRefinementUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCauchyFilterBasisRefinementUp}
+  \constructivestory{A $\FiniteCauchyFilterBasisRefinementUp$ packet is generated from a CauchyFilterBasis row, a finite refinement request row, a DyadicRatCore tolerance ledger, a CauchyFilterMeet common-refinement witness, StreamName and RegSeqRat support rows, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cauchy-filter-basis-refinement-carrier}, \autoref{thm:finite-cauchy-filter-basis-refinement-namecert-obligations}, \autoref{thm:finite-cauchy-filter-basis-refinement-common-refinement}, and \autoref{thm:finite-cauchy-filter-basis-refinement-real-seal-boundary} seed the finite common-refinement packet between raw Cauchy filter bases and located or regular completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient filters, selected limits, countable choice, host equality, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-refinement witness exactness, readback support preservation, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteCauchyFilterBasisRefinementUp.}
+\end{closurestatus}
