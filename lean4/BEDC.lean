@@ -1763,6 +1763,7 @@ import BEDC.Derived.CauchyCompletionMultiplicationUp.ProvenanceExhaustion
 import BEDC.Derived.CauchyCompletionMultiplicationUp.RealSealNonescape
 import BEDC.Derived.CauchyCompletionMultiplicationUp.TasteGate
 import BEDC.Derived.CauchyCompletionOperatorUp
+import BEDC.Derived.CauchyCompletionOperatorUp.CompositionUniquenessRoute
 import BEDC.Derived.CauchyCompletionOperatorUp.FunctorialHandoff
 import BEDC.Derived.CauchyCompletionOperatorUp.LedgerNonescape
 import BEDC.Derived.CauchyCompletionOperatorUp.NameCertObligationSurface
@@ -1936,6 +1937,7 @@ import BEDC.Derived.CauchyEquivalenceSetoidUp.NoQuotient
 import BEDC.Derived.CauchyEquivalenceSetoidUp.ObligationSurface
 import BEDC.Derived.CauchyEquivalenceSetoidUp.PsameRealClassifierBridge
 import BEDC.Derived.CauchyEquivalenceSetoidUp.RealSealForwardRoute
+import BEDC.Derived.CauchyEquivalenceSetoidUp.RealSeparabilityForwardAnchor
 import BEDC.Derived.CauchyEquivalenceSetoidUp.RealSeparabilityStableDensity
 import BEDC.Derived.CauchyEquivalenceSetoidUp.SeparatedMetricFactorization
 import BEDC.Derived.CauchyEquivalenceSetoidUp.TailTransitivity
