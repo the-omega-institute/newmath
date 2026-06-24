@@ -11904,6 +11904,8 @@ import BEDC.Derived.UniformBoundednessPrincipleUp.TasteGate
 import BEDC.Derived.UniformBoundednessUp
 import BEDC.Derived.UniformBoundednessUp.BaireHandoff
 import BEDC.Derived.UniformBoundednessUp.BoundedOperatorEnvelope
+import BEDC.Derived.UniformBoundednessUp.LedgerRefusal
+import BEDC.Derived.UniformBoundednessUp.NormEnvelopeExactness
 import BEDC.Derived.UniformBoundednessUp.PointwiseWindow
 import BEDC.Derived.UniformBoundednessUp.PublicBoundary
 import BEDC.Derived.UniformBoundednessUp.TasteGate
