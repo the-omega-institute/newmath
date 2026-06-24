@@ -1,11 +1,15 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.UniformCauchyModulusExtractorUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -228,6 +232,14 @@ private theorem uniformCauchyModulusExtractorToEventFlow_injective
     (Eq.trans (uniformCauchyModulusExtractor_round_trip x).symm
       (Eq.trans hread (uniformCauchyModulusExtractor_round_trip y)))
 
+def uniformCauchyModulusExtractorFields :
+    UniformCauchyModulusExtractorUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | UniformCauchyModulusExtractorUp.mk uniformSource schedule modulus window dyadicLedger
+      readback realSeal transport replay provenance nameCert =>
+      [uniformSource, schedule, modulus, window, dyadicLedger, readback, realSeal, transport,
+        replay, provenance, nameCert]
+
 instance uniformCauchyModulusExtractorBHistCarrier :
     BHistCarrier UniformCauchyModulusExtractorUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -267,5 +279,61 @@ theorem UniformCauchyModulusExtractorTasteGate_single_carrier_alignment :
       · intro x y heq
         exact uniformCauchyModulusExtractorToEventFlow_injective heq
       · rfl
+
+namespace TasteGate
+
+theorem UniformCauchyModulusExtractorNameCertObligations
+    (U S M W D R E H C P N : BHist) :
+    uniformCauchyModulusExtractorFields
+          (UniformCauchyModulusExtractorUp.mk U S M W D R E H C P N) =
+        [U, S, M, W, D, R, E, H, C, P, N] ∧
+      Cont U S (append U S) ∧
+        Cont (append (append (append U S) M) W) D
+          (append (append (append (append U S) M) W) D) ∧
+          SemanticNameCert
+            (fun h : BHist => hsame h N)
+            (fun h : BHist =>
+              hsame h U ∨ hsame h S ∨ hsame h M ∨ hsame h W ∨ hsame h D ∨
+                hsame h R ∨ hsame h E ∨ hsame h H ∨ hsame h C ∨ hsame h P ∨
+                  hsame h N)
+            (fun h : BHist => hsame h N ∧ Cont U S (append U S))
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append SemanticNameCert
+  exact
+    ⟨rfl, rfl, rfl,
+      {
+        core := {
+          carrier_inhabited := Exists.intro N (hsame_refl N)
+          equiv_refl := by
+            intro h _source
+            exact hsame_refl h
+          equiv_symm := by
+            intro _h _k same
+            exact hsame_symm same
+          equiv_trans := by
+            intro _h _k _r sameHK sameKR
+            exact hsame_trans sameHK sameKR
+          carrier_respects_equiv := by
+            intro h k same source
+            exact hsame_trans (hsame_symm same) source
+        }
+        pattern_sound := by
+          intro _h source
+          exact Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr source)))))))))
+        ledger_sound := by
+          intro _h source
+          exact ⟨source, rfl⟩
+      }⟩
+
+end TasteGate
 
 end BEDC.Derived.UniformCauchyModulusExtractorUp
