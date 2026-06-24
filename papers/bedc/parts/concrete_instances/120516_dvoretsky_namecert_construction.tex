@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\DvoretskyUp$}
+\label{ch:concrete-instances-dvoretsky-namecert}
+\origin{human}
+
+Following Dvoretsky and Milman, the $\DvoretskyUp$ packet records the finite-section surface by which a Banach-space carrier exposes a Hilbert-comparable finite-dimensional section with a displayed Banach--Mazur distortion ledger. It sits over the Banach-space source of \autoref{ch:concrete-instances-banachspace-namecert}, the distance ledger of \autoref{ch:concrete-instances-banach-mazur-distance-namecert}, the norm carrier of \autoref{ch:concrete-instances-norm-namecert}, the Hilbert comparison surface of \autoref{ch:concrete-instances-hilbert-namecert}, and the convex admissibility rows of \autoref{ch:concrete-instances-convexset-namecert}. The packet names only the finite BEDC handoff for a selected finite section and its distortion witness; it is not an ambient theorem asserting uniform Euclidean sections for every host Banach space.
+
+\begin{definition}[Dvoretsky finite-section carrier]
+\label{def:dvoretsky-carrier}
+A $\DvoretskyUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(B,N,S,D,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the Banach and norm source row, read through the $\BanachSpaceUp$ and $\NormUp$ certificates.
+\item $N$ is the finite-dimensional section row, naming the finite subspace, coordinate window, and section inclusion under the same norm source.
+\item $S$ is the Hilbert comparison row, recording the finite Euclidean model and the comparison map to the selected section.
+\item $D$ is the $\BanachMazurDistanceUp$ distortion ledger for the comparison between $N$ and $S$.
+\item $H$ records componentwise $\hsame$ transport for the Banach source, section row, Hilbert comparison, distortion ledger, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from the Banach source through the finite section, Hilbert comparison, and distortion ledger.
+\item $P$ is the $\Pkg$ provenance over $\BanachSpaceUp$, $\NormUp$, $\HilbertUp$, $\ConvexSetUp$, $\BanachMazurDistanceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\DvoretskyUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host infinite-dimensional compactness theorem, selected global basis, quotient Banach space, unrestricted finite-codimensional projection, classical choice schedule, or ambient Euclideanization principle.
+\end{definition}
+
+\begin{theorem}[Dvoretsky NameCert obligations]
+\label{thm:dvoretsky-namecert-obligations}
+For the carrier of \autoref{def:dvoretsky-carrier}, the local $\NameCert_{\DvoretskyUp}$ surface consists exactly of Banach and norm source exposure through $B$, finite-dimensional section exposure through $N$, Hilbert comparison through $S$, Banach--Mazur distortion readback through $D$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the finite packet $Q=(B,N,S,D,H,C,P,L)$. The first four rows display the mathematical content: source normed Banach data, the finite section, the Hilbert comparison row, and the distortion ledger.
+
+Read the structural rows next. The transport row $H$ compares the displayed rows componentwise, while $C$ replays only the route from source to section, from section to Hilbert comparison, and from comparison to distortion ledger.
+
+Finally inspect $P$ and $L$. They source and name the same finite packet, and neither supplies an additional compactness, basis-selection, quotient, choice, or global Euclideanization row. Hence the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dvoretsky finite-dimensional section handoff]
+\label{thm:dvoretsky-finite-dimensional-section-handoff}
+Every accepted $\DvoretskyUp$ consumer that reads a Hilbert-comparable finite section must first expose the Banach and norm source row $B$, the finite-dimensional section row $N$, the Hilbert comparison row $S$, the Banach--Mazur distortion ledger $D$, and the structural rows $H,C,P,L$. The handoff reaches downstream Banach, Hilbert, convex, or distortion consumers only through this finite route.
+\end{theorem}
+\begin{proof}
+Start from the carrier. A finite-section read is stored in $N$, but the row is attached to the Banach and norm source $B$ and to the Hilbert comparison row $S$ inside the same packet.
+
+Apply the NameCert obligations of \autoref{thm:dvoretsky-namecert-obligations}. They place the distortion ledger $D$ after the section and comparison rows, and they keep $H,C,P,L$ as preservation, replay, provenance, and naming data for the same route.
+
+Thus a consumer cannot read a Hilbert-comparable section as a detached host subspace or as an unrecorded Euclidean model. It receives the displayed finite section only after $B,N,S,D,H,C,P,L$ have been exposed.
+\end{proof}
+
+\begin{theorem}[Dvoretsky non-escape]
+\label{thm:dvoretsky-nonescape}
+An accepted $\DvoretskyUp$ packet exports no host Banach-space compactness theorem, no selected global basis, no quotient representative, no unrestricted projection, no classical choice schedule, and no ambient assertion that all finite-dimensional sections are Euclidean. Every finite-section claim available from the packet is routed through $B,N,S,D,H,C,P,L$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The only rows present are the Banach and norm source, finite section, Hilbert comparison, Banach--Mazur distortion ledger, transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:dvoretsky-finite-dimensional-section-handoff}. Any downstream consumer must pass through the displayed section and distortion handoff before using the finite Hilbert comparison.
+
+The excluded principles are not rows of the packet. Since $H,C,P,L$ only preserve and name the same finite route, no host compactness theorem, global basis selector, quotient representative, unrestricted projection, choice schedule, or ambient Euclideanization principle can escape from the certificate.
+\end{proof}
+
+\closureat{DvoretskyUp}{seedStr}
+
+\begin{closurestatus}{\DvoretskyUp}
+  \constructivestory{A $\DvoretskyUp$ packet is generated from a Banach and norm source row, a finite-dimensional section row, a Hilbert comparison row, a Banach--Mazur distortion ledger, componentwise transport, displayed replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dvoretsky-carrier}, \autoref{thm:dvoretsky-namecert-obligations}, \autoref{thm:dvoretsky-finite-dimensional-section-handoff}, and \autoref{thm:dvoretsky-nonescape} seed the finite-section NameCert surface over Banach, norm, Hilbert, convex, and Banach--Mazur distance rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close the full analytic Dvoretsky theorem, host compactness, global basis selection, quotient representatives, unrestricted projections, choice, Lean verification, audit cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-section exposure, Hilbert comparison stability, Banach--Mazur distortion readback, transport, replay, provenance, local naming, and non-escape for BEDC.Derived.DvoretskyUp.}
+\end{closurestatus}
