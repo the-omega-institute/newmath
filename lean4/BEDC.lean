@@ -6427,6 +6427,7 @@ import BEDC.Derived.HautusTestUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeatKernelUp
 import BEDC.Derived.HeineBorelFiniteNetUp.TasteGate
+import BEDC.Derived.HeineBorelIntervalUp.BridgedFiniteNetInterface
 import BEDC.Derived.HeineBorelIntervalUp.ClusterFilterRoute
 import BEDC.Derived.HeineBorelIntervalUp.CoverRefusalBoundary
 import BEDC.Derived.HeineBorelIntervalUp.MeshRefinement
