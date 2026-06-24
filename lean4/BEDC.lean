@@ -10844,6 +10844,7 @@ import BEDC.Derived.RieszRepresentationUp
 import BEDC.Derived.RieszRepresentationUp.BanachHilbertScope
 import BEDC.Derived.RieszRepresentationUp.BranchBoundaryNonescape
 import BEDC.Derived.RieszRepresentationUp.DualFunctionalRoute
+import BEDC.Derived.RieszRepresentationUp.FunctionalCarrierObligation
 import BEDC.Derived.RieszRepresentationUp.HilbertFunctionalBridge
 import BEDC.Derived.RieszRepresentationUp.MeasureHandoff
 import BEDC.Derived.RieszRepresentationUp.ObligationClosure
@@ -10916,6 +10917,7 @@ import BEDC.Derived.SamuelCompletionUp
 import BEDC.Derived.SamuelCompletionUp.TasteGate
 import BEDC.Derived.SardRegularValueUp
 import BEDC.Derived.SardTheoremFiniteJetUp.TasteGate
+import BEDC.Derived.SardTheoremUp
 import BEDC.Derived.SchauderBasisUp.TasteGate
 import BEDC.Derived.SchauderFiniteCompactMapUp
 import BEDC.Derived.SchauderFixedPointUp.TasteGate
