@@ -158,6 +158,50 @@ For the Hilbert branch, apply the Hilbert bridge \autoref{thm:rieszrepresentatio
 For the measure branch, apply the measure handoff \autoref{thm:riesz-representation-measure-handoff}. Then combine Banach-Hilbert scope \autoref{thm:riesz-representation-banach-hilbert-scope} with branch-boundary nonescape \autoref{thm:riesz-representation-branch-boundary-nonescape}. The boundary coordinate keeps the Hilbert and measure endpoints disjoint while preserving the shared bounded-functional face, so the accepted packet has exactly the scoped route stated above.
 \end{proof}
 
+\begin{theorem}[Riesz representation functional-carrier obligation]
+\label{thm:riesz-representation-functional-carrier-obligation}
+Every accepted $\RieszRepresentationUp$ packet must display the functional-analysis, Banach, Hilbert, Norm, and Real rows that make the bounded scalar-valued functional readable before any representing datum is projected. The obligation is the finite row
+$$
+(F,A,H,N,R,B)
+$$
+where $F$ is the $\FunctionalAnalysisUp$ bounded-functional face, $A$ is the $\BanachUp$ source carrier, $H$ is the optional $\HilbertUp$ branch source, $N$ is the $\NormUp$ bound ledger, $R$ is the scalar $\RealUp$ seal, and $B$ is the branch boundary. The row exports carrier admission and classifier transport only; it does not assert a host representation theorem, a selected representing vector, or equality of host linear maps.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:rieszrepresentation-carrier}. Its source and bounded-functional coordinates already require the Banach, Hilbert, FunctionalAnalysis, Norm, and Real faces before a representing datum can be consumed.
+
+Apply the dual-functional route of \autoref{thm:riesz-representation-dual-functional-route}. It keeps the bounded scalar-valued functional row visible as a finite NameCert coordinate rather than as a host-level function equality.
+
+Finally use the branch-boundary nonescape theorem. Since $B$ is part of the displayed row, the functional-carrier obligation cannot select a representing datum or identify host linear maps outside the active branch.
+\end{proof}
+
+\begin{theorem}[Riesz representation measure-row obligation]
+\label{thm:riesz-representation-measure-row-obligation}
+In the measure branch, every accepted $\RieszRepresentationUp$ packet must display the Measure and Real rows
+$$
+(M,T,I,R,L,B)
+$$
+before a measure-facing representation read is exported. Here $M$ is the $\MeasureUp$ representing endpoint, $T$ is the finite test-endpoint schedule, $I$ is the integration ledger over those tests, $R$ is the scalar $\RealUp$ seal, $L$ is the inherited bounded-functional ledger, and $B$ records that the measure branch is active. This obligation exports only finite NameCert rows for the measure handoff; it does not choose a representing measure, prove uniqueness, assert Radon regularity, or close a host measure-representation theorem.
+\end{theorem}
+\begin{proof}
+Start from the measure branch in \autoref{def:rieszrepresentation-carrier}. The representing datum is a carried measure endpoint, and the scalar comparison is an integration ledger over displayed test endpoints.
+
+Use the measure handoff theorem \autoref{thm:riesz-representation-measure-handoff}. It forces the source carrier, scalar target, boundedness ledger, measure endpoint, and test-endpoint integration ledger to be visible before the handoff is consumed.
+
+The branch boundary then blocks the extra conclusions. Because no row carries a selected measure, uniqueness proof, Radon regularity theorem, or host-level representation theorem, the measure obligation remains a finite packet row.
+\end{proof}
+
+\begin{theorem}[Riesz representation Real-seal obligation]
+\label{thm:riesz-representation-real-seal-obligation}
+Every scalar comparison exported by $\RieszRepresentationUp$ must pass through the terminal $\RealUp$ seal row shared by the Hilbert and measure branches. In the Hilbert branch the sealed comparison is the inner-product value ledger; in the measure branch it is the integration value ledger. The seal exports only scalar value rows and their inherited classifier transport, not Real completeness, selected representatives, equality of host functions, or a full representation theorem.
+\end{theorem}
+\begin{proof}
+For the Hilbert branch, apply \autoref{thm:rieszrepresentation-hilbert-functional-bridge}. The comparison row is a scalar ledger between the functional value and an inner-product value, both read through the same Real classifier.
+
+For the measure branch, apply \autoref{thm:riesz-representation-measure-handoff}. The comparison row is an integration value ledger over displayed tests, again sealed by the scalar Real row.
+
+Combine these branches with \autoref{thm:riesz-representation-banach-hilbert-scope}. The common Real seal is the only scalar export coordinate, so ambient Real completeness, selected representatives, host function equality, and full representation theorems remain outside the packet.
+\end{proof}
+
 \closureat{RieszRepresentationUp}{seedStr}
 \begin{closurestatus}{\RieszRepresentationUp}
   \constructivestory{A $\RieszRepresentationUp$ packet is generated from an inherited bounded scalar-valued functional row, a source row from the Banach, Hilbert, FunctionalAnalysis, Norm, and Measure certificates, a representing Hilbert endpoint or measure endpoint, scalar comparison ledgers for inner-product or integration values, componentwise classifier transport, and a branch-boundary row.}
