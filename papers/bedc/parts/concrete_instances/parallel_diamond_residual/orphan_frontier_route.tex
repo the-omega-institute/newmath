@@ -1,1 +1,9 @@
-The $\ParallelDiamondResidualUp$ packet is a residual-frontier consumer of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. It preserves the residual-substitution boundary, local-join ledger, compatibility handoff, bounded checker, and obstruction row before any confluence-facing consumer reads the residual-diamond packet.
+\begin{theorem}[ParallelDiamondResidual MetaCIC frontier dependency]
+\label{thm:parallel-diamond-residual-metacic-frontier-repair}
+Every $\ParallelDiamondResidualUp$ residual-frontier consumer must cite \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert} before any confluence-facing read is exported. The consumer preserves the residual-substitution boundary, local-join ledger, compatibility handoff, bounded checker, and obstruction row of the residual packet before it may read the packet as confluence-facing data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:parallel-diamond-residual-carrier}. The rows $P,F,S,L,B,C,O,H,T,G,N$ expose the residual frontier, residual-substitution boundary, local-join ledger, bounded checker, compatibility handoff, obstruction row, and structural transport data, so the cited MetaCIC frontier remains part of the displayed packet route.
+
+Apply the sibling route \autoref{thm:parallel-diamond-residual-metacic-sibling-route} and the frontier obstruction route \autoref{thm:parallel-diamond-residual-frontier-obstruction-route}. They keep the residual-substitution boundary, local-join ledger, bounded checker, compatibility handoff, and obstruction row visible before a confluence-facing consumer can read the packet, and the structural rows preserve that boundary without adding full Church--Rosser, quotient term equality, or an unconditional parallel-diamond theorem.
+\end{proof}
