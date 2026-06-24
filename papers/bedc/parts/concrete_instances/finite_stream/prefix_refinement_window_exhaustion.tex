@@ -1,0 +1,13 @@
+\begin{theorem}[FiniteStream prefix-refinement window exhaustion]
+\label{thm:finite-stream-prefix-refinement-window-exhaustion}
+Every accepted $\FiniteStreamUp$ packet consumed by a $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ reader factors through the same finite request row $Q$ and list prefix row $L$. Any refinement of the requested window must display the prefix inclusion before downstream rows $W,R,D,H,C,P,N$ are consumed. The route is read through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}; it is not an ambient infinite stream, quotient equality, selected limit, or Real completeness fact.
+\end{theorem}
+\begin{proof}
+Project the finite stream carrier of \autoref{def:finite-stream-carrier}. The accepted packet exposes the finite request row and list spine before any StreamName or Real-facing rows are available.
+
+Use the section sibling lock, \autoref{thm:finite-stream-section-sibling-lock}. It prevents a downstream consumer from replacing $Q$ or $L$ while preserving the same StreamName, RegSeqRat, DyadicRatCore, or Real-facing route.
+
+Now apply the StreamName dependency route, \autoref{thm:finite-stream-streamname-dependency-route}. A reader that reaches $W,R,D,H,C,P,N$ must first pass through the displayed finite schedule. A refined window therefore has to show its prefix inclusion against the original $L$ before those downstream rows can be consumed.
+
+The sibling chapters supply only the named downstream surfaces: StreamName gives the finite window, RegSeqRat gives the regular readback, DyadicRatCore gives tolerance data, and Real gives the terminal seal. None supplies a second request row or an unlisted list prefix, so the accepted read is exhausted by the displayed prefix-refinement route.
+\end{proof}
