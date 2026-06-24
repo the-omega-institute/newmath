@@ -107,15 +107,33 @@ Use the transport rows $H,H'$ and continuation rows $C,C'$. They replay the comp
 Finally apply target-ledger exactness and non-escape. The ledgers stay attached to their route rows and the shared target ledger, so a consumer cannot swap, merge, or replace them by quotient normal forms, global carry confluence, or kernel rewriting.
 \end{proof}
 
+\begin{theorem}[Axis carry diamond-route scoped kernel dependencies]
+\label{thm:axis-carry-diamond-route-scoped-kernel-dependencies}
+Every accepted $\AxisCarryDiamondRouteUp$ two-route diamond packet factors through the displayed rows
+$$
+\ZCarryUp,\ZeckendorfCarryNormalizationUp,\ZeckendorfCarryValueUp,\AxisZeckendorfCarryBudgetUp,\BHist,\hsame,\Cont,\Pkg,\NameCert
+$$
+before any consumer may read the shared target-normality ledger or the local diamond name. The scoped route exposes the two carry-successor rows, two normalization routes, two value ledgers, one shared normal target, componentwise transport, replay, provenance, and local naming.
+
+It exposes no host arithmetic quotient, no global confluence theorem, no source-target $\hsame$ proof, and no kernel rewrite rule.
+\end{theorem}
+\begin{proof}
+Start with the carrier and route theorems. \autoref{def:axis-carry-diamond-route-carrier} lists the finite row inventory, while \autoref{thm:axis-carry-diamond-route-names-two-step-confluence} places the two $\ZCarryUp$ edges, the two $\ZeckendorfCarryNormalizationUp$ handoffs, the shared normal target, and the value ledgers in one displayed packet.
+
+Next apply non-escape and the obligation surface. \autoref{thm:axis-carry-diamond-route-nonescape} removes host arithmetic quotients, hidden normalizers, global confluence, and kernel rewriting from the accepted read, and \autoref{thm:axis-carry-diamond-route-obligation-surface} confines the local obligations to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+Finally use target-ledger exactness and value-ledger stability. They keep the shared target-normality ledger downstream of both routes and both value ledgers, so the scoped packet can be consumed only through the named kernel dependencies and never through a source-target $\hsame$ shortcut or an ambient rewrite rule.
+\end{proof}
+
 \closureat{AxisCarryDiamondRouteUp}{obligationStr}[BEDC.Derived.AxisCarryDiamondRouteUp.AxisCarryDiamondRouteTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\AxisCarryDiamondRouteUp}
   \constructivestory{An $\AxisCarryDiamondRouteUp$ packet is generated from an overlap source row, two carry-successor rows, a shared normal target, two carry-normalization route rows, two value ledgers, a shared target-normality ledger, non-$\hsame$ boundary rows, componentwise transports, continuation routes, provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:axis-carry-diamond-route-carrier}, \autoref{thm:axis-carry-diamond-route-names-two-step-confluence}, \autoref{thm:axis-carry-diamond-route-nonescape}, \autoref{thm:axis-carry-diamond-route-obligation-surface}, \autoref{thm:axis-carry-diamond-route-target-ledger-exactness}, and \autoref{thm:axis-carry-diamond-route-value-ledger-stability} specify the finite two-route diamond carrier, obligation rows, shared target ledger, value-ledger stability, and non-escape boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:axis-carry-diamond-route-carrier}, \autoref{thm:axis-carry-diamond-route-names-two-step-confluence}, \autoref{thm:axis-carry-diamond-route-nonescape}, \autoref{thm:axis-carry-diamond-route-obligation-surface}, \autoref{thm:axis-carry-diamond-route-target-ledger-exactness}, \autoref{thm:axis-carry-diamond-route-value-ledger-stability}, and \autoref{thm:axis-carry-diamond-route-scoped-kernel-dependencies} specify the finite two-route diamond carrier, obligation rows, shared target ledger, value-ledger stability, non-escape boundary, and scoped dependencies over ZCarry, ZeckendorfCarryNormalization, ZeckendorfCarryValue, AxisZeckendorfCarryBudget, BHist, hsame, Cont, Pkg, and NameCert.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, arbitrary carry confluence, host arithmetic quotienting, global normalization, source-target $\hsame$, or kernel rewriting.}
-  \upgradepath{Further closure requires Lean-checked carrier admission, paired route rows, shared target-normality, value-ledger exactness, non-$\hsame$ preservation, route replay, provenance, and local naming for the same finite packet.}
+  \upgradepath{Public closure requires a checked export obligation for paired route rows, shared target-normality, value-ledger exactness, non-$\hsame$ preservation, route replay, provenance, and local naming for the same finite packet.}
 \end{closurestatus}
