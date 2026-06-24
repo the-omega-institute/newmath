@@ -11,7 +11,8 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-theorem ObserverPerspectiveClassifierCrossAlignmentLocalitySoundness [AskSetup] [PackageSetup]
+theorem observer_perspective_classifier_cross_alignment_locality_soundness_namecert
+    [AskSetup] [PackageSetup]
     {observerLeft observerRight universeLeft universeRight locality gap transport route provenance
       name comparison alignmentRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
