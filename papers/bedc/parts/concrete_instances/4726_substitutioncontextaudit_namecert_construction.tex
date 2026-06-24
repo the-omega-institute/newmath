@@ -104,6 +104,20 @@ The closed-boundary provenance is supplied by \autoref{ch:concrete-instances-clo
 The handoff row $E$ therefore exports a finite ledger to later subject-reduction consumers. By \autoref{thm:substitution-context-audit-nonescape}, the ledger has no route through host substitution semantics or closed subject reduction, so its exact content is the displayed packet.
 \end{proof}
 
+\begin{theorem}[Substitution context audit MetaCIC scope]
+\label{thm:substitution-context-audit-metacic-scope}
+For an accepted $\SubstitutionContextAuditUp$ packet $Q=(X,S,U,M,G,B,E,H,K,P,N)$, every substitution-context row is scoped only through typed classifier membership, finite residual frontier rows, closure-preservation audit rows, and local $\NameCert$ transport and replay. The packet does not claim subject reduction, confluence, evaluator equality, quotient syntax equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:substitution-context-audit-carrier}. The context row $X$, shift row $S$, substitute row $U$, closed-composition row $M$, and generator-closure row $G$ are the only rows that can carry substitution-context data.
+
+Apply the local obligations of \autoref{thm:substitution-context-audit-namecert-obligations}. They force every substitution-context read to expose the displayed carrier rows, binder-seal row, subject-reduction handoff row, componentwise transport, replay, provenance, and local naming before any downstream consumer can use the packet.
+
+Use the binder route and context admission theorems, \autoref{thm:substitution-context-audit-binder-route} and \autoref{thm:substitution-context-audit-context-admission}. These bind the typed classifier membership side of the read to $X,S,U,M,G,B,E,H,K,P,N$ rather than to a host context semantics.
+
+Finally combine non-escape and ledger exactness from \autoref{thm:substitution-context-audit-nonescape} and \autoref{thm:substitution-context-audit-ledger-exactness}. The finite residual frontier and closure-preservation audit rows are the displayed sibling handoff rows in the ledger, while $H,K,P,N$ only transport, replay, source, and name that finite surface. No coordinate remains for subject reduction, confluence, evaluator equality, quotient syntax equality, or kernel consistency.
+\end{proof}
+
 \closureat{SubstitutionContextAuditUp}{seedStr}
 
 \begin{closurestatus}{\SubstitutionContextAuditUp}
