@@ -9799,6 +9799,7 @@ import BEDC.Derived.RealIntervalDistanceUp.TasteGate
 import BEDC.Derived.RealIntervalUp.TasteGate
 import BEDC.Derived.RealInverseUp
 import BEDC.Derived.RealInverseUp.ApartnessDomain
+import BEDC.Derived.RealInverseUp.GuardedProductUniqueness
 import BEDC.Derived.RealInverseUp.TasteGate
 import BEDC.Derived.RealLimitStabilityUp
 import BEDC.Derived.RealLimitStabilityUp.TasteGate
