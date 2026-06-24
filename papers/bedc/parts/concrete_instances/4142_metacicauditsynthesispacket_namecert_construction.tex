@@ -214,6 +214,22 @@ Finally apply the transport obstruction of \autoref{thm:metacic-audit-synthesis-
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICAuditSynthesisPacketUp.MetaCICAuditSynthesisDischargeProjection}
 
+\begin{theorem}[MetaCIC audit synthesis candidate-normalization handoff]
+\label{thm:metacic-audit-synthesis-candidate-normalization-handoff}
+For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
+$$
+M=(S,C,N,U,D,A,B,H,R,P,L),
+$$
+any consumer reading candidate-mediated normalization or confluence handoff data through $N$ or $C$ must also carry the subject-reduction blocker rows $S,B$ and the discharge-obligation ledger through $H,R,P,L$. In particular, the candidate route cannot be repacked as closed subject reduction, unrestricted Church--Rosser, candidate-free normalization, global beta-conversion decidability, or quotient equality.
+\end{theorem}
+\begin{proof}
+Begin with the certificate surface of \autoref{thm:metacic-audit-synthesis-certificate-surface}. It identifies $S,C,N,U,D,A,B,H,R,P,L$ as one finite packet, so a consumer that reads $C$ or $N$ remains inside the same carrier as $S$ and $B$.
+
+Apply the positive-blocker union theorem, \autoref{thm:metacic-audit-synthesis-positive-blocker-union}. Candidate-mediated normalization and confluence are positive-row reads, and the theorem binds such reads to the subject-reduction row and blocker row through the displayed structural rows.
+
+Use transport obstruction and discharge projection next. Theorems~\ref{thm:metacic-audit-synthesis-transport-obstruction} and \ref{thm:metacic-audit-synthesis-discharge-projection} require the discharge-obligation ledger to remain visible across $H,R,P,L$ whenever the route approaches the closed-normal branch. Therefore the handoff is a blocker-preserving candidate route, not any of the excluded MetaCIC endpoints.
+\end{proof}
+
 \begin{theorem}[MetaCIC audit synthesis blocker-preserving positive projection]
 \label{thm:metacic-audit-synthesis-blocker-preserving-positive-projection}
 For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
