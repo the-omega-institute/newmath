@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\BoundedRegularCauchyClusterUp$}
+\label{ch:concrete-instances-bounded-regular-cauchy-cluster-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BoundedRegularCauchyClusterUp$ packet records the bounded regular-Cauchy cluster route as finite NameCert data rather than as a completed real quotient or a chosen convergent subsequence. It sits on the L10 Real and Completion spine: bounded source evidence is read through the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, dyadic tail budgets through \autoref{ch:concrete-instances-dyadicratcore-namecert}, regular rational readback through \autoref{ch:concrete-instances-regseqrat-namecert}, displayed extraction through \autoref{ch:concrete-instances-cauchy-subsequence-extractor-namecert}, and the terminal seal through \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[BoundedRegularCauchyCluster carrier]
+\label{def:bounded-regular-cauchy-cluster-carrier}
+A $\BoundedRegularCauchyClusterUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,W,D,R,E,X,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the bounded source row, recording the displayed lower and upper rational bounds for the inspected regular-Cauchy source.
+\item $W$ is the $\StreamNameUp$ finite-window row through which the source is observed.
+\item $D$ is the $\DyadicRatCoreUp$ tail-budget row used to compare requested tolerances with the displayed windows.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to $W$ and $D$.
+\item $E$ is the $\CauchySubsequenceExtractorUp$ row, exposing the finite extraction schedule consumed by cluster reads.
+\item $X$ is the terminal $\RealUp$ seal reached only after the $\RegSeqRatUp$ readback and the displayed extraction row have been read.
+\item $H$ records componentwise $\hsame$ transport for the source bounds, window row, tail-budget row, regular-rational readback, extraction row, and real seal.
+\item $C$ records the displayed $\Cont$ replay routes by which Real-facing and completion-facing consumers read the packet.
+\item $P$ is the $\Pkg$ provenance over $\BoundedRegularCauchyClusterUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\CauchySubsequenceExtractorUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedRegularCauchyClusterUp}$ row.
+\end{enumerate}
+The carrier exports no countable-choice selector, no quotient equality of Cauchy names, no host real equality, and no ambient completeness theorem for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[BoundedRegularCauchyCluster NameCert obligations]
+\label{thm:bounded-regular-cauchy-cluster-namecert-obligations}
+For every accepted $\BoundedRegularCauchyClusterUp$ carrier $B=(S,W,D,R,E,X,H,C,P,N)$, the local $\NameCert_{\BoundedRegularCauchyClusterUp}$ surface consists exactly of carrier admission for the bounded source row, $\StreamNameUp$ window row, $\DyadicRatCoreUp$ tail-budget row, $\RegSeqRatUp$ readback row, $\CauchySubsequenceExtractorUp$ row, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row. The classifier is stable only through $H$, and the ledger admits no selected subsequence outside $E$, no quotient real equality, no countable choice, and no ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project an accepted read through \autoref{def:bounded-regular-cauchy-cluster-carrier}. The bounded source, finite window, dyadic tail budget, regular-rational readback, extraction row, terminal real seal, transport, replay, provenance, and naming rows are all visible coordinates of the same packet.
+
+Classifier stability is componentwise because the only transport coordinate is $H$. The continuation row $C$ can replay the displayed source, readback, extraction, and Real-facing routes, but it has no coordinate for a selector or quotient object.
+
+Thus the local certificate is exhausted by the displayed finite carrier. The excluded rows cannot be recovered from the packet because no coordinate stores them.
+\end{proof}
+
+\begin{theorem}[BoundedRegularCauchyCluster RegSeqRat handoff]
+\label{thm:bounded-regular-cauchy-cluster-regseq-handoff}
+Every cluster read accepted by a $\BoundedRegularCauchyClusterUp$ packet reaches the terminal $\RealUp$ seal only through the displayed $\RegSeqRatUp$ readback row $R$ and the $\CauchySubsequenceExtractorUp$ row $E$. In particular, a Real-facing consumer must first read the bounded source row $S$, the $\StreamNameUp$ window row $W$, the $\DyadicRatCoreUp$ tail-budget row $D$, and the regular-rational readback row $R$ before it may consume the extraction row $E$ and the seal $X$.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates in order. The real seal $X$ is stored as the terminal row of the same packet that contains $S,W,D,R,E$, and the displayed replay row $C$ exposes no route to $X$ that bypasses the regular-rational readback.
+
+The extraction row $E$ is not an independent choice functional. It is a finite row of the carrier, transported by $H$ and replayed by $C$ after the window and tail-budget rows have already fixed the RegSeqRat handoff.
+
+Therefore every Real-facing cluster read factors through the displayed $S,W,D,R,E,X$ route. The packet contains no quotient equality of streams, selected limit, countable-choice schedule, or ambient completeness row that could supply another route.
+\end{proof}
+
+\closureat{BoundedRegularCauchyClusterUp}{seedStr}
+
+\begin{closurestatus}{\BoundedRegularCauchyClusterUp}
+  \constructivestory{A $\BoundedRegularCauchyClusterUp$ packet is generated from bounded source rows, finite StreamName windows, DyadicRatCore tail budgets, RegSeqRat readback, CauchySubsequenceExtractor rows, a Real seal, componentwise hsame transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-regular-cauchy-cluster-carrier}, \autoref{thm:bounded-regular-cauchy-cluster-namecert-obligations}, and \autoref{thm:bounded-regular-cauchy-cluster-regseq-handoff} seed the bounded regular-Cauchy cluster route from finite windows and dyadic tail budgets to RegSeqRat readback, displayed subsequence extraction, and Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Real completeness, separability, quotient equality of Cauchy names, countable-choice subsequence selection, or bridge checking.}
+  \upgradepath{Scoped closure requires Lean checking of carrier admission, classifier stability, RegSeqRat handoff exactness, and Real-seal nonescape for the same displayed packet.}
+\end{closurestatus}
