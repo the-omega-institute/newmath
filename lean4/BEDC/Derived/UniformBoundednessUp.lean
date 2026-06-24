@@ -97,4 +97,18 @@ theorem UniformBoundednessPacket_namecert_obligations [AskSetup] [PackageSetup]
     }
   exact ⟨cert, packageHistory⟩
 
+theorem UniformBoundedness_carrier_admission [AskSetup] [PackageSetup]
+    {family pointwise baire norm regseq stream transport history replay provenance nameRow :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformBoundednessPacket family pointwise baire norm regseq stream transport history replay
+        provenance nameRow bundle pkg ->
+      hsame nameRow history ∧ Cont family pointwise baire ∧ Cont baire norm regseq ∧
+        Cont regseq stream history ∧ Cont transport history replay ∧
+          Cont replay provenance nameRow ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle history pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame
+  intro packet
+  exact packet
+
 end BEDC.Derived.UniformBoundednessUp
