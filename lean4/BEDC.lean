@@ -1941,6 +1941,7 @@ import BEDC.Derived.CauchyExtensionOperatorUp.TasteGate
 import BEDC.Derived.CauchyFilterBaseUp.TasteGate
 import BEDC.Derived.CauchyFilterBasisCompletionUp.TasteGate
 import BEDC.Derived.CauchyFilterCategoryUp
+import BEDC.Derived.CauchyFilterClusterUp.ClusterRoute
 import BEDC.Derived.CauchyFilterClusterUp.NameCertObligations
 import BEDC.Derived.CauchyFilterClusterUp.TasteGate
 import BEDC.Derived.CauchyFilterCompletenessUp
@@ -7619,6 +7620,7 @@ import BEDC.Derived.MetaCICAuditSynthesisPacketUp.PublicExport
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.PublicTransportGate
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ScopeClosure
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ScopeStability
+import BEDC.Derived.MetaCICAuditSynthesisPacketUp.SubstitutionConfluenceJoin
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.TasteGate
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.TransportObstruction
 import BEDC.Derived.MetaCICBetaAuditUp
@@ -8812,6 +8814,7 @@ import BEDC.Derived.ObserverTraceSealUp.TasteGate
 import BEDC.Derived.ObserverperspectiveclassifierUp
 import BEDC.Derived.ObserverperspectiveclassifierUp.AlignmentConsumer
 import BEDC.Derived.ObserverperspectiveclassifierUp.AlignmentLedgerCoverage
+import BEDC.Derived.ObserverperspectiveclassifierUp.ClassifierDeterminacy
 import BEDC.Derived.ObserverperspectiveclassifierUp.ComparisonRouteTotality
 import BEDC.Derived.ObserverperspectiveclassifierUp.CrossAlignmentLocalitySoundness
 import BEDC.Derived.ObserverperspectiveclassifierUp.DependencyScope

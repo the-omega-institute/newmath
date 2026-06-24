@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCoverNerveUniformModulusUp$}
+\label{ch:concrete-instances-finite-cover-nerve-uniform-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on compact metric uniform continuity, the $\FiniteCoverNerveUniformModulusUp$ packet records the finite cover-nerve incidence and rational lower-bound handoff as concrete NameCert data. It consumes compact source rows from \autoref{ch:concrete-instances-compact-namecert}, continuous-map rows from \autoref{ch:concrete-instances-continuousmap-namecert}, metric and rational comparison rows from \autoref{ch:concrete-instances-metric-namecert} and \autoref{ch:concrete-instances-rat-namecert}, finite interval-cover rows from \autoref{ch:concrete-instances-finite-interval-cover-namecert}, finite Lebesgue-number rows from \autoref{ch:concrete-instances-finite-lebesgue-number-namecert}, and hands the resulting ledger to \autoref{ch:concrete-instances-uniformmodulus-namecert} before any $\RealUp$ readback in \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[FiniteCoverNerveUniformModulus carrier]
+\label{def:finite-cover-nerve-uniform-modulus-carrier}
+A $\FiniteCoverNerveUniformModulusUp$ carrier is a finite $\BHist$ packet
+$$
+U=(K,F,I,N,L,R,M,V,H,C,P,Q)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $K$ is the $\CompactUp$ source row.
+\item $F$ is the $\ContinuousMapUp$ row read on the compact source.
+\item $I$ is the $\FiniteIntervalCoverUp$ row presenting the finite cover cells.
+\item $N$ is the finite nerve-incidence row, listing cover-cell adjacency and overlap witnesses as a bounded $\BHist$ table.
+\item $L$ is the $\FiniteLebesgueNumberUp$ row giving the displayed rational lower bound for the cover.
+\item $R$ is the $\RatUp$ comparison ledger that keeps every chosen lower-bound read positive and below the relevant local radius.
+\item $M$ is the $\MetricUp$ distance row used by the overlap and coverage tests.
+\item $V$ is the $\UniformModulusUp$ handoff row receiving the finite nerve and lower-bound ledger.
+\item $H$ records componentwise $\hsame$ transport for the compact source, continuous map, cover cells, nerve incidences, Lebesgue-number row, rational comparisons, metric rows, and uniform-modulus handoff.
+\item $C$ records the displayed $\Cont$ replay routes.
+\item $P$ is the $\Pkg$ provenance over $\FiniteCoverNerveUniformModulusUp$, $\CompactUp$, $\ContinuousMapUp$, $\MetricUp$, $\RatUp$, $\FiniteIntervalCoverUp$, $\FiniteLebesgueNumberUp$, $\UniformModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Q$ is the local $\NameCert_{\FiniteCoverNerveUniformModulusUp}$ row.
+\end{enumerate}
+The carrier refuses open-cover compactness, selected subcovers, host minima, quotient real equality, and any $\RealUp$ seal not routed through the displayed uniform-modulus handoff.
+\end{definition}
+
+\begin{theorem}[FiniteCoverNerveUniformModulus NameCert obligations]
+\label{thm:finite-cover-nerve-uniform-modulus-obligations}
+For every accepted $\FiniteCoverNerveUniformModulusUp$ carrier $U=(K,F,I,N,L,R,M,V,H,C,P,Q)$, the local $\NameCert_{\FiniteCoverNerveUniformModulusUp}$ surface consists exactly of carrier admission for the compact source row, continuous-map row, finite interval-cover row, finite nerve-incidence row, finite Lebesgue-number row, rational comparison ledger, metric distance row, uniform-modulus handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row. The classifier is stable only through $H$, and no obligation may be discharged by open-cover compactness, a selected subcover, a host minimum, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project an accepted packet through \autoref{def:finite-cover-nerve-uniform-modulus-carrier}. The compact, continuous, cover, nerve, Lebesgue-number, rational-comparison, metric, and uniform-modulus rows are all explicit coordinates.
+
+The transport coordinate $H$ preserves those rows componentwise. The replay coordinate $C$ lets compact, continuous, metric, rational, cover, and uniform-modulus consumers read the same finite packet, but it does not create an open cover or a host minimum.
+
+Consequently the local NameCert obligations are exactly the displayed finite rows. Since the excluded objects have no carrier coordinate, they cannot be used to discharge the certificate surface.
+\end{proof}
+
+\begin{theorem}[FiniteCoverNerveUniformModulus handoff]
+\label{thm:finite-cover-nerve-uniform-modulus-handoff}
+Every $\UniformModulusUp$ read exported by an accepted $\FiniteCoverNerveUniformModulusUp$ packet is handed the finite cover cells $I$, the nerve-incidence table $N$, the $\FiniteLebesgueNumberUp$ lower-bound row $L$, the $\RatUp$ comparison ledger $R$, and the $\MetricUp$ distance row $M$ before any Real-facing consumer may inspect a $\RealUp$ seal. The handoff is finite and choice-free: it does not expose open-cover compactness, selected subcovers, host minima, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the uniform-modulus handoff row $V$ from the carrier. Its inputs are the finite cover row $I$, the nerve-incidence row $N$, the Lebesgue-number row $L$, the rational comparison ledger $R$, and the metric row $M$, all attached to the compact source $K$ and continuous map $F$.
+
+The $\hsame$ and $\Cont$ rows keep this handoff on the displayed packet. They transport and replay the finite incidence and lower-bound data, but they do not add a selector for subcovers or a minimum operation outside the carrier.
+
+Thus the Real-facing boundary is downstream of the uniform-modulus handoff. Any consumer that reaches $\RealUp$ must do so through the displayed finite route, not through quotient real equality or ambient completeness.
+\end{proof}
+
+\closureat{FiniteCoverNerveUniformModulusUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCoverNerveUniformModulusUp}
+  \constructivestory{A $\FiniteCoverNerveUniformModulusUp$ packet is generated from compact source rows, continuous-map rows, finite interval-cover cells, finite nerve-incidence rows, finite Lebesgue-number lower bounds, rational comparison ledgers, metric rows, a UniformModulus handoff, componentwise hsame transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cover-nerve-uniform-modulus-carrier}, \autoref{thm:finite-cover-nerve-uniform-modulus-obligations}, and \autoref{thm:finite-cover-nerve-uniform-modulus-handoff} seed the finite cover-nerve route from compact and continuous-map rows to a rational lower-bound UniformModulus handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close open-cover compactness, selected subcovers, host minima, quotient real equality, Real completeness, or bridge checking.}
+  \upgradepath{Scoped closure requires Lean checking of carrier admission, classifier stability, finite nerve incidence exactness, rational lower-bound handoff, and Real-facing nonescape for the same displayed packet.}
+\end{closurestatus}
