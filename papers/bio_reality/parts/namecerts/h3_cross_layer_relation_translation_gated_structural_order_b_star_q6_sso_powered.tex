@@ -1,34 +1,35 @@
 \origin{ai}
 
-\subsection{Translation-Gated Structural-Order Readback for the $B^{*}_{Q6}$ Residual Surface}
-\label{subsec:bioreality-q6-translation-gated-structural-order}
+\subsection{Translation-Gated Structural-Order Readback for $B^{*}_{Q6}$ Residual Coordinates}
+\label{sec:bioreality-q6-translation-gated-structural-order}
 
 \paragraph{Finite surface.}
-This record fixes a finite cross-layer test surface whose coordinate side is the nine-dimensional $B^{*}_{Q6}$ residual basis and whose readout side is a protein-level structural-confidence score.  The coordinates used in the run are
-$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  These nine vectors were imported from the powered $B^{*}_{Q6}$ translation-survival computation and then residualized against an explicit covariate table.  The covariates were the intercept, $\log(\mathrm{cds\_len\_nt})$, the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, GC3 computed from the same coding-sequence codon counts, and an $M$-density baseline defined as the fraction of sense codons on the union support of the nine projected $B^{*}_{Q6}$ vectors.  Thus the finite row is not a codon-count impression alone: every reported structural-confidence association is after length, amino-acid composition, GC3, and $M$-density have already been accounted for.
+This record tests a finite cross-layer surface whose rows are coding sequences with matched protein identifiers and whose columns are the nine $B^{*}_{Q6}$ residual coordinates
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\_vs\_UUR}$, $Leu_{UUA\_vs\_UUG}$, $Ser_{UCR\_vs\_AGY}$, $Ser_{UCA\_vs\_UCG}$, $Thr_{ACR\_vs\_ACY}$, and $f_3$-stress. The biological readout in the present finite run is AlphaFold mean pLDDT on the $0$ to $100$ scale, used only as predicted structure-confidence readback. The run identifier is $86830c9a8724$, verified at 2026-06-12T11:06:10+00:00. The column family therefore contains $9$ residual coordinates, not an open-ended codon-usage search space, and every reported association is estimated after the declared control projection.
 
-\paragraph{Readout and gate.}
-The readout in this finite run is AlphaFold mean pLDDT on the interval $0..100$, used only as predicted structure confidence.  It is not an experimental folded-structure measurement and it is not a function, phenotype, abundance, localization, folding-kinetics, pathway, mechanism, or causal endpoint.  The tested association can be written as a controlled residual readback
+\paragraph{Control projection.}
+For each protein row the residual-coordinate design is compared against a control block $Z$ containing an intercept, $\log(\mathrm{CDS\ length\ in\ nt})$, the $20$ amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, GC3 from the real CDS codon counts, and an $M$-density baseline defined as the fraction of sense codons lying in the union support of the nine projected $B^{*}_{Q6}$ vectors. In both organisms the coordinate rank survives this projection: Escherichia coli K-12 MG1655 has $23$ independent control columns, $9$ residual-coordinate columns after projection, and $3713$ residual degrees of freedom; Saccharomyces cerevisiae has $23$ independent control columns, $9$ residual-coordinate columns after projection, and $5781$ residual degrees of freedom. The diagnostic threshold for degeneracy is $R^2=0.999999$, and both organisms are marked rank-sufficient rather than saturated.
+
+\paragraph{Matched rows.}
+The codon-to-protein join is nearly complete in the two finite panels. For Escherichia coli K-12 MG1655, $3739$ codon rows are joined, $3736$ matched proteins are used, $3736$ proteins have structural-confidence readback, and the join hit rate is $0.999198$. For Saccharomyces cerevisiae, $5815$ codon rows are joined, $5804$ matched proteins are used, $5804$ proteins have structural-confidence readback, and the join hit rate is $0.998108$. These numbers make the surface large enough for a non-vacuous residual readback, but they do not by themselves identify a causal or mechanistic layer.
+
+\paragraph{Observed finite association.}
+After residualizing against $Z$, the structural-confidence response energy and fitted residual-coordinate energy are finite in both organisms. Escherichia coli K-12 MG1655 has response residual energy $136607.52873622958$ and explained energy $4178.935925251874$, yielding
 $$
 \begin{aligned}
-S^{SO}(Q) &= R^2\bigl(Y_{\mathrm{pLDDT}}\,;\,\widetilde{Q}_1,\ldots,\widetilde{Q}_9 \mid Z\bigr),\\
-Z &= \{1,\log(\mathrm{cds\_len\_nt}),AA_1,\ldots,AA_{20},GC3,M\text{-density}\},
+R^2_{SO}(\mathrm{E.\ coli}) &= 0.03059081709413562 .
 \end{aligned}
 $$
-with a positive-entry threshold of $10^{-12}$ and a rank-degeneracy guard at $0.999999$.  The intended chain is translation-gated: a coordinate should not be carried into structural-order interpretation unless the same coordinate has first survived an appropriate translation-readout test under the declared controls and simpler-baseline ablation.  In the present finite table, the attached numerical readout is predicted structural confidence, so the result is a bounded cross-sectional association rather than a completed translation-mediated structural mechanism.
-
-\paragraph{Rank and row diagnostics.}
-The organism panels are powered in the linear-algebraic sense recorded by the run.  For \emph{Escherichia coli} K-12 MG1655, the residual design has $9$ projected $Q$ coordinates, $24$ control columns, $\mathrm{rank}(Z)=23$, $\mathrm{rank}(\widetilde{X})=9$, and residual degrees of freedom $3713$.  The recorded explained energy is $4178.935925251874$ against residual response energy $136607.52873622958$.  For \emph{Saccharomyces cerevisiae}, the same $9$ projected coordinates and $24$ control columns give $\mathrm{rank}(Z)=23$, $\mathrm{rank}(\widetilde{X})=9$, and residual degrees of freedom $5781$, with explained energy $44421.14342043593$ against residual response energy $620506.1490869389$.  These diagnostics matter because an all-positive table produced by a collapsed design would not be evidence of coordinate survival; here the recorded rank is sufficient in both organism panels.
-
-\paragraph{Matched protein rows.}
-The structural-confidence join was nearly complete in both organisms.  In \emph{E. coli} K-12 MG1655, $3739$ codon rows were joined, $3736$ matched proteins were used, $3736$ structural-confidence proteins were available, and the join hit rate was $0.999198$.  In \emph{S. cerevisiae}, $5815$ codon rows were joined, $5804$ matched proteins were used, $5804$ structural-confidence proteins were available, and the join hit rate was $0.998108$.  The computed structural-confidence residual association was
+Saccharomyces cerevisiae has response residual energy $620506.1490869389$ and explained energy $44421.14342043593$, yielding
 $$
 \begin{aligned}
-R^2_{SO}(\mathrm{E.\ coli\ K12}) &= 0.03059081709413562,\\
-R^2_{SO}(\mathrm{S.\ cerevisiae}) &= 0.0715885627979685.
+R^2_{SO}(\mathrm{S.\ cerevisiae}) &= 0.0715885627979685 .
 \end{aligned}
 $$
-Both organism entries record $9$ surviving coordinates at the declared positive partial-$R^2$ threshold.  The \emph{E. coli} value is therefore a modest finite association, while the yeast value is a larger but still cross-sectional predicted-confidence association.
+The positive-entry cutoff recorded for this run is $10^{-12}$, and all nine residual coordinates are counted as surviving the projected structural-confidence readback in each organism. The Escherichia coli signal is therefore modest but finite, while the Saccharomyces cerevisiae signal is larger on the same predicted-confidence scale.
 
-\paragraph{Local null boundary.}
-The row does not license promotion beyond what was measured.  AlphaFold mean pLDDT is a predicted confidence score, not a direct assay of folded structural order, and the computation does not establish translation causality.  No claim of translation realization, ribosome mechanism, protein abundance mediation, folding, physical admissibility, biological function, phenotype, adaptation, or universality follows from the $B^{*}_{Q6}$ coordinates, from $M$-density, from codon usage, from tAI or stAI-style readouts, or from the positive $S^{SO}$ entries unless a separate layer-matched contact supplies the relevant measurement and the same-coordinate gate is recomputed under the declared controls.  The finite conclusion is only this: in run $86830c9a8724$, verified at $2026$-$06$-$12$ $11{:}06{:}10{+}00{:}00$, the nine residual $B^{*}_{Q6}$ coordinates retained nonzero association with AlphaFold mean pLDDT after the stated residualization controls in the two organism panels.  The scientific status remains a controlled predicted-confidence readback, not a structural, functional, mechanistic, or universal biological law.
+\paragraph{Gate interpretation.}
+The mathematical object supported here is a controlled association between per-protein $B^{*}_{Q6}$ codon-usage residuals and AlphaFold mean pLDDT predicted confidence. It is not a folded-structure experiment, not a translation-efficiency measurement, and not a protein-function assay. The intended chain is gated: a coordinate $q_i$ may enter a structural-order discussion only after a same-coordinate translation readout $T_j$ has survived the amino-acid-composition, GC3, length, organism, and $M$-density controls, and any subsequent structural-confidence statistic must then be read conditional on $T_j$ and protein-abundance baseline controls. In the present run the pLDDT association is real as a finite controlled readback, but it is not itself evidence that ribosomes, tRNA adaptation, or translation efficiency mediated the association.
+
+\paragraph{Null boundary.}
+No claim of measured translation realization follows from these pLDDT rows unless a separate ribosome-profiling, translation-efficiency, tAI/stAI, or equivalent translation contact supplies a matched statistic. No claim of folding, physical admissibility, molecular function, phenotype, mechanism, or universality follows from the finite $R^2_{SO}$ values. AlphaFold mean pLDDT is a predicted structure-confidence annotation, not an experimental structural-order assay, not abundance, not localization, not folding kinetics, and not pathway activity. The positive $R^2_{SO}$ values therefore authorize only this bounded statement: in two organism-specific finite panels with strong row matching and full amino-acid-composition residualization, the nine $B^{*}_{Q6}$ residual coordinates retain a nonzero association with predicted protein-structure confidence after length, GC3, and $M$-density controls. Any stronger biological reading requires a distinct layer-matched contact and a new controlled statistic.
