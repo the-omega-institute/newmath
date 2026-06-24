@@ -1939,6 +1939,7 @@ import BEDC.Derived.CauchyEquivalenceSetoidUp.PsameRealClassifierBridge
 import BEDC.Derived.CauchyEquivalenceSetoidUp.RealSealForwardRoute
 import BEDC.Derived.CauchyEquivalenceSetoidUp.RealSeparabilityForwardAnchor
 import BEDC.Derived.CauchyEquivalenceSetoidUp.RealSeparabilityStableDensity
+import BEDC.Derived.CauchyEquivalenceSetoidUp.SemanticNameCertificate
 import BEDC.Derived.CauchyEquivalenceSetoidUp.SeparatedMetricFactorization
 import BEDC.Derived.CauchyEquivalenceSetoidUp.TailTransitivity
 import BEDC.Derived.CauchyErrorCertificateUp
@@ -10281,6 +10282,7 @@ import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularCauchyComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionCounitUp
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.NameCertObligations
+import BEDC.Derived.RegularCauchyCompletionCriterionUp.ObligationClosure
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.RealSealHandoff
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.ScopeFactorization
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.TasteGate
