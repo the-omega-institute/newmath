@@ -1,0 +1,15 @@
+\begin{theorem}[Cauchy subsequence selector orphan lattice route]
+\label{thm:cauchy-subsequence-selector-orphan-lattice-route}
+Every selector read consumed by $\CauchySubsequenceExtractorUp$ must preserve the $\RegSeqRatUp$ source row, the $\StreamNameUp$ finite-window row, the $\RegularCauchyMinModulusUp$ witness row, and the $\RealUp$ terminal seal before any subsequence extraction is public. Thus the extractor-facing selector route is the finite lattice
+$$
+\RegSeqRatUp,\ \StreamNameUp,\ \RegularCauchyMinModulusUp,\ \RealUp
+$$
+inside the accepted $\CauchySubsequenceSelectorUp$ packet, not a detached subsequence choice or quotient stream selection.
+\end{theorem}
+\begin{proof}
+Project the selector carrier of \autoref{def:cauchy-subsequence-selector-carrier}. The available selector rows are the source row $R$, finite windows $W$, monotone selector schedule $M$, Cauchy-gap ledger $G$, terminal seal $E$, transport, replay, provenance, and local naming.
+
+Use the selector dependency route and the cofinal subsequence dependency route. They force every extractor-facing read to pass through the displayed selector schedule before the extraction row can be consumed as finite subsequence data.
+
+Finally read the regular-Cauchy minimum-modulus forward link. It keeps the $\RegularCauchyMinModulusUp$ witness visible alongside the $\RegSeqRatUp$ source row and $\StreamNameUp$ finite windows before the terminal $\RealUp$ seal is public. Hence the selector exports only the stated finite lattice to the extractor and no separate host-side subsequence selection.
+\end{proof}
