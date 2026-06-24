@@ -82,6 +82,7 @@ Finally read the structural rows $H,K,P,N$. They preserve and route displayed co
 \label{thm:groundcompiler-event-flow-audit-obligation-surface}
 Every accepted $\GroundCompilerEventFlowAuditRouteUp$ route exposes the event-flow row $E$, audit witness rows $C,L,G,A,B$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $K$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$ before any audit consumer reads the route. No hidden compiler input, source-text proof row, report evidence row, motif evidence row, metric evidence row, or hand-written proof row is available outside that displayed surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.GroundCompilerEventFlowAuditRouteCarrier\_obligation\_surface}
 \begin{proof}
 Project the carrier of \autoref{def:groundcompiler-event-flow-audit-route-carrier}. Its coordinates are exactly $E,C,L,G,A,B,H,K,P,N$, so every accepted route presents the event-flow row, the audit witness rows, and the structural transport, replay, provenance, and naming rows as finite $\BHist$ data.
 
@@ -94,6 +95,7 @@ Finally use \autoref{thm:groundcompiler-event-flow-audit-route-non-evidence-boun
 \label{thm:groundcompiler-event-flow-audit-route-classifier-stability}
 Let two accepted $\GroundCompilerEventFlowAuditRouteUp$ route packets be classified componentwise on $E,C,L,G,A,B,H,K,P,N$. Displayed $\hsame$ transport and $\Cont$ replay preserve event-flow input, legal channel encoding, lossless readback, generated-recognizer mediation, certificate-gate export, and non-evidence boundary for those rows. In particular, classifier agreement on the displayed route cannot create hidden compiler input, source-text proof evidence, report evidence, motif evidence, metric evidence, or hand-written proof evidence outside the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.GroundCompilerEventFlowAuditRouteCarrier\_classifier\_stability}
 \begin{proof}
 Start with the classifier of \autoref{def:groundcompiler-event-flow-audit-route-classifier}. It reads the route componentwise from $E,C,L,G,A,B,H,K,P,N$, so componentwise $\hsame$ may only transport the event-flow row, legal channel row, lossless readback row, generated-recognizer row, certificate-gate row, non-evidence row, replay row, provenance row, and local name row.
 
