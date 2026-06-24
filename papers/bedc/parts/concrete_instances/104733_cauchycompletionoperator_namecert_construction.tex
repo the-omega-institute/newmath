@@ -133,6 +133,27 @@ The finite inspection window is fixed by \autoref{thm:cauchy-completion-operator
 Finally apply \autoref{thm:cauchy-completion-operator-ledger-nonescape} and \autoref{thm:cauchy-completion-operator-real-seal-nonescape}. These two nonescape clauses exclude quotient completion equality, selected representatives, selected limits, countable choice, host completion operators, and ambient $\RealUp$ completeness from both the ledger and the terminal Real seal.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionOperator obligation triad]
+\label{thm:cauchy-completion-operator-obligation-triad}
+For every accepted $\CauchyCompletionOperatorUp$ carrier
+$$
+O=(M,B,U,S,R,D,Q,E,H,C,P,N),
+$$
+the local NameCert obligations decompose exactly into the following three faces:
+\begin{enumerate}
+\item finite-window extraction, reading the completion-boundary row $B$, StreamName window $S$, RegSeqRat readback $R$, DyadicRatCore ledger $D$, and structural rows $H,C,P,N$ before any terminal read;
+\item functorial handoff, routing the metric and uniform source rows $M,U$ through $B$, then through $S,R,D$, and only then to $Q,E,H,C,P,N$;
+\item ledger nonescape, requiring every separated-limit or Real-facing consumer to read only the displayed rows $M,B,U,S,R,D,Q,E,H,C,P,N$ and no quotient completion equality, selected representative, selected limit, countable-choice schedule, host completion operator, or ambient $\RealUp$ completeness datum.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The finite-window face is exactly \autoref{thm:cauchy-completion-operator-window-extraction}. It isolates $B,S,R,D,H,C,P,N$ as the finite evidence a consumer must inspect before $Q$ or $E$ is available.
+
+The handoff face is exactly \autoref{thm:cauchy-completion-operator-functorial-handoff}. It places $M,U$ on the source side, routes them through the boundary row $B$, and sends every completion-facing consumer through the common finite window before the separated-limit and Real-seal rows.
+
+The nonescape face combines \autoref{thm:cauchy-completion-operator-ledger-nonescape} with \autoref{thm:cauchy-completion-operator-real-seal-nonescape}. The first theorem prevents any consumer from leaving the displayed ledger, and the second theorem applies the same refusal to terminal Real-seal reads. Together they exhaust the obligation surface recorded in \autoref{thm:cauchycompletionoperator-obligation-surface}.
+\end{proof}
+
 \begin{theorem}[CauchyCompletionOperator obligation window route]
 \label{thm:cauchy-completion-operator-obligation-window-route}
 Every accepted $\CauchyCompletionOperatorUp$ carrier
