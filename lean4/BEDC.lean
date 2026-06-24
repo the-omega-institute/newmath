@@ -4410,6 +4410,7 @@ import BEDC.Derived.DNAFourPhaseAlphabetBridgeUp.TasteGate
 import BEDC.Derived.DarbouxContinuityUp.TasteGate
 import BEDC.Derived.DarbouxCriterionUp
 import BEDC.Derived.DarbouxCriterionUp.TasteGate
+import BEDC.Derived.DarbouxFunctionUp.TasteGate
 import BEDC.Derived.DarbouxIntegralUp
 import BEDC.Derived.DarbouxIntegralUp.TasteGate
 import BEDC.Derived.DarbouxOscillationCriterionUp
@@ -8308,6 +8309,7 @@ import BEDC.Derived.MetricClosureUp.TasteGate
 import BEDC.Derived.MetricCofinalCompletionUp.TasteGate
 import BEDC.Derived.MetricCompletionAdjointUp.TasteGate
 import BEDC.Derived.MetricCompletionAdjunctionUp.TasteGate
+import BEDC.Derived.MetricCompletionAdmissibleEmbeddingUp
 import BEDC.Derived.MetricCompletionComparisonUp.TasteGate
 import BEDC.Derived.MetricCompletionDenseEmbeddingUp.TasteGate
 import BEDC.Derived.MetricCompletionFiniteCoproductUp.TasteGate
