@@ -20,11 +20,12 @@ def UniformBoundednessPacket [AskSetup] [PackageSetup]
       BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   hsame nameRow history ∧
-    Cont family pointwise baire ∧
-      Cont baire norm regseq ∧
-        Cont regseq stream history ∧
-          Cont transport history replay ∧
-            Cont replay provenance nameRow ∧ PkgSig bundle history pkg
+          Cont family pointwise baire ∧
+            Cont baire norm regseq ∧
+              Cont regseq stream history ∧
+                Cont transport history replay ∧
+                  Cont replay provenance nameRow ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle history pkg
 
 theorem UniformBoundednessPacket_namecert_obligations [AskSetup] [PackageSetup]
     {family pointwise baire norm regseq stream transport history replay provenance nameRow :
@@ -46,7 +47,8 @@ theorem UniformBoundednessPacket_namecert_obligations [AskSetup] [PackageSetup]
   intro packet
   rcases packet with
     ⟨sameNameHistory, familyPointwiseBaire, baireNormRegseq, regseqStreamHistory,
-      transportHistoryReplay, replayProvenanceNameRow, packageHistory⟩
+      transportHistoryReplay, replayProvenanceNameRow, packageProvenance,
+      packageHistory⟩
   have packetAtHistory :
       hsame history history ∧
         UniformBoundednessPacket family pointwise baire norm regseq stream transport history
@@ -54,7 +56,7 @@ theorem UniformBoundednessPacket_namecert_obligations [AskSetup] [PackageSetup]
     exact
       ⟨hsame_refl history, sameNameHistory, familyPointwiseBaire, baireNormRegseq,
         regseqStreamHistory, transportHistoryReplay, replayProvenanceNameRow,
-        packageHistory⟩
+        packageProvenance, packageHistory⟩
   have cert :
       SemanticNameCert
           (fun row : BHist =>
@@ -82,7 +84,8 @@ theorem UniformBoundednessPacket_namecert_obligations [AskSetup] [PackageSetup]
           exact
             ⟨hsame_trans (hsame_symm sameRows) source.left,
               sameNameHistory, familyPointwiseBaire, baireNormRegseq, regseqStreamHistory,
-              transportHistoryReplay, replayProvenanceNameRow, packageHistory⟩
+              transportHistoryReplay, replayProvenanceNameRow, packageProvenance,
+              packageHistory⟩
       }
       pattern_sound := by
         intro _row source
