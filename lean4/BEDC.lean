@@ -70,6 +70,7 @@ import BEDC.Derived.AlmostPeriodicUp.TasteGate
 import BEDC.Derived.AlternatingSeriesTestUp.TasteGate
 import BEDC.Derived.AlternativeCodeReassignmentUp.TasteGate
 import BEDC.Derived.AnalogyCertificateGateUp.NameCertObligations
+import BEDC.Derived.AnalogyCertificateGateUp.ObligationRowScope
 import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
 import BEDC.Derived.AnalyticContinuationOperationUp
 import BEDC.Derived.AnalyticContinuationOperationUp.TasteGate
@@ -2486,6 +2487,7 @@ import BEDC.Derived.CauchySealInterfaceUp.TasteGate
 import BEDC.Derived.CauchySelectionFunctionUp.TasteGate
 import BEDC.Derived.CauchySelectionPrincipleUp.TasteGate
 import BEDC.Derived.CauchySeparableCompletionUp
+import BEDC.Derived.CauchySeparatedReflectionUp.TasteGate
 import BEDC.Derived.CauchySequenceBoundedUp
 import BEDC.Derived.CauchySequenceBoundedUp.TasteGate
 import BEDC.Derived.CauchySequenceCompleteUp.TasteGate
@@ -9412,6 +9414,7 @@ import BEDC.Derived.ProductTopologyUp.TasteGate
 import BEDC.Derived.ProductUniformSpaceUp.TasteGate
 import BEDC.Derived.ProfiniteCompletionUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthGradientLedgerUp.TasteGate
+import BEDC.Derived.ProgrammeStrengthLedgerUp.BlockerReadbackFactorization
 import BEDC.Derived.ProgrammeStrengthLedgerUp.BridgeBlockerReadback
 import BEDC.Derived.ProgrammeStrengthLedgerUp.FormalTargetRequest
 import BEDC.Derived.ProgrammeStrengthLedgerUp.PublicReportInterface
@@ -10846,6 +10849,7 @@ import BEDC.Derived.RieszRepresentationUp
 import BEDC.Derived.RieszRepresentationUp.BanachHilbertScope
 import BEDC.Derived.RieszRepresentationUp.BranchBoundaryNonescape
 import BEDC.Derived.RieszRepresentationUp.DualFunctionalRoute
+import BEDC.Derived.RieszRepresentationUp.FunctionalCarrierObligation
 import BEDC.Derived.RieszRepresentationUp.HilbertFunctionalBridge
 import BEDC.Derived.RieszRepresentationUp.MeasureHandoff
 import BEDC.Derived.RieszRepresentationUp.ObligationClosure
