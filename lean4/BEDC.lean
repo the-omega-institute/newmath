@@ -6033,6 +6033,7 @@ import BEDC.Derived.GaugeIntegralUp
 import BEDC.Derived.GaugeIntegralUp.TasteGate
 import BEDC.Derived.GaussBonnetBoundaryUp.TasteGate
 import BEDC.Derived.GaussTestUp.TasteGate
+import BEDC.Derived.GcdUp
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeneratingFunctionUp.TasteGate
 import BEDC.Derived.GeneratorAuditClosureUp
@@ -9147,6 +9148,10 @@ import BEDC.Derived.RationalRootIntervalUp.TasteGate
 import BEDC.Derived.RationalSqueezeUp
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RationalUp
+import BEDC.Derived.RationalUp.Core
+import BEDC.Derived.RationalUp.FieldLaws
+import BEDC.Derived.RationalUp.IntLaws
+import BEDC.Derived.RationalUp.RatLaws
 import BEDC.Derived.ReachabilityGramianUp
 import BEDC.Derived.RealAbsoluteValueUp.TasteGate
 import BEDC.Derived.RealAlgOrderUp
