@@ -159,4 +159,78 @@ theorem HigmanLemmaNameCertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, badUnary, replayUnary, nameUnary⟩
 
+theorem HigmanLemmaNormalizationFrontierHandoff [AskSetup] [PackageSetup]
+    {S W E B D H C P N wordRead dependencyRead embeddingRead frontierRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HigmanLemmaCarrier S W E B D H C P N bundle pkg →
+      Cont S W wordRead →
+        Cont wordRead D dependencyRead →
+          Cont dependencyRead E embeddingRead →
+            Cont embeddingRead C frontierRead →
+              PkgSig bundle frontierRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row frontierRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row S ∨ hsame row W ∨ hsame row E ∨ hsame row D ∨
+                        hsame row embeddingRead ∨ hsame row frontierRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont S W wordRead ∧
+                        Cont wordRead D dependencyRead ∧
+                          Cont dependencyRead E embeddingRead ∧
+                            Cont embeddingRead C frontierRead ∧
+                              PkgSig bundle frontierRead pkg)
+                    hsame ∧
+                  UnaryHistory wordRead ∧ UnaryHistory dependencyRead ∧
+                    UnaryHistory embeddingRead ∧ UnaryHistory frontierRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier wordRoute dependencyRoute embeddingRoute frontierRoute frontierPkg
+  obtain ⟨sUnary, wUnary, eUnary, _bUnary, dUnary, _hUnary, cUnary, _pUnary,
+    _nUnary, _provenancePkg, _namePkg⟩ := carrier
+  have wordUnary : UnaryHistory wordRead :=
+    unary_cont_closed sUnary wUnary wordRoute
+  have dependencyUnary : UnaryHistory dependencyRead :=
+    unary_cont_closed wordUnary dUnary dependencyRoute
+  have embeddingUnary : UnaryHistory embeddingRead :=
+    unary_cont_closed dependencyUnary eUnary embeddingRoute
+  have frontierUnary : UnaryHistory frontierRead :=
+    unary_cont_closed embeddingUnary cUnary frontierRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row frontierRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row W ∨ hsame row E ∨ hsame row D ∨
+              hsame row embeddingRead ∨ hsame row frontierRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S W wordRead ∧ Cont wordRead D dependencyRead ∧
+              Cont dependencyRead E embeddingRead ∧ Cont embeddingRead C frontierRead ∧
+                PkgSig bundle frontierRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro frontierRead ⟨hsame_refl frontierRead, frontierUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, wordRoute, dependencyRoute, embeddingRoute, frontierRoute,
+          frontierPkg⟩
+  }
+  exact ⟨cert, wordUnary, dependencyUnary, embeddingUnary, frontierUnary⟩
+
 end BEDC.Derived.HigmanLemmaUp
