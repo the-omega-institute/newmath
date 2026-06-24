@@ -355,6 +355,50 @@ theorem VerificationFailureRoadmapDowngradeRoute
   }
   exact ⟨cert, appended⟩
 
+theorem VerificationFailureRoadmapNonclaimBoundary
+    (R A F D M U B T C P N : BHist) :
+    verificationFailureRoadmapFields
+          (VerificationFailureRoadmapUp.mk R A F D M U B T C P N) =
+        [R, A, F, D, M, U, B, T, C, P, N] ∧
+      Cont M U (append M U) ∧
+        Cont U B (append U B) ∧
+          SemanticNameCert
+            (fun h : BHist => hsame h (append M (append U B)))
+            (fun h : BHist =>
+              hsame h M ∨ hsame h U ∨ hsame h B ∨
+                hsame h (append M (append U B)))
+            (fun h : BHist =>
+              hsame h (append M (append U B)) ∧ Cont M U (append M U) ∧
+                Cont U B (append U B))
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append SemanticNameCert
+  exact
+    ⟨rfl, rfl, rfl,
+      {
+        core := {
+          carrier_inhabited :=
+            Exists.intro (append M (append U B)) (hsame_refl (append M (append U B)))
+          equiv_refl := by
+            intro h _source
+            exact hsame_refl h
+          equiv_symm := by
+            intro _h _k same
+            exact hsame_symm same
+          equiv_trans := by
+            intro _h _k _r sameHK sameKR
+            exact hsame_trans sameHK sameKR
+          carrier_respects_equiv := by
+            intro h k same source
+            exact hsame_trans (hsame_symm same) source
+        }
+        pattern_sound := by
+          intro _h source
+          exact Or.inr (Or.inr (Or.inr source))
+        ledger_sound := by
+          intro _h source
+          exact ⟨source, rfl, rfl⟩
+      }⟩
+
 end TasteGate
 
 end BEDC.Derived.VerificationFailureRoadmapUp
