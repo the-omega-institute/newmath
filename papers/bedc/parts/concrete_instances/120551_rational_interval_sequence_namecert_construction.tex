@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RationalIntervalSequenceUp$}
+\label{ch:concrete-instances-rational-interval-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style nested interval and Cauchy constructions, the $\RationalIntervalSequenceUp$ packet records a finite inspected schedule of rational intervals before any Real or Completion consumer reads a limiting name. It sits over the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a schedule object: it exposes endpoints, nesting, widths, finite windows, readback, and seal handoff as displayed NameCert data, not as a selected completed limit.
+
+\begin{definition}[Rational interval sequence carrier]
+\label{def:rational-interval-sequence-carrier}
+A $\RationalIntervalSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+I=(E,L,U,N,W,S,R,Z,X,C,P,K)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the finite endpoint table of rational lower and upper rows, each row read through the $\DyadicRatCoreUp$ tolerance ledger before comparison;
+\item $L$ and $U$ are the displayed lower-endpoint and upper-endpoint schedules, with $L_i \leq U_i$ recorded at every inspected window;
+\item $N$ is the nesting evidence row, recording $L_i \leq L_j \leq U_j \leq U_i$ whenever the displayed index $j$ refines the displayed index $i$;
+\item $W$ is the dyadic width ledger, assigning each displayed interval a dyadic budget and recording the inspected shrinkage evidence used by later regular-readback rows;
+\item $S$ is the $\StreamNameUp$ finite-window row naming the inspected indices, endpoint observations, and replay order;
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed nested endpoints and width budgets;
+\item $Z$ is the $\RealUp$ seal handoff row, available only after the endpoint table, nesting evidence, width ledger, finite windows, and regular rational readback have been displayed;
+\item $X$ records componentwise $\hsame$ transport for endpoints, nesting, widths, finite windows, readback, seal handoff, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $W$, then through $S,N,E,L,U$, then through $R$, and finally into $Z$;
+\item $P$ is the $\Pkg$ provenance over $\RationalIntervalSequenceUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $K$ is the local $\NameCert_{\RationalIntervalSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,L,U,N,W,S,R,Z,X,C,P,K$. It has no coordinate for a selected limit, quotient real equality, countable choice, trichotomy of real order, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Rational interval sequence nesting obligations]
+\label{thm:rational-interval-sequence-nesting-obligations}
+For every accepted $\RationalIntervalSequenceUp$ carrier
+$$
+I=(E,L,U,N,W,S,R,Z,X,C,P,K),
+$$
+the local $\NameCert_{\RationalIntervalSequenceUp}$ surface includes exactly the finite nesting obligations displayed by $N$ and $W$: each inspected interval has rational endpoints in $E,L,U$, each refined window recorded by $S$ is nested inside the earlier displayed window, and each width comparison is read through the dyadic budget row $W$ before the readback row $R$ or Real seal row $Z$ is visible.
+\end{theorem}
+\begin{proof}
+Project the carrier. The accepted packet displays endpoint rows $E,L,U$, nesting evidence $N$, width budgets $W$, finite windows $S$, regular readback $R$, Real seal handoff $Z$, and the structural rows $X,C,P,K$.
+
+Read the nesting row before any readback. For each inspected refinement, $N$ records the lower endpoint moving upward, the upper endpoint moving downward, and the refined interval remaining inside the earlier interval.
+
+Use the width ledger next. The dyadic budget row $W$ is the only route by which a tolerance request reaches the nested endpoints, so shrinkage evidence is finite and displayed before $R$ or $Z$ can be consumed.
+
+The transport, replay, provenance, and local name rows then preserve the same finite route. Since no selected limit or quotient coordinate occurs in the carrier, the nesting obligations are exhausted by the displayed packet.
+\end{proof}
+
+\begin{theorem}[Rational interval sequence regular readback]
+\label{thm:rational-interval-sequence-regseqrat-readback}
+Every $\RegSeqRatUp$ readback exported by an accepted $\RationalIntervalSequenceUp$ carrier is obtained from the displayed nested interval route
+$$
+E,L,U,N,W,S,R,Z,X,C,P,K.
+$$
+The readback may use finite StreamName windows, dyadic endpoint comparisons, nesting evidence, and width budgets, but it exports no selected real limit, no quotient equality of real names, no countable-choice schedule, no trichotomy principle, and no ambient Real completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the finite observation row $S$. It names the inspected indices and endpoint observations, so a consumer never reads an unbounded interval family directly.
+
+The endpoint and nesting rows $E,L,U,N$ then supply the interval data inside those windows. The dyadic ledger $W$ supplies the tolerance budget needed to treat the displayed endpoints as a regular rational approximation.
+
+The readback row $R$ is downstream of that route. It packages the regular rational data produced by the finite windows and dyadic widths, and the Real seal handoff $Z$ remains terminal rather than a separate selected limit.
+
+Finally replay through $C$ and transport through $X$. Provenance $P$ and the local NameCert row $K$ keep the packet inside the displayed BEDC surface, so excluded quotient, choice, trichotomy, and completeness claims stay outside the public readback.
+\end{proof}
+
+\falsifiablePrediction{Deleting the nesting row permits finite interval windows whose endpoints can be read by RegSeqRat without evidence that later windows refine earlier ones.}
+
+\independenceWitness{Nearest siblings: dyadicratcore, streamname, regseqrat, real, nestedinterval, and dyadic-nested-interval-selector; no bijection exists because this packet records a rational interval schedule with endpoint, nesting, width, readback, and Real-seal rows in one finite carrier.}
+
+\closureat{RationalIntervalSequenceUp}{seedStr}
+
+\begin{closurestatus}{\RationalIntervalSequenceUp}
+  \constructivestory{A $\RationalIntervalSequenceUp$ packet is generated from rational endpoint rows, lower and upper endpoint schedules, nesting evidence, a dyadic width ledger, finite StreamName windows, RegSeqRat readback, Real seal handoff, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-interval-sequence-carrier}, \autoref{thm:rational-interval-sequence-nesting-obligations}, and \autoref{thm:rational-interval-sequence-regseqrat-readback} specify the finite nested rational interval schedule and its regular rational readback route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient real equality, countable choice, trichotomy of real order, ambient Real completeness, Lean verification, or bridge checking for $\RationalIntervalSequenceUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, nesting exactness, dyadic width monotonicity, finite-window replay, regular-rational readback, Real-seal handoff, transport, provenance, and local NameCert obligations.}
+\end{closurestatus}
