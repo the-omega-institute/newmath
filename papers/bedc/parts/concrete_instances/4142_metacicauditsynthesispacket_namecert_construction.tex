@@ -149,6 +149,7 @@ M=(S,C,N,U,D,A,B,H,R,P,L),
 $$
 the downstream-facing public packet consists exactly of the subject-reduction obstruction row $S$, confluence row $C$, normalization row $N$, substitution row $U$, decidable-checking row $D$, closed-normal assembly row $A$, blocker row $B$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $R$, $\Pkg$ provenance row $P$, and local $\NameCert_{\MetaCICAuditSynthesisPacketUp}$ row $L$. Exporting this packet preserves the blocker ledger and does not export closed subject reduction, arbitrary Church--Rosser, candidate-free normalization, global beta-conversion decidability, quotient equality of MetaCIC terms, or full consistency.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICAuditSynthesisPacketUp.MetaCICAuditSynthesisPublicExport}
 \begin{proof}
 Begin with the certificate surface of \autoref{thm:metacic-audit-synthesis-certificate-surface}. It identifies $S,C,N,U,D,A,B,H,R,P,L$ as the complete local packet, so a downstream-facing export has no additional coordinate beyond those rows.
 
@@ -213,6 +214,22 @@ Use the closed-normal boundary of \autoref{thm:metacic-audit-synthesis-closed-no
 Finally apply the transport obstruction of \autoref{thm:metacic-audit-synthesis-transport-obstruction}. The discharge-obligation ledger sibling is the named projection through which the missing subject-reduction discharge must remain visible. Hence any export that omits $S,B$ and that ledger leaves the accepted packet surface rather than producing a closed-normal consistency export.
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICAuditSynthesisPacketUp.MetaCICAuditSynthesisDischargeProjection}
+
+\begin{theorem}[MetaCIC audit synthesis candidate-normalization handoff]
+\label{thm:metacic-audit-synthesis-candidate-normalization-handoff}
+For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
+$$
+M=(S,C,N,U,D,A,B,H,R,P,L),
+$$
+any consumer reading candidate-mediated normalization or confluence handoff data through $N$ or $C$ must also carry the subject-reduction blocker rows $S,B$ and the discharge-obligation ledger through $H,R,P,L$. In particular, the candidate route cannot be repacked as closed subject reduction, unrestricted Church--Rosser, candidate-free normalization, global beta-conversion decidability, or quotient equality.
+\end{theorem}
+\begin{proof}
+Begin with the certificate surface of \autoref{thm:metacic-audit-synthesis-certificate-surface}. It identifies $S,C,N,U,D,A,B,H,R,P,L$ as one finite packet, so a consumer that reads $C$ or $N$ remains inside the same carrier as $S$ and $B$.
+
+Apply the positive-blocker union theorem, \autoref{thm:metacic-audit-synthesis-positive-blocker-union}. Candidate-mediated normalization and confluence are positive-row reads, and the theorem binds such reads to the subject-reduction row and blocker row through the displayed structural rows.
+
+Use transport obstruction and discharge projection next. Theorems~\ref{thm:metacic-audit-synthesis-transport-obstruction} and \ref{thm:metacic-audit-synthesis-discharge-projection} require the discharge-obligation ledger to remain visible across $H,R,P,L$ whenever the route approaches the closed-normal branch. Therefore the handoff is a blocker-preserving candidate route, not any of the excluded MetaCIC endpoints.
+\end{proof}
 
 \begin{theorem}[MetaCIC audit synthesis blocker-preserving positive projection]
 \label{thm:metacic-audit-synthesis-blocker-preserving-positive-projection}
