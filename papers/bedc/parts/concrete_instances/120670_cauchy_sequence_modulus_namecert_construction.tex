@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\CauchySequenceModulusUp$}
+\label{ch:concrete-instances-cauchy-sequence-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names, the $\CauchySequenceModulusUp$ packet records the finite tail-budget data by which a displayed sequence can be read as Cauchy before any Real or Completion consumer inspects its terminal seal. It sits over the effective Cauchy sequence route of \autoref{ch:concrete-instances-effective-cauchy-sequence-namecert}, the regular Cauchy sequence packet of \autoref{ch:concrete-instances-regularcauchysequence-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite tail handoff of \autoref{ch:concrete-instances-finite-cauchy-tail-handoff-namecert}, the lower-bound ledger of \autoref{ch:concrete-instances-finite-modulus-lower-bound-ledger-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names explicit tail-budget rows only; it does not assert quotient equality of Cauchy names, select a limit, invoke countable choice, decide trichotomy, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy sequence modulus carrier]
+\label{def:cauchy-sequence-modulus-carrier}
+A $\CauchySequenceModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(E,R,W,Q,L,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the $\EffectiveCauchySequenceUp$ source row, exposing the effective Cauchy reading before a tail budget is exported.
+\item $R$ is the $\RegularCauchySequenceUp$ regularity row, recording the regular Cauchy sequence discipline that the modulus serves.
+\item $W$ is the $\StreamNameUp$ finite-window row, displaying the inspected sequence windows and index requests.
+\item $Q$ is the $\RegSeqRatUp$ readback row, binding the displayed stream windows to regular rational approximation data.
+\item $L$ is the finite tail-bound ledger row, storing the explicit threshold and tolerance histories used to compare later sequence windows.
+\item $S$ is the $\RealUp$ seal row, available only after $E,R,W,Q,L$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for source, regularity, window, readback, ledger, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+E,R,W,Q,L \longmapsto S,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchySequenceModulusUp$, $\EffectiveCauchySequenceUp$, $\RegularCauchySequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchySequenceModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $E,R,W,Q,L,S,H,C,P,N$. It has no coordinate for a selected limit, quotient stream equality, countable-choice tail selector, trichotomy, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy sequence modulus NameCert obligations]
+\label{thm:cauchy-sequence-modulus-namecert-obligations}
+For every accepted $\CauchySequenceModulusUp$ carrier
+$$
+M=(E,R,W,Q,L,S,H,C,P,N),
+$$
+the local $\NameCert_{\CauchySequenceModulusUp}$ surface consists exactly of effective Cauchy source exposure, regular Cauchy sequence exposure, finite stream-window exposure, regular rational readback, finite tail-bound ledger exposure, Real-seal handoff, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-sequence-modulus-carrier}. The accepted packet displays exactly the effective source, regular sequence, stream-window, readback, tail-ledger, Real-seal, and structural rows.
+
+Read the source route first. The row $E$ exposes the effective Cauchy sequence data, while $R$ records the regular Cauchy discipline already used by \autoref{ch:concrete-instances-regularcauchysequence-namecert}. The stream row $W$ and readback row $Q$ make the inspected finite windows and rational approximations visible before any tail budget is consumed.
+
+The tail-budget row $L$ is the only modulus ledger. It stores the displayed threshold and tolerance histories and then hands the resulting route to the seal row $S$; the seal is therefore downstream of $E,R,W,Q,L$, not a detached completeness or quotient principle.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier contains no selected limit, quotient equality, countable-choice selector, trichotomy, host equality, or ambient completeness coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{CauchySequenceModulusUp}{seedStr}
+
+\begin{closurestatus}{\CauchySequenceModulusUp}
+  \constructivestory{A $\CauchySequenceModulusUp$ packet is generated from an EffectiveCauchySequence source row, a RegularCauchySequence discipline row, finite StreamName windows, RegSeqRat readback, a finite tail-bound ledger, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-sequence-modulus-carrier} and \autoref{thm:cauchy-sequence-modulus-namecert-obligations} seed the explicit tail-budget carrier consumed by L10 Real and Completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient equality of Cauchy names, selected limits, countable choice, trichotomy, host real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, effective Cauchy source exposure, regular Cauchy sequence exposure, finite stream-window exposure, RegSeqRat readback, finite tail-ledger exactness, Real-seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.CauchySequenceModulusUp.}
+\end{closurestatus}
