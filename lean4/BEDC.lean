@@ -287,6 +287,7 @@ import BEDC.Derived.ArchimedeanOrderedCauchyCompletionUp.TasteGate
 import BEDC.Derived.ArchimedeanOrderedFieldUp.Carrier
 import BEDC.Derived.ArchimedeanOrderedFieldUp.ComparisonLedgerExactness
 import BEDC.Derived.ArchimedeanOrderedFieldUp.RootObligationPackage
+import BEDC.Derived.ArchimedeanOrderedFieldUp.ScopedClosure
 import BEDC.Derived.ArchimedeanOrderedFieldUp.TasteGate
 import BEDC.Derived.ArchimedeanRealDensityUp.TasteGate
 import BEDC.Derived.ArchimedeanRealUp
@@ -1065,6 +1066,7 @@ import BEDC.Derived.BishopRegularCauchyCompletionUp.ClassifierTransport
 import BEDC.Derived.BishopRegularCauchyCompletionUp.CofinalTailRefinement
 import BEDC.Derived.BishopRegularCauchyCompletionUp.DiagonalWindowStability
 import BEDC.Derived.BishopRegularCauchyCompletionUp.FilterRealHandoff
+import BEDC.Derived.BishopRegularCauchyCompletionUp.FiniteStageInduction
 import BEDC.Derived.BishopRegularCauchyCompletionUp.FiniteWindowInduction
 import BEDC.Derived.BishopRegularCauchyCompletionUp.MatureRoute
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ObligationClosurePackage
@@ -5169,6 +5171,7 @@ import BEDC.Derived.DyadicTailBallUp.RadiusMonotoneContainment
 import BEDC.Derived.DyadicTailBallUp.RadiusMonotonicity
 import BEDC.Derived.DyadicTailBallUp.RealEqualityConsumer
 import BEDC.Derived.DyadicTailBallUp.RegSeqWindowConsistency
+import BEDC.Derived.DyadicTailBallUp.RegularCauchyApartnessRoute
 import BEDC.Derived.DyadicTailBallUp.TasteGate
 import BEDC.Derived.DyadicTailBallUp.ThresholdRefinementRoute
 import BEDC.Derived.DyadicTailBallUp.WindowStability
@@ -10802,6 +10805,7 @@ import BEDC.Derived.RiemannStieltjesUp.RouteClosure
 import BEDC.Derived.RiemannStieltjesUp.StepIntegratorExactness
 import BEDC.Derived.RiemannStieltjesUp.TaggedPartitionInduction
 import BEDC.Derived.RiemannStieltjesUp.TasteGate
+import BEDC.Derived.RiemannSumCauchyNetUp.TasteGate
 import BEDC.Derived.RiemannSumConsistencyUp.TasteGate
 import BEDC.Derived.RiemannSumCriterionUp
 import BEDC.Derived.RiemannSumGaugeUp.TasteGate
