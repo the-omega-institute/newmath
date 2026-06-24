@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\TailEquivalenceModulusUp$}
+\label{ch:concrete-instances-tail-equivalence-modulus-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive real analysis, the $\TailEquivalenceModulusUp$ packet records the shared finite modulus carried by two tail-equivalent regular Cauchy names before either name is read at a $\RealUp$ seal. It sits between the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the tail-equivalence classifier of \autoref{ch:concrete-instances-regular-cauchy-tail-equivalence-namecert}, the reusable tail seal of \autoref{ch:concrete-instances-regular-cauchy-tail-seal-namecert}, and the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}. The packet names the common modulus as displayed finite data; it is not quotient stream equality, a selected limit, countable choice over tails, trichotomy, host real equality, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Tail-equivalence modulus carrier]
+\label{def:tail-equivalence-modulus-carrier}
+A $\TailEquivalenceModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S_0,S_1,R_0,R_1,D,E,K,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the two $\StreamNameUp$ finite-window rows through which the regular Cauchy names are inspected.
+\item $R_0$ and $R_1$ are the corresponding $\RegSeqRatUp$ readback rows exposed by the windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the displayed precision request, dyadic comparison budget, and slack left after the two regular radii are paid.
+\item $E$ is the $\RegularCauchyTailEquivalenceUp$ row witnessing that the two readbacks share a tail-equivalence comparison at the displayed precision.
+\item $K$ is the common finite modulus row assigning the precision in $D$ to a single tail bound valid for both readbacks.
+\item $A$ is the $\RealUp$ seal handoff reached only after $S_0,S_1,R_0,R_1,D,E,K$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two window rows, two readback rows, dyadic ledger, equivalence row, common modulus, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tail-equivalence request through $S_0,S_1,R_0,R_1,D,E,K,A,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\TailEquivalenceModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularCauchyTailEquivalenceUp$, $\RegularCauchyTailSealUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\TailEquivalenceModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S_0,S_1,R_0,R_1,D,E,K,A,H,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Tail-equivalence modulus NameCert obligations]
+\label{thm:tail-equivalence-modulus-namecert-obligations}
+For every accepted $\TailEquivalenceModulusUp$ carrier
+$$
+M=(S_0,S_1,R_0,R_1,D,E,K,A,H,C,P,N),
+$$
+the local $\NameCert_{\TailEquivalenceModulusUp}$ surface consists exactly of two finite $\StreamNameUp$ window admissions, two $\RegSeqRatUp$ readbacks, one $\DyadicRatCoreUp$ tolerance ledger, one $\RegularCauchyTailEquivalenceUp$ comparison row, one common finite modulus row, one $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tail-equivalence-modulus-carrier}. The accepted packet displays exactly the two window rows, two regular readbacks, dyadic ledger, tail-equivalence comparison, common modulus, Real seal, and structural rows.
+
+The source side is exhausted by $S_0,S_1,R_0,R_1$. A consumer must inspect both finite stream windows and the corresponding regular rational readbacks before any common tail bound can be read.
+
+The comparison side is exhausted by $D,E,K$. The dyadic ledger fixes the tolerance request, the tail-equivalence row records the displayed comparison between the readbacks, and the common modulus row assigns a single finite threshold to both names.
+
+The endpoint and structural rows $A,H,C,P,N$ seal, transport, replay, source, and name the same packet. Since quotient stream equality, selected representatives, selected limits, countable choice, trichotomy, host real equality, and ambient completeness are absent from the carrier, they cannot appear as NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Tail-equivalence modulus Real seal handoff]
+\label{thm:tail-equivalence-modulus-real-seal-handoff}
+Every $\RealUp$-facing consumer of an accepted $\TailEquivalenceModulusUp$ packet must read the finite route
+$$
+S_0,S_1 \longmapsto R_0,R_1 \longmapsto D \longmapsto E \longmapsto K \longmapsto A
+$$
+before it may consume the terminal Real seal. The handoff exports the common tail modulus shared by the two regular Cauchy readbacks, not quotient equality of streams or a selected completion endpoint.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing read. By \autoref{def:tail-equivalence-modulus-carrier}, the read first reaches the two $\StreamNameUp$ windows and their $\RegSeqRatUp$ readbacks.
+
+The dyadic row $D$ then fixes the tolerance budget for the comparison. The tail-equivalence row $E$ is read only against that displayed budget, and the common modulus row $K$ records the single tail bound shared by the two readbacks.
+
+Only after $K$ is visible does the terminal seal row $A$ become available. The transport, replay, provenance, and local naming rows preserve this route without adding a quotient class, a selected representative, a selected limit, countable choice, trichotomy, host equality, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\TailEquivalenceModulusUp$ read displays two $\StreamNameUp$ windows, two $\RegSeqRatUp$ readbacks, one $\DyadicRatCoreUp$ tolerance ledger, one $\RegularCauchyTailEquivalenceUp$ row, one common finite modulus row, one $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before a Real-facing equality consumer can read the seal.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, regular-cauchy-tail-equivalence, regular-cauchy-tail-seal, real: $\TailEquivalenceModulusUp$ is not bijective to any listed sibling because it binds two windows, two regular readbacks, one dyadic tolerance ledger, one tail-equivalence row, one shared modulus row, one Real seal, transport, replay, provenance, and local naming into a single finite carrier.}
+
+\closureat{TailEquivalenceModulusUp}{seedStr}
+
+\begin{closurestatus}{\TailEquivalenceModulusUp}
+  \constructivestory{A $\TailEquivalenceModulusUp$ packet is generated from two StreamName windows, two RegSeqRat readbacks, one DyadicRatCore tolerance ledger, one RegularCauchyTailEquivalence comparison row, one common finite modulus row, one RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tail-equivalence-modulus-carrier}, \autoref{thm:tail-equivalence-modulus-namecert-obligations}, and \autoref{thm:tail-equivalence-modulus-real-seal-handoff} seed the finite shared-modulus surface between tail-equivalent regular Cauchy readbacks and the terminal $\RealUp$ seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked window admission, regular readback, dyadic tolerance accounting, tail-equivalence comparison, common-modulus preservation, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.TailEquivalenceModulusUp.}
+\end{closurestatus}

@@ -70,6 +70,20 @@ The MetaCIC normalization frontier sibling consumes exactly those rows as finite
 Since the packet retains $O$ as an explicit obstruction row, the dependency cannot erase candidate evidence or promote the frontier into a global strong-normalization theorem.
 \end{proof}
 
+\begin{theorem}[NormalizationCandidateFrontier obligation closure route]
+\label{thm:normalization-candidate-frontier-obligation-closure}
+Every accepted $\NormalizationCandidateFrontierUp$ read consumed by the $\MetaCICNormalizationFrontierUp$ route of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert} remains valid only while the closed term window $T$, candidate evidence row $E$, bounded route $B$, strong-normalization projection $S$, no-infinite-reduction projection $I$, obstruction row $O$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming row $N$ remain visible.
+
+The obstruction row is part of the dependency lattice. It records evidence-erasing or global normalization requests as refusals rather than surrounding prose.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:normalization-candidate-frontier-sibling-dependency}. The sibling dependency theorem sends the candidate-evidence, bounded-route, projection, obstruction, transport, replay, provenance, and naming rows to the MetaCIC normalization route.
+
+Now include the source window from \autoref{def:normalization-candidate-frontier-carrier}. The closed term row $T$ is the term boundary on which $E$ and $B$ are interpreted, so a consumer cannot keep the projections $S$ and $I$ while hiding $T$.
+
+Finally apply \autoref{thm:normalization-candidate-frontier-stability}. Dropping $E$ or $B$ forces the read into $O$, and retaining $O$ prevents the consumer from treating candidate-mediated evidence as evidence-free global normalization. Thus $T,E,B,S,I,O,H,C,P,N$ form the visible dependency lattice for the $\MetaCICNormalizationFrontierUp$ consumer.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\NormalizationCandidateFrontierUp$ consumer that exports closed-term strong normalization while omitting the candidate-evidence row $E$, bounded route row $B$, or obstruction row $O$ refutes the packet.}
 
 \independenceWitness{normalization\_candidate\_socket, bounded\_normalization\_candidate, metacicnormalizationfrontier, metaciccriticalpath: the socket separates candidate families, the bounded candidate packet records finite fuel and adequacy data, the MetaCIC frontier records normalization boundary rows, and the critical path records dependency pressure; none is bijective with $\NormalizationCandidateFrontierUp$ because this packet jointly carries the closed term window, candidate evidence, bounded route, positive projections, explicit obstruction, transport, replay, provenance, and local naming as one frontier carrier.}
