@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\ControllabilityRankUp$}
+\label{ch:concrete-instances-controllability-rank-namecert}
+\origin{human}
+
+Following Kalman 1960 on controllability rank conditions, the $\ControllabilityRankUp$ packet records the finite rank-window certificate that sits between the reachability ledger of \autoref{ch:concrete-instances-controlcontrollability-namecert} and the finite matrix-pencil consumers of \autoref{ch:concrete-instances-hautus-test-namecert}. It names the displayed columns, dimension rows, rank-window comparisons, transport, replay, provenance, and local naming data used by finite-dimensional control reads. The packet is not a host reachable subspace, not a quotient state space, not a Kalman decomposition, and not an infinite-dimensional controllability theorem.
+
+\begin{definition}[ControllabilityRank carrier]
+\label{def:controllability-rank-carrier}
+A $\ControllabilityRankUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,U,A,B,W,V,L,R,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the finite state $\VecSpaceUp$ row and $U$ is the finite input $\VecSpaceUp$ row.
+\item $A$ is the transition $\MatrixUp$ row and $B$ is the input $\MatrixUp$ row, both read as $\LinearMapUp$ data when the reachability columns are generated.
+\item $W$ is the finite rank-window row listing the displayed columns $B,AB,\ldots,A^{n-1}B$ and the row-reduction comparisons used to test whether the window spans the displayed state dimension.
+\item $V$ is the vector-space dimension row against which the rank window is measured.
+\item $L$ is the $\LinearMapUp$ reachability-iterate ledger recording each multiplication and column append route.
+\item $R$ is the $\ControlControllabilityUp$ reachability ledger consumed by downstream controllability readers.
+\item $O$ is the $\ControlObservabilityUp$ dual-window row available to dual tests and observability-facing consumers.
+\item $H$ records componentwise $\hsame$ transport for state rows, input rows, matrix rows, reachability iterates, rank windows, dimension rows, dual windows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the plant rows through the reachability iterates into the rank-window certificate.
+\item $P$ is the $\Pkg$ provenance over $\ControllabilityRankUp$, $\MatrixUp$, $\VecSpaceUp$, $\LinearMapUp$, $\ControlControllabilityUp$, $\ControlObservabilityUp$, $\HautusTestUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ControllabilityRankUp}$ row.
+\end{enumerate}
+The carrier exports only this finite rank-window surface. It has no coordinate for a host rank theorem detached from $W,V,L,R,O,H,C,P,N$, and it has no quotient subspace through which reachability could be identified externally.
+\end{definition}
+
+\begin{theorem}[ControllabilityRank NameCert obligations]
+\label{thm:controllability-rank-namecert-obligations}
+For every accepted $\ControllabilityRankUp$ carrier
+$$
+K=(X,U,A,B,W,V,L,R,O,H,C,P,N),
+$$
+the local $\NameCert_{\ControllabilityRankUp}$ surface consists exactly of carrier admission for the displayed packet, finite rank-window exactness for $W$, matrix and vector-space readback through $A,B,X,U,V$, reachability-ledger exactness through $L$ and $R$, dual-window exposure through $O$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. The certificate never escapes to a host rank predicate, a quotient state subspace, a Kalman decomposition, a spectral test outside the Hautus consumer row, or an infinite-dimensional controllability claim.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:controllability-rank-carrier}. The accepted packet displays the finite state and input rows, transition and input matrices, rank-window row, dimension row, reachability iterates, controllability ledger, dual observability window, transport, replay, provenance, and local name.
+
+Finite rank-window exactness is the row $W$ measured against $V$. The matrix and vector-space readback rows $A,B,X,U,V$ are already visible before $W$ can be consumed, and the reachability-iterate ledger $L$ records how each displayed column is generated.
+
+The downstream control surface is $R,O$ together with the $\HautusTestUp$ provenance named by $P$. A controllability consumer reads $R$, an observability or dual-test consumer reads $O$, and a Hautus consumer may inspect the same finite rank-window data without receiving an external spectral decomposition.
+
+Finally transport and replay are exactly $H$ and $C$. Since the carrier contains no host rank predicate, quotient state subspace, Kalman decomposition object, or infinite-dimensional theorem, the local NameCert obligations are exhausted by the finite packet $K$.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ControllabilityRankUp$ packet is refuted by any downstream control consumer that reads a controllability rank result while bypassing the displayed rank-window row $W$, the dimension row $V$, the reachability-iterate ledger $L$, or the $\ControlControllabilityUp$ ledger $R$.}
+
+\independenceWitness{Nearest siblings: controlcontrollability, controlobservability, hautus-test, matrix, linearmap, and vecspace; none is bijective to $\ControllabilityRankUp$ because this packet keeps the rank-window row, dimension readback, reachability-iterate ledger, dual-window row, Hautus provenance, transport, replay, provenance, and local NameCert row in one finite certificate.}
+
+\closureat{ControllabilityRankUp}{seedStr}
+
+\begin{closurestatus}{\ControllabilityRankUp}
+  \constructivestory{A $\ControllabilityRankUp$ packet is generated from finite state and input rows, transition and input matrix rows, a finite rank-window row, a vector-space dimension row, reachability-iterate rows, controllability and observability ledger rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:controllability-rank-carrier}, \autoref{thm:controllability-rank-namecert-obligations}, the displayed falsifiable prediction, and the displayed independence witness seed the finite Kalman rank-window certificate over matrix, vector-space, linear-map, controllability, observability, and Hautus rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host reachable-subspace equality, quotient state-space rank, Kalman decomposition, spectral completeness, analytic trajectory semantics, infinite-dimensional controllability, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite rank-window exactness, matrix and vector-space readback, reachability-ledger exactness, transport, replay, provenance, and local naming for BEDC.Derived.ControllabilityRankUp.}
+\end{closurestatus}
