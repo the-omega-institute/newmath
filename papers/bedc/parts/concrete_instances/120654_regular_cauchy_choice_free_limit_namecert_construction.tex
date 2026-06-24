@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyChoiceFreeLimitUp$}
+\label{ch:concrete-instances-regular-cauchy-choice-free-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyChoiceFreeLimitUp$ packet records the finite limit-seal route by which regular Cauchy rational data are handed to a real-name consumer without selecting quotient representatives. It sits after the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the choice-free completion route of \autoref{ch:concrete-instances-regular-cauchy-choice-free-completion-namecert}. The packet is a finite NameCert limit boundary for completion-facing readers; it is not Real completeness, a quotient stream, a selected limit, countable choice, or host real equality.
+
+\begin{definition}[RegularCauchyChoiceFreeLimit carrier]
+\label{def:regular-cauchy-choice-free-limit-carrier}
+A $\RegularCauchyChoiceFreeLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,R,D,C,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite window schedule inspected by the limit request;
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row attached to the scheduled windows;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare readback windows;
+\item $C$ is the $\RegularCauchyChoiceFreeCompletionUp$ completion-facing route consumed before any limit seal is read;
+\item $E$ is the terminal $\RealUp$ seal row reached only through $S,R,D,C$;
+\item $H$ records componentwise $\hsame$ transport for the window, readback, dyadic, completion-route, seal, replay, provenance, and local naming rows;
+\item $T$ records displayed $\Cont$ replay for the same limit-seal route;
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyChoiceFreeLimitUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularCauchyChoiceFreeCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\RegularCauchyChoiceFreeLimitUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose limit read is exhausted by $S,R,D,C,E,H,T,P,N$. It has no coordinate for Real completeness, quotient stream equality, selected limits, countable-choice schedules, host real equality, or an ambient completion endpoint.
+\end{definition}
+
+\begin{theorem}[RegularCauchyChoiceFreeLimit NameCert obligations]
+\label{thm:regular-cauchy-choice-free-limit-namecert-obligations}
+For every accepted $\RegularCauchyChoiceFreeLimitUp$ carrier
+$$
+L=(S,R,D,C,E,H,T,P,N),
+$$
+the local $\NameCert_{\RegularCauchyChoiceFreeLimitUp}$ surface consists exactly of finite-window exposure through $S$, regular rational readback through $R$, dyadic tolerance exposure through $D$, choice-free completion routing through $C$, terminal Real sealing through $E$, componentwise transport through $H$, displayed replay through $T$, provenance through $P$, and local naming through $N$.
+
+The obligation surface refuses Real completeness, quotient streams, selected limits, countable choice, host real equality, and ambient completion endpoints.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-choice-free-limit-carrier}. The displayed analytic rows are exactly the finite StreamName window, RegSeqRat readback, DyadicRatCore tolerance ledger, completion route, and terminal Real seal.
+
+Read those rows in order. The window schedule $S$ bounds the observations, $R$ supplies the regular rational readback, and $D$ supplies the tolerance ledger before the completion-facing row $C$ and Real seal $E$ can be consumed.
+
+Finally inspect the structural rows $H,T,P,N$. They transport, replay, source, and name the same finite packet. Since the excluded principles are absent from the carrier inventory, they cannot appear as local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[RegularCauchyChoiceFreeLimit seal nonescape]
+\label{thm:regular-cauchy-choice-free-limit-seal-nonescape}
+Every $\RealUp$ or completion-facing consumer of an accepted $\RegularCauchyChoiceFreeLimitUp$ carrier
+$$
+L=(S,R,D,C,E,H,T,P,N)
+$$
+must first read the finite route
+$$
+S,R,D \longmapsto C \longmapsto E \longmapsto H,T,P,N.
+$$
+The terminal seal exports only the displayed regular-Cauchy limit packet. It does not expose Real completeness, quotient streams, selected limits, countable choice, host real equality, or an ambient completion endpoint.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:regular-cauchy-choice-free-limit-namecert-obligations}. They force every local read through the finite window, readback, dyadic tolerance, completion route, Real seal, and structural rows.
+
+Use the sibling completion route of \autoref{ch:concrete-instances-regular-cauchy-choice-free-completion-namecert}. The row $C$ is consumed only after the $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows have been displayed, and it gives no quotient representative or selected limit.
+
+Finally the $\RealUp$ seal row $E$ is downstream of the same finite route. The transport, replay, provenance, and naming rows preserve that route rather than adding new analytic data, so no consumer can escape from the displayed limit packet to any refused endpoint.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyChoiceFreeLimitUp$ read exposes StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, RegularCauchyChoiceFreeCompletion routing, RealUp sealing, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any limit-facing consumer reads the seal.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, regular-cauchy-choice-free-completion: none is bijective with $\RegularCauchyChoiceFreeLimitUp$ because this packet alone binds the finite window, regular readback, dyadic tolerance, choice-free completion route, and terminal limit seal while refusing quotient streams, selected limits, countable choice, and host real equality.}
+
+\closureat{RegularCauchyChoiceFreeLimitUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyChoiceFreeLimitUp}
+  \constructivestory{A $\RegularCauchyChoiceFreeLimitUp$ packet is generated from StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance rows, RegularCauchyChoiceFreeCompletion route rows, RealUp seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-choice-free-limit-carrier}, \autoref{thm:regular-cauchy-choice-free-limit-namecert-obligations}, and \autoref{thm:regular-cauchy-choice-free-limit-seal-nonescape} seed the finite choice-free regular-Cauchy limit route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient stream equality, selected limits, countable choice, host real equality, ambient completion endpoints, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window exposure, regular readback, dyadic tolerance stability, choice-free completion routing, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyChoiceFreeLimitUp.}
+\end{closurestatus}
