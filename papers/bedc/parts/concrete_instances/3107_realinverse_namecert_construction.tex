@@ -64,6 +64,20 @@ The finite observation then runs through $w$ and $r$. The $\StreamNameUp$ row su
 Finally the $\CauchyProductUp$ route $p$ supplies the product certificate consumed by the seal row $s$. The transport, continuation, provenance, and local naming rows record this route, so the real-facing handoff receives only the guarded finite packet.
 \end{proof}
 
+\begin{theorem}[Real inverse guarded product uniqueness]
+\label{thm:real-inverse-guarded-product-uniqueness}
+Let $I=(x,a,p,w,r,s,h,c,l,n)$ and $I'=(x,a',p',w',r',s,h',c',l',n')$ be accepted $\RealInverseUp$ packets for the same $\RealUp$ source row $x$. If the apartness witnesses $a,a'$ name the same $\ApartnessRealUp$ guard, the product routes $p,p'$ expose $\hsame$-compatible $\CauchyProductUp$ certificates, and both packets hand off to the same terminal $\RealUp$ seal row $s$, then $I$ and $I'$ are classifier-equal as $\RealInverseUp$ packets.
+\end{theorem}
+\begin{proof}
+Project the two carriers through \autoref{def:real-inverse-carrier}. The source row and seal row are shared by assumption, while the only reciprocal-domain coordinates are the apartness witnesses.
+
+Apply the apartness-domain theorem, \autoref{thm:real-inverse-apartness-domain}. Since both witnesses name the same constructive guard, both reciprocal reads must pass through the same guarded route before any reciprocal window or product certificate is visible.
+
+Next use the product-seal handoff of \autoref{thm:real-inverse-product-seal-handoff}. The $\hsame$-compatible product routes align the $\CauchyProductUp$ rows, the finite windows $w,w'$, the $\RegSeqRatUp$ readbacks $r,r'$, and the common seal $s$ along the displayed continuation rows.
+
+It remains only to compare the bookkeeping rows. Componentwise transport in $h,h'$ carries the aligned analytic rows, $c,c'$ replay the same guarded route, $l,l'$ record the same provenance surface, and $n,n'$ name the local certificate. The non-escape theorem then rules out any hidden trichotomy, host division, quotient real equality, selected limit, infinite tail, or completeness coordinate, so classifier equality is componentwise.
+\end{proof}
+
 \begin{theorem}[Real inverse non-escape]
 \label{thm:real-inverse-non-escape}
 The carrier, NameCert obligations, apartness domain, and product seal handoff of \autoref{def:real-inverse-carrier}, \autoref{thm:real-inverse-namecert-obligations}, \autoref{thm:real-inverse-apartness-domain}, and \autoref{thm:real-inverse-product-seal-handoff} assemble one constructive reciprocal certificate over $\RealUp$, $\ApartnessRealUp$, $\CauchyProductUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
