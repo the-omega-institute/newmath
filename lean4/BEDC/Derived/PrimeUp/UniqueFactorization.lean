@@ -1,4 +1,5 @@
 import BEDC.Derived.PrimeUp.FactorizationList
+import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PadicUp
 import BEDC.Derived.IntUp.Arithmetic
 
@@ -535,6 +536,238 @@ theorem factorization_unique_via_padic {p n k l : BHist} :
     IsPadicValNat p n k -> IsPadicValNat p n l -> hsame k l := by
   intro left right
   exact IsPadicValNat_unique left right
+
+def ListPermPrime (ps qs : List BHist) : Prop :=
+  List.Perm ps qs
+
+theorem prime_divides_product_mem {p n : BHist} {qs : List BHist} :
+    NatPrime p -> PrimeFactorizationProduct qs n -> NatDivides p n ->
+      ∃ q : BHist, q ∈ qs ∧ hsame p q := by
+  intro pPrime product divides
+  induction qs generalizing n with
+  | nil =>
+      have dividesUnit : NatDivides p NatOne :=
+        (NatDivides_dividend_hsame_transport divides product).right
+      have pUnit : hsame p NatOne := NatDivides_unit_right_iff.mp dividesUnit
+      cases pUnit
+      exact False.elim (NatPrime_unit_absurd pPrime)
+  | cons q qs ih =>
+      cases product with
+      | intro qPrime tailWitness =>
+          cases tailWitness with
+          | intro tailProduct tailData =>
+              have tailUnary : UnaryHistory tailProduct :=
+                PrimeFactorizationProduct_result_unary tailData.left
+              have split :=
+                NatEuclidPrime_product_left_or_right
+                  (NatPrime.toNatEuclidPrime pPrime) qPrime.left tailUnary
+                  tailData.right divides
+              cases split with
+              | inl dividesQ =>
+                  cases qPrime.right.right p pPrime.left dividesQ with
+                  | inl pUnit =>
+                      cases pUnit
+                      exact False.elim (NatPrime_unit_absurd pPrime)
+                  | inr samePQ =>
+                      exact ⟨q, List.Mem.head qs, samePQ⟩
+              | inr dividesTail =>
+                  cases ih tailData.left dividesTail with
+                  | intro r rData =>
+                      exact ⟨r, List.Mem.tail q rData.left, rData.right⟩
+
+private theorem NatMul_middle_swap_result {p q r pr n qr : BHist} :
+    UnaryHistory p -> UnaryHistory q -> UnaryHistory r ->
+      NatMul p r pr -> NatMul q pr n -> NatMul q r qr -> NatMul p qr n := by
+  intro pUnary qUnary rUnary productPR productQPR productQR
+  cases NatMul_total qUnary pUnary with
+  | intro qp qpData =>
+      cases NatMul_total pUnary qUnary with
+      | intro pq pqData =>
+          cases NatMul_total qpData.left rUnary with
+          | intro qpr qprData =>
+              cases NatMul_total pqData.left rUnary with
+              | intro pqr pqrData =>
+                  cases NatMul_total pUnary (NatMul_result_unary qUnary productQR) with
+                  | intro displayed displayedData =>
+                      have sameQPRN : hsame qpr n :=
+                        NatMul_assoc_hsame qUnary pUnary rUnary qpData.right
+                          qprData.right productPR productQPR
+                      have sameQPPQ : hsame qp pq :=
+                        NatMul_comm_hsame qUnary pUnary qpData.right pqData.right
+                      have productPQRAtQPR : NatMul pq r qpr :=
+                        (NatMul_multiplicand_hsame_transport sameQPPQ qprData.right).right
+                      have sameQPRPQR : hsame qpr pqr :=
+                        NatMul_functional pqData.left productPQRAtQPR pqrData.right
+                      have samePQRDisplayed : hsame pqr displayed :=
+                        NatMul_assoc_hsame pUnary qUnary rUnary pqData.right
+                          pqrData.right productQR displayedData.right
+                      have sameDisplayedN : hsame displayed n :=
+                        hsame_trans (hsame_symm samePQRDisplayed)
+                          (hsame_trans (hsame_symm sameQPRPQR) sameQPRN)
+                      exact
+                        (NatMul_result_hsame_transport displayedData.right sameDisplayedN).right
+
+theorem factorization_extract_mem {p n : BHist} {qs : List BHist} :
+    NatPrime p -> PrimeFactorizationProduct qs n ->
+      (∃ q : BHist, q ∈ qs ∧ hsame p q) ->
+        ∃ qs' : List BHist, ∃ tailProduct : BHist,
+          ListPermPrime qs (p :: qs') ∧
+            PrimeFactorizationProduct qs' tailProduct ∧ NatMul p tailProduct n := by
+  intro pPrime product member
+  induction qs generalizing n with
+  | nil =>
+      cases member with
+      | intro q qData =>
+          cases qData.left
+  | cons q qs ih =>
+      cases product with
+      | intro qPrime tailWitness =>
+          cases tailWitness with
+          | intro tailProduct tailData =>
+              cases member with
+              | intro r rData =>
+                  cases rData.left with
+                  | head =>
+                      have samePQ : hsame p q := rData.right
+                      have productAtP : NatMul p tailProduct n :=
+                        (NatMul_multiplicand_hsame_transport
+                          (hsame_symm samePQ) tailData.right).right
+                      have permHead : ListPermPrime (q :: qs) (p :: qs) := by
+                        cases samePQ
+                        exact List.Perm.refl (p :: qs)
+                      exact ⟨qs, tailProduct, permHead, tailData.left, productAtP⟩
+                  | tail _ tailMember =>
+                      have tailMemberWitness :
+                          ∃ s : BHist, s ∈ qs ∧ hsame p s :=
+                        ⟨r, tailMember, rData.right⟩
+                      cases ih tailData.left tailMemberWitness with
+                      | intro qs' extracted =>
+                          cases extracted with
+                          | intro restProduct extractedData =>
+                              have restUnary : UnaryHistory restProduct :=
+                                PrimeFactorizationProduct_result_unary extractedData.right.left
+                              cases NatMul_total qPrime.left restUnary with
+                              | intro qRest qRestData =>
+                                  have productQRest :
+                                      PrimeFactorizationProduct (q :: qs') qRest :=
+                                    And.intro qPrime
+                                      ⟨restProduct, extractedData.right.left,
+                                        qRestData.right⟩
+                                  have productPAtN : NatMul p qRest n :=
+                                    NatMul_middle_swap_result pPrime.left qPrime.left
+                                      restUnary extractedData.right.right tailData.right
+                                      qRestData.right
+                                  have permCons :
+                                      ListPermPrime (q :: qs) (q :: p :: qs') :=
+                                    List.Perm.cons q extractedData.left
+                                  have permSwap :
+                                      ListPermPrime (q :: p :: qs') (p :: q :: qs') :=
+                                    List.Perm.swap p q qs'
+                                  exact ⟨q :: qs', qRest,
+                                    List.Perm.trans permCons permSwap,
+                                    productQRest, productPAtN⟩
+
+theorem factorization_remove_hsame {p n : BHist} {ps qs : List BHist} :
+    PrimeFactorizationProduct (p :: ps) n -> PrimeFactorizationProduct qs n ->
+      (∃ q : BHist, q ∈ qs ∧ hsame p q) ->
+        ∃ qs' : List BHist, ∃ tailProduct : BHist,
+          ListPermPrime qs (p :: qs') ∧
+            PrimeFactorizationProduct ps tailProduct ∧
+              PrimeFactorizationProduct qs' tailProduct := by
+  intro left right member
+  cases left with
+  | intro pPrime leftTail =>
+      cases leftTail with
+      | intro leftTailProduct leftData =>
+          cases factorization_extract_mem pPrime right member with
+          | intro qs' extracted =>
+              cases extracted with
+              | intro rightTailProduct extractedData =>
+                  have sameTail : hsame leftTailProduct rightTailProduct :=
+                    NatMul_nonempty_multiplicand_result_cancel pPrime.left
+                      (NatPrime_empty_absurd pPrime) leftData.right
+                      extractedData.right.right (hsame_refl n)
+                  have rightTailProductAtLeft :
+                      PrimeFactorizationProduct qs' leftTailProduct :=
+                    PrimeFactorizationProduct_result_hsame_transport
+                      extractedData.right.left (hsame_symm sameTail)
+                  exact ⟨qs', leftTailProduct, extractedData.left, leftData.left,
+                    rightTailProductAtLeft⟩
+
+theorem factorization_remove {p n : BHist} {ps qs : List BHist} :
+    PrimeFactorizationProduct (p :: ps) n -> PrimeFactorizationProduct qs n ->
+      p ∈ qs ->
+        ∃ qs' : List BHist, ∃ tailProduct : BHist,
+          ListPermPrime qs (p :: qs') ∧
+            PrimeFactorizationProduct ps tailProduct ∧
+              PrimeFactorizationProduct qs' tailProduct := by
+  intro left right member
+  exact factorization_remove_hsame left right ⟨p, member, hsame_refl p⟩
+
+private theorem PrimeFactorizationProduct_unit_perm_nil {qs : List BHist} {n : BHist} :
+    PrimeFactorizationProduct qs n -> hsame n NatOne -> ListPermPrime qs [] := by
+  intro product sameUnit
+  cases qs with
+  | nil =>
+      exact List.Perm.refl []
+  | cons q qs =>
+      cases product with
+      | intro qPrime tailWitness =>
+          cases tailWitness with
+          | intro tailProduct tailData =>
+              have unitProduct : NatMul q tailProduct NatOne :=
+                (NatMul_result_hsame_transport tailData.right sameUnit).right
+              have qUnit : hsame q NatOne :=
+                (NatMul_unit_result_factors_unit unitProduct).left
+              cases qUnit
+              exact False.elim (NatPrime_unit_absurd qPrime)
+
+theorem factorization_unique_perm {ps qs : List BHist} {n : BHist} :
+    PrimeFactorizationProduct ps n -> PrimeFactorizationProduct qs n -> ListPermPrime ps qs := by
+  induction ps generalizing n qs with
+  | nil =>
+      intro left right
+      exact List.Perm.symm (PrimeFactorizationProduct_unit_perm_nil right left)
+  | cons p ps ih =>
+      intro left right
+      cases left with
+      | intro pPrime leftTail =>
+          cases leftTail with
+          | intro tailProduct leftData =>
+              have pDividesN : NatDivides p n :=
+                ⟨tailProduct, PrimeFactorizationProduct_result_unary leftData.left,
+                  leftData.right⟩
+              have pMember : ∃ q : BHist, q ∈ qs ∧ hsame p q :=
+                prime_divides_product_mem pPrime right pDividesN
+              cases factorization_remove_hsame
+                  (And.intro pPrime ⟨tailProduct, leftData.left, leftData.right⟩)
+                  right pMember with
+              | intro qs' removed =>
+                  cases removed with
+                  | intro commonTail removedData =>
+                      have tailPerm : ListPermPrime ps qs' :=
+                        ih removedData.right.left removedData.right.right
+                      have withHead : ListPermPrime (p :: ps) (p :: qs') :=
+                        List.Perm.cons p tailPerm
+                      exact List.Perm.trans withHead (List.Perm.symm removedData.left)
+
+structure FundamentalTheoremArithmetic where
+  exists_factorization :
+    ∀ n : BHist, NatUnaryStrictPrefix NatOne n ->
+      ∃ entries : List BHist, PrimeFactorization n entries
+  unique_factorization :
+    ∀ {n : BHist} {ps qs : List BHist},
+      PrimeFactorizationProduct ps n ->
+        PrimeFactorizationProduct qs n -> ListPermPrime ps qs
+
+theorem fundamental_theorem_arithmetic : FundamentalTheoremArithmetic := by
+  constructor
+  · intro n large
+    cases factorize n large with
+    | intro entries data =>
+        exact ⟨entries, data.left⟩
+  · intro n ps qs left right
+    exact factorization_unique_perm left right
 
 structure IntegerUp where
   sign : BMark
