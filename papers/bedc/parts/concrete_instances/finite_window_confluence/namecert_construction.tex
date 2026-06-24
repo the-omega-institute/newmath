@@ -97,6 +97,22 @@ The endpoint part is held by $N$ and $W$. These rows point respectively to \auto
 The structural rows $G,H,C,P,K$ then apply the existing NameCert obligations, the normalization-audit handoff, and the TasteGate readiness row to the same packet. Hence the public route is exactly the displayed finite sibling route.
 \end{proof}
 
+\begin{theorem}[FiniteWindowConfluence residual diamond scope]
+\label{thm:finite-window-confluence-residual-diamond-scope}
+Any local diamond read over the bounded beta window of an accepted $\FiniteWindowConfluenceUp$ carrier must expose the redex-frontier row, local-join ledger, residual-substitution boundary, closed-normal endpoint row, and normal-fragment row together. In carrier notation, a diamond-facing consumer may inspect
+$$
+B,R,J,S,N,W
+$$
+only as the finite route already transported, replayed, sourced, and named by $G,H,C,P,K$. The read remains a finite residual-diamond scope; it does not claim unrestricted Church--Rosser, global subject reduction, quotient conversion equality, evaluator equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligation surface of \autoref{thm:finite-window-confluence-namecert-obligations}. It requires the bounded beta-window row, redex-frontier readback, local-join ledger, residual-substitution boundary, closed-normal endpoint, and normal-fragment separation to remain visible in the same accepted packet.
+
+Next apply the normalization-audit handoff of \autoref{thm:finite-window-confluence-normalization-audit-handoff}. A local diamond read is a normalization-audit consumer, so it cannot bypass $R,J,S,N,W$ after entering through $B$.
+
+Finally use the sibling route of \autoref{thm:finite-window-confluence-sibling-route}. The redex-frontier, local-join, residual-substitution, closed-normal, and normal-fragment rows are sibling dependencies rather than optional annotations. Hence the diamond scope is finite and residual-boundary-aware, with no route to the global principles excluded from the carrier.
+\end{proof}
+
 \closureat{FiniteWindowConfluenceUp}{seedStr}
 
 \begin{closurestatus}{\FiniteWindowConfluenceUp}
