@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionCommutationUp$}
+\label{ch:concrete-instances-cauchy-completion-commutation-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Mac Lane, the $\CauchyCompletionCommutationUp$ packet records the finite route by which a displayed binary product and a displayed Cauchy-completion read may be compared without choosing representatives or importing a quotient completion. It sits after the monad surface of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the functor surface of \autoref{ch:concrete-instances-cauchycompletionfunctor-namecert}, the regular-sequence rational carrier of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window carrier of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the real seal of \autoref{ch:concrete-instances-real-namecert}, and the product carrier of \autoref{ch:concrete-instances-prod-namecert}. The packet names only finite product routing, completion routing, stream windows, dyadic tolerances, real readback, transport, replay, provenance, and local naming rows.
+
+\begin{definition}[Cauchy completion commutation carrier]
+\label{def:cauchy-completion-commutation-carrier}
+A $\CauchyCompletionCommutationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,B,R,U,V,W,G,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two input carrier rows whose finite product read is inspected.
+\item $R$ is the $\ProdUp$ product route, exposing pair formation and component projections before any completion read is consumed.
+\item $U$ is the completion-then-product route, reading $\CauchyCompletionFunctorUp$ on $A$ and $B$ before the product row is formed.
+\item $V$ is the product-then-completion route, forming the displayed product row before the $\CauchyCompletionMonadUp$ completion read is consumed.
+\item $W$ is the $\StreamNameUp$ window row, recording the finite prefixes used by both routes.
+\item $G$ is the $\RegSeqRatUp$ readback row, recording the regular rational-sequence witnesses visible through $W$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, displaying the dyadic precision budget used to compare the two finite routes.
+\item $E$ is the $\RealUp$ seal row, recording that the two reads are exported only as a real-valued finite tolerance comparison.
+\item $H$ records componentwise $\hsame$ transport for $A,B,R,U,V,W,G,D,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay through
+$$
+A,B \longmapsto R \longmapsto U,V \longmapsto W,G,D \longmapsto E \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionCommutationUp$, $\CauchyCompletionMonadUp$, $\CauchyCompletionFunctorUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\ProdUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyCompletionCommutationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion, selected representatives, countable choice, host product equality, ambient real completeness, or a global theorem identifying products in an external category.
+\end{definition}
+
+\begin{theorem}[Cauchy completion commutation NameCert obligations]
+\label{thm:cauchy-completion-commutation-namecert-obligations}
+For every accepted $\CauchyCompletionCommutationUp$ carrier $K=(A,B,R,U,V,W,G,D,E,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionCommutationUp}$ surface consists exactly of product-route admission through $R$, completion-then-product admission through $U$, product-then-completion admission through $V$, stream-window exposure through $W$, regular rational readback through $G$, dyadic tolerance exposure through $D$, real sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-commutation-carrier}. The rows $A,B,R$ display the finite product route before either completion path is compared.
+
+Next read the two completion routes. The row $U$ exposes completion before product formation, while $V$ exposes product formation before completion. The shared stream-window row $W$, regular-sequence readback row $G$, and dyadic tolerance row $D$ give the finite evidence by which the two routes can be compared.
+
+Finally the real seal $E$ exports only that finite tolerance comparison. The structural rows $H,C,P,N$ transport, replay, source, and name the same packet, and the carrier contains no coordinate for representative choice or ambient product equality. Hence the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy completion finite route commutation]
+\label{thm:cauchy-completion-commutation-finite-route}
+Every accepted $\CauchyCompletionCommutationUp$ read factors the comparison of the two routes through the finite diagram
+$$
+\ProdUp,\CauchyCompletionFunctorUp,\CauchyCompletionMonadUp \longmapsto \StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp \longmapsto \RealUp .
+$$
+Thus the completion-then-product route and the product-then-completion route can be compared only after product routing, completion routing, stream windows, regular rational readback, dyadic tolerance, and the real seal have all been displayed.
+\end{theorem}
+\begin{proof}
+Start from the product row $R$. It exposes pair formation and projections as finite data, so both later routes consume the same displayed product interface.
+
+Read $U$ and $V$ as two ordered uses of the completion surfaces. The comparison is not made at the level of host products; it is made only after both routes have supplied the same kind of stream windows and regular rational readbacks.
+
+The dyadic row $D$ supplies the common tolerance budget, and the real seal $E$ exports the resulting finite comparison. Since $H,C,P,N$ only preserve and name this route, every accepted read factors through the displayed finite diagram.
+\end{proof}
+
+\begin{theorem}[Cauchy completion commutation nonescape]
+\label{thm:cauchy-completion-commutation-nonescape}
+An accepted $\CauchyCompletionCommutationUp$ packet cannot be read as a quotient-completion theorem, a selected-representative construction, a countable-choice principle, host product equality, or ambient $\RealUp$ completeness. Any consumer of the packet receives only the displayed finite route $A,B,R,U,V,W,G,D,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. None of $A,B,R,U,V,W,G,D,E,H,C,P,N$ contains a selector for Cauchy representatives, a quotient-equality rule, a countable-choice row, or a host product equality row.
+
+The comparison rows stop at dyadic tolerance and the real seal. They can report that the two finite routes meet the displayed tolerance interface, but they cannot replace this report by a theorem of ambient completeness.
+
+Therefore every consumer remains inside the named packet. Any request for quotient completion, representative selection, choice, host equality, or ambient real completeness leaves the accepted $\CauchyCompletionCommutationUp$ carrier.
+\end{proof}
+
+\closureat{CauchyCompletionCommutationUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionCommutationUp}
+  \constructivestory{A $\CauchyCompletionCommutationUp$ packet is generated from two input carrier rows, a product route, completion-then-product and product-then-completion routes, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, a Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-commutation-carrier}, \autoref{thm:cauchy-completion-commutation-namecert-obligations}, \autoref{thm:cauchy-completion-commutation-finite-route}, and \autoref{thm:cauchy-completion-commutation-nonescape} seed the finite product/completion route comparison over $A,B,R,U,V,W,G,D,E,H,C,P,N$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, countable choice, host product equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked product routing, completion routing, stream-window exposure, regular rational readback, dyadic tolerance, real sealing, transport, replay, provenance, and local naming for BEDC.Derived.CauchyCompletionCommutationUp.}
+\end{closurestatus}
