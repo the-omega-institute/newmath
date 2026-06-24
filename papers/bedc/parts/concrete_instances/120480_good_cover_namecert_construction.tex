@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\GoodCoverUp$}
+\label{ch:concrete-instances-good-cover-namecert}
+\origin{human}
+
+Following Leray's good-cover method and the Bott--Tu and Hatcher presentations of cover nerves, the $\GoodCoverUp$ packet records the finite BEDC surface of a cover whose visible nonempty finite intersections are contractible along displayed rows. It sits between the open-cover carrier of \autoref{ch:concrete-instances-open-cover-namecert}, the finite open-cover nerve of \autoref{ch:concrete-instances-finite-open-cover-nerve-namecert}, the finite cover nerve of \autoref{ch:concrete-instances-finite-cover-nerve-namecert}, the compact cover nerve rows used by $\CompactCoverNerveUp$, and the Cech nerve packet of \autoref{ch:concrete-instances-cech-nerve-namecert}. The packet is a finite good-cover ledger; it is not the nerve theorem, not a selected homotopy equivalence, not an ambient triangulation theorem, and not host contractibility of arbitrary intersections.
+
+\begin{definition}[Good-cover carrier]
+\label{def:good-cover-carrier}
+A $\GoodCoverUp$ carrier is a finite $\BHist$ packet
+$$
+G=(T,O,F,I,K,N,S,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row naming the open-set ambient surface.
+\item $O$ is the $\OpenCoverUp$ row giving the displayed cover members.
+\item $F$ is the $\FiniteOpenCoverUp$ or finite cover row fixing the finite index window.
+\item $I$ is the finite-intersection ledger for every nonempty displayed subwindow of $F$.
+\item $K$ is the good-intersection row recording contractible-cell evidence for each nonempty entry of $I$.
+\item $N$ is the nerve-face row shared with $\FiniteOpenCoverNerveUp$, $\FiniteCoverNerveUp$, $\CompactCoverNerveUp$, and $\CechNerveUp$ consumers.
+\item $S$ is the $\SimplicialComplexUp$ export row for the finite nerve faces.
+\item $H$ records componentwise $\hsame$ transport for the topology, cover, finite index, intersection, good-intersection, nerve, simplicial, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from finite cover reads through the intersection and nerve rows.
+\item $P$ is the $\Pkg$ provenance over $\GoodCoverUp$, $\TopologyUp$, $\OpenCoverUp$, $\FiniteOpenCoverUp$, $\FiniteOpenCoverNerveUp$, $\FiniteCoverNerveUp$, $\CechNerveUp$, $\SimplicialComplexUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\GoodCoverUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $T,O,F,I,K,N,S,H,C,P,L$. It has no coordinate for selected points in intersections, ambient homotopy equivalence, quotient realization equality, a global triangulation, open-cover compactness, or the nerve theorem.
+\end{definition}
+
+\begin{theorem}[Good-cover NameCert obligations]
+\label{thm:good-cover-namecert-obligations}
+For every accepted $\GoodCoverUp$ carrier $G=(T,O,F,I,K,N,S,H,C,P,L)$, the local $\NameCert_{\GoodCoverUp}$ surface consists exactly of topology-source exposure, open-cover exposure, finite index exposure, nonempty finite-intersection ledger exposure, good-intersection contractible-cell exposure, nerve-face exposure, simplicial-complex handoff, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:good-cover-carrier}. Rows $T,O,F$ expose the topological source, displayed cover, and finite index window before any intersection can be read.
+
+The finite-intersection ledger $I$ lists only displayed nonempty subwindows. The good-intersection row $K$ attaches contractible-cell evidence to those ledger entries, and the nerve row $N$ records the corresponding finite faces.
+
+The simplicial export $S$ is downstream of $I,K,N$. Transport, replay, provenance, and local naming are supplied by $H,C,P,L$, so no host nerve theorem, selected point, quotient realization, or global triangulation is part of the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Good-cover finite-intersection nerve route]
+\label{thm:good-cover-finite-intersection-nerve-route}
+Every $\FiniteOpenCoverNerveUp$, $\FiniteCoverNerveUp$, $\CompactCoverNerveUp$, or $\CechNerveUp$ consumer that reads an accepted $\GoodCoverUp$ packet must factor through the finite route
+$$
+\TopologyUp \longmapsto \OpenCoverUp \longmapsto \FiniteOpenCoverUp \longmapsto I \longmapsto K \longmapsto N \longmapsto \SimplicialComplexUp .
+$$
+The consumer receives only the displayed cover rows, finite-intersection rows, contractible-cell rows, nerve-face rows, transport, replay, provenance, and local $\NameCert$ evidence. It does not receive the nerve theorem, an ambient homotopy equivalence, a selected realization map, arbitrary open-cover compactness, quotient point equality, or global homology computation.
+\end{theorem}
+\begin{proof}
+Start with the finite cover source. A nerve-facing consumer can read $N$ only after the cover member rows $O$ and finite index row $F$ have been exposed over the topology row $T$.
+
+Next read the intersection data. The ledger $I$ records exactly the displayed nonempty finite intersections, while $K$ records the good-cover evidence attached to those intersections. Thus the nerve face row is determined by finite ledger data rather than by a host compactness or choice principle.
+
+Finally apply the structural rows $H,C,P,L$. They transport, replay, source, and name the same route into the finite-open-cover, finite-cover, compact-cover, and Cech nerve siblings. Since the carrier has no coordinate for a nerve theorem or ambient homotopy equivalence, the route stops at the displayed finite nerve and simplicial-complex surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\GoodCoverUp$ consumer that exports a nerve-theorem equivalence while omitting the displayed finite-intersection ledger $I$ or good-intersection row $K$ is not reading this carrier.}
+
+\independenceWitness{open-cover, finite-open-cover-nerve, finite-cover-nerve, compact-cover-nerve, cech-nerve: none is bijective with $\GoodCoverUp$ because this packet jointly carries finite cover rows, nonempty finite-intersection rows, good-intersection contractible-cell evidence, nerve-face export, transport, replay, provenance, and local naming while refusing the nerve theorem and ambient realization equality.}
+
+\closureat{GoodCoverUp}{seedStr}
+
+\begin{closurestatus}{\GoodCoverUp}
+  \constructivestory{A $\GoodCoverUp$ packet is generated from a TopologyUp source row, OpenCoverUp cover rows, a finite cover index, a finite-intersection ledger, good-intersection contractible-cell evidence, nerve-face rows, a SimplicialComplexUp export row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:good-cover-carrier}, \autoref{thm:good-cover-namecert-obligations}, and \autoref{thm:good-cover-finite-intersection-nerve-route} seed the finite good-cover surface linking open-cover, finite-cover-nerve, compact-cover-nerve, and Cech nerve consumers.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.GoodCoverUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the nerve theorem, selected intersection points, ambient homotopy equivalence, quotient realization equality, global triangulation, host open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite cover exposure, intersection-ledger exactness, good-intersection evidence, nerve-face handoff, simplicial export, transport, replay, provenance, and local naming for BEDC.Derived.GoodCoverUp.}
+\end{closurestatus}
