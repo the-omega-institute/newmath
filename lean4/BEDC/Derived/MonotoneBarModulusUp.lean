@@ -1,4 +1,5 @@
 import BEDC.FKernel.Hist
+import BEDC.Derived.MonotoneBarModulusUp.TasteGate
 
 namespace BEDC.Derived
 
