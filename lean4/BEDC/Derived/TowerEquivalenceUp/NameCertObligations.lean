@@ -184,4 +184,43 @@ theorem TowerEquivalenceCarrier_obligation_scope
     unary_cont_closed endpointUnary transportUnary endpointRoute
   exact ⟨rfl, scopeUnary, endpointReadUnary, scopeRoute, endpointRoute⟩
 
+theorem TowerEquivalencePublicExportSurface [AskSetup] [PackageSetup]
+    {tower tower' approx approx' physical physical' openFit openFit' objectivity ledger descent
+      endpoint transport provenance name endpointRead ledgerRead descentRead transportRead
+      refinement : BHist} :
+    UnaryHistory tower →
+      UnaryHistory tower' →
+        UnaryHistory ledger →
+          UnaryHistory descent →
+            UnaryHistory endpoint →
+              UnaryHistory transport →
+                Cont tower tower' endpointRead →
+                  Cont ledger descent ledgerRead →
+                    Cont endpoint transport descentRead →
+                      Cont descentRead transport transportRead →
+                        Cont endpoint ledger refinement →
+                          towerEquivalenceFields
+                              (TowerEquivalenceUp.mk tower tower' approx approx' physical
+                                physical' openFit openFit' objectivity ledger descent endpoint
+                                transport provenance name) =
+                            [tower, tower', approx, approx', physical, physical', openFit,
+                              openFit', objectivity, ledger, descent, endpoint, transport,
+                              provenance, name] ∧
+                            UnaryHistory endpointRead ∧
+                              UnaryHistory ledgerRead ∧
+                                UnaryHistory descentRead ∧
+                                  UnaryHistory transportRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro towerUnary towerUnary' ledgerUnary descentUnary endpointUnary transportUnary
+    endpointRoute ledgerRoute descentRoute transportRoute _refinementRoute
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed towerUnary towerUnary' endpointRoute
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed ledgerUnary descentUnary ledgerRoute
+  have descentReadUnary : UnaryHistory descentRead :=
+    unary_cont_closed endpointUnary transportUnary descentRoute
+  have transportReadUnary : UnaryHistory transportRead :=
+    unary_cont_closed descentReadUnary transportUnary transportRoute
+  exact ⟨rfl, endpointReadUnary, ledgerReadUnary, descentReadUnary, transportReadUnary⟩
+
 end BEDC.Derived.TowerEquivalenceUp
