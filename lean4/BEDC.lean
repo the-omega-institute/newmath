@@ -5004,6 +5004,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementObligation
 import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementScope
 import BEDC.Derived.DyadicIntervalCoverUp.NameCertObligations
 import BEDC.Derived.DyadicIntervalCoverUp.ObligationSurface
+import BEDC.Derived.DyadicIntervalCoverUp.PublicCertificateScope
 import BEDC.Derived.DyadicIntervalCoverUp.PublicFiniteCoverExport
 import BEDC.Derived.DyadicIntervalCoverUp.RealSealCoverHandoff
 import BEDC.Derived.DyadicIntervalCoverUp.RealSealNonescape
@@ -10134,6 +10135,7 @@ import BEDC.Derived.RegularCauchyApartnessBudgetUp.BridgeScope
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.BridgeSurface
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.CofinalWindowRefinement
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.FieldHandoff
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.InverseWindowConsumption
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.L10ScopeBinding
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundDeterminacy
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundModulusMonotonicity
