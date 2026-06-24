@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\FiniteRealizedSeparableBanachSpaceUp$}
+\label{ch:concrete-instances-finite-realized-separable-banach-space-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges, the $\FiniteRealizedSeparableBanachSpaceUp$ packet records a separable Banach-space presentation whose dense data are inspected through finite stream windows before the completion service is read. It sits over the Banach carrier of \autoref{ch:concrete-instances-banachspace-namecert}, the norm rows of \autoref{ch:concrete-instances-norm-namecert}, the complete-metric boundary of \autoref{ch:concrete-instances-completemetric-namecert}, the density route of \autoref{ch:concrete-instances-real-separability-namecert}, and the finite real-name infrastructure of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names a constructive countably dense realization inside a complete normed carrier; it does not choose limits, quotient Cauchy classes, dense enumerants outside the displayed code, countable choice, Hahn--Banach data, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite-realized separable Banach space carrier]
+\label{def:finite-realized-separable-banach-space-carrier}
+A $\FiniteRealizedSeparableBanachSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,N,M,D,S,R,E,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the ambient $\BanachSpaceUp$ carrier row, including its vector, norm, Cauchy, completion, and separated-comparison service.
+\item $N$ is the $\NormUp$ readback row used by dense-code and Cauchy-window consumers.
+\item $M$ is the $\CompleteMetricUp$ row induced by the Banach norm and exposed before completion-facing density is public.
+\item $D$ is the $\RealSeparabilityUp$ dense-code admission row, listing the accepted countable dense codes and the finite windows by which those codes are inspected.
+\item $S$ is the $\StreamNameUp$ finite-window schedule for reading dense-code observations.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback attached to the same stream windows and norm tolerances.
+\item $E$ is the terminal real-name seal reached by the norm and density reads.
+\item $H$ records componentwise $\hsame$ transport for $B,N,M,D,S,R,E$ and the local certificate rows.
+\item $C$ records displayed $\Cont$ replay for Banach, norm, dense-code, stream-window, regular-rational, real-seal, and completion reads.
+\item $P$ is the $\Pkg$ provenance over $\FiniteRealizedSeparableBanachSpaceUp$, $\BanachSpaceUp$, $\NormUp$, $\CompleteMetricUp$, $\RealSeparabilityUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\FiniteRealizedSeparableBanachSpaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a choice-selected dense enumeration, an external completion object, quotient real equality, selected Cauchy limits, Hahn--Banach functionals, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite-realized separable Banach space NameCert obligations]
+\label{thm:finite-realized-separable-banach-space-namecert-obligations}
+For every accepted $\FiniteRealizedSeparableBanachSpaceUp$ carrier
+$$
+F=(B,N,M,D,S,R,E,H,C,P,L),
+$$
+the local $\NameCert_{\FiniteRealizedSeparableBanachSpaceUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier: the packet displays the $\BanachSpaceUp$ carrier $B$, its $\NormUp$ readback $N$, and the induced $\CompleteMetricUp$ row $M$ before any separability or completion read is available;
+\item dense-code admission: the $\RealSeparabilityUp$ row $D$ admits only displayed dense codes, read through the finite $\StreamNameUp$ windows $S$ and the $\RegSeqRatUp$ rational readback $R$;
+\item norm/Cauchy stability: componentwise transport $H$ and replay $C$ preserve the same norm, dense-code, stream-window, and regular-rational rows under every accepted Cauchy request;
+\item completion seal: completion-facing consumers reach the terminal real-name seal $E$ only after the Banach, complete-metric, dense-code, stream, and regular-rational rows have been displayed;
+\item no-choice ledger: provenance $P$ and local name $L$ record that the packet exports no selected dense enumeration, countable-choice branch, quotient completion equality, selected limit, Hahn--Banach datum, or ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-realized-separable-banach-space-carrier}. The Banach, norm, and complete-metric rows provide the only complete normed-space data available to a consumer.
+
+The dense-code obligation is then read through $D,S,R$. The separability row admits only displayed codes, the stream row supplies finite observation windows, and the regular rational row attaches those windows to norm tolerances before the terminal real-name seal is reached.
+
+Stability is the role of $H$ and $C$. Since they transport and replay the same displayed coordinates, they cannot introduce a second dense enumeration, a detached completion object, or an off-ledger Cauchy limit.
+
+The completion seal is therefore the row $E$ read after $B,N,M,D,S,R$. Provenance and local naming, $P,L$, close the no-choice ledger by recording the absence of selected dense enumerants, countable choice, quotient completion equality, Hahn--Banach data, and ambient real-completeness coordinates.
+\end{proof}
+
+\begin{closurestatus}{\FiniteRealizedSeparableBanachSpaceUp}
+  \constructivestory{A $\FiniteRealizedSeparableBanachSpaceUp$ packet is generated from an ambient Banach carrier, norm and complete-metric rows, displayed separability codes, finite stream windows, regular rational readback, a terminal real-name seal, componentwise transport, replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-realized-separable-banach-space-carrier} and \autoref{thm:finite-realized-separable-banach-space-namecert-obligations} bind the displayed carrier, dense-code admission, norm/Cauchy stability, completion seal, and no-choice ledger.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a Lean theorem, a standard bridge, a selected dense enumeration, quotient Banach completion equality, Hahn--Banach, countable choice, or ambient $\RealUp$ completeness.}
+  \upgradepath{Formal verification should encode the carrier rows and prove the five NameCert obligations without adding choice, quotient completion equality, selected limits, or ambient real-completeness coordinates.}
+\end{closurestatus}
