@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\FrobeniusNormalFormUp$}
+\label{ch:concrete-instances-frobenius-normal-form-namecert}
+\origin{human}
+
+Following Frobenius and the rational-canonical-form tradition, the $\FrobeniusNormalFormUp$ packet records the companion-block presentation of a displayed finite endomorphism as BEDC NameCert data. It sits between the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the linear-map surface of \autoref{ch:concrete-instances-linearmap-namecert}, the polynomial rows of \autoref{ch:concrete-instances-polynomial-namecert}, the invariant-factor packet of \autoref{ch:concrete-instances-rational-canonical-form-namecert}, the characteristic-polynomial route of \autoref{ch:concrete-instances-cayley-hamilton-namecert}, the block comparison boundary of \autoref{ch:concrete-instances-jordan-normal-form-namecert}, and the polynomial-matrix reduction route of \autoref{ch:concrete-instances-smith-normal-form-namecert}. The packet names only the finite Frobenius companion-block certificate; it does not claim eigenvalue selection, algebraic closure, Jordan block decomposition, host similarity classification, or a detached canonical-form oracle.
+
+\begin{definition}[Frobenius normal form carrier]
+\label{def:frobenius-normal-form-carrier}
+A $\FrobeniusNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,L,Q,S,R,B,A,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MatrixUp$ presentation row for the displayed finite operator, including row-column windows and matrix multiplication requests.
+\item $L$ is the $\LinearMapUp$ row naming the same endomorphism surface.
+\item $Q$ is the $\PolynomialUp$ row carrying the monic invariant-factor polynomials and the characteristic-polynomial ledger visible to the block read.
+\item $S$ is the $\SmithNormalFormUp$ dependency row for the polynomial-matrix reduction route that exposes the invariant factors.
+\item $R$ is the $\RationalCanonicalFormUp$ handoff row, retaining the invariant-factor schedule used by the companion-block assembly.
+\item $B$ is the Frobenius companion-block row, listing one finite companion block for each displayed invariant factor in $Q$ and the row-column positions used by the block sum.
+\item $A$ is the block-assembly exactness row, comparing the displayed $\MatrixUp$ presentation with the companion-block presentation through the same $\LinearMapUp$ endpoint.
+\item $T$ is the Cayley-Hamilton compatibility row, recording that the characteristic-polynomial ledger read through \autoref{ch:concrete-instances-cayley-hamilton-namecert} is consumed only as a polynomial boundary for the displayed blocks.
+\item $H$ records componentwise $\hsame$ transport for the matrix, linear-map, polynomial, Smith-normal, rational-canonical, companion-block, exactness, Cayley-Hamilton, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Frobenius-form request through $M,L,Q,S,R,B,A,T,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FrobeniusNormalFormUp$, $\MatrixUp$, $\LinearMapUp$, $\PolynomialUp$, $\SmithNormalFormUp$, $\RationalCanonicalFormUp$, $\CayleyHamiltonUp$, $\JordanNormalFormUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FrobeniusNormalFormUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,L,Q,S,R,B,A,T,H,C,P,N$. It contains no coordinate for selected eigenvalues, algebraic closure, Jordan-chain splitting, quotient matrix equality, host similarity classification, non-displayed basis choice, or an ambient canonical-form theorem.
+\end{definition}
+
+\begin{theorem}[Frobenius normal form NameCert obligations]
+\label{thm:frobenius-normal-form-namecert-obligations}
+For every accepted $\FrobeniusNormalFormUp$ carrier
+$$
+F=(M,L,Q,S,R,B,A,T,H,C,P,N),
+$$
+the local $\NameCert_{\FrobeniusNormalFormUp}$ surface consists exactly of matrix exposure through $M$, linear-map exposure through $L$, invariant-factor polynomial exposure through $Q$, Smith-normal dependency routing through $S$, rational-canonical handoff through $R$, companion-block assembly through $B$, block exactness through $A$, Cayley-Hamilton compatibility through $T$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:frobenius-normal-form-carrier}. The finite operator source is $M,L$, the polynomial and reduction source is $Q,S$, and the canonical-form handoff is $R$.
+
+The Frobenius block data are exactly $B,A,T$. The companion blocks are indexed by the displayed invariant-factor row, the exactness row compares the block matrix with the original matrix presentation, and the Cayley-Hamilton row is read only as a characteristic-polynomial compatibility boundary.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. Since no carrier coordinate contains eigenvalue selection, algebraic closure, Jordan-chain splitting, quotient equality, host similarity classification, non-displayed basis choice, or an ambient canonical-form theorem, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Frobenius companion-block route]
+\label{thm:frobenius-normal-form-companion-block-route}
+Every companion-block read exported by an accepted $\FrobeniusNormalFormUp$ packet factors through the finite route
+$$
+\MatrixUp,\LinearMapUp,\PolynomialUp,\SmithNormalFormUp,\RationalCanonicalFormUp \longmapsto B,A,T \longmapsto \FrobeniusNormalFormUp .
+$$
+The route exposes only invariant-factor polynomials, companion-block positions, block-assembly exactness, Cayley-Hamilton compatibility, transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Begin with the matrix and linear-map rows $M,L$. A companion-block consumer cannot read a Frobenius block before the endomorphism presentation and the polynomial row $Q$ have been displayed.
+
+Next use the Smith-normal and rational-canonical rows $S,R$. The invariant-factor schedule is obtained through the polynomial-matrix reduction route and then handed to the rational-canonical companion-block surface; it is not imported from a host classification oracle.
+
+The rows $B,A,T$ assemble and check the Frobenius blocks. Componentwise transport, replay, provenance, and local naming through $H,C,P,N$ then preserve exactly this finite route, so the exported block read contains no Jordan-chain or spectral data.
+\end{proof}
+
+\begin{theorem}[Frobenius rational-canonical handoff]
+\label{thm:frobenius-normal-form-rational-canonical-handoff}
+Any $\RationalCanonicalFormUp$ consumer that requests a Frobenius companion presentation from an accepted $\FrobeniusNormalFormUp$ packet must keep the invariant-factor schedule $R$, the polynomial row $Q$, the Smith-normal dependency $S$, the companion-block row $B$, and the exactness row $A$ visible together. The handoff may compare with the Jordan packet of \autoref{ch:concrete-instances-jordan-normal-form-namecert} only as a block-layout boundary, not as an algebraic-closure or eigenvector-selection source.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:frobenius-normal-form-namecert-obligations}. They require the rational-canonical handoff row, invariant-factor polynomial row, Smith-normal route, companion-block row, and exactness row to remain in the same accepted packet.
+
+The rational-canonical chapter supplies the invariant-factor schedule, while the Frobenius packet records the companion-block presentation read from that schedule. Thus a consumer cannot detach the Frobenius blocks from $Q,S,R$ without leaving the displayed NameCert surface.
+
+The Jordan comparison is only a sibling boundary. Since the carrier has no eigenvalue or generalized-eigenvector coordinate, the handoff remains a rational-canonical companion-block route rather than a Jordan decomposition.
+\end{proof}
+
+\begin{theorem}[Frobenius finite nonescape]
+\label{thm:frobenius-normal-form-finite-nonescape}
+Every accepted $\FrobeniusNormalFormUp$ carrier exports a finite normal-form certificate over $M,L,Q,S,R,B,A,T,H,C,P,N$ and no other rows. In particular, a consumer cannot escape from the companion-block route to selected eigenvalues, algebraic closure, Jordan-chain splitting, quotient matrix equality, host similarity classification, non-displayed basis choice, or an ambient canonical-form theorem.
+\end{theorem}
+\begin{proof}
+The carrier predicate lists exactly twelve rows. The mathematical rows $M,L,Q,S,R,B,A,T$ supply matrix presentation, endomorphism surface, invariant-factor polynomials, Smith-normal dependency, rational-canonical handoff, companion blocks, exactness, and Cayley-Hamilton compatibility.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name those rows without adding a further mathematical coordinate. Hence every consumer remains inside the finite packet.
+
+All excluded data would require an extra row: eigenvalues or algebraic closure for spectral reads, Jordan chains for nilpotent splitting, quotient equality for host matrix comparison, or a selected basis outside the displayed carrier. Since the packet contains none of these rows, the export is nonescaping.
+\end{proof}
+
+\falsifiablePrediction{A $\FrobeniusNormalFormUp$ consumer that exports companion blocks while omitting the Matrix, LinearMap, Polynomial, SmithNormalForm, RationalCanonicalForm, companion-block, exactness, Cayley-Hamilton, $\hsame$, $\Cont$, $\Pkg$, or local $\NameCert$ rows refutes the carrier of \autoref{def:frobenius-normal-form-carrier}.}
+
+\independenceWitness{matrix, linearmap, polynomial, smith-normal-form, rational-canonical-form, cayley-hamilton, jordan-normal-form: $\FrobeniusNormalFormUp$ is not bijective to any listed sibling because this packet alone binds invariant-factor polynomials to a finite Frobenius companion-block assembly with exactness, transport, replay, provenance, and local naming.}
+
+\closureat{FrobeniusNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\FrobeniusNormalFormUp}
+  \constructivestory{A $\FrobeniusNormalFormUp$ packet is generated from Matrix rows, LinearMap rows, Polynomial invariant-factor rows, a SmithNormalForm dependency route, a RationalCanonicalForm handoff, finite companion-block assembly, block exactness, CayleyHamilton compatibility, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frobenius-normal-form-carrier}, \autoref{thm:frobenius-normal-form-namecert-obligations}, \autoref{thm:frobenius-normal-form-companion-block-route}, \autoref{thm:frobenius-normal-form-rational-canonical-handoff}, and \autoref{thm:frobenius-normal-form-finite-nonescape} seed the finite Frobenius companion-block certificate over matrix, linear-map, polynomial, Smith-normal, rational-canonical, Cayley-Hamilton, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected eigenvalues, algebraic closure, Jordan-chain splitting, quotient matrix equality, host similarity classification, non-displayed basis choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, invariant-factor routing, companion-block assembly, rational-canonical handoff, Cayley-Hamilton compatibility, finite nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FrobeniusNormalFormUp.}
+\end{closurestatus}

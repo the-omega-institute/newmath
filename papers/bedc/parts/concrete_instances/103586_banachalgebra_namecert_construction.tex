@@ -124,14 +124,31 @@ The completion seal $M$ then checks the same norm-induced metric surface through
 Replay through $C$ and transport through $H$ preserve the route componentwise, while $P$ and $L$ name only that finite surface. A $\CStarAlgUp$ consumer can therefore use the complete normed algebra boundary as a dependency, but its involution and $C^*$-identity rows must be supplied by the C*-algebra packet itself.
 \end{proof}
 
+\begin{theorem}[Banach algebra public export surface]
+\label{thm:banach-algebra-public-export-surface}
+Every complete normed algebra consumer of an accepted $\BanachAlgebraUp$ carrier reads only the displayed multiplication row, norm row, Banach completeness row, product-control ledger, completion seal, componentwise transport, replay, provenance, and local $\NameCert_{\BanachAlgebraUp}$ row. In carrier notation the public export is the finite surface
+$$
+A=(R,N,B,Q,M,H,C,P,L).
+$$
+It does not export involution, a $C^*$-identity, spectrum, representation data, weak-operator closure, quotient completion, selected limits, host algebra equality, or any ambient normed-algebra oracle.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier onto $R,N,B,Q,M,H,C,P,L$. The earlier carrier, product, submultiplicativity, stability, obligation, and nonescape theorems show that every complete product read is already routed through these rows.
+
+A public consumer therefore receives the multiplication from $R$, the norm from $N$, completeness from $B$ and $M$, and product control from $Q$. The rows $H,C,P,L$ transport, replay, source, and name that same finite surface.
+
+No excluded operator-algebra or host-completion coordinate appears in the carrier predicate. Since there is no row for such data, the public export cannot expose it.
+\end{proof}
+
 \closureat{BanachAlgebraUp}{scopedStr}
+\closureat{BanachAlgebraUp}{publicStr}
 
 \begin{closurestatus}{\BanachAlgebraUp}
   \constructivestory{A $\BanachAlgebraUp$ packet is generated from a displayed RingUp multiplication row, a NormUp norm row over the same carried additive carrier, a BanachUp complete normed carrier row, a product-control ledger, a CompleteMetricUp and MetricCompletionUp completion seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:banach-algebra-carrier}, \autoref{thm:banach-algebra-namecert-obligations}, \autoref{thm:banach-algebra-norm-submultiplicativity-ledger}, and \autoref{thm:banach-algebra-completion-product-nonescape} display the finite complete normed algebra obligation surface over RingUp multiplication, NormUp norm, BanachUp completeness, completion seals, product control, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:banach-algebra-carrier}, \autoref{thm:banach-algebra-namecert-obligations}, \autoref{thm:banach-algebra-norm-submultiplicativity-ledger}, \autoref{thm:banach-algebra-completion-product-nonescape}, and \autoref{thm:banach-algebra-public-export-surface} display the finite complete normed algebra public surface over RingUp multiplication, NormUp norm, BanachUp completeness, completion seals, product control, transport, replay, provenance, and local NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim involution, the $C^*$-identity, spectrum, representation theory, weak-operator closure, host algebra equality, quotient completion, selected limits, Lean verification, or bridge checking.}
-  \upgradepath{Public closure requires a reusable export theorem for the complete normed algebra surface over multiplication, norm, completeness, product control, transport, replay, provenance, and local NameCert rows.}
+  \upgradepath{Lean closure requires carrier admission, complete product carrier routing, submultiplicativity ledger exposure, Cauchy product stability, NameCert obligation coverage, completion-product nonescape, and public export coverage for BEDC.Derived.BanachAlgebraUp.}
 \end{closurestatus}
