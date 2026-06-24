@@ -106,6 +106,37 @@ Finally use the public report interface, \autoref{thm:programmestrengthledger-pu
 \end{proof}
 \leanchecked{BEDC.Derived.ProgrammeStrengthLedgerUp.ProgrammeStrengthLedgerBridgeBlockerReadback}
 
+\begin{theorem}[Finite blocker readback factors through programme strength ledger]
+\label{thm:programme-strength-ledger-blocker-readback-factorization}
+Let $L=(Q,S,D,V,B,R,H,C,P,N)$ be an accepted $\ProgrammeStrengthLedgerUp$
+carrier whose source row cites $\UpgradeRegistryUp$, $\GapFailureBridgeAuditUp$,
+and $\VerificationFailureRoadmapUp$. Any blocker readback exposed by $D$ or $B$
+factors through a single $\BHist$ ledger row $K$ carried by $L$ such that $K$
+preserves the displayed $\hsame$ transport and $\Cont$ provenance route from
+the source certificates to the public strength report. The factorization is a
+finite $\Pkg$/GAP readback inside the ledger surface, not an external judgement
+about the claim site $Q$.
+\end{theorem}
+\begin{proof}
+Unpack the accepted carrier. The dependency row $D$, bridge row $B$, transport
+row $H$, replay row $C$, provenance row $P$, and local naming row $N$ are all
+displayed before the public report can be read, so a blocker cannot be exported
+as a free-standing judgement.
+
+Compose the three cited source certificates. The $\UpgradeRegistryUp$ row names
+the current obligation and next required row, the $\GapFailureBridgeAuditUp$ row
+keeps bridge blockers visible, and the $\VerificationFailureRoadmapUp$ row
+records the verification blocker. Their common readback is therefore a single
+finite $\BHist$ row $K$ inside the programme-strength ledger.
+
+Finally apply the bridge-blocker readback theorem
+\autoref{thm:programme-strength-ledger-bridge-blocker-readback}. It forces the
+blocker to travel with $Q,S,D,V,B,R,H,C,P,N$, while $H$ preserves $\hsame$ and
+$C,P$ preserve the $\Cont$ and $\Pkg$ provenance route. Hence the blocker
+readback factors through $K$ as a finite ledger readback and not through any
+external status judgement.
+\end{proof}
+
 \begin{theorem}[ProgrammeStrengthLedger formal target request]
 \label{thm:programme-strength-ledger-formal-target-request}
 Any formalization target for the public $\ProgrammeStrengthLedgerUp$ strength report must preserve the displayed row family $Q,S,D,V,B,R,H,C,P,N$. Its proof obligations are exactly no-strength-inflation for $S$, axis separation for $Q,S,D,V,B,R,N$, the public report interface for $Q,S,D,V,B,R,H,C,P,N$, and bridge-blocker readback for $D$ and $B$. In particular, the target may not derive theory closure from verification status, derive bridge status from formal status, erase a dependency blocker by provenance, or promote the report beyond the displayed strength row.
