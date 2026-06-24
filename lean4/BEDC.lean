@@ -8520,6 +8520,7 @@ import BEDC.Derived.MonoidUp.StdBridge
 import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.MonoidalCompletionUp.TasteGate
 import BEDC.Derived.MonotoneBarModulusUp
+import BEDC.Derived.MonotoneBarModulusUp.TasteGate
 import BEDC.Derived.MonotoneBoundedConvergenceUp
 import BEDC.Derived.MonotoneBoundedSequenceUp.TasteGate
 import BEDC.Derived.MonotoneCauchyConvergenceUp.TasteGate
@@ -12371,6 +12372,7 @@ import BEDC.Derived.WobbleQuotientSpectralTriggerUp.TasteGate
 import BEDC.Derived.WobbleSaturationSealUp.TasteGate
 import BEDC.Derived.WritingItemAuditPacketUp.TasteGate
 import BEDC.Derived.WritingItemAuditUp
+import BEDC.Derived.WritingItemAuditUp.BridgeSchemaRoute
 import BEDC.Derived.WritingItemAuditUp.ObligationClosure
 import BEDC.Derived.WritingItemAuditUp.TasteGate
 import BEDC.Derived.WrrStatePhaseSpaceUp.TasteGate
