@@ -72,4 +72,48 @@ theorem GroundCompilerEventFlowAuditRouteNonEvidenceBoundary [AskSetup] [Package
     ⟨cert, nonEvidenceUnary, replayUnary, localNameUnary, nonEvidenceTransportReplay,
       replayProvenanceLocalName, localNamePkg⟩
 
+theorem GroundCompilerEventFlowAuditRouteNonEvidenceGateSeparation [AskSetup] [PackageSetup]
+    {eventFlow legalChannel lossless recognizer certificateGate nonEvidence transport replay
+      provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GroundCompilerEventFlowAuditRouteCarrier eventFlow legalChannel lossless recognizer
+        certificateGate nonEvidence transport replay provenance localName bundle pkg →
+      SemanticNameCert
+          (fun row : BHist => hsame row nonEvidence ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row nonEvidence ∨ hsame row transport ∨ hsame row replay)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle localName pkg)
+          hsame ∧
+        SemanticNameCert
+            (fun row : BHist => hsame row certificateGate ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row eventFlow ∨ hsame row legalChannel ∨ hsame row lossless ∨
+                hsame row recognizer ∨ hsame row certificateGate)
+            (fun row : BHist => UnaryHistory row ∧ PkgSig bundle localName pkg)
+            hsame ∧
+          Cont eventFlow legalChannel lossless ∧ Cont lossless recognizer certificateGate ∧
+            Cont nonEvidence transport replay ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier
+  have nonEvidenceBoundary :=
+    GroundCompilerEventFlowAuditRouteCarrier_non_evidence_boundary
+      (eventFlow := eventFlow) (legalChannel := legalChannel) (lossless := lossless)
+      (recognizer := recognizer) (certificateGate := certificateGate)
+      (nonEvidence := nonEvidence) (transport := transport) (replay := replay)
+      (provenance := provenance) (localName := localName) (bundle := bundle)
+      (pkg := pkg) carrier
+  have gateBoundary :=
+    GroundCompilerEventFlowAuditRouteCarrier_channel_lossless_boundary
+      (eventFlow := eventFlow) (legalChannel := legalChannel) (lossless := lossless)
+      (recognizer := recognizer) (certificateGate := certificateGate)
+      (nonEvidence := nonEvidence) (transport := transport) (replay := replay)
+      (provenance := provenance) (localName := localName) (bundle := bundle)
+      (pkg := pkg) carrier
+  obtain ⟨nonEvidenceCert, nonEvidenceTransportReplay, localNamePkg⟩ := nonEvidenceBoundary
+  obtain ⟨gateCert, eventFlowLegalLossless, losslessRecognizerGate, _localNamePkg⟩ :=
+    gateBoundary
+  exact
+    ⟨nonEvidenceCert, gateCert, eventFlowLegalLossless, losslessRecognizerGate,
+      nonEvidenceTransportReplay, localNamePkg⟩
+
 end BEDC.Derived.GroundCompilerEventFlowAuditRouteUp
