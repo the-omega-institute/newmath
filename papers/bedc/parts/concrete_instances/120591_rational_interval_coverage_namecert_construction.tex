@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\RationalIntervalCoverageUp$}
+\label{ch:concrete-instances-rational-interval-coverage-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RationalIntervalCoverageUp$ packet records coverage of a displayed rational interval by finitely many dyadic subintervals. It sits over the rational endpoint surface of \autoref{ch:concrete-instances-rat-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives the Real and Completion route a named finite coverage carrier for interval arguments, not an open-cover compactness theorem, a quotient interval, host real equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Rational interval coverage carrier]
+\label{def:rational-interval-coverage-carrier}
+A $\RationalIntervalCoverageUp$ carrier is a finite $\BHist$ packet
+$$
+I=(A,B,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\RatUp$ endpoint row for the source closed interval, displaying rational endpoints $a \leq b$.
+\item $B$ is the finite list of rational subinterval rows whose endpoints lie in the source interval and whose successive endpoints meet at displayed rational boundaries.
+\item $D$ is the $\DyadicRatCoreUp$ refinement ledger. It records dyadic radii, midpoint cuts, containment checks, and endpoint slack bounds for every subinterval named by $B$.
+\item $W$ is the finite $\StreamNameUp$ observation schedule bounding which endpoint, midpoint, and containment rows may be inspected by a downstream consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row carrying the displayed rational and dyadic endpoint data toward regular rational names.
+\item $E$ is the $\RealUp$ seal row reached only after $A,B,D,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the rational endpoint, subinterval, dyadic ledger, stream-window, regular-rational, real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an interval-coverage request through $A,B,D,W,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RationalIntervalCoverageUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RationalIntervalCoverageUp}$ row naming exactly this finite interval-coverage packet.
+\end{enumerate}
+The classifier compares accepted packets only through $A,B,D,W,R,E,H,C,P,N$. It has no coordinate for open-cover compactness, quotient intervals, selected real representatives, countable choice, host equality of real endpoints, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Rational interval coverage NameCert obligations]
+\label{thm:rational-interval-coverage-namecert-obligations}
+For every accepted $\RationalIntervalCoverageUp$ carrier $I=(A,B,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\RationalIntervalCoverageUp}$ surface consists exactly of carrier admission for the source rational interval, finite rational subinterval list, dyadic refinement ledger, bounded StreamName observation schedule, RegSeqRat readback, Real seal handoff, componentwise transport, displayed replay, provenance, and local naming. The obligation surface may cite $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ sibling chapters, but it cannot replace the displayed finite rows by open-cover compactness, quotient interval equality, host real equality, countable choice, selected representatives, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rational-interval-coverage-carrier}. The analytic rows visible to the local certificate are exactly the rational endpoint row $A$, the finite subinterval list $B$, the dyadic refinement ledger $D$, the finite observation schedule $W$, the regular-rational readback $R$, and the downstream real seal $E$.
+
+The rational interval is covered only by reading the finite list $B$. For each listed subinterval, the dyadic ledger $D$ supplies the displayed midpoint, containment, overlap, and slack checks needed to compare its endpoints with the source endpoints in $A$.
+
+The rows $W$ and $R$ bound the consumer route. A Real or Completion-facing use must inspect only the scheduled finite endpoint and dyadic rows before the regular rational readback is available.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since none of the excluded principles is a carrier coordinate or a product of these projections, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Rational interval coverage dyadic refinement]
+\label{thm:rational-interval-coverage-dyadic-refinement}
+Let $I=(A,B,D,W,R,E,H,C,P,N)$ be an accepted $\RationalIntervalCoverageUp$ carrier. Every subinterval row in $B$ refines the source rational interval by the finite route
+$$
+A \longmapsto B \longmapsto D \longmapsto W \longmapsto R \longmapsto E,H,C,P,N .
+$$
+In particular, each endpoint comparison used by a downstream Real or Completion consumer is witnessed by a displayed dyadic budget in $D$ before any $\RegSeqRatUp$ or $\RealUp$ seal is read. The route exports no open-cover compactness, quotient interval, selected real representative, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Fix a listed subinterval in $B$. By \autoref{def:rational-interval-coverage-carrier}, its endpoints are rational rows tied to the source endpoint row $A$ and to the dyadic ledger $D$.
+
+Read the dyadic ledger next. The containment and slack entries in $D$ give a finite comparison budget for the left endpoint, the right endpoint, and the shared boundary rows visible in $B$.
+
+The StreamName row $W$ bounds which of these comparisons can be inspected. The RegSeqRat row $R$ then packages exactly the displayed endpoint approximations, and the Real seal $E$ remains downstream of that same finite route.
+
+The structural rows $H,C,P,N$ add no analytic principle beyond transport, replay, provenance, and naming. Thus every refinement claim factors through the displayed dyadic budget and cannot escape to open-cover compactness, quotient intervals, selected representatives, choice, host equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Rational interval coverage Real-completion nonescape]
+\label{thm:rational-interval-coverage-real-completion-nonescape}
+Any Real or Completion-facing use of an accepted $\RationalIntervalCoverageUp$ packet must expose the source rational interval, finite subinterval list, dyadic refinement ledger, bounded observation schedule, and regular-rational readback before reading the terminal $\RealUp$ seal. Consequently the packet is available to compact-interval and completion arguments only as finite dyadic interval-coverage evidence, not as open-cover compactness, quotient interval equality, host real equality, countable choice, selected representatives, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a Real or Completion-facing consumer of $I$. The carrier projection first exposes $A,B,D,W,R$; no real seal can be read before those rows have been displayed.
+
+Apply \autoref{thm:rational-interval-coverage-dyadic-refinement}. Each subinterval comparison reaching the consumer has already passed through the finite dyadic ledger and the bounded StreamName schedule.
+
+The terminal row $E$ is therefore a seal of the displayed regular rational readback, not an independent host real interval. Transport, replay, provenance, and local naming keep that route inside $H,C,P,N$.
+
+Since the packet contains no open-cover object, quotient interval coordinate, selected representative, choice schedule, host equality proof, or ambient completeness row, none of those objects can be exported by a Real or Completion-facing use.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RationalIntervalCoverageUp$ consumer that reaches a RealUp or completion-facing interval conclusion without reading rational endpoint rows, a finite subinterval list, a DyadicRatCore refinement ledger, StreamName windows, and a RegSeqRat readback refutes the carrier surface.}
+
+\independenceWitness{rat, dyadicratcore, streamname, regseqrat, real: $\RationalIntervalCoverageUp$ is not bijective to any listed sibling because it jointly carries a source rational interval, finite subinterval list, dyadic refinement ledger, bounded observation schedule, regular-rational readback, Real seal handoff, transport, replay, provenance, and local naming.}
+
+\closureat{RationalIntervalCoverageUp}{seedStr}
+
+\begin{closurestatus}{\RationalIntervalCoverageUp}
+  \constructivestory{A $\RationalIntervalCoverageUp$ packet is generated from source rational endpoints, a finite rational subinterval list, dyadic midpoint and slack rows, bounded StreamName observations, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:rational-interval-coverage-carrier}, \autoref{thm:rational-interval-coverage-namecert-obligations}, \autoref{thm:rational-interval-coverage-dyadic-refinement}, and \autoref{thm:rational-interval-coverage-real-completion-nonescape} seed the finite dyadic interval-coverage route over $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not claim open-cover compactness, quotient interval equality, host real equality, countable choice, selected real representatives, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite rational subinterval exposure, dyadic refinement exactness, bounded StreamName observation, RegSeqRat readback, Real seal handoff, and nonescape under BEDC.Derived.RationalIntervalCoverageUp.}
+\end{closurestatus}

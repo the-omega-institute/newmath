@@ -238,6 +238,22 @@ Cofinal schedule stability and dyadic tolerance exactness now fix the routed win
 Finally use \autoref{thm:cauchysequence-space-completion-handoff-stability} and \autoref{thm:cauchysequence-space-shared-window-completion-consumer}. The completion handoff remains the displayed $Q$ row, and the shared-window consumer has no path through quotient streams, selected limits, host equality, or ambient completeness. The two completion-facing routes are therefore the same before any $\RealUp$ seal is read.
 \end{proof}
 
+\begin{theorem}[Cauchy sequence space common-window induction]
+\label{thm:cauchy-sequence-space-common-window-induction}
+Let $S=(F,\sigma,W,\epsilon,Q,H,C,P,N)$ be an accepted $\CauchySequenceSpaceUp$ packet. Every accepted completion-facing comparison over $S$ factors through induction on the displayed common-window ledger $W$, preserving the rows $F,\sigma,\epsilon,Q,H,C,P,N$ at each induction step. The induction starts from the empty inspected-window ledger, extends by one displayed common Cauchy window at a time, and replays the comparison only through the stored classifier, transport, and handoff rows.
+
+The resulting route excludes quotient stream equality, selected representatives, host real equality, countable choice, and ambient completeness. Those objects cannot be induction hypotheses because they are not rows of the carrier surface.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:cauchysequence-space-carrier-surface}. The displayed rows available to the induction are exactly $F,\sigma,W,\epsilon,Q,H,C,P,N$.
+
+Induct on the finite common-window ledger $W$. In the base case there is no inspected comparison outside the displayed family and schedule, so the route is the trivial replay through $F,\sigma,H,C,P,N$ before any completion handoff is read.
+
+For the step case, append one displayed common Cauchy window. Use \autoref{thm:cauchysequence-space-common-window-classifier-transport}, \autoref{thm:cauchysequence-space-cofinal-schedule-stability}, and \autoref{thm:cauchysequence-space-dyadic-tolerance-ledger-exactness} to keep the appended window on the same $F,\sigma,\epsilon,H,C,P,N$ rows.
+
+Finally apply \autoref{thm:cauchysequence-space-shared-window-completion-consumer} and \autoref{thm:cauchysequence-space-completion-handoff-stability}. They reassemble the completion-facing route through $Q$ after the finite induction has consumed $W$, and the carrier supplies no coordinate for quotient streams, selected representatives, host equality, countable choice, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[CauchySequenceSpace completion handoff stability]
 \label{thm:cauchysequence-space-completion-handoff-stability}
 Let $S=(F,\sigma,W,\epsilon,Q,H,C,P,N)$ be an accepted $\CauchySequenceSpaceUp$ packet. The completion handoff row $Q$ is invariant under the same displayed $\hsame$ transports $H$ and $\Cont$ routes $C$ that preserve the regular-family row $F$, schedule $\sigma$, common-window ledger $W$, and dyadic tolerance row $\epsilon$. A transported handoff therefore names the same completion-facing finite packet and not a quotient-name comparison, selected limit, host real equality, or ambient completeness assertion.
