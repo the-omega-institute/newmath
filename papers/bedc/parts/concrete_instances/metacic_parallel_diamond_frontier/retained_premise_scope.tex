@@ -15,3 +15,23 @@ Next use the candidate-normalization and local-join boundaries, \autoref{thm:met
 
 Finally apply the retained-premise discharge boundary and obstruction ledger, \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-discharge-boundary} and \autoref{thm:metacic-parallel-diamond-frontier-residual-obstruction-budget}. The closed-checker and obstruction rows remain visible through the structural rows $H,T,G,N$, so no consumer can reread the retained premise as an unconditional closed parallel diamond or any of the refused kernel-level endpoints.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond local retained-premise factorization]
+\label{thm:metacic-parallel-diamond-frontier-local-diamond-retained-premise-factorization}
+Any local diamond read from an accepted $\MetaCICParallelDiamondFrontierUp$ packet that consumes candidate join and residual-frontier rows factors through the retained premise row, critical-pair row, candidate-normalization row, local-join row, closed-checker row, closed-normal fragment row, bounded-check row, obstruction row, and structural rows
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+The factorization is conditional on those displayed rows. It is not full Church--Rosser, subject reduction, evaluator equality, quotient term equality, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Begin with retained-premise scope, \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-scope}. It requires every premise used by the local diamond read to remain one of the displayed carrier rows.
+
+Apply the residual-substitution dependency route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}. The route places the retained premise row $P$ before the critical-pair, candidate join, residual-frontier, closed-checker, and obstruction rows can be consumed.
+
+Use candidate-normalization scope from \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope}. The candidate row $J$ remains inside the same conditional spine rather than becoming an external normalization theorem.
+
+Apply the finite residual-diamond ledger local-join obligations of \autoref{thm:metacic-finite-residual-diamond-ledger-local-join-obligations}. They read the local join, closed checker, closed-normal fragment, bounded-check, and obstruction rows only after the retained premise and residual-frontier data have been displayed.
+
+Finally use the retained-premise discharge boundary of \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-discharge-boundary}. Since the structural rows $H,T,G,N$ only transport, replay, source, and name the same finite packet, the local diamond read cannot be promoted to any refused global metatheorem or kernel endpoint.
+\end{proof}
