@@ -1755,6 +1755,7 @@ import BEDC.Derived.CauchyCompletionMultiplicationUp.NameCertObligations
 import BEDC.Derived.CauchyCompletionMultiplicationUp.ProvenanceExhaustion
 import BEDC.Derived.CauchyCompletionMultiplicationUp.RealSealNonescape
 import BEDC.Derived.CauchyCompletionMultiplicationUp.TasteGate
+import BEDC.Derived.CauchyCompletionOperatorUp.NameCertObligationSurface
 import BEDC.Derived.CauchyCompletionOperatorUp.TasteGate
 import BEDC.Derived.CauchyCompletionOrderEmbeddingUp.TasteGate
 import BEDC.Derived.CauchyCompletionProductPreservationUp.TasteGate
@@ -1915,6 +1916,7 @@ import BEDC.Derived.CauchyDoubleSequenceUp.SealNonEscape
 import BEDC.Derived.CauchyDoubleSequenceUp.TasteGate
 import BEDC.Derived.CauchyEntourageFilterUp.TasteGate
 import BEDC.Derived.CauchyEquivalenceSetoidUp
+import BEDC.Derived.CauchyEquivalenceSetoidUp.ObligationSurface
 import BEDC.Derived.CauchyEquivalenceSetoidUp.RealSealForwardRoute
 import BEDC.Derived.CauchyErrorCertificateUp
 import BEDC.Derived.CauchyEstimateUp
@@ -8392,6 +8394,7 @@ import BEDC.Derived.MinimalTriggerHomologyCoreUp.TasteGate
 import BEDC.Derived.MinimalTriggerLiftBundleUp.TasteGate
 import BEDC.Derived.MinimalTriggerOrbitClassificationUp.TasteGate
 import BEDC.Derived.MinkowskiDimensionUp
+import BEDC.Derived.MinkowskiFunctionalUp.TasteGate
 import BEDC.Derived.MinkowskiInequalityUp.TasteGate
 import BEDC.Derived.MinkowskiRateGeometryUp.Carrier
 import BEDC.Derived.MinkowskiRateGeometryUp.LedgerExactness
