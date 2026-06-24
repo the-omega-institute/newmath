@@ -9405,6 +9405,7 @@ import BEDC.Derived.ProductUniformSpaceUp.TasteGate
 import BEDC.Derived.ProfiniteCompletionUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthGradientLedgerUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthLedgerUp.BridgeBlockerReadback
+import BEDC.Derived.ProgrammeStrengthLedgerUp.FormalTargetRequest
 import BEDC.Derived.ProgrammeStrengthLedgerUp.PublicReportInterface
 import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.ProjectionValuedMeasureUp
@@ -10272,7 +10273,9 @@ import BEDC.Derived.RegularCauchyComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionCounitUp
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.RealSealHandoff
+import BEDC.Derived.RegularCauchyCompletionCriterionUp.ScopeFactorization
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.TasteGate
+import BEDC.Derived.RegularCauchyCompletionCriterionUp.TransportStability
 import BEDC.Derived.RegularCauchyCompletionDensityUp
 import BEDC.Derived.RegularCauchyCompletionEndpointUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionEndpointUp.TasteGate
