@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\ItoIsometryUp$}
+\label{ch:concrete-instances-ito-isometry-namecert}
+\origin{human}
+
+Following Ito's stochastic-integration isometry and standard martingale Hilbert-space treatments, the $\ItoIsometryUp$ packet records the finite $L^2$ stability surface by which simple adapted stochastic-integral rows compare their squared norm ledger with the quadratic-variation ledger of the driving Brownian cell differences. It sits downstream of the finite adapted-step integral route of \autoref{ch:concrete-instances-ito-integral-namecert}, the probability and Brownian rows of \autoref{ch:concrete-instances-probspace-namecert} and \autoref{ch:concrete-instances-brownian-namecert}, the martingale ledger of \autoref{ch:concrete-instances-martingale-namecert}, and the Hilbert and norm-facing rows of \autoref{ch:concrete-instances-hilbert-namecert} and \autoref{ch:concrete-instances-norm-namecert}. The packet names only finite simple-process rows, Brownian cell-difference rows, quadratic-variation comparisons, $L^2$ norm comparisons, transport, replay, provenance, and local naming; it does not build a completed stochastic-integral space.
+
+\begin{definition}[ItoIsometry carrier]
+\label{def:ito-isometry-carrier}
+An $\ItoIsometryUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(\Omega,I,X,B,\Delta,V,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Omega$ is the $\ProbSpaceUp$ source row on which the probability-facing readback is interpreted.
+\item $I$ is the consumed $\ItoIntegralUp$ simple adapted-step integral packet.
+\item $X$ is the finite simple adapted-process row, indexed by the same displayed partition and filtration windows as $I$.
+\item $B$ is the $\BrownianUp$ finite-prefix source row exposing the Brownian cell-difference schedule.
+\item $\Delta$ is the Brownian cell-difference row aligned with the simple-process cells.
+\item $V$ is the quadratic-variation ledger for the displayed Brownian cell differences and step-process coefficients.
+\item $L$ is the $L^2$ norm-comparison row, read through the $\HilbertUp$ and $\NormUp$ sibling surfaces, that compares the finite integral-sum norm ledger with $V$.
+\item $H$ records componentwise $\hsame$ transport for the source, integral, simple-process, Brownian, cell-difference, quadratic-variation, and norm-comparison rows.
+\item $C$ is the displayed $\Cont$ replay row for the same finite packet.
+\item $P$ is the $\Pkg$ provenance over $\ItoIsometryUp$, $\ItoIntegralUp$, $\ProbSpaceUp$, $\BrownianUp$, $\MartingaleUp$, $\HilbertUp$, $\NormUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ItoIsometryUp}$ row.
+\end{enumerate}
+
+The carrier exports no selected refining partition, no almost-sure quotient, no completed $L^2$ space, no ambient stochastic-integral operator, and no measure-completion theorem.
+\end{definition}
+
+\begin{theorem}[ItoIsometry NameCert obligations]
+\label{thm:ito-isometry-namecert-obligations}
+For every accepted $\ItoIsometryUp$ carrier $Q=(\Omega,I,X,B,\Delta,V,L,H,C,P,N)$, the local $\NameCert_{\ItoIsometryUp}$ surface consists exactly of probability-source exposure through $\Omega$, simple-integral exposure through $I$, simple adapted-process exposure through $X$, Brownian source and cell-difference exposure through $B,\Delta$, quadratic-variation ledger exposure through $V$, finite $L^2$ norm-comparison exposure through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ito-isometry-carrier}. The source, integral, simple-process, and Brownian rows are displayed before any norm comparison can be read.
+
+The quadratic-variation row $V$ and norm-comparison row $L$ are tied to the same finite partition and cell-difference schedule. Thus the certificate compares the visible simple integral sum with the visible quadratic-variation ledger, not with a selected completed stochastic integral.
+
+Transport, replay, provenance, and local naming preserve that packet rowwise. Since the carrier has no coordinate for almost-sure quotienting, measure completion, selected refinement, or completed $L^2$ operator theory, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[ItoIsometry finite L2 stability]
+\label{thm:ito-isometry-l2-stability}
+Every accepted $\ItoIsometryUp$ consumer that reads a finite $L^2$ stability claim must preserve the simple adapted-process row $X$, Brownian cell-difference row $\Delta$, quadratic-variation ledger $V$, and norm-comparison row $L$ as one displayed packet over the consumed $\ItoIntegralUp$ row $I$. It cannot replace the finite comparison by a host $L^2$ completion, a selected limiting integral, or a quotient equality of stochastic processes.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:ito-isometry-namecert-obligations}. They make $X,\Delta,V,L$ public only as rows of the same accepted packet over $I$.
+
+The martingale and Hilbert-facing dependencies are provenance rows, not hidden completions. They allow the finite norm comparison to be consumed through the displayed sibling surfaces while keeping the Brownian cell-difference and quadratic-variation ledgers visible.
+
+Therefore a stability read that changes $X$, $\Delta$, $V$, or $L$ leaves the carrier. No completed $L^2$ space, selected limiting integral, or quotient process equality is available from transport, replay, provenance, or local naming.
+\end{proof}
+
+\begin{theorem}[ItoIsometry nonescape]
+\label{thm:ito-isometry-nonescape}
+Every $\ItoIsometryUp$ consumer factors through
+$$
+\Omega,I,X,B,\Delta,V,L,H,C,P,N.
+$$
+In particular, stochastic-integral stability can be consumed only as the finite simple-process and Brownian cell-difference comparison named by the packet; it cannot escape to an ambient probability completion, host Hilbert-space completion, almost-sure quotient, selected refinement sequence, or unlogged martingale theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier inventory. Each accepted packet displays exactly the probability source, ItoIntegral dependency, simple adapted-process row, Brownian source, cell-difference row, quadratic-variation ledger, norm-comparison row, transport, replay, provenance, and local name.
+
+The sibling references to $\ProbSpaceUp$, $\BrownianUp$, $\MartingaleUp$, $\HilbertUp$, and $\NormUp$ are consumed through $P$ and the displayed rows. They do not add a coordinate for completed probability spaces, completed Hilbert spaces, almost-sure quotients, selected refinements, or detached martingale theorems.
+
+Thus any consumer of the isometry surface must preserve the listed finite rows. A read that requires an ambient completion or quotient equality is outside the $\ItoIsometryUp$ packet.
+\end{proof}
+
+\closureat{ItoIsometryUp}{seedStr}
+
+\begin{closurestatus}{\ItoIsometryUp}
+  \constructivestory{An $\ItoIsometryUp$ packet is generated from a ProbSpaceUp source row, consumed ItoIntegralUp simple adapted-step integral row, simple adapted-process row, BrownianUp finite-prefix and cell-difference rows, quadratic-variation ledger, finite L2 norm-comparison row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ito-isometry-carrier}, \autoref{thm:ito-isometry-namecert-obligations}, \autoref{thm:ito-isometry-l2-stability}, and \autoref{thm:ito-isometry-nonescape} seed the finite L2-stability route for simple adapted stochastic-integral rows over ItoIntegralUp, ProbSpaceUp, BrownianUp, MartingaleUp, HilbertUp, NormUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim completed stochastic-integral construction, almost-sure quotients, selected refining partitions, measure completion, host Hilbert-space completion, Lean verification, axiom-clean audit, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, simple adapted-process exposure, Brownian cell-difference exposure, quadratic-variation accounting, finite L2 norm comparison, transport, replay, provenance, and local naming for BEDC.Derived.ItoIsometryUp.}
+\end{closurestatus}
