@@ -253,4 +253,85 @@ theorem CauchyEquivalenceSetoidRealEqualityConsumerRoute [AskSetup] [PackageSetu
   }
   exact ⟨cert, realEqualityUnary⟩
 
+theorem CauchyEquivalenceSetoidSeparatedCompletionForwardLink [AskSetup] [PackageSetup]
+    {s0 s1 r0 r1 dyadic test sealRow transport replay provenance name sealRead
+      completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyEquivalenceSetoidCarrier s0 s1 r0 r1 dyadic test sealRow transport replay
+        provenance name bundle pkg →
+      Cont test sealRow sealRead →
+        Cont sealRead transport completionRead →
+          PkgSig bundle completionRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row s0 ∨ hsame row s1 ∨ hsame row r0 ∨ hsame row r1 ∨
+                    hsame row dyadic ∨ hsame row test ∨ hsame row sealRow ∨
+                      hsame row transport ∨ hsame row replay ∨ hsame row provenance ∨
+                        hsame row name ∨ hsame row completionRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont test sealRow sealRead ∧
+                    Cont sealRead transport completionRead ∧
+                      PkgSig bundle completionRead pkg)
+                hsame ∧
+              UnaryHistory sealRead ∧ UnaryHistory completionRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig SemanticNameCert hsame
+  intro carrier sealRoute completionRoute completionPkg
+  obtain ⟨_s0Unary, _s1Unary, _r0Unary, _r1Unary, _dyadicUnary, testUnary,
+    sealUnary, transportUnary, _replayUnary, _provenanceUnary, _nameUnary,
+    _leftTransport, _rightReplay, _dyadicSeal, _provenancePkg, _namePkg⟩ := carrier
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed testUnary sealUnary sealRoute
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed sealReadUnary transportUnary completionRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row s0 ∨ hsame row s1 ∨ hsame row r0 ∨ hsame row r1 ∨
+              hsame row dyadic ∨ hsame row test ∨ hsame row sealRow ∨
+                hsame row transport ∨ hsame row replay ∨ hsame row provenance ∨
+                  hsame row name ∨ hsame row completionRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont test sealRow sealRead ∧
+              Cont sealRead transport completionRead ∧ PkgSig bundle completionRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro completionRead
+        ⟨hsame_refl completionRead, completionUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, sealRoute, completionRoute, completionPkg⟩
+  }
+  exact ⟨cert, sealReadUnary, completionUnary⟩
+
 end BEDC.Derived.CauchyEquivalenceSetoidUp

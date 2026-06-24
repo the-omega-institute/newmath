@@ -177,4 +177,99 @@ theorem LimsupTailSealScope [AskSetup] [PackageSetup]
   }
   exact ⟨cert, upperUnary, lowerUnary, sealUnary⟩
 
+theorem LimsupTailWindowInductionScope [AskSetup] [PackageSetup]
+    {S U D T H C P N upperRead lowerRead sealRead tailRead endpointRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LimsupCarrier S U D T H C P N bundle pkg →
+      Cont S U upperRead →
+        Cont upperRead D lowerRead →
+          Cont lowerRead T sealRead →
+            Cont sealRead H tailRead →
+              Cont tailRead C endpointRead →
+                PkgSig bundle endpointRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row S ∨ hsame row U ∨ hsame row D ∨ hsame row T ∨
+                          hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                            hsame row upperRead ∨ hsame row lowerRead ∨
+                              hsame row sealRead ∨ hsame row tailRead ∨
+                                hsame row endpointRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont S U upperRead ∧
+                          Cont upperRead D lowerRead ∧ Cont lowerRead T sealRead ∧
+                            Cont sealRead H tailRead ∧ Cont tailRead C endpointRead ∧
+                              PkgSig bundle endpointRead pkg)
+                      hsame ∧
+                    UnaryHistory upperRead ∧ UnaryHistory lowerRead ∧
+                      UnaryHistory sealRead ∧ UnaryHistory tailRead ∧
+                        UnaryHistory endpointRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier upperRoute lowerRoute sealRoute tailRoute endpointRoute endpointPkg
+  obtain ⟨sUnary, uUnary, dUnary, tUnary, hUnary, cUnary, _nUnary,
+    _sourceUpperTransport, _transportLedgerReplay, _provenancePkg, _namePkg⟩ := carrier
+  have upperUnary : UnaryHistory upperRead :=
+    unary_cont_closed sUnary uUnary upperRoute
+  have lowerUnary : UnaryHistory lowerRead :=
+    unary_cont_closed upperUnary dUnary lowerRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed lowerUnary tUnary sealRoute
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed sealUnary hUnary tailRoute
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed tailUnary cUnary endpointRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row U ∨ hsame row D ∨ hsame row T ∨ hsame row H ∨
+              hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row upperRead ∨
+                hsame row lowerRead ∨ hsame row sealRead ∨ hsame row tailRead ∨
+                  hsame row endpointRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S U upperRead ∧ Cont upperRead D lowerRead ∧
+              Cont lowerRead T sealRead ∧ Cont sealRead H tailRead ∧
+                Cont tailRead C endpointRead ∧ PkgSig bundle endpointRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro endpointRead
+        ⟨hsame_refl endpointRead, endpointUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, upperRoute, lowerRoute, sealRoute, tailRoute, endpointRoute,
+          endpointPkg⟩
+  }
+  exact ⟨cert, upperUnary, lowerUnary, sealUnary, tailUnary, endpointUnary⟩
+
 end BEDC.Derived.LimsupUp

@@ -1,0 +1,11 @@
+\begin{theorem}[ParallelDiamondResidual MetaCIC parallel frontier sibling route]
+\label{thm:parallel-diamond-residual-metacic-parallel-frontier-sibling-route}
+Every $\ParallelDiamondResidualUp$ residual-diamond read that consumes \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert} must expose the frontier sibling's retained-premise rows and candidate-normalization rows before the residual packet is treated as a local join route. The read therefore preserves the residual frontier, substitution boundary, local-join ledger, bounded checker, compatibility handoff, obstruction row, transport, replay, provenance, and local name.
+\end{theorem}
+\begin{proof}
+Start with the residual carrier of \autoref{def:parallel-diamond-residual-carrier}. Its rows $P,F,S,L,B,C,O,H,T,G,N$ display the peak, residual frontier, substitution boundary, local-join ledger, bounded checker, compatibility handoff, obstruction row, and structural certificate data.
+
+Read the sibling frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. Its retained-premise and candidate-normalization rows are the upstream data that make a residual-diamond read visible as a conditional MetaCIC frontier consumer.
+
+Finally apply the existing sibling route \autoref{thm:parallel-diamond-residual-metacic-sibling-route} and the frontier obstruction route \autoref{thm:parallel-diamond-residual-frontier-obstruction-route}. Together they keep $F,S,L,B,C,O,H,T,G,N$ displayed before any local join route is exported, so the new sibling edge changes only the dependency lattice and not the residual theorem meaning.
+\end{proof}
