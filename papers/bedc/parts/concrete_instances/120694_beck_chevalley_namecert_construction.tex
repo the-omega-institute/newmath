@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\BeckChevalleyUp$}
+\label{ch:concrete-instances-beck-chevalley-namecert}
+\origin{human}
+
+Following Beck and Chevalley on base-change coherence in categorical logic, the $\BeckChevalleyUp$ packet records the finite NameCert surface by which a pullback square and its adjoint/Kan-extension data are allowed to expose a comparison map. It sits after the categorical carrier of \autoref{ch:concrete-instances-category-namecert}, the functorial transport surface of \autoref{ch:concrete-instances-functor-namecert}, the natural-transformation component surface of \autoref{ch:concrete-instances-nattrans-namecert}, the adjunction ledger of \autoref{ch:concrete-instances-adjunction-namecert}, and the Kan-extension handoff of \autoref{ch:concrete-instances-kan-extension-namecert}. The packet names only the displayed square, adjoint rows, Kan-extension route, comparison 2-cell, transport, replay, provenance, and local NameCert data; it does not assert a host indexed-category theorem, ambient exactness, or quotient equality of functor categories.
+
+\begin{definition}[Beck--Chevalley carrier]
+\label{def:beck-chevalley-carrier}
+A $\BeckChevalleyUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,C,L,R,K,T,H,E,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the source $\CategoryUp$ and target $\CategoryUp$ square row, displaying the four corner categories and the four boundary functors of the pullback-shaped diagram.
+\item $C$ is the $\PullbackUp$ comparison row, recording that the square is consumed only as displayed finite square data.
+\item $L$ records the left-adjoint rows along the two vertical sides, including their unit and counit component ledgers.
+\item $R$ records the right-adjoint rows along the two horizontal sides, including their unit and counit component ledgers.
+\item $K$ is the $\KanExtensionUp$ handoff row, exposing the extension candidate and its universal comparison route only after $A,C,L,R$ have been read.
+\item $T$ is the $\NatTransUp$ comparison 2-cell row between the two boundary composites around the square.
+\item $H$ records componentwise $\hsame$ transport for the square, adjoint rows, Kan-extension handoff, comparison 2-cell, replay, provenance, and local naming rows.
+\item $E$ records displayed $\Cont$ replay through
+$$
+A,C \longmapsto L,R \longmapsto K \longmapsto T \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BeckChevalleyUp$, $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\AdjunctionUp$, $\KanExtensionUp$, $\PullbackUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BeckChevalleyUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose comparison is exhausted by $A,C,L,R,K,T,H,E,P,N$. It has no coordinate for a host pullback theorem, an ambient indexed category, equality of functor categories, selected Kan-extension witnesses, or global exactness.
+\end{definition}
+
+\begin{theorem}[Beck--Chevalley NameCert obligations]
+\label{thm:beck-chevalley-namecert-obligations}
+For every accepted $\BeckChevalleyUp$ carrier $B=(A,C,L,R,K,T,H,E,P,N)$, the local $\NameCert_{\BeckChevalleyUp}$ surface consists exactly of square admission through $A$, pullback-shaped comparison through $C$, left-adjoint exposure through $L$, right-adjoint exposure through $R$, Kan-extension handoff through $K$, comparison 2-cell exposure through $T$, componentwise transport through $H$, displayed replay through $E$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:beck-chevalley-carrier}. The square rows $A,C$ are read before any adjoint or Kan-extension data, so the packet exposes only displayed base-change geometry.
+
+The adjoint rows $L,R$ are then read as finite unit and counit ledgers. They do not create a host adjunction theorem; they only make the two sides of the square available to the later comparison.
+
+Finally $K,T,H,E,P,N$ provide the Kan-extension handoff, comparison 2-cell, transport, replay, provenance, and local naming. Since the carrier contains no coordinate for ambient functor-category equality, selected universal witnesses, or global exactness, no extra NameCert obligation is available outside the listed rows.
+\end{proof}
+
+\begin{theorem}[Beck--Chevalley square route]
+\label{thm:beck-chevalley-square-route}
+Every accepted $\BeckChevalleyUp$ read factors the base-change comparison through the finite route
+$$
+\CategoryUp,\FunctorUp,\PullbackUp \longmapsto \AdjunctionUp \longmapsto \KanExtensionUp \longmapsto \NatTransUp .
+$$
+Thus a consumer may read the comparison 2-cell only after the square, adjoint rows, and Kan-extension handoff have been displayed, and only as a local NameCert route over $A,C,L,R,K,T,H,E,P,N$.
+\end{theorem}
+\begin{proof}
+Start from the carrier rows $A$ and $C$. They display the four corners, boundary functors, and pullback-shaped square data before any comparison 2-cell can be consumed.
+
+Next read the adjoint and Kan-extension rows. The rows $L$ and $R$ expose the unit and counit ledgers needed by the base-change route, while $K$ makes the extension handoff available only downstream of those rows.
+
+The comparison 2-cell row $T$ is therefore a terminal local read of the displayed route. The structural rows $H,E,P,N$ only transport, replay, source, and name that same finite packet, so the route remains inside BEDC certificate data and does not import an ambient Beck--Chevalley theorem.
+\end{proof}
+
+\closureat{BeckChevalleyUp}{seedStr}
+
+\begin{closurestatus}{\BeckChevalleyUp}
+  \constructivestory{A $\BeckChevalleyUp$ packet is generated from displayed category and functor square rows, a pullback-shaped comparison row, left and right adjoint ledgers, a Kan-extension handoff, a comparison 2-cell, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:beck-chevalley-carrier}, \autoref{thm:beck-chevalley-namecert-obligations}, and \autoref{thm:beck-chevalley-square-route} seed the finite base-change comparison surface over $A,C,L,R,K,T,H,E,P,N$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host indexed-category semantics, ambient exactness, equality of functor categories, selected Kan-extension witnesses, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked square admission, pullback-shaped comparison, adjoint exposure, Kan-extension handoff, comparison 2-cell exposure, transport, replay, provenance, and local naming for BEDC.Derived.BeckChevalleyUp.}
+\end{closurestatus}
