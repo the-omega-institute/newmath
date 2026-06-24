@@ -303,6 +303,24 @@ Use blocker-preserving positive projection and candidate-normalization handoff, 
 Finally apply transport obstruction and discharge projection, \autoref{thm:metacic-audit-synthesis-transport-obstruction} and \autoref{thm:metacic-audit-synthesis-discharge-projection}. The discharge-obligation ledger remains the named boundary for the missing subject-reduction edge, so a candidate-normalization or confluence row cannot be repacked as a residual join unless the entire blocker-preserving packet is exposed.
 \end{proof}
 
+\begin{theorem}[MetaCIC audit synthesis public frontier export]
+\label{thm:metacic-audit-synthesis-public-frontier-export}
+Every public frontier consumer that reads candidate normalization, residual-diamond handoff, or closed-normal assembly through an accepted $\MetaCICAuditSynthesisPacketUp$ packet
+$$
+M=(S,C,N,U,D,A,B,H,R,P,L)
+$$
+must keep the subject-reduction row $S$, blocker row $B$, discharge-obligation ledger, and structural rows $H,R,P,L$ visible. The export may expose candidate-mediated frontier data from $N$, residual-diamond data from $C$, and closed-normal assembly data from $A$, but it cannot repack those reads as subject reduction, full Church--Rosser, evaluator equality, quotient syntax equality, global conversion decidability, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the public transport gate, \autoref{thm:metacic-audit-synthesis-public-transport-gate}. It already requires any public positive-row projection to carry $S,B,H,R,P,L$ with the projected row.
+
+Use candidate-normalization handoff and residual-diamond handoff, \autoref{thm:metacic-audit-synthesis-candidate-normalization-handoff} and \autoref{thm:metacic-audit-synthesis-residual-diamond-handoff}. These identify the frontier reads through $N$ and $C$ as blocker-preserving data rather than as a completed confluence or normalization export.
+
+Apply transport obstruction and discharge projection, \autoref{thm:metacic-audit-synthesis-transport-obstruction} and \autoref{thm:metacic-audit-synthesis-discharge-projection}. The discharge-obligation ledger remains visible across the missing subject-reduction edge, so the closed-normal assembly row $A$ cannot hide the blocker.
+
+Therefore the public frontier export is exactly a public read of $N,C,A$ with $S,B,H,R,P,L$ and the ledger still displayed. Any request for the excluded MetaCIC endpoints leaves the accepted packet surface.
+\end{proof}
+
 \begin{theorem}[MetaCIC audit synthesis scoped closure]
 \label{thm:metacic-audit-synthesis-scope-closure}
 For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier

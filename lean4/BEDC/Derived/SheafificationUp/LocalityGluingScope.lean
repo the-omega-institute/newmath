@@ -32,7 +32,7 @@ theorem SheafificationLocalityGluingScope [AskSetup] [PackageSetup]
   intro carrier coverRoute restrictionRoute localityRoute gluingRoute sheafRoute sheafPkg
   obtain
     ⟨CUnary, TUnary, JUnary, PUnary, _LUnary, GUnary, SUnary, _HUnary, _RUnary,
-      _QUnary, _NUnary, namePkg⟩ := carrier
+      _QUnary, _NUnary, _qPkg, namePkg⟩ := carrier
   have coverUnary : UnaryHistory coverWindow :=
     unary_cont_closed CUnary TUnary coverRoute
   have restrictionUnary : UnaryHistory restrictionRead :=
