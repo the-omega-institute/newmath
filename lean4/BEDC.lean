@@ -10117,6 +10117,7 @@ import BEDC.Derived.RegularCauchyAffineCombinationUp.Stability
 import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
 import BEDC.Derived.RegularCauchyAlgebraCoherenceUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.BridgeScope
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.BridgeSurface
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.CofinalWindowRefinement
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.FieldHandoff
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.L10ScopeBinding
