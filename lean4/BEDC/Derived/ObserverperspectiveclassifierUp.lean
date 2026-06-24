@@ -527,4 +527,64 @@ theorem ObserverPerspectiveClassifierNameCertLedgerScope [AskSetup] [PackageSetu
         exact ⟨sourceRow.right, gapRouteScoped, provenancePkg, namePkg, scopedReadPkg⟩ }
   exact ⟨cert, scopedReadUnary⟩
 
+theorem ObserverPerspectiveClassifierCarrierTransport [AskSetup] [PackageSetup]
+    {observerLeft observerRight universeLeft universeRight locality gap transport route
+      provenance name observerLeft' observerRight' universeLeft' universeRight' locality' gap'
+      transport' route' provenance' name' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverPerspectiveClassifierCarrier observerLeft observerRight universeLeft universeRight
+        locality gap transport route provenance name bundle pkg →
+      hsame observerLeft' observerLeft →
+        hsame observerRight' observerRight →
+          hsame universeLeft' universeLeft →
+            hsame universeRight' universeRight →
+              hsame locality' locality →
+                hsame gap' gap →
+                  hsame transport' transport →
+                    hsame route' route →
+                      hsame provenance' provenance →
+                        hsame name' name →
+                          Cont observerLeft' observerRight' universeLeft' →
+                            Cont universeLeft' universeRight' locality' →
+                              Cont locality' gap' transport' →
+                                Cont transport' route' gap' →
+                                  PkgSig bundle provenance' pkg →
+                                    PkgSig bundle name' pkg →
+                                      ObserverPerspectiveClassifierCarrier observerLeft'
+                                        observerRight' universeLeft' universeRight' locality' gap'
+                                        transport' route' provenance' name' bundle pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro carrier sameObserverLeft sameObserverRight sameUniverseLeft sameUniverseRight
+    sameLocality sameGap sameTransport sameRoute sameProvenance sameName observerUniverse
+    universeLocality localityTransport transportGap provenancePkg namePkg
+  obtain ⟨observerLeftUnary, observerRightUnary, universeLeftUnary, universeRightUnary,
+    localityUnary, gapUnary, transportUnary, routeUnary, provenanceUnary, nameUnary,
+    _oldObserverUniverse, _oldUniverseLocality, _oldLocalityTransport, _oldTransportGap,
+    _oldProvenancePkg, _oldNamePkg⟩ := carrier
+  have observerLeftUnary' : UnaryHistory observerLeft' :=
+    unary_transport_symm observerLeftUnary sameObserverLeft
+  have observerRightUnary' : UnaryHistory observerRight' :=
+    unary_transport_symm observerRightUnary sameObserverRight
+  have universeLeftUnary' : UnaryHistory universeLeft' :=
+    unary_transport_symm universeLeftUnary sameUniverseLeft
+  have universeRightUnary' : UnaryHistory universeRight' :=
+    unary_transport_symm universeRightUnary sameUniverseRight
+  have localityUnary' : UnaryHistory locality' :=
+    unary_transport_symm localityUnary sameLocality
+  have gapUnary' : UnaryHistory gap' :=
+    unary_transport_symm gapUnary sameGap
+  have transportUnary' : UnaryHistory transport' :=
+    unary_transport_symm transportUnary sameTransport
+  have routeUnary' : UnaryHistory route' :=
+    unary_transport_symm routeUnary sameRoute
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport_symm provenanceUnary sameProvenance
+  have nameUnary' : UnaryHistory name' :=
+    unary_transport_symm nameUnary sameName
+  exact
+    ⟨observerLeftUnary', observerRightUnary', universeLeftUnary', universeRightUnary',
+      localityUnary', gapUnary', transportUnary', routeUnary', provenanceUnary', nameUnary',
+      observerUniverse, universeLocality, localityTransport, transportGap, provenancePkg,
+      namePkg⟩
+
 end BEDC.Derived.ObserverperspectiveclassifierUp
