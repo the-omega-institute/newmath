@@ -222,4 +222,105 @@ theorem CauchyCompletionOperatorObligationWindowRoute [AskSetup] [PackageSetup]
       boundaryReadUnary, finiteUnary, separatedReadUnary, sealUnary, metricUniformBoundary,
       boundaryWindow, dyadicSeparated, separatedSeal, sealPkg⟩
 
+theorem CauchyCompletionOperatorScopedObligationClosure [AskSetup] [PackageSetup]
+    {M B U S R D Q E H C P N boundaryRead finiteWindow separatedRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionOperatorLedgerPacket M B U S R D Q E H C P N bundle pkg ->
+      Cont M U boundaryRead ->
+        Cont B S finiteWindow ->
+          Cont finiteWindow R D ->
+            Cont D Q separatedRead ->
+              Cont separatedRead E sealRead ->
+                PkgSig bundle P pkg ->
+                  PkgSig bundle N pkg ->
+                    SemanticNameCert
+                        (fun row : BHist => hsame row N ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row M ∨ hsame row B ∨ hsame row U ∨ hsame row S ∨
+                            hsame row R ∨ hsame row D ∨ hsame row Q ∨ hsame row E ∨
+                              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                                hsame row boundaryRead ∨ hsame row finiteWindow ∨
+                                  hsame row separatedRead ∨ hsame row sealRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont M U boundaryRead ∧
+                            Cont B S finiteWindow ∧ Cont finiteWindow R D ∧
+                              Cont D Q separatedRead ∧ Cont separatedRead E sealRead ∧
+                                PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                        hsame ∧
+                      UnaryHistory boundaryRead ∧ UnaryHistory finiteWindow ∧
+                        UnaryHistory separatedRead ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro packet metricUniformBoundary boundaryWindow finiteRegular
+    dyadicSeparated separatedSeal provenancePkg namePkg
+  obtain ⟨metricUnary, boundaryUnary, uniformUnary, streamUnary, regularUnary,
+    dyadicUnary, separatedUnary, realSealUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, nameUnary, _streamRegularDyadic, _dyadicSeparatedReal,
+    _provenancePkg, _namePkg⟩ := packet
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed metricUnary uniformUnary metricUniformBoundary
+  have finiteUnary : UnaryHistory finiteWindow :=
+    unary_cont_closed boundaryUnary streamUnary boundaryWindow
+  have dyadicFromFiniteUnary : UnaryHistory D :=
+    unary_cont_closed finiteUnary regularUnary finiteRegular
+  have separatedReadUnary : UnaryHistory separatedRead :=
+    unary_cont_closed dyadicUnary separatedUnary dyadicSeparated
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed separatedReadUnary realSealUnary separatedSeal
+  have sourceName :
+      (fun row : BHist => hsame row N ∧ UnaryHistory row) N := by
+    exact ⟨hsame_refl N, nameUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row N ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row B ∨ hsame row U ∨ hsame row S ∨
+              hsame row R ∨ hsame row D ∨ hsame row Q ∨ hsame row E ∨
+                hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                  hsame row boundaryRead ∨ hsame row finiteWindow ∨
+                    hsame row separatedRead ∨ hsame row sealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont M U boundaryRead ∧ Cont B S finiteWindow ∧
+              Cont finiteWindow R D ∧ Cont D Q separatedRead ∧
+                Cont separatedRead E sealRead ∧ PkgSig bundle P pkg ∧
+                  PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro N sourceName
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      exact Or.inl sourceRow.left
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, metricUniformBoundary, boundaryWindow, finiteRegular,
+          dyadicSeparated, separatedSeal, provenancePkg, namePkg⟩
+  }
+  exact ⟨cert, boundaryReadUnary, finiteUnary, separatedReadUnary, sealUnary⟩
+
 end BEDC.Derived.CauchyCompletionOperatorUp
