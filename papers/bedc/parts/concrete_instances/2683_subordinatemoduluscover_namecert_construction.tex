@@ -158,6 +158,46 @@ Apply \autoref{thm:subordinate-modulus-cover-namecert-obligations}. Its TasteGat
 The handoff remains finite by \autoref{thm:subordinate-modulus-cover-ledger-handoff-obligation}. The comparison is consumed as part of the subordinate-cover ledger before the $\UniformModulusUp$ lower-bound fold, so no host minimum, external radius selector, or fold output is introduced here.
 \end{proof}
 
+\begin{theorem}[SubordinateModulusCover carrier admission]
+\label{thm:subordinate-modulus-cover-carrier-admission}
+Carrier admission for $\SubordinateModulusCoverUp$ is exactly the displayed packet
+$$
+S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N).
+$$
+It consumes the $\CompactUp$, $\ContinuousMapUp$, $\MetricUp$, $\RatUp$, $\mathsf{ProbeBundle}$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows shown in \autoref{def:subordinate-modulus-cover-carrier}, and it admits no host open cover, external selector, host minimum, or uniform-modulus fold output.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The listed packet contains the tolerance row, nonempty probe bundle, centers, subordinate radii, pointwise precision rows, pointwise-modulus row, half-radius coverage row, rational comparison ledger, transport, replay, provenance, and local naming.
+
+Apply the NameCert obligations of \autoref{thm:subordinate-modulus-cover-namecert-obligations}. They bind carrier admission, classifier stability, coverage exactness, pointwise compatibility, rational subordination exactness, and consumer non-escape to that same packet.
+
+Use compact coverage exactness, pointwise compatibility, rational subordination exactness, and the uniform handoff theorem. These results account for every analytic row needed by the L10 compact-uniform route, so admission is exhausted by $S$ and cannot come from any host object outside the displayed carrier.
+\end{proof}
+
+\begin{theorem}[SubordinateModulusCover radius stability]
+\label{thm:subordinate-modulus-cover-radius-stability}
+Transport through the $\hsame$ ledger $L$ preserves the subordinate radius rows $R$, pointwise precision rows $D$, half-radius coverage rows $H$, and rational comparison rows $F$ without changing the $\mathsf{ProbeBundle}$ spine $\mathcal{P}$. Thus a transported $\SubordinateModulusCoverUp$ packet presents the same finite subordinate bundle to every $\UniformModulusUp$ consumer.
+\end{theorem}
+\begin{proof}
+Read the transport coordinate $L$ from \autoref{def:subordinate-modulus-cover-carrier}. It is componentwise over the tolerance, bundle, centers, radius histories, precision histories, pointwise rows, coverage rows, and rational comparison rows.
+
+Apply the NameCert obligations and the classifier stability obligation. They restrict transport to the displayed rows and preserve the continuation routes $Q$ through which compact and continuous consumers read the packet.
+
+Now use compact coverage exactness, pointwise compatibility, rational subordination exactness, and the uniform handoff theorem. Since the bundle spine $\mathcal{P}$ remains the same displayed spine and the rows $R,D,H,F$ are transported componentwise, the handoff ledger remains stable without introducing a new bundle, host minimum, or fold output.
+\end{proof}
+
+\begin{theorem}[SubordinateModulusCover ledger exactness]
+\label{thm:subordinate-modulus-cover-ledger-exactness}
+The handoff ledger exposed from an accepted $\SubordinateModulusCoverUp$ packet to $\UniformModulusUp$ is exhausted by the finite bundle $\mathcal{P}$, bundled centers $C$, subordinate radii $R$, pointwise precision rows $D$, half-radius coverage rows $H$, and rational comparison rows $F$, together with the displayed transport, replay, provenance, and local naming rows. It contains no host minimum, no external radius selector, and no fold output.
+\end{theorem}
+\begin{proof}
+Project the handoff rows from \autoref{def:subordinate-modulus-cover-carrier}. The compact side is $\mathcal{P},C,H$, the pointwise side is $D,M$, and the rational subordination side is $R,F$.
+
+Apply the NameCert obligations, compact coverage exactness, pointwise compatibility, and rational subordination exactness. These theorems attach each ledger row to the same accepted packet and prevent any read from bypassing $L,Q,P,N$.
+
+Finally use the uniform handoff theorem and the carrier admission theorem above. The $\UniformModulusUp$ consumer receives precisely the finite subordinate-cover input ledger before the lower-bound fold, while the fold result and any host minimum remain outside the packet.
+\end{proof}
+
 \closureat{SubordinateModulusCoverUp}{seedStr}
 
 \begin{closurestatus}{\SubordinateModulusCoverUp}
