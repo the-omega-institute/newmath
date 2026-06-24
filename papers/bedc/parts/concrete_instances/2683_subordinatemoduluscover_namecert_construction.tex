@@ -262,6 +262,24 @@ Use \autoref{thm:subordinate-modulus-cover-compact-coverage-exactness}, \autoref
 Finally apply \autoref{thm:subordinate-modulus-cover-uniform-handoff} and \autoref{thm:subordinate-modulus-cover-choice-free-handoff}. The $\UniformModulusUp$ consumer receives the finite subordinate-cover ledger before the lower-bound fold is read, so the scope contains neither a host compact minimum nor an open-cover selector nor a completed uniform precision row.
 \end{proof}
 
+\begin{theorem}[SubordinateModulusCover obligation-closure route]
+\label{thm:subordinate-modulus-cover-obligation-closure-route}
+The displayed carrier, TasteGate single-carrier alignment, carrier admission, classifier stability, compact coverage exactness, pointwise compatibility, rational subordination exactness, ledger exactness, choice-free handoff, and finite-selection scope form the obligation surface for $\SubordinateModulusCoverUp$. These rows remain on the single carrier
+$$
+S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N),
+$$
+and they expose no host compact minimum, open-cover selector, external modulus choice, completed uniform precision, or carrier outside the packet.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:subordinate-modulus-cover-carrier} and the TasteGate row of \autoref{thm:subordinate-modulus-cover-namecert-obligations}. Together they bind the tolerance, nonempty probe bundle, centers, subordinate radii, pointwise precision rows, pointwise-modulus row, half-radius coverage row, rational comparison ledger, transport, replay, provenance, and local naming to the same packet $S$.
+
+Use carrier admission and classifier stability from \autoref{thm:subordinate-modulus-cover-carrier-admission} and \autoref{thm:subordinate-modulus-cover-classifier-stability-obligation}. These results keep accepted reads and transported reads on the displayed carrier and prevent a consumer from replacing $S$ by an external compact or modulus object.
+
+Apply compact coverage exactness, pointwise compatibility, and rational subordination exactness. The theorems \autoref{thm:subordinate-modulus-cover-compact-coverage-exactness}, \autoref{thm:subordinate-modulus-cover-pointwise-compatibility}, and \autoref{thm:subordinate-modulus-cover-rational-subordination-exactness} account for the coverage, pointwise-modulus, and radius-comparison rows without leaving the packet.
+
+Finally combine ledger exactness, choice-free handoff, and finite-selection scope from \autoref{thm:subordinate-modulus-cover-ledger-exactness}, \autoref{thm:subordinate-modulus-cover-choice-free-handoff}, and \autoref{thm:subordinate-modulus-cover-finite-selection-scope}. The $\UniformModulusUp$ consumer receives exactly the finite subordinate-cover ledger before the fold output, so the named rows form the obligation-closure route and no hidden selection or completed uniform precision is exported.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\SubordinateModulusCoverUp$ consumer reaches $\UniformModulusUp$ only after displaying compact coverage, continuousmap pointwise-modulus rows, metric radius rows, rat comparison rows, rational subordination, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming.}
 
 \independenceWitness{compact, continuousmap, metric, rat, uniformmodulus: no listed sibling is bijective to $\SubordinateModulusCoverUp$ because this packet jointly carries a nonempty probe bundle, bundled centers, subordinate radius rows, pointwise precision rows, half-radius coverage, rational comparison, transport, replay, provenance, and local naming before the uniform-modulus fold.}
@@ -270,7 +288,7 @@ Finally apply \autoref{thm:subordinate-modulus-cover-uniform-handoff} and \autor
 
 \begin{closurestatus}{\SubordinateModulusCoverUp}
   \constructivestory{A $\SubordinateModulusCoverUp$ packet is generated from a positive tolerance row, a nonempty $\mathsf{ProbeBundle}$ spine, bundled centers, subordinate positive-radius rows, pointwise-modulus precision rows, half-radius coverage rows, rational comparison ledgers, transport rows, continuation routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:subordinate-modulus-cover-carrier}, \autoref{thm:subordinate-modulus-cover-namecert-obligations}, \autoref{thm:subordinate-modulus-cover-compact-coverage-exactness}, \autoref{thm:subordinate-modulus-cover-pointwise-compatibility}, \autoref{thm:subordinate-modulus-cover-rational-subordination-exactness}, and \autoref{thm:subordinate-modulus-cover-uniform-handoff} register the finite subordinate cover used before the compact-uniform-continuity rational lower-bound fold.}
   \formalstatus{\formalTargetV}
   \bridgestatus{none}
