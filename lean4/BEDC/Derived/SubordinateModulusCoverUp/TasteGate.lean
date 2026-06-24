@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SubordinateModulusCoverUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -279,6 +291,19 @@ instance subordinateModulusCoverFieldFaithful : FieldFaithful SubordinateModulus
             subst hnameCert
             rfl
 
+instance subordinateModulusCoverNontrivial : Nontrivial SubordinateModulusCoverUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨SubordinateModulusCoverUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      SubordinateModulusCoverUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem SubordinateModulusCoverTasteGate_single_carrier_alignment :
     (∀ h : BHist, subordinateModulusCoverDecodeBHist
       (subordinateModulusCoverEncodeBHist h) = h) ∧
@@ -315,6 +340,83 @@ theorem SubordinateModulusCoverCarrierObligation {x : SubordinateModulusCoverUp}
             (SubordinateModulusCoverUp.mk tolerance bundle centers radii precision pointwise
               coverage comparisons transport routes provenance nameCert),
           rfl⟩
+
+def SubordinateModulusCoverCarrier [AskSetup] [PackageSetup]
+    (E bundleSpine centers radii precision pointwise coverage comparisons transport route
+      provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  UnaryHistory E ∧ UnaryHistory bundleSpine ∧ UnaryHistory centers ∧
+    UnaryHistory radii ∧ UnaryHistory precision ∧ UnaryHistory pointwise ∧
+      UnaryHistory coverage ∧ UnaryHistory comparisons ∧ UnaryHistory transport ∧
+        UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+          Cont bundleSpine centers coverage ∧ Cont radii precision comparisons ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg
+
+theorem SubordinateModulusCoverLedgerHandoffObligation [AskSetup] [PackageSetup]
+    {E bundleSpine centers radii precision pointwise coverage comparisons transport route
+      provenance name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubordinateModulusCoverCarrier E bundleSpine centers radii precision pointwise coverage
+      comparisons transport route provenance name bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist => hsame row name ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row E ∨ hsame row bundleSpine ∨ hsame row centers ∨ hsame row radii ∨
+              hsame row precision ∨ hsame row pointwise ∨ hsame row coverage ∨
+                hsame row comparisons ∨ hsame row transport ∨ hsame row route ∨
+                  hsame row provenance ∨ hsame row name)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont bundleSpine centers coverage ∧
+              Cont radii precision comparisons ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle name pkg)
+          hsame ∧ UnaryHistory coverage ∧ UnaryHistory comparisons := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier
+  obtain ⟨_eUnary, _bundleUnary, _centersUnary, _radiiUnary, _precisionUnary,
+    _pointwiseUnary, coverageUnary, comparisonsUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, nameUnary, coverageRoute, comparisonRoute, provenancePkg, namePkg⟩ :=
+    carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row name ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row E ∨ hsame row bundleSpine ∨ hsame row centers ∨ hsame row radii ∨
+              hsame row precision ∨ hsame row pointwise ∨ hsame row coverage ∨
+                hsame row comparisons ∨ hsame row transport ∨ hsame row route ∨
+                  hsame row provenance ∨ hsame row name)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont bundleSpine centers coverage ∧
+              Cont radii precision comparisons ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle name pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro name ⟨hsame_refl name, nameUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+          Or.inr <| Or.inr <| Or.inr <| Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, coverageRoute, comparisonRoute, provenancePkg, namePkg⟩
+  }
+  exact ⟨cert, coverageUnary, comparisonsUnary⟩
 
 theorem SubordinateModulusCoverUniformHandoff
     {tolerance bundle centers radii precision pointwise coverage comparisons transport routes
