@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\FreudenthalSuspensionUp$}
+\label{ch:concrete-instances-freudenthal-suspension-namecert}
+\origin{human}
+
+Following Freudenthal and Hatcher on suspension and stable homotopy, the $\FreudenthalSuspensionUp$ packet records the finite route by which a pointed homotopy object is suspended and handed to a stable-range connectivity consumer. It sits after the $\HomotopyUp$ deformation surface of \autoref{ch:concrete-instances-homotopy-namecert}, the $\SimplicialSetUp$ face-and-degeneracy ledger of \autoref{ch:concrete-instances-simplicialset-namecert}, the $\HomologyUp$ chain-read surface of \autoref{ch:concrete-instances-homology-namecert}, and the S1Up circle certificate of \autoref{ch:concrete-instances-s1-namecert}. The chapter names suspension cones, equator gluing, basepoint transport, homology-window, connectivity-handoff, replay, provenance, and local naming rows; it does not import a host suspension space, quotient topology, selected homotopy representatives, stable homotopy groups, or Freudenthal's theorem as an ambient oracle.
+
+\begin{definition}[FreudenthalSuspension carrier]
+\label{def:freudenthal-suspension-carrier}
+A $\FreudenthalSuspensionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,S_-,S_+,E,G,H_*,K,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the pointed source row, read through $\HomotopyUp$ and carrying only the displayed basepoint and deformation ledgers needed by the suspension read.
+\item $S_-$ and $S_+$ are the two cone rows. Each cone row records finite face, degeneracy, and endpoint data through $\SimplicialSetUp$ rather than through a quotient topological suspension.
+\item $E$ is the equator row, read through the S1Up circle certificate and the source basepoint ledger.
+\item $G$ is the gluing ledger that identifies the two cone boundaries along $E$ by displayed $\hsame$ data.
+\item $H_*$ is the finite $\HomologyUp$ read window used by the stable-range consumer.
+\item $K$ is the connectivity handoff row. It records only the displayed stable-range obligation surface, not a selected homotopy group element or a host Freudenthal isomorphism.
+\item $T$ records componentwise $\hsame$ transport for the source, cones, equator, gluing, homology window, connectivity handoff, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from a suspension query through $X,S_-,S_+,E,G,H_*,K,T$.
+\item $P$ is the $\Pkg$ provenance over $\FreudenthalSuspensionUp$, $\HomotopyUp$, $\SimplicialSetUp$, $\HomologyUp$, S1Up, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FreudenthalSuspensionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a quotient suspension, a selected homotopy class, an ambient stable homotopy group, a classical connectivity theorem, open-cover compactness, or choice-selected cellular approximation.
+\end{definition}
+
+\begin{theorem}[FreudenthalSuspension NameCert obligations]
+\label{thm:freudenthal-suspension-namecert-obligations}
+For every accepted $\FreudenthalSuspensionUp$ carrier $F=(X,S_-,S_+,E,G,H_*,K,T,R,P,N)$, the local $\NameCert_{\FreudenthalSuspensionUp}$ surface consists exactly of source admission, two displayed cone admissions, equator admission through S1Up, cone-boundary gluing, finite homology-window readback, stable-range connectivity handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A downstream suspension consumer must read $X,S_-,S_+,E,G$ before the homology window $H_*$ is public and must read $H_*$ before the connectivity handoff $K$ is public.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:freudenthal-suspension-carrier}. The source row $X$ supplies only displayed homotopy data, while $S_-$ and $S_+$ supply the two finite simplicial cone ledgers.
+
+The equator row $E$ is read through S1Up before the gluing ledger $G$ is exposed. Thus the suspension boundary is a displayed cone-equator-cone route rather than a quotient-space construction.
+
+The homology window $H_*$ can be inspected only after the source, cone, equator, and gluing rows have been replayed. The connectivity handoff $K$ is then a finite stable-range obligation row over that homology window, not an ambient stable homotopy theorem.
+
+Transport through $T$, replay through $R$, provenance through $P$, and local naming through $N$ preserve exactly these rows. Since the carrier stores no quotient suspension, selected homotopy class, host homotopy group, or classical connectivity theorem, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[FreudenthalSuspension connectivity handoff]
+\label{thm:freudenthal-suspension-connectivity-handoff}
+Every accepted $\FreudenthalSuspensionUp$ connectivity consumer reaches its stable-range handoff only after the displayed $\HomotopyUp$ source row, the two $\SimplicialSetUp$ cone rows, the S1Up equator row, the cone-boundary gluing ledger, and the finite $\HomologyUp$ read window have been exposed. Consequently the handoff exports a local NameCert obligation surface for suspension connectivity, not a proof of Freudenthal's suspension theorem, a selected homotopy class, a quotient suspension space, or a completed stable homotopy group.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:freudenthal-suspension-namecert-obligations}. It places $X,S_-,S_+,E,G,H_*,K,T,R,P,N$ in the only accepted order available to the packet.
+
+The homotopy, simplicial, circle, and homology siblings are therefore visible before $K$ can be consumed. Each sibling contributes a displayed row: deformation data from $\HomotopyUp$, face and degeneracy data from $\SimplicialSetUp$, equator data from S1Up, and the finite chain-read window from $\HomologyUp$.
+
+Finally the structural rows $T,R,P,N$ preserve that route under transport, replay, provenance, and local naming. With no carrier coordinate for quotient suspension spaces, selected homotopy classes, stable homotopy groups, or classical connectivity oracles, the connectivity handoff remains a finite BEDC obligation surface.
+\end{proof}
+
+\closureat{FreudenthalSuspensionUp}{seedStr}
+
+\begin{closurestatus}{\FreudenthalSuspensionUp}
+  \constructivestory{A $\FreudenthalSuspensionUp$ packet is generated from a pointed HomotopyUp source row, two SimplicialSetUp cone rows, an S1Up equator row, a cone-boundary gluing ledger, a HomologyUp read window, a stable-range connectivity handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:freudenthal-suspension-carrier}, \autoref{thm:freudenthal-suspension-namecert-obligations}, and \autoref{thm:freudenthal-suspension-connectivity-handoff} seed the Freudenthal suspension packet over Homotopy, SimplicialSet, Homology, S1, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Freudenthal's suspension theorem, quotient suspension topology, selected homotopy classes, stable homotopy groups, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source admission, cone admission, equator gluing, homology-window readback, connectivity handoff, transport, replay, provenance, and local naming for BEDC.Derived.FreudenthalSuspensionUp.}
+\end{closurestatus}
