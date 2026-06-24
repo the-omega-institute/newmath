@@ -422,4 +422,49 @@ theorem DimLiftBoundaryNonEscape {Z N A F R H C P Q consumerRead refusalRead : B
       exact ⟨refusalRoute, consumerRoute⟩
   · exact Nonempty.intro (DimLiftBoundaryUp.mk Z N A F R H C P Q)
 
+theorem DimLiftBoundaryAxisRefusalObligations
+    {Z N A F R H C P Q axisRead refusalRead : BHist} :
+    Cont Z N axisRead →
+      Cont A R refusalRead →
+        hsame axisRead refusalRead →
+          SemanticNameCert
+              (fun row : BHist => hsame row axisRead)
+              (fun row : BHist =>
+                hsame row Z ∨ hsame row N ∨ hsame row A ∨ hsame row F ∨
+                  hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row Q ∨
+                    hsame row refusalRead ∨ hsame row axisRead)
+              (fun _row : BHist => Cont Z N axisRead ∧ Cont A R refusalRead)
+              hsame ∧
+            Nonempty DimLiftBoundaryUp := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert DimLiftBoundaryUp
+  intro axisRoute refusalRoute sameBoundary
+  constructor
+  · constructor
+    · constructor
+      · exact Exists.intro axisRead (hsame_refl axisRead)
+      · intro row _source
+        exact hsame_refl row
+      · intro _row _other sameRows
+        exact hsame_symm sameRows
+      · intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    · intro _row source
+      have _refusalSame : hsame _row refusalRead :=
+        hsame_trans source sameBoundary
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      exact source
+    · intro _row _source
+      exact ⟨axisRoute, refusalRoute⟩
+  · exact Nonempty.intro (DimLiftBoundaryUp.mk Z N A F R H C P Q)
+
 end BEDC.Derived.DimLiftBoundaryUp
