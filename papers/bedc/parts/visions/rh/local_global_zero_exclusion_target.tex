@@ -1,0 +1,191 @@
+\chapter{Local--Global Zero Exclusion Target}
+\label{ch:visions-rh-local-global-zero-exclusion-target}
+\origin{ai}
+
+\autoref{ch:visions-rh-finite-prime-window-gluing} and
+\autoref{ch:visions-rh-prime-window-recursive-tower} reduce the local
+prime-window route to one remaining object:
+$$
+\mathsf{LocalGlobalZeroExclusion}_{\zeta}.
+$$
+The present chapter records that object as the proof target. It does not
+introduce another route layer. It separates the local finite-window algebra,
+the source-compatibility rows, the archimedean completion row, and the
+carrier-level incompatibility obligation.
+
+\section{Target Statement}
+\label{sec:rh-local-global-zero-exclusion-target-statement}
+
+\begin{definition}[Local-global zero exclusion target]
+\label{def:rh-local-global-zero-exclusion-target}
+The target is the dependent product
+$$
+\mathsf{LocalGlobalZeroExclusion}_{\zeta}
+:=
+\prod_{c:\mathcal C_{\zeta}}
+\bigl(
+\mathsf{ApartNonFix}_{J}(c)
+\to
+\mathsf{Apart}_{0}(\zeta(c))
+\bigr).
+$$
+Equivalently, it says that a critical-strip row separated from the mirror
+fixed surface by a positive rational witness cannot carry a zeta-zero row
+inside the completed zeta carrier.
+\end{definition}
+
+\begin{theorem}[Local-global zero exclusion gives the RH witness target]
+\label{thm:rh-local-global-zero-exclusion-gives-rh-target}
+Assume the real bias readout is located and that
+$\mathsf{Apart}_{0}(\zeta(c))$ contradicts $Z_{\zeta}(c)$. Then
+\autoref{def:rh-local-global-zero-exclusion-target} supplies the BEDC-RH
+witness target of \autoref{prop:rh-constructive-form}.
+\end{theorem}
+
+\begin{proof}
+The target is the apart orbit exclusion used in
+\autoref{thm:rh-layered-apart-orbit-exclusion-yields-fixed-section}. That
+theorem supplies $\mathsf{ZeroFix}_{\zeta}$. By
+\autoref{thm:rh-layered-source-fixed-section-target}, the source fixed
+section is equivalent to the BEDC-RH section form, which is the constructive
+witness target of \autoref{prop:rh-constructive-form}.
+\end{proof}
+
+\section{Finite-Window Algebra}
+\label{sec:rh-local-global-finite-window-algebra}
+
+\begin{definition}[Prime-window packet]
+\label{def:rh-prime-window-packet}
+For a nonempty finite prime window $S$ and a row $s$, the prime-window
+packet consists of the finite data
+$$
+\mathsf{PrimeWindow}_{S}(s)
+:=
+\bigl(
+S,\ (p\in S),\ U_p(s),\ \mathsf{Amp}_p(s),\ D_S(s),\
+\mathsf{UnitWindow}_{S}(s)
+\bigr),
+$$
+together with the certificate rows of
+\autoref{def:rh-finite-prime-window} and
+\autoref{def:rh-finite-window-total-defect}.
+\end{definition}
+
+\begin{theorem}[Prime-window defect formula]
+\label{thm:rh-prime-window-defect-formula}
+If
+$$
+s=1/2+\delta(s)+i\tau(s),
+$$
+then for every nonempty finite prime window $S$,
+$$
+|D_S(s)|
+=
+|\delta(s)|\sum_{p\in S}\log p.
+$$
+Consequently, $|D_S(s)|=0$ if and only if $\mathsf{OnCritLine}(s)$.
+\end{theorem}
+
+\begin{proof}
+The equality is \autoref{thm:rh-finite-window-defect-accumulation} with
+the lower-bound premise specialized to equality through
+\autoref{def:rh-finite-window-total-defect}. Since each $\log p$ is
+positive and $S$ is nonempty, the sum is positive. Thus $|D_S(s)|=0$
+exactly when $|\delta(s)|=0$, equivalently when $\Re(s)=1/2$, which is
+$\mathsf{OnCritLine}(s)$ by \autoref{def:rh-predicate}.
+\end{proof}
+
+\section{Carrier Compatibility Obligations}
+\label{sec:rh-local-global-carrier-compatibility-obligations}
+
+\begin{definition}[Zeta-carrier source compatibility]
+\label{def:rh-zeta-carrier-source-compatibility}
+The zeta-carrier source compatibility obligation is the row
+$$
+\mathsf{ZetaCarrierCompatibility}_{S}(s)
+$$
+asserting that the zero-ledger read of $s$ and the prime-window read
+$\mathsf{PrimeWindow}_{S}(s)$ are two projections of the same source row,
+with a displayed readback witness:
+$$
+\mathsf{SameSource}
+\bigl(
+\mathsf{ZeroLedger}(s),
+\mathsf{PrimeWindow}_{S}(s)
+\bigr).
+$$
+\end{definition}
+
+\begin{definition}[Archimedean completion obligation]
+\label{def:rh-archimedean-completion-obligation}
+The archimedean completion obligation is the carrier row
+$$
+\mathsf{ArchimedeanCompletionRow}(s)
+$$
+which supplies the $\pi^{-s/2}\Gamma(s/2)$ completion term and the
+functional-equation mirror transport needed to enter the completed carrier:
+$$
+\mathsf{FinitePrimeRows}
++
+\mathsf{ArchimedeanRow}
++
+\mathsf{FunctionalEquation}
+\to
+\mathsf{CompletedCarrier}.
+$$
+\end{definition}
+
+\begin{definition}[Defect-zero incompatibility]
+\label{def:rh-defect-zero-incompatibility}
+The central analytic obligation is
+$$
+\mathsf{DefectZeroIncompatibility}
+$$
+with type
+$$
+\prod_s
+\bigl(
+\mathsf{InCritStrip}(s)
+\times
+\mathsf{CompletedCarrier}(s)
+\times
+\sum_{S\subset_{\mathrm{fin}}\PrimeUp}
+\bigl(S\ne\varnothing\bigr)\times\bigl(|D_S(s)|>0\bigr)
+\to
+\mathsf{Apart}_{0}(\zeta(s))
+\bigr).
+$$
+\end{definition}
+
+\section{Obligation Assembly}
+\label{sec:rh-local-global-obligation-assembly}
+
+\begin{theorem}[Four obligations assemble the target]
+\label{thm:rh-four-obligations-assemble-local-global-target}
+Suppose the following rows are supplied for every relevant critical-strip
+row: prime-window packets with the defect formula, zeta-carrier source
+compatibility, archimedean completion into the completed carrier, and
+\autoref{def:rh-defect-zero-incompatibility}. Then
+$\mathsf{LocalGlobalZeroExclusion}_{\zeta}$ holds.
+\end{theorem}
+
+\begin{proof}
+Let $c:\mathcal C_{\zeta}$ and assume
+$a:\mathsf{ApartNonFix}_{J}(c)$. Choose a nonempty finite window $S$. By
+\autoref{thm:rh-prime-window-defect-formula}, the apart witness gives
+$|D_S(c)|>0$. Source compatibility identifies the zero-ledger row and the
+prime-window row as projections of the same source item. The archimedean
+completion row places the finite-prime data in the completed carrier.
+Applying \autoref{def:rh-defect-zero-incompatibility} yields
+$\mathsf{Apart}_{0}(\zeta(c))$, which is the required output of
+\autoref{def:rh-local-global-zero-exclusion-target}.
+\end{proof}
+
+\begin{principle}[No further route layer]
+\label{prin:rh-no-further-route-layer}
+The remaining mathematical task is not another projection layer, another
+route classifier, or another exception vocabulary. It is the carrier-level
+incompatibility row
+\autoref{def:rh-defect-zero-incompatibility}: a completed zeta carrier row
+with positive finite-window radial defect cannot also be a zero ledger.
+\end{principle}

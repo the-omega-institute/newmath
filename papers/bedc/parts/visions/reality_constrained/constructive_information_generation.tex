@@ -1,0 +1,297 @@
+\section{Constructive information generation}
+\label{sec:constructive-information-generation}
+\origin{ai}
+
+\begin{remark}[Paper-side theory status]
+\label{rem:constructive-information-generation-status}
+This section records the paper-side synthesis named
+\emph{constructive information generation}. It has no Lean target in
+this chapter. Its role is to give one vocabulary for the preceding
+projection, extension, and recursive-axis normal-form sections:
+information is not treated as a pre-existing collection of objects, but
+as an auditable structure generated from a source carrier through
+interfaces, classifiers, orthogonal axes, compatible extensions, and
+ledger closure.
+\end{remark}
+
+\begin{definition}[Constructive information generation layer]
+\label{def:constructive-information-generation-layer}
+Let $T$ be a displayed source carrier. A \emph{constructive information
+generation layer} over $T$ is a packet
+$$
+\mathcal I_n
+=
+(R_n,\sim_n,P_n,\Lambda_n,\mathsf{Cert}_n,\mathsf{Aud}_n)
+$$
+where $R_n$ is the record carrier, $\sim_n$ is the layer classifier,
+$$
+P_n:T\to R_n
+$$
+is the source readout, $\Lambda_n$ is the provenance and gap ledger,
+$\mathsf{Cert}_n$ records naming, stability, transport, and replay
+certificates, and $\mathsf{Aud}_n$ records the audit rows by which a
+consumer may check formation and readback.
+\end{definition}
+
+\begin{definition}[Layer-generated information]
+\label{def:layer-generated-information}
+For a source row $t:T$, the information generated at layer $n$ is the
+certified record
+$$
+\mathsf{Info}_n(t)
+:=
+\bigl(P_n(t),\Lambda_n(t),\mathsf{Cert}_n(t),\mathsf{Aud}_n(t)\bigr).
+$$
+The visible part of this information is $P_n(t)$. The full information
+row includes the ledger and certificate data that explain why the
+visible record is licensed.
+\end{definition}
+
+\begin{principle}[No bare information objects]
+\label{prin:no-bare-information-objects}
+In constructive information generation, an information object is not
+admitted merely by being named. It enters the theory through a source
+history, a signature or record surface, a package or domain row, an
+evidence row, a classifier, and a gap or audit ledger. This is the
+vision-level reading of the \texttt{BaseReflectionSetup} interface:
+\texttt{Hist}, \texttt{SigObj}, \texttt{Pkg}, \texttt{Pi},
+\texttt{Domain}, \texttt{Evidence}, together with relations such as
+\texttt{hsame}, \texttt{InDom}, \texttt{SigGen},
+\texttt{TokIntro}, and \texttt{InGapSig}.
+\end{principle}
+
+\begin{definition}[Information residue]
+\label{def:constructive-information-residue}
+For a generation layer $\mathcal I_n$ and a record $r:R_n$, the
+information residue over $r$ is
+$$
+\operatorname{InfoFib}_n(r)
+:=
+\sum_{t:T}\bigl(P_n(t)\sim_n r\bigr).
+$$
+The layer-infinite information surface is the family
+$$
+\infty_n^{\mathsf{info}}:R_n\to\mathsf{Type},
+\qquad
+\infty_n^{\mathsf{info}}(r)
+:=
+\operatorname{InfoFib}_n(r).
+$$
+It is a residual source family over $R_n$, not a further row of $R_n$.
+\end{definition}
+
+\begin{definition}[Compatible information refinement]
+\label{def:compatible-information-refinement}
+Let $\mathcal I_n$ and $\mathcal I_{n+1}$ be generation layers over the
+same source carrier $T$. A \emph{compatible information refinement} is a
+displayed readback map
+$$
+\rho_{n+1,n}:R_{n+1}\to R_n
+$$
+with
+$$
+\rho_{n+1,n}(P_{n+1}(t))\sim_n P_n(t)
+$$
+for every $t:T$, together with the transport, audit, and gap rows that
+make this readback reproducible.
+\end{definition}
+
+\begin{theorem}[Information generation is fiber refinement]
+\label{thm:information-generation-fiber-refinement}
+If $\mathcal I_{n+1}$ is a compatible information refinement of
+$\mathcal I_n$ and separates two rows in one information residue of
+$\mathcal I_n$, then the refined layer generates no tower-external
+information. It further distinguishes the residual source fiber of the
+preceding layer.
+\end{theorem}
+
+\begin{proof}
+The readout of the refined layer is still
+$$
+P_{n+1}:T\to R_{n+1},
+$$
+so the source carrier has not changed. The readback condition of
+\autoref{def:compatible-information-refinement} is exactly the
+compatibility row of
+\autoref{def:compatible-layered-extension}. Hence
+\autoref{thm:layered-extension-preserves-source-carrier} applies. If the
+refined layer separates two rows in one residue, then
+\autoref{thm:generalized-continuation-residual-separation} identifies
+the generation as a residual separation of the preceding layer.
+\end{proof}
+
+\begin{definition}[Information generation axes]
+\label{def:information-generation-axes}
+An information generation layer carries an \emph{axis family} $A_n$ when
+its visible records admit finite-support coordinate expressions over
+$A_n$ in the sense of \autoref{def:finite-axis-expression}. A subfamily
+$(a_i:T\to A_i)_{i:I}$ is orthogonal when the layer ledger contains the
+independence certificate of
+\autoref{def:orthogonal-cluster-readouts}.
+\end{definition}
+
+\begin{definition}[Constructive information generation operator]
+\label{def:constructive-information-generation-operator}
+The constructive information generation operator is the axis-generation
+operator of \autoref{def:axis-generation-operator} equipped with a
+ledger-closure clause:
+$$
+\begin{gathered}
+\mathcal G_{\mathsf{info}}(A)
+=
+A
+\cup
+\mathsf{PrimeSplit}(A)
+\cup
+\mathsf{Ratio}(A)
+\cup
+\mathsf{EquationRoot}(A)\\
+\cup
+\mathsf{Completion}(A)
+\cup
+\mathsf{OrthogonalJoin}(A)
+\cup
+\mathsf{Transform}(A)
+\cup
+\mathsf{LedgerClosure}(A).
+\end{gathered}
+$$
+The final clause records that a generated expression is not fully
+admitted until provenance, readback, stability, and gap rows have been
+entered in the layer ledger.
+\end{definition}
+
+\begin{definition}[Constructive information generation tower]
+\label{def:constructive-information-generation-tower}
+A \emph{constructive information generation tower} over $T$ is a packet
+$$
+\mathfrak I
+=
+\bigl(T,\mathcal I_n,A_n,\mathcal G_{\mathsf{info}},
+\rho_{n+1,n},\Lambda_n,\mathsf{Cert}_n,\mathsf{Aud}_n\bigr)_{n<\omega}
+$$
+such that
+$$
+A_{n+1}=\mathcal G_{\mathsf{info}}(A_n)
+$$
+and each successor layer is equipped with a compatible information
+refinement row whenever its visible records extend the preceding layer.
+\end{definition}
+
+\begin{definition}[Generated auditable information]
+\label{def:generated-auditable-information}
+Relative to a tower $\mathfrak I$, a row is \emph{generated auditable
+information} when it is obtained by finitely many applications of
+$\mathcal G_{\mathsf{info}}$, finite coordinate formation, compatible
+readback, residual fiber separation, or ledger closure, and its
+formation record includes the certificates required by the layers it
+uses.
+\end{definition}
+
+\begin{theorem}[Relative absence of tower-external information]
+\label{thm:relative-absence-tower-external-information}
+Every generated auditable information row relative to
+$\mathfrak I$ belongs to a finite layer of the tower.
+\end{theorem}
+
+\begin{proof}
+The formation record is finite by
+\autoref{def:generated-auditable-information}. Induct on its length.
+Initial source and layer rows belong to the first finite layer in which
+they are displayed. A successor formation step is one of the clauses of
+$\mathcal G_{\mathsf{info}}$, a finite coordinate formation, a
+compatible readback, a residual separation, or a ledger-closure row.
+Each such step is displayed in the next layer or in a finite later
+layer. The induction therefore places the generated row in some
+$\mathcal I_n$.
+\end{proof}
+
+\begin{theorem}[Lawful nontrivial generation is generalized extension]
+\label{thm:lawful-nontrivial-generation-generalized-extension}
+Let a successor layer in $\mathfrak I$ produce a visible record not
+separated by the preceding layer. If the successor carries a compatible
+readback row and separates a preceding information residue, then that
+generation is a generalized analytic continuation in the sense of
+\autoref{def:generalized-analytic-continuation}.
+\end{theorem}
+
+\begin{proof}
+The readback row gives
+$$
+\rho_{n+1,n}(P_{n+1}(t))\sim_n P_n(t)
+$$
+for every source row. Thus the successor is a compatible layered
+extension. The assumed residual separation says exactly that it is
+fiber-distinguishing. By
+\autoref{def:generalized-analytic-continuation}, this is a generalized
+analytic continuation.
+\end{proof}
+
+\begin{principle}[Normal forms as information-generation classifiers]
+\label{prin:normal-forms-information-generation-classifiers}
+Prime decomposition and Zeckendorf decomposition are canonical examples
+of information generation by classifier-specific normal forms. The
+prime-coordinate normal form of
+\autoref{def:multiplicative-atom-normal-form} reads multiplicative
+atoms. The recursive additive normal form of
+\autoref{def:recursive-additive-normal-form} reads no-adjacent
+recursive axes. Their complementarity is the content of
+\autoref{prin:prime-zeckendorf-normal-forms-complementary}.
+\end{principle}
+
+\begin{principle}[Second-order recursion and golden scale]
+\label{prin:information-generation-golden-scale}
+The golden scale is licensed in this theory only when the carrier has
+the second-order recursion, adjacent-axis exclusion, and growth
+certificate of
+\autoref{thm:golden-scale-second-order-local-recursion}. It is therefore
+a structural invariant of a specific normalisation grammar, not an
+unrestricted explanatory constant.
+\end{principle}
+
+\begin{principle}[Recovered carriers as ledgered information]
+\label{prin:recovered-carriers-ledgered-information}
+Recovered carriers are information-generation rows whose identity is
+distributed across compatible projections, completions, transforms, and
+ledgers. The zeta carrier of \autoref{def:rh-zeta-recovery-carrier} is
+read in this way: Dirichlet, Euler, continuation, archimedean
+completion, functional-equation, pole, zero, branch, and transport rows
+jointly license the carrier. This principle records typing and
+compatibility; it does not discharge the zero-ledger obstruction named
+in \autoref{prin:rh-target-extension-compatibility-obstruction}.
+\end{principle}
+
+\begin{definition}[Constructive information generation theory]
+\label{def:constructive-information-generation-theory}
+\emph{Constructive information generation theory} is the study of
+towers
+$$
+\mathfrak I
+=
+\bigl(T,\mathcal I_n,A_n,\mathcal G_{\mathsf{info}},
+\rho_{n+1,n},\Lambda_n,\mathsf{Cert}_n,\mathsf{Aud}_n\bigr)_{n<\omega}
+$$
+and of the finite auditable rows they generate from $T$ through
+orthogonal splitting, recursive combination, local completion,
+compatible extension, transform formation, normalisation, and ledger
+closure.
+\end{definition}
+
+\begin{theorem}[Core form of constructive information generation]
+\label{thm:core-form-constructive-information-generation}
+In a constructive information generation tower, every finite auditable
+information row is produced by a finite chain of source readout,
+classifier formation, orthogonal-axis generation, compatible extension,
+normal-form certification, and ledger closure.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:generated-auditable-information}, an admitted
+information row has a finite formation record using exactly the displayed
+generation operations and their audit rows. The source readout and
+classifier formation place the row in a typed layer. Orthogonal-axis
+generation and normal-form certification give its finite expression when
+coordinates are used. Compatible extension supplies readback to earlier
+layers, and ledger closure supplies provenance, stability, replay, and
+gap data. Hence the row is produced by the stated finite chain.
+\end{proof}

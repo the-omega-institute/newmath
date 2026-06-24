@@ -2,18 +2,18 @@
 \label{sec:interface-constraint-section-packets}
 \origin{ai}
 
-\begin{remark}[Vision seed status]
-\label{rem:interface-constraint-section-vision-seed-status}
-This section has vision-seed status and no Lean target. It records an
-interface discipline for reality-constrained inquiry: a source is not
-consumed as a bare object, an observation interface compresses it to
-records, constraints decide which records remain jointly admissible,
-sections supply licensed fiber-level meaning, and the public surface is
-the ledger that makes these passages auditable. The packet is a derived
-vision interface over $\Hist$, $\hsame$, $\Cont$, $\mathsf{Sig}$,
-$\mathsf{Pkg}$, $\mathsf{Gap}$, and $\NameCert$; it is not a primitive
-of the BEDC finite kernel and not an object-level theory of consciousness,
-probability, or quantum mechanics.
+\begin{remark}[Paper-side status]
+\label{rem:interface-constraint-section-paper-side-status}
+This section gives a paper-side interface discipline for
+reality-constrained inquiry and has no Lean target in this chapter: a
+source is not consumed as a bare object, an observation interface
+compresses it to records, constraints decide which records remain jointly
+admissible, sections supply licensed fiber-level meaning, and the public
+surface is the ledger that makes these passages auditable. The packet is
+a derived vision interface over $\Hist$, $\hsame$, $\Cont$,
+$\mathsf{Sig}$, $\mathsf{Pkg}$, $\mathsf{Gap}$, and $\NameCert$; it is
+not a primitive of the BEDC finite kernel and not an object-level theory
+of consciousness, probability, or quantum mechanics.
 \end{remark}
 
 \begin{definition}[Interface--constraint--section packet]
@@ -59,6 +59,135 @@ The ledger layer records which parts of the preceding passage are public,
 transportable, and open to defeat. Collapsing these layers erases the
 certificate fields required by reality-constrained meaning in
 \autoref{def:reality-constrained-meaning}.
+\end{principle}
+
+\begin{definition}[Readout layer]
+\label{def:interface-readout-layer}
+For a displayed source carrier $X$, a \emph{readout layer} is a packet
+$$
+\mathcal L=(R,\sim_R,P,\Lambda_R,\mathsf{NameCert}_{\mathcal L})
+$$
+where $R$ is a displayed record carrier, $\sim_R$ is its classifier,
+$P:X\to R$ is a readout row, $\Lambda_R$ records provenance and gap
+data, and $\mathsf{NameCert}_{\mathcal L}$ names the carrier-classifier
+surface. The discrete case is the special case in which $\sim_R$ is the
+equality classifier at the displayed resolution.
+\end{definition}
+
+\begin{definition}[Layer fiber family]
+\label{def:interface-layer-fiber-family}
+For a readout layer $\mathcal L$ and a record $r:R$, the fiber over $r$
+is
+$$
+\operatorname{Fib}_{\mathcal L}(r)
+:=
+\{x\in X\mid P(x)\sim_R r\}.
+$$
+The layer-infinite residue of $\mathcal L$ is the fiber family
+$$
+\infty_{\mathcal L}:R\to\mathsf{Type},
+\qquad
+\infty_{\mathcal L}(r):=\operatorname{Fib}_{\mathcal L}(r).
+$$
+Thus the residue is not a further point of $R$; it is the family of
+source witnesses still hidden behind each displayed record row.
+\end{definition}
+
+\begin{definition}[Total fiber surface]
+\label{def:interface-total-fiber-surface}
+The total fiber surface of a readout layer is
+$$
+\operatorname{Tot}(\infty_{\mathcal L})
+:=
+\sum_{r:R}\operatorname{Fib}_{\mathcal L}(r).
+$$
+When $\sim_R$ has a displayed reflexivity row, the readout $P$ induces
+a source-to-total map
+$$
+\Phi_{\mathcal L}:X\to\operatorname{Tot}(\infty_{\mathcal L}),
+\qquad
+\Phi_{\mathcal L}(x):=(P(x),(x,\operatorname{refl}_{P(x)})).
+$$
+There is also the source projection
+$$
+\Psi_{\mathcal L}:\operatorname{Tot}(\infty_{\mathcal L})\to X,
+\qquad
+\Psi_{\mathcal L}(r,x,\epsilon):=x.
+$$
+\end{definition}
+
+\begin{theorem}[Displayed source readback]
+\label{thm:interface-displayed-source-readback}
+For every readout layer with displayed reflexivity for $\sim_R$,
+$$
+\Psi_{\mathcal L}\circ\Phi_{\mathcal L}=\mathrm{id}_X.
+$$
+Consequently the total fiber surface remembers every displayed source
+row, even when the public record carrier $R$ forgets source distinctions.
+\end{theorem}
+
+\begin{proof}
+For a source row $x:X$, the map $\Phi_{\mathcal L}$ sends $x$ to
+$(P(x),(x,\operatorname{refl}_{P(x)}))$. Applying $\Psi_{\mathcal L}$
+forgets the displayed record and the classifier witness, leaving $x$.
+This proves the stated identity.
+\end{proof}
+
+\begin{definition}[Readout refinement]
+\label{def:interface-readout-refinement}
+Let
+$$
+\mathcal L=(R,\sim_R,P,\Lambda_R,\mathsf{NameCert}_{\mathcal L})
+$$
+and
+$$
+\mathcal M=(S,\sim_S,Q,\Lambda_S,\mathsf{NameCert}_{\mathcal M})
+$$
+be readout layers over the same source carrier $X$. The layer
+$\mathcal M$ refines $\mathcal L$ when there is a displayed readback map
+$$
+\rho:S\to R
+$$
+such that every source row satisfies
+$$
+\rho(Q(x))\sim_R P(x).
+$$
+\end{definition}
+
+\begin{theorem}[Refinement partitions the previous fiber]
+\label{thm:interface-refinement-partitions-previous-fiber}
+If $\mathcal M$ refines $\mathcal L$, then every element of
+$\operatorname{Fib}_{\mathcal L}(r)$ determines an element of
+$$
+\sum_{s:S}
+\bigl(\rho(s)\sim_R r\bigr)\times
+\operatorname{Fib}_{\mathcal M}(s).
+$$
+In the discrete case, when both classifiers are equality classifiers and
+$P=\rho\circ Q$, this construction is an equivalence.
+\end{theorem}
+
+\begin{proof}
+Given $(x,\epsilon)\in\operatorname{Fib}_{\mathcal L}(r)$, put
+$s:=Q(x)$. The refinement row gives $\rho(Q(x))\sim_R P(x)$, while
+$\epsilon$ gives $P(x)\sim_R r$. Transitivity of the displayed
+classifier gives $\rho(s)\sim_R r$, and reflexivity gives
+$(x,\operatorname{refl}_{Q(x)})\in\operatorname{Fib}_{\mathcal M}(s)$.
+This is the announced map. In the discrete case the reverse map sends
+$(s,q,(x,h))$ to $(x,P(x)=r)$ using
+$$
+P(x)=\rho(Q(x))=\rho(s)=r.
+$$
+The two composites are the identity by equality elimination.
+\end{proof}
+
+\begin{principle}[Layer residue is fiber data]
+\label{prin:interface-layer-residue-fiber-data}
+An interface record closes only the displayed classifier value. The
+residual content of the layer is the fiber family behind that value, and
+a finer layer can expose that residue only by displaying the readback map,
+the classifier transport, and the accompanying ledger rows. This is the
+formal reason that quotient equality is not yet section-level meaning.
 \end{principle}
 
 \begin{definition}[Interface fiber and compressed reality]
