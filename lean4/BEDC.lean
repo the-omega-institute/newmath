@@ -7039,6 +7039,7 @@ import BEDC.Derived.LimsupUp.LowerCutCompatibility
 import BEDC.Derived.LimsupUp.RealSealNonescape
 import BEDC.Derived.LimsupUp.ScopeKernelDependencies
 import BEDC.Derived.LimsupUp.ScopedTailCutExhaustion
+import BEDC.Derived.LimsupUp.ScopedTailCutWitness
 import BEDC.Derived.LimsupUp.TailCutRoute
 import BEDC.Derived.LimsupUp.TailLowerCutCompatibility
 import BEDC.Derived.LimsupUp.TailUpperCutExactness
@@ -10546,6 +10547,7 @@ import BEDC.Derived.RegularCauchyWindowFusionUp.BudgetMeet
 import BEDC.Derived.RegularCauchyWindowFusionUp.CofinalTailClosure
 import BEDC.Derived.RegularCauchyWindowFusionUp.DownstreamPackage
 import BEDC.Derived.RegularCauchyWindowFusionUp.FiniteWindowExactness
+import BEDC.Derived.RegularCauchyWindowFusionUp.KernelScope
 import BEDC.Derived.RegularCauchyWindowFusionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyWindowFusionUp.ObligationInventory
 import BEDC.Derived.RegularCauchyWindowFusionUp.PublicExport
