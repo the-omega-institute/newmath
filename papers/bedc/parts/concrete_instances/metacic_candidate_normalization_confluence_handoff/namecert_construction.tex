@@ -124,6 +124,24 @@ Now use the consumer boundary \autoref{thm:metacic-candidate-normalization-confl
 Finally read the confluence-audit side through the same residual route. The sibling $\MetaCICConfluenceAuditPacketUp$ may consume the bounded endpoint only after $C,D,B,T,R,P,L$ remain visible, and those rows only transport, replay, source, and name the finite packet. Since the excluded global endpoints are not carrier coordinates, the normal-endpoint readback preserves the candidate and residual premises.
 \end{proof}
 
+\begin{theorem}[MetaCIC finite endpoint comparison handoff]
+\label{thm:metacic-candidate-normalization-confluence-handoff-finite-endpoint-comparison}
+Let
+$$
+H=(A,K,N,F,C,D,B,T,R,P,L)
+$$
+be an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier. Any endpoint comparison exported from $H$ to a confluence or conversion consumer must first expose candidate evidence $K$, normalization-frontier row $F$, residual-envelope row $C$, decidable-boundary row $D$, blocked-edge row $B$, and the structural rows $T,R,P,L$ before bounded normal endpoints are compared through $N$. The exported comparison is a finite candidate-mediated handoff; it is not unconditional strong normalization, full Church--Rosser, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, global conversion decidability, or closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the boundary theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. Candidate-gate exactness exposes $K$ and $F$ before $N$, while confluence discipline keeps $C$ and $B$ visible and decidable-boundary discipline places $D$ on the bounded comparison route.
+
+Apply premise exposure from \autoref{thm:metacic-candidate-normalization-confluence-handoff-premise-exposure}. A confluence-facing consumer cannot read the bounded endpoint row until the candidate, frontier, residual-envelope, decidable-boundary, and blocked-edge rows are displayed in the same packet.
+
+Use residual-diamond retention from \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention}. It prevents a comparison from treating $N$ as detached joinability data; the residual envelope and blocked edge remain part of the read.
+
+Finally apply normal-endpoint readback from \autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-endpoint-readback}. The structural rows $T,R,P,L$ transport, replay, source, and name the same finite route before $N$ is consumed, so the comparison cannot export any of the refused global MetaCIC endpoints.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate handoff frontier normal-endpoint retention]
 \label{thm:metacic-candidate-handoff-frontier-normal-endpoint-retention}
 Let
@@ -176,6 +194,7 @@ Finally use \autoref{thm:metacic-candidate-normalization-confluence-handoff-cons
 \label{thm:metacic-candidate-normalization-confluence-bounded-join-window}
 Let $H=(A,K,N,F,C,D,B,T,R,P,L)$ be an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier. A confluence-facing consumer may export a join read from $H$ only after the candidate evidence $K$, normalization-frontier row $F$, residual envelope $C$, decidable-boundary row $D$, blocked-edge row $B$, and structural rows $T,R,P,L$ remain visible before the endpoint row $N$ is consumed. The window is finite and carrier-internal: it does not assert full Church--Rosser, unrestricted subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, or closed consistency.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.MetacicCandidateNormalizationConfluenceHandoffBoundedJoinWindow}
 \begin{proof}
 Start with the handoff boundary of \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. It exposes $K$ and $F$ before $N$, keeps $C$ and $B$ visible for confluence-facing reads, and routes bounded comparison through $D$.
 
