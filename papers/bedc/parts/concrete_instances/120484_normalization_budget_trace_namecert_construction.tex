@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\NormalizationBudgetTraceUp$}
+\label{ch:concrete-instances-normalization-budget-trace-namecert}
+\origin{ai}
+
+The $\NormalizationBudgetTraceUp$ packet realizes the strong-normalization boundary of \autoref{ch:visions-strong-normalization-vs-turing-completeness} as finite trace data for a total host reading a possibly universal substrate. It sits beside the step-indexed trace carrier of \autoref{ch:concrete-instances-step-indexed-trace-namecert}, the total-host fuel handoff of \autoref{ch:concrete-instances-totalhostfuelhandoff-namecert}, the reduction-fuel boundary of \autoref{ch:concrete-instances-reductionfuelboundary-namecert}, the MetaCIC normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, and the normalization audit map of \autoref{ch:metacic-normalization-audit-map}. The packet names only finite fuel, finite prefix, endpoint, refusal, replay, provenance, and local naming rows; it does not assert global strong normalization, substrate halting, a divergence oracle, quotient trace equality, or host evaluation completeness.
+
+\begin{definition}[Normalization budget trace carrier]
+\label{def:normalization-budget-trace-carrier}
+A $\NormalizationBudgetTraceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,F,P,E,R,A,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed host term or substrate-state window being inspected.
+\item $F$ is the finite fuel row bounding the normalization read.
+\item $P$ is the finite prefix trace row produced under that fuel.
+\item $E$ is the endpoint row, recording either a displayed normal endpoint or the last bounded substrate state.
+\item $R$ is the refusal row for requests that ask for global strong normalization, unbounded halting, divergence detection, or evidence-free endpoint production.
+\item $A$ is the audit-route row linking the packet to \autoref{ch:visions-strong-normalization-vs-turing-completeness} and \autoref{ch:metacic-normalization-audit-map}.
+\item $H$ records componentwise $\hsame$ transport for the term, fuel, prefix, endpoint, refusal, audit, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the bounded fuel request through the finite prefix to the endpoint or refusal row.
+\item $Q$ is the $\Pkg$ provenance over $\NormalizationBudgetTraceUp$, $\StepIndexedTraceUp$, $\TotalHostFuelHandoffUp$, $\ReductionFuelBoundaryUp$, $\MetaCICNormalizationFrontierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NormalizationBudgetTraceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $T,F,P,E,R,A,H,C,Q,N$. It has no coordinate for an unbounded reduction, a host evaluator oracle, quotient trace equality, substrate halting, divergence detection, global strong normalization, or completed MetaCIC normalization.
+\end{definition}
+
+\begin{theorem}[Normalization budget trace NameCert obligations]
+\label{thm:normalization-budget-trace-namecert-obligations}
+For every accepted $\NormalizationBudgetTraceUp$ carrier $B=(T,F,P,E,R,A,H,C,Q,N)$, the local $\NameCert_{\NormalizationBudgetTraceUp}$ surface consists exactly of term-window exposure, finite fuel exposure, prefix-trace exposure, endpoint or bounded-state exposure, refusal-ledger exposure, audit-route exposure, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normalization-budget-trace-carrier}. The rows $T,F,P,E$ provide the only computational data: a term or substrate window, a finite fuel bound, a finite prefix, and the endpoint reached inside that bound.
+
+The refusal row $R$ records every request whose target is not carried by the finite packet. In particular, global strong normalization, unbounded substrate halting, divergence detection, and evidence-free endpoint production have no exported coordinate.
+
+The audit row $A$ places the bounded read inside the strong-normalization and MetaCIC audit routes. The structural rows $H,C,Q,N$ transport, replay, source, and name that same finite route, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Normalization budget trace total-host boundary]
+\label{thm:normalization-budget-trace-total-host-boundary}
+Every total-host or MetaCIC normalization consumer of an accepted $\NormalizationBudgetTraceUp$ packet factors through the finite route
+$$
+T \longmapsto F \longmapsto P \longmapsto E \longmapsto R \longmapsto A .
+$$
+The consumer may read bounded fuel, a finite prefix, a displayed endpoint or bounded last state, the refusal ledger, the audit route, transport, replay, provenance, and local $\NameCert$ evidence. It receives no global strong-normalization theorem, no substrate halting oracle, no divergence detector, no quotient trace equality, and no host evaluator completeness row.
+\end{theorem}
+\begin{proof}
+Start with the total-host discipline of the vision chapter. A BEDC consumer can inspect the substrate or MetaCIC normalization route only through a finite fuel row, so $F$ must be displayed before any prefix or endpoint row is read.
+
+Next read $P$ and $E$. The prefix row records the bounded trace, and the endpoint row records only what is visible under that fuel. If the consumer asks beyond those rows, the request lands in the refusal ledger $R$ rather than producing an unbounded normalization claim.
+
+Finally use $A,H,C,Q,N$. The audit route keeps the packet attached to the strong-normalization and MetaCIC normalization maps, while transport, replay, provenance, and local naming preserve the same finite bounded trace. Since no carrier coordinate names halting, divergence, quotient trace equality, or evaluator completeness, the total-host boundary is exactly the displayed route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\NormalizationBudgetTraceUp$ consumer that exports global strong normalization while omitting finite fuel $F$, finite prefix $P$, endpoint row $E$, or refusal row $R$ is not reading this carrier.}
+
+\independenceWitness{step-indexed-trace, totalhostfuelhandoff, reductionfuelboundary, metacicnormalizationfrontier, metacic-normalization-audit-map: no listed sibling is bijective with $\NormalizationBudgetTraceUp$ because this packet jointly carries the term window, finite fuel, prefix trace, endpoint row, refusal ledger, audit route, transport, replay, provenance, and local naming as one bounded total-host trace.}
+
+\closureat{NormalizationBudgetTraceUp}{seedStr}
+
+\begin{closurestatus}{\NormalizationBudgetTraceUp}
+  \constructivestory{A $\NormalizationBudgetTraceUp$ packet is generated from a typed host or substrate-state window, finite fuel, finite prefix trace, endpoint or bounded-state row, refusal ledger, audit-route row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:normalization-budget-trace-carrier}, \autoref{thm:normalization-budget-trace-namecert-obligations}, and \autoref{thm:normalization-budget-trace-total-host-boundary} seed the finite total-host budget trace for normalization and substrate-boundary consumers.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.NormalizationBudgetTraceUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global strong normalization, unbounded substrate halting, divergence detection, quotient trace equality, host evaluator completeness, completed MetaCIC normalization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, fuel exposure, prefix exactness, endpoint or refusal exactness, audit-route handoff, transport, replay, provenance, and local naming for BEDC.Derived.NormalizationBudgetTraceUp.}
+\end{closurestatus}

@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\OrderConvexSubspaceUp$}
+\label{ch:concrete-instances-order-convex-subspace-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop-style ordered-space practice, the $\OrderConvexSubspaceUp$ packet records an order-convex subspace as finite NameCert data over a constructive ordered carrier. It sits after the relational source of \autoref{ch:concrete-instances-preorder-namecert}, the antisymmetric surface of \autoref{ch:concrete-instances-poset-namecert}, the located interval boundary of \autoref{ch:concrete-instances-located-real-interval-namecert}, the constructive real order of \autoref{ch:concrete-instances-cauchy-real-order-namecert}, and the Real readback route of \autoref{ch:concrete-instances-real-namecert}. The packet gives interval and completion-facing consumers a named order-convex restriction surface without importing host subset equality, quotient subspaces, classical trichotomy, selected suprema, or ambient $\RealUp$ completeness.
+
+\begin{definition}[OrderConvexSubspace carrier]
+\label{def:order-convex-subspace-carrier}
+An $\OrderConvexSubspaceUp$ carrier is a finite $\BHist$ packet
+$$
+O=(P,S,I,T,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the ordered source row, read through $\PreorderUp$ or $\PosetUp$, with its carrier, order relation, and classifier exposed before the subspace row is used.
+\item $S$ is the subset-membership row, recording the finite membership classifier for the inspected subspace without identifying it with host set equality.
+\item $I$ is the interval-closure row: whenever accepted elements $a,b$ of $S$ satisfy $a\le x\le b$ in the source order, the inspected element $x$ is admitted by the same membership classifier.
+\item $T$ is the order-transport row, recording that componentwise $\hsame$ transport preserves source order comparisons and the subset-membership classifier.
+\item $R$ is the interval handoff row to $\RealUp$ or $\RegSeqRatUp$, exposing only the located interval windows and regular rational readbacks needed by Real-facing consumers.
+\item $H$ records componentwise $\hsame$ transport for $P,S,I,T,R$ and the structural rows below.
+\item $C$ records displayed $\Cont$ replay through the ordered source, membership classifier, interval-closure row, order transport, and Real or RegSeqRat handoff.
+\item $Q$ is the $\Pkg$ provenance over $\OrderConvexSubspaceUp$, $\PreorderUp$, $\PosetUp$, $\LocatedRealIntervalUp$, $\CauchyRealOrderUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OrderConvexSubspaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient subset equality, host carrier equality, trichotomy of the source order, selected endpoints, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[OrderConvexSubspace NameCert obligations]
+\label{thm:order-convex-subspace-namecert-obligations}
+For every accepted $\OrderConvexSubspaceUp$ carrier $O=(P,S,I,T,R,H,C,Q,N)$, the local $\NameCert_{\OrderConvexSubspaceUp}$ surface consists exactly of carrier admission for the ordered source, subset-membership classifier, interval-closure row, order-transport row, Real or RegSeqRat interval handoff, componentwise transport, displayed replay, provenance, and local naming rows. No obligation may be discharged by quotienting the subset, replacing membership by host set equality, invoking classical trichotomy, selecting endpoints externally, or importing ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:order-convex-subspace-carrier}. The source row $P$ gives the displayed preorder or poset data, while $S$ gives the finite membership classifier for the inspected subspace.
+
+The interval row $I$ is the only closure coordinate. It admits an inspected middle point only through the displayed comparisons $a\le x\le b$ and the accepted endpoint memberships, so no host subset equality or quotient subspace can discharge the local obligation.
+
+The transport and handoff rows $T,R,H,C,Q,N$ keep the same source order, membership classifier, interval closure, Real or RegSeqRat readback, replay, provenance, and naming surface visible to consumers. Since trichotomy, endpoint selection, and ambient completeness are absent from the packet, they cannot serve as NameCert obligations.
+\end{proof}
+
+\begin{theorem}[OrderConvexSubspace interval transport]
+\label{thm:order-convex-subspace-interval-transport}
+Every accepted interval read through an $\OrderConvexSubspaceUp$ packet factors through
+$$
+P,S,I,T \longmapsto R \longmapsto H,C,Q,N .
+$$
+Thus a Real or RegSeqRat interval consumer may use the subspace only after reading the ordered source, subset-membership classifier, interval-closure row, order-transport row, terminal interval handoff, transport, replay, provenance, and local NameCert data.
+\end{theorem}
+\begin{proof}
+Start with the ordered source and membership rows. The row $P$ exposes the $\PreorderUp$ or $\PosetUp$ comparisons, and $S$ exposes the subspace membership classifier.
+
+Apply the interval-closure row $I$ and order-transport row $T$. Together they make the middle-point admission invariant under the displayed source-order comparisons and componentwise transport.
+
+Finally read the handoff row $R$ before the structural rows $H,C,Q,N$. The interval consumer therefore receives a finite BEDC route from ordered membership to Real or RegSeqRat windows, not a host theorem about convex subsets or completed ordered spaces.
+\end{proof}
+
+\falsifiablePrediction{An $\OrderConvexSubspaceUp$ read that omits the subset-membership classifier, interval-closure row, order-transport row, or Real/RegSeqRat handoff is not accepted by the local NameCert.}
+
+\independenceWitness{preorder, poset, located-real-interval, cauchy-real-order, regseqrat, real: $\OrderConvexSubspaceUp$ is not bijective to any listed sibling because it jointly carries the ordered source, subset-membership classifier, interval-closure row, order transport, interval readback, transport, replay, provenance, and local naming rows.}
+
+\closureat{OrderConvexSubspaceUp}{seedStr}
+
+\begin{closurestatus}{\OrderConvexSubspaceUp}
+  \constructivestory{An $\OrderConvexSubspaceUp$ packet is generated from an ordered source row, subset-membership classifier, interval-closure row, order-transport row, Real or RegSeqRat interval handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:order-convex-subspace-carrier}, \autoref{thm:order-convex-subspace-namecert-obligations}, and \autoref{thm:order-convex-subspace-interval-transport} seed the finite order-convex subspace route through ordered source, membership, interval closure, order transport, interval handoff, structural replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient subset equality, host carrier equality, trichotomy, selected endpoints, ambient $\RealUp$ completeness, Lean theorem checking, axiom-clean audit, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, subset-membership stability, interval-closure routing, order-transport stability, Real or RegSeqRat interval handoff, transport stability, replay stability, provenance, and local naming for BEDC.Derived.OrderConvexSubspaceUp.}
+\end{closurestatus}
