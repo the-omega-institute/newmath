@@ -1933,6 +1933,7 @@ import BEDC.Derived.CauchyDoubleSequenceUp.SealNonEscape
 import BEDC.Derived.CauchyDoubleSequenceUp.TasteGate
 import BEDC.Derived.CauchyEntourageFilterUp.TasteGate
 import BEDC.Derived.CauchyEquivalenceSetoidUp
+import BEDC.Derived.CauchyEquivalenceSetoidUp.CompletionTailComposition
 import BEDC.Derived.CauchyEquivalenceSetoidUp.DownstreamEqualityDependency
 import BEDC.Derived.CauchyEquivalenceSetoidUp.NoQuotient
 import BEDC.Derived.CauchyEquivalenceSetoidUp.ObligationSurface
@@ -10286,6 +10287,7 @@ import BEDC.Derived.RegularCauchyComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionCounitUp
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.ObligationClosure
+import BEDC.Derived.RegularCauchyCompletionCriterionUp.PublicExport
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.RealSealHandoff
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.ScopeFactorization
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.TasteGate
