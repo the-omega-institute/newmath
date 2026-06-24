@@ -237,6 +237,48 @@ instance subordinateModulusCoverChapterTasteGate : ChapterTasteGate SubordinateM
     intro x y hxy heq
     exact hxy (subordinateModulusCoverToEventFlow_injective heq)
 
+instance subordinateModulusCoverFieldFaithful : FieldFaithful SubordinateModulusCoverUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | SubordinateModulusCoverUp.mk tolerance bundle centers radii precision pointwise coverage
+        comparisons transport routes provenance nameCert =>
+        [tolerance, bundle, centers, radii, precision, pointwise, coverage, comparisons,
+          transport, routes, provenance, nameCert]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk tolerance₁ bundle₁ centers₁ radii₁ precision₁ pointwise₁ coverage₁ comparisons₁
+        transport₁ routes₁ provenance₁ nameCert₁ =>
+        cases y with
+        | mk tolerance₂ bundle₂ centers₂ radii₂ precision₂ pointwise₂ coverage₂ comparisons₂
+            transport₂ routes₂ provenance₂ nameCert₂ =>
+            injection h with htolerance rest₁
+            injection rest₁ with hbundle rest₂
+            injection rest₂ with hcenters rest₃
+            injection rest₃ with hradii rest₄
+            injection rest₄ with hprecision rest₅
+            injection rest₅ with hpointwise rest₆
+            injection rest₆ with hcoverage rest₇
+            injection rest₇ with hcomparisons rest₈
+            injection rest₈ with htransport rest₉
+            injection rest₉ with hroutes rest₁₀
+            injection rest₁₀ with hprovenance rest₁₁
+            injection rest₁₁ with hnameCert _
+            subst htolerance
+            subst hbundle
+            subst hcenters
+            subst hradii
+            subst hprecision
+            subst hpointwise
+            subst hcoverage
+            subst hcomparisons
+            subst htransport
+            subst hroutes
+            subst hprovenance
+            subst hnameCert
+            rfl
+
 theorem SubordinateModulusCoverTasteGate_single_carrier_alignment :
     (∀ h : BHist, subordinateModulusCoverDecodeBHist
       (subordinateModulusCoverEncodeBHist h) = h) ∧
@@ -328,5 +370,27 @@ theorem SubordinateModulusCoverUniformHandoff
                       List.Mem.tail _ <|
                         List.Mem.tail _ (List.Mem.head _)
         · rfl
+
+theorem SubordinateModulusCoverClassifierStabilityObligation
+    {tolerance bundle centers radii precision pointwise coverage comparisons transport routes
+      provenance nameCert transportedRoutes : BHist} :
+    hsame transportedRoutes routes →
+      subordinateModulusCoverFromEventFlow
+          (subordinateModulusCoverToEventFlow
+            (SubordinateModulusCoverUp.mk tolerance bundle centers radii precision pointwise
+              coverage comparisons transport routes provenance nameCert)) =
+          some
+            (SubordinateModulusCoverUp.mk tolerance bundle centers radii precision pointwise
+              coverage comparisons transport routes provenance nameCert) ∧
+        hsame transportedRoutes routes ∧
+          subordinateModulusCoverEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  intro transportedSameRoutes
+  exact
+    ⟨subordinateModulusCover_round_trip
+        (SubordinateModulusCoverUp.mk tolerance bundle centers radii precision pointwise coverage
+          comparisons transport routes provenance nameCert),
+      transportedSameRoutes,
+      rfl⟩
 
 end BEDC.Derived.SubordinateModulusCoverUp
