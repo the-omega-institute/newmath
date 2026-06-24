@@ -34,7 +34,8 @@ The classifier accepts only packets whose operator handoff is exhausted by $M,B,
 \label{thm:cauchy-completion-operator-namecert-obligations}
 For every accepted $\CauchyCompletionOperatorUp$ carrier $O=(M,B,U,S,R,D,Q,E,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionOperatorUp}$ surface consists exactly of carrier admission for the displayed twelve-row packet; metric-completion exposure through $M$; completion-boundary exposure through $B$; uniform-completion exposure through $U$; finite-window exposure through $S$; regular-rational readback through $R$; dyadic-tolerance exposure through $D$; separated-limit handoff through $Q$; terminal Real sealing through $E$; componentwise transport through $H$; displayed replay through $C$; package provenance through $P$; and local naming through $N$.
 \end{theorem}
-\leanchecked{BEDC.Derived.CauchyCompletionOperatorUp.CauchyCompletionOperatorCarrier\_namecert\_obligation\_surface}
+\leanchecked{BEDC.Derived.CauchyCompletionOperatorUp.CauchyCompletionOperator\_namecert\_obligation\_surface}
+\leanvariant{BEDC.Derived.CauchyCompletionOperatorUp.CauchyCompletionOperatorCarrier\_namecert\_obligation\_surface}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-completion-operator-carrier}. The accepted packet exposes exactly the metric source row, completion-boundary row, uniform-completion row, finite windows, regular readback, dyadic ledger, separated-limit row, Real seal, and structural rows.
 
@@ -173,6 +174,26 @@ Next apply \autoref{thm:cauchy-completion-operator-obligation-window-route}. It 
 Now consider an additional $\CompletionUniversalPropertyUp$ or $\CauchyCompletionFunctorUp$ citation. Such a citation can be read only after the rows needed by the operator route have been displayed, because the operator exports completion-facing data solely through the boundary and window route just identified. The cited universal or functorial row is therefore a later consumer of $O$, not an independent source of completion evidence.
 
 Finally use \autoref{thm:cauchy-completion-operator-ledger-nonescape} and \autoref{thm:cauchy-completion-operator-real-seal-nonescape}. These exclude quotient completion equality, selected representatives, selected limits, countable-choice schedules, host completion operators, ambient Real completeness, and terminal-seal escapes from the packet. Hence no universal-property or functorial completion consumer can bypass the finite CauchyCompletionOperator route.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionOperator separated-limit factorization]
+\label{thm:cauchy-completion-operator-separated-limit-factorization}
+Every $\CompleteSeparatedMetricUp$ consumer reading row $Q$ from an accepted $\CauchyCompletionOperatorUp$ carrier
+$$
+O=(M,B,U,S,R,D,Q,E,H,C,P,N)
+$$
+must first read the finite route
+$$
+M,U \longmapsto B \longmapsto S,R,D \longmapsto H,C,P,N .
+$$
+Thus $Q$ is a downstream separated-limit handoff of the displayed finite-window route, not an independent completion witness.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:cauchy-completion-operator-namecert-obligations}. It exposes $Q$ only as one row of the accepted carrier, after the metric source, completion-boundary, uniform source, StreamName window, RegSeqRat readback, and DyadicRatCore tolerance rows have already been displayed.
+
+Apply finite-window extraction and the obligation-window route, \autoref{thm:cauchy-completion-operator-window-extraction} and \autoref{thm:cauchy-completion-operator-obligation-window-route}. These two results force the separated-limit consumer through $M,U$, then $B$, then $S,R,D$, before the structural rows $H,C,P,N$ attach transport, replay, provenance, and local naming to the same packet.
+
+Finally use ledger nonescape, \autoref{thm:cauchy-completion-operator-ledger-nonescape}. Since quotient completion equality, selected limits, host completion operators, countable choice, and ambient $\RealUp$ completeness are absent from the carrier, row $Q$ cannot supply an independent completion object. It is only the separated-limit handoff downstream of the finite StreamName, RegSeqRat, and DyadicRatCore route.
 \end{proof}
 
 \closureat{CauchyCompletionOperatorUp}{seedStr}
