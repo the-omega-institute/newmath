@@ -1761,6 +1761,7 @@ import BEDC.Derived.CauchyCompletionOperatorUp
 import BEDC.Derived.CauchyCompletionOperatorUp.FunctorialHandoff
 import BEDC.Derived.CauchyCompletionOperatorUp.LedgerNonescape
 import BEDC.Derived.CauchyCompletionOperatorUp.NameCertObligationSurface
+import BEDC.Derived.CauchyCompletionOperatorUp.SeparatedLimitFactorization
 import BEDC.Derived.CauchyCompletionOperatorUp.TasteGate
 import BEDC.Derived.CauchyCompletionOperatorUp.WindowExtraction
 import BEDC.Derived.CauchyCompletionOrderEmbeddingUp.TasteGate
@@ -8516,6 +8517,7 @@ import BEDC.Derived.MooreSmithNetUp.TasteGate
 import BEDC.Derived.MooreSmithSubnetUp.TasteGate
 import BEDC.Derived.MooreSpaceUp.TasteGate
 import BEDC.Derived.MorreySpaceUp.TasteGate
+import BEDC.Derived.MorseBoundaryUp.TasteGate
 import BEDC.Derived.MorseTheoryUp.TasteGate
 import BEDC.Derived.MoscoRecoverySequenceUp.NameCertObligations
 import BEDC.Derived.MoscoRecoverySequenceUp.RealMetricBoundary

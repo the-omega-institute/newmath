@@ -160,6 +160,24 @@ Next combine the consistency-blocker ledger with the closed-normal boundary. The
 Finally apply route-union exactness and positive-blocker union. Theorems~\ref{thm:metacic-audit-synthesis-route-union-exactness} and \ref{thm:metacic-audit-synthesis-positive-blocker-union} bind the positive rows and blocker rows through $H,R,P,L$, so public export is exactly the stated packet and not any of the excluded full MetaCIC theorems.
 \end{proof}
 
+\begin{theorem}[MetaCIC audit synthesis public transport gate]
+\label{thm:metacic-audit-synthesis-public-transport-gate}
+For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
+$$
+M=(S,C,N,U,D,A,B,H,R,P,L),
+$$
+any public consumer projecting one of the confluence row $C$, normalization row $N$, substitution row $U$, decidable-checking row $D$, or closed-normal assembly row $A$ must also expose the subject-reduction obstruction row $S$, blocker row $B$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $R$, $\Pkg$ provenance row $P$, and the local $\NameCert_{\MetaCICAuditSynthesisPacketUp}$ row $L$. The gate exports positive audit rows only with those boundary rows visible; it does not export subject reduction, arbitrary Church--Rosser, candidate-free normalization, global beta-conversion decidability, quotient equality of MetaCIC terms, or full consistency.
+\end{theorem}
+\begin{proof}
+Start with the public export theorem, \autoref{thm:metacic-audit-synthesis-public-export}. It identifies the public packet as exactly $S,C,N,U,D,A,B,H,R,P,L$, so a public projection of any positive audit row is still a projection from the same finite carrier.
+
+Apply positive-blocker union from \autoref{thm:metacic-audit-synthesis-positive-blocker-union}. The positive rows $C,N,U,D,A$ are exported only together with the subject-reduction obstruction row and blocker row through the displayed structural rows.
+
+Use transport obstruction, \autoref{thm:metacic-audit-synthesis-transport-obstruction}, to keep the closed-normal branch from crossing the subject-reduction boundary as a discharged transport. The obstruction row remains public boundary data rather than a proof of the missing MetaCIC edge.
+
+Finally apply the blocker-preserving positive projection theorem, \autoref{thm:metacic-audit-synthesis-blocker-preserving-positive-projection}. It supplies the consumer-facing projection rule for $C,N,U,D,A$ and preserves $S,B,H,R,P,L$ as visible rows, giving exactly the stated transport gate.
+\end{proof}
+
 \begin{theorem}[MetaCIC audit synthesis scope stability]
 \label{thm:metacic-audit-synthesis-scope-stability}
 For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
