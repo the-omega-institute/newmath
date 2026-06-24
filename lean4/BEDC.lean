@@ -10229,6 +10229,7 @@ import BEDC.Derived.RegularCauchyApartnessBudgetUp.PublicInterface
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.RealSealRefusal
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.ReciprocalWindowBoundary
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.RouteComposition
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.SharedFieldInverseWindow
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessCotransitivityUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessOrderUp.PositiveBoundary
@@ -10257,6 +10258,7 @@ import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularCauchyComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionCounitUp
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.NameCertObligations
+import BEDC.Derived.RegularCauchyCompletionCriterionUp.RealSealHandoff
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionDensityUp
 import BEDC.Derived.RegularCauchyCompletionEndpointUp.NameCertObligations
@@ -11305,6 +11307,7 @@ import BEDC.Derived.SheafificationUp.CoverageExactness
 import BEDC.Derived.SheafificationUp.GluingExactness
 import BEDC.Derived.SheafificationUp.LocalityGluingScope
 import BEDC.Derived.SheafificationUp.LocalityRefinement
+import BEDC.Derived.SheafificationUp.PlusConstructionBoundary
 import BEDC.Derived.SheafificationUp.PlusGluingReplay
 import BEDC.Derived.SheafificationUp.SeparatedRefinementExactness
 import BEDC.Derived.SheafificationUp.SheafHandoff
