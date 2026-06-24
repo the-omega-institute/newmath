@@ -243,6 +243,40 @@ Each prime $p$ determines the coordinate vector $e_p$ with value $1$ at
 $p$ and value $0$ at every other prime.
 \end{definition}
 
+\begin{definition}[Prime-occupancy carrier]
+\label{def:layered-projection-prime-occupancy-carrier}
+The prime-occupancy carrier is the finite-support configuration space
+$$
+T_{\mathbb P}:=\mathbb N^{(\mathbb P)}.
+$$
+Its elements are rows
+$$
+k:\mathbb P\to\mathbb N
+$$
+with finite support. The coordinate $k_p$ records how many times the
+prime axis $p$ is occupied. The carrier $T_{\mathbb P}$ is therefore the
+multiplicative-divisibility presentation of positive arithmetic after
+unique factorization has been displayed; it is not the set of primes
+$\mathbb P$ alone and not the absolute base of the whole BEDC tower.
+\end{definition}
+
+\begin{definition}[Arithmetic multiplication presentation]
+\label{def:layered-projection-arithmetic-multiplication-presentation}
+The arithmetic multiplication presentation is the readout
+$$
+\Phi:\mathbb N_{>0}\to T_{\mathbb P}
+$$
+of \autoref{def:layered-projection-prime-coordinate-readout}, together
+with the readback
+$$
+\Psi(k):=\prod_{p\in\mathbb P}p^{k_p}.
+$$
+The product is finite because $k$ has finite support. The readout and
+readback are licensed only relative to the multiplication, divisibility,
+unit, order, natural-number, and unique-factorization certificates of
+the pre-prime tower segment.
+\end{definition}
+
 \begin{theorem}[Multiplication becomes coordinate addition]
 \label{thm:layered-projection-multiplication-coordinate-addition}
 For positive integers $m,n$ with displayed unique factorization,
@@ -265,6 +299,29 @@ $$
 Uniqueness of the factorization certificate identifies the $p$-coordinate
 of $mn$ with $v_p(m)+v_p(n)$ for every prime $p$.
 \end{proof}
+
+\begin{principle}[Prime ontology is relative arithmetic presentation]
+\label{prin:layered-projection-prime-ontology-relative}
+The phrase ``the ontology is prime'' can be used in BEDC only in the
+relative sense that the positive multiplicative arithmetic layer is read
+through $T_{\mathbb P}$. In that presentation, the unit is the zero
+configuration, multiplication is coordinate addition, divisibility is
+coordinatewise comparison,
+$$
+m\mid n
+\quad\Longleftrightarrow\quad
+\forall p,\ v_p(m)\leq v_p(n),
+$$
+and the gcd and lcm rows are coordinatewise minimum and maximum:
+$$
+v_p(\gcd(m,n))=\min(v_p(m),v_p(n)),
+\qquad
+v_p(\operatorname{lcm}(m,n))=\max(v_p(m),v_p(n)).
+$$
+This gives a strong coordinate presentation of the multiplicative layer;
+it does not erase the pre-prime construction of multiplication,
+divisibility, unit, order, and natural-number structure.
+\end{principle}
 
 \begin{theorem}[Prime axes are independent]
 \label{thm:layered-projection-prime-axis-independence}

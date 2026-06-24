@@ -107,6 +107,75 @@ Thus the global right-half-plane projection is the product of the local
 geometric fibers $E_p(s)$.
 \end{proof}
 
+\begin{definition}[Prime-occupancy partition readout]
+\label{def:rh-prime-occupancy-partition-readout}
+Let $T_{\mathbb P}$ be the prime-occupancy carrier of
+\autoref{def:layered-projection-prime-occupancy-carrier}. On a displayed
+right-half-plane convergence window, the prime-occupancy partition
+readout is
+$$
+Z_{\mathbb P}(s)
+:=
+\sum_{k\in T_{\mathbb P}}
+\exp\left(
+-s\sum_{p\in\mathbb P}k_p\log p
+\right).
+$$
+The sum ranges over finite-support prime occupancy rows. It is therefore
+the analytic readout of the multiplicative arithmetic presentation, not
+a separate unledgered source carrier.
+\end{definition}
+
+\begin{proposition}[Zeta is the prime-occupancy partition readout]
+\label{prop:rh-zeta-prime-occupancy-partition-readout}
+On the Euler-product window,
+$$
+Z_{\mathbb P}(s)=\zeta_D(s).
+$$
+Equivalently,
+$$
+Z_{\mathbb P}(s)
+=
+\prod_{p\in\PrimeUp}
+\left(\sum_{k\geq0}p^{-ks}\right)
+=
+\prod_{p\in\PrimeUp}(1-p^{-s})^{-1}.
+$$
+\end{proposition}
+
+\begin{proof}
+For a finite-support occupancy row $k$, its readback integer is
+$$
+\Psi(k)=\prod_p p^{k_p}
+$$
+by \autoref{def:layered-projection-arithmetic-multiplication-presentation}.
+Thus
+$$
+\log\Psi(k)=\sum_p k_p\log p
+$$
+and
+$$
+\exp\left(-s\sum_p k_p\log p\right)
+=
+\prod_p p^{-sk_p}.
+$$
+Summing over all finite-support occupancy rows is the same as summing
+over positive integers by unique factorization, hence gives the
+Dirichlet row. Splitting the independent prime coordinates gives the
+Euler product by \autoref{prop:rh-euler-gluing-multiplicative-self-similarity}.
+\end{proof}
+
+\begin{principle}[Zero packets are recovered-carrier cancellations]
+\label{prin:rh-zero-packets-recovered-carrier-cancellations}
+In the prime-occupancy presentation, $\zeta_D$ is the analytic partition
+readout of finite prime configurations on the right half-plane. A
+non-trivial zero packet is not a bare row of $T_{\mathbb P}$ and not a
+zero of one local geometric fiber. It belongs to the completed recovered
+carrier assembled from Dirichlet, Euler, continuation, archimedean
+completion, functional-equation, pole, zero, branch, and transport
+ledgers.
+\end{principle}
+
 \begin{proposition}[Dirichlet projection is a discrete Laplace readout]
 \label{prop:rh-zeta-self-similar-laplace-readout}
 For the zeta coefficients $a_n=1$, the Dirichlet projection is the
