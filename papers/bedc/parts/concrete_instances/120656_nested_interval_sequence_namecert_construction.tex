@@ -45,6 +45,22 @@ Read the shrinkage and observation rows next. The diameter ledger $D$ is the onl
 Finally $H,C,P,A$ preserve the same finite route under transport, replay, source, and local naming. Since the carrier has no coordinate for compactness, a selected limit, choice, trichotomy, quotient equality, or ambient completeness, the displayed rows exhaust the local NameCert obligation surface.
 \end{proof}
 
+\begin{theorem}[Nested interval sequence shrink induction]
+\label{thm:nested-interval-sequence-shrink-induction}
+For an accepted $\NestedIntervalSequenceUp$ carrier
+$$
+N=(I,E,L,D,S,R,Z,H,C,P,A),
+$$
+finite prefix shrink data obtained from endpoint comparison rows $E$, nesting evidence $L$, diameter budgets $D$, $\StreamNameUp$ window rows $S$, $\RegSeqRatUp$ readback rows $R$, and terminal $\RealUp$ seal rows $Z$ is preserved by induction on the displayed finite windows. In particular, every displayed window prefix whose last interval has certified endpoints and diameter budget inherits the earlier-prefix containment and shrink ledger, and the successor window is obtained by consuming the next nesting row and next diameter row before transporting the result through $H$, $C$, $P$, and the local $\NameCert_{\NestedIntervalSequenceUp}$ row.
+\end{theorem}
+\begin{proof}
+For the base window, read \autoref{def:nested-interval-sequence-carrier}. A one-row prefix has endpoint comparison from $E$, its displayed diameter budget from $D$, its scheduled observation from $S$, and the downstream readback and seal rows $R$ and $Z$.
+
+For the successor step, assume the shrink ledger has been built for the displayed prefix named by $S$. The next window row supplies the next interval entry from $I$, the endpoint comparison row from $E$, the nesting row from $L$ placing it inside the earlier displayed intervals, and the next diameter budget from $D$.
+
+The successor ledger is then transported along the componentwise $\hsame$ row $H$ and replayed through $C$. The provenance row $P$ records that the construction used only the displayed $\LocatedIntervalUp$, $\NestedDyadicIntervalUp$, $\NestedIntervalSqueezeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces, and the local $\NameCert_{\NestedIntervalSequenceUp}$ row repacks the finite-window induction as a BEDC certificate.
+\end{proof}
+
 \closureat{NestedIntervalSequenceUp}{seedStr}
 
 \begin{closurestatus}{\NestedIntervalSequenceUp}

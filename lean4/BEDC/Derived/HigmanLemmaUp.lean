@@ -89,4 +89,74 @@ theorem HigmanLemmaSubsequenceEmbeddingRoute [AskSetup] [PackageSetup]
   }
   exact ⟨cert, wordUnary, dependencyUnary, embeddingUnary⟩
 
+theorem HigmanLemmaNameCertObligations [AskSetup] [PackageSetup]
+    {S W E B D H C P N badRead replayRead nameRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HigmanLemmaCarrier S W E B D H C P N bundle pkg →
+      Cont B D badRead →
+        Cont badRead C replayRead →
+          Cont replayRead N nameRead →
+            PkgSig bundle nameRead pkg →
+              SemanticNameCert
+                  (fun row : BHist =>
+                    HigmanLemmaCarrier S W E B D H C P N bundle pkg ∧
+                      hsame row nameRead)
+                  (fun row : BHist =>
+                    hsame row S ∨ hsame row W ∨ hsame row E ∨ hsame row B ∨
+                      hsame row D ∨ hsame row badRead ∨ hsame row replayRead ∨
+                        hsame row nameRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont B D badRead ∧ Cont badRead C replayRead ∧
+                      Cont replayRead N nameRead ∧ PkgSig bundle nameRead pkg)
+                  hsame ∧
+                UnaryHistory badRead ∧ UnaryHistory replayRead ∧ UnaryHistory nameRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier badRoute replayRoute nameRoute namePkg
+  have carrierFull : HigmanLemmaCarrier S W E B D H C P N bundle pkg := carrier
+  obtain ⟨_sUnary, _wUnary, _eUnary, bUnary, dUnary, _hUnary, cUnary, _pUnary,
+    nUnary, _provenancePkg, _carrierNamePkg⟩ := carrier
+  have badUnary : UnaryHistory badRead :=
+    unary_cont_closed bUnary dUnary badRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed badUnary cUnary replayRoute
+  have nameUnary : UnaryHistory nameRead :=
+    unary_cont_closed replayUnary nUnary nameRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            HigmanLemmaCarrier S W E B D H C P N bundle pkg ∧ hsame row nameRead)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row W ∨ hsame row E ∨ hsame row B ∨
+              hsame row D ∨ hsame row badRead ∨ hsame row replayRead ∨
+                hsame row nameRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont B D badRead ∧ Cont badRead C replayRead ∧
+              Cont replayRead N nameRead ∧ PkgSig bundle nameRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro nameRead ⟨carrierFull, hsame_refl nameRead⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨source.left, hsame_trans (hsame_symm sameRows) source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.right))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨unary_transport_symm nameUnary source.right, badRoute, replayRoute, nameRoute,
+          namePkg⟩
+  }
+  exact ⟨cert, badUnary, replayUnary, nameUnary⟩
+
 end BEDC.Derived.HigmanLemmaUp
