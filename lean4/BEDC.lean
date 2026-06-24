@@ -1756,6 +1756,7 @@ import BEDC.Derived.CauchyCompletionMultiplicationUp.NameCertObligations
 import BEDC.Derived.CauchyCompletionMultiplicationUp.ProvenanceExhaustion
 import BEDC.Derived.CauchyCompletionMultiplicationUp.RealSealNonescape
 import BEDC.Derived.CauchyCompletionMultiplicationUp.TasteGate
+import BEDC.Derived.CauchyCompletionOperatorUp
 import BEDC.Derived.CauchyCompletionOperatorUp.FunctorialHandoff
 import BEDC.Derived.CauchyCompletionOperatorUp.LedgerNonescape
 import BEDC.Derived.CauchyCompletionOperatorUp.NameCertObligationSurface
@@ -2014,6 +2015,7 @@ import BEDC.Derived.CauchyModulusArithmeticUp
 import BEDC.Derived.CauchyModulusArithmeticUp.DiagonalMeetStability
 import BEDC.Derived.CauchyModulusArithmeticUp.ObligationClosure
 import BEDC.Derived.CauchyModulusArithmeticUp.ObligationScopePackage
+import BEDC.Derived.CauchyModulusArithmeticUp.PublicExactness
 import BEDC.Derived.CauchyModulusArithmeticUp.RealSealCongruence
 import BEDC.Derived.CauchyModulusArithmeticUp.SumProductCarrierAdmission
 import BEDC.Derived.CauchyModulusArithmeticUp.SumProductSharedThreshold
@@ -5732,6 +5734,7 @@ import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
 import BEDC.Derived.FiniteCauchyModulusComparisonUp
 import BEDC.Derived.FiniteCauchyNetExtractionUp.TasteGate
 import BEDC.Derived.FiniteCauchyTailHandoffUp
+import BEDC.Derived.FiniteCauchyTailHandoffUp.TasteGate
 import BEDC.Derived.FiniteChoiceUp.TasteGate
 import BEDC.Derived.FiniteChoiceWindowUp.TasteGate
 import BEDC.Derived.FiniteContractionOrbitErrorUp
