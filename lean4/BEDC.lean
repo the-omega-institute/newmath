@@ -1917,6 +1917,7 @@ import BEDC.Derived.CauchyDoubleSequenceUp.SealNonEscape
 import BEDC.Derived.CauchyDoubleSequenceUp.TasteGate
 import BEDC.Derived.CauchyEntourageFilterUp.TasteGate
 import BEDC.Derived.CauchyEquivalenceSetoidUp
+import BEDC.Derived.CauchyEquivalenceSetoidUp.DownstreamEqualityDependency
 import BEDC.Derived.CauchyEquivalenceSetoidUp.ObligationSurface
 import BEDC.Derived.CauchyEquivalenceSetoidUp.RealSealForwardRoute
 import BEDC.Derived.CauchyErrorCertificateUp
@@ -8134,6 +8135,7 @@ import BEDC.Derived.MetaCICTypedParallelDiamondBoundaryUp
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
 import BEDC.Derived.MetaClosureWitnessLedgerUp.TasteGate
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.CandidateResidualJoin
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ConsumerBoundary
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpointReadback
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.PremiseExposure
@@ -12207,6 +12209,7 @@ import BEDC.Derived.VariationSeminormUp.TasteGate
 import BEDC.Derived.VariationalEquationUp.TasteGate
 import BEDC.Derived.VecSpaceUp
 import BEDC.Derived.VectorBundleUp
+import BEDC.Derived.VerificationFailureRoadmapUp.DowngradeRoute
 import BEDC.Derived.VerificationFailureRoadmapUp.TasteGate
 import BEDC.Derived.VerifiedOutputHarnessUp.NameCertObligations
 import BEDC.Derived.VerifiedOutputHarnessUp.PublicAuditChain
