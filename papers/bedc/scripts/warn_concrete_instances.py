@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Warning gate for parts/concrete_instances/ conventions.
+"""Convention gate for parts/concrete_instances/.
 
-Reports drift from established conventions as WARN (exit 0 by default).
-Designed to plug into `make precheck` without blocking the PDF build, while
-giving a single dashboard to drive incremental cleanup.
+Reports drift from established conventions as a single dashboard. Checks in
+HARD_CHECKS block in default mode; --strict blocks on any violation.
 
 Checks (IDs match the analysis report):
   A  \\closureat{X}{L}: L must be in {seed,obligation,scoped,public,bridged,mature}Str
@@ -31,14 +30,15 @@ Checks (IDs match the analysis report):
   S  closurestatus required fields (scopeclosed / constructivestory /
      notclaimed / upgradepath) have non-empty bodies
   T  every \\<X>Up macro defined in preamble is referenced somewhere
-  U  \\calibratedReconstruction in closurestatus requires \\boundaryexhaustive
+  U  \\calibratedReconstruction in closurestatus requires \\reference and
+     resolving \\boundaryexhaustive
   W  no two \\chapter{...} commands in distinct files share identical body
 
 Modes:
-  default       human-readable WARN to stderr, exit 0
-  --json        machine-readable JSON to stdout, exit 0
+  default       human-readable output to stderr; hard checks exit 1
+  --json        machine-readable JSON to stdout, with the same exit rules
   --check ID    run a single check
-  --strict      exit 1 on any violation (for future hard-gate promotion)
+  --strict      exit 1 on any violation
 """
 from __future__ import annotations
 
@@ -86,6 +86,7 @@ CALIBRATED_EXTERNAL_RE = re.compile(
     r"\\externalcorrespondence\{\s*\\calibratedReconstruction\s*\}"
 )
 BOUNDARY_EXHAUSTIVE_RE = re.compile(r"\\boundaryexhaustive\{([^}]+)\}")
+REFERENCE_RE = re.compile(r"\\reference\{([^}]*)\}")
 
 # Check I: any .tex basename under parts/frontmatter/appendices must be
 # lowercase snake_case. Two prefix forms recognized:
@@ -401,11 +402,34 @@ def check_c_closurestatus_fields() -> list[dict]:
 
 def check_u_calibrated_external_boundary() -> list[dict]:
     out: list[dict] = []
+    labels: set[str] = set()
+    for tex in iter_part_tex():
+        text = strip_verbatim_preserve_lines(read_text(tex))
+        for line in text.splitlines():
+            if line.lstrip().startswith("%"):
+                continue
+            for m in LABEL_RE.finditer(_line_text_without_comment(line)):
+                labels.add(m.group(1))
+
     for tex in iter_part_tex():
         rel = tex.relative_to(PAPER_DIR)
         text = strip_verbatim_preserve_lines(read_text(tex))
         for start_line, body in closurestatus_blocks(text):
-            if CALIBRATED_EXTERNAL_RE.search(body) and not BOUNDARY_EXHAUSTIVE_RE.search(body):
+            if not CALIBRATED_EXTERNAL_RE.search(body):
+                continue
+            reference = REFERENCE_RE.search(body)
+            if reference is None or not reference.group(1).strip():
+                out.append({
+                    "check": "U",
+                    "file": str(rel),
+                    "line": start_line,
+                    "msg": (
+                        "\\externalcorrespondence{\\calibratedReconstruction} "
+                        "requires \\reference{<external reference>}"
+                    ),
+                })
+            boundary = BOUNDARY_EXHAUSTIVE_RE.search(body)
+            if boundary is None:
                 out.append({
                     "check": "U",
                     "file": str(rel),
@@ -413,6 +437,18 @@ def check_u_calibrated_external_boundary() -> list[dict]:
                     "msg": (
                         "\\externalcorrespondence{\\calibratedReconstruction} "
                         "requires \\boundaryexhaustive{<label>}"
+                    ),
+                })
+                continue
+            label = boundary.group(1).strip()
+            if label not in labels:
+                out.append({
+                    "check": "U",
+                    "file": str(rel),
+                    "line": start_line,
+                    "msg": (
+                        f"\\boundaryexhaustive{{{label}}} has no matching "
+                        "\\label"
                     ),
                 })
     return out
@@ -983,6 +1019,8 @@ CHECKS = {
     "W": check_w_chapter_title_unique,
 }
 
+HARD_CHECKS = {"U"}
+
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -1000,6 +1038,7 @@ def main() -> int:
     by_check: dict[str, list[dict]] = defaultdict(list)
     for v in violations:
         by_check[v["check"]].append(v)
+    hard_violations = [v for v in violations if v["check"] in HARD_CHECKS]
 
     if args.json:
         json.dump({
@@ -1014,20 +1053,26 @@ def main() -> int:
         else:
             for cid in sorted(by_check):
                 vs = by_check[cid]
-                print(f"[WARN] check {cid}: {len(vs)} violation(s)", file=sys.stderr)
+                check_tag = "ERROR" if cid in HARD_CHECKS else "WARN"
+                print(f"[{check_tag}] check {cid}: {len(vs)} violation(s)", file=sys.stderr)
                 for v in vs[: args.limit]:
                     print(f"  {v['file']}:{v['line']}: {v['msg']}", file=sys.stderr)
                 if len(vs) > args.limit:
                     print(f"  ... {len(vs) - args.limit} more (use --json for full list)", file=sys.stderr)
-            tag = "[ERROR]" if args.strict else "[WARN]"
-            mode = "Blocking (--strict)" if args.strict else "Non-blocking"
+            tag = "[ERROR]" if args.strict or hard_violations else "[WARN]"
+            if args.strict:
+                mode = "Blocking (--strict)"
+            elif hard_violations:
+                mode = f"Blocking hard check(s): {', '.join(sorted({v['check'] for v in hard_violations}))}"
+            else:
+                mode = "Non-blocking"
             print(
                 f"{tag} warn_concrete_instances: {len(violations)} total violation(s) across "
                 f"{len(by_check)} check(s). {mode}; run with --json for full data.",
                 file=sys.stderr,
             )
 
-    return 1 if args.strict and violations else 0
+    return 1 if (args.strict and violations) or hard_violations else 0
 
 
 if __name__ == "__main__":

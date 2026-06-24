@@ -53,18 +53,18 @@ The closure certificate $\ClosureCert(N, c)$ packages: a \emph{source field} nam
 \label{def:external-correspondence-grades}
 The \emph{external correspondence axis} is the four-element set
 $$
-  \ExternalCorrespondenceClosure
+  \ExternalCorrespondenceStatus
   \;=\;
-  \{\, \noExternalReference,\ \referencedExternal,\ \bridgedExternal,\ \calibratedReconstruction \,\}
+  \{\, \notApplicable,\ \referencedExternal,\ \bridgedExternal,\ \calibratedReconstruction \,\}
 $$
-ordered by $\noExternalReference < \referencedExternal < \bridgedExternal < \calibratedReconstruction$.
+ordered by $\notApplicable < \referencedExternal < \bridgedExternal < \calibratedReconstruction$.
 \end{definition}
 
 \begin{definition}[External correspondence interpretations]
 \label{def:external-correspondence-interpretations}
 The grades are read as follows.
 \begin{description}
-  \item[\textbf{$\noExternalReference$:}] the package is stated internally, with no declared outside reference theory for comparison.
+  \item[\textbf{$\notApplicable$:}] the package is stated internally, with no declared outside reference theory for comparison.
   \item[\textbf{$\referencedExternal$:}] an outside reference theory $R$ is named, and the comparison scope $S$ is stated.
   \item[\textbf{$\bridgedExternal$:}] the chapter states the object and main-theorem correspondences between $R$ and the BEDC construction over $S$.
   \item[\textbf{$\calibratedReconstruction$:}] relative to a declared and commit-pinned outside reference theory $R$ and a declared scope $S$, the package closes the theory-narrative question of constructive content over $S$: it supplies an internal constructive theory $C$ over $S$, states the $R \leftrightarrow C$ object and main-theorem correspondences, declares coverage and exclusions, and exhausts $S$ as the disjoint union of the BEDC reconstructed constructive kernel and the measured or refused classical boundary, with no hidden third region. This grade does not assert kernel checking, axiom purity, or footprint cleanliness; those are reported only by the formal verification and bridge-status axes.
@@ -186,7 +186,7 @@ Every chapter that asserts an object's closure ends with one block of the form
   \constructivestory{A closure claim is generated bottom-up by first naming the finite source field, then exposing the visible carrier rows, classifier rows, ledger rows, and stability rows that make the claim readable. At the lowest layer the packet is still a BHist-shaped artefact: hsame supplies rowwise sameness, Cont supplies the displayed continuation routes, and Pkg records which source certificates are being consumed. The classifier and ledger align because every accepted row is also the row a downstream consumer may inspect, while the source specification says where each row came from. Nonemptiness is witnessed by the displayed seed packet, and reflexivity, symmetry, and transitivity are inherited componentwise from the hsame comparisons. The closurestatus block therefore records how the object is built before it reports any verification grade.}
   \theoryclosure{\scopedClosure}
   \scopeclosed{<text describing exactly what the chapter closes>}
-  \externalcorrespondence{\noExternalReference | \referencedExternal
+  \externalcorrespondence{\notApplicable | \referencedExternal
     | \bridgedExternal | \calibratedReconstruction}
   \reference{<external reference theory and commit, when applicable>}
   \reconstructionscope{<external comparison scope>}
