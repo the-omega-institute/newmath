@@ -8975,6 +8975,7 @@ import BEDC.Derived.OptionUp.VisibleExclusion
 import BEDC.Derived.OptionUp.VisiblePayloadWitnesses
 import BEDC.Derived.OptionUp.VisibleReadback
 import BEDC.Derived.OptionUpNullableBridge
+import BEDC.Derived.OptionalSamplingUp.TasteGate
 import BEDC.Derived.OptionalStieltjesModulusUp
 import BEDC.Derived.OptionalStieltjesModulusUp.TasteGate
 import BEDC.Derived.OptionalStoppingUp
@@ -9407,6 +9408,7 @@ import BEDC.Derived.ProductUniformSpaceUp.TasteGate
 import BEDC.Derived.ProfiniteCompletionUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthGradientLedgerUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthLedgerUp.BridgeBlockerReadback
+import BEDC.Derived.ProgrammeStrengthLedgerUp.FormalTargetRequest
 import BEDC.Derived.ProgrammeStrengthLedgerUp.PublicReportInterface
 import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.ProjectionValuedMeasureUp
@@ -10275,7 +10277,9 @@ import BEDC.Derived.RegularCauchyComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionCounitUp
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.RealSealHandoff
+import BEDC.Derived.RegularCauchyCompletionCriterionUp.ScopeFactorization
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.TasteGate
+import BEDC.Derived.RegularCauchyCompletionCriterionUp.TransportStability
 import BEDC.Derived.RegularCauchyCompletionDensityUp
 import BEDC.Derived.RegularCauchyCompletionEndpointUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionEndpointUp.TasteGate
@@ -11330,6 +11334,7 @@ import BEDC.Derived.SheafificationUp.PlusConstructionBoundary
 import BEDC.Derived.SheafificationUp.PlusGluingReplay
 import BEDC.Derived.SheafificationUp.SeparatedRefinementExactness
 import BEDC.Derived.SheafificationUp.SheafHandoff
+import BEDC.Derived.SheafificationUp.SourceExposureObligation
 import BEDC.Derived.SheafificationUp.SourceLocalityObligation
 import BEDC.Derived.SheafificationUp.SourceObligationPackage
 import BEDC.Derived.SheafificationUp.TasteGate
