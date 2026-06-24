@@ -4908,6 +4908,7 @@ import BEDC.Derived.DoublingMetricUp.TasteGate
 import BEDC.Derived.DugundjiExtensionUp.TasteGate
 import BEDC.Derived.DuhamelPrincipleUp.TasteGate
 import BEDC.Derived.DunfordFunctionalCalculusUp.TasteGate
+import BEDC.Derived.DunfordIntegralUp.TasteGate
 import BEDC.Derived.DunfordPettisOperatorUp
 import BEDC.Derived.DvoretzkyFiniteDimensionalSectionUp.TasteGate
 import BEDC.Derived.DyadicAbsoluteValueUp
@@ -5759,7 +5760,6 @@ import BEDC.Derived.FilterRefinementUp.TasteGate
 import BEDC.Derived.FilterSubbasisCofinalCompletionUp
 import BEDC.Derived.FilterUp
 import BEDC.Derived.FilteredCauchyCompletionUp.TasteGate
-import BEDC.Derived.FiniteApproximateFixedPointUp.TasteGate
 import BEDC.Derived.FiniteAutomatonUp.TasteGate
 import BEDC.Derived.FiniteBorelCantelliUp.TasteGate
 import BEDC.Derived.FiniteBracketingIntervalUp.TasteGate
