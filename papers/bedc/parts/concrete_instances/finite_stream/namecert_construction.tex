@@ -94,6 +94,18 @@ Apply \autoref{thm:finite-stream-section-sibling-lock}. It prevents a downstream
 Now apply \autoref{thm:finite-stream-streamname-dependency-route}. It forces any StreamName, RegSeqRat, DyadicRatCore, or Real reader to pass through $Q,L,W$ before the downstream rows are consumed. Therefore every StreamName consumer sees the finite route rather than an ambient infinite stream or an unlisted sibling packet.
 \end{proof}
 
+\begin{theorem}[FiniteStream Real-seal forward link]
+\label{thm:finite-stream-real-seal-forward-link}
+Every $\RegularRealTailEquivalenceUp$ or $\RealUp$ consumer of an accepted $\FiniteStreamUp$ packet must read the finite request row $Q$, $\ListUp$ spine $L$, $\StreamNameUp$ window $W$, $\RegSeqRatUp$ readback $R$, $\DyadicRatCoreUp$ tolerance row $D$, and terminal $\RealUp$ seal boundary in that order, with transport, replay, provenance, and local naming supplied only by $H,C,P,N$. The downstream sibling route is the regular-tail equality surface of \autoref{ch:concrete-instances-regular-real-tail-equivalence-namecert}, which consumes finite request windows rather than an ambient completed stream.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-stream-carrier}. Its Real-facing rows are downstream from the displayed finite request, list spine, StreamName window, regular-rational readback, and dyadic tolerance rows.
+
+Use the StreamName route of \autoref{thm:finite-stream-streamname-route}. It forces every StreamName-facing read to expose $Q,L,W$ before $R,D,H,C,P,N$ can be consumed.
+
+Apply the finite-window factorization of \autoref{thm:finite-stream-window-factorization}. The factorization identifies the same ordered route as the only admissible path toward RegSeqRat or Real-facing finite-window data. Therefore a $\RegularRealTailEquivalenceUp$ or $\RealUp$ consumer receives a finite request-window seal, not quotient equality of real names, a selected limit, countable choice, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[FiniteStream pointwise stream forward route]
 \label{thm:finite-stream-pointwise-stream-forward-route}
 Every pointwise stream consumer of an accepted $\FiniteStreamUp$ packet, in particular a $\PointwiseStreamNameUp$ reader of \autoref{ch:concrete-instances-pointwise-stream-namecert}, must first expose the finite request row $Q$, the $\ListUp$ spine $L$, and the $\StreamNameUp$ finite window $W$. Only after that displayed window route is public may the readback reach $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ rows.

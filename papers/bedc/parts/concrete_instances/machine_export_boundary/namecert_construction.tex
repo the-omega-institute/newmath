@@ -66,6 +66,8 @@ The broader $\MachineInterfaceBoundaryUp$ sibling is preserved by the target row
 
 The $\MachineExportBoundaryUp$ packet refines the broader machine-facing interface of \autoref{ch:concrete-instances-machine-interface-boundary-namecert} by replacing a general registry-to-machine route with the target, audit, refusal, export tuple $E=(R,T,A,F,H,C,P,N)$ before any local export name is consumed.
 
+It therefore consumes $\MachineInterfaceBoundaryUp$ as a downstream specialization: $\RegistryExportSurfaceUp$ supplies the public status row, $\MachineReadableAuditInterfaceUp$ supplies audit readback, $\CannotClaimExportGateUp$ supplies refusal visibility, and $\NameCertMorphismUp$ supplies certificate-preserving provenance before the local export boundary is read.
+
 \falsifiablePrediction{Any machine export omitting target, audit, refusal, transport, replay, provenance, or local NameCert rows refutes the $\MachineExportBoundaryUp$ carrier.}
 
 \independenceWitness{registryexportsurface, machinereadableauditinterface, cannotclaimexportgate, namecertmorphism: none is bijective to MachineExportBoundaryUp because the boundary jointly carries registry export status, machine target, audit readback, refusal preservation, transport, replay, provenance, and local NameCert rows.}
