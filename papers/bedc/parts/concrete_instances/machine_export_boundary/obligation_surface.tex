@@ -1,0 +1,11 @@
+\begin{theorem}[Machine export boundary obligation surface]
+\label{thm:machine-export-boundary-obligation-surface}
+Every public $\MachineExportBoundaryUp$ export must pass through the displayed machine-interface, registry-export, audit-provenance, $\hsame$-transport, $\Cont$-replay, $\Pkg$, and local $\NameCert$ rows before any external machine read is public. In particular, the route refines the machine-facing interface of \autoref{ch:concrete-instances-machine-interface-boundary-namecert} and the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert} through the accepted packet $E=(R,T,A,F,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:machine-export-boundary-carrier}. The target row $T$ supplies the machine-interface surface, while $R$ supplies the registry-export surface before a machine read can be public.
+
+The audit and refusal rows $A,F$ keep provenance-facing evidence and blocked-claim visibility in the same packet. Transport through $H$ and replay through $C$ preserve those displayed rows rather than replacing them with an external machine assertion.
+
+Finally read $P$ and $N$. Package provenance and the local NameCert row close the export boundary only after the machine-interface, registry-export, audit, refusal, transport, and replay rows are visible, so no external read is public outside the displayed obligation surface.
+\end{proof}
