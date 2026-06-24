@@ -5988,6 +5988,7 @@ import BEDC.Derived.FiniteSubcoverCriterionUp.TasteGate
 import BEDC.Derived.FiniteSubcoverRadiusLedgerUp.TasteGate
 import BEDC.Derived.FiniteSubstrateMapUp.TasteGate
 import BEDC.Derived.FiniteSupportRemovalUp.TasteGate
+import BEDC.Derived.FiniteSupportStreamUp.TasteGate
 import BEDC.Derived.FiniteSupportUp.TasteGate
 import BEDC.Derived.FiniteTailDiagonalSealUp
 import BEDC.Derived.FiniteTailDiagonalSealUp.StdBridge
