@@ -35,7 +35,7 @@ theorem SheafificationCoverageExactness [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
   intro carrier coverRoute restrictionRoute localityRoute localityPkg
   obtain ⟨CUnary, TUnary, JUnary, PUnary, _LUnary, _GUnary, _SUnary, _HUnary, _RUnary,
-    _QUnary, _NUnary, namePkg⟩ := carrier
+    _QUnary, _NUnary, _qPkg, namePkg⟩ := carrier
   have coverWindowUnary : UnaryHistory coverWindow :=
     unary_cont_closed CUnary TUnary coverRoute
   have restrictionReadUnary : UnaryHistory restrictionRead :=
