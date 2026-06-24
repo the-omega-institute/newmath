@@ -11392,6 +11392,7 @@ import BEDC.Derived.StoneRepresentationBooleanAlgebraUp.TasteGate
 import BEDC.Derived.StoneWeierstrassUp.TasteGate
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.BridgeBoundary
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.ObligationClosureRoute
+import BEDC.Derived.StopCodonZeckendorfSuffixUp.ScopeGrounding
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.TasteGate
 import BEDC.Derived.StopCodonZeckendorfSuffixUp.VisionRoute
 import BEDC.Derived.StopTrpFaceRankDeficiencyUp.TasteGate
@@ -11703,7 +11704,6 @@ import BEDC.Derived.TopologyUp.StdBridge
 import BEDC.Derived.ToposUp
 import BEDC.Derived.ToposUp.NameCertObligationSurface
 import BEDC.Derived.TotalBoundedMetricUp.TasteGate
-import BEDC.Derived.TotalHostFuelHandoffUp.NameCertObligations
 import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
 import BEDC.Derived.TotalVariationFunctionUp.TasteGate
 import BEDC.Derived.TotallyBoundedClosureUp.TasteGate
