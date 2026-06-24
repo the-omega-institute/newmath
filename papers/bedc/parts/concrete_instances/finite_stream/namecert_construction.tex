@@ -94,6 +94,18 @@ Apply \autoref{thm:finite-stream-section-sibling-lock}. It prevents a downstream
 Now apply \autoref{thm:finite-stream-streamname-dependency-route}. It forces any StreamName, RegSeqRat, DyadicRatCore, or Real reader to pass through $Q,L,W$ before the downstream rows are consumed. Therefore every StreamName consumer sees the finite route rather than an ambient infinite stream or an unlisted sibling packet.
 \end{proof}
 
+\begin{theorem}[FiniteStream pointwise stream forward route]
+\label{thm:finite-stream-pointwise-stream-forward-route}
+Every pointwise stream consumer of an accepted $\FiniteStreamUp$ packet, in particular a $\PointwiseStreamNameUp$ reader of \autoref{ch:concrete-instances-pointwise-stream-namecert}, must first expose the finite request row $Q$, the $\ListUp$ spine $L$, and the $\StreamNameUp$ finite window $W$. Only after that displayed window route is public may the readback reach $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-stream-carrier}. Its finite observation surface begins with $Q,L,W$, so a pointwise reader has no entry point into the downstream rows before the request row, list spine, and window row are visible.
+
+Use the StreamName route of \autoref{thm:finite-stream-streamname-route}. It forces every StreamName-facing consumer to display the same $Q,L,W$ route before any regular-rational readback, dyadic tolerance row, or Real seal can be consumed.
+
+Finally compare with the pointwise stream carrier of \autoref{def:pointwise-stream-name-carrier}. A $\PointwiseStreamNameUp$ read starts from a certified StreamName source and requested finite point windows; when that source is supplied by $\FiniteStreamUp$, those windows are exactly the displayed finite request/list/window route. Thus the pointwise consumer receives finite BEDC window data, not an ambient infinite stream, quotient stream equality, selected representative, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[FiniteStream window concatenation]
 \label{thm:finite-stream-window-concatenation}
 Let
