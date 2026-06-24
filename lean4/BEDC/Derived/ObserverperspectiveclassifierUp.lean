@@ -263,6 +263,33 @@ theorem ObserverPerspectiveClassifierAlignmentLocalityCycle [AskSetup] [PackageS
       cycleReadUnary, alignmentSameTransport, alignmentRoute, cycleRoute, provenancePkg,
       namePkg, cyclePkg⟩
 
+theorem ObserverPerspectiveClassifierTwoObserverSourceAdmission [AskSetup] [PackageSetup]
+    {observerLeft observerRight universeLeft universeRight locality gap transport route
+      provenance name verdict : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverPerspectiveClassifierCarrier observerLeft observerRight universeLeft universeRight
+        locality gap transport route provenance name bundle pkg →
+      Cont gap route verdict →
+        PkgSig bundle verdict pkg →
+          UnaryHistory observerLeft ∧ UnaryHistory observerRight ∧
+            UnaryHistory universeLeft ∧ UnaryHistory universeRight ∧ UnaryHistory verdict ∧
+              Cont observerLeft observerRight universeLeft ∧
+                Cont universeLeft universeRight locality ∧ Cont gap route verdict ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle verdict pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier gapRouteVerdict verdictPkg
+  obtain ⟨observerLeftUnary, observerRightUnary, universeLeftUnary, universeRightUnary,
+    _localityUnary, gapUnary, _transportUnary, routeUnary, _provenanceUnary, _nameUnary,
+    observerUniverse, universeLocality, _localityTransport, _transportGap, provenancePkg,
+    namePkg⟩ := carrier
+  have verdictUnary : UnaryHistory verdict :=
+    unary_cont_closed gapUnary routeUnary gapRouteVerdict
+  exact
+    ⟨observerLeftUnary, observerRightUnary, universeLeftUnary, universeRightUnary,
+      verdictUnary, observerUniverse, universeLocality, gapRouteVerdict, provenancePkg,
+      namePkg, verdictPkg⟩
+
 theorem ObserverPerspectiveClassifierAlignmentTransportScope [AskSetup] [PackageSetup]
     {observerLeft observerRight universeLeft universeRight locality gap transport route
       provenance name publicRead : BHist}
@@ -429,6 +456,75 @@ theorem ObserverPerspectiveClassifierBHistScope [AskSetup] [PackageSetup]
         intro row sourceRow
         exact
           ⟨sourceRow.right, gapRouteScoped, provenancePkg, namePkg, scopedReadPkg⟩ }
+  exact ⟨cert, scopedReadUnary⟩
+
+theorem ObserverPerspectiveClassifierNameCertLedgerScope [AskSetup] [PackageSetup]
+    {observerLeft observerRight universeLeft universeRight locality gap transport route
+      provenance name scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverPerspectiveClassifierCarrier observerLeft observerRight universeLeft universeRight
+        locality gap transport route provenance name bundle pkg →
+      Cont gap route scopedRead →
+        PkgSig bundle scopedRead pkg →
+          SemanticNameCert
+              (fun row : BHist =>
+                (hsame row observerLeft ∨ hsame row observerRight ∨
+                    hsame row universeLeft ∨ hsame row universeRight ∨
+                      hsame row locality ∨ hsame row gap ∨ hsame row transport ∨
+                        hsame row route ∨ hsame row provenance ∨ hsame row name ∨
+                          hsame row scopedRead) ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row observerLeft ∨ hsame row observerRight ∨
+                  hsame row universeLeft ∨ hsame row universeRight ∨
+                    hsame row locality ∨ hsame row gap ∨ hsame row transport ∨
+                      hsame row route ∨ hsame row provenance ∨ hsame row name ∨
+                        hsame row scopedRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont gap route scopedRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle scopedRead pkg)
+              hsame ∧
+            UnaryHistory scopedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier gapRouteScoped scopedReadPkg
+  obtain ⟨observerLeftUnary, _observerRightUnary, _universeLeftUnary,
+    _universeRightUnary, _localityUnary, gapUnary, _transportUnary, routeUnary,
+    _provenanceUnary, _nameUnary, _observerUniverse, _universeLocality, _localityTransport,
+    _transportGap, provenancePkg, namePkg⟩ := carrier
+  have scopedReadUnary : UnaryHistory scopedRead :=
+    unary_cont_closed gapUnary routeUnary gapRouteScoped
+  let PatternSpec : BHist → Prop := fun row =>
+    hsame row observerLeft ∨ hsame row observerRight ∨ hsame row universeLeft ∨
+      hsame row universeRight ∨ hsame row locality ∨ hsame row gap ∨ hsame row transport ∨
+        hsame row route ∨ hsame row provenance ∨ hsame row name ∨ hsame row scopedRead
+  let SourceSpec : BHist → Prop := fun row => PatternSpec row ∧ UnaryHistory row
+  let LedgerPolicy : BHist → Prop := fun row =>
+    UnaryHistory row ∧ Cont gap route scopedRead ∧ PkgSig bundle provenance pkg ∧
+      PkgSig bundle name pkg ∧ PkgSig bundle scopedRead pkg
+  have sourceObserverLeft : SourceSpec observerLeft :=
+    ⟨Or.inl (hsame_refl observerLeft), observerLeftUnary⟩
+  have cert : SemanticNameCert SourceSpec PatternSpec LedgerPolicy hsame :=
+    { core :=
+        { carrier_inhabited := ⟨observerLeft, sourceObserverLeft⟩
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _other sameRows
+            exact hsame_symm sameRows
+          equiv_trans := by
+            intro _row _middle _other sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro row other sameRows sourceRow
+            cases sameRows
+            exact sourceRow }
+      pattern_sound := by
+        intro _row sourceRow
+        exact sourceRow.left
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.right, gapRouteScoped, provenancePkg, namePkg, scopedReadPkg⟩ }
   exact ⟨cert, scopedReadUnary⟩
 
 end BEDC.Derived.ObserverperspectiveclassifierUp
