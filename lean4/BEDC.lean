@@ -6841,6 +6841,7 @@ import BEDC.Derived.IsaacsEquationUp
 import BEDC.Derived.IsaacsEquationUp.TasteGate
 import BEDC.Derived.IsbellMrowkaPsiSpaceUp.TasteGate
 import BEDC.Derived.IsbellTightSpanUp.TasteGate
+import BEDC.Derived.IshiharaFiniteTestBoundaryUp
 import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.BoundedSequenceRoute
 import BEDC.Derived.IshiharaTrickUp.BranchStability
