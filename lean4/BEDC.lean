@@ -5924,6 +5924,7 @@ import BEDC.Derived.FiniteLebesgueNumberUp.WindowCoverageExactness
 import BEDC.Derived.FiniteLebesgueNumberUp.WindowRadiusLedgerCoherence
 import BEDC.Derived.FiniteLebesgueNumberUp.WindowRadiusSourceLock
 import BEDC.Derived.FiniteLimitSealEnvelopeUp.TasteGate
+import BEDC.Derived.FiniteLipschitzExtensionUp
 import BEDC.Derived.FiniteLipschitzIterationUp.TasteGate
 import BEDC.Derived.FiniteLowerBoundFoldUp.NameCertObligations
 import BEDC.Derived.FiniteLowerBoundFoldUp.TasteGate
@@ -6467,6 +6468,7 @@ import BEDC.Derived.HausdorffCompletionEnvelopeUp.SiblingRoute
 import BEDC.Derived.HausdorffCompletionEnvelopeUp.TasteGate
 import BEDC.Derived.HausdorffCompletionFilterSeparationUp.TasteGate
 import BEDC.Derived.HausdorffCompletionKernelUp.TasteGate
+import BEDC.Derived.HausdorffCompletionPullbackUp
 import BEDC.Derived.HausdorffCompletionUnitUp.TasteGate
 import BEDC.Derived.HausdorffCompletionUniversalUp.TasteGate
 import BEDC.Derived.HausdorffCompletionUp
