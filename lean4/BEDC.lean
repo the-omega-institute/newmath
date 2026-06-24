@@ -8179,6 +8179,7 @@ import BEDC.Derived.MetaCICRedexFrontierUp.SNObstructionRetention
 import BEDC.Derived.MetaCICRedexFrontierUp.TasteGate
 import BEDC.Derived.MetaCICResidualCommutationWitnessUp
 import BEDC.Derived.MetaCICResidualDiamondWitnessUp
+import BEDC.Derived.MetaCICResidualJoinEnvelopeUp
 import BEDC.Derived.MetaCICResidualSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICResidualSubstitutionComparisonUp
 import BEDC.Derived.MetaCICResidualSubstitutionCompatibilityUp.TasteGate
