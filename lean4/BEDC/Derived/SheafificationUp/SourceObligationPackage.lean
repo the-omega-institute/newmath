@@ -39,7 +39,7 @@ theorem SheafificationSourceObligationPackage [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
   intro carrier coverRoute restrictionRoute localityRoute sheafRoute sheafPkg
   obtain ⟨cUnary, tUnary, jUnary, pUnary, _lUnary, _gUnary, sUnary, _hUnary,
-    _rUnary, _qUnary, _nUnary, namePkg⟩ := carrier
+    _rUnary, _qUnary, _nUnary, _qPkg, namePkg⟩ := carrier
   have coverWindowUnary : UnaryHistory coverWindow :=
     unary_cont_closed cUnary tUnary coverRoute
   have restrictionReadUnary : UnaryHistory restrictionRead :=
