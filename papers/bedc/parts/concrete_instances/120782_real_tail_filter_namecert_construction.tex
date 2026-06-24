@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\RealTailFilterUp$}
+\label{ch:concrete-instances-real-tail-filter-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a Real-facing tail filter is read only after the regular rational source, finite stream windows, dyadic tolerance ledger, terminal Real seal, and same-real tail route have all been displayed. The $\RealTailFilterUp$ packet sits after the stream-name interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the regular real tail-equivalence route of \autoref{ch:concrete-instances-regular-real-tail-equivalence-namecert}. It records terminal tail-filter evidence for L10 Real and Completion consumers without quotient streams, selected limits, host equality, or ambient Real completeness.
+
+\begin{definition}[Real tail filter carrier]
+\label{def:real-tail-filter-carrier}
+A $\RealTailFilterUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,R,D,E,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row inspected by the tail request.
+\item $R$ is the $\RegSeqRatUp$ readback row produced from the same displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger that records the late-stage bound used by the tail request.
+\item $E$ is the terminal $\RealUp$ seal row available only after $S,R,D$ have been displayed.
+\item $F$ is the terminal filter row, recording the eventual tail request, its finite witness window, and its refusal boundary for missing tolerance evidence.
+\item $H$ records componentwise $\hsame$ transport for the window, readback, tolerance, seal, filter, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the same route from a tail request through $S,R,D,E,F$.
+\item $P$ records $\Pkg$ provenance over $\RealTailFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RegularRealTailEquivalenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RealTailFilterUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these nine rows. It has no coordinate for quotient stream equality, a selected Cauchy representative, a chosen limit, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Real tail filter NameCert obligations]
+\label{thm:real-tail-filter-namecert-obligations}
+For every accepted $\RealTailFilterUp$ carrier
+$$
+T=(S,R,D,E,F,H,C,P,N),
+$$
+the local $\NameCert_{\RealTailFilterUp}$ surface consists exactly of finite-window exposure through $S$, regular-rational readback through $R$, dyadic tolerance exposure through $D$, terminal Real sealing through $E$, eventual tail-filter evidence through $F$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-tail-filter-carrier}. The analytic route starts with the finite window $S$, then reads the regular rational row $R$ and the dyadic tolerance ledger $D$ before any terminal Real seal is visible.
+
+The filter row $F$ is downstream of that route. It records only the eventual tail request and the finite witness window already controlled by $S,R,D,E$, so it cannot add a separate stream representative or a selected limit.
+
+Finally read $H,C,P,N$. These rows transport, replay, source, and name the same finite packet. Since the classifier has no quotient, choice, host-equality, or ambient-completeness coordinate, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Real tail filter eventual stability]
+\label{thm:real-tail-filter-eventual-stability}
+Let
+$$
+T=(S,R,D,E,F,H,C,P,N)
+$$
+be an accepted $\RealTailFilterUp$ carrier. Any Real or Completion consumer that reads the terminal tail-filter row $F$ must preserve the same $S,R,D,E$ route at every later tail request whose finite witness window refines the displayed one. The consumer receives no quotient stream, selected representative, selected host limit, countable-choice schedule, host real equality, ambient $\RealUp$ completeness, or bridge credential.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:real-tail-filter-namecert-obligations}. They force every tail-filter read to expose the finite window, regular-rational readback, dyadic tolerance ledger, and terminal Real seal before $F$ is available.
+
+For a later tail request, refinement is read through the same finite window discipline. The displayed tolerance ledger $D$ is the only bound available to the consumer, so the request remains attached to the original $S,R,D,E$ route.
+
+The structural rows $H,C,P,N$ preserve the route under transport and replay. Because the carrier lacks quotient, selector, host-limit, host-equality, choice, completeness, and bridge coordinates, eventual stability can export only the displayed tail-filter evidence.
+\end{proof}
+
+\falsifiablePrediction{A $\RealTailFilterUp$ consumer that reaches terminal Real-facing tail-filter evidence after deleting $S$, $R$, $D$, or $E$ refutes the carrier of \autoref{def:real-tail-filter-carrier}.}
+
+\independenceWitness{Nearest siblings: StreamName, RegSeqRat, DyadicRatCore, Real, and RegularRealTailEquivalence. $\RealTailFilterUp$ is not bijective to any one sibling because it jointly carries finite windows, regular-rational readback, dyadic tolerance, terminal Real sealing, eventual tail-filter evidence, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{RealTailFilterUp}{seedStr}
+
+\begin{closurestatus}{\RealTailFilterUp}
+  \constructivestory{A $\RealTailFilterUp$ packet is generated from StreamName finite windows, RegSeqRat readback, DyadicRatCore tolerance evidence, a terminal RealUp seal, eventual tail-filter evidence, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-tail-filter-carrier}, \autoref{thm:real-tail-filter-namecert-obligations}, and \autoref{thm:real-tail-filter-eventual-stability} seed the terminal Real-facing tail-filter route for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected representatives, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, NameCert obligation rows, tail-filter nonescape, eventual stability, transport, replay, provenance, and local naming for BEDC.Derived.RealTailFilterUp.}
+\end{closurestatus}
