@@ -85,35 +85,20 @@ theorem CauchyEquivalenceSetoidNameCertSurface [AskSetup] [PackageSetup]
       equalityPkg⟩
 
 theorem CauchyEquivalenceSetoidTransport [AskSetup] [PackageSetup]
-    {s0 s1 r0 r1 dyadic test sealRow transport replay provenance name transportedLeft
-      transportedRight transportedSeal named : BHist}
+    {s0 s1 r0 r1 dyadic test sealRow transport replay provenance name transportedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     CauchyEquivalenceSetoidCarrier s0 s1 r0 r1 dyadic test sealRow transport replay
         provenance name bundle pkg ->
-      Cont s0 r0 transportedLeft ->
-        Cont s1 r1 transportedRight ->
-          Cont test sealRow transportedSeal ->
-            Cont transport transportedSeal named ->
-              PkgSig bundle named pkg ->
-                UnaryHistory transportedLeft ∧ UnaryHistory transportedRight ∧
-                  UnaryHistory transportedSeal ∧ UnaryHistory named ∧
-                    PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
-                      PkgSig bundle named pkg := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
-  intro carrier leftRoute rightRoute sealRoute namedRoute namedPkg
-  obtain ⟨s0Unary, s1Unary, r0Unary, r1Unary, _dyadicUnary, testUnary, sealUnary,
-    transportUnary, _replayUnary, _provenanceUnary, _nameUnary, _leftTransport,
-    _rightReplay, _dyadicSeal, provenancePkg, namePkg⟩ := carrier
-  have transportedLeftUnary : UnaryHistory transportedLeft :=
-    unary_cont_closed s0Unary r0Unary leftRoute
-  have transportedRightUnary : UnaryHistory transportedRight :=
-    unary_cont_closed s1Unary r1Unary rightRoute
-  have transportedSealUnary : UnaryHistory transportedSeal :=
-    unary_cont_closed testUnary sealUnary sealRoute
-  have namedUnary : UnaryHistory named :=
-    unary_cont_closed transportUnary transportedSealUnary namedRoute
-  exact
-    ⟨transportedLeftUnary, transportedRightUnary, transportedSealUnary, namedUnary,
-      provenancePkg, namePkg, namedPkg⟩
+      hsame transport transportedRead ->
+        UnaryHistory transportedRead ∧ PkgSig bundle provenance pkg ∧
+          PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory hsame PkgSig
+  intro carrier transportSame
+  obtain ⟨_s0Unary, _s1Unary, _r0Unary, _r1Unary, _dyadicUnary, _testUnary,
+    _sealUnary, transportUnary, _replayUnary, _provenanceUnary, _nameUnary,
+    _leftTransport, _rightReplay, _dyadicSeal, provenancePkg, namePkg⟩ := carrier
+  have transportedUnary : UnaryHistory transportedRead :=
+    unary_transport transportUnary transportSame
+  exact ⟨transportedUnary, provenancePkg, namePkg⟩
 
 end BEDC.Derived.CauchyEquivalenceSetoidUp

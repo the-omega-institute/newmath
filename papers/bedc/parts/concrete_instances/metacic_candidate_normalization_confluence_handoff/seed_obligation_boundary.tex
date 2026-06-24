@@ -10,6 +10,18 @@ Use seed closure and premise exposure from \autoref{thm:metacic-candidate-normal
 Finally apply decider-row exhaustion from \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-row-exhaustion}. The structural rows $T,R,P,L$ preserve the same finite packet, so the bounded endpoint is consumed only after the seed-obligation rows have been exposed.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate residual handoff scope]
+\label{thm:metacic-candidate-normalization-residual-handoff-scope}
+Every accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet routes residual-envelope data $C$ and blocked-edge data $B$ through candidate evidence $K$, normalization frontier $F$, decidable boundary $D$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local $\NameCert$ row $L$ before any bounded endpoint consumption. The route remains a residual handoff scope and does not assert full Church--Rosser, unrestricted subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, or closed consistency.
+\end{theorem}
+\begin{proof}
+Begin with the seed obligations of \autoref{thm:metacic-candidate-normalization-confluence-handoff-seed-obligations}. They expose $K,F,C,D,B,T,R,P,L$ before endpoint consumption, so residual-envelope and blocked-edge data are visible rows rather than hidden premises.
+
+Apply the boundary theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary} and the premise-exposure theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-premise-exposure}. These force the candidate evidence and normalization frontier to precede every confluence-facing or decidability-facing handoff read.
+
+Finally use decider-row exhaustion from \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-row-exhaustion}. The decidable boundary is consumed as a finite row, while $T,R,P,L$ only transport, replay, package, and locally name the same packet. Hence no endpoint consumer can replace the residual handoff by any excluded global metatheorem or host-evaluator claim.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate handoff residual frontier scope]
 \label{thm:metacic-candidate-normalization-confluence-handoff-residual-frontier-scope}
 Every accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet routes residual-envelope data $C$ and blocked-edge data $B$ through the normalization frontier $F$ and decidable boundary $D$ before any endpoint-facing consumer reads the packet. Hence the handoff is a scoped frontier certificate: it cannot be read as unconditional strong normalization, unrestricted confluence, global conversion decidability, quotient syntax equality, or host evaluator soundness.
