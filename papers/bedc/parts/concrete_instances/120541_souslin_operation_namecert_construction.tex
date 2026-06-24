@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\SouslinOperationUp$}
+\label{ch:concrete-instances-souslin-operation-namecert}
+\origin{human}
+
+Following Suslin and Luzin on analytic sets, the $\SouslinOperationUp$ packet records the finite BEDC surface by which a tree-indexed family of Borel rows on Baire space is read as an analytic-set handoff. It sits between the Baire-space carrier of \autoref{ch:concrete-instances-bairespace-namecert}, the Borel hierarchy of \autoref{ch:concrete-instances-borel-hierarchy-namecert}, the analytic-set consumer of \autoref{ch:concrete-instances-analytic-set-namecert}, the topology and set-like rows of \autoref{ch:concrete-instances-topology-namecert} and \autoref{ch:concrete-instances-setlike-namecert}, and the finite observation route of \autoref{ch:concrete-instances-streamname-namecert}. The packet names a displayed operation from Borel branch data to an analytic-set surface; it is not a host projection theorem, a completed choice sequence, a quotient equality of streams, or an ambient descriptive-set-theoretic universe.
+
+\begin{definition}[Souslin-operation carrier]
+\label{def:souslin-operation-carrier}
+A $\SouslinOperationUp$ carrier is a finite $\BHist$ packet
+$$
+S=(B,L,A,T,E,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BaireSpaceUp$ branch row, naming the finite branch prefixes and their inspection order.
+\item $L$ is the $\BorelHierarchyUp$ code-family row, assigning Borel-code data to the displayed finite prefix nodes.
+\item $A$ is the $\AnalyticSetUp$ handoff row produced from the branch-indexed Borel family.
+\item $T$ is the $\TopologyUp$ open-neighbourhood and closure-stability row used by the Borel and analytic reads.
+\item $E$ is the $\SetLikeUp$ membership row, recording the displayed set-membership tests before the analytic handoff is accepted.
+\item $W$ is the $\StreamNameUp$ finite-window row through which branch observations and membership probes are read.
+\item $R$ is the operation ledger: it records branch-prefix compatibility, Borel-row stability along extensions, and the finite handoff from the displayed family to the analytic-set row.
+\item $H$ records componentwise $\hsame$ transport for $B,L,A,T,E,W,R,P,N$.
+\item $C$ records displayed $\Cont$ replay from a requested analytic-set read through Baire branches, Borel codes, topology, set-like membership, stream windows, and the operation ledger.
+\item $P$ is the $\Pkg$ provenance over $\SouslinOperationUp$, $\BaireSpaceUp$, $\BorelHierarchyUp$, $\AnalyticSetUp$, $\TopologyUp$, $\SetLikeUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SouslinOperationUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $B,L,A,T,E,W,R,H,C,P,N$. It has no coordinate for countable choice, arbitrary projection over a completed product, host equality of sets, quotient stream equality, or an unbounded Borel-code oracle.
+\end{definition}
+
+\begin{theorem}[Souslin-operation NameCert obligations]
+\label{thm:souslin-operation-namecert-obligations}
+For the carrier of \autoref{def:souslin-operation-carrier}, the local $\NameCert_{\SouslinOperationUp}$ surface consists exactly of carrier admission for
+$$
+S=(B,L,A,T,E,W,R,H,C,P,N),
+$$
+Baire branch exposure through $B$, Borel family exposure through $L$, analytic-set handoff through $A$, topology and set-like membership exposure through $T,E$, finite stream observation through $W$, operation-ledger exactness through $R$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:souslin-operation-carrier}. The visible rows are exactly $B,L,A,T,E,W,R,H,C,P,N$, so every accepted read is either one of those projections or a route replaying them.
+
+The branch and code side is read through $B,L,W$. The Baire row names the branch-prefix data, the Borel row attaches a code family to those prefixes, and the StreamName row records the finite observations used by the branch read.
+
+The analytic side is read through $A,T,E,R$. The topology and set-like rows supply the membership and neighbourhood tests already exposed by the Borel family, while the operation ledger records the branch-extension compatibility needed before $A$ can be exported.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since no row contains countable choice, host set equality, quotient stream equality, or an unbounded Borel-code oracle, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Souslin-operation analytic-set handoff]
+\label{thm:souslin-operation-analytic-set-handoff}
+Every accepted $\SouslinOperationUp$ packet exposes an $\AnalyticSetUp$ handoff only after the finite route
+$$
+\BaireSpaceUp \longmapsto \StreamNameUp \longmapsto \BorelHierarchyUp \longmapsto \TopologyUp,\SetLikeUp \longmapsto \AnalyticSetUp
+$$
+has been displayed through $B,W,L,T,E,R,H,C,P,N$. A consumer may use the analytic-set row $A$ only as the output of that route, not as an external projection theorem or a selected infinite branch.
+\end{theorem}
+\begin{proof}
+Begin with the branch data. The row $B$ supplies the Baire prefixes and $W$ supplies the finite observations of those prefixes; no completed branch is selected outside the displayed windows.
+
+Next read the Borel family. The row $L$ assigns the Borel-code data to the inspected prefixes, while $T$ and $E$ expose the topology-facing and membership-facing tests used by those codes.
+
+The ledger $R$ then binds extension compatibility and handoff exactness. It is the only row that relates the branch-indexed Borel family to the analytic-set export.
+
+Finally $A,H,C,P,N$ export and preserve the analytic-set handoff. Because the route never introduces countable choice, host projection, quotient stream equality, or ambient set equality, the consumer receives exactly the displayed $\AnalyticSetUp$ surface.
+\end{proof}
+
+\begin{closurestatus}{\SouslinOperationUp}
+  \constructivestory{A $\SouslinOperationUp$ packet is generated from BaireSpace branch rows, BorelHierarchy code-family rows, an AnalyticSet handoff, Topology and SetLike membership rows, StreamName finite windows, an operation ledger, componentwise hsame transports, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:souslin-operation-carrier}, \autoref{thm:souslin-operation-namecert-obligations}, and \autoref{thm:souslin-operation-analytic-set-handoff} seed the finite operation route from Borel branch data on Baire space to an analytic-set handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host projection theorems, countable choice, quotient stream equality, or ambient set equality.}
+  \upgradepath{Obligation closure requires checked carrier admission, Baire branch exposure, Borel family stability, topology and set-like membership replay, StreamName window discipline, analytic-set handoff exactness, and non-escape for BEDC.Derived.SouslinOperationUp.}
+\end{closurestatus}
