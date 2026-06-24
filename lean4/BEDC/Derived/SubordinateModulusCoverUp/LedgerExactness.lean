@@ -87,6 +87,27 @@ theorem SubordinateModulusCoverLedgerExactness [AskSetup] [PackageSetup]
       centersPointwiseRead, radiiPrecisionRead, comparisonRouteRead, provenancePkg, namePkg,
       uniformReadPkg⟩
 
+theorem SubordinateModulusCoverChoiceFreeHandoff [AskSetup] [PackageSetup]
+    {E bundleSpine centers radii precision pointwise coverage comparisons transport route
+      provenance name uniformRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubordinateModulusCoverCarrier E bundleSpine centers radii precision pointwise coverage
+        comparisons transport route provenance name bundle pkg →
+      Cont radii comparisons uniformRead →
+        PkgSig bundle uniformRead pkg →
+          UnaryHistory uniformRead ∧ PkgSig bundle provenance pkg ∧
+            PkgSig bundle name pkg ∧ PkgSig bundle uniformRead pkg ∧
+              Cont radii comparisons uniformRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier radiiComparisonsRead uniformReadPkg
+  obtain ⟨_eUnary, _bundleSpineUnary, _centersUnary, radiiUnary, _precisionUnary,
+    _pointwiseUnary, _coverageUnary, comparisonsUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _coverageRoute, _comparisonRoute, provenancePkg, namePkg⟩ :=
+    carrier
+  have uniformReadUnary : UnaryHistory uniformRead :=
+    unary_cont_closed radiiUnary comparisonsUnary radiiComparisonsRead
+  exact ⟨uniformReadUnary, provenancePkg, namePkg, uniformReadPkg, radiiComparisonsRead⟩
+
 theorem SubordinateModulusCoverCarrierAdmission [AskSetup] [PackageSetup]
     {E bundleSpine centers radii precision pointwise coverage comparisons transport route
       provenance name : BHist}

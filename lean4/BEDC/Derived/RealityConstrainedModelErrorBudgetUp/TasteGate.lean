@@ -513,4 +513,88 @@ theorem RealityConstrainedModelErrorBudgetCarrier_nonescape [AskSetup] [PackageS
       sourceBudgetWindow, windowMismatchFailure, mismatchFailureConsumer, provenancePkg,
       consumerPkg⟩
 
+theorem RealityConstrainedModelErrorBudgetCarrier_public_certificate [AskSetup] [PackageSetup]
+    {source budget window mismatch failure transport route provenance localCert publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealityConstrainedModelErrorBudgetCarrier source budget window mismatch failure transport route
+        provenance localCert bundle pkg ->
+      Cont mismatch failure publicRead ->
+        PkgSig bundle publicRead pkg ->
+          SemanticNameCert
+            (fun row : BHist =>
+              hsame row source ∧ ∃ packet : RealityConstrainedModelErrorBudgetUp,
+                packet = RealityConstrainedModelErrorBudgetUp.mk source budget window mismatch
+                  failure transport route provenance localCert)
+            (fun row : BHist =>
+              Cont source budget window ∧ Cont window mismatch failure ∧ hsame row source)
+            (fun _row : BHist =>
+              Cont mismatch failure publicRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle publicRead pkg ∧ hsame transport transport ∧ hsame route route ∧
+                  hsame localCert localCert)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier mismatchFailurePublic publicReadPkg
+  have publicSurface :=
+    RealityConstrainedModelErrorBudgetCarrier_nonescape carrier mismatchFailurePublic publicReadPkg
+  obtain ⟨_sourceUnary, _budgetUnary, _windowUnary, _mismatchUnary, _failureUnary,
+    _publicUnary, sourceBudgetWindow, windowMismatchFailure, mismatchFailurePublic',
+    provenancePkg, publicReadPkg'⟩ := publicSurface
+  exact {
+    core := {
+      carrier_inhabited :=
+        Exists.intro source
+          ⟨hsame_refl source,
+            Exists.intro
+              (RealityConstrainedModelErrorBudgetUp.mk source budget window mismatch failure
+                transport route provenance localCert) rfl⟩
+      equiv_refl := by intro row _source; exact hsame_refl row
+      equiv_symm := by intro _row _other sameRows; exact hsame_symm sameRows
+      equiv_trans := by intro _row _middle _other sameLeft sameRight; exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨sourceBudgetWindow, windowMismatchFailure, sourceRow.left⟩
+    ledger_sound := by
+      intro _row _sourceRow
+      exact
+        ⟨mismatchFailurePublic', provenancePkg, publicReadPkg', hsame_refl transport, hsame_refl route,
+          hsame_refl localCert⟩
+  }
+
+theorem RealityConstrainedModelErrorBudgetCarrier_bridge_interface [AskSetup] [PackageSetup]
+    {source budget window mismatch failure transport route provenance localCert publicRead
+      bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealityConstrainedModelErrorBudgetCarrier source budget window mismatch failure transport route
+        provenance localCert bundle pkg ->
+      Cont mismatch failure publicRead -> Cont publicRead provenance bridgeRead ->
+        PkgSig bundle publicRead pkg -> UnaryHistory provenance ->
+          (∃ packet : RealityConstrainedModelErrorBudgetUp,
+              packet = RealityConstrainedModelErrorBudgetUp.mk source budget window mismatch
+                failure transport route provenance localCert) ∧
+            UnaryHistory publicRead ∧ UnaryHistory bridgeRead ∧ hsame publicRead (append mismatch failure) ∧
+                hsame bridgeRead (append publicRead provenance) ∧
+                  PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro carrier mismatchFailurePublic publicProvenanceBridge publicReadPkg provenanceUnary
+  obtain ⟨_sourceUnary, _budgetUnary, _windowUnary, mismatchUnary, failureUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _localCertUnary, _sourceBudgetWindow,
+    _windowMismatchFailure, _provenancePkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead := unary_cont_closed mismatchUnary failureUnary mismatchFailurePublic
+  have bridgeUnary : UnaryHistory bridgeRead := unary_cont_closed publicUnary provenanceUnary publicProvenanceBridge
+  have publicExact : hsame publicRead (append mismatch failure) := by
+    cases mismatchFailurePublic
+    exact hsame_refl _
+  have bridgeExact : hsame bridgeRead (append publicRead provenance) := by
+    cases publicProvenanceBridge
+    exact hsame_refl _
+  exact
+    ⟨Exists.intro
+        (RealityConstrainedModelErrorBudgetUp.mk source budget window mismatch failure transport
+          route provenance localCert) rfl,
+      publicUnary, bridgeUnary, publicExact, bridgeExact, publicReadPkg⟩
+
 end BEDC.Derived.RealityConstrainedModelErrorBudgetUp

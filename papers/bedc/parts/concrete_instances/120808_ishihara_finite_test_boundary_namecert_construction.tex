@@ -1,0 +1,52 @@
+\chapter{A Concrete Naming Certificate for $\IshiharaFiniteTestBoundaryUp$}
+\label{ch:concrete-instances-ishihara-finite-test-boundary-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Troelstra--van Dalen on choice sequences and limited omniscience boundaries, the $\IshiharaFiniteTestBoundaryUp$ packet records the finite test boundary at which Ishihara-style branch inspection may be consumed by Real and Completion rows. It sits beside $\IshiharaTrickUp$ in \autoref{ch:concrete-instances-ishihara-trick-namecert}, $\LLPOBoundaryUp$ in \autoref{ch:concrete-instances-llpo-boundary-namecert}, $\WLPOBoundaryUp$ in \autoref{ch:concrete-instances-wlpo-boundary-namecert}, the stream-window surface $\StreamNameUp$ in \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback $\RegSeqRatUp$ in \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger $\DyadicRatCoreUp$ in \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal $\RealUp$ in \autoref{ch:concrete-instances-real-namecert}. The packet exposes a finite branch-inspection route without importing LPO, WLPO, trichotomy, selected limits, quotient stream equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Ishihara finite-test boundary carrier]
+\label{def:ishihara-finite-test-boundary-carrier}
+An $\IshiharaFiniteTestBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+I=(B,P,N,W,Q,D,E,H,C,S)
+$$
+with the following rows:
+\begin{enumerate}
+\item $B$ is the branch-window row displaying the finite observation schedule inspected by the Ishihara-style argument;
+\item $P$ is the positive-test row naming the finite evidence that the inspected branch has crossed the displayed positive threshold;
+\item $N$ is the negative-test row naming the finite evidence that the inspected branch remains inside the displayed negative threshold;
+\item $W$ is the $\StreamNameUp$ window row through which the inspected sequence coordinates are read;
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the same finite window;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row carrying the threshold budget used by the two finite tests;
+\item $E$ is the terminal $\RealUp$ seal row, available only after $B,P,N,W,Q,D$ have been displayed;
+\item $H$ is componentwise $\hsame$ transport for the branch, test, window, readback, tolerance, and seal rows;
+\item $C$ is displayed $\Cont$ replay for the same finite inspection route;
+\item $S$ is the local $\NameCert_{\IshiharaFiniteTestBoundaryUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose public read factors through the displayed finite branch window and exactly one of the two test rows before the Real or Completion consumer reads $E$. It has no coordinate for LPO, WLPO, trichotomy of real names, a selected completed limit, quotient equality of streams, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Ishihara finite-test boundary NameCert obligations]
+\label{thm:ishihara-finite-test-boundary-namecert-obligations}
+For every accepted $\IshiharaFiniteTestBoundaryUp$ carrier $I=(B,P,N,W,Q,D,E,H,C,S)$, the local NameCert surface consists exactly of finite branch-window admission, positive-test admission, negative-test admission, StreamName window readback, RegSeqRat readback, DyadicRatCore tolerance budgeting, terminal Real-seal exposure, componentwise transport, displayed replay, and local naming. A Real or Completion consumer may use the packet only after the finite inspection rows $B,W,Q,D$ and one displayed test row have been exposed; the consumer receives no LPO, WLPO, real trichotomy, selected limit, quotient stream equality, or ambient Real-completeness row.
+\end{theorem}
+\leanstmt{BEDC.Derived.IshiharaFiniteTestBoundaryUp}
+\begin{proof}
+Project the carrier of \autoref{def:ishihara-finite-test-boundary-carrier}. The only branch-inspection data are the displayed window $B$, the positive-test row $P$, the negative-test row $N$, the stream window $W$, the regular rational readback $Q$, and the dyadic tolerance budget $D$.
+
+The Ishihara-style use is therefore finite. A consumer first reads $W,Q,D$ over the same branch window and then consumes either $P$ or $N$ as the displayed test outcome. The terminal Real seal $E$ is downstream of that route.
+
+Transport and replay through $H$ and $C$ preserve the same rows, and the local naming row $S$ adds no omniscience coordinate. Since the carrier contains no LPO, WLPO, trichotomy, selected-limit, quotient-stream, or Real-completeness row, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\closureat{IshiharaFiniteTestBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\IshiharaFiniteTestBoundaryUp}
+  \constructivestory{An $\IshiharaFiniteTestBoundaryUp$ packet is generated from a finite branch-window row, positive and negative finite-test rows, a StreamName window, RegSeqRat readback, a DyadicRatCore tolerance budget, a terminal Real seal, componentwise transport, displayed replay, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ishihara-finite-test-boundary-carrier} and \autoref{thm:ishihara-finite-test-boundary-namecert-obligations} seed the finite branch-inspection boundary used by Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close LPO, WLPO, trichotomy, selected limits, quotient stream equality, ambient Real completeness, Lean-checked obligations, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, test-row exactness, window/readback/tolerance compatibility, Real-seal nonescape, transport stability, replay stability, and local naming for BEDC.Derived.IshiharaFiniteTestBoundaryUp.}
+\end{closurestatus}
