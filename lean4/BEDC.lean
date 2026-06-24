@@ -5760,6 +5760,7 @@ import BEDC.Derived.FiniteDimensionalCompactnessUp.TasteGate
 import BEDC.Derived.FiniteDimensionalHahnBanachSeparationUp.TasteGate
 import BEDC.Derived.FiniteDimensionalNormEquivalenceUp
 import BEDC.Derived.FiniteDimensionalNormEquivalenceUp.TasteGate
+import BEDC.Derived.FiniteDimensionalNormedCompletenessUp
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.NameCertObligations
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.TasteGate
 import BEDC.Derived.FiniteDyadicBisectionUp.TasteGate
@@ -10598,6 +10599,7 @@ import BEDC.Derived.RegularCauchyWitnessSelectorUp.ClassifierStability
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.LedgerNonescape
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.NameCertSurface
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.TasteGate
+import BEDC.Derived.RegularCauchyZeroDistanceUp.NullsequenceCriterion
 import BEDC.Derived.RegularCauchyZeroDistanceUp.TasteGate
 import BEDC.Derived.RegularCauchyZeroUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyZeroUp.TasteGate
