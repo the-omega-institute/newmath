@@ -1928,11 +1928,13 @@ import BEDC.Derived.CauchyDoubleSequenceUp.TasteGate
 import BEDC.Derived.CauchyEntourageFilterUp.TasteGate
 import BEDC.Derived.CauchyEquivalenceSetoidUp
 import BEDC.Derived.CauchyEquivalenceSetoidUp.DownstreamEqualityDependency
+import BEDC.Derived.CauchyEquivalenceSetoidUp.NoQuotient
 import BEDC.Derived.CauchyEquivalenceSetoidUp.ObligationSurface
 import BEDC.Derived.CauchyEquivalenceSetoidUp.PsameRealClassifierBridge
 import BEDC.Derived.CauchyEquivalenceSetoidUp.RealSealForwardRoute
 import BEDC.Derived.CauchyEquivalenceSetoidUp.RealSeparabilityStableDensity
 import BEDC.Derived.CauchyEquivalenceSetoidUp.SeparatedMetricFactorization
+import BEDC.Derived.CauchyEquivalenceSetoidUp.TailTransitivity
 import BEDC.Derived.CauchyErrorCertificateUp
 import BEDC.Derived.CauchyEstimateUp
 import BEDC.Derived.CauchyEstimateUp.TasteGate
@@ -1940,6 +1942,7 @@ import BEDC.Derived.CauchyExtensionOperatorUp.TasteGate
 import BEDC.Derived.CauchyFilterBaseUp.TasteGate
 import BEDC.Derived.CauchyFilterBasisCompletionUp.TasteGate
 import BEDC.Derived.CauchyFilterCategoryUp
+import BEDC.Derived.CauchyFilterClusterUp.ClusterRoute
 import BEDC.Derived.CauchyFilterClusterUp.NameCertObligations
 import BEDC.Derived.CauchyFilterClusterUp.TasteGate
 import BEDC.Derived.CauchyFilterCompletenessUp
@@ -5773,6 +5776,7 @@ import BEDC.Derived.FiniteDimensionalHahnBanachSeparationUp.TasteGate
 import BEDC.Derived.FiniteDimensionalNormEquivalenceUp
 import BEDC.Derived.FiniteDimensionalNormEquivalenceUp.TasteGate
 import BEDC.Derived.FiniteDimensionalNormedCompletenessUp
+import BEDC.Derived.FiniteDimensionalNormedCompletenessUp.TasteGate
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.NameCertObligations
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.TasteGate
 import BEDC.Derived.FiniteDyadicBisectionUp.TasteGate
@@ -7605,6 +7609,7 @@ import BEDC.Derived.MertensCauchyProductTheoremUp.TasteGate
 import BEDC.Derived.MetaCICAuditMapFamilyUp
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
+import BEDC.Derived.MetaCICAuditSynthesisPacketUp.BlockerPreservingPositiveProjection
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CandidateNormalizationHandoff
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CertificateSurface
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ClosedNormalBoundary
@@ -8155,6 +8160,7 @@ import BEDC.Derived.MetaCICRedexFrontierUp.CandidateSNWindow
 import BEDC.Derived.MetaCICRedexFrontierUp.NameCertObligations
 import BEDC.Derived.MetaCICRedexFrontierUp.Nonescape
 import BEDC.Derived.MetaCICRedexFrontierUp.NormalizationWindowHandoff
+import BEDC.Derived.MetaCICRedexFrontierUp.ObstructionRetention
 import BEDC.Derived.MetaCICRedexFrontierUp.SNObstructionRetention
 import BEDC.Derived.MetaCICRedexFrontierUp.TasteGate
 import BEDC.Derived.MetaCICResidualCommutationWitnessUp
@@ -8447,6 +8453,7 @@ import BEDC.Derived.MinkowskiInequalityUp.TasteGate
 import BEDC.Derived.MinkowskiRateGeometryUp.Carrier
 import BEDC.Derived.MinkowskiRateGeometryUp.LedgerExactness
 import BEDC.Derived.MinkowskiRateGeometryUp.PublicCertificate
+import BEDC.Derived.MinkowskiRateGeometryUp.PublicExport
 import BEDC.Derived.MinkowskiRateGeometryUp.TasteGate
 import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.MirskyTheoremUp
@@ -8818,6 +8825,7 @@ import BEDC.Derived.ObserverperspectiveclassifierUp.GapCommitmentReadback
 import BEDC.Derived.ObserverperspectiveclassifierUp.LocalityCellExhaustion
 import BEDC.Derived.ObserverperspectiveclassifierUp.LocalityCommitmentInversion
 import BEDC.Derived.ObserverperspectiveclassifierUp.NameCertObligations
+import BEDC.Derived.ObserverperspectiveclassifierUp.ObligationClosureWitness
 import BEDC.Derived.ObserverperspectiveclassifierUp.ObserverStateGapRoute
 import BEDC.Derived.ObserverperspectiveclassifierUp.PerspectiveStability
 import BEDC.Derived.ObserverperspectiveclassifierUp.PublicReadbackCriterion
