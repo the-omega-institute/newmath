@@ -213,4 +213,24 @@ theorem SubstitutionContextAuditLedgerExactness [AskSetup] [PackageSetup]
       handoffUnary, ledgerReadUnary, substRoute, generatorRoute, replayRoute,
       handoffReplayRead, provenancePkg, namePkg, ledgerReadPkg⟩
 
+theorem SubstitutionContextAuditNonEscape [AskSetup] [PackageSetup]
+    {context shift subst composition generator binder handoff transport replay provenance
+      name : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubstitutionContextAuditCarrier context shift subst composition generator binder handoff
+      transport replay provenance name bundle pkg ->
+      UnaryHistory context ∧ UnaryHistory shift ∧ UnaryHistory subst ∧
+        UnaryHistory composition ∧ UnaryHistory generator ∧ UnaryHistory binder ∧
+          UnaryHistory handoff ∧ UnaryHistory transport ∧ UnaryHistory replay ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig UnaryHistory
+  intro carrier
+  obtain ⟨contextUnary, shiftUnary, substUnary, compositionUnary, generatorUnary,
+    binderUnary, handoffUnary, transportUnary, replayUnary, _provenanceUnary,
+    _nameUnary, _substRoute, _generatorRoute, _replayRoute, provenancePkg, namePkg⟩ :=
+    carrier
+  exact
+    ⟨contextUnary, shiftUnary, substUnary, compositionUnary, generatorUnary, binderUnary,
+      handoffUnary, transportUnary, replayUnary, provenancePkg, namePkg⟩
+
 end BEDC.Derived.SubstitutionContextAuditUp
