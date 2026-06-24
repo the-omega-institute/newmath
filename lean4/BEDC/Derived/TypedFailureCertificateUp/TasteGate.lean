@@ -377,4 +377,51 @@ theorem TypedFailureCertificateExportBlocking
         exact hsame_trans sourceRow (hsame_symm exportReadRefusal)
     }
 
+theorem TypedFailureCertificateMatureTreatmentRoute
+    {N C V S R D H P L localRead branchRead exportRead bridgeRead : BHist} :
+    hsame localRead L ->
+      hsame branchRead D ->
+        hsame exportRead R ->
+          hsame R D ->
+            hsame bridgeRead R ->
+              typedFailureCertificateFields (TypedFailureCertificateUp.mk N C V S R D H P L) =
+                  [N, C, V, S, R, D, H, P, L] ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row L)
+                  (fun row : BHist =>
+                    hsame row N ∨ hsame row C ∨ hsame row V ∨ hsame row S ∨
+                      hsame row R ∨ hsame row D ∨ hsame row H ∨ hsame row P ∨
+                        hsame row L)
+                  (fun row : BHist => hsame row localRead)
+                  hsame ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row D)
+                  (fun row : BHist => hsame row C ∨ hsame row V ∨ hsame row D)
+                  (fun row : BHist => hsame row branchRead)
+                  hsame ∧
+                SemanticNameCert
+                  (fun row : BHist => hsame row R)
+                  (fun row : BHist =>
+                    hsame row D ∧ hsame R R ∧ hsame row exportRead)
+                  (fun row : BHist => hsame row exportRead)
+                  hsame ∧
+                hsame bridgeRead D := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert
+  intro localSame branchSame exportSame refusalDiagnostic bridgeSame
+  have namecert :=
+    TypedFailureCertificateNameCertObligations
+      (N := N) (C := C) (V := V) (S := S) (R := R) (D := D) (H := H) (P := P)
+      (L := L) (localRead := localRead) localSame
+  have axis :=
+    TypedFailureCertificateAxisSeparation
+      (N := N) (C := C) (V := V) (S := S) (R := R) (D := D) (H := H) (P := P)
+      (L := L) (branchRead := branchRead) branchSame
+  have exportCert :=
+    TypedFailureCertificateExportBlocking
+      (N := N) (C := C) (V := V) (S := S) (R := R) (D := D) (H := H) (P := P)
+      (L := L) (exportRead := exportRead) exportSame refusalDiagnostic
+  exact
+    ⟨namecert.left, namecert.right, axis.right, exportCert.right,
+      hsame_trans bridgeSame refusalDiagnostic⟩
+
 end BEDC.Derived.TypedFailureCertificateUp
