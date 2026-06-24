@@ -1074,6 +1074,7 @@ import BEDC.Derived.BishopRegularCauchyCompletionUp.ScopedKernelRoute
 import BEDC.Derived.BishopRegularCauchyCompletionUp.TailDeterminacy
 import BEDC.Derived.BishopRegularCauchyCompletionUp.TailDiameterControl
 import BEDC.Derived.BishopRegularCauchyCompletionUp.TasteGate
+import BEDC.Derived.BishopRegularCauchyCompletionUp.UniversalHandoff
 import BEDC.Derived.BishopRegularCauchyCompletionUp.WindowInduction
 import BEDC.Derived.BishopRegularCauchyLimitSealUp.TasteGate
 import BEDC.Derived.BishopRegularCutEquivalenceUp.TasteGate
@@ -4211,6 +4212,7 @@ import BEDC.Derived.CriticalLineWitnessUp.ScopedLedgerExactness
 import BEDC.Derived.CriticalLineWitnessUp.ScopedNonescapeBoundary
 import BEDC.Derived.CriticalLineWitnessUp.ScopedSourceBoundary
 import BEDC.Derived.CriticalLineWitnessUp.ScopedSourceLock
+import BEDC.Derived.CriticalLineWitnessUp.ScopedStripSourcePackage
 import BEDC.Derived.CriticalLineWitnessUp.SiblingDependencyRoute
 import BEDC.Derived.CriticalLineWitnessUp.SignatureGapExactness
 import BEDC.Derived.CriticalLineWitnessUp.SignatureGapNonescape
@@ -5304,6 +5306,7 @@ import BEDC.Derived.EulerTransformUp.TasteGate
 import BEDC.Derived.EvenOddCauchyCriterionUp.CrossParityHandoffNonEscape
 import BEDC.Derived.EvenOddCauchyCriterionUp.InductionLock
 import BEDC.Derived.EvenOddCauchyCriterionUp.ParityTailFusion
+import BEDC.Derived.EvenOddCauchyCriterionUp.RealHandoffExhaustion
 import BEDC.Derived.EvenOddCauchyCriterionUp.Route
 import BEDC.Derived.EvenOddCauchyCriterionUp.SharedModulusTransport
 import BEDC.Derived.EvenOddCauchyCriterionUp.SingleModulus
@@ -10594,6 +10597,7 @@ import BEDC.Derived.RegularCauchyWitnessSelectorUp.ClassifierStability
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.LedgerNonescape
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.NameCertSurface
 import BEDC.Derived.RegularCauchyWitnessSelectorUp.TasteGate
+import BEDC.Derived.RegularCauchyZeroDistanceUp.NullsequenceCriterion
 import BEDC.Derived.RegularCauchyZeroDistanceUp.TasteGate
 import BEDC.Derived.RegularCauchyZeroUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyZeroUp.TasteGate

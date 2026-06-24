@@ -87,6 +87,20 @@ The present carrier stores those component rows together with checked report, au
 Thus the siblings are inputs to one verification-failure roadmap packet, not alternative names for the same carrier.
 \end{proof}
 
+\begin{theorem}[VerificationFailureRoadmap bridge-facing schema route]
+\label{thm:verification-failure-roadmap-bridge-facing-schema-route}
+Any bridge-facing reader of an accepted $\VerificationFailureRoadmapUp$ packet must expose the checked-report row $R$, audit-report row $A$, failure-certificate row $F$, downgrade-route row $D$, roadmap-boundary row $M$, upgrade-registry row $U$, cannot-claim row $B$, componentwise transport row $T$, displayed replay row $C$, package provenance row $P$, and local $\NameCert$ row $N$ before any bridge schema may consume the packet. A schema that reads only the downgrade row, only the cannot-claim row, or only a sibling failure certificate is not a bridge-facing read of the same roadmap carrier.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:verification-failure-roadmap-namecert-obligations}. It lists $R,A,F,D,M,U,B,T,C,P,N$ as the displayed rows of the local NameCert surface, so a bridge-facing reader cannot omit any of those rows and still cite the accepted carrier.
+
+Apply the downgrade route \autoref{thm:verification-failure-roadmap-downgrade-route}. The failed report is read from $R$ through $A$ and $F$ before $D$ is available, which blocks a bridge schema from consuming a detached downgrade row.
+
+Next use the nonclaim boundary and sibling independence results, \autoref{thm:verification-failure-roadmap-nonclaim-boundary} and \autoref{thm:verification-failure-roadmap-sibling-independence}. The rows $M,U,B$ determine the stronger readings refused by the packet, while the sibling failure and audit packets remain inputs rather than replacements for the roadmap carrier.
+
+It remains to carry the exposed route to a bridge-facing schema. Transport through $T$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the same row inventory, so the bridge schema may consume only the fully exposed verification-failure roadmap packet.
+\end{proof}
+
 \falsifiablePrediction{Any reported verification upgrade that lacks the displayed audit report, failure-certificate, downgrade, and cannot-claim rows is rejected by the VerificationFailureRoadmapUp classifier.}
 
 \independenceWitness{typedfailurecertificate, failurecertificate, gapfailurebridgeaudit, axiompuritygate, upgraderegistry: no sibling is bijective because each supplies only a component row while VerificationFailureRoadmapUp binds report, failure, downgrade, roadmap, refusal, transport, replay, provenance, and NameCert rows in one packet.}
