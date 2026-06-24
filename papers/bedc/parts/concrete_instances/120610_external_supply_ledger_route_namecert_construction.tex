@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\ExternalSupplyLedgerRouteUp$}
+\label{ch:concrete-instances-external-supply-ledger-route-namecert}
+\origin{ai}
+
+The $\ExternalSupplyLedgerRouteUp$ packet realizes the external-supply discipline of \autoref{ch:visions-external-supply-without-axioms} as a finite audit-ledger route. It sits beside the external boundary packet of \autoref{ch:concrete-instances-external-supply-boundary-namecert}, the non-axiom boundary-form classifier of \autoref{ch:concrete-instances-nonaxiomboundaryform-namecert}, the boundary-admission decision packet of \autoref{ch:concrete-instances-boundary-admission-decision-namecert}, the composed audit-gate route of \autoref{ch:concrete-instances-auditgatecomposition-namecert}, the GAP closure boundary of \autoref{ch:concrete-instances-gapclosureboundary-namecert}, and the external-supply audit route of \autoref{ch:concrete-instances-externalsupplyauditroute-namecert}. The packet records external supply as visible ledger data; it is not an axiom, not a theorem that the supply exists, and not an internal witness hidden inside a consumer.
+
+\begin{definition}[External supply ledger route carrier]
+\label{def:external-supply-ledger-route-carrier}
+An $\ExternalSupplyLedgerRouteUp$ carrier is a finite $\BHist$ packet
+$$
+L=(B,F,A,G,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the external-supply boundary row, naming the boundary and requested supply shape.
+\item $F$ is the $\NonAxiomBoundaryFormUp$ row, recording the admitted non-axiom form for the request.
+\item $A$ is the $\BoundaryAdmissionDecisionUp$ row, recording the decision that selects the strongest permitted visible form.
+\item $G$ is the audit-gate composition row, recording the gate route through which the request is accepted, refused, or held open.
+\item $R$ is the $\GapClosureBoundaryUp$ ledger row, recording the forward-binding memory that the requested supply has not been internalized as a theorem.
+\item $H$ records componentwise $\hsame$ transport for $B,F,A,G,R$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay through the boundary, boundary form, admission decision, audit gate, GAP ledger, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\ExternalSupplyLedgerRouteUp$, $\ExternalSupplyBoundaryUp$, $\NonAxiomBoundaryFormUp$, $\BoundaryAdmissionDecisionUp$, $\AuditGateCompositionUp$, $\GapClosureBoundaryUp$, $\ExternalSupplyAuditRouteUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ExternalSupplyLedgerRouteUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,F,A,G,R,H,C,P,N$. It has no coordinate for an anonymous axiom, hidden host primitive, unrecorded supply witness, erased audit gate, or closed GAP memory.
+\end{definition}
+
+\begin{theorem}[External supply ledger route NameCert obligations]
+\label{thm:external-supply-ledger-route-namecert-obligations}
+For the carrier of \autoref{def:external-supply-ledger-route-carrier}, the local $\NameCert_{\ExternalSupplyLedgerRouteUp}$ surface consists exactly of external boundary exposure through $B$, non-axiom boundary form exposure through $F$, boundary-admission decision through $A$, audit-gate composition through $G$, GAP closure-boundary ledger exposure through $R$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The boundary row $B$ states the requested supply shape, while $F$ and $A$ record the non-axiom form and admission decision that keep the request visible.
+
+Read the audit side next. The gate row $G$ records how the request is accepted, refused, or held open, and the GAP ledger row $R$ records that the requested supply has not been smuggled into the theory as an internal theorem.
+
+Finally inspect $H,C,P,N$. These rows only transport, replay, source, and name the same finite packet. Since the carrier has no anonymous supply coordinate, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[External supply ledger non-axiom route]
+\label{thm:external-supply-ledger-route-nonaxiom-boundary}
+Every accepted $\ExternalSupplyLedgerRouteUp$ consumer must read the route
+$$
+\ExternalSupplyBoundaryUp \longmapsto \NonAxiomBoundaryFormUp \longmapsto \BoundaryAdmissionDecisionUp \longmapsto \AuditGateCompositionUp \longmapsto \GapClosureBoundaryUp
+$$
+before treating an external-supply request as audit-visible. The route records the boundary, form, decision, gate, and ledger; it does not assert that the requested supply exists.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:external-supply-ledger-route-namecert-obligations}. They bind boundary exposure, admitted boundary form, admission decision, audit-gate composition, and GAP ledger exposure into one finite packet.
+
+Use the sibling chapters named in the statement. The external boundary identifies the request, the non-axiom form prevents axiom import, the admission decision chooses the visible form, the audit gate records the route by which the request is judged, and the GAP boundary preserves memory of the still-external supply.
+
+Thus a consumer receives an audit ledger rather than a supplied theorem. Since no carrier coordinate stores a witness for the requested supply, the route cannot be read as existence of that supply.
+\end{proof}
+
+\begin{theorem}[External supply ledger audit memory]
+\label{thm:external-supply-ledger-route-audit-memory}
+Let $L=(B,F,A,G,R,H,C,P,N)$ be an accepted $\ExternalSupplyLedgerRouteUp$ carrier. Any public read of the requested supply shape must keep the GAP ledger row $R$ and audit-gate row $G$ visible after $B,F,A$ are displayed. Therefore the packet cannot be repacked as an internal theorem, anonymous axiom, hidden witness, or erased-boundary supply source.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:external-supply-ledger-route-carrier}. The requested supply appears only in the boundary row $B$ and is governed by the form and decision rows $F,A$.
+
+Apply the non-axiom route theorem \autoref{thm:external-supply-ledger-route-nonaxiom-boundary}. It forces every audit-visible read through the composed gate $G$ and GAP ledger $R$ before a consumer may treat the request as a ledgered external supply.
+
+Finally read the structural rows $H,C,P,N$. They preserve the same boundary, gate, and ledger rows and add no internal witness coordinate. A public read that hides $G$ or $R$ is therefore outside the displayed NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ExternalSupplyLedgerRouteUp$ read is refuted if it names an external supply boundary without also displaying the non-axiom boundary form, boundary-admission decision, audit-gate composition, and GAP closure-boundary ledger.}
+
+\independenceWitness{external-supply-boundary, nonaxiomboundaryform, boundary-admission-decision, auditgatecomposition, gapclosureboundary: none is bijective to $\ExternalSupplyLedgerRouteUp$ because this carrier jointly records boundary name, admitted non-axiom form, admission decision, composed audit route, GAP memory, transport, replay, provenance, and local NameCert rows.}
+
+The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \ExternalSupplyLedgerRouteUp$ and $\mathsf{FieldFaithful}\ \ExternalSupplyLedgerRouteUp$ instances before any checked TasteGate marker can be attached to this chapter. Those instances must keep $B,F,A,G,R,H,C,P,N$ as distinct rows and must not internalize the requested supply as a theorem.
+
+\closureat{ExternalSupplyLedgerRouteUp}{seedStr}
+
+\begin{closurestatus}{\ExternalSupplyLedgerRouteUp}
+  \constructivestory{An $\ExternalSupplyLedgerRouteUp$ packet is generated from an external-supply boundary row, non-axiom boundary-form row, boundary-admission decision row, audit-gate composition row, GAP closure-boundary ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:external-supply-ledger-route-carrier}, \autoref{thm:external-supply-ledger-route-namecert-obligations}, \autoref{thm:external-supply-ledger-route-nonaxiom-boundary}, and \autoref{thm:external-supply-ledger-route-audit-memory} seed the external-supply ledger route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not claim that requested external supply exists, that any external source is internalized, that a hidden witness is available, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary-form exactness, admission-decision exposure, audit-gate composition, GAP ledger retention, transport, replay, provenance, and local NameCert rows for BEDC.Derived.ExternalSupplyLedgerRouteUp, followed by Nontrivial and FieldFaithful instances.}
+\end{closurestatus}
