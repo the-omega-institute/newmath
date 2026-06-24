@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\FiniteClosedIntervalNestedIntersectionUp$}
+\label{ch:concrete-instances-finite-closed-interval-nested-intersection-namecert}
+\origin{human}
+
+Following Bishop--Bridges nested interval practice, the $\FiniteClosedIntervalNestedIntersectionUp$ packet records the finite closed-interval route by which a displayed nested interval argument is handed to Real and Completion consumers without choosing a completed point. It sits over the nested interval source of \autoref{ch:concrete-instances-nestedinterval-namecert}, the finite diagonal selector surface of \autoref{ch:concrete-instances-nestedintervalintersection-namecert}, and the interval-cell refinement route of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}. The packet reads endpoint and width data through $\DyadicRatCoreUp$, finite observations through $\StreamNameUp$, regular rational tails through $\RegSeqRatUp$, and the terminal completion-facing boundary through $\RealUp$; it does not assert Cantor-style completed intersections, point extraction, host real equality, choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite closed-interval nested-intersection carrier]
+\label{def:finite-closed-interval-nested-intersection-carrier}
+A $\FiniteClosedIntervalNestedIntersectionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,S,C,D,W,Q,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the source $\NestedIntervalUp$ packet, recording the retained closed-interval nesting rows and their finite containment ledger.
+\item $S$ is the $\NestedIntervalIntersectionUp$ selector row, exposing the finite diagonal stage requested by the consumer.
+\item $C$ is the $\DyadicIntervalNetUp$ cell row, recording the interval cells used to read the selected finite stage.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint and width row, carrying dyadic lower endpoints, upper endpoints, and width bounds for the selected cells.
+\item $W$ is the $\StreamNameUp$ observation-window row through which the consumer inspects the finite interval data.
+\item $Q$ is the $\RegSeqRatUp$ tail-readback row, turning the displayed width bounds and endpoint windows into regular rational completion data.
+\item $E$ is the $\RealUp$ seal row, available only after $I,S,C,D,W,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the nested source, selector, cells, endpoints, widths, windows, tail readback, Real seal, provenance, and local naming rows.
+\item $T$ records the displayed continuity boundary
+$$
+\Cont(F)=\Cont(I,S,C,D,W,Q,E,H)
+$$
+for the finite handoff from interval data to the Real-facing seal.
+\item $P$ records
+$$
+\Pkg(F)=\Pkg(\FiniteClosedIntervalNestedIntersectionUp,\NestedIntervalUp,\NestedIntervalIntersectionUp,\DyadicIntervalNetUp,\DyadicRatCoreUp,\StreamNameUp,\RegSeqRatUp,\RealUp,\BHist,\hsame,\Cont,\NameCert).
+$$
+\item $N$ is the local $\NameCert_{\FiniteClosedIntervalNestedIntersectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,S,C,D,W,Q,E,H,T,P,N$. It has no coordinate for a completed infinite intersection, selected point, quotient real equality, choice schedule, host endpoint equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite closed-interval nested-intersection obligation surface]
+\label{thm:finite-closed-interval-nested-intersection-obligation-surface}
+For every accepted $\FiniteClosedIntervalNestedIntersectionUp$ carrier
+$$
+F=(I,S,C,D,W,Q,E,H,T,P,N),
+$$
+the local $\NameCert_{\FiniteClosedIntervalNestedIntersectionUp}$ surface consists of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the source $\NestedIntervalUp$ row $I$ and the displayed selector row $S$;
+\item classifier and window transport through the $\StreamNameUp$ row $W$ and componentwise $\hsame$ row $H$;
+\item finite diagonal selector coverage through $S$ and the $\DyadicIntervalNetUp$ cell row $C$;
+\item width-tail Cauchy handoff through the $\DyadicRatCoreUp$ endpoint-width row $D$ and the $\RegSeqRatUp$ tail-readback row $Q$;
+\item $\RealUp$-seal nonselection through $E$, which may be read only after $I,S,C,D,W,Q$ are displayed;
+\item provenance and local naming through $\Pkg(F)$ and $\NameCert_{\FiniteClosedIntervalNestedIntersectionUp}$.
+\end{enumerate}
+Thus the packet supplies a finite closed-interval nested-intersection handoff, not Cantor-style completed intersection data, point extraction, host real equality, choice, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-closed-interval-nested-intersection-carrier}. The source interval row $I$, selector row $S$, interval-cell row $C$, endpoint-width row $D$, window row $W$, readback row $Q$, and Real seal row $E$ are displayed before the structural rows are read.
+
+Read the finite route in dependency order. The nested source and selector admit the requested finite diagonal stage; the interval-cell and dyadic endpoint-width rows expose the inspected closed interval; the window and regular-rational readback rows turn that finite stage into completion-facing tail data.
+
+Finally apply the transport, continuity, package, and local naming rows $H,T,P,N$. These rows preserve and name the same displayed data. Since the carrier contains no completed intersection coordinate, selected point, host equality, choice schedule, quotient equality, or ambient completeness row, none can be exported by the local certificate.
+\end{proof}
+
+\begin{closurestatus}{\FiniteClosedIntervalNestedIntersectionUp}
+  \constructivestory{A $\FiniteClosedIntervalNestedIntersectionUp$ packet is generated from a NestedInterval source row, NestedIntervalIntersection selector row, DyadicIntervalNet cell row, DyadicRatCore endpoint-width row, StreamName window row, RegSeqRat tail-readback row, Real seal row, componentwise hsame transport, continuity boundary, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-closed-interval-nested-intersection-carrier} and \autoref{thm:finite-closed-interval-nested-intersection-obligation-surface} seed the finite closed-interval nested-intersection route over source, selector, cell, endpoint-width, window, readback, Real-seal, transport, continuity, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Cantor-style completed intersections, point extraction, host real equality, quotient real equality, choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, selector coverage, interval-cell routing, endpoint-width tail readback, StreamName window transport, RegSeqRat handoff, Real seal nonselection, provenance, and local naming for BEDC.Derived.FiniteClosedIntervalNestedIntersectionUp.}
+\end{closurestatus}
