@@ -59,6 +59,26 @@ The finite data are $W,D,E$. The window $W$ supplies the displayed indices and p
 Finally read $R,L,H,T,P,N$. These rows seal the same finite extraction route for Real and separability consumers, transport it componentwise, replay it under displayed continuation, and name it locally. No row stores a choice principle or quotient equality witness.
 \end{proof}
 
+\begin{theorem}[CauchySubsequenceExtractor sibling route]
+\label{thm:cauchy-subsequence-extractor-sibling-route}
+Every accepted $\CauchySubsequenceExtractorUp$ route
+$$
+S=(C,Q,W,D,E,R,L,H,T,P,N)
+$$
+that consumes the extraction row $E$ preserves the sibling order
+$$
+\CauchyUp \longmapsto \RegSeqRatUp \longmapsto \StreamNameUp,\DyadicRatCoreUp \longmapsto \RealUp,\RealSeparabilityUp .
+$$
+Thus the route cannot export arbitrary subsequence choice, quotient real equality, global selectors, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier $S=(C,Q,W,D,E,R,L,H,T,P,N)$. The rows $C$ and $Q$ expose the Cauchy source and the regular rational readback before any extraction data are visible.
+
+Apply the finite-window route of \autoref{thm:cauchy-subsequence-extractor-finite-window-route}. The extraction row $E$ is readable only after the displayed stream window $W$ and dyadic tolerance ledger $D$ have been read, so the route reaches $\RealUp$ and $\RealSeparabilityUp$ through the listed sibling order.
+
+The structural rows $H,T,P,N$ preserve the same order by componentwise transport, displayed replay, provenance, and local naming. They do not add a selector coordinate, quotient real equality, countable choice, or ambient completeness, so the consumed extraction row remains finite L10 evidence for the displayed route.
+\end{proof}
+
 \begin{theorem}[CauchySubsequenceExtractor selector-lattice handoff]
 \label{thm:cauchy-subsequence-extractor-selector-lattice-handoff}
 Every accepted $\CauchySubsequenceExtractorUp$ read that exposes the monotone extraction row $E$ must factor through the selector surface of \autoref{ch:concrete-instances-cauchy-subsequence-selector-namecert} before $\RealUp$ or $\RealSeparabilityUp$ consumers read the seal. For $S=(C,Q,W,D,E,R,L,H,T,P,N)$, the row $E$ is therefore a finite selector-lattice handoff over the displayed window $W$ and dyadic ledger $D$, not an arbitrary subsequence choice functional.
