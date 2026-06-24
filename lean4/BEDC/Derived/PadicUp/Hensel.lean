@@ -1207,4 +1207,221 @@ theorem henselRoot_lifts {p : BHist}
     henselSeq_step_agree_at f h 0 1 (Nat.le_refl 1)
   exact hsame_trans (hsame_symm (limitAgree 1 (Nat.le_refl 1))) stepAgree
 
+theorem ZpUnit_add_p_mul {p : BHist} (u e : ZpInt p) :
+    ZpUnit u ->
+      (zpLevel e (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val =
+        BHist.Empty ->
+        ZpUnit (zpAdd p u e) := by
+  intro unit eZero
+  intro addZero
+  have drop :
+      hsame (zpLevel (zpAdd p u e) (zpuNatToUnary 1)
+        (zpuNatToUnary_unary 1)).val
+        (zpLevel u (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val :=
+    zpAdd_level_zero_right u e (zpuNatToUnary_unary 1) eZero
+  exact unit (hsame_trans (hsame_symm drop) addZero)
+
+theorem zpMul_unit_eq_zero_cancel {p : BHist} (d u : ZpInt p)
+    (unit : ZpUnit u) :
+    ZpEq (zpMul p d u) (zpZero p d.prime) ->
+      ZpEq d (zpZero p d.prime) := by
+  intro productZero
+  let inv := ZpUnitInv u unit
+  have rightMul :
+      ZpEq (zpMul p (zpMul p d u) inv)
+        (zpMul p (zpZero p d.prime) inv) :=
+    zpMul_left_congr productZero
+  have leftToD :
+      ZpEq (zpMul p (zpMul p d u) inv) d := by
+    exact ZpEq_trans
+      (zpMul_assoc p d u inv)
+      (ZpEq_trans
+        (zpMul_right_congr (ZpUnitInv_mul u unit))
+        (zpOne_mul_right p d.prime d))
+  have rightToZero :
+      ZpEq (zpMul p (zpZero p d.prime) inv) (zpZero p d.prime) :=
+    zpMul_zero_left p d.prime inv
+  exact ZpEq_trans (ZpEq_symm leftToD)
+    (ZpEq_trans rightMul rightToZero)
+
+theorem zpSub_level_one_zero_of_level_one_eq {p : BHist} (x y : ZpInt p) :
+    (zpLevel x (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val =
+      (zpLevel y (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val ->
+      (zpLevel (zpSub p x y) (zpuNatToUnary 1)
+        (zpuNatToUnary_unary 1)).val = BHist.Empty := by
+  intro same
+  apply zpSub_level_zero_of_level_eq
+  exact same
+
+theorem hensel_taylor_root_difference_factor {p : BHist}
+    (f : ZpPoly p) (r s : ZpInt p)
+    (rootR : ZpEq (zpEval f r) (zpZero p (zpEval f r).prime))
+    (rootS : ZpEq (zpEval f s) (zpZero p (zpEval f s).prime)) :
+    ∃ g : ZpInt p,
+      ZpEq
+        (zpMul p (zpSub p r s)
+          (zpAdd p (zpEval (zpDeriv f) s)
+            (zpMul p (zpSub p r s) g)))
+        (zpZero p (zpSub p r s).prime) := by
+  let d := zpSub p r s
+  cases taylor_remainder f s d with
+  | intro g taylor =>
+      have rAsAdd : ZpEq r (zpAdd p s d) :=
+        ZpEq_symm (zpAdd_sub_cancel s r)
+      have evalRToTaylor :
+          ZpEq (zpEval f r)
+            (zpAdd p
+              (zpAdd p (zpEval f s)
+                (zpMul p (zpEval (zpDeriv f) s) d))
+              (zpMul p (zpMul p d d) g)) :=
+        ZpEq_trans (zpEval_congr_arg f rAsAdd) taylor
+      have taylorZero :
+          ZpEq
+            (zpAdd p
+              (zpAdd p (zpEval f s)
+                (zpMul p (zpEval (zpDeriv f) s) d))
+              (zpMul p (zpMul p d d) g))
+            (zpZero p (zpEval f r).prime) :=
+        ZpEq_trans (ZpEq_symm evalRToTaylor) rootR
+      have withoutConst :
+          ZpEq
+            (zpAdd p
+              (zpMul p (zpEval (zpDeriv f) s) d)
+              (zpMul p (zpMul p d d) g))
+            (zpZero p (zpEval f s).prime) := by
+        let fs := zpEval f s
+        let L := zpMul p (zpEval (zpDeriv f) s) d
+        let Q := zpMul p (zpMul p d d) g
+        have taylorZeroAtS :
+            ZpEq
+              (zpAdd p
+                (zpAdd p
+                  fs
+                  L)
+                Q)
+              (zpZero p (zpEval f s).prime) := by
+          exact ZpEq_trans
+            taylorZero
+            (zpZero_prime_irrel (zpEval f r).prime (zpEval f s).prime)
+        have moveTail :
+            ZpEq
+              (zpAdd p
+                (zpAdd p
+                  L
+                  Q)
+                fs)
+              (zpAdd p
+                (zpAdd p
+                  fs
+                  L)
+                Q) := by
+          exact ZpEq_trans
+            (zpAdd_assoc p L Q fs)
+            (ZpEq_trans
+              (zpAdd_congr (ZpEq_refl L) (zpAdd_comm p Q fs))
+              (ZpEq_trans
+                (ZpEq_symm (zpAdd_assoc p L fs Q))
+                (zpAdd_congr (zpAdd_comm p L fs) (ZpEq_refl Q))))
+        have leftZero :
+            ZpEq
+              (zpAdd p
+                (zpAdd p
+                  L
+                  Q)
+                fs)
+              (zpZero p (zpEval f s).prime) :=
+          ZpEq_trans moveTail taylorZeroAtS
+        have rightZero :
+            ZpEq (zpAdd p (zpZero p (zpEval f s).prime) fs)
+              (zpZero p (zpEval f s).prime) :=
+          ZpEq_trans (zpZero_add_left p (zpEval f s).prime fs) rootS
+        exact zpAdd_cancel_right
+          (ZpEq_trans leftZero (ZpEq_symm rightZero))
+      have factor :
+          ZpEq
+            (zpMul p d
+              (zpAdd p (zpEval (zpDeriv f) s) (zpMul p d g)))
+            (zpAdd p
+              (zpMul p (zpEval (zpDeriv f) s) d)
+              (zpMul p (zpMul p d d) g)) := by
+        exact ZpEq_trans
+          (zpMul_add_distrib p d (zpEval (zpDeriv f) s) (zpMul p d g))
+          (ZpEq_trans
+            (zpAdd_congr
+              (zpMul_comm p d (zpEval (zpDeriv f) s))
+              (ZpEq_symm (zpMul_assoc p d d g)))
+            (ZpEq_refl _))
+      exact ⟨g, ZpEq_trans factor withoutConst⟩
+
+theorem henselRoot_unique_core {p : BHist}
+    (f : ZpPoly p) (r s : ZpInt p)
+    (rootR : ZpEq (zpEval f r) (zpZero p (zpEval f r).prime))
+    (rootS : ZpEq (zpEval f s) (zpZero p (zpEval f s).prime))
+    (sameLevelOne :
+      (zpLevel r (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val =
+        (zpLevel s (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val)
+    (derivUnitS : ZpUnit (zpEval (zpDeriv f) s)) :
+    ZpEq r s := by
+  let d := zpSub p r s
+  have dZeroOne :
+      (zpLevel d (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val =
+        BHist.Empty :=
+    zpSub_level_one_zero_of_level_one_eq r s sameLevelOne
+  cases hensel_taylor_root_difference_factor f r s rootR rootS with
+  | intro g factorZero =>
+      let u := zpAdd p (zpEval (zpDeriv f) s) (zpMul p d g)
+      have dgZeroOne :
+          (zpLevel (zpMul p d g) (zpuNatToUnary 1)
+            (zpuNatToUnary_unary 1)).val = BHist.Empty :=
+        zpMul_level_empty_of_left_level d g 1 dZeroOne
+      have unitU : ZpUnit u :=
+        ZpUnit_add_p_mul (zpEval (zpDeriv f) s) (zpMul p d g)
+          derivUnitS dgZeroOne
+      have dZero : ZpEq d (zpZero p d.prime) :=
+        zpMul_unit_eq_zero_cancel d u unitU factorZero
+      exact zpSub_eq_zero_to_eq d.prime dZero
+
+theorem HenselData_deriv_unit_at_lift {p : BHist}
+    (f : ZpPoly p) (h : HenselData f) (s : ZpInt p) :
+    (zpLevel s (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val =
+      (zpLevel h.a0 (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val ->
+      ZpUnit (zpEval (zpDeriv f) s) := by
+  intro liftS
+  have derivSame :
+      hsame
+        (zpLevel (zpEval (zpDeriv f) s)
+          (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val
+        (zpLevel (zpEval (zpDeriv f) h.a0)
+          (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val :=
+    zpEval_level_congr_arg_at (zpDeriv f) (zpuNatToUnary_unary 1) liftS
+  exact ZpUnit_of_level_one_eq derivSame h.deriv_unit
+
+theorem henselRoot_unique {p : BHist}
+    (f : ZpPoly p) (h : HenselData f) (r s : ZpInt p)
+    (rootR : ZpEq (zpEval f r) (zpZero p (zpEval f r).prime))
+    (rootS : ZpEq (zpEval f s) (zpZero p (zpEval f s).prime))
+    (liftR :
+      (zpLevel r (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val =
+        (zpLevel h.a0 (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val)
+    (liftS :
+      (zpLevel s (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val =
+        (zpLevel h.a0 (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val) :
+    ZpEq r s := by
+  have sameLevelOne :
+      (zpLevel r (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val =
+        (zpLevel s (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val :=
+    liftR.trans liftS.symm
+  exact henselRoot_unique_core f r s rootR rootS sameLevelOne
+    (HenselData_deriv_unit_at_lift f h s liftS)
+
+theorem henselRoot_unique_of_data {p : BHist}
+    (f : ZpPoly p) (h : HenselData f) (r : ZpInt p)
+    (rootR : ZpEq (zpEval f r) (zpZero p (zpEval f r).prime))
+    (liftR :
+      (zpLevel r (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val =
+        (zpLevel h.a0 (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val) :
+    ZpEq r (henselRoot f h) :=
+  henselRoot_unique f h r (henselRoot f h)
+    rootR (henselRoot_is_root f h) liftR (henselRoot_lifts f h)
+
 end BEDC.Derived.PadicUp
