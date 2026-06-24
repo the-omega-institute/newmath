@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\SteinitzExchangeUp$}
+\label{ch:concrete-instances-steinitz-exchange-namecert}
+\origin{human}
+
+Following Steinitz and the standard finite-dimensional linear algebra exchange argument, the $\SteinitzExchangeUp$ packet records the finite route by which a displayed independent list, a displayed spanning list, and a selected exchange position are read as one NameCert surface. It sits after the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the linear-map and matrix rows of \autoref{ch:concrete-instances-linearmap-namecert} and \autoref{ch:concrete-instances-matrix-namecert}, the rank accounting surface of \autoref{ch:concrete-instances-rank-nullity-namecert}, and the scalar source of \autoref{ch:concrete-instances-field-namecert}. The packet names only finite coordinate, independence, span, pivot, transport, replay, provenance, and local naming rows; it does not import a host basis choice, quotient vector equality, Zorn maximality, dimension comparison outside the displayed rank ledger, or ambient linear algebra.
+
+\begin{definition}[Steinitz exchange carrier]
+\label{def:steinitz-exchange-carrier}
+A $\SteinitzExchangeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(F,V,L,S,M,R,Piv,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the accepted $\FieldUp$ scalar row.
+\item $V$ is the accepted $\VecSpaceUp$ vector-space row over $F$.
+\item $L$ is the finite independent-list row whose entries are read through $V$.
+\item $S$ is the finite spanning-list row whose entries are read through $V$.
+\item $M$ is the $\MatrixUp$ coordinate ledger recording the finite coefficient table from $L$ into the span of $S$.
+\item $R$ is the $\RankNullityUp$ accounting row for the displayed coordinate map.
+\item $Piv$ is the pivot row naming the exchanged source position, target position, and nonzero scalar guard visible in the matrix ledger.
+\item $B$ is the basis-handoff row, recording the finite list obtained by replacing the target row of $S$ by the selected row of $L$.
+\item $H$ records componentwise $\hsame$ transport for scalar, vector, list, matrix, rank, pivot, basis-handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the same finite exchange route.
+\item $P$ is the $\Pkg$ provenance over $\SteinitzExchangeUp$, $\FieldUp$, $\VecSpaceUp$, $\LinearMapUp$, $\MatrixUp$, $\RankNullityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SteinitzExchangeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,V,L,S,M,R,Piv,B,H,C,P,N$. It has no coordinate for an ambient basis selector, quotient equality of vectors, a maximal independent set, or a dimension theorem outside the displayed finite ledger.
+\end{definition}
+
+\begin{theorem}[Steinitz exchange NameCert obligations]
+\label{thm:steinitz-exchange-namecert-obligations}
+For every accepted $\SteinitzExchangeUp$ carrier
+$$
+E=(F,V,L,S,M,R,Piv,B,H,C,P,N),
+$$
+the local $\NameCert_{\SteinitzExchangeUp}$ surface consists exactly of scalar-field exposure, vector-space exposure, independent-list exposure, spanning-list exposure, finite matrix-coordinate exposure, rank-nullity accounting, pivot exposure, basis-handoff exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A consumer may read the exchange handoff only after the same $F,V,L,S,M,R,Piv$ route has been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier $E$. The algebraic rows expose the scalar field, vector-space carrier, independent list, spanning list, finite coordinate matrix, rank ledger, pivot, and exchanged list in one packet.
+
+The pivot row is downstream of the matrix and rank rows. Thus a consumer cannot obtain the exchanged list from a hidden basis choice or from a host dimension theorem; it must read the displayed nonzero scalar guard and the finite coordinate position in $Piv$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since the excluded ambient objects are not carrier coordinates, the NameCert obligations are exhausted by the displayed exchange packet.
+\end{proof}
+
+\begin{theorem}[Steinitz exchange basis handoff]
+\label{thm:steinitz-exchange-basis-handoff}
+Every $\SteinitzExchangeUp$ consumer that exports a basis-exchange handoff to a $\LinearMapUp$, $\MatrixUp$, or $\RankNullityUp$ sibling must first read the shared finite route
+$$
+\FieldUp,\VecSpaceUp,L,S,M,R,Piv,B,H,C,P,N .
+$$
+The handoff keeps the independent row $L$, spanning row $S$, coordinate matrix $M$, rank ledger $R$, and pivot row $Piv$ attached to the same vector-space and field rows; it cannot split the exchanged basis row $B$ from its finite coordinate witness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:steinitz-exchange-namecert-obligations}. They expose the exchange handoff only after the field, vector-space, independent-list, spanning-list, matrix, rank, and pivot rows have been displayed.
+
+The sibling consumers read different faces of the same packet. A $\LinearMapUp$ read uses the coordinate map, a $\MatrixUp$ read uses the finite coefficient table, and a $\RankNullityUp$ read uses the rank ledger; none of these rows contains an independent basis selector.
+
+Finally replay the structural rows $H,C,P,N$. They preserve the same finite exchange route under transport, continuation, provenance, and local naming, so the exported basis handoff remains the displayed Steinitz exchange packet rather than a host basis-choice principle.
+\end{proof}
+
+\closureat{SteinitzExchangeUp}{seedStr}
+
+\begin{closurestatus}{\SteinitzExchangeUp}
+  \constructivestory{A $\SteinitzExchangeUp$ packet is generated from a displayed scalar field, vector-space row, independent list, spanning list, finite matrix-coordinate ledger, rank-nullity accounting row, pivot row, exchanged basis-handoff row, componentwise hsame transports, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:steinitz-exchange-carrier}, \autoref{thm:steinitz-exchange-namecert-obligations}, and \autoref{thm:steinitz-exchange-basis-handoff} seed the finite exchange surface over Field, VecSpace, LinearMap, Matrix, and RankNullity rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, host basis selection, quotient vector equality, Zorn maximality, unrestricted dimension comparison, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite list exposure, matrix-coordinate exactness, rank-nullity handoff, pivot non-escape, basis-handoff transport, provenance, and local naming for BEDC.Derived.SteinitzExchangeUp.}
+\end{closurestatus}
