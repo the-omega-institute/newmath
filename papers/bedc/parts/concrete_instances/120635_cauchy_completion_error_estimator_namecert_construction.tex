@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionErrorEstimatorUp$}
+\label{ch:concrete-instances-cauchy-completion-error-estimator-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy completion and explicit error bounds, the $\CauchyCompletionErrorEstimatorUp$ packet records the finite route by which a completion read carries an a posteriori dyadic error estimate. It sits beside the completion operator of \autoref{ch:concrete-instances-cauchycompletionoperator-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-name windows of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names error control as finite NameCert data; it does not choose a limit representative, import ambient completeness, assert host real equality, or hide the estimate behind quotient completion syntax.
+
+\begin{definition}[Cauchy completion error estimator carrier]
+\label{def:cauchy-completion-error-estimator-carrier}
+A $\CauchyCompletionErrorEstimatorUp$ carrier is a finite $\BHist$ packet
+$$
+E=(O,S,W,D,R,A,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\CauchyCompletionOperatorUp$ row whose completion output is being inspected.
+\item $S$ is the $\RegSeqRatUp$ source row naming the regular rational approximation stream.
+\item $W$ is the $\StreamNameUp$ finite-window row through which the source tail is observed.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to record the displayed error radius.
+\item $R$ is the $\RealUp$ seal row for the completed value reached from the source data.
+\item $A$ is the a posteriori estimate row, read only after $O,S,W,D,R$ have been displayed.
+\item $Z$ is the zero-tail or residual-bound row certifying that the displayed estimate bounds the remaining completion tail.
+\item $H$ records componentwise $\hsame$ transport for the operator, source, window, dyadic ledger, real seal, estimate row, residual-bound row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the same finite route from an estimator request.
+\item $P$ records $\Pkg$ provenance over $\CauchyCompletionErrorEstimatorUp$, $\CauchyCompletionOperatorUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionErrorEstimatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,S,W,D,R,A,Z,H,C,P,N$. It has no coordinate for selected limits, quotient completion equality, host real equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy completion error estimator NameCert obligations]
+\label{thm:cauchy-completion-error-estimator-namecert-obligations}
+For every accepted $\CauchyCompletionErrorEstimatorUp$ carrier
+$$
+E=(O,S,W,D,R,A,Z,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyCompletionErrorEstimatorUp}$ surface consists exactly of completion-operator exposure for $O$, regular-rational source exposure for $S$, finite-window exposure for $W$, dyadic tolerance exposure for $D$, Real-seal exposure for $R$, a posteriori estimate exposure for $A$, residual-bound exposure for $Z$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The operator, source, finite window, dyadic ledger, and Real seal are the only completion-facing rows available before an estimate can be read.
+
+Next read $A$ and $Z$. The estimate row supplies the displayed dyadic error radius, while the residual-bound row ties that radius to the remaining completion tail observed through the same source and window rows.
+
+Finally $H,C,P,N$ preserve the route under componentwise transport, replay it for estimator consumers, record provenance, and name the packet locally. Since the carrier contains no coordinate for selected limits, quotient equality, host real equality, countable choice, trichotomy, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy completion error estimator a posteriori bound]
+\label{thm:cauchy-completion-error-estimator-aposteriori-bound}
+Every $\RealUp$-facing read of an accepted $\CauchyCompletionErrorEstimatorUp$ carrier reaches an a posteriori error bound only through the finite route
+$$
+O,S,W,D,R,A,Z,H,C,P,N .
+$$
+The dyadic ledger $D$ and finite window $W$ determine the displayed bound, the residual row $Z$ certifies it against the source tail $S$, and the Real seal $R$ receives the estimate only after those rows are visible. Thus the estimator exports a finite completion-error certificate rather than a selected completion limit, quotient representative equality, host real equality, countable-choice schedule, trichotomy split, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The completion operator row $O$ and regular rational source row $S$ determine which completion read is being estimated, while $W$ fixes the finite observation window.
+
+Use the dyadic ledger row $D$. It supplies the displayed radius for the estimate, but it is still tied to the source and window rows rather than to an external real-valued oracle.
+
+Now read $A$ and $Z$ after the Real seal row $R$ is visible. The estimate row records the a posteriori bound, and the residual-bound row certifies that the remaining completion tail is covered by that dyadic radius.
+
+The support rows $H,C,P,N$ only transport, replay, source, and name this same route. Because the excluded ambient principles are not carrier coordinates, the exported bound remains a finite completion-error certificate.
+\end{proof}
+
+\closureat{CauchyCompletionErrorEstimatorUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionErrorEstimatorUp}
+  \constructivestory{A $\CauchyCompletionErrorEstimatorUp$ packet is generated from a CauchyCompletionOperatorUp row, a RegSeqRatUp source row, a StreamNameUp finite-window row, a DyadicRatCoreUp tolerance ledger, a RealUp seal row, an a posteriori estimate row, a residual-bound row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-error-estimator-carrier}, \autoref{thm:cauchy-completion-error-estimator-namecert-obligations}, and \autoref{thm:cauchy-completion-error-estimator-aposteriori-bound} seed the finite completion-error estimator packet over completion-operator, regular-rational, stream-window, dyadic-ledger, Real-seal, residual-bound, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected completion limits, quotient representative equality, host real equality, countable choice, trichotomy, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires Lean encoding of the carrier, NameCert obligation surface, a posteriori bound route, transport stability, replay stability, and nonescape for BEDC.Derived.CauchyCompletionErrorEstimatorUp.}
+\end{closurestatus}
