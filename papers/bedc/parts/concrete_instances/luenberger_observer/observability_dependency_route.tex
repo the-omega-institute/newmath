@@ -1,0 +1,15 @@
+\begin{theorem}[LuenbergerObserverUp observability dependency route]
+\label{thm:luenberger-observer-observability-dependency-route}
+Every observer-error ledger read of an accepted $\LuenbergerObserverUp$ packet must pass through \autoref{ch:concrete-instances-controlobservability-namecert} and \autoref{ch:concrete-instances-observability-gramian-namecert} before the residual row and observer-gain row are exposed. Concretely, the read projects the carrier rows
+$$
+(C,Y,G,R,E)
+$$
+from \autoref{def:luenberger-observer-carrier}: $C$ supplies the observed-output map, $Y$ compares measured and predicted outputs, $G$ supplies the deterministic observer gain, $R$ names the residual, and $E$ records the observer-error propagation ledger. The route exports no Kalman covariance recursion, pole-placement theorem, or host trajectory semantics.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $L=(A,C,Y,G,R,E,H,T,P,N)$. The observer-error ledger $E$ can be read only after the output-map row $C$, the measured/predicted comparison row $Y$, the gain row $G$, and the residual row $R$ are visible.
+
+The output-map row is the observability-facing entry point. It is therefore routed through $\ControlObservabilityUp$ before the observer-error ledger is public, and the finite dual readback required by the same output surface is routed through $\ObservabilityGramianUp$.
+
+After those two sibling routes are displayed, the residual and gain rows may be exposed as the deterministic observer interface. The carrier still has no coordinate for Kalman covariance, pole placement, or host trajectory semantics, so the read remains an observability dependency route rather than a stochastic or analytic observer theorem.
+\end{proof}
