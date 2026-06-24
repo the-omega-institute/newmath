@@ -168,14 +168,34 @@ Use \autoref{thm:writing-item-audit-axis-separation} to keep the paper-closure r
 Finally apply \autoref{thm:writing-item-audit-tastegate-obligation}. Its nontriviality and field-faithfulness requirements attach to the same displayed carrier rows, so the public status record is a public-facing packet surface rather than a verification upgrade or a proof of the claim text.
 \end{proof}
 
-\closureat{WritingItemAuditUp}{publicStr}
+\begin{theorem}[Writing item audit bridge-schema route]
+\label{thm:writing-item-audit-bridge-schema-route}
+Every public export of an accepted $\WritingItemAuditUp$ packet factors through $\AuditWritingDisciplineUp$ and $\WritingItemAuditPacketUp$ before any registry consumer reads the separated theory-status and formal-status rows. The bridge-schema route preserves the finite packet
+$$
+K,C,R,L,T,F,G,Q,H,U,P,N
+$$
+as the writing-discipline carrier, packet-export shape, axis-separation surface, public status record, nonescape boundary, and TasteGate obligation surface.
+
+Thus the registry-facing read may publish the displayed audit rows only after the sibling writing discipline and packet shape have exposed them. It cannot identify $T$ with $F$, derive either row from the other, discharge $G$, prove $Q$, erase the claim-text boundary, or turn the public export into a Lean verification claim.
+\end{theorem}
+\begin{proof}
+Start with the sibling dependency route at the beginning of the chapter. It forces every accepted $\WritingItemAuditUp$ packet to consume $\AuditWritingDisciplineUp$ for legal writing discipline and $\WritingItemAuditPacketUp$ for the outward packet shape before a registry reader sees the item.
+
+Apply \autoref{thm:writing-item-audit-public-status}. The public status theorem identifies the registry-facing packet as $K,C,R,L,T,F,G,Q,H,U,P,N$, with $T$ and $F$ displayed as independent audit fields.
+
+Use \autoref{thm:writing-item-audit-axis-separation} and \autoref{thm:writing-item-audit-nonescape}. These theorems keep the two status axes separated and prevent any public export from proving the claim row, discharging the gap row, or publishing a stronger registry status.
+
+Finally apply \autoref{thm:writing-item-audit-tastegate-obligation}. Its field-faithfulness condition attaches to the same carrier rows, so the bridge-schema route preserves the displayed packet through the writing-discipline and packet-export siblings without adding machine verification or a stronger claim.
+\end{proof}
+
+\closureat{WritingItemAuditUp}{bridgedStr}
 
 \begin{closurestatus}{\WritingItemAuditUp}
   \constructivestory{A $\WritingItemAuditUp$ packet is generated from item kind, carrier, classifier, ledger, theory-status, formal-status, gap-report, claim-text, hsame transport, Cont continuation, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:writing-item-audit-carrier}, \autoref{thm:writing-item-audit-namecert-obligations}, \autoref{thm:writing-item-audit-axis-separation}, and \autoref{thm:writing-item-audit-nonescape} bind writing-item legality, closure-status blocks, registry export rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ to finite packets with separated closure and verification axes.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:writing-item-audit-carrier}, \autoref{thm:writing-item-audit-namecert-obligations}, \autoref{thm:writing-item-audit-axis-separation}, \autoref{thm:writing-item-audit-nonescape}, and \autoref{thm:writing-item-audit-bridge-schema-route} bind writing-item legality, closure-status blocks, registry export rows, bridge-schema routing through $\AuditWritingDisciplineUp$ and $\WritingItemAuditPacketUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ to finite packets with separated closure and verification axes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, proof of the claim text, grade upgrades, gap discharge, or registry export beyond the displayed claim row.}
-  \upgradepath{Lean closure requires Nontrivial WritingItemAuditUp and FieldFaithful WritingItemAuditUp instances in \texttt{lean4/BEDC/Derived/WritingItemAuditUp/TasteGate.lean}.}
+  \upgradepath{Mature paper closure requires worked registry examples and downstream registry consumers, while Lean verification remains a separate formal-status obligation.}
 \end{closurestatus}

@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\HeytingAlgebraUp$}
+\label{ch:concrete-instances-heyting-algebra-namecert}
+\origin{human}
+
+Following Heyting and Brouwer, the $\HeytingAlgebraUp$ packet records the constructive algebraic reading of implication as a right adjoint to finite meet, rather than as Boolean complement or excluded middle. It sits beside the Boolean endpoint of \autoref{ch:concrete-instances-booleanalgebra-namecert}, the meet--join surface of \autoref{ch:concrete-instances-lattice-namecert}, the order carrier of \autoref{ch:concrete-instances-poset-namecert}, the point-free reading of \autoref{ch:concrete-instances-locale-space-namecert}, and the open-set discipline of \autoref{ch:concrete-instances-topology-namecert}. The packet supplies the intuitionistic algebraic interface needed by Real and Completion chapters while refusing powerset, quotient, ultrafilter, prime-filter, and excluded-middle coordinates.
+
+\begin{definition}[Heyting algebra carrier]
+\label{def:heyting-algebra-carrier}
+A $\HeytingAlgebraUp$ carrier is a finite $\BHist$ packet
+$$
+H=(L,\bot,\top,\mathsf{meet},\mathsf{join},\mathsf{imp},H_s,C,P,N),
+$$
+where:
+\begin{enumerate}
+\item $L$ is the bounded-lattice row, read through the displayed $\LatticeUp$ and $\PosetUp$ sibling obligations.
+\item $\bot$ and $\top$ are the bottom and top endpoint rows, stable under the classifier inherited from the bounded-lattice surface.
+\item $\mathsf{meet}$ and $\mathsf{join}$ are finite meet and join rows, transported only through componentwise $\hsame$ over the displayed lattice packet.
+\item $\mathsf{imp}$ is the implication row, recording for displayed $a,b,c$ the finite adjunction read that $a \wedge b \leq c$ exactly when $a \leq b \Rightarrow c$ inside the same classifier-stable order.
+\item $H_s$ records bounded-lattice stability, implication-adjunction stability, and refusal of Boolean complement as a required coordinate.
+\item $C$ is the displayed $\Cont$ replay row for the bounded-lattice and implication-adjunction data.
+\item $P$ is the $\Pkg$ provenance over $\HeytingAlgebraUp$, $\BooleanAlgebraUp$, $\LatticeUp$, $\PosetUp$, $\LocaleSpaceUp$, $\TopologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HeytingAlgebraUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,\bot,\top,\mathsf{meet},\mathsf{join},\mathsf{imp},H_s,C,P,N$. It has no coordinate for Boolean complement, powerset representation, quotient order equality, excluded middle, prime filters, ultrafilters, or Stone duality.
+\end{definition}
+
+\begin{theorem}[Heyting algebra NameCert obligations]
+\label{thm:heyting-algebra-namecert-obligations}
+For every accepted $\HeytingAlgebraUp$ carrier $H=(L,\bot,\top,\mathsf{meet},\mathsf{join},\mathsf{imp},H_s,C,P,N)$, the local $\NameCert_{\HeytingAlgebraUp}$ surface consists exactly of carrier admission, classifier exactness, bounded-lattice endpoint exposure, meet and join exposure, implication-adjunction exposure, transport stability, replay stability, provenance, and local naming.
+
+In particular, a consumer may read the implication row only after the bounded-lattice rows and the $\PosetUp/\LatticeUp$ order comparison are visible. The certificate does not supply Boolean completeness, a complement operation, powerset membership, quotient classes, excluded middle, prime filters, ultrafilters, or Stone representation data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:heyting-algebra-carrier}. The finite packet exposes the bounded-lattice row $L$, endpoints, meet, join, implication, stability row, replay row, provenance row, and local naming row as separate coordinates.
+
+The classifier is inherited only through the displayed order and lattice rows. Thus any accepted consumer must preserve the $\PosetUp$ comparison, the $\LatticeUp$ meet--join surface, and the endpoint rows before the implication row can be inspected.
+
+The implication obligation is the adjunction row in $H_s$. It records the finite comparison between $a \wedge b \leq c$ and $a \leq b \Rightarrow c$ inside the same order, so implication is read as a constructive residual of meet.
+
+Finally the structural rows $C,P,N$ replay, source, and name the same finite packet. Since no complement, powerset, quotient, excluded-middle, prime-filter, ultrafilter, or Stone-duality coordinate occurs in the carrier, none can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Heyting algebra implication adjunction]
+\label{thm:heyting-algebra-implication-adjunction}
+Let $H=(L,\bot,\top,\mathsf{meet},\mathsf{join},\mathsf{imp},H_s,C,P,N)$ be an accepted $\HeytingAlgebraUp$ packet whose $\PosetUp$ and $\LatticeUp$ histories are classifier-stable. For displayed rows $a,b,c$ in the order carrier, the BEDC implication row is read by the finite adjunction relation
+$$
+a \wedge b \leq c \quad \text{iff} \quad a \leq b \Rightarrow c
+$$
+inside those classifier-stable histories. This read is an implication-adjunction certificate, not a Boolean complement, powerset, quotient, or excluded-middle coordinate.
+\end{theorem}
+\begin{proof}
+Project the bounded-lattice rows from \autoref{def:heyting-algebra-carrier}. The order comparison, meet row, join row, and endpoints are already supplied through the $\PosetUp$ and $\LatticeUp$ sibling histories, so the displayed expressions $a \wedge b \leq c$ and $a \leq b \Rightarrow c$ are read in the same classifier-stable order.
+
+Next read the implication row and the stability row $H_s$. These rows record implication only as the right-adjoint comparison to finite meet. They do not add an independent complement operation or a classical truth-value discriminator.
+
+Transport and replay preserve the same relation. Componentwise $\hsame$ and displayed $\Cont$ move the bounded-lattice and implication rows together, while $P$ and $N$ source and name the same finite packet.
+
+Therefore the implication row is exactly the displayed adjunction relation over the accepted Poset and Lattice histories. Since the packet has no Boolean complement, powerset, quotient, or excluded-middle coordinate, those readings are refused rather than silently imported.
+\end{proof}
+
+\closureat{HeytingAlgebraUp}{seedStr}
+
+\begin{closurestatus}{\HeytingAlgebraUp}
+  \constructivestory{A $\HeytingAlgebraUp$ packet is generated from bounded-lattice rows, endpoint rows, meet and join rows, an implication-adjunction row, stability data, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:heyting-algebra-carrier}, \autoref{thm:heyting-algebra-namecert-obligations}, and \autoref{thm:heyting-algebra-implication-adjunction} seed the finite constructive implication-algebra packet over PosetUp, LatticeUp, BooleanAlgebraUp, LocaleSpaceUp, TopologyUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Boolean completeness, classical powersets, prime filters, ultrafilters, Stone duality, quotient representations, excluded middle, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-lattice endpoint exposure, meet and join stability, implication-adjunction stability, transport, replay, provenance, and local naming for BEDC.Derived.HeytingAlgebraUp.}
+\end{closurestatus}
