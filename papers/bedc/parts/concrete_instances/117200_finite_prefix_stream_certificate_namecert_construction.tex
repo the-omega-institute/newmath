@@ -127,6 +127,22 @@ Since no carrier coordinate stores quotient stream equality, a selected tail, co
 \end{proof}
 \leanchecked{BEDC.Derived.FinitePrefixStreamUp.FinitePrefixStreamCarrier\_real\_completion\_budget\_route}
 
+\begin{theorem}[Finite prefix stream completion-section pullback]
+\label{thm:finite-prefix-stream-completion-section-pullback}
+Let $F=(k,W,D,R,H,C,P,N)$ be an accepted $\FinitePrefixStreamUp$ carrier. Any completion-facing section that consumes $F$ factors through the same finite route
+$$
+k \longmapsto W \longmapsto D \longmapsto R \longmapsto H,C,P,N .
+$$
+The four visible analytic faces of this pullback are $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$: the stream window is read from $W$, its dyadic tolerance budget is read from $D$, the regular-rational handoff is read from $R$, and every real-facing seal remains downstream of those finite rows. The pullback exports no quotient stream equality, selected tail, countable-choice schedule, host real equality, ambient $\RealUp$ completeness, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier by \autoref{def:finite-prefix-stream-certificate-carrier}. The completion-facing section can inspect only the displayed unary depth $k$, window row $W$, dyadic row $D$, regular-rational row $R$, and structural rows $H,C,P,N$.
+
+Apply \autoref{thm:finite-prefix-stream-certificate-window-readback} to force every stream observation used by the section through $k,W,D,R$. Then apply \autoref{thm:finite-prefix-stream-certificate-observation-induction} to see that each displayed index is obtained by finite induction on the successor spine of $k$, with no appeal to an infinite representative or selected tail.
+
+Finally use \autoref{thm:finite-prefix-stream-certificate-real-completion-budget-route}. The real and completion-facing read is therefore pulled back to the same finite budget route before any $\RealUp$ seal is consumed. Since quotient stream equality, countable choice, host real equality, ambient Real completeness, and bridge checking are absent from the carrier coordinates and from the cited finite route, none of them is exported by the section.
+\end{proof}
+
 \closureat{FinitePrefixStreamUp}{seedStr}
 
 \begin{closurestatus}{\FinitePrefixStreamUp}
