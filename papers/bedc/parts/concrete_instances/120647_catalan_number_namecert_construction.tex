@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\CatalanNumberUp$}
+\label{ch:concrete-instances-catalan-number-namecert}
+\origin{human}
+
+Following Stanley's enumerative combinatorics and Feller's Dyck-path ballot analysis, the $\CatalanNumberUp$ packet records Catalan data as finite prefix rows rather than as a completed counting theorem. It sits over the unary index carrier of \autoref{ch:concrete-instances-nat-namecert}, the finite spine carrier of \autoref{ch:concrete-instances-list-namecert}, and the binary-tree induction surface of \autoref{ch:concrete-instances-binary-tree-namecert}. The packet names one displayed Catalan object at a fixed size: a Dyck-prefix ledger, a matched binary-tree row, a finite count row, transport, replay, provenance, and local naming. It does not assert analytic generating-function identities, quotient equality of trees, or a host enumeration principle.
+
+\begin{definition}[Catalan number carrier]
+\label{def:catalan-number-carrier}
+A $\CatalanNumberUp$ carrier is a finite $\BHist$ packet
+$$
+K=(n,W,P,T,C,H,R,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $n$ is the $\NatUp$ size row.
+\item $W$ is the finite $\ListUp$ word row of left and right steps.
+\item $P$ is the Dyck-prefix ledger: every prefix of $W$ has nonnegative balance, and the terminal balance is zero.
+\item $T$ is the $\BinaryTreeUp$ row obtained by matching each left step with its closing right step.
+\item $C$ is the finite $\NatUp$ count row naming the Catalan value attached to the displayed size row.
+\item $H$ records componentwise $\hsame$ transport for the size, word, prefix ledger, tree row, count row, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from a Dyck-prefix request to the tree row and count row.
+\item $G$ is the $\Pkg$ provenance over $\CatalanNumberUp$, $\NatUp$, $\ListUp$, $\BinaryTreeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CatalanNumberUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these nine rows. It has no coordinate for infinite paths, unbounded search, quotient tree equality, analytic generating functions, or an external cardinality theorem.
+\end{definition}
+
+\begin{theorem}[Catalan number NameCert obligations]
+\label{thm:catalan-number-namecert-obligations}
+For every accepted $\CatalanNumberUp$ carrier $K=(n,W,P,T,C,H,R,G,N)$, the local $\NameCert_{\CatalanNumberUp}$ surface consists exactly of size admission, finite word admission, Dyck-prefix balance, binary-tree matching, Catalan count naming, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape from analytic or quotient enumeration principles.
+\end{theorem}
+\begin{proof}
+Project the carrier. The size row $n$ is read through $\NatUp$, while $W$ is a finite $\ListUp$ word row whose positions are the only inspected steps.
+
+The Dyck-prefix ledger $P$ supplies the balance checks. Since every prefix row is displayed and the terminal balance is zero, the packet never appeals to an infinite path or to unbounded search.
+
+The tree row $T$ is obtained only after the prefix ledger has been read. Matching a left step with its closing right step is therefore a finite operation over the displayed word, and the count row $C$ names the resulting Catalan value at the same size row.
+
+The structural rows $H,R,G,N$ transport, replay, source, and name this finite route. Because the carrier has no coordinate for quotient tree equality, generating functions, or an external enumeration theorem, the local NameCert obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Catalan Dyck-prefix induction route]
+\label{thm:catalan-number-dyck-prefix-induction}
+Every accepted $\CatalanNumberUp$ packet admits the finite decomposition route
+$$
+W = L\, U\, R\, V
+$$
+where the first left step $L$ is matched by the first return right step $R$, the interior word $U$ and suffix word $V$ are again displayed Dyck-prefix rows, and the associated $\BinaryTreeUp$ read decomposes into the root node with left subtree from $U$ and right subtree from $V$. The route is read only from the $\NatUp$ size row, the $\ListUp$ word row, the Dyck-prefix ledger, and the $\BinaryTreeUp$ matching row.
+\end{theorem}
+\begin{proof}
+Begin with an accepted packet $K=(n,W,P,T,C,H,R,G,N)$. If $W$ is empty, the terminal balance row in $P$ gives the empty Dyck word and the binary-tree row $T$ is the empty tree boundary.
+
+For a nonempty accepted word, the first step must be a left step. A right step would make the first prefix balance negative, contradicting the displayed prefix ledger $P$.
+
+Read along the finite $\ListUp$ spine until the first return to balance zero. The ledger $P$ displays each inspected balance, so the chosen return is a finite row inside the packet. The part between the first left step and this return has nonnegative shifted prefix balance, and the suffix after the return starts again at balance zero.
+
+The matching row $T$ reads the same decomposition as a binary tree. The interior word gives the left subtree, the suffix gives the right subtree, and the root is the displayed first matched pair. Transport by $H$ and replay by $R$ preserve the same finite decomposition for any transported packet.
+\end{proof}
+
+\closureat{CatalanNumberUp}{seedStr}
+
+\begin{closurestatus}{\CatalanNumberUp}
+  \constructivestory{A $\CatalanNumberUp$ packet is generated from a NatUp size row, a finite ListUp Dyck word row, a displayed prefix-balance ledger, a BinaryTreeUp matching row, a NatUp count row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:catalan-number-carrier}, \autoref{thm:catalan-number-namecert-obligations}, and \autoref{thm:catalan-number-dyck-prefix-induction} seed the finite Dyck-prefix and binary-tree route for Catalan number packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Catalan recurrence uniqueness, generating-function identities, quotient tree equality, host enumeration theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Dyck-prefix balance, binary-tree matching, count-row naming, transport, replay, provenance, and local naming for BEDC.Derived.CatalanNumberUp.}
+\end{closurestatus}
