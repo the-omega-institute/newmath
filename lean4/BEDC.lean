@@ -9147,6 +9147,10 @@ import BEDC.Derived.RationalRootIntervalUp.TasteGate
 import BEDC.Derived.RationalSqueezeUp
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RationalUp
+import BEDC.Derived.RationalUp.Core
+import BEDC.Derived.RationalUp.FieldLaws
+import BEDC.Derived.RationalUp.IntLaws
+import BEDC.Derived.RationalUp.RatLaws
 import BEDC.Derived.ReachabilityGramianUp
 import BEDC.Derived.RealAbsoluteValueUp.TasteGate
 import BEDC.Derived.RealAlgOrderUp
@@ -11716,6 +11720,7 @@ import BEDC.Derived.YoungSymmetrizerUp.TasteGate
 import BEDC.Derived.YoungTableauUp
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
+import BEDC.Derived.ZModUp
 import BEDC.Derived.ZeckendorfCarryClassifierUp
 import BEDC.Derived.ZeckendorfCarryClassifierUp.TasteGate
 import BEDC.Derived.ZeckendorfCarryNormalizationUp
