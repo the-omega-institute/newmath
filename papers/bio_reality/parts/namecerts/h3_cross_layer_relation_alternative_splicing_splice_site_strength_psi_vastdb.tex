@@ -1,44 +1,49 @@
 \origin{ai}
 
-\subsection{A translation-gated boundary for Q6 residuals and localization-facing readouts}
-\label{sec:bioreality-q6-translation-localization-boundary}
+\subsection{A translation-gated localization boundary for synonymous residual coordinates}
+\label{sec:bior reality-q6-translation-localization-boundary}
 
 \paragraph{Finite row surface.}
-The finite record considered here is indexed by the claim identifier \texttt{h3.cross\_layer\_relation.alternative\_splicing.splice\_site\_strength\_psi\_vastdb}.  Its only verified numerical contact in the present packet is the run \texttt{1ce9f7f16dbe}, checked at \texttt{2026-06-24T05:41:53+00:00}, which reports $29742$ VASTDB splice-event rows and a runtime of $36.4$ seconds.  These numbers certify that a finite alternative-splicing surface was materialized for the named claim, not that a synonymous-codon residual, translation readout, protein abundance row, or protein-localization label has already been joined to those rows.  The biological reading is therefore deliberately narrow: the data provide a counted splice-event panel with a reproducible run identity, while the Q6 translation-localization interpretation remains conditional on additional same-row biological measurements.
+The record considered here is the finite-row packet
+\texttt{h3.cross\_layer\_relation.alternative\_splicing.splice\_site\_strength\_psi\_vastdb}.  Its checked run identifier is \texttt{1ce9f7f16dbe}.  The run contains $29742$ event rows and completed in $36.4$ seconds.  These two numbers are the only scalar measurements available in the present packet: they certify the size and execution surface of the finite event table, but they do not by themselves certify any codon-to-translation, codon-to-localization, or splice-to-localization biological effect.
 
-\paragraph{Coordinate and readout variables.}
-Let $q_i$ denote a $B^*_{Q6}$ synonymous residual coordinate after quotienting away the amino-acid sequence.  Let $T_j$ denote a translation-facing readout, such as a ribosome-profiling translation-efficiency row, a bounded tAI or stAI readout, or another explicitly declared translation measurement.  Let $L_\ell$ denote a protein-localization label, localization score, compartment distribution, fractionation enrichment, imaging call, or proximity-labeling readout keyed to the same protein or coding sequence.  The admissible finite row is not merely $(q_i,L_\ell)$; it must contain the controlled chain
+\paragraph{Coordinate object.}
+The mathematical object is a finite table of coding-sequence rows indexed by organism and by matched identifiers.  Each row may carry a synonymous residual coordinate $q_i$ from the $B^*_{Q6}$ residual family, together with amino-acid composition, organism label, $GC3$, coding-sequence length, methionine-density baseline, and any same-row molecular readouts that have actually been joined.  The residual coordinate is interpreted only after quotienting away amino-acid sequence information; it is not a protein sequence, not a structural descriptor, and not a localization annotation.  In this chapter the intended readout chain has three finite layers:
 $$
 \begin{aligned}
-(q_i, Z_i, m_i, T_j, L_\ell),
+q_i &\longrightarrow T_j,\\
+(q_i,T_j) &\longrightarrow L_k,\\
+(q_i,T_j,\mathrm{mRNA},Z) &\longrightarrow \hbox{conditioned localization readback},
 \end{aligned}
 $$
-where $Z_i$ includes amino-acid composition, organism, GC3, coding-sequence length, methionine-density baseline, and simpler codon baselines, and $m_i$ is the matched mRNA control when translation efficiency is computed as a separated translation-layer quantity.  The verified VASTDB panel supplies a row count for splice events, but the present packet does not yet report such joined Q6--translation--localization rows.
+where $T_j$ denotes a translation readout, $L_k$ denotes a protein-localization label or score, and $Z$ denotes the declared controls: amino-acid composition, organism, $GC3$, length, methionine density, matched mRNA abundance, and simpler codon baselines.
 
-\paragraph{Translation gate.}
-A Q6 residual may face a localization interpretation only after a nondegenerate translation step has survived the declared controls.  In local notation, this means that the statistic $S^{QT}(q_i,T_j)$ must be positive in a rank-powered design, and it must remain positive after the baseline models absorb amino-acid composition, organism, GC3, length, methionine-density, mRNA abundance, and simpler codon features.  The required form is
+\paragraph{Admissible claim.}
+The admissible claim is deliberately narrow.  A residual coordinate $q_i$ may be treated as localization-facing only if the same finite row panel first supplies a nondegenerate translation-readout step.  Write this survival condition as $S^{QT}(q_i,T_j)>0$, where the score is evaluated after the declared controls and after rejecting rank-saturated or baseline-only explanations.  Only then may the row be tested for a localization relation, and the localization statement must be phrased as a conditioned readback rather than as a direct biological mechanism.  In particular, a direct association
 $$
 \begin{aligned}
-S^{QT}(q_i,T_j) > 0,
+q_i &\longrightarrow L_k
 \end{aligned}
 $$
-with enough finite rank that the estimate is not an all-saturated or underpowered fit.  If this inequality is absent, rank-saturated, or not computed on same-organism and same-coding-sequence rows, then a later $q_i$--localization association is not read as translation-mediated.  It remains a boundary signal or a null contact, even when a localization resource exists by name.
-
-\paragraph{Localization conditioning.}
-After the translation gate is met, the localization-facing question is not whether $q_i$ can be directly fitted to $L_\ell$ in isolation.  The relevant finite-row question is whether the apparent $q_i \to L_\ell$ relation is reduced, explained, or otherwise reorganized when $T_j$ and the mRNA control are included.  A minimal admissible comparison has the form
+is insufficient unless it is compared with the conditioned route
 $$
 \begin{aligned}
-L_\ell &\sim q_i + Z_i + m_i,\\
-L_\ell &\sim q_i + T_j + Z_i + m_i.
+q_i &\longrightarrow T_j \longrightarrow L_k.
 \end{aligned}
 $$
-The translation-facing reading is allowed only when the first model is not treated as sufficient by itself and the second model shows that the localization contact is mediated, attenuated, or otherwise conditioned by the nondegenerate translation readout.  Without that controlled comparison, localization remains a measured protein-layer label, not evidence for a codon-residual translation mechanism.
+The decisive question is whether the apparent $q_i$--localization term is reduced, explained, or bounded once $T_j$, matched mRNA abundance, and the baseline variables are included.
 
-\paragraph{Role of the verified splice-event run.}
-The run \texttt{1ce9f7f16dbe} contributes a concrete finite surface: $29742$ splice events processed in $36.4$ seconds.  This is useful because it fixes the scale of the splice-site panel attached to the named claim and prevents the chapter from treating the claim as purely verbal.  However, the recorded values do not include an effect size, $R$ list, $M$ list, lambda value, p-value, module classification, hit rate, or controlled Q6 survival score.  Consequently, the splice-event count cannot be promoted into evidence for translation efficiency, protein localization, protein abundance, folding, physical admissibility, biological function, trafficking mechanism, phenotype, or organism-general law.  It is a finite contact point for the splice-site side of the record, while the Q6 translation-localization chain still requires a separately joined row matrix.
+\paragraph{Present finite evidence.}
+The available checked fact is a finite event table with $29742$ rows from run \texttt{1ce9f7f16dbe}, not a joined codon--translation--localization matrix.  The row count is large enough to make the packet worth retaining as a test target, but the recorded scalars do not include $R$ lists, $M$ lists, $\lambda$ values, $p$-values, module classifications, hit rates, or a computed $S^{QT}$ surface.  Therefore the current chapter records a bounded cross-layer proposal rather than a positive biological result.  The statement supported by the data is that the event table exists at the recorded scale; the statement not yet supported is that any $B^*_{Q6}$ coordinate survives a translation-readout test or mediates a localization readout.
 
-\paragraph{Local null boundary.}
-The null case is part of the claim rather than a failure of the chapter.  If the finite panel contains localization labels but lacks a same-row translation readout, the result is a localization boundary only.  If it contains a translation readout but $S^{QT}$ is zero, rank-saturated, or not powered, the result is a translation-readout refusal.  If it contains a direct $q_i \to L_\ell$ association but conditioning on $T_j$ and matched mRNA does not reduce or explain that association, the result is a non-translation residual boundary.  In all three cases the record may still guide future data joining, but it does not claim that synonymous residual geometry determines localization.
+\paragraph{Localization contact.}
+A localization row is acceptable only when it is keyed to a protein or coding-sequence identifier compatible with the codon and translation rows.  Such a row may be a compartment label, a compartment score, an imaging-derived localization assignment, a fractionation enrichment, or a proximity-labeling score.  The contact is noisy in predictable ways: cell type, condition, antibody or tag artifacts, compartment granularity, isoform ambiguity, contamination, labeling radius, and identifier loss can all alter the finite table.  For that reason, the localization layer cannot be read as a mechanism.  It is a measured or curated surface to be conditioned on a prior translation surface.
 
-\paragraph{Claim discipline.}
-The chapter therefore supports a constrained statement: a $B^*_{Q6}$ synonymous residual coordinate can be proposed as localization-facing only through a successful same-row translation step and a subsequent conditioning test against localization.  The available finite numbers, $29742$ splice events and $36.4$ seconds of runtime for run \texttt{1ce9f7f16dbe}, establish the size and reproducibility of the attached splice-event run but do not establish the translation-localization bridge.  No translation mechanism, folded structure, physical admissibility, biological function, compartment mechanism, phenotype, or universal biological rule follows from the present packet unless a separate layer-matched contact supplies the missing rows and the declared statistics are computed on them.
+\paragraph{Null boundary.}
+The local null condition is the following.  If $S^{QT}(q_i,T_j)$ is absent, zero, underpowered, or saturated by rank or baseline controls, then the coordinate $q_i$ remains a bounded residual proposal.  In that case, even a visible $q_i$--localization association is not a translation-mediated localization claim.  It is only a boundary event requiring more row joins.  The same refusal applies if the finite table contains localization annotations but lacks matched codon counts, matched translation readouts, or matched mRNA controls.
+
+\paragraph{Cannot-claim boundary.}
+Nothing in the present finite record establishes translation realization, ribosome dynamics, protein folding, physical admissibility, biological function, trafficking mechanism, compartment identity mechanism, phenotype, causation, or universality.  A modeled tAI or stAI weight is not an observed ribosome footprint.  A ribosome-profiling contact name is not a joined translation-efficiency matrix.  A protein-localization contact name is not a computed localization statistic.  A workflow-ready event is not biological evidence.  Each stronger interpretation requires its own layer-matched rows and its own statistic.
+
+\paragraph{Operational test.}
+The next finite test is explicit.  Build a same-organism, same-coding-sequence table containing $B^*_{Q6}$ residual coordinates, codon counts, a measured or explicitly bounded translation readout, matched mRNA abundance, optional protein-abundance controls, and matched localization labels or scores.  Estimate $S^{QT}(q_i,T_j)$ under the declared controls.  Only for entries with nondegenerate $S^{QT}>0$ should the table estimate whether conditioning on $T_j$ reduces or explains the $q_i$--localization association.  Until that computation exists, the chapter remains a finite, bounded proposal at the interface between synonymous residual geometry and localization readouts, not a completed localization result.

@@ -1,33 +1,40 @@
-\subsection{Measured ribosome-TE survival of the $B^*_{Q6}$ residual panel}\label{sec:bioreality-q6-measured-ribosome-te-survival}
+\subsection{Measured ribosome-TE survival for the $B^*_{Q6}$ residual surface}\label{subsec:bioreality-bstar-q6-measured-te-survival}
 \origin{ai}
 
-\paragraph{Finite row surface.}
-This record concerns the finite matrix whose rows are coding sequences with joined codon counts and measured ribosome-profiling translation efficiency, and whose columns are the nine $B^*_{Q6}$ residual coordinates
-$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3$-stress. The measured readout is $\log_{10}(TE)$, with $TE$ defined in the local files as ribosome footprint divided by matched mRNA. Thus the readout is already mRNA-normalized before the codon residual fit is evaluated. Each organism fit removes length, amino-acid composition, $GC3$, and the $M$-density baseline before asking whether the residual coordinate block retains positive explanatory power for the measured TE readout.
+\paragraph{Finite surface.}
+The measured ribosome-TE record is a four-organism finite matrix whose rows are matched CDS units and whose columns are the nine residual coordinates $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3\_stress$.  The readout is $\log_{10}(TE)$, with $TE$ recorded in the local ribosome files as footprint abundance divided by matched mRNA abundance.  Thus the measured translation-efficiency column is already normalized by mRNA within its source construction; it is not a raw transcript-abundance proxy and it is not a protein-abundance measurement.
 
-\paragraph{Rank and row admissibility.}
-Four organism panels are rank-powered rather than three-organism saturated artifacts. Danio rerio joins $13140$ measured-TE genes against $14410$ reported CDS rows, giving hit rate $0.9118667591950035$; Escherichia coli K12 MG1655 joins $3415$ genes against $3739$ CDS rows, hit rate $0.9133458143888741$; Homo sapiens joins $11554$ genes against $19053$ CDS rows, hit rate $0.6064136881331024$; Saccharomyces cerevisiae joins $5128$ genes against $5815$ CDS rows, hit rate $0.8818572656921754$. In all four cases the residualized $Q$ block has rank $9$ with $9$ coordinates, while the control design has rank $23$ from $24$ columns. The residual degrees of freedom after controls are $13117$, $3392$, $11531$, and $5105$, respectively, so no all-one fitted matrix or rank-degenerate boundary is being promoted as biological survival.
+The fitted panel is rank-powered in every organism in which the measured TE contact is used.  Danio rerio contributes $13140$ TE-matched genes from $14410$ reported CDS joins, with join hit rate $0.9118667591950035$.  Escherichia coli K12 MG1655 contributes $3415$ genes from $3739$ reported CDS joins, with hit rate $0.9133458143888741$.  Homo sapiens contributes $11554$ genes from $19053$ reported CDS joins, with hit rate $0.6064136881331024$.  Saccharomyces cerevisiae contributes $5128$ genes from $5815$ reported CDS joins, with hit rate $0.8818572656921754$.
 
-\paragraph{Measured survival values.}
-The controlled measured-TE survival statistic is positive in every powered organism panel. The finite values are
+\paragraph{Residualization and rank.}
+For each organism, the nine-coordinate design is residualized against the same control family: CDS length, amino-acid composition, GC3, and the $M$-density baseline.  The retained control matrix has $24$ columns, numerical rank $23$, and uses the degeneracy threshold $0.999999$ with rank tolerance $10^{-10}$.  After projecting out the controls, the $B^*_{Q6}$ matrix retains rank $9$ in every organism.  The organism-level residual degrees of freedom and TE residual energies are
 $$
 \begin{aligned}
-R^2_{QT,meas}(\mathrm{Danio}) &= 0.04034217614654355,\\
-R^2_{QT,meas}(\mathrm{E.\ coli}) &= 0.009394266754822262,\\
-R^2_{QT,meas}(\mathrm{Human}) &= 0.018837911344127926,\\
-R^2_{QT,meas}(\mathrm{Yeast}) &= 0.13681931343730436.
+\mathrm{df}_{Danio} &= 13117, & E_{TE,Danio} &= 3588.378859021949,\\
+\mathrm{df}_{E.coli} &= 3392, & E_{TE,E.coli} &= 919.4854026798789,\\
+\mathrm{df}_{Human} &= 11531, & E_{TE,Human} &= 2052.594706241978,\\
+\mathrm{df}_{Yeast} &= 5105, & E_{TE,Yeast} &= 753.5781168800304.
 \end{aligned}
 $$
-Each panel reports $9$ surviving coordinates at positive partial-$R^2$ threshold $10^{-12}$. The strongest measured-TE survival in this finite set is yeast, while the weakest is E. coli. The values should be read as per-gene codon-residual associations with a measured TE surface after the stated controls, not as a universal law of translation efficiency.
+The corresponding $Q$-explained TE energies after the same controls are $144.76301201119642$ for Danio, $8.637891149939946$ for E. coli, $38.66659710161269$ for human, and $103.10404057290246$ for yeast.  These numbers are the finite-row certificate that the measured-TE test is not the rank-degenerate three-row boundary: the residual coordinate rank is full, the residual degrees of freedom are large, and all four fitted matrices pass the powered-rank check.
 
-\paragraph{Connection to protein abundance.}
-A separate measured protein-abundance mediation fit uses the same nine-coordinate residual family and conditions the $Q\to P$ association on measured ribosome TE. Its measured mediated fractions are $0$ for Danio rerio after clipping a raw suppressive value $-0.04801486048721136$, $0.04091158340950673$ for E. coli, $0.0027966485036786744$ for human, and $0.4793069656345167$ for yeast. The corresponding direct abundance survivals in that same measured-TE mediation panel are $S_{QP}=0.04926578454614652$, $0.10941535951828074$, $0.04288464996165745$, and $0.3146818503437042$. This makes the measured-TE result biologically sharper in yeast than in the other panels: yeast has both the largest $R^2_{QT,meas}$ and the largest measured TE-conditioned abundance attenuation. The other organisms still supply positive measured-TE survival, but their abundance mediation fractions are small or null on this finite readout.
+\paragraph{Measured TE survival.}
+The measured-TE survival statistic is positive in all four fitted organisms.  The observed values are
+$$
+\begin{aligned}
+R^2_{QT,meas}(Danio) &= 0.04034217614654355,\\
+R^2_{QT,meas}(E.coli) &= 0.009394266754822262,\\
+R^2_{QT,meas}(Human) &= 0.018837911344127926,\\
+R^2_{QT,meas}(Yeast) &= 0.13681931343730436.
+\end{aligned}
+$$
+Each organism has $9$ surviving coordinates at the positive partial-$R^2$ threshold $10^{-12}$.  The strongest measured-TE survival is the yeast entry, $0.13681931343730436$, and the weakest is the E. coli entry, $0.009394266754822262$; both remain strictly positive after the declared controls.  The chapter claim is therefore ready at the bounded translation-readout level: measured ribosome-derived TE contains a detectable $B^*_{Q6}$ residual signal after the local control projection.
 
-\paragraph{Stability and dictionary context.}
-The same cross-layer surface was also decomposed against measured TE and mRNA stability where all three available organisms had computed four-way joins: $2517$ E. coli rows, $11322$ human rows, and $4759$ yeast rows. The joint mediation fractions were $0.2404669586626661$, $0.16890712099923358$, and $0.5195182225621592$, with right-tail permutation value $0.000999000999000999$ in each organism. In yeast, a separate readout-dictionary certificate on $1800$ joined rows used $\lambda_{DL}=0.01$ and found selection-aware coverage $C^*=0.24538211439730545$ above selection-aware null $95\%$ value $0.029149007242956115$, leaving unexplained fraction $0.7546178856026946$. These numbers support a partial-reduction picture: measured TE and allied readouts carry real finite signal, but they do not exhaust the abundance residual.
+\paragraph{Relation to protein abundance.}
+The measured-TE result is not by itself a protein-output or mechanism result.  A separate protein-abundance surface gives direct $Q \to P$ association after the sibling controls, including $R^2_{QP}=0.04613529807085213$ for Danio, $0.10767526677985896$ for E. coli, $0.04454565118019448$ for human, and $0.29837624994140827$ for yeast in the broader direct proteomics panel.  A more specific measured-TE conditioning run on the same four organisms reports $S_{QP}=0.04926578454614652$ and clipped measured mediation fraction $0.0$ for Danio, $S_{QP}=0.10941535951828074$ and mediation fraction $0.04091158340950673$ for E. coli, $S_{QP}=0.04288464996165745$ and mediation fraction $0.0027966485036786744$ for human, and $S_{QP}=0.3146818503437042$ and mediation fraction $0.4793069656345167$ for yeast.  These entries show why the measured-TE survival statement must be kept narrower than a universal mediation statement: yeast has a large measured-TE attenuation fraction, E. coli and human have small positive fractions, and Danio has no positive clipped fraction despite positive measured-TE survival.
 
-\paragraph{The $f_3$-stress subcoordinate.}
-For the $f_3$-stress component in yeast, the dwell mediation panel used $1257$ joined rows and found held-out $\Delta R^2=0.01856473944057712$ against a permutation null $95\%$ value $0.0013115362189692937$, with $f_3$-dwell correlation $0.1615441450901653$ and approximate $p=7.873916057196935\times 10^{-9}$. Its positional refinement identified the leading segment as $5'$ and passed the five-prime ramp gate while the three-prime body gate did not pass. A separate structural-order ramp panel classified the structural readout as \emph{ramp-positive but not localized}: weighted ramp increment $0.0011165640103326878$, weighted body increment $-0.00026157313923957926$, and paired ramp-minus-body sign-flip value $0.05859375$. This places the positional observation below a full structural-localization claim.
+\paragraph{Dictionary context.}
+A selection-aware readout-dictionary check on the yeast context gives $n_{join}=1800$ from $4758$ available joined rows, five folds, $\lambda_{DL}=0.01$, $\rho_{join}=0.05$, raw best coverage $0.2745002077400602$, selection-aware null $95\%$ value $0.029149007242956115$, certified coverage $C^*=0.24538211439730545$, and unexplained fraction $0.7546178856026946$.  This places the measured-TE result in a partial-reduction regime rather than a complete explanatory regime.  The finite surface detects translation-readout survival, but most of the yeast abundance residual remains outside the measured readout dictionary used in that check.
 
-\paragraph{Local verdict.}
-The finite-row verdict is ready for a measured translation-readout claim: the $B^*_{Q6}$ residual block survives against measured ribosome TE in four rank-powered organism panels after the declared sequence and composition controls. The statement is deliberately narrower than a mechanism claim. Positive $Q\to TE$ survival does not by itself establish translation causation, elongation speed, protein abundance realization, folding, physical admissibility, molecular function, phenotype, or universality. Any such assertion needs its own layer-matched measurement surface and its own controlled statistic. Direct $Q\to P$ survival is therefore only direct protein-omics prediction unless a measured $Q\to T\to P$ conditioning step reduces the direct abundance signal on the same joined rows.
+\paragraph{Local no-promotion rule.}
+The admissible conclusion is a controlled finite-row association from $B^*_{Q6}$ residual coordinates to measured ribosome-derived TE.  No claim about elongation mechanism, causal translation control, folded structural order, physical admissibility, molecular function, phenotype, or universality follows from this chapter.  No direct $Q \to P$ association is promoted to mechanism unless a separately joined and controlled translation readout both survives as $Q \to T$ and reduces the corresponding $Q \to P$ signal when conditioned upon.  The present chapter supplies the measured $Q \to T$ side of that route and records its organism-specific strength; it does not close the higher biological layers.

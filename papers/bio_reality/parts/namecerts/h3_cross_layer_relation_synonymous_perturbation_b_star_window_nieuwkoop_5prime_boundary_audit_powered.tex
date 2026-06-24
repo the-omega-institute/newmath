@@ -1,64 +1,22 @@
-\subsection{Nieuwkoop Five-Prime Boundary Audit for the $B^{\ast}$ Window}
-\label{sec:bioreality-nieuwkoop-five-prime-boundary-audit}
-\origin{ai}
+\subsection{Nieuwkoop five-prime boundary audit for synonymous mRFP perturbations}\label{sec:nieuwkoop-5prime-boundary-audit}\origin{ai}
 
-\paragraph{Finite surface.}
-This record fixes a finite perturbation audit for the Nieuwkoop synonymous mRFP variant panel. The working table has $1459$ variants and asks whether the $B^{\ast}$ window signal remains a downstream coding-sequence signal after the extreme five-prime boundary is separated from the rest of the coding sequence. The audited carrier is the finite row family
+\paragraph{Finite row surface.} This record evaluates whether the Nieuwkoop synonymous mRFP perturbation panel supports a distinct five-prime boundary effect for the $B^\ast_{Q6}$ window coordinates, rather than merely showing that synonymous recoding can predict protein output somewhere in the construct. The finite surface contains $1459$ synonymous variants and uses the same perturbation family as the companion mRFP protein-output run. The audit separates an initial-window component from downstream synonymous-window components and keeps the protein-output question conditional on the observed finite design.
+
+\paragraph{Stepwise readout.} The baseline model in the boundary audit has $R^2=0.06748192482378434$. Adding the principal design component gives a large improvement, with step-two $R^2=0.6060702157093043$ and $\Delta \ell=628.6217154500001$ relative to step one. The proposed $B^\ast$ start-window increment is then essentially zero: the start-window log-likelihood increment is $3.26370933437133\times 10^{-6}$ and the corresponding $\Delta R^2$ is $1.7624020537495221\times 10^{-9}$. In the downstream window, the added $B^\ast$ component is not positive: the downstream log-likelihood increment is $-2.082967365015851$ with $\Delta R^2=-0.001126409133973234$. The stricter downstream-after-position-16 value is also negative, $\Delta \ell=-2.1989730953428164$. The block test gives $p=0.1691542288557214$ against a null $95\%$ reference value of $0.5254770343527547$, and the sign-stability flag is false.
+
+\paragraph{Local decision rule.} The audit therefore accepts the design-level protein-output signal only at the level already supported by the perturbation panel, and rejects promotion to a special five-prime $B^\ast$ boundary law. The numerical decision can be summarized as
 $$
 \begin{aligned}
-  \Omega_{\mathrm{Nwk}}=
-  \{(v, y_v, z_v, b^{\mathrm{start}}_v, b^{\mathrm{down}}_v): v=1,\ldots,1459\},
+R^2_{1} &= 0.06748192482378434,\\
+R^2_{2} &= 0.6060702157093043,\\
+R^2_{3} &= 0.6049438075310105,\\
+\Delta R^2_{B,\mathrm{downstream}} &= -0.001126409133973234,\\
+\Delta \ell_{B,\mathrm{start}} &= 3.26370933437133\times 10^{-6},\\
+\Delta \ell_{B,\mathrm{downstream}} &= -2.082967365015851.
 \end{aligned}
 $$
-where $y_v$ is the measured protein-output readout used by the synonymous variant assay, $z_v$ denotes the local sequence and simpler-baseline controls used by the run, $b^{\mathrm{start}}_v$ is the five-prime boundary component, and $b^{\mathrm{down}}_v$ is the downstream $B^{\ast}$ component. The assay is therefore not a general codon-usage claim. It is a finite comparison between a boundary-local feature and a downstream-window feature on the same matched variant panel.
+The start-window term is numerically negligible, and the downstream term moves in the wrong direction after the stronger design component has entered. The recorded finite-row verdict is consequently a boundary audit with no stable positive five-prime $B^\ast$ window effect.
 
-\paragraph{Three-step fit.}
-The run first fits the available baseline surface and obtains
-$$
-\begin{aligned}
-  R^2_1 &= 0.06748192482378434.
-\end{aligned}
-$$
-Adding the strong five-prime/boundary component gives a large finite improvement,
-$$
-\begin{aligned}
-  \Delta \ell_{2-1} &= 628.6217154500001,\\
-  R^2_2 &= 0.6060702157093043.
-\end{aligned}
-$$
-The audit question is then whether the downstream $B^{\ast}$ component still carries protein-output information after that boundary component is present. The third step gives
-$$
-\begin{aligned}
-  \Delta \ell_{3-2} &= -2.082965600280344,\\
-  R^2_3 &= 0.6049438075310105.
-\end{aligned}
-$$
-Equivalently, the registered downstream statistic is negative on the held model comparison,
-$$
-\begin{aligned}
-  \Delta R^2_{\mathrm{down}} &= -0.001126409133973234,\\
-  \Delta \ell_{\mathrm{down}} &= -2.082967365015851.
-\end{aligned}
-$$
-The block-null calibration used $B=200$ resamples and gives a downstream null $95\%$ cutoff of $0.5254770343527547$ with $p_{\mathrm{block}}=0.1691542288557214$. The sign-stability flag is false. The stricter downstream component beginning at codon $16$ is also negative, with $\Delta \ell_{\mathrm{down},16+}=-2.1989730953428164$.
+\paragraph{Relation to the companion mRFP protein-output run.} The companion Nieuwkoop mRFP protein-output analysis on the same $1459$ variants is positive in a broader prediction sense: it reports base $R^2=0.12648386762689323$, full $R^2=0.1798829276988051$, $\Delta R^2=0.05339906007191191$, $\Delta\mathrm{DL}=19.089327473282296$ bits, and matched and within-block permutation values both equal to $0.004975124378109453$. It also records that the real-CAI control is robust rather than absorbing the signal, with real-CAI/proxy correlation $0.17884920449487354$. The present boundary audit does not contradict that broader result; it narrows it. The data allow a bounded synonymous-perturbation protein-output association in the companion surface, but they do not allow the more specific claim that the signal is carried by a stable five-prime $B^\ast$ boundary component.
 
-\paragraph{Boundary verdict.}
-The finite result is not that the Nieuwkoop panel lacks a synonymous signal. The companion Nieuwkoop mRFP protein-output run on the same $1459$ variants reports a broader $B^{\ast}$ improvement with
-$$
-\begin{aligned}
-  R^2_{\mathrm{controls}} &= 0.12648386762689323,\\
-  R^2_{\mathrm{controls}+B_\perp} &= 0.1798829276988051,\\
-  \Delta R^2 &= 0.05339906007191191,\\
-  \Delta \mathrm{DL}_{\mathrm{bits}} &= 19.089327473282296,
-\end{aligned}
-$$
-and matched and within-null probabilities both equal to $0.004975124378109453$. The boundary audit refines that positive row-level contact: once the first five-prime boundary component has been admitted, the remaining downstream $B^{\ast}$ window does not earn a positive finite-row increment in this panel. Thus the correct readout is a localized protein-output boundary effect, not a claim that a distributed downstream codon-window coordinate independently survives after the five-prime component is controlled.
-
-\paragraph{Relation to translation-mediated protein abundance.}
-The broader multi-organism mediation surface gives a useful scale for what would be required to promote a codon residual into a translation-mediated protein-abundance statement. In that separate finite panel, the $B^{\ast}_{Q6}$ residual family has $9$ coordinates and the per-protein modeled-tAI/protein-abundance mediation table includes $12$ organisms. For example, the Escherichia coli row has $3739$ joined proteins, total $R^2_{QP}=0.10767526677985896$, direct $R^2_{QP\mid T}=0.04167869969498872$, and an indirect difference $0.06599656708487024$, with mediated fraction $0.612922252793667$. The yeast row has $5815$ joined proteins, total $R^2_{QP}=0.29837624994140827$, direct $R^2_{QP\mid T}=0.0151709093608293$, and indirect difference $0.28320534058057895$, with mediated fraction $0.9491551041216973$. Those numbers belong to a modeled cross-organism mediation audit, not to the Nieuwkoop five-prime perturbation boundary. They show the kind of separate translation-readout surface needed before a protein-output association can be described as translation mediated.
-
-\paragraph{Allowed statement.}
-For the Nieuwkoop five-prime boundary audit, the supported statement is finite and local: among $1459$ synonymous mRFP variants, the large improvement occurs at the five-prime boundary step, while the downstream $B^{\ast}$ component is nonpositive after that boundary component is included. The start component itself is effectively null as a separate $B^{\ast}$ increment in the registered scalar, with $\Delta R^2_{\mathrm{start}}=1.7624020537495221\times 10^{-9}$ and $\Delta \ell_{\mathrm{start}}=3.26370933437133\times 10^{-6}$, so the finite audit should be read as a boundary-decomposition result rather than as a new independent downstream survival claim. The observed mRFP protein-output contact remains real at the panel level, but its boundary-resolved interpretation is constrained by the negative downstream increment.
-
-\paragraph{Local no-promotion rule.}
-No translation realization, ribosome dynamics, folding, physical admissibility, molecular function, mechanism, organismal phenotype, selection law, or universal biological rule follows from this audit by itself. A direct $Q_i\to P_k$ association is not enough to claim translation-mediated realization unless the same coordinate first survives a controlled $Q_i\to T_j$ translation-readout step, with matched mRNA abundance and simpler baseline controls. Protein output in this section means the finite Nieuwkoop reporter readout only. Folding, stability, localization, physical feasibility, function, and generality would each require their own layer-matched measurement surface and a separate statistic on rows joined to the same perturbation or sequence coordinates.
+\paragraph{Scientific boundary.} This chapter treats $B^\ast_{Q6}$ coordinates as finite codon-window residual variables tested against measured reporter output in a particular synonymous perturbation panel. The observed numbers do not by themselves establish translation dynamics, ribosome occupancy, folding, physical admissibility, molecular function, mechanism, organismal phenotype, selection, or a universal biological rule. Any such higher-layer claim would require a separate layer-matched contact: for example, ribosome profiling or translation-efficiency rows for translation, structure or stability measurements for folding or physical state, functional assays for molecular function, and organism-level perturbation data for phenotype. A direct residual-to-protein association is not enough to promote the coordinate beyond the bounded perturbation-output surface, and in this audit the proposed five-prime boundary component is itself unsupported.
