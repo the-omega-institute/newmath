@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedRealFunctionUp$}
+\label{ch:concrete-instances-bishop-located-real-function-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopLocatedRealFunctionUp$ packet records a located real-valued function as displayed finite input-location requests and regular real output rows, not as a host function or quotient map. It sits between the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the located real input boundary of \autoref{ch:concrete-instances-located-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation interface of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet gives Real and Completion consumers a function-facing surface whose inputs, output approximants, tolerances, transports, and local name remain finite BEDC rows.
+
+\begin{definition}[Bishop located real function carrier]
+\label{def:bishop-located-real-function-carrier}
+A $\BishopLocatedRealFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,Q,L,D,S,R,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the input real-name row, opened only through the $\RealUp$ seal named by the packet.
+\item $Q$ is the locatedness request row, sourced through $\LocatedRealUp$, that records the finite positive/negative separation tests allowed for the input.
+\item $L$ is the local input-window ledger. It records which located input cells are served by the packet and which tolerance request each cell answers.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the input request, output request, slack, and comparison budget.
+\item $S$ is the $\StreamNameUp$ finite observation window opened before the output is read.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row attached to $S$ and $D$.
+\item $O$ is the displayed output real-name seal reached only after $Q,L,D,S,R$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the input seal, locatedness requests, local windows, dyadic tolerances, StreamName windows, RegSeqRat readback, output seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a located input request through the same rows.
+\item $P$ is the $\Pkg$ provenance over $\BishopLocatedRealFunctionUp$, $\RealUp$, $\LocatedRealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopLocatedRealFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Q,L,D,S,R,O,H,C,P,N$. It has no coordinate for general continuity, ambient $\RealUp$ completeness, host function equality, quotient equality of real names, countable choice, or a selected global modulus.
+\end{definition}
+
+\begin{theorem}[Bishop located real function NameCert obligations]
+\label{thm:bishop-located-real-function-obligations}
+For every accepted $\BishopLocatedRealFunctionUp$ carrier
+$$
+F=(X,Q,L,D,S,R,O,H,C,P,N),
+$$
+the local $\NameCert_{\BishopLocatedRealFunctionUp}$ surface consists exactly of carrier admission for the displayed rows, located-input admission through $Q$, local window exactness through $L$, dyadic tolerance accounting through $D$, StreamName window exactness through $S$, RegSeqRat output readback through $R$, output Real-seal nonescape through $O$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-located-real-function-carrier}. The packet exposes exactly the input seal, locatedness request row, local input-window ledger, dyadic tolerance ledger, StreamName window, RegSeqRat readback, output seal, transport, replay, provenance, and local name.
+
+The located-input obligations are read through $Q,L,D$. The locatedness row $Q$ determines which finite input separation tests are allowed, $L$ records the served local windows, and $D$ fixes the tolerance and comparison budget for those requests.
+
+The output obligations are read through $S,R,O$. StreamName opens only finite observations, RegSeqRat records the regular rational output approximants attached to those observations, and the output Real seal is downstream of that readback.
+
+Finally $H,C,P,N$ preserve and name the same route. Since no coordinate stores general continuity, host function equality, quotient equality, countable choice, a selected global modulus, or ambient Real completeness, none of those principles is exported by the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop located real function located-output stability]
+\label{thm:bishop-located-real-function-located-output-stability}
+Every accepted $\BishopLocatedRealFunctionUp$ read that serves a located input request through
+$$
+F=(X,Q,L,D,S,R,O,H,C,P,N)
+$$
+must expose the same located input row $Q$, local window ledger $L$, dyadic tolerance ledger $D$, finite StreamName window $S$, RegSeqRat readback $R$, and output Real seal $O$ before the output value is consumed. Refining a served input window may add displayed rows inside $L,S,R$, but the public output read remains the same packet route through $H,C,P,N$ and cannot be presented as a host function value, quotient equality class, selected limit, general continuity theorem, or completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the located input request. Row $Q$ supplies the locatedness data, while $L$ records the finite input windows to which the packet responds.
+
+Read the dyadic tolerance ledger $D$. It fixes the input and output precision budget, so a refinement must remain inside the displayed comparison route rather than changing the function packet.
+
+Next pass through $S,R,O$. The StreamName and RegSeqRat rows expose finite output approximants, and the terminal Real seal is consumed only after those rows are visible.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same packet. Therefore a located-output read is stable under displayed finite refinement, but it never becomes host function equality, quotient equality, general continuity, selected completion data, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{BishopLocatedRealFunctionUp}{seedStr}
+
+\begin{closurestatus}{\BishopLocatedRealFunctionUp}
+  \constructivestory{A $\BishopLocatedRealFunctionUp$ packet is generated from a RealUp input seal, LocatedRealUp request rows, local input windows, a DyadicRatCoreUp tolerance ledger, StreamNameUp finite windows, RegSeqRatUp output readback, a RealUp output seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-real-function-carrier}, \autoref{thm:bishop-located-real-function-obligations}, and \autoref{thm:bishop-located-real-function-located-output-stability} seed the located real-valued function packet over displayed RealUp, LocatedRealUp, RegSeqRatUp, StreamNameUp, DyadicRatCoreUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.BishopLocatedRealFunctionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim general continuity, ambient $\RealUp$ completeness, host function equality, quotient equality of real names, countable choice, selected limits, Lean theorem checking, or standard bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-input admission, local window exactness, dyadic tolerance accounting, StreamName window exactness, RegSeqRat output readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopLocatedRealFunctionUp.}
+\end{closurestatus}
