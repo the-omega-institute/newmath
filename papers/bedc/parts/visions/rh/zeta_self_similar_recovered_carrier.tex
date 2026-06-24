@@ -237,6 +237,101 @@ continuation, archimedean-completion, functional-equation, pole, zero,
 branch, and transport ledgers of \autoref{def:rh-layered-zeta-recovery-layer}.
 \end{definition}
 
+\begin{definition}[Displayed zeta constraint diagram]
+\label{def:rh-displayed-zeta-constraint-diagram}
+A displayed zeta constraint diagram is a typed records-side diagram
+$$
+\mathcal D_{\zeta}
+:=
+\bigl(I,\ (R_i,\sim_i,P_i,C_i,\Lambda_i,\mathsf{Cert}_i)_{i:I},\
+(\rho_{ji})_{j\to i}\bigr)
+$$
+over one source carrier, where each $P_i$ is a displayed readout, each
+$C_i:R_i\to\mathsf{Prop}$ is a displayed constraint row, and every edge
+$j\to i$ carries a readback map $\rho_{ji}:R_j\to R_i$ with the source
+compatibility row
+$$
+\rho_{ji}(P_j(t))\sim_i P_i(t).
+$$
+For the zeta packet, the diagram contains at least the prime-axis,
+Dirichlet, Euler, Laplace, continuation, archimedean-completion,
+functional-equation, pole-ledger, zero-ledger, branch-transport, and
+provenance rows already listed in
+\autoref{def:rh-zeta-recovered-geometry-packet}. The phrase ``all zeta
+constraints'' refers only to such a displayed diagram, not to an
+untyped totality of predicates.
+\end{definition}
+
+\begin{definition}[Compatible zeta geometry carrier]
+\label{def:rh-compatible-zeta-geometry-carrier}
+For a displayed zeta constraint diagram $\mathcal D_{\zeta}$, the
+compatible zeta geometry carrier is the dependent carrier
+$$
+\mathbb G_{\mathcal D_{\zeta}}
+:=
+\sum_{(r_i):\prod_{i:I}R_i}
+\left(
+\prod_{i:I}C_i(r_i)
+\right)
+\times
+\left(
+\prod_{j\to i}\rho_{ji}(r_j)\sim_i r_i
+\right)
+\times
+\Lambda_{\mathcal D_{\zeta}}.
+$$
+The source-side version is
+$$
+T_{\mathcal D_{\zeta}}
+:=
+\sum_{t:T}
+\prod_{i:I}C_i(P_i(t)).
+$$
+The canonical readout sends $t$ to the compatible family
+$(P_i(t))_{i:I}$ together with the displayed readback and ledger rows.
+\end{definition}
+
+\begin{principle}[Constraint totality is relative to a diagram]
+\label{prin:rh-zeta-constraint-totality-relative}
+The infinite-dimensional geometry of zeta is a compatible limit of a
+displayed constraint diagram. It is not the complex plane, not the Euler
+product alone, and not the untyped collection of every sentence one could
+state about $\zeta$. The carrier $\mathbb G_{\mathcal D_{\zeta}}$
+records precisely the rows, constraints, readbacks, fibers, continuations,
+and ledgers named by $\mathcal D_{\zeta}$.
+\end{principle}
+
+\begin{definition}[RH-neutral and fixed-half zeta carriers]
+\label{def:rh-neutral-fixed-half-zeta-carriers}
+Let $\mathcal D_{\zeta}^{0}$ be the displayed zeta constraint diagram
+containing the recovery rows of \autoref{def:rh-layered-zeta-recovery-layer}
+and the zero-ledger row, but not the fixed-half conclusion as a defining
+constraint. Its compatible carrier is
+$$
+\mathbb G_{\zeta}^{0}:=\mathbb G_{\mathcal D_{\zeta}^{0}}.
+$$
+The fixed-half subcarrier is
+$$
+\mathbb G_{\zeta}^{1/2}
+:=
+\sum_{g:\mathbb G_{\zeta}^{0}}\mathsf{FixHalf}(g),
+$$
+where $\mathsf{FixHalf}(g)$ may be read through any of the equivalent
+half-layer rows of \autoref{thm:rh-layered-translations}.
+\end{definition}
+
+\begin{principle}[RH as endogenous fixed-half constraint]
+\label{prin:rh-endogenous-fixed-half-constraint}
+RH is not the definition of $\mathbb G_{\zeta}^{1/2}$. It is the claim
+that the zero-ledger part of the RH-neutral carrier
+$\mathbb G_{\zeta}^{0}$ already lands in the fixed-half subcarrier. In
+constraint-diagram language, it says that the fixed-half row is not an
+extra defining row for zero packets, but a consequence of the other
+recovery, mirror, completion, and zero-ledger rows. The positive-apartness
+form of this consequence is the local-global obstruction isolated in
+\autoref{def:rh-local-global-zero-exclusion-target}.
+\end{principle}
+
 \begin{proposition}[Euler phase channels are prime-axis readouts]
 \label{prop:rh-euler-phase-channels-prime-axis-readouts}
 On the displayed right-half-plane window, the exponential kernel sends a
