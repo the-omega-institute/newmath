@@ -8909,6 +8909,7 @@ import BEDC.Derived.PrimeUp.SuccResultContTransport
 import BEDC.Derived.PrimeUp.TrialDivShape
 import BEDC.Derived.PrimeUp.TrialDivStep
 import BEDC.Derived.PrimeUp.TrialDivTerminal
+import BEDC.Derived.PrimeUp.UniqueFactorization
 import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PrimeUp.ZeroHeadedComponent
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.FieldCoverage
