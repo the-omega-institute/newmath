@@ -178,6 +178,24 @@ For the step, extend only the displayed StreamName section. Common-tail modulus 
 Finally replay the enlarged route through $H,C,P,N$ and then through the Real seal discipline. Since the carrier has no coordinate for a selected limit, quotient representative, countable-choice schedule, or ambient Real completeness, the induction cannot export any of those objects.
 \end{proof}
 
+\begin{theorem}[Bishop regular Cauchy completion finite-stage induction]
+\label{thm:bishop-regular-cauchy-completion-finite-stage-induction}
+Every accepted finite-stage completion read of a $\BishopRegularCauchyCompletionUp$ packet factors through the displayed sequence of rows
+$$
+D,W,S,R,E,H,C,P,N.
+$$
+The stage induction first fixes the dyadic tail budget $D$ and common-tail window $W$, then reads the finite $\StreamNameUp$ observation row $S$, the $\RegSeqRatUp$ readback row $R$, the terminal $\RealUp$ seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$. No induction step may replace the finite-stage route by quotient stream equality, a selected limit, a countable-choice schedule, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Induct on the finite stage named by the window row $W$. The base stage is the first displayed StreamName window, so \autoref{thm:regular-cauchy-completion-finite-window-induction} already forces the read through $D,W,S,R,E$ before any terminal seal is visible.
+
+For the successor stage, extend the displayed window while keeping the same dyadic budget. Common-tail modulus stability from \autoref{thm:bishop-regular-cauchy-completion-common-tail-modulus-stability} keeps the enlarged stage inside the fixed $D,W$ route.
+
+The regular readback and seal rows then follow the existing finite-window induction. Componentwise transport, replay, provenance, and naming are carried by $H,C,P,N$ rather than by an external representative of the Cauchy stream.
+
+Finally use diagonal-window stability from \autoref{thm:bishop-regular-cauchy-completion-diagonal-window-stability}. It blocks any comparison that skips the displayed stage rows, so the induction cannot export quotient stream equality, a selected limit, countable choice, host real equality, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[Bishop regular Cauchy completion universal handoff]
 \label{thm:real-cauchy-completion-universal-handoff}
 Every $\RealUp$ or $\CompletionUp$ consumer of an accepted
