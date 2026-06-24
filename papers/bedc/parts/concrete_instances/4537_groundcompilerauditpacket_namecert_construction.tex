@@ -44,6 +44,7 @@ G=(E,S,R,C,Q,M,B,X,H,T,P,N),
 $$
 the local $\NameCert_{\GroundCompilerAuditPacketUp}$ surface consists exactly of event-flow readback through $E$, source-channel readback through $S$, recognizer readback through $R$, certificate-gate readback through $C$, report-boundary readback through $Q$, module-inventory readback through $M$, no-hidden-input readback through $B$, source-channel export readback through $X$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, $\Pkg$ provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerAuditPacketUp.GroundCompilerAuditPacketNameCertObligations}
 \begin{proof}
 Start with the carrier projection. The rows $E,S,R,C,Q,M,B,X,H,T,P,N$ are the only public coordinates available to the local certificate.
 
@@ -58,6 +59,7 @@ Finally inspect $X,H,T,P,N$. The export row links the compiler packet to the sou
 \label{thm:groundcompiler-audit-packet-export-non-escape}
 Every public export from an accepted $\GroundCompilerAuditPacketUp$ packet factors through the displayed event-flow, source-channel, recognizer, certificate-gate, report-boundary, module-inventory, no-hidden-input, source-channel export, transport, continuation, provenance, and local naming rows of \autoref{def:groundcompiler-audit-packet-carrier}. The export surface carries no hidden compiler input, no host source scan, no report-as-proof conversion, no motif-as-object identity, no classifier-quotient collapse into raw equality, and no kernel acceptance claim outside the sibling ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.GroundCompilerAuditPacketUp.GroundCompilerAuditPacketExportNonEscape}
 \begin{proof}
 Project an accepted carrier $G$. By \autoref{thm:groundcompiler-audit-packet-namecert-obligations}, every public export must pass through the listed NameCert rows.
 

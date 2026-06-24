@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\DyadicRoundingIntervalUp$}
+\label{ch:concrete-instances-dyadic-rounding-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real approximation by rational intervals, the $\DyadicRoundingIntervalUp$ packet records the finite lower--upper dyadic enclosure obtained from one displayed rounding request. It sits over the dyadic arithmetic source of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the lower-grid route of \autoref{ch:concrete-instances-dyadicfloor-namecert}, the upper-grid route of \autoref{ch:concrete-instances-dyadic-ceiling-namecert}, the signed normal-form boundary of \autoref{ch:concrete-instances-signed-dyadic-normal-form-namecert}, the finite observation window of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names an interval produced by finite rounding rows, not a host order decision, quotient real equality, selected representative, countable-choice schedule, or ambient $\RealUp$ completeness theorem.
+
+\begin{definition}[Dyadic rounding interval carrier]
+\label{def:dyadic-rounding-interval-carrier}
+A $\DyadicRoundingIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(D,Q,F,U,S,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ source row carrying the dyadic arithmetic ledger and requested scale.
+\item $Q$ is the rounding request row naming the inspected value, precision, and outward-rounding direction as finite data.
+\item $F$ is the lower endpoint row read through the dyadic floor route of \autoref{ch:concrete-instances-dyadicfloor-namecert}.
+\item $U$ is the upper endpoint row read through the dyadic ceiling route of \autoref{ch:concrete-instances-dyadic-ceiling-namecert}.
+\item $S$ is the $\SignedDyadicNormalFormUp$ row that keeps both endpoints in the same signed normal-form convention.
+\item $W$ is the $\StreamNameUp$ finite-window row through which the request is observed.
+\item $R$ is the $\RegSeqRatUp$ readback row served by the same window and endpoint pair.
+\item $E$ is the $\RealUp$ seal row reached only after $D,Q,F,U,S,W,R$ are displayed.
+\item $H$ records componentwise $\hsame$ transport for the dyadic source, request, endpoints, signed normal form, window, readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the same finite route from a rounding-interval request.
+\item $P$ records $\Pkg$ provenance over $\DyadicRoundingIntervalUp$, $\DyadicRatCoreUp$, the floor and ceiling endpoint routes, $\SignedDyadicNormalFormUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicRoundingIntervalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,Q,F,U,S,W,R,E,H,C,P,N$. It has no coordinate for host trichotomy, quotient real equality, selected representatives, a global rounding oracle, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic rounding interval NameCert obligations]
+\label{thm:dyadic-rounding-interval-namecert-obligations}
+For every accepted $\DyadicRoundingIntervalUp$ carrier
+$$
+I=(D,Q,F,U,S,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicRoundingIntervalUp}$ surface consists exactly of DyadicRatCore source exposure through $D$, rounding-request exposure through $Q$, lower endpoint exposure through $F$, upper endpoint exposure through $U$, signed normal-form exposure through $S$, finite-window exposure through $W$, RegSeqRat readback through $R$, Real seal exposure through $E$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The dyadic source row $D$ and rounding request row $Q$ determine the displayed scale and the finite request; no host comparison service is available outside those rows.
+
+Next read the two endpoint rows. The lower endpoint $F$ is supplied by the floor route, the upper endpoint $U$ by the ceiling route, and $S$ forces both endpoints to share the signed normal-form convention before any stream or regular readback is consumed.
+
+Finally $W,R,E,H,C,P,N$ expose the observation window, regular rational readback, terminal Real seal, transport, replay, provenance, and local name. Since the carrier contains no coordinate for trichotomy, quotient equality, selected representatives, global rounding, choice, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dyadic rounding interval containment route]
+\label{thm:dyadic-rounding-interval-containment-route}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\DyadicRoundingIntervalUp$ carrier must read the displayed route
+$$
+D,Q,F,U,S,W,R,E,H,C,P,N .
+$$
+The consumer receives the lower endpoint $F$ and upper endpoint $U$ as one signed dyadic interval before reading $R$ or $E$, and the interval is transported only componentwise through $H$ and replayed only through $C$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection. The source and request rows $D,Q$ identify one finite rounding query, so the endpoint rows are not independent witnesses from separate searches.
+
+Read $F,U,S$ next. The lower and upper endpoint rows form the displayed dyadic interval, and the signed normal-form row keeps them in the same endpoint convention before the observation window is served.
+
+The regular and Real-facing rows are downstream. The StreamName window $W$ and RegSeqRat readback $R$ must be exposed before the terminal Real seal $E$ can consume the interval, while $H,C,P,N$ preserve only that same route. Hence containment is a finite interval route rather than an ambient order fact.
+\end{proof}
+
+\begin{theorem}[Dyadic rounding interval nonescape]
+\label{thm:dyadic-rounding-interval-nonescape}
+No accepted $\DyadicRoundingIntervalUp$ carrier exports a host rounding operator, a trichotomy decision for arbitrary real names, quotient equality of real representatives, a selected endpoint representative, countable-choice search, or ambient $\RealUp$ completeness. Any consumer that reaches the interval must remain inside the rows $D,Q,F,U,S,W,R,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. They contain dyadic source data, one request, two endpoint rows, signed normal form, window and readback rows, a Real seal, and structural rows for transport, replay, provenance, and naming.
+
+None of the excluded principles is a coordinate of the carrier or a consequence of a structural row. Componentwise $\hsame$ transport preserves the displayed endpoint rows, $\Cont$ replay replays the same finite route, and $\Pkg$ provenance records only the named dependencies.
+
+Therefore every interval-facing read stays inside $D,Q,F,U,S,W,R,E,H,C,P,N$. A consumer claiming host rounding, trichotomy, quotient equality, selected representatives, choice, or ambient completeness has left the accepted NameCert surface.
+\end{proof}
+
+\closureat{DyadicRoundingIntervalUp}{seedStr}
+
+\begin{closurestatus}{\DyadicRoundingIntervalUp}
+  \constructivestory{A $\DyadicRoundingIntervalUp$ packet is generated from a DyadicRatCore source row, a rounding request, floor and ceiling endpoint rows, signed dyadic normal-form data, StreamName finite windows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-rounding-interval-carrier}, \autoref{thm:dyadic-rounding-interval-namecert-obligations}, \autoref{thm:dyadic-rounding-interval-containment-route}, and \autoref{thm:dyadic-rounding-interval-nonescape} seed the finite rounding-interval route over dyadic source, rounding request, lower endpoint, upper endpoint, signed normal form, finite window, regular readback, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host rounding, trichotomy for arbitrary real names, quotient real equality, selected endpoint representatives, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires Lean encoding of the carrier, NameCert obligation surface, containment route, nonescape theorem, transport stability, replay stability, and provenance rows for BEDC.Derived.DyadicRoundingIntervalUp.}
+\end{closurestatus}
