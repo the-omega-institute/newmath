@@ -1,0 +1,37 @@
+\begin{theorem}[DyadicIntervalCover scoped finite-cover chain]
+\label{thm:dyadicintervalcover-scoped-finite-cover-chain}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Every scoped finite-cover chain exposed by $I$ factors through lower and upper endpoint rows in $\DyadicRatCoreUp$, finite-cover membership rows consumed by $\BishopIntervalCompactUp$, $\RegSeqRatUp$ readback through $W,Q$, and the terminal $\RealUp$ seal row $A$. The structural rows $H,C,P,N$ preserve the same finite route by $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming; the chain does not assert open-cover compactness, host selected subcovers, quotient real equality, countable choice, or ambient Real completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverScopedFiniteCoverChain}
+\begin{proof}
+Project the endpoint, mesh, radius, and membership rows from \autoref{def:dyadic-interval-cover-carrier}. The rows $L,U$ are the dyadic endpoints, while $M,R,V$ are the finite cells and membership data visible to the interval-compactness consumer.
+
+Apply \autoref{thm:dyadicintervalcover-subcover-handoff-obligation}. It places any $\BishopIntervalCompactUp$ handoff behind the same displayed rows $L,U,M,R,V,W,Q,A,H,C,P,N$ and treats the handoff as a finite membership route rather than an open-cover theorem.
+
+Use \autoref{thm:dyadicintervalcover-real-seal-nonescape-obligation}. The readback rows $W,Q$ and the seal row $A$ remain downstream of the displayed cover chain, so $\RegSeqRatUp$ and $\RealUp$ consumers receive only the finite route. The structural rows preserve that route and add no selected subcover or ambient compactness coordinate.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover public certificate scope]
+\label{thm:dyadicintervalcover-public-certificate-scope}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. The public certificate scope of $I$ is exactly the finite route through $\DyadicRatCoreUp$ endpoint rows $L,U$, $\StreamNameUp$ window row $W$, $\RegSeqRatUp$ readback row $Q$, $\RealUp$ seal row $A$, the $\BishopIntervalCompactUp$ finite-net handoff, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$, with mesh, radius, and membership rows $M,R,V$ retained as the cover ledger.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:dyadicintervalcover-scoped-finite-cover-chain}. It already places the finite-cover chain inside the displayed rows $L,U,M,R,V,W,Q,A,H,C,P,N$ and keeps the route away from open-cover compactness, host selected subcovers, quotient real equality, countable choice, and ambient Real completeness.
+
+Next use \autoref{thm:dyadicintervalcover-bishop-interval-compact-handoff}. The finite-net handoff to $\BishopIntervalCompactUp$ is available only after the dyadic endpoints, mesh, radius, cover membership, finite windows, regular readback, Real seal, transport, replay, provenance, and local naming rows have been exposed.
+
+Finally apply \autoref{thm:dyadicintervalcover-ledger-exactness}. The ledger rows $M,R,V$ are exact only against the same endpoint, window, readback, seal, transport, replay, provenance, and NameCert route. Therefore the public certificate scope is precisely that finite route, with no extra coordinate for selected subcovers, quotient equality, choice, host compactness, or ambient completion.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover public finite-cover export]
+\label{thm:dyadicintervalcover-public-finite-cover-export}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. The public export surface of $I$ is the single finite-cover NameCert route that displays the finite mesh $M$, dyadic endpoint rows $L,U$, cover-membership ledger $V$, $\StreamNameUp$ window row $W$, $\RegSeqRatUp$ readback row $Q$, $\RealUp$ seal row $A$, and $\BishopIntervalCompactUp$ handoff through $H,C,P,N$. This route exports finite-cover data only; it still refuses selected finite subcovers, quotient real equality, countable choice, open-cover compactness, host compactness, and ambient completion.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:dyadicintervalcover-public-certificate-scope}. It identifies the public certificate scope as the finite route through dyadic endpoints, StreamName windows, RegSeqRat readback, Real sealing, Bishop interval compact handoff, transport, replay, provenance, local naming, and the cover ledger rows $M,R,V$.
+
+Use \autoref{thm:dyadicintervalcover-subcover-handoff-obligation}. The $\BishopIntervalCompactUp$ consumer is reached only after the dyadic endpoint, mesh, radius, membership, window, readback, Real-seal, transport, replay, provenance, and naming rows are displayed.
+
+Finally apply \autoref{thm:dyadicintervalcover-mesh-refinement-obligation} and \autoref{thm:dyadicintervalcover-real-seal-nonescape-obligation}. The first keeps the finite mesh and refinement data inside the displayed dyadic route, while the second keeps the Real seal downstream of the same finite projection. Hence the public export is the named finite-cover NameCert route itself, with no extra selector, quotient, choice, compactness, or completion coordinate.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverPublicFiniteCoverExport}
