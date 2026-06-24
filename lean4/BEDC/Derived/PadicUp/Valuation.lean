@@ -1,5 +1,8 @@
 import BEDC.Derived.PadicUp.ExactDivision
+import BEDC.Derived.PadicUp.IntegerTower.Completeness
 import BEDC.Derived.IntUp.Arithmetic
+import BEDC.Derived.IntUp.Order
+import BEDC.Derived.IntUp.OneSidedContext
 
 namespace BEDC.Derived.PadicUp
 
@@ -71,6 +74,18 @@ theorem qpVal_well_defined_iff {p : BHist} {x y : QpInt p} {j : BHist × BHist} 
   · exact qpVal_well_defined same
   · exact qpVal_well_defined (QpEq_symm same)
 
+theorem qpVal_target_classifier {p : BHist} {x : QpInt p}
+    {j k : BHist × BHist} :
+    QpVal x j -> IntPairClassifier j k -> QpVal x k := by
+  intro val target
+  cases val with
+  | intro y data =>
+      cases data with
+      | intro w rest =>
+          exact ⟨y, w, rest.left,
+            IntPairClassifier_equivalence_fields.right.right.right.right.left
+              rest.right target⟩
+
 def IntPairLe (a b : BHist × BHist) : Prop :=
   ∃ t : BHist, UnaryHistory t ∧
     IntPairClassifier (QpValAdd a (t, BHist.Empty)) b
@@ -132,6 +147,48 @@ theorem nat_add_sub_cancel_left_pure (a b : Nat) : a + b - a = b := by
       rw [Nat.succ_add]
       rw [Nat.succ_sub_succ]
       exact ih
+
+theorem nat_succ_add_tail_eq (a t : Nat) : a + (t + 1) = a + 1 + t := by
+  calc
+    a + (t + 1) = a + (1 + t) := by
+      rw [Nat.add_comm t 1]
+    _ = a + 1 + t := by
+      exact (Nat.add_assoc a 1 t).symm
+
+def natLtTail : Nat -> Nat -> Nat
+  | 0, 0 => 0
+  | 0, b + 1 => b
+  | _a + 1, 0 => 0
+  | a + 1, b + 1 => natLtTail a b
+
+theorem nat_lt_as_succ_add {a b : Nat} :
+    a < b -> b = a + 1 + natLtTail a b := by
+  induction a generalizing b with
+  | zero =>
+      intro hlt
+      cases b with
+      | zero =>
+          cases hlt
+      | succ b =>
+          change Nat.succ b = 0 + 1 + b
+          rw [Nat.zero_add]
+          exact Nat.add_comm b 1
+  | succ a ih =>
+      intro hlt
+      cases b with
+      | zero =>
+          cases hlt
+      | succ b =>
+          have tailLt : a < b := Nat.succ_lt_succ_iff.mp hlt
+          have ihEq := ih tailLt
+          let t := natLtTail a b
+          change Nat.succ b = (a + 1) + 1 + t
+          calc
+            Nat.succ b = Nat.succ (a + 1 + t) := congrArg Nat.succ ihEq
+            _ = (a + 1 + t) + 1 := rfl
+            _ = (a + 1) + (t + 1) := by
+              exact Nat.add_assoc (a + 1) t 1
+            _ = (a + 1) + 1 + t := nat_succ_add_tail_eq (a + 1) t
 
 def qpValClearDenomAt {p : BHist} (prime : NatPrime p) (K : Nat)
     (x : QpInt p) : ZpInt p :=
@@ -428,6 +485,222 @@ def ZpValWitness_mul {p : BHist} {x y : ZpInt p}
       powP_mul_level_succ_zero_cancel x.prime sum uxy scaledSuccZero
     exact productUnit unitZero
 
+theorem zpLevel_zero_lower_of_index_le {p : BHist} (a : ZpInt p)
+    {lo hi : Nat} :
+    (∃ tail : Nat, hi = lo + tail) ->
+      (zpLevel a (zpuNatToUnary hi) (zpuNatToUnary_unary hi)).val =
+        BHist.Empty ->
+        (zpLevel a (zpuNatToUnary lo) (zpuNatToUnary_unary lo)).val =
+          BHist.Empty := by
+  intro leData zeroHi
+  cases leData with
+  | intro tail hiEq =>
+      let L := zpuNatToUnary lo
+      let T := zpuNatToUnary tail
+      let H := zpuNatToUnary hi
+      have LUnary : UnaryHistory L := zpuNatToUnary_unary lo
+      have TUnary : UnaryHistory T := zpuNatToUnary_unary tail
+      have HUnary : UnaryHistory H := zpuNatToUnary_unary hi
+      have appendSame : hsame (BEDC.FKernel.Cont.append L T) H := by
+        have addSame := zpuNatToUnary_add_hsame lo tail
+        have sumSame : hsame (zpuNatToUnary (lo + tail)) H := by
+          subst hi
+          exact hsame_refl _
+        exact hsame_trans addSame sumSame
+      have zeroAtAppend :
+          hsame
+            (a.trunc (BEDC.FKernel.Cont.append L T)
+              (unary_append_closed LUnary TUnary)).val
+            BHist.Empty :=
+        hsame_trans
+          (zpTrunc_level_hsame a
+            (unary_append_closed LUnary TUnary) HUnary appendSame)
+          zeroHi
+      have drop :=
+        zp_trunc_drop_nat a LUnary TUnary
+      have modZero :
+          hsame
+            (natModFn (pPowCanon p L)
+              (a.trunc (BEDC.FKernel.Cont.append L T)
+                (unary_append_closed LUnary TUnary)).val)
+            BHist.Empty :=
+        hsame_trans
+          (natModFn_hsame_arg_transport (M := pPowCanon p L) zeroAtAppend)
+          (hsame_refl BHist.Empty)
+      exact hsame_trans (hsame_symm drop) modZero
+
+def ZpValWitness_transport {p : BHist} {x y : ZpInt p} :
+    ZpEq x y -> ZpValWitness y -> ZpValWitness x := by
+  intro same w
+  refine
+    { k := w.k
+      zero_k := ?_
+      nz_succ := ?_ }
+  · exact ZpEq_level_empty_transport (zpuNatToUnary_unary w.k) same w.zero_k
+  · intro xZero
+    exact w.nz_succ
+      (ZpEq_level_empty_transport (zpuNatToUnary_unary (w.k + 1))
+        (ZpEq_symm same) xZero)
+
+def ZpValWitness_add_exact_of_lt {p : BHist} {x y : ZpInt p}
+    (wx : ZpValWitness x) (wy : ZpValWitness y) :
+    wx.k < wy.k -> ZpValWitness (zpAdd p x y) := by
+  intro hlt
+  let tail := natLtTail wx.k wy.k
+  have wyEq : wy.k = wx.k + 1 + tail := by
+    exact nat_lt_as_succ_add hlt
+  have yZeroK :
+      (zpLevel y (zpuNatToUnary wx.k) (zpuNatToUnary_unary wx.k)).val =
+        BHist.Empty := by
+    apply zpLevel_zero_lower_of_index_le y
+    · exact ⟨tail + 1, Eq.trans wyEq (nat_succ_add_tail_eq wx.k tail).symm⟩
+    · exact wy.zero_k
+  have yZeroSucc :
+      (zpLevel y (zpuNatToUnary (wx.k + 1))
+        (zpuNatToUnary_unary (wx.k + 1))).val =
+        BHist.Empty := by
+    apply zpLevel_zero_lower_of_index_le y
+    · exact ⟨tail, wyEq⟩
+    · exact wy.zero_k
+  refine
+    { k := wx.k
+      zero_k := ?_
+      nz_succ := ?_ }
+  · exact zpAdd_level_empty_of_both x y
+      (zpuNatToUnary_unary wx.k) wx.zero_k yZeroK
+  · intro sumZero
+    have addToX :
+        hsame ((zpAdd p x y).trunc (zpuNatToUnary (wx.k + 1))
+          (zpuNatToUnary_unary (wx.k + 1))).val
+          (x.trunc (zpuNatToUnary (wx.k + 1))
+            (zpuNatToUnary_unary (wx.k + 1))).val :=
+      zpAdd_level_zero_right x y
+        (zpuNatToUnary_unary (wx.k + 1)) yZeroSucc
+    exact wx.nz_succ (hsame_trans (hsame_symm addToX) sumZero)
+
+def ZpValWitness_add_exact_of_gt {p : BHist} {x y : ZpInt p}
+    (wx : ZpValWitness x) (wy : ZpValWitness y) :
+    wy.k < wx.k -> ZpValWitness (zpAdd p x y) := by
+  intro hgt
+  exact ZpValWitness_transport (zpAdd_comm p x y)
+    (ZpValWitness_add_exact_of_lt wy wx hgt)
+
+def valuation_add_exact_of_lt {p : BHist} {a b : ZpInt p}
+    (wa : ZpValWitness a) (wb : ZpValWitness b) :
+    wa.k < wb.k -> ZpValWitness (zpAdd p a b) :=
+  ZpValWitness_add_exact_of_lt wa wb
+
+def valuation_add_exact_of_gt {p : BHist} {a b : ZpInt p}
+    (wa : ZpValWitness a) (wb : ZpValWitness b) :
+    wb.k < wa.k -> ZpValWitness (zpAdd p a b) :=
+  ZpValWitness_add_exact_of_gt wa wb
+
+theorem natOne_not_empty : hsame NatOne BHist.Empty -> False := by
+  intro same
+  exact not_hsame_e1_empty same
+
+def ZpValWitness_one {p : BHist} (prime : NatPrime p) :
+    ZpValWitness (zpOne p prime) := by
+  refine
+    { k := 0
+      zero_k := zpLevel_zero_val_empty (zpOne p prime)
+      nz_succ := ?_ }
+  intro oneZero
+  unfold zpLevel zpOne natToZp fromNatModPow natMod at oneZero
+  change hsame (natModFn (pPowCanon p (zpuNatToUnary 1)) NatOne)
+    BHist.Empty at oneZero
+  have onePowerSame : hsame (pPowCanon p (zpuNatToUnary 1)) p := by
+    change hsame (pPowCanon p (BHist.e1 BHist.Empty)) p
+    exact pPowCanon_one_hsame prime
+  have modAtPrime :
+      hsame (natModFn p NatOne) BHist.Empty :=
+    hsame_trans (hsame_symm (natModFn_hsame_mod_transport onePowerSame))
+      oneZero
+  have oneMod :
+      hsame (natModFn p NatOne) NatOne :=
+    natModFn_of_strict prime.left (NatPrime_empty_absurd prime)
+      (unary_e1_closed unary_empty) prime.right.left
+  exact natOne_not_empty (hsame_trans (hsame_symm oneMod) modAtPrime)
+
+def ZpValWitness_pUnit {p : BHist} (prime : NatPrime p) :
+    ZpValWitness (pUnitZp p prime) := by
+  refine
+    { k := 1
+      zero_k := ?_
+      nz_succ := ?_ }
+  · unfold zpLevel pUnitZp natToZp fromNatModPow natMod
+    change hsame (natModFn (pPowCanon p (zpuNatToUnary 1)) p)
+      BHist.Empty
+    have onePowerSame : hsame (pPowCanon p (zpuNatToUnary 1)) p := by
+      change hsame (pPowCanon p (BHist.e1 BHist.Empty)) p
+      exact pPowCanon_one_hsame prime
+    have pDivides : NatDivides p p :=
+      (NatDivides_reflexive_pair prime.left).right
+    have modZero :
+        hsame (natModFn p p) BHist.Empty :=
+      (dvd_iff_mod_zero prime.left (NatPrime_empty_absurd prime) prime.left).mp
+        pDivides
+    exact hsame_trans (natModFn_hsame_mod_transport onePowerSame) modZero
+  · intro pUnitZeroAtTwo
+    have factor :
+        ZpEq (pUnitZp p prime)
+          (zpMul p (zpPowP p prime 1) (zpOne p prime)) := by
+      have left :
+          ZpEq (pUnitZp p prime)
+            (zpMul p (zpOne p prime) (pUnitZp p prime)) :=
+        ZpEq_symm (zpOne_mul_left p prime (pUnitZp p prime))
+      have right :
+          ZpEq (zpMul p (zpOne p prime) (pUnitZp p prime))
+            (zpMul p (zpPowP p prime 1) (zpOne p prime)) := by
+        unfold zpPowP pPowZp
+        exact ZpEq_symm
+          (zpOne_mul_right p prime
+            (zpMul p (zpOne p prime) (pUnitZp p prime)))
+      exact ZpEq_trans left right
+    have productZeroAtTwo :
+        (zpLevel (zpMul p (zpPowP p prime 1) (zpOne p prime))
+          (zpuNatToUnary (1 + 1)) (zpuNatToUnary_unary (1 + 1))).val =
+          BHist.Empty :=
+      ZpEq_level_empty_transport (zpuNatToUnary_unary (1 + 1))
+        (ZpEq_symm factor) pUnitZeroAtTwo
+    have oneZeroAtOne :
+        (zpLevel (zpOne p prime) (zpuNatToUnary 1)
+          (zpuNatToUnary_unary 1)).val = BHist.Empty :=
+      powP_mul_level_succ_zero_cancel prime 1 (zpOne p prime)
+        productZeroAtTwo
+    exact (ZpValWitness_one prime).nz_succ oneZeroAtOne
+
+def ZpValWitness_powP {p : BHist} (prime : NatPrime p) :
+    (k : Nat) -> ZpValWitness (zpPowP p prime k)
+  | 0 => ZpValWitness_one prime
+  | k + 1 =>
+      ZpValWitness_mul (ZpValWitness_powP prime k) (ZpValWitness_pUnit prime)
+
+theorem ZpValWitness_powP_k {p : BHist} (prime : NatPrime p) (k : Nat) :
+    (ZpValWitness_powP prime k).k = k := by
+  induction k with
+  | zero =>
+      rfl
+  | succ k ih =>
+      unfold ZpValWitness_powP
+      unfold ZpValWitness_mul
+      dsimp
+      rw [ih]
+      unfold ZpValWitness_pUnit
+      rfl
+
+def ZpValWitness_scale {p : BHist} {x : ZpInt p}
+    (prime : NatPrime p) (n : Nat) (wx : ZpValWitness x) :
+    ZpValWitness (zpScale p prime n x) :=
+  ZpValWitness_mul (ZpValWitness_powP prime n) wx
+
+theorem ZpValWitness_scale_k {p : BHist} {x : ZpInt p}
+    (prime : NatPrime p) (n : Nat) (wx : ZpValWitness x) :
+    (ZpValWitness_scale prime n wx).k = n + wx.k := by
+  unfold ZpValWitness_scale ZpValWitness_mul
+  dsimp
+  rw [ZpValWitness_powP_k prime n]
+
 theorem qpValLower_of_apart {p : BHist} (x : QpInt p) (hx : QpApart0 x) :
     QpValLower x (qpVal x hx) := by
   let w := firstNonzero hx.num_apart
@@ -440,6 +713,239 @@ theorem qpValLower_of_apart {p : BHist} (x : QpInt p) (hx : QpApart0 x) :
         (zpOne_mul_left p x.value.prime x.value)
         w.zero_k
   exact ⟨x.value.prime, x.shift, w.k, lowerAt, qpRawValPair_refl x w⟩
+
+theorem qpRawValPair_scale_left_classified {p : BHist}
+    (prime : NatPrime p) (x : QpInt p) (wx : ZpValWitness x.value)
+    (n : Nat) :
+    IntPairClassifier
+      (qpRawValPair { shift := x.shift + n, value := zpScale p prime n x.value }
+        (ZpValWitness_scale prime n wx))
+      (qpRawValPair x wx) := by
+  let scaled : QpInt p :=
+    { shift := x.shift + n, value := zpScale p prime n x.value }
+  have rawCarrier := qpRawValPair_carrier scaled (ZpValWitness_scale prime n wx)
+  have targetCarrier := qpRawValPair_carrier x wx
+  have posSame :
+      hsame
+        (qpRawValPair scaled (ZpValWitness_scale prime n wx)).1
+        (BEDC.FKernel.Cont.append (zpuNatToUnary n)
+          (qpRawValPair x wx).1) := by
+    unfold qpRawValPair QpValIndex scaled
+    dsimp
+    change hsame (zpuNatToUnary (ZpValWitness_scale prime n wx).k)
+      (BEDC.FKernel.Cont.append (zpuNatToUnary n) (zpuNatToUnary wx.k))
+    have kEq := ZpValWitness_scale_k prime n wx
+    rw [kEq]
+    exact hsame_symm (zpuNatToUnary_add_hsame n wx.k)
+  have negSame :
+      hsame
+        (qpRawValPair scaled (ZpValWitness_scale prime n wx)).2
+        (BEDC.FKernel.Cont.append (qpRawValPair x wx).2
+          (zpuNatToUnary n)) := by
+    unfold qpRawValPair QpValIndex scaled
+    dsimp
+    exact hsame_symm (zpuNatToUnary_add_hsame x.shift n)
+  have contextual :
+      IntPairClassifier
+        (BEDC.FKernel.Cont.append (zpuNatToUnary n) (qpRawValPair x wx).1,
+          BEDC.FKernel.Cont.append (qpRawValPair x wx).2 (zpuNatToUnary n))
+        (BEDC.FKernel.Cont.append (zpuNatToUnary n) (qpRawValPair x wx).1,
+          BEDC.FKernel.Cont.append (qpRawValPair x wx).2 (zpuNatToUnary n)) :=
+    IntPairClassifier_equivalence_fields.right.right.left
+      ⟨unary_append_closed (zpuNatToUnary_unary n) targetCarrier.left,
+        unary_append_closed targetCarrier.right (zpuNatToUnary_unary n)⟩
+  have scaledToContext :
+      IntPairClassifier (qpRawValPair scaled (ZpValWitness_scale prime n wx))
+        (BEDC.FKernel.Cont.append (zpuNatToUnary n) (qpRawValPair x wx).1,
+          BEDC.FKernel.Cont.append (qpRawValPair x wx).2 (zpuNatToUnary n)) :=
+    IntPairClassifier_equivalence_fields.right.right.right.right.right
+      (qpRawValPair_refl scaled (ZpValWitness_scale prime n wx))
+      (hsame_refl _) (hsame_refl _) posSame negSame rawCarrier
+      ⟨unary_append_closed (zpuNatToUnary_unary n) targetCarrier.left,
+        unary_append_closed targetCarrier.right (zpuNatToUnary_unary n)⟩
+  have contextToTarget :
+      IntPairClassifier
+        (BEDC.FKernel.Cont.append (zpuNatToUnary n) (qpRawValPair x wx).1,
+          BEDC.FKernel.Cont.append (qpRawValPair x wx).2 (zpuNatToUnary n))
+        (qpRawValPair x wx) :=
+    by
+      constructor
+      · exact ⟨unary_append_closed (zpuNatToUnary_unary n) targetCarrier.left,
+          unary_append_closed targetCarrier.right (zpuNatToUnary_unary n)⟩
+      · constructor
+        · exact targetCarrier
+        · have leftAssoc :
+            hsame
+              (BEDC.FKernel.Cont.append
+                (BEDC.FKernel.Cont.append (zpuNatToUnary n) (qpRawValPair x wx).1)
+                (qpRawValPair x wx).2)
+              (BEDC.FKernel.Cont.append (zpuNatToUnary n)
+                (BEDC.FKernel.Cont.append (qpRawValPair x wx).1
+                  (qpRawValPair x wx).2)) :=
+            append_assoc (zpuNatToUnary n) (qpRawValPair x wx).1
+              (qpRawValPair x wx).2
+          have commute :
+            hsame
+              (BEDC.FKernel.Cont.append (zpuNatToUnary n)
+                (BEDC.FKernel.Cont.append (qpRawValPair x wx).1
+                  (qpRawValPair x wx).2))
+              (BEDC.FKernel.Cont.append
+                (BEDC.FKernel.Cont.append (qpRawValPair x wx).1
+                  (qpRawValPair x wx).2)
+                (zpuNatToUnary n)) :=
+            unary_append_comm (zpuNatToUnary_unary n)
+              (unary_append_closed targetCarrier.left targetCarrier.right)
+          have rightAssoc :
+            hsame
+              (BEDC.FKernel.Cont.append
+                (BEDC.FKernel.Cont.append (qpRawValPair x wx).1
+                  (qpRawValPair x wx).2)
+                (zpuNatToUnary n))
+              (BEDC.FKernel.Cont.append (qpRawValPair x wx).1
+                (BEDC.FKernel.Cont.append (qpRawValPair x wx).2
+                  (zpuNatToUnary n))) :=
+            append_assoc (qpRawValPair x wx).1 (qpRawValPair x wx).2
+              (zpuNatToUnary n)
+          exact hsame_trans leftAssoc (hsame_trans commute rightAssoc)
+  exact IntPairClassifier_equivalence_fields.right.right.right.right.left
+    scaledToContext contextToTarget
+
+theorem qpVal_add_eq_left_of_lt {p : BHist} (x y : QpInt p)
+    (hx : QpApart0 x) (hy : QpApart0 y) :
+    intLt (qpVal x hx) (qpVal y hy) ->
+      QpVal (qpAdd x y) (qpVal x hx) := by
+  intro hlt
+  let wx := firstNonzero hx.num_apart
+  let wy := firstNonzero hy.num_apart
+  let sx := ZpValWitness_scale x.value.prime y.shift wx
+  let sy := ZpValWitness_scale x.value.prime x.shift wy
+  have sxK : sx.k = y.shift + wx.k := ZpValWitness_scale_k x.value.prime y.shift wx
+  have syK : sy.k = x.shift + wy.k := ZpValWitness_scale_k x.value.prime x.shift wy
+  have indexLt : sx.k < sy.k := by
+    unfold intLt qpVal qpRawValPair QpValIndex at hlt
+    dsimp at hlt
+    rw [zpuNatToUnary_length] at hlt
+    rw [zpuNatToUnary_length] at hlt
+    rw [zpuNatToUnary_length] at hlt
+    rw [zpuNatToUnary_length] at hlt
+    rw [sxK, syK]
+    rw [Nat.add_comm y.shift wx.k]
+    rw [Nat.add_comm x.shift wy.k]
+    exact hlt
+  let sumW := ZpValWitness_add_exact_of_lt sx sy indexLt
+  have valueEq :
+      ZpEq (qpAdd x y).value
+        (zpAdd p (zpScale p x.value.prime y.shift x.value)
+          (zpScale p x.value.prime x.shift y.value)) :=
+    qpAdd_value_canonical x.value.prime x y
+  let raw : QpInt p :=
+    { shift := x.shift + y.shift
+      value := zpAdd p (zpScale p x.value.prime y.shift x.value)
+        (zpScale p x.value.prime x.shift y.value) }
+  have sameRaw : QpEq (qpAdd x y) raw := by
+    apply QpEq_of_shift_value
+    · rfl
+    · exact valueEq
+  have rawVal : QpVal raw (qpRawValPair raw sumW) :=
+    qpVal_of_witness raw sumW
+  let scaledX : QpInt p :=
+    { shift := x.shift + y.shift
+      value := zpScale p x.value.prime y.shift x.value }
+  have sumToScaledX :
+      IntPairClassifier (qpRawValPair raw sumW)
+        (qpRawValPair scaledX sx) := by
+    have rawCarrier := qpRawValPair_carrier raw sumW
+    have targetCarrier := qpRawValPair_carrier scaledX sx
+    have posSame :
+        hsame (qpRawValPair raw sumW).1
+          (qpRawValPair scaledX sx).1 := by
+      unfold qpRawValPair QpValIndex raw sumW ZpValWitness_add_exact_of_lt
+      dsimp
+      rfl
+    have negSame :
+        hsame (qpRawValPair raw sumW).2
+          (qpRawValPair scaledX sx).2 := by
+      unfold qpRawValPair QpValIndex raw scaledX
+      dsimp
+      exact hsame_refl _
+    exact IntPairClassifier_equivalence_fields.right.right.right.right.right
+      (qpRawValPair_refl raw sumW)
+      (hsame_refl _) (hsame_refl _) posSame negSame rawCarrier targetCarrier
+  have scaledXToX :
+      IntPairClassifier
+        (qpRawValPair scaledX sx)
+        (qpRawValPair x wx) := by
+    exact qpRawValPair_scale_left_classified x.value.prime x wx y.shift
+  have rawToX :
+      IntPairClassifier (qpRawValPair raw sumW) (qpRawValPair x wx) :=
+    IntPairClassifier_equivalence_fields.right.right.right.right.left
+      sumToScaledX scaledXToX
+  exact qpVal_target_classifier (qpVal_well_defined (QpEq_symm sameRaw) rawVal)
+    rawToX
+
+theorem qpVal_add_eq_right_of_lt {p : BHist} (x y : QpInt p)
+    (hx : QpApart0 x) (hy : QpApart0 y) :
+    intLt (qpVal y hy) (qpVal x hx) ->
+      QpVal (qpAdd x y) (qpVal y hy) := by
+  intro hlt
+  have comm : QpEq (qpAdd x y) (qpAdd y x) := qpAdd_comm x y
+  exact qpVal_well_defined (QpEq_symm comm)
+    (qpVal_add_eq_left_of_lt y x hy hx hlt)
+
+theorem qpVal_add_eq_min_of_ne {p : BHist} (x y : QpInt p)
+    (hx : QpApart0 x) (hy : QpApart0 y) :
+    (IntPairClassifier (qpVal x hx) (qpVal y hy) -> False) ->
+      QpVal (qpAdd x y) (intMin (qpVal x hx) (qpVal y hy)) := by
+  intro notSame
+  let vx := qpVal x hx
+  let vy := qpVal y hy
+  have vxCarrier : IntPairCarrier vx.1 vx.2 := by
+    unfold vx qpVal qpRawValPair QpValIndex
+    exact ⟨zpuNatToUnary_unary (firstNonzero hx.num_apart).k,
+      zpuNatToUnary_unary x.shift⟩
+  have vyCarrier : IntPairCarrier vy.1 vy.2 := by
+    unfold vy qpVal qpRawValPair QpValIndex
+    exact ⟨zpuNatToUnary_unary (firstNonzero hy.num_apart).k,
+      zpuNatToUnary_unary y.shift⟩
+  by_cases hle :
+      BEDC.FKernel.ExternalBinary.bwordLength vx.1 +
+          BEDC.FKernel.ExternalBinary.bwordLength vy.2 ≤
+        BEDC.FKernel.ExternalBinary.bwordLength vy.1 +
+          BEDC.FKernel.ExternalBinary.bwordLength vx.2
+  · have notEq :
+        ¬ BEDC.FKernel.ExternalBinary.bwordLength vx.1 +
+            BEDC.FKernel.ExternalBinary.bwordLength vy.2 =
+          BEDC.FKernel.ExternalBinary.bwordLength vy.1 +
+            BEDC.FKernel.ExternalBinary.bwordLength vx.2 := by
+      intro lenEq
+      have sourceUnary : UnaryHistory (BEDC.FKernel.Cont.append vx.1 vy.2) :=
+        unary_append_closed vxCarrier.left vyCarrier.right
+      have targetUnary : UnaryHistory (BEDC.FKernel.Cont.append vy.1 vx.2) :=
+        unary_append_closed vyCarrier.left vxCarrier.right
+      have same : hsame (BEDC.FKernel.Cont.append vx.1 vy.2)
+          (BEDC.FKernel.Cont.append vy.1 vx.2) :=
+        (BEDC.Derived.NatUp.NatUp_unary_standard_bridge.right.right.right.left
+          sourceUnary targetUnary).mpr (by
+            rw [BEDC.FKernel.ExternalBinary.bwordLength_append]
+            rw [BEDC.FKernel.ExternalBinary.bwordLength_append]
+            exact lenEq)
+      exact notSame ⟨vxCarrier, vyCarrier, same⟩
+    have hlt : intLt vx vy := by
+      unfold intLt
+      exact Nat.lt_of_le_of_ne hle notEq
+    have valLeft : QpVal (qpAdd x y) vx :=
+      qpVal_add_eq_left_of_lt x y hx hy hlt
+    exact qpVal_target_classifier valLeft
+      (IntPairClassifier_equivalence_fields.right.right.right.left
+        (intMin_left_classifier_of_lt vxCarrier vyCarrier hlt))
+  · have hgt : intLt vy vx := by
+      unfold intLt
+      exact Nat.lt_of_not_ge hle
+    have valRight : QpVal (qpAdd x y) vy :=
+      qpVal_add_eq_right_of_lt x y hx hy hgt
+    exact qpVal_target_classifier valRight
+      (IntPairClassifier_equivalence_fields.right.right.right.left
+        (intMin_right_classifier_of_lt vxCarrier vyCarrier hgt))
 
 theorem qpRawValPair_mul_classified_of_index_eq {p : BHist}
     (x y : QpInt p) (wx : ZpValWitness x.value)
@@ -582,6 +1088,9 @@ structure QpValuationCore (p : BHist) where
       QpValLowerAt prime (x.shift + y.shift) n y ->
         lower_rel (qpAdd x y)
           (zpuNatToUnary n, zpuNatToUnary (x.shift + y.shift))
+  strong_add_cert : ∀ (x y : QpInt p) (hx : QpApart0 x) (hy : QpApart0 y),
+    (IntPairClassifier (val x hx) (val y hy) -> False) ->
+      val_rel (qpAdd x y) (intMin (val x hx) (val y hy))
 
 def QpInt_valuation_core (p : BHist) : QpValuationCore p :=
   { val := qpVal
@@ -593,6 +1102,17 @@ def QpInt_valuation_core (p : BHist) : QpValuationCore p :=
     lower_rel := QpValLower
     lower_of_apart := qpValLower_of_apart
     mul_cert := qpVal_mul
-    add_min_cert := qpVal_add_min }
+    add_min_cert := qpVal_add_min
+    strong_add_cert := qpVal_add_eq_min_of_ne }
+
+structure QpValuedFieldSummary (p : BHist) where
+  field_core : QpFieldCore p
+  valuation_core : QpValuationCore p
+  completeness : QpCompleteSummary p
+
+def QpInt_valued_field (p : BHist) : QpValuedFieldSummary p :=
+  { field_core := QpInt_field_core p
+    valuation_core := QpInt_valuation_core p
+    completeness := Qp_complete p }
 
 end BEDC.Derived.PadicUp

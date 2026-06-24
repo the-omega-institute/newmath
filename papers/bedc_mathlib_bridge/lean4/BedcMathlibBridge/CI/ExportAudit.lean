@@ -1,5 +1,5 @@
 import BEDC.Derived.LocatedSupremumUp.Core
-import BEDC.Derived.PadicUp.ExactDivision
+import BEDC.Derived.PadicUp.Valuation
 import BedcMathlibBridge.All
 import BedcMathlibBridge.CI.IntMetadata
 import Lean
@@ -29,8 +29,8 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BEDC.Derived.LocatedSupremumUp.locatedSupremumExport,
     witnessType :=
       `BEDC.Derived.LocatedSupremumUp.LocatedSupremumExportWitness },
-  { witness := `BEDC.Derived.PadicUp.QpInt_field_core,
-    witnessType := `BEDC.Derived.PadicUp.QpFieldCore }
+  { witness := `BEDC.Derived.PadicUp.QpInt_valued_field,
+    witnessType := `BEDC.Derived.PadicUp.QpValuedFieldSummary }
 ]
 
 def formatNames (names : Array Name) : String :=
