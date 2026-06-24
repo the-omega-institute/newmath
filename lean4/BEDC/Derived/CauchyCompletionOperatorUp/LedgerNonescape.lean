@@ -16,7 +16,7 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def CauchyCompletionOperatorPacket [AskSetup] [PackageSetup]
+def CauchyCompletionOperatorLedgerPacket [AskSetup] [PackageSetup]
     (M B U S R D Q E H C P N : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
@@ -28,7 +28,7 @@ def CauchyCompletionOperatorPacket [AskSetup] [PackageSetup]
 theorem CauchyCompletionOperatorLedgerNonescape [AskSetup] [PackageSetup]
     {M B U S R D Q E H C P N windowRead sealRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    CauchyCompletionOperatorPacket M B U S R D Q E H C P N bundle pkg →
+    CauchyCompletionOperatorLedgerPacket M B U S R D Q E H C P N bundle pkg →
       Cont S R windowRead →
         Cont windowRead E sealRead →
           PkgSig bundle sealRead pkg →
