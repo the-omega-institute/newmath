@@ -1932,6 +1932,7 @@ import BEDC.Derived.CauchyDoubleSequenceUp.SealNonEscape
 import BEDC.Derived.CauchyDoubleSequenceUp.TasteGate
 import BEDC.Derived.CauchyEntourageFilterUp.TasteGate
 import BEDC.Derived.CauchyEquivalenceSetoidUp
+import BEDC.Derived.CauchyEquivalenceSetoidUp.CompletionTailComposition
 import BEDC.Derived.CauchyEquivalenceSetoidUp.DownstreamEqualityDependency
 import BEDC.Derived.CauchyEquivalenceSetoidUp.NoQuotient
 import BEDC.Derived.CauchyEquivalenceSetoidUp.ObligationSurface
@@ -10283,6 +10284,7 @@ import BEDC.Derived.RegularCauchyComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionCounitUp
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.ObligationClosure
+import BEDC.Derived.RegularCauchyCompletionCriterionUp.PublicExport
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.RealSealHandoff
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.ScopeFactorization
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.TasteGate
@@ -10846,6 +10848,7 @@ import BEDC.Derived.RieszRepresentationUp
 import BEDC.Derived.RieszRepresentationUp.BanachHilbertScope
 import BEDC.Derived.RieszRepresentationUp.BranchBoundaryNonescape
 import BEDC.Derived.RieszRepresentationUp.DualFunctionalRoute
+import BEDC.Derived.RieszRepresentationUp.FunctionalCarrierObligation
 import BEDC.Derived.RieszRepresentationUp.HilbertFunctionalBridge
 import BEDC.Derived.RieszRepresentationUp.MeasureHandoff
 import BEDC.Derived.RieszRepresentationUp.ObligationClosure
