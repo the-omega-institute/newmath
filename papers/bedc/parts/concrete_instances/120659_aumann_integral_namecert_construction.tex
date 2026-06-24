@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\AumannIntegralUp$}
+\label{ch:concrete-instances-aumann-integral-namecert}
+\origin{human}
+
+Following Aumann on integrals of set-valued maps, the $\AumannIntegralUp$ packet records the finite NameCert surface by which displayed selections of a correspondence expose a Banach-valued integral read. It sits after the set-valued map carrier of \autoref{ch:concrete-instances-set-valued-map-namecert}, the boundary discipline of \autoref{ch:concrete-instances-aumann-integral-boundary-namecert}, the measurable source of \autoref{ch:concrete-instances-measure-namecert}, the integral readback of \autoref{ch:concrete-instances-integral-namecert}, the convex-value row of \autoref{ch:concrete-instances-convexset-namecert}, the observable input surface of \autoref{ch:concrete-instances-randomvar-namecert}, and the normed target of \autoref{ch:concrete-instances-banach-namecert}. The packet names a finite integration object for displayed selection rows; it does not assert measurable-selection existence, quotient equality of selections, countable choice, or measure completion.
+
+\begin{definition}[Aumann integral carrier]
+\label{def:aumann-integral-carrier}
+An $\AumannIntegralUp$ carrier is a finite $\BHist$ packet
+$$
+A=(M,R,X,F,G,S,K,I,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MeasureUp$ source row carrying the measurable-event window on which all reads are tested.
+\item $R$ is the $\RandomVarUp$ observation row for the inspected source variables and their measurable preimage rows.
+\item $X$ is the $\SetValuedMapUp$ correspondence row, including the displayed source window and value-fibre addresses.
+\item $F$ is the $\ConvexSetUp$ value row, recording nonempty convex fibres only through finite membership and convex-combination tests.
+\item $G$ is the measurable-graph row that binds source observations in $M,R$ to value candidates in $X,F$.
+\item $S$ is the finite selection ledger. Its entries are displayed rows
+$$
+(s_i,\gamma_i,\mu_i,\rho_i)_{i\in I_0}
+$$
+where $s_i$ is a named selection candidate, $\gamma_i$ is its graph-admission witness through $G$, $\mu_i$ is its measurable-read witness through $M,R$, and $\rho_i$ is its fibre-membership witness through $F$.
+\item $K$ is the selection-integrability row. It records exactly which displayed selection candidates have accepted integral requests.
+\item $I$ is the $\IntegralUp$ readback row, reducing every accepted selection integral to the finite integral data attached to $K$.
+\item $B$ is the $\BanachUp$ target row in which the displayed integral endpoints, addition reads, scalar reads, and norm comparisons are named.
+\item $H$ records componentwise $\hsame$ transport for $M,R,X,F,G,S,K,I,B$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M,R,X,F,G \longmapsto S,K \longmapsto I,B .
+$$
+\item $P$ is the $\Pkg$ provenance over $\AumannIntegralUp$, $\SetValuedMapUp$, $\AumannIntegralBoundaryUp$, $\MeasureUp$, $\IntegralUp$, $\ConvexSetUp$, $\RandomVarUp$, $\BanachUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AumannIntegralUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for producing selections, identifying selections modulo almost-everywhere equality, completing the measure space, or invoking a choice principle outside the displayed ledger.
+\end{definition}
+
+\begin{theorem}[Aumann integral NameCert obligations]
+\label{thm:aumann-integral-namecert-obligations}
+For every accepted $\AumannIntegralUp$ carrier
+$$
+A=(M,R,X,F,G,S,K,I,B,H,C,P,N),
+$$
+the local $\NameCert_{\AumannIntegralUp}$ surface consists exactly of carrier admission for the measure row, random-variable row, set-valued map row, convex-value row, measurable graph row, finite selection ledger, selection-integrability row, integral readback row, Banach target row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:aumann-integral-carrier}. The rows $M,R,X,F$ provide the measurable source, observable input, correspondence, and convex-value data.
+
+The analytic rows are $G,S,K,I,B$. The graph row admits only displayed graph tests, the finite ledger lists only selection candidates already present in the packet, the integrability row records which of those candidates are read by the integral row, and the Banach row names the endpoints and norm comparisons.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name this same finite route. Since the carrier has no row for producing selections, identifying them by an ambient quotient, completing the measure space, or invoking countable choice, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Aumann integral selection route]
+\label{thm:aumann-integral-selection-route}
+Every accepted $\AumannIntegralUp$ read that exports a Banach-valued integral endpoint factors through the finite route
+$$
+\SetValuedMapUp,\AumannIntegralBoundaryUp,\MeasureUp,\RandomVarUp,\ConvexSetUp
+\longmapsto
+S,K
+\longmapsto
+\IntegralUp,\BanachUp .
+$$
+The route may inspect displayed selection candidates and their integral readbacks, but it cannot infer the existence of an unlisted measurable selection or identify two selections by an ambient almost-everywhere quotient.
+\end{theorem}
+\begin{proof}
+Begin with the source rows $M,R,X,F,G$. These rows expose the measurable window, the observed source variables, the set-valued graph, and the convex-value membership tests.
+
+Next read the ledger rows $S,K$. The packet supplies only the listed selection candidates and only the integrability requests recorded for those candidates. Thus the route is a consumer of displayed selections, not a theorem producing selections.
+
+Finally the rows $I,B,H,C,P,N$ read the accepted integrals, place their endpoints in the Banach target, and replay the same route under transport and provenance. No step adds a measure completion row, a countable-choice row, or an almost-everywhere quotient row, so the exported endpoint remains inside the finite Aumann integral packet.
+\end{proof}
+
+\closureat{AumannIntegralUp}{seedStr}
+
+\begin{closurestatus}{\AumannIntegralUp}
+  \constructivestory{An $\AumannIntegralUp$ packet is generated from displayed measure, random-variable, set-valued-map, convex-value, measurable-graph, finite-selection, selection-integrability, integral-readback, Banach-target, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:aumann-integral-carrier}, \autoref{thm:aumann-integral-namecert-obligations}, and \autoref{thm:aumann-integral-selection-route} seed the finite Aumann integral route through displayed selection ledgers and Banach integral readbacks.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.AumannIntegralUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim measurable-selection existence, quotient equality of selections, countable choice, measure completion, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, measurable graph exactness, finite selection ledger exactness, selection-integrability exactness, integral readback, Banach target preservation, transport stability, and replay stability for BEDC.Derived.AumannIntegralUp.}
+\end{closurestatus}
