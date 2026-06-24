@@ -1945,6 +1945,7 @@ import BEDC.Derived.CauchyFilterSpaceUp
 import BEDC.Derived.CauchyFilterSubbasisUp.TasteGate
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyFilterUp.TasteGate
+import BEDC.Derived.CauchyGluingLemmaUp
 import BEDC.Derived.CauchyHadamardUp.TasteGate
 import BEDC.Derived.CauchyIntegralFormulaUp
 import BEDC.Derived.CauchyIntegralFormulaUp.TasteGate
@@ -7040,6 +7041,7 @@ import BEDC.Derived.LimsupUp.LowerCutCompatibility
 import BEDC.Derived.LimsupUp.RealSealNonescape
 import BEDC.Derived.LimsupUp.ScopeKernelDependencies
 import BEDC.Derived.LimsupUp.ScopedTailCutExhaustion
+import BEDC.Derived.LimsupUp.ScopedTailCutWitness
 import BEDC.Derived.LimsupUp.TailCutRoute
 import BEDC.Derived.LimsupUp.TailLowerCutCompatibility
 import BEDC.Derived.LimsupUp.TailUpperCutExactness
@@ -7559,6 +7561,7 @@ import BEDC.Derived.MertensCauchyProductTheoremUp.TasteGate
 import BEDC.Derived.MetaCICAuditMapFamilyUp
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
+import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CandidateNormalizationHandoff
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CertificateSurface
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ClosedNormalBoundary
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ConsistencyBlockerLedger
@@ -10549,6 +10552,7 @@ import BEDC.Derived.RegularCauchyWindowFusionUp.BudgetMeet
 import BEDC.Derived.RegularCauchyWindowFusionUp.CofinalTailClosure
 import BEDC.Derived.RegularCauchyWindowFusionUp.DownstreamPackage
 import BEDC.Derived.RegularCauchyWindowFusionUp.FiniteWindowExactness
+import BEDC.Derived.RegularCauchyWindowFusionUp.KernelScope
 import BEDC.Derived.RegularCauchyWindowFusionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyWindowFusionUp.ObligationInventory
 import BEDC.Derived.RegularCauchyWindowFusionUp.PublicExport
@@ -11207,6 +11211,7 @@ import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.SheafificationUp.CoverageExactness
 import BEDC.Derived.SheafificationUp.GluingExactness
 import BEDC.Derived.SheafificationUp.LocalityRefinement
+import BEDC.Derived.SheafificationUp.SeparatedRefinementExactness
 import BEDC.Derived.SheafificationUp.SheafHandoff
 import BEDC.Derived.SheafificationUp.SourceLocalityObligation
 import BEDC.Derived.SheafificationUp.TasteGate
