@@ -84,14 +84,38 @@ The NameCert obligations of \autoref{thm:regular-cauchy-completion-criterion-cla
 Therefore any such request cannot be answered by the packet. It is refused at the ledger boundary before a $\RealUp$-facing consumer can treat the displayed completion criterion as a quotient completion theorem.
 \end{proof}
 
+\begin{theorem}[RegularCauchyCompletionCriterion transport stability]
+\label{thm:regular-cauchy-completion-criterion-transport-stability}
+Let $K=(R,W,D,M,L,Q,H,C,P,N)$ and $K'=(R',W',D',M',L',Q',H',C',P',N')$ be accepted $\RegularCauchyCompletionCriterionUp$ packets. If componentwise $\hsame$ transport identifies the rows $R,W,D,M,L,Q,H,C,P,N$ with $R',W',D',M',L',Q',H',C',P',N'$, then the finite-window route, dyadic tolerance ledger, modulus schedule, $\RealSequenceLimitUp$ handoff, $\CauchyCompletionCriterionUp$ boundary, replay, provenance, and local $\NameCert$ row are preserved. The transported packet still refuses quotient completion, selected representatives, countable choice over thresholds, trichotomy, host equality, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{thm:regular-cauchy-completion-criterion-carrier}. The assumed componentwise $\hsame$ transport aligns exactly the displayed rows $R,W,D,M,L,Q,H,C,P,N$ and their primed counterparts.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-completion-criterion-classifier}. Finite-window exactness, dyadic tolerance exactness, and completion-boundary handoff are all phrased in those rows, so the transport cannot move the route outside the displayed packet.
+
+Finally use the Real-seal handoff and ledger refusal theorems, \autoref{thm:regular-cauchy-completion-criterion-real-seal-handoff} and \autoref{thm:regular-cauchy-completion-criterion-ledger}. They identify the terminal read and the refused coordinates, so the transported packet preserves both the completion-facing route and the same boundary exclusions.
+\end{proof}
+
+\begin{theorem}[RegularCauchyCompletionCriterion obligation closure package]
+\label{thm:regular-cauchy-completion-criterion-obligation-closure}
+The carrier, NameCert obligations, Real-seal handoff, ledger refusal, and transport stability results for $\RegularCauchyCompletionCriterionUp$ assemble the obligation-closure surface over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyConvergenceModulusUp$, $\RealSequenceLimitUp$, $\CauchyCompletionCriterionUp$, $\BishopCauchyCompletionFunctorUp$, $\CauchyCompletionRecursorUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The surface closes exactly the finite criterion rows $R,W,D,M,L,Q,H,C,P,N$ and does not claim quotient completion, selected representatives, countable choice, trichotomy, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier and obligation rows in \autoref{thm:regular-cauchy-completion-criterion-carrier} and \autoref{thm:regular-cauchy-completion-criterion-classifier}. They expose every analytic and structural coordinate of the packet and make the local $\NameCert$ surface exhaustive.
+
+Next apply the Real-seal handoff and ledger refusal theorems. The handoff theorem routes any completion-facing read through the displayed StreamName, DyadicRatCore, RegSeqRat, modulus, sequence-limit, and completion-boundary rows, while the refusal theorem removes quotient, choice, host, and ambient-completeness exits from the package.
+
+Finally apply transport stability from \autoref{thm:regular-cauchy-completion-criterion-transport-stability}. Since componentwise $\hsame$ preserves the displayed rows and their replay and provenance data, the package is stable as an obligation-closure surface over the named BEDC primitives.
+\end{proof}
+
 \closureat{RegularCauchyCompletionCriterionUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyCompletionCriterionUp}
   \constructivestory{A $\RegularCauchyCompletionCriterionUp$ packet is generated from a RegSeqRat readback row, StreamName finite windows, a DyadicRatCore tolerance ledger, a CauchyConvergenceModulus schedule, a RealSequenceLimit handoff, a CauchyCompletionCriterion boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{thm:regular-cauchy-completion-criterion-carrier}, \autoref{thm:regular-cauchy-completion-criterion-classifier}, \autoref{thm:regular-cauchy-completion-criterion-real-seal-handoff}, and \autoref{thm:regular-cauchy-completion-criterion-ledger} seed the finite regular-Cauchy completion criterion route through RegSeqRat, StreamName, DyadicRatCore, CauchyConvergenceModulus, RealSequenceLimit, CauchyCompletionCriterion, BishopCauchyCompletionFunctor, CauchyCompletionRecursor, and Real rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:regular-cauchy-completion-criterion-carrier}, \autoref{thm:regular-cauchy-completion-criterion-classifier}, \autoref{thm:regular-cauchy-completion-criterion-real-seal-handoff}, \autoref{thm:regular-cauchy-completion-criterion-ledger}, \autoref{thm:regular-cauchy-completion-criterion-transport-stability}, and \autoref{thm:regular-cauchy-completion-criterion-obligation-closure} bind the finite regular-Cauchy completion criterion route through RegSeqRat, StreamName, DyadicRatCore, CauchyConvergenceModulus, RealSequenceLimit, CauchyCompletionCriterion, BishopCauchyCompletionFunctor, CauchyCompletionRecursor, Real rows, and local NameCert transport.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient completion, selected representatives, countable choice, host sequence convergence, trichotomy, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, finite-window exactness, dyadic tolerance exactness, Real-seal handoff, completion-boundary handoff, transport stability, replay stability, and ledger refusal for BEDC.Derived.RegularCauchyCompletionCriterionUp.}
+  \upgradepath{Scoped closure requires a public factorization theorem over the named RegSeqRat, StreamName, DyadicRatCore, modulus, sequence-limit, completion-boundary, recursor, Real, transport, replay, provenance, and local NameCert primitives.}
 \end{closurestatus}
