@@ -75,6 +75,42 @@ Apply \autoref{thm:host-primitive-leakage-namecert-obligations} and \autoref{thm
 The falsifiable prediction records the observable failure condition, while the independence witness separates this packet from the audit-gate and boundary siblings. Together with the displayed \texttt{BEDC.Derived.HostPrimitiveLeakageUp.taste\_gate} marker, these rows expose the refusal or replacement route before any public consumer may use it.
 \end{proof}
 
+\begin{theorem}[HostPrimitiveLeakage report-row refusal]
+\label{thm:host-primitive-leakage-report-row-refusal}
+Let $L=(S,Q,E,D,F,G,H,C,P,N)$ be an accepted $\HostPrimitiveLeakageUp$ packet. Any public report that identifies the requested primitive $Q$ as host equality, host numerals, host lists, host function spaces, quotient soundness, choice, or propositional extensionality must pass through the diagnostic report row $D$, failed-gate row $F$, audit-boundary row $G$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$ before the refusal or replacement route is exported.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:host-primitive-leakage-carrier}. The requested host feature is the row $Q$, and the only row that reports where the public import was attempted is $D$.
+
+Apply \autoref{thm:host-primitive-leakage-nonescape}. It keeps every accepted public read on the displayed diagnostic route $S,Q,D,F,G,H,C,P,N$ or on the replacement route $E,H,C,P,N$.
+
+Finally use \autoref{thm:host-primitive-leakage-public-export}. The public export must display all ten rows before a consumer can use the refusal or replacement route, so a report that omits $D,F,G,H,C,P,N$ cannot be an accepted $\HostPrimitiveLeakageUp$ export.
+\end{proof}
+
+\begin{theorem}[HostPrimitiveLeakage quotient-soundness non-escape]
+\label{thm:host-primitive-leakage-quot-soundness-nonescape}
+Let $L=(S,Q,E,D,F,G,H,C,P,N)$ be an accepted $\HostPrimitiveLeakageUp$ packet whose requested primitive row $Q$ names quotient soundness. The packet can expose that request only as a refused host primitive routed through $S,Q,D,F,G,H,C,P,N$ and through the sibling quotient-boundary provenance in $P$; it does not export quotient soundness as BEDC-internal evidence.
+\end{theorem}
+\begin{proof}
+Use the carrier projection from \autoref{def:host-primitive-leakage-carrier}. Quotient soundness can occur only as the requested primitive row $Q$, while the provenance row $P$ records the quotient-boundary sibling route.
+
+Apply \autoref{thm:host-primitive-leakage-namecert-obligations}. The local NameCert surface requires the request row, diagnostic row, failed-gate row, audit-boundary row, replay, provenance, and naming rows to be displayed together.
+
+Now apply \autoref{thm:host-primitive-leakage-nonescape}. Since quotient soundness is listed among the host primitives that cannot be accepted as BEDC-internal content, the only accepted read is the refusal route, with any BEDC replacement separated into $E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[HostPrimitiveLeakage audit-gate factorization]
+\label{thm:host-primitive-leakage-audit-gate-factorization}
+Every accepted public export of a $\HostPrimitiveLeakageUp$ packet $L=(S,Q,E,D,F,G,H,C,P,N)$ factors its leakage refusal through the failed-gate row $F$ and audit-boundary row $G$ before the structural rows $H,C,P,N$ can name the exported route. Thus a consumer cannot bypass the audit gate by reading $Q$ or $E$ alone.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:host-primitive-leakage-public-export}. It states that a public leakage read displays $S,Q,E,D,F,G,H,C,P,N$ before either the refusal route or replacement route is available.
+
+The NameCert obligations of \autoref{thm:host-primitive-leakage-namecert-obligations} identify $F$ as the failed-gate witness row and $G$ as the audit-boundary verdict row. These rows occur before the structural transport, replay, provenance, and local naming rows are consumed.
+
+Finally apply \autoref{thm:host-primitive-leakage-nonescape}. Reading $Q$ alone would expose only a refused request, and reading $E$ alone would expose only a replacement row; neither read can bypass the displayed audit-gate factorization through $F,G,H,C,P,N$.
+\end{proof}
+
 \closureat{HostPrimitiveLeakageUp}{matureStr}[BEDC.Derived.HostPrimitiveLeakageUp.taste\_gate]
 
 \begin{closurestatus}{\HostPrimitiveLeakageUp}
