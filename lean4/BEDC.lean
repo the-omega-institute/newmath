@@ -8853,6 +8853,7 @@ import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.CauchyProduct
 import BEDC.Derived.PolynomialUp.CommonSpineZeroRemainder
 import BEDC.Derived.PolynomialUp.Evaluation
+import BEDC.Derived.PolynomialUp.IntegerRing
 import BEDC.Derived.PolynomialUp.NormalFormBoundary
 import BEDC.Derived.PolynomialUp.RawAdd
 import BEDC.Derived.PolynomialUp.RawAddStructuralSwap
