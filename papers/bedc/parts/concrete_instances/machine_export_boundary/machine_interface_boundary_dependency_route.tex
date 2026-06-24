@@ -1,0 +1,13 @@
+\begin{theorem}[Machine export boundary machine-interface dependency]
+\label{thm:machine-export-boundary-machine-interface-dependency}
+Every $\MachineExportBoundaryUp$ consumer refines the broader machine-facing interface of \autoref{ch:concrete-instances-machine-interface-boundary-namecert} before any export is consumed. The route exposes registry status $R$, machine target $T$, audit readback $A$, refusal preservation $F$, $\NameCertMorphismUp$ provenance $P$, componentwise transport $H$, displayed replay $C$, and local naming $N$ in the same accepted packet $E=(R,T,A,F,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:machine-export-boundary-carrier}. The target row $T$ places the accepted packet inside the machine-facing boundary, while the registry row $R$ fixes the export status before the target can be consumed.
+
+Use the existing registry route of \autoref{thm:machine-export-boundary-registry-route} and the registry export dependency of \autoref{thm:machine-export-boundary-registry-export-dependency}. Together they force the consumer through $\RegistryExportSurfaceUp$, $\MachineReadableAuditInterfaceUp$, $\CannotClaimExportGateUp$, and $\NameCertMorphismUp$ before the local export name is read.
+
+The sibling interface chapter supplies the ambient machine boundary only as a dependency surface. The export packet refines it by displaying $R,T,A,F,H,C,P,N$, so audit readback, refusal preservation, certificate-preserving provenance, transport, replay, and local naming remain visible before consumption.
+
+Since no carrier coordinate skips from $\MachineInterfaceBoundaryUp$ directly to export, the accepted route cannot introduce unregistered export, unchecked theorem evidence, refusal erasure, hidden transport, or off-packet replay.
+\end{proof}
