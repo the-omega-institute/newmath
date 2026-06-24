@@ -288,6 +288,57 @@ $\mathsf{Apart}_{0}(\zeta(c))$, which is the required output of
 \autoref{def:rh-local-global-zero-exclusion-target}.
 \end{proof}
 
+\begin{definition}[Geometric rigidity contradiction schema]
+\label{def:rh-geometric-rigidity-contradiction-schema}
+The geometric rigidity contradiction schema is the proof route
+$$
+\mathsf{ZeroLedger}(c)
+\times
+\mathsf{ApartNonFix}_{J}(c)
+\times
+\mathsf{CompletedCarrier}(c)
+\longrightarrow
+\bot
+$$
+obtained by first strengthening the off-fixed premise to a positive
+finite-window defect and then applying the carrier-level incompatibility
+row
+$$
+\mathsf{DefectZeroIncompatibility}.
+$$
+Its constructive form is the stronger output
+$$
+\mathsf{ApartNonFix}_{J}(c)
+\to
+\mathsf{Apart}_{0}(\zeta(c)),
+$$
+which is exactly \autoref{def:rh-local-global-zero-exclusion-target}.
+\end{definition}
+
+\begin{theorem}[Rigidity contradiction is constructive apartness]
+\label{thm:rh-rigidity-contradiction-constructive-apartness}
+Assume zeta-carrier source compatibility, archimedean completion, the
+prime-window defect formula, and
+\autoref{def:rh-defect-zero-incompatibility}. Then every instance of the
+geometric rigidity contradiction schema is witnessed by positive
+apartness from zero.
+\end{theorem}
+
+\begin{proof}
+Let $c:\mathcal C_{\zeta}$ and assume
+$a:\mathsf{ApartNonFix}_{J}(c)$. By
+\autoref{thm:rh-prime-window-defect-formula}, a nonempty finite prime
+window supplies a positive defect $|D_S(c)|>0$. Source compatibility
+identifies the zero-ledger, prime-window, archimedean, and
+functional-equation reads as projections of the same source row. The
+archimedean completion row places this data inside the completed carrier.
+Applying \autoref{def:rh-defect-zero-incompatibility} gives
+$\mathsf{Apart}_{0}(\zeta(c))$. If a zero-ledger witness is also present,
+this apartness contradicts that zero witness; without the zero witness it
+is already the constructive output of
+\autoref{def:rh-local-global-zero-exclusion-target}.
+\end{proof}
+
 \begin{principle}[Geometric content of the remaining target]
 \label{prin:rh-geometric-content-local-global-zero-exclusion}
 The fixed-half translations of \autoref{thm:rh-layered-translations}
