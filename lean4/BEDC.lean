@@ -4845,6 +4845,7 @@ import BEDC.Derived.DigestProvenancePacketUp.NameCertObligations
 import BEDC.Derived.DigestProvenancePacketUp.NoHiddenSourceConsumption
 import BEDC.Derived.DigestProvenancePacketUp.SourceFiberLedgerOrder
 import BEDC.Derived.DigestProvenancePacketUp.TasteGate
+import BEDC.Derived.DilworthDecompositionUp.TasteGate
 import BEDC.Derived.DimLiftBoundaryUp
 import BEDC.Derived.DiniContinuityUp.TasteGate
 import BEDC.Derived.DiniDerivativeUp.TasteGate
@@ -4908,6 +4909,7 @@ import BEDC.Derived.DoublingMetricUp.TasteGate
 import BEDC.Derived.DugundjiExtensionUp.TasteGate
 import BEDC.Derived.DuhamelPrincipleUp.TasteGate
 import BEDC.Derived.DunfordFunctionalCalculusUp.TasteGate
+import BEDC.Derived.DunfordIntegralUp.TasteGate
 import BEDC.Derived.DunfordPettisOperatorUp
 import BEDC.Derived.DvoretzkyFiniteDimensionalSectionUp.TasteGate
 import BEDC.Derived.DyadicAbsoluteValueUp
@@ -5759,6 +5761,7 @@ import BEDC.Derived.FilterRefinementUp.TasteGate
 import BEDC.Derived.FilterSubbasisCofinalCompletionUp
 import BEDC.Derived.FilterUp
 import BEDC.Derived.FilteredCauchyCompletionUp.TasteGate
+import BEDC.Derived.FiniteApproximateFixedPointUp.TasteGate
 import BEDC.Derived.FiniteAutomatonUp.TasteGate
 import BEDC.Derived.FiniteBorelCantelliUp.TasteGate
 import BEDC.Derived.FiniteBracketingIntervalUp.TasteGate
@@ -9703,6 +9706,7 @@ import BEDC.Derived.RealCauchyRateUp.TasteGate
 import BEDC.Derived.RealCauchySumUp.TasteGate
 import BEDC.Derived.RealCauchyWitnessGridUp.TasteGate
 import BEDC.Derived.RealClassifierUp
+import BEDC.Derived.RealClassifierUp.AuditDensityCoherence
 import BEDC.Derived.RealClassifierUp.AuditRoute
 import BEDC.Derived.RealClassifierUp.CompletionDensityConsumer
 import BEDC.Derived.RealClassifierUp.CompletionSelectorSealReadback
