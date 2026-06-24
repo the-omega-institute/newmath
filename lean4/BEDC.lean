@@ -4886,6 +4886,7 @@ import BEDC.Derived.DoublingMetricUp.TasteGate
 import BEDC.Derived.DugundjiExtensionUp.TasteGate
 import BEDC.Derived.DuhamelPrincipleUp.TasteGate
 import BEDC.Derived.DunfordFunctionalCalculusUp.TasteGate
+import BEDC.Derived.DunfordPettisOperatorUp
 import BEDC.Derived.DvoretzkyFiniteDimensionalSectionUp.TasteGate
 import BEDC.Derived.DyadicAbsoluteValueUp
 import BEDC.Derived.DyadicApproximationUp
@@ -11903,6 +11904,8 @@ import BEDC.Derived.UniformBoundednessPrincipleUp.TasteGate
 import BEDC.Derived.UniformBoundednessUp
 import BEDC.Derived.UniformBoundednessUp.BaireHandoff
 import BEDC.Derived.UniformBoundednessUp.BoundedOperatorEnvelope
+import BEDC.Derived.UniformBoundednessUp.LedgerRefusal
+import BEDC.Derived.UniformBoundednessUp.NormEnvelopeExactness
 import BEDC.Derived.UniformBoundednessUp.PointwiseWindow
 import BEDC.Derived.UniformBoundednessUp.PublicBoundary
 import BEDC.Derived.UniformBoundednessUp.TasteGate
