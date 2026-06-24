@@ -1,65 +1,37 @@
 \origin{ai}
+\subsection{tRNA-Supply Increment Beyond the Measured Dictionary}
+\label{sec:bioreality-trna-supply-increment-beyond-measured-dictionary}
 
-\subsection{A Yeast tRNA-Supply Increment Beyond the Measured Translation Dictionary}
-\label{sec:bioreality-q6-trna-supply-increment-beyond-measured-dictionary}
-
-\paragraph{Finite panel.}
-The record isolates a yeast cross-layer prediction problem in which the response is log-transformed protein abundance after residualization against the sibling control block $Z$.  The matched finite panel contains $3290$ active protein identifiers.  The baseline design is not a codon-only design: it already contains the measured dictionary columns $\log_{10}(\mathrm{TE})$, $\log_{10}(\mathrm{mRNA\ stability})$, and turnover, each residualized against $Z$ and standardized before fitting.  The enlarged design appends one further standardized column, the per-gene tRNA-adaptation geometric mean computed from the tRNA-supply table.  The tRNA-supply computation used $61$ codon weights, joined $3290$ per-gene tAI records to the regression panel, had $268$ usable tAI records in the supply source, and required no geometric-mean fill for zero raw weights.
+\paragraph{Finite row object.}
+The claim is evaluated on a yeast matched panel in which the target is log protein abundance after residualization against the sibling sequence controls.  The active finite table has $n=3290$ joined protein rows, and the prediction task compares two row-wise designs.  The base design contains the measured dictionary columns
+$\log_{10}(\mathrm{measured\ TE})$, $\log_{10}(\mathrm{mRNA\ stability})$, and turnover, each residualized against the same covariate surface and standardized.  The full design appends one additional row coordinate: the residualized and standardized per-gene tAI geometric mean computed from tRNA supply.  The tRNA-supply side is finite as well: $61$ codon weights enter the calculation, $268$ usable tAI records are available, $3290$ per-gene tAI values join to the active rows, and no zero raw $W$ value requires geometric-mean filling.
 
 \paragraph{Controlled increment.}
-The measured dictionary alone explains a held-out coefficient of determination
+Let $R^2_{\mathrm{base}}$ denote the held-out coefficient of determination for the measured dictionary, and let $R^2_{\mathrm{full}}$ denote the corresponding value after adding the tRNA-supply coordinate.  The recorded finite-row values are
 $$
 \begin{aligned}
-R^2_{\mathrm{base}} &= 0.4579960005021211,
+R^2_{\mathrm{base}} &= 0.4579960005021211,\\
+R^2_{\mathrm{full}} &= 0.5186044342149576,\\
+\Delta R^2_{\mathrm{held\ out}} &= R^2_{\mathrm{full}}-R^2_{\mathrm{base}} = 0.06060843371283653.
 \end{aligned}
 $$
-whereas the dictionary plus the tRNA-supply coordinate explains
-$$
-\begin{aligned}
-R^2_{\mathrm{full}} &= 0.5186044342149576.
-\end{aligned}
-$$
-The finite-row increment is therefore
-$$
-\begin{aligned}
-\Delta R^2_{\mathrm{held\ out}}
-  &= R^2_{\mathrm{full}}-R^2_{\mathrm{base}} \\
-  &= 0.06060843371283653.
-\end{aligned}
-$$
-The same sign appears in the context-only in-sample calculation, where the increment is $0.06016972939113374$.  The held-out estimator used $5$ folds, assigned by deterministic index modulo $5$ over sorted active protein identifiers, and used ridge parameter $10^{-8}$.  The target-label permutation audit fixed the readouts and folds, permuted gene-to-target labels by deterministic SHA256 seeds, and evaluated the same held-out $\Delta R^2$ statistic over $120$ permutations.  Its null distribution had mean $-0.0004019510944510909$, minimum $-0.00510268312590334$, maximum $0.0010291561244795133$, and $95$th percentile $0.0007222485676979806$.  Thus the observed increment exceeds the null $95$th percentile by a factor of about $83.92$:
-$$
-\begin{aligned}
-\frac{0.06060843371283653}{0.0007222485676979806} &\approx 83.92.
-\end{aligned}
-$$
-The isolated tAI column is also not empty as a readout coordinate: fitted alone against the same residualized target it has $R^2=0.33369275999817194$.
+The same comparison in the in-sample context gives $\Delta R^2=0.06016972939113374$, so the held-out and in-sample increments agree at the displayed precision scale rather than being a training-only artifact.  The model uses $5$ deterministic folds, assigned by index modulo $5$ over sorted active protein identifiers, and ridge stabilization $\lambda=10^{-8}$.  In isolation, the tAI coordinate has $R^2=0.33369275999817194$ against the same residualized protein-abundance target, but the operative claim is not that tAI alone replaces the measured dictionary.  The operative claim is the positive held-out increment after the dictionary has already been supplied.
 
-\paragraph{Relation to the measured translation and stability dictionary.}
-The increment is interpreted only after the measured dictionary has already absorbed the recorded translation and RNA-stability surfaces.  In the joined yeast translation--stability panel, the corresponding finite row count is $4759$, and the residualized $B^*_{Q6}$ protein-abundance association has
+\paragraph{Permutation boundary.}
+The null model keeps the readouts and folds fixed and applies deterministic SHA256 permutations of the gene-to-target labels.  Across $120$ permutations, the null distribution for $\Delta R^2(\mathrm{full}-\mathrm{base})$ has mean $-0.0004019510944510909$, minimum $-0.00510268312590334$, maximum $0.0010291561244795133$, and $95$th percentile $0.0007222485676979806$.  The observed held-out increment therefore exceeds the displayed null boundary by
 $$
 \begin{aligned}
-R^2_{QP} &= 0.2715520808117803, \\
-R^2_{QP\mid T} &= 0.1439989545940314, \\
-R^2_{QP\mid M} &= 0.25453612246767165, \\
-R^2_{QP\mid T,M} &= 0.13047582645538838.
+0.06060843371283653 - 0.0007222485676979806
+  &= 0.05988618514513855.
 \end{aligned}
 $$
-The joint translation-plus-stability mediation fraction on that panel is $0.5195182225621592$, with deterministic-pair permutation right-tail value $0.000999000999000999$.  Its single-mediator decomposition records a translation-only fraction $0.4697188319693239$ and a stability-only fraction $0.0626618595344251$; their sum differs from the joint fraction by $-0.012862468941589822$, within the stated descriptive tolerance $0.05$.  These numbers make the present tRNA-supply test deliberately stricter: the added tAI coordinate is asked to predict held-out residual protein abundance after measured TE, measured mRNA stability, and turnover have already been entered as finite columns.
+The deterministic seed for this finite audit is $\mathrm{sha256{:}b\_star\_q6\_trna\_supply\_increment\_powered{:}fixed\text{-}readout\text{-}target\text{-}permutation}$.  This makes the record a reproducible row-level increment statement: after the measured translation, stability, and turnover dictionary is already present, the tRNA-supply coordinate still carries held-out protein-abundance information on this yeast join.
 
-\paragraph{Measured-TE comparison.}
-A separate yeast measured-TE/protein-abundance join supplies the nearest translation-readout scale.  On that panel the three-way join contains $5128$ rows, with $5815$ CDS rows reported and $5128$ valid TE rows by protein.  The measured-TE mediation record gives
-$$
-\begin{aligned}
-S^{QP} &= 0.3146818503437042, \\
-S^{QT}_{\mathrm{meas}} &= 0.13681931343730436, \\
-M^{QTP}_{\mathrm{meas}} &= 0.4793069656345167.
-\end{aligned}
-$$
-Those quantities show that the measured translation readout is finite and nondegenerate in yeast, but they do not by themselves explain away the present held-out tRNA-supply increment.  The new result is narrower: conditional on a measured dictionary that already contains $\log_{10}(\mathrm{TE})$, $\log_{10}(\mathrm{mRNA\ stability})$, and turnover, the per-gene tAI geometric mean still contributes $\Delta R^2=0.06060843371283653$ on held-out rows.
+\paragraph{Relation to the measured translation dictionary.}
+The measured-dictionary context is not empty.  In the measured translation-to-protein decomposition for yeast, the three-way measured TE and abundance join contains $5128$ rows, with $R^2_{QP}=S^{QP}=0.3146818503437042$, measured translation survival $S^{QT}=0.13681931343730436$, and measured mediated fraction $0.4793069656345167$.  On the more restrictive yeast joint TE, mRNA-stability, and protein-abundance panel, the joined row count is $4759$, with $R^2_{QP}=0.2715520808117803$, $R^2_{QP\mid T}=0.1439989545940314$, $R^2_{QP\mid M}=0.25453612246767165$, and $R^2_{QP\mid T,M}=0.13047582645538838$.  The corresponding joint mediation fraction is $0.5195182225621592$, with TE-only fraction $0.4697188319693239$, stability-only fraction $0.0626618595344251$, and right-tail permutation value $0.000999000999000999$.  These numbers show why the present chapter is phrased as an increment beyond a measured dictionary rather than as a first contact with protein abundance: the measured TE and mRNA-stability surfaces already explain a substantial component of the residual association, and the tRNA-supply coordinate is tested only for the remaining held-out improvement.
 
-\paragraph{Four-case placement.}
-For the four-case translation--protein boundary, this chapter supports only a bounded predictive relation at the protein-abundance readout after the measured translation and stability dictionary has been included.  It is not a direct declaration that the tRNA-supply coordinate is the biochemical cause of the residual abundance pattern.  The finite result is compatible with a case in which a supply-derived translation coordinate retains information not captured by the measured dictionary, but the row table alone does not identify elongation, initiation, degradation, folding, localization, post-translational modification, or protein function.  The admissible statement is the controlled one: in this yeast panel, appending the residualized per-gene tAI geometric mean to the measured dictionary increases held-out prediction of residualized log protein abundance from $0.4579960005021211$ to $0.5186044342149576$, far above the fixed-label permutation boundary.
+\paragraph{Readout class.}
+This finite-row result belongs to the cross-layer relation class.  It is not a universal codon law and it is not a direct mechanism claim.  The positive quantity is the held-out improvement of one residualized tRNA-supply coordinate when added to a fixed measured-readout dictionary on a yeast protein-abundance target.  The statistic is compatible with a translation-supply contribution to the protein-abundance readout, but only at the level of this controlled predictive relation.  It does not by itself identify elongation kinetics, initiation, ribosome occupancy at particular codons, protein folding, protein stability, localization, post-translational modification, physical admissibility, molecular function, phenotype, causation, or universality.
 
 \paragraph{Local no-promotion rule.}
-No broader biological claim is licensed by this chapter.  The tRNA-supply column is a modeled codon-adaptation readout, not an observed ribosome-footprint measurement.  The target is steady-state protein abundance, not folded structure, physical admissibility, molecular function, phenotype, or mechanism.  Translation, folding, physical feasibility, function, causal mechanism, and universality would each require its own matched reality contact and its own finite statistic.  The present record is therefore a controlled yeast prediction statement: a tRNA-supply coordinate remains informative beyond the measured TE--stability--turnover dictionary on the stated $3290$-row panel, while every higher-layer interpretation remains blocked until separately measured.
+The chapter therefore records a narrow positive boundary.  A tRNA-supply increment is present because $\Delta R^2_{\mathrm{held\ out}}=0.06060843371283653$ is positive and far above the fixed-label-permutation $95$th percentile $0.0007222485676979806$ on $3290$ yeast rows.  No stronger biological conclusion follows from this table alone.  Any claim about measured translation realization requires its own matched translation-readout computation; any claim about folding, physical admissibility, function, phenotype, mechanism, localization, stability, or a general biological rule requires a separate layer-matched contact and its own finite statistic.
