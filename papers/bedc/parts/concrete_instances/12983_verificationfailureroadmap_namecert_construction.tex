@@ -80,6 +80,7 @@ The structural rows preserve the same refusal boundary. Since $T,C,P,N$ do not a
 \label{thm:verification-failure-roadmap-sibling-independence}
 The $\VerificationFailureRoadmapUp$ carrier depends on $\TypedFailureCertificateUp$, $\FailureCertificateUp$, $\GapFailureBridgeAuditUp$, $\AxiomPurityGateUp$, and $\UpgradeRegistryUp$ without being bijective to any one sibling under NameCert-row preservation.
 \end{theorem}
+\leanchecked{BEDC.Derived.VerificationFailureRoadmapUp.TasteGate.VerificationFailureRoadmapSiblingIndependence}
 \begin{proof}
 Compare the displayed rows. $\TypedFailureCertificateUp$ names typed failure branches, $\FailureCertificateUp$ names rejected gate attempts, $\GapFailureBridgeAuditUp$ binds typed gaps to bridge-audit rows, $\AxiomPurityGateUp$ binds forbidden-dependency refusal, and $\UpgradeRegistryUp$ records current and next status for promotion claims.
 
@@ -92,6 +93,7 @@ Thus the siblings are inputs to one verification-failure roadmap packet, not alt
 \label{thm:verification-failure-roadmap-bridge-facing-schema-route}
 Any bridge-facing reader of an accepted $\VerificationFailureRoadmapUp$ packet must expose the checked-report row $R$, audit-report row $A$, failure-certificate row $F$, downgrade-route row $D$, roadmap-boundary row $M$, upgrade-registry row $U$, cannot-claim row $B$, componentwise transport row $T$, displayed replay row $C$, package provenance row $P$, and local $\NameCert$ row $N$ before any bridge schema may consume the packet. A schema that reads only the downgrade row, only the cannot-claim row, or only a sibling failure certificate is not a bridge-facing read of the same roadmap carrier.
 \end{theorem}
+\leanchecked{BEDC.Derived.VerificationFailureRoadmapUp.TasteGate.VerificationFailureRoadmapBridgeFacingSchemaRoute}
 \begin{proof}
 Start with \autoref{thm:verification-failure-roadmap-namecert-obligations}. It lists $R,A,F,D,M,U,B,T,C,P,N$ as the displayed rows of the local NameCert surface, so a bridge-facing reader cannot omit any of those rows and still cite the accepted carrier.
 

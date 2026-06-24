@@ -543,4 +543,32 @@ theorem SubordinateModulusCoverClassifierStabilityObligation
       transportedSameRoutes,
       rfl⟩
 
+theorem SubordinateModulusCoverRadiusStability [AskSetup] [PackageSetup]
+    {E bundleSpine centers radii precision pointwise coverage comparisons transport route
+      provenance name transportedRadii transportedPrecision transportedCoverage
+      transportedComparisons : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubordinateModulusCoverCarrier E bundleSpine centers radii precision pointwise coverage
+        comparisons transport route provenance name bundle pkg →
+      hsame transportedRadii radii →
+        hsame transportedPrecision precision →
+          hsame transportedCoverage coverage →
+            hsame transportedComparisons comparisons →
+              UnaryHistory transportedRadii ∧ UnaryHistory transportedPrecision ∧
+                UnaryHistory transportedCoverage ∧ UnaryHistory transportedComparisons ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame PkgSig UnaryHistory
+  intro carrier sameRadii samePrecision sameCoverage sameComparisons
+  obtain ⟨_eUnary, _bundleUnary, _centersUnary, radiiUnary, precisionUnary,
+    _pointwiseUnary, coverageUnary, comparisonsUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _coverageRoute, _comparisonRoute, provenancePkg,
+    namePkg⟩ := carrier
+  exact
+    ⟨unary_transport_symm radiiUnary sameRadii,
+      unary_transport_symm precisionUnary samePrecision,
+      unary_transport_symm coverageUnary sameCoverage,
+      unary_transport_symm comparisonsUnary sameComparisons,
+      provenancePkg,
+      namePkg⟩
+
 end BEDC.Derived.SubordinateModulusCoverUp
