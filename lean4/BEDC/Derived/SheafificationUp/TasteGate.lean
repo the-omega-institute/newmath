@@ -156,7 +156,8 @@ def SheafificationCarrier [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist BMark
   UnaryHistory C ∧ UnaryHistory T ∧ UnaryHistory J ∧ UnaryHistory P ∧
     UnaryHistory L ∧ UnaryHistory G ∧ UnaryHistory S ∧ UnaryHistory H ∧
-      UnaryHistory R ∧ UnaryHistory Q ∧ UnaryHistory N ∧ PkgSig bundle N pkg
+      UnaryHistory R ∧ UnaryHistory Q ∧ UnaryHistory N ∧
+        PkgSig bundle Q pkg ∧ PkgSig bundle N pkg
 
 theorem SheafificationCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {C T J P L G S H R Q N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
