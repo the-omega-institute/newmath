@@ -212,4 +212,27 @@ theorem TotalHostFuelHandoffTasteGate_single_carrier_alignment :
         intro x y heq
         exact totalHostFuelHandoffToEventFlow_injective heq⟩
 
+theorem TotalHostFuelHandoffNonescape
+    (host fuel substrate trace readback refusal transport route provenance name : BHist) :
+    let packet :=
+      TotalHostFuelHandoffUp.mk host fuel substrate trace readback refusal transport route
+        provenance name
+    FieldFaithful.fields packet =
+        [host, fuel, substrate, trace, readback, refusal, transport, route, provenance, name] ∧
+      (∀ y : TotalHostFuelHandoffUp,
+        FieldFaithful.fields y =
+            [host, fuel, substrate, trace, readback, refusal, transport, route, provenance, name] →
+          y = packet) ∧
+        totalHostFuelHandoffEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  dsimp
+  constructor
+  · rfl
+  constructor
+  · intro y fieldsEq
+    exact FieldFaithful.field_faithful y
+      (TotalHostFuelHandoffUp.mk host fuel substrate trace readback refusal transport route
+        provenance name) fieldsEq
+  · rfl
+
 end BEDC.Derived.TotalHostFuelHandoffUp
