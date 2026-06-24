@@ -102,6 +102,22 @@ The transported row then passes through $H$ and $C$ without changing its depende
 No excluded datum is a carrier coordinate or a provenance row in $P$. Thus the correction transport remains inside the visible interval, Taylor-model or derivative, Newton-iteration, validated-numerics, transport, replay, and local naming rows.
 \end{proof}
 
+\begin{theorem}[Interval Newton Krawczyk scope]
+\label{thm:interval-newton-krawczyk-scope}
+Let $I=(B,F,D,N,K,V,R,H,C,P,L)$ be an accepted $\IntervalNewtonUp$ carrier. Every Krawczyk enclosure read exported by $I$ factors through the displayed $\IntervalArithmeticUp$ rows for $B,F,D,N$, through either the finite $\TaylorModelUp$ remainder row or the derivative and slope row $D$, through the $\NewtonIterationUp$ correction provenance for $N$, through the validated enclosure row $V$, and through the $\RegSeqRatUp$ and $\RealUp$ readback route $R$ before any zero-enclosure consumer reads it.
+
+Consequently a zero-enclosure consumer cannot inspect a Krawczyk row without first exposing the containment ledger $K$, the correction-transport rows $H,C$, the provenance row $P$, and the local $\NameCert_{\IntervalNewtonUp}$ row $L$ for the same packet.
+\end{theorem}
+\begin{proof}
+Start with the Krawczyk enclosure theorem \autoref{thm:interval-newton-krawczyk-enclosure}. It keeps the displayed narrowing inside the interval-arithmetic operation rows and the Newton or Taylor-model rows that form $N$ and $D$.
+
+Apply the radius lock of \autoref{thm:interval-newton-krawczyk-radius-lock}. This places the correction radius, Taylor or slope remainder, real-name route, and validated-consumer boundary inside the same finite carrier before any zero-enclosure read is exported.
+
+Use the correction transport scope of \autoref{thm:interval-newton-correction-transport-scope}. Transport through $H$ and replay through $C$ preserve the visible interval, derivative or Taylor-model, Newton-iteration, and validated-numerics route rather than adding a solver oracle or host zero.
+
+Finally apply the validated consumer boundary of \autoref{thm:interval-newton-validated-consumer-boundary}. The consumer-facing read is $V$ followed by $R$, with $P$ and $L$ recording provenance and local naming. Since the carrier has no coordinate outside $B,F,D,N,K,V,R,H,C,P,L$, the stated dependency route is forced for every Krawczyk read.
+\end{proof}
+
 \begin{theorem}[Interval Newton validated consumer boundary]
 \label{thm:interval-newton-validated-consumer-boundary}
 Every $\ValidatedNumericsUp$ or root-isolation consumer of an accepted $\IntervalNewtonUp$ packet reads the correction only through the displayed carrier
@@ -145,6 +161,7 @@ Apply \autoref{thm:interval-newton-krawczyk-enclosure}. The narrowing claim is n
 
 If the derivative or slope row is supplied by $\TaylorModelUp$, the finite Taylor remainder is still routed through the same interval endpoint operations before containment is recorded in $K$. The validated row $V$ is therefore downstream of the interval-arithmetic replay, not a replacement for it.
 \end{proof}
+\leanchecked{BEDC.Derived.IntervalNewtonUp.IntervalNewtonIntervalArithmeticSoundnessObligation}
 
 \begin{theorem}[Interval Newton validated handoff obligation]
 \label{thm:interval-newton-validated-handoff-obligation}
@@ -193,6 +210,7 @@ Use the validated handoff obligation and the validated consumer boundary, \autor
 
 Finally apply the Real readback scope of \autoref{thm:interval-newton-real-readback-scope}. The readback row $R$ is downstream of the validated row, and the carrier has no coordinate for any excluded solver, host, quotient, selection, or completeness datum. Therefore the scoped consumer route is exactly the displayed path.
 \end{proof}
+\leanchecked{BEDC.Derived.IntervalNewtonUp.IntervalNewtonScopedConsumerRoute}
 
 \closureat{IntervalNewtonUp}{obligationStr}
 

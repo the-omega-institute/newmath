@@ -78,6 +78,30 @@ Finally read the structural rows $H,K,P,N$. They preserve and route displayed co
 \end{proof}
 \leanchecked{BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.GroundCompilerEventFlowAuditRouteNonEvidenceBoundary}
 
+\begin{theorem}[GroundCompiler event-flow audit route obligation surface]
+\label{thm:ground-compiler-event-flow-audit-route-obligation-surface}
+Every accepted $\GroundCompilerEventFlowAuditRouteUp$ route exposes the event-flow row $E$, audit witness rows $C,L,G,A,B$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $K$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$ before any audit consumer reads the route. No hidden compiler input, source-text proof row, report evidence row, motif evidence row, metric evidence row, or hand-written proof row is available outside that displayed surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:groundcompiler-event-flow-audit-route-carrier}. Its coordinates are exactly $E,C,L,G,A,B,H,K,P,N$, so every accepted route presents the event-flow row, the audit witness rows, and the structural transport, replay, provenance, and naming rows as finite $\BHist$ data.
+
+Apply \autoref{thm:groundcompiler-event-flow-audit-route-namecert-obligations} to identify those coordinates as the local NameCert surface. Then apply \autoref{thm:groundcompiler-event-flow-audit-route-channel-lossless-boundary} to force the audit consumer through $E,C,L,G,A$ before any certificate-gate read.
+
+Finally use \autoref{thm:groundcompiler-event-flow-audit-route-non-evidence-boundary}. Reports, motifs, metrics, source text, address summaries, proof text, and host compiler state stay behind $B$, while $H,K,P,N$ only transport, replay, package, and name the same packet. Hence no hidden input or hand-written proof row can be read by the audit consumer.
+\end{proof}
+
+\begin{theorem}[GroundCompiler event-flow audit route classifier stability]
+\label{thm:groundcompiler-event-flow-audit-route-classifier-stability}
+Let two accepted $\GroundCompilerEventFlowAuditRouteUp$ route packets be classified componentwise on $E,C,L,G,A,B,H,K,P,N$. Displayed $\hsame$ transport and $\Cont$ replay preserve event-flow input, legal channel encoding, lossless readback, generated-recognizer mediation, certificate-gate export, and non-evidence boundary for those rows. In particular, classifier agreement on the displayed route cannot create hidden compiler input, source-text proof evidence, report evidence, motif evidence, metric evidence, or hand-written proof evidence outside the packet.
+\end{theorem}
+\begin{proof}
+Start with the classifier of \autoref{def:groundcompiler-event-flow-audit-route-classifier}. It reads the route componentwise from $E,C,L,G,A,B,H,K,P,N$, so componentwise $\hsame$ may only transport the event-flow row, legal channel row, lossless readback row, generated-recognizer row, certificate-gate row, non-evidence row, replay row, provenance row, and local name row.
+
+Apply \autoref{thm:groundcompiler-event-flow-audit-route-channel-lossless-boundary}. Any read that reaches the certificate-gate export has already passed through the legal channel, lossless readback, and generated-recognizer mediation, and $\Cont$ replay preserves that displayed order.
+
+Finally apply \autoref{thm:groundcompiler-event-flow-audit-route-non-evidence-boundary}. The non-evidence row remains a boundary for reports, motifs, metrics, source text, address summaries, proof text, and host compiler state, while $H,K,P,N$ only transport, replay, package, and name the same route. Thus classifier-stable packets preserve the displayed audit surface without exporting hidden evidence.
+\end{proof}
+
 \closureat{GroundCompilerEventFlowAuditRouteUp}{seedStr}
 
 \begin{closurestatus}{\GroundCompilerEventFlowAuditRouteUp}
