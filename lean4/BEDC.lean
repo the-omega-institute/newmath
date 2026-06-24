@@ -1761,6 +1761,7 @@ import BEDC.Derived.CauchyCompletionOperatorUp.FunctorialHandoff
 import BEDC.Derived.CauchyCompletionOperatorUp.LedgerNonescape
 import BEDC.Derived.CauchyCompletionOperatorUp.NameCertObligationSurface
 import BEDC.Derived.CauchyCompletionOperatorUp.TasteGate
+import BEDC.Derived.CauchyCompletionOperatorUp.WindowExtraction
 import BEDC.Derived.CauchyCompletionOrderEmbeddingUp.TasteGate
 import BEDC.Derived.CauchyCompletionProductPreservationUp.TasteGate
 import BEDC.Derived.CauchyCompletionRecursorUp.TasteGate
@@ -2545,6 +2546,7 @@ import BEDC.Derived.CauchyTailThresholdNormalizerUp.ObligationLedger
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.PublicCertificate
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RealFacingDeterminacy
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RealSealHandoff
+import BEDC.Derived.CauchyTailThresholdNormalizerUp.RealSealPublicRoute
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RouteExhaustion
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.ScopedKernelRoute
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.TailWindowInduction
@@ -5735,6 +5737,7 @@ import BEDC.Derived.FiniteCauchyGluingBudgetUp.TasteGate
 import BEDC.Derived.FiniteCauchyModulusComparisonUp
 import BEDC.Derived.FiniteCauchyNetExtractionUp.TasteGate
 import BEDC.Derived.FiniteCauchyTailHandoffUp
+import BEDC.Derived.FiniteCauchyTailHandoffUp.NameCertObligations
 import BEDC.Derived.FiniteChoiceUp.TasteGate
 import BEDC.Derived.FiniteChoiceWindowUp.TasteGate
 import BEDC.Derived.FiniteContractionOrbitErrorUp
