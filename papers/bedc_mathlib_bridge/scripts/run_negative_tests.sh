@@ -247,6 +247,24 @@ expect_fail BEDC_GATE_W_NO_MATHLIB_CORRESPONDENCE \
   python3 "$ROOT/scripts/check_mathlib_correspondence.py" "$TMP_DIR/correspondence_mathlib_only.md" \
     "$TMP_DIR/GateWMathlibOnly.lean"
 
+cp "$ROOT/tests/negative/gate_h_statement_only.lean" "$TMP_DIR/gate_h_statement_only.lean"
+cp "$ROOT/tests/negative/gate_h_certificate_hypothesis.lean" \
+  "$TMP_DIR/gate_h_certificate_hypothesis.lean"
+cp "$ROOT/tests/negative/gate_h_projection_exists.lean" \
+  "$TMP_DIR/gate_h_projection_exists.lean"
+
+expect_fail BEDC_GATE_H_HOLLOW_PATTERN \
+  python3 "$ROOT/scripts/check_no_hollow.py" "$ROOT/MATRIX.md" \
+    "$TMP_DIR/gate_h_statement_only.lean"
+
+expect_fail BEDC_GATE_H_HOLLOW_PATTERN \
+  python3 "$ROOT/scripts/check_no_hollow.py" "$ROOT/MATRIX.md" \
+    "$TMP_DIR/gate_h_certificate_hypothesis.lean"
+
+expect_fail BEDC_GATE_H_HOLLOW_PATTERN \
+  python3 "$ROOT/scripts/check_no_hollow.py" "$ROOT/MATRIX.md" \
+    "$TMP_DIR/gate_h_projection_exists.lean"
+
 cat > "$TMP_DIR/boundary_fake.md" <<'EOF'
 | row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
 | --- | --- | --- | --- | --- | --- | --- |
