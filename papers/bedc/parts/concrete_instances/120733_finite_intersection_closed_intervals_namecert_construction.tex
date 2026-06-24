@@ -1,0 +1,73 @@
+\chapter{Finite Intersection Closed Intervals NameCert Construction}
+\label{ch:concrete-instances-finite-intersection-closed-intervals-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive real analysis, the $\FiniteIntersectionClosedIntervalsUp$ packet records the finite-intersection surface for located closed intervals inside the L10 Real and Completion route. It sits beside the Real carrier of \autoref{ch:concrete-instances-real-namecert}, the finite window source of \autoref{ch:concrete-instances-streamname-namecert}, the rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the located interval surface of \autoref{ch:concrete-instances-locatedinterval-namecert}. The packet exposes a finite common-window witness for closed interval families; it is not open-cover compactness, arbitrary intersection compactness, trichotomy, a choice-selected point, quotient real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite intersection closed intervals carrier]
+\label{def:finite-intersection-closed-intervals-carrier}
+A $\FiniteIntersectionClosedIntervalsUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,A,B,W,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the located closed interval family row, listing finitely many interval names together with their located left and right endpoint rows.
+\item $A$ is the endpoint-compatibility row, recording the finite comparisons that make the listed intervals mutually admissible for a shared search window.
+\item $B$ is the bounded-window row, storing the finite common-window witness from which every interval row may be inspected.
+\item $W$ is the window-membership row, stating that each listed interval admits the same displayed window witness rather than a separately selected point.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to compare endpoint approximants inside the common window.
+\item $S$ is the $\StreamNameUp$ window schedule used to request the finitely many precision windows.
+\item $R$ is the $\RegSeqRatUp$ readback row from $S$ into rational endpoint data.
+\item $E$ is the $\RealUp$ seal row for the located endpoints and the finite common-window witness.
+\item $H$ records componentwise $\hsame$ transport for $L,A,B,W,D,S,R,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a finite-intersection request through $L,A,B,W,D,S,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteIntersectionClosedIntervalsUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteIntersectionClosedIntervalsUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,A,B,W,D,S,R,E,H,C,P,N$. It contains no coordinate for open-cover compactness, arbitrary intersections, trichotomy, choice-selected points, quotient real equality, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Finite intersection closed intervals NameCert obligations]
+\label{thm:finite-intersection-closed-intervals-namecert-obligations}
+For every accepted $\FiniteIntersectionClosedIntervalsUp$ carrier
+$$
+I=(L,A,B,W,D,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteIntersectionClosedIntervalsUp}$ surface consists exactly of located family admission through $L$, endpoint compatibility through $A$, common-window exposure through $B,W$, dyadic tolerance comparison through $D$, finite window scheduling through $S$, rational readback through $R$, Real sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-intersection-closed-intervals-carrier}. The accepted packet displays the located interval family, endpoint compatibility, common-window witness, tolerance ledger, window schedule, rational readback, Real seal, and structural rows as finite data.
+
+The interval-facing obligations are exhausted by $L,A,B,W,D,S,R,E$. Endpoint compatibility is checked before the common window is read, and the dyadic, stream, regular-rational, and Real rows keep every precision request inside that finite window.
+
+The structural obligations are exhausted by $H,C,P,N$. Transport, replay, provenance, and local naming preserve the same packet and do not introduce open-cover compactness, arbitrary intersection compactness, trichotomy, selected points, quotient equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Finite intersection closed intervals common-window handoff]
+\label{thm:finite-intersection-closed-intervals-common-window-handoff}
+Let $I=(L,A,B,W,D,S,R,E,H,C,P,N)$ be an accepted $\FiniteIntersectionClosedIntervalsUp$ carrier. Every nested-interval, compact-interval, or completion-facing consumer of $I$ must receive the same common-window route
+$$
+L,A \longmapsto B,W \longmapsto D,S,R,E \longmapsto H,C,P,N .
+$$
+Thus the consumer obtains a finite located closed-interval handoff, not open-cover compactness, arbitrary intersection compactness, trichotomy, a choice-selected point, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:finite-intersection-closed-intervals-namecert-obligations}. They expose endpoint compatibility before any common-window witness can be read.
+
+Use the displayed common-window rows $B,W$. A downstream consumer receives one finite window route for the listed interval family, so it cannot replace the witness by a selected point or an arbitrary intersection principle.
+
+Finally read $D,S,R,E,H,C,P,N$ as the precision and structural handoff. The dyadic tolerance, StreamName schedule, RegSeqRat readback, and Real seal remain attached to the same finite packet, while transport, replay, provenance, and local naming add no ambient compactness or completeness endpoint.
+\end{proof}
+
+\closureat{FiniteIntersectionClosedIntervalsUp}{seedStr}
+
+\begin{closurestatus}{\FiniteIntersectionClosedIntervalsUp}
+  \constructivestory{A $\FiniteIntersectionClosedIntervalsUp$ packet is generated from located closed interval family rows, endpoint compatibility rows, a finite common-window witness, DyadicRatCore tolerance rows, StreamName windows, RegSeqRat readback, a Real seal, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-intersection-closed-intervals-carrier}, \autoref{thm:finite-intersection-closed-intervals-namecert-obligations}, and \autoref{thm:finite-intersection-closed-intervals-common-window-handoff} seed the finite located closed-interval intersection route for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, arbitrary intersection compactness, trichotomy, choice-selected points, quotient real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint compatibility, common-window handoff, dyadic tolerance, finite window scheduling, rational readback, Real sealing, structural replay, provenance, and local naming for the finite intersection closed intervals packet.}
+\end{closurestatus}
