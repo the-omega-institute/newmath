@@ -89,4 +89,94 @@ theorem RegularCauchyApartnessBudgetInverseWindowConsumption [AskSetup] [Package
   }
   exact ⟨cert, lowerUnary, reciprocalUnary, fieldUnary⟩
 
+theorem RegularCauchyApartnessBudgetCarrier_inverse_window_consumption
+    [AskSetup] [PackageSetup]
+    {X A M W D R E H C P N lowerRead reciprocalRead cofinalRead inverseRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyApartnessBudgetCarrier X A M W D R E H C P N bundle pkg ->
+      Cont W D lowerRead ->
+        Cont lowerRead R reciprocalRead ->
+          Cont reciprocalRead E cofinalRead ->
+            Cont cofinalRead C inverseRead ->
+              PkgSig bundle inverseRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row inverseRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row A ∨ hsame row D ∨ hsame row R ∨ hsame row E ∨
+                        hsame row reciprocalRead ∨ hsame row cofinalRead ∨
+                          hsame row inverseRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont W D lowerRead ∧
+                        Cont lowerRead R reciprocalRead ∧
+                          Cont reciprocalRead E cofinalRead ∧
+                            Cont cofinalRead C inverseRead ∧
+                              PkgSig bundle inverseRead pkg ∧
+                                PkgSig bundle N pkg)
+                    hsame ∧
+                  UnaryHistory lowerRead ∧ UnaryHistory reciprocalRead ∧
+                    UnaryHistory cofinalRead ∧ UnaryHistory inverseRead ∧
+                      PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier lowerRoute reciprocalRoute cofinalRoute inverseRoute inversePkg
+  obtain ⟨_xUnary, _aUnary, _mUnary, wUnary, dUnary, rUnary, eUnary, _hUnary,
+    cUnary, _pUnary, _nUnary, _apartnessModulusWindow, _windowLowerReadback,
+    _pkgP, pkgN⟩ := carrier
+  have lowerUnary : UnaryHistory lowerRead :=
+    unary_cont_closed wUnary dUnary lowerRoute
+  have reciprocalUnary : UnaryHistory reciprocalRead :=
+    unary_cont_closed lowerUnary rUnary reciprocalRoute
+  have cofinalUnary : UnaryHistory cofinalRead :=
+    unary_cont_closed reciprocalUnary eUnary cofinalRoute
+  have inverseUnary : UnaryHistory inverseRead :=
+    unary_cont_closed cofinalUnary cUnary inverseRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row inverseRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row A ∨ hsame row D ∨ hsame row R ∨ hsame row E ∨
+              hsame row reciprocalRead ∨ hsame row cofinalRead ∨
+                hsame row inverseRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont W D lowerRead ∧
+              Cont lowerRead R reciprocalRead ∧ Cont reciprocalRead E cofinalRead ∧
+                Cont cofinalRead C inverseRead ∧ PkgSig bundle inverseRead pkg ∧
+                  PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro inverseRead ⟨hsame_refl inverseRead, inverseUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, lowerRoute, reciprocalRoute, cofinalRoute, inverseRoute,
+          inversePkg, pkgN⟩
+  }
+  exact
+    ⟨cert, lowerUnary, reciprocalUnary, cofinalUnary, inverseUnary, pkgN⟩
+
 end BEDC.Derived.RegularCauchyApartnessBudgetUp
