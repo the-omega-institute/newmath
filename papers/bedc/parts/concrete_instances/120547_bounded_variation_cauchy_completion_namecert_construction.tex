@@ -1,0 +1,85 @@
+\chapter{Bounded Variation Cauchy Completion NameCert Construction}
+\label{ch:concrete-instances-bounded-variation-cauchy-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BoundedVariationCauchyCompletionUp$ packet records the constructive-analysis route by which a regular rational Cauchy name is completed while a finite variation-budget ledger remains visible to BEDC consumers. It sits over the regular Cauchy readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the tail-threshold normalization surface of \autoref{ch:concrete-instances-cauchy-tail-threshold-normalizer-namecert}. The packet is a finite NameCert carrier for bounded-variation completion data; it is not a quotient of Cauchy names, not a selected limit operator, not a host equality principle for completed reals, and not an ambient completeness theorem for $\RealUp$.
+
+\begin{definition}[Bounded-variation Cauchy completion carrier]
+\label{def:bounded-variation-cauchy-completion-carrier}
+A $\BoundedVariationCauchyCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+V=(Q,T,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the source $\RegSeqRatUp$ row carrying the regular rational Cauchy name whose tail will be read by the completion consumer.
+\item $T$ is the $\CauchyTailThresholdNormalizerUp$ row selecting a finite dyadic tail window for each displayed unary tolerance request.
+\item $L$ is the finite $\DyadicRatCoreUp$ variation-budget ledger, recording dyadic tail differences, partial variation sums, and the displayed bound attached to the normalized tail windows.
+\item $E$ is the terminal $\RealUp$ seal reached only after $Q,T,L$ have been consumed.
+\item $H$ records componentwise $\hsame$ transport for the source regular name, the normalized tail threshold, the variation-budget ledger, the terminal real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from every finite completion request through
+$$
+Q,T,L \longmapsto E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BoundedVariationCauchyCompletionUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyTailThresholdNormalizerUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedVariationCauchyCompletionUp}$ row.
+\end{enumerate}
+The classifier accepts exactly componentwise $\hsame$-stable packets of this form. In particular, replacing the regular name, changing the normalized tail threshold, or weakening the dyadic variation ledger changes the packet unless the corresponding row is transported by the displayed $H$ row and replayed by $C$.
+\end{definition}
+
+\begin{theorem}[Bounded-variation Cauchy completion obligations]
+\label{thm:bounded-variation-cauchy-completion-obligations}
+For every accepted $\BoundedVariationCauchyCompletionUp$ carrier
+$$
+V=(Q,T,L,E,H,C,P,N),
+$$
+the local $\NameCert_{\BoundedVariationCauchyCompletionUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed $\BHist$ packet;
+\item classifier exposure for componentwise $\hsame$ transport of $Q,T,L,E,H,C,P,N$;
+\item stability of the normalized dyadic tail rows under $\hsame$ and $\Cont$ replay;
+\item exactness of the regular Cauchy readback through $Q$ and of the terminal $\RealUp$ seal through $E$;
+\item ledger descent for the finite variation budget, requiring every later tail window to read a suffix of the same dyadic ledger $L$ rather than a detached variation bound;
+\item package provenance and local naming through $P,N$.
+\end{enumerate}
+No obligation row exports quotient Cauchy equality, a selected representative, a selected limit, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple in \autoref{def:bounded-variation-cauchy-completion-carrier}. The only analytic rows available before the terminal seal are the regular rational source $Q$, the tail-threshold normalizer $T$, and the dyadic variation-budget ledger $L$.
+
+The classifier row is componentwise. Thus an accepted transport must preserve the same source name, normalized tail window, ledger, seal, replay, provenance, and local naming coordinates through $\hsame$; the displayed continuation row $C$ replays the same route for each finite completion request.
+
+It remains to justify ledger descent. Use induction on the finite tail-window spine supplied by $T$. The base window reads the first displayed dyadic suffix of $Q$ and the initial partial variation budget in $L$.
+
+For the induction step, the next normalized tail window is a suffix of the previous displayed window. The ledger row $L$ records the corresponding dyadic difference budget and partial variation sum, so the successor read can only decrease the remaining displayed budget or keep it equal under $\hsame$ transport. The continuation row $C$ then hands the same suffix route to the terminal seal $E$.
+
+Since each step uses only finite rows of the displayed packet, the argument invokes neither quotienting of Cauchy names nor a choice of representatives. The absent quotient, selected-limit, host-equality, countable-choice, and ambient-completeness data therefore cannot become NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bounded-variation Cauchy completion Real handoff]
+\label{thm:bounded-variation-cauchy-completion-real-handoff}
+Every $\RealUp$ consumer of an accepted $\BoundedVariationCauchyCompletionUp$ carrier must read the finite route
+$$
+Q,T,L \longmapsto E,H,P,N
+$$
+before the completed real seal is public. The handoff therefore preserves the regular Cauchy source, normalized tail threshold, and finite variation-budget ledger as visible BEDC rows.
+\end{theorem}
+\begin{proof}
+Start with the obligation theorem \autoref{thm:bounded-variation-cauchy-completion-obligations}. It exposes the terminal seal $E$ only after carrier admission, classifier transport, tail stability, readback exactness, and ledger descent have been recorded for the same tuple.
+
+The source row $Q$ supplies the regular rational Cauchy name, while $T$ supplies the finite tail threshold used by a completion request. The ledger $L$ is read before $E$, so a consumer cannot replace the displayed variation budget by an external supremum or a host-level completed-real statement.
+
+Transport and replay preserve the handoff. The rows $H,C,P,N$ name only the displayed route, and the carrier contains no coordinate for quotient Cauchy equality, selected representatives, selected limits, host real equality, countable choice, or ambient completeness. Hence every accepted Real-facing read remains attached to $Q,T,L$.
+\end{proof}
+
+\closureat{BoundedVariationCauchyCompletionUp}{seedStr}
+
+\begin{closurestatus}{\BoundedVariationCauchyCompletionUp}
+  \constructivestory{A $\BoundedVariationCauchyCompletionUp$ packet is generated from a RegSeqRat regular Cauchy source row, a CauchyTailThresholdNormalizer tail-window row, a DyadicRatCore finite variation-budget ledger, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-variation-cauchy-completion-carrier}, \autoref{thm:bounded-variation-cauchy-completion-obligations}, and \autoref{thm:bounded-variation-cauchy-completion-real-handoff} seed the finite bounded-variation completion route from RegSeqRat through tail normalization and dyadic ledger descent to RealUp readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient Cauchy equality, selected representatives, selected limits, host real equality, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, tail-window stability, readback exactness, ledger descent, transport, replay, provenance, and local naming for BEDC.Derived.BoundedVariationCauchyCompletionUp.}
+\end{closurestatus}
