@@ -50,6 +50,38 @@ Since the carrier has no further coordinate, unbounded halting, partial evaluato
 \end{proof}
 \leanchecked{BEDC.Derived.TotalHostFuelHandoffUp.TotalHostFuelHandoffNameCertObligations}
 
+\begin{theorem}[TotalHostFuelHandoff carrier admission]
+\label{thm:total-host-fuel-handoff-carrier-admission}
+An accepted $\TotalHostFuelHandoffUp$ handoff packet may expose a terminal readback only after the carrier has displayed exactly
+$$
+H,F,S,T,R,B,X,C,P,N.
+$$
+The public terminal readback row $R$ is therefore admitted only as the row selected from the substrate trace $T$ under the same finite fuel boundary $F$, with the refusal ledger $B$, transports $X$, route row $C$, provenance $P$, and local name $N$ still present.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:total-host-fuel-handoff-carrier}. Its coordinates are the total-host source $H$, fuel boundary $F$, substrate row $S$, finite trace $T$, terminal readback $R$, refusal ledger $B$, transport row $X$, route row $C$, provenance row $P$, and local name $N$.
+
+Read the terminal row through the displayed $\Cont$ route. The route reaches $R$ only after $H$ has supplied $F$ and after $S,T$ have been read below that same boundary.
+
+The remaining rows make the admission public rather than semantic. The refusal ledger records missing-fuel and detached-readback failures, while $X,P,N$ keep the packet inside the local $\BHist$, $\Pkg$, and $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[TotalHostFuelHandoff fuel monotonicity]
+\label{thm:total-host-fuel-handoff-fuel-monotonicity}
+Replacing the displayed fuel row $F$ of an accepted $\TotalHostFuelHandoffUp$ packet by a smaller displayed budget can only shorten the substrate trace and terminal readback route. It cannot create a new terminal readback row outside
+$$
+H,F,S,T,R,B,X,C,P,N,
+$$
+and it cannot turn an excluded unbounded halting, partial evaluator, host-substrate equality, quotient behaviour, or detached terminal-readback claim into a public output.
+\end{theorem}
+\begin{proof}
+Use the displayed route row $C$. Lowering the fuel budget restricts the part of the substrate trace $T$ that may be replayed before the terminal readback row is selected.
+
+The carrier has no coordinate for inventing a readback after this restriction. Any public read must still pass through $H,F,S,T,R,B,X,C,P,N$, so a smaller $F$ can remove available trace entries but cannot add a new row.
+
+Finally retain the refusal ledger $B$. Claims requiring more fuel, an unbounded run, a partial evaluator, a host-substrate equality coordinate, quotient behaviour, or a detached terminal oracle remain in the refused side of the packet.
+\end{proof}
+
 \begin{theorem}[TotalHostFuelHandoff non-escape]
 \label{thm:total-host-fuel-handoff-nonescape}
 Every accepted $\TotalHostFuelHandoffUp$ packet exports no terminal substrate read except through the finite route

@@ -1,0 +1,92 @@
+\chapter{Nikodym Boundedness NameCert Construction}
+\label{ch:concrete-instances-nikodym-boundedness-namecert}
+\origin{human}
+
+Following Nikodym and Dunford--Schwartz, the $\NikodymBoundednessUp$ packet records the finite NameCert surface by which a pointwise bounded family of countably additive measures exposes one displayed bound on the inspected variation rows. It sits over the measure carrier of \autoref{ch:concrete-instances-measure-namecert}, the local regular rows of \autoref{ch:concrete-instances-radon-measure-namecert}, the density handoff of \autoref{ch:concrete-instances-radon-nikodym-namecert}, the bounded-family discipline of \autoref{ch:concrete-instances-uniformboundedness-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite reconstruction of the traditional boundedness route; it is not a host measure-completion theorem, a selector for subfamilies, or an ambient Banach-dual principle.
+
+\begin{definition}[Nikodym boundedness carrier]
+\label{def:nikodym-boundedness-carrier}
+A $\NikodymBoundednessUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M,A,F,W,T,B,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MeasureUp$ source row, carrying the measurable-event surface and the displayed countable-additivity rows that the family is allowed to inspect.
+\item $A$ is the finite event-algebra window. It lists the measurable rows $E_1,\ldots,E_n$ on which the family is tested and records their transport under the $\MeasureUp$ classifier.
+\item $F$ is the measure-family ledger, a finite schedule of signed or finite-variation $\MeasureUp$ rows $\nu_i$ over the same displayed measurable surface.
+\item $W$ is the pointwise boundedness window. For every event row in $A$, it records a $\RealUp$ bound for the displayed family values $\nu_i(E_j)$.
+\item $T$ is the variation-window row, recording the finite disjoint decompositions of the displayed events and the variation sums that may be read from $F$.
+\item $B$ is the candidate uniform $\RealUp$ bound for the displayed variation rows.
+\item $D$ is the $\RadonNikodymUp$ density handoff row used only when a displayed member of $F$ is read through a dominated local density.
+\item $R$ is the $\RadonMeasureUp$ regularity row for the locally finite event windows used by $A,T,D$.
+\item $H$ records componentwise $\hsame$ transport for $M,A,F,W,T,B,D,R,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a requested family-bound read through
+$$
+M,A,F,W,T,D,R \longmapsto B,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\NikodymBoundednessUp$, $\MeasureUp$, $\RadonMeasureUp$, $\RadonNikodymUp$, $\UniformBoundednessUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NikodymBoundednessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a completed measure algebra, a choice-selected subfamily, a quotient of measures, a hidden dual Banach space, or a global countable-additivity principle beyond the displayed rows of $M$.
+\end{definition}
+
+\begin{theorem}[Nikodym boundedness NameCert obligations]
+\label{thm:nikodym-boundedness-namecert-obligations}
+For every accepted $\NikodymBoundednessUp$ carrier
+$$
+K=(M,A,F,W,T,B,D,R,H,C,P,N),
+$$
+the local $\NameCert_{\NikodymBoundednessUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed measure source, event-algebra window, measure-family ledger, pointwise boundedness window, variation window, candidate bound, Radon--Nikodym density handoff, Radon regularity row, transport, replay, provenance, and local naming;
+\item family coherence, requiring every member of $F$ to read the same $\MeasureUp$ event surface $M$ and the same event-window row $A$;
+\item pointwise boundedness admission, requiring $W$ to supply only scheduled event reads and their $\RealUp$ bounds;
+\item variation-window exactness, requiring $T$ to build every exposed variation sum from the displayed finite decompositions and values in $F$;
+\item Radon and Radon--Nikodym compatibility, requiring $R$ and $D$ to be local handoff rows rather than ambient completion or domination principles;
+\item uniform-bound exposure through the single $\RealUp$ row $B$ and the replay row $C$;
+\item package provenance and local naming through $P,N$.
+\end{enumerate}
+No local obligation exports measure completion, countable additivity beyond the displayed rows of $M$, choice-selected subfamilies, quotient equality of measures, or ambient Banach-space duality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:nikodym-boundedness-carrier}. The projection exposes exactly the measure source, event window, family ledger, pointwise boundedness window, variation window, bound row, Radon--Nikodym density handoff, Radon regularity row, transport, replay, provenance, and local naming.
+
+Family coherence is read from $F$ together with $M$ and $A$. Every family member is evaluated only on events admitted by the same displayed $\MeasureUp$ surface, and each event read is transported by the same classifier row. Thus no detached measurable universe or quotient of event algebras is available.
+
+The boundedness data is local. The row $W$ records pointwise $\RealUp$ bounds on the scheduled event reads, while $T$ records the finite disjoint decompositions used to compute the displayed variation sums. The candidate bound $B$ is downstream from those two rows and cannot be read before them.
+
+The Radon rows are also local. The row $R$ supplies regularity only for the displayed windows, and $D$ supplies a Radon--Nikodym density handoff only for a displayed dominated member of the family. Neither row contains measure completion, a selected subfamily, or an ambient dual-space identification.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the classifier sees only the listed coordinates, the excluded host principles cannot become NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Nikodym boundedness measure-family route]
+\label{thm:nikodym-boundedness-measure-family-route}
+Every accepted $\NikodymBoundednessUp$ family-bound read factors through the displayed route
+$$
+\MeasureUp,\RadonMeasureUp,\RadonNikodymUp,\UniformBoundednessUp,\RealUp .
+$$
+Concretely, the read first opens the common measure source $M$ and event window $A$, then inspects the family ledger $F$ and pointwise bound window $W$, then computes only the variation rows listed in $T$, then uses the local Radon and Radon--Nikodym rows $R,D$ when those rows are present, and only then exposes the uniform $\RealUp$ bound $B$ through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the obligation theorem \autoref{thm:nikodym-boundedness-namecert-obligations}. It says that an accepted read may inspect only the displayed rows of the carrier.
+
+The route begins at $M,A,F,W$. These rows name the measurable surface, the finite event window, the family members, and the pointwise $\RealUp$ bounds. This is the measure-family analogue of the finite bounded-family discipline carried by $\UniformBoundednessUp$.
+
+The variation and regularity rows are downstream. The row $T$ constructs variation reads from finite decompositions of the events in $A$, while $R$ and $D$ may be consulted only as local $\RadonMeasureUp$ and $\RadonNikodymUp$ handoffs attached to those displayed events and measures.
+
+The endpoint is $B$. Because $B$ is replayed through $C$ after $M,A,F,W,T,R,D$, a consumer cannot replace the finite route by measure completion, a countable-choice selection of subfamilies, unrestricted countable additivity, or an ambient Banach-dual theorem.
+\end{proof}
+
+\closureat{NikodymBoundednessUp}{seedStr}
+
+\begin{closurestatus}{\NikodymBoundednessUp}
+  \constructivestory{A $\NikodymBoundednessUp$ packet is generated from a MeasureUp source, finite event-window rows, a measure-family ledger, pointwise RealUp bound windows, finite variation rows, local RadonMeasure and RadonNikodym handoffs, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:nikodym-boundedness-carrier}, \autoref{thm:nikodym-boundedness-namecert-obligations}, and \autoref{thm:nikodym-boundedness-measure-family-route} seed the finite measure-family boundedness route through MeasureUp, RadonMeasureUp, RadonNikodymUp, UniformBoundednessUp, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure completion, countable additivity beyond the displayed rows, choice-selected subfamilies, ambient Banach-space duality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, family coherence, pointwise boundedness admission, variation-window exactness, local Radon and Radon--Nikodym compatibility, uniform RealUp bound exposure, transport, replay, provenance, and local naming for BEDC.Derived.NikodymBoundednessUp.}
+\end{closurestatus}
