@@ -1,10 +1,11 @@
-import BEDC.Derived.PadicUp.FieldCore
+import BEDC.Derived.PadicUp.IntegerTower.Completeness
 
 namespace BEDC.Derived.PadicUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
+open BEDC.FKernel.ExternalBinary
 open BEDC.Derived.NatUp
 open BEDC.Derived.PrimeUp
 open BEDC.Derived.IntUp
@@ -817,5 +818,393 @@ theorem linearHenselRoot_is_root {p : BHist}
     (ZpEq_trans replaceMul
       (ZpEq_trans commuteInside
         (ZpEq_trans addBack (zpSub_self_eq_zero (zpMul p a0 m)))))
+
+theorem zpAdd_level_congr_at {p N : BHist} (x x' y y' : ZpInt p)
+    (NUnary : UnaryHistory N) :
+    hsame (zpLevel x N NUnary).val (zpLevel x' N NUnary).val ->
+      hsame (zpLevel y N NUnary).val (zpLevel y' N NUnary).val ->
+        hsame (zpLevel (zpAdd p x y) N NUnary).val
+          (zpLevel (zpAdd p x' y') N NUnary).val := by
+  intro sameX sameY
+  unfold zpLevel zpAdd zpAddTrunc fromNatModPow natMod
+  exact natModFn_append_hsame_transport sameX sameY
+
+theorem zpMul_level_congr_at {p N : BHist} (x x' y y' : ZpInt p)
+    (NUnary : UnaryHistory N) :
+    hsame (zpLevel x N NUnary).val (zpLevel x' N NUnary).val ->
+      hsame (zpLevel y N NUnary).val (zpLevel y' N NUnary).val ->
+        hsame (zpLevel (zpMul p x y) N NUnary).val
+          (zpLevel (zpMul p x' y') N NUnary).val := by
+  intro sameX sameY
+  unfold zpLevel zpMul zpMulTrunc fromNatModPow natMod
+  exact natModFn_hsame_arg_transport (M := pPowCanon p N)
+    (natMulFn_hsame_transport sameX sameY)
+
+theorem zpEval_level_congr_arg_at {p N : BHist} (f : ZpPoly p)
+    {x y : ZpInt p} (NUnary : UnaryHistory N) :
+    hsame (zpLevel x N NUnary).val (zpLevel y N NUnary).val ->
+      hsame (zpLevel (zpEval f x) N NUnary).val
+        (zpLevel (zpEval f y) N NUnary).val := by
+  intro same
+  induction f with
+  | nil =>
+      rfl
+  | cons c tail ih =>
+      cases tail with
+      | nil =>
+          rfl
+      | cons d ds =>
+          change hsame
+            (zpLevel (zpAdd p c (zpMul p x (zpEval (d :: ds) x))) N NUnary).val
+            (zpLevel (zpAdd p c (zpMul p y (zpEval (d :: ds) y))) N NUnary).val
+          exact zpAdd_level_congr_at c c
+            (zpMul p x (zpEval (d :: ds) x))
+            (zpMul p y (zpEval (d :: ds) y)) NUnary
+            (hsame_refl _)
+            (zpMul_level_congr_at x y (zpEval (d :: ds) x)
+              (zpEval (d :: ds) y) NUnary same ih)
+
+theorem zpEval_agree_upto {p : BHist} (f : ZpPoly p)
+    {x y : ZpInt p} {N : Nat} :
+    ZpAgreeUpto N x y -> ZpAgreeUpto N (zpEval f x) (zpEval f y) := by
+  intro agree M leMN
+  exact zpEval_level_congr_arg_at f (zpuNatToUnary_unary M) (agree M leMN)
+
+theorem ZpUnit_of_level_one_eq {p : BHist} {x y : ZpInt p} :
+    hsame (zpLevel x (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val
+      (zpLevel y (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val ->
+      ZpUnit y -> ZpUnit x := by
+  intro same unit zeroX
+  exact unit (hsame_trans (hsame_symm same) zeroX)
+
+theorem zpLevel_zero_lower_of_index_le_local {p : BHist} (a : ZpInt p)
+    {lo hi : Nat} :
+    (∃ tail : Nat, lo + tail = hi) ->
+      (zpLevel a (zpuNatToUnary hi) (zpuNatToUnary_unary hi)).val =
+        BHist.Empty ->
+        (zpLevel a (zpuNatToUnary lo) (zpuNatToUnary_unary lo)).val =
+          BHist.Empty := by
+  intro leData zeroHi
+  cases leData with
+  | intro tail hiEq =>
+      let L := zpuNatToUnary lo
+      let T := zpuNatToUnary tail
+      let H := zpuNatToUnary hi
+      have LUnary : UnaryHistory L := zpuNatToUnary_unary lo
+      have TUnary : UnaryHistory T := zpuNatToUnary_unary tail
+      have HUnary : UnaryHistory H := zpuNatToUnary_unary hi
+      have appendSame : hsame (BEDC.FKernel.Cont.append L T) H := by
+        have addSame := zpuNatToUnary_add_hsame lo tail
+        have sumSame : hsame (zpuNatToUnary (lo + tail)) H := by
+          rw [hiEq]
+          exact hsame_refl _
+        exact hsame_trans addSame sumSame
+      have zeroAtAppend :
+          hsame
+            (a.trunc (BEDC.FKernel.Cont.append L T)
+              (unary_append_closed LUnary TUnary)).val
+            BHist.Empty :=
+        hsame_trans
+          (zpTrunc_level_hsame a
+            (unary_append_closed LUnary TUnary) HUnary appendSame)
+          zeroHi
+      have drop :=
+        zp_trunc_drop_nat a LUnary TUnary
+      have modZero :
+          hsame
+            (natModFn (pPowCanon p L)
+              (a.trunc (BEDC.FKernel.Cont.append L T)
+                (unary_append_closed LUnary TUnary)).val)
+            BHist.Empty :=
+        hsame_trans
+          (natModFn_hsame_arg_transport (M := pPowCanon p L) zeroAtAppend)
+          (hsame_refl BHist.Empty)
+      exact hsame_trans (hsame_symm drop) modZero
+
+theorem nat_one_le_succ (n : Nat) : 1 ≤ n + 1 := by
+  induction n with
+  | zero =>
+      exact Nat.le_refl 1
+  | succ n ih =>
+      exact Nat.le_trans ih (Nat.le_add_right (n + 1) 1)
+
+theorem nat_succ_two_le_double_succ (n : Nat) :
+    n + 2 ≤ (n + 1) + (n + 1) := by
+  exact Nat.le.intro (n := n + 2) (m := (n + 1) + (n + 1)) (k := n) (by
+    calc
+      n + 2 + n = (n + 2) + n := rfl
+      _ = (n + 1) + (n + 1) := by
+        have same : (n + 1) + (n + 1) = (n + 2) + n := by
+          calc
+            (n + 1) + (n + 1) = (n + 1) + (1 + n) := by
+              rw [Nat.add_comm n 1]
+            _ = ((n + 1) + 1) + n := (Nat.add_assoc (n + 1) 1 n).symm
+            _ = (n + 2) + n := rfl
+        exact same.symm)
+
+theorem hensel_newton_deriv_unit_of_residual {p : BHist}
+    (f : ZpPoly p) (a : ZpInt p)
+    (unit : ZpUnit (zpEval (zpDeriv f) a)) (n : Nat)
+    (faZero : (zpLevel (zpEval f a) (zpuNatToUnary (n + 1))
+      (zpuNatToUnary_unary (n + 1))).val = BHist.Empty) :
+    ZpUnit (zpEval (zpDeriv f) (newtonStep f a unit)) := by
+  let One := zpuNatToUnary 1
+  have OneUnary : UnaryHistory One := zpuNatToUnary_unary 1
+  have faZeroOne :
+      (zpLevel (zpEval f a) One OneUnary).val = BHist.Empty := by
+    exact zpLevel_zero_lower_of_index_le_local (zpEval f a)
+      (Nat.le.dest (nat_one_le_succ n)) faZero
+  let step := newtonStep f a unit
+  let delta := zpSub p step a
+  have deltaZero :
+      (zpLevel delta One OneUnary).val = BHist.Empty := by
+    exact newton_delta_level_zero f a unit 1 faZeroOne
+  have stepAsAdd : ZpEq step (zpAdd p a delta) := by
+    exact newton_step_as_add_delta f a unit
+  have addDrop :
+      hsame (zpLevel (zpAdd p a delta) One OneUnary).val
+        (zpLevel a One OneUnary).val :=
+    zpAdd_level_zero_right a delta OneUnary deltaZero
+  have stepSame :
+      hsame (zpLevel step One OneUnary).val (zpLevel a One OneUnary).val :=
+    hsame_trans (stepAsAdd One OneUnary) addDrop
+  have derivSame :
+      hsame
+        (zpLevel (zpEval (zpDeriv f) step) One OneUnary).val
+        (zpLevel (zpEval (zpDeriv f) a) One OneUnary).val :=
+    zpEval_level_congr_arg_at (zpDeriv f) OneUnary stepSame
+  exact ZpUnit_of_level_one_eq derivSame unit
+
+theorem hensel_newton_residual_next {p : BHist}
+    (f : ZpPoly p) (a : ZpInt p)
+    (unit : ZpUnit (zpEval (zpDeriv f) a)) (n : Nat)
+    (faZero : (zpLevel (zpEval f a) (zpuNatToUnary (n + 1))
+      (zpuNatToUnary_unary (n + 1))).val = BHist.Empty) :
+    (zpLevel (zpEval f (newtonStep f a unit)) (zpuNatToUnary (n + 2))
+      (zpuNatToUnary_unary (n + 2))).val = BHist.Empty := by
+  have liftZero :
+      (zpLevel (zpEval f (newtonStep f a unit))
+        (zpuNatToUnary ((n + 1) + (n + 1)))
+        (zpuNatToUnary_unary ((n + 1) + (n + 1)))).val = BHist.Empty :=
+    newton_step_lifts f a unit (n + 1) faZero
+  exact zpLevel_zero_lower_of_index_le_local (zpEval f (newtonStep f a unit))
+    (Nat.le.dest (nat_succ_two_le_double_succ n)) liftZero
+
+structure HenselSeqState {p : BHist} (f : ZpPoly p) (h : HenselData f)
+    (n : Nat) where
+  value : ZpInt p
+  deriv_unit : ZpUnit (zpEval (zpDeriv f) value)
+  residual :
+    (zpLevel (zpEval f value) (zpuNatToUnary (n + 1))
+      (zpuNatToUnary_unary (n + 1))).val = BHist.Empty
+
+def henselSeqState {p : BHist} (f : ZpPoly p) (h : HenselData f) :
+    (n : Nat) -> HenselSeqState f h n
+  | 0 =>
+      { value := h.a0
+        deriv_unit := h.deriv_unit
+        residual := h.root_mod_p }
+  | n + 1 =>
+      let prev := henselSeqState f h n
+      { value := newtonStep f prev.value prev.deriv_unit
+        deriv_unit :=
+          hensel_newton_deriv_unit_of_residual f prev.value prev.deriv_unit n
+            prev.residual
+        residual :=
+          hensel_newton_residual_next f prev.value prev.deriv_unit n
+            prev.residual }
+
+def henselSeq {p : BHist} (f : ZpPoly p) (h : HenselData f) (n : Nat) :
+    ZpInt p :=
+  (henselSeqState f h n).value
+
+theorem henselSeq_deriv_unit {p : BHist} (f : ZpPoly p) (h : HenselData f) :
+    ∀ n : Nat, ZpUnit (zpEval (zpDeriv f) (henselSeq f h n)) := by
+  intro n
+  exact (henselSeqState f h n).deriv_unit
+
+theorem henselSeq_residual {p : BHist} (f : ZpPoly p) (h : HenselData f) :
+    ∀ n : Nat,
+      (zpLevel (zpEval f (henselSeq f h n)) (zpuNatToUnary (n + 1))
+        (zpuNatToUnary_unary (n + 1))).val = BHist.Empty := by
+  intro n
+  exact (henselSeqState f h n).residual
+
+theorem zpSub_level_zero_to_level_eq {p N : BHist} (x y : ZpInt p)
+    (NUnary : UnaryHistory N) :
+    (zpLevel (zpSub p y x) N NUnary).val = BHist.Empty ->
+      hsame (zpLevel y N NUnary).val (zpLevel x N NUnary).val := by
+  intro subZero
+  let delta := zpSub p y x
+  have yAsAdd : ZpEq y (zpAdd p x delta) :=
+    ZpEq_symm (zpAdd_sub_cancel x y)
+  have addDrop :
+      hsame (zpLevel (zpAdd p x delta) N NUnary).val
+        (zpLevel x N NUnary).val :=
+    zpAdd_level_zero_right x delta NUnary subZero
+  exact hsame_trans (yAsAdd N NUnary) addDrop
+
+theorem henselSeq_step_div {p : BHist} (f : ZpPoly p) (h : HenselData f)
+    (n : Nat) :
+    (zpLevel (zpSub p (henselSeq f h (n + 1)) (henselSeq f h n))
+      (zpuNatToUnary (n + 1)) (zpuNatToUnary_unary (n + 1))).val =
+        BHist.Empty := by
+  change
+    (zpLevel
+      (zpSub p
+        (newtonStep f (henselSeq f h n) (henselSeq_deriv_unit f h n))
+        (henselSeq f h n))
+      (zpuNatToUnary (n + 1)) (zpuNatToUnary_unary (n + 1))).val =
+        BHist.Empty
+  exact newton_delta_level_zero f (henselSeq f h n)
+    (henselSeq_deriv_unit f h n) (n + 1) (henselSeq_residual f h n)
+
+theorem henselSeq_step_agree_at {p : BHist} (f : ZpPoly p) (h : HenselData f)
+    (n M : Nat) :
+    M ≤ n + 1 ->
+      hsame
+        (zpLevel (henselSeq f h (n + 1)) (zpuNatToUnary M)
+          (zpuNatToUnary_unary M)).val
+        (zpLevel (henselSeq f h n) (zpuNatToUnary M)
+          (zpuNatToUnary_unary M)).val := by
+  intro leM
+  have stepZeroM :
+      (zpLevel (zpSub p (henselSeq f h (n + 1)) (henselSeq f h n))
+        (zpuNatToUnary M) (zpuNatToUnary_unary M)).val = BHist.Empty :=
+    zpLevel_zero_lower_of_index_le_local
+      (zpSub p (henselSeq f h (n + 1)) (henselSeq f h n))
+      (Nat.le.dest leM) (henselSeq_step_div f h n)
+  exact zpSub_level_zero_to_level_eq (henselSeq f h n)
+    (henselSeq f h (n + 1)) (zpuNatToUnary_unary M) stepZeroM
+
+theorem ZpAgreeUpto_refl {p : BHist} (N : Nat) (x : ZpInt p) :
+    ZpAgreeUpto N x x := by
+  intro M _leMN
+  rfl
+
+theorem ZpAgreeUpto_symm {p : BHist} {N : Nat} {x y : ZpInt p} :
+    ZpAgreeUpto N x y -> ZpAgreeUpto N y x := by
+  intro agree M leMN
+  exact hsame_symm (agree M leMN)
+
+theorem ZpAgreeUpto_trans {p : BHist} {N : Nat} {x y z : ZpInt p} :
+    ZpAgreeUpto N x y -> ZpAgreeUpto N y z -> ZpAgreeUpto N x z := by
+  intro left right M leMN
+  exact hsame_trans (left M leMN) (right M leMN)
+
+theorem henselSeq_step_agree_upto {p : BHist}
+    (f : ZpPoly p) (h : HenselData f) (n N : Nat) :
+    N ≤ n + 1 -> ZpAgreeUpto N (henselSeq f h (n + 1)) (henselSeq f h n) := by
+  intro leN M leMN
+  exact henselSeq_step_agree_at f h n M (Nat.le_trans leMN leN)
+
+theorem henselSeq_agree_from_index {p : BHist}
+    (f : ZpPoly p) (h : HenselData f) (N : Nat) :
+    ∀ i : Nat, N ≤ i -> ZpAgreeUpto N (henselSeq f h i) (henselSeq f h N) := by
+  intro i
+  induction i with
+  | zero =>
+      intro leNZero
+      have nZero : N = 0 := Nat.eq_zero_of_le_zero leNZero
+      cases nZero
+      exact ZpAgreeUpto_refl 0 (henselSeq f h 0)
+  | succ i ih =>
+      intro leNSucc
+      cases Nat.eq_or_lt_of_le leNSucc with
+      | inl same =>
+          cases same
+          exact ZpAgreeUpto_refl (i + 1) (henselSeq f h (i + 1))
+      | inr strict =>
+          have leNI : N ≤ i := Nat.le_of_lt_succ strict
+          exact ZpAgreeUpto_trans
+            (henselSeq_step_agree_upto f h i N leNSucc)
+            (ih leNI)
+
+def henselCauchyData {p : BHist} (f : ZpPoly p) (h : HenselData f) :
+    ZpCauchyData (henselSeq f h) :=
+  { mu := fun N => N
+    cauchy := by
+      intro N i j hi hj
+      exact ZpAgreeUpto_trans
+        (henselSeq_agree_from_index f h N i hi)
+        (ZpAgreeUpto_symm (henselSeq_agree_from_index f h N j hj)) }
+
+def henselRoot {p : BHist} (f : ZpPoly p) (h : HenselData f) : ZpInt p :=
+  zpLimit (henselSeq f h) (henselCauchyData f h)
+
+theorem zpZero_level_empty {p N : BHist} (prime : NatPrime p)
+    (NUnary : UnaryHistory N) :
+    (zpLevel (zpZero p prime) N NUnary).val = BHist.Empty := by
+  unfold zpLevel zpZero natToZp fromNatModPow natMod
+  have emptyDivides : NatDivides (pPowCanon p N) BHist.Empty :=
+    ⟨BHist.Empty, unary_empty, NatMul.zero (pPowCanon_unary p N)⟩
+  exact (dvd_iff_mod_zero (pPowCanon_unary p N)
+    (pPowCanon_nonempty_of_prime prime NUnary) unary_empty).mp emptyDivides
+
+theorem henselRoot_residual_level_zero {p : BHist}
+    (f : ZpPoly p) (h : HenselData f) (N : Nat) :
+    (zpLevel (zpEval f (henselRoot f h)) (zpuNatToUnary N)
+      (zpuNatToUnary_unary N)).val = BHist.Empty := by
+  let c := henselCauchyData f h
+  have limitAgree :
+      ZpAgreeUpto N (henselSeq f h N) (henselRoot f h) := by
+    change ZpAgreeUpto N (henselSeq f h N)
+      (zpLimit (henselSeq f h) c)
+    exact zpLimit_converges (henselSeq f h) c N N (Nat.le_refl N)
+  have evalAgree :
+      ZpAgreeUpto N (zpEval f (henselSeq f h N))
+        (zpEval f (henselRoot f h)) :=
+    zpEval_agree_upto f limitAgree
+  have seqZeroN :
+      (zpLevel (zpEval f (henselSeq f h N)) (zpuNatToUnary N)
+        (zpuNatToUnary_unary N)).val = BHist.Empty := by
+    exact zpLevel_zero_lower_of_index_le_local
+      (zpEval f (henselSeq f h N))
+      ⟨1, rfl⟩
+      (henselSeq_residual f h N)
+  exact hsame_trans (hsame_symm (evalAgree N (Nat.le_refl N))) seqZeroN
+
+theorem henselRoot_is_root {p : BHist}
+    (f : ZpPoly p) (h : HenselData f) :
+    ZpEq (zpEval f (henselRoot f h))
+      (zpZero p (zpEval f (henselRoot f h)).prime) := by
+  intro N NUnary
+  let L := bwordLength N
+  have standardSame : hsame (zpuNatToUnary L) N :=
+    zpu_natToUnary_hsame_of_length NUnary
+  have rootZeroStd :
+      (zpLevel (zpEval f (henselRoot f h)) (zpuNatToUnary L)
+        (zpuNatToUnary_unary L)).val = BHist.Empty :=
+    henselRoot_residual_level_zero f h L
+  have toStd :
+      hsame
+        (zpLevel (zpEval f (henselRoot f h)) N NUnary).val
+        (zpLevel (zpEval f (henselRoot f h)) (zpuNatToUnary L)
+          (zpuNatToUnary_unary L)).val :=
+    zpTrunc_level_hsame (zpEval f (henselRoot f h))
+      NUnary (zpuNatToUnary_unary L) (hsame_symm standardSame)
+  exact hsame_trans (hsame_trans toStd rootZeroStd)
+    (hsame_symm (zpZero_level_empty
+      (zpEval f (henselRoot f h)).prime NUnary))
+
+theorem henselRoot_lifts {p : BHist}
+    (f : ZpPoly p) (h : HenselData f) :
+    (zpLevel (henselRoot f h) (zpuNatToUnary 1)
+      (zpuNatToUnary_unary 1)).val =
+      (zpLevel h.a0 (zpuNatToUnary 1) (zpuNatToUnary_unary 1)).val := by
+  let c := henselCauchyData f h
+  have limitAgree :
+      ZpAgreeUpto 1 (henselSeq f h 1) (henselRoot f h) := by
+    change ZpAgreeUpto 1 (henselSeq f h 1)
+      (zpLimit (henselSeq f h) c)
+    exact zpLimit_converges (henselSeq f h) c 1 1 (Nat.le_refl 1)
+  have stepAgree :
+      hsame
+        (zpLevel (henselSeq f h 1) (zpuNatToUnary 1)
+          (zpuNatToUnary_unary 1)).val
+        (zpLevel (henselSeq f h 0) (zpuNatToUnary 1)
+          (zpuNatToUnary_unary 1)).val :=
+    henselSeq_step_agree_at f h 0 1 (Nat.le_refl 1)
+  exact hsame_trans (hsame_symm (limitAgree 1 (Nat.le_refl 1))) stepAgree
 
 end BEDC.Derived.PadicUp
