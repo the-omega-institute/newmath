@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyStabilityModulusUp$}
+\label{ch:concrete-instances-regular-cauchy-stability-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real analysis, a regular Cauchy name carries its own visible rate of stability rather than asking the ambient real line to choose a limit. The $\RegularCauchyStabilityModulusUp$ packet specializes the finite tolerance-window route of \autoref{ch:concrete-instances-cauchy-stability-modulus-namecert} to regular rational names. It reads the $\StreamNameUp$ finite windows, the $\RegSeqRatUp$ readback rows, the $\DyadicRatCoreUp$ tolerance-shrink ledger, and the terminal $\RealUp$ seal as displayed rows of one local NameCert object.
+
+\begin{definition}[Regular Cauchy stability modulus carrier]
+\label{def:regular-cauchy-stability-modulus-carrier}
+A $\RegularCauchyStabilityModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(C,S,R,D,E,H,T,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $C$ is the $\CauchyStabilityModulusUp$ source row, naming the finite stability-modulus data being reused.
+\item $S$ is the $\StreamNameUp$ row of finite observation windows inspected by the stability read.
+\item $R$ is the $\RegSeqRatUp$ readback row that interprets those windows as a regular rational Cauchy name.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance-shrink row, recording the displayed move from a requested tolerance to a smaller admitted tolerance.
+\item $E$ is the terminal $\RealUp$ seal row reached after the regular Cauchy window has been read.
+\item $H$ records componentwise $\hsame$ transport for the source modulus, stream windows, regular rational readback, dyadic tolerance, real seal, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from the source modulus through the finite windows, regular rational readback, dyadic shrink, and terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyStabilityModulusUp$, $\CauchyStabilityModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyStabilityModulusUp}$ row.
+\end{enumerate}
+The classifier compares packets only through $C,S,R,D,E,H,T,P,N$. It has no coordinate for quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy stability modulus NameCert obligations]
+\label{thm:regular-cauchy-stability-modulus-namecert-obligations}
+For every accepted $\RegularCauchyStabilityModulusUp$ carrier
+$$
+M=(C,S,R,D,E,H,T,P,N),
+$$
+the local $\NameCert_{\RegularCauchyStabilityModulusUp}$ surface consists exactly of carrier admission, $\CauchyStabilityModulusUp$ source exposure, $\StreamNameUp$ finite-window coverage, $\RegSeqRatUp$ regular readback, $\DyadicRatCoreUp$ tolerance-shrink compatibility, terminal $\RealUp$ seal nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every refused endpoint remains outside the carrier: quotient streams, selected limits, countable choice, trichotomy, host real equality, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-stability-modulus-carrier}. The accepted packet exposes the source stability modulus $C$, the finite windows $S$, the regular rational readback $R$, the dyadic shrink row $D$, and the terminal real seal $E$ before any structural rows are read.
+
+The source row is the already named $\CauchyStabilityModulusUp$ route of \autoref{thm:cauchy-stability-modulus-namecert-obligations}. The specialization to regular Cauchy data is exactly the requirement that $S$ and $R$ are displayed before $D$ shrinks the tolerance and before $E$ seals the real-facing read.
+
+The transport row $H$ and replay row $T$ preserve the same finite path under componentwise equality and continuity replay. The provenance row $P$ and local name row $N$ then package the displayed route as a local NameCert surface.
+
+Since no carrier coordinate records a quotient stream, selected limit, countable choice schedule, trichotomy test, host real equality, or ambient completeness principle, no accepted read can export any of those endpoints.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy stability modulus Real seal handoff]
+\label{thm:regular-cauchy-stability-modulus-real-seal-handoff}
+Every $\RealUp$ or Completion-facing consumer of an accepted $\RegularCauchyStabilityModulusUp$ packet must first read the source $\CauchyStabilityModulusUp$ row, the $\StreamNameUp$ finite windows, the $\RegSeqRatUp$ regular rational readback, and the $\DyadicRatCoreUp$ tolerance-shrink row before the terminal seal $E$ is available. The handoff to $\RealUp$ is therefore the finite route
+$$
+\CauchyStabilityModulusUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp \longrightarrow \RealUp ,
+$$
+transported by $\hsame$, replayed by $\Cont$, and named by $P,N$.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $M=(C,S,R,D,E,H,T,P,N)$. A consumer that reads $E$ must have already projected the preceding rows, because the seal row is part of the same displayed finite packet and has no independent entry point.
+
+The rows $S$ and $R$ make the regular Cauchy read finite-windowed. The row $D$ records the dyadic tolerance shrink needed before the regular rational read can be sealed as a real-facing stability read.
+
+Componentwise transport and displayed replay are supplied by $H$ and $T$. Provenance and local naming through $P,N$ identify the route as a $\RegularCauchyStabilityModulusUp$ handoff rather than a host real equality or ambient completeness argument.
+\end{proof}
+
+\closureat{RegularCauchyStabilityModulusUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyStabilityModulusUp}
+  \constructivestory{A $\RegularCauchyStabilityModulusUp$ packet is generated from a CauchyStabilityModulus source, StreamName finite windows, RegSeqRat readback, DyadicRatCore tolerance shrink, Real seal, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-stability-modulus-carrier}, \autoref{thm:regular-cauchy-stability-modulus-namecert-obligations}, and \autoref{thm:regular-cauchy-stability-modulus-real-seal-handoff} seed the regular-Cauchy stability-modulus route from finite windows to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, theorem verification, axiom audit, or bridge checking.}
+  \upgradepath{Obligation closure requires a Lean carrier and checked NameCert obligations for source exposure, finite-window readback, dyadic tolerance shrink, seal handoff, transport, replay, provenance, and ledger refusal.}
+\end{closurestatus}
