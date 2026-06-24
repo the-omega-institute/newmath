@@ -1,35 +1,37 @@
 \origin{ai}
 
-\subsection{G418 Stop-Context Readthrough as a Bounded Translation-Termination Contact}
-\label{sec:bioreality-stop-context-readthrough-g418-wangen2020}
+\subsection{G418 stop-context readthrough as a bounded termination contact}
+\label{sec:bioreality-g418-stop-context-readthrough}
 
 \paragraph{Finite row surface.}
-The finite contact considered here is the Wangen stop-context readthrough table under G418 treatment, restricted to the nonzero readthrough subset after the source rows have been joined.  The verified run `fe18fff6841f` reports the sheet `G418 2.0mg|mL 24hr merged`, with $7658$ joined rows before the nonzero filter and $4982$ retained rows after filtering.  The retained nonzero fraction is $0.65056$, and the endpoint is a G418-induced RRTS value rank-averaged and scaled to $[0,1]$.  Thus the empirical object used in this chapter is not a whole-proteome translation law; it is a finite rank table of stop-context readthrough measurements under one drug condition and one declared row filter.  A second Wangen cross-dataset check, run `7c85e126c888`, gives $55886$ rows and an untreated rank correlation $\rho=0.032718$, which is useful here only as a scale warning: weak untreated association does not by itself license a mechanistic or universal claim about termination contexts.
+The record concerns a finite translation-termination panel in which stop-context sequence features are joined to a G418-induced readthrough response.  The verified run for the G418 condition used the sheet \emph{G418 2.0mg|mL 24hr merged}.  Before restricting to nonzero response rows, the inner join contained $7658$ entries.  The analysis surface used the nonzero RRTS subset, with $n = 4982$ rows and nonzero fraction $0.65056$.  The endpoint was the G418-induced RRTS nonzero subset, rank-averaged and scaled to $[0,1]$.  Thus the observable quantity in this chapter is not a latent translation principle; it is a finite ranked readthrough response attached to stop-context rows under a specified drug condition.
 
-\paragraph{Name certificate.}
-Let $T$ be the retained G418 table with $|T|=4982$.  Each row $t\in T$ carries a stop-context identifier, the joined readthrough endpoint $y(t)\in[0,1]$, and whatever local sequence or annotation covariates are present in the curated row.  The certificate asserted by this chapter is the finite existence of the controlled readout surface
+\paragraph{Coordinate and response.}
+Let $T$ denote the finite table produced by the join, after the nonzero-RRTS restriction.  A row $r \in T$ carries a local termination context and a ranked response value $y(r) \in [0,1]$.  The bounded response coordinate is therefore
 $$
 \begin{aligned}
-  T_{\mathrm{G418}} &= \{t : t\text{ is joined and has nonzero G418 RRTS}\},\\
-  |T_{\mathrm{G418}}| &= 4982,\\
-  y(t) &\in [0,1].
+  y : T &\longrightarrow [0,1], \\
+  |T| &= 4982.
 \end{aligned}
 $$
-This is enough to ground a bounded translation-termination contact: stop-context rows can be compared against a measured readthrough endpoint in the retained G418 panel.  It is not enough, by itself, to certify an $f_3$-stress survival coordinate, because that stronger claim would require same-row codon-window residuals, wobble-weight asymmetry, matched mRNA controls, amino-acid or position-bin controls, and a held-out improvement test over simpler baselines.
+The analysis is allowed to speak about survival of stop-context information only relative to this finite response column and the controls actually present in the row construction.  It is not allowed to replace the ranked RRTS endpoint by protein abundance, folding state, global translation efficiency, or a mechanistic account of release-factor failure.  The finite value $4982$ is part of the contact: any claim about the G418 readthrough response must remain keyed to that filtered table unless a new joined surface is separately supplied.
 
-\paragraph{Controlled interpretation.}
-The biological statement supported at this stage is deliberately narrow.  A finite subset of Wangen stop-context rows has been joined to a nonzero G418-induced readthrough readout, and the retained endpoint has a bounded rank scale.  This permits a chapter-local readout boundary for translation termination: if a proposed coding-window or stop-context statistic is later attached to these same rows, its association with G418 readthrough can be tested as a finite supervised relation.  The row counts also constrain the evidential strength.  The analysis surface is not empty, since $4982$ nonzero rows remain after filtering, but the filter itself changes the estimand from all assayed stop contexts to the induced-readthrough-positive subset.  The prefilter count $7658$ and retained fraction $0.65056$ must therefore travel with any reported statistic.
+\paragraph{Readthrough contact.}
+The G418 panel is a translation-termination contact because the measured quantity is a stop-codon readthrough score under aminoglycoside exposure.  The carrier is finite and row-indexed, and the response is already normalized into a rank scale.  This supports a narrow statement: stop-context rows can be tested against a G418-induced readthrough readout on the nonzero subset.  It does not support the stronger statement that codon-window geometry alone has become measured translation, nor that a synonymous residual coordinate has survived against position-resolved ribosome occupancy.  Those are different contacts and require their own same-row joins.
 
-\paragraph{Break condition.}
-The local promotion test is a same-row survival test, not a narrative inference from context labels.  A proposed residual coordinate $q$ may be reported as surviving this contact only if a model containing $q$ improves held-out prediction or description length for $y(t)$ after the declared controls are present.  In symbolic form, for control matrix $Z$ and a simpler baseline $B$, the acceptable positive statement has the form
+\paragraph{Cross-dataset guardrail.}
+A separate stop-readthrough cross-dataset record gives a larger comparison surface with $n = 55886$ rows and untreated Spearman signal $\rho = 0.032718$.  This number is useful as a guardrail because it shows that a stop-readthrough row universe can be much larger than the G418 nonzero subset, while the untreated rank association remains small.  The two finite facts should not be conflated: the G418 run reports $4982$ nonzero RRTS rows after an inner join, whereas the cross-dataset record reports $55886$ rows with an untreated $\rho$ value.  The local claim in this subsection uses the former as the drug-conditioned contact and the latter only to bound interpretation across readthrough settings.
+
+\paragraph{Admissible statistic.}
+A self-contained survival check for this chapter has the form
 $$
 \begin{aligned}
-  \Delta(q;T_{\mathrm{G418}},Z,B)
-    &= \operatorname{Score}(B+Z+q)-\operatorname{Score}(B+Z),\\
-  \Delta(q;T_{\mathrm{G418}},Z,B) &> 0
+  S_{\mathrm{stop}}(T \mid Z)
+  &= \Delta \mathcal{L}(y; Z) - \Delta \mathcal{L}(y; Z, x_{\mathrm{stop}}), \\
+  \text{support} &\Longrightarrow S_{\mathrm{stop}}(T \mid Z) > 0
 \end{aligned}
 $$
-under a held-out or rank-stable protocol.  If the coordinate is an $f_3$-stress residual, the required $Z$ must include at least amino-acid or position-bin structure, GC3, coding-sequence length, methionine-density baseline, matched mRNA where available, and simpler codon-count baselines.  Without those rows and controls, $S_{f3}(T_{\mathrm{position}}\mid Z)$ is notation for a desired test, not a computed biological statistic.
+where $x_{\mathrm{stop}}$ denotes the stop-context feature family and $Z$ denotes the finite controls available for the row table.  The formula records the only permitted promotion path: stop-context information must improve held-out description of the observed ranked RRTS endpoint beyond the controls.  If the improvement is absent, saturated, or not held out, the chapter remains a bounded contact description rather than a positive cross-layer result.
 
-\paragraph{Cannot-claim boundary.}
-This chapter does not infer translation realization from codon geometry alone.  It does not infer protein abundance, folding, structural order, physical admissibility, molecular function, cellular phenotype, mechanism, or universality from the G418 readthrough panel.  It also does not treat modeled tAI or stAI weights as observed ribosome occupancy, and it does not treat a stop-context readthrough endpoint as a position-resolved ribosome-footprint matrix.  Those claims require their own matched contacts.  The present record says only that a finite, bounded Wangen G418 readthrough surface exists with $7658$ joined rows before filtering, $4982$ nonzero retained rows, a retained fraction of $0.65056$, and a rank-scaled endpoint in $[0,1]$; every stronger cross-layer claim must be recomputed on a joined panel with its controls rather than inherited from this contact.
+\paragraph{Boundary.}
+The chapter makes no claim that the G418 readthrough rows establish ordinary translation rate, position-resolved ribosome occupancy, protein abundance, folding, physical admissibility, biological function, mechanism, phenotype, or universality.  The G418 endpoint is a drug-conditioned readthrough response, not a general translation law.  Likewise, modeled wobble weights, codon usage, synonymous residual geometry, or notation for survival scores cannot substitute for measured same-row readout columns.  A stronger claim would require a new finite panel in which the relevant coordinate, controls, and measured downstream readout are joined on the same biological rows and pass a held-out improvement test.
