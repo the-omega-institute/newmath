@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.LocalizedCauchySubsequenceUp
+namespace BEDC.Derived.LocalizedCauchySubsequenceUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,181 +10,167 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive LocalizedCauchySubsequenceUp : Type where
-  | mk
-      (window stream readback dyadic bolzano endpoint transport replay provenance localName :
-        BHist) :
-      LocalizedCauchySubsequenceUp
+  | mk (W S R D B E H C P N : BHist) : LocalizedCauchySubsequenceUp
   deriving DecidableEq
 
-def LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_encodeBHist :
-    BHist -> RawEvent
+def localizedCauchySubsequenceFields : LocalizedCauchySubsequenceUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | LocalizedCauchySubsequenceUp.mk W S R D B E H C P N => [W, S, R, D, B, E, H, C, P, N]
+
+def localizedCauchySubsequenceEncodeBHist : BHist → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h =>
-      BMark.b0 :: LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_encodeBHist h
-  | BHist.e1 h =>
-      BMark.b1 :: LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_encodeBHist h
+  | BHist.e0 h => BMark.b0 :: localizedCauchySubsequenceEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: localizedCauchySubsequenceEncodeBHist h
 
-def LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist :
-    RawEvent -> BHist
+def localizedCauchySubsequenceDecodeBHist : RawEvent → BHist
+  -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail => BHist.e0
-      (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist tail)
-  | BMark.b1 :: tail => BHist.e1
-      (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (localizedCauchySubsequenceDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (localizedCauchySubsequenceDecodeBHist tail)
 
-private theorem LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decode_encode :
-    forall h : BHist,
-      LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist
-          (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_encodeBHist h) =
+private theorem localizedCauchySubsequence_decode_encode :
+    ∀ h : BHist,
+      localizedCauchySubsequenceDecodeBHist
+          (localizedCauchySubsequenceEncodeBHist h) =
         h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
-def LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fields :
-    LocalizedCauchySubsequenceUp -> List BHist
-  | LocalizedCauchySubsequenceUp.mk window stream readback dyadic bolzano endpoint
-      transport replay provenance localName =>
-      [window, stream, readback, dyadic, bolzano, endpoint, transport, replay, provenance,
-        localName]
+def localizedCauchySubsequenceToEventFlow :
+    LocalizedCauchySubsequenceUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | x => (localizedCauchySubsequenceFields x).map localizedCauchySubsequenceEncodeBHist
 
-def LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_toEventFlow :
-    LocalizedCauchySubsequenceUp -> EventFlow :=
-  fun x =>
-    (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fields x).map
-      LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_encodeBHist
+private def localizedCauchySubsequenceEventAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => localizedCauchySubsequenceEventAt index rest
 
-def LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fromEventFlow :
-    EventFlow -> Option LocalizedCauchySubsequenceUp
-  | window :: stream :: readback :: dyadic :: bolzano :: endpoint :: transport :: replay ::
-      provenance :: localName :: [] =>
-      some
-        (LocalizedCauchySubsequenceUp.mk
-          (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist window)
-          (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist stream)
-          (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist readback)
-          (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist dyadic)
-          (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist bolzano)
-          (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist endpoint)
-          (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist transport)
-          (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist replay)
-          (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist provenance)
-          (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist localName))
-  | _ => none
+def localizedCauchySubsequenceFromEventFlow
+    (ef : EventFlow) : Option LocalizedCauchySubsequenceUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (LocalizedCauchySubsequenceUp.mk
+      (localizedCauchySubsequenceDecodeBHist (localizedCauchySubsequenceEventAt 0 ef))
+      (localizedCauchySubsequenceDecodeBHist (localizedCauchySubsequenceEventAt 1 ef))
+      (localizedCauchySubsequenceDecodeBHist (localizedCauchySubsequenceEventAt 2 ef))
+      (localizedCauchySubsequenceDecodeBHist (localizedCauchySubsequenceEventAt 3 ef))
+      (localizedCauchySubsequenceDecodeBHist (localizedCauchySubsequenceEventAt 4 ef))
+      (localizedCauchySubsequenceDecodeBHist (localizedCauchySubsequenceEventAt 5 ef))
+      (localizedCauchySubsequenceDecodeBHist (localizedCauchySubsequenceEventAt 6 ef))
+      (localizedCauchySubsequenceDecodeBHist (localizedCauchySubsequenceEventAt 7 ef))
+      (localizedCauchySubsequenceDecodeBHist (localizedCauchySubsequenceEventAt 8 ef))
+      (localizedCauchySubsequenceDecodeBHist (localizedCauchySubsequenceEventAt 9 ef)))
 
-private theorem LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_round_trip :
-    forall x : LocalizedCauchySubsequenceUp,
-      LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fromEventFlow
-          (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_toEventFlow x) =
+private theorem localizedCauchySubsequence_round_trip :
+    ∀ x : LocalizedCauchySubsequenceUp,
+      localizedCauchySubsequenceFromEventFlow
+          (localizedCauchySubsequenceToEventFlow x) =
         some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro token
-  cases token with
-  | mk window stream readback dyadic bolzano endpoint transport replay provenance localName =>
-      simp only [LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_toEventFlow,
-        LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fields,
-        LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fromEventFlow,
-        List.map_cons, List.map_nil,
-        LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decode_encode]
+  intro x
+  cases x with
+  | mk W S R D B E H C P N =>
+      change
+        some
+          (LocalizedCauchySubsequenceUp.mk
+            (localizedCauchySubsequenceDecodeBHist
+              (localizedCauchySubsequenceEncodeBHist W))
+            (localizedCauchySubsequenceDecodeBHist
+              (localizedCauchySubsequenceEncodeBHist S))
+            (localizedCauchySubsequenceDecodeBHist
+              (localizedCauchySubsequenceEncodeBHist R))
+            (localizedCauchySubsequenceDecodeBHist
+              (localizedCauchySubsequenceEncodeBHist D))
+            (localizedCauchySubsequenceDecodeBHist
+              (localizedCauchySubsequenceEncodeBHist B))
+            (localizedCauchySubsequenceDecodeBHist
+              (localizedCauchySubsequenceEncodeBHist E))
+            (localizedCauchySubsequenceDecodeBHist
+              (localizedCauchySubsequenceEncodeBHist H))
+            (localizedCauchySubsequenceDecodeBHist
+              (localizedCauchySubsequenceEncodeBHist C))
+            (localizedCauchySubsequenceDecodeBHist
+              (localizedCauchySubsequenceEncodeBHist P))
+            (localizedCauchySubsequenceDecodeBHist
+              (localizedCauchySubsequenceEncodeBHist N))) =
+          some (LocalizedCauchySubsequenceUp.mk W S R D B E H C P N)
+      rw [localizedCauchySubsequence_decode_encode W,
+        localizedCauchySubsequence_decode_encode S,
+        localizedCauchySubsequence_decode_encode R,
+        localizedCauchySubsequence_decode_encode D,
+        localizedCauchySubsequence_decode_encode B,
+        localizedCauchySubsequence_decode_encode E,
+        localizedCauchySubsequence_decode_encode H,
+        localizedCauchySubsequence_decode_encode C,
+        localizedCauchySubsequence_decode_encode P,
+        localizedCauchySubsequence_decode_encode N]
 
-private theorem
-    LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem localizedCauchySubsequenceToEventFlow_injective
     {x y : LocalizedCauchySubsequenceUp} :
-    LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_toEventFlow x =
-        LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_toEventFlow y ->
+    localizedCauchySubsequenceToEventFlow x =
+        localizedCauchySubsequenceToEventFlow y →
       x = y := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro hxy
-  have optionEq : some x = some y := by
-    calc
-      some x =
-          LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fromEventFlow
-            (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_toEventFlow x) :=
-        (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_round_trip x).symm
-      _ =
-          LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fromEventFlow
-            (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_toEventFlow y) :=
-        congrArg LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fromEventFlow hxy
-      _ = some y := LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_round_trip y
-  exact Option.some.inj optionEq
+  intro heq
+  have hread :
+      localizedCauchySubsequenceFromEventFlow
+          (localizedCauchySubsequenceToEventFlow x) =
+        localizedCauchySubsequenceFromEventFlow
+          (localizedCauchySubsequenceToEventFlow y) :=
+    congrArg localizedCauchySubsequenceFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (localizedCauchySubsequence_round_trip x).symm
+      (Eq.trans hread (localizedCauchySubsequence_round_trip y)))
 
-private theorem LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_field_faithful :
-    forall x y : LocalizedCauchySubsequenceUp,
-      LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fields x =
-          LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fields y ->
-        x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk window1 stream1 readback1 dyadic1 bolzano1 endpoint1 transport1 replay1
-      provenance1 localName1 =>
-      cases y with
-      | mk window2 stream2 readback2 dyadic2 bolzano2 endpoint2 transport2 replay2
-          provenance2 localName2 =>
-          cases hfields
-          rfl
-
-instance LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_BHistCarrier :
+instance localizedCauchySubsequenceBHistCarrier :
     BHistCarrier LocalizedCauchySubsequenceUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_toEventFlow
-  fromEventFlow := LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fromEventFlow
+  toEventFlow := localizedCauchySubsequenceToEventFlow
+  fromEventFlow := localizedCauchySubsequenceFromEventFlow
 
-instance LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_ChapterTasteGate :
+instance localizedCauchySubsequenceChapterTasteGate :
     ChapterTasteGate LocalizedCauchySubsequenceUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change
-      LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fromEventFlow
-          (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_toEventFlow x) =
+      localizedCauchySubsequenceFromEventFlow
+          (localizedCauchySubsequenceToEventFlow x) =
         some x
-    exact LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_round_trip x
+    exact localizedCauchySubsequence_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_toEventFlow_injective heq)
-
-instance LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_FieldFaithful :
-    FieldFaithful LocalizedCauchySubsequenceUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fields
-  field_faithful :=
-    LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_field_faithful
-
-instance LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_Nontrivial :
-    Nontrivial LocalizedCauchySubsequenceUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨LocalizedCauchySubsequenceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      LocalizedCauchySubsequenceUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
-def LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_taste_gate :
-    ChapterTasteGate LocalizedCauchySubsequenceUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_ChapterTasteGate
+    exact hxy (localizedCauchySubsequenceToEventFlow_injective heq)
 
 theorem LocalizedCauchySubsequenceTasteGate_single_carrier_alignment :
-    (forall h : BHist,
-      LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decodeBHist
-          (LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_encodeBHist h) =
-        h) ∧
-        LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_fields
-            (LocalizedCauchySubsequenceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
-          [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-            BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
-  -- BEDC touchpoint anchor: BHist BMark
+    Nonempty (ChapterTasteGate LocalizedCauchySubsequenceUp) ∧
+      Nonempty (BHistCarrier LocalizedCauchySubsequenceUp) ∧
+        (∀ h : BHist,
+          localizedCauchySubsequenceDecodeBHist
+              (localizedCauchySubsequenceEncodeBHist h) =
+            h) ∧
+          (∀ x : LocalizedCauchySubsequenceUp,
+            localizedCauchySubsequenceFromEventFlow
+                (localizedCauchySubsequenceToEventFlow x) =
+              some x) ∧
+            localizedCauchySubsequenceEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨LocalizedCauchySubsequenceTasteGate_single_carrier_alignment_decode_encode,
+    ⟨⟨localizedCauchySubsequenceChapterTasteGate⟩,
+      ⟨localizedCauchySubsequenceBHistCarrier⟩,
+      localizedCauchySubsequence_decode_encode,
+      localizedCauchySubsequence_round_trip,
       rfl⟩
 
-end BEDC.Derived.LocalizedCauchySubsequenceUp
+end BEDC.Derived.LocalizedCauchySubsequenceUp.TasteGate

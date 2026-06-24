@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\FiniteModulusStaircaseUp$}
+\label{ch:concrete-instances-finite-modulus-staircase-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\FiniteModulusStaircaseUp$ packet records a finite staged route by which a modulus request is tightened through displayed rational tolerances before a Real or Completion consumer reads the final seal. It sits after the finite stream names of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite mesh surface of \autoref{ch:concrete-instances-finite-modulus-mesh-namecert}, the lower-bound ledger of \autoref{ch:concrete-instances-finite-modulus-lower-bound-ledger-namecert}, and the Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only a finite staircase of modulus rows, monotone handoff between adjacent rows, transport, replay, provenance, and local naming; it is not an infinite modulus search, a selected global modulus, quotient stream equality, countable choice, trichotomy, or ambient completeness.
+
+\begin{definition}[Finite modulus staircase carrier]
+\label{def:finite-modulus-staircase-carrier}
+A $\FiniteModulusStaircaseUp$ carrier is a finite $\BHist$ packet
+$$
+S=(W,R,D,M,L,A,U,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ finite-window row naming the stream positions whose modulus requests are inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row exposing rational observations on those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare adjacent requests.
+\item $M$ is the $\FiniteModulusMeshUp$ row exposing the finite mesh cells from which staged requests are drawn.
+\item $L$ is the $\FiniteModulusLowerBoundLedgerUp$ row exposing the finite lower-bound fold available to every displayed stage.
+\item $A$ is the finite staircase ledger. Its initial row records the first displayed modulus request, and each successor row records a dyadic comparison against the previous request together with the lower-bound handoff read from $L$.
+\item $U$ is the terminal modulus handoff row, obtained only after every displayed staircase step in $A$ has been read.
+\item $E$ is the $\RealUp$ seal boundary available only downstream from $W,R,D,M,L,A,U$.
+\item $H$ records componentwise $\hsame$ transport for stream windows, regular readback, dyadic tolerances, mesh cells, lower-bound rows, staircase steps, terminal handoff, Real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the finite staircase route
+$$
+W,R,D,M,L \longmapsto A \longmapsto U,E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteModulusStaircaseUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\FiniteModulusMeshUp$, $\FiniteModulusLowerBoundLedgerUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteModulusStaircaseUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,R,D,M,L,A,U,E,H,C,P,N$. It has no coordinate for an infinite search over moduli, selected global modulus, quotient stream equality, trichotomy, countable choice, selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite modulus staircase NameCert obligations]
+\label{thm:finite-modulus-staircase-namecert-obligations}
+For every accepted $\FiniteModulusStaircaseUp$ carrier
+$$
+S=(W,R,D,M,L,A,U,E,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteModulusStaircaseUp}$ surface consists exactly of finite stream-window exposure through $W$, regular rational readback through $R$, dyadic tolerance exposure through $D$, finite mesh exposure through $M$, lower-bound ledger exposure through $L$, staircase-step exactness through $A$, terminal modulus handoff through $U$, Real-seal exposure through $E$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source rows available before the staircase opens are exactly the finite window, regular readback, dyadic tolerance, finite mesh, and lower-bound ledger rows $W,R,D,M,L$.
+
+Read the staircase ledger $A$ by finite induction over its displayed rows. The initial row records a visible modulus request, and each successor row records only the next visible request, the dyadic comparison against the previous request, and the lower-bound handoff already displayed by $L$.
+
+The terminal row $U$ is therefore downstream from a finite chain of visible comparisons, not from an external search. The Real seal $E$ and the structural rows $H,C,P,N$ transport, replay, source, and name that same finite route.
+
+Since no excluded endpoint is a carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite modulus staircase monotone handoff]
+\label{thm:finite-modulus-staircase-monotone-refinement}
+Every terminal modulus handoff exported by an accepted $\FiniteModulusStaircaseUp$ packet factors through the displayed staircase rows:
+$$
+\StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp,\FiniteModulusMeshUp,\FiniteModulusLowerBoundLedgerUp
+\longmapsto A \longmapsto U \longmapsto \RealUp .
+$$
+Each successor row in $A$ may tighten the current request only through the dyadic comparison and lower-bound handoff already present in the carrier. Thus a Real or Completion consumer receives a staged finite-modulus dependency rather than a one-shot modulus assertion.
+\end{theorem}
+\begin{proof}
+Start with the obligations of \autoref{thm:finite-modulus-staircase-namecert-obligations}. They place stream windows, regular readback, dyadic tolerances, finite mesh data, and lower-bound ledger data before the staircase ledger can be consumed.
+
+Run finite induction along $A$. The base row supplies the first displayed request. At a successor row, the only available comparison is the dyadic one recorded by $D$, and the only lower-bound source is the ledger row $L$.
+
+After the last displayed step, the terminal handoff $U$ can be read. The seal row $E$ and the structural rows preserve the same finite route, so no Real or Completion consumer can bypass the staircase by appealing to a selected global modulus, infinite search, quotient equality, choice schedule, or ambient completeness theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteModulusStaircaseUp$ read is refuted if a Real or Completion consumer exports a terminal modulus handoff without displaying the StreamName windows, RegSeqRat readback, DyadicRatCore comparisons, FiniteModulusMesh cells, FiniteModulusLowerBoundLedger fold, staircase rows, transport, replay, provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, finite-modulus-mesh, finite-modulus-lower-bound-ledger, and real: none alone is bijective with $\FiniteModulusStaircaseUp$ because the packet jointly binds finite windows, rational readback, dyadic comparisons, mesh rows, lower-bound rows, staged staircase steps, terminal handoff, Real-seal exposure, transport, replay, provenance, and local naming.}
+
+\closureat{FiniteModulusStaircaseUp}{seedStr}
+
+\begin{closurestatus}{\FiniteModulusStaircaseUp}
+  \constructivestory{A $\FiniteModulusStaircaseUp$ packet is generated from StreamName finite-window rows, RegSeqRat readback rows, DyadicRatCore tolerance rows, FiniteModulusMesh rows, FiniteModulusLowerBoundLedger rows, a finite staircase ledger, a terminal modulus handoff row, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-modulus-staircase-carrier}, \autoref{thm:finite-modulus-staircase-namecert-obligations}, and \autoref{thm:finite-modulus-staircase-monotone-refinement} seed the finite staged-modulus route over displayed stream-window, regular-readback, dyadic-tolerance, mesh, lower-bound, staircase, Real, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close an infinite modulus search, selected global modulus, quotient stream equality, selected limits, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, axiom-clean audit, or bridge checking for $\FiniteModulusStaircaseUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, regular-readback exactness, dyadic-comparison exactness, mesh exposure, lower-bound ledger exposure, staircase-step exactness, terminal handoff nonescape, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteModulusStaircaseUp.}
+\end{closurestatus}
