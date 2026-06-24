@@ -13,3 +13,17 @@ Next apply the seed-obligation surface of \autoref{thm:metacic-parallel-diamond-
 
 Finally use the seed-closure status of \autoref{thm:metacic-parallel-diamond-frontier-seed-closure-status}. The closure-facing read preserves the same route $P,K,J,R,S,C,B,O,H,T,G,N$, so the status block is synchronized through the finite frontier rows and cannot be reread as residual-substitution discharge, subject reduction, full Church--Rosser, evaluator equality, quotient term equality, global normalization, or kernel consistency.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond seed-status paper read]
+\label{thm:metacic-parallel-diamond-frontier-seed-status-paper-read}
+The paper-side seed-status read for $\MetaCICParallelDiamondFrontierUp$ records only the local pair $\seedClosure/\unformalizedV$ along the child route displayed in \autoref{thm:metacic-parallel-diamond-frontier-seed-status-block-sync}. The read is a seed-facing frontier marker over
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+and not a claim of residual-substitution discharge, subject reduction, Church--Rosser, quotient term equality, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the seed-status block through the theorem above. Its route is already confined to the displayed residual premise, critical-pair, candidate-join, residual-frontier, closed-checker, closed-normal, bounded-check, obstruction, transport, replay, provenance, and local naming rows.
+
+Read the pair $\seedClosure/\unformalizedV$ as a paper-side marker for that child route. Since the marker is consumed only after those rows are visible, it cannot become a verification claim or a global MetaCIC endpoint.
+\end{proof}
