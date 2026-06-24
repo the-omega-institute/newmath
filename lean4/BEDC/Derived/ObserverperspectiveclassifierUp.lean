@@ -230,4 +230,35 @@ theorem ObserverPerspectiveClassifierVerdictSourceExhaustion [AskSetup] [Package
       gapRoutePublicRead, publicReadNameVerdict, provenancePkg, namePkg, publicReadPkg,
       verdictPkg⟩
 
+theorem ObserverPerspectiveClassifierAlignmentLocalityCycle [AskSetup] [PackageSetup]
+    {observerLeft observerRight universeLeft universeRight locality gap transport route provenance name
+      alignmentRead cycleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverPerspectiveClassifierCarrier observerLeft observerRight universeLeft universeRight locality
+        gap transport route provenance name bundle pkg →
+      Cont locality gap alignmentRead →
+        Cont transport route cycleRead →
+          PkgSig bundle cycleRead pkg →
+            UnaryHistory locality ∧ UnaryHistory gap ∧ UnaryHistory transport ∧
+              UnaryHistory route ∧ UnaryHistory alignmentRead ∧ UnaryHistory cycleRead ∧
+                hsame alignmentRead transport ∧ Cont locality gap alignmentRead ∧
+                  Cont transport route cycleRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle name pkg ∧ PkgSig bundle cycleRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory hsame
+  intro carrier alignmentRoute cycleRoute cyclePkg
+  obtain ⟨_observerLeftUnary, _observerRightUnary, _universeLeftUnary, _universeRightUnary,
+    localityUnary, gapUnary, transportUnary, routeUnary, _provenanceUnary, _nameUnary,
+    _observerUniverse, _universeLocality, localityTransport, _transportGap, provenancePkg,
+    namePkg⟩ := carrier
+  have alignmentReadUnary : UnaryHistory alignmentRead :=
+    unary_cont_closed localityUnary gapUnary alignmentRoute
+  have cycleReadUnary : UnaryHistory cycleRead :=
+    unary_cont_closed transportUnary routeUnary cycleRoute
+  have alignmentSameTransport : hsame alignmentRead transport :=
+    cont_deterministic alignmentRoute localityTransport
+  exact
+    ⟨localityUnary, gapUnary, transportUnary, routeUnary, alignmentReadUnary,
+      cycleReadUnary, alignmentSameTransport, alignmentRoute, cycleRoute, provenancePkg,
+      namePkg, cyclePkg⟩
+
 end BEDC.Derived.ObserverperspectiveclassifierUp
