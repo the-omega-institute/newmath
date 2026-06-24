@@ -10,6 +10,62 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def HeineBorelIntervalCarrier [AskSetup] [PackageSetup]
+    (A B K M Z F T S R E Q C P N : BHist) (bundle : ProbeBundle ProbeName)
+    (pkg : Pkg) : Prop :=
+  UnaryHistory A ∧ UnaryHistory B ∧ UnaryHistory K ∧ UnaryHistory M ∧
+    UnaryHistory Z ∧ UnaryHistory F ∧ UnaryHistory T ∧ UnaryHistory S ∧
+      UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory Q ∧ UnaryHistory C ∧
+        UnaryHistory P ∧ UnaryHistory N ∧ Cont A B K ∧ Cont K M Z ∧
+          Cont F T S ∧ PkgSig bundle Q pkg ∧ PkgSig bundle N pkg
+
+theorem HeineBorelIntervalCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {A B K M Z F T S R E Q C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HeineBorelIntervalCarrier A B K M Z F T S R E Q C P N bundle pkg →
+      PkgSig bundle N pkg →
+        SemanticNameCert
+            (fun row : BHist => hsame row N ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row N ∨ hsame row A ∨ hsame row B ∨ hsame row K ∨
+                hsame row M ∨ hsame row Z ∨ hsame row F ∨ hsame row T ∨
+                  hsame row S ∨ hsame row R ∨ hsame row E ∨ hsame row Q ∨
+                    hsame row C ∨ hsame row P)
+            (fun row : BHist =>
+              UnaryHistory row ∧ Cont A B K ∧ Cont K M Z ∧ Cont F T S ∧
+                PkgSig bundle Q pkg ∧ PkgSig bundle N pkg)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier namePkg
+  obtain ⟨_aUnary, _bUnary, _kUnary, _mUnary, _zUnary, _fUnary, _tUnary, _sUnary,
+    _rUnary, _eUnary, _qUnary, _cUnary, _pUnary, nUnary, abkRoute, kmzRoute,
+    ftsRoute, qPkg, _carrierNamePkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro N ⟨hsame_refl N, nUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inl source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, abkRoute, kmzRoute, ftsRoute, qPkg, namePkg⟩
+  }
+
 theorem HeineBorelIntervalNameCertObligationSurface [AskSetup] [PackageSetup]
     {A B K M Z F T S R E Q C P N net mesh coverageRead stableRead inductionRead sealRead
       publicRead : BHist}
