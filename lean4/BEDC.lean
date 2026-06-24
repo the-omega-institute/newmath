@@ -5168,6 +5168,7 @@ import BEDC.Derived.FableMachineClockUp.Obligations
 import BEDC.Derived.FableMachineClockUp.StepLedgerExactness
 import BEDC.Derived.FableMachineClockUp.TasteGate
 import BEDC.Derived.FactorUp
+import BEDC.Derived.FactorialUp
 import BEDC.Derived.FailureCertificateUp.TasteGate
 import BEDC.Derived.FanBarRouteUp.FiniteBarHandoff
 import BEDC.Derived.FanBarRouteUp.NameCertObligations
@@ -9147,6 +9148,10 @@ import BEDC.Derived.RationalRootIntervalUp.TasteGate
 import BEDC.Derived.RationalSqueezeUp
 import BEDC.Derived.RationalStreamUp
 import BEDC.Derived.RationalUp
+import BEDC.Derived.RationalUp.Core
+import BEDC.Derived.RationalUp.FieldLaws
+import BEDC.Derived.RationalUp.IntLaws
+import BEDC.Derived.RationalUp.RatLaws
 import BEDC.Derived.ReachabilityGramianUp
 import BEDC.Derived.RealAbsoluteValueUp.TasteGate
 import BEDC.Derived.RealAlgOrderUp
