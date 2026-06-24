@@ -9016,6 +9016,7 @@ import BEDC.Derived.QuasiIsometryUp.TasteGate
 import BEDC.Derived.QuasiMetricUp
 import BEDC.Derived.QuasiMetricUp.TasteGate
 import BEDC.Derived.QuasiPolishSpaceUp.TasteGate
+import BEDC.Derived.QuaternionUp
 import BEDC.Derived.QuotientFreeCompletionSealUp.TasteGate
 import BEDC.Derived.QuotientGroupUp
 import BEDC.Derived.QuotientGroupUp.AbelianTerminalProjectionUniqueness
