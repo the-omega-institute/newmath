@@ -8308,6 +8308,7 @@ import BEDC.Derived.MetricClosureUp.TasteGate
 import BEDC.Derived.MetricCofinalCompletionUp.TasteGate
 import BEDC.Derived.MetricCompletionAdjointUp.TasteGate
 import BEDC.Derived.MetricCompletionAdjunctionUp.TasteGate
+import BEDC.Derived.MetricCompletionAdmissibleEmbeddingUp
 import BEDC.Derived.MetricCompletionComparisonUp.TasteGate
 import BEDC.Derived.MetricCompletionDenseEmbeddingUp.TasteGate
 import BEDC.Derived.MetricCompletionFiniteCoproductUp.TasteGate
