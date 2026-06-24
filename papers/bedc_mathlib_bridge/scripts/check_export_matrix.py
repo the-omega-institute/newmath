@@ -27,6 +27,9 @@ def find_bridge_root() -> Path:
 
 
 KIND_TO_LEAN = {
+    "bedc_constructive_core": (
+        "BedcMathlibBridge.CI.IntMetadata.ClassificationKind.bedcConstructiveCore"
+    ),
     "exported_core": "BedcMathlibBridge.CI.IntMetadata.ClassificationKind.exportedCore",
     "subsumed_by_core": "BedcMathlibBridge.CI.IntMetadata.ClassificationKind.subsumedByCore",
     "measured_boundary": "BedcMathlibBridge.CI.IntMetadata.ClassificationKind.measuredBoundary",

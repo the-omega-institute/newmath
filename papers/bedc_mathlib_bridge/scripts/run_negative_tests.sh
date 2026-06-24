@@ -194,6 +194,59 @@ EOF
 expect_fail BEDC_GATE_D_ORPHAN_WITNESS \
   bash -c "cd '$LEAN_DIR' && lake env lean '$TMP_DIR/GateDOrphan.lean'"
 
+cat > "$TMP_DIR/correspondence_missing_field.md" <<'EOF'
+| row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
+| --- | --- | --- | --- | --- | --- | --- |
+| missing-correspondence | fixture | mathlib Int | adequacy(0-axiom) | fixture | axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"missing-correspondence","kind":"exported_core","mathlib_class":"Dvd","mathlib_instance":"Int.instDvd","mathlib_decl":"Int.instDvd","bedc_irreducible_decl":"BedcMathlibBridge.Export.Int.cintIntExport","export_witness":"BedcMathlibBridge.Export.Int.cintIntExport"} --> |
+EOF
+
+expect_fail BEDC_GATE_W_NO_MATHLIB_CORRESPONDENCE \
+  python3 "$ROOT/scripts/check_mathlib_correspondence.py" "$TMP_DIR/correspondence_missing_field.md"
+
+cat > "$TMP_DIR/correspondence_missing_decl.md" <<'EOF'
+| row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
+| --- | --- | --- | --- | --- | --- | --- |
+| absent-correspondence | fixture | mathlib Int | adequacy(0-axiom) | fixture | axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"absent-correspondence","kind":"exported_core","mathlib_class":"Dvd","mathlib_instance":"Int.instDvd","mathlib_decl":"Int.instDvd","bedc_irreducible_decl":"BedcMathlibBridge.Export.Int.cintIntExport","export_witness":"BedcMathlibBridge.Export.Int.cintIntExport","mathlib_correspondence_decl":"BedcMathlibBridge.Negative.absentCorrespondence"} --> |
+EOF
+
+expect_fail BEDC_GATE_W_NO_MATHLIB_CORRESPONDENCE \
+  python3 "$ROOT/scripts/check_mathlib_correspondence.py" "$TMP_DIR/correspondence_missing_decl.md"
+
+cat > "$TMP_DIR/GateWTrivial.lean" <<'EOF'
+import BedcMathlibBridge.CI.MathlibCorrespondence
+
+theorem BedcMathlibBridge.Negative.trivialCorrespondence : True :=
+  True.intro
+EOF
+
+cat > "$TMP_DIR/correspondence_trivial.md" <<'EOF'
+| row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
+| --- | --- | --- | --- | --- | --- | --- |
+| trivial-correspondence | fixture | mathlib Int | adequacy(0-axiom) | fixture | axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"trivial-correspondence","kind":"exported_core","mathlib_class":"Dvd","mathlib_instance":"Int.instDvd","mathlib_decl":"Int.instDvd","bedc_irreducible_decl":"BedcMathlibBridge.Export.Int.cintIntExport","export_witness":"BedcMathlibBridge.Export.Int.cintIntExport","mathlib_correspondence_decl":"BedcMathlibBridge.Negative.trivialCorrespondence"} --> |
+EOF
+
+expect_fail BEDC_GATE_W_NO_MATHLIB_CORRESPONDENCE \
+  python3 "$ROOT/scripts/check_mathlib_correspondence.py" "$TMP_DIR/correspondence_trivial.md" \
+    "$TMP_DIR/GateWTrivial.lean"
+
+cat > "$TMP_DIR/GateWMathlibOnly.lean" <<'EOF'
+import BedcMathlibBridge.CI.MathlibCorrespondence
+
+theorem BedcMathlibBridge.Negative.mathlibOnlyCorrespondence (x y : Int) :
+    @Dvd.dvd Int Int.instDvd x y ↔ @Dvd.dvd Int Int.instDvd x y :=
+  Iff.rfl
+EOF
+
+cat > "$TMP_DIR/correspondence_mathlib_only.md" <<'EOF'
+| row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
+| --- | --- | --- | --- | --- | --- | --- |
+| mathlib-only-correspondence | fixture | mathlib Int | adequacy(0-axiom) | fixture | axioms=[] | fixture <!-- bedc-bridge-row: {"row_id":"mathlib-only-correspondence","kind":"exported_core","mathlib_class":"Dvd","mathlib_instance":"Int.instDvd","mathlib_decl":"Int.instDvd","bedc_irreducible_decl":"BedcMathlibBridge.Constructive.Int.CInt","export_witness":"BedcMathlibBridge.Export.Int.cintIntExport","mathlib_correspondence_decl":"BedcMathlibBridge.Negative.mathlibOnlyCorrespondence"} --> |
+EOF
+
+expect_fail BEDC_GATE_W_NO_MATHLIB_CORRESPONDENCE \
+  python3 "$ROOT/scripts/check_mathlib_correspondence.py" "$TMP_DIR/correspondence_mathlib_only.md" \
+    "$TMP_DIR/GateWMathlibOnly.lean"
+
 cat > "$TMP_DIR/boundary_fake.md" <<'EOF'
 | row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
 | --- | --- | --- | --- | --- | --- | --- |

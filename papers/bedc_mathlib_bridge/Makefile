@@ -7,10 +7,12 @@ check:
 	cd lean4 && lake build BedcMathlibBridge.Audit.ThinLayerGuard
 	cd lean4 && lake build BedcMathlibBridge.CI.Audit
 	cd lean4 && lake build BedcMathlibBridge.CI.ExportAudit
+	cd lean4 && lake build BedcMathlibBridge.CI.MathlibCorrespondence
 	cd lean4 && lake build BedcMathlibBridge.Audit.BoundaryFactAxiomGuard
 	python3 scripts/check_bridge_axioms.py
 	python3 scripts/check_gap_sync.py MISSING_IN_BEDC.md MATRIX.md
 	python3 scripts/check_export_matrix.py MATRIX.md
+	python3 scripts/check_mathlib_correspondence.py MATRIX.md
 	python3 scripts/check_boundary_axioms.py MATRIX.md
 	python3 scripts/check_no_back_edge.py
 	bash scripts/run_negative_tests.sh

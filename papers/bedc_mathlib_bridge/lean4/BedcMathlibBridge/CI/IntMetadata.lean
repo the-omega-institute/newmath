@@ -15,6 +15,7 @@ open Lean.Elab.Command
 open Lean.Meta
 
 inductive ClassificationKind where
+  | bedcConstructiveCore
   | exportedCore
   | subsumedByCore
   | measuredBoundary

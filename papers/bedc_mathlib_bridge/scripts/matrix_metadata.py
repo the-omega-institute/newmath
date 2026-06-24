@@ -182,6 +182,7 @@ def validate_common_row(row: MatrixRow) -> None:
         )
     kind = row.metadata.get("kind")
     allowed_kinds = {
+        "bedc_constructive_core",
         "exported_core",
         "subsumed_by_core",
         "measured_boundary",
@@ -229,12 +230,65 @@ def classification_rows(path: Path) -> list[tuple[str, str, str, str]]:
 def export_rows(path: Path) -> list[tuple[str, str, str, str]]:
     out: list[tuple[str, str, str, str]] = []
     for row in load_rows(path):
-        if row.metadata["kind"] != "exported_core":
+        if row.metadata["kind"] not in {"exported_core", "bedc_constructive_core"}:
             continue
         witness = validate_decl(row.metadata.get("export_witness"), "export_witness", row)
         mathlib_class = validate_decl(row.metadata.get("mathlib_class"), "mathlib_class", row)
         mathlib_instance = validate_decl(row.metadata.get("mathlib_instance"), "mathlib_instance", row)
         out.append((row.cells["row_id"], witness, mathlib_class, mathlib_instance))
+    return out
+
+
+def optional_empty_string(value: Any, field: str, row: MatrixRow) -> str:
+    if value is None:
+        return ""
+    if not isinstance(value, str):
+        raise MatrixMetadataError(f"line {row.line_no}: metadata field `{field}` must be a string")
+    return value.strip()
+
+
+def correspondence_rows(path: Path) -> list[dict[str, str]]:
+    out: list[dict[str, str]] = []
+    for row in load_rows(path):
+        kind = row.metadata["kind"]
+        correspondence = optional_empty_string(
+            row.metadata.get("mathlib_correspondence_decl"),
+            "mathlib_correspondence_decl",
+            row,
+        )
+        if kind == "bedc_constructive_core":
+            if correspondence:
+                raise MatrixMetadataError(
+                    f"line {row.line_no}: bedc_constructive_core row must leave "
+                    "`mathlib_correspondence_decl` empty"
+                )
+            continue
+        if kind != "exported_core":
+            continue
+        if not correspondence:
+            raise MatrixMetadataError(
+                f"line {row.line_no}: exported_core row requires "
+                "`mathlib_correspondence_decl`"
+            )
+        correspondence_decl = validate_decl(
+            correspondence,
+            "mathlib_correspondence_decl",
+            row,
+        )
+        mathlib_decl = validate_decl(row.metadata.get("mathlib_decl"), "mathlib_decl", row)
+        bedc_decl = validate_decl(
+            row.metadata.get("bedc_irreducible_decl", row.metadata.get("export_witness")),
+            "bedc_irreducible_decl",
+            row,
+        )
+        out.append(
+            {
+                "row_id": row.cells["row_id"],
+                "mathlib_correspondence_decl": correspondence_decl,
+                "mathlib_decl": mathlib_decl,
+                "bedc_irreducible_decl": bedc_decl,
+            }
+        )
     return out
 
 
