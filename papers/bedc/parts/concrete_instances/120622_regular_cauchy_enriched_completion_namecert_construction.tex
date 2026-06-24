@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyEnrichedCompletionUp$}
+\label{ch:concrete-instances-regular-cauchy-enriched-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive completion, the $\RegularCauchyEnrichedCompletionUp$ packet records the finite handoff between regular Cauchy data and completion-facing consumers. It sits over the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion-operator interface of \autoref{ch:concrete-instances-cauchycompletionoperator-namecert}. The packet is a finite enriched completion route, not a quotient completion, a selected limit, countable choice, host real equality, or an ambient completeness principle.
+
+\begin{definition}[Regular Cauchy enriched completion carrier]
+\label{def:regular-cauchy-enriched-completion-carrier}
+A $\RegularCauchyEnrichedCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,R,D,M,A,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite $\StreamNameUp$ window ledger, naming the visible stream windows consumed by the completion route.
+\item $R$ is the $\RegSeqRatUp$ readback row, exposing the regular rational approximants attached to those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic error scale used by the regularity test.
+\item $M$ is the explicit modulus row, giving the finite bound by which later windows are read at a requested tolerance.
+\item $A$ is the enrichment row, retaining the companion annotations that make the completion consumer inspect a regular Cauchy schedule rather than a bare stream name.
+\item $O$ is the $\CauchyCompletionOperatorUp$ handoff row, exposing the completion-operator call site without choosing a quotient representative or a host limit.
+\item $H$ records componentwise $\hsame$ transport for stream windows, rational readback, dyadic tolerances, modulus data, enrichment rows, completion-operator handoff, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a completion query through $S,R,D,M,A,O,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyEnrichedCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyCompletionOperatorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyEnrichedCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,R,D,M,A,O,H,C,P,N$. It contains no coordinate for quotient real equality, a selected limit, countable choice, Dedekind completeness, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy enriched completion NameCert obligations]
+\label{thm:regular-cauchy-enriched-completion-namecert-obligations}
+For every accepted $\RegularCauchyEnrichedCompletionUp$ carrier
+$$
+E=(S,R,D,M,A,O,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyEnrichedCompletionUp}$ surface consists exactly of stream-window exposure through $S$, regular rational readback through $R$, dyadic tolerance exposure through $D$, modulus exposure through $M$, enrichment retention through $A$, completion-operator handoff through $O$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-enriched-completion-carrier}. Rows $S,R,D,M,A,O$ are the completion-facing finite data, while $H,C,P,N$ are the structural certificate rows.
+
+The stream and rational parts are read through $S$ and $R$. The dyadic tolerance and modulus parts are read through $D$ and $M$, so every requested completion tolerance remains tied to a displayed finite bound.
+
+The enrichment and completion-operator parts are then read through $A$ and $O$. These rows expose the regular Cauchy schedule and the operator handoff, but they do not select a quotient representative or assert a host limit.
+
+Finally $H,C,P,N$ transport the displayed rows, replay the completion query, source the packet, and name it. Since no carrier coordinate contains choice, quotient real equality, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy enriched completion modulus handoff]
+\label{thm:regular-cauchy-enriched-completion-modulus-handoff}
+Every completion-facing read of an accepted $\RegularCauchyEnrichedCompletionUp$ carrier factors the requested tolerance through the dyadic row $D$ and the modulus row $M$ before it reaches the $\CauchyCompletionOperatorUp$ handoff row $O$. In particular, a consumer cannot bypass the displayed modulus to read the packet as an unbounded Cauchy stream or as an already completed $\RealUp$ object.
+\end{theorem}
+\begin{proof}
+Start with a completion query. The query first reads the finite stream windows through $S$ and their rational values through $R$, so it has only displayed approximants at this stage.
+
+The tolerance request then passes through $D$ and $M$. Row $D$ supplies the dyadic scale, and row $M$ supplies the finite bound that makes later windows inspectable at that scale.
+
+Only after those rows are present can the query reach $O$. The handoff to $\CauchyCompletionOperatorUp$ therefore carries its modulus data with it, and no consumer can detach the handoff from the finite regularity evidence.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy enriched completion non-escape]
+\label{thm:regular-cauchy-enriched-completion-nonescape}
+Every public read exported by an accepted $\RegularCauchyEnrichedCompletionUp$ carrier factors through $S,R,D,M,A,O,H,C,P,N$. The packet cannot be used to extract quotient real equality, a selected limit, countable choice, Dedekind completeness, open-cover compactness, or an ambient completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The packet contains stream windows, regular rational readback, dyadic tolerance data, an explicit modulus, enrichment rows, a completion-operator handoff, transport, replay, provenance, and local naming.
+
+Each public read is one of those rows or a replay through them. The completion-facing coordinate is $O$, and it is guarded by the preceding stream, rational, dyadic, modulus, and enrichment rows.
+
+None of the excluded objects appears as a coordinate. Hence the carrier is a finite NameCert handoff for regular Cauchy completion data and not a source of quotient equality, selected limits, choice, compactness, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{RegularCauchyEnrichedCompletionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyEnrichedCompletionUp}
+  \constructivestory{A $\RegularCauchyEnrichedCompletionUp$ packet is generated from StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, explicit modulus data, enrichment rows, CauchyCompletionOperator handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-enriched-completion-carrier}, \autoref{thm:regular-cauchy-enriched-completion-namecert-obligations}, \autoref{thm:regular-cauchy-enriched-completion-modulus-handoff}, and \autoref{thm:regular-cauchy-enriched-completion-nonescape} seed the finite enriched completion handoff for regular Cauchy consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, selected limits, countable choice, Dedekind completeness, open-cover compactness, Lean verification, bridge checking, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, stream-window exposure, regular rational readback, dyadic tolerance exposure, modulus handoff, enrichment retention, completion-operator exactness, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyEnrichedCompletionUp.}
+\end{closurestatus}
