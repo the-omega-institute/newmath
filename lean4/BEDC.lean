@@ -69,6 +69,7 @@ import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.AlmostPeriodicUp.TasteGate
 import BEDC.Derived.AlternatingSeriesTestUp.TasteGate
 import BEDC.Derived.AlternativeCodeReassignmentUp.TasteGate
+import BEDC.Derived.AnalogyCertificateGateUp.IndependenceWitness
 import BEDC.Derived.AnalogyCertificateGateUp.NameCertObligations
 import BEDC.Derived.AnalogyCertificateGateUp.ObligationRowScope
 import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
@@ -6840,6 +6841,7 @@ import BEDC.Derived.IsaacsEquationUp
 import BEDC.Derived.IsaacsEquationUp.TasteGate
 import BEDC.Derived.IsbellMrowkaPsiSpaceUp.TasteGate
 import BEDC.Derived.IsbellTightSpanUp.TasteGate
+import BEDC.Derived.IshiharaFiniteTestBoundaryUp
 import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.BoundedSequenceRoute
 import BEDC.Derived.IshiharaTrickUp.BranchStability
@@ -9017,6 +9019,7 @@ import BEDC.Derived.OvertRealUp.TasteGate
 import BEDC.Derived.OvertSpaceUp.TasteGate
 import BEDC.Derived.PackageExportDisciplineUp.TasteGate
 import BEDC.Derived.PackageGovernanceExportUp.TasteGate
+import BEDC.Derived.PackageMapBoundaryUp.NameCertObligations
 import BEDC.Derived.PackageMapBoundaryUp.TasteGate
 import BEDC.Derived.PackingNumberUp
 import BEDC.Derived.PackingNumberUp.TasteGate
@@ -12181,6 +12184,7 @@ import BEDC.Derived.UniformCauchySequenceUp.TasteGate
 import BEDC.Derived.UniformCauchySeriesUp.TailThreshold
 import BEDC.Derived.UniformCauchySeriesUp.TasteGate
 import BEDC.Derived.UniformCauchySubsequenceUp.TasteGate
+import BEDC.Derived.UniformCauchyWindowExhaustionUp.TasteGate
 import BEDC.Derived.UniformClosureUp.TasteGate
 import BEDC.Derived.UniformCompleteSpaceUp.TasteGate
 import BEDC.Derived.UniformCompletionCommonWindowUp.NameCertObligations
