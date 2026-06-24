@@ -93,14 +93,24 @@ Use locality non-escape to constrain every public locality, time, and identity r
 Thus the only primitives available to consumers are the displayed finite $\BHist$ packet, its $\hsame$ transport, its $\Cont$ replay, its $\Pkg$ provenance, and its local $\NameCert$ row. This is exactly the scoped kernel claimed.
 \end{proof}
 
-\closureat{ConsciousUniverseSpaceUp}{scopedStr}
+\begin{theorem}[ConsciousUniverseSpace public export]
+\label{thm:conscious-universe-space-public-export}
+Public consumers of an accepted $\ConsciousUniverseSpaceUp$ packet may read only the locality, time, trace-identity, and universe-slice rows already named by the scoped packet. Concretely, a public read exposes the universe-slice row $U$, local-time row $T$, locality-cell graph row $S$, trace-identity row $I$, and the structural rows $H,C,P,N$ from \autoref{def:conscious-universe-space-carrier}. It exports no new subject row, physical substrate row, global universe coordinate, owner identity, or proof-witness row.
+\end{theorem}
+\begin{proof}
+Use the scoped-kernel witness. It confines every locality, time, trace-identity, and universe-slice consumer to the displayed rows $L,U,T,S,I,H,C,P,N$ and to the BEDC primitives $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+The public export only forgets the internal orientation of the scoped packet. It lets a consumer read the rows $U,T,S,I$ and their transport, replay, provenance, and naming data, but it has no additional coordinate from which a subject, substrate, global universe, owner identity, or proof witness could be supplied.
+\end{proof}
+
+\closureat{ConsciousUniverseSpaceUp}{publicStr}
 
 \begin{closurestatus}{\ConsciousUniverseSpaceUp}
   \constructivestory{The conscious-universe space is generated from a $BHist$ packet that records a finite universe slice, locality-cell geometry, local-time chain, and trace-identity row without adding a subject parameter or physical substrate row. The carrier convention first exposes the conscious-universe address, then reads the locality and trace boundary through $hsame$ so that equivalent histories keep the same space. Continuations may extend the ledger of observations, but $\Cont$ cannot introduce a hidden observer, proof witness, or substrate unless the row is part of the packet. The NameCert obligations, locality non-escape, and independence witness therefore present the object as a visible space of conscious-universe rows rather than a metaphysical host domain.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped surface is exactly \autoref{def:conscious-universe-space-carrier}, \autoref{thm:conscious-universe-space-namecert-obligations}, \autoref{thm:conscious-universe-space-locality-nonescape}, \autoref{thm:conscious-universe-space-independence-witness}, and \autoref{thm:conscious-universe-space-scoped-kernel-witness}.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public surface is exactly \autoref{def:conscious-universe-space-carrier}, \autoref{thm:conscious-universe-space-namecert-obligations}, \autoref{thm:conscious-universe-space-locality-nonescape}, \autoref{thm:conscious-universe-space-independence-witness}, \autoref{thm:conscious-universe-space-scoped-kernel-witness}, and \autoref{thm:conscious-universe-space-public-export}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{It does not claim physical realization, subject identity, global universe completeness, or proof-witness adequacy outside the named carrier rows.}
-  \upgradepath{Public closure requires a public consumer route that exports the same locality, time, trace-identity, and universe-slice rows without enlarging the scoped kernel.}
+  \upgradepath{Bridged closure requires a standard bridge that preserves the same locality, time, trace-identity, and universe-slice export without adding subject, substrate, or proof-witness rows.}
 \end{closurestatus}
