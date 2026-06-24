@@ -1790,6 +1790,7 @@ import BEDC.Derived.CauchyCompressionUp.TasteGate
 import BEDC.Derived.CauchyCondensationIntegralBoundUp.TasteGate
 import BEDC.Derived.CauchyCondensationModulusUp.TasteGate
 import BEDC.Derived.CauchyCondensationRealSeriesUp.TasteGate
+import BEDC.Derived.CauchyCondensationTailLockUp.TasteGate
 import BEDC.Derived.CauchyCondensationTestUp.TasteGate
 import BEDC.Derived.CauchyCondensationTheoremUp.TasteGate
 import BEDC.Derived.CauchyCondensationUp.DyadicBlockHandoff
@@ -10874,6 +10875,7 @@ import BEDC.Derived.SeparatedCauchyNetCompletionUp.TasteGate
 import BEDC.Derived.SeparatedCompletionFunctorUp
 import BEDC.Derived.SeparatedCompletionFunctorUp.TasteGate
 import BEDC.Derived.SeparatedCompletionIdempotenceUp
+import BEDC.Derived.SeparatedCompletionMonadUp.TasteGate
 import BEDC.Derived.SeparatedCompletionReflectionUp.TasteGate
 import BEDC.Derived.SeparatedCompletionReflectorUp
 import BEDC.Derived.SeparatedCompletionReflectorUp.TasteGate
