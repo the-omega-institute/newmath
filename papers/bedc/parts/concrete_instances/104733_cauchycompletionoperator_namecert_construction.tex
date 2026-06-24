@@ -31,7 +31,6 @@ The classifier accepts only packets whose operator handoff is exhausted by $M,B,
 
 \begin{theorem}[CauchyCompletionOperator NameCert obligation surface]
 \label{thm:cauchy-completion-operator-namecert-obligation-surface}
-\label{thm:cauchy-completion-operator-namecert-obligations}
 For every accepted $\CauchyCompletionOperatorUp$ carrier $O=(M,B,U,S,R,D,Q,E,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionOperatorUp}$ surface consists exactly of carrier admission for the displayed twelve-row packet; metric-completion exposure through $M$; completion-boundary exposure through $B$; uniform-completion exposure through $U$; finite-window exposure through $S$; regular-rational readback through $R$; dyadic-tolerance exposure through $D$; separated-limit handoff through $Q$; terminal Real sealing through $E$; componentwise transport through $H$; displayed replay through $C$; package provenance through $P$; and local naming through $N$.
 \end{theorem}
 \leanchecked{BEDC.Derived.CauchyCompletionOperatorUp.CauchyCompletionOperator\_namecert\_obligation\_surface}
@@ -79,7 +78,7 @@ No selected limit, quotient completion equality, host completion operator, host 
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-completion-operator-carrier}. The only rows between the metric and uniform source requests and the terminal consumers are the completion boundary, finite StreamName schedule, regular readback, dyadic ledger, separated-limit row, Real seal, and structural support.
 
-Apply \autoref{thm:cauchy-completion-operator-namecert-obligations}. Its obligation surface forces local naming to inspect $B,S,R,D$ before $Q$ or $E$ can be consumed, while $H,C,P,N$ only transport, replay, source, and name the displayed packet.
+Apply \autoref{thm:cauchy-completion-operator-namecert-obligation-surface}. Its obligation surface forces local naming to inspect $B,S,R,D$ before $Q$ or $E$ can be consumed, while $H,C,P,N$ only transport, replay, source, and name the displayed packet.
 
 Use \autoref{thm:cauchy-completion-operator-functorial-handoff}. The handoff order places the finite window and dyadic ledger between the completion source rows and the terminal rows, so the extraction is determined by the visible window data rather than by any host completion object.
 
@@ -125,7 +124,7 @@ exposes exactly the following obligation surface: the $\MetricCompletionUp$ row 
 The surface refuses quotient completion equality, selected representatives, selected limits, countable choice, host completion operators, and ambient $\RealUp$ completeness.
 \end{theorem}
 \begin{proof}
-Carrier admission and local naming come from \autoref{thm:cauchy-completion-operator-namecert-obligations}. That theorem projects exactly the twelve displayed rows $M,B,U,S,R,D,Q,E,H,C,P,N$ from the accepted carrier and assigns each row its local NameCert role.
+Carrier admission and local naming come from \autoref{thm:cauchy-completion-operator-namecert-obligation-surface}. That theorem projects exactly the twelve displayed rows $M,B,U,S,R,D,Q,E,H,C,P,N$ from the accepted carrier and assigns each row its local NameCert role.
 
 The completion-facing order is supplied by \autoref{thm:cauchy-completion-operator-functorial-handoff}. It places the metric and uniform source rows before the boundary row, then routes every later completion read through the finite window, regular readback, dyadic ledger, separated-limit handoff, Real seal, transport, replay, provenance, and local naming rows.
 
@@ -171,7 +170,7 @@ The metric and uniform source rows $M,U$ are read first; the completion-boundary
 \begin{proof}
 Start from the carrier inventory in \autoref{def:cauchy-completion-operator-carrier}. An accepted packet has exactly the displayed metric source, completion boundary, uniform source, finite window, regular readback, dyadic tolerance, separated-limit, Real-seal, transport, replay, provenance, and naming rows.
 
-Apply \autoref{thm:cauchy-completion-operator-namecert-obligations}. The local NameCert surface reads the metric and uniform source rows as obligations of the same carrier, and the boundary row $B$ is the displayed mediator between those source reads and every later completion-facing consumer.
+Apply \autoref{thm:cauchy-completion-operator-namecert-obligation-surface}. The local NameCert surface reads the metric and uniform source rows as obligations of the same carrier, and the boundary row $B$ is the displayed mediator between those source reads and every later completion-facing consumer.
 
 Use \autoref{thm:cauchy-completion-operator-window-extraction}. Before either terminal row is available, the operator exposes the finite $\StreamNameUp$ schedule $S$, the $\RegSeqRatUp$ readback $R$, and the $\DyadicRatCoreUp$ tolerance ledger $D$, together with the structural rows that keep the extraction attached to the same packet.
 
@@ -216,7 +215,7 @@ Thus $Q$ is a downstream separated-limit handoff of the displayed finite-window 
 \end{theorem}
 \leanchecked{BEDC.Derived.CauchyCompletionOperatorUp.CauchyCompletionOperatorSeparatedLimitFactorization}
 \begin{proof}
-Start with the obligation surface of \autoref{thm:cauchy-completion-operator-namecert-obligations}. It exposes $Q$ only as one row of the accepted carrier, after the metric source, completion-boundary, uniform source, StreamName window, RegSeqRat readback, and DyadicRatCore tolerance rows have already been displayed.
+Start with the obligation surface of \autoref{thm:cauchy-completion-operator-namecert-obligation-surface}. It exposes $Q$ only as one row of the accepted carrier, after the metric source, completion-boundary, uniform source, StreamName window, RegSeqRat readback, and DyadicRatCore tolerance rows have already been displayed.
 
 Apply finite-window extraction and the obligation-window route, \autoref{thm:cauchy-completion-operator-window-extraction} and \autoref{thm:cauchy-completion-operator-obligation-window-route}. These two results force the separated-limit consumer through $M,U$, then $B$, then $S,R,D$, before the structural rows $H,C,P,N$ attach transport, replay, provenance, and local naming to the same packet.
 
@@ -250,7 +249,7 @@ the metric and uniform source rows, completion-boundary row, $\StreamNameUp$ win
 \end{theorem}
 \leanchecked{BEDC.Derived.CauchyCompletionOperatorUp.CauchyCompletionOperatorScopedObligationClosure}
 \begin{proof}
-Start with the obligation surface and functorial handoff, \autoref{thm:cauchy-completion-operator-namecert-obligations} and \autoref{thm:cauchy-completion-operator-functorial-handoff}. These expose the metric source, uniform source, completion boundary, finite window, regular readback, dyadic ledger, separated-limit handoff, Real seal, and structural rows in the displayed carrier order.
+Start with the obligation surface and functorial handoff, \autoref{thm:cauchy-completion-operator-namecert-obligation-surface} and \autoref{thm:cauchy-completion-operator-functorial-handoff}. These expose the metric source, uniform source, completion boundary, finite window, regular readback, dyadic ledger, separated-limit handoff, Real seal, and structural rows in the displayed carrier order.
 
 Apply finite-window extraction, ledger nonescape, and Real-seal nonescape from \autoref{thm:cauchy-completion-operator-window-extraction}, \autoref{thm:cauchy-completion-operator-ledger-nonescape}, and \autoref{thm:cauchy-completion-operator-real-seal-nonescape}. They force terminal separated-limit and Real-facing reads through the same finite window and prevent escape to quotient, choice, host, or ambient-completeness data.
 
@@ -288,7 +287,7 @@ from metric and uniform completion requests through $\StreamNameUp$ windows, $\R
 \end{theorem}
 \leanchecked{BEDC.Derived.CauchyCompletionOperatorUp.CauchyCompletionOperatorPublicExport}
 \begin{proof}
-Start with the obligation surface and functorial handoff, \autoref{thm:cauchy-completion-operator-namecert-obligations} and \autoref{thm:cauchy-completion-operator-functorial-handoff}. They expose the source metric row, boundary row, uniform row, finite window, regular readback, dyadic ledger, separated-limit handoff, Real seal, and structural rows in the displayed carrier order.
+Start with the obligation surface and functorial handoff, \autoref{thm:cauchy-completion-operator-namecert-obligation-surface} and \autoref{thm:cauchy-completion-operator-functorial-handoff}. They expose the source metric row, boundary row, uniform row, finite window, regular readback, dyadic ledger, separated-limit handoff, Real seal, and structural rows in the displayed carrier order.
 
 Apply finite-window extraction and the obligation-window route, \autoref{thm:cauchy-completion-operator-window-extraction} and \autoref{thm:cauchy-completion-operator-obligation-window-route}. These theorems force every completion-facing read through $S,R,D$ before either the separated handoff $Q$ or terminal seal $E$ is available.
 
