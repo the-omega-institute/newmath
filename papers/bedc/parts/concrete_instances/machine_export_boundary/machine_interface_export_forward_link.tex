@@ -1,0 +1,11 @@
+\begin{theorem}[Machine export boundary forward interface route]
+\label{thm:machine-export-boundary-machine-interface-export-forward-link}
+Every $\MachineExportBoundaryUp$ export read reaches downstream machine-facing consumers only through the $\MachineInterfaceBoundaryUp$ route of \autoref{ch:concrete-instances-machine-interface-boundary-namecert} and the registry-export dependency rows of \autoref{thm:machine-export-boundary-registry-export-dependency}. The packet keeps registry status, machine target, audit readback, refusal preservation, $\NameCertMorphismUp$ provenance, transport, replay, and local naming visible before any export row can be treated as machine-facing evidence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:machine-export-boundary-carrier}. Its registry row is read before the machine target row, so the route cannot bypass the registry-export dependency surface.
+
+Next apply the machine-interface dependency and registry-export dependency routes. They send the same displayed export packet through $\MachineInterfaceBoundaryUp$, $\RegistryExportSurfaceUp$, $\MachineReadableAuditInterfaceUp$, $\CannotClaimExportGateUp$, and $\NameCertMorphismUp$ before the local name is consumed.
+
+The structural rows preserve the same route. Componentwise transport, displayed replay, provenance, and local naming do not add a second export channel, so the accepted packet has no path to machine-facing evidence outside the displayed boundary rows.
+\end{proof}
