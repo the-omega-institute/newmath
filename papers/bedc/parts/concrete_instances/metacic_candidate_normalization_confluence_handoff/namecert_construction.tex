@@ -181,6 +181,24 @@ Use residual progress from \autoref{thm:metacic-candidate-normalization-residual
 Finally apply the rectangle theorem \autoref{thm:metacic-candidate-normalization-confluence-rectangle}. The exported join row is therefore read only as the guarded rectangle output, with $T,R,P,L$ preserving the same finite route by transport, replay, provenance, and local naming. Since no excluded global theorem is a carrier coordinate, the join cannot be promoted beyond the candidate-mediated residual handoff.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate normalization parallel-frontier consumption]
+\label{thm:metacic-candidate-normalization-confluence-handoff-parallel-frontier-consumption}
+If a $\MetaCICParallelDiamondFrontierUp$ consumer reads a join row from an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier
+$$
+H=(A,K,N,F,C,D,B,T,R,P,L),
+$$
+then the read must preserve candidate evidence $K$, normalization-frontier data $F$, residual-envelope data $C$, decidable-boundary data $D$, blocked-edge data $B$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local naming $L$ before $N$ can be treated as bounded endpoint data. The exported join is only a candidate-mediated residual handoff; it is not full Church--Rosser, unrestricted subject reduction, global conversion decidability, quotient syntax equality, evaluator soundness, or closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the boundary theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. It prevents any endpoint read from reaching $N$ before the candidate evidence $K$, normalization frontier $F$, residual envelope $C$, decidable boundary $D$, and blocked-edge row $B$ remain visible.
+
+Apply the premise-exposure route of \autoref{thm:metacic-candidate-normalization-confluence-handoff-consumer-boundary}. A public consumer receives the handoff only through the same carrier rows and through the structural data $T,R,P,L$.
+
+Use residual progress from \autoref{thm:metacic-candidate-normalization-residual-progress} and the rectangle theorem \autoref{thm:metacic-candidate-normalization-confluence-rectangle}. They keep retained candidate premises and residual obstructions attached to $K,F,C,D,B$ while allowing only bounded endpoint data or an obstruction row to be displayed.
+
+Finally invoke the candidate residual join theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-candidate-residual-join}. The join already exported by $H$ is guarded by the candidate, frontier, residual, blocked-edge, and structural rows. A $\MetaCICParallelDiamondFrontierUp$ consumer therefore receives a candidate-mediated residual handoff for bounded endpoint data, not any of the excluded global confluence, subject-reduction, conversion-decidability, quotient-equality, evaluator-soundness, or consistency claims.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate normalization confluence boundary]
 \label{thm:metacic-candidate-normalization-confluence-boundary}
 Let $H=(A,K,N,F,C,D,B,T,R,P,L)$ be an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier. If a bounded comparison exports a join row from $H$, then the read preserves candidate evidence $K$, the normalization frontier $F$, the residual envelope $C$, the decidable boundary $D$, the blocked-edge row $B$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local naming $L$. The exported join row is therefore a guarded candidate-normalization handoff. It cannot be read as unconditional strong normalization, full Church--Rosser, unrestricted subject reduction, global conversion decidability, quotient syntax equality, host evaluator soundness, or closed consistency.
