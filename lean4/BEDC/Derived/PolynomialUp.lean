@@ -3,6 +3,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.Derived.ListUp
 import BEDC.Derived.PolynomialUp.IntegerRing
+import BEDC.Derived.PolynomialUp.Calculus
 
 namespace BEDC.Derived.PolynomialUp
 
