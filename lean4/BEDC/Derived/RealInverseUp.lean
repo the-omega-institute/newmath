@@ -195,4 +195,69 @@ theorem RealInverseApartnessProductScopedFactorization [AskSetup] [PackageSetup]
   }
   exact ⟨cert, reciprocalUnary, productUnary, sealUnary, scopedUnary⟩
 
+theorem RealInverseApartnessDenominatorHandoff [AskSetup] [PackageSetup]
+    {x a p w r s h c l n denominatorRead productRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealInverseCarrier x a p w r s h c l n bundle pkg →
+      Cont a w denominatorRead →
+        Cont denominatorRead r productRead →
+          PkgSig bundle productRead pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row productRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row x ∨ hsame row a ∨ hsame row p ∨ hsame row w ∨
+                    hsame row r ∨ hsame row s ∨ hsame row denominatorRead ∨
+                      hsame row productRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont a w denominatorRead ∧
+                    Cont denominatorRead r productRead ∧ PkgSig bundle productRead pkg)
+                hsame ∧ UnaryHistory denominatorRead ∧ UnaryHistory productRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier denominatorRoute productRoute productPkg
+  obtain ⟨_xUnary, aUnary, _pUnary, wUnary, rUnary, _sUnary, _hUnary, _cUnary,
+    _lUnary, _nUnary, _apartRoute, _carrierProductRoute, _localRoute, _ledgerPkg,
+      _namePkg⟩ := carrier
+  have denominatorUnary : UnaryHistory denominatorRead :=
+    unary_cont_closed aUnary wUnary denominatorRoute
+  have productUnary : UnaryHistory productRead :=
+    unary_cont_closed denominatorUnary rUnary productRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row productRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row x ∨ hsame row a ∨ hsame row p ∨ hsame row w ∨
+              hsame row r ∨ hsame row s ∨ hsame row denominatorRead ∨
+                hsame row productRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont a w denominatorRead ∧
+              Cont denominatorRead r productRead ∧ PkgSig bundle productRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro productRead
+        ⟨hsame_refl productRead, productUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+        Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, denominatorRoute, productRoute, productPkg⟩
+  }
+  exact ⟨cert, denominatorUnary, productUnary⟩
+
 end BEDC.Derived.RealInverseUp
