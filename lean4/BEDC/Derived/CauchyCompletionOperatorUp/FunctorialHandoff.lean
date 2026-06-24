@@ -13,7 +13,7 @@ open BEDC.FKernel.Unary
 theorem CauchyCompletionOperatorFunctorialHandoff [AskSetup] [PackageSetup]
     {M B U S R D Q E H C P N boundaryRead windowRead sealRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    CauchyCompletionOperatorPacket M B U S R D Q E H C P N bundle pkg →
+    CauchyCompletionOperatorLedgerPacket M B U S R D Q E H C P N bundle pkg →
       Cont M U boundaryRead →
         Cont boundaryRead S windowRead →
           Cont windowRead E sealRead →
