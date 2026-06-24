@@ -6034,6 +6034,7 @@ import BEDC.Derived.GaugeIntegralUp
 import BEDC.Derived.GaugeIntegralUp.TasteGate
 import BEDC.Derived.GaussBonnetBoundaryUp.TasteGate
 import BEDC.Derived.GaussTestUp.TasteGate
+import BEDC.Derived.GaussianUp
 import BEDC.Derived.GcdUp
 import BEDC.Derived.GelfandDualityUp
 import BEDC.Derived.GeneratingFunctionUp.TasteGate
@@ -6469,6 +6470,7 @@ import BEDC.Derived.IntUp.Arithmetic
 import BEDC.Derived.IntUp.BalancedContext
 import BEDC.Derived.IntUp.Bridge
 import BEDC.Derived.IntUp.CanonicalReadback
+import BEDC.Derived.IntUp.CommRing
 import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.IntUp.OneSidedContext
 import BEDC.Derived.IntUp.Order
