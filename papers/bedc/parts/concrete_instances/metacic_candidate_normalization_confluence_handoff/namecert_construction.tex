@@ -124,6 +124,22 @@ Now use the consumer boundary \autoref{thm:metacic-candidate-normalization-confl
 Finally read the confluence-audit side through the same residual route. The sibling $\MetaCICConfluenceAuditPacketUp$ may consume the bounded endpoint only after $C,D,B,T,R,P,L$ remain visible, and those rows only transport, replay, source, and name the finite packet. Since the excluded global endpoints are not carrier coordinates, the normal-endpoint readback preserves the candidate and residual premises.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate handoff frontier normal-endpoint retention]
+\label{thm:metacic-candidate-handoff-frontier-normal-endpoint-retention}
+Let
+$$
+H=(A,K,N,F,C,D,B,T,R,P,L)
+$$
+be an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier. Any bounded normal endpoint exported by $H$ to a confluence consumer that also reads $\MetaCICParallelDiamondFrontierUp$ must retain candidate evidence $K$, frontier row $F$, residual envelope $C$, decidable boundary $D$, blocked-edge row $B$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local naming $L$ before the endpoint row $N$ is consumed. The same read must preserve the parallel-diamond frontier's residual and local-join rows as visible premises. It does not assert full Church--Rosser, unrestricted subject reduction, quotient syntax equality, evaluator equality, global conversion decidability, or closed consistency.
+\end{theorem}
+\begin{proof}
+Start with premise exposure and residual-diamond retention, \autoref{thm:metacic-candidate-normalization-confluence-handoff-premise-exposure} and \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention}. These require the candidate row, frontier row, residual envelope, decidable boundary, and blocked edge to remain visible before any confluence-facing endpoint read is accepted.
+
+Apply normal-endpoint readback, \autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-endpoint-readback}. The bounded endpoint row $N$ is consumed only through the same candidate, frontier, residual, boundary, blocked-edge, transport, replay, provenance, and local naming route.
+
+Finally route the consumer through the sibling frontier dependency. The $\MetaCICParallelDiamondFrontierUp$ route named by \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention} and \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert} keeps residual and local-join rows visible before the endpoint is used. Since none of the refused global endpoints is a carrier coordinate, the handoff retains only the bounded frontier premises.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate handoff consumer boundary]
 \label{thm:metacic-candidate-normalization-confluence-handoff-consumer-boundary}
 Every public consumer of an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet factors through
