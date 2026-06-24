@@ -33,7 +33,8 @@ theorem UniformBoundednessBaireHandoff [AskSetup] [PackageSetup]
   intro packet
   rcases packet with
     ⟨sameNameHistory, familyPointwiseBaire, baireNormRegseq, regseqStreamHistory,
-      transportHistoryReplay, replayProvenanceNameRow, packageHistory⟩
+      transportHistoryReplay, replayProvenanceNameRow, packageProvenance,
+      packageHistory⟩
   have packetAtHistory :
       hsame history history ∧
         UniformBoundednessPacket family pointwise baire norm regseq stream transport history
@@ -41,7 +42,7 @@ theorem UniformBoundednessBaireHandoff [AskSetup] [PackageSetup]
     exact
       ⟨hsame_refl history, sameNameHistory, familyPointwiseBaire, baireNormRegseq,
         regseqStreamHistory, transportHistoryReplay, replayProvenanceNameRow,
-        packageHistory⟩
+        packageProvenance, packageHistory⟩
   have cert :
       SemanticNameCert
           (fun row : BHist =>
@@ -69,9 +70,10 @@ theorem UniformBoundednessBaireHandoff [AskSetup] [PackageSetup]
       carrier_respects_equiv := by
         intro _row _other sameRows source
         exact
-          ⟨hsame_trans (hsame_symm sameRows) source.left,
-            sameNameHistory, familyPointwiseBaire, baireNormRegseq, regseqStreamHistory,
-            transportHistoryReplay, replayProvenanceNameRow, packageHistory⟩
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              sameNameHistory, familyPointwiseBaire, baireNormRegseq, regseqStreamHistory,
+              transportHistoryReplay, replayProvenanceNameRow, packageProvenance,
+              packageHistory⟩
     }
     pattern_sound := by
       intro _row source
