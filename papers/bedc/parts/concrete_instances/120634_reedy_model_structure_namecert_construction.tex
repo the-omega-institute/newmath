@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\ReedyModelStructureUp$}
+\label{ch:concrete-instances-reedy-model-structure-namecert}
+\origin{human}
+
+Following Reedy and Quillen, the $\ReedyModelStructureUp$ packet records the finite diagram-index model-category surface used to put model structures on Reedy diagrams. It sits after the degree-factorisation carrier of \autoref{ch:concrete-instances-reedy-category-namecert}, the lifting and factorisation rows of \autoref{ch:concrete-instances-modelcat-namecert}, the simplicial indexing rows of \autoref{ch:concrete-instances-simplicialset-namecert}, the displayed replacement witness of \autoref{ch:concrete-instances-cofibrantreplacement-namecert}, and the localization packet of \autoref{ch:concrete-instances-bousfieldlocalization-namecert}. Those siblings expose Reedy categories, ambient model classes, simplicial rows, finite cofibrant witnesses, and selected localizing rows separately; this carrier binds the diagram-index model structure as one NameCert surface.
+
+\begin{definition}[Reedy model structure carrier]
+\label{def:reedy-model-structure-carrier}
+A $\ReedyModelStructureUp$ carrier is a finite $\BHist$ packet
+$$
+M=(R,D,A,L,K,C,W,F,T,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\ReedyCategoryUp$ row, recording the finite degree data, direct maps, inverse maps, and unique direct-inverse factorisation ledger.
+\item $D$ is the diagram row, recording the displayed finite family of objects and arrows indexed by the Reedy category.
+\item $A$ is the direct/inverse factorisation row, repacking the direct and inverse sides of $R$ as the dependency route for diagram maps.
+\item $L$ is the latching-object row, recording the finite direct-source boundary visible to cofibration reads.
+\item $K$ is the matching-object row, recording the finite inverse-target boundary visible to fibration reads.
+\item $C$ is the model-class row, recording Reedy cofibration, Reedy fibration, and objectwise weak-equivalence reads through $\ModelCatUp$.
+\item $W$ is the weak-equivalence and replacement row, exposing the objectwise weak-equivalence ledger together with any displayed $\CofibrantReplacementUp$ witness.
+\item $F$ is the selected localization row, present only when a downstream consumer reads a displayed $\BousfieldLocalizationUp$ packet.
+\item $T$ stores componentwise $\hsame$ transport for Reedy data, diagram rows, latching rows, matching rows, model-class rows, replacement rows, localization rows, replay, provenance, and local naming.
+\item $H$ stores displayed $\Cont$ replay from a diagram-model request through Reedy degree comparison, latching and matching inspection, model-class reads, replacement reads, and optional localization reads.
+\item $P$ is the $\Pkg$ provenance over $\ReedyModelStructureUp$, $\ReedyCategoryUp$, $\ModelCatUp$, $\SimplicialSetUp$, $\CofibrantReplacementUp$, $\BousfieldLocalizationUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ReedyModelStructureUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,D,A,L,K,C,W,F,T,H,P,N$. It has no coordinate for an ambient functor category, a hidden latching colimit, a hidden matching limit, an unlisted factorisation, a global cofibrant replacement choice, a localization existence theorem, or a homotopy-limit theorem.
+\end{definition}
+
+\begin{theorem}[Reedy model structure NameCert obligations]
+\label{thm:reedy-model-structure-namecert-obligations}
+For every accepted $\ReedyModelStructureUp$ carrier
+$$
+M=(R,D,A,L,K,C,W,F,T,H,P,N),
+$$
+the local $\NameCert_{\ReedyModelStructureUp}$ surface consists exactly of carrier admission, Reedy degree exposure, direct and inverse factorisation exposure, diagram-row exposure, latching-object exposure, matching-object exposure, model-class exposure, replacement-row exposure, optional localization-row exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:reedy-model-structure-carrier}. The Reedy row $R$ supplies the degree, direct-map, inverse-map, and factorisation data, while the diagram row $D$ supplies the finite indexed objects and arrows consumed by the model-structure read.
+
+The latching and matching rows are then read from the same Reedy ledger. The latching row $L$ exposes direct-source boundary data for cofibration reads, and the matching row $K$ exposes inverse-target boundary data for fibration reads. Neither row imports an ambient limit or colimit outside the carrier.
+
+The model-class rows $C,W,F$ are downstream. They read cofibration, fibration, objectwise weak-equivalence, displayed replacement, and displayed localization data through $\ModelCatUp$, $\SimplicialSetUp$, $\CofibrantReplacementUp$, and $\BousfieldLocalizationUp$ without adding global replacement choice or localization existence.
+
+Finally $T,H,P,N$ transport, replay, source, and name the same rows. Since the carrier has no further coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Reedy model structure finite diagram route]
+\label{thm:reedy-model-structure-finite-diagram-route}
+Every $\ReedyModelStructureUp$ consumer that reads a diagram-model cofibration, fibration, weak equivalence, replacement, or localization row must first expose the finite route
+$$
+R,D,A \longmapsto L,K \longmapsto C,W,F \longmapsto T,H,P,N .
+$$
+In particular, Reedy degree data and direct/inverse factorisation precede latching and matching inspection, latching and matching inspection precede model-class reads, and model-class reads precede replacement or localization consumers.
+\end{theorem}
+\begin{proof}
+Start with a consumer read of the accepted carrier $M$. The only index-facing rows are $R,D,A$, so the read first exposes the Reedy category data, the displayed diagram, and the direct/inverse factorisation route.
+
+Next the latching and matching rows become available. The cofibration side reads the finite latching boundary $L$, while the fibration side reads the finite matching boundary $K$. Both rows are attached to the same degree and factorisation ledger.
+
+The model-class stage reads $C,W,F$. The $\ModelCatUp$ row supplies cofibration, fibration, and weak-equivalence classes, the $\CofibrantReplacementUp$ dependency supplies only displayed replacement witnesses, and the $\BousfieldLocalizationUp$ dependency supplies only displayed selected-map and local-object rows when present.
+
+Transport and replay through $T,H,P,N$ preserve this ordering. Thus no accepted consumer can replace the finite diagram route by an ambient functor category, hidden latching or matching construction, global replacement choice, localization existence theorem, homotopy-limit theorem, or homotopy-category quotient.
+\end{proof}
+
+\closureat{ReedyModelStructureUp}{seedStr}
+\closureat{ReedyModelStructureUp}{obligationStr}
+
+\begin{closurestatus}{\ReedyModelStructureUp}
+  \constructivestory{A $\ReedyModelStructureUp$ packet is generated from Reedy category rows, finite diagram rows, direct and inverse factorisation rows, latching and matching rows, model-class rows, replacement rows, optional localization rows, componentwise transport, displayed replay, provenance, and local naming.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:reedy-model-structure-carrier}, \autoref{thm:reedy-model-structure-namecert-obligations}, and \autoref{thm:reedy-model-structure-finite-diagram-route} close the finite carrier and obligation surface for Reedy diagram model-structure reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, ambient functor categories, hidden latching colimits, hidden matching limits, global cofibrant replacement choice, localization existence, homotopy limits, or homotopy-category quotients.}
+  \upgradepath{Lean closure requires checked carrier admission, Reedy degree exposure, direct and inverse factorisation exposure, latching and matching row exposure, model-class exposure, replacement and localization row exposure, transport, replay, provenance, and local naming for BEDC.Derived.ReedyModelStructureUp.}
+\end{closurestatus}

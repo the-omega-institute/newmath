@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\HomotopyExtensionPropertyUp$}
+\label{ch:concrete-instances-homotopy-extension-property-namecert}
+\origin{human}
+
+Following Borsuk and Dugundji on homotopy extension theory, the $\HomotopyExtensionPropertyUp$ packet records the finite surface by which a homotopy already defined on a closed subcarrier is extended across a displayed cylinder window. It sits after the $\DugundjiExtensionUp$ extension-operator route of \autoref{ch:concrete-instances-dugundji-extension-namecert}, the $\AbsoluteNeighborhoodRetractUp$ neighbourhood-retraction route of \autoref{ch:concrete-instances-absolute-neighborhood-retract-namecert}, the $\HomotopyUp$ deformation ledger of \autoref{ch:concrete-instances-homotopy-namecert}, the $\ClosedMetricSubspaceUp$ admission route of \autoref{ch:concrete-instances-closed-metric-subspace-namecert}, and the $\ContinuousMapUp$ graph row of \autoref{ch:concrete-instances-continuousmap-namecert}. The packet names the homotopy-extension property as displayed NameCert data; it does not import a host cofibration theorem, quotient cylinder equality, selected neighbourhood deformation, or ambient extension operator.
+
+\begin{definition}[Homotopy extension property carrier]
+\label{def:homotopy-extension-property-carrier}
+A $\HomotopyExtensionPropertyUp$ carrier is a finite $\BHist$ packet
+$$
+E=(A,X,I,F,G,D,R,W,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the closed subcarrier row, read through $\ClosedMetricSubspaceUp$ and retaining the admitted inclusion of the displayed subcarrier in the ambient metric carrier.
+\item $X$ is the ambient carrier row, recording only the parent metric, topology, and continuous-map data visible to the extension request.
+\item $I$ is the cylinder homotopy window, a finite interval-and-endpoint ledger for the displayed $A \times I$ and $X \times I$ read.
+\item $F$ is the initial continuous-map row on $X$, read through $\ContinuousMapUp$.
+\item $G$ is the subcarrier homotopy row on $A \times I$, read through $\HomotopyUp$ and compatible with $F$ on the initial face.
+\item $D$ is the Dugundji or ANR handoff row. It records the displayed extension interface supplied by $\DugundjiExtensionUp$ or $\AbsoluteNeighborhoodRetractUp$, not a host-selected extension.
+\item $R$ is the extension request row, binding $A,X,I,F,G,D$ into one finite request for a homotopy over $X \times I$.
+\item $W$ is the extended homotopy window row, recording the candidate extension only through the same displayed cylinder, initial-face, and subcarrier rows.
+\item $T$ records componentwise $\hsame$ transport for closed-subcarrier, ambient, cylinder, initial-map, subcarrier-homotopy, handoff, request, window, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an extension query through $A,X,I,F,G,D,R,W,T$.
+\item $P$ is the $\Pkg$ provenance over $\HomotopyExtensionPropertyUp$, $\DugundjiExtensionUp$, $\AbsoluteNeighborhoodRetractUp$, $\HomotopyUp$, $\ClosedMetricSubspaceUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HomotopyExtensionPropertyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,X,I,F,G,D,R,W,T,C,P,N$. It has no coordinate for an ambient cofibration theorem, quotient cylinder equality, selected global deformation, host function-space topology, or choice-selected extension operator.
+\end{definition}
+
+\begin{theorem}[Homotopy extension property NameCert obligations]
+\label{thm:homotopy-extension-property-namecert-obligations}
+For every accepted $\HomotopyExtensionPropertyUp$ carrier
+$$
+E=(A,X,I,F,G,D,R,W,T,C,P,N),
+$$
+the local $\NameCert_{\HomotopyExtensionPropertyUp}$ surface consists exactly of closed subcarrier admission through $A$; ambient carrier exposure through $X$; cylinder homotopy-window exposure through $I$; initial continuous-map exposure through $F$; subcarrier homotopy exposure through $G$; Dugundji or ANR handoff through $D$; extension request binding through $R$; extended-window readback through $W$; componentwise transport through $T$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:homotopy-extension-property-carrier}. The rows $A$ and $X$ display the closed subcarrier inside the ambient carrier, while $I$ fixes the finite cylinder window on which the homotopy-extension request is inspected.
+
+The analytic rows are $F,G,D,R,W$. The initial map $F$ and the subcarrier homotopy $G$ must be compatible before the handoff row $D$ can be read. The request row $R$ then binds those rows, and $W$ records only the resulting displayed extended window.
+
+The structural rows $T,C,P,N$ preserve the same request under transport, replay, provenance, and local naming. Since the carrier contains no host cofibration theorem, quotient cylinder equality, selected deformation, function-space topology, or choice-selected operator, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Homotopy extension Dugundji and ANR handoff]
+\label{thm:homotopy-extension-property-dugundji-handoff}
+Every Dugundji-facing or ANR-facing consumer of an accepted $\HomotopyExtensionPropertyUp$ carrier must read the route
+$$
+A,X,I,F,G \longmapsto D \longmapsto R,W,T,C,P,N
+$$
+before treating the packet as homotopy-extension evidence. The handoff may cite the extension surface of \autoref{ch:concrete-instances-dugundji-extension-namecert} or the neighbourhood-retract surface of \autoref{ch:concrete-instances-absolute-neighborhood-retract-namecert}, but it exports only finite BEDC rows and not a host cofibration theorem, selected neighbourhood deformation, quotient cylinder equality, or global extension operator.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:homotopy-extension-property-namecert-obligations}. They force every consumer to expose $A,X,I,F,G$ before the handoff row $D$ can be public.
+
+Read $D$ through the sibling extension route. A Dugundji consumer receives a displayed extension-operator interface, while an ANR consumer receives a displayed neighbourhood-retraction interface; neither route replaces the closed subcarrier, cylinder, initial-map, or homotopy rows.
+
+Finally use $R,W,T,C,P,N$. These rows bind the request, expose the extended window, and preserve the packet under transport, replay, provenance, and local naming. Thus the handoff remains a finite homotopy-extension property surface rather than an ambient cofibration or extension theorem.
+\end{proof}
+
+\closureat{HomotopyExtensionPropertyUp}{seedStr}
+
+\begin{closurestatus}{\HomotopyExtensionPropertyUp}
+  \constructivestory{A $\HomotopyExtensionPropertyUp$ packet is generated from a closed subcarrier row, ambient carrier row, cylinder homotopy-window row, initial continuous-map row, subcarrier homotopy row, Dugundji or ANR handoff row, extension request row, extended-window readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:homotopy-extension-property-carrier}, \autoref{thm:homotopy-extension-property-namecert-obligations}, and \autoref{thm:homotopy-extension-property-dugundji-handoff} seed the homotopy-extension property route over closed-subcarrier, cylinder, homotopy, Dugundji, ANR, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close cofibration recognition, quotient cylinder equality, selected neighbourhood deformation, host function-space topology, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked closed-subcarrier admission, cylinder-window exposure, initial-map exposure, subcarrier-homotopy exposure, Dugundji or ANR handoff, request binding, extended-window readback, transport, replay, provenance, and local naming for BEDC.Derived.HomotopyExtensionPropertyUp.}
+\end{closurestatus}
