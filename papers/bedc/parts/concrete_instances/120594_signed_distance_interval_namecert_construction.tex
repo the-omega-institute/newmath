@@ -1,0 +1,115 @@
+\chapter{A Concrete Naming Certificate for $\SignedDistanceIntervalUp$}
+\label{ch:concrete-instances-signed-distance-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis of located intervals, the $\SignedDistanceIntervalUp$ packet records the finite boundary-distance route by which a displayed point is compared with a displayed located interval before any Real-facing consumer reads a signed value. It sits over the bisection route of \autoref{ch:concrete-instances-located-interval-bisection-namecert}, the located-apartness comparison surface of \autoref{ch:concrete-instances-located-real-apartness-namecert}, the metric route of \autoref{ch:concrete-instances-real-metric-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the interval boundary-distance carrier as finite BEDC data; it does not import host real equality, selected nearest endpoints, trichotomy, or ambient completeness.
+
+\begin{definition}[Signed distance interval carrier]
+\label{def:signed-distance-interval-carrier}
+A $\SignedDistanceIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(X,A,B,O,S,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the point row, recording the inspected $\RealUp$ or $\RegSeqRatUp$ name whose signed distance to the interval is requested.
+\item $A$ and $B$ are the interval endpoint rows, recording the left and right located endpoint reads supplied by the located interval source.
+\item $O$ is the endpoint-order ledger, recording the finite route that certifies the displayed left endpoint is accepted before the displayed right endpoint.
+\item $S$ is the inside/outside sign row, recording whether the point read is routed through the interior window, the left exterior window, or the right exterior window.
+\item $D$ is the dyadic distance readback, carrying the finite tolerance, endpoint window, and signed rational comparison requested by the consumer.
+\item $R$ is the $\RegSeqRatUp$ readback attached to $X,A,B,O,S,D$.
+\item $E$ is the $\RealUp$ seal reached only after the regular readback row $R$ has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the point row, endpoint rows, endpoint-order ledger, sign row, dyadic distance row, regular readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of every signed-distance-interval consumer route through
+$$
+X,A,B,O,S,D,R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\SignedDistanceIntervalUp$, $\LocatedIntervalBisectionUp$, $\LocatedRealApartnessUp$, $\RealMetricUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SignedDistanceIntervalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,A,B,O,S,D,R,E,H,C,P,N$. It has no coordinate for host real equality, a selected nearest endpoint, trichotomy, quotient representatives, ambient interval compactness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Signed distance interval NameCert obligations]
+\label{thm:signed-distance-interval-namecert-obligations}
+For every accepted $\SignedDistanceIntervalUp$ carrier
+$$
+I=(X,A,B,O,S,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\SignedDistanceIntervalUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed point row, interval endpoint rows, endpoint-order ledger, inside/outside sign row, dyadic distance readback, regular rational readback, Real seal, transport, replay, provenance, and local naming rows;
+\item endpoint-order stability, requiring every transported or replayed read to expose $A,B,O$ before it treats the interval as an ordered located boundary;
+\item sign-window exactness, requiring the row $S$ to be read from the same point and endpoint rows $X,A,B$ and to choose only the displayed interior, left exterior, or right exterior route;
+\item dyadic and regular readback coherence, requiring $D$ and $R$ to read the same tolerance and signed boundary-distance observations before the Real seal $E$ is exposed;
+\item ledger refusal, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed rows, with no host equality, selected endpoint, trichotomy, Lean verification, or bridge credential.
+\end{enumerate}
+No signed-distance-interval NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:signed-distance-interval-carrier}. The packet displays the point row, two endpoint rows, the endpoint-order ledger, the sign row, the dyadic distance readback, the regular rational readback, the Real seal, and the four structural rows.
+
+Endpoint-order stability is componentwise. Any transported or replayed interval read keeps the same left endpoint row $A$, right endpoint row $B$, and order ledger $O$, so the boundary cannot be replaced by a host interval or by an unrecorded endpoint comparison.
+
+The sign-window obligation is read from $X,A,B$. The row $S$ names only the displayed interior route, left exterior route, or right exterior route, and therefore cannot install a trichotomy decision beyond the finite packet.
+
+The dyadic row $D$ and regular row $R$ share the tolerance and signed boundary-distance observations. Since $E$ appears only after these rows are displayed, every Real-facing value is sealed by the same finite readback route.
+
+Finally, $H,C,P,N$ only transport, replay, source, and name the carrier rows. The excluded host equality, nearest-endpoint selector, trichotomy, Lean-verification, and bridge data have no carrier coordinate, so the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Signed distance interval located handoff]
+\label{thm:signed-distance-interval-located-handoff}
+Every accepted $\SignedDistanceIntervalUp$ carrier
+$$
+I=(X,A,B,O,S,D,R,E,H,C,P,N)
+$$
+hands its boundary-distance read to located interval consumers only through the displayed route
+$$
+X,A,B,O,S,D,R,E .
+$$
+The handoff consumes the located bisection endpoint rows, the located-apartness sign window, the Real metric comparison route, and the regular rational readback before any signed value is public. It exports no host interval equality, nearest endpoint, decidable side choice, quotient real representative, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The endpoint rows $A$ and $B$ are the only interval-boundary coordinates, and the order ledger $O$ is the only row that lets a consumer treat them as an ordered located interval.
+
+The point row $X$ is then compared with the displayed boundary through the sign row $S$. This row is downstream of the located-apartness comparison surface and records only the finite interior or exterior window selected by the packet.
+
+The dyadic readback $D$ and regular readback $R$ pass the same signed boundary-distance observations to the Real seal $E$. Thus a bisection, located-apartness, or Real-metric consumer receives the displayed route rather than a host-side interval object.
+
+Transport, replay, provenance, and local naming preserve this route under classification. Since none of the excluded host data occurs in $I$, the handoff cannot bypass the displayed rows.
+\end{proof}
+
+\begin{theorem}[Signed distance interval Real seal nonescape]
+\label{thm:signed-distance-interval-real-seal-nonescape}
+Every $\RealUp$-facing read of an accepted $\SignedDistanceIntervalUp$ carrier
+$$
+I=(X,A,B,O,S,D,R,E,H,C,P,N)
+$$
+factors through the displayed route
+$$
+X,A,B,O,S,D,R \longmapsto E .
+$$
+The factorization exports the signed boundary-distance seal $E$ only after the point row, endpoint rows, endpoint-order ledger, sign row, dyadic distance readback, and regular rational readback have been displayed. It exports no host real equality, selected nearest endpoint, trichotomy, quotient representative, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+The carrier projection exposes $E$ as the only Real-facing coordinate. Its replay row $C$ names a route whose source rows are $X,A,B,O,S,D,R$.
+
+Rows $A,B,O$ bind the interval boundary, while $X$ supplies the inspected point. The sign row $S$ keeps the inside/outside decision inside the displayed finite window rather than in a host trichotomy.
+
+The dyadic row $D$ and regular row $R$ then supply the only numeric readback consumed by the seal. Componentwise transport in $H$, replay in $C$, provenance in $P$, and naming in $N$ preserve this order.
+
+Therefore every Real-facing read factors through the displayed finite route. The excluded host equality, nearest-endpoint selection, quotient representative, completeness theorem, Lean-verification row, and bridge credential cannot escape through the seal because they are not coordinates of the packet.
+\end{proof}
+
+\closureat{SignedDistanceIntervalUp}{seedStr}
+
+\begin{closurestatus}{\SignedDistanceIntervalUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:signed-distance-interval-carrier}, \autoref{thm:signed-distance-interval-namecert-obligations}, \autoref{thm:signed-distance-interval-located-handoff}, and \autoref{thm:signed-distance-interval-real-seal-nonescape} seed the finite signed boundary-distance route from located interval rows through dyadic and regular readback to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real equality, selected nearest endpoints, trichotomy, quotient representatives, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-order stability, sign-window exactness, dyadic and regular readback coherence, Real-seal nonescape, and ledger refusal for BEDC.Derived.SignedDistanceIntervalUp.}
+  \constructivestory{A $\SignedDistanceIntervalUp$ packet is generated from point row, interval endpoint rows, endpoint-order ledger, inside/outside sign row, dyadic distance readback, RegSeqRat readback, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

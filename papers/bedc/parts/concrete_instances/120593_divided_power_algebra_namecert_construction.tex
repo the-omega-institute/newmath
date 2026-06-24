@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\DividedPowerAlgebraUp$}
+\label{ch:concrete-instances-divided-power-algebra-namecert}
+\origin{human}
+
+Following Berthelot--Ogus and Grothendieck crystalline methods, the $\DividedPowerAlgebraUp$ packet records the finite law surface by which divided powers are named over a ring-module algebra context before any crystalline envelope or infinitesimal thickening consumer may read them. It sits over the coefficient ring of \autoref{ch:concrete-instances-ring-namecert}, the underlying module rows of \autoref{ch:concrete-instances-module-namecert}, polynomial expression rows from \autoref{ch:concrete-instances-polynomial-namecert}, tensor compatibility from \autoref{ch:concrete-instances-tensorproduct-namecert}, and natural-number arity data from \autoref{ch:concrete-instances-nat-namecert}. The packet names displayed multiplication, unit, ideal, divided-power operation, factorial-arity, polynomial-law, tensor-distribution, transport, replay, provenance, and local naming data; it does not export a host crystalline topos, quotient algebra equality, selected envelope, or unrestricted nilpotent completion.
+
+\begin{definition}[Divided-power algebra carrier]
+\label{def:divided-power-algebra-carrier}
+A $\DividedPowerAlgebraUp$ carrier is a finite $\BHist$ packet
+$$
+D=(R,A,I,\gamma,M,U,N,L,T,H,C,P,Z)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RingUp$ coefficient row, carrying the addition, multiplication, zero, one, and distributivity data used by the algebra law checks.
+\item $A$ is the algebra-underlying $\ModuleUp$ row, exposing the finite additive and scalar rows on which the divided-power operations act.
+\item $I$ is the displayed ideal or augmentation row inside $A$, recorded as a finite membership and closure ledger.
+\item $\gamma$ is the finite divided-power operation table, with entries $\gamma_n(x)$ only for the natural-number arities and ideal elements listed by the request rows.
+\item $M$ and $U$ record multiplication and unit compatibility for the algebra row over $R$.
+\item $N$ is the $\NatUp$ arity ledger for zero, one, successor, and finite binomial-index reads.
+\item $L$ is the $\PolynomialUp$ law ledger, recording the displayed additivity, scalar, product, and composition law checks as polynomial identities over the listed arities.
+\item $T$ is the $\TensorProductUp$ compatibility row for bilinear distribution and base-change reads.
+\item $H,C,P,Z$ record componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\DividedPowerAlgebraUp}$ evidence.
+\end{enumerate}
+The classifier compares accepted packets only through $R,A,I,\gamma,M,U,N,L,T,H,C,P,Z$. It has no coordinate for a host crystalline envelope, quotient algebra equality, selected completion, external factorial inverse, or ambient nilpotent thickening.
+\end{definition}
+
+\begin{theorem}[Divided-power algebra NameCert obligations]
+\label{thm:divided-power-algebra-namecert-obligations}
+For every accepted $\DividedPowerAlgebraUp$ carrier
+$$
+D=(R,A,I,\gamma,M,U,N,L,T,H,C,P,Z),
+$$
+the local $\NameCert_{\DividedPowerAlgebraUp}$ surface consists exactly of carrier admission for the coefficient ring, module-algebra row, ideal membership ledger, divided-power operation table, multiplication and unit rows, natural-number arity ledger, polynomial law ledger, tensor compatibility row, componentwise transport, displayed replay, provenance, and local naming. The law obligations require $\gamma_0(x)$, $\gamma_1(x)$, scalar compatibility, additivity, product compatibility, and iterated divided powers to be checked only through the displayed $R,A,I,\gamma,M,U,N,L,T$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:divided-power-algebra-carrier}. The algebraic source rows are $R,A,I,\gamma,M,U,N,L,T$, and the structural rows are $H,C,P,Z$.
+
+The coefficient and module rows type every displayed operation. The ideal row $I$ supplies the admitted inputs, while the arity ledger $N$ restricts every divided-power read to the natural-number requests carried by the packet.
+
+The law checks are then read from $L$ and $T$. Polynomial rows record the displayed zero, unit, scalar, additivity, product, and composition equations, and the tensor row records the bilinear and base-change compatibility seen by downstream consumers.
+
+Finally, $H,C,P,Z$ transport, replay, source, and locally name exactly those rows. Since no carrier coordinate stores a crystalline envelope, quotient algebra equality, selected completion, external factorial inverse, or ambient nilpotent thickening, none of those objects can discharge a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Divided-power law nonescape]
+\label{thm:divided-power-law-nonescape}
+Every consumer of an accepted $\DividedPowerAlgebraUp$ divided-power law must read the law through the finite route
+$$
+\RingUp,\ \ModuleUp,\ I,\ \gamma,\ \NatUp
+\longmapsto \PolynomialUp,\ \TensorProductUp
+\longmapsto H,C,P,Z .
+$$
+In particular, additivity, scalar, product, and iteration laws cannot be justified by a host polynomial identity, a chosen divided-power envelope, quotient algebra equality, or an unlisted nilpotent-completion coordinate.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:divided-power-algebra-namecert-obligations}. It forces every law-facing consumer to expose the coefficient ring, module-algebra row, ideal ledger, divided-power operation table, and natural-number arity ledger before a law row can be consumed.
+
+The polynomial and tensor rows are the only law ledgers in the carrier. Thus a consumer may cite additivity, scalar compatibility, product compatibility, or iterated divided powers only after reading the displayed $\PolynomialUp$ and $\TensorProductUp$ rows.
+
+The structural rows preserve the same finite route. Transport, replay, provenance, and local naming do not add a crystalline envelope, quotient equality, selected completion, or hidden nilpotent coordinate, so the divided-power laws remain inside the displayed packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DividedPowerAlgebraUp$ consumer that cites a divided-power law must expose the Ring, Module, ideal, divided-power table, multiplication, unit, Nat arity, Polynomial law, TensorProduct compatibility, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+
+\independenceWitness{ring, module, polynomial, tensorproduct, nat: no listed sibling is bijective to $\DividedPowerAlgebraUp$, because this packet binds a coefficient ring, module-algebra row, ideal ledger, arity-indexed divided-power operations, polynomial laws, and tensor compatibility into one local NameCert surface.}
+
+\closureat{DividedPowerAlgebraUp}{seedStr}
+
+\begin{closurestatus}{\DividedPowerAlgebraUp}
+  \constructivestory{A $\DividedPowerAlgebraUp$ packet is generated from RingUp coefficient rows, ModuleUp algebra rows, an ideal membership ledger, an arity-indexed divided-power operation table, multiplication and unit rows, a NatUp arity ledger, PolynomialUp law rows, TensorProductUp compatibility rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:divided-power-algebra-carrier}, \autoref{thm:divided-power-algebra-namecert-obligations}, and \autoref{thm:divided-power-law-nonescape} seed the finite divided-power law surface over ring, module, polynomial, tensor, and natural-number rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host crystalline envelope, quotient algebra equality, selected completion, external factorial inverses, unrestricted nilpotent completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, ideal closure, divided-power table exactness, Nat arity coverage, polynomial law exactness, tensor compatibility, transport, replay, provenance, and local naming for BEDC.Derived.DividedPowerAlgebraUp.}
+\end{closurestatus}

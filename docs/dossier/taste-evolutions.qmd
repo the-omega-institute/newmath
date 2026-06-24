@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-24T03:16:25Z
+> 最后刷新: 2026-06-24T07:04:09Z
 
-**Daemon 状态**: monitor (monitor cycle 152, adjust_since_research 2, round_counter 20188, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 155, adjust_since_research 2, round_counter 20415, last_adjust rule_evolution_completed)
 
-**待处理 queue** (633 条 finding):
-- isolated_theorem: 456 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (635 条 finding):
+- isolated_theorem: 458 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 128 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 49 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 47 次
-- TASTE ALERT category=low_entropy_template: 30 次
+- TASTE ALERT category=isolated_theorem: 46 次
+- TASTE ALERT category=low_entropy_template: 32 次
 - TASTE ALERT category=cycle_exception: 1 次
 - TASTE ALERT category=resolution_json_parse_failed: 1 次
 
@@ -406,6 +406,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-23T19:16:45Z: `resolved` `delete_theorem` for `BEDC.Derived.TaylorModelUp.TaylorModelCarrier_endpoint_closure` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.TaylorModelUp.TaylorModelCarrier_endpoint_closure:93eae5d0`). Rationale: The theorem was an unconsumed wrapper around TaylorModelCarrier field projection plus unary closure along the recorded Cont routes. Full-name grep found no paper marker or Lean use, while the chapter's checked public surface is carried by the NameCert obligation, interval-remainder soundness, validated consumer boundary, seed package, and remainder route declarations; the endpoint closure content is already rebuilt directly inside the NameCert obligation theorem. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-23T20:54:11Z: `resolved` `add_downstream_user` for `BEDC.Derived.AxiomRefusalLedgerUp.AxiomRefusalLedger_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:axiomrefusalledger:BEDC.Derived.AxiomRefusalLedgerUp.AxiomRefusalLedger_namecert_obligations:23b6e15b`). Rationale: The target is the chapter's main NameCert obligation and carries real BEDC content by packaging the semantic NameCert surface with the three readback histories, so deleting it would remove the canonical Lean witness behind the paper marker. I added a sibling consumer theorem in AcceptedReadbackConsumer.lean that explicitly invokes the target, extracts its SemanticNameCert surface through semanticNameCert_pattern_ledger_witness, and exposes the resulting audit surface together with the name, alternative, and audit readback histories. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-24T04:58:24Z: `resolved` `add_downstream_user` for `BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.GroundCompilerEventFlowAuditRouteCarrier_non_evidence_boundary` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.GroundCompilerEventFlowAuditRouteUp.GroundCompilerEventFlowAuditRouteCarrier_non_evidence_boundary:f2d5b7cf`). Rationale: The target has meaningful BEDC content: it builds the non-evidence SemanticNameCert boundary and exposes the Cont route from nonEvidence through transport to replay. I added GroundCompilerEventFlowAuditRouteNonEvidenceGateSeparation in the existing NonEvidenceBoundary sibling, using the flagged theorem together with the channel lossless boundary to state a combined separation between non-evidence rows and certificate-gate evidence rows. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 

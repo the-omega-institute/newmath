@@ -53,6 +53,7 @@ V=(R,A,F,D,M,U,B,T,C,P,N)
 $$
 routes a failed verification report from $R$ through the audit row $A$ and failure-certificate row $F$ before the downgrade row $D$ can be read. A consumer that reads a lowered status without $A$ and $F$ leaves the accepted carrier and cannot cite the packet as a roadmap result.
 \end{theorem}
+\leanchecked{BEDC.Derived.VerificationFailureRoadmapUp.VerificationFailureRoadmapDowngradeRoute}
 \begin{proof}
 Use the NameCert obligations of \autoref{thm:verification-failure-roadmap-namecert-obligations}. The report row $R$, audit row $A$, failure-certificate row $F$, and downgrade row $D$ are all separate displayed coordinates.
 
@@ -60,6 +61,7 @@ The replay row $C$ records the order in which the report is inspected, the audit
 
 Therefore a lowered report that omits $A$ or $F$ is not a read of the same carrier. It may be a detached editorial statement, but it is not an accepted $\VerificationFailureRoadmapUp$ route.
 \end{proof}
+\leanchecked{BEDC.Derived.VerificationFailureRoadmapUp.TasteGate.VerificationFailureRoadmapDowngradeRoute}
 
 \begin{theorem}[VerificationFailureRoadmap nonclaim boundary]
 \label{thm:verification-failure-roadmap-nonclaim-boundary}
@@ -83,6 +85,20 @@ Compare the displayed rows. $\TypedFailureCertificateUp$ names typed failure bra
 The present carrier stores those component rows together with checked report, audit report, downgrade route, roadmap boundary, cannot-claim row, transport, replay, provenance, and local NameCert rows. A row-preserving bijection to any single sibling would have to preserve fields that the sibling does not carry.
 
 Thus the siblings are inputs to one verification-failure roadmap packet, not alternative names for the same carrier.
+\end{proof}
+
+\begin{theorem}[VerificationFailureRoadmap bridge-facing schema route]
+\label{thm:verification-failure-roadmap-bridge-facing-schema-route}
+Any bridge-facing reader of an accepted $\VerificationFailureRoadmapUp$ packet must expose the checked-report row $R$, audit-report row $A$, failure-certificate row $F$, downgrade-route row $D$, roadmap-boundary row $M$, upgrade-registry row $U$, cannot-claim row $B$, componentwise transport row $T$, displayed replay row $C$, package provenance row $P$, and local $\NameCert$ row $N$ before any bridge schema may consume the packet. A schema that reads only the downgrade row, only the cannot-claim row, or only a sibling failure certificate is not a bridge-facing read of the same roadmap carrier.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:verification-failure-roadmap-namecert-obligations}. It lists $R,A,F,D,M,U,B,T,C,P,N$ as the displayed rows of the local NameCert surface, so a bridge-facing reader cannot omit any of those rows and still cite the accepted carrier.
+
+Apply the downgrade route \autoref{thm:verification-failure-roadmap-downgrade-route}. The failed report is read from $R$ through $A$ and $F$ before $D$ is available, which blocks a bridge schema from consuming a detached downgrade row.
+
+Next use the nonclaim boundary and sibling independence results, \autoref{thm:verification-failure-roadmap-nonclaim-boundary} and \autoref{thm:verification-failure-roadmap-sibling-independence}. The rows $M,U,B$ determine the stronger readings refused by the packet, while the sibling failure and audit packets remain inputs rather than replacements for the roadmap carrier.
+
+It remains to carry the exposed route to a bridge-facing schema. Transport through $T$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the same row inventory, so the bridge schema may consume only the fully exposed verification-failure roadmap packet.
 \end{proof}
 
 \falsifiablePrediction{Any reported verification upgrade that lacks the displayed audit report, failure-certificate, downgrade, and cannot-claim rows is rejected by the VerificationFailureRoadmapUp classifier.}
