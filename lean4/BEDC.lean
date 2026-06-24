@@ -1980,6 +1980,7 @@ import BEDC.Derived.CauchyInterlacingUp.TasteGate
 import BEDC.Derived.CauchyInterleavingComparisonUp.TasteGate
 import BEDC.Derived.CauchyInterleavingCriterionUp.TasteGate
 import BEDC.Derived.CauchyInterleavingProductUp.TasteGate
+import BEDC.Derived.CauchyInterleavingTreeUp
 import BEDC.Derived.CauchyIntersectionPrincipleUp.TasteGate
 import BEDC.Derived.CauchyIntervalNestingUp.TasteGate
 import BEDC.Derived.CauchyInverseBudgetUp.RouteSurface
@@ -8183,6 +8184,7 @@ import BEDC.Derived.MetaCICRedexFrontierUp.SNObstructionRetention
 import BEDC.Derived.MetaCICRedexFrontierUp.TasteGate
 import BEDC.Derived.MetaCICResidualCommutationWitnessUp
 import BEDC.Derived.MetaCICResidualDiamondWitnessUp
+import BEDC.Derived.MetaCICResidualJoinEnvelopeUp
 import BEDC.Derived.MetaCICResidualSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICResidualSubstitutionComparisonUp
 import BEDC.Derived.MetaCICResidualSubstitutionCompatibilityUp.TasteGate
