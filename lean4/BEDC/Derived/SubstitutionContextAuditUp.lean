@@ -185,4 +185,32 @@ theorem SubstitutionContextAuditContextAdmission [AskSetup] [PackageSetup]
   }
   exact ⟨cert, contextUnary, substUnary, handoffUnary⟩
 
+theorem SubstitutionContextAuditLedgerExactness [AskSetup] [PackageSetup]
+    {context shift subst composition generator binder handoff transport replay provenance
+      name ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubstitutionContextAuditCarrier context shift subst composition generator binder handoff
+      transport replay provenance name bundle pkg →
+      Cont handoff replay ledgerRead →
+        PkgSig bundle ledgerRead pkg →
+          UnaryHistory context ∧ UnaryHistory shift ∧ UnaryHistory subst ∧
+            UnaryHistory composition ∧ UnaryHistory generator ∧ UnaryHistory binder ∧
+              UnaryHistory handoff ∧ UnaryHistory ledgerRead ∧
+                Cont context shift subst ∧ Cont subst composition generator ∧
+                  Cont binder handoff replay ∧ Cont handoff replay ledgerRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                      PkgSig bundle ledgerRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier handoffReplayRead ledgerReadPkg
+  obtain ⟨contextUnary, shiftUnary, substUnary, compositionUnary, generatorUnary,
+    binderUnary, handoffUnary, _transportUnary, replayUnary, _provenanceUnary,
+    _nameUnary, substRoute, generatorRoute, replayRoute, provenancePkg, namePkg⟩ :=
+    carrier
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed handoffUnary replayUnary handoffReplayRead
+  exact
+    ⟨contextUnary, shiftUnary, substUnary, compositionUnary, generatorUnary, binderUnary,
+      handoffUnary, ledgerReadUnary, substRoute, generatorRoute, replayRoute,
+      handoffReplayRead, provenancePkg, namePkg, ledgerReadPkg⟩
+
 end BEDC.Derived.SubstitutionContextAuditUp
