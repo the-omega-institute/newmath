@@ -4923,7 +4923,6 @@ import BEDC.Derived.DyadicBracketingUp.TasteGate
 import BEDC.Derived.DyadicCantorWindowUp.TasteGate
 import BEDC.Derived.DyadicCauchyApproximationUp.TasteGate
 import BEDC.Derived.DyadicCauchyCriterionUp
-import BEDC.Derived.DyadicCauchyDiagonalUp
 import BEDC.Derived.DyadicCauchyModulusLatticeUp.TasteGate
 import BEDC.Derived.DyadicCauchyStaircaseUp.TasteGate
 import BEDC.Derived.DyadicCauchyTailEnvelopeUp.TasteGate
@@ -5207,6 +5206,7 @@ import BEDC.Derived.EnergyBiasedTriggerReliabilityUp.TasteGate
 import BEDC.Derived.EngelExpansionUp.TasteGate
 import BEDC.Derived.EnrichedCatUp
 import BEDC.Derived.EnrichedCatUp.TasteGate
+import BEDC.Derived.EnrichedYonedaUp.TasteGate
 import BEDC.Derived.EntanglementUp
 import BEDC.Derived.EntourageBaseUp.TasteGate
 import BEDC.Derived.EntropyUp
@@ -8117,7 +8117,6 @@ import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ConsumerBou
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpointReadback
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.PremiseExposure
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ResidualDiamondRetention
-import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ResidualProgress
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.SeedClosure
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.TasteGate
 import BEDC.Derived.MetacicClosedBetaTraceEnvelopeUp
