@@ -422,4 +422,43 @@ theorem CauchyCompletionOperatorIdempotentCompleteCarrier [AskSetup] [PackageSet
   }
   exact ⟨cert, secondWindowUnary, secondSealUnary⟩
 
+theorem CauchyCompletionOperatorPublicExport [AskSetup] [PackageSetup]
+    {M B U S R D Q E H C P N boundaryRead finiteWindow separatedRead sealRead
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionOperatorLedgerPacket M B U S R D Q E H C P N bundle pkg ->
+      Cont M U boundaryRead ->
+        Cont B S finiteWindow ->
+          Cont D Q separatedRead ->
+            Cont separatedRead E sealRead ->
+              Cont sealRead N publicRead ->
+                PkgSig bundle publicRead pkg ->
+                  UnaryHistory M ∧ UnaryHistory B ∧ UnaryHistory U ∧ UnaryHistory S ∧
+                    UnaryHistory R ∧ UnaryHistory D ∧ UnaryHistory Q ∧ UnaryHistory E ∧
+                      UnaryHistory publicRead ∧ Cont M U boundaryRead ∧
+                        Cont B S finiteWindow ∧ Cont D Q separatedRead ∧
+                          Cont separatedRead E sealRead ∧ Cont sealRead N publicRead ∧
+                            PkgSig bundle publicRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet metricUniformBoundary boundaryWindow dyadicSeparated separatedSeal
+    sealPublic publicPkg
+  obtain ⟨metricUnary, boundaryUnary, uniformUnary, streamUnary, _regularUnary,
+    dyadicUnary, separatedUnary, realSealUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, nameUnary, _streamRegularDyadic, _dyadicSeparatedReal,
+    _provenancePkg, _namePkg⟩ := packet
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed metricUnary uniformUnary metricUniformBoundary
+  have finiteUnary : UnaryHistory finiteWindow :=
+    unary_cont_closed boundaryUnary streamUnary boundaryWindow
+  have separatedReadUnary : UnaryHistory separatedRead :=
+    unary_cont_closed dyadicUnary separatedUnary dyadicSeparated
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed separatedReadUnary realSealUnary separatedSeal
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed sealUnary nameUnary sealPublic
+  exact
+    ⟨metricUnary, boundaryUnary, uniformUnary, streamUnary, _regularUnary, dyadicUnary,
+      separatedUnary, realSealUnary, publicUnary, metricUniformBoundary, boundaryWindow,
+      dyadicSeparated, separatedSeal, sealPublic, publicPkg⟩
+
 end BEDC.Derived.CauchyCompletionOperatorUp
