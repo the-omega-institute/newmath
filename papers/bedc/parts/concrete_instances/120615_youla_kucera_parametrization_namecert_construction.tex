@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\YoulaKuceraParametrizationUp$}
+\label{ch:concrete-instances-youla-kucera-parametrization-namecert}
+\origin{human}
+
+Following Youla and Kucera on stabilizing-controller parametrization, the $\YoulaKuceraParametrizationUp$ packet records the finite control-theory surface by which a displayed plant row, coprime-factor row, free stable-parameter row, closed-loop stability ledger, and controller readback are named before robust-control consumers read a controller family. It sits after the quadratic-control ledger of \autoref{ch:concrete-instances-lqr-namecert}, the algebraic Riccati row of \autoref{ch:concrete-instances-riccati-namecert}, the control Riccati route of \autoref{ch:concrete-instances-control-riccati-namecert}, the bounded-gain route of \autoref{ch:concrete-instances-h-infinity-control-namecert}, and the finite-horizon replay of \autoref{ch:concrete-instances-modelpredictivecontrol-namecert}. The packet gives robust-control consumers a finite parametrization certificate; it is not an analytic theorem selecting all stabilizing controllers.
+
+\begin{definition}[Youla-Kucera parametrization carrier]
+\label{def:youla-kucera-parametrization-carrier}
+A $\YoulaKuceraParametrizationUp$ carrier is a finite $\BHist$ packet
+$$
+Y=(P,C,Q,S,K,T,R,V,H,E,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the plant row, recording the finite state-space, matrix, vector-space, and real-gain data consumed by the control packet.
+\item $C$ is the coprime-factor row, displaying the numerator, denominator, Bezout, and normalization ledgers used by the parametrization read.
+\item $Q$ is the free stable-parameter row, naming the displayed stable parameter offered to the controller family.
+\item $S$ is the closed-loop stability ledger, recording the finite route by which the selected parameter is checked against the plant and coprime-factor rows.
+\item $K$ is the controller readback row, carrying the controller expression obtained from $P,C,Q,S$.
+\item $T$ is the transport row, recording componentwise $\hsame$ transport for plant, factor, parameter, stability, controller, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from a robust-control request through $P,C,Q,S,K,T$.
+\item $V$ is the verification ledger row read by $\HInfinityControlUp$, $\LQRUp$, $\RiccatiUp$, $\ControlRiccatiUp$, and $\ModelPredictiveControlUp$ consumers when they compare the controller family with finite gain, quadratic, Riccati, and rollout data.
+\item $H$ is the host-refusal row, separating transfer-function syntax, quotient controller equality, spectral factorization, infinite-dimensional realization, and selected analytic stabilizers from BEDC evidence.
+\item $E$ is the exactness row, requiring controller readback to use the same displayed plant, factor, parameter, and stability rows.
+\item $G$ is the $\Pkg$ provenance over $\YoulaKuceraParametrizationUp$, $\LQRUp$, $\RiccatiUp$, $\ControlRiccatiUp$, $\HInfinityControlUp$, $\ModelPredictiveControlUp$, $\MatrixUp$, $\VecSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\YoulaKuceraParametrizationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,C,Q,S,K,T,R,V,H,E,G,N$. It has no coordinate for host transfer functions, quotient controller equality, spectral factorization, infinite-dimensional realization, or an analytic selector for all stabilizing controllers.
+\end{definition}
+
+\begin{theorem}[Youla-Kucera parametrization NameCert obligations]
+\label{thm:youla-kucera-parametrization-namecert-obligations}
+For every accepted $\YoulaKuceraParametrizationUp$ carrier
+$$
+Y=(P,C,Q,S,K,T,R,V,H,E,G,N),
+$$
+the local $\NameCert_{\YoulaKuceraParametrizationUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed plant row, coprime-factor row, free stable-parameter row, closed-loop stability ledger, controller readback, transport, replay, verification ledger, refusal row, exactness row, provenance, and local naming;
+\item factor exposure, requiring every controller read to display $P$ and $C$ before it consumes the free parameter $Q$;
+\item stability-ledger exactness, requiring $S$ and $E$ to bind the same plant, factor, parameter, and controller rows;
+\item robust-control handoff, requiring $V$ to expose the finite $\LQRUp$, $\RiccatiUp$, $\ControlRiccatiUp$, $\HInfinityControlUp$, and $\ModelPredictiveControlUp$ dependency rows before a consumer reads $K$ as a controller-family output;
+\item host-refusal preservation, requiring $H,T,R,G,N$ to preserve the same finite route without adding selected analytic stabilizers, host transfer functions, quotient controller equality, spectral factorization, or infinite-dimensional realization.
+\end{enumerate}
+No Youla-Kucera parametrization obligation is stored outside $P,C,Q,S,K,T,R,V,H,E,G,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:youla-kucera-parametrization-carrier}. The packet displays the plant, coprime-factor, free stable-parameter, stability-ledger, controller-readback, transport, replay, verification, refusal, exactness, provenance, and local naming rows.
+
+Factor exposure is immediate from the order of the rows. A controller read reaches $K$ only after the same plant row $P$, factor row $C$, parameter row $Q$, and stability ledger $S$ have been displayed.
+
+The exactness obligation is carried by $E$. It binds the controller readback to the displayed $P,C,Q,S$ route, so componentwise transport or replay cannot replace the controller by a host-side transfer-function calculation.
+
+The robust-control handoff is the row $V$. It names exactly the finite LQR, Riccati, control-Riccati, bounded-gain, and model-predictive-control dependency rows consumed by downstream control packets before $K$ is public.
+
+Finally, $H,T,R,G,N$ keep the refusal and structural data attached to the same carrier. Since selected analytic stabilizers, quotient controller equality, spectral factorization, host transfer functions, and infinite-dimensional realizations have no coordinate in $Y$, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Youla-Kucera parametrization robust-control handoff]
+\label{thm:youla-kucera-parametrization-robust-control-handoff}
+Every $\HInfinityControlUp$, $\LQRUp$, $\RiccatiUp$, $\ControlRiccatiUp$, or $\ModelPredictiveControlUp$ consumer of an accepted $\YoulaKuceraParametrizationUp$ carrier
+$$
+Y=(P,C,Q,S,K,T,R,V,H,E,G,N)
+$$
+must read the displayed route
+$$
+P,C,Q,S,K,V,E
+$$
+before treating $K$ as a controller-family output. The handoff exports a finite parametrization surface, not a selected analytic stabilizing controller, host transfer-function equality, quotient controller equality, spectral factorization, or infinite-dimensional realization.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:youla-kucera-parametrization-namecert-obligations}. They force every controller read to expose $P,C,Q,S,K$ and then to pass through the verification ledger $V$ and exactness row $E$.
+
+Read the downstream control rows through $V$. The finite LQR, Riccati, control-Riccati, bounded-gain, and model-predictive-control rows are dependency rows for the same carrier, not replacement analytic control theorems.
+
+The refusal row $H$ remains attached under $T,R,G,N$. Thus the consumer receives only the displayed parametrization route and cannot bypass it through host transfer functions, quotient equality, spectral factorization, selected stabilizers, or infinite-dimensional realization.
+\end{proof}
+
+\closureat{YoulaKuceraParametrizationUp}{seedStr}
+
+\begin{closurestatus}{\YoulaKuceraParametrizationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:youla-kucera-parametrization-carrier}, \autoref{thm:youla-kucera-parametrization-namecert-obligations}, and \autoref{thm:youla-kucera-parametrization-robust-control-handoff} seed the finite parametrization route from plant and coprime-factor rows through a free stable-parameter row to controller readback and robust-control dependency rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected analytic stabilizing controllers, host transfer functions, quotient controller equality, spectral factorization, infinite-dimensional realization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, factor exposure, stability-ledger exactness, robust-control handoff, host-refusal preservation, transport, replay, provenance, and local naming for BEDC.Derived.YoulaKuceraParametrizationUp.}
+  \constructivestory{A $\YoulaKuceraParametrizationUp$ packet is generated from a finite plant row, coprime-factor row, free stable-parameter row, closed-loop stability ledger, controller readback, componentwise hsame transport, displayed Cont replay, robust-control verification ledger, host-refusal row, exactness row, Pkg provenance, and local NameCert row.}
+\end{closurestatus}
