@@ -8580,6 +8580,7 @@ import BEDC.Derived.NeumannSeriesUp.TasteGate
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NewtonKantorovichUp.TasteGate
 import BEDC.Derived.NiemytzkiPlaneUp.TasteGate
+import BEDC.Derived.NikodymBoundednessUp.TasteGate
 import BEDC.Derived.NoAbsoluteBridgeAuditUp.TasteGate
 import BEDC.Derived.NoGlobalSyncBoundaryUp.TasteGate
 import BEDC.Derived.NoGlobalSynchronizationLedgerUp.ConsumerNonescape
@@ -11718,6 +11719,7 @@ import BEDC.Derived.TopologyUp.StdBridge
 import BEDC.Derived.ToposUp
 import BEDC.Derived.ToposUp.NameCertObligationSurface
 import BEDC.Derived.TotalBoundedMetricUp.TasteGate
+import BEDC.Derived.TotalHostFuelHandoffUp.CarrierAdmission
 import BEDC.Derived.TotalHostFuelHandoffUp.NameCertObligations
 import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
 import BEDC.Derived.TotalVariationFunctionUp.TasteGate
@@ -11859,6 +11861,7 @@ import BEDC.Derived.UnaryZeroSpineStandardIsoUp.TasteGate
 import BEDC.Derived.UniformBoundednessPrincipleUp.TasteGate
 import BEDC.Derived.UniformBoundednessUp
 import BEDC.Derived.UniformBoundednessUp.BaireHandoff
+import BEDC.Derived.UniformBoundednessUp.BoundedOperatorEnvelope
 import BEDC.Derived.UniformBoundednessUp.TasteGate
 import BEDC.Derived.UniformCauchyBicompletionUp.TasteGate
 import BEDC.Derived.UniformCauchyCompletionRealizerUp
