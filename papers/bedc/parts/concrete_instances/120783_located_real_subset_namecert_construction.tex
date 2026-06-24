@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealSubsetUp$}
+\label{ch:concrete-instances-located-real-subset-namecert}
+\origin{human}
+
+Following Bishop and Bridges on located subsets of constructive metric spaces, the $\LocatedRealSubsetUp$ packet records a Real-facing subset by finite positive and negative distance reads rather than by a classical powerset predicate. It sits over the located-real interface of \autoref{ch:concrete-instances-locatedreal-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet gives downstream Real and Completion consumers a finite located-subset boundary without importing quotient subsets, selected representatives, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Located real subset carrier]
+\label{def:located-real-subset-carrier}
+A $\LocatedRealSubsetUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,W,R,L,I,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare positive and negative distance reads.
+\item $W$ is the $\StreamNameUp$ window schedule through which a consumer reads only finite prefixes of a real name.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row extracted from those windows.
+\item $L$ is the $\LocatedRealUp$ comparison row that exposes the local located-real separator used by the subset packet.
+\item $I$ is the inside row, listing displayed evidence that the current real-name window lies within the subset up to the recorded tolerance.
+\item $O$ is the outside row, listing displayed evidence that the current real-name window is apart from the subset up to the recorded tolerance.
+\item $H$ stores componentwise $\hsame$ transport for tolerance, window, regular-rational, located-real, inside, outside, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay by which the same finite read moves from a real-name window to either the inside row or the outside row.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealSubsetUp$, $\LocatedRealUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRealSubsetUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for a host powerset of $\RealUp$, quotient subset equality, selected representatives, countable choice, open-cover compactness, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Located real subset NameCert obligations]
+\label{thm:located-real-subset-namecert-obligations}
+For every accepted $\LocatedRealSubsetUp$ carrier $S=(D,W,R,L,I,O,H,C,P,N)$, the local $\NameCert_{\LocatedRealSubsetUp}$ surface consists exactly of dyadic tolerance admission, finite-window readback, regular-rational handoff, located-real comparison, inside-row exposure, outside-row exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-real-subset-carrier}. The rows $D,W,R,L,I,O,H,C,P,N$ are the only visible coordinates.
+
+The Real-facing read starts with $D,W,R,L$. The dyadic ledger supplies the tolerance scale, the stream schedule supplies finite observation windows, the regular rational row supplies the readback, and the located-real row supplies the comparison boundary before any subset row is read.
+
+The subset read is then split into $I$ and $O$. Inside evidence and outside evidence are both displayed packet rows, so the packet records locatedness as a finite decision-facing boundary rather than as a host subset predicate.
+
+The remaining rows preserve and name the same boundary. Since the carrier contains no host powerset, quotient subset equality, selected representative, choice schedule, compact-cover datum, or ambient completeness coordinate, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Located real subset L10 scope]
+\label{thm:located-real-subset-l10-scope}
+Every consumer of an accepted $\LocatedRealSubsetUp$ packet factors through the displayed L10 route
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \LocatedRealUp,\ \RealUp
+$$
+together with the inside row, outside row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The route exposes finite located-subset reads for Real and Completion consumers, and it does not export open-cover compactness, quotient subsets, countable choice, selected representatives, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $S=(D,W,R,L,I,O,H,C,P,N)$. The source side is the finite Real-facing chain $D,W,R,L$ together with the real seal read named by the package row.
+
+Apply \autoref{thm:located-real-subset-namecert-obligations}. A consumer can read subset information only through the displayed inside row $I$ or the displayed outside row $O$, and both rows remain under the same tolerance, window, regular-rational, and located-real boundary.
+
+The transport row $H$, replay row $C$, provenance row $P$, and naming row $N$ keep that boundary stable for downstream consumers. No remaining coordinate supplies compactness by open covers, quotient subset equality, countable choice, selected representatives, or ambient completeness of $\RealUp$.
+\end{proof}
+
+\closureat{LocatedRealSubsetUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealSubsetUp}
+  \constructivestory{A $\LocatedRealSubsetUp$ packet is generated from a dyadic tolerance ledger, finite stream windows, regular rational readback, located-real comparison, inside and outside subset rows, componentwise transport, displayed replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-subset-carrier}, \autoref{thm:located-real-subset-namecert-obligations}, and \autoref{thm:located-real-subset-l10-scope} bind the finite located-subset carrier, NameCert obligation surface, and Real-facing L10 dependency scope.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close open-cover compactness, quotient subsets, countable choice, selected representatives, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires a checked consumer-factorization route for the displayed dyadic, stream, regular rational, located-real, Real seal, inside, outside, transport, replay, provenance, and local NameCert rows.}
+\end{closurestatus}

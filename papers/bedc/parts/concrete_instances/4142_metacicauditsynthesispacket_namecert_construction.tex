@@ -139,6 +139,28 @@ Now apply the consistency blocker ledger of \autoref{thm:metacic-audit-synthesis
 Finally use route-union exactness from \autoref{thm:metacic-audit-synthesis-route-union-exactness}. The positive rows and blocker row share transport and provenance in one audit-route union. Hence a positive-branch consumer carries $S$ and $B$ through $H,R,P,L$ whenever it reads $C,N,U,D$, or $A$, and the excluded full-consistency claims remain outside the packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC audit synthesis retained-blocker induction]
+\label{thm:metacic-audit-synthesis-retained-blocker-induction}
+For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
+$$
+M=(S,C,N,U,D,A,B,H,R,P,L),
+$$
+any finite fold that successively consumes a nonempty sublist of the positive rows
+$$
+C,N,U,D,A
+$$
+must carry the subject-reduction row $S$ and blocker row $B$ through $H,R,P,L$ at every fold stage. The fold may expose confluence, normalization, substitution, decidable checking, and closed-normal assembly data, but it cannot export subject reduction, unrestricted Church--Rosser, candidate-free normalization, beta-conversion decidability, quotient equality of MetaCIC terms, or full consistency.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite positive-row list $C,N,U,D,A$ restricted to the nonempty sublist consumed by the fold.
+
+For the base step, the first consumed positive row is one of $C,N,U,D,A$. Apply the positive-blocker union theorem, \autoref{thm:metacic-audit-synthesis-positive-blocker-union}. The consumer must already carry $S$ and $B$ through the same componentwise transport, route replay, provenance, and local naming rows $H,R,P,L$.
+
+For the successor step, suppose the current fold prefix carries $S$ and $B$ through $H,R,P,L$. Consuming the next positive row is again a read of one of $C,N,U,D,A$ from the same carrier $M$. Apply route-union exactness, \autoref{thm:metacic-audit-synthesis-route-union-exactness}, to keep the new positive read in the same audit-route union, and apply the consistency-blocker ledger, \autoref{thm:metacic-audit-synthesis-consistency-blocker-ledger}, to keep the obstruction rows persistent.
+
+Thus every fold stage retains $S$ and $B$ through $H,R,P,L$. Since the carrier has no coordinate for subject reduction, unrestricted Church--Rosser, candidate-free normalization, beta-conversion decidability, quotient equality, or full consistency, the completed fold cannot export any of those claims.
+\end{proof}
+
 \begin{theorem}[MetaCIC audit synthesis obligation closure]
 \label{thm:metacic-audit-synthesis-obligation-closure}
 For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
