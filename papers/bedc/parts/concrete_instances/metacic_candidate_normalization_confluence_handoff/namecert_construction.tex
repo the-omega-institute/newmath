@@ -221,6 +221,24 @@ Apply the consumer boundary \autoref{thm:metacic-candidate-normalization-conflue
 Finally use \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-boundary}. That theorem identifies $D$ as the bounded comparison row after the displayed endpoint and residual rows have been exposed. Since the excluded global endpoints are not carrier coordinates, exhausting row $D$ preserves the finite comparison boundary without collapsing into global decidability.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate normalization confluence retained-premise inversion]
+\label{thm:metacic-candidate-normalization-confluence-retained-premise-inversion}
+Let
+$$
+H=(A,K,N,F,C,D,B,T,R,P,L)
+$$
+be an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier. If a bounded endpoint row or join row is read from $H$, then the read determines the same candidate evidence $K$, normalization frontier $F$, residual envelope $C$, decidable-boundary row $D$, blocked-edge row $B$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local naming $L$. Dropping any retained row changes the packet and cannot be presented as the same confluence handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}. The endpoint and join rows are not independent data; they are read from the displayed tuple with $K,F,C,D,B,T,R,P,L$ still visible.
+
+Apply the seed package and boundary results from \autoref{thm:metacic-candidate-normalization-confluence-handoff-seed-closure}, \autoref{thm:metacic-candidate-normalization-confluence-handoff-premise-exposure}, and \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. These force candidate evidence, frontier data, residual-envelope visibility, decidable-boundary access, and blocked-edge retention to remain part of the same handoff before any endpoint or join row is consumed.
+
+Use the bounded conversion comparison surface of \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-boundary} and \autoref{thm:metacic-candidate-normalization-confluence-handoff-decider-row-exhaustion}. The bounded comparison row $D$ can be read only together with the structural rows $T,R,P,L$, so erasing any retained coordinate changes the packet rather than simplifying the same one.
+
+Finally apply the nonescape clauses in \autoref{thm:metacic-candidate-normalization-confluence-boundary} and \autoref{thm:metacic-candidate-normalization-confluence-handoff-consumer-boundary}. They rule out parameter transport into a detached endpoint or join claim, leaving only constructor-style inversion on the concrete carrier rows.
+\end{proof}
+
 \begin{definition}[MetaCIC finite conversion certificate carrier]
 \label{def:metacic-finite-conversion-certificate-carrier}
 A $\MetacicCandidateNormalizationConfluenceHandoffUp$ finite conversion certificate is the subroute of an accepted carrier

@@ -552,6 +552,20 @@ quotient streams, selected limits, host real equality, or ambient completeness.
 Hence the listed rows exhaust the obligation surface.
 \end{proof}
 
+\begin{theorem}[Cauchy-modulus arithmetic public exactness]
+\label{thm:cauchy-modulus-arithmetic-public-exactness}
+Every Real-facing arithmetic read for an accepted $\CauchyModulusArithmeticUp$ sum or product regular-Cauchy consumer is exact exactly when the two source schedules $\mu_0,\mu_1$, the shared meet threshold $\mu_{\wedge}$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\StreamNameUp$ finite-window row $W$, the $\RegSeqRatUp$ readback row $R$, and the terminal $\RealUp$ seal $E$ are displayed in the same carrier together with $H,C,P,N$. Equivalently, the public sum/product read is accepted only through that one finite carrier surface and not through quotient streams, selected representatives, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with an accepted Real-facing sum or product read. Apply \autoref{thm:cauchy-modulus-arithmetic-sum-meet-closure} and \autoref{thm:cauchy-modulus-arithmetic-product-meet-compatibility}; they force the sum and product consumers to reuse the two source schedules, the shared meet threshold, the dyadic tolerance ledger, finite windows, and regular rational readbacks.
+
+The diagonal and common-tail rows keep the same public surface. Use \autoref{thm:cauchy-modulus-arithmetic-diagonal-dominates-sum-product} and \autoref{thm:cauchy-modulus-arithmetic-common-tail-window} to place every diagonal or late-window read under the same $\mu_{\wedge},D,W,R$ route.
+
+Now apply \autoref{thm:cauchy-modulus-arithmetic-real-consumer-boundary} and \autoref{thm:cauchy-modulus-arithmetic-real-seal-distribution}. They put the Real-facing read behind $E,H,C,P,N$, so exactness is exactness of the displayed carrier rows.
+
+Conversely, if all listed rows are displayed in the same carrier, the obligation closure theorem \autoref{thm:cauchy-modulus-arithmetic-obligation-closure} supplies the finite NameCert surface. The same sum-meet, product-meet, diagonal, common-tail, boundary, and seal-distribution theorems then assemble the public read, with no coordinate left for the excluded host-level principles.
+\end{proof}
+
 \begin{theorem}[Cauchy-modulus arithmetic obligation scope package]
 \label{thm:cauchy-modulus-arithmetic-obligation-scope-package}
 The carrier, classifier, sum-meet closure, product meet compatibility, diagonal domination, Real-seal distribution, dyadic sum threshold, product tail bound, and Real-seal congruence rows jointly scope the $\CauchyModulusArithmeticUp$ NameCert surface over $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Every accepted arithmetic read must pass through the source schedules, shared meet threshold, arithmetic consumer rows, dyadic tolerance ledger, finite windows, regular rational readbacks, terminal Real seal, transport, replay, provenance, and local naming rows before it can expose a sum, product, or Real-facing output.
