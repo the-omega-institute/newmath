@@ -34,4 +34,33 @@ theorem ObserverPerspectiveClassifierAlignmentConsumer [AskSetup] [PackageSetup]
     ⟨localityUnary, gapUnary, transportUnary, routeUnary, publicReadUnary, localityTransport,
       transportRoutePublicRead, provenancePkg, namePkg, publicReadPkg⟩
 
+theorem ObserverPerspectiveClassifierLedgerExhaustion [AskSetup] [PackageSetup]
+    {observerLeft observerRight universeLeft universeRight locality gap transport route
+      provenance name publicRead verdict : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverPerspectiveClassifierCarrier observerLeft observerRight universeLeft universeRight
+        locality gap transport route provenance name bundle pkg →
+      Cont gap route publicRead →
+        Cont publicRead name verdict →
+          PkgSig bundle publicRead pkg →
+            PkgSig bundle verdict pkg →
+              UnaryHistory publicRead ∧ UnaryHistory verdict ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                  PkgSig bundle publicRead pkg ∧ PkgSig bundle verdict pkg ∧
+                    hsame verdict verdict := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory hsame
+  intro carrier gapRoutePublicRead publicReadNameVerdict publicReadPkg verdictPkg
+  obtain
+    ⟨_observerLeftUnary, _observerRightUnary, _universeLeftUnary, _universeRightUnary,
+      _localityUnary, gapUnary, _transportUnary, routeUnary, _provenanceUnary, nameUnary,
+      _observerUniverse, _universeLocality, _localityTransport, _transportGap, provenancePkg,
+      namePkg⟩ := carrier
+  have publicReadUnary : UnaryHistory publicRead :=
+    unary_cont_closed gapUnary routeUnary gapRoutePublicRead
+  have verdictUnary : UnaryHistory verdict :=
+    unary_cont_closed publicReadUnary nameUnary publicReadNameVerdict
+  exact
+    ⟨publicReadUnary, verdictUnary, provenancePkg, namePkg, publicReadPkg, verdictPkg,
+      hsame_refl verdict⟩
+
 end BEDC.Derived.ObserverperspectiveclassifierUp

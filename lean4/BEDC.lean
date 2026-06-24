@@ -10916,6 +10916,7 @@ import BEDC.Derived.SamuelCompletionUp
 import BEDC.Derived.SamuelCompletionUp.TasteGate
 import BEDC.Derived.SardRegularValueUp
 import BEDC.Derived.SardTheoremFiniteJetUp.TasteGate
+import BEDC.Derived.SardTheoremUp
 import BEDC.Derived.SchauderBasisUp.TasteGate
 import BEDC.Derived.SchauderFiniteCompactMapUp
 import BEDC.Derived.SchauderFixedPointUp.TasteGate
