@@ -337,14 +337,15 @@ Finally apply cofinal window refinement, \autoref{thm:regular-cauchy-apartness-b
 The Lean TasteGate route is expected to provide \texttt{Nontrivial RegularCauchyApartnessBudgetUp} with an explicit witness pair and \texttt{FieldFaithful RegularCauchyApartnessBudgetUp} with \texttt{.mk}-derived fields and a match/injection proof.
 
 \closureat{RegularCauchyApartnessBudgetUp}{publicStr}
+\closureat{RegularCauchyApartnessBudgetUp}{bridgedStr}
 
 \begin{closurestatus}{\RegularCauchyApartnessBudgetUp}
   \constructivestory{A $\RegularCauchyApartnessBudgetUp$ packet is generated from a regular-Cauchy source, a finite nonzero-apartness budget, a modulus row, a finite StreamName window, a DyadicRatCore lower-bound readback, a RegSeqRat readback, a RealUp seal, componentwise transports, displayed routes, provenance, and local naming.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:regular-cauchy-apartness-budget-public-interface} exports the public reciprocal-window and $\RealUp$-seal surface, while \autoref{thm:regular-cauchy-apartness-budget-l10-scope-binding} gives the exact L10 dependency scope over $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\CauchyInverseBudgetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ before consumption.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:regular-cauchy-apartness-budget-public-interface} exports the public reciprocal-window and $\RealUp$-seal surface, \autoref{thm:regular-cauchy-apartness-budget-l10-scope-binding} gives the exact L10 dependency scope over $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\CauchyInverseBudgetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, and \autoref{thm:regular-cauchy-apartness-budget-bridge-surface} records the paper-side bridge route for the same finite budget packet before consumption.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, host nonzero reals, trichotomy, quotient streams, selected representatives, total reciprocal operations, ambient completeness, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, apartness-budget exposure, dyadic lower-bound soundness, Real-seal non-escape, provenance, and TasteGate alignment for the same finite packet.}
+  \upgradepath{Lean-side carrier admission, classifier stability, apartness-budget exposure, dyadic lower-bound soundness, Real-seal non-escape, provenance, and TasteGate alignment remain separate from the bridge-facing paper surface.}
 \end{closurestatus}

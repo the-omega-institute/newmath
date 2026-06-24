@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\ModulusOfCauchyConvergenceUp$}
+\label{ch:concrete-instances-modulus-of-cauchy-convergence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy convergence, the $\ModulusOfCauchyConvergenceUp$ packet records the explicit finite threshold schedule by which a displayed regular rational stream becomes a Real-facing Cauchy name. It sits after the stream-window source of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, and the completion route of \autoref{ch:concrete-instances-cauchycompletionoperator-namecert}. The packet names an explicit convergence modulus only; it does not choose a host limit, quotient stream representatives, countably many witnesses, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Modulus of Cauchy convergence carrier]
+\label{def:modulus-of-cauchy-convergence-carrier}
+A $\ModulusOfCauchyConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,D,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source row, carrying the inspected finite windows of the rational stream.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, naming the dyadic precision requests and their order comparison ledger.
+\item $T$ is the tail-threshold schedule. For each displayed tolerance request in $D$, it names a finite threshold index and the finite window in $S$ on which all later inspected pairs are compared.
+\item $R$ is the $\RegSeqRatUp$ handoff row, reading the regular rational sequence through the same stream windows and tolerance requests.
+\item $E$ is the $\RealUp$ seal row exposed only after the scheduled tail comparisons and the regular rational handoff have been read.
+\item $H$ records componentwise $\hsame$ transport for $S,D,T,R,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,D \longmapsto T \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ModulusOfCauchyConvergenceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyCompletionOperatorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ModulusOfCauchyConvergenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for selecting an infinite family of tail witnesses, passing to quotient Cauchy classes, choosing a completed Real representative, or invoking completeness outside the displayed completion route.
+\end{definition}
+
+\begin{theorem}[Modulus of Cauchy convergence NameCert obligations]
+\label{thm:modulus-of-cauchy-convergence-namecert-obligations}
+For every accepted $\ModulusOfCauchyConvergenceUp$ carrier
+$$
+M=(S,D,T,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\ModulusOfCauchyConvergenceUp}$ surface consists exactly of carrier admission for the stream source, dyadic tolerance row, tail-threshold schedule, regular rational handoff, Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:modulus-of-cauchy-convergence-carrier}. The rows $S,D,T$ provide the only admissible source windows, tolerance requests, and threshold schedule.
+
+The handoff rows $R,E$ are read after that schedule is fixed. Thus a Real-facing consumer can inspect the regular rational row and the terminal seal only through the same finite tail data.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name this finite route. Since no coordinate stores a choice functional, quotient class, selected host limit, or ambient completeness theorem, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Modulus of Cauchy convergence tail witness]
+\label{thm:modulus-of-cauchy-convergence-tail-witness}
+Every accepted tolerance request in a $\ModulusOfCauchyConvergenceUp$ packet is discharged by the displayed tail-threshold row $T$. More precisely, if a consumer asks for the dyadic tolerance named by a row of $D$, the packet returns the threshold and finite stream window named in $T$, and every later inspected pair used by the $\RegSeqRatUp$ handoff is routed through that same window.
+\end{theorem}
+\begin{proof}
+Begin with the requested dyadic tolerance. By carrier admission, it is a row of $D$, so the schedule coordinate $T$ contains the corresponding threshold entry.
+
+Read the stream source through $S$ at the window named by that entry. The regular rational handoff row $R$ is defined over the same source and tolerance rows, so it cannot replace the threshold with an unlisted one or ask for a stream value outside the displayed window.
+
+Finally use the transport and replay rows $H$ and $C$ to carry the same threshold under equivalent packet presentations. The witness remains a finite tail row rather than a countable choice of witnesses.
+\end{proof}
+
+\begin{theorem}[Modulus of Cauchy convergence Real handoff]
+\label{thm:modulus-of-cauchy-convergence-real-handoff}
+For an accepted $\ModulusOfCauchyConvergenceUp$ carrier $M=(S,D,T,R,E,H,C,P,N)$, every downstream $\RealUp$ or $\CauchyCompletionOperatorUp$ consumer receives the stream source $S$, dyadic tolerance row $D$, tail-threshold schedule $T$, regular rational handoff $R$, Real seal $E$, and structural rows $H,C,P,N$. The handoff exports no selected host limit, quotient representative, countable-choice principle, or Real-completeness theorem beyond those displayed rows.
+\end{theorem}
+\begin{proof}
+Let a downstream consumer read the Real-facing output. The only available route to that output is the displayed replay row $C$, whose source is $S,D$, whose middle coordinate is $T$, and whose handoff rows are $R,E$.
+
+The package row $P$ records this same route as provenance for $\ModulusOfCauchyConvergenceUp$ and $\CauchyCompletionOperatorUp$. It is not a limit selector, quotient map, or completeness principle.
+
+Therefore every Real or completion read is still a read of the finite carrier coordinates. The excluded host limit, quotient representative, countable-choice row, and ambient completeness theorem are not carrier coordinates, so they cannot be exported by the handoff.
+\end{proof}
+
+\closureat{ModulusOfCauchyConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\ModulusOfCauchyConvergenceUp}
+  \constructivestory{A $\ModulusOfCauchyConvergenceUp$ packet is generated from a stream source, dyadic tolerance row, explicit tail-threshold schedule, regular rational handoff, Real seal, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:modulus-of-cauchy-convergence-carrier}, \autoref{thm:modulus-of-cauchy-convergence-namecert-obligations}, \autoref{thm:modulus-of-cauchy-convergence-tail-witness}, and \autoref{thm:modulus-of-cauchy-convergence-real-handoff} seed the explicit modulus carrier, NameCert surface, tail witness route, and Real-facing handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected host limits, quotient stream representatives, countable choice, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tolerance exactness, tail-threshold coverage, regular rational handoff, Real seal preservation, transport stability, and replay stability for the finite modulus packet.}
+\end{closurestatus}

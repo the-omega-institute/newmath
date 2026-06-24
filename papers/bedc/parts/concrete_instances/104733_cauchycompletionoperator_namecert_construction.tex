@@ -147,6 +147,7 @@ the local NameCert obligations decompose exactly into the following three faces:
 \item ledger nonescape, requiring every separated-limit or Real-facing consumer to read only the displayed rows $M,B,U,S,R,D,Q,E,H,C,P,N$ and no quotient completion equality, selected representative, selected limit, countable-choice schedule, host completion operator, or ambient $\RealUp$ completeness datum.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCompletionOperatorUp.CauchyCompletionOperatorObligationTriad}
 \begin{proof}
 The finite-window face is exactly \autoref{thm:cauchy-completion-operator-window-extraction}. It isolates $B,S,R,D,H,C,P,N$ as the finite evidence a consumer must inspect before $Q$ or $E$ is available.
 
@@ -190,6 +191,7 @@ M,U \longmapsto B \longmapsto S,R,D \longmapsto Q,E \longmapsto H,C,P,N .
 $$
 If the same consumer also cites a $\CompletionUniversalPropertyUp$ row or a $\CauchyCompletionFunctorUp$ row, that row is admitted only as a downstream read of the same boundary, finite-window, separated-limit, Real-seal, transport, replay, provenance, and local naming route. The consumer receives no host universal property, quotient completion, selected representative, selected limit, countable-choice schedule, or ambient $\RealUp$ completeness shortcut around $O$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCompletionOperatorUp.CauchyCompletionOperatorUniversalFactorization}
 \begin{proof}
 Start with a completion-universal or functorial completion consumer of $O$. By \autoref{thm:cauchy-completion-operator-functorial-handoff}, the consumer already reads the metric and uniform source rows through the displayed boundary row before it can inspect finite windows, regular readback, dyadic tolerances, separated-limit handoff, Real seal, transport, replay, provenance, or local naming.
 
@@ -212,6 +214,7 @@ M,U \longmapsto B \longmapsto S,R,D \longmapsto H,C,P,N .
 $$
 Thus $Q$ is a downstream separated-limit handoff of the displayed finite-window route, not an independent completion witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyCompletionOperatorUp.CauchyCompletionOperatorSeparatedLimitFactorization}
 \begin{proof}
 Start with the obligation surface of \autoref{thm:cauchy-completion-operator-namecert-obligations}. It exposes $Q$ only as one row of the accepted carrier, after the metric source, completion-boundary, uniform source, StreamName window, RegSeqRat readback, and DyadicRatCore tolerance rows have already been displayed.
 
@@ -220,12 +223,28 @@ Apply finite-window extraction and the obligation-window route, \autoref{thm:cau
 Finally use ledger nonescape, \autoref{thm:cauchy-completion-operator-ledger-nonescape}. Since quotient completion equality, selected limits, host completion operators, countable choice, and ambient $\RealUp$ completeness are absent from the carrier, row $Q$ cannot supply an independent completion object. It is only the separated-limit handoff downstream of the finite StreamName, RegSeqRat, and DyadicRatCore route.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionOperator scoped obligation closure]
+\label{thm:cauchy-completion-operator-scoped-obligation-closure}
+For every accepted $\CauchyCompletionOperatorUp$ carrier
+$$
+O=(M,B,U,S,R,D,Q,E,H,C,P,N),
+$$
+the metric and uniform source rows, completion-boundary row, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, separated-limit handoff, $\RealUp$ seal, transport, replay, provenance, and local $\NameCert$ rows jointly discharge the $\obligationClosure$ surface for the operator. Every scope is routed through the displayed BEDC primitives and sibling chapters, and no scope is supplied by quotient completion equality, selected representatives, selected limits, countable choice, host completion operators, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface and functorial handoff, \autoref{thm:cauchy-completion-operator-namecert-obligations} and \autoref{thm:cauchy-completion-operator-functorial-handoff}. These expose the metric source, uniform source, completion boundary, finite window, regular readback, dyadic ledger, separated-limit handoff, Real seal, and structural rows in the displayed carrier order.
+
+Apply finite-window extraction, ledger nonescape, and Real-seal nonescape from \autoref{thm:cauchy-completion-operator-window-extraction}, \autoref{thm:cauchy-completion-operator-ledger-nonescape}, and \autoref{thm:cauchy-completion-operator-real-seal-nonescape}. They force terminal separated-limit and Real-facing reads through the same finite window and prevent escape to quotient, choice, host, or ambient-completeness data.
+
+Finally use the obligation triad, obligation-window route, universal factorization, and separated-limit factorization, \autoref{thm:cauchy-completion-operator-obligation-triad}, \autoref{thm:cauchy-completion-operator-obligation-window-route}, \autoref{thm:cauchy-completion-operator-universal-factorization}, and \autoref{thm:cauchy-completion-operator-separated-limit-factorization}. These rows exhaust carrier admission, source routing, terminal handoff, transport, replay, provenance, and local naming, so the scoped obligation surface is closed exactly at $\obligationClosure$.
+\end{proof}
+
 \closureat{CauchyCompletionOperatorUp}{seedStr}
 
 \begin{closurestatus}{\CauchyCompletionOperatorUp}
   \constructivestory{A $\CauchyCompletionOperatorUp$ packet is generated from MetricCompletion, CauchyCompletionBoundary, UniformCompletion, StreamName, RegSeqRat, DyadicRatCore, CompleteSeparatedMetric, Real, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-completion-operator-carrier}, \autoref{thm:cauchy-completion-operator-namecert-obligation-surface}, \autoref{thm:cauchy-completion-operator-functorial-handoff}, \autoref{thm:cauchy-completion-operator-ledger-nonescape}, and \autoref{thm:cauchy-completion-operator-obligation-window-route} seed the finite completion-operator surface over metric and uniform completion rows, boundary-mediated finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, separated-limit handoff, Real sealing, transport, replay, provenance, and local naming.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:cauchy-completion-operator-scoped-obligation-closure} closes the scoped obligation surface over $\MetricCompletionUp$, $\CauchyCompletionBoundaryUp$, $\UniformCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CompleteSeparatedMetricUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already exhibited by \autoref{def:cauchy-completion-operator-carrier}, \autoref{thm:cauchy-completion-operator-namecert-obligation-surface}, \autoref{thm:cauchy-completion-operator-window-extraction}, \autoref{thm:cauchy-completion-operator-obligation-triad}, \autoref{thm:cauchy-completion-operator-obligation-window-route}, \autoref{thm:cauchy-completion-operator-universal-factorization}, and \autoref{thm:cauchy-completion-operator-separated-limit-factorization}.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion equality, selected representatives, selected limits, countable choice, host completion operators, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}

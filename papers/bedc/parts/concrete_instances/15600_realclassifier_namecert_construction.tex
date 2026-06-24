@@ -63,6 +63,25 @@ The row $E$ records the regular-Cauchy equivalence boundary before any real-faci
 \end{proof}
 \leanchecked{BEDC.Derived.RealClassifierRegSeqRatHandoff}
 
+\begin{theorem}[RealClassifier regular-real tail-equivalence readback]
+\label{thm:real-classifier-regular-real-tail-equivalence-readback}
+Every accepted $\RealClassifierUp$ packet comparing two $\RealUp$ seals through
+$$
+S_X,S_Y,R_X,R_Y,W,D,C,E
+$$
+factors any same-real read through the $\RegularRealTailEquivalenceUp$ finite tail route before it reaches the public classifier boundary. The readback therefore consumes the shared $\RegSeqRatUp$ readbacks, common $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance ledger, $\RealNameClassifierUp$ comparison row, and visible $\RealUp$ seal rows as tail-equivalence data, not as host equality of completed reals.
+\end{theorem}
+\begin{proof}
+Apply the RegSeqRat handoff theorem \autoref{thm:real-classifier-regseqrat-handoff}. It forces every same-real read to expose $S_X,S_Y,R_X,R_Y,W,D,C,E$ before the public classifier boundary is reached.
+
+Use the finite same-real tail route of \autoref{ch:concrete-instances-regular-real-tail-equivalence-namecert}. Its carrier reads two regular rational sources through one finite window and one dyadic tolerance ledger before the Real-facing seal is consumed.
+
+Project the shared rows of the $\RealClassifierUp$ carrier. The rows $R_X,R_Y$ supply the two regular rational readbacks, $W$ supplies the common inspected window, $D$ supplies the tolerance ledger, $C$ records the name comparison, and $E$ records the visible regular-Cauchy boundary before $X,Y$ are read as terminal seals.
+
+The structural rows $H,K,P,N$ only transport, replay, source, and name that same finite packet. Hence a same-real read cannot bypass the regular-real tail-equivalence route by appealing to quotient streams, host real equality, selected limits, countable choice, trichotomy, or ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.RealClassifierUp.RealClassifierRegularRealTailEquivalenceReadback}
+
 \begin{theorem}[RealClassifier regular-sequence induction]
 \label{thm:realclassifier-regular-sequence-induction}
 Let
@@ -198,6 +217,24 @@ Use the RegSeqRat handoff of \autoref{thm:real-classifier-regseqrat-handoff} and
 Finally apply ledger exhaustion from \autoref{thm:real-classifier-ledger-exhaustion}, tolerance-window determinacy from \autoref{thm:real-classifier-tolerance-window-determinacy}, and window scope from \autoref{thm:real-classifier-window-scope}. The shared window and tolerance ledger determine the public classifier route, while $H,K,P,N$ transport, replay, source, and locally name that exact finite packet.
 \end{proof}
 \leanchecked{BEDC.Derived.RealClassifierPublicExactnessSurface}
+
+\begin{theorem}[RealClassifier completion-density consumer]
+\label{thm:realclassifier-completion-density-consumer}
+Every completion-density consumer of an accepted $\RealClassifierUp$ read must expose the terminal $\RealUp$ seal rows, the $\RegSeqRatUp$ readbacks, the shared $\StreamNameUp$ finite window, the $\DyadicRatCoreUp$ tolerance ledger, the rational-density route of \autoref{ch:concrete-instances-rational-dense-embedding-namecert} or the regular Cauchy dense-embedding route of \autoref{ch:concrete-instances-regular-cauchy-dense-embedding-namecert}, and the classifier transport rows before the read is used as a countable dense surface. In carrier notation, for
+$$
+Q=(X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N),
+$$
+the dense consumer may reuse only the displayed route through $X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N$ together with the sibling density rows. It may not substitute selected representatives, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply the public exactness surface of \autoref{thm:realclassifier-public-exactness-surface}. It binds every accepted classifier read to the two terminal Real seals, the regular rational readbacks, the common StreamName window, the DyadicRatCore ledger, the comparison row, the regular-Cauchy equivalence boundary, and the structural transport, replay, provenance, and naming rows.
+
+Next use the regular-real tail-equivalence readback of \autoref{thm:real-classifier-regular-real-tail-equivalence-readback}. It keeps a same-real read inside the shared regular-rational, finite-window, dyadic-ledger, and comparison route before the public classifier boundary is reached.
+
+Now pass to the density sibling. A rational-density consumer reads \autoref{ch:concrete-instances-rational-dense-embedding-namecert}; a completion-facing regular-Cauchy consumer reads \autoref{ch:concrete-instances-regular-cauchy-dense-embedding-namecert}. In either case, the dense surface receives the already displayed $\RegSeqRatUp$ readback, $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance ledger, and $\RealUp$ seal route from the classifier packet.
+
+Finally read $H,K,P,N$ only as classifier transport, replay, provenance, and local naming. Since the carrier has no coordinate for selected representatives, quotient stream equality, countable choice, or ambient Real completeness, a completion-density consumer cannot obtain any of those endpoints from the accepted $\RealClassifierUp$ read.
+\end{proof}
 
 \begin{theorem}[RealClassifier audit route]
 \label{thm:real-classifier-audit-route}
