@@ -77,6 +77,32 @@ internal far-end object, global universe digest, or unledgered fiber consumer,
 no accepted read can obtain any of those objects from the packet.
 \end{proof}
 
+\begin{theorem}[HashLikeFiberBoundary sibling route]
+\label{thm:hashlikefiberboundary-sibling-route}
+Every accepted $\HashLikeFiberBoundaryUp$ packet reads visible digest exposure
+from \autoref{ch:concrete-instances-hash-namecert}, hidden fiber ledger rows
+from \autoref{ch:concrete-instances-digestfiberledger-namecert}, and far-end
+boundary rows from
+\autoref{ch:concrete-instances-apophatic-fixed-point-fiber-namecert} before it
+exports the local boundary certificate. Concretely, the rows $D,F,G,T,R,H,C,P,N$
+must be displayed as digest visibility, hidden fiber membership, GAP
+provenance, apophatic far-end boundary, refusal, transport, replay, provenance,
+and local naming rows for the same finite route.
+\end{theorem}
+\begin{proof}
+Project $D$ first. The hash certificate supplies only the visible digest
+exposure; it does not expose a hidden fiber or far-end boundary by itself.
+
+Next project $F$ and $G$. The digest-fiber ledger supplies hidden membership
+and GAP provenance behind the visible digest, keeping the source-side row
+ledgered rather than identified with $D$.
+
+Finally project $T,R,H,C,P,N$. The apophatic-fixed-point fiber supplies the
+far-end boundary row, while the refusal, transport, replay, provenance, and
+local naming rows keep that boundary attached to the displayed digest-fiber
+route before the local certificate is exported.
+\end{proof}
+
 \begin{theorem}[HashLikeFiberBoundary fiber-digest stability]
 \label{thm:hashlikefiberboundary-fiber-digest-stability}
 Any accepted transport of a $\HashLikeFiberBoundaryUp$ packet that preserves the
