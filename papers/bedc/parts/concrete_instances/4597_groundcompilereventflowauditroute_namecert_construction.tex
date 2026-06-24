@@ -104,6 +104,20 @@ Apply \autoref{thm:groundcompiler-event-flow-audit-route-channel-lossless-bounda
 Finally apply \autoref{thm:groundcompiler-event-flow-audit-route-non-evidence-boundary}. The non-evidence row remains a boundary for reports, motifs, metrics, source text, address summaries, proof text, and host compiler state, while $H,K,P,N$ only transport, replay, package, and name the same route. Thus classifier-stable packets preserve the displayed audit surface without exporting hidden evidence.
 \end{proof}
 
+\begin{theorem}[GroundCompiler event-flow audit route certificate-gate exhaustion]
+\label{thm:groundcompiler-event-flow-audit-route-certificate-gate-exhaustion}
+For every accepted $\GroundCompilerEventFlowAuditRouteUp$ route packet $R=(E,C,L,G,A,B,H,K,P,N)$, any accepted export through the certificate gate $A$ is exhausted by the displayed event-flow input $E$, legal source channel $C$, lossless boundary $L$, generated-recognizer row $G$, non-evidence boundary $B$, and structural rows $H,K,P,N$. Reports, motifs, metrics, proof text, source text, carried metadata, and host compiler state cannot become certificate evidence through $A$, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, or the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:groundcompiler-event-flow-audit-route-namecert-obligations}. They expose exactly the event-flow input, legal channel, lossless readback, generated recognizer, certificate gate, non-evidence boundary, and structural rows of $R$.
+
+Use the channel lossless boundary of \autoref{thm:groundcompiler-event-flow-audit-route-channel-lossless-boundary}. Any accepted route that reaches $A$ has already passed through $E,C,L,G$ in the displayed order, so the gate cannot be read as evidence for an unshown source channel or host compiler input.
+
+Next apply the non-evidence boundary of \autoref{thm:groundcompiler-event-flow-audit-route-non-evidence-boundary}. Reports, motifs, metrics, proof text, source text, carried metadata, and host compiler state remain behind $B$ and have no constructor into certificate evidence.
+
+Finally use classifier stability from \autoref{thm:groundcompiler-event-flow-audit-route-classifier-stability}. Componentwise $\hsame$ transport and $\Cont$ replay preserve the same rows $E,C,L,G,A,B,H,K,P,N$, while $P$ and $N$ only source and name that packet. Thus the certificate gate is exhausted by the displayed event-flow route and exports no additional evidence coordinate.
+\end{proof}
+
 \closureat{GroundCompilerEventFlowAuditRouteUp}{seedStr}
 
 \begin{closurestatus}{\GroundCompilerEventFlowAuditRouteUp}
