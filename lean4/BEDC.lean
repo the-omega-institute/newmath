@@ -8975,6 +8975,7 @@ import BEDC.Derived.OptionUp.VisibleExclusion
 import BEDC.Derived.OptionUp.VisiblePayloadWitnesses
 import BEDC.Derived.OptionUp.VisibleReadback
 import BEDC.Derived.OptionUpNullableBridge
+import BEDC.Derived.OptionalSamplingUp.TasteGate
 import BEDC.Derived.OptionalStieltjesModulusUp
 import BEDC.Derived.OptionalStieltjesModulusUp.TasteGate
 import BEDC.Derived.OptionalStoppingUp
@@ -9703,6 +9704,7 @@ import BEDC.Derived.RealCauchyWitnessGridUp.TasteGate
 import BEDC.Derived.RealClassifierUp
 import BEDC.Derived.RealClassifierUp.AuditRoute
 import BEDC.Derived.RealClassifierUp.CompletionDensityConsumer
+import BEDC.Derived.RealClassifierUp.CompletionSelectorSealReadback
 import BEDC.Derived.RealClassifierUp.LedgerExhaustion
 import BEDC.Derived.RealClassifierUp.RegularRealTailEquivalenceReadback
 import BEDC.Derived.RealClassifierUp.RegularSequenceInduction
@@ -11332,6 +11334,7 @@ import BEDC.Derived.SheafificationUp.PlusConstructionBoundary
 import BEDC.Derived.SheafificationUp.PlusGluingReplay
 import BEDC.Derived.SheafificationUp.SeparatedRefinementExactness
 import BEDC.Derived.SheafificationUp.SheafHandoff
+import BEDC.Derived.SheafificationUp.SourceExposureObligation
 import BEDC.Derived.SheafificationUp.SourceLocalityObligation
 import BEDC.Derived.SheafificationUp.SourceObligationPackage
 import BEDC.Derived.SheafificationUp.TasteGate
