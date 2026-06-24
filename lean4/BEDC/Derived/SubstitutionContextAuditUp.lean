@@ -94,4 +94,31 @@ theorem SubstitutionContextAuditNameCertObligation [AskSetup] [PackageSetup]
   }
   exact ⟨cert, substUnary, generatorUnary, replayUnary⟩
 
+theorem SubstitutionContextAuditBinderRoute [AskSetup] [PackageSetup]
+    {context shift subst composition generator binder handoff transport replay provenance
+      name binderRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubstitutionContextAuditCarrier context shift subst composition generator binder handoff
+      transport replay provenance name bundle pkg →
+      Cont context binder binderRead →
+        PkgSig bundle binderRead pkg →
+          UnaryHistory context ∧ UnaryHistory shift ∧ UnaryHistory subst ∧
+            UnaryHistory composition ∧ UnaryHistory generator ∧ UnaryHistory binder ∧
+              UnaryHistory binderRead ∧ Cont context shift subst ∧
+                Cont subst composition generator ∧ Cont binder handoff replay ∧
+                  Cont context binder binderRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle name pkg ∧ PkgSig bundle binderRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier binderRoute binderPkg
+  obtain ⟨contextUnary, shiftUnary, substUnary, compositionUnary, generatorUnary,
+    binderUnary, _handoffUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _nameUnary, substRoute, generatorRoute, replayRoute, provenancePkg, namePkg⟩ :=
+    carrier
+  have binderReadUnary : UnaryHistory binderRead :=
+    unary_cont_closed contextUnary binderUnary binderRoute
+  exact
+    ⟨contextUnary, shiftUnary, substUnary, compositionUnary, generatorUnary, binderUnary,
+      binderReadUnary, substRoute, generatorRoute, replayRoute, binderRoute, provenancePkg,
+      namePkg, binderPkg⟩
+
 end BEDC.Derived.SubstitutionContextAuditUp
