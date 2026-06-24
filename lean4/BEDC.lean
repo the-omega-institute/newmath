@@ -2528,6 +2528,7 @@ import BEDC.Derived.CauchyTailThresholdNormalizerUp.Classifier
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.CompositionScope
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.EncodedObligationReadback
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.ObligationLedger
+import BEDC.Derived.CauchyTailThresholdNormalizerUp.PublicCertificate
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RealFacingDeterminacy
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RealSealHandoff
 import BEDC.Derived.CauchyTailThresholdNormalizerUp.RouteExhaustion
@@ -10873,6 +10874,7 @@ import BEDC.Derived.SeparatedReflectionUp.TasteGate
 import BEDC.Derived.SeparatedUniformSpaceUp.TasteGate
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeqUp.TasteGate
+import BEDC.Derived.SequenceFilterBridgeUp.FilterToSequenceRoute
 import BEDC.Derived.SequenceFilterBridgeUp.SequenceToFilterRoute
 import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
 import BEDC.Derived.SequentialArchimedeanRealUp.TasteGate
