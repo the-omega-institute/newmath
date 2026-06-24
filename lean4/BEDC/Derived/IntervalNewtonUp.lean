@@ -434,4 +434,71 @@ theorem IntervalNewtonIntervalArithmeticSoundnessObligation [AskSetup] [PackageS
     ⟨arithmeticUnary, correctionReadUnary, arithmeticRoute, correctionRoute, provenancePkg,
       correctionPkg⟩
 
+theorem IntervalNewtonScopedConsumerRoute [AskSetup] [PackageSetup]
+    {B F D N K V R H C P L containment validatedRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IntervalNewtonCarrier B F D N K V R H C P L bundle pkg →
+      Cont N K containment →
+        Cont containment V validatedRead →
+          Cont validatedRead R realRead →
+            PkgSig bundle realRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row B ∨ hsame row N ∨ hsame row K ∨ hsame row V ∨
+                      hsame row R ∨ hsame row realRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont N K containment ∧
+                      Cont containment V validatedRead ∧
+                        Cont validatedRead R realRead ∧ PkgSig bundle realRead pkg)
+                  hsame ∧
+                UnaryHistory containment ∧ UnaryHistory validatedRead ∧
+                  UnaryHistory realRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier containmentRoute validatedRoute realRoute realPkg
+  obtain ⟨_unaryB, _unaryF, _unaryD, unaryN, unaryK, unaryV, unaryR, _unaryH,
+    _unaryC, _unaryP, _unaryL, _validatedLocal, _provenancePkg, _localPkg⟩ := carrier
+  have containmentUnary : UnaryHistory containment :=
+    unary_cont_closed unaryN unaryK containmentRoute
+  have validatedUnary : UnaryHistory validatedRead :=
+    unary_cont_closed containmentUnary unaryV validatedRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed validatedUnary unaryR realRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row N ∨ hsame row K ∨ hsame row V ∨
+              hsame row R ∨ hsame row realRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont N K containment ∧ Cont containment V validatedRead ∧
+              Cont validatedRead R realRead ∧ PkgSig bundle realRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro realRead ⟨hsame_refl realRead, realUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right, containmentRoute, validatedRoute, realRoute, realPkg⟩
+  }
+  exact ⟨cert, containmentUnary, validatedUnary, realUnary⟩
+
 end BEDC.Derived.IntervalNewtonUp
