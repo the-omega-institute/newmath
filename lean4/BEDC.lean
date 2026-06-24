@@ -5124,6 +5124,7 @@ import BEDC.Derived.DyadicShrinkScheduleUp
 import BEDC.Derived.DyadicShrinkScheduleUp.TasteGate
 import BEDC.Derived.DyadicSplineUp
 import BEDC.Derived.DyadicSplineUp.TasteGate
+import BEDC.Derived.DyadicSpreadUp
 import BEDC.Derived.DyadicStepApproximationUp.TasteGate
 import BEDC.Derived.DyadicStepFunctionUp
 import BEDC.Derived.DyadicStepFunctionUp.CommonRefinementRealRegseq
@@ -6479,6 +6480,7 @@ import BEDC.Derived.HenstockGaugePartitionUp
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
+import BEDC.Derived.HigmanLemmaUp
 import BEDC.Derived.HigsonCompactificationUp
 import BEDC.Derived.HigsonCompactificationUp.TasteGate
 import BEDC.Derived.HilbertAlexanderBlockerUp.FiniteHilbertRow
@@ -8121,6 +8123,8 @@ import BEDC.Derived.MetaCICParallelDiamondFrontierUp.ResidualJoinLocality
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.Route
 import BEDC.Derived.MetaCICParallelDiamondFrontierUp.TasteGate
 import BEDC.Derived.MetaCICParallelDiamondSelectorUp
+import BEDC.Derived.MetaCICParallelDiamondWitnessUp.Handoff
+import BEDC.Derived.MetaCICParallelDiamondWitnessUp.TasteGate
 import BEDC.Derived.MetaCICPiAdequacyBudgetUp.TasteGate
 import BEDC.Derived.MetaCICProofObjectAuditRouteUp.BlockedEdgeNonEscape
 import BEDC.Derived.MetaCICProofObjectAuditRouteUp.NameCertObligations
