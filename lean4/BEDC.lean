@@ -6841,6 +6841,7 @@ import BEDC.Derived.IsaacsEquationUp
 import BEDC.Derived.IsaacsEquationUp.TasteGate
 import BEDC.Derived.IsbellMrowkaPsiSpaceUp.TasteGate
 import BEDC.Derived.IsbellTightSpanUp.TasteGate
+import BEDC.Derived.IshiharaFiniteTestBoundaryUp
 import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.BoundedSequenceRoute
 import BEDC.Derived.IshiharaTrickUp.BranchStability
@@ -8217,6 +8218,8 @@ import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.BoundedJoinWindow
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.CandidateResidualJoin
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ConsumerBoundary
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.DeciderBoundary
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.DeciderRowExhaustion
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.FiniteEndpointComparison
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpointReadback
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ParallelFrontierConsumption
@@ -8864,6 +8867,7 @@ import BEDC.Derived.ObserverperspectiveclassifierUp.ObligationClosureWitness
 import BEDC.Derived.ObserverperspectiveclassifierUp.ObserverStateGapRoute
 import BEDC.Derived.ObserverperspectiveclassifierUp.PerspectiveStability
 import BEDC.Derived.ObserverperspectiveclassifierUp.PublicReadbackCriterion
+import BEDC.Derived.ObserverperspectiveclassifierUp.ScopeCertificate
 import BEDC.Derived.ObserverperspectiveclassifierUp.ScopedConsumerBoundary
 import BEDC.Derived.ObserverperspectiveclassifierUp.SiblingCarrierDependency
 import BEDC.Derived.ObserverperspectiveclassifierUp.StateTotality
@@ -10255,6 +10259,7 @@ import BEDC.Derived.RegularCauchyApartnessBudgetUp.L10ScopeBinding
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundDeterminacy
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundModulusMonotonicity
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundScope
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.MatureConsumer
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.PositiveWindowDeterminacy
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.PublicInterface
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.RealSealRefusal
@@ -11663,6 +11668,7 @@ import BEDC.Derived.SubjectReductionRouteUp.TasteGate
 import BEDC.Derived.SubjectReductionUp
 import BEDC.Derived.SubordinateFiniteModulusCoverUp.TasteGate
 import BEDC.Derived.SubordinateModulusCoverUp.LedgerExactness
+import BEDC.Derived.SubordinateModulusCoverUp.ObligationClosureRoute
 import BEDC.Derived.SubordinateModulusCoverUp.TasteGate
 import BEDC.Derived.SubsequenceLimitUp.TasteGate
 import BEDC.Derived.SubshiftOfFiniteTypeUp.TasteGate
