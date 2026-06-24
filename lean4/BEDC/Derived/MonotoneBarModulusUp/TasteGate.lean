@@ -1,4 +1,5 @@
-import BEDC.Derived.MonotoneBarModulusUp
+import BEDC.Derived.MonotoneBarModulusUp.Core
+import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
@@ -157,6 +158,12 @@ instance monotoneBarModulusNontrivial : Nontrivial BEDC.Derived.MonotoneBarModul
 def taste_gate : ChapterTasteGate BEDC.Derived.MonotoneBarModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
   monotoneBarModulusChapterTasteGate
+
+theorem MonotoneBarModulusNonescape :
+    ∀ x y : BEDC.Derived.MonotoneBarModulusUp,
+      monotoneBarModulusFields x = monotoneBarModulusFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact monotoneBarModulus_fields_faithful
 
 theorem MonotoneBarModulusTasteGate_single_carrier_alignment :
     (∀ h : BHist, monotoneBarModulusDecodeBHist (monotoneBarModulusEncodeBHist h) = h) ∧
