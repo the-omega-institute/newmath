@@ -12073,6 +12073,7 @@ import BEDC.Derived.UniformHomeomorphismUp.TasteGate
 import BEDC.Derived.UniformIntegralLimitUp.TasteGate
 import BEDC.Derived.UniformInverseModulusUp.TasteGate
 import BEDC.Derived.UniformLebesgueNumberUp.TasteGate
+import BEDC.Derived.UniformLimitCauchyCriterionUp.TasteGate
 import BEDC.Derived.UniformLimitContinuityUp
 import BEDC.Derived.UniformLimitContinuityUp.TasteGate
 import BEDC.Derived.UniformLimitContinuousUp.TasteGate
@@ -12227,6 +12228,7 @@ import BEDC.Derived.YonedaUp
 import BEDC.Derived.YoungInequalityUp.TasteGate
 import BEDC.Derived.YoungIntegralUp.TasteGate
 import BEDC.Derived.YoungIntegrationUp.TasteGate
+import BEDC.Derived.YoungMeasureUp.TasteGate
 import BEDC.Derived.YoungSymmetrizerUp.TasteGate
 import BEDC.Derived.YoungTableauUp
 import BEDC.Derived.ZCarryUp
