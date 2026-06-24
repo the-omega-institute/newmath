@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\DunfordPettisOperatorUp$}
+\label{ch:concrete-instances-dunford-pettis-operator-namecert}
+\origin{human}
+
+Following Dunford--Schwartz and Schaefer on completely continuous operators between Banach spaces, the $\DunfordPettisOperatorUp$ packet records the finite BEDC operator carrier that sends weakly compact or weakly null inspection rows into compact-image and completely continuous handoff rows. It sits over the bounded-operator carrier of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the Banach endpoint certificates of \autoref{ch:concrete-instances-banach-namecert}, the finite weak-test surface of \autoref{ch:concrete-instances-weak-topology-namecert}, the weak-compactness request of \autoref{ch:concrete-instances-weak-compactness-namecert}, the compact-operator consumer of \autoref{ch:concrete-instances-compactoperator-namecert}, and the Dunford--Pettis handoff row of \autoref{ch:concrete-instances-dunford-pettis-namecert}. The chapter names an operator carrier; it does not import a host theorem asserting that every weakly compact row is compactly imaged, nor does it select weakly convergent subsequences or quotient operator equality.
+
+\begin{definition}[Dunford--Pettis operator carrier]
+\label{def:dunford-pettis-operator-carrier}
+A $\DunfordPettisOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+T=(X,Y,A,W,K,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\BanachUp$ row, naming the normed linear source and its displayed completeness data.
+\item $Y$ is the target $\BanachUp$ row, naming the codomain Banach carrier read by compact-image consumers.
+\item $A$ is the $\BoundedLinearOperatorUp$ action row, carrying the bounded linear map from $X$ to $Y$ only as displayed operator data.
+\item $W$ is the $\WeakTopologyUp$ finite-test row, listing the weak probes and tolerances through which bounded or weakly null input families are inspected.
+\item $K$ is the $\WeakCompactnessUp$ request row, read as a compactness-facing demand on inspected input windows rather than as a completed weak-compactness theorem.
+\item $Q$ is the compact-image or completely-continuous handoff row consumed by $\CompactOperatorUp$ and $\DunfordPettisUp$ readers.
+\item $R$ is the $\RealUp$ scalar readback row for operator norms, weak probe values, compact-image radii, and tolerance ledgers.
+\item $H$ records componentwise $\hsame$ transport for the Banach endpoints, bounded operator action, weak tests, weak-compactness request, compact-image handoff, scalar readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the same operator packet for weak-compactness, compact-operator, and Dunford--Pettis consumers.
+\item $P$ is the $\Pkg$ provenance over $\DunfordPettisOperatorUp$, $\BanachUp$, $\BoundedLinearOperatorUp$, $\WeakTopologyUp$, $\WeakCompactnessUp$, $\CompactOperatorUp$, $\DunfordPettisUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DunfordPettisOperatorUp}$ row.
+\end{enumerate}
+The classifier accepts only packets exhausted by $X,Y,A,W,K,Q,R,H,C,P,N$. It has no coordinate for a host compactness theorem, a selected weakly convergent subsequence, quotient equality of operators, Banach--Alaoglu, countable choice, or ambient dual-space identification.
+\end{definition}
+\leanstmt{BEDC.Derived.DunfordPettisOperatorUp}
+
+\begin{theorem}[Dunford--Pettis operator NameCert obligations]
+\label{thm:dunford-pettis-operator-namecert-obligations}
+For the carrier of \autoref{def:dunford-pettis-operator-carrier}, the local $\NameCert_{\DunfordPettisOperatorUp}$ surface consists exactly of source and target Banach admission, bounded-linear-operator action admission, finite weak-test visibility, weak-compactness request visibility, compact-image or completely-continuous handoff exactness, Real scalar readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the packet $T=(X,Y,A,W,K,Q,R,H,C,P,N)$. The Banach endpoint rows $X,Y$ and the bounded-linear-operator row $A$ supply the operator carrier before any compactness-facing consumer can read it.
+
+The weak side is also displayed. The finite weak-test row $W$ and the weak-compactness request row $K$ are read before the handoff row $Q$, so the compact-image or completely-continuous conclusion remains attached to visible weak data.
+
+The scalar row $R$ supplies only the listed operator-norm, probe, radius, and tolerance readbacks. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet.
+
+Since no coordinate stores a host compactness theorem, selected subsequence, quotient operator equality, Banach--Alaoglu principle, countable-choice schedule, or dual-space identification, the NameCert obligations are exactly the displayed rows.
+\end{proof}
+
+\closureat{DunfordPettisOperatorUp}{seedStr}
+
+\begin{closurestatus}{\DunfordPettisOperatorUp}
+  \constructivestory{A $\DunfordPettisOperatorUp$ packet is generated from source and target Banach rows, a bounded-linear-operator action, weak-topology finite tests, a weak-compactness request, a compact-image or completely-continuous handoff, Real scalar readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dunford-pettis-operator-carrier} and \autoref{thm:dunford-pettis-operator-namecert-obligations} seed the finite operator carrier linking Banach endpoints, bounded linear action, weak tests, weak-compactness requests, and compact-image handoff rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.DunfordPettisOperatorUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host Dunford--Pettis theorem, selected weakly convergent subsequences, quotient equality of operators, Banach--Alaoglu, countable choice, ambient dual-space identification, theoremChecked Lean status, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Banach endpoint compatibility, bounded operator action, finite weak-test visibility, weak-compactness request visibility, compact-image handoff exactness, scalar readback, transport, replay, provenance, and local naming for BEDC.Derived.DunfordPettisOperatorUp.}
+\end{closurestatus}
