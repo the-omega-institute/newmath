@@ -108,10 +108,10 @@ Status preservation and the noncompletion surface then keep the blocker and curr
 
 \begin{closurestatus}{\UpgradeRegistryUp}
   \constructivestory{An $\UpgradeRegistryUp$ packet is generated from target, current-status, next-status, required-field, blocker, audit, formal-target, transport, continuation, package, and local NameCert rows.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:upgrade-registry-carrier}, \autoref{thm:upgrade-registry-namecert-obligations}, \autoref{thm:upgrade-registry-status-preservation}, \autoref{thm:upgrade-registry-noncompletion-surface}, and \autoref{thm:upgrade-registry-public-export} scope the public export surface for the target, current-status, next-status, required-field, blocker, audit, formal-target, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\UpgradeRegistryUp}$ rows owned by the upgrade-registry certificate.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:upgrade-registry-carrier}, \autoref{thm:upgrade-registry-namecert-obligations}, \autoref{thm:upgrade-registry-status-preservation}, \autoref{thm:upgrade-registry-noncompletion-surface}, \autoref{thm:upgrade-registry-public-export}, and \autoref{thm:upgrade-registry-bridged-handoff-surface} scope the public and bridge-facing export surfaces for the target, current-status, next-status, required-field, blocker, audit, formal-target, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\UpgradeRegistryUp}$ rows owned by the upgrade-registry certificate.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close bridge checking, Lean verification, or completion of registry promotions beyond the displayed public export surface.}
-  \upgradepath{The next step is Lean verification for the public target, status, blocker, audit, formal-target, transport, continuation, package, export, and local naming rows.}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, or completion of registry promotions beyond the displayed public and bridge-facing export surfaces.}
+  \upgradepath{No theory-axis upgrade remains; the remaining work is Lean verification and bridge checking for the displayed registry rows.}
 \end{closurestatus}

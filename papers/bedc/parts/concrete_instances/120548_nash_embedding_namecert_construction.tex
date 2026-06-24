@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\NashEmbeddingUp$}
+\label{ch:concrete-instances-nash-embedding-namecert}
+\origin{human}
+
+Following Nash on isometric embeddings of Riemannian manifolds, the $\NashEmbeddingUp$ packet records only the finite chartwise certificate surface needed to name an embedding candidate inside BEDC. It sits between the manifold chart carrier of \autoref{ch:concrete-instances-manifold-namecert}, the metric rows of \autoref{ch:concrete-instances-riemannianmetric-namecert}, the vector target surface of $\VecSpaceUp$ and $\EuclideanSpaceUp$, and the terminal scalar seals of \autoref{ch:concrete-instances-real-namecert}. The packet is not a host Nash theorem, not a selected global chart, not a quotient manifold equality, and not an ambient completeness principle.
+
+\begin{definition}[Nash embedding carrier]
+\label{def:nash-embedding-carrier}
+A $\NashEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+N=(M,G,A,E,D,R,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\ManifoldUp$ finite chart row, listing the inspected chart names, chart domains, and overlap rows used by the embedding read.
+\item $G$ is the $\RiemannianMetricUp$ row, exposing only the finite metric-component ledger over the displayed chart windows.
+\item $A$ is the chartwise atlas-to-target ledger, recording which chart rows are sent into the finite $\VecSpaceUp$ and $\EuclideanSpaceUp$ target rows.
+\item $E$ is the embedding-candidate row, naming the finite coordinate functions and point-separation obligations inspected in the displayed chart windows.
+\item $D$ is the $\DerivativeUp$ comparison row, storing the finite derivative or metric-pullback comparisons used to test that $E$ preserves the displayed metric rows of $G$.
+\item $R$ is the $\RealUp$ scalar seal row for every metric coefficient, coordinate coefficient, derivative comparison, and pullback comparison consumed by $D$.
+\item $H$ records componentwise $\hsame$ transport for chart rows, metric rows, target rows, embedding-candidate rows, derivative comparison rows, scalar seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a chartwise embedding request through $M,G,A,E,D,R,H$.
+\item $P$ is the $\Pkg$ provenance over $\NashEmbeddingUp$, $\ManifoldUp$, $\RiemannianMetricUp$, $\VecSpaceUp$, $\EuclideanSpaceUp$, $\DerivativeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\NashEmbeddingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host embedding operator, a global Nash existence theorem, quotient equality of manifolds, selected global charts, an unbounded coordinate family, or ambient Euclidean completeness.
+\end{definition}
+
+\begin{theorem}[Nash embedding NameCert obligations]
+\label{thm:nash-embedding-namecert-obligations}
+For every accepted $\NashEmbeddingUp$ carrier $N=(M,G,A,E,D,R,H,C,P,L)$, the local $\NameCert_{\NashEmbeddingUp}$ surface consists exactly of carrier admission for the finite chart row, metric-component admission, atlas-to-target admission, embedding-candidate admission, derivative or metric-pullback comparison admission, Real scalar sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+
+No obligation can be discharged by reading a host Nash theorem, a global embedding operator, quotient manifold equality, selected global charts, or ambient Euclidean completeness outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:nash-embedding-carrier}. The available rows are exactly $M,G,A,E,D,R,H,C,P,L$, so every naming obligation must be assigned to one of those coordinates.
+
+The geometric obligations are chartwise. The row $M$ supplies the inspected chart windows, $G$ supplies the finite metric ledger over those windows, $A$ routes the same chart windows into the target rows, and $E$ records the finite embedding-candidate data that downstream consumers may inspect.
+
+The comparison obligations are scalar-sealed. The row $D$ stores only derivative or metric-pullback comparisons over the displayed chart windows, and $R$ seals the scalar coefficients as $\RealUp$ rows before the structural rows $H,C,P,L$ transport, replay, source, and name the route. Since no other coordinate appears, the excluded host and quotient objects are not part of the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Nash embedding finite chart metric route]
+\label{thm:nash-embedding-finite-chart-metric-route}
+Every metric-facing consumer of an accepted $\NashEmbeddingUp$ packet must read the finite route
+$$
+\ManifoldUp,\ \RiemannianMetricUp,\ \VecSpaceUp,\ \EuclideanSpaceUp,\ \DerivativeUp,\ \RealUp
+$$
+through the displayed rows $M,G,A,E,D,R,H,C,P,L$ before treating the packet as an isometric-embedding witness. The route exports finite chartwise metric comparison data, not an ambient existence theorem or a globally selected coordinate system.
+\end{theorem}
+\begin{proof}
+Start with the chart and metric rows. The rows $M$ and $G$ determine the only chart windows and metric coefficients that can be inspected by a consumer.
+
+Next read the target and comparison rows. The row $A$ routes the displayed chart windows into the finite vector and Euclidean target rows, $E$ supplies the embedding-candidate ledger, and $D$ records the derivative or metric-pullback comparisons against the metric row $G$.
+
+Finally apply the scalar and structural rows. The row $R$ seals every coefficient and comparison through $\RealUp$, while $H,C,P,L$ keep transport, replay, provenance, and local naming attached to the same finite route. Thus a metric-facing consumer receives only chartwise comparison data and cannot replace it by a host Nash existence theorem, selected global chart, quotient manifold equality, or ambient completeness fact.
+\end{proof}
+
+\begin{theorem}[Nash embedding Euclidean seal nonescape]
+\label{thm:nash-embedding-euclidean-seal-nonescape}
+Every $\EuclideanSpaceUp$ or $\VecSpaceUp$ consumer of an accepted $\NashEmbeddingUp$ packet receives the target rows only after the chart ledger, Riemannian metric ledger, embedding-candidate ledger, derivative or pullback comparison ledger, and Real scalar seal have all been exposed. The Euclidean target seal therefore cannot escape into a host embedding operator, quotient manifold equality, selected global charts, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Inspect \autoref{def:nash-embedding-carrier}. The target rows appear only through $A$ and $E$, and both rows are downstream of the chart row $M$ and the metric row $G$.
+
+Use \autoref{thm:nash-embedding-finite-chart-metric-route}. It forces every target-facing read through $D$ and $R$, so the Euclidean coordinate data are consumed only after derivative or pullback comparisons and Real scalar seals are displayed.
+
+Then apply \autoref{thm:nash-embedding-namecert-obligations}. The structural rows $H,C,P,L$ preserve the same finite route and add no host operator, quotient equality, selected global chart, or completeness row. Hence the Euclidean target seal stays inside the local $\NashEmbeddingUp$ packet.
+\end{proof}
+
+\closureat{NashEmbeddingUp}{seedStr}
+
+\begin{closurestatus}{\NashEmbeddingUp}
+  \constructivestory{A $\NashEmbeddingUp$ packet is generated from finite ManifoldUp chart rows, RiemannianMetricUp metric-component rows, atlas-to-target rows, Euclidean and vector target rows, embedding-candidate rows, derivative or metric-pullback comparison rows, RealUp scalar seals, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:nash-embedding-carrier}, \autoref{thm:nash-embedding-namecert-obligations}, \autoref{thm:nash-embedding-finite-chart-metric-route}, and \autoref{thm:nash-embedding-euclidean-seal-nonescape} seed the finite chartwise isometric-embedding certificate surface for NashEmbeddingUp.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Nash's full embedding theorem, global smooth embedding existence, selected global charts, quotient manifold equality, ambient Euclidean completeness, Lean theorem checking, axiom purity, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite chart accountability, metric-component comparison, derivative or pullback exactness, Real scalar sealing, target nonescape, transport, replay, provenance, and local naming for BEDC.Derived.NashEmbeddingUp.}
+\end{closurestatus}
