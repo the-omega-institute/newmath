@@ -83,6 +83,20 @@ The readiness row $G$ in \autoref{def:finite-window-confluence-carrier} is tied 
 Nontriviality must exhibit an accepted packet with all displayed rows present. FieldFaithfulness must show that deleting any of $B,R,J,S,N,W,H,C,P,K$ changes the readable carrier surface. Thus the TasteGate burden remains exactly at the finite beta-window confluence boundary.
 \end{proof}
 
+\begin{theorem}[FiniteWindowConfluence sibling route]
+\label{thm:finite-window-confluence-sibling-route}
+Every public confluence read exported by an accepted $\FiniteWindowConfluenceUp$ packet routes through the sibling rows named in the carrier: the $\MetaCICRedexFrontierUp$ redex-frontier row, the $\MetaCICLocalJoinLedgerUp$ local-join ledger, the $\MetaCICResidualSubstitutionBoundaryUp$ residual-substitution boundary, the $\ClosedNormalConfluenceSealUp$ closed-normal seal, and the $\MetaCICConfluenceNormalFragmentUp$ normal-fragment confluence row. A consumer cannot read the packet as an isolated confluence theorem without also retaining those sibling routes.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:finite-window-confluence-carrier}. Its public confluence-facing rows are $B,R,J,S,N,W$, so the bounded beta-window row is not readable without the redex-frontier row of \autoref{ch:concrete-instances-metacic-redex-frontier-namecert} and the local-join ledger of \autoref{ch:concrete-instances-metacic-local-join-ledger-namecert}.
+
+The residual part of the read is held by $S$. Thus any join consumer that keeps $J$ must also pass through the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}; otherwise the packet would claim a substitution oracle that is not present in its finite rows.
+
+The endpoint part is held by $N$ and $W$. These rows point respectively to \autoref{ch:concrete-instances-closednormalconfluenceseal-namecert} and \autoref{ch:concrete-instances-metacicconfluencenormalfragment-namecert}, so the read remains a closed-normal finite fragment rather than unrestricted MetaCIC confluence.
+
+The structural rows $G,H,C,P,K$ then apply the existing NameCert obligations, the normalization-audit handoff, and the TasteGate readiness row to the same packet. Hence the public route is exactly the displayed finite sibling route.
+\end{proof}
+
 \closureat{FiniteWindowConfluenceUp}{seedStr}
 
 \begin{closurestatus}{\FiniteWindowConfluenceUp}
