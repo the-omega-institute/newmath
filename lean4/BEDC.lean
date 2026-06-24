@@ -5206,6 +5206,7 @@ import BEDC.Derived.EnergyBiasedTriggerReliabilityUp.TasteGate
 import BEDC.Derived.EngelExpansionUp.TasteGate
 import BEDC.Derived.EnrichedCatUp
 import BEDC.Derived.EnrichedCatUp.TasteGate
+import BEDC.Derived.EnrichedYonedaUp.TasteGate
 import BEDC.Derived.EntanglementUp
 import BEDC.Derived.EntourageBaseUp.TasteGate
 import BEDC.Derived.EntropyUp
