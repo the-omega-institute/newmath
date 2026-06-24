@@ -47,6 +47,20 @@ Associativity of finite chain concatenation is therefore harmless at the paper l
 Finally use \autoref{thm:dyadic-rat-core-signed-exponent-source-determinacy} and \autoref{thm:dyadic-rat-core-namecert-obligation-surface}. They identify the downstream $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ L10 dyadic face with exactly the displayed signed mantissa, positive unary exponent, denominator ledger, comparison, radius, transport, replay, provenance, and local NameCert rows, leaving no quotient rational, host normalization, selected endpoint, countable choice, metric-completeness, or ambient-completeness coordinate.
 \end{proof}
 
+\begin{theorem}[DyadicRatCore signed-exponent denominator clearance]
+\label{thm:dyadicratcore-signed-exponent-denominator-clearance}
+Let $Q=(m,e,\ell,W,R,H,C,P,N)$ be an accepted signed-exponent $\DyadicRatCoreUp$ packet. Then the positive unary exponent row $e$ and denominator ledger $\ell$ are determined before any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer may read a tolerance radius from $R$. Every accepted consumer route must therefore expose the denominator ledger as a finite BEDC row upstream of the L10 tolerance read.
+
+No host rational normal form, quotient equality, completed endpoint, selected limit, metric-completeness datum, or ambient completeness coordinate can replace the denominator ledger.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:dyadicratcore-signed-exponent-denominator-chain-determinacy}. It fixes the terminal denominator ledger, common-exponent comparison row, and tolerance-radius row from the accepted signed-exponent carrier and from its displayed finite refinement chain.
+
+Next apply \autoref{thm:dyadic-rat-core-namecert-obligation-surface}. The NameCert surface lists the exponent, denominator ledger, comparison window, radius row, transport, replay, provenance, and local naming as the exact rows available to downstream consumers.
+
+Finally use \autoref{thm:dyadic-rat-core-signed-exponent-source-determinacy}. A StreamName, RegSeqRat, or RealUp source read determines precisely the displayed signed mantissa, positive unary exponent, denominator ledger, comparison, radius, transport, replay, provenance, and local NameCert rows. Hence the tolerance radius is read only after denominator clearance, with no quotient or host-normal-form shortcut.
+\end{proof}
+
 \begin{theorem}[DyadicRatCore refinement-chain induction]\label{thm:dyadic-rat-core-refinement-chain-induction}
 Let $Q=(m,e,\ell,W,R,H,C,P,N)$ be a signed-exponent $\DyadicRatCoreUp$ carrier, and let $\mathcal{R}$ be the class of finite displayed chains that start at $Q$ and whose adjacent steps are positive-unary refinements of the exponent row transporting the signed mantissa $m$, exponent row $e$, denominator ledger $\ell$, common-exponent window $W$, tolerance-radius row $R$, componentwise $\hsame$ row $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\DyadicRatCoreUp}$ row $N$. If a predicate $\Phi$ on such finite chains holds for the empty chain at $Q$, and if $\Phi(\Gamma)$ implies $\Phi(\Gamma')$ whenever $\Gamma'$ is obtained from $\Gamma$ by appending one displayed positive-unary refinement step whose transported surface is accepted by the same $\hsame$, $\Cont$, $\Pkg$, and local naming rows and whose downstream face is the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ L10 dyadic face of the carrier, then $\Phi(\Gamma)$ holds for every finite chain $\Gamma\in\mathcal{R}$.
 \end{theorem}
