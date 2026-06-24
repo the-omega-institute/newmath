@@ -211,6 +211,114 @@ normal form reads recursive additive axes with a local exclusion rule.
 Neither classifier replaces the other.
 \end{principle}
 
+\begin{definition}[Classifier-relative irreducible axis]
+\label{def:classifier-relative-irreducible-axis}
+Let $\mathcal A_n$ be an axis layer whose normal-form classifier admits
+a displayed composition operation
+$$
+\star_n:R_n\times R_n\to R_n
+$$
+with a unit row $1_n$, or more generally a displayed finite generation
+grammar. A row $p:R_n$ is a \emph{classifier-relative irreducible axis}
+when it is not classified with the unit and every licensed
+decomposition of $p$ is trivial at the layer classifier:
+$$
+p\not\sim_n 1_n
+$$
+and
+$$
+p\sim_n a\star_n b
+\quad\Longrightarrow\quad
+a\sim_n 1_n\ \text{or}\ b\sim_n 1_n.
+$$
+In a generation grammar without a single binary operation, the same
+phrase means that $p$ is a normal axis row not obtainable by a
+non-trivial lower formation rule allowed by the classifier and ledger.
+\end{definition}
+
+\begin{definition}[BEDC-generable self-similar axis system]
+\label{def:bedc-generable-self-similar-axis-system}
+A \emph{BEDC-generable self-similar axis system} over a source carrier
+$T$ is a packet
+$$
+\mathcal S
+=
+(X,F,\theta,P,\mathsf{NF},\rho,\Lambda)
+$$
+where $X$ is a displayed record carrier, $F$ is the recursive shape
+operator, $\theta$ is a self-similar decomposition row
+$$
+\theta:X\to F(X),
+$$
+$P:T\to X$ is the source readout, $\mathsf{NF}$ is a finite normal-form
+classifier for the displayed expressions of $X$, $\rho$ is the recursive
+readback map from normal expressions to $X$, and $\Lambda$ records
+formation, stability, irreducible-support, and gap data. The system is
+read as BEDC-generable only through this packet; the self-similar
+equation is not admitted as a bare untyped object.
+\end{definition}
+
+\begin{definition}[Irreducible support basis]
+\label{def:irreducible-support-basis}
+An irreducible support basis for
+\autoref{def:bedc-generable-self-similar-axis-system} is a displayed
+axis family $B_{\mathcal S}$ such that every non-unit normal expression
+has a finite support row
+$$
+\operatorname{supp}_{\mathcal S}(x)\subset_{\mathrm{fin}}B_{\mathcal S}
+$$
+and every $b\in B_{\mathcal S}$ is a
+classifier-relative irreducible axis in the sense of
+\autoref{def:classifier-relative-irreducible-axis}. The basis is part of
+the certificate data; it is not inferred from self-similarity alone.
+\end{definition}
+
+\begin{theorem}[Relative priming of self-similar normal forms]
+\label{thm:relative-priming-self-similar-normal-forms}
+Let $\mathcal S$ be a BEDC-generable self-similar axis system equipped
+with finite normal forms, recursive readback, classifier stability, and
+an irreducible support basis. Then every non-unit normal row of
+$\mathcal S$ exposes classifier-relative irreducible axes. These axes
+are prime-like only relative to the classifier and ledger of
+$\mathcal S$.
+\end{theorem}
+
+\begin{proof}
+Let $x:X$ be a non-unit normal row. By the finite normal-form clause of
+\autoref{def:bedc-generable-self-similar-axis-system}, $x$ has a finite
+normal expression. By
+\autoref{def:irreducible-support-basis}, the support of this expression
+is a finite row
+$$
+\operatorname{supp}_{\mathcal S}(x)\subset_{\mathrm{fin}}B_{\mathcal S}.
+$$
+Since $x$ is non-unit, its normal support contains at least one displayed
+axis $b\in B_{\mathcal S}$. The basis certificate says that each such
+$b$ is classifier-relative irreducible. The recursive readback row
+$\rho$ and the classifier-stability ledger identify the normal
+expression with $x$ at the resolution of $\mathcal S$, so the exposed
+irreducible axes are invariants of the displayed normal row. No
+statement about ordinary integer primes follows unless the classifier is
+the multiplicative-divisibility classifier of
+\autoref{def:multiplicative-atom-normal-form}.
+\end{proof}
+
+\begin{principle}[Self-similar priming is relative]
+\label{prin:self-similar-priming-relative}
+The phrase ``prime-like atom'' is meaningful in this chapter only after
+the source carrier, classifier, normal-form grammar, readback map, and
+irreducible-support ledger have been displayed. In the
+multiplicative-divisibility classifier the atoms are ordinary primes.
+In a recursive additive classifier they are Zeckendorf or Fibonacci
+axes. In a spectral classifier they may be conjugate characteristic
+roots, as in
+\autoref{def:zeckendorf-golden-conjugate-spectral-readout}. In a local
+completion classifier they may be places or valuation rows. In a
+zeta-facing classifier they may be prime-local probes or zero-ledger
+invariant rows. These are classifier-relative invariants, not one
+absolute layer of objects shared by all self-similar systems.
+\end{principle}
+
 \begin{definition}[Fibonacci-type recursive axis system]
 \label{def:fibonacci-type-recursive-axis-system}
 A recursive orthogonal-axis system is \emph{Fibonacci type} when its
