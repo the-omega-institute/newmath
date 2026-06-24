@@ -46,3 +46,39 @@ read is available. Since no carrier coordinate contains a host-level
 normalization or global confluence theorem, the obligation remains the finite
 handoff row stated above.
 \end{proof}
+
+\begin{theorem}[MetaCIC retained-premise normal-form handoff]
+\label{thm:metacic-candidate-normalization-confluence-retained-premise-normal-form}
+Every strong-normalization-facing consumer of the normal-form endpoint exported
+by an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet must
+retain the candidate gate, the residual-diamond retention row, the
+decidable-boundary row, and the sibling confluence route. The consumer may read
+the bounded normal-form endpoint only as a finite handoff through those rows; it
+does not receive candidate-free normalization, quotient syntax equality, host
+evaluator soundness, unrestricted subject reduction, global confluence, or
+closed consistency.
+\end{theorem}
+\begin{proof}
+Apply the normal-form obligation of
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-form-obligation}.
+It forces a normal-form read through the candidate-normalization row, residual
+row, and sibling confluence route before the endpoint is available.
+
+Next use residual-diamond retention from
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention}.
+That row keeps the residual envelope, decidable boundary, and blocked-edge data
+visible while the endpoint is treated as a confluence-facing read.
+
+The diamond-budget route of
+\autoref{thm:metacic-candidate-normalization-diamond-budget-route} supplies the
+bounded local peak and join-budget rows. These are the finite rows that a
+strong-normalization-facing consumer may inspect; they do not discharge the
+candidate gate or replace it with a global normalization theorem.
+
+Finally apply the sibling confluence route of
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-sibling-route}.
+It keeps the critical-path, normalization-frontier, confluence-audit, and
+parallel-diamond residual surfaces visible before the handoff reaches a
+consumer. Hence the endpoint remains a retained-premise normal-form handoff and
+no candidate-free normalization or quotient syntax equality is exposed.
+\end{proof}

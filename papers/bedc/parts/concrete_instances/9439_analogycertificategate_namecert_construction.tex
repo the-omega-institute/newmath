@@ -49,6 +49,18 @@ Next the route reads $V,U,L,E$. The preserved rows and not-preserved rows are bo
 The refused route reads $F$, with \autoref{ch:concrete-instances-definite-description-boundary-namecert}, \autoref{ch:concrete-instances-tastegateadmission-namecert}, and \autoref{ch:concrete-instances-supply-kind-router-namecert} supplying sibling boundaries for denotation, admission, and missing-supply requests. Finally $H,C,P,N$ only transport, replay, package, and name the same rows, so the NameCert surface is exhausted by the displayed packet.
 \end{proof}
 
+\begin{theorem}[AnalogyCertificateGate obligation row scope]
+\label{thm:analogy-certificate-gate-obligation-row-scope}
+Every accepted same-schema export from an $\AnalogyCertificateGateUp$ carrier must expose the preserved row $V$, the not-preserved row $U$, the ledger row $L$, the exactness row $E$, and the failure row $F$ before the export is readable. The TasteGate instances $\mathsf{FieldFaithful}\ \AnalogyCertificateGateUp$ and $\mathsf{Nontrivial}\ \AnalogyCertificateGateUp$ witness that these rows are distinct visible fields of the packet, so a same-schema read cannot erase $U$, merge $L$ with $E$, or hide $F$ behind the carrier, classifier, transport, replay, provenance, or local naming rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:analogy-certificate-gate-carrier} and the NameCert obligations of \autoref{thm:analogy-certificate-gate-namecert-obligations}. They place same-schema export on the route through $S,K,G,R,V,U,L,E,F,H,C,P,N$, with $V,U,L,E,F$ displayed before transport or replay can name the export.
+
+The falsifiable prediction of \autoref{thm:analogy-certificate-gate-falsifiable-prediction} supplies the negative side: deleting $U$ routes the request to $F$ rather than to a same-schema export. The TasteGate paragraph records the Lean-side $\mathsf{FieldFaithful}\ \AnalogyCertificateGateUp$ and $\mathsf{Nontrivial}\ \AnalogyCertificateGateUp$ instances, so the row scope is not a collapsed carrier read.
+
+Thus accepted analogy language must keep the preserved, not-preserved, ledger, exactness, and failure rows visible before export. The packet exposes no same-schema route that bypasses those rows or treats the analogy as source identity.
+\end{proof}
+
 \begin{theorem}[AnalogyCertificateGate falsifiable prediction]
 \label{thm:analogy-certificate-gate-falsifiable-prediction}
 If an accepted $\AnalogyCertificateGateUp$ packet has no not-preserved row $U$, then it cannot export same-schema language. Equivalently, every admitted same-schema read of an analogy packet factors through both the preserved row $V$ and the not-preserved row $U$ before the exactness row $E$ is readable.
@@ -79,17 +91,17 @@ Finally compare with $\TasteGateAdmissionUp$ and $\SupplyKindRouterUp$. They car
 
 \independenceWitness{Nearest siblings: RelationalFrameAudit, ContextualClassReading, DefiniteDescriptionBoundary, TasteGateAdmission, and SupplyKindRouter. The analogy gate is not bijective to any one sibling because it binds source, analogy-carrier, contextual classifier, preserved, not-preserved, ledger, exactness, failure-boundary, transport, continuation, provenance, and local naming rows in one packet.}
 
-The later Lean TasteGate file must provide $\mathsf{Nontrivial}\ \AnalogyCertificateGateUp$ and $\mathsf{FieldFaithful}\ \AnalogyCertificateGateUp$ instances for the displayed rows $S,K,G,R,V,U,L,E,F,H,C,P,N$.
+The Lean TasteGate file provides $\mathsf{Nontrivial}\ \AnalogyCertificateGateUp$ and $\mathsf{FieldFaithful}\ \AnalogyCertificateGateUp$ instances for the displayed rows $S,K,G,R,V,U,L,E,F,H,C,P,N$.
 
-\closureat{AnalogyCertificateGateUp}{seedStr}
+\closureat{AnalogyCertificateGateUp}{obligationStr}
 
 \begin{closurestatus}{\AnalogyCertificateGateUp}
   \constructivestory{An $\AnalogyCertificateGateUp$ packet is generated from source rows, an analogy carrier, contextual classifier, relation rows, preserved rows, not-preserved rows, source ledger, exactness row, failure boundary, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:analogy-certificate-gate-carrier}, \autoref{thm:analogy-certificate-gate-namecert-obligations}, \autoref{thm:analogy-certificate-gate-falsifiable-prediction}, and \autoref{thm:analogy-certificate-gate-independence-witness} display the finite NameCert surface for analogy export and refusal.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:analogy-certificate-gate-carrier}, \autoref{thm:analogy-certificate-gate-namecert-obligations}, \autoref{thm:analogy-certificate-gate-obligation-row-scope}, \autoref{thm:analogy-certificate-gate-falsifiable-prediction}, and \autoref{thm:analogy-certificate-gate-independence-witness} display the finite NameCert surface and row-level same-schema export obligation for analogy export and refusal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not construct a Lean encoding, empirical bridge, source identity, global-frame object, denoting description, or requested-supply witness for $\AnalogyCertificateGateUp$.}
-  \upgradepath{Obligation closure requires a Lean carrier encoding, checked NameCert obligation theorem, same-schema refusal theorem, independence theorem, and TasteGate nontriviality with field faithfulness.}
+  \notclaimed{This chapter does not construct an empirical bridge, source identity, global-frame object, denoting description, requested-supply witness, complete row-scope Lean theorem, or standard bridge for $\AnalogyCertificateGateUp$.}
+  \upgradepath{Scoped closure requires checked row-scope preservation, same-schema refusal, independence, and bridge-ready export routing for BEDC.Derived.AnalogyCertificateGateUp.}
 \end{closurestatus}

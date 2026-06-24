@@ -1,0 +1,62 @@
+\chapter{MetaCIC Residual Join Envelope NameCert Construction}
+\label{ch:concrete-instances-metacic-residual-join-envelope-namecert}
+\origin{ai}
+
+The $\MetaCICResidualJoinEnvelopeUp$ packet realizes the residual-join route of the visions hub as a finite MetaCIC NameCert envelope. It sits between the finite residual join window of \autoref{ch:concrete-instances-finite-residual-join-window-namecert}, the confluence diamond ledger of \autoref{ch:concrete-instances-metacic-confluence-diamond-ledger-namecert}, the local join ledger of \autoref{ch:concrete-instances-metacic-local-join-ledger-namecert}, the residual-substitution boundary of \autoref{ch:concrete-instances-metacic-residual-substitution-boundary-namecert}, and the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. The packet records a bounded residual-window, candidate-normalization, local-join, replay, provenance, and handoff envelope without claiming full closed confluence, strong normalization, subject reduction, evaluator equality, or kernel consistency.
+
+\begin{definition}[MetaCIC residual join envelope carrier]
+\label{def:metacic-residual-join-envelope-carrier}
+A $\MetaCICResidualJoinEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+J=(W,R,L,C,D,H,T,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $W$ is the finite residual-window row, exposing the source term, two residual branches, and bounded context.
+\item $R$ is the retained residual-substitution premise row consumed from the sibling boundary.
+\item $L$ is the local join row, recording candidate common-reduct data inside the displayed window.
+\item $C$ is the candidate-normalization row, available only as a bounded witness for the displayed residual window.
+\item $D$ is the parallel-diamond handoff row, read only after $W,R,L,C$ are visible.
+\item $H$ records componentwise $\hsame$ transport for the residual window, premise, local join, candidate-normalization, handoff, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay of the residual-join route.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICResidualJoinEnvelopeUp$, $\FiniteResidualJoinWindowUp$, $\MetaCICConfluenceDiamondLedgerUp$, $\MetaCICLocalJoinLedgerUp$, $\MetaCICResidualSubstitutionBoundaryUp$, $\MetaCICParallelDiamondFrontierUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICResidualJoinEnvelopeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for unrestricted Church--Rosser, global strong normalization, subject reduction, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{definition}
+\leanstmt{BEDC.Derived.MetaCICResidualJoinEnvelopeUp}
+
+\begin{theorem}[MetaCIC residual join envelope diamond handoff]
+\label{thm:metacic-residual-join-envelope-diamond-handoff}
+Every parallel-diamond handoff exported by an accepted $\MetaCICResidualJoinEnvelopeUp$ carrier $J=(W,R,L,C,D,H,T,P,N)$ factors through the finite route
+$$
+W,R,L,C \longmapsto D .
+$$
+The handoff may feed the $\MetaCICParallelDiamondFrontierUp$ consumer as a bounded residual-join envelope, but it does not discharge the residual-substitution premise, prove unrestricted confluence, prove strong normalization, prove subject reduction, decide evaluator equality, or establish kernel consistency.
+\end{theorem}
+\begin{proof}
+Inspect the displayed carrier. The handoff row $D$ is not public until the residual window $W$, retained premise $R$, local join row $L$, and candidate-normalization row $C$ have all been read.
+
+The sibling finite residual join window supplies only the bounded window shape, while the confluence diamond ledger and local join ledger record the local common-reduct data. The residual-substitution boundary remains a premise row, so the handoff cannot erase it.
+
+The structural rows $H,T,P,N$ transport, replay, source, and name the same finite route. Therefore the exported diamond-facing datum is the bounded envelope $W,R,L,C,D$ and nothing stronger.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICResidualJoinEnvelopeUp$ handoff exposes the retained residual-substitution premise row $R$ before the parallel-diamond row $D$ is consumed.}
+
+\independenceWitness{finite-residual-join-window, metacic-confluence-diamond-ledger, metacic-local-join-ledger, metacic-residual-substitution-boundary, metacic-parallel-diamond-frontier: the finite residual join window records bounded residual data without the handoff envelope; the confluence diamond ledger records diamond-facing rows without this retained-premise packaging; the local join ledger records common-reduct data without the candidate-normalization row; the residual-substitution boundary records the premise without a handoff; and the parallel-diamond frontier consumes a conditional frontier rather than the residual-join envelope. None is bijective to $\MetaCICResidualJoinEnvelopeUp$.}
+
+The Lean-side TasteGate surface is expected to provide explicit \texttt{Nontrivial} and \texttt{FieldFaithful} instances for \texttt{BEDC.Derived.MetaCICResidualJoinEnvelopeUp}. Field faithfulness must keep $W,R,L,C,D,H,T,P,N$ as distinct rows before any residual-diamond consumer reads the envelope.
+
+\closureat{MetaCICResidualJoinEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICResidualJoinEnvelopeUp}
+  \constructivestory{A $\MetaCICResidualJoinEnvelopeUp$ packet is generated from a finite residual window, retained residual-substitution premise, local join row, candidate-normalization row, parallel-diamond handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-join-envelope-carrier} and \autoref{thm:metacic-residual-join-envelope-diamond-handoff} seed the finite residual-window, local-join, candidate-normalization, and parallel-diamond handoff envelope.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.MetaCICResidualJoinEnvelopeUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close residual-substitution discharge, full closed confluence, strong normalization, subject reduction, evaluator equality, quotient term equality, kernel consistency, Lean theorem verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual-window exposure, retained-premise visibility, local-join accounting, candidate-normalization accounting, handoff nonescape, transport, replay, provenance, local naming, Nontrivial TasteGate evidence, and FieldFaithful TasteGate evidence for BEDC.Derived.MetaCICResidualJoinEnvelopeUp.}
+\end{closurestatus}
