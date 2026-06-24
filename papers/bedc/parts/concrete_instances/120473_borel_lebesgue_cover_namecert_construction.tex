@@ -1,0 +1,136 @@
+\chapter{A Concrete Naming Certificate for $\BorelLebesgueCoverUp$}
+\label{ch:concrete-instances-borel-lebesgue-cover-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and the Borel--Lebesgue
+finite-cover theorem for closed intervals, the $\BorelLebesgueCoverUp$ packet
+records the finite subcover boundary as BEDC NameCert data. It sits after the
+interval compactness surface of \autoref{ch:concrete-instances-heineborelinterval-namecert},
+the closed-bounded interval net of
+\autoref{ch:concrete-instances-closedboundedintervalnet-namecert}, the located
+interval-cover row of \autoref{ch:concrete-instances-located-interval-cover-namecert},
+and the rational readback rows of
+\autoref{ch:concrete-instances-dyadicratcore-namecert},
+\autoref{ch:concrete-instances-streamname-namecert},
+\autoref{ch:concrete-instances-regseqrat-namecert}, and
+\autoref{ch:concrete-instances-real-namecert}. The packet names the finite
+subcover certificate available for a displayed interval cover; it does not
+import general open-cover compactness, selected subcovers, quotient real
+equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Borel--Lebesgue cover carrier]
+\label{def:borel-lebesgue-cover-carrier}
+A $\BorelLebesgueCoverUp$ carrier is a finite $\BHist$ packet
+$$
+B=(I,K,L,D,S,Q,R,F,H,C,P,N)
+$$
+where:
+\begin{itemize}
+\item $I$ is the displayed $\HeineBorelIntervalUp$ closed-interval source.
+\item $K$ is the $\ClosedBoundedIntervalNetUp$ finite interval-net row over
+the same endpoints.
+\item $L$ is the $\LocatedIntervalCoverUp$ row whose located cover tests are
+available on the displayed interval net.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare interval
+endpoints, cover radii, and finite-net refinements.
+\item $S$ is the $\StreamNameUp$ inspection schedule for the finite cover
+windows.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the same schedule and
+dyadic ledger.
+\item $R$ is the terminal $\RealUp$ seal row for the interval endpoints and
+cover radii read through $D,S,Q$.
+\item $F$ is the finite subcover-boundary row: it records that the displayed
+finite window covers the interval source through $I,K,L,D,S,Q,R$.
+\item $H,C,P,N$ are the componentwise $\hsame$ transport, displayed $\Cont$
+replay, $\Pkg$ provenance, and local $\NameCert_{\BorelLebesgueCoverUp}$ rows.
+\end{itemize}
+The carrier exports no arbitrary open-cover compactness principle, no selected
+subcover outside $F$, no quotient real equality, and no ambient completeness
+field for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Borel--Lebesgue cover NameCert obligations]
+\label{thm:borel-lebesgue-cover-namecert-obligations}
+For the carrier of \autoref{def:borel-lebesgue-cover-carrier}, the local
+$\NameCert_{\BorelLebesgueCoverUp}$ surface consists exactly of carrier
+admission for $B$, interval-source exposure through $I$, closed-bounded net
+exposure through $K$, located-cover exposure through $L$, dyadic and regular
+readback through $D,S,Q,R$, finite subcover-boundary exposure through $F$, and
+structural replay through $H,C,P,N$. No NameCert read may replace those rows by
+general open-cover compactness, a choice-selected subcover, quotient real
+equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier. Its displayed coordinates are precisely
+$I,K,L,D,S,Q,R,F,H,C,P,N$, with the interval source, interval-net row,
+located-cover row, rational readback rows, finite subcover boundary, and
+structural rows all present before the local name is read.
+
+The NameCert obligation for interval exposure reads $I,K,L$ together: the
+closed interval, finite net, and located cover are not separate ambient
+principles. The rational obligation then routes endpoint and radius comparisons
+through $D,S,Q,R$.
+
+Finally $F,H,C,P,N$ record the finite subcover boundary, transport, replay,
+provenance, and local naming surface. Since no coordinate stores arbitrary
+open-cover compactness, a selected subcover oracle, quotient real equality, or
+ambient Real completeness, the local NameCert surface cannot export them.
+\end{proof}
+
+\begin{theorem}[Borel--Lebesgue cover finite-subcover boundary]
+\label{thm:borel-lebesgue-cover-finite-subcover-boundary}
+Every consumer of an accepted $\BorelLebesgueCoverUp$ packet receives a finite
+subcover boundary only after the rows
+$$
+\HeineBorelIntervalUp,\quad
+\ClosedBoundedIntervalNetUp,\quad
+\LocatedIntervalCoverUp,\quad
+\DyadicRatCoreUp,\quad
+\StreamNameUp,\quad
+\RegSeqRatUp,\quad
+\RealUp
+$$
+have been displayed inside the same carrier and replayed through $F,H,C,P,N$.
+The exported finite boundary is therefore a packet-local certificate over the
+displayed interval cover, not a claim of general open-cover compactness,
+selected subcovers, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations. They place the interval
+source $I$, interval-net row $K$, located-cover row $L$, dyadic ledger $D$,
+inspection schedule $S$, regular readback $Q$, and Real seal $R$ before the
+finite boundary row $F$.
+
+The finite boundary row records coverage only for the displayed window over
+that source. Transport and replay through $H$ and $C$ preserve the same rows,
+while $P$ and $N$ record provenance and local naming for the same packet.
+
+Thus a downstream compact-uniform-continuity or interval-cover consumer can
+read the finite subcover boundary only through the displayed packet. The
+excluded compactness, selected-subcover, quotient-equality, and completeness
+claims have no carrier coordinate.
+\end{proof}
+
+\falsifiablePrediction{A $\BorelLebesgueCoverUp$ consumer is refuted if it
+exports a finite subcover without displaying the Heine--Borel interval source,
+closed-bounded interval net, located interval cover, dyadic ledger, stream
+window, regular readback, Real seal, finite boundary row, transport, replay,
+provenance, and local naming rows.}
+
+\independenceWitness{heineborelinterval, closedboundedintervalnet,
+locatedintervalcover, dyadicratcore, streamname, regseqrat, real: none is
+bijective to $\BorelLebesgueCoverUp$, because this packet binds the displayed
+interval source, located cover, rational readback, and finite subcover boundary
+as one NameCert surface.}
+
+\closureat{BorelLebesgueCoverUp}{seedStr}
+
+\begin{closurestatus}{\BorelLebesgueCoverUp}
+  \constructivestory{A $\BorelLebesgueCoverUp$ packet is generated from a Heine--Borel interval source, a closed-bounded interval net, a located interval-cover row, dyadic tolerance arithmetic, stream-window inspection, regular-rational readback, a Real seal, a finite subcover-boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:borel-lebesgue-cover-carrier}, \autoref{thm:borel-lebesgue-cover-namecert-obligations}, and \autoref{thm:borel-lebesgue-cover-finite-subcover-boundary} introduce the finite subcover packet boundary over $\HeineBorelIntervalUp$, $\ClosedBoundedIntervalNetUp$, $\LocatedIntervalCoverUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim general open-cover compactness, selected subcovers, quotient real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located cover exposure, dyadic and regular readback, finite subcover-boundary exactness, and non-escape from general compactness or selected-subcover principles.}
+\end{closurestatus}
