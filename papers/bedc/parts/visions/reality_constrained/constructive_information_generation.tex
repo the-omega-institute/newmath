@@ -206,6 +206,94 @@ layer. The induction therefore places the generated row in some
 $\mathcal I_n$.
 \end{proof}
 
+\begin{definition}[Corecursive readout loop]
+\label{def:corecursive-readout-loop}
+A \emph{corecursive readout loop} over a source carrier $T$ is a finite
+or cyclic family of generation layers
+$$
+\mathcal I_0,\mathcal I_1,\ldots,\mathcal I_n
+$$
+with source readouts
+$$
+P_i:T\to R_i
+$$
+and displayed readback maps
+$$
+\rho_{j,i}:R_j\to R_i
+$$
+whenever the loop returns a later visible surface to an earlier one,
+such that
+$$
+\rho_{j,i}(P_j(t))\sim_i P_i(t)
+$$
+for every $t:T$. A loop row is admitted only together with the
+transport, audit, and gap ledgers that make each readback reproducible.
+\end{definition}
+
+\begin{principle}[Visible origins are gauges]
+\label{prin:visible-origins-are-gauges}
+An initial visible surface is an observation origin, not an absolute
+source. A binary surface
+$$
+P_B:T\to\{B_0,B_1\}
+$$
+displays a minimal two-row classifier for the current inquiry, but the
+rows $B_0$ and $B_1$ are not themselves the whole source carrier. Their
+residual source families are
+$$
+\operatorname{Fib}(B_i)
+:=
+\sum_{t:T}\bigl(P_B(t)=B_i\bigr).
+$$
+Changing the observation origin replaces the visible gauge; it does not
+replace the source carrier unless a separate recovered-carrier
+certificate is supplied.
+\end{principle}
+
+\begin{definition}[Locally finite global corecursive tower]
+\label{def:locally-finite-global-corecursive-tower}
+A constructive information tower is \emph{locally finite and globally
+corecursive} when every admitted information row has a finite formation
+record in the sense of \autoref{def:generated-auditable-information},
+while the displayed source carrier may be read again through residual
+fibers and readback loops as in
+\autoref{def:corecursive-readout-loop}. The global structure is not
+required to expose an absolute bottom layer, but every accepted row must
+have a finite audit prefix.
+\end{definition}
+
+\begin{theorem}[Corecursive towers have finite audit prefixes]
+\label{thm:corecursive-towers-finite-audit-prefixes}
+In a locally finite globally corecursive tower, every generated
+auditable information row is certified by a finite prefix of the
+readout loop.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:locally-finite-global-corecursive-tower}, the row has a
+finite formation record. Each occurrence of a loop return is a displayed
+readback map of \autoref{def:corecursive-readout-loop}, equipped with
+transport, audit, and gap ledgers. Replacing each loop return in the
+formation record by its finite readback certificate yields a finite
+prefix using the same clauses as
+\autoref{def:generated-auditable-information}. Hence
+\autoref{thm:relative-absence-tower-external-information} places the row
+in a finite layer.
+\end{proof}
+
+\begin{principle}[Readout cycles enrich fibers]
+\label{prin:readout-cycles-enrich-fibers}
+A readout cycle is not a logical circular definition. Returning from a
+later layer to an earlier visible surface identifies the earlier
+classifier row by readback, while the intervening formation record
+remains in the ledger. Thus a cycle may return to the same visible
+marker, but it returns with a richer residual fiber and a longer audit
+surface. Proofs in such a tower are carried by invariants transported
+through displayed readback maps, as in
+\autoref{thm:layered-projection-predicate-inheritance}, rather than by
+appeal to an absolute tower bottom.
+\end{principle}
+
 \begin{theorem}[Lawful nontrivial generation is generalized extension]
 \label{thm:lawful-nontrivial-generation-generalized-extension}
 Let a successor layer in $\mathfrak I$ produce a visible record not
