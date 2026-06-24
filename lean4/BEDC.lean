@@ -1928,6 +1928,7 @@ import BEDC.Derived.CauchyEquivalenceSetoidUp.DownstreamEqualityDependency
 import BEDC.Derived.CauchyEquivalenceSetoidUp.ObligationSurface
 import BEDC.Derived.CauchyEquivalenceSetoidUp.PsameRealClassifierBridge
 import BEDC.Derived.CauchyEquivalenceSetoidUp.RealSealForwardRoute
+import BEDC.Derived.CauchyEquivalenceSetoidUp.SeparatedMetricFactorization
 import BEDC.Derived.CauchyErrorCertificateUp
 import BEDC.Derived.CauchyEstimateUp
 import BEDC.Derived.CauchyEstimateUp.TasteGate
@@ -9344,6 +9345,7 @@ import BEDC.Derived.ProductTopologyUp.TasteGate
 import BEDC.Derived.ProductUniformSpaceUp.TasteGate
 import BEDC.Derived.ProfiniteCompletionUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthGradientLedgerUp.TasteGate
+import BEDC.Derived.ProgrammeStrengthLedgerUp.BridgeBlockerReadback
 import BEDC.Derived.ProgrammeStrengthLedgerUp.PublicReportInterface
 import BEDC.Derived.ProgrammeStrengthLedgerUp.TasteGate
 import BEDC.Derived.ProjectionValuedMeasureUp
@@ -11905,6 +11907,7 @@ import BEDC.Derived.UnaryZeroSpineStandardIsoUp.TasteGate
 import BEDC.Derived.UniformBoundednessPrincipleUp.TasteGate
 import BEDC.Derived.UniformBoundednessUp
 import BEDC.Derived.UniformBoundednessUp.BaireHandoff
+import BEDC.Derived.UniformBoundednessUp.BaireHandoffCompatibility
 import BEDC.Derived.UniformBoundednessUp.BoundedOperatorEnvelope
 import BEDC.Derived.UniformBoundednessUp.LedgerRefusal
 import BEDC.Derived.UniformBoundednessUp.NormEnvelopeExactness
