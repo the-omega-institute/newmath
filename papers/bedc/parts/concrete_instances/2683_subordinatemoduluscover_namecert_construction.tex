@@ -198,6 +198,22 @@ Apply the NameCert obligations, compact coverage exactness, pointwise compatibil
 Finally use the uniform handoff theorem and the carrier admission theorem above. The $\UniformModulusUp$ consumer receives precisely the finite subordinate-cover input ledger before the lower-bound fold, while the fold result and any host minimum remain outside the packet.
 \end{proof}
 
+\begin{theorem}[SubordinateModulusCover TasteGate Stage-F discipline]
+\label{thm:subordinate-modulus-cover-tastegate-stagef}
+The single carrier
+$$
+S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N)
+$$
+supplies the Stage-F discipline for $\SubordinateModulusCoverUp$: the finite $\mathsf{ProbeBundle}$ spine is nontrivial, the visible fields are faithful to the carrier, and every $\UniformModulusUp$ consumer must pass through compact coverage, pointwise-modulus rows, rational subordination, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before any uniform-modulus fold is read.
+\end{theorem}
+\begin{proof}
+Start with carrier admission from \autoref{thm:subordinate-modulus-cover-carrier-admission}. It identifies $S$ as the single accepted packet and keeps the nonempty $\mathsf{ProbeBundle}$ spine, center rows, radius rows, precision rows, pointwise rows, coverage rows, comparison rows, transport, replay, provenance, and local naming visible.
+
+Apply the NameCert obligations of \autoref{thm:subordinate-modulus-cover-namecert-obligations}. They bind the carrier fields to the same TasteGate surface and prevent consumer reads from bypassing the displayed $\hsame$, $\Cont$, $\Pkg$, and local naming rows.
+
+Use radius stability and ledger exactness from \autoref{thm:subordinate-modulus-cover-radius-stability} and \autoref{thm:subordinate-modulus-cover-ledger-exactness}. The compact coverage row, pointwise-modulus row, and rational subordination row remain faithful to $S$ through transport, and the $\UniformModulusUp$ consumer sees only the finite subordinate-cover ledger before the fold output exists.
+\end{proof}
+
 \begin{theorem}[SubordinateModulusCover choice-free handoff]
 \label{thm:subordinate-modulus-cover-choice-free-handoff}
 Every accepted $\SubordinateModulusCoverUp$ packet exposes the finite rows $\mathcal{P},C,R,D,M,H,F,L,Q,P,N$ to a $\UniformModulusUp$ consumer before any lower-bound fold is read. No row may be retyped as an external radius selector, host minimum, open-cover compactness witness, or completed uniform precision.
@@ -209,6 +225,10 @@ Compact coverage exactness, pointwise compatibility, and rational subordination 
 
 Ledger exactness rules out the remaining escape routes. Since the carrier contains no selector coordinate, no host minimum coordinate, no open-cover compactness row, and no completed uniform precision row, none of the displayed rows can be retyped as one of those objects.
 \end{proof}
+
+\falsifiablePrediction{Every accepted $\SubordinateModulusCoverUp$ consumer reaches $\UniformModulusUp$ only after displaying compact coverage, continuousmap pointwise-modulus rows, metric radius rows, rat comparison rows, rational subordination, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{compact, continuousmap, metric, rat, uniformmodulus: no listed sibling is bijective to $\SubordinateModulusCoverUp$ because this packet jointly carries a nonempty probe bundle, bundled centers, subordinate radius rows, pointwise precision rows, half-radius coverage, rational comparison, transport, replay, provenance, and local naming before the uniform-modulus fold.}
 
 \closureat{SubordinateModulusCoverUp}{seedStr}
 
