@@ -1755,6 +1755,7 @@ import BEDC.Derived.CauchyCompletionMultiplicationUp.NameCertObligations
 import BEDC.Derived.CauchyCompletionMultiplicationUp.ProvenanceExhaustion
 import BEDC.Derived.CauchyCompletionMultiplicationUp.RealSealNonescape
 import BEDC.Derived.CauchyCompletionMultiplicationUp.TasteGate
+import BEDC.Derived.CauchyCompletionOperatorUp
 import BEDC.Derived.CauchyCompletionOperatorUp.TasteGate
 import BEDC.Derived.CauchyCompletionOrderEmbeddingUp.TasteGate
 import BEDC.Derived.CauchyCompletionProductPreservationUp.TasteGate
@@ -2008,6 +2009,7 @@ import BEDC.Derived.CauchyModulusArithmeticUp
 import BEDC.Derived.CauchyModulusArithmeticUp.DiagonalMeetStability
 import BEDC.Derived.CauchyModulusArithmeticUp.ObligationClosure
 import BEDC.Derived.CauchyModulusArithmeticUp.ObligationScopePackage
+import BEDC.Derived.CauchyModulusArithmeticUp.PublicExactness
 import BEDC.Derived.CauchyModulusArithmeticUp.RealSealCongruence
 import BEDC.Derived.CauchyModulusArithmeticUp.SumProductCarrierAdmission
 import BEDC.Derived.CauchyModulusArithmeticUp.SumProductSharedThreshold
