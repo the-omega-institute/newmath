@@ -109,6 +109,37 @@ theorem ObserverPerspectiveClassifierLocalityCellComparison [AskSetup] [PackageS
     ⟨localityUnary, gapUnary, comparisonUnary, comparisonSameTransport, universeLocality,
       localityGapComparison, provenancePkg, namePkg⟩
 
+theorem ObserverPerspectiveClassifierCrossAlignmentLocalitySoundness [AskSetup] [PackageSetup]
+    {observerLeft observerRight universeLeft universeRight locality gap transport route
+      provenance name alignmentRead soundnessRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverPerspectiveClassifierCarrier observerLeft observerRight universeLeft universeRight
+        locality gap transport route provenance name bundle pkg ->
+      Cont locality gap alignmentRead ->
+        Cont alignmentRead transport soundnessRead ->
+          PkgSig bundle soundnessRead pkg ->
+            UnaryHistory locality ∧ UnaryHistory gap ∧ UnaryHistory alignmentRead ∧
+              UnaryHistory soundnessRead ∧ hsame alignmentRead transport ∧
+                Cont locality gap alignmentRead ∧ Cont alignmentRead transport soundnessRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg ∧
+                    PkgSig bundle soundnessRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory hsame
+  intro carrier localityGapAlignment alignmentTransportSoundness soundnessPkg
+  obtain ⟨_observerLeftUnary, _observerRightUnary, _universeLeftUnary,
+    _universeRightUnary, localityUnary, gapUnary, transportUnary, _routeUnary,
+    _provenanceUnary, _nameUnary, _observerUniverse, _universeLocality, localityTransport,
+    _transportGap, provenancePkg, namePkg⟩ := carrier
+  have alignmentReadUnary : UnaryHistory alignmentRead :=
+    unary_cont_closed localityUnary gapUnary localityGapAlignment
+  have soundnessReadUnary : UnaryHistory soundnessRead :=
+    unary_cont_closed alignmentReadUnary transportUnary alignmentTransportSoundness
+  have alignmentSameTransport : hsame alignmentRead transport :=
+    cont_deterministic localityGapAlignment localityTransport
+  exact
+    ⟨localityUnary, gapUnary, alignmentReadUnary, soundnessReadUnary,
+      alignmentSameTransport, localityGapAlignment, alignmentTransportSoundness, provenancePkg,
+      namePkg, soundnessPkg⟩
+
 theorem ObserverPerspectiveClassifierAnchorChangeStability [AskSetup] [PackageSetup]
     {observerLeft observerRight universeLeft universeRight locality gap transport route
       provenance name leftRead rightRead : BHist}
