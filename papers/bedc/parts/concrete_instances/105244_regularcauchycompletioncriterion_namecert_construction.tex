@@ -108,6 +108,22 @@ Next apply the Real-seal handoff and ledger refusal theorems. The handoff theore
 Finally apply transport stability from \autoref{thm:regular-cauchy-completion-criterion-transport-stability}. Since componentwise $\hsame$ preserves the displayed rows and their replay and provenance data, the package is stable as an obligation-closure surface over the named BEDC primitives.
 \end{proof}
 
+\begin{theorem}[RegularCauchyCompletionCriterion scoped factorization]
+\label{thm:regular-cauchy-completion-criterion-scope-factorization}
+Every completion-facing read of an accepted $\RegularCauchyCompletionCriterionUp$ packet factors through the displayed rows of \autoref{thm:regular-cauchy-completion-criterion-carrier} before it may export a local $\NameCert$ surface. Concretely, the read must pass through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyConvergenceModulusUp$, $\RealSequenceLimitUp$, $\CauchyCompletionCriterionUp$, $\BishopCauchyCompletionFunctorUp$, $\CauchyCompletionRecursorUp$, $\RealUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RegularCauchyCompletionCriterionUp}$ row.
+
+The factorization is scoped to those rows. It does not supply quotient completion, selected representatives, countable choice over thresholds, host sequence convergence, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier and NameCert obligations of \autoref{thm:regular-cauchy-completion-criterion-carrier} and \autoref{thm:regular-cauchy-completion-criterion-classifier}. They make the rows $R,W,D,M,L,Q,H,C,P,N$ exhaustive for any accepted packet.
+
+Apply the Real-seal handoff of \autoref{thm:regular-cauchy-completion-criterion-real-seal-handoff}. It orders the completion-facing route through StreamName windows, DyadicRatCore tolerance, RegSeqRat readback, convergence modulus, sequence-limit handoff, completion boundary, completion functor, completion recursor, and the terminal Real seal before a consumer can read completion data.
+
+The ledger refusal of \autoref{thm:regular-cauchy-completion-criterion-ledger} removes quotient, choice, host, trichotomy, and ambient-completeness exits from that route. Transport stability in \autoref{thm:regular-cauchy-completion-criterion-transport-stability} then preserves the same finite rows under componentwise $\hsame$ and displayed $\Cont$ replay.
+
+Finally use the obligation-closure package of \autoref{thm:regular-cauchy-completion-criterion-obligation-closure}. It repacks the displayed route with $\Pkg$ provenance and the local $\NameCert$ row, so every completion-facing read factors through exactly the named scope.
+\end{proof}
+
 \closureat{RegularCauchyCompletionCriterionUp}{seedStr}
 
 \begin{closurestatus}{\RegularCauchyCompletionCriterionUp}
