@@ -1,6 +1,7 @@
 import BEDC.Derived.PrimeUp.FactorizationList
 import BEDC.Derived.PrimeUp.UnitResult
 import BEDC.Derived.PadicUp
+import BEDC.Derived.PadicUp.Multiplicative
 import BEDC.Derived.IntUp.Arithmetic
 
 namespace BEDC.Derived.PrimeUp
@@ -27,6 +28,13 @@ private theorem nat_mul_assoc_pure (a b c : Nat) : (a * b) * c = a * (b * c) := 
         _ = a * (b * c) + a * b := congrArg (fun x => x + a * b) ih
         _ = a * (b * c + b) := (Nat.mul_add a (b * c) b).symm
         _ = a * (b * Nat.succ c) := congrArg (fun x => a * x) (Nat.mul_succ b c).symm
+
+private theorem nat_mul_left_comm_pure (a b c : Nat) :
+    a * (b * c) = b * (a * c) := by
+  calc
+    a * (b * c) = (a * b) * c := (nat_mul_assoc_pure a b c).symm
+    _ = (b * a) * c := congrArg (fun t => t * c) (Nat.mul_comm a b)
+    _ = b * (a * c) := nat_mul_assoc_pure b a c
 
 private def natFactorSearchFrom (fuel n d q0 : Nat) : Option Nat :=
   match fuel with
@@ -810,5 +818,336 @@ theorem product_formula_nat
   cases factorize n large with
   | intro entries data =>
       exact ⟨entries, data.left⟩
+
+def primeCount (p : BHist) : List BHist -> BHist
+  | [] => BHist.Empty
+  | q :: qs =>
+      if p = q then BHist.e1 (primeCount p qs) else primeCount p qs
+
+theorem primeCount_unary (p : BHist) (entries : List BHist) :
+    UnaryHistory (primeCount p entries) := by
+  induction entries with
+  | nil =>
+      unfold primeCount
+      exact unary_empty
+  | cons q qs ih =>
+      unfold primeCount
+      by_cases same : p = q
+      · rw [if_pos same]
+        exact unary_e1_closed ih
+      · rw [if_neg same]
+        exact ih
+
+private theorem NatAdd_zero_left_self (k : BHist) :
+    UnaryHistory k -> NatAdd BHist.Empty k k := by
+  intro kUnary
+  exact ⟨unary_empty, kUnary, cont_left_unit k⟩
+
+private theorem NatAdd_one_left_succ (k : BHist) :
+    UnaryHistory k -> NatAdd NatOne k (BHist.e1 k) := by
+  intro kUnary
+  have appended : BEDC.FKernel.Cont.append NatOne k = BHist.e1 k :=
+    (unary_append_e1_left (h := k) (k := BHist.Empty) kUnary).trans
+      (congrArg BHist.e1 (append_empty_left k))
+  exact ⟨unary_e1_closed unary_empty, kUnary, cont_intro appended.symm⟩
+
+theorem NatPrime_self_valuation_one {p : BHist} :
+    NatPrime p -> IsPadicValNat p p NatOne := by
+  intro pPrime
+  constructor
+  · exact ⟨p, PPow_one_construct pPrime.left,
+      (NatDivides_reflexive_pair pPrime.left).right⟩
+  · intro succDivides
+    cases succDivides with
+    | intro pk succData =>
+        cases succData with
+        | intro powSucc dividesPk =>
+            cases PPow_succ_inversion powSucc with
+            | intro pred stepData =>
+                have predSameP : hsame pred p := PPow_one stepData.left
+                have mulPPk : NatMul p p pk :=
+                  (NatMul_multiplier_hsame_transport stepData.right predSameP).right
+                have pkUnary : UnaryHistory pk :=
+                  NatMul_result_unary pPrime.left mulPPk
+                have pkCases := pPrime.right.right pk pkUnary dividesPk
+                cases pkCases with
+                | inl pkUnit =>
+                    have mulUnit : NatMul p p NatOne :=
+                      (NatMul_result_hsame_transport mulPPk pkUnit).right
+                    have factorsUnit := NatMul_unit_result_factors_unit mulUnit
+                    cases factorsUnit.left
+                    exact NatPrime_unit_absurd pPrime
+                | inr pkSameP =>
+                    have mulPP : NatMul p p p :=
+                      (NatMul_result_hsame_transport mulPPk pkSameP).right
+                    have unitMul : NatMul p NatOne p :=
+                      NatMul.succ (NatMul.zero pPrime.left) (cont_left_unit p)
+                    have pUnit : hsame p NatOne :=
+                      NatMul_nonempty_multiplicand_result_cancel pPrime.left
+                        (NatPrime_empty_absurd pPrime) mulPP unitMul (hsame_refl p)
+                    cases pUnit
+                    exact NatPrime_unit_absurd pPrime
+
+theorem NatPrime_other_valuation_zero {p q : BHist} :
+    NatPrime p -> NatPrime q -> (hsame p q -> False) ->
+      IsPadicValNat p q BHist.Empty := by
+  intro pPrime qPrime notSame
+  apply IsPadicValNat_zero_of_not_p_dvd pPrime.left qPrime.left
+  intro divides
+  have divisorCases := qPrime.right.right p pPrime.left divides
+  cases divisorCases with
+  | inl pUnit =>
+      cases pUnit
+      exact NatPrime_unit_absurd pPrime
+  | inr samePQ =>
+      exact notSame samePQ
+
+private theorem primeCount_is_valuation_aux (entries : List BHist) :
+    ∀ {p n : BHist}, PrimeFactorizationProduct entries n -> NatPrime p ->
+      IsPadicValNat p n (primeCount p entries) := by
+  induction entries with
+  | nil =>
+      intro p n product pPrime
+      have nUnary : UnaryHistory n :=
+        PrimeFactorizationProduct_result_unary product
+      unfold primeCount
+      apply IsPadicValNat_zero_of_not_p_dvd pPrime.left nUnary
+      intro divides
+      have dividesUnit : NatDivides p NatOne :=
+        (NatDivides_dividend_hsame_transport divides product).right
+      have pUnit : hsame p NatOne := NatDivides_unit_right_iff.mp dividesUnit
+      cases pUnit
+      exact NatPrime_unit_absurd pPrime
+  | cons q qs ih =>
+      intro p n product pPrime
+      cases product with
+      | intro qPrime tailWitness =>
+          cases tailWitness with
+          | intro tailProduct tailData =>
+              unfold primeCount
+              by_cases samePQ : p = q
+              · rw [if_pos samePQ]
+                cases samePQ
+                have tailVal :
+                    IsPadicValNat q tailProduct (primeCount q qs) :=
+                  ih tailData.left qPrime
+                have add :
+                    NatAdd NatOne (primeCount q qs) (BHist.e1 (primeCount q qs)) :=
+                  NatAdd_one_left_succ (primeCount q qs) (primeCount_unary q qs)
+                exact IsPadicValNat_mul_add_exact_of_prime qPrime
+                  (NatPrime_self_valuation_one qPrime) tailVal add tailData.right
+              · rw [if_neg samePQ]
+                have qZero : IsPadicValNat p q BHist.Empty :=
+                  NatPrime_other_valuation_zero pPrime qPrime
+                    (fun same => samePQ same)
+                have tailVal :
+                    IsPadicValNat p tailProduct (primeCount p qs) :=
+                  ih tailData.left pPrime
+                have add :
+                    NatAdd BHist.Empty (primeCount p qs) (primeCount p qs) :=
+                  NatAdd_zero_left_self (primeCount p qs) (primeCount_unary p qs)
+                exact IsPadicValNat_mul_add_exact_of_prime pPrime qZero tailVal add
+                  tailData.right
+
+theorem primeCount_is_valuation {p n : BHist} {entries : List BHist} :
+    PrimeFactorizationProduct entries n -> NatPrime p ->
+      IsPadicValNat p n (primeCount p entries) := by
+  exact primeCount_is_valuation_aux entries
+
+theorem primeCount_eq_valuation {p n k : BHist} {entries : List BHist} :
+    PrimeFactorizationProduct entries n -> NatPrime p -> IsPadicValNat p n k ->
+      hsame (primeCount p entries) k := by
+  intro product pPrime valuation
+  exact IsPadicValNat_unique (primeCount_is_valuation product pPrime) valuation
+
+def primeRemove (p : BHist) : List BHist -> List BHist
+  | [] => []
+  | q :: qs => if p = q then primeRemove p qs else q :: primeRemove p qs
+
+private theorem primeRemove_length_le (p : BHist) (entries : List BHist) :
+    (primeRemove p entries).length ≤ entries.length := by
+  induction entries with
+  | nil =>
+      unfold primeRemove
+      exact Nat.le_refl 0
+  | cons q qs ih =>
+      unfold primeRemove
+      by_cases same : p = q
+      · rw [if_pos same]
+        exact Nat.le_trans ih (Nat.le_succ qs.length)
+      · rw [if_neg same]
+        exact Nat.succ_le_succ ih
+
+def primeFlatProductNat : List BHist -> Nat
+  | [] => 1
+  | p :: ps => bwordLength p * primeFlatProductNat ps
+
+private theorem primeCount_cons_length_same (p : BHist) (entries : List BHist) :
+    bwordLength (primeCount p (p :: entries)) =
+      Nat.succ (bwordLength (primeCount p entries)) := by
+  change bwordLength (if p = p then BHist.e1 (primeCount p entries)
+    else primeCount p entries) =
+      Nat.succ (bwordLength (primeCount p entries))
+  rw [if_pos rfl]
+  rfl
+
+private theorem primeCount_cons_length_ne {p q : BHist} (entries : List BHist) :
+    (p = q -> False) ->
+      bwordLength (primeCount p (q :: entries)) =
+        bwordLength (primeCount p entries) := by
+  intro neq
+  change bwordLength (if p = q then BHist.e1 (primeCount p entries)
+    else primeCount p entries) =
+      bwordLength (primeCount p entries)
+  rw [if_neg neq]
+
+private theorem primeFlatProductNat_remove_factor (p : BHist) :
+    ∀ entries : List BHist,
+      primeFlatProductNat entries =
+        (bwordLength p) ^ bwordLength (primeCount p entries) *
+          primeFlatProductNat (primeRemove p entries) := by
+  intro entries
+  induction entries with
+  | nil =>
+      change 1 = bwordLength p ^ 0 * 1
+      rw [Nat.pow_zero, Nat.one_mul]
+  | cons q qs ih =>
+      change bwordLength q * primeFlatProductNat qs =
+        bwordLength p ^ bwordLength (primeCount p (q :: qs)) *
+          primeFlatProductNat
+            (if p = q then primeRemove p qs else q :: primeRemove p qs)
+      by_cases same : p = q
+      · rw [if_pos same]
+        cases same
+        rw [primeCount_cons_length_same p qs]
+        calc
+          bwordLength p * primeFlatProductNat qs =
+              bwordLength p *
+                ((bwordLength p) ^ bwordLength (primeCount p qs) *
+                  primeFlatProductNat (primeRemove p qs)) := by
+                exact congrArg (fun t => bwordLength p * t) ih
+          _ =
+              (bwordLength p *
+                (bwordLength p) ^ bwordLength (primeCount p qs)) *
+                  primeFlatProductNat (primeRemove p qs) := by
+                exact (nat_mul_assoc_pure _ _ _).symm
+          _ =
+              (bwordLength p) ^ Nat.succ (bwordLength (primeCount p qs)) *
+                primeFlatProductNat (primeRemove p qs) := by
+                rw [Nat.pow_succ']
+      · rw [if_neg same]
+        have countSame := primeCount_cons_length_ne (p := p) (q := q) qs same
+        rw [countSame]
+        calc
+          bwordLength q * primeFlatProductNat qs =
+              bwordLength q *
+                ((bwordLength p) ^ bwordLength (primeCount p qs) *
+                  primeFlatProductNat (primeRemove p qs)) := by
+                exact congrArg (fun t => bwordLength q * t) ih
+          _ =
+              (bwordLength p) ^ bwordLength (primeCount p qs) *
+                (bwordLength q * primeFlatProductNat (primeRemove p qs)) := by
+                exact nat_mul_left_comm_pure _ _ _
+
+def primePowerProductNatFuel : Nat -> List BHist -> Nat
+  | 0, _ => 1
+  | _ + 1, [] => 1
+  | fuel + 1, p :: ps =>
+      (bwordLength p) ^ bwordLength (primeCount p (p :: ps)) *
+        primePowerProductNatFuel fuel (primeRemove p ps)
+
+def primePowerProductNat (entries : List BHist) : Nat :=
+  primePowerProductNatFuel entries.length entries
+
+private theorem primePowerProductNatFuel_eq_flat :
+    ∀ fuel entries, entries.length ≤ fuel ->
+      primePowerProductNatFuel fuel entries = primeFlatProductNat entries := by
+  intro fuel
+  induction fuel with
+  | zero =>
+      intro entries lengthLe
+      cases entries with
+      | nil =>
+        unfold primePowerProductNatFuel primeFlatProductNat
+        rfl
+      | cons p ps =>
+          exact False.elim (Nat.not_succ_le_zero ps.length lengthLe)
+  | succ fuel ih =>
+      intro entries lengthLe
+      cases entries with
+      | nil =>
+        unfold primePowerProductNatFuel primeFlatProductNat
+        rfl
+      | cons p ps =>
+          unfold primePowerProductNatFuel
+          have removeLengthLe :
+              (primeRemove p ps).length ≤ fuel := by
+            have raw : (primeRemove p ps).length ≤ ps.length :=
+              primeRemove_length_le p ps
+            have psLeFuel : ps.length ≤ fuel :=
+              Nat.succ_le_succ_iff.mp lengthLe
+            exact Nat.le_trans raw psLeFuel
+          rw [ih (primeRemove p ps) removeLengthLe]
+          have grouped :=
+            primeFlatProductNat_remove_factor p (p :: ps)
+          unfold primeRemove at grouped
+          rw [if_pos rfl] at grouped
+          exact grouped.symm
+
+theorem primePowerProductNat_eq_flat (entries : List BHist) :
+    primePowerProductNat entries = primeFlatProductNat entries := by
+  unfold primePowerProductNat
+  exact primePowerProductNatFuel_eq_flat entries.length entries (Nat.le_refl entries.length)
+
+def primePowerProduct (entries : List BHist) : BHist :=
+  natToUnary (primePowerProductNat entries)
+
+theorem primePowerProduct_unary (entries : List BHist) :
+    UnaryHistory (primePowerProduct entries) := by
+  unfold primePowerProduct
+  exact natToUnary_unary _
+
+private theorem PrimeFactorizationProduct_length_eq_flat {entries : List BHist} {n : BHist} :
+    PrimeFactorizationProduct entries n ->
+      bwordLength n = primeFlatProductNat entries := by
+  intro product
+  induction entries generalizing n with
+  | nil =>
+      unfold primeFlatProductNat
+      cases product
+      rfl
+  | cons p ps ih =>
+      cases product with
+      | intro pPrime tailWitness =>
+          cases tailWitness with
+          | intro tailProduct tailData =>
+              unfold primeFlatProductNat
+              rw [NatMul_bwordLength tailData.right]
+              exact congrArg (fun t => bwordLength p * t) (ih tailData.left)
+
+theorem primePowerProduct_eq_flat {entries : List BHist} {n : BHist} :
+    PrimeFactorizationProduct entries n -> hsame (primePowerProduct entries) n := by
+  intro product
+  exact unary_hsame_of_length (primePowerProduct_unary entries)
+    (PrimeFactorizationProduct_result_unary product)
+    (by
+      unfold primePowerProduct
+      rw [natToUnary_length, primePowerProductNat_eq_flat]
+      exact (PrimeFactorizationProduct_length_eq_flat product).symm)
+
+theorem magnitude_eq_prime_power_product
+    (z : IntegerUp)
+    (nonzero : hsame z.magnitude BHist.Empty -> False) :
+    ∃ entries : List BHist,
+      IntegerPrimeFactorization z entries ∧
+        hsame (primePowerProduct entries) z.magnitude ∧
+          ∀ {p k : BHist}, NatPrime p -> IsPadicValNat p z.magnitude k ->
+            hsame (primeCount p entries) k := by
+  cases product_formula z nonzero with
+  | intro entries factorization =>
+      exact ⟨entries, factorization,
+        primePowerProduct_eq_flat factorization.right.right,
+        fun prime valuation =>
+          primeCount_eq_valuation factorization.right.right prime valuation⟩
 
 end BEDC.Derived.PrimeUp

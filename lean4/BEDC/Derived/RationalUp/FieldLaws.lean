@@ -872,4 +872,117 @@ theorem rational_product_formula_factorization_bridge
         (intApart0_magnitude_nonempty (ratDenInt_nonzero x))
     · exact ratAbsInfty_den x
 
+theorem rational_product_formula
+    (x : RatNum) (hx : ratApart0 x) :
+    ∃ numEntries denEntries : List BHist,
+      IntegerPrimeFactorization x.num numEntries ∧
+        IntegerPrimeFactorization (ratDenInt x) denEntries ∧
+          hsame
+            (natMulFn (ratAbsInfty x).num.magnitude
+              (primePowerProduct denEntries))
+            (natMulFn (ratAbsInfty x).den
+              (primePowerProduct numEntries)) ∧
+            (∀ {p : BHist}, NatPrime p ->
+              ratVal p x
+                (primeCount p numEntries, primeCount p denEntries)) ∧
+              (∀ {p : BHist} {j : BHist × BHist}, NatPrime p ->
+                ratVal p x j ->
+                  hsame j.1 (primeCount p numEntries) ∧
+                    hsame j.2 (primeCount p denEntries)) := by
+  have bridge := rational_product_formula_factorization_bridge x hx
+  have absDenSame : hsame (ratAbsInfty x).den x.den := bridge.right.right
+  have numAgg :=
+    magnitude_eq_prime_power_product x.num
+      (intApart0_magnitude_nonempty hx)
+  have denAgg :=
+    magnitude_eq_prime_power_product (ratDenInt x)
+      (intApart0_magnitude_nonempty (ratDenInt_nonzero x))
+  cases numAgg with
+  | intro numEntries numData =>
+      cases denAgg with
+      | intro denEntries denData =>
+          have sameNumProduct :
+              hsame (primePowerProduct numEntries)
+                (ratAbsInfty x).num.magnitude := by
+            change hsame (primePowerProduct numEntries) x.num.magnitude
+            exact numData.right.left
+          have sameDenProduct :
+              hsame (primePowerProduct denEntries) (ratAbsInfty x).den := by
+            have raw :
+                hsame (primePowerProduct denEntries) x.den := by
+              have denMag := denData.right.left
+              unfold ratDenInt intOfNat at denMag
+              exact denMag
+            exact hsame_trans raw (hsame_symm absDenSame)
+          have absNumUnary : UnaryHistory (ratAbsInfty x).num.magnitude :=
+            (ratAbsInfty x).num.carrier.right
+          have denProductUnary : UnaryHistory (primePowerProduct denEntries) :=
+            primePowerProduct_unary denEntries
+          have lhsRel :
+              NatMul (ratAbsInfty x).num.magnitude
+                (primePowerProduct denEntries)
+                (natMulFn (ratAbsInfty x).num.magnitude
+                  (primePowerProduct denEntries)) :=
+            natMulFn_rel absNumUnary denProductUnary
+          have rhsRaw :
+              NatMul (ratAbsInfty x).den
+                (primePowerProduct numEntries)
+                (natMulFn (ratAbsInfty x).den
+                  (primePowerProduct numEntries)) :=
+            natMulFn_rel (ratDenCarrier (ratAbsInfty x))
+              (primePowerProduct_unary numEntries)
+          have rhsAtDenProduct :
+              NatMul (primePowerProduct denEntries)
+                (primePowerProduct numEntries)
+                (natMulFn (ratAbsInfty x).den
+                  (primePowerProduct numEntries)) :=
+            (NatMul_multiplicand_hsame_transport
+              (hsame_symm sameDenProduct) rhsRaw).right
+          have rhsAtCross :
+              NatMul (primePowerProduct denEntries)
+                (ratAbsInfty x).num.magnitude
+                (natMulFn (ratAbsInfty x).den
+                  (primePowerProduct numEntries)) :=
+            (NatMul_multiplier_hsame_transport rhsAtDenProduct
+              sameNumProduct).right
+          have crossSame :
+              hsame
+                (natMulFn (ratAbsInfty x).num.magnitude
+                  (primePowerProduct denEntries))
+                (natMulFn (ratAbsInfty x).den
+                  (primePowerProduct numEntries)) :=
+            NatMul_comm_hsame absNumUnary denProductUnary lhsRel rhsAtCross
+          refine ⟨numEntries, denEntries, numData.left, denData.left,
+            crossSame, ?_, ?_⟩
+          · intro p prime
+            have numVal :
+                IsPadicValInt p (x.num.sign, x.num.magnitude)
+                  (primeCount p numEntries) :=
+              ⟨x.num.carrier,
+                primeCount_is_valuation numData.left.right.right prime⟩
+            have denValNat :
+                IsPadicValNat p x.den (primeCount p denEntries) := by
+              have raw :=
+                primeCount_is_valuation denData.left.right.right prime
+              unfold ratDenInt intOfNat at raw
+              exact raw
+            have denVal :
+                IsPadicValInt p (BMark.b0, x.den)
+                  (primeCount p denEntries) :=
+              ⟨⟨Or.inl rfl, ratDenCarrier x⟩, denValNat⟩
+            exact ratVal_components numVal denVal
+              ⟨primeCount_unary p numEntries, primeCount_unary p denEntries⟩
+          · intro p j prime val
+            constructor
+            · have countSame :=
+                numData.right.right prime val.left.right
+              exact hsame_symm countSame
+            · have denValForAgg :
+                IsPadicValNat p (ratDenInt x).magnitude j.2 := by
+                unfold ratDenInt intOfNat
+                exact val.right.left.right
+              have countSame :=
+                denData.right.right prime denValForAgg
+              exact hsame_symm countSame
+
 end BEDC.Derived.RationalUp
