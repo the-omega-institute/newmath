@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\StepFunctionApproximationUp$}
+\label{ch:concrete-instances-step-function-approximation-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Rudin's classical step-function approximations, the $\StepFunctionApproximationUp$ packet records a finite interval-partition approximation surface for Real-facing regular-rational routes. It sits beside the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window naming discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed partitions, rational values, endpoint ledgers, readback windows, transport, replay, provenance, and local naming; it is not host function equality, arbitrary partition choice, quotient real equality, measure integration, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Step-function approximation carrier]
+\label{def:step-function-approximation-carrier}
+A $\StepFunctionApproximationUp$ carrier is a finite $\BHist$ packet
+$$
+A=(I,V,D,W,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite interval partition row, listing adjacent bounded intervals by displayed endpoint names.
+\item $V$ is the rational value row assigning one rational value token to each interval cell of $I$.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint ledger, recording every endpoint, tolerance cell, and comparison budget used by the partition.
+\item $W$ is the $\StreamNameUp$ window row that records which finite name windows are inspected before a cell value may be read.
+\item $Q$ is the $\RegSeqRatUp$ readback row, exposing the regular rational route through the finite windows and dyadic endpoint ledger.
+\item $R$ is the $\RealUp$ seal row reached only after the partition, rational values, endpoint ledger, windows, and regular readback have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for $I,V,D,W,Q,R,C,P,N$.
+\item $C$ records displayed $\Cont$ replay through partition selection, endpoint inspection, window readback, regular rational comparison, and Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\StepFunctionApproximationUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StepFunctionApproximationUp}$ row naming the displayed approximation packet.
+\end{enumerate}
+The carrier has no coordinate for host-level function equality, arbitrary choice of partitions, quotient equality of reals, measure integration, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Step-function approximation NameCert obligations]
+\label{thm:step-function-approximation-namecert-obligations}
+For every accepted $\StepFunctionApproximationUp$ carrier $A=(I,V,D,W,Q,R,H,C,P,N)$, the local $\NameCert_{\StepFunctionApproximationUp}$ surface consists exactly of finite partition admission through $I$, rational value admission through $V$, dyadic endpoint and tolerance exposure through $D$, finite StreamName window exposure through $W$, RegSeqRat readback through $Q$, Real sealing through $R$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+No local obligation is stored outside those rows, and no accepted read can add host function equality, partition choice, quotient real equality, measure integration, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:step-function-approximation-carrier}. The rows $I,V,D,W,Q,R$ expose the analytic data: a finite interval partition, one rational value per cell, dyadic endpoints and tolerances, finite StreamName windows, regular rational readback, and the terminal Real seal.
+
+The structural rows then keep that data local. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve the same finite packet without adding a host function or a quotient real.
+
+Since the carrier lists every available coordinate, the named rows exhaust the local obligation surface. Requests for arbitrary partition choice, measure integration, or ambient $\RealUp$ completeness are refused before the packet can be exported to a Real-facing consumer.
+\end{proof}
+
+\begin{theorem}[Step-function approximation RegSeqRat handoff]
+\label{thm:step-function-approximation-regseqrat-handoff}
+Every accepted $\StepFunctionApproximationUp$ read that reaches a Real-facing consumer factors through
+$$
+\DyadicRatCoreUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp .
+$$
+The handoff exposes only the displayed interval partition, rational value rows, dyadic endpoint ledger, StreamName windows, RegSeqRat readback, Real seal, componentwise transport, replay, provenance, and local NameCert row.
+\end{theorem}
+\begin{proof}
+Start with the partition and endpoint rows. The finite partition $I$ can be read only together with the dyadic endpoint ledger $D$, so each cell boundary is carried by displayed rational and tolerance data.
+
+Next read the StreamName and RegSeqRat rows. The window row $W$ records the finite observation surface, and the readback row $Q$ turns that surface into a regular rational route without invoking a host function or an unbounded choice of partitions.
+
+Finally the Real seal $R$ is available only downstream of $I,V,D,W,Q$. The transport, replay, provenance, and local naming rows preserve that same route, so any Real-facing handoff factors through the named finite surface and refuses quotient equality, measure integration, and ambient completeness.
+\end{proof}
+
+\closureat{StepFunctionApproximationUp}{seedStr}
+
+\begin{closurestatus}{\StepFunctionApproximationUp}
+  \constructivestory{A $\StepFunctionApproximationUp$ packet is generated from a finite interval partition, rational value rows, a DyadicRatCore endpoint ledger, StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:step-function-approximation-carrier}, \autoref{thm:step-function-approximation-namecert-obligations}, and \autoref{thm:step-function-approximation-regseqrat-handoff} seed the finite step-function approximation route over interval partitions, rational values, dyadic endpoints, StreamName windows, RegSeqRat readback, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host function equality, arbitrary choice of partitions, quotient real equality, measure integration, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked partition admission, rational value rows, dyadic endpoint exactness, StreamName window exposure, RegSeqRat readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.StepFunctionApproximationUp.}
+\end{closurestatus}
