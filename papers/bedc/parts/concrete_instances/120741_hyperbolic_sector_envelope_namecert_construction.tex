@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicSectorEnvelopeUp$}
+\label{ch:concrete-instances-hyperbolic-sector-envelope-namecert}
+\origin{ai}
+
+The $\HyperbolicSectorEnvelopeUp$ packet realizes the boundary-sector branch of \autoref{ch:visions-hyperbolic-phase-geometry-observer-expansion} as finite NameCert data. It sits after the Poincare disk metric of \autoref{ch:concrete-instances-poincare-disk-metric-namecert}, the hyperbolic metric row of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, the visual boundary of \autoref{ch:concrete-instances-hyperbolic-visual-boundary-namecert}, the Busemann projection of \autoref{ch:concrete-instances-busemann-projection-namecert}, and the observer-expansion packet of \autoref{ch:concrete-instances-hyperbolic-observer-expansion-namecert}. The carrier names only finite sector endpoints, visual radius, observer window, boundary-shadow handoff, refusal, transport, replay, provenance, and local naming.
+
+\begin{definition}[Hyperbolic sector-envelope carrier]
+\label{def:hyperbolic-sector-envelope-carrier}
+A $\HyperbolicSectorEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S_0,S_1,R,O,B,V,F,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the two finite boundary-sector endpoint rows.
+\item $R$ is the visual-radius row delimiting the sector envelope seen by the observer.
+\item $O$ is the observer-window row naming the finite focus through which the sector is read.
+\item $B$ is the boundary-shadow handoff row tying the endpoints and visual radius to a displayed boundary-shadow surface.
+\item $V$ is the visual-boundary readback row reached only after $S_0,S_1,R,O,B$ have been displayed.
+\item $F$ is the refusal row excluding hidden hyperbolic metric data, a completed visual boundary, Busemann projection as a host map, and selected geodesic sectors.
+\item $T$ is the TasteGate row requiring $\Nontrivial\ \HyperbolicSectorEnvelopeUp$ and $\FieldFaithful\ \HyperbolicSectorEnvelopeUp$ instances for the displayed row inventory.
+\item $H$ records componentwise $\hsame$ transport for $S_0,S_1,R,O,B,V,F,T,C,P,N$.
+\item $C$ records displayed $\Cont$ replay through sector endpoints, visual radius, observer window, boundary shadow, visual-boundary readback, refusal, and naming.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicSectorEnvelopeUp$, $\PoincareDiskMetricUp$, $\HyperbolicMetricUp$, $\HyperbolicVisualBoundaryUp$, $\HyperbolicBoundaryShadowUp$, $\BusemannProjectionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HyperbolicSectorEnvelopeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host hyperbolic metric equality, completed boundary sectors, selected geodesic representatives, ambient visual compactification, or a global Busemann projection map.
+\end{definition}
+
+\begin{theorem}[Hyperbolic sector-envelope NameCert obligations]
+\label{thm:hyperbolic-sector-envelope-namecert-obligations}
+For every accepted $\HyperbolicSectorEnvelopeUp$ carrier $E=(S_0,S_1,R,O,B,V,F,T,H,C,P,N)$, the local $\NameCert_{\HyperbolicSectorEnvelopeUp}$ surface consists exactly of endpoint admission through $S_0,S_1$, visual-radius admission through $R$, observer-window admission through $O$, boundary-shadow handoff through $B$, visual-boundary readback through $V$, refusal through $F$, TasteGate nontriviality and field-faithfulness requests through $T$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+
+No accepted read may expose a boundary-sector handoff without displaying the visual-radius row, observer-window row, provenance row, and refusal row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-sector-envelope-carrier}. The endpoint rows, visual-radius row, and observer-window row are the only coordinates from which a sector envelope can be read.
+
+The boundary-shadow and visual-boundary rows are downstream of those data. Thus a consumer cannot obtain a boundary-sector handoff until $S_0,S_1,R,O,B,V$ have all been displayed.
+
+Finally the refusal, TasteGate, transport, replay, provenance, and local naming rows close the certificate surface. Since the carrier contains no host metric equality, completed boundary sector, selected geodesic representative, ambient compactification, or global Busemann map, the listed obligations exhaust the accepted read.
+\end{proof}
+
+\begin{theorem}[Hyperbolic sector-envelope observer handoff]
+\label{thm:hyperbolic-sector-envelope-observer-handoff}
+Every accepted $\HyperbolicSectorEnvelopeUp$ observer read factors through
+$$
+\PoincareDiskMetricUp,\HyperbolicMetricUp \longrightarrow \HyperbolicBoundaryShadowUp \longrightarrow \HyperbolicVisualBoundaryUp \longrightarrow \BusemannProjectionUp .
+$$
+The handoff exposes only finite boundary-sector endpoints, visual radius, observer window, boundary-shadow readback, visual-boundary readback, refusal, TasteGate rows, componentwise transport, replay, provenance, and local NameCert data.
+\end{theorem}
+\begin{proof}
+Begin with the displayed sector endpoints and visual radius. They delimit the finite sector envelope as observed data, not as a completed hyperbolic boundary subset.
+
+Next use the boundary-shadow and visual-boundary rows. These rows route the sector envelope through the Poincare disk and hyperbolic metric surfaces while keeping the observer window visible.
+
+The Busemann projection dependency is then read only as provenance-facing handoff data. Refusal and transport preserve the same finite packet, so the observer read cannot become a host metric theorem, selected geodesic sector, global visual compactification, or ambient Busemann map.
+\end{proof}
+
+\falsifiablePrediction{An accepted sector-envelope read cannot expose a boundary-sector handoff without displaying the visual-radius row, observer-window row, provenance row, and refusal row.}
+
+\independenceWitness{hyperbolicmetric, poincare-disk-metric, hyperbolic-visual-boundary, busemann-projection, real: the sector-envelope carrier jointly binds sector endpoints, visual radius, observer window, provenance, and refusal rows absent from each listed sibling.}
+
+The Lean-side TasteGate surface for this carrier is expected to include explicit $\Nontrivial\ \HyperbolicSectorEnvelopeUp$ and $\FieldFaithful\ \HyperbolicSectorEnvelopeUp$ instances. Field faithfulness keeps $S_0,S_1,R,O,B,V,F,T,H,C,P,N$ as distinct rows before a classifier target may accept the packet.
+
+\closureat{HyperbolicSectorEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicSectorEnvelopeUp}
+  \constructivestory{A $\HyperbolicSectorEnvelopeUp$ packet is generated from boundary-sector endpoints, visual radius, observer window, boundary-shadow handoff, visual-boundary readback, refusal, TasteGate requests, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-sector-envelope-carrier}, \autoref{thm:hyperbolic-sector-envelope-namecert-obligations}, and \autoref{thm:hyperbolic-sector-envelope-observer-handoff} seed the finite observer-expansion sector-envelope route over endpoints, visual radius, observer window, boundary-shadow handoff, visual-boundary readback, refusal, TasteGate rows, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host hyperbolic metric equality, completed boundary sectors, selected geodesic representatives, ambient visual compactification, global Busemann projection, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint admission, visual-radius admission, observer-window admission, boundary-shadow handoff, visual-boundary readback, refusal, TasteGate nontriviality, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.HyperbolicSectorEnvelopeUp.}
+\end{closurestatus}
