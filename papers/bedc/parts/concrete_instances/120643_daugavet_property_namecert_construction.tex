@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\DaugavetPropertyUp$}
+\label{ch:concrete-instances-daugavet-property-namecert}
+\origin{human}
+
+Following Kadets and Shvidkoy on the Daugavet property in Banach-space geometry, the $\DaugavetPropertyUp$ packet records the finite row surface by which a Banach carrier exposes the rank-one norm equation to later operator and geometry consumers. It sits over the norm carrier of \autoref{ch:concrete-instances-norm-namecert}, the Banach rows of \autoref{ch:concrete-instances-banach-namecert}, the scalar-functional surface of \autoref{ch:concrete-instances-bounded-linear-functional-namecert}, the linear-map carrier of \autoref{ch:concrete-instances-linearmap-namecert}, and the James-space comparison packet of \autoref{ch:concrete-instances-james-space-namecert}. The packet names a displayed rank-one equation ledger; it is not a host class of all rank-one operators, not a selected norming functional, not a quotient operator algebra, and not an ambient compactness or reflexivity theorem.
+
+\begin{definition}[Daugavet property carrier]
+\label{def:daugavet-property-carrier}
+A $\DaugavetPropertyUp$ carrier is a finite $\BHist$ packet
+$$
+D=(B,N,F,L,R,J,E,H,C,P,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BanachUp$ source row whose vector and completeness reads are visible to the packet.
+\item $N$ is the $\NormUp$ row used to compare the identity-plus-operator norm with the operator norm.
+\item $F$ is the $\BoundedLinearFunctionalUp$ row naming the scalar functional in the displayed rank-one factorization.
+\item $L$ is the $\LinearMapUp$ row naming the vector action used by the same rank-one factorization.
+\item $R$ is the rank-one operator ledger, recording the finite factorization data read through $F$ and $L$.
+\item $J$ is the $\JamesSpaceUp$ comparison row, present only as a Banach-geometry sibling and not as a reflexivity theorem.
+\item $E$ is the equation row recording that the displayed rank-one read is judged against the norm equation $\lVert I+T\rVert=1+\lVert T\rVert$.
+\item $H$ records componentwise $\hsame$ transport for the Banach, norm, functional, linear-map, rank-one, James-space, equation, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the same finite rows.
+\item $P$ is the $\Pkg$ provenance over $\DaugavetPropertyUp$, $\BanachUp$, $\NormUp$, $\BoundedLinearFunctionalUp$, $\LinearMapUp$, $\JamesSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $A$ is the local $\NameCert_{\DaugavetPropertyUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose Daugavet read is exhausted by $B,N,F,L,R,J,E,H,C,P,A$. It has no coordinate for all bounded operators on the host space, a selected norming vector, a quotient operator class, weak compactness, reflexivity, or an ambient Banach-space theorem outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[Daugavet property rank-one equation]
+\label{thm:daugavet-property-rank-one-equation}
+For every accepted $\DaugavetPropertyUp$ carrier
+$$
+D=(B,N,F,L,R,J,E,H,C,P,A),
+$$
+any consumer read of the rank-one equation must first expose the Banach source row $B$, the norm row $N$, the bounded-functional row $F$, the linear-map row $L$, and the rank-one ledger $R$. Only after those rows are visible may the equation row $E$ be read as the finite statement that the displayed rank-one operator $T$ satisfies $\lVert I+T\rVert=1+\lVert T\rVert$ for the named Banach row. The $\JamesSpaceUp$ row $J$ remains a comparison surface, and the structural rows $H,C,P,A$ transport, replay, source, and name the same packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:daugavet-property-carrier}. Rows $B$ and $N$ expose the Banach source and norm comparison data before any operator equation is available.
+
+The rank-one stage is $F,L,R$. The bounded functional and linear-map rows name the displayed factorization, and the ledger $R$ records that the operator read is finite and local to those rows.
+
+Only then can the equation row $E$ be consumed. It records the equality for the displayed rank-one operator and the displayed Banach norm, while $J$ stays a sibling comparison row rather than a source of reflexivity or weak compactness.
+
+Finally $H,C,P,A$ keep the same finite route under transport, replay, provenance, and local naming. Since the carrier has no coordinate for a host operator space, selected norming data, quotient equality, or ambient Banach theorem, the consumer cannot export any of those endpoints.
+\end{proof}
+
+\closureat{DaugavetPropertyUp}{seedStr}
+
+\begin{closurestatus}{\DaugavetPropertyUp}
+  \constructivestory{A $\DaugavetPropertyUp$ packet is generated from Banach source rows, Norm rows, bounded linear functional rows, LinearMap rows, rank-one operator ledgers, JamesSpace comparison rows, an equation row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:daugavet-property-carrier} and \autoref{thm:daugavet-property-rank-one-equation} seed the finite rank-one norm-equation route over displayed Banach, Norm, BoundedLinearFunctional, LinearMap, JamesSpace, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host space of all bounded operators, selected norming vectors, quotient operator equality, weak compactness, reflexivity, Lean verification, bridge checking, or an ambient Banach-space theorem.}
+  \upgradepath{Obligation closure requires checked carrier admission, Banach source exposure, norm comparison exactness, bounded-functional and linear-map factorization, rank-one ledger stability, James-space comparison nonescape, equation readback, transport, replay, provenance, and local naming for BEDC.Derived.DaugavetPropertyUp.}
+\end{closurestatus}
