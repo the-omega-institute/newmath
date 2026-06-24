@@ -1,0 +1,72 @@
+\chapter{Cauchy Interleaving Tree NameCert Construction}
+\label{ch:concrete-instances-cauchy-interleaving-tree-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyInterleavingTreeUp$ packet records the finite branch tree used when two regular Cauchy readback routes are inspected together before either route is sealed as a completed real. It sits beside the regular-Cauchy shuffle of \autoref{ch:concrete-instances-regular-cauchy-shuffle-namecert}, the finite stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance carrier of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name route of \autoref{ch:concrete-instances-real-namecert}. The packet names diagonal, subsequence, and alternating-window reads without quotient stream equality, countable choice, a selected limit, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy interleaving tree carrier]
+\label{def:cauchy-interleaving-tree-carrier}
+A $\CauchyInterleavingTreeUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S_0,S_1,B,D,R,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the two $\StreamNameUp$ finite schedules whose windows are being interleaved.
+\item $B$ is the finite branch row, recording left, right, and paired requests in the inspected tree.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to every displayed branch.
+\item $R$ is the $\RegSeqRatUp$ readback row reached after the branch schedule and dyadic tolerance ledger are exposed.
+\item $E$ is the terminal $\RealUp$ seal row, available only through the displayed $S_0,S_1,B,D,R$ route.
+\item $H$ records componentwise $\hsame$ transport for the two schedules, branch row, dyadic ledger, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the same interleaving route.
+\item $P$ is the $\Pkg$ provenance over $\CauchyInterleavingTreeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyInterleavingTreeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host sequence selector, quotient equality of Cauchy streams, countable choice, trichotomy, or a completed-real object outside the displayed seal row.
+\end{definition}
+\leanstmt{BEDC.Derived.CauchyInterleavingTreeUp}
+
+\begin{theorem}[Cauchy interleaving tree regularity]
+\label{thm:cauchy-interleaving-tree-regularity}
+For every accepted $\CauchyInterleavingTreeUp$ carrier $T=(S_0,S_1,B,D,R,E,H,C,P,N)$, every branch read that reaches the $\RegSeqRatUp$ row $R$ first exposes both stream schedules $S_0,S_1$, the finite branch row $B$, and the dyadic tolerance ledger $D$. Thus the regular rational readback is a finite interleaving certificate, not a selected subsequence, quotient stream equality, or host convergence assertion.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier rows. The row $R$ appears only after the two finite stream schedules, the branch row, and the dyadic tolerance ledger, so a regular-rational consumer cannot read $R$ as an independent convergence object.
+
+Now compare with the regular-Cauchy shuffle packet of \autoref{ch:concrete-instances-regular-cauchy-shuffle-namecert}. That sibling records an alternating read order; the present tree keeps the branch row visible so diagonal, subsequence, and paired-window reads share the same finite tolerance ledger.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name that route. Since no coordinate stores a selector or quotient equality, every regularity read factors through the displayed branch tree.
+\end{proof}
+
+\begin{theorem}[Cauchy interleaving tree real seal]
+\label{thm:cauchy-interleaving-tree-real-seal}
+Every $\RealUp$ seal exported by an accepted $\CauchyInterleavingTreeUp$ packet factors through the route
+$$
+S_0,S_1,B,D,R \longmapsto E .
+$$
+The seal may be consumed by Real and Completion arguments as a finite branch-structured readback of regular Cauchy data, but it does not assert ambient real completeness, quotient stream equality, countable choice, or a selected limiting subsequence.
+\end{theorem}
+\begin{proof}
+Read the seal coordinate $E$ in the carrier. Its only public input route is the finite pair of stream schedules, the branch row, the dyadic tolerance ledger, and the regular rational readback.
+
+The replay row $C$ and provenance row $P$ keep the same order visible to downstream Real and Completion consumers. A consumer may therefore cite the packet as a branch-structured handoff from regular Cauchy data to a real-name seal.
+
+No additional row chooses a limit, compares quotient streams, or discharges completeness. Hence the exported seal is exactly the displayed finite route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyInterleavingTreeUp$ real-seal read exposes the branch row $B$ before the $\RegSeqRatUp$ readback $R$ and the terminal $\RealUp$ seal $E$.}
+
+\independenceWitness{regular-cauchy-shuffle, streamname, regseqrat, dyadicratcore, real: the regular-Cauchy shuffle records an alternating schedule without the branch tree; StreamName records finite windows without regular readback; RegSeqRat records regular rational data without a two-source branch row; DyadicRatCore records tolerance arithmetic without a real seal; and RealUp seals a name without the interleaving carrier. None is bijective to $\CauchyInterleavingTreeUp$.}
+
+\closureat{CauchyInterleavingTreeUp}{seedStr}
+
+\begin{closurestatus}{\CauchyInterleavingTreeUp}
+  \constructivestory{A $\CauchyInterleavingTreeUp$ packet is generated from two finite stream schedules, a branch row, a dyadic tolerance ledger, a regular rational readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-interleaving-tree-carrier}, \autoref{thm:cauchy-interleaving-tree-regularity}, and \autoref{thm:cauchy-interleaving-tree-real-seal} seed the finite branch tree used by diagonal, subsequence, and regular-Cauchy readback arguments.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.CauchyInterleavingTreeUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, countable choice, selected limits, ambient $\RealUp$ completeness, Lean theorem verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, branch-row stability, dyadic tolerance compatibility, regular rational readback, real-seal delivery, transport, replay, provenance, and local naming for BEDC.Derived.CauchyInterleavingTreeUp.}
+\end{closurestatus}
