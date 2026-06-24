@@ -118,6 +118,7 @@ S=(E,\mathcal{P},C,R,D,M,H,F,L,Q,P,N)
 $$
 be an accepted $\SubordinateModulusCoverUp$ carrier. Every source history covered by the packet is covered by a bundled center from the nonempty $\mathsf{ProbeBundle}$ spine $\mathcal{P}$, through the half-radius coverage rows $H$ and the displayed consumer routes $Q$. The coverage row is internal to the carrier and uses no host open-cover compactness, external radius selector, host minimum, or uniform precision output.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubordinateModulusCoverUp.SubordinateModulusCoverCompactCoverageExactness}
 \begin{proof}
 Project the carrier by \autoref{def:subordinate-modulus-cover-carrier}. The nonempty bundle spine $\mathcal{P}$, center row $C$, subordinate radius row $R$, half-radius coverage row $H$, and continuation route row $Q$ are all visible coordinates of the same packet.
 
@@ -196,6 +197,18 @@ Project the handoff rows from \autoref{def:subordinate-modulus-cover-carrier}. T
 Apply the NameCert obligations, compact coverage exactness, pointwise compatibility, and rational subordination exactness. These theorems attach each ledger row to the same accepted packet and prevent any read from bypassing $L,Q,P,N$.
 
 Finally use the uniform handoff theorem and the carrier admission theorem above. The $\UniformModulusUp$ consumer receives precisely the finite subordinate-cover input ledger before the lower-bound fold, while the fold result and any host minimum remain outside the packet.
+\end{proof}
+
+\begin{theorem}[SubordinateModulusCover choice-free handoff]
+\label{thm:subordinate-modulus-cover-choice-free-handoff}
+Every accepted $\SubordinateModulusCoverUp$ packet exposes the finite rows $\mathcal{P},C,R,D,M,H,F,L,Q,P,N$ to a $\UniformModulusUp$ consumer before any lower-bound fold is read. No row may be retyped as an external radius selector, host minimum, open-cover compactness witness, or completed uniform precision.
+\end{theorem}
+\begin{proof}
+Start from carrier admission in \autoref{def:subordinate-modulus-cover-carrier}. The rows $\mathcal{P},C,R,D,M,H,F,L,Q,P,N$ are displayed coordinates of the same finite packet, and the tolerance row $E$ only supplies the request read by that packet.
+
+Compact coverage exactness, pointwise compatibility, and rational subordination exactness attach the bundle, centers, subordinate radii, precision rows, pointwise-modulus row, coverage row, and comparison ledger to the same carrier. The uniform handoff theorem then exposes those finite rows to the $\UniformModulusUp$ consumer before the lower-bound fold produces any output.
+
+Ledger exactness rules out the remaining escape routes. Since the carrier contains no selector coordinate, no host minimum coordinate, no open-cover compactness row, and no completed uniform precision row, none of the displayed rows can be retyped as one of those objects.
 \end{proof}
 
 \closureat{SubordinateModulusCoverUp}{seedStr}
