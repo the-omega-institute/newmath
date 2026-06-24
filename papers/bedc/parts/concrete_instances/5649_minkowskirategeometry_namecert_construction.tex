@@ -170,6 +170,26 @@ It aligns field faithfulness with the same single carrier; it does not enlarge t
 \end{proof}
 \leanchecked{BEDC.Derived.MinkowskiRateGeometryUp.MinkowskiRateGeometryScopeBinding}
 
+\begin{theorem}[Minkowski rate geometry public certificate]
+\label{thm:minkowski-rate-geometry-public-certificate}
+The public certificate exported by $\MinkowskiRateGeometryUp$ is exactly the finite route
+$$
+G,X,R,L,D,H,C,P,N.
+$$
+It consumes the displayed $\MultiHistConfigUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, and $\LorentzFrameRateUp$ rows, then exposes only the rate-induced distance-shape ledger, componentwise transport, continuation route, provenance, and local name. It refuses metric tensors, host real coordinates, synchronized clocks, global frames, and ambient Lorentz manifolds as public certificate fields.
+\end{theorem}
+\begin{proof}
+Start with the carrier envelope of \autoref{def:minkowski-rate-geometry-carrier} and \autoref{thm:minkowski-rate-geometry-carrier-envelope}. These identify the complete public inventory as $G,X,R,L,D,H,C,P,N$.
+
+Apply the NameCert obligations, observer symmetry, non-escape, ledger exactness, and scope binding from \autoref{thm:minkowski-rate-geometry-namecert-obligations}, \autoref{thm:minkowski-rate-geometry-symmetry}, \autoref{thm:minkowski-rate-geometry-nonescape}, \autoref{thm:minkowski-rate-geometry-ledger-exactness}, and \autoref{thm:minkowski-rate-geometry-scope-binding}. They force every distance-shape read to pass through the upstream multi-Hist, causal, maximum-rate, and Lorentz-frame-rate rows before it reaches $D$.
+
+Finally use the TasteGate marker
+$$
+\texttt{BEDC.Derived.MinkowskiRateGeometryUp.MinkowskiRateGeometryTasteGate\_single\_carrier\_alignment}.
+$$
+It records field faithfulness for the single carrier and does not admit any extra coordinate. Hence the certificate is public exactly at the listed finite route and refuses continuum Lorentz data outside that route.
+\end{proof}
+
 \falsifiablePrediction{Deleting the observer-symmetry row permits two observers over the same MaxCausalRateUp packet to read incompatible geometry rows, while deleting the MaxCausalRateUp row leaves no rate-induced distance boundary.}
 
 \independenceWitness{Nearest siblings: multihistconfig, crosshistcausal, maxcausalrate, lorentzframerate, and observerlocalitytransport; no bijection exists because this carrier adds a symmetric distance-shape ledger that each sibling explicitly lacks or refuses.}
