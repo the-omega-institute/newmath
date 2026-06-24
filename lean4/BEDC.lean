@@ -10912,6 +10912,7 @@ import BEDC.Derived.SamuelCompletionUp
 import BEDC.Derived.SamuelCompletionUp.TasteGate
 import BEDC.Derived.SardRegularValueUp
 import BEDC.Derived.SardTheoremFiniteJetUp.TasteGate
+import BEDC.Derived.SardTheoremUp
 import BEDC.Derived.SchauderBasisUp.TasteGate
 import BEDC.Derived.SchauderFiniteCompactMapUp
 import BEDC.Derived.SchauderFixedPointUp.TasteGate
@@ -11336,6 +11337,7 @@ import BEDC.Derived.SheafificationUp.PlusGluingReplay
 import BEDC.Derived.SheafificationUp.SeparatedRefinementExactness
 import BEDC.Derived.SheafificationUp.SeparatedReflectionRoute
 import BEDC.Derived.SheafificationUp.SheafHandoff
+import BEDC.Derived.SheafificationUp.SourceExposureObligation
 import BEDC.Derived.SheafificationUp.SourceLocalityObligation
 import BEDC.Derived.SheafificationUp.SourceObligationPackage
 import BEDC.Derived.SheafificationUp.TasteGate
