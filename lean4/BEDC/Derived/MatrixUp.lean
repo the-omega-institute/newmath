@@ -658,6 +658,9 @@ def det (A : Mat2) : BEDC.Derived.PrimeUp.IntegerUp :=
     (BEDC.Derived.RationalUp.IntNeg
       (BEDC.Derived.RationalUp.IntMul A.a01 A.a10))
 
+def matTrace (A : Mat2) : BEDC.Derived.PrimeUp.IntegerUp :=
+  BEDC.Derived.RationalUp.IntAdd A.a00 A.a11
+
 private abbrev I := BEDC.Derived.PrimeUp.IntegerUp
 private abbrev ieq := BEDC.Derived.RationalUp.IntEq
 private abbrev iadd := BEDC.Derived.RationalUp.IntAdd
@@ -810,6 +813,11 @@ private theorem scalar_add_middle_four (a b c d : I) :
       (BEDC.Derived.IntUp.IntAdd_respects (ieq_refl a)
         (scalar_add_left_right_swap b c d))
       (ieq_symm (BEDC.Derived.IntUp.IntAdd_assoc a c (iadd b d))))
+
+theorem matTrace_add (A B : Mat2) :
+    ieq (matTrace (matAdd A B)) (iadd (matTrace A) (matTrace B)) := by
+  unfold matTrace matAdd
+  exact scalar_add_middle_four A.a00 B.a00 A.a11 B.a11
 
 private theorem scalar_mul_middle_four (a b c d : I) :
     ieq (imul (imul a b) (imul c d)) (imul (imul a c) (imul b d)) :=
@@ -1159,6 +1167,20 @@ theorem det_respects {A B : Mat2} : MatEq A B -> ieq (det A) (det B) := by
     (BEDC.Derived.IntUp.IntMul_respects same.left same.right.right.right)
     (BEDC.Derived.IntUp.IntNeg_respects
       (BEDC.Derived.IntUp.IntMul_respects same.right.left same.right.right.left))
+
+theorem det_one : ieq (det matOne) ione := by
+  unfold det matOne
+  have negZeroBase : ieq (ineg izero) izero := by
+    exact scalar_left_inverse_unique (z := ineg izero) (x := izero) (iadd_neg_left izero)
+  have productOne : ieq (imul ione ione) ione :=
+    imul_one_left ione
+  have productZero : ieq (imul izero izero) izero :=
+    imul_zero_left izero
+  have negProductZero : ieq (ineg (imul izero izero)) izero :=
+    ieq_trans (BEDC.Derived.IntUp.IntNeg_respects productZero) negZeroBase
+  exact ieq_trans
+    (BEDC.Derived.IntUp.IntAdd_respects productOne negProductZero)
+    (scalar_add_right_zero ione)
 
 private theorem scalar_eight_cancel
     {p1 p2 p3 p4 q1 q2 q3 q4 : I} :
