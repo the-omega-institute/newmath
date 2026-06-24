@@ -256,6 +256,26 @@ Apply finite-window extraction, ledger nonescape, and Real-seal nonescape from \
 Finally use the obligation triad, obligation-window route, universal factorization, and separated-limit factorization, \autoref{thm:cauchy-completion-operator-obligation-triad}, \autoref{thm:cauchy-completion-operator-obligation-window-route}, \autoref{thm:cauchy-completion-operator-universal-factorization}, and \autoref{thm:cauchy-completion-operator-separated-limit-factorization}. These rows exhaust carrier admission, source routing, terminal handoff, transport, replay, provenance, and local naming, so the scoped obligation surface is closed exactly at $\obligationClosure$.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionOperator composition uniqueness route]
+\label{thm:cauchy-completion-operator-composition-uniqueness-route}
+Let $O_0$ and $O_1$ be accepted $\CauchyCompletionOperatorUp$ packets with the same $\MetricCompletionUp$, $\CauchyCompletionBoundaryUp$, $\UniformCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CompleteSeparatedMetricUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. Then every completion-facing composition read induced by $O_0$ follows the same finite operator route as the read induced by $O_1$.
+
+Equivalently, agreement of the displayed rows forces agreement of the completion-facing handoff route
+$$
+M,U \longmapsto B \longmapsto S,R,D \longmapsto Q,E \longmapsto H,C,P,N,
+$$
+without asserting quotient completion equality, selected limits, host completion operators, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the functorial handoff of \autoref{thm:cauchy-completion-operator-functorial-handoff}. It forces any composition-facing read of either packet to pass through the same metric source, uniform source, completion boundary, finite window, regular readback, dyadic tolerance ledger, separated-limit handoff, Real seal, transport, replay, provenance, and local naming rows.
+
+Next apply finite-window extraction and the obligation-window route, \autoref{thm:cauchy-completion-operator-window-extraction} and \autoref{thm:cauchy-completion-operator-obligation-window-route}. Since $O_0$ and $O_1$ agree on the displayed StreamName, RegSeqRat, DyadicRatCore, boundary, and structural rows, both composition reads expose the same finite observation window before $Q$ or $E$ is available.
+
+Use universal factorization and separated-limit factorization, \autoref{thm:cauchy-completion-operator-universal-factorization} and \autoref{thm:cauchy-completion-operator-separated-limit-factorization}. These theorems route the universal, functorial, and separated-limit consumers through the already displayed packet rows, so no second completion-facing route can be generated from data outside the common row family.
+
+Finally invoke scoped obligation closure, \autoref{thm:cauchy-completion-operator-scoped-obligation-closure}. The closed scope exhausts the admissible carrier, handoff, window, seal, transport, replay, provenance, and naming obligations. Therefore two accepted packets with the same displayed rows induce the same completion-facing route, while quotient completion equality, selected limits, host completion operators, countable choice, and ambient $\RealUp$ completeness remain outside the claim.
+\end{proof}
+
 \closureat{CauchyCompletionOperatorUp}{seedStr}
 
 \begin{closurestatus}{\CauchyCompletionOperatorUp}
