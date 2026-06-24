@@ -69,6 +69,7 @@ import BEDC.Derived.AllowedProofAuditUp.TasteGate
 import BEDC.Derived.AlmostPeriodicUp.TasteGate
 import BEDC.Derived.AlternatingSeriesTestUp.TasteGate
 import BEDC.Derived.AlternativeCodeReassignmentUp.TasteGate
+import BEDC.Derived.AnalogyCertificateGateUp.IndependenceWitness
 import BEDC.Derived.AnalogyCertificateGateUp.NameCertObligations
 import BEDC.Derived.AnalogyCertificateGateUp.ObligationRowScope
 import BEDC.Derived.AnalogyCertificateGateUp.TasteGate
@@ -967,6 +968,7 @@ import BEDC.Derived.BishopCompletionModulusUp.RealSealOrdering
 import BEDC.Derived.BishopCompletionModulusUp.SameThresholdTransport
 import BEDC.Derived.BishopCompletionModulusUp.TasteGate
 import BEDC.Derived.BishopCompletionModulusUp.ThresholdHeredity
+import BEDC.Derived.BishopCompletionSpaceUp.TasteGate
 import BEDC.Derived.BishopCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.NameCertObligations
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.TasteGate
@@ -4409,6 +4411,7 @@ import BEDC.Derived.DNAFourPhaseAlphabetBridgeUp.TasteGate
 import BEDC.Derived.DarbouxContinuityUp.TasteGate
 import BEDC.Derived.DarbouxCriterionUp
 import BEDC.Derived.DarbouxCriterionUp.TasteGate
+import BEDC.Derived.DarbouxFunctionUp.TasteGate
 import BEDC.Derived.DarbouxIntegralUp
 import BEDC.Derived.DarbouxIntegralUp.TasteGate
 import BEDC.Derived.DarbouxOscillationCriterionUp
@@ -6841,6 +6844,7 @@ import BEDC.Derived.IsaacsEquationUp
 import BEDC.Derived.IsaacsEquationUp.TasteGate
 import BEDC.Derived.IsbellMrowkaPsiSpaceUp.TasteGate
 import BEDC.Derived.IsbellTightSpanUp.TasteGate
+import BEDC.Derived.IshiharaFiniteTestBoundaryUp
 import BEDC.Derived.IshiharaTrickUp
 import BEDC.Derived.IshiharaTrickUp.BoundedSequenceRoute
 import BEDC.Derived.IshiharaTrickUp.BranchStability
@@ -8307,6 +8311,7 @@ import BEDC.Derived.MetricClosureUp.TasteGate
 import BEDC.Derived.MetricCofinalCompletionUp.TasteGate
 import BEDC.Derived.MetricCompletionAdjointUp.TasteGate
 import BEDC.Derived.MetricCompletionAdjunctionUp.TasteGate
+import BEDC.Derived.MetricCompletionAdmissibleEmbeddingUp
 import BEDC.Derived.MetricCompletionComparisonUp.TasteGate
 import BEDC.Derived.MetricCompletionDenseEmbeddingUp.TasteGate
 import BEDC.Derived.MetricCompletionFiniteCoproductUp.TasteGate
@@ -9018,6 +9023,8 @@ import BEDC.Derived.OvertRealUp.TasteGate
 import BEDC.Derived.OvertSpaceUp.TasteGate
 import BEDC.Derived.PackageExportDisciplineUp.TasteGate
 import BEDC.Derived.PackageGovernanceExportUp.TasteGate
+import BEDC.Derived.PackageMapBoundaryUp.NameCertObligations
+import BEDC.Derived.PackageMapBoundaryUp.NonEscape
 import BEDC.Derived.PackageMapBoundaryUp.TasteGate
 import BEDC.Derived.PackingNumberUp
 import BEDC.Derived.PackingNumberUp.TasteGate
@@ -9219,6 +9226,7 @@ import BEDC.Derived.PointedCompleteMetricSpaceUp
 import BEDC.Derived.PointedCompleteMetricSpaceUp.CauchyBasepointRoute
 import BEDC.Derived.PointedCompleteMetricSpaceUp.TasteGate
 import BEDC.Derived.PointedCompleteMetricUp
+import BEDC.Derived.PointedGromovHausdorffUp.TasteGate
 import BEDC.Derived.PointedMetricSpaceUp.TasteGate
 import BEDC.Derived.PointedSetUp
 import BEDC.Derived.PointwiseContinuityModulusUp.Obligations
@@ -9796,6 +9804,8 @@ import BEDC.Derived.RealIntervalDistanceUp.TasteGate
 import BEDC.Derived.RealIntervalUp.TasteGate
 import BEDC.Derived.RealInverseUp
 import BEDC.Derived.RealInverseUp.ApartnessDomain
+import BEDC.Derived.RealInverseUp.GuardedProductUniqueness
+import BEDC.Derived.RealInverseUp.NonEscape
 import BEDC.Derived.RealInverseUp.TasteGate
 import BEDC.Derived.RealLimitStabilityUp
 import BEDC.Derived.RealLimitStabilityUp.TasteGate
@@ -10677,6 +10687,7 @@ import BEDC.Derived.RegularCauchyTranslationUp.TasteGate
 import BEDC.Derived.RegularCauchyTriangleBoundUp
 import BEDC.Derived.RegularCauchyTriangleBoundUp.TasteGate
 import BEDC.Derived.RegularCauchyUniformityUp.TasteGate
+import BEDC.Derived.RegularCauchyUniqueLimitUp
 import BEDC.Derived.RegularCauchyUniquenessUp.TasteGate
 import BEDC.Derived.RegularCauchyWindowFusionUp.BudgetMeet
 import BEDC.Derived.RegularCauchyWindowFusionUp.CofinalTailClosure
@@ -11570,6 +11581,7 @@ import BEDC.Derived.StreamDiagonalSelectorUp
 import BEDC.Derived.StreamDiagonalSelectorUp.TasteGate
 import BEDC.Derived.StreamLimitReflectionUp.TasteGate
 import BEDC.Derived.StreamMapUp.CompositionWindowRoute
+import BEDC.Derived.StreamMapUp.NameCertObligationSurface
 import BEDC.Derived.StreamMapUp.TasteGate
 import BEDC.Derived.StreamMergeUp.TasteGate
 import BEDC.Derived.StreamNameModulusUp.KernelCarrier
@@ -12182,6 +12194,7 @@ import BEDC.Derived.UniformCauchySequenceUp.TasteGate
 import BEDC.Derived.UniformCauchySeriesUp.TailThreshold
 import BEDC.Derived.UniformCauchySeriesUp.TasteGate
 import BEDC.Derived.UniformCauchySubsequenceUp.TasteGate
+import BEDC.Derived.UniformCauchyWindowExhaustionUp.TasteGate
 import BEDC.Derived.UniformClosureUp.TasteGate
 import BEDC.Derived.UniformCompleteSpaceUp.TasteGate
 import BEDC.Derived.UniformCompletionCommonWindowUp.NameCertObligations
