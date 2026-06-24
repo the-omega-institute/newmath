@@ -4,6 +4,10 @@
 %   \begin{closurestatus}{\<X>Up}
 %     \theoryclosure{\scopedClosure}
 %     \scopeclosed{The displayed empty-history singleton certificate.}
+%     \externalcorrespondence{\referencedExternal}
+%     \reference{External reference theory, commit-pinned when applicable.}
+%     \reconstructionscope{The exact external scope being compared.}
+%     \boundaryexhaustive{tab:some-boundary-decomposition}
 %     \formalstatus{\theoremCheckedV}
 %     \leantarget{BEDC.Derived.<X>Up.<theorem>}
 %     \bridgestatus{none}
@@ -21,9 +25,19 @@
   \begingroup%
     \footnotesize\sffamily\color{purple!55!black}%
     \textbf{Closure status for $\NameCert_{#1}$.}\par
+    \def\bedcexternalcalibrated{0}%
+    \def\bedcexternalboundary{0}%
     \def\constructivestory##1{\ifx\\##1\\\else\par\textbf{Constructive story:} ##1\par\fi}%
     \def\theoryclosure##1{\par\textbf{Theory closure:} $\TheoryGate(\NameCert_{#1},\,##1)$\par}%
     \def\scopeclosed##1{\textbf{Scope closed:} ##1\par}%
+    \def\externalcorrespondence##1{%
+      \edef\bedcexternalvalue{\detokenize{##1}}%
+      \edef\bedcexternaltarget{\detokenize{\calibratedReconstruction}}%
+      \ifx\bedcexternalvalue\bedcexternaltarget\def\bedcexternalcalibrated{1}\fi%
+      \textbf{External correspondence:} $\ExternalCorrespondenceClosure(\NameCert_{#1},\,##1)$\par}%
+    \def\reference##1{\textbf{External reference:} ##1\par}%
+    \def\reconstructionscope##1{\textbf{Reconstruction scope:} ##1\par}%
+    \def\boundaryexhaustive##1{\def\bedcexternalboundary{1}\textbf{Boundary exhaustion:} \autoref{##1}\par}%
     \def\formalstatus##1{\textbf{Formal verification:} $\FormalStatus(\NameCert_{#1},\,##1)$\par}%
     \def\leantarget##1{\textbf{Lean target:} \texttt{\detokenize{##1}}\par}%
     \def\bridgestatus##1{\textbf{Bridge status:} ##1\par}%
@@ -40,5 +54,10 @@
     \def\closurelineage##1{\textbf{Lineage evidence:} ##1\par}%
     \def\dnahash##1{\textbf{DNA hash:} \texttt{\detokenize{##1}}\par}%
 }{%
+  \ifnum\bedcexternalcalibrated=1
+    \ifnum\bedcexternalboundary=0
+      \PackageError{BEDC}{calibratedReconstruction requires \string\boundaryexhaustive}{Add \string\boundaryexhaustive\{<label>\} inside the closurestatus block.}%
+    \fi
+  \fi
   \par\endgroup\smallskip
 }

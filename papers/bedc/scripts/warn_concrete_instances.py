@@ -31,6 +31,7 @@ Checks (IDs match the analysis report):
   S  closurestatus required fields (scopeclosed / constructivestory /
      notclaimed / upgradepath) have non-empty bodies
   T  every \\<X>Up macro defined in preamble is referenced somewhere
+  U  \\calibratedReconstruction in closurestatus requires \\boundaryexhaustive
   W  no two \\chapter{...} commands in distinct files share identical body
 
 Modes:
@@ -81,6 +82,10 @@ VALID_ORIGINS = {"human", "ai"}
 
 BRIDGESTATUS_RE = re.compile(r"\\bridgestatus\{([^}]+)\}")
 VALID_BRIDGESTATUS = {"none", "paperBridge", "bridgeChecked"}
+CALIBRATED_EXTERNAL_RE = re.compile(
+    r"\\externalcorrespondence\{\s*\\calibratedReconstruction\s*\}"
+)
+BOUNDARY_EXHAUSTIVE_RE = re.compile(r"\\boundaryexhaustive\{([^}]+)\}")
 
 # Check I: any .tex basename under parts/frontmatter/appendices must be
 # lowercase snake_case. Two prefix forms recognized:
@@ -390,6 +395,25 @@ def check_c_closurestatus_fields() -> list[dict]:
                     "file": str(rel),
                     "line": start_line,
                     "msg": f"closurestatus block missing \\{f}",
+                })
+    return out
+
+
+def check_u_calibrated_external_boundary() -> list[dict]:
+    out: list[dict] = []
+    for tex in iter_part_tex():
+        rel = tex.relative_to(PAPER_DIR)
+        text = strip_verbatim_preserve_lines(read_text(tex))
+        for start_line, body in closurestatus_blocks(text):
+            if CALIBRATED_EXTERNAL_RE.search(body) and not BOUNDARY_EXHAUSTIVE_RE.search(body):
+                out.append({
+                    "check": "U",
+                    "file": str(rel),
+                    "line": start_line,
+                    "msg": (
+                        "\\externalcorrespondence{\\calibratedReconstruction} "
+                        "requires \\boundaryexhaustive{<label>}"
+                    ),
                 })
     return out
 
@@ -955,6 +979,7 @@ CHECKS = {
     "R": check_r_refs_resolve,
     "S": check_s_closurestatus_fields_nonempty,
     "T": check_t_unused_up_macros,
+    "U": check_u_calibrated_external_boundary,
     "W": check_w_chapter_title_unique,
 }
 
