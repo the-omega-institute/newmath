@@ -751,6 +751,7 @@ import BEDC.Derived.BaireGenericResidualUp.TasteGate
 import BEDC.Derived.BaireMeasurableFunctionUp.TasteGate
 import BEDC.Derived.BaireMetricUp
 import BEDC.Derived.BaireMetricUp.BaireSpacePrefixDensityRoute
+import BEDC.Derived.BaireMetricUp.BridgeRoute
 import BEDC.Derived.BaireMetricUp.CauchyPrefixThread
 import BEDC.Derived.BaireMetricUp.CauchyThreadObligationSurface
 import BEDC.Derived.BaireMetricUp.CompleteMetricNonescape
@@ -5787,6 +5788,7 @@ import BEDC.Derived.FiniteCauchyTailHandoffUp.NameCertObligations
 import BEDC.Derived.FiniteCauchyTailHandoffUp.TasteGate
 import BEDC.Derived.FiniteChoiceUp.TasteGate
 import BEDC.Derived.FiniteChoiceWindowUp.TasteGate
+import BEDC.Derived.FiniteClosedIntervalNestedIntersectionUp.TasteGate
 import BEDC.Derived.FiniteContractionOrbitErrorUp
 import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
 import BEDC.Derived.FiniteCoverNerveUp.CompactUniformHandoff
