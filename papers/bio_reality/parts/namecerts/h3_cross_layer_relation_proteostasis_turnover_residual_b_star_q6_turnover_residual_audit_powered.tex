@@ -1,54 +1,39 @@
 \origin{ai}
 
-\subsection{Proteostasis turnover residual audit for $B^{\ast}_{Q6}$}
-\label{subsec:bioreality-proteostasis-turnover-residual-audit}
+\subsection{Turnover Residual Audit After Translation and Proteostasis Controls}
+\label{sec:bioq6-turnover-residual-audit}
 
 \paragraph{Finite surface.}
-This record tests whether the nine-dimensional $B^{\ast}_{Q6}$ residual surface carries a measurable protein-turnover increment after stronger, nearer readouts have already been accounted for. The finite rows are protein-indexed genes with matched turnover measurements and a control design that includes expression, translation-efficiency information, structure-order proxy information through pLDDT, N-end features, amino-acid and sequence-derived controls, and the usual codon-composition baselines. The admissible question is therefore not whether codon residuals can be associated with proteins in an uncontrolled projection, but whether the residual coordinates still improve a turnover model after the nearer explanatory layers have absorbed the obvious routes.
+The object audited here is a finite cross-layer table whose rows are coding sequences with a measured protein-turnover readout and whose columns separate three roles.  The first role is the nine-dimensional $B^{\ast}_{Q6}$ synonymous residual block, with coordinates
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3$-stress.  The second role is the already separated translation layer, represented in adjacent audits by modeled or measured translation-readout quantities such as per-protein tAI, ribosome-footprint rate slots, or translation efficiency.  The third role is the proteostasis target, here a measured turnover response.  The turnover audit used $n=3290$ genes and $B=200$ finite null draws.  It does not ask whether synonymous residual geometry can be drawn or whether it is associated with earlier sequence and translation summaries; it asks the narrower question of whether the residual block still improves measured turnover after expression, translation, structure-confidence, N-end, and related proteostasis controls have already occupied their slots.
 
-\paragraph{Tested coordinates and model comparison.}
-The residual family is the same nine-coordinate $B^{\ast}_{Q6}$ basis used in the adjacent translation and protein-abundance audits:
+\paragraph{Nested comparison.}
+Let $Y$ be the turnover readout, let $Z_2$ denote the finite control design through expression, translation-efficiency and proteostasis summaries, and let $Q$ denote the nine-coordinate $B^{\ast}_{Q6}$ residual block.  The registered comparison is the incremental transition from the control model $L_2$ to the residual-augmented model $L_3$:
 $$
 \begin{aligned}
-Q &= \{K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
-&\qquad Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
+R^2(L_2) &= 0.055740851626933985,\\
+R^2(L_3) &= 0.050278872193227464,\\
+\Delta R^2 &= R^2(L_3)-R^2(L_2) = -0.005461979433706483.
 \end{aligned}
 $$
-On the turnover panel the registered run used $n=3290$ genes and $B=200$ null replicates. The base layer with the non-$Q$ explanatory variables achieved
+The description-length comparison has the same sign:
 $$
 \begin{aligned}
-R^2_{L2} &= 0.055740851626933985,\\
-R^2_{L3} &= 0.050278872193227464,\\
-\Delta R^2 &= R^2_{L3}-R^2_{L2}=-0.005461979433706483.
+\Delta DL_{bits} &= -13.68819707902732,\\
+Null99_{matched\ bin}(\Delta DL_{bits}) &= 3.51918934107672,\\
+Null99_{recoded}(\Delta DL_{bits}) &= 1.9038288477880905.
 \end{aligned}
 $$
-Thus the $B^{\ast}_{Q6}$ block did not improve held-out turnover prediction; it reduced the fitted explanatory score on the registered comparison. The description-length comparison points in the same direction:
-$$
-\begin{aligned}
-\Delta DL &= -13.68819707902732\ \text{bits},\\
-q_{0.99}^{\mathrm{matched\ bin}} &= 3.51918934107672\ \text{bits},\\
-q_{0.99}^{\mathrm{recoded}} &= 1.9038288477880905\ \text{bits}.
-\end{aligned}
-$$
-The observed increment is below both positive-null reference thresholds, with $p_{\mathrm{matched\ bin}}=0.8855721393034826$ and $p_{\mathrm{recoded}}=1.0$. The finite-row verdict is therefore a bounded negative result: on the current data, $B^{\ast}_{Q6}$ supplies no evidence of turnover prediction beyond the expression, translation, pLDDT, N-end, and matched baseline controls.
+The observed increment is below zero and is also far below both finite null thresholds.  The two empirical tail probabilities were $p_{matched\ bin}=0.8855721393034826$ and $p_{recoded}=1.0$.  Thus the audit returns a negative powered result for the turnover layer: on the present rows, the residual block does not improve measured turnover once the stronger upstream and proteostasis covariates are present.
 
-\paragraph{Relation to nearer positive and negative surfaces.}
-This turnover null is not a denial that $B^{\ast}_{Q6}$ has any biological contact. Other finite surfaces show bounded contact at nearer layers. A translation/protein-abundance mediation audit joined twelve organisms, with joined protein counts such as $5815$ in yeast, $19053$ in human, $19395$ in mouse, and $3739$ in \emph{E. coli} K12 MG1655; in that statistical mediation surface the yeast entry had $c_{QP}=0.29837624994140827$, $c'_{QP\mid T}=0.0151709093608293$, indirect increment $0.28320534058057895$, and mediated fraction $0.9491551041216973$. A separate structural-order audit found that the only fold-level sign-flip passing axis was $f3\_stress$, with weighted held-out increment $0.0031744502294756994$ and sign-flip right-tail probability $0.03125$. An observable execution decomposition also reached a bounded positive subblock on yeast with $n=3289$ genes. These nearby contacts make the turnover result more specific: the failure occurs after the model has moved past translation, abundance, and structure-order proxies into measured protein turnover.
+\paragraph{Relation to the translation-mediated protein-abundance surface.}
+This negative result is not a denial that the same residual coordinates have bounded contacts at earlier layers.  In the protein-abundance mediation audit, the finite matrix joined matched CDS and abundance rows across organisms, with examples including $5815$ yeast proteins, $3739$ Escherichia coli K12 MG1655 proteins, $19053$ human proteins, and $19395$ mouse proteins.  In that table the joint $Q\to T\to P$ decomposition produced positive mediated fractions in the unit interval, for example $M^{QTP}=0.9491551041216973$ in yeast, $0.612922252793667$ in Escherichia coli K12 MG1655, $0.27206289160119157$ in human, and $0.15488799907323988$ in mouse.  Those numbers describe a statistical translation-conditioned protein-abundance decomposition, not a turnover result.  The present turnover audit deliberately places a later proteostasis readout behind those earlier contacts and asks whether any remaining $Q$ signal survives.  The answer on the finite turnover panel is no.
 
-\paragraph{Mass-balance contrast.}
-A dynamic mass-balance run gives an additional negative comparison. With $n=120$ genes and $718$ intervals, its staged scores were
-$$
-\begin{aligned}
-R^2_{L0,M} &= 0.9960628201518571,\\
-R^2_{L1,M,E} &= 0.996410628851051,\\
-R^2_{L2} &= 0.9712443377743347,\\
-R^2_{L3} &= 0.8953999568421264,
-\end{aligned}
-$$
-with $\Delta R^2=-0.07584438093220836$, $\Delta DL=-668.8046070381928$ bits, $p_{TE\mathrm{bin}}=0.6831683168316832$, and $p_{\mathrm{time\ shuffle}}=0.9306930693069307$. The turnover audit is consistent with that direction: once the measured expression and translation-like slots are present, the residual codon block does not earn promotion to a proteostasis-rate predictor.
+\paragraph{Compatibility with other bounded contacts.}
+The surrounding finite records also show why the present refusal is layer-specific rather than a global erasure of the coordinate system.  A rate-slot audit in Saccharomyces cerevisiae used $3289$ genes and reported an observable execution subblock after both effective null classes were passed.  A mass-balance audit used $120$ genes over $718$ intervals and found that the stronger dynamic layer did not improve the held-out fit, with $R^2(L_2)=0.9712443377743347$, $R^2(L_3)=0.8953999568421264$, $\Delta R^2=-0.07584438093220836$, $p_{TEbin}=0.6831683168316832$, and $p_{timeshuffle}=0.9306930693069307$.  A structural-order axis audit identified $f_3$-stress as the single significant coordinate, with held-out increment $0.0031744502294756994$ and sign-flip probability $0.03125$.  These are distinct bounded readbacks.  They do not license promotion to turnover; they only explain why the turnover question must be tested as its own finite panel.
 
-\paragraph{Readback.}
-The permitted readback is narrow. The result closes the current finite turnover surface as an honest negative: the tested $B^{\ast}_{Q6}$ coordinates do not improve measured turnover prediction under the registered controls. It does not say that synonymous residuals are irrelevant to all protein-state questions, nor does it refute the bounded translation or protein-abundance surfaces. It says only that this turnover panel gives no positive residual increment after the nearer controls have been placed in the model.
+\paragraph{Local verdict.}
+The allowed conclusion is a current-data closure statement for the turnover target.  On $3290$ genes, adding the $B^{\ast}_{Q6}$ residual block beyond the registered expression, translation, pLDDT, N-end, and proteostasis controls decreased held-out explanatory power and failed both finite null comparisons.  The chapter therefore records a bounded negative: there is no evidence in this table that $B^{\ast}_{Q6}$ predicts measured protein turnover beyond those controls.  The claim remains admissible only as a turnover-residual audit with a negative result, not as a positive proteostasis mechanism.
 
-\paragraph{Local no-promotion rule.}
-No claim about translation, folding, physical admissibility, molecular function, mechanism, phenotype, selection, or universality follows from this turnover audit. A translation claim requires a separate translation readout; a folding or structural claim requires a structure-level contact; a physical-admissibility or function claim requires its own assay; and a universal law would require multi-context evidence with simpler-baseline ablation. The present finite-row statement is a controlled non-promotion result for measured turnover, not a higher-layer biological mechanism.
+\paragraph{No-promotion boundary.}
+No translation-realization claim follows merely from this turnover table.  No folding, physical admissibility, molecular function, organismal phenotype, causal mechanism, selection law, or universal biological rule follows from the residual coordinates, from modeled tAI, from ribosome-readout routing, from matched protein abundance, or from the negative turnover increment.  A positive statement at any one of those layers would require its own layer-matched contact, its own finite joined rows, and its own controlled statistic.  A direct $Q_i\to P_k$ or $Q_i\to turnover$ association is not accepted as protein realization unless a same-coordinate $Q_i\to T_j$ translation-readout step has first survived the declared controls; in the turnover audit, even the later residual increment after stronger controls is nonpositive.

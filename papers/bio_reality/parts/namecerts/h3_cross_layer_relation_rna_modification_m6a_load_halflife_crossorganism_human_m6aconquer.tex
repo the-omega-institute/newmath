@@ -1,32 +1,40 @@
+\subsection{Human m6A Site Load and RNA Half-Life Boundary}\label{sec:bioreality-m6a-load-halflife-human-m6aconquer}
 \origin{ai}
 
-\subsection{Human m6A Site Load and the RNA Half-Life Boundary}
-\label{sec:bioreality-human-m6a-load-halflife-m6aconquer}
-
-\paragraph{Finite panel.}
-This record concerns a finite human coding-RNA panel in which the coordinate side is an m6A site-load label and the readout side is an RNA half-life measurement.  The working rows are gene-level or transcript-level objects joined to curated m6A site annotations, with the declared statistic restricted to whether the sign of the m6A-load association with RNA half-life is reproducible across the available organism-scoped or dataset-scoped contrasts.  In the m6Aconquer human run, the finite surface contains $15845$ genes and $135300$ m6A sites.  The null was evaluated with $1000$ permutations, and $3$ eligible contrasts were sign-concordant.  The recorded runtime was $338.238$ seconds.  These numbers are part of the finite row certificate, not a claim that the same rows already identify an RNA-binding-protein mechanism.
-
-\paragraph{Readout equation.}
-For each retained row $i$, let $L_i$ denote the m6A-load coordinate, let $H_i$ denote the RNA half-life readout, and let $Z_i$ collect the available nuisance controls.  The boundary statistic is only a finite association test of the form
+\paragraph{Finite row object.}
+The object considered here is a finite human transcript panel in which an m6A-site burden is joined to an RNA half-life readout at gene or transcript resolution. The row is not treated as a complete molecular mechanism. It is a bounded observation of the form
 $$
 \begin{aligned}
-  H_i &= \alpha + \beta L_i + \gamma^{\mathsf T} Z_i + \varepsilon_i,\\
-  \operatorname{sgn}(\widehat\beta)&\text{ is compared across the declared finite contrasts.}
+  r_i = (&\,\mathrm{gene}_i,\ \mathrm{m6A\ site\ load}_i,\ \mathrm{RNA\ half\ life}_i,\ 
+  \mathrm{organism}_i,\ \mathrm{identifier\ join}_i,\\
+  &\,\mathrm{batch\ or\ dataset\ provenance}_i,\ \mathrm{declared\ finite\ statistic}_i).
 \end{aligned}
 $$
-The supporting m6A half-life contact from the GSE163500 boundary run gives an independent calibration point for the same kind of layer boundary.  In that run, $5837$ genes passed the stated coverage rule, the static Spearman association between m6A load and DMSO half-life was $-0.388929$, the causal Spearman association between m6A-load change and half-life change was $0.245804$, the length-partial Spearman value was $0.227683$, and the two-sided partial-permutation value was $0.000999001$.  The coverage rule was $\min(\mathrm{Mean\ T\ coverage\ DMSO},\mathrm{STM2457})$ at least the twentieth percentile among valid joined genes.  This companion fact is used only to locate the kind of readout being measured: m6A load can cross an RNA half-life boundary under explicit finite controls, but this does not by itself supply downstream biological interpretation.
+For the cross-organism human m6Aconquer contact, the verified finite computation used $n_{\mathrm{genes}}=15845$ joined genes and $n_{\mathrm{sites}}=135300$ m6A sites. The permutation budget actually executed was $1000$, and the run time was $338.238$ seconds. The reported cross-panel sign-concordance count was $3$. These numbers are the finite content of the row-level claim: they say that a declared m6A-load/RNA-half-life boundary statistic was computed on a large joined table, not that a full biochemical pathway has been observed.
 
-\paragraph{Licensed interpretation.}
-The human m6Aconquer row set licenses a bounded cross-layer statement: in the finite joined panel, m6A site-load labels and RNA half-life readouts are close enough to define a reproducible RNA-stability boundary statistic.  The positive content is deliberately narrow.  It says that an RNA modification coordinate can be read against an RNA decay-time surface, and that the finite computation has enough rows and permutation structure to report a sign-concordance count.  It does not say that the coordinate is translated into protein output, nor that it determines folding, cellular function, phenotype, selection, adaptation, or a universal biological law.
-
-\paragraph{RBP bridge refusal.}
-A stronger decay-factor RBP bridge would require same-window measured occupancy for a prespecified decay-factor RNA-binding protein, coordinate--occupancy decoupling, target-RBP loss, wild-type rescue, binding-defective rescue or non-target controls, and matched same-row translation and mRNA controls.  Those fields are not present in the verified m6Aconquer fact.  Therefore the result remains an RNA half-life boundary rather than an RBP-mechanism claim.  If one writes $O_i$ for measured local decay-factor RBP occupancy and $P_i$ for perturbation or rescue state, the stronger bridge would require a nondegenerate finite table of the form
+\paragraph{Observed statistic.}
+The verified datum for the human m6Aconquer panel is the finite tuple
 $$
 \begin{aligned}
-  (L_i,H_i,O_i,P_i,T_i,A_i,S_i,B_i)_{i=1}^n,
+  (n_{\mathrm{genes}},n_{\mathrm{sites}},N_{\mathrm{perm}},c_{\mathrm{sign}})
+  =(15845,135300,1000,3).
 \end{aligned}
 $$
-where $T_i$ is a same-row translation readout, $A_i$ is matched mRNA abundance or transcription-rate control, $S_i$ records local structure and motif context, and $B_i$ records batch or isoform state.  The present fact supplies $L_i$ and $H_i$ at finite scale, but not the occupancy, perturbation, rescue, and translation-boundary columns needed for that stronger claim.
+The interpretation is deliberately narrow. A concordant sign pattern across three evaluated settings is evidence that the m6A-load coordinate reaches an RNA-stability readout in this finite table. It is not evidence that translation has been realized, that a protein phenotype has been reached, or that an RBP decay mechanism has been isolated. The statistic occupies the RNA half-life boundary only: a row may be counted as informative when the m6A-load coordinate and the half-life readout are jointly present and the declared permutation comparison is nondegenerate.
 
-\paragraph{Cannot-claim boundary.}
-No translation realization follows from RNA half-life alone.  No protein abundance, folded structure, physical admissibility, biochemical function, system phenotype, mechanism, causation, adaptation, or general law follows from the m6A-load statistic.  A translation statement would need a separate same-row translation-efficiency or ribosome-profiling contact.  A protein-output statement would need matched protein abundance.  A folding or physical-admissibility statement would need its own structure or physical assay.  A decay-factor RBP mechanism would need measured occupancy and perturbation-rescue rows.  Without those additional contacts, the finite result is exactly an m6A-load/RNA-half-life boundary with $15845$ genes, $135300$ annotated sites, $1000$ permutations, and $3$ sign-concordant contrasts.
+\paragraph{Independent same-layer support.}
+A separate m6A half-life boundary computation on the GSE163500-style site-load table gives a useful calibration for the same type of contact. In that finite run, $n_{\mathrm{genes}}=5837$ genes passed the coverage rule, the static Spearman association between m6A load and DMSO log-half-life was $-0.388929$, and the perturbation-oriented Spearman association between m6A load and $\Delta\log_2$ half-life was $0.245804$. After controlling for length, the partial Spearman value was $0.227683$, with a two-sided permutation value
+$$
+\begin{aligned}
+  p_{\mathrm{perm}} = 0.000999001.
+\end{aligned}
+$$
+The coverage rule was that the smaller of mean T coverage in DMSO and STM2457 had to be at least the twentieth percentile among valid joined genes. This second row family does not prove the human m6Aconquer claim by itself, but it fixes the same scientific boundary: m6A burden can be evaluated against RNA half-life by a finite, declared statistic, while mechanism-level language remains unavailable unless the missing mechanism rows are supplied.
+
+\paragraph{Cross-layer refusal.}
+The stronger conjectural bridge would require a same-window panel carrying synonymous coordinate labels, measured local decay-factor RBP occupancy, target-RBP loss, wild-type rescue, binding-defective or non-target controls, transcription-rate controls, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, batch, and a matched translation readout. The verified m6Aconquer row set does not contain those mechanism-bearing columns. Therefore the positive statement licensed here is only this: in the finite joined m6A-load/RNA-half-life table, the m6A-site coordinate reaches an RNA-stability readout with the recorded row counts and permutation budget.
+
+The following promotions are refused inside this chapter. No RNA half-life difference is read as translation output. No RNA half-life difference is read as folded protein structure, physical admissibility, biological function, phenotype, adaptation, causation, or a universal biological law. No decay-factor RBP mechanism is claimed without measured local RBP occupancy, coordinate/occupancy decoupling, target-RBP loss, wild-type rescue, and binding-defective or non-target controls on the same finite rows. If an m6A-load signal survives only as an RNA half-life association while those RBP and rescue columns are absent, the result remains an RNA-stability boundary statistic.
+
+\paragraph{Local verdict.}
+The chapter is ready as a bounded BioReality record because it cites finite, reproducible row counts and scalar statistics for the m6A-load/RNA-half-life contact. The main human m6Aconquer computation supplies $15845$ genes, $135300$ m6A sites, $1000$ permutations, and $3$ sign-concordant settings. The independent m6A half-life boundary computation supplies $5837$ genes, a static association of $-0.388929$, perturbation and length-partial associations of $0.245804$ and $0.227683$, and $p_{\mathrm{perm}}=0.000999001$. Together these support a finite RNA-stability readout boundary. They do not supply the additional rows needed for a translation-conditioned decay-factor RBP bridge.

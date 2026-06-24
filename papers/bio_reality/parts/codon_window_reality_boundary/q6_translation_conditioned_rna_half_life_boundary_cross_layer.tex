@@ -1,8 +1,8 @@
-\subsection{q6.translation-readout-coupling-matrix.cross-layer}
+\subsection{q6.translation-conditioned.rna-half-life-boundary.cross-layer}
 
-\paragraph{Biological object.} B*\_Q6 synonymous residual coordinates in coding sequences crossed with translation-readout weight surfaces for tAI, stAI, and ribosome-occupancy or translation-efficiency readouts
+\paragraph{Biological object.} B*\_Q6 synonymous residual coordinates in coding sequences tested through mandatory same-row translation readouts before any RNA half-life or transcript-stability readout is interpreted
 
-\paragraph{Current claim.} Before fitting survival scores, compute the locked coupling matrix A\_ij between each amino-acid-quotient-surviving B*\_Q6 residual coordinate and each available translation-readout weight. A coordinate is eligible for later survival testing only when its synonymous projected coupling remains nonzero under the declared controls; otherwise it stays at the bounded codon-count residual boundary.
+\paragraph{Current claim.} A B*\_Q6 residual coordinate may enter a transcript-stability cross-layer boundary only through a finite matched panel in which the coordinate first survives a same-row translation readout under amino-acid composition, organism, GC3, length, M-density, and mRNA controls; only then may residual association with RNA half-life be reported as a bounded translation-conditioned relation, not as direct function or phenotype.
 
 \paragraph{External reality input.}
 \textbf{codon-usage-per-organism}. External per-organism codon-usage resources report codon-count or frequency summaries for coding sequences.
@@ -21,15 +21,13 @@ Can test: B*\_Q6 residual coordinate survival on translation efficiency under am
 
 Can test: isolation of translation-layer signal from transcription-layer signal via TE residual. Cannot test: translation realization from transcript abundance alone; CUN/UUR versus tRNA-Leu association without matched codon-usage and tRNA-copy contacts; protein folding, physical admissibility, function, or universality from transcript counts alone.
 
-\paragraph{Internal newmath/BEDC derivation.} Carrier: finite matrix surface B*\_Q6 residual coordinates q\_i by translation-readout weight vectors ell\_j after amino-acid-fiber projection. Distinctions: AA-quotient residual coordinate q\_i versus its amino-acid projection P\_tau q\_i; nonzero synonymous coupling A\_ij versus zero coupling after Z controls; translation readout boundary versus protein abundance, structure, function, or phenotype boundary. Readback: entries A\_ij = q\_i\textasciicircum{}T Sigma P\_syn ell\_j read back only as pre-survival translation-readout couplings under amino-acid composition, organism, GC3, length, and M-density controls. Internal structure: coordinate; relation; spectrum.
+\textbf{matched-rna-half-life-readout}. organism-scoped transcript or gene rows carry externally curated mRNA half-life estimates or normalized consensus half-life readouts with dataset provenance and join keys
+
+Can test: RNA half-life readout boundary for same-organism joined rows; cross\_layer\_relation boundary only after same-row matched translation readout, matched mRNA controls, measured decay-factor RBP occupancy, target-RBP loss, wild-type rescue, binding-defective or non-target controls, and declared finite statistic are attached. Cannot test: translation realization from RNA half-life alone; measured decay-factor RBP occupancy; target-RBP loss or wild-type rescue; binding-defective or non-target control behavior; RNA decay mechanism; protein abundance; protein folding; structural order; physical admissibility; function realization; system phenotype; adaptation; causation; global biological law.
+
+\paragraph{Internal newmath/BEDC derivation.} Carrier: finite same-organism CDS rows with B*\_Q6 residual coordinates, same-row translation readout, matched mRNA abundance control, and matched RNA half-life readout. Distinctions: AA-quotient residual coordinate is separated from amino-acid composition; translation readout is observed before any RNA half-life interpretation; RNA half-life readout is conditioned on matched mRNA abundance and translation efficiency. Readback: finite tuple (q\_i, T\_j, mRNA\_control, RNA\_half\_life, Z, break\_condition) per matched CDS row. Internal structure: relation; trigger; rank.
 
 \paragraph{Falsifiable probes.}
-\textbf{residual-basis.m-only-local-optimum-insufficiency}. If M-only is the true BEDC variable for DNA-to-protein, then for every organism and every readout in \{tAI, ribosome occupancy, protein abundance\}, adding any element of B*\_Q6 to an M-density baseline (with amino-acid composition controlled) does not increase the BEDC survival score. Equivalently, S\_Q(r | Z, Delta\_M) <= 0 for every Q in B*\_Q6.
-
-Support condition: Codon-usage tables for at least 3 organisms with tRNA-Leu, tRNA-Arg, tRNA-Ile, tRNA-Ser, tRNA-Thr copy-number data (e.g. Kazusa + GtRNAdb), plus a readout source (stAI or ribosome-profiling-derived efficiency).
-
-Break condition: Some Q in B*\_Q6 has S\_Q(r | Z, Delta\_M) > 0 in at least one organism on at least one readout; or CUN/UUR Leu log-ratio shows sign reversal between organisms after amino-acid composition control while Delta\_M does not.
-
 \textbf{residual-basis.translation-readout-boundary.no-promotion}. The residual-basis packet may use an external tAI or stAI weight only as a bounded translation-readout contact; any claim about ribosome occupancy, protein abundance, folded structure, physical admissibility, function, or a global law requires a separate reality contact at that layer.
 
 Support condition: The packet already has codon-usage, tRNA-copy, and tAI or stAI contacts, and it keeps BEDC residual coordinates separate from the external readout source.
@@ -43,10 +41,6 @@ Support condition: At least one (q\_i, r\_j) entry achieves S\_ij > 0 with parti
 Break condition: All (q\_i, r\_j) survival scores S\_ij <= 0 after amino-acid composition, organism, GC3, length, and M-density baseline controls; equivalently, no B*\_Q6 coordinate improves the minimum description length of any translation readout
 
 \paragraph{Mismatch ledger.}
-\textbf{residual-basis.m-only-local-optimum.controlled-readout-gap}. Status: blocked\_null. Delta: The probe has the required external contact classes, but they remain separate contact bridges; no curated controlled statistic yet tests whether any B*\_Q6 coordinate improves over an M-density baseline.
-
-Refinement pressure: Treat this as a blocked-null boundary, not a weak biological result: obtain an external paired dataset or experiment that computes the controlled per-organism statistic before reporting M-only insufficiency or positive residual survival. BEDC residual geometry remains an internal coordinate cue and is not itself evidence of translation, structure, physical admissibility, function, or a global law.
-
 \textbf{residual-basis.translation-readout-boundary.no-promotion.scope-review}. Status: aligned. Delta: The tAI or stAI contact supplies an external organism-level codon-adaptation weight readback for the residual-basis packet, while BEDC residual coordinates and S\_Q notation remain internal coordinate memory. This contact does not observe ribosome occupancy, protein abundance, folded structure, physical admissibility, biological function, or a global biological law.
 
 Refinement pressure: Keep the packet at bounded readout scope: a separate reality contact is required before any ribosome, protein-output, mechanism, structure, physical-admissibility, function, or universal-law claim; codon/window geometry cannot supply that contact.
@@ -255,9 +249,7 @@ Refinement pressure: Seek the next reality boundary by attaching same-organism a
 
 Refinement pressure: Seek the next reality boundary by attaching same-organism, same-CDS, and same-window rows for ordered coding sequence, codon counts, bounded tAI or stAI wobble weights, matched mRNA abundance, and codon-indexed ribosome-footprint occupancy, then compute the declared f\_3-stress position-resolved S\textasciicircum{}QT statistic under amino-acid-bin or position controls, organism, GC3, CDS length, M-density baseline, matched mRNA, coverage and mappability limits, rank sufficiency, and simpler-baseline ablation. Keep the exact packet blocked from translation realization beyond that bounded statistic, and from protein abundance, structure, physical admissibility, function, phenotype, mechanism, and universal-law claims until the layer-matched window statistic exists.
 
-\paragraph{Cannot-claim boundary.} A nonzero coupling entry A\_ij is not a survival-score result and must not be reported as translation-realization survival.; The coupling matrix must not be promoted to protein abundance, folded structure, function, or phenotype without the mandatory translation-readout survival and mediation steps.; Any codon-topology coordinate must first be quotiented by amino-acid sequence; raw codon usage or M-membership alone is not admissible as the claimed cross-layer variable.; A Leu\_CUN/UUR coupling entry must not be read as a population-level or directionality claim without multi-organism translation contacts and the stated controls.
+\paragraph{Cannot-claim boundary.} Do not claim that a B*\_Q6 coordinate affects RNA half-life unless a same-row translation readout is attached and survives the translation-readout boundary.; Do not interpret RNA half-life as protein structure, protein function, phenotype, or translation mechanism without the required intermediate translation readout and matched controls.; Do not promote codon-topology residuals beyond bounded cross-layer relation when matched mRNA abundance, rank checks, and break conditions are absent.
 
 \paragraph{Verified facts.}
 No verified facts attached yet.
-
-\origin{ai}
