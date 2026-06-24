@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\InhabitedLocatedCutUp$}
+\label{ch:concrete-instances-inhabited-located-cut-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\InhabitedLocatedCutUp$ packet records a two-sided located-cut witness whose lower and upper rows are both inhabited before any $\RealUp$ seal is admitted. It sits beside the lower-row carrier of \autoref{ch:concrete-instances-located-lower-cut-namecert}, the rounded-cut surface of \autoref{ch:concrete-instances-rounded-cut-namecert}, the two-sided located Dedekind cut of \autoref{ch:concrete-instances-located-dedekind-cut-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}. The packet exposes finite cut witnesses and readback rows for Real and Completion consumers; it does not assert Dedekind completeness, quotient cut equality, trichotomy, or selected host reals.
+
+\begin{definition}[InhabitedLocatedCut carrier]
+\label{def:inhabited-located-cut-carrier}
+An $\InhabitedLocatedCutUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,A,G,R,Q,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower-cut row, carrying the finite lower observations and downward-closed readback inspected by the packet.
+\item $U$ is the upper-cut row, carrying the finite upper observations and upward-closed readback paired with $L$.
+\item $A$ is the inhabited witness row. It displays at least one accepted lower observation and at least one accepted upper observation inside the same packet.
+\item $G$ is the locatedness modulus row. For every displayed interval request $a<b$ opened by the packet, $G$ records the finite branch that witnesses a lower-side read below $b$ or an upper-side read above $a$.
+\item $R$ is the $\RegSeqRatUp$ readback row produced from the displayed lower, upper, inhabited, and locatedness rows.
+\item $Q$ is the $\DyadicRatCoreUp$ tolerance ledger for endpoint comparison, gap narrowing, radius accounting, and finite budget replay.
+\item $W$ is the $\StreamNameUp$ window schedule that fixes the finite observations of $L,U,A,G,R,Q$ available to Real and Completion consumers.
+\item $E$ is the $\RealUp$ seal row, reached only after $L,U,A,G,R,Q,W$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for lower rows, upper rows, inhabited witnesses, locatedness moduli, readbacks, dyadic ledgers, windows, Real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay through
+$$
+L,U,A,G \longmapsto R,Q,W \longmapsto E \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\InhabitedLocatedCutUp$, $\LocatedLowerCutUp$, $\RoundedCutUp$, $\LocatedDedekindCutUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\InhabitedLocatedCutUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,U,A,G,R,Q,W,E,H,C,P,N$. It has no coordinate for Dedekind completeness, arbitrary subset suprema, quotient cut equality, selected host reals, trichotomy, countable choice, or bridge checking.
+\end{definition}
+
+\begin{theorem}[InhabitedLocatedCut NameCert obligations]
+\label{thm:inhabited-located-cut-namecert-obligations}
+For every accepted $\InhabitedLocatedCutUp$ carrier $I=(L,U,A,G,R,Q,W,E,H,C,P,N)$, the local $\NameCert_{\InhabitedLocatedCutUp}$ obligation surface is exhausted by carrier admission, inhabited witness exposure, located-cut compatibility, classifier stability, and non-escape along the displayed rows. A consumer receives the lower and upper cut rows $L,U$, the inhabited witness row $A$, the locatedness modulus $G$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $Q$, the $\StreamNameUp$ window schedule $W$, the $\RealUp$ seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, provenance $P$, and local naming $N$, and no further analytic principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:inhabited-located-cut-carrier}. Carrier admission exposes exactly the rows $L,U,A,G,R,Q,W,E,H,C,P,N$.
+
+The inhabited witness obligation is carried by $A$. It records one lower-side observation and one upper-side observation in the same finite packet, so the certificate never appeals to a detached existence principle.
+
+Located-cut compatibility is carried by $G$ together with $L$ and $U$. Each displayed interval request is answered inside the finite row family, and the rows $R,Q,W$ merely repack those answers as regular rational readback, dyadic tolerance accounting, and stream-window access.
+
+Classifier stability and non-escape are structural. The rows $H,C,P,N$ transport, replay, source, and name only the displayed data, while $E$ seals only the already exposed route. Since no row contains completeness, quotient equality, selected host reals, trichotomy, arbitrary suprema, countable choice, or bridge data, none can be exported by the local NameCert.
+\end{proof}
+
+\begin{theorem}[InhabitedLocatedCut Real seal boundary]
+\label{thm:inhabited-located-cut-real-seal-boundary}
+Every $\RealUp$-facing consumer of an accepted $\InhabitedLocatedCutUp$ packet factors through the displayed cut rows, locatedness row, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, $\StreamNameUp$ window schedule, componentwise transport, continuation replay, provenance, and local naming rows before it can read the terminal seal:
+$$
+L,U,A,G \longmapsto R,Q,W \longmapsto H,C,P,N \longmapsto E .
+$$
+The factorization gives Real and Completion consumers an inhabited located-cut witness without completing arbitrary cuts, quotienting cut equality, selecting host reals, or deciding trichotomy.
+\end{theorem}
+\begin{proof}
+Start with the cut rows. The lower row $L$ and upper row $U$ provide the displayed two-sided cut surface, while $A$ supplies the inhabited witness and $G$ supplies the locatedness answers.
+
+Next read the finite observation and tolerance rows. The regular readback $R$ is computed from the displayed cut evidence, the dyadic ledger $Q$ records endpoint and gap budgets, and the stream schedule $W$ fixes which observations the consumer is allowed to inspect.
+
+The structural rows then preserve the same route. Componentwise transport $H$, continuation replay $C$, provenance $P$, and local naming $N$ can only replay the row family already exposed by the packet.
+
+The seal $E$ is terminal for this route. A consumer reaching $E$ has therefore passed through the cut, locatedness, readback, tolerance, window, transport, replay, provenance, and naming rows, and cannot extract Dedekind completeness, arbitrary subset suprema, quotient cut equality, selected host reals, trichotomy, countable choice, or bridge checking from the packet.
+\end{proof}
+
+\falsifiablePrediction{A $\RealUp$ consumer that reads an $\InhabitedLocatedCutUp$ seal while bypassing the inhabited witness row, locatedness modulus, regular rational readback, dyadic tolerance ledger, or StreamName window refutes the carrier of \autoref{def:inhabited-located-cut-carrier}.}
+
+\independenceWitness{located-lower-cut, rounded-cut, located-dedekind-cut, regseqrat, real: no listed sibling is bijective with $\InhabitedLocatedCutUp$ because none carries lower and upper cut rows, inhabited witnesses, locatedness moduli, regular readback, dyadic tolerance, stream windows, real sealing, transport, replay, provenance, and local NameCert together.}
+
+\closureat{InhabitedLocatedCutUp}{seedStr}
+
+\begin{closurestatus}{\InhabitedLocatedCutUp}
+  \constructivestory{An $\InhabitedLocatedCutUp$ packet is generated from lower-cut rows, upper-cut rows, inhabited witness rows, locatedness modulus rows, RegSeqRat readbacks, DyadicRatCore tolerance ledgers, StreamName window schedules, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:inhabited-located-cut-carrier}, \autoref{thm:inhabited-located-cut-namecert-obligations}, and \autoref{thm:inhabited-located-cut-real-seal-boundary} seed the inhabited located-cut witness packet for the Real and Completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter excludes Dedekind completeness, arbitrary subset suprema, quotient cut equality, selected host reals, trichotomy, countable choice, Lean verification, and bridge checking.}
+  \upgradepath{Formal verification can encode carrier admission, inhabited witness exposure, located-cut compatibility, classifier stability, non-escape, readback factorization, tolerance accounting, StreamName scheduling, Real-seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.InhabitedLocatedCutUp.}
+\end{closurestatus}
