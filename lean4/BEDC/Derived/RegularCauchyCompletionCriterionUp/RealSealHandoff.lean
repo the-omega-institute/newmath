@@ -128,4 +128,72 @@ theorem RegularCauchyCompletionCriterionRealSealHandoff [AskSetup] [PackageSetup
   }
   exact ⟨cert, realUnary⟩
 
+theorem RegularCauchyCompletionCriterionLedgerRefusal [AskSetup] [PackageSetup]
+    {R W D M L Q H C P N refusalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyCompletionCriterionCarrier R W D M L Q H C P N bundle pkg →
+      Cont Q N refusalRead →
+        PkgSig bundle refusalRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row refusalRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row R ∨ hsame row W ∨ hsame row D ∨ hsame row M ∨
+                  hsame row L ∨ hsame row Q ∨ hsame row H ∨ hsame row C ∨
+                    hsame row P ∨ hsame row N ∨ hsame row refusalRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont Q N refusalRead ∧ PkgSig bundle refusalRead pkg)
+              hsame ∧
+            UnaryHistory refusalRead := by
+  -- BEDC touchpoint anchor: RegularCauchyCompletionCriterionCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier refusalRoute refusalPkg
+  obtain ⟨_rUnary, _wUnary, _dUnary, _mUnary, _lUnary, qUnary, _hUnary, _cUnary,
+    _pUnary, nUnary, _pkgP, _pkgN⟩ := carrier
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed qUnary nUnary refusalRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row refusalRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row R ∨ hsame row W ∨ hsame row D ∨ hsame row M ∨ hsame row L ∨
+              hsame row Q ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row refusalRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont Q N refusalRead ∧ PkgSig bundle refusalRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro refusalRead ⟨hsame_refl refusalRead, refusalUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, refusalRoute, refusalPkg⟩
+  }
+  exact ⟨cert, refusalUnary⟩
+
 end BEDC.Derived.RegularCauchyCompletionCriterionUp
