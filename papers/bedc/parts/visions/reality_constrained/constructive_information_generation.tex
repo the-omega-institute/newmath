@@ -80,6 +80,44 @@ $$
 It is a residual source family over $R_n$, not a further row of $R_n$.
 \end{definition}
 
+\begin{theorem}[Visible records need not exhaust source rows]
+\label{thm:visible-records-need-not-exhaust-source-rows}
+Let $\mathcal I_n$ be a generation layer. If there are source rows
+$t_0,t_1:T$ with $t_0$ separated from $t_1$ at the source classifier and
+$$
+P_n(t_0)\sim_n P_n(t_1),
+$$
+then the visible record $P_n(t_0)$ does not exhaust the source
+information over that record.
+\end{theorem}
+
+\begin{proof}
+Put $r:=P_n(t_0)$. The row $t_0$ gives an element of
+$$
+\operatorname{InfoFib}_n(r)
+=
+\sum_{t:T}\bigl(P_n(t)\sim_n r\bigr)
+$$
+by reflexivity at the displayed classifier. The displayed relation
+$P_n(t_0)\sim_n P_n(t_1)$, read symmetrically when needed by the layer
+classifier, gives an element over the source row $t_1$ in the same
+fiber. Since the source rows remain separated, the visible record $r$
+has not identified all source information. It is a record surface with a
+non-trivial residual source family.
+\end{proof}
+
+\begin{principle}[Layer infinity is not a terminal record]
+\label{prin:layer-infinity-not-terminal-record}
+The expression $\infty_n^{\mathsf{info}}$ denotes the family
+$$
+r\mapsto\operatorname{InfoFib}_n(r)
+$$
+over $R_n$. It is not an element of $R_n$ and not a final object at the
+end of the layer. It names the residual source family through which a
+later compatible refinement may continue to read the same source
+carrier.
+\end{principle}
+
 \begin{definition}[Compatible information refinement]
 \label{def:compatible-information-refinement}
 Let $\mathcal I_n$ and $\mathcal I_{n+1}$ be generation layers over the
@@ -250,6 +288,60 @@ replace the source carrier unless a separate recovered-carrier
 certificate is supplied.
 \end{principle}
 
+\begin{theorem}[Binary visible rows are not bottom points]
+\label{thm:binary-visible-rows-not-bottom-points}
+Let $P_B:T\to\{B_0,B_1\}$ be a binary visible surface. If for some
+$i\in\{0,1\}$ the fiber
+$$
+\sum_{t:T}\bigl(P_B(t)=B_i\bigr)
+$$
+contains two source-separated rows, then $B_i$ is not a bottom point of
+the source carrier.
+\end{theorem}
+
+\begin{proof}
+If $B_i$ were a bottom point of the source carrier at this interface,
+then a source row over $B_i$ would be fully represented by that visible
+marker. The displayed fiber instead contains two source-separated rows
+with the same visible marker. Thus the marker is a quotient record of
+the source carrier, not a source atom.
+\end{proof}
+
+\begin{definition}[Binary fiber self-similarity]
+\label{def:binary-fiber-self-similarity}
+A binary visible surface $P_B:T\to\{B_0,B_1\}$ is
+\emph{fiber-self-similar} when for each displayed $i\in\{0,1\}$ the
+fiber
+$$
+T_{B_i}:=\sum_{t:T}\bigl(P_B(t)=B_i\bigr)
+$$
+carries a further binary readout
+$$
+P_{B,i}:T_{B_i}\to\{B_0,B_1\}
+$$
+with a readback certificate to the original binary classifier.
+\end{definition}
+
+\begin{theorem}[Binary fiber self-similarity gives finite path certificates]
+\label{thm:binary-fiber-self-similarity-finite-path-certificates}
+If a binary visible surface is fiber-self-similar, then every source row
+$t:T$ determines binary prefixes
+$$
+B_{i_0},B_{i_1},\ldots,B_{i_k}
+$$
+of arbitrary finite length, and each prefix is accompanied by a finite
+iterated-fiber certificate.
+\end{theorem}
+
+\begin{proof}
+The first marker is $P_B(t)=B_{i_0}$. This supplies an element of the
+fiber $T_{B_{i_0}}$. The self-similar readout on that fiber supplies the
+next marker $B_{i_1}$ and a certificate that the source row lies in the
+corresponding refined fiber. Repeating this finite construction gives
+any requested finite prefix. Each step contributes one displayed readout
+and one readback certificate, so the prefix certificate remains finite.
+\end{proof}
+
 \begin{definition}[Locally finite global corecursive tower]
 \label{def:locally-finite-global-corecursive-tower}
 A constructive information tower is \emph{locally finite and globally
@@ -293,6 +385,48 @@ through displayed readback maps, as in
 \autoref{thm:layered-projection-predicate-inheritance}, rather than by
 appeal to an absolute tower bottom.
 \end{principle}
+
+\begin{theorem}[Readout loops are not layer equalities]
+\label{thm:readout-loops-not-layer-equalities}
+A corecursive readout loop from $\mathcal I_n$ back to
+$\mathcal I_0$ does not imply $\mathcal I_n=\mathcal I_0$. It implies
+only that the later visible row reads back to the earlier classifier:
+$$
+\rho_{n,0}(P_n(t))\sim_0 P_0(t).
+$$
+\end{theorem}
+
+\begin{proof}
+The loop condition is a statement in the record carrier $R_0$ and its
+classifier $\sim_0$. It supplies neither an equality of carriers
+$R_n=R_0$ nor an equality of readouts $P_n=P_0$. The higher layer may
+carry additional ledgers, certificates, and fiber-separation rows that
+are compressed by $\rho_{n,0}$ when read back to $R_0$.
+\end{proof}
+
+\begin{theorem}[Bottomless corecursive tower principle]
+\label{thm:bottomless-corecursive-tower-principle}
+Let $\mathfrak I$ be a tower over one source carrier $T$. If each layer
+is a source readout, each successor layer has compatible readback, each
+visible record retains its information residue, every accepted
+information row has a finite formation record, and predicates are
+transported by displayed readback invariants, then the tower may be
+globally bottomless while all admitted information remains locally
+finite and auditable.
+\end{theorem}
+
+\begin{proof}
+All layers read from the same source carrier by assumption, and
+compatible readback prevents successor layers from becoming
+tower-external source objects. Information residues keep visible records
+from being terminal source atoms. Finite formation records give finite
+audit prefixes by
+\autoref{thm:corecursive-towers-finite-audit-prefixes}. Predicate
+transport through readback maps gives the invariant proof discipline of
+\autoref{thm:layered-projection-predicate-inheritance}. These clauses
+allow the global readout system to be corecursive without requiring any
+visible origin to be an absolute bottom.
+\end{proof}
 
 \begin{theorem}[Lawful nontrivial generation is generalized extension]
 \label{thm:lawful-nontrivial-generation-generalized-extension}
