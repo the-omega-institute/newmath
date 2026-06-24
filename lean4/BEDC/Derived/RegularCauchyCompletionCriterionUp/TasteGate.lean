@@ -1,11 +1,17 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyCompletionCriterionUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -237,5 +243,72 @@ theorem RegularCauchyCompletionCriterionTasteGate_single_carrier_alignment :
   · intro x y
     exact regularCauchyCompletionCriterionToEventFlow_injective
   · rfl
+
+theorem RegularCauchyCompletionCriterionCarrier_namecert_obligations
+    {R W D M L Q H C P N windowRead toleranceRead boundaryRead : BHist} :
+    UnaryHistory R →
+      UnaryHistory W →
+        UnaryHistory D →
+          UnaryHistory M →
+            UnaryHistory Q →
+              Cont W D windowRead →
+                Cont windowRead M toleranceRead →
+                  Cont toleranceRead Q boundaryRead →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row R ∨ hsame row W ∨ hsame row D ∨ hsame row M ∨
+                            hsame row Q ∨ hsame row boundaryRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont W D windowRead ∧
+                            Cont windowRead M toleranceRead ∧
+                              Cont toleranceRead Q boundaryRead)
+                        hsame ∧
+                      UnaryHistory windowRead ∧ UnaryHistory toleranceRead ∧
+                        UnaryHistory boundaryRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro _rUnary wUnary dUnary mUnary qUnary windowRoute toleranceRoute boundaryRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed wUnary dUnary windowRoute
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed windowUnary mUnary toleranceRoute
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed toleranceUnary qUnary boundaryRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row R ∨ hsame row W ∨ hsame row D ∨ hsame row M ∨ hsame row Q ∨
+              hsame row boundaryRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont W D windowRead ∧ Cont windowRead M toleranceRead ∧
+              Cont toleranceRead Q boundaryRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro boundaryRead ⟨hsame_refl boundaryRead, boundaryUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, windowRoute, toleranceRoute, boundaryRoute⟩
+  }
+  exact ⟨cert, windowUnary, toleranceUnary, boundaryUnary⟩
 
 end BEDC.Derived.RegularCauchyCompletionCriterionUp

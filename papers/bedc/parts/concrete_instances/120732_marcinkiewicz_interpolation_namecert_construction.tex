@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\MarcinkiewiczInterpolationUp$}
+\label{ch:concrete-instances-marcinkiewicz-interpolation-namecert}
+\origin{human}
+
+Following Marcinkiewicz and Stein on weak-to-strong interpolation, the $\MarcinkiewiczInterpolationUp$ packet records the finite endpoint data by which a sublinear or operator-facing request reads weak-type and strong-type rows before an interpolated $\RealUp$ norm-bound is exposed. It sits beside the analytic-strip interpolation route of \autoref{ch:concrete-instances-riesz-thorin-interpolation-namecert} and the singular-integral kernel route of \autoref{ch:concrete-instances-calderon-zygmund-operator-namecert}. The packet names only displayed endpoint rows, interpolation parameters, scalar ledgers, transport, replay, provenance, and local naming; it does not assert a host interpolation theorem, completed measure space, quotient function equality, selected distribution function, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Marcinkiewicz interpolation carrier]
+\label{def:marcinkiewicz-interpolation-carrier}
+A $\MarcinkiewiczInterpolationUp$ carrier is a finite $\BHist$ packet
+$$
+M=(W,S,T,\Theta,B,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the weak-type endpoint row, carrying the source exponent, target threshold ledger, finite distribution-window data, and endpoint scalar bound inspected by the packet.
+\item $S$ is the strong-type endpoint row, carrying the second endpoint exponent, norm-window data, and endpoint scalar bound.
+\item $T$ is the operator or sublinear-action row shared by the endpoint data. It records the displayed action route only, not host equality of operators or functions.
+\item $\Theta$ is the interpolation-parameter row, storing the inspected parameter, endpoint incidence, and convex-weight ledger used to combine $W$ and $S$.
+\item $B$ is the interpolated $\RealUp$ norm-bound row. It is public only after $W,S,T,\Theta$ have all been displayed.
+\item $R$ is the scalar readback row for endpoint constants, threshold windows, exponent comparisons, and the interpolated bound.
+\item $H$ stores componentwise $\hsame$ transport for weak endpoint data, strong endpoint data, the operator row, interpolation parameter, scalar readback, bound row, replay, provenance, and local name.
+\item $C$ stores displayed $\Cont$ replay from an interpolation request through $W,S,T,\Theta,R,B,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MarcinkiewiczInterpolationUp$, $\RieszThorinInterpolationUp$, $\CalderonZygmundOperatorUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MarcinkiewiczInterpolationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for a host distribution function, selected level set, quotient function representative, measure completion, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Marcinkiewicz interpolation NameCert obligations]
+\label{thm:marcinkiewicz-interpolation-namecert-obligations}
+For every accepted $\MarcinkiewiczInterpolationUp$ carrier
+$$
+M=(W,S,T,\Theta,B,R,H,C,P,N),
+$$
+the local $\NameCert_{\MarcinkiewiczInterpolationUp}$ surface consists exactly of weak-type endpoint admission through $W$, strong-type endpoint admission through $S$, shared operator-action admission through $T$, interpolation-parameter admission through $\Theta$, scalar readback through $R$, interpolated $\RealUp$ norm-bound export through $B$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:marcinkiewicz-interpolation-carrier}. The endpoint rows $W$ and $S$ are the only weak-type and strong-type coordinates available to the classifier, and the shared action row $T$ is the only operator-facing coordinate.
+
+The interpolation parameter is then forced by row order. The row $\Theta$ records the displayed endpoint incidence and convex-weight ledger, while $R$ accounts for the scalar endpoint constants and threshold windows used by the bound row.
+
+The bound row $B$ is downstream of those endpoint, action, parameter, and scalar-readback rows. Finally $H,C,P,N$ transport, replay, source, and name the same finite packet, so no excluded host distribution function, selected level set, quotient representative, measure completion, choice schedule, or ambient completeness object can appear as a local obligation.
+\end{proof}
+
+\begin{theorem}[Marcinkiewicz interpolation weak-strong window route]
+\label{thm:marcinkiewicz-interpolation-weak-strong-window}
+Every accepted interpolated-bound read for a $\MarcinkiewiczInterpolationUp$ packet exposes the weak endpoint row $W$, strong endpoint row $S$, shared operator row $T$, interpolation parameter $\Theta$, scalar readback row $R$, and terminal $\RealUp$ bound row $B$ before the interpolated estimate is visible. The route may cite the strip-interpolation sibling $\RieszThorinInterpolationUp$ for endpoint comparison discipline and the singular-integral sibling $\CalderonZygmundOperatorUp$ for weak-type operator windows, but it exports only the displayed weak/strong window certificate.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:marcinkiewicz-interpolation-namecert-obligations}. They require the weak endpoint, strong endpoint, shared action, interpolation parameter, scalar readback, and bound rows to be displayed before a local name is available.
+
+The $\RieszThorinInterpolationUp$ sibling supplies the comparison pattern that keeps endpoint interpolation parameters explicit, while the $\CalderonZygmundOperatorUp$ sibling supplies a kernel-window example whose weak-type row can feed the endpoint surface. These are sibling routes, not imported host theorems.
+
+The structural rows $H,C,P,N$ preserve the same route. Since the carrier contains no coordinate for measure completion, selected distribution functions, quotient function equality, or ambient Real completeness, every interpolated-bound consumer remains inside the finite weak/strong window packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MarcinkiewiczInterpolationUp$ bound read is refuted if the weak endpoint row, strong endpoint row, shared operator row, interpolation parameter, scalar readback row, and terminal $\RealUp$ bound row are not all displayed in the same packet.}
+
+\independenceWitness{riesz-thorin-interpolation, calderon-zygmund-operator, real: none is bijective to $\MarcinkiewiczInterpolationUp$ because this packet jointly carries weak-type endpoint data, strong-type endpoint data, a shared operator-action row, an interpolation parameter, scalar readback, an interpolated Real bound, transport, replay, provenance, and local naming as one weak-to-strong interpolation certificate.}
+
+\closureat{MarcinkiewiczInterpolationUp}{seedStr}
+
+\begin{closurestatus}{\MarcinkiewiczInterpolationUp}
+  \constructivestory{A $\MarcinkiewiczInterpolationUp$ packet is generated from weak-type endpoint data, strong-type endpoint data, a shared operator-action row, an interpolation parameter, scalar readback rows, an interpolated RealUp norm-bound, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:marcinkiewicz-interpolation-carrier}, \autoref{thm:marcinkiewicz-interpolation-namecert-obligations}, and \autoref{thm:marcinkiewicz-interpolation-weak-strong-window} seed the finite weak-to-strong interpolation carrier and its displayed endpoint-window route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host interpolation theorems, measure completion, quotient function equality, selected distribution functions, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked weak endpoint admission, strong endpoint admission, shared operator admission, interpolation-parameter admission, scalar readback, RealUp bound export, transport, replay, provenance, and local naming for BEDC.Derived.MarcinkiewiczInterpolationUp.}
+\end{closurestatus}
