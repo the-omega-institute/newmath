@@ -18,7 +18,7 @@ open BEDC.FKernel.Unary
 
 def AnalogyCertificateGateCarrier [AskSetup] [PackageSetup]
     (S K G R V U L E F H C P N : BHist)
-    (_bundle : ProbeBundle ProbeName) (_pkg : Pkg) : Prop :=
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
   UnaryHistory S ∧
     UnaryHistory K ∧
@@ -29,12 +29,14 @@ def AnalogyCertificateGateCarrier [AskSetup] [PackageSetup]
               UnaryHistory L ∧
                 UnaryHistory E ∧
                   UnaryHistory F ∧
-                    UnaryHistory H ∧
-                      UnaryHistory C ∧
-                        UnaryHistory P ∧
-                          UnaryHistory N ∧
-                            Cont V U L ∧
-                              Cont L E F
+                          UnaryHistory H ∧
+                            UnaryHistory C ∧
+                              UnaryHistory P ∧
+                                UnaryHistory N ∧
+                                  Cont V U L ∧
+                                    Cont L E F ∧
+                                      PkgSig bundle P pkg ∧
+                                        PkgSig bundle N pkg
 
 theorem AnalogyCertificateGateNameCertObligations [AskSetup] [PackageSetup]
     {S K G R V U L E F H C P N sameSchemaRead ledgerRead : BHist}

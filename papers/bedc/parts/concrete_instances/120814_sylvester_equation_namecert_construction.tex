@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\SylvesterEquationUp$}
+\label{ch:concrete-instances-sylvester-equation-namecert}
+\origin{human}
+
+Following Sylvester's matrix equation tradition, the $\SylvesterEquationUp$ packet records the finite equation route for a displayed linear matrix equation $AX-XB=C$. It sits after the finite matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the linear-operator surface of \autoref{ch:concrete-instances-linearmap-namecert}, the vector-space source of \autoref{ch:concrete-instances-vecspace-namecert}, the scalar field route of \autoref{ch:concrete-instances-field-namecert}, and the characteristic-polynomial ledger of \autoref{ch:concrete-instances-polynomial-namecert}. The packet names a candidate solution, a separation or solver ledger, and a residual row; it is not a host spectral theorem, a selected inverse of the Sylvester operator, quotient matrix equality, ambient Banach-space completeness, or an unbounded solver.
+
+\begin{definition}[Sylvester equation carrier]
+\label{def:sylvester-equation-carrier}
+A $\SylvesterEquationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(A,B,C,X,S,R,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are $\MatrixUp$ or $\LinearMapUp$ rows over a shared $\FieldUp$ and compatible $\VecSpaceUp$ source and target rows.
+\item $C$ is the right-hand-side row for the equation $AX-XB=C$.
+\item $X$ is candidate solution data with the same displayed source and target shape as the matrix or linear-operator route requires.
+\item $S$ is a separation or solver ledger, read through the $\PolynomialUp$ sibling when spectral or characteristic-polynomial separation data is displayed and through the $\LinearMapUp$ sibling when an operator route is displayed.
+\item $R$ is the residual row for $AX-XB=C$, recording the displayed left action, right action, subtraction, and comparison with $C$.
+\item $H$ records componentwise $\hsame$ transport for $A,B,C,X,S,R$ and the structural rows.
+\item $T$ records displayed $\Cont$ replay from the input operator rows and candidate solution through the residual check.
+\item $P$ is the $\Pkg$ provenance over $\SylvesterEquationUp$, $\MatrixUp$, $\LinearMapUp$, $\VecSpaceUp$, $\FieldUp$, $\PolynomialUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SylvesterEquationUp}$ row naming the displayed equation packet.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for host spectral decomposition, selected inverses, quotient matrix equality, analytic norm estimates, ambient completeness, or a solver oracle.
+\end{definition}
+
+\begin{theorem}[Sylvester equation NameCert obligations]
+\label{thm:sylvester-equation-namecert-obligations}
+For every accepted $\SylvesterEquationUp$ carrier
+$$
+K=(A,B,C,X,S,R,H,T,P,N),
+$$
+the local $\NameCert_{\SylvesterEquationUp}$ surface consists exactly of matrix or linear-operator admission for $A$ and $B$, right-hand-side admission for $C$, candidate-solution admission for $X$, separation or solver-ledger admission for $S$, residual-row admission for $R$, componentwise transport through $H$, displayed replay through $T$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sylvester-equation-carrier}. The equation data are precisely the two operator rows, the right-hand side, the candidate solution, the solver ledger, and the residual row.
+
+The sibling anchors supply the allowed public surfaces. Matrix presentations read through \autoref{ch:concrete-instances-matrix-namecert}; operator presentations read through \autoref{ch:concrete-instances-linearmap-namecert}; the common vector-space and scalar sources read through \autoref{ch:concrete-instances-vecspace-namecert} and \autoref{ch:concrete-instances-field-namecert}; and separation ledgers that use characteristic data read through \autoref{ch:concrete-instances-polynomial-namecert}.
+
+Finally $H,T,P,N$ transport, replay, source, and name the same displayed route. Since the carrier contains no host spectral theorem, selected inverse, quotient equality, analytic completeness, or solver oracle, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Sylvester equation linear-operator route]
+\label{thm:sylvester-equation-linear-operator-route}
+Every accepted $\SylvesterEquationUp$ packet exposes the residual computation only through the displayed operator route
+$$
+\MatrixUp,\LinearMapUp,\VecSpaceUp,\FieldUp \longmapsto A,B,C,X \longmapsto R \longmapsto H,T,P,N .
+$$
+When the separation or solver ledger $S$ uses characteristic data, that ledger is read through $\PolynomialUp$ before any consumer treats the residual row $R$ as a certified solution check. No accepted consumer obtains a solution from a host inverse of $X \mapsto AX-XB$, quotient matrix equality, an unbounded algorithm, or ambient spectral completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection. The residual row $R$ is downstream of the displayed rows $A,B,C,X$ and records only the equation check $AX-XB=C$ inside the accepted packet.
+
+The separation or solver ledger $S$ is also a packet row. If a consumer uses spectral or characteristic-polynomial separation data, the packet forces that read through the $\PolynomialUp$ sibling before $R$ can be consumed as a solution check.
+
+The structural rows $H,T,P,N$ then preserve and name this route. Because no host inverse, quotient equality, unbounded solver, analytic norm estimate, or ambient completeness coordinate is present, the linear-operator route is exactly the displayed finite route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SylvesterEquationUp$ read is refuted if it exports a solution check for $AX-XB=C$ without first displaying the MatrixUp or LinearMapUp input rows, VecSpaceUp and FieldUp sources, the right-hand-side row, candidate solution row, separation or solver ledger, residual row, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{matrix, linearmap, vecspace, field, polynomial: $\SylvesterEquationUp$ is not bijective to any listed sibling because it jointly carries two operator rows, a right-hand-side row, candidate solution data, a separation or solver ledger, a residual row for $AX-XB=C$, and the local NameCert evidence in one equation packet.}
+
+\closureat{SylvesterEquationUp}{seedStr}
+
+\begin{closurestatus}{\SylvesterEquationUp}
+  \constructivestory{A $\SylvesterEquationUp$ packet is generated from two MatrixUp or LinearMapUp rows over shared VecSpaceUp and FieldUp sources, a right-hand-side row, candidate solution data, a PolynomialUp-backed separation or solver ledger when needed, a residual row for $AX-XB=C$, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sylvester-equation-carrier}, \autoref{thm:sylvester-equation-namecert-obligations}, and \autoref{thm:sylvester-equation-linear-operator-route} seed the finite Sylvester equation route over Matrix, LinearMap, VecSpace, Field, Polynomial, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, host spectral decomposition, selected Sylvester-operator inverses, quotient matrix equality, analytic norm estimates, ambient completeness, unbounded solver algorithms, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, operator-shape compatibility, candidate solution admission, separation-ledger exactness, residual-row exactness, transport, replay, provenance, and local naming for BEDC.Derived.SylvesterEquationUp.}
+\end{closurestatus}
