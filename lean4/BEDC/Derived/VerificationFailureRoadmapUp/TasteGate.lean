@@ -299,6 +299,62 @@ theorem VerificationFailureRoadmapNameCertObligations
           exact source
       }⟩
 
+theorem VerificationFailureRoadmapDowngradeRoute
+    {R A F D M U B T C P N auditRead failureRead downgradeRead : BHist} :
+    Cont R A auditRead →
+      Cont auditRead F failureRead →
+        Cont failureRead D downgradeRead →
+          SemanticNameCert
+              (fun h : BHist => hsame h downgradeRead)
+              (fun h : BHist =>
+                hsame h R ∨ hsame h A ∨ hsame h F ∨ hsame h D ∨
+                  hsame h downgradeRead)
+              (fun h : BHist =>
+                hsame h downgradeRead ∧ Cont R A auditRead ∧
+                  Cont auditRead F failureRead ∧ Cont failureRead D downgradeRead)
+              hsame ∧
+            hsame downgradeRead (append (append (append R A) F) D) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  intro reportAudit auditFailure failureDowngrade
+  have appended :
+      hsame downgradeRead (append (append (append R A) F) D) := by
+    cases reportAudit
+    cases auditFailure
+    cases failureDowngrade
+    rfl
+  have cert :
+      SemanticNameCert
+          (fun h : BHist => hsame h downgradeRead)
+          (fun h : BHist =>
+            hsame h R ∨ hsame h A ∨ hsame h F ∨ hsame h D ∨ hsame h downgradeRead)
+          (fun h : BHist =>
+            hsame h downgradeRead ∧ Cont R A auditRead ∧ Cont auditRead F failureRead ∧
+              Cont failureRead D downgradeRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro downgradeRead (hsame_refl downgradeRead)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source, reportAudit, auditFailure, failureDowngrade⟩
+  }
+  exact ⟨cert, appended⟩
+
 end TasteGate
 
 end BEDC.Derived.VerificationFailureRoadmapUp
