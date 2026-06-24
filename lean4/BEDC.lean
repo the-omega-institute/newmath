@@ -7558,6 +7558,7 @@ import BEDC.Derived.MertensCauchyProductTheoremUp.TasteGate
 import BEDC.Derived.MetaCICAuditMapFamilyUp
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
+import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CandidateNormalizationHandoff
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.CertificateSurface
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ClosedNormalBoundary
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ConsistencyBlockerLedger
@@ -11204,6 +11205,7 @@ import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.SheafificationUp.CoverageExactness
 import BEDC.Derived.SheafificationUp.GluingExactness
 import BEDC.Derived.SheafificationUp.LocalityRefinement
+import BEDC.Derived.SheafificationUp.SeparatedRefinementExactness
 import BEDC.Derived.SheafificationUp.SheafHandoff
 import BEDC.Derived.SheafificationUp.SourceLocalityObligation
 import BEDC.Derived.SheafificationUp.TasteGate
