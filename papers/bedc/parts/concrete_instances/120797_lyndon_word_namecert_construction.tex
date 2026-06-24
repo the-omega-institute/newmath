@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\LyndonWordUp$}
+\label{ch:concrete-instances-lyndon-word-namecert}
+\origin{human}
+
+Following Lyndon and Schützenberger, the $\LyndonWordUp$ packet records a primitive finite word that is lexicographically smaller than every nontrivial proper suffix over a displayed totally ordered alphabet. It sits beside the concrete monoid carrier of \autoref{ch:concrete-instances-monoid-namecert}, the total-order comparison surface of \autoref{ch:concrete-instances-totalorder-namecert}, the regular-language accepted-word ledger of \autoref{ch:concrete-instances-regularlanguage-namecert}, and the context-free grammar derivation surface of \autoref{ch:concrete-instances-contextfreegrammar-namecert}. The packet names only finite word, order, suffix-comparison, factorization, transport, replay, provenance, and local naming rows; it does not assert an infinite language quotient, a host free-monoid quotient, a selected global factorization oracle, or a bridge.
+
+\begin{definition}[Lyndon word carrier]
+\label{def:lyndon-word-carrier}
+A $\LyndonWordUp$ carrier is a finite $\BHist$ packet
+$$
+L=(W,A,X,U,S,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite word row, displayed as a list of alphabet letters and read through the monoid concatenation surface.
+\item $A$ is the alphabet total-order row, exposing the finite comparison route for letters.
+\item $X$ is the lexicographic comparison row induced from $A$ on finite word spines.
+\item $U$ is the primitive-word row, recording that $W$ is not displayed as a nontrivial power of a shorter word in the monoid packet.
+\item $S$ is the proper-suffix minimality row, listing each nonempty proper suffix of $W$ and the lexicographic comparison certifying $W$ as strictly smaller.
+\item $F$ is the factorization ledger, recording the finite Chen--Fox--Lyndon factor route visible to regular-language and context-free grammar consumers.
+\item $H$ stores componentwise $\hsame$ transport for $W,A,X,U,S,F$ and the structural rows.
+\item $C$ stores displayed $\Cont$ replay for finite word induction, suffix enumeration, lexicographic comparison replay, primitive-word inspection, and factorization handoff.
+\item $P$ is the $\Pkg$ provenance over $\LyndonWordUp$, $\MonoidUp$, $\TotalOrderUp$, $\RegularLanguageUp$, $\ContextFreeGrammarUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LyndonWordUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,A,X,U,S,F,H,C,P,N$. It has no coordinate for a host free monoid, quotient language equality, a selected factorization oracle, classical totality beyond the displayed total-order row, or a bridge field.
+\end{definition}
+
+\begin{theorem}[Lyndon word NameCert obligations]
+\label{thm:lyndon-word-namecert-obligations}
+For every accepted $\LyndonWordUp$ carrier $L=(W,A,X,U,S,F,H,C,P,N)$, the local $\NameCert_{\LyndonWordUp}$ surface consists exactly of carrier admission for the finite word row, alphabet total-order row, lexicographic comparison row, primitive-word row, proper-suffix minimality row, factorization ledger, componentwise transport, displayed replay, provenance, and local naming. No Lyndon-word obligation is stored outside those finite rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lyndon-word-carrier}. The word row $W$, total-order row $A$, lexicographic comparison row $X$, primitive row $U$, suffix-minimality row $S$, and factorization ledger $F$ are the only mathematical coordinates.
+
+Use finite word induction on $W$. The empty and one-letter cases expose no nontrivial suffix obligation, while the cons step reads the head-letter comparison from $A$ and the tail comparison from the induction route through $X$.
+
+Replay the suffix comparisons through $S$ and $C$. Each nonempty proper suffix is a finite row, and its comparison with $W$ is transported componentwise by $H$ without adding a host word quotient.
+
+Finally read $P$ and $N$. Provenance and local naming mention only the displayed monoid, total-order, regular-language, context-free grammar, transport, and replay rows, so no selected oracle, quotient language equality, or bridge data can become a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Lyndon word Chen--Fox--Lyndon factor route]
+\label{thm:lyndon-word-chen-fox-lyndon-factor-route}
+Every regular-language or context-free grammar consumer of an accepted $\LyndonWordUp$ packet reads the Chen--Fox--Lyndon factor route through the finite ledger
+$$
+W,A,X,U,S,F,H,C,P,N .
+$$
+The route first exposes the monoid word spine, then the alphabet total order and lexicographic suffix comparisons, then the primitive-word row, and only then the factorization ledger consumed by language-facing packets.
+\end{theorem}
+\begin{proof}
+Begin with the finite word row $W$ and the monoid surface of \autoref{ch:concrete-instances-monoid-namecert}. Word concatenation and nontrivial power inspection are read as displayed finite rows, so the primitive row $U$ is not a host free-monoid assertion.
+
+Next read the total-order and lexicographic rows through \autoref{ch:concrete-instances-totalorder-namecert}. The proper suffixes listed in $S$ are compared with $W$ one by one, and finite word induction supplies the replay route for each suffix-comparison step.
+
+The factorization ledger $F$ is then available to \autoref{ch:concrete-instances-regularlanguage-namecert} and \autoref{ch:concrete-instances-contextfreegrammar-namecert}. These consumers receive the displayed Lyndon factor route as finite word and derivation data, not as an external language quotient.
+
+Finally transport and source the route through $H,C,P,N$. Since every row is displayed before the factor handoff, no selected global factorization oracle, quotient stream, host language equality, classical trichotomy beyond the displayed total order, or bridge field is exposed.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LyndonWordUp$ consumer that reads a factorization route must first display the finite word row, alphabet total-order row, lexicographic comparison row, primitive-word row, proper-suffix minimality row, factorization ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.}
+
+\independenceWitness{monoid, totalorder, regularlanguage, contextfreegrammar: $\LyndonWordUp$ is not bijective to any listed sibling because it jointly carries primitive finite word data, proper-suffix lexicographic minimality, and a language-facing factorization ledger as one certificate.}
+
+\closureat{LyndonWordUp}{seedStr}
+
+\begin{closurestatus}{\LyndonWordUp}
+  \constructivestory{A $\LyndonWordUp$ packet is generated from a finite word row, alphabet total-order row, lexicographic comparison row, primitive-word row, proper-suffix minimality row, factorization ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lyndon-word-carrier}, \autoref{thm:lyndon-word-namecert-obligations}, and \autoref{thm:lyndon-word-chen-fox-lyndon-factor-route} seed the finite Lyndon-word certificate over monoid words, total-order comparisons, suffix minimality, and language-facing factorization data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host free-monoid quotient, infinite language equality, selected global factorization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite word induction, primitive-word exactness, suffix-comparison replay, factorization ledger handoff, transport, provenance, and local naming for BEDC.Derived.LyndonWordUp.}
+\end{closurestatus}
