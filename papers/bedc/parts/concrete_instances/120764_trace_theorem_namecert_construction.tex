@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\TraceTheoremUp$}
+\label{ch:concrete-instances-trace-theorem-namecert}
+\origin{human}
+
+Following Sobolev and Lions--Magenes trace theory, the $\TraceTheoremUp$ packet records the finite boundary-read surface by which a Sobolev-class object exposes boundary data to Real-facing and variational consumers. It sits beside the Sobolev embedding route of \autoref{ch:concrete-instances-sobolev-embedding-namecert}, the boundary-control estimate of \autoref{ch:concrete-instances-poincare-inequality-namecert}, the compact Sobolev route of \autoref{ch:concrete-instances-rellich-kondrachov-namecert}, and the scalar readback seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a NameCert surface for boundary trace rows; it is not a host trace theorem, a selected representative, or a quotient boundary-function space.
+
+\section{Carrier}
+\label{sec:trace-theorem-carrier}
+
+\begin{definition}[Trace theorem carrier]
+\label{def:trace-theorem-carrier}
+A $\TraceTheoremUp$ carrier is a finite packet
+$$
+T=(D,S,E,P,K,B,R,H,C,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the domain and boundary-admissibility row, read through the metric, compact, or bounded-domain surface used by the surrounding Sobolev certificates.
+\item $S$ is the $\SobolevEmbeddingUp$ source row that exposes the Sobolev regularity, exponent ledger, weak-derivative data, and scalar $\RealUp$ readback before any boundary value is consumed.
+\item $E$ is the $\PoincareInequalityUp$ control row, recording the norm or anchored-boundary estimate that prevents constants and detached representatives from escaping the packet.
+\item $P$ is the $\RellichKondrachovUp$ compact-window row when a compact trace window is present, and an explicit boundary marker when no compact-window read is used.
+\item $K$ is the finite boundary-test schedule: a list of carried boundary windows and scalar probes whose values are read through $\RealUp$.
+\item $B$ is the boundary trace row binding each displayed boundary probe to the Sobolev source row.
+\item $R,H,C,N$ record replay, componentwise transport, continuation, and local $\NameCert_{\TraceTheoremUp}$ evidence over the same finite rows.
+\end{enumerate}
+The classifier compares two trace packets only by inherited transport of these rows. It does not identify host functions, quotient boundary classes, selected traces, or all boundary representatives.
+\end{definition}
+
+\section{Obligations}
+\label{sec:trace-theorem-obligations}
+
+\begin{theorem}[TraceTheorem NameCert obligations]
+\label{thm:trace-theorem-namecert-obligations}
+Every accepted $\TraceTheoremUp$ packet exposes exactly the carrier rows of \autoref{def:trace-theorem-carrier}: domain admission, Sobolev embedding source, Poincare control, optional Rellich--Kondrachov compact window, finite boundary-test schedule, boundary trace ledger, replay, transport, continuation, and local naming. A consumer may cite the packet only after the sibling rows $\SobolevEmbeddingUp$, $\PoincareInequalityUp$, $\RellichKondrachovUp$, and $\RealUp$ have been displayed in the active branch.
+\end{theorem}
+\begin{proof}
+Project the carrier row by row. The source coordinate $S$ supplies the Sobolev embedding and scalar readback data before the boundary ledger is visible, while $E$ supplies the Poincare control row that keeps the estimate anchored to displayed finite data.
+
+If the compact boundary route is present, the $P$ coordinate reads it through the Rellich--Kondrachov row. If that route is absent, the boundary marker records the absence explicitly, so no compactness theorem can be inferred from the carrier alone.
+
+Finally read $K,B,R,H,C,N$. These rows expose finite boundary probes, the boundary ledger, replay, transport, continuation, and local naming evidence. Since no row contains a host restriction operator, quotient boundary-function equality, selected representative, unrestricted extension theorem, or ambient completeness proof, the packet exports only the listed NameCert obligations.
+\end{proof}
+
+\begin{theorem}[TraceTheorem boundary route]
+\label{thm:trace-theorem-boundary-route}
+Every $\TraceTheoremUp$ boundary consumer factors through the finite route
+$$
+\SobolevEmbeddingUp \longmapsto \PoincareInequalityUp \longmapsto \RellichKondrachovUp \longmapsto \RealUp
+$$
+whenever the compact branch is active, and through the same Sobolev, Poincare, and Real rows with an explicit compact-window absence marker otherwise. The route supplies finite boundary probe values and their transport ledger; it does not supply a full host trace theorem, a global extension operator, a quotient boundary space, selected representatives, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the source and control rows $S$ and $E$. They force every boundary read to pass through the Sobolev embedding and Poincare control surfaces before the boundary ledger can be consumed.
+
+For the compact branch, read $P$ through the Rellich--Kondrachov row and then seal boundary probe values through $\RealUp$. For the non-compact branch, the absence marker blocks any inference of compact trace data while leaving the displayed Sobolev, Poincare, and Real rows available.
+
+Transport and replay are componentwise through $R,H,C,N$. Therefore a consumer receives only the finite boundary-route certificate, not a host trace theorem or any unlisted analytic object.
+\end{proof}
+
+\closureat{TraceTheoremUp}{seedStr}
+\begin{closurestatus}{\TraceTheoremUp}
+  \constructivestory{A $\TraceTheoremUp$ packet is generated from a domain-boundary row, Sobolev embedding source, Poincare control row, optional Rellich--Kondrachov compact-window row, finite boundary-test schedule, boundary trace ledger, replay, componentwise transport, continuation, and local naming evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:trace-theorem-carrier}, \autoref{thm:trace-theorem-namecert-obligations}, and \autoref{thm:trace-theorem-boundary-route} name the finite boundary-trace carrier, its NameCert obligation surface, and its sibling dependency route through SobolevEmbedding, PoincareInequality, RellichKondrachov, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a host trace theorem, selected boundary representative, quotient boundary-function equality, unrestricted extension operator, Lean verification, or bridge checking.}
+  \upgradepath{Formalization requires a Lean carrier for BEDC.Derived.TraceTheoremUp and checked obligation plus boundary-route theorems over the displayed sibling rows.}
+\end{closurestatus}
