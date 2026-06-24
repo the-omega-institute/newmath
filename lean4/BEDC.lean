@@ -4886,6 +4886,7 @@ import BEDC.Derived.DoublingMetricUp.TasteGate
 import BEDC.Derived.DugundjiExtensionUp.TasteGate
 import BEDC.Derived.DuhamelPrincipleUp.TasteGate
 import BEDC.Derived.DunfordFunctionalCalculusUp.TasteGate
+import BEDC.Derived.DunfordPettisOperatorUp
 import BEDC.Derived.DvoretzkyFiniteDimensionalSectionUp.TasteGate
 import BEDC.Derived.DyadicAbsoluteValueUp
 import BEDC.Derived.DyadicApproximationUp
