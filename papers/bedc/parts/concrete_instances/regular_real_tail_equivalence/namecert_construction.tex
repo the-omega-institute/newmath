@@ -78,6 +78,28 @@ Use the NameCert obligations of \autoref{thm:regular-real-tail-equivalence-namec
 Apply the RegSeqRat route of \autoref{thm:regular-real-tail-equivalence-regseqrat-route}. It confines both source rows to the shared finite-window and tolerance path. After the two sources are swapped, the rows $H,C,P,N$ transport, replay, package, and name the same finite route, so no quotient stream, selected representative, host real equality, or ambient completeness datum is introduced.
 \end{proof}
 
+\begin{theorem}[Regular real tail equivalence transitivity route]
+\label{thm:regular-real-tail-equivalence-transitivity-route}
+Let
+$$
+T_{01}=(R_0,R_1,W_{01},D_{01},Z_{01},Q_{01},E_{01},H_{01},C_{01},P_{01},N_{01})
+$$
+and
+$$
+T_{12}=(R_1,R_2,W_{12},D_{12},Z_{12},Q_{12},E_{12},H_{12},C_{12},P_{12},N_{12})
+$$
+be accepted $\RegularRealTailEquivalenceUp$ carriers whose middle $\RegSeqRatUp$ row is displayed as the same finite source row and whose $\StreamNameUp$ windows and $\DyadicRatCoreUp$ ledgers are jointly visible to one consumer. Then the two zero-tail and comparison routes compose to a third $\RealUp$-seal route from $R_0$ to $R_2$. The composed read is still a finite tail-equivalence certificate over displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\NullSequenceUp$, and $\RegularCauchyComparisonUp$ rows; it does not export quotient stream equality, host real equality, selected representatives, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:regular-real-tail-equivalence-namecert-obligations}. Each accepted packet exposes its two source rows, finite window, dyadic ledger, zero-tail row, comparison row, and Real seal before any same-real read is available.
+
+Use the RegSeqRat route of \autoref{thm:regular-real-tail-equivalence-regseqrat-route}. The middle source row $R_1$ is therefore visible in both reads only through the displayed finite windows and dyadic ledgers, so the consumer can align the two comparison routes without adding a new stream representative.
+
+Apply zero-tail symmetry from \autoref{thm:regular-real-tail-equivalence-zero-tail-symmetry} when the second route must be read in the matching orientation. The zero-tail rows and comparison rows remain the only equality witnesses consumed by the Real-facing seal.
+
+Finally use Real seal nonescape from \autoref{thm:regular-real-tail-equivalence-real-seal-nonescape}. Since every seal read is forced through the displayed source, window, dyadic, null, and comparison rows, composing the two displayed routes yields only the third finite Real-seal route and cannot create any of the excluded quotient, host-equality, representative, choice, or completeness coordinates.
+\end{proof}
+
 \begin{theorem}[Regular real tail equivalence Real seal nonescape]
 \label{thm:regular-real-tail-equivalence-real-seal-nonescape}
 Every $\RealUp$-facing read of an accepted $\RegularRealTailEquivalenceUp$ carrier reaches the seal row $E$ only through the finite route
@@ -99,7 +121,7 @@ Use the RegSeqRat route of \autoref{thm:regular-real-tail-equivalence-regseqrat-
 \begin{closurestatus}{\RegularRealTailEquivalenceUp}
   \constructivestory{A $\RegularRealTailEquivalenceUp$ packet is generated from two $\RegSeqRatUp$ source rows, a shared $\StreamNameUp$ window, a $\DyadicRatCoreUp$ tolerance ledger, a $\NullSequenceUp$ zero-tail row, a $\RegularCauchyComparisonUp$ comparison route, a $\RealUp$ seal boundary, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-real-tail-equivalence-carrier}, \autoref{thm:regular-real-tail-equivalence-namecert-obligations}, \autoref{thm:regular-real-tail-equivalence-regseqrat-route}, \autoref{thm:regular-real-tail-equivalence-zero-tail-symmetry}, and \autoref{thm:regular-real-tail-equivalence-real-seal-nonescape} bind the carrier, local NameCert surface, regular-rational route, zero-tail symmetry route, and Real seal nonescape boundary for same-real tail equivalence.}
+  \scopeclosed{\autoref{def:regular-real-tail-equivalence-carrier}, \autoref{thm:regular-real-tail-equivalence-namecert-obligations}, \autoref{thm:regular-real-tail-equivalence-regseqrat-route}, \autoref{thm:regular-real-tail-equivalence-zero-tail-symmetry}, \autoref{thm:regular-real-tail-equivalence-transitivity-route}, and \autoref{thm:regular-real-tail-equivalence-real-seal-nonescape} bind the carrier, local NameCert surface, regular-rational route, zero-tail symmetry route, transitivity route, and Real seal nonescape boundary for same-real tail equivalence.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not prove quotient stream equality, host real equality, selected representatives, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking for $\RegularRealTailEquivalenceUp$.}
