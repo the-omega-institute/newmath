@@ -799,6 +799,7 @@ import BEDC.Derived.BanachAlgebraUp.CompleteProductCarrier
 import BEDC.Derived.BanachAlgebraUp.CompletionProductNonescape
 import BEDC.Derived.BanachAlgebraUp.NormSubmultiplicativityLedger
 import BEDC.Derived.BanachAlgebraUp.TasteGate
+import BEDC.Derived.BanachContractionEndpointUp.TasteGate
 import BEDC.Derived.BanachContractionPrincipleUp.TasteGate
 import BEDC.Derived.BanachContractionUp.TasteGate
 import BEDC.Derived.BanachDualUp.TasteGate
@@ -10117,6 +10118,7 @@ import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
 import BEDC.Derived.RegularCauchyAlgebraCoherenceUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.BridgeScope
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.CofinalWindowRefinement
+import BEDC.Derived.RegularCauchyApartnessBudgetUp.FieldHandoff
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.L10ScopeBinding
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundDeterminacy
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.LowerBoundModulusMonotonicity
@@ -10541,6 +10543,7 @@ import BEDC.Derived.RegularCauchyWindowFusionUp.ObligationInventory
 import BEDC.Derived.RegularCauchyWindowFusionUp.PublicExport
 import BEDC.Derived.RegularCauchyWindowFusionUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyWindowFusionUp.ScopedKernelRoute
+import BEDC.Derived.RegularCauchyWindowFusionUp.ScopedRoute
 import BEDC.Derived.RegularCauchyWindowFusionUp.ScopedRowExhaustion
 import BEDC.Derived.RegularCauchyWindowFusionUp.SelectorBudgetCompatibility
 import BEDC.Derived.RegularCauchyWindowFusionUp.SharedWindowHandoff
