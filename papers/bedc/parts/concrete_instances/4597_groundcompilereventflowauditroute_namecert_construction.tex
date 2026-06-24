@@ -90,6 +90,18 @@ Apply \autoref{thm:groundcompiler-event-flow-audit-route-namecert-obligations} t
 Finally use \autoref{thm:groundcompiler-event-flow-audit-route-non-evidence-boundary}. Reports, motifs, metrics, source text, address summaries, proof text, and host compiler state stay behind $B$, while $H,K,P,N$ only transport, replay, package, and name the same packet. Hence no hidden input or hand-written proof row can be read by the audit consumer.
 \end{proof}
 
+\begin{theorem}[GroundCompiler event-flow audit route classifier stability]
+\label{thm:groundcompiler-event-flow-audit-route-classifier-stability}
+Let two accepted $\GroundCompilerEventFlowAuditRouteUp$ route packets be classified componentwise on $E,C,L,G,A,B,H,K,P,N$. Displayed $\hsame$ transport and $\Cont$ replay preserve event-flow input, legal channel encoding, lossless readback, generated-recognizer mediation, certificate-gate export, and non-evidence boundary for those rows. In particular, classifier agreement on the displayed route cannot create hidden compiler input, source-text proof evidence, report evidence, motif evidence, metric evidence, or hand-written proof evidence outside the packet.
+\end{theorem}
+\begin{proof}
+Start with the classifier of \autoref{def:groundcompiler-event-flow-audit-route-classifier}. It reads the route componentwise from $E,C,L,G,A,B,H,K,P,N$, so componentwise $\hsame$ may only transport the event-flow row, legal channel row, lossless readback row, generated-recognizer row, certificate-gate row, non-evidence row, replay row, provenance row, and local name row.
+
+Apply \autoref{thm:groundcompiler-event-flow-audit-route-channel-lossless-boundary}. Any read that reaches the certificate-gate export has already passed through the legal channel, lossless readback, and generated-recognizer mediation, and $\Cont$ replay preserves that displayed order.
+
+Finally apply \autoref{thm:groundcompiler-event-flow-audit-route-non-evidence-boundary}. The non-evidence row remains a boundary for reports, motifs, metrics, source text, address summaries, proof text, and host compiler state, while $H,K,P,N$ only transport, replay, package, and name the same route. Thus classifier-stable packets preserve the displayed audit surface without exporting hidden evidence.
+\end{proof}
+
 \closureat{GroundCompilerEventFlowAuditRouteUp}{seedStr}
 
 \begin{closurestatus}{\GroundCompilerEventFlowAuditRouteUp}
