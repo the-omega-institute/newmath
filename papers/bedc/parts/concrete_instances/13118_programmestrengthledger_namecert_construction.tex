@@ -93,6 +93,18 @@ $Q,S,D,V,B,R,H,C,P,N$, with no promotion coordinate outside the accepted
 carrier.
 \end{proof}
 
+\begin{theorem}[ProgrammeStrengthLedger bridge-blocker readback]
+\label{thm:programme-strength-ledger-bridge-blocker-readback}
+Let a public strength report be exported from an accepted $\ProgrammeStrengthLedgerUp$ carrier $L=(Q,S,D,V,B,R,H,C,P,N)$. If the bridge row $B$ records no bridge or a paper bridge, or if the dependency row $D$ names an open blocker, then the report must export that blocker together with $Q,S,V,R,H,C,P,N$. It may not read the claim site $Q$ as bridge-checked, machine-verified, or stronger than the displayed rows permit.
+\end{theorem}
+\begin{proof}
+Start from no strength inflation, \autoref{thm:programme-strength-ledger-no-strength-inflation}. An absent bridge, a paper bridge, or an open dependency blocker is one of the displayed reasons that prevents $Q$ from being read above the strength row $S$.
+
+Apply axis separation, \autoref{thm:programme-strength-ledger-axis-separation}. The bridge row $B$ and dependency row $D$ remain separate from the theory/formal status pair $V$, so neither row can be erased by reading the other as a stronger verification coordinate.
+
+Finally use the public report interface, \autoref{thm:programmestrengthledger-public-report-interface}. It forces every public report to expose $Q,S,D,V,B,R,H,C,P,N$ together. Hence a bridge blocker or dependency blocker is exported as part of the report surface, and no consumer can read the packet as bridgeChecked or machine-verified unless the corresponding displayed rows already carry that status.
+\end{proof}
+
 \falsifiablePrediction{A packet that omits $S$ or $V$ can still name a claim site, but it cannot export a reported BEDC strength.}
 
 \independenceWitness{bedcphilosophypackage, upgraderegistry, verificationfailureroadmap, gapfailurebridgeaudit, formalconstantempiricalvalueboundary: no listed sibling is bijective with $\ProgrammeStrengthLedgerUp$ because none preserves claim site, strength row, dependency row, theory/formal status pair, bridge row, refusal row, transport, replay, provenance, and local NameCert together. The package carrier stores programme rows without owning the strength audit packet; the upgrade registry records current and next obligations without binding refusal and bridge rows; the verification-failure roadmap records blockers without exporting a strength ledger; the gap-failure bridge audit records bridge blockers without the full status pair; and the empirical-value boundary separates formal and empirical constants rather than claim-strength reporting.}
@@ -104,7 +116,7 @@ The Lean-side boundary is expected to provide explicit $\Nontrivial\ \ProgrammeS
 \begin{closurestatus}{\ProgrammeStrengthLedgerUp}
   \constructivestory{A $\ProgrammeStrengthLedgerUp$ packet is generated from a claim site, reported strength, dependency row, theory/formal status pair, bridge-status row, refusal row, componentwise transport, displayed replay, package provenance, and local NameCert row.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:programme-strength-ledger-carrier}, \autoref{thm:programme-strength-ledger-namecert-obligations}, \autoref{thm:programme-strength-ledger-no-strength-inflation}, \autoref{thm:programme-strength-ledger-axis-separation}, and \autoref{thm:programmestrengthledger-public-report-interface} scope the displayed carrier, NameCert obligations, no-strength-inflation row, axis-separation row, and exported public strength report surface through finite audit rows, $\hsame$, $\Pkg$, and $\NameCert$.}
+  \scopeclosed{\autoref{def:programme-strength-ledger-carrier}, \autoref{thm:programme-strength-ledger-namecert-obligations}, \autoref{thm:programme-strength-ledger-no-strength-inflation}, \autoref{thm:programme-strength-ledger-axis-separation}, \autoref{thm:programmestrengthledger-public-report-interface}, and \autoref{thm:programme-strength-ledger-bridge-blocker-readback} scope the displayed carrier, NameCert obligations, no-strength-inflation row, axis-separation row, exported public strength report surface, and bridge-blocker readback through finite audit rows, $\hsame$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, correctness of every package row, discharge of every dependency blocker, or promotion of any named claim beyond its displayed strength row.}
