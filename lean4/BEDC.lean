@@ -2481,6 +2481,7 @@ import BEDC.Derived.CauchySelectionPrincipleUp.TasteGate
 import BEDC.Derived.CauchySeparableCompletionUp
 import BEDC.Derived.CauchySequenceBoundedUp
 import BEDC.Derived.CauchySequenceBoundedUp.TasteGate
+import BEDC.Derived.CauchySequenceCompleteUp.TasteGate
 import BEDC.Derived.CauchySequenceCompletionUp.TasteGate
 import BEDC.Derived.CauchySequenceCriterionUp.TasteGate
 import BEDC.Derived.CauchySequenceEquivalenceUp
@@ -9760,6 +9761,8 @@ import BEDC.Derived.RealIntervalArithmeticUp.TasteGate
 import BEDC.Derived.RealIntervalCompletionUp.TasteGate
 import BEDC.Derived.RealIntervalDistanceUp.TasteGate
 import BEDC.Derived.RealIntervalUp.TasteGate
+import BEDC.Derived.RealInverseUp
+import BEDC.Derived.RealInverseUp.TasteGate
 import BEDC.Derived.RealLimitStabilityUp
 import BEDC.Derived.RealLimitStabilityUp.TasteGate
 import BEDC.Derived.RealLimitUniquenessSealUp
@@ -10253,6 +10256,7 @@ import BEDC.Derived.RegularCauchyComparisonPrincipleUp.TasteGate
 import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularCauchyComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionCounitUp
+import BEDC.Derived.RegularCauchyCompletionCriterionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionDensityUp
 import BEDC.Derived.RegularCauchyCompletionEndpointUp.NameCertObligations
@@ -12421,6 +12425,7 @@ import BEDC.Derived.ZetaContinuationApplicationUp.SourceTriadExhaustion
 import BEDC.Derived.ZetaContinuationApplicationUp.TasteGate
 import BEDC.Derived.ZetaContinuationApplicationUp.VisibleBoundaryLock
 import BEDC.Derived.ZetaContinuationApplicationUp.ZetaBasicSourceLock
+import BEDC.Derived.ZetaContinuationSocketUp.TasteGate
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.AnalyticReadbackObligation
 import BEDC.Derived.ZetaContinuationWitnessUp.CarrierAdmissionTightening
