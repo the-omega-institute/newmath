@@ -12,6 +12,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Unary
 open BEDC.FKernel.Cont
+open BEDC.FKernel.ExternalBinary (bwordLength bwordLength_append)
 open BEDC.Derived.IntUp
 open BEDC.Derived.NatUp
 open BEDC.Derived.PrimeUp
@@ -243,6 +244,408 @@ theorem intApart0_not_zero_pair {x : IntegerUp} :
             (p := BHist.Empty) (n := magnitude)
             unary_empty carrier.right).left.mp zeroPair
         exact magNonempty (hsame_symm sameMag)
+
+def IntEq (x y : IntegerUp) : Prop :=
+  IntPairClassifier (intToPair x) (intToPair y)
+
+def IntNonzero (x : IntegerUp) : Prop :=
+  intApart0 x
+
+def IntMul (x y : IntegerUp) : IntegerUp :=
+  intMul x y
+
+private theorem natLeBool_true_to_le {a b : Nat} :
+    natLeBool a b = true -> a ≤ b := by
+  induction a generalizing b with
+  | zero =>
+      intro _h
+      exact Nat.zero_le b
+  | succ a ih =>
+      intro h
+      cases b with
+      | zero =>
+          cases h
+      | succ b =>
+          exact Nat.succ_le_succ (ih h)
+
+private theorem natLeBool_false_to_lt {a b : Nat} :
+    natLeBool a b = false -> b < a := by
+  induction a generalizing b with
+  | zero =>
+      intro h
+      cases b <;> cases h
+  | succ a ih =>
+      intro h
+      cases b with
+      | zero =>
+          exact Nat.succ_pos a
+      | succ b =>
+          exact Nat.succ_lt_succ (ih h)
+
+private theorem nat_sub_add_cancel_of_le {a b : Nat} :
+    b ≤ a -> a - b + b = a := by
+  induction b generalizing a with
+  | zero =>
+      intro _h
+      rw [Nat.sub_zero, Nat.add_zero]
+  | succ b ih =>
+      intro h
+      cases a with
+      | zero =>
+          cases h
+      | succ a =>
+          rw [Nat.succ_sub_succ, Nat.add_succ]
+          exact congrArg Nat.succ (ih (Nat.le_of_succ_le_succ h))
+
+private theorem nat_add_sub_cancel_left_of_le {a b : Nat} :
+    a ≤ b -> a + (b - a) = b := by
+  intro h
+  calc
+    a + (b - a) = b - a + a := Nat.add_comm a (b - a)
+    _ = b := nat_sub_add_cancel_of_le h
+
+theorem IntPairClassifier_length_eq {x y : BHist × BHist} :
+    IntPairClassifier x y ->
+      bwordLength x.1 + bwordLength y.2 =
+        bwordLength y.1 + bwordLength x.2 := by
+  intro classified
+  have sameLength := congrArg bwordLength classified.right.right
+  rw [bwordLength_append x.1 y.2] at sameLength
+  rw [bwordLength_append y.1 x.2] at sameLength
+  exact sameLength
+
+theorem IntPairClassifier_of_length_eq {x y : BHist × BHist}
+    (hx : IntPairCarrier x.1 x.2) (hy : IntPairCarrier y.1 y.2) :
+    bwordLength x.1 + bwordLength y.2 =
+        bwordLength y.1 + bwordLength x.2 ->
+      IntPairClassifier x y := by
+  intro lengthEq
+  have leftUnary : UnaryHistory (append x.1 y.2) :=
+    unary_append_closed hx.left hy.right
+  have rightUnary : UnaryHistory (append y.1 x.2) :=
+    unary_append_closed hy.left hx.right
+  have appendLength :
+      bwordLength (append x.1 y.2) = bwordLength (append y.1 x.2) := by
+    rw [bwordLength_append x.1 y.2]
+    rw [bwordLength_append y.1 x.2]
+    exact lengthEq
+  exact ⟨hx, hy,
+    (BEDC.Derived.NatUp.NatUp_unary_standard_bridge.right.right.right.left
+      leftUnary rightUnary).mpr appendLength⟩
+
+theorem intApart0_length_pos {x : IntegerUp} :
+    intApart0 x -> 0 < bwordLength x.magnitude := by
+  intro apart
+  cases apart with
+  | inl strict =>
+      have oneLt := NatUnaryStrictPrefix_length_lt (unary_e1_closed unary_empty) strict
+      have oneLen :
+          bwordLength NatOne = 1 :=
+        BEDC.Derived.NatUp.NatUp_unary_standard_bridge.right.left
+          BHist.Empty unary_empty
+      rw [oneLen] at oneLt
+      exact Nat.lt_trans (Nat.zero_lt_succ 0) oneLt
+  | inr unit =>
+      have unitLen := congrArg bwordLength unit
+      rw [BEDC.Derived.NatUp.NatUp_unary_standard_bridge.right.left
+        BHist.Empty unary_empty] at unitLen
+      rw [unitLen]
+      exact Nat.zero_lt_succ 0
+
+theorem intToPair_pairToInt_classifier (x : BHist × BHist)
+    (hx : IntPairCarrier x.1 x.2) :
+    IntPairClassifier (intToPair (pairToInt x)) x := by
+  cases x with
+  | mk p n =>
+      have hx' : IntPairCarrier p n := by
+        simpa using hx
+      change
+        IntPairClassifier
+          (match pairSign (p, n) with
+          | BMark.b0 => (pairMagnitude (p, n), BHist.Empty)
+          | BMark.b1 => (BHist.Empty, pairMagnitude (p, n)))
+          (p, n)
+      by_cases branchTrue : natLeBool (bwordLength n) (bwordLength p) = true
+      · have nLeP : bwordLength n ≤ bwordLength p :=
+          natLeBool_true_to_le branchTrue
+        have carrierLeft :
+            IntPairCarrier
+              (natToUnary (bwordLength p - bwordLength n)) BHist.Empty :=
+          ⟨natToUnary_unary _, unary_empty⟩
+        have core :
+            IntPairClassifier
+              (natToUnary (bwordLength p - bwordLength n), BHist.Empty) (p, n) := by
+          apply IntPairClassifier_of_length_eq carrierLeft hx'
+          rw [natToUnary_length]
+          rw [BEDC.Derived.NatUp.NatUp_unary_standard_bridge.left]
+          rw [Nat.add_zero]
+          exact nat_sub_add_cancel_of_le nLeP
+        change
+          IntPairClassifier
+            (match
+              if natLeBool (bwordLength n) (bwordLength p) then
+                BMark.b0 else BMark.b1 with
+            | BMark.b0 =>
+                (if natLeBool (bwordLength n) (bwordLength p) then
+                    natToUnary (bwordLength p - bwordLength n)
+                  else natToUnary (bwordLength n - bwordLength p),
+                  BHist.Empty)
+            | BMark.b1 =>
+                (BHist.Empty,
+                  if natLeBool (bwordLength n) (bwordLength p) then
+                    natToUnary (bwordLength p - bwordLength n)
+                  else natToUnary (bwordLength n - bwordLength p)))
+            (p, n)
+        rw [branchTrue]
+        exact core
+      · have branchFalse :
+            natLeBool (bwordLength n) (bwordLength p) = false := by
+          cases hbranch : natLeBool (bwordLength n) (bwordLength p) with
+          | false => rfl
+          | true => exact False.elim (branchTrue hbranch)
+        have pLtN : bwordLength p < bwordLength n :=
+          natLeBool_false_to_lt branchFalse
+        have pLeN : bwordLength p ≤ bwordLength n :=
+          Nat.le_of_lt pLtN
+        have carrierLeft :
+            IntPairCarrier BHist.Empty
+              (natToUnary (bwordLength n - bwordLength p)) :=
+          ⟨unary_empty, natToUnary_unary _⟩
+        have core :
+            IntPairClassifier
+              (BHist.Empty, natToUnary (bwordLength n - bwordLength p)) (p, n) := by
+          apply IntPairClassifier_of_length_eq carrierLeft hx'
+          rw [BEDC.Derived.NatUp.NatUp_unary_standard_bridge.left]
+          rw [natToUnary_length]
+          rw [Nat.zero_add]
+          exact (nat_add_sub_cancel_left_of_le pLeN).symm
+        change
+          IntPairClassifier
+            (match
+              if natLeBool (bwordLength n) (bwordLength p) then
+                BMark.b0 else BMark.b1 with
+            | BMark.b0 =>
+                (if natLeBool (bwordLength n) (bwordLength p) then
+                    natToUnary (bwordLength p - bwordLength n)
+                  else natToUnary (bwordLength n - bwordLength p),
+                  BHist.Empty)
+            | BMark.b1 =>
+                (BHist.Empty,
+                  if natLeBool (bwordLength n) (bwordLength p) then
+                    natToUnary (bwordLength p - bwordLength n)
+                  else natToUnary (bwordLength n - bwordLength p)))
+            (p, n)
+        rw [branchFalse]
+        exact core
+
+theorem intMul_pair_classifier (x y : IntegerUp) :
+    IntPairClassifier (intToPair (intMul x y)) (pairMul (intToPair x) (intToPair y)) := by
+  unfold intMul
+  exact intToPair_pairToInt_classifier _
+    (pairMul_carrier (intToPair_carrier x) (intToPair_carrier y))
+
+private theorem natMulFn_empty_left_hsame {q : BHist} :
+    UnaryHistory q -> hsame (natMulFn BHist.Empty q) BHist.Empty := by
+  intro qUnary
+  exact NatMul_empty_left_result_empty (natMulFn_rel unary_empty qUnary)
+
+private theorem natMulFn_length_eq_mul (d q : BHist)
+    (hd : UnaryHistory d) (hq : UnaryHistory q) :
+    bwordLength (natMulFn d q) = bwordLength d * bwordLength q :=
+  natMulFn_bwordLength hd hq
+
+theorem IntMul_left_cancel {c a b : IntegerUp} :
+    IntNonzero c -> IntEq (IntMul c a) (IntMul c b) -> IntEq a b := by
+  intro cNonzero sameProduct
+  change intApart0 c at cNonzero
+  change IntPairClassifier (intToPair (intMul c a)) (intToPair (intMul c b)) at sameProduct
+  change IntPairClassifier (intToPair a) (intToPair b)
+  have leftProduct := intMul_pair_classifier c a
+  have rightProduct := intMul_pair_classifier c b
+  have pairProductSame :
+      IntPairClassifier (pairMul (intToPair c) (intToPair a))
+        (pairMul (intToPair c) (intToPair b)) := by
+    exact IntPairClassifier_equivalence_fields.right.right.right.right.left
+      (IntPairClassifier_equivalence_fields.right.right.right.left leftProduct)
+      (IntPairClassifier_equivalence_fields.right.right.right.right.left
+        sameProduct rightProduct)
+  cases c with
+  | mk cSign cMagnitude cCarrier =>
+      cases cSign with
+      | b0 =>
+          let ap := (intToPair a).1
+          let an := (intToPair a).2
+          let bp := (intToPair b).1
+          let bn := (intToPair b).2
+          have aCarrier := intToPair_carrier a
+          have bCarrier := intToPair_carrier b
+          have productLength := IntPairClassifier_length_eq pairProductSame
+          have cPositive : 0 < bwordLength cMagnitude :=
+            intApart0_length_pos (x := { sign := BMark.b0, magnitude := cMagnitude, carrier := cCarrier })
+              cNonzero
+          have reducedLength :
+              bwordLength ap + bwordLength bn =
+                bwordLength bp + bwordLength an := by
+            have productLength' :
+                bwordLength cMagnitude * (bwordLength ap + bwordLength bn) =
+                  bwordLength cMagnitude * (bwordLength bp + bwordLength an) := by
+              calc
+                bwordLength cMagnitude * (bwordLength ap + bwordLength bn)
+                    = bwordLength cMagnitude * bwordLength ap +
+                        bwordLength cMagnitude * bwordLength bn :=
+                      Nat.left_distrib (bwordLength cMagnitude)
+                        (bwordLength ap) (bwordLength bn)
+                _ =
+                    (bwordLength (natMulFn cMagnitude ap) +
+                        bwordLength (natMulFn BHist.Empty an)) +
+                      (bwordLength (natMulFn cMagnitude bn) +
+                        bwordLength (natMulFn BHist.Empty bp)) := by
+                      rw [natMulFn_length_eq_mul cMagnitude ap cCarrier.right aCarrier.left]
+                      rw [natMulFn_length_eq_mul cMagnitude bn cCarrier.right bCarrier.right]
+                      rw [natMulFn_length_eq_mul BHist.Empty an unary_empty aCarrier.right]
+                      rw [natMulFn_length_eq_mul BHist.Empty bp unary_empty bCarrier.left]
+                      rw [BEDC.Derived.NatUp.NatUp_unary_standard_bridge.left]
+                      rw [Nat.zero_mul, Nat.zero_mul, Nat.add_zero, Nat.add_zero]
+                _ =
+                    (bwordLength (append (natMulFn cMagnitude ap)
+                        (natMulFn BHist.Empty an))) +
+                      (bwordLength (append (natMulFn cMagnitude bn)
+                        (natMulFn BHist.Empty bp))) := by
+                      rw [bwordLength_append, bwordLength_append]
+                _ =
+                    (bwordLength (append (natMulFn cMagnitude bp)
+                        (natMulFn BHist.Empty bn))) +
+                      (bwordLength (append (natMulFn cMagnitude an)
+                        (natMulFn BHist.Empty ap))) := productLength
+                _ =
+                    (bwordLength (natMulFn cMagnitude bp) +
+                        bwordLength (natMulFn BHist.Empty bn)) +
+                      (bwordLength (natMulFn cMagnitude an) +
+                        bwordLength (natMulFn BHist.Empty ap)) := by
+                      rw [bwordLength_append, bwordLength_append]
+                _ =
+                    bwordLength cMagnitude * bwordLength bp +
+                      bwordLength cMagnitude * bwordLength an := by
+                      rw [natMulFn_length_eq_mul cMagnitude bp cCarrier.right bCarrier.left]
+                      rw [natMulFn_length_eq_mul cMagnitude an cCarrier.right aCarrier.right]
+                      rw [natMulFn_length_eq_mul BHist.Empty bn unary_empty bCarrier.right]
+                      rw [natMulFn_length_eq_mul BHist.Empty ap unary_empty aCarrier.left]
+                      rw [BEDC.Derived.NatUp.NatUp_unary_standard_bridge.left]
+                      rw [Nat.zero_mul, Nat.zero_mul, Nat.add_zero, Nat.add_zero]
+                _ = bwordLength cMagnitude * (bwordLength bp + bwordLength an) :=
+                      (Nat.left_distrib (bwordLength cMagnitude)
+                        (bwordLength bp) (bwordLength an)).symm
+            exact Nat.eq_of_mul_eq_mul_left cPositive productLength'
+          exact IntPairClassifier_of_length_eq aCarrier bCarrier reducedLength
+      | b1 =>
+          let ap := (intToPair a).1
+          let an := (intToPair a).2
+          let bp := (intToPair b).1
+          let bn := (intToPair b).2
+          have aCarrier := intToPair_carrier a
+          have bCarrier := intToPair_carrier b
+          have productLength := IntPairClassifier_length_eq pairProductSame
+          have cPositive : 0 < bwordLength cMagnitude :=
+            intApart0_length_pos (x := { sign := BMark.b1, magnitude := cMagnitude, carrier := cCarrier })
+              cNonzero
+          have reducedLength :
+              bwordLength ap + bwordLength bn =
+                bwordLength bp + bwordLength an := by
+            have productLength' :
+                bwordLength cMagnitude * (bwordLength an + bwordLength bp) =
+                  bwordLength cMagnitude * (bwordLength bn + bwordLength ap) := by
+              calc
+                bwordLength cMagnitude * (bwordLength an + bwordLength bp)
+                    = bwordLength cMagnitude * bwordLength an +
+                        bwordLength cMagnitude * bwordLength bp :=
+                      Nat.left_distrib (bwordLength cMagnitude)
+                        (bwordLength an) (bwordLength bp)
+                _ =
+                    (bwordLength (natMulFn BHist.Empty ap) +
+                        bwordLength (natMulFn cMagnitude an)) +
+                      (bwordLength (natMulFn BHist.Empty bn) +
+                        bwordLength (natMulFn cMagnitude bp)) := by
+                      rw [natMulFn_length_eq_mul cMagnitude an cCarrier.right aCarrier.right]
+                      rw [natMulFn_length_eq_mul cMagnitude bp cCarrier.right bCarrier.left]
+                      rw [natMulFn_length_eq_mul BHist.Empty ap unary_empty aCarrier.left]
+                      rw [natMulFn_length_eq_mul BHist.Empty bn unary_empty bCarrier.right]
+                      rw [BEDC.Derived.NatUp.NatUp_unary_standard_bridge.left]
+                      rw [Nat.zero_mul, Nat.zero_mul, Nat.zero_add, Nat.zero_add]
+                _ =
+                    (bwordLength (append (natMulFn BHist.Empty ap)
+                        (natMulFn cMagnitude an))) +
+                      (bwordLength (append (natMulFn BHist.Empty bn)
+                        (natMulFn cMagnitude bp))) := by
+                      rw [bwordLength_append, bwordLength_append]
+                _ =
+                    (bwordLength (append (natMulFn BHist.Empty bp)
+                        (natMulFn cMagnitude bn))) +
+                      (bwordLength (append (natMulFn BHist.Empty an)
+                        (natMulFn cMagnitude ap))) := productLength
+                _ =
+                    (bwordLength (natMulFn BHist.Empty bp) +
+                        bwordLength (natMulFn cMagnitude bn)) +
+                      (bwordLength (natMulFn BHist.Empty an) +
+                        bwordLength (natMulFn cMagnitude ap)) := by
+                      rw [bwordLength_append, bwordLength_append]
+                _ =
+                    bwordLength cMagnitude * bwordLength bn +
+                      bwordLength cMagnitude * bwordLength ap := by
+                      rw [natMulFn_length_eq_mul cMagnitude bn cCarrier.right bCarrier.right]
+                      rw [natMulFn_length_eq_mul cMagnitude ap cCarrier.right aCarrier.left]
+                      rw [natMulFn_length_eq_mul BHist.Empty bp unary_empty bCarrier.left]
+                      rw [natMulFn_length_eq_mul BHist.Empty an unary_empty aCarrier.right]
+                      rw [BEDC.Derived.NatUp.NatUp_unary_standard_bridge.left]
+                      rw [Nat.zero_mul, Nat.zero_mul, Nat.zero_add, Nat.zero_add]
+                _ = bwordLength cMagnitude * (bwordLength bn + bwordLength ap) :=
+                      (Nat.left_distrib (bwordLength cMagnitude)
+                        (bwordLength bn) (bwordLength ap)).symm
+            have swapped :
+                bwordLength an + bwordLength bp =
+                  bwordLength bn + bwordLength ap :=
+              Nat.eq_of_mul_eq_mul_left cPositive productLength'
+            calc
+              bwordLength ap + bwordLength bn =
+                  bwordLength bn + bwordLength ap := Nat.add_comm _ _
+              _ = bwordLength an + bwordLength bp := swapped.symm
+              _ = bwordLength bp + bwordLength an := Nat.add_comm _ _
+          exact IntPairClassifier_of_length_eq aCarrier bCarrier reducedLength
+
+theorem pairMul_comm (x y : BHist × BHist)
+    (hx : IntPairCarrier x.1 x.2) (hy : IntPairCarrier y.1 y.2) :
+    IntPairClassifier (pairMul x y) (pairMul y x) := by
+  apply IntPairClassifier_of_length_eq (pairMul_carrier hx hy) (pairMul_carrier hy hx)
+  rw [pairMul]
+  rw [pairMul]
+  rw [bwordLength_append, bwordLength_append, bwordLength_append, bwordLength_append]
+  rw [natMulFn_bwordLength hx.left hy.left]
+  rw [natMulFn_bwordLength hx.right hy.right]
+  rw [natMulFn_bwordLength hx.left hy.right]
+  rw [natMulFn_bwordLength hx.right hy.left]
+  rw [natMulFn_bwordLength hy.left hx.left]
+  rw [natMulFn_bwordLength hy.right hx.right]
+  rw [natMulFn_bwordLength hy.left hx.right]
+  rw [natMulFn_bwordLength hy.right hx.left]
+  rw [Nat.mul_comm (bwordLength y.1) (bwordLength x.1)]
+  rw [Nat.mul_comm (bwordLength y.2) (bwordLength x.2)]
+  rw [Nat.mul_comm (bwordLength y.1) (bwordLength x.2)]
+  rw [Nat.mul_comm (bwordLength y.2) (bwordLength x.1)]
+  exact congrArg
+    (fun t =>
+      (bwordLength x.1 * bwordLength y.1 +
+          bwordLength x.2 * bwordLength y.2) + t)
+    (Nat.add_comm (bwordLength x.2 * bwordLength y.1)
+      (bwordLength x.1 * bwordLength y.2))
+
+theorem IntMul_comm (a b : IntegerUp) :
+    IntEq (IntMul a b) (IntMul b a) := by
+  unfold IntEq IntMul
+  exact IntPairClassifier_equivalence_fields.right.right.right.right.left
+    (intMul_pair_classifier a b)
+    (IntPairClassifier_equivalence_fields.right.right.right.right.left
+      (pairMul_comm (intToPair a) (intToPair b) (intToPair_carrier a) (intToPair_carrier b))
+      (IntPairClassifier_equivalence_fields.right.right.right.left
+        (intMul_pair_classifier b a)))
 
 def RatEq (x y : RatNum) : Prop :=
   IntPairClassifier
