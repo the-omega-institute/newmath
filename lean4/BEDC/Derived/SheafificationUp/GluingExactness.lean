@@ -34,7 +34,7 @@ theorem SheafificationGluingExactness [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
   intro carrier localRoute glueRoute sheafRoute sheafPkg
   obtain ⟨_cUnary, _tUnary, _jUnary, pUnary, lUnary, gUnary, sUnary, _hUnary, _rUnary,
-    _qUnary, _nUnary, _namePkg⟩ := carrier
+    _qUnary, _nUnary, _provenancePkg, _namePkg⟩ := carrier
   have localFamilyUnary : UnaryHistory localFamily :=
     unary_cont_closed pUnary lUnary localRoute
   have gluedReadUnary : UnaryHistory gluedRead :=
