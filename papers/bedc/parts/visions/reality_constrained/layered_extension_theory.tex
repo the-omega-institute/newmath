@@ -143,6 +143,61 @@ Thus the refined layer separates rows that the preceding layer left in a
 single residual fiber.
 \end{proof}
 
+\begin{definition}[Fiber-certified geometric continuation]
+\label{def:fiber-certified-geometric-continuation}
+Let $\mathcal L_n=(R_n,\sim_n,P_n,\Lambda_n,\mathsf{NameCert}_n)$ be a
+readout layer over $T$, and let $C_n:R_n\to\mathsf{Prop}$ be a displayed
+constraint row. A \emph{fiber-certified geometric continuation} of
+$(\mathcal L_n,C_n)$ consists of a compatible layered extension
+$$
+\mathcal L_{n+1}\rightsquigarrow\mathcal L_n,
+$$
+a displayed constraint row $C_{n+1}:R_{n+1}\to\mathsf{Prop}$, and ledger
+rows certifying:
+$$
+\rho_{n+1,n}(P_{n+1}(t))\sim_n P_n(t)
+$$
+for every $t:T$,
+$$
+C_{n+1}(r)\to C_n(\rho_{n+1,n}(r))
+$$
+for every displayed $r:R_{n+1}$, and a fiber-distinguishing witness for
+some residue of $\mathcal L_n$. The certificate rows include source
+identity, readback transport, constraint transport, fiber separation, and
+ledger closure.
+\end{definition}
+
+\begin{theorem}[Geometric continuation unfolds residual fibers]
+\label{thm:geometric-continuation-unfolds-residual-fibers}
+Every fiber-certified geometric continuation recovers its higher record
+surface as compatible source readout data over the preceding layer, rather
+than as a tower-external geometric carrier.
+\end{theorem}
+
+\begin{proof}
+The continuation contains a compatible layered extension, so
+\autoref{thm:layered-extension-preserves-source-carrier} shows that the
+later readout is still a readout of the same source carrier $T$ and
+readbacks to the preceding layer. The constraint-transport row sends every
+later admissible record to an earlier admissible record. The
+fiber-distinguishing witness then says that the later layer separates two
+source rows inside one residue of the earlier layer. Hence the higher
+record surface unfolds residual fiber data already indexed by
+$R_n$, with compatibility and ledger rows making the passage auditable.
+\end{proof}
+
+\begin{principle}[Continuation recovers carriers, not remote values]
+\label{prin:continuation-recovers-carriers-not-remote-values}
+The restriction-style image of analytic continuation should not be read as
+the discovery of a value at a distant point. In BEDC terms it is the
+recovery of a carrier whose later readout restricts to the earlier one and
+whose residue, constraint, branch, and transport rows are ledgered. The
+same pattern governs high-dimensional geometry: lower-dimensional
+projections expose residual fibers, and a lawful continuation displays the
+carrier, readback, constraint transport, fiber separation, and audit rows
+that make those fibers available as geometric structure.
+\end{principle}
+
 \begin{definition}[Local-cluster extension]
 \label{def:local-cluster-extension}
 A compatible layered extension is \emph{local-clustered} when its refined
