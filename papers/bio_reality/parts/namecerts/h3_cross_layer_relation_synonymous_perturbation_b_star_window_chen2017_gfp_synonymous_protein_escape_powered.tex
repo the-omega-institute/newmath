@@ -1,33 +1,41 @@
 \origin{ai}
-\subsection{Chen GFP synonymous perturbation as a bounded protein-output contact}
-\label{sec:biorality-chen-gfp-synonymous-protein-escape}
 
-\paragraph{Finite surface.}
-The Chen GFP packet is a finite perturbation readback for synonymous coding changes in a reporter setting.  Its observed row surface contains $3556$ synonymous variants split across two assayed regions, with $1124$ rows in region $1$ and $2432$ rows in region $2$.  The finite resampling budget is $B=200$, and the recorded scalar linking protein output to out-of-frame mRNA is
-$\mathrm{slope}_{P\mid \mathrm{OOF\ mRNA}}=0.016523671594873352$.
-This is enough to place the dataset on the protein-output side of the $B^*_{Q6}$ synonymous-perturbation ledger, but only as a finite reporter-contact surface.  The carrier is not a free biological law: each row is read as a tuple containing a synonymous coding perturbation, its region assignment, a protein-output readout, and the available matched RNA-side control used to prevent direct promotion from codon residual geometry to protein realization.
+\subsection{Chen GFP Synonymous Perturbation as a B-Star Window Boundary}
+\label{sec:bioreality-chen-gfp-synonymous-protein-escape}
 
-\paragraph{Local coordinate interpretation.}
-The relevant $B^*_{Q6}$ residual basis is the nine-coordinate list
+\paragraph{Finite perturbation surface.}
+This record treats the Chen GFP synonymous perturbation panel as a finite cross-layer test surface rather than as a direct claim about folding, function, or selection. The carrier is the set of variant rows on which a synonymous coding perturbation can be paired with a protein-output readout and with the local $B^{\ast}_{Q6}$ window coordinates used by the residual packet. The verified run records $3556$ synonymous variant rows, split into $1124$ rows in the first region and $2432$ rows in the second region. The resampling budget was $200$ blocks, and the run time was $447.6606512069702$ seconds. In this chapter the finite row set is written as
 $$
 \begin{aligned}
-Q=\{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
-&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
+V &= V_1 \sqcup V_2,\\
+|V_1| &= 1124,\\
+|V_2| &= 2432,\\
+|V| &= 3556,\\
+B &= 200.
 \end{aligned}
 $$
-The Chen GFP rows are therefore interpreted as a finite perturbation window for testing whether changes aligned with these residual directions can survive the controls and appear in protein output.  The packet does not assert that every coordinate is active in this assay.  It records that the assay is row-sufficient for a bounded contact: $n=3556$ variants is large relative to the nine-dimensional residual basis, and the two region counts remain explicit rather than being hidden inside a pooled statistic.
+Each row is read only as a perturbation-indexed observation of a synonymous sequence choice and a downstream GFP protein-output measurement. The row does not by itself identify a ribosomal rate, a folded-state change, a molecular-function change, or an organism-level phenotype.
 
-\paragraph{Mediation discipline.}
-The standing cross-layer rule for this chapter is that a direct $Q_i \to P_k$ association is not a protein-realization claim unless the relevant $Q_i \to T_j$ translation step is observed or explicitly bounded.  In the wider finite-row record, the translation-mediated protein-abundance computation used the same nine $Q$ coordinates and joined $12$ organisms, with per-organism matched protein counts ranging from $1656$ in \emph{Sulfolobus solfataricus} to $19395$ in mouse.  Its mediated fractions included $M^{QTP}=0.9491551041216973$ for yeast, $0.612922252793667$ for \emph{E. coli} K12 MG1655, $0.27206289160119157$ for human, and $0.01850668564589326$ for \emph{Sulfolobus solfataricus}.  Those numbers justify the use of a mediated matrix language in this paper, but they do not transfer the organism-level abundance result into the GFP perturbation assay by naming alone.
+\paragraph{Local residual readback.}
+The $B^{\ast}_{Q6}$ side of the record is a nine-coordinate residual basis inherited by the surrounding translation-mediated program: $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$. These are not promoted to biochemical causes. They are finite coordinates used to ask whether synonymous perturbations align with a measurable output after simpler codon-count and composition effects have been kept separate. The Chen GFP row set is therefore a perturbation-level test of whether a local synonymous window can carry protein-output information, not a proof that the same coordinate has survived through an observed translation-efficiency step.
 
-\paragraph{What the Chen rows add.}
-The specific finite contribution here is the reporter perturbation surface itself: $1124+2432=3556$ synonymous variants with a recorded protein-to-out-of-frame-mRNA slope of $0.016523671594873352$ under $200$ resampling blocks.  The scalar is small and positive, so the RNA-side relation is present as a control pressure rather than as an explanation of the protein-output signal.  This supports a cautious statement: the Chen GFP assay can be used as a bounded protein-output contact for synonymous perturbation windows, provided that any $B^*_{Q6}$ protein-output claim is phrased through the observed finite rows and the RNA-side check, not through codon geometry alone.
+\paragraph{Observed scalar contact.}
+The available finite scalar linking the Chen GFP surface to transcript-level leakage is
+$$
+\begin{aligned}
+\lambda_{\mathrm{protein}\mid \mathrm{oof\ mRNA}} &= 0.016523671594873352.
+\end{aligned}
+$$
+This slope is small in absolute scale and is used here as a local audit number: it records how the protein readout aligns with the out-of-frame mRNA control channel in the verified run. It is not a replacement for a same-row ribosome-profiling or translation-efficiency readout. The row count is large enough to support a finite perturbation audit, and the $200$-block budget supplies a bounded resampling design, but the scalar itself does not state a universal sign law, a codon-family population law, or a mechanistic ribosome interpretation.
 
-\paragraph{Comparison with a stronger perturbation contact.}
-A separate E. coli mRFP synonymous-output contact supplies a useful scale check without being merged into the Chen result.  That assay had $1459$ variants, $B=200$, $\Delta R^2=0.05339906007191191$, $\Delta DL=19.089327473282296$ bits, $p_{\mathrm{matched}}=0.004975124378109453$, $p_{\mathrm{within}}=0.004975124378109453$, and a real-CAI robustness flag equal to true.  By contrast, the Chen GFP record made available here gives the finite row split and the protein-on-out-of-frame-mRNA slope, but not a matched null $p$-value, a description-length gain, or a residualized $\Delta R^2$ for the Chen rows.  The correct reading is therefore asymmetric: Chen GFP is a valid finite reporter-contact chapter for the synonymous perturbation boundary, while the stronger inferential scalars are not imported from the mRFP packet.
+\paragraph{Relation to translation-mediated protein abundance.}
+The broader protein-abundance mediation record supplies the relevant comparison class. In that finite matrix, $12$ organism-level panels were joined to real CDS codon counts and measured protein abundance, with joined protein counts ranging from $1656$ for $Sulfolobus\ solfataricus$ to $19395$ for $Mus\ musculus$. The same record reports a joint nine-dimensional mediation scalar in which the mediated fractions remain within the unit interval for all listed organisms; for example, the fractions include $0.612922252793667$ for $Escherichia\ coli$ K12 MG1655, $0.9491551041216973$ for $Saccharomyces\ cerevisiae$, $0.27206289160119157$ for $Homo\ sapiens$, and $0.01850668564589326$ for $Sulfolobus\ solfataricus$. Those numbers show that the $B^{\ast}_{Q6}$ residual basis can be placed in a controlled $Q \to T \to P$ matrix when a translation readout and protein abundance are both present. The Chen GFP perturbation panel is narrower: it supplies a controlled synonymous perturbation surface with protein output, but the provided finite row for this specific run does not include an observed same-row $T$ variable such as ribosome occupancy, translation efficiency, tAI, or stAI.
 
-\paragraph{No-promotion boundary.}
-The modeled translation-readout audit also matters locally.  It computed $81$ modeled-tAI coupling entries above threshold $0.01$ across $3$ organisms, with $\max |S_{ij}|=3801961.031607896$, but it explicitly marked the setting as underpowered for powered survival because only $3$ organisms were present.  Thus the Chen GFP perturbation rows do not by themselves establish translation realization, folding, physical admissibility, molecular function, mechanism, selection, or universality.  They also do not turn a direct residual-to-protein association into mediated protein realization when the translation step is absent, null, or merely named.  The chapter's positive content is narrower: a finite synonymous perturbation assay with $3556$ rows and an RNA-control scalar is admissible as a bounded protein-output contact for $B^*_{Q6}$ window analysis.
+\paragraph{Modeled translation boundary.}
+The modeled tAI survival matrix gives a second boundary condition. It computed the same nine residual coordinates across $3$ organisms, used a coupling threshold of $0.01$, and found $81$ modeled entries above threshold, with maximum absolute entry $3801961.031607896$. The same record states that $3$ organisms are insufficient for powered survival and that powered survival would require at least $40$ matched species. Thus the Chen GFP result is not allowed to borrow modeled-tAI coupling as if it were observed ribosome dynamics. The perturbation run remains a finite protein-output audit until a matched translation readout is attached to the same variants or to a rigorously joined row system.
 
-\paragraph{Verdict.}
-The claim is ready as a finite-row, protein-output boundary record.  Its strongest local statement is that the Chen GFP synonymous perturbation surface contributes $3556$ reporter variants, split $1124/2432$ by assayed region, with $B=200$ and $\mathrm{slope}_{P\mid \mathrm{OOF\ mRNA}}=0.016523671594873352$.  This permits controlled discussion of synonymous perturbation protein output, while keeping translation, folding, physical admissibility, function, mechanism, and universal biological law outside the claim unless a separate layer-matched contact supplies those measurements.
+\paragraph{Admissible claim.}
+The admissible statement is the following. On the Chen GFP synonymous perturbation surface, $3556$ finite variant rows, split as $1124+2432$, support a bounded protein-output audit for local $B^{\ast}_{Q6}$ window coordinates under a $200$-block resampling design. The recorded out-of-frame mRNA slope $0.016523671594873352$ is a finite control-facing scalar, not a mechanism. The result may be used as evidence that synonymous perturbation rows can carry a protein-output signal that deserves comparison with translation-mediated $Q \to T \to P$ matrices. It may not be stated as direct translation realization, folding realization, physical admissibility, molecular function, organismal phenotype, selection, mechanism, or universality.
+
+\paragraph{Local no-promotion rule.}
+A direct $Q \to P$ association on this panel is not enough to certify protein realization through translation. A separate contact must supply the intermediate $Q \to T$ step, and that step must survive the appropriate controls before the downstream protein-output association can be described as translation-mediated. Matched mRNA abundance, out-of-frame mRNA behavior, modeled codon-adaptation weights, and local synonymous-window geometry are useful controls or bounded readbacks, but none of them is by itself a ribosome measurement. Likewise, a GFP protein-output change is not a folded-structure assay, a physical-admissibility assay, a molecular-function assay, a fitness assay, or a universal biological rule. The chapter therefore closes at a finite perturbation-and-protein-output boundary: it is ready as a controlled BioReality record, while the translation, structure, function, mechanism, and universality claims remain unavailable unless layer-matched measurements are supplied.

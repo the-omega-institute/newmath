@@ -1,46 +1,47 @@
-\subsection{Rank-admissible translation-survival gate at the branchpoint boundary}
-\label{sec:biorality-q6-rank-admissible-translation-survival-gate}
 \origin{ai}
 
-\paragraph{Finite-row subject.}
-This record concerns the proposed cross-layer entry
-$S^{QT}_{ij}$ from a $B^{*}_{Q6}$ synonymous residual coordinate $q_i$ to an organism-indexed translation readout $T_j$.  The admissible object is not a biological mechanism and not a protein-level interpretation.  It is a finite residualized design matrix whose rows must still contain enough independent post-control variation after the columns $Z$ have absorbed amino-acid composition, organism identity, GC3, coding length, and the $M$-density baseline.  The row-level question is whether the proposed translation-survival entry remains testable after those controls, rather than whether an in-sample score can be made large.
+\subsection{Rank-Admissible Readout Boundary for Branchpoint-Indexed Cross-Layer Use}
+\label{sec:bioreality-branchpoint-q6-rank-admissible-readout-boundary}
 
-The branchpoint-side finite contact currently has $n=10584$ joined human intron rows, with expression controlled by $\log(1+x)$ of the median across 54 GTEx tissue expression scores from the UCSC hg19 gtexGeneV8 table.  The join is by same-strand intron overlap, and the recorded runtime for the expression-controlled branchpoint computation is $138.47155$ seconds.  This supplies a concrete finite-row, expression-controlled splice-boundary surface, but it is not itself a translation-readout matrix.  Its role here is to discipline the admissibility rule: finite contacts may be useful only at the layer they actually measure.
+\paragraph{Finite row surface.}
+The branchpoint-contact record is a finite human transcript-row surface, not a universal biological assertion.  The verified branchpoint computation joins Mercer-style branchpoint or motif usage information to a UCSC hg19 \texttt{gtexGeneV8} expression control, using $\log(1+\operatorname{median})$ over $54$ tissue expression scores and joining by intron overlap on the same strand.  The resulting controlled table has $n=10584$ rows, with expression control recorded as present, and the run time was $138.47155$ seconds.  In this chapter the branchpoint table is used as a guarded cross-layer comparison site: it may indicate that a sequence-level or intron-level readout can be placed beside translation-oriented residual coordinates, but it does not by itself supply a translation-survival statistic.
 
-\paragraph{Residualization rule.}
-For each candidate pair $(q_i,T_j)$, the gate first removes the declared controls from both sides:
+\paragraph{Carrier and controlled rank test.}
+Let $Q=\{q_i\}$ denote the finite list of residualized $B^{\ast}_{Q6}$ synonymous coordinates available for the translation-boundary check, let $T=\{T_j\}$ denote organism-indexed translation readout columns, and let $Z$ contain amino-acid composition, organism, $GC3$, coding length, $M$-density, and the declared simpler codon baselines.  The admissibility question is not whether an in-sample fit can be made large.  It is whether the residualized design leaves enough independent support to make an out-of-sample failure possible.  For each proposed entry the local rule is
 $$
 \begin{aligned}
-q_i^{\perp Z} &= q_i-\Pi_Z q_i,\\
-T_j^{\perp Z} &= T_j-\Pi_Z T_j.
+q_i^{\perp Z} &= q_i - \Pi_Z q_i,\\
+T_j^{\perp Z} &= T_j - \Pi_Z T_j,\\
+S^{QT}_{ij} &> 0 \quad \hbox{is reportable only when } \operatorname{rank}(q_i^{\perp Z},T_j^{\perp Z}) \hbox{ is not saturated and held-out loss can increase.}
 \end{aligned}
 $$
-The proposed survival entry is admissible only when the residualized row space is not rank-saturated and still has enough degrees of freedom to make a held-out failure possible.  A perfect fitted surface on too few rows, or on a design whose residual rank has consumed the available variation, is therefore a refusal signal rather than evidence for survival.  The gate separates three cases: a rank-admissible translation-survival entry, a coupling-only contact, and a projection artifact caused by saturation.
+If the post-control row space is rank-saturated, or if the remaining degrees of freedom are too small to make a held-out contrast falsifiable, the entry is retained only as a coupling or data-request record.  In particular, an all-$1.0$ fitted surface on a tiny controlled panel is treated as rank degeneracy, not as translation survival.
 
-\paragraph{Present finite evidence.}
-The finite $B^{*}_{Q6}$ coupling computation loaded three organisms, namely Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K-12.  It used 61 codon-count coordinates and computed nine synonymous residual coordinates: $\mathrm{Arg}_{AGR}$, $\mathrm{Ile}_{AUA}$, $K_{AAA}$, two leucine contrasts, three serine/threonine contrasts, and $f_3$ stress.  Against the proxy tRNA-Leu CUN-versus-UUR log-copy spectrum, the break condition was not met: not all nine $q_i$ had $|A_{ij}|<0.01$.  The largest absolute proxy coupling was $1882464.1106377328$, and all nine entries exceeded the stated nonzero threshold in the coupling matrix.  This is a coupling surface $A^{QT}$, not a controlled survival surface $S^{QT}$.
+\paragraph{Observed q6 coordinate support.}
+The finite $B^{\ast}_{Q6}$ coupling computation used $61$ codon-count dimensions and loaded three organism rows: \texttt{homo\_sapiens}, \texttt{saccharomyces\_cerevisiae}, and \texttt{escherichia\_coli\_k12}.  The available synonymous residual coordinates were \texttt{Arg\_AGR}, \texttt{Ile\_AUA}, \texttt{K\_AAA}, \texttt{Leu\_CUN\_vs\_UUR}, \texttt{Leu\_UUA\_vs\_UUG}, \texttt{Ser\_UCA\_vs\_UCG}, \texttt{Ser\_UCR\_vs\_AGY}, \texttt{Thr\_ACR\_vs\_ACY}, and \texttt{f3\_stress}.  Against the proxy readout recorded for that computation, the break condition was not met: not all nine coordinates had $|A_{ij}|<0.01$.  The largest absolute proxy coupling was $1882464.1106377328$, and all $9$ tested entries were nonzero above the bookkeeping threshold.  This is evidence that the coordinate list has finite contact with a proxy translation-adjacent surface; it is not evidence that any $S^{QT}_{ij}$ entry survived the controlled rank gate.
 
-The broader residual-basis extraction supplies a negative finite-row context.  Homo sapiens had $16008$ joined rows and six selected readout blocks, with $\rho$ decreasing from $1.0$ to $0.9723341658092314$ and label persistent.  Saccharomyces cerevisiae had $3046$ joined rows and nine selected blocks, ending at $0.9798667977250413$ and also persistent.  Escherichia coli K-12 MG1655 had $3415$ joined rows and two selected blocks, ending at $0.9979478314995476$.  Danio rerio had $14410$ joined rows and one selected block, ending at $0.9791828971490305$.  Gallus gallus and Mycobacterium smegmatis str. mc2 155 remain needs-data cases.  The regularizer was recorded as $\lambda=0.01$ with description-length penalty $\log_2(1+n_{\mathrm{col}})$.  The minimum final residual floor among computed organisms was $0.9723341658092314$, and all four computed organisms were classified as persistent rather than compressible.
+\paragraph{Residual-basis pressure.}
+The separate residual-basis extraction supplies a useful negative control for the rank gate because it reports persistent unexplained residual structure rather than collapse to a compact readout basis.  Four organisms were computed and classified as persistent: \texttt{danio\_rerio}, \texttt{escherichia\_coli\_k12\_mg1655}, \texttt{homo\_sapiens}, and \texttt{saccharomyces\_cerevisiae}.  The final residual ratios remained high, with a recorded floor of $0.9723341658092314$.  The joined-row counts were $14410$ for zebrafish, $3415$ for \texttt{E. coli} K-12 MG1655, $16008$ for human, and $3046$ for yeast; \texttt{gallus\_gallus} and \texttt{mycobacterium\_smegmatis\_str\_mc2\_155} remained in the needs-data state.  The human extraction had $6$ candidate blocks with $d_{\mathrm{modeled}}=0.9020707321191321$ and $d_{\mathrm{difference}}=0.018824203448813415$; yeast had $9$ candidates with $d_{\mathrm{modeled}}=0.2199040339633322$ and $d_{\mathrm{difference}}=0.008171838236265161$; \texttt{E. coli} had $2$ candidates with $d_{\mathrm{modeled}}=0.6628211177352172$ and $d_{\mathrm{difference}}=0.00017488612263594217$; zebrafish had one candidate with $d_{\mathrm{modeled}}=0.874628721049266$ and $d_{\mathrm{difference}}=0.0$.  The declared regularizer in that extraction was $\lambda=0.01$ with description-length term $\log_2(1+n_{\mathrm{col}})$.
 
-\paragraph{Null comparisons.}
-The residual-basis packet also records degree-of-freedom matched Gaussian null checks.  In Homo sapiens, selected readout increments above their null $95\%$ levels include PTM density with increment $0.014780177462400674$ versus null $p95=0.0002845846156909306$, complex membership with $0.004618389163869967$ versus $0.000206488525646134$, transmembrane count with $0.0014438137599134737$ versus $0.0002435268444123588$, measured tRNA/tAI with $0.0005032876020244136$ versus $0.00020173994173736226$, and localization with $0.006528084968494762$ versus $0.0011598998794309233$; the domain-count step did not exceed its null, with $3.840392718095609\times 10^{-5}$ versus $0.00021932006910265595$.  In yeast, measured translation efficiency, PTM density, transmembrane count, turnover, and localization exceeded their local null checks, while complex membership, measured tRNA/tAI, domain count, and mRNA did not.  In E. coli, the mRNA step exceeded its null but the measured-translation-efficiency step did not.  In zebrafish, measured tRNA/tAI exceeded its null.  These numbers show finite readout structure, but they do not by themselves create a rank-admissible $S^{QT}$ entry.
-
-\paragraph{Related finite contacts.}
-Two other cross-layer finite contacts help locate the boundary.  The uORF--Kozak ribosome-load sample contains $41862$ fixed rows and $16739$ varying rows, with two-sample concordance recorded and runtime $131.941$ seconds.  The mRNA-stability contact contains $16500$ human rows and $18924$ mouse rows, uses a non-CSC tAI circularity guard, and reports raw $\rho=0.126224$ with runtime $46.349$ seconds.  These contacts establish that translation-adjacent and RNA-stability surfaces can be represented by finite rows, but neither substitutes for a same-row, residualized $B^{*}_{Q6}\to T$ survival matrix under the declared controls.
-
-\paragraph{Admissibility verdict.}
-The local rule is therefore:
+\paragraph{Rank-aware readback.}
+The residual-basis curves make the finite-row warning explicit.  Human followed
 $$
 \begin{aligned}
-\mathrm{Admissible}(S^{QT}_{ij})
-&\Longleftrightarrow
-\operatorname{rank}\bigl([q_i^{\perp Z},T_j^{\perp Z}]\bigr)
-< \operatorname{df}_{\mathrm{heldout}}\\
-&\quad\text{and the held-out readout can falsify the proposed entry.}
+1.0,&\ 0.9852198225375993,\ 0.9806696939851618,\ 0.9792537895870558,\\
+&0.9787609432955213,\ 0.9787233550315274,\ 0.9723341658092314,
 \end{aligned}
 $$
-If the controlled design is rank-saturated, underpowered, or fitted only through a proxy coupling, the entry remains coupling-only or needs-data.  In particular, a modeled tAI or stAI contact, a tRNA gene-copy spectrum, a positive proxy $A^{QT}$ entry, or an all-$1.0$ fitted surface does not count as translation survival unless the matched residualized design has a non-saturated rank and a held-out translation readout.
+while yeast followed
+$$
+\begin{aligned}
+1.0,&\ 0.9962498989663637,\ 0.9929843170647626,\ 0.9915730985485388,\ 0.9903314906684438,\\
+&0.9894054695002641,\ 0.9885902293718664,\ 0.9882386501212531,\ 0.9881524582851271,\ 0.9798667977250413.
+\end{aligned}
+$$
+The \texttt{E. coli} curve was $1.0,0.9982293045445091,0.9979478314995476$, and the zebrafish curve was $1.0,0.9791828971490305$.  These high terminal ratios are not failures of the method; they are the reason the chapter keeps the translation-survival claim behind a rank and held-out-readout gate.
 
-\paragraph{Local no-promotion rule.}
-This chapter makes no claim about ribosome occupancy, protein abundance, folded structure, physical admissibility, biological function, mechanism, phenotype, or a universal biological law.  Codon-usage rows, tRNA-copy rows, and tAI or stAI weights may define bounded translation-adjacent readbacks, but they do not observe protein output or downstream biological realization.  The expression-controlled branchpoint panel is likewise a splice-boundary finite contact, not a translation matrix.  Any later promotion beyond this gate requires a separate layer-matched contact and a new statistic computed on the appropriate joined rows.
+\paragraph{Adjacent finite checks.}
+Two other finite-row computations help locate the boundary without crossing it.  The uORF/Kozak ribosome-load sample reported $41862$ fixed rows and $16739$ varying rows, with two-sample concordance recorded as true and run time $131.941$ seconds.  The codon-composition mRNA half-life computation used a non-CSC tAI circularity guard, with $n_{\mathrm{human}}=16500$, $n_{\mathrm{mouse}}=18924$, raw $\rho=0.126224$, and run time $46.349$ seconds.  These are translation-adjacent or RNA-stability contacts, but they do not replace the missing same-row, same-organism matrix joining $B^{\ast}_{Q6}$ residual coordinates to a direct translation readout under the declared controls.
+
+\paragraph{Local cannot-claim boundary.}
+The chapter therefore records a guarded branchpoint-indexed cross-layer relation.  The finite branchpoint table has controlled expression rows; the $B^{\ast}_{Q6}$ coordinate table has proxy coupling and persistent residual structure; the nearby uORF and mRNA-stability computations show that relevant readout surfaces can be made finite.  None of these facts allows promotion to ribosome occupancy, translation realization, protein abundance, folded structure, physical admissibility, molecular function, mechanism, phenotype, or universality.  Such claims require their own matched contact rows and a separate statistic at that layer.  The present result is the narrower statement that a proposed $S^{QT}_{ij}$ entry must first be rank-admissible after residualization against $Z$, and that any rank-saturated or underpowered entry remains coupling-only or needs data even when its in-sample score is positive.

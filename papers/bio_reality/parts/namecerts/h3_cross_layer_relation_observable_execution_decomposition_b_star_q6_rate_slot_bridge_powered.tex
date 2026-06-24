@@ -1,24 +1,86 @@
 \origin{ai}
-\subsection{Observable execution decomposition for the $B^*_{Q6}$ rate-slot bridge}
-\label{sec:bior reality-observable-execution-decomposition-b-star-q6-rate-slot-bridge}
 
-\paragraph{Finite surface.}
-The record studied here is the finite mediation surface whose rows join a $B^*_{Q6}$ residual coordinate $q_i$, a translation-side readout $t_j$, and a matched protein-side readout $p_k$.  The readback is intentionally narrower than a general biological interpretation: a residual-to-protein association is admitted only after a translation-side row has survived as an observed or explicitly bounded readout.  The controls retained in the row construction are amino-acid composition, organism, GC3, coding-sequence length, an $M$-density baseline on the support of the projected $B^*_{Q6}$ coordinates, and matched mRNA abundance when a translation-efficiency denominator is used.  The nine residual coordinates carried by the surrounding packet are $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.
+\subsection{Observable Execution Decomposition for the B-Star Q6 Rate-Slot Surface}
+\label{sec:bioreality-observable-execution-decomposition-b-star-q6-rate-slot}
 
-\paragraph{Observed rate-slot verdict.}
-The registered rate-slot experiment ran on $3289$ genes from \textit{Saccharomyces cerevisiae} with deterministic seed \texttt{sha256:b\_star\_q6\_rate\_slot\_bridge\_powered:deterministic}.  Its recorded status is \texttt{passed}, and its final conclusion is \texttt{observable\_execution\_subblock}: at least one observed rate proxy slot passed both effective null classes.  The runtime was $2667.02$ seconds.  This finite result licenses only the claim that a bounded execution subblock exists on the observed rate-proxy surface.  It does not by itself identify folding, function, physical admissibility, mechanism, selection, phenotype, or a universal rule.
+\paragraph{Finite carrier.}
+The record considered here is a finite mediation surface whose rows are coding-sequence observations and whose columns separate three classes of coordinates. The first class is the nine-dimensional $B^\ast_{Q6}$ residual coordinate family
+$\{K_{AAA}, \operatorname{Arg}_{AGR}, \operatorname{Ile}_{AUA}, \operatorname{Leu}_{CUN/UUR}, \operatorname{Leu}_{UUA/UUG}, \operatorname{Ser}_{UCR/AGY}, \operatorname{Ser}_{UCA/UCG}, \operatorname{Thr}_{ACR/ACY}, f_3\text{-stress}\}$.
+The second class consists of translation readouts, including modeled tAI, stAI-style adaptation weights, ribosome occupancy, or translation efficiency when the corresponding measured rows exist. The third class consists of matched protein-abundance readouts. The carrier is not a direct residual-to-protein table: a protein row is admissible only after the residual coordinate has been tested through a translation slot. In symbols, the permitted readback has the form
+$$
+\begin{aligned}
+q_i &\longrightarrow t_j \longrightarrow p_k, \\
+q_i &\in B^\ast_{Q6},\quad t_j \in \{\mathrm{tAI},\mathrm{stAI},\mathrm{RPF},\mathrm{TE}\},\quad p_k=\log_{10}(\mathrm{protein\ abundance}).
+\end{aligned}
+$$
+The controls remain controls: amino-acid composition, organism identity, $GC3$, coding-sequence length, the $M$-density baseline, and matched mRNA abundance are not promoted to residual coordinates.
 
-\paragraph{Mediation scale.}
-The broader $Q \to T \to P$ mediation audit supplies the numerical scale on which the rate-slot result sits.  Across twelve organism-scoped joined protein tables, each residualized design had $9$ $Q$ coordinates, rank $9$ for $X$, rank $1$ for the translation readout, and rank $23$ for the control matrix.  The joined protein counts were $4042$ for \textit{Bacillus subtilis}, $11661$ for \textit{Caenorhabditis elegans}, $14410$ for \textit{Danio rerio}, $13295$ for \textit{Drosophila melanogaster}, $3739$ for \textit{Escherichia coli} K12 MG1655, $12418$ for \textit{Gallus gallus}, $19053$ for human, $19395$ for mouse, $4129$ for \textit{Mycobacterium smegmatis}, $13322$ for rat, $5815$ for budding yeast, and $1656$ for \textit{Sulfolobus solfataricus}.  The mediated fractions $M^{QTP}$ were respectively $0.6084594553$, $0.4872268357$, $0.3157053954$, $0.6165167749$, $0.6129222528$, $0.1976903965$, $0.2720628916$, $0.1548879991$, $0.0839760292$, $0.1748968180$, $0.9491551041$, and $0.0185066856$.  In yeast, the total controlled residual-to-protein value was $R^2_{QP}=0.2983762499$, the direct value after conditioning on modeled translation was $R^2_{QP\mid T}=0.0151709094$, and the indirect difference was $0.2832053406$.  Thus the rate-slot passage is consistent with a strong yeast mediation footprint, but the mediation statistic remains statistical rather than causal.
+\paragraph{Observed execution row.}
+The registered observable-execution computation ran on $3289$ genes in \emph{Saccharomyces cerevisiae}. Its deterministic seed was $\mathrm{sha256{:}b\_star\_q6\_rate\_slot\_bridge\_powered{:}deterministic}$, the runtime was $2667.02$ seconds, and the terminal call was
+$$
+\begin{aligned}
+\mathrm{final\ conclusion} &= \mathrm{observable\_execution\_subblock},\\
+\mathrm{verdict} &= \text{at least one observed rate proxy slot passed both effective null classes}.
+\end{aligned}
+$$
+This is a positive finite-row execution result for an observed rate-proxy subblock. The claim is therefore not merely an identifier route or a model-only contact: within the yeast rows used by the computation, at least one rate proxy survived the two declared null classes. The result is intentionally narrower than a full protein-realization claim, because the row reports rate-slot survival rather than a completed causal chain from synonymous residuals to mature protein function.
 
-\paragraph{Yeast decomposition checks.}
-A separate yeast structure-and-abundance decomposition joined $4759$ genes, with reported CDS join hit rate $0.9156038419$ and overall join hit rate $0.8818572657$.  Its residualized abundance partition gave $R^2_{QP}=0.2715520808$, $R^2_{QP\mid S}=0.2706601505$, $R^2_{QP\mid T,M}=0.1377396770$, and $R^2_{QP\mid T,M,S}=0.1375901121$.  The structure-only fraction was $0.0032845645$, while the incremental structure fraction beyond translation and mRNA stability was $0.0005507779$.  The corresponding permutation values were $p=0.02797202797$ for $S_Q$ structure and $p=0.1258741259$ for the incremental structure fraction.  These numbers place the yeast rate-slot passage mainly on the translation-and-abundance side of the surface, not on a folded-structure conclusion.
+\paragraph{Relation to the translation-mediated protein matrix.}
+A separate multi-organism mediation computation supplies the scale of the surrounding $Q\to T\to P$ surface. It used the same nine residual coordinates and reported a joint mediation scalar with per-organism fractions $M^{QTP}$ in the unit interval for all $12$ organisms. The yeast row is the strongest entry in that table:
+$$
+\begin{aligned}
+M^{QTP}_{\mathrm{yeast}} &= 0.9491551041216973,\\
+R^2_{QP,\mathrm{total}} &= 0.29837624994140827,\\
+R^2_{QP\mid T,\mathrm{direct}} &= 0.0151709093608293,\\
+R^2_{\mathrm{indirect}} &= 0.28320534058057895.
+\end{aligned}
+$$
+Other organisms give smaller but positive mediated fractions, for example $0.612922252793667$ in \emph{Escherichia coli} K12 MG1655, $0.4872268357227724$ in \emph{Caenorhabditis elegans}, $0.27206289160119157$ in human, and $0.15488799907323988$ in mouse. These values support the interpretation that the yeast rate-slot call is located inside a broader finite mediation geometry, while still requiring the translation slot to be checked before the protein-abundance coordinate is read.
 
-\paragraph{Mass-balance and turnover boundaries.}
-The dynamic mass-balance run used $120$ genes and $718$ intervals.  Its nested values were $R^2_{L0,M}=0.9960628202$, $R^2_{L1,M,E}=0.9964106289$, $R^2_{L2}=0.9712443378$, and $R^2_{L3}=0.8953999568$, with $\Delta R^2=-0.0758443809$, $\Delta DL=-668.8046070$ bits, $p_{TEbin}=0.6831683168$, and $p_{timeshuffle}=0.9306930693$.  The turnover audit used $3290$ genes and reported $R^2_{L2}=0.0557408516$, $R^2_{L3}=0.0502788722$, $\Delta R^2=-0.0054619794$, $\Delta DL=-13.6881970790$ bits, $p_{matchedbin}=0.8855721393$, and $p_{recoded}=1.0$.  These negative and nonsignificant downstream checks prevent the rate-slot record from being promoted to protein-turnover realization or a closed mass-flow mechanism.
+\paragraph{Controls and rank sufficiency.}
+The yeast mediation row retained rank after residualization by the declared controls. Its control matrix had $23$ effective rank with $24$ control columns, $5792$ residual degrees of freedom after control removal, and rank $9$ for the residual coordinate block. The readout rank was $1$ for $T$, and the augmented block $[X,T]$ had rank $10$. The residual energies in the yeast mediation computation were
+$$
+\begin{aligned}
+\|T_\perp\|^2 &= 6.90537888244409,\\
+\|Y_\perp\|^2 &= 2958.1865890925337,\\
+\mathrm{energy}(X\to T) &= 5.671703404506426,\\
+\mathrm{energy}(T\to Y) &= 941.8858618613751,\\
+\mathrm{energy}(X\to Y) &= 882.6526210803958.
+\end{aligned}
+$$
+The observable-execution result is therefore read as a rate-slot subblock inside a controlled finite matrix, not as a raw correlation between codon residuals and abundance.
 
-\paragraph{Axis identity and rank warning.}
-The structural-order axis audit found exactly one fold-level significant coordinate: $f3\_stress$.  Its weighted held-out increment was $0.0031744502$, weighted absolute unit loading was $0.5109586607$, and sign-flip value was $p=0.03125$.  The other coordinates did not pass the same gate: for example $Leu\_CUN\_vs\_UUR$ had weighted increment $-0.0003205780$ with $p=0.779296875$, and $Thr\_ACR\_vs\_ACY$ had $-0.0004534033$ with $p=0.529296875$.  The earlier modeled-tAI survival surface used only $3$ organisms, although it computed $81$ entries above threshold $0.01$ and a maximum absolute $S_{ij}$ of $3801961.031607896$.  Its own boundary states that $3$ organisms are insufficient for powered survival and that the result is modeled tAI bounded coupling rather than ribosome-profiling or proteomics validation.
+\paragraph{Structure and abundance comparison.}
+The yeast abundance-residual structure audit gives an additional decomposition of the same style. It joined $4759$ yeast genes across protein abundance, measured translation efficiency, mRNA half-life, coding sequence, and a $5'$ coding-region folding proxy. In that audit,
+$$
+\begin{aligned}
+R^2_{QP} &= 0.2715520808117803,\\
+R^2_{QP\mid S} &= 0.2706601505000995,\\
+R^2_{QP\mid T,M} &= 0.13773967696311287,\\
+R^2_{QP\mid T,M,S} &= 0.13759011208318542.
+\end{aligned}
+$$
+The structure-only fraction was $0.003284564452662019$, and the incremental structure fraction beyond measured translation efficiency plus mRNA stability was $0.0005507778820193332$. The $Q\to S$ structure association had $R^2=0.003774248455422586$ with right-tail permutation probability $0.027972027972027972$, whereas the incremental structure probability was $0.1258741258741259$. Thus the finite rows separate an observable rate or abundance route from a much weaker structure-proxy route.
 
-\paragraph{Selection and scope.}
-The cross-ortholog selection-imprint run used $80$ orthogroups, $240$ rows, and $3$ species.  It produced $\Delta R^2=0.0325051502$, description-length change $-258.6010084302$ bits, leave-clade-out $\Delta R^2=-0.0021477730$, and maximum null $95\%$ $\Delta R^2=0.0542715707$; the positive selection-imprint gate was false.  Therefore the observable execution subblock is not a population-level selection law.  The local conclusion is the bounded one: the finite yeast rate-proxy experiment supplies a positive observable execution component, while translation, folding, physical admissibility, molecular function, mechanism, phenotype, and universality require separate layer-matched contacts and their own controlled statistics before they can be asserted.
+\paragraph{Dominant coordinate in the structural-order audit.}
+The structural-order axis identity computation used the same coordinate list and found exactly one fold-level sign-flip significant coordinate. The dominant loading and dominant held-out increment were both carried by $f_3$-stress:
+$$
+\begin{aligned}
+\Delta R^2_{\mathrm{held\ out}}(f_3\text{-stress}) &= 0.0031744502294756994,\\
+p_{\mathrm{signflip}}(f_3\text{-stress}) &= 0.03125,\\
+|\ell|_{\mathrm{weighted}}(f_3\text{-stress}) &= 0.5109586606724208.
+\end{aligned}
+$$
+The remaining coordinates did not pass that same gate: for instance $\operatorname{Arg}_{AGR}$ had $p=0.142578125$ and $\Delta R^2=0.0020139270616115154$, while $\operatorname{Ile}_{AUA}$ had $p=0.0693359375$ and $\Delta R^2=0.0013067592718559024$. This matters for the rate-slot chapter because the observed execution result should be read as a subblock in a coordinate-resolved finite surface, not as evidence that every residual coordinate carries the same downstream behavior.
+
+\paragraph{Negative and bounded companion rows.}
+Several companion computations define the boundary of the positive rate-slot result. The cross-ortholog selection-imprint audit used $80$ orthogroups, $240$ rows, and $3$ species. Its positive-imprint gate was not met: $\Delta R^2=0.03250515015613468$, leave-clade-out $\Delta R^2=-0.0021477729853302424$, null $95\%$ maximum $\Delta R^2=0.05427157066522958$, and $\Delta DL=-258.6010084301837$ bits. The dynamic mass-balance audit used $120$ genes and $718$ intervals, but its full residual step decreased fit: $\Delta R^2=-0.07584438093220836$ and $\Delta DL=-668.8046070381928$ bits, with $p_{\mathrm{TEbin}}=0.6831683168316832$ and $p_{\mathrm{timeshuffle}}=0.9306930693069307$. The turnover audit used $3290$ genes and $200$ null draws, with $\Delta R^2=-0.005461979433706483$, $\Delta DL=-13.68819707902732$ bits, $p_{\mathrm{matchedbin}}=0.8855721393034826$, and $p_{\mathrm{recoded}}=1.0$. These rows prevent the yeast rate-slot result from being inflated into a selection law, a full mass-balance closure, or a turnover predictor.
+
+\paragraph{Modeled tAI contact boundary.}
+The modeled tAI survival contact had $3$ organisms and $61$ sense codons, with all standard amino-acid tRNA families present in the local payloads for \emph{E. coli} K12, human, and yeast. The modeled coupling table had $81$ entries above the threshold $0.01$, and its maximum absolute entry was $3801961.031607896$. However, the same finite row also states that $3$ organisms are insufficient for powered survival and that a powered survival claim requires at least $40$ matched species. Consequently, modeled tAI weights can support bounded adaptation-weight readbacks, but they cannot by themselves supply observed ribosome occupancy, translation realization, protein abundance, folding, physical admissibility, function, mechanism, or universality.
+
+\paragraph{Local admissible conclusion.}
+The admissible conclusion is the following finite statement. In the yeast rate-slot experiment, one observed rate-proxy subblock passed both effective null classes on $3289$ genes. This allows the chapter to record an observable execution decomposition for a bounded $B^\ast_{Q6}$ rate-slot surface. It also allows the result to be placed beside the yeast mediation row where $M^{QTP}=0.9491551041216973$ and the indirect component is $0.28320534058057895$. It does not allow a direct $q_i\to p_k$ protein claim when the corresponding $q_i\to t_j$ step is absent, null, or untested.
+
+\paragraph{Local no-promotion rule.}
+The chapter keeps the biological layers separated. A rate proxy, tAI or stAI weight, ribosome-profile route, mRNA control, or protein-abundance row is a bounded contact at its own layer. No translation claim follows from residual geometry alone. No folded structure, physical admissibility, molecular function, mechanism, organismal phenotype, evolutionary law, or universal biological rule follows from the positive rate-slot call. Each such assertion would require its own layer-matched measurement surface and a controlled statistic after the translation step has survived.
