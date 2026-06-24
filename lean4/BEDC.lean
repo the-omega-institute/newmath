@@ -1944,6 +1944,7 @@ import BEDC.Derived.CauchyFilterSpaceUp
 import BEDC.Derived.CauchyFilterSubbasisUp.TasteGate
 import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyFilterUp.TasteGate
+import BEDC.Derived.CauchyGluingLemmaUp
 import BEDC.Derived.CauchyHadamardUp.TasteGate
 import BEDC.Derived.CauchyIntegralFormulaUp
 import BEDC.Derived.CauchyIntegralFormulaUp.TasteGate
