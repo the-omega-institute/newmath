@@ -298,4 +298,72 @@ theorem GroundCompilerEventFlowAuditRouteCarrier_classifier_stability [AskSetup]
   }
   exact ⟨cert, stableUnary⟩
 
+theorem GroundCompilerEventFlowAuditRouteCarrier_certificate_gate_exhaustion
+    [AskSetup] [PackageSetup]
+    {eventFlow legalChannel lossless recognizer certificateGate nonEvidence transport replay
+      provenance localName gateExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GroundCompilerEventFlowAuditRouteCarrier eventFlow legalChannel lossless recognizer
+        certificateGate nonEvidence transport replay provenance localName bundle pkg →
+      Cont certificateGate nonEvidence gateExport →
+        PkgSig bundle gateExport pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row gateExport ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row eventFlow ∨ hsame row legalChannel ∨ hsame row lossless ∨
+                  hsame row recognizer ∨ hsame row certificateGate ∨ hsame row nonEvidence ∨
+                    hsame row gateExport)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont eventFlow legalChannel lossless ∧
+                  Cont lossless recognizer certificateGate ∧
+                    Cont certificateGate nonEvidence gateExport ∧ PkgSig bundle gateExport pkg)
+              hsame ∧ UnaryHistory gateExport := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier certificateNonEvidenceGate gatePkg
+  obtain ⟨_eventFlowUnary, _legalChannelUnary, _losslessUnary, _recognizerUnary,
+    certificateGateUnary, nonEvidenceUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, eventFlowLegalLossless, losslessRecognizerGate,
+    _nonEvidenceTransportReplay, _replayProvenanceLocalName, _localNamePkg⟩ := carrier
+  have gateUnary : UnaryHistory gateExport :=
+    unary_cont_closed certificateGateUnary nonEvidenceUnary certificateNonEvidenceGate
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row gateExport ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row eventFlow ∨ hsame row legalChannel ∨ hsame row lossless ∨
+              hsame row recognizer ∨ hsame row certificateGate ∨ hsame row nonEvidence ∨
+                hsame row gateExport)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont eventFlow legalChannel lossless ∧
+              Cont lossless recognizer certificateGate ∧
+                Cont certificateGate nonEvidence gateExport ∧ PkgSig bundle gateExport pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro gateExport ⟨hsame_refl gateExport, gateUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, eventFlowLegalLossless, losslessRecognizerGate,
+          certificateNonEvidenceGate, gatePkg⟩
+  }
+  exact ⟨cert, gateUnary⟩
+
 end BEDC.Derived.GroundCompilerEventFlowAuditRouteUp
