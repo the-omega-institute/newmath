@@ -1761,8 +1761,10 @@ import BEDC.Derived.CauchyCompletionOperatorUp
 import BEDC.Derived.CauchyCompletionOperatorUp.FunctorialHandoff
 import BEDC.Derived.CauchyCompletionOperatorUp.LedgerNonescape
 import BEDC.Derived.CauchyCompletionOperatorUp.NameCertObligationSurface
+import BEDC.Derived.CauchyCompletionOperatorUp.ObligationTriad
 import BEDC.Derived.CauchyCompletionOperatorUp.SeparatedLimitFactorization
 import BEDC.Derived.CauchyCompletionOperatorUp.TasteGate
+import BEDC.Derived.CauchyCompletionOperatorUp.UniversalFactorization
 import BEDC.Derived.CauchyCompletionOperatorUp.WindowExtraction
 import BEDC.Derived.CauchyCompletionOrderEmbeddingUp.TasteGate
 import BEDC.Derived.CauchyCompletionProductPreservationUp.TasteGate
@@ -1928,6 +1930,7 @@ import BEDC.Derived.CauchyEquivalenceSetoidUp.DownstreamEqualityDependency
 import BEDC.Derived.CauchyEquivalenceSetoidUp.ObligationSurface
 import BEDC.Derived.CauchyEquivalenceSetoidUp.PsameRealClassifierBridge
 import BEDC.Derived.CauchyEquivalenceSetoidUp.RealSealForwardRoute
+import BEDC.Derived.CauchyEquivalenceSetoidUp.RealSeparabilityStableDensity
 import BEDC.Derived.CauchyEquivalenceSetoidUp.SeparatedMetricFactorization
 import BEDC.Derived.CauchyErrorCertificateUp
 import BEDC.Derived.CauchyEstimateUp
