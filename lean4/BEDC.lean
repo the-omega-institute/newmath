@@ -8552,6 +8552,7 @@ import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.PadicUp.ExactDivision
 import BEDC.Derived.PadicUp.FieldCore
+import BEDC.Derived.PadicUp.Hensel
 import BEDC.Derived.PadicUp.IntegerTower
 import BEDC.Derived.PadicUp.IntegerTower.Completeness
 import BEDC.Derived.PadicUp.IntegerTower.RingCompletion
