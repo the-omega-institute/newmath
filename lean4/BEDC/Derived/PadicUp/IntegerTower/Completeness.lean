@@ -220,10 +220,99 @@ def ZpInt_complete (p : BHist) : ZpCompleteSummary p :=
   { limit := fun c => zpLimit _ c
     converges := fun c => zpLimit_converges _ c }
 
-structure QpCompletenessDeferred (p : BHist) where
-  zIntegerCompleteness : ZpCompleteSummary p
+theorem ZpAgreeUpto_right_eq {p : BHist} {N : Nat} {x y z : ZpInt p} :
+    ZpAgreeUpto N x y -> ZpEq y z -> ZpAgreeUpto N x z := by
+  intro agree same M leMN
+  exact (agree M leMN).trans (same (zpuNatToUnary M) (zpuNatToUnary_unary M))
 
-def Qp_completeness_deferred (p : BHist) : QpCompletenessDeferred p :=
-  { zIntegerCompleteness := ZpInt_complete p }
+def qpClearDenomAt {p : BHist} (prime : NatPrime p) (K : Nat)
+    (x : QpInt p) : ZpInt p :=
+  zpScale p prime (K - x.shift) x.value
+
+def QpAgreeUptoAt {p : BHist} (prime : NatPrime p) (K N : Nat)
+    (x y : QpInt p) : Prop :=
+  ZpAgreeUpto N (qpClearDenomAt prime K x) (qpClearDenomAt prime K y)
+
+structure QpAgreeUptoCert {p : BHist} (N : Nat) (x y : QpInt p) where
+  prime : NatPrime p
+  commonShift : Nat
+  leftBound : x.shift ≤ commonShift
+  rightBound : y.shift ≤ commonShift
+  agree : QpAgreeUptoAt prime commonShift N x y
+
+def QpAgreeUpto {p : BHist} (N : Nat) (x y : QpInt p) : Prop :=
+  Nonempty (QpAgreeUptoCert N x y)
+
+structure QpCauchyData {p : BHist} (xs : Nat -> QpInt p) where
+  mu : Nat -> Nat
+  denomBound : Nat
+  bounded : ∀ i : Nat, (xs i).shift ≤ denomBound
+  cauchy : ∀ N i j : Nat, mu N ≤ i -> mu N ≤ j ->
+    QpAgreeUptoAt (xs 0).value.prime denomBound N (xs i) (xs j)
+
+def qpCauchyAgree {p : BHist} {xs : Nat -> QpInt p}
+    (c : QpCauchyData xs) {N i j : Nat}
+    (hi : c.mu N ≤ i) (hj : c.mu N ≤ j) : QpAgreeUpto N (xs i) (xs j) :=
+  ⟨{ prime := (xs 0).value.prime
+     commonShift := c.denomBound
+     leftBound := c.bounded i
+     rightBound := c.bounded j
+     agree := c.cauchy N i j hi hj }⟩
+
+def qpShiftedSeq {p : BHist} (xs : Nat -> QpInt p)
+    (c : QpCauchyData xs) : Nat -> ZpInt p :=
+  fun i => qpClearDenomAt (xs 0).value.prime c.denomBound (xs i)
+
+def qpShiftedCauchyData {p : BHist} (xs : Nat -> QpInt p)
+    (c : QpCauchyData xs) : ZpCauchyData (qpShiftedSeq xs c) :=
+  { mu := c.mu
+    cauchy := fun N i j hi hj => c.cauchy N i j hi hj }
+
+def qpLimit {p : BHist} (xs : Nat -> QpInt p)
+    (c : QpCauchyData xs) : QpInt p :=
+  { shift := c.denomBound
+    value := zpLimit (qpShiftedSeq xs c) (qpShiftedCauchyData xs c) }
+
+theorem qpLimit_clear_bound {p : BHist} (xs : Nat -> QpInt p)
+    (c : QpCauchyData xs) :
+    ZpEq (zpLimit (qpShiftedSeq xs c) (qpShiftedCauchyData xs c))
+      (qpClearDenomAt (xs 0).value.prime c.denomBound (qpLimit xs c)) := by
+  unfold qpClearDenomAt qpLimit
+  dsimp
+  rw [Nat.sub_self]
+  exact ZpEq_symm
+    (zpOne_mul_left p (xs 0).value.prime
+      (zpLimit (qpShiftedSeq xs c) (qpShiftedCauchyData xs c)))
+
+theorem qpLimit_converges_at_bound {p : BHist} (xs : Nat -> QpInt p)
+    (c : QpCauchyData xs) :
+    ∀ N i : Nat, c.mu N ≤ i ->
+      QpAgreeUptoAt (xs 0).value.prime c.denomBound N (xs i) (qpLimit xs c) := by
+  intro N i tail
+  exact ZpAgreeUpto_right_eq
+    (zpLimit_converges (qpShiftedSeq xs c) (qpShiftedCauchyData xs c) N i tail)
+    (qpLimit_clear_bound xs c)
+
+theorem qpLimit_converges {p : BHist} (xs : Nat -> QpInt p)
+    (c : QpCauchyData xs) :
+    ∀ N i : Nat, c.mu N ≤ i -> QpAgreeUpto N (xs i) (qpLimit xs c) := by
+  intro N i tail
+  exact
+    ⟨{ prime := (xs 0).value.prime
+       commonShift := c.denomBound
+       leftBound := c.bounded i
+       rightBound := Nat.le_refl c.denomBound
+       agree := qpLimit_converges_at_bound xs c N i tail }⟩
+
+structure QpCompleteSummary (p : BHist) where
+  zIntegerCompleteness : ZpCompleteSummary p
+  limit : {xs : Nat -> QpInt p} -> QpCauchyData xs -> QpInt p
+  converges : ∀ {xs : Nat -> QpInt p} (c : QpCauchyData xs),
+    ∀ N i : Nat, c.mu N ≤ i -> QpAgreeUpto N (xs i) (limit c)
+
+def Qp_complete (p : BHist) : QpCompleteSummary p :=
+  { zIntegerCompleteness := ZpInt_complete p
+    limit := fun c => qpLimit _ c
+    converges := fun c => qpLimit_converges _ c }
 
 end BEDC.Derived.PadicUp
