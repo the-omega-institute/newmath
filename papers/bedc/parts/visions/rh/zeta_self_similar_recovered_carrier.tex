@@ -200,6 +200,81 @@ $$
 on the declared branch and convergence window.
 \end{proof}
 
+\begin{definition}[Zeta recovered-geometry packet]
+\label{def:rh-zeta-recovered-geometry-packet}
+The zeta recovered-geometry packet is the records-side synthesis
+$$
+\mathsf{ZetaGeom}
+:=
+\operatorname{Rec}
+\left(
+\begin{gathered}
+T_{\mathbb P},\quad
+\mathsf{PrimeFingerprint},\quad
+\mathsf{EulerPhaseChannels},\quad
+\mathsf{LaplaceKernel},\\
+\mathsf{FixedHalfMirror},\quad
+\mathsf{FibonacciHalfModel},\quad
+\mathsf{ZetaRecoveryRows}
+\end{gathered}
+\right).
+$$
+Here $T_{\mathbb P}$ is the finite-support prime-occupancy carrier,
+$\mathsf{PrimeFingerprint}$ is the family $(p^{-s})_{p\in\PrimeUp}$,
+$\mathsf{EulerPhaseChannels}$ records the decompositions
+$$
+p^{-s}=p^{-\sigma}e^{-i\tau\log p},
+\qquad
+U_p(s)=p^{1/2-s},
+$$
+$\mathsf{LaplaceKernel}$ records $e^{-s\log n}=n^{-s}$,
+$\mathsf{FixedHalfMirror}$ records $J(s)=1-\overline{s}$ and
+$s=1/2+\delta+i\tau$, $\mathsf{FibonacciHalfModel}$ records the
+classifier-relative comparison with the golden fixed-half pattern of
+\autoref{prin:rh-zeta-fibonacci-self-similar-comparison-boundary}, and
+$\mathsf{ZetaRecoveryRows}$ abbreviates the Dirichlet, Euler,
+continuation, archimedean-completion, functional-equation, pole, zero,
+branch, and transport ledgers of \autoref{def:rh-layered-zeta-recovery-layer}.
+\end{definition}
+
+\begin{proposition}[Euler phase channels are prime-axis readouts]
+\label{prop:rh-euler-phase-channels-prime-axis-readouts}
+On the displayed right-half-plane window, the exponential kernel sends a
+finite-support prime occupancy row $k\in T_{\mathbb P}$ to the product of
+its prime-axis phase-scale channels:
+$$
+\exp\left(-s\sum_{p}k_p\log p\right)
+=
+\prod_p\left(p^{-\sigma}e^{-i\tau\log p}\right)^{k_p}
+$$
+for $s=\sigma+i\tau$.
+\end{proposition}
+
+\begin{proof}
+The prime-occupancy readback gives
+$$
+\log\Psi(k)=\sum_p k_p\log p.
+$$
+Substituting $s=\sigma+i\tau$ into the exponential kernel gives
+$$
+e^{-s\log p}=e^{-\sigma\log p}e^{-i\tau\log p}=p^{-\sigma}e^{-i\tau\log p}.
+$$
+Multiplying these local reads over the finite support of $k$ yields the
+displayed product.
+\end{proof}
+
+\begin{principle}[Zeta geometry is recovered-carrier geometry]
+\label{prin:rh-zeta-geometry-recovered-carrier-geometry}
+The geometric reading of zeta is not a point-set geometry in the complex
+plane. The complex coordinate $s$ is a compressed history read through
+prime fingerprints, Euler phase-scale channels, the discrete Laplace
+kernel, the recovered-carrier continuation rows, and the fixed-half
+mirror. In this reading, RH is the zero-ledger section claim that
+recognized critical-strip zero packets of $\mathsf{ZetaGeom}$ land in the
+fixed-half surface, equivalently in the unit-amplitude surface of all
+centered prime channels.
+\end{principle}
+
 \begin{principle}[Prime rows are local probes of the recovered carrier]
 \label{prin:rh-prime-rows-local-probes-recovered-carrier}
 In the zeta self-similar packet, ordinary primes are the
