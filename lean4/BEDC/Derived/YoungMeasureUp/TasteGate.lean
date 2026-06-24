@@ -31,7 +31,7 @@ def youngMeasureDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (youngMeasureDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (youngMeasureDecodeBHist tail)
 
-private theorem youngMeasure_decode_encode :
+private theorem YoungMeasureTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist, youngMeasureDecodeBHist (youngMeasureEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -40,9 +40,9 @@ private theorem youngMeasure_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def youngMeasureToEventFlow : YoungMeasureUp → EventFlow
+def youngMeasureToEventFlow : YoungMeasureUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map youngMeasureEncodeBHist (youngMeasureFields x)
+  fun x => (youngMeasureFields x).map youngMeasureEncodeBHist
 
 private def youngMeasureEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -66,11 +66,10 @@ def youngMeasureFromEventFlow (ef : EventFlow) : Option YoungMeasureUp :=
       (youngMeasureDecodeBHist (youngMeasureEventAtDefault 8 ef))
       (youngMeasureDecodeBHist (youngMeasureEventAtDefault 9 ef)))
 
-private theorem youngMeasure_round_trip :
-    ∀ x : YoungMeasureUp,
-      youngMeasureFromEventFlow (youngMeasureToEventFlow x) = some x := by
+private theorem YoungMeasureTasteGate_single_carrier_alignment_round_trip
+    (x : YoungMeasureUp) :
+    youngMeasureFromEventFlow (youngMeasureToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk R P T S Q E H C K N =>
       change
@@ -87,18 +86,19 @@ private theorem youngMeasure_round_trip :
             (youngMeasureDecodeBHist (youngMeasureEncodeBHist K))
             (youngMeasureDecodeBHist (youngMeasureEncodeBHist N))) =
           some (YoungMeasureUp.mk R P T S Q E H C K N)
-      rw [youngMeasure_decode_encode R,
-        youngMeasure_decode_encode P,
-        youngMeasure_decode_encode T,
-        youngMeasure_decode_encode S,
-        youngMeasure_decode_encode Q,
-        youngMeasure_decode_encode E,
-        youngMeasure_decode_encode H,
-        youngMeasure_decode_encode C,
-        youngMeasure_decode_encode K,
-        youngMeasure_decode_encode N]
+      rw [YoungMeasureTasteGate_single_carrier_alignment_decode_encode R,
+        YoungMeasureTasteGate_single_carrier_alignment_decode_encode P,
+        YoungMeasureTasteGate_single_carrier_alignment_decode_encode T,
+        YoungMeasureTasteGate_single_carrier_alignment_decode_encode S,
+        YoungMeasureTasteGate_single_carrier_alignment_decode_encode Q,
+        YoungMeasureTasteGate_single_carrier_alignment_decode_encode E,
+        YoungMeasureTasteGate_single_carrier_alignment_decode_encode H,
+        YoungMeasureTasteGate_single_carrier_alignment_decode_encode C,
+        YoungMeasureTasteGate_single_carrier_alignment_decode_encode K,
+        YoungMeasureTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem youngMeasureToEventFlow_injective {x y : YoungMeasureUp} :
+private theorem YoungMeasureTasteGate_single_carrier_alignment_toEventFlow_injective
+    {x y : YoungMeasureUp} :
     youngMeasureToEventFlow x = youngMeasureToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -107,8 +107,8 @@ private theorem youngMeasureToEventFlow_injective {x y : YoungMeasureUp} :
         youngMeasureFromEventFlow (youngMeasureToEventFlow y) :=
     congrArg youngMeasureFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (youngMeasure_round_trip x).symm
-      (Eq.trans hread (youngMeasure_round_trip y)))
+    (Eq.trans (YoungMeasureTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (YoungMeasureTasteGate_single_carrier_alignment_round_trip y)))
 
 instance youngMeasureBHistCarrier : BHistCarrier YoungMeasureUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -120,10 +120,10 @@ instance youngMeasureChapterTasteGate : ChapterTasteGate YoungMeasureUp where
   round_trip := by
     intro x
     change youngMeasureFromEventFlow (youngMeasureToEventFlow x) = some x
-    exact youngMeasure_round_trip x
+    exact YoungMeasureTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (youngMeasureToEventFlow_injective heq)
+    exact hxy (YoungMeasureTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 theorem YoungMeasureCarrier_namecert_obligations (x : YoungMeasureUp) :
     ∃ localCert : BHist,
@@ -168,5 +168,21 @@ theorem YoungMeasureCarrier_namecert_obligations (x : YoungMeasureUp) :
         exact source
       · intro _row source
         exact source
+
+def taste_gate : ChapterTasteGate YoungMeasureUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  youngMeasureChapterTasteGate
+
+theorem YoungMeasureTasteGate_single_carrier_alignment :
+    (∀ h : BHist, youngMeasureDecodeBHist (youngMeasureEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier YoungMeasureUp) ∧
+        Nonempty (ChapterTasteGate YoungMeasureUp) ∧
+          youngMeasureEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨YoungMeasureTasteGate_single_carrier_alignment_decode_encode,
+      ⟨youngMeasureBHistCarrier⟩,
+      ⟨youngMeasureChapterTasteGate⟩,
+      rfl⟩
 
 end BEDC.Derived.YoungMeasureUp

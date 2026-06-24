@@ -32,7 +32,7 @@ def uniformLimitCauchyCriterionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (uniformLimitCauchyCriterionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (uniformLimitCauchyCriterionDecodeBHist tail)
 
-private theorem uniformLimitCauchyCriterion_decode_encode :
+private theorem UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       uniformLimitCauchyCriterionDecodeBHist
         (uniformLimitCauchyCriterionEncodeBHist h) = h := by
@@ -44,10 +44,9 @@ private theorem uniformLimitCauchyCriterion_decode_encode :
   | e1 h ih => exact congrArg BHist.e1 ih
 
 def uniformLimitCauchyCriterionToEventFlow :
-    UniformLimitCauchyCriterionUp → EventFlow
+    UniformLimitCauchyCriterionUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map uniformLimitCauchyCriterionEncodeBHist
-      (uniformLimitCauchyCriterionFields x)
+  fun x => (uniformLimitCauchyCriterionFields x).map uniformLimitCauchyCriterionEncodeBHist
 
 private def uniformLimitCauchyCriterionEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -83,12 +82,11 @@ def uniformLimitCauchyCriterionFromEventFlow
       (uniformLimitCauchyCriterionDecodeBHist
         (uniformLimitCauchyCriterionEventAtDefault 9 ef)))
 
-private theorem uniformLimitCauchyCriterion_round_trip :
-    ∀ x : UniformLimitCauchyCriterionUp,
-      uniformLimitCauchyCriterionFromEventFlow
-        (uniformLimitCauchyCriterionToEventFlow x) = some x := by
+private theorem UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_round_trip
+    (x : UniformLimitCauchyCriterionUp) :
+    uniformLimitCauchyCriterionFromEventFlow
+      (uniformLimitCauchyCriterionToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk F W M S R E H C P N =>
       change
@@ -115,32 +113,32 @@ private theorem uniformLimitCauchyCriterion_round_trip :
             (uniformLimitCauchyCriterionDecodeBHist
               (uniformLimitCauchyCriterionEncodeBHist N))) =
           some (UniformLimitCauchyCriterionUp.mk F W M S R E H C P N)
-      rw [uniformLimitCauchyCriterion_decode_encode F,
-        uniformLimitCauchyCriterion_decode_encode W,
-        uniformLimitCauchyCriterion_decode_encode M,
-        uniformLimitCauchyCriterion_decode_encode S,
-        uniformLimitCauchyCriterion_decode_encode R,
-        uniformLimitCauchyCriterion_decode_encode E,
-        uniformLimitCauchyCriterion_decode_encode H,
-        uniformLimitCauchyCriterion_decode_encode C,
-        uniformLimitCauchyCriterion_decode_encode P,
-        uniformLimitCauchyCriterion_decode_encode N]
+      rw [UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_decode_encode F,
+        UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_decode_encode W,
+        UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_decode_encode M,
+        UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_decode_encode S,
+        UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_decode_encode R,
+        UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_decode_encode E,
+        UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_decode_encode H,
+        UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_decode_encode C,
+        UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_decode_encode P,
+        UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem uniformLimitCauchyCriterionToEventFlow_injective
+private theorem UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : UniformLimitCauchyCriterionUp} :
-    uniformLimitCauchyCriterionToEventFlow x =
-      uniformLimitCauchyCriterionToEventFlow y → x = y := by
+    uniformLimitCauchyCriterionToEventFlow x = uniformLimitCauchyCriterionToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      uniformLimitCauchyCriterionFromEventFlow
-          (uniformLimitCauchyCriterionToEventFlow x) =
-        uniformLimitCauchyCriterionFromEventFlow
-          (uniformLimitCauchyCriterionToEventFlow y) :=
+      uniformLimitCauchyCriterionFromEventFlow (uniformLimitCauchyCriterionToEventFlow x) =
+        uniformLimitCauchyCriterionFromEventFlow (uniformLimitCauchyCriterionToEventFlow y) :=
     congrArg uniformLimitCauchyCriterionFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (uniformLimitCauchyCriterion_round_trip x).symm
-      (Eq.trans hread (uniformLimitCauchyCriterion_round_trip y)))
+    (Eq.trans
+      (UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_round_trip y)))
 
 instance uniformLimitCauchyCriterionBHistCarrier :
     BHistCarrier UniformLimitCauchyCriterionUp where
@@ -156,10 +154,11 @@ instance uniformLimitCauchyCriterionChapterTasteGate :
     change
       uniformLimitCauchyCriterionFromEventFlow
         (uniformLimitCauchyCriterionToEventFlow x) = some x
-    exact uniformLimitCauchyCriterion_round_trip x
+    exact UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (uniformLimitCauchyCriterionToEventFlow_injective heq)
+    exact hxy
+      (UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
 theorem UniformLimitCauchyCriterionCarrier_namecert_obligations
     (x : UniformLimitCauchyCriterionUp) :
@@ -208,5 +207,23 @@ theorem UniformLimitCauchyCriterionCarrier_namecert_obligations
         exact source
       · intro _row source
         exact source
+
+def taste_gate : ChapterTasteGate UniformLimitCauchyCriterionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  uniformLimitCauchyCriterionChapterTasteGate
+
+theorem UniformLimitCauchyCriterionTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      uniformLimitCauchyCriterionDecodeBHist
+        (uniformLimitCauchyCriterionEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier UniformLimitCauchyCriterionUp) ∧
+        Nonempty (ChapterTasteGate UniformLimitCauchyCriterionUp) ∧
+          uniformLimitCauchyCriterionEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_decode_encode,
+      ⟨uniformLimitCauchyCriterionBHistCarrier⟩,
+      ⟨uniformLimitCauchyCriterionChapterTasteGate⟩,
+      rfl⟩
 
 end BEDC.Derived.UniformLimitCauchyCriterionUp
