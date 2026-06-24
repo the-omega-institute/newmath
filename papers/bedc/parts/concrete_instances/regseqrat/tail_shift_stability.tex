@@ -275,4 +275,18 @@ Next use \autoref{thm:regseqrat-tail-shift-synchronized-readback}. The synchroni
 
 Finally apply \autoref{thm:regseqrat-tail-shift-choice-free-window}. The choice-free finite-window theorem keeps the downstream Real-facing read inside the displayed StreamName schedule and DyadicRatCore tolerance budget. Therefore the regular Cauchy inequality carried by the RegSeqRat ledger is preserved on all inspected tail windows, with no new selector or terminal Real seal.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-shift budget stability]
+\label{thm:regseqrat-tail-shift-budget-stability}
+Let $P$ be an accepted $\RegSeqRatUp$ packet and let $t_0,\ldots,t_k$ be a finite displayed family of admitted tail shifts over the same $\StreamNameUp$ schedule. Suppose the shifted windows preserve the synchronized StreamName finite section, the shared $\DyadicRatCoreUp$ tolerance budget, the regularity ledger, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\RegSeqRatUp}$ rows of $P$. Then every admitted finite tail shift preserves the same DyadicRatCore tolerance ledger and the same RegSeqRat regularity ledger before any downstream $\RealUp$ seal is opened.
+
+The preservation exports no quotient stream equality, selected limit, countable-choice schedule, terminal seal, metric-completeness datum, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-shift-finite-section-induction} to the finite family of admitted shifts. This produces one synchronized finite section whose visible rows are the StreamName windows, dyadic tolerance budget, regularity ledger, transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:regseqrat-tail-shift-choice-free-window} to keep the readback inside that finite section. The theorem rules out replacing the displayed window by a selector or by a terminal Real-facing object.
+
+Finally apply \autoref{thm:dyadicratcore-terminal-radius-half-step-inversion}. The terminal-radius read is forced by the displayed DyadicRatCore denominator and half-step rows, so each admitted tail shift consumes the same tolerance ledger that the RegSeqRat regularity ledger already names.
+\end{proof}
 \closureat{RegSeqRatUp}{seedStr}
