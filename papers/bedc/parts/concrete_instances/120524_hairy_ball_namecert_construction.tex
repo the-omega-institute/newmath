@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\HairyBallUp$}
+\label{ch:concrete-instances-hairy-ball-namecert}
+\origin{human}
+
+Following Brouwer and Hopf-style tangent-field obstruction theorems, the $\HairyBallUp$ packet records the finite BEDC surface by which a tangent vector-field obstruction on an even sphere is named. It reads the circle boundary discipline of \autoref{ch:concrete-instances-s1-namecert}, the degree obstruction row of \autoref{ch:concrete-instances-brouwer-degree-namecert}, the finite chart source of \autoref{ch:concrete-instances-manifold-namecert}, the tangent-bundle rows of \autoref{ch:concrete-instances-vectorbundle-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet stores only displayed rows; it does not import a host tangent field, quotient equality of sphere points, selected zeros, compactness by open covers, or an ambient classical degree theorem.
+
+\begin{definition}[Hairy-ball carrier]
+\label{def:hairy-ball-carrier}
+A $\HairyBallUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,T,V,Z,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the sphere-source row, recording the displayed even-sphere chart and boundary data read through $\ManifoldUp$ and the circle source of \autoref{ch:concrete-instances-s1-namecert}.
+\item $T$ is the tangent-bundle row over $S$, read through $\VectorBundleUp$ and carrying only the displayed fibre and transition data needed for tangent reads.
+\item $V$ is the vector-field row, recording the finite local vector assignments and their compatibility with $T$.
+\item $Z$ is the zero-obstruction row, recording the finite ledger that blocks a nowhere-zero export from the displayed field data.
+\item $D$ is the Brouwer-degree and Euler-obstruction row, read through $\BrouwerDegreeUp$ and used only as the finite obstruction ledger for the displayed sphere route.
+\item $R$ is the terminal $\RealUp$ seal row for the scalar comparison consumed by the obstruction.
+\item $H$ records componentwise $\hsame$ transports for $S,T,V,Z,D,R$ and the structural rows.
+\item $C$ records the displayed $\Cont$ replay order by which consumers read the sphere source, tangent bundle, vector field, zero obstruction, degree obstruction, real seal, transports, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\HairyBallUp$, $\SOneUp$, $\BrouwerDegreeUp$, $\ManifoldUp$, $\VectorBundleUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HairyBallUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host vector field, a selected zero, quotient equality of sphere points, unrestricted compactness, or a classical tangent-bundle theorem outside the displayed rows.
+\end{definition}
+\leanstmt{BEDC.Derived.HairyBallUp}
+
+\begin{theorem}[Hairy-ball NameCert obligations]
+\label{thm:hairy-ball-namecert-obligations}
+For every accepted $\HairyBallUp$ carrier $Q=(S,T,V,Z,D,R,H,C,P,N)$, the local $\NameCert_{\HairyBallUp}$ surface consists exactly of sphere-source admission, tangent-bundle exposure, vector-field row exposure, zero-obstruction retention, Brouwer-degree and Euler-obstruction routing, terminal $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming through the displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hairy-ball-carrier}. The rows $S,T,V$ expose the sphere, tangent-bundle, and vector-field data before any obstruction is read.
+
+The rows $Z,D,R$ then bind the obstruction surface. The zero-obstruction row records the blocked nowhere-zero export, the Brouwer-degree and Euler row supplies the displayed obstruction ledger, and the terminal real row seals the scalar comparison consumed by that ledger.
+
+Finally use $H,C,P,N$. Componentwise transport preserves the same displayed rows, continuation replay fixes their order, provenance names the sibling certificates, and the local NameCert row packages the finite surface. No missing coordinate can supply a host vector field, selected zero, quotient equality, compactness principle, or ambient degree theorem.
+\end{proof}
+
+\begin{theorem}[Hairy-ball tangent-field route]
+\label{thm:hairy-ball-tangent-field-route}
+Every tangent-field consumer of an accepted $\HairyBallUp$ packet must factor through the route
+$$
+S\longmapsto T\longmapsto V\longmapsto Z\longmapsto D\longmapsto R\longmapsto H\longmapsto C\longmapsto P\longmapsto N
+$$
+before reading the displayed obstruction. The exported route is therefore a finite tangent-field obstruction packet over $\ManifoldUp$, $\VectorBundleUp$, $\BrouwerDegreeUp$, $\RealUp$, and $\SOneUp$ rows, not a host theorem selecting a zero or a nowhere-zero vector field.
+\end{theorem}
+\begin{proof}
+Start with $S$ and $T$. The sphere-source row fixes the displayed chart and boundary data, and the tangent-bundle row fixes the fibre reads over that same source.
+
+Next read $V,Z,D,R$. The vector-field row is consumed only as local data over $T$; the zero-obstruction and degree rows record the obstruction ledger; and the real seal is downstream of those rows rather than an independent host comparison.
+
+The structural rows $H,C,P,N$ preserve the same order. Transport, replay, provenance, and naming can repack the displayed packet, but they cannot introduce a selected zero, quotient equality of sphere points, an unrestricted compactness argument, or a classical tangent-field theorem outside the finite carrier.
+\end{proof}
+
+\closureat{HairyBallUp}{seedStr}
+
+\begin{closurestatus}{\HairyBallUp}
+  \constructivestory{A $\HairyBallUp$ packet is generated from a sphere-source row, tangent-bundle row, vector-field row, zero-obstruction row, Brouwer-degree and Euler-obstruction row, terminal RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hairy-ball-carrier}, \autoref{thm:hairy-ball-namecert-obligations}, and \autoref{thm:hairy-ball-tangent-field-route} seed the finite tangent-field obstruction route for HairyBallUp.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a selected zero, a nowhere-zero vector field, quotient equality of sphere points, unrestricted compactness, Lean verification of the obstruction theorem, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, tangent-bundle exposure, vector-field row exposure, zero-obstruction retention, degree-obstruction routing, real-seal routing, transport, replay, provenance, and local naming for BEDC.Derived.HairyBallUp.}
+\end{closurestatus}

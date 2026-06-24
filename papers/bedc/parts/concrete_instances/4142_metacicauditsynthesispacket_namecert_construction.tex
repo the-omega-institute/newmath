@@ -141,6 +141,24 @@ Next combine the consistency-blocker ledger of \autoref{thm:metacic-audit-synthe
 Finally apply route-union exactness, \autoref{thm:metacic-audit-synthesis-route-union-exactness}, and the positive-blocker union theorem, \autoref{thm:metacic-audit-synthesis-positive-blocker-union}. They bind the positive rows and blocker rows into one package through the same transport, replay, provenance, and local naming rows. Thus the obligation surface is precisely the stated finite package, with no additional MetaCIC theorem hidden outside it.
 \end{proof}
 
+\begin{theorem}[MetaCIC audit synthesis public export]
+\label{thm:metacic-audit-synthesis-public-export}
+For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
+$$
+M=(S,C,N,U,D,A,B,H,R,P,L),
+$$
+the downstream-facing public packet consists exactly of the subject-reduction obstruction row $S$, confluence row $C$, normalization row $N$, substitution row $U$, decidable-checking row $D$, closed-normal assembly row $A$, blocker row $B$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $R$, $\Pkg$ provenance row $P$, and local $\NameCert_{\MetaCICAuditSynthesisPacketUp}$ row $L$. Exporting this packet preserves the blocker ledger and does not export closed subject reduction, arbitrary Church--Rosser, candidate-free normalization, global beta-conversion decidability, quotient equality of MetaCIC terms, or full consistency.
+\end{theorem}
+\begin{proof}
+Begin with the certificate surface of \autoref{thm:metacic-audit-synthesis-certificate-surface}. It identifies $S,C,N,U,D,A,B,H,R,P,L$ as the complete local packet, so a downstream-facing export has no additional coordinate beyond those rows.
+
+Use critical-path non-escape from \autoref{thm:metacic-audit-synthesis-critical-path-nonescape}. Every exported consumer route remains inside the same finite row family, and the unavailable MetaCIC claims have no path out of the carrier.
+
+Next combine the consistency-blocker ledger with the closed-normal boundary. Theorems~\ref{thm:metacic-audit-synthesis-consistency-blocker-ledger} and \ref{thm:metacic-audit-synthesis-closed-normal-boundary} keep $S$ and $B$ visible while confining $N$ and $A$ to the named closed-normal branch.
+
+Finally apply route-union exactness and positive-blocker union. Theorems~\ref{thm:metacic-audit-synthesis-route-union-exactness} and \ref{thm:metacic-audit-synthesis-positive-blocker-union} bind the positive rows and blocker rows through $H,R,P,L$, so public export is exactly the stated packet and not any of the excluded full MetaCIC theorems.
+\end{proof}
+
 \begin{theorem}[MetaCIC audit synthesis scope stability]
 \label{thm:metacic-audit-synthesis-scope-stability}
 For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
@@ -240,10 +258,10 @@ Finally apply obligation closure, \autoref{thm:metacic-audit-synthesis-obligatio
 \begin{closurestatus}{\MetaCICAuditSynthesisPacketUp}
   \constructivestory{A $\MetaCICAuditSynthesisPacketUp$ packet is generated from subject-reduction obstruction, confluence, normalization, substitution, decidable-checking, closed-normal assembly, blocker, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:metacic-audit-synthesis-packet-carrier}, \autoref{thm:metacic-audit-synthesis-certificate-surface}, \autoref{thm:metacic-audit-synthesis-critical-path-nonescape}, \autoref{thm:metacic-audit-synthesis-consistency-blocker-ledger}, \autoref{thm:metacic-audit-synthesis-closed-normal-boundary}, \autoref{thm:metacic-audit-synthesis-route-union-exactness}, \autoref{thm:metacic-audit-synthesis-positive-blocker-union}, \autoref{thm:metacic-audit-synthesis-obligation-closure}, \autoref{thm:metacic-audit-synthesis-scope-stability}, \autoref{thm:metacic-audit-synthesis-discharge-projection}, and \autoref{thm:metacic-audit-synthesis-blocker-preserving-positive-projection} bind the finite MetaCIC audit synthesis packet and its blocker ledger as one obligation surface.}
+  \scopeclosed{\autoref{def:metacic-audit-synthesis-packet-carrier}, \autoref{thm:metacic-audit-synthesis-certificate-surface}, \autoref{thm:metacic-audit-synthesis-critical-path-nonescape}, \autoref{thm:metacic-audit-synthesis-consistency-blocker-ledger}, \autoref{thm:metacic-audit-synthesis-closed-normal-boundary}, \autoref{thm:metacic-audit-synthesis-route-union-exactness}, \autoref{thm:metacic-audit-synthesis-positive-blocker-union}, \autoref{thm:metacic-audit-synthesis-obligation-closure}, \autoref{thm:metacic-audit-synthesis-public-export}, \autoref{thm:metacic-audit-synthesis-scope-stability}, \autoref{thm:metacic-audit-synthesis-discharge-projection}, and \autoref{thm:metacic-audit-synthesis-blocker-preserving-positive-projection} bind the finite MetaCIC audit synthesis packet and its blocker ledger as one obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close subject reduction, arbitrary closed Church--Rosser, candidate-free normalization, global beta-conversion decidability, full closed consistency, or bridge checking.}
-  \upgradepath{Public export requires a downstream-facing packet interface for the same scoped audit rows and blocker ledger.}
+  \upgradepath{Public closure requires checked export, transport, replay, provenance, and blocker-preservation rows for BEDC.Derived.MetaCICAuditSynthesisPacketUp.}
 \end{closurestatus}

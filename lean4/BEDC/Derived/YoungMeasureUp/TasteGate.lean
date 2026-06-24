@@ -1,17 +1,23 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.YoungMeasureUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive YoungMeasureUp : Type where
   | mk (R P T S Q E H C K N : BHist) : YoungMeasureUp
   deriving DecidableEq
+
+def youngMeasureFields : YoungMeasureUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | YoungMeasureUp.mk R P T S Q E H C K N => [R, P, T, S, Q, E, H, C, K, N]
 
 def youngMeasureEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -33,10 +39,6 @@ private theorem YoungMeasureTasteGate_single_carrier_alignment_decode_encode :
   | Empty => rfl
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
-
-def youngMeasureFields : YoungMeasureUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | YoungMeasureUp.mk R P T S Q E H C K N => [R, P, T, S, Q, E, H, C, K, N]
 
 def youngMeasureToEventFlow : YoungMeasureUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -122,6 +124,50 @@ instance youngMeasureChapterTasteGate : ChapterTasteGate YoungMeasureUp where
   layer_separation := by
     intro x y hxy heq
     exact hxy (YoungMeasureTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+theorem YoungMeasureCarrier_namecert_obligations (x : YoungMeasureUp) :
+    ∃ localCert : BHist,
+      SemanticNameCert
+        (fun row : BHist => hsame row localCert ∧ localCert ∈ youngMeasureFields x)
+        (fun row : BHist => hsame row localCert ∧ localCert ∈ youngMeasureFields x)
+        (fun row : BHist => hsame row localCert ∧ localCert ∈ youngMeasureFields x)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert NameCert
+  cases x with
+  | mk R P T S Q E H C K localCert =>
+      refine ⟨localCert, ?_⟩
+      refine
+        { core :=
+            { carrier_inhabited := ?_
+              equiv_refl := ?_
+              equiv_symm := ?_
+              equiv_trans := ?_
+              carrier_respects_equiv := ?_ }
+          pattern_sound := ?_
+          ledger_sound := ?_ }
+      · exact
+          ⟨localCert, hsame_refl localCert,
+            List.Mem.tail _ <|
+              List.Mem.tail _ <|
+                List.Mem.tail _ <|
+                  List.Mem.tail _ <|
+                    List.Mem.tail _ <|
+                      List.Mem.tail _ <|
+                        List.Mem.tail _ <|
+                          List.Mem.tail _ <|
+                            List.Mem.tail _ <| List.Mem.head _⟩
+      · intro row _source
+        exact hsame_refl row
+      · intro _row _row' same
+        exact hsame_symm same
+      · intro _row _row' _row'' same₁ same₂
+        exact hsame_trans same₁ same₂
+      · intro _row _row' same source
+        exact ⟨hsame_trans (hsame_symm same) source.left, source.right⟩
+      · intro _row source
+        exact source
+      · intro _row source
+        exact source
 
 def taste_gate : ChapterTasteGate YoungMeasureUp :=
   -- BEDC touchpoint anchor: BHist BMark
