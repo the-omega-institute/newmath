@@ -5,6 +5,7 @@ namespace BEDC.Derived.RationalUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.Unary
+open BEDC.FKernel.Cont
 open BEDC.FKernel.ExternalBinary (bwordLength)
 open BEDC.Derived.IntUp
 open BEDC.Derived.NatUp
@@ -477,6 +478,377 @@ theorem ratVal_repr_eq_well_defined {p : BHist} {x y : RatNum}
   cases same
   exact val
 
+private theorem ratNatLeBool_true_to_le {a b : Nat} :
+    natLeBool a b = true -> a ≤ b := by
+  induction a generalizing b with
+  | zero =>
+      intro _h
+      exact Nat.zero_le b
+  | succ a ih =>
+      cases b with
+      | zero =>
+          intro h
+          cases h
+      | succ b =>
+          intro h
+          exact Nat.succ_le_succ (ih h)
+
+private theorem ratNatLeBool_false_to_lt {a b : Nat} :
+    natLeBool a b = false -> b < a := by
+  induction a generalizing b with
+  | zero =>
+      intro h
+      cases b <;> cases h
+  | succ a ih =>
+      cases b with
+      | zero =>
+          intro _h
+          exact Nat.succ_pos a
+      | succ b =>
+          intro h
+          exact Nat.succ_lt_succ (ih h)
+
+private theorem unary_hsame_of_length {h k : BHist} :
+    UnaryHistory h -> UnaryHistory k -> bwordLength h = bwordLength k -> hsame h k := by
+  intro hUnary kUnary lengthEq
+  exact (NatUp_unary_standard_bridge.right.right.right.left hUnary kUnary).mpr lengthEq
+
+private theorem intEq_positive_magnitude_hsame {z : IntegerUp} {a : BHist} :
+    UnaryHistory a -> IntPairClassifier (intToPair z) (a, BHist.Empty) ->
+      hsame z.magnitude a := by
+  intro aUnary classified
+  cases z with
+  | mk sign magnitude carrier =>
+      cases sign with
+      | b0 =>
+          have lenEq := IntPairClassifier_length_eq classified
+          change bwordLength magnitude + bwordLength BHist.Empty =
+            bwordLength a + bwordLength BHist.Empty at lenEq
+          rw [NatUp_unary_standard_bridge.left, Nat.add_zero, Nat.add_zero] at lenEq
+          exact unary_hsame_of_length carrier.right aUnary lenEq
+      | b1 =>
+          have lenEq := IntPairClassifier_length_eq classified
+          change bwordLength BHist.Empty + bwordLength BHist.Empty =
+            bwordLength a + bwordLength magnitude at lenEq
+          rw [NatUp_unary_standard_bridge.left, Nat.zero_add] at lenEq
+          have sumZero : bwordLength a + bwordLength magnitude = 0 := lenEq.symm
+          have aZero : bwordLength a = 0 := Nat.eq_zero_of_add_eq_zero_right sumZero
+          have magZero : bwordLength magnitude = 0 := Nat.eq_zero_of_add_eq_zero_left sumZero
+          exact unary_hsame_of_length carrier.right aUnary (magZero.trans aZero.symm)
+
+private theorem intEq_negative_magnitude_hsame {z : IntegerUp} {a : BHist} :
+    UnaryHistory a -> IntPairClassifier (intToPair z) (BHist.Empty, a) ->
+      hsame z.magnitude a := by
+  intro aUnary classified
+  cases z with
+  | mk sign magnitude carrier =>
+      cases sign with
+      | b0 =>
+          have lenEq := IntPairClassifier_length_eq classified
+          change bwordLength magnitude + bwordLength a =
+            bwordLength BHist.Empty + bwordLength BHist.Empty at lenEq
+          rw [NatUp_unary_standard_bridge.left, Nat.zero_add] at lenEq
+          have sumZero : bwordLength magnitude + bwordLength a = 0 := lenEq
+          have magZero : bwordLength magnitude = 0 := Nat.eq_zero_of_add_eq_zero_right sumZero
+          have aZero : bwordLength a = 0 := Nat.eq_zero_of_add_eq_zero_left sumZero
+          exact unary_hsame_of_length carrier.right aUnary (magZero.trans aZero.symm)
+      | b1 =>
+          have lenEq := IntPairClassifier_length_eq classified
+          change bwordLength BHist.Empty + bwordLength a =
+            bwordLength BHist.Empty + bwordLength magnitude at lenEq
+          rw [NatUp_unary_standard_bridge.left, Nat.zero_add, Nat.zero_add] at lenEq
+          exact unary_hsame_of_length carrier.right aUnary lenEq.symm
+
+private theorem pairMul_opposite_sign_nat (a b : BHist)
+    (ha : UnaryHistory a) (hb : UnaryHistory b) :
+    IntPairClassifier
+      (pairMul (a, BHist.Empty) (BHist.Empty, b))
+      (BHist.Empty, natMulFn a b) := by
+  apply IntPairClassifier_of_length_eq
+    (pairMul_carrier ⟨ha, unary_empty⟩ ⟨unary_empty, hb⟩)
+    ⟨unary_empty, natMulFn_unary ha hb⟩
+  change bwordLength (pairMul (a, BHist.Empty) (BHist.Empty, b)).1 +
+      bwordLength (natMulFn a b) =
+    bwordLength BHist.Empty +
+      bwordLength (pairMul (a, BHist.Empty) (BHist.Empty, b)).2
+  rw [pairMul_pos_length (a, BHist.Empty) (BHist.Empty, b)
+    ⟨ha, unary_empty⟩ ⟨unary_empty, hb⟩]
+  rw [pairMul_neg_length (a, BHist.Empty) (BHist.Empty, b)
+    ⟨ha, unary_empty⟩ ⟨unary_empty, hb⟩]
+  rw [natMulFn_bwordLength ha hb]
+  rw [NatUp_unary_standard_bridge.left]
+  rw [Nat.mul_zero, Nat.zero_mul, Nat.zero_mul, Nat.zero_add, Nat.add_zero]
+  change bwordLength a * bwordLength b =
+    0 + bwordLength a * bwordLength b
+  rw [Nat.zero_add]
+
+private theorem pairMul_opposite_sign_nat_rev (a b : BHist)
+    (ha : UnaryHistory a) (hb : UnaryHistory b) :
+    IntPairClassifier
+      (pairMul (BHist.Empty, a) (b, BHist.Empty))
+      (BHist.Empty, natMulFn a b) := by
+  apply IntPairClassifier_of_length_eq
+    (pairMul_carrier ⟨unary_empty, ha⟩ ⟨hb, unary_empty⟩)
+    ⟨unary_empty, natMulFn_unary ha hb⟩
+  change bwordLength (pairMul (BHist.Empty, a) (b, BHist.Empty)).1 +
+      bwordLength (natMulFn a b) =
+    bwordLength BHist.Empty +
+      bwordLength (pairMul (BHist.Empty, a) (b, BHist.Empty)).2
+  rw [pairMul_pos_length (BHist.Empty, a) (b, BHist.Empty)
+    ⟨unary_empty, ha⟩ ⟨hb, unary_empty⟩]
+  rw [pairMul_neg_length (BHist.Empty, a) (b, BHist.Empty)
+    ⟨unary_empty, ha⟩ ⟨hb, unary_empty⟩]
+  rw [natMulFn_bwordLength ha hb]
+  rw [NatUp_unary_standard_bridge.left]
+  rw [Nat.zero_mul, Nat.mul_zero, Nat.zero_mul, Nat.zero_add]
+  change bwordLength a * bwordLength b =
+    0 + bwordLength a * bwordLength b
+  rw [Nat.zero_add]
+
+theorem intMul_magnitude_natMul (x y : IntegerUp) :
+    NatMul x.magnitude y.magnitude (IntMul x y).magnitude := by
+  have productRel : NatMul x.magnitude y.magnitude
+      (natMulFn x.magnitude y.magnitude) :=
+    natMulFn_rel x.carrier.right y.carrier.right
+  have productUnary : UnaryHistory (natMulFn x.magnitude y.magnitude) :=
+    natMulFn_unary x.carrier.right y.carrier.right
+  have sameMagnitude :
+      hsame (IntMul x y).magnitude (natMulFn x.magnitude y.magnitude) := by
+    cases x with
+    | mk sx mx cx =>
+        cases y with
+        | mk sy my cy =>
+            cases sx with
+            | b0 =>
+                cases sy with
+                | b0 =>
+                    have classified :
+                        IntPairClassifier
+                          (intToPair (IntMul
+                            { sign := BMark.b0, magnitude := mx, carrier := cx }
+                            { sign := BMark.b0, magnitude := my, carrier := cy }))
+                          (natMulFn mx my, BHist.Empty) := by
+                      exact IntPairClassifier_equivalence_fields.right.right.right.right.left
+                        (intMul_pair_classifier
+                          { sign := BMark.b0, magnitude := mx, carrier := cx }
+                          { sign := BMark.b0, magnitude := my, carrier := cy })
+                        (pairMul_same_sign_nat BMark.b0 mx my cx.right cy.right)
+                    exact intEq_positive_magnitude_hsame productUnary classified
+                | b1 =>
+                    have classified :
+                        IntPairClassifier
+                          (intToPair (IntMul
+                            { sign := BMark.b0, magnitude := mx, carrier := cx }
+                            { sign := BMark.b1, magnitude := my, carrier := cy }))
+                          (BHist.Empty, natMulFn mx my) := by
+                      exact IntPairClassifier_equivalence_fields.right.right.right.right.left
+                        (intMul_pair_classifier
+                          { sign := BMark.b0, magnitude := mx, carrier := cx }
+                          { sign := BMark.b1, magnitude := my, carrier := cy })
+                        (pairMul_opposite_sign_nat mx my cx.right cy.right)
+                    exact intEq_negative_magnitude_hsame productUnary classified
+            | b1 =>
+                cases sy with
+                | b0 =>
+                    have classified :
+                        IntPairClassifier
+                          (intToPair (IntMul
+                            { sign := BMark.b1, magnitude := mx, carrier := cx }
+                            { sign := BMark.b0, magnitude := my, carrier := cy }))
+                          (BHist.Empty, natMulFn mx my) := by
+                      exact IntPairClassifier_equivalence_fields.right.right.right.right.left
+                        (intMul_pair_classifier
+                          { sign := BMark.b1, magnitude := mx, carrier := cx }
+                          { sign := BMark.b0, magnitude := my, carrier := cy })
+                        (pairMul_opposite_sign_nat_rev mx my cx.right cy.right)
+                    exact intEq_negative_magnitude_hsame productUnary classified
+                | b1 =>
+                    have classified :
+                        IntPairClassifier
+                          (intToPair (IntMul
+                            { sign := BMark.b1, magnitude := mx, carrier := cx }
+                            { sign := BMark.b1, magnitude := my, carrier := cy }))
+                          (natMulFn mx my, BHist.Empty) := by
+                      exact IntPairClassifier_equivalence_fields.right.right.right.right.left
+                        (intMul_pair_classifier
+                          { sign := BMark.b1, magnitude := mx, carrier := cx }
+                          { sign := BMark.b1, magnitude := my, carrier := cy })
+                        (pairMul_same_sign_nat BMark.b1 mx my cx.right cy.right)
+                    exact intEq_positive_magnitude_hsame productUnary classified
+  exact (NatMul_result_hsame_transport productRel (hsame_symm sameMagnitude)).right
+
+private theorem IntEq_magnitude_hsame {x y : IntegerUp} :
+    IntEq x y -> hsame x.magnitude y.magnitude := by
+  intro same
+  cases x with
+  | mk sx mx cx =>
+      cases y with
+      | mk sy my cy =>
+          cases sx with
+          | b0 =>
+              cases sy with
+              | b0 =>
+                  have lenEq := IntPairClassifier_length_eq same
+                  change bwordLength mx + bwordLength BHist.Empty =
+                    bwordLength my + bwordLength BHist.Empty at lenEq
+                  rw [NatUp_unary_standard_bridge.left, Nat.add_zero, Nat.add_zero] at lenEq
+                  exact unary_hsame_of_length cx.right cy.right lenEq
+              | b1 =>
+                  have lenEq := IntPairClassifier_length_eq same
+                  change bwordLength mx + bwordLength my =
+                    bwordLength BHist.Empty + bwordLength BHist.Empty at lenEq
+                  rw [NatUp_unary_standard_bridge.left, Nat.zero_add] at lenEq
+                  have mxZero : bwordLength mx = 0 :=
+                    Nat.eq_zero_of_add_eq_zero_right lenEq
+                  have myZero : bwordLength my = 0 :=
+                    Nat.eq_zero_of_add_eq_zero_left lenEq
+                  exact unary_hsame_of_length cx.right cy.right (mxZero.trans myZero.symm)
+          | b1 =>
+              cases sy with
+              | b0 =>
+                  have lenEq := IntPairClassifier_length_eq same
+                  change bwordLength BHist.Empty + bwordLength BHist.Empty =
+                    bwordLength my + bwordLength mx at lenEq
+                  rw [NatUp_unary_standard_bridge.left, Nat.zero_add] at lenEq
+                  have sumZero : bwordLength my + bwordLength mx = 0 := lenEq.symm
+                  have myZero : bwordLength my = 0 :=
+                    Nat.eq_zero_of_add_eq_zero_right sumZero
+                  have mxZero : bwordLength mx = 0 :=
+                    Nat.eq_zero_of_add_eq_zero_left sumZero
+                  exact unary_hsame_of_length cx.right cy.right (mxZero.trans myZero.symm)
+              | b1 =>
+                  have lenEq := IntPairClassifier_length_eq same
+                  change bwordLength BHist.Empty + bwordLength my =
+                    bwordLength BHist.Empty + bwordLength mx at lenEq
+                  rw [NatUp_unary_standard_bridge.left, Nat.zero_add, Nat.zero_add] at lenEq
+                  exact unary_hsame_of_length cx.right cy.right lenEq.symm
+
+private theorem IsPadicValNat_result_hsame_transport {p n n' k : BHist} :
+    IsPadicValNat p n k -> hsame n n' -> IsPadicValNat p n' k := by
+  intro val same
+  constructor
+  · cases val.left with
+    | intro pk data =>
+        exact ⟨pk, data.left, (NatDivides_dividend_hsame_transport data.right same).right⟩
+  · intro succDivides
+    cases succDivides with
+    | intro pk data =>
+        have shifted :
+            NatDivides pk n :=
+          (NatDivides_dividend_hsame_transport data.right (hsame_symm same)).right
+        exact val.right ⟨pk, data.left, shifted⟩
+
+private theorem IsPadicValInt_IntEq_unique {p : BHist} {x y : IntegerUp}
+    {j k : BHist} :
+    IntEq x y ->
+      IsPadicValInt p (x.sign, x.magnitude) j ->
+        IsPadicValInt p (y.sign, y.magnitude) k ->
+          hsame j k := by
+  intro same xVal yVal
+  have magSame : hsame x.magnitude y.magnitude := IntEq_magnitude_hsame same
+  exact IsPadicValNat_unique
+    (IsPadicValNat_result_hsame_transport xVal.right magSame)
+    yVal.right
+
+private theorem IsPadicValInt_mul_index {p : BHist} (prime : NatPrime p)
+    {x y : IntegerUp} {j k : BHist} :
+    IsPadicValInt p (x.sign, x.magnitude) j ->
+      IsPadicValInt p (y.sign, y.magnitude) k ->
+        IsPadicValInt p ((IntMul x y).sign, (IntMul x y).magnitude)
+          (append j k) := by
+  intro xVal yVal
+  have add : NatAdd j k (append j k) :=
+    NatAdd_append_self
+      (PDvdNat_power_unary xVal.right.left).right
+      (PDvdNat_power_unary yVal.right.left).right
+  have product :
+      IntMagnitudeProduct (x.sign, x.magnitude) (y.sign, y.magnitude)
+        ((IntMul x y).sign, (IntMul x y).magnitude) :=
+    ⟨x.carrier, y.carrier, (IntMul x y).carrier, intMul_magnitude_natMul x y⟩
+  exact IsPadicValInt_magnitude_product_exact
+    (NatPrime.toNatEuclidPrime prime) xVal yVal add product
+
+private theorem ratVal_same_repr_unique {p : BHist} {x : RatNum}
+    {j k : BHist × BHist} :
+    ratVal p x j -> ratVal p x k -> IntPairClassifier j k := by
+  intro left right
+  have sameNum : hsame j.1 k.1 :=
+    IsPadicValNat_unique left.left.right right.left.right
+  have sameDen : hsame j.2 k.2 :=
+    IsPadicValNat_unique left.right.left.right right.right.left.right
+  exact IntPairClassifier_equivalence_fields.right.right.right.right.right
+    (IntPairClassifier_equivalence_fields.right.right.left left.right.right)
+    (hsame_refl j.1) (hsame_refl j.2) sameNum sameDen
+    left.right.right right.right.right
+
+theorem ratVal_mul {p : BHist} (prime : NatPrime p)
+    {x y : RatNum} {j k : BHist × BHist} :
+    ratVal p x j -> ratVal p y k ->
+      ratVal p (ratMul x y) (ratValAdd j k) := by
+  intro xVal yVal
+  unfold ratVal ratValAdd
+  constructor
+  · have addNum : NatAdd j.1 k.1 (pairAdd j k).1 :=
+      NatAdd_append_self
+        (PDvdNat_power_unary xVal.left.right.left).right
+        (PDvdNat_power_unary yVal.left.right.left).right
+    have productNum :
+        IntMagnitudeProduct
+          (x.num.sign, x.num.magnitude)
+          (y.num.sign, y.num.magnitude)
+          ((IntMul x.num y.num).sign, (IntMul x.num y.num).magnitude) := by
+      exact ⟨x.num.carrier, y.num.carrier, (IntMul x.num y.num).carrier,
+        intMul_magnitude_natMul x.num y.num⟩
+    exact IsPadicValInt_magnitude_product_exact
+      (NatPrime.toNatEuclidPrime prime) xVal.left yVal.left addNum productNum
+  · constructor
+    · have addDen : NatAdd j.2 k.2 (pairAdd j k).2 :=
+        NatAdd_append_self
+          (PDvdNat_power_unary xVal.right.left.right.left).right
+          (PDvdNat_power_unary yVal.right.left.right.left).right
+      have productDen :
+          IntMagnitudeProduct
+            (BMark.b0, x.den) (BMark.b0, y.den)
+            (BMark.b0, (ratMul x y).den) := by
+        unfold ratMul
+        exact ⟨⟨Or.inl rfl, ratDenCarrier x⟩, ⟨Or.inl rfl, ratDenCarrier y⟩,
+          ⟨Or.inl rfl, natMulFn_unary (ratDenCarrier x) (ratDenCarrier y)⟩,
+          natMulFn_rel (ratDenCarrier x) (ratDenCarrier y)⟩
+      exact IsPadicValInt_magnitude_product_exact
+        (NatPrime.toNatEuclidPrime prime) xVal.right.left yVal.right.left addDen productDen
+    · exact pairAdd_carrier xVal.right.right yVal.right.right
+
+theorem ratVal_well_defined {p : BHist} (prime : NatPrime p)
+    {x y : RatNum} {j k : BHist × BHist} :
+    RatEq x y -> ratVal p x j -> ratVal p y k -> IntPairClassifier j k := by
+  intro same xVal yVal
+  let xd : IntegerUp := ratDenInt x
+  let yd : IntegerUp := ratDenInt y
+  let xCross : IntegerUp := IntMul x.num yd
+  let yCross : IntegerUp := IntMul y.num xd
+  have ydVal : IsPadicValInt p (yd.sign, yd.magnitude) k.2 := by
+    unfold yd ratDenInt intOfNat
+    exact yVal.right.left
+  have xdVal : IsPadicValInt p (xd.sign, xd.magnitude) j.2 := by
+    unfold xd ratDenInt intOfNat
+    exact xVal.right.left
+  have xCrossVal :
+      IsPadicValInt p (xCross.sign, xCross.magnitude) (append j.1 k.2) := by
+    unfold xCross
+    exact IsPadicValInt_mul_index prime xVal.left ydVal
+  have yCrossVal :
+      IsPadicValInt p (yCross.sign, yCross.magnitude) (append k.1 j.2) := by
+    unfold yCross
+    exact IsPadicValInt_mul_index prime yVal.left xdVal
+  have crossSame : IntEq xCross yCross := by
+    unfold RatEq at same
+    change IntPairClassifier (intToPair xCross) (intToPair yCross)
+    unfold xCross yCross xd yd IntMul ratDenInt
+    exact same
+  have sameIndex : hsame (append j.1 k.2) (append k.1 j.2) :=
+    IsPadicValInt_IntEq_unique crossSame xCrossVal yCrossVal
+  exact ⟨xVal.right.right, yVal.right.right, sameIndex⟩
+
 def ratAbsInfty (x : RatNum) : RatNum :=
   ratMagnitude x
 
@@ -487,5 +859,17 @@ theorem ratAbsInfty_den (x : RatNum) :
 theorem ratAbsInfty_num_nonnegative (x : RatNum) :
     (ratAbsInfty x).num.sign = BMark.b0 := by
   exact ratMagnitude_num_nonnegative x
+
+theorem rational_product_formula_factorization_bridge
+    (x : RatNum) (hx : ratApart0 x) :
+    (∃ entries : List BHist, IntegerPrimeFactorization x.num entries) ∧
+      (∃ entries : List BHist, IntegerPrimeFactorization (ratDenInt x) entries) ∧
+        hsame (ratAbsInfty x).den x.den := by
+  constructor
+  · exact product_formula x.num (intApart0_magnitude_nonempty hx)
+  · constructor
+    · exact product_formula (ratDenInt x)
+        (intApart0_magnitude_nonempty (ratDenInt_nonzero x))
+    · exact ratAbsInfty_den x
 
 end BEDC.Derived.RationalUp
