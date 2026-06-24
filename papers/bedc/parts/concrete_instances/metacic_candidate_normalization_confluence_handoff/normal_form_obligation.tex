@@ -82,3 +82,36 @@ parallel-diamond residual surfaces visible before the handoff reaches a
 consumer. Hence the endpoint remains a retained-premise normal-form handoff and
 no candidate-free normalization or quotient syntax equality is exposed.
 \end{proof}
+
+\begin{theorem}[MetaCIC candidate-normalization residual budget]
+\label{thm:metacic-candidate-normalization-residual-budget}
+Any normal-form endpoint exported by an accepted
+$\MetacicCandidateNormalizationConfluenceHandoffUp$ packet to a
+strong-normalization-facing consumer must retain, before the endpoint is read,
+the candidate evidence, residual-diamond retention row, decidable-boundary data,
+blocked-edge rows, bounded local peak rows, join-budget rows, and the sibling
+confluence route. The endpoint is therefore a finite residual-budget read, not
+candidate-free normalization, global confluence, unrestricted subject reduction,
+quotient syntax equality, evaluator soundness, or closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the normal-form obligation of
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-form-obligation}
+and the retained-premise handoff of
+\autoref{thm:metacic-candidate-normalization-confluence-retained-premise-normal-form}.
+Together they force candidate evidence and the sibling confluence route to
+remain visible before a normal-form endpoint is exported.
+
+Use residual-diamond retention from
+\autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention}.
+It keeps the residual envelope, decidable-boundary data, and blocked-edge rows
+attached to the endpoint read rather than allowing a detached normal-form token.
+
+Finally apply the diamond-budget route of
+\autoref{thm:metacic-candidate-normalization-diamond-budget-route}. Its bounded
+local peak and join-budget rows are the finite budget a
+strong-normalization-facing consumer may inspect. Since the cited rows exhaust
+the exported endpoint surface, none of candidate-free normalization, global
+confluence, unrestricted subject reduction, quotient syntax equality, evaluator
+soundness, or closed consistency is supplied.
+\end{proof}
