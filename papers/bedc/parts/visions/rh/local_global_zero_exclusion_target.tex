@@ -34,6 +34,51 @@ fixed surface by a positive rational witness cannot carry a zeta-zero row
 inside the completed zeta carrier.
 \end{definition}
 
+\begin{definition}[Zero-ledger fixed-half geometry]
+\label{def:rh-zero-ledger-fixed-half-geometry}
+The zero-ledger fixed-half geometry is the inclusion-style statement
+$$
+\mathsf{ZeroLedger}_{\zeta}
+\subseteq
+\operatorname{Fix}(J),
+$$
+read internally as
+$$
+\prod_{c:\mathcal C_{\zeta}}
+\bigl(
+Z_{\zeta}(c)\to J_{\zeta}(c)=c
+\bigr).
+$$
+The notation does not introduce a host-side point set of zeros. It is the
+source fixed-section target of
+\autoref{def:rh-layered-zero-fixed-section-orbit-exclusions}, read inside
+the completed zeta carrier of \autoref{def:rh-layered-zeta-recovery-layer}.
+\end{definition}
+
+\begin{theorem}[Geometric compression of RH]
+\label{thm:rh-geometric-compression-zero-ledger-fixed-half}
+The geometric statement
+$$
+\mathsf{ZeroLedger}_{\zeta}
+\subseteq
+\operatorname{Fix}(J)
+$$
+is the same RH target as the section form $\mathsf{Sec}_{\mathsf{RH}}$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-zero-ledger-fixed-half-geometry}, the displayed
+inclusion is the product
+$$
+\prod_{c:\mathcal C_{\zeta}}
+\bigl(Z_{\zeta}(c)\to J_{\zeta}(c)=c\bigr),
+$$
+which is $\mathsf{ZeroFix}_{\zeta}$ in
+\autoref{def:rh-layered-zero-fixed-section-orbit-exclusions}. The
+equivalence with $\mathsf{Sec}_{\mathsf{RH}}$ is
+\autoref{thm:rh-layered-source-fixed-section-target}.
+\end{proof}
+
 \begin{theorem}[Local-global zero exclusion gives the RH witness target]
 \label{thm:rh-local-global-zero-exclusion-gives-rh-target}
 Assume the real bias readout is located and that
@@ -180,6 +225,28 @@ Applying \autoref{def:rh-defect-zero-incompatibility} yields
 $\mathsf{Apart}_{0}(\zeta(c))$, which is the required output of
 \autoref{def:rh-local-global-zero-exclusion-target}.
 \end{proof}
+
+\begin{principle}[Geometric content of the remaining target]
+\label{prin:rh-geometric-content-local-global-zero-exclusion}
+The fixed-half translations of \autoref{thm:rh-layered-translations}
+identify the same surface through real part, mirror fixedness,
+prime-unitary balance, information bias, Laplace bias, and
+$\mathsf{OnCritLine}$ witnesses. What remains is not another translation
+of that surface. It is the positive-apartness incompatibility
+$$
+\bigl(\mathcal C_{\zeta}\setminus\operatorname{Fix}(J)\bigr)
+\cap
+\mathsf{ZeroLedger}_{\zeta}
+=
+\varnothing
+$$
+read constructively as
+$$
+\mathsf{ApartNonFix}_{J}(c)
+\to
+\mathsf{Apart}_{0}(\zeta(c)).
+$$
+\end{principle}
 
 \begin{principle}[No further route layer]
 \label{prin:rh-no-further-route-layer}
