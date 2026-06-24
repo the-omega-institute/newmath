@@ -58,6 +58,18 @@ The strong-normalization projection $S$ and no-infinite-reduction projection $I$
 The structural rows $H,C,P,N$ preserve this route under transport, replay, provenance, and local naming. Therefore the packet is a finite frontier handoff for the audit map, not a global strong-normalization theorem.
 \end{proof}
 
+\begin{theorem}[NormalizationCandidateFrontier sibling dependency]
+\label{thm:normalization-candidate-frontier-sibling-dependency}
+Every accepted $\NormalizationCandidateFrontierUp$ audit read supplies evidence and refusal rows to the MetaCIC normalization route of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert} and \autoref{ch:metacic-normalization-audit-map}. The rows $E,B,S,I,O,H,C,P,N$ are consumed as candidate-evidence, bounded-route, projection, obstruction, transport, replay, provenance, and local naming data; they are not a replacement for the sibling normalization frontier and do not assert evidence-free closed-term normalization.
+\end{theorem}
+\begin{proof}
+Use the audit handoff of \autoref{thm:normalization-candidate-frontier-audit-handoff}. It routes every public read through the closed term window, candidate evidence, bounded route, positive projections, and obstruction row before a normalization audit consumer may cite the packet.
+
+The MetaCIC normalization frontier sibling consumes exactly those rows as finite evidence and refusal data. The audit map supplies the route on which they are read, while $H,C,P,N$ preserve the same dependency under transport, replay, provenance, and local naming.
+
+Since the packet retains $O$ as an explicit obstruction row, the dependency cannot erase candidate evidence or promote the frontier into a global strong-normalization theorem.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\NormalizationCandidateFrontierUp$ consumer that exports closed-term strong normalization while omitting the candidate-evidence row $E$, bounded route row $B$, or obstruction row $O$ refutes the packet.}
 
 \independenceWitness{normalization\_candidate\_socket, bounded\_normalization\_candidate, metacicnormalizationfrontier, metaciccriticalpath: the socket separates candidate families, the bounded candidate packet records finite fuel and adequacy data, the MetaCIC frontier records normalization boundary rows, and the critical path records dependency pressure; none is bijective with $\NormalizationCandidateFrontierUp$ because this packet jointly carries the closed term window, candidate evidence, bounded route, positive projections, explicit obstruction, transport, replay, provenance, and local naming as one frontier carrier.}
@@ -69,7 +81,7 @@ Later Lean $\TasteGate$ coverage for this packet must provide $\Nontrivial$ and 
 \begin{closurestatus}{\NormalizationCandidateFrontierUp}
   \constructivestory{A $\NormalizationCandidateFrontierUp$ packet is generated from a closed typed MetaCIC term window, candidate-evidence row, bounded-candidate route, candidate-supported strong-normalization projection, no-infinite-reduction projection, frontier obstruction, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:normalization-candidate-frontier-carrier}, \autoref{thm:normalization-candidate-frontier-stability}, and \autoref{thm:normalization-candidate-frontier-audit-handoff} seed the finite candidate/refusal boundary for MetaCIC normalization audit consumers.}
+  \scopeclosed{\autoref{def:normalization-candidate-frontier-carrier}, \autoref{thm:normalization-candidate-frontier-stability}, \autoref{thm:normalization-candidate-frontier-audit-handoff}, and \autoref{thm:normalization-candidate-frontier-sibling-dependency} seed the finite candidate/refusal boundary for MetaCIC normalization audit consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, global strong normalization, candidate-erased closed-term normalization, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluator soundness, completed closed consistency, or bridge checking.}
