@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyUniqueLimitUp$}
+\label{ch:concrete-instances-regular-cauchy-unique-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyUniqueLimitUp$ packet records the separated uniqueness surface for regular Cauchy rational names before any quotient completion is formed. It sits between the $\RegSeqRatUp$ readback row of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\StreamNameUp$ finite-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names uniqueness by finite separation data, not by host real equality, quotient classes, selected limits, or ambient completeness.
+
+\begin{definition}[RegularCauchyUniqueLimit carrier]
+\label{def:regular-cauchy-unique-limit-carrier}
+A $\RegularCauchyUniqueLimitUp$ carrier is a finite $\BHist$ packet
+$$
+U=(Q,Q',W,W',D,S,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $Q$ and $Q'$ are $\RegSeqRatUp$ readback rows naming two regular rational Cauchy names inspected for the same prospective $\RealUp$ seal.
+\item $W$ and $W'$ are synchronized $\StreamNameUp$ finite-window rows through which the two readbacks are observed.
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance ledger storing the dyadic radii, denominator windows, and comparison budget used by both readbacks.
+\item $S$ is the separated comparison row asserting that every displayed finite tolerance window forces the two readbacks into the same separation class before the seal row is opened.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $Q,Q',W,W',D,S$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two readbacks, finite windows, tolerance ledger, separation row, seal row, replay, provenance, and local naming row.
+\item $C$ records displayed $\Cont$ replay from finite window requests through dyadic tolerance comparison and separated uniqueness.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyUniqueLimitUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyUniqueLimitUp}$ row naming the separated uniqueness packet and its permitted real-seal reads.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,Q',W,W',D,S,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, countable choice over tails, host equality of real numbers, metric-completeness data, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.RegularCauchyUniqueLimitUp}
+
+\begin{theorem}[RegularCauchyUniqueLimit separation]
+\label{thm:regular-cauchy-unique-limit-separation}
+Let $U=(Q,Q',W,W',D,S,E,H,C,P,N)$ be an accepted $\RegularCauchyUniqueLimitUp$ carrier. Any $\RealUp$-facing consumer that reads both regular Cauchy names through $U$ must first pass through the synchronized $\StreamNameUp$ windows, the common $\DyadicRatCoreUp$ tolerance ledger, and the separated comparison row $S$. Consequently the consumer receives a unique terminal seal only through the displayed finite separation route.
+
+The route exports no quotient stream equality, selected limit, countable-choice tail selector, host real equality, metric-completeness datum, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-unique-limit-carrier}. The only rows available to a real-facing consumer are the two regular rational readbacks, the two finite StreamName windows, the shared DyadicRatCore tolerance ledger, the separated comparison row, and the terminal seal row, together with transport, replay, provenance, and local naming.
+
+The separation row $S$ is downstream of the synchronized finite windows and the common dyadic budget. Thus a consumer cannot inspect the terminal $\RealUp$ seal before the two regular Cauchy names have been compared through the same displayed tolerance ledger.
+
+The structural rows $H,C,P,N$ transport and replay exactly that finite route. Since the carrier has no row for quotient stream equality, selected limits, countable choice, host real equality, metric completeness, or ambient completeness, separated uniqueness is read only from the displayed NameCert surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchyUniqueLimit NameCert obligations]
+\label{thm:regular-cauchy-unique-limit-namecert-obligations}
+For every accepted $\RegularCauchyUniqueLimitUp$ carrier $U=(Q,Q',W,W',D,S,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyUniqueLimitUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the two $\RegSeqRatUp$ readbacks, two $\StreamNameUp$ finite-window rows, shared $\DyadicRatCoreUp$ tolerance ledger, separated comparison row, terminal $\RealUp$ seal row, transport, replay, provenance, and local naming row;
+\item window synchronization, requiring $W$ and $W'$ to expose the same finite inspection schedule before $D$ is read;
+\item tolerance-ledger exactness, requiring the denominator and radius budget in $D$ to be the only budget consumed by the separated comparison row $S$;
+\item separation-to-seal exactness, requiring $S$ to be displayed before the terminal $\RealUp$ row $E$ is available;
+\item ledger refusal, excluding quotient stream equality, selected limits, countable choice over tails, host real equality, metric completeness, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is tuple projection from \autoref{def:regular-cauchy-unique-limit-carrier}. The accepted packet displays the two regular rational names $Q,Q'$, synchronized finite windows $W,W'$, shared dyadic tolerance ledger $D$, separated comparison row $S$, terminal seal $E$, and the structural rows $H,C,P,N$.
+
+Window synchronization and tolerance-ledger exactness follow the displayed dependency order. The two finite windows are inspected before the shared dyadic ledger is consumed, and the separated comparison row can read only that ledger.
+
+The seal exactness clause follows because $E$ is downstream of $S$ in the carrier. A consumer therefore cannot obtain a terminal real seal without first exposing the finite separated comparison route.
+
+Finally, the carrier contains no row for quotient equality, selected limits, countable choice, host real equality, metric completeness, or ambient completeness. The listed rows therefore exhaust the local NameCert surface.
+\end{proof}
+
+\closureat{RegularCauchyUniqueLimitUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyUniqueLimitUp}
+  \constructivestory{A $\RegularCauchyUniqueLimitUp$ packet is generated from two RegSeqRat readback rows, two synchronized StreamName finite-window rows, one DyadicRatCore tolerance ledger, a separated comparison row, a Real seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-unique-limit-carrier}, \autoref{thm:regular-cauchy-unique-limit-separation}, and \autoref{thm:regular-cauchy-unique-limit-namecert-obligations} seed the finite separated uniqueness route through RegSeqRat, StreamName, DyadicRatCore, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RegularCauchyUniqueLimitUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim full RealUp completeness, quotient completion, selected representatives, countable choice over tails, host real equality, metric completeness, checked NameCert obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window synchronization, tolerance-ledger exactness, separation-to-seal exactness, transport stability, replay stability, and ledger refusal for BEDC.Derived.RegularCauchyUniqueLimitUp.}
+\end{closurestatus}
