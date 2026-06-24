@@ -9146,6 +9146,7 @@ import BEDC.Derived.RationalRealEmbeddingUp.TasteGate
 import BEDC.Derived.RationalRootIntervalUp.TasteGate
 import BEDC.Derived.RationalSqueezeUp
 import BEDC.Derived.RationalStreamUp
+import BEDC.Derived.RationalUp
 import BEDC.Derived.ReachabilityGramianUp
 import BEDC.Derived.RealAbsoluteValueUp.TasteGate
 import BEDC.Derived.RealAlgOrderUp
