@@ -22,7 +22,7 @@ def IntervalNewtonCarrier [AskSetup] [PackageSetup]
   UnaryHistory B ∧ UnaryHistory F ∧ UnaryHistory D ∧ UnaryHistory N ∧
     UnaryHistory K ∧ UnaryHistory V ∧ UnaryHistory R ∧ UnaryHistory H ∧
       UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory L ∧ Cont V R L ∧
-        PkgSig bundle L pkg
+        PkgSig bundle P pkg ∧ PkgSig bundle L pkg
 
 theorem IntervalNewtonKrawczykEnclosure [AskSetup] [PackageSetup]
     {B F D N K V R H C P L narrowed : BHist} {bundle : ProbeBundle ProbeName}
@@ -36,7 +36,7 @@ theorem IntervalNewtonKrawczykEnclosure [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
   intro carrier narrowedRoute narrowedPkg
   obtain ⟨unaryB, _unaryF, _unaryD, unaryN, unaryK, unaryV, _unaryR, _unaryH,
-    _unaryC, _unaryP, _unaryL, _validatedLocal, localPkg⟩ := carrier
+    _unaryC, _unaryP, _unaryL, _validatedLocal, _provenancePkg, localPkg⟩ := carrier
   have unaryNarrowed : UnaryHistory narrowed :=
     unary_cont_closed unaryN unaryK narrowedRoute
   exact
@@ -64,7 +64,7 @@ theorem IntervalNewtonNameCertObligations [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
   intro carrier containmentRoute validatedRoute validatedPkg
   obtain ⟨unaryB, _unaryF, _unaryD, unaryN, unaryK, unaryV, _unaryR, _unaryH,
-    _unaryC, _unaryP, _unaryL, _validatedLocal, localPkg⟩ := carrier
+    _unaryC, _unaryP, _unaryL, _validatedLocal, _provenancePkg, localPkg⟩ := carrier
   have containmentUnary : UnaryHistory containment :=
     unary_cont_closed unaryN unaryK containmentRoute
   have validatedUnary : UnaryHistory validatedRead :=
@@ -132,7 +132,7 @@ theorem IntervalNewtonCorrectionTransportScope [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
   intro carrier narrowedRoute validatedRoute _narrowedPkg validatedPkg
   obtain ⟨_unaryB, _unaryF, _unaryD, unaryN, unaryK, unaryV, _unaryR, _unaryH,
-    _unaryC, _unaryP, _unaryL, _validatedLocal, _localPkg⟩ := carrier
+    _unaryC, _unaryP, _unaryL, _validatedLocal, _provenancePkg, _localPkg⟩ := carrier
   have narrowedUnary : UnaryHistory narrowed :=
     unary_cont_closed unaryN unaryK narrowedRoute
   have validatedUnary : UnaryHistory validatedRead :=
@@ -189,7 +189,7 @@ theorem IntervalNewtonContainmentObligation [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
   intro carrier containmentRoute
   obtain ⟨unaryB, _unaryF, _unaryD, unaryN, unaryK, _unaryV, _unaryR, _unaryH,
-    _unaryC, _unaryP, _unaryL, _localRoute, localPkg⟩ := carrier
+    _unaryC, _unaryP, _unaryL, _localRoute, _provenancePkg, localPkg⟩ := carrier
   have unaryContainment : UnaryHistory containment :=
     unary_cont_closed unaryN unaryK containmentRoute
   exact ⟨unaryB, unaryN, unaryK, unaryContainment, containmentRoute, localPkg⟩
@@ -221,7 +221,7 @@ theorem IntervalNewtonKrawczykRadiusLock [AskSetup] [PackageSetup]
     consumerPkg
   obtain ⟨_boxUnary, _fnUnary, derivUnary, correctionUnary, containmentUnary,
     validatedUnary, realSealUnary, _transportUnary, _replayUnary, _provenanceUnary,
-    _localNameUnary, _validatedLocal, _localPkg⟩ := carrier
+    _localNameUnary, _validatedLocal, _provenancePkg, _localPkg⟩ := carrier
   have radiusUnary : UnaryHistory radiusRead :=
     unary_cont_closed correctionUnary derivUnary correctionDerivRadius
   have remainderUnary : UnaryHistory remainderRead :=
@@ -290,7 +290,7 @@ theorem IntervalNewtonValidatedConsumerBoundary [AskSetup] [PackageSetup]
   intro carrier containmentValidatedRead validatedRealSealBoundary boundaryPkg
   obtain ⟨_boxUnary, _fnUnary, _derivUnary, _correctionUnary, containmentUnary,
     validatedUnary, realSealUnary, _transportUnary, _replayUnary, _provenanceUnary,
-    _localNameUnary, _validatedLocal, _localPkg⟩ := carrier
+    _localNameUnary, _validatedLocal, _provenancePkg, _localPkg⟩ := carrier
   have validatedReadUnary : UnaryHistory validatedRead :=
     unary_cont_closed containmentUnary validatedUnary containmentValidatedRead
   have boundaryUnary : UnaryHistory boundaryRead :=
@@ -359,7 +359,7 @@ theorem IntervalNewtonValidatedHandoffObligation [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
   intro carrier validatedRoute transportedRoute replayRoute handoffRoute handoffPkg
   obtain ⟨_unaryB, _unaryF, _unaryD, _unaryN, _unaryK, unaryV, unaryR, unaryH,
-    unaryC, _unaryP, unaryL, _validatedLocal, _localPkg⟩ := carrier
+    unaryC, _unaryP, unaryL, _validatedLocal, _provenancePkg, _localPkg⟩ := carrier
   have validatedUnary : UnaryHistory validatedRead :=
     unary_cont_closed unaryV unaryR validatedRoute
   have transportedUnary : UnaryHistory transportedRead :=
@@ -407,5 +407,31 @@ theorem IntervalNewtonValidatedHandoffObligation [AskSetup] [PackageSetup]
           handoffPkg⟩
   }
   exact ⟨cert, validatedUnary, transportedUnary, replayUnary, handoffUnary⟩
+
+theorem IntervalNewtonIntervalArithmeticSoundnessObligation [AskSetup] [PackageSetup]
+    {box functionRow derivative correction containment validated readback transport replay
+      provenance localName arithmeticRead correctionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    IntervalNewtonCarrier box functionRow derivative correction containment validated readback
+        transport replay provenance localName bundle pkg ->
+      Cont box functionRow arithmeticRead ->
+        Cont arithmeticRead correction correctionRead ->
+          PkgSig bundle correctionRead pkg ->
+            UnaryHistory arithmeticRead ∧ UnaryHistory correctionRead ∧
+              Cont box functionRow arithmeticRead ∧
+                Cont arithmeticRead correction correctionRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle correctionRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier arithmeticRoute correctionRoute correctionPkg
+  obtain ⟨boxUnary, functionUnary, _derivativeUnary, correctionUnary, _containmentUnary,
+    _validatedUnary, _readbackUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _validatedLocal, provenancePkg, _localPkg⟩ := carrier
+  have arithmeticUnary : UnaryHistory arithmeticRead :=
+    unary_cont_closed boxUnary functionUnary arithmeticRoute
+  have correctionReadUnary : UnaryHistory correctionRead :=
+    unary_cont_closed arithmeticUnary correctionUnary correctionRoute
+  exact
+    ⟨arithmeticUnary, correctionReadUnary, arithmeticRoute, correctionRoute, provenancePkg,
+      correctionPkg⟩
 
 end BEDC.Derived.IntervalNewtonUp
