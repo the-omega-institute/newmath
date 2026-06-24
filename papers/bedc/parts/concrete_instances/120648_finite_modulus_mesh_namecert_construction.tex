@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\FiniteModulusMeshUp$}
+\label{ch:concrete-instances-finite-modulus-mesh-namecert}
+\origin{ai}
+
+The $\FiniteModulusMeshUp$ packet realizes the compact-uniform-continuity route of \autoref{ch:visions-compact-uniform-continuity} as finite mesh data. It consumes compact-net cells from \autoref{ch:concrete-instances-compactmetric-namecert}, continuous-map pointwise modulus rows from \autoref{ch:concrete-instances-continuousmap-namecert}, dyadic tolerance rows from \autoref{ch:concrete-instances-dyadicratcore-namecert}, Real readback from \autoref{ch:concrete-instances-real-namecert}, and the terminal uniform-modulus handoff of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet names the mesh itself: compact cells, pointwise-radius witnesses, dyadic tolerances, a finite lower-bound fold, a triangle-estimate ledger, a tolerance-only $\UniformModulusUp$ output, transport, replay, provenance, and local naming.
+
+\begin{definition}[Finite modulus mesh carrier]
+\label{def:finite-modulus-mesh-carrier}
+A $\FiniteModulusMeshUp$ carrier is a finite $\BHist$ packet
+$$
+M=(K,F,D,Q,L,T,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact-net cell row over the compact metric source.
+\item $F$ is the pointwise modulus row attached to the continuous-map data at the displayed cell centers.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row read by the mesh.
+\item $Q$ is the finite mesh incidence ledger pairing each compact-net cell with its local modulus and dyadic tolerance request.
+\item $L$ is the finite lower-bound fold over the displayed radius rows.
+\item $T$ is the triangle-estimate ledger that keeps source and target metric comparisons visible before the output row is exported.
+\item $U$ is the tolerance-only $\UniformModulusUp$ handoff row.
+\item $H$ records componentwise $\hsame$ transport for compact cells, pointwise moduli, dyadic tolerances, incidence, lower-bound fold, triangle ledger, output, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay through the same mesh route.
+\item $P$ is the $\Pkg$ provenance over $\FiniteModulusMeshUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\DyadicRatCoreUp$, $\RealUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteModulusMeshUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,F,D,Q,L,T,U,H,C,P,N$. It has no coordinate for a selected subcover outside the packet, a host Lebesgue number, quotient metric equality, countable choice, or ambient compactness.
+\end{definition}
+
+\begin{theorem}[Finite modulus mesh NameCert obligations]
+\label{thm:finite-modulus-mesh-namecert-obligations}
+For every accepted $\FiniteModulusMeshUp$ carrier $M=(K,F,D,Q,L,T,U,H,C,P,N)$, the local $\NameCert_{\FiniteModulusMeshUp}$ surface consists exactly of compact-net cell admission, pointwise-modulus visibility, dyadic tolerance admission, finite incidence coverage, lower-bound fold exactness, triangle-estimate replay, uniform-modulus output admission, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape from selector or completeness principles.
+\end{theorem}
+\begin{proof}
+Project the packet. The compact-net row $K$, pointwise-modulus row $F$, and dyadic tolerance row $D$ are the only source rows available before the mesh ledger is opened.
+
+The incidence ledger $Q$ pairs each displayed cell with its local modulus and tolerance request. The fold row $L$ is finite because it ranges only over the displayed incidence ledger.
+
+The triangle ledger $T$ records the source and target metric comparisons needed before the tolerance-only output row $U$ can be exported. Thus the uniform-modulus handoff remains attached to compact-net, pointwise-modulus, dyadic, fold, and triangle evidence.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same route. Since no carrier coordinate stores an external selector, host Lebesgue number, quotient metric equality, choice schedule, or ambient compactness theorem, the NameCert obligations are exactly the displayed rows.
+\end{proof}
+
+\begin{theorem}[Finite modulus mesh uniform handoff route]
+\label{thm:finite-modulus-mesh-uniform-handoff-route}
+Every $\UniformModulusUp$ read exported by an accepted $\FiniteModulusMeshUp$ packet factors through
+$$
+K,F,D \longmapsto Q,L,T \longmapsto U,H,C,P,N .
+$$
+In particular, a compact-uniform-continuity consumer cannot read the tolerance-only output before the compact-net cells, pointwise modulus rows, dyadic tolerance ledger, finite incidence ledger, lower-bound fold, and triangle-estimate ledger have all been displayed.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $M=(K,F,D,Q,L,T,U,H,C,P,N)$. Projection gives the compact-net cells, pointwise modulus rows, and dyadic tolerance row as the source stage.
+
+The mesh stage is $Q,L,T$. The incidence ledger links cells to local moduli and tolerances, the lower-bound fold reads the finite radius rows, and the triangle ledger records the metric estimates used by the output route.
+
+Only after this mesh stage does the carrier expose $U$. The structural rows $H,C,P,N$ preserve, replay, source, and name the same route.
+
+Therefore every accepted $\UniformModulusUp$ consumer sees the displayed finite mesh before it receives the tolerance-only handoff, and no external selector or compactness theorem is exported.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FiniteModulusMeshUp$ read is refuted if a compact-uniform-continuity consumer exports a $\UniformModulusUp$ row without displaying compact-net cells, pointwise modulus rows, dyadic tolerance data, finite incidence coverage, lower-bound fold evidence, triangle-estimate replay, transport, provenance, and local naming.}
+
+\independenceWitness{compactmetric, continuousmap, dyadicratcore, real, uniformmodulus: none alone is bijective with $\FiniteModulusMeshUp$ because the packet jointly carries compact-net cells, pointwise modulus rows, dyadic tolerances, Real-facing metric readback, finite fold data, triangle replay, a $\UniformModulusUp$ handoff, transport, replay, provenance, and local NameCert.}
+
+\closureat{FiniteModulusMeshUp}{seedStr}
+
+\begin{closurestatus}{\FiniteModulusMeshUp}
+  \constructivestory{A $\FiniteModulusMeshUp$ packet is generated from compact-net cells, continuous-map pointwise modulus rows, dyadic tolerance rows, finite incidence coverage, a lower-bound fold, a triangle-estimate ledger, a UniformModulus output row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-modulus-mesh-carrier}, \autoref{thm:finite-modulus-mesh-namecert-obligations}, and \autoref{thm:finite-modulus-mesh-uniform-handoff-route} seed the finite compact-net, pointwise-modulus, dyadic-tolerance, fold, triangle, and uniform-modulus handoff route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected subcovers, host Lebesgue numbers, quotient metric equality, countable choice, ambient compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-net coverage, pointwise-modulus visibility, dyadic tolerance admission, fold exactness, triangle replay, uniform-modulus output, $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ $\mathsf{TasteGate}$ instances, transport, provenance, and local naming for BEDC.Derived.FiniteModulusMeshUp.}
+\end{closurestatus}
