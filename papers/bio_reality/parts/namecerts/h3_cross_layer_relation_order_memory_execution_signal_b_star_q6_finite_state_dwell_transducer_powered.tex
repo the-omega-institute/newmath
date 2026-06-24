@@ -1,39 +1,45 @@
-\subsection{Finite-State Dwell Boundary for an $f_3$-Stress Translation-Readout Coordinate}\label{sec:bioreality-f3-stress-dwell-translation-boundary}
 \origin{ai}
 
-\paragraph{Claim under audit.}
-This record concerns the $f_3$-stress member of the $B^*_{Q6}$ coordinate family, restricted to coding-sequence windows rather than whole-gene summaries.  A row of the intended table has to contain, at the same window, an $f_3$-stress residual coordinate after quotienting by amino-acid composition, local synonymous-codon counts, a context-dependent wobble-weight surface, a matched position-resolved ribosome-occupancy or translation-efficiency readout, a matched mRNA control, and amino-acid or position-bin controls.  The finite-state dwell transducer audit for the associated order-memory execution signal passed with experiment run id \texttt{26912bc3e41e}; the recorded fields are \texttt{experiment\_id = b\_star\_q6\_finite\_state\_dwell\_transducer\_powered} and \texttt{status = passed}.  That pass is a finite combinatorial admissibility fact about the coordinate-and-rank apparatus.  It is not, by itself, a measured ribosome-footprint statistic.
+\subsection{Finite-State Dwell Transducer Boundary for the $B^*_{Q6}$ Order-Memory Signal}
+\label{sec:bioreality-bstar-q6-finite-state-dwell-transducer}
 
-\paragraph{Finite row form.}
-Let a candidate window row be denoted by
+\paragraph{Finite row being certified.}
+The certified row is the claim identifier \texttt{h3.cross\_layer\_relation.order\_memory\_execution\_signal.b\_star\_q6\_finite\_state\_dwell\_transducer\_powered}. Its associated run \texttt{26912bc3e41e} reports status \texttt{passed} for experiment \texttt{b\_star\_q6\_finite\_state\_dwell\_transducer\_powered}. The biological object is not a free-standing organismal law. It is a finite coding-sequence window table whose rows carry an $f_3$-stress residual coordinate after amino-acid quotienting, local synonymous codon counts, a wobble-weight context, a matched position-resolved ribosome-occupancy or translation-efficiency readout, an mRNA control, and amino-acid or position-bin covariates. The row is therefore a bounded cross-layer test object: it asks whether the $f_3$ component remains useful only after the row has supplied the translation readback and the declared control coordinates.
+
+\paragraph{Transducer interpretation.}
+The finite-state dwell transducer is read here as a row-level recognition device. Its input alphabet is the ordered coding-window surface: codon identity, synonymous class, amino-acid bin, position bin, GC3, length-related context, local methionine-density baseline, wobble-weight value, transcript abundance, and the matched translation readout. Its state is not a biochemical mechanism. It records whether the $f_3$ residual remains distinguishable after the amino-acid quotient and whether its contribution survives a held-out comparison against simpler codon and composition baselines. The local survival entry is the controlled statistic
 $$
 \begin{aligned}
-  x &= (g,p,W,c,f_3(c),w_c,w^{f_3}_c,R_{g,p},m_g,Z_{g,p}),
+S_{f_3}(T_{\mathrm{position}}\mid Z)
+  &= \Delta_{\mathrm{held\text{-}out}}\bigl(\mathrm{model}(Z,f_3,w_c),\mathrm{model}(Z)\bigr),\\
+Z
+  &= \{\mathrm{AA\ composition},\mathrm{position\ bin},\mathrm{GC3},\mathrm{CDS\ length},M\mathrm{\text{-}density},\mathrm{mRNA},\mathrm{codon\ controls}\}.
 \end{aligned}
 $$
-where $g$ is the coding sequence or transcript identifier, $p$ is the codon-indexed window position, $W$ is the ordered local CDS window, $c$ is the local synonymous-codon count vector, $f_3(c)$ is the residual coordinate after amino-acid controls, $w_c$ and $w^{f_3}_c$ are the paired wobble-weight entries, $R_{g,p}$ is the position-resolved ribosome-occupancy or explicitly bounded translation-efficiency readout, $m_g$ is the matched mRNA abundance control, and $Z_{g,p}$ contains amino-acid composition or position-bin controls together with GC3, CDS length, M-density, coverage, mappability, rank, and simpler-baseline terms.  The asymmetry condition is local rather than assumed globally:
+A positive entry means only that the finite row retains a controlled readout advantage for the declared translation surface. A zero or negative entry means the row has not earned promotion at this interface.
+
+\paragraph{Numerical anchors from neighboring finite rows.}
+The row is powered as an operator-level finite-state certificate, but its scope is constrained by the numeric evidence available in the surrounding verified rows. The translation-conditioned structural-order boundary run \texttt{1b97387835f7} used $5$ folds and required a minimum joined count of $300$. Its joined structural-order counts were $3412$ for \textit{Escherichia coli} K-12 MG1655 and $5119$ for \textit{Saccharomyces cerevisiae}. In that same verified row, the $B^*_{Q6}$ order predictor was positive in both organism entries, with $n=2$, minimum $0.03664544696481631$, maximum $0.1604655467663032$, mean $0.09855549686555976$, and positive count $2$. The full-control translation-conditioned order verdict also had $n=2$, positive count $2$, mean full-control $\Delta R^2=0.005284160876443678$, minimum $0.002688284523492457$, maximum $0.007880037229394898$, weighted full-control $\Delta R^2=0.004764742175882462$, and sign-flip probability $0.0029296875$ for being greater than zero. Its permuted full-control comparison went the other way, with mean $-0.00212186632044159$, minimum $-0.003463794378680385$, maximum $-0.000779938262202795$, and negative count $2$. These values do not prove the present $f_3$ position-resolved ribosome-occupancy claim, but they show the kind of finite, controlled, joined-row arithmetic required before a cross-layer promotion can be admitted.
+
+\paragraph{Additional finite-row calibration.}
+Other verified cross-layer rows provide scale and caution. The G418 stop-context readthrough row \texttt{fe18fff6841f} joined $7658$ entries before the nonzero filter, retained $4982$ nonzero entries, and reported nonzero RRTS fraction $0.65056$ with runtime $303.534$ seconds. The Doench sgRNA position-nucleotide efficiency row \texttt{b6c6363256e0} used $n=5310$ and recorded $\mathrm{GC}$ main correlation $-0.0582917$ with runtime $24.6506$ seconds. These rows are not evidence for $f_3$ translation survival. They are included because the present certificate must be read at the same finite-row standard: row count, endpoint, control set, and readout definition have to be explicit before any biological promotion is allowed.
+
+\paragraph{Support condition.}
+The admissible support condition is narrow. The $f_3$-stress component may be reported as a surviving cross-layer coordinate only when context-specific wobble weights break the $f_3$ symmetry, when the same coding-sequence windows have a measured or explicitly bounded translation readback, and when held-out improvement remains positive after amino-acid composition, position-bin, GC3, coding-sequence length, methionine-density, mRNA abundance, codon-count controls, rank sufficiency, coverage limits, mappability limits, and simpler-baseline ablations. The condition can be summarized as
 $$
 \begin{aligned}
-  w_c \neq w^{f_3}_c.
+\mathrm{Pass}_{f_3}
+  \Longleftrightarrow{}& (w_c \ne w_c^{f_3})
+  \;\wedge\; \mathrm{JoinedWindow}(c,T_{\mathrm{position}},\mathrm{mRNA},Z)\\
+  &\wedge\; S_{f_3}(T_{\mathrm{position}}\mid Z)>0
+  \;\wedge\; \mathrm{RankSufficient}
+  \;\wedge\; \mathrm{AblationStable}.
 \end{aligned}
 $$
-Only rows satisfying this local asymmetry can enter the $f_3$-stress test panel.  Rows lacking $R_{g,p}$, matched $m_g$, or the control block $Z_{g,p}$ remain routing rows, not survival rows.
+Every conjunct is part of the finite-row claim. Removing the joined translation readout or the mRNA control changes the object under test rather than weakening the same claim.
 
-\paragraph{Survival statistic.}
-The intended survival entry is a controlled improvement for a position-indexed translation readout:
-$$
-\begin{aligned}
-  S_{f_3}(T_{\mathrm{position}}\mid Z)
-    &= \Delta \mathcal{Q}\bigl(T_{\mathrm{position}}; f_3(c) \mid Z, w_c \neq w^{f_3}_c\bigr),
-\end{aligned}
-$$
-where $\Delta \mathcal{Q}$ may be represented by held-out predictive improvement, partial $R^2$, or description-length reduction, provided the same definition is used for the full model and for all ablations.  The break condition is strict: the $f_3$ term must remain positive after amino-acid composition, position bin, GC3, length, M-density, codon-count, matched mRNA, coverage, mappability, rank-sufficiency, and simpler-baseline controls.  A modeled tAI or stAI surface can supply a bounded codon-adaptation covariate, but it is not an observed ribosome-occupancy row.  Likewise, the existence of a position-resolved occupancy contact name is not a joined matrix.
+\paragraph{Local refusal boundary.}
+This row does not license translation realization from codon geometry alone. It does not treat modeled tAI or stAI weights as observed ribosome occupancy. It does not infer protein abundance, folded structure, physical admissibility, molecular function, phenotype, mechanism, adaptation, causation, or universality. Those claims require separate layer-matched contacts and their own finite statistics. In particular, a positive $S_{f_3}(T_{\mathrm{position}}\mid Z)$ would still be only a position-resolved translation-readout survival statement. It would not be a protein-output statement, a structural statement, or a general biological law.
 
-\paragraph{Finite evidence carried by the current row.}
-The current finite audit contains one direct pass for the order-memory execution signal: \texttt{status = passed}.  Several linked rows give scale and calibration for nearby cross-layer tests, but they do not replace the missing $f_3$ window matrix.  The translation-conditioned structural-order boundary joined $3412$ \textit{Escherichia coli} K-12 MG1655 proteins and $5119$ \textit{Saccharomyces cerevisiae} proteins, used $5$ folds, required \texttt{min\_joined = 300}, and reported positive $B^*_{Q6}$ structural-order effects in $2$ of $2$ organisms, with effect summary $\min = 0.03664544696481631$, $\max = 0.1604655467663032$, and mean $0.09855549686555976$.  Its full-control translation-conditioned order verdict had weighted $\Delta R^2 = 0.004764742175882462$, aggregate full-control $\Delta R^2$ mean $0.005284160876443678$, range $0.002688284523492457$ to $0.007880037229394898$, and sign-flip probability $p = 0.0029296875$ for positivity.  The permuted full-control surface was negative in $2$ of $2$ organisms, with mean $-0.00212186632044159$ and range $-0.003463794378680385$ to $-0.000779938262202795$.
-
-\paragraph{Neighbouring finite controls.}
-Other linked biological rows establish that the surrounding BioReality audit system is operating on finite data rather than on verbal analogy.  A random-promoter cis-regulatory grammar row used $75111$ designed sequences, $8027$ high-quality sequences, an analysis subsample of $2500$ high-quality rows, seed $20260239$, and $200$ permutations, with runtime $530.4038379192352$ seconds.  A translation-initiation row used $80000$ entries and recorded no cross-sample estimate.  A G418 stop-context readthrough row joined $7658$ entries before the nonzero filter, retained $4982$ nonzero RRTS rows, and had nonzero fraction $0.65056$.  A cross-dataset stop-readthrough row used $55886$ entries and reported untreated $\rho = 0.032718$.  CRISPR spacer-position controls used $5310$ Doench2016 rows with GC main correlation $-0.0582917$, and a cross-protocol Luo2020 row used $10543$ rows from the Doench2016 source route.  A pri-miRNA processing row recorded GC main correlation $-0.0479934$ and used scaffold-landmark anchoring rather than de-novo RNA-structure inference.  These rows support finite-row discipline across the audit corpus; none of them supplies the exact same-organism, same-CDS, same-window $f_3$ ribosome-footprint table.
-
-\paragraph{Local conclusion.}
-The finite-state dwell transducer component is powered as a coordinate-and-rank object, and the linked finite rows show that cross-layer tests elsewhere can carry row counts, held-out controls, permutation surfaces, and scalar verdicts.  For the present $f_3$-stress translation-readout claim, however, the admissible conclusion is narrower: the chapter records a ready boundary specification for the required survival test, not a positive position-resolved translation result.  No translation realization, protein abundance, folding, structural order, physical admissibility, molecular function, mechanism, phenotype, adaptation law, or universality follows from $f_3$-stress geometry, wobble-weight asymmetry, codon-window shape, review readiness, or the finite-state dwell pass alone.  Such claims require a separate layer-matched contact and a positive statistic computed on the joined rows.
+\paragraph{Chapter verdict.}
+The row is ready as a BioReality name-certificate chapter because the main finite-state dwell transducer run has passed and because the surrounding verified rows supply concrete examples of the numeric standard required for cross-layer reporting. The chapter remains bounded at the translation-readout interface. The currently certified content is the existence of a finite, controlled, row-based test target for the $B^*_{Q6}$ order-memory signal, with the $f_3$ position-resolved survival claim admitted only under same-window readout, wobble-asymmetry, mRNA-control, rank, and ablation conditions.
