@@ -972,6 +972,7 @@ import BEDC.Derived.BishopCompletionUp
 import BEDC.Derived.BishopCompletionUp.TasteGate
 import BEDC.Derived.BishopCompletionUp.UniversalFilterReadback
 import BEDC.Derived.BishopCutUp
+import BEDC.Derived.BishopDiagonalRegularizationUp
 import BEDC.Derived.BishopDyadicSqueezeUp.TasteGate
 import BEDC.Derived.BishopEquicontinuityModulusUp
 import BEDC.Derived.BishopFanCompactUniformUp.TasteGate
@@ -1755,6 +1756,7 @@ import BEDC.Derived.CauchyCompletionMultiplicationUp.NameCertObligations
 import BEDC.Derived.CauchyCompletionMultiplicationUp.ProvenanceExhaustion
 import BEDC.Derived.CauchyCompletionMultiplicationUp.RealSealNonescape
 import BEDC.Derived.CauchyCompletionMultiplicationUp.TasteGate
+import BEDC.Derived.CauchyCompletionOperatorUp.FunctorialHandoff
 import BEDC.Derived.CauchyCompletionOperatorUp.LedgerNonescape
 import BEDC.Derived.CauchyCompletionOperatorUp.NameCertObligationSurface
 import BEDC.Derived.CauchyCompletionOperatorUp.TasteGate
@@ -1790,6 +1792,7 @@ import BEDC.Derived.CauchyCompressionUp.TasteGate
 import BEDC.Derived.CauchyCondensationIntegralBoundUp.TasteGate
 import BEDC.Derived.CauchyCondensationModulusUp.TasteGate
 import BEDC.Derived.CauchyCondensationRealSeriesUp.TasteGate
+import BEDC.Derived.CauchyCondensationTailLockUp.TasteGate
 import BEDC.Derived.CauchyCondensationTestUp.TasteGate
 import BEDC.Derived.CauchyCondensationTheoremUp.TasteGate
 import BEDC.Derived.CauchyCondensationUp.DyadicBlockHandoff
@@ -10874,6 +10877,7 @@ import BEDC.Derived.SeparatedCauchyNetCompletionUp.TasteGate
 import BEDC.Derived.SeparatedCompletionFunctorUp
 import BEDC.Derived.SeparatedCompletionFunctorUp.TasteGate
 import BEDC.Derived.SeparatedCompletionIdempotenceUp
+import BEDC.Derived.SeparatedCompletionMonadUp.TasteGate
 import BEDC.Derived.SeparatedCompletionReflectionUp.TasteGate
 import BEDC.Derived.SeparatedCompletionReflectorUp
 import BEDC.Derived.SeparatedCompletionReflectorUp.TasteGate
@@ -11736,6 +11740,7 @@ import BEDC.Derived.ToposUp
 import BEDC.Derived.ToposUp.NameCertObligationSurface
 import BEDC.Derived.TotalBoundedMetricUp.TasteGate
 import BEDC.Derived.TotalHostFuelHandoffUp.CarrierAdmission
+import BEDC.Derived.TotalHostFuelHandoffUp.FuelMonotonicity
 import BEDC.Derived.TotalHostFuelHandoffUp.NameCertObligations
 import BEDC.Derived.TotalHostFuelHandoffUp.TasteGate
 import BEDC.Derived.TotalVariationFunctionUp.TasteGate
@@ -11878,6 +11883,7 @@ import BEDC.Derived.UniformBoundednessPrincipleUp.TasteGate
 import BEDC.Derived.UniformBoundednessUp
 import BEDC.Derived.UniformBoundednessUp.BaireHandoff
 import BEDC.Derived.UniformBoundednessUp.BoundedOperatorEnvelope
+import BEDC.Derived.UniformBoundednessUp.PointwiseWindow
 import BEDC.Derived.UniformBoundednessUp.PublicBoundary
 import BEDC.Derived.UniformBoundednessUp.TasteGate
 import BEDC.Derived.UniformCauchyBicompletionUp.TasteGate
