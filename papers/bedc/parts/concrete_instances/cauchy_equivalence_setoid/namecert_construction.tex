@@ -33,6 +33,24 @@ The classifier compares accepted packets only through the displayed tuple $S_0,S
 
 The regular-sequence classifier route of \autoref{ch:concrete-instances-regseqrat-namecert} supplies the readback side of the setoid test, while the terminal seal discipline of \autoref{ch:concrete-instances-real-namecert} fixes where equality-facing consumers may leave the comparison surface. Thus $\CauchyEquivalenceSetoidUp$ is a displayed classifier over those sibling rows, not a quotient object; every public read keeps the two $\RegSeqRatUp$ presentations and the downstream $\RealUp$ seal visible before completion or equality consumers inspect the packet.
 
+\begin{theorem}[CauchyEquivalenceSetoid obligation surface]
+\label{thm:cauchy-equivalence-setoid-obligation-surface}
+For every accepted $\CauchyEquivalenceSetoidUp$ carrier
+$$
+Q=(S_0,S_1,R_0,R_1,D,T,E,H,C,P,N),
+$$
+the obligation surface consists exactly of carrier admission, regular-rational classifier transport, tail-stability of the displayed setoid tests, the $\RegSeqRatUp$ handoff, the $\RealUp$ readback boundary, and ledger non-escape through $S_0,S_1,R_0,R_1,D,T,E,H,C,P,N$. No obligation may be discharged by quotient stream equality, host real equality, a selected representative, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:cauchy-equivalence-setoid-carrier}. The projection supplies the two stream windows, two regular-rational readbacks, dyadic tolerance ledger, setoid-test row, Real seal boundary, and structural rows.
+
+Regular-rational classifier transport is read from the rows $R_0,R_1,T,H,C$. The displayed transport row $H$ and replay row $C$ carry the same classifier tests over the two $\RegSeqRatUp$ presentations, so the comparison never becomes a host quotient relation.
+
+Tail-stability is supplied by the classifier-law rows and by the regular-Cauchy handoff of \autoref{thm:cauchy-equivalence-setoid-classifier-laws} and \autoref{thm:cauchy-equivalence-setoid-regular-cauchy-uniqueness-handoff}. These force reflexive, symmetric, transitive, and uniqueness-facing reads to remain on $S_0,S_1,R_0,R_1,D,T,E,H,C,P,N$.
+
+Finally the RegSeqRat and Real dependency routes of \autoref{thm:cauchy-equivalence-setoid-regseqrat-route} and \autoref{thm:cauchy-equivalence-setoid-real-seal-forward-route} place $R_0,R_1$ before the Real seal $E$. Since the carrier has no coordinate for any excluded equality, selection, choice, or completeness object, every accepted obligation is a ledger projection from the displayed packet.
+\end{proof}
+
 \begin{theorem}[CauchyEquivalenceSetoid classifier laws]
 \label{thm:cauchy-equivalence-setoid-classifier-laws}
 For every accepted $\CauchyEquivalenceSetoidUp$ carrier
@@ -76,6 +94,7 @@ Apply the transport row to $S_0,S_1,R_0,R_1,D,T,E$ in order. The stream windows 
 
 The replay, provenance, and local naming rows are transported last. Since $C,P,N$ only replay, source, and name the displayed route, the transported read still factors through the same finite classifier surface before any equality-facing consumer can inspect it.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyEquivalenceSetoidUp.CauchyEquivalenceSetoidTransport}
 
 \begin{theorem}[CauchyEquivalenceSetoid NameCert surface]
 \label{thm:cauchy-equivalence-setoid-namecert-surface}
@@ -117,11 +136,13 @@ Use the transport theorem and NameCert surface, \autoref{thm:cauchy-equivalence-
 
 The carrier has no coordinate for quotient stream equality, host real equality, selected limits, countable choice, or ambient completeness. Thus representative independence is a displayed handoff through $S_0,S_1,R_0,R_1,D,T,E,H,C,P,N$ and not an appeal to any excluded equality or limit principle.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyEquivalenceSetoidUp.CauchyEquivalenceSetoidRegularCauchyUniquenessHandoff}
 
 \begin{theorem}[CauchyEquivalenceSetoid RealEquality consumer route]
 \label{thm:cauchy-equivalence-setoid-real-equality-consumer-route}
 Every $\RealEqualityUp$ consumer of an accepted $\CauchyEquivalenceSetoidUp$ packet $Q=(S_0,S_1,R_0,R_1,D,T,E,H,C,P,N)$ must read the two $\StreamNameUp$ windows $S_0,S_1$, the two $\RegSeqRatUp$ readbacks $R_0,R_1$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the setoid-test row $T$, the $\RealUp$ seal boundary $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert$ row $N$ before it reaches the $\RealEqualityUp$ classifier boundary of \autoref{ch:concrete-instances-real-equality-namecert}. The consumer route has no coordinate for quotient stream equality, host real equality, selected limits, countable choice, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyEquivalenceSetoidUp.CauchyEquivalenceSetoidRealEqualityConsumerRoute}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-equivalence-setoid-carrier}. The visible inputs are exactly the two stream windows, two regular-rational readbacks, one dyadic ledger, the setoid-test row, the real seal, and the structural support rows.
 
@@ -140,6 +161,7 @@ S_0,S_1 \longmapsto R_0,R_1 \longmapsto D \longmapsto T \longmapsto H,C,P,N \lon
 $$
 where $E$ is the terminal $\RealUp$ seal and no quotient stream equality, host real equality, selected representative, countable-choice selector, or ambient completeness row is exported.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyEquivalenceSetoidUp.CauchyEquivalenceSetoidRealSealForwardRoute}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-equivalence-setoid-carrier}. The projection displays the StreamName windows $S_0,S_1$, RegSeqRat readbacks $R_0,R_1$, DyadicRatCore ledger $D$, classifier row $T$, Real seal $E$, and structural rows $H,C,P,N$.
 
