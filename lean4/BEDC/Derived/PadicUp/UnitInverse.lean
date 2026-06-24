@@ -166,6 +166,19 @@ private def firstNonzeroFromTop {p : BHist} (a : ZpInt p) :
 def firstNonzero {p : BHist} {a : ZpInt p} (apart : ZpApart0 a) : ZpValWitness a :=
   firstNonzeroFromTop a apart.N apart.nz
 
+def ZpApart0_of_witness {p : BHist} {a : ZpInt p} (w : ZpValWitness a) :
+    ZpApart0 a :=
+  { N := w.k + 1
+    pos := Nat.succ_pos w.k
+    nz := w.nz_succ }
+
+theorem firstNonzero_of_witness_k {p : BHist} {a : ZpInt p}
+    (w : ZpValWitness a) :
+    (firstNonzero (ZpApart0_of_witness w)).k = w.k := by
+  unfold firstNonzero ZpApart0_of_witness
+  unfold firstNonzeroFromTop
+  rw [dif_pos w.zero_k]
+
 structure QpApart0 {p : BHist} (x : QpInt p) where
   num_apart : ZpApart0 x.value
 
