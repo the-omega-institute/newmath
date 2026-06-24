@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\BrouwerChoiceSequenceUp$}
+\label{ch:concrete-instances-brouwer-choice-sequence-namecert}
+\origin{human}
+
+Following Brouwer and Bishop--Bridges, the $\BrouwerChoiceSequenceUp$ packet records finite displayed choice-sequence data routed through Brouwer spread admission and the L10 countable-name surfaces. It sits between the choice-sequence surface of \autoref{ch:concrete-instances-choice-sequence-namecert}, the spread-prefix discipline of \autoref{ch:concrete-instances-brouwer-spread-namecert}, the finite stream-name interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a displayed finite bridge from choice-sequence observations to spread-admissible name reads without importing countable choice, quotient streams, selected infinite branches, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Brouwer choice-sequence carrier]
+\label{def:brouwer-choice-sequence-carrier}
+A $\BrouwerChoiceSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,W,A,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite schedule row listing the choice-sequence questions and precision requests that have been opened.
+\item $W$ is the displayed prefix-window row, recording only the finite choice-sequence answers visible to the packet.
+\item $A$ is the answer-ledger row, pairing every displayed question in $S$ with its answer in $W$.
+\item $T$ is the $\BrouwerSpreadUp$ admissibility row, certifying that the displayed prefix window is accepted by the spread route before any downstream read occurs.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the admitted prefix window and its finite stream-name handoff.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $S,W,A,T,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the schedule, prefix window, answer ledger, spread-admissibility, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for opening the choice-sequence window, checking spread admission, handing the window to $\StreamNameUp$, reading $\RegSeqRatUp$, and sealing through $\RealUp$.
+\item $P$ is the $\Pkg$ provenance over $\BrouwerChoiceSequenceUp$, $\ChoiceSequenceUp$, $\BrouwerSpreadUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BrouwerChoiceSequenceUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through $S,W,A,T,R,E,H,C,P,N$. It has no coordinate for a completed host function, quotient stream equality, countable choice, a selected infinite branch, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Brouwer choice-sequence NameCert obligations]
+\label{thm:brouwer-choice-sequence-namecert-obligations}
+For the carrier of \autoref{def:brouwer-choice-sequence-carrier}, the local $\NameCert_{\BrouwerChoiceSequenceUp}$ surface consists of nine finite obligations:
+\begin{enumerate}
+\item carrier admission exposes exactly the rows $S,W,A,T,R,E,H,C,P,N$;
+\item prefix stability preserves the visible window $W$ and answer ledger $A$ under later finite schedule extension;
+\item spread admissibility reads the $\BrouwerSpreadUp$ row $T$ before any stream-name or regular-rational handoff;
+\item StreamName handoff consumes only the displayed finite prefix window and answer ledger;
+\item RegSeqRat and Real boundary rows expose $R$ before the terminal seal $E$;
+\item componentwise transport preserves $S,W,A,T,R,E$ along $H$;
+\item continuation replay reads the same finite route through $C$;
+\item provenance records the choice-sequence, spread, stream-name, regular-rational, and Real siblings through $P$;
+\item the ledger refuses completed host functions, quotient streams, countable choice, selected infinite branches, and ambient Real completeness as certificate data.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:brouwer-choice-sequence-carrier}. The displayed packet has exactly the schedule, prefix-window, answer-ledger, spread-admissibility, readback, seal, transport, replay, provenance, and local naming rows.
+
+Prefix stability follows from the classifier. Since $S,W,A$ are visible rows and no hidden tail coordinate exists, later finite inspection can preserve the already displayed prefix only by preserving those rows.
+
+Spread admissibility and the StreamName handoff are read in order through $T$ and then the finite window data. The regular-rational row $R$ and terminal seal $E$ are downstream of that admitted route.
+
+Finally, $H,C,P,N$ provide transport, replay, provenance, and local naming for the same finite packet. The refusal clause is the absence of any coordinate for completed host functions, quotient streams, countable choice, selected infinite branches, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Brouwer choice-sequence spread-stream handoff]
+\label{thm:brouwer-choice-sequence-spread-stream-handoff}
+Every consumer of an accepted $\BrouwerChoiceSequenceUp$ carrier first reads the $\ChoiceSequenceUp$ rows $S,W,A$ and the $\BrouwerSpreadUp$ row $T$ before any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ handoff is public. The downstream route is therefore
+$$
+\ChoiceSequenceUp \longmapsto \BrouwerSpreadUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp ,
+$$
+with the concrete packet rows $S,W,A,T,R,E,H,C,P,N$ displayed along the way.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:brouwer-choice-sequence-namecert-obligations}. They require carrier admission, prefix stability, and spread admissibility before the stream-name handoff is consumed.
+
+The carrier definition places $R$ after the admitted spread row and makes $E$ a terminal seal after the regular-rational readback. Thus a Real-facing consumer cannot reach $E$ without first reading $S,W,A,T,R$.
+
+The transport, replay, provenance, and local naming rows preserve the same order for every consumer. Hence the handoff factors through the displayed choice-sequence and Brouwer-spread rows before StreamName, RegSeqRat, or Real data become public.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BrouwerChoiceSequenceUp$ read is refuted if it reaches $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ data without first displaying the finite choice-sequence rows $S,W,A$ and the $\BrouwerSpreadUp$ admissibility row $T$.}
+
+\independenceWitness{choice-sequence, brouwer-spread, streamname, regseqrat, real: $\BrouwerChoiceSequenceUp$ is not bijective to any sibling because it binds finite choice-sequence questions, displayed answers, spread-prefix admission, L10 countable-name handoff, regular-rational readback, Real sealing, transport, replay, provenance, and local NameCert rows in one packet.}
+
+\closureat{BrouwerChoiceSequenceUp}{seedStr}
+
+\begin{closurestatus}{\BrouwerChoiceSequenceUp}
+  \constructivestory{A $\BrouwerChoiceSequenceUp$ packet is generated from finite choice-sequence schedule rows, displayed prefix windows, answer ledgers, BrouwerSpread admission, StreamName handoff, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brouwer-choice-sequence-carrier}, \autoref{thm:brouwer-choice-sequence-namecert-obligations}, and \autoref{thm:brouwer-choice-sequence-spread-stream-handoff} seed the finite route from displayed choice-sequence prefixes through Brouwer spread admission, StreamName handoff, RegSeqRat readback, and Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed host functions, quotient stream equality, countable choice, selected infinite branches, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix stability, spread admissibility, StreamName handoff, RegSeqRat and Real boundary, transport, replay, provenance, and local naming for BEDC.Derived.BrouwerChoiceSequenceUp.}
+\end{closurestatus}
+\leanstmt{BEDC.Derived.BrouwerChoiceSequenceUp}

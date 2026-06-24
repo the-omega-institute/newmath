@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\FiniteWindowChoiceTreeUp$}
+\label{ch:concrete-instances-finite-window-choice-tree-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\FiniteWindowChoiceTreeUp$ packet records the finite branch tree by which Real and Completion arguments may inspect finitely many possible local choices without importing a countable-choice schedule. It sits after the finite stream observations of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular Cauchy criterion surface of \autoref{ch:concrete-instances-regularcauchycriterion-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives diagonal, tail, and criterion arguments a named finite-choice surface; it does not choose an infinite branch, select a limit, quotient streams, decide trichotomy, or assert ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite-window choice-tree carrier]
+\label{def:finite-window-choice-tree-carrier}
+A $\FiniteWindowChoiceTreeUp$ carrier is a finite $\BHist$ packet
+$$
+T=(B,W,R,D,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the finite branch-tree row, listing the root, the displayed child cells, the finite depth bound, and the local branch labels opened by the request.
+\item $W$ is the $\StreamNameUp$ window row, recording the finite stream observations attached to each displayed branch cell.
+\item $R$ is the $\RegSeqRatUp$ readback row produced from those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, carrying the dyadic radii, comparison cells, and finite precision budget attached to each branch cell.
+\item $G$ is the $\RegularCauchyCriterionUp$ row, exposing only the criterion checks that were requested on the displayed windows and dyadic tolerances.
+\item $E$ is the $\RealUp$ seal row, available only after $B,W,R,D,G$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for branch cells, window rows, readback rows, dyadic tolerances, criterion checks, Real sealing, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay for the finite route
+$$
+B,W,R,D,G \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\FiniteWindowChoiceTreeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularCauchyCriterionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteWindowChoiceTreeUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $B,W,R,D,G,E,H,C,P,N$. It has no coordinate for a countable-choice schedule, an infinite selected branch, quotient stream equality, selected limits, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite-window choice-tree NameCert obligations]
+\label{thm:finite-window-choice-tree-namecert-obligations}
+For every accepted $\FiniteWindowChoiceTreeUp$ carrier $T=(B,W,R,D,G,E,H,C,P,N)$, the local $\NameCert_{\FiniteWindowChoiceTreeUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier formation, requiring the branch tree $B$ to be finite and every exposed child cell to be named inside the same $\BHist$ packet;
+\item branch-window stability, requiring every read of a branch cell to pass through the displayed $\StreamNameUp$ window row $W$ and its $\RegSeqRatUp$ readback row $R$;
+\item dyadic tolerance exposure, requiring each criterion check to expose the $\DyadicRatCoreUp$ tolerance row $D$ before it may read the $\RegularCauchyCriterionUp$ row $G$;
+\item $\hsame$ and $\Cont$ transport, requiring $H$ and $C$ to preserve the same finite branch, window, readback, tolerance, criterion, and Real-seal rows under replay;
+\item ledger refusal, requiring the packet to refuse countable choice, infinite selected branches, selected limits, quotient streams, trichotomy, and ambient $\RealUp$ completeness as available coordinates.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:finite-window-choice-tree-carrier}. Its branch data are exactly the finite row $B$, so the packet begins with named finite cells rather than an infinite choice object.
+
+The analytic observations then pass through $W,R,D,G$. The stream windows and regular rational readbacks supply the observed values, while the dyadic row supplies the precision ledger consumed by the regular Cauchy criterion row.
+
+The Real-facing read is downstream from the same rows. The seal $E$ is not available until the branch tree, windows, readbacks, dyadic tolerances, and criterion checks have all been displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the finite route. Since the carrier contains no coordinate for countable choice, selected limits, quotient streams, trichotomy, or ambient Real completeness, those objects cannot become local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Finite-window choice-tree Real handoff]
+\label{thm:finite-window-choice-tree-real-handoff}
+Every Real or Completion read exported by an accepted $\FiniteWindowChoiceTreeUp$ packet factors through
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RegularCauchyCriterionUp \longmapsto \RealUp .
+$$
+The finite branch tree only indexes which displayed windows, readbacks, dyadic tolerances, and criterion rows are consumed; it does not provide a global branch selector or a completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the branch tree row $B$. It indexes a finite family of displayed cells and supplies no data outside that finite family.
+
+For each exposed cell, read the rows $W,R,D,G$ in order. These rows give the stream window, regular rational readback, dyadic tolerance, and criterion check used by the Real-facing route.
+
+The seal row $E$ is then reached through the same displayed data, and $H,C,P,N$ preserve the route under transport, replay, provenance, and local naming. No separate selector or completeness coordinate is present, so no such object can be exported.
+\end{proof}
+
+\falsifiablePrediction{A $\FiniteWindowChoiceTreeUp$ consumer that exports a Real or Completion read while omitting the finite branch tree, stream windows, RegSeqRat readbacks, dyadic tolerance row, regular Cauchy criterion row, Real seal, transport, replay, provenance, or local naming exits the accepted carrier.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, regularcauchycriterion, real: $\FiniteWindowChoiceTreeUp$ is not bijective to any listed sibling because it jointly binds a finite branch tree, displayed stream windows, regular rational readbacks, dyadic tolerance exposure, criterion checks, Real sealing, transport, replay, provenance, and one local NameCert row.}
+
+\closureat{FiniteWindowChoiceTreeUp}{seedStr}
+
+\begin{closurestatus}{\FiniteWindowChoiceTreeUp}
+  \constructivestory{A $\FiniteWindowChoiceTreeUp$ packet is generated from a finite branch tree, displayed StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance rows, RegularCauchyCriterion checks, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-window-choice-tree-carrier}, \autoref{thm:finite-window-choice-tree-namecert-obligations}, and \autoref{thm:finite-window-choice-tree-real-handoff} seed the finite branch-window route for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim countable choice, infinite selected branches, selected limits, quotient streams, trichotomy, ambient $\RealUp$ completeness, Lean verification, axiom-clean audit, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, branch-window stability, dyadic tolerance exposure, regular Cauchy criterion handoff, Real seal nonescape, hsame transport, Cont replay, provenance, and local naming for BEDC.Derived.FiniteWindowChoiceTreeUp.}
+\end{closurestatus}
