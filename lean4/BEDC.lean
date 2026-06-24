@@ -5036,6 +5036,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.LedgerExactness
 import BEDC.Derived.DyadicIntervalCoverUp.MatureFiniteCoverExport
 import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementInduction
 import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementObligation
+import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementObligationCertificate
 import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementScope
 import BEDC.Derived.DyadicIntervalCoverUp.NameCertObligations
 import BEDC.Derived.DyadicIntervalCoverUp.ObligationSurface
@@ -9768,6 +9769,7 @@ import BEDC.Derived.RealIntervalCompletionUp.TasteGate
 import BEDC.Derived.RealIntervalDistanceUp.TasteGate
 import BEDC.Derived.RealIntervalUp.TasteGate
 import BEDC.Derived.RealInverseUp
+import BEDC.Derived.RealInverseUp.ApartnessDomain
 import BEDC.Derived.RealInverseUp.TasteGate
 import BEDC.Derived.RealLimitStabilityUp
 import BEDC.Derived.RealLimitStabilityUp.TasteGate
