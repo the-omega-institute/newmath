@@ -1,0 +1,11 @@
+\begin{theorem}[FiniteStream prefix-cover determinacy]
+\label{thm:finite-stream-prefix-cover-determinacy}
+Every $\FiniteStreamUp$ prefix-cover read offered to a $\RegSeqRatUp$ or $\RealUp$ consumer first exposes the finite request row $Q$, the $\ListUp$ prefix spine $L$, the $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ tolerance row $D$, the $\RegSeqRatUp$ readback row $R$, and the local structural rows $H,C,P,N$ of \autoref{def:finite-stream-carrier}. The dependency route is read through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-real-namecert}; no downstream consumer receives an ambient stream, selected limit, quotient stream equality, countable-choice schedule, or detached real-completeness witness.
+\end{theorem}
+\begin{proof}
+Project the accepted $\FiniteStreamUp$ carrier of \autoref{def:finite-stream-carrier}. Its finite request row $Q$ and $\ListUp$ prefix spine $L$ name the prefix-cover domain before any window is exported.
+
+Read the StreamName, RegSeqRat, and DyadicRatCore rows next. The window row $W$ is the only StreamName surface available to the consumer, the readback row $R$ supplies the regular-rational interpretation, and the tolerance row $D$ fixes the dyadic comparison budget.
+
+Finally apply the existing NameCert obligations and sibling routes in the chapter. The structural rows $H,C,P,N$ preserve the same finite route through the cited StreamName, RegSeqRat, DyadicRatCore, and Real chapters, so a $\RegSeqRatUp$ or $\RealUp$ consumer cannot bypass the prefix cover or replace it with an ambient completed stream.
+\end{proof}
