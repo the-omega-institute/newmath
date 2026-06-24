@@ -115,3 +115,36 @@ the exported endpoint surface, none of candidate-free normalization, global
 confluence, unrestricted subject reduction, quotient syntax equality, evaluator
 soundness, or closed consistency is supplied.
 \end{proof}
+
+\begin{theorem}[MetaCIC candidate-normalization residual exhaustion]
+\label{thm:metacic-normal-form-residual-budget-exhaustion}
+Every accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ handoff row
+whose candidate set, bounded local peak, join-budget row, residual envelope,
+decidable-boundary row, blocked-edge row, transport, replay, provenance, and
+local $\NameCert$ are displayed has an exhaustive finite endpoint surface. It
+either forwards a retained premise through the candidate and normalization
+frontier rows, or emits the blocked residual edge as an obstruction. No
+consumer may erase that obstruction and read global confluence, unrestricted
+subject reduction, quotient syntax equality, closed consistency, or a
+candidate-free normal-form theorem.
+\end{theorem}
+\begin{proof}
+Project the displayed handoff carrier from the parent chapter. The candidate
+set, frontier rows, residual envelope, decidable boundary, blocked-edge row,
+transport, replay, provenance, and local naming data are the only rows available
+to the consumer.
+
+Apply the residual budget theorem
+\autoref{thm:metacic-candidate-normalization-residual-budget}. It requires the
+candidate evidence, residual-diamond retention, decidable-boundary data,
+blocked-edge rows, bounded local peak rows, join-budget rows, and sibling
+confluence route to remain visible before any endpoint is exported.
+
+Now read the displayed forward-or-blocked row as finite data. In the forward
+case the retained premise is carried through the candidate and frontier rows. In
+the blocked case the residual edge remains an obstruction attached to the
+endpoint read. The carrier's refused endpoints exclude candidate-free
+normalization, global confluence, unrestricted subject reduction, quotient
+syntax equality, closed consistency, and any consumer route that erases the
+obstruction.
+\end{proof}
