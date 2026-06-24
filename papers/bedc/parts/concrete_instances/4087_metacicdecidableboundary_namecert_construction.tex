@@ -305,6 +305,18 @@ Use the substitution-window theorem \autoref{thm:metacic-decidable-boundary-subs
 Finally apply candidate-normal-form reads and ledger exactness, \autoref{thm:metacic-decidable-boundary-candidate-normal-form} and \autoref{thm:metacic-decidable-boundary-ledger-exactness}. The ledger contains no unrecorded comparison row, quotient of represented terms, host evaluator, unrestricted beta-conversion decider, or fuel-free normalization endpoint.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable boundary finite checker indexing]
+\label{thm:metacic-decidable-boundary-finite-checker-indexing}
+Every finite checker output exposed by an accepted $\MetaCICDecidableBoundaryUp$ packet remains indexed by the displayed fuel row, closedness evidence, and normal endpoint rows carried by $T,S,B,F,R,H,C,P,N$. Consequently the output can be replayed only as bounded checker evidence inside the packet; it cannot be promoted to a global closed-term conversion decision.
+\end{theorem}
+\begin{proof}
+Start with fuel-window replay, \autoref{thm:metacic-decidable-boundary-fuel-window-replay}. It keeps every bounded comparison read tied to the fuel and finished-normal side-condition row $F$, so the checker output is not fuel-free.
+
+Next use the conversion nonescape package, \autoref{thm:metacic-decidable-boundary-conversion-nonescape-package}. Conversion-facing consumers see only $B,F,R,H,C,P,N$, with $R$ recording the missing global endpoints and with structural replay confined to the displayed route.
+
+Finally apply the normal-form decision envelope, \autoref{thm:metacic-decidable-boundary-normal-form-decision-envelope}. The positive envelope contains the finite checker and bounded-comparison rows together with their finished-normal side conditions, while the refusal row keeps standalone $\mathsf{ClosedAt}$ and global beta-conversion decisions outside the packet.
+\end{proof}
+
 \begin{theorem}[MetaCIC decidable boundary ClosedAt refusal route]
 \label{thm:metacic-decidable-boundary-closedat-refusal-route}
 For an accepted $\MetaCICDecidableBoundaryUp$ packet $D=(T,S,B,F,R,H,C,P,N)$, any consumer asking for a standalone $\mathsf{ClosedAt}$ decision route is sent exactly to the refusal row $R$. The positive rows $T,S,B,F$ remain available for typing, structural equality, bounded normal comparison, and finished-normal side conditions, while $H,C,P,N$ only transport, replay, source, and name that finite boundary.
