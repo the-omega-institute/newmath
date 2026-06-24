@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\FiniteBairstowRootWindowUp$}
+\label{ch:concrete-instances-finite-bairstow-root-window-namecert}
+\origin{human}
+
+Following the classical Bairstow quadratic-factor iteration in a Bishop-style finite-window reading, the $\FiniteBairstowRootWindowUp$ packet records only the displayed data needed to route a polynomial root-window computation toward Real-facing consumers. It sits after the polynomial coefficient interface of \autoref{ch:concrete-instances-polynomial-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, and the bisection-to-Cauchy seal of \autoref{ch:concrete-instances-bisection-root-cauchy-seal-namecert}. The packet is a finite root-window certificate; it is not host algebraic closure, quotient real equality, selected complex roots, global factorization, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite Bairstow root-window carrier]
+\label{def:finite-bairstow-root-window-carrier}
+A $\FiniteBairstowRootWindowUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,U,V,R,D,S,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\PolynomialUp$ coefficient-window row naming the finite list of inspected coefficients and the active degree bound.
+\item $U$ is the quadratic-factor update row recording the displayed Bairstow correction window for the current pair of quadratic coefficients.
+\item $V$ is the residual-budget ledger measuring the finite remainder, slack, and admissible stopping budget.
+\item $R$ is the dyadic bracketing row that turns the retained quadratic or linear factor into a sign-change or enclosure window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by $V$ and $R$.
+\item $S$ is the $\StreamNameUp$ finite observation row for coefficient, residual, and bracket requests.
+\item $Q$ is the $\RegSeqRatUp$ readback row handed to the $\BisectionRootCauchySealUp$ and terminal $\RealUp$ consumers.
+\item $H$ records componentwise $\hsame$ transport for coefficient windows, update rows, residual budgets, dyadic brackets, tolerance ledgers, stream windows, regular readbacks, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from coefficient inspection through update, residual, bracketing, regular readback, and Real-seal handoff.
+\item $P$ is the $\Pkg$ provenance over $\FiniteBairstowRootWindowUp$, $\PolynomialUp$, $\RealUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\BisectionRootCauchySealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteBairstowRootWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,U,V,R,D,S,Q,H,C,P,N$. It has no coordinate for host algebraic closure, quotient real equality, selected roots, unrestricted factorization, countable search, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite Bairstow root-window NameCert obligations]
+\label{thm:finite-bairstow-root-window-namecert-obligations}
+For every accepted $\FiniteBairstowRootWindowUp$ carrier $B=(A,U,V,R,D,S,Q,H,C,P,N)$, the local $\NameCert_{\FiniteBairstowRootWindowUp}$ surface consists exactly of coefficient-window admission, quadratic-factor update admission, residual-budget ledger exposure, dyadic bracketing-window exposure, $\StreamNameUp$ finite observation, $\RegSeqRatUp$ readback, $\BisectionRootCauchySealUp$ and $\RealUp$ handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row. The route refuses host algebraic closure, quotient real equality, selected complex roots, global factorization, countable root search, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-bairstow-root-window-carrier}. The coefficient window $A$, update row $U$, residual ledger $V$, bracket row $R$, tolerance ledger $D$, stream row $S$, and regular readback $Q$ are the only analytic coordinates available to the packet.
+
+The finite update route first inspects coefficients through $A$ and $S$. The Bairstow correction row $U$ and residual-budget row $V$ are displayed finite rows, so the certificate never reads a host factorization theorem or a selected root.
+
+Next the dyadic bracket $R$ and tolerance ledger $D$ feed the regular readback $Q$. The $\BisectionRootCauchySealUp$ and $\RealUp$ consumers receive only that finite bracketing and regular-Cauchy handoff, not quotient equality or ambient completeness.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no carrier coordinate stores algebraic closure, selected roots, unrestricted factorization, countable search, quotient real equality, or a completed Real object, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every $\FiniteBairstowRootWindowUp$ consumer that exports a root-window read without displaying coefficient windows, quadratic-factor update rows, residual budgets, dyadic brackets, StreamName observations, RegSeqRat readback, transport, replay, provenance, and local naming is outside the carrier surface.}
+
+\independenceWitness{polynomial, real, dyadicratcore, regseqrat, streamname, bisection-root-cauchy-seal: no listed sibling jointly carries coefficient windows, Bairstow update rows, residual budgets, dyadic brackets, regular readback, bisection-to-Cauchy handoff, and local NameCert data while refusing host algebraic closure and quotient root equality.}
+
+\closureat{FiniteBairstowRootWindowUp}{seedStr}
+
+\begin{closurestatus}{\FiniteBairstowRootWindowUp}
+  \constructivestory{A $\FiniteBairstowRootWindowUp$ packet is generated from polynomial coefficient windows, quadratic-factor update rows, residual-budget ledgers, dyadic bracketing windows, StreamName observations, RegSeqRat readback, a BisectionRootCauchySeal handoff, a Real-facing seal route, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-bairstow-root-window-carrier} and \autoref{thm:finite-bairstow-root-window-namecert-obligations} seed the finite Bairstow root-window packet over polynomial coefficient windows, quadratic-factor updates, residual budgets, dyadic brackets, StreamName, RegSeqRat, BisectionRootCauchySeal, Real, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host algebraic closure, quotient real equality, selected roots, global factorization, countable root search, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires finite update exactness, residual-budget determinacy, dyadic bracket handoff, Real-seal nonescape, transport stability, replay stability, and ledger refusal for BEDC.Derived.FiniteBairstowRootWindowUp.}
+\end{closurestatus}

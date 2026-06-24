@@ -8838,6 +8838,7 @@ import BEDC.Derived.ObserverperspectiveclassifierUp.ObligationClosureWitness
 import BEDC.Derived.ObserverperspectiveclassifierUp.ObserverStateGapRoute
 import BEDC.Derived.ObserverperspectiveclassifierUp.PerspectiveStability
 import BEDC.Derived.ObserverperspectiveclassifierUp.PublicReadbackCriterion
+import BEDC.Derived.ObserverperspectiveclassifierUp.ScopedConsumerBoundary
 import BEDC.Derived.ObserverperspectiveclassifierUp.SiblingCarrierDependency
 import BEDC.Derived.ObserverperspectiveclassifierUp.StateTotality
 import BEDC.Derived.ObserverperspectiveclassifierUp.TwoStateNoConfusion
@@ -12114,6 +12115,7 @@ import BEDC.Derived.UniformCauchyEmbeddingUp.TasteGate
 import BEDC.Derived.UniformCauchyFilterUp.CompletionHandoff
 import BEDC.Derived.UniformCauchyFilterUp.TasteGate
 import BEDC.Derived.UniformCauchyLimitUp.TasteGate
+import BEDC.Derived.UniformCauchyModulusExtractorUp.TasteGate
 import BEDC.Derived.UniformCauchyModulusUp.TasteGate
 import BEDC.Derived.UniformCauchyNetUp.TasteGate
 import BEDC.Derived.UniformCauchySequenceSpaceUp
