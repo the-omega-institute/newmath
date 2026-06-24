@@ -1,17 +1,24 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.UniformLimitCauchyCriterionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive UniformLimitCauchyCriterionUp : Type where
   | mk (F W M S R E H C P N : BHist) : UniformLimitCauchyCriterionUp
   deriving DecidableEq
+
+def uniformLimitCauchyCriterionFields :
+    UniformLimitCauchyCriterionUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | UniformLimitCauchyCriterionUp.mk F W M S R E H C P N => [F, W, M, S, R, E, H, C, P, N]
 
 def uniformLimitCauchyCriterionEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -36,11 +43,6 @@ private theorem UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_de
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def uniformLimitCauchyCriterionFields :
-    UniformLimitCauchyCriterionUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | UniformLimitCauchyCriterionUp.mk F W M S R E H C P N => [F, W, M, S, R, E, H, C, P, N]
-
 def uniformLimitCauchyCriterionToEventFlow :
     UniformLimitCauchyCriterionUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -51,7 +53,8 @@ private def uniformLimitCauchyCriterionEventAtDefault : Nat → EventFlow → Ra
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => uniformLimitCauchyCriterionEventAtDefault index rest
+  | Nat.succ index, _event :: rest =>
+      uniformLimitCauchyCriterionEventAtDefault index rest
 
 def uniformLimitCauchyCriterionFromEventFlow
     (ef : EventFlow) : Option UniformLimitCauchyCriterionUp :=
@@ -156,6 +159,54 @@ instance uniformLimitCauchyCriterionChapterTasteGate :
     intro x y hxy heq
     exact hxy
       (UniformLimitCauchyCriterionTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+theorem UniformLimitCauchyCriterionCarrier_namecert_obligations
+    (x : UniformLimitCauchyCriterionUp) :
+    ∃ localCert : BHist,
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row localCert ∧ localCert ∈ uniformLimitCauchyCriterionFields x)
+        (fun row : BHist =>
+          hsame row localCert ∧ localCert ∈ uniformLimitCauchyCriterionFields x)
+        (fun row : BHist =>
+          hsame row localCert ∧ localCert ∈ uniformLimitCauchyCriterionFields x)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert NameCert
+  cases x with
+  | mk F W M S R E H C P localCert =>
+      refine ⟨localCert, ?_⟩
+      refine
+        { core :=
+            { carrier_inhabited := ?_
+              equiv_refl := ?_
+              equiv_symm := ?_
+              equiv_trans := ?_
+              carrier_respects_equiv := ?_ }
+          pattern_sound := ?_
+          ledger_sound := ?_ }
+      · exact
+          ⟨localCert, hsame_refl localCert,
+            List.Mem.tail _ <|
+              List.Mem.tail _ <|
+                List.Mem.tail _ <|
+                  List.Mem.tail _ <|
+                    List.Mem.tail _ <|
+                      List.Mem.tail _ <|
+                        List.Mem.tail _ <|
+                          List.Mem.tail _ <|
+                            List.Mem.tail _ <| List.Mem.head _⟩
+      · intro row _source
+        exact hsame_refl row
+      · intro _row _row' same
+        exact hsame_symm same
+      · intro _row _row' _row'' same₁ same₂
+        exact hsame_trans same₁ same₂
+      · intro _row _row' same source
+        exact ⟨hsame_trans (hsame_symm same) source.left, source.right⟩
+      · intro _row source
+        exact source
+      · intro _row source
+        exact source
 
 def taste_gate : ChapterTasteGate UniformLimitCauchyCriterionUp :=
   -- BEDC touchpoint anchor: BHist BMark
