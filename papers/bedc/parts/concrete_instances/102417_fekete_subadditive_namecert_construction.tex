@@ -72,6 +72,30 @@ The handoff to $R$ and $E$ does not add analytic data. It presents the displayed
 The structural rows preserve the same route under transport and replay. Therefore a downstream Cauchy, series, or real-sequence-limit consumer cannot read ambient completeness, trichotomy, countable choice, quotient stream equality, host real equality, host-level infimum operators, or an external selected limit from the $\FeketeSubadditiveUp$ packet.
 \end{proof}
 
+\begin{theorem}[Fekete subadditive finite-prefix bound]
+\label{thm:fekete-subadditive-finite-prefix-bound}
+Let $F=(S,A,D,L,R,E,H,C,P,N)$ be an accepted $\FeketeSubadditiveUp$ carrier, and let a downstream $\RegSeqRatUp$, $\RealUp$, series, or real-sequence-limit consumer request a finite read of the lower-bound row $L$. Then the read must expose a finite prefix containing the source windows $S$, the subadditivity ledger $A$, and the dyadic normalized-average ledger $D$ before any lower-bound row is available.
+
+In particular, the prefix bound is determined by the displayed route
+$$
+S,A\longmapsto D\longmapsto L
+$$
+and by the downstream continuation
+$$
+L\longmapsto R\longmapsto E .
+$$
+No host infimum, trichotomy, quotient stream equality, selected external limit, ambient Real completeness, countable choice, or host real equality can enter the prefix bound.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The carrier definition displays the rows $S,A,D,L,R,E,H,C,P,N$, and the local NameCert obligations force the source windows $S$, the subadditivity ledger $A$, and the normalized-average comparison ledger $D$ to be present before $L$ is read.
+
+The finite prefix is therefore obtained by truncating the displayed carrier at the last row used by the requested lower-bound read. Since every comparison in $D$ cites only inspected windows of $S$ and decomposition rows of $A$, the truncation contains exactly the finite data needed to justify the lower-bound row.
+
+Apply the Cauchy route theorem to the downstream part of the read. The handoff rows $R$ and $E$ consume the already displayed prefix $S,A,D,L$ and do not add analytic data of their own.
+
+Thus the requested consumer receives a finite prefix bound through the displayed ledger alone. The excluded host objects have no coordinate in the carrier, no NameCert obligation row, and no continuation route into $L$, $R$, or $E$.
+\end{proof}
+
 \closureat{FeketeSubadditiveUp}{seedStr}
 
 \begin{closurestatus}{\FeketeSubadditiveUp}
