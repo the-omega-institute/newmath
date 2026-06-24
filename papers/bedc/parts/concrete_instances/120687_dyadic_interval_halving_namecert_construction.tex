@@ -75,6 +75,18 @@ The observation row $Q$ and regular rational row $E$ translate that finite surfa
 No remaining coordinate stores ambient completeness, quotient equality, trichotomy, or compactness. The seal therefore records only the displayed one-step dyadic interval readback.
 \end{proof}
 
+\begin{theorem}[Dyadic interval halving scoped bisection transport]
+\label{thm:dyadic-interval-halving-scoped-bisection-transport}
+Every accepted $\DyadicIntervalHalvingUp$ bisection read transports componentwise through the displayed dyadic endpoint row, the $\StreamNameUp$ finite observation schedule, the $\RegSeqRatUp$ readback row, the $\RealUp$ seal row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\DyadicIntervalHalvingUp}$ row. The packet exports no open-cover compactness, quotient $\RealUp$ equality, trichotomy, unbounded midpoint selector, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:dyadic-interval-halving-namecert-obligations}. They expose the input interval row, dyadic arithmetic row, midpoint row, child rows, width-halving row, finite observation row, regular rational readback row, Real seal row, transport row, provenance row, and local naming row as one finite carrier.
+
+Next use the nested route handoff of \autoref{thm:dyadic-interval-halving-nested-route}. It permits a consumer to append the displayed left or right child only as a one-step bisection input, with no infinite branch selector or compactness principle attached.
+
+Finally apply the Real seal boundary of \autoref{thm:dyadic-interval-halving-real-seal-boundary}. Since the seal is readable only after the endpoint, midpoint, child, width, observation, and readback rows have been displayed, componentwise $\hsame$ transport and $\Cont$ replay preserve exactly that scoped route. The carrier has no coordinate for open-cover compactness, quotient real equality, trichotomy, an unbounded midpoint selector, or ambient completeness, so none is exported.
+\end{proof}
+
 \closureat{DyadicIntervalHalvingUp}{seedStr}
 
 \begin{closurestatus}{\DyadicIntervalHalvingUp}
