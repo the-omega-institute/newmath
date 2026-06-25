@@ -47,6 +47,20 @@ Universal factorization is the role of $U$ and $F$. The universal-property row s
 Separated uniqueness is local to $S$ and transported by $H$. The replay row $R$ orders the same route, and the provenance rows $P,N$ list no additional coordinate. Hence the excluded quotient, representative-selection, host-equality, choice, compactness, and ambient real-completeness principles cannot be read from the certificate.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionMinimality dense-image coverage]
+\label{thm:cauchy-completion-minimality-dense-image-coverage}
+Let $M=(X,C,E,U,F,S,H,R,P,N)$ be an accepted $\CauchyCompletionMinimalityUp$ carrier. Every completion-facing approximation exported by the minimality packet must expose the displayed completion row $C$ and then the dense embedding row $E$ before the universal-property, uniformly continuous extension, separated uniqueness, transport, replay, provenance, and local naming rows $U,F,S,H,R,P,N$ can be consumed.
+
+The coverage route exports no quotient completion, selected representative, countable-choice schedule, host equality, open-cover compactness principle, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-minimality-carrier}. Its rows display the source metric $X$, completion row $C$, dense embedding row $E$, universal-property row $U$, extension row $F$, separated uniqueness row $S$, and structural rows $H,R,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-completion-minimality-namecert-obligations}. The dense-image clause requires every completion-facing source approximation to pass through $E$ after $C$ has been displayed, while the ledger non-escape clause keeps quotient completions, selected representatives, choice schedules, host equality, open-cover compactness, and ambient real-completeness outside the packet.
+
+Finally use \autoref{thm:cauchy-completion-minimality-universal-factorization}. Since every downstream consumer must continue through $U,F,S,H,R,P,N$, the consumer cannot bypass $E$ by reading the universal route directly.
+\end{proof}
+
 \begin{theorem}[CauchyCompletionMinimality universal factorization]
 \label{thm:cauchy-completion-minimality-universal-factorization}
 Let $M=(X,C,E,U,F,S,H,R,P,N)$ be an accepted $\CauchyCompletionMinimalityUp$ carrier. Any completion-facing consumer sharing the same source metric $X$, dense embedding $E$, and separated target boundary $S$ factors through the route
