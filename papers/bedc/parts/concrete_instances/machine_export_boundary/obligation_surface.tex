@@ -9,3 +9,15 @@ The audit and refusal rows $A,F$ keep provenance-facing evidence and blocked-cla
 
 Finally read $P$ and $N$. Package provenance and the local NameCert row close the export boundary only after the machine-interface, registry-export, audit, refusal, transport, and replay rows are visible, so no external read is public outside the displayed obligation surface.
 \end{proof}
+
+\begin{theorem}[Machine export boundary bounded diamond consumer]
+\label{thm:machine-export-boundary-bounded-diamond-consumer}
+Every $\MetaCICBoundedDiamondWindowUp$ consumer of $\MachineExportBoundaryUp$ must read registry status, machine target, audit readback, refusal preservation, componentwise transport, displayed replay, package provenance, and local NameCert rows through the accepted packet $E=(R,T,A,F,H,C,P,N)$ before bounded diamond evidence can be exported. In particular, the bounded-window consumer of \autoref{ch:concrete-instances-metacic-bounded-diamond-window-namecert} may cite the obligation surface of \autoref{thm:machine-export-boundary-obligation-surface} only after all eight rows remain visible in the same machine export boundary packet.
+\end{theorem}
+\begin{proof}
+Project the packet $E=(R,T,A,F,H,C,P,N)$ from \autoref{thm:machine-export-boundary-obligation-surface}. The registry status row $R$, target row $T$, audit row $A$, and refusal row $F$ are the machine-facing data that a bounded diamond consumer must inspect before export.
+
+The structural rows $H,C,P,N$ keep that data inside the accepted packet. Transport and replay preserve the same registry, target, audit, and refusal route, while provenance and local naming keep the route tied to $\MachineExportBoundaryUp$.
+
+Therefore a $\MetaCICBoundedDiamondWindowUp$ consumer cannot export bounded diamond evidence from a bare machine read. It first factors through the displayed MachineExportBoundary obligation surface, with every row of $E$ still visible.
+\end{proof}
