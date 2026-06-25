@@ -197,6 +197,242 @@ $$
 $$
 \end{definition}
 
+\begin{definition}[Golden conjugate spectral readout]
+\label{def:zeckendorf-golden-conjugate-spectral-readout}
+Let
+$$
+K_{\varphi}:=\mathbb Q(\sqrt5)
+$$
+and let $\mathsf{Bin}_{Z}=\{b_0,b_1\}$ be a displayed binary
+distinction carrier attached to the Axis-Zeckendorf fold surface. A
+\emph{golden conjugate spectral readout} is a typed map
+$$
+\chi_{\varphi}:\mathsf{Bin}_{Z}\to K_{\varphi}
+$$
+whose ordinary algebraic semantics sends
+$$
+\chi_{\varphi}(b_0)=B_0:=\frac{1+\sqrt5}{2},
+\qquad
+\chi_{\varphi}(b_1)=B_1:=\frac{1-\sqrt5}{2}.
+$$
+The symbols $b_0,b_1$ remain distinction markers. The rows
+$B_0,B_1$ are their spectral readings in the golden recursive layer, not
+kernel identities identifying the markers with algebraic numbers.
+\end{definition}
+
+\input{parts/visions/axiszeckendorf/atomic_recursive_prime_edge}
+
+\begin{definition}[Golden conjugation center]
+\label{def:zeckendorf-golden-conjugation-center}
+Let $\sigma:K_{\varphi}\to K_{\varphi}$ be the conjugation determined by
+$$
+\sigma(\sqrt5)=-\sqrt5.
+$$
+Equivalently, on the two roots of
+$$
+x^2-x-1=0
+$$
+the conjugation is the mirror
+$$
+J_{\varphi}(x):=1-x.
+$$
+The two spectral rows satisfy
+$$
+\sigma(B_0)=B_1,
+\qquad
+\sigma(B_1)=B_0,
+\qquad
+J_{\varphi}(B_0)=B_1,
+\qquad
+J_{\varphi}(B_1)=B_0.
+$$
+Their trace center is
+$$
+c_{\varphi}:=\frac{B_0+B_1}{2}.
+$$
+\end{definition}
+
+\begin{theorem}[Golden pair has half trace center]
+\label{thm:zeckendorf-golden-pair-half-trace-center}
+The spectral rows of
+\autoref{def:zeckendorf-golden-conjugate-spectral-readout} satisfy
+$$
+B_0+B_1=1,
+\qquad
+B_0B_1=-1,
+\qquad
+B_1=1-B_0,
+\qquad
+B_0=1-B_1,
+$$
+and hence
+$$
+c_{\varphi}=\frac12.
+$$
+\end{theorem}
+
+\begin{proof}
+Substituting the displayed algebraic readings gives
+$$
+B_0+B_1
+=
+\frac{1+\sqrt5}{2}+\frac{1-\sqrt5}{2}
+=1
+$$
+and
+$$
+B_0B_1
+=
+\frac{(1+\sqrt5)(1-\sqrt5)}{4}
+=
+\frac{1-5}{4}
+=-1.
+$$
+The two equations $B_1=1-B_0$ and $B_0=1-B_1$ are immediate from the
+sum equation. Therefore
+$$
+c_{\varphi}
+=
+\frac{B_0+B_1}{2}
+=
+\frac12.
+$$
+\end{proof}
+
+\begin{principle}[Spectral distinction boundary]
+\label{prin:zeckendorf-spectral-distinction-boundary}
+The pair $(B_0,B_1)$ is a conjugate spectral reading of a displayed
+binary distinction, not the binary distinction itself. A consumer may use
+it only together with the readout map $\chi_{\varphi}$, the golden
+recursion certificate, the fold ledger, and the cannot-claim boundary of
+\autoref{thm:zeckendorf-golden-phase-derived-readout}. Thus the
+spectral layer refines the distinction marker without replacing the
+underlying history carrier.
+\end{principle}
+
+\begin{principle}[Trace-center schema]
+\label{prin:zeckendorf-trace-center-schema}
+The golden conjugate pair has the form
+$$
+B_0=\frac12+\frac{\sqrt5}{2},
+\qquad
+B_1=\frac12-\frac{\sqrt5}{2}.
+$$
+It is therefore a minimal algebraic instance of a moving conjugate
+orbit whose mirror $x\mapsto1-x$ has fixed center $1/2$. This is the same
+half-center schema that appears in
+\autoref{thm:layered-projection-half-fixed-point} and in the critical-line
+mirror of \autoref{thm:layered-projection-critical-line-fixed-surface}.
+The comparison is structural: it identifies a shared center-forming
+involution, not a proof of any zero-ledger exclusion statement.
+\end{principle}
+
+\begin{definition}[Golden fixed-half interface]
+\label{def:zeckendorf-golden-fixed-half-interface}
+The golden fixed-half interface associated to
+\autoref{def:zeckendorf-golden-conjugation-center} is the half-value
+layer
+$$
+\mathcal H_{\varphi}
+:=
+(K_{\varphi},b_{\varphi},1/2)
+$$
+whose readout is the centered coordinate
+$$
+b_{\varphi}(x):=\frac{x+J_{\varphi}(x)}{2}.
+$$
+Its fixed-half fiber is
+$$
+\operatorname{Fix}_{\mathcal H_{\varphi}}
+:=
+\sum_{x:K_{\varphi}}\bigl(b_{\varphi}(x)=1/2\bigr).
+$$
+This fiber is the algebraic middle interface of the golden conjugate
+pair. It is not a third branch between $B_0$ and $B_1$.
+\end{definition}
+
+\begin{theorem}[Golden branch pair reads back to the fixed-half fiber]
+\label{thm:zeckendorf-golden-branches-read-back-fixed-half}
+Both golden spectral branches have the same fixed-half readback:
+$$
+b_{\varphi}(B_0)=\frac12,
+\qquad
+b_{\varphi}(B_1)=\frac12.
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:zeckendorf-golden-conjugation-center},
+$J_{\varphi}(B_0)=B_1$ and $J_{\varphi}(B_1)=B_0$. Hence
+$$
+b_{\varphi}(B_0)
+=
+\frac{B_0+B_1}{2}
+=
+\frac12
+$$
+and similarly
+$$
+b_{\varphi}(B_1)
+=
+\frac{B_1+B_0}{2}
+=
+\frac12,
+$$
+using \autoref{thm:zeckendorf-golden-pair-half-trace-center}.
+\end{proof}
+
+\begin{definition}[Golden residual cross-seed]
+\label{def:zeckendorf-golden-residual-cross-seed}
+Let $P_{\varphi}:T\to\{B_0,B_1\}$ be a displayed golden-branch readout.
+The residual fiber over a visible branch is
+$$
+\operatorname{Fib}_{\varphi}(B_i)
+:=
+\sum_{t:T}\bigl(P_{\varphi}(t)=B_i\bigr).
+$$
+A \emph{golden residual cross-seed} is a refinement row inside
+$\operatorname{Fib}_{\varphi}(B_i)$ whose next readout exposes the
+opposite branch $B_{1-i}$ while retaining readback to the visible branch
+$B_i$ at the current classifier.
+\end{definition}
+
+\begin{principle}[Conjugate fiber interface]
+\label{prin:zeckendorf-conjugate-fiber-interface}
+The two visible golden branches are paired by the involution
+$J_{\varphi}$, while their middle interface is the fixed-half fiber
+$\operatorname{Fix}_{\mathcal H_{\varphi}}$. Residual cross-seeds record
+that a visible branch need not exhaust its source fiber: the opposite
+branch may remain available as refinement data, in the sense of the
+layer-fiber discipline of \autoref{def:interface-layer-fiber-family} and
+the information residue of \autoref{def:constructive-information-residue}.
+\end{principle}
+
+\begin{principle}[Critical-line analogue]
+\label{prin:zeckendorf-critical-line-analogue}
+For the RH mirror
+$$
+J(s)=1-\overline{s},
+$$
+writing
+$$
+s=\frac12+\delta+i\tau
+$$
+gives
+$$
+J(s)=\frac12-\delta+i\tau.
+$$
+Thus the golden skew coordinate
+$$
+u=\frac{\sqrt5}{2}
+$$
+and the RH bias coordinate $\delta$ play the same formal role: the
+fixed interface is the zero-bias surface. In the golden layer this
+surface is the fixed-half fiber of $\mathcal H_{\varphi}$; in the RH
+layer it is the critical line. This analogy does not turn the golden
+branch model into a proof of the RH zero-ledger target.
+\end{principle}
+
 \begin{definition}[Zeckendorf phase character and circumference certificate]
 \label{def:zeckendorf-phase-character-circumference}
 The Zeckendorf phase character \(\chi_\varphi^Z\) is the phase-circle

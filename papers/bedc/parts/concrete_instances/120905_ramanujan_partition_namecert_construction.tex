@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\RamanujanPartitionUp$}
+\label{ch:concrete-instances-ramanujan-partition-namecert}
+\origin{human}
+
+Following Ramanujan and Hardy--Ramanujan on congruences and finite asymptotic windows for the partition function, the $\RamanujanPartitionUp$ packet records the finite BEDC surface that a partition-number consumer may inspect before reading a congruence, circle-window, or coefficient-boundary handoff. It sits beside the integer and natural-number carriers of \autoref{ch:concrete-instances-int-namecert} and \autoref{ch:concrete-instances-nat-namecert}, the polynomial and generating-series surfaces of \autoref{ch:concrete-instances-polynomial-namecert} and \autoref{ch:concrete-instances-hadamard-product-series-namecert}, and the real-facing regular readback route of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names only finite partition windows, modulus rows, coefficient ledgers, analytic-window witnesses, transport, replay, provenance, and local naming; it is not a host proof of all Ramanujan congruences, a selected infinite $q$-series, a quotient analytic function, or an ambient asymptotic theorem.
+
+\begin{definition}[Ramanujan partition finite-window carrier]
+\label{def:ramanujan-partition-carrier}
+A $\RamanujanPartitionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(N,W,M,Q,C,A,B,H,T,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the finite $\NatUp$ index-window row, listing the partition-number requests admitted by the packet.
+\item $W$ is the finite partition-table window, exposing the computed $p(n)$ entries for the displayed requests.
+\item $M$ is the modulus row for the congruence-facing prime-power or arithmetic-progression data.
+\item $Q$ is the coefficient-extraction row, read through a finite generating-series or polynomial window before any partition value is consumed.
+\item $C$ is the congruence ledger, recording the displayed divisibility or residue claim only for the finite rows in $N,W,M,Q$.
+\item $A$ is the analytic-window row, storing the Hardy--Ramanujan or circle-window estimate data as finite dyadic bounds.
+\item $B$ is the boundary row that separates exact finite congruence reads from asymptotic or analytic-window reads.
+\item $H$ records componentwise $\hsame$ transport for the index, partition-table, modulus, coefficient, congruence, analytic-window, boundary, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from a partition consumer request through $N,W,M,Q,C,A,B,H$.
+\item $P$ is the $\Pkg$ provenance over $\RamanujanPartitionUp$, $\NatUp$, $\IntUp$, $\PolynomialUp$, $\HadamardProductSeriesUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\RamanujanPartitionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $N,W,M,Q,C,A,B,H,T,P,L$. It has no coordinate for an infinite partition table, selected $q$-series, quotient analytic equality, all-moduli congruence closure, circle-method completeness, or ambient asymptotic truth.
+\end{definition}
+
+\begin{theorem}[Ramanujan partition NameCert obligations]
+\label{thm:ramanujan-partition-namecert-obligations}
+For every accepted $\RamanujanPartitionUp$ carrier
+$$
+R=(N,W,M,Q,C,A,B,H,T,P,L),
+$$
+the local $\NameCert_{\RamanujanPartitionUp}$ surface consists exactly of finite index admission, partition-table window exposure, modulus-row exposure, coefficient-extraction routing, congruence-ledger exactness, analytic-window boundary exposure, separation between exact and asymptotic reads, componentwise transport, displayed replay, package provenance, and local naming. No obligation is discharged by an unbounded partition table, host analytic continuation, selected infinite $q$-series, quotient function equality, or an ambient circle-method theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ramanujan-partition-carrier}. The displayed rows are exactly $N,W,M,Q,C,A,B,H,T,P,L$, so every local obligation must be read from those finite rows.
+
+First expose the arithmetic side. The rows $N$ and $W$ give the finite request window and partition-table entries, while $M$ gives the modulus data and $Q$ gives the coefficient-extraction route that produced the displayed values.
+
+Next separate the two consumer routes. The congruence ledger $C$ can be read only against $N,W,M,Q$, and the analytic-window row $A$ can be read only through the boundary row $B$. Thus a consumer cannot turn a finite congruence row into a global congruence theorem or an analytic estimate into a completed asymptotic theorem.
+
+Finally $H,T,P,L$ transport, replay, source, and name the same finite route. Since the excluded infinite and host-analytic objects are not carrier coordinates, they cannot appear as local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Ramanujan partition finite-window dependency route]
+\label{thm:ramanujan-partition-finite-window-dependency-route}
+Every congruence-facing or asymptotic-facing consumer of an accepted $\RamanujanPartitionUp$ carrier must factor through
+$$
+\NatUp,\IntUp
+\longmapsto
+N,W,M,Q
+\longmapsto
+C,A,B
+\longmapsto
+H,T,P,L .
+$$
+The route exposes natural indices, integer partition values, coefficient windows, congruence rows, analytic-window bounds, and boundary separation before any partition-function handoff is read.
+\end{theorem}
+\begin{proof}
+Begin with a consumer request for partition data. The carrier gives no direct access to an infinite partition function; the request first reaches the finite index row $N$ and the finite table row $W$ over the natural and integer carriers.
+
+The coefficient and congruence data are then forced through $M,Q,C$. A congruence-facing consumer sees only the displayed modulus and coefficient route, not a theorem about all arithmetic progressions.
+
+For analytic reads, $A$ must pass through the boundary row $B$. The rows $H,T,P,L$ then preserve, replay, source, and name the same finite dependency route. Hence the packet exports only the displayed finite-window handoff.
+\end{proof}
+
+\closureat{RamanujanPartitionUp}{seedStr}
+
+\begin{closurestatus}{\RamanujanPartitionUp}
+  \constructivestory{A $\RamanujanPartitionUp$ packet is generated from finite Nat index windows, Int partition-value rows, modulus rows, coefficient-extraction windows, congruence ledgers, Hardy--Ramanujan analytic-window bounds, boundary separation, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ramanujan-partition-carrier}, \autoref{thm:ramanujan-partition-namecert-obligations}, and \autoref{thm:ramanujan-partition-finite-window-dependency-route} seed the finite partition-function route over displayed arithmetic windows, coefficient extraction, congruence ledgers, analytic-window bounds, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close all Ramanujan congruences, infinite partition tables, selected q-series, quotient analytic equality, circle-method completeness, ambient asymptotic truth, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite-window admission, coefficient extraction, congruence-ledger exactness, analytic-boundary separation, structural stability, and local naming for BEDC.Derived.RamanujanPartitionUp.}
+\end{closurestatus}

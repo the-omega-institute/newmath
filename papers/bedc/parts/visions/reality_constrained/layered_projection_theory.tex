@@ -1,0 +1,569 @@
+\section{Layered projection theory}
+\label{sec:layered-projection-theory}
+\origin{ai}
+
+\begin{remark}[Paper-side theory status]
+\label{rem:layered-projection-theory-status}
+This section records the paper-side form of layered projection theory.
+It has no Lean target in this chapter. Its role is to make explicit the
+theory carried implicitly by the interface--constraint--section packet:
+every public layer is a readout surface over a source carrier, every
+loss of visible distinction leaves a fiber family, every legitimate
+refinement must display its readback map, and every numerical half-value
+claim must arise from a witnessed involutive symmetry rather than from
+an unledgered statistical convention.
+\end{remark}
+
+\begin{definition}[Layered projection datum]
+\label{def:layered-projection-datum}
+A \emph{layered projection datum} over a displayed source carrier $X$ is
+a finite family
+$$
+\mathfrak P=
+\bigl(\mathcal L_i,\rho_{i+1,i},\Lambda_{i+1,i}\bigr)_{i<n}
+$$
+where each $\mathcal L_i$ is a readout layer in the sense of
+\autoref{def:interface-readout-layer}, each
+$\rho_{i+1,i}:R_{i+1}\to R_i$ is a displayed readback map witnessing that
+$\mathcal L_{i+1}$ refines $\mathcal L_i$, and each
+$\Lambda_{i+1,i}$ records classifier transport, source provenance,
+refinement exactness, and the residual gap surface.
+\end{definition}
+
+\begin{definition}[Inherited predicate]
+\label{def:layered-projection-inherited-predicate}
+Let $\mathcal L_{i+1}$ refine $\mathcal L_i$ through
+$\rho_{i+1,i}:R_{i+1}\to R_i$. A predicate
+$A_i:R_i\to\mathsf{Prop}$ on the $i$-th layer induces the predicate
+$$
+A_{i+1}:=A_i\circ\rho_{i+1,i}
+$$
+on the refined layer. The induction is legitimate only with the displayed
+readback map and the classifier-respect row for $A_i$.
+\end{definition}
+
+\begin{theorem}[Predicate inheritance]
+\label{thm:layered-projection-predicate-inheritance}
+Suppose $\mathcal L_{i+1}$ refines $\mathcal L_i$ and $A_i$ respects
+$\sim_i$. If $A_i(P_i(x))$ holds for a source row $x:X$, then the
+inherited predicate satisfies
+$$
+A_{i+1}(P_{i+1}(x)).
+$$
+\end{theorem}
+
+\begin{proof}
+By definition,
+$$
+A_{i+1}(P_{i+1}(x))
+=
+A_i(\rho_{i+1,i}(P_{i+1}(x))).
+$$
+The refinement row gives
+$\rho_{i+1,i}(P_{i+1}(x))\sim_i P_i(x)$. Since $A_i$ respects
+$\sim_i$, the premise $A_i(P_i(x))$ transports across this classifier
+witness and gives the inherited claim.
+\end{proof}
+
+\begin{definition}[Concept layer]
+\label{def:layered-projection-concept-layer}
+A \emph{concept layer} is a readout layer together with an operation and
+certificate surface
+$$
+\mathcal C=(R,\sim_R,P,\mathsf{Op},\mathsf{Cert},\Lambda).
+$$
+Here $\mathsf{Op}$ is the family of constructions licensed at the layer,
+and $\mathsf{Cert}$ records closure, compatibility, stability, and
+replay obligations for those constructions.
+\end{definition}
+
+\begin{definition}[Concept tower]
+\label{def:layered-projection-concept-tower}
+A \emph{concept tower} is a finite or countable sequence
+$(\mathcal C_i)$ of concept layers together with refinement certificates
+$$
+\mathcal C_{i+1}\preceq\mathcal C_i.
+$$
+The tower order is not a chronology of discovery. It is a dependency
+order for forming predicates and operations without hidden supply.
+\end{definition}
+
+\begin{definition}[Tower-internal concept]
+\label{def:layered-projection-tower-internal-concept}
+Let $\mathcal T=(\mathcal C_i)$ be a concept tower. A concept is
+\emph{tower-internal} when its carrier, predicate, operation, or section
+data is obtained from a finite prefix of $\mathcal T$ by the displayed
+formation rules of the prefix: readout along a layer map, pullback along a
+refinement map, dependent sum or product over a displayed carrier, fiber
+formation, section formation, equality transport along a classifier
+witness, and application of an operation whose certificate row belongs to
+one of the layers.
+\end{definition}
+
+\begin{definition}[BEDC-generable concept]
+\label{def:layered-projection-bedc-generable-concept}
+Relative to a displayed concept tower $\mathcal T$, a
+\emph{BEDC-generable concept} is a concept whose complete formation
+record is a finite BEDC expression over the source carrier, the displayed
+layer carriers, the readout and refinement maps, the classifier
+witnesses, and the certified operation rows of $\mathcal T$. The phrase
+does not range over untyped host-language ideas; it ranges only over
+objects whose dependencies are present in the tower ledger.
+\end{definition}
+
+\begin{theorem}[Tower closure for BEDC-generable concepts]
+\label{thm:layered-projection-tower-closure}
+Every BEDC-generable concept relative to $\mathcal T$ is tower-internal.
+\end{theorem}
+
+\begin{proof}
+The formation record of a BEDC-generable concept is finite. Induct on its
+formation. A source carrier, layer carrier, readout, refinement map,
+classifier witness, or certified operation row is already present in a
+finite prefix of $\mathcal T$, hence is tower-internal. Pullback,
+dependent sum, dependent product, fiber formation, section formation, and
+equality transport are exactly the allowed tower-internal formation
+rules. The induction step therefore preserves tower-internality for every
+constructor in the finite record.
+\end{proof}
+
+\begin{corollary}[Relative absence of outside concepts]
+\label{cor:layered-projection-relative-no-outside-concept}
+If the word ``concept'' is restricted to BEDC-generable concepts relative
+to $\mathcal T$, then there is no concept outside $\mathcal T$.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:layered-projection-tower-closure}, each concept in the
+restricted range is tower-internal. Thus no concept in that range is both
+BEDC-generable and outside the tower.
+\end{proof}
+
+\begin{principle}[Typed boundary of the outside-concept claim]
+\label{prin:layered-projection-typed-boundary-outside-concept}
+The unqualified sentence ``no concept is outside the tower'' is not a
+closed BEDC claim. It becomes a theorem only after the quantifier is
+typed as ranging over BEDC-generable concepts relative to a displayed
+tower. Without this restriction the sentence quantifies over an
+unstated host-language domain and has no carrier, equality, or formation
+ledger.
+\end{principle}
+
+\begin{theorem}[Layered infinity theorem]
+\label{thm:layered-projection-infinity}
+For every readout layer $\mathcal L$ over $X$, the layer residue is the
+fiber family
+$$
+\infty_{\mathcal L}(r)=\operatorname{Fib}_{\mathcal L}(r).
+$$
+It is not an element of the visible carrier $R$. If a finer layer
+$\mathcal M$ refines $\mathcal L$, then the finer layer partitions each
+previous fiber through the map of
+\autoref{thm:interface-refinement-partitions-previous-fiber}.
+\end{theorem}
+
+\begin{proof}
+The first assertion is \autoref{def:interface-layer-fiber-family}. The
+second assertion follows because the type of $\infty_{\mathcal L}$ is a
+family indexed by $R$, not a row of $R$. The refinement assertion is
+exactly \autoref{thm:interface-refinement-partitions-previous-fiber}.
+\end{proof}
+
+\begin{principle}[No point replacement for residue]
+\label{prin:layered-projection-no-point-replacement}
+Whenever a projection hides a source distinction, the hidden content may
+be named only as fiber data, section-relative meaning, or a gap row. It
+may not be replaced by a single additional visible point unless a new
+carrier, classifier, readout, and naming certificate have been displayed.
+\end{principle}
+
+\begin{definition}[Pre-prime tower segment]
+\label{def:layered-projection-pre-prime-tower}
+The pre-prime segment of a concept tower has the dependency shape
+$$
+\mathsf{Distinction}
+\to
+\Hist
+\to
+\Cont
+\to
+\mathsf{Unary}
+\to
+\mathsf{Nat}
+\to
+\mathsf{Order}
+\to
+\mathsf{Add}
+\to
+\mathsf{Mul}
+\to
+\mathsf{Div}
+\to
+\mathsf{Unit}
+\to
+\mathsf{Prime}.
+$$
+The divisibility predicate is formed only after multiplication:
+$$
+d\mid n
+\quad:\Longleftrightarrow\quad
+\exists q,\ n=dq.
+$$
+The prime predicate is then the layer expression
+$$
+\mathsf{Prime}(p)
+\quad:\Longleftrightarrow\quad
+p>1\ \wedge\
+\forall d,\ d\mid p\Rightarrow d=1\vee d=p.
+$$
+\end{definition}
+
+\begin{theorem}[Prime is not a primitive layer]
+\label{thm:layered-projection-prime-not-primitive}
+In the pre-prime tower segment, $\mathsf{Prime}$ cannot be formed before
+the multiplication and divisibility layers.
+\end{theorem}
+
+\begin{proof}
+The displayed definition of $\mathsf{Prime}(p)$ contains the predicate
+$d\mid p$. The displayed definition of $d\mid p$ contains the product
+$dq$. Without the multiplication layer there is no displayed
+divisibility predicate, and without divisibility there is no displayed
+prime predicate.
+\end{proof}
+
+\begin{definition}[Prime-coordinate readout]
+\label{def:layered-projection-prime-coordinate-readout}
+Once a unique-factorization certificate is displayed, the prime-coordinate
+readout sends a positive integer $n$ to the finite-support family
+$$
+\Phi(n)=(p\mapsto v_p(n))\in\mathbb N^{(\mathbb P)}.
+$$
+Each prime $p$ determines the coordinate vector $e_p$ with value $1$ at
+$p$ and value $0$ at every other prime.
+\end{definition}
+
+\begin{definition}[Prime-occupancy carrier]
+\label{def:layered-projection-prime-occupancy-carrier}
+The prime-occupancy carrier is the finite-support configuration space
+$$
+T_{\mathbb P}:=\mathbb N^{(\mathbb P)}.
+$$
+Its elements are rows
+$$
+k:\mathbb P\to\mathbb N
+$$
+with finite support. The coordinate $k_p$ records how many times the
+prime axis $p$ is occupied. The carrier $T_{\mathbb P}$ is therefore the
+multiplicative-divisibility presentation of positive arithmetic after
+unique factorization has been displayed; it is not the set of primes
+$\mathbb P$ alone and not the absolute base of the whole BEDC tower.
+\end{definition}
+
+\begin{definition}[Arithmetic multiplication presentation]
+\label{def:layered-projection-arithmetic-multiplication-presentation}
+The arithmetic multiplication presentation is the readout
+$$
+\Phi:\mathbb N_{>0}\to T_{\mathbb P}
+$$
+of \autoref{def:layered-projection-prime-coordinate-readout}, together
+with the readback
+$$
+\Psi(k):=\prod_{p\in\mathbb P}p^{k_p}.
+$$
+The product is finite because $k$ has finite support. The readout and
+readback are licensed only relative to the multiplication, divisibility,
+unit, order, natural-number, and unique-factorization certificates of
+the pre-prime tower segment.
+\end{definition}
+
+\begin{theorem}[Multiplication becomes coordinate addition]
+\label{thm:layered-projection-multiplication-coordinate-addition}
+For positive integers $m,n$ with displayed unique factorization,
+$$
+\Phi(mn)=\Phi(m)+\Phi(n).
+$$
+\end{theorem}
+
+\begin{proof}
+Unique factorization gives
+$$
+m=\prod_p p^{v_p(m)},
+\qquad
+n=\prod_p p^{v_p(n)}.
+$$
+Multiplying the two expressions gives
+$$
+mn=\prod_p p^{v_p(m)+v_p(n)}.
+$$
+Uniqueness of the factorization certificate identifies the $p$-coordinate
+of $mn$ with $v_p(m)+v_p(n)$ for every prime $p$.
+\end{proof}
+
+\begin{principle}[Prime ontology is relative arithmetic presentation]
+\label{prin:layered-projection-prime-ontology-relative}
+The phrase ``the ontology is prime'' can be used in BEDC only in the
+relative sense that the positive multiplicative arithmetic layer is read
+through $T_{\mathbb P}$. In that presentation, the unit is the zero
+configuration, multiplication is coordinate addition, divisibility is
+coordinatewise comparison,
+$$
+m\mid n
+\quad\Longleftrightarrow\quad
+\forall p,\ v_p(m)\leq v_p(n),
+$$
+and the gcd and lcm rows are coordinatewise minimum and maximum:
+$$
+v_p(\gcd(m,n))=\min(v_p(m),v_p(n)),
+\qquad
+v_p(\operatorname{lcm}(m,n))=\max(v_p(m),v_p(n)).
+$$
+This gives a strong coordinate presentation of the multiplicative layer;
+it does not erase the pre-prime construction of multiplication,
+divisibility, unit, order, and natural-number structure.
+\end{principle}
+
+\begin{theorem}[Prime axes are independent]
+\label{thm:layered-projection-prime-axis-independence}
+If $p_1,\ldots,p_k$ are pairwise distinct primes and
+$$
+\sum_{i=1}^{k}a_i e_{p_i}=0,
+$$
+then $a_i=0$ for every $i$.
+\end{theorem}
+
+\begin{proof}
+Fix $j$. Evaluating the displayed equality at the coordinate $p_j$ gives
+$a_j=0$, because every other basis vector has value $0$ at $p_j$. Since
+$j$ is arbitrary, all coefficients vanish.
+\end{proof}
+
+\begin{definition}[$p$-adic local readout]
+\label{def:layered-projection-p-adic-local-readout}
+For a fixed prime $p$, the $p$-adic valuation readout on a nonzero
+rational is the $p$-coordinate of its prime factorization:
+$$
+v_p(x)=\Phi(x)(p).
+$$
+The symbol $v_p(0)=\infty_{\mathrm{val}}$ is an added valuation-top row,
+not a natural number, integer, rational, or prime.
+\end{definition}
+
+\begin{principle}[Prime axis locality]
+\label{prin:layered-projection-prime-axis-locality}
+The $p$-adic layer is a local readout of the prime-coordinate layer. It
+does not create the prime axis; it consumes the already displayed
+unique-factorization and coordinate certificates.
+\end{principle}
+
+\begin{definition}[Symmetric readout layer]
+\label{def:layered-projection-symmetric-readout-layer}
+A readout layer is symmetric when it carries an involution
+$\tau:X\to X$ and the visible readout is invariant:
+$$
+P(\tau x)\sim_R P(x).
+$$
+A numerical readout $H:X\to A$ is anti-invariant when the codomain has an
+involution $j:A\to A$ and
+$$
+H(\tau x)=j(H(x)).
+$$
+\end{definition}
+
+\begin{theorem}[Quotient readout forces a fixed point]
+\label{thm:layered-projection-quotient-fixed-point}
+Let $\tau$ be invisible to a quotient readout $P:X\to R$. If an
+anti-invariant readout $H:X\to A$ also descends through $P$, so that
+$H=\bar H\circ P$, then every displayed source row satisfies
+$$
+H(x)=j(H(x)).
+$$
+\end{theorem}
+
+\begin{proof}
+Since $H$ descends through $P$ and $P(\tau x)\sim_R P(x)$, the quotient
+readout gives $H(\tau x)=H(x)$ at the displayed classifier resolution.
+Anti-invariance gives $H(\tau x)=j(H(x))$. Combining the two equalities
+yields $H(x)=j(H(x))$.
+\end{proof}
+
+\begin{definition}[Half-value layer]
+\label{def:layered-projection-half-value-layer}
+Let $Z\subseteq X$ be a displayed source subcarrier. A \emph{half-value
+layer} over $Z$ is a triple
+$$
+\mathcal H=(B,b,h)
+$$
+where $B$ is a displayed half-value carrier, $b:Z\to B$ is a readout, and
+$h\in B$ is the distinguished fixed half-value row.
+\end{definition}
+
+\begin{definition}[Fixed half fiber]
+\label{def:layered-projection-fixed-half-fiber}
+For a half-value layer $\mathcal H=(B,b,h)$, the fixed half fiber is
+$$
+\operatorname{Fix}_{\mathcal H}
+:=
+\sum_{z:Z}(b(z)=h),
+$$
+with projection
+$$
+\pi_{\mathcal H}:\operatorname{Fix}_{\mathcal H}\to Z,
+\qquad
+\pi_{\mathcal H}(z,p):=z.
+$$
+\end{definition}
+
+\begin{definition}[Half-value section]
+\label{def:layered-projection-half-value-section}
+The half-value section type of $\mathcal H$ is
+$$
+\mathsf{Sec}_{\mathcal H}
+:=
+\sum_{\sigma:Z\to\operatorname{Fix}_{\mathcal H}}
+\bigl(\pi_{\mathcal H}\circ\sigma=\mathrm{id}_{Z}\bigr).
+$$
+\end{definition}
+
+\begin{theorem}[Half-value propositions are sections]
+\label{thm:layered-projection-half-value-propositions-sections}
+The proposition
+$$
+\prod_{z:Z}(b(z)=h)
+$$
+is naturally equivalent to $\mathsf{Sec}_{\mathcal H}$.
+\end{theorem}
+
+\begin{proof}
+Given $u:\prod_{z:Z}(b(z)=h)$, define
+$$
+\sigma_u(z):=(z,u(z)).
+$$
+Then $\pi_{\mathcal H}(\sigma_u(z))=z$, so $\sigma_u$ is a section.
+Conversely, a section $\sigma$ sends each $z$ to a pair $(z',p)$ with
+$p:b(z')=h$. The section condition identifies $z'$ with $z$, and
+transport gives $p:b(z)=h$. These constructions are inverse by equality
+elimination.
+\end{proof}
+
+\begin{theorem}[Half value as fixed point]
+\label{thm:layered-projection-half-fixed-point}
+Over the rationals, the equation
+$$
+x=1-x
+$$
+holds if and only if
+$$
+x=\frac12.
+$$
+\end{theorem}
+
+\begin{proof}
+If $x=1-x$, then $2x=1$, hence $x=1/2$. Conversely, substituting
+$x=1/2$ gives $1-x=1/2=x$.
+\end{proof}
+
+\begin{corollary}[Matched-twin half value]
+\label{cor:layered-projection-matched-twin-half-value}
+For a balanced matched-twin protocol in the sense of
+\autoref{def:matched-twin-observation-protocol}, the value $1/2$ is the
+fixed point forced by the invisible involution on the quotient surface.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:matched-twin-null} gives pairwise accuracy $1/2$ for every
+quotient-measurable binary rule. The preceding theorem identifies this
+number as the unique fixed point of $x\mapsto1-x$.
+\end{proof}
+
+\begin{definition}[Critical-line mirror]
+\label{def:layered-projection-critical-line-mirror}
+For $s\in\mathbb C$, write
+$$
+s=\frac12+\delta+i\tau_s.
+$$
+The critical-line mirror is
+$$
+J(s):=1-\overline{s}.
+$$
+\end{definition}
+
+\begin{theorem}[Critical line as mirror fixed surface]
+\label{thm:layered-projection-critical-line-fixed-surface}
+If $s=\frac12+\delta+i\tau_s$, then
+$$
+J(s)=\frac12-\delta+i\tau_s.
+$$
+Consequently $J(s)=s$ exactly when $\Re(s)=1/2$.
+\end{theorem}
+
+\begin{proof}
+The conjugate is $\overline{s}=1/2+\delta-i\tau_s$. Therefore
+$$
+J(s)=1-\overline{s}=\frac12-\delta+i\tau_s.
+$$
+The equality $J(s)=s$ is then equivalent to $-\delta=\delta$, hence to
+$\delta=0$, which is precisely $\Re(s)=1/2$.
+\end{proof}
+
+\begin{theorem}[Symmetric half-value unification]
+\label{thm:layered-projection-symmetric-half-value-unification}
+The matched-twin null value, the rational fixed point of $x\mapsto1-x$,
+and the critical-line condition $\Re(s)=1/2$ are instances of the same
+paper-side pattern: an involution is invisible at a quotient layer, an
+anti-invariant readout is forced to a fixed surface if it is claimed to
+descend, and the fixed surface is the half-value layer.
+\end{theorem}
+
+\begin{proof}
+For matched twins, the involution swaps two source witnesses while the
+quotient-visible observation remains unchanged; the binary label is
+anti-invariant, and \autoref{thm:matched-twin-null} gives the half-value.
+For rational scores, the involution is $x\mapsto1-x$, whose fixed point
+is $1/2$ by \autoref{thm:layered-projection-half-fixed-point}. For the
+critical line, the mirror $J(s)=1-\overline{s}$ flips the bias coordinate
+$\delta$ and fixes exactly $\Re(s)=1/2$ by
+\autoref{thm:layered-projection-critical-line-fixed-surface}. The three
+cases share the same quotient-invisibility and anti-invariance form.
+\end{proof}
+
+\begin{theorem}[Layered projection synthesis]
+\label{thm:layered-projection-synthesis}
+Layered projection theory consists of the following paper-side closure
+schema:
+\begin{enumerate}
+\item a layer exposes only the classifier value of a readout;
+\item the residual source content is a fiber family, not a point of the
+visible carrier;
+\item refinements decompose previous fibers only through displayed
+readback maps and classifier transport;
+\item concept predicates may be formed only after their operational
+dependencies have appeared in the tower;
+\item BEDC-generable concepts are tower-internal relative to their
+displayed formation record;
+\item predicates inherit only through displayed readback maps and
+classifier-respect rows;
+\item half-value claims are fixed-point claims induced by displayed
+involutions and anti-invariant readouts, equivalently section claims into
+fixed half fibers.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The first two clauses are \autoref{thm:layered-projection-infinity}. The
+third clause is \autoref{thm:interface-refinement-partitions-previous-fiber}.
+The fourth clause is represented by
+\autoref{thm:layered-projection-prime-not-primitive}. Predicate
+inheritance is \autoref{thm:layered-projection-predicate-inheritance}. The
+relative closure of generable concepts is
+\autoref{thm:layered-projection-tower-closure}, with the typing boundary
+recorded by
+\autoref{prin:layered-projection-typed-boundary-outside-concept}. The
+fixed-point reading of half values is
+\autoref{thm:layered-projection-symmetric-half-value-unification}, and the
+section reading is
+\autoref{thm:layered-projection-half-value-propositions-sections}. These
+clauses are independent of additional axioms; they use only displayed
+carriers, readout maps, classifier witnesses, refinement maps, and
+ledgered certificates.
+\end{proof}

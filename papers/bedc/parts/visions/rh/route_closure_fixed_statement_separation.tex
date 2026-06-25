@@ -1,0 +1,264 @@
+\chapter{Route Closure and Fixed RH Separation}
+\label{ch:visions-rh-route-closure-fixed-statement-separation}
+\origin{ai}
+
+\autoref{ch:visions-rh-route-halting-boundary} rejects total closure
+classifiers for theorem routes by the halting boundary. The present chapter
+fixes the logical separation needed for the RH stack: route closure is a
+family-level classification problem, while $\mathsf{RH}$ is one fixed
+constructive $\Pi$-statement. A diagonal obstruction against the former is
+not, by itself, a meta-theorem about the independence of the latter.
+
+\section{Route Layer and Statement Layer}
+\label{sec:rh-route-fixed-layer-separation}
+
+\begin{definition}[Fixed RH proposition]
+\label{def:rh-fixed-proposition-separation}
+The fixed RH proposition is the proposition of \autoref{def:rh-predicate}:
+$$
+\mathsf{RH}
+:=
+\prod_s
+\bigl(
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+\bigr)
+\to
+\mathsf{OnCritLine}(s).
+$$
+It is a single constructive statement. It is not the carrier of all proof
+searches, condition chains, route programs, or theorem generators.
+\end{definition}
+
+\begin{definition}[Route closure family]
+\label{def:rh-route-closure-family}
+For a theorem target $A$ and a route $R$, write
+$$
+\mathsf{Closes}(R,A)
+$$
+for the assertion that $R$ eventually outputs a closed proof datum for
+$A$. The route closure family is the two-variable predicate
+$(R,A)\mapsto\mathsf{Closes}(R,A)$.
+\end{definition}
+
+\begin{definition}[Fragment independence]
+\label{def:rh-fragment-independence}
+For a named fragment $F$, define
+$$
+\mathsf{Indep}_{F}(\mathsf{RH})
+:=
+\bigl(F\not\vdash\mathsf{RH}\bigr)
+\times
+\bigl(F\not\vdash\neg\mathsf{RH}\bigr).
+$$
+This is a statement about the proof predicate of $F$ and the fixed formula
+$\mathsf{RH}$.
+\end{definition}
+
+\section{Route Closure Undecidability}
+\label{sec:rh-route-closure-undecidability}
+
+\begin{theorem}[No total route closure classifier]
+\label{thm:rh-no-total-route-closure-classifier}
+There is no BEDC classifier $D$ satisfying
+$$
+D(A,R)=1
+\quad\Longleftrightarrow\quad
+\mathsf{Closes}(R,A)
+$$
+for every theorem target $A$ and every route $R$.
+\end{theorem}
+
+\begin{proof}
+This is the route-family form of
+\autoref{thm:no-global-theorem-route-closure-decider}. If such a
+classifier existed, then for any certificate $\NameCert_P$ and history $h$
+one could form the route $R_{\NameCert_P,h}$ that replays the
+$\Cont_P$-chain from $h$ and emits a proof of a fixed trivial target
+exactly when the chain terminates. Applying $D$ to that target and route
+would decide termination of arbitrary $\Cont_P$-chains, giving the
+certificate-stratum halting predicate ruled out by
+\autoref{thm:halting-predicate-iff-meta-loop-certificate-stratum} and
+\autoref{thm:halting-meta-loop-closure}.
+\end{proof}
+
+\begin{theorem}[Expressive RH route families are not decidable]
+\label{thm:rh-expressive-route-family-not-decidable}
+Let $\mathcal R_{\mathsf{RH}}$ be a class of RH-directed routes. If every
+$\Cont$-chain termination instance can be encoded as a route
+$R_{\NameCert_P,h}\in\mathcal R_{\mathsf{RH}}$ such that
+$$
+\mathsf{Halts}(\NameCert_P,h)
+\quad\Longleftrightarrow\quad
+\mathsf{Closes}(R_{\NameCert_P,h},\mathsf{RH}),
+$$
+then no total classifier decides closure of all routes in
+$\mathcal R_{\mathsf{RH}}$.
+\end{theorem}
+
+\begin{proof}
+A total classifier for closure of all routes in
+$\mathcal R_{\mathsf{RH}}$ would decide the right-hand side of the displayed
+equivalence. By the assumed encoding, it would decide arbitrary
+$\Cont$-chain termination. This contradicts the halting boundary used in
+\autoref{thm:no-global-theorem-route-closure-decider}. Thus the requested
+classifier is a Type VII socket in the sense of
+\autoref{thm:rh-route-decider-type-vii-socket}, not an internal BEDC
+classifier.
+\end{proof}
+
+\begin{theorem}[Diagonal route classifier obstruction]
+\label{thm:rh-diagonal-route-classifier-obstruction}
+If a route carrier is expressive enough to encode its own route
+interpreter and conditional branching, then it cannot carry an internal
+total classifier for its own closure predicate.
+\end{theorem}
+
+\begin{proof}
+Assume that such a classifier $D$ exists. Construct a diagonal route
+$\Delta$ which, on input a route code $r$, queries $D(\bot,r)$ and then
+behaves oppositely at the target $\bot$: if the classifier says that $r$
+closes $\bot$, the diagonal route refuses to close $\bot$; if the
+classifier says that $r$ does not close $\bot$, it closes $\bot$. Applying
+the construction to the code of $\Delta$ gives
+$$
+D(\bot,\ulcorner\Delta\urcorner)=1
+\quad\Longleftrightarrow\quad
+D(\bot,\ulcorner\Delta\urcorner)=0,
+$$
+which is impossible. Hence no such internal total classifier exists.
+\end{proof}
+
+\section{Fixed RH Independence Requires a Separate Meta-Theorem}
+\label{sec:rh-fixed-independence-separate-meta-theorem}
+
+\begin{theorem}[Route undecidability does not imply RH independence]
+\label{thm:rh-route-undecidability-not-rh-independence}
+The assertion
+$$
+\neg\exists D,\ D\text{ decides route closure}
+$$
+does not imply
+$$
+\mathsf{Indep}_{F}(\mathsf{RH})
+$$
+for a named fragment $F$.
+\end{theorem}
+
+\begin{proof}
+The first assertion is about the absence of a total classifier for a
+two-variable family of routes and targets. The second assertion is about
+the proof predicate of one fragment applied to one fixed formula. A system
+may lack a total route closure classifier while still proving, refuting, or
+leaving open a particular fixed proposition. For instance, a trivial fixed
+proposition such as $0=0$ can be proved in ordinary proof fragments even
+though global proof-route closure remains undecidable. Therefore the
+family-level halting obstruction does not entail a fragment-specific
+independence theorem for $\mathsf{RH}$.
+\end{proof}
+
+\begin{theorem}[Fixed propositions do not carry halting families]
+\label{thm:rh-fixed-proposition-not-halting-family}
+There is no nonconstant many-one reduction of the halting family to the
+single proposition $\mathsf{RH}$ of the form
+$$
+\mathsf{Halts}(e,x)
+\quad\Longleftrightarrow\quad
+\mathsf{RH}
+$$
+for all program-input pairs $(e,x)$.
+\end{theorem}
+
+\begin{proof}
+The right-hand side is independent of $(e,x)$. If the displayed equivalence
+held for all $(e,x)$, then $\mathsf{Halts}(e,x)$ would have the same truth
+value for all program-input pairs. The halting predicate is not constant.
+Thus the halting family can be encoded into a family of RH-directed routes,
+but not into the truth value of the single fixed proposition
+$\mathsf{RH}$ by such a reduction.
+\end{proof}
+
+\begin{definition}[RH-specific diagonal bridge]
+\label{def:rh-specific-diagonal-bridge}
+An RH-specific diagonal bridge for a fragment $F$ is data consisting of the
+proof predicate of $F$, the code of $\mathsf{RH}$, a transformation from
+any $F$-proof of $\mathsf{RH}$ to a contradiction, a transformation from
+any $F$-proof of $\neg\mathsf{RH}$ to a contradiction, and correctness
+proofs for both transformations.
+\end{definition}
+
+\begin{theorem}[Independence requires an RH-specific bridge]
+\label{thm:rh-independence-requires-specific-bridge}
+To prove $\mathsf{Indep}_{F}(\mathsf{RH})$ by diagonal means, it is
+necessary to supply an RH-specific diagonal bridge for $F$. A route closure
+undecidability theorem alone does not supply such a bridge.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-fragment-independence}, independence consists of two
+fragment-specific non-provability claims. A diagonal proof of those claims
+must transform any alleged $F$-proof of $\mathsf{RH}$ and any alleged
+$F$-proof of $\neg\mathsf{RH}$ into contradictions. That information is
+exactly the RH-specific diagonal bridge. The route closure theorem gives a
+contradiction only from a total classifier over a route family; it does not
+inspect the proof predicate of $F$ at the fixed code of $\mathsf{RH}$ or
+of $\neg\mathsf{RH}$.
+\end{proof}
+
+\section{Finite Counterexample Constraint}
+\label{sec:rh-finite-counterexample-constraint}
+
+\begin{theorem}[Finite counterexample constraint]
+\label{thm:rh-finite-counterexample-constraint}
+Let a statement $A$ be presented as
+$$
+\forall n>N,\ P(n),
+$$
+where $P(n)$ is a decidable arithmetic predicate, and let $F$ be a fragment
+that verifies concrete computations of $P$. If $A$ is false in the standard
+reading and a counterexample index $n_0>N$ is displayed, then $F$ proves
+$\neg A$ from the finite computation certificate for $\neg P(n_0)$.
+\end{theorem}
+
+\begin{proof}
+The displayed counterexample index reduces the negation of $A$ to the
+finite computation $\neg P(n_0)$. Since $P$ is decidable and the fragment
+verifies concrete computations of $P$, the finite certificate is accepted
+inside $F$. Therefore $F$ proves $\neg P(n_0)$ and hence
+$\neg\forall n>N,\ P(n)$.
+\end{proof}
+
+\begin{corollary}[Arithmetic counterexample searches do not prove independence]
+\label{cor:rh-arithmetic-counterexample-searches-not-independence}
+Finite arithmetic counterexample interfaces such as
+\autoref{ch:visions-rh-counterexample-program-safety-flow} can supply
+constructive refutation data when a certified bad packet is emitted, and
+can supply safety targets when no accepted run emits such a packet. They do
+not by themselves supply $\mathsf{Indep}_{F}(\mathsf{RH})$.
+\end{corollary}
+
+\begin{proof}
+A certified bad packet is a finite counterexample datum, not an
+independence theorem. Absence of an emitted packet is a safety target for a
+recognized program run, not a proof that neither $\mathsf{RH}$ nor
+$\neg\mathsf{RH}$ is provable in a fragment. By
+\autoref{thm:rh-independence-requires-specific-bridge}, independence
+requires an RH-specific meta-theorem about the proof predicate of the
+chosen fragment.
+\end{proof}
+
+\begin{corollary}[Separation summary]
+\label{cor:rh-route-fixed-separation-summary}
+The BEDC RH stack proves the following boundary separation: route closure
+classification is blocked by halting and diagonalization; sufficiently
+expressive RH route families inherit that blockage; the fixed proposition
+$\mathsf{RH}$ is not thereby proved independent of any fragment. A claim
+of RH independence must be carried by an RH-specific meta-theorem.
+\end{corollary}
+
+\begin{proof}
+The first claim is
+\autoref{thm:rh-no-total-route-closure-classifier}; the second is
+\autoref{thm:rh-expressive-route-family-not-decidable}; the third is
+\autoref{thm:rh-route-undecidability-not-rh-independence}. The final
+sentence is \autoref{thm:rh-independence-requires-specific-bridge}.
+\end{proof}
