@@ -1,0 +1,161 @@
+\begin{definition}[Recursive operation carrier]
+\label{def:axiszeckendorf-recursive-operation-carrier}
+Let $R$ be a displayed record carrier with classifier $\sim_R$.  A
+recursive operation carrier over $R$ consists of an operation type $O$, an
+operation equivalence $\equiv_O$, a unit operation $\operatorname{id}$, a
+composition law $\circ$, and an action
+$$
+\operatorname{act}:O\times R\to R
+$$
+such that
+$$
+\operatorname{id}(r)\sim_R r
+$$
+and
+$$
+(\beta\circ\gamma)(r)\sim_R\beta(\gamma(r)).
+$$
+The carrier also records the associativity, unit, equivalence-compatibility,
+readback, ledger, and audit rows needed to use these equations inside a
+BEDC information layer.
+\end{definition}
+
+\begin{definition}[Atomic recursive prime edge]
+\label{def:axiszeckendorf-atomic-recursive-prime-edge}
+For a recursive operation carrier over $R$, an atomic recursive prime edge
+from $B_0$ to $B_1$ is data
+$$
+(B_0,B_1,\alpha,\mathsf{Edge}_{\alpha},\mathsf{NonDeg},
+\mathsf{Irred}_{\alpha},\mathsf{Prime}_{\alpha})
+$$
+where $\alpha\in O$ and
+$$
+\mathsf{Edge}_{\alpha}:\alpha(B_0)\sim_R B_1,
+$$
+$$
+\mathsf{NonDeg}:B_0\not\sim_R B_1.
+$$
+The irreducibility row says that
+$$
+\alpha\equiv_O\beta\circ\gamma
+\Longrightarrow
+\beta\equiv_O\operatorname{id}
+\quad\text{or}\quad
+\gamma\equiv_O\operatorname{id}.
+$$
+The prime row is classifier-relative: it asserts primeness for the chosen
+operation divisibility relation, not ordinary integer primality.
+\end{definition}
+
+\begin{principle}[Golden branch pair as a recursive edge]
+\label{prin:axiszeckendorf-golden-branch-recursive-edge}
+The spectral pair $B_0,B_1$ of
+\autoref{def:zeckendorf-golden-conjugate-spectral-readout} may be read as
+a seed and its first visible recursive exposure only after an operation
+carrier and an edge certificate are displayed:
+$$
+B_0\xrightarrow{\alpha}B_1.
+$$
+Under that reading, $B_0$ and $B_1$ are not ontic bottom points.  They are
+visible branch records over source fibers, together with the certificate
+that the displayed operation $\alpha$ transports the first visible record
+to the second.
+\end{principle}
+
+\begin{theorem}[Atomic edge has no nontrivial intermediate operation]
+\label{thm:axiszeckendorf-atomic-edge-no-intermediate-operation}
+Assume $B_0\xrightarrow{\alpha}B_1$ is an atomic recursive prime edge and
+that
+$$
+\alpha\equiv_O\beta\circ\gamma.
+$$
+Then any factorization
+$$
+B_0\xrightarrow{\gamma}C\xrightarrow{\beta}B_1
+$$
+is trivial on at least one side:
+$$
+\beta\equiv_O\operatorname{id}
+\quad\text{or}\quad
+\gamma\equiv_O\operatorname{id}.
+$$
+\end{theorem}
+
+\begin{proof}
+This is exactly the irreducibility row
+$\mathsf{Irred}_{\alpha}$ in
+\autoref{def:axiszeckendorf-atomic-recursive-prime-edge}.  If both
+$\beta$ and $\gamma$ were non-unit operations, the displayed equality
+$\alpha\equiv_O\beta\circ\gamma$ would contradict irreducibility.
+\end{proof}
+
+\begin{definition}[Recursive orbit and alpha valuation]
+\label{def:axiszeckendorf-recursive-orbit-alpha-valuation}
+Given an operation $\alpha$ acting on $R$, define the recursive orbit of
+$B_0$ by
+$$
+B_n:=\alpha^n(B_0),
+\qquad
+\alpha^0:=\operatorname{id},
+\qquad
+\alpha^{n+1}:=\alpha\circ\alpha^n.
+$$
+The orbit is free when
+$$
+\alpha^m(B_0)\sim_R\alpha^n(B_0)
+\Longrightarrow
+m=n.
+$$
+For a subcarrier $X\subseteq R$, an $\alpha$-normal form is a unique
+display
+$$
+x\sim_R\alpha^k(y)
+$$
+with $k\in\mathbb N$ and $y$ no longer left-divisible by $\alpha$.  The
+associated valuation row is
+$$
+v_{\alpha}(x):=k.
+$$
+\end{definition}
+
+\begin{theorem}[Alpha valuation shifts additively]
+\label{thm:axiszeckendorf-alpha-valuation-shifts-additively}
+If $X$ carries an $\alpha$-normal form, then for every $m\in\mathbb N$ and
+$x\in X$,
+$$
+v_{\alpha}(\alpha^m(x))=m+v_{\alpha}(x).
+$$
+\end{theorem}
+
+\begin{proof}
+Let
+$$
+x\sim_R\alpha^k(y)
+$$
+be the $\alpha$-normal form of $x$, so $k=v_{\alpha}(x)$ and $y$ is not
+left-divisible by $\alpha$.  Applying $\alpha^m$ gives
+$$
+\alpha^m(x)\sim_R\alpha^{m+k}(y).
+$$
+By uniqueness of the normal form, this is the normal display of
+$\alpha^m(x)$.  Hence
+$$
+v_{\alpha}(\alpha^m(x))=m+k=m+v_{\alpha}(x).
+$$
+\end{proof}
+
+\begin{principle}[Classifier-relative primeness]
+\label{prin:axiszeckendorf-classifier-relative-primeness}
+The analogy
+$$
+p\text{ in multiplicative factorization}
+\qquad\sim\qquad
+\alpha\text{ in recursive operation composition}
+$$
+is valid only after the classifier has been fixed.  Ordinary primes are
+atoms for multiplicative divisibility.  Recursive prime operations are
+atoms for operation composition.  Zeckendorf carry rows, channel-safe
+body encodings, and golden spectral roots may interact with this pattern
+only through displayed bridge, readback, normal-form, and ledger
+certificates.
+\end{principle}
