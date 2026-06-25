@@ -130,6 +130,20 @@ For the reverse direction, assume the displayed $D,Z,Q,E$ route is present. Appl
 The carrier obligations of \autoref{thm:cauchy-difference-criterion-namecert-obligations} then repack that finite route as the local equality-facing seal of $K$. Since the carrier contains no quotient stream equality, host real equality, selected-limit row, trichotomy row, countable-choice schedule, or ambient-completeness principle, the reconstructed route is the same displayed route and no other equality channel is exported.
 \end{proof}
 
+\begin{theorem}[Cauchy difference criterion null-route converse]
+\label{thm:cauchy-difference-criterion-null-route-converse}
+Let $K=(X,Y,D,Z,Q,W,T,E,H,C,P,N)$ be an accepted $\CauchyDifferenceCriterionUp$ carrier. If $K$ exposes the $\RealUp$ equality-facing seal for the source rows $X,Y$, then the seal route includes the displayed $\RegularCauchyDifferenceUp$ row $D$, the $\NullSequenceUp$ evidence row $Z$, and the $\RegularCauchyZeroDistanceUp$ handoff row $Q$. Conversely, any packet with the same visible source rows but no $Z$ row for the displayed difference cannot export equality of $X,Y$ through the accepted carrier.
+\end{theorem}
+\begin{proof}
+For the forward direction, start with a $\RealUp$ equality-facing read of $X,Y$. Apply \autoref{thm:cauchy-difference-criterion-bidirectional-exactness}. The read is exported exactly through the displayed route $D,Z,Q,E$.
+
+The same route is forced by \autoref{thm:cauchy-difference-criterion-zero-distance-correspondence}. It identifies $D$ as the displayed regular-Cauchy difference row, $Z$ as the null-sequence evidence row for that displayed difference, and $Q$ as the zero-distance handoff row before the terminal seal.
+
+For the converse, remove the $Z$ evidence row while keeping the same visible sources. By \autoref{thm:cauchy-difference-criterion-real-seal-boundary}, the Real seal is downstream of the finite route through $D,Z,Q$; without $Z$, the route from the displayed difference to the zero-distance handoff cannot be completed.
+
+The carrier has no replacement equality channel. Quotient stream equality, host equality, selected limits, trichotomy, countable choice, and ambient completeness are all excluded from \autoref{def:cauchy-difference-criterion-carrier}, so a packet missing $Z$ cannot export equality of $X,Y$ through the accepted carrier.
+\end{proof}
+
 \closureat{CauchyDifferenceCriterionUp}{seedStr}
 
 \begin{closurestatus}{\CauchyDifferenceCriterionUp}
