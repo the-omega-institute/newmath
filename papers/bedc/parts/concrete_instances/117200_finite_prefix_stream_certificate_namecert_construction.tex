@@ -70,6 +70,31 @@ For the successor step, extend the already-read finite route by one displayed ob
 Thus every index $i \leq k$ is read by finite induction on the displayed spine. Since no excluded object is a carrier coordinate or a product of the induction, the observation proof remains a finite StreamName-to-RegSeqRat handoff.
 \end{proof}
 
+\begin{definition}[Finite prefix stream observation cut]
+\label{def:finite-prefix-stream-certificate-observation-cut}
+Let $F=(k,W,D,R,H,C,P,N)$ be an accepted $\FinitePrefixStreamUp$ carrier and let $j \leq k$ be a displayed unary cut. The observation cut is the restricted packet
+$$
+F_{\leq j}=(j,W_{\leq j},D_{\leq j},R_{\leq j},H,C,P,N)
+$$
+where $W_{\leq j}$ is the first $j$ StreamName window row segment, $D_{\leq j}$ is the first $j$ DyadicRatCore tolerance row segment, and $R_{\leq j}$ is the first $j$ RegSeqRat handoff row segment read from the same finite prefix carrier. The cut preserves only the displayed unary prefix, not any omitted tail coordinate.
+\end{definition}
+
+\begin{theorem}[Finite prefix stream observation cut stability]
+\label{thm:finite-prefix-stream-certificate-observation-cut}
+Let $F=(k,W,D,R,H,C,P,N)$ be an accepted $\FinitePrefixStreamUp$ carrier and let $j \leq k$ be a displayed unary cut. Then the cut packet $F_{\leq j}$ of \autoref{def:finite-prefix-stream-certificate-observation-cut} is again an accepted $\FinitePrefixStreamUp$ carrier, and every RegSeqRat or Real-facing consumer of $F_{\leq j}$ factors through the same route
+$$
+j \longmapsto W_{\leq j} \longmapsto D_{\leq j} \longmapsto R_{\leq j} \longmapsto H,C,P,N .
+$$
+The cut exposes only the displayed finite prefix route; it does not export a selected tail, quotient stream equality, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:finite-prefix-stream-certificate-carrier}. The unary cut $j \leq k$ simply shortens the displayed prefix window, dyadic tolerance, and RegSeqRat handoff rows to the visible initial segment.
+
+Now apply \autoref{thm:finite-prefix-stream-certificate-observation-induction}. The proof already reads each displayed index by induction on the successor spine of $k$, so the same finite induction reruns on the truncated prefix without exposing any omitted tail coordinate.
+
+Finally replay \autoref{thm:finite-prefix-stream-certificate-window-readback}. The RegSeqRat and Real-facing consumers still see the same finite route through $W_{\leq j},D_{\leq j},R_{\leq j}$ before the structural rows $H,C,P,N$ can be read. Since the omitted tail is not a carrier coordinate, the cut remains a finite observation prefix and nothing more.
+\end{proof}
+
 \begin{theorem}[Finite prefix stream certificate prefix concatenation]
 \label{thm:finite-prefix-stream-certificate-prefix-concatenation}
 Let

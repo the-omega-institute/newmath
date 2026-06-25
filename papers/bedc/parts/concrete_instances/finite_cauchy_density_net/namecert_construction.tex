@@ -89,6 +89,18 @@ Next use the stream route of \autoref{thm:finite-cauchy-density-net-stream-route
 Finally apply the sibling route and Real seal nonescape, \autoref{thm:finite-cauchy-density-net-sibling-route} and \autoref{thm:finite-cauchy-density-net-real-seal-nonescape}. They keep the same $\BHist$ provenance and terminal Real seal attached to $D,W,R,E,M,T,C,P,L$, excluding host limit selection, quotient representatives, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy density-net tail extraction]
+\label{thm:finite-cauchy-density-net-tail-extraction}
+For every accepted $\FiniteCauchyDensityNetUp$ packet $N=(D,W,R,E,M,T,C,P,L)$, every completion-facing tail read consumed by $\RegularSequenceSpaceUp$, $\RealUniformStructureUp$, or $\CauchyModulusUp$ exposes the same finite $\StreamNameUp$ window $W$, the same $\RegSeqRatUp$ readback $R$, the same dyadic net ledger $D$, the same finite modulus row $M$, the same terminal $\RealUp$ seal $E$, and the same structural rows $T,C,P,L$. The tail read is therefore a displayed finite BEDC route, not a quotient stream, not a chosen representative, and not an appeal to ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:finite-cauchy-density-net-stream-route}. It forces every completion-facing read to pass through the displayed $\StreamNameUp$ window $W$ and the $\RegSeqRatUp$ row $R$ before any tail data can be consumed.
+
+Then apply \autoref{thm:finite-cauchy-density-net-sibling-route}. That theorem keeps the same displayed route attached to completion-facing readers such as $\RealUniformStructureUp$ and $\CauchyModulusUp$, so the tail read cannot bypass $D,W,R,E,M,T,C,P,L$.
+
+Finally use \autoref{thm:finite-cauchy-density-net-window-comparison}. The comparison theorem factors the completion-facing read through the same finite packet data, and \autoref{def:finite-cauchy-density-net-packet} lists exactly the rows $D,W,R,E,M,T,C,P,L$ with no coordinate for quotient streams, chosen representatives, or ambient completeness. Row exhaustion gives the claim.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\FiniteCauchyDensityNetUp$ read exposes a DyadicRatCore finite-net ledger, a StreamName finite-window row, a RegSeqRat readback row, a terminal RealUp seal, a finite modulus row, componentwise transport, continuation replay, provenance, and local naming.}
 
 \independenceWitness{dyadicratcore, streamname, regseqrat, real: $\FiniteCauchyDensityNetUp$ is not identical to any listed sibling because it binds dyadic finite-net rows and a modulus row before the regular rational readback and terminal RealUp seal.}
