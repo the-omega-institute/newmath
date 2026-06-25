@@ -113,6 +113,21 @@ Next apply the normalization-audit handoff of \autoref{thm:finite-window-conflue
 Finally use the sibling route of \autoref{thm:finite-window-confluence-sibling-route}. The redex-frontier, local-join, residual-substitution, closed-normal, and normal-fragment rows are sibling dependencies rather than optional annotations. Hence the diamond scope is finite and residual-boundary-aware, with no route to the global principles excluded from the carrier.
 \end{proof}
 
+\begin{theorem}[FiniteWindowConfluence residual-boundary inversion]
+\label{thm:finite-window-confluence-residual-boundary-inversion}
+If a local diamond read from an accepted $\FiniteWindowConfluenceUp$ packet reaches $J$ as a candidate join, then the same read also exposes $S$ as the residual-substitution boundary row. The candidate join cannot be reinterpreted as a join independent of residual data; it remains in the route
+$$
+B,R,J,S,N,W,G,H,C,P,K .
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $F=(B,R,J,S,N,W,G,H,C,P,K)$. The local join ledger $J$ and residual-substitution boundary $S$ are adjacent confluence-facing rows of the same finite packet.
+
+Use the NameCert obligations of \autoref{thm:finite-window-confluence-namecert-obligations} and the normalization-audit handoff of \autoref{thm:finite-window-confluence-normalization-audit-handoff}. They require a diamond-facing read to keep the bounded beta window, redex frontier, local join, residual-substitution boundary, closed-normal endpoint, and normal fragment in one transported and replayed route.
+
+Finally apply the sibling route of \autoref{thm:finite-window-confluence-sibling-route}. It keeps the redex-frontier, local-join, residual-substitution, closed-normal, and normal-fragment rows together, so $J$ cannot be cited as an unconditional global confluence join or as a join detached from residual-substitution data.
+\end{proof}
+
 \closureat{FiniteWindowConfluenceUp}{seedStr}
 
 \begin{closurestatus}{\FiniteWindowConfluenceUp}
