@@ -13,9 +13,9 @@ $$
 \longrightarrow
 (\mathsf{Ext},\mathsf{Cont}).
 $$
-Later layers such as $\mathsf{Ask}$, $\mathsf{Sig}$, $\mathsf{Pkg}$,
-$\mathsf{Gap}$, and $\NameCert{}$ depend on this spine but are not part of
-the present surface.
+Later layers such as $\mathsf{Ask}$, $\mathsf{Sig}$, $\mathsf{sameSig}$,
+$\mathsf{Pkg}$, $\mathsf{Gap}$, and $\NameCert{}$ depend on this spine but
+are not part of the present surface.
 
 \section{Raw marks}
 \label{sec:mark-hist-ext-cont-raw-marks}
@@ -239,11 +239,42 @@ $$
 $$
 It records the BEDC-internal form of history concatenation.  Its basic
 interface includes empty-continuation rows, one-step compatibility with
-$\mathsf{e0}$ and $\mathsf{e1}$, and associativity up to
+$\mathsf{e0}$ and $\mathsf{e1}$, unit rows, and associativity up to
 $\mathsf{hsame}$.  These rows are L2 obligations over the same
 $\mathsf{BHist}$ carrier; they do not introduce another visible object
 layer.
 \end{definition}
+
+\begin{theorem}[Continuation unit and associativity obligations]
+\label{thm:kernel-spine-continuation-unit-assoc-obligations}
+Continuation has empty-history unit rows
+$$
+\mathsf{Cont}(\mathsf{Empty},h,h),
+\qquad
+\mathsf{Cont}(h,\mathsf{Empty},h),
+$$
+and threefold continuation is associative up to $\mathsf{hsame}$: if
+$$
+\mathsf{Cont}(a,b,u),
+\qquad
+\mathsf{Cont}(u,c,v),
+$$
+$$
+\mathsf{Cont}(b,c,w),
+\qquad
+\mathsf{Cont}(a,w,z),
+$$
+then $\mathsf{hsame}(v,z)$ is generated.
+\end{theorem}
+
+\begin{proof}
+The unit rows are the empty-history clauses of continuation.  For
+associativity, both displayed composites represent the same generated
+history obtained by first reading $a$, then $b$, then $c$.  The
+constructor recursion defining continuation therefore classifies the two
+results by the same $\mathsf{BHist}$ shape, so $\mathsf{hsame}(v,z)$ is
+generated.
+\end{proof}
 
 \begin{definition}[Initial kernel spine]
 \label{def:initial-kernel-spine}
@@ -272,6 +303,30 @@ Same-source cross-mark extensions are separated by
 \autoref{thm:kernel-spine-cross-mark-extension-separation}.
 \end{proof}
 
+\begin{corollary}[Minimal binary recursive readout]
+\label{cor:kernel-spine-minimal-binary-recursive-readout}
+The initial kernel spine supports the recursive readout
+$$
+P_{\mathsf{B}}:\mathsf{BHist}\to
+\{\mathsf{b0},\mathsf{b1}\}^{<\omega}
+$$
+defined by
+$$
+P_{\mathsf{B}}(\mathsf{Empty})=\epsilon,
+\qquad
+P_{\mathsf{B}}(\mathsf{e0}(h))=P_{\mathsf{B}}(h)\mathsf{b0},
+\qquad
+P_{\mathsf{B}}(\mathsf{e1}(h))=P_{\mathsf{B}}(h)\mathsf{b1}.
+$$
+\end{corollary}
+
+\begin{proof}
+The recursion follows the three constructors of $\mathsf{BHist}$.
+\autoref{thm:kernel-spine-history-no-confusion} supplies uniqueness of the
+visible last step, and \autoref{thm:kernel-spine-mark-sameness-diagonal}
+supplies the two separated terminal emissions.
+\end{proof}
+
 \begin{principle}[Kernel spine as the self-similar starting surface]
 \label{prin:kernel-spine-self-similar-starting-surface}
 The pair $\mathsf{b0},\mathsf{b1}$ supplies the minimal visible distinction
@@ -280,4 +335,25 @@ history surface.  This is the bottom support for later window, Zeckendorf,
 prime-coordinate, zeta-carrier, and zero-ledger routes.  Higher layers may
 compress, package, or project these histories only after they expose the
 source fiber and the ledger rows that license the compression.
+\end{principle}
+
+\begin{principle}[Next layer boundary]
+\label{prin:kernel-spine-next-layer-boundary}
+The next layer begins only after this spine, with
+$$
+\mathsf{Ask}
+\to
+\mathsf{Sig}
+\to
+\mathsf{sameSig}
+\to
+\mathsf{Pkg}
+\to
+\mathsf{Gap}
+\to
+\NameCert{}.
+$$
+Its role is not to add primitive mathematical objects to the kernel, but
+to expose the source ledger for visible objects obtained by asking,
+signature formation, packaging, gap accounting, and certification.
 \end{principle}
