@@ -9408,6 +9408,7 @@ import BEDC.Derived.PolynomialUp.RawAdd
 import BEDC.Derived.PolynomialUp.RawAddStructuralSwap
 import BEDC.Derived.PolynomialUp.RawMulDistributivity
 import BEDC.Derived.PolynomialUp.StdBridge
+import BEDC.Derived.PolygonalUp
 import BEDC.Derived.PolytopeUp
 import BEDC.Derived.PompeiuHausdorffDistanceRealizerUp
 import BEDC.Derived.PontryaginDualityUp
