@@ -4227,6 +4227,7 @@ import BEDC.Derived.CyclotomicUp.SplittingPolynomial
 import BEDC.Derived.CylinderObjectUp
 import BEDC.Derived.DAlembertRatioTestUp
 import BEDC.Derived.DNAFourPhaseAlphabetBridgeUp.TasteGate
+import BEDC.Derived.DualNumberUp
 import BEDC.Derived.DarbouxContinuityUp.TasteGate
 import BEDC.Derived.DarbouxCriterionUp
 import BEDC.Derived.DarbouxCriterionUp.TasteGate
