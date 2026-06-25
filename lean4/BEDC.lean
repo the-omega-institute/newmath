@@ -8525,6 +8525,7 @@ import BEDC.Derived.ModuleUp.KernelSubmoduleClosure
 import BEDC.Derived.ModuleUp.StdBridge
 import BEDC.Derived.ModuleUp.ZeroActionAnnihilation
 import BEDC.Derived.ModulusCauchyCompletionUp.TasteGate
+import BEDC.Derived.ModulusCauchyCompressionUp
 import BEDC.Derived.ModulusCompositionScheduleUp
 import BEDC.Derived.ModulusCompositionScheduleUp.TasteGate
 import BEDC.Derived.ModulusContinuityUp.CauchyRoute
