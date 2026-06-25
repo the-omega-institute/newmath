@@ -1,13 +1,17 @@
-\subsection{q6.f3-stress.position-resolved-ribosome-occupancy.translation-realization}
+\subsection{q6.f3-stress.position-resolved-ribosome-occupancy.translation-window}
 
-\paragraph{Biological object.} f\_3-stress synonymous residual coordinates in coding-sequence windows tested against position-resolved ribosome-occupancy translation readouts before any protein, structure, function, or phenotype interpretation
+\paragraph{Biological object.} f\_3-stress synonymous residual coordinates in coding-sequence position windows tested against matched position-resolved ribosome-occupancy translation readouts
 
-\paragraph{Current claim.} If f\_3-stress is a genuine translation-realization coordinate, then in a rank-powered panel with same-row wobble or tAI/stAI weights and position-resolved ribosome profiling, the amino-acid-quotient residual f\_3-stress window statistic should improve prediction of local ribosome occupancy after the stated controls; otherwise f\_3-stress remains a code-read or bounded codon-count residual for this readout.
+\paragraph{Current claim.} After amino-acid quotienting, the f\_3-stress coordinate may survive as a bounded cross-layer predictor of position-resolved ribosome occupancy only on matched CDS windows with wobble-weight, codon-count, mRNA, rank, and position or amino-acid-bin controls; any nonpositive, uncontrolled, or rank-degenerate statistic is a null result at the translation boundary.
 
 \paragraph{External reality input.}
 \textbf{position-resolved-ribosome-occupancy-window}. per-CDS ribosome-footprint occupancy can be represented at codon or local-window resolution when an external ribosome-profiling dataset is joined to ordered coding-sequence coordinates
 
 Can test: position-resolved ribosome occupancy readback; cross\_layer\_relation boundary for f\_3-stress only after same-row codon counts, wobble-weight surface, matched mRNA control, rank checks, and position or amino-acid-bin controls are attached. Cannot test: translation realization from codon or window geometry alone; measured translation efficiency from modeled tAI or stAI alone; protein abundance; protein folding; structural order; physical admissibility; function realization; system phenotype; translation mechanism; global biological law.
+
+\textbf{matched-mrna-abundance-control}. per-CDS mRNA abundance in the same experimental condition as the ribo-seq run, enabling TE = RPF / mRNA computation as a separated control
+
+Can test: isolation of translation-layer signal from transcription-layer signal via TE residual. Cannot test: translation realization from transcript abundance alone; CUN/UUR versus tRNA-Leu association without matched codon-usage and tRNA-copy contacts; protein folding, physical admissibility, function, or universality from transcript counts alone.
 
 \textbf{tai-or-stai-weights}. External tAI or stAI resources provide organism-scoped codon adaptation weights that can be used as a bounded translation-layer readout when kept separate from BEDC coordinate geometry.
 
@@ -17,11 +21,7 @@ Can test: translation\_realization; cross\_layer\_relation; codon adaptation wei
 
 Can test: translation\_realization; cross\_layer\_relation; codon usage distribution. Cannot test: folded structure; physical admissibility; function realization; global biological law.
 
-\textbf{matched-mrna-abundance-control}. per-CDS mRNA abundance in the same experimental condition as the ribo-seq run, enabling TE = RPF / mRNA computation as a separated control
-
-Can test: isolation of translation-layer signal from transcription-layer signal via TE residual. Cannot test: translation realization from transcript abundance alone; CUN/UUR versus tRNA-Leu association without matched codon-usage and tRNA-copy contacts; protein folding, physical admissibility, function, or universality from transcript counts alone.
-
-\paragraph{Internal newmath/BEDC derivation.} Carrier: finite CDS-by-window carrier with each row containing a coding-sequence window, its f\_3-paired synonymous codon-count contrast, the same-row wobble or tAI/stAI weight surface, and a position-resolved ribosome-occupancy readout. Distinctions: f\_3-stress is read only after amino-acid projection residualization; a window is admissible only when same-row codon counts, wobble-weight surface, position-resolved ribosome occupancy, and matched controls are present; rank-degenerate panels are null-boundary rather than survival evidence. Readback: per-window residual association between f\_3-stress and position-resolved ribosome occupancy after amino-acid-bin, organism, GC3, length, M-density, and mRNA controls. Internal structure: coordinate; spectrum; relation.
+\paragraph{Internal newmath/BEDC derivation.} Carrier: finite CDS-by-position windows carrying f\_3-stress residual coordinates, same-row codon counts, wobble-weight surface, matched mRNA control, and position-resolved ribosome-occupancy readout. Distinctions: f\_3-stress residual is evaluated only after amino-acid projection removal; position-resolved ribosome occupancy is a translation readout, not a protein-structure or phenotype readout; same-row mRNA and position or amino-acid-bin controls are required before any survival statistic is read. Readback: per-window finite statistic S\_f3(occupancy\_position\_window | amino-acid-bin, CDS length, GC3, M-density, wobble weights, mRNA control) with break condition when the statistic is nonpositive or rank-degenerate. Internal structure: coordinate; trigger; relation.
 
 \paragraph{Falsifiable probes.}
 \textbf{q6.f3-stress.position-resolved-ribosome-occupancy.window-statistic-boundary}. The exact f\_3-stress position-resolved ribosome-occupancy packet may pass operator review only as a request for a same-organism, same-CDS, same-window external statistic under amino-acid-bin or position controls, GC3, length, M-density, codon-count, wobble-weight, matched mRNA, coverage, mappability, rank, and simpler-baseline checks.
@@ -95,7 +95,7 @@ Refinement pressure: Seek the next reality boundary by attaching same-organism, 
 
 Refinement pressure: Seek the next reality boundary by attaching a source-row statistic certificate for the exact packet: ordered CDS coordinates, codon counts, bounded tAI or stAI wobble weights, matched mRNA abundance, and codon-indexed ribosome-footprint occupancy for the same organism, CDS, and local window, followed by the declared f\_3-stress statistic under amino-acid-bin or position controls, GC3, CDS length, M-density baseline, codon-count controls, matched mRNA, coverage, mappability, rank sufficiency, and simpler-baseline ablation. Keep all downstream protein, structure, physical-admissibility, function, phenotype, mechanism, and universal-law claims blocked until separate layer-matched contacts and statistics exist.
 
-\paragraph{Cannot-claim boundary.} Do not infer protein abundance, folding, physical admissibility, function, or phenotype from an f\_3-stress occupancy association without a separate matched downstream readout and mediation test.; Do not count a rank-degenerate or underpowered panel as translation survival, even if the fitted occupancy residual is perfectly explained.; Do not treat modeled tAI or stAI coupling alone as ribosome-occupancy survival.; Do not promote a position-resolved window statistic to a general codon-topology law unless amino-acid composition, organism, GC3, length, M-density, mRNA, and position or amino-acid-bin controls are included.
+\paragraph{Cannot-claim boundary.} Do not infer protein abundance, folding, structural order, function, physical admissibility, or phenotype from f\_3-stress without a passed translation-readout survival step and separate downstream contacts.; Do not treat a position-resolved ribosome-occupancy association as a general organism-level survival claim if the same-row controls, rank check, and amino-acid-bin or position controls are missing.; Do not report f\_3-stress as a dynamical biological variable unless context wobble weights break f\_3 symmetry on the attached readout surface.
 
 \paragraph{Verified facts.}
 No verified facts attached yet.
