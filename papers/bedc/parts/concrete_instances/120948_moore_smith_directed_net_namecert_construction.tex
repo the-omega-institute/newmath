@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\MooreSmithDirectedNetUp$}
+\label{ch:concrete-instances-moore-smith-directed-net-namecert}
+\origin{human}
+
+Following Moore and Smith, the $\MooreSmithDirectedNetUp$ packet records a directed net through finite observation windows rather than through a host function space of all indexed values. It sits between the directed-index substrate of \autoref{ch:concrete-instances-directedset-namecert}, the Moore--Smith convergence surface of \autoref{ch:concrete-instances-mooresmithconvergence-namecert}, the net-convergence interface of \autoref{ch:concrete-instances-netconvergence-namecert}, the filter-base handoff of \autoref{ch:concrete-instances-filterbase-namecert}, the Cauchy-filter completion boundary of \autoref{ch:concrete-instances-cauchyfiltercompletion-namecert}, and the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}. The packet gives topology, completion, and filter consumers a shared directed-net carrier; it does not supply host choice, quotient net equality, selected limits, ambient completeness, or an untracked cofinal selector.
+
+\begin{definition}[Moore--Smith directed-net carrier]\label{def:moore-smith-directed-net-carrier}
+A $\MooreSmithDirectedNetUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,V,R,W,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DirectedSetUp$ index row, naming finite directed addresses, displayed preorder comparisons, finite request windows, and upper-window witnesses.
+\item $V$ is the directed value-window row, recording the values visible at the displayed addresses of $D$.
+\item $R$ is the cofinal-refinement row, recording a finite refinement request and the displayed upper-window route by which the refined addresses remain cofinal in the observed window.
+\item $W$ is the finite observation-window row, naming the convergence, filter-base, and stream-window requests that a consumer may inspect.
+\item $L$ is the convergence ledger, recording the handoff through $\MooreSmithConvergenceUp$, $\NetConvergenceUp$, $\FilterBaseUp$, $\CauchyFilterCompletionUp$, and $\StreamNameUp$ before any completion-facing read is public.
+\item $H$ records componentwise $\hsame$ transport for the directed-index data, value windows, cofinal refinement, observation windows, convergence ledger, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an observation request through $D,V,R,W,L$.
+\item $P$ is the $\Pkg$ provenance over $\MooreSmithDirectedNetUp$, $\DirectedSetUp$, $\MooreSmithConvergenceUp$, $\NetConvergenceUp$, $\FilterBaseUp$, $\CauchyFilterCompletionUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MooreSmithDirectedNetUp}$ row.
+\end{enumerate}
+The carrier exports exactly these finite directed-net rows. It contains no host choice functional, quotient net equality, selected limit point, ambient topology, or hidden completion oracle.
+\end{definition}
+
+\begin{theorem}[Moore--Smith directed-net NameCert obligations]\label{thm:moore-smith-directed-net-namecert-obligations}
+For an accepted $\MooreSmithDirectedNetUp$ carrier $M=(D,V,R,W,L,H,C,P,N)$, the local $\NameCert_{\MooreSmithDirectedNetUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item carrier admission for the directed-index row, value-window row, cofinal-refinement row, finite observation-window row, convergence ledger, transport row, replay row, provenance row, and local naming row;
+\item directed-index readability, requiring every net read to expose the $\DirectedSetUp$ row $D$ before a value in $V$ is consumed;
+\item cofinal-refinement compatibility, requiring every refined tail request in $R$ to display its upper-window witness inside the same directed ledger;
+\item finite-window convergence routing, requiring every $\MooreSmithConvergenceUp$ and $\NetConvergenceUp$ read to pass through the observation windows $W$ and ledger $L$ before it is exported;
+\item filter and completion handoff, requiring $\FilterBaseUp$ and $\CauchyFilterCompletionUp$ consumers to read only the finite tail family recorded by $D,R,W,L$;
+\item stream replay, requiring every $\StreamNameUp$ observation to be replayed through $C$ and transported through $H$ without changing the displayed rows;
+\item ledger refusal, excluding host choice, quotient net equality, selected limits, ambient completeness, and unrecorded cofinal schedules.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:moore-smith-directed-net-carrier}. Its analytic rows are $D,V,R,W,L$, and its structural rows are $H,C,P,N$.
+
+The directed-index obligation is inherited from the visible $\DirectedSetUp$ row. A consumer first reads the displayed addresses, comparisons, finite windows, and upper-window witnesses in $D$; only then can the value-window row $V$ be inspected.
+
+The cofinal-refinement row $R$ is not an external selector. It records a finite refinement request together with the upper-window route already supplied by $D$, so every refined tail remains inside the displayed directed ledger.
+
+The convergence ledger $L$ is reached through the finite observation windows $W$. Thus $\MooreSmithConvergenceUp$ and $\NetConvergenceUp$ consumers receive a displayed observation route, while $\FilterBaseUp$ and $\CauchyFilterCompletionUp$ consumers receive only the finite tail family recorded by that same route.
+
+Finally $H$ and $C$ transport and replay the same rows componentwise, while $P$ and $N$ package and name them locally. Since no coordinate stores host choice, quotient net equality, selected limits, ambient completeness, or an unrecorded cofinal schedule, the listed obligations exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[Moore--Smith directed-net finite-window handoff]\label{thm:moore-smith-directed-net-finite-window-handoff}
+Every topology-facing or completion-facing consumer of an accepted $\MooreSmithDirectedNetUp$ packet factors through the finite route
+$$
+\DirectedSetUp,\; V,\; R,\; W
+\longmapsto
+\MooreSmithConvergenceUp,\;\NetConvergenceUp,\;\FilterBaseUp,\;\CauchyFilterCompletionUp,\;\StreamNameUp .
+$$
+The handoff gives the consumer directed index data, cofinal refinement, finite observation windows, convergence ledger rows, componentwise transport, displayed replay, provenance, and local naming. It does not give host choice, quotient net equality, selected limits, ambient compactness, or a countable schedule outside the packet.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:moore-smith-directed-net-namecert-obligations}. They force directed-index readability through $D$ and finite value-window exposure through $V$ before any downstream route is public.
+
+Next read the cofinal-refinement and observation-window rows. The row $R$ keeps refined tails inside the displayed upper-window ledger, and $W$ lists the finite requests visible to convergence, filter, completion, and stream consumers.
+
+Apply the convergence ledger row $L$. It orders the public handoff through $\MooreSmithConvergenceUp$, $\NetConvergenceUp$, $\FilterBaseUp$, $\CauchyFilterCompletionUp$, and $\StreamNameUp$ without replacing the finite packet by a host topology or by a selected endpoint.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name this same carrier. Hence every consumer receives the finite directed-net handoff and no forbidden host choice, quotient net equality, selected limit, ambient compactness, or external countable schedule.
+\end{proof}
+
+\falsifiablePrediction{A claimed Moore--Smith directed-net handoff falls outside $\MooreSmithDirectedNetUp$ whenever it reaches $\NetConvergenceUp$, $\FilterBaseUp$, or $\CauchyFilterCompletionUp$ without first displaying the directed index row, cofinal-refinement row, finite observation-window row, convergence ledger, componentwise transport, replay, provenance, and local NameCert rows.}
+
+\closureat{MooreSmithDirectedNetUp}{seedStr}
+
+\begin{closurestatus}{\MooreSmithDirectedNetUp}
+  \constructivestory{A $\MooreSmithDirectedNetUp$ packet is generated from directed index data, finite value windows, a cofinal-refinement row, finite observation windows, a convergence ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:moore-smith-directed-net-carrier}, \autoref{thm:moore-smith-directed-net-namecert-obligations}, and \autoref{thm:moore-smith-directed-net-finite-window-handoff} seed the finite-window Moore--Smith directed-net interface consumed by convergence, filter, completion, and stream-window chapters.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host choice, quotient net equality, selected limits, ambient completeness, open-cover compactness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, directed-index readability, cofinal-refinement compatibility, finite-window convergence routing, filter and completion handoff, stream replay, transport preservation, and ledger refusal for the displayed packet.}
+\end{closurestatus}
