@@ -8567,6 +8567,7 @@ import BEDC.Derived.MirrorSymmetryUp
 import BEDC.Derived.MirskyTheoremUp
 import BEDC.Derived.MittagLefflerBishopUp
 import BEDC.Derived.MittagLefflerBishopUp.TasteGate
+import BEDC.Derived.MobiusInversionUp
 import BEDC.Derived.MobiusTransformUp.TasteGate
 import BEDC.Derived.ModNUp
 import BEDC.Derived.ModelCatUp
