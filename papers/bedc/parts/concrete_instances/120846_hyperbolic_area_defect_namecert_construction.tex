@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicAreaDefectUp$}
+\label{ch:concrete-instances-hyperbolic-area-defect-namecert}
+\origin{human}
+
+Following classical hyperbolic geometry and the Gauss--Bonnet area-defect formula, the $\HyperbolicAreaDefectUp$ packet records the finite boundary-triangle route by which a Poincare disk area element is read into an ideal-triangle area comparison. It sits after the Poincare disk area-element row of \autoref{ch:concrete-instances-poincare-disk-area-element-namecert}, the ideal-triangle boundary row of \autoref{ch:concrete-instances-hyperbolic-ideal-triangle-namecert}, the hyperbolic metric row of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, and the scalar real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite boundary-area defect surface; it is not a host integration theorem, a completed moduli space, selected geodesic representatives, or an ambient curvature theorem.
+
+\begin{definition}[Hyperbolic area-defect carrier]
+\label{def:hyperbolic-area-defect-carrier}
+A $\HyperbolicAreaDefectUp$ carrier is a finite $\BHist$ packet
+$$
+\Delta=(A,T,M,R,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\PoincareDiskAreaElementUp$ row. It records the local disk area-element read used by the defect computation.
+\item $T$ is the $\HyperbolicIdealTriangleUp$ row. It records the ordered boundary triangle whose defect is inspected.
+\item $M$ is the $\HyperbolicMetricUp$ row. It supplies the metric handoff tying the disk area element and boundary triangle to the same hyperbolic surface.
+\item $R$ is the $\RealUp$ scalar seal row for the displayed area-defect read.
+\item $B$ is the boundary-triangle ledger. It records that the three boundary vertices, side windows, metric read, area-element read, and scalar seal are consumed in the displayed order.
+\item $H$ records componentwise $\hsame$ transport for $A,T,M,R,B,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+A,T,M \longmapsto B \longmapsto R \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicAreaDefectUp$, $\PoincareDiskAreaElementUp$, $\HyperbolicIdealTriangleUp$, $\HyperbolicMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HyperbolicAreaDefectUp}$ row.
+\end{enumerate}
+The classifier reads only the displayed area element, ideal-triangle boundary, metric, scalar seal, boundary ledger, transport, replay, provenance, and naming rows. It has no coordinate for host integration, selected geodesic representatives, quotient boundary configurations, or a global Gauss--Bonnet theorem.
+\end{definition}
+
+\begin{theorem}[Hyperbolic area-defect NameCert obligations]
+\label{thm:hyperbolic-area-defect-namecert-obligations}
+For every accepted $\HyperbolicAreaDefectUp$ carrier $\Delta=(A,T,M,R,B,H,C,P,N)$, the local $\NameCert_{\HyperbolicAreaDefectUp}$ surface consists exactly of Poincare disk area-element admission through $A$, ideal-triangle admission through $T$, hyperbolic metric compatibility through $M$, boundary-triangle ledger visibility through $B$, delayed Real scalar sealing through $R$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-area-defect-carrier}. The only geometric source rows are the Poincare disk area element, the ideal-triangle boundary data, and the hyperbolic metric handoff.
+
+The boundary-triangle ledger $B$ binds those source rows before any scalar seal is read. Thus a defect consumer cannot bypass the displayed boundary vertices, side windows, metric read, or area-element read.
+
+The Real row $R$ is downstream of that ledger, and $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier contains no row for host integration, selected geodesics, quotient boundary configurations, or a global curvature theorem, the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Hyperbolic area-defect boundary-triangle route]
+\label{thm:hyperbolic-area-defect-boundary-triangle-route}
+Every accepted $\HyperbolicAreaDefectUp$ read factors through
+$$
+\PoincareDiskAreaElementUp,\HyperbolicIdealTriangleUp,\HyperbolicMetricUp
+\longmapsto
+\RealUp,\NameCert .
+$$
+The scalar defect is therefore consumed as a finite boundary-triangle area readback, not as an ambient integration theorem, selected ideal-triangle representative, quotient boundary configuration, completed moduli-space point, or host Gauss--Bonnet principle.
+\end{theorem}
+\begin{proof}
+Begin with the source rows $A,T,M$. They display the local Poincare disk area element, the ordered ideal-triangle boundary data, and the hyperbolic metric handoff on the same inspected surface.
+
+Next read the boundary-triangle ledger $B$. It records the order in which boundary vertices, side windows, metric data, and area-element data are exposed before a scalar value is sealed.
+
+Finally, the Real row and structural rows $R,H,C,P,N$ seal and replay that same ledger. No extra coordinate remains from which a host integration theorem, selected geodesic representative, quotient boundary object, completed moduli point, or global curvature theorem could be exported.
+\end{proof}
+
+\closureat{HyperbolicAreaDefectUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicAreaDefectUp}
+  \constructivestory{A $\HyperbolicAreaDefectUp$ packet is generated from a PoincareDiskAreaElement row, HyperbolicIdealTriangle row, HyperbolicMetric row, Real scalar seal row, boundary-triangle ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-area-defect-carrier}, \autoref{thm:hyperbolic-area-defect-namecert-obligations}, and \autoref{thm:hyperbolic-area-defect-boundary-triangle-route} seed the finite boundary-triangle area-defect route through Poincare disk area-element, ideal-triangle, metric, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host integration, selected geodesic representatives, quotient boundary configurations, completed moduli spaces, a global Gauss--Bonnet theorem, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked area-element admission, ideal-triangle admission, metric compatibility, boundary-triangle ledger visibility, scalar-seal delay, transport, replay, provenance, and local naming for BEDC.Derived.HyperbolicAreaDefectUp.}
+\end{closurestatus}

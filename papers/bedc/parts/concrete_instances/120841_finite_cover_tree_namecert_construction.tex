@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCoverTreeUp$}
+\label{ch:concrete-instances-finite-cover-tree-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive compact metric practice, the $\FiniteCoverTreeUp$ packet records a finite cover-refinement tree built from displayed $\mathsf{ProbeBundle}$ rows. It sits after the compact source of \autoref{ch:concrete-instances-compact-namecert}, the metric observation rows of \autoref{ch:concrete-instances-metric-namecert}, the compact metric finite-net surface of \autoref{ch:concrete-instances-compactmetric-namecert}, and the total-bounded finite-net carrier of \autoref{ch:concrete-instances-totallybounded-namecert}. The chapter names constructive finite routing data for compact-uniform and finite-cover consumers; it does not assert arbitrary open-cover compactness, selected subcovers, host equality of covers, countable choice, or ambient completeness.
+
+\begin{definition}[Finite cover tree carrier]
+\label{def:finite-cover-tree-carrier}
+A $\FiniteCoverTreeUp$ carrier is a finite $\BHist$ packet
+$$
+T=(K,M,B,L,E,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact source row, read only through finite compact-facing data.
+\item $M$ is the metric observation row used to compare inspected points with displayed centers.
+\item $B$ is the finite $\mathsf{ProbeBundle}$ row of centers, radii, membership witnesses, and refinement histories.
+\item $L$ is the level row recording the finite depth, parent pointer, and child list for each branch node.
+\item $E$ is the edge row recording that every child probe is a displayed refinement of its parent probe at the next requested tolerance.
+\item $R$ is the residual coverage row recording, for each branch node, which still-uncovered finite probe cells are routed to its children.
+\item $S$ is the stopping row recording leaves whose displayed probes already cover their local residual cells.
+\item $H$ records componentwise $\hsame$ transport for $K,M,B,L,E,R,S$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay through compact source, metric observation, probe bundle, refinement edges, residual coverage, and stopping leaves.
+\item $P$ is the $\Pkg$ provenance over $\FiniteCoverTreeUp$, $\CompactUp$, $\MetricUp$, $\CompactMetricUp$, $\TotallyBoundedUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteCoverTreeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,M,B,L,E,R,S,H,C,P,N$. No coordinate stores an arbitrary open cover, a selected finite subcover, a host powerset, quotient equality of covers, countable choice, trichotomy, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Finite cover tree NameCert obligations]
+\label{thm:finite-cover-tree-namecert-obligations}
+For every accepted $\FiniteCoverTreeUp$ carrier
+$$
+T=(K,M,B,L,E,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteCoverTreeUp}$ surface consists exactly of carrier admission, compact source exposure through $K$, metric observation through $M$, finite $\mathsf{ProbeBundle}$ exposure through $B$, finite branch indexing through $L$, refinement-edge readback through $E$, residual coverage through $R$, stopping leaves through $S$, and structural transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows in \autoref{def:finite-cover-tree-carrier}. The rows $K,M,B$ supply the compact, metric, and finite probe data that a cover-tree consumer can inspect.
+
+Next read $L,E,R,S$. These rows give a finite tree: each branch has a displayed level, displayed child refinements, a residual-coverage ledger, and stopping leaves for the covered cells.
+
+Finally read $H,C,P,N$. Transport, replay, provenance, and local naming preserve only the displayed rows, so the local certificate contains no route to arbitrary open-cover compactness, selected subcovers, host powersets, quotient cover equality, countable choice, trichotomy, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Finite cover tree branch stability]
+\label{thm:finite-cover-tree-branch-stability}
+Let $T=(K,M,B,L,E,R,S,H,C,P,N)$ be an accepted $\FiniteCoverTreeUp$ packet. Any transported branch read that preserves the finite $\mathsf{ProbeBundle}$ row $B$ and the refinement-edge row $E$ also preserves the residual coverage row $R$ and the stopping row $S$. Thus a branch can be replayed only as a finite cover-tree route through displayed probe refinements, not as an arbitrary open-cover argument or a selected subcover theorem.
+\end{theorem}
+\begin{proof}
+Start with the finite probe row $B$ and the edge row $E$. A branch read has no independent child selector; it reaches children only through the displayed refinement edges attached to the same finite probe bundle.
+
+The residual coverage row $R$ is indexed by the same branch levels and children as $L$ and $E$. Preserving $B$ and $E$ therefore preserves the finite residual cells that each child is allowed to cover.
+
+The stopping row $S$ is downstream of $R$. Since $H,C,P,N$ only transport, replay, source, and name this finite route, a transported branch cannot acquire an arbitrary open cover, selected subcover, host cover equality, or ambient compactness proof.
+\end{proof}
+
+\begin{theorem}[Finite cover tree sibling dependency]
+\label{thm:finite-cover-tree-sibling-dependency}
+Every finite-cover consumer of an accepted $\FiniteCoverTreeUp$ packet must first expose the compact source of \autoref{ch:concrete-instances-compact-namecert}, the metric observation surface of \autoref{ch:concrete-instances-metric-namecert}, and the total-bounded finite-net route of \autoref{ch:concrete-instances-totallybounded-namecert}. The tree then routes those rows through $B,L,E,R,S,H,C,P,N$ before any local cover-tree certificate is exported.
+\end{theorem}
+\begin{proof}
+Project the source rows $K$ and $M$. They are the only rows through which compact and metric data enter the packet.
+
+Read the finite-net dependency through $B,L,E,R,S$. The tree is finite because its probes, levels, refinement edges, residual coverage rows, and stopping leaves are all displayed before the local name is exported.
+
+The structural rows $H,C,P,N$ preserve the same dependency route. Therefore the sibling chapters are load-bearing sources of rows, and the exported certificate remains finite ProbeBundle cover-tree data.
+\end{proof}
+
+\closureat{FiniteCoverTreeUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCoverTreeUp}
+  \constructivestory{A $\FiniteCoverTreeUp$ packet is generated from compact-source rows, metric-observation rows, finite ProbeBundle rows, branch-level rows, refinement-edge rows, residual-coverage rows, stopping-leaf rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cover-tree-carrier}, \autoref{thm:finite-cover-tree-namecert-obligations}, \autoref{thm:finite-cover-tree-branch-stability}, and \autoref{thm:finite-cover-tree-sibling-dependency} seed the finite compact-source, metric-observation, ProbeBundle, refinement-edge, residual-coverage, stopping-leaf, transport, replay, provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary open-cover compactness, selected subcovers, host powersets, quotient equality of covers, countable choice, trichotomy, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, refinement-edge exactness, residual-coverage stability, stopping-leaf nonescape, sibling dependency, and branch transport for BEDC.Derived.FiniteCoverTreeUp.}
+\end{closurestatus}
