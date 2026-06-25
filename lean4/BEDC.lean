@@ -674,6 +674,7 @@ import BEDC.Derived.AxisZeckendorf.GoldenPhaseProjection
 import BEDC.Derived.AxisZeckendorf.InverseLimitLifting
 import BEDC.Derived.AxisZeckendorf.Spine
 import BEDC.Derived.AxisZeckendorf.Zeckendorf
+import BEDC.Derived.AxisZeckendorf.ZetaZeckendorfObligations
 import BEDC.Derived.AxisZeckendorfCannotClaimUp
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.AuditGateConsumption
 import BEDC.Derived.AxisZeckendorfCannotClaimUp.AxisNatNatRefusalBoundary
