@@ -10177,6 +10177,7 @@ import BEDC.Derived.RealWindowSynchronizerUp.Nonescape
 import BEDC.Derived.RealWindowSynchronizerUp.StdBridge
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.Real_modulus_of_convergenceUp
+import BEDC.Derived.RealityConstrained.LayeredNormalForms
 import BEDC.Derived.RealityConstrainedApproximationTowerUp.Nonescape
 import BEDC.Derived.RealityConstrainedApproximationTowerUp.SiblingIndependence
 import BEDC.Derived.RealityConstrainedApproximationTowerUp.TasteGate
