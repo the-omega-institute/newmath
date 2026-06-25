@@ -1,0 +1,271 @@
+\chapter{RH Proof Obligation Package}
+\label{ch:visions-rh-proof-obligation-package}
+\origin{ai}
+
+\autoref{ch:visions-rh-zeta-zero-type-factorization} isolates the
+type-theoretic zero fiber, and
+\autoref{ch:visions-rh-bulk-boundary-prime-shadow-interface} isolates the
+prime-shadow rigidity interface. The present chapter records the proof
+obligation package obtained by composing those two interfaces. It is not a
+proof of $\mathsf{RH}$. It states which rows are definitional, which rows
+are already structural consequences, and which rows carry the remaining
+analytic content.
+
+\section{Constructive Target}
+\label{sec:rh-proof-obligation-constructive-target}
+
+\begin{definition}[RH witness function]
+\label{def:rh-proof-obligation-witness-function}
+The BEDC-RH witness function is the dependent function
+$$
+\Phi:
+\mathsf{NTZeroType}\to\mathsf{FixedHalfZeroType}
+$$
+whose projection back to $\mathsf{NTZeroType}$ is classifier-equal to the
+identity. Equivalently, for every source row $s$ with
+$$
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s),
+$$
+it returns a displayed $\mathsf{OnCritLine}(s)$ witness. This is the
+constructive target of \autoref{def:rh-predicate} and the section form of
+\autoref{thm:rh-zeta-zero-type-rh-fixed-half-coverage}.
+\end{definition}
+
+\begin{definition}[Quantitative off-line barrier]
+\label{def:rh-proof-obligation-quantitative-barrier}
+A quantitative off-line barrier is a function
+$$
+\beta:\NatUp\to\RatUp_{>0}
+$$
+such that for every critical-strip row $s$,
+$$
+|\Re(s)-1/2|>2^{-n}
+\to
+|\zeta(s)|\ge \beta(n).
+$$
+It is the positive-apartness strengthening of the fixed-half witness: away
+from the line, the zeta value is bounded away from the zero complex history
+by an explicit rational row.
+\end{definition}
+
+\begin{principle}[Refutation data must be typed]
+\label{prin:rh-proof-obligation-refutation-data-typed}
+A contradiction route contributes to the BEDC-RH witness target only when
+it is typed as a same-source conflict between a zero ledger and an
+apart-zero ledger. A classical refutation without the transport rows needed
+to build $\Phi$ does not inhabit \autoref{def:rh-proof-obligation-witness-function}.
+\end{principle}
+
+\section{Structural Rows}
+\label{sec:rh-proof-obligation-structural-rows}
+
+\begin{definition}[Zero-fiber rows]
+\label{def:rh-proof-obligation-zero-fiber-rows}
+The zero-fiber part of the package consists of the following rows:
+$$
+\mathsf{ZetaZeroType}\simeq\operatorname{Fib}_{0}(\zeta),
+\qquad
+\mathsf{NTZeroType}
+\simeq
+\sum_s
+\bigl(
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+\bigr),
+$$
+and the section equivalence
+$$
+\mathsf{RH}
+\Longleftrightarrow
+\mathsf{NTZeroType}\to\mathsf{FixedHalfZeroType}.
+$$
+These are structural descriptions of the target, not analytic exclusions.
+\end{definition}
+
+\begin{definition}[Zero-generator rows]
+\label{def:rh-proof-obligation-zero-generator-rows}
+The zero-generator part of the package consists of the factorization row
+$$
+G:A\to\mathsf{ZetaDom}^{\uparrow},
+\quad
+\theta_G(a):
+\sum_{z:\ComplexUp}
+\bigl(
+\mathsf{ZetaVal}(G(a),z)
+\times
+z\sim_{\ComplexUp}e_{\ComplexUp}
+\bigr)
+\quad
+\Longrightarrow
+\quad
+\overline G:A\to\mathsf{ZetaZeroType},
+$$
+and the canonical-presentation row asserting that two canonical
+presentations of the same zero type are equivalent licensed
+presentations. Hence incompatible canonical generators cannot be
+presentations of one zero type.
+\end{definition}
+
+\begin{definition}[Omega representation row]
+\label{def:rh-proof-obligation-omega-representation-row}
+The $\Omega$ representation row is the assertion that every legal
+non-trivial zeta-zero packet is represented by some row of the Omega
+non-trivial zero carrier
+$$
+T_{\Omega}^{nt0}
+:=
+\sum_{x:T_{\Omega}}
+\left(
+\mathsf{ZetaZero}(\pi_{\zeta}(x))
+\times
+\mathsf{InCritStrip}(\pi_{\zeta}(x))
+\right).
+$$
+This row is the transport bridge from the zero-type statement to the
+bulk-boundary tower statement.
+\end{definition}
+
+\section{Rigidity Rows}
+\label{sec:rh-proof-obligation-rigidity-rows}
+
+\begin{definition}[Prime normal defect]
+\label{def:rh-proof-obligation-prime-normal-defect}
+The prime normal defect predicate is the tower-visible defect
+$$
+\mathsf{PrimeNormalDefect}_{\Omega}(x)
+:=
+\sum_{i\in I}\mathsf{PrimeDefect}_i(x),
+$$
+where each $\mathsf{PrimeDefect}_i(x)$ is a nonzero prime-shadow readout
+at boundary layer $i$. Its negation is
+$$
+\mathsf{NoPrimeNormalDefect}_{\Omega}(x)
+:=
+\neg\mathsf{PrimeNormalDefect}_{\Omega}(x).
+$$
+This notation packages the same defect surface as
+\autoref{def:rh-prime-shadow-defect-interface}; it emphasizes the normal
+direction read by finite prime-window and bulk-boundary shadows.
+\end{definition}
+
+\begin{definition}[Zero atom prime-normal rigidity]
+\label{def:rh-proof-obligation-zero-atom-prime-normal-rigidity}
+Zero atom prime-normal rigidity is the statement
+$$
+\mathsf{ZeroAtomNoPrimeNormalDefect}_{\Omega}
+:=
+\prod_{x:T_{\Omega}}
+\left(
+\mathsf{NTZeroAtom}_{\Omega}(x)
+\to
+\mathsf{NoPrimeNormalDefect}_{\Omega}(x)
+\right).
+$$
+It says that a non-trivial zero atom may carry phase data, but cannot carry
+a nonzero prime-normal defect.
+\end{definition}
+
+\begin{definition}[Prime-normal critical-line row]
+\label{def:rh-proof-obligation-prime-normal-critical-line}
+The prime-normal critical-line row is
+$$
+\mathsf{PrimeNormalImpliesCriticalLine}_{\Omega}
+:=
+\prod_{x:T_{\Omega}}
+\left(
+\mathsf{NTZeroAtom}_{\Omega}(x)
+\times
+\mathsf{NoPrimeNormalDefect}_{\Omega}(x)
+\to
+\mathsf{OnCritLine}(\pi_{\zeta}(x))
+\right).
+$$
+This is the fixed-half interpretation of the absence of prime-normal
+defect.
+\end{definition}
+
+\begin{definition}[Apart-zero defect row]
+\label{def:rh-proof-obligation-apart-zero-defect-row}
+The apart-zero defect row is
+$$
+\mathsf{PrimeDefectApartZero}_{\Omega}
+:=
+\prod_{x:T_{\Omega}}
+\left(
+\mathsf{InCritStrip}(\pi_{\zeta}(x))
+\times
+\mathsf{PrimeNormalDefect}_{\Omega}(x)
+\to
+\mathsf{Apart}_{0}(\zeta(\pi_{\zeta}(x)))
+\right).
+$$
+Together with zero-ledger soundness, it turns prime-normal defect into a
+same-source zero and apart-zero conflict.
+\end{definition}
+
+\begin{theorem}[Apart-zero defect gives zero atom prime-normal rigidity]
+\label{thm:rh-proof-obligation-apart-zero-gives-zero-atom-rigidity}
+Assume $\mathsf{PrimeDefectApartZero}_{\Omega}$ and zero-ledger soundness,
+namely
+$$
+\mathsf{ZeroAtom}_{\Omega}(x)
+\to
+\zeta(\pi_{\zeta}(x))=0.
+$$
+Then $\mathsf{ZeroAtomNoPrimeNormalDefect}_{\Omega}$ holds.
+\end{theorem}
+
+\begin{proof}
+Let $x:T_{\Omega}$ carry $\mathsf{NTZeroAtom}_{\Omega}(x)$. Suppose, for
+contradiction, that $\mathsf{PrimeNormalDefect}_{\Omega}(x)$ holds. The
+non-trivial zero atom supplies both $\mathsf{InCritStrip}(\pi_{\zeta}(x))$
+and $\mathsf{ZeroAtom}_{\Omega}(x)$. The apart-zero defect row gives
+$$
+\mathsf{Apart}_{0}(\zeta(\pi_{\zeta}(x))).
+$$
+Zero-ledger soundness gives $\zeta(\pi_{\zeta}(x))=0$. This is the
+same-source conflict of
+\autoref{thm:rh-zeta-zero-apart-conflict-impossible}. Hence the assumed
+prime-normal defect is impossible.
+\end{proof}
+
+\begin{theorem}[Proof obligation package implies RH]
+\label{thm:rh-proof-obligation-package-implies-rh}
+Assume the following rows:
+$$
+\mathsf{PrimeDefectApartZero}_{\Omega},
+\qquad
+\text{zero-ledger soundness},
+\qquad
+\mathsf{PrimeNormalImpliesCriticalLine}_{\Omega},
+$$
+and representation of every legal non-trivial zeta-zero packet in
+$T_{\Omega}^{nt0}$. Then the BEDC-RH predicate holds.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-proof-obligation-apart-zero-gives-zero-atom-rigidity},
+the apart-zero defect row and zero-ledger soundness give
+$\mathsf{ZeroAtomNoPrimeNormalDefect}_{\Omega}$. For any represented
+non-trivial zero row $x:T_{\Omega}^{nt0}$, this yields
+$\mathsf{NoPrimeNormalDefect}_{\Omega}(x)$. Applying
+\autoref{def:rh-proof-obligation-prime-normal-critical-line} gives
+$\mathsf{OnCritLine}(\pi_{\zeta}(x))$. Representation transports this
+critical-line witness to every $u:\mathsf{NTZeroType}$, and
+\autoref{thm:rh-zeta-zero-type-rh-fixed-half-coverage} gives the BEDC-RH
+predicate.
+\end{proof}
+
+\begin{principle}[Remaining mathematical content]
+\label{prin:rh-proof-obligation-remaining-content}
+After the zero-fiber, generator-factorization, and representation rows are
+in place, the remaining mathematical content is concentrated in two
+rigidity rows:
+$$
+\mathsf{PrimeDefectApartZero}_{\Omega},
+\qquad
+\mathsf{PrimeNormalImpliesCriticalLine}_{\Omega}.
+$$
+The first says that a positive prime-normal defect forces apartness from
+the zero value on the same source row. The second says that absence of such
+defect is read in the complex projection as the fixed-half condition.
+\end{principle}
