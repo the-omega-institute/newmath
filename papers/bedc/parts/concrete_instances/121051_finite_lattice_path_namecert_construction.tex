@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\FiniteLatticePathUp$}
+\label{ch:concrete-instances-finite-lattice-path-namecert}
+\origin{human}
+
+Following Stanley's enumerative combinatorics, the $\FiniteLatticePathUp$ packet records a finite grid walk by endpoint, step-list, and prefix-ledger rows. It sits beside the unary size carrier of \autoref{ch:concrete-instances-nat-namecert}, the finite spine carrier of \autoref{ch:concrete-instances-list-namecert}, the ordered-pair carrier of \autoref{ch:concrete-instances-prod-namecert}, and the comparison rows of \autoref{ch:concrete-instances-order-namecert}; its Dyck-prefix special case is consumed by the Catalan surface of \autoref{ch:concrete-instances-catalan-number-namecert}. The packet names only displayed finite walks, not an ambient grid, infinite path space, quotient endpoint equality, or external enumeration theorem.
+
+\begin{definition}[Finite lattice path carrier]
+\label{def:finite-lattice-path-carrier}
+A $\FiniteLatticePathUp$ carrier is a finite $\BHist$ packet
+$$
+L=(s,t,W,E,P,B,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $s$ is the start endpoint row, a $\ProdUp$ pair of $\NatUp$ coordinates.
+\item $t$ is the terminal endpoint row, another $\ProdUp$ pair of $\NatUp$ coordinates.
+\item $W$ is the finite $\ListUp$ step row whose entries are the displayed horizontal and vertical unit steps.
+\item $E$ is the endpoint ledger: iterating the steps of $W$ from $s$ reaches $t$ through finite $\ProdUp$ coordinate updates.
+\item $P$ is the prefix ledger: every prefix of $W$ has a displayed $\ProdUp$ endpoint and an $\OrderUp$ comparison row whenever a boundary condition is part of the path request.
+\item $B$ is the bounded-size row, read through $\NatUp$, that records the length of $W$ and the coordinate budgets consumed by $E$ and $P$.
+\item $H$ records componentwise $\hsame$ transport for the endpoints, step list, endpoint ledger, prefix ledger, bounded-size row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from endpoint and prefix requests to the finite step-list ledger.
+\item $G$ is the $\Pkg$ provenance over $\FiniteLatticePathUp$, $\NatUp$, $\ListUp$, $\ProdUp$, $\OrderUp$, $\CatalanNumberUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteLatticePathUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten rows. It has no coordinate for a completed lattice, infinite walk, quotient endpoint equality, unbounded search, or host enumeration principle.
+\end{definition}
+
+\begin{theorem}[Finite lattice path NameCert obligations]
+\label{thm:finite-lattice-path-namecert-obligations}
+For every accepted $\FiniteLatticePathUp$ carrier $L=(s,t,W,E,P,B,H,C,G,N)$, the local $\NameCert_{\FiniteLatticePathUp}$ surface consists exactly of start and terminal endpoint admission through $\ProdUp$ pairs of $\NatUp$ coordinates, finite step-list admission through $\ListUp$, endpoint-ledger exactness, prefix-ledger visibility, bounded-size accounting, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape from ambient grids, infinite path spaces, quotient endpoint equality, unbounded search, or external enumeration theorems.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The start and terminal rows are displayed $\ProdUp$ pairs of $\NatUp$ coordinates, and the step row $W$ is a finite $\ListUp$ spine.
+
+Read the endpoint ledger $E$. It iterates the displayed steps from $s$ and records the terminal endpoint $t$ as a finite coordinate calculation, so no ambient lattice carrier or quotient endpoint equality is available.
+
+Read the prefix ledger $P$ and bounded-size row $B$. Each prefix endpoint is displayed as a $\ProdUp$ pair, and each boundary comparison is an $\OrderUp$ row attached to that prefix. The length and coordinate budgets are $\NatUp$ rows, hence the accepted path is finite at every inspected prefix.
+
+Finally $H,C,G,N$ transport, replay, source, and name this same route. Since the carrier has no coordinate for an infinite walk, unbounded search, or external enumeration theorem, the local NameCert obligations are exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Finite lattice path endpoint and prefix ledger route]
+\label{thm:finite-lattice-path-endpoint-prefix-ledger-route}
+Every downstream consumer of an accepted $\FiniteLatticePathUp$ packet must read the route
+$$
+\NatUp,\ \ProdUp,\ \ListUp,\ \OrderUp
+\longmapsto
+(s,t,W,E,P,B)
+\longmapsto
+\NameCert_{\FiniteLatticePathUp}
+$$
+before it may consume the path as a Catalan, Dyck-prefix, ballot, grid-walk, or finite-enumeration object. The $\CatalanNumberUp$ consumer receives only the special case where $P$ records the nonnegative prefix balance and zero terminal balance; it does not receive an unrestricted path space or an analytic counting theorem.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the accepted packet $L$. Carrier admission exposes the endpoint rows $s,t$, the finite step list $W$, the endpoint ledger $E$, the prefix ledger $P$, and the bounded-size row $B$ before the local name row can be read.
+
+The endpoint rows are $\ProdUp$ pairs whose coordinates are $\NatUp$ rows. The step list is a $\ListUp$ spine, so any scan of the path factors through the finite list carrier rather than through an ambient function space.
+
+The prefix ledger is the only place where order information appears. When a consumer asks for a boundary condition, it receives an $\OrderUp$ comparison attached to a displayed prefix endpoint, not a detached order relation on a host grid.
+
+For the Catalan-facing special case, the same prefix ledger records balance nonnegativity and terminal balance zero. Thus the Catalan packet can consume the lattice-path row as a Dyck-prefix surface, while the finite lattice path packet itself remains the endpoint-and-prefix ledger route described above.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteLatticePathUp$ read must expose the start endpoint, terminal endpoint, finite step list, endpoint ledger, prefix ledger, bounded-size row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence before it may be consumed by Catalan, Dyck-prefix, ballot, grid-walk, or finite-enumeration chapters.}
+
+\independenceWitness{nat, list, prod, order, catalan-number: $\FiniteLatticePathUp$ is not bijective to any listed sibling because it jointly carries endpoint pairs, a finite step spine, endpoint iteration, prefix comparisons, bounded-size accounting, transport, replay, provenance, and local naming. NatUp has sizes without path spines; ListUp has spines without coordinate endpoints; ProdUp has endpoint pairs without iteration; OrderUp has comparisons without prefix history; CatalanNumberUp consumes a Dyck-prefix special case without carrying arbitrary finite grid endpoints.}
+
+\closureat{FiniteLatticePathUp}{seedStr}
+
+\begin{closurestatus}{\FiniteLatticePathUp}
+  \constructivestory{A $\FiniteLatticePathUp$ packet is generated from NatUp coordinate rows, ProdUp endpoint pairs, a finite ListUp step spine, endpoint iteration, prefix OrderUp comparisons, bounded-size accounting, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-lattice-path-carrier}, \autoref{thm:finite-lattice-path-namecert-obligations}, and \autoref{thm:finite-lattice-path-endpoint-prefix-ledger-route} seed the finite endpoint and prefix-ledger route for lattice-path packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Catalan recurrence uniqueness, ballot enumeration, reflection principles, quotient endpoint equality, infinite path spaces, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint-ledger exactness, prefix-ledger visibility, bounded-size accounting, transport, replay, provenance, and local naming for BEDC.Derived.FiniteLatticePathUp.}
+\end{closurestatus}
