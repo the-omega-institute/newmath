@@ -151,6 +151,26 @@ Apply the Real seal refusal and non-escape theorems. A reciprocal-window consume
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyApartnessBudgetUp.RegularCauchyApartnessBudgetCarrier\_reciprocal\_window\_boundary}
 
+\begin{theorem}[Regular Cauchy apartness-budget Phase Real handoff]
+\label{thm:regular-cauchy-apartness-budget-phase-real-handoff}
+Every Phase Real and Completion consumer that uses a $\RegularCauchyApartnessBudgetUp$ lower-bound read must factor through the displayed RegSeqRat source $X$, apartness budget $A$, modulus row $M$, $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ lower-bound row $D$, $\RegSeqRatUp$ readback $R$, Real seal row $E$, and the structural rows $H,C,P,N$ before it can feed a reciprocal-window or $\RealUp$-facing exit. The handoff is the finite route
+$$
+X,A,M,W,D,R,E,H,C,P,N .
+$$
+It refuses host nonzero reals, trichotomy, quotient streams, selected representatives, a total reciprocal operation, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-apartness-budget-carrier}. The rows $X,A,M,W,D,R,E,H,C,P,N$ are the only displayed source, lower-bound, seal, transport, replay, provenance, and local naming rows available to the consumer.
+
+Apply lower-bound scope, \autoref{thm:regular-cauchy-apartness-budget-lower-bound-scope}. It forces every lower-bound read through $A,M,W,D,R$ and the local structural rows before any downstream consumer can use the read.
+
+Apply lower-bound determinacy, \autoref{thm:regular-cauchy-apartness-budget-lower-bound-determinacy}. Once the displayed lower-bound route is fixed, there is no second carrier coordinate from which a Phase Real or Completion consumer can read a different positive handoff.
+
+Use Real seal refusal, \autoref{thm:regular-cauchy-apartness-budget-real-seal-refusal}, and the reciprocal-window boundary, \autoref{thm:regular-cauchy-apartness-budget-reciprocal-window-boundary}. A Real-facing or reciprocal-window exit is therefore reached only after the same apartness budget, modulus, window, dyadic lower bound, regular readback, Real seal, transport, replay, provenance, and local naming rows have been displayed.
+
+The carrier exclusions finish the non-escape claim. Host nonzero reals, trichotomy, quotient streams, selected representatives, total reciprocals, and ambient completeness are absent from the packet, so none of them can be exported by the Phase Real and Completion handoff.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy apartness-budget public interface]
 \label{thm:regular-cauchy-apartness-budget-public-interface}
 Every public reciprocal-window or $\RealUp$-seal consumer of an accepted $\RegularCauchyApartnessBudgetUp$ packet
