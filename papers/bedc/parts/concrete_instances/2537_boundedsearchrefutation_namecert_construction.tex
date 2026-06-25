@@ -116,16 +116,42 @@ Apply the NameCert obligations and depth soundness. These force the contrary-rec
 
 Finally use non-escape and the NameCert boundary. Since neither theorem supplies any coordinate beyond $A,K,F,R,G,H,C,P,N$, the public export is exactly the bounded frontier, contrary-record or $\Gap$ row, and non-escape ledger stated above.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundedSearchRefutationUp.BoundedSearchRefutationPublicExport}
 
-\closureat{BoundedSearchRefutationUp}{publicStr}
+\begin{theorem}[BoundedSearchRefutation bounded frontier bridge]
+\label{thm:bounded-search-refutation-bounded-frontier-bridge}
+Every bridge consumer of an accepted $\BoundedSearchRefutationUp$ packet must first read the finite depth budget $K$, the bounded frontier $F$, the witness-or-gap rows $R,G$, and the structural rows $H,C,P,N$ before handing the packet to any standard bounded-refutation interface. The bridge read is therefore the displayed route through the same bounded frontier exported by \autoref{thm:bounded-search-refutation-public-export}; it adds no global proof search, no truth predicate over certificates, no excluded-middle branch, and no witness outside $F$.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:bounded-search-refutation-obligations}. They identify $K,F,R,G,H,C,P,N$ as the finite rows through which any accepted refutation or bounded $\Gap$ read must pass.
+
+Use depth soundness and obligation scope, \autoref{thm:bounded-search-refutation-depth-soundness} and \autoref{thm:bounded-search-refutation-obligation-scope}. These force every replayed witness route to remain inside the displayed depth budget and frontier, while a $\Gap$ read remains only a bounded frontier report.
+
+Finally combine non-escape, the NameCert boundary, and the public export, \autoref{thm:bounded-search-refutation-nonescape}, \autoref{thm:bounded-search-refutation-namecert-boundary}, and \autoref{thm:bounded-search-refutation-public-export}. Since the public packet has no coordinate beyond $A,K,F,R,G,H,C,P,N$, a standard bounded-refutation bridge can consume exactly those rows and cannot import any unbounded or classical proof-search endpoint.
+\end{proof}
+
+\begin{theorem}[BoundedSearchRefutation mature treatment]
+\label{thm:bounded-search-refutation-mature-treatment}
+Every mature consumer of an accepted $\BoundedSearchRefutationUp$ packet reads the proposition row $A$, the depth budget $K$, the finite frontier $F$, the witness-or-gap rows $R,G$, the componentwise transport row $H$, the displayed replay routes $C$, the provenance row $P$, and the local $\NameCert_{\BoundedSearchRefutationUp}$ row $N$ as one bounded-search treatment. The treatment closes exactly the displayed finite frontier discipline: it exports no global proof search, no witness outside $F$, no excluded-middle branch, and no claim about depths beyond $K$.
+\end{theorem}
+\begin{proof}
+Use the carrier and obligations, \autoref{def:bounded-search-refutation-carrier} and \autoref{thm:bounded-search-refutation-obligations}. They make $A,K,F,R,G,H,C,P,N$ the complete public inventory of the packet.
+
+Depth soundness and obligation scope, \autoref{thm:bounded-search-refutation-depth-soundness} and \autoref{thm:bounded-search-refutation-obligation-scope}, force every accepted replay to remain inside the displayed finite budget and frontier.
+
+The public export and bounded-frontier bridge, \autoref{thm:bounded-search-refutation-public-export} and \autoref{thm:bounded-search-refutation-bounded-frontier-bridge}, are therefore already the mature treatment: mature consumers can only reuse the same finite rows and cannot attach an unbounded search, deeper-depth assertion, host truth predicate, or off-frontier selector.
+\end{proof}
+
+\closureat{BoundedSearchRefutationUp}{matureStr}
 
 \begin{closurestatus}{\BoundedSearchRefutationUp}
   \constructivestory{A $\BoundedSearchRefutationUp$ packet is generated from a proposition row, a finite depth budget, a bounded search frontier, a displayed refutation witness or $\Gap$ row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:bounded-search-refutation-carrier}, \autoref{thm:bounded-search-refutation-obligations}, \autoref{thm:bounded-search-refutation-depth-soundness}, \autoref{thm:bounded-search-refutation-obligation-scope}, \autoref{thm:bounded-search-refutation-nonescape}, \autoref{thm:bounded-search-refutation-namecert-boundary}, and \autoref{thm:bounded-search-refutation-public-export} bind the finite bounded-search carrier, obligation scope, depth discipline, non-escape boundary, NameCert consumer surface, and public export.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:bounded-search-refutation-carrier}, \autoref{thm:bounded-search-refutation-obligations}, \autoref{thm:bounded-search-refutation-depth-soundness}, \autoref{thm:bounded-search-refutation-obligation-scope}, \autoref{thm:bounded-search-refutation-nonescape}, \autoref{thm:bounded-search-refutation-namecert-boundary}, \autoref{thm:bounded-search-refutation-public-export}, \autoref{thm:bounded-search-refutation-bounded-frontier-bridge}, and \autoref{thm:bounded-search-refutation-mature-treatment} bind the finite bounded-search carrier, obligation scope, depth discipline, non-escape boundary, NameCert consumer surface, public export, bounded-frontier bridge, and mature consumer treatment.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.BoundedSearchRefutationUp.BoundedSearchRefutationNameCertObligations}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close global proof search, excluded middle, host truth, quotient proof equality, or absence of refutations beyond the displayed budget.}
-  \upgradepath{Bridge maturity requires a checked standard bridge that preserves the bounded refutation and bounded $\Gap$ rows without adding global proof search or unbounded-depth claims.}
+  \upgradepath{No further theory-axis grade is claimed; any verification-axis work must preserve the same bounded refutation and bounded $\Gap$ rows without adding global proof search or unbounded-depth claims.}
 \end{closurestatus}

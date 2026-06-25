@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyRecursionUp$}
+\label{ch:concrete-instances-regular-cauchy-recursion-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\RegularCauchyRecursionUp$ packet records the finite evaluator surface by which a regular rational Cauchy name is read through displayed precision windows, dyadic tolerance rows, and a recursion ledger before a $\RealUp$ seal is available. It sits over the $\DyadicRatCoreUp$ tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ rational source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the completion eliminator of \autoref{ch:concrete-instances-cauchy-completion-recursor-namecert}. The chapter names a finite L10 evaluator route; it does not identify quotient streams, select limits, compare host functions by equality, invoke countable choice, or use ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy recursion carrier]
+\label{def:regular-cauchy-recursion-carrier}
+A $\RegularCauchyRecursionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(Q,S,D,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\RegSeqRatUp$ source row whose regular rational entries are the only values read by the evaluator.
+\item $S$ is the $\StreamNameUp$ window row recording the finite observation windows used for each precision request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording dyadic radii, comparison cells, and the requested error budget.
+\item $E$ is the evaluator and recursion ledger, recording each finite call, its source window, its dyadic tolerance, and its dependency on earlier ledger rows.
+\item $L$ is the terminal $\RealUp$ seal row reached only after $Q,S,D,E$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the rational source, window, tolerance, evaluator ledger, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for each evaluator request through $Q,S,D,E,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyRecursionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyCompletionRecursorUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyRecursionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $Q,S,D,E,L,H,C,P,N$. No coordinate stores a quotient stream, a selected limit, host function equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyRecursionUp.RegularCauchyRecursionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy recursion NameCert obligations]
+\label{thm:regular-cauchy-recursion-namecert-obligations}
+For every accepted $\RegularCauchyRecursionUp$ carrier
+$$
+R=(Q,S,D,E,L,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyRecursionUp}$ surface consists exactly of carrier admission for the $\RegSeqRatUp$ source row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance row, evaluator and recursion ledger, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every evaluator read must expose the source row $Q$, window row $S$, tolerance row $D$, and ledger row $E$ before any Real-facing seal is visible.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-recursion-carrier}. Its displayed coordinates are exactly $Q,S,D,E,L,H,C,P,N$, so local naming and carrier admission have no hidden analytic source.
+
+Read the analytic rows in order. The rational source $Q$ supplies only regular rational entries, the window row $S$ fixes the finite observations, and the dyadic row $D$ fixes the requested tolerance budget.
+
+The evaluator ledger $E$ is downstream of those rows. It records finite recursive calls and their dependencies, but it does not add a quotient stream, selected limit, host function equality, choice schedule, or completeness principle.
+
+Finally read the structural rows $H,C,P,N$ and the seal row $L$. Transport, replay, provenance, and local naming preserve the same finite route, so the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy recursion evaluation handoff]
+\label{thm:regular-cauchy-recursion-evaluation-handoff}
+Every Real-facing or completion-facing consumer of an accepted $\RegularCauchyRecursionUp$ packet factors through the finite route
+$$
+\RegSeqRatUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \CauchyCompletionRecursorUp \longmapsto \RealUp .
+$$
+The evaluator ledger may be handed to the $\CauchyCompletionRecursorUp$ route only as displayed regular-Cauchy recursion data over $Q,S,D,E,H,C,P,N$. The handoff exports no quotient-stream equality, selected representative, selected limit, host function equality, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:regular-cauchy-recursion-namecert-obligations}. They force every evaluator request to expose the regular rational source, finite windows, dyadic tolerance row, and evaluator ledger before the Real seal is read.
+
+The completion recursor then receives only the displayed ledger. Its input is the finite route through $Q,S,D,E$ together with transport, replay, provenance, and local naming; it is not a separate limit selector or quotient representative.
+
+Since quotient streams, selected representatives, selected limits, host function equality, countable choice, and ambient Real completeness have no coordinate in the carrier, no downstream consumer can extract them from the handoff.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyRecursionUp$ consumer that reads a $\RealUp$ seal or a $\CauchyCompletionRecursorUp$ handoff without displaying the $\RegSeqRatUp$ source row, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance row, evaluator ledger, transport, replay, provenance, and local naming evidence refutes the carrier surface.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, cauchy-completion-recursor: no listed sibling supplies the whole packet $R=(Q,S,D,E,L,H,C,P,N)$, because each sibling contributes only a tolerance, window, rational-source, Real-seal, or completion-elimination surface while this chapter binds all five with an evaluator ledger, transport, replay, provenance, and local naming.}
+
+\closureat{RegularCauchyRecursionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyRecursionUp}
+  \constructivestory{A $\RegularCauchyRecursionUp$ packet is generated from a RegSeqRat source row, StreamName windows, DyadicRatCore tolerances, an evaluator and recursion ledger, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-recursion-carrier}, \autoref{thm:regular-cauchy-recursion-namecert-obligations}, and \autoref{thm:regular-cauchy-recursion-evaluation-handoff} seed the finite L10 regular-Cauchy evaluator route over rational-source rows, finite windows, dyadic tolerances, completion-recursion handoff, Real sealing, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, host function equality, countable choice, ambient Real completeness, Lean verification, axiom-clean audit, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-row exactness, window exposure, dyadic tolerance exactness, evaluator ledger replay, completion-recursion handoff, Real seal nonescape, transport, provenance, and local naming for BEDC.Derived.RegularCauchyRecursionUp.}
+\end{closurestatus}

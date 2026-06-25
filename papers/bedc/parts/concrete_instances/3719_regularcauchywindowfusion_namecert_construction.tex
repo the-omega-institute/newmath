@@ -122,6 +122,19 @@ The sibling inputs named in the introduction supply exactly those rows: $\Stream
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionSelectorBudgetCompatibility}
 
+\begin{theorem}[Regular Cauchy window fusion tail handoff]
+\label{thm:regular-cauchy-window-fusion-tail-handoff}
+Any downstream $\RegularSequenceTailMetricUp$ or $\RealUp$ consumer of an accepted $\RegularCauchyWindowFusionUp$ packet must use the same finite $\StreamNameUp$ window $W$, $\RegSeqRatUp$ readback $S$, $\DyadicRatCoreUp$ ledger $D$, and support rows $H,C,P,N$ before reading the $\RealUp$ seal row $E$. A tail-facing consumer cannot replace the shared window by a selected limit, quotient stream, or independent completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the shared-window handoff, \autoref{thm:regular-cauchy-window-fusion-shared-window-handoff}. It binds the RatUp seed row, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, and $\DyadicRatCoreUp$ ledger to one finite observation packet.
+
+Apply Real seal non-escape and selector-budget compatibility, \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape} and \autoref{thm:regular-cauchy-window-fusion-selector-budget-compatibility}. They force every route to $E$ through $R,W,S,D,H,C,P,N$ and reject any budget or selector change before the seal is read.
+
+The tail-facing consumer therefore inherits the same handoff. Whether the downstream read is $\RegularSequenceTailMetricUp$ or $\RealUp$, it can consume only the displayed rows of the accepted fusion packet before $E$; selected limits, quotient streams, and independent completeness witnesses are not carrier coordinates.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionTailHandoff}
+
 \begin{theorem}[Regular Cauchy window fusion downstream package]
 \label{thm:regular-cauchy-window-fusion-downstream-package}
 The carrier of \autoref{def:regular-cauchy-window-fusion-carrier}, the local NameCert obligations, the shared-window handoff, and the Real seal non-escape theorem assemble a downstream package for $\RealCompletenessUp$, $\StationaryDiagonalWindowRouteUp$, $\CauchyModulusComparisonUp$, and $\DiagonalCofinalTailUp$ consumers. The package exposes exactly
@@ -137,6 +150,7 @@ Next use the shared-window handoff. It binds the seed, stream, regular-sequence,
 
 Finally apply the Real seal non-escape theorem. The package can export only $R,W,S,D,E,H,C,P,N$, and the listed downstream consumers read those rows through their existing finite-window routes.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionDownstreamPackage}
 
 \begin{theorem}[Regular Cauchy window fusion budget meet]
 \label{thm:regular-cauchy-window-fusion-budget-meet}
@@ -176,6 +190,7 @@ Apply \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape}. The seal r
 
 Apply \autoref{thm:regular-cauchy-window-fusion-downstream-package} and \autoref{thm:regular-cauchy-window-fusion-budget-meet}. Downstream consumers receive exactly $R,W,S,D,E,H,C,P,N$, so no excluded coordinate is available inside the accepted packet.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionScopedKernelRoute}
 
 \begin{theorem}[Regular Cauchy window fusion finite-window exactness]
 \label{thm:regular-cauchy-window-fusion-finite-window-exactness}
@@ -194,6 +209,7 @@ Use \autoref{thm:regular-cauchy-window-fusion-budget-meet}. Any two downstream r
 
 Finally apply \autoref{thm:regular-cauchy-window-fusion-scoped-kernel-route}. It identifies the scoped kernel route with $W,S,D,E,H,C,P,N$ and excludes quotient stream equality, selected limits, trichotomy, ambient completeness, and hidden $\RealUp$ comparisons. Therefore the displayed packet exhausts the finite Real-facing window.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionFiniteWindowExactness}
 
 \begin{theorem}[RegularCauchyWindowFusion tail-window coverage]
 \label{thm:regular-cauchy-window-fusion-tail-window-coverage}
@@ -216,6 +232,7 @@ The diagonal cofinal tail is therefore consumed only through the stationary wind
 
 Consequently the consumer remains inside $R,W,S,D,E,H,C,P,N$. Selected subsequences, quotient stream equality, and ambient Real completeness are not carrier coordinates, so none can be used before the fused window is consumed.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionTailWindowCoverage}
 
 \begin{theorem}[Regular Cauchy window fusion tail stability]
 \label{thm:regular-cauchy-window-fusion-tail-stability}
@@ -238,6 +255,7 @@ Apply \autoref{thm:regular-cauchy-window-fusion-tail-window-coverage} to $F'$. B
 
 Finally use \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape}. The shared Real seal exports no selected limit, quotient stream equality, independent Real carrier, trichotomy decision, ambient completeness proof, or hidden comparison row. The structural rows of both packets only transport, replay, source, and name that handoff, so replacing the displayed window by its cofinal tail preserves the exported $\RealUp$-facing surface.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionTailStability}
 
 \begin{theorem}[RegularCauchyWindowFusion tail-budget meet]
 \label{thm:regular-cauchy-window-fusion-tail-budget-meet}
@@ -256,6 +274,7 @@ Then apply \autoref{thm:regular-cauchy-window-fusion-scoped-kernel-route}. The s
 
 Finally use \autoref{thm:regular-cauchy-window-fusion-tail-window-coverage}. The tail selected by $W$ is consumed through that same displayed packet, so a tail-window consumer and a budget-meet consumer cannot factor through different selected-subsequence, quotient-stream, or ambient-completeness routes.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionTailBudgetMeet}
 
 \begin{theorem}[Regular Cauchy window fusion cofinal-tail closure]
 \label{thm:regular-cauchy-window-fusion-cofinal-tail-closure}
@@ -276,6 +295,7 @@ Use finite-window exactness, \autoref{thm:regular-cauchy-window-fusion-finite-wi
 
 Finally apply Real seal nonescape, \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape}. The seal row $E$ cannot be read through selected limits, quotient stream equality, trichotomy, or ambient completeness, and the structural rows only transport, replay, source, and name the same route. Hence every $\RealUp$ or $\RegSeqRatUp$ consumer must pass through the single cofinal-tail closure surface before reading the terminal seal.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionCofinalTailClosure}
 
 \begin{theorem}[Regular Cauchy window fusion kernel scope]
 \label{thm:regular-cauchy-window-fusion-kernel-scope}
@@ -285,6 +305,7 @@ F=(R,W,S,D,E,H,C,P,N),
 $$
 the componentwise $\hsame$ row $H$, displayed $\Cont$ route $C$, $\Pkg$ provenance row $P$, local $\NameCert_{\RegularCauchyWindowFusionUp}$ row $N$, and the four L10 rows $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. The accepted read cannot be replaced by a selected limit, quotient stream equality, trichotomy, ambient completeness, or hidden $\RealUp$ comparison.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionKernelScope}
 \begin{proof}
 Begin with the shared-window handoff of \autoref{thm:regular-cauchy-window-fusion-shared-window-handoff}. It binds the seed row $R$, the $\StreamNameUp$ row $W$, the $\RegSeqRatUp$ readback $S$, and the $\DyadicRatCoreUp$ ledger $D$ to one displayed finite observation window.
 
@@ -303,6 +324,7 @@ F=(R,W,S,D,E,H,C,P,N),
 $$
 the scoped public surface exposes exactly the RatUp seed row $R$, the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ readback row $S$, the $\DyadicRatCoreUp$ ledger row $D$, the $\RealUp$ seal row $E$, the componentwise $\hsame$ transport row $H$, the displayed $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\RegularCauchyWindowFusionUp}$ row $N$. No selected limit, quotient stream equality, trichotomy decision, ambient completeness proof, independent Real carrier, hidden comparison, or external downstream row can be consumed outside those displayed rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionScopedRowExhaustion}
 \begin{proof}
 Begin with the shared-window handoff and finite-window exactness. Theorems~\ref{thm:regular-cauchy-window-fusion-shared-window-handoff} and \ref{thm:regular-cauchy-window-fusion-finite-window-exactness} identify $R,W,S,D,E$ as one finite observation-window route from the RatUp seed through the stream, regular-sequence, dyadic, and Real-facing rows.
 
@@ -330,17 +352,35 @@ Apply selector-budget compatibility and the downstream package theorem, \autoref
 
 Finally combine the budget meet and scoped row exhaustion results, \autoref{thm:regular-cauchy-window-fusion-budget-meet} and \autoref{thm:regular-cauchy-window-fusion-scoped-row-exhaustion}. They exhaust the available rows before the $\RealUp$ seal is read, so every accepted consumer factors through the displayed kernel path.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionScopedRoute}
+
+\begin{theorem}[Regular Cauchy window fusion public export]
+\label{thm:regular-cauchy-window-fusion-public-export}
+The $\RegularCauchyWindowFusionUp$ packet exports a public finite L10 route for $\RealUp$ and completion-facing consumers. The exported route is exactly the displayed packet
+$$
+R,W,S,D,E,H,C,P,N
+$$
+over the RatUp seed, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ ledger, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\RegularCauchyWindowFusionUp}$ row. A consumer that reads this public surface receives no selected limit, quotient stream equality, trichotomy decision, ambient completeness proof, independent Real carrier, hidden comparison row, or external downstream row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:regular-cauchy-window-fusion-scoped-route}. It places every accepted consumer on the concrete kernel path from the RatUp seed through the stationary stream window, regular readback, dyadic ledger, terminal seal, and structural rows.
+
+Apply \autoref{thm:regular-cauchy-window-fusion-scoped-row-exhaustion}. It identifies the public row inventory with $R,W,S,D,E,H,C,P,N$ and rules out any row outside that packet.
+
+Finally use \autoref{thm:regular-cauchy-window-fusion-real-seal-nonescape}. The terminal seal is reachable only through the displayed finite route and exports none of the excluded analytic or comparison coordinates. Hence the scoped route is a public export surface for exactly the stated L10 consumers.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionPublicExport}
 
 \closureat{RegularCauchyWindowFusionUp}{obligationStr}[BEDC.Derived.RegularCauchyWindowFusionUp.RegularCauchyWindowFusionUpTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\RegularCauchyWindowFusionUp}
   \constructivestory{A $\RegularCauchyWindowFusionUp$ packet is generated from a RatUp seed classifier, a finite $\StreamNameUp$ constant window, a $\RegSeqRatUp$ seal readback, a $\DyadicRatCoreUp$ observation ledger, a $\RealUp$ finite-window seal, displayed $\hsame$ transports, $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
   \leanchecked{BEDC.Derived.RegularCauchyWindowFusionUp.taste\_gate}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:regular-cauchy-window-fusion-scoped-route} binds every accepted consumer to the displayed DyadicRatCore, RatUp, StreamName, RegSeqRat, Real, CauchyModulusComparison, DiagonalCofinalTail, and StationaryDiagonalWindowRoute rows before the Real seal is readable.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:regular-cauchy-window-fusion-public-export} exports the displayed DyadicRatCore, RatUp, StreamName, RegSeqRat, Real, CauchyModulusComparison, DiagonalCofinalTail, and StationaryDiagonalWindowRoute rows as the public finite L10 route before the Real seal is readable.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close RealUp completeness, quotient streams, selected limits, real trichotomy, bridge status, Lean verification, or ambient completeness.}
-  \upgradepath{Public closure requires a public export theorem that exposes the scoped finite kernel route without enlarging the displayed rows.}
+  \upgradepath{Bridged closure requires a checked standard bridge for the public finite L10 route without enlarging the displayed rows.}
 \end{closurestatus}

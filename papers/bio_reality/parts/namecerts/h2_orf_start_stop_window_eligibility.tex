@@ -1,34 +1,80 @@
-\subsection{Translation-conditioned RNA half-life and a bounded RBP bridge}\label{subsec:bioreality-q6-rna-half-life-rbp-bridge}
+\subsection{Position-resolved dwell evidence for the f3-stress abundance component}\label{sec:bioreality-f3-stress-dwell-positional}
 \origin{ai}
 
-\paragraph{Finite carrier.}
-The record considered here is a finite matched panel of transcript or CDS rows.  Each row carries a synonymous residual coordinate label of type $B^{*}_{Q6}$ after quotienting by amino-acid identity, a same-row translation readout or explicitly declared translation boundary, an RNA half-life readout, measured occupancy information for a prespecified decay-factor RNA-binding protein when available, and matched controls for transcription, abundance, local composition, and window context.  The scientific question is not whether a codon-window coordinate can be promoted into an RNA-decay mechanism by itself.  The question is whether a coordinate-associated half-life residual remains after the required controls and is accompanied by the experimentally separated RBP pattern: local occupancy differs at the editable RNA window, target-RBP loss removes the effect, wild-type target-RBP rescue restores it, and binding-defective or non-target controls fail to restore it.
-
-\paragraph{Observed finite rows.}
-The finite RBP binding contact presently attached to this claim is the RBNS/eCLIP/ENCODE-style binding surface recorded under the claim identifier $\mathrm{h3.cross\_layer\_relation.rbp\_binding.rbns\_affinity\_eclip\_binding\_encode}$.  Its verified run is $\mathrm{b225890251c2}$, with $900$ total peak rows and $3$ cross-RBP concordant rows, computed in $223.648043$ seconds at timestamp $2026$-$06$-$22\,19{:}44{:}29+00{:}00$.  Thus the concrete finite statistic available for the RBP contact is
+\paragraph{Finite surface.}
+This record concerns the $f3\_stress$ coordinate inside the nine-coordinate $B^{\ast}_{Q6}$ synonymous residual surface.  The tested readout is not a global protein-abundance association and not a structural claim.  It is the projection $P_{f3}$ of $Z$-residualized $\log_{10}$ protein abundance onto the $Z$-residualized $f3\_stress$ direction on a yeast join where positional ribosome-occupancy summaries are available.  The organism is \textit{Saccharomyces cerevisiae}; the active join contains $n=1257$ genes, the base sampling frame has $1800$ rows, the residual control basis has rank $24$, and the coordinate block tested here has $\operatorname{rank}(f3)=1$.  The target component has squared norm
 $$
 \begin{aligned}
-N_{\mathrm{peak}} &= 900,\\
-N_{\mathrm{concordant}} &= 3,\\
-\widehat h_{\mathrm{RBP}} &= \frac{3}{900}=\frac{1}{300}\approx 0.003333.
+\lVert P_{f3}\rVert^2 &= 44.20095750389323,\\
+P_{f3}\text{ fraction of target} &= 0.1999063916718794.
 \end{aligned}
 $$
-This number is a binding-surface concordance statistic only.  It is not a same-window RNA half-life perturbation statistic and it is not a rescue statistic.  The same audit bundle also contains two comparison records from other cross-layer contacts: a methylation flanking-context run $\mathrm{bd781331dc42}$ with $20{,}000$ probes, $656$ individuals, and baseline $R^{2}=0.0129735$, and a meiotic recombination contact run $\mathrm{e57a09da690c}$ with $52{,}963$ hotspot rows and runtime $168.443$ seconds.  These linked finite counts show that the present chapter is being handled as a row-bounded empirical record, but they do not supply RNA half-life, RBP loss, or rescue evidence for the present RBP-bridge claim.
+The row is therefore a finite positional-discrimination test for a specific abundance component, not an unrestricted statement about translation or protein biology.
 
-\paragraph{Controlled null.}
-The null model keeps high-coordinate and low-coordinate synonymous residual labels exchangeable with respect to RNA half-life once transcription rate, local RNA structure, motif density, GC content, dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, batch, amino-acid composition, and the same-row translation readout have been conditioned.  In symbols, if $q\in\{\mathrm{high},\mathrm{low}\}$ denotes the residual coordinate label and $H$ denotes the RNA half-life readout, then the admissible null is the row-finite conditional exchangeability assertion
+\paragraph{Readout construction.}
+The dwell variables are per-gene relative ribosome-occupancy summaries computed separately from file-provided $5'$ head and $3'$ tail A-site occupancy windows.  The fit compares a base design against base-plus-segment dwell designs under five held-out folds.  Its null is a deterministic row-label permutation of $P_{f3}$ with base and full designs and folds fixed, run separately for each segment and for the joint segment design.  The permutation count is $120$, and the deterministic seed is \texttt{sha256:b\_star\_q6\_f3\_stress\_dwell\_positional\_powered:deterministic}.  The registered finite verdict is \texttt{passed}: the leading segment by held-out increment is \texttt{5prime}, the dominant segment is \texttt{5prime}, the $5'$ ramp gate passed, and the $3'$ body gate did not pass.  In compact form,
 $$
 \begin{aligned}
-H \perp q \;\mid\; Z_{\mathrm{tx}},Z_{\mathrm{struct}},Z_{\mathrm{motif}},Z_{\mathrm{comp}},Z_{\mathrm{iso}},Z_{\mathrm{abund}},Z_{\mathrm{batch}},Z_{\mathrm{aa}},T,
+\text{organism} &= \textit{S. cerevisiae},\\
+n_{\mathrm{join}} &= 1257,\\
+\text{folds} &= 5,\\
+\text{permutations} &= 120,\\
+\text{leading segment} &= 5',\\
+\text{5' ramp passed} &= \mathrm{true},\\
+\text{3' body passed} &= \mathrm{false}.
 \end{aligned}
 $$
-where $T$ is the same-row translation readout and the $Z$ terms name the declared control blocks.  A half-life difference that survives this conditioning is still only an RNA-stability association unless the RBP bridge is separately observed in the same organism and same window.
+This is a directional positional statement: the observed increment localizes to the head-window side of the dwell readout rather than to the tail-window side.
 
-\paragraph{RBP bridge criterion.}
-A positive bridge requires more than the $3$ concordant binding rows among $900$ peak rows.  It requires a finite joined table in which the same coordinate window has measured occupancy of a prespecified decay-factor RBP, an occupancy contrast decoupled from coordinate discovery, target-RBP loss, wild-type rescue, and binding-defective or non-target rescue controls.  The bridge statistic is therefore a conjunction of four row-level tests: an RNA half-life residual, a local occupancy shift, collapse under target-RBP loss, and return under wild-type rescue with failure under the negative rescue arms.  If any one of these four surfaces is absent, the chapter may report a bounded RNA half-life boundary or a bounded RBP binding contact, but it may not report an RNA-decay mechanism.
+\paragraph{Relation to the non-positional dwell certificate.}
+The same $P_{f3}$ abundance component has an independent dwell-mediation row on the same organismal context.  That companion fit used $n_{\mathrm{join}}=1257$, base frame size $1800$, five folds, $120$ deterministic permutations, and the same target norm $44.20095750389323$.  Its base held-out $R^2$ was $0.1855578757644517$, its dwell-alone $R^2$ was $0.034336580953121976$, its full held-out $R^2$ was $0.20412261520502883$, and the held-out dwell increment was
+$$
+\begin{aligned}
+\Delta R^2_{\mathrm{dwell}} &= 0.01856473944057712,\\
+\mathrm{Null}_{95} &= 0.0013115362189692937,\\
+\mathrm{Null}_{\max} &= 0.005001350039772926,\\
+\mathrm{Null}_{\mathrm{mean}} &= -0.0032911642620130563,\\
+\mathrm{Null}_{\min} &= -0.013799622026666476.
+\end{aligned}
+$$
+The observed $f3\_stress$--dwell correlation in that row was $0.1615441450901653$ with approximate $p=7.873916057196935\times 10^{-9}$.  Thus the positional result refines a previously positive dwell increment: the finite table says that the usable dwell increment is not merely present, but is carried by the $5'$ segment in the positional decomposition.
 
-\paragraph{Current finite verdict.}
-The present data are sufficient to record a finite RBP binding contact and to state the required RNA half-life/RBP/rescue design, but they are not sufficient to assert a positive translation-conditioned RNA half-life RBP bridge.  The observed hit fraction $1/300$ is a real finite-row scalar for the binding contact; it is not a measured local decay-factor occupancy response inside a matched RNA half-life panel.  No protein output, folded structure, physical admissibility, biological function, phenotype, adaptation, causal mechanism, or universal sequence law follows from this chapter.  Those claims require separate layer-matched contacts and their own finite statistics.  Likewise, same-row translation conditioning prevents promotion from RNA half-life alone to translation realization: the translation readout is a boundary condition for the row model, not evidence that the coordinate has been realized as protein abundance or protein state.
+\paragraph{Relation to ramp-body structural-order screening.}
+A separate ramp-versus-body screen on the same coordinate family also reports a positive ramp-side signal without granting a structural interpretation.  In that row the primary ramp size was $50$ codons, the weighted $f3$ ramp held-out increment was $0.0011165640103326878$, the weighted $f3$ body increment was $-0.00026157313923957926$, and the paired ramp-minus-body increment was $0.001378137149572267$.  The sign-flip probabilities were
+$$
+\begin{aligned}
+p(f3\text{ ramp}>0) &= 0.0478515625,\\
+p(f3\text{ body}>0) &= 0.54296875,\\
+p(f3\text{ ramp}-f3\text{ body}>0) &= 0.05859375.
+\end{aligned}
+$$
+That screen classified the outcome as \texttt{ramp\_positive\_but\_not\_localized}: the ramp signal was positive, while the stronger paired localization gate did not pass.  The present dwell-positional row is sharper in its own measurement family: within measured positional dwell summaries, the $5'$ segment is the passing segment and the $3'$ body segment is not.
 
-\paragraph{Admissible readback.}
-The only admissible readback at this stage is negative-to-bounded: the record supports a finite binding-contact summary with $900$ peak rows and $3$ cross-RBP concordant rows, together with a precise design requirement for a future same-window RNA half-life/RBP perturbation panel.  A later positive claim would have to attach the missing joined rows and report the declared finite statistic under the full control set.  Until then, the $B^{*}_{Q6}$ coordinate remains a controlled synonymous residual descriptor, the RNA half-life surface remains an RNA-stability boundary, and the RBP binding surface remains a binding-contact boundary rather than a demonstrated decay bridge.
+\paragraph{Cross-layer scope.}
+The direct protein-omics surface shows that $B^{\ast}_{Q6}$ residuals can associate with measured PAXdb protein abundance after controls across multiple organisms, but those entries are direct associations.  For example, the yeast protein-abundance row used $5815$ joined proteins with join hit rate $0.9156038419146592$ and reported $R^2_{QP}=0.29837624994140827$ with all $9$ residual coordinates surviving.  Human used $19053$ joined proteins with hit rate $0.9779294769799313$ and reported $R^2_{QP}=0.04454565118019448$; mouse used $19395$ joined proteins with hit rate $0.9808334176190958$ and reported $R^2_{QP}=0.049827984062539195$; \textit{E. coli} used $3739$ joined proteins with hit rate $0.9978649586335735$ and reported $R^2_{QP}=0.10767526677985896$.  These values motivate the abundance projection but do not by themselves identify a translation mechanism.
+
+\paragraph{Translation-conditioned comparison.}
+Measured ribosome-footprint translation efficiency gives a separate translation readout.  In yeast, the measured-TE survival row used $5128$ genes with ribosome-TE join hit rate $0.8818572656921754$ and reported $R^2_{QT,\mathrm{meas}}=0.13681931343730436$ with $9$ surviving coordinates.  The measured TE--abundance mediation row for yeast used a three-way join of $5128$ rows and reported
+$$
+\begin{aligned}
+S_{QP} &= 0.3146818503437042,\\
+S_{QT,\mathrm{meas}} &= 0.13681931343730436,\\
+M^{QTP}_{\mathrm{meas}} &= 0.4793069656345167.
+\end{aligned}
+$$
+For comparison, \textit{E. coli} reported $S_{QP}=0.10941535951828074$, $S_{QT,\mathrm{meas}}=0.009394266754822262$, and $M^{QTP}_{\mathrm{meas}}=0.04091158340950673$ on $3415$ joined rows; human reported $S_{QP}=0.04288464996165745$, $S_{QT,\mathrm{meas}}=0.018837911344127926$, and $M^{QTP}_{\mathrm{meas}}=0.0027966485036786744$ on $11554$ joined rows.  The positional dwell result is consistent with this measured-readout framing: it supplies a yeast, row-matched positional ribosome-occupancy discriminator for the $f3\_stress$ abundance component, while leaving causal language outside the finite table.
+
+\paragraph{Reduction and residual status.}
+The partial readout-dictionary certificate for yeast used base frame size $1800$, five folds, $120$ permutations, $\lambda_{\mathrm{DL}}=0.01$, and $\rho_{\mathrm{join}}=0.05$.  It found selection-aware significant coverage
+$$
+\begin{aligned}
+C^{\ast} &= 0.24538211439730545,\\
+\mathrm{unexplained} &= 0.7546178856026946,\\
+\mathrm{selection\ aware\ Null}_{95} &= 0.029149007242956115,\\
+\mathrm{naive\ fixed\ subset\ Null}_{95} &= 0.00598374993486675.
+\end{aligned}
+$$
+This prevents the dwell result from being overstated.  The $5'$ positional dwell signal explains a finite part of the $f3\_stress$ abundance component, and it improves the localization of that part within ribosome-occupancy windows, but a large residual component remains outside the listed readout dictionary.
+
+\paragraph{Local conclusion.}
+The ready claim is narrow.  On a yeast panel with $1257$ joined genes, five held-out folds, $120$ deterministic permutations, and a rank-one $f3\_stress$ target component, positional dwell summaries distinguish the $5'$ segment from the $3'$ body segment: the $5'$ ramp passes and is the leading segment, while the $3'$ body does not pass.  The result is a finite cross-layer readout about where the dwell-associated increment for the $f3\_stress$ abundance projection is located.  It does not assert that $f3\_stress$ causes translation changes, that the effect is universal, that the signal specifies folding or physical admissibility, or that it realizes molecular function.  Any such statement would require a separate layer-matched measurement and a new controlled statistic for that layer.

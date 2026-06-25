@@ -1,58 +1,48 @@
 \origin{ai}
-\subsection{Cross-dataset axis transfer for synonymous-perturbation windows}
-\label{sec:biorreality-cross-dataset-axis-transfer-synonymous-perturbation-meta}
 
-\paragraph{Finite carrier.}
-The record is a finite mediation-and-transfer surface whose rows are indexed by a B$^\ast_{Q6}$ residual coordinate $q_i$, a translation or expression-proximal readout $t_j$, and a matched protein, abundance, fitness, or perturbation readout $p_k$.  The admissible coordinates are the nine residual axes computed throughout the packet,
+\subsection{Cross-dataset transfer audit for synonymous perturbation windows}
+\label{subsec:b-star-window-cross-dataset-axis-transfer}
+
+\paragraph{Finite surface.}
+The record considered here is a finite mediation surface whose rows join three kinds of coordinates: a synonymous residual coordinate $q_i$ from the nine-coordinate $B^{\ast}_{Q6}$ basis, a translation-side readout $t_j$, and a downstream perturbation or protein-output readout $p_k$.  The admissible coordinates are
 $$
 \begin{aligned}
-Q=\{&\mathrm{K\_AAA},\mathrm{Arg\_AGR},\mathrm{Ile\_AUA},\mathrm{Leu\_CUN\_vs\_UUR},\mathrm{Leu\_UUA\_vs\_UUG},\\
-&\mathrm{Ser\_UCR\_vs\_AGY},\mathrm{Ser\_UCA\_vs\_UCG},\mathrm{Thr\_ACR\_vs\_ACY},\mathrm{f3\_stress}\}.
+Q=\{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
+&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
 \end{aligned}
 $$
-The meta run identified by experiment id \texttt{2cd06dd54208} executed the cross-dataset axis-transfer audit with $B=200$ resampling units and runtime $974.407$ seconds.  Its role is not to introduce a new biological layer; it asks whether the same residual-window axes that appear in separate synonymous-perturbation assays can be read as a transportable finite axis family rather than as isolated dataset-specific encodings.
+The meta-audit itself ran with $B=200$ resampling units and completed in $974.407$ seconds.  It is therefore not a narrative conjecture about codon usage in the abstract; it is a bounded comparison among already-computed finite perturbation panels.  A direct $q_i\to p_k$ association is not counted as translation-mediated transfer unless the same coordinate has first survived a translation-side or explicitly bounded codon-adaptation step.  Amino-acid composition, organism, GC3, coding-sequence length, the $M$-density baseline, and matched transcript abundance remain controls, not promoted biological coordinates.
 
-\paragraph{Perturbation rows used by the transfer surface.}
-The transfer surface is anchored by heterogeneous finite assays.  The yeast synonymous-mutation row contains $20$ genes, $1783$ synonymous mutants, and $21$ coding-sequence map hits; its codon-stability coefficient audit reports real-versus-proxy correlation $0.39717918221186976$, with \texttt{real\_csc\_absorbs=false} and \texttt{real\_csc\_robust=true}.  The human prime-editor row contains $1822$ genes, $9000$ synonymous edits in the main analysis table, and $24000$ synonymous edits in the compact table, using gene-block held-out folds rather than gene dummy fixed effects.  The Chen GFP row contains $3556$ variants, partitioned as $1124$ in region 1 and $2432$ in region 2, with out-of-frame mRNA-to-protein slope $0.016523671594873352$.  The Nieuwkoop E. coli mRFP protein-output row contains $1459$ variants and gives
+\paragraph{Perturbation panels included in the audit.}
+The finite panel is heterogeneous by design.  In yeast synonymous mutation data, the audit used $20$ genes and $1783$ synonymous mutants, with $21$ coding-sequence map hits; the real codon-stability coefficient comparison had correlation $0.39717918221186976$, and the real coefficient was not absorbed by the proxy baseline.  In the human prime-editor panel, the compacted surface contained $24000$ synonymous rows, with $9000$ synonymous rows after the per-cell-line analysis cap and $1822$ genes under gene-block folds.  In the GFP synonymous protein-escape panel, $3556$ variants were split into $1124$ region-1 and $2432$ region-2 rows, and the out-of-frame mRNA-to-protein slope was $0.016523671594873352$.  In the endogenous \emph{E. coli} fitness panel, the finite surface contained $30$ genes and $46686$ synonymous edits.  These row counts are not interchangeable biological experiments; the meta-level question is whether a residual axis that is useful in one finite panel transfers as a controlled coordinate to another panel without smuggling in amino-acid, organism, length, GC3, or expression effects.
+
+\paragraph{Positive and negative transfer signals.}
+The clearest finite protein-output perturbation signal is the Nieuwkoop \emph{E. coli} mRFP panel.  It used $1459$ variants, achieved a control-only value $R^2=0.12648386762689323$, and reached $R^2=0.1798829276988051$ after adding the residual window coordinate, giving
 $$
 \begin{aligned}
-R^2_{\mathrm{controls}}&=0.12648386762689323,\\
-R^2_{\mathrm{controls}+B_\perp}&=0.1798829276988051,\\
-\Delta R^2&=0.05339906007191191,\\
-\Delta \mathrm{DL}_{\mathrm{bits}}&=19.089327473282296,\\
-p_{\mathrm{matched}}&=0.004975124378109453,
+\Delta R^2 &= 0.05339906007191191,\\
+\Delta DL &= 19.089327473282296\ \mathrm{bits},\\
+p_{\mathrm{matched}}&=0.004975124378109453,\\
+p_{\mathrm{within}}&=0.004975124378109453.
 \end{aligned}
 $$
-with the same value for the within-null tail probability and with the real CAI audit marked robust rather than absorbing.  The 5-prime boundary audit on the same variant count keeps the downstream-window result negative, with $\Delta R^2=-0.001126409133973234$, $\Delta\ell=-2.082967365015851$, block-tail probability $0.1691542288557214$, and \texttt{sign\_stable=false}; the strong explanatory jump in that audit is instead from step 1 to step 2, where $R^2$ moves from $0.06748192482378434$ to $0.6060702157093043$ and $\Delta\ell=628.6217154500001$.  The Yang endogenous E. coli fitness row supplies $30$ genes and $46686$ synonymous edits.  The distributed-recoding row supplies $47$ AmpR rows, $53$ GmR rows, $19$ multi-$D$ strata, \texttt{ampr\_slope=0.0}, and \texttt{ampr\_independent\_p=1.0}.  These rows are deliberately non-isomorphic: protein output, reporter abundance, endogenous fitness, boundary localization, and distributed recoding are kept as separate readout types.
+The associated real CAI check had correlation $0.17884920449487354$ against the proxy and did not absorb the signal.  The 5-prime boundary audit on the same variant count is a useful counterweight: its downstream window had $\Delta R^2=-0.001126409133973234$, $\Delta LL=-2.082967365015851$, block $p=0.1691542288557214$, and null $95\%$ value $0.5254770343527547$, while the start-window increment was only $\Delta R^2=1.7624020537495221\times 10^{-9}$.  Thus the audit does not license a generic synonymous-window law; it separates a panel-specific protein-output gain from a boundary check that fails sign-stable transfer.
 
-\paragraph{Transfer statistic.}
-The transfer audit treats a positive cross-dataset statement as requiring the same residual-window direction to survive outside its source assay after the local controls for that assay are respected.  In finite terms, each source assay contributes a signed or ranked axis vector, each target assay contributes a held-out improvement or null-calibrated score, and the meta row asks whether the transported axis has positive predictive contact beyond the local baseline.  A schematic row has the form
+\paragraph{Cross-layer mediation context.}
+The cross-dataset perturbation audit is interpreted against a separate finite mediation computation over $12$ organisms.  In that computation, modeled per-protein tAI and matched PAXdb abundance were joined to real coding sequences, with organism-level sample sizes ranging from $1656$ proteins for \emph{Sulfolobus solfataricus} to $19395$ proteins for mouse.  The mediation fractions were finite and organism-specific: yeast had $M^{QTP}=0.9491551041216973$ with $c=0.29837624994140827$ and $c'=0.0151709093608293$, \emph{E. coli} had $M^{QTP}=0.612922252793667$ with $c=0.10767526677985896$ and $c'=0.04167869969498872$, and \emph{Sulfolobus} had $M^{QTP}=0.01850668564589326$ with $c=0.06397514251295629$ and $c'=0.06279117466131778$.  These values show that the same residual basis can enter a statistical $Q\to T\to P$ decomposition, but they do not by themselves make any perturbation panel causal.  The modeled-tAI survival computation also remains bounded: only $3$ organisms were present in the earlier modeled-tAI matrix, even though $81$ entries exceeded the threshold $0.01$ and the largest absolute entry was $3801961.031607896$.  Three organisms are enough for a finite bounded coupling check, not for a powered population-level survival law.
+
+\paragraph{Axis identity and transfer interpretation.}
+The structural-order audit gives an independent warning about axis specificity.  Across five folds, exactly one coordinate passed the sign-flip gate: $f3\_stress$, with weighted held-out increment $0.0031744502294756994$, weighted absolute unit loading $0.5109586606724208$, and sign-flip probability $0.03125$.  Other axes remained below that gate; for example $Ile\_AUA$ had increment $0.0013067592718559024$ with probability $0.0693359375$, while $Leu\_CUN\_vs\_UUR$ had negative increment $-0.0003205780368125179$ with probability $0.779296875$.  The cross-dataset transfer statement must therefore be axis-resolved: a transferred residual axis is a reusable finite coordinate only when it improves a held-out or matched readout after the declared controls.  It is not a declaration that CUN/UUR direction, wobble class, GC3, or any organism-specific sign has become a biological law.
+
+\paragraph{Boundary of the claim.}
+The permitted conclusion is a controlled finite-row one.  The audit supports treating $B^{\ast}_{Q6}$ synonymous window coordinates as reusable candidate coordinates across perturbation surfaces, with one positive mRFP protein-output panel, several large finite perturbation tables, and explicit negative or boundary checks.  It does not establish translation realization, ribosome occupancy, protein folding, physical admissibility, molecular function, mechanism, organismal phenotype, selection, or universality.  A higher-layer claim would require its own matched contact: direct translation readouts for $Q\to T$, protein abundance for $Q\to T\to P$, localization or stability rows for post-translational state, and separate structure or function assays for those layers.  Without that contact, the readback remains a finite controlled matrix, not a general biological mechanism.
+
+\paragraph{Finite verdict.}
+The finite evidence is best summarized as
 $$
 \begin{aligned}
-(q_i,d_a,d_b)&\longmapsto \left(\Delta R^2_{i,a\to b},\Delta \mathrm{DL}_{i,a\to b},p_{i,a\to b}\right),\\
-\mathrm{support}&\Longrightarrow \Delta R^2_{i,a\to b}>0\ \text{and}\ \Delta \mathrm{DL}_{i,a\to b}>0\ \text{under the declared null class}.
+&\mathrm{ready\ for\ bounded\ cross\!\!-dataset\ coordinate\ comparison},\\
+&\mathrm{not\ ready\ for\ universal\ translation\ or\ function\ promotion}.
 \end{aligned}
 $$
-The supplied finite row for the meta experiment records the powered resampling size and completed runtime but does not expose the per-axis transferred $\Delta R^2$, $\Delta\mathrm{DL}$, or tail-probability list.  Therefore the chapter reports the meta audit as a completed bounded transfer run and uses the linked assays to state the admissible carrier and row population; it does not assert a particular winning transferred axis from the meta row alone.
-
-\paragraph{Relation to translation-mediated protein abundance.}
-The broader cross-layer table gives a finite mediation benchmark for what a positive translation-conditioned protein-abundance claim looks like.  Across $12$ organisms, matched CDS and protein-abundance rows range from $1656$ joined proteins in \textit{Sulfolobus solfataricus} to $19395$ in mouse and $19053$ in human.  The mediation fractions $M^{QTP}$ are in the unit interval for every organism, with examples
-$$
-\begin{aligned}
-M^{QTP}_{\mathrm{yeast}}&=0.9491551041216973,\\
-M^{QTP}_{\mathrm{Ecoli}}&=0.612922252793667,\\
-M^{QTP}_{\mathrm{human}}&=0.27206289160119157,\\
-M^{QTP}_{\mathrm{mouse}}&=0.15488799907323988,\\
-M^{QTP}_{\mathrm{Sulfolobus}}&=0.01850668564589326.
-\end{aligned}
-$$
-For yeast, the total residual-to-protein association is $R^2_{QP}=0.29837624994140827$, the direct association after modeled tAI conditioning is $R^2_{QP\mid T}=0.0151709093608293$, and the indirect difference is $0.28320534058057895$.  In E. coli K12 MG1655 the corresponding values are $0.10767526677985896$, $0.04167869969498872$, and $0.06599656708487024$.  These values justify using a mediated row type in the meta chapter, but they do not by themselves prove that any synonymous perturbation in the transfer audit acts through measured ribosome dynamics.  The only translation-readout survival matrix with modeled tAI over three organisms reports $81$ entries above threshold $0.01$ and maximum absolute coupling $3801961.031607896$, while also recording that $3$ organisms are insufficient for powered survival.  Thus modeled tAI contact is bounded evidence for a codon-adaptation readout, not an observation of ribosome motion.
-
-\paragraph{Axis identity and negative controls.}
-The structural-order axis audit supplies an independent axis-identity constraint: among the same nine axes, only $\mathrm{f3\_stress}$ passes the fold-level sign-flip gate, with weighted held-out increment $0.0031744502294756994$ and sign-flip probability $0.03125$.  Other axes remain below that gate, for example $\mathrm{Arg\_AGR}$ has increment $0.0020139270616115154$ with probability $0.142578125$, and $\mathrm{Leu\_CUN\_vs\_UUR}$ has increment $-0.0003205780368125179$ with probability $0.779296875$.  Separate negative or bounded audits prevent over-reading: the mass-balance run on $120$ genes and $718$ intervals has $\Delta R^2=-0.07584438093220836$, $\Delta\mathrm{DL}=-668.8046070381928$ bits, $p_{\mathrm{TEbin}}=0.6831683168316832$, and $p_{\mathrm{timeshuffle}}=0.9306930693069307$; the turnover residual audit on $3290$ genes has $\Delta R^2=-0.005461979433706483$, $\Delta\mathrm{DL}=-13.68819707902732$ bits, $p_{\mathrm{matchedbin}}=0.8855721393034826$, and $p_{\mathrm{recoded}}=1.0$.  The evolutionary selection-imprint audit over $80$ orthogroups, $240$ rows, and $3$ species reports positive ordinary correlation language but rejects the strong imprint gate: $\Delta R^2=0.03250515015613468$, leave-clade-out $\Delta R^2=-0.0021477729853302424$, and null-95 cutoff $0.05427157066522958$.
-
-\paragraph{Local no-promotion rule.}
-The finite-row transfer claim is confined to controlled axis transport across synonymous-perturbation readout tables.  A direct $q_i\to p_k$ association is not admitted as a protein-realization or mechanistic result unless a same-row $q_i\to t_j$ translation step is present and survives the declared controls.  No claim about translation dynamics, folding, physical admissibility, molecular function, causal mechanism, phenotype, selection, or universality follows from this chapter unless a separate layer-matched measurement supplies that contact.  Amino-acid sequence, organism, GC3, coding-sequence length, M-density baseline, and matched mRNA abundance remain controls.  CUN/UUR sign direction, one-organism behavior, and reporter-specific effects are not promoted into population laws.
-
-\paragraph{Verdict.}
-The chapter is ready as a bounded meta-record: the cross-dataset run completed with $B=200$ and runtime $974.407$ seconds, and the linked finite assays provide enough row counts, null outcomes, and positive bounded readouts to define the transfer carrier without using generic placeholders.  The positive content is the existence of a completed finite transfer audit over the B$^\ast_{Q6}$ perturbation-window axis family.  The chapter intentionally withholds a named transferred winning axis because the exposed meta row does not provide the per-axis transfer scores needed for that stronger statement.
+The record is therefore retained as a cross-dataset axis-transfer audit: it preserves positive, null, and boundary outcomes in one finite surface, while requiring every claimed layer above synonymous perturbation or bounded protein-output prediction to be supplied by a separate matched measurement surface.

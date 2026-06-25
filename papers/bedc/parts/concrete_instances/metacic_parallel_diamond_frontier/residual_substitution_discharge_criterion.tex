@@ -1,0 +1,13 @@
+\begin{theorem}[MetaCIC residual-substitution discharge criterion]
+\label{thm:metacic-parallel-diamond-frontier-residual-substitution-discharge-criterion}
+Let an accepted $\MetaCICParallelDiamondFrontierUp$ packet supply the retained residual-substitution premise row and let a separate $\MetaCICResidualSubstitutionCompatibilityUp$ certificate be displayed. Then the local-diamond handoff may be read as a discharge-ready boundary for the candidate-normalization confluence handoff.
+
+This boundary is still only the finite frontier route. It is not full Church--Rosser, subject reduction, evaluator equality, quotient equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the discharge obstruction of \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction}. It identifies the retained residual-substitution premise as the row that remains visible until a separate compatibility certificate is supplied.
+
+Next apply \autoref{thm:metacic-parallel-diamond-frontier-compatibility-discharge-surface}. The displayed $\MetaCICResidualSubstitutionCompatibilityUp$ certificate is exactly the extra row allowed to turn the premise-obstruction surface into a discharged local-diamond boundary.
+
+Finally use the confluence handoff of \autoref{thm:metacic-parallel-diamond-confluence-handoff}. The handoff remains a candidate-normalization consumer of the finite frontier route, so it exports only discharge-ready local-diamond evidence and none of the refused global endpoints.
+\end{proof}

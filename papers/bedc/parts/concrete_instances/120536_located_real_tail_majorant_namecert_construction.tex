@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealTailMajorantUp$}
+\label{ch:concrete-instances-located-real-tail-majorant-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, a located real is read through explicit finite approximations, displayed error bounds, and a named handoff into the real-number surface rather than through an ambient completed object. The $\LocatedRealTailMajorantUp$ packet records the finite tail-majorant route that a Real-and-Completion consumer uses after the regular-Cauchy tail rows of \autoref{ch:concrete-instances-regular-cauchy-tail-majorant-namecert} and the tail-bound rows of \autoref{ch:concrete-instances-cauchy-tail-bound-namecert}, while still reading finite windows through \autoref{ch:concrete-instances-streamname-namecert}, dyadic tolerances through \autoref{ch:concrete-instances-dyadicratcore-namecert}, regular rational names through \autoref{ch:concrete-instances-regseqrat-namecert}, located upper witnesses through \autoref{ch:concrete-instances-located-sequence-supremum-namecert}, and the terminal real-name seal through \autoref{ch:concrete-instances-real-namecert}. The packet names a displayed majorant threshold for located reads; it does not quotient streams, select limits, invoke countable choice, use trichotomy, or appeal to ambient $\RealUp$ completeness.
+
+\begin{definition}[Located real tail-majorant carrier]
+\label{def:located-real-tail-majorant-carrier}
+A $\LocatedRealTailMajorantUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,D,T,B,R,U,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row naming the inspected prefixes and tail windows of the located real name.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row listing the dyadic precision requests used by the tail comparison.
+\item $T$ is the $\RegularCauchyTailMajorantUp$ threshold row, giving an explicit index after which the inspected regular-Cauchy tail is bounded by the displayed dyadic request.
+\item $B$ is the $\CauchyTailBoundUp$ comparison row, recording the finite inequality check that turns the threshold into a bound usable by downstream consumers.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational name attached to the same windows and tolerances.
+\item $U$ is the $\LocatedSequenceSupremumUp$ handoff row, exposing the located upper comparison needed when a consumer asks for a majorant of all later inspected values.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $S,D,T,B,R,U$ have been consumed.
+\item $H$ records componentwise $\hsame$ transport for the stream, dyadic, threshold, bound, regular-rational, located-supremum, and real-seal rows.
+\item $C$ records displayed $\Cont$ replay order for the finite tail-majorant route.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealTailMajorantUp$, $\RegularCauchyTailMajorantUp$, $\CauchyTailBoundUp$, $\LocatedSequenceSupremumUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRealTailMajorantUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected limit values, host real equality, countable choice, trichotomy, a detached supremum object, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located real tail-majorant NameCert obligations]
+\label{thm:located-real-tail-majorant-namecert-obligations}
+For every accepted $\LocatedRealTailMajorantUp$ carrier
+$$
+L=(S,D,T,B,R,U,E,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedRealTailMajorantUp}$ surface consists exactly of finite StreamName-window exposure through $S$, dyadic tolerance exposure through $D$, explicit tail-majorant threshold exposure through $T$, Cauchy tail-bound comparison through $B$, regular-rational readback through $R$, LocatedSequenceSupremum handoff through $U$, terminal Real seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $S,D,T,B,R,U,E,H,C,P,N$ are the only public coordinates available to the local certificate, so every obligation must be read from one of these displayed finite rows.
+
+Read the numerical rows first. The finite windows in $S$ say which tail entries are inspected, the dyadic row $D$ fixes the requested tolerances, the threshold row $T$ gives the explicit majorant index, and the comparison row $B$ records the finite inequalities witnessing that the tail after $T$ is bounded at those tolerances.
+
+Read the handoff rows next. The regular-rational row $R$ supplies the RegSeqRat readback attached to the same windows, while $U$ exposes the located-sequence-supremum comparison that lets a downstream located consumer ask for a majorant without selecting a completed supremum.
+
+Finally inspect $E,H,C,P,N$. The Real seal is reachable only after the stream, dyadic, threshold, bound, regular-rational, and located-supremum rows have been consumed, and the structural rows preserve, replay, package, and name the same finite route. Thus the displayed packet exhausts the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Located real tail-majorant Real handoff]
+\label{thm:located-real-tail-majorant-real-handoff}
+Every Real-facing consumer of an accepted $\LocatedRealTailMajorantUp$ packet must reach the terminal $\RealUp$ seal through the displayed route
+$$
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegularCauchyTailMajorantUp \longmapsto \CauchyTailBoundUp \longmapsto \RegSeqRatUp \longmapsto \LocatedSequenceSupremumUp \longmapsto \RealUp .
+$$
+Consequently the consumer obtains a finite located tail-majorant threshold and its dyadic comparison rows before it can read the Real seal. No quotient stream, selected limit, detached supremum, host equality, countable-choice schedule, trichotomy, or ambient completeness principle is exported by the handoff.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:located-real-tail-majorant-namecert-obligations}. The Real seal row $E$ is not an independent coordinate; it is named after the finite stream windows $S$, dyadic tolerances $D$, threshold row $T$, tail-bound comparison $B$, regular-rational readback $R$, and located-supremum handoff $U$.
+
+The regular-Cauchy tail-majorant and Cauchy tail-bound rows keep the numerical estimate finite. They expose an explicit threshold and the dyadic inequalities checked at the requested tolerances, rather than a completed tail object or a choice-selected limiting value.
+
+The RegSeqRat and LocatedSequenceSupremum rows then provide the Real-facing readback. They let a consumer compare located upper information against the same finite windows and tolerance rows, while keeping the supremum handoff as a displayed certificate row rather than a detached completed object.
+
+Since the carrier of \autoref{def:located-real-tail-majorant-carrier} has no coordinate for quotient streams, selected limits, host equality, countable choice, trichotomy, detached suprema, or ambient completeness, none of those objects can be projected from the handoff. Every accepted Real read therefore passes through the stated finite route.
+\end{proof}
+
+\closureat{LocatedRealTailMajorantUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealTailMajorantUp}
+  \constructivestory{A $\LocatedRealTailMajorantUp$ packet is generated from finite StreamName windows, dyadic tolerance rows, an explicit regular-Cauchy tail-majorant threshold, Cauchy tail-bound comparisons, RegSeqRat readback, a LocatedSequenceSupremum handoff, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-tail-majorant-carrier}, \autoref{thm:located-real-tail-majorant-namecert-obligations}, and \autoref{thm:located-real-tail-majorant-real-handoff} seed the finite located-real tail-majorant route over displayed StreamName windows, dyadic tolerance rows, explicit threshold rows, RegSeqRat readback, LocatedSequenceSupremum handoff, and the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, host real equality, countable choice, trichotomy, detached supremum objects, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, StreamName window readback, dyadic tolerance readback, explicit threshold exactness, tail-bound comparison, RegSeqRat readback, LocatedSequenceSupremum handoff, Real seal nonescape, provenance, and local naming for the displayed finite packet.}
+\end{closurestatus}

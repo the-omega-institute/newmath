@@ -1,20 +1,52 @@
-\subsection{Rank-admissible translation-survival gate for $B^{*}_{Q6}$ residuals}\label{sec:bioreality-q6-rank-admissible-translation-survival-gate}
+\subsection{Rank-admissible refusal before $B^*_{Q6}$ translation survival}
+\label{sec:bior-b-star-q6-rank-admissible-translation-survival-refusal}
 \origin{ai}
 
-\paragraph{Finite object.}
-This record treats a proposed $S^{QT}_{ij}$ entry as admissible only after the $B^{*}_{Q6}$ coordinate $q_i$ and the translation readout $T_j$ have both been residualized against the declared control surface $Z$.  The control surface includes amino-acid composition, organism identity, GC3, coding length, and an $M$-density baseline, with simpler codon baselines used as additional ablations where the row set supports them.  The finite carrier is therefore not a biological mechanism claim; it is a rank-audited residual design matrix whose output is a decision about whether a translation-readout entry is statistically testable.  If the post-control row space is saturated, or if the held-out degrees of freedom are too small to make failure observable, the entry is retained as coupling-only or needs more rows.
+\paragraph{Finite carrier.}
+The record is a finite-row test object for deciding when a proposed $B^*_{Q6}$ coordinate may even be treated as a falsifiable translation-readout survival entry.  The carrier consists of residualized synonymous coordinates $q_i$, organism-indexed translation readout surfaces $T_j$, and control columns $Z$ for amino-acid composition, organism, GC3, coding length, and the $M$-density baseline.  The admissibility question is not whether an in-sample fit is large.  It is whether the residual design left after projecting $q_i$ and $T_j$ away from $Z$ still has enough independent row space to make held-out survival meaningful.  Thus the intended entry $S^{QT}_{ij}$ is only readable after the rank check has separated a testable survival surface from a rank-saturated projection artifact.
 
 \paragraph{Observed residual panel.}
-The finite run computed residual-basis extraction for four organisms and left two organisms outside the computed scope.  The computed organisms were $\mathit{Danio\ rerio}$ with $n=14410$ joined rows and one candidate block, $\mathit{Escherichia\ coli}$ K-12 MG1655 with $n=3415$ joined rows and two candidate blocks, $\mathit{Homo\ sapiens}$ with $n=16008$ joined rows and six candidate blocks, and $\mathit{Saccharomyces\ cerevisiae}$ with $n=3046$ joined rows and nine candidate blocks.  $\mathit{Gallus\ gallus}$ and $\mathit{Mycobacterium\ smegmatis}$ str. MC2 155 were marked needs-data, with no joined row count, no modeled distance, and no residual curve.  The recursive extraction used the stated regularization $\lambda=0.01$ with description-length penalty $\log_2(1+n_{\mathrm{col}})$.
+The finite computation currently has four computed organisms and two organisms left outside the computed scope.  The computed rows are \textit{Danio rerio} with $n=14410$, one selected candidate, $d_{\mathrm{modeled}}=0.874628721049266$, $d_{\mathrm{difference}}=0.0$, and
+$$
+\begin{aligned}
+\rho&=(1.0,\,0.9791828971490305),
+\end{aligned}
+$$
+\textit{Escherichia coli} K12 MG1655 with $n=3415$, two selected candidates, $d_{\mathrm{modeled}}=0.6628211177352172$, $d_{\mathrm{difference}}=0.00017488612263594217$, and
+$$
+\begin{aligned}
+\rho&=(1.0,\,0.9982293045445091,\,0.9979478314995476),
+\end{aligned}
+$$
+\textit{Homo sapiens} with $n=16008$, six selected candidates, $d_{\mathrm{modeled}}=0.9020707321191321$, $d_{\mathrm{difference}}=0.018824203448813415$, and
+$$
+\begin{aligned}
+\rho&=(1.0,\,0.9852198225375993,\,0.9806696939851618,\,0.9792537895870558,\,0.9787609432955213,\,0.9787233550315274,\,0.9723341658092314),
+\end{aligned}
+$$
+and \textit{Saccharomyces cerevisiae} with $n=3046$, nine selected candidates, $d_{\mathrm{modeled}}=0.2199040339633322$, $d_{\mathrm{difference}}=0.008171838236265161$, and
+$$
+\begin{aligned}
+\rho&=(1.0,\,0.9962498989663637,\,0.9929843170647626,\,0.9915730985485388,\,0.9903314906684438,\,0.9894054695002641,\,0.9885902293718664,\,0.9882386501212531,\,0.9881524582851271,\,0.9798667977250413).
+\end{aligned}
+$$
+The two uncomputed entries, \textit{Gallus gallus} and \textit{Mycobacterium smegmatis} str. MC2 155, are marked as needing data rather than as negative biological cases.  Across the four computed organisms the module classification is persistent: no organism enters the compressible or partially compressible class, and the final residual floor is $0.9723341658092314$ against a stated persistence floor of $0.97$.
 
-\paragraph{Residual curves.}
-The computed panels did not collapse to a compressible translation explanation.  For $\mathit{Danio\ rerio}$ the modeled distance was $0.874628721049266$, the reported difference was $0.0$, and the residual curve was $(1.0,0.9791828971490305)$.  For $\mathit{E.\ coli}$ the modeled distance was $0.6628211177352172$, the difference was $0.00017488612263594217$, and the curve was $(1.0,0.9982293045445091,0.9979478314995476)$.  For human the modeled distance was $0.9020707321191321$, the difference was $0.018824203448813415$, and the curve ended at $0.9723341658092314$ after six selected blocks.  For yeast the modeled distance was $0.2199040339633322$, the difference was $0.008171838236265161$, and the curve ended at $0.9798667977250413$ after nine selected blocks.  The minimum final residual fraction among the computed organisms was therefore $0.9723341658092314$, above the reported persistence floor $0.97$, with zero organisms classified as compressible or partially compressible.
+\paragraph{Greedy readout and null comparison.}
+The residual extraction used the stated regularizer $\lambda=0.01$ with description-length term $\log_2(1+n_{\mathrm{col}})$.  Its selected readout blocks give finite increments rather than a causal mechanism.  For \textit{Danio rerio}, the single selected block was measured tRNA/tAI with increment $0.02081710285096942$ against a degree-of-freedom-matched null 95th percentile $0.0002306374780841125$, so that step exceeded its null.  In \textit{E. coli}, the mRNA step exceeded its null, $0.0017706954554909888>0.0013371669456573104$, while the measured-TE step did not, $0.0002819723320884449<0.0010272364744326006$.  In human, the exceeding steps were PTM density, complex membership, TM count, measured tRNA/tAI, and localization, with increments $0.014780177462400674$, $0.004618389163869967$, $0.0014438137599134737$, $0.0005032876020244136$, and $0.006528084968494762$ above their corresponding null cutoffs; domain count did not exceed its cutoff, since $0.00003840392718095609<0.00021932006910265595$.  In yeast, measured TE, PTM density, TM count, turnover, and localization exceeded their null cutoffs, while complex membership, measured tRNA/tAI, domain count, and mRNA did not.
 
-\paragraph{Degree-of-freedom checks.}
-The deterministic null comparisons separate selected readout contacts from admissible survival entries.  $\mathit{Danio\ rerio}$ selected measured-trna-tai at step $1$ with increment $0.02081710285096942$ against null $p95=0.0002306374780841125$.  $\mathit{E.\ coli}$ selected mRNA at step $1$ with increment $0.0017706954554909888$ against null $p95=0.0013371669456573104$, but its measured-te step had increment $0.0002819723320884449$ below null $p95=0.0010272364744326006$.  Human selected ptm-density, complex-member, tm-count, measured-trna-tai, domain-count, and localization; the domain-count step was below null, with increment $3.840392718095609\times 10^{-5}$ against null $p95=0.00021932006910265595$, while the localization step was above null, with increment $0.006528084968494762$ against null $p95=0.0011598998794309233$.  Yeast selected measured-te, ptm-density, tm-count, turnover, complex-member, measured-trna-tai, domain-count, mRNA, and localization; steps $5$ through $8$ were below their null thresholds, while localization at step $9$ had increment $0.008385002223710514$ against null $p95=0.00708487840939486$.
+\paragraph{Rank-admissible translation gate.}
+These numbers justify a boundary result rather than a translation-survival promotion.  The persistence of the residual curves says that the selected readout blocks do not absorb the $B^*_{Q6}$ residual basis to a compressible endpoint.  The degree-of-freedom-matched steps show that some readout blocks are nontrivial under the chosen finite null, but this is still not the same as a held-out $S^{QT}_{ij}>0$ entry for a particular coordinate/readout pair.  A proposed entry must first pass the rank condition
+$$
+\begin{aligned}
+\operatorname{rank}\bigl((I-P_Z)[q_i,T_j]\bigr)&<n_{\mathrm{rows}}-\dim Z,\\
+\mathrm{df}_{ij}&>0,
+\end{aligned}
+$$
+with the residualized readout held outside the fitting artifact that created the score.  If the post-control row space is saturated, or if the remaining degrees of freedom make the held-out check vacuous, the entry is assigned to the refusal state even when the fitted in-sample surface is positive or equal to $1.0$.
 
-\paragraph{Translation-readout refusal.}
-A separate proxy coupling computation over three organisms loaded human, yeast, and $\mathit{E.\ coli}$ K-12 codon data and computed nine $B^{*}_{Q6}$ synonymous residual coordinates: Arg AGR, Ile AUA, K AAA, Leu CUN versus UUR, Leu UUA versus UUG, Ser UCA versus UCG, Ser UCR versus AGY, Thr ACR versus ACY, and $f_3$ stress.  The proxy readout was a tRNA-Leu CUN-versus-UUR log-copy spectrum, and the coupling matrix had nine nonzero entries with maximum absolute value $1882464.1106377328$ above the threshold $0.01$.  This prevents the trivial all-small null for the proxy contact, but it does not certify $S^{QT}_{ij}>0$.  A coupling entry $A^{QT}_{ij}$, a modeled tAI or stAI weight, or an all-$1.0$ in-sample fit is not a survival entry when rank saturation or insufficient held-out support prevents falsification.
+\paragraph{Coupling is not survival.}
+A separate proxy computation reports nine computed synonymous residual coordinates, namely Arg AGR, Ile AUA, K AAA, Leu CUN versus UUR, Leu UUA versus UUG, Ser UCA versus UCG, Ser UCR versus AGY, Thr ACR versus ACY, and $f_3$ stress.  In that proxy matrix, the three-organism contact over human, yeast, and \textit{E. coli} K12 did not meet the all-small break condition: the maximum absolute coupling was $1882464.1106377328$, there were $9$ entries above the $0.01$ threshold, and the break condition requiring all nine $|A_{ij}|<0.01$ was false.  This supports a coupling contact against a tRNA-Leu CUN-versus-UUR log-copy proxy, not a translation survival result.  The proxy readout lacks the matched tAI/stAI, ribosome-profiling, or explicitly controlled translation-efficiency rows needed for a non-saturated $S^{QT}_{ij}$ claim.
 
-\paragraph{Local verdict.}
-The chapter therefore records a rank-admissibility gate rather than a positive translation-survival theorem.  A proposed $S^{QT}_{ij}$ may be reported only when the residualized design has non-saturated rank, enough held-out support, and a positive controlled statistic after the declared baseline ablations.  The finite evidence here supports the need for that gate: the residual curves remain persistent across the computed organisms, several selected readout blocks fail their matched null checks, and the available three-organism proxy coupling is explicitly weaker than a measured translation-survival surface.  No statement about ribosome occupancy, protein abundance, folding, physical admissibility, biological function, mechanism, phenotype, or universality follows from these rows unless a separate layer-matched contact supplies the corresponding measurement and the controlled statistic is recomputed there.
+\paragraph{Local no-promotion rule.}
+The chapter therefore records a rank-admissibility refusal boundary.  The finite data support residual computation, persistent residual classification, and selected readout-block comparisons under a deterministic degree-of-freedom-matched null.  They do not by themselves establish ribosome occupancy, protein abundance, folded structure, physical admissibility, biological function, molecular mechanism, phenotype, or a universal biological rule.  Any such promotion requires a separate layer-matched contact and its own controlled statistic after the $q_i\to T_j$ translation-readout step has survived with non-saturated rank.  Until that condition is met, $B^*_{Q6}$ remains a residual coordinate system with bounded readout contacts and explicit refusal of rank-saturated survival.

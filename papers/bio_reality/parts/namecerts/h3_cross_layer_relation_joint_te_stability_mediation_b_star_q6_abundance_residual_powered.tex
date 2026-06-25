@@ -1,78 +1,60 @@
 \origin{ai}
-
-\subsection{Joint translation-efficiency and stability partition for $B^*_{Q6}$ abundance residuals}
+\subsection{Joint Translation-Efficiency and mRNA-Stability Mediation for $B^{\ast}_{Q6}$ Protein-Abundance Residuals}
 \label{sec:bioreality-q6-joint-te-stability-mediation}
 
-\paragraph{Finite surface.}
-The finite surface is a matched per-CDS table in which nine $B^*_{Q6}$ synonymous residual coordinates are compared with measured protein abundance, measured ribosome-derived translation efficiency, and an mRNA-stability readout after the same covariate residualization.  The coordinate block is
-$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3$-stress.  The control block has $24$ columns before numerical rank reduction and consists of an intercept, $\log(\mathrm{CDS\ length})$, the $20$ amino-acid composition proportions, GC3, and an $M$-density baseline defined on the union support of the nine projected coordinates.  In the three organisms with the complete four-way join, the residualized control rank is $23$ and the residualized $Q$-rank is $9$ in every organism, so the reported entries are not the all-saturated small-panel boundary.
+\paragraph{Finite panel.}
+This record tests whether the $B^{\ast}_{Q6}$ residual coordinates that predict protein abundance are partly absorbed by two measured intermediate readouts: translation efficiency and mRNA stability. The finite carrier is a matched row table whose rows are coding sequences with codon counts, measured protein abundance, measured translation-efficiency information, matched mRNA stability or abundance-derived stability information, and the shared covariate block $Z$. The $Q$ block has nine residual coordinates: $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$. The controls are an intercept, $\log(\mathrm{CDS\ length})$, twenty amino-acid composition proportions, GC3, and the $M$-density baseline on the union support of the nine projected $B^{\ast}_{Q6}$ vectors. In each organism the residualized design has $\operatorname{rank}(Q\_{\perp Z})=9$ and $\operatorname{rank}(Z)=23$, with one residualized measured-TE column, one residualized mRNA-stability column, and an eleven-column joint $Q,T,M$ design.
 
-\paragraph{Joined rows.}
-The computed panel contains three organism-specific joins.  In \textit{Saccharomyces cerevisiae}, $4759$ CDS rows are joined, with a reported CDS join hit rate $0.9156038419146592$ and a four-way join hit rate $0.8818572656921754$; the TE readout uses $5128$ genes and the mRNA half-life table reports $5379$ valid systematic-gene records.  In \textit{Escherichia coli} K-12 MG1655, $2517$ rows are joined, with reported hit rates $0.9978649586335735$ for CDS-to-abundance and $0.9133458143888741$ for the TE join; the TE table supplies $3415$ protein-keyed genes and the mRNA half-life table supplies $2947$ valid gene-id records at growth rate $0.40\,\mathrm{h}^{-1}$.  In \textit{Homo sapiens}, $11322$ rows are joined, with a reported CDS-to-abundance hit rate $0.9779294769799313$ and TE join hit rate $0.6064136881331024$; the TE table supplies $11554$ genes and the mRNA consensus table reports $19480$ valid Ensembl-gene records.  The finite-row claim is therefore scoped to these three joined surfaces, not to all organisms in the larger protein-abundance scan.
+\paragraph{Joined rows and readout construction.}
+Three organisms have complete four-way joins in this test. In \textit{Escherichia coli} K-12 MG1655, $2517$ rows are joined, with reported CDS join hit rate $0.9978649586$ and TE join hit rate $0.9133458144$; the TE readout is mean CDS footprint wiggle coverage divided by mean CDS mRNA wiggle coverage on the annotated coding strand, and the mRNA half-life source reports $2947$ valid gene records. In human, $11322$ rows are joined, with reported CDS join hit rate $0.9779294770$ and TE join hit rate $0.6064136881$; the TE readout is the positive RPFdb CDS translation-efficiency value averaged across positive TE columns for each Ensembl gene, while the mRNA table contributes $19480$ valid consensus records. In budding yeast, $4759$ rows are joined, with reported CDS join hit rate $0.9156038419$ and TE join hit rate $0.8818572657$; the TE readout is the mean footprint normalized read density divided by the mean mRNA normalized read density across two rich-medium replicates, and the mRNA half-life table contributes $5379$ valid systematic-name records.
 
-\paragraph{Variance partition.}
-For each organism let $P_e$ denote protein abundance after the $Z$ controls, let $Q_e$ denote the residualized nine-coordinate block, let $T_e$ denote residualized measured translation efficiency, and let $M_e$ denote residualized mRNA stability.  The recorded definition is
+\paragraph{Regression decomposition.}
+Let $P\_{\perp Z}$ be log protein abundance after residualization against $Z$, let $Q\_{\perp Z}$ be the nine-coordinate residual design, let $T\_{\perp Z}$ be the measured-TE readout after the same residualization, and let $M\_{\perp Z}$ be the mRNA-stability readout after the same residualization. The reported scalar $R^2\_{QP}$ is the fraction of $P\_{\perp Z}$ explained by $Q\_{\perp Z}$. The conditioned quantities $R^2\_{QP\mid T}$, $R^2\_{QP\mid M}$, and $R^2\_{QP\mid T,M}$ are incremental $Q$ fractions after $T$, after $M$, and after both columns have already been included. The finite mediation fraction is therefore read as
 $$
 \begin{aligned}
-R^2_{QP} &= R^2(P_e \sim Q_e),\\
-R^2_{QP\mid T} &= R^2(P_e \sim Q_e\mid T_e),\\
-R^2_{QP\mid M} &= R^2(P_e \sim Q_e\mid M_e),\\
-R^2_{QP\mid T,M} &= R^2(P_e \sim Q_e\mid T_e,M_e),\\
-\mu_{T,M} &= \frac{R^2_{QP}-R^2_{QP\mid T,M}}{R^2_{QP}}.
+\mu\_{T,M}(Q,P) &= \frac{R^2\_{QP}-R^2\_{QP\mid T,M}}{R^2\_{QP}}.
 \end{aligned}
 $$
-The scalar $\mu_{T,M}$ is a variance-partition fraction: it measures how much of the $Q$-to-abundance association is removed by adding the measured TE and mRNA-stability readouts to the residualized regression.  It is not a causal mediation effect.
+This is a variance partition over observed rows, not a causal path coefficient.
 
-\paragraph{Observed partition.}
-The yeast surface has the largest direct abundance association and the largest joint attenuation.  Its entries are
+\paragraph{Observed $R^2$ list.}
+The three organism-specific decompositions are nondegenerate and positive at the direct $Q\to P$ stage. In \textit{E. coli},
 $$
 \begin{aligned}
-R^2_{QP} &= 0.2715520808117803,\\
-R^2_{QP\mid T} &= 0.1439989545940314,\\
-R^2_{QP\mid M} &= 0.25453612246767165,\\
-R^2_{QP\mid T,M} &= 0.13047582645538838,\\
-\mu_{T,M} &= 0.5195182225621592.
+R^2\_{QP} &= 0.1181743523, & R^2\_{QP\mid T} &= 0.1158397928,\\
+R^2\_{QP\mid M} &= 0.0909327341, & R^2\_{QP\mid T,M} &= 0.0897573252.
 \end{aligned}
 $$
-The single-readout fractions are $0.4697188319693239$ for measured TE alone and $0.0626618595344251$ for mRNA stability alone.  Their sum is $0.532380691503749$, and the joint-minus-single-sum value is $-0.012862468941589822$, inside the declared descriptive tolerance $0.05$; the finite row is therefore classified as approximately independent overlap between the two readout axes.  The right-tail deterministic pair-permutation value is $0.000999000999000999$.
-
-\paragraph{Bacterial and human surfaces.}
-The \textit{E. coli} surface gives a smaller but still positive joint attenuation:
+In human,
 $$
 \begin{aligned}
-R^2_{QP} &= 0.1181743523064932,\\
-R^2_{QP\mid T} &= 0.11583979275713331,\\
-R^2_{QP\mid M} &= 0.09093273405121653,\\
-R^2_{QP\mid T,M} &= 0.08975732521542036,\\
-\mu_{T,M} &= 0.2404669586626661.
+R^2\_{QP} &= 0.0427417849, & R^2\_{QP\mid T} &= 0.0425069227,\\
+R^2\_{QP\mid M} &= 0.0361960174, & R^2\_{QP\mid T,M} &= 0.0355223931.
 \end{aligned}
 $$
-Here the TE-only fraction is $0.01975521340963268$, the stability-only fraction is $0.23052056324898387$, the single-mediator sum is $0.25027577665861656$, and the joint-minus-single-sum value is $-0.009808817995950458$, again approximately independent at tolerance $0.05$ with right-tail permutation value $0.000999000999000999$.  The human surface is weaker on the TE side but still has a positive joint fraction:
+In yeast,
 $$
 \begin{aligned}
-R^2_{QP} &= 0.04274178488511215,\\
-R^2_{QP\mid T} &= 0.04250692268197657,\\
-R^2_{QP\mid M} &= 0.036196017359154814,\\
-R^2_{QP\mid T,M} &= 0.0355223930537993,\\
-\mu_{T,M} &= 0.16890712099923358.
+R^2\_{QP} &= 0.2715520808, & R^2\_{QP\mid T} &= 0.1439989546,\\
+R^2\_{QP\mid M} &= 0.2545361225, & R^2\_{QP\mid T,M} &= 0.1304758265.
 \end{aligned}
 $$
-The human TE-only and stability-only fractions are $0.00549490864190343$ and $0.15314679870183337$, respectively; their sum is $0.1586417073437368$, and the joint-minus-single-sum value is $0.010265413655496769$, also approximately independent under the same $0.05$ tolerance, with the same finite permutation value $0.000999000999000999$.
+Thus the finite rows support a measured decomposition of the direct protein-abundance association rather than a mere protein-omics correlation.
 
-\paragraph{Rank diagnostics.}
-The residual-energy diagnostics show that the regressions were computed on nonzero residual surfaces.  For yeast, the residual degrees of freedom after $Z$ are $4736$, with $p$-residual energy $1724.6664873071313$, $t$-residual energy $645.3764418081507$, and $m$-residual energy $194.99141167236996$; the $Q$ block explains $468.33677333459536$ energy on $P$, while the combined $T,M$ block explains $470.61694807139054$.  For \textit{E. coli}, the residual degrees of freedom are $2494$, with $p$-, $t$-, and $m$-residual energies $2323.813305213946$, $672.36799431777$, and $198.6753916649337$; the $Q$ block explains $274.6151322248693$ energy on $P$.  For human, the corresponding residual degrees of freedom are $11299$, with residual energies $12615.307912483846$, $1866.9940287020145$, and $647.920297431553$, and the $Q$ block explains $539.2007770548378$ energy on $P$.  In all three organisms the residualized ranks are $\mathrm{rank}(T_e)=1$, $\mathrm{rank}(M_e)=1$, $\mathrm{rank}(T_e,M_e)=2$, $\mathrm{rank}(Q_e,T_e,M_e)=11$.
+\paragraph{Mediation fractions and module class.}
+The joint fractions are $0.2404669587$ in \textit{E. coli}, $0.1689071210$ in human, and $0.5195182226$ in yeast. The single-column components show different organism-specific balance. In \textit{E. coli}, the TE-only fraction is $0.0197552134$ and the stability-only fraction is $0.2305205632$. In human, the TE-only fraction is $0.0054949086$ and the stability-only fraction is $0.1531467987$. In yeast, the TE-only fraction is $0.4697188320$ and the stability-only fraction is $0.0626618595$. The recorded overlap class is approximately independent in all three organisms: the joint-minus-single-sum values are $-0.0098088180$, $0.0102654137$, and $-0.0128624689$, each inside the fixed descriptive tolerance $0.05$. The right-tail paired permutation value is $0.0009990010$ for each organism under the deterministic row-pair permutation schedule.
 
-\paragraph{Relation to measured TE and direct protein scans.}
-The broader measured-TE survival computation supplies the separate translation-readout contact.  It reports positive $Q$-to-measured-TE partial $R^2$ values for four organisms: $0.13681931343730436$ in yeast, $0.009394266754822262$ in \textit{E. coli}, $0.018837911344127926$ in human, and $0.04034217614654355$ in zebrafish, with all nine coordinates surviving above the positive threshold in those rows.  The direct protein-omics scan is broader still: across $15$ organisms it reports positive direct $Q$-to-protein abundance partial $R^2$ values after the same family of controls, including $0.29837624994140827$ in yeast, $0.10767526677985896$ in \textit{E. coli}, and $0.04454565118019448$ in human.  These two finite facts justify treating the joint TE--stability run as a downstream partition of an already detected abundance association, while also showing why a direct $Q\to P$ association is not by itself a mechanism statement.
+\paragraph{Rank and energy diagnostics.}
+The residual degrees of freedom after $Z$ are $2494$ in \textit{E. coli}, $11299$ in human, and $4736$ in yeast. The corresponding residual protein-abundance energies are $2323.8133052139$, $12615.3079124838$, and $1724.6664873071$. The measured-TE residual energies are $672.3679943178$, $1866.9940287020$, and $645.3764418082$, while the mRNA-stability residual energies are $198.6753916649$, $647.9202974316$, and $194.9914116724$. The unconditioned $Q$ explained energies on protein abundance are $274.6151322249$, $539.2007770548$, and $468.3367733346$. After conditioning on both measured columns, the direct $Q$ improvement energies are reduced to $208.5792665760$, $448.1259261620$, and $225.0272852913$. This finite-row reduction is the central observable: the $Q$ signal remains present, but a substantial part is absorbed by measured TE plus mRNA stability, especially in yeast.
 
-\paragraph{Four-case comparison.}
-A separate two-organism four-case discriminant over modeled tAI and measured protein abundance classifies yeast as case $D$ for all $9$ coordinates and \textit{E. coli} as case $D$ for $7$ coordinates, with $2$ positive-positive entries lacking a mediation drop.  In that auxiliary surface, the modeled-tAI $R^2_{QT}$ values are $0.8213457220900503$ for yeast and $0.5416736993691318$ for \textit{E. coli}, while the corresponding direct $R^2\_{QP}$ values are $0.29837624994140827$ and $0.10767526677985896$.  The joint measured-TE and stability partition sharpens that readback: in yeast, measured TE absorbs a large fraction of the direct abundance signal; in \textit{E. coli} and human, mRNA stability accounts for most of the joint attenuation.
+\paragraph{Relation to single-readout checks.}
+The same coordinate family is positive against direct measured protein abundance over a wider protein-omics panel: the direct $S^{QP}$ check reports $R^2\_{QP}=0.1076752668$ in \textit{E. coli}, $0.0445456512$ in human, and $0.2983762499$ in yeast, with all nine coordinates surviving under the protein-abundance readout. The measured ribosome-TE survival check separately reports $R^2\_{QT}=0.0093942668$ in \textit{E. coli}, $0.0188379113$ in human, and $0.1368193134$ in yeast, again with all nine coordinates surviving. The measured $Q\to T\to P$ scalar gives mediated fractions $0.0409115834$ in \textit{E. coli}, $0.0027966485$ in human, and $0.4793069656$ in yeast. These neighboring finite checks agree with the joint result: yeast has the strongest measured-TE absorption, while \textit{E. coli} and human are dominated by the mRNA-stability component in the joint two-column decomposition.
 
-\paragraph{Reduction boundary.}
-The yeast dictionary-style reduction certificate gives an additional scale for the residual.  On a yeast join with $n=1800$, $5$ folds, $\lambda\_{DL}=0.01$, and $120$ deterministic permutations, the best selection-aware coverage by at most three readouts among measured TE, mRNA stability, and turnover is $0.24538211439730545$, above a selection-aware null $95$th percentile of $0.029149007242956115$ and leaving unexplained fraction $0.7546178856026946$.  This is compatible with the joint TE--stability result: measured readouts remove a reproducible part of the abundance residual, but they do not collapse the nine-coordinate $Q$ signal to a fully explained layer.
+\paragraph{Auxiliary bounded reductions.}
+The partial readout-dictionary certificate on the yeast unified context uses $n=1800$ rows, $5$ folds, $\lambda\_{DL}=0.01$, and $120$ deterministic permutations. It reports raw best coverage $0.2745002077$, selection-aware null $95\%$ level $0.0291490072$, accepted coverage $C^{\ast}=0.2453821144$, and unexplained fraction $0.7546178856$. The $f3\_stress$ dwell-abundance check on yeast uses $n=1257$ joined rows and reports held-out $\Delta R^2=0.0185647394$ against null $95\%$ level $0.0013115362$, with $f3$--dwell correlation $0.1615441451$ and approximate $p=7.8739160572\times 10^{-9}$. These auxiliary results do not replace the joint TE/stability decomposition, but they show that the same finite coordinate family has reproducible partial reductions under separately measured readout dictionaries.
 
-\paragraph{Local verdict.}
-The finite-row verdict is that $B^*\_{Q6}$ residual coordinates retain a direct protein-abundance association in the joined panels, and measured TE plus mRNA stability remove a positive, permutation-separated fraction of that association in yeast, \textit{E. coli}, and human.  The organism-specific pattern is not uniform: yeast is TE-dominated, while \textit{E. coli} and human are stability-dominated.  The overlap classification is approximately independent in all three organisms at the fixed tolerance $0.05$.  This supports a bounded cross-layer statistical statement: the abundance residual is partly read through measured TE and mRNA stability on finite matched rows.
+\paragraph{Verdict.}
+The finite-row verdict is ready for a bounded cross-layer relation: $B^{\ast}_{Q6}$ residual coordinates have positive direct protein-abundance association, positive measured-TE association, and a nonzero two-column attenuation when measured TE and mRNA stability are conditioned jointly. The strongest case is yeast, where $R^2\_{QP}$ drops from $0.2715520808$ to $0.1304758265$ after both measured columns, giving joint mediation fraction $0.5195182226$ and a TE-only component $0.4697188320$. The bacterial and human rows also pass the finite decomposition, but their attenuation is mostly assigned to the mRNA-stability column. The correct interpretation is therefore a measured variance-partition relation among codon residuals, TE, stability, and abundance on the joined rows.
 
-\paragraph{Claim boundary.}
-No causal ordering is inferred from these rows.  The abundance, TE, and mRNA-stability measurements come from organism-matched but not necessarily condition-identical data sources, and the regressions are observational variance partitions.  A positive $Q\to T$ association supplies a measured translation-readout surface, but it does not by itself establish a ribosome mechanism, elongation model, perturbation response, folded structure, physical admissibility, molecular function, phenotype, adaptation direction, or universal biological rule.  A direct $Q\to P$ association remains a protein-omics prediction unless conditioning on the measured readout reduces the signal on the same finite surface; any higher-layer interpretation requires a separate layer-matched contact and its own controlled statistic.
+\paragraph{Local boundary.}
+No broader biological conclusion follows from this chapter alone. The rows do not establish causal mediation, universal translation control, folded structural order, physical admissibility, molecular function, organismal phenotype, perturbation rescue, or an evolutionary direction. The protein-abundance readout is cross-sectional, the TE and stability readouts come from organism-specific datasets with platform and condition differences, and the mediation fractions are projection quantities. Any claim about translation mechanism, folding, physical admissibility, function, phenotype, or universality would require a separate layer-matched contact and its own finite statistic.

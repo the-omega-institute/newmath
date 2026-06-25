@@ -27,6 +27,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier exposes exactly this finite socket. It contains no unrestricted meromorphic-continuation principle, no proof that all nontrivial zeros lie on the critical line, no complete $\GammaUp$ construction, and no hidden analytic branch choice.
 \end{definition}
+\leanchecked{BEDC.Derived.ZetaContinuationSocketUp.ZetaContinuationSocketTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[ZetaContinuationSocket NameCert obligations]
 \label{thm:zeta-continuation-socket-namecert-obligations}
@@ -41,6 +42,7 @@ Ledger exactness is also coordinatewise. Requests at $s=1$ land in $P$, Gamma in
 
 The continuation routes in $C$ and the local naming row $N$ then repack the same coordinates as a finite $\NameCert$ surface. No row introduces a global continuation theorem or an RH-facing zero-location conclusion.
 \end{proof}
+\leanchecked{BEDC.Derived.ZetaContinuationSocketUp.ZetaContinuationSocketNameCertObligations}
 
 \begin{theorem}[ZetaContinuationSocket ledger non-escape]
 \label{thm:zeta-continuation-socket-ledger-nonescape}
@@ -107,4 +109,20 @@ The only coordinate required by \autoref{def:zeta-continuation-witness-carrier} 
 It remains to compare the exported boundaries. The provenance row $R$ is a package row; it records how the already displayed coordinates are named through $\Pkg$, and it is not an analytic continuation row, a Gamma completion row, a pole-regularization row, or a zero-location row. Thus adding $R$ cannot create a route that bypasses $A,P,T,G,H$ or $C$.
 
 Now apply the socket non-escape statement of \autoref{thm:zeta-continuation-socket-ledger-nonescape}. The pole boundary is still the coordinate $P$, the negative-even trivial-zero ledger is still $T$, Gamma escape is still absorbed by $G$, and branch escape is still absorbed by $A$. The witness handoff statement of \autoref{thm:zeta-continuation-witness-continuation-handoff} reads these same coordinates through $W$ and exports no RH conclusion and no zero-location classifier. Hence the constructed witness has the same downstream non-escape boundary as the original socket carrier.
+\end{proof}
+
+\begin{theorem}[ZetaContinuationSocket functional-equation boundary]
+\label{thm:zeta-continuation-socket-functional-equation-boundary}
+Let $Z=(B,E,A,P,F,T,G,H,C,N)$ be an accepted $\ZetaContinuationSocketUp$ carrier as in \autoref{def:zeta-continuation-socket-carrier}. Any accepted route that reads eta data, pole data, $\GammaUp$ boundary data, branch data, trivial-zero data, transport data, continuation-route data, or local naming data into the witness-facing packet must factor through the displayed functional-equation ledger $F$ together with the visible socket rows $B,E,A,P,T,G,H,C,N$.
+
+The route exports no RH verdict, no nontrivial-zero classifier, no global meromorphic uniqueness principle, and no completed $\GammaUp$ construction. Those endpoints are not coordinates of the carrier and are not added by the witness carrier bridge.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:zeta-continuation-socket-carrier}. The eta row is $E$, the pole row is $P$, the functional-equation factor ledger is $F$, the trivial-zero ledger is $T$, the $\GammaUp$ boundary interface is $G$, and the structural rows are $H,C,N$.
+
+Apply \autoref{thm:zeta-continuation-socket-ledger-nonescape}. Reads asking for a pole value, a Gamma-pole value, a branch outside the displayed continuation routes, or a nontrivial-zero location are recorded in the corresponding ledger coordinates instead of being exported as continuation values.
+
+Apply \autoref{thm:zeta-continuation-socket-analytic-handoff}. Every downstream continued-zeta read keeps the source, eta, socket, pole, functional-equation, trivial-zero, Gamma-boundary, transport, continuation, and naming rows visible. Thus the functional-equation boundary is a displayed ledger route, not a hidden analytic theorem.
+
+Finally apply \autoref{thm:zeta-continuation-socket-witness-carrier-bridge}. Passing to the witness packet only inserts the package-provenance row over the same displayed coordinates. Since RH verdicts, nontrivial-zero classifiers, global meromorphic uniqueness, and completed Gamma constructions are absent from the socket carrier, no witness-facing route can export them.
 \end{proof}

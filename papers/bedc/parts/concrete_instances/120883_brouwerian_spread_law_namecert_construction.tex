@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\BrouwerianSpreadLawUp$}
+\label{ch:concrete-instances-brouwerian-spread-law-namecert}
+\origin{human}
+
+Following Brouwer on spreads and choice sequences, the $\BrouwerianSpreadLawUp$ packet records a finite prefix law whose accepted nodes may be inspected by L10 Real and Completion consumers without quotient streams, selected branches, or countable choice. It sits beside the finite observation surface of \autoref{ch:concrete-instances-finite-stream-namecert}, the StreamName window discipline of \autoref{ch:concrete-instances-streamname-namecert}, and the List prefix carrier of \autoref{ch:concrete-instances-list-namecert}. The packet isolates the constructive law: a displayed finite prefix is admitted only through a finite $\BHist$ row, and every public read stays inside the same prefix-closed route.
+
+\begin{definition}[Brouwerian spread-law carrier]
+\label{def:brouwerian-spread-law-carrier}
+A $\BrouwerianSpreadLawUp$ carrier is a finite $\BHist$ packet
+$$
+L=(F,S,A,E,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\FiniteStreamUp$ observation row, listing the finite source windows currently inspected.
+\item $S$ is the $\StreamNameUp$ schedule row that names the requested window positions.
+\item $A$ is the $\ListUp$ prefix row, storing the finite words and parent-prefix inclusions read by the law.
+\item $E$ is the admissibility row: every displayed prefix is either admitted by the law or remains on the refusal side of the same finite ledger.
+\item $W$ is the extension row, recording for each admitted prefix the displayed one-step or bounded finite continuation still admitted by $E$.
+\item $H$ records componentwise $\hsame$ transport for finite streams, schedules, prefixes, admissibility rows, extension rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a prefix request through $F,S,A,E,W$.
+\item $P$ is $\Pkg$ provenance over $\BrouwerianSpreadLawUp$, $\FiniteStreamUp$, $\StreamNameUp$, $\ListUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BrouwerianSpreadLawUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $F,S,A,E,W,H,C,P,N$. It has no coordinate for a completed infinite branch, quotient stream equality, countable-choice selector, fan compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Brouwerian spread-law NameCert obligations]
+\label{thm:brouwerian-spread-law-namecert-obligations}
+For every accepted $\BrouwerianSpreadLawUp$ carrier $L=(F,S,A,E,W,H,C,P,N)$, the local $\NameCert_{\BrouwerianSpreadLawUp}$ surface consists exactly of finite-stream exposure through $F$, schedule exposure through $S$, List prefix exposure through $A$, admissibility classification through $E$, extension visibility through $W$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. Every public read of the law factors through the finite route
+$$
+F,S,A \longmapsto E \longmapsto W \longmapsto H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:brouwerian-spread-law-carrier}. The only source rows available to a consumer are the finite stream windows, StreamName schedule, and List prefix ledger.
+
+Read the admissibility and extension rows next. The row $E$ classifies displayed prefixes in the finite ledger, while $W$ records only continuations still admitted by that same displayed law.
+
+Finally use $H,C,P,N$ to preserve and name the route. Since no carrier coordinate stores a completed branch, quotient stream, countable-choice selector, fan compactness witness, or ambient completion principle, these rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Brouwerian spread-law prefix closure]
+\label{thm:brouwerian-spread-law-prefix-closure}
+Let $L=(F,S,A,E,W,H,C,P,N)$ be an accepted $\BrouwerianSpreadLawUp$ carrier. If a consumer reads an admitted prefix from $A$ and $E$, then every displayed predecessor prefix in the same List spine is read through the same finite stream row $F$, schedule row $S$, admissibility row $E$, extension row $W$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Start with the List prefix row $A$. It stores the displayed parent-prefix inclusions for the finite words currently visible to the law.
+
+Use the admissibility row $E$. An admitted prefix can be read only as part of the same finite ledger, so predecessor prefixes are classified by the same law rather than by a second hidden predicate.
+
+The finite-stream and StreamName rows keep the observation schedule fixed. The extension row $W$ then witnesses only continuations whose predecessors remain in the displayed List spine.
+
+Transport, replay, provenance, and local naming through $H,C,P,N$ preserve that packet. Therefore prefix restriction stays inside the accepted $\BrouwerianSpreadLawUp$ carrier and exports no selected infinite branch.
+\end{proof}
+
+\begin{theorem}[Brouwerian spread-law finite-window handoff]
+\label{thm:brouwerian-spread-law-finite-window-handoff}
+Every L10 consumer of an accepted $\BrouwerianSpreadLawUp$ packet reaches finite observation data only through the displayed route
+$$
+\FiniteStreamUp \longmapsto \StreamNameUp \longmapsto \ListUp \longmapsto \BrouwerianSpreadLawUp .
+$$
+The handoff supplies prefix-law evidence for finite windows; it does not select an infinite choice sequence, identify quotient streams, or assert compactness or completeness.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:brouwerian-spread-law-namecert-obligations}. They force the consumer to expose $F,S,A,E,W$ before any public read of the law is available.
+
+Apply prefix closure from \autoref{thm:brouwerian-spread-law-prefix-closure}. A later finite window cannot bypass the predecessor-prefix route, because the same List spine and admissibility row remain visible.
+
+The excluded objects are not carrier coordinates. Thus the L10 handoff is a finite prefix-law route from finite streams and StreamName windows into a displayed Brouwerian law, with no quotient stream, selected branch, countable choice, fan compactness, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{BrouwerianSpreadLawUp}{seedStr}
+
+\begin{closurestatus}{\BrouwerianSpreadLawUp}
+  \constructivestory{A $\BrouwerianSpreadLawUp$ packet is generated from finite stream windows, StreamName schedules, List prefix rows, admissibility and extension rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brouwerian-spread-law-carrier}, \autoref{thm:brouwerian-spread-law-namecert-obligations}, \autoref{thm:brouwerian-spread-law-prefix-closure}, and \autoref{thm:brouwerian-spread-law-finite-window-handoff} seed the constructive finite-prefix law surface over FiniteStreamUp, StreamNameUp, ListUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite branches, quotient stream equality, countable choice, fan compactness, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, prefix admissibility, extension visibility, prefix closure, structural nonescape, and L10 handoff coverage for BEDC.Derived.BrouwerianSpreadLawUp.}
+\end{closurestatus}

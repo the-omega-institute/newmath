@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\KraftPrefixCodeUp$}
+\label{ch:concrete-instances-kraft-prefix-code-namecert}
+\origin{human}
+
+Following Kraft and McMillan, the $\KraftPrefixCodeUp$ packet records a finite prefix-free binary code table together with the Kraft budget that makes instantaneous decoding visible as BEDC NameCert data. It sits beside the minimum-distance coding surface of \autoref{ch:concrete-instances-errorcode-namecert}, the finite branch discipline of \autoref{ch:concrete-instances-binary-tree-namecert}, the source-measure ledger of \autoref{ch:concrete-instances-entropy-namecert}, and the bounded program-code surface of \autoref{ch:concrete-instances-kolmogorov-complexity-namecert}. The packet names only displayed codewords, tree-frontier rows, length rows, Kraft-budget rows, refusal rows, transport, replay, provenance, and local naming; it is not a Shannon optimality theorem, a Huffman construction, an oracle for shortest descriptions, or a host probability-space completion.
+
+\begin{definition}[KraftPrefixCode carrier]
+\label{def:kraft-prefix-code-carrier}
+A $\KraftPrefixCodeUp$ carrier is a finite $\BHist$ packet
+$$
+K=(C,F,L,B,D,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the code-table row, listing finitely many source symbols together with their binary codeword histories.
+\item $F$ is the binary-tree prefix-frontier row, read through $\BinaryTreeUp$, whose leaves are exactly the displayed codewords admitted by $C$.
+\item $L$ is the length-ledger row, recording each displayed codeword length as a finite natural-history budget.
+\item $B$ is the Kraft-budget row, recording the finite inequality that the sum of the displayed dyadic weights $2^{-L_i}$ is bounded by the unit budget.
+\item $D$ is the decoding-refusal row: if a requested bit history is not on the displayed frontier, or extends through two codewords, the packet records refusal rather than a decoded symbol.
+\item $H$ records componentwise $\hsame$ transport for code tables, prefix frontiers, length ledgers, Kraft budgets, refusal rows, replay rows, provenance rows, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from a finite decoding request through the same $C,F,L,B,D,H,P,N$ rows.
+\item $P$ is the $\Pkg$ provenance over $\KraftPrefixCodeUp$, $\ErrorCodeUp$, $\BinaryTreeUp$, $\EntropyUp$, $\KolmogorovComplexityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KraftPrefixCodeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $C,F,L,B,D,H,T,P,N$. It has no coordinate for a selected optimal code, an infinite alphabet, a completed probability model, quotient code equality, or an unbounded decoder.
+\end{definition}
+
+\begin{theorem}[KraftPrefixCode NameCert obligations]
+\label{thm:kraft-prefix-code-namecert-obligations}
+For every accepted $\KraftPrefixCodeUp$ carrier
+$$
+K=(C,F,L,B,D,H,T,P,N),
+$$
+the local $\NameCert_{\KraftPrefixCodeUp}$ surface consists exactly of code-table exposure, binary-tree prefix-frontier exposure, length-ledger exposure, Kraft-budget exposure, decoding-refusal exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every entropy, error-code, or bounded-description consumer must expose $C,F,L,B,D,H,T,P,N$ before reading a finite prefix-code row.
+\end{theorem}
+\leanchecked{BEDC.Derived.KraftPrefixCodeUp.KraftPrefixCodeTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier $K=(C,F,L,B,D,H,T,P,N)$. The analytic rows are the finite code table $C$, the prefix frontier $F$, the length ledger $L$, the Kraft budget $B$, and the decoding-refusal row $D$.
+
+The binary-tree frontier makes prefix admission explicit. The length ledger and Kraft budget then read only the displayed leaves, so the packet supplies a finite budget row rather than an optimal coding theorem or a hidden probability-space argument.
+
+The structural rows $H,T,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no row for selected optimality, infinite alphabets, quotient equality, or an unbounded decoder, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[KraftPrefixCode prefix disjointness]
+\label{thm:kraft-prefix-code-prefix-disjointness}
+Every accepted $\KraftPrefixCodeUp$ carrier
+$$
+K=(C,F,L,B,D,H,T,P,N)
+$$
+forces the displayed codeword frontier $F$ to be prefix-disjoint: two decoded source rows can share a bit history only when the same displayed frontier leaf is read. Consequently a finite decoding request cannot pass through two distinct codewords, and any request that would do so is routed to the refusal row $D$ rather than to a second decoded symbol.
+\end{theorem}
+\begin{proof}
+Read the code table $C$ through the binary-tree frontier $F$. The accepted frontier records codewords as leaves, so a decoded request must terminate at one displayed leaf before any longer extension can be considered.
+
+Compare two candidate decoded rows. If they read the same frontier leaf, componentwise $\hsame$ transport identifies the same displayed codeword row inside $C$. If one candidate attempts to extend through another leaf, the prefix-frontier row blocks that branch as a leaf boundary.
+
+The refusal row $D$ records precisely the blocked case. Transport $H$, replay $T$, provenance $P$, and local naming $N$ preserve the same finite frontier order, so the packet never exports ambiguous instantaneous decoding.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\KraftPrefixCodeUp$ consumer that reads a finite prefix-code row without first displaying the code table, binary-tree frontier, length ledger, Kraft budget, refusal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row refutes the packet surface.}
+
+\independenceWitness{errorcode, binarytree, entropy, kolmogorov-complexity: $\KraftPrefixCodeUp$ is not bijective to any listed sibling because it jointly carries code-table rows, prefix-frontier rows, length ledgers, Kraft budgets, decoding-refusal rows, transport, replay, provenance, and local naming.}
+
+\closureat{KraftPrefixCodeUp}{seedStr}
+
+\begin{closurestatus}{\KraftPrefixCodeUp}
+  \constructivestory{A $\KraftPrefixCodeUp$ packet is generated from finite code-table rows, binary-tree prefix-frontier rows, finite length ledgers, Kraft-budget rows, decoding-refusal rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kraft-prefix-code-carrier}, \autoref{thm:kraft-prefix-code-namecert-obligations}, and \autoref{thm:kraft-prefix-code-prefix-disjointness} seed the finite prefix-free coding interface over code tables, binary-tree frontiers, length ledgers, Kraft budgets, decoding refusal, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Shannon optimality, Huffman construction, selected shortest programs, infinite alphabets, quotient code equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-frontier exactness, length-ledger exposure, Kraft-budget exposure, decoding-refusal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.KraftPrefixCodeUp.}
+\end{closurestatus}

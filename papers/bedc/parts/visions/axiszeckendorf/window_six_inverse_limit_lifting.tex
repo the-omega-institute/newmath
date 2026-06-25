@@ -27,6 +27,14 @@ $$
 \qquad
 \pi_{m+1,m}(w_1,\ldots,w_{m+1})=(w_1,\ldots,w_m).
 $$
+For $m\geq n$, write $\pi_{m,n}:X_m\to X_n$ for the iterated prefix
+projection.  Prefix stability of the no-adjacent rule gives
+$$
+\pi_{n,k}\circ\pi_{m,n}=\pi_{m,k}
+\qquad
+(m\geq n\geq k),
+$$
+so the family $(X_m,\pi_{m,n})$ is an inverse system of finite windows.
 \end{definition}
 
 \begin{definition}[Zeckendorf address inverse limit]
@@ -88,12 +96,98 @@ P_6^{-1}(w)
 $$
 \end{definition}
 
+\begin{definition}[Ambient Window-six cylinder]
+\label{def:axiszeckendorf-ambient-window-six-cylinder}
+Let
+$$
+C_6:=\{0,1\}^6
+$$
+be the full six-bit carrier, and let
+$$
+Q_6:X_\infty^Z\to C_6
+$$
+be the first-six-coordinate readout.  For $u\in C_6$, its ambient
+Window-six cylinder is
+$$
+\operatorname{Cyl}_6(u)
+:=
+\{x\in X_\infty^Z:Q_6(x)=u\}.
+$$
+When $u\in X_6$, this agrees with the inverse-limit cylinder
+$\mathsf{Lift}_6(u)$.
+\end{definition}
+
+\begin{proposition}[Window-six extension boundary]
+\label{prop:axiszeckendorf-window-six-extension-boundary}
+For $u\in C_6$, the cylinder $\operatorname{Cyl}_6(u)$ is nonempty if and
+only if $u\in X_6$.
+\end{proposition}
+
+\begin{proof}
+If $u\in X_6$, append zeros to obtain
+$$
+x=u000\cdots .
+$$
+Appending zeros cannot create an adjacent pair $11$, so
+$x\in X_\infty^Z$ and $Q_6(x)=u$.  Hence
+$\operatorname{Cyl}_6(u)$ is nonempty.
+
+Conversely, if $u\notin X_6$, then $u$ contains an adjacent pair $11$.
+Every infinite binary sequence with prefix $u$ contains that same adjacent
+pair, so no such sequence lies in $X_\infty^Z$.  Hence
+$\operatorname{Cyl}_6(u)=\varnothing$.
+\end{proof}
+
+\begin{corollary}[Window-six cylinder partition]
+\label{cor:axiszeckendorf-window-six-cylinder-partition}
+The sixth projection decomposes the inverse-limit address carrier as
+$$
+X_\infty^Z
+=
+\coprod_{u\in X_6}\operatorname{Cyl}_6(u).
+$$
+The twenty-one words of $X_6$ are the nonempty sixth-layer cylinder gates,
+while the forty-three words of $C_6\setminus X_6$ have no inverse-limit
+extension.
+\end{corollary}
+
+\begin{proof}
+Every $x\in X_\infty^Z$ has a unique sixth prefix $Q_6(x)\in X_6$, so it
+belongs to exactly one displayed cylinder.  The converse inclusion is
+immediate from the definition of $\operatorname{Cyl}_6(u)$.  The counts are
+$|X_6|=21$ by
+\autoref{prop:axiszeckendorf-window-six-address-projection} and
+$|C_6\setminus X_6|=64-21=43$.
+\end{proof}
+
 \begin{principle}[Finite window is not a unique address stream]
 \label{prin:axiszeckendorf-window-not-unique-stream}
 A Window-six state determines a cylinder in $X_\infty^Z$, not a unique
 inverse-limit address.  A unique stream read requires tail data such as a
 stream name, a projection-compatibility ledger, or a normalization route.
 Without such a row, $X_6$ is only a finite observation surface.
+\end{principle}
+
+\begin{principle}[Finite obstruction as inverse-limit refusal]
+\label{prin:axiszeckendorf-finite-obstruction-inverse-limit-refusal}
+The Window-six split
+$$
+C_6=X_6\sqcup(C_6\setminus X_6)
+$$
+is not merely a finite count.  It is an extension test against the
+inverse-limit carrier: admissible sixth windows have nonempty cylinders,
+and forbidden sixth windows have empty cylinders.  Thus a local forbidden
+pattern cannot be hidden by an infinite tail.
+
+The RH-facing analogue is the carrier-level obligation that a finite
+prime-window radial defect cannot extend to a completed zeta zero ledger.
+In the notation of
+\autoref{def:rh-defect-zero-incompatibility}, this is the role of
+$$
+\mathsf{DefectZeroIncompatibility}.
+$$
+Window six supplies the finite inverse-limit prototype, not the zeta
+incompatibility theorem itself.
 \end{principle}
 
 \section{Finite support and tower continuation}
@@ -175,6 +269,8 @@ $$
 $$
 whose positive solution is the golden scale $\varphi$.
 \end{definition}
+
+\input{parts/visions/axiszeckendorf/window_six_golden_mean_shift}
 
 \begin{principle}[Window six is not the fixed object]
 \label{prin:axiszeckendorf-window-six-not-fixed-object}

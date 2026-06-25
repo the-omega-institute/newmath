@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCondensationDyadicBlockWitnessUp$}
+\label{ch:concrete-instances-cauchy-condensation-dyadic-block-witness-namecert}
+\origin{human}
+
+Following Cauchy and Bishop--Bridges constructive analysis, the $\CauchyCondensationDyadicBlockWitnessUp$ packet isolates the finite dyadic block-witness row used by the condensation route before theorem-level summability or completeness claims are read. It sits between the source-series carrier of \autoref{ch:concrete-instances-realseries-namecert}, the finite block packet of \autoref{ch:concrete-instances-cauchy-condensation-packet-namecert}, the theorem packet of \autoref{ch:concrete-instances-cauchy-condensation-theorem-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The witness packet records only the displayed finite block data for one dyadic window; it is not host summability, quotient equality of series, selected infinite sums, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy condensation dyadic block witness carrier]
+\label{def:cauchy-condensation-dyadic-block-witness-carrier}
+A $\CauchyCondensationDyadicBlockWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,D,W,M,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the positive decreasing $\RealSeriesUp$ source row whose inspected tail supplies the block terms.
+\item $D$ is the $\DyadicRatCoreUp$ endpoint row naming the dyadic block bounds and precision scale used by the finite witness.
+\item $W$ is the finite block witness ledger, listing the displayed terms between the two dyadic endpoints and the associated condensed row.
+\item $M$ is the monotone endpoint comparison row, recording the decreasing-source inequalities needed to compare the finite block with its dyadic endpoint terms.
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational data extracted from the displayed block window.
+\item $E$ is the $\RealUp$ seal row reached only after $A,D,W,M,R$ have stayed visible.
+\item $H$ records componentwise $\hsame$ transport for the source, dyadic endpoint, witness ledger, monotone comparison, readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a condensation consumer request through the source tail, dyadic endpoints, finite witness ledger, monotone comparison, rational readback, and real-facing seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyCondensationDyadicBlockWitnessUp$, $\CauchyCondensationPacketUp$, $\CauchyCondensationTheoremUp$, $\RealSeriesUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyCondensationDyadicBlockWitnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,D,W,M,R,E,H,C,P,N$. It has no coordinate for an infinite series sum, host convergence theorem, quotient stream equality, selected limiting value, countable choice, or ambient completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyCondensationDyadicBlockWitnessUp.CauchyCondensationDyadicBlockWitnessTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy condensation dyadic block witness NameCert obligations]
+\label{thm:cauchy-condensation-dyadic-block-witness-namecert-obligations}
+For every accepted $\CauchyCondensationDyadicBlockWitnessUp$ carrier $B=(A,D,W,M,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyCondensationDyadicBlockWitnessUp}$ surface consists exactly of carrier admission for the positive decreasing $\RealSeriesUp$ source row, dyadic endpoint exposure through $\DyadicRatCoreUp$, finite block witness ledger exposure, monotone endpoint comparison, $\RegSeqRatUp$ readback, $\RealUp$ sealing, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A consumer therefore reads the block witness only through the finite route
+$$
+A,D,W,M,R \longmapsto E,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:cauchy-condensation-dyadic-block-witness-carrier}. The source row $A$ names the positive decreasing series, and the dyadic endpoint row $D$ fixes the finite block window inspected by the witness ledger $W$.
+
+The monotone comparison row $M$ is then read before any condensed term or endpoint estimate is consumed. It keeps the comparison local to the displayed block and prevents a consumer from replacing the witness ledger by an ambient summability statement.
+
+The rational readback row $R$ and real seal row $E$ are reached only after $A,D,W,M$ remain visible. Finally $H,C,P,N$ transport, replay, source, and name that same finite route, so no quotient stream, selected limit, host convergence theorem, countable-choice selector, or completeness witness enters the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Cauchy condensation dyadic block witness Real handoff]
+\label{thm:cauchy-condensation-dyadic-block-witness-real-handoff}
+Every $\RealUp$-facing or completion-facing consumer of an accepted $\CauchyCondensationDyadicBlockWitnessUp$ carrier $B=(A,D,W,M,R,E,H,C,P,N)$ must first display the positive decreasing source row $A$, dyadic endpoint row $D$, finite block witness ledger $W$, monotone endpoint comparison row $M$, and $\RegSeqRatUp$ readback row $R$. The handoff to $\CauchyCondensationPacketUp$ and $\CauchyCondensationTheoremUp$ may consume the seal row $E$ only as this displayed finite block route. It does not assert host summability, equality of infinite series, selected sums, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:cauchy-condensation-dyadic-block-witness-namecert-obligations}. They require $A,D,W,M,R$ to be displayed before the real-facing seal $E$ is read.
+
+The condensation packet and theorem siblings consume only that finite witness row. The packet of \autoref{ch:concrete-instances-cauchy-condensation-packet-namecert} records the surrounding condensation carrier, and \autoref{ch:concrete-instances-cauchy-condensation-theorem-namecert} reads theorem-level block data only after the dyadic witness has kept its source, endpoint, ledger, comparison, and readback rows visible.
+
+Finally the structural rows $H,C,P,N$ preserve the same finite route by transport, replay, provenance, and local naming. Since the accepted carrier contains no coordinate for host summability, quotient equality of infinite series, selected sums, countable choice, or ambient completeness, the Real handoff remains a finite block-witness handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyCondensationDyadicBlockWitnessUp$ read that exports a Real-facing block estimate without displaying the positive decreasing source, dyadic endpoints, finite witness ledger, monotone comparison, RegSeqRat readback, transport, replay, provenance, and local naming is outside the carrier surface.}
+
+\independenceWitness{cauchy-condensation-packet, cauchy-condensation-theorem, realseries, dyadicratcore, regseqrat: none is bijective to $\CauchyCondensationDyadicBlockWitnessUp$ because this packet jointly carries one finite dyadic block witness ledger, its positive decreasing source row, endpoint core, monotone comparison, rational readback, Real seal, transport, replay, provenance, and local naming while refusing theorem-level summability.}
+
+\closureat{CauchyCondensationDyadicBlockWitnessUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCondensationDyadicBlockWitnessUp}
+  \constructivestory{A $\CauchyCondensationDyadicBlockWitnessUp$ packet is generated from a positive decreasing RealSeries source row, a DyadicRatCore endpoint row, a finite block witness ledger, a monotone endpoint comparison row, a RegSeqRat readback row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-condensation-dyadic-block-witness-carrier}, \autoref{thm:cauchy-condensation-dyadic-block-witness-namecert-obligations}, and \autoref{thm:cauchy-condensation-dyadic-block-witness-real-handoff} seed the finite dyadic block-witness route consumed by condensation packets and theorem-level Real handoffs.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host summability, equality of infinite series, selected sums, countable choice, Lean verification, bridge checking, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic endpoint exposure, block-witness ledger exactness, monotone comparison stability, regular readback nonescape, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyCondensationDyadicBlockWitnessUp.}
+\end{closurestatus}

@@ -1,0 +1,11 @@
+\begin{theorem}[Cauchy subsequence extractor minimum-modulus cofinal route]
+\label{thm:cauchy-subsequence-extractor-min-modulus-cofinal-route}
+Every accepted $\CauchySubsequenceExtractorUp$ route that reads the regular-Cauchy minimum-modulus witness before exposing the extraction row $E$ also hands the same finite monotone extraction row to $\RegularCauchyCofinalSubsequenceUp$ before the inherited $\RealUp$ seal is exposed. Thus the source window $W$, dyadic tolerance ledger $D$, minimum-modulus witness, extraction row $E$, and terminal real-name row remain one displayed dependency surface for both the minimum-modulus route and the cofinal-subsequence consumer.
+\end{theorem}
+\begin{proof}
+Start with the selector-lattice handoff of \autoref{thm:cauchy-subsequence-extractor-selector-lattice-handoff}. It identifies $E$ as the finite monotone selector-lattice row over the displayed stream window and tolerance ledger, so no consumer receives an arbitrary subsequence selector.
+
+Use the completion-witness route of \autoref{thm:cauchy-subsequence-extractor-completion-witness-route}. The same row $E$ is exposed only after the source $\CauchyUp$ data, $\RegSeqRatUp$ readback, $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, and terminal $\RealUp$ seal have been kept visible.
+
+Finally read the two local dependency routes. The minimum-modulus forward link requires the extraction row to consume the regular-Cauchy minimum-modulus witness before the terminal seal is available, while the cofinal-subsequence dependency route sends that same finite monotone row to $\RegularCauchyCofinalSubsequenceUp$ before the inherited $\RealUp$ seal is exposed. Hence the minimum-modulus and cofinal reads compose through one displayed extractor route rather than through two detached host-side selections.
+\end{proof}

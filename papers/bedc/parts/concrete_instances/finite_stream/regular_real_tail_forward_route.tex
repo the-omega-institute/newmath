@@ -1,0 +1,15 @@
+\begin{theorem}[FiniteStream regular-real tail forward route]
+\label{thm:finite-stream-regular-real-tail-forward-route}
+Any $\RegularRealTailEquivalenceUp$ consumer of an accepted $\FiniteStreamUp$ packet must expose the finite request row $Q$, the $\ListUp$ spine $L$, the $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback boundary $R$, and the $\DyadicRatCoreUp$ tolerance row $D$ before reading the regular-real tail-equivalence boundary of \autoref{ch:concrete-instances-regular-real-tail-equivalence-namecert}. The forward route is therefore
+$$
+Q,L,W,R,D \longmapsto H,C,P,N,
+$$
+with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row supplied only after the finite request window has been displayed.
+\end{theorem}
+\begin{proof}
+Project the $\FiniteStreamUp$ carrier of \autoref{def:finite-stream-carrier}. The accepted packet stores exactly the finite request row $Q$, list spine $L$, StreamName window $W$, RegSeqRat readback boundary $R$, DyadicRatCore tolerance row $D$, and structural rows $H,C,P,N$.
+
+Apply the StreamName route of \autoref{thm:finite-stream-streamname-route}. It forces any downstream StreamName, RegSeqRat, DyadicRatCore, or Real-facing read to expose $Q,L,W$ before the readback, tolerance, transport, replay, provenance, or naming rows are consumed.
+
+Now read \autoref{ch:concrete-instances-regular-real-tail-equivalence-namecert} as the downstream consumer. Its same-real tail boundary consumes regular rational sources through a finite StreamName window and dyadic tolerance ledger, so a $\FiniteStreamUp$ source must provide $Q,L,W,R,D$ before that boundary is available. The route supplies finite request-window data only; it does not export quotient real equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}

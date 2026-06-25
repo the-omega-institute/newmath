@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-metacic-subject-reduction-residual-fence-namecert}
 \origin{ai}
 
-The $\MetaCICSubjectReductionResidualFenceUp$ packet realizes the dependent-codomain obstruction frontier of \autoref{ch:metacic-subject-reduction-obstruction} as finite discharge, residual, normalization-frontier, obstruction-retention, transport, replay, provenance, and local naming rows. It sits beside the subject-reduction discharge route, the MetaCIC normalization frontier, the closed application argument-stability boundary, and the beta-substitution preservation packet. The packet names the residual fence that remains after the independent-codomain application case has been separated from the dependent-codomain counterexample; it does not claim closed subject reduction, discharge any of the four hypotheses, or hide the obstruction boundary.
+The $\MetaCICSubjectReductionResidualFenceUp$ packet realizes the dependent-codomain obstruction frontier of \autoref{ch:metacic-subject-reduction-obstruction} as finite discharge, residual, normalization-frontier, obstruction-retention, transport, replay, provenance, and local naming rows. It consumes the obstruction-retention row of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert} and the normalization-frontier rows of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert} before any subject-reduction consumer can read the fence; it remains adjacent to the discharge route of \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}, the closed application argument-stability boundary of \autoref{ch:concrete-instances-closed-app-argument-stability-namecert}, and the beta-substitution preservation packet of \autoref{ch:concrete-instances-betasubstitutionpreservation-namecert}. The packet names the residual fence that remains after the independent-codomain application case has been separated from the dependent-codomain counterexample; it does not claim closed subject reduction, discharge any of the four hypotheses, or hide the obstruction boundary.
 
 \begin{definition}[MetaCIC subject-reduction residual fence carrier]
 \label{def:metacic-subject-reduction-residual-fence-carrier}
@@ -60,6 +60,20 @@ The residual and obstruction rows $R,O$ are then read together. They retain the 
 Use the candidate-normalization and transport rows $K,T$. These rows connect the fence to the normalization frontier, closed application argument-stability boundary, beta-substitution preservation packet, and subject-reduction discharge route, while keeping every cited object as a finite row.
 
 The replay and structural rows $Q,H,C,P,N$ preserve that same packet. Thus the accepted consumer receives a residual fence, not a hidden proof of closed subject reduction.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual fence sibling route]
+\label{thm:metacic-subject-reduction-residual-fence-orphan-link-route}
+Any residual-fence read of an accepted $\MetaCICSubjectReductionResidualFenceUp$ packet that reaches the audit-synthesis rows of \autoref{ch:concrete-instances-metacicauditsynthesispacket-namecert} must first pass through the subject-reduction boundary of \autoref{ch:concrete-instances-metacic-subject-reduction-boundary-namecert}. The route remains local to the fence: it records the order in which audit-synthesis data may be consumed, and it does not assert closed subject reduction, dependent-codomain preservation, candidate normalization as a preservation theorem, or discharge of the four simultaneous hypotheses.
+\end{theorem}
+\begin{proof}
+Project the accepted fence carrier $F=(D,R,K,O,T,Q,H,C,P,N)$. The residual row $R$ and obstruction-retention row $O$ are visible before any audit-synthesis consumer can read the replay row.
+
+Read the subject-reduction boundary sibling first. The boundary chapter supplies the finite place where the subject-reduction obstruction is exposed as boundary data rather than as a completed theorem, so the fence can hand $R,O$ to downstream audit rows only after that boundary is visible.
+
+Then read the audit-synthesis packet. Its rows may summarize the surrounding MetaCIC audit surface, but within this fence they are consumed through $T,Q,H,C,P,N$ as transport, replay, provenance, and naming data for the same residual route.
+
+Thus a consumer reaching audit-synthesis data has already passed through the subject-reduction boundary. Since no carrier coordinate erases $R,O$ or discharges $D$, the route remains a local dependency route rather than a proof of subject reduction.
 \end{proof}
 
 \falsifiablePrediction{A MetaCIC consumer that reads $\MetaCICSubjectReductionResidualFenceUp$ as closed subject reduction while omitting any of subjectreductiondischarge, metacic-subject-reduction-obstruction, metacic-normalization-frontier, closed-app-argument-stability, or betasubstitutionpreservation refutes the residual-fence classifier.}

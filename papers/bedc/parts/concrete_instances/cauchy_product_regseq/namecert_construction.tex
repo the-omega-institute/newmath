@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-cauchy-product-regseq-namecert}
 \origin{human}
 
-Following Bishop and Bridges on regular Cauchy sequences and finite product constructions, the $\CauchyProductRegSeqUp$ packet records the componentwise product of two regular Cauchy rational names as finite BEDC data. It consumes the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}, and the finite product carrier of \autoref{ch:concrete-instances-prod-namecert}. The packet supplies a product-regularity source for later Real algebra and product-metric routes without invoking quotient streams, selected limits, host real equality, countable choice, or Real completeness.
+Following Bishop and Bridges on regular Cauchy sequences and finite product constructions, the $\CauchyProductRegSeqUp$ packet records the componentwise product of two regular Cauchy rational names as finite BEDC data. It consumes the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readbacks of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}, and the finite product carrier of \autoref{ch:concrete-instances-prod-namecert}. The downstream projection route of \autoref{ch:concrete-instances-regular-cauchy-product-projection-namecert} reads this product-regularity packet before exporting component readbacks to Real algebra consumers. The packet supplies a product-regularity source for later Real algebra and product-metric routes without invoking quotient streams, selected limits, host real equality, countable choice, or Real completeness.
 
 \begin{definition}[CauchyProductRegSeq carrier]
 \label{def:cauchy-product-regseq-carrier}
@@ -56,6 +56,24 @@ Project the carrier $K=(S_0,S_1,R_0,R_1,D,P,H,C,Q,N)$ from \autoref{def:cauchy-p
 Apply \autoref{thm:cauchy-product-regseq-regularity}. The product row $P$ is reached only after the shared ledger has bounded both component reads, and the $\RealUp$ seal is read through the displayed regularity route rather than through an ambient completeness principle.
 
 The remaining rows $H,C,Q,N$ transport, replay, source, and name that same route. Since no other tolerance row is displayed, $D$ is the only budget available to product consumers, and none of quotient streams, selected limits, host multiplication, countable choice, or ambient $\RealUp$ completeness is exported.
+\end{proof}
+
+\begin{theorem}[CauchyProductRegSeq tail product bound]
+\label{thm:cauchy-product-regseq-tail-product-bound}
+For every accepted $\CauchyProductRegSeqUp$ carrier
+$$
+K=(S_0,S_1,R_0,R_1,D,P,H,C,Q,N),
+$$
+any product-tail consumer must display both input $\StreamNameUp$ windows $S_0,S_1$, both $\RegSeqRatUp$ readbacks $R_0,R_1$, the shared $\DyadicRatCoreUp$ tolerance ledger $D$ in its two component-read roles, and the finite product row $P$ before any $\RealUp$-facing product seal is read. The bound is consumed through the $\ProdUp$ sibling surface and the sibling route of \autoref{thm:cauchy-product-regseq-sibling-route}; it exports no quotient streams, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The windows $S_0,S_1$ display the inspected component tails, the readbacks $R_0,R_1$ expose the regular rational data, and the shared tolerance ledger $D$ records the finite dyadic budget available to the product-tail consumer.
+
+Apply the regularity theorem \autoref{thm:cauchy-product-regseq-regularity}. Each component read must remain a displayed $\StreamNameUp$ and $\RegSeqRatUp$ route controlled by the shared dyadic tolerance data before it can contribute to the product row.
+
+Route the pair through the $\ProdUp$ sibling surface. The finite product row $P$ is therefore reached only after both windows, both readbacks, and the shared tolerance ledger remain visible.
+
+Finally use the sibling route theorem \autoref{thm:cauchy-product-regseq-sibling-route}. It keeps the product read inside the displayed route before $H,C,Q,N$ are consumed, so no quotient stream, selected limit, countable-choice selector, host real equality, or ambient completeness witness is exported.
 \end{proof}
 
 \begin{closurestatus}{\CauchyProductRegSeqUp}

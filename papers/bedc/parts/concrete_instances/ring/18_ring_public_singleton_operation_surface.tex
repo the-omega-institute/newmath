@@ -73,6 +73,33 @@ zero-classifier package inside the same singleton endpoint. Thus every public
 consumer read is one of the five operation-table rows.
 \end{proof}
 
+\begin{theorem}[RingUp algebra sibling route]
+\label{thm:ringup-algebra-sibling-route}
+The singleton public $\RingUp$ surface consumes additive-group rows from
+\autoref{ch:concrete-instances-abgroup-namecert}, multiplicative-unit rows
+from \autoref{ch:concrete-instances-monoid-namecert}, and commutative
+specialization rows from \autoref{ch:concrete-instances-commring-namecert}
+before downstream algebra consumers read $\RingUp$. This route exposes the
+five-operation table without asserting a quotient ring or a non-singleton
+carrier.
+\end{theorem}
+\begin{proof}
+Project the public table of
+\autoref{thm:ring-singleton-operation-table-exhaustion}. The additive rows
+$\mathsf{add}$, $\mathsf{neg}$, and $0$ are read through the abelian-group
+surface, so every additive consumer keeps the $\AbGroupUp$ sibling route.
+
+The multiplicative rows $\mathsf{mul}$ and $1$ are read through the monoid
+surface. The singleton classifier and endpoint witnesses keep this
+multiplicative handoff inside the same finite operation table.
+
+Finally, any commutative specialization is routed through the
+$\CommRingUp$ sibling before it is exported to downstream algebra. Since the
+projected data are exactly the five singleton operation rows and their
+endpoint witnesses, the route introduces no quotient-ring claim and no
+non-singleton carrier.
+\end{proof}
+
 \begin{theorem}[RingUp singleton public certificate scope]
 \label{thm:ring-singleton-public-certificate-scope}
 The public scope of the concrete singleton $\RingUp$ certificate consists of

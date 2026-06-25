@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\BishopChainConnectedUp$}
+\label{ch:concrete-instances-bishop-chain-connected-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive connectedness of intervals, the $\BishopChainConnectedUp$ packet records interval chain-connectedness as finite NameCert data over located interval rows, dyadic interval-net cells, finite chain ledgers, and Real-facing readbacks. It sits next to the metric chain-connected route of \autoref{ch:concrete-instances-chain-connected-metric-namecert}, consumes the finite interval-net surface of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}, and reads its Real-facing source rows through \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet gives downstream interval and intermediate-value consumers a chain witness surface without invoking open-cover compactness, quotient equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop chain-connected carrier]
+\label{def:bishop-chain-connected-carrier}
+A $\BishopChainConnectedUp$ carrier is a finite $\BHist$ packet
+$$
+B=(I,A,Z,D,J,W,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the located interval row, including the named endpoints, locatedness witnesses for endpoint comparisons, and the interval side on which the chain is read.
+\item $A$ is the endpoint-pair row whose members are to be joined inside the located interval surface.
+\item $Z$ is the finite chain ledger. It lists the inspected chain nodes, adjacency witnesses, and the finite successor route from the first endpoint row to the second endpoint row.
+\item $D$ is the dyadic tolerance and endpoint-arithmetic ledger used by the chain steps.
+\item $J$ is the $\DyadicIntervalNetUp$ cell row that supplies the finite dyadic interval-net cells through which the chain route is inspected.
+\item $W$ is the $\StreamNameUp$ finite-window row for endpoint names, chain nodes, and cell endpoints.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those same windows and dyadic tolerances.
+\item $Q$ is the terminal $\RealUp$ seal row, available only after $I,A,Z,D,J,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval row, endpoint pair, chain ledger, dyadic data, interval-net cells, windows, readbacks, Real seal, and structural rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+I,A,Z,D,J \longmapsto W,R \longmapsto Q,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopChainConnectedUp$, $\ChainConnectedMetricUp$, $\DyadicIntervalNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopChainConnectedUp}$ row.
+\end{enumerate}
+The carrier exports only this displayed finite packet. It has no coordinate for open-cover compactness, quotient equality of real names, a selected global path, countable choice, trichotomy, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Bishop chain-connected NameCert obligations]
+\label{thm:bishop-chain-connected-namecert-obligations}
+For every accepted $\BishopChainConnectedUp$ carrier $B=(I,A,Z,D,J,W,R,Q,H,C,P,N)$, the local $\NameCert_{\BishopChainConnectedUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item interval admission: the located interval row $I$ and endpoint-pair row $A$ are displayed before any chain read;
+\item finite chain ledger: the chain nodes, adjacency rows, and successor route are exhausted by the finite ledger $Z$;
+\item dyadic cell support: every chain step reads the dyadic arithmetic row $D$ and the $\DyadicIntervalNetUp$ cell row $J$ before it reaches a Real-facing boundary;
+\item source readback: endpoint and cell observations pass through the common $\StreamNameUp$ window $W$ and $\RegSeqRatUp$ readback row $R$ before the terminal $\RealUp$ seal $Q$ is consumed;
+\item structural provenance: $H,C,P,N$ transport, replay, source, and locally name only the displayed rows of the carrier.
+\end{enumerate}
+No NameCert obligation is stored outside these rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.BishopChainConnectedUp.BishopChainConnectedCarrier\_namecert\_obligations}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-chain-connected-carrier}. The located interval row, endpoint pair, finite chain ledger, dyadic arithmetic, interval-net cells, window, readback, Real seal, and structural rows are all coordinates of the same finite packet.
+
+The chain obligation is finite because $Z$ supplies the only allowed node and adjacency list. A consumer can replay a chain step only by reading a displayed successor entry of $Z$ together with the dyadic support rows $D$ and $J$.
+
+The Real-facing obligation is downstream. The StreamName window $W$ and RegSeqRat readback $R$ are read before $Q$, and the structural rows $H,C,P,N$ preserve that ordering componentwise. Since the carrier has no coordinate for open covers, quotient equality, choice, trichotomy, or completeness, none of those principles can be exported by the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop chain-connected interval handoff]
+\label{thm:bishop-chain-connected-interval-handoff}
+Every interval-facing consumer of an accepted $\BishopChainConnectedUp$ carrier must read the located interval row $I$, endpoint pair $A$, finite chain ledger $Z$, dyadic tolerance and endpoint-arithmetic row $D$, $\DyadicIntervalNetUp$ cell row $J$, $\StreamNameUp$ window $W$, $\RegSeqRatUp$ readback row $R$, and terminal $\RealUp$ seal $Q$ in that displayed order. The handoff may then pass the packet to Real interval, compact interval, or intermediate-value consumers as a finite chain-connected source, but it may not replace the source by open-cover compactness, host real equality, quotient stream equality, selected paths, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.BishopChainConnectedUp.BishopChainConnectedCarrier\_interval\_handoff}
+\begin{proof}
+Start with the obligation theorem \autoref{thm:bishop-chain-connected-namecert-obligations}. It forces every accepted interval read to expose the located interval and endpoint-pair rows before a chain witness is consumed.
+
+Next read the finite chain and dyadic support rows. The ledger $Z$ supplies the chain nodes and adjacency route, while $D$ and the interval-net row $J$ provide the dyadic endpoint arithmetic and finite cell incidence needed by each step.
+
+Finally pass through the source readback rows $W,R,Q$ and the structural rows $H,C,P,N$. This is the same Real-facing order used by the dyadic interval-net route of \autoref{ch:concrete-instances-dyadic-interval-net-namecert} and the metric chain-connected sibling \autoref{ch:concrete-instances-chain-connected-metric-namecert}. Thus downstream interval consumers receive a displayed finite chain-connected packet and no ambient compactness, equality, choice, or completeness endpoint.
+\end{proof}
+
+\closureat{BishopChainConnectedUp}{seedStr}
+
+\begin{closurestatus}{\BishopChainConnectedUp}
+  \constructivestory{A $\BishopChainConnectedUp$ packet is generated from a located interval row, endpoint-pair row, finite chain ledger, dyadic endpoint arithmetic, DyadicIntervalNet cells, StreamName windows, RegSeqRat readback, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-chain-connected-carrier}, \autoref{thm:bishop-chain-connected-namecert-obligations}, and \autoref{thm:bishop-chain-connected-interval-handoff} seed the Bishop chain-connected interval route over located interval rows, finite chain ledgers, dyadic interval-net cells, StreamName windows, RegSeqRat readbacks, Real seals, transport, replay, provenance, and local naming.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.BishopChainConnectedUp.BishopChainConnectedCarrier\_namecert\_obligations}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, quotient equality of real names, selected global paths, countable choice, trichotomy, ambient RealUp completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite chain-ledger replay, dyadic interval-net support, StreamName and RegSeqRat readback routing, Real seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.BishopChainConnectedUp.}
+\end{closurestatus}

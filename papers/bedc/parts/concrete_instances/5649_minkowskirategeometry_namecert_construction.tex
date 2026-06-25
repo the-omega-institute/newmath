@@ -170,6 +170,45 @@ It aligns field faithfulness with the same single carrier; it does not enlarge t
 \end{proof}
 \leanchecked{BEDC.Derived.MinkowskiRateGeometryUp.MinkowskiRateGeometryScopeBinding}
 
+\begin{theorem}[Minkowski rate geometry public certificate]
+\label{thm:minkowski-rate-geometry-public-certificate}
+The public certificate exported by $\MinkowskiRateGeometryUp$ is exactly the finite route
+$$
+G,X,R,L,D,H,C,P,N.
+$$
+It consumes the displayed $\MultiHistConfigUp$, $\CrossHistCausalUp$, $\MaxCausalRateUp$, and $\LorentzFrameRateUp$ rows, then exposes only the rate-induced distance-shape ledger, componentwise transport, continuation route, provenance, and local name. It refuses metric tensors, host real coordinates, synchronized clocks, global frames, and ambient Lorentz manifolds as public certificate fields.
+\end{theorem}
+\begin{proof}
+Start with the carrier envelope of \autoref{def:minkowski-rate-geometry-carrier} and \autoref{thm:minkowski-rate-geometry-carrier-envelope}. These identify the complete public inventory as $G,X,R,L,D,H,C,P,N$.
+
+Apply the NameCert obligations, observer symmetry, non-escape, ledger exactness, and scope binding from \autoref{thm:minkowski-rate-geometry-namecert-obligations}, \autoref{thm:minkowski-rate-geometry-symmetry}, \autoref{thm:minkowski-rate-geometry-nonescape}, \autoref{thm:minkowski-rate-geometry-ledger-exactness}, and \autoref{thm:minkowski-rate-geometry-scope-binding}. They force every distance-shape read to pass through the upstream multi-Hist, causal, maximum-rate, and Lorentz-frame-rate rows before it reaches $D$.
+
+Finally use the TasteGate marker
+$$
+\texttt{BEDC.Derived.MinkowskiRateGeometryUp.MinkowskiRateGeometryTasteGate\_single\_carrier\_alignment}.
+$$
+It records field faithfulness for the single carrier and does not admit any extra coordinate. Hence the certificate is public exactly at the listed finite route and refuses continuum Lorentz data outside that route.
+\end{proof}
+\leanchecked{BEDC.Derived.MinkowskiRateGeometryUp.MinkowskiRateGeometryPublicCertificate}
+
+\begin{theorem}[Minkowski rate geometry public export]
+\label{thm:minkowski-rate-geometry-public-export}
+Any downstream consumer may cite the finite route
+$$
+G,X,R,L,D,H,C,P,N
+$$
+as the public $\MinkowskiRateGeometryUp$ certificate. The export is exactly the rate-induced distance-shape ledger carried by the accepted packet, and it still refuses metric tensors, coordinate charts, synchronized clocks, global frames, host real speeds, curved spacetime, and ambient Lorentz manifolds.
+\end{theorem}
+\begin{proof}
+Start with the carrier envelope and NameCert obligations of \autoref{thm:minkowski-rate-geometry-carrier-envelope} and \autoref{thm:minkowski-rate-geometry-namecert-obligations}. They make $G,X,R,L,D,H,C,P,N$ the complete public inventory and require every distance-shape read to pass through the displayed upstream rows.
+
+Use ledger exactness, non-escape, and scope binding from \autoref{thm:minkowski-rate-geometry-ledger-exactness}, \autoref{thm:minkowski-rate-geometry-nonescape}, and \autoref{thm:minkowski-rate-geometry-scope-binding}. These keep the geometry surface inside the finite rate-induced ledger and exclude every external tensor, chart, clock, frame, host-speed, spacetime, or manifold coordinate.
+
+Finally apply the public certificate theorem, \autoref{thm:minkowski-rate-geometry-public-certificate}. It identifies the cited route as the public certificate itself, so the export is precisely the finite rate-induced distance-shape ledger and nothing outside that ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.MinkowskiRateGeometryUp.MinkowskiRateGeometry\_public\_export\_route}
+\leanchecked{BEDC.Derived.MinkowskiRateGeometryUp.MinkowskiRateGeometryPublicExport}
+
 \falsifiablePrediction{Deleting the observer-symmetry row permits two observers over the same MaxCausalRateUp packet to read incompatible geometry rows, while deleting the MaxCausalRateUp row leaves no rate-induced distance boundary.}
 
 \independenceWitness{Nearest siblings: multihistconfig, crosshistcausal, maxcausalrate, lorentzframerate, and observerlocalitytransport; no bijection exists because this carrier adds a symmetric distance-shape ledger that each sibling explicitly lacks or refuses.}
@@ -182,7 +221,6 @@ It aligns field faithfulness with the same single carrier; it does not enlarge t
   \scopeclosed{\autoref{def:minkowski-rate-geometry-carrier}, \autoref{thm:minkowski-rate-geometry-namecert-obligations}, \autoref{thm:minkowski-rate-geometry-symmetry}, \autoref{thm:minkowski-rate-geometry-nonescape}, \autoref{thm:minkowski-rate-geometry-tastegate-obligation}, \autoref{thm:minkowski-rate-geometry-carrier-envelope}, \autoref{thm:minkowski-rate-geometry-classifier-stability}, \autoref{thm:minkowski-rate-geometry-ledger-exactness}, and \autoref{thm:minkowski-rate-geometry-scope-binding} specify the finite rate-to-geometry packet, its NameCert obligations, observer-symmetry boundary, non-escape surface, TasteGate instance surface, carrier envelope, classifier stability, ledger exactness, and finite scope binding.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
   \notclaimed{This chapter does not close a metric tensor, coordinate chart, synchronized clock, global frame, ambient Lorentz manifold, host real-valued speed, curved spacetime, Lean verification, or bridge checking for $\MinkowskiRateGeometryUp$.}
   \upgradepath{Obligation closure requires checked carrier admission, upstream exactness, distance-shape exactness, observer symmetry, route stability, non-escape, and TasteGate nontriviality with field faithfulness.}
 \end{closurestatus}
