@@ -163,28 +163,70 @@ At the separated row $S$, the same induction invariant gains the comparison boun
 The terminal structural rows $H,R,P,N$ transport, replay, package, and name the already established prefix data. The replay non-escape theorem \autoref{thm:cauchy-completion-minimality-replay-nonescape} closes the induction by showing that these rows expose no bypass around dense-image coverage, universal factorization, separated uniqueness, or reflector-unit factoring. Thus every prefix of the displayed finite route preserves the same minimal completion service boundary and refuses the excluded quotient, representative-selection, host-equality, choice, compactness, and ambient real-completeness principles.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionMinimality carrier admission]
+\label{thm:cauchy-completion-minimality-carrier-admission}
+Let $M=(X,C,E,U,F,S,H,R,P,N)$ be an accepted $\CauchyCompletionMinimalityUp$ carrier. Carrier admission for $M$ is exactly the finite admission of the source metric row $X$, displayed completion row $C$, dense embedding row $E$, universal-property row $U$, uniformly continuous extension row $F$, separated uniqueness row $S$, componentwise transport row $H$, replay row $R$, provenance row $P$, and local naming row $N$.
+
+No admitted coordinate of $M$ supplies quotient completion, selected representatives, host equality, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-completion-minimality-carrier}. Its ten rows are precisely $X,C,E,U,F,S,H,R,P,N$, and the defining list assigns one completion-minimality role to each row.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-completion-minimality-namecert-obligations}. The first obligation is carrier admission for exactly those rows, while the ledger non-escape obligation forbids any additional completion principle from entering the packet.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMinimality transport stability]
+\label{thm:cauchy-completion-minimality-transport-stability}
+Let $M=(X,C,E,U,F,S,H,R,P,N)$ and $M'=(X',C',E',U',F',S',H',R',P',N')$ be accepted $\CauchyCompletionMinimalityUp$ carriers with componentwise $\hsame$ witnesses for the source, completion, embedding, universal-property, extension, separatedness, replay, provenance, and naming rows. If the displayed $\Cont$ route reads $X,C,E,U,F,S,H,R,P,N$, then the transported route reads $X',C',E',U',F',S',H',R',P',N'$ with the same dense-image, universal-factorization, separated-uniqueness, replay non-escape, and carrier-admission obligations.
+
+The transport preserves the absence of quotient completion, selected representatives, host equality, countable choice, open-cover compactness, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use the componentwise transport row $H$ of the first carrier and the corresponding row $H'$ of the second carrier. These rows witness $\hsame$ for the components that can be read by the minimality packet, so each visible obligation can be moved component by component.
+
+The displayed $\Cont$ row $R$ orders the source, completion, embedding, universal-property, extension, separatedness, transport, provenance, and naming reads. Transporting along the matching $\hsame$ witnesses gives the route through $R'$ with the same row order.
+
+Finally apply \autoref{thm:cauchy-completion-minimality-finite-row-induction}. Since every prefix obligation is preserved before the terminal structural rows are read, the transported carrier keeps dense-image coverage, universal factorization, separated uniqueness, replay non-escape, and ledger non-escape without adding any excluded coordinate.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionMinimality ledger exactness]
+\label{thm:cauchy-completion-minimality-ledger-exactness}
+Let $M=(X,C,E,U,F,S,H,R,P,N)$ be an accepted $\CauchyCompletionMinimalityUp$ carrier. The ledger rows $R,P,N$ are exact for the finite service boundary
+$$
+X\longmapsto C\longmapsto E\longmapsto U\longmapsto F\longmapsto S\longmapsto H\longmapsto R\longmapsto P\longmapsto N .
+$$
+They record the displayed replay, BEDC provenance, and local $\NameCert_{\CauchyCompletionMinimalityUp}$ name, and they record no completion principle outside the rows already admitted by the carrier.
+\end{theorem}
+\begin{proof}
+Read the replay row $R$ as the ordered $\Cont$ route through the admitted rows. The route is the same finite row sequence used by \autoref{thm:cauchy-completion-minimality-finite-row-induction}.
+
+Read $P$ as provenance for the displayed completion, embedding, universal-property, extension, separatedness, history, transport, continuation, package, and NameCert rows, and read $N$ as the local name for this packet. These two rows do not add an independent service coordinate.
+
+The replay non-escape theorem \autoref{thm:cauchy-completion-minimality-replay-nonescape} and the carrier-admission theorem \autoref{thm:cauchy-completion-minimality-carrier-admission} together show that $R,P,N$ only preserve the admitted service boundary. Hence the ledger is exact for the listed rows and excludes quotient completion, selected representatives, host equality, countable choice, open-cover compactness, and ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[CauchyCompletionMinimality obligation export]
 \label{thm:cauchy-completion-minimality-obligation-export}
-An accepted $\CauchyCompletionMinimalityUp$ carrier exports exactly the dense-image coverage, universal factorization, reflector-unit factorization, dense-extension uniqueness, separated-reflection route, replay non-escape, and finite-row induction rows displayed in this chapter. The exported package is read through the same finite service route
+An accepted $\CauchyCompletionMinimalityUp$ carrier exports exactly the carrier admission, dense-image coverage, universal factorization, reflector-unit factorization, dense-extension uniqueness, separated-reflection route, replay non-escape, finite-row induction, transport stability, and ledger exactness rows displayed in this chapter. The exported package is read through the same finite service route
 $$
 X\longmapsto C\longmapsto E\longmapsto U\longmapsto F\longmapsto S\longmapsto H\longmapsto R\longmapsto P\longmapsto N .
 $$
 It has no coordinate for quotient completion, selected limits, host equality, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
 \end{theorem}
 \begin{proof}
-Project the carrier of \autoref{def:cauchy-completion-minimality-carrier}. Its rows are exactly the source metric, displayed completion, dense embedding, universal-property, uniformly continuous handoff, separated uniqueness, componentwise transport, replay, provenance, and local naming rows.
+Project the carrier of \autoref{def:cauchy-completion-minimality-carrier}. Its rows are exactly the source metric, displayed completion, dense embedding, universal-property, uniformly continuous handoff, separated uniqueness, componentwise transport, replay, provenance, and local naming rows. Carrier admission is therefore supplied by \autoref{thm:cauchy-completion-minimality-carrier-admission}.
 
-The NameCert obligations of \autoref{thm:cauchy-completion-minimality-namecert-obligations} give carrier admission, dense-image coverage, universal factorization, separated uniqueness, and ledger non-escape. The dense-image, universal-factorization, reflector-unit, dense-extension uniqueness, separated-reflection, and replay non-escape theorems refine those clauses into the named rows.
+The NameCert obligations of \autoref{thm:cauchy-completion-minimality-namecert-obligations} give dense-image coverage, universal factorization, separated uniqueness, and ledger non-escape. The dense-image, universal-factorization, reflector-unit, dense-extension uniqueness, separated-reflection, and replay non-escape theorems refine those clauses into the named rows.
 
-Finally apply finite route induction, \autoref{thm:cauchy-completion-minimality-finite-row-induction}. It preserves each previously displayed obligation along the route from $X$ to $N$ and prevents later rows from replacing them by quotient completion, selected limits, host equality, choice, compactness, or ambient real-completeness data. Thus the accepted carrier exports exactly the stated obligation package.
+Finally apply finite route induction, \autoref{thm:cauchy-completion-minimality-finite-row-induction}, transport stability, \autoref{thm:cauchy-completion-minimality-transport-stability}, and ledger exactness, \autoref{thm:cauchy-completion-minimality-ledger-exactness}. These rows preserve each previously displayed obligation along the route from $X$ to $N$ and prevent later rows from replacing them by quotient completion, selected limits, host equality, choice, compactness, or ambient real-completeness data. Thus the accepted carrier exports exactly the stated obligation package.
 \end{proof}
 
 \begin{closurestatus}{\CauchyCompletionMinimalityUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-completion-minimality-carrier}, \autoref{thm:cauchy-completion-minimality-namecert-obligations}, \autoref{thm:cauchy-completion-minimality-universal-factorization}, and \autoref{thm:cauchy-completion-minimality-reflector-unit} seed the finite minimal Cauchy-completion service boundary over source metrics, displayed completion rows, dense embeddings, universal extension, uniformly continuous handoff, separated uniqueness, and the reflector-unit handoff.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-minimality-carrier}, \autoref{thm:cauchy-completion-minimality-namecert-obligations}, \autoref{thm:cauchy-completion-minimality-carrier-admission}, \autoref{thm:cauchy-completion-minimality-transport-stability}, and \autoref{thm:cauchy-completion-minimality-ledger-exactness} state the finite obligation surface for source metrics, displayed completion rows, dense embeddings, universal extension, uniformly continuous handoff, separated uniqueness, transport, replay, provenance, and local naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completions, selected representatives, host equality, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.}
-  \upgradepath{Obligation closure requires checked carrier admission, dense-image coverage, universal factorization, separated uniqueness, replay exactness, and ledger non-escape for BEDC.Derived.CauchyCompletionMinimalityUp.}
+  \upgradepath{Scoped closure requires a public exported package for BEDC.Derived.CauchyCompletionMinimalityUp; Lean verification remains outside this chapter.}
   \constructivestory{A $\CauchyCompletionMinimalityUp$ packet is generated from a source metric with located source evidence, a displayed completion row, a dense completion embedding, a universal-property row, a uniformly continuous extension handoff, separated uniqueness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
 \end{closurestatus}
