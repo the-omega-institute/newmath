@@ -265,6 +265,20 @@ expect_fail BEDC_GATE_H_HOLLOW_PATTERN \
   python3 "$ROOT/scripts/check_no_hollow.py" "$ROOT/MATRIX.md" \
     "$TMP_DIR/gate_h_projection_exists.lean"
 
+cat > "$TMP_DIR/gate_r_local_int_law.lean" <<'EOF'
+namespace BEDC.Derived.GateRNegative
+
+theorem IntMul_assoc (a b c : IntegerUp) :
+    IntEq (IntMul (IntMul a b) c) (IntMul a (IntMul b c)) :=
+  by
+    exact canonicalShouldBeImported
+
+end BEDC.Derived.GateRNegative
+EOF
+
+expect_fail BEDC_GATE_R_LOCAL_INT_LAW \
+  python3 "$ROOT/scripts/check_canonical_int_law.py" "$TMP_DIR/gate_r_local_int_law.lean"
+
 cat > "$TMP_DIR/boundary_fake.md" <<'EOF'
 | row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
 | --- | --- | --- | --- | --- | --- | --- |
