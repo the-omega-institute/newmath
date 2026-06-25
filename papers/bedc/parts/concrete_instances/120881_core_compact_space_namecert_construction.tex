@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\CoreCompactSpaceUp$}
+\label{ch:concrete-instances-core-compact-space-namecert}
+\origin{human}
+
+Following Kelley and Johnstone on compact neighbourhoods and core-compact topology, the $\CoreCompactSpaceUp$ packet records a traditional topological-space carrier whose open-neighbourhood requests are mediated by compact containment and way-below data. It sits beside the indexed topology surface of \autoref{ch:concrete-instances-topology-namecert}, the compact carrier of \autoref{ch:concrete-instances-compact-namecert}, the neighbourhood-filter route of \autoref{ch:concrete-instances-neighborhood-filter-namecert}, the Scott-open handoff of \autoref{ch:concrete-instances-scott-topology-namecert}, and the sober-space point reconstruction boundary of \autoref{ch:concrete-instances-sober-space-namecert}. The packet gives compact-neighbourhood, Scott-topology, and sober-space consumers a finite NameCert surface for the way-below neighbourhood step, without asserting host powersets of opens, selected compact neighbourhoods, quotient open equality, choice-indexed bases, or ambient local compactness.
+
+\begin{definition}[CoreCompactSpace carrier]
+\label{def:core-compact-space-carrier}
+A $\CoreCompactSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,O,C,W,Nb,H,R,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row, exposing the point classifier, indexed open rows, finite-meet ledger, arbitrary-union ledger, and visible open-membership stability.
+\item $O$ is the displayed open-neighbourhood request. It names the open being inspected and the point or finite neighbourhood observation through which a consumer asks for compact containment.
+\item $C$ is the compact-containment witness row, recording that the requested neighbourhood admits a compact support row from the $\CompactUp$ surface before any consumer may read compactness.
+\item $W$ is the way-below and compact-neighbourhood handoff row. It records the finite route from $C$ to the way-below neighbourhood relation consumed by Scott-topology and sober-space reads.
+\item $Nb$ is the $\NeighborhoodFilterUp$ row, retaining the local filter discipline around the same displayed request rather than a host collection of all neighbourhoods.
+\item $H$ records componentwise $\hsame$ transport for topology source, open-neighbourhood request, compact containment, way-below handoff, neighbourhood filter, replay, provenance, and local naming.
+\item $R$ records displayed $\Cont$ replay from an open-neighbourhood request through $T,O,C,W,Nb,H$.
+\item $P$ is the $\Pkg$ provenance over $\CoreCompactSpaceUp$, $\TopologyUp$, $\CompactUp$, $\NeighborhoodFilterUp$, $\ScottTopologyUp$, $\SoberSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\CoreCompactSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $T,O,C,W,Nb,H,R,P,L$. It has no coordinate for host powersets of opens, selected compact neighbourhoods, quotient-open equality, a choice-indexed basis, ambient local compactness, or global spatiality.
+\end{definition}
+
+\begin{theorem}[CoreCompactSpace NameCert obligations]
+\label{thm:core-compact-space-namecert-obligations}
+For every accepted $\CoreCompactSpaceUp$ carrier $K=(T,O,C,W,Nb,H,R,P,L)$, the local $\NameCert_{\CoreCompactSpaceUp}$ surface consists exactly of topology-source admission, displayed open-neighbourhood request admission, compact-containment witness exposure, way-below compact-neighbourhood handoff, neighbourhood-filter retention, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every compact-neighbourhood consumer must read the route
+$$
+T,O,C,W,Nb,H,R,P,L
+$$
+before treating the request as a public core-compact-space handoff.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:core-compact-space-carrier}. The packet exposes one topology row, one displayed open-neighbourhood request, one compact-containment witness, one way-below handoff, and one neighbourhood-filter row.
+
+The compact-containment step is held by $C$. A consumer may not replace it by a selected compact neighbourhood or an open-cover compactness theorem, because the carrier stores only the displayed compact support row.
+
+The way-below handoff is held by $W$ and remains attached to the same request $O$. The neighbourhood-filter row $Nb$ records local filter discipline for that request, not a host set of all neighbourhoods.
+
+Finally $H,R,P,L$ transport, replay, source, and name the same finite route. Since the excluded host powersets, selected compact neighbourhoods, quotient-open equalities, choice-indexed bases, ambient local compactness, and global spatiality data are absent from the carrier, no local NameCert obligation can export them.
+\end{proof}
+
+\begin{theorem}[CoreCompactSpace way-below neighbourhood handoff]
+\label{thm:core-compact-space-way-below-neighborhood-handoff}
+Let $K=(T,O,C,W,Nb,H,R,P,L)$ be an accepted $\CoreCompactSpaceUp$ carrier. Any Scott-topology, sober-space, or compact-neighbourhood read that reaches the way-below row must first expose the $\TopologyUp$ source row $T$, the displayed request $O$, and the compact-containment row $C$. Only then may it read $W$ as the compact-neighbourhood handoff and $Nb$ as the matching $\NeighborhoodFilterUp$ route. The handoff exports no selected basis, no host compact-neighbourhood object, no quotient-open equality, no choice-indexed local compactness, and no global spatiality claim.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier and project $T,O,C$. These rows identify the topology source, the concrete open-neighbourhood request, and the compact support attached to that request.
+
+Apply \autoref{thm:core-compact-space-namecert-obligations}. It requires the way-below handoff $W$ and the neighbourhood-filter row $Nb$ to be read in the same route as $T,O,C$, then preserves the route through $H,R,P,L$.
+
+A $\ScottTopologyUp$ consumer may use $W$ as the compact-neighbourhood way-below input, and a $\SoberSpaceUp$ consumer may use the same visible neighbourhood route when point-reconstruction prose needs compact local support. In both cases the read remains the finite route named by the packet, so it cannot detach into selected bases, host compact neighbourhoods, quotient opens, choice-indexed local compactness, or global spatiality.
+\end{proof}
+
+\closureat{CoreCompactSpaceUp}{seedStr}
+
+\begin{closurestatus}{\CoreCompactSpaceUp}
+  \constructivestory{A $\CoreCompactSpaceUp$ packet is generated from a TopologyUp source row, displayed open-neighbourhood request, compact-containment witness row, way-below compact-neighbourhood handoff row, NeighborhoodFilterUp row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:core-compact-space-carrier}, \autoref{thm:core-compact-space-namecert-obligations}, and \autoref{thm:core-compact-space-way-below-neighborhood-handoff} seed the finite core-compact-space interface over topology, compact containment, way-below neighbourhoods, neighbourhood filters, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, host powersets of opens, selected compact neighbourhoods, quotient-open equality, choice-indexed bases, ambient local compactness, global spatiality, or bridge checking.}
+  \upgradepath{Obligation closure requires checked topology-source admission, displayed open-neighbourhood request admission, compact-containment exposure, way-below handoff, neighbourhood-filter retention, transport, replay, provenance, and local naming for BEDC.Derived.CoreCompactSpaceUp.}
+\end{closurestatus}

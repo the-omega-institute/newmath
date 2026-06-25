@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.EmptyBoundarySelectorUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -144,5 +147,39 @@ theorem EmptyBoundarySelectorTasteGate_single_carrier_alignment :
       Nonempty.intro emptyBoundarySelectorBHistCarrier,
       Nonempty.intro emptyBoundarySelectorChapterTasteGate,
       rfl⟩
+
+theorem EmptyBoundarySelectorWitness_exposure
+    {H M R E W T C P N boundaryRead witnessRead nameRead : BHist} :
+    UnaryHistory E →
+      UnaryHistory W →
+        UnaryHistory T →
+          UnaryHistory N →
+            Cont E W boundaryRead →
+              Cont boundaryRead T witnessRead →
+                Cont witnessRead N nameRead →
+                  emptyBoundarySelectorFromEventFlow
+                      (emptyBoundarySelectorToEventFlow
+                        (EmptyBoundarySelectorUp.mk H M R E W T C P N)) =
+                    some (EmptyBoundarySelectorUp.mk H M R E W T C P N) →
+                    UnaryHistory boundaryRead ∧
+                      UnaryHistory witnessRead ∧
+                        UnaryHistory nameRead ∧
+                          hsame
+                            (emptyBoundarySelectorDecodeBHist
+                              (emptyBoundarySelectorEncodeBHist W))
+                            W := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ChapterTasteGate
+  intro eUnary wUnary tUnary nUnary boundaryRoute witnessRoute nameRoute _readback
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed eUnary wUnary boundaryRoute
+  have witnessUnary : UnaryHistory witnessRead :=
+    unary_cont_closed boundaryUnary tUnary witnessRoute
+  have nameUnary : UnaryHistory nameRead :=
+    unary_cont_closed witnessUnary nUnary nameRoute
+  exact
+    ⟨boundaryUnary,
+      witnessUnary,
+      nameUnary,
+      EmptyBoundarySelectorTasteGate_single_carrier_alignment_decode_encode W⟩
 
 end BEDC.Derived.EmptyBoundarySelectorUp
