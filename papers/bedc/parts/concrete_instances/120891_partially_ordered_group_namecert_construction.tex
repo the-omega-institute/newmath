@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\PartiallyOrderedGroupUp$}
+\label{ch:concrete-instances-partially-ordered-group-namecert}
+\origin{human}
+
+Following Bourbaki on ordered algebraic structures and Fuchs on partially ordered groups, the $\PartiallyOrderedGroupUp$ packet records the finite NameCert surface for a group equipped with a translation-invariant partial order. It sits between the group carrier of \autoref{ch:concrete-instances-group-namecert}, the order surface of \autoref{ch:concrete-instances-order-namecert}, the poset carrier of \autoref{ch:concrete-instances-poset-namecert}, the monoid source of \autoref{ch:concrete-instances-monoid-namecert}, and the local $\NameCert$ transport rows used throughout the concrete-instance layer. The packet names order-compatible multiplication and inversion data; it does not assert totality, lattice operations, Archimedean comparison, ordered completion, or host equality of group functions.
+
+\begin{definition}[Partially ordered group carrier]
+\label{def:partially-ordered-group-carrier}
+A $\PartiallyOrderedGroupUp$ carrier is a finite $\BHist$ packet
+$$
+G=(A,O,P,M,I,K,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\GroupUp$ row, naming multiplication, inverse, neutral element, and the finite group-law surface.
+\item $O$ is the $\OrderUp$ row on the same carrier, recording reflexive, antisymmetric, and transitive comparison data.
+\item $P$ is the $\PosetUp$ readback row, exposing the order as a partial-order classifier rather than a preorder-only relation.
+\item $M$ is the $\MonoidUp$ source row for the multiplication law before inverses are inspected.
+\item $I$ records order transport under left and right multiplication by displayed group elements.
+\item $K$ records positive-cone data: neutral membership, multiplication closure, inverse reflection, and reconstruction of the order from the cone.
+\item $H$ records componentwise $\hsame$ transport for $A,O,P,M,I,K$ and the structural rows below.
+\item $C$ records displayed $\Cont$ replay from group-law reads to order reads, translation reads, positive-cone reads, provenance, and local naming.
+\item $Q$ is the $\Pkg$ provenance over $\PartiallyOrderedGroupUp$, $\GroupUp$, $\OrderUp$, $\PosetUp$, $\MonoidUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PartiallyOrderedGroupUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,O,P,M,I,K,H,C,Q,N$. It has no coordinate for total order, lattice meet or join, Archimedean law, ordered completion, quotient representative, or host-level group function equality.
+\end{definition}
+
+\begin{theorem}[Partially ordered group NameCert obligations]
+\label{thm:partially-ordered-group-namecert-obligations}
+For every accepted $\PartiallyOrderedGroupUp$ carrier $G=(A,O,P,M,I,K,H,C,Q,N)$, the local $\NameCert_{\PartiallyOrderedGroupUp}$ surface consists exactly of carrier admission for $G$, group exposure through $A$, order exposure through $O$, poset readback through $P$, monoid multiplication exposure through $M$, translation-invariance accountability through $I$, positive-cone accountability through $K$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $Q$, local naming through $N$, and nonescape excluding totality, lattice operations, Archimedean comparison, ordered completion, quotient representatives, and host group-function equality.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:partially-ordered-group-carrier}. The algebraic rows are $A$ and $M$, while the order rows are $O$ and $P$.
+
+The compatibility rows are separate. Translation invariance is read from $I$, and positive-cone stability is read from $K$; neither row is forced by merely naming a group or a poset.
+
+Finally $H,C,Q,N$ transport, replay, source, and name the same finite packet. Since the carrier has no further coordinate, the listed rows exhaust the local NameCert surface and block the excluded stronger structures.
+\end{proof}
+
+\begin{theorem}[Partially ordered group positive cone stability]
+\label{thm:partially-ordered-group-positive-cone-stability}
+In an accepted $\PartiallyOrderedGroupUp$ packet, the positive-cone row $K$ is stable under multiplication and reconstructs the displayed order row $O$ only through the group row $A$, monoid row $M$, and poset row $P$. A consumer may read positive elements and cone multiplication, but not total comparison, lattice operations, or completion data.
+\end{theorem}
+\begin{proof}
+Read $K$ as a displayed carrier row. It records neutral membership, multiplication closure, inverse reflection, and reconstruction of the order from the cone.
+
+The reconstruction is not detached from algebra. It uses the group operation from $A$, the multiplication law from $M$, and the partial-order classifier exposed through $O$ and $P$.
+
+Thus cone stability remains a finite positive-cone obligation inside the packet. It does not add totality, meets, joins, Archimedean comparison, or completion rows.
+\end{proof}
+
+\begin{theorem}[Partially ordered group order translation]
+\label{thm:partially-ordered-group-order-translation}
+Every accepted order comparison in a $\PartiallyOrderedGroupUp$ packet is stable under displayed left and right translation only through the row $I$ together with $A,O,P,M,H,C,Q,N$. Translation stability is part of the NameCert route and is not a host-level equality of group functions.
+\end{theorem}
+\begin{proof}
+Start with a comparison in $O$ and its partial-order readback in $P$. The group and monoid rows $A,M$ provide the displayed multiplication data used for translation.
+
+The row $I$ records the actual compatibility obligation: translating comparable elements on the left or right preserves the displayed order relation. Transport and replay keep this route visible through $H$ and $C$.
+
+Provenance and local naming record the route as part of the $\PartiallyOrderedGroupUp$ certificate. No coordinate identifies host functions or supplies comparison data outside the finite packet.
+\end{proof}
+
+\begin{theorem}[Partially ordered group nonescape]
+\label{thm:partially-ordered-group-nonescape}
+An accepted $\PartiallyOrderedGroupUp$ packet exports only the displayed rows $A,O,P,M,I,K,H,C,Q,N$. Any total order, lattice-ordered group structure, Archimedean principle, ordered completion theorem, quotient representative, or host equality of group operations must be supplied by another certificate.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. It contains group data, order data, poset readback, monoid multiplication, translation accountability, positive-cone accountability, transport, replay, provenance, and local naming.
+
+None of these rows is a total-order selector, a lattice operation, an Archimedean comparison principle, a completion theorem, a quotient representative, or a host function equality. The translation and cone rows are compatibility obligations internal to the finite packet.
+
+Therefore every legal consumer remains inside $A,O,P,M,I,K,H,C,Q,N$. Stronger ordered-algebra or completion claims require their own displayed NameCert rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\PartiallyOrderedGroupUp$ consumer displays the GroupUp row, OrderUp row, PosetUp readback, MonoidUp multiplication row, order-translation row, positive-cone row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before using order-compatible group structure.}
+
+\independenceWitness{group, order, poset, monoid: none is bijective because $\PartiallyOrderedGroupUp$ jointly carries group laws, partial-order readback, monoid multiplication, translation-invariance accountability, positive-cone stability, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{PartiallyOrderedGroupUp}{seedStr}
+
+\begin{closurestatus}{\PartiallyOrderedGroupUp}
+  \constructivestory{A $\PartiallyOrderedGroupUp$ packet is generated from a GroupUp row, an OrderUp row, a PosetUp readback row, a MonoidUp multiplication row, translation-invariance accountability, positive-cone accountability, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:partially-ordered-group-carrier}, \autoref{thm:partially-ordered-group-namecert-obligations}, \autoref{thm:partially-ordered-group-positive-cone-stability}, \autoref{thm:partially-ordered-group-order-translation}, and \autoref{thm:partially-ordered-group-nonescape} seed the finite order-compatible group certificate.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close total orders, lattice-ordered groups, Archimedean comparison, ordered completions, quotient representatives, host group-function equality, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, group exposure, order exposure, poset readback, monoid multiplication exposure, translation-invariance accountability, positive-cone accountability, transport, replay, provenance, and local naming for BEDC.Derived.PartiallyOrderedGroupUp.}
+\end{closurestatus}
