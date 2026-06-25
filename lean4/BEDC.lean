@@ -1030,7 +1030,6 @@ import BEDC.Derived.BishopLocatedIntervalRefinementMapUp.TasteGate
 import BEDC.Derived.BishopLocatedInverseFunctionUp.TasteGate
 import BEDC.Derived.BishopLocatedLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedMaximumUp.TasteGate
-import BEDC.Derived.BishopLocatedModulusUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletenessUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedRealFilterUp.TasteGate
@@ -3398,6 +3397,7 @@ import BEDC.Derived.CompleteArchimedeanFieldUp.TasteGate
 import BEDC.Derived.CompleteBaireSpaceUp.TasteGate
 import BEDC.Derived.CompleteMetricBaireSurfaceUp.TasteGate
 import BEDC.Derived.CompleteMetricContractionPrincipleUp.TasteGate
+import BEDC.Derived.CompleteMetricCriterionUp.TasteGate
 import BEDC.Derived.CompleteMetricNestedBallsUp.TasteGate
 import BEDC.Derived.CompleteMetricProductUp
 import BEDC.Derived.CompleteMetricProductUp.TasteGate
@@ -5296,7 +5296,6 @@ import BEDC.Derived.EqtypeUp
 import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
 import BEDC.Derived.EquicontinuityFiniteNetSelectorUp.TasteGate
-import BEDC.Derived.EquicontinuityRadiusChoiceUp.TasteGate
 import BEDC.Derived.EquicontinuityUp
 import BEDC.Derived.EquicontinuityUp.ArzelaAscoliBoundaryReadiness
 import BEDC.Derived.EquicontinuityUp.ArzelaAscoliConsumerRoute
@@ -10990,7 +10989,6 @@ import BEDC.Derived.ScientificObjectUp.ObligationClosurePackage
 import BEDC.Derived.ScientificObjectUp.RecordClassifierAdmission
 import BEDC.Derived.ScientificObjectUp.TasteGate
 import BEDC.Derived.ScientificObjectUp.TruthDomainGapScope
-import BEDC.Derived.ScottContinuousUp.TasteGate
 import BEDC.Derived.ScottDomainUp.TasteGate
 import BEDC.Derived.ScottRealUp.TasteGate
 import BEDC.Derived.ScottTopologyUp.TasteGate
@@ -11689,6 +11687,8 @@ import BEDC.Derived.SubjectReductionRouteUp.NameCertObligations
 import BEDC.Derived.SubjectReductionRouteUp.TasteGate
 import BEDC.Derived.SubjectReductionUp
 import BEDC.Derived.SubordinateFiniteModulusCoverUp.TasteGate
+import BEDC.Derived.SubordinateModulusCoverUp.CompactUniformConsumerBoundary
+import BEDC.Derived.SubordinateModulusCoverUp.FiniteSelectionScope
 import BEDC.Derived.SubordinateModulusCoverUp.LedgerExactness
 import BEDC.Derived.SubordinateModulusCoverUp.ObligationClosureRoute
 import BEDC.Derived.SubordinateModulusCoverUp.ScopeDependency
