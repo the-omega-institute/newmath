@@ -72,6 +72,20 @@ Route the late observations through the tail-filter handoff of \autoref{thm:regu
 Finally $H,C,P,N$ preserve and name the same finite packet. Hence the two reads agree on the dyadic tolerance row and terminal Real seal route without choosing a quotient stream, representative, or external completion object.
 \end{proof}
 
+\begin{theorem}[RegularSequenceSpace pointwise stream projection]
+\label{thm:regular-sequence-space-pointwise-stream-projection}
+Every accepted $\RegularSequenceSpaceUp$ read of a displayed family first exposes the source row $X$ and the $\StreamNameUp$ schedule $T$. It can therefore be projected to a finite PointwiseStreamName-style window, as in \autoref{ch:concrete-instances-pointwise-stream-namecert}, before the $\RegSeqRatUp$ readback $Q$, $\DyadicRatCoreUp$ tolerance row $D$, and $\RealUp$ seal route $R,H,C,P,N$ are consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-sequence-space-carrier}. The source row $X$ and stream schedule $T$ are the first two displayed coordinates of every accepted space read.
+
+Apply the NameCert obligations of \autoref{thm:regular-sequence-space-namecert-obligations}. They require schedule exposure before regular rational readback, dyadic tolerance exposure, and Real-facing sealing.
+
+Use the tail-filter handoff of \autoref{thm:regular-sequence-space-tail-filter-handoff}. Since the completion-facing route must pass through the same displayed schedule before $Q,D,R,H,C,P,N$ are available, the read has a finite window that may be routed through the pointwise stream sibling.
+
+The projection therefore consumes only $X$ and $T$ at the pointwise boundary. The later RegSeqRat, DyadicRatCore, and Real rows remain downstream and cannot be inspected before that finite window is displayed.
+\end{proof}
+
 \closureat{RegularSequenceSpaceUp}{seedStr}
 
 \begin{closurestatus}{\RegularSequenceSpaceUp}
