@@ -2951,6 +2951,7 @@ import BEDC.Derived.ClosedConsistencyAssemblyUp.ObligationHandoff
 import BEDC.Derived.ClosedConsistencyAssemblyUp.SiblingRouting
 import BEDC.Derived.ClosedConsistencyAssemblyUp.TasteGate
 import BEDC.Derived.ClosedConsistencyGapUp.TasteGate
+import BEDC.Derived.ClosedConsistencyReductionBoundaryUp.TasteGate
 import BEDC.Derived.ClosedGenerationRefusalUp.TasteGate
 import BEDC.Derived.ClosedIntervalApproximationUp.TasteGate
 import BEDC.Derived.ClosedIntervalBisectionUp.TasteGate
@@ -2971,6 +2972,7 @@ import BEDC.Derived.ClosedNormalConfluenceSealUp.PublicExport
 import BEDC.Derived.ClosedNormalConfluenceSealUp.SubstitutionBoundary
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyBoundaryUp.TasteGate
+import BEDC.Derived.ClosedNormalConsistencyMainUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyWitnessUp.TasteGate
 import BEDC.Derived.ClosedNormalEndpointLedgerUp.TasteGate
 import BEDC.Derived.ClosedNormalEndpointTransportUp.TasteGate
