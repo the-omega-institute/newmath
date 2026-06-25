@@ -13,9 +13,12 @@ import BEDC.Derived.AIConsciousnessSelfProxyLedgerUp.TasteGate
 import BEDC.Derived.AbGroupUp
 import BEDC.Derived.AbGroupUp.ForgetGroupCertificate
 import BEDC.Derived.AbGroupUp.TasteGate
+import BEDC.Derived.AbelCesaroTheoremUp.TasteGate
 import BEDC.Derived.AbelDirichletComparisonUp.TasteGate
+import BEDC.Derived.AbelDirichletTestUp.TasteGate
 import BEDC.Derived.AbelLimitTheoremUp.TasteGate
 import BEDC.Derived.AbelMeanBoundaryUp
+import BEDC.Derived.AbelMeanBoundaryUp.TasteGate
 import BEDC.Derived.AbelPartialSummationUp.TasteGate
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AbelRuffiniUp.TasteGate
@@ -2978,6 +2981,7 @@ import BEDC.Derived.ClosedNormalConfluenceSealUp.SubstitutionBoundary
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyBoundaryUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyMainUp.TasteGate
+import BEDC.Derived.ClosedNormalConsistencyPacketUp.NameCertObligations
 import BEDC.Derived.ClosedNormalConsistencyPacketUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyWitnessUp.TasteGate
 import BEDC.Derived.ClosedNormalEndpointLedgerUp.TasteGate
@@ -6978,6 +6982,7 @@ import BEDC.Derived.KleeneTreeUp.SpeckerBoundaryRoute
 import BEDC.Derived.KleeneTreeUp.TasteGate
 import BEDC.Derived.KleeneTreeUp.UniformStructureBoundary
 import BEDC.Derived.KleisliTraceUp.TasteGate
+import BEDC.Derived.KnoppTailCondensationUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.KochCurveUp.TasteGate
 import BEDC.Derived.KolmogorovContinuityUp
