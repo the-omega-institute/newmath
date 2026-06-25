@@ -6418,6 +6418,7 @@ import BEDC.Derived.HadamardThreeCircleUp.TasteGate
 import BEDC.Derived.HadamardThreeLinesUp.TasteGate
 import BEDC.Derived.HahnBanachUp.TasteGate
 import BEDC.Derived.HahnDecompositionUp.TasteGate
+import BEDC.Derived.HahnMazurkiewiczBoundaryUp.TasteGate
 import BEDC.Derived.HairyBallUp
 import BEDC.Derived.HalfOpenRealIntervalUp.TasteGate
 import BEDC.Derived.HallMarriageUp.TasteGate
