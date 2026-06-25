@@ -77,4 +77,80 @@ theorem SturmRootIsolationCarrier_sign_variation_handoff [AskSetup] [PackageSetu
   exact
     ⟨branchReadUnary, replayReadUnary, branchRoute, replayRoute, replayPkg, branchListed⟩
 
+theorem SturmRootIsolationCarrier_real_seal_nonescape [AskSetup] [PackageSetup]
+    {P I D V B W R S H C Q N branchRead windowRead handoffRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont B W branchRead →
+      Cont branchRead R handoffRead →
+        Cont handoffRead S sealRead →
+          PkgSig bundle sealRead pkg →
+            UnaryHistory B →
+              UnaryHistory W →
+                UnaryHistory R →
+                  UnaryHistory S →
+                    UnaryHistory branchRead ∧ UnaryHistory handoffRead ∧
+                      UnaryHistory sealRead ∧ Cont handoffRead S sealRead ∧
+                        PkgSig bundle sealRead pkg ∧
+                          List.Mem (sturmRootIsolationEncodeBHist S)
+                            (sturmRootIsolationToEventFlow
+                              (SturmRootIsolationUp.mk P I D V B W R S H C Q N)) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont ProbeBundle PkgSig UnaryHistory
+  intro branchRoute handoffRoute sealRoute sealPkg branchUnary windowUnary handoffUnary
+    sealUnary
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed branchUnary windowUnary branchRoute
+  have handoffReadUnary : UnaryHistory handoffRead :=
+    unary_cont_closed branchReadUnary handoffUnary handoffRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed handoffReadUnary sealUnary sealRoute
+  have sealListed :
+      List.Mem (sturmRootIsolationEncodeBHist S)
+        (sturmRootIsolationToEventFlow
+          (SturmRootIsolationUp.mk P I D V B W R S H C Q N)) := by
+    change
+      List.Mem (sturmRootIsolationEncodeBHist S)
+        [[BMark.b0], sturmRootIsolationEncodeBHist P, [BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist I, [BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist D, [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist V,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist B,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist W,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist R,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b0],
+          sturmRootIsolationEncodeBHist S,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist H,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist C,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist Q,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist N]
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    left
+  exact
+    ⟨branchReadUnary, handoffReadUnary, sealReadUnary, sealRoute, sealPkg, sealListed⟩
+
 end BEDC.Derived.SturmRootIsolationUp
