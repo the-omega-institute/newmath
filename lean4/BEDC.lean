@@ -5390,6 +5390,7 @@ import BEDC.Derived.FibonacciCubeUp
 import BEDC.Derived.FibonacciCubeUp.TasteGate
 import BEDC.Derived.FibonacciInverseLimitUp
 import BEDC.Derived.FibonacciRealityLocalResponseClassifierUp
+import BEDC.Derived.FibonacciUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.ExactEndpointLedger
 import BEDC.Derived.FieldExtUp.RatReflexive
