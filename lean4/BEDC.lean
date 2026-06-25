@@ -873,6 +873,7 @@ import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BergeMaximumUp
 import BEDC.Derived.BerkovichClosedDiscUp.TasteGate
+import BEDC.Derived.BernoulliUp
 import BEDC.Derived.BernsteinPolynomialUp.TasteGate
 import BEDC.Derived.BertrandSeriesTestUp.TasteGate
 import BEDC.Derived.BertrandTestUp
@@ -6802,6 +6803,7 @@ import BEDC.Derived.IntUp.BalancedContext
 import BEDC.Derived.IntUp.Bridge
 import BEDC.Derived.IntUp.CanonicalReadback
 import BEDC.Derived.IntUp.CommRing
+import BEDC.Derived.IntUp.CommRingCore
 import BEDC.Derived.IntUp.HistorySemantic
 import BEDC.Derived.IntUp.OneSidedContext
 import BEDC.Derived.IntUp.Order
