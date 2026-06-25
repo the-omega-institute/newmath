@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 from pathlib import Path
 import re
 import sys
@@ -9,11 +10,11 @@ import sys
 
 TOKEN = "BEDC_GATE_R_LOCAL_INT_LAW"
 
-# Canonical integer ring laws live in the BEDC source below. The explicit list
-# keeps this checker stable while still validating that the source declares each
-# protected public law name.
+# Canonical integer facade names live in this BEDC source. Generic relation-ring
+# law owners are declared in Algebra/Rel/Basic.lean and are read from the
+# canonical manifest with their wrapper allowlist.
 CANONICAL_SOURCE = Path("lean4/BEDC/Derived/IntUp/CommRing.lean")
-CANONICAL_NAMES = {
+CANONICAL_INT_NAMES = {
     "IntAdd_respects",
     "IntMul_respects",
     "IntNeg_respects",
@@ -33,9 +34,25 @@ CANONICAL_NAMES = {
     "IntMul_add_distrib_right",
 }
 
-ALLOWLIST = {
-    "BEDC.Derived.RationalUp.IntMul_comm":
-        "construction substrate imported by IntUp/CommRing.lean",
+GENERIC_RING_LAW_NAMES = {
+    "add_assoc",
+    "mul_assoc",
+    "add_comm",
+    "mul_comm",
+    "left_distrib",
+    "right_distrib",
+    "neg_mul",
+    "mul_neg",
+    "neg_neg",
+    "sub_eq_add_neg",
+    "zero_mul",
+    "mul_zero",
+    "one_mul",
+    "mul_one",
+    "add_zero",
+    "zero_add",
+    "add_left_neg",
+    "add_right_neg",
 }
 
 DECL_RE = re.compile(
@@ -204,6 +221,13 @@ class Violation:
     detail: str
 
 
+@dataclass(frozen=True)
+class Manifest:
+    canonical_files: frozenset[Path]
+    owners: frozenset[str]
+    wrappers: dict[str, str]
+
+
 def find_bridge_root() -> Path:
     here = Path(__file__).resolve()
     for parent in (here.parent, *here.parents):
@@ -217,6 +241,32 @@ def find_repo_root(bridge_root: Path) -> Path:
         if (parent / "lean4" / "BEDC").exists() and (parent / "papers" / "bedc_mathlib_bridge").exists():
             return parent
     raise RuntimeError("cannot locate repository root")
+
+
+def snake_case(name: str) -> str:
+    name = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", "_", name)
+    name = re.sub(r"(?<=[A-Z])(?=[A-Z][a-z])", "_", name)
+    return name.lower()
+
+
+def load_manifest(bridge_root: Path, repo_root: Path) -> Manifest:
+    path = bridge_root / "canonical_manifest.json"
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError as exc:
+        raise RuntimeError(f"missing canonical manifest {path}") from exc
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(f"invalid canonical manifest JSON: {exc}") from exc
+    canonical_files = frozenset((repo_root / item).resolve() for item in raw["canonical_files"])
+    owners = frozenset(raw.get("owners", []))
+    wrappers_raw = raw.get("wrappers", {})
+    if not isinstance(wrappers_raw, dict):
+        raise RuntimeError("canonical manifest `wrappers` must be an object")
+    return Manifest(
+        canonical_files=canonical_files,
+        owners=owners,
+        wrappers={str(key): str(value) for key, value in wrappers_raw.items()},
+    )
 
 
 def strip_line_comment(line: str) -> str:
@@ -295,19 +345,28 @@ def validate_canonical_source(repo_root: Path) -> list[str]:
     if not source.exists():
         return [f"missing canonical source {CANONICAL_SOURCE}"]
     declared = {decl.base_name for decl in parse_declarations(source)}
-    missing = sorted(CANONICAL_NAMES - declared)
+    missing = sorted(CANONICAL_INT_NAMES - declared)
     return [f"canonical source missing `{name}`" for name in missing]
 
 
-def scan_files(repo_root: Path, fixture_paths: list[Path]) -> list[Path]:
-    source = canonical_path(repo_root)
-    files = [
-        path.resolve()
-        for path in sorted(derived_path(repo_root).rglob("*.lean"))
-        if path.resolve() != source
-    ]
+def scan_files(repo_root: Path, manifest: Manifest, fixture_paths: list[Path]) -> list[Path]:
+    files: list[Path] = []
+    rel_dir = repo_root / "lean4" / "BEDC" / "Algebra" / "Rel"
+    if rel_dir.exists():
+        files.extend(
+            path.resolve()
+            for path in sorted(rel_dir.rglob("*.lean"))
+            if path.resolve() not in manifest.canonical_files
+        )
+    intup_dir = repo_root / "lean4" / "BEDC" / "Derived" / "IntUp"
+    if intup_dir.exists():
+        files.extend(
+            path.resolve()
+            for path in sorted(intup_dir.rglob("*.lean"))
+            if path.resolve() not in manifest.canonical_files
+        )
     files.extend(path.resolve() for path in fixture_paths)
-    return files
+    return sorted(set(files))
 
 
 def is_intup_derived_path(repo_root: Path, path: Path) -> bool:
@@ -328,19 +387,32 @@ def relpath(repo_root: Path, path: Path) -> Path:
         return path
 
 
-def find_violations(repo_root: Path, decls: list[Decl]) -> list[Violation]:
+def protected_law_hit(base_name: str) -> str | None:
+    normalized = snake_case(base_name)
+    for law in GENERIC_RING_LAW_NAMES:
+        if normalized == law:
+            return law
+    for name in CANONICAL_INT_NAMES:
+        canonical = snake_case(name)
+        if normalized == canonical:
+            return canonical
+    return None
+
+
+def find_violations(repo_root: Path, manifest: Manifest, decls: list[Decl]) -> list[Violation]:
     violations: list[Violation] = []
     for decl in decls:
-        if decl.full_name in ALLOWLIST:
+        if decl.full_name in manifest.owners or decl.full_name in manifest.wrappers:
             continue
-        if decl.base_name in CANONICAL_NAMES:
+        law_hit = protected_law_hit(decl.base_name)
+        if law_hit is not None:
             violations.append(
                 Violation(
                     decl=decl,
-                    pattern="canonical_name_collision",
+                    pattern="canonical_ring_law_name_collision",
                     detail=(
-                        f"`{decl.base_name}` is an IntUp.CommRing canonical law name; "
-                        "import and reuse the canonical declaration"
+                        f"`{decl.base_name}` matches protected ring-law token `{law_hit}`; "
+                        "reuse the canonical declaration or register a wrapper in canonical_manifest.json"
                     ),
                 )
             )
@@ -356,7 +428,10 @@ def find_violations(repo_root: Path, decls: list[Decl]) -> list[Violation]:
                     Violation(
                         decl=decl,
                         pattern=pattern_name,
-                        detail=f"{detail}; reuse IntUp.CommRing instead",
+                        detail=(
+                            f"{detail}; reuse the canonical declaration or register a wrapper "
+                            "in canonical_manifest.json"
+                        ),
                     )
                 )
                 break
@@ -368,6 +443,7 @@ def main() -> int:
     try:
         bridge_root = find_bridge_root()
         repo_root = find_repo_root(bridge_root)
+        manifest = load_manifest(bridge_root, repo_root)
     except RuntimeError as exc:
         print(f"{TOKEN}: {exc}", file=sys.stderr)
         return 2
@@ -386,10 +462,10 @@ def main() -> int:
 
     fixture_resolved = {path.resolve() for path in fixture_paths}
     decls: list[Decl] = []
-    for path in scan_files(repo_root, fixture_paths):
+    for path in scan_files(repo_root, manifest, fixture_paths):
         decls.extend(parse_declarations(path, fixture=path in fixture_resolved))
 
-    violations = find_violations(repo_root, decls)
+    violations = find_violations(repo_root, manifest, decls)
     if violations:
         for violation in violations:
             decl = violation.decl
@@ -400,9 +476,9 @@ def main() -> int:
         print(
             "[canonical-int-law] FAIL: "
             f"{len(violations)} local integer law hit(s); "
-            "pattern1=canonical name collision; "
+            "pattern1=case-insensitive generic ring-law name collision; "
             "pattern2=heuristic high-confidence IntEq/IntAdd/IntMul law shapes; "
-            f"allowlist={len(ALLOWLIST)}"
+            f"manifest_wrappers={len(manifest.wrappers)}"
         )
         return 1
 
@@ -410,9 +486,9 @@ def main() -> int:
     print(
         "[canonical-int-law] PASS: "
         f"audited {audited} declaration(s); "
-        "pattern1=canonical name collision; "
+        "pattern1=case-insensitive generic ring-law name collision; "
         "pattern2=heuristic high-confidence IntEq/IntAdd/IntMul law shapes; "
-        f"allowlist={len(ALLOWLIST)}"
+        f"manifest_wrappers={len(manifest.wrappers)}"
     )
     return 0
 

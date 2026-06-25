@@ -15,6 +15,8 @@ check:
 	python3 scripts/check_mathlib_correspondence.py MATRIX.md
 	python3 scripts/check_no_hollow.py MATRIX.md
 	python3 scripts/check_canonical_int_law.py
+	python3 scripts/check_ring_bundle.py
+	python3 scripts/check_statement_shape_dup.py
 	python3 scripts/check_boundary_axioms.py MATRIX.md
 	python3 scripts/check_no_back_edge.py
 	bash scripts/run_negative_tests.sh

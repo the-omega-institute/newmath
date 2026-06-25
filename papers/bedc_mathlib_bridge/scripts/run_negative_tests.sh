@@ -279,6 +279,76 @@ EOF
 expect_fail BEDC_GATE_R_LOCAL_INT_LAW \
   python3 "$ROOT/scripts/check_canonical_int_law.py" "$TMP_DIR/gate_r_local_int_law.lean"
 
+cat > "$TMP_DIR/gate_r_generic_ring_law.lean" <<'EOF'
+namespace BEDC.Derived.GateRNegative
+
+def IntMul_assoc (a b c : IntegerUp) :
+    IntEq (IntMul (IntMul a b) c) (IntMul a (IntMul b c)) :=
+  canonicalShouldBeImported
+
+lemma localAdd_assoc (a b c : IntegerUp) :
+    IntEq (IntAdd (IntAdd a b) c) (IntAdd a (IntAdd b c)) :=
+  canonicalShouldBeImported
+
+end BEDC.Derived.GateRNegative
+EOF
+
+expect_fail BEDC_GATE_R_LOCAL_INT_LAW \
+  python3 "$ROOT/scripts/check_canonical_int_law.py" "$TMP_DIR/gate_r_generic_ring_law.lean"
+
+cat > "$TMP_DIR/gate_b_dup_ring_bundle.lean" <<'EOF'
+namespace BEDC.Derived.GateBNegative
+
+def duplicateIntegerBundle : RelCommRing IntegerUp IntEq where
+  zero := intZero
+  one := intOne
+  add := IntAdd
+  mul := IntMul
+  neg := IntNeg
+  refl := by intro x; exact canonical
+  symm := by intro x y h; exact canonical
+  trans := by intro x y z hxy hyz; exact canonical
+  add_congr := by intro x x' y y' hx hy; exact canonical
+  mul_congr := by intro x x' y y' hx hy; exact canonical
+  neg_congr := by intro x y h; exact canonical
+  add_assoc := by intro x y z; exact canonical
+  add_comm := by intro x y; exact canonical
+  add_zero := by intro x; exact canonical
+  zero_add := by intro x; exact canonical
+  add_neg := by intro x; exact canonical
+  neg_add := by intro x; exact canonical
+  mul_assoc := by intro x y z; exact canonical
+  mul_one := by intro x; exact canonical
+  one_mul := by intro x; exact canonical
+  mul_zero := by intro x; exact canonical
+  zero_mul := by intro x; exact canonical
+  left_distrib := by intro x y z; exact canonical
+  right_distrib := by intro x y z; exact canonical
+  mul_comm := by intro x y; exact canonical
+
+end BEDC.Derived.GateBNegative
+EOF
+
+expect_fail BEDC_GATE_B_DUP_RING_BUNDLE \
+  python3 "$ROOT/scripts/check_ring_bundle.py" "$TMP_DIR/gate_b_dup_ring_bundle.lean"
+
+cat > "$TMP_DIR/gate_s_dup_statement.lean" <<'EOF'
+namespace BEDC.Derived.GateSNegative
+
+theorem renamedProductRouteOne (a b c : IntegerUp) :
+    IntEq (IntMul (IntMul a b) c) (IntMul a (IntMul b c)) :=
+  canonicalShouldBeImported
+
+lemma renamedProductRouteTwo (x y z : IntegerUp) :
+    IntEq (IntMul (IntMul x y) z) (IntMul x (IntMul y z)) :=
+  canonicalShouldBeImported
+
+end BEDC.Derived.GateSNegative
+EOF
+
+expect_fail BEDC_GATE_S_DUP_STATEMENT \
+  python3 "$ROOT/scripts/check_statement_shape_dup.py" "$TMP_DIR/gate_s_dup_statement.lean"
+
 cat > "$TMP_DIR/boundary_fake.md" <<'EOF'
 | row_id | BEDC source | mathlib target | bridge status | constructive content | axioms | boundary |
 | --- | --- | --- | --- | --- | --- | --- |
