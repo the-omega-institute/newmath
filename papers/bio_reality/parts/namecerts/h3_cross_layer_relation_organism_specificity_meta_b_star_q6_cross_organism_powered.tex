@@ -1,30 +1,63 @@
 \origin{ai}
 
-\subsection{Organism-specific cross-layer power of the $B^{*}_{Q6}$ residual surface}
-\label{sec:bioreality-q6-organism-specificity-meta}
+\subsection{Organism-Specific Meta Readout for $B^{\ast}_{Q6}$ Cross-Layer Summaries}
+\label{sec:bioq6-organism-specificity-meta}
 
 \paragraph{Finite surface.}
-The record considered here is the finite cross-organism readout surface for $B^{*}_{Q6}$ synonymous residual coordinates after amino-acid quotienting.  Its rows are organisms, its columns are organism-level summaries of the already computed residual projections, and its admissible comparisons are deliberately narrow: domain membership, GC3, tRNA-gene-copy scale, proteome-size scale, and the dominant residual coordinate selected by the fitted summaries.  The assembled table contains $16$ organism rows, but the complete feature panel used for the reported $M^{QTP}$ tests contains $12$ rows.  The complete rows are $\mathrm{saccharomyces\_cerevisiae}$, $\mathrm{mycobacterium\_smegmatis\_str\_mc2\_155}$, $\mathrm{escherichia\_coli\_k12\_mg1655}$, $\mathrm{homo\_sapiens}$, $\mathrm{danio\_rerio}$, $\mathrm{gallus\_gallus}$, $\mathrm{bacillus\_subtilis\_subsp\_subtilis\_str\_168}$, $\mathrm{mus\_musculus}$, $\mathrm{caenorhabditis\_elegans}$, $\mathrm{drosophila\_melanogaster}$, $\mathrm{sulfolobus\_solfataricus}$, and $\mathrm{rattus\_norvegicus}$.  The incomplete rows for the $M^{QTP}$ panel are $\mathrm{pseudomonas\_aeruginosa\_pao1}$, $\mathrm{halobacterium\_salinarum}$, $\mathrm{dictyostelium\_discoideum}$, and $\mathrm{arabidopsis\_thaliana}$.
+This record treats the organism as the row unit and asks whether previously computed $B^{\ast}_{Q6}$ cross-layer summaries show a stable dependence on broad organism-level descriptors. The finite panel contains $16$ organism rows at assembly time, of which $12$ have the complete feature set needed for the meta tests. The complete rows are \texttt{saccharomyces\_cerevisiae}, \texttt{mycobacterium\_smegmatis\_str\_mc2\_155}, \texttt{escherichia\_coli\_k12\_mg1655}, \texttt{homo\_sapiens}, \texttt{danio\_rerio}, \texttt{gallus\_gallus}, \texttt{bacillus\_subtilis\_subsp\_subtilis\_str\_168}, \texttt{mus\_musculus}, \texttt{caenorhabditis\_elegans}, \texttt{drosophila\_melanogaster}, \texttt{sulfolobus\_solfataricus}, and \texttt{rattus\_norvegicus}. Four rows remain outside the complete $M^{QTP}$ meta surface for this computation: \texttt{pseudomonas\_aeruginosa\_pao1}, \texttt{halobacterium\_salinarum}, \texttt{dictyostelium\_discoideum}, and \texttt{arabidopsis\_thaliana}. The row count is therefore large enough for a deterministic descriptive permutation screen, but not large enough for a phylogenetically corrected biological law.
 
-\paragraph{Domain contingency.}
-The dominant-coordinate contingency table was evaluated on $n=12$ complete organisms with a Pearson chi-square statistic.  The observed statistic is $\chi^2=9.4$, the permutation right-tail value over $1000$ deterministic trials is $p=0.5814185814185814$, and Cramer's association value is $V=0.6258327785172862$.  The finite counts are
+\paragraph{Readout coordinates.}
+The response variable is the organism-level $M^{QTP}$ fraction, a summary derived from the prior $B^{\ast}_{Q6}$ coordinate-to-translation-to-protein projection bookkeeping. The tested predictors are domain membership, GC3, log tRNA gene count, and log proteome size. The dominant-coordinate table is also tested against domain membership. For the complete $12$-row meta panel, the dominant-coordinate contingency has six coordinate columns: $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Ser_{UCR\,vs\,AGY}$, $Thr_{ACR\,vs\,ACY}$, and $f_3\text{-stress}$. The observed table is
 $$
 \begin{aligned}
-\mathrm{archaea}:&\quad \mathrm{Arg\_AGR}=1,\ \mathrm{Ile\_AUA}=0,\ \mathrm{K\_AAA}=0,\ \mathrm{Ser\_UCR\_vs\_AGY}=0,\ \mathrm{Thr\_ACR\_vs\_ACY}=0,\ f3\_\mathrm{stress}=0,\\
-\mathrm{bacteria}:&\quad \mathrm{Arg\_AGR}=1,\ \mathrm{Ile\_AUA}=0,\ \mathrm{K\_AAA}=1,\ \mathrm{Ser\_UCR\_vs\_AGY}=0,\ \mathrm{Thr\_ACR\_vs\_ACY}=1,\ f3\_\mathrm{stress}=0,\\
-\mathrm{eukaryote}:&\quad \mathrm{Arg\_AGR}=3,\ \mathrm{Ile\_AUA}=1,\ \mathrm{K\_AAA}=0,\ \mathrm{Ser\_UCR\_vs\_AGY}=1,\ \mathrm{Thr\_ACR\_vs\_ACY}=0,\ f3\_\mathrm{stress}=3.
+\text{archaea} &: (0,1,0,0,0,0),\\
+\text{bacteria} &: (1,1,0,0,1,0),\\
+\text{eukaryote} &: (0,3,1,1,0,3).
 \end{aligned}
 $$
-The top coordinate by domain is $\mathrm{Arg\_AGR}$ for the single archaeal row, $\mathrm{Thr\_ACR\_vs\_ACY}$ for the bacterial block with count $1$ out of $3$, and $f3\_\mathrm{stress}$ for the eukaryotic block with count $3$ out of $8$.  This is a heterogeneous finite profile, not a resolved domain preference, because the permutation value is large relative to any ordinary enrichment threshold.
+Thus the single archaeal complete row is dominated by $Arg_{AGR}$; the bacterial rows have one count each for $K_{AAA}$, $Arg_{AGR}$, and $Thr_{ACR\,vs\,ACY}$; and the eukaryotic rows are concentrated most visibly in $Arg_{AGR}$ and $f_3\text{-stress}$, with three counts each.
 
-\paragraph{Continuous meta-readouts.}
-The same $12$ complete rows were tested against continuous organism-level covariates.  For $M^{QTP}$ fraction versus GC3, the Pearson correlation is $r=-0.3062616500469447$ with two-sided permutation value $p=0.35264735264735264$ over $1000$ trials.  For $M^{QTP}$ fraction versus log proteome size, $r=-0.033628115789504955$ and $p=0.913086913086913$.  For $M^{QTP}$ fraction versus log tRNA-gene count, $r=0.06029405206037823$ and $p=0.8621378621378621$.  The domain comparison of $M^{QTP}$ fraction has variance ratio $0.8889980452277374$ and right-tail permutation value $p=0.4155844155844156$ over $1000$ trials.  Its group means are $0.01850668564589326$ for the single archaeal row, $0.4351192457799102$ for the three bacterial rows, and $0.3960177769015294$ for the eight eukaryotic rows; the largest-minus-smallest group-mean contrast is therefore $0.41661256013401693$, with bacteria numerically above archaea in this finite table.  These values are descriptive coordinates of the sampled panel.  They do not supply a population-level law.
+\paragraph{Domain screen.}
+The domain-level $M^{QTP}$ screen compares archaea, bacteria, and eukaryotes on the complete $12$-row subset. The group means are $0.01850668564589326$ for archaea with $n=1$, $0.4351192457799102$ for bacteria with $n=3$, and $0.3960177769015294$ for eukaryotes with $n=8$. The maximum-minus-minimum group-mean contrast is $0.41661256013401693$, with bacteria highest and archaea lowest by group mean. The permutation statistic is the ratio of between-domain mean square to within-domain mean square, equal to $0.8889980452277374$, with right-tail permutation value $p=0.4155844155844156$ over $1000$ deterministic trials. This is a computed heterogeneity readout, not a resolved domain effect.
 
-\paragraph{GC3 coverage.}
-GC3 values were computed for fifteen named organisms.  Examples spanning the observed range are $\mathrm{dictyostelium\_discoideum}=0.14471498077638234$, $\mathrm{sulfolobus\_solfataricus}=0.3061845898275272$, $\mathrm{saccharomyces\_cerevisiae}=0.3809678913179245$, $\mathrm{bacillus\_subtilis\_subsp\_subtilis\_str\_168}=0.4467139786396889$, $\mathrm{danio\_rerio}=0.5450598668769285$, $\mathrm{escherichia\_coli\_k12\_mg1655}=0.5642064879164637$, $\mathrm{homo\_sapiens}=0.5807133823494395$, $\mathrm{drosophila\_melanogaster}=0.6313215697461184$, $\mathrm{mycobacterium\_smegmatis\_str\_mc2\_155}=0.8720662993842282$, $\mathrm{pseudomonas\_aeruginosa\_pao1}=0.8806155914396909$, and $\mathrm{halobacterium\_salinarum}=0.8944468418285529$.  $\mathrm{arabidopsis\_thaliana}$ remains absent from the GC3-computed list for this panel.  Because the $M^{QTP}$ tests use the $12$ complete-feature rows, the GC3 inventory is broader than the final meta-test matrix.
+\paragraph{Dominant-coordinate screen.}
+For dominant coordinate versus domain, the Pearson chi-square statistic is $9.399999999999999$ on $n=12$ rows. The associated Cramer's $V$ is $0.6258327785172862$, but the right-tail permutation value is $p=0.5814185814185814$ over $1000$ trials. The large nominal association size is therefore not promoted to a domain-specific enrichment claim. The finite table says only that the observed dominant coordinate labels are heterogeneous across this small organism panel.
 
-\paragraph{Measured translation-efficiency contact used as a boundary check.}
-The measured translation-efficiency computation supplies the local readout discipline for this meta chapter.  In that computation, each organism used $9$ residual coordinates, namely $\mathrm{K\_AAA}$, $\mathrm{Arg\_AGR}$, $\mathrm{Ile\_AUA}$, $\mathrm{Leu\_CUN\_vs\_UUR}$, $\mathrm{Leu\_UUA\_vs\_UUG}$, $\mathrm{Ser\_UCR\_vs\_AGY}$, $\mathrm{Ser\_UCA\_vs\_UCG}$, $\mathrm{Thr\_ACR\_vs\_ACY}$, and $f3\_\mathrm{stress}$.  The control design had $24$ columns with rank $23$ in each reported organism after including intercept, log CDS length, the twenty amino-acid composition proportions, GC3, and the M-density baseline.  The joined measured-TE row counts were $13140$ for $\mathrm{danio\_rerio}$, $3415$ for $\mathrm{escherichia\_coli\_k12\_mg1655}$, $11554$ for $\mathrm{homo\_sapiens}$, and $5128$ for $\mathrm{saccharomyces\_cerevisiae}$.  The modeled-complement fractions on those joins were $0.8424312412078521$, $0.6628211177352172$, $0.8566190269974241$, and $0.22386566043976477$, respectively, while the measured-TE absorbed fractions were $0.01759429001506974$, $0.0010982956489726373$, $0.0028947149257963897$, and $0.0002762783754375593$.  These small absorptions are not used here as causal estimates; they only record how much of the residual projection is removed by the measured-TE coordinate under the declared controls.
+\paragraph{Continuous predictor screens.}
+The GC3 screen gives a negative Pearson correlation between $M^{QTP}$ fraction and GC3:
+$$
+\begin{aligned}
+r_{GC3} &= -0.3062616500469447,\\
+|r_{GC3}| &= 0.3062616500469447,\\
+p_{GC3} &= 0.35264735264735264.
+\end{aligned}
+$$
+The log proteome-size screen is nearly flat:
+$$
+\begin{aligned}
+r_{\log n_{proteins}} &= -0.033628115789504955,\\
+|r_{\log n_{proteins}}| &= 0.033628115789504955,\\
+p_{\log n_{proteins}} &= 0.913086913086913.
+\end{aligned}
+$$
+The log tRNA-gene-count screen is also small:
+$$
+\begin{aligned}
+r_{\log n_{tRNA}} &= 0.06029405206037823,\\
+|r_{\log n_{tRNA}}| &= 0.06029405206037823,\\
+p_{\log n_{tRNA}} &= 0.8621378621378621.
+\end{aligned}
+$$
+All three continuous tests use the same $12$ complete organisms and $1000$ deterministic permutation trials. None supplies a powered organism-level rule.
 
-\paragraph{Local conclusion and boundary.}
-The finite evidence supports a bounded statement: organism-specific $B^{*}_{Q6}$ residual summaries can be assembled and compared against domain, GC3, tRNA-pool size, and proteome-size proxies, and the resulting permutation tests are computed on an explicitly declared finite panel.  The strongest-looking categorical association in the table, the dominant-coordinate by domain contingency, has $p=0.5814185814185814$ and therefore remains heterogeneous rather than resolved.  The continuous tests likewise remain descriptive, with $p=0.35264735264735264$ for GC3, $p=0.913086913086913$ for log proteome size, and $p=0.8621378621378621$ for log tRNA-gene count.  No claim of translation realization, protein folding, physical admissibility, molecular function, mechanism, phenotype, universality, or phylogenetically corrected inference follows from this chapter.  Any such claim would require its own layer-matched contact and its own statistic; the present record only licenses the finite cross-organism comparison just described.
+\paragraph{GC3 row values.}
+The GC3 surface was computed for $15$ named organisms and remained missing for \texttt{arabidopsis\_thaliana}. Several values show why the panel is useful as a heterogeneity check: \texttt{dictyostelium\_discoideum} has GC3 $0.14471498077638234$, \texttt{sulfolobus\_solfataricus} has $0.3061845898275272$, \texttt{saccharomyces\_cerevisiae} has $0.3809678913179245$, \texttt{escherichia\_coli\_k12\_mg1655} has $0.5642064879164637$, \texttt{homo\_sapiens} has $0.5807133823494395$, \texttt{drosophila\_melanogaster} has $0.6313215697461184$, \texttt{mycobacterium\_smegmatis\_str\_mc2\_155} has $0.8720662993842282$, \texttt{pseudomonas\_aeruginosa\_pao1} has $0.8806155914396909$, and \texttt{halobacterium\_salinarum} has $0.8944468418285529$. The wide GC3 span makes the negative $r_{GC3}$ direction interpretable as a descriptive trend candidate, but the permutation value prevents treating it as a resolved explanatory axis.
+
+\paragraph{Relation to tRNA and measured translation readouts.}
+The tRNA-gene-copy readout used in the linked translation-adaptation computation provides organism-specific scale information rather than direct ribosome occupancy. In that linked computation, \texttt{danio\_rerio} has $8846$ parsed tRNA genes and an anticodon GCN table size of $57$, \texttt{homo\_sapiens} has $431$ tRNA genes and table size $47$, and \texttt{saccharomyces\_cerevisiae} has $273$ tRNA genes and table size $41$. The same linked calculation reports $B^{\ast}_{Q6}$ modeled-complement absorption by tRNA-copy tAI of $0.020817102845637092$ for zebrafish, $0.00005426229300865148$ for human, and $0.001530747712165342$ for yeast. These finite values justify including log tRNA gene count as a meta covariate, but they do not turn the organism-level meta screen into a translation mechanism. The measured translation-efficiency computation is also bounded: the organism-specific TE joins had $n=13140$ for zebrafish, $3415$ for \texttt{E. coli} K12 MG1655, $11554$ for human, and $5128$ for yeast, each with $24$ control columns and rank $23$ after the declared controls. The measured-TE absorption values were small: $0.01759429001506974$, $0.0010982956489726373$, $0.0028947149257963897$, and $0.0002762783754375593$ in the same organism order. These numbers support the local interpretation that the meta surface is mostly a descriptive organism-specific summary, not a discovery of a universal translation-efficiency rule.
+
+\paragraph{Interpretation.}
+The positive content of the chapter is narrow. A finite organism table was assembled; $12$ rows had the complete covariates needed for the $M^{QTP}$ meta tests; domain, GC3, tRNA-pool size, proteome size, and dominant-coordinate labels were screened with deterministic permutation nulls; and every resulting $p$-value remained non-small in this panel. The record therefore keeps two statements separate. First, the $B^{\ast}_{Q6}$ summaries are organism-specific enough to warrant finite-row stratification. Second, this stratification does not yet identify domain, GC3, tRNA pool size, proteome size, or dominant coordinate as a stable explanatory driver.
+
+\paragraph{Local boundary.}
+No translation, folding, physical admissibility, biological function, mechanism, phenotype, or universality follows from this meta chapter alone. Modeled tAI mediation is not ribosome profiling. $M^{QTP}$ fractions, $R^2_{QP}$-style summaries, and dominant-coordinate labels are statistical summaries over finite joined rows, not mechanisms. A positive or negative organism-level correlation would still require a separate layer-matched empirical contact before it could be read as ribosome dynamics, protein abundance, folded structure, localization, function, phenotype, causation, or a global biological rule. In the present finite table, even the descriptive correlations remain exploratory because the complete panel has only $12$ rows and no phylogenetic comparative correction.

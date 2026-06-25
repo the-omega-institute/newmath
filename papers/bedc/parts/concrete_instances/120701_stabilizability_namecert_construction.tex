@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\StabilizabilityUp$}
+\label{ch:concrete-instances-stabilizability-namecert}
+\origin{human}
+
+Following Kalman finite-dimensional control theory, the $\StabilizabilityUp$ packet records the finite feedback data that lets a control consumer separate reachable stabilization evidence from unreachable stable residue. It sits after the state-space carrier of \autoref{ch:concrete-instances-statespacemodel-namecert}, the reachability surface of \autoref{ch:concrete-instances-controlcontrollability-namecert}, the finite rank-window certificate of \autoref{ch:concrete-instances-controllability-rank-namecert}, and the optimization-facing corridors of \autoref{ch:concrete-instances-lqr-namecert}, \autoref{ch:concrete-instances-riccati-namecert}, \autoref{ch:concrete-instances-control-riccati-namecert}, and \autoref{ch:concrete-instances-h-infinity-control-namecert}. The chapter names the finite rows that make feedback stabilization inspectable without importing host spectral subspaces, analytic semigroups, or ambient asymptotic semantics.
+
+\begin{definition}[Stabilizability carrier]
+\label{def:stabilizability-carrier}
+A $\StabilizabilityUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,U,A,B,R,M,F,D,L,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the finite state-space source row consumed from $\StateSpaceModelUp$.
+\item $U$ is the finite input row used by the feedback surface.
+\item $A$ is the displayed transition row and $B$ is the displayed input-map row.
+\item $R$ is the $\ControlControllabilityUp$ reachability ledger available to feedback consumers.
+\item $M$ is the $\ControllabilityRankUp$ rank-window row naming the finite columns and dimension comparisons used to separate controllable directions.
+\item $F$ is the unstable-mode witness row: it names exactly the finite residual rows whose uncontrolled transition must be checked before a feedback handoff can be accepted.
+\item $D$ is the decay ledger for the residual rows named by $F$ after the displayed feedback row is attached.
+\item $L$ is the feedback row, read as finite input-on-state data rather than as an ambient operator selected outside the packet.
+\item $H$ is the componentwise $\hsame$ ledger for the state-space source, input row, transition row, input-map row, reachability ledger, rank-window row, unstable-mode witness, feedback row, and decay ledger.
+\item $T$ is the displayed $\Cont$ route for reachability readback, rank-window readback, feedback replay, and decay-ledger replay.
+\item $P$ is the $\Pkg$ provenance over $\StabilizabilityUp$, $\StateSpaceModelUp$, $\ControlControllabilityUp$, $\ControllabilityRankUp$, $\LQRUp$, $\RiccatiUp$, $\ControlRiccatiUp$, $\HInfinityControlUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StabilizabilityUp}$ row.
+\end{enumerate}
+The classifier identifies two accepted carriers only when the displayed state-space, input, transition, input-map, reachability, rank-window, unstable-mode, feedback, and decay rows agree componentwise through $H$, with the same continuation route, provenance, and local naming row.
+\end{definition}
+
+\begin{theorem}[Stabilizability NameCert obligations]
+\label{thm:stabilizability-namecert-obligations}
+For every accepted $\StabilizabilityUp$ carrier $S=(X,U,A,B,R,M,F,D,L,H,T,P,N)$, the local $\NameCert_{\StabilizabilityUp}$ surface has exactly six finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed state-space, input, transition, input-map, reachability, rank-window, unstable-mode, feedback, and decay rows;
+\item classifier admission through componentwise $\hsame$ transport over those displayed rows;
+\item reachability readback saying that $R$ and $M$ are consumed only through $\ControlControllabilityUp$ and $\ControllabilityRankUp$ rows;
+\item feedback admission saying that $L$ is a displayed finite row attached to the same input and state coordinates as $A$ and $B$;
+\item residual stability readback saying that the only permitted decay claim is the finite ledger $D$ over the unstable-mode witness $F$ after the feedback row is attached;
+\item provenance and local naming through the displayed $\Cont$, $\Pkg$, replay, and $\NameCert_{\StabilizabilityUp}$ rows.
+\end{enumerate}
+No obligation row supplies a host spectral decomposition, an unrecorded state quotient, a selected optimal controller, a Riccati solution, or a robust performance theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stabilizability-carrier}. The rows $X,U,A,B,R,M,F,D,L$ are the only control-facing data, while $H,T,P,N$ transport, replay, source, and name the same finite packet.
+
+Reachability readback is forced through $R$ and $M$. These rows point to $\ControlControllabilityUp$ and $\ControllabilityRankUp$, so a feedback consumer cannot substitute a hidden reachable subspace or an external rank theorem for the displayed finite ledgers.
+
+The feedback and residual stability clauses are the rows $L,F,D$. Since $L$ is attached to the same displayed input and state coordinates as $A$ and $B$, and since $D$ is the only decay ledger for the residual witness $F$, the local certificate exports feedback stabilizing data only through those rows. Repacking the projections with $H,T,P,N$ gives the stated six-row surface.
+\end{proof}
+
+\begin{theorem}[Stabilizability feedback handoff]
+\label{thm:stabilizability-feedback-handoff}
+Every $\LQRUp$, $\RiccatiUp$, $\ControlRiccatiUp$, or $\HInfinityControlUp$ consumer of an accepted $\StabilizabilityUp$ packet may read feedback-stabilizing data only through the displayed reachability ledger $R$, rank-window row $M$, unstable-mode witness $F$, feedback row $L$, decay ledger $D$, transport ledger $H$, continuation route $T$, provenance row $P$, and local naming row $N$. The handoff supplies no optimality claim, Riccati equation solution, robust gain bound, host spectral subspace, or ambient asymptotic theorem outside the finite packet of \autoref{def:stabilizability-carrier}.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:stabilizability-namecert-obligations}. It exposes feedback only after the state-space, input, transition, input-map, reachability, rank-window, unstable-mode, and decay rows have been displayed.
+
+The optimization-facing consumers read this as a boundary condition. An $\LQRUp$ or $\RiccatiUp$ consumer may inspect the feedback and decay rows before forming an optimization ledger, while a $\ControlRiccatiUp$ or $\HInfinityControlUp$ consumer may reuse the same finite handoff for control synthesis or robustness bookkeeping.
+
+Because the carrier has no coordinate for an optimality claim, Riccati equation solution, robust gain bound, host spectral subspace, or ambient asymptotic theorem, no such object can be exported by the stabilizability handoff.
+\end{proof}
+
+\falsifiablePrediction{Any LQR, Riccati, control Riccati, or robust-control consumer that reads $\StabilizabilityUp$ while bypassing the displayed reachability ledger $R$, rank-window row $M$, unstable-mode witness $F$, feedback row $L$, or decay ledger $D$ violates the local certificate boundary.}
+
+\independenceWitness{statespacemodel, controlcontrollability, controllability-rank, lqr, riccati, control-riccati, and h-infinity-control: none is bijective to $\StabilizabilityUp$ because the stabilizability packet jointly carries state-space, input-map, reachability, rank-window, unstable-mode, feedback, decay, transport, replay, provenance, and local NameCert rows while excluding host spectral, optimality, and robustness semantics.}
+
+\closureat{StabilizabilityUp}{seedStr}
+
+\begin{closurestatus}{\StabilizabilityUp}
+  \constructivestory{A $\StabilizabilityUp$ packet is generated from finite state-space and input rows, transition and input-map rows, a controllability ledger, a controllability-rank row, an unstable-mode witness, a feedback row, a decay ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:stabilizability-carrier}, \autoref{thm:stabilizability-namecert-obligations}, \autoref{thm:stabilizability-feedback-handoff}, the displayed falsifiable prediction, and the displayed independence witness seed the finite feedback-stabilization certificate over state-space, controllability, rank-window, LQR, Riccati, control Riccati, and robust-control rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, host spectral decompositions, quotient reachable subspaces, optimal controllers, Riccati solutions, robust gain bounds, or ambient asymptotic stability.}
+  \upgradepath{Obligation closure requires checked carrier admission, reachability readback, rank-window exactness, unstable-mode witness exactness, feedback-row admission, decay-ledger exactness, transport, replay, provenance, and local naming for BEDC.Derived.StabilizabilityUp.}
+\end{closurestatus}

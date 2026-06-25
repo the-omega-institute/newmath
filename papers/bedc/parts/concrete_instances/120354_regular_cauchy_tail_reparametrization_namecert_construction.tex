@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailReparametrizationUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-reparametrization-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names and explicit tail estimates, the $\RegularCauchyTailReparametrizationUp$ packet records the finite ledger used when a fixed tail-window budget is reparametrized before regular rational readback. It sits beside the finite schedules of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the cofinal reindexing route of \autoref{ch:concrete-instances-regular-cauchy-reindexing-namecert}, the tail-map route of \autoref{ch:concrete-instances-cofinal-reindexing-namecert}, and the subsequence surface of \autoref{ch:concrete-instances-regular-cauchy-subsequence-namecert}. The packet names only a fixed finite tail-window reparametrization ledger; it is not quotient stream equality, not a selected subsequence choice, not trichotomy, and not ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy tail reparametrization carrier]
+\label{def:regular-cauchy-tail-reparametrization-carrier}
+A $\RegularCauchyTailReparametrizationUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,W,M,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ window row naming the finite regular-Cauchy observations available before the reparametrization is read.
+\item $W$ is the target tail-window row. It records the finite target tail budget and the source tail window to which the current request is sent.
+\item $M$ is the monotone finite reparametrization ledger. It records the displayed order comparisons and target-to-source request map for the fixed window $W$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row carrying the precision budget, slack conversions, and tail-window comparison data used by $M$.
+\item $R$ is the $\RegSeqRatUp$ readback row reached only after $S,W,M,D$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after the regular rational readback has consumed the fixed reparametrized tail window.
+\item $H$ records componentwise $\hsame$ transport for the source window, target tail-window, monotone ledger, dyadic tolerance row, readback row, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tail precision request through $W$, then $M$, then $S$, then $D,R,E$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailReparametrizationUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RegularCauchyReindexingUp$, $\CofinalReindexingUp$, $\RegularCauchySubsequenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailReparametrizationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient stream equality, selected subsequence choice, trichotomy of reals, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail reparametrization NameCert obligations]
+\label{thm:regular-cauchy-tail-reparametrization-namecert-obligations}
+For every accepted $\RegularCauchyTailReparametrizationUp$ carrier
+$$
+T=(S,W,M,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyTailReparametrizationUp}$ surface consists exactly of carrier admission for the source $\StreamNameUp$ window, target tail-window, monotone finite reparametrization ledger, $\DyadicRatCoreUp$ tolerance row, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row. The obligations require every readback request to pass through the fixed target tail-window and its monotone finite ledger before any dyadic tolerance, regular rational value, or Real seal is consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-reparametrization-carrier}. The rows $S,W,M,D,R,E$ are the complete analytic route, while $H,C,P,N$ only transport, replay, source, and name that route.
+
+The target tail-window $W$ is fixed before the reparametrization ledger is read. The row $M$ supplies the finite monotone target-to-source request map for that window, so the packet does not choose a subsequence or appeal to a global cofinal selector.
+
+After $W$ and $M$ have fixed the inspected source window, the dyadic tolerance row $D$ supplies the precision budget for the regular rational readback $R$. The terminal seal $E$ is downstream of the same displayed data, so no quotient stream equality, selected subsequence choice, trichotomy, host equality, countable choice, or ambient $\RealUp$ completeness row can be exported.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail reparametrization fixed-window route]
+\label{thm:regular-cauchy-tail-reparametrization-fixed-window-route}
+Every $\RealUp$-facing read of an accepted $\RegularCauchyTailReparametrizationUp$ carrier factors through the finite route
+$$
+W \longmapsto M \longmapsto S \longmapsto D \longmapsto R \longmapsto E .
+$$
+The route is a fixed tail-window specialization of the sibling reindexing and subsequence packets: it keeps the source $\StreamNameUp$ window, target tail-window, finite monotone ledger, dyadic tolerance row, regular rational readback, and terminal Real seal visible. It exports no quotient stream equality, selected subsequence choice, trichotomy, host real equality, countable-choice row, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the seal row $E$. The NameCert obligations of \autoref{thm:regular-cauchy-tail-reparametrization-namecert-obligations} place $E$ after $R$, and place $R$ after the source window $S$, dyadic tolerance row $D$, target tail-window $W$, and monotone finite ledger $M$.
+
+The sibling chapters identify the surrounding interfaces. The $\RegularCauchyReindexingUp$ and $\CofinalReindexingUp$ routes expose cofinal reindexing data, while $\RegularCauchySubsequenceUp$ exposes subsequence-facing monotone-cofinal data. This packet uses only the fixed-window part of that surface, so it has no coordinate from which a selected subsequence or quotient stream equality could be read.
+
+The structural rows $H,C,P,N$ preserve the same finite route. Therefore every Real-facing read factors through the displayed ledger and stops at the terminal seal without adding trichotomy, host equality, countable choice, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyTailReparametrizationUp$ consumer that reaches a $\RealUp$ seal without reading $W,M,S,D,R,E,H,C,P,N$ refutes the fixed tail-window carrier surface.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, regular-cauchy-reindexing, cofinal-reindexing, regular-cauchy-subsequence: no listed sibling supplies the joint packet containing one source StreamName window, one fixed target tail-window, one monotone finite reparametrization ledger, one dyadic tolerance row, one RegSeqRat readback, one Real seal, transport, replay, provenance, and local NameCert row.}
+
+\closureat{RegularCauchyTailReparametrizationUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailReparametrizationUp}
+  \constructivestory{A $\RegularCauchyTailReparametrizationUp$ packet is generated from a source StreamName window, a target tail-window, a monotone finite reparametrization ledger, a DyadicRatCore tolerance row, a RegSeqRat readback row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-reparametrization-carrier}, \autoref{thm:regular-cauchy-tail-reparametrization-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-reparametrization-fixed-window-route} seed the fixed tail-window reparametrization route from displayed StreamName windows through dyadic tolerance and RegSeqRat readback to the terminal $\RealUp$ seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected subsequence choice, trichotomy, host real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, fixed target tail-window exposure, monotone finite ledger stability, dyadic tolerance exactness, RegSeqRat readback ordering, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyTailReparametrizationUp.}
+\end{closurestatus}

@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\KrawczykOperatorUp$}
+\label{ch:concrete-instances-krawczyk-operator-namecert}
+\origin{human}
+
+Following Krawczyk and Moore--Kearfott--Cloud interval analysis, the $\KrawczykOperatorUp$ packet records the finite preconditioned interval operator used to validate and narrow boxes for nonlinear zero searches. It separates the Krawczyk image from the surrounding $\IntervalNewtonUp$ row of \autoref{ch:concrete-instances-intervalnewton-namecert}: the operator is a named L10 certificate whose arithmetic is read through \autoref{ch:concrete-instances-intervalarithmetic-namecert}, whose Newton comparison route is read through \autoref{ch:concrete-instances-newtoniteration-namecert}, whose enclosure provenance may use the Taylor rows of \autoref{ch:concrete-instances-taylormodel-namecert}, and whose rational and real readback passes through \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Krawczyk operator carrier]
+\label{def:krawczyk-operator-carrier}
+A $\KrawczykOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+K=(B,F,J,A,R,M,I,V,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the input interval box, including the coordinate boxes and their $\IntervalArithmeticUp$ endpoint rows.
+\item $F$ is the interval enclosure of the function values on $B$, read only through interval-arithmetic operation rows.
+\item $J$ is the interval matrix or slope enclosure for the derivative data over $B$.
+\item $A$ is the approximate inverse or preconditioner row attached to the chosen center.
+\item $R$ is the center and residual row, recording the displayed center $c$ and the preconditioned residual $A F(c)$.
+\item $M$ is the interval matrix row for $I-AJ$, including its interval product and subtraction ledger.
+\item $I$ is the Krawczyk image row, recording the displayed enclosure $c-AF(c)+(I-AJ)(B-c)$.
+\item $V$ is the containment and narrowing validation row, recording whether $I \subseteq B$, $I \cap B$, or the refused containment boundary is the public result.
+\item $H$ records componentwise $\hsame$ transport for boxes, enclosures, derivative rows, preconditioners, residuals, interval matrices, Krawczyk images, and validation rows.
+\item $C$ records displayed $\Cont$ replay from interval arithmetic to the image computation, from validation to narrowing, and from readback rows to the public certificate.
+\item $P$ is the $\Pkg$ provenance over $\KrawczykOperatorUp$, $\IntervalArithmeticUp$, $\IntervalNewtonUp$, $\NewtonIterationUp$, $\TaylorModelUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KrawczykOperatorUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed interval operator and its validation ledger. It does not assert host existence of a zero, global uniqueness, floating-point semantics, differentiability outside the supplied slope row, quotient real equality, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Krawczyk operator NameCert obligations]
+\label{thm:krawczyk-operator-namecert-obligations}
+For every accepted $\KrawczykOperatorUp$ carrier
+$$
+K=(B,F,J,A,R,M,I,V,H,C,P,N),
+$$
+the local $\NameCert_{\KrawczykOperatorUp}$ surface consists exactly of carrier admission, box exposure through $B$, function enclosure exposure through $F$, derivative or slope enclosure exposure through $J$, preconditioner exposure through $A$, center and residual exposure through $R$, interval matrix exposure through $M$, Krawczyk image exposure through $I$, containment or narrowing validation through $V$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only arithmetic rows available to a Krawczyk read are the displayed box, function enclosure, derivative or slope enclosure, preconditioner, residual, interval matrix, image, and validation rows.
+
+The interval-arithmetic route computes $F$, $J$, $M$, and $I$ inside the same finite packet. The row $A$ is only a displayed approximate inverse or preconditioner, and $R$ is only the center-residual ledger attached to that preconditioner.
+
+Validation is read through $V$. It records containment, narrowing by intersection, or refusal of containment without adding a root-existence theorem or a uniqueness theorem.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since the carrier has no coordinate for host zeros, global uniqueness, floating-point semantics, quotient real equality, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Krawczyk operator interval-Newton handoff]
+\label{thm:krawczyk-operator-interval-newton-handoff}
+Every $\IntervalNewtonUp$ consumer that uses a $\KrawczykOperatorUp$ packet must read the Krawczyk route
+$$
+B,F,J,A,R,M,I,V,H,C,P,N
+$$
+before treating a correction row as a validated enclosure. The handoff supplies the named image $I=c-AF(c)+(I-AJ)(B-c)$ and the containment or narrowing validation row $V$ to the interval-Newton packet; it supplies no solver oracle, host zero selection, global uniqueness claim, floating-point semantics, quotient real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the interval-Newton correction boundary of \autoref{ch:concrete-instances-intervalnewton-namecert}. That chapter may consume a Krawczyk correction row, but the row is public only after the box, enclosure, derivative, and validation data have been displayed.
+
+The present carrier names those data as $B,F,J,A,R,M,I,V$. The interval-arithmetic rows compute the residual and image, while the $\NewtonIterationUp$ and $\TaylorModelUp$ provenance rows record how the displayed derivative or slope data were obtained.
+
+The rational and real readback remains finite. Any $\RegSeqRatUp$ or $\RealUp$ consumer reaches the image and validation rows only through the displayed replay and provenance rows $C,P$ together with the transport and local name $H,N$.
+
+Thus the interval-Newton consumer receives a named finite operator certificate rather than an unnamed correction row. Since no carrier field selects a zero or proves global uniqueness, the handoff remains an interval validation route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\KrawczykOperatorUp$ read exposes the box, function enclosure, derivative or slope enclosure, preconditioner, center-residual row, interval matrix row, Krawczyk image, validation ledger, transport, replay, provenance, and local NameCert row before an interval-Newton consumer can use the correction.}
+
+\independenceWitness{intervalnewton, intervalarithmetic, newtoniteration, taylormodel, regseqrat, real: $\KrawczykOperatorUp$ is not bijective to any listed sibling because it binds the preconditioned residual, interval matrix $I-AJ$, Krawczyk image, containment-or-narrowing validation, arithmetic replay, rational readback, real-name readback, provenance, and local naming into one operator certificate.}
+
+\closureat{KrawczykOperatorUp}{seedStr}
+
+\begin{closurestatus}{\KrawczykOperatorUp}
+  \constructivestory{A $\KrawczykOperatorUp$ packet is generated from an interval box, function enclosure, derivative or slope enclosure, approximate inverse or preconditioner, center-residual row, interval matrix row, Krawczyk image, containment or narrowing validation row, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:krawczyk-operator-carrier}, \autoref{thm:krawczyk-operator-namecert-obligations}, and \autoref{thm:krawczyk-operator-interval-newton-handoff} seed the finite L10 Krawczyk operator certificate and its interval-Newton consumer boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host zero existence, global uniqueness, floating-point semantics, differentiability beyond the displayed slope row, quotient real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Lean closure requires carrier admission, interval-arithmetic image formation, containment or narrowing validation, RegSeqRat and Real readback nonescape, interval-Newton handoff, transport, replay, provenance, and local naming for BEDC.Derived.KrawczykOperatorUp.}
+\end{closurestatus}

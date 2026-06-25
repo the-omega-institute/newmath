@@ -40,6 +40,52 @@ The dyadic tolerance core $D$ supplies the regularity scale before the real-faci
 Finally replay the structural rows. Componentwise transport $H$, continuation replay $C$, provenance $P$, and local naming $N$ preserve the same finite carrier, so no ambient complete space, unrestricted sequence space, quotient of real names, or arbitrary representative choice enters the NameCert surface.
 \end{proof}
 
+\begin{theorem}[RegularSequenceSpace tail-filter handoff]
+\label{thm:regular-sequence-space-tail-filter-handoff}
+Every completion-facing consumer of an accepted $\RegularSequenceSpaceUp$ carrier $S=(X,T,Q,D,R,H,C,P,N)$ factors through the displayed $\StreamNameUp$ schedule $T$, $\RegSeqRatUp$ readback $Q$, $\DyadicRatCoreUp$ tolerance row $D$, and the regular Cauchy tail-filter route of \autoref{ch:concrete-instances-regular-cauchy-tail-filter-namecert} before the $\RealUp$ seal $R$ can be consumed. The accepted space packet therefore exports only the finite regular-name route
+$$
+X,T,Q,D \longmapsto \RegularCauchyTailFilterUp \longmapsto R,H,C,P,N
+$$
+and no quotient stream, selected limit, countable-choice selector, unrestricted sequence space, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-sequence-space-carrier}. The source row $X$ names the admitted family, while $T,Q,D$ display the stream schedule, rational readback, and dyadic tolerance rows available to a completion-facing consumer.
+
+Apply the NameCert obligations of \autoref{thm:regular-sequence-space-namecert-obligations}. They require the real-facing seal $R$ to be reached only after $X,T,Q,D$ remain visible in the same packet.
+
+Now route late observations through \autoref{ch:concrete-instances-regular-cauchy-tail-filter-namecert}. Its regular Cauchy tail-filter surface consumes the same stream, readback, and dyadic tolerance data before a Real-facing tail read is available.
+
+Finally $H,C,P,N$ preserve that finite route by transport, replay, provenance, and local naming. Since the carrier has no coordinate for quotient streams, selected limits, countable choice, an unrestricted sequence space, or ambient $\RealUp$ completeness, no completion-facing consumer can escape the displayed tail-filter handoff.
+\end{proof}
+
+\begin{theorem}[RegularSequenceSpace tail coherence]
+\label{thm:regular-sequence-space-tail-coherence}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Any two completion-facing reads from $S$ that agree on the displayed $\StreamNameUp$ schedule $T$ and $\RegSeqRatUp$ readback $Q$ also agree on the $\DyadicRatCoreUp$ tolerance row $D$ and on the terminal $\RealUp$ seal route $R,H,C,P,N$. This agreement is internal to the displayed carrier and does not use quotient streams, selected representatives, or an ambient complete sequence space.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-sequence-space-carrier}. The tuple $S=(X,T,Q,D,R,H,C,P,N)$ keeps the source family, schedule, regular readback, and dyadic tolerance row visible as separate coordinates.
+
+Use the NameCert obligations of \autoref{thm:regular-sequence-space-namecert-obligations}. They require any completion-facing read to expose $X,T,Q,D$ before the real-facing seal and structural rows can be consumed.
+
+Route the late observations through the tail-filter handoff of \autoref{thm:regular-sequence-space-tail-filter-handoff}. Two reads with the same displayed schedule $T$ and readback $Q$ therefore enter the same regular Cauchy tail-filter surface, where the dyadic tolerance row $D$ is the displayed tolerance coordinate for that route.
+
+Finally $H,C,P,N$ preserve and name the same finite packet. Hence the two reads agree on the dyadic tolerance row and terminal Real seal route without choosing a quotient stream, representative, or external completion object.
+\end{proof}
+
+\begin{theorem}[RegularSequenceSpace pointwise stream projection]
+\label{thm:regular-sequence-space-pointwise-stream-projection}
+Every accepted $\RegularSequenceSpaceUp$ read of a displayed family first exposes the source row $X$ and the $\StreamNameUp$ schedule $T$. It can therefore be projected to a finite PointwiseStreamName-style window, as in \autoref{ch:concrete-instances-pointwise-stream-namecert}, before the $\RegSeqRatUp$ readback $Q$, $\DyadicRatCoreUp$ tolerance row $D$, and $\RealUp$ seal route $R,H,C,P,N$ are consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-sequence-space-carrier}. The source row $X$ and stream schedule $T$ are the first two displayed coordinates of every accepted space read.
+
+Apply the NameCert obligations of \autoref{thm:regular-sequence-space-namecert-obligations}. They require schedule exposure before regular rational readback, dyadic tolerance exposure, and Real-facing sealing.
+
+Use the tail-filter handoff of \autoref{thm:regular-sequence-space-tail-filter-handoff}. Since the completion-facing route must pass through the same displayed schedule before $Q,D,R,H,C,P,N$ are available, the read has a finite window that may be routed through the pointwise stream sibling.
+
+The projection therefore consumes only $X$ and $T$ at the pointwise boundary. The later RegSeqRat, DyadicRatCore, and Real rows remain downstream and cannot be inspected before that finite window is displayed.
+\end{proof}
+
 \closureat{RegularSequenceSpaceUp}{seedStr}
 
 \begin{closurestatus}{\RegularSequenceSpaceUp}

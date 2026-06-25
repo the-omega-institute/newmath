@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\DunfordIntegralUp$}
+\label{ch:concrete-instances-dunford-integral-namecert}
+\origin{human}
+
+Following Dunford and Schwartz, the $\DunfordIntegralUp$ packet records vector-valued integration by finite weak scalar integral rows before any strong measurability or Bochner norm-integrability endpoint is available. It sits between the weak scalar route of \autoref{ch:concrete-instances-pettis-integral-namecert}, the simple-function norm route of \autoref{ch:concrete-instances-bochner-integral-namecert}, the dual observation windows of \autoref{ch:concrete-instances-weak-star-topology-namecert}, and the displayed separable Banach carrier of \autoref{ch:concrete-instances-finite-realized-separable-banach-space-namecert}. The packet is a finite weak-integration NameCert boundary: it names scalar probe integrals and comparison windows, not a completed measure-theoretic representation theorem.
+
+\begin{definition}[Dunford integral carrier]
+\label{def:dunford-integral-carrier}
+A $\DunfordIntegralUp$ carrier is a finite $\BHist$ packet
+$$
+D=(M,I,X,V,L,W,A,B,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MeasureUp$ source row naming the finite measurable partitions, measurable-event windows, and null-boundary comparisons visible to the packet.
+\item $I$ is the $\IntegralUp$ scalar readback row for the finite scalar integrals inspected by the weak probes.
+\item $X$ is the $\FiniteRealizedSeparableBanachSpaceUp$ row naming the displayed Banach carrier, dense-code windows, norm readbacks, and completion-facing service used by the packet.
+\item $V$ is the Banach-space and dual-pairing row. It lists the inspected vector windows, dual probes, scalar pairing requests, and finite tolerance comparisons.
+\item $L$ is the $\WeakStarTopologyUp$ readback row for dual-probe observation windows and weak-star scalar comparisons.
+\item $W$ is the weak scalar integral row. Each entry records a displayed bounded dual probe, the scalar shadow it induces, and the scalar integral read through $M,I,V,L$.
+\item $A$ is the simple-function approximation window row. It records finite simple approximants, finite range data, measurable fibres, and the weak scalar comparisons used to test the approximants.
+\item $B$ is the $\BochnerIntegralUp$ comparison handoff row, available only when the displayed simple-function and norm-tail data are already present.
+\item $S$ is the $\PettisIntegralUp$ comparison handoff row, available only through the same weak scalar integral rows and dual-pairing windows.
+\item $R$ is the weak-star readback and scalar-budget ledger for the probe integrals, including finite tolerance requests and comparison bounds.
+\item $H$ records componentwise $\hsame$ transport for $M,I,X,V,L,W,A,B,S,R$ and the local structural rows.
+\item $C$ records displayed $\Cont$ replay from a weak integration request through the same scalar probes, approximation windows, comparison handoffs, readback ledger, transport, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\DunfordIntegralUp$, $\PettisIntegralUp$, $\BochnerIntegralUp$, $\WeakStarTopologyUp$, $\FiniteRealizedSeparableBanachSpaceUp$, $\MeasureUp$, $\IntegralUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DunfordIntegralUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $M,I,X,V,L,W,A,B,S,R,H,C,P,N$. It has no coordinate for strong measurability, measure completion, Radon--Nikodym conclusions, quotient function equality, countable choice, selected representatives, or Lean verification.
+\end{definition}
+\leanchecked{BEDC.Derived.DunfordIntegralUp.DunfordIntegralTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dunford integral NameCert obligations]
+\label{thm:dunford-integral-namecert-obligations}
+For every accepted $\DunfordIntegralUp$ carrier
+$$
+D=(M,I,X,V,L,W,A,B,S,R,H,C,P,N),
+$$
+the local $\NameCert_{\DunfordIntegralUp}$ surface consists exactly of carrier admission for the displayed rows, measure source compatibility through $M$, scalar integral readback through $I$, Banach-space and dual-pairing visibility through $X,V$, weak-star probe visibility through $L$, weak scalar integral exposure through $W$, simple-function approximation-window exposure through $A$, Pettis and Bochner comparison handoffs through $S$ and $B$, weak-star scalar-budget readback through $R$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+
+Every weak-integration-facing consumer must read those finite rows before using the Dunford handoff. It receives no strong measurability theorem, no measure completion, no Radon--Nikodym conclusion, no quotient function equality, no countable-choice schedule, no selected vector representative, and no Lean-checked theorem from this packet.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:dunford-integral-carrier}. Carrier admission exposes exactly $M,I,X,V,L,W,A,B,S,R,H,C,P,N$.
+
+The analytic rows $M,I,X,V,L,W$ fix the measurable source, scalar integral readback, Banach carrier, dual-pairing window, weak-star observation row, and weak scalar integrals. Thus every probe integral is a displayed scalar shadow, not a hidden vector-valued representative.
+
+The comparison rows $A,B,S,R$ keep the handoffs finite. Simple-function approximation windows are visible in $A$, Bochner comparison can be read only through $B$, Pettis comparison can be read only through $S$, and weak-star scalar budgets remain in $R$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same packet. Since the refused objects have no carrier coordinate, the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Dunford integral Pettis--Bochner handoff]
+\label{thm:dunford-integral-pettis-bochner-handoff}
+Every accepted $\DunfordIntegralUp$ packet mediates between Pettis and Bochner consumers only through the finite route
+$$
+M,I,X,V,L \longmapsto W,A,R \longmapsto S,B \longmapsto H,C,P,N .
+$$
+The Pettis-facing read consumes weak scalar integral rows and dual-pairing windows, while the Bochner-facing read additionally consumes the simple-function approximation windows and norm-tail comparison handoff. The shared Dunford packet contributes no strong measurability theorem, measure completion, Radon--Nikodym conclusion, quotient function equality, countable choice, selected representative, or ambient Banach completeness beyond the displayed carrier rows.
+\end{theorem}
+\begin{proof}
+Begin with the weak scalar rows. By \autoref{thm:dunford-integral-namecert-obligations}, the measurable source, scalar integrals, Banach carrier, dual-pairing windows, and weak-star observations must be exposed before any comparison handoff is available.
+
+For the Pettis-facing read, use the row $S$. It is downstream of the weak scalar integral row $W$ and the scalar-budget ledger $R$, so it can hand off only the displayed scalar probe integrals and not a selected vector representative.
+
+For the Bochner-facing read, use the rows $A$ and $B$. They require simple-function approximation windows and norm-tail comparison data before the Bochner comparison can be consumed.
+
+Finally replay the structural route through $H,C,P,N$. The same finite rows are transported and named on both sides, and none of the refused strong-measurement, completion, Radon--Nikodym, quotient, choice, representative-selection, or Lean-verification endpoints appears as a coordinate.
+\end{proof}
+
+\falsifiablePrediction{Every public $\DunfordIntegralUp$ read factors through displayed $\MeasureUp$, $\IntegralUp$, $\FiniteRealizedSeparableBanachSpaceUp$, $\WeakStarTopologyUp$, weak scalar integral, simple-function approximation, Pettis handoff, Bochner handoff, weak-star readback, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows. A public read that exports strong measurability, measure completion, Radon--Nikodym conclusions, quotient function equality, countable choice, selected representatives, or Lean verification from this packet refutes the carrier boundary.}
+
+\independenceWitness{pettis-integral, bochner-integral, weak-star-topology, finite-realized-separable-banach-space: $\DunfordIntegralUp$ is not bijective to any listed sibling because it jointly carries finite weak scalar integral rows, simple-function approximation windows, Banach-space and dual-pairing rows, Pettis and Bochner comparison handoffs, weak-star readback, transport, replay, provenance, and local naming while refusing stronger measure-theoretic and quotient endpoints.}
+
+\closureat{DunfordIntegralUp}{seedStr}
+
+\begin{closurestatus}{\DunfordIntegralUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dunford-integral-carrier}, \autoref{thm:dunford-integral-namecert-obligations}, and \autoref{thm:dunford-integral-pettis-bochner-handoff} seed the finite weak-integration packet over scalar probe integrals, simple-function approximation windows, dual-pairing rows, Pettis and Bochner handoffs, weak-star readback, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim strong measurability, measure completion, Radon--Nikodym conclusions, quotient function equality, countable choice, selected representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, weak scalar integral exposure, approximation-window stability, Pettis and Bochner handoff nonescape, weak-star readback, transport, replay, provenance, and local naming for BEDC.Derived.DunfordIntegralUp.}
+  \constructivestory{A $\DunfordIntegralUp$ packet is generated from Measure, Integral, finite realized separable Banach, dual-pairing, WeakStarTopology, weak scalar integral, simple-function approximation, Pettis comparison, Bochner comparison, weak-star readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+\end{closurestatus}

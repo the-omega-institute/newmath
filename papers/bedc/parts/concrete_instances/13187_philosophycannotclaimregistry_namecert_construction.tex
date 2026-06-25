@@ -76,6 +76,7 @@ The structural rows $H,K,P,N$ preserve, replay, source, and name the same finite
 
 Thus every local obligation is exhausted by the displayed packet. A consumer asking for any further refusal authority asks for data outside the carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.PhilosophyCannotClaimRegistryUp.PhilosophyCannotClaimRegistryObligationBoundary}
 
 \begin{theorem}[Philosophy cannot-claim registry gate induction]
 \label{thm:philosophy-cannot-claim-registry-gate-induction}
@@ -88,6 +89,7 @@ The status, exclusion, upgrade, and blocking steps are the rows $S,E,U,B$. Each 
 
 Finally replay the result through $H,K,P,N$. These rows can transport and expose the displayed gate chain, but they cannot insert a missing policy premise. Hence refusal export is row-inductive rather than prose-derived.
 \end{proof}
+\leanchecked{BEDC.Derived.PhilosophyCannotClaimRegistryUp.PhilosophyCannotClaimRegistryGateInduction}
 
 \begin{theorem}[Philosophy cannot-claim registry upgrade-boundary exhaustion]
 \label{thm:philosophy-cannot-claim-registry-upgrade-boundary-exhaustion}
@@ -100,6 +102,7 @@ The only row that can describe how this status may change is $U$. It records the
 
 Transport, replay, provenance, and local naming preserve the displayed upgrade condition. Since no other carrier coordinate records status-change authority, $U$ exhausts the upgrade boundary.
 \end{proof}
+\leanchecked{BEDC.Derived.PhilosophyCannotClaimRegistryUp.PhilosophyCannotClaimRegistryUpgradeBoundaryExhaustion}
 
 The Lean follow-up for $\PhilosophyCannotClaimRegistryUp$ must provide explicit $\Nontrivial\ \PhilosophyCannotClaimRegistryUp$ and $\FieldFaithful\ \PhilosophyCannotClaimRegistryUp$ instances before $\mathsf{BEDC.Derived.PhilosophyCannotClaimRegistryUp.taste\_gate}$ can be cited by a checked paper marker. The nontriviality witness must expose at least one blocked philosophy claim, and field faithfulness must preserve $C,S,E,U,B,H,K,P,N$ as distinct displayed rows.
 
@@ -111,11 +114,10 @@ The Lean follow-up for $\PhilosophyCannotClaimRegistryUp$ must provide explicit 
 
 \begin{closurestatus}{\PhilosophyCannotClaimRegistryUp}
   \constructivestory{A $\PhilosophyCannotClaimRegistryUp$ packet is generated from claim text, refusal status, exclusion reason, upgrade boundary, blocking gate, componentwise transport, displayed replay, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:philosophy-cannot-claim-registry-carrier}, \autoref{thm:philosophy-cannot-claim-registry-namecert-obligations}, \autoref{thm:philosophy-cannot-claim-registry-nonescape}, and \autoref{thm:philosophy-cannot-claim-registry-status-exactness} bind philosophy cannot-claim refusal to one finite NameCert packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:philosophy-cannot-claim-registry-carrier}, \autoref{thm:philosophy-cannot-claim-registry-namecert-obligations}, \autoref{thm:philosophy-cannot-claim-registry-nonescape}, \autoref{thm:philosophy-cannot-claim-registry-status-exactness}, \autoref{thm:philosophy-cannot-claim-registry-gate-induction}, and \autoref{thm:philosophy-cannot-claim-registry-upgrade-boundary-exhaustion} bind the carrier, NameCert obligations, non-escape, status exactness, gate induction, and upgrade-boundary exhaustion as one scoped finite packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, registry completeness, admitted-claim export, or correctness of every philosophy-package cannot-claim entry.}
-  \upgradepath{Obligation closure requires checked claim-text, status, reason, upgrade-boundary, blocking, transport, replay, provenance, and local naming rows.}
+  \upgradepath{Public closure requires checked claim-text, status, reason, upgrade-boundary, blocking, transport, replay, provenance, and local naming rows beyond the scoped boundary.}
 \end{closurestatus}

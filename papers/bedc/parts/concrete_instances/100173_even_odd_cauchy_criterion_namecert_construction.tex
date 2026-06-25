@@ -179,6 +179,25 @@ Finally use the Real seal boundary of \autoref{thm:even-odd-cauchy-criterion-rea
 \end{proof}
 \leanchecked{BEDC.Derived.EvenOddCauchyCriterionUp.EvenOddCauchySingleModulus}
 
+\begin{theorem}[EvenOddCauchyCriterion Real handoff exhaustion]
+\label{thm:even-odd-cauchy-real-handoff-exhaustion}
+Every $\RealCauchyCriterionUp$-facing handoff from an accepted $\EvenOddCauchyCriterionUp$ packet
+$$
+K=(A,B,S_A,S_B,\epsilon,M,D,F,R,H,C,P,N)
+$$
+factors through exactly the displayed route consisting of the selector row $\epsilon$, the selected parity $\RegSeqRatUp$ and $\StreamNameUp$ rows, the shared $\CauchyModulusUp$ ledger $M$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the cross-parity fusion row $F$, and then the handoff row $R$. The route is preserved by $H,C,P,N$ and exposes no second RealCauchyCriterion surface, no parity-specific completion datum, no quotient stream equality, no selected limit, no trichotomy, and no countable-choice schedule.
+\end{theorem}
+\leanchecked{BEDC.Derived.EvenOddCauchyCriterionUp.EvenOddCauchyRealHandoffExhaustion}
+\begin{proof}
+First use the induction lock of \autoref{thm:even-odd-cauchy-induction-lock}. Every finite read of the parity schedule chooses exactly one displayed side: either $A,S_A$ or $B,S_B$. The same induction keeps the chosen side tied to the shared $M,D$ cells.
+
+Next apply the tail merge theorem \autoref{thm:even-odd-cauchy-tail-merge}. Once both late parity tails have displayed the common modulus and dyadic tolerance rows, the cross-parity fusion row $F$ is the unique downstream merge point available in the packet.
+
+The single-modulus theorem \autoref{thm:even-odd-cauchy-single-modulus} then prevents the handoff row $R$ from splitting the route into separate even and odd Cauchy budgets. The Real seal route of \autoref{thm:even-odd-cauchy-criterion-real-seal-route} places $R$ after the selector, selected parity row, shared ledger, dyadic tolerance ledger, and fusion row.
+
+Finally the non-escape theorem \autoref{thm:even-odd-cauchy-criterion-cross-parity-handoff-non-escape} and the structural rows $H,C,P,N$ show that no other packet coordinate can serve as a RealCauchyCriterion handoff. Thus the displayed route exhausts every Real-facing handoff surface.
+\end{proof}
+
 \closureat{EvenOddCauchyCriterionUp}{obligationStr}
 
 \begin{closurestatus}{\EvenOddCauchyCriterionUp}

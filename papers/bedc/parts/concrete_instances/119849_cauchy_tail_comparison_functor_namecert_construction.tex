@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailComparisonFunctorUp$}
+\label{ch:concrete-instances-cauchy-tail-comparison-functor-namecert}
+\origin{human}
+
+Following Bishop--Bridges on constructive Cauchy comparison and Mac Lane on functorial packaging, the $\CauchyTailComparisonFunctorUp$ packet records tail-comparison transport between regular Cauchy presentations as finite BEDC data. It sits after the objectwise comparison surface of \autoref{ch:concrete-instances-cauchy-tail-comparison-namecert}, the regular comparison route of \autoref{ch:concrete-instances-regular-cauchy-tail-comparison-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names comparison transport and composition as a finite functorial boundary; it does not quotient streams, select representatives, compare host real values, or use ambient $\RealUp$ completeness.
+
+\begin{definition}[CauchyTailComparisonFunctor carrier]
+\label{def:cauchy-tail-comparison-functor-carrier}
+A $\CauchyTailComparisonFunctorUp$ carrier is a finite $\mathsf{BHist}$ packet
+$$
+F=(A,B,W_A,W_B,D_A,D_B,T,R,E,H,C,P,N)
+$$
+with the following displayed coordinates:
+\begin{enumerate}
+\item $A$ and $B$ are the source and target $\RegSeqRatUp$ regular Cauchy readback rows;
+\item $W_A$ and $W_B$ are the $\StreamNameUp$ windows that select the compared source and target tails;
+\item $D_A$ and $D_B$ are the $\DyadicRatCoreUp$ endpoint and tolerance rows read through those windows;
+\item $T$ is the local $\CauchyTailComparisonUp$ or $\RegularCauchyTailComparisonUp$ comparison row over the displayed windows;
+\item $R$ is the transported $\RegSeqRatUp$ readback row produced by the comparison;
+\item $E$ is the $\RealUp$ seal row visible only after the comparison readback has been exposed;
+\item $H$ stores componentwise $\hsame$ transports for the source, target, window, dyadic, comparison, readback, and seal rows;
+\item $C$ stores the displayed $\Cont$ replay routes for reading the windows, applying the comparison, transporting readback, and exposing the real seal;
+\item $P$ is the $\Pkg$ provenance over $\CauchyTailComparisonFunctorUp$, $\CauchyTailComparisonUp$, $\RegularCauchyTailComparisonUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CauchyTailComparisonFunctorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for quotient stream equality, selected limits, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[CauchyTailComparisonFunctor NameCert obligations]
+\label{thm:cauchy-tail-comparison-functor-namecert-obligations}
+The local $\NameCert_{\CauchyTailComparisonFunctorUp}$ surface for the carrier of \autoref{def:cauchy-tail-comparison-functor-carrier} consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission: the accepted object is exactly the displayed packet $F$ with source and target $\RegSeqRatUp$ rows, paired $\StreamNameUp$ windows, paired $\DyadicRatCoreUp$ endpoint rows, a comparison row, a transported readback row, a $\RealUp$ seal, transport rows, continuation rows, provenance, and local naming data;
+\item window functoriality: every comparison read first exposes $W_A,W_B,D_A,D_B$ before the row $T$ is consumed;
+\item regular readback transport: the transported row $R$ is obtained from the comparison row and remains inside the $\RegSeqRatUp$ readback surface;
+\item classifier stability: componentwise $\hsame$ transport preserves the same comparison packet and its displayed $\Cont$ replay routes;
+\item real seal handoff: every $\RealUp$ consumer sees $A,B,W_A,W_B,D_A,D_B,T,R,H,C,P,N$ before the seal row $E$ is readable.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the tuple in \autoref{def:cauchy-tail-comparison-functor-carrier}. The source and target regular rows, windows, dyadic endpoint rows, comparison row, transported readback, seal, transports, replays, package row, and local naming row are explicit coordinates.
+
+Window functoriality follows from the sibling comparison chapters. The objectwise comparison row of \autoref{ch:concrete-instances-cauchy-tail-comparison-namecert} and the regular comparison row of \autoref{ch:concrete-instances-regular-cauchy-tail-comparison-namecert} both read finite $\StreamNameUp$ windows and $\DyadicRatCoreUp$ tolerance rows before exposing any comparison result.
+
+The transported readback and classifier clauses then use the same finite route. The $\RegSeqRatUp$ row $R$ is obtained only after $T$ has been read, and componentwise $\hsame$ transport keeps the source, target, windows, endpoint rows, comparison row, and readback row in the displayed packet.
+
+Finally the $\RealUp$ seal handoff is a consumer boundary. Since $E$ is reached only after the readback row and its visible provenance have been exposed, no quotient stream, selected limit, host real equality, or ambient completeness coordinate can be projected from the carrier.
+\end{proof}
+
+\begin{theorem}[CauchyTailComparisonFunctor composition law]
+\label{thm:cauchy-tail-comparison-functor-composition-law}
+Let
+$$
+F_{AB}=(A,B,W_A,W_B,D_A,D_B,T_{AB},R_{AB},E_{AB},H_{AB},C_{AB},P_{AB},N_{AB})
+$$
+and
+$$
+F_{BC}=(B,C,W_B,W_C,D_B,D_C,T_{BC},R_{BC},E_{BC},H_{BC},C_{BC},P_{BC},N_{BC})
+$$
+be accepted $\CauchyTailComparisonFunctorUp$ packets whose middle $\RegSeqRatUp$ row, $\StreamNameUp$ window, and $\DyadicRatCoreUp$ endpoint row agree as displayed carrier rows. Then any composite comparison from $A$ to $C$ factors through the finite route
+$$
+W_A,\ W_B,\ W_C,\ D_A,\ D_B,\ D_C,\ T_{AB},\ T_{BC},\ R_{AB},\ R_{BC}
+$$
+and reaches a $\RealUp$ seal only after the combined $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows of the two packets have been exposed. The composite exports no quotient stream equality, selected representative, host real equality, or ambient completeness object.
+\end{theorem}
+\begin{proof}
+First expose the two accepted carriers. The shared middle row $B$, window $W_B$, and endpoint row $D_B$ are common displayed coordinates, so both comparison reads use the same middle tail rather than a hidden equality class.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-tail-comparison-functor-namecert-obligations} to $F_{AB}$ and $F_{BC}$. The first packet reads $W_A,W_B,D_A,D_B$ before $T_{AB}$ and $R_{AB}$; the second reads $W_B,W_C,D_B,D_C$ before $T_{BC}$ and $R_{BC}$.
+
+The composite route is therefore the concatenation of two displayed comparison reads with the middle rows identified by the carrier data. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same windows, endpoint rows, comparison rows, and readback rows across the concatenation.
+
+Finally the two $\RealUp$ seal rows are consumer boundaries. A composite seal can be read only after the visible readback, transport, replay, provenance, and local naming rows have been exposed, so the composition law is a finite functorial boundary and not a quotient-stream, selected-limit, host-equality, or ambient-completeness assertion.
+\end{proof}
+
+\closureat{CauchyTailComparisonFunctorUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailComparisonFunctorUp}
+  \constructivestory{A $\CauchyTailComparisonFunctorUp$ packet is generated from source and target RegSeqRat rows, paired StreamName windows, paired DyadicRatCore endpoint rows, CauchyTailComparison or RegularCauchyTailComparison rows, a transported RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The chapter names the finite carrier, obligation surface, and composition boundary for regular-Cauchy tail-comparison transport.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, quotient equality of streams, selected limits, host real equality, ambient RealUp completeness, or standard bridge checking.}
+  \upgradepath{Obligation closure requires a checked carrier and NameCert obligation theorem for the displayed tail-comparison functor packet.}
+\end{closurestatus}

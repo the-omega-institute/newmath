@@ -67,6 +67,27 @@ The fourth obligation is \autoref{thm:focused-ledger-audit-closure}. The fifth o
 \end{proof}
 \leanchecked{BEDC.Derived.FocusedLedgerUp.FocusedLedgerNameCert\_obligation\_surface}
 
+\begin{definition}[Focused ledger kernel scope]
+\label{def:focused-ledger-kernel-scope}
+The kernel scope of a $\FocusedLedgerUp$ consumer is the displayed $\BHist$ route
+$$
+I,H,T,F,S,D,G,R,J,Q,\rho,A,C,P,N
+$$
+from \autoref{def:focused-ledger-carrier}. A consumer is kernel-scoped when carrier admission, selector, digest, gap, relation, invariant, dependence, self-proxy, audit refusals, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming are all read through this route before any focused-ledger conclusion is exported.
+\end{definition}
+
+\begin{theorem}[Focused ledger kernel-scope route]
+\label{thm:focused-ledger-kernel-scope-route}
+Every $\FocusedLedgerUp$ consumer factors carrier admission, selector rows, digest rows, gap rows, relation rows, invariant rows, dependence rows, self-proxy rows, audit refusals, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and $\NameCert$ naming through the kernel scope of \autoref{def:focused-ledger-kernel-scope}. In particular, it cannot route the focused ledger through a subject parameter, global clock, hidden chooser, object-level time coordinate, unledgered compression step, or meta-closure oracle.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligation surface, \autoref{thm:focused-ledger-namecert-obligation-surface}. Its carrier-admission and classifier-stability rows already name the selected history, selector ledger, digest ledger, relation row, invariant row, dependence row, and self-proxy row as displayed coordinates.
+
+Next apply audit closure, \autoref{thm:focused-ledger-audit-closure}. The six refusals rule out the omitted subject, clock, chooser, compression, object-level time, and meta-closure coordinates before the consumer reaches replay or naming.
+
+Finally read the kernel scope definition. The route ends with componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row, so any exported focused-ledger conclusion remains inside the displayed $\BHist$ kernel rows.
+\end{proof}
+
 \begin{theorem}[Focused ledger sibling independence]
 \label{thm:focused-ledger-sibling-independence}
 $\FocusedLedgerUp$ is not bijective with $\ConsciousUniverseSpaceUp$, $\ObserverHistIdentityUp$, $\InterHistLocalityLedgerUp$, $\InscriptionEventUp$, or $\OnticResidueLedgerUp$. The focused ledger carries the whole focus-selector-digest-gap-relation-invariant-audit tuple, while each sibling omits at least one of the required focused-ledger rows or one audit refusal.
@@ -85,14 +106,54 @@ $\InscriptionEventUp$ records inscription-event admission, while $\OnticResidueL
 
 The Lean TasteGate file \texttt{lean4/BEDC/Derived/FocusedLedgerUp/TasteGate.lean} provides explicit $\mathsf{Nontrivial}\ \FocusedLedgerUp$ and $\mathsf{FieldFaithful}\ \FocusedLedgerUp$ instances over the same finite carrier.
 
+\begin{theorem}[Focused ledger carrier totality]
+\label{thm:focused-ledger-carrier-totality}
+For every accepted $\FocusedLedgerUp$ carrier $L=(I,H,T,F,S,D,G,R,J,Q,\rho,A,C,P,N)$, the rows $I,H,T,F,S,D,G,R,J,Q,\rho,A$ are finite $\BHist$ data before the structural rows are read. The rows $C,P,N$ then provide displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\FocusedLedgerUp}$ naming for exactly that finite carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier definition, \autoref{def:focused-ledger-carrier}. It lists the index ledger, history rows, continuation chains, focus index, selector ledger, digest ledger, gap row, relation row, invariant row, dependence row, self-proxy row, and audit row before any replay, provenance, or naming row appears.
+
+Apply the audit closure theorem, \autoref{thm:focused-ledger-audit-closure}. The audit row refuses hidden subject, clock, chooser, compression, object-level time, and meta-closure coordinates, so the displayed carrier rows are the whole object surface.
+
+Finally use the NameCert obligation surface, \autoref{thm:focused-ledger-namecert-obligation-surface}. It packages the same finite rows through $C,P,N$, and the sibling independence theorem prevents replacement by a neighboring packet that omits part of the focused-ledger carrier.
+\end{proof}
+
+\begin{theorem}[Focused ledger classifier stability]
+\label{thm:focused-ledger-classifier-stability}
+The classifier of an accepted $\FocusedLedgerUp$ packet is stable only through componentwise $\hsame$ transport over $I,H,T,F,S,D,G,R,J,Q,\rho,A,C,P,N$. In particular, the selected history, selector ledger, digest ledger, relation row, invariant row, dependence row, self-proxy row, audit row, replay row, provenance row, and local name remain attached to the same finite $\BHist$ carrier.
+\end{theorem}
+\begin{proof}
+Use the classifier-stability clause in \autoref{thm:focused-ledger-namecert-obligation-surface}. The clause names the selected history, selector ledger, digest ledger, relation row, invariant row, dependence row, and self-proxy row as transported fields rather than as host-level predicates.
+
+Read the carrier totality theorem, \autoref{thm:focused-ledger-carrier-totality}. Since every classified field is part of the finite $\BHist$ packet, componentwise $\hsame$ transport cannot substitute an unledgered object for one of the displayed rows.
+
+The TasteGate line supplies the same nontrivial and field-faithful carrier surface. Together with audit closure and sibling independence, it keeps the classifier on the focused-ledger rows rather than on a sibling packet or hidden meta-coordinate.
+\end{proof}
+
+\begin{theorem}[Focused ledger ledger exactness]
+\label{thm:focused-ledger-ledger-exactness}
+The ledger exported by $\FocusedLedgerUp$ is exact for the route
+$$
+I,H,T,F,S,D,G,R,J,Q,\rho,A,C,P,N .
+$$
+Every consumer must read finite $\BHist$ rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming through that route before using the focus, digest, relation, invariant, dependence, self-proxy, or audit data.
+\end{theorem}
+\begin{proof}
+Start from carrier totality, \autoref{thm:focused-ledger-carrier-totality}. It fixes the displayed ledger rows and prevents any omitted subject, clock, chooser, compression, object-level time, or meta-closure coordinate from becoming part of the carrier.
+
+Apply classifier stability, \autoref{thm:focused-ledger-classifier-stability}. The same rows remain attached under componentwise $\hsame$ transport, so a consumer cannot alter the selected history or ledger fields while preserving the local classifier.
+
+Finally apply audit closure, the NameCert obligation surface, sibling independence, and the TasteGate line. These force replay through $C$, provenance through $P$, and naming through $N$, while excluding sibling replacement and hidden dependencies. Hence the exported ledger is exact for the displayed BEDC kernel route.
+\end{proof}
+
 \closureat{FocusedLedgerUp}{seedStr}
 
 \begin{closurestatus}{\FocusedLedgerUp}
   \constructivestory{A $\FocusedLedgerUp$ packet is generated from finite history slots, local continuation rows, a focus index, selector rows, digest rows, gap and provenance rows, relation rows, invariant rows, dependence rows, a self-proxy row, audit refusals, Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:focused-ledger-carrier}, \autoref{thm:focused-ledger-audit-closure}, \autoref{thm:focused-ledger-namecert-obligation-surface}, and \autoref{thm:focused-ledger-sibling-independence} bind the finite focused multi-Hist ledger as a concrete NameCert packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:focused-ledger-carrier}, \autoref{def:focused-ledger-kernel-scope}, \autoref{thm:focused-ledger-audit-closure}, \autoref{thm:focused-ledger-namecert-obligation-surface}, \autoref{thm:focused-ledger-kernel-scope-route}, \autoref{thm:focused-ledger-sibling-independence}, \autoref{thm:focused-ledger-carrier-totality}, \autoref{thm:focused-ledger-classifier-stability}, and \autoref{thm:focused-ledger-ledger-exactness} bind the finite focused multi-Hist ledger and its kernel-scoped obligations as a concrete NameCert packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, public-object export, global spacetime, subject substance, or hidden meta-closure.}
-  \upgradepath{Further verification requires object-specific closure theorems tying the audit and NameCert rows to explicit BEDC kernel dependencies.}
+  \upgradepath{Formal closure requires checked carrier totality, classifier stability, ledger exactness, audit closure, sibling independence, provenance, and local naming for BEDC.Derived.FocusedLedgerUp.}
 \end{closurestatus}

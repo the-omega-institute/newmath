@@ -206,6 +206,25 @@ Apply monotone inclusion from \autoref{thm:dyadic-tail-ball-monotone-inclusion} 
 Finally compare with \autoref{thm:dyadic-tail-ball-real-equality-consumer}. The Real-facing equality row can read only the already displayed tolerance ledger, so it cannot introduce quotient streams, selected limits, trichotomy, host real equality, or ambient completeness into the shared $\RegSeqRatUp$ window.
 \end{proof}
 
+\begin{theorem}[Dyadic tail-ball regular Cauchy apartness route]
+\label{thm:dyadic-tail-ball-regular-cauchy-apartness-route}
+Let $T_0=(B_0,D,F_0,R,H_0,C_0,P_0,N_0)$ and $T_1=(B_1,D,F_1,R,H_1,C_1,P_1,N_1)$ be accepted $\DyadicTailBallUp$ packets sharing the displayed $\StreamNameUp$ window used by two regular rational readbacks. Suppose the regular rational readbacks are separated by a displayed dyadic tolerance ledger carried through the shared tail-bound row $D$. Then every apartness-facing consumer of the pair factors through the finite route
+$$
+\DyadicTailBoundUp \longmapsto \RegularCauchyTailFilterUp \longmapsto \DyadicBallUp \longmapsto \RegSeqRatUp
+$$
+before any $\RealEqualityUp$ consumer is read. The route exports only the displayed tail threshold, dyadic tolerance ledger, regular Cauchy tail-filter handoff, dyadic-ball containment rows, and $\RegSeqRatUp$ readbacks; it exports no quotient stream equality, selected limits, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.DyadicTailBallUp.DyadicTailBallRegularCauchyApartnessRoute}
+\begin{proof}
+Start with the regular Cauchy consumer route of \autoref{thm:dyadic-tail-ball-regular-cauchy-consumer-route}. Each accepted packet exposes its late-tail read in the order from $\DyadicTailBoundUp$ through $\RegularCauchyTailFilterUp$ and $\DyadicBallUp$ before a Real-facing row can inspect the packet.
+
+Use the RegSeqRat window consistency theorem, \autoref{thm:dyadic-tail-ball-regseq-window-consistency}. Because the two packets share the displayed $\StreamNameUp$ window and the same dyadic tolerance ledger $D$, the regular rational readbacks are compared inside the common finite route ending at $\RegSeqRatUp$.
+
+The displayed separation ledger is therefore read as a dyadic-tail and ball-containment fact before the Real-facing equality row appears. The RealEquality consumer of \autoref{thm:dyadic-tail-ball-real-equality-consumer} can only consume that already displayed tolerance surface; it cannot insert a quotient stream equality or a selected limit.
+
+Finally inspect the carrier inventory. The accepted packets contain no coordinate for quotient stream equality, selected limits, trichotomy, or ambient Real completeness, and the apartness-facing read is only a route through the displayed dyadic ledger and regular rational window.
+\end{proof}
+
 \begin{closurestatus}{\DyadicTailBallUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:dyadic-tail-ball-carrier}, \autoref{thm:dyadic-tail-ball-namecert-obligations}, and \autoref{thm:dyadic-tail-ball-regular-cauchy-consumer-route} seed the finite route from dyadic tail bounds through regular Cauchy late-tail filters into dyadic ball containment and the Real Cauchy criterion consumer.}

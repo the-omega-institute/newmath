@@ -53,6 +53,30 @@ The structural rows $T,C,P,L$ preserve that route under componentwise transport,
 Therefore a Real-facing consumer receives only the displayed finite density packet. Any claim of completed Real separability, ambient completeness, quotient representatives, selected limits, or countable-choice net selection lies outside the local carrier.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy density-net stream route]
+\label{thm:finite-cauchy-density-net-stream-route}
+Every finite density-net consumer of an accepted $\FiniteCauchyDensityNetUp$ packet must first expose the $\StreamNameUp$ finite-window row of \autoref{ch:concrete-instances-streamname-namecert} and the $\RegSeqRatUp$ readback row of \autoref{ch:concrete-instances-regseqrat-namecert} before treating the dyadic net as a $\RealUp$-facing density witness. Equivalently, the dyadic rows $D$ become Real-facing only along the displayed carrier route $D,W,R,E,M,T,C,P,L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-cauchy-density-net-packet}. The rows $D,W,R,E,M,T,C,P,L$ are the whole displayed packet, with $W$ the finite window row and $R$ the regular rational readback row.
+
+Apply \autoref{thm:finite-cauchy-density-net-extraction}. It identifies the dyadic net ledger $D$, the $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, the terminal $\RealUp$ seal $E$, and the modulus row $M$ as the extracted analytic route.
+
+Apply \autoref{thm:finite-cauchy-density-net-real-seal-nonescape}. A Real-facing consumer can read a seal only after the same rows have been displayed. The structural rows $T,C,P,L$ transport, replay, source, and name that route, so the dyadic density net cannot be consumed as a Real-facing witness before $W$ and $R$ have been exposed.
+\end{proof}
+
+\begin{theorem}[Finite Cauchy density-net sibling route]
+\label{thm:finite-cauchy-density-net-sibling-route}
+Every completion-facing sibling consumer of an accepted $\FiniteCauchyDensityNetUp$ packet, including the real-uniform route of \autoref{ch:concrete-instances-real-uniform-structure-namecert} and the modulus route of \autoref{ch:concrete-instances-cauchymodulus-namecert}, must consume the finite density-net read only after the displayed rows $D,W,R,E,M,T,C,P,L$ have all been exposed. In particular, the packet supplies a completion-facing dependency edge through dyadic nets, stream windows, regular rational readback, Real sealing, finite modulus, transport, replay, provenance, and local naming, not through a kernel-only density assertion.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:finite-cauchy-density-net-stream-route}. It forces every density-net consumer to expose the $\StreamNameUp$ row $W$ and $\RegSeqRatUp$ row $R$ before the dyadic net can be read as Real-facing data.
+
+Apply \autoref{thm:finite-cauchy-density-net-real-seal-nonescape}. The terminal $\RealUp$ seal $E$ is available only along the same carrier route, so a $\RealUniformStructureUp$ or $\CauchyModulusUp$ consumer cannot bypass $D,W,R,E,M,T,C,P,L$ when it asks for completion-facing density.
+
+Finally use \autoref{thm:finite-cauchy-density-net-extraction}. The extraction theorem keeps the dyadic ledger $D$, modulus row $M$, structural transport $T$, replay $C$, provenance $P$, and local naming $L$ attached to the read. Thus the sibling dependency edge is a finite displayed route into later completion consumers, not an ambient Real-completion fact or an unrecorded selector for dense representatives.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\FiniteCauchyDensityNetUp$ read exposes a DyadicRatCore finite-net ledger, a StreamName finite-window row, a RegSeqRat readback row, a terminal RealUp seal, a finite modulus row, componentwise transport, continuation replay, provenance, and local naming.}
 
 \independenceWitness{dyadicratcore, streamname, regseqrat, real: $\FiniteCauchyDensityNetUp$ is not identical to any listed sibling because it binds dyadic finite-net rows and a modulus row before the regular rational readback and terminal RealUp seal.}

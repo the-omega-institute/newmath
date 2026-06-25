@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\DyadicRealBracketRefinementUp$}
+\label{ch:concrete-instances-dyadic-real-bracket-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real approximation by nested rational intervals, the $\DyadicRealBracketRefinementUp$ packet records the finite bracket-refinement step by which a displayed real-name read is replaced by a smaller dyadic bracket before any completion-facing consumer reads a terminal Real seal. It sits after the Archimedean window surface of \autoref{ch:concrete-instances-real-archimedean-window-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a local radius-refinement certificate; it is not Real completeness, trichotomy, quotient stream equality, a selected limit, or open-cover compactness.
+
+\begin{definition}[DyadicRealBracketRefinement carrier]
+\label{def:dyadic-real-bracket-refinement-carrier}
+A $\DyadicRealBracketRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+B=(R,S,Q,D,E,E',\rho,\rho',I,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the terminal $\RealUp$ seal row whose finite observation is being bracketed.
+\item $S$ is the $\StreamNameUp$ window row listing the finite requests through which the current bracket may inspect the real-name data.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from those windows.
+\item $D$ is the $\DyadicRatCoreUp$ ledger carrying endpoint arithmetic, midpoint arithmetic, containment checks, and the displayed halving comparison.
+\item $E$ and $E'$ are the current and refined dyadic bracket rows; $E'$ keeps the same real-name source and is read only after $E,S,Q,D$ are visible.
+\item $\rho$ and $\rho'$ are positive radius rows over $\PositiveRealUp$, with $\rho'$ displayed as the halved radius before the refined bracket may be exported.
+\item $I$ is the inclusion row saying that the inspected regular readback stays inside the current bracket $E$.
+\item $J$ is the refinement row saying that the refined bracket $E'$ stays inside $E$ and uses the halved radius $\rho'$.
+\item $H$ records componentwise $\hsame$ transport for the Real seal, StreamName window, RegSeqRat readback, dyadic ledger, both brackets, both radius rows, inclusion, refinement, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a bracket request through finite window inspection, regular rational readback, dyadic arithmetic, radius halving, bracket inclusion, bracket refinement, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\DyadicRealBracketRefinementUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\PositiveRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicRealBracketRefinementUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for Real completeness, trichotomy, quotient stream equality, selected limits, open-cover compactness, or an ambient host order oracle.
+\end{definition}
+
+\begin{theorem}[DyadicRealBracketRefinement NameCert obligations]
+\label{thm:dyadic-real-bracket-refinement-namecert-obligations}
+For every accepted $\DyadicRealBracketRefinementUp$ carrier
+$$
+B=(R,S,Q,D,E,E',\rho,\rho',I,J,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicRealBracketRefinementUp}$ surface consists exactly of carrier admission, finite window exposure, regular readback exposure, dyadic arithmetic exposure, positive-radius exposure, inclusion of the inspected readback in $E$, halved-radius refinement from $\rho$ to $\rho'$, containment of $E'$ in $E$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-real-bracket-refinement-carrier}. The rows $R,S,Q,D,E,E',\rho,\rho',I,J,H,C,P,N$ are the only rows made public by the packet.
+
+The window and readback obligations are the route through $S$ and $Q$. A bracket request first opens the finite StreamName window and then reads the regular rational data supplied by $\RegSeqRatUp$.
+
+The dyadic and radius obligations are the route through $D,\rho,\rho'$. The ledger $D$ records the endpoint, midpoint, containment, and halving checks, while $\rho'$ is exposed as a positive halved radius before the refined bracket is exported.
+
+The inclusion and refinement obligations are the rows $I$ and $J$. They keep the inspected readback inside $E$ and the refined bracket $E'$ inside $E$. The structural rows $H,C,P,N$ transport, replay, source, and name exactly this route, so none of the refused endpoints is introduced.
+\end{proof}
+
+\begin{theorem}[DyadicRealBracketRefinement radius halving]
+\label{thm:dyadic-real-bracket-refinement-radius-halving}
+For every accepted $\DyadicRealBracketRefinementUp$ carrier $B=(R,S,Q,D,E,E',\rho,\rho',I,J,H,C,P,N)$, any consumer that reads the refined bracket row $E'$ must first read the positive radius rows $\rho,\rho'$, the $\DyadicRatCoreUp$ halving ledger $D$, and the containment row $J$. Thus the radius-halving step is a finite dyadic ledger route, not a completeness argument or a selected limiting process.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The refined bracket row $E'$ is not standalone; it is paired with the current bracket $E$, the two positive radius rows, the dyadic ledger, and the refinement row $J$.
+
+Use the NameCert obligations of \autoref{thm:dyadic-real-bracket-refinement-namecert-obligations}. They force radius exposure and dyadic arithmetic exposure before the refined bracket may be consumed.
+
+Finally read $J$. This row is the displayed containment and halving handoff from $E$ to $E'$. Since no row stores a limit selector, quotient stream equality, trichotomy proof, or completeness theorem, the halving step remains a finite bracket-refinement route.
+\end{proof}
+
+\begin{theorem}[DyadicRealBracketRefinement scope]
+\label{thm:dyadic-real-bracket-refinement-scope}
+Every public $\DyadicRealBracketRefinementUp$ read factors through
+$$
+R,S,Q,D,E,E',\rho,\rho',I,J,H,C,P,N.
+$$
+It may be consumed by Real and Completion chapters only as a finite bracket-refinement packet over the displayed Real seal, StreamName window, RegSeqRat readback, DyadicRatCore ledger, positive-radius rows, transport, replay, provenance, and local NameCert. It does not assert Real completeness, trichotomy, quotient stream equality, selected limits, open-cover compactness, or host real equality.
+\end{theorem}
+\begin{proof}
+Apply the carrier projection and the NameCert obligation surface. Together they expose the exact finite route from the Real seal through window inspection, regular readback, dyadic ledger checks, bracket inclusion, radius halving, and bracket refinement.
+
+Apply radius halving from \autoref{thm:dyadic-real-bracket-refinement-radius-halving}. The only refinement export is the displayed containment row $J$ after $D,\rho,\rho'$ have been read.
+
+The rows $H,C,P,N$ preserve the same route under transport, replay, provenance, and local naming. Because the carrier has no further coordinate, downstream Real or Completion consumers receive only the finite bracket-refinement packet.
+\end{proof}
+
+\closureat{DyadicRealBracketRefinementUp}{seedStr}
+
+\begin{closurestatus}{\DyadicRealBracketRefinementUp}
+  \constructivestory{A $\DyadicRealBracketRefinementUp$ packet is generated from a Real seal, a StreamName window, a RegSeqRat readback, a DyadicRatCore endpoint and halving ledger, current and refined bracket rows, positive radius rows, inclusion and refinement rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-real-bracket-refinement-carrier}, \autoref{thm:dyadic-real-bracket-refinement-namecert-obligations}, \autoref{thm:dyadic-real-bracket-refinement-radius-halving}, and \autoref{thm:dyadic-real-bracket-refinement-scope} seed the finite dyadic bracket-refinement route over RealUp, StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, PositiveRealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Real completeness, trichotomy, quotient stream equality, selected limits, open-cover compactness, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite window exposure, regular readback exposure, dyadic halving exposure, positive-radius exposure, inclusion, refinement containment, transport, replay, provenance, and local NameCert field faithfulness for BEDC.Derived.DyadicRealBracketRefinementUp.}
+\end{closurestatus}

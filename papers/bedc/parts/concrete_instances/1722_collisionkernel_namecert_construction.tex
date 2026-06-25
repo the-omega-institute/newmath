@@ -50,6 +50,7 @@ For accepted $\CollisionKernelUp$ carriers $K$ and $K'$, the classifier $\mathsf
 
 The classifier does not inspect hidden source sets, host matrix entries, analytic spectra, measure spaces, quotient fibers, or unrecorded moment laws. Two packets classify together only through displayed transport of the same finite collision-kernel surface.
 \end{definition}
+\leandef{BEDC.Derived.CollisionKernelUp.CollisionKernelClassifier}
 
 \begin{theorem}[CollisionKernel zero-window packet]
 \label{thm:collision-kernel-zero-window-packet}
@@ -75,6 +76,7 @@ The local $\NameCert_{\CollisionKernelUp}$ obligation surface consists of five f
 \item non-escape from host spectra or measure: the packet exports no host spectral object, measure space, infinite Hankel operator, quotient fiber, ambient moment problem, or unrecorded collision-counting operation.
 \end{enumerate}
 \end{theorem}
+\leanchecked{BEDC.Derived.CollisionKernelUp.CollisionKernelCarrier\_namecert\_obligation\_surface}
 \begin{proof}
 The carrier row is the finite packet of \autoref{def:collision-kernel-bhist-carrier}, and \autoref{thm:collision-kernel-zero-window-packet} gives a concrete inhabitant.
 
@@ -177,6 +179,21 @@ Next compose the transports. The classifier-transport scope in \autoref{thm:coll
 The classifier definition then has no further input to inspect. Applying \autoref{def:collision-kernel-classifier} after the composed ledger transport yields the same finite classification, and \autoref{thm:collision-kernel-hankel-shadow-boundary} keeps any shadow read on the same ledger boundary.
 \end{proof}
 
+\begin{theorem}[CollisionKernel scoped dependency route]
+\label{thm:collision-kernel-scoped-route}
+Every scoped $\CollisionKernelUp$ consumer must read the finite window and target-fiber ledger through $\FoldMomentKernelUp$, $\GoldenMeanShiftUp$, $\ZeckendorfNormalUp$, $\ListUp$, and $\NatUp$ provenance before any Hankel-shadow or moment-index row is exported. The route has no host spectrum, ambient measure, quotient fiber, or infinite Hankel operator.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:collision-kernel-bhist-carrier}. The rows $W,F,L,M,I,S,H,C,P,N$ are the only displayed coordinates, and the provenance row $P$ names $\FoldMomentKernelUp$, $\GoldenMeanShiftUp$, $\ZeckendorfNormalUp$, $\ListUp$, and $\NatUp$ as the finite source route for scoped reads.
+
+Use fiber-ledger exactness from \autoref{thm:collision-kernel-fiber-ledger-exactness}. Every matrix entry reaches the target-fiber ledger $L$ through the finite window $W$ and fold-source row $F$, so a consumer cannot read a target fiber independently of the sibling provenance.
+
+Apply moment readback exhaustion and classifier transport scope from \autoref{thm:collision-kernel-moment-readback-exhaustion} and \autoref{thm:collision-kernel-classifier-transport-scope}. Moment-index and Hankel-shadow rows are exported only after $I,M,S,L,H,C,P,N$ have preserved the same finite packet.
+
+Thus the sibling dependency rows exhaust the scoped route before any moment or shadow read is visible. Since the carrier contains no spectrum, measure, quotient fiber, or infinite Hankel coordinate, no such object is exported by the route.
+\end{proof}
+\leanchecked{BEDC.Derived.CollisionKernelUp.CollisionKernelCarrier\_scoped\_route}
+
 \begin{theorem}[CollisionKernel moment ledger noninterference]
 \label{thm:collision-kernel-moment-ledger-noninterference}
 In an accepted $\CollisionKernelUp$ packet $K=(W,F,L,M,I,S,H,C,P,N)$, a moment read or Hankel-shadow read may alter only the displayed moment-index row $I$ or Hankel-shadow row $S$ of the consumer route. It cannot alter the finite source window $W$, fold-source row $F$, matrix row $M$, package provenance $P$, or local $\NameCert$ row $N$.
@@ -192,6 +209,7 @@ The naming side is fixed by \autoref{thm:collision-kernel-classifier-transport-s
 
 Therefore a moment or Hankel-shadow consumer can vary only the moment-facing index or shadow rows of the read, while $W,F,M,P,N$ remain the same visible ledger data.
 \end{proof}
+\leanchecked{BEDC.Derived.CollisionKernelUp.CollisionKernelMomentLedgerNoninterference}
 
 \begin{theorem}[CollisionKernel matrix readback totality]
 \label{thm:collision-kernel-matrix-readback-totality}
@@ -214,6 +232,7 @@ Since those rows exhaust the available readback coordinates, the matrix read can
 \label{thm:collision-kernel-downstream-non-escape-package}
 Every downstream Hankel-shadow or moment consumer of an accepted $\CollisionKernelUp$ packet factors through the finite rows $I,M,S,L,H,C,P,N$ and then back through the matrix-readback boundary of \autoref{thm:collision-kernel-matrix-readback-totality}. Such a consumer cannot export an ambient spectrum, measure space, quotient fiber, infinite Hankel operator, analytic moment law, or hidden collision-counting operation.
 \end{theorem}
+\leanchecked{BEDC.Derived.CollisionKernelUp.CollisionKernelCarrier\_downstream\_non\_escape\_package}
 \begin{proof}
 First isolate the downstream read. By \autoref{thm:collision-kernel-moment-readback-exhaustion}, every moment or Hankel-shadow request factors through $I,M,S,L,H,C,P,N$.
 

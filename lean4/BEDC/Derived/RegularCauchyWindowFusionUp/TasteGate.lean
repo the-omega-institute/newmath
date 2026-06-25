@@ -220,6 +220,38 @@ instance regularCauchyWindowFusionChapterTasteGate :
     intro x y hxy heq
     exact hxy (regularCauchyWindowFusionToEventFlow_injective heq)
 
+instance regularCauchyWindowFusionFieldFaithful :
+    FieldFaithful RegularCauchyWindowFusionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | RegularCauchyWindowFusionUp.mk R W S D E H C P N => [R, W, S, D, E, H, C, P, N]
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk R₁ W₁ S₁ D₁ E₁ H₁ C₁ P₁ N₁ =>
+        cases y with
+        | mk R₂ W₂ S₂ D₂ E₂ H₂ C₂ P₂ N₂ =>
+            injection h with hR t1
+            injection t1 with hW t2
+            injection t2 with hS t3
+            injection t3 with hD t4
+            injection t4 with hE t5
+            injection t5 with hH t6
+            injection t6 with hC t7
+            injection t7 with hP t8
+            injection t8 with hN _
+            subst hR
+            subst hW
+            subst hS
+            subst hD
+            subst hE
+            subst hH
+            subst hC
+            subst hP
+            subst hN
+            rfl
+
 def taste_gate : ChapterTasteGate RegularCauchyWindowFusionUp :=
   regularCauchyWindowFusionChapterTasteGate
 

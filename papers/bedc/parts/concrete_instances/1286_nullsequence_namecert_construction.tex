@@ -53,6 +53,18 @@ The modulus coordinate $M$ chooses the finite window $W$ where the relevant tail
 Conversely, a $\RealUp$ equality read that is certified by this packet can project only the difference stream, tolerance schedule, window, bound, seal, continuation, and provenance rows. Those are exactly the coordinates of \autoref{def:null-sequence-namecert-carrier}, so the classifier consumption is neither stronger nor weaker than the displayed null-difference packet.
 \end{proof}
 
+\begin{theorem}[NullSequence downstream Real-completion consumer route]
+\label{thm:null-sequence-downstream-real-consumer-route}
+Every $\RealUp$ equality or completion-facing seal that consumes a $\NullSequenceUp$ null-difference packet must route through the displayed $\RegSeqRatUp$ difference stream, the $\DyadicRatCoreUp$ tolerance row, the $\StreamNameUp$ observation window, and the $\CauchyModulusUp$ or $\RegularityModulusUp$ threshold before reading the $\RealUp$ seal. In particular, any downstream read shared with the $\RealTailAgreementSealUp$ budget route of \autoref{ch:concrete-instances-realtailagreementseal-namecert} or a completion-facing handoff such as \autoref{ch:concrete-instances-regularcauchyuniformity-namecert} receives the null-difference evidence only through those displayed finite rows.
+\end{theorem}
+\begin{proof}
+Start with the Real classifier consumption theorem \autoref{thm:null-sequence-real-classifier-consumption}. It identifies the packet consumed by a $\RealUp$ equality read as the displayed null-difference row together with its tolerance, window, threshold, seal, continuation, and provenance rows.
+
+Apply the carrier projection of \autoref{def:null-sequence-namecert-carrier}. The difference stream is a $\RegSeqRatUp$ row, the tolerance request is a $\DyadicRatCoreUp$ row, the observation service is a $\StreamNameUp$ row, and the threshold is supplied by $\CauchyModulusUp$ or $\RegularityModulusUp$ before the seal is public.
+
+The cited downstream siblings consume the same finite route rather than a hidden host limit. Since no coordinate of the packet exports a quotient stream, selected limit, trichotomy, or ambient completeness proof, every Real or completion-facing seal read remains downstream of the displayed null-sequence rows.
+\end{proof}
+
 \begin{definition}[NullSequence tolerance-window exactness package]
 \label{def:null-sequence-tolerance-window-exactness-package}
 For an accepted $\NullSequenceUp$ packet
@@ -192,6 +204,20 @@ Next use \autoref{thm:null-sequence-classifier-composition-window-exactness}. Th
 Apply \autoref{thm:null-sequence-tolerance-window-transport} to move the two tolerance-window packages through the $\hsame$ ledgers $H,H'$ and the $\Cont$ routes $C,C'$. The transported consumer reads therefore share one displayed window row and one displayed tolerance row before the seal coordinates are consulted.
 
 Finally use \autoref{thm:null-sequence-real-seal-factorization}. The $\RealUp$ seals read only the factorized null-difference package, and the non-escape boundary of \autoref{thm:null-sequence-non-escape-boundary} excludes any hidden limit, quotient stream, trichotomy, or completeness object from the refinement.
+\end{proof}
+
+\begin{theorem}[NullSequence tail-induction modulus]
+\label{thm:nullsequence-tail-induction-modulus}
+From an accepted $\NullSequenceUp$ packet and two displayed tolerance windows, primitive induction over the finite window-refinement ledger produces a common tail modulus that preserves the $\RealUp$ classifier consumption and never introduces quotient streams, host real equality, trichotomy, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the tolerance-window exactness package of \autoref{def:null-sequence-tolerance-window-exactness-package}. The two displayed tolerance requests are already routed through finite $T,W,M$ rows, with the seal row $E$ and provenance rows $H,C,P,N$ attached to the same packet.
+
+Apply window threshold exactness from \autoref{thm:null-sequence-window-threshold-exactness} to each request. This gives two finite thresholds and two finite observation windows before either $\RealUp$ seal can be read.
+
+Run primitive induction over the finite refinement ledger supplied by \autoref{thm:null-sequence-common-window-refinement}. The base step keeps the first displayed window, and each refinement step enlarges the displayed window only by the next finite row needed to cover both tolerance requests.
+
+Finally transport the resulting common window by \autoref{thm:null-sequence-tolerance-window-transport}. The seal still consumes the same factorized null-difference package, so the induction produces a common tail modulus without adding quotient streams, host real equality, trichotomy, or any completeness field.
 \end{proof}
 
 \begin{theorem}[NullSequence obligation closure package]

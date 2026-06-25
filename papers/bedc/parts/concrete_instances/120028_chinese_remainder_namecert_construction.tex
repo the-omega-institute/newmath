@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\ChineseRemainderUp$}
+\label{ch:concrete-instances-chinese-remainder-namecert}
+\origin{human}
+
+Following Gauss and the standard algebraic Chinese remainder theorem, the $\ChineseRemainderUp$ packet records finite congruence ledgers over displayed integer, ring, ideal, prime, coprime, and unary-index rows. It sits after the integer carrier of \autoref{ch:concrete-instances-int-namecert}, the operation rows of \autoref{ch:concrete-instances-ring-namecert}, the modulus rows of \autoref{ch:concrete-instances-ideal-namecert}, the prime and coprime ledger rows of \autoref{ch:concrete-instances-prime-namecert}, and the finite index discipline of \autoref{ch:concrete-instances-nat-namecert}. The packet names only the displayed residue computation route; it is not a quotient-ring primitive, a selected representative oracle, an ambient ideal factorization theorem, or a host-side modular arithmetic black box.
+
+\begin{definition}[Chinese remainder carrier]
+\label{def:chinese-remainder-carrier}
+A $\ChineseRemainderUp$ carrier is a finite $\BHist$ packet
+$$
+R=(I,A,M,C,U,L,V,T,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\IntUp$ source row for the displayed residue values and reconstructed integer candidate.
+\item $A$ is the $\RingUp$ operation row used for addition, multiplication, subtraction, and unit reads during recombination.
+\item $M$ is the finite modulus row, read through $\IdealUp$, listing the displayed ideals or integer-modulus rows against which congruences are checked.
+\item $C$ is the $\PrimeUp$ and coprime ledger row, recording the pairwise coprimality witnesses required by the displayed moduli.
+\item $U$ is the $\NatUp$ finite index row, naming the inspected modulus positions and the finite recursion order.
+\item $L$ is the congruence ledger, storing each residue row, its modulus row, and the local proof that the candidate agrees with the residue modulo that row.
+\item $V$ is the recombination row, displaying the finite Bezout or unit coefficients used to assemble the candidate from the listed residues.
+\item $T$ is the transport row, recording the componentwise $\hsame$ movement of residues, moduli, coefficients, congruence checks, and reconstructed candidate data.
+\item $H$ is the replay row, storing displayed $\Cont$ replay from the residue request through $I,A,M,C,U,L,V,T$.
+\item $Q$ is the classifier row, comparing accepted packets only by the displayed residue ledger, coprime ledger, recombination row, transport, and replay data.
+\item $P$ is the $\Pkg$ provenance over $\ChineseRemainderUp$, $\IntUp$, $\RingUp$, $\IdealUp$, $\PrimeUp$, $\NatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ChineseRemainderUp}$ row.
+\end{enumerate}
+The classifier has no coordinate for quotient-ring equality, a hidden representative selector, an infinite family of moduli, a non-displayed ideal decomposition, or a detached host proof of the Chinese remainder theorem.
+\end{definition}
+
+\begin{theorem}[Chinese remainder NameCert obligations]
+\label{thm:chinese-remainder-namecert-obligations}
+For every accepted $\ChineseRemainderUp$ carrier
+$$
+R=(I,A,M,C,U,L,V,T,H,Q,P,N),
+$$
+the local $\NameCert_{\ChineseRemainderUp}$ surface consists exactly of integer residue admission, ring-operation admission, finite modulus-row admission, coprime ledger admission, unary index budgeting, congruence ledger exposure, recombination coefficient exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, classifier comparison through displayed rows, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:chinese-remainder-carrier}. The rows $I,A,M,C,U$ expose the arithmetic source, operation surface, modulus list, coprime witnesses, and finite index budget before any residue computation can be read.
+
+Read the ledger and recombination rows next. The row $L$ stores the finite congruence checks, and $V$ stores the displayed coefficient data used to assemble the reconstructed candidate; neither row can be replaced by a quotient-ring equality or a selected representative.
+
+Finally $T,H,Q,P,N$ transport, replay, compare, source, and name the same finite packet. Since the carrier contains no other coordinate, these rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Chinese remainder congruence ledger]
+\label{thm:chinese-remainder-congruence-ledger}
+Let $R=(I,A,M,C,U,L,V,T,H,Q,P,N)$ be an accepted $\ChineseRemainderUp$ carrier. For every modulus position displayed by $U$, the reconstructed candidate named by $I$ and $V$ agrees with the corresponding residue row of $L$ modulo the corresponding modulus row of $M$, and the agreement is replayed through the same coprime ledger $C$ and transport row $T$.
+\end{theorem}
+\begin{proof}
+Induct over the finite index row $U$. In the base case, the first displayed modulus row is read from $M$, its residue row is read from $L$, and the recombination row $V$ supplies the coefficient data whose local congruence is checked by the ring operations in $A$.
+
+For the induction step, assume the already-inspected prefix has been replayed through $H$ and transported by $T$. The next index exposes its modulus row and coprime witnesses through $M$ and $C$, and the next congruence row of $L$ checks the reconstructed candidate against that modulus using only displayed operations.
+
+Because the induction ranges only over the finite row list, it cannot introduce quotient-ring representatives, an infinite modulus family, or an external CRT oracle. The replay row $H$ and provenance row $P$ then package the same finite congruence ledger as the public local certificate.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ChineseRemainderUp$ consumer is refuted by any reconstructed integer read that omits one of the displayed integer residue, ring operation, finite modulus, coprime ledger, unary index, congruence ledger, recombination, transport, replay, provenance, or local naming rows.}
+
+\independenceWitness{int, ring, ideal, prime, nat: $\ChineseRemainderUp$ is not bijective to any listed sibling because it jointly stores residue rows, operation rows, finite modulus rows, pairwise coprime witnesses, index data, congruence ledgers, recombination coefficients, transport, replay, classifier comparison, provenance, and local NameCert data in one packet.}
+
+\closureat{ChineseRemainderUp}{seedStr}
+
+\begin{closurestatus}{\ChineseRemainderUp}
+  \constructivestory{A $\ChineseRemainderUp$ packet is generated from integer residue rows, ring operation rows, finite modulus rows, coprime ledger rows, unary index data, congruence ledgers, recombination coefficients, componentwise hsame transport, displayed Cont replay, classifier comparison, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:chinese-remainder-carrier}, \autoref{thm:chinese-remainder-namecert-obligations}, and \autoref{thm:chinese-remainder-congruence-ledger} seed the finite congruence-ledger route over IntUp, RingUp, IdealUp, PrimeUp, coprime, NatUp, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient-ring equality, selected representatives, ideal factorization, infinite modulus families, or an ambient Chinese remainder theorem.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite modulus exposure, coprime ledger exactness, congruence-row replay, recombination-row stability, transport, classifier comparison, provenance, and local naming for BEDC.Derived.ChineseRemainderUp.}
+\end{closurestatus}

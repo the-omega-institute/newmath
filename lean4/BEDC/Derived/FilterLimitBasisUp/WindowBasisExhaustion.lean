@@ -6,9 +6,29 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
+open BEDC.Meta.TasteGate
+
+theorem FilterLimitBasisCarrier_field_projection_round_trip :
+    (∀ x : FilterLimitBasisUp,
+      BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x ∧
+        ∃ fields : List BHist,
+          fields = filterLimitBasisFields x ∧ fields.length = 11) ∧
+      filterLimitBasisEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · intro x
+    constructor
+    · change filterLimitBasisFromEventFlow (filterLimitBasisToEventFlow x) = some x
+      exact ChapterTasteGate.round_trip x
+    · exact
+        ⟨filterLimitBasisFields x, rfl, by
+          cases x
+          rfl⟩
+  · rfl
 
 theorem FilterLimitBasisWindowBasisExhaustion [AskSetup] [PackageSetup]
     {Q F L W R D E H C P N basis limit window readback tolerance realSeal localRead : BHist}
@@ -109,6 +129,47 @@ theorem FilterLimitBasisWindowBasisExhaustion [AskSetup] [PackageSetup]
   exact
     ⟨cert, basisUnary, limitUnary, windowUnary, readbackUnary, toleranceUnary,
       realSealUnary, localReadUnary⟩
+
+theorem FilterLimitBasisFinitePrefixStreamConsumption [AskSetup] [PackageSetup]
+    {Q F L W R D E H C P N basis limit window readback tolerance terminal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FilterLimitBasisCarrier Q F L W R D E H C P N bundle pkg →
+      Cont Q F basis →
+        Cont basis L limit →
+          Cont limit W window →
+            Cont window R readback →
+              Cont readback D tolerance →
+                Cont tolerance E terminal →
+                  PkgSig bundle terminal pkg →
+                    UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory D ∧
+                      UnaryHistory window ∧ UnaryHistory readback ∧
+                        UnaryHistory tolerance ∧ UnaryHistory terminal ∧
+                          Cont Q F basis ∧ Cont basis L limit ∧ Cont limit W window ∧
+                            Cont window R readback ∧ Cont readback D tolerance ∧
+                              Cont tolerance E terminal ∧ PkgSig bundle P pkg ∧
+                                PkgSig bundle terminal pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier qf basisLimit limitWindow windowRead readTolerance toleranceTerminal
+    pkgTerminal
+  obtain
+    ⟨qUnary, fUnary, lUnary, wUnary, rUnary, dUnary, eUnary, _hUnary, _cUnary,
+      _pUnary, _nUnary, _sameHN, carrierPkg⟩ := carrier
+  have basisUnary : UnaryHistory basis :=
+    unary_cont_closed qUnary fUnary qf
+  have limitUnary : UnaryHistory limit :=
+    unary_cont_closed basisUnary lUnary basisLimit
+  have windowUnary : UnaryHistory window :=
+    unary_cont_closed limitUnary wUnary limitWindow
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed windowUnary rUnary windowRead
+  have toleranceUnary : UnaryHistory tolerance :=
+    unary_cont_closed readbackUnary dUnary readTolerance
+  have terminalUnary : UnaryHistory terminal :=
+    unary_cont_closed toleranceUnary eUnary toleranceTerminal
+  exact
+    ⟨wUnary, rUnary, dUnary, windowUnary, readbackUnary, toleranceUnary, terminalUnary,
+      qf, basisLimit, limitWindow, windowRead, readTolerance, toleranceTerminal, carrierPkg,
+      pkgTerminal⟩
 
 theorem FilterLimitBasisWindowInduction [AskSetup] [PackageSetup]
     {Q F L W R D E H C P N basis limit window readback tolerance realSeal replayRead : BHist}

@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\FunctionSequenceUp$}
+\label{ch:concrete-instances-function-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on displayed sequences of maps, the $\FunctionSequenceUp$ packet records the finite route through which a reader inspects a sequence of functions before uniform, pointwise, compactness, or limit-continuity consumers read the resulting value rows. It sits beside the continuous-map carrier of \autoref{ch:concrete-instances-continuousmap-namecert}, the stream schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name carrier of \autoref{ch:concrete-instances-real-namecert}, the uniform-convergence route of \autoref{ch:concrete-instances-uniform-convergence-namecert}, and the uniform-limit continuity surface of \autoref{ch:concrete-instances-uniform-limit-continuity-namecert}. The packet is a shared BEDC carrier for displayed sequences of maps; it is not a host sequence of functions, quotient equality of maps, selected representatives, countable choice, or ambient completeness.
+
+\begin{definition}[Function sequence carrier]
+\label{def:function-sequence-carrier}
+A $\FunctionSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(X,F,A,V,W,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source-carrier row naming the domain and codomain surfaces through which the displayed maps are read;
+\item $F$ is the indexed function-graph row, listing the inspected stage names and their graph rows through $\ContinuousMapUp$ or the relevant displayed map carrier;
+\item $A$ is the finite argument-window row, recording the source arguments inspected at the displayed stages;
+\item $V$ is the value readback row, routing each inspected value through $\RegSeqRatUp$ and the terminal $\RealUp$ seal when the codomain is Real-facing;
+\item $W$ is the uniform-window ledger, recording finite stage and argument windows for uniform, compact, or limit-continuity consumers;
+\item $H$ records componentwise $\hsame$ transport for the source carrier, indexed graph rows, argument windows, value readbacks, uniform-window ledger, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from a stage-and-argument request through $X,F,A,V,W,H,P,L$;
+\item $P$ is the $\Pkg$ provenance over $\FunctionSequenceUp$, $\ContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\UniformConvergenceUp$, $\UniformLimitContinuityUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows;
+\item $L$ is the local $\NameCert_{\FunctionSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host function extensionality, quotient equality of maps, an infinite uninspected schedule, selected representatives, countable choice, pointwise-only convergence detached from the value readback row, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Function sequence NameCert obligations]
+\label{thm:function-sequence-namecert-obligations}
+For every accepted $\FunctionSequenceUp$ carrier $S=(X,F,A,V,W,H,C,P,L)$, the local $\NameCert_{\FunctionSequenceUp}$ surface consists exactly of carrier admission for the displayed source carrier, indexed function-graph rows, finite argument windows, value readback rows, uniform-window ledger, componentwise transport, displayed replay, provenance, and local naming; value readback through $A,V$; uniform-window exposure through $W$; and refusal of host function equality, quotient map equality, uninspected infinite schedules, selected representatives, countable choice, pointwise-only detached convergence, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:function-sequence-carrier}. The source and analytic rows are $X,F,A,V,W$, and the structural rows are $H,C,P,L$.
+
+The value readback obligation uses $A$ and $V$. A consumer first chooses a displayed stage and argument window, then reads the value row through the regular rational and Real-facing surfaces supplied by the packet.
+
+The uniform-window obligation uses $W$. Uniform convergence, compactness, and uniform-limit continuity consumers may request finite stage and argument windows, but the requested window remains attached to the same indexed graph rows and value readbacks.
+
+Finally inspect $H,C,P,L$. These rows transport, replay, source, and name only the displayed packet. Since the refused host-side objects are not carrier coordinates, they cannot discharge a local NameCert obligation for $\FunctionSequenceUp$.
+\end{proof}
+
+\begin{theorem}[Function sequence L10 route]
+\label{thm:function-sequence-l10-route}
+Every accepted $\FunctionSequenceUp$ read factors through the L10 route
+$$
+\StreamNameUp \longrightarrow \ContinuousMapUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp
+$$
+whenever a Real-facing value is inspected. Uniform-convergence and uniform-limit-continuity consumers may read $W$ only after the source carrier $X$, indexed graph row $F$, argument window $A$, value readback row $V$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $L$ remain visible.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:function-sequence-namecert-obligations}. They force any consumer to expose the source carrier, indexed graph rows, argument windows, value readback rows, and uniform-window ledger before the packet is named.
+
+Read the L10 siblings in order. The stream schedule supplies the inspected stage row, the continuous-map carrier supplies the displayed graph row, the regular rational surface supplies the value readback, and the Real carrier supplies only the terminal seal reached through those rows.
+
+For a uniform or limit-continuity consumer, the row $W$ adds a finite stage-and-argument ledger without detaching the read from $X,F,A,V$. The structural rows $H,C,P,L$ preserve the same packet under transport, replay, provenance, and local naming, so the route cannot become a host-level sequence of functions or a quotient equality of maps.
+\end{proof}
+
+\falsifiablePrediction{A uniform-convergence or uniform-limit-continuity read that obtains a value row without displaying the indexed graph row and finite argument window is not a $\FunctionSequenceUp$ carrier read.}
+
+\independenceWitness{continuous-map, streamname, regseqrat, real, uniform-convergence, uniform-limit-continuity: ContinuousMapUp names one displayed map without the sequence schedule; StreamNameUp supplies schedules without map graphs; RegSeqRatUp supplies regular rational readback without the source and map rows; RealUp supplies the terminal seal without the sequence ledger; UniformConvergenceUp and UniformLimitContinuityUp consume finite uniform windows but do not by themselves name the shared displayed sequence-of-maps carrier. None is bijective to $\FunctionSequenceUp$.}
+
+\closureat{FunctionSequenceUp}{seedStr}
+
+\begin{closurestatus}{\FunctionSequenceUp}
+  \constructivestory{A $\FunctionSequenceUp$ packet is generated from a source-carrier row, indexed function-graph rows, finite argument windows, value readback rows, a uniform-window ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:function-sequence-carrier}, \autoref{thm:function-sequence-namecert-obligations}, and \autoref{thm:function-sequence-l10-route} seed the shared displayed sequence-of-maps carrier for ContinuousMapUp, StreamNameUp, RegSeqRatUp, RealUp, UniformConvergenceUp, UniformLimitContinuityUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, host function extensionality, quotient equality of maps, selected representatives, countable choice, pointwise-only detached convergence, ambient completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, value readback, uniform-window exposure, L10 route preservation, transport, replay, provenance, and local naming for BEDC.Derived.FunctionSequenceUp.}
+\end{closurestatus}

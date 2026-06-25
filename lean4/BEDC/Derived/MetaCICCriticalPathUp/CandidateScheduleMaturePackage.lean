@@ -80,6 +80,88 @@ theorem MetaCICCriticalPathCandidateScheduleMaturePackage [AskSetup] [PackageSet
   }
   exact ⟨cert, scheduleUnary, matureUnary⟩
 
+theorem MetaCICCriticalPathCandidateScheduleMaturePackageL10SourceCertificate
+    [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
+      localName dyadic stream regseq realSeal scheduleRead residualRead l10Read
+      matureRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathOpenPhaseSourceLedger strongNorm normalForm obstruction unblock
+        discharge handoff continuation provenance localName dyadic stream regseq realSeal
+        bundle pkg →
+      Cont continuation localName scheduleRead →
+        Cont scheduleRead discharge residualRead →
+          Cont residualRead realSeal l10Read →
+            Cont l10Read provenance matureRead →
+              PkgSig bundle matureRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row matureRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row scheduleRead ∨ hsame row residualRead ∨
+                        hsame row l10Read ∨ hsame row matureRead ∨ hsame row dyadic ∨
+                          hsame row stream ∨ hsame row regseq ∨ hsame row realSeal)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ PkgSig bundle matureRead pkg ∧
+                        PkgSig bundle realSeal pkg)
+                    hsame ∧
+                  UnaryHistory scheduleRead ∧ UnaryHistory residualRead ∧
+                    UnaryHistory l10Read ∧ UnaryHistory matureRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro ledger continuationLocalSchedule scheduleDischargeResidual residualRealSealL10
+    l10ProvenanceMature maturePkg
+  obtain ⟨packet, _dyadicUnary, _streamUnary, _regseqUnary, realSealUnary,
+    _dyadicStreamRegseq, _regseqRealSealHandoff, realSealPkg⟩ := ledger
+  obtain ⟨_strongNormUnary, _normalFormUnary, _obstructionUnary, _unblockUnary,
+    dischargeUnary, _handoffUnary, continuationUnary, provenanceUnary, localNameUnary,
+    _strongNormNormalFormContinuation, _unblockObstructionDischarge,
+    _handoffLocalName, _provenancePkg⟩ := packet
+  have scheduleUnary : UnaryHistory scheduleRead :=
+    unary_cont_closed continuationUnary localNameUnary continuationLocalSchedule
+  have residualUnary : UnaryHistory residualRead :=
+    unary_cont_closed scheduleUnary dischargeUnary scheduleDischargeResidual
+  have l10Unary : UnaryHistory l10Read :=
+    unary_cont_closed residualUnary realSealUnary residualRealSealL10
+  have matureUnary : UnaryHistory matureRead :=
+    unary_cont_closed l10Unary provenanceUnary l10ProvenanceMature
+  have sourceMature :
+      (fun row : BHist => hsame row matureRead ∧ UnaryHistory row) matureRead := by
+    exact ⟨hsame_refl matureRead, matureUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row matureRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row scheduleRead ∨ hsame row residualRead ∨ hsame row l10Read ∨
+              hsame row matureRead ∨ hsame row dyadic ∨ hsame row stream ∨
+                hsame row regseq ∨ hsame row realSeal)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle matureRead pkg ∧ PkgSig bundle realSeal pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro matureRead sourceMature
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inl source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, maturePkg, realSealPkg⟩
+  }
+  exact ⟨cert, scheduleUnary, residualUnary, l10Unary, matureUnary⟩
+
 theorem MetaCICCriticalPathL10ResidualDiamondSourceExhaustion [AskSetup] [PackageSetup]
     {strongNorm normalForm obstruction unblock discharge handoff continuation provenance
       localName dyadic stream regseq realSeal schedule residual frontier localDiamond l10

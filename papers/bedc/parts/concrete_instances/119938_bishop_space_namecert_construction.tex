@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\BishopSpaceUp$}
+\label{ch:concrete-instances-bishop-space-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, a Bishop space is read through finite observation windows, explicit metric evidence, and constructive continuity data rather than through a host set with ambient point equality. The $\BishopSpaceUp$ packet records that interface as a NameCert surface on the L10 Phase Real and Completion route: it starts from the metric witness of \autoref{ch:concrete-instances-metric-namecert}, hands distance reads to the located metric-space route of \autoref{ch:concrete-instances-located-metric-space-namecert}, and keeps the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows visible before any completion-facing consumer reads the packet.
+
+\begin{definition}[Bishop-space carrier]
+\label{def:bishop-space-carrier}
+A $\BishopSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,M,L,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the local point-observation row. It contains only finite observation windows and the classifier used by the packet; it is not a host equality relation on an ambient set.
+\item $M$ is the $\MetricUp$ source row, recording the metric witness consumed by each accepted observation pair.
+\item $L$ is the $\LocatedMetricSpaceUp$ handoff row. It routes each metric read through located-distance evidence before the read can be used by a completion-facing consumer.
+\item $W$ is the $\StreamNameUp$ finite-window row opened by the located metric read.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row obtained from the displayed stream-name windows.
+\item $E$ is the $\RealUp$ seal row reached from the regular readback.
+\item $H$ records componentwise $\hsame$ transport for $X,M,L,W,R,E$ and for the replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from point observations to metric witnesses, then through located reads, stream windows, regular readbacks, and real seals.
+\item $P$ is the $\Pkg$ provenance over $\BishopSpaceUp$, $\MetricUp$, $\LocatedMetricSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopSpaceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host point equality, quotient completion, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.BishopSpaceUp.BishopSpaceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Bishop-space NameCert obligations]
+\label{thm:bishop-space-namecert-obligations}
+For every accepted $\BishopSpaceUp$ carrier
+$$
+B=(X,M,L,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopSpaceUp}$ surface consists exactly of carrier admission for the displayed observation row, metric-source readback through $M$, located metric-space handoff through $L$, finite stream-window exposure through $W$, regular rational readback through $R$, real-seal handoff through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-space-carrier}. The point-observation row $X$ supplies the finite observation windows and the local classifier, while the metric source row $M$ supplies the distance witness inspected by each accepted observation pair.
+
+The located handoff is the role of $L$. It forces each distance read onto the $\LocatedMetricSpaceUp$ route before the read can open completion-facing data.
+
+The L10 readback obligations are then $W,R,E$. Row $W$ displays the finite $\StreamNameUp$ windows, row $R$ packages those windows as $\RegSeqRatUp$ data, and row $E$ exposes the $\RealUp$ seal only after the regular readback has been displayed.
+
+Finally, $H,C,P,N$ transport, replay, source, and name exactly the same rows. Since the carrier contains no host point equality, quotient completion, selected limit, choice, or ambient real-completeness coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop-space located-metric handoff]
+\label{thm:bishop-space-located-metric-handoff}
+Every L10 completion consumer that reads an accepted $\BishopSpaceUp$ packet factors through
+$$
+X\longmapsto M\longmapsto L\longmapsto W\longmapsto R\longmapsto E
+$$
+together with $H,C,P,N$. Thus the consumer reads the $\MetricUp$ source, then the $\LocatedMetricSpaceUp$ handoff, then the $\StreamNameUp$ finite windows, $\RegSeqRatUp$ readback, and $\RealUp$ seal before any completion-facing endpoint is exposed.
+\end{theorem}
+\begin{proof}
+Begin with a completion-facing request against the accepted packet. The observation row $X$ contains only finite point windows, so the request must use the metric source row $M$ to obtain a displayed distance witness.
+
+Next use the located handoff row $L$. This is where the metric read becomes a located metric-space read, so the route cannot jump from $M$ directly to a real or completion endpoint.
+
+The readback then passes through $W,R,E$. The finite windows in $W$ are read as stream-name data, the regular rational row $R$ packages those windows, and the real seal $E$ is visible only after that regular readback.
+
+Rows $H,C,P,N$ preserve the same route under transport, continuation replay, provenance, and local naming. Because the packet has no coordinate for host equality, quotient completion, selected limits, countable choice, or ambient $\RealUp$ completeness, every completion-facing read remains on the displayed L10 route.
+\end{proof}
+
+\falsifiablePrediction{Every L10 completion-facing read from a $\BishopSpaceUp$ packet factors through the displayed MetricUp source, LocatedMetricSpaceUp handoff, StreamName finite windows, RegSeqRat readback, RealUp seal, componentwise transport, continuation replay, provenance, and local naming row before completion data is consumed.}
+
+\independenceWitness{metric, locatedmetricspace, streamname, regseqrat, real: $\BishopSpaceUp$ is not bijective to any listed sibling because it jointly carries point-observation windows, a MetricUp source, a LocatedMetricSpaceUp handoff, StreamName windows, RegSeqRat readback, RealUp seal, transport, replay, provenance, and a local NameCert row.}
+
+\closureat{BishopSpaceUp}{seedStr}
+
+\begin{closurestatus}{\BishopSpaceUp}
+  \constructivestory{A $\BishopSpaceUp$ packet is generated from finite point observations, a MetricUp source, a LocatedMetricSpaceUp handoff, StreamName windows, RegSeqRat readback, RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-space-carrier}, \autoref{thm:bishop-space-namecert-obligations}, and \autoref{thm:bishop-space-located-metric-handoff} seed the Bishop-space carrier and its L10 real-and-completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host point equality, quotient completion, selected limits, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric source readback, located metric-space handoff, stream-window exposure, RegSeqRat readback, RealUp seal handoff, transport replay, and ledger refusal for BEDC.Derived.BishopSpaceUp.}
+\end{closurestatus}

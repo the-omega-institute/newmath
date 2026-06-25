@@ -78,6 +78,61 @@ parallel diamond, or a substitution-compatibility discharge, the accepted seal
 cannot be repacked into full closed Church--Rosser.
 \end{proof}
 
+\begin{theorem}[Closed normal confluence seal join-window inversion]
+\label{thm:closed-normal-confluence-seal-join-window-inversion}
+For every accepted $\ClosedNormalConfluenceSealUp$ carrier
+$Z=(t,n,r_1,r_2,j,H,C,P,N)$, any consumer that reads the join row $j$ must first
+expose the closed source row $t$, the beta-normality row $n$, and both displayed
+$\mathrm{BetaStarStep}$ routes $r_1,r_2$. Conversely, the row $j$ exports only
+the common target and residual routes attached to those two displayed routes.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClosedNormalConfluenceSealUp.ClosedNormalConfluenceSealJoinWindowInversion}
+\begin{proof}
+Project the carrier of
+\autoref{def:closed-normal-confluence-seal-carrier}. The join coordinate $j$ is
+not an independent global confluence field; it is listed after the closed source
+$t$, the beta-normality witness $n$, and the displayed routes $r_1,r_2$.
+
+Apply \autoref{thm:closed-normal-confluence-seal-normal-source}. It fixes the
+available source as the displayed closed beta-normal row and keeps both
+beta-star routes visible before the join is read.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name only this
+finite window. Therefore a consumer of $j$ recovers precisely the common target
+and residual routes attached to $r_1,r_2$, while arbitrary closed
+Church--Rosser, closed parallel diamond, substitution compatibility, subject
+reduction, and normalization remain outside the packet.
+\end{proof}
+
+\begin{theorem}[Closed normal confluence seal public export]
+\label{thm:closed-normal-confluence-seal-public-export}
+The public export of an accepted $\ClosedNormalConfluenceSealUp$ packet is
+exactly the displayed closed beta-normal source row $t$, the beta-normality
+witness row $n$, the two beta-star route rows $r_1,r_2$, the join row $j$, and
+the structural surface $H,C,P,N$ for componentwise $\hsame$ transport,
+displayed $\Cont$ replay, package provenance, and local naming. This export
+contains no arbitrary closed Church--Rosser theorem, no
+$\mathrm{BetaParallelSubstitutionCompatibility}$ discharge, no closed parallel
+diamond, and no subject-reduction or normalization oracle.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClosedNormalConfluenceSealUp.ClosedNormalConfluenceSealPublicExport}
+\begin{proof}
+Start with the normal-source theorem
+\autoref{thm:closed-normal-confluence-seal-normal-source}. It identifies the
+source of the export as the displayed closed beta-normal row $t$ together with
+the normality witness $n$ and the two beta-star route rows $r_1,r_2$.
+
+The join row $j$ is therefore read only as the join for those two displayed
+routes. The transport, replay, provenance, and naming rows $H,C,P,N$ preserve
+that finite surface for public consumers without adding a new source or a
+substitution theorem.
+
+The carrier of \autoref{def:closed-normal-confluence-seal-carrier} has no
+coordinate for arbitrary closed Church--Rosser, closed parallel diamond,
+subject reduction, or normalization. Hence the public export is exactly the
+finite normal-source seal and not any of the excluded global endpoints.
+\end{proof}
+
 \begin{theorem}[Closed normal confluence seal substitution boundary]
 \label{thm:closed-normal-confluence-seal-substitution-boundary}
 The $\ClosedNormalConfluenceSealUp$ carrier separates the available
@@ -87,6 +142,7 @@ it does not produce $\mathrm{BetaParallelSubstitutionCompatibility}$,
 $\mathrm{BetaParallelDiamondClosed}$, or arbitrary closed-term confluence for
 $\mathrm{BetaStarStep}$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedNormalConfluenceSealUp.ClosedNormalConfluenceSealSubstitutionBoundary}
 \begin{proof}
 Read the provenance row $P$. It names the checked normal-source confluence
 surface and also names the closed-substitution compatibility obstruction
@@ -107,14 +163,166 @@ is not a certificate for the substitution-sensitive branch that would be needed
 to close arbitrary closed-term Church--Rosser.
 \end{proof}
 
+\begin{theorem}[Closed normal confluence seal obligation surface]
+\label{thm:closed-normal-confluence-seal-obligation-surface}
+The local $\NameCert_{\ClosedNormalConfluenceSealUp}$ obligation surface consists of carrier admission for
+$$
+t,n,r_1,r_2,j,H,C,P,N,
+$$
+closed normal-source exposure, the two displayed beta-star route rows, the displayed join row, route stability, transport stability, provenance, and boundary nonescape from substitution compatibility or full Church--Rosser.
+\end{theorem}
+\begin{proof}
+Carrier admission is the row inventory of \autoref{def:closed-normal-confluence-seal-carrier}. It exposes the closed source $t$, the normality row $n$, the two beta-star routes $r_1,r_2$, the join row $j$, and the structural rows $H,C,P,N$.
+
+The normal-source component is supplied by \autoref{thm:closed-normal-confluence-seal-normal-source}. It restricts the join row to the displayed closed beta-normal source and prevents the route from being read as arbitrary closed-source confluence.
+
+The boundary clauses are supplied by \autoref{thm:closed-normal-confluence-seal-substitution-boundary}. They keep substitution compatibility, the closed parallel diamond, and full closed Church--Rosser outside the obligation surface while leaving the finite normal-source seal available to local consumers.
+\end{proof}
+\leanchecked{BEDC.Derived.ClosedNormalConfluenceSealUp.ClosedNormalConfluenceSealObligationSurface}
+
+\begin{theorem}[Closed normal confluence seal carrier admission ledger]
+\label{thm:closed-normal-confluence-seal-carrier-admission-ledger}
+An accepted $\ClosedNormalConfluenceSealUp$ carrier admits exactly the displayed
+rows
+$$
+t,n,r_1,r_2,j,H,C,P,N
+$$
+as its local admission ledger: closed source, beta-normality, two beta-star
+routes, their normal-source join, componentwise transport, continuation replay,
+provenance, and local naming.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClosedNormalConfluenceSealUp.ClosedNormalConfluenceSealCarrierAdmissionLedger}
+\begin{proof}
+Project the carrier in
+\autoref{def:closed-normal-confluence-seal-carrier}. The first five rows
+record the closed source, normality witness, two beta-star routes, and the join
+row supplied by the normal-source confluence theorem.
+
+The final four rows record the admissible BEDC infrastructure for reading
+those data. The transport row $H$ and replay row $C$ keep the read componentwise
+and displayed, while $P$ and $N$ record provenance and local naming.
+
+No further coordinate is available in the carrier. Hence the admission ledger
+is exactly $t,n,r_1,r_2,j,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Closed normal confluence seal route stability]
+\label{thm:closed-normal-confluence-seal-route-stability}
+If two accepted $\ClosedNormalConfluenceSealUp$ carriers agree componentwise
+along the displayed $\hsame$ row, every permitted $\Cont$ replay of the
+normal-source route for one carrier transports to the corresponding replay of
+the other carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClosedNormalConfluenceSealUp.ClosedNormalConfluenceSealRouteStability}
+\begin{proof}
+Read the componentwise transport row $H$. It identifies the closed source,
+normality witness, route rows, join row, provenance row, and local certificate
+row only along the displayed $\hsame$ surface.
+
+Now replay through $C$. Each permitted continuation reads the same finite
+coordinates in the same order: closedness and normality first, then the two
+beta-star routes, and finally the join row. Transport through $H$ therefore
+sends any such read to the corresponding read of the transported packet.
+
+The proof uses no external confluence theorem beyond the already displayed
+normal-source join. Stability is a property of the finite replay route, not a
+new Church--Rosser endpoint.
+\end{proof}
+
+\begin{theorem}[Closed normal confluence seal scoped route]
+\label{thm:closed-normal-confluence-seal-scoped-route}
+Every permitted consumer route out of an accepted
+$\ClosedNormalConfluenceSealUp$ carrier factors through the displayed closed
+source $t$, beta-normality row $n$, two $\mathrm{BetaStarStep}$ rows $r_1,r_2$,
+join row $j$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay
+$C$, $\Pkg$ provenance $P$, local $\NameCert_{\ClosedNormalConfluenceSealUp}$
+row $N$, and the single-carrier alignment surface named by
+BEDC.Derived.ClosedNormalConfluenceSealUp.ClosedNormalConfluenceSealTasteGate\_single\_carrier\_alignment.
+No such route bypasses this finite chain to obtain arbitrary closed
+Church--Rosser data.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier and project the rows listed in
+\autoref{def:closed-normal-confluence-seal-carrier}. The only source available
+to a consumer is the closed row $t$, and the only normality evidence available
+for that source is $n$.
+
+The replay then factors through the two displayed beta-star rows $r_1,r_2$ and
+the join row $j$. The transport row $H$ can move the route only componentwise,
+and the continuation row $C$ can replay only the already displayed closed
+source, normality, route, and join coordinates.
+
+The provenance row $P$ and local certificate row $N$ bind this route to the
+same NameCert packet. The TasteGate single-carrier alignment identifies the
+accepted carrier surface used by the route, so a consumer cannot change carrier
+shape while preserving acceptance.
+
+Thus the permitted route is exactly the finite route through the displayed
+closed source, normality row, beta-star rows, join row, transport, replay,
+provenance, local naming, and TasteGate alignment. Nothing in the factorization
+supplies substitution compatibility, a closed parallel diamond, or full closed
+Church--Rosser.
+\end{proof}
+
+\begin{theorem}[Closed normal confluence seal kernel scope]
+\label{thm:closed-normal-confluence-seal-kernel-scope}
+The kernel scope of the $\ClosedNormalConfluenceSealUp$ packet is exactly the
+BEDC infrastructure $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ together
+with the MetaCIC surfaces for closed-term rows, beta-normality rows,
+$\mathrm{BetaStarStep}$ rows, typed reduction, and subject reduction. The scope
+does not include substitution compatibility, a closed parallel diamond, a
+normalization oracle, or full closed Church--Rosser.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. The structural rows are $H,C,P,N$, and their
+ambient BEDC primitives are precisely $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and
+$\NameCert$.
+
+The computational rows are $t,n,r_1,r_2,j$. They name a closed MetaCIC source, a
+beta-normality witness, two $\mathrm{BetaStarStep}$ routes, and the displayed
+join supplied for that normal source. The sibling typed-reduction and
+subject-reduction chapters delimit how these rows may be read by consumers.
+
+No remaining coordinate names substitution compatibility, a closed parallel
+diamond, arbitrary normalization, or a general Church--Rosser theorem. The
+scope is therefore the displayed BEDC infrastructure plus the listed MetaCIC
+surfaces, and nothing beyond them.
+\end{proof}
+\leanchecked{BEDC.Derived.ClosedNormalConfluenceSealUp.ClosedNormalConfluenceSealKernelScope}
+
+\begin{theorem}[Closed normal confluence seal boundary nonescape]
+\label{thm:closed-normal-confluence-seal-boundary-nonescape}
+No accepted $\ClosedNormalConfluenceSealUp$ packet exports residual-substitution
+compatibility, a full closed parallel diamond, or arbitrary closed-source
+Church--Rosser data beyond the displayed normal-source seal.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClosedNormalConfluenceSealUp.ClosedNormalConfluenceSealBoundaryNonescape}
+\begin{proof}
+Inspect the carrier rows. The route data stop at $r_1,r_2,j$, where $j$ is the
+join supplied for the closed beta-normal source named by $t$ and $n$.
+
+The provenance row $P$ records the substitution-compatibility obstruction as a
+boundary. It does not fill a coordinate for
+$\mathrm{BetaParallelSubstitutionCompatibility}$, nor does any continuation in
+$C$ replay such a coordinate.
+
+Thus every consumer remains inside the residual-substitution and full
+Church--Rosser boundary named by the carrier. The packet can expose the local
+normal-source seal, but it cannot escape to the missing closed parallel diamond
+or arbitrary closed-term confluence endpoint.
+\end{proof}
+
 \closureat{ClosedNormalConfluenceSealUp}{seedStr}
+\closureat{ClosedNormalConfluenceSealUp}{obligationStr}
+\closureat{ClosedNormalConfluenceSealUp}{scopedStr}
+\closureat{ClosedNormalConfluenceSealUp}{publicStr}
 
 \begin{closurestatus}{\ClosedNormalConfluenceSealUp}
   \constructivestory{A $\ClosedNormalConfluenceSealUp$ packet is generated from a closed term row, beta-normality witness row, two beta-star route rows, a displayed join row, componentwise $\hsame$ transports, displayed $\Cont$ reads, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:closed-normal-confluence-seal-carrier}, \autoref{thm:closed-normal-confluence-seal-normal-source}, and \autoref{thm:closed-normal-confluence-seal-substitution-boundary} bind the finite normal-source confluence seal and its substitution-compatibility boundary.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:closed-normal-confluence-seal-carrier}, \autoref{thm:closed-normal-confluence-seal-obligation-surface}, \autoref{thm:closed-normal-confluence-seal-carrier-admission-ledger}, \autoref{thm:closed-normal-confluence-seal-route-stability}, \autoref{thm:closed-normal-confluence-seal-scoped-route}, \autoref{thm:closed-normal-confluence-seal-kernel-scope}, \autoref{thm:closed-normal-confluence-seal-boundary-nonescape}, and \autoref{thm:closed-normal-confluence-seal-public-export} bind carrier admission, route stability, kernel scope, boundary non-escape, and the public finite normal-source export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close arbitrary closed-term Church--Rosser, $\mathrm{BetaParallelSubstitutionCompatibility}$, $\mathrm{BetaParallelDiamondClosed}$, a subject-reduction theorem, a normalization oracle, checked Lean certificate coverage, or a public standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier admission, normal-source join readback, route stability, transport stability, provenance, and boundary non-escape for the same finite seal packet.}
+  \upgradepath{Public closure requires checked carrier admission, normal-source join readback, route stability, transport stability, provenance, and boundary non-escape for the same finite seal packet.}
 \end{closurestatus}

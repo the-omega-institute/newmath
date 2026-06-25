@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\ClassifierInformationBudgetUp$}
+\label{ch:concrete-instances-classifier-information-budget-namecert}
+\origin{ai}
+
+The $\ClassifierInformationBudgetUp$ packet realizes the classifier-level information distinction of \autoref{ch:visions-classifier-level-information} as finite BEDC data. It separates record growth from classifier shift by displaying before/after classifier-state rows, a $\SigRel$ handoff row, ledger-delta rows, transport, replay, provenance, and local naming. The packet is designed for discovery-classifier and TasteGate consumers that must know whether a route changes the classifier rather than merely extending a trace.
+
+The budget packet consumes the morphism-level route discipline of \autoref{ch:concrete-instances-classifiermorphism-namecert} and the boundary-exposure discipline of \autoref{ch:concrete-instances-classifierboundary-namecert} before interpreting a $\SigRel$ ledger delta as classifier-level information.
+
+It also consumes the before/after disagreement route of \autoref{ch:concrete-instances-classifier-shift-ledger-residue-namecert} and feeds the positive-claim boundary of \autoref{ch:concrete-instances-pipeline-discovery-classifier-namecert} together with the novelty ledger of \autoref{ch:concrete-instances-classifier-novelty-ledger-namecert}.
+
+\begin{definition}[Classifier information budget carrier]
+\label{def:classifier-information-budget-carrier}
+A $\ClassifierInformationBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+I=(S_0,S_1,G,D,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ is the source classifier-state row before the audited transition.
+\item $S_1$ is the target classifier-state row after the audited transition.
+\item $G$ is the $\SigRel$ handoff row, recording which signature relation compares the two classifier states.
+\item $D$ is the ledger-delta row, separating external record growth from the classifier-shift bit read along $G$.
+\item $L$ is the local budget row, recording which classifier-level information budget is consumed by a downstream route.
+\item $H$ records componentwise $\hsame$ transport for the source state, target state, $\SigRel$ handoff, ledger delta, budget row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the classifier-budget route through $S_0,S_1,G,D,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ClassifierInformationBudgetUp$, $\SigRel$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ClassifierInformationBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S_0,S_1,G,D,L,H,C,P,N$. It has no coordinate for equating record growth with discovery, for treating a notation change as classifier shift, or for reading a positive discovery without the displayed ledger-delta row.
+\end{definition}
+
+\begin{theorem}[Classifier information budget NameCert obligations]
+\label{thm:classifier-information-budget-namecert-obligations}
+For every accepted $\ClassifierInformationBudgetUp$ carrier $I=(S_0,S_1,G,D,L,H,C,P,N)$, the local $\NameCert_{\ClassifierInformationBudgetUp}$ surface consists exactly of classifier-state admission for $S_0,S_1$, $\SigRel$ handoff admission for $G$, ledger-delta exposure for $D$, local budget exposure for $L$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A downstream consumer may read classifier-level information only after it displays these rows and keeps record growth distinct from classifier shift.
+\end{theorem}
+\begin{proof}
+Project the carrier. The two classifier-state rows and the $\SigRel$ handoff are the only before/after comparison data available to a consumer.
+
+The ledger-delta row $D$ separates record growth from classifier shift before the local budget row $L$ can be consumed. Thus a longer record is not itself a classifier-level information witness, and a notation-only presentation change is not accepted as a shift.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the same route. Since the carrier has no hidden discovery bit or host classifier oracle, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Classifier information budget SigRel handoff]
+\label{thm:classifier-information-budget-sigrel-handoff}
+Every accepted $\ClassifierInformationBudgetUp$ read of classifier-level information factors through
+$$
+S_0\longmapsto S_1\longmapsto G\longmapsto D\longmapsto L\longmapsto H,C,P,N.
+$$
+In particular, the $\SigRel$ row $G$ is mandatory before the ledger-delta row $D$ may classify the transition as classifier-preserving, classifier-shifting, or budget-consuming.
+\end{theorem}
+\begin{proof}
+Start with a classifier-information request. The source and target classifier states $S_0,S_1$ are displayed before any comparison can be made.
+
+The request next reads $G$. This row fixes the signature relation by which the two states are compared, so the ledger-delta row $D$ cannot be interpreted independently of the handoff.
+
+Finally the budget row $L$ and the structural rows $H,C,P,N$ present the accepted consumer surface. The route therefore records classifier-level information only through the displayed $\SigRel$ comparison and ledger delta.
+\end{proof}
+
+\falsifiablePrediction{A $\ClassifierInformationBudgetUp$ consumer that treats record growth alone as classifier-level information, or records classifier shift without a displayed $\SigRel$ handoff and ledger-delta row, refutes this packet.}
+
+\independenceWitness{classifier-state, sigrel, ledger-delta, transport, replay: $\ClassifierInformationBudgetUp$ is not bijective to any single constituent because it binds before/after classifier rows, signature comparison, budget consumption, provenance, and local NameCert data in one carrier.}
+
+\closureat{ClassifierInformationBudgetUp}{seedStr}
+
+\begin{closurestatus}{\ClassifierInformationBudgetUp}
+  \constructivestory{A $\ClassifierInformationBudgetUp$ packet is generated from before/after classifier-state rows, a SigRel handoff row, ledger-delta rows separating record growth from classifier shift, a local information-budget row, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:classifier-information-budget-carrier}, \autoref{thm:classifier-information-budget-namecert-obligations}, and \autoref{thm:classifier-information-budget-sigrel-handoff} seed the classifier-level information budget through classifier-state, SigRel, ledger-delta, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, a positive-discovery gate, a global classifier oracle, or any claim that record growth alone is classifier-level information.}
+  \upgradepath{Obligation closure requires checked carrier admission, SigRel handoff exactness, ledger-delta separation, budget-row nonescape, transport, replay, provenance, and local naming for BEDC.Derived.ClassifierInformationBudgetUp.}
+\end{closurestatus}

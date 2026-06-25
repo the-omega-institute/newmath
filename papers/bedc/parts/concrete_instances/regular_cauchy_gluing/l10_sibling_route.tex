@@ -41,6 +41,18 @@ selected representatives, host real equality, choice, or ambient completeness,
 the L10 sibling route remains a finite local NameCert route.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy gluing RegSeqRat route]
+\label{thm:regular-cauchy-gluing-regseqrat-route}
+Every glued readback row of an accepted $\RegularCauchyGluingUp$ packet must pass through the existing $\RegSeqRatUp$ sibling surface of \autoref{ch:concrete-instances-regseqrat-namecert} and the $\CauchyReindexingUp$ handoff of \autoref{ch:concrete-instances-cauchy-reindexing-namecert} before the terminal $\RealUp$ seal is visible. The local obligations of \autoref{thm:regular-cauchy-gluing-namecert-obligations} therefore expose a regular rational readback and a reindexing route before any Real-facing consumer may read the glued value.
+\end{theorem}
+\begin{proof}
+Start from the local L10 route of \autoref{thm:regular-cauchy-gluing-l10-sibling-route}. It already orders the dyadic ledger, finite StreamName windows, $\RegSeqRatUp$ readback, $\CauchyReindexingUp$ handoff, and terminal $\RealUp$ seal before the gluing NameCert row is exported.
+
+Apply the local obligations of \autoref{thm:regular-cauchy-gluing-namecert-obligations}. The glued readback row is one of the displayed certificate rows, so it cannot be consumed without the same regular rational surface and structural support rows.
+
+Use \autoref{thm:regular-cauchy-gluing-cauchy-reindexing-handoff}. The reindexing handoff keeps the dyadic, stream, and regular readback data aligned before the terminal Real seal appears. Thus a Real-facing read factors through RegSeqRat and CauchyReindexing rather than bypassing them.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy gluing pasting nonescape]
 \label{thm:regular-cauchy-gluing-pasting-nonescape}
 Every accepted pasting consumer of a $\RegularCauchyGluingUp$ packet must read the finite route of \autoref{def:regular-cauchy-gluing-carrier}, satisfy the local obligations of \autoref{thm:regular-cauchy-gluing-namecert-obligations}, and pass through the L10 sibling route of \autoref{thm:regular-cauchy-gluing-l10-sibling-route} before it exports any NameCert row. In particular, the consumer must display the $\DyadicRatCoreUp$ tolerance rows, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\CauchyReindexingUp$ handoff, and terminal $\RealUp$ seal.
@@ -69,4 +81,70 @@ For a consumer that reads only gluing data, those rows exhaust the available sur
 If the same consumer asks for apartness or located comparison, apply the separator sibling dependency of \autoref{thm:regular-seq-apartness-separator-sibling-dependency}. That route requires the stream, regular-rational, dyadic, Real-seal, located-cut, and apartness-field rows to be displayed through $\RegularSeqApartnessSeparatorUp$ before such a read is available.
 
 Thus the gluing packet itself remains the ordinary finite route, while apartness-facing or located-comparison-facing reads factor through the separator chapter rather than being smuggled into the gluing carrier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy gluing completion consumer route]
+\label{thm:regular-cauchy-gluing-completion-gluing-consumer}
+Every Bishop-completion or Real-completion consumer of an accepted $\RegularCauchyGluingUp$ packet must read the same finite L10 sibling route before exporting a gluing $\NameCert$ row. In particular, the consumer first exposes the $\DyadicRatCoreUp$ tolerance rows, the $\StreamNameUp$ finite observation windows, the $\RegSeqRatUp$ regular readback, the $\CauchyReindexingUp$ handoff, and the terminal $\RealUp$ seal. The exported gluing certificate has no coordinate for quotient stream equality, selected representatives, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the L10 sibling route of \autoref{thm:regular-cauchy-gluing-l10-sibling-route}. It already orders the dyadic ledger, stream windows, regular-rational readback, Cauchy reindexing handoff, and terminal Real seal before any local gluing $\NameCert$ row is exported.
+
+Apply the RegSeqRat route of \autoref{thm:regular-cauchy-gluing-regseqrat-route}. A completion-facing read of the glued value therefore cannot bypass the regular rational surface or the reindexing route on its way to the terminal $\RealUp$ seal.
+
+Apply the pasting nonescape theorem, \autoref{thm:regular-cauchy-gluing-pasting-nonescape}. It keeps every gluing consumer inside the finite carrier route and excludes quotient stream equality, selected representatives, host real equality, countable choice, and ambient completeness as exportable coordinates.
+
+Finally use the separator-use route of \autoref{thm:regular-cauchy-gluing-separator-use-route}. Apartness-facing or located-comparison-facing completion reads factor through the separator sibling; ordinary Bishop-completion and Real-completion gluing reads still expose only the dyadic, stream, regular-rational, reindexing, and Real-seal rows before the gluing $\NameCert$ is named.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy gluing uniform Cauchy criterion route]
+\label{thm:regular-cauchy-gluing-uniform-cauchy-criterion-route}
+Every uniform-Cauchy-criterion consumer of an accepted $\RegularCauchyGluingUp$ packet must read the finite sibling route before exporting criterion data. The consumer must expose the $\DyadicRatCoreUp$ tolerance rows, the $\StreamNameUp$ finite windows, the $\RegSeqRatUp$ readbacks, the $\CauchyReindexingUp$ handoff, the $\BishopRealCompletionUp$ consumer rows, and the terminal $\RealUp$ seal as displayed rows of the gluing route.
+
+Consequently the criterion consumer exports only the finite BEDC packet obtained from those rows, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RegularCauchyGluingUp}$ ledger. It does not export quotient sequence equality, selected representatives, countable choice, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the L10 sibling route of \autoref{thm:regular-cauchy-gluing-l10-sibling-route}. It already places the dyadic tolerance ledger, finite stream windows, regular-rational readback, Cauchy reindexing handoff, and terminal Real seal before any gluing $\NameCert$ row is exported.
+
+Apply the RegSeqRat route of \autoref{thm:regular-cauchy-gluing-regseqrat-route} and the completion consumer theorem \autoref{thm:regular-cauchy-gluing-completion-gluing-consumer}. Together they force a completion-facing criterion read through the regular rational surface, the reindexing handoff, and the Bishop-completion consumer rows before the terminal $\RealUp$ seal can be read.
+
+Finally use the downstream sibling route of \autoref{thm:regular-cauchy-gluing-sibling-route}. It permits only concrete downstream consumers after the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BishopRealCompletionUp$, and $\RealUp$ rows have been displayed. Since the carrier and all cited routes omit quotient sequence equality, selected representatives, countable choice, host real equality, and ambient completeness, none of those objects can be repacked as uniform-Cauchy-criterion data.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy gluing L10 sibling dependency]
+\label{thm:regular-cauchy-gluing-l10-sibling-dependency}
+Before any gluing consumer reads the local $\NameCert_{\RegularCauchyGluingUp}$ row, it must display the finite sibling dependency route through the $\RegSeqRatUp$ rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\StreamNameUp$ observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\DyadicRatCoreUp$ tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the completion-facing handoff of \autoref{ch:concrete-instances-bishop-real-completion-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The route may also be read by Bishop-completion consumers through the completion consumer theorem \autoref{thm:regular-cauchy-gluing-completion-gluing-consumer}, but it remains a finite dependency lattice rather than quotient sequence equality, selected representatives, countable choice, host real equality, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-gluing-l10-sibling-route}. It already orders the dyadic tolerance rows, stream observation windows, regular-rational readback, Cauchy reindexing handoff, and Real seal before the local gluing $\NameCert$ row is exported.
+
+Apply \autoref{thm:regular-cauchy-gluing-completion-gluing-consumer}. A Bishop-completion or Real-completion consumer therefore reads the same finite row sequence before it can use the gluing packet as completion-facing data.
+
+The dependency is finite because every cited sibling appears as a displayed row or handoff in the local route. No step asks for quotient sequence equality, a selected representative of a Cauchy class, countable choice over tails, host real equality, or an ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy gluing downstream sibling route]
+\label{thm:regular-cauchy-gluing-sibling-route}
+Any cofinal, interleaving, or comparison-facing consumer of an accepted $\RegularCauchyGluingUp$ packet must first pass through the finite sibling route of \autoref{thm:regular-cauchy-gluing-l10-sibling-dependency}. After the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BishopRealCompletionUp$, and terminal $\RealUp$ rows have been displayed, such a consumer may continue only through a concrete downstream sibling such as \autoref{ch:concrete-instances-regularcauchyinterleaving-namecert} or \autoref{ch:concrete-instances-cauchy-interleaving-comparison-namecert}. The gluing packet itself exports no detached cofinal route, no interleaving selector, no quotient equality of Cauchy names, no selected representative, and no ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-gluing-l10-sibling-dependency}. It forces every gluing consumer to display the regular rational rows, finite stream windows, dyadic tolerance rows, Bishop-completion handoff, and terminal Real seal before the local $\NameCert_{\RegularCauchyGluingUp}$ row is read.
+
+Apply the completion consumer theorem \autoref{thm:regular-cauchy-gluing-completion-gluing-consumer}. A completion-facing read therefore receives the same finite route, not a quotient stream or selected representative.
+
+For an interleaving-facing read, use the public sibling surface of \autoref{ch:concrete-instances-regularcauchyinterleaving-namecert}. It supplies the alternating selector and combined modulus ledger only after the relevant $\RegSeqRatUp$, $\StreamNameUp$, and $\RealUp$ rows are displayed.
+
+For a comparison-facing read, use \autoref{ch:concrete-instances-cauchy-interleaving-comparison-namecert}. That packet supplies the even--odd comparison and shared threshold rows as a separate finite consumer surface. Thus any cofinal or interleaving continuation is downstream of the existing L10 sibling dependency, and none of those rows is smuggled into the gluing carrier itself.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy gluing tail-agreement composition]
+\label{thm:regular-cauchy-gluing-tail-agreement-composition}
+Any $\RealUp$ or $\CompletionUp$ consumer that reads a glued $\RegularCauchyGluingUp$ packet through \autoref{thm:regular-cauchy-gluing-sibling-route} must continue through the $\RealTailAgreementSealUp$ route of \autoref{ch:concrete-instances-realtailagreementseal-namecert} before treating the glued readback as completion-facing tail agreement. The composed route also reads the Cauchy limit seal of \autoref{ch:concrete-instances-cauchylimitseal-namecert}; the gluing packet alone exports no ambient tail equality, selected representative, quotient sequence equality, or completeness witness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-cauchy-gluing-sibling-route}. It permits downstream consumers only after the finite $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BishopRealCompletionUp$, and terminal $\RealUp$ rows have been displayed.
+
+A completion-facing tail read then has an additional boundary. The $\RealTailAgreementSealUp$ chapter supplies the route that turns a Real-facing readback into displayed tail-agreement data, and the $\CauchyLimitSealUp$ chapter supplies the limit-facing seal used by completion consumers.
+
+Thus the row order is finite: first the local gluing sibling route, then the tail-agreement seal, and finally the Cauchy-limit seal. Because each step only reuses displayed rows, no consumer can replace the route by host tail equality, a selected Cauchy representative, quotient sequence equality, or ambient completeness.
 \end{proof}

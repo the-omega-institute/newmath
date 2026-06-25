@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\SequentialCompletionMorphismUp$}
+\label{ch:concrete-instances-sequential-completion-morphism-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive completion language, the $\SequentialCompletionMorphismUp$ packet records the finite map-level route between displayed sequential completion packets. It sits between the source and target surfaces of \autoref{ch:concrete-instances-sequential-completion-namecert}, the extension surface of \autoref{ch:concrete-instances-cauchy-continuous-extension-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the displayed completion morphism route; it does not import quotient streams, selected representatives, host function equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Sequential completion morphism carrier]
+\label{def:sequential-completion-morphism-carrier}
+A $\SequentialCompletionMorphismUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,T,F,W,D,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\SequentialCompletionUp$ packet whose finite stream, regular rational, dyadic tolerance, criterion, and $\RealUp$ seal rows are being mapped.
+\item $T$ is the target $\SequentialCompletionUp$ packet receiving the mapped completion data.
+\item $F$ is the $\RegSeqRatUp$-compatible map row, displaying how regular rational source windows are sent to target regular rational windows.
+\item $W$ is the finite $\StreamNameUp$ window schedule used to inspect the source and target names before any completed seal is read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger controlling the displayed map estimates.
+\item $U$ is the $\CauchyContinuousExtensionUp$ row that exposes the extension handoff associated to $F$.
+\item $H$ stores componentwise $\hsame$ transport for the source, target, map, window, dyadic, extension, replay, provenance, and naming rows.
+\item $C$ stores displayed $\Cont$ replay from a morphism request through $S,T,F,W,D,U,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\SequentialCompletionMorphismUp$, $\SequentialCompletionUp$, $\CauchyContinuousExtensionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialCompletionMorphismUp}$ row.
+\end{enumerate}
+The classifier compares accepted morphism packets only through $S,T,F,W,D,U,H,C,P,N$. No quotient stream representative, host function equality, selected limit, countable-choice selector, ambient $\RealUp$ completeness witness, or bridge checker is part of the carrier.
+\end{definition}
+
+\begin{theorem}[Sequential completion morphism stability]
+\label{thm:sequential-completion-morphism-stability}
+For an accepted $\SequentialCompletionMorphismUp$ carrier $M=(S,T,F,W,D,U,H,C,P,N)$, the map row $F$ is stable componentwise under the transport row $H$ and the replay row $C$. Any source-window read displayed by $W$ and measured by $D$ is transported to the same target $\SequentialCompletionUp$ row $T$ before the extension row $U$ or any $\RealUp$ seal is consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequential-completion-morphism-carrier}. The source and target completion packets are $S$ and $T$, while $F,W,D,U$ display the regular-rational map, finite windows, tolerance ledger, and extension handoff.
+
+Read $H$ componentwise. It transports the source packet, target packet, map row, window schedule, dyadic ledger, and extension row together, so the map row cannot move independently of the completion packets it relates.
+
+Now apply the replay row $C$. The replay has no coordinate except the route through $S,T,F,W,D,U,H,P,N$, and therefore every transported map read is replayed through the same finite completion-morphism packet before the local name $N$ is exported.
+\end{proof}
+
+\begin{theorem}[Sequential completion morphism extension route]
+\label{thm:sequential-completion-morphism-extension}
+Every extension consumer of an accepted $\SequentialCompletionMorphismUp$ carrier must pass through
+$$
+S,T,F,W,D,U
+$$
+before reading any $\RealUp$ seal. The consumer receives a displayed map-level handoff from the source sequential completion packet to the target sequential completion packet, together with its regular-rational compatibility, finite stream windows, dyadic tolerance ledger, and Cauchy-continuous extension row. It receives no quotient stream, host function equality, selected limit, countable choice, ambient $\RealUp$ completeness assertion, or bridge-checking certificate.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The only extension-facing rows are the source completion packet $S$, target completion packet $T$, map row $F$, window schedule $W$, tolerance ledger $D$, and Cauchy-continuous extension row $U$.
+
+Apply the stability theorem, \autoref{thm:sequential-completion-morphism-stability}. It keeps $F$ attached to the same source and target completion rows through $H$ and $C$, so a consumer cannot bypass the displayed map route by reading a completed Real seal first.
+
+Finally use the local provenance and naming rows $P,N$. They package only the finite route $S,T,F,W,D,U,H,C$ and contain no coordinate for quotient streams, host function equality, selected limits, countable choice, ambient completeness, or bridge checking.
+\end{proof}
+
+\closureat{SequentialCompletionMorphismUp}{seedStr}
+
+\begin{closurestatus}{\SequentialCompletionMorphismUp}
+  \constructivestory{A $\SequentialCompletionMorphismUp$ packet is generated from source and target SequentialCompletionUp rows, a RegSeqRatUp-compatible map row, StreamName window schedules, DyadicRatCore tolerance ledgers, a CauchyContinuousExtensionUp row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-completion-morphism-carrier}, \autoref{thm:sequential-completion-morphism-stability}, and \autoref{thm:sequential-completion-morphism-extension} seed the finite map-level route between displayed SequentialCompletionUp packets through RegSeqRatUp, StreamNameUp, DyadicRatCoreUp, CauchyContinuousExtensionUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, host function equality, selected limits, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, map-row stability, extension-consumer routing, transport exactness, replay exactness, provenance, and local naming for BEDC.Derived.SequentialCompletionMorphismUp.}
+\end{closurestatus}

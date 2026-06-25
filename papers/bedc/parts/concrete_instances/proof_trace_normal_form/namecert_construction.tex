@@ -4,6 +4,8 @@
 
 The $\ProofTraceNormalFormUp$ packet realizes the type-checking-as-classifier-membership vision of \autoref{ch:visions-type-checking-as-classifier-membership} as a finite proof-trace normal-form surface. It sits after the typed endpoint boundary of \autoref{ch:concrete-instances-typedreductionnormalform-namecert}, the preservation row of \autoref{ch:concrete-instances-subjectreduction-namecert}, the classifier-membership surface of \autoref{ch:concrete-instances-typeclassifiermembership-namecert}, and the concrete type-checking classifier packet of \autoref{ch:concrete-instances-type-checking-classifier-membership-namecert}. The packet records proof trace, $\Ext$ membership, typed $\Cont$ replay, subject-reduction handoff, terminal normal-form boundary, transport, provenance, and local naming; it does not export host conversion, normalization oracles, erased proof semantics, or quotient term equality.
 
+The proof-trace normal-form carrier is consumed through the typed classifier route of \autoref{thm:proof-trace-normal-form-typed-classifier-route} before it is handed to MetaCIC normalization or confluence consumers. The downstream handoff is the candidate-normalization confluence route of \autoref{ch:concrete-instances-metacic-candidate-normalization-confluence-handoff-namecert}; it receives the same proof trace, classifier membership, subject-reduction, terminal normal-form, transport, replay, provenance, and local naming rows rather than a detached normalization oracle.
+
 \begin{definition}[ProofTraceNormalForm carrier]
 \label{def:proof-trace-normal-form-carrier}
 A $\ProofTraceNormalFormUp$ carrier is a finite $\BHist$ packet
@@ -59,6 +61,27 @@ The checker row $J$ records that the same route is a finite type-checking classi
 
 Finally $H,C,P,N$ transport, replay, source, and name the route. Because the carrier has no host conversion, semantic equality, quotient representative, erased proof semantics, or normalization-oracle coordinate, the terminal read cannot use one.
 \end{proof}
+
+\begin{theorem}[ProofTraceNormalForm finite candidate induction]
+\label{thm:proof-trace-normal-form-finite-candidate-induction}
+Every accepted $\ProofTraceNormalFormUp$ route over a finite proof trace is obtained by induction over the displayed trace row $T$. Each step preserves $\Ext$ membership, typed $\Cont$ replay, $\SubjectReductionUp$ handoff, terminal normal-form access, checker alignment, componentwise transport, replay, provenance, and local naming through the same carrier
+$$
+F=(T,E,R,S,V,J,H,C,P,N).
+$$
+\end{theorem}
+\begin{proof}
+Induct over the finite proof-trace row $T$ of \autoref{def:proof-trace-normal-form-carrier}. The base trace has no hidden rule application, so the membership row $E$, typed replay row $R$, preservation handoff $S$, terminal boundary $V$, and checker row $J$ are exactly the displayed seed rows.
+
+For the induction step, append one displayed trace entry. The $\Ext$ membership row is preserved by the typed $\Cont$ replay row, and the $\SubjectReductionUp$ handoff transports that membership to the next terminal-normal-form boundary.
+
+The checker alignment row $J$ then reads the same updated membership, replay, preservation, and terminal rows. Componentwise $\hsame$ transport and displayed $\Cont$ replay keep the updated route inside $H$ and $C$.
+
+Finally $P$ and $N$ source and name the same finite packet. Since the carrier has no coordinate for host conversion, semantic term equality, erased proof semantics, quotient representatives, or a normalization oracle, the induction produces only accepted $\ProofTraceNormalFormUp$ routes.
+\end{proof}
+
+\falsifiablePrediction{A consumer that reaches $V$ without $T,E,R,S,J,H,C,P,N$ refutes the $\ProofTraceNormalFormUp$ packet.}
+
+\independenceWitness{typedreductionnormalform, subjectreduction, typeclassifiermembership, type-checking-classifier-membership: $\ProofTraceNormalFormUp$ is not bijective to them because it binds trace, membership, replay, preservation, terminal normal form, checker alignment, transport, replay, provenance, and naming in one carrier.}
 
 \closureat{ProofTraceNormalFormUp}{seedStr}
 

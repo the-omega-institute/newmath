@@ -590,6 +590,7 @@ Finally use \autoref{thm:decimal-expansion-regseqrat-density-unblock}. The densi
 \label{thm:decimal-expansion-public-window-export}
 Every public-facing $\DecimalExpansionUp$ consumer must expose the digit ledger $D$, decimal window row $W$, place-value row $V$, dyadic and rational comparison row $Q$, $\RegSeqRatUp$ handoff $R$, terminal $\RealUp$ seal $E$, componentwise transport, replay, provenance, and local $\NameCert$ rows before reading a real-facing decimal value. The export is a finite decimal-window route and not a quotient real, selected decimal expansion, endpoint selector, trichotomy decision, or ambient $\RealUp$ completeness witness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DecimalExpansionUp.DecimalExpansionPublicWindowExport}
 \begin{proof}
 Start with the window obligations. Theorems~\ref{thm:decimal-expansion-digit-window-obligations} and \ref{thm:decimal-expansion-window-normalization-obligation} force every decimal read to display $D,W,V,Q$ before any downstream handoff is available.
 
@@ -598,11 +599,11 @@ Next use the RegSeqRat route. Theorems~\ref{thm:decimal-expansion-regseqrat-hand
 Finally apply the Real boundary and the non-escape audit. Theorems~\ref{thm:decimal-expansion-real-readback-boundary}, \ref{thm:decimal-expansion-real-window-exhaustion-audit-route}, and \ref{thm:decimal-expansion-signed-window-transport} leave the terminal seal $E$ downstream of the finite route and provide no coordinate for quotient reals, selected expansions, endpoint selectors, trichotomy, or ambient completeness.
 \end{proof}
 
-\closureat{DecimalExpansionUp}{publicStr}
+\closureat{DecimalExpansionUp}{bridgedStr}
 
 \begin{closurestatus}{\DecimalExpansionUp}
   \constructivestory{A $\DecimalExpansionUp$ packet is generated from finite decimal digit rows, decimal-place windows, rational place-value rows, dyadic/rational comparison rows, a $\RegSeqRatUp$ handoff, a $\RealUp$ seal, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{def:decimal-expansion-carrier}, \autoref{thm:decimal-expansion-namecert-obligations}, \autoref{thm:decimal-expansion-digit-window-obligations}, \autoref{thm:decimal-expansion-real-readback-boundary}, \autoref{thm:decimal-expansion-regseqrat-handoff}, \autoref{thm:decimal-expansion-window-normalization-obligation}, \autoref{thm:decimal-expansion-regseqrat-prefix-coverage}, \autoref{thm:decimal-expansion-regseqrat-digit-replay}, and \autoref{thm:decimal-expansion-public-window-export} bind the finite decimal-window carrier, digit classifier, RegSeqRat and Real-facing readback rows, hsame transport, Cont replay, Pkg provenance, local NameCert rows, and the public decimal-window consumer export.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}

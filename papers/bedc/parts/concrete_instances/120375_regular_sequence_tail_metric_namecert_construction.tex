@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\RegularSequenceTailMetricUp$}
+\label{ch:concrete-instances-regular-sequence-tail-metric-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy sequences and constructive completion, the $\RegularSequenceTailMetricUp$ packet records the finite tail-metric surface by which regular rational names are compared before a terminal real-name seal is visible. It sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the public finite fusion route of \autoref{ch:concrete-instances-regularcauchywindowfusion-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a tail metric for displayed regular sequences only; it does not assert ambient completeness of $\RealUp$, quotient stream equality, countable choice, trichotomy, or selected representatives of completed real names.
+
+\begin{definition}[Regular sequence tail metric carrier]\label{def:regular-sequence-tail-metric-carrier}
+A $\RegularSequenceTailMetricUp$ carrier is a finite $\BHist$ packet
+$$
+T=(D,W,R,F,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic scale at which two tails are compared.
+\item $W$ is the $\StreamNameUp$ window row, recording the finite tail windows inspected at the requested scale.
+\item $R$ is the $\RegSeqRatUp$ readback row, recording the regular rational sequence values visible on those windows.
+\item $F$ is the $\RegularCauchyWindowFusionUp$ fusion row, recording that the window, readback, tolerance, and terminal seal are consumed through one finite L10 route.
+\item $M$ is the tail-metric row, storing the displayed rational bound for the tail comparison obtained from $D,W,R,F$.
+\item $E$ is the $\RealUp$ seal row reached only after the tail-metric row has been displayed.
+\item $H$ records componentwise $\hsame$ transport for $D,W,R,F,M,E,C,P,N$.
+\item $C$ records the displayed $\Cont$ replay from a tail comparison request through $D,W,R,F,M,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularSequenceTailMetricUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RegularCauchyWindowFusionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularSequenceTailMetricUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,W,R,F,M,E,H,C,P,N$. It has no coordinate for quotient equality of streams, a chosen limit representative, countable choice over tails, trichotomy of real names, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Regular sequence tail metric NameCert obligations]\label{thm:regular-sequence-tail-metric-namecert-obligations}
+For every accepted $\RegularSequenceTailMetricUp$ carrier
+$$
+T=(D,W,R,F,M,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularSequenceTailMetricUp}$ surface consists exactly of carrier admission, dyadic tolerance exposure, finite tail-window exposure, regular rational readback, regular Cauchy window fusion, displayed tail-metric bounding, terminal $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularSequenceTailMetricUp.RegularSequenceTailMetricTasteGate\_single\_carrier\_alignment}
+\begin{proof}
+Project the carrier of \autoref{def:regular-sequence-tail-metric-carrier}. The displayed coordinates are precisely $D,W,R,F,M,E,H,C,P,N$.
+
+The comparison-facing rows are $D,W,R,F,M$. The dyadic tolerance row sets the scale, the stream row supplies finite tail windows, the regular readback row supplies rational values on those windows, the fusion row keeps those reads on one L10 route, and the metric row records the resulting bound.
+
+The seal and structural rows $E,H,C,P,N$ preserve, replay, source, and name the same displayed route. Since the carrier has no quotient, choice, trichotomy, selected-representative, or ambient-completeness coordinate, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular sequence tail metric tail stability]\label{thm:regular-sequence-tail-metric-tail-stability}
+Let
+$$
+T=(D,W,R,F,M,E,H,C,P,N)
+$$
+and
+$$
+T'=(D,W',R',F',M,E,H',C',P',N')
+$$
+be accepted $\RegularSequenceTailMetricUp$ packets with the same dyadic tolerance row $D$, tail-metric row $M$, and terminal $\RealUp$ seal row $E$. If $(W',R',F')$ is displayed as a cofinal tail of $(W,R,F)$ inside the accepted packet data, then $T$ and $T'$ export the same finite tail-metric handoff through $M$ and $E$. Neither packet exports quotient stream equality, a selected representative, countable choice, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:regular-sequence-tail-metric-namecert-obligations}. Both packets expose their dyadic tolerance, tail windows, regular readbacks, fusion rows, tail-metric rows, and terminal seals before the structural rows are consumed.
+
+Because $(W',R',F')$ is a displayed cofinal tail of $(W,R,F)$, the second packet changes only the visible finite tail window and its regular readback route. The shared dyadic tolerance $D$ and metric row $M$ keep the requested comparison scale and bound fixed.
+
+The terminal seal row $E$ is reached only after $M$ is displayed. The structural rows transport, replay, source, and name the same handoff, so passing to the displayed cofinal tail preserves the exported tail-metric surface.
+
+The excluded data are not carrier coordinates in either packet. Thus no quotient stream equality, selected representative, countable choice, trichotomy, or ambient completeness can be exported by the tail replacement.
+\end{proof}
+
+\begin{theorem}[Regular sequence tail metric RegSeqRat handoff]\label{thm:regular-sequence-tail-metric-regseqrat-handoff}
+Every accepted $\RegularSequenceTailMetricUp$ comparison consumed by a $\RealUp$ or completion-facing reader factors through the route
+$$
+\DyadicRatCoreUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \RegularCauchyWindowFusionUp \longrightarrow \RegularSequenceTailMetricUp \longrightarrow \RealUp .
+$$
+The $\RegSeqRatUp$ row supplies the rational regular readback used by the tail metric row $M$, and the later seal row $E$ is unreadable until that finite handoff has been displayed.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $T=(D,W,R,F,M,E,H,C,P,N)$. The rows $D,W,R,F,M,E$ are ordered as dyadic tolerance, stream window, regular rational readback, finite fusion route, tail metric, and terminal real-name seal.
+
+Apply \autoref{thm:regular-sequence-tail-metric-namecert-obligations}. It requires every accepted comparison to expose $D,W,R,F,M,E$ before $H,C,P,N$ can package the result.
+
+The row $R$ is the only $\RegSeqRatUp$ readback coordinate in the carrier. Therefore the metric row $M$ can only be read through the displayed regular rational values supplied by $R$ and the finite window supplied by $W$.
+
+Finally the row $E$ is a seal for that already displayed route. Since no other completion, quotient, selected-limit, choice, or trichotomy coordinate exists in the packet, every $\RealUp$ or completion-facing reader factors through the stated finite handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted RegularSequenceTailMetricUp comparison exposes DyadicRatCore tolerance data, StreamName finite tail windows, RegSeqRat regular rational readback, RegularCauchyWindowFusion routing, a displayed tail-metric bound, a RealUp seal, transport, replay, provenance, and local naming before any Real-facing consumer reads the result.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, regularcauchywindowfusion, real: $\RegularSequenceTailMetricUp$ is not bijective to any listed sibling because it carries the displayed tail-metric row $M$ between regular rational readback and the terminal Real seal.}
+
+\closureat{RegularSequenceTailMetricUp}{seedStr}
+
+\begin{closurestatus}{\RegularSequenceTailMetricUp}
+  \constructivestory{A $\RegularSequenceTailMetricUp$ packet is generated from a DyadicRatCore tolerance row, StreamName finite tail-window row, RegSeqRat regular readback row, RegularCauchyWindowFusion route row, tail-metric row, RealUp seal row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-sequence-tail-metric-carrier}, \autoref{thm:regular-sequence-tail-metric-namecert-obligations}, \autoref{thm:regular-sequence-tail-metric-tail-stability}, and \autoref{thm:regular-sequence-tail-metric-regseqrat-handoff} seed the finite tail-metric surface between regular rational readback and terminal Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close RealUp completeness, quotient stream equality, selected representatives, countable choice, trichotomy, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance exposure, finite tail-window exposure, regular readback, fusion routing, tail-metric bounding, terminal Real seal scope, transport, replay, provenance, and local naming for BEDC.Derived.RegularSequenceTailMetricUp.}
+\end{closurestatus}

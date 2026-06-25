@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySieveUp$}
+\label{ch:concrete-instances-regular-cauchy-sieve-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a regular Cauchy object is read through explicit moduli and finite tails before any completion seal is consumed. The $\RegularCauchySieveUp$ packet records that reading as a finite directed-tail sieve for the L10 Real and Completion route, sitting between the dyadic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite request windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the Real seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Regular Cauchy sieve carrier]
+\label{def:regular-cauchy-sieve-carrier}
+A $\RegularCauchySieveUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,W,Q,L,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row naming the finite dyadic scale at which the tail is inspected.
+\item $W$ is the $\StreamNameUp$ finite-window row listing the requests whose indices lie beyond the displayed tail bound.
+\item $Q$ is the $\RegSeqRatUp$ regular-sequence readback row reached from the same dyadic tolerance and stream window.
+\item $L$ is the $\RealUp$ seal row, readable only after $D,W,Q$ have been displayed.
+\item $T$ is the directed finite-tail sieve row: every accepted refinement replaces $D,W,Q,L$ by a later finite window over the same route and records the inclusion of the older window into the later one.
+\item $H$ records componentwise $\hsame$ transport for the dyadic tolerance, window, regular-sequence readback, Real seal, sieve refinement, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from dyadic tolerance through StreamName window, RegSeqRat readback, directed-tail refinement, Real seal, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchySieveUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these nine rows. It has no coordinate for a selected infinite subsequence, quotient-stream equality, host limit, ambient completeness principle, or hidden modulus choice outside the directed finite-tail sieve.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy sieve NameCert obligations]
+\label{thm:regular-cauchy-sieve-namecert-obligations}
+For every accepted $\RegularCauchySieveUp$ carrier
+$$
+S=(D,W,Q,L,T,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchySieveUp}$ surface consists exactly of dyadic tolerance exposure through $D$, finite StreamName window exposure through $W$, RegSeqRat readback through $Q$, RealUp seal exposure through $L$, directed finite-tail refinement through $T$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-sieve-carrier}. The rows $D,W,Q,L$ expose the L10 route in dependency order: dyadic tolerance, finite request window, regular rational readback, and Real seal.
+
+Read the sieve row $T$ next. It is directed because any two displayed finite tails may be refined by a later finite window over the same dyadic, StreamName, RegSeqRat, and RealUp route; the packet records that later window as another finite row rather than selecting an infinite subsequence.
+
+The transport, replay, provenance, and naming rows preserve only this displayed route. Since no coordinate stores a host limit, quotient stream, ambient completeness rule, or hidden modulus, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{closurestatus}{\RegularCauchySieveUp}
+  \constructivestory{A $\RegularCauchySieveUp$ packet is generated from dyadic tolerance data, finite StreamName request windows, RegSeqRat readback, a RealUp seal, a directed finite-tail refinement row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-sieve-carrier} and \autoref{thm:regular-cauchy-sieve-namecert-obligations} seed the finite directed-tail sieve used by the L10 Real and Completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Real completeness, quotient-stream equality, selected limits, infinite subsequence choice, hidden modulus extraction, or Lean verification for $\RegularCauchySieveUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, directed finite-tail refinement, transport stability, replay, provenance, and local naming for the same finite L10 route.}
+\end{closurestatus}

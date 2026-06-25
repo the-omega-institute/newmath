@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\ProofTraceConfluenceUp$}
+\label{ch:concrete-instances-proof-trace-confluence-namecert}
+\origin{ai}
+
+The $\ProofTraceConfluenceUp$ packet realizes the conditional MetaCIC confluence boundary of \autoref{ch:metacic-confluence-audit-map} as finite NameCert data. It sits beside the critical-path surface of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, the candidate-normalization handoff of \autoref{ch:concrete-instances-metacic-candidate-normalization-confluence-handoff-namecert}, and the subject-reduction discharge boundary of \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}. The packet names proof-trace confluence only as a displayed route through reduction traces, residual-substitution rows, closed-normal fragments, and conditional diamond inputs; it does not turn any retained premise into full closed confluence.
+
+\begin{definition}[ProofTraceConfluence carrier]
+\label{def:proof-trace-confluence-carrier}
+A $\ProofTraceConfluenceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(T,R,N,D,C,B,F,H,E,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the MetaCIC proof-trace row naming the two reduction traces or local peak being compared.
+\item $R$ is the residual-substitution row, retaining the substitution-compatibility input when a beta-residual branch requires it.
+\item $N$ is the closed-normal fragment row, recording the closed normal, sort, or impossible closed-variable cases that are already unconditional.
+\item $D$ is the conditional-diamond input row, naming either the substitution-compatibility input for a parallel diamond or the closed parallel-diamond input for closed star confluence.
+\item $C$ is the confluence-audit consumer row, read against the audit map and confluence audit packet.
+\item $B$ is the blocked-premise row, recording which residual-substitution, closed-diamond, subject-reduction, or normal-form consistency input remains visible.
+\item $F$ is the frontier route through $\MetaCICCriticalPathUp$ and $\MetaCICNormalizationFrontierUp$.
+\item $H$ records componentwise $\hsame$ transport for trace, residual, closed-normal, diamond, audit, blocked-premise, frontier, replay, provenance, and local naming rows.
+\item $E$ records displayed $\Cont$ replay of the route
+$$
+T,R,N,D,C,B,F \longmapsto H,P,L .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ProofTraceConfluenceUp$, $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICConfluenceAuditPacketUp$, $\SubjectReductionDischargeUp$, $\NormalFormConsistencySealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\ProofTraceConfluenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,R,N,D,C,B,F,H,E,P,L$. It has no coordinate for unconditional arbitrary closed Church--Rosser, unrestricted residual substitution, a hidden subject-reduction theorem, quotient syntax equality, evaluator soundness, or normal-form consistency detached from its seal.
+\end{definition}
+
+\begin{theorem}[ProofTraceConfluence NameCert obligations]
+\label{thm:proof-trace-confluence-obligations}
+For an accepted $\ProofTraceConfluenceUp$ carrier
+$$
+Q=(T,R,N,D,C,B,F,H,E,P,L),
+$$
+the local $\NameCert_{\ProofTraceConfluenceUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for proof traces, residual-substitution input, closed-normal fragments, conditional diamond input, audit consumer, blocked-premise, frontier, transport, replay, provenance, and local naming rows;
+\item residual visibility, requiring every full parallel-diamond read to display the residual-substitution row $R$ or record its absence in $B$;
+\item closed-diamond visibility, requiring every closed star-confluence read to display the closed-diamond row $D$ or record its absence in $B$;
+\item closed-normal fragment separation, requiring $N$ to remain a shape-limited unconditional fragment rather than a full confluence theorem;
+\item frontier and audit handoff, requiring $F$ and $C$ to route every consumer through the critical-path, normalization-frontier, and confluence-audit packets;
+\item non-escape, excluding unconditional closed confluence, unrestricted subject reduction, quotient syntax equality, evaluator soundness, and unsealed normal-form consistency.
+\end{enumerate}
+No obligation is stored outside $T,R,N,D,C,B,F,H,E,P,L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:proof-trace-confluence-carrier}. The accepted packet exposes proof traces, residual-substitution data, closed-normal fragments, conditional-diamond inputs, audit rows, blocked premises, frontier rows, and structural rows.
+
+The residual and closed-diamond clauses are premise-retention clauses. A full parallel-diamond route must display $R$, and a closed star-confluence route must display $D$; when either input is absent, the blocked-premise row $B$ remains visible.
+
+The closed-normal row $N$ is shape-limited. It records the available normal, sort, and impossible closed-variable cases without adding a coordinate for arbitrary closed confluence.
+
+Finally $F,C,H,E,P,L$ preserve and name the same route through the critical-path and audit surfaces. Since the excluded global endpoints are not carrier coordinates, the displayed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[ProofTraceConfluence conditional handoff]
+\label{thm:proof-trace-confluence-conditional-handoff}
+Every confluence-facing consumer of an accepted $\ProofTraceConfluenceUp$ packet factors through the finite route
+$$
+\MetaCICCriticalPathUp \longmapsto \MetaCICNormalizationFrontierUp \longmapsto T,R,N,D,C,B \longmapsto H,E,P,L .
+$$
+If the consumer claims full parallel diamond, it must display the substitution-compatibility input in $R$. If it claims full closed star confluence, it must display the closed-diamond input in $D$. Otherwise the blocked-premise row $B$ remains part of the exported handoff.
+\end{theorem}
+\begin{proof}
+Start from the frontier row $F$. It places the proof-trace read after the critical-path and normalization-frontier surfaces, so a confluence-facing consumer receives a displayed route rather than a detached theorem.
+
+Apply \autoref{thm:proof-trace-confluence-obligations}. The residual visibility and closed-diamond visibility obligations force $R$ or $D$ to be present for the corresponding full confluence claim, while $B$ records any retained premise.
+
+The closed-normal fragment row $N$ may discharge only its shape-limited cases. Transport, replay, provenance, and local naming then preserve the same finite handoff through $H,E,P,L$, and no absent global endpoint can be cited as if it were a packet field.
+\end{proof}
+
+\falsifiablePrediction{Any proof-trace confluence route that claims full closed confluence while omitting both the substitution-compatibility input and the closed-diamond input is rejected by the ProofTraceConfluenceUp classifier.}
+
+\independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, subjectreductiondischarge, normalformconsistencyseal: none is bijective because $\ProofTraceConfluenceUp$ stores proof traces, residual-substitution premises, closed-normal fragments, conditional-diamond inputs, audit consumers, blocked premises, frontier rows, transport, replay, provenance, and local NameCert rows in one carrier. MetaCICCriticalPathUp records the critical route but not the confluence proof trace; MetaCICNormalizationFrontierUp records candidate and endpoint boundaries without the residual-substitution handoff; SubjectReductionDischargeUp addresses typing preservation rather than confluence joins; NormalFormConsistencySealUp seals endpoint consistency without displaying the conditional confluence inputs.}
+
+The Lean follow-up must provide \texttt{Nontrivial ProofTraceConfluenceUp} and \texttt{FieldFaithful ProofTraceConfluenceUp} instances that preserve $T,R,N,D,C,B,F,H,E,P,L$ without discharging the retained confluence premises by definition.
+
+\closureat{ProofTraceConfluenceUp}{seedStr}
+
+\begin{closurestatus}{\ProofTraceConfluenceUp}
+  \constructivestory{A $\ProofTraceConfluenceUp$ packet is generated from proof-trace rows, residual-substitution premises, closed-normal fragments, conditional-diamond inputs, confluence-audit consumers, blocked-premise rows, MetaCIC frontier rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proof-trace-confluence-carrier}, \autoref{thm:proof-trace-confluence-obligations}, and \autoref{thm:proof-trace-confluence-conditional-handoff} seed the proof-trace confluence route while retaining substitution and closed-diamond premises.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, full arbitrary closed confluence, unrestricted residual substitution, subject reduction, quotient syntax equality, evaluator soundness, or unsealed normal-form consistency.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual visibility, closed-diamond visibility, closed-normal fragment separation, frontier handoff, audit handoff, and non-escape for BEDC.Derived.ProofTraceConfluenceUp.}
+\end{closurestatus}

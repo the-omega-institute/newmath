@@ -1,0 +1,37 @@
+\begin{theorem}[Cauchy-modulus arithmetic scoped route]
+\label{thm:cauchy-modulus-arithmetic-scoped-route}
+Every accepted $\CauchyModulusArithmeticUp$ packet scopes its arithmetic reads through the displayed carrier of \autoref{def:cauchy-modulus-arithmetic-carrier}, the NameCert obligation rows of \autoref{thm:cauchy-modulus-arithmetic-namecert-obligations}, and the common-tail and scope-window routes of \autoref{thm:cauchy-modulus-arithmetic-common-tail-window} and \autoref{thm:cauchy-modulus-arithmetic-scope-window-reuse}. Thus every sum, product, or Real-seal consumer must read $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows inside the same finite packet before exporting an arithmetic handoff.
+
+The scoped route cannot import quotient stream equality, selected limits, host natural-number search, host real equality, or ambient $\RealUp$ completeness. Those endpoints are absent from the carrier and from the child obligation rows that the hub inputs before this route.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyModulusArithmeticUp.CauchyModulusArithmeticScopedRoute}
+\begin{proof}
+Project the carrier
+$$
+A=(S_0,S_1,\mu_0,\mu_1,\mu_{\wedge},\sigma,\pi,D,W,R,E,H,C,P,N)
+$$
+from \autoref{def:cauchy-modulus-arithmetic-carrier}. The rows $D,W,R,H,C,P,N$ supply the dyadic tolerance ledger, finite stream windows, regular rational readbacks, componentwise transport, displayed replay, provenance, and local naming before an arithmetic consumer can read $\sigma$, $\pi$, or $E$.
+
+Apply the NameCert obligation surface and the common-tail window obligation. These force every precision request through the displayed source schedules, shared meet threshold, common window, readback rows, and structural rows of the same $\BHist$ packet.
+
+Finally use scope-window reuse. It keeps the Real-seal and arithmetic consumers on the existing finite rows rather than on a host search or quotient-stream comparison. Since the carrier has no coordinate for selected limits, host natural-number search, host real equality, quotient stream equality, or ambient completeness, the scoped route exports none of those endpoints.
+\end{proof}
+
+\begin{theorem}[Cauchy-modulus arithmetic diagonal meet route]
+\label{thm:cauchy-modulus-arithmetic-diagonal-meet-route}
+Every accepted $\CauchyModulusArithmeticUp$ packet whose consumers read both sum and product arithmetic must pass through the displayed meet schedule $\mu_{\wedge}$, the common finite window $W$, the $\DyadicRatCoreUp$ ledger $D$, the $\RegSeqRatUp$ readback $R$, and the $\RealUp$ seal $E$ before either arithmetic handoff is exported. Thus a paired consumer reads
+$$
+\mu_{\wedge}, W, D, R, E \longmapsto \sigma,\pi
+$$
+inside the same finite $\BHist$ packet, with the structural rows $H,C,P,N$ preserving transport, replay, provenance, and local naming. The route exports no quotient stream equality, host natural-number search, selected limits, ambient $\RealUp$ completeness, or host real equality.
+\end{theorem}
+\begin{proof}
+Start with the scoped route of \autoref{thm:cauchy-modulus-arithmetic-scoped-route}. It already forces every arithmetic read through the displayed carrier rows and the NameCert obligation surface before a sum, product, or Real-seal consumer can export a handoff.
+
+Now restrict to a consumer that reads both $\sigma$ and $\pi$. The carrier of \autoref{def:cauchy-modulus-arithmetic-carrier} contains the meet schedule $\mu_{\wedge}$ and the common finite window $W$ exactly for this paired read, so the consumer cannot use separate hidden schedules for the two arithmetic branches.
+
+The dyadic and readback rows are then common. The ledger $D$ supplies the tolerance accounting, $R$ supplies the regular rational readback, and $E$ seals the Real-facing endpoint after those finite rows have already been displayed.
+
+Finally $H,C,P,N$ keep the paired route inside one packet. Since the existing scoped route refuses quotient stream equality, host natural-number search, selected limits, host real equality, and ambient $\RealUp$ completeness, the diagonal meet route exports none of those endpoints.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyModulusArithmeticUp.CauchyModulusArithmeticDiagonalMeetRoute}

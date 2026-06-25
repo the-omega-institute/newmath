@@ -63,6 +63,7 @@ The route then forms the filterbase row. The base packets in $F$ are indexed by 
 
 Finally the completion handoff $Q$ reads \autoref{ch:concrete-instances-cauchyfiltercompletion-namecert}. The structural rows $H,C,P,N$ record that this is the same finite packet seen from the sequence side, so every accepted sequence-completion read reaches the filter completion surface through the displayed route.
 \end{proof}
+\leanchecked{BEDC.Derived.SequenceFilterBridgeUp.SequenceFilterBridgeSequenceToFilterRoute}
 
 \begin{theorem}[Filter-to-sequence route]\label{thm:sequence-filter-bridge-filter-to-sequence-route}
 Every accepted Cauchy-filter completion read of a $\SequenceFilterBridgeUp$ carrier factors back through the displayed sequence route
@@ -78,6 +79,7 @@ The bridge exposes the same finite observations through $T$ and $R$. These rows 
 
 The row $S$ then supplies the $\CauchySequenceSpaceUp$ packet, and $P$ records the $\SequentiallyCompleteMetricUp$ boundary used by the completion consumer. The replay row $C$ makes the reverse traversal explicit, while $H$ keeps the sequence, filterbase, completion, and readback rows componentwise transported together.
 \end{proof}
+\leanchecked{BEDC.Derived.SequenceFilterBridgeUp.SequenceFilterBridgeFilterToSequenceRoute}
 
 \begin{theorem}[Sequence-filter bridge nonescape]\label{thm:sequence-filter-bridge-completion-nonescape}
 Every $\RealUp$, $\RegSeqRatUp$, $\CauchyFilterCompletionUp$, or $\SequentiallyCompleteMetricUp$ consumer of an accepted $\SequenceFilterBridgeUp$ carrier $B=(S,F,Q,T,R,E,H,C,P,N)$ reads only the displayed sequence row, filterbase row, completion handoff, stream schedule, regular readback, Real seal, componentwise transport, continuation replay, provenance, and local NameCert row. The bridge exports no quotient filter, selected limit, countable-choice selector, host equality proof, or ambient completeness coordinate.

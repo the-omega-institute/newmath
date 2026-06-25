@@ -70,10 +70,30 @@ Replay the continuation row $C$. The consumer's target-window request first land
 Transport by $H$ preserves this route componentwise. The package and local NameCert rows record exactly the same coordinates, so the target row $L$ has no exported path through quotient-net equality, hidden cofinal choice, a selected limit, host real equality, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[DirectedSubnet cofinal replay]
+\label{thm:directed-subnet-cofinal-replay}
+Let $M=(I,J,\phi,K,L,S,R,D,A,H,C,P,N)$ be an accepted $\DirectedSubnetUp$ packet. Any consumer replaying a target directed window must expose the target ledger $J$, the displayed cofinal map $\phi$, the source ledger $I$, the source $\CauchyNetUp$ row $K$, the $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback $R$, and the $\DyadicRatCoreUp$ tolerance row $D$ before it reaches the target row $L$ and the terminal $\RealUp$ seal $A$.
+
+Thus the cofinal replay route is the displayed finite chain
+$$
+J,\phi,I,K,S,R,D \longmapsto L \longmapsto A .
+$$
+It exports no quotient-net equality, hidden cofinal choice, selected subnet limit, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple from \autoref{def:directed-subnet-carrier}. The target ledger $J$, map $\phi$, source ledger $I$, source row $K$, target row $L$, window row $S$, readback row $R$, tolerance row $D$, and seal row $A$ are all visible coordinates of the same finite packet.
+
+Replay the continuation row $C$. A target-window request enters through $J$, follows $\phi$ into $I$, reads the source CauchyNet row $K$, and uses the same $S,R,D$ evidence before producing the target row $L$.
+
+Transport by $H$ preserves each component of this chain. Since the package and local naming rows cite only the displayed coordinates, the terminal seal $A$ remains downstream of the replay and no absent quotient, choice, limit, equality, or completeness coordinate can be exported.
+\end{proof}
+\leanchecked{BEDC.Derived.DirectedSubnetUp.DirectedSubnetCofinalReplay}
+
 \begin{theorem}[DirectedSubnet target Cauchy window]
 \label{thm:directed-subnet-target-cauchy-window}
 Every completion-facing consumer of an accepted $\DirectedSubnetUp$ packet must expose the target directed ledger $J$, the cofinal map $\phi$, the target $\CauchyNetUp$ row $L$, the $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RealUp$ seal $A$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local $\NameCert_{\DirectedSubnetUp}$ row $N$ before it may read a limit or completion endpoint. The target window is therefore a displayed finite CauchyNet route, not a quotient net, selected subnet representative, countable-choice functional, or ambient Real completeness claim.
 \end{theorem}
+\leanchecked{BEDC.Derived.DirectedSubnetUp.DirectedSubnetTargetCauchyWindow}
 \begin{proof}
 Project the carrier tuple from \autoref{def:directed-subnet-carrier}. The target ledger $J$, cofinal map $\phi$, target row $L$, window row $S$, readback row $R$, tolerance row $D$, seal row $A$, and structural rows $H,C,P,N$ are all visible coordinates of the same finite packet.
 
@@ -82,9 +102,37 @@ Apply the CauchyNet handoff of \autoref{thm:directed-subnet-cauchynet-handoff}. 
 It remains to inspect a completion endpoint. The seal row $A$ is downstream of the target CauchyNet route, while $H,C,P,N$ only transport, replay, cite, and name the displayed coordinates. Hence a completion consumer receives no quotient-net equality, selected subnet representative, countable-choice data, or ambient Real completeness row.
 \end{proof}
 
+\begin{theorem}[DirectedSubnet target-filter nonescape]
+\label{thm:directed-subnet-target-filter-nonescape}
+Every target-side Cauchy read exported by an accepted $\DirectedSubnetUp$ carrier must pass through the displayed source $\CauchyNetUp$ row, the cofinal replay row, the target Cauchy window, the $\RealUp$ seal, componentwise $\hsame/\Cont$ transport, $\Pkg$ provenance, and the local $\NameCert_{\DirectedSubnetUp}$ row. It exports no selected subnet limit, quotient net, cofinal choice outside the displayed map, or ambient completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.DirectedSubnetUp.DirectedSubnetTargetFilterNonescape}
+\begin{proof}
+Start with the carrier of \autoref{def:directed-subnet-carrier}. The source CauchyNet row $K$, target CauchyNet row $L$, displayed cofinal map $\phi$, stream windows $S$, readback $R$, tolerance ledger $D$, seal row $A$, and structural rows $H,C,P,N$ are visible coordinates of the same packet.
+
+Use the NameCert obligations of \autoref{thm:directed-subnet-namecert-obligations}. They force a target-side read to cite the local naming row only after the carrier rows, transport row, replay row, and provenance row have all been exposed.
+
+Apply the CauchyNet handoff of \autoref{thm:directed-subnet-cauchynet-handoff}, then the cofinal replay of \autoref{thm:directed-subnet-cofinal-replay}, and finally the target Cauchy window of \autoref{thm:directed-subnet-target-cauchy-window}. This route keeps the target read downstream of $K,\phi,L,S,R,D,A,H,C,P,N$, so the packet has no coordinate from which to export a selected subnet limit, quotient net, hidden cofinal choice, or ambient completeness claim.
+\end{proof}
+
+\begin{theorem}[DirectedSubnet obligation route]
+\label{thm:directed-subnet-obligation-route}
+Let $M=(I,J,\phi,K,L,S,R,D,A,H,C,P,N)$ be an accepted $\DirectedSubnetUp$ packet. Carrier admission, cofinal-map coverage, CauchyNet handoff, Real-seal nonescape, and ledger refusal are all projected from the same finite tuple $M$. Every obligation cites the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of that tuple, and no obligation is delegated to quotient-net equality, hidden cofinal choice, selected subnet limits, host real equality, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.DirectedSubnetUp.DirectedSubnetObligationRoute}
+\begin{proof}
+Carrier admission is the projection of \autoref{def:directed-subnet-carrier}. The tuple displays the source ledger $I$, target ledger $J$, cofinal map $\phi$, source and target CauchyNet rows $K,L$, the stream, readback, tolerance, and seal rows $S,R,D,A$, and the structural rows $H,C,P,N$.
+
+Cofinal-map coverage is the same coverage row used by \autoref{thm:directed-subnet-cofinal-replay}. It reads each requested source window through the displayed map $\phi:J\to I$ and never invokes an unseen cofinal selector.
+
+The CauchyNet handoff is exactly the route of \autoref{thm:directed-subnet-cauchynet-handoff}. A target-window request must expose $J,\phi,I,K,S,R,D$ before it exports $L$.
+
+The Real-seal boundary is the target-window route of \autoref{thm:directed-subnet-target-cauchy-window}. The seal row $A$ remains downstream of the target CauchyNet route, while $H,C,P,N$ only transport, replay, source, and name the displayed coordinates. Since the refused quotient, choice, limit, equality, and completeness rows are absent from $M$, ledger refusal is a projection from the same finite packet.
+\end{proof}
+
 \begin{closurestatus}{\DirectedSubnetUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:directed-subnet-carrier}, \autoref{thm:directed-subnet-namecert-obligations}, \autoref{thm:directed-subnet-cauchynet-handoff}, and \autoref{thm:directed-subnet-target-cauchy-window} seed the finite cofinal-subnet packet between source $\CauchyNetUp$ rows and downstream $\CauchyNetLimitUp$ consumers.}
+  \scopeclosed{\autoref{def:directed-subnet-carrier}, \autoref{thm:directed-subnet-namecert-obligations}, \autoref{thm:directed-subnet-cauchynet-handoff}, \autoref{thm:directed-subnet-cofinal-replay}, and \autoref{thm:directed-subnet-target-cauchy-window} seed the finite cofinal-subnet packet between source $\CauchyNetUp$ rows and downstream $\CauchyNetLimitUp$ consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient nets, selected limits, cofinal choice outside the displayed map, host real equality, ambient completeness, or Lean verification.}

@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted carriers only by the displayed rows $H,M,R,E,W,T,C,P,N$. It has no coordinate for an undisplayed selector function, a branch policy over unrelated histories, a truth oracle, or an infinite ledger.
 \end{definition}
+\leanchecked{BEDC.Derived.EmptyBoundarySelectorUp.EmptyBoundarySelectorTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[EmptyBoundarySelector NameCert obligations]
 \label{thm:empty-boundary-selector-namecert-obligations}
@@ -104,6 +105,49 @@ Begin with the ledger handoff theorem \autoref{thm:empty-boundary-selector-ledge
 The EmptyFableLedger and FableBranchWitness sibling chapters read exactly that one-step fable route. Their consumer-facing rows are supplied by the displayed tuple $H,M,R,E,W,T,C,P,N$, so the handoff is a shared sibling route rather than a separate chooser interface.
 
 Apply the non-escape boundary of \autoref{thm:empty-boundary-selector-nonescape-boundary}. Since the selector packet exports only the local enacted-boundary step, the downstream fable ledger cannot promote the handoff into a global chooser, an unrelated-history branch policy, or an extra accumulated ledger coordinate.
+\end{proof}
+
+\begin{theorem}[EmptyBoundarySelector obligation surface]
+\label{thm:emptyboundaryselector-obligation-surface}
+For every accepted $\EmptyBoundarySelectorUp$ carrier
+$$
+Q=(H,M,R,E,W,T,C,P,N),
+$$
+the scoped obligation surface consists exactly of source $\Hist$ admission, enacted mark admission, resulting $\Hist$ admission, displayed $\Ext(H,M,R)$ exactness, local witness exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\EmptyBoundarySelectorUp}$ row. No obligation is stored outside these nine rows.
+\end{theorem}
+\begin{proof}
+Project the carrier $Q$. The first four rows expose the source history $H$, enacted mark $M$, result history $R$, and the local extension row $E$.
+
+Inspect the local witness row $W$. It names the enacted branch for this packet only, and the transport and continuation rows $T,C$ carry that witness componentwise with the same source, mark, result, and extension rows.
+
+The provenance and local naming rows $P,N$ close the displayed surface. Since the carrier has no further coordinate, the listed rows exhaust the scoped obligation surface.
+\end{proof}
+
+\begin{theorem}[EmptyBoundarySelector boundary exhaustion]
+\label{thm:emptyboundaryselector-boundary-exhaustion}
+Let $Q=(H,M,R,E,W,T,C,P,N)$ be an accepted $\EmptyBoundarySelectorUp$ carrier. Every local boundary read is obtained by inspecting the displayed $\Ext(H,M,R)$ row $E$ and the local witness row $W$ over the same source history $H$. The packet has no second boundary branch, no unrelated source history, and no accumulated selector ledger.
+\end{theorem}
+\begin{proof}
+Start with a boundary-facing consumer. Projection gives a single source row $H$, a single enacted mark $M$, a single result row $R$, and a single extension row $E$.
+
+Inspect $E$ locally. Because it is the displayed $\Ext(H,M,R)$ row, the boundary read is tied to the enacted mark in this packet and cannot be retargeted to an unrelated history.
+
+Read $W$ through $T$ and $C$. These rows transport and replay the same local witness, while $P,N$ only record provenance and local naming. The boundary is therefore exhausted by one enacted extension step.
+\end{proof}
+
+\begin{theorem}[EmptyBoundarySelector non-escape obligation]
+\label{thm:emptyboundaryselector-nonescape}
+Every accepted $\EmptyBoundarySelectorUp$ carrier $Q=(H,M,R,E,W,T,C,P,N)$ refuses global choice, unrelated-history branch policy, truth oracle, host trace equality, and accumulated selector ledger export. Any consumer read factors through the local route
+$$
+H,M,R,E,W,T,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The only mark row is $M$, the only extension row is $E$, and the only witness row is $W$.
+
+The local $\Ext$ witness inspection supplies an enacted boundary for the displayed source history $H$ and result history $R$. It does not supply a function choosing marks for other histories or a truth predicate over traces.
+
+Transport, replay, provenance, and naming preserve this one route. Since none of the refused objects appears as a row of $Q$, no accepted consumer can export them.
 \end{proof}
 
 \closureat{EmptyBoundarySelectorUp}{seedStr}

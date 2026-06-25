@@ -101,18 +101,69 @@ Finally use the bridge boundary of \autoref{thm:stop-codon-zeckendorf-suffix-bri
 \end{proof}
 \leanchecked{BEDC.Derived.StopCodonZeckendorfSuffixUp.StopCodonZeckendorfVisionRoute}
 
+\begin{theorem}[StopCodonZeckendorfSuffix obligation closure route]
+\label{thm:stop-codon-zeckendorf-suffix-obligation-closure-route}
+For every accepted $\StopCodonZeckendorfSuffixUp$ packet, the finite obligation surface is exactly the route
+$$
+A,W,S,F,L,T,B,H,C,P,N.
+$$
+The rows expose the two-axis base atlas, codon-window boundary, suffix projection, Zeckendorf legality, standard-code bridge, channel-token separation, cannot-claim boundary, componentwise transport, displayed replay, provenance, and local $\NameCert_{\StopCodonZeckendorfSuffixUp}$ evidence. No obligation read may bypass one of these rows or replace it by biological-code necessity, all-code universality, release-factor dynamics, bridge-free nucleotide semantics, or BEDC channel-token identity.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:stop-codon-zeckendorf-suffix-carrier} supplies precisely the displayed rows $A,W,S,F,L,T,B,H,C,P,N$. The NameCert obligations of \autoref{thm:stop-codon-zeckendorf-suffix-namecert-obligations} identify carrier admission, suffix classification, bridge use, channel separation, and cannot-claim ledgers as the local obligation surface.
+
+The no-channel-token collapse theorem \autoref{thm:stop-codon-zeckendorf-suffix-no-channel-token-collapse} keeps the excluded family suffix separate from the BEDC terminator. The bridge boundary of \autoref{thm:stop-codon-zeckendorf-suffix-bridge-boundary} forces every biological stop-codon read through the standard-code row $L$ and the boundary rows $T,B$.
+
+Finally, \autoref{thm:stop-codon-zeckendorf-vision-route} checks the four suffix cases against the conditional reconstruction problem. Combining these rows leaves exactly the displayed obligation route and no unlisted biological or channel-token claim.
+\end{proof}
+\leanchecked{BEDC.Derived.StopCodonZeckendorfSuffixUp.StopCodonZeckendorfSuffixObligationClosureRoute}
+
 \falsifiablePrediction{A $\StopCodonZeckendorfSuffixUp$ packet cannot export a biological-code necessity row without a separate standard genetic-code bridge.}
 
 \independenceWitness{FiniteTraceGapSocket, InscriptionPoint, ZeckendorfNormal, channel-genetic bridge rows: none is bijective to $\StopCodonZeckendorfSuffixUp$. $\FiniteTraceGapSocketUp$ supplies finite GAP discipline without codon-window rows; $\InscriptionPointUp$ supplies inscription handoff without the two-axis suffix classifier; $\ZeckendorfNormalUp$ supplies no-$11$ normality without the standard genetic-code bridge; the channel-genetic bridge rows supply cross-layer separation without the local stop-suffix carrier, excluded-corner ledger, and cannot-claim boundary.}
 
 The Lean follow-up file \texttt{lean4/BEDC/Derived/StopCodonZeckendorfSuffixUp/TasteGate.lean} must provide explicit $\Nontrivial\ \StopCodonZeckendorfSuffixUp$ and $\FieldFaithful\ \StopCodonZeckendorfSuffixUp$ instances, with field-projection proofs preserving $A,W,S,F,L,T,B,H,C,P,N$ as separate displayed fields.
 
+\begin{theorem}[StopCodonZeckendorfSuffix scope grounding]
+\label{thm:stop-codon-zeckendorf-suffix-scope-grounding}
+Every accepted read of a $\StopCodonZeckendorfSuffixUp$ suffix is scoped over
+the finite rows
+$$
+A,W,S,F,L,T,B,H,C,P,N
+$$
+together with $\ZeckendorfNormalUp$, $\FiniteTraceGapSocketUp$,
+$\InscriptionPointUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+The read may use the Zeckendorf normal-word row, finite trace-gap socket, and
+inscription handoff only through those displayed fields, and no accepted suffix
+read exports a biological-code necessity, all-code universality,
+release-factor dynamics, bridge-free nucleotide semantics, or BEDC
+channel-token identity outside the same finite scope.
+\end{theorem}
+\begin{proof}
+Start with the carrier of
+\autoref{def:stop-codon-zeckendorf-suffix-carrier}. It displays the rows
+$A,W,S,F,L,T,B,H,C,P,N$ as the complete packet surface, with the Zeckendorf,
+finite trace-gap, inscription, transport, replay, provenance, and local naming
+dependencies recorded in those fields.
+
+Apply the NameCert obligations and the obligation closure route. These bind
+carrier admission, suffix classification, bridge use, channel separation,
+cannot-claim rows, and structural replay to the same finite route.
+
+The no-channel-token collapse and bridge boundary theorems remove every
+attempt to read biological-code necessity, all-code universality,
+release-factor dynamics, bridge-free nucleotide semantics, or BEDC
+channel-token identity outside the displayed packet. Thus every accepted suffix
+read is grounded in exactly the stated scope.
+\end{proof}
+\leanchecked{BEDC.Derived.StopCodonZeckendorfSuffixUp.StopCodonZeckendorfSuffixScopeGrounding}
+
 \closureat{StopCodonZeckendorfSuffixUp}{seedStr}
 
 \begin{closurestatus}{\StopCodonZeckendorfSuffixUp}
   \constructivestory{A $\StopCodonZeckendorfSuffixUp$ packet is generated from a two-axis base atlas, codon-window row, family-suffix projection, Zeckendorf legality row, standard-code bridge, channel-token separation, cannot-claim boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:stop-codon-zeckendorf-suffix-carrier}, \autoref{thm:stop-codon-zeckendorf-suffix-namecert-obligations}, \autoref{thm:stop-codon-zeckendorf-suffix-no-channel-token-collapse}, and \autoref{thm:stop-codon-zeckendorf-suffix-bridge-boundary} bind the finite stop-codon suffix carrier, five-row NameCert surface, channel-token separation, and bridge boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:stop-codon-zeckendorf-suffix-carrier}, \autoref{thm:stop-codon-zeckendorf-suffix-namecert-obligations}, \autoref{thm:stop-codon-zeckendorf-suffix-no-channel-token-collapse}, \autoref{thm:stop-codon-zeckendorf-suffix-bridge-boundary}, \autoref{thm:stop-codon-zeckendorf-vision-route}, \autoref{thm:stop-codon-zeckendorf-suffix-obligation-closure-route}, and \autoref{thm:stop-codon-zeckendorf-suffix-scope-grounding} bind the finite stop-codon suffix carrier, five-row NameCert surface, channel-token separation, bridge boundary, vision route, obligation closure route, and scoped finite row family.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, biological-code necessity, all genetic-code universality, release-factor dynamics, bridge-free nucleotide semantics, or BEDC channel-token identity.}

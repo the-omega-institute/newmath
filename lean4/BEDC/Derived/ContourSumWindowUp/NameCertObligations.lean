@@ -16,6 +16,15 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def ContourSumWindowCarrier [AskSetup] [PackageSetup]
+    (gamma f S R I H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  UnaryHistory gamma ∧ UnaryHistory f ∧ UnaryHistory S ∧ UnaryHistory R ∧
+    UnaryHistory I ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+      UnaryHistory N ∧ Cont gamma f S ∧ Cont S R I ∧ Cont I H C ∧
+        PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
 theorem ContourSumWindowCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {contour holomorphic subdivision riemann output transport continuation provenance name
       ledgerRead outputRead : BHist}
@@ -97,5 +106,197 @@ theorem ContourSumWindowCarrier_namecert_obligations [AskSetup] [PackageSetup]
         exact ⟨source.right, provenancePkg, outputPkg⟩
   }
   exact ⟨cert, ledgerUnary, outputReadUnary⟩
+
+theorem ContourSumWindowCarrier_semantic_name_certificate [AskSetup] [PackageSetup]
+    {gamma f S R I H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContourSumWindowCarrier gamma f S R I H C P N bundle pkg →
+      SemanticNameCert
+        (fun row : BHist => (hsame row S ∨ hsame row I ∨ hsame row C ∨
+          hsame row N) ∧ UnaryHistory row)
+        (fun row : BHist => hsame row gamma ∨ hsame row f ∨ hsame row S ∨
+          hsame row R ∨ hsame row I ∨ hsame row H ∨ hsame row C ∨
+            hsame row P ∨ hsame row N)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle P pkg ∧
+          PkgSig bundle N pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier
+  obtain ⟨gammaUnary, fUnary, sUnary, rUnary, iUnary, hUnary, cUnary, _pUnary, nUnary,
+    _gammaRoute, _windowRoute, _continuationRoute, provenancePkg, namePkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro N
+        ⟨Or.inr (Or.inr (Or.inr (hsame_refl N))), nUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        constructor
+        · cases source.left with
+          | inl sameS =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameS)
+          | inr rest =>
+              cases rest with
+              | inl sameI =>
+                  exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameI))
+              | inr rest =>
+                  cases rest with
+                  | inl sameC =>
+                      exact Or.inr
+                        (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameC)))
+                  | inr sameN =>
+                      exact Or.inr
+                        (Or.inr (Or.inr (hsame_trans (hsame_symm sameRows) sameN)))
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameS =>
+          exact Or.inr (Or.inr (Or.inl sameS))
+      | inr rest =>
+          cases rest with
+          | inl sameI =>
+              exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sameI))))
+          | inr rest =>
+              cases rest with
+              | inl sameC =>
+                  exact Or.inr
+                    (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sameC))))))
+              | inr sameN =>
+                  exact Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr (Or.inr sameN)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, provenancePkg, namePkg⟩
+  }
+
+theorem ContourSumWindowPublicFiniteWindowCertificate [AskSetup] [PackageSetup]
+    {gamma f S R I H C P N outputRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContourSumWindowCarrier gamma f S R I H C P N bundle pkg →
+      Cont R I outputRead →
+        PkgSig bundle outputRead pkg →
+          UnaryHistory gamma ∧ UnaryHistory f ∧ UnaryHistory S ∧ UnaryHistory R ∧
+            UnaryHistory I ∧ UnaryHistory outputRead ∧ Cont R I outputRead ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle outputRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier riemannOutputRead outputPkg
+  obtain ⟨gammaUnary, fUnary, subdivisionUnary, riemannUnary, outputUnary, _transportUnary,
+    _continuationUnary, _provenanceUnary, _nameUnary, _contourRoute, _windowRoute,
+    _continuationRoute, provenancePkg, _namePkg⟩ := carrier
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed riemannUnary outputUnary riemannOutputRead
+  exact
+    ⟨gammaUnary, fUnary, subdivisionUnary, riemannUnary, outputUnary, outputReadUnary,
+      riemannOutputRead, provenancePkg, outputPkg⟩
+
+theorem ContourSumWindowFiniteWindowObligationSurface [AskSetup] [PackageSetup]
+    {gamma f S R I H C P N outputRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContourSumWindowCarrier gamma f S R I H C P N bundle pkg →
+      Cont R I outputRead →
+        Cont outputRead N publicRead →
+          PkgSig bundle outputRead pkg →
+            PkgSig bundle publicRead pkg →
+              SemanticNameCert
+                  (fun row : BHist =>
+                    (hsame row outputRead ∨ hsame row publicRead) ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row gamma ∨ hsame row f ∨ hsame row S ∨ hsame row R ∨
+                      hsame row I ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                        hsame row N ∨ hsame row outputRead ∨ hsame row publicRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont R I outputRead ∧
+                      Cont outputRead N publicRead ∧ PkgSig bundle P pkg ∧
+                        PkgSig bundle publicRead pkg)
+                  hsame ∧
+                UnaryHistory outputRead ∧ UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier outputRoute publicRoute _outputPkg publicPkg
+  obtain ⟨_gammaUnary, _fUnary, _sUnary, rUnary, iUnary, _hUnary, _cUnary, _pUnary,
+    nUnary, _gammaRoute, _windowRoute, _continuationRoute, provenancePkg, _namePkg⟩ :=
+    carrier
+  have outputUnary : UnaryHistory outputRead :=
+    unary_cont_closed rUnary iUnary outputRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed outputUnary nUnary publicRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row outputRead ∨ hsame row publicRead) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row gamma ∨ hsame row f ∨ hsame row S ∨ hsame row R ∨
+              hsame row I ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N ∨ hsame row outputRead ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont R I outputRead ∧ Cont outputRead N publicRead ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead ⟨Or.inr (hsame_refl publicRead),
+        publicUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        constructor
+        · cases source.left with
+          | inl sameOutput =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) sameOutput)
+          | inr samePublic =>
+              exact Or.inr (hsame_trans (hsame_symm sameRows) samePublic)
+        · exact unary_transport source.right sameRows
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameOutput =>
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          exact Or.inl sameOutput
+      | inr samePublic =>
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          right
+          exact Or.inr samePublic
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, outputRoute, publicRoute, provenancePkg, publicPkg⟩
+  }
+  exact ⟨cert, outputUnary, publicUnary⟩
 
 end BEDC.Derived.ContourSumWindowUp

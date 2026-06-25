@@ -22,6 +22,8 @@ H \longrightarrow C \longrightarrow P \longrightarrow N .
 $$
 Here $M$ is the displayed membership source, $Q$ is the classifier-based membership row, $I$ records subset as implication of membership over $Q$, $R$ records restricted comprehension only after $M,Q,I$ are visible, $E$ records the extensional boundary for the restricted result, $H$ is componentwise $\hsame$ transport, $C$ is displayed $\Cont$ replay, $P$ is $\Pkg$ provenance, and $N$ is the local $\NameCert_{\SetLikeUp}$ row.
 \end{definition}
+\leandef{BEDC.Derived.SetlikeUp.SetlikeRootMembershipCarrier}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeRootMembershipCarrier\_route\_readback}
 
 \begin{theorem}[SetLike root membership transport]
 \label{thm:setlike-root-membership-transport}
@@ -122,6 +124,7 @@ Finally apply \autoref{thm:setlike-root-extensional-boundary}. The extensional r
 \label{thm:setlike-root-type-model-membership-factorization}
 Every TypeLike, FirstOrder, and ModelTheory consumer of the $\SetLikeUp$ root route factors membership through $M,Q$, subset through $I$, restricted comprehension through $R,E$, and structural preservation through $H,C,P,N$ before any logic-facing judgment is exported. The factorization gives no host powerset, quotient set equality, unrestricted separation, carrier-equivalence replacement, or ambient equality of set-like carriers.
 \end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeRootTypeModelMembershipFactorization}
 \begin{proof}
 Start with the membership transport theorem. It forces each membership read to expose the displayed source $M$ and classifier $Q$ before a TypeLike, FirstOrder, or ModelTheory consumer can use the judgment.
 
@@ -130,4 +133,34 @@ Next apply subset non-escape and comprehension scope. The subset read is the imp
 Use the root extensional boundary and finite-route package. They keep the resulting logic-facing judgment inside $M,Q,I,R,E$ and preserve it only through componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming rows $H,C,P,N$.
 
 The excluded host powerset, quotient equality, unrestricted separation, carrier-equivalence replacement, and ambient carrier equality are not coordinates of this route. Hence no logic or model-theory consumer can export them from the root packet.
+\end{proof}
+
+\begin{theorem}[SetLike membership classifier non-escape]
+\label{thm:setlike-membership-classifier-nonescape}
+Every TypeLike, FirstOrder, and ModelTheory consumer of an accepted $\SetLikeUp$ root packet must keep membership on the displayed source and classifier rows $M,Q$ and must preserve the structural rows $H,C,P,N$ before exporting any logic-facing judgment. The consumer cannot replace classifier membership by host elementhood, powerset membership, quotient equality, carrier-equivalence transport, or an ambient set equality outside the root route.
+\end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeMembershipClassifierNonescape}
+\begin{proof}
+First apply the root membership transport theorem. It keeps every membership read on the displayed $\BHist$ source $M$ and classifier row $Q$ before any logic consumer may use the judgment.
+
+Next use subset ledger non-escape and comprehension scope. The subset row remains the implication ledger $I$ over classifier membership, while restricted comprehension is admitted only through $R,E$ after the same $M,Q,I$ route has been displayed.
+
+Finally apply the type-model membership factorization theorem. It packages TypeLike, FirstOrder, and ModelTheory reads through $M,Q,I,R,E,H,C,P,N$, so the structural rows preserve the classifier route rather than transporting it to host elementhood, powerset membership, quotient equality, carrier-equivalence replacement, or ambient set equality.
+\end{proof}
+
+\begin{theorem}[SetLike membership classifier transport boundary]
+\label{thm:setlike-membership-classifier-transport-boundary}
+Every TypeLike, FirstOrder, or ModelTheory consumer that transports membership from an accepted $\SetLikeUp$ root packet $S=(M,Q,I,R,E,H,C,P,N)$ must preserve the displayed route
+$$
+M,Q,I,R,E,H,C,P,N .
+$$
+The transported read cannot replace $Q$ by host elementhood, powerset membership, quotient set equality, carrier-equivalence transport, or ambient set equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.SetlikeUp.SetlikeMembershipClassifierTransportBoundary}
+\begin{proof}
+Start with the membership transport and membership classifier non-escape theorems. They keep the membership source on the displayed $\BHist$ row $M$ and the classifier on $Q$ before any TypeLike, FirstOrder, or ModelTheory consumer can read the judgment.
+
+Next apply subset non-escape and restricted comprehension scope. The subset row is still the displayed implication row $I$, and the comprehension route remains confined to $R,E$ over the same $M,Q,I$ prefix.
+
+Finally use the root extensional boundary and type-model membership factorization theorem. These force transport to proceed through $H,C,P,N$ after the displayed classifier route has been exposed, so none of the excluded host elementhood, powerset, quotient, carrier-equivalence, or ambient set-equality routes is available as a replacement for $Q$.
 \end{proof}

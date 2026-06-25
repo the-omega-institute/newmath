@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The local classifier compares accepted carriers only through the rows $T,S,B,F,R,H,C,P,N$.
 \end{definition}
+\leanchecked{BEDC.Derived.MetacicDecidabilityWitnessUp.MetacicDecidabilityWitnessCarrier\_route\_ledger\_certificate}
 
 \begin{theorem}[MetaCIC decidability witness NameCert obligations]
 \label{thm:metacic-decidability-witness-namecert-obligations}
@@ -123,6 +124,23 @@ unbounded strong normalisation, global confluence, and ambient decidability
 outside the exported surface.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidability witness confluence-handoff boundary]
+\label{thm:metacic-decidability-witness-confluence-handoff-boundary}
+Every confluence or decidability consumer of an accepted $\MetacicDecidabilityWitnessUp$ packet must read the bounded checker rows
+$$
+T,S,B,F,R,H,C,P,N
+$$
+together with any confluence-normal-fragment sibling row as bounded evidence only. The handoff cannot export $\mathrm{BetaParallelDiamondClosed}$, full closed Church--Rosser, subject reduction, quotient syntax equality, kernel consistency, unrestricted beta-conversion decidability, or a host evaluator.
+\end{theorem}
+\begin{proof}
+Start with the bounded normal-form split of \autoref{thm:metacic-decidability-witness-bounded-normal-form-split}. It confines normal-form inspection to the displayed typing, same-term, bounded beta, finished-normal, refusal, transport, replay, provenance, and local naming rows.
+
+Apply the typing-exactness route of \autoref{thm:metacic-decidability-witness-typing-exactness-route}. A confluence or decidability consumer cannot combine $S,B,F$ as checker evidence before $T$ exposes the inferTypeCtx exactness row.
+
+Finally use bounded-search exhaustion, \autoref{thm:metacic-decidability-witness-bounded-search-exhaustion}. It exhausts all requested finite conversion and typing reads inside the displayed depth bound. A confluence-normal-fragment sibling row may therefore be consumed only as another bounded row beside $T,S,B,F,R,H,C,P,N$, with the global diamond, Church--Rosser, subject-reduction, quotient-equality, consistency, and evaluator endpoints still absent.
+\end{proof}
+\leanchecked{BEDC.Derived.MetacicDecidabilityWitnessUp.MetacicDecidabilityWitnessConfluenceHandoffBoundary}
+
 \begin{definition}[MetaCIC parallel-diamond fuel window]
 \label{def:metacic-parallel-diamond-fuel-window}
 A $\MetacicDecidabilityWitnessUp$ parallel-diamond fuel-window packet is a finite $\BHist$ row
@@ -220,6 +238,21 @@ Use bounded-conversion non-escape, \autoref{thm:metacic-decidability-witness-bou
 
 Finally invoke the typing-exactness route of \autoref{thm:metacic-decidability-witness-typing-exactness-route} and the candidate-normalization scope of \autoref{thm:metacic-decidability-witness-candidate-normalization-scope}. They force typing reads through $T$ and keep candidate-normalization consumers inside the same finite rows. Since the carrier has no additional coordinate, none of the listed routes can export $\mathsf{ClosedAt}$ decidability, unrestricted beta conversion, quotient syntax equality, consistency, fuel-erased normalisation, or a host evaluator.
 \end{proof}
+
+\begin{theorem}[MetaCIC decidability witness formal-target ledger]
+\label{thm:metacic-decidability-witness-formal-target-ledger}
+Any later Lean formal target for the $\MetacicDecidabilityWitnessUp$ chapter must read typing exactness through $T$, same-term comparison through $S$, bounded beta comparison through $B$ and $F$, refusal through $R$, and structural movement through $H,C,P,N$. It may not claim $\mathsf{ClosedAt}$ decidability, unrestricted conversion, quotient syntax equality, consistency, fuel-erased normalisation, or host evaluation.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:metacic-decidability-witness-namecert-obligations}. They make the accepted witness a finite carrier $W=(T,S,B,F,R,H,C,P,N)$, so any formal target that belongs to this chapter must read from one of those rows.
+
+Apply bounded-search exhaustion, \autoref{thm:metacic-decidability-witness-bounded-search-exhaustion}, together with bounded-conversion non-escape and the bounded normal-form split. These route bounded beta comparison through $B$ and $F$ and keep finished-normal evidence inside the displayed finite packet.
+
+Use the typing-exactness route and scope routes, \autoref{thm:metacic-decidability-witness-typing-exactness-route} and \autoref{thm:metacic-decidability-witness-scope-routes}. They force typing reads through $T$, same-term comparison through $S$, refusal through $R$, and transport, replay, provenance, and local naming through $H,C,P,N$.
+
+Since those cited rows exhaust the carrier, no later formal target licensed by this chapter can export $\mathsf{ClosedAt}$ decidability, unrestricted conversion, quotient syntax equality, consistency, fuel-erased normalisation, or host evaluation. Such endpoints would require a separate carrier coordinate not present in the accepted packet.
+\end{proof}
+\leanchecked{BEDC.Derived.MetacicDecidabilityWitnessUp.MetacicDecidabilityWitnessFormalTargetLedger}
 
 \begin{theorem}[MetaCIC decidability witness scoped closure package]
 \label{thm:metacic-decidability-witness-scoped-closure-package}

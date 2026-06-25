@@ -74,6 +74,22 @@ The row $A$ records whether the route carries an admissible rate certificate or 
 Apply \autoref{thm:relational-physics-invariant-route-exclusion}. The same route excludes global geometry, semantic real-valued dynamics, detached physical truth, and bridge checking because none is a displayed coordinate of the accepted packet.
 \end{proof}
 
+\begin{theorem}[Relational physics observer-locality-rate obligation]
+\label{thm:relational-physics-observer-locality-rate-obligation}
+Every accepted $\RelationalPhysicsUp$ packet that exports relational physical content must display observer-history identity, inter-history locality, invariant readback, physical-model audit, and admissible rate or refusal before the export. In carrier notation, the consumer route is
+$$
+O,L,I,V,A,H,C,P,N,
+$$
+where $O$ supplies observer-history identity, $L$ supplies locality, $I$ supplies invariant readback, $V$ supplies visible model audit, $A$ supplies the admissible rate certificate or refusal, and $H,C,P,N$ supply transport, replay, provenance, and local naming. No export may bypass these rows by using an absolute frame, global synchronization history, ambient spacetime, detached truth oracle, unbounded observation stream, or unledgered model equivalence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:relational-physics-carrier}. Its only relational-content rows are $O,I,L,V,A$, and its only structural rows are $H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:relational-physics-namecert-obligations}. They require observer identity, locality, invariant readback, physical-model audit, and admissible rate or refusal to be read through their displayed rows before the local $\NameCert_{\RelationalPhysicsUp}$ row can support a downstream export.
+
+Use route exclusion and handoff, \autoref{thm:relational-physics-invariant-route-exclusion} and \autoref{thm:relational-physics-namecert-handoff}. The exclusion theorem rules out the non-displayed global and semantic endpoints, while the handoff theorem orders the surviving route as $O,L,I,V,A,H,C,P,N$. Thus the observer-locality-rate obligation is exactly the finite BEDC row route listed above.
+\end{proof}
+
 \falsifiablePrediction{Any accepted RelationalPhysicsUp consumer that exports relational physical content while bypassing observer-history identity, inter-history locality, invariant readback, physical-model audit, or the admissible rate and refusal row fails the carrier classifier.}
 
 \independenceWitness{observerhistidentity, interhistinvariant, interhistlocalityledger, physicalmodelaudit: none carries observer-history identity, locality ledger, invariant readback, visible model audit, admissible rate or refusal, componentwise hsame transport, Cont replay, Pkg provenance, and one local NameCert row in a single relational-physics packet.}
@@ -82,8 +98,8 @@ Apply \autoref{thm:relational-physics-invariant-route-exclusion}. The same route
 
 \begin{closurestatus}{\RelationalPhysicsUp}
   \constructivestory{A $\RelationalPhysicsUp$ packet is generated from observer-history identity, inter-history invariant, locality ledger, physical-model audit, admissible rate or refusal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite relational-physics carrier, its NameCert obligation surface, route exclusion, and downstream handoff.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:relational-physics-carrier}, \autoref{thm:relational-physics-namecert-obligations}, \autoref{thm:relational-physics-invariant-route-exclusion}, \autoref{thm:relational-physics-namecert-handoff}, and \autoref{thm:relational-physics-observer-locality-rate-obligation} form the obligation surface for observer-history identity, locality, invariant readback, physical-model audit, rate or refusal, transport, replay, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not derive a completed physical theory, global spacetime geometry, semantic real-valued dynamics, host physical truth, or a standard bridge for relational physics.}

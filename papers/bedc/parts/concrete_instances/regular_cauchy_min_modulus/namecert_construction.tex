@@ -4,6 +4,8 @@
 
 Following Bishop and Bridges constructive analysis, the $\RegularCauchyMinModulusUp$ packet records the finite scheduling surface for taking the pointwise minimum of two displayed regular-Cauchy modulus schedules. It sits between the shared-modulus meet packet of \autoref{ch:concrete-instances-cauchymodulusmeet-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback boundary of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The downstream selector of \autoref{ch:concrete-instances-cauchy-subsequence-selection-modulus-namecert} reads the minimum row only after the shared $\CauchyModulusMeetUp$ surface and the $\DyadicRatCoreUp$ comparison ledger have displayed the common tolerance budget. The packet is a finite L10 Real-and-Completion route: it names the displayed minimum-modulus schedule, not a selected quotient stream, an ambient completeness theorem, or a choice principle over all precision requests.
 
+The minimum-modulus read also depends on the finite-window induction budget of \autoref{ch:concrete-instances-regular-cauchy-window-induction-namecert} and the locatedness tolerance budget of \autoref{ch:concrete-instances-locatedness-modulus-namecert}. A Real-facing consumer must therefore see the $\RegularCauchyWindowInductionUp$ schedule and the $\LocatednessModulusUp$ request row before treating $m$ as a stable minimum for $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ handoffs.
+
 \begin{definition}[Regular Cauchy minimum-modulus carrier]\label{def:regular-cauchy-min-modulus-carrier}
 A $\RegularCauchyMinModulusUp$ carrier is a finite $\BHist$ packet
 $$
@@ -68,6 +70,56 @@ The minimum step reads $m$ together with $D$. The row $D$ carries the dyadic com
 The stream and regular-rational handoff is then mediated by $W$ and $Q$, and the terminal seal by $E$. The structural rows $H,C,P,N$ transport, replay, source, and name the same route. Hence every L10 consumer factors through the displayed sequence, with no quotient stream, selected limit, hidden completion object, countable choice, or ambient completeness coordinate available.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy minimum-modulus positive gap]
+\label{thm:regular-cauchy-min-modulus-positive-gap}
+Let $R=(S_0,S_1,M,m,W,Q,D,E,H,C,P,N)$ be an accepted $\RegularCauchyMinModulusUp$ carrier. Whenever the two source modulus schedules display positive dyadic requests through $\CauchyModulusMeetUp$ and $\DyadicRatCoreUp$, the minimum row $m$ preserves a positive displayed request for the downstream $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ handoff. The route also names the $\LocatednessModulusUp$ request row and the $\RegularCauchyWindowInductionUp$ finite-window budget before any Real-facing consumer reads $E$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-min-modulus-carrier}. The two source schedules are read as $S_0,S_1$, their common meet is $M$, and the dyadic comparison ledger is $D$.
+
+Apply the NameCert obligation theorem, \autoref{thm:regular-cauchy-min-modulus-namecert-obligations}. Its meet-compatibility and finite-minimum exactness rows require the row $m$ to be read only after $M$ and the displayed dyadic comparisons in $D$ have synchronized the two source requests.
+
+Apply the L10 route theorem, \autoref{thm:regular-cauchy-min-modulus-l10-route}. The positive request stored in $m$ is then handed to $W,Q,E$ through the finite sequence $S_0,S_1,M,m,D,W,Q,E,H,C,P,N$, with the sibling $\LocatednessModulusUp$ row and $\RegularCauchyWindowInductionUp$ schedule providing the locatedness and finite-window context.
+
+Because the carrier contains no quotient stream, selected limit, hidden completion object, countable-choice selector, or ambient completeness coordinate, the preserved positive gap is only the displayed dyadic request exported by the finite packet.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy minimum-modulus finite-window induction]
+\label{thm:regular-cauchy-min-modulus-induction}
+Let
+$$
+R=(S_0,S_1,M,m,W,Q,D,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyMinModulusUp$ carrier. Extending both source schedules by one displayed finite $\StreamNameUp$ and $\RegSeqRatUp$ window preserves the same minimum-modulus row exactly when the $\CauchyModulusMeetUp$ row and the $\DyadicRatCoreUp$ tolerance ledger replay through $\hsame$ and $\Cont$. The base read is the carrier route for $S_0,S_1,M,m,W,Q,D$, and the step read uses the meet-compatibility and finite-minimum exactness rows of \autoref{thm:regular-cauchy-min-modulus-namecert-obligations}.
+\end{theorem}
+\begin{proof}
+Proceed by induction on the displayed finite window extension. In the base case, no new window has been appended, so \autoref{def:regular-cauchy-min-modulus-carrier} supplies the existing rows $S_0,S_1,M,m,W,Q,D,E,H,C,P,N$ and the minimum row is the admitted row of the carrier.
+
+For the induction step, append one source window to each schedule and read it through the displayed $\StreamNameUp$ and $\RegSeqRatUp$ rows $W,Q$. The meet-compatibility row of \autoref{thm:regular-cauchy-min-modulus-namecert-obligations} forces the appended requests to pass through the same $\CauchyModulusMeetUp$ row $M$ before $m$ is consumed.
+
+The finite-minimum exactness row then uses the $\DyadicRatCoreUp$ ledger $D$ to compare the transported thresholds. Transport through $H$ and replay through $C$ preserve the same displayed comparison data, so the appended window keeps the minimum-modulus row precisely when $M$ and $D$ replay through $\hsame$ and $\Cont$.
+
+Applying the induction hypothesis to the earlier windows and the step argument to the appended window yields preservation for the whole finite extension, with no quotient stream equality, countable choice, selected limit, or ambient completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy minimum-modulus scoped primitive route]
+\label{thm:regular-cauchy-min-modulus-scope}
+Let
+$$
+R=(S_0,S_1,M,m,W,Q,D,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyMinModulusUp$ carrier. Every minimum-modulus consumer factors through $S_0,S_1,M,m,W,Q,D,E,H,C,P,N$ together with the $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance rows, $\RegularCauchyWindowInductionUp$ finite-window schedule, $\LocatednessModulusUp$ request row, terminal $\RealUp$ seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The route exports no quotient stream equality, selected limit, hidden completion object, countable-choice selector, host real equality, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the obligation theorem, \autoref{thm:regular-cauchy-min-modulus-namecert-obligations}. It fixes carrier admission, meet compatibility, finite minimum exactness, readback stability, replay, provenance, and local naming as rows of the single finite packet.
+
+Apply the L10 route theorem, \autoref{thm:regular-cauchy-min-modulus-l10-route}. Every Real-and-Completion consumer reads the two source schedules, the meet row, the minimum row with dyadic tolerance data, the stream and regular-rational handoff, the real seal, and the structural rows in that order.
+
+Use the positive-gap theorem, \autoref{thm:regular-cauchy-min-modulus-positive-gap}, to bind the locatedness request row and the finite-window budget to the displayed dyadic request. Then apply the finite-window induction theorem, \autoref{thm:regular-cauchy-min-modulus-induction}, so extensions of the inspected windows remain within the same $M,D,H,C$ replay surface.
+
+Thus every consumer route is scoped by the named BEDC primitives and sibling packets, and the excluded completion, choice, quotient, and host-equality claims remain outside the accepted $\RegularCauchyMinModulusUp$ carrier.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\RegularCauchyMinModulusUp$ consumer that reaches a $\RegSeqRatUp$ readback or $\RealUp$ seal without reading $S_0,S_1,M,m,W,Q,D,E,H,C,P,N$ refutes the carrier surface.}
 
 \independenceWitness{cauchymodulusmeet, streamname, regseqrat, dyadicratcore, real: no listed sibling supplies the joint packet containing two regular-Cauchy schedules, a shared meet row, a finite minimum row, stream windows, regular rational readback, dyadic tolerance ledger, terminal Real seal, transport, replay, provenance, and local NameCert row.}
@@ -77,7 +129,7 @@ The stream and regular-rational handoff is then mediated by $W$ and $Q$, and the
 \begin{closurestatus}{\RegularCauchyMinModulusUp}
   \constructivestory{A $\RegularCauchyMinModulusUp$ packet is generated from two regular-Cauchy schedules, a CauchyModulusMeet row, a finite minimum row, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-min-modulus-carrier}, \autoref{thm:regular-cauchy-min-modulus-namecert-obligations}, and \autoref{thm:regular-cauchy-min-modulus-l10-route} seed the finite minimum-modulus route from two regular-Cauchy schedules through a shared meet surface to stream, regular-rational, and Real-facing consumers.}
+  \scopeclosed{\autoref{def:regular-cauchy-min-modulus-carrier}, \autoref{thm:regular-cauchy-min-modulus-namecert-obligations}, \autoref{thm:regular-cauchy-min-modulus-l10-route}, \autoref{thm:regular-cauchy-min-modulus-positive-gap}, \autoref{thm:regular-cauchy-min-modulus-induction}, and \autoref{thm:regular-cauchy-min-modulus-scope} seed the finite minimum-modulus route from two regular-Cauchy schedules through a shared meet surface to stream, regular-rational, and Real-facing consumers.}
   \formalstatus{\formalTargetV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean theorem verification, bridge checking, quotient stream equality, selected limits, hidden completion objects, countable choice, or ambient $\RealUp$ completeness.}

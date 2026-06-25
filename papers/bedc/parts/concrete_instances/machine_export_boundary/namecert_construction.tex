@@ -48,6 +48,26 @@ Next inspect $A$ and $F$. The machine-readable audit interface fixes the audit r
 The morphism route is then carried in $P$ as certificate-preserving provenance before $N$ is read as the local name. The transport and replay rows $H,C$ preserve this sibling route, so the packet exposes no direct machine export that skips registry status, audit readback, refusal visibility, or NameCert morphism provenance.
 \end{proof}
 
+\begin{theorem}[Machine export boundary sibling route]
+\label{thm:machine-export-boundary-sibling-route}
+Every accepted machine export route
+$$
+E=(R,T,A,F,H,C,P,N)
+$$
+is a sibling-lattice consumer of $\RegistryExportSurfaceUp$, $\MachineReadableAuditInterfaceUp$, $\CannotClaimExportGateUp$, $\NameCertMorphismUp$, and $\MachineInterfaceBoundaryUp$. The rows $R,A,F,P$ expose registry status, audit readback, refusal preservation, and certificate-preserving provenance before the local name row $N$ is read, while $H$ and $C$ preserve the same route under transport and replay. Hence the route cannot introduce unregistered export, unchecked theorem evidence, or refusal erasure.
+\end{theorem}
+\begin{proof}
+Project the carrier $E=(R,T,A,F,H,C,P,N)$. The registry row $R$, audit row $A$, refusal row $F$, and provenance row $P$ are displayed before the local naming row $N$.
+
+Apply the registry route of \autoref{thm:machine-export-boundary-registry-route}. It forces every machine-facing export read through $\RegistryExportSurfaceUp$, $\MachineReadableAuditInterfaceUp$, $\CannotClaimExportGateUp$, and $\NameCertMorphismUp$ before the boundary can be named locally.
+
+The broader $\MachineInterfaceBoundaryUp$ sibling is preserved by the target row $T$ together with transport $H$ and replay $C$. Those rows keep the same displayed export route and do not add unregistered export, unchecked theorem evidence, or refusal erasure, so the accepted packet is exactly the stated sibling-lattice consumer.
+\end{proof}
+
+The $\MachineExportBoundaryUp$ packet refines the broader machine-facing interface of \autoref{ch:concrete-instances-machine-interface-boundary-namecert} by replacing a general registry-to-machine route with the target, audit, refusal, export tuple $E=(R,T,A,F,H,C,P,N)$ before any local export name is consumed.
+
+It therefore consumes $\MachineInterfaceBoundaryUp$ as a downstream specialization: $\RegistryExportSurfaceUp$ supplies the public status row, $\MachineReadableAuditInterfaceUp$ supplies audit readback, $\CannotClaimExportGateUp$ supplies refusal visibility, and $\NameCertMorphismUp$ supplies certificate-preserving provenance before the local export boundary is read.
+
 \falsifiablePrediction{Any machine export omitting target, audit, refusal, transport, replay, provenance, or local NameCert rows refutes the $\MachineExportBoundaryUp$ carrier.}
 
 \independenceWitness{registryexportsurface, machinereadableauditinterface, cannotclaimexportgate, namecertmorphism: none is bijective to MachineExportBoundaryUp because the boundary jointly carries registry export status, machine target, audit readback, refusal preservation, transport, replay, provenance, and local NameCert rows.}

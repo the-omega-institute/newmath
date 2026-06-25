@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\RegularClosedSetUp$}
+\label{ch:concrete-instances-regular-closed-set-namecert}
+\origin{human}
+
+Following Engelking, the $\RegularClosedSetUp$ packet records the topology-facing closed sets that are recovered from the closure of their own interior. It sits beside the regular-open comparison route of \autoref{ch:concrete-instances-regular-open-algebra-namecert}, reads ambient open and closed observations through $\TopologyUp$, and records membership provenance through $\SetLikeUp$. The packet is a finite NameCert surface for closure-interior stability, not a host powerset equality, a Boolean algebra completion, a selected basis, or an imported compactness theorem.
+
+\begin{definition}[Regular closed set carrier]
+\label{def:regular-closed-set-carrier}
+A $\RegularClosedSetUp$ carrier is a finite $\BHist$ packet
+$$
+R=(T,S,O,I,C,E,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the ambient $\TopologyUp$ row naming the finite open and closed observations available to the packet.
+\item $S$ is the $\SetLikeUp$ membership row for the underlying subset being inspected.
+\item $O$ is the interior row, recording the open part read from $S$ through $T$.
+\item $I$ is the closure-of-interior row, recording the closed row reached from $O$ inside the same topology.
+\item $C$ is the closedness row, asserting that the inspected subset is read as the closure row $I$.
+\item $E$ is the exactness row, recording the displayed equality of the subset row with the closure of its interior as a local certificate row.
+\item $H$ is componentwise $\hsame$ transport for $T,S,O,I,C,E$.
+\item $Q$ is displayed $\Cont$ replay for the route $S \to O \to I \to C \to E$.
+\item $P$ is $\Pkg$ provenance over $\RegularClosedSetUp$, $\TopologyUp$, $\SetLikeUp$, $\RegularOpenAlgebraUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularClosedSetUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed topology, membership, interior, closure, closedness, exactness, transport, replay, provenance, and local naming rows.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularClosedSetUp.RegularClosedSetTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular closed set NameCert obligations]
+\label{thm:regular-closed-set-namecert-obligations}
+For the carrier of \autoref{def:regular-closed-set-carrier}, the local $\NameCert_{\RegularClosedSetUp}$ surface consists exactly of carrier admission for $R=(T,S,O,I,C,E,H,Q,P,N)$, ambient topology exposure through $T$, set-membership exposure through $S$, interior exposure through $O$, closure-of-interior exposure through $I$, closedness exposure through $C$, exactness exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $Q$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The tuple displays the ambient topology row, membership row, interior row, closure-of-interior row, closedness row, exactness row, and structural support rows.
+
+Read the sibling anchors. $\TopologyUp$ supplies the open and closed observation discipline, $\SetLikeUp$ supplies membership provenance, and \autoref{ch:concrete-instances-regular-open-algebra-namecert} supplies the neighbouring regular-open comparison route without replacing the closed-set carrier.
+
+The remaining rows $H,Q,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no further coordinate, the NameCert obligations cannot export a host powerset equality, selected basis, Boolean algebra completion, compactness theorem, or ambient quotient of closed sets.
+\end{proof}
+
+\begin{theorem}[Regular closed set closure-interior stability]
+\label{thm:regular-closed-set-closure-interior-stability}
+Let $R=(T,S,O,I,C,E,H,Q,P,N)$ be an accepted $\RegularClosedSetUp$ packet. Every accepted read of the underlying subset row $S$ that passes through the displayed topology row $T$ and interior row $O$ returns to the same closed row $I$ after closure, and the exactness row $E$ keeps the carrier classified as a regular closed set. The stable route is
+$$
+S \to O \to I \to C \to E,
+$$
+not a host powerset equality, selected basis, Boolean completion, compactness principle, or quotient equality of subsets.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:regular-closed-set-carrier}. The subset row is not read directly as a host set; it is read through the topology row, then through the displayed interior and closure-of-interior rows.
+
+Apply the NameCert obligations of \autoref{thm:regular-closed-set-namecert-obligations}. They require the same $T,S,O,I,C,E$ route before a local certificate can expose regular closedness.
+
+The transport and replay rows preserve only those displayed coordinates. Thus a downstream topology or set-like consumer receives closure-interior stability for the finite carrier, while the excluded host powerset equality, selected basis, Boolean completion, compactness principle, and quotient subset equality remain outside the packet.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\RegularClosedSetUp$ packet whose subset row is not recovered from the closure of its displayed interior cannot satisfy the exactness row $E$.}
+
+\independenceWitness{topology, setlike, regularopenalgebra: $\RegularClosedSetUp$ is not bijective to any listed sibling because it binds ambient topology, set-membership provenance, interior, closure-of-interior, closedness, exactness, componentwise transport, replay, provenance, and local NameCert rows in one packet. TopologyUp supplies open and closed observations without the regular-closed exactness row, SetLikeUp supplies membership without closure-interior stability, and RegularOpenAlgebraUp supplies the neighbouring regular-open comparison route rather than the closed-set carrier.}
+
+\closureat{RegularClosedSetUp}{seedStr}
+
+\begin{closurestatus}{\RegularClosedSetUp}
+  \constructivestory{A $\RegularClosedSetUp$ packet is generated from ambient TopologyUp observations, SetLikeUp membership provenance, an interior row, a closure-of-interior row, a closedness row, an exactness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-closed-set-carrier}, \autoref{thm:regular-closed-set-namecert-obligations}, and \autoref{thm:regular-closed-set-closure-interior-stability} seed the regular-closed carrier, obligation surface, and closure-interior stability route over $\TopologyUp$, $\SetLikeUp$, $\RegularOpenAlgebraUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host powerset equality, selected bases, Boolean algebra completion, compactness, quotient subset equality, or ambient topological completeness.}
+  \upgradepath{Formal closure requires a Lean carrier and obligation package for the same topology, membership, interior, closure-of-interior, closedness, exactness, transport, replay, provenance, and local naming rows.}
+\end{closurestatus}

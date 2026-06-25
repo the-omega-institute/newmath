@@ -691,3 +691,17 @@ finite rows and only those rows; the excluded quotient, completion,
 representative, metric, arithmetic, order, bridge, and hidden-selector data are
 absent from every cited surface.
 \end{proof}
+
+\begin{theorem}[StreamName tail-selector finite-window transport]
+\label{thm:streamname-tail-selector-window-transport}
+Let an accepted StreamName--$\RegSeqRat$--$\RealUp$ tail-selector transport packet expose a finite tail-selector window over the same DyadicRatCore endpoints. If the window is transported through the RegSeqRat handoff exactness surface, then it preserves the StreamName finite section and the DyadicRatCore denominator window before any RealUp public-interface descent is applied.
+
+The transport exports no quotient row, completion object, Classical representative, ambient metric-completeness data, arithmetic or order row, standard bridge row, or hidden selector.
+\end{theorem}
+\begin{proof}
+First apply \autoref{thm:streamname-regseqrat-tail-selector-handoff-exactness}. The handoff identifies the transported StreamName finite-window classifier, bundled observations, pointwise rational-history rows, accepted RegSeqRat spine, DyadicRatCore endpoint rows, and finite Real ledger carried by the packet.
+
+Next apply \autoref{thm:streamname-regseqrat-realup-tail-denominator-selector}. The denominator selector reads the transported finite window before any public-interface descent, so the DyadicRatCore denominator data remain attached to the same finite tail-selector window.
+
+Only after these two finite-window steps apply \autoref{thm:streamname-realup-tail-selector-public-interface-descent}. The descent consumes the already transported finite section and denominator window; it does not create the window or replace it with a terminal RealUp seal.
+\end{proof}

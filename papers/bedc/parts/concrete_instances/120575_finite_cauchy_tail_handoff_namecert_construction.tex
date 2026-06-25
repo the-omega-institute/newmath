@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\FiniteCauchyTailHandoffUp$}
+\label{ch:concrete-instances-finite-cauchy-tail-handoff-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real construction, the $\FiniteCauchyTailHandoffUp$ packet records the finite tail-window interface where regular rational names, finite stream requests, dyadic tolerance ledgers, and terminal real-name seals meet. It sits over the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite request surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic arithmetic rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the tail selector of \autoref{ch:concrete-instances-reg-cauchy-tail-sel-namecert}, and the modulus arithmetic of \autoref{ch:concrete-instances-cauchymodulusarithmetic-namecert}. The packet gives the L10 Real and Completion route a named handoff between tail evidence and Real sealing without quotient equality, selected limits, trichotomy, countable choice, or ambient completeness.
+
+\begin{definition}[Finite Cauchy tail handoff carrier]
+\label{def:finite-cauchy-tail-handoff-carrier}
+A $\FiniteCauchyTailHandoffUp$ carrier is a finite $\BHist$ packet
+$$
+T=(R,W,D,M,S,Z,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ regular-rational readback row whose tail is being offered to a Real-facing consumer;
+\item $W$ is the $\StreamNameUp$ finite request window over which the tail is inspected;
+\item $D$ is the $\DyadicRatCoreUp$ ledger carrying the displayed radius, precision, and comparison budget for the window;
+\item $M$ is the $\CauchyModulusArithmeticUp$ row computing the tail bound from the request window and dyadic ledger;
+\item $S$ is the $\RegularCauchyTailSelectorUp$ row selecting the finite tail segment licensed by $M$;
+\item $Z$ is the terminal $\RealUp$ seal that may consume the displayed tail handoff;
+\item $H$ records componentwise $\hsame$ transports for the regular readback, window, dyadic ledger, modulus arithmetic, tail selector, real seal, provenance, and local name;
+\item $K$ records displayed $\Cont$ routes from $R,W,D$ through $M,S$ to $Z$ and from the structural rows back to the local certificate;
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusArithmeticUp$, $\RegularCauchyTailSelectorUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FiniteCauchyTailHandoffUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, a host-selected Cauchy tail, a selected real limit, trichotomy, countable choice, or an ambient completeness principle.
+\end{definition}
+\leanstmt{BEDC.Derived.FiniteCauchyTailHandoffUp}
+
+\begin{theorem}[Finite Cauchy tail handoff NameCert obligations]
+\label{thm:finite-cauchy-tail-handoff-namecert-obligations}
+For every accepted $\FiniteCauchyTailHandoffUp$ carrier $T=(R,W,D,M,S,Z,H,K,P,N)$, the local $\NameCert_{\FiniteCauchyTailHandoffUp}$ surface consists exactly of four public obligation rows: regular-rational tail source through $R$, finite window and dyadic budget through $W,D$, computed modulus and tail selector through $M,S$, and terminal real sealing through $Z$. The structural rows $H,K,P,N$ preserve, replay, source, and locally name only those displayed rows, so no other tail witness or Real-facing evidence is available.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteCauchyTailHandoffUp.FiniteCauchyTailHandoffNameCertObligations}
+\begin{proof}
+Project the finite packet of \autoref{def:finite-cauchy-tail-handoff-carrier}. Its analytic rows are exactly the regular readback $R$, window $W$, dyadic ledger $D$, modulus arithmetic row $M$, tail selector $S$, and real seal $Z$.
+
+The first obligation exposes the $\RegSeqRatUp$ tail source. The second obligation fixes the finite $\StreamNameUp$ window and $\DyadicRatCoreUp$ budget. The third obligation computes the displayed tail bound and selector through $M,S$. The fourth obligation seals the resulting handoff through $Z$.
+
+The rows $H,K,P,N$ transport, replay, package, and name the same packet. Since the carrier omits quotient equality, selected limits, choice schedules, trichotomy, and ambient completeness, the local certificate has no other public obligation row.
+\end{proof}
+\leanchecked{BEDC.Derived.FiniteCauchyTailHandoffNameCertObligations}
+
+\begin{theorem}[Finite Cauchy tail handoff Real seal route]
+\label{thm:finite-cauchy-tail-handoff-real-seal-route}
+Every Real-facing read of an accepted $\FiniteCauchyTailHandoffUp$ carrier reaches the $\RealUp$ seal $Z$ only after passing through the displayed $\RegSeqRatUp$ row $R$, the common $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ ledger $D$, the $\CauchyModulusArithmeticUp$ row $M$, the $\RegularCauchyTailSelectorUp$ row $S$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $K$, $\Pkg$ provenance $P$, and the local $\NameCert_{\FiniteCauchyTailHandoffUp}$ row $N$. It cannot replace this finite route by quotient equality, host real equality, a selected limit, trichotomy, countable choice, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteCauchyTailHandoffUp.FiniteCauchyTailHandoffRealSealRoute}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:finite-cauchy-tail-handoff-namecert-obligations}. They place the tail source, window, dyadic ledger, modulus arithmetic, tail selector, and Real seal in one displayed finite packet.
+
+The route to $Z$ must therefore pass through $R,W,D,M,S$ first. The $\Cont$ row $K$ records that order, while the $\hsame$ row $H$ can only transport the displayed components of the same carrier.
+
+Finally, $P$ and $N$ provide provenance and local naming for that carrier. Because no omitted coordinate is present in \autoref{def:finite-cauchy-tail-handoff-carrier}, a Real-facing consumer cannot cite a quotient equality, host equality, selected limit, choice schedule, trichotomy branch, or ambient completeness witness as part of the handoff.
+\end{proof}
+
+\closureat{FiniteCauchyTailHandoffUp}{seedStr}
+
+\begin{closurestatus}{\FiniteCauchyTailHandoffUp}
+  \constructivestory{A $\FiniteCauchyTailHandoffUp$ packet is generated from a RegSeqRat readback, a StreamName window, a DyadicRatCore ledger, CauchyModulusArithmetic, RegularCauchyTailSelector, a RealUp seal, componentwise transport, continuation replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-cauchy-tail-handoff-carrier}, \autoref{thm:finite-cauchy-tail-handoff-namecert-obligations}, and \autoref{thm:finite-cauchy-tail-handoff-real-seal-route} bind the finite tail-window route from regular rational readback to terminal Real sealing.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.FiniteCauchyTailHandoffUp}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient equality of streams, host real equality, selected limits, trichotomy, countable choice, ambient completeness, theorem checking, audit cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-window determinacy, Real seal non-escape, and structural route preservation for the same finite packet.}
+\end{closurestatus}

@@ -296,14 +296,28 @@ Apply \autoref{thm:sequentialclosure-carrier-admission-scope}. Since all accepte
 The exclusions follow from \autoref{thm:sequential-closure-namecert-obligations} and \autoref{thm:sequential-closure-sequence-limit-handoff}. The absent claims have no carrier coordinate, no continuation edge, no provenance entry, and no NameCert row, so they cannot escape through the scoped kernel packet.
 \end{proof}
 
+\begin{theorem}[SequentialClosure public export]\label{thm:sequentialclosure-public-export}
+For every accepted $\SequentialClosureUp$ carrier $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$, any downstream topology or metric consumer receives closure evidence only through the displayed source row $S$, sequence windows $W$, RegSeqRat handoff $R$, Real seal $A$, componentwise transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\SequentialClosureUp}$ row $N$. The public export packages the existing scoped route; it does not add a host closure operator, selected subsequence, quotient stream equality, open-cover compactness, ambient $\RealUp$ completeness, or a detached bridge row.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:sequential-closure-namecert-obligations}. It identifies the carrier rows and requires every closure-facing read to expose the source, sequence, test, handoff, Real seal, transport, replay, provenance, and local naming data.
+
+Apply \autoref{thm:sequential-closure-sequence-limit-handoff} and \autoref{thm:sequential-closure-regseqrat-limit-route}. These theorems put the sequence windows before the regular-rational readback and put the Real seal after that readback.
+
+Now use the public topology surface already recorded by \autoref{thm:sequential-closure-topology-handoff}, \autoref{thm:sequentialclosure-kernel-scope-surface}, and \autoref{thm:sequential-closure-root-topology-transport}. They keep topology and metric consumers on the same displayed rows $T,M,S,Q,L,U,W,R,A,H,C,P,N$.
+
+Finally apply \autoref{thm:sequentialclosure-carrier-admission-scope} and \autoref{thm:sequentialclosure-nonescape-scope}. The carrier admission theorem repacks the rows as one finite packet, and the nonescape theorem excludes every host closure or selection object absent from that packet.
+\end{proof}
+
 \closureat{SequentialClosureUp}{obligationStr}
+\closureat{SequentialClosureUp}{publicStr}
 
 \begin{closurestatus}{\SequentialClosureUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:sequential-closure-carrier}, \autoref{thm:sequential-closure-namecert-obligations}, \autoref{thm:sequential-closure-sequence-limit-handoff}, \autoref{thm:sequentialclosure-obligation-closure-surface}, \autoref{thm:sequentialclosure-neighbourhood-test-stability}, \autoref{thm:sequentialclosure-sequence-window-coverage}, \autoref{thm:sequentialclosure-limit-row-handoff}, \autoref{thm:sequentialclosure-kernel-scope-surface}, \autoref{thm:sequentialclosure-carrier-admission-scope}, and \autoref{thm:sequentialclosure-nonescape-scope} enumerate the finite obligation surface from displayed sequence-limit data to topology and metric closure consumers.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:sequential-closure-carrier}, \autoref{thm:sequential-closure-namecert-obligations}, \autoref{thm:sequential-closure-sequence-limit-handoff}, \autoref{thm:sequentialclosure-obligation-closure-surface}, \autoref{thm:sequentialclosure-neighbourhood-test-stability}, \autoref{thm:sequentialclosure-sequence-window-coverage}, \autoref{thm:sequentialclosure-limit-row-handoff}, \autoref{thm:sequentialclosure-kernel-scope-surface}, \autoref{thm:sequentialclosure-carrier-admission-scope}, \autoref{thm:sequentialclosure-nonescape-scope}, and \autoref{thm:sequentialclosure-public-export} enumerate the finite obligation surface and public consumer nonescape route from displayed sequence-limit data to topology and metric closure consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host topological closure, arbitrary sequence selection, general sequential compactness, quotient stream equality, $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires formal carrier admission, classifier transport, nonescape, and checked bridge data for the same packet.}
+  \upgradepath{Formal closure requires checked carrier admission, classifier transport, nonescape, and bridge data for the same public packet.}
   \constructivestory{A $\SequentialClosureUp$ packet is generated from ambient TopologyUp and MetricUp rows, a subset or LocatedSet row, a sequence source, a candidate limit row, a neighbourhood and metric test ledger, finite StreamName windows, a RegSeqRat handoff, a RealUp seal, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}

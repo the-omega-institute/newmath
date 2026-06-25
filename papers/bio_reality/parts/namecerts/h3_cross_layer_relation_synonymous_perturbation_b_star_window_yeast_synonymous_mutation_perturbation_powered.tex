@@ -1,49 +1,25 @@
+\subsection{Yeast Synonymous-Mutation Perturbation Window}
+\label{sec:bioreality-yeast-synonymous-mutation-perturbation-window}
 \origin{ai}
-\subsection{Yeast synonymous-mutation window contact for $B^*_{Q6}$}
-\label{sec:bioreality-yeast-synonymous-mutation-window}
 
-\paragraph{Finite surface.}
-The yeast synonymous-mutation audit tests whether a $B^*_{Q6}$ window score remains informative on a finite perturbation surface rather than only on organism-level codon summaries.  The observed table contains $1783$ synonymous mutants assigned to $20$ yeast genes, with $21$ successful CDS-map hits in the local reconciliation step.  The mutation rows are not read as amino-acid changes: they are synonymous edits whose admissible coordinates live in codon-window residual space after the amino-acid sequence is held fixed.  The row object is therefore a finite list of triples
+\paragraph{Empirical row surface.}
+This record concerns a yeast synonymous-mutant perturbation panel in which the admissible readout is not a direct assertion that a codon-coordinate has become a protein-level mechanism.  The finite surface has $20$ mapped genes, $1783$ synonymous mutants, and $21$ CDS map hits.  The computed run used $B=200$ null draws and completed in $289.093$ seconds.  The coordinate side is the $B^{*}_{Q6}$ synonymous residual window, while the empirical side is a yeast mutation panel checked against a codon-stability coefficient surface derived from Neymotin et al. 2014 yeast mRNA half-life rows.  The run defines $CSC_c$ as the Pearson correlation between $count_c/n_{sense\ codons}$ and $\log(t_{1/2})$ across genes.  On this panel the real codon-stability coefficient did not absorb the residual signal: $real\_csc\_absorbs=false$, while the robustness flag was positive: $real\_csc\_robust=true$.  The real-versus-proxy coefficient agreement was finite but incomplete, with
 $$
 \begin{aligned}
-  (w_a, g_b, y_c),
+ n_{genes} &= 20,\\
+ n_{synonymous\ mutants} &= 1783,\\
+ cds\_map\_hit &= 21,\\
+ B &= 200,\\
+ \rho(\Delta CSC_{real},\Delta CSC_{proxy}) &= 0.39717918221186976.
 \end{aligned}
 $$
-where $w_a$ is the $B^*_{Q6}$ window quantity attached to the synonymous substitution, $g_b$ is the matched yeast gene or CDS key, and $y_c$ is the perturbation readout available in the mutation dataset.  The audit uses $B=200$ resampling units for the null comparison, and its runtime was $289.093$ seconds.  These numbers matter because the chapter is not claiming a qualitative anecdote; it is recording a bounded finite-row calculation with a declared row count, gene count, reconciliation count, and null budget.
+These numbers are enough to write a bounded perturbation claim for this specific yeast surface: the synonymous window contains a measurable residual component not eliminated by the real codon-stability coefficient control used in the audit.
 
-\paragraph{Codon-stability control.}
-The control used to guard against a trivial codon-frequency explanation is a real codon-stability-coefficient surface rather than a proxy-only baseline.  The coefficient source is the Neymotin et al. 2014 yeast mRNA half-life table, with
-$$
-\begin{aligned}
-  \mathrm{CSC}_c
-  &= \mathrm{corr}\bigl(\mathrm{count}_c / n_{\mathrm{sense}},\, \log(t_{1/2})\bigr)
-\end{aligned}
-$$
-computed across genes for each codon $c$.  In the completed run, the real CSC surface did not absorb the $B^*_{Q6}$ window signal: \texttt{real\_csc\_absorbs=false}.  The robustness flag was positive, \texttt{real\_csc\_robust=true}, and the measured correlation between the real CSC contrast and the proxy contrast was $0.39717918221186976$.  The interpretation is narrow.  The result says that, on this finite yeast synonymous-mutant surface, the recorded window coordinate is not merely a rephrasing of the codon-stability proxy used in the control audit.  It does not say that the coordinate is a molecular cause, a ribosome-speed measurement, or a general law of synonymous mutation.
+\paragraph{Admissible interpretation.}
+The admissible object is a finite mediation-aware table of rows $(q_i,t_j,p_k)$ only when the measured layer actually contains the corresponding entries.  In this yeast perturbation record the directly cited finite output is narrower: it supports a synonymous-mutant residual window after the codon-stability coefficient check, not a full measured $q_i\to t_j\to p_k$ chain.  The larger cross-layer translation-protein audit gives useful context for the shape of the intended mediation surface: a separate multi-organism run computed $9$ $B^{*}_{Q6}$ residual coordinates and, for yeast, joined $5815$ proteins with modeled per-protein tAI and PAXdb abundance.  In that broader decomposition, yeast had $c_{total}=0.29837624994140827$, $c'_{direct}=0.0151709093608293$, an indirect component $0.28320534058057895$, and $M^{QTP}=0.9491551041216973$.  Those values show that the surrounding program has a concrete translation-conditioned protein-abundance template, but they are not substituted for the present perturbation rows.  The present yeast-mutant chapter therefore reads the $1783$ synonymous-mutant result as a perturbation-window survival against the codon-stability control, not as direct proof of downstream protein realization.
 
-\paragraph{Relation to the translation and protein-abundance surfaces.}
-The surrounding $B^*_{Q6}$ program contains larger translation-mediated protein-abundance computations, but this yeast perturbation chapter keeps them separate from the mutation-row claim.  In the cross-organism mediation surface, $12$ organisms were joined to CDS, tRNA-copy, and PAXdb abundance rows; the yeast row in that matrix used $5815$ proteins and produced a joint mediated fraction
-$$
-\begin{aligned}
-  M^{QTP}_{\mathrm{yeast}} &= 0.9491551041216973,\\
-  R^2_{QP} &= 0.29837624994140827,\\
-  R^2_{QP\mid T} &= 0.0151709093608293,\\
-  R^2_{\mathrm{indirect}} &= 0.28320534058057895.
-\end{aligned}
-$$
-Those figures show that yeast is not an isolated bookkeeping accident in the broader finite matrices.  However, they are cross-sectional abundance statistics built with modeled per-protein tAI and PAXdb abundance, not direct evidence for what any individual synonymous mutant did at translation time.  Likewise, the yeast structure-mediated abundance decomposition joined $4759$ rows and measured
-$$
-\begin{aligned}
-  R^2_{QP} &= 0.2715520808117803,\\
-  R^2_{QP\mid S} &= 0.2706601505000995,\\
-  R^2_{QP\mid T,M} &= 0.13773967696311287,\\
-  R^2_{QP\mid T,M,S} &= 0.13759011208318542,
-\end{aligned}
-$$
-with a structure-only fraction $0.003284564452662019$ and a structure-incremental fraction $0.0005507778820193332$.  These auxiliary surfaces supply context for why the perturbation audit is worth recording, but they do not promote the $1783$ synonymous-mutant result into a folding, abundance, or causal mechanism claim.
+\paragraph{Local no-promotion rule.}
+The central separation is strict.  A $B^{*}_{Q6}$ residual coordinate may be associated with a synonymous mutation response, and it may remain robust after the real $CSC_c$ control, but that does not by itself establish translation, folding, physical admissibility, molecular function, mechanism, selection, organismal phenotype, or a universal rule.  A protein-level statement would require the same row, or a justified matched row, to carry a translation readout such as tAI, stAI, ribosome occupancy, or translation efficiency, and then a matched protein-abundance or perturbation output.  A direct $q_i\to p_k$ association is not promoted when the intervening $q_i\to t_j$ step is absent, null, or merely imported from a different finite panel.  The modeled-tAI survival audit is consistent with this boundary: it computed $9$ residual coordinates across $3$ organisms and found $81$ modeled entries above the threshold $0.01$, but it also records that $3$ organisms are insufficient for powered survival and that the result is modeled bounded coupling rather than ribo-seq or proteomics validation.
 
-\paragraph{Readback.}
-The correct readback is therefore a constrained perturbation statement.  A finite yeast synonymous-mutant table was evaluated with $1783$ mutation rows over $20$ genes, $B=200$ null resampling units, a real CSC control derived from yeast mRNA half-life, and a real-versus-proxy CSC correlation of $0.39717918221186976$.  Under that audit, the real CSC control did not absorb the $B^*_{Q6}$ window quantity, while the robustness flag remained positive.  The supported statement is that the $B^*_{Q6}$ window coordinate has finite-row perturbation signal in this yeast synonymous-mutation surface after the declared codon-stability check.  The unsupported statement would be stronger: that the coordinate itself establishes translation, protein folding, physical admissibility, molecular function, biological mechanism, selection, or universality.  None of those stronger readings follows from this table.  Each would require a separate layer-matched contact, such as measured ribosome profiling for translation, matched protein abundance for protein-output mediation, structure data for folding, physical assays for admissibility, functional assays for molecular role, perturbation-rescue designs for mechanism, and multi-organism controls before any population-level rule is asserted.
-
-\paragraph{Boundary.}
-This chapter is intentionally placed at the synonymous-perturbation boundary.  The positive finite-row audit survives a real CSC control, but the measured objects are still synonymous mutation rows, CDS mappings, gene assignments, and codon-stability-controlled window quantities.  Direct promotion from $Q_i$ to a protein or phenotype coordinate is not allowed here.  A later claim may use the same $B^*_{Q6}$ coordinate only if it first attaches the appropriate readout surface and repeats the relevant controls: amino-acid composition, organism, GC3, CDS length, the $M$-density baseline, matched mRNA abundance where translation efficiency is invoked, and simpler codon baselines.  Without that additional contact, the present result remains a bounded yeast synonymous-mutation perturbation audit, not a claim about translation realization, folding, physical admissibility, function, mechanism, selection, or a universal biological law.
+\paragraph{Verdict.}
+The yeast synonymous-mutation window is ready as a bounded BioReality chapter because the finite-row audit supplies concrete row counts, a named stability-control construction, a non-absorbing real-control flag, and a positive robustness flag.  Its mathematical content is a controlled residual perturbation statement: within the available yeast rows, the $B^{*}_{Q6}$ window retains signal after comparison to a real codon-stability coefficient surface.  Its excluded content is equally important: this chapter does not claim that the residual coordinate realizes translation dynamics, protein abundance, folded structure, physical feasibility, function, mechanism, adaptation, or universality.  Those claims require separate layer-matched measurements and their own controlled statistics.

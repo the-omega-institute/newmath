@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\NestedIntervalSequenceUp$}
+\label{ch:concrete-instances-nested-interval-sequence-namecert}
+\origin{human}
+
+Following Cantor's nested-interval principle in the Bishop--Bridges constructive reading, the $\NestedIntervalSequenceUp$ packet records a nested located interval sequence as finite BEDC certificate data before any Real or Completion consumer reads a limiting name. It sits over the located interval surface of \autoref{ch:concrete-instances-locatedinterval-namecert}, the dyadic nested-interval sibling of \autoref{ch:concrete-instances-nesteddyadicinterval-namecert}, the squeeze route of \autoref{ch:concrete-instances-nested-interval-squeeze-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the interval-sequence surface itself: endpoint rows, nesting evidence, diameter budgets, finite-window readback, transport, replay, provenance, and local naming.
+
+\begin{definition}[Nested interval sequence carrier]
+\label{def:nested-interval-sequence-carrier}
+A $\NestedIntervalSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+N=(I,E,L,D,S,R,Z,H,C,P,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite interval-row table, each row read as a located interval through $\LocatedIntervalUp$ and carrying displayed lower and upper endpoint names.
+\item $E$ is the endpoint-comparison ledger, recording the endpoint order and endpoint equality tests available to the inspected interval rows.
+\item $L$ is the nesting ledger, recording that every later inspected interval lies inside every earlier inspected interval named by the common schedule.
+\item $D$ is the diameter-budget ledger, read through $\DyadicRatCoreUp$, assigning each displayed interval a rational or dyadic shrinkage budget before any regular readback is allowed.
+\item $S$ is the $\StreamNameUp$ finite-window row naming the inspected indices, endpoint requests, nesting checks, and replay order.
+\item $R$ is the $\RegSeqRatUp$ handoff row obtained from the displayed endpoints, nesting ledger, and diameter budgets.
+\item $Z$ is the $\RealUp$ seal row available only after $I,E,L,D,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for interval rows, endpoint comparison, nesting, diameter budgets, finite windows, readback, Real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through the diameter budget, then through the scheduled interval rows and nesting ledger, then through regular rational readback and the terminal Real seal.
+\item $P$ is the $\Pkg$ provenance over $\NestedIntervalSequenceUp$, $\LocatedIntervalUp$, $\NestedDyadicIntervalUp$, $\NestedIntervalSqueezeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $A$ is the local $\NameCert_{\NestedIntervalSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,E,L,D,S,R,Z,H,C,P,A$. It has no coordinate for open-cover compactness, selected limits, countable choice, real-order trichotomy, quotient equality of real names, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Nested interval sequence NameCert obligation surface]
+\label{thm:nested-interval-sequence-obligation-surface}
+For every accepted $\NestedIntervalSequenceUp$ carrier
+$$
+N=(I,E,L,D,S,R,Z,H,C,P,A),
+$$
+the local $\NameCert_{\NestedIntervalSequenceUp}$ surface consists exactly of interval-row admission, endpoint comparison, nesting-ledger exactness, diameter-budget readback, finite-window scheduling, $\RegSeqRatUp$ handoff, terminal $\RealUp$ sealing, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:nested-interval-sequence-carrier}. The only displayed coordinates are $I,E,L,D,S,R,Z,H,C,P,A$, so interval admission, endpoint comparison, nesting evidence, diameter control, finite observation, readback, Real sealing, transport, replay, provenance, and local naming are all direct readings of the packet.
+
+Read the interval data first. The row $I$ supplies the located interval rows, $E$ supplies endpoint comparison, and $L$ supplies the displayed containment relation between later and earlier inspected intervals.
+
+Read the shrinkage and observation rows next. The diameter ledger $D$ is the only route by which a tolerance request reaches the interval sequence, and $S$ is the only route by which a consumer selects the inspected windows. The handoff row $R$ and seal row $Z$ are downstream of those displayed rows.
+
+Finally $H,C,P,A$ preserve the same finite route under transport, replay, source, and local naming. Since the carrier has no coordinate for compactness, a selected limit, choice, trichotomy, quotient equality, or ambient completeness, the displayed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Nested interval sequence shrink induction]
+\label{thm:nested-interval-sequence-shrink-induction}
+For an accepted $\NestedIntervalSequenceUp$ carrier
+$$
+N=(I,E,L,D,S,R,Z,H,C,P,A),
+$$
+finite prefix shrink data obtained from endpoint comparison rows $E$, nesting evidence $L$, diameter budgets $D$, $\StreamNameUp$ window rows $S$, $\RegSeqRatUp$ readback rows $R$, and terminal $\RealUp$ seal rows $Z$ is preserved by induction on the displayed finite windows. In particular, every displayed window prefix whose last interval has certified endpoints and diameter budget inherits the earlier-prefix containment and shrink ledger, and the successor window is obtained by consuming the next nesting row and next diameter row before transporting the result through $H$, $C$, $P$, and the local $\NameCert_{\NestedIntervalSequenceUp}$ row.
+\end{theorem}
+\begin{proof}
+For the base window, read \autoref{def:nested-interval-sequence-carrier}. A one-row prefix has endpoint comparison from $E$, its displayed diameter budget from $D$, its scheduled observation from $S$, and the downstream readback and seal rows $R$ and $Z$.
+
+For the successor step, assume the shrink ledger has been built for the displayed prefix named by $S$. The next window row supplies the next interval entry from $I$, the endpoint comparison row from $E$, the nesting row from $L$ placing it inside the earlier displayed intervals, and the next diameter budget from $D$.
+
+The successor ledger is then transported along the componentwise $\hsame$ row $H$ and replayed through $C$. The provenance row $P$ records that the construction used only the displayed $\LocatedIntervalUp$, $\NestedDyadicIntervalUp$, $\NestedIntervalSqueezeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces, and the local $\NameCert_{\NestedIntervalSequenceUp}$ row repacks the finite-window induction as a BEDC certificate.
+\end{proof}
+
+\closureat{NestedIntervalSequenceUp}{seedStr}
+
+\begin{closurestatus}{\NestedIntervalSequenceUp}
+  \constructivestory{A $\NestedIntervalSequenceUp$ packet is generated from located interval rows, endpoint-comparison rows, a nesting ledger, a DyadicRatCore diameter-budget ledger, StreamName finite windows, RegSeqRat readback, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:nested-interval-sequence-carrier} and \autoref{thm:nested-interval-sequence-obligation-surface} seed the finite nested located interval sequence route into the regular-rational and Real-facing stack.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Heine--Borel compactness, open-cover compactness, selected limits, countable choice, trichotomy, quotient real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint comparison, nesting exactness, diameter-budget monotonicity, finite-window replay, regular-rational handoff, Real-seal nonescape, transport, provenance, and local naming for BEDC.Derived.NestedIntervalSequenceUp.}
+\end{closurestatus}

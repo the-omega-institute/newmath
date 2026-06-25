@@ -1630,7 +1630,7 @@ def _frontier_queue_exhaustion_reason(claims: list[dict[str, Any]], new_event_co
         return "no_claims"
     if new_event_count:
         return "plan_events_opened_this_cycle"
-    terminal_statuses = {"passed", "needs_data", "needs_external", "failed"}
+    terminal_statuses = {"passed", "needs_data", "needs_external", "failed", "error", "timeout"}
     counts = _claim_status_counts(claims)
     pending = {status: count for status, count in counts.items() if status not in terminal_statuses}
     if pending:
@@ -2222,6 +2222,7 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
         "needs_data_this_cycle": 0,
         "needs_external_this_cycle": 0,
         "error_this_cycle": 0,
+        "timeout_this_cycle": 0,
         "skipped_unmet_dep": 0,
         "claim_states": {},
     }
@@ -2231,7 +2232,7 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
         experiment_id = str(claim.get("experiment_id") or "")
         experiment = experiment_by_id.get(experiment_id)
         if status not in {"open", "needs_rerun"}:
-            if status in {"failed", "error", "passed"} and experiment is not None and _experiment_changed_since_last_history(claim, experiment, repo_root, store.paths.experiments_registry):
+            if status in {"failed", "error", "passed", "timeout"} and experiment is not None and _experiment_changed_since_last_history(claim, experiment, repo_root, store.paths.experiments_registry):
                 claim["status"] = "needs_rerun"
                 status = "needs_rerun"
                 history = claim.setdefault("history", [])
@@ -2250,7 +2251,7 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
                 if isinstance(history, list):
                     history.append(_history_entry("needs_rerun", "freshly materialized, no prior experiment_run - kicking off"))
             else:
-                if status in {"failed", "error", "passed"} and experiment is not None:
+                if status in {"failed", "error", "passed", "timeout"} and experiment is not None:
                     _backfill_script_sha(claim, experiment, repo_root)
                 continue
         if experiment is None:
@@ -2312,6 +2313,9 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
         elif result_status == "needs_data":
             claim["status"] = "needs_data"
             summary["needs_data_this_cycle"] += 1
+        elif result_status == "timeout":
+            claim["status"] = "timeout"
+            summary["timeout_this_cycle"] += 1
         else:
             claim["status"] = "error"
             summary["error_this_cycle"] += 1

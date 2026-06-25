@@ -162,4 +162,208 @@ theorem GroundCompilerEventFlowAuditRouteCarrier_non_evidence_boundary
   }
   exact ⟨cert, nonEvidenceTransportReplay, localNamePkg⟩
 
+theorem GroundCompilerEventFlowAuditRouteCarrier_obligation_surface [AskSetup] [PackageSetup]
+    {eventFlow legalChannel lossless recognizer certificateGate nonEvidence transport replay
+      provenance localName auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GroundCompilerEventFlowAuditRouteCarrier eventFlow legalChannel lossless recognizer
+        certificateGate nonEvidence transport replay provenance localName bundle pkg ->
+      Cont certificateGate replay auditRead ->
+        PkgSig bundle auditRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row auditRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row eventFlow ∨ hsame row legalChannel ∨ hsame row lossless ∨
+                  hsame row recognizer ∨ hsame row certificateGate ∨ hsame row nonEvidence ∨
+                    hsame row transport ∨ hsame row replay ∨ hsame row provenance ∨
+                      hsame row localName ∨ hsame row auditRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont certificateGate replay auditRead ∧
+                  PkgSig bundle auditRead pkg ∧ PkgSig bundle localName pkg)
+              hsame ∧ UnaryHistory auditRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier certificateReplayAudit auditPkg
+  obtain ⟨_eventFlowUnary, _legalChannelUnary, _losslessUnary, _recognizerUnary,
+    certificateGateUnary, _nonEvidenceUnary, _transportUnary, replayUnary, _provenanceUnary,
+    _localNameUnary, _eventFlowLegalLossless, _losslessRecognizerGate,
+    _nonEvidenceTransportReplay, _replayProvenanceLocalName, localNamePkg⟩ := carrier
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed certificateGateUnary replayUnary certificateReplayAudit
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row auditRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row eventFlow ∨ hsame row legalChannel ∨ hsame row lossless ∨
+              hsame row recognizer ∨ hsame row certificateGate ∨ hsame row nonEvidence ∨
+                hsame row transport ∨ hsame row replay ∨ hsame row provenance ∨
+                  hsame row localName ∨ hsame row auditRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont certificateGate replay auditRead ∧
+              PkgSig bundle auditRead pkg ∧ PkgSig bundle localName pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro auditRead ⟨hsame_refl auditRead, auditUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr source.left)))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, certificateReplayAudit, auditPkg, localNamePkg⟩
+  }
+  exact ⟨cert, auditUnary⟩
+
+theorem GroundCompilerEventFlowAuditRouteCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {eventFlow legalChannel lossless recognizer certificateGate nonEvidence transport replay
+      provenance localName stableRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GroundCompilerEventFlowAuditRouteCarrier eventFlow legalChannel lossless recognizer
+        certificateGate nonEvidence transport replay provenance localName bundle pkg ->
+      hsame stableRead certificateGate ->
+        Cont lossless recognizer certificateGate ->
+          SemanticNameCert
+              (fun row : BHist => hsame row stableRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row lossless ∨ hsame row recognizer ∨ hsame row certificateGate ∨
+                  hsame row stableRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont lossless recognizer certificateGate ∧
+                  PkgSig bundle localName pkg)
+              hsame ∧ UnaryHistory stableRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier stableCertificate losslessRecognizerGate
+  obtain ⟨_eventFlowUnary, _legalChannelUnary, _losslessUnary, _recognizerUnary,
+    certificateGateUnary, _nonEvidenceUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _eventFlowLegalLossless, _losslessRecognizerGate,
+    _nonEvidenceTransportReplay, _replayProvenanceLocalName, localNamePkg⟩ := carrier
+  have stableUnary : UnaryHistory stableRead :=
+    unary_transport_symm certificateGateUnary stableCertificate
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row stableRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row lossless ∨ hsame row recognizer ∨ hsame row certificateGate ∨
+              hsame row stableRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont lossless recognizer certificateGate ∧
+              PkgSig bundle localName pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro stableRead ⟨hsame_refl stableRead, stableUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, losslessRecognizerGate, localNamePkg⟩
+  }
+  exact ⟨cert, stableUnary⟩
+
+theorem GroundCompilerEventFlowAuditRouteCarrier_certificate_gate_exhaustion
+    [AskSetup] [PackageSetup]
+    {eventFlow legalChannel lossless recognizer certificateGate nonEvidence transport replay
+      provenance localName gateExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GroundCompilerEventFlowAuditRouteCarrier eventFlow legalChannel lossless recognizer
+        certificateGate nonEvidence transport replay provenance localName bundle pkg →
+      Cont certificateGate nonEvidence gateExport →
+        PkgSig bundle gateExport pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row gateExport ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row eventFlow ∨ hsame row legalChannel ∨ hsame row lossless ∨
+                  hsame row recognizer ∨ hsame row certificateGate ∨ hsame row nonEvidence ∨
+                    hsame row gateExport)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont eventFlow legalChannel lossless ∧
+                  Cont lossless recognizer certificateGate ∧
+                    Cont certificateGate nonEvidence gateExport ∧ PkgSig bundle gateExport pkg)
+              hsame ∧ UnaryHistory gateExport := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier certificateNonEvidenceGate gatePkg
+  obtain ⟨_eventFlowUnary, _legalChannelUnary, _losslessUnary, _recognizerUnary,
+    certificateGateUnary, nonEvidenceUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, eventFlowLegalLossless, losslessRecognizerGate,
+    _nonEvidenceTransportReplay, _replayProvenanceLocalName, _localNamePkg⟩ := carrier
+  have gateUnary : UnaryHistory gateExport :=
+    unary_cont_closed certificateGateUnary nonEvidenceUnary certificateNonEvidenceGate
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row gateExport ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row eventFlow ∨ hsame row legalChannel ∨ hsame row lossless ∨
+              hsame row recognizer ∨ hsame row certificateGate ∨ hsame row nonEvidence ∨
+                hsame row gateExport)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont eventFlow legalChannel lossless ∧
+              Cont lossless recognizer certificateGate ∧
+                Cont certificateGate nonEvidence gateExport ∧ PkgSig bundle gateExport pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro gateExport ⟨hsame_refl gateExport, gateUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, eventFlowLegalLossless, losslessRecognizerGate,
+          certificateNonEvidenceGate, gatePkg⟩
+  }
+  exact ⟨cert, gateUnary⟩
+
 end BEDC.Derived.GroundCompilerEventFlowAuditRouteUp

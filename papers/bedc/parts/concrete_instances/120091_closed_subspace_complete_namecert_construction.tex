@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\ClosedSubspaceCompleteUp$}
+\label{ch:concrete-instances-closed-subspace-complete-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\ClosedSubspaceCompleteUp$ packet records the constructive theorem that a closed subspace of a complete metric carrier is complete as finite BEDC NameCert data. It sits after the complete-metric service of \autoref{ch:concrete-instances-complete-metric-space-namecert}, the closed-subset boundary of \autoref{ch:concrete-instances-closedset-namecert}, the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names limit retention inside the displayed closed subspace; it does not assert a quotient completion, choose a host representative, invoke countable choice, add ambient compactness, or identify completed reals by host equality.
+
+\begin{definition}[Closed subspace complete carrier]
+\label{def:closed-subspace-complete-carrier}
+A $\ClosedSubspaceCompleteUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,F,D,W,R,C,L,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the ambient $\MetricUp$ row whose distance requests are visible to the subspace consumer.
+\item $F$ is the $\ClosedSetUp$ boundary row naming the subspace as closed inside the ambient metric carrier.
+\item $D$ is the $\CompleteMetricUp$ service row for the ambient carrier.
+\item $W$ is the $\StreamNameUp$ finite-window row exposing the accepted Cauchy name inside the subspace.
+\item $R$ is the $\RegSeqRatUp$ readback row carrying the rational tolerance schedule of that Cauchy name.
+\item $C$ is the Cauchy-admission row recording that the displayed stream stays inside the closed subspace.
+\item $L$ is the limit-retention row: the ambient complete-metric limit read supplied by $D$ is retained by the closed-set boundary $F$.
+\item $H$ records componentwise $\hsame$ transport for $M,F,D,W,R,C,L$ and the local certificate row.
+\item $Q$ records displayed $\Cont$ replay from a subspace Cauchy request through $M,F,D,W,R,C,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ClosedSubspaceCompleteUp$, $\CompleteMetricUp$, $\ClosedSetUp$, $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedSubspaceCompleteUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed ambient metric, closed-subspace boundary, ambient completeness service, finite Cauchy readback, limit-retention row, and structural transport, replay, provenance, and naming rows.
+\end{definition}
+\leanstmt{BEDC.Derived.ClosedSubspaceCompleteUp}
+
+\begin{theorem}[Closed subspace complete NameCert obligations]
+\label{thm:closed-subspace-complete-namecert-obligations}
+For the carrier of \autoref{def:closed-subspace-complete-carrier}, the local $\NameCert_{\ClosedSubspaceCompleteUp}$ surface consists exactly of carrier admission for
+$$
+S=(M,F,D,W,R,C,L,H,Q,P,N),
+$$
+ambient metric exposure through $M$, closed-set boundary exposure through $F$, ambient complete-metric service through $D$, finite-window Cauchy exposure through $W$, regular-rational tolerance readback through $R$, subspace Cauchy admission through $C$, limit retention through $L$, componentwise transport through $H$, displayed replay through $Q$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier coordinates. The ambient rows $M,F,D$ provide the metric source, closed-subspace boundary, and complete-metric service, while $W,R,C$ provide the finite Cauchy name and its regular rational tolerance readback.
+
+Read the retention row $L$. It is available only after the ambient limit service $D$ and closed boundary $F$ have been displayed for the same Cauchy name, so the limit remains inside the subspace carrier rather than leaving to a host completion.
+
+Finally read $H,Q,P,N$. These rows transport, replay, source, and name the same displayed route, and there is no coordinate for quotient completion, selected representatives, host real equality, countable choice, or ambient compactness. Hence the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Closed subspace complete Cauchy-limit retention]
+\label{thm:closed-subspace-complete-cauchy-limit-retention}
+Every completion-facing consumer of an accepted $\ClosedSubspaceCompleteUp$ carrier must route a subspace Cauchy name through
+$$
+W,R,C \longmapsto D \longmapsto F \longmapsto L
+$$
+before it can read a retained limit. The retained limit is therefore a displayed closed-subspace endpoint supplied by the ambient $\CompleteMetricUp$ service and the $\ClosedSetUp$ boundary, not a quotient completion class, not a selected host representative, and not an ambient completeness theorem for unrelated subspaces.
+\end{theorem}
+\begin{proof}
+Start with the finite-window and rational readback rows $W$ and $R$. They expose the accepted Cauchy observations that the subspace consumer is allowed to inspect.
+
+Use the Cauchy-admission row $C$ to keep those observations inside the displayed closed subspace. The ambient complete-metric service $D$ may then be read for that same Cauchy name, but only along the route already tied to $M,F,W,R,C$.
+
+Apply the closed-set boundary row $F$ and the retention row $L$. These rows record that the ambient limit returned by $D$ is retained inside the closed subspace, while $H,Q,P,N$ preserve the same route under transport, replay, provenance, and local naming.
+
+Since the carrier has no coordinate for quotient completion, selected host representatives, countable choice, host real equality, or ambient compactness, no completion-facing read can export those surfaces.
+\end{proof}
+
+\closureat{ClosedSubspaceCompleteUp}{seedStr}
+
+\begin{closurestatus}{\ClosedSubspaceCompleteUp}
+  \constructivestory{A $\ClosedSubspaceCompleteUp$ packet is generated from an ambient Metric row, a ClosedSet boundary row, an ambient CompleteMetric service row, finite StreamName windows, RegSeqRat tolerance readback, subspace Cauchy admission, limit retention, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-subspace-complete-carrier}, \autoref{thm:closed-subspace-complete-namecert-obligations}, and \autoref{thm:closed-subspace-complete-cauchy-limit-retention} seed the finite retention route for closed subspaces of complete metric carriers.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.ClosedSubspaceCompleteUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion equality, selected host representatives, countable choice, host real equality, ambient compactness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, closed-boundary retention, ambient complete-metric handoff, finite-window readback, transport, replay, provenance, and local naming for the same packet.}
+\end{closurestatus}

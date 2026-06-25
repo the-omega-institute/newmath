@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\HermiteFunctionUp$}
+\label{ch:concrete-instances-hermite-function-namecert}
+\origin{human}
+
+Following Hermite and Fourier analysis, the $\HermiteFunctionUp$ packet records the finite normalized Hermite-function surface built from the Hermite polynomial recurrence, a Gaussian envelope ledger, Schwartz-space admission, Fourier-transform handoff, and tempered-distribution action rows. It sits beside the polynomial recurrence packet of \autoref{ch:concrete-instances-hermite-polynomial-namecert}, the transform surface of \autoref{ch:concrete-instances-fourier-transform-namecert}, the rapidly decreasing test-space carrier of \autoref{ch:concrete-instances-schwartz-space-namecert}, and the distributional action route of \autoref{ch:concrete-instances-tempered-distribution-namecert}. The packet names the finite certificate interface only; it does not assert Hilbert-space completeness, spectral decomposition, quotient equality of functions, or a selected ambient basis.
+
+\begin{definition}[Hermite-function carrier]
+\label{def:hermite-function-carrier}
+A $\HermiteFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(P,G,S,T,D,R,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the $\HermitePolynomialUp$ source row, exposing the finite polynomial seed and recurrence window that supplies the displayed Hermite polynomial.
+\item $G$ is the Gaussian envelope row, recording the finite decay and normalization budget attached to the polynomial source.
+\item $S$ is the $\SchwartzSpaceUp$ admission row, opened only after $P$ and $G$ display the rapid-decay budget consumed by the test-space carrier.
+\item $T$ is the $\FourierTransformUp$ handoff row, recording the finite transform-read route for the displayed Hermite-function window.
+\item $D$ is the $\TemperedDistributionUp$ action row, exposing only the distribution-facing read obtained from the same Schwartz and transform rows.
+\item $R$ is the $\RealUp$ and $\RegSeqRatUp$ scalar readback row for normalization, phase, and finite coefficient data.
+\item $H$ records componentwise $\hsame$ transport for the polynomial source, Gaussian envelope, Schwartz admission, transform handoff, distribution action, scalar readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route from $P,G$ through $S,T,D,R,H,Q,N$.
+\item $Q$ is the $\Pkg$ provenance over $\HermiteFunctionUp$, $\HermitePolynomialUp$, $\FourierTransformUp$, $\SchwartzSpaceUp$, $\TemperedDistributionUp$, $\RealUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HermiteFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,G,S,T,D,R,H,C,Q,N$. It has no coordinate for a completed $L^2$ basis, global spectral theorem, quotient function equality, distribution dual completeness, selected representatives, Lean verification, or standard-bridge data.
+\end{definition}
+
+\begin{theorem}[Hermite-function NameCert obligations]
+\label{thm:hermite-function-namecert-obligations}
+For every accepted $\HermiteFunctionUp$ carrier
+$$
+F=(P,G,S,T,D,R,H,C,Q,N),
+$$
+the local $\NameCert_{\HermiteFunctionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the $\HermitePolynomialUp$ source, Gaussian envelope, $\SchwartzSpaceUp$ admission, $\FourierTransformUp$ handoff, $\TemperedDistributionUp$ action, scalar readback, transport, replay, provenance, and local naming rows;
+\item polynomial-source exactness, requiring $P$ to expose the same Hermite recurrence window consumed by the envelope row $G$;
+\item Schwartz admission, requiring $S$ to read $P$ and $G$ before a rapidly decreasing function-space row is public;
+\item Fourier handoff, requiring $T$ to consume the displayed polynomial, envelope, and Schwartz rows before any transform-facing read is exported;
+\item tempered-distribution nonescape, requiring $D$ to read the same $S,T$ route before any distributional action is public;
+\item scalar readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming for the same rows through $R,H,C,Q,N$.
+\end{enumerate}
+No Hermite-function obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hermite-function-carrier}. The only analytic source rows are the Hermite polynomial window $P$, the Gaussian envelope $G$, the Schwartz admission row $S$, the transform handoff $T$, and the distribution action row $D$.
+
+The polynomial-source and envelope clauses force the recurrence data to be visible before any function-space read is available. The Schwartz admission row can therefore expose rapid decay only through the displayed $P,G$ pair.
+
+The Fourier and tempered-distribution rows then use the same path. The row $T$ reads $P,G,S$ before exporting a transform-facing observation, and $D$ reads $S,T$ before exposing a distributional action.
+
+Finally $R,H,C,Q,N$ preserve the same finite route as scalar readback, componentwise transport, replay, provenance, and local naming. Since the excluded objects have no carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hermite-function Fourier-transform handoff]
+\label{thm:hermite-function-fourier-transform-handoff}
+Every Fourier-facing or tempered-distribution-facing read of an accepted $\HermiteFunctionUp$ carrier first exposes the finite route
+$$
+P,G,S,T,D,R,H,C,Q,N .
+$$
+The handoff exports no completed $L^2$ basis, global spectral theorem, quotient function equality, distribution dual completeness, selected representative, Lean verification, or standard-bridge datum.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $F=(P,G,S,T,D,R,H,C,Q,N)$. The transform row $T$ is listed downstream of the Hermite polynomial source, Gaussian envelope, and Schwartz admission rows.
+
+Apply \autoref{thm:hermite-function-namecert-obligations}. Its Schwartz admission and Fourier handoff clauses require $S$ to consume $P,G$ and require $T$ to consume $P,G,S$ before a transform-facing observation is public.
+
+The tempered-distribution row $D$ is downstream of the same route, and $R,H,C,Q,N$ replay and name that route without adding any extra analytic coordinate. Thus every Fourier-facing or distribution-facing read factors through the displayed Hermite-function packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HermiteFunctionUp$ Fourier-facing or tempered-distribution-facing read factors through a HermitePolynomialUp source row, a Gaussian envelope ledger, a SchwartzSpaceUp admission row, a FourierTransformUp handoff, a TemperedDistributionUp action row, scalar readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{hermite-polynomial, fourier-transform, schwartz-space, tempered-distribution: $\HermiteFunctionUp$ is not bijective to any listed sibling because it jointly carries polynomial recurrence, Gaussian envelope, function-space admission, transform handoff, distribution action, scalar readback, transport, replay, provenance, and local naming in one certificate.}
+
+\closureat{HermiteFunctionUp}{seedStr}
+
+\begin{closurestatus}{\HermiteFunctionUp}
+  \constructivestory{A $\HermiteFunctionUp$ packet is generated from a HermitePolynomialUp source row, a Gaussian envelope ledger, a SchwartzSpaceUp admission row, a FourierTransformUp handoff, a TemperedDistributionUp action row, scalar readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hermite-function-carrier}, \autoref{thm:hermite-function-namecert-obligations}, and \autoref{thm:hermite-function-fourier-transform-handoff} seed the finite Hermite-function route from polynomial recurrence and Gaussian decay to Fourier and tempered-distribution reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Hilbert-space completeness, spectral decomposition, quotient equality of functions, completed distribution duality, selected representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, polynomial-source exactness, Schwartz admission, Fourier handoff, tempered-distribution nonescape, scalar readback, componentwise transport, displayed replay, provenance, and local naming for BEDC.Derived.HermiteFunctionUp.}
+\end{closurestatus}

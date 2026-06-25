@@ -81,6 +81,7 @@ A=(S,T,B,N,M,H,C,P,L)
 $$
 whose rows display a source $\BanachUp$ row $S$, a target $\BanachUp$ row $T$, a $\BoundedLinearOperatorUp$ row $B$, a finite image-net schedule $N$, a tail/modulus ledger $M$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and a local $\NameCert_{\CompactOperatorUp}$ row $L$. The scheme is accepted only when $N$ and $M$ are read after $B$, so compactness is exposed by finite image-net and tail data rather than by host equality of operators or a choice-selected compactness witness.
 \end{definition}
+\leandef{BEDC.Derived.CompactOperatorUp.CompactOperatorApproximationScheme}
 
 \begin{theorem}[Compact operator bounded-image precompactness]
 \label{thm:compact-operator-bounded-image-precompactness}
@@ -177,15 +178,32 @@ Use the functional-analysis route and approximation scheme, \autoref{thm:compact
 Finally combine \autoref{thm:compact-operator-bounded-image-precompactness}, \autoref{thm:compact-operator-ideal-consumer-boundary}, \autoref{thm:compact-operator-tail-modulus-consumer-exactness}, \autoref{thm:compact-operator-finite-rank-approximation-boundary}, and \autoref{thm:compact-operator-spectral-refusal-boundary}. These theorems exhaust the bounded-image, ideal, tail-modulus, finite-rank, and spectral-refusal boundaries without adding any row outside the displayed packet.
 \end{proof}
 
-\closureat{CompactOperatorUp}{obligationStr}
+\begin{theorem}[Compact operator public export status]
+\label{thm:compact-operator-public-export-status}
+The $\CompactOperatorUp$ packet has a public export surface over the finite rows
+$$
+S,T,B,N,M,H,C,P,L .
+$$
+Every public consumer of the compact-operator certificate must read the Banach endpoint rows, the bounded-linear-operator row, the finite image-net schedule, the tail/modulus ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row before treating compactness as available to $\OperatorIdealUp$ or $\NuclearUp$.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:compact-operator-carrier}. It displays exactly the rows $S,T,B,N,M,H,C,P,L$, with the compactness surface entering through the finite image-net schedule and tail/modulus ledger after the bounded-linear-operator row.
+
+Apply the ideal consumer boundary and tail-modulus exactness theorems, \autoref{thm:compact-operator-ideal-consumer-boundary} and \autoref{thm:compact-operator-tail-modulus-consumer-exactness}. They force the public $\OperatorIdealUp$ and $\NuclearUp$ reads to pass through the same finite compact-operator packet rather than through host operator equality or an external compactness principle.
+
+Finally use \autoref{thm:compact-operator-obligation-scope}. Its scope statement binds the same rows to the Banach, bounded-linear-operator, functional-analysis, operator-ideal, and nuclear routes, so the displayed packet is public-facing while the verification axis remains the encoded definition cited in the closure status block.
+\end{proof}
+\leanchecked{BEDC.Derived.CompactOperatorUp.CompactOperatorPublicExportStatus}
+
+\closureat{CompactOperatorUp}{bridgedStr}[BEDC.Derived.CompactOperatorUp]
 
 \begin{closurestatus}{\CompactOperatorUp}
   \constructivestory{A $\CompactOperatorUp$ packet is generated from source and target Banach rows, a bounded-linear-operator row, displayed finite image-net schedules, tail/modulus rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:compact-operator-obligation-scope} binds the finite BEDC primitives $S,T,B,N,M,H,C,P,L$ to the Banach, bounded-linear-operator, functional-analysis, operator-ideal, and nuclear sibling routes used by the compact-operator certificate.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:compact-operator-obligation-scope} and \autoref{thm:compact-operator-public-export-status} close the mature finite image-net treatment over $S,T,B,N,M,H,C,P,L$ for the Banach, bounded-linear-operator, functional-analysis, operator-ideal, and nuclear sibling routes used by the compact-operator certificate.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.CompactOperatorUp}
   \bridgestatus{none}
   \notclaimed{This chapter does not close spectral theory, trace-class theory, choice-selected compactness, host operator equality, Lean-checked obligations, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, finite-image-net stability, classifier transport, ledger non-escape, bounded-operator compatibility, and a Lean obligation surface for BEDC.Derived.CompactOperatorUp.}
+  \upgradepath{The paper theory axis is mature for the finite image-net and tail-modulus export surface; bridgeChecked remains a separate formal-axis target for BEDC.Derived.CompactOperatorUp.}
 \end{closurestatus}

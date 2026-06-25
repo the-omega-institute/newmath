@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\RiemannLocalizationUp$}
+\label{ch:concrete-instances-riemann-localization-namecert}
+\origin{human}
+
+Following Riemann on localization for trigonometric series, the $\RiemannLocalizationUp$ packet records the finite BEDC naming surface for a local Fourier read. It sits after the Fourier data of \autoref{ch:concrete-instances-fourier-namecert}, the Dirichlet and Riemann kernel windows of \autoref{ch:concrete-instances-dirichlet-kernel-namecert}, the finite observation rows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real-facing seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a local kernel-window certificate; it does not claim global Fourier convergence, a host function, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Riemann localization carrier]
+\label{def:riemann-localization-carrier}
+A $\RiemannLocalizationUp$ carrier is a finite $\BHist$ packet
+$$
+L=(F,K,W,T,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\FourierUp$ data row naming the finite coefficient and partial-sum observations available to the local read.
+\item $K$ is the Dirichlet/Riemann kernel-window row, containing the displayed neighborhood, kernel truncation, and oscillation window around the inspected point.
+\item $W$ is the finite $\StreamNameUp$ window family for coefficient, point-neighborhood, and kernel-tail requests.
+\item $T$ is the tail-localization budget, recording the finite bound that separates the displayed neighborhood contribution from the refused exterior tail.
+\item $R$ is the $\RegSeqRatUp$ and $\RealUp$ readback row handed to Real-facing consumers after the local kernel window is displayed.
+\item $H$ records componentwise $\hsame$ transport for Fourier data, kernel windows, stream windows, tail budgets, readback, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from Fourier inspection through kernel-window localization, tail-budget refusal, regular readback, and Real-facing handoff.
+\item $P$ is the $\Pkg$ provenance over $\RiemannLocalizationUp$, $\FourierUp$, $\DirichletKernelUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannLocalizationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,K,W,T,R,H,C,P,N$. It has no coordinate for a host function, unrestricted Fourier convergence theorem, quotient real equality, countable choice, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Riemann localization NameCert obligations]
+\label{thm:riemann-localization-namecert-obligations}
+For every accepted $\RiemannLocalizationUp$ carrier $L=(F,K,W,T,R,H,C,P,N)$, the local $\NameCert_{\RiemannLocalizationUp}$ surface consists exactly of carrier admission, local-kernel window exposure, tail refusal, componentwise transport, displayed replay, provenance, and ledger nonescape. Carrier admission displays the Fourier data row $F$, kernel-window row $K$, StreamName window family $W$, tail-localization budget $T$, regular rational and Real readback row $R$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. Local-kernel exposure requires the displayed neighborhood and kernel-tail budget before a public read is formed. Tail refusal records that exterior Fourier behavior remains outside the packet. Transport, replay, provenance, and ledger nonescape keep the read on the same finite carrier surface and refuse global Fourier convergence, host functions, quotient real equality, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-localization-carrier}. Its rows display exactly the Fourier observations, kernel-window data, stream windows, tail budget, regular readback, transport, replay, provenance, and local naming available to the packet.
+
+The local-kernel obligation is the row $K$ read together with $W$ and $T$. A consumer first names the displayed neighborhood and kernel-tail budget, then forms the regular rational and Real-facing readback through $R$.
+
+The remaining rows preserve that route. Componentwise transport $H$, replay $C$, provenance $P$, and naming $N$ keep the packet inside the displayed $\BHist$ ledger, while the absence of coordinates for host functions, global convergence, quotient real equality, choice, or ambient completeness supplies the stated nonescape.
+\end{proof}
+
+\begin{theorem}[Riemann localization local-kernel window]
+\label{thm:riemann-localization-local-kernel-window}
+Every public read from an accepted $\RiemannLocalizationUp$ carrier
+$$
+L=(F,K,W,T,R,H,C,P,N)
+$$
+depends only on the displayed neighborhood in $K$, the kernel-tail budget $T$, the finite StreamName windows $W$, the Fourier observations in $F$, the readback row $R$, and the structural rows $H,C,P,N$. If a consumer asks for global Fourier convergence, a host function value, quotient equality of Real names, countable choice, or ambient $\RealUp$ completeness, the request is outside the $\RiemannLocalizationUp$ packet.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier. The only analytic coordinates are $F,K,W,T,R$, so the local read has no access to an exterior Fourier tail except through the displayed budget $T$.
+
+Use the NameCert obligations of \autoref{thm:riemann-localization-namecert-obligations}. They require every public read to pass through the local-kernel window, tail refusal, transport, replay, provenance, and local naming rows before it reaches a Real-facing consumer.
+
+Thus the public value is a finite kernel-window readback, not a global convergence theorem or a host-side function evaluation. Since quotient real equality, countable choice, and ambient completeness are not carrier coordinates, they cannot be exported by the local-kernel window.
+\end{proof}
+
+\falsifiablePrediction{A $\RiemannLocalizationUp$ consumer that exports a local Fourier read without displaying Fourier data, a kernel-window neighborhood, StreamName windows, a tail-localization budget, RegSeqRat/Real readback, transport, replay, provenance, and local naming is outside the carrier surface.}
+
+\independenceWitness{fourier, dirichlet-kernel, streamname, regseqrat, real: no listed sibling by itself carries Fourier observations, a Dirichlet/Riemann kernel window, finite stream windows, tail-localization refusal, regular rational and Real readback, transport, replay, provenance, and local NameCert data while refusing global Fourier convergence and host-function semantics.}
+
+\closureat{RiemannLocalizationUp}{seedStr}
+
+\begin{closurestatus}{\RiemannLocalizationUp}
+  \constructivestory{A $\RiemannLocalizationUp$ packet is generated from Fourier data, a Dirichlet/Riemann kernel-window row, finite StreamName windows, a tail-localization budget, RegSeqRat and Real readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-localization-carrier}, \autoref{thm:riemann-localization-namecert-obligations}, and \autoref{thm:riemann-localization-local-kernel-window} seed the local Fourier localization packet over displayed kernel windows, tail budgets, finite StreamName rows, RegSeqRat and Real readback, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global Fourier convergence, host function semantics, quotient real equality, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, local-kernel window exactness, tail-refusal determinacy, readback stability, transport stability, replay stability, provenance exposure, and ledger nonescape for BEDC.Derived.RiemannLocalizationUp.}
+\end{closurestatus}

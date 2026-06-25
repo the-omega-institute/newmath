@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\BishopDiagonalRegularizationUp$}
+\label{ch:concrete-instances-bishop-diagonal-regularization-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names, the $\BishopDiagonalRegularizationUp$ packet records the finite diagonal regularization step used by Real and Completion consumers before they read a regular rational name. It sits beside the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the finite completion operator route of \autoref{ch:concrete-instances-cauchycompletionoperator-namecert}. The packet isolates diagonal repair as displayed NameCert data; it does not assert quotient stream equality, selected host limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop diagonal regularization carrier]
+\label{def:bishop-diagonal-regularization-carrier}
+A $\BishopDiagonalRegularizationUp$ carrier is a finite $\BHist$ packet
+$$
+G=(M,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the modulus-indexed diagonal choice row, recording which finite diagonal index is inspected for each precision request.
+\item $W$ is the $\StreamNameUp$ window row, exposing the finite observations used by the diagonal repair.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic bounds that compare the diagonal entry with the repaired regular name.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows and tolerance rows.
+\item $E$ is the $\RealUp$ seal row reached only after the repaired regular readback has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the modulus choice, window, tolerance, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request through $M,W,D,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BishopDiagonalRegularizationUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopDiagonalRegularizationUp}$ row.
+\end{enumerate}
+The classifier accepts only packets exhausted by $M,W,D,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected host limits, countable choice, host real equality, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Bishop diagonal regularization NameCert obligations]
+\label{thm:bishop-diagonal-regularization-namecert-obligations}
+For every accepted $\BishopDiagonalRegularizationUp$ carrier $G=(M,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\BishopDiagonalRegularizationUp}$ surface consists exactly of carrier admission for the displayed packet; diagonal-window exactness through $M,W$; regularity repair through $D,R$; $\RegSeqRatUp$ handoff through $R$; tolerance compatibility through $D$; Real-seal nonescape through $E$; componentwise transport through $H$; displayed replay through $C$; package provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-diagonal-regularization-carrier}. The accepted packet exposes precisely the modulus-indexed diagonal choice, finite stream windows, dyadic tolerances, regular rational readback, Real seal, and structural rows.
+
+Read the analytic rows first. The diagonal-window exactness is confined to $M,W$, while regularity repair and tolerance compatibility are confined to $D,R$. Thus the $\RegSeqRatUp$ handoff is downstream of the displayed diagonal window and dyadic tolerance rows.
+
+Finally inspect $E,H,C,P,N$. The Real seal is reached only after the repaired readback has been displayed, and the structural rows only transport, replay, source, and name the same packet. Since the excluded quotient, selected-limit, choice, host-equality, and completeness data are not coordinates of $G$, they cannot appear as local obligations.
+\end{proof}
+
+\begin{theorem}[Bishop diagonal regularization RegSeqRat handoff]
+\label{thm:bishop-diagonal-regularization-regseqrat-handoff}
+Every Real-completion consumer of an accepted $\BishopDiagonalRegularizationUp$ carrier must pass through the diagonal repair route
+$$
+M,W \longmapsto D \longmapsto R \longmapsto E,H,C,P,N
+$$
+before reading either the $\RegSeqRatUp$ row or the $\RealUp$ seal. The consumer receives a displayed repaired regular name, not a quotient stream, selected host limit, countable-choice schedule, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:bishop-diagonal-regularization-namecert-obligations}. It places the $\RegSeqRatUp$ readback row $R$ after the modulus choice $M$, StreamName windows $W$, and dyadic tolerance ledger $D$.
+
+The Real-completion consumer therefore reaches the regular readback only through the displayed diagonal repair route. The seal row $E$ is later still, and $H,C,P,N$ only transport, replay, source, and name that same finite route.
+
+The carrier inventory has no coordinate for quotient stream equality, selected host limits, host natural-number search, countable choice, host real equality, or ambient $\RealUp$ completeness. Hence a consumer that reads $R$ or $E$ must read the displayed diagonal repair packet rather than an external completion witness.
+\end{proof}
+
+\closureat{BishopDiagonalRegularizationUp}{seedStr}
+
+\begin{closurestatus}{\BishopDiagonalRegularizationUp}
+  \constructivestory{A $\BishopDiagonalRegularizationUp$ packet is generated from a modulus-indexed diagonal choice row, StreamName windows, DyadicRatCore tolerances, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-diagonal-regularization-carrier}, \autoref{thm:bishop-diagonal-regularization-namecert-obligations}, and \autoref{thm:bishop-diagonal-regularization-regseqrat-handoff} seed the finite diagonal regularization route over StreamName windows, DyadicRatCore tolerances, RegSeqRat readback, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\encodedDefV}
+  \leanstmt{BEDC.Derived.BishopDiagonalRegularizationUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient stream equality, selected host limits, countable choice, host real equality, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagonal-window exactness, regularity repair, RegSeqRat handoff, tolerance compatibility, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopDiagonalRegularizationUp.}
+\end{closurestatus}

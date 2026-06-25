@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\CauchyBoundSelectorUp$}
+\label{ch:concrete-instances-cauchy-bound-selector-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, $\CauchyBoundSelectorUp$ records the finite tail-bound selection surface needed by L10 completion routes without invoking countable choice or a host-side least-bound oracle. It sits over the stream, regular-rational, dyadic, real, and signed-interval packets of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-signed-dyadic-interval-namecert}. The packet exports an explicit bounded-tail window for later diagonal-limit and completeness arguments; it does not claim located suprema, quotient stream equality, a choice principle for all Cauchy predicates, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy bound selector carrier]
+\label{def:cauchy-bound-selector-carrier}
+A $\CauchyBoundSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,Q,D,R,I,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source row whose finite tail windows are inspected.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the same stream window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger naming the dyadic radius, comparison budget, and endpoint arithmetic used by the tail request.
+\item $R$ is the sealed $\RealUp$ row reached by the regular-rational readback when the tail window is accepted.
+\item $I$ is the $\SignedDyadicIntervalUp$ bound row recording the displayed lower and upper dyadic endpoints for the inspected tail.
+\item $W$ is the selected tail-window row, consisting of a finite threshold name and the finite set of inspected windows that justify the displayed bound.
+\item $E$ is the exactness row asserting that the same $S,Q,D,R,I$ data support the selected window $W$.
+\item $H$ records componentwise $\hsame$ transport for $S,Q,D,R,I,W,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from the tail-bound request through $S,Q,D,R,I,W,E$ and then to the support rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchyBoundSelectorUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\SignedDyadicIntervalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyBoundSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,Q,D,R,I,W,E,H,C,P,N$. It has no coordinate for a hidden choice function, least-index search over all predicates, quotient stream equality, located supremum, or ambient completeness theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchyBoundSelectorUp.CauchyBoundSelectorTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy bound selector NameCert obligations]
+\label{thm:cauchy-bound-selector-namecert-obligations}
+For every accepted $\CauchyBoundSelectorUp$ carrier $B=(S,Q,D,R,I,W,E,H,C,P,N)$, the local $\NameCert_{\CauchyBoundSelectorUp}$ surface consists exactly of the following five public rows, each with structural transport, replay, provenance, and local naming attached:
+\begin{enumerate}
+\item $\StreamNameUp$ window exposure through $S$;
+\item $\RegSeqRatUp$ regular readback through $Q$;
+\item $\DyadicRatCoreUp$ tolerance and endpoint arithmetic through $D$;
+\item $\RealUp$ seal exposure through $R$;
+\item $\SignedDyadicIntervalUp$ bounded-tail enclosure through $I$, together with selected window $W$ and exactness row $E$.
+\end{enumerate}
+The packet therefore names an explicit bounded-tail selector for a displayed finite Cauchy route, not a global countable-choice principle or a host-side least-bound operator.
+\end{theorem}
+\leanchecked{BEDC.Derived.CauchyBoundSelectorUp.CauchyBoundSelectorNamecertObligations}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-bound-selector-carrier}. The first five mathematical rows expose the stream name, regular rational readback, dyadic tolerance ledger, real seal, and signed dyadic interval before any selected window can be consumed.
+
+The selected window $W$ is not an independent oracle. It is accepted only together with the exactness row $E$, which binds the same $S,Q,D,R,I$ data to the displayed finite threshold and inspected windows.
+
+The support rows $H,C,P,N$ transport, replay, source, and name exactly that route. Since no carrier coordinate stores a hidden choice function, a least-index search over all predicates, quotient stream equality, a located supremum, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy bound selector window stability]
+\label{thm:cauchy-bound-selector-window-stability}
+Let $B=(S,Q,D,R,I,W,E,H,C,P,N)$ and $B'=(S',Q',D',R',I',W',E',H',C',P',N')$ be accepted $\CauchyBoundSelectorUp$ carriers. If the rows $S,Q,D,R,I$ are componentwise $\hsame$ to $S',Q',D',R',I'$ and both exactness rows read the same dyadic tolerance ledger, then the selected windows $W$ and $W'$ name the same bounded-tail enclosure up to componentwise $\hsame$. Consequently a completion-facing consumer may transport the bounded-tail certificate across equal finite windows without acquiring a new choice principle.
+\end{theorem}
+\begin{proof}
+Read the two carriers through the NameCert obligations of \autoref{thm:cauchy-bound-selector-namecert-obligations}. Both accepted packets expose the same stream, regular readback, dyadic tolerance ledger, real seal, and signed dyadic interval up to componentwise $\hsame$ before either selected window is available.
+
+Use the exactness rows $E$ and $E'$. Because they read the same dyadic tolerance ledger and the same displayed source rows, each selected threshold is justified by the same finite tail-bound request and the same signed dyadic enclosure.
+
+The transport rows $H,H'$ then carry this agreement to the selected-window coordinates, while $C,C',P,P',N,N'$ replay and source only the displayed route. Thus the bounded-tail enclosure is stable under the stated finite-window transport, and the consumer receives no additional global selection principle.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyBoundSelectorUp$ consumer that exports a bounded Cauchy tail must display the $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\SignedDyadicIntervalUp$, selected-window, exactness, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real, signed-dyadic-interval: no listed sibling is bijective to $\CauchyBoundSelectorUp$ because this packet jointly binds a stream window, regular readback, dyadic tolerance, real seal, signed interval bound, selected finite threshold, exactness row, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyBoundSelectorUp}{seedStr}
+
+\begin{closurestatus}{\CauchyBoundSelectorUp}
+  \constructivestory{A $\CauchyBoundSelectorUp$ packet is generated from a StreamName window, RegSeqRat readback, DyadicRatCore tolerance ledger, Real seal, SignedDyadicInterval enclosure, selected finite threshold, exactness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-bound-selector-carrier}, \autoref{thm:cauchy-bound-selector-namecert-obligations}, and \autoref{thm:cauchy-bound-selector-window-stability} seed the explicit bounded-tail selection surface for L10 completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim countable choice, least-index search, quotient stream equality, located suprema, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, StreamName exposure, RegSeqRat readback, DyadicRatCore tolerance exactness, Real seal non-escape, SignedDyadicInterval bound exposure, selected-window stability, transport, replay, provenance, and local naming for BEDC.Derived.CauchyBoundSelectorUp.}
+\end{closurestatus}

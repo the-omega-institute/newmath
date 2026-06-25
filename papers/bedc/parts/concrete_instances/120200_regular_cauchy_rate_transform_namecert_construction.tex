@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyRateTransformUp$}
+\label{ch:concrete-instances-regular-cauchy-rate-transform-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyRateTransformUp$ packet records the finite transformation from arbitrary displayed Cauchy modulus data to the regular-Cauchy rate discipline consumed by $\RegSeqRatUp$ and $\RealUp$. It sits after the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the modulus comparison route of \autoref{ch:concrete-instances-regular-cauchy-modulus-comparison-namecert}. The packet names the L10 regularization route for Cauchy modulus rows without selecting limits, quotienting streams, or asserting ambient completeness.
+
+\begin{definition}[Regular Cauchy rate transform carrier]
+\label{def:regular-cauchy-rate-transform-carrier}
+A $\RegularCauchyRateTransformUp$ carrier is a finite $\BHist$ packet
+$$
+T=(M,W,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source Cauchy modulus table. It records the finite threshold rows available from the input Cauchy data before any regular rate is read.
+\item $W$ is the $\StreamNameUp$ finite-window row through which the source thresholds are inspected.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording the dyadic requests, target regular tolerances, and comparison budget used by the rate transformation.
+\item $R$ is the rate-normalization replay row. For every displayed target tolerance it names the finite source threshold and window read used to produce a regular-Cauchy rate request.
+\item $H$ stores componentwise $\hsame$ transport for $M,W,D,R$ and for the structural rows below.
+\item $C$ stores displayed $\Cont$ replay from a regular-rate request through the source modulus, finite window, dyadic ledger, and normalized rate row.
+\item $P$ records $\Pkg$ provenance over $\RegularCauchyRateTransformUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyModulusComparisonUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ data.
+\item $N$ is the local $\NameCert_{\RegularCauchyRateTransformUp}$ row.
+\end{enumerate}
+Accepted packets are compared only through $M,W,D,R,H,C,P,N$. The carrier has no coordinate for quotient stream equality, a selected limit, countable choice, ambient completeness, host real equality, or a terminal $\RealUp$ equality test.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy rate transform NameCert obligations]
+\label{thm:regular-cauchy-rate-transform-namecert-obligations}
+For every accepted $\RegularCauchyRateTransformUp$ carrier $T=(M,W,D,R,H,C,P,N)$, the local $\NameCert_{\RegularCauchyRateTransformUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the source Cauchy modulus rows, finite window, dyadic tolerance ledger, rate-normalization replay, transport, replay, provenance, and local naming;
+\item source-modulus exposure, requiring every regular-rate request to cite a displayed threshold row in $M$;
+\item finite-window exposure, requiring the cited threshold to be read through the $\StreamNameUp$ window row $W$;
+\item dyadic tolerance compatibility, requiring $D$ to contain the target regular tolerance and the comparison budget used for the request;
+\item rate-normalization replay, requiring $R$ to store the finite route from the target regular rate back to the source modulus row;
+\item componentwise transport, continuation replay, package provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No NameCert obligation is stored outside these rows, and none of the rows supplies quotient stream equality, selected limits, countable choice, ambient completeness, or host real equality.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:regular-cauchy-rate-transform-carrier}. The tuple exposes exactly the source modulus table, finite window, dyadic tolerance ledger, normalized rate row, transport, replay, provenance, and local name.
+
+The source-modulus and finite-window obligations are immediate from $M$ and $W$. A regular-rate request can cite only displayed source thresholds, and those thresholds are inspected only through the finite window row.
+
+The dyadic obligation is the row $D$. It records the target regular tolerance together with the comparison budget that lets the source threshold be read as a regular-Cauchy rate request.
+
+Finally $R$ records the replay from the target rate to the source row, while $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier omits quotient stream equality, selected limits, countable choice, ambient completeness, and host real equality, none of those principles can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy rate transform window induction]
+\label{thm:regular-cauchy-rate-transform-window-induction}
+Let $T=(M,W,D,R,H,C,P,N)$ be an accepted $\RegularCauchyRateTransformUp$ carrier. Every normalized regular-rate request whose source observations lie in $W$ is consumed by finite induction over the displayed window rows: the base row reads the first source threshold from $M$ under the dyadic tolerance ledger $D$, and the step appends the next displayed source observation while replaying the same normalization row $R$ and structural rows $H,C,P,N$. The induction exports only the rows of $T$.
+\end{theorem}
+\begin{proof}
+For the base case, read the first displayed observation in $W$. The associated source threshold is a row of $M$, the target tolerance and comparison budget are rows of $D$, and the normalized regular-rate route is recorded by $R$.
+
+For the induction step, append one further observation from the finite window $W$. The same carrier rows remain available: $M$ supplies the cited source threshold, $D$ supplies the tolerance budget, and $R$ records the normalization replay.
+
+The structural rows $H,C,P,N$ preserve the packet under componentwise transport, continuation replay, provenance, and local naming. Thus the finite-window induction never leaves $M,W,D,R,H,C,P,N$ and cannot produce quotient stream equality, a selected limit, countable choice, ambient completeness, or host real equality.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyRateTransformUp$ read is refuted if a target regular-rate request reaches $\RegSeqRatUp$ or $\RealUp$ without displaying a source Cauchy modulus row in $M$, a finite $\StreamNameUp$ window in $W$, a $\DyadicRatCoreUp$ tolerance ledger in $D$, and the rate-normalization replay row $R$.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, real, regular-cauchy-modulus-comparison: $\RegularCauchyRateTransformUp$ is not bijective to any listed sibling because it jointly carries source Cauchy modulus rows, finite windows, dyadic tolerance data, rate-normalization replay, transport, continuation replay, provenance, and local naming.}
+
+\closureat{RegularCauchyRateTransformUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyRateTransformUp}
+  \constructivestory{A $\RegularCauchyRateTransformUp$ packet is generated from displayed source Cauchy modulus rows, one StreamName finite window, DyadicRatCore tolerance rows, a rate-normalization replay row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-rate-transform-carrier}, \autoref{thm:regular-cauchy-rate-transform-namecert-obligations}, and \autoref{thm:regular-cauchy-rate-transform-window-induction} seed the finite rate-transformation route from arbitrary Cauchy modulus rows to the regular-Cauchy rate discipline consumed by RegSeqRat and Real readers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, ambient completeness, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-modulus exposure, finite-window exposure, dyadic tolerance compatibility, rate-normalization replay, transport, provenance, and local naming for BEDC.Derived.RegularCauchyRateTransformUp.}
+\end{closurestatus}

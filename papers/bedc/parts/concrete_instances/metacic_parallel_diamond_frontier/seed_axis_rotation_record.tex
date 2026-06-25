@@ -1,0 +1,11 @@
+\begin{theorem}[MetaCIC parallel-diamond seed-axis rotation record]
+\label{thm:metacic-parallel-diamond-frontier-seed-axis-rotation-record}
+Every seed-axis status read of $\MetaCICParallelDiamondFrontierUp$ enters through the child seed route before it can be consumed as a frontier status. The route first exposes the seed-readiness row of \autoref{thm:metacic-parallel-diamond-frontier-seed-readiness}, then the seed-obligation surface of \autoref{thm:metacic-parallel-diamond-frontier-seed-obligations}, and finally the seed-closure status of \autoref{thm:metacic-parallel-diamond-frontier-seed-closure-status}. It remains a finite residual-premise frontier read and does not discharge residual substitution, subject reduction, full Church--Rosser, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Read the seed-readiness row first. It displays the residual branches, candidate join, normalization-confluence handoff, and critical-path socket before any frontier claim is consumed.
+
+Next apply the seed-obligation surface. The obligation row keeps $P,K,J,R,S,C,B,O,H,T,G,N$ visible as the seed packet, so the status read cannot detach a diamond conclusion from its retained premise and obstruction rows.
+
+Finally use the seed-closure status. It records the same seed packet as the closure-facing route, with transport, replay, provenance, and local naming still present. The rotation record is therefore only a child status read of the displayed packet, not an added global confluence endpoint.
+\end{proof}

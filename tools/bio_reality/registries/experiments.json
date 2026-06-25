@@ -2065,6 +2065,830 @@
     "required_checks": [],
     "criteria": {}
    }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.transcript_surveillance.nmd_position_rule_reality_boundary_teran2021",
+   "experiment_id": "nmd_position_rule_reality_boundary_teran2021",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib NMD 50-nt position-rule reality-boundary test over Teran 2021 AJHG GTEx ASE PTC table (tools/bio_reality/data/nmd_position_boundary_teran2021.json; from mmc4.xlsx via stdlib zipfile/xml). y=REF_RATIO; boundary step (triggering >55nt vs escape <=50nt/last-exon) with position-label permutation; breakage map over escape-predicted classes (Long_Exon/Near_Start/last-exon/Exon_Length quartiles, binomial vs 0.5, breakage iff mean_y>=0.60 & p<0.001); tissue-conditional flip count; X50_BP_RULE PASS/FAIL positive control (must reproduce Δ>=0.08). Verdict nmd_boundary_contact / bounded_descriptor_only / no_contact. Deterministic, <120s.",
+   "script_path": "tools/bio_reality/experiments/run_nmd_position_rule_reality_boundary_teran2021.py",
+   "timeout_seconds": 720,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-21T17:38:36+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.rna_modification.m6a_site_load_mrna_halflife_boundary_gse163500",
+   "experiment_id": "m6a_site_load_mrna_halflife_boundary_gse163500",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib m6A-site-load vs measured mRNA half-life test over GSE163500/PMC10442230 mESC (tools/bio_reality/data/m6a_load_halflife_gse163500.json; Table S1 DMSO+STM2457 half-lives, Table S3 miCLIP2 m6A sites, Ensembl cDNA transcript length). Static arm Spearman(m6A_load, log2 HL_DMSO); causal arm Spearman(m6A_load, log2 HL_STM2457 - log2 HL_DMSO) with length partial-correlation + partial-permutation; m6A_load-bin dose-response + hi-vs-zero permutation; sanity = sign directions match known m6A destabilization. Verdict crosses_boundary / confounded_by_composition / does_not_cross. Deterministic, <120s.",
+   "script_path": "tools/bio_reality/experiments/run_m6a_site_load_mrna_halflife_boundary_gse163500.py",
+   "timeout_seconds": 720,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-21T17:55:09+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [
+     "data_loaded",
+     "schema_valid",
+     "static_arm_spearman",
+     "causal_arm_partial",
+     "dose_response_bins",
+     "hi_vs_zero_permutation",
+     "boundary_verdict"
+    ],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.utr3_are.are_deletion_mrna_stability_boundary_siegel2022",
+   "experiment_id": "are_deletion_mrna_stability_boundary_siegel2022",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib ARE-deletion difference-in-differences test over Siegel 2022 G3 ARE-MPRA (Jurkat+Beas2B; tools/bio_reality/data/are_deletion_stability_siegel2022.json). Clean single-ARE deletions joined to matched-backbone reference by parent_control_oligo; readout = GC-residualized T4/T0 stability change. Positive control = ARE deletion stabilizes (sign-flip permutation); grading = Spearman(effect_size, parent ARE length / cluster) with a CORRECTED pooled label-permutation null (within-region is degenerate for the per-parent predictor) + cross-cell-line sign concordance. Verdict crosses_boundary / partial_presence_only / does_not_cross. Deterministic, <90s.",
+   "script_path": "tools/bio_reality/experiments/run_are_deletion_mrna_stability_boundary_siegel2022.py",
+   "timeout_seconds": 720,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-21T19:47:09+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.subcellular_localization.mts_propensity_localization_boundary_itzhak2016",
+   "experiment_id": "mts_propensity_localization_boundary_itzhak2016",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib N-MTS-propensity vs measured subcellular localization test over Itzhak 2016 eLife 16950 HeLa spatial proteome (tools/bio_reality/data/mts_localization_itzhak2016.json; measured Top Prediction / marker-set labels, leakage-guarded; UniProt sequences). N-MTS (first-30aa net-basic + S/T + amphipathic moment) vs measured-mitochondrion (Mann-Whitney/rank-biserial) with length+composition+charge-controlled permutation; sub-compartment dissociation (matrix/inner vs outer); carrier/tail-anchored defiance enrichment; positive control = marker-mito + HSPD1 + ATP1A1. Verdict mts_localization_contact / defied_boundary / composition_artifact / vacuous_leakage. Deterministic, <120s.",
+   "script_path": "tools/bio_reality/experiments/run_mts_propensity_localization_boundary_itzhak2016.py",
+   "timeout_seconds": 720,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-21T20:27:34+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.rna_modification.m6a_load_halflife_crossorganism_human_m6aconquer",
+   "experiment_id": "m6a_load_halflife_crossorganism_human_m6aconquer",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-organism transfer test: human m6A_load -> mRNA half-life (tools/bio_reality/data/m6a_load_halflife_human_m6aconquer.json; m6AConquer hg38 sites assigned to RNAdecayCafe gene bodies by coordinate overlap; per-gene m6A_load vs log avg_halflife in HEK293/HeLa/K562). Partial Spearman controlling exon_length(+GC), permutation null, frozen negative direction from the mouse result; positive control = HEK293 negative; verdict transfers_conserved / mouse_specific / confounded. Deterministic, <120s.",
+   "script_path": "tools/bio_reality/experiments/run_m6a_load_halflife_crossorganism_human_m6aconquer.py",
+   "timeout_seconds": 720,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-21T21:04:21+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.cis_regulatory_grammar.random_promoter_tf_motif_expression_boundary_deboer2020",
+   "experiment_id": "random_promoter_tf_motif_expression_boundary_deboer2020",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib random-promoter TF-motif-dosage vs measured expression test over de Boer 2020 GSE104878 (tools/bio_reality/data/random_promoter_tf_motif_deboer2020.json; random 80nt variable region, JASPAR PWMs, FACS EL in-row). Aggregate activator-hit-count vs EL with GC+16-dinucleotide partial Spearman and a dinucleotide-preserving shuffle null; positive control = REB1/RAP1 individual effect + designed copy-number monotonicity. Verdict crosses_boundary / composition_artifact / needs_derivation. Deterministic, <150s.",
+   "script_path": "tools/bio_reality/experiments/run_random_promoter_tf_motif_expression_boundary_deboer2020.py",
+   "timeout_seconds": 900,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-21T21:58:00+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.rna_editing.adar_editing_dsrna_context_isoform_boundary_kleinova2023",
+   "experiment_id": "adar_editing_dsrna_context_isoform_boundary_kleinova2023",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib dsRNA-context/5'-neighbor vs A-to-I editing level test over Kleinova 2023 MEF editome (tools/bio_reality/data/adar_editing_dsrna_context_kleinova2023.json; mm10 genome-derived features). Within repeat-class x GC strata Spearman(dsRNA-score, editing rate) with stratified permutation; p150/p110 isoform difference-in-differences; positive control = 5'-G depletion + REP>NONREP editing. Verdict CROSSES / BOUNDARY-LOCAL / REFUTED. Deterministic, <120s.",
+   "script_path": "tools/bio_reality/experiments/run_adar_editing_dsrna_context_isoform_boundary_kleinova2023.py",
+   "timeout_seconds": 900,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-21T22:47:40+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.utr3_are.are_endogenous_3utr_halflife_transfer_rnadecaycafe",
+   "experiment_id": "are_endogenous_3utr_halflife_transfer_rnadecaycafe",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib endogenous ARE -> mRNA half-life transfer test (deepens synthetic ARE claim). tools/bio_reality/data/are_endogenous_halflife_rnadecaycafe.json: Ensembl BioMart longest 3'UTR x RNADecayCafe per-gene cross-cell-line median half-life; ARE_density (AUUUA/WAUUUAW/AU-cluster per kb); nested OLS log(HL) ~ length+GC+AU-dinuc (+/-ARE_density) with permutation null + length-quartile stratification; positive control = labile (TNF/FOS/...) short-tail + housekeeping long-tail + negative direction. Verdict transfers_endogenous / synthetic_only. Deterministic, <120s.",
+   "script_path": "tools/bio_reality/experiments/run_are_endogenous_3utr_halflife_transfer_rnadecaycafe.py",
+   "timeout_seconds": 720,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T05:07:51+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.subcellular_localization.mts_propensity_localization_crossorganism_mouse_itzhak2017",
+   "experiment_id": "mts_propensity_localization_crossorganism_mouse_itzhak2017",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-organism MTS-propensity localization test (deepens human MTS claim). tools/bio_reality/data/mts_localization_mouse_itzhak2017.json: Itzhak 2017 mouse-neuron Table S4 measured Prediction x mouse UniProt sequences; N-MTS (first-30aa net-basic + S/T + amphipathic moment) vs measured-mito (Mann-Whitney) with length+composition+charge-controlled permutation; carrier/tail-anchored defiance enrichment; positive control = marker-mito + Hspd1 + Atp1a1. Verdict conserved_mouse / partial_conserved / hela_specific. Deterministic, <120s.",
+   "script_path": "tools/bio_reality/experiments/run_mts_propensity_localization_crossorganism_mouse_itzhak2017.py",
+   "timeout_seconds": 720,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T05:19:22+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.protein_thermal_stability.scd_charge_patterning_thermal_stability_meltome_human",
+   "experiment_id": "scd_charge_patterning_thermal_stability_meltome_human",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib charge-patterning (SCD) vs measured thermal stability (Tm) test over FLIP/Meltome Atlas human_cell split (tools/bio_reality/data/scd_charge_patterning_thermal_stability_meltome_human.json; measured TPP Tm, predictor=SCD computed from charge positions, leakage-free self-contained). SCD (Sawle-Ghosh, composition-invariant) vs Tm (Spearman) with composition-stratified label-permutation null (length x charged_frac x net_charge terciles, B=3000) + residualized partial (length+20aa+net_charge+charged_frac+disorder_proxy) + held-out protein split; positive control = known composition effect (DEKR/IVL vs Tm). Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Deterministic fixed-seed, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_scd_charge_patterning_thermal_stability_meltome_human.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T10:03:16+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.alternative_polyadenylation.apa_pas_strength_relative_usage_polyadb",
+   "experiment_id": "apa_pas_strength_relative_usage_polyadb",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib PAS-strength vs measured relative APA usage over PolyA_DB v4 (tools/bio_reality/data/apa_pas_strength_relative_usage_polyadb.json; measured AvgRPM.3READS within-gene relative usage, predictor=self-computed +/-75nt motif strength, NOT table PolyaStrength). Within-gene Spearman with within-gene permutation null (B=2000, conservative stratified subset for runtime) + GC/position residualized partial + held-out gene split; positive control = AAUAAA>AUUAAA>A-rich>None usage gradient. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Deterministic fixed-seed, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_apa_pas_strength_relative_usage_polyadb.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T10:37:20+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.ubiquitylation_occupancy.ub_occupancy_acidic_microenvironment_steger2024",
+   "experiment_id": "ub_occupancy_acidic_microenvironment_steger2024",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib local-acidic-microenvironment vs measured Ub-occupancy over Steger 2024 (tools/bio_reality/data/ub_occupancy_acidic_microenvironment_steger2024.json; measured mean_Ub.occupancy, predictor=prior-fixed +/-7 D+E + charge asymmetry, UniProt sequences). Spearman + abundance/composition residualized partial (copy_number+iBAQ+length+19 AA fractions) + within-protein composition-matched null + held-out; positive control = plasma-membrane/SLC high-occupancy enrichment. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Deterministic fixed-seed, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_ub_occupancy_acidic_microenvironment_steger2024.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T10:50:06+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.protein_solubility.protein_hydrophobic_clustering_solubility_esol",
+   "experiment_id": "protein_hydrophobic_clustering_solubility_esol",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib hydrophobic-patch-clustering vs measured solubility over eSOL (tools/bio_reality/data/protein_hydrophobic_clustering_solubility_esol.json; measured Solubility(%), predictor=prior-frozen patch-clustering/APR/charge-separation beyond hydrophobic total). Spearman + residualized partial (hydrophobic_total+20aa+disorder+net_charge+abundance) + composition-preserving per-protein residue-shuffle null + 5-fold held-out; positive controls = hydrophobic-total negative + SWI. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Deterministic fixed-seed, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_protein_hydrophobic_clustering_solubility_esol.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T11:40:05+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.mirna_target_repression.mirna_seed_density_repression_agarwal2015",
+   "experiment_id": "mirna_seed_density_repression_agarwal2015",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib miRNA-seed-density vs measured transfection log2FC over Agarwal 2015 (tools/bio_reality/data/mirna_seed_density_repression_agarwal2015.json; measured log2FC, predictor=prior-frozen TargetScan canonical seed-site count). Pooled Spearman/OLS + residualized partial (UTR-length+AU+expression) + dinucleotide-preserving shuffled-seed null (B=1000) + leave-one-miRNA-out; positive control = 8mer>7mer-m8>7mer-A1>no-site dose-series. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Deterministic fixed-seed, pure stdlib (shuffled-seed null pre-budgeted in prep).",
+   "script_path": "tools/bio_reality/experiments/run_mirna_seed_density_repression_agarwal2015.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T12:22:25+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.dna_methylation.methylation_flanking_context_variance_gse40279",
+   "experiment_id": "methylation_flanking_context_variance_gse40279",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib flanking-dinucleotide-context vs measured per-CpG methylation cross-individual variance over GSE40279+450K-manifest (tools/bio_reality/data/methylation_flanking_context_variance_gse40279.json; readout = 656-individual beta variance, predictor = prior-fixed dinuc context with focal CpG masked). Within flanking-CpG-count x GC-quintile matched bins, context increment vs probe-context shuffle null; positive controls = CpG-island->low mean beta + CpG-count->low mean beta. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Deterministic fixed-seed, pure stdlib; n_probes=20000 subsample.",
+   "script_path": "tools/bio_reality/experiments/run_methylation_flanking_context_variance_gse40279.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T12:51:17+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.alternative_splicing.splice_site_strength_psi_vastdb",
+   "experiment_id": "splice_site_strength_psi_vastdb",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib splice-site-strength vs measured median PSI over VastDB hg38 (tools/bio_reality/data/splice_site_strength_psi_vastdb.json; measured median PSI, predictor=in-script frozen MaxEntScan-style PWM on 9mer/23mer splice-site sequences). Spearman + residualized partial (GC+exon_len+intron_len) + permutation null + constitutive-vs-cassette stratification; positive controls = strong-site->high-PSI + constitutive>cassette SS. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Scientifically deterministic (all stats bit-identical; only wall-clock runtime_sec varies), pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_splice_site_strength_psi_vastdb.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T13:08:38+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.translation_initiation.utr5_features_ribosome_load_sample2019",
+   "experiment_id": "utr5_features_ribosome_load_sample2019",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib 5'UTR-feature vs measured MRL over Sample 2019 GSE114002 (tools/bio_reality/data/utr5_features_ribosome_load_sample2019.json; measured polysome MRL, predictor=prior-frozen uAUG/Kozak/structure-proxy). Spearman + GC-residualized partial + uAUG-free-subset Kozak/structure increment + permutation null + held-out; positive control = uAUG->lower MRL. Verdict crosses_boundary / bounded_descriptor_only / composition_artifact. Deterministic fixed-seed (scientific fields bit-identical), pure stdlib (no ViennaRNA; structure proxy stdlib); n=80000 subsample.",
+   "script_path": "tools/bio_reality/experiments/run_utr5_features_ribosome_load_sample2019.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T14:20:46+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.mrna_localization.mrna_localization_3utr_motif_fazal2019",
+   "experiment_id": "mrna_localization_3utr_motif_fazal2019",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib 3'UTR-motif vs measured mRNA subcellular localization over Fazal 2019 APEX-seq (tools/bio_reality/data/mrna_localization_3utr_motif_fazal2019.json; measured ERM/NLS log2 enrichment, predictor=prior-frozen 3'UTR motifs). Signal-peptide-controlled residualized partial (UniProt ft_signal + length+GC+expr) + no-signal-peptide subset re-test + permutation null; positive controls = HSPA5/NEAT1/GAPDH. Verdict crosses_boundary (|rho|>=0.10) / bounded_descriptor_only (significant but smaller) / composition_artifact. Deterministic (science fields bit-identical), pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_mrna_localization_3utr_motif_fazal2019.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T17:30:56+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.protein_degron_stability.degron_terminal_motif_stability_voutsinos2026",
+   "experiment_id": "degron_terminal_motif_stability_voutsinos2026",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib C-terminal-degron-motif vs measured FACS peptide stability over Voutsinos 2026 (tools/bio_reality/data/degron_terminal_motif_stability_voutsinos2026.json; measured degron_score, predictor=prior-frozen terminal identity orthogonalized to bulk composition). Composition-controlled partial Spearman + permutation null + terminal-vs-internal-same-residue position control; positive control = C-end G/A unstable vs D/E/K stable. Verdict crosses_boundary (|rho|>=0.10) / bounded_descriptor_only / composition_artifact. Deterministic (science fields bit-identical), pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_degron_terminal_motif_stability_voutsinos2026.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T17:41:33+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.rbp_binding.rbns_affinity_eclip_binding_encode",
+   "experiment_id": "rbns_affinity_eclip_binding_encode",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib RBNS-affinity vs eCLIP-binding cross-layer over ENCODE (tools/bio_reality/data/rbns_affinity_eclip_binding_encode.json; predictor=RBNS in-vitro k-mer R, readout=eCLIP in-vivo peak vs GC-matched control). Peak-vs-control AUROC + dinucleotide-shuffle null + label-permutation + cross-RBP; positive control = RBFOX2 GCATG / HNRNPC poly-U / PUM1 UGUA enriched in peaks. Verdict crosses_boundary (AUROC>=0.60, beats dinuc null, cross-RBP) / bounded_descriptor_only / composition_artifact. Deterministic (science fields bit-identical), pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_rbns_affinity_eclip_binding_encode.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T18:09:57+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.meiotic_recombination.prdm9_motif_dsb_hotspot_pratto2014",
+   "experiment_id": "prdm9_motif_dsb_hotspot_pratto2014",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib PRDM9-motif vs measured DSB hotspot strength over Pratto 2014 (tools/bio_reality/data/prdm9_motif_dsb_hotspot_pratto2014.json; measured DMC1 SSDS AA/AC strength, predictor=external Altemose-2017/Myers PRDM9-A and PRDM9-C PWMs on hg19 sequence). GC/CpG-controlled partial Spearman + allele-specific differential (A-C motif -> AA-AC strength) + real-C-PWM falsification + permutation null + GC-stratified; positive control = A-motif center enrichment. Verdict crosses_boundary (|rho|>=0.10, allele-specific, C-falsification passes) / bounded_descriptor_only / composition_artifact. Deterministic (science fields bit-identical), pure stdlib, hg19 streamed.",
+   "script_path": "tools/bio_reality/experiments/run_prdm9_motif_dsb_hotspot_pratto2014.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T18:55:43+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.translation_termination.stop_context_readthrough_g418_wangen2020",
+   "experiment_id": "stop_context_readthrough_g418_wangen2020",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib stop-context vs measured G418-induced readthrough over Wangen 2020 (tools/bio_reality/data/stop_context_readthrough_g418_wangen2020.json; measured RRTS G418 sheet, predictor=stop-identity+4 baseline + extended context). Nested held-out OLS (M0=stop+4+log(UTR3)+GC, M1=+extended context) incremental R² + permutation null; positive control = UGA>UAG>UAA + UGA-C highest. Verdict crosses_boundary (held-out delta R²>=1%, core posctrl) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic (science fields bit-identical), pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_stop_context_readthrough_g418_wangen2020.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T19:37:26+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.polya_tail_length.cpe_grammar_polya_taillength_subtelny2014",
+   "experiment_id": "cpe_grammar_polya_taillength_subtelny2014",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib CPE-grammar vs measured poly(A) tail length over Subtelny 2014 (tools/bio_reality/data/cpe_grammar_polya_taillength_subtelny2014.json; measured PAL-seq Mean TL, predictor=prior-frozen length-invariant CPE x PAS distance/phase grammar; codon angle excluded). Length+GC+expression residualized partial + permutation null + cross-species; positive control = histone/RP short tails. Verdict crosses_boundary (|rho|>=0.10) / bounded_descriptor_only / composition_artifact. Deterministic (science fields bit-identical), pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_cpe_grammar_polya_taillength_subtelny2014.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T20:05:17+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.mtor_translation.topscore_mtor_translation_thoreen2012",
+   "experiment_id": "topscore_mtor_translation_thoreen2012",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib TOPscore vs measured mTOR-inhibition TE log2FC over Philippe-2020 TOPscore + Thoreen-2012 GSE36892 (tools/bio_reality/data/topscore_mtor_translation_thoreen2012.json; measured Torin1 TE log2FC, predictor=prior TOPscore). Length+GC+expression residualized partial + permutation null; positive control = RP mRNAs most-suppressed. Verdict crosses_boundary (|rho|>=0.10) / bounded_descriptor_only / composition_artifact. Deterministic, pure stdlib, human-mouse ortholog join.",
+   "script_path": "tools/bio_reality/experiments/run_topscore_mtor_translation_thoreen2012.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T20:23:51+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.branchpoint_usage.branchpoint_motif_usage_mercer2015",
+   "experiment_id": "branchpoint_motif_usage_mercer2015",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib branchpoint-motif vs measured lariat coverage over Mercer 2015 (tools/bio_reality/data/branchpoint_motif_usage_mercer2015.json; measured S1 lariat coverage, predictor=prior U2 branchpoint motif+PPT; circularity-guarded via continuous coverage not detection). Residualized partial (intron length+GC+3'SS+BP-3'SS dist+GTEx expression) + permutation null; positive control = BP-3'SS distance distribution. Verdict crosses_boundary (|rho|>=0.10) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib, hg19.",
+   "script_path": "tools/bio_reality/experiments/run_branchpoint_motif_usage_mercer2015.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T20:39:51+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.crispr_efficiency.sgrna_position_nt_efficiency_doench2016",
+   "experiment_id": "sgrna_position_nt_efficiency_doench2016",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib position-nt vs measured SpCas9 knockout activity over Doench 2016 Azimuth (tools/bio_reality/data/sgrna_position_nt_efficiency_doench2016.json; label=score_drug_gene_rank measured, predictions column excluded as leakage; predictor=prior 80-dim 20x4 position-nt one-hot). Held-out (80/20) incremental R2 of position-nt+GC over GC-only + permutation null; residualized control on GC; positive controls = pos20==G favored / T@PAM-proximal disfavored / poly-T disfavored (Doench signs); cross-dataset anchor = Doench 2014. Verdict crosses_boundary (held-out |rho|>=0.10 or delta-R2>=1%) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_sgrna_position_nt_efficiency_doench2016.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T20:54:20+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.primirna_processing.primirna_motif_drosha_processing_fang2015",
+   "experiment_id": "primirna_motif_drosha_processing_fang2015",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib pri-miRNA motif vs measured Drosha processing efficiency over Fang & Bartel 2015 GSE67937 (tools/bio_reality/data/primirna_motif_drosha_processing_fang2015.json; measured log2 selection/input vs WT; predictor=prior basal-UG/CNNC/apical-UGU/GHG motifs fold-anchored to per-backbone scaffold landmarks, no de-novo folding). Residualized partial (GC + stem length + backbone) + permutation null; positive control = CNNC enhances processing; cross-backbone (mir125/mir16/mir30) concordance. Verdict crosses_boundary (|rho|>=0.10) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib, no RNA folding.",
+   "script_path": "tools/bio_reality/experiments/run_primirna_motif_drosha_processing_fang2015.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T21:14:43+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.translation_initiation.uorf_kozak_ribosome_load_sample2019",
+   "experiment_id": "uorf_kozak_ribosome_load_sample2019",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib uAUG/uORF+Kozak vs measured mean ribosome load over Sample 2019 GSE114002 (tools/bio_reality/data/uorf_kozak_ribosome_load_sample2019.json; readout=rl MRL measured polysome-seq, leakage-guarded; predictor=prior uAUG count + Kozak -3 purine). Residualized partial (5'UTR length+GC) + permutation null + GC-stratified model-free check, on two independent native-human samples (fixed-50nt + varying-25to100nt). Positive control = uAUG lowers MRL (dose-response). Verdict crosses_boundary (|rho|>=0.10 or incr R2>=1%) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_uorf_kozak_ribosome_load_sample2019.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T21:22:49+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.exon_inclusion.ese_hexamer_exon_inclusion_adamson2018",
+   "experiment_id": "ese_hexamer_exon_inclusion_adamson2018",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib ESE hexamer code (delta-ESEseq, Ke2011 prior) vs measured exon inclusion (delta-PSI) over Adamson 2018 Vex-seq (tools/bio_reality/data/ese_hexamer_exon_inclusion_adamson2018.json; readout=measured delta-PSI, predictor=delta-ESEseq from frozen Ke2011 table). Residualized partial (delta-MaxEntScan splice-site strength + variant type + GC) + permutation null; positive control = ESE strengthening raises inclusion; two cell-line (HepG2/K562) + SNV-only + exonic >10nt-from-SS subsets. Verdict crosses_boundary (|r|>=0.10) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_ese_hexamer_exon_inclusion_adamson2018.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T21:29:07+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.mrna_stability.codon_composition_mrna_halflife_agarwal2022",
+   "experiment_id": "codon_composition_mrna_halflife_agarwal2022",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib codon-optimality (tAI, non-CSC tRNA-pool prior) vs measured mRNA half-life over Agarwal & Kelley 2022 compendium (tools/bio_reality/data/codon_composition_mrna_halflife_agarwal2022.json; readout=measured half-life, predictor=tAI from tRNA gene-copy numbers, circularity-escaped). Residualized partial (GC3+GC3^2+log CDS length) + permutation null; 54-column per-experiment same-sign + method-subset (4sU/ActD) robustness diagnostic; cross-species mouse. Verdict crosses_boundary (|rho|>=0.10 AND >=40/54 same-sign AND both 4sU+ActD method subsets cross floor) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_codon_composition_mrna_halflife_agarwal2022.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T21:48:26+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.nterminal_acetylation.nterminal_acetylation_occupancy_kron2018",
+   "experiment_id": "nterminal_acetylation_occupancy_kron2018",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib N-terminal NatA/NatB sequence rules vs measured N-terminal acetylation continuous occupancy over Kron 2018 (tools/bio_reality/data/nterminal_acetylation_occupancy_kron2018.json; readout=NtAc% continuous occupancy, predictor=NatA/NatB P1'+P2' priors). Residualized partial (aa-composition+length+abundance) + permutation null + AUROC; non-circularity gate = within-fixed-P1' P2'-acidity residual must clear 0.10. Positive controls = NatB>NatA, 2nd-residue gradient, acidic-3rd boost. Verdict crosses_boundary (overall |rho|>=0.10 AND within-fixed-P1' residual>=0.10) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_nterminal_acetylation_occupancy_kron2018.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T22:06:41+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.nterminal_acetylation.nterminal_acetylation_occupancy_human",
+   "experiment_id": "nterminal_acetylation_occupancy_human",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-organism transfer: frozen yeast NatA/NatB N-terminal rule vs measured HUMAN N-terminal acetylation continuous occupancy over PMC8509067 Table S1 (tools/bio_reality/data/nterminal_acetylation_occupancy_human.json; readout=NTA corr% continuous occupancy, predictor=FROZEN yeast NatA/NatB P1'+P2' prior, not re-learned). Residualized partial (aa-composition+length) + permutation null + AUROC; non-circularity gate = within-fixed-P1' P2'-acidity residual >=0.10; positive controls = human NatB>NatA + 2nd-residue gradient. Verdict transfers_conserved (|rho|>=0.10 AND within-fixed-P1'>=0.10) / bounded_descriptor_only / not_conserved / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_nterminal_acetylation_occupancy_human.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T22:58:11+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.translation_initiation.uorf_kozak_endogenous_te_ribonn",
+   "experiment_id": "uorf_kozak_endogenous_te_ribonn",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib MPRA-to-endogenous transfer: frozen Sample2019 uAUG/Kozak rule vs measured endogenous per-transcript TE over RiboBase/RiboNN (tools/bio_reality/data/uorf_kozak_endogenous_te_ribonn.json; readout=measured endogenous TE log RPF/mRNA, predictor=FROZEN MPRA uAUG count + Kozak -3, not re-learned; 5'UTR from GENCODE). Residualized partial (5'UTR length+GC) + permutation null across 3 cell types (HEK293/HeLa/K562); positive control = uAUG lowers TE. Verdict transfers_to_endogenous (|rho|>=0.10 + correct direction + 3 cell types) / bounded_descriptor_only / not_conserved / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_uorf_kozak_endogenous_te_ribonn.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T23:14:05+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.crispr_efficiency.sgrna_position_nt_crossdataset_luo2020",
+   "experiment_id": "sgrna_position_nt_crossdataset_luo2020",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-protocol transfer: frozen Doench2016 position-nt model (read from repo Doench2016 json, not re-fit) vs independent Luo2020 measured SpCas9 indel% over CRISPRon Luo2020_Kim2019 (tools/bio_reality/data/sgrna_position_nt_crossdataset_luo2020.json; readout=Luo2020 measured indel%, predictor=FROZEN Doench2016 position-nt score). Partial r controlling protospacer GC + super-GC delta-R2 + permutation null; positive control = Doench positional signs reproduced on Luo2020. Verdict transfers_cross_dataset (frozen score partial r>=0.10 + Doench signs reproduce) / bounded_descriptor_only / not_replicated / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_sgrna_position_nt_crossdataset_luo2020.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T23:19:21+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.mirna_target_repression.mirna_seed_crossdataset_agarwal2015",
+   "experiment_id": "mirna_seed_crossdataset_agarwal2015",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-dataset transfer: frozen TargetScan canonical seed-match vs independent Agarwal2015 measured miRNA-target log2FC (tools/bio_reality/data/mirna_seed_crossdataset_agarwal2015.json; readout=measured log2FC, predictor=FROZEN canonical seed geometry, 3'UTR from BioMart). Residualized partial (3'UTR length+GC) + permutation null across 7 miRNAs; positive control = 8mer<7mer-m8<no-site gradient. Verdict transfers_cross_dataset (|rho|>=0.10 negative + gradient >=4/7) / bounded_descriptor_only / not_replicated / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_mirna_seed_crossdataset_agarwal2015.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-22T23:42:47+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.apa_usage.apa_pas_strength_crossdataset_polyasite_mouse",
+   "experiment_id": "apa_pas_strength_crossdataset_polyasite_mouse",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-dataset/cross-organism transfer: frozen PAS strength (hexamer ladder + AU-rich + GU, recomputed from mm10) vs measured PolyASite 2.0 mouse within-gene poly(A)-site usage (tools/bio_reality/data/apa_pas_strength_crossdataset_polyasite_mouse.json; readout=measured cluster TPM usage, predictor=FROZEN PAS rule). Residualized partial (local GC+within-gene position) + within-gene permutation null, genome-wide; decomposed full-4-term vs hexamer+GU-only to expose AU-rich/GC collinearity; positive control = canonical hexamer TPM ladder. Verdict transfers_cross_dataset (full |rho|>=0.10 same sign + ladder) / bounded_descriptor_only / not_replicated / needs_data. Deterministic, pure stdlib, mm10 chrom-by-chrom.",
+   "script_path": "tools/bio_reality/experiments/run_apa_pas_strength_crossdataset_polyasite_mouse.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T00:01:41+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.stop_readthrough.stop_readthrough_crossdataset_wangen2020",
+   "experiment_id": "stop_readthrough_crossdataset_wangen2020",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-dataset transfer: frozen stop-context ordinal (UGA>UAG>UAA + +1 nt C>U>A>G) vs measured ribosome readthrough RRTS over Wangen2020 (tools/bio_reality/data/stop_readthrough_crossdataset_wangen2020.json; readout=measured RRTS, predictor=FROZEN stop rule). Spearman per condition (cdsDensity>=5) + log-expression-residual + permutation null across 8 conditions; positive control = UGA>UAG>UAA + UGAC highest. Verdict transfers_cross_dataset (>=3 stimulated |rho|>=0.10 + ladder; scope dose-dependent) / bounded_descriptor_only / not_replicated / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_stop_readthrough_crossdataset_wangen2020.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T00:12:14+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.exon_inclusion.splice_maxent_crossorganism_mouse_vastdb",
+   "experiment_id": "splice_maxent_crossorganism_mouse_vastdb",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-organism conservation: frozen Yeo-Burge 3'ss MaxEnt vs measured mouse exon PSI over VastDB mm10 (tools/bio_reality/data/splice_maxent_crossorganism_mouse_vastdb.json; readout=measured PSI, predictor=FROZEN human MaxEnt; PSI_TABLE/EVENT_INFO stream-decompressed). Residualized partial (log exon length+GC) + permutation null across 6 tissues; positive control = strong acceptor higher PSI. Verdict conserved_mouse (|rho|>=0.10 same sign + all tissues) / bounded_descriptor_only / not_conserved / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_splice_maxent_crossorganism_mouse_vastdb.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T00:26:30+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.recombination_hotspot.prdm9_motif_dsb_crossdataset_pratto2014",
+   "experiment_id": "prdm9_motif_dsb_crossdataset_pratto2014",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-dataset transfer test: frozen Myers-2008 PRDM9-A consensus PWM vs measured Pratto2014 DMC1-SSDS hotspot strength (tools/bio_reality/data/prdm9_motif_dsb_crossdataset_pratto2014.json; readout=measured SSDS strength, predictor=FROZEN Myers consensus PWM, hg19 chrom-by-chrom). GC-controlled partial Spearman + GC-matched shuffled null + AUROC(presence) + allele-specificity falsification (A-PWM on A-hotspots vs C-specific hotspots). Verdict transfers_cross_dataset (strength |rho|>=0.10 + allele-specific) / bounded_descriptor_only / not_replicated (strength sub-floor or non-allele-specific) / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_prdm9_motif_dsb_crossdataset_pratto2014.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T00:48:19+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.mtor_translation.topscore_mtor_translation_crossdataset_hsieh2012",
+   "experiment_id": "topscore_mtor_translation_crossdataset_hsieh2012",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-dataset transfer: frozen Thoreen canonical 5'TOP rule vs measured Hsieh2012 PP242 ribo-seq TE log2FC (tools/bio_reality/data/topscore_mtor_translation_crossdataset_hsieh2012.json; readout=measured TE log2FC, predictor=FROZEN 5'TOP rule, hg19 chrom-by-chrom). Residualized partial (5'UTR length+GC+log expression) + permutation null + GC/expr/length-matched control; positive control = RP TOP genes most-suppressed. Verdict transfers_cross_dataset (graded |rho|>=0.10 after GC+length+expr) / bounded_descriptor_only (categorical only) / not_replicated / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_topscore_mtor_translation_crossdataset_hsieh2012.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T01:01:25+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.protein_acetylation.lysine_acetylation_cys_proximity_occupancy_hansen2019",
+   "experiment_id": "lysine_acetylation_cys_proximity_occupancy_hansen2019",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib lysine-acetylation occupancy determinants over Hansen/Weinert 2019 (tools/bio_reality/data/lysine_acetylation_cys_proximity_occupancy_hansen2019.json; readout=measured continuous stoichiometry, predictors=frozen local-Cys + KAT-motif priors; within-fixed-K). Abundance-controlled partial Spearman + permutation null + AUROC; near-vs-far-Cys (local-positional vs bulk); KAT-motif survival after abundance+Cys; Cys-free-subset residual. Positive control = Cys-proximity raises stoichiometry. Verdict crosses_boundary (KAT motif survives) / bounded_descriptor_only (Cys-chemistry real but KAT null) / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_lysine_acetylation_cys_proximity_occupancy_hansen2019.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T01:17:41+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.protein_degron_stability.degron_cterminal_crossdataset_koren2018",
+   "experiment_id": "degron_cterminal_crossdataset_koren2018",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-dataset transfer: frozen C-terminal degron rule vs measured Koren 2018 GPS PSI (tools/bio_reality/data/degron_cterminal_crossdataset_koren2018.json; readout=measured PSI, predictor=FROZEN C-end rule). Spearman + bulk-aa-composition-controlled partial + end-vs-internal specificity + bottom-25% AUROC (supplementary) + perm null; positive control = C-end destabilizing/stabilizing ladder. Verdict transfers_cross_dataset (|rho|>=0.10 AND composition-controlled partial>=0.10 AND positive control, correct direction; AUROC supplementary) / bounded_descriptor_only / not_replicated / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_degron_cterminal_crossdataset_koren2018.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T01:43:36+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.protein_thermal_stability.scd_charge_patterning_tm_crossdataset_meltome",
+   "experiment_id": "scd_charge_patterning_tm_crossdataset_meltome",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib cross-dataset deepening: frozen Sawle-Ghosh SCD (charge-patterning) vs measured Meltome Atlas Tm (tools/bio_reality/data/scd_charge_patterning_tm_crossdataset_meltome.json; readout=measured TPP Tm, predictor=FROZEN SCD; UniProt seqs). Per-organism (exclude OGT) partial Spearman controlling length+20-aa-comp+bulk-charge + charge-position-shuffle null (composition-fixed); positive control = thermophile>mesophile Tm. Verdict transfers_cross_dataset (|partial rho|>=0.10 + beats shuffle null) / bounded_descriptor_only (beats shuffle null but |rho|<0.10) / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_scd_charge_patterning_tm_crossdataset_meltome.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T02:26:46+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.rna_pseudouridylation.pseudouridine_pus_motif_stoichiometry_dai2022",
+   "experiment_id": "pseudouridine_pus_motif_stoichiometry_dai2022",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib PUS-motif vs measured mRNA pseudouridine stoichiometry over Dai 2022 BID-seq (tools/bio_reality/data/pseudouridine_pus_motif_stoichiometry_dai2022.json; readout=measured Frac_Ave% Psi stoichiometry, predictor=FROZEN TRUB1/PUS7 position-identity motifs; sites Deletion-called = non-circular). Residualized partial (local GC+U content) + permutation null + motif-class ordering + 3-cell-line cross-dataset replication; positive control = TRUB1>PUS7>other. Verdict crosses_boundary (motif survives GC+U at |rho|>=0.10 AND TRUB1>PUS7>other AND cross-dataset) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_pseudouridine_pus_motif_stoichiometry_dai2022.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T02:40:42+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.rna_m6am_methylation.m6am_flanking_identity_stoichiometry_crownseq",
+   "experiment_id": "m6am_flanking_identity_stoichiometry_crownseq",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib flanking-identity vs measured m6Am cap stoichiometry over CROWN-seq (tools/bio_reality/data/m6am_flanking_identity_stoichiometry_crownseq.json; readout=measured m6Am level, predictor=FROZEN position-identity -5..+5 with +1=A fixed/excluded; hg38 flanks chrom-by-chrom). Residualized partial (flanking GC+log coverage) + GC-matched permutation null + full/variable/low-tail subsets + 9-cell-line replication; positive control = SSCA+1GC>VA+1RR, PCIF1-KO null. Verdict crosses_boundary (position-identity survives GC+coverage AND beats GC-matched null AND cross-cell) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_m6am_flanking_identity_stoichiometry_crownseq.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T03:18:55+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.rna_m6a_stoichiometry.m6a_stoichiometry_exon_architecture_glori",
+   "experiment_id": "m6a_stoichiometry_exon_architecture_glori",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib exon-architecture vs measured m6A stoichiometry over GLORI GSE210563 (tools/bio_reality/data/m6a_stoichiometry_exon_architecture_glori.json; readout=measured NormeRatio m6A stoichiometry, predictor=transcript architecture [exon length, distance-to-junction] from refGene; within-fixed-DRACH). Residualized partial (local GC+RRACH-5mer+coverage) + matched null (proximal-vs-distal in GC/RRACH/condition strata) + 3-condition replication; positive control = EJC suppression (short-exon/proximal lower m6A). Verdict crosses_boundary (architecture survives GC+RRACH at |rho|>=0.10 + matched null + positive control) / bounded_descriptor_only (split: one architecture metric sub-floor) / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_m6a_stoichiometry_exon_architecture_glori.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T03:47:00+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.dna_mechanics.dna_cyclizability_helical_phasing_basu2021",
+   "experiment_id": "dna_cyclizability_helical_phasing_basu2021",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib DNA helical-phasing vs measured intrinsic cyclizability over Basu 2021 loop-seq (tools/bio_reality/data/dna_cyclizability_helical_phasing_basu2021.json; readout=measured C0, predictor=FROZEN WW ~10.5bp helical-period power). Residualized partial (GC) + position-permuted null (preserves composition, destroys phasing) + cross-library (Random vs ChrV); positive control = GC~0, WW-phasing~0.34. Verdict crosses_boundary (phasing survives GC at |rho|>=0.10 AND beats position-permuted null AND cross-library) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib.",
+   "script_path": "tools/bio_reality/experiments/run_dna_cyclizability_helical_phasing_basu2021.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T04:13:54+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
+  },
+  {
+   "claim_id": "h3.cross_layer_relation.transcription_elongation_kinetics.pol2_elongation_rate_kmer_context_jonkers2014",
+   "experiment_id": "pol2_elongation_rate_kmer_context_jonkers2014",
+   "hypothesis_level": "H3",
+   "statement": "Offline stdlib gene-body k-mer context-excess vs measured Pol II elongation rate over Jonkers & Lis 2014 (GSE48895 / eLife 02407, mm9; tools/bio_reality/data/pol2_elongation_rate_kmer_context_jonkers2014.json; readout=measured rate kb/min, predictor=FROZEN 1-mer composition baseline + composition-orthogonal context-excess [ex2 dinucleotide vs mono-product, ex3 trinucleotide vs Markov-1]). Held-out 5-fold CV incremental R^2 over 1-mer baseline + full-genome label-permutation null (B=1000, n=1176, non-degenerate) + positive control (composition C-slow/T-fast). Verdict crosses_boundary (incr held-out R^2>=0.01 AND beats label-perm null p<0.01 AND positive control) / bounded_descriptor_only / composition_artifact / needs_data. Deterministic, pure stdlib. Decisive null corrected from degenerate n=5 mono-shuffle to context-excess label-permutation.",
+   "script_path": "tools/bio_reality/experiments/run_pol2_elongation_rate_kmer_context_jonkers2014.py",
+   "timeout_seconds": 1800,
+   "status": "open",
+   "proposed_by": "orchestrator",
+   "created_at": "2026-06-23T05:04:16+00:00",
+   "dependencies": [],
+   "external_preconditions": [],
+   "acceptance": {
+    "required_checks": [],
+    "criteria": {}
+   }
   }
  ]
 }

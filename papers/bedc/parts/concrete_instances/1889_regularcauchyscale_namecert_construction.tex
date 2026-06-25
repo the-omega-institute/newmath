@@ -321,6 +321,25 @@ Every coordinate consumed by the seal is named in the carrier or in the listed d
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyScaleUp.RegularCauchyScaleCarrier\_real\_seal\_handoff\_obligation}
 
+\begin{theorem}[RegularCauchyScale rational scalar bridge boundary]
+\label{thm:regular-cauchy-scale-rational-scalar-bridge-boundary}
+Every bridge-facing consumer of a scaled regular Cauchy packet
+$$
+S=(Q,A,W,D_Q,D_A,D,E,R,H,C,P,N)
+$$
+must expose the $\RatUp$ scalar row $Q$, the $\RegSeqRatUp$ source row $A$, the $\StreamNameUp$ window $W$, the $\DyadicRatCoreUp$ endpoint rows $D_Q,D_A,D$, the $\FiniteErrorBudgetUp$ ledger $E$, the $\RegSeqRatUp$ readback $R$, the componentwise $\hsame$ transport $H$, the displayed $\Cont$ replay $C$, the $\Pkg$ provenance $P$, and the local $\NameCert_{\RegularCauchyScaleUp}$ row $N$ before it reads the $\RealUp$ seal. The bridge boundary therefore exports rational scaling only through the displayed finite packet, not through quotient streams, selected limits, host real equality, ambient completeness, or an external real-scalar law.
+\end{theorem}
+\begin{proof}
+Start with source factorization in \autoref{thm:regular-cauchy-scale-source-factorization}. It orders every scaled read through the scalar row $Q$, the source row $A$, the aligned stream window $W$, and the dyadic endpoint rows $D_Q,D_A,D$.
+
+Next apply the window budget theorem \autoref{thm:regular-cauchy-scale-window-budget}. The finite error ledger $E$ is exposed before the scale read is admitted, so the bridge-facing consumer receives a displayed tolerance account rather than a hidden real estimate.
+
+Use the $\RegSeqRatUp$ handoff in \autoref{thm:regular-cauchy-scale-regseqrat-handoff}. The readback row $R$ is available only after the scalar, source, window, endpoint, and budget rows have been read, and classifier stability keeps the same route under componentwise $\hsame$ transport and displayed $\Cont$ replay.
+
+Finally apply the $\RealUp$ seal boundary \autoref{thm:regular-cauchy-scale-realup-seal-boundary}. The seal can be consumed only through $R,H,C,P,N$, so the rational-scalar bridge boundary is exactly the displayed carrier route and no quotient, selected-limit, ambient-completeness, or host scalar-action coordinate remains.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyScaleUp.RegularCauchyScaleCarrier\_rational\_scalar\_bridge\_boundary}
+
 \begin{theorem}[RegularCauchyScale shared-tail normalization]
 \label{thm:regular-cauchy-scale-shared-tail-normalization}
 Let
@@ -364,16 +383,34 @@ Use the $\RealUp$ seal boundary \autoref{thm:regular-cauchy-scale-realup-seal-bo
 Finally apply the NameCert obligations theorem \autoref{thm:regular-cauchy-scale-namecert-obligations}. Its carrier admission, classifier transport, ledger exactness, and downstream handoff rows exhaust the visible dependency surface, so no quotient stream, selected limit, host real equality, ambient completeness, or real-vector-space law remains outside the scoped tuple.
 \end{proof}
 
+\begin{theorem}[RegularCauchyScale public consumer boundary]
+\label{thm:regular-cauchy-scale-public-consumer-boundary}
+The named public consumer boundary of an accepted $\RegularCauchyScaleUp$ packet is the finite route
+$$
+Q,A,W,D_Q,D_A,D,E,R,H,C,P,N.
+$$
+Every $\RegSeqRatUp$ consumer reads the same source row $A$, aligned $\StreamNameUp$ window $W$, dyadic endpoint rows $D_Q,D_A,D$, finite budget $E$, and regular readback $R$ before exporting scale data. Every $\RealUp$ consumer then reads the same readback row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before the terminal seal is visible. Thus the public interface is the displayed scale packet itself, not quotient stream equality, selected limits, host real equality, ambient completeness, or an external real-vector-space law.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and apply \autoref{thm:regular-cauchy-scale-scoped-closure-route}. It already orders the scalar, source, window, dyadic endpoint, finite-budget, regular-readback, transport, replay, provenance, and local naming rows.
+
+For $\RegSeqRatUp$ consumers, use \autoref{thm:regular-cauchy-scale-regseqrat-handoff}. The readback row $R$ can be consumed only after the displayed source, window, endpoint, and budget rows have been preserved.
+
+For $\RealUp$ consumers, use \autoref{thm:regular-cauchy-scale-realup-seal-boundary}. The terminal seal reads the same $R,H,C,P,N$ rows and adds no coordinate for quotient streams, selected limits, host equality, ambient completeness, or external scalar laws.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyScaleUp.RegularCauchyScaleCarrier\_public\_consumer\_boundary}
+
 \closureat{RegularCauchyScaleUp}{seedStr}
 \closureat{RegularCauchyScaleUp}{obligationStr}[BEDC.Derived.RegularCauchyScaleUp.RegularCauchyScaleCarrier\_namecert\_obligations]
+\closureat{RegularCauchyScaleUp}{bridgedStr}
 
 \begin{closurestatus}{\RegularCauchyScaleUp}
   \constructivestory{A $\RegularCauchyScaleUp$ packet is generated from a $\RatUp$ scalar row, a $\RegSeqRatUp$ source row, an aligned $\StreamNameUp$ window, $\DyadicRatCoreUp$ scalar/source/scaled endpoint rows, a finite $\FiniteErrorBudgetUp$ scale ledger, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, a $\RegSeqRatUp$ readback row, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\bridgedClosure}
   \scopeclosed{\autoref{thm:regular-cauchy-scale-scoped-closure-route} binds the finite scalar, window, dyadic endpoint, finite-budget, regular-readback, transport, continuation, provenance, Real seal, and NameCert rows for rational scaling of regular Cauchy names.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient equality of streams, selected limits, host real equality, ambient completeness, real-vector-space laws, or bridge checking.}
-  \upgradepath{Scoped closure requires binding the displayed scalar, window, dyadic endpoint, finite-budget, regular-readback, and Real seal rows to their dependency scope.}
+  \upgradepath{Mature closure requires checked examples and completeness-facing consumers for the displayed scalar, window, dyadic endpoint, finite-budget, regular-readback, and Real seal rows.}
 \end{closurestatus}
