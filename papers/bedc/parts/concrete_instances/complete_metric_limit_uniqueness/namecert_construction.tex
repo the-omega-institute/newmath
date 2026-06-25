@@ -77,6 +77,18 @@ Apply the NameCert obligations of \autoref{thm:complete-metric-limit-uniqueness-
 Finally apply the separatedness handoff of \autoref{thm:complete-metric-limit-uniqueness-separatedness}. The classifier $S$ is the only row that reflects zero distance into uniqueness, and the structural rows $H,C,P,N$ preserve that same finite route without adding quotient equality, choice, ambient completeness, or host point equality.
 \end{proof}
 
+\begin{theorem}[Complete metric limit uniqueness common window]
+\label{thm:complete-metric-limit-uniqueness-common-window}
+If two limit-seal reads are accepted by the $\CompleteMetricLimitUniquenessUp$ carrier $U=(A,L_{0},L_{1},M,Z,S,H,C,P,N)$, then the separatedness handoff and zero-distance reflection inspect the same metric row $M$, Cauchy route $A,L_{0},L_{1}$, $\RealUp$ zero-distance seal $Z$, $\hsame$ transport $H$, $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\CompleteMetricLimitUniquenessUp}$ row $N$. The uniqueness read therefore has one finite witness route and exports no separate equality principle or selected limit.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:complete-metric-limit-uniqueness-carrier}. The two limit rows $L_{0}$ and $L_{1}$ are tied to the same Cauchy-source row $A$, and the only displayed metric comparison is the row $M$.
+
+Apply the separatedness handoff of \autoref{thm:complete-metric-limit-uniqueness-separatedness}. It binds every admissible uniqueness read to the displayed route through $A,L_{0},L_{1},M,Z,S,H,C,P,N$.
+
+Now apply zero-distance reflection, \autoref{thm:complete-metric-limit-uniqueness-zero-distance-reflection}, on that same route. The Real zero-distance seal $Z$, separated classifier $S$, transport $H$, replay $C$, provenance $P$, and local naming $N$ remain attached to the displayed packet, so no separate equality principle or selected limit is exported.
+\end{proof}
+
 \closureat{CompleteMetricLimitUniquenessUp}{seedStr}
 
 \begin{closurestatus}{\CompleteMetricLimitUniquenessUp}
