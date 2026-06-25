@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\LevyContinuityUp$}
+\label{ch:concrete-instances-levy-continuity-namecert}
+\origin{human}
+
+Following Feller's characteristic-function proof of weak convergence and Billingsley's finite-dimensional distribution conventions, the $\LevyContinuityUp$ packet records the finite BEDC surface used by a Levy-continuity readback without importing completed measure spaces or host almost-sure quotient equality. It sits over the probability source of \autoref{ch:concrete-instances-probspace-namecert}, the random-variable observation surface of \autoref{ch:concrete-instances-randomvar-namecert}, the distribution readback of \autoref{ch:concrete-instances-distribution-namecert}, the rational regular-window discipline of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The characteristic-function rows are finite windows: each accepted read exposes only the inspected frequency grid, tolerance ledger, distribution readback, transport, replay, provenance, and local naming rows.
+
+\begin{definition}[Levy continuity carrier]
+\label{def:levy-continuity-carrier}
+A $\LevyContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+L=(P,X,D,W,Q,R,H,C,G,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $P$ is the $\ProbSpaceUp$ probability-source row for the inspected finite event algebra and probability requests.
+\item $X$ is the $\RandomVarUp$ observation row, exposing the displayed random-variable reads used by the packet.
+\item $D$ is the $\DistributionUp$ readback row, recording the finite distribution observations attached to $X$.
+\item $W$ is the $\CharacteristicFunctionUp$ finite-window row, naming the inspected frequency grid and the complex-valued read requests admitted on that grid.
+\item $Q$ is the $\RegSeqRatUp$ tolerance row for the finite characteristic-function and distribution comparisons.
+\item $R$ is the terminal $\RealUp$ seal row reached only after $P,X,D,W,Q$ remain visible.
+\item $H$ stores componentwise $\hsame$ transport for the probability source, random-variable observation, distribution readback, characteristic-function window, tolerance ledger, real seal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from probability reads to random-variable observations, from observations to distribution rows, and from distribution rows to characteristic-function finite windows.
+\item $G$ is the $\Pkg$ provenance over $\LevyContinuityUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\DistributionUp$, $\CharacteristicFunctionUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LevyContinuityUp}$ row.
+\end{enumerate}
+The accepted carrier stores no measure-completion coordinate, no host almost-sure quotient equality, no selected limit distribution, no countable-choice selector, and no ambient Real completeness witness.
+\end{definition}
+\leanstmt{BEDC.Derived.LevyContinuityUp}
+
+\begin{theorem}[Levy continuity NameCert obligations]
+\label{thm:levy-continuity-namecert-obligations}
+For an accepted packet $L=(P,X,D,W,Q,R,H,C,G,N)$, the local $\NameCert_{\LevyContinuityUp}$ obligations are exhausted by probability-source admission through $P$, random-variable observation through $X$, distribution readback through $D$, characteristic-function finite windows through $W$, rational tolerance exposure through $Q$, terminal real sealing through $R$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $G$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:levy-continuity-carrier}. The probability row $P$ and random-variable row $X$ expose only the finite probability and observation requests stored in the packet.
+
+Read the analytic rows next. The distribution row $D$ is available before the characteristic-function window $W$, and $W$ records only the inspected frequency grid together with the tolerance ledger $Q$.
+
+Finally inspect $R,H,C,G,N$. These rows seal, transport, replay, package, and name the same displayed data. Since the carrier has no coordinate for measure completion, host almost-sure quotient equality, a selected limit law, countable choice, or ambient $\RealUp$ completeness, no local NameCert obligation can read one.
+\end{proof}
+
+\begin{theorem}[Levy continuity characteristic-function route]
+\label{thm:levy-continuity-characteristic-function-route}
+Every distribution-facing consumer of an accepted $\LevyContinuityUp$ packet must expose the finite route
+$$
+\ProbSpaceUp,\RandomVarUp \longmapsto \DistributionUp \longmapsto \CharacteristicFunctionUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+before the transport, replay, provenance, and local naming rows can be consumed. Thus characteristic-function convergence is read only through displayed finite windows and their rational tolerance ledger, not through completed measure objects, host equality of random variables, selected weak limits, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:levy-continuity-namecert-obligations}. They force every accepted read to expose $P,X,D,W,Q$ before the terminal real seal and structural rows are available.
+
+The characteristic-function row $W$ is therefore a finite-window handoff between the distribution readback $D$ and the rational tolerance row $Q$. Its continuation replay $C$ keeps the probability, observation, distribution, and window reads in the same displayed packet.
+
+The structural rows $H,G,N$ preserve that route by transport, provenance, and local naming. Since no completed measure carrier, almost-sure quotient equality, selected weak limit, countable-choice selector, or ambient completeness row appears in \autoref{def:levy-continuity-carrier}, no distribution-facing consumer can bypass the finite characteristic-function route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LevyContinuityUp$ read exposes a $\ProbSpaceUp$ source, $\RandomVarUp$ observation row, $\DistributionUp$ readback, $\CharacteristicFunctionUp$ finite window, $\RegSeqRatUp$ tolerance ledger, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before any downstream weak-convergence or central-limit packet may consume it.}
+
+\independenceWitness{probspace, randomvar, distribution, regseqrat, real: none is bijective to LevyContinuityUp because the packet jointly carries probability-source, random-variable, distribution-readback, characteristic-window, tolerance, seal, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{LevyContinuityUp}{seedStr}
+
+\begin{closurestatus}{\LevyContinuityUp}
+  \constructivestory{A $\LevyContinuityUp$ packet is generated from a probability source row, random-variable observation row, distribution readback, characteristic-function finite windows, a rational tolerance ledger, a terminal Real seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:levy-continuity-carrier}, \autoref{thm:levy-continuity-namecert-obligations}, and \autoref{thm:levy-continuity-characteristic-function-route} seed the finite Levy-continuity carrier between probability sources, random-variable observations, distribution readbacks, characteristic-function windows, RegSeqRat tolerances, and Real-facing consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim measure completion, almost-sure quotient equality, selected weak limits, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, characteristic-window exactness, distribution readback stability, tolerance-ledger stability, and downstream nonescape for BEDC.Derived.LevyContinuityUp.}
+\end{closurestatus}
