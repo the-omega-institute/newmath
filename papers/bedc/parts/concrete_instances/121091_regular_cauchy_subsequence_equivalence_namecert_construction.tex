@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySubsequenceEquivalenceUp$}
+\label{ch:concrete-instances-regular-cauchy-subsequence-equivalence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\RegularCauchySubsequenceEquivalenceUp$ packet records cofinal-subsequence invariance for regular Cauchy rational names as finite BEDC data. It sits over the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite schedule surface of \autoref{ch:concrete-instances-streamname-namecert}, the cofinal subsequence handoff of \autoref{ch:concrete-instances-regular-cauchy-subsequence-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet compares the source name and the cofinal subsequence only through displayed windows, tolerance rows, and replay data before any Real-facing consumer reads the invariant boundary.
+
+\begin{definition}[RegularCauchySubsequenceEquivalence carrier]
+\label{def:regular-cauchy-subsequence-equivalence-carrier}
+A $\RegularCauchySubsequenceEquivalenceUp$ carrier is a finite $\BHist$ packet
+$$
+E=(R,S,T,W,D,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the source $\RegSeqRatUp$ row, carrying the original regular Cauchy rational name.
+\item $S$ is the cofinal subsequence schedule row, carrying the monotone index route read by $\StreamNameUp$.
+\item $T$ is the transported subsequence $\RegSeqRatUp$ row obtained by replay along $S$.
+\item $W$ records the finite source and subsequence windows compared by the packet.
+\item $D$ is the dyadic tolerance ledger used to compare windows at a requested precision.
+\item $L$ is the Real-facing invariant handoff row exposed after $R,S,T,W,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records displayed $\Cont$ replay of the same finite route.
+\item $P$ records the $\Pkg$ provenance over $\RegularCauchySubsequenceEquivalenceUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchySubsequenceEquivalenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by $R,S,T,W,D,L,H,C,P,N$. It has no coordinate for quotient representatives, host stream equality, host real equality, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[RegularCauchySubsequenceEquivalence NameCert obligations]
+\label{thm:regular-cauchy-subsequence-equivalence-namecert-obligations}
+For every accepted $\RegularCauchySubsequenceEquivalenceUp$ carrier
+$$
+E=(R,S,T,W,D,L,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchySubsequenceEquivalenceUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item source and subsequence admission, requiring the displayed $\RegSeqRatUp$ rows $R$ and $T$ and the cofinal schedule $S$;
+\item window comparability, requiring $W$ to display the finite source and subsequence windows consumed by the comparison;
+\item tolerance stability, requiring the dyadic ledger $D$ to witness the same requested precision for both windows;
+\item invariant handoff, requiring $L$ to be exposed only after the source, schedule, subsequence, window, and tolerance rows are visible;
+\item non-escape, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed packet without quotient representatives, host equality, countable choice, or ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:regular-cauchy-subsequence-equivalence-carrier}. The source name, cofinal schedule, transported subsequence name, windows, and dyadic tolerance ledger are all displayed coordinates.
+
+The usual constructive subsequence argument is read through those coordinates. Cofinality lets each requested source precision be met by a later subsequence window, and regularity of $R$ supplies the dyadic comparison recorded in $D$.
+
+The handoff row $L$ is therefore a finite invariant boundary, not a quotient representative. Transport, replay, provenance, and local naming preserve only this route, so the five obligations exhaust the certificate surface.
+\end{proof}
+
+\begin{theorem}[RegularCauchySubsequenceEquivalence cofinal tail stability]
+\label{thm:regular-cauchy-subsequence-equivalence-cofinal-tail-stability}
+Let $E=(R,S,T,W,D,L,H,C,P,N)$ be an accepted $\RegularCauchySubsequenceEquivalenceUp$ carrier. Every Real-facing consumer read of the cofinal subsequence invariant factors through the finite route
+$$
+R,S,T,W,D,L,H,C,P,N.
+$$
+Thus discarding a finite prefix and replaying along a monotone cofinal schedule preserves the displayed regular Cauchy name boundary, while exporting no quotient representatives, host equality, countable-choice schedule, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier. Projection gives the source regular name $R$, the cofinal schedule $S$, the subsequence readback $T$, the comparison windows $W$, and the tolerance ledger $D$.
+
+For any requested tail precision, cofinality of $S$ places a selected subsequence window beyond the source tail bound. Regularity of $R$ then compares the source window and the replayed subsequence window through the same dyadic tolerance row.
+
+The rows $L,H,C,P,N$ only expose, transport, replay, source, and name that finite comparison. Since the classifier has no coordinate for quotient representatives, host equality, countable choice, or ambient completeness, every consumer read remains on the displayed route.
+\end{proof}
+
+\closureat{RegularCauchySubsequenceEquivalenceUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySubsequenceEquivalenceUp}
+  \constructivestory{A $\RegularCauchySubsequenceEquivalenceUp$ packet is generated from a RegSeqRat source row, a cofinal subsequence schedule, a transported RegSeqRat row, finite StreamName windows, a DyadicRatCore tolerance ledger, a Real-facing invariant handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-subsequence-equivalence-carrier}, \autoref{thm:regular-cauchy-subsequence-equivalence-namecert-obligations}, and \autoref{thm:regular-cauchy-subsequence-equivalence-cofinal-tail-stability} seed the finite cofinal-subsequence invariance packet for regular Cauchy rational names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient representatives, host stream equality, host real equality, countable choice, ambient completeness of $\RealUp$, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofinal schedule admission, window comparability, dyadic tolerance stability, invariant handoff, and non-escape for BEDC.Derived.RegularCauchySubsequenceEquivalenceUp.}
+\end{closurestatus}
