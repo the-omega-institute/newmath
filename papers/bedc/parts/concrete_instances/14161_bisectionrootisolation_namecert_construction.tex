@@ -114,6 +114,20 @@ The retained-window route is the one described in \autoref{thm:bisection-root-is
 Since \autoref{thm:bisection-root-isolation-finite-sign-change-certificate} confines the sign-change evidence to finite endpoint and midpoint rows, no downstream consumer can recover the excluded host principles from the packet.
 \end{proof}
 
+\begin{theorem}[Bisection root-isolation public export]
+\label{thm:bisection-root-isolation-public-export}
+Every public consumer of an accepted $\BisectionRootIsolationUp$ carrier must read the $\LocatedIntervalUp$ endpoint packet, the $\DyadicBisectionUp$ branch ledger, the $\DyadicRatCoreUp$ tolerance row, the $\StreamNameUp$ endpoint windows, the $\RegSeqRatUp$ readback row, the $\RealUp$ seal, and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows in that order before using the isolation certificate. The exported object is the finite retained isolating window with displayed sign-change evidence; it is not a selected root, a real-trichotomy decision, quotient equality of real names, a completed nested-interval point, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $Q=(J,B,F,E,W,R,S,H,C,P,N)$ of \autoref{def:bisection-root-isolation-carrier}. The carrier already orders the public data: $J$ supplies the located endpoint packet, $B$ supplies the retained dyadic branch ledger, and the dyadic tolerance rows are the arithmetic support named in the same packet.
+
+Apply \autoref{thm:bisection-root-isolation-namecert-obligations}. It forces the endpoint-window admission and sign-ledger exactness to be read before retained-window handoff, so the public consumer cannot inspect $W,R,S$ until the located interval, bisection ledger, tolerance support, and displayed sign rows have been exposed.
+
+Next apply \autoref{thm:bisection-root-isolation-regseqrat-window-handoff} and \autoref{thm:bisection-root-isolation-real-seal-nonescape}. These statements route the retained endpoint windows through $\StreamNameUp$, $\RegSeqRatUp$, and the $\RealUp$ seal without producing an independent real object.
+
+Finally use \autoref{thm:bisection-root-isolation-downstream-boundary}. The structural rows $H,C,P,N$ transport, replay, package, and name exactly that finite window. Since the carrier has no coordinate for a selected root, real trichotomy, quotient real equality, a completed nested-interval point, or ambient completeness, the public export is exhausted by the ordered rows listed in the statement.
+\end{proof}
+
 \begin{theorem}[Bisection root-isolation sign-ledger determinacy]
 \label{thm:bisection-root-isolation-sign-ledger-determinacy}
 Let $Q=(J,B,F,E,W,R,S,H,C,P,N)$ be an accepted $\BisectionRootIsolationUp$ carrier. For every retained branch row in $B$, the corresponding finite inspection row in $F$ and displayed sign row in $E$ determine the branch visible to the local $\NameCert_{\BisectionRootIsolationUp}$ packet. The visible branch decision is therefore a finite $\BHist$ route through $F,E,B,H,C,P,N$, not a host trichotomy comparison or an external root-location oracle.

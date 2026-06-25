@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\HausdorffCompletionFunctorUp$}
+\label{ch:concrete-instances-hausdorff-completion-functor-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop--Bridges on separated uniform completions, the $\HausdorffCompletionFunctorUp$ packet records the finite map-level surface that turns separated completion into a displayed functorial route. It sits over the envelope packet of \autoref{ch:concrete-instances-hausdorff-completion-envelope-namecert} and the pullback comparison of \autoref{ch:concrete-instances-hausdorff-completion-pullback-namecert}; it also reads the unit-facing separated-completion rows already exposed by the Hausdorff completion route. The packet is not an ambient categorical completion theorem: it is a finite NameCert carrier for source and target completion rows, uniformly continuous map data, unit compatibility, pullback compatibility, transport, replay, provenance, and local naming.
+
+\begin{definition}[HausdorffCompletionFunctor carrier]
+\label{def:hausdorff-completion-functor-carrier}
+A $\HausdorffCompletionFunctorUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,Y,M,C,U,P,H,R,Q,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is the source separated-completion row, including the displayed Hausdorff separation, stream-window, regular-rational readback, dyadic tolerance, and terminal real-seal coordinates already named by the envelope route.
+\item $Y$ is the target separated-completion row, with the same visible row shape for the codomain.
+\item $M$ is the uniformly continuous map row from the source presentation to the target presentation, carried only as displayed finite map and modulus data.
+\item $C$ is the completion action row, recording the induced map on completion names as a finite readback route rather than as a host function on quotient completions.
+\item $U$ is the unit-compatibility row, requiring source values to enter the source completion and then map forward along the same route as direct application followed by the target unit row.
+\item $P$ is the pullback-compatibility row, forcing comparisons of two completed map reads to pass through the public pullback packet of \autoref{ch:concrete-instances-hausdorff-completion-pullback-namecert}.
+\item $H$ stores the componentwise $\hsame$ transports for source completion, target completion, map row, completion action, unit row, pullback row, replay, provenance, and local certificate.
+\item $R$ stores displayed $\Cont$ replay for source observation, target observation, uniform-continuity readback, completion action, unit compatibility, and pullback compatibility.
+\item $Q$ is the $\Pkg$ provenance over $\HausdorffCompletionFunctorUp$, $\HausdorffCompletionEnvelopeUp$, $\HausdorffCompletionPullbackUp$, $\HausdorffCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HausdorffCompletionFunctorUp}$ row.
+\end{enumerate}
+The carrier predicate says that these rows form one finite functorial separated-completion packet. It has no coordinate for quotient-completion equality, selected representatives, countable choice, a host function extensionality theorem, or ambient completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.HausdorffCompletionFunctorUp}
+
+\begin{theorem}[HausdorffCompletionFunctor obligation surface]
+\label{thm:hausdorff-completion-functor-obligation-surface}
+For every accepted $\HausdorffCompletionFunctorUp$ carrier $F=(X,Y,M,C,U,P,H,R,Q,N)$, the local $\NameCert_{\HausdorffCompletionFunctorUp}$ surface consists exactly of source completion admission through $X$, target completion admission through $Y$, uniformly continuous map admission through $M$, completion-action readback through $C$, unit compatibility through $U$, pullback compatibility through $P$, componentwise transport through $H$, replay through $R$, provenance through $Q$, and local naming through $N$. A consumer therefore reads functoriality only through the displayed finite route
+$$
+X,Y,M \longmapsto C,U,P,H,R,Q,N .
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hausdorff-completion-functor-carrier}. The source and target rows are the two separated-completion surfaces, and the map row is the displayed uniformly continuous input.
+
+The completion action $C$ is admitted only after those rows are visible. Unit compatibility is then checked by $U$, and pullback compatibility is checked by $P$ through the sibling pullback packet rather than through host equality of completed maps.
+
+Finally $H,R,Q$, and $N$ replay, transport, package, and name the same finite rows. Since the carrier has no coordinate for quotient equality, selected representatives, countable choice, function extensionality, or ambient completeness, the listed rows exhaust the obligation surface.
+\end{proof}
+
+\begin{theorem}[HausdorffCompletionFunctor unit-pullback route]
+\label{thm:hausdorff-completion-functor-unit-pullback-route}
+Every unit-facing or comparison-facing read from an accepted $\HausdorffCompletionFunctorUp$ carrier factors through the source row $X$, target row $Y$, uniformly continuous map row $M$, completion action row $C$, unit row $U$, and pullback row $P$ before any real-facing seal or completion comparison is public. The unit read is therefore tied to the displayed separated-completion envelope of \autoref{ch:concrete-instances-hausdorff-completion-envelope-namecert}, and the comparison read is tied to the public pullback packet of \autoref{ch:concrete-instances-hausdorff-completion-pullback-namecert}.
+\end{theorem}
+\begin{proof}
+Read the completion action coordinate $C$. It is downstream of the displayed source and target completion rows and the uniformly continuous map row, so no unit-facing consumer can inspect a completed value before $X,Y,M$ are fixed.
+
+The unit coordinate $U$ compares direct source admission with mapped target admission only through those same rows. It does not introduce a separate representative selector or a host equality proof.
+
+For comparison-facing reads, use the pullback coordinate $P$. It routes the comparison through the Hausdorff completion pullback packet, where the two separated-completion projections remain visible before the comparison becomes public.
+\end{proof}
+
+\begin{theorem}[HausdorffCompletionFunctor nonescape]
+\label{thm:hausdorff-completion-functor-nonescape}
+No accepted $\HausdorffCompletionFunctorUp$ carrier exports a map on completed Hausdorff objects except through the displayed rows
+$$
+X,Y,M,C,U,P,H,R,Q,N .
+$$
+In particular, every real-facing or completion-facing consumer must keep the source and target completion rows, uniformly continuous map row, unit compatibility row, pullback compatibility row, transport, replay, provenance, and local naming visible; the route exports no quotient-completion equality, selected representative, countable-choice selector, host function extensionality, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start from the obligation surface of \autoref{thm:hausdorff-completion-functor-obligation-surface}. It lists the only rows through which functoriality is admitted.
+
+Apply the unit-pullback route of \autoref{thm:hausdorff-completion-functor-unit-pullback-route}. Unit reads are tied to $X,Y,M,C,U$, and comparison reads are tied to $X,Y,M,C,P$ before downstream consumers can inspect a completed value or comparison.
+
+The structural rows $H,R,Q,N$ preserve the same finite route under transport, replay, provenance, and naming. Thus the carrier contains no escape coordinate for quotient-completion equality, representative choice, countable choice, host extensionality, or ambient completeness.
+\end{proof}
+
+\closureat{HausdorffCompletionFunctorUp}{seedStr}
+
+\begin{closurestatus}{\HausdorffCompletionFunctorUp}
+  \constructivestory{A $\HausdorffCompletionFunctorUp$ packet is generated from source and target separated-completion rows, a uniformly continuous map row, completion-action readback, unit compatibility, pullback compatibility, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hausdorff-completion-functor-carrier} seeds the finite functorial separated-completion carrier over envelope, pullback, unit, stream, regular-rational, dyadic, and Real-facing rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.HausdorffCompletionFunctorUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient-completion equality, selected representatives, countable choice, host function extensionality, ambient completeness, theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source and target completion admission, uniformly continuous map routing, unit compatibility, pullback compatibility, transport, replay, provenance, and nonescape for BEDC.Derived.HausdorffCompletionFunctorUp.}
+\end{closurestatus}

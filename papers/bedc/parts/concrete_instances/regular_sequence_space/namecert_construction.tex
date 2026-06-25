@@ -74,6 +74,18 @@ Route the late observations through the tail-filter handoff of \autoref{thm:regu
 Finally $H,C,P,N$ preserve and name the same finite packet. Hence the two reads agree on the dyadic tolerance row and terminal Real seal route without choosing a quotient stream, representative, or external completion object.
 \end{proof}
 
+\begin{theorem}[RegularSequenceSpace value-seal exhaustion]
+\label{thm:regular-sequence-space-value-seal-exhaustion}
+Every value-facing read from an accepted $\RegularSequenceSpaceUp$ carrier $S=(X,T,Q,D,R,H,C,P,N)$ exposes the source family $X$, $\StreamNameUp$ schedule $T$, $\RegSeqRatUp$ readback $Q$, and $\DyadicRatCoreUp$ tolerance row $D$ before it may consume $R,H,C,P,N$. Consequently the terminal $\RealUp$ seal is exhausted by the displayed StreamName, RegSeqRat, DyadicRatCore, transport, replay, provenance, and NameCert route, with no ambient complete sequence space, quotient stream equality, selected representative, or unrestricted sequence object.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:regular-sequence-space-namecert-obligations}. They require every accepted read to keep the source row, schedule row, regular rational readback, and dyadic tolerance row visible before the Real-facing seal and structural rows can be consumed.
+
+Apply the tail-filter handoff of \autoref{thm:regular-sequence-space-tail-filter-handoff}. It routes completion-facing and value-facing reads through the same displayed stream schedule, regular rational readback, and dyadic tolerance data before the terminal seal is public.
+
+Finally use tail coherence, \autoref{thm:regular-sequence-space-tail-coherence}. Since reads agreeing on $T$ and $Q$ also agree on $D$ and on the terminal seal route $R,H,C,P,N$, the Real seal is exhausted by the displayed finite route and cannot import an ambient complete space, quotient stream equality, selected representative, or unrestricted sequence object.
+\end{proof}
+
 \begin{theorem}[RegularSequenceSpace pointwise stream projection]
 \label{thm:regular-sequence-space-pointwise-stream-projection}
 Every accepted $\RegularSequenceSpaceUp$ read of a displayed family first exposes the source row $X$ and the $\StreamNameUp$ schedule $T$. It can therefore be projected to a finite PointwiseStreamName-style window, as in \autoref{ch:concrete-instances-pointwise-stream-namecert}, before the $\RegSeqRatUp$ readback $Q$, $\DyadicRatCoreUp$ tolerance row $D$, and $\RealUp$ seal route $R,H,C,P,N$ are consumed.
@@ -86,6 +98,18 @@ Apply the NameCert obligations of \autoref{thm:regular-sequence-space-namecert-o
 Use the tail-filter handoff of \autoref{thm:regular-sequence-space-tail-filter-handoff}. Since the completion-facing route must pass through the same displayed schedule before $Q,D,R,H,C,P,N$ are available, the read has a finite window that may be routed through the pointwise stream sibling.
 
 The projection therefore consumes only $X$ and $T$ at the pointwise boundary. The later RegSeqRat, DyadicRatCore, and Real rows remain downstream and cannot be inspected before that finite window is displayed.
+\end{proof}
+
+\begin{theorem}[RegularSequenceSpace finite-window comparison]
+\label{thm:regular-sequence-space-window-comparison}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Any comparison between two displayed values of $S$ must use the same $\StreamNameUp$ finite window $T$, $\RegSeqRatUp$ readback $Q$, tail-filter ledger, dyadic tolerance row $D$, completion handoff, and transport, replay, provenance, and local naming rows $H,C,P,N$ already exposed by the carrier. Thus a value comparison is a common-window comparison inside the displayed packet and cannot bypass the finite window or introduce quotient stream equality, selected limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the pointwise stream projection of \autoref{thm:regular-sequence-space-pointwise-stream-projection}. It forces every displayed value read to expose the source row $X$ and the finite stream window $T$ before the readback, dyadic tolerance, and Real-facing seal are consumed.
+
+Use tail coherence, \autoref{thm:regular-sequence-space-tail-coherence}. Once two reads share the displayed window and regular rational readback, they also share the dyadic tolerance row and the terminal seal route through $R,H,C,P,N$.
+
+Finally apply value-seal exhaustion, \autoref{thm:regular-sequence-space-value-seal-exhaustion}. The terminal Real-facing comparison is exhausted by the displayed StreamName, RegSeqRat, DyadicRatCore, transport, replay, provenance, and NameCert rows, so no comparison can import quotient stream equality, selected limits, or ambient Real completeness.
 \end{proof}
 
 \closureat{RegularSequenceSpaceUp}{seedStr}
