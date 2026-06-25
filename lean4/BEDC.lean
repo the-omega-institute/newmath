@@ -871,6 +871,7 @@ import BEDC.Derived.BeliefUp
 import BEDC.Derived.BeliefUp.FiniteEvidenceConsumerCompleteness
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
+import BEDC.Derived.BellNumberUp
 import BEDC.Derived.BergeMaximumUp
 import BEDC.Derived.BerkovichClosedDiscUp.TasteGate
 import BEDC.Derived.BernoulliUp
