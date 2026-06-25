@@ -1533,6 +1533,7 @@ import BEDC.Derived.CaristiFixedPointUp.TasteGate
 import BEDC.Derived.CartanAngularBoundaryInvariantUp
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.CatLimitUp
+import BEDC.Derived.CatalanUp
 import BEDC.Derived.CategoryFunctorIndex
 import BEDC.Derived.CategoryUp
 import BEDC.Derived.CategoryUp.AssocEmptyResult
