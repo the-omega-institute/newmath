@@ -78,6 +78,26 @@ The L10 Real spine is then the same finite window-readback-seal route used by \a
 The structural rows $H,C,P,N$ do not add analytic data. They transport, replay, source, and name the route already displayed, so no ambient completeness theorem, selected limit family, quotient-filter equality, countable-choice schedule, host equality, open-cover compactness, or bridge credential can be exported.
 \end{proof}
 
+\begin{theorem}[Equicontinuous Cauchy family tail stability]
+\label{thm:equicontinuous-cauchy-family-tail-stability}
+Let $E=(K,U,M,T,W,R,D,A,H,C,P,N)$ and $E'=(K,U,M,T,W',R',D',A',H',C',P',N')$ be accepted $\EquicontinuousCauchyFamilyUp$ packets. Suppose the two packets agree on the source-window row $K$, the RealUniformStructure row $U$, the shared modulus row $M$, and every StreamName, RegSeqRat, and DyadicRatCore row beyond a displayed Cauchy threshold $T$. Then every completion-facing consumer reads the same terminal $\RealUp$ seal route through
+$$
+K \longmapsto U \longmapsto M \longmapsto T \longmapsto W \longmapsto R \longmapsto D \longmapsto A \longmapsto H,C,P,N
+$$
+and
+$$
+K \longmapsto U \longmapsto M \longmapsto T \longmapsto W' \longmapsto R' \longmapsto D' \longmapsto A' \longmapsto H',C',P',N' .
+$$
+No selected limit family or quotient-filter equality is exported.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers using \autoref{def:equicontinuous-cauchy-family-carrier}. The shared rows $K,U,M,T$ force the two packets to present the same source window, entourage row, modulus row, and threshold before any tail-sensitive data is read.
+
+Now compare the tail rows beyond $T$. The displayed hypothesis says the StreamName, RegSeqRat, and DyadicRatCore rows agree on the part of the packet available to the consumer, so the completion route has the same finite readback pattern in both packets.
+
+Finally replay the structural rows. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same terminal Real seal route, so the completion-facing consumer sees identical tail-stable output without exporting a selected limit family or quotient-filter equality.
+\end{proof}
+
 \closureat{EquicontinuousCauchyFamilyUp}{seedStr}
 
 \begin{closurestatus}{\EquicontinuousCauchyFamilyUp}

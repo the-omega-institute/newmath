@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\LawvereTheoryUp$}
+\label{ch:concrete-instances-lawvere-theory-namecert}
+\origin{human}
+
+From Lawvere's finite-product algebraic theories, the $\LawvereTheoryUp$ packet records a categorical presentation of finitary algebraic syntax as finite NameCert data. It reads the small category surface of \autoref{ch:concrete-instances-category-namecert}, the product-preserving comparison route of \autoref{ch:concrete-instances-functor-namecert}, the finite-product rows of \autoref{ch:concrete-instances-prod-namecert}, and the syntactic arity ledger of \autoref{ch:concrete-instances-firstorder-namecert}. The packet therefore exposes algebraic operations by their finite-product arities and equations, not by importing a host algebraic theory, quotient syntax, or an external clone object.
+
+\begin{definition}[Lawvere theory carrier]
+\label{def:lawvere-theory-carrier}
+A $\LawvereTheoryUp$ carrier is a finite $\BHist$ packet
+$$
+L=(C,A,O,I,E,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the category source row, recording the small categorical carrier, identities, composition, and finite-product comparison surface.
+\item $A$ is the finite-product arity row, recording the distinguished finite powers of the generic object and their projections.
+\item $O$ is the operation-symbol row, recording each inspected operation as a morphism out of one displayed finite product.
+\item $I$ is the product-preserving interpretation row, recording the functorial read that carries arities and operations through finite-product preserving maps.
+\item $E$ is the equation ledger, recording only finite diagrams between displayed operation composites and projection composites.
+\item $H$ stores componentwise $\hsame$ transport for the category source, arity row, operation-symbol row, interpretation row, equation ledger, replay, provenance, and local naming row.
+\item $R$ stores displayed $\Cont$ replay from categorical composition and product projections to operation interpretation and equation checking.
+\item $P$ is the $\Pkg$ provenance over $\LawvereTheoryUp$, $\CategoryUp$, $\FunctorUp$, $\ProdUp$, $\FirstOrderUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LawvereTheoryUp}$ row.
+\end{enumerate}
+The accepted carrier has no coordinate for host quotient syntax, a selected term algebra, an external variety of algebras, or a global equality principle beyond the displayed finite equation ledger.
+\end{definition}
+
+\begin{theorem}[Lawvere theory NameCert obligations]
+\label{thm:lawvere-theory-namecert-obligations}
+For an accepted packet $L=(C,A,O,I,E,H,R,P,N)$, the local $\NameCert_{\LawvereTheoryUp}$ obligations are exhausted by carrier admission for the category source $C$, finite-product arities $A$, operation symbols $O$, product-preserving interpretation row $I$, equation ledger $E$, componentwise transport $H$, displayed replay $R$, package provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lawvere-theory-carrier}. The categorical source and finite-product arities are exactly the rows $C$ and $A$, so every operation read must pass through a displayed morphism in $O$ whose domain is one of the finite products recorded by $A$.
+
+The interpretation row $I$ is read only after the functorial and product-preserving data have been displayed. Equation checks are then finite ledger reads from $E$: each equation compares two displayed composites built from projections, operations, identities, and composition in $C$.
+
+Transport, replay, provenance, and naming are componentwise through $H,R,P,N$. Since the carrier has no host term quotient, selected term algebra, external variety coordinate, or global equality principle, the local NameCert surface cannot export any of those objects.
+\end{proof}
+
+\begin{theorem}[Lawvere theory finite-product clone route]
+\label{thm:lawvere-theory-finite-product-clone-route}
+Every clone-facing or algebraic-syntax consumer of an accepted $\LawvereTheoryUp$ packet must first read the category source $C$, finite-product arities $A$, operation symbols $O$, product-preserving interpretation row $I$, and finite equation ledger $E$. Only after those rows are displayed may the consumer reuse the packet as a finite-product clone route through $H,R,P,N$; no read bypasses the displayed products by invoking host syntax, quotient terms, ambient algebras, or a choice of representatives.
+\end{theorem}
+\begin{proof}
+Start with the finite-product arity row. It identifies each operation by a morphism from a displayed finite power of the generic object, so the consumer has only the arities and projections recorded in $A$ and $O$.
+
+Next read the interpretation and equation rows. Product-preserving interpretation through $I$ keeps arities tied to the same finite-product structure, while the ledger $E$ verifies only the finite composites that have been displayed.
+
+Finally repack the route through $H,R,P,N$. Componentwise transport and replay preserve the same categorical rows, so the resulting clone-facing surface is a finite-product route and not an imported syntax quotient, a selected term model, or an ambient algebraic-theory object.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LawvereTheoryUp$ algebraic-syntax read passes through a category source, finite-product arity row, operation-symbol row, product-preserving interpretation row, finite equation ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before any clone-facing surface is visible.}
+
+\independenceWitness{category, functor, prod, firstorder: none is bijective to LawvereTheoryUp because the packet jointly carries finite-product arities, operation morphisms, product-preserving interpretation, equation ledger, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{LawvereTheoryUp}{seedStr}
+
+\begin{closurestatus}{\LawvereTheoryUp}
+  \constructivestory{A $\LawvereTheoryUp$ packet is generated from a category source, finite-product arities, operation-symbol morphisms, product-preserving interpretation, a finite equation ledger, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lawvere-theory-carrier}, \autoref{thm:lawvere-theory-namecert-obligations}, and \autoref{thm:lawvere-theory-finite-product-clone-route} seed the finite-product algebraic-theory packet over CategoryUp, FunctorUp, ProdUp, FirstOrderUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host quotient syntax, a selected term algebra, an external variety of algebras, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, product-preserving interpretation, finite equation-ledger replay, transport, provenance, and clone-facing nonescape for BEDC.Derived.LawvereTheoryUp.}
+\end{closurestatus}
