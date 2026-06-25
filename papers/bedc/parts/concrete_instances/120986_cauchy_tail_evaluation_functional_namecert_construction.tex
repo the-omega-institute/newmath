@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CauchyTailEvaluationFunctionalUp$}
+\label{ch:concrete-instances-cauchy-tail-evaluation-functional-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyTailEvaluationFunctionalUp$ packet records the finite evaluation functional by which a regular Cauchy rational tail answers a bounded precision request without selecting a completed limit. It sits after the regular source row of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the window-extraction packet of \autoref{ch:concrete-instances-regular-cauchy-window-extraction-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is consumed by Real and completion-facing reads as a finite evaluator for displayed tails; it is not quotient completion, representative selection, countable choice, host equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy tail evaluation functional carrier]
+\label{def:cauchy-tail-evaluation-functional-carrier}
+A $\CauchyTailEvaluationFunctionalUp$ carrier is a finite $\BHist$ packet
+$$
+E=(R,W,D,Q,V,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source row carrying the regular Cauchy rational name and its tail-readback surface.
+\item $W$ is the $\StreamNameUp$ tail-window row listing exactly the finite suffix entries inspected for the request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording the requested dyadic radius, comparison budget, and arithmetic checks for the displayed tail.
+\item $Q$ is the finite request row naming the precision, the tail index, and the window extraction route read from $\RegularCauchyWindowExtractionUp$.
+\item $V$ is the evaluation-value row, the displayed rational or dyadic answer returned by the finite tail inspection.
+\item $S$ is the terminal $\RealUp$ seal row, available only after $R,W,D,Q,V$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, window, tolerance, request, value, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the request row through $R,W,D,V,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyTailEvaluationFunctionalUp$, $\RegularCauchyWindowExtractionUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyTailEvaluationFunctionalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,W,D,Q,V,S,H,C,P,N$. It has no coordinate for quotient representatives, selected limits, countable choice, host equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy tail evaluation functional NameCert obligations]
+\label{thm:cauchy-tail-evaluation-functional-namecert-obligations}
+For every accepted $\CauchyTailEvaluationFunctionalUp$ carrier
+$$
+E=(R,W,D,Q,V,S,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyTailEvaluationFunctionalUp}$ surface consists exactly of carrier admission for the displayed packet, regular-source admission through $R$, finite tail-window admission through $W$, dyadic tolerance exactness through $D$, finite request admission through $Q$, evaluation-value exposure through $V$, terminal $\RealUp$ sealing through $S$, classifier transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-tail-evaluation-functional-carrier}. The rows $R,W,D,Q,V,S,H,C,P,N$ are the complete inventory of an accepted packet.
+
+The analytic rows are ordered. The regular source $R$ is inspected only through the tail windows $W$ selected by the finite request $Q$, and the tolerance ledger $D$ records the dyadic comparisons used by that inspection.
+
+The evaluation row $V$ is therefore a displayed finite answer, not a selected limit. The seal row $S$ is downstream of the same source, window, tolerance, request, and value rows, while $H,C,P,N$ transport, replay, source, and name only that route.
+\end{proof}
+
+\begin{theorem}[Cauchy tail evaluation functional tail stability]
+\label{thm:cauchy-tail-evaluation-functional-tail-stability}
+Let $E=(R,W,D,Q,V,S,H,C,P,N)$ and $E'=(R',W',D',Q',V',S',H',C',P',N')$ be accepted $\CauchyTailEvaluationFunctionalUp$ packets. If the regular source, tail-window, dyadic tolerance, finite request, and evaluation-value rows are transported componentwise through the displayed $\hsame$ rows and replayed through the displayed $\Cont$ rows, then the transported packet exposes the same finite tail-evaluation route before any $\RealUp$ seal is consumed. No quotient representative, selected limit, countable-choice schedule, host equality, or ambient $\RealUp$ completeness row can be introduced by the transport.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-tail-evaluation-functional-namecert-obligations} to both accepted packets. The obligations identify the evaluation route with the displayed rows $R,W,D,Q,V,S,H,C,P,N$ and $R',W',D',Q',V',S',H',C',P',N'$.
+
+Componentwise $\hsame$ transport preserves the source, window, tolerance, request, and value rows as the same classified data, while $\Cont$ replay exposes those transported rows in the displayed order. The terminal seal remains downstream of the finite route.
+
+Since the carrier has no coordinate for quotient representatives, selected limits, countable choice, host equality, or ambient $\RealUp$ completeness, transport and replay cannot add those objects. The accepted tail evaluator is stable exactly as a finite regular-Cauchy tail route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyTailEvaluationFunctionalUp$ read exposes a RegSeqRat source row, StreamName tail-window row, DyadicRatCore tolerance row, finite request row, evaluation-value row, RealUp seal row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{regular-cauchy-window-extraction, regseqrat, streamname, dyadicratcore, real: $\CauchyTailEvaluationFunctionalUp$ is not bijective to any listed sibling because it binds the finite request and evaluation-value rows to the regular Cauchy tail before the RealUp seal, while refusing quotient representatives, selected limits, countable choice, host equality, and ambient $\RealUp$ completeness.}
+
+\closureat{CauchyTailEvaluationFunctionalUp}{seedStr}
+
+\begin{closurestatus}{\CauchyTailEvaluationFunctionalUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-tail-evaluation-functional-carrier}, \autoref{thm:cauchy-tail-evaluation-functional-namecert-obligations}, and \autoref{thm:cauchy-tail-evaluation-functional-tail-stability} seed the finite evaluation-functional route over RegularCauchyWindowExtractionUp, RegSeqRatUp, StreamNameUp, DyadicRatCoreUp, RealUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient representatives, selected limits, countable choice, host equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regular-source admission, tail-window admission, tolerance exactness, finite request admission, value exposure, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyTailEvaluationFunctionalUp.}
+  \constructivestory{A $\CauchyTailEvaluationFunctionalUp$ packet is generated from a RegSeqRat source row, StreamName tail windows, a DyadicRatCore tolerance ledger, a finite request row, an evaluation-value row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
