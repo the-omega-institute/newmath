@@ -1,2 +1,3 @@
 import BedcMathlibBridge.Constructive.Bool
 import BedcMathlibBridge.Constructive.Int
+import BedcMathlibBridge.Constructive.Gaussian
