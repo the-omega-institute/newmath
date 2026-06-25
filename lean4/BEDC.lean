@@ -9412,6 +9412,7 @@ import BEDC.Derived.PolishspaceUp.StreamReadbackExactness
 import BEDC.Derived.PolishspaceUp.StreamReadbackStability
 import BEDC.Derived.PolishspaceUp.StreamRealizationObligation
 import BEDC.Derived.PolishspaceUp.TasteGate
+import BEDC.Derived.PolygonalUp
 import BEDC.Derived.PolynomialResultantUp
 import BEDC.Derived.PolynomialUp
 import BEDC.Derived.PolynomialUp.Calculus
@@ -9424,7 +9425,6 @@ import BEDC.Derived.PolynomialUp.RawAdd
 import BEDC.Derived.PolynomialUp.RawAddStructuralSwap
 import BEDC.Derived.PolynomialUp.RawMulDistributivity
 import BEDC.Derived.PolynomialUp.StdBridge
-import BEDC.Derived.PolygonalUp
 import BEDC.Derived.PolytopeUp
 import BEDC.Derived.PompeiuHausdorffDistanceRealizerUp
 import BEDC.Derived.PontryaginDualityUp
@@ -11810,6 +11810,7 @@ import BEDC.Derived.SubstrateTraceInvariantUp.TasteGate
 import BEDC.Derived.SubtypeUp
 import BEDC.Derived.SubtypeUp.TasteGate
 import BEDC.Derived.SuccessiveApproximationUp.TasteGate
+import BEDC.Derived.SumTwoSquaresUp
 import BEDC.Derived.SumUp
 import BEDC.Derived.SumUp.Branch
 import BEDC.Derived.SumUp.CarrierAwareSameTagExactness
