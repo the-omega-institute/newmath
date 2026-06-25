@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\ModulusCauchyCompressionUp$}
+\label{ch:concrete-instances-modulus-cauchy-compression-namecert}
+\origin{human}
+
+Following Bishop and Bridges on moduli for Cauchy constructions, this packet records a finite BEDC compression of regular-Cauchy tail schedules. It sits beside the stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names a displayed compression ledger for finite requests; it does not claim selected limits, quotient stream equality, countable choice, or ambient completeness.
+
+\begin{definition}[Modulus Cauchy compression carrier]
+\label{def:modulus-cauchy-compression-carrier}
+A $\ModulusCauchyCompressionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(Q,D,S,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the finite request budget row for the compressed modulus surface.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger that keeps the dyadic bounds visible.
+\item $S$ is the $\StreamNameUp$ window row that exposes the finite tail schedule.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows.
+\item $H$ records componentwise $\hsame$ transport for $Q,D,S,R,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from the request budget through the window row, dyadic ledger, and regular rational readback.
+\item $P$ is the $\Pkg$ provenance over $\ModulusCauchyCompressionUp$, $\BHist$, $\hsame$, $\Cont$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ModulusCauchyCompressionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,D,S,R,H,C,P,N$. It has no coordinate for selected limits, quotient stream equality, countable choice, ambient completeness, or a host real-space seal.
+\end{definition}
+
+\begin{theorem}[Modulus Cauchy compression classifier transport]
+\label{thm:modulus-cauchy-compression-classifier-transport}
+If two accepted $\ModulusCauchyCompressionUp$ carriers agree row by row up to $\hsame$, then the displayed classifier sees the same request budget, dyadic tolerance ledger, stream window, regular rational readback, replay, provenance, and local naming. The packet therefore transports only a finite NameCert surface inside $\BHist$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:modulus-cauchy-compression-carrier}. The visible data are exactly the request budget row $Q$, the dyadic ledger $D$, the stream window $S$, the regular rational readback $R$, and the structural rows $H,C,P,N$.
+
+Because $\hsame$ transport is recorded componentwise, the classifier cannot distinguish two packets that agree on those rows. The packet has no separate coordinate for a selected limit or a quotient stream, so the visible route is stable under transport.
+\end{proof}
+
+\begin{theorem}[Modulus Cauchy compression tail stability]
+\label{thm:modulus-cauchy-compression-tail-stability}
+Every accepted $\ModulusCauchyCompressionUp$ carrier exposes its tail schedule through the same $\StreamNameUp$ row before any $\RegSeqRatUp$ readback is consumed. The finite request budget $Q$ therefore reaches the regular rational surface only after the dyadic and window rows have been displayed.
+\end{theorem}
+\begin{proof}
+The carrier definition places the request budget $Q$ beside the dyadic ledger $D$ and the stream window $S$. The readback row $R$ is downstream of that displayed window data, so a consumer must read the finite tail schedule before it can read a regular rational output.
+
+This is a stability statement about the route, not a completeness claim. The packet keeps the schedule finite, the window explicit, and the readback routed through $\StreamNameUp$ and $\RegSeqRatUp$.
+\end{proof}
+
+\begin{theorem}[Modulus Cauchy compression ledger exactness]
+\label{thm:modulus-cauchy-compression-ledger-exactness}
+The $\DyadicRatCoreUp$ ledger in an accepted $\ModulusCauchyCompressionUp$ carrier records exactly the tolerance data needed for the compressed request budget. No additional dyadic witness, hidden choice row, or quotient equality row is available to the ledger.
+\end{theorem}
+\begin{proof}
+Inspect the definition. The row $D$ is the unique tolerance ledger, and it is read together with the request budget $Q$ and window row $S$.
+
+Since the packet has only the rows listed in \autoref{def:modulus-cauchy-compression-carrier}, the ledger cannot be supplemented by a hidden choice function or by a quotient stream equality. The exactness claim is only that the displayed dyadic data are the whole local ledger.
+\end{proof}
+
+\begin{theorem}[Modulus Cauchy compression RealUp handoff]
+\label{thm:modulus-cauchy-compression-realup-handoff}
+An accepted $\ModulusCauchyCompressionUp$ packet hands its displayed route to $\RealUp$ consumers only through the finite chain
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The handoff does not add ambient completeness, selected limits, or bridge checking.
+\end{theorem}
+\begin{proof}
+The carrier definition places the real-facing consumption downstream of the dyadic ledger, the stream windows, and the regular rational readback. A $\RealUp$ consumer therefore sees the same finite route before any endpoint seal is exposed.
+
+Because the packet is a finite $\BHist$ object with explicit $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, the handoff remains local. The chapter does not claim ambient completeness or bridge checking; it only records the displayed route into the real-facing surface.
+\end{proof}
+
+\closureat{ModulusCauchyCompressionUp}{seedStr}
+
+\begin{closurestatus}{\ModulusCauchyCompressionUp}
+  \constructivestory{A $\ModulusCauchyCompressionUp$ packet is generated from a finite request budget, a DyadicRatCore tolerance ledger, a StreamName window row, a RegSeqRat readback row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:modulus-cauchy-compression-carrier}, \autoref{thm:modulus-cauchy-compression-classifier-transport}, \autoref{thm:modulus-cauchy-compression-tail-stability}, \autoref{thm:modulus-cauchy-compression-ledger-exactness}, and \autoref{thm:modulus-cauchy-compression-realup-handoff} seed the finite compression route from regular-Cauchy tails to RegSeqRat and RealUp.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.ModulusCauchyCompressionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient stream equality, countable choice, ambient completeness, or bridge checking.}
+  \upgradepath{The next grade requires checked carrier admission, exact tail compression, and a verified RealUp handoff for $\ModulusCauchyCompressionUp$.}
+\end{closurestatus}
