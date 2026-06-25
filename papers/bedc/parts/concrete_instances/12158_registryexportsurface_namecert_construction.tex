@@ -181,6 +181,46 @@ Next apply \autoref{thm:registry-export-surface-ledger-nonescape}. The blocking 
 The bridge route of \autoref{thm:registry-export-surface-public-bridge-route} supplies the public consumer side. It connects the displayed registry rows to the sibling export surfaces without adding a hidden machine target. Therefore every machine-readable export factors through the listed blocking, audit, transport, replay, provenance, and local naming rows.
 \end{proof}
 
+\begin{theorem}[Registry export surface machine-audit totality]
+\label{thm:registry-export-surface-machine-audit-totality}
+For every accepted $\RegistryExportSurfaceUp$ packet
+$$
+E=(R,B,S,M,A,U,H,C,P,N),
+$$
+each machine audit export reads the machine-target row $M$, audit row $A$, transport row $H$, continuation row $C$, provenance row $P$, and local name row $N$ together with the blocking row $B$ and non-smuggling row $U$. No machine audit export is available from $M,A,H,C,P,N$ after deleting $B$ or $U$.
+\end{theorem}
+\begin{proof}
+Project the carrier $E$. The machine-readable route of \autoref{thm:registry-export-surface-machine-readable-blocking-route} gives the displayed audit path through $B,A,H,C,P,N$, with $M$ supplying the machine target and $S,U$ supplying status and non-smuggling accountability.
+
+Now apply the ledger nonescape theorem. It keeps $B$ and $U$ attached to any route that exposes a registry claim to a machine reader.
+
+Finally use status exactness. The status row $S$ may classify the claim as exported, blocked, horizon, or formal target, but the machine audit export remains a read of the same displayed rows. Thus $M,A,H,C,P,N$ never form a standalone export after $B$ or $U$ is erased.
+\end{proof}
+
+\begin{theorem}[Registry export surface status-blocking exhaustion]
+\label{thm:registry-export-surface-status-blocking-exhaustion}
+For every accepted $\RegistryExportSurfaceUp$ packet $E=(R,B,S,M,A,U,H,C,P,N)$, the exported, blocked, horizon, and formal-target statuses are exhausted by the status row $S$. Changing among these four public statuses cannot erase the blocking row $B$, and any export route that lacks $B$ is outside the accepted registry surface.
+\end{theorem}
+\begin{proof}
+Read the status row through \autoref{thm:registry-export-surface-status-exactness}. It is the displayed row that separates exported and blocked registry reads while preserving the registration, machine-target, audit, and non-smuggling context.
+
+The machine-readable blocking route extends the same separation to machine consumers. It requires $B$ before $M$ can be read as an export target.
+
+The ledger nonescape theorem excludes the remaining case. A route that keeps a status label but removes the blocking row is not an accepted export route from $E$; it is a hidden-registry-state or prose-only route, both of which the carrier refuses.
+\end{proof}
+
+\begin{theorem}[Registry export surface formal-target boundary]
+\label{thm:registry-export-surface-formal-target-export-boundary}
+For every accepted $\RegistryExportSurfaceUp$ packet $E=(R,B,S,M,A,U,H,C,P,N)$, a formalization-target status in $S$ exports only target metadata together with the audit route through $M,A,H,C,P,N$ and the blocking and non-smuggling rows $B,U$. It does not export a checked theorem, a checked bridge, or any theorem-level evidence not already present as registry metadata.
+\end{theorem}
+\begin{proof}
+Begin with the status row $S$. A formalization-target status is a registry status, so it is read through the same carrier rows as exported, blocked, and horizon statuses.
+
+Apply machine-audit totality. The target metadata can be exposed to a machine reader only with $M,A,H,C,P,N$ and with $B,U$ still attached.
+
+There is no carrier coordinate for a checked theorem or checked bridge in $E$. The public bridge route is explicitly paper-level, and the closurestatus leaves bridge checking outside the chapter. Therefore the formal-target export boundary is metadata plus audit route, not theorem or bridge evidence.
+\end{proof}
+
 \closureat{RegistryExportSurfaceUp}{seedStr}
 \closureat{RegistryExportSurfaceUp}{obligationStr}
 \closureat{RegistryExportSurfaceUp}{scopedStr}
