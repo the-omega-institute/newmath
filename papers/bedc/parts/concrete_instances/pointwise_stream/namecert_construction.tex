@@ -87,6 +87,20 @@ Use index stability from \autoref{thm:pointwise-stream-index-stability}. The sha
 Finally apply the L10 gateway of \autoref{thm:pointwise-stream-name-l10-gateway}. A Real or Completion consumer can inspect only the route already determined by the source, index, window, dyadic, readback, seal, transport, replay, provenance, and naming rows.
 \end{proof}
 
+\begin{theorem}[Pointwise stream vision transport]
+\label{thm:pointwise-stream-vision-transport}
+Every vision-facing $\PointwiseStreamNameUp$ read consumed by the L10 Real and Completion route must pass through the certified $\StreamNameUp$ source row, requested index ledger, finite window schedule, $\DyadicRatCoreUp$ tolerance row, $\RegSeqRatUp$ readback row, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row already exposed by the pointwise finite-read, transport-stability, and L10 index-determinacy routes. The transported read exports no quotient stream equality, selected limit, host real equality, countable-choice schedule, or $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with pointwise finite read, \autoref{thm:pointwise-stream-name-finite-read}. It forces the vision-facing read to expose the certified source row, requested index ledger, dyadic tolerance row, regular-rational readback, and terminal $\RealUp$ seal before any Real or Completion consumer inspects the pointwise name.
+
+Apply transport stability from \autoref{thm:pointwise-stream-name-transport-stability}. Componentwise $\hsame$ carries the source, index, dyadic, readback, seal, replay, provenance, and local naming rows together, so the transported vision read remains the same finite NameCert route.
+
+Use L10 index determinacy, \autoref{thm:pointwise-stream-name-l10-index-determinacy}. Agreement on the displayed source, requested index ledger, and finite window schedule determines the ordered route through $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ before any Real-facing data are available.
+
+The exclusions follow from the same carrier inventory. No row stores quotient stream equality, selected limits, host real equality, countable-choice schedules, or $\RealUp$ completeness, so the vision-facing transport cannot export them.
+\end{proof}
+
 \closureat{PointwiseStreamNameUp}{seedStr}
 
 \begin{closurestatus}{\PointwiseStreamNameUp}
