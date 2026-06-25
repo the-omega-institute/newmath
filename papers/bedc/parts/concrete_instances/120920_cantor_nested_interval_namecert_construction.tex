@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\CantorNestedIntervalUp$}
+\label{ch:concrete-instances-cantor-nested-interval-namecert}
+\origin{human}
+
+Following Cantor and Bishop, the $\CantorNestedIntervalUp$ packet records the constructive nested-interval argument as finite NameCert data rather than as an ambient compactness or completeness theorem. It sits on the Phase Real and Completion frontier by reading dyadic rational endpoints from \autoref{ch:concrete-instances-dyadicratcore-namecert}, finite endpoint streams from \autoref{ch:concrete-instances-streamname-namecert}, regular rational readback from \autoref{ch:concrete-instances-regseqrat-namecert}, terminal real sealing from \autoref{ch:concrete-instances-real-namecert}, and limit uniqueness only through the already named boundary of \autoref{ch:concrete-instances-complete-metric-limit-uniqueness-namecert}.
+
+\begin{definition}[Cantor nested interval carrier]
+\label{def:cantor-nested-interval-carrier}
+A $\CantorNestedIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows.
+\begin{enumerate}
+\item $L$ and $U$ are finite endpoint histories whose entries are read through $\DyadicRatCoreUp$ as lower and upper rational endpoints.
+\item $D$ is a dyadic diameter budget assigning each displayed index $k$ a dyadic bound for the interval width.
+\item $W$ is the finite window in which the packet checks endpoint order and nesting for all displayed adjacent stages.
+\item $R$ is the $\RegSeqRatUp$ readback row that turns the endpoint windows into regular rational midpoint or endpoint reads.
+\item $E$ is the terminal $\RealUp$ seal reached from those regular reads.
+\item $H,C,P,N$ are the componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CantorNestedIntervalUp}$ rows.
+\end{enumerate}
+The carrier accepts only histories where each displayed interval is closed, rational, nested in the previous displayed interval, and bounded by the displayed dyadic diameter budget. It contains no coordinate for a selected point, a quotient real equality, trichotomy of endpoints, Heine--Borel compactness, or full real completeness.
+\end{definition}
+
+\begin{theorem}[Cantor nested interval NameCert obligations]
+\label{thm:cantor-nested-interval-namecert-obligations}
+For every accepted $\CantorNestedIntervalUp$ carrier
+$$
+I=(L,U,D,W,R,E,H,C,P,N),
+$$
+the NameCert obligation surface consists exactly of carrier admission, finite closed-rational endpoint rows, displayed nesting, dyadic diameter decrease, $\RegSeqRatUp$ handoff through $R$, terminal $\RealUp$ seal through $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\CantorNestedIntervalUp}$ row $N$. The packet exports no Heine--Borel principle, selected point operator, quotient real equality, endpoint trichotomy, or full completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cantor-nested-interval-carrier}. The rows $L,U,D,W$ display exactly the finite rational endpoint data, nesting checks, and dyadic diameter bounds; no external interval family is hidden outside those histories.
+
+Use the real-frontier route named in the chapter introduction. The endpoint histories read through $\DyadicRatCoreUp$ and $\StreamNameUp$, the regular rational handoff is the row $R$, and the terminal real object is exposed only through the seal $E$.
+
+The remaining rows are structural. Componentwise $\hsame$ transport $H$ preserves the displayed endpoint and diameter rows, $\Cont$ replay $C$ records the finite window used by a consumer, $\Pkg$ provenance $P$ keeps the interval packet visible, and $N$ names the local certificate. Since no row stores a selected point, quotient equality, trichotomy, compactness principle, or ambient completeness proof, the listed obligations are the entire certificate surface.
+\end{proof}
+
+\begin{theorem}[Cantor nested interval regular Cauchy seal]
+\label{thm:cantor-nested-interval-regular-cauchy-seal}
+Every accepted $\CantorNestedIntervalUp$ carrier whose displayed windows cover a requested precision $k$ yields a regular Cauchy seal only by reading the finite endpoint window, dyadic diameter budget, $\RegSeqRatUp$ handoff, and terminal $\RealUp$ row displayed in the carrier. The seal is a finite-window route from nested rational intervals to a regular rational readback; it is not an ambient completeness theorem and does not choose a point outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Fix the requested precision $k$ and open the displayed window $W$ large enough for the dyadic budget row $D$ at that precision. The nested endpoint rows $L,U$ then give a finite closed rational interval whose diameter is bounded by the requested dyadic tolerance.
+
+Read the chosen finite endpoint data through $\DyadicRatCoreUp$ and the window interface through $\StreamNameUp$. The regular rational readback row $R$ supplies the Cauchy-stage comparison, while the terminal row $E$ seals the read as a $\RealUp$ object.
+
+The construction has used only the displayed finite rows of the carrier. Therefore the resulting seal is the regular Cauchy seal named by the packet and cannot be reinterpreted as a selected nested-intersection point, quotient real equality, Heine--Borel compactness, trichotomy, or full completeness of the real line.
+\end{proof}
+
+\begin{closurestatus}{\CantorNestedIntervalUp}
+  \constructivestory{A $\CantorNestedIntervalUp$ packet is generated from finite lower and upper dyadic rational endpoint histories, a displayed dyadic diameter budget, a finite nesting window, RegSeqRat readback, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope is the finite nested rational interval carrier, dyadic diameter budget, RegSeqRat handoff, terminal Real seal, and local NameCert obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close Heine--Borel compactness, selected intersection points, quotient real equality, endpoint trichotomy, or full Real completeness.}
+  \upgradepath{Formalization should add BEDC.Derived.CantorNestedIntervalUp with the carrier, obligation theorem, and finite-window regular Cauchy seal.}
+\end{closurestatus}
