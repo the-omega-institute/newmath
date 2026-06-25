@@ -102,6 +102,24 @@ Next use the StreamName--RegSeq handoff together with the dyadic tolerance exact
 Composing these steps gives the only seal route $R \to W \to Q \to D \to E$. Any attempted bypass would break either the rate display order, the finite handoff, or the tolerance-ledger placement.
 \end{proof}
 
+\begin{theorem}[Cauchy rate-budget regular-tail-estimate handoff]
+\label{thm:cauchy-rate-budget-regular-tail-estimate-handoff}
+Every accepted $\CauchyRateBudgetUp$ packet whose seal-facing consumer is a $\RegularCauchyTailEstimateUp$ consumer must expose the ordered route
+$$
+R \to W \to Q \to D \to E
+$$
+before the tail-envelope lock of $\RegularCauchyTailEstimateUp$ is read. The combined route exports no quotient stream, selected limit, host metric convergence proof, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+First apply rate non-escape, \autoref{thm:cauchy-rate-budget-rate-nonescape}. It keeps the convergence-rate row $R$ visible before any seal-facing read can use $E$.
+
+Next use the StreamName--RegSeq handoff and dyadic tolerance exactness, \autoref{thm:cauchy-rate-budget-streamname-regseq-handoff} and \autoref{thm:cauchy-rate-budget-dyadic-tolerance-exactness}. These place the finite window row $W$, readback row $Q$, and tolerance ledger $D$ between $R$ and the seal row.
+
+Then apply Real seal routing, \autoref{thm:cauchy-rate-budget-real-seal-routing}. It identifies $R \to W \to Q \to D \to E$ as the only seal-facing path inside the accepted budget packet.
+
+Finally hand this path to the tail-envelope lock of \autoref{thm:regular-cauchy-tail-estimate-tail-envelope-lock}. Since the lock is read only after its finite envelope surface is exposed, the fused budget-to-tail route cannot export quotient streams, selected limits, host metric convergence proofs, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[Cauchy rate-budget scoped package]
 \label{thm:cauchy-rate-budget-scope-package}
 For every accepted $\CauchyRateBudgetUp$ packet $B=(R,W,Q,D,E,H,C,P,N)$, the displayed carrier, local $\NameCert_{\CauchyRateBudgetUp}$ obligations, rate non-escape, $\StreamNameUp$--$\RegSeqRatUp$ handoff, $\DyadicRatCoreUp$ tolerance exactness, $\RealUp$ seal routing, and TasteGate boundary assemble into one scoped package over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Every consumer route through the package is confined to $R,W,Q,D,E,H,C,P,N$.
