@@ -490,3 +490,89 @@ remaining proof obligation is therefore the incompatibility between
 off-fixed displacement and the completed zero-ledger carrier, not the
 absence of tower-external objects.
 \end{principle}
+
+\begin{definition}[Internal closure witness]
+\label{def:internal-closure-witness}
+For a claim $A$ whose public use depends on a self-similar diagram
+$\mathcal D$, an internal closure witness is a packet
+$$
+\mathsf{Wit}_{\mathcal D}(A)
+$$
+consisting of a tower point $x\in T_{\mathcal D}$, a displayed projection
+$\pi_i(x)$, a carrier certificate, a readback certificate, an invariant
+transport certificate, and an audit row showing how these data inhabit the
+claim surface for $A$. Such a witness is internal because its evidence is
+read through the tower; it is still a witness because the claim is not
+licensed by tower membership alone.
+\end{definition}
+
+\begin{theorem}[Closure does not cancel witnesses]
+\label{thm:closure-does-not-cancel-witnesses}
+Full-constraint closure does not turn every legal claim into an automatic
+theorem. It only locates the objects that a legal claim may mention. A
+claim still requires a witness packet for its carrier, readback,
+invariant, exclusion, or audit obligations.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:legal-records-tower-internal-position}, a legal record has
+a tower-internal position. This supplies a source and projection surface,
+but it does not by itself prove any predicate over that surface. To prove
+a predicate one must also display the relevant classifier preservation,
+readback, invariant transport, exclusion, or audit row. These rows are
+exactly the components listed in
+\autoref{def:internal-closure-witness}. Therefore closure relocates the
+witness into the tower but does not remove the witness obligation.
+\end{proof}
+
+\begin{definition}[Object-layer closure and truth-total reflection]
+\label{def:object-layer-closure-truth-total-reflection}
+Object-layer closure is the claim that legal objects are generated,
+projected, and ledgered inside $T_{\mathcal D}$. Truth-total reflection
+would be a stronger claim: an internal truth classifier for all statements
+represented by the diagram. Formally, it would require a predicate
+assigning truth to every represented sentence together with an audit
+certificate that this assignment is correct for the whole represented
+fragment.
+\end{definition}
+
+\begin{principle}[Object-layer closure is not truth closure]
+\label{prin:object-layer-closure-not-truth-closure}
+The self-similar closure used in the RH route is object-layer closure. It
+is not truth-total reflection. It may say where legal zeta packets, zero
+ledgers, defects, and exclusion certificates live; it may not supply a
+universal internal truth predicate for all claims about those packets.
+This is the same stratification recorded in
+\autoref{ch:visions-reflection-and-limits}: the primitive loop may close,
+while truth-total reflection remains outside the internal object layer.
+\end{principle}
+
+\begin{corollary}[Witness form of the closure route]
+\label{cor:witness-form-closure-route}
+The RH route through $\Omega_{\mathcal D}$ has the form
+$$
+\text{tower location}
++
+\text{zero-ledger soundness}
++
+\text{off-fixed defect production}
++
+\text{defect-zero incompatibility}
++
+\text{located real readback}.
+$$
+The first term prevents tower-external escape. The remaining terms are
+internal witness obligations. In particular, the substantive certificate
+is still the exclusion of tower-internal off-fixed zero packets.
+\end{corollary}
+
+\begin{proof}
+Tower location is supplied by
+\autoref{cor:legal-rh-counterexample-tower-internal}. Off-fixed exclusion
+gives fixed-half zero ledger by
+\autoref{thm:off-fixed-exclusion-gives-fixed-half-zero-ledger}. The
+definition of the off-fixed zero exclusion target names the needed
+defect-zero incompatibility form. Located real readback converts absence
+of positive off-fixed displacement into $\delta=0$. These are separate
+witness rows, not consequences of closure alone.
+\end{proof}
