@@ -1,14 +1,32 @@
-\subsection{Charge Patterning and Human Meltome Thermal Stability}
-\label{subsec:human-meltome-charge-patterning-stability}
 \origin{ai}
 
-\paragraph{Data trace.} The checked human Meltome panel contains $n=6961$ protein rows, and the deterministic harness recorded experiment run identifier 8873440304f9 with a 70.0-second JSON bucket; the shell-level wall clock remained below 300 seconds. This is a finite observational record, not an abstract extrapolation. Each row pairs an SCD charge-patterning descriptor with a measured protein thermal-stability readout from the same human entry.
+\subsection{Translation-bounded RNA-decay bridge for $B^*_{Q6}$ windows}
+\label{sec:bq6-translation-bounded-rna-decay-rbp-bridge}
 
-\paragraph{Observed relation.} On this panel, charge patterning is read back only as a bounded predictor of thermal stability:
-$$\begin{aligned}
-\text{SCD charge patterning} &\rightsquigarrow \text{human Meltome thermal stability},\\
- n &= 6961.
-\end{aligned}$$
-The relation is therefore a sequence-to-measurement association at the protein level under the recorded assay conditions and the attached controls. It is not promoted to a universal sequence rule, and it is not treated as evidence about all proteins, all organisms, or all environments.
+\paragraph{Finite object.}
+The object considered here is a finite panel of matched RNA/CDS windows.  Each row carries a synonymous residual-coordinate label of type $B^*_{Q6}$, a local RNA window, its same-row coding readout, a matched RNA half-life value, matched mRNA abundance, and, when the required molecular evidence is externally attached, a prespecified decay-factor RBP occupancy/control column.  The coordinate is not treated as an observation by itself.  It is a row label used to split otherwise matched synonymous windows into high-coordinate and low-coordinate classes after amino-acid composition and local sequence controls have been imposed.
 
-\paragraph{Scope note.} This finite record does not by itself establish translation, folding, physical admissibility, function, mechanism, or universality. Those higher-layer conclusions require a separate contact at the corresponding layer, such as an explicit structure assay, a perturbation series, or another independently measured phenotype. In this chapter, the justified conclusion is limited to the $6961$-row human Meltome panel: charge patterning and thermal stability move together in the observed data, but the record remains bounded to that observable relation.
+\paragraph{Audited finite scalar currently available.}
+The only concrete checked numerical row count supplied with this record is the linked human protein thermal-stability run, identified by experiment run id \texttt{8873440304f9}.  That run reports $n=6961$ rows and a deterministic runtime bucket of $70.0$ seconds.  These numbers certify that a finite human protein-level table exists for the linked thermal-stability claim, but they do not instantiate the RNA half-life/RBP panel required by the present bridge.  In particular, the $6961$-row scalar is not a count of same-window RNA half-life rows, RBP-occupied windows, RBP-unoccupied windows, perturbation rows, or rescue rows.
+
+\paragraph{Bridge criterion.}
+A positive bridge would require a single finite table in which the same row contains the coordinate label, translation readout, matched mRNA abundance, RNA half-life, measured decay-factor RBP occupancy, and the perturbation/rescue controls.  The intended statistic is bounded and row-local: compare high-coordinate and low-coordinate synonymous windows only after conditioning on the translation boundary and the transcript controls, then ask whether any half-life separation follows measured decay-factor RBP occupancy rather than the coordinate label alone.  Schematically, the admissible comparison has the form
+$$
+\begin{aligned}
+\Delta H
+  &= H(\text{high } B^*_{Q6}\mid T, A, Z, O)
+     - H(\text{low } B^*_{Q6}\mid T, A, Z, O),\\
+Z
+  &= \{\text{transcription rate, RNA structure, motif density, GC/dinucleotide content, codon-pair context, isoform state, batch}\},
+\end{aligned}
+$$
+where $H$ denotes RNA half-life, $T$ is the same-row translation readout, $A$ is matched mRNA abundance, and $O$ is measured decay-factor RBP occupancy.  The comparison is eligible for a cross-layer reading only if coordinate and occupancy are experimentally decoupled and the half-life effect collapses after target-RBP loss.  The same effect must return under wild-type rescue and fail to return under binding-defective or non-target controls.
+
+\paragraph{Current status.}
+The supplied contacts give only bounded surfaces: RNA half-life estimates, matched mRNA abundance, and possible ribosome-profiling or translation-efficiency routes.  They do not supply the necessary same-organism, same-window decay-factor RBP occupancy matrix; they also do not supply target-RBP loss, wild-type rescue, binding-defective control, or non-target control rows.  Therefore the present record cannot be reported as an RBP-mediated RNA-decay mechanism.  At most, with the available information, the coordinate can remain a bounded descriptor or a candidate RNA-stability association awaiting a joined external panel.
+
+\paragraph{Local null model.}
+The null model is row exchangeability of high-coordinate and low-coordinate synonymous windows with respect to RNA half-life after controlling transcription rate, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, batch, amino-acid composition, and the same-row translation readout.  A positive result must defeat that null inside the same finite panel; it cannot be obtained by joining unrelated protein thermal-stability rows to RNA half-life annotations after the fact.
+
+\paragraph{Claim boundary.}
+No translation realization follows from RNA half-life alone.  No protein output, folded structure, physical admissibility, biological function, phenotype, adaptation, causal mechanism, or universal biological law follows from the $B^*_{Q6}$ coordinate, from codon/window geometry, from matched mRNA abundance, or from an RNA half-life difference.  Those conclusions require separate layer-matched contacts and their own finite statistics.  The present chapter is therefore a boundary record: it specifies the exact finite data needed for a translation-bounded RBP/RNA-decay bridge and records that the currently supplied finite facts do not yet meet that requirement.
