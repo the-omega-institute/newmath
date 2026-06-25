@@ -6490,6 +6490,7 @@ import BEDC.Derived.HausdorffCompletionEnvelopeUp.SeparatedMetricRoute
 import BEDC.Derived.HausdorffCompletionEnvelopeUp.SiblingRoute
 import BEDC.Derived.HausdorffCompletionEnvelopeUp.TasteGate
 import BEDC.Derived.HausdorffCompletionFilterSeparationUp.TasteGate
+import BEDC.Derived.HausdorffCompletionFunctorUp
 import BEDC.Derived.HausdorffCompletionKernelUp.TasteGate
 import BEDC.Derived.HausdorffCompletionPullbackUp
 import BEDC.Derived.HausdorffCompletionUnitUp.TasteGate
