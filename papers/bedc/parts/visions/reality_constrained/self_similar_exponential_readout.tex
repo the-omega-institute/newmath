@@ -1,0 +1,492 @@
+\section{Self-similar operations and exponential readouts}
+\label{sec:self-similar-exponential-readouts}
+
+The compatibility-limit operation of
+\autoref{def:compatibility-limit-operation} is a packet operation. It acts
+on the full carrier $T_{\mathcal D}$, whose rows include readouts,
+classifiers, constraints, ledgers, certificates, and audit surfaces. A
+scalar constant belongs to a later analytic readout layer. The two objects
+therefore have different types even when the scalar is a faithful shadow of
+the operation under a chosen projection.
+
+\begin{definition}[Operation--readout type boundary]
+\label{def:operation-readout-type-boundary}
+Let $\mathcal D$ be a self-similar readout diagram and let
+$$
+\Omega_{\mathcal D}:T_{\mathcal D}\to T_{\mathcal D}
+$$
+be its compatibility-limit operation. A scalar analytic readout is a
+displayed map
+$$
+\chi:T_{\mathcal D}\to A
+$$
+into a scalar carrier $A$, together with the classifier, normalization,
+analytic structure, and ledger rows that make $\chi$ public. A scalar
+$c\in A$ has the type of a readout value, while $\Omega_{\mathcal D}$ has
+the type of a packet operation. Thus the expression
+$$
+\Omega_{\mathcal D}=c
+$$
+has no packet-level meaning. The meaningful claims are typed readout
+claims such as
+$$
+\chi(\Omega_{\mathcal D}(b))=c
+$$
+or flow readout claims such as
+$$
+\chi(\Omega_t(b))=c(t).
+$$
+\end{definition}
+
+\begin{theorem}[Constants are not packet operations]
+\label{thm:constants-not-packet-operations}
+For any scalar readout $\chi:T_{\mathcal D}\to A$, no scalar constant
+$c\in A$ is identical with the packet operation
+$\Omega_{\mathcal D}:T_{\mathcal D}\to T_{\mathcal D}$. In particular, the
+analytic constant $e$ can only occur as a scalar readout value or as the
+value of a scalar readout function; it is not the operation
+$\Omega_{\mathcal D}$.
+\end{theorem}
+
+\begin{proof}
+The operation $\Omega_{\mathcal D}$ has domain and codomain
+$T_{\mathcal D}$. A scalar constant $c$ is an element of $A$. Unless a
+separate coding row embeds operations into scalar values and back with
+displayed inverse data, these types are distinct. The interface packet
+does not contain such a coding row. It contains only readout maps from the
+packet carrier to visible carriers. Therefore a scalar can be compared
+only with a scalar readout of the operation, not with the operation itself.
+\end{proof}
+
+\begin{definition}[Continuous packet flow]
+\label{def:continuous-packet-flow}
+A continuous packet flow over $\mathcal D$ is a displayed family of packet
+operations
+$$
+(\Omega_t)_{t\in\mathbb R},
+\qquad
+\Omega_t:T_{\mathcal D}\to T_{\mathcal D},
+$$
+with ledgered rows
+$$
+\Omega_0=\operatorname{id}_{T_{\mathcal D}},
+\qquad
+\Omega_{t+u}=\Omega_t\circ\Omega_u.
+$$
+The flow is a packet object only when the same classifier, constraint,
+ledger, certificate, and audit rows remain visible along the parameter.
+\end{definition}
+
+\begin{definition}[Normalized self-change readout]
+\label{def:normalized-self-change-readout}
+Let $(\Omega_t)_{t\in\mathbb R}$ be a continuous packet flow and let
+$\chi:T_{\mathcal D}\to\mathbb R$ be a scalar analytic readout. For
+$b\in T_{\mathcal D}$, write
+$$
+y_b(t):=\chi(\Omega_t(b)).
+$$
+The readout is normalized self-changing along $b$ when its analytic ledger
+contains
+$$
+y_b(0)=1,
+\qquad
+\frac{d}{dt}y_b(t)=y_b(t).
+$$
+\end{definition}
+
+\begin{theorem}[Exponential readout shadow]
+\label{thm:exponential-readout-shadow}
+If $y_b$ is a normalized self-change readout, then
+$$
+y_b(t)=\exp(t).
+$$
+Consequently,
+$$
+y_b(1)=e.
+$$
+Thus $e$ is the unit-time value of this scalar readout, not the
+compatibility-limit operation itself.
+\end{theorem}
+
+\begin{proof}
+Define
+$$
+z(t):=\exp(-t)y_b(t).
+$$
+The displayed derivative row gives
+$$
+\begin{aligned}
+z'(t)
+&=
+-\exp(-t)y_b(t)+\exp(-t)y_b'(t)\\
+&=
+\exp(-t)(y_b'(t)-y_b(t))\\
+&=
+0.
+\end{aligned}
+$$
+Hence $z$ is constant in the analytic readout layer. Since
+$$
+z(0)=\exp(0)y_b(0)=1,
+$$
+we have $z(t)=1$ and therefore $y_b(t)=\exp(t)$. At $t=1$ this gives
+$y_b(1)=e$.
+\end{proof}
+
+\begin{definition}[Discrete scale readout]
+\label{def:discrete-scale-readout}
+A discrete scale readout of the packet operation is a scalar sequence
+$$
+x_n:=\chi(\Omega_{\mathcal D}^n(b))
+$$
+whose displayed ledger contains
+$$
+x_{n+1}=\lambda x_n.
+$$
+The scalar $\lambda$ is a readout scale for that coordinate, not a
+replacement for $\Omega_{\mathcal D}$.
+\end{definition}
+
+\begin{proposition}[Analytic interpolation of a scale readout]
+\label{prop:analytic-interpolation-scale-readout}
+If $x_{n+1}=\lambda x_n$ and the analytic readout layer supplies a chosen
+branch of $\log\lambda$, then the scalar function
+$$
+x(t):=\exp(t\log\lambda)x_0
+$$
+interpolates the displayed discrete readout at integer times:
+$$
+x(n)=x_n.
+$$
+\end{proposition}
+
+\begin{proof}
+The recurrence gives $x_n=\lambda^n x_0$. For each integer $n$, the chosen
+logarithm branch supplies
+$$
+\exp(n\log\lambda)=\lambda^n.
+$$
+Therefore
+$$
+x(n)=\exp(n\log\lambda)x_0=\lambda^n x_0=x_n.
+$$
+\end{proof}
+
+\begin{principle}[Constants classify readout modes]
+\label{prin:constants-classify-readout-modes}
+The constants attached to self-similar phenomena classify readout modes.
+The normalized continuous self-change readout gives $e$. A Fibonacci
+second-order recursive readout gives the golden scale $\varphi$ as in
+\autoref{def:axiszeckendorf-golden-mean-self-similar-object}. A prime
+Euler-product readout gives the local channel $p^{-s}$ as in
+\autoref{def:rh-centered-information-channel}. These constants are
+coordinate shadows of packet-level generation; none is the packet
+operation itself.
+\end{principle}
+
+\begin{definition}[Prime exponential kernel readout]
+\label{def:prime-exponential-kernel-readout}
+Let a prime-occupancy row be a finite-support function
+$$
+k:\PrimeUp\to\mathbb N,
+$$
+with associated integer packet
+$$
+n(k)=\prod_{p\in\PrimeUp}p^{k_p}.
+$$
+The logarithmic energy readout is
+$$
+E(k):=\log n(k)=\sum_p k_p\log p.
+$$
+For a complex parameter $s$, the exponential kernel readout is
+$$
+W_s(k):=\exp(-sE(k)).
+$$
+\end{definition}
+
+\begin{proposition}[Exponential kernel gives Dirichlet weight]
+\label{prop:exponential-kernel-dirichlet-weight}
+For every displayed prime-occupancy row $k$,
+$$
+W_s(k)=n(k)^{-s}.
+$$
+\end{proposition}
+
+\begin{proof}
+By definition, $E(k)=\log n(k)$. Therefore
+$$
+W_s(k)=\exp(-s\log n(k))=n(k)^{-s}.
+$$
+\end{proof}
+
+\begin{principle}[Zeta readout boundary]
+\label{prin:zeta-readout-boundary}
+The zeta-facing expression $n^{-s}=\exp(-s\log n)$ is the analytic
+readout by which prime multiplicative occupancy enters the Dirichlet and
+Euler-product surfaces. It does not identify $\zeta$, $e$, or any Euler
+factor with $\Omega_{\mathcal D}$. It says that when the zeta carrier is a
+coordinate of the self-similar diagram, the zeta coordinate reads the
+packet through an exponential kernel, Euler gluing, continuation,
+functional-equation, pole, zero-ledger, and transport surface.
+\end{principle}
+
+\begin{definition}[Holographic readout analogy]
+\label{def:holographic-readout-analogy}
+A holographic readout analogy for a self-similar diagram $\mathcal D$ is a
+records-side dictionary between a boundary packet
+$$
+\partial\mathbb G_{\mathcal D}
+$$
+and a bulk packet
+$$
+\mathbb G_{\mathcal D}.
+$$
+The boundary packet consists of finite visible readouts such as finite
+windows, prime windows, prime fingerprints, and channel codes. The bulk
+packet is the compatibility-limit carrier $T_{\mathcal D}$ together with
+the operation $\Omega_{\mathcal D}$, its projection rows, constraint
+rows, residual fibers, continuation rows, ledgers, certificates, and audit
+surface. The analogy is only this records-side dictionary. It is not a
+claim that the packet is a physical anti-de Sitter spacetime, a conformal
+field theory, a gravitational theory, or a string-theoretic duality.
+\end{definition}
+
+\begin{principle}[Boundary--bulk dictionary]
+\label{prin:boundary-bulk-readout-dictionary}
+The holographic readout analogy is governed by the following dictionary:
+finite boundary windows correspond to coordinate projections of
+$T_{\mathcal D}$; extension depth corresponds to the ledgered passage from
+finite readout to compatibility-limit carrier; window defects correspond
+to obstruction rows in the bulk packet; unit-amplitude boundary channels
+correspond to fixed-surface constraints in the bulk packet; and
+non-unit radial factors in exponential channels correspond to off-fixed
+displacement rows. Each correspondence is a typed readout or ledger
+relation, not an equality of physical theories.
+\end{principle}
+
+\begin{definition}[Zeta radial and phase coordinates]
+\label{def:zeta-radial-phase-coordinates}
+In the zeta information-channel coordinate
+$$
+s=\frac{1}{2}+\delta+i\tau,
+$$
+the centered prime channel of
+\autoref{def:rh-centered-information-channel} is
+$$
+U_p(\delta,\tau)=p^{-\delta}e^{-i\tau\log p}.
+$$
+The factor $e^{-i\tau\log p}$ is the phase-clock readout, while
+$p^{-\delta}=e^{-\delta\log p}$ is the radial exponential readout. The
+fixed surface is the row $\delta=0$, equivalently the unit-amplitude row
+$$
+|U_p(\delta,\tau)|=1
+$$
+for every displayed prime channel.
+\end{definition}
+
+\begin{proposition}[Off-fixed packets carry radial exponent]
+\label{prop:off-fixed-packets-carry-radial-exponent}
+If a zeta information-channel packet has $\delta\neq0$, then every
+displayed prime row $p>1$ carries the non-unit radial factor
+$$
+e^{-\delta\log p}.
+$$
+If $\delta=0$, the same channel is purely phase:
+$$
+U_p(0,\tau)=e^{-i\tau\log p}.
+$$
+\end{proposition}
+
+\begin{proof}
+By \autoref{def:zeta-radial-phase-coordinates},
+$$
+U_p(\delta,\tau)=e^{-\delta\log p}e^{-i\tau\log p}.
+$$
+When $\delta=0$, the first factor is $\exp(0)=1$, so the channel is the
+phase factor $e^{-i\tau\log p}$. When $\delta\neq0$ and $p>1$, the
+exponent $-\delta\log p$ is nonzero, so the displayed channel contains a
+non-unit radial exponential factor.
+\end{proof}
+
+\begin{definition}[Zero-ledger exponential rigidity target]
+\label{def:zero-ledger-exponential-rigidity-target}
+The zero-ledger exponential rigidity target is the statement that a zeta
+zero-ledger packet in the information band admits only pure phase prime
+channels:
+$$
+\mathsf{Cancel}_{\mathcal P}(\delta,\tau)
+\wedge
+\mathsf{InfoBand}(\delta)
+\Longrightarrow
+\forall p\in\PrimeUp,\ |U_p(\delta,\tau)|=1.
+$$
+Equivalently, in the boundary--bulk dictionary, a zero-ledger boundary row
+cannot extend to a bulk packet with a nonzero radial exponent.
+\end{definition}
+
+\begin{theorem}[Exponential rigidity is the fixed-half obligation]
+\label{thm:exponential-rigidity-fixed-half-obligation}
+The zero-ledger exponential rigidity target is equivalent to the
+fixed-half form of the RH information-channel target in
+\autoref{thm:rh-information-channel-normal-form}.
+\end{theorem}
+
+\begin{proof}
+The rigidity target is exactly the third displayed form in
+\autoref{thm:rh-information-channel-normal-form}. That theorem proves it
+equivalent to
+$$
+\mathsf{Cancel}_{\mathcal P}(\delta,\tau)
+\wedge
+\mathsf{InfoBand}(\delta)
+\Longrightarrow
+\delta=0,
+$$
+which is the fixed-half form after substituting
+$s=1/2+\delta+i\tau$.
+\end{proof}
+
+\begin{principle}[Holographic proof boundary]
+\label{prin:holographic-proof-boundary}
+The boundary--bulk analogy identifies the shape of the remaining
+obligation but does not discharge it. To prove the zeta fixed-half target,
+one must derive zero-ledger exponential rigidity from the displayed
+Dirichlet row, Euler row, analytic-continuation row, Archimedean
+completion row, functional-equation row, zero ledger, and transport
+ledger. Stating that an off-fixed packet has a radial factor is only the
+readout diagnosis; the missing theorem is the incompatibility between
+that radial factor and the completed zero-ledger packet.
+\end{principle}
+
+\begin{principle}[Full-constraint self-similar closure]
+\label{prin:full-constraint-self-similar-closure}
+For a self-similar diagram $\mathcal D$, the operation
+$\Omega_{\mathcal D}$ generates only objects with a position inside the
+compatibility-limit carrier and its displayed projections. A legal object
+therefore has no tower-external position: it must be read as a coordinate,
+fiber, section, ledger row, certificate row, or audit row of some
+$x\in T_{\mathcal D}$. This closure principle is a discipline on
+admissibility. It does not say that every coordinate is fixed by every
+involution or that every zeta zero row satisfies the fixed-half condition.
+\end{principle}
+
+\begin{definition}[Tower-internal position]
+\label{def:tower-internal-position}
+Let $y$ be a visible record in a carrier $R_i$ of the diagram. The record
+$y$ has a tower-internal position when there exists $x\in T_{\mathcal D}$
+such that
+$$
+y\sim_i\pi_i(x).
+$$
+When the public use of $y$ depends on more than the visible record, its
+tower-internal position also includes the source, projection, constraint,
+ledger, certificate, and audit rows through which this comparison is
+made.
+\end{definition}
+
+\begin{theorem}[Legal records have tower-internal position]
+\label{thm:legal-records-tower-internal-position}
+If a record is legal only by being generated, read out, constrained, and
+ledgered by the self-similar diagram $\mathcal D$, then it has a
+tower-internal position.
+\end{theorem}
+
+\begin{proof}
+By the stated legality condition, the record occurs in some displayed
+carrier $R_i$ together with the source, constraint, projection,
+certificate, ledger, and audit rows that make it public. Those rows are
+part of a compatible packet $x\in T_{\mathcal D}$. The visible record is
+therefore classified by the $i$th projection $\pi_i(x)$, which is exactly
+the tower-internal position condition.
+\end{proof}
+
+\begin{corollary}[A legal RH counterexample would be tower-internal]
+\label{cor:legal-rh-counterexample-tower-internal}
+If a counterexample to the fixed-half zeta target were a legal BEDC
+object, it would be a zeta or zero-ledger projection of some
+$x\in T_{\mathcal D}$. It could not be a tower-external object.
+\end{corollary}
+
+\begin{proof}
+Apply \autoref{thm:legal-records-tower-internal-position} to the zeta
+zero-ledger carrier and its critical-strip readout rows.
+\end{proof}
+
+\begin{proposition}[Closure does not imply fixedness]
+\label{prop:closure-does-not-imply-fixedness}
+A closed self-similar carrier may contain non-fixed points.
+\end{proposition}
+
+\begin{proof}
+Let $X=\{a,b\}$ and let $\Omega:X\to X$ exchange the two elements:
+$$
+\Omega(a)=b,
+\qquad
+\Omega(b)=a.
+$$
+The carrier $X$ is closed under $\Omega$, and every element lies in an
+$\Omega$-orbit. If $J=\Omega$, then
+$$
+J(a)=b\neq a.
+$$
+Thus closure under a self-similar operation does not imply membership in
+the equalizer of $\operatorname{id}$ and $J$.
+\end{proof}
+
+\begin{definition}[Off-fixed zero exclusion target]
+\label{def:off-fixed-zero-exclusion-target}
+In zeta information-channel coordinates
+$s=1/2+\delta+i\tau$, the off-fixed zero exclusion target is
+$$
+\mathsf{Cancel}_{\mathcal P}(\delta,\tau)
+\wedge
+\mathsf{InfoBand}(\delta)
+\wedge
+\mathsf{ApartNonFix}(\delta)
+\Longrightarrow
+\bot.
+$$
+Its constructive strengthening is the local-global exclusion row
+$$
+\mathsf{InfoBand}(\delta)
+\wedge
+\mathsf{ApartNonFix}(\delta)
+\Longrightarrow
+\mathsf{Apart}_0(\zeta(1/2+\delta+i\tau)).
+$$
+This target says that an off-fixed packet may be a tower-internal
+candidate, but it cannot be inhabited as a zero-ledger packet.
+\end{definition}
+
+\begin{theorem}[Off-fixed exclusion gives fixed-half zero ledger]
+\label{thm:off-fixed-exclusion-gives-fixed-half-zero-ledger}
+If the off-fixed zero exclusion target holds and the real-part readout is
+located, then every legal zero-ledger packet in the information band lies
+on the fixed-half surface.
+\end{theorem}
+
+\begin{proof}
+Let a legal zero-ledger packet have information coordinates
+$(\delta,\tau)$ and assume $\mathsf{InfoBand}(\delta)$. To prove the
+fixed-half conclusion it suffices, by locatedness of the real-part
+readout, to rule out every positive apartness witness for $\delta$.
+Assume such a witness, namely $\mathsf{ApartNonFix}(\delta)$. Together
+with the zero-ledger row
+$\mathsf{Cancel}_{\mathcal P}(\delta,\tau)$ and the information-band row,
+the off-fixed zero exclusion target gives a contradiction. Hence no
+positive off-fixed displacement remains, so $\delta=0$ and the packet is
+on the fixed-half surface.
+\end{proof}
+
+\begin{principle}[Closure-plus-exclusion form of the RH route]
+\label{prin:closure-plus-exclusion-rh-route}
+The self-similar closure route has two logically separate parts. First,
+full-constraint closure places every legal object, including any proposed
+RH counterexample, inside the tower. Second, off-fixed zero exclusion
+rules out the tower-internal packets whose zeta readout is both
+zero-ledger and off-fixed. The first part supplies admissibility and
+location; the second part is the substantive analytic obstruction. The
+remaining proof obligation is therefore the incompatibility between
+off-fixed displacement and the completed zero-ledger carrier, not the
+absence of tower-external objects.
+\end{principle}
