@@ -101,15 +101,29 @@ The NameCert obligations of \autoref{thm:inscribed-route-namecert-obligations} b
 Finally \autoref{thm:inscribed-route-namecert-ledger-obligation} ties the acceptance row $A$, downstream consumer row $U$, and public ledger row $L$ together. Therefore the public consumer can cite the route precisely as the finite BEDC packet above, and no unrecorded host-side route data are exported.
 \end{proof}
 
+\begin{theorem}[InscribedRoute standard bridge surface]
+\label{thm:inscribed-route-standard-bridge-surface}
+The public reusable route of an accepted $\InscribedRouteUp$ packet can be read as a standard bridge surface in the sense of \autoref{ch:acceptance-bridge}: the source scope row $S$ names the BEDC carrier, the visible gap row $G$ and named statement row $M$ give the encode/decode surface, the proof route row $R$ records the finite route, the acceptance row $A$ and consumer row $U$ give the public-object surface, the public ledger row $L$ records the bridge-readable export, and the provenance and naming rows $P,N$ keep the route local to the packet. This bridge is a paper-level witness only; it does not claim machine bridge checking.
+\end{theorem}
+\begin{proof}
+Start from the public export theorem of \autoref{thm:inscribed-route-public-export}. It identifies the displayed finite route $S,G,M,R,A,U,L,P,N$ as the export surface for downstream consumers.
+
+Read the same route through the standard bridge protocol of \autoref{ch:acceptance-bridge}. The source scope, visible gap, named statement, proof route, acceptance row, downstream consumer, and public ledger provide the encode/decode and theorem-preservation shape required for a paper bridge.
+
+The bridge remains paper-level because the chapter does not add any host translation module or machine no-host-leak witness. It therefore presents the public route as a bridge surface while keeping the verification axis separate.
+\end{proof}
+
 \closureat{InscribedRouteUp}{scopedStr}[BEDC.Derived.InscribedRouteUp.InscribedRouteNameCertObligations]
+\closureat{InscribedRouteUp}{publicStr}
+\closureat{InscribedRouteUp}{bridgedStr}
 
 \begin{closurestatus}{\InscribedRouteUp}
   \constructivestory{An $\InscribedRouteUp$ packet is generated from a prior source scope, visible gap row, named statement, proof route, acceptance row, downstream consumer, public GAP ledger, package provenance, and local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:inscribed-route-carrier}, \autoref{thm:inscribed-route-namecert-obligations}, \autoref{thm:inscribed-route-carrier-admission}, \autoref{thm:inscribed-route-continuation-obligation}, \autoref{thm:inscribed-route-namecert-ledger-obligation}, and \autoref{thm:inscribed-route-public-export} bind source-scope, visible-gap, route-witness, acceptance-ledger, downstream-consumer, $\hsame/\Cont$ transport, local NameCert scoping, and the public export surface for reusable inscribed routes.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:inscribed-route-carrier}, \autoref{thm:inscribed-route-namecert-obligations}, \autoref{thm:inscribed-route-carrier-admission}, \autoref{thm:inscribed-route-continuation-obligation}, \autoref{thm:inscribed-route-namecert-ledger-obligation}, \autoref{thm:inscribed-route-public-export}, and \autoref{thm:inscribed-route-standard-bridge-surface} bind source-scope, visible-gap, route-witness, acceptance-ledger, downstream-consumer, public export, standard bridge surface, $\hsame/\Cont$ transport, local NameCert scoping, and the public export surface for reusable inscribed routes.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.InscribedRouteUp.InscribedRouteNameCertObligations}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close bridge checking, complete inscription semantics, or hidden host route semantics.}
-  \upgradepath{Bridged closure requires a standard bridge theorem for the public reusable route surface and its cited consumer boundary.}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not close machine bridge checking, complete inscription semantics, or hidden host route semantics.}
+  \upgradepath{The bridge surface is already displayed; machine bridge checking remains separate from the paper bridge witness.}
 \end{closurestatus}
