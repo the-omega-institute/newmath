@@ -217,12 +217,32 @@ The local naming coordinate $N$ records the same packet as $\NameCert_{\RegularC
 Apply real seal non-escape, \autoref{thm:regular-cauchy-min-real-seal-nonescape}. Since every real-facing read reaches $E$ only through the displayed selector ledger, the provenance row has no hidden source beyond the listed finite surfaces.
 \end{proof}
 
+\begin{theorem}[RegularCauchyMin obligation closure route]
+\label{thm:regular-cauchy-min-obligation-closure-route}
+For every accepted $\RegularCauchyMinUp$ carrier
+$$
+M=(A,B,W,D_A,D_B,J,S,R,E,H,C,P,N),
+$$
+the carrier admission row, selector ledger exactness, selector monotonicity, $\RealAlgOrderUp$ handoff, transport stability, Real-seal nonescape, classifier scope, and provenance scope exhaust the local $\NameCert_{\RegularCauchyMinUp}$ obligation surface. No host trichotomy on completed real names, quotient stream equality, selected limit, or ambient $\RealUp$ completeness row remains outside those displayed obligations.
+\end{theorem}
+\begin{proof}
+Start with carrier admission, \autoref{thm:regular-cauchy-min-obligation-carrier-admission}. It fixes the visible packet as the two source $\RegSeqRatUp$ rows, the shared $\StreamNameUp$ window, the two $\DyadicRatCoreUp$ tolerance ledgers, the selector row, the selected regular row, readback, seal, transport, replay, provenance, and local name.
+
+Use selector ledger exactness and selector monotonicity, \autoref{thm:regular-cauchy-min-selector-ledger} and \autoref{thm:regular-cauchy-min-selector-monotonicity}. They force every selector-facing read through one of the two displayed alternatives and keep the selected branch bounded along the same window and tolerance rows.
+
+Apply the $\RealAlgOrderUp$ handoff and transport-stability rows, \autoref{thm:regular-cauchy-min-realalgorder-handoff} and \autoref{thm:regular-cauchy-min-selector-transport-stability}. These place order-facing consumers downstream of $J,S,R,E$ and preserve the same route under componentwise $\hsame$ transport and displayed $\Cont$ replay.
+
+Finally combine real seal nonescape, classifier scope, selector stability scope, and provenance scope: \autoref{thm:regular-cauchy-min-real-seal-nonescape}, \autoref{thm:regular-cauchy-min-obligation-classifier-scope}, \autoref{thm:regular-cauchy-min-selector-stability-scope}, and \autoref{thm:regular-cauchy-min-provenance-scope}. Their source lists leave no carrier coordinate for host trichotomy, quotient stream equality, selected limits, or ambient completeness.
+\end{proof}
+
+\closureat{RegularCauchyMinUp}{obligationStr}
+
 \begin{closurestatus}{\RegularCauchyMinUp}
   \constructivestory{A $\RegularCauchyMinUp$ packet is generated from two RegSeqRat source rows, a shared StreamName window schedule, DyadicRatCore endpoint-and-tolerance observations, a comparison-selector row, a selected RegSeqRat row, a RegSeqRat readback row, a RealUp seal row, componentwise transport, continuation replay, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:regular-cauchy-min-carrier}, \autoref{thm:regular-cauchy-min-namecert-obligations}, \autoref{thm:regular-cauchy-min-selector-ledger}, and \autoref{thm:regular-cauchy-min-realalgorder-handoff} seed the finite pointwise minimum route over shared regular Cauchy windows, selector ledgers, readback, and RealUp sealing.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, host trichotomy on completed real names, quotient stream equality, selected limits, ambient completeness, or a public standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier admission, selector ledger exactness, RealAlgOrder handoff, transport stability, provenance, and non-escape for the same finite packet.}
+  \upgradepath{Scoped kernel binding is the next paper-theory step, tying the obligation package to a public consumer boundary without adding host trichotomy, quotient equality, selected limits, or completeness.}
 \end{closurestatus}
