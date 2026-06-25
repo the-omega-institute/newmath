@@ -260,15 +260,27 @@ Finally use the completion consumer route, \autoref{thm:locally-compact-completi
 \end{proof}
 \leanchecked{BEDC.Derived.LocallyCompactUp.LocallyCompactPublicNeighbourhoodBaseExport}
 
+\begin{theorem}[LocallyCompact abstract schema bridge surface]
+\label{thm:locallycompact-abstract-schema-bridge-surface}
+Let $L=(X,x,r,B,K,A,H,C,P,N)$ be an accepted $\LocallyCompactUp$ packet. The public neighbourhood-base export of \autoref{thm:locallycompact-public-neighbourhood-base-export} is the bridge surface from the ten-row LocallyCompact carrier to the abstract local-compactness schema: it exports compact-ball access through $B,K$, local window access through $X,x,r$, optional located refinement through $A$, and structural transport through $H,C,P,N$. It exports no open-cover compactness, host neighbourhood-base selector, quotient point equality, countable choice, all-centers/all-radii properness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:locally-compact-carrier}. The abstract schema can only see the displayed metric source, inspected point, positive radius, closed ball, compact witness, optional located handoff, transport, replay, provenance, and local naming rows.
+
+Apply the public neighbourhood-base export, \autoref{thm:locallycompact-public-neighbourhood-base-export}. It already identifies the exported public read with compact-ball access, center-radius local-cover access, componentwise transport, continuation replay, provenance, and local NameCert naming through exactly those rows.
+
+Therefore the bridge surface is the public export itself. Since neither the carrier nor the public export contains open-cover compactness, a host selector, quotient equality, countable choice, global properness, or ambient Real completeness, the abstract local-compactness schema receives only the finite local compact-neighbourhood boundary.
+\end{proof}
+
 \closureat{$\LocallyCompactUp$}{seedStr}
 \closureat{LocallyCompactUp}{obligationStr}
 
 \begin{closurestatus}{\LocallyCompactUp}
   \constructivestory{A $\LocallyCompactUp$ packet is generated from a metric source row, an inspected point row, a positive RatUp or RealUp radius ledger, a MetricClosedBall row, a CompactMetric witness for the displayed window, an optional LocatedCompact handoff, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:locally-compact-carrier}, \autoref{thm:locally-compact-namecert-obligations}, \autoref{thm:locally-compact-closed-ball-neighborhood-base}, \autoref{thm:locallycompact-compact-window-root-admission}, \autoref{thm:locallycompact-properness-locality-root-boundary}, \autoref{thm:locally-compact-completion-consumer-route}, \autoref{thm:locallycompact-compact-neighbourhood-basis}, and \autoref{thm:locallycompact-public-neighbourhood-base-export} bind the compact-neighbourhood public surface to displayed $\TopologyUp$ neighbourhood rows, $\CompactMetricUp$ and finite-net rows, $\MetricUp$ and $\RealUp$ radius rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:locally-compact-carrier}, \autoref{thm:locally-compact-namecert-obligations}, \autoref{thm:locally-compact-closed-ball-neighborhood-base}, \autoref{thm:locallycompact-compact-window-root-admission}, \autoref{thm:locallycompact-properness-locality-root-boundary}, \autoref{thm:locally-compact-completion-consumer-route}, \autoref{thm:locallycompact-compact-neighbourhood-basis}, \autoref{thm:locallycompact-public-neighbourhood-base-export}, and \autoref{thm:locallycompact-abstract-schema-bridge-surface} bind the compact-neighbourhood public surface and abstract schema bridge to displayed $\TopologyUp$ neighbourhood rows, $\CompactMetricUp$ and finite-net rows, $\MetricUp$ and $\RealUp$ radius rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim open-cover compactness, a host neighbourhood base, quotient point equality, countable choice, ambient Real completeness, global properness, Lean verification, or bridge checking.}
-  \upgradepath{A formal route can encode the ten-row carrier and prove the finite local NameCert obligation surface and closed-ball neighbourhood-base theorem for BEDC.Derived.LocallyCompactUp.}
+  \upgradepath{Mature closure requires downstream examples and cross-chapter completeness around the bridge surface rather than another abstract schema bridge.}
 \end{closurestatus}
