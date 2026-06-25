@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-twinsubstrateauditcoupling-namecert}
 \origin{ai}
 
-The $\TwinSubstrateAuditCouplingUp$ packet realizes the twin-substrate audit architecture of \autoref{ch:twin-substrate-synthesis} as one finite NameCert surface. It sits beside the GroundCompiler audit-map packet of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}, the closed-window substitution route of \autoref{ch:concrete-instances-substitutionauditwindowroute-namecert}, and the two-history comparison packet of \autoref{ch:concrete-instances-observationcoupling-namecert}. Those siblings already name one-substrate audit rows or paired observation rows; this chapter names the finite coupling boundary that lets MetaCIC and GroundCompiler be read together without collapsing either substrate into the other.
+The $\TwinSubstrateAuditCouplingUp$ packet realizes the twin-substrate audit architecture of \autoref{ch:twin-substrate-synthesis} as one finite NameCert surface. It sits beside the GroundCompiler audit-map packet of \autoref{ch:concrete-instances-groundcompilerauditmap-namecert}, the closed-window substitution route of \autoref{ch:concrete-instances-substitutionauditwindowroute-namecert}, the MetaCIC normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, and the two-history comparison packet of \autoref{ch:concrete-instances-observationcoupling-namecert}. Those siblings already name one-substrate audit rows, normalization-frontier rows, or paired observation rows; this chapter names the finite coupling boundary that lets MetaCIC and GroundCompiler be read together without collapsing either substrate into the other.
 
 \begin{definition}[Twin-substrate audit-coupling carrier]
 \label{def:twin-substrate-audit-coupling-carrier}
@@ -94,6 +94,8 @@ Every public export of an accepted $\TwinSubstrateAuditCouplingUp$ carrier is a 
 Use the NameCert obligations. They list the full public surface as the substrate rows, route classifier, coupling ledger, non-collapse classifier, transport, continuation, provenance, and local name.
 
 The sibling chapters provide permitted consumer shapes. \autoref{ch:concrete-instances-groundcompilerauditmap-namecert} reads GroundCompiler audit rows, \autoref{ch:concrete-instances-substitutionauditwindowroute-namecert} reads a closed-window MetaCIC route boundary, and \autoref{ch:concrete-instances-observationcoupling-namecert} shows how a finite coupling ledger can serve a downstream reader without adding a global coordinate.
+
+Normalization-frontier consumers may read the coupled export only after the MetaCIC row $M$, route classifier $R$, coupling ledger $L$, and non-collapse row $C$ are displayed as the finite MetaCIC-side boundary of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}.
 
 An export to those consumers therefore carries the displayed packet and its provenance. It does not export a collapsed substrate, a hidden equality, or an ambient audit oracle.
 \end{proof}
