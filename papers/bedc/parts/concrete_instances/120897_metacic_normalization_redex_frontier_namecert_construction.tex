@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICNormalizationRedexFrontierUp$}
+\label{ch:concrete-instances-metacic-normalization-redex-frontier-namecert}
+\origin{ai}
+
+The $\MetaCICNormalizationRedexFrontierUp$ packet realizes the candidate-mediated route of \autoref{ch:metacic-normalization-audit-map} as finite NameCert data. It sits beside the critical-path source of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, and the typed example coverage matrix of \autoref{ch:concrete-instances-typedexamplecoveragematrix-namecert}. The packet records typed terms, candidate evidence, residual budgets, beta windows, strong-normalization handoff, transport, replay, provenance, and local naming without claiming unconditional normalization for every closed MetaCIC term.
+
+\begin{definition}[MetaCIC normalization redex-frontier carrier]
+\label{def:metacic-normalization-redex-frontier-carrier}
+A $\MetaCICNormalizationRedexFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+R=(T,C,E,B,W,S,D,H,Q,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $T$ is the typed-term frontier row, naming the closed term, type, context boundary, and visible redex windows;
+\item $C$ is the candidate-evidence row consumed by the candidate-mediated strong-normalization route;
+\item $E$ is the candidate-set or closed-candidate evidence row, when the route is exposed through a packaged candidate surface;
+\item $B$ is the residual-budget row, bounding the redex windows inspected before the strong-normalization handoff is cited;
+\item $W$ is the beta-window row, recording the finite beta steps and local residual reads relevant to the frontier;
+\item $S$ is the strong-normalization handoff row, readable only after $T,C,E,B,W$ have been displayed;
+\item $D$ is the typed-example coverage row, showing which example or coverage matrix row witnesses the packet when a concrete term is used;
+\item $H$ records componentwise $\hsame$ transport for typed-term, candidate, evidence, budget, beta-window, handoff, coverage, provenance, and local naming rows;
+\item $Q$ records displayed $\Cont$ replay from typed-term inspection through candidate evidence, redex budgeting, beta-window reading, and strong-normalization handoff;
+\item $P$ is the $\Pkg$ provenance over $\MetaCICNormalizationRedexFrontierUp$, $\MetaCICCriticalPathUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICParallelDiamondFrontierUp$, $\TypedExampleCoverageMatrixUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\MetaCICNormalizationRedexFrontierUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for global closed-term normalization without candidate evidence, unrestricted subject reduction, full confluence, quotient syntax equality, evaluator equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC normalization redex-frontier NameCert obligations]
+\label{thm:metacic-normalization-redex-frontier-namecert-obligations}
+For every accepted $\MetaCICNormalizationRedexFrontierUp$ carrier
+$$
+R=(T,C,E,B,W,S,D,H,Q,P,N),
+$$
+the local $\NameCert_{\MetaCICNormalizationRedexFrontierUp}$ surface consists exactly of carrier admission for typed-term frontiers, candidate evidence, packaged candidate-set or closed-candidate evidence, residual budgets, beta windows, strong-normalization handoff, typed-example coverage, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-redex-frontier-carrier}. The typed frontier, candidate evidence, packaged evidence, residual budget, beta window, strong-normalization handoff, and coverage row are the only MetaCIC coordinates.
+
+The audit map of \autoref{ch:metacic-normalization-audit-map} requires the candidate layer to remain visible. Rows $C$ and $E$ record that layer, while $B$ and $W$ keep the inspected redex frontier finite before $S$ is read.
+
+The sibling rows place the frontier in the existing MetaCIC lattice: critical path for the proof route, normalization frontier for the candidate handoff, parallel-diamond frontier for confluence-facing interaction, and typed example coverage for concrete witnesses. Since the carrier has no coordinate for unconditional normalization, subject reduction, full confluence, quotient syntax equality, evaluator equality, or kernel consistency, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization redex-frontier candidate handoff]
+\label{thm:metacic-normalization-redex-frontier-candidate-handoff}
+Every strong-normalization read exported by an accepted $\MetaCICNormalizationRedexFrontierUp$ packet factors through
+$$
+T,C,E,B,W \longmapsto S.
+$$
+The typed term frontier is inspected first, the candidate evidence and packaged evidence remain displayed, the residual budget and beta window bound the redex read, and only then may the strong-normalization handoff row be consumed.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $R=(T,C,E,B,W,S,D,H,Q,P,N)$. The row $S$ is downstream of the typed-term, candidate, packaged-evidence, budget, and beta-window rows.
+
+The candidate-mediated route prevents a consumer from erasing $C$ or $E$ from the citation. The residual budget and beta window keep the redex frontier finite, so the route is a displayed packet rather than a global evaluator theorem.
+
+Transport, replay, provenance, and local naming preserve the same dependency order through $H,Q,P,N$. Therefore every strong-normalization handoff read factors through $T,C,E,B,W$ before $S$ is available.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization redex-frontier nonescape]
+\label{thm:metacic-normalization-redex-frontier-nonescape}
+Every accepted $\MetaCICNormalizationRedexFrontierUp$ consumer must keep the typed-term frontier, candidate evidence, packaged evidence, residual budget, beta window, strong-normalization handoff, coverage row, transport, replay, provenance, and local naming visible before citing the packet as normalization evidence. It cannot cite the packet as unconditional closed-term normalization, subject reduction, full confluence, quotient syntax equality, evaluator equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:metacic-normalization-redex-frontier-namecert-obligations}. They expose the typed-term, candidate, evidence, budget, beta-window, handoff, coverage, transport, replay, provenance, and naming rows.
+
+Then apply the candidate handoff theorem \autoref{thm:metacic-normalization-redex-frontier-candidate-handoff}. It forces the strong-normalization read through the candidate-mediated redex frontier before any endpoint can be consumed.
+
+The stronger metatheorems are absent from the carrier. Thus no consumer can replace this packet by global normalization, subject reduction, full confluence, quotient syntax equality, evaluator equality, or kernel consistency.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICNormalizationRedexFrontierUp$ normalization read exposes MetaCICCriticalPath, MetaCICNormalizationFrontier, MetaCICParallelDiamondFrontier, and TypedExampleCoverageMatrix rows together with typed-term, candidate, evidence, residual-budget, beta-window, strong-normalization handoff, transport, replay, provenance, and local naming data.}
+
+\independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, metacic-parallel-diamond-frontier, typedexamplecoveragematrix: none is bijective to $\MetaCICNormalizationRedexFrontierUp$ because this packet jointly carries typed-term redex windows, candidate evidence, packaged candidate rows, residual budgets, beta-window reads, strong-normalization handoff, coverage, transport, replay, provenance, and local naming. The Lean TasteGate surface must provide Nontrivial and FieldFaithful instances for the same carrier rows before this packet can be treated as a checked derived target.}
+
+\closureat{MetaCICNormalizationRedexFrontierUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICNormalizationRedexFrontierUp}
+  \constructivestory{A $\MetaCICNormalizationRedexFrontierUp$ packet is generated from a typed-term frontier, candidate evidence, packaged candidate-set or closed-candidate evidence, residual budget, beta window, strong-normalization handoff, typed-example coverage, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-normalization-redex-frontier-carrier}, \autoref{thm:metacic-normalization-redex-frontier-namecert-obligations}, \autoref{thm:metacic-normalization-redex-frontier-candidate-handoff}, and \autoref{thm:metacic-normalization-redex-frontier-nonescape} seed the candidate-mediated redex-frontier route over typed terms, candidate evidence, residual budgets, beta windows, strong-normalization handoff, coverage, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unconditional closed-term normalization, subject reduction, full confluence, quotient syntax equality, evaluator equality, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typed-term exposure, candidate-evidence exposure, packaged-evidence routing, residual-budget exactness, beta-window readback, strong-normalization handoff, typed-example coverage, transport, replay, provenance, local naming, Nontrivial TasteGate evidence, and FieldFaithful TasteGate evidence for BEDC.Derived.MetaCICNormalizationRedexFrontierUp.}
+\end{closurestatus}

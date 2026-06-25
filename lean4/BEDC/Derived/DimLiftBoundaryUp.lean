@@ -542,4 +542,49 @@ theorem DimLiftBoundaryRealHandoffNonescape
       exact ⟨realRoute, refusalRoute⟩
   · exact Nonempty.intro (DimLiftBoundaryUp.mk Z N A F R H C P Q)
 
+theorem DimLiftBoundaryZeckendorfCarrierScope
+    {Z N A F R H C P Q scopeRead refusalRead : BHist} :
+    Cont Z N scopeRead →
+      Cont A R refusalRead →
+        hsame scopeRead refusalRead →
+          SemanticNameCert
+              (fun row : BHist => hsame row scopeRead)
+              (fun row : BHist =>
+                hsame row Z ∨ hsame row N ∨ hsame row A ∨ hsame row F ∨
+                  hsame row R ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                    hsame row Q ∨ hsame row scopeRead ∨ hsame row refusalRead)
+              (fun _row : BHist => Cont Z N scopeRead ∧ Cont A R refusalRead)
+              hsame ∧
+            Nonempty DimLiftBoundaryUp := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert DimLiftBoundaryUp
+  intro scopeRoute refusalRoute sameBoundary
+  constructor
+  · constructor
+    · constructor
+      · exact Exists.intro scopeRead (hsame_refl scopeRead)
+      · intro row _source
+        exact hsame_refl row
+      · intro _row _other sameRows
+        exact hsame_symm sameRows
+      · intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      · intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    · intro _row source
+      have _refusalSame : hsame _row refusalRead :=
+        hsame_trans source sameBoundary
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      apply Or.inr
+      exact Or.inl source
+    · intro _row _source
+      exact ⟨scopeRoute, refusalRoute⟩
+  · exact Nonempty.intro (DimLiftBoundaryUp.mk Z N A F R H C P Q)
+
 end BEDC.Derived.DimLiftBoundaryUp
