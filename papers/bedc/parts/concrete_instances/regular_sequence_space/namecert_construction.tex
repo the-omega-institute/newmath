@@ -58,6 +58,20 @@ Now route late observations through \autoref{ch:concrete-instances-regular-cauch
 Finally $H,C,P,N$ preserve that finite route by transport, replay, provenance, and local naming. Since the carrier has no coordinate for quotient streams, selected limits, countable choice, an unrestricted sequence space, or ambient $\RealUp$ completeness, no completion-facing consumer can escape the displayed tail-filter handoff.
 \end{proof}
 
+\begin{theorem}[RegularSequenceSpace tail coherence]
+\label{thm:regular-sequence-space-tail-coherence}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Any two completion-facing reads from $S$ that agree on the displayed $\StreamNameUp$ schedule $T$ and $\RegSeqRatUp$ readback $Q$ also agree on the $\DyadicRatCoreUp$ tolerance row $D$ and on the terminal $\RealUp$ seal route $R,H,C,P,N$. This agreement is internal to the displayed carrier and does not use quotient streams, selected representatives, or an ambient complete sequence space.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-sequence-space-carrier}. The tuple $S=(X,T,Q,D,R,H,C,P,N)$ keeps the source family, schedule, regular readback, and dyadic tolerance row visible as separate coordinates.
+
+Use the NameCert obligations of \autoref{thm:regular-sequence-space-namecert-obligations}. They require any completion-facing read to expose $X,T,Q,D$ before the real-facing seal and structural rows can be consumed.
+
+Route the late observations through the tail-filter handoff of \autoref{thm:regular-sequence-space-tail-filter-handoff}. Two reads with the same displayed schedule $T$ and readback $Q$ therefore enter the same regular Cauchy tail-filter surface, where the dyadic tolerance row $D$ is the displayed tolerance coordinate for that route.
+
+Finally $H,C,P,N$ preserve and name the same finite packet. Hence the two reads agree on the dyadic tolerance row and terminal Real seal route without choosing a quotient stream, representative, or external completion object.
+\end{proof}
+
 \closureat{RegularSequenceSpaceUp}{seedStr}
 
 \begin{closurestatus}{\RegularSequenceSpaceUp}

@@ -44,6 +44,30 @@ The audit side is constrained by \autoref{ch:concrete-instances-auditgatefailure
 Thus the local NameCert surface is exhausted by the eight displayed rows. There is no remaining coordinate from which a consumer could read total truth, unrestricted choice, quotient collapse, or halting closure.
 \end{proof}
 
+\begin{theorem}[Logic contradiction meta-loop carrier admission]
+\label{thm:logic-contradiction-metaloop-carrier-admission}
+Carrier admission for $\LogicContradictionMetaLoopUp$ is exactly the finite projection of $L=(P,R,M,A,T,C,G,N)$ through proof-pattern discipline $P$, local refutation $R$, open meta-loop refusal $M$, audit-gate routing $A$, and the structural rows $T,C,G,N$. A packet that supplies only a contradiction report, only an audit failure, or only a quotient refusal is not admitted as this carrier.
+\end{theorem}
+\begin{proof}
+Project the definition of the carrier. The rows $P,R,M,A$ jointly supply proof-pattern formation, bounded refutation, open meta-loop refusal, and audit-gate diagnostics.
+
+The structural rows are not optional. Componentwise $\hsame$ transport $T$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $G$, and local naming $N$ keep the same finite packet available to consumers.
+
+Thus carrier admission is the whole eight-row packet. A narrower item may be a sibling route, but it does not expose the local proof-pattern, refutation, refusal, audit, transport, replay, provenance, and naming surface at once.
+\end{proof}
+
+\begin{theorem}[Logic contradiction meta-loop ledger nonescape]
+\label{thm:logic-contradiction-metaloop-ledger-nonescape}
+Every refusal-ledger route of an accepted $\LogicContradictionMetaLoopUp$ packet must pass through open meta-loop refusal $M$, audit-gate row $A$, transport $T$, replay $C$, provenance $G$, and local naming $N$. Transport and replay preserve the ledger route; they do not export total truth, unrestricted choice, quotient collapse, halting closure, or a closed meta-loop classifier.
+\end{theorem}
+\begin{proof}
+Start with the refusal-bearing rows. The open meta-loop row $M$ records refusal of total truth, choice, quotient collapse, and halting closure, while $A$ routes failed reads through the audit-gate surface.
+
+Transport and replay keep this ledger finite. The row $T$ compares the same refusal and audit coordinates componentwise, and $C$ replays the route from proof-pattern inspection through local refutation into the audit gate.
+
+Finally $G$ records provenance and $N$ supplies local naming. Since no row in the route is a truth oracle, choice principle, quotient-elimination rule, halting oracle, or closed classifier, the refusal ledger cannot escape the displayed packet.
+\end{proof}
+
 \begin{theorem}[Logic contradiction meta-loop non-escape]
 \label{thm:logic-contradiction-meta-loop-nonescape}
 An accepted $\LogicContradictionMetaLoopUp$ carrier cannot export a route from local contradiction management to total truth, unrestricted choice, quotient equality elimination, global proof search, halting closure, or a closed meta-loop classifier. Every accepted consumer route must preserve the displayed packet $P,R,M,A,T,C,G,N$.
@@ -76,16 +100,16 @@ Later Lean work supplies the $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ 
 
 \independenceWitness{quotientsoundnessboundary, auditgatefailurewitness, metacicdecidableboundary, metacicconfluenceaudit, normalfalseexclusion: none is bijective because this packet jointly carries proof-pattern discipline and open-meta-loop refusal rather than only one gate or one checker boundary.}
 
-\closureat{LogicContradictionMetaLoopUp}{seedStr}
+\closureat{LogicContradictionMetaLoopUp}{obligationStr}
 
 \begin{closurestatus}{\LogicContradictionMetaLoopUp}
   \constructivestory{A $\LogicContradictionMetaLoopUp$ packet is generated from finite proof-pattern discipline, local-refutation evidence, open meta-loop refusal, audit-gate routing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:logic-contradiction-meta-loop-carrier}, \autoref{thm:logic-contradiction-meta-loop-namecert-obligations}, \autoref{thm:logic-contradiction-meta-loop-nonescape}, and \autoref{thm:logic-contradiction-meta-loop-sibling-dependency} bind the finite logic/meta-loop carrier and its local NameCert obligation surface.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:logic-contradiction-meta-loop-carrier}, \autoref{thm:logic-contradiction-meta-loop-namecert-obligations}, \autoref{thm:logic-contradiction-meta-loop-nonescape}, \autoref{thm:logic-contradiction-meta-loop-sibling-dependency}, and the existing TasteGate marker bind the finite carrier, NameCert obligations, nonescape surface, and sibling dependency route as the obligation surface.}
   \formalstatus{\unformalizedV}
   \closureledger{BEDC.Meta.DiscoveryDeltaLedger.logicContradictionMetaLoopDeltaLedger}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, total truth, unrestricted choice, quotient collapse, halting closure, global proof search, or a public standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier admission, open meta-loop refusal, audit-gate routing, transport stability, route replay, provenance, local naming, TasteGate instances, and non-escape for the same finite packet.}
+  \upgradepath{Scoped closure requires checked carrier admission, open meta-loop refusal, audit-gate routing, transport stability, route replay, provenance, local naming, TasteGate instances, and non-escape for the same finite packet.}
 \end{closurestatus}
