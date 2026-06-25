@@ -640,54 +640,58 @@ instance SplitComplex_RelEquiv :
     intro x y z
     exact SplitEq_trans
 
-instance SplitComplex_RelCommRing :
-    BEDC.Algebra.Rel.RelCommRing SplitComplex SplitEq where
-  zero := splitZero
-  one := splitOne
-  add := splitAdd
-  mul := splitMul
-  neg := splitNeg
-  refl := SplitComplex_comm_ring_laws.eq_refl
-  symm := by
-    intro x y
-    exact SplitComplex_comm_ring_laws.eq_symm
-  trans := by
-    intro x y z
-    exact SplitComplex_comm_ring_laws.eq_trans
-  add_congr := by
-    intro x x' y y'
-    exact SplitComplex_comm_ring_laws.add_respects
-  mul_congr := by
-    intro x x' y y'
-    exact SplitComplex_comm_ring_laws.mul_respects
-  neg_congr := by
-    intro x y
-    exact SplitComplex_comm_ring_laws.neg_respects
-  add_assoc := SplitComplex_comm_ring_laws.add_assoc
-  add_comm := SplitComplex_comm_ring_laws.add_comm
-  add_zero := SplitComplex_comm_ring_laws.add_zero
-  zero_add := SplitComplex_comm_ring_laws.zero_add
-  add_neg := SplitComplex_comm_ring_laws.add_neg
-  neg_add := SplitComplex_comm_ring_laws.neg_add
-  mul_assoc := SplitComplex_comm_ring_laws.mul_assoc
-  mul_comm := SplitComplex_comm_ring_laws.mul_comm
-  mul_one := SplitComplex_comm_ring_laws.mul_one
-  one_mul := SplitComplex_comm_ring_laws.one_mul
-  mul_zero := SplitComplex_comm_ring_laws.mul_zero
-  zero_mul := SplitComplex_comm_ring_laws.zero_mul
-  left_distrib := SplitComplex_comm_ring_laws.left_distrib
-  right_distrib := SplitComplex_comm_ring_laws.right_distrib
+private theorem splitEq_eq_neg_of_add_eq_zero {a b : SplitComplex} :
+    SplitEq (splitAdd a b) splitZero -> SplitEq b (splitNeg a) := by
+  intro h
+  exact SplitComplex_comm_ring_laws.eq_trans
+    (SplitComplex_comm_ring_laws.eq_symm
+      (SplitComplex_comm_ring_laws.zero_add b))
+    (SplitComplex_comm_ring_laws.eq_trans
+      (SplitComplex_comm_ring_laws.add_respects
+        (SplitComplex_comm_ring_laws.eq_symm
+          (SplitComplex_comm_ring_laws.neg_add a))
+        (SplitComplex_comm_ring_laws.eq_refl b))
+      (SplitComplex_comm_ring_laws.eq_trans
+        (SplitComplex_comm_ring_laws.add_assoc (splitNeg a) a b)
+        (SplitComplex_comm_ring_laws.eq_trans
+          (SplitComplex_comm_ring_laws.add_respects
+            (SplitComplex_comm_ring_laws.eq_refl (splitNeg a)) h)
+          (SplitComplex_comm_ring_laws.add_zero (splitNeg a)))))
 
 theorem splitNeg_mul (x y : SplitComplex) :
-    SplitEq (splitMul (splitNeg x) y) (splitNeg (splitMul x y)) :=
-  SplitComplex_RelCommRing.neg_mul x y
+    SplitEq (splitMul (splitNeg x) y) (splitNeg (splitMul x y)) := by
+  have hzero :
+      SplitEq (splitAdd (splitMul x y) (splitMul (splitNeg x) y))
+        splitZero := by
+    exact SplitComplex_comm_ring_laws.eq_trans
+      (SplitComplex_comm_ring_laws.eq_symm
+        (SplitComplex_comm_ring_laws.right_distrib x (splitNeg x) y))
+      (SplitComplex_comm_ring_laws.eq_trans
+        (SplitComplex_comm_ring_laws.mul_respects
+          (SplitComplex_comm_ring_laws.add_neg x)
+          (SplitComplex_comm_ring_laws.eq_refl y))
+        (SplitComplex_comm_ring_laws.zero_mul y))
+  exact splitEq_eq_neg_of_add_eq_zero hzero
 
 theorem splitMul_neg (x y : SplitComplex) :
-    SplitEq (splitMul x (splitNeg y)) (splitNeg (splitMul x y)) :=
-  SplitComplex_RelCommRing.mul_neg x y
+    SplitEq (splitMul x (splitNeg y)) (splitNeg (splitMul x y)) := by
+  have hzero :
+      SplitEq (splitAdd (splitMul x y) (splitMul x (splitNeg y)))
+        splitZero := by
+    exact SplitComplex_comm_ring_laws.eq_trans
+      (SplitComplex_comm_ring_laws.eq_symm
+        (SplitComplex_comm_ring_laws.left_distrib x y (splitNeg y)))
+      (SplitComplex_comm_ring_laws.eq_trans
+        (SplitComplex_comm_ring_laws.mul_respects
+          (SplitComplex_comm_ring_laws.eq_refl x)
+          (SplitComplex_comm_ring_laws.add_neg y))
+        (SplitComplex_comm_ring_laws.mul_zero x))
+  exact splitEq_eq_neg_of_add_eq_zero hzero
 
 theorem splitNeg_neg (x : SplitComplex) :
     SplitEq (splitNeg (splitNeg x)) x :=
-  SplitComplex_RelCommRing.neg_neg x
+  SplitComplex_comm_ring_laws.eq_symm
+    (splitEq_eq_neg_of_add_eq_zero (a := splitNeg x) (b := x)
+      (SplitComplex_comm_ring_laws.neg_add x))
 
 end BEDC.Derived.SplitComplexUp

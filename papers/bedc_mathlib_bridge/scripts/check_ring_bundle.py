@@ -11,9 +11,11 @@ import sys
 
 TOKEN = "BEDC_GATE_B_DUP_RING_BUNDLE"
 
+BUNDLE_DECL_KINDS = frozenset({"instance", "def", "abbrev"})
+
 DECL_RE = re.compile(
     r"^\s*(?:(?:private|protected|noncomputable|unsafe|partial)\s+)*"
-    r"(?P<kind>instance|def|abbrev)\s+"
+    r"(?P<kind>instance|def|abbrev|theorem|lemma|structure|class|inductive|axiom|opaque|example)\s+"
     r"(?:(?P<name>[A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)*)\s+)?"
 )
 NAMESPACE_RE = re.compile(
@@ -148,6 +150,8 @@ def parse_bundles(path: Path, manifest: Manifest, fixture: bool) -> list[BundleD
     starts = declaration_starts(path)
     out: list[BundleDecl] = []
     for offset, (line_no, kind, short_name, full_name) in enumerate(starts):
+        if kind not in BUNDLE_DECL_KINDS:
+            continue
         next_line = starts[offset + 1][0] if offset + 1 < len(starts) else len(lines) + 1
         block = "\n".join(strip_line_comment(line) for line in lines[line_no - 1 : next_line - 1])
         match = RELCOMMRING_RE.search(block)
