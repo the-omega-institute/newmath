@@ -349,4 +349,55 @@ theorem RegularCauchyTelescopingBudgetCarrier_telescoping_composition
       telescopingReadUnary,
       regularCauchyTelescopingBudgetDecode_encode_bhist T⟩
 
+theorem RegularCauchyTelescopingBudgetCarrier_regseqrat_handoff_order
+    {E W D R S T H C P N precisionRead ledgerRead telescopingRead handoffRead
+      sealRead : BHist} :
+    UnaryHistory E →
+      UnaryHistory W →
+        UnaryHistory D →
+          UnaryHistory T →
+            UnaryHistory R →
+              UnaryHistory S →
+                Cont E W precisionRead →
+                  Cont precisionRead D ledgerRead →
+                    Cont ledgerRead T telescopingRead →
+                      Cont telescopingRead R handoffRead →
+                        Cont handoffRead S sealRead →
+                          regularCauchyTelescopingBudgetFromEventFlow
+                              (regularCauchyTelescopingBudgetToEventFlow
+                                (RegularCauchyTelescopingBudgetUp.mk E W D R S T H C P N)) =
+                            some (RegularCauchyTelescopingBudgetUp.mk E W D R S T H C P N) →
+                            UnaryHistory precisionRead ∧ UnaryHistory ledgerRead ∧
+                              UnaryHistory telescopingRead ∧ UnaryHistory handoffRead ∧
+                                UnaryHistory sealRead ∧
+                                  hsame
+                                    (regularCauchyTelescopingBudgetDecodeBHist
+                                      (regularCauchyTelescopingBudgetEncodeBHist R))
+                                    R ∧
+                                    hsame
+                                      (regularCauchyTelescopingBudgetDecodeBHist
+                                        (regularCauchyTelescopingBudgetEncodeBHist S))
+                                      S := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ChapterTasteGate UnaryHistory
+  intro precisionUnary windowUnary ledgerUnary telescopingUnary handoffUnary sealUnary
+    precisionRoute ledgerRoute telescopingRoute handoffRoute sealRoute _readback
+  have precisionReadUnary : UnaryHistory precisionRead :=
+    unary_cont_closed precisionUnary windowUnary precisionRoute
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed precisionReadUnary ledgerUnary ledgerRoute
+  have telescopingReadUnary : UnaryHistory telescopingRead :=
+    unary_cont_closed ledgerReadUnary telescopingUnary telescopingRoute
+  have handoffReadUnary : UnaryHistory handoffRead :=
+    unary_cont_closed telescopingReadUnary handoffUnary handoffRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed handoffReadUnary sealUnary sealRoute
+  exact
+    ⟨precisionReadUnary,
+      ledgerReadUnary,
+      telescopingReadUnary,
+      handoffReadUnary,
+      sealReadUnary,
+      regularCauchyTelescopingBudgetDecode_encode_bhist R,
+      regularCauchyTelescopingBudgetDecode_encode_bhist S⟩
+
 end BEDC.Derived.RegularCauchyTelescopingBudgetUp
