@@ -64,6 +64,20 @@ The row $G$ is not derived from those rows; it is displayed as the boundary sepa
 Therefore the packet cannot be strengthened into closed subject reduction or closed reduction consistency by reusing the positive fragment. Any such strengthening would require a row absent from the carrier.
 \end{proof}
 
+\begin{theorem}[Closed-normal consistency obstruction readback]
+\label{thm:closed-normal-consistency-subject-reduction-obstruction-readback}
+Every closed-consistency consumer of an accepted $\ClosedNormalConsistencyPacketUp$ packet that uses the positive rows $L,T,B,F,K$ must also expose the obstruction row $G$ before asking for arbitrary closed proof transport, closed subject reduction, or closed reduction consistency. The rows $H,C,P,N$ transport, replay, source, and name the same finite surface; no absent row discharges the subject-reduction obstruction.
+\end{theorem}
+\begin{proof}
+Project the carrier $Q=(L,T,B,F,K,G,H,C,P,N)$ of \autoref{def:closed-normal-consistency-packet-carrier}. The positive rows $L,T,B,F,K$ read only the beta-strong normal fragment named by the closed-normal theorem row.
+
+Apply the normal-fragment boundary, \autoref{thm:closed-normal-consistency-boundary-normal-fragment}. It allows the consumer to use the closedness, typing, beta-strong, false-type, and checked-theorem rows only inside that finite normal fragment.
+
+Apply the subject-reduction gap boundary, \autoref{thm:closed-normal-consistency-boundary-subject-reduction-gap}. It identifies $G$ as the exact displayed obstruction between the positive fragment and arbitrary closed proof transport.
+
+The structural rows do not remove the obstruction. Rows $H,C,P,N$ preserve and name the same finite packet, so any request for closed subject reduction or closed reduction consistency still has to expose $G$ and cannot be discharged by an absent row.
+\end{proof}
+
 \begin{closurestatus}{\ClosedNormalConsistencyPacketUp}
   \constructivestory{A $\ClosedNormalConsistencyPacketUp$ packet is generated from finite $\BHist$ rows for closed-normal positive fragments, reduction-consistency evidence, a displayed obstruction boundary, transports, continuations, provenance, and local naming. The positive rows are read by $\Cont$ as finite fragment evidence, while the obstruction row stays visible as the boundary separating that fragment from closed subject reduction. Componentwise $\hsame$ preserves both positive and obstruction rows, and $\Pkg$ records the closed-normal and reduction dependencies. The packet names exactly the finite consistency surface it carries and refuses any strengthening that needs absent rows.}
   \theoryclosure{\seedClosure}
