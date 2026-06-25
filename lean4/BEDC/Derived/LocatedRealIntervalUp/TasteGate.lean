@@ -248,4 +248,45 @@ theorem LocatedRealIntervalCarrier_cauchy_quotient_boundary_route [AskSetup] [Pa
     ⟨endpointRoute, radiusRoute, dyadicIntervalRoute, locatorRoute, modulusRoute, bracketRoute,
       boundaryFactorization⟩
 
+theorem LocatedRealIntervalCarrier_cauchy_quotient_namecert_surface [AskSetup] [PackageSetup]
+    {L U rho Delta Lambda M bracket F D W R E H C P N endpointRead radiusRead
+      dyadicIntervalRead locatorRead modulusRead bracketRead quotientRead refusalRead dyadicRead
+      windowRead readbackRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BEDC.Derived.CauchyQuotientBoundaryUp.CauchyQuotientBoundaryCarrier bracketRead bracket
+        F D W R E H C P N bundle pkg →
+      Cont L U endpointRead →
+        Cont endpointRead rho radiusRead →
+          Cont radiusRead Delta dyadicIntervalRead →
+            Cont dyadicIntervalRead Lambda locatorRead →
+              Cont locatorRead M modulusRead →
+                Cont modulusRead bracket bracketRead →
+                  Cont bracketRead bracket quotientRead →
+                    Cont quotientRead F refusalRead →
+                      Cont refusalRead D dyadicRead →
+                        Cont dyadicRead W windowRead →
+                          Cont windowRead R readbackRead →
+                            Cont readbackRead E sealRead →
+                              Cont L U endpointRead ∧ Cont endpointRead rho radiusRead ∧
+                                Cont radiusRead Delta dyadicIntervalRead ∧
+                                  Cont dyadicIntervalRead Lambda locatorRead ∧
+                                    Cont locatorRead M modulusRead ∧
+                                      Cont modulusRead bracket bracketRead ∧
+                                        UnaryHistory quotientRead ∧
+                                          UnaryHistory refusalRead ∧
+                                            UnaryHistory dyadicRead ∧
+                                              UnaryHistory windowRead ∧
+                                                UnaryHistory readbackRead ∧
+                                                  UnaryHistory sealRead ∧
+                                                    PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro boundaryCarrier endpointRoute radiusRoute dyadicIntervalRoute locatorRoute modulusRoute
+    bracketRoute quotientRoute refusalRoute dyadicRoute windowRoute readbackRoute sealRoute
+  have boundaryObligations :=
+    BEDC.Derived.CauchyQuotientBoundaryUp.CauchyQuotientBoundaryCarrier_namecert_obligations
+      boundaryCarrier quotientRoute refusalRoute dyadicRoute windowRoute readbackRoute sealRoute
+  exact
+    ⟨endpointRoute, radiusRoute, dyadicIntervalRoute, locatorRoute, modulusRoute, bracketRoute,
+      boundaryObligations⟩
+
 end BEDC.Derived.LocatedRealIntervalUp
