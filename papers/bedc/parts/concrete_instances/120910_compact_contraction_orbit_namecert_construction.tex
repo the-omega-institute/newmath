@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\CompactContractionOrbitUp$}
+\label{ch:concrete-instances-compact-contraction-orbit-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges constructive analysis, the $\CompactContractionOrbitUp$ packet records the finite Picard-orbit data consumed before a compact contraction read is allowed to seal a fixed-point endpoint. It sits between the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the complete metric admission boundary of \autoref{ch:concrete-instances-completemetric-namecert}, the Lipschitz and contraction-map rows of \autoref{ch:concrete-instances-lipschitzmap-namecert} and \autoref{ch:concrete-instances-contractionmapping-namecert}, the Banach fixed-point endpoint of \autoref{ch:concrete-instances-banach-fixed-point-namecert}, and the dyadic finite-cell readback of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}. The carrier names the finite orbit corridor only; it does not assert a selected fixed point, quotient orbit equality, open-cover compactness, or ambient completeness beyond the displayed rows.
+
+\begin{definition}[CompactContractionOrbit carrier]
+\label{def:compact-contraction-orbit-carrier}
+A $\CompactContractionOrbitUp$ carrier is a finite $\BHist$ packet
+$$
+O=(K,D,L,T,I,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row, exposing only the inspected compact metric windows and finite-net identifiers.
+\item $D$ is the $\DyadicIntervalNetUp$ cell row used to name the finite orbit windows and tolerance cells consumed by the compact source.
+\item $L$ is the $\LipschitzMapUp$ graph row for the displayed self-map, read before any contraction comparison is inspected.
+\item $T$ is the $\ContractionMappingUp$ row, including the strict contraction ledger and adjacent Picard comparison surface.
+\item $I$ is the finite Picard-orbit row, listing the displayed iterates and their predecessor links.
+\item $Q$ is the $\CompleteMetricUp$ admission row that records where the finite orbit may be handed to a Cauchy-facing consumer.
+\item $R$ is the regular tolerance readback attached to the dyadic cells and Picard comparisons.
+\item $E$ is the terminal $\BanachFixedPointUp$ endpoint-request row, readable only after $K,D,L,T,I,Q,R$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the compact source, dyadic cells, map rows, orbit rows, admission row, endpoint row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+K,D \longmapsto L,T \longmapsto I,Q,R \longmapsto E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CompactContractionOrbitUp$, $\CompactMetricUp$, $\CompleteMetricUp$, $\LipschitzMapUp$, $\ContractionMappingUp$, $\BanachFixedPointUp$, $\DyadicIntervalNetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompactContractionOrbitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,D,L,T,I,Q,R,E,H,C,P,N$. It has no coordinate for host fixed-point equality, a selected limit, quotient orbit equality, open-cover compactness, or ambient complete metric data outside the displayed admission row.
+\end{definition}
+
+\begin{theorem}[CompactContractionOrbit NameCert obligations]
+\label{thm:compact-contraction-orbit-namecert-obligations}
+For every accepted $\CompactContractionOrbitUp$ carrier
+$$
+O=(K,D,L,T,I,Q,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\CompactContractionOrbitUp}$ surface consists exactly of compact-metric source visibility for $K$, dyadic finite-cell visibility for $D$, Lipschitz graph visibility for $L$, contraction ledger visibility for $T$, finite Picard-orbit visibility for $I$, completion-admission visibility for $Q$, tolerance readback for $R$, Banach endpoint-request visibility for $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, sibling provenance through $P$, and local naming through $N$.
+
+No CompactContractionOrbit obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:compact-contraction-orbit-carrier}. The compact source and dyadic cell rows $K,D$ are read first, so the orbit corridor starts from displayed finite windows rather than from an ambient compactness theorem.
+
+Next expose the map rows. The Lipschitz graph row $L$ names the self-map surface, while the contraction row $T$ records the strict comparison data used by the Picard step ledger.
+
+The orbit and endpoint rows then become readable in order. The finite Picard row $I$, completion-admission row $Q$, and tolerance row $R$ are present before the Banach endpoint request $E$ can be inspected. Transport, replay, provenance, and local naming preserve this same order through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[CompactContractionOrbit Cauchy handoff]
+\label{thm:compact-contraction-orbit-cauchy-handoff}
+Every completion-facing or fixed-point-facing consumer of an accepted $\CompactContractionOrbitUp$ carrier factors through
+$$
+K,D \longmapsto L,T \longmapsto I,Q,R \longmapsto E,H,C,P,N .
+$$
+The consumer must read the $\CompactMetricUp$ source row, the $\DyadicIntervalNetUp$ finite-cell row, the $\LipschitzMapUp$ graph row, the $\ContractionMappingUp$ contraction row, the finite Picard orbit, and the $\CompleteMetricUp$ admission row before any $\BanachFixedPointUp$ endpoint request is consumed. The route exports no selected fixed point, quotient orbit equality, open-cover compactness, host map equality, or ambient completeness outside the displayed admission row.
+\end{theorem}
+\begin{proof}
+Begin with the finite compact source. The rows $K$ and $D$ expose the compact metric windows and dyadic cells that bound the orbit data available to the consumer.
+
+Then read the self-map and contraction rows. The graph row $L$ supplies the displayed map surface, while $T$ supplies the contraction comparison needed to interpret adjacent Picard steps.
+
+Finally use the finite-orbit corridor $I,Q,R,E,H,C,P,N$. The completion-admission row and tolerance readback are visible before the endpoint request, so any downstream Cauchy or fixed-point consumer receives only the displayed Picard corridor rather than a selected endpoint or an ambient compactness principle.
+\end{proof}
+
+\closureat{CompactContractionOrbitUp}{seedStr}
+
+\begin{closurestatus}{\CompactContractionOrbitUp}
+  \constructivestory{A $\CompactContractionOrbitUp$ packet is generated from a CompactMetric source row, a DyadicIntervalNet finite-cell row, LipschitzMap and ContractionMapping self-map rows, a finite Picard orbit, a CompleteMetric admission row, tolerance readback, a BanachFixedPoint endpoint-request row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-contraction-orbit-carrier}, \autoref{thm:compact-contraction-orbit-namecert-obligations}, and \autoref{thm:compact-contraction-orbit-cauchy-handoff} seed the finite compact contraction orbit corridor consumed before fixed-point sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected fixed points, quotient orbit equality, open-cover compactness, host map equality, ambient complete metric data, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact source visibility, dyadic cell visibility, Lipschitz and contraction map routing, finite Picard orbit coverage, completion admission, endpoint-request nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CompactContractionOrbitUp.}
+\end{closurestatus}

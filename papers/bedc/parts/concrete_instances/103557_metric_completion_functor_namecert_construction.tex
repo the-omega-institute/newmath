@@ -62,6 +62,81 @@ The target completion row $M_1$ supplies the completion-facing landing surface. 
 The rows $H,C,P,N$ preserve and name the same route. Since the carrier has no quotient, selected-limit, host-function-equality, or ambient-completeness coordinate, every L10 consumer receives only the displayed finite route.
 \end{proof}
 
+\begin{theorem}[MetricCompletionFunctor map-modulus compatibility]
+\label{thm:metric-completion-functor-map-modulus-compatibility}
+For an accepted $\MetricCompletionFunctorUp$ carrier
+$F=(M_0,M_1,G,E,T,H,C,P,N)$, every consumer read of map-modulus compatibility
+is forced through the displayed map row $G$ of
+\autoref{def:metric-completion-functor-carrier}. The source observations
+come from $M_0$, the target observations land in $M_1$, and the modulus row is
+read before the extension row $E$ can be consumed. No consumer may replace
+this finite row by host uniform continuity or a function-space equality.
+\end{theorem}
+\begin{proof}
+Read the carrier coordinates. The only row that relates source observations
+to target observations is $G$, and it is displayed between the source and
+target completion rows $M_0$ and $M_1$.
+
+The extension row $E$ is downstream of that graph and modulus data. A consumer
+therefore cannot request an extension read until the finite modulus and graph
+ledger in $G$ have already been exposed.
+
+Transport and replay are supplied by $H$ and $C$, with provenance and naming
+through $P$ and $N$. Since no host function-space row exists in the carrier,
+the compatibility claim is exactly the visible finite row.
+\end{proof}
+
+\begin{theorem}[MetricCompletionFunctor extension-ledger exactness]
+\label{thm:metric-completion-functor-extension-ledger-exactness}
+For an accepted $\MetricCompletionFunctorUp$ carrier
+$F=(M_0,M_1,G,E,T,H,C,P,N)$, every extension read is exactly the displayed
+row $E$ named in \autoref{def:metric-completion-functor-carrier}. The row $E$
+must be read after the source completion row $M_0$, the metric-map row $G$,
+and the target completion row $M_1$, and it may only export the completion
+handoff already visible through $\CompletionFunctorUp$ and
+$\CauchyCompletionFunctorUp$ rows.
+\end{theorem}
+\begin{proof}
+Project the route in \autoref{thm:metric-completion-functor-route}. The
+extension coordinate is not an independent host map; it is the displayed row
+encountered after the two completion packets and the map ledger have been
+read.
+
+Exactness means that a consumer cannot choose another extension witness or
+compare two extensions by host function equality. The only usable extension
+data are the entries of $E$, transported by $H$ and replayed by $C$.
+
+The provenance row $P$ records the source of the completion-functor handoff,
+and $N$ names the local certificate. These rows exhaust the extension ledger
+visible to downstream completion consumers.
+\end{proof}
+
+\begin{theorem}[MetricCompletionFunctor identity and composition functoriality]
+\label{thm:metric-completion-functor-identity-composition-functoriality}
+For an accepted $\MetricCompletionFunctorUp$ carrier
+$F=(M_0,M_1,G,E,T,H,C,P,N)$, every identity or composition read is forced
+through the functoriality ledger $T$ displayed in
+\autoref{def:metric-completion-functor-carrier}. Identity reads compare the
+visible completion row with its own displayed map ledger, and composition
+reads compare two displayed map rows only after their extension rows have
+been read. The comparison is finite $\hsame$ transport, not host equality of
+completed maps.
+\end{theorem}
+\begin{proof}
+The route theorem places $T$ after the extension row $E$. Thus identity and
+composition are not prerequisites for constructing a host functor; they are
+ledger reads over already displayed completion and extension data.
+
+For identity, $T$ records the finite transport comparing the source completion
+row with the identity map ledger. For composition, $T$ records the finite
+transport comparing the two-stage displayed map read with the displayed
+composite read after their extension rows are available.
+
+The rows $H,C,P,N$ transport, replay, source, and name those comparisons.
+Because the carrier has no host completed-map equality coordinate, the
+functoriality surface is exactly the finite ledger $T$.
+\end{proof}
+
 \closureat{MetricCompletionFunctorUp}{seedStr}
 
 \begin{closurestatus}{\MetricCompletionFunctorUp}

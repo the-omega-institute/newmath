@@ -391,4 +391,41 @@ theorem preorder_stability_certificate_fields (leC : BHist → BHist → Prop)
         · intro a a' b b' haa' hbb' hle
           exact leCongr haa' hbb' hle
 
+theorem preorder_singleton_empty_public_certificate_boundary :
+    let A_emp : BHist → Prop := fun h => PreorderCarrier h ∧ hsame h BHist.Empty
+    let rho_emp : BHist → BHist → Prop := fun h k => A_emp h ∧ A_emp k ∧ hsame h k
+    let le_emp_sg : BHist → BHist → Prop :=
+      fun h k => A_emp h ∧ A_emp k ∧ PreorderPrefixLE h k
+    SemanticNameCert A_emp A_emp A_emp rho_emp ∧
+      (∀ h k : BHist, le_emp_sg h k ↔ A_emp h ∧ A_emp k) := by
+  -- BEDC touchpoint anchor: BHist hsame NameCert SemanticNameCert PreorderCarrier
+  constructor
+  · constructor
+    · constructor
+      · exact ⟨BHist.Empty, unary_empty, hsame_refl BHist.Empty⟩
+      · intro h source
+        exact ⟨source, source, hsame_refl h⟩
+      · intro h k same
+        exact ⟨same.right.left, same.left, hsame_symm same.right.right⟩
+      · intro h k r hk kr
+        exact ⟨hk.left, kr.right.left, hsame_trans hk.right.right kr.right.right⟩
+      · intro h k same _source
+        exact same.right.left
+    · intro h source
+      exact source
+    · intro h source
+      exact source
+  · intro h k
+    constructor
+    · intro rel
+      exact ⟨rel.left, rel.right.left⟩
+    · intro endpoints
+      have hEmpty : hsame h BHist.Empty := endpoints.left.right
+      have kEmpty : hsame k BHist.Empty := endpoints.right.right
+      cases hEmpty
+      cases kEmpty
+      exact
+        ⟨endpoints.left, endpoints.right,
+          PreorderPrefixLE_of_hsame (hsame_refl BHist.Empty)⟩
+
 end BEDC.Derived.PreorderUp
