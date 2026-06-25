@@ -136,6 +136,23 @@ Next use the RegSeqRat route and the StreamName and RegSeqRat handoff, \autoref{
 Finally apply the Real seal nonescape theorem \autoref{thm:dyadic-interval-net-real-seal-nonescape}. Once $Q$ is reached, the structural rows $H,C,P,N$ preserve the same displayed packet, giving closed-bounded interval, compact-interval, and uniform-modulus consumers a finite source link and no ambient compactness or choice endpoint.
 \end{proof}
 
+\begin{theorem}[Dyadic interval net barycentric refinement consumer]\label{thm:dyadic-interval-net-barycentric-refinement-consumer}
+Let $I=(D,J,E,S,R,Q,H,C,P,N)$ be an accepted $\DyadicIntervalNetUp$ carrier. If a displayed $\DyadicBarycentricRefinementUp$ packet refines the parent cells in $J$ by finite barycentric child cells, then every downstream consumer of the refined net still reads endpoint arithmetic through $\DyadicRatCoreUp$, finite endpoint windows through $\StreamNameUp$, tolerance readback through $\RegSeqRatUp$, and the terminal seal through $\RealUp$ before any compact-interval or completion consumer inspects it. The refined route remains a finite L10 route through
+$$
+D,J,E \longmapsto S,R \longmapsto Q,H,C,P,N
+$$
+together with the sibling refinement rows of \autoref{ch:concrete-instances-dyadic-barycentric-refinement-namecert}; it exports no open-cover compactness, selected subcover, quotient stream equality, countable-choice schedule, trichotomy, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start from the cover refinement theorem \autoref{thm:dyadic-interval-net-cover-refinement}. The parent cells and endpoint-incidence rows already force the consumer to read the finite cell ledger $J,E$ and the endpoint arithmetic row $D$ before any Real-facing boundary is visible.
+
+Use mesh-refinement induction from \autoref{thm:dyadic-interval-net-mesh-refinement-induction}. A barycentric child-cell packet is a displayed finite refinement of the same kind: each child endpoint and mesh witness is listed before the StreamName and RegSeqRat rows are opened.
+
+Now apply the Real source link \autoref{thm:dyadic-interval-net-real-source-link} and the sibling $\DyadicBarycentricRefinementUp$ chapter. The sibling packet supplies the parent pointers, barycenter rows, and child-cell ledger, while this chapter supplies the endpoint, window, readback, and Real-seal order consumed by compact-interval and completion arguments.
+
+Finally replay $H,C,P,N$. Componentwise transport, continuation replay, provenance, and local naming keep the refined packet on the same finite L10 route, so barycentric refinement cannot introduce selected subcovers, quotient stream equality, choice, trichotomy, host equality, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Dyadic interval net finite-chain coverage]
 \label{thm:dyadic-interval-net-finite-chain-coverage}
 Every accepted finite chain of interval cells consumed by closed-bounded interval, compact-interval, or uniform-modulus routes is exhausted by the displayed rows

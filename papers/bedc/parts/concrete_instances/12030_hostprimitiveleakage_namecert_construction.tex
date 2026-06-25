@@ -111,6 +111,18 @@ The NameCert obligations of \autoref{thm:host-primitive-leakage-namecert-obligat
 Finally apply \autoref{thm:host-primitive-leakage-nonescape}. Reading $Q$ alone would expose only a refused request, and reading $E$ alone would expose only a replacement row; neither read can bypass the displayed audit-gate factorization through $F,G,H,C,P,N$.
 \end{proof}
 
+\begin{theorem}[HostPrimitiveLeakage formal-axis boundary]
+\label{thm:host-primitive-leakage-formal-axis-boundary}
+The paper-mature refusal route for $\HostPrimitiveLeakageUp$ is assembled from the displayed carrier, NameCert obligations, non-escape theorem, public-export theorem, report-row refusal theorem, quotient-soundness non-escape theorem, audit-gate factorization theorem, the checked TasteGate row \texttt{BEDC.Derived.HostPrimitiveLeakageUp.taste\_gate}, and the checked non-escape row \texttt{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageNonescape}. What remains on the formal axis is a single combined Lean target, \texttt{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageFormalTarget}, packaging those rows as one machine-checked chapter closure theorem.
+\end{theorem}
+\begin{proof}
+The carrier and paper theorems bind the public-site row, requested-host-primitive row, replacement row, diagnostic row, failed-gate row, audit-boundary row, transport row, replay row, provenance row, and local naming row inside the chapter.
+
+The two checked Lean rows witness different formal components: the TasteGate marker records the refusal packet's taste surface, and HostPrimitiveLeakageNonescape records the checked non-escape boundary. Neither marker is stated as the single combined closure theorem named above.
+
+Therefore the closurestatus block continues to report the formal axis as unformalized for the combined chapter theorem, while preserving the mature paper closure already witnessed by the displayed refusal route.
+\end{proof}
+
 \closureat{HostPrimitiveLeakageUp}{matureStr}[BEDC.Derived.HostPrimitiveLeakageUp.taste\_gate]
 
 \begin{closurestatus}{\HostPrimitiveLeakageUp}

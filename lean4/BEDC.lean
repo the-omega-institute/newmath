@@ -1808,6 +1808,7 @@ import BEDC.Derived.CauchyCompletionUniversalReflectorUp.ExtensionFactorization
 import BEDC.Derived.CauchyCompletionUniversalReflectorUp.NameCertObligations
 import BEDC.Derived.CauchyCompletionUniversalReflectorUp.TasteGate
 import BEDC.Derived.CauchyCompressionUp.TasteGate
+import BEDC.Derived.CauchyCondensationDyadicBlockWitnessUp.TasteGate
 import BEDC.Derived.CauchyCondensationIntegralBoundUp.TasteGate
 import BEDC.Derived.CauchyCondensationModulusUp.TasteGate
 import BEDC.Derived.CauchyCondensationRealSeriesUp.TasteGate
@@ -3833,6 +3834,7 @@ import BEDC.Derived.CosetSpaceUp.TasteGate
 import BEDC.Derived.CountableChoiceBoundaryUp.TasteGate
 import BEDC.Derived.CountableDenseSubsetUp.TasteGate
 import BEDC.Derived.CountableMetricCompletionUp.TasteGate
+import BEDC.Derived.CountableMetricNameUp.TasteGate
 import BEDC.Derived.CountableObservationScheduleUp.TasteGate
 import BEDC.Derived.CountablyCompactUp
 import BEDC.Derived.CounterfactualOutcomeUp.TasteGate
@@ -7668,6 +7670,7 @@ import BEDC.Derived.MetaCICAuditSynthesisPacketUp.PublicExport
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.PublicFrontierExport
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.PublicTransportGate
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ResidualDiamondHandoff
+import BEDC.Derived.MetaCICAuditSynthesisPacketUp.RetainedBlockerInduction
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ScopeClosure
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.ScopeStability
 import BEDC.Derived.MetaCICAuditSynthesisPacketUp.SubstitutionConfluenceJoin
@@ -10563,6 +10566,7 @@ import BEDC.Derived.RegularCauchyReciprocalUp.ScopedDenominatorApartness
 import BEDC.Derived.RegularCauchyReciprocalUp.TailStability
 import BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
 import BEDC.Derived.RegularCauchyReciprocalUp.WindowComposition
+import BEDC.Derived.RegularCauchyRecursionUp.TasteGate
 import BEDC.Derived.RegularCauchyReflectionLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.DiagonalConsumerBoundary
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.FiniteWindowInduction
@@ -11380,6 +11384,7 @@ import BEDC.Derived.SheafUp.TripleOverlapRoute
 import BEDC.Derived.SheafificationUp.CoverGluingNonescape
 import BEDC.Derived.SheafificationUp.CoverageExactness
 import BEDC.Derived.SheafificationUp.GluingExactness
+import BEDC.Derived.SheafificationUp.GluingLedgerScope
 import BEDC.Derived.SheafificationUp.LocalGluingObligation
 import BEDC.Derived.SheafificationUp.LocalityGluingScope
 import BEDC.Derived.SheafificationUp.LocalityRefinement
@@ -11389,6 +11394,7 @@ import BEDC.Derived.SheafificationUp.PresheafLocalityTransport
 import BEDC.Derived.SheafificationUp.SeparatedRefinementExactness
 import BEDC.Derived.SheafificationUp.SeparatedReflectionRoute
 import BEDC.Derived.SheafificationUp.SheafHandoff
+import BEDC.Derived.SheafificationUp.SourceCoverLocality
 import BEDC.Derived.SheafificationUp.SourceExposureObligation
 import BEDC.Derived.SheafificationUp.SourceLocalityObligation
 import BEDC.Derived.SheafificationUp.SourceObligationPackage
