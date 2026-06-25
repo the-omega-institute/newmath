@@ -136,6 +136,24 @@ Now use the consumer boundary \autoref{thm:metacic-candidate-normalization-confl
 Finally read the confluence-audit side through the same residual route. The sibling $\MetaCICConfluenceAuditPacketUp$ may consume the bounded endpoint only after $C,D,B,T,R,P,L$ remain visible, and those rows only transport, replay, source, and name the finite packet. Since the excluded global endpoints are not carrier coordinates, the normal-endpoint readback preserves the candidate and residual premises.
 \end{proof}
 
+\begin{theorem}[Candidate normal endpoint retention]
+\label{thm:metacic-candidate-normalization-confluence-handoff-normal-endpoint-retention}
+Let
+$$
+H=(A,K,N,F,C,D,B,T,R,P,L)
+$$
+be an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier. Any accepted endpoint read from $H$ must first expose the candidate gate $K$, normalization frontier $F$, residual envelope $C$, decidable boundary $D$, blocked-edge row $B$, residual-diamond retention row, and normal endpoint readback row before the endpoint row $N$ is consumed by a confluence or conversion-facing consumer. The retained read is a bounded handoff through $A,K,N,F,C,D,B,T,R,P,L$; it is not global confluence, unrestricted strong normalization, quotient syntax equality, or host evaluator soundness.
+\end{theorem}
+\begin{proof}
+Start with the boundary theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. It displays the candidate gate, normalization frontier, residual envelope, decidable boundary, and blocked-edge rows as separate carrier coordinates before any endpoint read is available.
+
+Apply premise exposure from \autoref{thm:metacic-candidate-normalization-confluence-handoff-premise-exposure}. A public consumer cannot pass directly to $N$; it must first retain $K,F,C,D,B$ inside the same accepted packet.
+
+Use residual-diamond retention from \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention}. This keeps the residual envelope, decidable boundary, and blocked edge visible when the endpoint is read by a confluence-facing route.
+
+Finally apply normal-endpoint readback from \autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-endpoint-readback}. The rows $T,R,P,L$ transport, replay, source, and name the same bounded route before $N$ is consumed, so the endpoint cannot be reinterpreted as any refused global MetaCIC principle.
+\end{proof}
+
 \begin{theorem}[MetaCIC finite endpoint comparison handoff]
 \label{thm:metacic-candidate-normalization-confluence-handoff-finite-endpoint-comparison}
 Let
@@ -154,6 +172,20 @@ Use residual-diamond retention from \autoref{thm:metacic-candidate-normalization
 Finally apply normal-endpoint readback from \autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-endpoint-readback}. The structural rows $T,R,P,L$ transport, replay, source, and name the same finite route before $N$ is consumed, so the comparison cannot export any of the refused global MetaCIC endpoints.
 \end{proof}
 \leanchecked{BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffFiniteEndpointComparison}
+
+\begin{theorem}[MetaCIC candidate handoff decidable normal-form comparison]
+\label{thm:metacic-candidate-handoff-decidable-normal-form-comparison}
+Any bounded normal-form comparison exported to a decidability consumer from an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier must expose candidate evidence $K$, frontier row $F$, residual envelope $C$, decidable boundary $D$, blocked edge $B$, and structural rows $T,R,P,L$ before the endpoint row $N$ is compared. The comparison is obtained only by chaining boundary exposure, premise exposure, residual-diamond retention, and finite endpoint comparison. It refuses full Church--Rosser, unrestricted subject reduction, quotient syntax equality, evaluator equality, global conversion decidability, and closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the boundary theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. It exposes the candidate row $K$, frontier row $F$, residual envelope $C$, decidable boundary $D$, and blocked edge $B$ before any endpoint comparison is available.
+
+Apply premise exposure from \autoref{thm:metacic-candidate-normalization-confluence-handoff-premise-exposure}. The bounded endpoint row $N$ remains downstream of the candidate and frontier rows, so the comparison still has to read the finite handoff surface.
+
+Now use residual-diamond retention from \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention}. The residual envelope and blocked edge remain visible on the comparison route, so the decidability consumer cannot erase the guarded premise surface.
+
+Finally apply finite endpoint comparison from \autoref{thm:metacic-candidate-normalization-confluence-handoff-finite-endpoint-comparison}. The rows $T,R,P,L$ transport, replay, source, and name the same finite route before $N$ is compared, which is exactly the bounded comparison route refused by the excluded global claims.
+\end{proof}
 
 \begin{theorem}[MetaCIC candidate handoff frontier normal-endpoint retention]
 \label{thm:metacic-candidate-handoff-frontier-normal-endpoint-retention}

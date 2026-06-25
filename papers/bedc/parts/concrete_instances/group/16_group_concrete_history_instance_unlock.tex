@@ -151,6 +151,18 @@ field has been read from the singleton carrier and append ledger, the target
 is the concrete instance itself rather than a parameterized group schema.
 \end{proof}
 
+\begin{theorem}[Group concrete history instance public laws]
+\label{thm:group-concrete-history-instance-public-laws}
+The concrete singleton $\GroupUp$ history instance exports closure, associativity, left unit, right unit, congruence, inverse closure, left inverse, and right inverse laws by reading the $\MonoidUp$ unary append laws together with the singleton empty-history inverse laws. Concretely, the public law surface uses the carrier $A_{\emp}$, classifier $R_{\emp}$, multiplication $\mathsf{append}$, unit $\emp$, classifier transport $\hsame$, and continuation replay $\Cont$ from \autoref{def:group-concrete-history-instance} and \autoref{thm:group-concrete-monoid-dependency}.
+\end{theorem}
+\begin{proof}
+Start from the concrete singleton history instance. The carrier is $A_{\emp}$, the classifier is $R_{\emp}$, the multiplication is append, and the unit is $\emp$.
+
+Apply \autoref{thm:group-concrete-monoid-dependency} and \autoref{thm:group-concrete-inverse-surface}. The monoid dependency supplies closure, associativity, left unit, right unit, and congruence on the append surface, while the singleton inverse surface supplies inverse closure and the two inverse laws.
+
+Finally read the laws as public rows of the same concrete packet. Because the carrier is singleton and the inverse is constant empty history, the public surface is non-parametric and uses only the displayed $A_{\emp}$, $R_{\emp}$, $\mathsf{append}$, $\emp$, $\hsame$, and $\Cont$ rows.
+\end{proof}
+
 \begin{definition}[Group finite-word history instance]
 \label{def:group-finite-word-history-instance}
 The finite-word $\GroupUp$ history instance has carrier

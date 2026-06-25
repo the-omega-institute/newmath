@@ -56,6 +56,22 @@ The factorization row $F$ is downstream of $U$. It stores the inspected arrow th
 The handoff row $H$ then records the relationship with the existing minimality, reflector-unit, and metric-completion packets. Thus every completion-facing read passes through $U$ and $F$ before reaching $Q$ or $H$.
 \end{proof}
 
+\begin{theorem}[Minimality handoff]
+\label{thm:real-completion-reflector-minimality-handoff}
+Let $R=(M,Q,E,U,F,T,H,C,P,N)$ be an accepted $\RealCompletionReflectorUp$ packet. Every completion-facing read that reaches the completion object row $E$ and the handoff row $H$ must pass through the displayed $\CauchyCompletionMinimalityUp$, $\CauchyCompletionReflectorUnitUp$, and $\MetricCompletionUp$ rows before exporting the Real-sealed reflector interface through $Q,F,T,C,P,N$.
+
+The handoff exports no Real completeness theorem, selected limit operation, quotient stream equality, trichotomy principle, countable-choice schedule, or host equality of completion representatives.
+\end{theorem}
+\begin{proof}
+Start with the local obligations of \autoref{thm:real-completion-reflector-namecert-obligations}. They make $E$ the only completion-object row and $H$ the only row that records the sibling completion packets, so a completion-facing read cannot obtain a completion service by bypassing those two rows.
+
+Apply the universal-arrow factorization of \autoref{thm:real-completion-reflector-universal-arrow-factorization}. Before the read may inspect the Real-sealed row $Q$ or the handoff row $H$, it has already passed through the source metric row $M$, the unit row $U$, and the factorization row $F$.
+
+The handoff row is then interpreted through the Cauchy-completion boundary. The NameCert obligations of \autoref{thm:cauchy-completion-minimality-namecert-obligations} and the universal factorization route of \autoref{thm:cauchy-completion-minimality-universal-factorization} force the minimality-facing part of the read through the displayed source, dense embedding, universal-property, uniformly continuous extension, separatedness, transport, replay, provenance, and local naming rows. The reflector-unit route of \autoref{thm:cauchy-completion-minimality-reflector-unit} supplies the unit-facing entrance to the same route, while the $\MetricCompletionUp$ row supplies the displayed completion object named by $E$.
+
+Thus the reflector packet exports only the composed finite route through $E,H$ and the named sibling completion packets before returning to $Q,F,T,C,P,N$. Since each cited route omits Real completeness, selected limits, quotient streams, trichotomy, countable choice, and host equality, the Real-sealed reflector interface cannot export any of those principles.
+\end{proof}
+
 \begin{theorem}[Real-seal nonescape]
 \label{thm:real-completion-reflector-real-seal-nonescape}
 Every Real-facing consumer read exported by an accepted $\RealCompletionReflectorUp$ packet factors through the displayed route
@@ -77,7 +93,7 @@ Finally $T,C,P,N$ transport, replay, source, and name the same finite packet. Be
 \begin{closurestatus}{\RealCompletionReflectorUp}
   \constructivestory{A $\RealCompletionReflectorUp$ packet is generated from a source metric row, RegSeqRat and Real seal row, completion object row, unit row, universal-arrow factorization row, componentwise hsame transport, completion-packet handoff, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-completion-reflector-carrier}, \autoref{thm:real-completion-reflector-namecert-obligations}, \autoref{thm:real-completion-reflector-universal-arrow-factorization}, and \autoref{thm:real-completion-reflector-real-seal-nonescape} seed the finite reflector boundary over displayed metric, regular-rational, stream-window, dyadic-tolerance, Real-seal, completion-object, unit, universal-arrow, transport, handoff, replay, provenance, and local naming rows.}
+  \scopeclosed{\autoref{def:real-completion-reflector-carrier}, \autoref{thm:real-completion-reflector-namecert-obligations}, \autoref{thm:real-completion-reflector-universal-arrow-factorization}, \autoref{thm:real-completion-reflector-minimality-handoff}, and \autoref{thm:real-completion-reflector-real-seal-nonescape} seed the finite reflector boundary over displayed metric, regular-rational, stream-window, dyadic-tolerance, Real-seal, completion-object, unit, universal-arrow, transport, handoff, replay, provenance, and local naming rows.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.RealCompletionReflectionUp.RealCompletionReflectionTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
