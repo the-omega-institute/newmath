@@ -42,4 +42,28 @@ theorem ClosurePreservationAuditWitness_beta_star_row [AskSetup] [PackageSetup]
     ⟨bUnary, rUnary, betaStarUnary, betaStepRoute, betaStarRoute, provenancePkg,
       betaStarPkg⟩
 
+theorem ClosurePreservationAuditWitness_substitution_row [AskSetup] [PackageSetup]
+    {S V F B R H C P N substitutionRead fullSubstitutionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosurePreservationAuditWitnessCarrier S V F B R H C P N bundle pkg →
+      Cont S V substitutionRead →
+        Cont substitutionRead F fullSubstitutionRead →
+          PkgSig bundle fullSubstitutionRead pkg →
+            UnaryHistory S ∧ UnaryHistory V ∧ UnaryHistory F ∧
+              UnaryHistory substitutionRead ∧ UnaryHistory fullSubstitutionRead ∧
+                Cont S V substitutionRead ∧ Cont substitutionRead F fullSubstitutionRead ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle fullSubstitutionRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier substitutionRoute fullSubstitutionRoute fullSubstitutionPkg
+  obtain ⟨sUnary, vUnary, fUnary, _bUnary, _rUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, _shiftVariableFull, _fullBetaTransport, _betaStepRoute, provenancePkg⟩ :=
+    carrier
+  have substitutionUnary : UnaryHistory substitutionRead :=
+    unary_cont_closed sUnary vUnary substitutionRoute
+  have fullSubstitutionUnary : UnaryHistory fullSubstitutionRead :=
+    unary_cont_closed substitutionUnary fUnary fullSubstitutionRoute
+  exact
+    ⟨sUnary, vUnary, fUnary, substitutionUnary, fullSubstitutionUnary,
+      substitutionRoute, fullSubstitutionRoute, provenancePkg, fullSubstitutionPkg⟩
+
 end BEDC.Derived.ClosurePreservationAuditWitnessUp
