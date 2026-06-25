@@ -145,6 +145,29 @@ theorem ObserverHistoryIdentityPacket_non_escape_boundary [AskSetup] [PackageSet
     ⟨leftUnary, rightUnary, signaturesUnary, samenessRowsUnary, ledgerUnary, routesUnary,
       provenanceUnary, nameCertUnary, sameRows, ledgerRoutes, provenancePkg, signaturesPkg, cert⟩
 
+theorem ObserverHistoryIdentityPacket_ledger_exactness [AskSetup] [PackageSetup]
+    {leftHistory rightHistory signatures samenessRows ledger routes provenance nameCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverHistoryIdentityPacket leftHistory rightHistory signatures samenessRows ledger routes
+        provenance nameCert bundle pkg ->
+      Cont ledger routes samenessRows ->
+        PkgSig bundle provenance pkg ->
+          UnaryHistory ledger ∧ UnaryHistory routes ∧ UnaryHistory provenance ∧
+            SameSig bundle leftHistory rightHistory ∧ Cont ledger routes samenessRows ∧
+              PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SameSig UnaryHistory
+  intro packet _routeWitness _provenanceWitness
+  obtain ⟨_cert, sameRows, ledgerRoutes, provenancePkg⟩ :=
+    ObserverHistoryIdentityPacket_namecert_obligations
+      (leftHistory := leftHistory) (rightHistory := rightHistory) (signatures := signatures)
+      (samenessRows := samenessRows) (ledger := ledger) (routes := routes)
+      (provenance := provenance) (nameCert := nameCert) (bundle := bundle) (pkg := pkg)
+      packet
+  obtain ⟨_leftUnary, _rightUnary, _signaturesUnary, _samenessRowsUnary, ledgerUnary,
+    routesUnary, provenanceUnary, _nameCertUnary, _sameRows, _ledgerRoutes,
+    _provenancePkg, _signaturesPkg⟩ := packet
+  exact ⟨ledgerUnary, routesUnary, provenanceUnary, sameRows, ledgerRoutes, provenancePkg⟩
+
 theorem ObserverHistoryIdentityPacket_classifier_stability [AskSetup] [PackageSetup]
     {leftHistory rightHistory signatures samenessRows ledger routes provenance nameCert
       signatures' samenessRows' ledger' routes' : BHist}

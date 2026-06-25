@@ -34,3 +34,21 @@ Apply residual pasting, \autoref{thm:metacic-parallel-diamond-frontier-residual-
 
 Finally hand the read to \autoref{thm:metacic-parallel-diamond-normalization-frontier-handoff}. That handoff exports only the conditional normalization-facing route, so the consumer cannot obtain premise-free confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency from candidate normalization alone.
 \end{proof}
+
+\begin{theorem}[MetaCIC candidate-normalization residual budget]
+\label{thm:metacic-parallel-diamond-frontier-candidate-normalization-residual-budget}
+A candidate-normalization consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet may spend only the displayed finite residual rows
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+Every normalization-facing read must keep the residual-substitution premise row $P$, candidate-join row $J$, residual-frontier row $R$, and obstruction row $O$ visible. The budget excludes premise-free confluence, subject reduction, evaluator equality, quotient term equality, and kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the candidate-normalization scope theorem, \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope}. It makes the displayed spine $P,K,J,R,S,C,B,O,H,T,G,N$ the only route available to a candidate-normalization consumer.
+
+Use obstruction retention under candidate normalization, \autoref{thm:metacic-parallel-diamond-frontier-obstruction-retention-under-candidate-normalization}. This keeps $P$ and $O$ visible when the candidate row $J$ is read, so the residual-substitution premise and obstruction cannot be silently discharged.
+
+Next compose substitution nonescape with residual pasting, \autoref{thm:metacic-parallel-diamond-frontier-substitution-nonescape} and \autoref{thm:metacic-parallel-diamond-frontier-residual-pasting}. These preserve the residual-frontier row $R$ and candidate-join row $J$ as finite rows of the same packet.
+
+Finally apply the normalization-frontier handoff, \autoref{thm:metacic-parallel-diamond-normalization-frontier-handoff}. The handoff exports only the conditional normalization-facing spine, so the consumer cannot spend the residual budget as premise-free confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{proof}
