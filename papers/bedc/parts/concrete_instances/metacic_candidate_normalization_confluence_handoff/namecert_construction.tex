@@ -155,6 +155,20 @@ Finally apply normal-endpoint readback from \autoref{thm:metacic-candidate-norma
 \end{proof}
 \leanchecked{BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffFiniteEndpointComparison}
 
+\begin{theorem}[MetaCIC candidate handoff decidable normal-form comparison]
+\label{thm:metacic-candidate-handoff-decidable-normal-form-comparison}
+Any bounded normal-form comparison exported to a decidability consumer from an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier must expose candidate evidence $K$, frontier row $F$, residual envelope $C$, decidable boundary $D$, blocked edge $B$, and structural rows $T,R,P,L$ before the endpoint row $N$ is compared. The comparison is obtained only by chaining boundary exposure, premise exposure, residual-diamond retention, and finite endpoint comparison. It refuses full Church--Rosser, unrestricted subject reduction, quotient syntax equality, evaluator equality, global conversion decidability, and closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the boundary theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. It exposes the candidate row $K$, frontier row $F$, residual envelope $C$, decidable boundary $D$, and blocked edge $B$ before any endpoint comparison is available.
+
+Apply premise exposure from \autoref{thm:metacic-candidate-normalization-confluence-handoff-premise-exposure}. The bounded endpoint row $N$ remains downstream of the candidate and frontier rows, so the comparison still has to read the finite handoff surface.
+
+Now use residual-diamond retention from \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention}. The residual envelope and blocked edge remain visible on the comparison route, so the decidability consumer cannot erase the guarded premise surface.
+
+Finally apply finite endpoint comparison from \autoref{thm:metacic-candidate-normalization-confluence-handoff-finite-endpoint-comparison}. The rows $T,R,P,L$ transport, replay, source, and name the same finite route before $N$ is compared, which is exactly the bounded comparison route refused by the excluded global claims.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate handoff frontier normal-endpoint retention]
 \label{thm:metacic-candidate-handoff-frontier-normal-endpoint-retention}
 Let
