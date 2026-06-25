@@ -79,6 +79,58 @@ By \autoref{thm:regular-cauchy-min-selector-ledger}, the readback row $R$ is dow
 The handoff to order-facing consumers is therefore the listed finite route. Compatibility with existing lattice surfaces can be checked against the sibling $\RegularCauchyMaxUp$ and $\RegularCauchyAbsUp$ routes, but the minimum packet itself does not expose host trichotomy, quotient stream equality, selected limits, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[RegularCauchyMin carrier admission obligation]
+\label{thm:regular-cauchy-min-obligation-carrier-admission}
+For every accepted $\RegularCauchyMinUp$ carrier
+$$
+M=(A,B,W,D_A,D_B,J,S,R,E,H,C,P,N),
+$$
+carrier admission is exactly the admission of the two $\RegSeqRatUp$ source rows $A,B$, the shared $\StreamNameUp$ window $W$, the two $\DyadicRatCoreUp$ tolerance ledgers $D_A,D_B$, the selector row $J$, the selected $\RegSeqRatUp$ row $S$, the $\RegSeqRatUp$ readback $R$, the $\RealUp$ seal $E$, the $\hsame$ transport row $H$, the $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\RegularCauchyMinUp}$ row $N$. No admitted carrier has a further host-order, quotient-stream, selected-limit, or completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the displayed tuple $M$. The first projections expose the two regular rational source names, the shared finite window, and the two dyadic endpoint-and-tolerance ledgers.
+
+Case-split on $J$. In the $A \preceq_W B$ branch, the selector admits $S$ as the replay of the $A$ source through $W,D_A$; in the $B \preceq_W A$ branch, it admits $S$ as the replay of the $B$ source through $W,D_B$.
+
+The remaining projections expose the readback $R$, the terminal real seal $E$, the componentwise transport row $H$, the displayed continuation row $C$, the provenance row $P$, and the local naming row $N$. This list is the full carrier inventory, so no hidden comparison or completion coordinate is available.
+\end{proof}
+
+\begin{theorem}[RegularCauchyMin selector transport stability]
+\label{thm:regular-cauchy-min-selector-transport-stability}
+Let
+$$
+M=(A,B,W,D_A,D_B,J,S,R,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyMinUp$ carrier. Any componentwise $\hsame$ transport recorded in $H$ preserves the selected $\RegSeqRatUp$ row $S$, the downstream readback $R$, the $\RealUp$ seal $E$, and the same selector alternative in $J$ over the transported $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Inspect the componentwise transport row $H$. It transports the two source rows, the shared window row, both dyadic ledgers, the selector row, the selected regular row, the readback, the seal, provenance, and local name together.
+
+Case-split on $J$. In the $A \preceq_W B$ branch, transport carries the selected replay of $A$ through the transported $W,D_A$ rows, so $S$, $R$, and $E$ remain downstream of the first source. In the $B \preceq_W A$ branch, the same argument carries the selected replay of $B$ through the transported $W,D_B$ rows.
+
+The continuation row $C$ replays the transported route in the same order, and $P,N$ only record provenance and local naming. Thus selector transport is stable without adding host trichotomy, quotient stream equality, selected limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegularCauchyMin real seal non-escape]
+\label{thm:regular-cauchy-min-real-seal-nonescape}
+Every $\RealUp$-facing read of an accepted $\RegularCauchyMinUp$ carrier
+$$
+M=(A,B,W,D_A,D_B,J,S,R,E,H,C,P,N)
+$$
+reaches the seal row $E$ only through
+$$
+A,B,W,D_A,D_B,J,S,R .
+$$
+The packet exports no host trichotomy on completed real names, no quotient stream equality, no selected limiting real, no hidden use of $\RegularCauchyMaxUp$ or $\RegularCauchyAbsUp$ as an extra carrier coordinate, and no ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Start with a Real-facing consumer. The carrier has only one Real endpoint, namely $E$, and the definition places $E$ downstream of the selected regular row $S$ and readback row $R$.
+
+Case-split on $J$. In the first branch, $S$ is obtained from $A,W,D_A$; in the second branch, $S$ is obtained from $B,W,D_B$. Both branches still expose the two source rows and the shared window before the selected readback is consumed.
+
+The sibling $\RegularCauchyMaxUp$ and $\RegularCauchyAbsUp$ packets may be cited by later algebraic consumers for compatibility, but they are not additional projections of $M$. Since $H,C,P,N$ only transport, replay, source, and name the same route, the Real seal cannot escape the finite selector ledger.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchyMinUp}
   \constructivestory{A $\RegularCauchyMinUp$ packet is generated from two RegSeqRat source rows, a shared StreamName window schedule, DyadicRatCore endpoint-and-tolerance observations, a comparison-selector row, a selected RegSeqRat row, a RegSeqRat readback row, a RealUp seal row, componentwise transport, continuation replay, package provenance, and local naming.}
   \theoryclosure{\seedClosure}
