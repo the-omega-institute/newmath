@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\SequentialContinuityCriterionUp$}
+\label{ch:concrete-instances-sequential-continuity-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\SequentialContinuityCriterionUp$ packet records the constructive criterion that a displayed continuous real map carries convergent source sequences to convergent image sequences through finite observation and modulus data. It sits over the $\StreamNameUp$ window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, the displayed continuity rows of $\ContinuousUp$, and the real-completeness route of \autoref{ch:visions-real-completeness}. The packet gives Real and Completion consumers a sequence-continuity criterion without quotient streams, host function equality, selected limits, countable choice, or ambient completeness.
+
+\begin{definition}[Sequential continuity criterion carrier]
+\label{def:sequential-continuity-criterion-carrier}
+A $\SequentialContinuityCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,Y,F,S_X,S_Y,W_X,W_Y,M,R_X,R_Y,E_X,E_Y,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the source and target $\RealUp$ rows whose sequence windows are inspected.
+\item $F$ is the $\ContinuousUp$ continuity row for the displayed map, carrying only graph and tolerance data visible to the certificate.
+\item $S_X$ and $S_Y$ are the source and image sequence rows, exposed as finite $\StreamNameUp$ observations.
+\item $W_X$ and $W_Y$ are the source sequence windows and image sequence windows read from $S_X$ and $S_Y$.
+\item $M$ is the continuity-modulus row. It records the finite tolerance-to-precision requests used to turn a source-window convergence request into an image-window convergence request.
+\item $R_X$ and $R_Y$ are the $\RegSeqRatUp$ readback rows for the source and image windows.
+\item $E_X$ and $E_Y$ are the $\RealUp$ seal rows reached only after the corresponding regular-rational readbacks have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, target, map, sequence windows, modulus, readbacks, seals, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from source sequence windows through the continuity modulus into image sequence windows, then through regular readback and Real seals.
+\item $P$ is the $\Pkg$ provenance over $\SequentialContinuityCriterionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\ContinuousUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialContinuityCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient stream equality, host function equality, selected representatives, countable choice, an external limit selector, or an ambient $\RealUp$ completeness theorem.
+\end{definition}
+
+\begin{theorem}[Sequential continuity criterion NameCert obligations]
+\label{thm:sequential-continuity-criterion-namecert-obligations}
+For every accepted $\SequentialContinuityCriterionUp$ carrier $K=(X,Y,F,S_X,S_Y,W_X,W_Y,M,R_X,R_Y,E_X,E_Y,H,C,P,N)$, the local $\NameCert_{\SequentialContinuityCriterionUp}$ surface consists exactly of source and target Real rows, a displayed $\ContinuousUp$ row, source and image sequence windows, a finite continuity-modulus row, $\StreamNameUp$ observations, $\RegSeqRatUp$ readbacks, terminal $\RealUp$ seals, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier. The source sequence is visible only through $S_X,W_X,R_X,E_X$, and the image sequence is visible only through $S_Y,W_Y,R_Y,E_Y$.
+
+The continuity information is the displayed row $F$ together with the finite modulus row $M$. A convergence request for the image sequence must first read the requested target tolerance in $M$, then inspect the source windows $W_X$ at the corresponding precision, and only then open the image windows $W_Y$.
+
+The structural rows $H,C,P,N$ preserve and name that finite route. Since quotient streams, host function equality, selected representatives, choice, external limit selection, and ambient completeness are absent from the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Sequential continuity criterion StreamName handoff]
+\label{thm:sequential-continuity-criterion-streamname-handoff}
+Every Real or Completion consumer that applies the $\SequentialContinuityCriterionUp$ packet to a displayed source sequence must read the finite handoff
+$$
+S_X,W_X,M,F,W_Y,S_Y
+$$
+before any regular-rational readback or Real seal is opened. Thus the criterion is consumed through $\StreamNameUp$ observations of source and image windows, not through quotient streams, host function equality, selected limits, or countable choice.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The only sequence-facing rows are $S_X,S_Y,W_X,W_Y$, and the only bridge from source windows to image windows is the pair $M,F$.
+
+Given a target tolerance, the consumer first reads the modulus row $M$. The requested source precision is then inspected in $W_X$ as a finite StreamName window, and the displayed continuity row $F$ routes that window to the image window $W_Y$.
+
+Only after this finite handoff may the consumer continue to readback and seal rows. The handoff therefore remains a window route and cannot be replaced by an equality of streams, a host-level function equation, a selected limit, or a choice schedule.
+\end{proof}
+
+\begin{theorem}[Sequential continuity criterion RegSeqRat and Real seal]
+\label{thm:sequential-continuity-criterion-regseqrat-real-seal}
+For every accepted $\SequentialContinuityCriterionUp$ carrier $K$, any image-convergence read that reaches a $\RealUp$ seal must pass through the source $\RegSeqRatUp$ readback $R_X$, the image $\RegSeqRatUp$ readback $R_Y$, and the terminal seals $E_X,E_Y$ in the displayed carrier. The route is compatible with the real-completeness vision of \autoref{ch:visions-real-completeness} because it exposes regular rational windows before the seal, but it does not itself assert ambient completeness or select a limit outside the packet.
+\end{theorem}
+\begin{proof}
+Use the StreamName handoff of \autoref{thm:sequential-continuity-criterion-streamname-handoff}. It places the source and image windows before any Real-facing conclusion.
+
+The regular-rational rows then supply the only readback surface. The source readback $R_X$ records the regular information consumed by the modulus, and the image readback $R_Y$ records the regular information exported to a Real or Completion consumer.
+
+Finally the seals $E_X,E_Y$ are terminal rows downstream of $R_X,R_Y$. The structural rows $H,C,P,N$ keep the same finite packet visible, so the route aligns with the regular-Cauchy discipline of the real-completeness vision while refusing ambient completeness, selected limits, quotient streams, host equality, and countable choice.
+\end{proof}
+
+\closureat{SequentialContinuityCriterionUp}{seedStr}
+
+\begin{closurestatus}{\SequentialContinuityCriterionUp}
+  \constructivestory{A $\SequentialContinuityCriterionUp$ packet is generated from source and target RealUp rows, a ContinuousUp row, finite source and image StreamName windows, a continuity-modulus row, RegSeqRat readbacks, RealUp seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-continuity-criterion-carrier}, \autoref{thm:sequential-continuity-criterion-namecert-obligations}, \autoref{thm:sequential-continuity-criterion-streamname-handoff}, and \autoref{thm:sequential-continuity-criterion-regseqrat-real-seal} seed the finite criterion route from displayed source sequence windows through continuity-modulus data to image readback and Real seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host function equality, selected limits, countable choice, ambient Real completeness, Lean verification, or bridge checking for $\SequentialContinuityCriterionUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, StreamName source and image window handoff, continuity-modulus exactness, RegSeqRat readback, RealUp seal ordering, transport stability, provenance, and local naming for BEDC.Derived.SequentialContinuityCriterionUp.}
+\end{closurestatus}
