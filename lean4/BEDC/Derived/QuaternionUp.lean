@@ -1,3 +1,4 @@
+import BEDC.Algebra.FiniteFold
 import BEDC.Derived.IntUp.CommRing
 
 namespace BEDC.Derived.QuaternionUp
@@ -464,6 +465,534 @@ theorem quatNorm_respects {x y : Quat} :
     (zAdd_respects (zMul_respects h.right.right.left h.right.right.left)
       (zMul_respects h.right.right.right h.right.right.right))
 
+private def zring : BEDC.Algebra.Rel.RelCommRing IntegerUp IntEq :=
+  BEDC.Algebra.Rel.IntegerUp_RelCommRing
+
+private theorem zNeg_neg (a : IntegerUp) : IntNeg (IntNeg a) ≈z a :=
+  zring.neg_neg a
+
+private theorem zEq_neg_of_add_eq_zero {a b : IntegerUp} :
+    IntAdd a b ≈z intZero -> b ≈z IntNeg a := by
+  intro h
+  exact zring.eq_neg_of_add_eq_zero h
+
+private theorem zNeg_add_pair (a b : IntegerUp) :
+    IntNeg (IntAdd a b) ≈z IntAdd (IntNeg a) (IntNeg b) := by
+  have hzero :
+      IntAdd (IntAdd a b) (IntAdd (IntNeg a) (IntNeg b)) ≈z intZero := by
+    calc
+      IntAdd (IntAdd a b) (IntAdd (IntNeg a) (IntNeg b))
+          ≈z IntAdd (IntAdd a (IntNeg a)) (IntAdd b (IntNeg b)) :=
+            zring.trans (zring.add_assoc a b (IntAdd (IntNeg a) (IntNeg b)))
+              (zring.trans
+                (zring.add_congr (zEq_refl a)
+                  (zring.symm (zring.add_assoc b (IntNeg a) (IntNeg b))))
+                (zring.trans
+                  (zring.add_congr (zEq_refl a)
+                    (zring.add_congr (zring.add_comm b (IntNeg a))
+                      (zEq_refl (IntNeg b))))
+                  (zring.trans
+                    (zring.add_congr (zEq_refl a)
+                      (zring.add_assoc (IntNeg a) b (IntNeg b)))
+                    (zring.symm (zring.add_assoc a (IntNeg a)
+                      (IntAdd b (IntNeg b)))))))
+      _ ≈z IntAdd intZero intZero :=
+            zring.add_congr (zAdd_neg a) (zAdd_neg b)
+      _ ≈z intZero := zZero_add intZero
+  exact zring.symm
+    (zEq_neg_of_add_eq_zero (a := IntAdd a b)
+      (b := IntAdd (IntNeg a) (IntNeg b)) hzero)
+
+private inductive ZExpr where
+  | var : Nat -> ZExpr
+  | add : ZExpr -> ZExpr -> ZExpr
+  | mul : ZExpr -> ZExpr -> ZExpr
+  | neg : ZExpr -> ZExpr
+
+private structure ZTerm where
+  neg : Bool
+  vars : List Nat
+
+private def eSub (a b : ZExpr) : ZExpr :=
+  ZExpr.add a (ZExpr.neg b)
+
+private def zMonoEval (vars : Nat -> IntegerUp) : List Nat -> IntegerUp
+  | [] => intOne
+  | i :: rest => IntMul (vars i) (zMonoEval vars rest)
+
+private def zTermEval (vars : Nat -> IntegerUp) (t : ZTerm) : IntegerUp :=
+  if t.neg then IntNeg (zMonoEval vars t.vars) else zMonoEval vars t.vars
+
+private def zExprEval (vars : Nat -> IntegerUp) : ZExpr -> IntegerUp
+  | ZExpr.var i => vars i
+  | ZExpr.add a b => IntAdd (zExprEval vars a) (zExprEval vars b)
+  | ZExpr.mul a b => IntMul (zExprEval vars a) (zExprEval vars b)
+  | ZExpr.neg a => IntNeg (zExprEval vars a)
+
+private def zTermNeg (t : ZTerm) : ZTerm :=
+  { neg := !t.neg, vars := t.vars }
+
+private def zTermMul (t u : ZTerm) : ZTerm :=
+  { neg := if t.neg then !u.neg else u.neg, vars := t.vars ++ u.vars }
+
+private def natEqBool : Nat -> Nat -> Bool
+  | 0, 0 => true
+  | 0, Nat.succ _ => false
+  | Nat.succ _, 0 => false
+  | Nat.succ a, Nat.succ b => natEqBool a b
+
+private def natLeBool : Nat -> Nat -> Bool
+  | 0, _ => true
+  | Nat.succ _, 0 => false
+  | Nat.succ a, Nat.succ b => natLeBool a b
+
+private def natListLeBool (a b : Nat) : Bool :=
+  natLeBool a b
+
+private def natInsert (x : Nat) : List Nat -> List Nat
+  | [] => [x]
+  | y :: ys => if natListLeBool x y then x :: y :: ys else y :: natInsert x ys
+
+private def natSort : List Nat -> List Nat
+  | [] => []
+  | x :: xs => natInsert x (natSort xs)
+
+private def zTermCanonical (t : ZTerm) : ZTerm :=
+  { neg := t.neg, vars := natSort t.vars }
+
+private def zTermsMulOne (t : ZTerm) : List ZTerm -> List ZTerm
+  | [] => []
+  | u :: us => zTermMul t u :: zTermsMulOne t us
+
+private def zTermsMul : List ZTerm -> List ZTerm -> List ZTerm
+  | [], _ => []
+  | t :: ts, us => zTermsMulOne t us ++ zTermsMul ts us
+
+private def zExprTerms : ZExpr -> List ZTerm
+  | ZExpr.var i => [{ neg := false, vars := [i] }]
+  | ZExpr.add a b => zExprTerms a ++ zExprTerms b
+  | ZExpr.mul a b => zTermsMul (zExprTerms a) (zExprTerms b)
+  | ZExpr.neg a => List.map zTermNeg (zExprTerms a)
+
+private def natLexLeBool : List Nat -> List Nat -> Bool
+  | [], _ => true
+  | _ :: _, [] => false
+  | a :: as, b :: bs =>
+      if natEqBool a b then natLexLeBool as bs else natLeBool a b
+
+private def zTermLeBool (a b : ZTerm) : Bool :=
+  match a.neg, b.neg with
+  | false, false => natLexLeBool a.vars b.vars
+  | false, true => true
+  | true, false => false
+  | true, true => natLexLeBool a.vars b.vars
+
+private def zTermInsert (t : ZTerm) : List ZTerm -> List ZTerm
+  | [] => [t]
+  | u :: us =>
+      if zTermLeBool t u then t :: u :: us else u :: zTermInsert t us
+
+private def zTermSort : List ZTerm -> List ZTerm
+  | [] => []
+  | t :: ts => zTermInsert t (zTermSort ts)
+
+private def zExprNorm (e : ZExpr) : List ZTerm :=
+  zTermSort (List.map zTermCanonical (zExprTerms e))
+
+private def zSumTerms (vars : Nat -> IntegerUp) : List ZTerm -> IntegerUp
+  | [] => intZero
+  | t :: terms => IntAdd (zTermEval vars t) (zSumTerms vars terms)
+
+private theorem natInsert_perm (x : Nat) :
+    ∀ xs : List Nat,
+      BEDC.Algebra.FiniteFold.ListPerm (natInsert x xs) (x :: xs)
+  | [] => by
+      exact BEDC.Algebra.FiniteFold.ListPerm.cons x
+        BEDC.Algebra.FiniteFold.ListPerm.nil
+  | y :: ys => by
+      cases h : natListLeBool x y
+      · unfold natInsert
+        rw [h]
+        exact BEDC.Algebra.FiniteFold.ListPerm.trans
+          (BEDC.Algebra.FiniteFold.ListPerm.cons y (natInsert_perm x ys))
+          (BEDC.Algebra.FiniteFold.ListPerm.swap y x ys)
+      · unfold natInsert
+        rw [h]
+        exact BEDC.Algebra.FiniteFold.listPerm_refl (x :: y :: ys)
+
+private theorem natSort_perm :
+    ∀ xs : List Nat,
+      BEDC.Algebra.FiniteFold.ListPerm (natSort xs) xs
+  | [] => BEDC.Algebra.FiniteFold.ListPerm.nil
+  | x :: xs =>
+      BEDC.Algebra.FiniteFold.ListPerm.trans
+        (natInsert_perm x (natSort xs))
+        (BEDC.Algebra.FiniteFold.ListPerm.cons x (natSort_perm xs))
+
+private theorem zMonoEval_perm (vars : Nat -> IntegerUp) :
+    ∀ {xs ys : List Nat},
+      BEDC.Algebra.FiniteFold.ListPerm xs ys ->
+        zMonoEval vars xs ≈z zMonoEval vars ys
+  | _, _, BEDC.Algebra.FiniteFold.ListPerm.nil =>
+      zEq_refl intOne
+  | _, _, BEDC.Algebra.FiniteFold.ListPerm.cons x p => by
+      exact zring.mul_congr (zEq_refl (vars x)) (zMonoEval_perm vars p)
+  | _, _, BEDC.Algebra.FiniteFold.ListPerm.swap x y xs => by
+      exact zring.trans (zring.symm (zring.mul_assoc (vars x) (vars y) (zMonoEval vars xs)))
+        (zring.trans
+          (zring.mul_congr (zring.mul_comm (vars x) (vars y))
+            (zEq_refl (zMonoEval vars xs)))
+          (zring.mul_assoc (vars y) (vars x) (zMonoEval vars xs)))
+  | _, _, BEDC.Algebra.FiniteFold.ListPerm.trans p q =>
+      zring.trans (zMonoEval_perm vars p) (zMonoEval_perm vars q)
+
+private theorem zTermCanonical_eval (vars : Nat -> IntegerUp) (t : ZTerm) :
+    zTermEval vars (zTermCanonical t) ≈z zTermEval vars t := by
+  cases t with
+  | mk isNeg mono =>
+      cases isNeg
+      · exact zMonoEval_perm vars (natSort_perm mono)
+      · exact zring.neg_congr (zMonoEval_perm vars (natSort_perm mono))
+
+private theorem zSum_canonical (vars : Nat -> IntegerUp) :
+    ∀ terms : List ZTerm,
+      zSumTerms vars (List.map zTermCanonical terms) ≈z zSumTerms vars terms
+  | [] => zEq_refl intZero
+  | t :: ts => by
+      exact zring.add_congr (zTermCanonical_eval vars t) (zSum_canonical vars ts)
+
+private theorem zTermInsert_perm (t : ZTerm) :
+    ∀ terms : List ZTerm,
+      BEDC.Algebra.FiniteFold.ListPerm (zTermInsert t terms) (t :: terms)
+  | [] => by
+      exact BEDC.Algebra.FiniteFold.ListPerm.cons t
+        BEDC.Algebra.FiniteFold.ListPerm.nil
+  | u :: us => by
+      cases h : zTermLeBool t u
+      · unfold zTermInsert
+        rw [h]
+        exact BEDC.Algebra.FiniteFold.ListPerm.trans
+          (BEDC.Algebra.FiniteFold.ListPerm.cons u (zTermInsert_perm t us))
+          (BEDC.Algebra.FiniteFold.ListPerm.swap u t us)
+      · unfold zTermInsert
+        rw [h]
+        exact BEDC.Algebra.FiniteFold.listPerm_refl (t :: u :: us)
+
+private theorem zTermSort_perm :
+    ∀ terms : List ZTerm,
+      BEDC.Algebra.FiniteFold.ListPerm (zTermSort terms) terms
+  | [] => BEDC.Algebra.FiniteFold.ListPerm.nil
+  | t :: ts =>
+      BEDC.Algebra.FiniteFold.ListPerm.trans
+        (zTermInsert_perm t (zTermSort ts))
+        (BEDC.Algebra.FiniteFold.ListPerm.cons t (zTermSort_perm ts))
+
+private theorem zSum_perm (vars : Nat -> IntegerUp) :
+    ∀ {xs ys : List ZTerm},
+      BEDC.Algebra.FiniteFold.ListPerm xs ys ->
+        zSumTerms vars xs ≈z zSumTerms vars ys
+  | _, _, BEDC.Algebra.FiniteFold.ListPerm.nil =>
+      zEq_refl intZero
+  | _, _, BEDC.Algebra.FiniteFold.ListPerm.cons x p => by
+      exact zring.add_congr (zEq_refl (zTermEval vars x)) (zSum_perm vars p)
+  | _, _, BEDC.Algebra.FiniteFold.ListPerm.swap x y xs => by
+      exact zring.trans
+        (zring.symm (zring.add_assoc (zTermEval vars x) (zTermEval vars y)
+          (zSumTerms vars xs)))
+        (zring.trans
+          (zring.add_congr (zring.add_comm (zTermEval vars x) (zTermEval vars y))
+            (zEq_refl (zSumTerms vars xs)))
+          (zring.add_assoc (zTermEval vars y) (zTermEval vars x)
+            (zSumTerms vars xs)))
+  | _, _, BEDC.Algebra.FiniteFold.ListPerm.trans p q =>
+      zring.trans (zSum_perm vars p) (zSum_perm vars q)
+
+private theorem zSum_sort (vars : Nat -> IntegerUp) (terms : List ZTerm) :
+    zSumTerms vars (zTermSort terms) ≈z zSumTerms vars terms := by
+  exact zSum_perm vars (zTermSort_perm terms)
+
+private theorem zSum_append (vars : Nat -> IntegerUp) (xs ys : List ZTerm) :
+    zSumTerms vars (xs ++ ys) ≈z IntAdd (zSumTerms vars xs) (zSumTerms vars ys) := by
+  induction xs with
+  | nil =>
+      exact zring.symm (zring.zero_add (zSumTerms vars ys))
+  | cons x xs ih =>
+      exact zring.trans
+        (zring.add_congr (zEq_refl (zTermEval vars x)) ih)
+        (zring.symm (zring.add_assoc (zTermEval vars x)
+          (zSumTerms vars xs) (zSumTerms vars ys)))
+
+private theorem zMonoEval_append (vars : Nat -> IntegerUp) :
+    ∀ xs ys : List Nat,
+      zMonoEval vars (xs ++ ys) ≈z IntMul (zMonoEval vars xs) (zMonoEval vars ys)
+  | [], ys => by
+      exact zring.symm (zring.one_mul (zMonoEval vars ys))
+  | x :: xs, ys => by
+      exact zring.trans
+        (zring.mul_congr (zEq_refl (vars x)) (zMonoEval_append vars xs ys))
+        (zring.symm (zring.mul_assoc (vars x) (zMonoEval vars xs)
+          (zMonoEval vars ys)))
+
+private theorem zTermEval_neg (vars : Nat -> IntegerUp) (t : ZTerm) :
+    zTermEval vars (zTermNeg t) ≈z IntNeg (zTermEval vars t) := by
+  cases t with
+  | mk isNeg mono =>
+      cases isNeg
+      · exact zEq_refl (IntNeg (zMonoEval vars mono))
+      · exact zring.symm (zNeg_neg (zMonoEval vars mono))
+
+private theorem zTermEval_mul (vars : Nat -> IntegerUp) (t u : ZTerm) :
+    zTermEval vars (zTermMul t u) ≈z
+      IntMul (zTermEval vars t) (zTermEval vars u) := by
+  cases t with
+  | mk tNeg tVars =>
+      cases u with
+      | mk uNeg uVars =>
+          cases tNeg <;> cases uNeg
+          · exact zMonoEval_append vars tVars uVars
+          · exact zring.trans
+              (zring.neg_congr (zMonoEval_append vars tVars uVars))
+              (zring.symm (zring.mul_neg (zMonoEval vars tVars)
+                (zMonoEval vars uVars)))
+          · exact zring.trans
+              (zring.neg_congr (zMonoEval_append vars tVars uVars))
+              (zring.symm (zring.neg_mul (zMonoEval vars tVars)
+                (zMonoEval vars uVars)))
+          · exact zring.trans (zMonoEval_append vars tVars uVars)
+              (zring.symm (zring.neg_neg_mul_neg (zMonoEval vars tVars)
+                (zMonoEval vars uVars)))
+
+private theorem zSum_neg (vars : Nat -> IntegerUp) :
+    ∀ terms : List ZTerm,
+      zSumTerms vars (List.map zTermNeg terms) ≈z IntNeg (zSumTerms vars terms)
+  | [] => by
+      exact zring.symm zNeg_zero
+  | t :: ts => by
+      exact zring.trans
+        (zring.add_congr (zTermEval_neg vars t) (zSum_neg vars ts))
+        (zring.symm (zNeg_add_pair (zTermEval vars t) (zSumTerms vars ts)))
+
+private theorem zTermsMulOne_sound (vars : Nat -> IntegerUp) (t : ZTerm) :
+    ∀ terms : List ZTerm,
+      zSumTerms vars (zTermsMulOne t terms) ≈z
+        IntMul (zTermEval vars t) (zSumTerms vars terms)
+  | [] => by
+      exact zring.symm (zring.mul_zero (zTermEval vars t))
+  | u :: us => by
+      exact zring.trans
+        (zring.add_congr (zTermEval_mul vars t u) (zTermsMulOne_sound vars t us))
+        (zring.symm (zring.left_distrib (zTermEval vars t)
+          (zTermEval vars u) (zSumTerms vars us)))
+
+private theorem zTermsMul_sound (vars : Nat -> IntegerUp) :
+    ∀ xs ys : List ZTerm,
+      zSumTerms vars (zTermsMul xs ys) ≈z
+        IntMul (zSumTerms vars xs) (zSumTerms vars ys)
+  | [], ys => by
+      exact zring.symm (zring.zero_mul (zSumTerms vars ys))
+  | x :: xs, ys => by
+      exact zring.trans
+        (zSum_append vars (zTermsMulOne x ys) (zTermsMul xs ys))
+        (zring.trans
+          (zring.add_congr (zTermsMulOne_sound vars x ys)
+            (zTermsMul_sound vars xs ys))
+          (zring.symm (zring.right_distrib (zTermEval vars x)
+            (zSumTerms vars xs) (zSumTerms vars ys))))
+
+private theorem zExprTerms_sound_var (vars : Nat -> IntegerUp) (i : Nat) :
+    zExprEval vars (ZExpr.var i) ≈z zSumTerms vars (zExprTerms (ZExpr.var i)) := by
+  change vars i ≈z IntAdd (IntMul (vars i) intOne) intZero
+  exact zring.symm
+    (zring.trans (zring.add_zero (IntMul (vars i) intOne))
+      (zMul_one (vars i)))
+
+private theorem zExprTerms_sound :
+    ∀ (vars : Nat -> IntegerUp) (e : ZExpr),
+      zExprEval vars e ≈z zSumTerms vars (zExprTerms e)
+  | vars, ZExpr.var i =>
+      zExprTerms_sound_var vars i
+  | vars, ZExpr.add a b => by
+      exact zring.trans
+        (zring.add_congr (zExprTerms_sound vars a) (zExprTerms_sound vars b))
+        (zring.symm (zSum_append vars (zExprTerms a) (zExprTerms b)))
+  | vars, ZExpr.mul a b => by
+      exact zring.trans
+        (zring.mul_congr (zExprTerms_sound vars a) (zExprTerms_sound vars b))
+        (zring.symm (zTermsMul_sound vars (zExprTerms a) (zExprTerms b)))
+  | vars, ZExpr.neg a => by
+      exact zring.trans (zring.neg_congr (zExprTerms_sound vars a))
+        (zring.symm (zSum_neg vars (zExprTerms a)))
+
+private theorem zExprNorm_sound (vars : Nat -> IntegerUp) (e : ZExpr) :
+    zExprEval vars e ≈z zSumTerms vars (zExprNorm e) := by
+  exact zring.trans (zExprTerms_sound vars e)
+    (zring.trans
+      (zring.symm (zSum_canonical vars (zExprTerms e)))
+      (zring.symm (zSum_sort vars (List.map zTermCanonical (zExprTerms e)))))
+
+private theorem zExpr_same_norm (vars : Nat -> IntegerUp) (a b : ZExpr)
+    (h : zExprNorm a = zExprNorm b) :
+    zExprEval vars a ≈z zExprEval vars b := by
+  have left := zExprNorm_sound vars a
+  have right := zExprNorm_sound vars b
+  rw [h] at left
+  exact zring.trans left (zring.symm right)
+
+private structure QuatExpr where
+  re : ZExpr
+  imI : ZExpr
+  imJ : ZExpr
+  imK : ZExpr
+
+private def qExprX : QuatExpr :=
+  { re := ZExpr.var 0, imI := ZExpr.var 1, imJ := ZExpr.var 2, imK := ZExpr.var 3 }
+
+private def qExprY : QuatExpr :=
+  { re := ZExpr.var 4, imI := ZExpr.var 5, imJ := ZExpr.var 6, imK := ZExpr.var 7 }
+
+private def qExprZ : QuatExpr :=
+  { re := ZExpr.var 8, imI := ZExpr.var 9, imJ := ZExpr.var 10, imK := ZExpr.var 11 }
+
+private def qExprAdd (x y : QuatExpr) : QuatExpr :=
+  { re := ZExpr.add x.re y.re
+    imI := ZExpr.add x.imI y.imI
+    imJ := ZExpr.add x.imJ y.imJ
+    imK := ZExpr.add x.imK y.imK }
+
+private def qExprMul (x y : QuatExpr) : QuatExpr :=
+  { re := eSub (eSub (eSub (ZExpr.mul x.re y.re) (ZExpr.mul x.imI y.imI))
+      (ZExpr.mul x.imJ y.imJ)) (ZExpr.mul x.imK y.imK)
+    imI := ZExpr.add (ZExpr.add (ZExpr.mul x.re y.imI) (ZExpr.mul x.imI y.re))
+      (eSub (ZExpr.mul x.imJ y.imK) (ZExpr.mul x.imK y.imJ))
+    imJ := ZExpr.add (eSub (ZExpr.mul x.re y.imJ) (ZExpr.mul x.imI y.imK))
+      (ZExpr.add (ZExpr.mul x.imJ y.re) (ZExpr.mul x.imK y.imI))
+    imK := ZExpr.add (ZExpr.add (ZExpr.mul x.re y.imK) (ZExpr.mul x.imI y.imJ))
+      (eSub (ZExpr.mul x.imK y.re) (ZExpr.mul x.imJ y.imI)) }
+
+private def quatExprVars (x y z : Quat) : Nat -> IntegerUp
+  | 0 => x.re
+  | 1 => x.imI
+  | 2 => x.imJ
+  | 3 => x.imK
+  | 4 => y.re
+  | 5 => y.imI
+  | 6 => y.imJ
+  | 7 => y.imK
+  | 8 => z.re
+  | 9 => z.imI
+  | 10 => z.imJ
+  | 11 => z.imK
+  | _ => intZero
+
+private theorem quatMul_assoc_re (x y z : Quat) :
+    (quatMul (quatMul x y) z).re ≈z (quatMul x (quatMul y z)).re := by
+  let vars := quatExprVars x y z
+  change zExprEval vars (qExprMul (qExprMul qExprX qExprY) qExprZ).re ≈z
+    zExprEval vars (qExprMul qExprX (qExprMul qExprY qExprZ)).re
+  exact zExpr_same_norm vars _ _ rfl
+
+private theorem quatMul_assoc_imI (x y z : Quat) :
+    (quatMul (quatMul x y) z).imI ≈z (quatMul x (quatMul y z)).imI := by
+  let vars := quatExprVars x y z
+  change zExprEval vars (qExprMul (qExprMul qExprX qExprY) qExprZ).imI ≈z
+    zExprEval vars (qExprMul qExprX (qExprMul qExprY qExprZ)).imI
+  exact zExpr_same_norm vars _ _ rfl
+
+private theorem quatMul_assoc_imJ (x y z : Quat) :
+    (quatMul (quatMul x y) z).imJ ≈z (quatMul x (quatMul y z)).imJ := by
+  let vars := quatExprVars x y z
+  change zExprEval vars (qExprMul (qExprMul qExprX qExprY) qExprZ).imJ ≈z
+    zExprEval vars (qExprMul qExprX (qExprMul qExprY qExprZ)).imJ
+  exact zExpr_same_norm vars _ _ rfl
+
+private theorem quatMul_assoc_imK (x y z : Quat) :
+    (quatMul (quatMul x y) z).imK ≈z (quatMul x (quatMul y z)).imK := by
+  let vars := quatExprVars x y z
+  change zExprEval vars (qExprMul (qExprMul qExprX qExprY) qExprZ).imK ≈z
+    zExprEval vars (qExprMul qExprX (qExprMul qExprY qExprZ)).imK
+  exact zExpr_same_norm vars _ _ rfl
+
+theorem quatMul_assoc (x y z : Quat) :
+    QuatEq (quatMul (quatMul x y) z) (quatMul x (quatMul y z)) := by
+  exact ⟨quatMul_assoc_re x y z, quatMul_assoc_imI x y z,
+    quatMul_assoc_imJ x y z, quatMul_assoc_imK x y z⟩
+
+private theorem quatMul_add_distrib_re (x y z : Quat) :
+    (quatMul x (quatAdd y z)).re ≈z
+      (quatAdd (quatMul x y) (quatMul x z)).re := by
+  let vars := quatExprVars x y z
+  change zExprEval vars (qExprMul qExprX (qExprAdd qExprY qExprZ)).re ≈z
+    zExprEval vars (qExprAdd (qExprMul qExprX qExprY) (qExprMul qExprX qExprZ)).re
+  exact zExpr_same_norm vars _ _ rfl
+
+private theorem quatMul_add_distrib_imI (x y z : Quat) :
+    (quatMul x (quatAdd y z)).imI ≈z
+      (quatAdd (quatMul x y) (quatMul x z)).imI := by
+  let vars := quatExprVars x y z
+  change zExprEval vars (qExprMul qExprX (qExprAdd qExprY qExprZ)).imI ≈z
+    zExprEval vars (qExprAdd (qExprMul qExprX qExprY) (qExprMul qExprX qExprZ)).imI
+  exact zExpr_same_norm vars _ _ rfl
+
+private theorem quatMul_add_distrib_imJ (x y z : Quat) :
+    (quatMul x (quatAdd y z)).imJ ≈z
+      (quatAdd (quatMul x y) (quatMul x z)).imJ := by
+  let vars := quatExprVars x y z
+  change zExprEval vars (qExprMul qExprX (qExprAdd qExprY qExprZ)).imJ ≈z
+    zExprEval vars (qExprAdd (qExprMul qExprX qExprY) (qExprMul qExprX qExprZ)).imJ
+  exact zExpr_same_norm vars _ _ rfl
+
+private theorem quatMul_add_distrib_imK (x y z : Quat) :
+    (quatMul x (quatAdd y z)).imK ≈z
+      (quatAdd (quatMul x y) (quatMul x z)).imK := by
+  let vars := quatExprVars x y z
+  change zExprEval vars (qExprMul qExprX (qExprAdd qExprY qExprZ)).imK ≈z
+    zExprEval vars (qExprAdd (qExprMul qExprX qExprY) (qExprMul qExprX qExprZ)).imK
+  exact zExpr_same_norm vars _ _ rfl
+
+theorem quatMul_add_distrib (x y z : Quat) :
+    QuatEq (quatMul x (quatAdd y z))
+      (quatAdd (quatMul x y) (quatMul x z)) := by
+  exact ⟨quatMul_add_distrib_re x y z, quatMul_add_distrib_imI x y z,
+    quatMul_add_distrib_imJ x y z, quatMul_add_distrib_imK x y z⟩
+
+private theorem quatAdd_mul_distrib_re (x y z : Quat) :
+    (quatMul (quatAdd x y) z).re ≈z
+      (quatAdd (quatMul x z) (quatMul y z)).re := by
+  let vars := quatExprVars x y z
+  change zExprEval vars (qExprMul (qExprAdd qExprX qExprY) qExprZ).re ≈z
+    zExprEval vars (qExprAdd (qExprMul qExprX qExprZ) (qExprMul qExprY qExprZ)).re
+  exact zExpr_same_norm vars _ _ rfl
+
+private theorem quatAdd_mul_distrib_imI (x y z : Quat) :
+    (quatMul (quatAdd x y) z).imI ≈z
+      (quatAdd (quatMul x z) (quatMul y z)).imI := by
+  let vars := quatExprVars x y z
+  change zExprEval vars (qExprMul (qExprAdd qExprX qExprY) qExprZ).imI ≈z
+    zExprEval vars (qExprAdd (qExprMul qExprX qExprZ) (qExprMul qExprY qExprZ)).imI
+  exact zExpr_same_norm vars _ _ rfl
+
+private theorem quatAdd_mul_distrib_imJ (x y z : Quat) :
+    (quatMul (quatAdd x y) z).imJ ≈z
+      (quatAdd (quatMul x z) (quatMul y z)).imJ := by
+  let vars := quatExprVars x y z
+  change zExprEval vars (qExprMul (qExprAdd qExprX qExprY) qExprZ).imJ ≈z
+    zExprEval vars (qExprAdd (qExprMul qExprX qExprZ) (qExprMul qExprY qExprZ)).imJ
+  exact zExpr_same_norm vars _ _ rfl
+
+private theorem quatAdd_mul_distrib_imK (x y z : Quat) :
+    (quatMul (quatAdd x y) z).imK ≈z
+      (quatAdd (quatMul x z) (quatMul y z)).imK := by
+  let vars := quatExprVars x y z
+  change zExprEval vars (qExprMul (qExprAdd qExprX qExprY) qExprZ).imK ≈z
+    zExprEval vars (qExprAdd (qExprMul qExprX qExprZ) (qExprMul qExprY qExprZ)).imK
+  exact zExpr_same_norm vars _ _ rfl
+
+theorem quatAdd_mul_distrib (x y z : Quat) :
+    QuatEq (quatMul (quatAdd x y) z)
+      (quatAdd (quatMul x z) (quatMul y z)) := by
+  exact ⟨quatAdd_mul_distrib_re x y z, quatAdd_mul_distrib_imI x y z,
+    quatAdd_mul_distrib_imJ x y z, quatAdd_mul_distrib_imK x y z⟩
+
 structure QuaternionBasicLaws where
   eq_refl : ∀ x : Quat, QuatEq x x
   eq_symm : ∀ {x y : Quat}, QuatEq x y -> QuatEq y x
@@ -486,6 +1015,16 @@ structure QuaternionBasicLaws where
   one_mul : ∀ x : Quat, QuatEq (quatMul quatOne x) x
   mul_zero : ∀ x : Quat, QuatEq (quatMul x quatZero) quatZero
   zero_mul : ∀ x : Quat, QuatEq (quatMul quatZero x) quatZero
+  mul_assoc :
+    ∀ x y z : Quat, QuatEq (quatMul (quatMul x y) z) (quatMul x (quatMul y z))
+  left_distrib :
+    ∀ x y z : Quat,
+      QuatEq (quatMul x (quatAdd y z))
+        (quatAdd (quatMul x y) (quatMul x z))
+  right_distrib :
+    ∀ x y z : Quat,
+      QuatEq (quatMul (quatAdd x y) z)
+        (quatAdd (quatMul x z) (quatMul y z))
 
 def quaternion_basic_laws : QuaternionBasicLaws where
   eq_refl := QuatEq_refl
@@ -514,5 +1053,56 @@ def quaternion_basic_laws : QuaternionBasicLaws where
   one_mul := quatOne_mul
   mul_zero := quatMul_zero
   zero_mul := quatZero_mul
+  mul_assoc := quatMul_assoc
+  left_distrib := quatMul_add_distrib
+  right_distrib := quatAdd_mul_distrib
+
+instance QuaternionUp_RelEquiv :
+    BEDC.Algebra.Rel.RelEquiv Quat where
+  rel := QuatEq
+  refl := QuatEq_refl
+  symm := by
+    intro x y
+    exact QuatEq_symm
+  trans := by
+    intro x y z
+    exact QuatEq_trans
+
+instance QuaternionUp_RelRing :
+    BEDC.Algebra.Rel.RelRing Quat QuatEq where
+  zero := quatZero
+  one := quatOne
+  add := quatAdd
+  mul := quatMul
+  neg := quatNeg
+  refl := quaternion_basic_laws.eq_refl
+  symm := by
+    intro x y
+    exact quaternion_basic_laws.eq_symm
+  trans := by
+    intro x y z
+    exact quaternion_basic_laws.eq_trans
+  add_congr := by
+    intro x x' y y'
+    exact quaternion_basic_laws.add_respects
+  mul_congr := by
+    intro x x' y y'
+    exact quaternion_basic_laws.mul_respects
+  neg_congr := by
+    intro x y
+    exact quaternion_basic_laws.neg_respects
+  add_assoc := quaternion_basic_laws.add_assoc
+  add_comm := quaternion_basic_laws.add_comm
+  add_zero := quaternion_basic_laws.add_zero
+  zero_add := quaternion_basic_laws.zero_add
+  add_neg := quaternion_basic_laws.add_neg
+  neg_add := quaternion_basic_laws.neg_add
+  mul_assoc := quaternion_basic_laws.mul_assoc
+  mul_one := quaternion_basic_laws.mul_one
+  one_mul := quaternion_basic_laws.one_mul
+  mul_zero := quaternion_basic_laws.mul_zero
+  zero_mul := quaternion_basic_laws.zero_mul
+  left_distrib := quaternion_basic_laws.left_distrib
+  right_distrib := quaternion_basic_laws.right_distrib
 
 end BEDC.Derived.QuaternionUp
