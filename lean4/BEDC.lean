@@ -6901,6 +6901,7 @@ import BEDC.Derived.IteratedFunctionSystemUp
 import BEDC.Derived.IwasawaUp
 import BEDC.Derived.JacksonFiniteApproximationUp.TasteGate
 import BEDC.Derived.JacobiIterationUp.TasteGate
+import BEDC.Derived.JacobiUp
 import BEDC.Derived.JensenInequalityUp.TasteGate
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.JordanContentUp.TasteGate
