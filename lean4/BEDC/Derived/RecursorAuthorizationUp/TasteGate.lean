@@ -237,4 +237,14 @@ theorem RecursorAuthorizationTasteGate_single_carrier_alignment :
         exact recursorAuthorizationToEventFlow_injective heq
       · rfl
 
+theorem RecursorAuthorizationBranchExhaustion {I Sigma R M B D H C P N : BHist} :
+    recursorAuthorizationFields (RecursorAuthorizationUp.mk I Sigma R M B D H C P N) =
+        [I, Sigma, R, M, B, D, H, C, P, N] ∧
+      recursorAuthorizationToEventFlow (RecursorAuthorizationUp.mk I Sigma R M B D H C P N) =
+        List.map recursorAuthorizationEncodeBHist [I, Sigma, R, M, B, D, H, C, P, N] ∧
+        recursorAuthorizationEncodeBHist BHist.Empty = ([] : List BMark) ∧
+          hsame Sigma Sigma ∧ hsame B B := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  exact ⟨rfl, rfl, rfl, hsame_refl Sigma, hsame_refl B⟩
+
 end BEDC.Derived.RecursorAuthorizationUp

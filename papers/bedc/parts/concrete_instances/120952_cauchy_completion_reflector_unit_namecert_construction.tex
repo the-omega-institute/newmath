@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CauchyCompletionReflectorUnitUp$}
+\label{ch:concrete-instances-cauchy-completion-reflector-unit-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley on completions as reflector data, and Bishop--Bridges on constructive Cauchy completion, the $\CauchyCompletionReflectorUnitUp$ packet records the finite unit leg by which a displayed source Cauchy object enters the completion-reflector surface. It sits between the reflector packet of \autoref{ch:concrete-instances-cauchycompletionreflector-namecert}, the universal mapping surface of \autoref{ch:concrete-instances-cauchy-completion-adjunction-namecert}, the regular-Cauchy reflector row of \autoref{ch:concrete-instances-regular-cauchy-completion-reflector-namecert}, and the Real completion adjunction packet of \autoref{ch:concrete-instances-real-completion-adjunction-namecert}. The chapter names only the unit embedding and its dense-image replay; it does not assert quotient completion, selected representatives, countable choice, host equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy completion reflector unit carrier]
+\label{def:cauchy-completion-reflector-unit-carrier}
+A $\CauchyCompletionReflectorUnitUp$ carrier is a finite $\BHist$ packet
+$$
+U=(X,R,J,D,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source metric and Cauchy-observation row, including the finite source histories consumed before a completion request is public.
+\item $R$ is the $\CauchyCompletionReflectorUp$ or $\RegularCauchyCompletionReflectorUp$ row that exposes the target completion-reflector surface over the same source histories.
+\item $J$ is the unit embedding row from the source row into the reflector row, read as displayed finite data rather than as a quotient-class injection.
+\item $D$ is the dense unit-image row, requiring reflector-facing reads to expose the source image before universal mapping or Real-completion consumers can use the completed surface.
+\item $T$ is the triangle replay row, tying the unit read to the adjunction and Real-completion rows named by \autoref{ch:concrete-instances-cauchy-completion-adjunction-namecert} and \autoref{ch:concrete-instances-real-completion-adjunction-namecert}.
+\item $H$ records componentwise $\hsame$ transport for source, reflector, unit embedding, dense-image, triangle replay, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through
+$$
+X\longmapsto J\longmapsto R\longmapsto D,T\longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyCompletionReflectorUnitUp$, $\CauchyCompletionReflectorUp$, $\RegularCauchyCompletionReflectorUp$, $\CauchyCompletionAdjunctionUp$, $\RealCompletionAdjunctionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyCompletionReflectorUnitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,R,J,D,T,H,C,P,N$. It has no coordinate for quotient completion equality, selected representatives, countable-choice schedules, host equality of completed objects, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CauchyCompletionReflectorUnit NameCert obligations]
+\label{thm:cauchy-completion-reflector-unit-namecert-obligations}
+For every accepted $\CauchyCompletionReflectorUnitUp$ carrier $U=(X,R,J,D,T,H,C,P,N)$, the local $\NameCert_{\CauchyCompletionReflectorUnitUp}$ surface consists exactly of carrier admission for the source row, reflector row, unit embedding, dense unit image, triangle replay, componentwise transport, displayed continuation, provenance, and local naming rows.
+
+Every reflector-unit consumer must read $X,J,R,D,T,H,C,P,N$ in the displayed order before it exports a completion-facing handoff. The packet exports no quotient completion, selected representative, countable choice, host equality, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:cauchy-completion-reflector-unit-carrier}. The tuple exposes the source row $X$, reflector row $R$, unit row $J$, dense-image row $D$, triangle replay row $T$, and structural rows $H,C,P,N$.
+
+The unit embedding is read before the reflector target is used. A completion-facing consumer therefore obtains source access through $J$, then reads the reflector row $R$, and only after that exposes the dense unit-image row $D$.
+
+The triangle row is a replay row. It refers back to the displayed adjunction and Real-completion adjunction packets through $P$, while $H$ and $C$ transport and replay only the same finite coordinates. Since no refused host-side principle appears as a row of the carrier, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CauchyCompletionReflectorUnit triangle law]
+\label{thm:cauchy-completion-reflector-unit-triangle-law}
+Let $U=(X,R,J,D,T,H,C,P,N)$ be an accepted $\CauchyCompletionReflectorUnitUp$ carrier. Any unit-side read consumed by the Cauchy completion adjunction or the Real completion adjunction factors through
+$$
+X\longmapsto J\longmapsto R\longmapsto D\longmapsto T\longmapsto(H,C,P,N).
+$$
+The triangle law is only this finite replay condition over the displayed source, reflector, unit, dense-image, transport, continuation, provenance, and local $\NameCert$ rows. It does not identify quotient completions, select representatives, invoke countable choice, assert host equality, or claim ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:cauchy-completion-reflector-unit-namecert-obligations}. They force every accepted read to display the source, unit embedding, reflector, dense-image, triangle, transport, continuation, provenance, and naming rows.
+
+The adjunction-side consumer can then use the same route only through the cited sibling packets. The Cauchy completion adjunction supplies the universal mapping surface, the regular-Cauchy reflector supplies the regular source specialization, and the Real completion adjunction supplies the terminal Real-facing unit/counit boundary.
+
+The row $T$ records the replay through those surfaces, while $H,C,P,N$ preserve and name the same finite packet. Because the carrier has no quotient, representative-selection, choice, host-equality, or ambient-completeness coordinate, the triangle law is exactly the displayed BEDC replay.
+\end{proof}
+
+\closureat{CauchyCompletionReflectorUnitUp}{seedStr}
+
+\begin{closurestatus}{\CauchyCompletionReflectorUnitUp}
+  \constructivestory{A $\CauchyCompletionReflectorUnitUp$ packet is generated from source Cauchy data, a completion-reflector row, a unit embedding, dense unit-image evidence, triangle replay, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-completion-reflector-unit-carrier}, \autoref{thm:cauchy-completion-reflector-unit-namecert-obligations}, and \autoref{thm:cauchy-completion-reflector-unit-triangle-law} seed the finite unit leg for the L10 Cauchy completion reflector route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected representatives, countable choice, host equality of completed objects, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, unit embedding exposure, dense-image visibility, triangle replay exactness, transport stability, continuation replay, provenance exhaustion, and local naming for BEDC.Derived.CauchyCompletionReflectorUnitUp.}
+\end{closurestatus}
