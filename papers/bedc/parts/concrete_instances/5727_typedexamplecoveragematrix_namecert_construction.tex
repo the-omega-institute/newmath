@@ -81,6 +81,42 @@ The transport row $H$ preserves the same row identity under componentwise $\hsam
 Therefore a spend is confined to the displayed matrix row that carries all four cell kinds.
 \end{proof}
 
+\begin{theorem}[Typed example coverage matrix row totality]
+\label{thm:typed-example-coverage-matrix-row-totality}
+Every accepted family row in $F$ has displayed gallery, checker, beta-boundary, and regression-spend cells in $G,C,B,R$, with the exactness row $E$ recording that the four cells belong to the same row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to $F,G,C,B,R,E$. A family row is accepted only as an element of the finite index $F$, so the row is named before any coverage cell is consumed.
+
+Read the exactness row $E$ at that family index. The row-totality clause in $E$ displays the corresponding gallery cell in $G$, checker cell in $C$, beta-boundary cell in $B$, and regression-spend cell in $R$.
+
+Because $E$ is part of the same carrier, the four cells are not imported independently from sibling chapters. They are the displayed cells of the accepted matrix row.
+\end{proof}
+
+\begin{theorem}[Typed example coverage matrix checker-cell locality]
+\label{thm:typed-example-coverage-matrix-checker-cell-locality}
+A checker cell from $C$ may be consumed only at the family row whose gallery cell in $G$, beta-boundary cell in $B$, and regression-spend cell in $R$ are paired with it through $E$.
+\end{theorem}
+\begin{proof}
+Let a checker-audit consumer read a checker cell. The read is routed through $K$, hence it reaches $C$ only through the displayed matrix rows.
+
+The exactness row $E$ identifies the family row in $F$ attached to that checker cell. At the same index it displays the paired gallery, beta-boundary, and regression-spend cells in $G,B,R$.
+
+The transport row $H$ preserves this row identity under componentwise $\hsame$ movement. Thus a checker cell cannot be moved to a different family row or paired with unrelated sibling data.
+\end{proof}
+
+\begin{theorem}[Typed example coverage matrix family exhaustion]
+\label{thm:typed-example-coverage-matrix-family-exhaustion}
+The accepted family index $F$ exhausts the matrix surface of an accepted $\TypedExampleCoverageMatrixUp$ carrier: no ambient checker theorem, sibling gallery row, beta-boundary row, or unindexed budget row can add a hidden family outside $F$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory. The only family coordinate is $F$, and the only coverage-cell coordinates are $G,C,B,R$ paired by $E$.
+
+The provenance row $P$ records sibling ancestry, but provenance is not a second family index. Likewise, the continuation row $K$ only replays reads from the displayed matrix; it does not allocate another row.
+
+Since the carrier has no coordinate for an ambient checker theorem or unindexed budget row, every accepted family is already one of the rows of $F$.
+\end{proof}
+
 \falsifiablePrediction{If the coverage-matrix row is removed, a checker-audit consumer can no longer verify that every accepted typed-example family has paired gallery, checker, beta, and regression-spend cells.}
 
 \independenceWitness{Nearest siblings: metacictypedexamplesgallery, typedexamplegallery, metacic-typedexamples-seal, typedexampleauditbudget, betastepboundary. None carries the combined matrix-cell carrier because each sibling exposes one surface family, while the coverage matrix stores the shared family index and the paired gallery, checker, beta, and regression-spend cells in one packet.}
@@ -92,7 +128,7 @@ The Lean follow-up for namespace $\mathsf{BEDC.Derived.TypedExampleCoverageMatri
 \begin{closurestatus}{\TypedExampleCoverageMatrixUp}
   \constructivestory{A $\TypedExampleCoverageMatrixUp$ packet is generated from a finite typed-example family index, paired gallery cells, checker cells, beta cells, regression-spend cells, exactness rows, componentwise transports, continuation routes, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:typed-example-coverage-matrix-carrier}, \autoref{thm:typed-example-coverage-matrix-namecert-obligations}, \autoref{thm:typed-example-coverage-matrix-regression-exactness}, \autoref{thm:typed-example-coverage-matrix-nonescape}, and \autoref{thm:typed-example-coverage-matrix-spend-boundary} bind the finite coverage matrix for gallery, checker, beta, and regression-spend cells.}
+  \scopeclosed{\autoref{def:typed-example-coverage-matrix-carrier}, \autoref{thm:typed-example-coverage-matrix-namecert-obligations}, \autoref{thm:typed-example-coverage-matrix-regression-exactness}, \autoref{thm:typed-example-coverage-matrix-nonescape}, \autoref{thm:typed-example-coverage-matrix-spend-boundary}, \autoref{thm:typed-example-coverage-matrix-row-totality}, \autoref{thm:typed-example-coverage-matrix-checker-cell-locality}, and \autoref{thm:typed-example-coverage-matrix-family-exhaustion} bind the finite coverage matrix for gallery, checker, beta, regression-spend, row-totality, checker-locality, and family-exhaustion cells.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
