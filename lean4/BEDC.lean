@@ -2981,6 +2981,7 @@ import BEDC.Derived.ClosedNormalConfluenceSealUp.SubstitutionBoundary
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyBoundaryUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyMainUp.TasteGate
+import BEDC.Derived.ClosedNormalConsistencyPacketUp.NameCertObligations
 import BEDC.Derived.ClosedNormalConsistencyPacketUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyWitnessUp.TasteGate
 import BEDC.Derived.ClosedNormalEndpointLedgerUp.TasteGate
