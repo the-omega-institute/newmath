@@ -65,6 +65,82 @@ The uniform handoff does not open a second completion object. The row $U$ is one
 The excluded objects are not carrier rows. Consequently every accepted read factors through the route displayed in the statement.
 \end{proof}
 
+\begin{theorem}[CauchyFilterCompletionCriterion uniform handoff nonescape]
+\label{thm:cauchy-filter-completion-criterion-uniform-handoff-nonescape}
+For an accepted $\CauchyFilterCompletionCriterionUp$ carrier
+$K=(Q,B,F,U,S,D,R,E,H,C,P,N)$, every $\UniformCompletionUp$ handoff read is
+confined to the displayed row $U$ of
+\autoref{def:cauchy-filter-completion-criterion-carrier}. The handoff may be
+read only after the basis route of
+\autoref{thm:cauchy-filter-completion-criterion-basis-route} has exposed
+$F,B,Q,S,D,R,E$, and it cannot replace that route by a quotient filter,
+selected completion point, host equality, or countable choice.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows. The uniform-facing coordinate is $U$, and the
+basis-route theorem requires the Cauchy-filter source, basis row,
+completion-boundary row, window schedule, tolerance ledger, readback row, and
+Real seal to be displayed in the same packet.
+
+The handoff is therefore a downstream read of the existing route. It cannot
+open a second completion object or select a limit, because no quotient,
+selection, host-equality, or choice coordinate appears in $K$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same
+handoff. Thus every uniform read remains inside the finite criterion packet.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletionCriterion readback exactness]
+\label{thm:cauchy-filter-completion-criterion-readback-exactness}
+For an accepted $\CauchyFilterCompletionCriterionUp$ carrier
+$K=(Q,B,F,U,S,D,R,E,H,C,P,N)$, every numerical readback consumed by the
+criterion is exactly the finite route through the window row $S$, the dyadic
+tolerance row $D$, and the regular rational readback row $R$ named in
+\autoref{def:cauchy-filter-completion-criterion-carrier}. The basis route of
+\autoref{thm:cauchy-filter-completion-criterion-basis-route} admits no hidden
+cofinal tail, host filter equality, or ambient real-completeness read.
+\end{theorem}
+\begin{proof}
+The basis route displays the Cauchy-filter, basis, and completion-boundary
+rows before any numerical read is available. After those rows, the only
+numerical coordinates in the carrier are $S,D,R$.
+
+Exactness means that the requested tail is inspected through the finite
+window schedule $S$, the tolerance is read from $D$, and the regular rational
+value is read from $R$. A consumer has no coordinate from which to infer an
+unseen cofinal tail or compare filters by host equality.
+
+The replay and transport rows $C$ and $H$ preserve this same finite route,
+with provenance $P$ and local naming $N$. Hence every readback is precisely
+the displayed $S,D,R$ ledger.
+\end{proof}
+
+\begin{theorem}[CauchyFilterCompletionCriterion Real seal nonescape]
+\label{thm:cauchy-filter-completion-criterion-real-seal-nonescape}
+For an accepted $\CauchyFilterCompletionCriterionUp$ carrier
+$K=(Q,B,F,U,S,D,R,E,H,C,P,N)$, every $\RealUp$-facing seal read is confined to
+the terminal row $E$ of
+\autoref{def:cauchy-filter-completion-criterion-carrier}. The row $E$ may be
+consumed only after the basis route of
+\autoref{thm:cauchy-filter-completion-criterion-basis-route} has displayed
+the Cauchy-filter source, basis, completion boundary, uniform handoff,
+windows, dyadic tolerances, and regular rational readback. It exports no
+ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+The terminal seal is a row of the carrier, not a theorem about all real
+names. The basis-route theorem places it after the filter, basis,
+completion-boundary, window, tolerance, and regular rational readback rows.
+
+A Real-facing consumer therefore reaches $E$ only by replaying the displayed
+finite path. The consumer cannot bypass the route through a hidden completion
+object, a selected representative, host equality, or countable choice.
+
+Since $E$ is transported and replayed only by $H$ and $C$, with provenance and
+local naming in $P$ and $N$, it seals the displayed readback without exporting
+ambient real completeness.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\CauchyFilterCompletionCriterionUp$ read factors through $\CauchyFilterCompletionUp$, $\FilterLimitBasisUp$, $\CauchyFilterUp$, $\UniformCompletionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
 
 \closureat{CauchyFilterCompletionCriterionUp}{seedStr}
