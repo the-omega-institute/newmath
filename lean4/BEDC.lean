@@ -1782,6 +1782,7 @@ import BEDC.Derived.CauchyCompletionKleisliUp.TasteGate
 import BEDC.Derived.CauchyCompletionLeftExactnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionLiftUp
 import BEDC.Derived.CauchyCompletionLiftUp.TasteGate
+import BEDC.Derived.CauchyCompletionMinimalityUp.TasteGate
 import BEDC.Derived.CauchyCompletionMonadLawUp.FiniteApproximationConsumerRoute
 import BEDC.Derived.CauchyCompletionMonadLawUp.NameCertObligations
 import BEDC.Derived.CauchyCompletionMonadUp
