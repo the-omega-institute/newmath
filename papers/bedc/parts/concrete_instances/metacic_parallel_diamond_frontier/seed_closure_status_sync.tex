@@ -41,3 +41,19 @@ Next read the obligation surface of \autoref{thm:metacic-parallel-diamond-fronti
 
 Finally use the closurestatus guard, \autoref{thm:metacic-parallel-diamond-frontier-closurestatus-guard}. The guard keeps the exported target on the retained route and refuses subject reduction, arbitrary Church--Rosser, evaluator equality, quotient term equality, and kernel consistency.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond formal-target consumer retention]
+\label{thm:metacic-parallel-diamond-frontier-formal-target-consumer-retention}
+Any consumer of the formal-target request for $\MetaCICParallelDiamondFrontierUp$ must preserve the residual-substitution premise row $P$ through the finite route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+before it reads either candidate-mediated strong-normalization data or the closurestatus export. The consumer may inspect the critical-pair row $K$, candidate-join row $J$, residual-frontier row $R$, checker row $S$, closed-normal fragment row $C$, bounded-check row $B$, obstruction row $O$, transport row $H$, replay row $T$, provenance row $G$, and local naming row $N$ only as the same retained-premise packet. It does not receive residual-substitution discharge, subject reduction, arbitrary Church--Rosser, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Apply the formal-target request theorem, \autoref{thm:metacic-parallel-diamond-frontier-formal-target-request}. It states the request over $P,K,J,R,S,C,B,O,H,T,G,N$ and identifies $P$ as retained premise data.
+
+Next apply the retained-premise target boundary, \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-target-boundary}. That boundary forces any downstream read to carry the same $P$ row through the displayed critical-pair, candidate, residual, checker, obstruction, transport, replay, provenance, and naming route.
+
+Finally use the closurestatus guard, \autoref{thm:metacic-parallel-diamond-frontier-closurestatus-guard}. Since the guard is the route through which closurestatus export remains visible, a candidate-mediated strong-normalization or closurestatus consumer cannot read the frontier after dropping $P$ or detaching $J,R,B,O$ from the retained packet.
+\end{proof}
