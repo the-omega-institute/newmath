@@ -61,6 +61,77 @@ that takes any zero of $\zeta$ in the critical strip and produces an explicit $\
 A classical proof of $\mathsf{RH}$ that proceeds by contradiction (assume a zero off the critical line, derive a contradiction) does not, on its own, supply the function $\Phi$ of \autoref{prop:rh-constructive-form}. Inside BEDC the constructive form is the only form available: by \autoref{ch:visions-reasoning-by-contradiction-boundary}, the framework simulates classical reasoning by contradiction but does not entail it on existential conclusions. Any RH proof landing inside the BEDC fragment therefore has to produce $\Phi$ explicitly, or expose precisely where it appeals to a meta-closure move outside the fragment.
 \end{remark}
 
+\section{Carrier-stack reading}
+\label{sec:rh-carrier-stack-reading}
+
+\begin{definition}[Top-down BEDC-RH stack]
+\label{def:rh-top-down-bedc-stack}
+The top-down BEDC reading of the conjecture starts with the carrier
+containment
+$$
+\mathbb Z_{\zeta}\subseteq\mathbb H_{\zeta}
+$$
+of \autoref{def:rh-zero-fixed-offfixed-subcarriers}.  The ambient carrier is
+the pre-RH recovered zeta carrier $\mathbb G_{\zeta}^{0}$, whose rows are
+the Dirichlet projection, Euler projection, analytic-continuation row,
+archimedean-completion row, functional-equation row, pole ledger, zero
+ledger, and branch-transport ledger of
+\autoref{def:rh-layered-zeta-recovery-layer}.  The fixed-half subcarrier
+then admits the equivalent readouts
+$$
+\Re(s)=1/2,\qquad
+J(s)=s,\qquad
+\forall p\in\PrimeUp,\ |p^{1/2-s}|\hsame 1,
+$$
+$$
+\delta=0,\qquad
+\text{no }e^{\delta x}\text{ Laplace bias},
+\qquad
+\mathsf{OnCritLine}(s),
+$$
+as recorded in \autoref{thm:rh-layered-translations}.  Below these readouts
+sit the prime-coordinate and exponential-kernel rows, the prime-fingerprint
+separation row, the local finite prime-window defect rows, and the
+Axis-Zeckendorf finite-window laboratory used only as a bridge prototype.
+\end{definition}
+
+\begin{principle}[Stack order is not proof order collapse]
+\label{prin:rh-stack-order-no-proof-collapse}
+The stack of \autoref{def:rh-top-down-bedc-stack} is an ordering of
+interfaces, not a proof of $\mathsf{RH}$.  The upper containment
+$$
+\mathbb Z_{\zeta}\subseteq\mathbb H_{\zeta}
+$$
+is the same target as \autoref{def:rh-predicate} by
+\autoref{thm:rh-geometric-compression-zero-ledger-fixed-half}.  The mirror,
+prime-unitary, information-channel, and Laplace readings give equivalent
+fixed-half surfaces, but none of them proves that a zero ledger must factor
+through that surface.  The finite Window-six and Zeckendorf layers provide
+auditable models of no-adjacent geometry and residual-return discipline; by
+\autoref{cor:axiszeckendorf-bridge-obstruction-window-six-rh-proof}, they do
+not construct the missing zeta-to-residual bridge by themselves.
+\end{principle}
+
+\begin{theorem}[Defect incompatibility is the remaining stack hinge]
+\label{thm:rh-defect-incompatibility-stack-hinge}
+Assume the located real-bias readout, the finite prime-window defect formula,
+source compatibility into the completed carrier, and the carrier-level row
+\autoref{def:rh-defect-zero-incompatibility}.  Then the top-down stack of
+\autoref{def:rh-top-down-bedc-stack} supplies the BEDC-RH witness target.
+\end{theorem}
+
+\begin{proof}
+The finite prime-window defect formula turns a positive off-fixed witness
+into a positive finite prime-window radial defect.  Source compatibility and
+completion place that defect in the same completed zeta carrier row as the
+zero ledger.  Applying \autoref{def:rh-defect-zero-incompatibility} yields
+$\mathsf{Apart}_{0}(\zeta(s))$.  This is the local-global zero exclusion
+output assembled in \autoref{thm:rh-four-obligations-assemble-local-global-target}.
+Its contradiction with a zero-ledger witness gives the fixed-half section
+target, hence the BEDC-RH witness target by
+\autoref{prop:rh-layered-rh-fixed-half-section}.
+\end{proof}
+
 \section{Witness types a proof would produce}
 \label{sec:rh-witness-types}
 

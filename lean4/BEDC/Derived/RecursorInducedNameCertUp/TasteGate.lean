@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RecursorInducedNameCertUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -273,5 +276,50 @@ theorem RecursorInducedNameCertTasteGate_single_carrier_alignment :
       congrArg recursorInducedNameCertFromEventFlow heq
     exact Option.some.inj (Eq.trans (hround x).symm (Eq.trans hread (hround y)))
   exact And.intro hdecode (And.intro hround (And.intro hinj rfl))
+
+theorem RecursorInducedNameCertAuditBoundary_replay_route
+    {signature motive branch output audit transport continuation provenance name
+      signatureMotive branchRead outputRead auditRead : BHist} :
+    UnaryHistory signature →
+      UnaryHistory motive →
+        UnaryHistory branch →
+          UnaryHistory output →
+            UnaryHistory audit →
+              Cont signature motive signatureMotive →
+                Cont signatureMotive branch branchRead →
+                  Cont branchRead output outputRead →
+                    Cont outputRead audit auditRead →
+                      recursorInducedNameCertFromEventFlow
+                          (recursorInducedNameCertToEventFlow
+                            (RecursorInducedNameCertUp.mk signature motive branch output audit
+                              transport continuation provenance name)) =
+                        some
+                          (RecursorInducedNameCertUp.mk signature motive branch output audit
+                            transport continuation provenance name) →
+                        UnaryHistory signatureMotive ∧
+                          UnaryHistory branchRead ∧
+                            UnaryHistory outputRead ∧
+                              UnaryHistory auditRead ∧
+                                hsame
+                                  (recursorInducedNameCertDecodeBHist
+                                    (recursorInducedNameCertEncodeBHist audit))
+                                  audit := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ChapterTasteGate
+  intro signatureUnary motiveUnary branchUnary outputUnary auditUnary signatureRoute branchRoute
+    outputRoute auditRoute _readback
+  have signatureMotiveUnary : UnaryHistory signatureMotive :=
+    unary_cont_closed signatureUnary motiveUnary signatureRoute
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed signatureMotiveUnary branchUnary branchRoute
+  have outputReadUnary : UnaryHistory outputRead :=
+    unary_cont_closed branchReadUnary outputUnary outputRoute
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed outputReadUnary auditUnary auditRoute
+  exact
+    ⟨signatureMotiveUnary,
+      branchReadUnary,
+      outputReadUnary,
+      auditReadUnary,
+      recursorInducedNameCertDecode_encode_bhist audit⟩
 
 end BEDC.Derived.RecursorInducedNameCertUp

@@ -1,0 +1,203 @@
+\chapter{Non-Fixed Orbit Targets for RH}
+\label{ch:visions-rh-nonfixed-orbit-targets}
+\origin{ai}
+
+\autoref{ch:visions-rh-layered-translation} identifies the RH statement as
+a section into a fixed half fiber over the zero source. The present chapter
+isolates the corresponding orbit formulation. It records the tower-internal
+target that a constructive proof would have to inhabit, and separates that
+target from weaker refutational orbit exclusions. It does not prove
+$\mathsf{RH}$.
+
+\section{Candidate Carrier and Orbit Predicates}
+\label{sec:rh-nonfixed-candidate-orbit-predicates}
+
+\begin{definition}[Critical-strip candidate carrier]
+\label{def:rh-layered-critical-strip-candidate-carrier}
+The candidate carrier below the zero source is
+$$
+\mathcal C_{\zeta}
+:=
+\sum_s\mathsf{InCritStrip}(s).
+$$
+Write
+$$
+Z_{\zeta}(c):=\mathsf{ZetaZero}(c)
+$$
+for the zero predicate on this carrier. The mirror readout is the
+involution
+$$
+J_{\zeta}:\mathcal C_{\zeta}\to\mathcal C_{\zeta},
+\qquad
+J_{\zeta}(s):=1-\overline{s},
+$$
+with the displayed equation
+$$
+J_{\zeta}(J_{\zeta}(c))=c.
+$$
+The source carrier $\mathcal Z_{\zeta}$ of
+\autoref{def:rh-layered-source-carrier} may equivalently be read as
+$\sum_{c:\mathcal C_{\zeta}}Z_{\zeta}(c)$.
+\end{definition}
+
+\begin{definition}[Mirror orbit predicates]
+\label{def:rh-layered-mirror-orbit-predicates}
+For $c:\mathcal C_{\zeta}$ define the fixed and non-fixed predicates
+$$
+\mathsf{Fix}_{J}(c):=(J_{\zeta}(c)=c),
+\qquad
+\mathsf{NonFix}_{J}(c):=\neg(J_{\zeta}(c)=c).
+$$
+If
+$$
+c=1/2+\delta(c)+i\tau(c),
+$$
+the apart non-fixed predicate is the positive separation certificate
+$$
+\mathsf{ApartNonFix}_{J}(c)
+:=
+\sum_{\varepsilon:\mathbb Q_{>0}}
+\bigl(|\delta(c)|\ge\varepsilon\bigr).
+$$
+The orbit-zero predicate is
+$$
+\mathsf{OrbitZero}_{J}(c)
+:=
+Z_{\zeta}(c)+Z_{\zeta}(J_{\zeta}(c)).
+$$
+\end{definition}
+
+\section{Fixed Section and Orbit Exclusions}
+\label{sec:rh-nonfixed-fixed-section-exclusions}
+
+\begin{definition}[Zero fixed section and orbit exclusions]
+\label{def:rh-layered-zero-fixed-section-orbit-exclusions}
+The source fixed-section target is
+$$
+\mathsf{ZeroFix}_{\zeta}
+:=
+\prod_{c:\mathcal C_{\zeta}}
+\bigl(Z_{\zeta}(c)\to J_{\zeta}(c)=c\bigr).
+$$
+The weak non-fixed orbit exclusion is
+$$
+\mathsf{NoZeroOnNonFixedOrbit}
+:=
+\prod_{c:\mathcal C_{\zeta}}
+\bigl(
+\mathsf{NonFix}_{J}(c)\to
+\neg\mathsf{OrbitZero}_{J}(c)
+\bigr).
+$$
+The apart orbit exclusion is
+$$
+\mathsf{NoZeroOnApartOrbit}
+:=
+\prod_{c:\mathcal C_{\zeta}}
+\bigl(
+\mathsf{ApartNonFix}_{J}(c)\to
+\mathsf{Apart}_{0}(\zeta(c))
+\bigr),
+$$
+where $\mathsf{Apart}_{0}(\zeta(c))$ is a positive lower-bound certificate
+separating $\zeta(c)$ from the zero row.
+\end{definition}
+
+\begin{theorem}[Source fixed section is the RH target]
+\label{thm:rh-layered-source-fixed-section-target}
+The source fixed-section target $\mathsf{ZeroFix}_{\zeta}$ is equivalent
+to the section form $\mathsf{Sec}_{\mathsf{RH}}$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-layered-critical-strip-candidate-carrier}, an element
+of $\mathcal Z_{\zeta}$ is a candidate row $c:\mathcal C_{\zeta}$ together
+with a zero witness $Z_{\zeta}(c)$. By
+\autoref{thm:layered-projection-critical-line-fixed-surface}, the mirror
+fixed equation $J_{\zeta}(c)=c$ is equivalent to
+$\Re(c)=1/2$. The latter is the real half predicate used in
+\autoref{def:rh-layered-real-half-layer}. Thus a function
+$Z_{\zeta}(c)\to J_{\zeta}(c)=c$ is exactly a section into the fixed real
+half fiber, and the constructions in
+\autoref{prop:rh-layered-rh-fixed-half-section} give the equivalence.
+\end{proof}
+
+\begin{theorem}[Fixed section excludes weak non-fixed orbit zeros]
+\label{thm:rh-layered-fixed-section-excludes-nonfixed-orbit-zeros}
+There is a canonical implication
+$$
+\mathsf{ZeroFix}_{\zeta}
+\to
+\mathsf{NoZeroOnNonFixedOrbit}.
+$$
+\end{theorem}
+
+\begin{proof}
+Assume $\mathsf{ZeroFix}_{\zeta}$ and fix
+$c:\mathcal C_{\zeta}$ with $n:\mathsf{NonFix}_{J}(c)$. If the left
+summand of $\mathsf{OrbitZero}_{J}(c)$ holds, then
+$Z_{\zeta}(c)$ and the fixed section give $J_{\zeta}(c)=c$, contradicting
+$n$. If the right summand holds, apply the fixed section to
+$J_{\zeta}(c)$. This gives
+$J_{\zeta}(J_{\zeta}(c))=J_{\zeta}(c)$. Since $J_{\zeta}$ is an
+involution, this identifies $c$ with $J_{\zeta}(c)$, again contradicting
+$n$. Hence $\mathsf{OrbitZero}_{J}(c)$ is impossible.
+\end{proof}
+
+\begin{proposition}[Weak orbit exclusion only double-negates fixedness]
+\label{prop:rh-layered-weak-orbit-exclusion-double-negation}
+There is a canonical map
+$$
+\mathsf{NoZeroOnNonFixedOrbit}
+\to
+\prod_{c:\mathcal C_{\zeta}}
+\bigl(Z_{\zeta}(c)\to\neg\neg(J_{\zeta}(c)=c)\bigr).
+$$
+\end{proposition}
+
+\begin{proof}
+Let $N:\mathsf{NoZeroOnNonFixedOrbit}$ and let
+$z:Z_{\zeta}(c)$. To prove $\neg\neg(J_{\zeta}(c)=c)$, assume
+$n:\neg(J_{\zeta}(c)=c)$. The zero witness $z$ gives the left summand of
+$\mathsf{OrbitZero}_{J}(c)$. Applying $N(c)(n)$ contradicts that
+orbit-zero witness. Thus the fixed equation is double-negated. Producing
+$J_{\zeta}(c)=c$ itself would require an additional stability, located
+equality, or decidability principle.
+\end{proof}
+
+\section{Constructive Apart Route}
+\label{sec:rh-nonfixed-constructive-apart-route}
+
+\begin{theorem}[Apart orbit exclusion yields the fixed section under located readout]
+\label{thm:rh-layered-apart-orbit-exclusion-yields-fixed-section}
+Assume the bias readout $\delta:\mathcal C_{\zeta}\to\mathbb R$ is
+located in the sense that, for every rational $q>0$, a proof of
+$\neg(|\delta(c)|\ge q)$ gives $|\delta(c)|<q$. Assume also that
+$\mathsf{Apart}_{0}(\zeta(c))$ contradicts $Z_{\zeta}(c)$. Then
+$\mathsf{NoZeroOnApartOrbit}$ supplies $\mathsf{ZeroFix}_{\zeta}$.
+\end{theorem}
+
+\begin{proof}
+Fix $c:\mathcal C_{\zeta}$ and $z:Z_{\zeta}(c)$. It suffices to show
+$\delta(c)=0$, since the mirror fixed equation is equivalent to
+$\delta(c)=0$ by
+\autoref{thm:layered-projection-critical-line-fixed-surface}. Let
+$q:\mathbb Q_{>0}$. If $|\delta(c)|\ge q$, then
+$(q,|\delta(c)|\ge q)$ is an element of
+$\mathsf{ApartNonFix}_{J}(c)$. Applying
+$\mathsf{NoZeroOnApartOrbit}$ yields
+$\mathsf{Apart}_{0}(\zeta(c))$, contradicting $z$. Hence
+$\neg(|\delta(c)|\ge q)$, and locatedness gives $|\delta(c)|<q$. Since
+this holds for every positive rational $q$, the located real readout
+identifies $\delta(c)$ with zero. Therefore $J_{\zeta}(c)=c$, giving the
+fixed section.
+\end{proof}
+
+\begin{principle}[Constructive orbit boundary]
+\label{prin:rh-layered-constructive-orbit-boundary}
+The tower-internal source target is $\mathsf{ZeroFix}_{\zeta}$. The apart
+orbit exclusion is a constructive route to that target only when paired
+with located equality transport for the bias coordinate. The weak
+non-fixed orbit exclusion is a refutation schema and does not by itself
+inhabit the BEDC witness type of \autoref{prop:rh-constructive-form}.
+\end{principle}

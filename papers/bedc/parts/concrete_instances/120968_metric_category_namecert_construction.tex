@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\MetricCategoryUp$}
+\label{ch:concrete-instances-metric-category-namecert}
+\origin{human}
+
+Following Lawvere and enriched-category treatments of metric spaces, the $\MetricCategoryUp$ packet records the category whose objects are displayed metric-space rows and whose morphisms are uniformly continuous map rows. It sits over the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the modulus-bearing map surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the finite category interface of \autoref{ch:concrete-instances-category-namecert}, and the finite observation schedules of \autoref{ch:concrete-instances-streamname-namecert}. The packet names only the finite BEDC rows needed for identity, composition, classifier comparison, and modulus transport; it is not a host function category, a quotient of maps, an extensional equality principle, or an ambient enrichment theorem.
+
+\begin{definition}[Metric category carrier]
+\label{def:metric-category-carrier}
+A $\MetricCategoryUp$ carrier is a finite $\BHist$ packet
+$$
+G=(O,F,I,K,M,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the finite object ledger, listing the $\MetricSpaceUp$ rows whose point classifiers, distance rows, and metric-law ledgers may be read by the category packet.
+\item $F$ is the morphism ledger, listing $\ContinuousMapUp$ rows between the displayed metric objects together with their source, target, graph, and modulus data.
+\item $I$ is the identity-map ledger, assigning each object row in $O$ a displayed $\ContinuousMapUp$ identity row over the same metric classifier.
+\item $K$ is the composition ledger, assigning each composable pair of morphism rows in $F$ a displayed $\ContinuousMapUp$ composite row with the named source and target objects.
+\item $M$ is the metric-classifier ledger, recording that object comparison and morphism typing use only the $\MetricSpaceUp$ classifiers already displayed in $O$.
+\item $L$ is the modulus ledger, recording the identity modulus rows and the composite modulus rows consumed from the $\ContinuousMapUp$ data in $F,I,K$.
+\item $H$ records componentwise $\hsame$ transport for object rows, morphism rows, identity rows, composition rows, classifier rows, modulus rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from an object or morphism request through the finite object ledger, morphism ledger, identity or composition ledger, metric classifier ledger, and modulus ledger.
+\item $P$ is the $\Pkg$ provenance over $\MetricCategoryUp$, $\MetricSpaceUp$, $\ContinuousMapUp$, $\CategoryUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetricCategoryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,F,I,K,M,L,H,C,P,N$. It has no coordinate for host functions, quotient equality of maps, selected representatives, global extensionality, countable choice, or an ambient category of all metric spaces.
+\end{definition}
+
+\begin{theorem}[MetricCategory NameCert obligations]
+\label{thm:metric-category-namecert-obligations}
+For every accepted $\MetricCategoryUp$ carrier
+$$
+G=(O,F,I,K,M,L,H,C,P,N),
+$$
+the local $\NameCert_{\MetricCategoryUp}$ surface consists exactly of object admission through $O$, morphism admission through $F$, identity admission through $I$, composition admission through $K$, metric-classifier exposure through $M$, modulus exposure through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+
+Every identity or composition read therefore remains inside the displayed $\ContinuousMapUp$ modulus data over the displayed $\MetricSpaceUp$ objects before the packet may be consumed as category data.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The object row $O$ is the only source of metric objects, and the morphism row $F$ is the only source of displayed uniformly continuous maps between those objects.
+
+The categorical rows are then forced to read the same data. The identity ledger $I$ assigns identity maps over the metric classifiers already exposed by $O$, while the composition ledger $K$ assigns composite maps only to pairs whose source and target rows match through the displayed typing information in $F$.
+
+The classifier and modulus ledgers close the analytic part of the certificate. The row $M$ prevents object or morphism comparison from leaving the displayed metric classifiers, and $L$ records that identity and composition use the visible $\ContinuousMapUp$ modulus rows rather than host-level functions.
+
+Finally, $H,C,P,N$ transport, replay, source, and name that same finite packet. Since no carrier coordinate stores quotient equality of maps, selected representatives, global extensionality, countable choice, or an ambient all-metric-spaces category, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetricCategory composition ledger]
+\label{thm:metric-category-composition-ledger}
+Let $G=(O,F,I,K,M,L,H,C,P,N)$ be an accepted $\MetricCategoryUp$ carrier. Every composable pair read from $F$ is admitted to $K$ only after the source and target object rows are exposed through $O$ and the two displayed $\ContinuousMapUp$ modulus rows are exposed through $L$. The resulting composite is again a displayed $\ContinuousMapUp$ row over the same metric-classifier ledger $M$.
+
+Consequently, associativity and identity-consumption checks for the packet are finite ledger checks over $I,K,M,L,H,C,P,N$, not host-function equality checks or quotient-map comparisons.
+\end{theorem}
+\begin{proof}
+Start with a composable pair of morphism rows in $F$. Their source, middle, and target objects are read from $O$, so the composition request is typed before any composite row is exposed.
+
+Next read the modulus ledger $L$. The two input morphisms carry displayed $\ContinuousMapUp$ modulus rows, and $L$ records the finite composite-modulus route used by $K$. Thus the composite map is admitted as another displayed $\ContinuousMapUp$ row rather than as an external function.
+
+Identity checks use the same route. The row $I$ supplies the identity map rows and their identity moduli over the object classifiers in $O$, while $K$ records the left and right identity composites as finite ledger reads.
+
+The structural rows then preserve the ledger. Transport and replay through $H$ and $C$ keep the same object, morphism, identity, composition, classifier, and modulus rows, and $P,N$ source and name the packet. Because the carrier contains no host-function equality or quotient-map coordinate, the composition ledger supplies exactly the category-facing evidence available to consumers.
+\end{proof}
+
+\closureat{MetricCategoryUp}{seedStr}
+
+\begin{closurestatus}{\MetricCategoryUp}
+  \constructivestory{A $\MetricCategoryUp$ packet is generated from MetricSpace object rows, ContinuousMap morphism rows, identity-map rows, composition rows, metric classifier rows, modulus ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-category-carrier}, \autoref{thm:metric-category-namecert-obligations}, and \autoref{thm:metric-category-composition-ledger} seed the finite category packet of metric objects and uniformly continuous morphisms through displayed classifier and modulus rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function categories, quotient equality of maps, selected representatives, global extensionality, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked object admission, morphism admission, identity admission, composition admission, classifier exposure, modulus conservation, transport, replay, provenance, and local naming for BEDC.Derived.MetricCategoryUp.}
+\end{closurestatus}

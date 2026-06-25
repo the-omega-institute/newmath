@@ -202,6 +202,99 @@ residual from a zeta zero packet.  The construction and admissibility rows
 are exactly the bridge certificate rows.
 \end{proof}
 
+\section{Finite laboratory status}
+\label{sec:axiszeckendorf-window-six-finite-laboratory-status}
+
+\begin{definition}[Window-six finite audit laboratory]
+\label{def:axiszeckendorf-window-six-finite-audit-laboratory}
+The Window-six finite audit laboratory is the BEDC packet
+$$
+\mathsf{Lab}_6
+:=
+(C_6,X_6,D_6,\mathsf{Cert}_6,\mathsf{Audit}_6),
+$$
+where
+$$
+C_6:=\{0,1\}^6,
+$$
+$X_6$ is the no-adjacent address window of
+\autoref{def:axiszeckendorf-no-adjacent-address-windows}, and
+$$
+D_6:=C_6\setminus X_6.
+$$
+Thus
+$$
+C_6=X_6\sqcup D_6,
+$$
+with
+$$
+|C_6|=64,\qquad |X_6|=21,\qquad |D_6|=43.
+$$
+Its records-side reading is the finite BEDC pipeline
+$$
+\mathsf{carrier}
+\to
+\mathsf{constraint}
+\to
+\mathsf{partition}
+\to
+\mathsf{fiber}
+\to
+\mathsf{normal\ form}
+\to
+\mathsf{certificate}
+\to
+\mathsf{audit}.
+$$
+\end{definition}
+
+\begin{proposition}[Finite defect prototype]
+\label{prop:axiszeckendorf-window-six-finite-defect-prototype}
+For $w\in C_6$, the following are equivalent:
+$$
+w\in D_6,
+$$
+and
+$$
+\text{$w$ contains an adjacent pair }11.
+$$
+Consequently Window six supplies a finite prototype of the defect-exclusion
+shape
+$$
+\mathsf{DetectedDefect}_6(w)
+\Longrightarrow
+w\notin X_6.
+$$
+\end{proposition}
+
+\begin{proof}
+By definition, $X_6$ consists exactly of the six-bit words with no adjacent
+pair $11$.  Its complement inside the finite carrier $C_6$ is therefore
+exactly the set of six-bit words for which some adjacent pair is $11$.  Since
+$C_6$ is finite, the witnessing coordinate can be found by checking the five
+adjacent positions.
+\end{proof}
+
+\begin{principle}[Finite prototype is not carrier-level incompatibility]
+\label{prin:axiszeckendorf-window-six-prototype-not-rh-incompatibility}
+The finite implication of
+\autoref{prop:axiszeckendorf-window-six-finite-defect-prototype} has the
+same formal shape as the RH-facing bridge target
+$$
+\mathsf{ApartNonFix}_J(c)
+\Longrightarrow
+\mathsf{Apart}_0(\zeta(c)),
+$$
+but it lives only in the finite address laboratory $\mathsf{Lab}_6$.
+It supplies a fully enumerable model of detected defect versus admissible
+geometry.  It does not supply the completed zeta carrier, source
+compatibility, archimedean recovery rows, zero-ledger semantics, or the
+carrier-level incompatibility row
+$$
+\mathsf{DefectZeroIncompatibility}_{\zeta}.
+$$
+\end{principle}
+
 \section{Work order}
 \label{sec:axiszeckendorf-zeta-bridge-work-order}
 

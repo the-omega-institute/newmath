@@ -11,3 +11,17 @@ Use residual-diamond retention, \autoref{thm:metacic-candidate-normalization-con
 
 Finally apply normal-endpoint readback, \autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-endpoint-readback}. The confluence audit packet may consume the bounded endpoint only after $C,D,B,T,R,P,L$ remain visible. Thus both downstream chapters read the same candidate-mediated handoff route and no excluded global endpoint is exported.
 \end{proof}
+
+\begin{theorem}[MetaCIC candidate-mediated confluence route]
+\label{thm:metacic-candidate-normalization-confluence-route}
+Any confluence-facing consumer of a $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet must first read candidate evidence, residual-envelope visibility, decidable-boundary routing, blocked-edge retention, and normal-endpoint readback. Only after those rows remain visible may the consumer pass the bounded route to \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert} or \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. The route does not claim strong normalization, full Church--Rosser, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, or closed consistency.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:metacic-candidate-normalization-confluence-handoff-orphan-route}. It already routes candidate evidence, residual-envelope visibility, decidable-boundary routing, and blocked-edge retention to the confluence audit and parallel-diamond frontier consumers.
+
+Apply premise exposure from \autoref{thm:metacic-candidate-normalization-confluence-handoff-premise-exposure}. A confluence-facing consumer cannot read the bounded endpoint before the candidate and residual boundary rows remain displayed in the same packet.
+
+Use residual-diamond retention from \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention}. It keeps the residual envelope and blocked-edge rows on the route that is handed to the parallel-diamond frontier.
+
+Finally apply normal-endpoint readback from \autoref{thm:metacic-candidate-normalization-confluence-handoff-normal-endpoint-readback}. The endpoint is therefore bounded by the visible rows $C,D,B,T,R,P,L$, so the exported route is a candidate-mediated confluence audit surface rather than any of the refused global MetaCIC endpoints.
+\end{proof}

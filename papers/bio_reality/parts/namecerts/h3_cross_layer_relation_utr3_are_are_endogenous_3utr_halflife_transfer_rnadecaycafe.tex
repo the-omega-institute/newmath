@@ -1,45 +1,31 @@
-\origin{ai}
-\subsection{Endogenous 3UTR ARE Load as a Bounded RNA Half-Life Readout}
-\label{subsec:bioreality-endogenous-utr3-are-halflife-rnadecaycafe}
+\subsection{Endogenous ARE Half-Life Transfer With a Translation Boundary}\label{sec:bioreality-endogenous-are-halflife-transfer}\origin{ai}
 
-\paragraph{Finite row carrier.}
-This record concerns a finite panel of transcript-level rows in which each row carries an endogenous $3'$UTR AU-rich-element coordinate, an RNA half-life readout, and control covariates sufficient to keep the observation at RNA-stability scope. The carrier is not a protein-output carrier and not a perturbation-rescue RBP mechanism carrier. Its row type is the finite tuple
-$$
-\begin{aligned}
- r_g = (&\mathrm{gene}_g,\ \mathrm{ARE}_g,\ H_g,\ Z_g,\ B_g),
-\end{aligned}
-$$
-where $\mathrm{ARE}_g$ is the local AU-rich-element burden or label, $H_g$ is the RNA half-life readout, $Z_g$ contains the declared baseline controls used by the finite statistic, and $B_g$ records batch or dataset provenance. The realized panel contains $14933$ gene rows. The readout is therefore a finite endogenous $3'$UTR stability comparison, not an unlimited rule about synonymous coordinates, translation, RBP binding, or organism-wide biology.
+\paragraph{Finite record.}
+The record concerns a finite panel of endogenous human transcript rows in which an AU-rich element indicator is evaluated against an RNA half-life readout. The verified run for the claim is \texttt{e96bf26e626b}. It retains $14933$ gene-level rows, uses $2000$ label permutations, and reports a negative ARE coefficient, $\beta_{\mathrm{ARE}}=-0.0607953$. The baseline model has $R^2=0.0657771$, the ARE-augmented test model has $R^2=0.0827561$, and the observed improvement is $\Delta R^2=0.016979$ with permutation value $p=0.00049975$. The sign is therefore read locally as shorter RNA half-life for ARE-bearing rows after the declared baseline adjustment, not as a translation, protein, structure, function, phenotype, adaptation, or universal-law result.
 
-\paragraph{Observed finite statistic.}
-On the $14933$ joined rows, the baseline regression surface explains $R^2_{\mathrm{base}}=0.0657771$ of the RNA half-life variation. After adding the ARE term, the test surface gives $R^2_{\mathrm{test}}=0.0827561$, hence
+\paragraph{Row semantics.}
+Each row is treated as a bounded transcript-stability row, not as a complete mechanistic experiment. The row carries an endogenous transcript or gene identifier, the ARE-side covariate used by the fitted statistic, the RNA half-life response, the baseline covariates available to the run, and the declared permutation test. The admissible readout is the finite contrast
 $$
 \begin{aligned}
 \Delta R^2
-  &= R^2_{\mathrm{test}}-R^2_{\mathrm{base}} \\
+  &= R^2_{\mathrm{test}}-R^2_{\mathrm{baseline}} \\
   &= 0.0827561-0.0657771 \\
-  &= 0.016979.
+  &= 0.016979 .
 \end{aligned}
 $$
-The fitted ARE coefficient is negative, with $\beta_{\mathrm{ARE}}=-0.0607953$. The finite permutation audit used $2000$ permutations and returned $p_{\mathrm{perm}}=0.00049975$. The local numerical reading is therefore: within this finite RNA half-life panel, the endogenous $3'$UTR ARE term contributes a small but nonzero additional held-out explanatory component beyond the baseline surface, and its signed direction is toward shorter RNA half-life.
+Together with $\beta_{\mathrm{ARE}}<0$ and $p=0.00049975$, this licenses a restricted stability-side statement: ARE status carries reproducible information about endogenous RNA half-life in this finite joined panel. It does not by itself identify the decay factor, prove binding, prove perturbation response, or show that synonymous coding-window coordinates have produced a biological mechanism.
 
-\paragraph{Relation to the synthetic deletion anchor.}
-The endogenous transfer statistic is explicitly dependent on the earlier synthetic ARE reporter claim. That dependency is used only as a biological orientation for the direction and identity of the ARE coordinate. The separate deletion panel contains $226$ BEAS2B deletion rows and $2242$ Jurkat deletion rows, uses $1000$ actual permutations with a $2000$-permutation grading route, and reports sign concordance under a pooled label-permutation method over deletions. This does not turn the endogenous RNA half-life panel into a perturbation experiment; it only says that the endogenous coefficient is read against a finite reporter-supported ARE stability direction.
-
-\paragraph{Permitted interpretation.}
-The allowed conclusion is narrow. A finite endogenous transcript panel supports a bounded RNA half-life association for $3'$UTR ARE load: the ARE coordinate improves the RNA half-life readout surface by $\Delta R^2=0.016979$ over a baseline with $R^2=0.0657771$, has a negative fitted sign, and passes the declared permutation threshold with $p_{\mathrm{perm}}=0.00049975$ on $14933$ rows. In symbols, the only licensed transition is
-$$
-\begin{aligned}
-(\mathrm{ARE}_g, Z_g) \longmapsto H_g
-\end{aligned}
-$$
-inside the finite joined table. The result is a stability readout about RNA half-life, not a statement that the coordinate realizes translation, protein abundance, folded structure, cellular function, adaptation, or a general sequence law.
-
-\paragraph{RBP bridge refusal.}
-The stronger decay-factor RBP bridge is not established by these rows. The present finite statistic does not contain measured local decay-factor RBP occupancy, coordinate--occupancy decoupling, target-RBP loss, wild-type rescue, binding-defective rescue, or non-target controls. Consequently, even though the ARE coefficient is negative and the permutation statistic is strong, the mechanism-level bridge remains refused. A positive RBP bridge would require same-row evidence that the half-life effect follows measured local RBP occupancy, collapses after loss of the prespecified RBP, returns with wild-type rescue, and is not restored by binding-defective or non-target controls. Without those rows, the proper reading is an endogenous RNA-stability association, not an RBP-mediated decay mechanism.
+\paragraph{Transfer from the reporter-side record.}
+The run declares its dependence on an original synthetic ARE reporter claim. That dependence is not used as a substitute for the endogenous statistic; it is used only to explain why the endogenous test is a transfer target rather than an unconstrained screen. A separate ARE-deletion stability record gives useful finite context: the deletion run \texttt{a41440ab2792} uses $1000$ actual permutations, $2000$ grading permutations, $226$ BEAS2B deletion rows, and $2242$ Jurkat deletion rows, with sign concordance reported as true. The deletion result supports the direction that ARE perturbation can touch RNA stability, while the endogenous transfer result supplies the larger $14933$-row half-life surface. These are still two bounded stability contacts. Neither one supplies measured local decay-factor RBP occupancy, target-RBP loss, wild-type rescue, binding-defective rescue, or a non-target rescue control.
 
 \paragraph{Translation boundary.}
-The claim also stays below translation scope. RNA half-life, mRNA abundance, and ribosome-profiling contact names are distinct readout surfaces. This panel does not provide a same-row translation-efficiency matrix that licenses any statement about ribosome occupancy, protein output, or translation realization. A translation-conditioned RNA-stability claim would require the same finite rows to carry the coordinate label, RNA half-life, matched mRNA abundance, and an explicit translation readout before interpretation. Even then, the conclusion would still remain a translation-bounded RNA-half-life statistic unless a separate protein-level or function-level contact were attached.
+The cross-layer form of the claim explicitly requires a same-row translation readout before any interpretation that mentions translation-conditioned transfer. In the present finite evidence, the verified half-life statistic is real, but the available contacts do not attach a same-window ribosome-occupancy or translation-efficiency row to the same ARE/RNA-half-life row. Therefore the chapter records the half-life side as supported and keeps translation outside the supported conclusion. A translation statement would require a finite joined panel with coding-window coordinate labels, same-row translation efficiency or ribosome occupancy, matched mRNA abundance, RNA half-life, transcription-rate control, local RNA-structure covariates, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, batch, perturbation state, rescue state, and a declared break condition.
 
-\paragraph{Local cannot-claim boundary.}
-No conclusion about translation, protein abundance, protein folding, physical admissibility, biological function, phenotype, adaptation, causation, RBP mechanism, or universality follows from this chapter. Those layers require their own finite contacts and their own declared statistics. The current chapter licenses only the following bounded sentence: in an endogenous $3'$UTR RNA half-life table of $14933$ genes, ARE load adds a negative RNA-stability term with $\Delta R^2=0.016979$ and $p_{\mathrm{perm}}=0.00049975$ under the declared finite permutation audit.
+\paragraph{RBP mechanism gate.}
+The endogenous half-life transfer is not an RBP mechanism result. The mechanism claim would need measured local occupancy of a prespecified decay-factor RBP, a coordinate--occupancy decoupling design, loss of the target RBP, restoration by wild-type rescue, failure of restoration by a binding-defective rescue or non-target control, and persistence after transcription, abundance, isoform, motif-density, local-structure, composition, and batch controls. If the half-life association remains but RBP occupancy is unchanged, the record stays at RNA-stability association. If target-RBP loss does not collapse the effect, or if wild-type rescue does not restore it, the RBP bridge is refused. If the binding-defective rescue, non-target control, local RNA structure, motif density, transcription, isoform stability, or batch reproduces the same pattern, the mechanism reading is also refused.
+
+\paragraph{Adjacent stability calibration.}
+A separate mRNA-stability boundary record for m6A provides calibration for the scale of finite transcript half-life tests without merging the biological mechanisms. In run \texttt{7cd189f15c4b}, $5837$ genes pass the coverage rule, the static Spearman association between m6A load and DMSO log half-life is $-0.388929$, the causal Spearman association between m6A load and $\Delta\log_2$ half-life is $0.245804$, the length-partial Spearman value is $0.227683$, and the two-sided partial permutation value is $0.000999001$. This neighboring record shows that finite RNA-modification or motif-linked half-life surfaces can be quantitatively checked while remaining separate from protein output, folding, physical admissibility, function, phenotype, mechanism, and universality. The ARE chapter follows the same discipline: it reports the measured half-life boundary and does not promote it across unsupported layers.
+
+\paragraph{Admissible conclusion.}
+The admissible conclusion is narrow. In the finite endogenous panel, ARE status contributes a negative RNA-half-life signal with $14933$ rows, $\Delta R^2=0.016979$, and $p=0.00049975$ under the stated run. This is enough for a bounded BioReality record of endogenous ARE-associated RNA half-life transfer from the reporter-side direction into a larger curated half-life surface. It is not enough for translation realization, protein abundance, folded structure, physical admissibility, function realization, system phenotype, adaptation, causation, or a general biological law. Those claims require separate row-matched contacts at their own layer, and none is supplied by the half-life statistic alone.

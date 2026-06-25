@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ObservationTimeOrderUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -185,6 +188,53 @@ instance observationTimeOrderChapterTasteGate : ChapterTasteGate ObservationTime
     intro x y hxy heq
     exact hxy (observationTimeOrderToEventFlow_injective heq)
 
+def observationTimeOrderFields : ObservationTimeOrderUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | ObservationTimeOrderUp.mk O0 O1 R C G H P N => [O0, O1, R, C, G, H, P, N]
+
+theorem observationTimeOrderFields_faithful :
+    ∀ x y : ObservationTimeOrderUp, observationTimeOrderFields x = observationTimeOrderFields y →
+      x = y := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  intro x y h
+  cases x with
+  | mk O0₁ O1₁ R₁ C₁ G₁ H₁ P₁ N₁ =>
+      cases y with
+      | mk O0₂ O1₂ R₂ C₂ G₂ H₂ P₂ N₂ =>
+          injection h with hO0 tail0
+          injection tail0 with hO1 tail1
+          injection tail1 with hR tail2
+          injection tail2 with hC tail3
+          injection tail3 with hG tail4
+          injection tail4 with hH tail5
+          injection tail5 with hP tail6
+          injection tail6 with hN _nil
+          subst hO0
+          subst hO1
+          subst hR
+          subst hC
+          subst hG
+          subst hH
+          subst hP
+          subst hN
+          rfl
+
+instance observationTimeOrderFieldFaithful : FieldFaithful ObservationTimeOrderUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := observationTimeOrderFields
+  field_faithful := observationTimeOrderFields_faithful
+
+instance observationTimeOrderNontrivial : Nontrivial ObservationTimeOrderUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨ObservationTimeOrderUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      ObservationTimeOrderUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem ObservationTimeOrderTasteGate_single_carrier_alignment :
     (∀ h : BHist, observationTimeOrderDecodeBHist (observationTimeOrderEncodeBHist h) = h) ∧
       (∀ x : ObservationTimeOrderUp,
@@ -201,5 +251,75 @@ theorem ObservationTimeOrderTasteGate_single_carrier_alignment :
       · intro x y heq
         exact observationTimeOrderToEventFlow_injective heq
       · rfl
+
+theorem ObservationTimeOrderRetainedRecord_exactness
+    {O0 O1 R C G H P N sourceRead targetRead classifierRead : BHist} :
+    UnaryHistory O0 →
+      UnaryHistory O1 →
+        UnaryHistory R →
+          UnaryHistory C →
+            Cont O0 O1 sourceRead →
+              Cont sourceRead R targetRead →
+                Cont targetRead C classifierRead →
+                  observationTimeOrderFromEventFlow
+                      (observationTimeOrderToEventFlow
+                        (ObservationTimeOrderUp.mk O0 O1 R C G H P N)) =
+                    some (ObservationTimeOrderUp.mk O0 O1 R C G H P N) →
+                    UnaryHistory sourceRead ∧
+                      UnaryHistory targetRead ∧
+                        UnaryHistory classifierRead ∧
+                          hsame
+                            (observationTimeOrderDecodeBHist
+                              (observationTimeOrderEncodeBHist R))
+                            R := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ChapterTasteGate
+  intro sourceUnary targetUnary retainedUnary routeUnary sourceRoute targetRoute classifierRoute
+    _readback
+  have sourceReadUnary : UnaryHistory sourceRead :=
+    unary_cont_closed sourceUnary targetUnary sourceRoute
+  have targetReadUnary : UnaryHistory targetRead :=
+    unary_cont_closed sourceReadUnary retainedUnary targetRoute
+  have classifierReadUnary : UnaryHistory classifierRead :=
+    unary_cont_closed targetReadUnary routeUnary classifierRoute
+  exact
+    ⟨sourceReadUnary,
+      targetReadUnary,
+      classifierReadUnary,
+      observationTimeOrderDecode_encode_bhist R⟩
+
+theorem ObservationTimeOrderErasureBoundary_gap_route
+    {O0 O1 R C G H P N recordRead retainedRead gapRead : BHist} :
+    UnaryHistory O0 →
+      UnaryHistory O1 →
+        UnaryHistory R →
+          UnaryHistory G →
+            Cont O0 O1 recordRead →
+              Cont recordRead R retainedRead →
+                Cont retainedRead G gapRead →
+                  observationTimeOrderFromEventFlow
+                      (observationTimeOrderToEventFlow
+                        (ObservationTimeOrderUp.mk O0 O1 R C G H P N)) =
+                    some (ObservationTimeOrderUp.mk O0 O1 R C G H P N) →
+                    UnaryHistory recordRead ∧
+                      UnaryHistory retainedRead ∧
+                        UnaryHistory gapRead ∧
+                          hsame
+                            (observationTimeOrderDecodeBHist
+                              (observationTimeOrderEncodeBHist G))
+                            G := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ChapterTasteGate
+  intro sourceUnary targetUnary retainedUnary gapUnary sourceRoute targetRoute gapRoute
+    _readback
+  have recordReadUnary : UnaryHistory recordRead :=
+    unary_cont_closed sourceUnary targetUnary sourceRoute
+  have retainedReadUnary : UnaryHistory retainedRead :=
+    unary_cont_closed recordReadUnary retainedUnary targetRoute
+  have gapReadUnary : UnaryHistory gapRead :=
+    unary_cont_closed retainedReadUnary gapUnary gapRoute
+  exact
+    ⟨recordReadUnary,
+      retainedReadUnary,
+      gapReadUnary,
+      observationTimeOrderDecode_encode_bhist G⟩
 
 end BEDC.Derived.ObservationTimeOrderUp

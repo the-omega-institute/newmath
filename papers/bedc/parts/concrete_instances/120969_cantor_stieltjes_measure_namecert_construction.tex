@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CantorStieltjesMeasureUp$}
+\label{ch:concrete-instances-cantor-stieltjes-measure-namecert}
+\origin{human}
+
+Following Lebesgue and Stieltjes, the $\CantorStieltjesMeasureUp$ packet records the finite BEDC surface obtained when the Cantor distribution function supplies the displayed interval masses for a Stieltjes measure. It consumes the ternary-prefix to binary-prefix function rows of \autoref{ch:concrete-instances-cantor-function-namecert} and the finite half-open interval ledger of \autoref{ch:concrete-instances-stieltjes-measure-namecert}, with endpoint windows and terminal sealing supplied by the $\RealUp$, $\RegSeqRatUp$, and $\StreamNameUp$ sibling chapters. The packet exposes only Cantor-function source rows, interval-window rows, finite Stieltjes ledger rows, seal rows, transport, replay, provenance, and local naming.
+
+\begin{definition}[Cantor-Stieltjes measure carrier]
+\label{def:cantor-stieltjes-measure-carrier}
+A $\CantorStieltjesMeasureUp$ carrier is a finite $\BHist$ packet
+$$
+M=(F,I,L,W,R,S,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $F$ is the $\CantorFunctionUp$ source row, read through retained ternary prefixes, binary output prefixes, graph rows, and the real-facing seal of the Cantor-function packet.
+\item $I$ is the inspected half-open interval-window row, recording only the finite endpoint cells whose masses are requested.
+\item $L$ is the finite $\StieltjesMeasureUp$ ledger row assigning each displayed interval in $I$ its endpoint-difference mass through the source row $F$.
+\item $W$ is the $\StreamNameUp$ endpoint-window row used by the Cantor-function source reads and by the interval-mass ledger.
+\item $R$ is the $\RegSeqRatUp$ regular readback row for the finite endpoint and mass windows.
+\item $S$ is the terminal $\RealUp$ seal row for displayed interval masses and endpoint values.
+\item $H$ stores componentwise $\hsame$ transport for Cantor source rows, interval windows, Stieltjes ledger rows, stream windows, regular readbacks, real seals, replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from Cantor-function prefix reads through interval windows, finite Stieltjes ledger rows, regular readback, and the terminal real seal.
+\item $P$ is the $\Pkg$ provenance over $\CantorStieltjesMeasureUp$, $\CantorFunctionUp$, $\StieltjesMeasureUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CantorStieltjesMeasureUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,I,L,W,R,S,H,C,P,N$. It has no coordinate for general measure completion, countable additivity beyond the displayed finite ledger, host measure equality, quotient equality of distribution functions, selected extensions, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cantor-Stieltjes measure NameCert obligations]
+\label{thm:cantor-stieltjes-measure-namecert-obligations}
+For every accepted $\CantorStieltjesMeasureUp$ carrier
+$$
+M=(F,I,L,W,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\CantorStieltjesMeasureUp}$ surface consists exactly of carrier admission for the displayed Cantor-function source row $F$, interval-window admission through $I$, finite Stieltjes ledger exposure through $L$, endpoint and mass readback through $W$ and $R$, terminal real sealing through $S$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cantor-stieltjes-measure-carrier}. The source row $F$ supplies the only distribution function data, and it is already routed through the finite Cantor-function prefix, graph, and real-seal rows of \autoref{ch:concrete-instances-cantor-function-namecert}.
+
+Read the interval and ledger rows next. The row $I$ lists the inspected half-open endpoint windows, and $L$ is the only finite Stieltjes ledger assigning masses to those displayed cells.
+
+Finally route endpoint and mass reads through $W,R,S$ and the structural rows $H,C,P,N$. This is the same finite Stieltjes surface exposed by \autoref{ch:concrete-instances-stieltjes-measure-namecert}, specialized to the Cantor-function source row, so no completed measure, countable-additivity theorem, host measure equality, selected extension, quotient distribution equality, or ambient completeness row remains.
+\end{proof}
+
+\begin{theorem}[Cantor-Stieltjes measure function boundary]
+\label{thm:cantor-stieltjes-measure-function-boundary}
+Every measure-facing consumer of an accepted $\CantorStieltjesMeasureUp$ carrier must read the Cantor-function source row before any interval-mass seal is exposed. Concretely, each displayed interval mass factors through
+$$
+\CantorFunctionUp \longrightarrow I \longrightarrow L \longrightarrow W,R \longrightarrow S,H,C,P,N .
+$$
+The boundary exports finite Cantor-function prefix reads and finite Stieltjes ledger rows, but it does not export general measure completion, countable additivity beyond the displayed finite ledger, host measure equality, selected distribution extensions, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a measure-facing read of an interval cell. The carrier has no primitive measure object, so the read first exposes the Cantor-function source row $F$ and the inspected interval-window row $I$.
+
+The finite ledger row $L$ then assigns the displayed cell its endpoint-difference mass. The route uses the same half-open-cell and finite-additivity discipline as the $\StieltjesMeasureUp$ packet, while the endpoint values are supplied by the $\CantorFunctionUp$ source surface.
+
+The rows $W$ and $R$ provide the stream windows and regular rational readback before $S$ can be read. Transport, replay, provenance, and local naming remain inside $H,C,P,N$, so a consumer receives only the displayed finite route and cannot escape to completed measure theory, host equality, selected extensions, countable choice, or ambient real completeness.
+\end{proof}
+
+\closureat{CantorStieltjesMeasureUp}{seedStr}
+
+\begin{closurestatus}{\CantorStieltjesMeasureUp}
+  \constructivestory{A $\CantorStieltjesMeasureUp$ packet is generated from one CantorFunction source row, inspected half-open interval windows, one finite Stieltjes ledger, StreamName endpoint windows, RegSeqRat readbacks, RealUp seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-stieltjes-measure-carrier}, \autoref{thm:cantor-stieltjes-measure-namecert-obligations}, and \autoref{thm:cantor-stieltjes-measure-function-boundary} seed the finite Cantor-Stieltjes measure surface from Cantor-function prefix reads to displayed Stieltjes interval masses and Real-facing seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim general measure completion, countable additivity beyond the displayed finite ledger, host measure equality, selected extension theorems, quotient distribution equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Cantor-function source stability, interval-window exposure, finite Stieltjes ledger exactness, StreamName and RegSeqRat readback, Real-seal nonescape, transport and replay stability, provenance nonescape, and a Lean carrier formalization for BEDC.Derived.CantorStieltjesMeasureUp.}
+\end{closurestatus}

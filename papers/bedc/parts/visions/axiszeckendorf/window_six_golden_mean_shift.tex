@@ -1,0 +1,48 @@
+\begin{definition}[Golden-mean shift kernel]
+\label{def:axiszeckendorf-golden-mean-shift-kernel}
+The finite-type transition kernel of $X_\infty^Z$ is the two-state matrix
+$$
+K_Z
+:=
+\begin{pmatrix}
+1&1\\
+1&0
+\end{pmatrix},
+$$
+where the entry $K_Z(a,b)$ is admissible exactly when the adjacent pair
+$ab$ is not $11$.  The left shift
+$$
+\sigma:X_\infty^Z\to X_\infty^Z,
+\qquad
+\sigma(c_1,c_2,c_3,\ldots)=(c_2,c_3,\ldots)
+$$
+therefore makes $X_\infty^Z$ the one-sided golden-mean subshift.
+\end{definition}
+
+\begin{proposition}[Golden growth of finite windows]
+\label{prop:axiszeckendorf-golden-growth-finite-windows}
+The finite windows satisfy
+$$
+|X_m|=F_{m+2},
+$$
+and the transition kernel of
+\autoref{def:axiszeckendorf-golden-mean-shift-kernel} has characteristic
+equation
+$$
+\lambda^2=\lambda+1.
+$$
+Thus the growth scale of the inverse-limit carrier is the golden scale
+$\varphi$.
+\end{proposition}
+
+\begin{proof}
+The no-adjacent grammar splits each nonempty word by its first symbols:
+words beginning with $0$ contribute $X_{m-1}$, while words beginning with
+$1$ must begin with $10$ and contribute $X_{m-2}$.  Hence
+$$
+|X_m|=|X_{m-1}|+|X_{m-2}|.
+$$
+With the initial values $|X_0|=1$ and $|X_1|=2$, this gives
+$|X_m|=F_{m+2}$.  The displayed matrix has characteristic polynomial
+$\lambda^2-\lambda-1$, whose positive root is $\varphi$.
+\end{proof}
