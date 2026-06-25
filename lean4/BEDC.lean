@@ -6975,6 +6975,7 @@ import BEDC.Derived.KleeneTreeUp.SpeckerBoundaryRoute
 import BEDC.Derived.KleeneTreeUp.TasteGate
 import BEDC.Derived.KleeneTreeUp.UniformStructureBoundary
 import BEDC.Derived.KleisliTraceUp.TasteGate
+import BEDC.Derived.KnoppTailCondensationUp
 import BEDC.Derived.KnotUp
 import BEDC.Derived.KochCurveUp.TasteGate
 import BEDC.Derived.KolmogorovContinuityUp
