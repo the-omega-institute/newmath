@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\OrthogonalArrayUp$}
+\label{ch:concrete-instances-orthogonal-array-namecert}
+\origin{human}
+
+Following Rao and standard design theory, the $\OrthogonalArrayUp$ packet records the finite incidence table whose every displayed projection of bounded strength has a balanced tuple count. It sits between the row-column-symbol discipline of \autoref{ch:concrete-instances-latin-square-namecert}, the sign-row orthogonality surface of \autoref{ch:concrete-instances-hadamard-matrix-namecert}, the finite table readback of \autoref{ch:concrete-instances-matrix-namecert}, the finite-set carrier of \autoref{ch:concrete-instances-finset-namecert}, and the unary size ledger of \autoref{ch:concrete-instances-nat-namecert}. The packet names only displayed finite design data; it is not a host classification theorem, a construction of all arrays, a quotient design equality, an infinite combinatorial principle, or an ambient coding-theory theorem.
+
+\begin{definition}[Orthogonal-array carrier]
+\label{def:orthogonal-array-carrier}
+An $\OrthogonalArrayUp$ carrier is a finite $\BHist$ packet
+$$
+O=(R,F,L,t,W,B,M,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\NatUp$ row-count ledger naming the visible run boundary.
+\item $F$ is the $\FinSetUp$ factor row, exposing the finite family of coordinates inspected by the design.
+\item $L$ is the $\FinSetUp$ level row, exposing the finite value set shared by the displayed factors.
+\item $t$ is the $\NatUp$ strength row, naming the maximum projection size whose balance is recorded.
+\item $W$ is the projection-window ledger, listing the displayed factor subsets of size at most $t$.
+\item $B$ is the balanced tuple-count ledger: for each window in $W$ and each displayed level tuple, $B$ records the finite row count in which that tuple appears.
+\item $M$ is the $\MatrixUp$ readback row for the run-by-factor table.
+\item $S$ records row and coordinate scans that connect $M$ to the factor and level ledgers.
+\item $H$ records componentwise $\hsame$ transport for row counts, factors, levels, strength, projection windows, tuple counts, matrix readback, scans, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from an orthogonal-array inspection request through $R,F,L,t,W,B,M,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\OrthogonalArrayUp$, $\MatrixUp$, $\FinSetUp$, $\NatUp$, $\LatinSquareUp$, $\HadamardMatrixUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\OrthogonalArrayUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows. It has no coordinate for host array equality, selected isomorphism representatives, classification of parameters, infinite designs, or ambient coding-theory semantics.
+\end{definition}
+
+\begin{theorem}[Orthogonal-array NameCert obligations]
+\label{thm:orthogonal-array-namecert-obligations}
+For every accepted $\OrthogonalArrayUp$ carrier $O=(R,F,L,t,W,B,M,S,H,C,P,N)$, the local $\NameCert_{\OrthogonalArrayUp}$ surface consists exactly of row-count admission through $R$, factor and level admission through $F,L$, strength admission through $t$, projection-window exposure through $W$, balanced tuple-count exposure through $B$, matrix readback through $M$, scan compatibility through $S$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:orthogonal-array-carrier}. The only size data are $R$ and $t$, the only finite coordinate data are $F,L,W$, and the only displayed table data are $B,M,S$.
+
+Read the matrix route next. The row-by-factor table is inspected through $\MatrixUp$, while the factors and levels remain finite $\FinSetUp$ rows and the run count and strength remain $\NatUp$ rows.
+
+The balance obligation is then local to $W$ and $B$. For each displayed projection window and level tuple, the tuple-count row records the visible count; no hidden host enumeration or quotient of arrays is available.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier contains no coordinate for parameter classification, selected isomorphism representatives, host equality, infinite designs, or coding-theory semantics, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Orthogonal-array projection balance]
+\label{thm:orthogonal-array-projection-balance}
+Every $\MatrixUp$, $\FinSetUp$, or $\NatUp$ consumer that reads balance from an accepted $\OrthogonalArrayUp$ carrier must pass through
+$$
+R,F,L,t \longmapsto W \longmapsto B \longmapsto M,S \longmapsto H,C,P,N .
+$$
+The exported datum is exactly a displayed projection-window balance ledger. It may be consumed beside $\LatinSquareUp$ and $\HadamardMatrixUp$ finite-design rows, but it does not construct a Latin square, construct a Hadamard matrix, classify orthogonal arrays, select a representative up to isomorphism, or assert host matrix equality.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:orthogonal-array-namecert-obligations}. They force every balance read through the row-count, factor, level, strength, projection-window, tuple-count, matrix, scan, transport, replay, provenance, and naming rows.
+
+The projection window is finite. The row $W$ lists the inspected factor subsets, and the row $B$ records the balanced tuple counts for those windows and displayed level tuples.
+
+The matrix readback is downstream of that finite ledger. The row $M$ supplies the visible table, while $S$ connects table entries to the factor and level rows without adding host matrix equality or a quotient of designs.
+
+The sibling design routes are only comparison anchors. $\LatinSquareUp$ supplies a row-column-symbol finite design surface, and $\HadamardMatrixUp$ supplies a sign-row orthogonality surface; this packet exports the projection-balance surface and no construction or classification theorem for either sibling.
+\end{proof}
+
+\closureat{OrthogonalArrayUp}{seedStr}
+
+\begin{closurestatus}{\OrthogonalArrayUp}
+  \constructivestory{An $\OrthogonalArrayUp$ packet is generated from Nat row-count and strength rows, FinSet factor and level rows, projection-window ledgers, balanced tuple-count rows, Matrix readback, scan compatibility, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:orthogonal-array-carrier}, \autoref{thm:orthogonal-array-namecert-obligations}, and \autoref{thm:orthogonal-array-projection-balance} seed the finite projection-balance carrier over displayed Matrix, FinSet, Nat, LatinSquare, and HadamardMatrix rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close parameter existence, classification, selected isomorphism representatives, Latin-square construction, Hadamard-matrix construction, quotient design equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, factor and level exactness, strength exposure, projection-window coverage, balanced tuple-count readback, matrix readback, scan compatibility, transport, replay, provenance, and local naming for BEDC.Derived.OrthogonalArrayUp.}
+\end{closurestatus}

@@ -120,4 +120,100 @@ theorem RegularCauchyCompletionCriterionPublicExport [AskSetup] [PackageSetup]
   }
   exact ⟨cert, publicUnary⟩
 
+theorem RegularCauchyCompletionCriterionPublicExportCheckedRoute [AskSetup] [PackageSetup]
+    {R W D M L Q H C P N _windowRead toleranceRead readbackRead modulusRead limitRead
+      completionRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyCompletionCriterionCarrier R W D M L Q H C P N bundle pkg →
+      Cont W D toleranceRead →
+        Cont toleranceRead R readbackRead →
+          Cont readbackRead M modulusRead →
+            Cont modulusRead L limitRead →
+              Cont limitRead Q completionRead →
+                Cont completionRead N publicRead →
+                  PkgSig bundle publicRead pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row R ∨ hsame row W ∨ hsame row D ∨ hsame row M ∨
+                            hsame row L ∨ hsame row Q ∨ hsame row H ∨ hsame row C ∨
+                              hsame row P ∨ hsame row N ∨ hsame row publicRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont W D toleranceRead ∧
+                            Cont toleranceRead R readbackRead ∧
+                              Cont readbackRead M modulusRead ∧
+                                Cont modulusRead L limitRead ∧
+                                  Cont limitRead Q completionRead ∧
+                                    Cont completionRead N publicRead ∧
+                                      PkgSig bundle publicRead pkg)
+                        hsame ∧
+                      UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: RegularCauchyCompletionCriterionCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier toleranceRoute readbackRoute modulusRoute limitRoute completionRoute
+    publicRoute publicPkg
+  obtain ⟨rUnary, wUnary, dUnary, mUnary, lUnary, qUnary, _hUnary, _cUnary, _pUnary,
+    nUnary, _pkgP, _pkgN⟩ := carrier
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed wUnary dUnary toleranceRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed toleranceUnary rUnary readbackRoute
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed readbackUnary mUnary modulusRoute
+  have limitUnary : UnaryHistory limitRead :=
+    unary_cont_closed modulusUnary lUnary limitRoute
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed limitUnary qUnary completionRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed completionUnary nUnary publicRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row R ∨ hsame row W ∨ hsame row D ∨ hsame row M ∨ hsame row L ∨
+              hsame row Q ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont W D toleranceRead ∧
+              Cont toleranceRead R readbackRead ∧ Cont readbackRead M modulusRead ∧
+                Cont modulusRead L limitRead ∧ Cont limitRead Q completionRead ∧
+                  Cont completionRead N publicRead ∧ PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead ⟨hsame_refl publicRead, publicUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact sourceRow.left
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, toleranceRoute, readbackRoute, modulusRoute, limitRoute,
+          completionRoute, publicRoute, publicPkg⟩
+  }
+  exact ⟨cert, publicUnary⟩
+
 end BEDC.Derived.RegularCauchyCompletionCriterionUp
