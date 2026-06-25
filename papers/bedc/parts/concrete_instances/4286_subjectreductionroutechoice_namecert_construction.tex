@@ -40,6 +40,40 @@ Transport and replay are then read through $H$ and $C$. These rows preserve the 
 Finally, $P$ and $N$ account for the finite provenance and local name. Hence the listed rows exhaust the NameCert obligations for the route-choice packet.
 \end{proof}
 
+\begin{theorem}[SubjectReductionRouteChoice obligation surface]
+\label{thm:subject-reduction-route-choice-obligation-surface}
+For an accepted $\SubjectReductionRouteChoiceUp$ carrier $R=(B,V,O,H,C,P,N)$, the obligation surface exposes the explicit bundle row $B$, the bundle-consumption row $V$, the obstruction-boundary row $O$, the componentwise $\hsame$ row $H$, the displayed $\Cont$ row $C$, the package provenance row $P$, and the local naming row $N$. The same finite route is read through the discharge bundle surface, the socket boundary, and the downstream subject-reduction consumer of the sibling chapters.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:subject-reduction-route-choice-carrier}. The bundle row, bundle-consumption row, obstruction row, transport row, replay row, provenance row, and local name are all visible coordinates of one finite packet.
+
+The discharge bundle and socket boundary are not hidden behind the packet: they are the sibling surfaces that motivate the route-choice rows already displayed in $B,V,O$. The accepted carrier therefore exposes the same finite route before any downstream consumer can read it.
+
+Since the carrier has no coordinate for closed-CIC discharge, hidden route choice, or host proof search, the displayed rows exhaust the obligation surface.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteChoice MetaCIC scope]
+\label{thm:subject-reduction-route-choice-metacic-scope}
+Every accepted $\SubjectReductionRouteChoiceUp$ read remains inside the MetaCIC route of the discharge bundle, socket boundary, substitution/type-preservation rows, and the downstream subject-reduction consumer. The route may cite the sibling surfaces of \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}, \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, and \autoref{ch:concrete-instances-subjectreduction-namecert}, but it does not claim closed-CIC discharge or host proof search.
+\end{theorem}
+\begin{proof}
+Use the obligation surface theorem above. It identifies the displayed rows and binds them to the finite route-choice packet before any consumer may proceed.
+
+The sibling discharge and socket chapters provide the finite MetaCIC support surface, while the subject-reduction consumer chapter names the downstream use site. Because the packet has no coordinate for closed-CIC discharge or host proof search, those claims remain outside the scope.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteChoice nonescape]
+\label{thm:subject-reduction-route-choice-nonescape}
+For an accepted $\SubjectReductionRouteChoiceUp$ carrier $R=(B,V,O,H,C,P,N)$, no consumer can extract closed-CIC discharge, hidden route choice, or host proof search from the packet. The accepted route-choice data remain exactly the displayed bundle, consumption, obstruction, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Project the carrier. The route-choice packet consists exactly of the displayed rows $B,V,O,H,C,P,N$.
+
+Apply the MetaCIC scope theorem of \autoref{thm:subject-reduction-route-choice-metacic-scope}. It keeps the route inside the sibling discharge, socket, substitution, and consumer surfaces.
+
+Since no extra coordinate is present, the packet cannot export closed-CIC discharge, hidden route choice, or host proof search.
+\end{proof}
+
 \begin{theorem}[SubjectReductionRouteChoice substitution stability]
 \label{thm:subject-reduction-route-choice-substitution-stability}
 For an accepted $\SubjectReductionRouteChoiceUp$ carrier $R=(B,V,O,H,C,P,N)$, a MetaCIC worker may read substitution stability only as a finite route-choice obligation over the displayed $\BHist$ packet. The obligation exposes the bundle row $B$, the bundle-consumption row $V$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, and the local $\NameCert_{\SubjectReductionRouteChoiceUp}$ row $N$.
