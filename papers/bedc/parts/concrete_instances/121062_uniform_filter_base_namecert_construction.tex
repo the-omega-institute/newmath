@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\UniformFilterBaseUp$}
+\label{ch:concrete-instances-uniform-filter-base-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on uniform spaces and filter bases, the $\UniformFilterBaseUp$ packet records the finite L10 route by which a displayed uniform-entourage request is refined through a directed filter-base row before it is handed to Cauchy-filter and real-completion consumers. It sits over the filter-base discipline of \autoref{ch:concrete-instances-filterbase-namecert}, the uniform-space entourage discipline of \autoref{ch:concrete-instances-uniformspace-namecert}, the Cauchy-filter boundary of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the finite stream-name observations of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Uniform filter-base carrier]
+\label{def:uniform-filter-base-carrier}
+A $\UniformFilterBaseUp$ carrier is a finite $\BHist$ packet
+$$
+F=(U,B,C,S,R,D,A,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformSpaceUp$ entourage request row naming the requested uniform neighbourhood.
+\item $B$ is the $\FilterBaseUp$ directed refinement row, carrying the displayed base element and its refinement relation.
+\item $C$ is the $\CauchyFilterUp$ readiness row, asserting that the directed refinement can be read by a Cauchy-filter consumer.
+\item $S$ is the $\StreamNameUp$ finite observation-window row for reading the selected base element.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the finite observations in $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording the requested dyadic radius and slack.
+\item $A$ is the terminal $\RealUp$ seal row, available only after $U,B,C,S,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the entourage request, directed base refinement, Cauchy readiness, readback, tolerance, terminal seal, provenance, and local name.
+\item $K$ records the displayed $\Cont$ replay by which a consumer reads $U,B,C,S,R,D,A,H,P,N$ in order.
+\item $P$ is the $\Pkg$ provenance over $\UniformFilterBaseUp$, $\FilterBaseUp$, $\UniformSpaceUp$, $\CauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformFilterBaseUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient filters, selected limits, countable choice, host equality of filters, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Uniform filter-base NameCert obligations]
+\label{thm:uniform-filter-base-namecert-obligations}
+For the carrier of \autoref{def:uniform-filter-base-carrier}, the local $\NameCert_{\UniformFilterBaseUp}$ surface consists exactly of carrier admission for
+$$
+F=(U,B,C,S,R,D,A,H,K,P,N),
+$$
+entourage-request exposure through $U$, directed filter-base refinement through $B$, Cauchy readiness through $C$, finite observation and readback through $S,R$, dyadic tolerance through $D$, terminal real sealing through $A$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $K$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:uniform-filter-base-carrier}. The rows $U$ and $B$ expose the uniform-entourage request and the directed filter-base refinement before any Cauchy or completion-facing consumer may inspect the packet.
+
+The Cauchy and readback side is read through $C,S,R,D$. The Cauchy readiness row keeps the filter-base route finite, while the stream, regular rational, and dyadic rows provide the displayed observation and tolerance data needed for a real-completion handoff.
+
+Finally $A,H,K,P,N$ seal, transport, replay, package, and name the same displayed rows. Since the carrier contains no further coordinate, the listed rows exhaust the local $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[Uniform filter-base Cauchy handoff]
+\label{thm:uniform-filter-base-cauchy-handoff}
+Every accepted $\UniformFilterBaseUp$ packet factors any $\CauchyFilterUp$ read through the displayed route
+$$
+\UniformSpaceUp,\ \FilterBaseUp,\ U,\ B,\ C,\ S,\ R,\ D \longrightarrow \CauchyFilterUp .
+$$
+The handoff supplies a uniform entourage request, a directed base refinement, Cauchy readiness, finite observation windows, regular rational readback, and dyadic tolerance data; it does not supply quotient-filter equality, selected limit filters, countable choice, or host equality of filters.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:uniform-filter-base-carrier}. The only rows available before the Cauchy read are $U,B,C,S,R,D$ together with transport, replay, provenance, and local naming.
+
+Read $U$ through the uniform-space entourage surface and $B$ through the directed filter-base surface. The row $C$ is then a readiness row for the Cauchy-filter consumer, not a completed filter quotient or a selected limit.
+
+The rows $S,R,D$ provide the finite observation, rational readback, and dyadic tolerance budget attached to that same handoff. Since the carrier has no further coordinate, every accepted Cauchy read factors through the displayed route.
+\end{proof}
+
+\begin{theorem}[Uniform filter-base real-completion boundary]
+\label{thm:uniform-filter-base-real-completion-boundary}
+Every $\RealUp$-facing completion read of an accepted $\UniformFilterBaseUp$ packet may inspect only the terminal seal $A$ after the rows $U,B,C,S,R,D$ have been displayed and transported through $H,K,P,N$. The boundary exposes no selected real limit, no ambient completeness theorem for $\RealUp$, no quotient equality of filters, and no countable-choice extraction.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:uniform-filter-base-cauchy-handoff}. It confines the Cauchy-facing side of the packet to the uniform entourage request, directed base refinement, Cauchy readiness, finite observations, regular rational readback, and dyadic tolerance rows.
+
+The terminal row $A$ can be read only after those rows are present. It is a seal for completion-facing consumers, not a construction of a selected real limit or a proof of ambient real completeness.
+
+The transport and replay rows $H,K$ preserve the same displayed route, and $P,N$ record provenance and local naming. Thus the real-completion boundary is exactly the finite seal over the displayed uniform-filter-base data.
+\end{proof}
+
+\closureat{UniformFilterBaseUp}{seedStr}
+
+\begin{closurestatus}{\UniformFilterBaseUp}
+  \constructivestory{A $\UniformFilterBaseUp$ packet is generated from a uniform-entourage request, a directed filter-base refinement, Cauchy readiness, finite StreamName observations, RegSeqRat readback, a DyadicRatCore tolerance row, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-filter-base-carrier}, \autoref{thm:uniform-filter-base-namecert-obligations}, \autoref{thm:uniform-filter-base-cauchy-handoff}, and \autoref{thm:uniform-filter-base-real-completion-boundary} display the finite uniform-filter-base carrier, Cauchy handoff, and real-completion boundary.}
+  \formalstatus{\unformalizedV}
+  \leanstmt{BEDC.Derived.UniformFilterBaseUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected limits, countable choice, host equality of filters, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{The next step is a checked NameCert obligation theorem for the displayed carrier rows and their Cauchy-filter handoff.}
+\end{closurestatus}

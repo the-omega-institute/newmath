@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\DyadicModulusLadderUp$}
+\label{ch:concrete-instances-dyadic-modulus-ladder-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\DyadicModulusLadderUp$ packet records a finite ladder for dyadic tolerance requests, unary precision indices, finite stream windows, regular rational readback, DyadicRatCore arithmetic, and the terminal Real seal. It sits beside the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives the L10 open phase a finite schedule object for later regular-Cauchy and RealUp routes, not a quotient stream, a selected limit, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic modulus ladder carrier]
+\label{def:dyadic-modulus-ladder-carrier}
+A $\DyadicModulusLadderUp$ carrier is a finite $\BHist$ packet
+$$
+L=(T,U,S,W,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\DyadicRatCoreUp$ tolerance request row naming the dyadic precision request that begins the ladder.
+\item $U$ is the unary precision index row, recording the finite stage at which the request is read.
+\item $S$ is the monotone ladder step row, advancing the precision request through a displayed finite order.
+\item $W$ is the $\StreamNameUp$ finite-window row, exposing the observed stages of the ladder.
+\item $R$ is the $\RegSeqRatUp$ readback row, carrying the regular rational response to the displayed window.
+\item $D$ is the $\DyadicRatCoreUp$ arithmetic row, recording the finite dyadic comparison and reuse of the request.
+\item $E$ is the $\RealUp$ seal row, available only after $T,U,S,W,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $T,U,S,W,R,D,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from the dyadic request through the unary index, ladder step, stream window, regular rational readback, dyadic arithmetic, Real seal, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\DyadicModulusLadderUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicModulusLadderUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,U,S,W,R,D,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic modulus ladder NameCert obligations]
+\label{thm:dyadic-modulus-ladder-namecert-obligations}
+For every accepted $\DyadicModulusLadderUp$ carrier $L=(T,U,S,W,R,D,E,H,C,P,N)$, the local $\NameCert_{\DyadicModulusLadderUp}$ surface consists exactly of carrier admission, dyadic tolerance exposure, unary precision-index exposure, monotone ladder-step exposure, finite-window exposure, regular rational readback, DyadicRatCore arithmetic, Real seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-modulus-ladder-carrier}. The rows $T,U,S$ display the request, its unary index, and the monotone ladder step that advances the request through the finite schedule.
+
+The window row $W$ and readback row $R$ then expose the finite observation and regular rational response. The arithmetic row $D$ keeps the dyadic comparison internal to the same packet rather than turning it into a host-level modulus function.
+
+Finally read $E,H,C,P,N$. The Real seal is downstream of the displayed dyadic request, unary index, ladder step, window, readback, and arithmetic rows, while the structural rows transport, replay, source, and name the same finite route.
+\end{proof}
+
+\begin{theorem}[Dyadic modulus ladder regular-sequence route]
+\label{thm:dyadic-modulus-ladder-regular-sequence-route}
+Every accepted $\DyadicModulusLadderUp$ packet used by a regular-sequence consumer factors through the displayed route
+$$
+T,U,S,W,R,D,E,H,C,P,N.
+$$
+The consumer reads the dyadic request, unary precision index, monotone ladder step, finite stream window, regular rational readback, DyadicRatCore arithmetic, and terminal $\RealUp$ seal before it can use the ladder as a regular-sequence route.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations. They force the dyadic request, unary index, ladder step, finite window, readback, arithmetic, and seal to be displayed before the packet can be consumed.
+
+The finite ladder step is what keeps the route monotone. It carries the request forward through a visible unary stage rather than selecting a limit representative or a quotient stream.
+
+The structural rows $H,C,P,N$ preserve the same route under transport and replay. Since no carrier coordinate stores quotient stream equality, selected limits, countable choice, or ambient completeness, the regular-sequence consumer remains on the displayed ladder.
+\end{proof}
+
+\begin{theorem}[Dyadic modulus ladder Real seal boundary]
+\label{thm:dyadic-modulus-ladder-real-seal-boundary}
+Every Real-facing consumer of an accepted $\DyadicModulusLadderUp$ packet must read the dyadic request row $T$, unary precision index $U$, monotone ladder step $S$, finite stream-window row $W$, regular rational readback row $R$, and DyadicRatCore arithmetic row $D$ before the terminal $\RealUp$ seal row $E$ is consumed. The boundary exports no quotient-stream equality, selected limit, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The Real-facing route is already forced through the displayed request, unary index, ladder step, window, readback, and arithmetic rows.
+
+Apply the regular-sequence route theorem. It keeps the consumer on the same monotone finite ladder and prevents a detour through a selected limit or quotient stream.
+
+The remaining structural rows $H,C,P,N$ preserve and name this route. No extra completion coordinate is available in the carrier, so the displayed boundary is the whole Real seal surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DyadicModulusLadderUp$ Real or regular-sequence consumer reads one dyadic request row, one unary precision-index row, one monotone ladder-step row, one $\StreamNameUp$ window row, one $\RegSeqRatUp$ readback row, one $\DyadicRatCoreUp$ arithmetic row, one $\RealUp$ seal row, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before using the displayed ladder.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: $\DyadicModulusLadderUp$ is not bijective to any listed sibling because the siblings separately provide tolerance comparison, finite windows, regular rational readback, and terminal Real sealing, while this packet binds them into one monotone finite ladder route.}
+
+\closureat{DyadicModulusLadderUp}{seedStr}
+
+\begin{closurestatus}{\DyadicModulusLadderUp}
+  \constructivestory{A $\DyadicModulusLadderUp$ packet is generated from a DyadicRatCore tolerance request, a unary precision index, a monotone ladder step, a StreamName finite-window row, a RegSeqRat readback row, a DyadicRatCore arithmetic row, a RealUp seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-modulus-ladder-carrier}, \autoref{thm:dyadic-modulus-ladder-namecert-obligations}, \autoref{thm:dyadic-modulus-ladder-regular-sequence-route}, and \autoref{thm:dyadic-modulus-ladder-real-seal-boundary} seed the finite ladder route from displayed dyadic requests to Real-facing handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, quotient-stream equality, selected limits, countable choice, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, unary index exposure, monotone ladder-step exposure, finite-window exposure, RegSeqRat handoff, Real seal handoff, transport, replay, and ledger non-escape for BEDC.Derived.DyadicModulusLadderUp.}
+\end{closurestatus}

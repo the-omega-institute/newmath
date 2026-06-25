@@ -89,6 +89,20 @@ Apply the separatedness handoff of \autoref{thm:complete-metric-limit-uniqueness
 Now apply zero-distance reflection, \autoref{thm:complete-metric-limit-uniqueness-zero-distance-reflection}, on that same route. The Real zero-distance seal $Z$, separated classifier $S$, transport $H$, replay $C$, provenance $P$, and local naming $N$ remain attached to the displayed packet, so no separate equality principle or selected limit is exported.
 \end{proof}
 
+\begin{theorem}[Common tail contraction for uniqueness]
+\label{thm:complete-metric-limit-uniqueness-common-tail-contraction}
+If two accepted complete-metric limit rows read the same Cauchy source through the common window of \autoref{thm:complete-metric-limit-uniqueness-common-window}, then any uniqueness consumer must contract both reads to the same tail before applying zero-distance reflection and separatedness. The contracted route factors through the common window, the zero-distance row, and the separated classifier of \autoref{thm:complete-metric-limit-uniqueness-zero-distance-reflection} and \autoref{thm:complete-metric-limit-uniqueness-separatedness}. It does not appeal to selected limits, quotient equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the common window theorem \autoref{thm:complete-metric-limit-uniqueness-common-window}. It shows that the two complete-metric limit rows share the same metric row, Cauchy route, zero-distance seal, transport, replay, provenance, and naming rows.
+
+Contract both reads to that shared tail. The contraction step uses only the displayed common window, so it does not introduce a selected limit or any quotient representative.
+
+Now apply zero-distance reflection, \autoref{thm:complete-metric-limit-uniqueness-zero-distance-reflection}. The reflected route still passes through the same common tail, and the separated classifier remains the only row that can turn the zero-distance evidence into a uniqueness handoff.
+
+Finally apply separatedness, \autoref{thm:complete-metric-limit-uniqueness-separatedness}. The uniqueness consumer therefore sees one contracted tail before the reflected comparison is exported, and the route stays inside the finite packet rather than invoking ambient completeness.
+\end{proof}
+
 \closureat{CompleteMetricLimitUniquenessUp}{seedStr}
 
 \begin{closurestatus}{\CompleteMetricLimitUniquenessUp}
