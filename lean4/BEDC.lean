@@ -4233,7 +4233,6 @@ import BEDC.Derived.CyclotomicUp.SplittingPolynomial
 import BEDC.Derived.CylinderObjectUp
 import BEDC.Derived.DAlembertRatioTestUp
 import BEDC.Derived.DNAFourPhaseAlphabetBridgeUp.TasteGate
-import BEDC.Derived.DualNumberUp
 import BEDC.Derived.DarbouxContinuityUp.TasteGate
 import BEDC.Derived.DarbouxCriterionUp
 import BEDC.Derived.DarbouxCriterionUp.TasteGate
@@ -4730,6 +4729,7 @@ import BEDC.Derived.DoubleCauchyDiagonalUp.CofinalWindowSelection
 import BEDC.Derived.DoubleCauchyDiagonalUp.TasteGate
 import BEDC.Derived.DoubleLimitInterchangeUp.TasteGate
 import BEDC.Derived.DoublingMetricUp.TasteGate
+import BEDC.Derived.DualNumberUp
 import BEDC.Derived.DugundjiExtensionUp.TasteGate
 import BEDC.Derived.DuhamelPrincipleUp.TasteGate
 import BEDC.Derived.DunfordFunctionalCalculusUp.TasteGate
@@ -6772,6 +6772,7 @@ import BEDC.Derived.LebesgueCoveringDimensionInductionUp
 import BEDC.Derived.LebesgueCoveringDimensionUp.TasteGate
 import BEDC.Derived.LebesgueDifferentiationUp.TasteGate
 import BEDC.Derived.LebesgueNumberLemmaUp.TasteGate
+import BEDC.Derived.LegendreUp
 import BEDC.Derived.LeibnizAlternatingRemainderUp.TasteGate
 import BEDC.Derived.LeibnizSeriesTestUp.NameCertObligations
 import BEDC.Derived.LeibnizSeriesTestUp.TasteGate
