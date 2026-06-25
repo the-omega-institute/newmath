@@ -7116,6 +7116,7 @@ import BEDC.Derived.LengthSpaceUp.TasteGate
 import BEDC.Derived.LesserLimitedOmniscienceUp
 import BEDC.Derived.LesserLimitedOmniscienceUp.TasteGate
 import BEDC.Derived.LeviCivitaConnectionUp.TasteGate
+import BEDC.Derived.LevyContinuityUp
 import BEDC.Derived.LieAlgebraUp
 import BEDC.Derived.LieGroupUp
 import BEDC.Derived.LieGroupUp.AdjointRep
@@ -12323,6 +12324,7 @@ import BEDC.Derived.UniformEntourageBasisUp.TasteGate
 import BEDC.Derived.UniformEntourageRegularNameUp.TasteGate
 import BEDC.Derived.UniformEntourageSpaceUp.TasteGate
 import BEDC.Derived.UniformEquicontinuityModulusUp.TasteGate
+import BEDC.Derived.UniformFilterBaseUp
 import BEDC.Derived.UniformFixedPointUp.TasteGate
 import BEDC.Derived.UniformHomeomorphismUp.BidirectionalModulusRoute
 import BEDC.Derived.UniformHomeomorphismUp.ClassifierBidirectionality
