@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\AtiyahBottFixedPointUp$}
+\label{ch:concrete-instances-atiyah-bott-fixed-point-namecert}
+\origin{human}
+
+Following Atiyah and Bott, the $\AtiyahBottFixedPointUp$ packet records a fixed-point formula as a finite local-index and trace ledger over an already displayed endomap. It consumes the Lefschetz trace surface of $\LefschetzFixedPointUp$ (\autoref{ch:concrete-instances-lefschetz-fixed-point-namecert}), the local index accounting route of $\FixedPointIndexUp$ (\autoref{ch:concrete-instances-fixed-point-index-namecert}), compact-source rows from $\CompactMetricUp$ (\autoref{ch:concrete-instances-compactmetric-namecert}), self-map rows from $\ContinuousMapUp$ (\autoref{ch:concrete-instances-continuousmap-namecert}), and homology handoff rows from $\HomologyUp$ (\autoref{ch:concrete-instances-homology-namecert}). The packet is not a new ambient fixed-point theorem; it is the local formula surface that lets downstream readers see exactly which fixed-locus, index-weight, and trace rows are being composed.
+
+\begin{definition}[Atiyah--Bott fixed point formula carrier]
+\label{def:atiyah-bott-fixed-point-carrier}
+An $\AtiyahBottFixedPointUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,F,L,I,T,K,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the compact-source row, read through $\CompactMetricUp$, naming the inspected finite source surface and its compact-metric probes.
+\item $F$ is the continuous self-map row, read through $\ContinuousMapUp$, whose fixed-locus and induced homology action are being inspected.
+\item $L$ is the fixed-locus row, listing the displayed fixed components, point windows, or refusal rows that the formula is allowed to inspect.
+\item $I$ is the local index-weight ledger, read through $\FixedPointIndexUp$, assigning each displayed fixed-locus row its finite index or weight datum.
+\item $T$ is the trace row, read through $\LefschetzFixedPointUp$, recording the finite alternating trace or Lefschetz accounting datum.
+\item $K$ is the homology handoff row, read through $\HomologyUp$, exposing the induced homology action needed by the trace computation.
+\item $M$ is the formula-match row comparing the sum of displayed local index-weights with the trace ledger through $\RealUp$ or the finite scalar row already named by the dependencies.
+\item $H$ records componentwise $\hsame$ transport for compact source, self-map, fixed-locus, index-weight, trace, homology handoff, formula-match, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from $X,F$ into $L,K$, from $L$ into $I$, from $K$ into $T$, and from $I,T$ into $M$.
+\item $P$ is the $\Pkg$ provenance over $\AtiyahBottFixedPointUp$, $\LefschetzFixedPointUp$, $\FixedPointIndexUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\HomologyUp$, $\BHist$, $\hsame$, $\Cont$, and local naming rows.
+\item $N$ is the local $\NameCert_{\AtiyahBottFixedPointUp}$ row.
+\end{enumerate}
+The carrier exports only these rows. It has no coordinate for transversality, smooth manifold structure, elliptic complexes, analytic index theory, host cohomology isomorphisms, or a global fixed-point existence theorem outside the displayed BEDC packets.
+\end{definition}
+
+\begin{theorem}[Atiyah--Bott fixed point NameCert obligations]
+\label{thm:atiyah-bott-fixed-point-namecert-obligations}
+For an accepted $\AtiyahBottFixedPointUp$ carrier $A=(X,F,L,I,T,K,M,H,C,P,N)$, the local $\NameCert_{\AtiyahBottFixedPointUp}$ surface consists exactly of carrier admission for the compact source, continuous self-map, fixed-locus, local index-weight ledger, trace row, homology handoff, formula-match row, componentwise transport, displayed replay, provenance, and local naming rows. Every formula read must pass through $\CompactMetricUp$ and $\ContinuousMapUp$ before the fixed-locus row is inspected, through $\FixedPointIndexUp$ before local weights are read, through $\HomologyUp$ and $\LefschetzFixedPointUp$ before the trace row is read, and through $M$ before the local-index sum is compared with the trace ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:atiyah-bott-fixed-point-carrier}. Its rows already separate the compact source, self-map, fixed locus, index weights, trace ledger, homology handoff, and formula match.
+
+Read the fixed-locus route first. The source row $X$ and self-map row $F$ expose the only fixed components that the packet may inspect, while $L$ records whether those components are displayed or refused.
+
+Read the two formula sides separately. The local side passes from $L$ to the $\FixedPointIndexUp$ row $I$, and the trace side passes from the homology handoff $K$ to the $\LefschetzFixedPointUp$ trace row $T$.
+
+Finally use $M,H,C,P,N$. The match row compares only the displayed local weights and trace ledger, while transport, replay, provenance, and naming preserve the same finite rows. No unlisted analytic or host topological datum can enter the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Atiyah--Bott fixed point index route]
+\label{thm:atiyah-bott-fixed-point-index-route}
+Every $\AtiyahBottFixedPointUp$ formula read factors through the route
+$$
+X,F \longmapsto L,\qquad L \longmapsto I,\qquad X,F,K \longmapsto T,\qquad I,T \longmapsto M .
+$$
+Thus the local index-weight sum and the Lefschetz trace ledger meet only at the displayed formula-match row. A consumer cannot bypass the fixed-locus row, replace $\FixedPointIndexUp$ with an ambient analytic index theorem, replace $\LefschetzFixedPointUp$ with a host trace theorem, or infer global fixed-point existence from the local equality ledger.
+\end{theorem}
+\begin{proof}
+Begin with the compact-source and continuous self-map rows. They determine the fixed-locus row $L$ as the only admissible source of local fixed components for this packet.
+
+The local branch then reads $I$ through $\FixedPointIndexUp$. This supplies the index-weight ledger for the displayed components and no analytic index object outside the row.
+
+The trace branch reads $K$ through $\HomologyUp$ and then $T$ through $\LefschetzFixedPointUp$. This supplies the finite trace accounting datum and no host trace theorem outside the dependency packets.
+
+At the final step, $M$ compares the two displayed formula sides. Since every route into $M$ has already passed through $L,I,K,T$, the consumer receives a local formula ledger rather than a global fixed-point theorem or an ambient Atiyah--Bott analytic package.
+\end{proof}
+
+\closureat{AtiyahBottFixedPointUp}{seedStr}
+
+\begin{closurestatus}{\AtiyahBottFixedPointUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:atiyah-bott-fixed-point-carrier}, \autoref{thm:atiyah-bott-fixed-point-namecert-obligations}, and \autoref{thm:atiyah-bott-fixed-point-index-route} seed the local fixed-locus, index-weight, trace, homology handoff, transport, replay, provenance, and NameCert rows over $\LefschetzFixedPointUp$, $\FixedPointIndexUp$, $\CompactMetricUp$, $\ContinuousMapUp$, and $\HomologyUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, transversality, smooth manifold structure, elliptic index theory, host cohomology isomorphisms, or global fixed-point existence.}
+  \upgradepath{Obligation closure requires checked carrier admission, fixed-locus exposure, local index-weight exactness, trace and homology handoff, formula-match transport, replay, provenance, and no-host-theorem boundaries for BEDC.Derived.AtiyahBottFixedPointUp.}
+  \constructivestory{An $\AtiyahBottFixedPointUp$ packet is generated from compact-source rows, a continuous self-map row, fixed-locus rows, local index-weight rows, Lefschetz trace rows, homology handoff rows, componentwise transport, displayed replay, provenance, and local NameCert data.}
+\end{closurestatus}
