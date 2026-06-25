@@ -269,3 +269,159 @@ The first says that a positive prime-normal defect forces apartness from
 the zero value on the same source row. The second says that absence of such
 defect is read in the complex projection as the fixed-half condition.
 \end{principle}
+
+\section{Proof Route Ordering}
+\label{sec:rh-proof-obligation-route-ordering}
+
+\begin{definition}[RH route state]
+\label{def:rh-proof-obligation-route-state}
+An RH route state is a packet
+$$
+\mathsf{RHRouteState}
+:=
+\bigl(
+\mathsf{AnalyticBase},
+\mathsf{ZeroType},
+T_{\Omega},
+\mathsf{BulkBoundaryExact},
+\mathsf{PrimeSieve},
+\mathsf{ZeroRigidity},
+\mathsf{CriticalLineReadout},
+\mathsf{WitnessExport}
+\bigr).
+$$
+The components are interpreted as follows. $\mathsf{AnalyticBase}$ records
+the closed arithmetic, real, complex, holomorphic, Dirichlet, and zeta
+interfaces consumed by \autoref{def:rh-predicate}. $\mathsf{ZeroType}$ is
+the zero-fiber package of \autoref{def:rh-proof-obligation-zero-fiber-rows}.
+$T_{\Omega}$ is the compatible tower body. $\mathsf{BulkBoundaryExact}$ is
+the fullness, faithfulness, and ledger-exactness row of
+\autoref{def:rh-bulk-boundary-exactness}. $\mathsf{PrimeSieve}$ is the
+prime-invariant sieve of \autoref{def:rh-prime-sieve-interface}.
+$\mathsf{ZeroRigidity}$ abbreviates
+\autoref{def:rh-proof-obligation-zero-atom-prime-normal-rigidity}.
+$\mathsf{CriticalLineReadout}$ abbreviates
+\autoref{def:rh-proof-obligation-prime-normal-critical-line}. Finally,
+$\mathsf{WitnessExport}$ records extraction of $\Phi$ and the associated
+modulus and barrier witnesses.
+\end{definition}
+
+\begin{principle}[Route dependency order]
+\label{prin:rh-proof-obligation-route-dependency-order}
+The route state is ordered by dependency. The analytic base licenses
+zeta-value and zero predicates. The zero-type package turns those
+predicates into the source carrier $\mathsf{NTZeroType}$. The
+$\Omega$ body and bulk-boundary exactness provide a tower representation
+whose boundary shadows and ledgers are visible. The prime sieve defines the
+defect surface. The zero-rigidity row rules out prime-normal defect on zero
+atoms. The critical-line readout converts absence of prime-normal defect
+into $\mathsf{OnCritLine}$. Only after those rows are present can
+$\mathsf{WitnessExport}$ produce the BEDC-RH witness function.
+\end{principle}
+
+\begin{theorem}[Route state closes the witness target]
+\label{thm:rh-proof-obligation-route-state-closes-witness-target}
+If an RH route state carries inhabited rows for
+$$
+\mathsf{ZeroRigidity},
+\qquad
+\mathsf{CriticalLineReadout},
+\qquad
+\mathsf{WitnessExport},
+$$
+and the representation row of
+\autoref{def:rh-proof-obligation-omega-representation-row}, then it
+supplies the witness function
+$$
+\Phi:\mathsf{NTZeroType}\to\mathsf{FixedHalfZeroType}.
+$$
+\end{theorem}
+
+\begin{proof}
+Let $u:\mathsf{NTZeroType}$. The representation row supplies
+$x:T_{\Omega}^{nt0}$ whose zeta projection is classified with the source
+of $u$. The zero-rigidity row yields
+$\mathsf{NoPrimeNormalDefect}_{\Omega}(x)$. The critical-line readout row
+then yields $\mathsf{OnCritLine}(\pi_{\zeta}(x))$. Transporting this
+witness along the source classifier gives $\mathsf{OnCritLine}(\pi_s(u))$.
+Pairing $u$ with that witness gives an element of
+$\mathsf{FixedHalfZeroType}$ over $u$, which is $\Phi(u)$.
+\end{proof}
+
+\section{Witness Export}
+\label{sec:rh-proof-obligation-witness-export}
+
+\begin{definition}[Witness export packet]
+\label{def:rh-proof-obligation-witness-export-packet}
+The witness export packet is
+$$
+\mathsf{WitnessExport}
+:=
+\bigl(
+\Phi,\mu,\beta,N,\mathsf{TrivialZeroClassifier},
+\mathsf{CriticalLineRestriction}
+\bigr).
+$$
+Here $\Phi$ is the fixed-half section of
+\autoref{def:rh-proof-obligation-witness-function}. For a zero-on-strip
+row $s$, the modulus
+$$
+\mu_s:\NatUp\to\NatUp
+$$
+extracts rational approximants witnessing $\Re(s)\sim 1/2$. The barrier
+$$
+\beta:\NatUp\to\RatUp_{>0}
+$$
+is the off-line apartness function of
+\autoref{def:rh-proof-obligation-quantitative-barrier}. The remaining
+fields are the zero-counting function, the trivial-zero classifier, and the
+restriction equivalence between non-trivial zero packets and critical-line
+height rows described in \autoref{sec:rh-witness-types}.
+\end{definition}
+
+\begin{theorem}[Fixed-half section exports the modulus witness]
+\label{thm:rh-proof-obligation-fixed-half-exports-modulus}
+An inhabitant of
+$$
+\Phi:\mathsf{NTZeroType}\to\mathsf{FixedHalfZeroType}
+$$
+exports, for each $u:\mathsf{NTZeroType}$, a modulus row
+$$
+\mu_{\pi_s(u)}:\NatUp\to\NatUp
+$$
+of the kind stated in \autoref{thm:rh-witness-modulus}.
+\end{theorem}
+
+\begin{proof}
+The value $\Phi(u)$ contains the same zero packet $u$ and a witness of
+$\mathsf{OnCritLine}(\pi_s(u))$. By
+\autoref{thm:rh-witness-modulus}, the constructive content of that
+$\mathsf{OnCritLine}$ witness is a modulus selecting rational
+approximants whose distance from $1/2$ is bounded by the requested
+dyadic tolerance.
+\end{proof}
+
+\begin{principle}[Barrier export is analytic content]
+\label{prin:rh-proof-obligation-barrier-export-analytic-content}
+The function $\beta$ is not obtained from the section form alone. It is
+exported only from the apart-zero defect row when that row is strengthened
+to a quantitative lower-bound statement:
+$$
+|\Re(s)-1/2|>2^{-n}
+\to
+|\zeta(s)|\ge \beta(n).
+$$
+Thus $\Phi$ records fixed-half membership, while $\beta$ records the
+positive lower-bound form of off-line exclusion.
+\end{principle}
+
+\begin{principle}[Witness export boundary]
+\label{prin:rh-proof-obligation-witness-export-boundary}
+The route ordering and witness export packet do not reduce the analytic
+difficulty of $\mathsf{RH}$. They specify the shape of a closed BEDC proof:
+first a same-source zero/apart-zero exclusion via
+$\mathsf{PrimeDefectApartZero}_{\Omega}$, then a fixed-half readout via
+$\mathsf{PrimeNormalImpliesCriticalLine}_{\Omega}$, and only then the
+export of $\Phi$, $\mu$, $\beta$, zero-counting, trivial-zero classification,
+and critical-line restriction witnesses.
+\end{principle}
