@@ -187,6 +187,24 @@ Now use residual-diamond retention from \autoref{thm:metacic-candidate-normaliza
 Finally apply finite endpoint comparison from \autoref{thm:metacic-candidate-normalization-confluence-handoff-finite-endpoint-comparison}. The rows $T,R,P,L$ transport, replay, source, and name the same finite route before $N$ is compared, which is exactly the bounded comparison route refused by the excluded global claims.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate handoff residual-decider inversion]
+\label{thm:metacic-candidate-normalization-confluence-handoff-residual-decider-inversion}
+Let
+$$
+H=(A,K,N,F,C,D,B,T,R,P,L)
+$$
+be an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ carrier. If a confluence or conversion consumer reads a bounded decider outcome from $H$, then the candidate row $K$, normalization frontier $F$, residual envelope $C$, decidable boundary $D$, blocked-edge row $B$, and structural rows $T,R,P,L$ are already visible before the endpoint row $N$ is compared. The inversion is a finite retained-premise read; it does not claim full Church--Rosser, unrestricted subject reduction, quotient syntax equality, evaluator soundness, global conversion decidability, or closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the boundary theorem \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}. It exposes candidate evidence, the normalization frontier, residual envelope, decidable boundary, and blocked-edge rows as separate coordinates before any bounded endpoint comparison can be read.
+
+Apply premise exposure from \autoref{thm:metacic-candidate-normalization-confluence-handoff-premise-exposure}. A confluence-facing read cannot consume the endpoint row before $K,F,C,D,B$ are displayed in the same packet.
+
+Use residual-diamond retention and finite endpoint comparison, \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-retention} and \autoref{thm:metacic-candidate-normalization-confluence-handoff-finite-endpoint-comparison}. They keep the residual envelope, decidable boundary, and blocked edge attached to any bounded endpoint comparison offered to a confluence or conversion consumer.
+
+Finally apply decider-row exhaustion through \autoref{thm:metacic-candidate-handoff-decidable-normal-form-comparison}. The bounded decider outcome is read only after $D$ is on the displayed comparison route and after $T,R,P,L$ transport, replay, source, and name the same finite handoff. Since the excluded global endpoints are not carrier coordinates, the decider read inverts back to the retained candidate and residual premises rather than to any unrestricted MetaCIC theorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate handoff frontier normal-endpoint retention]
 \label{thm:metacic-candidate-handoff-frontier-normal-endpoint-retention}
 Let
