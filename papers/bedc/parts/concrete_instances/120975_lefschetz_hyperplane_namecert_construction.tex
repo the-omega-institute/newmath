@@ -1,0 +1,66 @@
+\chapter{LefschetzHyperplane NameCert Construction}
+\label{ch:concrete-instances-lefschetz-hyperplane-namecert}
+\origin{human}
+
+Following Lefschetz hyperplane theorem references in algebraic geometry and Hodge theory, the $\LefschetzHyperplaneUp$ packet records only the finite BEDC route by which a smooth projective source, a hyperplane section, and a bounded cohomology-window comparison are exposed to downstream consumers. It sits after the projective-variety surface of \autoref{ch:concrete-instances-projectivevar-namecert}, the scheme cover ledger of \autoref{ch:concrete-instances-scheme-namecert}, the cohomology and homology carriers of \autoref{ch:concrete-instances-cohomology-namecert} and \autoref{ch:concrete-instances-homology-namecert}, and the numeric coefficient surface of \autoref{ch:concrete-instances-complex-namecert}. The packet names the comparison route; it does not import a host Lefschetz theorem, a standard cohomology isomorphism, a selected ample divisor, a quotient cohomology representative, or a completed Hodge-theoretic package.
+
+\begin{definition}[Lefschetz hyperplane carrier]
+\label{def:lefschetz-hyperplane-carrier}
+A $\LefschetzHyperplaneUp$ carrier is a finite $\BHist$ packet
+$$
+L=(X,Y,R,W,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the smooth projective source row, read through $\ProjectiveVarUp$ and $\SchemeUp$ carriers rather than through a host variety.
+\item $Y$ is the hyperplane-section row, including incidence with the displayed projective source and the finite section ledger.
+\item $R$ is the restriction-map row from the source packet to the section packet.
+\item $W$ is the cohomology-window row naming the inspected degree range and coefficient surface.
+\item $Q$ is the finite comparison ledger relating the source and section rows inside the displayed window.
+\item $H$ records componentwise $\hsame$ transport for $X,Y,R,W,Q$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay for source admission, section admission, restriction, cohomology-window readback, comparison, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\ProjectiveVarUp$, $\SchemeUp$, $\CohomologyUp$, $\HomologyUp$, $\ComplexUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LefschetzHyperplaneUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,Y,R,W,Q,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Lefschetz hyperplane NameCert obligations]
+\label{thm:lefschetz-hyperplane-namecert-obligations}
+For the carrier of \autoref{def:lefschetz-hyperplane-carrier}, the local $\NameCert_{\LefschetzHyperplaneUp}$ surface consists exactly of projective-source admission through $X$, hyperplane-section admission through $Y$, restriction-map exposure through $R$, cohomology-window readback through $W$, finite comparison-ledger exposure through $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, local naming through $N$, and non-escape from host Lefschetz theorems, unrecorded ample-divisor choices, quotient cohomology representatives, completed Hodge packages, and ambient standard-model isomorphisms.
+\end{theorem}
+\begin{proof}
+Project the carrier. The packet exposes exactly the rows $X,Y,R,W,Q,H,C,P,N$, with the geometric source, section, restriction, and comparison data separated into visible coordinates.
+
+Read the dependency rows next. The projective and scheme siblings supply only displayed projective-source and section-carrier data. The cohomology, homology, and complex-number siblings supply only the finite degree window and coefficient rows used by $W$ and $Q$.
+
+Finally inspect the packet boundary. No coordinate stores a host Lefschetz theorem, an ample-divisor selector, a quotient cohomology representative, a completed Hodge package, or a standard-model isomorphism. The local NameCert obligations are therefore exactly the displayed finite packet and its transport, replay, provenance, and naming rows.
+\end{proof}
+
+\begin{theorem}[Lefschetz hyperplane section route]
+\label{thm:lefschetz-hyperplane-section-route}
+Every accepted $\LefschetzHyperplaneUp$ consumer that reads a hyperplane-section comparison must first expose the route
+$$
+\ProjectiveVarUp,\ \SchemeUp,\ Y,\ R,\ W,\ Q,\ \CohomologyUp,\ \HomologyUp,\ \ComplexUp,\ H,\ C,\ P,\ N.
+$$
+The consumer receives a displayed projective source, a displayed section row, a restriction map, an inspected cohomology window, and a finite comparison ledger. It receives no host Lefschetz theorem, no ambient isomorphism outside the ledger, no selected generic hyperplane, and no quotient-class representative.
+\end{theorem}
+\begin{proof}
+Start with source and section admission. The rows $X$ and $Y$ force the projective and scheme carriers to be displayed before the section comparison can be read.
+
+Next read the restriction and window rows. The restriction row $R$ and cohomology window $W$ determine where the comparison ledger $Q$ is meaningful, and the cohomology, homology, and complex-number siblings supply the inspected coefficient and degree surfaces.
+
+The structural rows $H,C,P,N$ preserve the same finite route. Since the refused host theorem, ambient isomorphism, generic-hyperplane choice, and quotient representative are not coordinates of the carrier, the section route exports only the displayed BEDC packet.
+\end{proof}
+
+\closureat{LefschetzHyperplaneUp}{seedStr}
+
+\begin{closurestatus}{\LefschetzHyperplaneUp}
+  \constructivestory{A $\LefschetzHyperplaneUp$ packet is generated from a smooth projective source row, a hyperplane-section row, a restriction-map row, a cohomology-window row, a finite comparison ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lefschetz-hyperplane-carrier}, \autoref{thm:lefschetz-hyperplane-namecert-obligations}, and \autoref{thm:lefschetz-hyperplane-section-route} bind the finite projective-section comparison route before any host Lefschetz theorem or ambient isomorphism can be read.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, a standard bridge, host Lefschetz theorem import, generic-hyperplane selection, quotient cohomology equality, or Hodge-theoretic comparison.}
+  \upgradepath{Obligation closure requires explicit carrier-field coverage for projective source admission, hyperplane-section admission, restriction-map exposure, cohomology-window readback, comparison-ledger exactness, transport, replay, provenance, and local naming.}
+\end{closurestatus}
