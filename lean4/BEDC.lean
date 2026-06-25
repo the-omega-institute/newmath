@@ -9,6 +9,7 @@ import BEDC.Algebra.Rel.EisensteinUp
 import BEDC.Algebra.Rel.GaussianUp
 import BEDC.Algebra.Rel.IntegerUp
 import BEDC.Algebra.Rel.RingEquiv
+import BEDC.Algebra.Rel.SplitComplexUp
 import BEDC.BaseReflection
 import BEDC.BaseReflection.Core
 import BEDC.BaseReflection.ExactGlobalizeBase
@@ -11591,6 +11592,7 @@ import BEDC.Derived.SpinGroupUp.PublicConsumerNamecertBoundary
 import BEDC.Derived.SpinGroupUp.SpinBoundaryInclusionTransport
 import BEDC.Derived.SpinGroupUp.StdBridge
 import BEDC.Derived.SpinGroupUp.Transport
+import BEDC.Derived.SplitComplexUp
 import BEDC.Derived.SplitIntervalUp
 import BEDC.Derived.SplittingFieldUp
 import BEDC.Derived.SpreadSpaceUp.TasteGate
