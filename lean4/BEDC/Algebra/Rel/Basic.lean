@@ -175,7 +175,7 @@ theorem mul_neg_commuted (a b : A) :
 end RelCommRing
 
 theorem sub_eq_add_neg {A : Type u} {r : A -> A -> Prop}
-    (R : RelCommRing A r) (x y : A) :
+    (R : RelRing A r) (x y : A) :
     r (R.sub x y) (R.add x (R.neg y)) :=
   R.sub_eq_add_neg x y
 

@@ -1,5 +1,5 @@
 import BEDC.Algebra.Rel.RingEquiv
-import BEDC.Derived.IntUp.CommRing
+import BEDC.Derived.IntUp.CommRingCore
 
 namespace BEDC.Algebra.Rel
 

@@ -2,13 +2,13 @@ import BEDC.Algebra.Rel.IntegerUp
 
 namespace BEDC.Derived.DualNumberUp
 
-abbrev Z := BEDC.Algebra.Rel.IntegerUp
-abbrev Zeq := BEDC.Algebra.Rel.IntEq
-abbrev Zzero := BEDC.Algebra.Rel.intZero
-abbrev Zone := BEDC.Algebra.Rel.intOne
-abbrev Zadd := BEDC.Algebra.Rel.IntAdd
-abbrev Zmul := BEDC.Algebra.Rel.IntMul
-abbrev Zneg := BEDC.Algebra.Rel.IntNeg
+private abbrev Z := BEDC.Algebra.Rel.IntegerUp
+private abbrev Zeq := BEDC.Algebra.Rel.IntEq
+private abbrev Zzero := BEDC.Algebra.Rel.intZero
+private abbrev Zone := BEDC.Algebra.Rel.intOne
+private abbrev Zadd := BEDC.Algebra.Rel.IntAdd
+private abbrev Zmul := BEDC.Algebra.Rel.IntMul
+private abbrev Zneg := BEDC.Algebra.Rel.IntNeg
 
 private def zring : BEDC.Algebra.Rel.RelCommRing Z Zeq :=
   BEDC.Algebra.Rel.IntegerUp_RelCommRing

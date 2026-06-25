@@ -2,13 +2,13 @@ import BEDC.Derived.IntUp.CommRing
 
 namespace BEDC.Derived.EisensteinUp
 
-abbrev Z := BEDC.Derived.PrimeUp.IntegerUp
-abbrev Zeq := BEDC.Derived.RationalUp.IntEq
-abbrev Zadd := BEDC.Derived.RationalUp.IntAdd
-abbrev Zmul := BEDC.Derived.RationalUp.IntMul
-abbrev Zneg := BEDC.Derived.RationalUp.IntNeg
-abbrev Zzero := BEDC.Derived.RationalUp.intZero
-abbrev Zone := BEDC.Derived.RationalUp.intOne
+abbrev Z := BEDC.Algebra.Rel.IntegerUp
+abbrev Zeq := BEDC.Algebra.Rel.IntEq
+abbrev Zadd := BEDC.Algebra.Rel.IntAdd
+abbrev Zmul := BEDC.Algebra.Rel.IntMul
+abbrev Zneg := BEDC.Algebra.Rel.IntNeg
+abbrev Zzero := BEDC.Algebra.Rel.intZero
+abbrev Zone := BEDC.Algebra.Rel.intOne
 
 private def zlaws : BEDC.Derived.IntUp.IntegerUpCommRingLaws :=
   BEDC.Derived.IntUp.IntegerUp_comm_ring_laws
