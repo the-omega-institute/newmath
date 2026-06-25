@@ -27,6 +27,20 @@ the right comparison, contradicting the corresponding returned component
 witness.
 \end{proof}
 
+\begin{theorem}[Product pair coherence consumes finite tag separation]
+\label{thm:prod-pair-coherence-finite-tag-separation-route}
+Before a $\ProdUp$ pair-representation coherence witness may publish componentwise classifier fields, it must preserve the same finite tag-separation discipline used by the nullable $\OptionUp$ surface of \autoref{ch:concrete-instances-option-namecert} and the disjoint-branch classifier surface of \autoref{ch:concrete-instances-sum-namecert}. Concretely, an absent-or-present payload read cannot be folded into a component comparison unless the $\OptionUp$ tag row has already separated the nullable case, and a left-or-right branch read cannot be paired across components unless the $\SumUp$ classifier has already excluded mixed tags. The product row therefore receives componentwise classifier fields only after tag-separated finite constructors have fixed which payload comparisons are admissible.
+\end{theorem}
+\begin{proof}
+Start with the obstruction theorem above. A product coherence witness returns left and right component comparisons only after two displayed pair presentations have been matched at the same product history.
+
+The $\OptionUp$ dependency supplies the nullable tag boundary. Its absent and present rows determine whether a payload comparison is available at all, so a product component cannot treat the absent case as an ordinary source payload.
+
+The $\SumUp$ dependency supplies disjoint-branch separation. Its mixed-tag exclusion prevents a left payload and a right payload from being read as one component classifier row.
+
+Thus the product classifier fields are published only after the two finite constructor disciplines have determined admissible component comparisons. The product packet adds no tag-erasing route of its own.
+\end{proof}
+
 \begin{theorem}[Product componentwise history classifier carrier reflexivity from source certificates]
 \label{thm:prod-component-history-classifier-carrier-reflexivity-from-source-certificates}
 The ten-field fit is: traditional target ordered-pair classifier reflexivity;
