@@ -12603,6 +12603,7 @@ import BEDC.Derived.ZeckendorfCarryValueUp.TasteGate
 import BEDC.Derived.ZeckendorfCarryValueUp.ValuePublicRead
 import BEDC.Derived.ZeckendorfCarryValueUp.VisionRealization
 import BEDC.Derived.ZeckendorfNormalUp
+import BEDC.Derived.ZeckendorfUp
 import BEDC.Derived.ZeroKnowledgeUp
 import BEDC.Derived.ZeroSetUp.TasteGate
 import BEDC.Derived.ZetaBasicUp
