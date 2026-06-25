@@ -4549,6 +4549,7 @@ import BEDC.Derived.DependentCodomainClosurePreservationUp.Ledger
 import BEDC.Derived.DependentCodomainClosurePreservationUp.Nonescape
 import BEDC.Derived.DependentCodomainClosurePreservationUp.TasteGate
 import BEDC.Derived.DependentCodomainClosurePreservationUp.Transport
+import BEDC.Derived.DerangementUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.DerivativeUp.TasteGate
 import BEDC.Derived.DerivedCatUp
