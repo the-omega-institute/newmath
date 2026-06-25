@@ -1933,6 +1933,7 @@ import BEDC.Derived.CauchyDiagonalCompactnessUp.TasteGate
 import BEDC.Derived.CauchyDiagonalFusionUp.TasteGate
 import BEDC.Derived.CauchyDiagonalLimitUp.TasteGate
 import BEDC.Derived.CauchyDiagonalSelectionUp.TasteGate
+import BEDC.Derived.CauchyDifferenceCriterionUp.TailDiameterHandoff
 import BEDC.Derived.CauchyDifferenceCriterionUp.TasteGate
 import BEDC.Derived.CauchyDoubleSequenceUp
 import BEDC.Derived.CauchyDoubleSequenceUp.DiagonalTailEnvelope
@@ -2975,6 +2976,7 @@ import BEDC.Derived.ClosedNormalConfluenceSealUp.SubstitutionBoundary
 import BEDC.Derived.ClosedNormalConfluenceSealUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyBoundaryUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyMainUp.TasteGate
+import BEDC.Derived.ClosedNormalConsistencyPacketUp.TasteGate
 import BEDC.Derived.ClosedNormalConsistencyWitnessUp.TasteGate
 import BEDC.Derived.ClosedNormalEndpointLedgerUp.TasteGate
 import BEDC.Derived.ClosedNormalEndpointTransportUp.TasteGate
@@ -6072,6 +6074,7 @@ import BEDC.Derived.FiniteRealSupremumUp.TasteGate
 import BEDC.Derived.FiniteRecognizerCarrierObstructionUp.TasteGate
 import BEDC.Derived.FiniteReflectionTupleUp.Core
 import BEDC.Derived.FiniteReflectionTupleUp.TasteGate
+import BEDC.Derived.FiniteRefutationBoundaryUp
 import BEDC.Derived.FiniteRefutationBoundaryUp.TasteGate
 import BEDC.Derived.FiniteRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.FiniteRelationUp.TasteGate
@@ -6419,6 +6422,7 @@ import BEDC.Derived.HadamardThreeCircleUp.TasteGate
 import BEDC.Derived.HadamardThreeLinesUp.TasteGate
 import BEDC.Derived.HahnBanachUp.TasteGate
 import BEDC.Derived.HahnDecompositionUp.TasteGate
+import BEDC.Derived.HahnMazurkiewiczBoundaryUp.TasteGate
 import BEDC.Derived.HairyBallUp
 import BEDC.Derived.HalfOpenRealIntervalUp.TasteGate
 import BEDC.Derived.HallMarriageUp.TasteGate
@@ -10494,6 +10498,7 @@ import BEDC.Derived.RegularCauchyMetricUp.ScopedKernelRoute
 import BEDC.Derived.RegularCauchyMetricUp.TasteGate
 import BEDC.Derived.RegularCauchyMidpointUp.NameCertObligations
 import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
+import BEDC.Derived.RegularCauchyMinUp.SelectorIdempotence
 import BEDC.Derived.RegularCauchyMinUp.TasteGate
 import BEDC.Derived.RegularCauchyMinimumUp.LeftBound
 import BEDC.Derived.RegularCauchyMinimumUp.TasteGate

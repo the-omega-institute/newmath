@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\BishopModulatedCauchySequenceUp$}
+\label{ch:concrete-instances-bishop-modulated-cauchy-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopModulatedCauchySequenceUp$ packet records the finite route by which a displayed sequence and an explicit Cauchy modulus become a completion-facing real name. It sits over the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the monotone-modulus normalization boundary of \autoref{ch:concrete-instances-cauchy-modulus-monotone-normalization-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names explicit modulus data for Phase Real and Completion consumers; it does not quotient streams, select a limit, invoke countable choice, compare host reals, or assume ambient $\RealUp$ completeness.
+
+\begin{definition}[BishopModulatedCauchySequence carrier]
+\label{def:bishop-modulated-cauchy-sequence-carrier}
+A $\BishopModulatedCauchySequenceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,M,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the sequence row, exposing the inspected rational or dyadic approximants only through finite $\StreamNameUp$ windows.
+\item $M$ is the explicit Cauchy modulus row, giving a tolerance-to-tail schedule rather than an external convergence oracle.
+\item $D$ is the $\DyadicRatCoreUp$ radius ledger used to compare the tail entries requested by $M$.
+\item $W$ is the $\StreamNameUp$ finite-window row naming exactly the sequence entries inspected for a requested tolerance.
+\item $R$ is the $\RegSeqRatUp$ handoff row that reads the displayed windows as regular rational approximation data.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the sequence row, modulus row, dyadic ledger, finite windows, and regular rational readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the sequence, modulus, dyadic, window, regular-readback, real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay in the order $S,M,D,W,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BishopModulatedCauchySequenceUp$, $\CauchyModulusMonotoneNormalizationUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopModulatedCauchySequenceUp}$ row naming this packet and no larger completion principle.
+\end{enumerate}
+The carrier has no coordinate for quotient sequence equality, selected limits, countable choice, host equality of reals, trichotomy, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[BishopModulatedCauchySequence NameCert obligations]
+\label{thm:bishop-modulated-cauchy-sequence-namecert-obligations}
+For an accepted $\BishopModulatedCauchySequenceUp$ carrier $B=(S,M,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\BishopModulatedCauchySequenceUp}$ surface consists exactly of carrier admission for the sequence row, explicit Cauchy modulus row, dyadic-radius ledger, finite $\StreamNameUp$ window row, $\RegSeqRatUp$ handoff, terminal $\RealUp$ seal, componentwise transport, displayed replay, provenance, and local naming. Every consumer read of the real-facing boundary must display $S,M,D,W,R,E,H,C,P,N$ in that order, and no obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-modulated-cauchy-sequence-carrier}. The tuple displays the sequence row, explicit modulus, dyadic ledger, finite windows, regular readback, real seal, transport, replay, provenance, and local naming rows.
+
+The modulus row is read before the dyadic ledger. The normalization boundary of \autoref{ch:concrete-instances-cauchy-modulus-monotone-normalization-namecert} keeps this row as an explicit tolerance-to-tail schedule, while $\DyadicRatCoreUp$ supplies only the displayed radius comparisons needed by that schedule.
+
+The window and readback rows then route through $\StreamNameUp$ and $\RegSeqRatUp$. The terminal $\RealUp$ seal is downstream of those finite rows, and the structural rows $H,C,P,N$ preserve the same displayed order. Since none of these rows contains quotient stream equality, a selected limit, countable choice, host real equality, trichotomy, or ambient real completeness, the listed obligations exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[BishopModulatedCauchySequence regular route]
+\label{thm:bishop-modulated-cauchy-sequence-regular-route}
+Every real-facing read exported by an accepted $\BishopModulatedCauchySequenceUp$ carrier factors through the explicit route
+$$
+S\longmapsto M\longmapsto D\longmapsto W\longmapsto R\longmapsto E\longmapsto(H,C,P,N).
+$$
+Thus the $\RegSeqRatUp$ handoff is available only after the $\CauchyModulusMonotoneNormalizationUp$ modulus surface, the $\DyadicRatCoreUp$ radius ledger, and the finite $\StreamNameUp$ windows have been displayed; the $\RealUp$ seal cannot be used as a prior source of convergence.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bishop-modulated-cauchy-sequence-namecert-obligations}. It requires the sequence row $S$ and explicit modulus row $M$ before any radius or tail comparison can be exported.
+
+The dyadic and stream rows $D,W$ supply the finite comparisons requested by the modulus. The regular rational row $R$ reads those displayed windows only after the tolerance ledger and finite observation schedule are already visible.
+
+Finally the seal row $E$ and structural rows $H,C,P,N$ package the same finite route. Because the carrier excludes quotient streams, selected limits, countable choice, host equality, trichotomy, and ambient $\RealUp$ completeness, a consumer cannot bypass the regular route by appealing to a completed real in advance.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopModulatedCauchySequenceUp$ real-facing read exposes a sequence row, explicit Cauchy modulus row, DyadicRatCore radius ledger, StreamName finite-window row, RegSeqRat handoff, RealUp seal, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, cauchy-modulus-monotone-normalization, real: none is bijective with $\BishopModulatedCauchySequenceUp$ because this packet alone binds the sequence row, explicit modulus row, dyadic-radius ledger, finite-window route, regular rational handoff, and terminal real seal into one local NameCert carrier.}
+
+\begin{closurestatus}{\BishopModulatedCauchySequenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-modulated-cauchy-sequence-carrier}, \autoref{thm:bishop-modulated-cauchy-sequence-namecert-obligations}, and \autoref{thm:bishop-modulated-cauchy-sequence-regular-route} seed the finite explicit-modulus route from sequence windows to regular rational readback and terminal real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient sequence equality, selected limits, countable choice, host real equality, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus exactness, dyadic-radius visibility, finite-window coverage, regular readback stability, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopModulatedCauchySequenceUp.}
+  \constructivestory{A $\BishopModulatedCauchySequenceUp$ packet is generated from a sequence row, explicit Cauchy modulus row, DyadicRatCore radius ledger, StreamName finite windows, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
