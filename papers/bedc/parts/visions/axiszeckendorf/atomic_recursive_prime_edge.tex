@@ -89,6 +89,86 @@ $\beta$ and $\gamma$ were non-unit operations, the displayed equality
 $\alpha\equiv_O\beta\circ\gamma$ would contradict irreducibility.
 \end{proof}
 
+\begin{definition}[Undelimited atomic collision]
+\label{def:axiszeckendorf-undelimited-atomic-collision}
+Let $\alpha$ be an atomic recursive operation in a displayed operation
+carrier.  A consecutive double occurrence is written
+$$
+\alpha\Vert\alpha.
+$$
+It is \emph{undelimited} when the layer does not display a separator row
+$$
+\mathsf{Sep}_{O}(\alpha,\alpha)
+$$
+certifying a boundary between the two occurrences.  A collision atom for
+that undelimited occurrence is an operation $\beta\in O$ together with a
+classifier row
+$$
+\alpha\Vert\alpha\sim_{\mathrm{coll}}\beta
+$$
+and no audit row that factors the visible record through two separated
+$\alpha$-steps.
+\end{definition}
+
+\begin{principle}[Collision atoms are classifier-relative]
+\label{prin:axiszeckendorf-collision-atoms-classifier-relative}
+A collision atom is not an assertion that $\beta$ is definitionally equal
+to two applications of $\alpha$.  It says that the current readout layer
+cannot separate the visible record into two certified $\alpha$-steps.  The
+unresolved source fiber behind the visible record may still contain a
+two-step history, but that history is not available to the classifier
+unless a separator, clock, bracket, boundary, or replay certificate is
+displayed.
+\end{principle}
+
+\begin{theorem}[No separator gives no certified double read]
+\label{thm:axiszeckendorf-no-separator-no-certified-double-read}
+Assume that a layer can certify a double-$\alpha$ reading only through a
+separator row $\mathsf{Sep}_{O}(\alpha,\alpha)$.  If no such row is
+displayed for $\alpha\Vert\alpha$, then the layer cannot construct a
+certificate distinguishing the double occurrence from a collision atom
+$\beta$ with the same collision classifier read.
+\end{theorem}
+
+\begin{proof}
+A certified double read requires a boundary witness separating the first
+occurrence of $\alpha$ from the second.  By hypothesis the only such witness
+accepted by the layer is $\mathsf{Sep}_{O}(\alpha,\alpha)$.  When this row is
+not displayed, the layer has only the composite visible record.  If that
+record is classified by
+$$
+\alpha\Vert\alpha\sim_{\mathrm{coll}}\beta,
+$$
+then the classifier supplies no further data with which to split it into two
+auditable $\alpha$-steps.  Thus the claimed distinction is not certified in
+the current layer.
+\end{proof}
+
+\begin{principle}[Zeckendorf-safe channels as collision discipline]
+\label{prin:axiszeckendorf-zeckendorf-safe-channel-collision-discipline}
+The Zeckendorf-safe channel encoding is the finite channel model of this
+discipline.  If the raw glyph $1$ is read as the channel marker for one
+atomic action, a bare body substring $11$ would be an undelimited occurrence
+of $\alpha\Vert\alpha$.  The body substitution
+$$
+0\mapsto0,
+\qquad
+1\mapsto10
+$$
+adds a visible separator after every raw $1$, while the event terminator is
+$$
+\mathrm{End}=11.
+$$
+By \autoref{prop:channel-encoding-no-adjacent-11-in-body}, no encoded body
+contains the collision pattern $11$; by
+\autoref{cor:channel-encoding-first-11-is-terminator}, the first displayed
+$11$ is therefore a boundary row rather than a body collision.  The
+source-level carry classifier of \autoref{def:zeckendorf-carry-classifier}
+uses a different interface: it treats adjacent activation as a
+normalization trigger inside recognized history flows, not as a direct
+rewrite of channel glyphs.
+\end{principle}
+
 \begin{definition}[Recursive orbit and alpha valuation]
 \label{def:axiszeckendorf-recursive-orbit-alpha-valuation}
 Given an operation $\alpha$ acting on $R$, define the recursive orbit of
