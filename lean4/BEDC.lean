@@ -12722,6 +12722,7 @@ import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingPublicFactorization
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroFacingSourceAccountability
 import BEDC.Derived.ZetaContinuationWitnessUp.ZeroRouteInputPackage
 import BEDC.Derived.ZetaZerosUp
+import BEDC.Derived.ZigzagUp
 import BEDC.Derived.ZnormalUp
 import BEDC.Derived.ZnormalUp.CandidateNormalEndpointReadback
 import BEDC.Derived.ZnormalUp.CarrierObligationRow
