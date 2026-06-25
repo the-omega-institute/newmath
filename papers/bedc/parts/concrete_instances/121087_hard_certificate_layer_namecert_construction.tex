@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\HardCertificateLayerUp$}
+\label{ch:concrete-instances-hard-certificate-layer-namecert}
+\origin{ai}
+
+The $\HardCertificateLayerUp$ packet realizes the verification layer of \autoref{sec:visions-philosophy-hard-certificate-layer} as finite NameCert data. It records backend-relative proof-object acceptance, trust-boundary exposure, classifier preservation, verification-ledger routing, and local naming without turning a checked theorem into a new classifier. The packet sits beside \autoref{ch:concrete-instances-auditgateboundary-namecert}, \autoref{ch:concrete-instances-kernel-audit-witness-namecert}, \autoref{ch:concrete-instances-negativecertificateboundary-namecert}, and \autoref{ch:concrete-instances-hostprimitiveleakage-namecert} as a certificate-hardening surface rather than as an audit gate, kernel witness, negative boundary, or host-primitive leak detector.
+
+\begin{definition}[HardCertificateLayer carrier]
+\label{def:hard-certificate-layer-carrier}
+A $\HardCertificateLayerUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(B,\Phi,\Pi,T,C,L,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the verification backend row, naming the formal language, checker, proof-object format, accepted dependencies, and trust boundary.
+\item $\Phi$ is the formal statement row translated from an already displayed certificate row.
+\item $\Pi$ is the proof-object row accepted by $B$ for $\Phi$.
+\item $T$ is the trust-boundary row, recording checked components, trusted components, unchecked components, and portability limits.
+\item $C$ is the classifier-preservation row, requiring the source classifier to remain unchanged by the hardening read.
+\item $L$ is the verification-ledger row that records assumptions, dependencies, proof artifact, backend, uncovered certificate fields, and not-claimed endpoints.
+\item $H$ records componentwise $\hsame$ transport for backend, statement, proof object, trust boundary, classifier, ledger, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from the certificate row being hardened through backend acceptance and back to the unchanged classifier.
+\item $P$ is the $\Pkg$ provenance over $\HardCertificateLayerUp$, the source NameCert row, the verification backend, proof object, trust boundary, classifier-preservation row, ledger row, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HardCertificateLayerUp}$ row.
+\end{enumerate}
+The packet has no coordinate for classifier creation, backend-independent truth, transfer across proof assistants, replacement of a source NameCert, or discovery credit from verification alone.
+\end{definition}
+
+\begin{theorem}[HardCertificateLayer NameCert obligations]
+\label{thm:hard-certificate-layer-namecert-obligations}
+For the carrier of \autoref{def:hard-certificate-layer-carrier}, the local $\NameCert_{\HardCertificateLayerUp}$ surface consists exactly of carrier admission for
+$$
+Q=(B,\Phi,\Pi,T,C,L,H,R,P,N),
+$$
+backend-relative proof acceptance through $B,\Phi,\Pi$, trust-boundary exposure through $T$, classifier preservation through $C$, verification-ledger routing through $L$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $R$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:hard-certificate-layer-carrier}. The backend, statement, and proof-object rows are the only hard-certificate evidence rows, so every verification read passes through $B,\Phi,\Pi$.
+
+The trust-boundary row $T$ and ledger row $L$ record what the proof object does and does not cover. The classifier-preservation row $C$ binds the hardening read to the same classifier surface that existed before the backend accepted the proof object.
+
+Finally $H,R,P,N$ transport, replay, source, and name the same finite packet. Since the carrier omits classifier creation, backend-independent truth, proof-assistant transfer, source-NameCert replacement, and discovery credit, none of those endpoints is a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[HardCertificateLayer classifier preservation]
+\label{thm:hard-certificate-layer-classifier-preservation}
+Every accepted $\HardCertificateLayerUp$ transition preserves the classifier row it hardens. If a verification-only transition changes the classifier row, then it is not a $\HardCertificateLayerUp$ transition.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:hard-certificate-layer-carrier}. The classifier row $C$ is preservation data, not an output slot for a new classifier.
+
+Apply \autoref{thm:hard-certificate-layer-namecert-obligations}. Backend acceptance through $B,\Phi,\Pi$ and trust-boundary exposure through $T,L$ harden a displayed certificate row while $C$ keeps the classifier surface fixed.
+
+Thus any transition that changes the classifier leaves the displayed carrier and cannot be cited as a $\HardCertificateLayerUp$ read.
+\end{proof}
+
+\falsifiablePrediction{If a verification-only transition changes the classifier row, then it is not a $\HardCertificateLayerUp$ transition.}
+
+\independenceWitness{auditgateboundary, kernelauditwitness, negativecertificateboundary, hostprimitiveleakage: none is bijective because $\HardCertificateLayerUp$ stores backend-relative proof-object acceptance, trust-boundary exposure, classifier preservation, verification-ledger routing, transport, replay, provenance, and local NameCert rows in one carrier. AuditGateBoundaryUp records gate admission rather than proof-object acceptance; KernelAuditWitnessUp records kernel witness data rather than classifier-preserving hardening; NegativeCertificateBoundaryUp records negative evidence boundaries rather than backend-relative proof artifacts; HostPrimitiveLeakageUp records primitive leakage rather than the ledgered preservation of a source classifier.}
+
+The Lean follow-up should provide $\mathrm{Nontrivial}\ \HardCertificateLayerUp$ and $\mathrm{FieldFaithful}\ \HardCertificateLayerUp$ instances in \texttt{lean4/BEDC/Derived/HardCertificateLayerUp/TasteGate.lean}.
+
+\begin{closurestatus}{\HardCertificateLayerUp}
+  \constructivestory{A $\HardCertificateLayerUp$ packet is generated from backend, statement, proof-object, trust-boundary, classifier-preservation, verification-ledger, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:hard-certificate-layer-carrier}, \autoref{thm:hard-certificate-layer-namecert-obligations}, and \autoref{thm:hard-certificate-layer-classifier-preservation} bind hard-certificate reads to backend-relative proof objects, trust boundaries, classifier preservation, verification ledger rows, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean instances, backend-independent truth, classifier creation, source-NameCert replacement, proof-assistant transfer, or bridge checking.}
+  \upgradepath{Formal closure requires the Lean carrier, Nontrivial and FieldFaithful instances, and a checked NameCert obligation theorem for the displayed hard-certificate-layer packet.}
+\end{closurestatus}

@@ -149,19 +149,38 @@ Read $S$ and $K$ through the same theorem and through \autoref{thm:subject-reduc
 The non-escape theorem then keeps every downstream consumer inside $B,A,L,\Pi,S,K,O,H,C,P,N$. Since no coordinate stores an unparameterised closed subject-reduction theorem, $O$ remains visible whenever a consumer tries to replace the four-row interface by that closed statement.
 \end{proof}
 
+\begin{theorem}[Subject-reduction discharge schema bridge]
+\label{thm:subject-reduction-discharge-schema-bridge}
+Every public read of an accepted four-row packet
+$$
+D=(B,A,L,\Pi,S,K,O,H,C,P,N)
+$$
+bridges to the MetaCIC subject-reduction schema only through the displayed compiler-boundary rows $S,K$, obstruction row $O$, componentwise transport $H$, continuation route $C$, provenance row $P$, and local $\NameCert_{\SubjectReductionDischargeUp}$ row $N$. The bridge exposes the public schema-facing route for $B,A,L,\Pi$ and does not supply closed subject reduction.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:subject-reduction-discharge-obligations}. It fixes the local certificate surface as carrier admission, four-row obligation exposure, compiler-boundary exposure, obstruction exposure, transport, route locality, provenance, and local naming.
+
+Next apply \autoref{thm:subject-reduction-discharge-four-row-completeness}. The discharge inventory has exactly the four rows $B,A,L,\Pi$, while $S,K,O,H,C,P,N$ are support and boundary data rather than additional discharge premises.
+
+Use \autoref{thm:subject-reduction-discharge-transport-route-exactness} to force every transport or continuation read through the displayed $H,C,P,N$ coordinates. Then use \autoref{thm:subject-reduction-discharge-obstruction-preservation} to keep $O$ visible whenever a consumer tries to replace the schema-facing route by closed subject reduction.
+
+Thus the public bridge is precisely the displayed route from the four-row packet to the MetaCIC subject-reduction schema, with no coordinate that can be read as an unparameterised closed theorem.
+\end{proof}
+
 \closureat{SubjectReductionDischargeUp}{seedStr}
 \closureat{SubjectReductionDischargeUp}{obligationStr}[BEDC.Derived.SubjectReductionDischargeUp.SubjectReductionDischargeCarrier\_namecert\_obligations]
 \closureat{SubjectReductionDischargeUp}{scopedStr}[BEDC.Derived.SubjectReductionDischargeUp.SubjectReductionDischargeCarrier\_namecert\_obligations]
+\closureat{SubjectReductionDischargeUp}{bridgedStr}[BEDC.Derived.SubjectReductionDischargeUp.SubjectReductionDischargeCarrier\_namecert\_obligations]
 
 \begin{closurestatus}{\SubjectReductionDischargeUp}
   \constructivestory{A $\SubjectReductionDischargeUp$ packet is generated from the four MetaCIC subject-reduction discharge obligation rows, closed-substitution and compiler boundary rows, the checked obstruction row, displayed $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:subject-reduction-discharge-carrier}, \autoref{thm:subject-reduction-discharge-obligations}, \autoref{thm:subject-reduction-discharge-four-row-completeness}, \autoref{thm:subject-reduction-discharge-transport-route-exactness}, and \autoref{thm:subject-reduction-discharge-obstruction-preservation} expose the public four-row discharge packet, its obligation surface, route exactness, and obstruction boundary.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:subject-reduction-discharge-carrier}, \autoref{thm:subject-reduction-discharge-obligations}, \autoref{thm:subject-reduction-discharge-four-row-completeness}, \autoref{thm:subject-reduction-discharge-transport-route-exactness}, \autoref{thm:subject-reduction-discharge-obstruction-preservation}, and \autoref{thm:subject-reduction-discharge-schema-bridge} expose the public four-row discharge packet and bridge it to the cited MetaCIC subject-reduction schema target without adding a closed subject-reduction theorem.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.SubjectReductionDischargeUp.SubjectReductionDischargeCarrier\_namecert\_obligations}
   \leanchecked{BEDC.Derived.SubjectReductionDischargeUp.taste\_gate}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
   \notclaimed{This chapter does not prove BetaSubstitutionPreservation, AppArgTypeStable, LamDomainSubjectReduction, PiDomainSubjectReduction, unparameterised closed subject reduction, evaluator soundness, or bridge checking.}
-  \upgradepath{Bridged closure requires a bridge from the public four-row discharge packet to the MetaCIC subject-reduction schema without adding a closed subject-reduction theorem.}
+  \upgradepath{Mature closure requires downstream examples that use the paper bridge while preserving the absence of closed subject reduction.}
 \end{closurestatus}
