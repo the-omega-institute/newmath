@@ -30,6 +30,13 @@ It recovers the event boundaries and the event sequence.  It does not recover
 primehood, zeta values, zerohood, or proof rows.
 \end{definition}
 
+Lean packages this finite substrate as
+\leandef{BEDC.Derived.RHRoute.EventflowCertificate.EventflowStep},
+\leandef{BEDC.Derived.RHRoute.EventflowCertificate.FlowLinked}, and
+\leandef{BEDC.Derived.RHRoute.EventflowCertificate.CertificateFlow}; the
+certificate transport is validated by
+\leanchecked{BEDC.Derived.RHRoute.EventflowCertificate.flow\_certificate\_sound}.
+
 \begin{proposition}[Channel reconstruction is a boundary fixed point]
 \label{prop:rh-channel-reconstruction-boundary-fixed-point}
 Every accepted legal-channel read makes the source event flow a fixed point
