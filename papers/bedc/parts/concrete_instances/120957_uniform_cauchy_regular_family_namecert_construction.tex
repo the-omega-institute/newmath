@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\UniformCauchyRegularFamilyUp$}
+\label{ch:concrete-instances-uniform-cauchy-regular-family-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\UniformCauchyRegularFamilyUp$ packet records a finite family of regular Cauchy rational names controlled by one shared modulus schedule. It sits over the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, the shared-modulus surface of \autoref{ch:concrete-instances-uniform-cauchy-modulus-namecert}, and the family-level route of \autoref{ch:concrete-instances-uniform-cauchy-family-namecert}. The packet gives completion and uniform-limit consumers a bounded shared-modulus regular-family certificate before any quotient stream, host real equality, countable-choice selector, chosen limit, or ambient $\RealUp$ completeness principle is available.
+
+\begin{definition}[Uniform Cauchy regular family carrier]
+\label{def:uniform-cauchy-regular-family-carrier}
+A $\UniformCauchyRegularFamilyUp$ carrier is a finite $\BHist$ packet
+$$
+U=(F,M,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the finite family row whose entries are $\RegSeqRatUp$ regular rational Cauchy names and whose domain of inspection is a finite BEDC row.
+\item $M$ is the shared $\UniformCauchyModulusUp$ schedule. It assigns one displayed modulus response to the whole family for each accepted tolerance request.
+\item $W$ records the $\StreamNameUp$ windows read from every family member at the requests named by $M$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, including the requested tolerance, the shared tail tolerance supplied by $M$, and the finite endpoint ledgers used for each component comparison.
+\item $R$ is the $\RegSeqRatUp$ readback family assembled from the windows $W$ and dyadic ledger $D$.
+\item $E$ is the $\RealUp$ seal-row family reached only after $F,M,W,D,R$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the family row, shared modulus, stream windows, dyadic tolerance ledger, regular readbacks, real seals, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a family Cauchy request through $F,M,W,D,R,E,H,P,N$.
+\item $P$ records $\Pkg$ provenance over $\UniformCauchyRegularFamilyUp$, $\UniformCauchyFamilyUp$, $\UniformCauchyModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformCauchyRegularFamilyUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, host real equality, per-component hidden moduli, countable-choice schedules, chosen limiting reals, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Uniform Cauchy regular family NameCert obligations]
+\label{thm:uniform-cauchy-regular-family-namecert-obligations}
+For every accepted $\UniformCauchyRegularFamilyUp$ carrier
+$$
+U=(F,M,W,D,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\UniformCauchyRegularFamilyUp}$ surface consists exactly of carrier admission for the finite regular family, shared modulus schedule, stream windows, dyadic tolerance ledgers, regular readbacks, real seals, componentwise transport, replay, provenance, and local naming; shared-modulus exactness requiring $M$ to serve every displayed family member; readback exactness requiring $R$ to be assembled only from $W$ and $D$; real-seal nonescape requiring $E$ to remain downstream of $F,M,W,D,R$; and provenance exhaustion excluding quotient streams, host real equality, hidden per-component moduli, countable choice, chosen limits, and ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-cauchy-regular-family-carrier}. The finite family row, shared modulus, stream windows, dyadic tolerance ledger, regular readbacks, real seals, transport, replay, provenance, and local name are the only displayed coordinates.
+
+The shared-modulus clause is forced by the single row $M$. Every accepted tolerance request for the family reads the same schedule before any component window in $W$ is inspected, so no component receives a hidden threshold outside the packet.
+
+The readback and seal clauses are downstream of this same data. The row $R$ is assembled from $W$ and $D$, and the real seal row $E$ appears only after the regular readback has been exposed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier contains no further coordinate, the listed obligations exhaust the NameCert surface and rule out the refused quotient, equality, choice, limit, and completeness routes.
+\end{proof}
+
+\begin{theorem}[Uniform Cauchy regular family real-completion handoff]
+\label{thm:uniform-cauchy-regular-family-real-completion-handoff}
+Every completion-facing consumer of an accepted $\UniformCauchyRegularFamilyUp$ carrier factors through the finite route
+$$
+F,M \longmapsto W,D \longmapsto R \longmapsto E .
+$$
+Thus the consumer receives one finite regular family row, one shared $\UniformCauchyModulusUp$ schedule, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledgers, $\RegSeqRatUp$ readbacks, and terminal $\RealUp$ seal rows before any completion-facing output can be read.
+\end{theorem}
+\begin{proof}
+Begin with the source side. The family row $F$ and shared modulus row $M$ are the only input rows available to a completion-facing consumer, and $M$ is common to all displayed family members.
+
+Next read the observation rows. The stream windows $W$ and dyadic tolerance ledger $D$ provide the finite component comparisons required by the shared modulus, while $R$ records the regular rational readbacks obtained from those observations.
+
+The real seal row $E$ is downstream of $R$. Componentwise transport and displayed replay preserve this order, and provenance records only the rows named in \autoref{def:uniform-cauchy-regular-family-carrier}.
+
+Therefore completion-facing consumers must use the displayed route $F,M \mapsto W,D \mapsto R \mapsto E$. The route does not export quotient stream equality, host real equality, per-component hidden moduli, countable choice, chosen limiting reals, or ambient completeness.
+\end{proof}
+
+\closureat{UniformCauchyRegularFamilyUp}{seedStr}
+
+\begin{closurestatus}{\UniformCauchyRegularFamilyUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-cauchy-regular-family-carrier}, \autoref{thm:uniform-cauchy-regular-family-namecert-obligations}, and \autoref{thm:uniform-cauchy-regular-family-real-completion-handoff} seed the finite shared-modulus regular Cauchy family route over $\UniformCauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient-stream completion, host real equality, hidden per-component moduli, countable choice, chosen limiting reals, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-modulus exactness, readback exactness, real-seal nonescape, replay stability, provenance exhaustion, and local naming for BEDC.Derived.UniformCauchyRegularFamilyUp.}
+  \constructivestory{A $\UniformCauchyRegularFamilyUp$ packet is generated from a finite family of RegSeqRat rows, one UniformCauchyModulus schedule, StreamName windows, DyadicRatCore tolerance ledgers, RegSeqRat readbacks, RealUp seal rows, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+\end{closurestatus}
