@@ -1,32 +1,13 @@
-\subsection{Translation- and Abundance-Conditioned Localization Readback for Q6 Residual Coordinates}\label{sec:biores-q6-translation-abundance-localization-itzhak-mouse}\origin{ai}
+\subsection{Mouse subcellular localization readback after translation conditioning}\label{sec:h3-cross-layer-relation-subcellular-localization-mouse-itzhak2017}\origin{ai}
 
-\paragraph{Finite row surface.}
-This record treats the Q6 synonymous residual coordinate as a candidate upstream coordinate only inside a finite matched table. The admissible row is not merely a coding sequence with a codon-usage statistic. It is a row in which the residual coordinate $q_i$ is carried together with amino-acid quotient controls, organism identity, $GC3$, CDS length, methionine-density controls, a same-row translation readout $T_j$, matched mRNA abundance, protein abundance, and a protein-localization readout $L_k$. The verified finite run for claim \texttt{h3.cross\_layer\_relation.subcellular\_localization.mts\_propensity\_localization\_crossorganism\_mouse\_itzhak2017} is \texttt{94942f5abfc4}, verified at \texttt{2026-06-24T19:58:25+00:00}. In that run the joined surface contains $8944$ matched rows, of which $505$ are annotated as mitochondrial, and the recorded runtime is $21.266$ seconds. These numbers are used here only as finite-row scope and outcome-count information; they are not, by themselves, a mechanism or a universal biological law.
+\paragraph{Finite row witness.} This chapter records the mouse Itzhak 2017 localization packet as a finite matched CDS-by-organism table whose internal order is residual coordinate, same-row translation readout, matched mRNA control, protein abundance, and then localization readback. In the verified run \texttt{94942f5abfc4}, the join produced $n_{\mathrm{joined}}=8944$ rows and $n_{\mathrm{mito}}=505$ mitochondrial readouts, with runtime \(21.266\) seconds, and the verification timestamp is \texttt{2026-06-25T01:51:51+00:00}. The mitochondrial share in the joined table is therefore about \(505/8944 \approx 5.65\%\). Those are the only finite-row scalars needed to pin down the evidence surface in this chapter.
 
-\paragraph{Conditioned relation.}
-The biological question is whether a Q6 residual coordinate has any bounded relation to protein-localization readback after the translation and abundance layers have been explicitly represented. The local readback chain is
-$$
-\begin{aligned}
-q_i &\longrightarrow T_j \\
-    &\longrightarrow P_{\mathrm{abundance}} \\
-    &\longrightarrow L_k,
-\end{aligned}
-$$
-where $T_j$ is the same-row translation readout, $P_{\mathrm{abundance}}$ is an intermediate protein-abundance control surface, and $L_k$ is a protein-state localization label, score, enrichment, or compartmental readout. The direction of this notation is bookkeeping for the conditioned test, not a causal claim. A localization association is eligible for interpretation only when the coordinate term remains non-null after amino-acid composition, organism, $GC3$, length, methionine-density, matched mRNA abundance, translation readout, protein abundance, and simpler codon-baseline controls are all represented in the same finite panel.
+\paragraph{Conditioned readback.} The point of the packet is not to collapse sequence geometry directly into localization. A B\(^*\)\_Q6 residual coordinate is only allowed to contribute after the translation layer is present on the same row, with mRNA kept as a control and protein abundance retained as an intermediate readout rather than promoted to a mechanism. In that conservative reading, the finite table supports a conditioned relation of the form
+$$\begin{aligned}
+q_i \to T_j \to \text{protein abundance/control} \to L_k,
+\end{aligned}$$
+where the localization label is read as an observed endpoint of the matched table, not as an intrinsic property of the residual coordinate itself. If the translation step is null, missing, or not row-matched, the coordinate stays at the translation/protein-abundance boundary and is not upgraded into a localization claim.
 
-\paragraph{Null compression rule.}
-If the row-level translation component is missing, degenerate, or absorbed by the controls, the Q6 coordinate is not allowed to pass into a localization claim. It is compressed back to a translation-boundary or protein-abundance-boundary statement. In symbols, the admissible positive readback has the form
-$$
-\begin{aligned}
-\operatorname{survives}(q_i,L_k) &= 1 \\
-\text{only if}\quad \operatorname{rank}(q_i \to T_j) &> 0 \\
-\text{and}\quad \operatorname{survives}(q_i,L_k\mid T_j,P_{\mathrm{abundance}},C) &= 1,
-\end{aligned}
-$$
-where $C$ abbreviates the declared row controls. When the translation term is null, the localization term is not read as a failed biological mechanism; it is simply outside the permitted inference surface for this chapter. Protein abundance is likewise not promoted into a localization mechanism. It can condition or attenuate the readback, but it does not explain trafficking, compartment identity, folding, function, phenotype, or physical admissibility.
+\paragraph{Scope boundary.} The chapter does not infer folding, physical admissibility, function, trafficking mechanism, compartment identity mechanism, phenotype, or universality from the finite table. Those statements require a separate contact at the corresponding layer. Here, the localization surface is treated as an observed readback attached to a controlled finite row panel, not as proof of a downstream mechanism. The safe conclusion is modest but concrete: under organism matching, CDS matching, mRNA control, and abundance control, this packet contains a non-null localization readback for a finite subset of rows, while the remainder of the interpretation must stay at the controlled association level.
 
-\paragraph{Localization contact.}
-The localization readout is bounded to protein-level localization surfaces such as compartment annotations, imaging screens, fractionation proteomics, or proximity-labeling measurements keyed to UniProt, RefSeq protein, locus, or CDS-derived protein identifiers. The row surface therefore permits a local question: among the $8944$ joined entries in run \texttt{94942f5abfc4}, with $505$ mitochondrial entries, does any Q6 residual coordinate retain a conditioned association with the mitochondrial or other localization readout once translation, mRNA, abundance, and sequence controls are attached? The finite counts make this a concrete matched-row question. They do not license a direct statement from codon geometry to protein localization.
-
-\paragraph{Local cannot-claim boundary.}
-This chapter does not claim that a Q6 residual coordinate directly measures translation, folded structure, protein physical admissibility, biochemical function, trafficking mechanism, compartment-identity mechanism, phenotype, fitness, or a cross-organism law. It also does not treat modelled tAI or stAI weights as observed ribosome occupancy, and it does not treat bulk protein abundance as localization evidence. A positive localization statement would require the same-row translation step to be non-null and the localization statistic to remain after the declared controls. Without that separate layer-matched contact and statistic, the correct reading is narrower: the run defines a finite localization-readback boundary with $8944$ joined rows and $505$ mitochondrial rows, while all stronger biological interpretations remain unasserted.
+\paragraph{Interpretive note.} The same-row structure matters. The packet is not read as a loose cross-dataset correlation, but as a row-aligned witness in which the translation surface precedes the localization surface. That sequencing is what keeps the claim biologically bounded. It also explains why the protein-abundance channel stays intermediate: it helps condition the readback, but it does not by itself certify a localization mechanism. The chapter therefore preserves the distinction between sequence-derived residual coordinates, translation readout, abundance control, and localization endpoint, and it stops exactly where the finite evidence stops.
