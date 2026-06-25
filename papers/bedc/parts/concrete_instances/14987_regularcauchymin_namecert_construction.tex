@@ -55,6 +55,22 @@ In the $B \preceq_W A$ branch, the same argument uses $B,W,D_B$. The selected ro
 There is no third branch and no hidden comparison coordinate in \autoref{def:regular-cauchy-min-carrier}. Hence the selector ledger is exhausted by the two displayed alternatives and exports no host trichotomy, quotient stream equality, selected limit, or completeness witness.
 \end{proof}
 
+\begin{theorem}[RegularCauchyMin selector monotonicity obligation]
+\label{thm:regular-cauchy-min-selector-monotonicity}
+Let
+$$
+M=(A,B,W,D_A,D_B,J,S,R,E,H,C,P,N)
+$$
+be an accepted $\RegularCauchyMinUp$ carrier. If the displayed selector row $J$ chooses $A$ over $B$, then every $\RealAlgOrderUp$-facing consumer reads a minimum row bounded by the selected source through $W,D_A,S,R,E$. If $J$ chooses $B$ over $A$, the same bounded route is read through $W,D_B,S,R,E$. Moreover, any componentwise transport that preserves the selected row preserves the same monotone branch for transported packets.
+\end{theorem}
+\begin{proof}
+Case-split on the displayed selector row $J$. In the $A \preceq_W B$ branch, \autoref{thm:regular-cauchy-min-selector-ledger} identifies $S$ as the replay of the first source through the shared window $W$ and the dyadic ledger $D_A$. The downstream rows $R$ and $E$ therefore expose a minimum row bounded by the selected source, and the order-facing consumer reaches it through the route named in \autoref{thm:regular-cauchy-min-realalgorder-handoff}.
+
+In the $B \preceq_W A$ branch, the same ledger exactness identifies $S$ as the replay of the second source through $W,D_B$. The handoff route again passes through $S,R,E$, so the consumer receives the second selected source as the finite minimum row.
+
+For transported packets, apply \autoref{thm:regular-cauchy-min-selector-transport-stability}. Componentwise transport preserves the selected row, readback, real seal, and selector alternative together. Hence the same branch remains monotone after transport, without adding host trichotomy, quotient stream equality, selected limits, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[RegularCauchyMin RealAlgOrder handoff]
 \label{thm:regular-cauchy-min-realalgorder-handoff}
 Every $\RealAlgOrderUp$-facing use of an accepted $\RegularCauchyMinUp$ carrier reaches the minimum row through the finite route

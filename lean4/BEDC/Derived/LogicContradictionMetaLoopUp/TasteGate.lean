@@ -262,9 +262,10 @@ def LogicContradictionMetaLoopCarrier [AskSetup] [PackageSetup]
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
   UnaryHistory proofPattern ∧ UnaryHistory refutation ∧ UnaryHistory auditGate ∧
-    UnaryHistory transport ∧ Cont proofPattern refutation metaRefusal ∧
-      Cont metaRefusal auditGate replay ∧ Cont transport replay provenance ∧
-        PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
+    UnaryHistory transport ∧ UnaryHistory localName ∧
+      Cont proofPattern refutation metaRefusal ∧ Cont metaRefusal auditGate replay ∧
+        Cont transport replay provenance ∧ PkgSig bundle provenance pkg ∧
+          PkgSig bundle localName pkg
 
 theorem LogicContradictionMetaLoopCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {proofPattern refutation metaRefusal auditGate transport replay provenance localName :
@@ -279,7 +280,7 @@ theorem LogicContradictionMetaLoopCarrier_namecert_obligations [AskSetup] [Packa
               PkgSig bundle localName pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
   intro carrier
-  obtain ⟨proofPatternUnary, refutationUnary, auditGateUnary, transportUnary,
+  obtain ⟨proofPatternUnary, refutationUnary, auditGateUnary, transportUnary, _localNameUnary,
     proofRefutationMeta, metaAuditReplay, transportReplayProvenance, provenancePkg,
     localNamePkg⟩ := carrier
   have metaRefusalUnary : UnaryHistory metaRefusal :=
