@@ -47,6 +47,22 @@ Read the rows in order. The modulus row $M$ and tolerance-budget row $E$ determi
 Finally inspect the structural rows. The rows $H,C_0,P,N$ transport, replay, record provenance for, and name the same finite packet. Since no further coordinate occurs in the carrier, the listed rows exhaust the local NameCert surface.
 \end{proof}
 
+\begin{theorem}[Canonical tail-choice obligation surface]
+\label{thm:canonical-tail-choice-obligation-surface}
+For every accepted $\CanonicalTailChoiceUp$ carrier
+$$
+C=(M,E,I,T,S,R,H,C_0,P,N),
+$$
+the finite tail-choice obligation surface is the simultaneous exposure of the modulus row $M$, tolerance-budget row $E$, canonical finite index row $I$, tail-window witness $T$, $\RealUp$ seal route $S$, no-choice refusal $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C_0$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. The surface admits no host-selected subsequence, quotient stream equality, countable-choice schedule, hidden tail oracle, detached completion seal, or ambient completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:canonical-tail-choice-carrier}. The ten displayed rows are exactly $M,E,I,T,S,R,H,C_0,P,N$, so an accepted packet exposes the modulus, tolerance budget, canonical finite index, tail window, seal route, refusal ledger, transport, replay, provenance, and local naming as one finite surface.
+
+Use the schedule factorization of \autoref{thm:canonical-tail-choice-schedule-factorization}. It forces every Real-completion consumer to pass through $M$ and $E$ before reaching $I$, then through $T$ before the seal route $S$ is consumed. Thus the canonical finite index and tail-window witness are displayed route coordinates, not a host-selected subsequence.
+
+Finally apply the no-choice non-escape theorem, \autoref{thm:canonical-tail-choice-no-choice-nonescape}. The refusal row $R$ and the structural rows $H,C_0,P,N$ keep the same finite packet visible and exclude quotient stream equality, countable choice, hidden tail oracles, detached completion seals, and ambient completeness. Therefore the listed rows exhaust the obligation surface.
+\end{proof}
+
 \begin{theorem}[Canonical tail-choice schedule factorization]
 \label{thm:canonical-tail-choice-schedule-factorization}
 Every accepted Real-completion consumer of a $\CanonicalTailChoiceUp$ packet factors through the finite route
