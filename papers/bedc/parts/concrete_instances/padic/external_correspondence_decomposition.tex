@@ -1,0 +1,80 @@
+\begin{longtable}{p{0.18\linewidth}p{0.24\linewidth}p{0.50\linewidth}}
+\caption{Constructive-boundary decomposition of the p-adic external scope.}
+\label{tab:padic-decomposition}\\
+\toprule
+\textbf{Scope item} & \textbf{Status} & \textbf{Evidence or footprint}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Scope item} & \textbf{Status} & \textbf{Evidence or footprint}\\
+\midrule
+\endhead
+$\mathbb{Z}_p$ ring and completeness &
+BEDC reconstructed constructive kernel &
+The ring surface is carried by
+\texttt{BEDC.Derived.PadicUp.ZpInt\_comm\_ring\_laws}; completeness is carried by
+\texttt{BEDC.Derived.PadicUp.ZpInt\_complete}.\\
+\addlinespace
+$\mathbb{Q}_p$ valued field: field, valuation, norm, ultrametric comparison &
+BEDC reconstructed constructive kernel &
+The field/valuation/completeness summary is
+\texttt{BEDC.Derived.PadicUp.QpInt\_valued\_field}; its valuation, norm, multiplicative valuation, lower-bound additivity, and strong unequal-valuation addition rows are exposed through
+\texttt{BEDC.Derived.PadicUp.QpValuationCore}.\\
+\addlinespace
+Hensel existence and uniqueness &
+BEDC reconstructed constructive kernel &
+Existence, lift, and uniqueness are carried by
+\texttt{BEDC.Derived.PadicUp.henselRoot\_is\_root},
+\texttt{BEDC.Derived.PadicUp.henselRoot\_lifts},
+\texttt{BEDC.Derived.PadicUp.henselRoot\_unique}, and
+\texttt{BEDC.Derived.PadicUp.henselRoot\_unique\_of\_data}.\\
+\addlinespace
+FTA: fundamental theorem of arithmetic / unique factorisation used by p-adic valuations &
+BEDC reconstructed constructive kernel &
+The arithmetic extraction and uniqueness surface is carried by
+\texttt{BEDC.Derived.PrimeUp.factorize},
+\texttt{BEDC.Derived.PrimeUp.factorization\_unique\_perm}, and
+\texttt{BEDC.Derived.PrimeUp.IntegerPrimeFactorization}.\\
+\addlinespace
+mathlib \texttt{PadicInt}/\texttt{Padic} quotient-completion objects and standard Real-valued norm interpretation &
+measured/refused classical boundary &
+This row is outside the BEDC kernel because the reference corpus uses quotient and classical comparison infrastructure. Footprint: \texttt{PadicInt}, \texttt{Padic}, \texttt{Real}; measured/refused dependencies
+\texttt{Classical.choice}, \texttt{Quot.sound}, and \texttt{propext}.\\
+\addlinespace
+Global product formula and classical absolute-value package &
+measured/refused classical boundary &
+This row is outside the local $\PadicUp$ constructive kernel because it requires the archimedean \texttt{Real} side plus global product quantification over places. Footprint: \texttt{Real}, absolute values, place product; measured/refused dependencies
+\texttt{Classical.choice}, \texttt{Quot.sound}, and \texttt{propext}.\\
+\bottomrule
+\end{longtable}
+
+\begin{theorem}[Padic external-scope constructive-boundary exhaustion]
+\label{thm:padic-external-scope-boundary-exhaustion}
+For the declared mathlib p-adic scope consisting of $\mathbb{Z}_p$ ring and
+completeness, $\mathbb{Q}_p$ valued-field structure with valuation, norm, and
+ultrametric comparison, Hensel existence and uniqueness, FTA as
+unique-factorisation arithmetic used by p-adic valuations, mathlib
+\texttt{PadicInt}/\texttt{Padic}
+quotient-completion objects with their standard Real-valued norm reading, and
+the global product-formula package, \autoref{tab:padic-decomposition}
+exhausts the scope as
+$$
+S_{\mathrm{padic}}
+=
+S_{\mathrm{BEDC\ kernel}}
+\sqcup
+S_{\mathrm{measured/refused\ classical\ boundary}}.
+$$
+There is no hidden third region in this declared scope.
+\end{theorem}
+\begin{proof}
+The first four rows of \autoref{tab:padic-decomposition} name the BEDC
+constructive kernel: the $\mathbb{Z}_p$ ring and completeness rows, the
+$\mathbb{Q}_p$ field/valuation/norm/completeness summary, the Hensel
+existence-and-uniqueness rows, and the FTA / unique-factorisation arithmetic
+used by valuation reads. The last two rows name the refused classical boundary: the
+quotient-completion \texttt{PadicInt}/\texttt{Padic} objects with their
+Real-valued norm reading, and the global product-formula package with its
+archimedean and all-places footprint. These rows are pairwise classified by
+their status column, and the scope sentence lists exactly these six items.
+\end{proof}
