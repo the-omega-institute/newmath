@@ -287,4 +287,39 @@ theorem ObservationTimeOrderRetainedRecord_exactness
       classifierReadUnary,
       observationTimeOrderDecode_encode_bhist R⟩
 
+theorem ObservationTimeOrderErasureBoundary_gap_route
+    {O0 O1 R C G H P N recordRead retainedRead gapRead : BHist} :
+    UnaryHistory O0 →
+      UnaryHistory O1 →
+        UnaryHistory R →
+          UnaryHistory G →
+            Cont O0 O1 recordRead →
+              Cont recordRead R retainedRead →
+                Cont retainedRead G gapRead →
+                  observationTimeOrderFromEventFlow
+                      (observationTimeOrderToEventFlow
+                        (ObservationTimeOrderUp.mk O0 O1 R C G H P N)) =
+                    some (ObservationTimeOrderUp.mk O0 O1 R C G H P N) →
+                    UnaryHistory recordRead ∧
+                      UnaryHistory retainedRead ∧
+                        UnaryHistory gapRead ∧
+                          hsame
+                            (observationTimeOrderDecodeBHist
+                              (observationTimeOrderEncodeBHist G))
+                            G := by
+  -- BEDC touchpoint anchor: BHist hsame Cont ChapterTasteGate
+  intro sourceUnary targetUnary retainedUnary gapUnary sourceRoute targetRoute gapRoute
+    _readback
+  have recordReadUnary : UnaryHistory recordRead :=
+    unary_cont_closed sourceUnary targetUnary sourceRoute
+  have retainedReadUnary : UnaryHistory retainedRead :=
+    unary_cont_closed recordReadUnary retainedUnary targetRoute
+  have gapReadUnary : UnaryHistory gapRead :=
+    unary_cont_closed retainedReadUnary gapUnary gapRoute
+  exact
+    ⟨recordReadUnary,
+      retainedReadUnary,
+      gapReadUnary,
+      observationTimeOrderDecode_encode_bhist G⟩
+
 end BEDC.Derived.ObservationTimeOrderUp
