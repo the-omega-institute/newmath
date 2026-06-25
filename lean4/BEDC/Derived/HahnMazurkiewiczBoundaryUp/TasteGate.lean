@@ -146,8 +146,19 @@ private theorem hahnMazurkiewiczBoundary_round_trip :
   intro x
   cases x with
   | mk K M C P B E T R N =>
-      simp [hahnMazurkiewiczBoundaryToEventFlow, hahnMazurkiewiczBoundaryFromEventFlow,
-        hahnMazurkiewiczBoundaryDecode_encode_bhist K,
+      change some
+          (HahnMazurkiewiczBoundaryUp.mk
+            (hahnMazurkiewiczBoundaryDecodeBHist (hahnMazurkiewiczBoundaryEncodeBHist K))
+            (hahnMazurkiewiczBoundaryDecodeBHist (hahnMazurkiewiczBoundaryEncodeBHist M))
+            (hahnMazurkiewiczBoundaryDecodeBHist (hahnMazurkiewiczBoundaryEncodeBHist C))
+            (hahnMazurkiewiczBoundaryDecodeBHist (hahnMazurkiewiczBoundaryEncodeBHist P))
+            (hahnMazurkiewiczBoundaryDecodeBHist (hahnMazurkiewiczBoundaryEncodeBHist B))
+            (hahnMazurkiewiczBoundaryDecodeBHist (hahnMazurkiewiczBoundaryEncodeBHist E))
+            (hahnMazurkiewiczBoundaryDecodeBHist (hahnMazurkiewiczBoundaryEncodeBHist T))
+            (hahnMazurkiewiczBoundaryDecodeBHist (hahnMazurkiewiczBoundaryEncodeBHist R))
+            (hahnMazurkiewiczBoundaryDecodeBHist (hahnMazurkiewiczBoundaryEncodeBHist N))) =
+          some (HahnMazurkiewiczBoundaryUp.mk K M C P B E T R N)
+      rw [hahnMazurkiewiczBoundaryDecode_encode_bhist K,
         hahnMazurkiewiczBoundaryDecode_encode_bhist M,
         hahnMazurkiewiczBoundaryDecode_encode_bhist C,
         hahnMazurkiewiczBoundaryDecode_encode_bhist P,
