@@ -87,4 +87,14 @@ theorem RealModulusFusionNamecertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, xUnary, mUnary, tUnary, wUnary, rUnary, sUnary, eUnary⟩
 
+theorem RealModulusFusionRegseqHandoff [AskSetup] [PackageSetup]
+    {X M T W R S E H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealModulusFusionCarrier X M T W R S E H C P N bundle pkg →
+      Cont T W R ∧ Cont R S E ∧ UnaryHistory R ∧ PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  intro carrier
+  obtain ⟨_xUnary, _mUnary, _tUnary, _wUnary, rUnary, _sUnary, _eUnary, _hUnary, _cUnary,
+    _nUnary, _sourceModulus, tailWindow, handoffSeal, _hContCName, pkgRow⟩ := carrier
+  exact ⟨tailWindow, handoffSeal, rUnary, pkgRow⟩
+
 end BEDC.Derived.RealModulusFusionUp
