@@ -56,6 +56,42 @@ Next read the family ledger $F$ and the center-indexed rows $B$. Each family mem
 Finally use the rational ledger $R$ to form $M$ and expose $U$. The $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows preserve the same finite packet during transport and replay, so the exported uniform-modulus row is exactly the finite-net family handoff and not an ambient compactness or function-space assertion.
 \end{proof}
 
+\begin{theorem}[Compact finite-net coverage row]
+\label{thm:finite-net-equicontinuity-compact-net-coverage}
+Let $E=(K,F,B,R,M,U,H,C,P,N)$ be an accepted $\FiniteNetEquicontinuityUp$ carrier. Every accepted read of $E$ exposes the compact finite-net row $K$ before any source-family radius row is read from $F$, $B$, or $R$. Thus the inspected $\ProbeBundle$ centers and their compact-metric coverage ledger are visible before the family estimates can be folded toward $M$ or exported through $U$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-net-equicontinuity-carrier}. The row $K$ is the only coordinate carrying compact-metric finite-net centers and the associated coverage ledger, while $F,B,R$ are downstream rows for family membership, center-indexed estimates, and rational radius comparison.
+
+Apply \autoref{thm:finite-net-equicontinuity-obligation-surface}. It requires every downstream read to preserve the same finite $\ProbeBundle$ centers and the same rational radius comparison. Apply \autoref{thm:finite-net-equicontinuity-uniform-modulus-handoff}. The handoff route begins at $K$ and reaches $U$ only after the family rows and rational ledger have been consumed.
+
+Since the carrier has no coordinate for open-cover compactness, selected moduli, host function-space compactness, or ambient $\RealUp$ completeness, no consumer can bypass $K$ by appealing to one of those external surfaces.
+\end{proof}
+
+\begin{theorem}[Finite family row stability]
+\label{thm:finite-net-equicontinuity-family-row-stability}
+Let $E=(K,F,B,R,M,U,H,C,P,N)$ be an accepted $\FiniteNetEquicontinuityUp$ carrier. The finite family row $F$ and bound ledger $B$ are transported componentwise only by the $\hsame$ row $H$, and every replay of those rows to compact-metric, continuous-map, equicontinuity, or uniform-modulus consumers factors through the displayed $\Cont$ routes in $C$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-net-equicontinuity-carrier}. The family ledger is $F$, the center-indexed bound ledger is $B$, the transport coordinate is $H$, and the displayed replay coordinate is $C$.
+
+Use \autoref{thm:finite-net-equicontinuity-obligation-surface}. Its obligation surface names componentwise $\hsame$ transport and displayed $\Cont$ replay as part of the local $\NameCert_{\FiniteNetEquicontinuityUp}$ surface, with no additional transport coordinate.
+
+Use \autoref{thm:finite-net-equicontinuity-uniform-modulus-handoff}. The route to $U$ reads $F$ and $B$ after $K$ and before $R,M,U$, so the same family and bound ledgers are preserved during the handoff. The carrier excludes open-cover compactness, selected moduli, host function-space compactness, and ambient $\RealUp$ completeness, so those surfaces cannot supply an alternate replay path.
+\end{proof}
+
+\begin{theorem}[Rational radius folding order]
+\label{thm:finite-net-equicontinuity-rational-radius-folding}
+Let $E=(K,F,B,R,M,U,H,C,P,N)$ be an accepted $\FiniteNetEquicontinuityUp$ carrier. The rational radius data $R$ fold into the uniform-modulus handoff row $U$ only through the family-level modulus row $M$, and only after the compact-net row $K$, finite family row $F$, and bound ledger $B$ have been displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-net-equicontinuity-carrier}. The row $R$ is the rational tolerance and source-radius ledger, $M$ is the family-level finite-net modulus row, and $U$ is the downstream $\UniformModulusUp$ handoff row.
+
+Apply \autoref{thm:finite-net-equicontinuity-obligation-surface}. It places carrier admission, compact finite-net coverage, finite family data, bound rows, rational comparison, modulus formation, and uniform-modulus output in the same local NameCert surface.
+
+Apply \autoref{thm:finite-net-equicontinuity-uniform-modulus-handoff}. The exported route is exactly $K,F,B,R,M,U,H,C,P,N$, so $R$ cannot reach $U$ before $K,F,B$ are displayed and cannot skip the fold row $M$. Because the packet has no coordinate for open-cover compactness, selected moduli, host function-space compactness, or ambient $\RealUp$ completeness, no external compactness or function-space argument can replace this finite fold.
+\end{proof}
+
 \begin{closurestatus}{\FiniteNetEquicontinuityUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:finite-net-equicontinuity-carrier}, \autoref{thm:finite-net-equicontinuity-obligation-surface}, and \autoref{thm:finite-net-equicontinuity-uniform-modulus-handoff} seed the family-level finite-net equicontinuity route over compact-metric centers, continuous-map family rows, rational radius ledgers, uniform-modulus handoff, transport, replay, provenance, and local NameCert rows.}
