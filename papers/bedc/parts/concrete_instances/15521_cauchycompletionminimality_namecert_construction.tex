@@ -143,6 +143,26 @@ Apply the NameCert obligations of \autoref{thm:cauchy-completion-minimality-name
 The reflector-unit factorization of \autoref{thm:cauchy-completion-minimality-reflector-unit}, together with \autoref{thm:cauchy-completion-minimality-universal-factorization} and \autoref{thm:cauchy-completion-minimality-dense-extension-uniqueness}, keeps the same route visible through $X,C,E,U,F,S,H,R,P,N$. Hence the consumer cannot bypass the displayed packet by quotient completion, selected representatives, host equality, countable choice, or ambient $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionMinimality finite route induction]
+\label{thm:cauchy-completion-minimality-finite-row-induction}
+Let $M=(X,C,E,U,F,S,H,R,P,N)$ be an accepted $\CauchyCompletionMinimalityUp$ carrier. Finite induction over the displayed service route
+$$
+X\longmapsto C\longmapsto E\longmapsto U\longmapsto F\longmapsto S\longmapsto H\longmapsto R\longmapsto P\longmapsto N
+$$
+preserves the following consumer invariant at every prefix: once a consumer has reached the current row, all earlier dense-image coverage, universal factorization, separated uniqueness, reflector-unit factoring, and replay non-escape obligations already forced by the prefix remain available to the consumer, and no later row can replace them by quotient completion, selected representatives, host equality, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The base prefix is the source metric row $X$. By the carrier definition in \autoref{def:cauchy-completion-minimality-carrier}, the source row is admitted only as part of the finite packet whose remaining rows are $C,E,U,F,S,H,R,P,N$; there is no separate coordinate for quotient completion, selected representatives, host equality, countable choice, open-cover compactness, or ambient real completeness.
+
+The completion and dense-embedding steps are forced by the carrier and by \autoref{thm:cauchy-completion-minimality-namecert-obligations}. At the prefix ending in $E$, \autoref{thm:cauchy-completion-minimality-dense-image-coverage} supplies the dense-image clause, so later consumers inherit coverage through the displayed completion row rather than through an external host completion.
+
+The universal-property and extension steps are the next induction moves. Applying \autoref{thm:cauchy-completion-minimality-universal-factorization} at the prefixes ending in $U$ and $F$ preserves the factorization route from the source and dense embedding through the universal extension handoff.
+
+At the separated row $S$, the same induction invariant gains the comparison boundary supplied by the separated uniqueness clause of \autoref{thm:cauchy-completion-minimality-namecert-obligations}. When the source read is presented through the reflector-unit surface, \autoref{thm:cauchy-completion-minimality-reflector-unit} inserts only the unit and dense-image rows before the same minimality route, so the induction step still has the same consumer invariant.
+
+The terminal structural rows $H,R,P,N$ transport, replay, package, and name the already established prefix data. The replay non-escape theorem \autoref{thm:cauchy-completion-minimality-replay-nonescape} closes the induction by showing that these rows expose no bypass around dense-image coverage, universal factorization, separated uniqueness, or reflector-unit factoring. Thus every prefix of the displayed finite route preserves the same minimal completion service boundary and refuses the excluded quotient, representative-selection, host-equality, choice, compactness, and ambient real-completeness principles.
+\end{proof}
+
 \begin{closurestatus}{\CauchyCompletionMinimalityUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:cauchy-completion-minimality-carrier}, \autoref{thm:cauchy-completion-minimality-namecert-obligations}, \autoref{thm:cauchy-completion-minimality-universal-factorization}, and \autoref{thm:cauchy-completion-minimality-reflector-unit} seed the finite minimal Cauchy-completion service boundary over source metrics, displayed completion rows, dense embeddings, universal extension, uniformly continuous handoff, separated uniqueness, and the reflector-unit handoff.}
