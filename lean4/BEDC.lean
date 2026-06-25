@@ -11711,6 +11711,7 @@ import BEDC.Derived.SubordinateModulusCoverUp.FiniteSelectionScope
 import BEDC.Derived.SubordinateModulusCoverUp.LedgerExactness
 import BEDC.Derived.SubordinateModulusCoverUp.ObligationClosureRoute
 import BEDC.Derived.SubordinateModulusCoverUp.ScopeDependency
+import BEDC.Derived.SubordinateModulusCoverUp.StageFDiscipline
 import BEDC.Derived.SubordinateModulusCoverUp.TasteGate
 import BEDC.Derived.SubsequenceLimitUp.TasteGate
 import BEDC.Derived.SubshiftOfFiniteTypeUp.TasteGate
