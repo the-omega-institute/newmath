@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICNormalizationAuditRowUp$}
+\label{ch:concrete-instances-metacic-normalization-audit-row-namecert}
+\origin{ai}
+
+The $\MetaCICNormalizationAuditRowUp$ packet realizes the finite audit-row reading of \autoref{ch:metacic-normalization-audit-map}. It sits beside the normalization audit packet of \autoref{ch:concrete-instances-metacic-normalization-audit-packet-namecert}, the normalization audit surface of \autoref{ch:concrete-instances-metacicnormalizationaudit-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the normal-endpoint cut of \autoref{ch:concrete-instances-metacic-normal-endpoint-cut-namecert}, and the residual-checker normalization budget of \autoref{ch:concrete-instances-metacic-residual-checker-normalization-budget-namecert}. The packet records a finite candidate set, fuel trace, closed typing fragment, residual checker row, and normal endpoint row before a normalization-audit consumer may read the result. It refuses global strong normalization, kernel consistency, quotient term equality, evaluator equality, and subject reduction.
+
+\begin{definition}[MetaCIC normalization audit-row carrier]
+\label{def:metacic-normalization-audit-row-carrier}
+A $\MetaCICNormalizationAuditRowUp$ carrier is a finite $\BHist$ packet
+$$
+M=(S,F,T,R,E,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the candidate-set row, listing the finite candidate entries whose normalization evidence may be inspected.
+\item $F$ is the fuel-trace row, recording the bounded reduction budget and the inspected trace segment.
+\item $T$ is the closed typing fragment row, exposing the finite context boundary, term, type, and closedness data used by the audit.
+\item $R$ is the residual checker row, recording which residual fragments have been checked inside the same bounded window.
+\item $E$ is the normal endpoint row, available only when the candidate-set, fuel, closed typing, and residual checker rows all support the endpoint read.
+\item $O$ is the refusal row for requests that ask for global strong normalization, kernel consistency, quotient term equality, evaluator equality, subject reduction, hidden semantic candidates, or an unbounded evaluator.
+\item $H$ records componentwise $\hsame$ transport for $S,F,T,R,E,O,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a normalization-audit request through $S,F,T,R,E,O,H$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICNormalizationAuditRowUp$, $\MetaCICNormalizationAuditPacketUp$, $\MetacicNormalizationAuditUp$, $\MetaCICNormalizationFrontierUp$, $\MetaCICNormalEndpointCutUp$, $\MetaCICResidualCheckerNormalizationBudgetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICNormalizationAuditRowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,F,T,R,E,O,H,C,P,N$ and has no coordinate for an unbounded normalization theorem or kernel-level consistency theorem.
+\end{definition}
+
+\begin{theorem}[MetaCIC normalization audit-row obligations]
+\label{thm:metacic-normalization-audit-row-obligations}
+For every accepted $\MetaCICNormalizationAuditRowUp$ carrier $M=(S,F,T,R,E,O,H,C,P,N)$, the local $\NameCert_{\MetaCICNormalizationAuditRowUp}$ surface consists exactly of carrier admission, candidate-set exposure through $S$, fuel-trace exposure through $F$, closed typing fragment exposure through $T$, residual checker exposure through $R$, normal endpoint exposure through $E$, refusal retention through $O$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The finite candidate set, bounded fuel trace, closed typing fragment, residual checker, normal endpoint, and refusal rows are displayed as $S,F,T,R,E,O$.
+
+The endpoint row $E$ is downstream of the finite rows. A consumer must inspect the candidate set, fuel trace, closed typing fragment, and residual checker before reading the endpoint as an audit result.
+
+The refusal row $O$ keeps broader requests outside the carrier. The structural rows $H,C,P,N$ preserve, replay, source, and name the finite audit row without adding global strong normalization, kernel consistency, quotient term equality, evaluator equality, subject reduction, or hidden semantic candidate data.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization audit-row finite endpoint route]
+\label{thm:metacic-normalization-audit-row-finite-endpoint-route}
+Every public endpoint read from an accepted $\MetaCICNormalizationAuditRowUp$ packet factors through the finite route
+$$
+S,F,T,R \longmapsto E \longmapsto O,H,C,P,N .
+$$
+The route records candidate-set membership, bounded fuel, closed typing, residual checking, and a normal endpoint inside one finite audit row. It does not export global strong normalization, kernel consistency, quotient term equality, evaluator equality, subject reduction, or an unbounded evaluator.
+\end{theorem}
+\begin{proof}
+Apply the obligation theorem. It orders the endpoint row $E$ after the candidate-set, fuel-trace, closed-typing, and residual-checker rows.
+
+The route is finite because $S$ lists the candidate entries, $F$ bounds the trace, $T$ fixes the inspected closed typing fragment, and $R$ records only residual checks inside that window. The endpoint is therefore an audit-row endpoint, not a kernel-wide normalization theorem.
+
+Finally read $O,H,C,P,N$. The refusal row blocks the listed global claims, while transport, replay, provenance, and local naming preserve the same displayed route without adding unbounded evaluator or subject-reduction data.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICNormalizationAuditRowUp$ read exposes a candidate set, fuel trace, closed typing fragment, residual checker, normal endpoint row, refusal row, hsame transport, Cont replay, Pkg provenance, and local NameCert row before a normalization-audit endpoint is visible.}
+
+\independenceWitness{metacic-normalization-audit-packet, metacicnormalizationaudit, metacicnormalizationfrontier, metacic-normal-endpoint-cut, metacic-residual-checker-normalization-budget: $\MetaCICNormalizationAuditRowUp$ is not bijective to any listed sibling because it jointly carries candidate-set rows, fuel traces, closed typing fragments, residual checker rows, normal endpoints, refusal retention, transport, replay, provenance, and local naming.}
+
+\closureat{MetaCICNormalizationAuditRowUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICNormalizationAuditRowUp}
+  \constructivestory{A $\MetaCICNormalizationAuditRowUp$ packet is generated from a candidate-set row, fuel-trace row, closed typing fragment, residual checker row, normal endpoint row, refusal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-normalization-audit-row-carrier}, \autoref{thm:metacic-normalization-audit-row-obligations}, and \autoref{thm:metacic-normalization-audit-row-finite-endpoint-route} seed the finite normalization audit row over candidate sets, fuel traces, closed typing fragments, residual checking, normal endpoints, refusal retention, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global strong normalization, kernel consistency, quotient term equality, evaluator equality, subject reduction, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate-set exposure, fuel-trace exactness, closed typing fragment preservation, residual checker nonescape, normal endpoint routing, refusal retention, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICNormalizationAuditRowUp.}
+\end{closurestatus}
