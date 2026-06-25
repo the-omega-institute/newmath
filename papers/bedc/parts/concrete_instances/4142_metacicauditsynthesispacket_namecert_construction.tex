@@ -162,6 +162,22 @@ For the successor step, suppose the current fold prefix carries $S$ and $B$ thro
 Thus every fold stage retains $S$ and $B$ through $H,R,P,L$. Since the carrier has no coordinate for subject reduction, unrestricted Church--Rosser, candidate-free normalization, beta-conversion decidability, quotient equality, or full consistency, the completed fold cannot export any of those claims.
 \end{proof}
 
+\begin{theorem}[MetaCIC audit synthesis normalization-blocker monotonicity]
+\label{thm:metacic-audit-synthesis-normalization-blocker-monotonicity}
+For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
+$$
+M=(S,C,N,U,D,A,B,H,R,P,L),
+$$
+any consumer that strengthens, reuses, or routes the normalization row $N$ through candidate-normalization handoff or residual-diamond handoff must retain the subject-reduction row $S$ and blocker row $B$ through $H,R,P,L$. Such a consumer may expose candidate-mediated normalization, residual frontier, discharge projection, and ledger data, but it cannot export subject reduction, unrestricted Church--Rosser, candidate-free normalization, quotient equality of MetaCIC terms, or full consistency.
+\end{theorem}
+\begin{proof}
+Start with retained-blocker induction, \autoref{thm:metacic-audit-synthesis-retained-blocker-induction}. A read that strengthens or reuses $N$ is a finite consumption of one of the positive rows, so $S$ and $B$ already persist through $H,R,P,L$ at the normalization stage.
+
+Now apply candidate-normalization handoff and residual-diamond handoff, \autoref{thm:metacic-audit-synthesis-candidate-normalization-handoff} and \autoref{thm:metacic-audit-synthesis-residual-diamond-handoff}. These theorems allow $N$ to feed candidate-mediated normalization or residual frontier data only as a blocker-preserving route inside the accepted packet.
+
+Finally apply discharge projection, \autoref{thm:metacic-audit-synthesis-discharge-projection}. The discharge-obligation ledger remains attached to the same subject-reduction boundary, so strengthening the normalization row cannot erase $S$ or $B$, nor can it repack the route as any excluded MetaCIC endpoint.
+\end{proof}
+
 \begin{theorem}[MetaCIC audit synthesis obligation closure]
 \label{thm:metacic-audit-synthesis-obligation-closure}
 For every accepted $\MetaCICAuditSynthesisPacketUp$ carrier
