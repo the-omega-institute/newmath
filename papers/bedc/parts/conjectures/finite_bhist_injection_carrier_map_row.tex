@@ -167,3 +167,16 @@ Use carrier-map row exactness, \autoref{thm:finite-bhist-injection-carrier-map-r
 
 Finally apply the recognizer finite-row obstruction test, \autoref{thm:finite-bhist-injection-recognizer-finite-row-obstruction-test}. It rules out a proof that skips any of the displayed rows, so the progress object is exactly the stated carrier-map row and the conjecture remains open until such a row is supplied.
 \end{proof}
+
+
+\begin{theorem}[Finite BHist injection carrier-row refutation test]
+\label{thm:finite-bhist-injection-carrier-row-refutation-test}
+After the landing rows of \autoref{prop:finite-bhist-injection-recognizer-closed-landing-test} are present, any refutation of \autoref{conj:finite-bhist-injection-recognizer-to-carrier} must display a finite obstruction to preserving the same seven rows named in that conjecture. Missing landing rows, fixed-tuple $\StdBridge$ premises, quotient carriers, host equality, and detached bridge assertions do not count as such an obstruction.
+\end{theorem}
+\begin{proof}
+Apply the recognizer construction obstruction localization theorem, \autoref{thm:finite-bhist-injection-recognizer-construction-obstruction-localization}. Once the seven landing rows are present, the only remaining negative result must be a concrete failure of the carrier row to preserve the displayed recognizer, tuple, readback, transport, and taste-gate data.
+
+Use the carrier-map boundary, \autoref{thm:finite-bhist-injection-carrier-map-boundary}. It rules out a refutation that merely repeats replay or provenance, or that substitutes a fixed-tuple bridge object for the carrier row.
+
+Therefore any legitimate refutation must exhibit a finite obstruction to preserving exactly the seven rows already named in the conjecture. Missing landing rows, host equality, quotient carriers, or detached bridge assertions are outside the refutation test.
+\end{proof}
