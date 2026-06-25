@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\FaaDiBrunoUp$}
+\label{ch:concrete-instances-faa-di-bruno-namecert}
+\origin{human}
+
+Following Faà di Bruno and the classical finite chain-rule formulae, the $\FaaDiBrunoUp$ packet records the finite partition expansion for iterated derivatives of a composite as displayed NameCert data. It sits after the derivative observation surface of \autoref{ch:concrete-instances-derivative-namecert}, the finite Taylor theorem route of \autoref{ch:concrete-instances-taylor-theorem-namecert}, the Taylor-polynomial truncation packet of \autoref{ch:concrete-instances-taylor-polynomial-namecert}, the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the regular-rational readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seals of \autoref{ch:concrete-instances-real-namecert}. The packet names only a finite partition-and-coefficient handoff; it does not import host equality of functions, analytic completeness, quotient real equality, selected infinite power series, or an ambient smooth calculus.
+
+\begin{definition}[Faà di Bruno finite-partition carrier]
+\label{def:faa-di-bruno-carrier}
+A $\FaaDiBrunoUp$ carrier is a finite $\BHist$ packet
+$$
+F=(n,D,T,U,P,A,R,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $n$ is the unary derivative order requested from the composite.
+\item $D$ is the finite $\DerivativeUp$ observation row listing the derivative endpoints of the outer and inner maps that may be inspected up to order $n$.
+\item $T$ is the $\TaylorTheoremUp$ jet row that bounds the finite derivative reads used by the chain-rule expansion.
+\item $U$ is the $\TaylorPolynomialUp$ truncation row exposing exactly the polynomial degree needed for the requested order.
+\item $P$ is the $\PolynomialUp$ monomial and coefficient ledger for the Bell-polynomial partition monomials.
+\item $A$ is the finite partition ledger. Each row records one integer partition of $n$, its multiplicities, and the combinatorial coefficient consumed by the expansion.
+\item $R$ is the $\RegSeqRatUp$ readback row for the displayed coefficients and derivative values.
+\item $E$ is the terminal $\RealUp$ seal row for the finite coefficient and derivative reads.
+\item $H$ stores componentwise $\hsame$ transport for the order, derivative observations, Taylor rows, polynomial rows, partition ledger, readback rows, real seals, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from the partition ledger through the derivative, Taylor, polynomial, readback, and real-seal rows.
+\item $Q$ is the $\Pkg$ provenance over $\FaaDiBrunoUp$, $\DerivativeUp$, $\TaylorTheoremUp$, $\TaylorPolynomialUp$, $\PolynomialUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FaaDiBrunoUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for host function equality, an infinite derivative tower, an analytic convergence theorem, quotient equality of real names, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Faà di Bruno NameCert obligations]
+\label{thm:faa-di-bruno-namecert-obligations}
+For every accepted $\FaaDiBrunoUp$ carrier
+$$
+F=(n,D,T,U,P,A,R,E,H,C,Q,N),
+$$
+the local $\NameCert_{\FaaDiBrunoUp}$ surface consists exactly of carrier admission for the displayed order, derivative observations, Taylor-theorem jet, Taylor-polynomial truncation, polynomial coefficient ledger, finite partition ledger, regular-rational readbacks, real seals, componentwise transport, displayed replay, package provenance, and local naming rows.
+
+The partition exactness obligation requires every summand of the chain-rule expansion to cite one row of $A$, one coefficient row of $P$, the derivative observations in $D$, the Taylor support rows $T,U$, and the readback route $R,E$ before a consumer may inspect the composite-derivative coefficient. No other analytic obligation is part of the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:faa-di-bruno-carrier}. The theorem-facing rows are exactly $n,D,T,U,P,A,R,E$, and the structural rows are exactly $H,C,Q,N$.
+
+The expansion is finite because the request order $n$ is unary and the partition ledger $A$ lists only the partitions of that order. Each listed row names its multiplicities and coefficient, while $P$ supplies the polynomial monomial and coefficient source used by that row.
+
+The derivative and Taylor dependencies are also displayed. The row $D$ supplies only the derivative observations used by the summand, and $T,U$ restrict those observations to a finite Taylor jet and a finite Taylor polynomial truncation.
+
+Finally route the displayed coefficients and derivative reads through $R,E,H,C,Q,N$. Since the carrier stores no host function equality, infinite derivative tower, convergence theorem, quotient real equality, countable choice, or ambient completeness principle, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Faà di Bruno finite-partition handoff]
+\label{thm:faa-di-bruno-finite-partition-handoff}
+Every accepted $\FaaDiBrunoUp$ carrier exports a composite-derivative coefficient only through the finite route
+$$
+\DerivativeUp,\TaylorTheoremUp,\TaylorPolynomialUp,\PolynomialUp \longmapsto A,P \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+More precisely, a consumer must first read the order row $n$, derivative observation row $D$, Taylor-theorem row $T$, Taylor-polynomial truncation $U$, polynomial ledger $P$, finite partition ledger $A$, regular-rational readback $R$, real seal $E$, transport $H$, replay $C$, provenance $Q$, and local $\NameCert$ row $N$ before using the coefficient. The handoff exports only the finite partition expansion for the displayed order, not a host chain-rule theorem over arbitrary functions, an infinite Bell-polynomial family, quotient real equality, selected representatives, or analytic completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $F=(n,D,T,U,P,A,R,E,H,C,Q,N)$. The requested order $n$ fixes a finite partition set, and $A$ displays exactly the partition rows consumed by the packet.
+
+Read the derivative and Taylor support next. The row $D$ supplies the derivative observations, while $T$ and $U$ restrict those reads to the finite jet and finite polynomial truncation needed by the requested order.
+
+The polynomial coefficient ledger $P$ and the partition ledger $A$ assemble the displayed summands. Each summand is therefore read from named finite rows before any coefficient reaches a regular-rational consumer.
+
+Finally pass through $R,E,H,C,Q,N$. Regular rational readback precedes the terminal real seals, and the structural rows preserve the same finite partition route. Because the carrier has no coordinate for host function equality, infinite families, quotient real equality, selected representatives, or analytic completeness, every exported coefficient is exhausted by the finite handoff above.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FaaDiBrunoUp$ composite-derivative coefficient read factors through displayed Derivative, TaylorTheorem, TaylorPolynomial, Polynomial, finite partition, RegSeqRat, Real, componentwise hsame, Cont replay, Pkg provenance, and local NameCert rows.}
+
+\independenceWitness{derivative, taylor-theorem, taylor-polynomial, polynomial, regseqrat, real: $\FaaDiBrunoUp$ is not bijective to any listed sibling because it jointly binds one derivative order, finite derivative observations, Taylor support, polynomial coefficient rows, partition multiplicities, coefficient readback, endpoint seals, transport, replay, provenance, and local naming in one finite chain-rule certificate.}
+
+\closureat{FaaDiBrunoUp}{seedStr}
+
+\begin{closurestatus}{\FaaDiBrunoUp}
+  \constructivestory{A $\FaaDiBrunoUp$ packet is generated from a unary derivative order, finite DerivativeUp observation rows, TaylorTheoremUp jet support, TaylorPolynomialUp truncation, PolynomialUp coefficient rows, a finite partition ledger, RegSeqRatUp readbacks, RealUp seals, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:faa-di-bruno-carrier}, \autoref{thm:faa-di-bruno-namecert-obligations}, and \autoref{thm:faa-di-bruno-finite-partition-handoff} seed the finite partition chain-rule route over $\DerivativeUp$, $\TaylorTheoremUp$, $\TaylorPolynomialUp$, $\PolynomialUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.FaaDiBrunoUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host equality of functions, an infinite derivative tower, analytic convergence, quotient real equality, selected representatives, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite partition exactness, derivative and Taylor support routing, polynomial coefficient handoff, readback sealing, transport and replay stability, and nonescape for BEDC.Derived.FaaDiBrunoUp.}
+\end{closurestatus}
