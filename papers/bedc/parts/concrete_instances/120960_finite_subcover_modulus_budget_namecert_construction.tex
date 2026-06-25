@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\FiniteSubcoverModulusBudgetUp$}
+\label{ch:concrete-instances-finite-subcover-modulus-budget-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\FiniteSubcoverModulusBudgetUp$ packet records the finite budget ledger by which compact-net cover data are folded into a uniform modulus. It sits over the compact finite-net route of \autoref{ch:concrete-instances-compact-namecert}, the finite lower-bound fold of \autoref{ch:concrete-instances-finitenetminimumfold-namecert}, the compact cover route of \autoref{ch:concrete-instances-compact-cover-modulus-namecert}, the finite subcover criterion of \autoref{ch:concrete-instances-finite-subcover-criterion-namecert}, and the uniform-modulus consumers in \autoref{ch:visions-compact-uniform-continuity}. The packet records a finite ledger for compact-net, rational-radius, local-modulus, fold-minimum, and uniform-modulus rows; it does not select arbitrary subcovers, invoke host compactness, or claim ambient completeness.
+
+\begin{definition}[Finite subcover modulus budget carrier]
+\label{def:finite-subcover-modulus-budget-carrier}
+A $\FiniteSubcoverModulusBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(K,E,L,R,F,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact-net source row, exposing the compact metric cover data used by the budget ledger.
+\item $E$ is the bundled-center row, naming the finite probe bundle for the requested tolerance.
+\item $L$ is the rational-radius row, recording the displayed radius data for each bundled center.
+\item $R$ is the local-modulus row, recording the pointwise modulus rows attached to the displayed centers.
+\item $F$ is the fold-minimum row, recording the finite lower-bound fold used to aggregate the bundled radii.
+\item $U$ is the uniform-modulus row, exporting the displayed tolerance-to-precision ledger only after the fold minimum is available.
+\item $H$ records componentwise $\hsame$ transport for the compact source, bundle, radii, local moduli, fold minimum, uniform modulus, and local certificate rows.
+\item $C$ records displayed $\Cont$ replay from the compact budget request through $K,E,L,R,F,U,H$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteSubcoverModulusBudgetUp$, $\CompactMetricUp$, $\ProbeBundleUp$, $\RatUp$, $\ContinuousFunctionUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteSubcoverModulusBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,E,L,R,F,U,H,C,P,N$. It has no coordinate for arbitrary open covers, selected subcovers, host compactness, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Finite subcover modulus budget NameCert obligations]
+\label{thm:finite-subcover-modulus-budget-namecert-obligations}
+For every accepted $\FiniteSubcoverModulusBudgetUp$ carrier $B=(K,E,L,R,F,U,H,C,P,N)$, the local $\NameCert_{\FiniteSubcoverModulusBudgetUp}$ surface consists exactly of carrier admission for the compact-net source row, bundled-center row, rational-radius row, local-modulus row, fold-minimum row, uniform-modulus row, componentwise transport, displayed replay, provenance, and local naming. No NameCert obligation may replace these rows by arbitrary subcovers, selected representatives, host compactness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-subcover-modulus-budget-carrier}. The rows $K,E,L,R,F,U,H,C,P,N$ are the only displayed coordinates available to the local certificate.
+
+The compact-net source row $K$ and bundled-center row $E$ determine the finite cover budget. The rational-radius row $L$ and local-modulus row $R$ keep the pointwise data visible before any uniform modulus is read.
+
+The fold-minimum row $F$ is the only aggregate row, and it is read before the uniform-modulus row $U$. Transport, replay, provenance, and local naming are supplied by $H,C,P,N$, so the carrier has no coordinate from which a selected subcover or ambient completeness theorem could be projected.
+\end{proof}
+
+\begin{theorem}[Finite subcover modulus budget uniform-modulus handoff]
+\label{thm:finite-subcover-modulus-budget-uniform-modulus-handoff}
+Every $\UniformModulusUp$ consumer of an accepted $\FiniteSubcoverModulusBudgetUp$ packet reads the finite cover budget only through the displayed route
+$$
+K,E,L,R,F,U,H,C,P,N .
+$$
+The handoff exports compact-net rows, bundled centers, rational radii, local moduli, a fold minimum, a uniform-modulus row, componentwise transport, displayed replay, provenance, and local naming. It does not export arbitrary subcovers, host compactness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the compact-net source row $K$ and the bundled-center row $E$. The budget ledger can only be read from displayed center data, so no consumer can bypass the finite cover route.
+
+The rational-radius row $L$ and local-modulus row $R$ supply the local pointwise data, while the fold-minimum row $F$ aggregates the finite radii into the displayed lower-bound ledger. The uniform-modulus row $U$ is available only after that fold has been read.
+
+Apply \autoref{thm:finite-subcover-modulus-budget-namecert-obligations}. The structural rows $H,C,P,N$ preserve and replay the same finite route, so the handoff exports no arbitrary subcovers, host compactness, or ambient completeness.
+\end{proof}
+
+\closureat{FiniteSubcoverModulusBudgetUp}{seedStr}
+
+\begin{closurestatus}{\FiniteSubcoverModulusBudgetUp}
+  \constructivestory{A $\FiniteSubcoverModulusBudgetUp$ packet is generated from a compact-net source row, bundled centers, rational radii, local moduli, a fold minimum, a uniform-modulus row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-subcover-modulus-budget-carrier}, \autoref{thm:finite-subcover-modulus-budget-namecert-obligations}, and \autoref{thm:finite-subcover-modulus-budget-uniform-modulus-handoff} seed the finite compact-net budget route consumed by the compact-uniform-continuity vision.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary subcovers, selected representatives, host compactness, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bundled-center exposure, rational-radius exactness, local-modulus exactness, fold-minimum exactness, uniform-modulus export, transport stability, replay stability, and non-escape proofs for BEDC.Derived.FiniteSubcoverModulusBudgetUp.}
+\end{closurestatus}
