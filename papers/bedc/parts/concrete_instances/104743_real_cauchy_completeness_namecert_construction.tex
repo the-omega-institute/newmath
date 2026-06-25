@@ -74,6 +74,24 @@ The Cauchy-facing handoff is then the $\UniformConvergenceCauchyCriterionUp$ rou
 Thus the row order is $S,M,D$ first, then the shared uniform tail and Cauchy-criterion handoff, then $R,L,E$. Since the carrier has no quotient coordinate, choice coordinate, or second endpoint row, every $\RealUp$ read follows this displayed route.
 \end{proof}
 
+\begin{theorem}[Real Cauchy completeness filtered minimality]
+\label{thm:real-cauchy-completeness-filtered-minimality}
+Let $K=(S,M,D,R,L,E,H,C,P,N)$ be an accepted $\RealCauchyCompletenessUp$ carrier. Every filtered or completion-service consumer that reads $K$ through the $\BishopFilteredRegularCompletionUp$ route of \autoref{ch:concrete-instances-bishop-filtered-regular-completion-namecert} or the $\CauchyCompletionMinimalityUp$ service boundary of \autoref{ch:concrete-instances-cauchycompletionminimality-namecert} must preserve exactly the displayed $\StreamNameUp$ row $S$, explicit modulus row $M$, $\DyadicRatCoreUp$ row $D$, $\RegSeqRatUp$ row $R$, $\CauchyLimitSealUp$ row $L$, $\RealUp$ seal $E$, componentwise $\hsame$ row $H$, displayed $\Cont$ row $C$, $\Pkg$ row $P$, and local $\NameCert_{\RealCauchyCompletenessUp}$ row $N$ before exporting a completion-facing Real read. Replacing this route by quotient streams, selected limits, countable choice, host convergence, or ambient $\RealUp$ completeness is outside the carrier.
+\end{theorem}
+\begin{proof}
+Project the inventory of rows from \autoref{def:real-cauchy-completeness-carrier}. It gives the consumer exactly $S,M,D,R,L,E,H,C,P,N$, with no coordinate for quotient stream equality, a chosen limit, countable choice, host convergence, or an ambient completeness theorem.
+
+The terminal Real read is constrained by \autoref{thm:real-cauchy-completeness-seal-nonescape}. Any endpoint must pass through the displayed stream windows, dyadic tolerance ledger, regular readback, and limit-seal handoff before reaching $E$.
+
+For filtered consumers, \autoref{thm:bishop-filtered-regular-completion-filter-window-induction} supplies the finite synchronization principle. Its window induction reads the filter and regular Cauchy rows against the same dyadic tolerances and preserves the shared transport, replay, provenance, and local naming rows, so the filtered route cannot bypass $S,M,D,R,L,E,H,C,P,N$.
+
+For completion-service consumers, the $\CauchyCompletionMinimalityUp$ chapter records the least displayed service boundary for completion reads, with Lean touchpoint
+$$
+\mathrm{BEDC.Derived.CauchyCompletionMinimalityUp.CauchyCompletionMinimalityTasteGate\_single\_carrier\_alignment}.
+$$
+Reading $K$ through that boundary therefore preserves the Real Cauchy route as the service-facing input rather than adding an external completion principle.
+\end{proof}
+
 \falsifiablePrediction{Any accepted $\RealCauchyCompletenessUp$ consumer reaching a $\RealUp$ read without the displayed StreamName windows, explicit Cauchy modulus, DyadicRatCore ledger, RegSeqRat diagonal readback, and CauchyLimitSeal row refutes the carrier.}
 
 \independenceWitness{DyadicRatCore, StreamName, RegSeqRat, CauchyLimitSeal, and Real are not individually bijective with $\RealCauchyCompletenessUp$ because the packet carries the ordered completion route across all five surfaces together with transport, replay, provenance, and local naming.}
@@ -83,7 +101,7 @@ Thus the row order is $S,M,D$ first, then the shared uniform tail and Cauchy-cri
 \begin{closurestatus}{\RealCauchyCompletenessUp}
   \constructivestory{A $\RealCauchyCompletenessUp$ packet is generated from finite StreamName windows, an explicit Cauchy-modulus row, a DyadicRatCore tolerance ledger, a RegSeqRat diagonal readback, a CauchyLimitSeal handoff, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-cauchy-completeness-carrier}, \autoref{thm:real-cauchy-completeness-namecert-obligations}, \autoref{thm:real-cauchy-completeness-seal-nonescape}, and \autoref{thm:real-cauchy-completeness-uniform-tail-seal} seed the finite constructive Cauchy-completeness route through StreamName, RegSeqRat, DyadicRatCore, CauchyLimitSeal, UniformConvergence, UniformConvergenceCauchyCriterion, Real, transport, replay, provenance, and local NameCert rows.}
+  \scopeclosed{\autoref{def:real-cauchy-completeness-carrier}, \autoref{thm:real-cauchy-completeness-namecert-obligations}, \autoref{thm:real-cauchy-completeness-seal-nonescape}, \autoref{thm:real-cauchy-completeness-uniform-tail-seal}, and \autoref{thm:real-cauchy-completeness-filtered-minimality} seed the finite constructive Cauchy-completeness route through StreamName, RegSeqRat, DyadicRatCore, CauchyLimitSeal, UniformConvergence, UniformConvergenceCauchyCriterion, filtered completion, minimal completion service, Real, transport, replay, provenance, and local NameCert rows.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.RealCauchyCompletenessUp.RealCauchyCompletenessTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
