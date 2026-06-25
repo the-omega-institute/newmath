@@ -332,6 +332,20 @@ EOF
 expect_fail BEDC_GATE_B_DUP_RING_BUNDLE \
   python3 "$ROOT/scripts/check_ring_bundle.py" "$TMP_DIR/gate_b_dup_ring_bundle.lean"
 
+cat > "$TMP_DIR/gate_b_ring_bundle_alias.lean" <<'EOF'
+namespace BEDC.Derived.GateBAlias
+
+def aliasIntegerBundle : RelCommRing IntegerUp IntEq :=
+  BEDC.Algebra.Rel.IntegerUp_RelCommRing
+
+structure FollowsAlias where
+  marker : Unit
+
+end BEDC.Derived.GateBAlias
+EOF
+
+python3 "$ROOT/scripts/check_ring_bundle.py" "$TMP_DIR/gate_b_ring_bundle_alias.lean" >/dev/null
+
 cat > "$TMP_DIR/gate_s_dup_statement.lean" <<'EOF'
 namespace BEDC.Derived.GateSNegative
 
