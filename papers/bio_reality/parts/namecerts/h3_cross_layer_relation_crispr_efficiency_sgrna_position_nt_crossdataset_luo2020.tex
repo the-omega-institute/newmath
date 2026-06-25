@@ -1,48 +1,31 @@
 \origin{ai}
-\subsection{Cross-protocol sgRNA position records and the non-promotion boundary}
-\label{sec:bioreality-crispr-sgrna-position-luo2020-crossdataset}
 
-\paragraph{Finite row surface.}
-This record concerns a finite cross-protocol CRISPR guide-efficiency table, not a translation-readout table. The active finite contact for the named claim is the Luo 2020 sgRNA-position surface with $10543$ Luo rows, evaluated in a cross-protocol setting against a frozen source recorded as the Doench 2016 repository. The corresponding run identifier is $2e9cce255c01$, and the recorded runtime is $33.705459$ seconds. A separate linked Doench 2016 guide-efficiency run supplies $5310$ rows, a main GC association $r=-0.0582917$, and runtime $24.6506$ seconds. These numbers are enough to certify that the chapter is grounded in finite guide-level data with a cross-protocol comparison, but they are not enough to certify any ribosome-occupancy, translation-efficiency, protein-output, folding, physical-admissibility, function, mechanism, phenotype, or universality claim.
+\subsection{Cross-protocol sgRNA position rows as a bounded CRISPR-efficiency contact}
+\label{sec:bioreality-crispr-sgrna-position-crossdataset-luo2020}
 
-\paragraph{Objects carried by a row.}
-A row in this chapter is a guide-design observation keyed by guide sequence context and position-indexed nucleotide features, together with an efficiency readout from a CRISPR assay. The finite evidence used here has the form
+\paragraph{Finite contact.}
+The record considered here is the cross-protocol sgRNA position claim
+$h3.cross\_layer\_relation.crispr\_efficiency.sgrna\_position\_nt\_crossdataset\_luo2020$.  Its finite biological surface is not a protein-output, translation, or structure assay.  It is a table of guide-level CRISPR measurements in which each row carries a guide sequence, a position-indexed nucleotide description, and a measured efficiency endpoint from the Luo cross-dataset setting.  The certified finite run reports $n_{\mathrm{Luo}}=10543$ Luo rows, with cross-protocol status recorded as true, using the Doench2016 repository as the frozen source route.  The corresponding finite computation completed in $33.705459$ seconds under run id $2e9cce255c01$.  The paired Doench position-nucleotide efficiency contact reports $n_{\mathrm{Doench}}=5310$, a GC main-effect correlation $r=-0.0582917$, and runtime $24.6506$ seconds under run id $b6c6363256e0$.  These numbers give the chapter a concrete finite-row footing: the claim is about whether position-resolved guide-sequence features remain useful across a dataset boundary, not about any downstream molecular layer.
+
+\paragraph{Mathematical object.}
+Let $T$ be the finite table of Luo guide rows and let $x_{i,p,b}$ denote the indicator that row $i$ has nucleotide $b$ at guide position $p$.  Let $y_i$ be the measured CRISPR-efficiency endpoint for that row, and let $Z_i$ collect admissible finite controls such as gross guide composition, GC summaries, and simpler sequence baselines.  A bounded cross-protocol position signal is a survival statement of the following form:
 $$
 \begin{aligned}
-D_{\mathrm{Luo}} &= \{x_1,\ldots,x_{10543}\},\\
-D_{\mathrm{Doench}} &= \{y_1,\ldots,y_{5310}\},\\
-\rho_{\mathrm{GC,Doench}} &= -0.0582917.
+S_{\mathrm{pos}}(T \mid Z)
+  &= \operatorname{score}(y \mid Z, x_{p,b})
+     - \operatorname{score}(y \mid Z),\\
+\text{survival} &\Longleftrightarrow
+S_{\mathrm{pos}}(T \mid Z)>0
+\text{ on the held-out cross-protocol row panel.}
 \end{aligned}
 $$
-The intended cross-layer question is therefore narrow: whether position-resolved guide-sequence features retain predictive contact with measured CRISPR efficiency across a protocol boundary. The recorded value $\mathrm{cross\_protocol}=\mathrm{true}$ says that the Luo-side rows are not merely a rephrasing of the same finite assay panel. It does not say that a biological mechanism has been isolated; it only says that the row family spans a protocol separation.
+The row count $10543$ is therefore interpreted only as the size of the Luo panel on which this boundary can be evaluated.  The Doench-derived source route and the Doench finite count $5310$ supply a separate reference surface for protocol transfer, but they do not by themselves prove that any single nucleotide position has a universal effect.  A positive result would mean that some position-indexed guide feature improves a controlled finite prediction task across the declared protocol boundary.  A negative or weak result would only constrain this guide-efficiency interface; it would not erase the relevance of guide sequence features in other experimental designs.
 
-\paragraph{Controlled reading of the finite evidence.}
-The $10543$ Luo rows and the $5310$ Doench rows support a finite empirical interface for sgRNA efficiency. The Doench GC scalar is small in magnitude and negative, so GC content is not to be treated here as a standalone law for guide activity. At most, the finite record permits a position-aware guide-efficiency statistic of the schematic form
-$$
-\begin{aligned}
-S_{\mathrm{guide}} &= \Delta\mathcal{L}\bigl(\mathrm{position\ nucleotide\ features}\mid Z_{\mathrm{guide}}\bigr),\\
-Z_{\mathrm{guide}} &= \{\mathrm{GC\ controls},\ \mathrm{protocol\ controls},\ \mathrm{simpler\ sequence\ baselines}\},
-\end{aligned}
-$$
-where $S_{\mathrm{guide}}$ is a guide-efficiency survival entry only if it improves held-out prediction beyond simpler baselines. The present finite facts identify the row counts, the cross-protocol status, the frozen Doench source, and a GC scalar; they do not list a full held-out improvement value, a permutation $p$-value, a module class, a hit rate, or a fitted coefficient vector. For that reason the chapter states the finite contact conservatively: a cross-protocol guide-efficiency surface exists, while the exact survival strength is not promoted beyond the reported scalar data.
-
-\paragraph{Relation to the proposed $f_3$-stress translation packet.}
-The surrounding conjectural packet speaks about an $f_3$-stress residual coordinate in coding-sequence windows, wobble-weight asymmetry, matched mRNA control, and position-resolved ribosome-occupancy or translation-efficiency readback. None of those translation-layer rows is supplied by the Luo or Doench CRISPR efficiency facts. The sgRNA table is therefore not evidence for an $f_3$-stress translation-survival statistic. In particular, the existence of a cross-protocol CRISPR guide table does not create same-organism, same-CDS, same-window codon counts; it does not create a wobble-weight surface; it does not create matched mRNA abundance; and it does not create codon-indexed ribosome-footprint occupancy.
-
-\paragraph{Local admissible claim.}
-The admissible claim is that a finite CRISPR guide-efficiency contact is present for position-indexed nucleotide features across a Luo-side panel of $10543$ rows and a Doench-side source with $5310$ rows. This contact is compatible with a cross-layer-relation label only in the guide-design sense: nucleotide-position features are compared with measured CRISPR efficiency across protocols. The record may be written as
-$$
-\begin{aligned}
-\mathrm{GuideContact} &= (D_{\mathrm{Luo}},D_{\mathrm{Doench}},\mathrm{cross\_protocol}),\\
-|D_{\mathrm{Luo}}| &= 10543,\\
-|D_{\mathrm{Doench}}| &= 5310,\\
-\mathrm{cross\_protocol} &= \mathrm{true}.
-\end{aligned}
-$$
-This is a finite empirical contact, not a universal guide-design theorem. The negative GC scalar from the Doench run is retained as a control warning: a single compositional feature should not be substituted for the position-resolved guide surface.
-
-\paragraph{Cannot-claim boundary.}
-No translation claim follows from this chapter. The guide-efficiency rows do not measure ribosome occupancy, translation efficiency, protein abundance, protein folding, structural order, physical admissibility, molecular function, cellular phenotype, biological mechanism, or a universal biological law. Such claims would require separate row-level contacts at their own layer. In particular, the $f_3$-stress translation-survival notation remains uncomputed here because the required position-resolved ribosome-footprint matrix, matched mRNA control, wobble-weight rows, codon counts, amino-acid or position-bin controls, rank checks, and simpler-baseline ablations are absent from the supplied finite facts.
+\paragraph{Observed finite evidence.}
+The available verified facts support three local statements.  First, the Luo cross-dataset panel is present as a finite table with $10543$ rows.  Second, the run explicitly records cross-protocol status as true, so the chapter may discuss transfer across a protocol or dataset boundary rather than only within-sample fit.  Third, the frozen source is the Doench2016 repository, and the associated Doench finite contact has $5310$ rows with a small negative GC main-effect correlation, $r=-0.0582917$.  The GC scalar is important because it prevents the chapter from silently replacing position-resolved nucleotide structure with a single GC summary.  The evidence is compatible with a controlled finite-row test in which position indicators must outperform a simpler composition baseline, but the supplied row facts do not include a full list of per-position coefficients, held-out $R^2$ values, permutation $p$-values, rank lists, or lambda-path summaries.  Consequently the chapter states the bounded contact and its admissible interpretation, while keeping any stronger ranking claim conditional on the missing statistic.
 
 \paragraph{Break condition.}
-The chapter would be overstated if it treated the cross-protocol CRISPR guide record as evidence for translation realization, protein output, folding, physical admissibility, function, mechanism, phenotype, or universality. It would also be overstated if it treated the Luo row count or the Doench GC scalar as a completed $f_3$-stress survival statistic. The record remains valid only while the CRISPR guide-efficiency contact is kept separate from the unprovided translation-window contact. A later positive translation statement would need a distinct finite panel whose rows jointly contain the residual coordinate, codon-window counts, wobble-weight context, matched mRNA abundance, and position-resolved ribosome or translation-efficiency readout under the declared controls.
+The claim breaks if the position-nucleotide model is treated as established biological mechanism merely because the cross-protocol table exists.  It also breaks if a same-source Doench route is used to replace the Luo held-out check, if gross GC composition is reported as equivalent to position-resolved nucleotide information, or if review eligibility is confused with an observed biological layer beyond CRISPR guide efficiency.  The finite table can support only a controlled guide-efficiency readout.  It cannot certify translation, folding, protein abundance, physical admissibility, biological function, organismal phenotype, mechanism, or universality.  Those stronger assertions require separate row-matched contacts at the appropriate biological layer and their own controlled statistics.
+
+\paragraph{Local interpretation.}
+Within this chapter, the admissible scientific reading is narrow.  A row of the Luo table is a guide-efficiency observation; a position-indexed nucleotide feature is a finite predictor on that row; and the cross-protocol flag says that the test is not merely an in-protocol descriptive fit.  The verified finite data allow the paper to anchor the claim at $10543$ Luo rows and to compare its scope with the $5310$-row Doench source route.  They do not yet allow the paper to name a specific winning position, claim a complete ranked nucleotide grammar, or assign a mechanistic explanation to any coefficient.  The chapter is therefore a bounded cross-layer relation only in the weak BioReality sense: sequence-level guide coordinates are tested against a measured CRISPR-efficiency endpoint on a finite external panel, under controls that must include simpler sequence summaries before any survival statement is accepted.
