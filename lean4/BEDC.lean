@@ -3398,6 +3398,7 @@ import BEDC.Derived.CompleteArchimedeanFieldUp.TasteGate
 import BEDC.Derived.CompleteBaireSpaceUp.TasteGate
 import BEDC.Derived.CompleteMetricBaireSurfaceUp.TasteGate
 import BEDC.Derived.CompleteMetricContractionPrincipleUp.TasteGate
+import BEDC.Derived.CompleteMetricCriterionUp.TasteGate
 import BEDC.Derived.CompleteMetricNestedBallsUp.TasteGate
 import BEDC.Derived.CompleteMetricProductUp
 import BEDC.Derived.CompleteMetricProductUp.TasteGate
@@ -11695,6 +11696,8 @@ import BEDC.Derived.SubjectReductionRouteUp.NameCertObligations
 import BEDC.Derived.SubjectReductionRouteUp.TasteGate
 import BEDC.Derived.SubjectReductionUp
 import BEDC.Derived.SubordinateFiniteModulusCoverUp.TasteGate
+import BEDC.Derived.SubordinateModulusCoverUp.CompactUniformConsumerBoundary
+import BEDC.Derived.SubordinateModulusCoverUp.FiniteSelectionScope
 import BEDC.Derived.SubordinateModulusCoverUp.LedgerExactness
 import BEDC.Derived.SubordinateModulusCoverUp.ObligationClosureRoute
 import BEDC.Derived.SubordinateModulusCoverUp.ScopeDependency
