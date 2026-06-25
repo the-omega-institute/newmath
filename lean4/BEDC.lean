@@ -8,6 +8,7 @@ import BEDC.Algebra.Rel.Basic
 import BEDC.Algebra.Rel.EisensteinUp
 import BEDC.Algebra.Rel.GaussianUp
 import BEDC.Algebra.Rel.IntegerUp
+import BEDC.Algebra.Rel.QuadIntUp
 import BEDC.Algebra.Rel.RingEquiv
 import BEDC.Algebra.Rel.SplitComplexUp
 import BEDC.BaseReflection
@@ -9581,6 +9582,7 @@ import BEDC.Derived.PuncturedCubeSkeletonUp.TasteGate
 import BEDC.Derived.PushdownAutomatonUp.TasteGate
 import BEDC.Derived.PythagoreanUp
 import BEDC.Derived.QRDecompositionUp.TasteGate
+import BEDC.Derived.QuadIntUp
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
 import BEDC.Derived.QuadraticFormUp.TasteGate
 import BEDC.Derived.QuadratureUp
