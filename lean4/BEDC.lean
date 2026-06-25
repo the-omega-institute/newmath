@@ -3232,6 +3232,7 @@ import BEDC.Derived.CompilerCompositionTraceUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
 import BEDC.Derived.CompilerTraceFaithfulnessUp
 import BEDC.Derived.CompilerTraceFaithfulnessUp.TasteGate
+import BEDC.Derived.ContFracUp
 import BEDC.Derived.CompleteArchimedeanFieldUp
 import BEDC.Derived.CompleteArchimedeanFieldUp.TasteGate
 import BEDC.Derived.CompleteBaireSpaceUp.TasteGate
