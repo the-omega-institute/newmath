@@ -1,0 +1,11 @@
+\begin{theorem}[Machine export boundary standard bridge route]
+\label{thm:machine-export-boundary-standard-bridge-route}
+For an accepted $\MachineExportBoundaryUp$ packet $E=(R,T,A,F,H,C,P,N)$, the machine export reads bridge data only after the registry export surface, the machine-readable audit interface, and the registry export dependency route have already been displayed. The standard bridge protocol chapter of \autoref{ch:acceptance-bridge} supplies the host-facing comparison surface, while the registry export surface of \autoref{ch:concrete-instances-registry-export-surface-namecert} and the machine interface boundary of \autoref{ch:concrete-instances-machine-interface-boundary-namecert} keep the export finite.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:machine-export-boundary-carrier}. The registry row $R$, target row $T$, audit row $A$, and refusal row $F$ are the only public machine-export rows.
+
+Use the registry export dependency theorem of this chapter together with the machine-interface dependency theorem. They force the packet through the registry-export surface, the machine-readable audit interface, the refusal gate, and the certificate-preserving provenance row before the local name is consumed.
+
+The standard bridge protocol chapter then provides the host-facing bridge shape without changing the packet's displayed rows. Since no extra coordinate is present, the export reads bridge data only after the registry and protocol rows are visible.
+\end{proof}
