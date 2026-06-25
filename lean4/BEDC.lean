@@ -6072,6 +6072,7 @@ import BEDC.Derived.FiniteRealSupremumUp.TasteGate
 import BEDC.Derived.FiniteRecognizerCarrierObstructionUp.TasteGate
 import BEDC.Derived.FiniteReflectionTupleUp.Core
 import BEDC.Derived.FiniteReflectionTupleUp.TasteGate
+import BEDC.Derived.FiniteRefutationBoundaryUp
 import BEDC.Derived.FiniteRefutationBoundaryUp.TasteGate
 import BEDC.Derived.FiniteRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.FiniteRelationUp.TasteGate
