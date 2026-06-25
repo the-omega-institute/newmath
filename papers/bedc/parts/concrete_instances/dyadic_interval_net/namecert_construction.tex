@@ -136,6 +136,24 @@ Next use the RegSeqRat route and the StreamName and RegSeqRat handoff, \autoref{
 Finally apply the Real seal nonescape theorem \autoref{thm:dyadic-interval-net-real-seal-nonescape}. Once $Q$ is reached, the structural rows $H,C,P,N$ preserve the same displayed packet, giving closed-bounded interval, compact-interval, and uniform-modulus consumers a finite source link and no ambient compactness or choice endpoint.
 \end{proof}
 
+\begin{theorem}[Dyadic interval net finite-chain coverage]
+\label{thm:dyadic-interval-net-finite-chain-coverage}
+Every accepted finite chain of interval cells consumed by closed-bounded interval, compact-interval, or uniform-modulus routes is exhausted by the displayed rows
+$$
+D,J,E,S,R,Q,H,C,P,N .
+$$
+Coverage is checked by finite induction over the listed cells in $J$: each cell reads its dyadic endpoints and radius from $D$, its adjacency and endpoint incidence from $E$, its observed endpoint windows from $S$, its rational readback and tolerance schedule from $R$, and its terminal Real-facing boundary from $Q$. No open-cover compactness, selected subcover, quotient stream equality, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness is available along the chain.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:dyadic-interval-net-carrier}. The finite chain is the listed interval-cell row $J$, while $D$ and $E$ provide the only endpoint arithmetic and incidence data attached to those cells.
+
+Use the cover refinement theorem \autoref{thm:dyadic-interval-net-cover-refinement}. It forces every consumer-facing cover read to pass through $D,J,E$ before any StreamName, RegSeqRat, or Real-facing row is visible.
+
+Induct over the finite list of cells using \autoref{thm:dyadic-interval-net-mesh-refinement-induction}. The base case reads the initial listed cell data. The step consumes one displayed cell, preserves adjacency through $E$, and leaves the remaining listed cells under the same $D,J,E,S,R,Q,H,C,P,N$ route.
+
+Finally replay the downstream rows. The windows $S$, readback $R$, seal $Q$, and structural rows $H,C,P,N$ preserve the finite chain without adding open-cover compactness, selected subcovers, quotient stream equality, choice, trichotomy, host real equality, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Dyadic interval net sibling cover route]\label{thm:dyadic-interval-net-sibling-route}
 Every accepted $\DyadicIntervalNetUp$ finite-cell route is consumed by the finite membership ledger of \autoref{ch:concrete-instances-dyadic-interval-cover-namecert}. The consumer route sends the $\DyadicRatCoreUp$ endpoint row $D$, the finite cell and endpoint-incidence rows $J,E$, the $\StreamNameUp$ window row $S$, the $\RegSeqRatUp$ readback row $R$, and the $\RealUp$ seal row $Q$ into the cover packet's endpoint, mesh, membership, window, readback, and seal rows. This is a substantive downstream cover-consumer dependency: it records how the interval-cover chapter uses the net carrier, and it is not a self-reference.
 \end{theorem}

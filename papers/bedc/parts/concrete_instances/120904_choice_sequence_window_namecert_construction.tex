@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\ChoiceSequenceWindowUp$}
+\label{ch:concrete-instances-choice-sequence-window-namecert}
+\origin{human}
+
+Following Brouwer and Troelstra--van Dalen, the $\ChoiceSequenceWindowUp$ packet records the finite prefix-window object by which a displayed choice-sequence presentation is read by L10 Real and Completion consumers. It sits between the choice-sequence surface of \autoref{ch:concrete-instances-choice-sequence-namecert}, the finite stream-name interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite inspected prefix and its routed readback; it does not import a completed branch, quotient stream equality, countable choice, a selected infinite sequence, or ambient $\RealUp$ completeness.
+
+\begin{definition}[ChoiceSequenceWindow carrier]
+\label{def:choice-sequence-window-carrier}
+A $\ChoiceSequenceWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(Q,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\ChoiceSequenceUp$ prefix row, listing the finite answers already inspected from the choice sequence.
+\item $S$ is the $\StreamNameUp$ window row opened from that prefix, with one displayed window for each finite read requested by the consumer.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the windows in $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic precision request, comparison slack, and local radius ledger consumed by $S$ and $R$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $Q,S,R,D$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the prefix, window, readback, tolerance, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+Q \longmapsto S,R,D \longmapsto E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ChoiceSequenceWindowUp$, $\ChoiceSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ChoiceSequenceWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,S,R,D,E,H,C,P,N$. It has no coordinate for completed branches, quotient streams, countable-choice selectors, selected infinite sequences, host equality of names, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[ChoiceSequenceWindow NameCert obligations]
+\label{thm:choice-sequence-window-namecert-obligations}
+For every accepted $\ChoiceSequenceWindowUp$ carrier
+$$
+W=(Q,S,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\ChoiceSequenceWindowUp}$ surface consists exactly of finite prefix admission for $Q$, StreamName window exposure for $S$, RegSeqRat readback for $R$, DyadicRatCore tolerance accounting for $D$, terminal Real seal non-escape for $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, sibling provenance through $P$, and local naming through $N$.
+
+No ChoiceSequenceWindow obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:choice-sequence-window-carrier}. The source row $Q$ is a finite prefix row, so every consumer starts with displayed choice-sequence answers rather than a completed branch.
+
+The analytic read then passes through the L10 rows. The finite windows are displayed by $S$, regular rational readback is displayed by $R$, and the dyadic tolerance ledger is displayed by $D$ before the terminal seal $E$ can be read.
+
+Finally replay $H,C,P,N$. Transport, continuation replay, provenance, and local naming preserve the same finite route, so the carrier cannot export quotient stream equality, countable choice, selected infinite branches, host equality of names, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[ChoiceSequenceWindow StreamName handoff]
+\label{thm:choice-sequence-window-stream-handoff}
+Every StreamName, RegSeqRat, or Real-facing consumer of an accepted $\ChoiceSequenceWindowUp$ carrier factors through
+$$
+Q \longmapsto S \longmapsto R,D \longmapsto E,H,C,P,N .
+$$
+The handoff reads the $\ChoiceSequenceUp$ prefix row before the $\StreamNameUp$ window of \autoref{ch:concrete-instances-streamname-namecert}, reads the $\RegSeqRatUp$ row through \autoref{ch:concrete-instances-regseqrat-namecert}, checks dyadic tolerances through \autoref{ch:concrete-instances-dyadicratcore-namecert}, and reaches the terminal $\RealUp$ seal only through \autoref{ch:concrete-instances-real-namecert}. The route exports no completed branch, quotient stream equality, countable-choice selector, selected infinite sequence, host equality of names, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the finite prefix row $Q$. Since the carrier contains no completed choice sequence, the downstream read can only use the displayed finite answers already present in the packet.
+
+Next expose $S,R,D$. The StreamName window is the only route from the prefix into name observations, the RegSeqRat row is the only regular rational readback surface, and the DyadicRatCore row is the only tolerance ledger available to the read.
+
+The Real seal $E$ is therefore terminal for this displayed path. The structural rows $H,C,P,N$ preserve the same route, so any StreamName, RegSeqRat, or Real-facing handoff remains a finite prefix-window handoff rather than a quotient, choice, selected-branch, host-equality, or completeness principle.
+\end{proof}
+
+\closureat{ChoiceSequenceWindowUp}{seedStr}
+
+\begin{closurestatus}{\ChoiceSequenceWindowUp}
+  \constructivestory{A $\ChoiceSequenceWindowUp$ packet is generated from a ChoiceSequence finite prefix row, StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:choice-sequence-window-carrier}, \autoref{thm:choice-sequence-window-namecert-obligations}, and \autoref{thm:choice-sequence-window-stream-handoff} seed the finite prefix-window packet for L10 countable-name consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed branches, quotient stream equality, countable choice, selected infinite sequences, host equality of names, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite prefix coverage, StreamName window routing, RegSeqRat readback, DyadicRatCore tolerance accounting, RealUp seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.ChoiceSequenceWindowUp.}
+\end{closurestatus}
