@@ -187,14 +187,27 @@ one arithmetic consumer, or the downstream real seal while this chapter binds
 the schedule-combination route with transport, replay, provenance, and local
 naming.}
 
-\closureat{CauchyModulusArithmeticUp}{obligationStr}
+\begin{theorem}[Cauchy modulus arithmetic public export]
+\label{thm:cauchy-modulus-arithmetic-public-export}
+Every public Real or Completion read of an accepted $\CauchyModulusArithmeticUp$ packet is exported through the same finite carrier rows used by the local obligation surface: the two $\CauchyModulusUp$ schedules, the shared $\CauchyModulusMeetUp$ threshold, the $\RegularCauchySumUp$ and $\RegularCauchyProductUp$ consumer rows, the $\DyadicRatCoreUp$ tolerance ledger, the $\StreamNameUp$ windows, the $\RegSeqRatUp$ readbacks, the terminal $\RealUp$ seal, and the structural rows $H,C,P,N$. Thus the public object surface is the displayed arithmetic carrier itself, not quotient streams, selected representatives, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start from the obligation closure of \autoref{thm:cauchy-modulus-arithmetic-obligation-closure}. It identifies the local NameCert surface with the displayed source schedules, shared meet row, arithmetic consumer rows, dyadic tolerance ledger, finite windows, regular readbacks, Real seal, transport, replay, provenance, and local naming.
+
+Apply the public exactness row of \autoref{thm:cauchy-modulus-arithmetic-public-exactness}. A public sum or product read is accepted only when those same rows are present in one carrier, so the public export does not introduce a second arithmetic object.
+
+Finally use the scope package of \autoref{thm:cauchy-modulus-arithmetic-obligation-scope-package}. It keeps the exported packet inside the same $\BHist$ route over $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{proof}
+
+\closureat{CauchyModulusArithmeticUp}{publicStr}
 
 \begin{closurestatus}{\CauchyModulusArithmeticUp}
   \constructivestory{A $\CauchyModulusArithmeticUp$ packet is generated from two $\StreamNameUp$ windows, two $\CauchyModulusUp$ schedules, one $\CauchyModulusMeetUp$ shared-threshold row, $\RegularCauchySumUp$ and $\RegularCauchyProductUp$ consumer rows, a $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readbacks, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:cauchy-modulus-arithmetic-scoped-route}, \autoref{thm:cauchy-modulus-arithmetic-real-seal-congruence}, \autoref{thm:cauchy-modulus-arithmetic-uniform-product-budget}, \autoref{thm:cauchy-modulus-arithmetic-scope-window-reuse}, \autoref{thm:cauchy-modulus-arithmetic-scoped-evidence-route}, and \autoref{thm:cauchy-modulus-arithmetic-tail-meet-exhaustion} bind the finite modulus-arithmetic scope through the real-seal congruence, uniform-product budget, reused observation windows, scoped evidence route, and tail-meet exhaustion rows over $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:cauchy-modulus-arithmetic-scoped-route}, \autoref{thm:cauchy-modulus-arithmetic-real-seal-congruence}, \autoref{thm:cauchy-modulus-arithmetic-uniform-product-budget}, \autoref{thm:cauchy-modulus-arithmetic-scope-window-reuse}, \autoref{thm:cauchy-modulus-arithmetic-scoped-evidence-route}, \autoref{thm:cauchy-modulus-arithmetic-tail-meet-exhaustion}, and \autoref{thm:cauchy-modulus-arithmetic-public-export} bind the finite modulus-arithmetic scope and public export surface over $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CauchyModulusArithmeticUp.CauchyModulusArithmeticCarrier\_public\_exactness}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim quotient streams, selected limits, host real equality, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{A formal route can encode the displayed carrier and prove the finite NameCert obligation surface, sum-meet closure, and real consumer boundary.}
+  \notclaimed{This chapter does not claim quotient streams, selected limits, host real equality, ambient completeness, or bridge checking.}
+  \upgradepath{Bridge closure requires a checked standard-bridge theorem for the public arithmetic carrier surface.}
 \end{closurestatus}
