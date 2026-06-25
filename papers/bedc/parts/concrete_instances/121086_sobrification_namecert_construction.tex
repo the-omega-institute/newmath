@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\SobrificationUp$}
+\label{ch:concrete-instances-sobrification-namecert}
+\origin{human}
+
+Following Johnstone and Gierz--Hofmann--Keimel--Lawson--Mislove--Scott, the $\SobrificationUp$ packet records the sober-point completion of a topological carrier as finite NameCert data. It consumes the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the Sierpinski classifier surface of \autoref{ch:concrete-instances-sierpinski-space-namecert}, the order-facing route of \autoref{ch:concrete-instances-scott-topology-namecert}, the localic point boundary of \autoref{ch:concrete-instances-locale-space-namecert}, and the compact-open comparison surface of \autoref{ch:concrete-instances-stone-space-namecert}. The chapter names sober completion without importing host point-set topology, choice of generic points, or a spectral-space representation theorem.
+
+\begin{definition}[Sobrification carrier]
+\label{def:sobrification-carrier}
+A $\SobrificationUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(T,I,\Sigma,\preceq,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the source $\TopologyUp$ carrier row whose closed and open predicates are read only through the accepted topology packet.
+\item $I$ is the irreducible-closed predicate row, recording nonempty closedness and the finite meet-test boundary for irreducibility.
+\item $\Sigma$ is the $\SierpinskiSpaceUp$ classifier row that reads opens as characteristic maps into the Sierpinski carrier.
+\item $\preceq$ is the specialization preorder row induced by the topology surface.
+\item $G$ is the generic-point witness row for irreducible closed data, stored as local witness data rather than as a global point-selection principle.
+\item $H$ records componentwise $\hsame$ transport for the topology, irreducibility, classifier, specialization, witness, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ routes from topology opens through Sierpinski classifiers and specialization reads to the generic-point row.
+\item $P$ is the $\Pkg$ provenance over $\SobrificationUp$, $\TopologyUp$, $\SierpinskiSpaceUp$, $\ScottTopologyUp$, $\LocaleSpaceUp$, $\StoneSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SobrificationUp}$ row.
+\end{enumerate}
+The packet has no coordinate for choice of all generic points, ambient spectral-space duality, quotient point creation, classical prime-filter selection, or host topological reflection.
+\end{definition}
+
+\begin{theorem}[Sobrification NameCert obligations]
+\label{thm:sobrification-namecert-obligations}
+For the carrier of \autoref{def:sobrification-carrier}, the local $\NameCert_{\SobrificationUp}$ surface consists exactly of carrier admission for
+$$
+Q=(T,I,\Sigma,\preceq,G,H,C,P,N),
+$$
+irreducible-closed exposure through $I$, Sierpinski classifier exposure through $\Sigma$, specialization-order exposure through $\preceq$, generic-point witness locality through $G$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ routing through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:sobrification-carrier}. The topology row $T$ is the only source of open and closed data, so every irreducibility read must pass through the displayed topology carrier.
+
+The classifier row $\Sigma$ supplies the Sierpinski-facing open classifier, and the specialization row $\preceq$ records the induced preorder. The witness row $G$ is local to the displayed irreducible closed row $I$ and does not select generic points globally.
+
+Finally $H,C,P,N$ transport, route, source, and name the same finite packet. Since the carrier contains no further coordinate, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Sobrification specialization sober-point surface]
+\label{thm:sobrification-specialization-sober-point-surface}
+Every accepted $\SobrificationUp$ read that exposes a sober point factors through the specialization preorder row $\preceq$, the Sierpinski classifier row $\Sigma$, and the generic-point witness row $G$ of
+$$
+Q=(T,I,\Sigma,\preceq,G,H,C,P,N).
+$$
+It cannot replace those rows by a host sober-reflection theorem, a chosen generic-point function on all irreducible closed sets, or a spectral-space representation claim.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:sobrification-carrier}. A sober-point read has access to topology data only through $T$, to irreducible closed data only through $I$, and to open classifiers only through $\Sigma$.
+
+The specialization preorder $\preceq$ is then the displayed order surface connecting topology opens to point comparison. The witness row $G$ is read through that same finite route, so it supplies only the local generic point named by the packet.
+
+Apply \autoref{thm:sobrification-namecert-obligations}. Transport, continuation replay, provenance, and local naming remain inside $H,C,P,N$, and the excluded global principles have no carrier coordinate.
+\end{proof}
+
+\begin{closurestatus}{\SobrificationUp}
+  \constructivestory{A $\SobrificationUp$ packet is generated from topology, irreducible-closed, Sierpinski classifier, specialization preorder, generic-point witness, transport, route, provenance, and local naming rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:sobrification-carrier}, \autoref{thm:sobrification-namecert-obligations}, and \autoref{thm:sobrification-specialization-sober-point-surface} bind the sober-point surface to topology, irreducible-closed, Sierpinski classifier, specialization, witness, transport, route, provenance, and local NameCert rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a checked Lean carrier, global choice of generic points, ambient spectral duality, or bridge checking.}
+  \upgradepath{Formal closure requires a Lean carrier and NameCert obligation theorem for the displayed sobrification packet.}
+\end{closurestatus}
