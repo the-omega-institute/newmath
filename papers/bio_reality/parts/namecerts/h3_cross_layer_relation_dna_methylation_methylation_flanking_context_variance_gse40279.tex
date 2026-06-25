@@ -1,18 +1,18 @@
-\subsection{Flanking-Context Variance in GSE40279}
-\label{sec:dna-methylation-flanking-context-variance-gse40279}
+\subsection{Flanking-context variance in GSE40279}\label{sec:h3-cross-layer-relation-dna-methylation-flanking-context-variance-gse40279}
 \origin{ai}
 
-\paragraph{Finite panel.}
-The GSE40279 methylation panel is a finite observational witness: it contains 656 individuals and 20,000 probes, and the reported baseline fit is $R^2 = 0.0129735$. In this chapter, the relevant object is the probe-level flanking context attached to that methylation readout. The point of the record is not to turn the assay into a universal rule, but to keep the association tied to the exact cohort and probe geometry in which it was measured.
+\paragraph{Finite panel.} The GSE40279 record is a bounded empirical panel with $n_{\mathrm{individuals}} = 656$ and $n_{\mathrm{probes}} = 20000$. Its verified baseline summary is $R^2_{\mathrm{baseline}} = 0.0129735$, with the stored verification pass carrying `runtime\_sec = 0.0`. In the present chapter, the claim is therefore read as a cross-layer relation that remains finite and row-wise: the local flanking context carries only a weak predictive signal for methylation variation, and nothing in the stored statistic turns that into a general biological principle.
 
-\paragraph{Local reading.}
-The scalar $R^2 = 0.0129735$ is small, so the correct interpretation is restrained. It says that the chosen flanking-context summary captures only a narrow slice of the variance in this panel, while most of the variation remains outside that summary. That is the mathematical meaning of a weak but nonzero association: the context is informative at the level of a measured cohort, but it is not an explanation that exhausts the methylation signal.
+\paragraph{What the statistic actually says.} The admissible reading is a row-level association between local sequence environment and methylation readout inside the fixed GSE40279 panel. The effect is numerically small but nonzero, which is exactly the point: the data support a bounded empirical dependence, not a mechanistic narrative. A compact summary of the stored values is
+$$
+\begin{aligned}
+R^2_{\mathrm{baseline}} = 0.0129735, \qquad n = 656, \qquad m = 20000.
+\end{aligned}
+$$
+This chapter keeps the interpretation at that scale. The panel gives a finite matched-row witness for the claim, and the witness is only about methylation flanking-context variance under the recorded probe set.
 
-\paragraph{Assay scope.}
-This record stays at the methylation layer. It does not promote the probe-context association into translation, protein folding, physical admissibility, function, mechanism, or any universal statement about biology. Those are separate layers of evidence and would require their own matched contact, their own row-level statistics, and their own controls before any stronger conclusion could be stated. The only claim retained here is the bounded one supported by the actual panel: flanking context carries a limited explanatory signal in a cohort of 656 individuals across 20,000 probes.
+\paragraph{Boundary of the claim.} No translation, folding, physical admissibility, function, mechanism, or universality follows from this record alone. Those statements need a separate experimental contact that directly measures the corresponding layer. Here the only licensed conclusion is that, within the GSE40279 panel, flanking context has a small explanatory role for methylation variation, while the rest of the biological ladder remains outside the reach of this statistic.
 
-\paragraph{Boundary discipline.}
-That restraint is consistent with the way the broader catalog is organized. A neighboring DNA mechanics witness records a different finite panel with runtime 196.505904 seconds, which shows the same discipline of reporting concrete observables without collapsing them into a general mechanism. Here, the methylation chapter remains attached to its own probe count, cohort size, and $R^2$ value, and it does not borrow interpretive force from unrelated layers or from neighboring readouts.
+\paragraph{Catalog comparison.} The surrounding empirical catalogue uses the same finite-panel discipline elsewhere. For example, the stored record `h3.cross\_layer\_relation.rna\_m6am\_methylation.m6am\_flanking\_identity\_stoichiometry\_crownseq` reports $n = 31886$, `distinct = 19406`, and $p = 0.000833$. That comparison is methodological only: it shows that the catalog stores each relation as a finite row-set with its own scalar summary, and it does not enlarge the methylation claim beyond the layer actually measured here.
 
-\paragraph{Reading the result.}
-The practical takeaway is simple: the panel supports a localized methylation-context association, not a causal narrative. The data are sufficient to say that probe flanking context matters a little in this finite setting, but not sufficient to claim more. Any stronger interpretation would need a separate experimental contact at the relevant layer, with explicit matching and a statistic that survives that additional boundary.
+\paragraph{Interpretive scale.} The right interpretation is conservative. The GSE40279 panel supports a weak cross-layer readout between methylation and flanking context, with a baseline fit well below unity and a compact row count relative to the probe dimension. The chapter therefore records a finite empirical relation, not a general law, and not a shortcut to any downstream statement about translation, folding, mechanism, or function.
