@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\FiniteElementMethodUp$}
+\label{ch:concrete-instances-finite-element-method-namecert}
+\origin{human}
+
+Following Ciarlet's finite element method, the $\FiniteElementMethodUp$ packet records the finite mesh, local stiffness, assembly ledger, boundary row, and solution-readback surface that a constructive PDE-discretization consumer must inspect before it treats a variational problem as a computable finite system. It sits beside the PDE carrier of \autoref{ch:concrete-instances-pde-namecert}, the matrix source of \autoref{ch:concrete-instances-matrix-namecert}, the linear-map source of \autoref{ch:concrete-instances-linearmap-namecert}, and the vector-space source of \autoref{ch:concrete-instances-vecspace-namecert}. The packet names only displayed finite element data; it does not assert analytic existence, host function equality, mesh convergence, hidden quadrature exactness, selected basis functions outside the ledger, or ambient completeness.
+
+\begin{definition}[Finite element method carrier]
+\label{def:finite-element-method-carrier}
+A $\FiniteElementMethodUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,V,L,A,B,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the finite mesh row, naming cells, face incidences, boundary tags, and refinement provenance visible to the packet;
+\item $V$ is the local finite-element space row, naming the cellwise degrees of freedom, shape-function table, and local basis readback;
+\item $L$ is the local stiffness row, storing the finitely inspected bilinear-form entries on each cell;
+\item $A$ is the assembly ledger row, recording how local stiffness entries are routed into the global $\MatrixUp$ row;
+\item $B$ is the boundary and load row, recording boundary constraints and source terms as displayed finite data;
+\item $R$ is the $\LinearMapUp$ readback row associated with the assembled matrix and load data;
+\item $S$ is the solve-facing row, exposing the finite system interface without claiming an analytic PDE solution;
+\item $H$ records componentwise $\hsame$ transport for mesh, local space, stiffness, assembly, boundary, readback, solve-facing, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from mesh inspection through local stiffness, assembly, readback, and solve-facing consumption;
+\item $P$ is the $\Pkg$ provenance over $\FiniteElementMethodUp$, $\PdeUp$, $\MatrixUp$, $\LinearMapUp$, $\VecSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\FiniteElementMethodUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,V,L,A,B,R,S,H,C,P,N$. It has no coordinate for host finite-element spaces, selected global basis functions outside $V$, analytic weak solutions, exact integration not displayed by $L$, quotient mesh equality, or convergence of a mesh family.
+\end{definition}
+
+\begin{theorem}[Finite element method NameCert obligations]
+\label{thm:finite-element-method-namecert-obligations}
+For every accepted $\FiniteElementMethodUp$ carrier
+$$
+F=(M,V,L,A,B,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteElementMethodUp}$ surface consists exactly of carrier admission for finite meshes, local finite-element spaces, local stiffness tables, assembly ledgers, boundary and load rows, linear-map readback, solve-facing exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Any PDE, matrix, or linear-map consumer of the packet must read through those rows before it cites a finite element method boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-element-method-carrier}. The mesh row $M$, local-space row $V$, stiffness row $L$, assembly row $A$, boundary row $B$, readback row $R$, and solve-facing row $S$ are the only numerical-analysis coordinates.
+
+The $\PdeUp$ sibling supplies the displayed relation-and-boundary discipline, while the $\MatrixUp$ and $\LinearMapUp$ siblings supply the finite algebraic readback. The packet therefore exposes the finite element route as data moving from local cells to an assembled matrix, not as a host theorem about weak solutions.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for hidden basis selection, analytic existence, unstated quadrature exactness, quotient mesh equality, or mesh-family convergence, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite element method local stiffness assembly]
+\label{thm:finite-element-method-local-stiffness-assembly}
+Every assembled algebraic read exported by an accepted $\FiniteElementMethodUp$ packet factors through the finite route
+$$
+M,V,L \longmapsto A \longmapsto R.
+$$
+The local stiffness row is inspected cell by cell, the assembly ledger records each displayed placement into the global matrix row, and the linear-map readback consumes only the assembled rows already visible in the packet. No consumer may replace this route by host integration, an unstated global basis, a quotient mesh comparison, or an analytic PDE solution.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $F=(M,V,L,A,B,R,S,H,C,P,N)$. The local stiffness row $L$ is meaningful only over the finite mesh $M$ and local-space row $V$.
+
+The assembly ledger $A$ records the finite placement of each local entry into the matrix-facing surface. Thus the $\MatrixUp$ and $\LinearMapUp$ reads consume $A$ and $R$ rather than a hidden host assembly operation.
+
+The structural rows $H,C,P,N$ keep the same route under transport, replay, provenance, and local naming. Hence the assembled algebraic read is exactly the displayed finite route from mesh and local data to the assembled matrix readback.
+\end{proof}
+
+\begin{theorem}[Finite element method nonescape]
+\label{thm:finite-element-method-nonescape}
+Every accepted $\FiniteElementMethodUp$ consumer must keep the mesh row, local finite-element space row, local stiffness table, assembly ledger, boundary and load row, linear-map readback, solve-facing row, transport, replay, provenance, and local naming visible before citing the packet as finite element method data. The packet exports no analytic solution theorem, convergence theorem, host weak-form equality, selected global basis outside the displayed row, hidden quadrature, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:finite-element-method-namecert-obligations}. They expose the finite mesh, local space, stiffness, assembly, boundary, readback, solve-facing, transport, replay, provenance, and naming rows.
+
+Then use the local assembly theorem \autoref{thm:finite-element-method-local-stiffness-assembly}. It forces any algebraic consumer through the displayed mesh-to-matrix route before the finite system interface is read.
+
+The excluded analytic and host-level objects are absent from the carrier. Therefore no downstream consumer can cite this packet as analytic PDE solvability, convergence, unstated basis selection, hidden integration exactness, quotient mesh equality, or ambient completion.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteElementMethodUp$ finite-system read exposes mesh, local finite-element space, local stiffness, assembly, boundary and load, linear-map readback, solve-facing, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before the finite element method boundary is consumed.}
+
+\independenceWitness{pde, matrix, linearmap, vecspace: $\FiniteElementMethodUp$ is not bijective to any listed sibling because it jointly carries a finite mesh, local finite-element spaces, local stiffness tables, assembly ledgers, boundary rows, linear-map readback, solve-facing exposure, transport, replay, provenance, and local naming as one discretization packet.}
+
+\closureat{FiniteElementMethodUp}{seedStr}
+
+\begin{closurestatus}{\FiniteElementMethodUp}
+  \constructivestory{A $\FiniteElementMethodUp$ packet is generated from a finite mesh row, local finite-element space row, local stiffness table, assembly ledger, boundary and load row, LinearMapUp readback, solve-facing row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-element-method-carrier}, \autoref{thm:finite-element-method-namecert-obligations}, \autoref{thm:finite-element-method-local-stiffness-assembly}, and \autoref{thm:finite-element-method-nonescape} seed the finite mesh, local stiffness, assembly, boundary, algebraic readback, transport, replay, provenance, and local naming surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim analytic PDE solvability, weak-solution uniqueness, mesh convergence, hidden quadrature exactness, quotient mesh equality, host function equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, mesh exposure, local-space exposure, stiffness-table exactness, assembly-ledger routing, boundary and load readback, linear-map handoff, nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FiniteElementMethodUp.}
+\end{closurestatus}

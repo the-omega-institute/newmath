@@ -218,6 +218,24 @@ Finally apply ledger exhaustion from \autoref{thm:real-classifier-ledger-exhaust
 \end{proof}
 \leanchecked{BEDC.Derived.RealClassifierPublicExactnessSurface}
 
+\begin{theorem}[RealClassifier public export readback]
+\label{thm:realclassifier-public-export-readback}
+Every public $\RealClassifierUp$ read factors through the displayed $\RegSeqRatUp$, $\RegularCauchyEquivalenceUp$, $\RegularRealTailEquivalenceUp$, $\RealNameClassifierUp$, and $\RealCompletionSelectorSealUp$ rows before any completion-density or audit consumer can inspect the classifier. In carrier notation, for
+$$
+Q=(X,Y,S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N),
+$$
+the exported read is the finite route through $S_X,S_Y,R_X,R_Y,W,D,C,E,H,K,P,N$ over the terminal $\RealUp$ seals $X,Y$, not a direct equality read on completed real names.
+\end{theorem}
+\begin{proof}
+Start with the public exactness surface of \autoref{thm:realclassifier-public-exactness-surface}. It already binds every public classifier read to the two terminal seals, the regular rational readbacks, the common StreamName window, the DyadicRatCore ledger, the RealNameClassifier row, the RegularCauchyEquivalence row, and the structural transport, replay, provenance, and local naming rows.
+
+Apply the RegSeqRat handoff theorem \autoref{thm:real-classifier-regseqrat-handoff} and the regular-real tail-equivalence readback theorem \autoref{thm:real-classifier-regular-real-tail-equivalence-readback}. These force the public read through $S_X,S_Y,R_X,R_Y,W,D,C,E$ before it reaches a same-real or tail-equivalence-facing consumer.
+
+Next use the completion-selector-seal readback theorem \autoref{thm:realclassifier-completion-selector-seal-readback}. A $\RealCompletionSelectorSealUp$ consumer therefore receives the classifier only after the Real seals, regular readbacks, common window, tolerance ledger, classifier row, equivalence row, and structural rows have been displayed.
+
+Finally apply the completion-density consumer theorem \autoref{thm:realclassifier-completion-density-consumer}. Since density and audit consumers inspect only that already exported route, no consumer can replace it by host real equality, quotient stream equality, selected limits, trichotomy, countable choice, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[RealClassifier completion-selector-seal readback]
 \label{thm:realclassifier-completion-selector-seal-readback}
 Every accepted $\RealClassifierUp$ public read that is consumed by a $\RealCompletionSelectorSealUp$ packet must pass through the same $\RealUp$ seals, $\RegSeqRatUp$ readbacks, $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance ledger, $\RealNameClassifierUp$ row, and $\RegularCauchyEquivalenceUp$ row before any selector-seal budget, window, or readback row is exposed. The handoff exports no selected limit, quotient stream equality, trichotomy, countable choice, or ambient-completeness coordinate.
