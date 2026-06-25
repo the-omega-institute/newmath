@@ -1,5 +1,7 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Unary.History
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
@@ -7,6 +9,8 @@ namespace BEDC.Derived.CauchyDifferenceCriterionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -187,5 +191,41 @@ theorem CauchyDifferenceCriterionTasteGate_single_carrier_alignment :
       (fun _ _ heq =>
         CauchyDifferenceCriterionTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
+
+theorem CauchyDifferenceCriterionReal_seal_boundary
+    {X Y D Z Q W T E H C P N diffRead nullRead sealRead : BHist} :
+    UnaryHistory D →
+      UnaryHistory Z →
+        UnaryHistory Q →
+          UnaryHistory E →
+            Cont D Z diffRead →
+              Cont diffRead Q nullRead →
+                Cont nullRead E sealRead →
+                  cauchyDifferenceCriterionFromEventFlow
+                      (cauchyDifferenceCriterionToEventFlow
+                        (CauchyDifferenceCriterionUp.mk X Y D Z Q W T E H C P N)) =
+                    some (CauchyDifferenceCriterionUp.mk X Y D Z Q W T E H C P N) →
+                    UnaryHistory diffRead ∧
+                      UnaryHistory nullRead ∧
+                        UnaryHistory sealRead ∧
+                          hsame
+                            (cauchyDifferenceCriterionDecodeBHist
+                              (cauchyDifferenceCriterionEncodeBHist E))
+                            E := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame UnaryHistory
+  intro dUnary zUnary qUnary eUnary diffRoute nullRoute sealRoute readback
+  have diffUnary : UnaryHistory diffRead :=
+    unary_cont_closed dUnary zUnary diffRoute
+  have nullUnary : UnaryHistory nullRead :=
+    unary_cont_closed diffUnary qUnary nullRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed nullUnary eUnary sealRoute
+  have sealSame :
+      hsame
+        (cauchyDifferenceCriterionDecodeBHist
+          (cauchyDifferenceCriterionEncodeBHist E))
+        E :=
+    CauchyDifferenceCriterionTasteGate_single_carrier_alignment_decode_encode E
+  exact ⟨diffUnary, nullUnary, sealUnary, sealSame⟩
 
 end BEDC.Derived.CauchyDifferenceCriterionUp
