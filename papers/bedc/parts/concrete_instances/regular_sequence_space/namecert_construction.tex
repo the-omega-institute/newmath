@@ -74,6 +74,18 @@ Route the late observations through the tail-filter handoff of \autoref{thm:regu
 Finally $H,C,P,N$ preserve and name the same finite packet. Hence the two reads agree on the dyadic tolerance row and terminal Real seal route without choosing a quotient stream, representative, or external completion object.
 \end{proof}
 
+\begin{theorem}[RegularSequenceSpace value-seal exhaustion]
+\label{thm:regular-sequence-space-value-seal-exhaustion}
+Every value-facing read from an accepted $\RegularSequenceSpaceUp$ carrier $S=(X,T,Q,D,R,H,C,P,N)$ exposes the source family $X$, $\StreamNameUp$ schedule $T$, $\RegSeqRatUp$ readback $Q$, and $\DyadicRatCoreUp$ tolerance row $D$ before it may consume $R,H,C,P,N$. Consequently the terminal $\RealUp$ seal is exhausted by the displayed StreamName, RegSeqRat, DyadicRatCore, transport, replay, provenance, and NameCert route, with no ambient complete sequence space, quotient stream equality, selected representative, or unrestricted sequence object.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:regular-sequence-space-namecert-obligations}. They require every accepted read to keep the source row, schedule row, regular rational readback, and dyadic tolerance row visible before the Real-facing seal and structural rows can be consumed.
+
+Apply the tail-filter handoff of \autoref{thm:regular-sequence-space-tail-filter-handoff}. It routes completion-facing and value-facing reads through the same displayed stream schedule, regular rational readback, and dyadic tolerance data before the terminal seal is public.
+
+Finally use tail coherence, \autoref{thm:regular-sequence-space-tail-coherence}. Since reads agreeing on $T$ and $Q$ also agree on $D$ and on the terminal seal route $R,H,C,P,N$, the Real seal is exhausted by the displayed finite route and cannot import an ambient complete space, quotient stream equality, selected representative, or unrestricted sequence object.
+\end{proof}
+
 \begin{theorem}[RegularSequenceSpace pointwise stream projection]
 \label{thm:regular-sequence-space-pointwise-stream-projection}
 Every accepted $\RegularSequenceSpaceUp$ read of a displayed family first exposes the source row $X$ and the $\StreamNameUp$ schedule $T$. It can therefore be projected to a finite PointwiseStreamName-style window, as in \autoref{ch:concrete-instances-pointwise-stream-namecert}, before the $\RegSeqRatUp$ readback $Q$, $\DyadicRatCoreUp$ tolerance row $D$, and $\RealUp$ seal route $R,H,C,P,N$ are consumed.
