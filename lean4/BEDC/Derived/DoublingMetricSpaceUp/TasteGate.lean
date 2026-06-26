@@ -26,17 +26,14 @@ def doublingMetricSpaceDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (doublingMetricSpaceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (doublingMetricSpaceDecodeBHist tail)
 
-private theorem doublingMetricSpaceDecodeEncodeBHist :
+private theorem DoublingMetricSpaceTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist, doublingMetricSpaceDecodeBHist (doublingMetricSpaceEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def doublingMetricSpaceFields : DoublingMetricSpaceUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
@@ -51,8 +48,7 @@ private def doublingMetricSpaceEventAtDefault : Nat → EventFlow → RawEvent
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      doublingMetricSpaceEventAtDefault index rest
+  | Nat.succ index, _event :: rest => doublingMetricSpaceEventAtDefault index rest
 
 def doublingMetricSpaceFromEventFlow (ef : EventFlow) : Option DoublingMetricSpaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -71,11 +67,10 @@ def doublingMetricSpaceFromEventFlow (ef : EventFlow) : Option DoublingMetricSpa
       (doublingMetricSpaceDecodeBHist (doublingMetricSpaceEventAtDefault 10 ef))
       (doublingMetricSpaceDecodeBHist (doublingMetricSpaceEventAtDefault 11 ef)))
 
-private theorem doublingMetricSpace_round_trip :
-    ∀ x : DoublingMetricSpaceUp,
-      doublingMetricSpaceFromEventFlow (doublingMetricSpaceToEventFlow x) = some x := by
+private theorem DoublingMetricSpaceTasteGate_single_carrier_alignment_round_trip
+    (x : DoublingMetricSpaceUp) :
+    doublingMetricSpaceFromEventFlow (doublingMetricSpaceToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk X M B R K E T S H C P N =>
       change
@@ -94,14 +89,20 @@ private theorem doublingMetricSpace_round_trip :
             (doublingMetricSpaceDecodeBHist (doublingMetricSpaceEncodeBHist P))
             (doublingMetricSpaceDecodeBHist (doublingMetricSpaceEncodeBHist N))) =
           some (DoublingMetricSpaceUp.mk X M B R K E T S H C P N)
-      rw [doublingMetricSpaceDecodeEncodeBHist X, doublingMetricSpaceDecodeEncodeBHist M,
-        doublingMetricSpaceDecodeEncodeBHist B, doublingMetricSpaceDecodeEncodeBHist R,
-        doublingMetricSpaceDecodeEncodeBHist K, doublingMetricSpaceDecodeEncodeBHist E,
-        doublingMetricSpaceDecodeEncodeBHist T, doublingMetricSpaceDecodeEncodeBHist S,
-        doublingMetricSpaceDecodeEncodeBHist H, doublingMetricSpaceDecodeEncodeBHist C,
-        doublingMetricSpaceDecodeEncodeBHist P, doublingMetricSpaceDecodeEncodeBHist N]
+      rw [DoublingMetricSpaceTasteGate_single_carrier_alignment_decode_encode X,
+        DoublingMetricSpaceTasteGate_single_carrier_alignment_decode_encode M,
+        DoublingMetricSpaceTasteGate_single_carrier_alignment_decode_encode B,
+        DoublingMetricSpaceTasteGate_single_carrier_alignment_decode_encode R,
+        DoublingMetricSpaceTasteGate_single_carrier_alignment_decode_encode K,
+        DoublingMetricSpaceTasteGate_single_carrier_alignment_decode_encode E,
+        DoublingMetricSpaceTasteGate_single_carrier_alignment_decode_encode T,
+        DoublingMetricSpaceTasteGate_single_carrier_alignment_decode_encode S,
+        DoublingMetricSpaceTasteGate_single_carrier_alignment_decode_encode H,
+        DoublingMetricSpaceTasteGate_single_carrier_alignment_decode_encode C,
+        DoublingMetricSpaceTasteGate_single_carrier_alignment_decode_encode P,
+        DoublingMetricSpaceTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem doublingMetricSpaceToEventFlow_injective {x y : DoublingMetricSpaceUp} :
+private theorem DoublingMetricSpaceToEventFlow_injective {x y : DoublingMetricSpaceUp} :
     doublingMetricSpaceToEventFlow x = doublingMetricSpaceToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -110,8 +111,10 @@ private theorem doublingMetricSpaceToEventFlow_injective {x y : DoublingMetricSp
         doublingMetricSpaceFromEventFlow (doublingMetricSpaceToEventFlow y) :=
     congrArg doublingMetricSpaceFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (doublingMetricSpace_round_trip x).symm
-      (Eq.trans hread (doublingMetricSpace_round_trip y)))
+    (Eq.trans
+      (DoublingMetricSpaceTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (DoublingMetricSpaceTasteGate_single_carrier_alignment_round_trip y)))
 
 instance doublingMetricSpaceBHistCarrier : BHistCarrier DoublingMetricSpaceUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -123,14 +126,28 @@ instance doublingMetricSpaceChapterTasteGate : ChapterTasteGate DoublingMetricSp
   round_trip := by
     intro x
     change doublingMetricSpaceFromEventFlow (doublingMetricSpaceToEventFlow x) = some x
-    exact doublingMetricSpace_round_trip x
+    exact DoublingMetricSpaceTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (doublingMetricSpaceToEventFlow_injective heq)
+    exact hxy (DoublingMetricSpaceToEventFlow_injective heq)
 
 theorem DoublingMetricSpaceTasteGate_single_carrier_alignment :
-    ChapterTasteGate DoublingMetricSpaceUp := by
+    (∀ h : BHist, doublingMetricSpaceDecodeBHist (doublingMetricSpaceEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier DoublingMetricSpaceUp) ∧
+        Nonempty (ChapterTasteGate DoublingMetricSpaceUp) ∧
+          doublingMetricSpaceFields
+              (DoublingMetricSpaceUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                BHist.Empty BHist.Empty) =
+            [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
+              BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  exact doublingMetricSpaceChapterTasteGate
+  constructor
+  · exact DoublingMetricSpaceTasteGate_single_carrier_alignment_decode_encode
+  · constructor
+    · exact ⟨doublingMetricSpaceBHistCarrier⟩
+    · constructor
+      · exact ⟨doublingMetricSpaceChapterTasteGate⟩
+      · rfl
 
 end BEDC.Derived.DoublingMetricSpaceUp
