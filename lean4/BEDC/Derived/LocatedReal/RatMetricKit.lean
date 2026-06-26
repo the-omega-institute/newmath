@@ -44,13 +44,6 @@ theorem ratExactClose_neg {x y : Rat} {k : Nat} :
   intro h
   exact ratNeg_respects h
 
-theorem ratExactClose_mul {x x' y y' : Rat} {k : Nat} :
-    ratExactClose x x' (Nat.succ k) ->
-      ratExactClose y y' (Nat.succ k) ->
-        ratExactClose (ratMul x y) (ratMul x' y') k := by
-  intro xx' yy'
-  exact ratMul_respects xx' yy'
-
 theorem ratExactApart_symm {x y : Rat} {k : Nat} :
     ratExactApart x y k -> ratExactApart y x k := by
   intro h
@@ -81,9 +74,6 @@ def RatMetricKitConcrete : RatMetricKit where
   neg_close := by
     intro x y k
     exact ratExactClose_neg
-  mul_close := by
-    intro x x' y y' k
-    exact ratExactClose_mul
   le_refl := RatEq_refl
   le_trans := by
     intro x y z xy yz
