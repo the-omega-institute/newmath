@@ -9625,6 +9625,7 @@ import BEDC.Derived.PrimitiveDistinctionLedgerUp.NoBooleanCollapse
 import BEDC.Derived.PrimitiveDistinctionLedgerUp.TasteGate
 import BEDC.Derived.PrimitiveRecursionUp.TasteGate
 import BEDC.Derived.PrimitiveRecursiveUp.TasteGate
+import BEDC.Derived.PrimitiveRootExistence
 import BEDC.Derived.PrimitiveRootUp
 import BEDC.Derived.PrincipalFilterUp.TasteGate
 import BEDC.Derived.PringsheimDoubleSequenceUp.TasteGate
