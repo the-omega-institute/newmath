@@ -1,0 +1,129 @@
+\chapter{A Concrete Naming Certificate for $\FiveLemmaUp$}
+\label{ch:concrete-instances-five-lemma-namecert}
+\origin{human}
+
+Following Mac Lane's homological algebra and the standard abelian-category
+diagram chase, the $\FiveLemmaUp$ packet records the finite route that turns two
+exact rows, five compatible vertical maps, and four local isomorphism-style
+witnesses into the middle vertical classifier witness. It sits over the
+abelian-category carrier of
+\autoref{ch:concrete-instances-abeliancat-namecert} and consumes the same
+exact-row and boundary discipline used by the snake-lemma packet of
+\autoref{ch:concrete-instances-snake-lemma-namecert}. The packet names a
+bounded chase surface; it does not import element representatives, quotient
+object equality, ambient diagram extensionality, or an unbounded search oracle.
+
+\begin{definition}[Five Lemma carrier]
+\label{def:five-lemma-carrier}
+A $\FiveLemmaUp$ carrier is a finite $\BHist$ packet
+$$
+F=(A,R_0,R_1,V,L,M,Q,C,T,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\AbelianCatUp$ source row exposing the additive
+kernel-cokernel surface in which both exact rows are read.
+\item $R_0$ and $R_1$ are the upper and lower exact-row ledgers, each carrying
+five displayed object rows, four displayed horizontal morphism rows, and the
+local image-kernel containment rows used by the chase.
+\item $V$ records the five displayed vertical morphisms and the four
+commutative squares aligning $R_0$ with $R_1$.
+\item $L$ records the two left-side comparison rows used to move witnesses
+across the first and second vertical maps.
+\item $M$ records the two middle-neighbour comparison rows used to pass from
+the second and fourth vertical maps to the third vertical map.
+\item $Q$ records the two right-side comparison rows used to close the chase
+through the fourth and fifth vertical maps.
+\item $C$ is the finite chase ledger. It lists the kernel entry, exact-row
+transport, square transport, image-kernel handoff, cokernel exit, and middle
+classifier witness in bounded order.
+\item $T$ records displayed $\Cont$ replay from $A,R_0,R_1,V,L,M,Q$ to the
+chase ledger $C$.
+\item $H$ records componentwise $\hsame$ transport for the abelian-category
+source, exact rows, vertical squares, comparison rows, chase ledger, replay,
+provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\FiveLemmaUp$, $\AbelianCatUp$,
+$\SnakeLemmaUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiveLemmaUp}$ row.
+\end{enumerate}
+The classifier compares accepted five-lemma packets only through these rows. It
+contains no coordinate for selected elements outside the displayed histories,
+hidden kernel representatives, quotient representatives, host-object equality,
+or a completed ambient diagram category.
+\end{definition}
+
+\begin{theorem}[Five Lemma NameCert obligations]
+\label{thm:five-lemma-namecert-obligations}
+For every accepted $\FiveLemmaUp$ carrier
+$$
+F=(A,R_0,R_1,V,L,M,Q,C,T,H,P,N),
+$$
+the local $\NameCert_{\FiveLemmaUp}$ surface consists exactly of the
+abelian-category source row $A$, the upper and lower exact-row ledgers
+$R_0,R_1$, vertical-square compatibility through $V$, left comparison through
+$L$, middle-neighbour comparison through $M$, right comparison through $Q$, the
+finite chase ledger $C$, displayed replay through $T$, componentwise transport
+through $H$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:five-lemma-carrier}. The rows
+$A,R_0,R_1,V$ expose the abelian-category source, the two exact rows, and the
+four commutative squares before any middle-map conclusion is available.
+
+The comparison rows $L,M,Q$ then record precisely which neighbouring vertical
+maps may be used by the chase. These rows are displayed certificate data, not
+ambient claims about all diagrams in the host category.
+
+Read the chase ledger $C$ next. Its entries are bounded by the five displayed
+vertical maps and the four displayed squares, so every witness passed through
+the exact rows is accounted for by a named row of the packet.
+
+Finally $T,H,P,N$ keep the same surface stable under replay, componentwise
+history equality, provenance, and local naming. Since no hidden representative,
+host-object equality, or unbounded diagram search appears among the carrier
+coordinates, the listed rows exhaust the certificate obligations.
+\end{proof}
+
+\begin{theorem}[Five Lemma finite diagram chase]
+\label{thm:five-lemma-finite-diagram-chase}
+Every downstream consumer of an accepted $\FiveLemmaUp$ packet reads the middle
+vertical classifier witness only through the displayed route
+$$
+\AbelianCatUp \longmapsto (R_0,R_1,V)
+\longmapsto (L,M,Q) \longmapsto C \longmapsto (T,H,P,N).
+$$
+Thus the consumer receives one finite diagram-chase packet of abelian-category
+source rows, exact-row ledgers, vertical-square compatibility rows, comparison
+rows, bounded chase entries, replay, transport, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Begin with the source row $A$ and the two exact rows $R_0,R_1$. The vertical
+compatibility row $V$ makes the four squares visible, so the chase can move
+between the two rows only at named square entries.
+
+Use $L,M,Q$ to expose the neighbouring comparison data. These rows delimit the
+classical five-lemma assumptions as finite certificate coordinates: left-side
+transport, middle-neighbour transport, and right-side exit data are all
+displayed before the middle conclusion is read.
+
+The ledger $C$ then lists the bounded sequence of chase moves. Exactness supplies
+the image-kernel handoffs, square compatibility transports each handoff across
+the vertical maps, and the comparison rows provide the permitted entries and
+exits.
+
+Replaying through $T$ and transporting through $H$ preserves the same finite
+route. The provenance and naming rows $P,N$ therefore export the middle witness
+as a NameCert packet rather than as an ambient element chase.
+\end{proof}
+
+\closureat{FiveLemmaUp}{seedStr}
+
+\begin{closurestatus}{\FiveLemmaUp}
+  \constructivestory{A $\FiveLemmaUp$ packet is generated from an AbelianCat source row, two exact-row ledgers, five vertical maps, four commutative-square rows, comparison rows, a finite chase ledger, Cont replay, hsame transport, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:five-lemma-carrier}, \autoref{thm:five-lemma-namecert-obligations}, and \autoref{thm:five-lemma-finite-diagram-chase} seed the finite Five Lemma packet over abelian-category source rows, exact-row ledgers, vertical-square compatibility, comparison rows, bounded chase entries, replay, transport, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient-object equality, ambient diagram extensionality, selected-element semantics, or unbounded diagram-chase completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, exact-row exposure, vertical-square compatibility, comparison-row exposure, finite chase-ledger construction, replay stability, transport stability, provenance exhaustion, and local naming for BEDC.Derived.FiveLemmaUp.}
+\end{closurestatus}
