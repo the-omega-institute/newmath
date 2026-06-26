@@ -7467,6 +7467,7 @@ import BEDC.Derived.LocatedOpenUp.ObligationSurface
 import BEDC.Derived.LocatedOpenUp.TasteGate
 import BEDC.Derived.LocatedOpenUp.WindowStability
 import BEDC.Derived.LocatedPositiveRealUp.TasteGate
+import BEDC.Derived.LocatedReal
 import BEDC.Derived.LocatedRealBisectionSearchUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCompletenessUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCriterionUp.TasteGate
@@ -8725,6 +8726,7 @@ import BEDC.Derived.MultihistCouplingUp.TasteGate
 import BEDC.Derived.MultinomialUp
 import BEDC.Derived.MyhillNerodeUp.TasteGate
 import BEDC.Derived.NadlerFixedPointUp.TasteGate
+import BEDC.Derived.NarayanaUp
 import BEDC.Derived.NagataSmirnovMetrizationUp
 import BEDC.Derived.NameCertMorphismUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
@@ -11130,6 +11132,7 @@ import BEDC.Derived.SchauderBasisUp.TasteGate
 import BEDC.Derived.SchauderFiniteCompactMapUp
 import BEDC.Derived.SchauderFixedPointUp.TasteGate
 import BEDC.Derived.SchemeUp
+import BEDC.Derived.SchroderUp
 import BEDC.Derived.SchurDecompositionUp
 import BEDC.Derived.SchurLemmaUp
 import BEDC.Derived.SchurLemmaUp.TasteGate
