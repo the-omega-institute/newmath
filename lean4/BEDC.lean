@@ -25,6 +25,7 @@ import BEDC.Derived.AbelRuffiniUp.TasteGate
 import BEDC.Derived.AbelSummationUp.TasteGate
 import BEDC.Derived.AbelTestUp.TasteGate
 import BEDC.Derived.AbelTheoremUp.TasteGate
+import BEDC.Derived.AbelUniformUp.TasteGate
 import BEDC.Derived.AbelianCatUp
 import BEDC.Derived.AbelianCatUp.TasteGate
 import BEDC.Derived.AbsoluteContinuityUp.TasteGate
@@ -4449,6 +4450,7 @@ import BEDC.Derived.CyclotomicUp.SplittingPolynomial
 import BEDC.Derived.CylinderObjectUp
 import BEDC.Derived.DAlembertRatioTestUp
 import BEDC.Derived.DNAFourPhaseAlphabetBridgeUp.TasteGate
+import BEDC.Derived.DNAWindowSixTriggerThresholdUp.TasteGate
 import BEDC.Derived.DarbouxContinuityUp.TasteGate
 import BEDC.Derived.DarbouxCriterionUp
 import BEDC.Derived.DarbouxCriterionUp.TasteGate

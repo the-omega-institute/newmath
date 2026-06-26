@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyRealizerUp$}
+\label{ch:concrete-instances-regular-cauchy-realizer-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real numbers, the $\RegularCauchyRealizerUp$ packet records the finite readback route by which regular Cauchy data answers precision requests before the terminal $\RealUp$ seal is exposed. It sits beside the general realizer route of \autoref{ch:concrete-instances-cauchy-realizer-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the Real carrier seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a choice-free L10 Real and Completion readback surface; it is not quotient stream equality, a selected limit, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy realizer carrier]
+\label{def:regular-cauchy-realizer-carrier}
+A $\RegularCauchyRealizerUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,W,Q,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the RegularCauchy source row, recording the request-to-tail discipline for the regular Cauchy name consumed by the realizer.
+\item $W$ is the $\StreamNameUp$ finite-window row through which each precision request is inspected.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the regular rational values visible in the selected window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic bound against which the readback is checked.
+\item $E$ is the terminal $\RealUp$ seal available only after the source, window, readback, and tolerance rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $A,W,Q,D,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of the same request-to-window route.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyRealizerUp$, $\CauchyRealizerUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyRealizerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,W,Q,D,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected host limits, ambient completeness, countable choice, trichotomy, or host real equality.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy realizer NameCert obligations]
+\label{thm:regular-cauchy-realizer-namecert-obligations}
+For every accepted $\RegularCauchyRealizerUp$ carrier $R=(A,W,Q,D,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyRealizerUp}$ surface consists exactly of carrier admission for the RegularCauchy source row, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every consumer route must expose the same readback chain used by $\CauchyRealizerUp$ before it may cite the Real-facing seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-realizer-carrier}. Its rows are exactly $A,W,Q,D,E,H,C,P,N$, so local naming has no source outside the finite packet.
+
+The regular Cauchy source $A$ answers a precision request only through the finite observation window $W$. The observed values are then read as regular rational data through $Q$ and checked against the dyadic tolerance row $D$.
+
+The terminal Real seal $E$ is downstream of those rows. Transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve and name the same route. Since no quotient, selector, choice, trichotomy, or ambient-completeness coordinate occurs in the carrier, these rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy realizer Real-seal route]
+\label{thm:regular-cauchy-realizer-real-seal-route}
+Every $\RealUp$ seal exported by an accepted $\RegularCauchyRealizerUp$ carrier factors through the finite route
+$$
+A \to W \to Q \to D \to E \to H \to C \to P \to N .
+$$
+Thus a Real or Completion consumer reads the RegularCauchy source, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance, terminal Real seal, componentwise transport, replay, provenance, and local $\NameCert$ rows before it treats the packet as a realizer. The route does not claim completeness of $\RealUp$ or equality with a host quotient real.
+\end{theorem}
+\begin{proof}
+Open the exported Real seal row $E$. By \autoref{def:regular-cauchy-realizer-carrier}, that row is available only inside the same finite packet as the RegularCauchy source, StreamName window, RegSeqRat readback, and DyadicRatCore tolerance rows.
+
+Apply \autoref{thm:regular-cauchy-realizer-namecert-obligations}. It forces every consumer read to pass through $A,W,Q,D$ before the seal and then through transport, replay, provenance, and local naming.
+
+The sibling $\CauchyRealizerUp$ chapter supplies the general realizer pattern, while this packet narrows the read to regular Cauchy data. Because neither carrier contains host quotient equality, selected limits, countable choice, or ambient Real completeness, the displayed row route is the full Real-seal route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted RegularCauchyRealizerUp Real or Completion read exposes a RegularCauchy source row, StreamName finite window, RegSeqRat readback, DyadicRatCore tolerance row, terminal RealUp seal, hsame transport, Cont replay, Pkg provenance, and local NameCert row before a consumer receives the seal.}
+
+\independenceWitness{cauchy-realizer, streamname, regseqrat, dyadicratcore, real: $\RegularCauchyRealizerUp$ is not bijective to any listed sibling because it jointly binds regular Cauchy source data, finite windows, rational readback, dyadic tolerance, Real sealing, transport, replay, provenance, and local naming while refusing quotient equality and selected limits.}
+
+\closureat{RegularCauchyRealizerUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyRealizerUp}
+  \constructivestory{A $\RegularCauchyRealizerUp$ packet is generated from a RegularCauchy source row, finite StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-realizer-carrier}, \autoref{thm:regular-cauchy-realizer-namecert-obligations}, and \autoref{thm:regular-cauchy-realizer-real-seal-route} seed the finite regular Cauchy readback route into the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window readback, dyadic tolerance accounting, Real-seal factorization, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyRealizerUp.}
+\end{closurestatus}
