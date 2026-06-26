@@ -65,6 +65,18 @@ A $\MetricSubspaceUp$ consumer supplies a compatible admission row and an inheri
 Thus the packet is the common neighbour of the ambient topology and metric-subspace surfaces: it restricts opens by admission, names the induced topology, and does not add an independent metric or host subset coordinate.
 \end{proof}
 
+\begin{theorem}[SubspaceTopology downstream Kelleyfication route]
+\label{thm:subspace-topology-downstream-kelleyfication-route}
+Let $S=(X,A,O,R,B,H,C,P,N)$ be an accepted $\SubspaceTopologyUp$ carrier. Any $\KelleyficationUp$ or compactly generated reflection consumer that reads the topology induced on the displayed subspace must first pass through the ambient $\TopologyUp$ row $X$, the admission row $A$, the relative-open row $O$, the restriction-exactness row $R$, and the transport and replay rows $H,C$ before the compact-window tests of \autoref{ch:concrete-instances-kelleyfication-namecert} may consume the result.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:subspace-topology-carrier}. The rows $X,A,O,R,H,C$ are the only displayed route by which an accepted subspace packet exposes its ambient topology, admitted carrier, relative opens, restriction exactness, componentwise transport, and replay.
+
+Apply \autoref{thm:subspace-topology-neighbour-compatibility}. It factors every relative-open route through $X,A$ before $O,R,B$ and then through $H,C,P,N$, keeping metric distance data and host subset coordinates outside the general topology certificate.
+
+A $\KelleyficationUp$ consumer reads compact-window tests from a topology source. Therefore its downstream request must receive the induced topology only after the subspace packet has exposed the ambient topology, admission, relative-open, restriction-exactness, transport, and replay rows. This is exactly the route displayed by $S$, so the compactly generated reflection gains no independent topology replacement.
+\end{proof}
+
 \closureat{SubspaceTopologyUp}{seedStr}
 
 \begin{closurestatus}{\SubspaceTopologyUp}
