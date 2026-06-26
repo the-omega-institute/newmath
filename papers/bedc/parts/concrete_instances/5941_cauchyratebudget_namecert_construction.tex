@@ -80,6 +80,22 @@ Use rate non-escape and the StreamName--RegSeq handoff. They force the seal-faci
 Therefore a faithful TasteGate witness for this carrier must preserve the displayed row order. Collapsing the rows would destroy either the rate non-escape property or the StreamName--RegSeq handoff.
 \end{proof}
 
+\begin{theorem}[Cauchy rate-budget public export]
+\label{thm:cauchy-rate-budget-public-export}
+An accepted $\CauchyRateBudgetUp$ packet exports exactly the public finite route
+$$
+R \to W \to Q \to D \to E
+$$
+together with $H,C,P,N$ to Real-completion and observation-budget consumers. Every such consumer must preserve the existing TasteGate row separation and may not read a hidden modulus selector, quotient stream equality, selected limit, host convergence proof, or ambient completeness from the packet.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations and rate non-escape, \autoref{thm:cauchy-rate-budget-namecert-obligations} and \autoref{thm:cauchy-rate-budget-rate-nonescape}. They make the convergence-rate row $R$ public before any StreamName, RegSeqRat, dyadic, or Real seal consumer can use the packet.
+
+Next apply the StreamName--RegSeq handoff of \autoref{thm:cauchy-rate-budget-streamname-regseq-handoff}. It keeps $W$ and $Q$ attached to the same finite rate schedule, so a consumer cannot detach a readback from the displayed window.
+
+Finally use the TasteGate boundary, \autoref{thm:cauchy-rate-budget-tastegate-boundary}. It preserves the separated row order $R \to W \to Q \to D \to E$, while $H,C,P,N$ transport, replay, source, and name that same packet. Since the carrier contains no row for a hidden modulus selector, quotient stream equality, selected limit, host convergence proof, or ambient completeness, none of those objects is exported.
+\end{proof}
+
 \begin{theorem}[Cauchy rate-budget dyadic tolerance exactness]
 \label{thm:cauchy-rate-budget-dyadic-tolerance-exactness}
 Any accepted $\CauchyRateBudgetUp$ packet reads the $\DyadicRatCoreUp$ tolerance ledger $D$ only after the displayed $R,W,Q$ route has been traversed, and only before the Real seal row $E$ is reached. The ledger is not an isolated tolerance witness, a free-standing radius choice, or a seal-independent display.
