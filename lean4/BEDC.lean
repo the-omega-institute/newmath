@@ -667,6 +667,7 @@ import BEDC.Derived.AxisUnarySpineNormalizerUp.Carrier
 import BEDC.Derived.AxisUnarySpineNormalizerUp.NameCertObligations
 import BEDC.Derived.AxisUnarySpineNormalizerUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
+import BEDC.Derived.AxisZeckendorf.AtomicPrimeEdge
 import BEDC.Derived.AxisZeckendorf.AxisAdd
 import BEDC.Derived.AxisZeckendorf.AxisNat
 import BEDC.Derived.AxisZeckendorf.Bridge
