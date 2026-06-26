@@ -15,6 +15,24 @@ Now pass to the RegSeqRat and Real handoff files already carried by the StreamNa
 Thus the finite section windows are cofinal for the L10 handoff route. Since each step is expressed through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, no quotient stream equality, selected limit, host real equality, or ambient completeness principle is introduced.
 \end{proof}
 
+\begin{theorem}[StreamName finite observation section functoriality]
+\label{thm:streamname-finite-observation-section-functoriality}
+Let $S$ be a certified $\StreamNameUp$ source and let
+$$
+U \longrightarrow V \longrightarrow W
+$$
+be two composable finite observation-section refinements over $S$. If both refinements preserve the index ledger, finite $\BHist$ windows, pointwise classifier rows, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, local $\NameCert_{\StreamNameUp}$ rows, and the $\RegSeqRatUp$--$\RealUp$ handoff surface, then their composite is again a finite observation-section refinement over $S$ preserving exactly those rows. The composite introduces no quotient stream equality, selected limit, countable-choice row, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Apply finite observation section cofinality, \autoref{thm:streamname-finite-observation-section-cofinality}, to the source $S$ and to each displayed refinement. Both arrows are finite section refinements over the same certified source, so their source row and index ledger are already fixed before any downstream consumer reads the handoff.
+
+Use diagonal coherence, \autoref{thm:streamname-finite-observation-diagonal-coherence}, to compare the middle section $V$ with the source and target windows. The comparison supplies a common finite section in which the classifier rows, $\BHist$ windows, $\hsame$ transports, $\Cont$ replays, $\Pkg$ rows, and local naming rows remain attached to $S$.
+
+Now apply section induction, \autoref{thm:streamname-finite-observation-section-induction}, along the finite spine obtained by concatenating the two refinement traces. Monotone extension, \autoref{thm:streamname-finite-observation-section-monotone-extension}, identifies the old rows inside the concatenated section, so composition changes only the appended finite request rows.
+
+The RegSeqRat and Real handoff surface is therefore preserved by the composite finite section. Since each cited step is expressed only through finite observation rows and their displayed transport, replay, provenance, and NameCert data, the composite has no coordinate for quotient streams, selected limits, countable choice, host real equality, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[StreamName finite observation section public cofinality]
 \label{thm:streamname-finite-observation-section-public-cofinality}
 Every public $\RegSeqRatUp$ or $\RealUp$ handoff read through $\StreamNameUp$ factors through the finite observation section package of \autoref{thm:streamname-finite-observation-section-cofinality}. Any later refinement remains a finite section refinement over the same certified StreamName source, with the same index ledger, finite $\BHist$ window, pointwise classifier row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.

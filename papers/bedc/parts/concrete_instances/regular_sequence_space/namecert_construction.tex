@@ -191,6 +191,19 @@ Project the same rows for $\RegSeqRatUp$ and $\RealUp$ consumers. The StreamName
 Finally replay $H,C,P,N$. Transport, continuation replay, provenance, and local naming keep the witness inside the displayed packet, so no selected subsequence, quotient stream equality, countable-choice schedule, or ambient completeness principle can be read from the cofinal route.
 \end{proof}
 
+\begin{theorem}[RegularSequenceSpace shift closure]\label{thm:regular-sequence-space-shift-closure}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Shifting the displayed packet by any unary finite tail preserves the $\StreamNameUp$ schedule row $T$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, and the terminal $\RealUp$ seal route $R,H,C,P,N$. The shifted packet is therefore consumed through the same regular sequence space route and exports no quotient stream equality, selected limit, countable-choice selector, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Induct on the unary tail shift. In the zero case, apply the tail-filter cofinal witness of \autoref{thm:regular-sequence-space-tail-filter-cofinal-witness}; the displayed schedule, readback, dyadic tolerance, and Real seal rows are exactly the rows already exposed by the accepted carrier.
+
+For the successor step, first apply finite-window comparison, \autoref{thm:regular-sequence-space-window-comparison}. It keeps the shifted read inside the same finite $\StreamNameUp$ window and the same $\RegSeqRatUp$ readback route before any value comparison is public.
+
+Next apply the tail-diagonal projection and tail-modulus projection, \autoref{thm:regular-sequence-space-tail-diagonal-projection} and \autoref{thm:regular-sequence-space-tail-modulus-projection}. These rows move the successor tail back to a displayed common window and preserve the dyadic tolerance row $D$ before the $\RealUp$ seal can be consumed.
+
+Finally replay $H,C,P,N$. Transport, continuation replay, provenance, and local naming preserve the same terminal route after each finite tail step, while the carrier still has no coordinate for quotient stream equality, selected limits, countable choice, or ambient completeness. The induction gives shift closure for every unary finite tail.
+\end{proof}
+
 \closureat{RegularSequenceSpaceUp}{seedStr}
 
 \begin{closurestatus}{\RegularSequenceSpaceUp}
