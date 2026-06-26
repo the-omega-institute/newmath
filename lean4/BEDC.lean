@@ -1073,6 +1073,7 @@ import BEDC.Derived.BishopRegularCauchyCompletionUp
 import BEDC.Derived.BishopRegularCauchyCompletionUp.AbstractBridgeRoute
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ClassifierTransport
 import BEDC.Derived.BishopRegularCauchyCompletionUp.CofinalTailRefinement
+import BEDC.Derived.BishopRegularCauchyCompletionUp.DensityHandoff
 import BEDC.Derived.BishopRegularCauchyCompletionUp.DiagonalWindowStability
 import BEDC.Derived.BishopRegularCauchyCompletionUp.FilterRealHandoff
 import BEDC.Derived.BishopRegularCauchyCompletionUp.FiniteStageInduction
@@ -1607,6 +1608,7 @@ import BEDC.Derived.CantorSetUp.TernaryPrefixDensity
 import BEDC.Derived.CantorSetUp.TriadicWindowSplitStability
 import BEDC.Derived.CantorSetUp.TriadicWindowStability
 import BEDC.Derived.CantorSpaceCompactnessUp.TasteGate
+import BEDC.Derived.CantorSpaceUniformModulusUp
 import BEDC.Derived.CantorSpaceUp
 import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
 import BEDC.Derived.CantorTernarySetUp.TasteGate
@@ -1761,6 +1763,7 @@ import BEDC.Derived.CauchyCompletionKleisliUp.TasteGate
 import BEDC.Derived.CauchyCompletionLeftExactnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionLiftUp
 import BEDC.Derived.CauchyCompletionLiftUp.TasteGate
+import BEDC.Derived.CauchyCompletionMinimalityUp.DenseImageCoverage
 import BEDC.Derived.CauchyCompletionMinimalityUp.TasteGate
 import BEDC.Derived.CauchyCompletionMonadLawUp.FiniteApproximationConsumerRoute
 import BEDC.Derived.CauchyCompletionMonadLawUp.NameCertObligations
@@ -1835,6 +1838,7 @@ import BEDC.Derived.CauchyContinuityPrincipleUp.RealSealBoundary
 import BEDC.Derived.CauchyContinuityPrincipleUp.TasteGate
 import BEDC.Derived.CauchyContinuousExtensionUp.ChoiceFreeDensityRoute
 import BEDC.Derived.CauchyContinuousExtensionUp.CompletionConsumer
+import BEDC.Derived.CauchyContinuousExtensionUp.HausdorffPullbackRoute
 import BEDC.Derived.CauchyContinuousExtensionUp.NameCertObligations
 import BEDC.Derived.CauchyContinuousExtensionUp.RealUniformHandoff
 import BEDC.Derived.CauchyContinuousExtensionUp.RegularSourceHandoff
@@ -6089,6 +6093,7 @@ import BEDC.Derived.FiniteRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.FiniteRelationUp.TasteGate
 import BEDC.Derived.FiniteResidualJoinWindowUp
 import BEDC.Derived.FiniteSelectionCorrespondenceUp
+import BEDC.Derived.FiniteSelectionSequenceUp
 import BEDC.Derived.FiniteSequencePeakUp.TasteGate
 import BEDC.Derived.FiniteShiftAverageUp.TasteGate
 import BEDC.Derived.FiniteSimplicialChainUp.TasteGate

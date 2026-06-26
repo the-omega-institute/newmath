@@ -177,6 +177,18 @@ Use the branch ledger and sign stability supplied by \autoref{thm:bisection-root
 Finally apply the public export and Real-seal boundary of \autoref{thm:bisection-root-isolation-public-export} and \autoref{thm:bisection-root-isolation-real-seal-nonescape}. The public consumer reaches the $\RealUp$ seal only after the endpoint, branch, sign, tolerance, stream-window, and regular-readback rows have been displayed, so the exported isolation certificate is exactly the finite L10 window named in the statement.
 \end{proof}
 
+\begin{theorem}[Bisection root-isolation interval nesting]
+\label{thm:bisection-root-isolation-interval-nesting}
+Every accepted $\BisectionRootIsolationUp$ packet exposes a nested chain of retained windows before its public isolation certificate is consumed. For each retained branch prefix, the lower and upper endpoints of the selected window pass through the $\DyadicRatCoreUp$ tolerance row, the $\StreamNameUp$ endpoint-window rows, the $\RegSeqRatUp$ readback rows, and the $\RealUp$ seal-facing rows; a later retained prefix selects a subwindow of the earlier one and cannot replace that chain by a host root, a completed interval intersection, real trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Induct over the retained-window refinement rows of the $\DyadicBisectionUp$ ledger. The initial row is the located endpoint packet $J$ of \autoref{def:bisection-root-isolation-carrier}; its endpoints are already routed through the displayed dyadic tolerance, stream-window, regular-readback, and real-seal rows.
+
+For the refinement step, use \autoref{thm:bisection-root-isolation-sign-ledger-determinacy}. The next retained branch is determined by the finite inspection row and displayed sign row, so the branch ledger can only select one of the two displayed subwindows of the previous retained window.
+
+Apply \autoref{thm:bisection-root-isolation-retained-window-refinement} and \autoref{thm:bisectionrootisolation-public-isolation-certificate} to the selected prefix. They route its endpoints through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before public consumption. The nonescape boundary of \autoref{thm:bisection-root-isolation-real-seal-nonescape} excludes the host analytic objects, so the public certificate sees a nested retained-window chain rather than an external root-selection principle.
+\end{proof}
+
 \closureat{BisectionRootIsolationUp}{publicStr}
 
 \begin{closurestatus}{\BisectionRootIsolationUp}
