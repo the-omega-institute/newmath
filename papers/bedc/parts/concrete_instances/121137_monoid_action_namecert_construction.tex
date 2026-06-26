@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\MonoidActionUp$}
+\label{ch:concrete-instances-monoid-action-namecert}
+\origin{human}
+
+Following Bourbaki and Mac Lane, the $\MonoidActionUp$ packet records a monoid acting on a displayed carrier as finite BEDC NameCert data. It consumes the monoid source of \autoref{ch:concrete-instances-monoid-namecert}, the acted carrier vocabulary of \autoref{ch:concrete-instances-setlike-namecert} or \autoref{ch:concrete-instances-typelike-namecert}, and the orbit-facing readback routes used by representation-style chapters such as \autoref{ch:concrete-instances-finite-group-representation-namecert} and \autoref{ch:concrete-instances-representationring-namecert}. The packet names action endpoints, identity and composition law rows, orbit and stabilizer handoff rows, transport, replay, provenance, and local naming; it does not construct a quotient orbit object, a selected representative, a group inverse action, or an ambient category of actions.
+
+\begin{definition}[Monoid action carrier]
+\label{def:monoid-action-carrier}
+A $\MonoidActionUp$ carrier is a finite $\BHist$ packet
+$$
+A=(M,X,\alpha,I,C,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the consumed $\MonoidUp$ source row, exposing the displayed carrier, multiplication, unit, associativity, identity, transport, replay, provenance, and local name rows of the acting monoid.
+\item $X$ is the acted carrier row, read through $\SetLikeUp$ or $\TypeLikeUp$ vocabulary with its local classifier and point rows visible.
+\item $\alpha$ is the action graph row. For every displayed monoid element row $m$ and acted point row $x$, it records the endpoint row $\alpha(m,x)$ as a point of $X$.
+\item $I$ is the identity-action law row, comparing $\alpha(e,x)$ with $x$ through the identity row of $M$ and the classifier of $X$.
+\item $C$ is the action-composition law row, comparing $\alpha(m,\alpha(n,x))$ with $\alpha(mn,x)$ through the multiplication and associativity rows of $M$.
+\item $H$ records componentwise $\hsame$ transport for $M,X,\alpha,I,C,R,P,N$ and for the displayed endpoint comparisons.
+\item $R$ records displayed $\Cont$ replay from monoid multiplication and acted carrier reads through action endpoints, identity rows, composition rows, orbit reads, and stabilizer reads.
+\item $P$ is the $\Pkg$ provenance over $\MonoidActionUp$, $\MonoidUp$, $\SetLikeUp$, $\TypeLikeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MonoidActionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $M,X,\alpha,I,C,H,R,P,N$. It has no coordinate for quotient orbit equality, selected representatives, inverse actions, external function spaces, or an ambient category of actions.
+\end{definition}
+\leanstmt{BEDC.Derived.MonoidActionUp}
+
+\begin{theorem}[Monoid action NameCert obligations]
+\label{thm:monoid-action-namecert-obligations}
+For every accepted $\MonoidActionUp$ carrier $A=(M,X,\alpha,I,C,H,R,P,N)$, the local $\NameCert_{\MonoidActionUp}$ surface consists exactly of monoid-source admission through $M$; acted-carrier admission through $X$; action graph admission through $\alpha$; identity-action exactness through $I$; action-composition exactness through $C$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $R$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:monoid-action-carrier}. The monoid row $M$ and acted carrier row $X$ are the only source rows, so every action endpoint must first display the acting element and acted point over those rows.
+
+The action graph row $\alpha$ supplies the endpoint data. The law rows $I$ and $C$ are then read as finite comparisons over that same graph: $I$ uses the unit row of $M$, while $C$ uses the multiplication and associativity rows of $M$.
+
+Finally $H,R,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no row for quotient orbit equality, selected representatives, inverse actions, function spaces, or an ambient action category, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Monoid action orbit-stabilizer handoff]
+\label{thm:monoid-action-orbit-stabilizer-handoff}
+Every orbit-facing or stabilizer-facing consumer of an accepted $\MonoidActionUp$ packet first reads
+$$
+M,\quad X,\quad \alpha,\quad I,\quad C,\quad H,\quad R,\quad P,\quad N .
+$$
+The orbit read is the finite endpoint family displayed by the action graph row, and the stabilizer read is the finite subroute where those endpoints compare with the inspected point through $\hsame$. The handoff supplies no quotient orbit object, chosen orbit representative, inverse-action law, host function space, or ambient group-action theorem.
+\end{theorem}
+\begin{proof}
+Begin with the action graph row $\alpha$. It is typed only after the monoid source $M$ and acted carrier $X$ have been displayed, so an orbit-facing consumer receives endpoint rows over the same finite source data.
+
+Use the identity row $I$ and composition row $C$ to keep the endpoint family compatible with the monoid unit and multiplication. These rows are law ledgers over the displayed graph; they do not add inverses or quotient orbit data.
+
+For a stabilizer-facing read, restrict the same endpoint family to rows where $\alpha(m,x)$ compares with $x$ through $\hsame$. Transport and replay then pass through $H$ and $R$, while $P$ and $N$ record provenance and local naming. Thus representation-style and orbit-style consumers receive only the finite action route, not a stronger orbit or stabilizer construction.
+\end{proof}
+
+\falsifiablePrediction{A $\MonoidActionUp$ read is refuted whenever an orbit-facing, stabilizer-facing, or representation-style consumer uses action endpoints without first displaying the MonoidUp source, acted carrier row, action graph row, identity-action row, action-composition row, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\closureat{MonoidActionUp}{seedStr}
+
+\begin{closurestatus}{\MonoidActionUp}
+  \constructivestory{A $\MonoidActionUp$ packet is generated from a Monoid source row, an acted SetLike or TypeLike carrier row, an action graph row, identity-action and action-composition law rows, orbit and stabilizer handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monoid-action-carrier}, \autoref{thm:monoid-action-namecert-obligations}, and \autoref{thm:monoid-action-orbit-stabilizer-handoff} seed the finite monoid action carrier, its local NameCert obligation surface, and the orbit-stabilizer handoff route.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.MonoidActionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient orbit spaces, selected representatives, inverse actions, group actions, ambient action categories, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, action graph admission, identity-action exactness, composition exactness, orbit and stabilizer handoff, transport, replay, provenance, and local naming for BEDC.Derived.MonoidActionUp.}
+\end{closurestatus}
