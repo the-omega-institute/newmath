@@ -230,25 +230,40 @@ def score_table(carrier: dict[str, object]) -> dict[str, tuple[float, int]]:
 
 
 def burden(seq: str, table: dict[str, tuple[float, int]]) -> dict[str, float]:
+    return burden_from_profile(kmer_profile(seq), table)
+
+
+def kmer_profile(seq: str) -> dict[str, object]:
     internal = seq[45:-45] if len(seq) > 90 else ""
+    counts: Counter[str] = Counter()
     if len(internal) < 8:
-        return {"shadow": 0.0, "strong_count": 0.0, "max_shadow": 0.0, "n_windows": 0.0}
-    total = 0.0
-    n = 0
-    strong = 0
-    max_shadow = 0.0
+        return {"counts": counts, "n_windows": 0}
     for k in range(5, 9):
         for i in range(0, len(internal) - k + 1):
             kmer = internal[i : i + k]
             if set(kmer) - set(BASES):
                 continue
-            normalized, raw = table[kmer]
-            value = math.exp(LAMBDA * normalized)
-            total += value
-            n += 1
-            max_shadow = max(max_shadow, value)
-            if k >= 6 and raw >= 11:
-                strong += 1
+            counts[kmer] += 1
+    return {"counts": counts, "n_windows": sum(counts.values())}
+
+
+def burden_from_profile(profile: dict[str, object], table: dict[str, tuple[float, int]]) -> dict[str, float]:
+    counts = profile.get("counts")
+    if not isinstance(counts, Counter):
+        counts = Counter(counts if isinstance(counts, dict) else {})
+    n = int(profile.get("n_windows") or sum(counts.values()))
+    if n <= 0:
+        return {"shadow": 0.0, "strong_count": 0.0, "max_shadow": 0.0, "n_windows": 0.0}
+    total = 0.0
+    strong = 0
+    max_shadow = 0.0
+    for kmer, count in counts.items():
+        normalized, raw = table[str(kmer)]
+        value = math.exp(LAMBDA * normalized)
+        total += value * int(count)
+        max_shadow = max(max_shadow, value)
+        if len(str(kmer)) >= 6 and raw >= 11:
+            strong += int(count)
     return {"shadow": total / n if n else 0.0, "strong_count": float(strong), "max_shadow": max_shadow, "n_windows": float(n)}
 
 
@@ -586,9 +601,13 @@ def z_for_burdens(obs: float, nulls: list[float]) -> float:
 
 
 def evaluate_carrier_for_gene(seq: str, recodings: list[str], table: dict[str, tuple[float, int]]) -> tuple[float, list[float], float, float, float]:
-    obs_metrics = burden(seq, table)
+    return evaluate_carrier_for_profiles(kmer_profile(seq), [kmer_profile(candidate) for candidate in recodings], table)
+
+
+def evaluate_carrier_for_profiles(obs_profile: dict[str, object], null_profiles: list[dict[str, object]], table: dict[str, tuple[float, int]]) -> tuple[float, list[float], float, float, float]:
+    obs_metrics = burden_from_profile(obs_profile, table)
     obs = obs_metrics["shadow"]
-    nulls = [burden(candidate, table)["shadow"] for candidate in recodings]
+    nulls = [burden_from_profile(candidate, table)["shadow"] for candidate in null_profiles]
     return z_for_burdens(obs, nulls), nulls, obs_metrics["strong_count"], obs_metrics["max_shadow"], obs_metrics["n_windows"]
 
 
@@ -626,10 +645,13 @@ def analyze_organism(organism: dict[str, object], heterologous_tails: list[str],
     tables = {str(carrier["label"]): score_table(carrier) for carrier in carriers}
 
     gene_rows: list[dict[str, object]] = []
+    gene_profile_rows: list[dict[str, object]] = []
     recoding_meta = Counter()
     for idx, record in enumerate(records):
         seq = str(record.get("sequence_rna") or "")
         recodings, meta = constrained_recodings(seq, weights, R_NULL, f"{seed}.gene.{idx}.recoding")
+        obs_profile = kmer_profile(seq)
+        null_profiles = [kmer_profile(candidate) for candidate in recodings]
         recoding_meta["attempts"] += int(meta.get("attempts", 0))
         recoding_meta["relaxed_accepts"] += int(meta.get("relaxed_accepts", 0))
         row: dict[str, object] = {
@@ -642,16 +664,17 @@ def analyze_organism(organism: dict[str, object], heterologous_tails: list[str],
         }
         for carrier in carriers:
             label = str(carrier["label"])
-            z, _, strong, max_shadow, n_windows = evaluate_carrier_for_gene(seq, recodings, tables[label])
+            z, _, strong, max_shadow, n_windows = evaluate_carrier_for_profiles(obs_profile, null_profiles, tables[label])
             row[f"z_{label}"] = z
             if label == "true":
                 row["strong_count_true"] = strong
                 row["max_shadow_true"] = max_shadow
                 row["n_windows"] = n_windows
         exact = exact_multiset_permutations(seq, max(20, min(60, R_NULL // 2)), f"{seed}.gene.{idx}.exact")
-        z_exact, _, _, _, _ = evaluate_carrier_for_gene(seq, exact, tables["true"])
+        z_exact, _, _, _, _ = evaluate_carrier_for_profiles(obs_profile, [kmer_profile(candidate) for candidate in exact], tables["true"])
         row["z_exact_multiset"] = z_exact
         gene_rows.append(row)
+        gene_profile_rows.append({"class": row["class"], "length_nt": row["length_nt"], "obs_profile": obs_profile, "null_profiles": null_profiles})
 
     d_true, z_heg, z_bg = d_stat_for_carrier(gene_rows, "true")
     decoy_ds = []
@@ -670,13 +693,15 @@ def analyze_organism(organism: dict[str, object], heterologous_tails: list[str],
     gate_carriers = [canonical] + canonical_decoy_list + own_tail_decoys
     gate_tables = {str(carrier["label"]): score_table(carrier) for carrier in gate_carriers}
     gate_rows: list[dict[str, object]] = []
-    for idx, record in enumerate(records):
-        seq = str(record.get("sequence_rna") or "")
-        recodings, _ = constrained_recodings(seq, weights, max(30, min(R_NULL, 80)), f"{seed}.gene.{idx}.gate_recoding")
-        row = {"class": "HEG" if idx < len(heg) else "BG", "length_nt": int(record.get("length_nt", 0))}
+    for profile_row in gene_profile_rows:
+        row = {"class": profile_row["class"], "length_nt": profile_row["length_nt"]}
+        obs_profile = profile_row["obs_profile"]
+        null_profiles = profile_row["null_profiles"]
+        assert isinstance(obs_profile, dict)
+        assert isinstance(null_profiles, list)
         for carrier in gate_carriers:
             label = str(carrier["label"])
-            z, _, _, _, _ = evaluate_carrier_for_gene(seq, recodings, gate_tables[label])
+            z, _, _, _, _ = evaluate_carrier_for_profiles(obs_profile, null_profiles, gate_tables[label])
             row[f"z_{label}"] = z
         gate_rows.append(row)
     d_canonical, _, _ = d_stat_for_carrier(gate_rows, "canonical")
@@ -740,9 +765,11 @@ def summarize(rows: list[dict[str, object]], fetch_meta: dict[str, object], elap
     archaea = [row for row in ok_rows if row.get("domain") == "Archaea"]
     primary = bacteria
     d_values = [float(row["d_true"]) for row in primary if isinstance(row.get("d_true"), (int, float))]
-    ranks = [float(row["rank"]) for row in primary if isinstance(row.get("rank"), (int, float))]
+    rank_pairs = [(float(row["rank"]), str(row.get("family") or row.get("genus") or "unknown")) for row in primary if isinstance(row.get("rank"), (int, float))]
+    ranks = [value for value, _ in rank_pairs]
     z_heg = [float(row["z_heg"]) for row in primary if isinstance(row.get("z_heg"), (int, float))]
-    gate_c = [float(row["gate_n2_c"]) for row in primary if isinstance(row.get("gate_n2_c"), (int, float))]
+    gate_pairs = [(float(row["gate_n2_c"]), str(row.get("family") or row.get("genus") or "unknown")) for row in primary if isinstance(row.get("gate_n2_c"), (int, float))]
+    gate_c = [value for value, _ in gate_pairs]
     exact_d = [float(row["null3_exact_multiset_d"]) for row in primary if isinstance(row.get("null3_exact_multiset_d"), (int, float))]
     families = sorted(set(str(row.get("family") or row.get("genus") or "unknown") for row in primary))
     orders = [str(row.get("order") or row.get("family") or row.get("genus") or "unknown") for row in primary]
@@ -750,8 +777,8 @@ def summarize(rows: list[dict[str, object]], fetch_meta: dict[str, object], elap
     d_boot = bootstrap_ci(d_values, family_blocks, N_BOOTSTRAP, EXPERIMENT_ID + ".d.family")
     order_boot = bootstrap_ci(d_values, orders, N_BOOTSTRAP, EXPERIMENT_ID + ".d.order")
     rank_shift = [value - 0.5 for value in ranks]
-    rank_boot = bootstrap_ci(rank_shift, family_blocks[: len(rank_shift)], N_BOOTSTRAP, EXPERIMENT_ID + ".rank.family")
-    gate_boot = bootstrap_ci(gate_c, family_blocks[: len(gate_c)], N_BOOTSTRAP, EXPERIMENT_ID + ".gate.family")
+    rank_boot = bootstrap_ci(rank_shift, [block for _, block in rank_pairs], N_BOOTSTRAP, EXPERIMENT_ID + ".rank.family")
+    gate_boot = bootstrap_ci(gate_c, [block for _, block in gate_pairs], N_BOOTSTRAP, EXPERIMENT_ID + ".gate.family")
 
     data_gate = len(primary) >= MIN_CERT_ORGANISMS and len(families) >= MIN_CERT_FAMILIES
     directional = bool(d_values) and (median(d_values) or 0.0) < 0.0
