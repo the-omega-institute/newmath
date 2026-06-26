@@ -136,4 +136,89 @@ theorem FableBranchWitnessCarrier_local_transport
   }
   exact ⟨cert, rUnary, transportUnary, branchUnary⟩
 
+theorem FableBranchWitnessCarrier_scoped_dependency_package
+    {h m r E A H C P N transportRead branchRead : BHist} :
+    UnaryHistory h →
+      UnaryHistory E →
+        UnaryHistory H →
+          UnaryHistory C →
+            UnaryHistory N →
+              Cont h E r →
+                Cont H C transportRead →
+                  Cont transportRead N branchRead →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row branchRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row h ∨ hsame row m ∨ hsame row r ∨ hsame row E ∨
+                            hsame row A ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                              hsame row N ∨ hsame row branchRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont h E r ∧ Cont H C transportRead ∧
+                            Cont transportRead N branchRead)
+                        hsame ∧
+                      UnaryHistory r ∧ UnaryHistory transportRead ∧
+                        UnaryHistory branchRead ∧
+                          List.Mem (fableBranchWitnessEncodeBHist N)
+                            (fableBranchWitnessToEventFlow
+                              (FableBranchWitnessUp.mk h m r E A H C P N)) := by
+  -- BEDC touchpoint anchor: FableBranchWitnessCarrier BHist BMark Cont hsame SemanticNameCert UnaryHistory
+  intro hUnary eUnary hTransportUnary cUnary nUnary emptyRoute transportRoute branchRoute
+  have localPackage :
+      SemanticNameCert
+          (fun row : BHist => hsame row branchRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row h ∨ hsame row m ∨ hsame row r ∨ hsame row E ∨ hsame row A ∨
+              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row branchRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont h E r ∧ Cont H C transportRead ∧
+              Cont transportRead N branchRead)
+          hsame ∧
+        UnaryHistory r ∧ UnaryHistory transportRead ∧ UnaryHistory branchRead :=
+    FableBranchWitnessCarrier_local_transport hUnary eUnary hTransportUnary cUnary nUnary
+      emptyRoute transportRoute branchRoute
+  have nameListed :
+      List.Mem (fableBranchWitnessEncodeBHist N)
+        (fableBranchWitnessToEventFlow
+          (FableBranchWitnessUp.mk h m r E A H C P N)) := by
+    change
+      List.Mem (fableBranchWitnessEncodeBHist N)
+        [[BMark.b0], fableBranchWitnessEncodeBHist h, [BMark.b1, BMark.b0],
+          fableBranchWitnessEncodeBHist m, [BMark.b1, BMark.b1, BMark.b0],
+          fableBranchWitnessEncodeBHist r, [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          fableBranchWitnessEncodeBHist E,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          fableBranchWitnessEncodeBHist A,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          fableBranchWitnessEncodeBHist H,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          fableBranchWitnessEncodeBHist C,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b0],
+          fableBranchWitnessEncodeBHist P,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b0],
+          fableBranchWitnessEncodeBHist N]
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    left
+  exact
+    ⟨localPackage.left, localPackage.right.left, localPackage.right.right.left,
+      localPackage.right.right.right, nameListed⟩
+
 end BEDC.Derived.FableBranchWitnessUp
