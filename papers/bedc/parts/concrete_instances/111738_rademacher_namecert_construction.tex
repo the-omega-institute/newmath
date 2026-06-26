@@ -44,6 +44,46 @@ Finally $H$ and $C$ transport and replay the same coordinates, and $P,N$ source 
 \end{proof}
 \leanchecked{BEDC.Derived.RademacherUp.TasteGate.RademacherTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[Rademacher Lipschitz metric scope]
+\label{thm:rademacher-lipschitz-metric-scope}
+Every accepted $\RademacherUp$ carrier $R=(L,E,D,M,A,H,C,P,N)$ exposes the $\LipschitzFunctionUp$ row $L$ and the $\MetricSpaceUp$ row $M$ before any derivative-candidate read is admitted. The exposed scope includes the source and target distance requests, the Lipschitz graph ledger, the finite bound comparison, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RademacherUp}$ row. It does not include a measure algebra, an almost-everywhere differentiability claim, a host derivative, quotient-point equality, or a completed function space.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:rademacher-carrier}. The only rows that can supply metric data are the Lipschitz row $L$ and the metric-neighborhood row $M$.
+
+Apply \autoref{thm:rademacher-namecert-obligations}. It lists carrier admission, Lipschitz-row exposure, metric-neighborhood inspection, transport, replay, provenance, and local naming as visible obligations, so every derivative-candidate request must pass through those rows before it reaches any Real-facing seal.
+
+The structural rows $H,C,P,N$ preserve and name the same finite scope. Since the carrier has no coordinate for measure algebras, almost-everywhere assertions, host derivatives, quotient equality, or completed function spaces, none of those objects can be imported through the Lipschitz and metric rows.
+\end{proof}
+
+\begin{theorem}[Rademacher dyadic difference-quotient obligation]
+\label{thm:rademacher-dyadic-difference-quotient-obligation}
+Every accepted $\RademacherUp$ carrier exposes its difference-quotient windows through the $\DyadicRatCoreUp$ row $D$ before any $\RegSeqRatUp$ or $\RealUp$ readback is consumed. The displayed window records endpoint radii, halved-radius refinements, dyadic comparison budgets, the matching Lipschitz and metric rows, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming. No consumer may replace that finite window by an unbounded radius schedule, a selected derivative function, a measurable exceptional set, or host real equality.
+\end{theorem}
+\begin{proof}
+Start with the dyadic row $D$ in \autoref{def:rademacher-carrier}. It records the endpoint-radius and tolerance ledger used to build the finite derivative-candidate windows.
+
+Use \autoref{thm:rademacher-namecert-obligations}. The obligation surface makes dyadic endpoint-radius accounting visible alongside Lipschitz-row exposure, metric-neighborhood inspection, Real seal routing, transport, replay, provenance, and local naming.
+
+The finite-window induction is over the displayed dyadic ledger: each inspected radius and halved-radius refinement is replayed through $C$ and transported through $H$ before the terminal readback row is used. The provenance row $P$ and local certificate $N$ keep the same finite request attached to $\BHist$.
+
+Because no other row appears in the carrier, a consumer cannot obtain an unbounded schedule, selected derivative, exceptional-set algebra, or host real equality from the difference-quotient window.
+\end{proof}
+
+\begin{theorem}[Rademacher Real derivative handoff]
+\label{thm:rademacher-real-derivative-handoff}
+Every Real-facing derivative-candidate read of an accepted $\RademacherUp$ carrier reaches $\RegSeqRatUp$ or $\RealUp$ only after the finite route through $D,M,L,A,H,C,P,N$ has been displayed. The handoff gives downstream consumers regular rational and Real readback for the visible derivative-candidate window, not a Lebesgue almost-everywhere theorem, not a selected derivative, not quotient equality, and not an ambient completeness statement.
+\end{theorem}
+\begin{proof}
+Project the carrier as $R=(L,E,D,M,A,H,C,P,N)$. The terminal Real seal row is $E$, and the rows feeding it are the dyadic ledger $D$, metric row $M$, Lipschitz row $L$, and absolute-continuity control row $A$.
+
+Apply the NameCert obligations from \autoref{thm:rademacher-namecert-obligations}. They force each Real-facing request to expose carrier admission, Real seal routing, dyadic accounting, metric inspection, Lipschitz exposure, absolute-continuity control, and the structural rows.
+
+The readback route is finite. Replay through $C$ and transport through $H$ carry the displayed derivative-candidate window to $P$ and $N$, so the $\RegSeqRatUp$ or $\RealUp$ consumer receives only the named window data.
+
+Thus the handoff is a regular rational and Real readback of a displayed finite packet. It does not assert an almost-everywhere differentiability theorem, select a derivative outside the inspected windows, identify quotient representatives, or complete an ambient derivative space.
+\end{proof}
+
 \begin{theorem}[Rademacher finite derivative-candidate packet]
 \label{thm:rademacher-finite-derivative-candidate-packet}
 Every Real-facing read exported by an accepted $\RademacherUp$ carrier factors through the finite route
