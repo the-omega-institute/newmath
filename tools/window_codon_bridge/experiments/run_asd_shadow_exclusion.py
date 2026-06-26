@@ -27,13 +27,14 @@ FETCH_DEADLINE_SECONDS = float(os.environ.get("ASD_FETCH_DEADLINE_SECONDS", "60"
 REQUESTED_R_NULL = 150
 REQUESTED_N_DECOYS = 40
 REQUESTED_MAX_GENES_PER_ORGANISM = 60
-R_NULL = int(os.environ.get("ASD_NULL_R", "20"))
-N_DECOYS = int(os.environ.get("ASD_N_DECOYS", "12"))
-N_BOOTSTRAP = int(os.environ.get("ASD_BOOTSTRAP", "120"))
-MAX_GENES_PER_ORGANISM = int(os.environ.get("ASD_MAX_GENES_PER_ORGANISM", "24"))
-MAX_HEG_PER_ORGANISM = int(os.environ.get("ASD_MAX_HEG_PER_ORGANISM", "12"))
-MIN_HEG_PER_ORGANISM = int(os.environ.get("ASD_MIN_HEG_PER_ORGANISM", "10"))
-ANALYSIS_ORGANISM_LIMIT = int(os.environ.get("ASD_ANALYSIS_ORGANISM_LIMIT", "3"))
+R_NULL = int(os.environ.get("ASD_NULL_R", "10"))
+N_DECOYS = int(os.environ.get("ASD_N_DECOYS", "6"))
+N_BOOTSTRAP = int(os.environ.get("ASD_BOOTSTRAP", "80"))
+MAX_GENES_PER_ORGANISM = int(os.environ.get("ASD_MAX_GENES_PER_ORGANISM", "12"))
+MAX_HEG_PER_ORGANISM = int(os.environ.get("ASD_MAX_HEG_PER_ORGANISM", "6"))
+MIN_HEG_PER_ORGANISM = int(os.environ.get("ASD_MIN_HEG_PER_ORGANISM", "4"))
+ANALYSIS_ORGANISM_LIMIT = int(os.environ.get("ASD_ANALYSIS_ORGANISM_LIMIT", "1"))
+ENABLE_MCMC_REFINE = os.environ.get("ASD_MCMC_REFINE", "0") == "1"
 MIN_CERT_ORGANISMS = 250
 MIN_CERT_FAMILIES = 30
 LAMBDA = math.log(2.0)
@@ -165,6 +166,7 @@ def all_kmers(k: int) -> list[str]:
 
 
 ALL_KMERS_BY_K = {k: all_kmers(k) for k in range(5, 9)}
+SCORE_TABLE_CACHE: dict[str, dict[str, tuple[float, int]]] = {}
 
 
 def terminal_tail(rrna_sequence: str) -> str:
@@ -218,6 +220,9 @@ def carrier_from_tail(label: str, class_name: str, tail20: str) -> dict[str, obj
 
 def score_table(carrier: dict[str, object]) -> dict[str, tuple[float, int]]:
     windows = [str(w) for w in carrier.get("windows", [])]
+    cache_key = "|".join(sorted(windows))
+    if cache_key in SCORE_TABLE_CACHE:
+        return SCORE_TABLE_CACHE[cache_key]
     by_len: dict[int, list[str]] = defaultdict(list)
     for window in windows:
         by_len[len(window)].append(rna_revcomp(window))
@@ -230,6 +235,27 @@ def score_table(carrier: dict[str, object]) -> dict[str, tuple[float, int]]:
                 continue
             best = max(pair_score(kmer, target) for target in targets)
             table[kmer] = (best / k, best)
+    SCORE_TABLE_CACHE[cache_key] = table
+    return table
+
+
+def score_table_for_kmers(carrier: dict[str, object], needed_kmers: set[str]) -> dict[str, tuple[float, int]]:
+    windows = [str(w) for w in carrier.get("windows", [])]
+    cache_key = "|".join(sorted(windows)) + "::" + hashlib.sha256("\n".join(sorted(needed_kmers)).encode("utf-8")).hexdigest()
+    if cache_key in SCORE_TABLE_CACHE:
+        return SCORE_TABLE_CACHE[cache_key]
+    by_len: dict[int, list[str]] = defaultdict(list)
+    for window in windows:
+        by_len[len(window)].append(rna_revcomp(window))
+    table: dict[str, tuple[float, int]] = {}
+    for kmer in needed_kmers:
+        targets = by_len.get(len(kmer), [])
+        if not targets:
+            table[kmer] = (0.0, 0)
+            continue
+        best = max(pair_score(kmer, target) for target in targets)
+        table[kmer] = (best / len(kmer), best)
+    SCORE_TABLE_CACHE[cache_key] = table
     return table
 
 
@@ -394,7 +420,8 @@ def constrained_recodings(seq: str, weights: dict[str, dict[str, float]], r: int
     while len(accepted) < r and attempts < max_attempts:
         attempts += 1
         candidate = synonymous_recoding(seq, weights, rng)
-        candidate = mcmc_refine(candidate, target_gc, target_gc3, target_dinuc, rng, max_steps=60 if len(seq) <= 900 else 20)
+        if ENABLE_MCMC_REFINE:
+            candidate = mcmc_refine(candidate, target_gc, target_gc3, target_dinuc, rng, max_steps=60 if len(seq) <= 900 else 20)
         cand_gc, cand_gc3 = gc_metrics(candidate)
         cand_d = dinuc_distance(dinuc_freq(candidate), target_dinuc)
         if abs(cand_gc - target_gc) <= 0.005 and abs(cand_gc3 - target_gc3) <= 0.005 and cand_d <= 0.012:
@@ -648,16 +675,20 @@ def analyze_organism(organism: dict[str, object], heterologous_tails: list[str],
     true_carrier = carrier_from_tail("true", "own_tail", tail20)
     decoys = decoy_carriers(tail20, heterologous_tails, records, N_DECOYS, seed + ".decoys")
     carriers = [true_carrier] + decoys
-    tables = {str(carrier["label"]): score_table(carrier) for carrier in carriers}
 
     gene_rows: list[dict[str, object]] = []
     gene_profile_rows: list[dict[str, object]] = []
     recoding_meta = Counter()
+    needed_kmers: set[str] = set()
     for idx, record in enumerate(records):
         seq = str(record.get("sequence_rna") or "")
         recodings, meta = constrained_recodings(seq, weights, R_NULL, f"{seed}.gene.{idx}.recoding")
         obs_profile = kmer_profile(seq)
         null_profiles = [kmer_profile(candidate) for candidate in recodings]
+        for profile in [obs_profile] + null_profiles:
+            counts = profile.get("counts")
+            if isinstance(counts, Counter):
+                needed_kmers.update(str(kmer) for kmer in counts)
         recoding_meta["attempts"] += int(meta.get("attempts", 0))
         recoding_meta["relaxed_accepts"] += int(meta.get("relaxed_accepts", 0))
         row: dict[str, object] = {
@@ -668,6 +699,15 @@ def analyze_organism(organism: dict[str, object], heterologous_tails: list[str],
             "strand": record.get("strand") or "+",
             "product": str(record.get("product") or "")[:120],
         }
+        gene_profile_rows.append({"idx": idx, "class": row["class"], "length_nt": row["length_nt"], "obs_profile": obs_profile, "null_profiles": null_profiles, "seq": seq})
+        gene_rows.append(row)
+
+    tables = {str(carrier["label"]): score_table_for_kmers(carrier, needed_kmers) for carrier in carriers}
+    for row, profile_row in zip(gene_rows, gene_profile_rows):
+        obs_profile = profile_row["obs_profile"]
+        null_profiles = profile_row["null_profiles"]
+        assert isinstance(obs_profile, dict)
+        assert isinstance(null_profiles, list)
         for carrier in carriers:
             label = str(carrier["label"])
             z, _, strong, max_shadow, n_windows = evaluate_carrier_for_profiles(obs_profile, null_profiles, tables[label])
@@ -676,11 +716,17 @@ def analyze_organism(organism: dict[str, object], heterologous_tails: list[str],
                 row["strong_count_true"] = strong
                 row["max_shadow_true"] = max_shadow
                 row["n_windows"] = n_windows
-        exact = exact_multiset_permutations(seq, max(20, min(60, R_NULL // 2)), f"{seed}.gene.{idx}.exact")
-        z_exact, _, _, _, _ = evaluate_carrier_for_profiles(obs_profile, [kmer_profile(candidate) for candidate in exact], tables["true"])
+        seq = str(profile_row["seq"])
+        exact = exact_multiset_permutations(seq, max(20, min(60, R_NULL // 2)), f"{seed}.gene.{profile_row['idx']}.exact")
+        exact_profiles = [kmer_profile(candidate) for candidate in exact]
+        exact_needed = set(needed_kmers)
+        for profile in exact_profiles:
+            counts = profile.get("counts")
+            if isinstance(counts, Counter):
+                exact_needed.update(str(kmer) for kmer in counts)
+        true_exact_table = score_table_for_kmers(true_carrier, exact_needed)
+        z_exact, _, _, _, _ = evaluate_carrier_for_profiles(obs_profile, exact_profiles, true_exact_table)
         row["z_exact_multiset"] = z_exact
-        gene_rows.append(row)
-        gene_profile_rows.append({"class": row["class"], "length_nt": row["length_nt"], "obs_profile": obs_profile, "null_profiles": null_profiles})
 
     d_true, z_heg, z_bg = d_stat_for_carrier(gene_rows, "true")
     decoy_ds = []
@@ -697,7 +743,7 @@ def analyze_organism(organism: dict[str, object], heterologous_tails: list[str],
     canonical_decoy_list = canonical_decoys(max(12, min(N_DECOYS, 24)), seed + ".canonical")
     own_tail_decoys = decoy_carriers(tail20, [], records, max(12, min(N_DECOYS, 24)), seed + ".own_tail_for_gate")
     gate_carriers = [canonical] + canonical_decoy_list + own_tail_decoys
-    gate_tables = {str(carrier["label"]): score_table(carrier) for carrier in gate_carriers}
+    gate_tables = {str(carrier["label"]): score_table_for_kmers(carrier, needed_kmers) for carrier in gate_carriers}
     gate_rows: list[dict[str, object]] = []
     for profile_row in gene_profile_rows:
         row = {"class": profile_row["class"], "length_nt": profile_row["length_nt"]}
@@ -876,6 +922,7 @@ def summarize(rows: list[dict[str, object]], fetch_meta: dict[str, object], elap
             "n_decoys": N_DECOYS,
             "n_bootstrap": N_BOOTSTRAP,
             "max_genes_per_organism": MAX_GENES_PER_ORGANISM,
+            "mcmc_refine": ENABLE_MCMC_REFINE,
             "requested_design": {
                 "target_bacteria": 50,
                 "target_archaea": 10,
