@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\SignedDyadicRootBracketUp$}
+\label{ch:concrete-instances-signed-dyadic-root-bracket-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\SignedDyadicRootBracketUp$ packet records a finite dyadic interval whose endpoint signs bracket a root before any completion-facing consumer may read it. It sits over the dyadic rational ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the interval surface of \autoref{ch:concrete-instances-realinterval-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the displayed signed endpoints, tolerance ledger, windowed function reads, bisection row, transport, replay, provenance, and local naming route.
+
+\begin{definition}[Signed dyadic root-bracket carrier]
+\label{def:signed-dyadic-root-bracket-carrier}
+A $\SignedDyadicRootBracketUp$ carrier is a finite $\BHist$ packet
+$$
+B=(I,a,b,L,R,D,W,F,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealIntervalUp$ row naming the inspected interval.
+\item $a,b$ are the displayed dyadic endpoints read through $\DyadicRatCoreUp$.
+\item $L$ and $R$ are the endpoint sign rows, recording opposite signs for the windowed reads at $a$ and $b$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger controlling endpoint arithmetic, midpoint arithmetic, and sign-margin comparisons.
+\item $W$ is the $\StreamNameUp$ window row exposing exactly the finite function observations used at the two endpoints and at later bisection midpoints.
+\item $F$ is the function-read row, available only through the displayed finite windows and dyadic tolerances.
+\item $S$ is the signed bracket row tying $I,a,b,L,R,D,W,F$ into one admitted bracket.
+\item $Q$ is the bisection row recording the inspected midpoint, the retained dyadic subinterval, and the retained endpoint-sign witness.
+\item $E$ is the $\RealUp$ seal row reached only after the interval, endpoint, sign, tolerance, window, function-read, bracket, and bisection rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval, endpoint, sign, tolerance, window, function-read, bracket, bisection, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay of every consumer route through $I,a,b,L,R,D,W,F,S,Q,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\SignedDyadicRootBracketUp$, $\RealIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SignedDyadicRootBracketUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,a,b,L,R,D,W,F,S,Q,E,H,C,P,N$. It has no coordinate for host trichotomy, selected roots, quotient real equality, unrestricted intermediate-value reasoning, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Signed dyadic root-bracket NameCert obligations]
+\label{thm:signed-dyadic-root-bracket-namecert-obligations}
+For every accepted $\SignedDyadicRootBracketUp$ carrier
+$$
+B=(I,a,b,L,R,D,W,F,S,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\SignedDyadicRootBracketUp}$ surface consists exactly of interval exposure through $I$; dyadic endpoint exposure through $a,b$; endpoint-sign exposure through $L,R$; dyadic tolerance exposure through $D$; finite observation exposure through $W$; function-read exposure through $F$; signed bracket exposure through $S$; bisection exposure through $Q$; terminal real sealing through $E$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:signed-dyadic-root-bracket-carrier}. The interval row, two dyadic endpoints, and two sign rows are the only endpoint data available to a consumer.
+
+The analytic read is finite. The window row $W$ exposes only the observations used by the function-read row $F$, and the tolerance ledger $D$ is the sole ledger for endpoint arithmetic, midpoint arithmetic, and sign margins.
+
+The bracket and bisection rows are downstream of those finite observations. The row $S$ records the accepted signed bracket, while $Q$ records only one displayed midpoint inspection and the retained dyadic subinterval.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and name the same route. Since the carrier contains no row for host trichotomy, selected roots, quotient real equality, unrestricted intermediate-value reasoning, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Signed dyadic root-bracket bisection stability]
+\label{thm:signed-dyadic-root-bracket-bisection-stability}
+If an accepted $\SignedDyadicRootBracketUp$ carrier $B=(I,a,b,L,R,D,W,F,S,Q,E,H,C,P,N)$ is read by a bisection-facing consumer, the retained subinterval in $Q$ must expose the same $\RealIntervalUp$ source, dyadic endpoint ledger, $\StreamNameUp$ window row, $\RegSeqRatUp$ readback discipline, and terminal $\RealUp$ seal route before the consumer sees the retained bracket. The read exports a finite signed dyadic sub-bracket, not a selected root, quotient real equality, host trichotomy, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:signed-dyadic-root-bracket-namecert-obligations}. They force every accepted bracket read through $I,a,b,L,R,D,W,F,S,Q,E,H,C,P,N$.
+
+For a bisection read, inspect the row $Q$. Its midpoint and retained endpoint rows are admitted only through the same dyadic tolerance ledger $D$ and the same finite observation window $W$ used by the original signed bracket row $S$.
+
+The retained subinterval is sealed only after the displayed readback and terminal real-name boundary are exposed. Componentwise transport and displayed replay keep the retained bracket on the same finite route, so no selected limit, host trichotomy, quotient real equality, or ambient completeness row is exported.
+\end{proof}
+
+\closureat{SignedDyadicRootBracketUp}{seedStr}
+
+\begin{closurestatus}{\SignedDyadicRootBracketUp}
+  \constructivestory{A $\SignedDyadicRootBracketUp$ packet is generated from a RealInterval row, dyadic endpoint rows, endpoint-sign rows, a DyadicRatCore tolerance ledger, finite StreamName observation windows, RegSeqRat readback discipline, a function-read row, a signed bracket row, one bisection row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:signed-dyadic-root-bracket-carrier}, \autoref{thm:signed-dyadic-root-bracket-namecert-obligations}, and \autoref{thm:signed-dyadic-root-bracket-bisection-stability} seed the finite signed dyadic root-bracket route consumed by later bisection and Real or Completion readers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host intermediate value theorem, host trichotomy, selected roots or limits, quotient real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint sign exactness, dyadic midpoint stability, finite-window function reads, RegSeqRat readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.SignedDyadicRootBracketUp.}
+\end{closurestatus}
