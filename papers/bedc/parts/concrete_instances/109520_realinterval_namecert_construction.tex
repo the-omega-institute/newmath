@@ -80,6 +80,30 @@ Now apply the local obligations of \autoref{thm:real-interval-namecert-obligatio
 The seal route of \autoref{thm:real-interval-seal-enclosure-route} preserves the same order, since every endpoint or enclosure read begins with $L,U,E$ before entering the dyadic handoff. Thus an interval consumer cannot bypass $E$ by reading the endpoint rows alone.
 \end{proof}
 
+\begin{theorem}[RealInterval classifier transport]
+\label{thm:real-interval-classifier-transport}
+Let $I=(L,U,E,D,W,R,S,H,C,P,N)$ and $I'=(L',U',E',D',W',R',S',H',C',P',N')$ be accepted $\RealIntervalUp$ carriers. If the accepted interval classifier identifies the endpoint and enclosure rows of $I$ with those of $I'$, then carrier admission transports from $I$ to $I'$ only through the displayed endpoint, locatedness, dyadic-window, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. In particular, classifier equality cannot replace the rows supplied by \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-locatedinterval-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, or \autoref{ch:concrete-instances-real-namecert}.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:real-interval-carrier}. The endpoint rows $L,U,L',U'$ and enclosure rows $E,E'$ are the only rows on which the interval classifier can act.
+
+Use the endpoint-order obligation \autoref{thm:real-interval-endpoint-order-obligation}. It forces every interval read to keep the endpoint order row visible, so classifier equality must transport the ordered enclosure rather than only the two endpoints.
+
+The seal route of \autoref{thm:real-interval-seal-enclosure-route} then carries the transported enclosure through the dyadic tolerance, stream-window, regular-rational, and Real-seal rows. The structural rows $H',C',P',N'$ name the transported packet, so carrier admission moves only along the displayed BEDC rows.
+\end{proof}
+
+\begin{theorem}[RealInterval endpoint refinement stability]
+\label{thm:real-interval-endpoint-refinement-stability}
+For every accepted $\RealIntervalUp$ carrier $I=(L,U,E,D,W,R,S,H,C,P,N)$, any dyadic refinement of the endpoint enclosure that preserves the displayed endpoint order and locatedness rows preserves the $\RealIntervalUp$ NameCert surface before the terminal $\RealUp$ seal is read. The refinement may change the finite dyadic tolerance and window rows $D,W,R$, but it must keep the endpoint, locatedness, transport, replay, provenance, and local naming rows visible before $S$ is consumed.
+\end{theorem}
+\begin{proof}
+Read the carrier rows of \autoref{def:real-interval-carrier}. A dyadic endpoint refinement changes only the tolerance, window, and regular-rational observations recorded in $D,W,R$.
+
+Apply \autoref{thm:real-interval-namecert-obligations}. Its endpoint order and enclosure stability clauses keep $L,U,E$ visible, while its dyadic tolerance handoff clause keeps every refinement inside the $D\mapsto W\mapsto R$ route.
+
+Finally use the seal enclosure route \autoref{thm:real-interval-seal-enclosure-route}. Since $S$ is terminal, the refined endpoint surface must already have passed through $\DyadicRatCoreUp$, $\LocatedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the displayed structural rows before any $\RealUp$ seal is available.
+\end{proof}
+
 \begin{theorem}[RealInterval dyadic-window handoff]
 \label{thm:real-interval-dyadic-window-handoff}
 For every accepted $\RealIntervalUp$ carrier $I=(L,U,E,D,W,R,S,H,C,P,N)$, the displayed route
