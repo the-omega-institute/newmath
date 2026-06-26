@@ -2,6 +2,7 @@ import BEDC.Algebra.FiniteFold
 import BEDC.Derived.ArithmeticFnUp
 import BEDC.Derived.GcdUp
 import BEDC.Derived.ZModUp
+import BEDC.Derived.ZModResidueList
 
 namespace BEDC.Derived.EulerTheoremUp
 
@@ -15,6 +16,7 @@ open BEDC.Derived.IntUp
 open BEDC.Derived.PadicUp
 open BEDC.Derived.PrimeUp
 open BEDC.Derived.ZModUp
+open BEDC.Derived.ZModResidueList
 
 variable {A : Type u} {r : A -> A -> Prop}
 
@@ -277,5 +279,187 @@ theorem zmod_eulerPhi_from_unitPermutation
   rw [phiCount]
   exact euler_from_unit_list_permutation
     (zmodRelCommRing n nUnary nNonempty) a units allUnits perm
+
+theorem zmodUnit_mul_left_inverse
+    {n : BHist}
+    (nUnary : UnaryHistory n)
+    (nNonempty : hsame n BHist.Empty -> False)
+    {a inv x : ZMod n} :
+    zmodEq
+      (zmodMul n nUnary nNonempty inv
+        (zmodMul n nUnary nNonempty a x))
+      x ->
+        zmodMul n nUnary nNonempty inv
+          (zmodMul n nUnary nNonempty a x) = x := by
+  intro same
+  exact zmod_ext same
+
+theorem zmodUnit_inv_mul_cancel
+    {n : BHist}
+    (nUnary : UnaryHistory n)
+    (nNonempty : hsame n BHist.Empty -> False)
+    {a inv x : ZMod n} :
+    relUnit (zmodRelCommRing n nUnary nNonempty) a ->
+      zmodEq
+        (zmodMul n nUnary nNonempty a inv)
+        (zmodOne n nUnary nNonempty) ->
+        zmodEq
+          (zmodMul n nUnary nNonempty a
+            (zmodMul n nUnary nNonempty inv x))
+          x := by
+  intro _aUnit leftInv
+  let R := zmodRelCommRing n nUnary nNonempty
+  exact R.trans
+    (R.symm (R.mul_assoc a inv x))
+    (R.trans
+      (R.mul_congr leftInv (R.refl x))
+      (R.one_mul x))
+
+theorem zmodUnit_inv_left_cancel
+    {n : BHist}
+    (nUnary : UnaryHistory n)
+    (nNonempty : hsame n BHist.Empty -> False)
+    {a inv x : ZMod n} :
+    zmodEq
+      (zmodMul n nUnary nNonempty inv a)
+      (zmodOne n nUnary nNonempty) ->
+        zmodEq
+          (zmodMul n nUnary nNonempty inv
+            (zmodMul n nUnary nNonempty a x))
+          x := by
+  intro rightInv
+  let R := zmodRelCommRing n nUnary nNonempty
+  exact R.trans
+    (R.symm (R.mul_assoc inv a x))
+    (R.trans
+      (R.mul_congr rightInv (R.refl x))
+      (R.one_mul x))
+
+theorem zmod_unitMul_map_nodup_of_complete_units
+    {n : BHist}
+    (nUnary : UnaryHistory n)
+    (nNonempty : hsame n BHist.Empty -> False)
+    (a : ZMod n) (units : List (ZMod n)) :
+    relUnit (zmodRelCommRing n nUnary nNonempty) a ->
+      ListNoDup units ->
+        ListNoDup
+          (List.map
+            (fun x : ZMod n => zmodMul n nUnary nNonempty a x)
+            units) := by
+  intro aUnit unitsNoDup
+  cases aUnit with
+  | intro inv invData =>
+      let f := fun x : ZMod n => zmodMul n nUnary nNonempty a x
+      let g := fun y : ZMod n => zmodMul n nUnary nNonempty inv y
+      change ListNoDup (List.map f units)
+      exact listNoDup_map_of_left_inverse f g units unitsNoDup
+        (fun x _xMem =>
+          zmod_ext
+            (zmodUnit_inv_left_cancel nUnary nNonempty invData.right))
+
+theorem zmod_unitMul_mem_iff_of_complete_units
+    {n : BHist}
+    (nUnary : UnaryHistory n)
+    (nNonempty : hsame n BHist.Empty -> False)
+    (a : ZMod n) (units : List (ZMod n)) :
+    relUnit (zmodRelCommRing n nUnary nNonempty) a ->
+      (∀ x : ZMod n, x ∈ units ↔
+        relUnit (zmodRelCommRing n nUnary nNonempty) x) ->
+        ∀ y : ZMod n,
+          y ∈ List.map
+            (fun x : ZMod n => zmodMul n nUnary nNonempty a x)
+            units ↔ y ∈ units := by
+  intro aUnit complete y
+  let R := zmodRelCommRing n nUnary nNonempty
+  let f := fun x : ZMod n => zmodMul n nUnary nNonempty a x
+  constructor
+  · intro mappedMem
+    cases listMap_mem_extract f mappedMem with
+    | intro source sourceData =>
+        have sourceUnit : relUnit R source :=
+          (complete source).mp sourceData.left
+        have imageUnit : relUnit R (f source) :=
+          relUnit_mul R aUnit sourceUnit
+        have yUnit : relUnit R y := by
+          rw [← sourceData.right]
+          exact imageUnit
+        exact (complete y).mpr yUnit
+  · intro yMem
+    cases aUnit with
+    | intro inv invData =>
+        let preimage := zmodMul n nUnary nNonempty inv y
+        have invUnit : relUnit R inv :=
+          ⟨a, invData.right, invData.left⟩
+        have yUnit : relUnit R y :=
+          (complete y).mp yMem
+        have preimageUnit : relUnit R preimage :=
+          relUnit_mul R invUnit yUnit
+        have preimageMem : preimage ∈ units :=
+          (complete preimage).mpr preimageUnit
+        have imageEq :
+            zmodMul n nUnary nNonempty a preimage = y :=
+          zmod_ext
+            (zmodUnit_inv_mul_cancel nUnary nNonempty
+              (show relUnit R a from ⟨inv, invData⟩) invData.left)
+        rw [← imageEq]
+        exact listMap_mem_intro f preimageMem
+
+theorem zmod_unitMul_permutes_complete_units
+    {n : BHist}
+    (nUnary : UnaryHistory n)
+    (nNonempty : hsame n BHist.Empty -> False)
+    (a : ZMod n) (units : List (ZMod n)) :
+    relUnit (zmodRelCommRing n nUnary nNonempty) a ->
+      ListNoDup units ->
+        (∀ x : ZMod n, x ∈ units ↔
+          relUnit (zmodRelCommRing n nUnary nNonempty) x) ->
+          ListPerm
+            (List.map
+              (fun x : ZMod n => zmodMul n nUnary nNonempty a x)
+              units)
+            units := by
+  intro aUnit unitsNoDup complete
+  exact listPerm_of_noDup_mem_iff
+    (List.map
+      (fun x : ZMod n => zmodMul n nUnary nNonempty a x)
+      units)
+    units
+    (zmod_unitMul_map_nodup_of_complete_units
+      nUnary nNonempty a units aUnit unitsNoDup)
+    unitsNoDup
+    (zmod_unitMul_mem_iff_of_complete_units
+      nUnary nNonempty a units aUnit complete)
+
+structure ZModReducedResidueSystem
+    (n : BHist)
+    (nUnary : UnaryHistory n)
+    (nNonempty : hsame n BHist.Empty -> False) where
+  factors : List BHist
+  units : List (ZMod n)
+  nodup : ListNoDup units
+  complete :
+    ∀ x : ZMod n, x ∈ units ↔
+      relUnit (zmodRelCommRing n nUnary nNonempty) x
+  phi_count : eulerPhiFactorsNat factors = units.length
+
+theorem zmod_eulerPhi_from_reducedResidueSystem
+    {n : BHist}
+    (nUnary : UnaryHistory n)
+    (nNonempty : hsame n BHist.Empty -> False)
+    (a : ZMod n)
+    (system : ZModReducedResidueSystem n nUnary nNonempty) :
+    relUnit (zmodRelCommRing n nUnary nNonempty) a ->
+      zmodEq
+        (zmodPowByNat n nUnary nNonempty a
+          (eulerPhiFactorsNat system.factors))
+        (zmodOne n nUnary nNonempty) := by
+  intro aUnit
+  exact zmod_eulerPhi_from_unitPermutation
+    nUnary nNonempty system.factors a system.units
+    system.phi_count
+    (fun x mem => (system.complete x).mp mem)
+    (zmod_unitMul_permutes_complete_units
+      nUnary nNonempty a system.units aUnit
+      system.nodup system.complete)
 
 end BEDC.Derived.EulerTheoremUp

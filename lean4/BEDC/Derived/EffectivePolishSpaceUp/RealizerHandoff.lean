@@ -198,4 +198,80 @@ theorem EffectivePolishSpaceCompleteSeparableHandoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, completeUnary, separableUnary⟩
 
+theorem EffectivePolishSpaceCarrier_dense_realizer_transport [AskSetup] [PackageSetup]
+    {polish dense realizer stream readback tolerance realSeal transport replay provenance
+      localName denseRead cauchyRead readbackRead sealRead transportedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EffectivePolishSpaceCarrier polish dense realizer stream readback tolerance realSeal
+        transport replay provenance localName bundle pkg ->
+      Cont dense realizer denseRead ->
+        Cont denseRead stream cauchyRead ->
+          Cont cauchyRead readback readbackRead ->
+            Cont readbackRead realSeal sealRead ->
+              hsame sealRead transportedRead ->
+                PkgSig bundle transportedRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row transportedRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row dense ∨ hsame row realizer ∨ hsame row stream ∨
+                          hsame row readback ∨ hsame row realSeal ∨
+                            hsame row transportedRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ PkgSig bundle transportedRead pkg)
+                      hsame ∧
+                    UnaryHistory denseRead ∧ UnaryHistory cauchyRead ∧
+                      UnaryHistory readbackRead ∧ UnaryHistory transportedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
+  intro carrier denseRoute cauchyRoute readbackRoute sealRoute sameSeal transportedPkg
+  obtain
+    ⟨_polishUnary, denseUnary, realizerUnary, streamUnary, readbackUnary, _toleranceUnary,
+      realSealUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+      _streamReadbackRoute, _transportToleranceRoute, _provenancePkg⟩ :=
+    carrier
+  have denseReadUnary : UnaryHistory denseRead :=
+    unary_cont_closed denseUnary realizerUnary denseRoute
+  have cauchyReadUnary : UnaryHistory cauchyRead :=
+    unary_cont_closed denseReadUnary streamUnary cauchyRoute
+  have readbackReadUnary : UnaryHistory readbackRead :=
+    unary_cont_closed cauchyReadUnary readbackUnary readbackRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackReadUnary realSealUnary sealRoute
+  have transportedUnary : UnaryHistory transportedRead :=
+    unary_transport sealReadUnary sameSeal
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row transportedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row dense ∨ hsame row realizer ∨ hsame row stream ∨ hsame row readback ∨
+              hsame row realSeal ∨ hsame row transportedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle transportedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro transportedRead ⟨hsame_refl transportedRead, transportedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, transportedPkg⟩
+  }
+  exact ⟨cert, denseReadUnary, cauchyReadUnary, readbackReadUnary, transportedUnary⟩
+
 end BEDC.Derived.EffectivePolishSpaceUp

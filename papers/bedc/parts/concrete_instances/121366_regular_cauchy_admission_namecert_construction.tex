@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyAdmissionUp$}
+\label{ch:concrete-instances-regular-cauchy-admission-namecert}
+\origin{human}
+
+Bishop and Bridges constructive analysis treats a regular Cauchy name as usable real data only after the finite rational observations, tolerance ledger, and terminal seal have been kept separate. The $\RegularCauchyAdmissionUp$ packet records that admission surface between the regular rational sequence of \autoref{ch:concrete-instances-regseqrat-namecert} and the real-name boundary of \autoref{ch:concrete-instances-real-namecert}. It also keeps the source schedule of \autoref{ch:concrete-instances-streamname-namecert} and the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert} visible to completion-facing readers.
+
+The packet is an admission route, not a real-completion theorem. It names the finite data that a later $\RealUp$ or completion chapter may consume when it reads a regular rational name as Real-facing data, while refusing quotient stream equality, selected representatives, countable choice, trichotomy, and ambient completeness.
+
+\begin{definition}[Regular Cauchy admission carrier]
+\label{def:regular-cauchy-admission-carrier}
+A $\RegularCauchyAdmissionUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source schedule, recording the finite observation windows through which downstream readers ask for rational data.
+\item $R$ is the $\RegSeqRatUp$ readback row, carrying the regular rational sequence data visible on the windows named by $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, carrying the dyadic precision cells, slack conversions, and comparison budgets used to audit the regularity of $R$.
+\item $E$ is the $\RealUp$ seal row reached only after the stream schedule, regular readback, and dyadic tolerance ledger have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $S,R,D,E$ and for the local classifier row.
+\item $C$ records displayed $\Cont$ replay routes from a Real-facing request back through $E$, $D$, $R$, and $S$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyAdmissionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularCauchyAdmissionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only by replaying these rows. It has no coordinate for quotient stream equality, selected representatives, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy admission NameCert obligations]
+\label{thm:regular-cauchy-admission-namecert-obligations}
+For every accepted $\RegularCauchyAdmissionUp$ carrier $A=(S,R,D,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyAdmissionUp}$ obligation surface consists exactly of carrier admission for the $\StreamNameUp$ schedule, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. The obligations require every Real-facing read to expose $S$, $R$, and $D$ before the seal row $E$ is public.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-admission-carrier}. The analytic rows are exactly $S,R,D,E$, while $H,C,P,N$ transport, replay, package, and name the same route.
+
+The regular rational readback row $R$ is not a Real object by itself. A consumer must first read the stream windows in $S$ and the dyadic tolerance ledger in $D$ before the seal row $E$ can be exposed.
+
+Transport through $H$ and replay through $C$ preserve the same finite order. Since neither row adds quotient stream equality, selected representatives, countable choice, trichotomy, or completeness, the local NameCert obligations are exhausted by the displayed packet surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy admission Real-seal route]
+\label{thm:regular-cauchy-admission-real-seal-route}
+Every $\RealUp$-facing read of an accepted $\RegularCauchyAdmissionUp$ carrier factors through the finite route
+$$
+S \longmapsto R \longmapsto D \longmapsto E .
+$$
+Thus a completion or Real-facing consumer sees the stream schedule, regular rational readback, dyadic tolerance ledger, and terminal seal in order. The route exports no quotient stream equality, selected representative, countable-choice schedule, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a consumer of the seal row $E$. By the carrier definition, $E$ is the terminal row reached from the displayed regular rational data and its dyadic tolerance ledger.
+
+The stream schedule $S$ supplies the finite request windows, and $R$ supplies the regular rational observations visible on those windows. The ledger $D$ then records the precision and comparison data needed before the seal is public.
+
+The structural rows $H,C,P,N$ preserve and name this route without adding host-level or quotient coordinates. Hence every Real-facing read factors through $S,R,D,E$ and cannot export the excluded principles.
+\end{proof}
+
+\closureat{RegularCauchyAdmissionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyAdmissionUp}
+  \constructivestory{A $\RegularCauchyAdmissionUp$ packet is generated from a StreamName schedule, a RegSeqRat readback row, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-admission-carrier}, \autoref{thm:regular-cauchy-admission-namecert-obligations}, and \autoref{thm:regular-cauchy-admission-real-seal-route} seed the finite admission route from regular rational reads to the downstream $\RealUp$ seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, stream-window exposure, regular readback, dyadic tolerance exactness, Real seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyAdmissionUp.}
+\end{closurestatus}
