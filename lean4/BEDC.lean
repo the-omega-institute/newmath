@@ -667,6 +667,7 @@ import BEDC.Derived.AxisUnarySpineNormalizerUp.Carrier
 import BEDC.Derived.AxisUnarySpineNormalizerUp.NameCertObligations
 import BEDC.Derived.AxisUnarySpineNormalizerUp.TasteGate
 import BEDC.Derived.AxisZeckendorf
+import BEDC.Derived.AxisZeckendorf.AtomicPrimeEdge
 import BEDC.Derived.AxisZeckendorf.AxisAdd
 import BEDC.Derived.AxisZeckendorf.AxisNat
 import BEDC.Derived.AxisZeckendorf.Bridge
@@ -883,6 +884,7 @@ import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BellNumberUp
 import BEDC.Derived.BergeMaximumUp
 import BEDC.Derived.BerkovichClosedDiscUp.TasteGate
+import BEDC.Derived.BernoulliPolyUp
 import BEDC.Derived.BernoulliUp
 import BEDC.Derived.BernsteinPolynomialUp.TasteGate
 import BEDC.Derived.BertrandSeriesTestUp.TasteGate
