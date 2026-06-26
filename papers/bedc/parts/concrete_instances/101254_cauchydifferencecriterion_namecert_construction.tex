@@ -113,6 +113,20 @@ Apply \autoref{thm:cauchy-difference-criterion-real-seal-boundary}. The Real sea
 If a consumer omits one of $D,Z,Q$, the carrier has no remaining coordinate that can connect $X,Y$ to $E$. Quotient streams, host real equality, selected representatives, and ambient $\RealUp$ completeness are absent from the packet, so none can replace the displayed route.
 \end{proof}
 
+\begin{theorem}[Cauchy difference criterion regular-tail stability]
+\label{thm:cauchy-difference-criterion-regular-tail-stability}
+Let $K=(X,Y,D,Z,Q,W,T,E,H,C,P,N)$ be an accepted $\CauchyDifferenceCriterionUp$ carrier. Any retained tail window of $X$ and $Y$ that preserves the displayed $\RegularCauchyDifferenceUp$ row $D$ and the $\NullSequenceUp$ row $Z$ also preserves the zero-distance handoff $Q$ and the terminal $\RealUp$ seal $E$ under the transport and replay rows $H$ and $C$. The retained packet exports no quotient stream representative, selected tail limit, host equality proof, choice schedule, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier. The retained window can inspect the source rows only through $X,Y$ and the finite window row $W$, while the displayed difference and null rows remain $D$ and $Z$ by hypothesis.
+
+Use the tail-diameter handoff of \autoref{thm:cauchy-difference-criterion-tail-diameter-handoff}. It keeps every tail request on the same displayed regular-Cauchy difference and null-sequence evidence, so the retained window has no detached representative through which to alter the equality route.
+
+Apply the zero-distance correspondence of \autoref{thm:cauchy-difference-criterion-zero-distance-correspondence}. Since the retained window preserves $D$ and $Z$, the only available equality-facing handoff remains $Q$, and the Real-seal boundary of \autoref{thm:cauchy-difference-criterion-real-seal-boundary} keeps $E$ downstream of that same handoff.
+
+Finally transport and replay the retained rows through $H$ and $C$. The carrier inventory has no quotient stream, selected representative, choice schedule, or ambient completeness row, so the terminal $\RealUp$ seal is preserved exactly as the displayed $D,Z,Q,E$ route.
+\end{proof}
+
 \begin{theorem}[Cauchy difference criterion bidirectional exactness]
 \label{thm:cauchy-difference-criterion-bidirectional-exactness}
 Let $K=(X,Y,D,Z,Q,W,T,E,H,C,P,N)$ be an accepted $\CauchyDifferenceCriterionUp$ carrier. A $\RealUp$ equality-facing read of the two $\RegSeqRatUp$ source rows $X,Y$ is exported by $K$ if and only if the displayed $\RegularCauchyDifferenceUp$ row $D$ is consumed with the $\NullSequenceUp$ evidence row $Z$, reflected through the $\RegularCauchyZeroDistanceUp$ row $Q$, and then sealed at the terminal $\RealUp$ row $E$:
@@ -177,7 +191,7 @@ Finally use the null-route converse, \autoref{thm:cauchy-difference-criterion-nu
 
 \begin{theorem}[Cauchy difference criterion obligation export]
 \label{thm:cauchy-difference-criterion-obligation-export}
-The carrier definition for $\CauchyDifferenceCriterionUp$, together with its NameCert obligations, tail-diameter handoff, Real-seal boundary, zero-distance correspondence, bidirectional exactness, and null-route converse, assembles the obligation-facing L10 certificate over $\RegSeqRatUp$, $\RegularCauchyDifferenceUp$, $\NullSequenceUp$, $\RegularCauchyZeroDistanceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+The carrier definition for $\CauchyDifferenceCriterionUp$, together with its NameCert obligations, tail-diameter handoff, Real-seal boundary, zero-distance correspondence, regular-tail stability, bidirectional exactness, and null-route converse, assembles the obligation-facing L10 certificate over $\RegSeqRatUp$, $\RegularCauchyDifferenceUp$, $\NullSequenceUp$, $\RegularCauchyZeroDistanceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 
 The exported certificate has no coordinate for quotient streams, host equality, selected limits, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
 \end{theorem}
@@ -186,7 +200,7 @@ Start with the carrier definition \autoref{def:cauchy-difference-criterion-carri
 
 Next apply the tail-diameter handoff \autoref{thm:cauchy-difference-criterion-tail-diameter-handoff} and the Real-seal boundary \autoref{thm:cauchy-difference-criterion-real-seal-boundary}. They place every equality-facing read behind the finite route through $\RegularCauchyDifferenceUp$, $\NullSequenceUp$, $\RegularCauchyZeroDistanceUp$, $\StreamNameUp$, and $\DyadicRatCoreUp$.
 
-Finally use the zero-distance correspondence, bidirectional exactness, and null-route converse, namely \autoref{thm:cauchy-difference-criterion-zero-distance-correspondence}, \autoref{thm:cauchy-difference-criterion-bidirectional-exactness}, and \autoref{thm:cauchy-difference-criterion-null-route-converse}. These results repack the same finite rows as an obligation-facing certificate and show that no quotient stream, host equality, selected limit, trichotomy, choice schedule, ambient Real-completeness theorem, Lean verification, or bridge check is used.
+Finally use the zero-distance correspondence, regular-tail stability, bidirectional exactness, and null-route converse, namely \autoref{thm:cauchy-difference-criterion-zero-distance-correspondence}, \autoref{thm:cauchy-difference-criterion-regular-tail-stability}, \autoref{thm:cauchy-difference-criterion-bidirectional-exactness}, and \autoref{thm:cauchy-difference-criterion-null-route-converse}. These results repack the same finite rows as an obligation-facing certificate and show that no quotient stream, host equality, selected limit, trichotomy, choice schedule, ambient Real-completeness theorem, Lean verification, or bridge check is used.
 \end{proof}
 
 \closureat{CauchyDifferenceCriterionUp}{obligationStr}
