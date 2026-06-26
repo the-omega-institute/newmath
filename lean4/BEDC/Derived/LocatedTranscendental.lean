@@ -1,5 +1,6 @@
 import BEDC.Derived.RationalUp.FieldLaws
 import BEDC.Derived.FactorialUp
+import BEDC.Derived.LocatedReal.RatMetricKit
 
 namespace BEDC.Derived.LocatedTranscendental
 
@@ -237,5 +238,113 @@ theorem sample_exp_window_width :
 theorem sample_ln_window_width :
     sampleLnWindow.widthBound = unitFraction 4 := by
   rfl
+
+open BEDC.Derived.LocatedReal
+
+abbrev LocatedReal : Type :=
+  LReal RatMetricKitConcrete
+
+def ratLocated (q : RatNum) : LocatedReal :=
+  concreteRatToLReal q
+
+def locatedEq (x y : LocatedReal) : Prop :=
+  LRealEq RatMetricKitConcrete x y
+
+def locatedLower (q : RatNum) (x : LocatedReal) : Prop :=
+  lrLe (ratLocated q) x
+
+def locatedUpper (x : LocatedReal) (q : RatNum) : Prop :=
+  lrLe x (ratLocated q)
+
+def expTruncationLocated (x : RatNum) (n : Nat) : LocatedReal :=
+  ratLocated (ratExp x n)
+
+def lnAroundOneWindow (x : RatNum) (n : Nat) : RatWindow :=
+  lnOnePlusWindow (ratAdd x (ratNeg ratOne)) n
+
+def lnTruncationLocated (x : RatNum) (n : Nat) : LocatedReal :=
+  ratLocated (ratLnAroundOne x n)
+
+structure RatPositive (x : RatNum) where
+  positive_sign : x.num.sign = BMark.b0
+  apart_zero : ratApart0 x
+
+structure ExpLocatedEvidence (x : RatNum) (xBound : Nat) where
+  cauchy : LRealSeqCauchy (expTruncationLocated x)
+  lower :
+    ∀ n : Nat,
+      locatedLower (expWindow x xBound n).lo
+        (lrLimit (expTruncationLocated x) cauchy)
+  upper :
+    ∀ n : Nat,
+      locatedUpper (lrLimit (expTruncationLocated x) cauchy)
+        (expWindow x xBound n).hi
+
+def expLocated (x : RatNum) (xBound : Nat)
+    (evidence : ExpLocatedEvidence x xBound) : LocatedReal :=
+  lrLimit (expTruncationLocated x) evidence.cauchy
+
+theorem expLocated_cauchy (x : RatNum) (xBound : Nat)
+    (evidence : ExpLocatedEvidence x xBound) :
+    ∀ (k m n : Nat), (expLocated x xBound evidence).modulus k ≤ m ->
+      (expLocated x xBound evidence).modulus k ≤ n ->
+        RatMetricKitConcrete.close
+          ((expLocated x xBound evidence).seq m)
+          ((expLocated x xBound evidence).seq n) k :=
+  (expLocated x xBound evidence).cauchy
+
+theorem exp_located_lower (x : RatNum) (xBound : Nat)
+    (evidence : ExpLocatedEvidence x xBound) (n : Nat) :
+    locatedLower (expWindow x xBound n).lo (expLocated x xBound evidence) :=
+  evidence.lower n
+
+theorem exp_located_upper (x : RatNum) (xBound : Nat)
+    (evidence : ExpLocatedEvidence x xBound) (n : Nat) :
+    locatedUpper (expLocated x xBound evidence) (expWindow x xBound n).hi :=
+  evidence.upper n
+
+structure LnLocatedEvidence (x : RatNum) (positive : RatPositive x) where
+  cauchy : LRealSeqCauchy (lnTruncationLocated x)
+  lower :
+    ∀ n : Nat,
+      locatedLower (lnAroundOneWindow x n).lo
+        (lrLimit (lnTruncationLocated x) cauchy)
+  upper :
+    ∀ n : Nat,
+      locatedUpper (lrLimit (lnTruncationLocated x) cauchy)
+        (lnAroundOneWindow x n).hi
+
+def lnLocated (x : RatNum) (positive : RatPositive x)
+    (evidence : LnLocatedEvidence x positive) : LocatedReal :=
+  lrLimit (lnTruncationLocated x) evidence.cauchy
+
+theorem lnLocated_cauchy (x : RatNum) (positive : RatPositive x)
+    (evidence : LnLocatedEvidence x positive) :
+    ∀ (k m n : Nat), (lnLocated x positive evidence).modulus k ≤ m ->
+      (lnLocated x positive evidence).modulus k ≤ n ->
+        RatMetricKitConcrete.close
+          ((lnLocated x positive evidence).seq m)
+          ((lnLocated x positive evidence).seq n) k :=
+  (lnLocated x positive evidence).cauchy
+
+theorem ln_located_lower (x : RatNum) (positive : RatPositive x)
+    (evidence : LnLocatedEvidence x positive) (n : Nat) :
+    locatedLower (lnAroundOneWindow x n).lo (lnLocated x positive evidence) :=
+  evidence.lower n
+
+theorem ln_located_upper (x : RatNum) (positive : RatPositive x)
+    (evidence : LnLocatedEvidence x positive) (n : Nat) :
+    locatedUpper (lnLocated x positive evidence) (lnAroundOneWindow x n).hi :=
+  evidence.upper n
+
+def eLocated (evidence : ExpLocatedEvidence ratOne 0) : LocatedReal :=
+  expLocated ratOne 0 evidence
+
+def twoRat : RatNum :=
+  natRat 2
+
+def ln2Located (positive : RatPositive twoRat)
+    (evidence : LnLocatedEvidence twoRat positive) : LocatedReal :=
+  lnLocated twoRat positive evidence
 
 end BEDC.Derived.LocatedTranscendental
