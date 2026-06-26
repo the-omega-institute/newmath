@@ -9,3 +9,17 @@ The StreamName observation section only reindexes those displayed finite rows as
 
 Consequently every downstream read through $\StreamNameUp$ still factors through the same finite packet. Since the input has no coordinate for selected limits or ambient $\RealUp$ completeness, the StreamName route exports none.
 \end{proof}
+
+\begin{theorem}[StreamName finite-stream forward preservation]
+\label{thm:streamname-finite-stream-forward-preservation}
+The finite-stream-to-$\StreamNameUp$ route of \autoref{thm:streamname-finite-stream-forward-route} preserves the finite request list, displayed observation window, componentwise $\hsame$ rows, finite $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows when the resulting observation section is consumed by $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ handoff packets. Each downstream consumer may refine the observation only through a finite $\StreamNameUp$ section window over the same finite-stream source, and no consumer obtains infinite stream equality, quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness from the route.
+\end{theorem}
+\begin{proof}
+Start with the forward route, \autoref{thm:streamname-finite-stream-forward-route}. It repacks the finite-stream request list, finite observation window, componentwise transport, replay, provenance, and local naming rows as a pointwise StreamName window without adding an infinite equality coordinate.
+
+Apply finite observation section cofinality, \autoref{thm:streamname-finite-observation-section-cofinality}, to the resulting StreamName window. Any RegSeqRat or Real consumer sees only a finite section refinement over the same certified source, with the same displayed support rows.
+
+The DyadicRatCore handoff reads the same terminal tolerance surface through those finite StreamName windows before it reaches the RegSeqRat and Real faces. Hence its consumer-facing data is also bounded by the preserved finite request, observation, transport, replay, provenance, and naming rows.
+
+Thus all three downstream packets consume the same finite support supplied by the original finite-stream packet. Since the route and its finite observation refinements never add infinite stream equality, quotient stream equality, selected limits, countable choice, or ambient Real completeness, preservation holds at the handoff surface.
+\end{proof}
