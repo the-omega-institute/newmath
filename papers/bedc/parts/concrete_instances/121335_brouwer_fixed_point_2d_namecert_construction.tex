@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\BrouwerFixedPointTwoDUp$}
+\label{ch:concrete-instances-brouwer-fixed-point-2d-namecert}
+\origin{human}
+
+Following Brouwer and constructive finite-dimensional fixed-point presentations, the $\BrouwerFixedPointTwoDUp$ packet records a finite compact-convex certificate for a two-dimensional self-map before any fixed-point-facing read is allowed. It consumes the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the convex carrier of \autoref{ch:concrete-instances-convexset-namecert}, the continuous self-map surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the dyadic rational ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular sequence readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite mesh, labelling, tolerance, readback, transport, replay, provenance, and local naming route; it does not assert the unrestricted host theorem.
+
+\begin{definition}[Brouwer fixed-point two-dimensional carrier]
+\label{def:brouwer-fixed-point-2d-carrier}
+A $\BrouwerFixedPointTwoDUp$ carrier is a finite $\BHist$ packet
+$$
+B=(K,V,F,M,L,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row, recording the compact two-dimensional metric carrier and the finite cover data used by the certificate.
+\item $V$ is the $\ConvexSetUp$ row, recording convex membership, boundary faces, and admitted convex-combination operations for the displayed source.
+\item $F$ is the continuous self-map row, read through $\ContinuousMapUp$, exposing only the displayed modulus and finite image windows used on the mesh.
+\item $M$ is the finite vertex and mesh ledger, recording the triangulation cells, adjacency, boundary flags, and mesh-scale index.
+\item $L$ is the finite labelling ledger, assigning each boundary and interior mesh vertex the displacement label read from $F$.
+\item $D$ is the dyadic tolerance ledger, read through $\DyadicRatCoreUp$, recording mesh diameter, residual budgets, and label-comparison margins.
+\item $S$ is the Sperner witness row, carrying the fully labelled simplex and its finite induction trace inside the mesh ledger.
+\item $R$ is the readback row through $\StreamNameUp$ and $\RegSeqRatUp$, exposing finite windows of the approximate fixed-simplex coordinates.
+\item $E$ is the $\RealUp$ seal row, reached only after $K,V,F,M,L,D,S,R$ are displayed and used only to keep the readback inside the named compact-convex source.
+\item $H$ records componentwise $\hsame$ transport for the compact, convex, self-map, mesh, labelling, tolerance, witness, readback, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay for every consumer route through $K,V,F,M,L,D,S,R,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\BrouwerFixedPointTwoDUp$, $\CompactMetricUp$, $\ConvexSetUp$, $\ContinuousMapUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BrouwerFixedPointTwoDUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,V,F,M,L,D,S,R,E,H,C,P,N$. It has no coordinate for full classical Brouwer fixed point, open-cover compactness, quotient point equality, choice-selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Brouwer fixed-point two-dimensional NameCert obligations]
+\label{thm:brouwer-fixed-point-2d-namecert-obligations}
+For every accepted $\BrouwerFixedPointTwoDUp$ carrier
+$$
+B=(K,V,F,M,L,D,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\BrouwerFixedPointTwoDUp}$ obligation surface consists exactly of compact-convex source exposure through $K,V$; continuous self-map exposure through $F$; finite vertex and mesh exposure through $M$; labelling exposure through $L$; dyadic tolerance exposure through $D$; Sperner witness exposure through $S$; StreamName and RegSeqRat readback through $R$; Real sealing through $E$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$. Every fixed-point-facing read must pass through that finite route before it can cite the two-dimensional certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:brouwer-fixed-point-2d-carrier}. The compact-convex source is visible only through $K,V$, and the self-map is visible only through $F$.
+
+The mesh part is finite. Induct on the displayed mesh ledger $M$: the boundary clauses read their labels from $L$ and their dyadic margins from $D$, while each subdivision step preserves the same vertex, adjacency, and tolerance rows. The Sperner witness row $S$ is therefore reached by finite mesh induction rather than by open-cover compactness.
+
+The readback part is downstream. The StreamName and RegSeqRat row $R$ exposes only finite coordinate windows of the simplex selected by $S$, and the Real seal $E$ records that this readback remains inside the displayed compact-convex source.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since the carrier contains no row for full classical Brouwer fixed point, open-cover compactness, quotient point equality, choice-selected limits, or ambient $\RealUp$ completeness, the listed rows exhaust the finite NameCert obligation surface.
+\end{proof}
+
+\closureat{BrouwerFixedPointTwoDUp}{seedStr}
+
+\begin{closurestatus}{\BrouwerFixedPointTwoDUp}
+  \constructivestory{A $\BrouwerFixedPointTwoDUp$ packet is generated from compact metric rows, convex source rows, continuous self-map rows, finite vertex and mesh rows, finite labelling and Sperner witness rows, dyadic tolerance rows, StreamName and RegSeqRat readback rows, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brouwer-fixed-point-2d-carrier} and \autoref{thm:brouwer-fixed-point-2d-namecert-obligations} seed the finite compact-convex fixed-point certificate over compact metric, convex, continuous-map, dyadic tolerance, stream readback, regular sequence, Real seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full classical Brouwer fixed point, open-cover compactness, quotient point equality, choice-selected limits, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite mesh induction, labelling exactness, dyadic tolerance readback, StreamName and RegSeqRat window stability, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BrouwerFixedPointTwoDUp.}
+\end{closurestatus}

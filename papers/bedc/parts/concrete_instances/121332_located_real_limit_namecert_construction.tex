@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealLimitUp$}
+\label{ch:concrete-instances-located-real-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges on located real numbers and limits of regular Cauchy data, the $\LocatedRealLimitUp$ packet records the finite boundary at which a regular rational name, a stream name, and a Real seal are allowed to present a located limit without importing host limits or countable choice. It reads the Real carrier of \autoref{ch:concrete-instances-real-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic tolerance discipline of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet names a choice-free limit boundary: approximants are admitted through displayed rows, tolerance coverage is local, uniqueness is separated by the Real carrier, and the ledger contains no coordinate for an external limit object.
+
+\begin{definition}[Located real limit carrier]
+\label{def:located-real-limit-carrier}
+A $\LocatedRealLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(R,Q,W,T,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the terminal $\RealUp$ seal row for the named located limit.
+\item $Q$ is the $\RegSeqRatUp$ tail row whose rational approximants supply the displayed limit data.
+\item $W$ is the $\StreamNameUp$ finite-window row through which requests for an index and tolerance are inspected.
+\item $T$ is the located tolerance coverage row, recording that every positive dyadic tolerance has a finite tail window in which the displayed rational approximants are compatible with $R$.
+\item $U$ is the separated uniqueness row for the $\RealUp$ seal, identifying two accepted limit packets only through Real separatedness and the shared tail coverage data.
+\item $H$ records componentwise $\hsame$ transport for $R,Q,W,T,U,C,P,N$.
+\item $C$ records displayed $\Cont$ replay of the same request-to-tail route.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealLimitUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRealLimitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,Q,W,T,U,H,C,P,N$. It has no coordinate for a host limit, selected subsequence, quotient representative, ambient completeness of $\RealUp$, countable choice, or classical trichotomy.
+\end{definition}
+
+\begin{theorem}[Located real limit NameCert obligations]
+\label{thm:located-real-limit-namecert-obligations}
+For every accepted $\LocatedRealLimitUp$ carrier $L=(R,Q,W,T,U,H,C,P,N)$, the local $\NameCert_{\LocatedRealLimitUp}$ surface consists exactly of carrier admission for the terminal $\RealUp$ seal, $\RegSeqRatUp$ tail data, $\StreamNameUp$ finite windows, located tolerance coverage, separated Real uniqueness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. In particular:
+\begin{enumerate}
+\item carrier admission exposes only the displayed rows $R,Q,W,T,U,H,C,P,N$;
+\item located tolerance coverage is witnessed by the finite tail window row $W$ and the tolerance row $T$;
+\item $\RegSeqRatUp$ tail compatibility is read through the same tail row $Q$ before the Real seal $R$ may be consumed;
+\item uniqueness of the named limit is separated by $U$ and the $\RealUp$ carrier, not by host equality;
+\item the provenance ledger has no escape to host limits, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-real-limit-carrier}. The only visible rows are $R,Q,W,T,U,H,C,P,N$, so admission and naming are finite and local to the packet.
+
+Given a positive tolerance request, the finite window row $W$ supplies the inspected tail segment and the tolerance row $T$ records the corresponding located coverage. The regular rational tail row $Q$ is the only source of approximants used by the Real seal $R$.
+
+If two accepted packets present the same tail coverage, the separated uniqueness row $U$ compares their terminal Real seals through the $\RealUp$ boundary. Transport, replay, provenance, and local naming preserve that route. Since no host-limit, selector, quotient representative, choice, trichotomy, or ambient-completeness coordinate appears in the carrier, the listed rows exhaust the local $\NameCert$ obligations.
+\end{proof}
+
+\begin{theorem}[Located real limit tail route]
+\label{thm:located-real-limit-tail-route}
+Every Real or Completion consumer of an accepted $\LocatedRealLimitUp$ carrier factors its limit read through the finite route
+$$
+Q \to W \to T \to R \to U \to H \to C \to P \to N .
+$$
+Thus the consumer reads $\RegSeqRatUp$ tail data, $\StreamNameUp$ finite windows, located tolerance coverage, the terminal $\RealUp$ seal, separated uniqueness, transport, replay, provenance, and local naming before treating the packet as a located real limit.
+\end{theorem}
+\begin{proof}
+Open the terminal Real seal row $R$. By \autoref{def:located-real-limit-carrier}, that row is packaged with the regular rational tail row, the finite observation window row, and the located tolerance row.
+
+Apply \autoref{thm:located-real-limit-namecert-obligations}. It forces each consumer read to expose $Q,W,T$ before the seal and then the separated uniqueness, transport, replay, provenance, and local naming rows.
+
+The sibling Real and regular rational chapters supply the carrier boundaries cited above, while this packet records their joint limit-facing handoff. Because the route contains no coordinate for host limits, selected representatives, countable choice, quotient equality, or ambient completeness, the displayed finite path is the complete consumer boundary.
+\end{proof}
+
+\falsifiablePrediction{Every accepted LocatedRealLimitUp read exposes RegSeqRat tail data, StreamName finite windows, located tolerance coverage, a RealUp seal, separated uniqueness, hsame transport, Cont replay, Pkg provenance, and local NameCert before a consumer receives the limit boundary.}
+
+\independenceWitness{real, regseqrat, streamname, dyadicratcore: $\LocatedRealLimitUp$ is not bijective to any listed sibling because it jointly binds terminal Real sealing, regular rational tails, finite observation windows, located tolerance coverage, separated uniqueness, transport, replay, provenance, and local naming while refusing host limits and choice.}
+
+\closureat{LocatedRealLimitUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealLimitUp}
+  \constructivestory{A $\LocatedRealLimitUp$ packet is generated from a terminal Real seal, RegSeqRat tail data, StreamName finite windows, located tolerance coverage, separated Real uniqueness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-limit-carrier}, \autoref{thm:located-real-limit-namecert-obligations}, and \autoref{thm:located-real-limit-tail-route} seed the finite located-limit boundary over Real, RegSeqRat, and StreamName rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host limits, selected representatives, countable choice, quotient equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located tolerance coverage, RegSeqRat tail compatibility, separated Real uniqueness, ledger non-escape, transport, replay, provenance, and local naming for BEDC.Derived.LocatedRealLimitUp.}
+\end{closurestatus}
