@@ -126,4 +126,95 @@ theorem CauchyCompletionMinimalityCarrier_finite_row_induction [AskSetup] [Packa
     ⟨cert, denseUnary, universalReadUnary, extensionReadUnary, comparedUnary,
       replayReadUnary, provenanceReadUnary, nameReadUnary⟩
 
+theorem CauchyCompletionMinimalityCarrier_transport_stability [AskSetup] [PackageSetup]
+    {source completion embedding universal extension separated transport replay provenance name
+      source' completion' embedding' universal' extension' separated' transport' replay'
+      provenance' name' denseRead comparedRead transportedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionMinimalityCarrier source completion embedding universal extension separated
+        transport replay provenance name bundle pkg →
+      CauchyCompletionMinimalityCarrier source' completion' embedding' universal' extension'
+          separated' transport' replay' provenance' name' bundle pkg →
+        hsame completion completion' →
+          hsame embedding embedding' →
+            hsame extension extension' →
+              hsame separated separated' →
+                Cont completion embedding denseRead →
+                  Cont extension separated comparedRead →
+                    Cont completion' embedding' transportedRead →
+                      SemanticNameCert
+                          (fun row : BHist => hsame row transportedRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row denseRead ∨ hsame row comparedRead ∨
+                              hsame row transportedRead ∨ hsame row transport ∨
+                                hsame row transport')
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont completion embedding denseRead ∧
+                              Cont extension separated comparedRead ∧
+                                Cont completion' embedding' transportedRead ∧
+                                  hsame completion completion' ∧
+                                    hsame embedding embedding' ∧
+                                      hsame extension extension' ∧
+                                        hsame separated separated')
+                          hsame ∧
+                        UnaryHistory denseRead ∧ UnaryHistory comparedRead ∧
+                          UnaryHistory transportedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro sourceCarrier targetCarrier sameCompletion sameEmbedding sameExtension sameSeparated
+    denseRoute comparedRoute transportedRoute
+  obtain ⟨_sourceUnary, completionUnary, embeddingUnary, _universalUnary, extensionUnary,
+    separatedUnary, _transportUnary, _replayUnary, _provenanceUnary, _nameUnary,
+    _carrierUniversalRoute, _carrierSeparatedRoute, _provenancePkg⟩ := sourceCarrier
+  obtain ⟨_sourceUnary', completionUnary', embeddingUnary', _universalUnary',
+    _extensionUnary', _separatedUnary', _transportUnary', _replayUnary',
+    _provenanceUnary', _nameUnary', _targetUniversalRoute, _targetSeparatedRoute,
+    _targetProvenancePkg⟩ := targetCarrier
+  have denseUnary : UnaryHistory denseRead :=
+    unary_cont_closed completionUnary embeddingUnary denseRoute
+  have comparedUnary : UnaryHistory comparedRead :=
+    unary_cont_closed extensionUnary separatedUnary comparedRoute
+  have transportedUnary : UnaryHistory transportedRead :=
+    unary_cont_closed completionUnary' embeddingUnary' transportedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row transportedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row denseRead ∨ hsame row comparedRead ∨
+              hsame row transportedRead ∨ hsame row transport ∨ hsame row transport')
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont completion embedding denseRead ∧
+              Cont extension separated comparedRead ∧
+                Cont completion' embedding' transportedRead ∧
+                  hsame completion completion' ∧ hsame embedding embedding' ∧
+                    hsame extension extension' ∧ hsame separated separated')
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro transportedRead ⟨hsame_refl transportedRead, transportedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inl source.left))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, denseRoute, comparedRoute, transportedRoute, sameCompletion,
+          sameEmbedding, sameExtension, sameSeparated⟩
+  }
+  exact ⟨cert, denseUnary, comparedUnary, transportedUnary⟩
+
 end BEDC.Derived.CauchyCompletionMinimalityUp
