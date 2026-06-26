@@ -126,16 +126,19 @@ def b2_perp_basis(
     return span_basis([residualize_against(control_basis, q) for q in b2_basis])
 
 
-def row_b2_coordinates(row: dict[str, object], d: list[float]) -> list[float]:
-    z_all = row["z_all"]
+def row_b2_coordinates(row: dict[str, object], r: list[float]) -> list[float]:
     b2_basis = row["b2_basis"]
     b2_perp = row["b2_perp"]
-    assert isinstance(z_all, list)
     assert isinstance(b2_basis, list)
     assert isinstance(b2_perp, list)
-    r = residualize_against(z_all, d)
     projected = project_onto_orthonormal(b2_perp, r)
     return [dot(q, projected) for q in b2_basis]
+
+
+def residualize_rows_against_controls_and_gc(rows: list[dict[str, object]], d_key: str) -> list[list[float]]:
+    features = [row["gc_features"] for row in rows]
+    residuals = [residualize_against(row["z_all"], row[d_key]) for row in rows]
+    return residualize_responses_against_features(features, residuals)  # type: ignore[arg-type]
 
 
 def counts_gc_features(counts: dict[str, int], sense_codons: list[str]) -> dict[str, float]:
@@ -177,6 +180,58 @@ def feature_vector(features: dict[str, float]) -> list[float]:
         max(0.0, gc12 - 0.5),
         max(0.0, global_gc - 0.5),
     ]
+
+
+def codon_gc_moment_basis(
+    sense_codons: list[str],
+    families: dict[str, list[str]],
+    index: dict[str, int],
+) -> list[list[float]]:
+    columns = [[] for _ in feature_vector({"gc3": 0.0, "gc12": 0.0, "global_gc": 0.0})]
+    for codon in sense_codons:
+        gc3 = 1.0 if codon[2] in {"G", "C"} else 0.0
+        gc12 = 0.5 * (
+            (1.0 if codon[0] in {"G", "C"} else 0.0)
+            + (1.0 if codon[1] in {"G", "C"} else 0.0)
+        )
+        global_gc = sum(1.0 for base in codon if base in {"G", "C"}) / 3.0
+        for idx, value in enumerate(feature_vector({"gc3": gc3, "gc12": gc12, "global_gc": global_gc})):
+            columns[idx].append(value)
+    return span_basis([project_syn_float(column, families, index) for column in columns])
+
+
+def feature_sample_basis(features: list[list[float]]) -> list[list[float]]:
+    if not features:
+        return []
+    n = len(features)
+    p = len(features[0])
+    x_means = [mean([row[j] for row in features]) for j in range(p)]
+    x_sds = []
+    for j in range(p):
+        variance = mean([(row[j] - x_means[j]) ** 2 for row in features])
+        x_sds.append(math.sqrt(variance))
+    columns = [[1.0 for _row in range(n)]]
+    for j in range(p):
+        columns.append([((row[j] - x_means[j]) / x_sds[j] if x_sds[j] > NORM_FLOOR else 0.0) for row in features])
+    return span_basis(columns)
+
+
+def residualize_responses_against_features(
+    features: list[list[float]],
+    responses: list[list[float]],
+) -> list[list[float]]:
+    if not responses:
+        return []
+    sample_basis = feature_sample_basis(features)
+    if not sample_basis:
+        return [row[:] for row in responses]
+    n = len(responses)
+    dim = len(responses[0])
+    residual_columns = []
+    for j in range(dim):
+        column = [responses[i][j] for i in range(n)]
+        residual_columns.append(residualize_against(sample_basis, column))
+    return [[residual_columns[j][i] for j in range(dim)] for i in range(n)]
 
 
 def gaussian_solve(a: list[list[float]], b: list[float]) -> list[float] | None:
@@ -363,7 +418,9 @@ def null_distribution(
             movable_samples.append(int(audit["movable_strata"]))
             strata_samples.append(int(audit["strata_total"]))
             dp = apply_permutation(row["d"], permutation, sense_codons, index)  # type: ignore[arg-type]
-            relabeled.append({**row, "b2_coords_perm": row_b2_coordinates(row, dp)})
+            relabeled.append({**row, "d_perm": dp})
+        for relabeled_row, residual in zip(relabeled, residualize_rows_against_controls_and_gc(relabeled, "d_perm")):
+            relabeled_row["b2_coords_perm"] = row_b2_coordinates(relabeled_row, residual)
         stat = statistic_from_rows(relabeled, coord_key="b2_coords_perm")
         values.append(float(stat["T_2geom"]))
     audit = {
@@ -505,33 +562,39 @@ def main() -> None:
     b1_basis = span_basis([[float(value) for value in vector] for vector in exact_b1])
     named_b2 = build_b2_named_columns(sense_codons, families, index)
     b2_basis = span_basis([vector for _name, vector in named_b2])
+    gc_moment_basis = codon_gc_moment_basis(sense_codons, families, index)
 
     prepared, _meta = kfu.prepare_rows(panel, aa_panel, usage_mode="log", sensitivity="main")
     rows = [row for row in prepared if row.get("domain") in DOMAINS]
-    for row in rows:
-        controls = b1_basis + list(row["z_all"])  # type: ignore[arg-type]
-        row["b2_basis"] = b2_basis
-        row["b2_perp"] = b2_perp_basis(b2_basis, controls)
-        row["b2_perp_rank"] = len(row["b2_perp"])  # type: ignore[arg-type]
-        row["b2_coords"] = row_b2_coordinates(row, row["d"])  # type: ignore[arg-type]
-        row["r_coords"] = [dot(q, row["r"]) for q in b2_basis]  # type: ignore[arg-type]
-        source_counts = dict(row.get("source_counts", {}))
-        if not source_counts:
-            source_counts = {}
-
     source_by_key = {
         (str(row.get("organism")), str(row.get("genus")), str(row.get("domain"))): row
         for row in panel.get("rows", [])
         if isinstance(row, dict)
     }
+    for row in rows:
+        z_all = span_basis(list(row["z_all"]) + gc_moment_basis)  # type: ignore[arg-type]
+        row["z_all"] = z_all
+        source = source_by_key.get((str(row.get("organism")), str(row.get("genus")), str(row.get("domain"))))
+        if source is None:
+            row["gc_features"] = feature_vector({"gc3": 0.0, "gc12": 0.0, "global_gc": 0.0})
+        else:
+            row["gc_features"] = feature_vector(counts_gc_features(dict(source["all_codon_counts_rna"]), sense_codons))  # type: ignore[arg-type]
+        controls = b1_basis + z_all
+        row["b2_basis"] = b2_basis
+        row["b2_perp"] = b2_perp_basis(b2_basis, controls)
+        row["b2_perp_rank"] = len(row["b2_perp"])  # type: ignore[arg-type]
+    for row, residual in zip(rows, residualize_rows_against_controls_and_gc(rows, "d")):
+        row["r"] = residual
+        row["b2_coords"] = row_b2_coordinates(row, residual)
+        row["r_coords"] = [dot(q, row["r"]) for q in b2_basis]  # type: ignore[arg-type]
+        source_counts = dict(row.get("source_counts", {}))
+        if not source_counts:
+            source_counts = {}
+
     completeness_features = []
     completeness_responses = []
     for row in rows:
-        source = source_by_key.get((str(row.get("organism")), str(row.get("genus")), str(row.get("domain"))))
-        if source is None:
-            continue
-        counts_row = dict(source["all_codon_counts_rna"])  # type: ignore[arg-type]
-        completeness_features.append(feature_vector(counts_gc_features(counts_row, sense_codons)))
+        completeness_features.append(row["gc_features"])  # type: ignore[arg-type]
         completeness_responses.append(row["r"])  # type: ignore[arg-type]
     completeness_r2 = multivariate_r2(completeness_features, completeness_responses)
 
