@@ -4570,6 +4570,7 @@ import BEDC.Derived.DefiniteDescriptionBoundaryUp.KernelDependencyBinding
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.TasteGate
 import BEDC.Derived.DefinitionTheoremProofAuditUp.TasteGate
 import BEDC.Derived.DeformQuantizationUp
+import BEDC.Derived.DelannoyUp
 import BEDC.Derived.DeletedTychonoffPlankUp
 import BEDC.Derived.DemicontinuityUp
 import BEDC.Derived.DendriteUp.TasteGate
@@ -6391,6 +6392,7 @@ import BEDC.Derived.GaugeIntegralUp
 import BEDC.Derived.GaugeIntegralUp.TasteGate
 import BEDC.Derived.GaugeLebesgueNumberUp.TasteGate
 import BEDC.Derived.GaussBonnetBoundaryUp.TasteGate
+import BEDC.Derived.GaussSumUp
 import BEDC.Derived.GaussTestUp.TasteGate
 import BEDC.Derived.GaussianPrimeUp
 import BEDC.Derived.GaussianUp
@@ -7475,6 +7477,7 @@ import BEDC.Derived.LocatedOpenUp.TasteGate
 import BEDC.Derived.LocatedOpenUp.WindowStability
 import BEDC.Derived.LocatedPositiveRealUp.TasteGate
 import BEDC.Derived.LocatedReal
+import BEDC.Derived.LocatedReal.RatMetricKit
 import BEDC.Derived.LocatedRealBisectionSearchUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCompletenessUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCriterionUp.TasteGate
@@ -8733,11 +8736,11 @@ import BEDC.Derived.MultihistCouplingUp.TasteGate
 import BEDC.Derived.MultinomialUp
 import BEDC.Derived.MyhillNerodeUp.TasteGate
 import BEDC.Derived.NadlerFixedPointUp.TasteGate
-import BEDC.Derived.NarayanaUp
 import BEDC.Derived.NagataSmirnovMetrizationUp
 import BEDC.Derived.NameCertMorphismUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
 import BEDC.Derived.NameEligibilityProofUp.TasteGate
+import BEDC.Derived.NarayanaUp
 import BEDC.Derived.NashEquilibriumUp.TasteGate
 import BEDC.Derived.NatRealEmbeddingUp.TasteGate
 import BEDC.Derived.NatTransUp
