@@ -26,7 +26,7 @@ def finiteSubcoverLedgerDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (finiteSubcoverLedgerDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (finiteSubcoverLedgerDecodeBHist tail)
 
-private theorem FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode_encode :
+private theorem FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
       finiteSubcoverLedgerDecodeBHist (finiteSubcoverLedgerEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -36,16 +36,14 @@ private theorem FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode_en
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def FiniteSubcoverLedgerTasteGate_single_carrier_alignment_fields :
-    FiniteSubcoverLedgerUp → List BHist
+def finiteSubcoverLedgerFields : FiniteSubcoverLedgerUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | FiniteSubcoverLedgerUp.mk K T B D S U H C P N => [K, T, B, D, S, U, H, C, P, N]
+  | FiniteSubcoverLedgerUp.mk K T B D S U H C P N =>
+      [K, T, B, D, S, U, H, C, P, N]
 
 def finiteSubcoverLedgerToEventFlow : FiniteSubcoverLedgerUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (FiniteSubcoverLedgerTasteGate_single_carrier_alignment_fields x).map
-        finiteSubcoverLedgerEncodeBHist
+  | x => (finiteSubcoverLedgerFields x).map finiteSubcoverLedgerEncodeBHist
 
 private def finiteSubcoverLedgerEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -54,8 +52,7 @@ private def finiteSubcoverLedgerEventAt : Nat → EventFlow → RawEvent
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest => finiteSubcoverLedgerEventAt index rest
 
-def finiteSubcoverLedgerFromEventFlow (ef : EventFlow) :
-    Option FiniteSubcoverLedgerUp :=
+def finiteSubcoverLedgerFromEventFlow (ef : EventFlow) : Option FiniteSubcoverLedgerUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (FiniteSubcoverLedgerUp.mk
@@ -90,16 +87,16 @@ private theorem FiniteSubcoverLedgerTasteGate_single_carrier_alignment_round_tri
             (finiteSubcoverLedgerDecodeBHist (finiteSubcoverLedgerEncodeBHist P))
             (finiteSubcoverLedgerDecodeBHist (finiteSubcoverLedgerEncodeBHist N))) =
           some (FiniteSubcoverLedgerUp.mk K T B D S U H C P N)
-      rw [FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode_encode K,
-        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode_encode T,
-        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode_encode B,
-        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode_encode D,
-        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode_encode S,
-        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode_encode U,
-        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode_encode H,
-        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode_encode C,
-        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode_encode P,
-        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode_encode N]
+      rw [FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode K,
+        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode T,
+        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode B,
+        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode D,
+        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode S,
+        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode U,
+        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode H,
+        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode C,
+        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode P,
+        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode N]
 
 private theorem FiniteSubcoverLedgerTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : FiniteSubcoverLedgerUp} :
@@ -119,8 +116,7 @@ instance finiteSubcoverLedgerBHistCarrier : BHistCarrier FiniteSubcoverLedgerUp 
   toEventFlow := finiteSubcoverLedgerToEventFlow
   fromEventFlow := finiteSubcoverLedgerFromEventFlow
 
-instance finiteSubcoverLedgerChapterTasteGate :
-    ChapterTasteGate FiniteSubcoverLedgerUp where
+instance finiteSubcoverLedgerChapterTasteGate : ChapterTasteGate FiniteSubcoverLedgerUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -128,18 +124,26 @@ instance finiteSubcoverLedgerChapterTasteGate :
     exact FiniteSubcoverLedgerTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (FiniteSubcoverLedgerTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+    exact hxy
+      (FiniteSubcoverLedgerTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+
+def finiteSubcoverLedgerTasteGate : ChapterTasteGate FiniteSubcoverLedgerUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  finiteSubcoverLedgerChapterTasteGate
 
 theorem FiniteSubcoverLedgerTasteGate_single_carrier_alignment :
     (∀ h : BHist, finiteSubcoverLedgerDecodeBHist (finiteSubcoverLedgerEncodeBHist h) = h) ∧
-      FiniteSubcoverLedgerTasteGate_single_carrier_alignment_fields
-          (FiniteSubcoverLedgerUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) =
-        [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-          BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
+      (∀ x : FiniteSubcoverLedgerUp,
+        finiteSubcoverLedgerFromEventFlow (finiteSubcoverLedgerToEventFlow x) = some x) ∧
+      (∀ x y : FiniteSubcoverLedgerUp,
+        finiteSubcoverLedgerToEventFlow x = finiteSubcoverLedgerToEventFlow y → x = y) ∧
+      finiteSubcoverLedgerEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
-  constructor
-  · exact FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode_encode
-  · rfl
+  exact
+    ⟨FiniteSubcoverLedgerTasteGate_single_carrier_alignment_decode,
+      FiniteSubcoverLedgerTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        FiniteSubcoverLedgerTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.FiniteSubcoverLedgerUp
