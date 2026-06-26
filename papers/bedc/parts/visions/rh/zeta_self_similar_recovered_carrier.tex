@@ -301,6 +301,100 @@ records precisely the rows, constraints, readbacks, fibers, continuations,
 and ledgers named by $\mathcal D_{\zeta}$.
 \end{principle}
 
+\begin{definition}[Displayed zeta generation signature]
+\label{def:rh-displayed-zeta-generation-signature}
+A displayed zeta generation signature at layer $\ell$ is a BEDC-licensed
+multi-sorted signature
+$$
+\mathcal F_{\zeta,\ell}
+\quad\text{on}\quad
+\mathsf{Sort}_{\zeta}
+:=
+\{
+\mathsf{Obj},
+\mathsf{Win},
+\mathsf{Code},
+\mathsf{Cert},
+\mathsf{Ledger}
+\}.
+$$
+The object sort carries the recovered carrier rows; the window sort carries
+inspection, refinement, pairing, summing, encoding, and sealing windows; the
+code sort carries public readbacks; the certificate sort carries stability
+and correctness witnesses; and the ledger sort carries source, pattern,
+classifier, stability, and replay rows. Typical window constructors have the
+forms
+$$
+\mathsf{idWin},\quad
+\mathsf{composeWin},\quad
+\mathsf{refineWin},\quad
+\mathsf{pairWin},\quad
+\mathsf{sumWin},\quad
+\mathsf{encodeWin},\quad
+\mathsf{sealWin}.
+$$
+Each constructor has displayed input sorts and a displayed ledger row. The
+signature ranges only over the rows named by the ambient zeta diagram; it is
+not a quantifier over every analytic predicate on the complex plane.
+\end{definition}
+
+\begin{definition}[Generated zeta universe]
+\label{def:rh-generated-zeta-universe}
+When the ambient layer supplies the initiality certificate for
+\autoref{def:rh-displayed-zeta-generation-signature}, the generated zeta
+universe is the multi-sorted initial algebra
+$$
+\mathbb U_{\zeta,\ell}:=\mu\mathcal F_{\zeta,\ell}.
+$$
+Its components are written
+$$
+U_{\zeta,\ell}^{\mathsf{Obj}},
+\quad
+U_{\zeta,\ell}^{\mathsf{Win}},
+\quad
+U_{\zeta,\ell}^{\mathsf{Code}},
+\quad
+U_{\zeta,\ell}^{\mathsf{Cert}},
+\quad
+U_{\zeta,\ell}^{\mathsf{Ledger}}.
+$$
+The predicate
+$$
+\mathsf{Generated}_{\zeta,\ell}^{s}(x)
+$$
+means that $x:U_{\zeta,\ell}^{s}$ is obtained by the displayed
+constructors of $\mathcal F_{\zeta,\ell}$. A sealing or completion row is
+generated only when its compatible thread, modulus, branch ledger, and
+replay ledger are also displayed. If the initiality certificate is absent,
+the notation denotes an obligation row, not an additional axiom.
+\end{definition}
+
+\begin{principle}[Internal origin of windows and certificates]
+\label{prin:rh-zeta-internal-origin-windows-certificates}
+In the generated zeta universe, object rows, detection windows, public
+codes, certificates, and ledgers have the same generative origin. For each
+sort $s\in\mathsf{Sort}_{\zeta}$, initial-algebra induction gives
+$$
+\prod_{x:U_{\zeta,\ell}^{s}}
+\mathsf{Generated}_{\zeta,\ell}^{s}(x).
+$$
+Thus a detector for a zero packet, a branch window for continuation, or a
+certificate for a compatibility edge is not an external observer of
+$\mathbb G_{\mathcal D_{\zeta}}$. It is another generated component of the
+same displayed signature.
+\end{principle}
+
+\begin{principle}[Fixed-half closure is not a generator]
+\label{prin:rh-fixed-half-closure-not-generator}
+The fixed-half subcarrier may be read inside
+$\mathbb G_{\mathcal D_{\zeta}}$ only after the neutral zeta diagram, its
+window rows, and its certificate rows have already been generated. The RH
+claim is therefore not a constructor of
+$\mathcal F_{\zeta,\ell}$ and not a defining row of the neutral carrier. It
+is the section target asserting that the zero-ledger projection admitted by
+the generated neutral carrier factors through the fixed-half subcarrier.
+\end{principle}
+
 \begin{definition}[RH-neutral and fixed-half zeta carriers]
 \label{def:rh-neutral-fixed-half-zeta-carriers}
 Let $\mathcal D_{\zeta}^{0}$ be the displayed zeta constraint diagram

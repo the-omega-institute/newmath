@@ -1,0 +1,262 @@
+\chapter{Prime-Skew Boundary Defect Refutation}
+\label{ch:visions-rh-prime-skew-boundary-defect-refutation}
+\origin{ai}
+
+\autoref{ch:visions-rh-prime-fingerprint-separation} shows that an
+off-critical mirror pair is visible to centered prime channels, while
+\autoref{ch:visions-rh-local-global-zero-exclusion-target} isolates the
+zero-defect incompatibility needed for the local-global route. The present
+chapter packages those two ideas as a conditional refutation interface. It
+does not prove the Riemann Hypothesis; it states that, once representation,
+prime-skew detection, and zero-defect incompatibility are all displayed, an
+off-line non-trivial zero cannot be inhabited.
+
+\begin{definition}[Non-trivial zero and off-line zero packets]
+\label{def:rh-prime-skew-nontrivial-offline-zero}
+For a complex history $s$, write
+$$
+\mathcal Z_{\zeta}(s)
+:=
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s).
+$$
+The fixed zero packet is
+$$
+\mathsf{FixedZero}(s)
+:=
+\mathcal Z_{\zeta}(s)\times\mathsf{OnCritLine}(s).
+$$
+The off-line zero packet is
+$$
+\mathsf{OffLineZero}(s)
+:=
+\mathcal Z_{\zeta}(s)\times\mathsf{ApartCrit}(s),
+$$
+where $\mathsf{ApartCrit}(s)$ is a positive rational-level apartness
+witness between $\Re(s)$ and $1/2$. Thus
+$\mathsf{FixedZero}(s)$ is the mirror-fixed zero packet, and
+$\mathsf{OffLineZero}(s)$ is the mirror-split zero packet.
+\end{definition}
+
+\begin{definition}[Prime-visible mirror skew]
+\label{def:rh-prime-visible-mirror-skew}
+For the mirror $J(s)=1-\overline{s}$ and centered prime channel
+$$
+U_p(s):=p^{1/2-s},
+$$
+the prime-visible mirror skew is the family
+$$
+\Delta_p(s)
+:=
+\log |U_p(J(s))|-\log |U_p(s)|.
+$$
+Writing
+$$
+s=\frac12+\delta+i\tau
+$$
+gives
+$$
+|U_p(s)|=p^{-\delta},
+\qquad
+|U_p(J(s))|=p^\delta,
+$$
+and therefore
+$$
+\Delta_p(s)=2\delta\log p.
+$$
+The existential skew row is
+$$
+\mathsf{PrimeSkew}(s)
+:=
+\sum_{p:\PrimeUp}\bigl(\Delta_p(s)\#0\bigr).
+$$
+\end{definition}
+
+\begin{lemma}[Off-line zeros produce prime-visible skew]
+\label{lem:rh-offline-zero-produces-prime-visible-skew}
+For every complex history $s$,
+$$
+\mathsf{OffLineZero}(s)\to\mathsf{PrimeSkew}(s).
+$$
+\end{lemma}
+
+\begin{proof}
+An off-line zero packet supplies $\mathsf{ApartCrit}(s)$, hence a nonzero
+real offset $\delta=\Re(s)-1/2$. By
+\autoref{prop:rh-mirror-prime-amplitude-bias}, the centered prime channels
+read
+$$
+|U_p(s)|=p^{-\delta},
+\qquad
+|U_p(J(s))|=p^\delta.
+$$
+Thus
+$$
+\Delta_p(s)=2\delta\log p.
+$$
+For any displayed prime row $p$, the row $p>1$ gives $\log p>0$, so
+$\delta\#0$ implies $\Delta_p(s)\#0$. Choosing such a prime row gives the
+required element of $\mathsf{PrimeSkew}(s)$.
+\end{proof}
+
+\begin{definition}[Bulk zero atom and prime defect]
+\label{def:rh-bulk-zero-atom-prime-defect}
+Let $T_{\Omega}$ be a displayed bulk carrier with a zeta readout
+$$
+\pi_{\zeta}:T_{\Omega}\to R_{\zeta}.
+$$
+The non-trivial zero atom over $x:T_{\Omega}$ is
+$$
+\mathsf{NTZeroAtom}_{\Omega}(x)
+:=
+\mathsf{ZetaZero}(\pi_{\zeta}(x))
+\times
+\mathsf{InCritStrip}(\pi_{\zeta}(x)).
+$$
+For boundary layers $i$ with projections
+$$
+\pi_i:T_{\Omega}\to R_i,
+$$
+write $\mathsf{PrimeDefect}_i(x)$ for a boundary row saying that the
+prime-visible invariant of $x$ is apart from zero at layer $i$. The global
+defect row is
+$$
+\mathsf{PrimeDefect}_{\Omega}(x)
+:=
+\sum_i \mathsf{PrimeDefect}_i(x).
+$$
+\end{definition}
+
+\begin{definition}[Boundary faithfulness and zero-defect incompatibility]
+\label{def:rh-boundary-faithfulness-zero-defect-incompatibility}
+Prime-skew boundary faithfulness is the statement
+$$
+\mathsf{PrimeSkewDetect}_{\Omega}
+:=
+\prod_{x:T_{\Omega}}
+\bigl(
+\mathsf{PrimeSkew}(\pi_{\zeta}(x))
+\to
+\mathsf{PrimeDefect}_{\Omega}(x)
+\bigr).
+$$
+Prime-defect zero incompatibility is the statement
+$$
+\mathsf{PrimeDefectZeroIncompatibility}_{\Omega}
+:=
+\prod_{x:T_{\Omega}}
+\bigl(
+\mathsf{NTZeroAtom}_{\Omega}(x)
+\times
+\mathsf{PrimeDefect}_{\Omega}(x)
+\to
+\bot
+\bigr).
+$$
+Together they say that a prime-visible skew cannot be invisible to all
+boundary readouts, and that an accepted non-trivial zero atom cannot also
+carry such a boundary defect.
+\end{definition}
+
+\begin{definition}[Bulk representation of zero packets]
+\label{def:rh-bulk-representation-zero-packets}
+A bulk representation row for non-trivial zero packets is the statement
+$$
+\mathsf{BulkRep}_{\Omega}
+:=
+\prod_s
+\bigl(
+\mathcal Z_{\zeta}(s)
+\to
+\sum_{x:T_{\Omega}}
+\pi_{\zeta}(x)\sim s
+\bigr).
+$$
+The equivalence row is a classifier transport certificate; it is not a
+claim that $s$ is a bare point of the bulk carrier.
+\end{definition}
+
+\begin{theorem}[Boundary-defect refutation of off-line zeros]
+\label{thm:rh-boundary-defect-refutes-offline-zeros}
+Assume $\mathsf{BulkRep}_{\Omega}$,
+$\mathsf{PrimeSkewDetect}_{\Omega}$, and
+$\mathsf{PrimeDefectZeroIncompatibility}_{\Omega}$. Then
+$$
+\prod_s
+\bigl(
+\mathsf{OffLineZero}(s)\to\bot
+\bigr).
+$$
+\end{theorem}
+
+\begin{proof}
+Fix $s$ and assume $H:\mathsf{OffLineZero}(s)$. The first component of $H$
+is $\mathcal Z_{\zeta}(s)$, so $\mathsf{BulkRep}_{\Omega}$ supplies
+$x:T_{\Omega}$ with $\pi_{\zeta}(x)\sim s$. Transporting the zero and
+critical-strip rows along this equivalence gives
+$$
+\mathsf{NTZeroAtom}_{\Omega}(x).
+$$
+By \autoref{lem:rh-offline-zero-produces-prime-visible-skew}, $H$ also
+supplies $\mathsf{PrimeSkew}(s)$. Transporting this skew row along
+$\pi_{\zeta}(x)\sim s$ gives $\mathsf{PrimeSkew}(\pi_{\zeta}(x))$. By
+$\mathsf{PrimeSkewDetect}_{\Omega}$, this yields
+$$
+\mathsf{PrimeDefect}_{\Omega}(x).
+$$
+Now $x$ carries both $\mathsf{NTZeroAtom}_{\Omega}(x)$ and
+$\mathsf{PrimeDefect}_{\Omega}(x)$, contradicting
+$\mathsf{PrimeDefectZeroIncompatibility}_{\Omega}$. Hence
+$\mathsf{OffLineZero}(s)\to\bot$, and $s$ was arbitrary.
+\end{proof}
+
+\begin{corollary}[Located critical-strip zeros give the RH predicate]
+\label{cor:rh-located-zero-defect-refutation-gives-rh}
+Assume the hypotheses of
+\autoref{thm:rh-boundary-defect-refutes-offline-zeros} and a located
+critical-line classifier
+$$
+\prod_s
+\bigl(
+\mathcal Z_{\zeta}(s)
+\to
+\mathsf{OnCritLine}(s)+\mathsf{ApartCrit}(s)
+\bigr).
+$$
+Then the BEDC RH predicate of \autoref{def:rh-predicate} is inhabited.
+\end{corollary}
+
+\begin{proof}
+Given $\mathcal Z_{\zeta}(s)$, apply the located classifier. In the
+$\mathsf{OnCritLine}(s)$ case, the desired witness is present. In the
+$\mathsf{ApartCrit}(s)$ case, the pair
+$\mathcal Z_{\zeta}(s)\times\mathsf{ApartCrit}(s)$ is an off-line zero
+packet, contradicted by
+\autoref{thm:rh-boundary-defect-refutes-offline-zeros}. Thus the only
+surviving branch supplies $\mathsf{OnCritLine}(s)$.
+\end{proof}
+
+\begin{corollary}[Off-line zero type is empty]
+\label{cor:rh-offline-zero-type-empty}
+Under the hypotheses of
+\autoref{thm:rh-boundary-defect-refutes-offline-zeros}, the sigma type
+$$
+\sum_s \mathsf{OffLineZero}(s)
+$$
+maps to $\bot$.
+\end{corollary}
+
+\begin{proof}
+Given $(s,H):\sum_s\mathsf{OffLineZero}(s)$, apply
+\autoref{thm:rh-boundary-defect-refutes-offline-zeros} to $s$ and $H$.
+\end{proof}
+
+\begin{principle}[Scope of the boundary-defect route]
+\label{prin:rh-boundary-defect-route-scope}
+The route proves no unconditional analytic incompatibility. Its two
+substantive premises are boundary faithfulness and zero-defect
+incompatibility. If boundary faithfulness fails, prime-visible skew may be
+lost before reaching the observed boundary layers. If zero-defect
+incompatibility fails, a non-trivial zero atom can coexist with a nonzero
+prime defect. Either failure identifies a precise analytic obligation rather
+than a proof or disproof of $\mathsf{RH}$.
+\end{principle}
