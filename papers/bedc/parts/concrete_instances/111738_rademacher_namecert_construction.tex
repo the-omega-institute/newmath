@@ -63,6 +63,30 @@ Transport, replay, provenance, and local naming preserve the same route. Thus ev
 \end{proof}
 \leanchecked{BEDC.Derived.RademacherUp.RademacherCarrier\_finite\_derivative\_candidate\_packet}
 
+\begin{theorem}[Rademacher difference-window obligation]
+\label{thm:rademacher-difference-window-obligation}
+Every accepted $\RademacherUp$ carrier exposes derivative-candidate reads only through the finite dyadic-radius row $D$, metric-neighborhood row $M$, Lipschitz-bound row $L$, absolute-continuity control row $A$, terminal Real-seal row $E$, and the structural rows $H,C,P,N$ already listed in \autoref{def:rademacher-carrier}. No derivative-candidate read bypasses those rows through a host derivative, a measurable exceptional set, a quotient representative, or an unbounded radius schedule.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $R=(L,E,D,M,A,H,C,P,N)$. The carrier definition lists the Lipschitz row, Real seal, dyadic ledger, metric neighborhoods, absolute-continuity control, componentwise transport, replay, provenance, and local naming as the only visible coordinates.
+
+Apply \autoref{thm:rademacher-namecert-obligations}. It makes the local $\NameCert_{\RademacherUp}$ surface exactly those rows, so a derivative-candidate request has no admissible public coordinate outside $L,E,D,M,A,H,C,P,N$.
+
+Finally use \autoref{thm:rademacher-finite-derivative-candidate-packet}. The Real-facing endpoint of the route is reached only after $D,M,L,A$ have supplied the displayed dyadic radii, metric neighborhoods, Lipschitz bounds, and finite variation budget. Thus every candidate read remains inside the finite window and cannot import any excluded host, quotient, measurable, or unbounded schedule datum.
+\end{proof}
+
+\begin{theorem}[Rademacher absolute-continuity boundary]
+\label{thm:rademacher-absolute-continuity-boundary}
+For every accepted $\RademacherUp$ carrier $R=(L,E,D,M,A,H,C,P,N)$, the absolute-continuity row $A$ may bound the displayed finite variation window used by the difference-quotient route, but it cannot be read as a measurable exceptional-set row, a Lebesgue almost-everywhere derivative theorem, a selected derivative function, a Lebesgue algebra, quotient equality, countable choice, or host real equality.
+\end{theorem}
+\begin{proof}
+Begin with the row inventory of \autoref{def:rademacher-carrier}. Row $A$ is the absolute-continuity control row, and the definition assigns it only the finite interval or curve-window budget consumed by the displayed derivative-candidate packet.
+
+The NameCert obligations keep that interpretation fixed. By \autoref{thm:rademacher-namecert-obligations}, $A$ is one of the exposed analytic rows, while $H,C,P,N$ transport, replay, source, and name the same packet without adding coordinates.
+
+Now apply \autoref{thm:rademacher-finite-derivative-candidate-packet} and \autoref{thm:rademacher-difference-window-obligation}. Both routes place $A$ before the terminal Real seal and inside the finite dyadic and metric window, so it bounds the visible variation request only. Since the carrier contains no measurable exceptional-set row, a.e. derivative row, selected derivative function, Lebesgue algebra, quotient-equality row, choice row, or host equality row, none can be read from $A$.
+\end{proof}
+
 \closureat{RademacherUp}{seedStr}
 
 \begin{closurestatus}{\RademacherUp}

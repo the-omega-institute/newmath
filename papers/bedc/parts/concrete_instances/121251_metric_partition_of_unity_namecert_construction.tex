@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\MetricPartitionOfUnityUp$}
+\label{ch:concrete-instances-metric-partition-of-unity-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop--Bridges on metric covers and locally finite analytic gluing, the $\MetricPartitionOfUnityUp$ packet records the finite BEDC route by which a metric-source cover is read as a locally finite subordinate partition certificate. It sits after the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the locally finite cover surface of \autoref{ch:concrete-instances-locally-finite-cover-namecert}, the paracompact refinement ledger of \autoref{ch:concrete-instances-paracompact-namecert}, and the partition surface of \autoref{ch:concrete-instances-partition-of-unity-namecert}. The packet names only displayed metric-cover, support, finite-weight, normalization, transport, replay, provenance, and local naming rows; it does not select arbitrary host functions, choose subcovers, import open-cover compactness, or identify analytic functions extensionally.
+
+\begin{definition}[Metric partition of unity carrier]
+\label{def:metric-partition-of-unity-carrier}
+A $\MetricPartitionOfUnityUp$ carrier is a finite $\BHist$ packet
+$$
+U=(M,T,L,Q,S,W,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricSpaceUp$ source row, exposing the displayed distance, ball, and metric-cover requests whose subordinate weights are being named.
+\item $T$ is the $\TopologyUp$ handoff row induced by the metric balls, recording the open-set interpretation used by every cover and support read.
+\item $L$ is the $\LocallyFiniteCoverUp$ row, recording the locally finite cover cells, finite neighbourhood witnesses, and assignment back to the metric-cover request.
+\item $Q$ is the $\ParacompactUp$ refinement ledger that keeps the locally finite cover route visible without selecting an arbitrary host subcover.
+\item $S$ is the subordinate support row, listing for each displayed cover cell the support window in which the corresponding weight row may be nonzero.
+\item $W$ is the finite weight row, listing the finitely many nonzero weights visible at each displayed metric neighbourhood read.
+\item $Z$ is the normalization row, recording that the displayed finite weights sum to the unit row on the covered metric region.
+\item $H$ is componentwise $\hsame$ transport for $M,T,L,Q,S,W,Z,C,P,N$.
+\item $C$ is displayed $\Cont$ replay from the metric-cover request through the locally finite cover, support, weight, and normalization rows.
+\item $P$ is the $\Pkg$ provenance over $\MetricPartitionOfUnityUp$, $\MetricSpaceUp$, $\TopologyUp$, $\LocallyFiniteCoverUp$, $\ParacompactUp$, $\PartitionOfUnityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetricPartitionOfUnityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,T,L,Q,S,W,Z,H,C,P,N$. It has no coordinate for a host-selected function family, arbitrary subcover selection, open-cover compactness, unlogged support choice, or extensional equality of real-valued functions.
+\end{definition}
+
+\begin{theorem}[Metric partition of unity NameCert obligations]
+\label{thm:metric-partition-of-unity-namecert-obligations}
+For every accepted $\MetricPartitionOfUnityUp$ carrier
+$$
+U=(M,T,L,Q,S,W,Z,H,C,P,N),
+$$
+the local $\NameCert_{\MetricPartitionOfUnityUp}$ surface consists exactly of carrier admission for the metric source row, topology handoff, locally finite cover row, paracompact refinement ledger, subordinate support rows, finite weight rows, normalization row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every partition consumer must read the finite route
+$$
+M \longmapsto T \longmapsto L,Q \longmapsto S,W,Z \longmapsto H,C,P,N
+$$
+before it treats subordinate weights as metric analytic data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metric-partition-of-unity-carrier}. The accepted packet displays exactly the metric source, topology handoff, locally finite cover, paracompact refinement, support, weight, normalization, transport, replay, provenance, and local naming rows.
+
+The metric source row $M$ is read first, and $T$ records the open-set interpretation of the displayed metric balls. The locally finite cover row $L$ and paracompact refinement row $Q$ then supply the cover cells and finite neighbourhood witnesses without adding a host subcover selector.
+
+The subordinate support, weight, and normalization rows are $S,W,Z$. They expose support containment, the finite list of nonzero weights visible at a displayed metric neighbourhood, and the corresponding sum-to-one row on the covered region.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for arbitrary function selection, open-cover compactness, or extensional equality of functions, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Metric cover partition route]
+\label{thm:metric-partition-of-unity-cover-route}
+Every $\PartitionOfUnityUp$ or metric-analysis consumer of an accepted $\MetricPartitionOfUnityUp$ packet must pass through the $\MetricSpaceUp$ source row, the $\TopologyUp$ handoff, the $\LocallyFiniteCoverUp$ row, and the $\ParacompactUp$ refinement ledger before reading subordinate supports, finite weights, or normalization data. Thus the metric partition certificate is a finite cover route, not a host construction of real-valued functions.
+\end{theorem}
+\begin{proof}
+Read the dependency route in \autoref{thm:metric-partition-of-unity-namecert-obligations}. It places the metric source $M$ and topology handoff $T$ before the locally finite and refinement rows $L,Q$.
+
+The rows $S,W,Z$ are downstream of that cover route. A support row is subordinate to a displayed cover cell, a weight row is visible only through the finite neighbourhood witnesses, and the normalization row sums only the displayed finite support.
+
+The final rows $H,C,P,N$ authenticate the same route. Therefore a consumer reaches the partition surface only through the metric and topological cover ledger already named by the packet, with no hidden function family or subcover selection.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetricPartitionOfUnityUp$ read exposes a MetricSpace source row, Topology handoff, LocallyFiniteCover row, Paracompact refinement ledger, subordinate support rows, finite weight rows, normalization row, hsame transport, Cont replay, Pkg provenance, and local NameCert row before any partition or metric-analysis consumer reads it.}
+
+\independenceWitness{metricspace, topology, locally-finite-cover, paracompact, partition-of-unity: $\MetricPartitionOfUnityUp$ is not bijective to any listed sibling because it jointly binds a metric-source cover, topology handoff, locally finite cover cells, refinement ledger, subordinate support rows, finite weight rows, normalization, transport, replay, provenance, and local naming in one finite certificate.}
+
+\closureat{MetricPartitionOfUnityUp}{seedStr}
+
+\begin{closurestatus}{\MetricPartitionOfUnityUp}
+  \constructivestory{A $\MetricPartitionOfUnityUp$ packet is generated from a MetricSpace source row, Topology handoff, LocallyFiniteCover row, Paracompact refinement ledger, subordinate support rows, finite weight rows, normalization row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-partition-of-unity-carrier}, \autoref{thm:metric-partition-of-unity-namecert-obligations}, and \autoref{thm:metric-partition-of-unity-cover-route} seed the finite metric-cover route from metric balls and topological opens to subordinate partition weights.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host-selected function families, arbitrary subcover selection, open-cover compactness, analytic function extensionality, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric-source exactness, topology handoff exactness, locally finite cover exactness, subordinate support exactness, finite weight normalization, transport, replay, provenance, and local naming for BEDC.Derived.MetricPartitionOfUnityUp.}
+\end{closurestatus}
