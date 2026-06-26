@@ -1944,6 +1944,8 @@ import BEDC.Derived.CauchyDiagonalCompactnessUp.TasteGate
 import BEDC.Derived.CauchyDiagonalFusionUp.TasteGate
 import BEDC.Derived.CauchyDiagonalLimitUp.TasteGate
 import BEDC.Derived.CauchyDiagonalSelectionUp.TasteGate
+import BEDC.Derived.CauchyDifferenceCriterionUp.NameCertObligations
+import BEDC.Derived.CauchyDifferenceCriterionUp.RegularTailStability
 import BEDC.Derived.CauchyDifferenceCriterionUp.TailDiameterHandoff
 import BEDC.Derived.CauchyDifferenceCriterionUp.TasteGate
 import BEDC.Derived.CauchyDifferenceCriterionUp.ZeroDistanceCorrespondence
@@ -2455,6 +2457,7 @@ import BEDC.Derived.CauchyProductUp.WindowProductReadback
 import BEDC.Derived.CauchyQuotientBoundaryUp
 import BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
 import BEDC.Derived.CauchyQuotientCriterionUp.TasteGate
+import BEDC.Derived.CauchyRateBudgetUp.NameCertObligations
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
 import BEDC.Derived.CauchyRateComparisonUp.NameCertObligations
 import BEDC.Derived.CauchyRateComparisonUp.TasteGate
@@ -9517,6 +9520,7 @@ import BEDC.Derived.ProximalMapUp.TasteGate
 import BEDC.Derived.ProximinalSetUp.TasteGate
 import BEDC.Derived.PseudoArcUp
 import BEDC.Derived.PseudometricUp
+import BEDC.Derived.PseudometricUp.BridgedRoute
 import BEDC.Derived.PseudometricUp.ClassifierStability
 import BEDC.Derived.PseudometricUp.ClassifierTransportObligation
 import BEDC.Derived.PseudometricUp.CompletionNonescapeObligation
