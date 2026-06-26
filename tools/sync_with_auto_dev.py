@@ -673,6 +673,32 @@ def _origin_sha(branch: str) -> str | None:
     return res.stdout.strip() or None
 
 
+def _is_ancestor(maybe_ancestor: str, descendant: str) -> bool:
+    res = git("merge-base", "--is-ancestor", maybe_ancestor, descendant,
+              check=False, capture=True)
+    return res.returncode == 0
+
+
+def _seed_validation_lake_cache(wt_path: Path) -> None:
+    src = REPO_ROOT / "lean4" / ".lake"
+    dst = wt_path / "lean4" / ".lake"
+    if dst.exists() or not src.exists():
+        return
+    try:
+        dst.mkdir(parents=True, exist_ok=True)
+        packages = src / "packages"
+        if packages.exists():
+            os.symlink(packages, dst / "packages", target_is_directory=True)
+        for name in ("build", "config"):
+            item = src / name
+            if item.exists():
+                run(["cp", "-c", "-R", str(item), str(dst / name)],
+                    check=True, capture=True, timeout=300)
+    except Exception as exc:
+        print(f"[sync] dev->codex-auto-dev validation: warning: "
+              f"could not seed .lake cache: {exc}", file=sys.stderr)
+
+
 def _remove_validation_worktree() -> None:
     """Tear down the scratch validation worktree so the next cycle recreates it
     cleanly.
@@ -700,20 +726,21 @@ def _remove_validation_worktree() -> None:
 
 
 def _run_validation_gate(cmd: list[str], *, cwd: Path, label: str,
-                         timeout: int | None = None) -> bool:
+                         timeout: int | None = None,
+                         prefix: str = "dev->auto-dev validation") -> bool:
     try:
         res = run(cmd, cwd=cwd, check=False, capture=True, timeout=timeout)
     except subprocess.TimeoutExpired:
-        print(f"[sync] dev->auto-dev validation: {label} timed out after {timeout}s")
+        print(f"[sync] {prefix}: {label} timed out after {timeout}s")
         return False
     except Exception as exc:
-        print(f"[sync] dev->auto-dev validation: {label} could not run: {exc}")
+        print(f"[sync] {prefix}: {label} could not run: {exc}")
         return False
     if res.returncode == 0:
         return True
     out = ((res.stdout or "") + (res.stderr or "")).strip().splitlines()
     tail = out[-1] if out else "no output"
-    print(f"[sync] dev->auto-dev validation: {label} failed rc={res.returncode}: {tail[:240]}")
+    print(f"[sync] {prefix}: {label} failed rc={res.returncode}: {tail[:240]}")
     return False
 
 
@@ -815,6 +842,124 @@ def _restore_orphan_concrete_hubs(cwd: Path, source_branch: str) -> None:
     print(f"[sync] rollup: restored {len(restored)} numbered concrete hub(s) "
           f"orphaned by silent merge deletion "
           f"(folded into merge commit): {', '.join(Path(p).name for p in restored)}")
+
+
+def validate_dev_to_pipeline_in_worktree(base_sha: str, dev_sha: str) -> bool:
+    _remove_validation_worktree()
+    git("branch", "-D", VALIDATION_BRANCH, check=False, capture=True)
+    add = git("worktree", "add", "-b", VALIDATION_BRANCH, str(VALIDATION_WORKTREE),
+              base_sha, check=False, capture=True)
+    if add.returncode != 0:
+        print(f"[sync] dev->codex-auto-dev validation: worktree add failed: "
+              f"{((add.stdout or '') + (add.stderr or '')).strip()[:240]}")
+        return False
+
+    _seed_validation_lake_cache(VALIDATION_WORKTREE)
+    merge = run(["git", "merge", "--no-ff", "--no-edit", dev_sha],
+                cwd=VALIDATION_WORKTREE, check=False, capture=True)
+    if merge.returncode != 0:
+        run(["git", "merge", "--abort"], cwd=VALIDATION_WORKTREE,
+            check=False, capture=True)
+        print("[sync] dev->codex-auto-dev validation: merge conflict "
+              "(unexpected), abort")
+        return False
+
+    _regen_manifest(VALIDATION_WORKTREE)
+    _restore_orphan_concrete_hubs(VALIDATION_WORKTREE, SOURCE_BRANCH)
+
+    if not _run_validation_gate(["lake", "build"],
+                                cwd=VALIDATION_WORKTREE / "lean4",
+                                label="lake build", timeout=3600,
+                                prefix="dev->codex-auto-dev validation"):
+        return False
+    if not _run_validation_gate(["python3", "lean4/scripts/bedc_ci.py", "audit"],
+                                cwd=VALIDATION_WORKTREE,
+                                label="bedc_ci audit",
+                                prefix="dev->codex-auto-dev validation"):
+        return False
+    if not _run_validation_gate(["make", "warn"],
+                                cwd=VALIDATION_WORKTREE / "papers" / "bedc",
+                                label="make warn",
+                                prefix="dev->codex-auto-dev validation"):
+        return False
+
+    print("[sync] dev->codex-auto-dev validation: gates passed")
+    return True
+
+
+def sync_dev_to_pipeline_validated(*, no_push: bool) -> bool:
+    git("fetch", "origin", "--prune", check=False, capture=True)
+    if _is_ancestor(f"origin/{UPSTREAM_BRANCH}", f"origin/{SOURCE_BRANCH}"):
+        print("[sync] backflow: dev already absorbed into codex-auto-dev; skip")
+        return True
+
+    base_sha = _origin_sha(SOURCE_BRANCH)
+    dev_sha = _origin_sha(UPSTREAM_BRANCH)
+    if base_sha is None or dev_sha is None:
+        print("[sync] backflow: missing origin SHA", file=sys.stderr)
+        return False
+
+    if not validate_dev_to_pipeline_in_worktree(base_sha, dev_sha):
+        return False
+    if no_push:
+        return True
+
+    try:
+        with acquire_main_checkout_lock(timeout=180):
+            git("fetch", "origin", "--prune", check=False, capture=True)
+            if _is_ancestor(f"origin/{UPSTREAM_BRANCH}", f"origin/{SOURCE_BRANCH}"):
+                print("[sync] backflow: dev absorbed during validation; skip")
+                return True
+
+            cur = _origin_sha(SOURCE_BRANCH)
+            if cur is None:
+                print("[sync] backflow: current origin tip missing", file=sys.stderr)
+                return False
+            if has_local_branch(SOURCE_BRANCH):
+                git("checkout", SOURCE_BRANCH, check=False, capture=True)
+                ff = git("merge", "--ff-only", cur, check=False, capture=True)
+                if ff.returncode != 0:
+                    print("[sync] backflow: local codex-auto-dev cannot ff to "
+                          "origin tip; retry next cycle")
+                    return False
+            else:
+                co = git("checkout", "-b", SOURCE_BRANCH, cur,
+                         check=False, capture=True)
+                if co.returncode != 0:
+                    print("[sync] backflow: checkout of current origin tip failed; "
+                          "retry next cycle")
+                    return False
+
+            msg = (
+                "sync: merge origin/%s into %s\n\n"
+                "Upstream: %s\n"
+                "Base: %s\n"
+                "Validated-by: sync_with_auto_dev.py"
+            ) % (UPSTREAM_BRANCH, SOURCE_BRANCH, dev_sha, cur)
+            merge = git("merge", "--no-ff", "-m", msg, f"origin/{UPSTREAM_BRANCH}",
+                        check=False, capture=True)
+            if merge.returncode != 0:
+                git("merge", "--abort", check=False, capture=True)
+                print("[sync] backflow: merge into current tip conflicted; "
+                      "retry next cycle")
+                return False
+            _regen_manifest(REPO_ROOT)
+            _restore_orphan_concrete_hubs(REPO_ROOT, SOURCE_BRANCH)
+            push = run(["git", "push", "origin",
+                        f"HEAD:refs/heads/{SOURCE_BRANCH}"],
+                       check=False, capture=True)
+            if push.returncode != 0:
+                print("[sync] backflow: push failed rc=%d; retry next cycle"
+                      % push.returncode)
+                return False
+            git("fetch", "origin", "--prune", check=False, capture=True)
+    except TimeoutError as exc:
+        print("[sync] backflow: push-lock timeout: %s" % exc, file=sys.stderr)
+        return False
+
+    print("[sync] backflow: merged origin/%s into %s and pushed"
+          % (UPSTREAM_BRANCH, SOURCE_BRANCH))
+    return True
 
 
 def validate_dev_merge_in_worktree() -> tuple[bool, str | None, str | None]:
@@ -1317,6 +1462,9 @@ def main():
         MIRROR_BRANCH = args.mirror_branch
     PR_BRANCH = args.rollup_branch or _rollup_branch_name(SOURCE_BRANCH, UPSTREAM_BRANCH)
 
+    backflow_ok = sync_dev_to_pipeline_validated(no_push=args.no_push)
+    if not backflow_ok:
+        print("[sync] backflow did not complete this cycle; continuing to rollup")
     ok = sync_rollup_pr(SOURCE_BRANCH, UPSTREAM_BRANCH, PR_BRANCH,
                         no_push=args.no_push)
     if not ok:
