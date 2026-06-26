@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\WindingNumberUp$}
+\label{ch:concrete-instances-winding-number-namecert}
+\origin{human}
+
+Following Poincare and the standard algebraic-topology treatment of loops in the circle, the $\WindingNumberUp$ packet records the finite certificate surface by which a displayed loop into $\CircleUp$ receives an integer degree read through $\SOneUp$ and real-coordinate windows. It sits beside the phase-circle certificate of \autoref{ch:concrete-instances-s1-namecert}, the topological circle boundary of \autoref{ch:concrete-instances-circle-namecert}, the continuous-map source of \autoref{ch:concrete-instances-continuous-namecert}, the integer target of \autoref{ch:concrete-instances-int-namecert}, and the real-coordinate seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the finite loop-degree boundary; it does not claim a full fundamental-group computation, classical covering-space lifting, unrestricted homotopy invariance, or quotient path equality.
+
+\begin{definition}[Winding-number carrier]
+\label{def:winding-number-carrier}
+A $\WindingNumberUp$ carrier is a finite $\BHist$ packet
+$$
+W=(L,S,C,I,R,D,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the closed loop-source row, naming the displayed loop interval and endpoint match.
+\item $S$ is the $\SOneUp$ phase-boundary row read from the loop.
+\item $C$ is the $\CircleUp$ topological-circle row through which the same loop is inspected as a boundary object.
+\item $I$ is the $\IntUp$ degree row exported by the packet.
+\item $R$ is the $\RealUp$ coordinate-read row used for finite endpoint and arc-window checks.
+\item $D$ is the displayed degree-boundary ledger relating loop subdivision windows to the integer row $I$.
+\item $H$ records componentwise $\hsame$ transport for the loop, circle, phase, integer, real, degree-boundary, replay, provenance, and naming rows.
+\item $T$ records displayed $\Cont$ replay for the same finite rows.
+\item $P$ is the $\Pkg$ provenance over $\WindingNumberUp$, $\SOneUp$, $\CircleUp$, $\ContinuousFunctionUp$, $\IntUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\WindingNumberUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a universal covering space, a host fundamental group, quotient path classes, selected lifts, or unrestricted homotopy classes.
+\end{definition}
+
+\begin{theorem}[Winding-number NameCert obligations]
+\label{thm:winding-number-namecert-obligations}
+For every accepted $\WindingNumberUp$ carrier
+$$
+W=(L,S,C,I,R,D,H,T,P,N),
+$$
+the local $\NameCert_{\WindingNumberUp}$ surface consists exactly of loop-source exposure, $\SOneUp$ phase-boundary exposure, $\CircleUp$ boundary exposure, $\ContinuousFunctionUp$ loop-continuity provenance, $\IntUp$ degree exposure, $\RealUp$ coordinate-window exposure, degree-boundary ledger exposure, componentwise transport, displayed replay, package provenance, and local naming. A winding-number consumer must read those finite rows before using the integer degree row $I$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:winding-number-carrier}. The loop row $L$, the $\SOneUp$ row $S$, the $\CircleUp$ row $C$, the $\RealUp$ row $R$, and the degree-boundary ledger $D$ are displayed before the integer row is treated as public data.
+
+The continuous-map requirement is part of the provenance row $P$: it records that the loop is read through the continuous-map certificate rather than through a detached host function. The rows $H,T,N$ only transport, replay, and name the same finite packet.
+
+Since the carrier contains no covering-space lift, quotient path class, host fundamental group, or unrestricted homotopy-class coordinate, the listed rows exhaust the NameCert obligations for the finite winding-number surface.
+\end{proof}
+
+\begin{theorem}[Winding-number $\SOneUp$ loop-degree boundary]
+\label{thm:winding-number-s1-loop-degree-boundary}
+Every $\SOneUp$-facing loop-degree read from an accepted $\WindingNumberUp$ packet factors through
+$$
+\ContinuousFunctionUp \longmapsto \CircleUp \longmapsto \SOneUp \longmapsto \RealUp \longmapsto \IntUp
+$$
+using the finite rows $L,C,S,R,D,I,H,T,P,N$. The route exports a displayed integer degree for the loop boundary, but it does not export a full fundamental group theorem, a classical covering-space lift, quotient path equality, or unrestricted homotopy invariance.
+\end{theorem}
+\begin{proof}
+Start with the displayed loop row $L$ and its continuity provenance inside $P$. This places the source in the continuous-map certificate surface before any degree read is available.
+
+Next read the topological boundary row $C$ and the phase-circle row $S$. These rows connect the same loop to $\CircleUp$ and $\SOneUp$ without replacing the carrier by a quotient path object or an ambient covering space.
+
+Finally read the real-coordinate windows $R$, the degree-boundary ledger $D$, and the integer row $I$. The structural rows $H,T,P,N$ preserve this order, so the exported degree is exactly the finite loop-degree boundary and none of the refused classical endpoints is supplied.
+\end{proof}
+
+\closureat{WindingNumberUp}{seedStr}
+
+\begin{closurestatus}{\WindingNumberUp}
+  \constructivestory{A $\WindingNumberUp$ packet is generated from a displayed loop row, SOne phase row, Circle boundary row, Int degree row, Real coordinate-read row, degree-boundary ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:winding-number-carrier}, \autoref{thm:winding-number-namecert-obligations}, and \autoref{thm:winding-number-s1-loop-degree-boundary} seed the finite loop-degree carrier, obligation surface, and SOne-facing degree route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, the full fundamental group of the circle, classical covering-space theory, quotient path equality, or unrestricted homotopy invariance.}
+  \upgradepath{Obligation closure requires checked carrier admission, loop-continuity provenance, SOne and Circle boundary compatibility, Real coordinate-window exactness, Int degree exposure, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}
