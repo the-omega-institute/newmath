@@ -7021,7 +7021,6 @@ import BEDC.Derived.JordanVariationDecompositionUp.TasteGate
 import BEDC.Derived.KKTUp
 import BEDC.Derived.KKTUp.StationarityTransport
 import BEDC.Derived.KKTUp.TasteGate
-import BEDC.Derived.KroneckerSymbolUp
 import BEDC.Derived.KSpaceUp.TasteGate
 import BEDC.Derived.KakutaniFixedPointUp.TasteGate
 import BEDC.Derived.KalmanFilterUp
@@ -7125,6 +7124,7 @@ import BEDC.Derived.KreiselLacombeShoenfieldUp.TasteGate
 import BEDC.Derived.KripkeSemanticsUp
 import BEDC.Derived.KroneckerApproximationUp.TasteGate
 import BEDC.Derived.KroneckerLemmaUp.TasteGate
+import BEDC.Derived.KroneckerSymbolUp
 import BEDC.Derived.KummerTestUp.TasteGate
 import BEDC.Derived.KuratowskiClosureComplementUp.FourteenRoute
 import BEDC.Derived.KuratowskiClosureComplementUp.NameCertObligations
@@ -12075,6 +12075,7 @@ import BEDC.Derived.TaylorModelUp.TasteGate
 import BEDC.Derived.TaylorPolynomialUp.TasteGate
 import BEDC.Derived.TaylorRemainderUp
 import BEDC.Derived.TaylorTheoremUp.TasteGate
+import BEDC.Derived.TelephoneNumberUp
 import BEDC.Derived.TemperedDistributionUp.TasteGate
 import BEDC.Derived.TensorAlgebraUp.TasteGate
 import BEDC.Derived.TensorProductUp
