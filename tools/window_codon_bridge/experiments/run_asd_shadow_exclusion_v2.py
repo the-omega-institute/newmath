@@ -30,8 +30,10 @@ ANALYSIS_ORGANISM_LIMIT = int(os.environ.get("ASD_ANALYSIS_ORGANISM_LIMIT", "16"
 R_NULL = int(os.environ.get("ASD_NULL_R", "80"))
 N_DECOYS = int(os.environ.get("ASD_N_DECOYS", "24"))
 N_BOOTSTRAP = int(os.environ.get("ASD_BOOTSTRAP", "120"))
-MAX_GENES_PER_ORGANISM = int(os.environ.get("ASD_MAX_GENES_PER_ORGANISM", "96"))
-PROFILE_KMER_LIMIT = int(os.environ.get("ASD_PROFILE_KMER_LIMIT", "900"))
+DEFAULT_MAX_GENES = "24" if "ASD_ANALYSIS_ORGANISM_LIMIT" in os.environ and "ASD_MAX_GENES_PER_ORGANISM" not in os.environ else "96"
+MAX_GENES_PER_ORGANISM = int(os.environ.get("ASD_MAX_GENES_PER_ORGANISM", DEFAULT_MAX_GENES))
+DEFAULT_PROFILE_LIMIT = "450" if "ASD_ANALYSIS_ORGANISM_LIMIT" in os.environ and "ASD_PROFILE_KMER_LIMIT" not in os.environ else "900"
+PROFILE_KMER_LIMIT = int(os.environ.get("ASD_PROFILE_KMER_LIMIT", DEFAULT_PROFILE_LIMIT))
 NULL_PLACE_R = int(os.environ.get("ASD_NULL_PLACE_R", str(max(8, min(R_NULL, 48)))))
 MIN_GATE_STARTS = int(os.environ.get("ASD_GATE_I0_MIN_STARTS", "500"))
 MIN_PRIMARY_ORGANISMS = int(os.environ.get("ASD_MIN_PRIMARY_ORGANISMS", "12"))
@@ -232,7 +234,7 @@ def profile_masked(
     seq: str,
     masked_positions: set[int],
     seed: str,
-    enable_m3: bool = False,
+    m3_starts: set[int] | None = None,
 ) -> dict[str, object]:
     seq = seq.upper()
     counts: Counter[str] = Counter()
@@ -241,7 +243,7 @@ def profile_masked(
         for i in range(0, len(seq) - k + 1):
             if any(pos in masked_positions for pos in range(i, i + k)):
                 continue
-            if enable_m3 and has_internal_tis(seq, i):
+            if m3_starts is not None and i in m3_starts:
                 continue
             possible.append((i, k))
     if PROFILE_KMER_LIMIT > 0 and len(possible) > PROFILE_KMER_LIMIT:
@@ -254,13 +256,11 @@ def profile_masked(
     return {"counts": counts, "n_windows": sum(counts.values())}
 
 
-def has_internal_tis(seq: str, motif_start: int) -> bool:
-    for offset in range(4, 15):
-        pos = motif_start + offset
+def m3_motif_starts(seq: str) -> set[int]:
+    valid_start_positions = set()
+    for pos in range(0, len(seq) - 2, 3):
         codon = seq[pos : pos + 3]
         if codon not in START_CODONS:
-            continue
-        if pos % 3 != 0:
             continue
         aa_codons = 0
         for j in range(pos, len(seq) - 2, 3):
@@ -268,8 +268,15 @@ def has_internal_tis(seq: str, motif_start: int) -> bool:
                 break
             aa_codons += 1
             if aa_codons >= 30:
-                return True
-    return False
+                valid_start_positions.add(pos)
+                break
+    starts = set()
+    for pos in valid_start_positions:
+        for offset in range(4, 15):
+            motif_start = pos - offset
+            if motif_start >= 0:
+                starts.add(motif_start)
+    return starts
 
 
 def burden(profile: dict[str, object], carrier: dict[str, object]) -> float:
@@ -661,12 +668,18 @@ def evaluate_organism(organism: dict[str, object], heterologous_tails: list[str]
         null1, _ = v1.constrained_recodings(seq, rec_weights, R_NULL, f"{seed}.gene.{local_idx}.null1")
         null_place = v1.exact_multiset_permutations(seq, NULL_PLACE_R, f"{seed}.gene.{local_idx}.place")
         parts = masks.get(original_idx, {"unmasked": set(), "M0": set(range(0, min(45, len(seq)))), "M1": set(), "M2": set()})
+        seq_m3_starts = m3_motif_starts(seq)
+        null1_m3_starts = [m3_motif_starts(candidate) for candidate in null1]
+        place_m3_starts = [m3_motif_starts(candidate) for candidate in null_place]
 
         profiles_by_stage: dict[str, tuple[dict[str, object], list[dict[str, object]]]] = {}
         for stage in stages:
             mask, m3 = combined_mask(stage, parts)
-            obs_profile = profile_masked(seq, mask, f"{seed}.gene.{local_idx}.{stage}.obs", enable_m3=m3)
-            null_profiles = [profile_masked(candidate, mask, f"{seed}.gene.{local_idx}.{stage}.null.{j}", enable_m3=m3) for j, candidate in enumerate(null1)]
+            obs_profile = profile_masked(seq, mask, f"{seed}.gene.{local_idx}.{stage}.obs", m3_starts=seq_m3_starts if m3 else None)
+            null_profiles = [
+                profile_masked(candidate, mask, f"{seed}.gene.{local_idx}.{stage}.null.{j}", m3_starts=null1_m3_starts[j] if m3 else None)
+                for j, candidate in enumerate(null1)
+            ]
             profiles_by_stage[stage] = (obs_profile, null_profiles)
             z = eval_z(obs_profile, null_profiles, own_carrier)
             stage_z[stage].append(z)
@@ -683,7 +696,10 @@ def evaluate_organism(organism: dict[str, object], heterologous_tails: list[str]
         pc1_z.append(pc_z)
         if record.get("is_heg"):
             pc2_z.append(pc_z)
-        place_profiles = [profile_masked(candidate, clean_mask, f"{seed}.gene.{local_idx}.place.{j}", enable_m3=clean_m3) for j, candidate in enumerate(null_place)]
+        place_profiles = [
+            profile_masked(candidate, clean_mask, f"{seed}.gene.{local_idx}.place.{j}", m3_starts=place_m3_starts[j] if clean_m3 else None)
+            for j, candidate in enumerate(null_place)
+        ]
         place_clean_z.append(eval_z(clean_obs, place_profiles, own_carrier))
         for decoy in decoys:
             decoy_clean_d[str(decoy["label"])].append(eval_z(clean_obs, clean_null, decoy))
@@ -933,10 +949,13 @@ def summarize_mask_impact(rows: list[dict[str, object]]) -> dict[str, object]:
 
 def main() -> None:
     start = time.monotonic()
+    fetch_bacteria = min(TARGET_BACTERIA, max(1, ANALYSIS_ORGANISM_LIMIT))
+    fetch_archaea = min(TARGET_ARCHAEA, max(0, ANALYSIS_ORGANISM_LIMIT - fetch_bacteria))
+    fetch_attempts = min(MAX_FETCH_ATTEMPTS, max(fetch_bacteria + fetch_archaea, ANALYSIS_ORGANISM_LIMIT + 8))
     organisms, fetch_meta = fetch_probe.fetch_panel(
-        target_bacteria=TARGET_BACTERIA,
-        target_archaea=TARGET_ARCHAEA,
-        max_attempts=MAX_FETCH_ATTEMPTS,
+        target_bacteria=fetch_bacteria,
+        target_archaea=fetch_archaea,
+        max_attempts=fetch_attempts,
         seed=EXPERIMENT_ID + ".fetch",
         deadline_seconds=FETCH_DEADLINE_SECONDS,
     )
