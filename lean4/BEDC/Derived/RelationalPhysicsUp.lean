@@ -119,6 +119,83 @@ theorem RelationalPhysicsCarrier_namecert_obligations [AskSetup] [PackageSetup]
     ⟨cert, observerUnary, localityUnary, invariantUnary, auditUnary, handoffUnary,
       provenancePkg⟩
 
+theorem RelationalPhysicsObserverLocalityRateObligation [AskSetup] [PackageSetup]
+    {observer invariant locality audit rate transport route provenance name invariantRead
+      auditRead exportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RelationalPhysicsCarrier observer invariant locality audit rate transport route provenance
+        name bundle pkg ->
+      Cont observer locality invariantRead ->
+        Cont invariantRead audit auditRead ->
+          Cont auditRead rate exportRead ->
+            PkgSig bundle exportRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row observer ∨ hsame row locality ∨ hsame row invariant ∨
+                      hsame row audit ∨ hsame row rate ∨ hsame row exportRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont observer locality invariantRead ∧
+                      Cont invariantRead audit auditRead ∧
+                        Cont auditRead rate exportRead ∧ PkgSig bundle exportRead pkg)
+                  hsame ∧
+                hsame invariantRead invariant ∧ UnaryHistory auditRead ∧
+                  UnaryHistory exportRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier observerLocalityRead invariantReadAuditRead auditReadRateExport exportPkg
+  obtain ⟨observerUnary, _invariantUnary, localityUnary, auditUnary, rateUnary,
+    _transportUnary, _routeUnary, _provenanceUnary, _nameUnary,
+    observerLocalityInvariant, _invariantAuditRate, _transportRouteProvenance,
+    _carrierLocalityInvariantAudit, _carrierAuditRateRoute, provenancePkg, _namePkg⟩ :=
+    carrier
+  have invariantReadSame : hsame invariantRead invariant :=
+    cont_deterministic observerLocalityRead observerLocalityInvariant
+  have invariantReadUnary : UnaryHistory invariantRead :=
+    unary_cont_closed observerUnary localityUnary observerLocalityRead
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed invariantReadUnary auditUnary invariantReadAuditRead
+  have exportReadUnary : UnaryHistory exportRead :=
+    unary_cont_closed auditReadUnary rateUnary auditReadRateExport
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row observer ∨ hsame row locality ∨ hsame row invariant ∨
+              hsame row audit ∨ hsame row rate ∨ hsame row exportRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont observer locality invariantRead ∧
+              Cont invariantRead audit auditRead ∧
+                Cont auditRead rate exportRead ∧ PkgSig bundle exportRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro exportRead ⟨hsame_refl exportRead, exportReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, observerLocalityRead, invariantReadAuditRead, auditReadRateExport,
+          exportPkg⟩
+  }
+  exact ⟨cert, invariantReadSame, auditReadUnary, exportReadUnary, provenancePkg⟩
+
 theorem RelationalPhysicsNameCertObligations [AskSetup] [PackageSetup]
     {observer invariant locality audit rate transport route provenance name : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

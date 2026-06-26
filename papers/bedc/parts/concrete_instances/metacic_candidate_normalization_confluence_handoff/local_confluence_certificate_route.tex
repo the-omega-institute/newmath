@@ -1,6 +1,6 @@
 \begin{theorem}[MetaCIC handoff local confluence certificate route]
 \label{thm:metacic-candidate-normalization-confluence-handoff-local-confluence-certificate-route}
-Every $\MetaCICCandidateNormalizationConfluenceHandoffUp$ read exported to a normalization or confluence consumer must pass through the local-confluence certificate sibling, the parallel-diamond frontier sibling, the residual-join route, and the candidate-normalization budget rows before the handoff is public. The route is therefore
+Every $\MetaCICCandidateNormalizationConfluenceHandoffUp$ read exported to a normalization or confluence consumer must pass through the local-confluence certificate sibling \autoref{ch:concrete-instances-metacic-local-confluence-frontier-namecert}, the parallel-diamond frontier sibling \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, the residual-join route \autoref{ch:concrete-instances-metacic-residual-join-budget-namecert}, and the candidate-normalization budget rows of \autoref{ch:concrete-instances-metacic-candidate-diamond-budget-namecert} before the handoff is public. The route is therefore
 $$
 \MetaCICCandidateNormalizationConfluenceHandoffUp
 \longmapsto
@@ -11,9 +11,9 @@ $$
 No consumer may read the handoff as a direct ambient confluence theorem, a hidden critical-pair normalizer, or a residual-join certificate with the local confluence and budget rows suppressed.
 \end{theorem}
 \begin{proof}
-Read the local confluence sibling first. It provides the certificate row that turns candidate overlap data into a local joinability check, so a confluence-facing consumer cannot start from the handoff alone.
+Read the local confluence sibling \autoref{ch:concrete-instances-metacic-local-confluence-frontier-namecert} first. It provides the certificate row that turns candidate overlap data into a local joinability check, so a confluence-facing consumer cannot start from the handoff alone.
 
-Next read the parallel-diamond frontier sibling and the residual-join route. These siblings keep the frontier and residual rows visible before a join is exported, and they prevent the candidate packet from becoming an unscoped global diamond assertion.
+Next read the parallel-diamond frontier sibling \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert} and the residual-join route \autoref{ch:concrete-instances-metacic-residual-join-budget-namecert}. These siblings keep the frontier and residual rows visible before a join is exported, and they prevent the candidate packet from becoming an unscoped global diamond assertion.
 
-Finally read the candidate-normalization budget rows. They bound the normalization side of the handoff before the packet is exported, so the public route contains the local confluence certificate, frontier, residual join, budget, replay, transport, provenance, and local naming surfaces together.
+Finally read the candidate-normalization budget rows of \autoref{ch:concrete-instances-metacic-candidate-diamond-budget-namecert}. They bound the normalization side of the handoff before the packet is exported, so the public route contains the local confluence certificate, frontier, residual join, budget, replay, transport, provenance, and local naming surfaces together.
 \end{proof}
