@@ -9627,6 +9627,7 @@ import BEDC.Derived.QRDecompositionUp.TasteGate
 import BEDC.Derived.QuadIntUp
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
 import BEDC.Derived.QuadraticFormUp.TasteGate
+import BEDC.Derived.QuadraticSurdContFracUp
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.QuantumChannelUp
 import BEDC.Derived.QuantumStateUp
