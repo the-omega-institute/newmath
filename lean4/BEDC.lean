@@ -11148,6 +11148,7 @@ import BEDC.Derived.RingUp.StdBridge
 import BEDC.Derived.RingUp.SubtractionDistributivity
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingedSpaceUp
+import BEDC.Derived.RiordanUp
 import BEDC.Derived.RisingSunLemmaUp.TasteGate
 import BEDC.Derived.RoleSeparationLedgerUp.TasteGate
 import BEDC.Derived.RolleTheoremUp.TasteGate
