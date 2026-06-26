@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyProductBoundUp$}
+\label{ch:concrete-instances-bishop-cauchy-product-bound-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopCauchyProductBoundUp$ packet records the finite boundedness estimate used before a Cauchy product is admitted as a regular real product. It sits between the product surface of \autoref{ch:concrete-instances-cauchyproduct-namecert}, the regular product route of \autoref{ch:concrete-instances-regularcauchyproduct-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies a finite majorant and cross-error budget for product windows; it is not host multiplication of completed reals, quotient stream equality, selected limits, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop Cauchy product bound carrier]
+\label{def:bishop-cauchy-product-bound-carrier}
+A $\BishopCauchyProductBoundUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,C,W_A,W_C,M_A,M_C,D,P,R,E,H,K,L,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $C$ are the two $\RegSeqRatUp$ source rows whose regular Cauchy observations will be multiplied.
+\item $W_A$ and $W_C$ are synchronized $\StreamNameUp$ finite windows for the requested product precision.
+\item $M_A$ and $M_C$ are finite magnitude-majorant rows for the two source windows.
+\item $D$ is the $\DyadicRatCoreUp$ ledger recording the output tolerance, the two source tolerances, and the cross-error terms bounded by $M_A$ and $M_C$.
+\item $P$ is the $\CauchyProductUp$ product-window row exposed only after the source windows and dyadic budget are displayed.
+\item $R$ is the $\RegularCauchyProductUp$ handoff row that repacks the product-window estimate as a regular Cauchy readback.
+\item $E$ is the $\RealUp$ seal row consumed only after $R$ has been displayed.
+\item $H$ records componentwise $\hsame$ transport for all product-bound rows.
+\item $K$ records displayed $\Cont$ replay from the source windows through the bound ledger, product row, regular handoff, and real seal.
+\item $L$ is the $\Pkg$ provenance over $\BishopCauchyProductBoundUp$, $\CauchyProductUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCauchyProductBoundUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $A,C,W_A,W_C,M_A,M_C,D,P,R,E,H,K,L,N$. It has no coordinate for host real multiplication, quotient stream equality, a selected product limit, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.BishopCauchyProductBoundUp}
+
+\begin{theorem}[Bishop Cauchy product bound NameCert obligations]
+\label{thm:bishop-cauchy-product-bound-namecert-obligations}
+For every accepted $\BishopCauchyProductBoundUp$ carrier $B=(A,C,W_A,W_C,M_A,M_C,D,P,R,E,H,K,L,N)$, the local $\NameCert_{\BishopCauchyProductBoundUp}$ surface consists exactly of carrier admission for the two $\RegSeqRatUp$ source rows, synchronized $\StreamNameUp$ windows, two finite magnitude-majorant rows, the $\DyadicRatCoreUp$ product-bound ledger, the $\CauchyProductUp$ window row, the $\RegularCauchyProductUp$ handoff, the $\RealUp$ seal, componentwise transport, displayed continuation replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The source rows $A,C$ and windows $W_A,W_C$ expose the only finite observations from which a product estimate can be read.
+
+The rows $M_A,M_C,D$ then bind the boundedness estimate. The two majorants control the source magnitudes, while the dyadic ledger records the source tolerances and the resulting cross-error budget before any product row is exposed.
+
+The product-facing rows $P,R,E$ are downstream of that ledger. They route the finite product estimate into the regular Cauchy product handoff and then into the real seal.
+
+Finally $H,K,L,N$ transport, replay, source, and name exactly these rows. Since the carrier contains no host multiplication, quotient stream, selected-limit, choice, trichotomy, or ambient-completeness coordinate, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy product bound regular handoff]
+\label{thm:bishop-cauchy-product-bound-regular-handoff}
+Every accepted $\BishopCauchyProductBoundUp$ carrier hands a bounded Cauchy-product estimate to $\RegularCauchyProductUp$ only through the displayed route
+$$
+A,C\longmapsto W_A,W_C\longmapsto M_A,M_C\longmapsto D\longmapsto P\longmapsto R\longmapsto E .
+$$
+Thus a Real multiplication or Completion consumer must first inspect the two regular source rows, the synchronized finite windows, the magnitude bounds, the dyadic cross-error ledger, and the Cauchy-product window before it can read the regular-product handoff.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The only source data are $A,C,W_A,W_C$, so a product consumer begins with regular rational observations and finite stream windows rather than with completed real representatives.
+
+The boundedness estimate is forced through $M_A,M_C,D$. These rows supply the finite majorants and the dyadic error ledger that make the product-window estimate admissible.
+
+The downstream handoff is then $P,R,E$. The $\CauchyProductUp$ row records the product window, the $\RegularCauchyProductUp$ row repacks it as a regular readback, and the $\RealUp$ row seals the endpoint.
+
+The structural rows preserve the same order under transport, replay, provenance, and naming. No other carrier coordinate can supply a host product, quotient stream equality, selected limit, or ambient completeness principle.
+\end{proof}
+
+\closureat{BishopCauchyProductBoundUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyProductBoundUp}
+  \constructivestory{A $\BishopCauchyProductBoundUp$ packet is generated from two RegSeqRat source rows, synchronized StreamName windows, two finite magnitude bounds, a DyadicRatCore product-bound ledger, a CauchyProduct window row, a RegularCauchyProduct handoff row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-product-bound-carrier}, \autoref{thm:bishop-cauchy-product-bound-namecert-obligations}, and \autoref{thm:bishop-cauchy-product-bound-regular-handoff} seed the finite bounded Cauchy-product estimate route for Real multiplication consumers.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.BishopCauchyProductBoundUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host multiplication of completed reals, quotient stream equality, selected product limits, trichotomy, countable choice, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, magnitude-bound extraction, dyadic product-budget exactness, CauchyProduct routing, RegularCauchyProduct handoff, Real seal nonescape, transport stability, continuation replay, and provenance nonescape for BEDC.Derived.BishopCauchyProductBoundUp.}
+\end{closurestatus}
