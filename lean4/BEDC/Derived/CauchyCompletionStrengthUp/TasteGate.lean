@@ -54,31 +54,49 @@ def CauchyCompletionStrengthTasteGate_single_carrier_alignment_toEventFlow :
     (CauchyCompletionStrengthTasteGate_single_carrier_alignment_fields x).map
       cauchyCompletionStrengthEncodeBHist
 
+private def CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt :
+    Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt index rest
+
 def CauchyCompletionStrengthTasteGate_single_carrier_alignment_fromEventFlow :
     EventFlow → Option CauchyCompletionStrengthUp :=
   -- BEDC touchpoint anchor: BHist BMark
   fun eventFlow =>
-    match eventFlow with
-    | sourceLeft :: sourceRight :: windowLeft :: windowRight :: dyadicLeft :: dyadicRight ::
-        productRoute :: completionHandoff :: realSeal :: exactness :: transport :: replay ::
-          provenance :: localName :: [] =>
-        some
-          (CauchyCompletionStrengthUp.mk
-            (cauchyCompletionStrengthDecodeBHist sourceLeft)
-            (cauchyCompletionStrengthDecodeBHist sourceRight)
-            (cauchyCompletionStrengthDecodeBHist windowLeft)
-            (cauchyCompletionStrengthDecodeBHist windowRight)
-            (cauchyCompletionStrengthDecodeBHist dyadicLeft)
-            (cauchyCompletionStrengthDecodeBHist dyadicRight)
-            (cauchyCompletionStrengthDecodeBHist productRoute)
-            (cauchyCompletionStrengthDecodeBHist completionHandoff)
-            (cauchyCompletionStrengthDecodeBHist realSeal)
-            (cauchyCompletionStrengthDecodeBHist exactness)
-            (cauchyCompletionStrengthDecodeBHist transport)
-            (cauchyCompletionStrengthDecodeBHist replay)
-            (cauchyCompletionStrengthDecodeBHist provenance)
-            (cauchyCompletionStrengthDecodeBHist localName))
-    | _ => none
+    some
+      (CauchyCompletionStrengthUp.mk
+        (cauchyCompletionStrengthDecodeBHist
+          (CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt 0 eventFlow))
+        (cauchyCompletionStrengthDecodeBHist
+          (CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt 1 eventFlow))
+        (cauchyCompletionStrengthDecodeBHist
+          (CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt 2 eventFlow))
+        (cauchyCompletionStrengthDecodeBHist
+          (CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt 3 eventFlow))
+        (cauchyCompletionStrengthDecodeBHist
+          (CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt 4 eventFlow))
+        (cauchyCompletionStrengthDecodeBHist
+          (CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt 5 eventFlow))
+        (cauchyCompletionStrengthDecodeBHist
+          (CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt 6 eventFlow))
+        (cauchyCompletionStrengthDecodeBHist
+          (CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt 7 eventFlow))
+        (cauchyCompletionStrengthDecodeBHist
+          (CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt 8 eventFlow))
+        (cauchyCompletionStrengthDecodeBHist
+          (CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt 9 eventFlow))
+        (cauchyCompletionStrengthDecodeBHist
+          (CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt 10 eventFlow))
+        (cauchyCompletionStrengthDecodeBHist
+          (CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt 11 eventFlow))
+        (cauchyCompletionStrengthDecodeBHist
+          (CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt 12 eventFlow))
+        (cauchyCompletionStrengthDecodeBHist
+          (CauchyCompletionStrengthTasteGate_single_carrier_alignment_eventAt 13 eventFlow)))
 
 private theorem CauchyCompletionStrengthTasteGate_single_carrier_alignment_round_trip :
     ∀ x : CauchyCompletionStrengthUp,
@@ -186,16 +204,22 @@ def CauchyCompletionStrengthTasteGate_single_carrier_alignment_taste_gate :
   CauchyCompletionStrengthTasteGate_single_carrier_alignment_ChapterTasteGate
 
 theorem CauchyCompletionStrengthTasteGate_single_carrier_alignment :
-    (forall h : BHist,
+    (∀ h : BHist,
       cauchyCompletionStrengthDecodeBHist (cauchyCompletionStrengthEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier CauchyCompletionStrengthUp) ∧
-        Nonempty (ChapterTasteGate CauchyCompletionStrengthUp) ∧
+      (∀ x : CauchyCompletionStrengthUp,
+        CauchyCompletionStrengthTasteGate_single_carrier_alignment_fromEventFlow
+            (CauchyCompletionStrengthTasteGate_single_carrier_alignment_toEventFlow x) =
+          some x) ∧
+        (∀ {x y : CauchyCompletionStrengthUp},
+          CauchyCompletionStrengthTasteGate_single_carrier_alignment_toEventFlow x =
+              CauchyCompletionStrengthTasteGate_single_carrier_alignment_toEventFlow y →
+            x = y) ∧
           cauchyCompletionStrengthEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   exact
     ⟨CauchyCompletionStrengthTasteGate_single_carrier_alignment_decode_encode,
-      ⟨⟨CauchyCompletionStrengthTasteGate_single_carrier_alignment_BHistCarrier⟩,
-        ⟨⟨CauchyCompletionStrengthTasteGate_single_carrier_alignment_ChapterTasteGate⟩,
+      ⟨CauchyCompletionStrengthTasteGate_single_carrier_alignment_round_trip,
+        ⟨CauchyCompletionStrengthTasteGate_single_carrier_alignment_toEventFlow_injective,
           rfl⟩⟩⟩
 
 end BEDC.Derived.CauchyCompletionStrengthUp
