@@ -424,6 +424,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-26T12:50:05Z: `resolved` `delete_theorem` for `BEDC.Derived.LocatednessModulusUp.LocatednessModulusCarrier_real_seal_non_escape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LocatednessModulusUp.LocatednessModulusCarrier_real_seal_non_escape:be28d6e1`). Rationale: The target was an unconsumed thin wrapper around BEDC.Derived.LocatednessModulusUp.LocatednessModulusRealSeal_nonescape: it invoked the existing theorem, repackaged the seal unary fact, and returned the provenance package assumption it had already received. Grep confirmed no Lean downstream usage and only the removable paper marker referenced it, while the paper theorem remains covered by the adjacent canonical LocatednessModulusRealSeal_nonescape marker. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
+- 2026-06-26T14:41:47Z: `resolved` `delete_theorem` for `BEDC.Derived.LocatednessModulusUp.LocatednessModulusRealSeal_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LocatednessModulusUp.LocatednessModulusRealSeal_nonescape:b3f12732`). Rationale: The target had no Lean downstream users: exact-name search found only its own declaration plus a historical dossier mention, not a code dependency. The paper marker was removable, and the same chapter/file already retains the stronger LocatednessModulusObligationWindowDecisionBudget and LocatednessModulusCarrier_public_export theorems, which cover the meaningful Real-seal and public route content. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
 ## 注解
 
 (operator 可手工编辑, daemon 不动这块.)
