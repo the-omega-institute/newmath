@@ -196,14 +196,15 @@ faces therefore exhaust the scoped primitive surface.
 \closureat{BinderContextSubstitutionSealUp}{seedStr}
 \closureat{BinderContextSubstitutionSealUp}{obligationStr}
 \closureat{BinderContextSubstitutionSealUp}{scopedStr}
+\closureat{BinderContextSubstitutionSealUp}{publicStr}
 
 \begin{closurestatus}{\BinderContextSubstitutionSealUp}
   \constructivestory{A $\BinderContextSubstitutionSealUp$ packet is generated from a \texttt{Term} row, a binder-depth row, a substitution payload, a replayed \texttt{substitute} result, a \texttt{ClosedAt} inertness witness, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{def:binder-context-substitution-seal-carrier}, \autoref{thm:binder-context-substitution-seal-namecert-obligations}, \autoref{thm:binder-context-substitution-seal-obligation-rows}, \autoref{thm:binder-context-substitution-seal-closed-boundary-exactness}, \autoref{thm:binder-context-substitution-seal-route-determinacy}, \autoref{thm:binder-context-substitution-seal-obligation-consumer}, and \autoref{thm:binder-context-substitution-seal-scope-triad} bind the scoped primitive surface over \texttt{Term}, \texttt{ClosedAt}, \texttt{substitute}, inertness, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close semantic substitution correctness for open terms, global evaluator correctness, subject reduction, a public compiler bridge, or Lean verification.}
-  \upgradepath{Scoped closure requires a checked downstream compiler interface for the same closed-boundary substitution packet.}
+  \upgradepath{The next paper step is a bridge theorem connecting the closed-boundary substitution packet to the compiler interface.}
 \end{closurestatus}
