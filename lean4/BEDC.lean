@@ -1944,6 +1944,7 @@ import BEDC.Derived.CauchyDiagonalCompactnessUp.TasteGate
 import BEDC.Derived.CauchyDiagonalFusionUp.TasteGate
 import BEDC.Derived.CauchyDiagonalLimitUp.TasteGate
 import BEDC.Derived.CauchyDiagonalSelectionUp.TasteGate
+import BEDC.Derived.CauchyDifferenceCriterionUp.RegularTailStability
 import BEDC.Derived.CauchyDifferenceCriterionUp.TailDiameterHandoff
 import BEDC.Derived.CauchyDifferenceCriterionUp.TasteGate
 import BEDC.Derived.CauchyDifferenceCriterionUp.ZeroDistanceCorrespondence
@@ -5362,6 +5363,7 @@ import BEDC.Derived.EquicontinuityUp.SharedModulusHandoffPreservation
 import BEDC.Derived.EquicontinuityUp.SharedRadiusFamilyCoverReadiness
 import BEDC.Derived.EquicontinuityUp.TasteGate
 import BEDC.Derived.EquicontinuityUp.UniformModulusConsumerBoundary
+import BEDC.Derived.EquicontinuousCauchyFamilyUp.TasteGate
 import BEDC.Derived.EquicontinuousCompletionUp.TasteGate
 import BEDC.Derived.EquicontinuousFamilyUp.TasteGate
 import BEDC.Derived.EquivCatUp
@@ -6510,6 +6512,7 @@ import BEDC.Derived.HausdorffCompletionFilterSeparationUp.TasteGate
 import BEDC.Derived.HausdorffCompletionFunctorUp
 import BEDC.Derived.HausdorffCompletionKernelUp.TasteGate
 import BEDC.Derived.HausdorffCompletionPullbackUp
+import BEDC.Derived.HausdorffCompletionPullbackUp.TasteGate
 import BEDC.Derived.HausdorffCompletionUnitUp.TasteGate
 import BEDC.Derived.HausdorffCompletionUniversalUp.TasteGate
 import BEDC.Derived.HausdorffCompletionUp
@@ -9517,6 +9520,7 @@ import BEDC.Derived.ProximalMapUp.TasteGate
 import BEDC.Derived.ProximinalSetUp.TasteGate
 import BEDC.Derived.PseudoArcUp
 import BEDC.Derived.PseudometricUp
+import BEDC.Derived.PseudometricUp.BridgedRoute
 import BEDC.Derived.PseudometricUp.ClassifierStability
 import BEDC.Derived.PseudometricUp.ClassifierTransportObligation
 import BEDC.Derived.PseudometricUp.CompletionNonescapeObligation

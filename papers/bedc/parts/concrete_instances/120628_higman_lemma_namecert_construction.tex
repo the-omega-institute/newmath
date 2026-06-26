@@ -73,6 +73,20 @@ Thus the handoff preserves a finite certificate boundary. It can record that a r
 \end{proof}
 \leanchecked{BEDC.Derived.HigmanLemmaUp.HigmanLemmaNormalizationFrontierHandoff}
 
+\begin{theorem}[Higman lemma finite bad-prefix induction]
+\label{thm:higman-lemma-finite-bad-prefix-induction}
+Any accepted residual-word consumer of a $\HigmanLemmaUp$ packet may perform induction only on the displayed finite bad-prefix windows carried by $B$ and routed through $D,C,P,N$. At each induction step the consumer must keep the $\MetaCICNormalizationFrontierUp$ obstruction row visible, so the induction exports a shorter residual-word window or a finite embedding row, not a global normalization theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:higman-lemma-carrier}. The only obstruction data available to a residual-word consumer is the finite bad-sequence-prefix row $B$, together with the Dickson dependency row $D$ and the structural replay rows $C,P,N$.
+
+Induction therefore has a finite displayed domain. The base case reads an already displayed embedding row $E$, while an induction step shortens only the bad-prefix window named by $B$ and records the dependency through $D$.
+
+Now compare the handoff of \autoref{thm:higman-lemma-normalization-frontier-handoff}. A MetaCIC-facing consumer must preserve the normalization-frontier obstruction row while reading the residual-word evidence.
+
+Thus the induction produces only a shorter displayed residual window or a finite embedding certificate. It cannot erase the obstruction row, select an infinite subsequence, or turn the finite Higman packet into global normalization.
+\end{proof}
+
 \falsifiablePrediction{A claimed HigmanLemmaUp certificate fails if its word-embedding row lacks either a monotone index map or the pointwise source-comparison rows for the displayed finite word windows.}
 
 \independenceWitness{dickson-lemma, list, poset, metacicnormalizationfrontier: $\DicksonLemmaUp$ supplies finite product-order bookkeeping without word embedding rows; $\ListUp$ supplies finite word windows without bad-prefix reduction; $\PosetUp$ supplies comparison rows without residual-word replay; and $\MetaCICNormalizationFrontierUp$ consumes candidate-boundary evidence without being a word-embedding certificate. None is bijective to $\HigmanLemmaUp$ under NameCert-row preservation.}
