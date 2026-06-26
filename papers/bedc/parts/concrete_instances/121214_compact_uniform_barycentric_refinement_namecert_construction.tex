@@ -1,0 +1,72 @@
+\chapter{Compact Uniform Barycentric Refinement NameCert Construction}
+\label{ch:concrete-instances-compact-uniform-barycentric-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges finite-cover refinement practice, the $\CompactUniformBarycentricRefinementUp$ packet records the compact-uniform-continuity use of dyadic barycentric subdivision as finite NameCert data. It consumes the subdivision primitive of \autoref{ch:concrete-instances-dyadic-barycentric-refinement-namecert}, the compact source rows of \autoref{ch:concrete-instances-compactmetric-namecert}, the tolerance-only modulus surface of \autoref{ch:concrete-instances-uniformmodulus-namecert}, the finite interval-cell net of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}, and the sequence/readback route of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet is a compact-uniform consumer handoff; it does not assert open-cover compactness, selected finite subcovers, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Compact uniform barycentric refinement carrier]\label{def:compact-uniform-barycentric-refinement-carrier}
+A $\CompactUniformBarycentricRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+U=(B,K,M,I,S,R,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $B$ is the $\DyadicBarycentricRefinementUp$ source row, exposing parent cells, barycenters, child cells, and mesh-decrease data.
+\item $K$ is the $\CompactMetricUp$ source row that supplies the compact finite-net boundary read by the uniform-continuity consumer.
+\item $M$ is the $\UniformModulusUp$ handoff row, recording the tolerance-only modulus produced after the compact source and subdivision rows are inspected.
+\item $I$ is the $\DyadicIntervalNetUp$ interval-cell row used to align parent cells, child cells, and compact finite-net probes.
+\item $S$ is the $\StreamNameUp$ observation-window row for endpoint, barycenter, and finite-net probe reads.
+\item $R$ is the $\RegSeqRatUp$ readback row for child-cell radii, compact-net tolerances, and modulus budgets.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $B,K,M,I,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for all displayed refinement, compact, modulus, interval, window, readback, seal, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the compact-uniform route
+$$
+B,K,I,S,R \longmapsto M,E,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CompactUniformBarycentricRefinementUp$, $\DyadicBarycentricRefinementUp$, $\CompactMetricUp$, $\UniformModulusUp$, $\DyadicIntervalNetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactUniformBarycentricRefinementUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,K,M,I,S,R,E,H,C,P,N$. It has no coordinate for arbitrary open covers, selected finite subcovers, host compactness, quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Compact uniform barycentric refinement NameCert obligations]\label{thm:compact-uniform-barycentric-refinement-namecert-obligations}
+For every accepted $\CompactUniformBarycentricRefinementUp$ carrier
+$$
+U=(B,K,M,I,S,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\CompactUniformBarycentricRefinementUp}$ surface consists exactly of barycentric-refinement source admission through $B$, compact-metric source admission through $K$, uniform-modulus handoff through $M$, dyadic interval-cell alignment through $I$, finite observation through $S$, regular rational readback through $R$, terminal Real-seal ordering through $E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-uniform-barycentric-refinement-carrier}. The accepted packet displays the dyadic barycentric source, compact metric source, uniform-modulus handoff, interval-cell alignment, observation windows, readback row, and Real seal before the structural rows are inspected.
+
+Read the compact-uniform route in order. The barycentric row supplies parent and child cells, the compact row supplies finite-net source data, and the interval-cell row aligns the subdivision with the compact probes. The StreamName and RegSeqRat rows then expose finite endpoint windows and tolerance budgets before the terminal Real seal is available.
+
+Finally replay $M,H,C,P,N$. The modulus row is a tolerance-only handoff generated inside the displayed route, while transport, continuation, provenance, and local naming preserve the same finite rows. Since no open-cover, selected-subcover, quotient, selected-limit, choice, host-compactness, or completeness coordinate is present, none is exported by the certificate.
+\end{proof}
+
+\begin{theorem}[Compact uniform barycentric refinement modulus route]\label{thm:compact-uniform-barycentric-refinement-modulus-route}
+Every compact-uniform-continuity consumer of an accepted $\CompactUniformBarycentricRefinementUp$ packet must read
+$$
+B,K,I,S,R \longmapsto M,E,H,C,P,N .
+$$
+Thus the $\UniformModulusUp$ row is available only after the $\DyadicBarycentricRefinementUp$, $\CompactMetricUp$, $\DyadicIntervalNetUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows have been displayed, and the $\RealUp$ seal remains downstream of the same finite route.
+\end{theorem}
+\begin{proof}
+Begin with the barycentric and compact source rows. The row $B$ exposes the parent cells, barycenters, child cells, and mesh-decrease data, while $K$ supplies only the compact finite-net boundary used by the consumer.
+
+Next align the source rows through $I,S,R$. The dyadic interval-cell row ties the subdivision cells to compact probes; the stream row exposes finite endpoint and barycenter windows; and the regular-rational row records the tolerance budgets consumed by the modulus handoff.
+
+Only then may the consumer read $M$ and $E$. The UniformModulus row is produced as a tolerance-only consumer row, and the terminal Real seal remains downstream of the displayed readback. The structural rows $H,C,P,N$ preserve that order, excluding open-cover compactness, selected subcovers, quotient stream equality, selected limits, countable choice, and ambient Real completeness.
+\end{proof}
+
+\closureat{CompactUniformBarycentricRefinementUp}{seedStr}
+
+\begin{closurestatus}{\CompactUniformBarycentricRefinementUp}
+  \constructivestory{A $\CompactUniformBarycentricRefinementUp$ packet is generated from a DyadicBarycentricRefinement source row, a CompactMetric source row, a UniformModulus handoff row, a DyadicIntervalNet alignment row, StreamName windows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-uniform-barycentric-refinement-carrier}, \autoref{thm:compact-uniform-barycentric-refinement-namecert-obligations}, and \autoref{thm:compact-uniform-barycentric-refinement-modulus-route} seed the compact-uniform barycentric refinement carrier over dyadic subdivision, compact source, uniform modulus, interval-cell, StreamName, RegSeqRat, Real-seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected finite subcovers, quotient stream equality, selected limits, countable choice, host compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked barycentric-refinement admission, compact-source admission, interval-cell alignment, StreamName window coverage, RegSeqRat tolerance readback, UniformModulus handoff, Real-seal ordering, provenance, and local naming for BEDC.Derived.CompactUniformBarycentricRefinementUp.}
+\end{closurestatus}
