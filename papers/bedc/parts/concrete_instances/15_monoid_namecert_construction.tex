@@ -94,6 +94,18 @@ Apply \autoref{thm:concrete-history-monoid-laws}. Its associativity clause suppl
 Finally apply \autoref{thm:monoid-concrete-history-instance-unlock-surface} and \autoref{thm:monoid-unary-cont-unit-replay}. The unlock surface identifies the downstream $\MonoidUp$ packet, while the unit replay theorem pins the unit rows to concrete $\Cont$ data. No abstract carrier/classifier transport is introduced.
 \end{proof}
 
+\begin{theorem}[Unary Cont cancellation route for the concrete monoid]
+\label{thm:monoid-unary-cont-cancellation-route}
+Every downstream cancellation-facing consumer of the concrete unary append monoid must read the same $\mathsf{UnaryHistory}$ carrier, append and $\Cont$ multiplication rows, empty-unit rows, classifier congruence, and $\hsame$ transport before adding inverse data in $\GroupUp$. The route is a $BHist$-anchored dependency from $\MonoidUp$ to later group obligations; it does not assert group cancellation for $\MonoidUp$ alone.
+\end{theorem}
+\begin{proof}
+Start with the concrete history instance of \autoref{def:concrete-history-monoid-instance} and the concrete history monoid laws of \autoref{thm:concrete-history-monoid-laws}. These fix the carrier, append multiplication, empty unit, associativity, unit rows, and classifier congruence on the same unary-history surface.
+
+Apply the unary $\Cont$ unit replay and concrete instance route, \autoref{thm:monoid-unary-cont-unit-replay} and \autoref{thm:monoid-unary-cont-concrete-instance}. They keep multiplication and unit reads attached to displayed continuation rows and $\hsame$ transport before any downstream schema may ask for inverse data.
+
+Thus a $\GroupUp$ consumer can cite this route as the monoid-side input, but the inverse and cancellation rows must be supplied by the later group packet rather than by $\MonoidUp$ itself.
+\end{proof}
+
 The $\MonoidUp$ schema is instantiated by this concrete $BHist$ carrier and
 operation, so subsequent certificates can refer to this instance rather than
 only to abstract operator fields.

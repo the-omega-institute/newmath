@@ -210,6 +210,18 @@ Apply reindexing stability, \autoref{thm:pointwise-stream-metric-reindexing-stab
 Finally invoke completion separation, \autoref{thm:pointwise-stream-metric-completion-separation}. A completion or modulus consumer can use the composed distance only after the synchronized finite route has displayed all three pointwise packets. Since none of the carriers stores ambient completeness, quotient stream equality, selected representatives, host function equality, or countable choice, the triangle route remains a BEDC finite-window route.
 \end{proof}
 
+\begin{theorem}[Pointwise stream metric finite-window triangle budget]
+\label{thm:pointwise-stream-metric-finite-window-triangle-budget}
+Let $Q_{\mathrm{xy}},Q_{\mathrm{yz}},Q_{\mathrm{xz}}$ be accepted $\PointwiseStreamMetricUp$ packets sharing a $\StreamNameUp$ window schedule $W$ and a displayed $\MetricSpaceUp$ row $M$. A completion-facing triangle-budget read for the three legs may export data only through the three displayed dyadic ledgers $D_{\mathrm{xy}},D_{\mathrm{yz}},D_{\mathrm{xz}}$, the three $\RegSeqRatUp$ readbacks $R_{\mathrm{xy}},R_{\mathrm{yz}},R_{\mathrm{xz}}$, the three terminal $\RealUp$ seals $E_{\mathrm{xy}},E_{\mathrm{yz}},E_{\mathrm{xz}}$, and the shared metric row $M$, with the source, transport, replay, provenance, and local naming rows of each packet still visible. The budget route has no coordinate for ambient completeness, quotient stream equality, selected representative, host function equality, or countable choice.
+\end{theorem}
+\begin{proof}
+Apply the synchronized-window triangle route, \autoref{thm:pointwise-stream-metric-synchronized-window-triangle-route}. It already forces the two-leg comparison and the direct comparison to share the same finite window $W$ and metric row $M$ before any completion-facing consumer can read the composed distance.
+
+Use finite-window consumption, \autoref{thm:pointwise-stream-metric-finite-window-consumption}, on each of the three packets. This exposes the dyadic ledger, regular-rational readback, and Real seal of each leg as displayed finite-window data rather than as an ambient metric-space fact.
+
+Finally apply the NameCert obligations, \autoref{thm:pointwise-stream-metric-namecert-obligations}. They keep the source rows, componentwise $\hsame$ transports, displayed $\Cont$ replays, $\Pkg$ provenance, and local names in the exported packet. Since the carrier contains none of the excluded quotient, representative, host-equality, completeness, or choice coordinates, the triangle budget is exactly the listed finite BEDC route.
+\end{proof}
+
 \begin{theorem}[Pointwise stream metric source separation]
 \label{thm:pointwise-stream-metric-source-separation}
 Let $Q=(S,W,D,R,E,M,H,C,P,N)$ be an accepted $\PointwiseStreamMetricUp$ carrier. If two completion-facing reads agree on the metric row $M$ but differ in any of the source rows $S,W,D,R,E$, then the packet cannot identify them by $\PointwiseStreamMetricUp$. Source separation requires the same $\StreamNameUp$ finite window, dyadic ledger, $\RegSeqRatUp$ readback, $\RealUp$ seal, and $\MetricSpaceUp$ row; no quotient stream equality or host function equality can collapse different source rows.
