@@ -1,0 +1,71 @@
+\origin{ai}
+
+\subsection{Finite forced-window strong divisibility for the Window6 Fibonacci counts}
+\label{sec:window6-fib-gcd-strong-divisibility-law}
+
+\paragraph{Carrier.}
+The carrier is a finite counting layer indexed by nonnegative integers. Define the Fibonacci numbers from first principles by $F_0=0$, $F_1=1$, and $F_{k+2}=F_{k+1}+F_k$ for every $k\geq 0$. For each index $m$, the Window6 counting object $X_m$ is required to have cardinality
+$$
+\begin{aligned}
+|X_m|=F_{m+2}.
+\end{aligned}
+$$
+Thus the finite object is not an arbitrary sequence of integers: it is the cardinality record of the indexed family $\{X_m\}$, with the six-window shift fixed by the rule above. The divisibility law is stated on the Fibonacci counts themselves, while the phrase Window6 records the origin of the shifted cardinalities $|X_m|$.
+
+\paragraph{Finite predicates.}
+Let $I_{20}=\{1,2,\ldots,20\}$. On $I_{20}\times I_{20}$ define the predicate
+$$
+\begin{aligned}
+S(m,n) \quad\Longleftrightarrow\quad \gcd(F_m,F_n)=F_{\gcd(m,n)}.
+\end{aligned}
+$$
+This gives a finite relation with exactly $20\cdot 20=400$ ordered entries. The certified assertion is that $S(m,n)$ holds for every ordered pair $(m,n)\in I_{20}\times I_{20}$. A second finite predicate records forward divisibility:
+$$
+\begin{aligned}
+D(m,n) \quad\Longleftrightarrow\quad m\mid n \;\Longrightarrow\; F_m\mid F_n.
+\end{aligned}
+$$
+Inside the same index window there are exactly $\sum_{m=1}^{20}\lfloor 20/m\rfloor=66$ ordered pairs with $m\mid n$, and the certified divisibility assertion checks the implication on those finite rows. No converse divisibility principle is asserted here.
+
+\paragraph{Kernel table.}
+The finite strong-divisibility relation can be viewed as a comparison kernel
+$$
+\begin{aligned}
+K(m,n)=\bigl(\gcd(F_m,F_n),F_{\gcd(m,n)}\bigr)
+\end{aligned}
+$$
+for $(m,n)\in I_{20}\times I_{20}$. The accepted rows are precisely those for which the two entries of $K(m,n)$ are equal. Equivalently, the $20$ by $20$ table is partitioned into the accepted part
+$$
+\begin{aligned}
+A=\{(m,n)\in I_{20}\times I_{20}:\gcd(F_m,F_n)=F_{\gcd(m,n)}\}
+\end{aligned}
+$$
+and the rejected part $(I_{20}\times I_{20})\setminus A$. The finite certificate states that $|A|=400$, so the rejected part has size $0$ in this window. The two displayed sample rows
+$$
+\begin{aligned}
+\gcd(F_6,F_9)&=F_3,\\
+\gcd(F_{12},F_{18})&=F_6
+\end{aligned}
+$$
+are not separate principles; they are visible entries of the same finite kernel because $\gcd(6,9)=3$ and $\gcd(12,18)=6$.
+
+\paragraph{Witness extraction.}
+The witness is extracted by evaluating the recurrence-defined Fibonacci numbers and then checking the two integer operations that appear in the predicates: ordinary greatest common divisor and ordinary integer divisibility. The larger certificate window covers all ordered pairs $1\leq m,n\leq 20$ for the strong-divisibility equality and checks the forward divisibility consequence on the same index range. A smaller finite formal grid covers $0\leq m,n\leq 12$ as a bounded verification layer. These are finite computations over explicit integer rows, not appeals to an infinite theorem scheme.
+
+\paragraph{Statement.}
+Within the finite certificate window, the Window6 Fibonacci counting sequence satisfies the strong divisibility identity
+$$
+\begin{aligned}
+\gcd(F_m,F_n)=F_{\gcd(m,n)}
+\end{aligned}
+$$
+for every $1\leq m,n\leq 20$. Consequently, for every checked pair in the same window with $m\mid n$, the forward divisibility relation
+$$
+\begin{aligned}
+F_m\mid F_n
+\end{aligned}
+$$
+holds. The consequence is forward-only and finite-window-only: it is certified by the same table of integer rows and does not enlarge the range beyond the stated bounds.
+
+\paragraph{Boundary.}
+This chapter makes no identification with the physical fine-structure constant, with $\alpha$, or with any expression involving $137$. It also asserts no physical measurement comparison, no global flow law, no external dependency, and no interpretation beyond the finite Window6 Fibonacci construction unless a separate certificate supplies those additional data. The result here is an exact finite arithmetic witness: a bounded family of Fibonacci counts, a bounded greatest-common-divisor kernel, and a bounded divisibility check.

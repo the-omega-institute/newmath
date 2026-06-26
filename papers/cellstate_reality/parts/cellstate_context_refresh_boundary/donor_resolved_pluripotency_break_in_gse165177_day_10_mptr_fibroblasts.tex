@@ -1,0 +1,35 @@
+\subsection{Donor-resolved pluripotency break in GSE165177 day-10 MPTR fibroblasts}
+\label{subsec:identity-samesig-break-decomposition-gse165177}
+
+\paragraph{Finite carrier.}
+The record for \texttt{identity-samesig.break-decomposition.gse165177} is a finite cell-identity packet
+$B_B=(E,P,S_I,Q_I,D_I,P_{\max},C,L,N)$.  Here $E$ is the curated Log2 RPM marker-expression table from the GSE165177 transient-reprogramming RNA-seq matrices, and $P$ is the set of three donor-matched exp2 day-10 pairs comparing fibroblast negative controls with transiently reprogrammed fibroblasts.  The identity panel $S_I$ contains ten fibroblast-associated markers,
+$\{\mathrm{COL1A1},\mathrm{COL1A2},\mathrm{COL3A1},\mathrm{THY1},\mathrm{DCN},\mathrm{LUM},\mathrm{VIM},\mathrm{PDGFRA},\mathrm{FAP},\mathrm{S100A4}\}$,
+used only to compute donor-level identity distance.  The pluripotency panel $Q_I$ contains five markers,
+$\{\mathrm{POU5F1},\mathrm{NANOG},\mathrm{LIN28A},\mathrm{LIN28B},\mathrm{SOX2}\}$,
+used to detect activation of the pluripotency boundary.  The source table also carries $\mathrm{KLF4}$ and $\mathrm{MYC}$, so the curated contact has seventeen named gene rows across the selected donor samples.  The layer label is $L=\mathrm{cell\_identity}$, and $N$ is the local no-promotion rule: a cell-identity expression comparison cannot by itself certify an age reset, a safety property, renewable maintenance, organismal preservation, or immortal capacity.
+
+\paragraph{Coordinate computation.}
+For each of the three donor pairs, the treated-minus-control identity displacement is summarized by the RMS quantity
+$$
+\begin{aligned}
+D_I(d) &= \left(\frac{1}{10}\sum_{g\in S_I}\big(E_{\mathrm{treated}}(d,g)-E_{\mathrm{control}}(d,g)\big)^2\right)^{1/2}.
+\end{aligned}
+$$
+For the same donor, each pluripotency coordinate is recorded as
+$$
+\begin{aligned}
+\Delta_Q(d,q) &= E_{\mathrm{treated}}(d,q)-E_{\mathrm{control}}(d,q),\qquad q\in Q_I,\\
+P_{\max}(d) &= \max_{q\in Q_I}\Delta_Q(d,q).
+\end{aligned}
+$$
+The predeclared support condition requires at least three donor pairs, full coverage of all identity and pluripotency markers, $D_I(d)\leq 1.5$ Log2 RPM for every donor, and no pluripotency marker increase above $1.0$ Log2 RPM.  The break condition is the complement at the finite-row level: absent pairing, absent marker coverage, an identity RMS excursion above $1.5$, or any $Q_I$ coordinate exceeding the hard $+1.0$ Log2 RPM boundary.  The classification coordinate $C$ keeps the donor and marker responsible for the strict no-positive and hard plus-one tests rather than compressing the outcome into a single pass/fail flag.
+
+\paragraph{Reality contact.}
+The contact \texttt{k-i.gse165177-mptr} is RNA-seq expression evidence, not a methylation-clock assay, phenotypic safety assay, longitudinal maintenance experiment, organismal study, or test of immortal potential.  Its observed content is limited and useful: the processed matrices expose donor-labelled fibroblast negative-control samples, transiently reprogrammed fibroblast samples, and iPSC boundary samples, with gene-level Log2 RPM values for the ten identity markers, the five pluripotency markers, and the two additional reprogramming factors $\mathrm{KLF4}$ and $\mathrm{MYC}$.  The contact can test the cell-identity layer, and it explicitly cannot test age signatures, realized function, safety boundaries, renewable maintenance, organismal maintenance, or cross-layer relations.
+
+\paragraph{Verified finite result.}
+The verified fact \texttt{cellstate.identity-samesig.break-decomposition.gse165177} was recorded in experiment run \texttt{9fee03aee0b9} with experiment identifier \texttt{gse165177\_pluripotency\_break\_decomposition}.  Its support value is \texttt{false}, and its verdict is \texttt{break\_i\_decomposed}.  Thus the table is not being used to rescue the failed identity contact.  It is being used to localize the failure: the sameSig$_I$ test is decomposed into donor-pair rows, identity-marker RMS distances, pluripotency-marker deltas, positive pluripotency-marker counts, hard-threshold marker breaks, and donor case labels.  The result is negative evidence with structure, not absence of evidence.  It says that the day-10 MPTR comparison contains enough donor pairing and marker coverage to diagnose where the identity-preserving pluripotency boundary breaks, while the finite classifier refuses to promote the case to an identity-preserving age-reset claim.
+
+\paragraph{Local claim boundary.}
+No translation claim follows from this chapter: Log2 RPM marker movement is not protein translation, chromatin folding, physical admissibility, mechanism, or universal reprogramming behavior.  No folding claim follows: the row-level marker comparison does not describe three-dimensional genome organization or epigenomic architecture.  No function claim follows: the packet contains no repair assay, tissue-function assay, engraftment assay, or organismal endpoint.  No mechanism claim follows: the donor-marker break decomposition identifies coordinates of failure but does not prove the causal path producing them.  No universality claim follows: the row set is three donor-matched exp2 day-10 pairs from one curated GSE165177 contact.  Any assertion about safety, rejuvenation, renewable maintenance, organismal maintenance, immortal potential, cross-layer consistency, or identity-preserving age reset requires a separate layer-matched contact with its own finite rows and thresholds.

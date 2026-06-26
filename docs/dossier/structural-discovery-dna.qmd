@@ -56,7 +56,7 @@ Passing the gate means the declaration has not been decomposed as a prior struct
 
 ## Positive Provenance: Conjunctive Refinement
 
-The relation layer gives positive provenance evidence for a sound fragment. A candidate classifier of the shape `fun x => ... ∧ P ∧ ...` can refine a prior classifier `fun x => P` by adding conjunctive conditions. The semantic direction is projection: from `A ∧ B` the kernel can eliminate `And` and recover `A`.
+The relation layer gives positive provenance evidence for a sound fragment. A candidate classifier of the shape `fun x => ... ∧ P ∧ ...` can refine a prior classifier `fun x => P` by adding conjunctive conditions. The semantic direction is projection: from $A \land B$ the kernel can eliminate `And` and recover `A`.
 
 The relation analysis normalizes classifier values, flattens conjunctions, compares the nontrivial conjunct set by inclusion, and records paths for matched conjuncts. It filters trivial priors in the decidable structural fragment it implements: syntactic triviality, definitional triviality, and reduced reflexive equality by operand payload.
 

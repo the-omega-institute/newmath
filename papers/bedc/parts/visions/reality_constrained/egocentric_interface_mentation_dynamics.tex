@@ -1,0 +1,340 @@
+\section{Egocentric interface and mentation dynamics}
+\label{sec:egocentric-interface-mentation-dynamics}
+\origin{ai}
+
+\begin{remark}[Vision seed status]
+\label{rem:egocentric-interface-mentation-vision-seed-status}
+This section has vision-seed status and no Lean target. It refines the
+focused conscious carrier of \autoref{def:records-side-conscious-carrier}
+by recording how a focused $\Hist$ receives a source through a centered
+interface, attention weights, classifiers, section choices, probe
+policies, and an append-only ledger. It does not add a subject-substance,
+does not identify the observer with a bare spatial origin, and does not
+claim that internal mentation changes the external source. The safe
+claim is narrower: a source may remain fixed while the world-for-this-$\Hist$
+changes because the interface packet, attention surface, classifier,
+section, probe policy, or ledger has changed.
+\end{remark}
+
+\begin{definition}[Egocentric interface packet]
+\label{def:egocentric-interface-packet}
+For a focused history $h$, an \emph{egocentric interface packet} is a
+finite records-side packet
+$$
+\mathcal E_h
+:=
+(h,C_h,D,a,A_h,K_h,\sigma_h,\Pi_h,\Lambda_h,\mathsf{Aud}_h).
+$$
+The rows have the following roles:
+\begin{enumerate}
+\item $h$ is the focused generated $\Hist$;
+\item $C_h=(o_h,\Omega_h,B_h)$ is the centered frame row, with origin
+$o_h$, orientation row $\Omega_h$, and body or sense-boundary row $B_h$;
+\item $D$ is the displayed interface support, such as a visual disk or
+other finite readout surface;
+\item $a:D\to[0,1]$ is a clarity kernel on the support;
+\item $A_h:D\to\mathbb R_{\ge 0}$ is the attention-weight row;
+\item $K_h$ is the classifier or naming surface applied to the readout;
+\item $\sigma_h$ is a licensed section row for a compressed interface
+surface, when such a section is displayed;
+\item $\Pi_h$ is the probe policy selecting admissible future interfaces;
+\item $\Lambda_h$ is the local ledger of frame, mentation, classifier,
+section, and probe records;
+\item $\mathsf{Aud}_h$ records the refusals against bare source access,
+unledgered section choice, subject-substance import, and outcome choice by
+fiat.
+\end{enumerate}
+The centering convention $o_h=0$ is a gauge row. It says that the readout
+is coordinated from the focused history's interface point; it does not say
+that the physical source is ontologically centered on that point.
+\end{definition}
+
+\begin{definition}[Interface frame and world-for-this-Hist]
+\label{def:interface-frame-world-for-hist}
+Let $X_t$ be a displayed source stage and let
+$$
+\operatorname{Render}_{C_h}(X_t):D\to Y
+$$
+be the readout exposed by the centered frame. The interface frame is
+$$
+F_h:=V_h(X_t),
+\qquad
+F_h(u):=
+\bigl(a(u),\operatorname{Render}_{C_h}(X_t)(u)\bigr).
+$$
+When a scalar readout row is displayed, the effective attended read is
+written
+$$
+F_h^{\mathrm{eff}}(u)
+:=
+a(u)A_h(u)\operatorname{Render}_{C_h}(X_t)(u).
+$$
+The \emph{world-for-this-$\Hist$} is the finite packet
+$$
+W_h:=(F_h,A_h,K_h,\sigma_h,\Pi_h,\Lambda_h).
+$$
+Thus $W_h$ is not the bare source $X_t$. It is the source as rendered by a
+centered interface and then filtered by clarity, attention, classification,
+section, probe policy, and ledger rows.
+\end{definition}
+
+\begin{theorem}[Experience enters as an interface frame]
+\label{thm:experience-enters-as-interface-frame}
+If a focused history accesses a source stage only through the interface
+packet of \autoref{def:egocentric-interface-packet}, then the record added
+to the focused chain is an interface frame, not the bare source:
+$$
+h_{t+1}=\Cont(h_t,F_{h_t}).
+$$
+\end{theorem}
+
+\begin{proof}
+The packet supplies a readout map $V_{h_t}$ from the displayed source
+stage to the interface support. By \autoref{def:interface-frame-world-for-hist},
+the visible record is $F_{h_t}=V_{h_t}(X_t)$. Since the focused chain grows
+by $\Cont$ on displayed records, the continuation row appends $F_{h_t}$,
+not $X_t$ itself. Bare source access would require a row outside the
+interface packet and is refused by $\mathsf{Aud}_{h_t}$.
+\end{proof}
+
+\begin{definition}[Source-fixed scan]
+\label{def:source-fixed-scan}
+A \emph{source-fixed scan} from $h$ to $h'$ is a transition for which the
+source stage is unchanged while the centered frame row changes:
+$$
+X_{t+1}=X_t,
+\qquad
+C_{h'}=g\cdot C_h
+$$
+for a displayed motion or reorientation row $g$.
+\end{definition}
+
+\begin{theorem}[A source-fixed scan can change the frame]
+\label{thm:source-fixed-scan-can-change-frame}
+Let $h\to h'$ be a source-fixed scan. If there is a support point $u\in D$
+such that
+$$
+a(u)>0
+$$
+and
+$$
+\operatorname{Render}_{C_{h'}}(X_t)(u)
+\not\sim_Y
+\operatorname{Render}_{C_h}(X_t)(u),
+$$
+then
+$$
+F_{h'}\not\sim F_h.
+$$
+\end{theorem}
+
+\begin{proof}
+The source-fixed scan keeps $X_t$ fixed but replaces the frame row
+$C_h$ by $C_{h'}$. At the displayed point $u$, the clarity row is
+nonzero and the two rendered values fail the displayed $Y$-classifier
+comparison. By the definition of $F_h$, the frame records include the
+clarity row together with the rendered value at each support point. Hence
+the two frames fail the displayed frame classifier at $u$.
+\end{proof}
+
+\begin{corollary}[Projection change is not source change]
+\label{cor:projection-change-not-source-change}
+A source-fixed scan may satisfy
+$$
+\Delta X=0,
+\qquad
+\Delta F\neq 0.
+$$
+The change belongs to the projection from source to interface frame, not
+to the bare source itself.
+\end{corollary}
+
+\begin{proof}
+This is the case described by
+\autoref{thm:source-fixed-scan-can-change-frame}. The source equality is
+part of \autoref{def:source-fixed-scan}; the frame inequality follows
+from the displayed render difference.
+\end{proof}
+
+\begin{definition}[Mentation event]
+\label{def:mentation-event}
+A \emph{mentation event} at $h$ is an internal record
+$$
+n\in\mathcal M_h
+$$
+that may enter the focused history by
+$$
+h'=\Cont(h,n)
+$$
+without being a fresh external source frame. Its packet-level update is a
+map
+$$
+\mathcal U_n:W_h\to W_{h'}
+$$
+of the form
+$$
+\mathcal U_n(F_h,A_h,K_h,\sigma_h,\Pi_h,\Lambda_h)
+=
+(F_h,A_{h'},K_{h'},\sigma_{h'},\Pi_{h'},
+\operatorname{append}(\Lambda_h,n)).
+$$
+The event may record an attention shift, intention, judgement, naming
+move, expectation, question, goal, memory activation, or internal image.
+The external source row is not changed by this definition.
+\end{definition}
+
+\begin{theorem}[Ledgered mentation changes the world-for-this-Hist]
+\label{thm:ledgered-mentation-changes-world-for-hist}
+Assume $n$ is not already present in the displayed endpoint of
+$\Lambda_h$, and assume ledger append is visible at the active ledger
+classifier. If
+$$
+h'=\Cont(h,n)
+$$
+and
+$$
+\Lambda_{h'}=\operatorname{append}(\Lambda_h,n),
+$$
+then
+$$
+W_{h'}\neq W_h
+$$
+even in the source-fixed case $X_{t+1}=X_t$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:interface-frame-world-for-hist},
+$$
+W_h=(F_h,A_h,K_h,\sigma_h,\Pi_h,\Lambda_h).
+$$
+By the mentation update in \autoref{def:mentation-event}, the last
+component becomes $\operatorname{append}(\Lambda_h,n)$. The hypotheses
+state that this append is visible at the active ledger classifier. Hence
+the sixth component of $W_{h'}$ differs from the sixth component of
+$W_h$. Equality of the external source row does not remove this ledger
+difference, because $W_h$ is a packet containing the ledger, not the bare
+source.
+\end{proof}
+
+\begin{theorem}[Attention change changes the effective read]
+\label{thm:attention-change-changes-effective-read}
+Suppose the scalar effective read row of
+\autoref{def:interface-frame-world-for-hist} is displayed. If
+$$
+F_{h'}=F_h
+$$
+as interface frames, but there exists $u\in D$ such that
+$$
+a(u)\operatorname{Render}_{C_h}(X_t)(u)\neq 0
+$$
+and
+$$
+A_{h'}(u)\neq A_h(u),
+$$
+then
+$$
+F_{h'}^{\mathrm{eff}}(u)\neq F_h^{\mathrm{eff}}(u).
+$$
+\end{theorem}
+
+\begin{proof}
+At the displayed support point $u$, the scalar source factor
+$a(u)\operatorname{Render}_{C_h}(X_t)(u)$ is nonzero. The effective read is
+obtained by multiplying this factor by the attention weight. Since the
+attention weights differ at $u$, the effective reads differ at $u$.
+\end{proof}
+
+\begin{theorem}[Section update changes section-relative meaning]
+\label{thm:section-update-changes-section-relative-meaning}
+Let $Q_h$ be the compressed interface surface determined by the current
+visual quotient and let $\sigma_h,\sigma_{h'}:Q_h\to X$ be two displayed
+licensed sections. If a label row $L:X\to\{0,1\}$ satisfies
+$$
+L(\sigma_h(q))\neq L(\sigma_{h'}(q))
+$$
+for some $q\in Q_h$, then the section-relative meanings differ:
+$$
+L_{\sigma_h}(q)\neq L_{\sigma_{h'}}(q).
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:section-relative-meaning},
+$$
+L_{\sigma_h}(q)=L(\sigma_h(q))
+\quad\text{and}\quad
+L_{\sigma_{h'}}(q)=L(\sigma_{h'}(q)).
+$$
+The displayed label inequality at $q$ is exactly the inequality between
+these two section-relative readouts. The compressed surface $Q_h$ may be
+unchanged; the licensed section row still matters.
+\end{proof}
+
+\begin{theorem}[Probe-policy change changes the future interface surface]
+\label{thm:probe-policy-change-changes-future-interface-surface}
+If two world-for-this-$\Hist$ packets agree on the current frame but their
+probe policies satisfy
+$$
+\Pi_h(h,a)=I
+\quad\text{and}\quad
+\Pi_{h'}(h',a)=I'
+$$
+for some displayed action row $a$ with $I\not\sim I'$, then the next
+admissible probe interface differs.
+\end{theorem}
+
+\begin{proof}
+The next interface family is selected by the probe policy row. This is the
+role of $\Pi$ in \autoref{def:probe-selection-outcome-row}. If the two
+policies return non-equivalent interface families for the same displayed
+action row, the selected future interface surface differs. By
+\autoref{thm:action-selects-interface-not-outcome}, this is a change of
+probe interface, not a fiat determination of the outcome.
+\end{proof}
+
+\begin{theorem}[Egocentric mentation synthesis]
+\label{thm:egocentric-mentation-synthesis}
+For an egocentric interface packet, current experience is an interface
+frame written into $\Hist$; source-fixed scanning can change the frame;
+ledgered mentation changes $W_h$ by append-only record; attention updates
+can change the effective read of the same frame; section updates can
+change section-relative meaning over the same compressed surface; and
+probe-policy updates can change the future interface surface without
+selecting the future outcome by fiat.
+\end{theorem}
+
+\begin{proof}
+The frame-entry claim is \autoref{thm:experience-enters-as-interface-frame}.
+The source-fixed scan claim is \autoref{thm:source-fixed-scan-can-change-frame}.
+The ledgered mentation claim is
+\autoref{thm:ledgered-mentation-changes-world-for-hist}. The attention
+claim is \autoref{thm:attention-change-changes-effective-read}. The
+section claim is
+\autoref{thm:section-update-changes-section-relative-meaning}. The
+probe-policy claim is
+\autoref{thm:probe-policy-change-changes-future-interface-surface}. Each
+component is a packet row already admitted by the focused-record and
+interface--constraint--section disciplines, and none introduces a
+subject-substance or unsupported external-source alteration.
+\end{proof}
+
+\begin{remark}[Forbidden readings]
+\label{rem:egocentric-interface-mentation-forbidden-readings}
+This packet forbids four readings. The centered frame is not a claim that
+the universe is centered on the observer. The interface frame is not the
+bare source. A mentation event does not alter the external source merely
+by being recorded. A changed probe policy is not an outcome chooser; it
+selects an interface family whose outcome still depends on the displayed
+source and kernel rows. The admissible compressed statement is
+$$
+\Delta X=0
+\quad\text{and}\quad
+\Delta W\neq 0
+$$
+whenever the source is fixed and at least one visible row of
+$W_h=(F_h,A_h,K_h,\sigma_h,\Pi_h,\Lambda_h)$ changes.
+\end{remark}
+
+\concretizedIn{ch:concrete-instances-observer-interface-namecert}{Observer-interface packets realize centered readout, support, interface, classifier, boundary, and ledger rows for finite observer surfaces.}
+\concretizedIn{ch:concrete-instances-attention-ledger-namecert}{Attention ledgers realize finite attention weights, salience routes, update records, and NameCert rows for interface-weighted readouts.}
+\concretizedIn{ch:concrete-instances-observer-direction-namecert}{Observer-direction packets realize finite orientation, frame, boundary, and direction rows for centered observer readouts.}

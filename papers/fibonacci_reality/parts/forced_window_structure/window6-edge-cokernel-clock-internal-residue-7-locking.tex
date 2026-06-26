@@ -1,0 +1,53 @@
+\subsection{Window-six edge cokernel clock with internal residue seven locking}\label{sec:window6-edge-cokernel-clock-internal-residue-7-locking}
+\origin{ai}
+
+\paragraph{Carrier and cell partition.}
+The finite window carrier is the set $\{0,1\}^6$. It has exactly $64$ words. The edge certificate does not use an ordering of these words as a numerical fit; it uses a finite partition of the forced-window data into four named cell coordinates
+$U_2$, $U_1$, $U_L$, and $U_R$. The target cell module is the free integer module with basis ordered as
+$$
+\begin{aligned}
+(e_{U_2},e_{U_1},e_{U_L},e_{U_R}).
+\end{aligned}
+$$
+All residue calculations below are taken in the quotient of this module modulo $10$. Thus the residue module has exactly $10^4$ coordinate vectors before imposing the edge relations. The forced edge relation is represented by an integer homomorphism
+$$
+\begin{aligned}
+E:\mathbf{Z}^4\longrightarrow \mathbf{Z}^4.
+\end{aligned}
+$$
+The certificate target records that the integer Smith reduction of $E$ has invariant factors $1,1,1,10$. Equivalently, the edge cokernel has one nontrivial cyclic component, and the resulting finite obstruction group is
+$$
+\begin{aligned}
+K^{\mathrm{edge}}_6 \cong \mathbf{Z}/10\mathbf{Z}.
+\end{aligned}
+$$
+This gives an exact count of $10$ obstruction classes. The assertion is therefore a finite arithmetic statement: integer row and column operations reduce the edge matrix to the displayed invariant factors, and the gcd of the nonzero maximal minors gives the order $10$ cyclic factor.
+
+\paragraph{Relations, left kernel, and residue witnesses.}
+The mod-$10$ left kernel of the edge relation is cyclic. Its cyclicity means that every compatible residue test is obtained by multiplying one generator by an element of $\mathbf{Z}/10\mathbf{Z}$. The certificate fixes the cell-coordinate convention above and supplies three explicit extraction witnesses. They are the following identities in $\left(\mathbf{Z}/10\mathbf{Z}\right)^4$:
+$$
+\begin{aligned}
+E(1,1,0,1) &= e_{U_2}-2e_{U_R}=(1,0,0,8),\\
+E(1,5,9,4) &= e_{U_1}-8e_{U_R}=(0,1,0,2),\\
+E(0,9,1,0) &= e_{U_L}=(0,0,1,0).
+\end{aligned}
+$$
+These equalities are not approximate numerical observations. They are finite congruences modulo $10$. The witness extraction predicate is: a cell residue is certified when an integer source vector in $\mathbf{Z}^4$ maps under $E$ to the stated residue vector modulo $10$. The three displayed vectors therefore certify the $U_2$, $U_1$, and $U_L$ cell residues relative to the right-edge coordinate $U_R$. Since the nontrivial cokernel is cyclic of order $10$, these witnesses also locate the relevant residues inside the same finite clock rather than in three unrelated quotient tests.
+
+\paragraph{Internal residue seven and phase lock.}
+The seam grade is the unique residue $7$ in the cyclic obstruction group $\mathbf{Z}/10\mathbf{Z}$ selected by the forced-window certificate. In first-principles terms, the grade predicate is the singleton relation
+$$
+\begin{aligned}
+\{g\in\mathbf{Z}/10\mathbf{Z}: g=7\}.
+\end{aligned}
+$$
+The Fibonacci phase-lock component is likewise a finite singleton relation on the internal phase variable:
+$$
+\begin{aligned}
+\{a_{\mathrm{int}}\in\mathbf{Z}/10\mathbf{Z}: a_{\mathrm{int}}=0\}.
+\end{aligned}
+$$
+Thus the chapter records a finite forced-window construction with four ingredients: a $64$-element binary carrier, a four-cell edge module, a Smith-normal-form cokernel of exact size $10$, and a singleton grade-and-phase selection $(7,0)$ inside the resulting mod-$10$ clock. No real-valued measurement, limiting process, or empirical comparison is part of the theorem statement.
+
+\paragraph{Boundary of the claim.}
+The construction proves only the finite arithmetic package described above: the Smith form of $E$, the cyclic order-$10$ edge cokernel, the mod-$10$ cell witnesses, the seam grade $7$, and the internal phase value $a_{\mathrm{int}}=0$. It does not identify the residue with a physical fine-structure constant, does not assert $R_6(D^*)=\alpha^{-1}$, does not choose a global origin, and does not select a basepoint in an originless $P_{10}$ torsor. No global flow law, external dependency, metrological comparison, or interpretation beyond this finite construction follows without a separate certificate.

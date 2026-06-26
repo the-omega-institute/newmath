@@ -1,0 +1,178 @@
+{
+  "assignment_match": {
+    "budget_2": 0.45741324921135645,
+    "budget_3": 0.361198738170347,
+    "budget_4": 0.4794952681388013
+  },
+  "budgets": {
+    "budget_2": {
+      "headroom_capture_ratio": -1.344765953655743,
+      "oracle_delta": {
+        "episode_count": 7,
+        "high": -0.013026457683521942,
+        "low": -0.040205341177122086,
+        "observed": -0.02512420623115628,
+        "samples": 4000
+      },
+      "regret_to_oracle": {
+        "episode_count": 7,
+        "high": 0.11722127146068802,
+        "low": 0.020494139930446555,
+        "observed": 0.05891038338344072,
+        "samples": 4000
+      },
+      "score_delta": {
+        "episode_count": 7,
+        "high": 0.08335820481067129,
+        "low": -0.00014291787798473683,
+        "observed": 0.033786177152284436,
+        "samples": 4000
+      }
+    },
+    "budget_3": {
+      "headroom_capture_ratio": -0.41798921065694844,
+      "oracle_delta": {
+        "episode_count": 7,
+        "high": -0.02307904678713048,
+        "low": -0.07191097393086882,
+        "observed": -0.042996253248490435,
+        "samples": 4000
+      },
+      "regret_to_oracle": {
+        "episode_count": 7,
+        "high": 0.1179883642229363,
+        "low": 0.025180107312428746,
+        "observed": 0.0609682232050332,
+        "samples": 4000
+      },
+      "score_delta": {
+        "episode_count": 7,
+        "high": 0.05003226132603041,
+        "low": -0.007683131758592362,
+        "observed": 0.017971969956542773,
+        "samples": 4000
+      }
+    },
+    "budget_4": {
+      "headroom_capture_ratio": 0.08585306451293347,
+      "oracle_delta": {
+        "episode_count": 7,
+        "high": -0.030502029957192527,
+        "low": -0.10099419760986757,
+        "observed": -0.05985959480038509,
+        "samples": 4000
+      },
+      "regret_to_oracle": {
+        "episode_count": 7,
+        "high": 0.1147466174097592,
+        "low": 0.02069459713695018,
+        "observed": 0.05472046514626958,
+        "samples": 4000
+      },
+      "score_delta": {
+        "episode_count": 7,
+        "high": 0.02010400951984221,
+        "low": -0.02691894013165729,
+        "observed": -0.005139129654115518,
+        "samples": 4000
+      }
+    }
+  },
+  "config": {
+    "batch_episodes": 8,
+    "bootstrap_samples": 4000,
+    "budgets": [
+      2,
+      3,
+      4
+    ],
+    "depth": 2,
+    "epochs": 120,
+    "hidden": 256,
+    "loss": "0.45*worst_budget_assignment_ce + 0.20*mean_assignment_ce + 0.15*episode_depth_budget + 0.10*worst_centered_error_reg + 0.10*mean_centered_error_reg",
+    "lr": 0.0003,
+    "seed": 1613
+  },
+  "device": "cuda",
+  "diagnosis": {
+    "budget_head_mean_capture_ratio": -0.3271453466098005,
+    "episode_coupled_policy_beats_budget_head_mean_capture": false,
+    "episode_coupled_policy_beats_minimax_mean_capture": false,
+    "episode_coupled_policy_beats_replacement_mean_capture": false,
+    "episode_coupled_policy_budget2_capture_ratio": -1.344765953655743,
+    "episode_coupled_policy_budget3_capture_ratio": -0.41798921065694844,
+    "episode_coupled_policy_budget4_capture_ratio": 0.08585306451293347,
+    "episode_coupled_policy_closes": false,
+    "episode_coupled_policy_mean_capture_ratio": -0.5589673665999194,
+    "episode_coupled_policy_mean_regret_to_oracle": 0.05819969057824784,
+    "minimax_policy_mean_capture_ratio": -0.48689307519762187,
+    "single_budget_replacement_mean_capture_ratio": 0.12606921419567504
+  },
+  "feature_dims": {
+    "augmented_feature_dim": 4968,
+    "base_feature_dim": 4952,
+    "episode_coupled_expanded_dim": 5138,
+    "episode_coupled_feature_dim": 13,
+    "expanded_mechanism_feature_dim": 5125,
+    "geometry_feature_dim": 16,
+    "mechanism_feature_dim": 12
+  },
+  "hard_episode_union": [
+    81,
+    115,
+    145,
+    193,
+    201,
+    213,
+    277
+  ],
+  "leakage_attestation": {
+    "features": "aligned export x, geometry, predicted rollout mechanism summaries, option interactions, and non-label episode rank/size/position features",
+    "oracle_scope": "eval option_error is used only after fixed episode-coupled scores are generated",
+    "selection": "calibration split worst-budget exact-budget CI high; held-out hard ids are not used for training or model selection",
+    "slurm_or_ssh": "not used",
+    "training_targets": "train split exact-budget oracle assignments for budget multipliers 2, 3, and 4"
+  },
+  "not_claimed": [
+    "deployable allocation policy",
+    "independent export validation",
+    "complete BEDC-native world model",
+    "prediction parity"
+  ],
+  "schema_id": "bedc_jepa.state_generation_episode_coupled_budget_policy",
+  "status": "ok",
+  "summary": {
+    "budget3_capture_ratio": -0.41798921065694844,
+    "budget4_capture_ratio": 0.08585306451293347,
+    "max_capture_ratio": 0.08585306451293347,
+    "mean_capture_ratio": -0.5589673665999194,
+    "mean_regret_to_oracle": 0.05819969057824784,
+    "min_capture_ratio": -1.344765953655743
+  },
+  "training": {
+    "best": {
+      "epoch": 36,
+      "selection_key": [
+        0.0031939852321427515,
+        -0.003285400930625378,
+        0.2943362096945445
+      ]
+    },
+    "history_first": {
+      "cal_budget_max_high": 0.01921954177477138,
+      "cal_budget_mean_observed": 0.007952732841955789,
+      "epoch": 1.0,
+      "train_loss": 1.09029411701929
+    },
+    "history_last": {
+      "cal_budget_max_high": 0.008105894971188873,
+      "cal_budget_mean_observed": -0.0007851826447779789,
+      "epoch": 120.0,
+      "train_loss": 0.2314641156366893
+    },
+    "params_count": 1383171,
+    "selection_rule": "episode-batched training; minimize calibration worst budget CI high, then mean observed delta, then training loss"
+  },
+  "verdict": "Episode-coupled budget policy does not improve over the current budget-value boundary; allocation remains open.",
+  "wall_time_sec": 143.35772943496704
+}

@@ -1,0 +1,161 @@
+{
+  "schema_id": "lewm.allocation_rho_threshold",
+  "question": "what within-episode ranking quality (Spearman to true h=5 error) lets a ranker beat uniform allocation?",
+  "protocol": {
+    "reused_from": "_allocation_bridge (same anchors, 5/1 depth split, matched budget, uniform/oracle, paired bootstrap)",
+    "bootstrap_seed": 314159,
+    "noise_seed": 20260613,
+    "blend": "score = w * oracle_rank_z + (1-w) * noise_rank_z, per episode",
+    "oracle_delta_anchor": -0.015867561326231905
+  },
+  "curve": [
+    {
+      "blend_w": 0.0,
+      "within_episode_spearman": 0.04978233887324796,
+      "delta_vs_uniform": {
+        "observed": 0.020997328866065437,
+        "ci95_low": 0.011802859168594566,
+        "ci95_high": 0.03092830223183546
+      },
+      "beats_uniform": false
+    },
+    {
+      "blend_w": 0.1,
+      "within_episode_spearman": 0.07849165226586266,
+      "delta_vs_uniform": {
+        "observed": 0.018753769238484375,
+        "ci95_low": 0.010314756031480432,
+        "ci95_high": 0.02892790509105247
+      },
+      "beats_uniform": false
+    },
+    {
+      "blend_w": 0.2,
+      "within_episode_spearman": 0.2095740441566431,
+      "delta_vs_uniform": {
+        "observed": 0.014312862433126253,
+        "ci95_low": 0.0058706148323255025,
+        "ci95_high": 0.024260085012735102
+      },
+      "beats_uniform": false
+    },
+    {
+      "blend_w": 0.3,
+      "within_episode_spearman": 0.3329757797205851,
+      "delta_vs_uniform": {
+        "observed": 0.011059137440968134,
+        "ci95_low": 0.002868752308585907,
+        "ci95_high": 0.020964485011506037
+      },
+      "beats_uniform": false
+    },
+    {
+      "blend_w": 0.4,
+      "within_episode_spearman": 0.5348527504623178,
+      "delta_vs_uniform": {
+        "observed": 0.0011763000922429684,
+        "ci95_low": -0.0038308604173332233,
+        "ci95_high": 0.0060661905827558375
+      },
+      "beats_uniform": false
+    },
+    {
+      "blend_w": 0.5,
+      "within_episode_spearman": 0.7139246081641051,
+      "delta_vs_uniform": {
+        "observed": -0.005376420818117164,
+        "ci95_low": -0.009980225020749077,
+        "ci95_high": -0.001052906139614426
+      },
+      "beats_uniform": true
+    },
+    {
+      "blend_w": 0.6,
+      "within_episode_spearman": 0.8422279620040992,
+      "delta_vs_uniform": {
+        "observed": -0.01225124774733656,
+        "ci95_low": -0.0179097579661602,
+        "ci95_high": -0.007196239066685829
+      },
+      "beats_uniform": true
+    },
+    {
+      "blend_w": 0.7,
+      "within_episode_spearman": 0.9198039213498467,
+      "delta_vs_uniform": {
+        "observed": -0.014206144020061137,
+        "ci95_low": -0.01961091558137292,
+        "ci95_high": -0.009264927400786676
+      },
+      "beats_uniform": true
+    },
+    {
+      "blend_w": 0.8,
+      "within_episode_spearman": 0.9752442832572452,
+      "delta_vs_uniform": {
+        "observed": -0.015300263238046799,
+        "ci95_low": -0.02065940630911162,
+        "ci95_high": -0.010535099533351851
+      },
+      "beats_uniform": true
+    },
+    {
+      "blend_w": 0.9,
+      "within_episode_spearman": 0.9982298030926882,
+      "delta_vs_uniform": {
+        "observed": -0.015867561326231905,
+        "ci95_low": -0.021509230218888457,
+        "ci95_high": -0.010840608395515199
+      },
+      "beats_uniform": true
+    },
+    {
+      "blend_w": 0.95,
+      "within_episode_spearman": 1.0,
+      "delta_vs_uniform": {
+        "observed": -0.015867561326231905,
+        "ci95_low": -0.021509230218888457,
+        "ci95_high": -0.010840608395515199
+      },
+      "beats_uniform": true
+    },
+    {
+      "blend_w": 1.0,
+      "within_episode_spearman": 1.0,
+      "delta_vs_uniform": {
+        "observed": -0.015867561326231905,
+        "ci95_low": -0.021509230218888457,
+        "ci95_high": -0.010840608395515199
+      },
+      "beats_uniform": true
+    }
+  ],
+  "thresholds": {
+    "rho_star_point_estimate_first_negative_observed": 0.7139246081641051,
+    "rho_star_ci_first_interval_below_zero": 0.7139246081641051,
+    "observed_crossing_bracket": {
+      "between_spearman": [
+        0.5348527504623178,
+        0.7139246081641051
+      ],
+      "between_blend_w": [
+        0.4,
+        0.5
+      ]
+    }
+  },
+  "context": {
+    "learned_ranker_spearman_band": [
+      0.432,
+      0.508
+    ],
+    "learned_rankers_beat_uniform": false,
+    "oracle_spearman": 1.0,
+    "oracle_delta": -0.015867561326231905
+  },
+  "not_claimed": [
+    "single checkpoint (tworooms), single export",
+    "prediction-budget allocation, not planning/control",
+    "the blend is a synthetic ranking-quality dial, not an achievable model"
+  ]
+}

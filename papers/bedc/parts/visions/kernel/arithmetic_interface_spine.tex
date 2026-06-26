@@ -1,0 +1,499 @@
+\chapter{Arithmetic Interface Spine}
+\label{ch:visions-arithmetic-interface-spine}
+\origin{human}
+
+The finite data layer licenses Boolean tags, optional endpoints, sums,
+products, and finite spines.  Arithmetic is the next certificate-facing
+surface.  It does not add host natural numbers, host integer pairs, host
+rational quotients, or primitive arithmetic operations to the BEDC kernel.
+The arithmetic layer reads only the generated history spine, continuation,
+finite data interfaces, stability fields, and naming ledgers:
+$$
+(\Hist,\hsame,\ContR,\NameCert{},\BoolUp,\ProdUp,\ListUp)
+\longrightarrow
+(\NatUp,\AddUp,\MulUp,\OrderUp,\IntUp,\RatUp).
+$$
+This chapter records the interface spine for that passage.  Its role is to
+state what each arithmetic name must display before it can be consumed by
+later algebra, real, and number-theoretic packets.
+
+\section{Unary Natural Histories}
+\label{sec:arithmetic-spine-nat}
+
+\begin{definition}[Unary history judgment]
+\label{def:arithmetic-spine-unary-history}
+The unary judgment
+$$
+\Unary:\Hist\to\mathsf{Prop}
+$$
+is the closed generated predicate with base row
+$$
+\Unary(\emp)
+$$
+and one-extension row
+$$
+\Unary(h)\Longrightarrow\Unary(\Eone(h)).
+$$
+There is no generation row for $\Unary(\Ezero(h))$.
+\end{definition}
+
+\begin{definition}[Natural-number carrier and classifier]
+\label{def:arithmetic-spine-nat-carrier-classifier}
+The natural-number carrier is
+$$
+\mathsf{NatCarrier}(h):\Longleftrightarrow \Unary(h).
+$$
+Its classifier is history sameness restricted to unary histories:
+$$
+h\sim_{\mathsf{Nat}}k
+:\Longleftrightarrow
+\Unary(h)\wedge\Unary(k)\wedge\hsame(h,k).
+$$
+The zero and successor rows are
+$$
+0_{\mathsf{Nat}}:=\emp,
+\qquad
+\mathsf{succ}(h):=\Eone(h).
+$$
+\end{definition}
+
+\begin{theorem}[Unary closure and zero separation]
+\label{thm:arithmetic-spine-unary-closure-zero-separation}
+The carrier $\mathsf{NatCarrier}$ contains $0_{\mathsf{Nat}}$, is closed
+under $\mathsf{succ}$, and contains no $\Ezero$-headed history.
+\end{theorem}
+
+\begin{proof}
+The first two claims are exactly the two generation rows in
+\autoref{def:arithmetic-spine-unary-history}.  The last claim follows from
+closed generation: every nonempty unary history is produced by the
+$\Eone$-extension row, and no displayed rule has an $\Ezero$-headed
+conclusion.
+\end{proof}
+
+\begin{theorem}[Unary induction]
+\label{thm:arithmetic-spine-unary-induction}
+Let $P:\Hist\to\mathsf{Prop}$.  If $P(\emp)$ and
+$$
+\Unary(h)\wedge P(h)\Longrightarrow P(\Eone(h)),
+$$
+then
+$$
+\Unary(h)\Longrightarrow P(h)
+$$
+for every history $h$.
+\end{theorem}
+
+\begin{proof}
+Induct on the displayed derivation of $\Unary(h)$.  The base derivation
+uses $P(\emp)$.  The one-extension derivation applies the induction
+hypothesis to the tail and then applies the displayed step premise.
+\end{proof}
+
+\begin{definition}[Natural-number naming certificate]
+\label{def:arithmetic-spine-nat-namecert}
+The $\NatUp$ certificate has source $\Unary$, pattern repeated
+$\Eone$-extension from $\emp$, classifier $\sim_{\mathsf{Nat}}$, stability
+given by base, successor closure, unary induction, and $\Ezero$ exclusion,
+and ledger equal to the originating unary history behind each public
+counting token.
+\end{definition}
+
+\begin{corollary}[NatUp admission]
+\label{cor:arithmetic-spine-nat-admission}
+The interface $\NatUp$ is admitted by the certificate of
+\autoref{def:arithmetic-spine-nat-namecert}.  It is a unary-history
+interface, not a kernel natural-number primitive.
+\end{corollary}
+
+\section{Unary Continuation Addition}
+\label{sec:arithmetic-spine-add}
+
+\begin{definition}[Unary continuation and additive relation]
+\label{def:arithmetic-spine-add-relation}
+The unary continuation predicate is
+$$
+\UnaryCont(h,k,r)
+:\Longleftrightarrow
+\Unary(h)\wedge\Unary(k)\wedge\ContR(h,k,r).
+$$
+The additive relation is
+$$
+\mathsf{AddRel}(h,k,r)
+:\Longleftrightarrow
+\Unary(h)\wedge\Unary(k)\wedge\Unary(r)\wedge\ContR(h,k,r).
+$$
+It is the relation read publicly as $h+k\simeq r$.
+\end{definition}
+
+\begin{theorem}[Addition closure]
+\label{thm:arithmetic-spine-add-closure}
+If $\Unary(h)$, $\Unary(k)$, and $\ContR(h,k,r)$, then $\Unary(r)$.
+\end{theorem}
+
+\begin{proof}
+Induct on the displayed continuation derivation.  The empty continuation
+returns the right input, hence a unary result.  The $\Eone$ continuation step
+uses the induction hypothesis for the tail result and then applies unary
+closure under $\Eone$.  The $\Ezero$ continuation branch is incompatible with
+the unary right input by \autoref{thm:arithmetic-spine-unary-closure-zero-separation}.
+\end{proof}
+
+\begin{theorem}[Additive unit and associativity rows]
+\label{thm:arithmetic-spine-add-unit-assoc}
+For unary histories, $\emp$ is a left and right unit for continuation up to
+$\hsame$, and nested unary continuations associate up to $\hsame$.
+\end{theorem}
+
+\begin{proof}
+The left unit is the empty continuation row.  The right unit is the
+continuation unit theorem restricted to unary histories, with
+\autoref{thm:arithmetic-spine-add-closure} ensuring that the result remains
+inside the unary carrier.  Associativity is the L2 continuation associativity
+row restricted to the same unary carrier and transported through $\hsame$.
+\end{proof}
+
+\begin{theorem}[Additive commutativity row]
+\label{thm:arithmetic-spine-add-commutativity}
+If $\Unary(h)$, $\Unary(k)$,
+$$
+\ContR(h,k,r),
+\qquad
+\ContR(k,h,r'),
+$$
+then $\hsame(r,r')$.
+\end{theorem}
+
+\begin{proof}
+Induct on the unary derivation of $h$.  If $h=\emp$, the two continuation
+unit rows classify $r$ and $r'$ with $k$.  In the one-extension case, invert
+the continuation from $\Eone(h_0)$ and the continuation into the
+$\Eone(h_0)$ tail, apply the induction hypothesis to the exposed tail
+continuations, and rebuild the endpoint comparison by $\Eone$ congruence.
+\end{proof}
+
+\begin{definition}[AddUp naming certificate]
+\label{def:arithmetic-spine-add-namecert}
+The $\AddUp$ certificate has source pairs of unary histories, pattern
+relational continuation, classifier $\hsame$ on generated continuation
+results, stability given by closure, units, determinacy, associativity, and
+commutativity, and ledger equal to the two source unary histories together
+with the displayed continuation witness.
+\end{definition}
+
+\begin{corollary}[AddUp admission]
+\label{cor:arithmetic-spine-add-admission}
+The interface $\AddUp$ is admitted by the certificate of
+\autoref{def:arithmetic-spine-add-namecert}.  It is a continuation
+certificate over unary histories, not a primitive binary operation.
+\end{corollary}
+
+\section{Unary Multiplication and Divisibility}
+\label{sec:arithmetic-spine-mul}
+
+\begin{definition}[Unary multiplication relation]
+\label{def:arithmetic-spine-natmul}
+The relation $\mathsf{NatMul}(d,q,n)$ is the closed repeated-addition
+relation with rows:
+$$
+\mathsf{NatMul}(d,\emp,\emp)
+$$
+for every unary $d$, and
+$$
+\mathsf{NatMul}(d,q,n)\wedge\ContR(n,d,n')
+\Longrightarrow
+\mathsf{NatMul}(d,\Eone(q),n').
+$$
+The first input is the multiplicand, the second input is the unary
+multiplier ledger, and the third input is the generated product history.
+\end{definition}
+
+\begin{theorem}[Multiplication closure and functionality]
+\label{thm:arithmetic-spine-mul-closure-functionality}
+If $\mathsf{NatMul}(d,q,n)$, then $q$ is unary.  If $d$ is unary and
+$\mathsf{NatMul}(d,q,n)$, then $n$ is unary.  For fixed unary $d$ and $q$,
+any two unary results of $\mathsf{NatMul}(d,q,-)$ are $\hsame$.
+\end{theorem}
+
+\begin{proof}
+The unary property of $q$ follows by induction on the displayed
+$\mathsf{NatMul}$ derivation: the empty multiplier is unary, and the
+successor row preserves unary by one-extension.  Result closure is the same
+induction, using the empty result in the base case and
+\autoref{thm:arithmetic-spine-add-closure} in the successor case.  For
+functionality, induct on the unary multiplier.  The empty case compares two
+empty product endpoints.  The successor case inverts both multiplication
+witnesses, applies the induction hypothesis to the preceding products, and
+uses continuation determinacy and $\hsame$ transport for the final additive
+step.
+\end{proof}
+
+\begin{definition}[Multiplicative unit and divisibility]
+\label{def:arithmetic-spine-unit-divides}
+The unary unit is
+$$
+1_{\mathsf{Nat}}:=\Eone(\emp).
+$$
+Divisibility is the explicit quotient-witness relation
+$$
+\mathsf{NatDivides}(d,n)
+:\Longleftrightarrow
+\exists q.\;\Unary(q)\wedge\mathsf{NatMul}(d,q,n).
+$$
+\end{definition}
+
+\begin{theorem}[Unit multiplication readback]
+\label{thm:arithmetic-spine-unit-mul-readback}
+If $\Unary(q)$ and $\mathsf{NatMul}(\Eone(\emp),q,n)$, then
+$\hsame(n,q)$.
+\end{theorem}
+
+\begin{proof}
+Induct on the unary structure of $q$.  The empty case is the empty
+multiplication row.  In the one-extension case, invert the multiplication
+witness into the predecessor product and one continuation by
+$\Eone(\emp)$.  The induction hypothesis identifies the predecessor product
+with the predecessor multiplier, and the final continuation is exactly the
+successor endpoint up to $\hsame$.
+\end{proof}
+
+\begin{definition}[MulUp naming certificate]
+\label{def:arithmetic-spine-mul-namecert}
+The $\MulUp$ certificate has source unary triples equipped with a
+$\mathsf{NatMul}$ witness, pattern repeated $\AddUp$ continuation, classifier
+$\hsame$ on product results with transported factor ledgers, stability given
+by empty-multiplier, successor, result closure, functionality, unit,
+associativity, commutativity, and distribution rows where supplied, and
+ledger equal to the multiplicand, multiplier, partial-product trace, and
+continuation evidence.
+\end{definition}
+
+\begin{corollary}[MulUp admission boundary]
+\label{cor:arithmetic-spine-mul-admission}
+The local $\MulUp$ interface is the repeated-addition certificate described
+in \autoref{def:arithmetic-spine-mul-namecert}.  Semiring and ordered-ring
+uses may consume this surface only after the advertised law rows are present;
+they are not supplied by a kernel multiplication primitive.
+\end{corollary}
+
+\section{Unary Order}
+\label{sec:arithmetic-spine-order}
+
+\begin{definition}[Unary prefix order]
+\label{def:arithmetic-spine-unary-prefix-order}
+For unary histories, the prefix comparison is
+$$
+h\le_{\mathsf{Nat}} k
+:\Longleftrightarrow
+\Unary(h)\wedge\Unary(k)\wedge
+\exists t.\;\Unary(t)\wedge\ContR(h,t,k).
+$$
+The strict comparison additionally requires the displayed tail not to be
+empty:
+$$
+h<_{\mathsf{Nat}} k
+:\Longleftrightarrow
+h\le_{\mathsf{Nat}}k
+\text{ through a tail }t
+\text{ with }\neg\,\hsame(t,\emp).
+$$
+\end{definition}
+
+\begin{theorem}[Unary prefix order rows]
+\label{thm:arithmetic-spine-unary-prefix-order-rows}
+The relation $\le_{\mathsf{Nat}}$ is reflexive and transitive on unary
+histories, no history is a strict unary prefix of $\emp$, and any two unary
+histories are comparable by a displayed prefix row in one direction.
+\end{theorem}
+
+\begin{proof}
+Reflexivity uses the empty tail and continuation right unit.  Transitivity
+composes the two displayed tails using continuation associativity and
+\autoref{thm:arithmetic-spine-add-closure}.  A strict prefix into $\emp$
+would require a nonempty unary tail whose continuation result is empty; empty
+result inversion forces that tail to be empty, a contradiction.  Totality is
+proved by unary induction: the empty history prefixes every unary history,
+and the one-extension cases reduce by constructor inversion to the tail
+comparison.
+\end{proof}
+
+\begin{definition}[OrderUp naming certificate]
+\label{def:arithmetic-spine-order-namecert}
+The $\OrderUp$ certificate has source pairs of unary histories, pattern
+prefix-or-equality comparison, classifier transport by endpoint $\hsame$,
+stability given by reflexivity, transitivity, total comparison, strict-prefix
+asymmetry and endpoint transport, and ledger equal to the two endpoints, the
+comparison branch, and the finite $\ContR$ prefix route.
+\end{definition}
+
+\begin{corollary}[OrderUp admission]
+\label{cor:arithmetic-spine-order-admission}
+The interface $\OrderUp$ is admitted as a finite unary comparison packet.  It
+does not export host order, quotient order, ordered semiring structure, or a
+classical trichotomy selector.
+\end{corollary}
+
+\section{Signed Integers}
+\label{sec:arithmetic-spine-int}
+
+\begin{definition}[Signed-pair carrier and classifier]
+\label{def:arithmetic-spine-int-carrier-classifier}
+The integer carrier is the signed unary-pair predicate
+$$
+\mathsf{IntCarrier}(a,b)
+:\Longleftrightarrow
+\Unary(a)\wedge\Unary(b),
+$$
+read as the formal difference $a-b$.  Its classifier is cross-additive
+balance:
+$$
+(a,b)\sim_{\mathsf{Int}}(c,d)
+:\Longleftrightarrow
+\exists u,v.\;
+\mathsf{AddRel}(a,d,u)\wedge
+\mathsf{AddRel}(c,b,v)\wedge
+\hsame(u,v).
+$$
+\end{definition}
+
+\begin{theorem}[Integer classifier elementary laws]
+\label{thm:arithmetic-spine-int-classifier-elementary}
+The integer classifier is reflexive and symmetric wherever the required
+$\AddUp$ rows are displayed.  Its transitive law is a full arithmetic
+obligation over additive associativity, commutativity, and cancellation on
+the unary continuation surface.
+\end{theorem}
+
+\begin{proof}
+Reflexivity compares $a+b$ with itself using an additive witness and
+$\hsame$ reflexivity.  Symmetry reverses the displayed $\hsame$ witness in
+the cross-additive balance.  Transitivity has the usual signed-pair shape:
+from $a+d=c+b$ and $c+f=e+d$, one composes additive rows, reorders by the
+commutative-associative $\AddUp$ certificate, and cancels the shared unary
+summand.  The cancellation row is not a kernel rule; it is part of the L7
+arithmetic certificate surface.
+\end{proof}
+
+\begin{definition}[IntUp naming certificate]
+\label{def:arithmetic-spine-int-namecert}
+The $\IntUp$ certificate has source signed unary pairs, pattern formal
+difference, classifier cross-additive balance, stability given by classifier
+equivalence, addition, negation, multiplication, and order transport where
+displayed, and ledger equal to the two unary histories together with
+normalization and cross-additive witnesses.
+\end{definition}
+
+\begin{corollary}[IntUp admission boundary]
+\label{cor:arithmetic-spine-int-admission}
+The interface $\IntUp$ is admitted as a signed-pair certificate over
+$\NatUp$ and $\AddUp$.  It does not import host integers, quotient integer
+equality, or ordered-ring structure without the corresponding displayed
+stability rows.
+\end{corollary}
+
+\section{Rational Histories}
+\label{sec:arithmetic-spine-rat}
+
+\begin{definition}[Positive unary denominator]
+\label{def:arithmetic-spine-positive-unary}
+A positive unary denominator is
+$$
+\mathsf{PositiveUnary}(d)
+:\Longleftrightarrow
+\Unary(d)\wedge\neg\,\hsame(d,\emp).
+$$
+\end{definition}
+
+\begin{theorem}[Positive denominator has a one-extension tail]
+\label{thm:arithmetic-spine-positive-denominator-tail}
+If $\mathsf{PositiveUnary}(d)$, then there exists $t$ such that
+$$
+\Unary(t)\wedge\hsame(d,\Eone(t)).
+$$
+\end{theorem}
+
+\begin{proof}
+Invert the unary derivation of $d$.  The empty case contradicts
+$\neg\,\hsame(d,\emp)$.  The only remaining generated case is an
+$\Eone$-headed unary history, which supplies the displayed tail.
+\end{proof}
+
+\begin{definition}[Rational carrier and normalized classifier]
+\label{def:arithmetic-spine-rat-carrier-classifier}
+The rational carrier consists of an $\IntUp$ numerator and a positive unary
+denominator:
+$$
+\mathsf{RatCarrier}(n,d)
+:\Longleftrightarrow
+\mathsf{IntCarrier}(n)\wedge\mathsf{PositiveUnary}(d).
+$$
+The rational classifier is read through displayed normalization witnesses:
+$$
+(n,d)\sim_{\mathsf{Rat}}(m,e)
+$$
+only when there are normalized representatives $(n',d')$ and $(m',e')$
+with displayed $\mathsf{RatNorm}$ ledgers, classified integer numerators,
+and classified unary denominators.  It is not primitive quotient equality
+on unnormalized pairs.
+\end{definition}
+
+\begin{definition}[RatUp naming certificate]
+\label{def:arithmetic-spine-rat-namecert}
+The $\RatUp$ certificate has source an $\IntUp$ numerator and a positive
+$\NatUp$ denominator, pattern normalized rational representative, classifier
+normalized structural comparison, stability given by normalization
+uniqueness, arithmetic closure, denominator positivity, and order
+compatibility where supplied, and ledger equal to numerator history,
+denominator history, normalization trace, and coprimality evidence.
+\end{definition}
+
+\begin{corollary}[RatUp admission boundary]
+\label{cor:arithmetic-spine-rat-admission}
+The interface $\RatUp$ is admitted as a positive-denominator normalized
+history certificate.  It does not import host rational numbers, quotient
+machinery, field order, or ordered-field structure unless those rows are
+displayed in the certificate.
+\end{corollary}
+
+\section{Arithmetic Layer Boundary}
+\label{sec:arithmetic-spine-boundary}
+
+\begin{theorem}[Arithmetic interface admission theorem]
+\label{thm:arithmetic-spine-admission}
+If the displayed certificates
+$$
+\mathsf{NameCert}_{\NatUp},\quad
+\mathsf{NameCert}_{\AddUp},\quad
+\mathsf{NameCert}_{\MulUp},\quad
+\mathsf{NameCert}_{\OrderUp},\quad
+\mathsf{NameCert}_{\IntUp},\quad
+\mathsf{NameCert}_{\RatUp}
+$$
+provide their advertised carrier, classifier, stability, operation
+congruence, order, normalization, and ledger rows, then
+$$
+\NatUp,\quad \AddUp,\quad \MulUp,\quad \OrderUp,\quad \IntUp,\quad \RatUp
+$$
+are admitted arithmetic interfaces.
+\end{theorem}
+
+\begin{proof}
+$\NatUp$ is licensed by unary histories and their induction spine.
+$\AddUp$ is licensed by unary continuation.  $\MulUp$ is licensed by
+repeated $\AddUp$ continuation.  $\OrderUp$ is licensed by finite unary
+prefix comparison.  $\IntUp$ is licensed by signed unary pairs and
+cross-additive balance.  $\RatUp$ is licensed by signed numerators, positive
+unary denominators, and normalized comparison.  Each case uses a
+$\NameCert$ surface with an explicit ledger, so none enters as a kernel
+primitive.
+\end{proof}
+
+\begin{principle}[Algebra boundary]
+\label{prin:arithmetic-spine-algebra-boundary}
+Algebraic consumers may read arithmetic through these interfaces only as
+displayed certificate rows: unary histories, continuation ledgers,
+repeated-addition traces, prefix-comparison ledgers, signed-pair balances,
+and rational normalization traces.  They may not replace those rows by host
+natural numbers, host integers, host rationals, quotient equality, or
+ambient ordered-field facts.
+\end{principle}

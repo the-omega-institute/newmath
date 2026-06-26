@@ -1,3 +1,4 @@
+import BEDC.Derived.LatticeUp.NatExtrema
 import BEDC.Derived.PreorderUp
 
 namespace BEDC.Derived.LatticeUp

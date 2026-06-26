@@ -1,0 +1,382 @@
+\chapter{Geometry, Category, and Homology Interface Spine}
+\label{ch:visions-geometry-category-homology-spine}
+\origin{human}
+
+The analysis layer supplies real and complex analytic rows, measure-facing
+integration, functional-analysis carriers, and gamma bridges.  L12 reads
+those rows together with the earlier type, set, topology, continuous-map, and
+abelian-group interfaces as a geometry layer:
+$$
+\CategoryUp,\quad
+\FunctorUp,\quad
+\NatTransUp,\quad
+\CatLimitUp,\quad
+\ManifoldUp,\quad
+\BundleUp,\quad
+\HomologyUp.
+$$
+The role of this layer is not to add a point-set universe.  It turns certified
+carriers into local data, transition data, gluing data, classifier-stable
+maps, and obstruction ledgers.
+
+\section{Geometry Certificate Template}
+\label{sec:geometry-spine-template}
+
+\begin{definition}[Geometry interface]
+\label{def:geometry-spine-interface}
+A geometry interface over a carrier-classifier pair $(C,\sim_C)$ is a packet
+$$
+\mathsf{GeomInterface}^{\uparrow}
+=
+(C,\sim_C,\mathsf{LocalData},\mathsf{Gluing},
+\mathsf{Transition},\mathsf{Stab},\mathsf{Ledger},\NameCert{}).
+$$
+The local-data row may contain charts, local trivialisations, simplices,
+chains, cone components, morphisms, or sections.  The gluing row records how
+local presentations assemble.  The transition row records overlap maps,
+change-of-chart maps, functorial transport, boundary maps, or comparison
+morphisms.  The stability row states that all of those rows descend through
+the relevant classifiers.
+\end{definition}
+
+\begin{principle}[Geometry is not a point set]
+\label{prin:geometry-spine-not-point-set}
+A L12 object is admitted only as carrier, classifier, local data,
+transition or gluing data, ledger, and local $\NameCert$.  A host set of
+points, a quotient of representatives, an extensional equality of objects, or
+a selected global representative is never the public surface.
+\end{principle}
+
+\section{Categories, Functors, and Natural Transformations}
+\label{sec:geometry-spine-category}
+
+\begin{definition}[Category carrier]
+\label{def:geometry-spine-category-carrier}
+A $\CategoryUp$ carrier is a multisorted certificate
+$$
+\mathcal C=
+(\mathsf{Obj},\sim_{\mathsf{Obj}},
+\mathsf{Hom},\sim_{\mathsf{Hom}},
+\mathsf{id},\mathsf{comp},\mathsf{Law},\mathsf{Ledger},\NameCert{}).
+$$
+Objects are certified carriers.  For certified objects $A,B$, the hom row
+$\mathsf{Hom}_{\mathcal C}(A,B)$ is a certified morphism carrier with its own
+parallel-morphism classifier.  Identity and composition are operations on
+those hom rows, and the unit, associativity, and congruence laws are stated up
+to the displayed morphism classifiers.
+\end{definition}
+
+\begin{definition}[Isomorphism record]
+\label{def:geometry-spine-isomorphism-record}
+Object comparison in a $\CategoryUp$ carrier is never inferred from host
+extensionality.  An isomorphism between $A$ and $B$ is a record
+$$
+(f:A\to B,\ g:B\to A,\ g\circ f\sim\mathsf{id}_A,\ f\circ g\sim\mathsf{id}_B)
+$$
+with both triangle rows living in the relevant morphism classifiers.
+Subcategory inclusion is likewise data: an object row, a hom-row inclusion,
+and stability under identity and composition.
+\end{definition}
+
+\begin{theorem}[Identity uniqueness]
+\label{thm:geometry-spine-identity-uniqueness}
+If $e_A:A\to A$ is both a left and right unit for every parallel hom row at
+$A$, then $e_A\sim\mathsf{id}_A$ in $\mathsf{Hom}_{\mathcal C}(A,A)$.
+\end{theorem}
+
+\begin{proof}
+Apply the unit property of $e_A$ to $\mathsf{id}_A$.  One unit row gives
+$e_A\circ\mathsf{id}_A\sim\mathsf{id}_A$, while the unit row for
+$\mathsf{id}_A$ gives $e_A\circ\mathsf{id}_A\sim e_A$.  Symmetry and
+transitivity of the morphism classifier identify $e_A$ with
+$\mathsf{id}_A$.
+\end{proof}
+
+\begin{definition}[Functor certificate]
+\label{def:geometry-spine-functor}
+A $\FunctorUp$ certificate $F:\mathcal C\to\mathcal D$ consists of an object
+map $F_0$, endpoint-indexed morphism maps $F_{A,B}$, classifier-respect rows
+for objects and morphisms, and preservation rows
+$$
+F(\mathsf{id}_A)\sim\mathsf{id}_{F(A)},
+\qquad
+F(g\circ f)\sim F(g)\circ F(f).
+$$
+The codomain of a morphism image is the hom carrier at the image endpoints;
+raw preservation of unclassified composites is not enough.
+\end{definition}
+
+\begin{theorem}[Functor composition]
+\label{thm:geometry-spine-functor-composition}
+Certified functors compose, and the identity functor is certified.
+\end{theorem}
+
+\begin{proof}
+For $F:\mathcal C\to\mathcal D$ and $G:\mathcal D\to\mathcal E$, define the
+composite on objects by $G_0(F_0(A))$ and on morphisms by $G(F(f))$.
+Classifier respect is the composite of the two classifier-respect rows.
+Identity preservation follows from
+$$
+G(F(\mathsf{id}_A))
+\sim
+G(\mathsf{id}_{F(A)})
+\sim
+\mathsf{id}_{G(F(A))}.
+$$
+Composition preservation follows in the same way:
+$$
+G(F(g\circ f))
+\sim
+G(F(g)\circ F(f))
+\sim
+G(F(g))\circ G(F(f)).
+$$
+The identity functor uses the identity object and morphism maps, with all
+rows supplied by reflexivity.
+\end{proof}
+
+\begin{definition}[Natural transformation certificate]
+\label{def:geometry-spine-nattrans}
+For functors $F,G:\mathcal C\to\mathcal D$, a $\NatTransUp$ certificate
+$\eta:F\Rightarrow G$ is an object-indexed family of component morphisms
+$$
+\eta_A:F(A)\to G(A)
+$$
+such that every $f:A\to B$ satisfies the naturality classifier row
+$$
+G(f)\circ\eta_A\sim\eta_B\circ F(f).
+$$
+\end{definition}
+
+\begin{theorem}[Vertical natural-transformation composition]
+\label{thm:geometry-spine-nattrans-vertical}
+If $\eta:F\Rightarrow G$ and $\theta:G\Rightarrow H$ are certified natural
+transformations, then the family $(\theta_A\circ\eta_A)_A$ is a certified
+natural transformation $F\Rightarrow H$.
+\end{theorem}
+
+\begin{proof}
+For $f:A\to B$, reassociate
+$H(f)\circ(\theta_A\circ\eta_A)$.  Naturality of $\theta$ rewrites
+$H(f)\circ\theta_A$ as $\theta_B\circ G(f)$, and naturality of $\eta$
+rewrites $G(f)\circ\eta_A$ as $\eta_B\circ F(f)$.  Associativity in
+$\mathcal D$ gives $(\theta_B\circ\eta_B)\circ F(f)$.
+\end{proof}
+
+\begin{remark}[Kernel category boundary]
+\label{rem:geometry-spine-kernel-category-boundary}
+\autoref{ch:visions-kernel-as-category} records the checked
+unary-continuation category over $\mathsf{BHist}$ and the bounded
+$\FunctorUp$ and $\NatTransUp$ bridges available at the paper-Lean surface.
+The present spine uses that result as the kernel-facing instance and keeps the
+general L12 interface at the certificate level.
+\end{remark}
+
+\section{Categorical Limits}
+\label{sec:geometry-spine-catlimit}
+
+\begin{definition}[Diagram, cone, and limit]
+\label{def:geometry-spine-catlimit}
+For certified categories $J$ and $\mathcal C$, a diagram is a certified
+functor $D:J\to\mathcal C$.  A cone over $D$ is an apex object $L$ together
+with components
+$$
+\lambda_j:L\to D(j)
+$$
+such that every arrow $u:j\to k$ in $J$ satisfies
+$$
+D(u)\circ\lambda_j\sim\lambda_k.
+$$
+A $\CatLimitUp$ row is a cone $(L,\lambda)$ that is universal among cones:
+for every cone $(X,\xi)$ there is a morphism $u:X\to L$, unique up to the
+morphism classifier, such that $\lambda_j\circ u\sim\xi_j$ for all $j$.
+\end{definition}
+
+\begin{theorem}[Limit comparison isomorphism]
+\label{thm:geometry-spine-limit-comparison}
+Two $\CatLimitUp$ cones over the same certified diagram are connected by an
+isomorphism record whose composites classify with the two identity morphisms.
+\end{theorem}
+
+\begin{proof}
+Let $(L,\lambda)$ and $(M,\mu)$ be limiting cones.  Apply the universal
+property of $M$ to the cone $L$ to obtain $f:L\to M$ with
+$\mu_j\circ f\sim\lambda_j$.  Apply the universal property of $L$ to the cone
+$M$ to obtain $g:M\to L$ with $\lambda_j\circ g\sim\mu_j$.  The composite
+$g\circ f$ is a cone endomorphism of $(L,\lambda)$, since
+$$
+\lambda_j\circ(g\circ f)
+\sim
+(\lambda_j\circ g)\circ f
+\sim
+\mu_j\circ f
+\sim
+\lambda_j.
+$$
+The identity of $L$ satisfies the same component equations, so uniqueness
+gives $g\circ f\sim\mathsf{id}_L$.  The other composite is identical by
+symmetry with $L$ and $M$ interchanged.
+\end{proof}
+
+\section{Manifolds and Bundles}
+\label{sec:geometry-spine-manifold-bundle}
+
+\begin{definition}[Charted manifold]
+\label{def:geometry-spine-manifold}
+A $\ManifoldUp$ certificate is a topological carrier equipped with a finite
+atlas.  Each chart has an open domain $U_i$, a finite coordinate row into
+$(\RealUp)^{n_i}$, and a classifier-stable coordinate map.  Each overlap row
+$U_i\cap U_j$ carries a transition ledger from the $i$-coordinates to the
+$j$-coordinates, certified by the available real-analytic and calculus
+interfaces.
+\end{definition}
+
+\begin{theorem}[Chart-change classifier stability]
+\label{thm:geometry-spine-chart-change-stability}
+On an overlap $U_i\cap U_j$, the chart-change expression
+$\varphi_j(\varphi_i^{-1}(\varphi_i(x)))$ classifies with $\varphi_j(x)$.
+\end{theorem}
+
+\begin{proof}
+The inverse row for the $i$-chart gives
+$\varphi_i^{-1}(\varphi_i(x))\sim x$ in the manifold carrier classifier.
+Classifier congruence for the $j$-chart transports this comparison to the
+coordinate row, yielding the displayed chart-change stability.
+\end{proof}
+
+\begin{theorem}[Transition cocycle]
+\label{thm:geometry-spine-manifold-transition-cocycle}
+On a triple overlap $U_i\cap U_j\cap U_k$, the transition from chart $i$ to
+chart $k$ classifies with the composite of the transitions from $i$ to $j$
+and from $j$ to $k$.
+\end{theorem}
+
+\begin{proof}
+The composite transition expands as
+$$
+\varphi_k\circ\varphi_j^{-1}\circ\varphi_j\circ\varphi_i^{-1}.
+$$
+The middle inverse row classifies
+$\varphi_j^{-1}\circ\varphi_j$ with the identity on the shared coordinate
+window.  Composition congruence then reduces the composite to
+$\varphi_k\circ\varphi_i^{-1}$.
+\end{proof}
+
+\begin{definition}[Bundle certificate]
+\label{def:geometry-spine-bundle}
+A $\BundleUp$ certificate over a base $\ManifoldUp$ row is a fibred carrier
+$p:E\to B$ with model fibre $F$, local trivialisations
+$$
+\tau_i:p^{-1}(U_i)\to U_i\times F,
+$$
+transition functions on overlaps, cocycle rows on triple overlaps, and a
+ledger for section, connection, and curvature-facing consumers when those
+interfaces are present.  The projection, local trivialisation, and transition
+rows are all classifier-stable.
+\end{definition}
+
+\begin{theorem}[Bundle transition identity and cocycle]
+\label{thm:geometry-spine-bundle-cocycle}
+For a $\BundleUp$ certificate, $g_{ii}$ classifies with the identity on the
+model fibre, and on triple overlaps $g_{ik}$ classifies with
+$g_{jk}\circ g_{ij}$.
+\end{theorem}
+
+\begin{proof}
+The identity row follows from $\tau_i\circ\tau_i^{-1}$ on
+$U_i\times F$.  For the triple-overlap row, compare
+$\tau_k\circ\tau_i^{-1}$ with
+$(\tau_k\circ\tau_j^{-1})\circ(\tau_j\circ\tau_i^{-1})$.  The shared
+$j$-trivialisation cancels by the inverse law, and the fibre components read
+as $g_{ik}$ and $g_{jk}\circ g_{ij}$.
+\end{proof}
+
+\section{Homology and Cohomology}
+\label{sec:geometry-spine-homology}
+
+\begin{definition}[Chain complex and homology]
+\label{def:geometry-spine-homology}
+A $\HomologyUp$ certificate starts with a degree-indexed family of
+$\AbGroupUp$ carriers $C_n$ and boundary maps
+$\partial_n:C_n\to C_{n-1}$ satisfying the square-zero row
+$$
+\partial_{n-1}\circ\partial_n\sim 0.
+$$
+The cycle carrier is $\mathsf{Ker}(\partial_n)$, the boundary carrier is
+$\mathsf{Im}(\partial_{n+1})$, and the homology object is the
+$\QuotientGroupUp$ row $Z_n/B_n$ with its carrier, classifier, projection,
+soundness, completeness, and ledger.
+\end{definition}
+
+\begin{theorem}[Boundaries are cycles]
+\label{thm:geometry-spine-boundaries-cycles}
+For every degree $n$, the boundary carrier $B_n$ is contained in the cycle
+carrier $Z_n$.
+\end{theorem}
+
+\begin{proof}
+If $c\in B_n$, then some $d\in C_{n+1}$ satisfies
+$c\sim\partial_{n+1}(d)$.  Applying $\partial_n$ gives
+$$
+\partial_n(c)
+\sim
+\partial_n(\partial_{n+1}(d))
+\sim
+(\partial_n\circ\partial_{n+1})(d)
+\sim
+0.
+$$
+Thus $c$ is a cycle.
+\end{proof}
+
+\begin{definition}[Chain-map transport]
+\label{def:geometry-spine-chain-map}
+A chain map $f:C\to D$ is a family of homomorphism rows
+$f_n:C_n\to D_n$ satisfying
+$$
+\partial^D_n\circ f_n\sim f_{n-1}\circ\partial^C_n.
+$$
+It sends cycles to cycles and boundaries to boundaries, so it induces a
+classifier-stable map on the quotient rows $H_n(C)\to H_n(D)$.
+\end{definition}
+
+\begin{definition}[Cohomology row]
+\label{def:geometry-spine-cohomology}
+A $\CohomologyUp$ certificate is the dual cochain interface: groups $C^n$,
+coboundary maps $d^n:C^n\to C^{n+1}$, a square-zero row
+$d^{n+1}\circ d^n\sim0$, cocycles $\mathsf{Ker}(d^n)$, coboundaries
+$\mathsf{Im}(d^{n-1})$, and quotient-group rows $H^n(C)$.
+\end{definition}
+
+\section{L12 Boundary}
+\label{sec:geometry-spine-boundary}
+
+\begin{theorem}[Geometry-category-homology admission]
+\label{thm:geometry-spine-admission}
+If the advertised category, functor, natural-transformation, categorical-limit,
+manifold, bundle, homology, and cohomology rows carry their carrier,
+classifier, local-data, transition, gluing, stability, ledger, and
+$\NameCert$ fields, then the L12 layer is admitted as a BEDC interface.
+\end{theorem}
+
+\begin{proof}
+$\CategoryUp$ supplies certified object and morphism carriers with laws up to
+the morphism classifier.  $\FunctorUp$ and $\NatTransUp$ add only
+classifier-respecting transport between those carriers.  $\CatLimitUp$
+packages the universal cone surface over certified diagrams.  $\ManifoldUp$
+turns topological and real-analytic rows into finite chart atlases with
+overlap ledgers.  $\BundleUp$ adds fibred carriers, local trivialisations, and
+cocycle rows over the manifold substrate.  $\HomologyUp$ and $\CohomologyUp$
+read square-zero chain or cochain data through kernel, image, and quotient
+carriers over $\AbGroupUp$.  Each item is a certificate over earlier rows, so
+no host geometry, quotient, or global representative is introduced.
+\end{proof}
+
+\begin{principle}[Zeta-facing geometric consumption]
+\label{prin:geometry-spine-zeta-consumption}
+Zeta-facing packets may use L12 only through certified categorical limits,
+bundle and section ledgers, manifold-coordinate rows, and homology or
+cohomology obstruction rows.  A boundary-bulk-fibre-section reading is
+therefore a certificate route through $\CatLimitUp$, $\ManifoldUp$,
+$\BundleUp$, and $\HomologyUp$, not an external geometric oracle.
+\end{principle}

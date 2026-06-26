@@ -1,0 +1,575 @@
+{
+  "status": "ok",
+  "schema_id": "lewm.native_residual_detection",
+  "protocol": {
+    "seeds": {
+      "numpy": 20260611,
+      "torch": 20260611,
+      "split": 1701,
+      "bootstrap": 314159
+    },
+    "bootstrap_resamples": 500,
+    "primary_quantile": 75,
+    "target_horizons": [
+      1,
+      5
+    ],
+    "hyperparameters_source": "_g2n_native_ledger.py arm E",
+    "epochs": 30,
+    "batch": 256,
+    "optimizer": "AdamW",
+    "lr": 0.001,
+    "architecture": {
+      "past_tokens": 6,
+      "max_future_tokens": 5,
+      "d_model": 64,
+      "heads": 4,
+      "layers": 2,
+      "input": "past (z,a) window + pred_z[:5] + future_delta, same as native arm E"
+    },
+    "decision_rule": "positive iff h=1 or h=5 native scalar/multitask AUROC CI95_low > corresponding post-hoc AUROC CI95_high, and the other horizon is not below native E current CI95_low"
+  },
+  "precursors": {
+    "clean_npz": "reports/g2n_labels_clean.npz",
+    "latent_npz": "tworooms_latent_large.npz",
+    "native_ledger_py": "_g2n_native_ledger.py",
+    "allocation_bridge_py": "_allocation_bridge.py",
+    "matrix_completion_py": "_g2n_matrix_completion.py"
+  },
+  "skeleton_anchor": {
+    "arm": "E",
+    "metric": "clean eval h=1 q75 failure_detection_auroc",
+    "observed": 0.7385152058598745,
+    "expected": 0.7385152058598745,
+    "abs_delta": 0.0,
+    "tolerance": 1e-09,
+    "train_info": {
+      "status": "trained",
+      "epochs": 30,
+      "batch": 256,
+      "optimizer": "AdamW",
+      "lr": 0.001,
+      "optimizer_steps": 330,
+      "wall_time_seconds": 21.11,
+      "parameter_count": 94028,
+      "train_rows": 2711,
+      "include_future": true,
+      "action_only": false,
+      "use_teacher": false,
+      "use_unlogged": false,
+      "use_budget": false,
+      "label_permutation_seed": null
+    },
+    "h1_q75": {
+      "observed": 0.7385152058598745,
+      "bootstrap_mean": 0.7382764079840404,
+      "ci95_low": 0.6962381170315705,
+      "ci95_high": 0.7811178120443019
+    },
+    "h5_q75": {
+      "observed": 0.7101599223380339,
+      "bootstrap_mean": 0.7082712639779369,
+      "ci95_low": 0.6573334955821668,
+      "ci95_high": 0.7607597996404419
+    }
+  },
+  "posthoc_control": {
+    "source": "reports/g2n_matrix_completion.json cells.B_posthoc_horizon frozen values",
+    "horizons": {
+      "h1_q75": {
+        "observed": 0.7374860956618465,
+        "bootstrap_mean": 0.737786350968103,
+        "ci95_low": 0.6988114860644067,
+        "ci95_high": 0.7746852460814778
+      },
+      "h5_q75": {
+        "observed": 0.7103642959329655,
+        "bootstrap_mean": 0.7105764912609536,
+        "ci95_low": 0.666394843186451,
+        "ci95_high": 0.7502714813500182
+      }
+    }
+  },
+  "native_E_current_ci_low_guard": {
+    "1": 0.6962381170315705,
+    "5": 0.6573334955821668
+  },
+  "arms": {
+    "R-reg": {
+      "info": {
+        "status": "trained",
+        "objective": "regression",
+        "targets": "dual scalar heads for log(mean_err_to_h[h]+1e-8) or within-episode rank over mean_err_to_h[h], h in {1,5}",
+        "epochs": 30,
+        "batch": 256,
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "optimizer_steps": 330,
+        "skipped_rank_batches": 0,
+        "wall_time_seconds": 20.5,
+        "parameter_count": 93378,
+        "train_rows": 2711,
+        "lambda_reg": null,
+        "architecture": {
+          "past_tokens": 6,
+          "max_future_tokens": 5,
+          "d_model": 64,
+          "heads": 4,
+          "layers": 2
+        },
+        "objective_label": "Huber(log mean_err_to_h[h]) dual-head"
+      },
+      "clean_eval": {
+        "h1_q75": {
+          "eval_rows": 854,
+          "eval_episodes": 55,
+          "native_scalar_score_direction": "higher means predicted larger residual/error",
+          "native": {
+            "failure_detection_auroc": {
+              "observed": 0.7402783137726726,
+              "bootstrap_mean": 0.7405594611384331,
+              "ci95_low": 0.6973973676922527,
+              "ci95_high": 0.7820917243432375
+            },
+            "failure_rate": {
+              "observed": 0.23770491803278687,
+              "bootstrap_mean": 0.23826405872095516,
+              "ci95_low": 0.21147003525264396,
+              "ci95_high": 0.2655644491730447
+            },
+            "positive_count": {
+              "observed": 203.0,
+              "bootstrap_mean": 203.966,
+              "ci95_low": 182.0,
+              "ci95_high": 230.0
+            },
+            "negative_count": {
+              "observed": 651.0,
+              "bootstrap_mean": 652.312,
+              "ci95_low": 596.475,
+              "ci95_high": 695.525
+            },
+            "spearman_score_mean_err": {
+              "observed": 0.5195725943536796,
+              "bootstrap_mean": 0.5203724045025874,
+              "ci95_low": 0.4616410256698652,
+              "ci95_high": 0.5745981026774964
+            }
+          },
+          "posthoc_frozen_B": {
+            "observed": 0.7374860956618465,
+            "ci95_low": 0.6988114860644067,
+            "ci95_high": 0.7746852460814778
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": true
+        },
+        "h5_q75": {
+          "eval_rows": 634,
+          "eval_episodes": 55,
+          "native_scalar_score_direction": "higher means predicted larger residual/error",
+          "native": {
+            "failure_detection_auroc": {
+              "observed": 0.7172874514612712,
+              "bootstrap_mean": 0.7152589201347902,
+              "ci95_low": 0.6637457391674901,
+              "ci95_high": 0.7612917328717891
+            },
+            "failure_rate": {
+              "observed": 0.26498422712933756,
+              "bootstrap_mean": 0.2650804562304042,
+              "ci95_low": 0.2158982314613714,
+              "ci95_high": 0.3161680675436282
+            },
+            "positive_count": {
+              "observed": 168.0,
+              "bootstrap_mean": 168.71,
+              "ci95_low": 133.475,
+              "ci95_high": 204.0
+            },
+            "negative_count": {
+              "observed": 466.0,
+              "bootstrap_mean": 467.568,
+              "ci95_low": 417.0,
+              "ci95_high": 512.0
+            },
+            "spearman_score_mean_err": {
+              "observed": 0.4928581510548582,
+              "bootstrap_mean": 0.49170374957988766,
+              "ci95_low": 0.4164759019357571,
+              "ci95_high": 0.5610266205931601
+            }
+          },
+          "posthoc_frozen_B": {
+            "observed": 0.7103642959329655,
+            "ci95_low": 0.666394843186451,
+            "ci95_high": 0.7502714813500182
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": true
+        }
+      }
+    },
+    "R-rank": {
+      "info": {
+        "status": "trained",
+        "objective": "rank",
+        "targets": "dual scalar heads for log(mean_err_to_h[h]+1e-8) or within-episode rank over mean_err_to_h[h], h in {1,5}",
+        "epochs": 30,
+        "batch": 256,
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "optimizer_steps": 330,
+        "skipped_rank_batches": 0,
+        "wall_time_seconds": 23.06,
+        "parameter_count": 93378,
+        "train_rows": 2711,
+        "lambda_reg": null,
+        "architecture": {
+          "past_tokens": 6,
+          "max_future_tokens": 5,
+          "d_model": 64,
+          "heads": 4,
+          "layers": 2
+        },
+        "objective_label": "within-episode pairwise logistic ranking over mean_err_to_h[h] dual-head"
+      },
+      "clean_eval": {
+        "h1_q75": {
+          "eval_rows": 854,
+          "eval_episodes": 55,
+          "native_scalar_score_direction": "higher means predicted larger residual/error",
+          "native": {
+            "failure_detection_auroc": {
+              "observed": 0.7876022489084622,
+              "bootstrap_mean": 0.7881150821586125,
+              "ci95_low": 0.7466518838941957,
+              "ci95_high": 0.8269375286536116
+            },
+            "failure_rate": {
+              "observed": 0.23770491803278687,
+              "bootstrap_mean": 0.23826405872095516,
+              "ci95_low": 0.21147003525264396,
+              "ci95_high": 0.2655644491730447
+            },
+            "positive_count": {
+              "observed": 203.0,
+              "bootstrap_mean": 203.966,
+              "ci95_low": 182.0,
+              "ci95_high": 230.0
+            },
+            "negative_count": {
+              "observed": 651.0,
+              "bootstrap_mean": 652.312,
+              "ci95_low": 596.475,
+              "ci95_high": 695.525
+            },
+            "spearman_score_mean_err": {
+              "observed": 0.6260013321987149,
+              "bootstrap_mean": 0.6255282592130436,
+              "ci95_low": 0.5734324674584301,
+              "ci95_high": 0.67306869073447
+            }
+          },
+          "posthoc_frozen_B": {
+            "observed": 0.7374860956618465,
+            "ci95_low": 0.6988114860644067,
+            "ci95_high": 0.7746852460814778
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": true
+        },
+        "h5_q75": {
+          "eval_rows": 634,
+          "eval_episodes": 55,
+          "native_scalar_score_direction": "higher means predicted larger residual/error",
+          "native": {
+            "failure_detection_auroc": {
+              "observed": 0.7325516043327203,
+              "bootstrap_mean": 0.7314560174449535,
+              "ci95_low": 0.6615591072986067,
+              "ci95_high": 0.7949933339526912
+            },
+            "failure_rate": {
+              "observed": 0.26498422712933756,
+              "bootstrap_mean": 0.2650804562304042,
+              "ci95_low": 0.2158982314613714,
+              "ci95_high": 0.3161680675436282
+            },
+            "positive_count": {
+              "observed": 168.0,
+              "bootstrap_mean": 168.71,
+              "ci95_low": 133.475,
+              "ci95_high": 204.0
+            },
+            "negative_count": {
+              "observed": 466.0,
+              "bootstrap_mean": 467.568,
+              "ci95_low": 417.0,
+              "ci95_high": 512.0
+            },
+            "spearman_score_mean_err": {
+              "observed": 0.5402794865332281,
+              "bootstrap_mean": 0.5401118162684254,
+              "ci95_low": 0.4515864414134754,
+              "ci95_high": 0.6259985069199479
+            }
+          },
+          "posthoc_frozen_B": {
+            "observed": 0.7103642959329655,
+            "ci95_low": 0.666394843186451,
+            "ci95_high": 0.7502714813500182
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": true
+        }
+      }
+    },
+    "R-multitask-lambda0p25": {
+      "info": {
+        "status": "trained",
+        "objective": "multitask",
+        "targets": "dual scalar heads for log(mean_err_to_h[h]+1e-8) or within-episode rank over mean_err_to_h[h], h in {1,5}",
+        "epochs": 30,
+        "batch": 256,
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "optimizer_steps": 330,
+        "skipped_rank_batches": 0,
+        "wall_time_seconds": 25.99,
+        "parameter_count": 94158,
+        "train_rows": 2711,
+        "lambda_reg": 0.25,
+        "architecture": {
+          "past_tokens": 6,
+          "max_future_tokens": 5,
+          "d_model": 64,
+          "heads": 4,
+          "layers": 2
+        },
+        "objective_label": "BCE horizon + 0.25*Huber(log mean_err) + pairwise rank"
+      },
+      "clean_eval": {
+        "h1_q75": {
+          "eval_rows": 854,
+          "eval_episodes": 55,
+          "native_scalar_score_direction": "higher means predicted larger residual/error",
+          "native": {
+            "failure_detection_auroc": {
+              "observed": 0.7753891322936294,
+              "bootstrap_mean": 0.775401070996322,
+              "ci95_low": 0.732495845983479,
+              "ci95_high": 0.8188748025467182
+            },
+            "failure_rate": {
+              "observed": 0.23770491803278687,
+              "bootstrap_mean": 0.23826405872095516,
+              "ci95_low": 0.21147003525264396,
+              "ci95_high": 0.2655644491730447
+            },
+            "positive_count": {
+              "observed": 203.0,
+              "bootstrap_mean": 203.966,
+              "ci95_low": 182.0,
+              "ci95_high": 230.0
+            },
+            "negative_count": {
+              "observed": 651.0,
+              "bootstrap_mean": 652.312,
+              "ci95_low": 596.475,
+              "ci95_high": 695.525
+            },
+            "spearman_score_mean_err": {
+              "observed": 0.5934316601759427,
+              "bootstrap_mean": 0.5936870853315004,
+              "ci95_low": 0.5397586341629244,
+              "ci95_high": 0.6376237631124765
+            }
+          },
+          "posthoc_frozen_B": {
+            "observed": 0.7374860956618465,
+            "ci95_low": 0.6988114860644067,
+            "ci95_high": 0.7746852460814778
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": true
+        },
+        "h5_q75": {
+          "eval_rows": 634,
+          "eval_episodes": 55,
+          "native_scalar_score_direction": "higher means predicted larger residual/error",
+          "native": {
+            "failure_detection_auroc": {
+              "observed": 0.6961475577355406,
+              "bootstrap_mean": 0.6959668713457692,
+              "ci95_low": 0.6303293601572587,
+              "ci95_high": 0.7496001984755819
+            },
+            "failure_rate": {
+              "observed": 0.26498422712933756,
+              "bootstrap_mean": 0.2650804562304042,
+              "ci95_low": 0.2158982314613714,
+              "ci95_high": 0.3161680675436282
+            },
+            "positive_count": {
+              "observed": 168.0,
+              "bootstrap_mean": 168.71,
+              "ci95_low": 133.475,
+              "ci95_high": 204.0
+            },
+            "negative_count": {
+              "observed": 466.0,
+              "bootstrap_mean": 467.568,
+              "ci95_low": 417.0,
+              "ci95_high": 512.0
+            },
+            "spearman_score_mean_err": {
+              "observed": 0.47184157932835125,
+              "bootstrap_mean": 0.47221506613289543,
+              "ci95_low": 0.36931404874346463,
+              "ci95_high": 0.5665677517192497
+            }
+          },
+          "posthoc_frozen_B": {
+            "observed": 0.7103642959329655,
+            "ci95_low": 0.666394843186451,
+            "ci95_high": 0.7502714813500182
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": false
+        }
+      }
+    },
+    "R-multitask-lambda1p0": {
+      "info": {
+        "status": "trained",
+        "objective": "multitask",
+        "targets": "dual scalar heads for log(mean_err_to_h[h]+1e-8) or within-episode rank over mean_err_to_h[h], h in {1,5}",
+        "epochs": 30,
+        "batch": 256,
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "optimizer_steps": 330,
+        "skipped_rank_batches": 0,
+        "wall_time_seconds": 22.7,
+        "parameter_count": 94158,
+        "train_rows": 2711,
+        "lambda_reg": 1.0,
+        "architecture": {
+          "past_tokens": 6,
+          "max_future_tokens": 5,
+          "d_model": 64,
+          "heads": 4,
+          "layers": 2
+        },
+        "objective_label": "BCE horizon + 1.0*Huber(log mean_err) + pairwise rank"
+      },
+      "clean_eval": {
+        "h1_q75": {
+          "eval_rows": 854,
+          "eval_episodes": 55,
+          "native_scalar_score_direction": "higher means predicted larger residual/error",
+          "native": {
+            "failure_detection_auroc": {
+              "observed": 0.7792861304699855,
+              "bootstrap_mean": 0.7796960616941204,
+              "ci95_low": 0.7407122730103596,
+              "ci95_high": 0.8186808637230454
+            },
+            "failure_rate": {
+              "observed": 0.23770491803278687,
+              "bootstrap_mean": 0.23826405872095516,
+              "ci95_low": 0.21147003525264396,
+              "ci95_high": 0.2655644491730447
+            },
+            "positive_count": {
+              "observed": 203.0,
+              "bootstrap_mean": 203.966,
+              "ci95_low": 182.0,
+              "ci95_high": 230.0
+            },
+            "negative_count": {
+              "observed": 651.0,
+              "bootstrap_mean": 652.312,
+              "ci95_low": 596.475,
+              "ci95_high": 695.525
+            },
+            "spearman_score_mean_err": {
+              "observed": 0.5805465270810645,
+              "bootstrap_mean": 0.5804288725674327,
+              "ci95_low": 0.5369244871014371,
+              "ci95_high": 0.6225123893720433
+            }
+          },
+          "posthoc_frozen_B": {
+            "observed": 0.7374860956618465,
+            "ci95_low": 0.6988114860644067,
+            "ci95_high": 0.7746852460814778
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": true
+        },
+        "h5_q75": {
+          "eval_rows": 634,
+          "eval_episodes": 55,
+          "native_scalar_score_direction": "higher means predicted larger residual/error",
+          "native": {
+            "failure_detection_auroc": {
+              "observed": 0.6929286736153689,
+              "bootstrap_mean": 0.6925023358664292,
+              "ci95_low": 0.6277094451503156,
+              "ci95_high": 0.7478792157126617
+            },
+            "failure_rate": {
+              "observed": 0.26498422712933756,
+              "bootstrap_mean": 0.2650804562304042,
+              "ci95_low": 0.2158982314613714,
+              "ci95_high": 0.3161680675436282
+            },
+            "positive_count": {
+              "observed": 168.0,
+              "bootstrap_mean": 168.71,
+              "ci95_low": 133.475,
+              "ci95_high": 204.0
+            },
+            "negative_count": {
+              "observed": 466.0,
+              "bootstrap_mean": 467.568,
+              "ci95_low": 417.0,
+              "ci95_high": 512.0
+            },
+            "spearman_score_mean_err": {
+              "observed": 0.4884854689110757,
+              "bootstrap_mean": 0.48881594544544227,
+              "ci95_low": 0.3920544100922065,
+              "ci95_high": 0.5747831279740486
+            }
+          },
+          "posthoc_frozen_B": {
+            "observed": 0.7103642959329655,
+            "ci95_low": 0.666394843186451,
+            "ci95_high": 0.7502714813500182
+          },
+          "ci_separates_posthoc": false,
+          "point_beats_posthoc": false
+        }
+      }
+    }
+  },
+  "decision": {
+    "positive": false,
+    "verdict": "failed_parity_is_upper_bound",
+    "best_arm": "R-rank",
+    "best_horizon": 1,
+    "best_auroc": 0.7876022489084622,
+    "positive_hits": [],
+    "reason": "best native residual arm improves only by point estimate or not at all; its CI overlaps the corresponding post-hoc CI"
+  },
+  "not_claimed": [
+    "Spearman is reported only as an attachment and is not used for the B breakthrough decision",
+    "single latent export and single checkpoint; episode bootstrap is not independent world-seed replication",
+    "post-hoc control is the frozen B_posthoc_horizon value from g2n_matrix_completion, not retuned here",
+    "lambda is limited to the predeclared {0.25, 1.0}; no hyperparameter tuning or model selection beyond reporting best observed arm",
+    "no planning/control benefit is claimed"
+  ]
+}

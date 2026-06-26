@@ -1,0 +1,261 @@
+\chapter{Finite Prime Windows and Local--Global RH Gluing}
+\label{ch:visions-rh-finite-prime-window-gluing}
+\origin{ai}
+
+\autoref{ch:visions-rh-prime-unitary-balance-surface} identifies the
+critical line with unit amplitude on the normalized prime-local channels.
+This chapter records the proof-program boundary suggested by that reading.
+Finite prime windows give auditable local tests, but a finite window is not
+the recovered zeta carrier. A local proof route reaches $\mathsf{RH}$ only
+after the finite-prime rows, the archimedean completion row, the functional
+equation, and the zero ledger are glued into one carrier-level exclusion.
+
+\section{Finite Prime Windows}
+\label{sec:rh-finite-prime-windows}
+
+\begin{definition}[Finite prime window]
+\label{def:rh-finite-prime-window}
+A finite prime window is a finite displayed set
+$$
+S\subseteq\PrimeUp.
+$$
+For $s$ in the zeta carrier, its window amplitude readout is
+$$
+\mathsf{Amp}_{S}(s)
+:=
+\bigl(\mathsf{Amp}_{p}(s)\bigr)_{p\in S},
+$$
+where $\mathsf{Amp}_{p}$ is the centered amplitude row of
+\autoref{def:rh-prime-local-channels}. The unit-window predicate is
+$$
+\mathsf{UnitWindow}_{S}(s)
+:=
+\prod_{p\in S}\bigl(\mathsf{Amp}_{p}(s)=1\bigr).
+$$
+\end{definition}
+
+\begin{theorem}[Nonempty finite windows detect the half surface]
+\label{thm:rh-nonempty-finite-window-detects-half-surface}
+If $S$ is nonempty, then
+$$
+\mathsf{UnitWindow}_{S}(s)
+\quad\Longleftrightarrow\quad
+\mathsf{OnCritLine}(s).
+$$
+\end{theorem}
+
+\begin{proof}
+If $\mathsf{UnitWindow}_{S}(s)$ holds, choose a displayed row
+$p\in S$. The window predicate gives $\mathsf{Amp}_{p}(s)=1$, and
+\autoref{thm:rh-prime-unitary-balance-critical-line} gives
+$\mathsf{OnCritLine}(s)$. Conversely, if $\mathsf{OnCritLine}(s)$ holds,
+then the same theorem gives $\mathsf{Amp}_{p}(s)=1$ for every displayed
+prime row, hence for every $p\in S$.
+\end{proof}
+
+\begin{definition}[Finite-window RH target]
+\label{def:rh-finite-window-rh-target}
+For a finite prime window $S$, define
+$$
+\mathsf{RH}_{S}
+:=
+\prod_s
+\bigl(
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+\to
+\mathsf{UnitWindow}_{S}(s)
+\bigr).
+$$
+\end{definition}
+
+\begin{theorem}[Nonempty finite-window RH has full RH strength]
+\label{thm:rh-nonempty-window-rh-full-strength}
+If $S$ is nonempty, then
+$$
+\mathsf{RH}_{S}
+\quad\Longleftrightarrow\quad
+\mathsf{RH}.
+$$
+\end{theorem}
+
+\begin{proof}
+Substitute the equivalence of
+\autoref{thm:rh-nonempty-finite-window-detects-half-surface} into the
+output predicate of \autoref{def:rh-finite-window-rh-target}. The result is
+exactly the BEDC statement of \autoref{def:rh-predicate}.
+\end{proof}
+
+\begin{principle}[Window localization changes the interface, not the strength]
+\label{prin:rh-window-localization-interface-not-strength}
+Proving the unit-window target for any nonempty finite prime window already
+has the strength of $\mathsf{RH}$. The local route is useful only as a
+change of interface: it exposes how an off-line zero would appear as
+coherent amplitude defect in every prime-local channel. It does not make a
+single Euler factor into a zero carrier.
+\end{principle}
+
+\section{Local Defect Rows}
+\label{sec:rh-local-defect-rows}
+
+\begin{definition}[Prime defect row]
+\label{def:rh-prime-defect-row}
+Let
+$$
+s=1/2+\delta(s)+i\tau(s).
+$$
+For a displayed prime row $p$, define the local defect row
+$$
+D_{p}(s):=\log\mathsf{Amp}_{p}(s).
+$$
+By \autoref{cor:rh-prime-channel-amplitude-tilt},
+$$
+D_{p}(s)=-\delta(s)\log p.
+$$
+\end{definition}
+
+\begin{definition}[Finite-window total defect]
+\label{def:rh-finite-window-total-defect}
+For a finite prime window $S$, define
+$$
+D_{S}(s):=\sum_{p\in S}D_{p}(s).
+$$
+Equivalently,
+$$
+D_{S}(s)
+=
+-\delta(s)\sum_{p\in S}\log p.
+$$
+\end{definition}
+
+\begin{theorem}[Apart non-fixed rows create local defects]
+\label{thm:rh-apart-nonfixed-creates-local-defects}
+If $|\delta(s)|\ge\varepsilon$ for some $\varepsilon:\mathbb Q_{>0}$, then
+for every displayed prime row $p$,
+$$
+|D_{p}(s)|\ge\varepsilon\log p.
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-prime-defect-row},
+$$
+|D_{p}(s)|
+=
+|\delta(s)|\log p.
+$$
+Since $p>1$, the displayed prime row has $\log p>0$. The premise
+$|\delta(s)|\ge\varepsilon$ therefore gives the stated lower bound.
+\end{proof}
+
+\begin{theorem}[Finite-window defect accumulation]
+\label{thm:rh-finite-window-defect-accumulation}
+If $|\delta(s)|\ge\varepsilon$ for some $\varepsilon:\mathbb Q_{>0}$, then
+for every finite prime window $S$,
+$$
+|D_{S}(s)|
+\ge
+\varepsilon\sum_{p\in S}\log p.
+$$
+\end{theorem}
+
+\begin{proof}
+The equality in \autoref{def:rh-finite-window-total-defect} gives
+$$
+|D_{S}(s)|
+=
+|\delta(s)|\sum_{p\in S}\log p.
+$$
+The lower bound follows from $|\delta(s)|\ge\varepsilon$.
+\end{proof}
+
+\section{Carrier Gluing}
+\label{sec:rh-finite-window-carrier-gluing}
+
+\begin{definition}[Completed gluing surface]
+\label{def:rh-completed-gluing-surface}
+The completed gluing surface for a zeta row consists of the compatible
+packet
+$$
+\mathsf{FinitePrimeRows}
++
+\mathsf{ArchimedeanRow}
++
+\mathsf{FunctionalEquation}
++
+\mathsf{PoleLedger}
++
+\mathsf{ZeroLedger}
++
+\mathsf{BranchTransport}.
+$$
+Here $\mathsf{ArchimedeanRow}$ denotes the
+$\pi^{-s/2}\Gamma(s/2)$ completion row. This surface is the carrier-level
+context of \autoref{def:rh-zeta-recovery-carrier}.
+\end{definition}
+
+\begin{theorem}[Pure finite windows are not zero carriers]
+\label{thm:rh-pure-finite-windows-not-zero-carriers}
+A pure finite prime window can detect amplitude defect, but it cannot by
+itself decide whether the recovered zeta carrier has a non-trivial zero at
+the displayed row.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-apart-nonfixed-creates-local-defects}, finite prime
+windows read off local amplitude defects. By
+\autoref{prin:rh-no-projection-exhausts-zeta} and
+\autoref{def:rh-zeta-recovery-carrier}, the non-trivial zero ledger belongs
+to the recovered carrier assembled from Dirichlet, Euler, continuation,
+archimedean, functional-equation, pole, zero, branch, and transport rows.
+A pure finite prime window contains only a finite part of the Euler-product
+projection and omits the archimedean and zero-ledger rows. It therefore is
+not a carrier on which zeta-zero exclusion can be closed.
+\end{proof}
+
+\begin{definition}[Local-global zero exclusion]
+\label{def:rh-local-global-zero-exclusion}
+The local-global zero exclusion target is
+$$
+\mathsf{LocalGlobalZeroExclusion}_{\zeta}
+:=
+\prod_{c:\mathcal C_{\zeta}}
+\bigl(
+\mathsf{ApartNonFix}_{J}(c)
+\to
+\mathsf{Apart}_{0}(\zeta(c))
+\bigr).
+$$
+It is the assertion that a critical-strip row with positive distance from
+the mirror fixed surface cannot glue, through the completed zeta carrier,
+to a zero ledger.
+\end{definition}
+
+\begin{theorem}[Local-global zero exclusion is the local proof target]
+\label{thm:rh-local-global-zero-exclusion-proof-target}
+Assume the bias readout is located and that
+$\mathsf{Apart}_{0}(\zeta(c))$ contradicts $Z_{\zeta}(c)$. Then
+$\mathsf{LocalGlobalZeroExclusion}_{\zeta}$ supplies the source fixed
+section $\mathsf{ZeroFix}_{\zeta}$, hence the BEDC-RH section target.
+\end{theorem}
+
+\begin{proof}
+The type of \autoref{def:rh-local-global-zero-exclusion} is the apart orbit
+exclusion type of
+\autoref{def:rh-layered-zero-fixed-section-orbit-exclusions}. Applying
+\autoref{thm:rh-layered-apart-orbit-exclusion-yields-fixed-section} yields
+$\mathsf{ZeroFix}_{\zeta}$. The equivalence between this fixed section and
+the BEDC-RH section target is
+\autoref{thm:rh-layered-source-fixed-section-target}.
+\end{proof}
+
+\begin{principle}[Local--global RH proof format]
+\label{prin:rh-local-global-proof-format}
+The local proof format has four displayed obligations: local defect rows
+for apart non-fixed inputs, finite-window accumulation of those defects,
+archimedean normalization into the completed carrier, and zero-ledger
+exclusion for completed rows carrying the defect. The composition of these
+obligations is exactly
+$\mathsf{LocalGlobalZeroExclusion}_{\zeta}$; without the final completed
+carrier step, the route remains a local projection analysis rather than an
+RH proof.
+\end{principle}

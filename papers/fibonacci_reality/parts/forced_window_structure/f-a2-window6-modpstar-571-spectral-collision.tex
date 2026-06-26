@@ -1,0 +1,63 @@
+\origin{ai}
+\subsection{Finite Window6 Green singularity at the prime 571}
+\label{sec:window6-modpstar-571-spectral-collision}
+
+\paragraph{Carrier.}
+The finite object is a Window6 audit presentation. Its carrier consists of a finite set of audit vertices together with the reduced Laplacian rows obtained after one Kirchhoff row-and-column reduction. The reduced row set has three rows, so the Green/Kirchhoff matrix is an integer matrix
+$$
+\begin{aligned}
+L_{\mathrm{red}} \in \operatorname{Mat}_{3 \times 3}(\mathbb{Z}).
+\end{aligned}
+$$
+The predicates used here are only finite predicates on this presentation: a symbol is an audit vertex when it belongs to the selected Window6 vertex set; a row is admitted when it is one of the three reduced Laplacian rows; two row presentations are equivalent when they are related by left and right multiplication by unimodular integer matrices. The associated partition is the Smith partition of the finitely generated abelian cokernel of $L_{\mathrm{red}}$, namely the diagonal invariant-factor presentation.
+
+\paragraph{Smith data.}
+The exact Smith normal form of the reduced Laplacian is
+$$
+\begin{aligned}
+\operatorname{SNF}(L_{\mathrm{red}}) = \operatorname{diag}(1,1,123336).
+\end{aligned}
+$$
+Hence the determinantal factor is $123336$, and the finite cokernel has one nontrivial invariant factor of order $123336$. The factorization is
+$$
+\begin{aligned}
+123336 = 8 \cdot 27 \cdot 571 = 2^3 \cdot 3^3 \cdot 571.
+\end{aligned}
+$$
+Thus the prime $571$ divides the nontrivial Smith factor. Equivalently, reducing the matrix modulo $571$ makes the determinant vanish, so the reduced matrix becomes singular over the finite field $\mathbb{F}_{571}$.
+
+\paragraph{Characteristic polynomial.}
+The finite Green/Kirchhoff characteristic polynomial attached to the same reduced matrix is
+$$
+\begin{aligned}
+\chi_L(t) = t^3 - 246t^2 + 14401t - 123336.
+\end{aligned}
+$$
+Evaluating at zero and reducing modulo $571$ gives
+$$
+\begin{aligned}
+\chi_L(0) = -123336 \equiv 0 \pmod{571}.
+\end{aligned}
+$$
+Therefore $0$ is an eigenvalue of the reduced matrix over $\mathbb{F}_{571}$. This is the finite spectral collision recorded by the Window6 audit: the same prime that appears in the Smith invariant also forces a zero eigenvalue after reduction modulo that prime.
+
+\paragraph{Multiplicity witness.}
+The zero eigenvalue modulo $571$ is simple. The derivative of the characteristic polynomial at zero has the exact value
+$$
+\begin{aligned}
+\chi_L'(0) = 14401 \equiv 126 \pmod{571}.
+\end{aligned}
+$$
+Since $126$ is nonzero in $\mathbb{F}_{571}$, the root $t=0$ is not repeated. The same conclusion is recorded by the polynomial common-divisor check
+$$
+\begin{aligned}
+\deg \gcd(\chi_L,\chi_L') = 0
+\end{aligned}
+$$
+over $\mathbb{F}_{571}$. Thus the singularity is not a repeated-root degeneracy of the characteristic polynomial; it is a simple modular zero forced by the finite Smith factor.
+
+\paragraph{Witness extraction.}
+The finite certificate has three arithmetic witnesses. First, $571$ divides $123336$, so it divides the determinant represented by the Smith invariant factor. Second, $\chi_L(0)$ vanishes modulo $571$, giving the zero eigenvalue over $\mathbb{F}_{571}$. Third, $\chi_L'(0) \equiv 126 \pmod{571}$ and the greatest common divisor of $\chi_L$ and $\chi_L'$ has degree zero over $\mathbb{F}_{571}$, excluding a repeated-root collision. These witnesses are entirely internal to the finite matrix calculation.
+
+\paragraph{Boundary.}
+No physical fine-structure constant identification is asserted. No global flow law, external dependency, metrological comparison, or interpretation beyond this finite Window6 Smith and Green/Kirchhoff construction follows from the calculation alone. Any proposed physical matching would require a separate certificate that is not part of this finite arithmetic statement.

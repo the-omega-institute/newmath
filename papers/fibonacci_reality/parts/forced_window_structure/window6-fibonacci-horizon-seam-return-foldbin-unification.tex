@@ -1,0 +1,111 @@
+\origin{ai}
+\subsection{Width-six Fibonacci horizon, seam, and Foldbin return}
+\label{sec:window6-fibonacci-horizon-seam-return-foldbin-unification}
+
+\paragraph{Carrier and local predicate.}
+The finite carrier is the set
+$$
+\begin{aligned}
+X_6=\{w\in \{0,1\}^6: w_k w_{k+1}=0\text{ for every }1\leq k<6\}.
+\end{aligned}
+$$
+Thus an element $w=(w_1,\ldots,w_6)$ is a length-six Boolean word, and the defining predicate is the nearest-neighbor exclusion condition that no two adjacent coordinates are both equal to $1$. The visible Fibonacci weight row is the integer row
+$$
+\begin{aligned}
+( F_2,F_3,F_4,F_5,F_6,F_7 )=(1,2,3,5,8,13),
+\end{aligned}
+$$
+where $F_0=0$, $F_1=1$, and $F_{n+2}=F_{n+1}+F_n$. The visible value map is the finite row evaluation
+$$
+\begin{aligned}
+V_6(w)=\sum_{k=1}^{6} w_k F_{k+1}.
+\end{aligned}
+$$
+No infinite sequence space, limiting dynamics, or external interpretation is used in this construction; all objects are the finite Boolean carrier, the adjacent-one exclusion predicate, and the displayed integer row.
+
+\paragraph{Window horizon and seam.}
+The width-six binary bound is
+$$
+\begin{aligned}
+2^6-1=63.
+\end{aligned}
+$$
+Define the Fibonacci horizon at width $m$ by
+$$
+\begin{aligned}
+\rho_m=\max\{k:F_k\leq 2^m-1\}.
+\end{aligned}
+$$
+For $m=6$ the exact witness inequality is
+$$
+\begin{aligned}
+F_{10}=55\leq 63<F_{11}=89.
+\end{aligned}
+$$
+It follows directly from the definition of the maximum that
+$$
+\begin{aligned}
+\rho_6=10.
+\end{aligned}
+$$
+The visible block uses the weights through $F_7=F_{m+1}$, so the first Fibonacci index beyond the visible row is
+$$
+\begin{aligned}
+s_6=m+1=7.
+\end{aligned}
+$$
+This seam is not an additional parameter: it is forced by the fact that the visible row for a width-six word is exactly $F_2,\ldots,F_7$.
+
+\paragraph{Finite index partition.}
+The relevant finite Fibonacci indices split into three explicit regions. The visible indices are those contributing to $V_6$, namely $2,3,4,5,6,7$. The seam index is $s_6=7$, which records that $F_7$ is the last visible weight and that the first index strictly beyond the visible row is $8$. The tail-alias block is the contiguous interval
+$$
+\begin{aligned}
+F_{m+2},\ldots,F_{\rho_6}=F_8,F_9,F_{10}.
+\end{aligned}
+$$
+Numerically this is
+$$
+\begin{aligned}
+(F_8,F_9,F_{10})=(21,34,55).
+\end{aligned}
+$$
+Thus the Foldbin tail-cube at width $6$ has three free Boolean coordinates $c_7,c_8,c_9$, with singleton aliases $21,34,55$. The finite alias evaluation row is therefore
+$$
+\begin{aligned}
+(c_7,c_8,c_9)\longmapsto 21c_7+34c_8+55c_9.
+\end{aligned}
+$$
+This row is the only matrix-like object used here: it is a $1\times 3$ integer evaluation row attached to the three displayed tail coordinates. No stochastic kernel, spectral kernel, transition matrix, or flow operator is asserted.
+
+\paragraph{Return depth and free dimension.}
+The local-return depth is the horizon index minus the seam index:
+$$
+\begin{aligned}
+\rho_6-s_6=10-7=3.
+\end{aligned}
+$$
+The Foldbin tail-cube has exactly the three free coordinates
+$$
+\begin{aligned}
+\{c_7,c_8,c_9\},
+\end{aligned}
+$$
+so its free dimension is
+$$
+\begin{aligned}
+|\{c_7,c_8,c_9\}|=3.
+\end{aligned}
+$$
+Consequently the finite equality
+$$
+\begin{aligned}
+\rho_6-s_6=|\{c_7,c_8,c_9\}|=3
+\end{aligned}
+$$
+is forced by the width-six horizon calculation and by the displayed tail-coordinate list. The witnesses are explicit: $F_{10}=55\leq 63<F_{11}=89$ certifies $\rho_6=10$, and the listed coordinates $c_7,c_8,c_9$ certify the tail-cube dimension.
+
+\paragraph{Finite claim.}
+For the width-six no-adjacent-one window $X_6$, the seam and return indices are determined by the finite Fibonacci horizon. One obtains $s_6=7$ and $\rho_6=10$; the Foldbin tail aliases are precisely $F_8,F_9,F_{10}=21,34,55$; and the difference $\rho_6-s_6=3$ equals the number of free tail coordinates. This is a finite forced-window statement about Boolean words, Fibonacci weights, and the width-six integer bound $63$.
+
+\paragraph{Boundary of the assertion.}
+The construction does not identify any physical constant, does not assert a global flow law, does not use an external dependency, does not perform a metrological comparison, and does not attach an interpretation beyond the finite carrier and integer identities displayed above. In particular, no functor-embedding form of $\phi^{-s}Q(\phi^{-\rho})$ forcedness and no physical $\alpha$ identification is claimed here; either would require a separate certificate outside this finite calculation.
