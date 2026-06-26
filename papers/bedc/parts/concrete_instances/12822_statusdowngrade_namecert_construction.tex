@@ -87,6 +87,24 @@ Apply strength monotonicity from \autoref{thm:status-downgrade-strength-monotoni
 Apply gap routing from \autoref{thm:status-downgrade-gap-routing}. The lowered report reaches consumers only through the displayed gap row and downgrade route, so no detached report can escape the packet. Therefore every listed stronger or hidden report lies outside the accepted carrier.
 \end{proof}
 
+\begin{theorem}[StatusDowngrade scoped gap route]
+\label{thm:status-downgrade-scoped-gap-route}
+For every accepted $\StatusDowngradeUp$ packet
+$$
+S=(O,F,L,G,R,V,H,C,P,N),
+$$
+every accepted downgrade read is scoped by the prior-status row $O$, failure-certificate row $F$, lowered-report row $L$, exposed-gap row $G$, downgrade-route row $R$, verification-report row $V$, componentwise transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. A consumer may read the lowered report only along this finite route, so the downgrade cannot be detached from the failure certificate, the exposed gap, or the local NameCert surface.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:status-downgrade-carrier}. Its displayed rows are exactly $O,F,L,G,R,V,H,C,P,N$, so an accepted read has no coordinate outside the prior status, failure certificate, lowered report, exposed gap, route, verification report, transport, replay, provenance, and local naming rows.
+
+Apply the NameCert obligations of \autoref{thm:status-downgrade-namecert-obligations}. They force the public downgrade surface to expose each of the displayed rows before the packet is named as a local $\StatusDowngradeUp$ certificate.
+
+Now use strength monotonicity and gap routing from \autoref{thm:status-downgrade-strength-monotonicity} and \autoref{thm:status-downgrade-gap-routing}. The lowered report is bounded by $L$ after the failure certificate is read, and the gap row $G$ lies on the route from $F$ to $L$.
+
+Finally apply nonescape from \autoref{thm:status-downgrade-nonescape}. Hidden promotion, silent status erasure, detached repair, and status conversion outside the route are absent from the carrier, so the displayed rows scope every accepted downgrade read.
+\end{proof}
+
 \falsifiablePrediction{A StatusDowngradeUp packet is refuted by any lowered report status that lacks a displayed prior-status row and failure-certificate row.}
 
 \independenceWitness{failurecertificate, typedfailurecertificate, auditgatefailurewitness, closurestatusreference, axiompuritygate: none is bijective because only StatusDowngradeUp stores prior status, failure certificate, lowered report, exposed gap row, downgrade route, provenance, and local NameCert together.}
@@ -95,8 +113,8 @@ The Lean follow-up for this chapter must provide \texttt{Derived/StatusDowngrade
 
 \begin{closurestatus}{\StatusDowngradeUp}
   \constructivestory{The status downgrade certificate is generated from $BHist$ rows that record an original status, a failure certificate, a weaker report status, and the exposed gap route that explains why the weaker status is the admitted one. The carrier first reads the strength ordering, then records the gap routing row, and finally allows $\Cont$ to carry the weaker status forward without silently restoring the stronger one. The $hsame$ relation keeps the downgrade stable across representative histories. NameCert obligations, strength monotonicity, gap routing, nonescape, prediction, and independence witness define a visible status transition: every downgrade must expose both the target and the ledger reason that blocks the stronger status.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{This chapter binds the status downgrade carrier, NameCert obligations, strength-monotonicity theorem, gap-routing theorem, nonescape theorem, falsifiable prediction, and independence witness.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{This chapter binds the status downgrade carrier, NameCert obligations, strength-monotonicity theorem, gap-routing theorem, scoped gap-route theorem, nonescape theorem, falsifiable prediction, and independence witness.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
