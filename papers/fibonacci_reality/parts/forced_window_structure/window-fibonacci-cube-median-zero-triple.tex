@@ -1,0 +1,117 @@
+\subsection{Forced median-zero triples in the Fibonacci cube}\label{sec:window-fibonacci-cube-median-zero-triple}
+\origin{ai}
+
+\paragraph{Carrier.}
+For each integer $m \geq 0$, let
+$$
+\begin{aligned}
+X_m=\{w\in \{0,1\}^m : \text{there is no }i\text{ with }1\leq i<m\text{ and }w_i=w_{i+1}=1\}.
+\end{aligned}
+$$
+The graph $\Gamma_m$ has vertex set $X_m$; its edges are not needed for the count except that the coordinatewise majority operation is the median operation for this Fibonacci-cube carrier. Thus, for $x,y,z\in X_m$, define $\operatorname{med}(x,y,z)\in \{0,1\}^m$ coordinate by coordinate: the $i$-th coordinate is $1$ exactly when at least two of $x_i,y_i,z_i$ are equal to $1$, and is $0$ otherwise. The zero word is denoted $0^m$.
+
+\paragraph{Forced-window statistic.}
+The statistic studied here is
+$$
+\begin{aligned}
+T_m=\#\{(x,y,z)\in X_m^3 : \operatorname{med}(x,y,z)=0^m\}.
+\end{aligned}
+$$
+The condition $\operatorname{med}(x,y,z)=0^m$ is equivalent to the following local exclusion: for every coordinate $i$, at most one of $x_i,y_i,z_i$ is equal to $1$. Equivalently, the three supports
+$$
+\begin{aligned}
+\operatorname{supp}(x)&=\{i:x_i=1\},\\
+\operatorname{supp}(y)&=\{i:y_i=1\},\\
+\operatorname{supp}(z)&=\{i:z_i=1\}
+\end{aligned}
+$$
+are pairwise disjoint. Therefore $T_m$ counts ordered triples of binary words in which each component word has no adjacent $1$s and the three component supports are pairwise disjoint. The ordering of the three words is part of the data; exchanging $x$ and $y$ usually gives a different triple.
+
+\paragraph{Eight-state transfer kernel.}
+The finite transfer description uses the last-bit state
+$$
+\begin{aligned}
+s=(a,b,c)\in \{0,1\}^3,
+\end{aligned}
+$$
+where $a,b,c$ record the previous coordinate of the three words. Let the initial state be $s_0=(0,0,0)$. For two states $p=(a,b,c)$ and $q=(a',b',c')$, define the transition kernel $K$ by
+$$
+\begin{aligned}
+K_{p,q}=1
+\end{aligned}
+$$
+exactly when the next column $q$ satisfies both finite constraints
+$$
+\begin{aligned}
+a'+b'+c'&\leq 1,\\
+aa'&=0,\\
+bb'&=0,\\
+cc'&=0,
+\end{aligned}
+$$
+and define $K_{p,q}=0$ otherwise. The inequality $a'+b'+c'\leq 1$ enforces the median-zero condition at the new coordinate, while the three equations prevent adjacent $1$s inside the individual component words. Although some states are never reached from $s_0$, keeping all eight elements of $\{0,1\}^3$ gives a uniform finite matrix.
+
+With $\mathbf{1}$ denoting the column vector whose eight entries are all $1$, the transfer count is
+$$
+\begin{aligned}
+T_m=e_{(0,0,0)}K^m\mathbf{1},
+\end{aligned}
+$$
+where $e_{(0,0,0)}$ is the row vector selecting the initial state. This expression is a direct finite witness: expanding $K^m$ chooses one admissible column at each of the $m$ positions, and the transition rule records exactly the no-adjacent-ones and pairwise-disjoint-support restrictions.
+
+\paragraph{Exact initial rows.}
+The first checked values are
+$$
+\begin{aligned}
+T_0&=1,\\
+T_1&=4,\\
+T_2&=13,\\
+T_3&=43,\\
+T_4&=142,\\
+T_5&=469,\\
+T_6&=1549,\\
+T_7&=5116,\\
+T_8&=16897,\\
+T_9&=55807,\\
+T_{10}&=184318,\\
+T_{11}&=608761,\\
+T_{12}&=2010601,\\
+T_{13}&=6640564,\\
+T_{14}&=21932293,\\
+T_{15}&=72437443.
+\end{aligned}
+$$
+The same values are obtained by direct brute-force enumeration for $m=0,1,2,3,4,5,6$, and by the eight-state transfer matrix for $m=0,1,\ldots,15$. The vertex count of the underlying carrier is $|X_m|=F_{m+2}$ for $m=0,1,\ldots,15$, so the triple statistic is measured on the finite Fibonacci-cube vertex family rather than on an unrelated binary-word space.
+
+\paragraph{Pell-type recurrence.}
+The observed forced-window count satisfies
+$$
+\begin{aligned}
+T_m=3T_{m-1}+T_{m-2}\qquad (2\leq m\leq 15),
+\end{aligned}
+$$
+with initial data
+$$
+\begin{aligned}
+T_0=1,\qquad T_1=4.
+\end{aligned}
+$$
+The characteristic polynomial attached to this recurrence is
+$$
+\begin{aligned}
+x^2-3x-1.
+\end{aligned}
+$$
+Thus the finite data support the statement that the median-zero ordered-triple statistic on $\Gamma_m$ follows a forced second-order Pell-type law. The recurrence is stated here as a finite-window conjectural law supported through $m=15$, with exact agreement between brute-force enumeration at small widths and the transfer-kernel computation on the checked range.
+
+\paragraph{Witness extraction.}
+A witness counted by $T_m$ is extracted as a sequence of $m$ columns
+$$
+\begin{aligned}
+q_i=(x_i,y_i,z_i)\in \{0,1\}^3\qquad (1\leq i\leq m)
+\end{aligned}
+$$
+starting after $q_0=(0,0,0)$ and satisfying the transition rule from $q_{i-1}$ to $q_i$ for every $i$. Reading the first, second, and third coordinates of these columns gives the three words $x,y,z$. Conversely, any ordered triple $(x,y,z)$ counted by $T_m$ yields exactly this column sequence. This gives a bijective finite certificate between transfer-matrix paths of length $m$ and median-zero ordered triples in $X_m^3$.
+
+\paragraph{Local boundary.}
+This construction only asserts the finite combinatorial carrier, the median-zero triple predicate, the eight-state transition kernel, the listed exact counts, and the checked recurrence range. It does not identify the resulting numbers with any physical constant, does not use $\alpha$ or $137$ as an input or target, does not assert a global dynamical law, does not rely on data outside the finite binary-word construction, and does not make a metrological comparison or interpretation beyond the stated finite count.

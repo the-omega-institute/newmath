@@ -1,0 +1,111 @@
+\origin{ai}
+
+\subsection{Window-six Fibonacci-cube Ihara--Hashimoto polynomial}
+\label{subsec:window6-fibonacci-cube-ihara-zeta}
+
+\paragraph{Finite carrier.}
+Let $\{0,1\}^6$ be the set of binary words of length $6$. Define
+$$
+\begin{aligned}
+X_6=\{w\in\{0,1\}^6 : \text{no two adjacent coordinates of }w\text{ are both }1\}.
+\end{aligned}
+$$
+This is a finite set with $|X_6|=21$. The graph $\Gamma_6$ has vertex set $X_6$, and two distinct vertices $v,w\in X_6$ are joined by an undirected edge exactly when they differ in one coordinate. Equivalently, adjacency is the Hamming-distance-one relation restricted to the no-adjacent-ones words. Direct finite enumeration gives $38$ undirected edges. Hence the directed-edge set
+$$
+\begin{aligned}
+E_6^{\rightarrow}=\{(v,w)\in X_6\times X_6 : v\text{ and }w\text{ are adjacent in }\Gamma_6\}
+\end{aligned}
+$$
+has $76$ elements. For a directed edge $e=(v,w)$ write $o(e)=v$, $t(e)=w$, and $\overline e=(w,v)$. The graph is connected, so its first Betti number is
+$$
+\begin{aligned}
+38-21+1=18.
+\end{aligned}
+$$
+
+\paragraph{Non-backtracking kernel.}
+Index the rows and columns of a $76\times 76$ matrix $B_6$ by directed edges in $E_6^{\rightarrow}$. Define
+$$
+\begin{aligned}
+B_6[e,f]=1
+\quad\text{if and only if}\quad
+ t(e)=o(f)\text{ and }f\ne \overline e,
+\end{aligned}
+$$
+and put $B_6[e,f]=0$ otherwise. Thus $B_6$ is the Hashimoto transition matrix for one-step non-backtracking motion on the finite graph $\Gamma_6$. Its characteristic zeta inverse is the integer polynomial $\det(I_{76}-uB_6)$.
+
+\paragraph{Exact determinant factorization.}
+The finite determinant is even in $u$ up to the Betti factor and has the following exact form:
+$$
+\begin{aligned}
+\det(I_{76}-uB_6)=(1-u^2)^{18}P(u^2)Q(u^2).
+\end{aligned}
+$$
+Here
+$$
+\begin{aligned}
+P(s)=&\,1+10s+49s^2+162s^3+434s^4+1050s^5+2273s^6\\
+&+4128s^7+5376s^8+3456s^9,
+\end{aligned}
+$$
+and
+$$
+\begin{aligned}
+Q(s)=&\,1+8s-2s^2-350s^3-2541s^4-10696s^5-32073s^6\\
+&-73376s^7-128427s^8-162816s^9-132480s^{10}-51840s^{11}.
+\end{aligned}
+$$
+All coefficients displayed here are part of the finite integer output of the construction: the input is only the $21$ vertices, the $38$ undirected Hamming edges, and the non-backtracking transition rule above.
+
+\paragraph{Bass determinant check.}
+Let $A_6$ be the $21\times 21$ adjacency matrix of $\Gamma_6$, so $A_6[v,w]=1$ precisely when $v$ and $w$ differ in one coordinate and both lie in $X_6$. Let $D_6$ be the diagonal $21\times 21$ degree matrix, with $D_6[v,v]$ equal to the degree of $v$ in $\Gamma_6$. The corresponding Bass-side determinant is
+$$
+\begin{aligned}
+\det(I_{21}-uA_6+u^2(D_6-I_{21}))=(1-u^2)P(u^2)Q(u^2).
+\end{aligned}
+$$
+Combining this identity with the Betti number $18$ gives the displayed Hashimoto determinant factor $(1-u^2)^{18}$ on the directed-edge side.
+
+\paragraph{Trace witnesses.}
+For each positive integer $m$, the trace $\operatorname{tr}(B_6^m)$ counts length-$m$ closed directed non-backtracking walks in $\Gamma_6$, with a choice of starting directed edge. Because the graph is bipartite under parity of Hamming weight, every odd non-backtracking trace vanishes. The first even trace witnesses recorded by direct finite multiplication are
+$$
+\begin{aligned}
+(\operatorname{tr}B_6^4,\operatorname{tr}B_6^6,\operatorname{tr}B_6^8,\operatorname{tr}B_6^{10},\operatorname{tr}B_6^{12})
+=(176,984,7088,58800,448664).
+\end{aligned}
+$$
+The associated primitive cyclic non-backtracking counts, obtained by subtracting proper repetitions before quotienting by cyclic rotation of the starting edge, are
+$$
+\begin{aligned}
+(C_4,C_6,C_8,C_{10},C_{12})=(44,164,864,5880,37292).
+\end{aligned}
+$$
+For the displayed lengths this extraction is witnessed by the identities
+$$
+\begin{aligned}
+4C_4&=176,\\
+6C_6&=984,\\
+8C_8&=7088-176,\\
+10C_{10}&=58800,\\
+12C_{12}&=448664-984-176.
+\end{aligned}
+$$
+Thus the determinant factorization is accompanied by independent closed-walk data from the same finite non-backtracking kernel.
+
+\paragraph{Local conclusion.}
+The window-six Fibonacci-cube graph $\Gamma_6$ therefore supplies a closed finite spectral package: a $21$-vertex carrier, $38$ undirected Hamming-distance-one edges, a $76$-state directed non-backtracking transition matrix, the exact Ihara--Hashimoto inverse
+$$
+\begin{aligned}
+\det(I_{76}-uB_6)=(1-u^2)^{18}P(u^2)Q(u^2),
+\end{aligned}
+$$
+the matching Bass determinant
+$$
+\begin{aligned}
+\det(I_{21}-uA_6+u^2(D_6-I_{21}))=(1-u^2)P(u^2)Q(u^2),
+\end{aligned}
+$$
+and the listed even trace and primitive-cycle witnesses. The construction is wholly finite: every matrix entry is determined by the word predicate, Hamming adjacency, and the single non-reversal rule for directed edges.
+
+\paragraph{Boundary of interpretation.}
+No physical constant is identified by this construction. In particular, no value of the fine-structure constant, no quantity of the form $\alpha$ or $1/137$, no metrological comparison, and no convention-dependent physical reading is used as input, target, or conclusion. The chapter establishes only the finite graph, its non-backtracking determinant identities, and the stated integer trace data. No global flow law, external dependency, physical matching claim, or interpretation beyond this finite construction follows without an additional certificate formulated as a separate object.
