@@ -37,6 +37,7 @@ ANALYSIS_ORGANISM_LIMIT = int(os.environ.get("ASD_ANALYSIS_ORGANISM_LIMIT", "1")
 ENABLE_MCMC_REFINE = os.environ.get("ASD_MCMC_REFINE", "0") == "1"
 NULL3_R = int(os.environ.get("ASD_NULL3_R", "5"))
 NULL3_EXPAND_KMERS = os.environ.get("ASD_NULL3_EXPAND_KMERS", "0") == "1"
+PROFILE_KMER_LIMIT = int(os.environ.get("ASD_PROFILE_KMER_LIMIT", "800"))
 MIN_CERT_ORGANISMS = 250
 MIN_CERT_FAMILIES = 30
 LAMBDA = math.log(2.0)
@@ -265,17 +266,23 @@ def burden(seq: str, table: dict[str, tuple[float, int]]) -> dict[str, float]:
     return burden_from_profile(kmer_profile(seq), table)
 
 
-def kmer_profile(seq: str) -> dict[str, object]:
+def kmer_profile(seq: str, seed: str = "") -> dict[str, object]:
     internal = seq[45:-45] if len(seq) > 90 else ""
     counts: Counter[str] = Counter()
     if len(internal) < 8:
         return {"counts": counts, "n_windows": 0}
+    possible: list[tuple[int, int]] = []
     for k in range(5, 9):
         for i in range(0, len(internal) - k + 1):
-            kmer = internal[i : i + k]
-            if set(kmer) - set(BASES):
-                continue
-            counts[kmer] += 1
+            possible.append((i, k))
+    if PROFILE_KMER_LIMIT > 0 and len(possible) > PROFILE_KMER_LIMIT:
+        rng = random.Random(stable_seed(seed or internal[:40]))
+        possible = rng.sample(possible, PROFILE_KMER_LIMIT)
+    for i, k in possible:
+        kmer = internal[i : i + k]
+        if set(kmer) - set(BASES):
+            continue
+        counts[kmer] += 1
     return {"counts": counts, "n_windows": sum(counts.values())}
 
 
@@ -685,8 +692,8 @@ def analyze_organism(organism: dict[str, object], heterologous_tails: list[str],
     for idx, record in enumerate(records):
         seq = str(record.get("sequence_rna") or "")
         recodings, meta = constrained_recodings(seq, weights, R_NULL, f"{seed}.gene.{idx}.recoding")
-        obs_profile = kmer_profile(seq)
-        null_profiles = [kmer_profile(candidate) for candidate in recodings]
+        obs_profile = kmer_profile(seq, f"{seed}.gene.{idx}.obs_profile")
+        null_profiles = [kmer_profile(candidate, f"{seed}.gene.{idx}.null_profile.{j}") for j, candidate in enumerate(recodings)]
         for profile in [obs_profile] + null_profiles:
             counts = profile.get("counts")
             if isinstance(counts, Counter):
@@ -720,7 +727,7 @@ def analyze_organism(organism: dict[str, object], heterologous_tails: list[str],
                 row["n_windows"] = n_windows
         seq = str(profile_row["seq"])
         exact = exact_multiset_permutations(seq, max(1, NULL3_R), f"{seed}.gene.{profile_row['idx']}.exact")
-        exact_profiles = [kmer_profile(candidate) for candidate in exact]
+        exact_profiles = [kmer_profile(candidate, f"{seed}.gene.{profile_row['idx']}.exact_profile.{j}") for j, candidate in enumerate(exact)]
         if NULL3_EXPAND_KMERS:
             exact_needed = set(needed_kmers)
             for profile in exact_profiles:
@@ -930,6 +937,7 @@ def summarize(rows: list[dict[str, object]], fetch_meta: dict[str, object], elap
             "mcmc_refine": ENABLE_MCMC_REFINE,
             "null3_r": NULL3_R,
             "null3_expand_kmers": NULL3_EXPAND_KMERS,
+            "profile_kmer_limit": PROFILE_KMER_LIMIT,
             "requested_design": {
                 "target_bacteria": 50,
                 "target_archaea": 10,
