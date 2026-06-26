@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-finite-cauchy-density-net-namecert}
 \origin{human}
 
-Following Bishop and Bridges, finite density data for real completion is represented by explicit dyadic finite nets and moduli, not by selected representatives or quotient completions. The $\FiniteCauchyDensityNetUp$ packet sits between the dyadic arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It gives L10 completion consumers a finite density witness object without asserting ambient completeness of $\RealUp$.
+Following Bishop and Bridges, finite density data for real completion is represented by explicit dyadic finite nets and moduli, not by selected representatives or quotient completions. The $\FiniteCauchyDensityNetUp$ packet sits between the dyadic arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite dyadic cell surface of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It gives L10 completion consumers a finite density witness object without asserting ambient completeness of $\RealUp$.
 
 \begin{definition}[Finite Cauchy density-net packet]
 \label{def:finite-cauchy-density-net-packet}
@@ -67,10 +67,12 @@ Apply \autoref{thm:finite-cauchy-density-net-real-seal-nonescape}. A Real-facing
 
 \begin{theorem}[Finite Cauchy density-net sibling route]
 \label{thm:finite-cauchy-density-net-sibling-route}
-Every completion-facing sibling consumer of an accepted $\FiniteCauchyDensityNetUp$ packet, including the real-uniform route of \autoref{ch:concrete-instances-real-uniform-structure-namecert} and the modulus route of \autoref{ch:concrete-instances-cauchymodulus-namecert}, must consume the finite density-net read only after the displayed rows $D,W,R,E,M,T,C,P,L$ have all been exposed. In particular, the packet supplies a completion-facing dependency edge through dyadic nets, stream windows, regular rational readback, Real sealing, finite modulus, transport, replay, provenance, and local naming, not through a kernel-only density assertion.
+Every completion-facing sibling consumer of an accepted $\FiniteCauchyDensityNetUp$ packet, including the real-uniform route of \autoref{ch:concrete-instances-real-uniform-structure-namecert} and the modulus route of \autoref{ch:concrete-instances-cauchymodulus-namecert}, must consume the finite density-net read only after the displayed rows $D,W,R,E,M,T,C,P,L$ have all been exposed. The read may first consume the finite dyadic cell surface of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}: $\DyadicIntervalNetUp$ supplies the displayed cells and endpoint incidence, while $\FiniteCauchyDensityNetUp$ supplies the density witness and Real-facing seal. In particular, the packet supplies a completion-facing dependency edge through dyadic cells, endpoint incidence, stream windows, regular rational readback, Real sealing, finite modulus, transport, replay, provenance, and local naming, not through a kernel-only density assertion.
 \end{theorem}
 \begin{proof}
 Start with \autoref{thm:finite-cauchy-density-net-stream-route}. It forces every density-net consumer to expose the $\StreamNameUp$ row $W$ and $\RegSeqRatUp$ row $R$ before the dyadic net can be read as Real-facing data.
+
+Before that Real-facing export, the consumer may read the sibling $\DyadicIntervalNetUp$ surface of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}. That sibling supplies the displayed dyadic cells and endpoint incidence; the density-net packet keeps those cells tied to $D$ and then supplies the density witness, modulus row $M$, and terminal seal $E$.
 
 Apply \autoref{thm:finite-cauchy-density-net-real-seal-nonescape}. The terminal $\RealUp$ seal $E$ is available only along the same carrier route, so a $\RealUniformStructureUp$ or $\CauchyModulusUp$ consumer cannot bypass $D,W,R,E,M,T,C,P,L$ when it asks for completion-facing density.
 
