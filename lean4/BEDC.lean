@@ -1988,6 +1988,7 @@ import BEDC.Derived.CauchyDiagonalSelectionUp.TasteGate
 import BEDC.Derived.CauchyDifferenceCriterionUp.BidirectionalExactness
 import BEDC.Derived.CauchyDifferenceCriterionUp.KernelScope
 import BEDC.Derived.CauchyDifferenceCriterionUp.NameCertObligations
+import BEDC.Derived.CauchyDifferenceCriterionUp.ObligationExport
 import BEDC.Derived.CauchyDifferenceCriterionUp.RegularTailStability
 import BEDC.Derived.CauchyDifferenceCriterionUp.ShiftInvariance
 import BEDC.Derived.CauchyDifferenceCriterionUp.TailDiameterHandoff
@@ -6749,6 +6750,7 @@ import BEDC.Derived.HopfFibrationUp
 import BEDC.Derived.HopfRinowFiniteGeodesicUp.TasteGate
 import BEDC.Derived.HorosphereFlowLedgerUp.TasteGate
 import BEDC.Derived.HostDelegationSocketUp
+import BEDC.Derived.HostPrimitiveLeakageUp.FormalClosure
 import BEDC.Derived.HostPrimitiveLeakageUp.RouteCertificates
 import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
 import BEDC.Derived.HostTotalTraceUp.TasteGate
