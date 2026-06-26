@@ -1,10 +1,13 @@
 import BEDC.Derived.EulerTheoremUp
+import BEDC.Derived.FermatLittleUp
+import BEDC.Derived.PolyRootBoundUp
 import BEDC.Derived.PrimeUp.DivisionWithRemainder
 import BEDC.Derived.PrimeUp.NatMulTransport
 
 namespace BEDC.Derived.PrimitiveRootUp
 
 open BEDC.Algebra.Rel
+open BEDC.Algebra.FiniteFold
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Unary
@@ -14,7 +17,11 @@ open BEDC.Derived.IntUp
 open BEDC.Derived.PadicUp
 open BEDC.Derived.PrimeUp
 open BEDC.Derived.ZModUp
+open BEDC.Derived.ZModFieldUp
+open BEDC.Derived.ZModResidueList
 open BEDC.Derived.EulerTheoremUp
+open BEDC.Derived.FermatWilsonUp
+open BEDC.Derived.PolyRootBoundUp
 
 variable {A : Type u} {r : A -> A -> Prop}
 
@@ -96,6 +103,155 @@ def PowerOneAtNat
   zmodEq (zmodPowByNat n nUnary nNonempty a k)
     (zmodOne n nUnary nNonempty)
 
+def monomialCoeffs {p : BHist} (prime : NatPrime p) : Nat -> List (ZMod p)
+  | 0 => [(zmodRing prime).one]
+  | d + 1 => (zmodRing prime).zero :: monomialCoeffs prime d
+
+def powSubOneCoeffs {p : BHist} (prime : NatPrime p) : Nat -> List (ZMod p)
+  | 0 => [(zmodRing prime).zero]
+  | d + 1 => (zmodRing prime).neg (zmodRing prime).one :: monomialCoeffs prime d
+
+theorem monomialCoeffs_degree_exact {p : BHist} (prime : NatPrime p) :
+    ∀ d : Nat, PolyDegreeExact prime (monomialCoeffs prime d) d
+  | 0 =>
+      polyDegreeExact_constant prime (zmodOne_nonzero prime)
+  | d + 1 =>
+      polyDegreeExact_step prime (monomialCoeffs_degree_exact prime d)
+
+theorem powSubOneCoeffs_degree_exact_positive {p : BHist}
+    (prime : NatPrime p) (d : Nat) :
+    PolyDegreeExact prime (powSubOneCoeffs prime (d + 1)) (d + 1) := by
+  change PolyDegreeExact prime
+    ((zmodRing prime).neg (zmodRing prime).one :: monomialCoeffs prime d)
+    (d + 1)
+  exact polyDegreeExact_step prime (monomialCoeffs_degree_exact prime d)
+
+private theorem monomialCoeffs_eval {p : BHist} (prime : NatPrime p)
+    (x : ZMod p) :
+    ∀ d : Nat,
+      zmodEq (polyEval prime (monomialCoeffs prime d) x)
+        (zmodPowByNat p prime.left (NatPrime_empty_absurd prime) x d)
+  | 0 =>
+      polyEval_singleton prime (zmodRing prime).one x
+  | d + 1 => by
+      let R := zmodRing prime
+      have tail :
+          zmodEq (polyEval prime (monomialCoeffs prime d) x)
+            (zmodPowByNat p prime.left (NatPrime_empty_absurd prime) x d) :=
+        monomialCoeffs_eval prime x d
+      change zmodEq
+        (R.add R.zero (R.mul x (polyEval prime (monomialCoeffs prime d) x)))
+        (R.mul (zmodPowByNat p prime.left (NatPrime_empty_absurd prime) x d) x)
+      exact R.trans
+        (R.trans
+          (R.add_congr (R.refl R.zero) (R.mul_congr (R.refl x) tail))
+          (R.zero_add (R.mul x
+            (zmodPowByNat p prime.left (NatPrime_empty_absurd prime) x d))))
+        (R.mul_comm x
+          (zmodPowByNat p prime.left (NatPrime_empty_absurd prime) x d))
+
+theorem powerOneAtNat_polyRoot {p : BHist} (prime : NatPrime p)
+    (x : ZMod p) (d : Nat) :
+    PowerOneAtNat p prime.left (NatPrime_empty_absurd prime) x (d + 1) ->
+      PolyRoot prime (powSubOneCoeffs prime (d + 1)) x := by
+  intro powOne
+  let R := zmodRing prime
+  have tail :
+      zmodEq (polyEval prime (monomialCoeffs prime d) x)
+        (zmodPowByNat p prime.left (NatPrime_empty_absurd prime) x d) :=
+    monomialCoeffs_eval prime x d
+  have evalToPow :
+      zmodEq (polyEval prime (powSubOneCoeffs prime (d + 1)) x)
+        (R.add (R.neg R.one)
+          (zmodPowByNat p prime.left (NatPrime_empty_absurd prime) x (d + 1))) := by
+    change zmodEq
+      (R.add (R.neg R.one)
+        (R.mul x (polyEval prime (monomialCoeffs prime d) x)))
+      (R.add (R.neg R.one)
+        (R.mul (zmodPowByNat p prime.left (NatPrime_empty_absurd prime) x d) x))
+    exact R.add_congr (R.refl (R.neg R.one))
+      (R.trans
+        (R.mul_congr (R.refl x) tail)
+        (R.mul_comm x
+          (zmodPowByNat p prime.left (NatPrime_empty_absurd prime) x d)))
+  exact R.trans evalToPow
+    (R.trans
+      (R.add_congr (R.refl (R.neg R.one)) powOne)
+      (R.neg_add R.one))
+
+theorem powerOneAtNat_root_bound_list {p : BHist} (prime : NatPrime p)
+    {d : Nat} {roots : List (ZMod p)} :
+    ListNoDup roots ->
+      (∀ x : ZMod p, x ∈ roots ->
+        PowerOneAtNat p prime.left (NatPrime_empty_absurd prime) x (d + 1)) ->
+        roots.length <= d + 1 := by
+  intro nodup allRoots
+  exact polyRootBound_list prime
+    (powSubOneCoeffs_degree_exact_positive prime d)
+    nodup
+    (fun x mem => powerOneAtNat_polyRoot prime x d (allRoots x mem))
+
+private theorem zmodPowByNat_eq_zmodPowNat {p : BHist}
+    (prime : NatPrime p) (a : ZMod p) :
+    ∀ k : Nat,
+      zmodEq
+        (zmodPowByNat p prime.left (NatPrime_empty_absurd prime) a k)
+        (zmodPowNat prime a k)
+  | 0 =>
+      rfl
+  | k + 1 => by
+      change zmodEq
+        (zmodMul p prime.left (NatPrime_empty_absurd prime)
+          (zmodPowByNat p prime.left (NatPrime_empty_absurd prime) a k) a)
+        (zmodMul p prime.left (NatPrime_empty_absurd prime)
+          (zmodPowNat prime a k) a)
+      exact zmodMul_congr prime.left (NatPrime_empty_absurd prime)
+        (zmodPowByNat_eq_zmodPowNat prime a k)
+        (zmodEq_refl a)
+
+theorem zmodPowNat_fermat_nonzero {p : BHist} (prime : NatPrime p)
+    (a : ZMod p) :
+    zmodNonzero a ->
+      zmodEq (zmodPowNat prime a (bwordLength p - 1))
+        (zmodOne p prime.left (NatPrime_empty_absurd prime)) := by
+  intro aNonzero
+  have perm :
+      ListPerm
+        (List.map (zmodUnitMul prime a aNonzero) (nonzeroResidues prime))
+        (nonzeroResidues prime) :=
+    mulByUnit_permutes prime a aNonzero
+  have powAtList :
+      zmodEq (zmodPowNat prime a (nonzeroResidues prime).length)
+        (zmodOne p prime.left (NatPrime_empty_absurd prime)) :=
+    fermat_unit_list_permutation prime a aNonzero
+      (nonzeroResidues prime)
+      (nonzeroResidues_all_nonzero prime)
+      perm
+  rw [BEDC.Derived.FermatLittleUp.nonzeroResidues_length prime] at powAtList
+  exact powAtList
+
+theorem powerOneAtNat_fermat_prime_minus_one {p : BHist}
+    (prime : NatPrime p) (a : ZMod p) :
+    zmodNonzero a ->
+      PowerOneAtNat p prime.left (NatPrime_empty_absurd prime) a
+        (bwordLength p - 1) := by
+  intro aNonzero
+  unfold PowerOneAtNat zmodPowByNat
+  exact zmodEq_trans
+    (zmodPowByNat_eq_zmodPowNat prime a (bwordLength p - 1))
+    (zmodPowNat_fermat_nonzero prime a aNonzero)
+
+private theorem unaryPred_length {p : BHist} :
+    UnaryHistory p -> bwordLength (unaryPred p) = bwordLength p - 1 := by
+  intro pUnary
+  cases p with
+  | Empty =>
+      rfl
+  | e0 _ =>
+      cases pUnary
+  | e1 _ =>
+      rfl
+
 structure HasMultOrder
     (n : BHist) (nUnary : UnaryHistory n)
     (nNonempty : hsame n BHist.Empty -> False)
@@ -120,6 +276,38 @@ private def powEqOneBool
   if (zmodPowByNat n nUnary nNonempty a k).val =
       (zmodOne n nUnary nNonempty).val then true else false
 
+private theorem powEqOneBool_true
+    (n : BHist) (nUnary : UnaryHistory n)
+    (nNonempty : hsame n BHist.Empty -> False)
+    (a : ZMod n) (k : Nat) :
+    powEqOneBool n nUnary nNonempty a k = true ->
+      PowerOneAtNat n nUnary nNonempty a k := by
+  intro hit
+  unfold powEqOneBool at hit
+  by_cases same :
+      (zmodPowByNat n nUnary nNonempty a k).val =
+        (zmodOne n nUnary nNonempty).val
+  · unfold PowerOneAtNat zmodEq
+    exact same
+  · rw [if_neg same] at hit
+    cases hit
+
+private theorem powEqOneBool_false
+    (n : BHist) (nUnary : UnaryHistory n)
+    (nNonempty : hsame n BHist.Empty -> False)
+    (a : ZMod n) (k : Nat) :
+    powEqOneBool n nUnary nNonempty a k = false ->
+      PowerOneAtNat n nUnary nNonempty a k -> False := by
+  intro miss powOne
+  unfold powEqOneBool at miss
+  by_cases same :
+      (zmodPowByNat n nUnary nNonempty a k).val =
+        (zmodOne n nUnary nNonempty).val
+  · rw [if_pos same] at miss
+    cases miss
+  · unfold PowerOneAtNat zmodEq at powOne
+    exact same powOne
+
 def multOrderSearchFrom
     (n : BHist) (nUnary : UnaryHistory n)
     (nNonempty : hsame n BHist.Empty -> False)
@@ -131,6 +319,77 @@ def multOrderSearchFrom
       else
         multOrderSearchFrom n nUnary nNonempty a (start + 1) fuel
 
+theorem multOrderSearchFrom_sound
+    (n : BHist) (nUnary : UnaryHistory n)
+    (nNonempty : hsame n BHist.Empty -> False)
+    (a : ZMod n) :
+    ∀ {start fuel k : Nat},
+      multOrderSearchFrom n nUnary nNonempty a start fuel = some k ->
+        PowerOneAtNat n nUnary nNonempty a k
+  | _start, 0, _k, found => by
+      unfold multOrderSearchFrom at found
+      cases found
+  | start, fuel + 1, _k, found => by
+      unfold multOrderSearchFrom at found
+      cases hit : powEqOneBool n nUnary nNonempty a start with
+      | false =>
+          rw [hit] at found
+          exact multOrderSearchFrom_sound n nUnary nNonempty a found
+      | true =>
+          rw [hit] at found
+          cases found
+          exact powEqOneBool_true n nUnary nNonempty a start hit
+
+theorem multOrderSearchFrom_lower_bound
+    (n : BHist) (nUnary : UnaryHistory n)
+    (nNonempty : hsame n BHist.Empty -> False)
+    (a : ZMod n) :
+    ∀ {start fuel k : Nat},
+      multOrderSearchFrom n nUnary nNonempty a start fuel = some k ->
+        start <= k
+  | _start, 0, _k, found => by
+      unfold multOrderSearchFrom at found
+      cases found
+  | start, fuel + 1, _k, found => by
+      unfold multOrderSearchFrom at found
+      cases hit : powEqOneBool n nUnary nNonempty a start with
+      | false =>
+          rw [hit] at found
+          exact Nat.le_trans (Nat.le_succ start)
+            (multOrderSearchFrom_lower_bound n nUnary nNonempty a found)
+      | true =>
+          rw [hit] at found
+          cases found
+          exact Nat.le_refl start
+
+theorem multOrderSearchFrom_minimal
+    (n : BHist) (nUnary : UnaryHistory n)
+    (nNonempty : hsame n BHist.Empty -> False)
+    (a : ZMod n) :
+    ∀ {start fuel k j : Nat},
+      multOrderSearchFrom n nUnary nNonempty a start fuel = some k ->
+        start <= j -> j < k ->
+          PowerOneAtNat n nUnary nNonempty a j -> False
+  | _start, 0, _k, _j, found, _jLower, _jLt, _powOne => by
+      unfold multOrderSearchFrom at found
+      cases found
+  | start, fuel + 1, _k, j, found, jLower, jLt, powOne => by
+      unfold multOrderSearchFrom at found
+      cases hit : powEqOneBool n nUnary nNonempty a start with
+      | false =>
+          rw [hit] at found
+          by_cases sameJ : j = start
+          · cases sameJ
+            exact powEqOneBool_false n nUnary nNonempty a start hit powOne
+          · have startLtJ : start < j :=
+              Nat.lt_of_le_of_ne jLower (fun same => sameJ same.symm)
+            exact multOrderSearchFrom_minimal n nUnary nNonempty a found
+              (Nat.succ_le_of_lt startLtJ) jLt powOne
+      | true =>
+          rw [hit] at found
+          cases found
+          exact (Nat.not_lt_of_ge jLower) jLt
+
 def multOrder
     (n : BHist) (nUnary : UnaryHistory n)
     (nNonempty : hsame n BHist.Empty -> False)
@@ -138,6 +397,49 @@ def multOrder
   match multOrderSearchFrom n nUnary nNonempty a 1 (bwordLength n + 1) with
   | some k => natToUnary k
   | none => BHist.Empty
+
+theorem multOrderSearchFrom_has_order
+    (n : BHist) (nUnary : UnaryHistory n)
+    (nNonempty : hsame n BHist.Empty -> False)
+    (a : ZMod n) {fuel k : Nat} :
+    multOrderSearchFrom n nUnary nNonempty a 1 fuel = some k ->
+      HasMultOrder n nUnary nNonempty a (natToUnary k) := by
+  intro found
+  refine
+    { k_unary := natToUnary_unary k
+      k_positive := ?_
+      pow_one := ?_
+      minimal := ?_ }
+  · rw [natToUnary_length]
+    exact multOrderSearchFrom_lower_bound n nUnary nNonempty a found
+  · rw [natToUnary_length]
+    exact multOrderSearchFrom_sound n nUnary nNonempty a found
+  · intro j jPositive jLt powOne
+    rw [natToUnary_length] at jLt
+    exact multOrderSearchFrom_minimal n nUnary nNonempty a found
+      (Nat.succ_le_of_lt jPositive) jLt powOne
+
+def orderOf {p : BHist} (prime : NatPrime p) (a : ZMod p) : BHist :=
+  match multOrderSearchFrom p prime.left (NatPrime_empty_absurd prime) a
+      1 (nonzeroResidues prime).length with
+  | some k => natToUnary k
+  | none => BHist.Empty
+
+theorem orderOf_has_order_of_found {p : BHist} (prime : NatPrime p)
+    (a : ZMod p) {k : Nat} :
+    multOrderSearchFrom p prime.left (NatPrime_empty_absurd prime) a
+      1 (nonzeroResidues prime).length = some k ->
+        HasMultOrder p prime.left (NatPrime_empty_absurd prime) a
+          (orderOf prime a) := by
+  intro found
+  unfold orderOf
+  rw [found]
+  exact multOrderSearchFrom_has_order p prime.left
+    (NatPrime_empty_absurd prime) a found
+
+theorem orderOf_fuel_eq_prime_minus_one {p : BHist} (prime : NatPrime p) :
+    (nonzeroResidues prime).length = bwordLength p - 1 :=
+  BEDC.Derived.FermatLittleUp.nonzeroResidues_length prime
 
 theorem multOrder_divides_phi
     {n k phi : BHist}
@@ -222,6 +524,43 @@ theorem multOrder_divides_phi
   have shiftedProduct :=
     NatMul_result_hsame_transport productData.left sameProductPhi
   exact ⟨q, NatMul_right_unary productData.left, shiftedProduct.right⟩
+
+theorem hasMultOrder_divides_prime_minus_one
+    {p k : BHist} (prime : NatPrime p) (a : ZMod p) :
+    zmodNonzero a ->
+      HasMultOrder p prime.left (NatPrime_empty_absurd prime) a k ->
+        NatDivides k (unaryPred p) := by
+  intro aNonzero order
+  exact multOrder_divides_phi prime.left (NatPrime_empty_absurd prime)
+    a order (unaryPred_unary prime.left)
+    (by
+      have fermatPow :
+          PowerOneAtNat p prime.left (NatPrime_empty_absurd prime) a
+            (bwordLength p - 1) :=
+        powerOneAtNat_fermat_prime_minus_one prime a aNonzero
+      rw [unaryPred_length prime.left]
+      exact fermatPow)
+
+theorem hasMultOrder_root_bound_list {p k : BHist} (prime : NatPrime p)
+    {roots : List (ZMod p)} :
+    0 < bwordLength k ->
+      ListNoDup roots ->
+        (∀ x : ZMod p, x ∈ roots ->
+          HasMultOrder p prime.left (NatPrime_empty_absurd prime) x k) ->
+          roots.length <= bwordLength k := by
+  intro kPositive nodup allOrders
+  cases hLen : bwordLength k with
+  | zero =>
+      have positiveZero : 0 < 0 := by
+        rw [hLen] at kPositive
+        exact kPositive
+      exact False.elim (Nat.not_lt_zero 0 positiveZero)
+  | succ d =>
+      exact powerOneAtNat_root_bound_list prime nodup
+        (fun x mem => by
+          have order := allOrders x mem
+          rw [← hLen]
+          exact order.pow_one)
 
 abbrev NatTwo : BHist := natToUnary 2
 abbrev NatFour : BHist := natToUnary 4

@@ -123,4 +123,81 @@ theorem KelleyficationCarrier_compact_generated_obligation [AskSetup] [PackageSe
   }
   exact ⟨cert, compactReadUnary, reflectedOpenUnary⟩
 
+theorem KelleyficationCarrier_compact_window_exhaustion [AskSetup] [PackageSetup]
+    {topology coreCompact compactOpen window transport replay provenance localName compactRead
+      reflectedOpen replayedOpen : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KelleyficationCarrier topology coreCompact compactOpen window transport replay provenance
+        localName bundle pkg →
+      Cont coreCompact compactOpen compactRead →
+        Cont compactRead window reflectedOpen →
+          Cont reflectedOpen replay replayedOpen →
+            PkgSig bundle replayedOpen pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row replayedOpen ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row topology ∨ hsame row coreCompact ∨ hsame row compactOpen ∨
+                      hsame row window ∨ hsame row reflectedOpen ∨ hsame row replayedOpen)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont topology coreCompact compactOpen ∧
+                      Cont coreCompact compactOpen compactRead ∧
+                        Cont compactRead window reflectedOpen ∧
+                          Cont reflectedOpen replay replayedOpen ∧
+                            PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg)
+                  hsame ∧
+                UnaryHistory compactRead ∧ UnaryHistory reflectedOpen ∧
+                  UnaryHistory replayedOpen := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier compactReadRoute reflectedOpenRoute replayedOpenRoute replayedOpenPkg
+  obtain ⟨topologyUnary, coreCompactUnary, compactOpenUnary, windowUnary, _transportUnary,
+    replayUnary, _provenanceUnary, _localNameUnary, compactOpenRoute, provenancePkg,
+    localNamePkg⟩ := carrier
+  have compactReadUnary : UnaryHistory compactRead :=
+    unary_cont_closed coreCompactUnary compactOpenUnary compactReadRoute
+  have reflectedOpenUnary : UnaryHistory reflectedOpen :=
+    unary_cont_closed compactReadUnary windowUnary reflectedOpenRoute
+  have replayedOpenUnary : UnaryHistory replayedOpen :=
+    unary_cont_closed reflectedOpenUnary replayUnary replayedOpenRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row replayedOpen ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row topology ∨ hsame row coreCompact ∨ hsame row compactOpen ∨
+              hsame row window ∨ hsame row reflectedOpen ∨ hsame row replayedOpen)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont topology coreCompact compactOpen ∧
+              Cont coreCompact compactOpen compactRead ∧
+                Cont compactRead window reflectedOpen ∧
+                  Cont reflectedOpen replay replayedOpen ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro replayedOpen ⟨hsame_refl replayedOpen, replayedOpenUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, compactOpenRoute, compactReadRoute, reflectedOpenRoute,
+          replayedOpenRoute, provenancePkg, localNamePkg⟩
+  }
+  exact ⟨cert, compactReadUnary, reflectedOpenUnary, replayedOpenUnary⟩
+
 end BEDC.Derived.KelleyficationUp

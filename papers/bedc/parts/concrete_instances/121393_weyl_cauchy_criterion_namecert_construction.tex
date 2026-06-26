@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\WeylCauchyCriterionUp$}
+\label{ch:concrete-instances-weyl-cauchy-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\WeylCauchyCriterionUp$ packet records the finite BEDC route by which a stream of rational approximants is certified Cauchy before it is sealed as a real. It consumes the $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\CauchyModulusUp$ request surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, and the terminal $\RealUp$ boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite Cauchy-criterion certificate; it does not quotient streams, choose limits, or import ambient completeness.
+
+\begin{definition}[Weyl Cauchy Criterion carrier]
+\label{def:weyl-cauchy-criterion-carrier}
+A $\WeylCauchyCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,M,W,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ source row naming the rational stream whose tails are inspected.
+\item $M$ is the $\CauchyModulusUp$ row storing the finite request-to-tail assignment used by the criterion.
+\item $W$ is the finite tail-window ledger: for each displayed precision request it names the window beyond which the stream comparison is read.
+\item $D$ is the $\DyadicRatCoreUp$ comparison row carrying the dyadic tolerance and dyadic distance witnesses used inside each tail window.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the stream observations and dyadic comparisons.
+\item $E$ is the $\RealUp$ seal boundary reached only after the stream, modulus, window, dyadic, and readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $S,M,W,D,Q,E$ and for replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of every consumer route through
+$$
+S,M,W,D,Q \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\WeylCauchyCriterionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\WeylCauchyCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,M,W,D,Q,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, ambient completeness, Lean verification, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Weyl Cauchy Criterion NameCert obligations]
+\label{thm:weyl-cauchy-criterion-namecert-obligations}
+For every accepted $\WeylCauchyCriterionUp$ carrier
+$$
+K=(S,M,W,D,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\WeylCauchyCriterionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier exposure for the displayed stream name, Cauchy modulus, tail-window ledger, dyadic comparison row, regular rational readback, real seal, transport, replay, provenance, and local naming rows;
+\item tail-window stability, requiring every transported or replayed precision request to keep the same stream $S$, modulus $M$, window $W$, dyadic comparison $D$, and readback $Q$ before exposing the real seal $E$;
+\item modulus extraction, requiring the tail index used by each criterion request to be read from $M$ and not from a chosen subsequence, selected limit, or ambient completeness theorem;
+\item Real-seal nonescape, requiring every $\RealUp$-facing consumer to pass through $S,M,W,D,Q,E$ and to receive no quotient representative or host real equality from the packet;
+\item refusal of quotient streams, selected limits, countable choice, trichotomy, and ambient completeness, requiring $H,C,P,N$ to transport, replay, source, and name only the displayed rows.
+\end{enumerate}
+No Weyl Cauchy Criterion NameCert obligation is stored outside these rows.
+\end{theorem}
+
+\begin{proof}
+Carrier exposure is projection from \autoref{def:weyl-cauchy-criterion-carrier}. The packet displays the stream, modulus, tail windows, dyadic comparisons, regular readback, real seal, and the four structural rows.
+
+Tail-window stability is componentwise. A transported or replayed request keeps the same $S,M,W,D,Q$ route, so a consumer cannot replace the displayed tail comparison by a quotient over streams.
+
+Modulus extraction is forced by the $M$ row. Each precision request reads its tail index from the displayed Cauchy modulus, and the dyadic comparison row $D$ checks only the window named by $W$.
+
+The real seal $E$ appears after $S,M,W,D,Q$ have been exposed. Thus a $\RealUp$ consumer receives a finite criterion route rather than a selected limit, a quotient representative, or an ambient completeness theorem.
+
+Finally, $H,C,P,N$ only transport, replay, source, and name the carrier rows. Since the packet contains no countable choice, trichotomy, quotient stream equality, selected limit, Lean verification, or bridge credential, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\closureat{WeylCauchyCriterionUp}{seedStr}
+
+\begin{closurestatus}{\WeylCauchyCriterionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:weyl-cauchy-criterion-carrier} and \autoref{thm:weyl-cauchy-criterion-namecert-obligations} seed the finite Weyl Cauchy Criterion surface over stream names, regular rational readback, dyadic comparisons, Cauchy modulus extraction, and the Real seal boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier exposure, tail-window stability, modulus extraction, Real-seal nonescape, and ledger refusal for BEDC.Derived.WeylCauchyCriterionUp.}
+  \constructivestory{A $\WeylCauchyCriterionUp$ packet is generated from a StreamName row, a CauchyModulus row, finite tail windows, DyadicRatCore comparisons, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
