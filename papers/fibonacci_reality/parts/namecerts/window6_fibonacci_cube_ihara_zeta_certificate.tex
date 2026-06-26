@@ -1,15 +1,124 @@
-\subsection{NameCert: Window Six Fibonacci Cube Ihara Zeta}
-\label{sec:namecert-window6_fibonacci_cube_ihara_zeta_certificate}
 \origin{ai}
 
-\paragraph{Statement.} For the Fibonacci cube Gamma\_6 on the 21 length-six no-adjacent-ones words, direct finite graph enumeration gives 38 undirected edges and 76 directed edges. The Hashimoto non-backtracking matrix B\_6 has Ihara zeta inverse det(I\_76-uB\_6), and exact trace/Newton arithmetic verifies det(I\_76-uB\_6)=(1-u\textasciicircum{}2)\textasciicircum{}18 P(u\textasciicircum{}2)Q(u\textasciicircum{}2), with P(s)=[1,10,49,162,434,1050,2273,4128,5376,3456] and Q(s)=[1,8,-2,-350,-2541,-10696,-32073,-73376,-128427,-162816,-132480,-51840]. The exponent 18 is |E|-|V|+1. The Bass determinant det(I\_21-uA\_6+u\textasciicircum{}2(D\_6-I\_21)) equals (1-u\textasciicircum{}2)P(u\textasciicircum{}2)Q(u\textasciicircum{}2), and selected non-backtracking traces and primitive cycle counts match the stated finite values. This is a graph-invariant certificate and makes no physical alpha, physical constant, numerical proximity, or reverse-fit claim.
+\subsection{Window-six Fibonacci cube and finite Ihara determinant certificate}
+\label{sec:window6-fibonacci-cube-ihara-zeta-certificate}
 
-\paragraph{Carrier.} The finite graph Gamma\_6 whose vertices are the 21 length-six binary words with no adjacent 1s, its 38 Hamming-distance-one undirected edges, and the 76 directed edges carrying the Hashimoto non-backtracking operator B\_6.
+\paragraph{Carrier.}
+The finite carrier is the set of binary words of length six with no adjacent occupied positions.  Write a word as $w=(w_1,w_2,w_3,w_4,w_5,w_6) \in \{0,1\}^6$.  The admissibility predicate is
+$$
+\begin{aligned}
+A(w) \quad \Longleftrightarrow \quad w_i w_{i+1}=0 \text{ for every } i \in \{1,2,3,4,5\}.
+\end{aligned}
+$$
+The vertex set is therefore
+$$
+\begin{aligned}
+V=\{w \in \{0,1\}^6 : A(w)\}.
+\end{aligned}
+$$
+The finite graph relation is the symmetric Hamming-one relation restricted to $V$:
+$$
+\begin{aligned}
+E=\{\{u,v\}: u,v \in V,\ u \ne v,\ \#\{i \in \{1,2,3,4,5,6\}:u_i \ne v_i\}=1\}.
+\end{aligned}
+$$
+This gives a completely finite six-window graph: every vertex is a permitted six-bit configuration, and every edge toggles exactly one bit while remaining inside the admissible carrier.
 
-\paragraph{Relations.} finite Fibonacci-cube graph carrier X\_6 with |X\_6|=21; 38 Hamming-distance-one undirected edges and 76 oriented edges; Hashimoto non-backtracking matrix B\_6 with B\_6[e,f]=1 iff term(e)=orig(f) and f is not reverse(e); Ihara zeta inverse det(I\_76-uB\_6) with the certified integer coefficient list; factorization det(I\_76-uB\_6)=(1-u\textasciicircum{}2)\textasciicircum{}18 P(u\textasciicircum{}2)Q(u\textasciicircum{}2) with explicit integer P and Q; first Betti number 18=|E|-|V|+1; bipartite even-polynomial witness: all odd coefficients and odd traces vanish; closed non-backtracking trace profile tr(B\textasciicircum{}4),tr(B\textasciicircum{}6),tr(B\textasciicircum{}8),tr(B\textasciicircum{}10),tr(B\textasciicircum{}12)=(176,984,7088,58800,448664)
+\paragraph{Finite partition and exact size.}
+Partition $V$ by Hamming weight.  Let
+$$
+\begin{aligned}
+V_k=\{w \in V : w_1+w_2+w_3+w_4+w_5+w_6=k\}.
+\end{aligned}
+$$
+The possible weights are $0,1,2,3$.  The exact counts are obtained by placing $k$ occupied sites with at least one empty site between consecutive occupied sites.  Equivalently, after removing the forced separating empty sites, one chooses $k$ positions from $7-k$ slots.  Hence
+$$
+\begin{aligned}
+\#V_0&=1,\\
+\#V_1&=6,\\
+\#V_2&=10,\\
+\#V_3&=4.
+\end{aligned}
+$$
+Thus
+$$
+\begin{aligned}
+\#V=\#V_0+\#V_1+\#V_2+\#V_3=1+6+10+4=21.
+\end{aligned}
+$$
+The edge count is also exact.  Each edge is uniquely oriented downward by changing one $1$ into $0$.  Therefore the number of edges is the total number of occupied positions among all admissible words:
+$$
+\begin{aligned}
+\#E=0\cdot 1+1\cdot 6+2\cdot 10+3\cdot 4=38.
+\end{aligned}
+$$
+The graph has cyclomatic rank
+$$
+\begin{aligned}
+r=\#E-\#V+1=38-21+1=18,
+\end{aligned}
+$$
+because the all-zero word is connected to every vertex by repeatedly changing a $1$ into $0$.
 
-\paragraph{Counts and identities.} No exact count has been certified in the author-facing facts.
+\paragraph{Adjacency and degree kernel.}
+Fix any ordering $V=\{v_1,\ldots,v_{21}\}$.  Define the $21 \times 21$ adjacency matrix $M$ by
+$$
+\begin{aligned}
+M_{ij}=\begin{cases}
+1, & \text{if } \{v_i,v_j\}\in E,\\
+0, & \text{otherwise.}
+\end{cases}
+\end{aligned}
+$$
+Define the diagonal degree matrix $D$ by
+$$
+\begin{aligned}
+D_{ij}=\begin{cases}
+\#\{v \in V : \{v_i,v\}\in E\}, & \text{if } i=j,\\
+0, & \text{if } i\ne j.
+\end{cases}
+\end{aligned}
+$$
+The finite Ihara determinant kernel is
+$$
+\begin{aligned}
+K(t)=I_{21}-tM+t^2(D-I_{21}),
+\end{aligned}
+$$
+where $I_{21}$ is the $21 \times 21$ identity matrix.  This kernel is intrinsic: changing the ordering of $V$ conjugates $M$, $D$, and $K(t)$ by the same permutation matrix, so the determinant below is independent of the listing of the vertices.
 
-\paragraph{Witness extraction.} The fallback records only the finite construction data already present in the sanitized packet.
+\paragraph{Directed-edge transition.}
+Let $\vec E$ be the set of directed edges.  Since $\#E=38$, one has $\#\vec E=76$.  A directed edge is written $(a,b)$ with $\{a,b\}\in E$.  Define the non-return transition matrix $B$ indexed by $\vec E$ as
+$$
+\begin{aligned}
+B_{(a,b),(c,d)}=\begin{cases}
+1, & \text{if } b=c \text{ and } d\ne a,\\
+0, & \text{otherwise.}
+\end{cases}
+\end{aligned}
+$$
+This $76\times 76$ matrix records one-step continuation of a directed walk while forbidding immediate reversal.  The associated reciprocal finite zeta polynomial is
+$$
+\begin{aligned}
+Z(t)^{-1}=\det(I_{76}-tB).
+\end{aligned}
+$$
+The same quantity is obtained from the smaller vertex kernel by the Bass determinant identity in this finite setting:
+$$
+\begin{aligned}
+\det(I_{76}-tB)=(1-t^2)^{18-1}\det(I_{21}-tM+t^2(D-I_{21})).
+\end{aligned}
+$$
+Equivalently,
+$$
+\begin{aligned}
+Z(t)^{-1}=(1-t^2)^{17}\det(K(t)).
+\end{aligned}
+$$
+This is the certificate identity for the six-window construction.  It is a finite algebraic statement about a specified graph and two explicitly defined matrices.
 
-\paragraph{Not claimed.} /; No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed.
+\paragraph{Witness extraction.}
+A verifier can reconstruct the certificate without any outside data.  First enumerate all $64$ binary words in $\{0,1\}^6$.  Second retain exactly those satisfying $w_iw_{i+1}=0$ for all adjacent indices; this yields $21$ vertices.  Third connect two retained words precisely when they differ in one coordinate; this yields $38$ undirected edges and $76$ directed edges.  Fourth build $M$, $D$, and $B$ from the displayed rules.  Finally compute the two determinants and compare them after multiplying the vertex determinant by $(1-t^2)^{17}$.  Every coefficient in the comparison is an integer obtained from the finite row data just described.
+
+\paragraph{Local boundary of the claim.}
+The chapter asserts only the finite six-window carrier, its adjacency relation, the exact vertex and edge counts, the partition by weight, the directed non-return matrix, and the determinant certificate connecting the $76\times 76$ transition determinant to the $21\times 21$ vertex kernel.  No physical-constant identification, global flow law, external dependency, metrological comparison, or interpretation beyond this finite construction is implied by the certificate itself.
