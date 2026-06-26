@@ -41,8 +41,9 @@ def cauchyFilterSpaceToEventFlow :
 def cauchyFilterSpaceFromEventFlow :
     EventFlow → Option BEDC.Derived.CauchyFilterSpaceUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [_row] => some BEDC.Derived.CauchyFilterSpaceUp.carrier
-  | _ => none
+  | [] => none
+  | _row :: [] => some BEDC.Derived.CauchyFilterSpaceUp.carrier
+  | _head :: _next :: _tail => none
 
 private theorem CauchyFilterSpaceTasteGate_single_carrier_alignment_round_trip :
     ∀ x : BEDC.Derived.CauchyFilterSpaceUp,
