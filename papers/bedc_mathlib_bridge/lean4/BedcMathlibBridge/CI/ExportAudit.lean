@@ -30,6 +30,8 @@ def exportWitnessRegistry : Array ExportRegistration := #[
     witnessType := `BedcMathlibBridge.Export.Gaussian.GaussianExportWitness },
   { witness := `BedcMathlibBridge.Export.ZMod.zmodExport,
     witnessType := `BedcMathlibBridge.Export.ZMod.ZModExportWitness },
+  { witness := `BedcMathlibBridge.Export.Fibonacci.fibonacciExport,
+    witnessType := `BedcMathlibBridge.Export.Fibonacci.FibonacciExportWitness },
   { witness := `BEDC.Derived.LocatedSupremumUp.locatedSupremumExport,
     witnessType :=
       `BEDC.Derived.LocatedSupremumUp.LocatedSupremumExportWitness },

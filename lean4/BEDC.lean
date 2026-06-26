@@ -315,6 +315,7 @@ import BEDC.Derived.ArensEellsSpaceUp.TasteGate
 import BEDC.Derived.ArensFortSpaceUp
 import BEDC.Derived.ArgumentPrincipleUp.TasteGate
 import BEDC.Derived.ArithmeticFnUp
+import BEDC.Derived.DivisorFunctionUp
 import BEDC.Derived.ArithmeticGeometricMeanUp.TasteGate
 import BEDC.Derived.ArtinianRingUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFamilyCompactnessUp.TasteGate
@@ -7626,6 +7627,7 @@ import BEDC.Derived.LowerUpperRealCutUp
 import BEDC.Derived.LowerUpperRealCutUp.TasteGate
 import BEDC.Derived.LpSpaceUp.TasteGate
 import BEDC.Derived.LucasSequenceUp
+import BEDC.Derived.LucasTheoremUp
 import BEDC.Derived.LusinApproximationUp.TasteGate
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
@@ -12105,6 +12107,7 @@ import BEDC.Derived.TreeUp.GraphSourceObligationRows
 import BEDC.Derived.TreeUp.ObligationSurface
 import BEDC.Derived.TreeUp.SemanticNameCertificate
 import BEDC.Derived.TriangulatedCatUp
+import BEDC.Derived.TribonacciUp
 import BEDC.Derived.TrieUp
 import BEDC.Derived.TrieUp.DisplayedPrefixSubledger
 import BEDC.Derived.TrieUp.LookupPrefixLedgerFactorization
@@ -12573,6 +12576,7 @@ import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.Nonescape
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.SeparationHandoff
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
+import BEDC.Derived.WilsonUp
 import BEDC.Derived.Window6CyclicCount
 import BEDC.Derived.Window6DisjointPairPell
 import BEDC.Derived.Window6Doubling
@@ -12627,6 +12631,7 @@ import BEDC.Derived.YoungTableauUp
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
 import BEDC.Derived.ZModFieldUp
+import BEDC.Derived.ZModResidueList
 import BEDC.Derived.ZModUp
 import BEDC.Derived.ZeckendorfCarryClassifierUp
 import BEDC.Derived.ZeckendorfCarryClassifierUp.TasteGate
