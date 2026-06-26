@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\SequentialOrderCompactnessUp$}
+\label{ch:concrete-instances-sequential-order-compactness-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\SequentialOrderCompactnessUp$ packet records the finite order-window route by which a displayed real sequence in a compact interval can be inspected before any Real or Completion consumer reads an order-facing compactness claim. It sits beside the subsequence-window surface of \autoref{ch:concrete-instances-sequentialcompact-namecert}, the interval boundary of \autoref{ch:concrete-instances-bishop-compact-interval-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the local finite window used by an order-monotone read; it is not open-cover compactness, not a choice-selected subsequence, not trichotomy, not quotient real equality, and not ambient $\RealUp$ completeness.
+
+\begin{definition}[Sequential order compactness carrier]
+\label{def:sequential-order-compactness-carrier}
+A $\SequentialOrderCompactnessUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,I,O,R,W,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\RealUp$ sequence source row whose inspected terms are offered only through displayed real-name seals.
+\item $I$ is the $\CompactIntervalUp$ bracket row naming the interval boundary in which the sequence is read.
+\item $O$ is the finite monotone/order window. It records the inspected order comparisons and adjacent bracket witnesses visible inside the current window.
+\item $R$ is the $\RegSeqRatUp$ readback row for the sequence terms that appear in the order window.
+\item $W$ is the $\StreamNameUp$ schedule row selecting the finite indices and readback windows being inspected.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used to compare the displayed rational readbacks inside the compact interval bracket.
+\item $H$ records componentwise $\hsame$ transport for the source sequence, interval bracket, order window, readback, schedule, tolerance, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an order-window request through $A,I,O,R,W,D,H$ before any compactness-facing consumer reads the packet.
+\item $P$ is the $\Pkg$ provenance over $\SequentialOrderCompactnessUp$, $\SequentialCompactUp$, $\CompactIntervalUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialOrderCompactnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $A,I,O,R,W,D,H,C,P,N$. It has no coordinate for open-cover compactness, a selected infinite subsequence, trichotomy of real names, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Sequential order compactness NameCert obligations]
+\label{thm:sequential-order-compactness-namecert-obligations}
+For every accepted $\SequentialOrderCompactnessUp$ carrier $S=(A,I,O,R,W,D,H,C,P,N)$, the local $\NameCert_{\SequentialOrderCompactnessUp}$ surface consists exactly of source-sequence exposure through $A$; compact-interval bracketing through $I$; finite monotone/order-window exposure through $O$; regular rational readback through $R$; finite schedule exposure through $W$; dyadic tolerance comparison through $D$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$. Every Real or Completion consumer must first pass through the sequential compactness sibling of \autoref{ch:concrete-instances-sequentialcompact-namecert}, the compact-interval sibling of \autoref{ch:concrete-instances-bishop-compact-interval-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:sequential-order-compactness-carrier}. The displayed rows are exactly $A,I,O,R,W,D,H,C,P,N$, so any accepted read begins with the source sequence, interval bracket, finite order window, readback, schedule, and dyadic tolerance rows.
+
+The order-facing compactness information is local to the finite window. The compact interval row supplies the bracket, the StreamName row supplies the inspected indices, and the RegSeqRat and DyadicRatCore rows supply the finite rational comparison data used inside that bracket.
+
+Transport and replay preserve the same rows componentwise. Provenance and local naming then bind the packet as a $\SequentialOrderCompactnessUp$ certificate. Since the carrier contains no selected infinite subsequence, open-cover compactness witness, quotient real equality, trichotomy branch, countable-choice schedule, or ambient completeness row, the listed fields exhaust the local obligations.
+\end{proof}
+
+\begin{theorem}[Sequential order compactness finite-window extraction]
+\label{thm:sequential-order-compactness-finite-window-extraction}
+Let $S=(A,I,O,R,W,D,H,C,P,N)$ be an accepted $\SequentialOrderCompactnessUp$ carrier. Every order-facing compactness read exported by $S$ factors through the finite route
+$$
+A \to I \to O \to R \to W \to D \to H \to C \to P \to N.
+$$
+The extracted witness is a finite inspected order window over displayed real-name readbacks inside the compact interval bracket. It is not a selected convergent subsequence, not an open-cover compactness proof, not a quotient-real equality, not a trichotomy decision, and not an ambient completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Read the source sequence row $A$ and compact-interval row $I$ first. They determine which displayed real-name terms and which interval bracket are visible to the packet.
+
+Next inspect the order window $O$ through the readback and schedule rows $R$ and $W$. The dyadic tolerance row $D$ supplies the finite comparison budget for the displayed rational approximants, so the extracted information is a finite window rather than an infinite subsequence.
+
+Finally replay the structural rows $H,C,P,N$. Componentwise transport and displayed continuation replay cannot create a selected limit point, a quotient equality, a trichotomy branch, or an open-cover witness. Thus the consumer receives exactly the finite order-window extraction over the compact interval route.
+\end{proof}
+
+\closureat{SequentialOrderCompactnessUp}{seedStr}
+
+\begin{closurestatus}{\SequentialOrderCompactnessUp}
+  \constructivestory{A $\SequentialOrderCompactnessUp$ packet is generated from a displayed RealUp sequence source, a CompactInterval bracket, a finite monotone/order window, RegSeqRat readback, StreamName schedule, DyadicRatCore tolerance data, componentwise hsame transport, Cont replay, Pkg provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-order-compactness-carrier}, \autoref{thm:sequential-order-compactness-namecert-obligations}, and \autoref{thm:sequential-order-compactness-finite-window-extraction} seed the finite order-window surface over displayed real sequences in compact interval brackets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, choice-selected subsequences, trichotomy, quotient real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, interval-bracket exposure, finite order-window extraction, readback, schedule, tolerance, transport, replay, provenance, and local naming for BEDC.Derived.SequentialOrderCompactnessUp.}
+\end{closurestatus}
