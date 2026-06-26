@@ -5273,7 +5273,6 @@ import BEDC.Derived.EffectiveMetricSpaceUp.TasteGate
 import BEDC.Derived.EffectiveModulusCompactFamilyUp.TasteGate
 import BEDC.Derived.EffectiveModulusUp
 import BEDC.Derived.EffectiveModulusUp.TasteGate
-import BEDC.Derived.EffectiveOpenBallBasisUp
 import BEDC.Derived.EffectivePolishSpaceUp.RealizerHandoff
 import BEDC.Derived.EffectivePolishSpaceUp.TasteGate
 import BEDC.Derived.EffectiveRegularRealExtensionalityUp
@@ -7004,6 +7003,7 @@ import BEDC.Derived.KnotUp
 import BEDC.Derived.KochCurveUp.TasteGate
 import BEDC.Derived.KolmogorovContinuityUp
 import BEDC.Derived.KolmogorovContinuityUp.TasteGate
+import BEDC.Derived.KolmogorovExtensionFiniteWindowUp.TasteGate
 import BEDC.Derived.KolmogorovQuotientUp.TasteGate
 import BEDC.Derived.KolmogorovReflectionUp.TasteGate
 import BEDC.Derived.KolmogorovRieszFiniteTranslationUp
@@ -11713,6 +11713,7 @@ import BEDC.Derived.StructuralAdjacencyUp.TasteGate
 import BEDC.Derived.SturmComparisonUp.TasteGate
 import BEDC.Derived.SturmRootCountUp.TasteGate
 import BEDC.Derived.SturmRootIsolationUp.CertificateLedger
+import BEDC.Derived.SturmRootIsolationUp.ObligationClosureRoute
 import BEDC.Derived.SturmRootIsolationUp.SignVariationHandoff
 import BEDC.Derived.SturmRootIsolationUp.TasteGate
 import BEDC.Derived.SturmSequenceUp.TasteGate
