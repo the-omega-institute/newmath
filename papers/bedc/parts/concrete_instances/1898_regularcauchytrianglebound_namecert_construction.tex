@@ -193,6 +193,24 @@ The tolerance read is then forced by \autoref{thm:regular-cauchy-triangle-bound-
 Finally use \autoref{thm:regular-cauchy-triangle-bound-phase-handoff}. The handoff row presents exactly $D_m,D_n,I_m,I_n,Q,A,B,H,C,P,N$ to the $\CauchyLimitSealUp$ or $\RealUp$ reader, so the consumer boundary is exact for the finite triangle-bound packet.
 \end{proof}
 
+\begin{theorem}[RegularCauchyTriangleBound finite induction scope]
+\label{thm:regular-cauchy-triangle-bound-induction-scope}
+For an accepted $\RegularCauchyTriangleBoundUp$ carrier
+$$
+T=(D_m,D_n,I_m,I_n,Q,A,B,H,C,P,N),
+$$
+the three-leg estimate is obtained by finite induction over the displayed $\StreamNameUp$ windows and the $\CauchyModulusMeetUp$ rows visible to the packet. The induction step preserves the two endpoint $\RegSeqRatUp$ regularity reads in $A$, the middle-meet read in $B$, and the $\DyadicRatCoreUp$ tolerance-addition ledger $Q$, so every completion-facing consumer receives the same transported triangle route recorded by \autoref{thm:regular-cauchy-triangle-bound-transported-assembly}.
+\end{theorem}
+\begin{proof}
+The base window is the diagonal regularity route of \autoref{thm:regular-cauchy-triangle-bound-diagonal-regularity}. It displays the route $D_m \longrightarrow I_m \longrightarrow I_n \longrightarrow D_n$ and binds the output tolerance to the dyadic sum in $Q$.
+
+For the induction step, extend only the displayed $\StreamNameUp$ window rows and the visible $\CauchyModulusMeetUp$ row. Endpoint-leg scope from \autoref{thm:regular-cauchy-triangle-bound-leg-scope} keeps the first and third legs inside $A$, while middle-meet exactness from \autoref{thm:regular-cauchy-triangle-bound-middle-meet-exactness} keeps the central comparison inside $B$.
+
+The tolerance-addition ledger of \autoref{thm:regular-cauchy-triangle-bound-tolerance-addition-ledger} carries the dyadic sum through the same finite step. Non-escape from \autoref{thm:regular-cauchy-triangle-bound-nonescape} prevents quotient streams, selected limits, host real equality, ambient completeness, or completion witnesses from entering the induction.
+
+Finally apply the phase handoff of \autoref{thm:regular-cauchy-triangle-bound-phase-handoff} and the transported assembly of \autoref{thm:regular-cauchy-triangle-bound-transported-assembly}. The resulting consumer route is exactly the finite induction over displayed windows and meet rows, with no additional completion object.
+\end{proof}
+
 \closureat{RegularCauchyTriangleBoundUp}{seedStr}
 \closureat{RegularCauchyTriangleBoundUp}{obligationStr}[BEDC.Derived.RegularCauchyTriangleBoundUp.RegularCauchyTriangleBoundCarrier\_diagonal\_regular\_route]
 \closureat{RegularCauchyTriangleBoundUp}{scopedStr}[BEDC.Derived.RegularCauchyTriangleBoundUp.RegularCauchyTriangleBoundCarrier\_diagonal\_regular\_route]
