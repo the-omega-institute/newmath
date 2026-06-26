@@ -1,0 +1,15 @@
+\begin{theorem}[StreamName pointwise finite-window induction]
+\label{thm:streamname-pointwise-window-induction}
+Let $W$ be a certified finite observation section for a $\StreamNameUp$ packet, displayed as a UnaryHistory window with its $\BHist$ observations, pointwise classifier rows, successor-window projection rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ data. Suppose a finite-window predicate is stable under pointwise classifier transport and under successor-window projection along the displayed UnaryHistory section. If the predicate holds at the initial displayed observation, then it holds on every certified finite observation section of $W$.
+
+The induction is internal to the displayed UnaryHistory window. It does not export host $\NatUp$ induction as a public primitive, quotient stream equality, selected tails, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition of $\StreamNameUp$ and read the certified observation section as a finite UnaryHistory packet. The initial displayed observation is covered by the assumed base evidence together with the local $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+
+For the successor step, apply the pointwise classifier induction of \autoref{thm:streamname-pointwise-classifier-induction} to transport the predicate across the classifier row attached to the newly displayed observation. Then use finite observation section cofinality from \autoref{thm:streamname-finite-observation-section-cofinality} to keep the enlarged section inside the certified observation surface.
+
+The successor-window projection determinacy of \autoref{thm:streamname-successor-window-projection-determinacy} identifies the predecessor section and the enlarged section as the displayed UnaryHistory step named by the certificate. Thus the predicate is propagated only through public finite-window rows.
+
+Iterating over the displayed UnaryHistory constructors gives the claim for every certified finite observation section. The argument never exposes host $\NatUp$ induction as part of the public certificate and never adds quotient streams, selected tails, countable choice, host real equality, ambient Real completeness, or bridge data.
+\end{proof}
