@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\FiniteDyadicSubsequenceSelectorUp$}
+\label{ch:concrete-instances-finite-dyadic-subsequence-selector-namecert}
+\origin{human}
+
+Following Bishop and Bridges on bounded sequences and finite dyadic interval refinements, the $\FiniteDyadicSubsequenceSelectorUp$ packet records the finite selector route by which a bounded real sequence exposes inspected dyadic cells and selected finite windows before any Real-and-Completion consumer reads a subsequence handoff. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, the bounded sequence source of \autoref{ch:concrete-instances-boundedrealsequence-namecert}, and the finite net surface of \autoref{ch:concrete-instances-closedboundedintervalnet-namecert}. The packet is a choice-free finite selector for bounded-window routes; it is not general sequential compactness, countable choice, quotient stream equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite dyadic subsequence selector carrier]
+\label{def:finite-dyadic-subsequence-selector-carrier}
+A $\FiniteDyadicSubsequenceSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(B,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the bounded sequence schedule row, read through the $\BoundedRealSequenceUp$ source and the finite window requests it accepts.
+\item $D$ is the $\DyadicRatCoreUp$ cell ledger recording the dyadic interval cells inspected inside the displayed bounded range.
+\item $W$ is the selected finite-window row naming the subsequence windows admitted by the dyadic cell ledger and the bounded sequence schedule.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the selected windows and their dyadic tolerance data.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $B,D,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the schedule, dyadic ledger, selected windows, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from bounded-sequence requests through dyadic cell inspection, selected windows, regular rational readback, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\FiniteDyadicSubsequenceSelectorUp$, $\BoundedRealSequenceUp$, $\ClosedBoundedIntervalNetUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteDyadicSubsequenceSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,D,W,R,E,H,C,P,N$. It stores no coordinate for a host subsequence function, countable-choice selector, quotient stream equality, selected limit, general sequential compactness theorem, or ambient $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[Finite dyadic subsequence selector NameCert obligations]
+\label{thm:finite-dyadic-subsequence-selector-namecert-obligations}
+For every accepted $\FiniteDyadicSubsequenceSelectorUp$ carrier $S=(B,D,W,R,E,H,C,P,N)$, the local $\NameCert_{\FiniteDyadicSubsequenceSelectorUp}$ surface consists exactly of carrier admission, bounded-window exposure, dyadic-cell compatibility, selected-window cofinal readback, RegSeqRat and Real handoff, componentwise transport, displayed replay, provenance, and local naming. Each selected window must be read through the bounded sequence schedule $B$, the dyadic cell ledger $D$, and the finite window row $W$ before the regular rational row $R$ or the terminal real seal $E$ is public. The obligations export no sequential compactness theorem, countable-choice selector, quotient stream equality, selected host limit, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-dyadic-subsequence-selector-carrier}. The rows $B,D,W,R,E$ are the only analytic rows available before the structural support rows are read.
+
+The bounded-window exposure starts with $B$. A downstream consumer receives only the displayed bounded sequence schedule and the finite requests it accepts, so no host subsequence function or countable-choice object is present at the source.
+
+Next read the dyadic cell ledger $D$ and selected window row $W$. Compatibility means that each selected window lies inside the inspected dyadic cell data and remains tied to the same bounded schedule. Cofinality is therefore a finite displayed window condition, not an infinite selection principle.
+
+Finally read $R$ and $E$. The regular rational readback is obtained from the same selected windows, and the real seal is downstream of that readback. Transport, replay, provenance, and local naming preserve only the displayed route, leaving no coordinate for quotient stream equality, selected limits, sequential compactness, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Finite dyadic subsequence selector bounded-window handoff]
+\label{thm:finite-dyadic-subsequence-selector-bounded-window-handoff}
+Every bounded-subsequence consumer of an accepted $\FiniteDyadicSubsequenceSelectorUp$ packet reads through the finite dyadic route
+$$
+\BoundedRealSequenceUp,\quad
+\ClosedBoundedIntervalNetUp,\quad
+\DyadicRatCoreUp,\quad
+\StreamNameUp,\quad
+\RegSeqRatUp,\quad
+\RealUp .
+$$
+In carrier notation, the consumer must expose $B,D,W,R,E$ before it treats the selected windows as a Real-and-Completion handoff, while $H,C,P,N$ only transport, replay, source, and name the same packet.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:finite-dyadic-subsequence-selector-namecert-obligations}. They place every selected window downstream of the bounded sequence schedule, dyadic cell ledger, and finite window row.
+
+Read the bounded interval net and dyadic ledger together. The bounded sequence source is usable by a subsequence consumer only through the inspected finite cells and their StreamName windows, so the route cannot jump directly from a bounded sequence to a completed real.
+
+The regular rational and real-facing rows close the handoff. The row $R$ reads back exactly the selected windows, and $E$ is visible only after that readback. Since the support rows $H,C,P,N$ preserve the same finite packet, no consumer can replace the route by general sequential compactness, countable choice, quotient stream equality, selected limits, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{FiniteDyadicSubsequenceSelectorUp}{seedStr}
+
+\begin{closurestatus}{\FiniteDyadicSubsequenceSelectorUp}
+  \constructivestory{A $\FiniteDyadicSubsequenceSelectorUp$ packet is generated from a bounded sequence schedule, dyadic cell ledger, selected finite windows, RegSeqRat readback, RealUp seal, componentwise transport, displayed replay, provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-dyadic-subsequence-selector-carrier}, \autoref{thm:finite-dyadic-subsequence-selector-namecert-obligations}, and \autoref{thm:finite-dyadic-subsequence-selector-bounded-window-handoff} seed the finite dyadic selector route from bounded sequence windows to RegSeqRat and Real handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close general sequential compactness, countable choice, quotient stream equality, selected host limits, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-window exposure, dyadic-cell compatibility, selected-window cofinal readback, RegSeqRat and Real handoff, and structural non-escape for the same finite packet.}
+\end{closurestatus}
