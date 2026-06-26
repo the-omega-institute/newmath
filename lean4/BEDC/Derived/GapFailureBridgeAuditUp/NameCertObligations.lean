@@ -261,4 +261,102 @@ theorem GapFailureBridgeAuditPacket_nonescape [AskSetup] [PackageSetup]
     exact List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))
   exact ⟨cert, tEncoded, fEncoded, auditRoute⟩
 
+theorem GapFailureBridgeAuditPacket_public_surface [AskSetup] [PackageSetup]
+    {T F B L X A H C P N gapFailure bridgeAxis auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont T F gapFailure →
+      Cont B X bridgeAxis →
+        Cont gapFailure bridgeAxis auditRead →
+          PkgSig bundle auditRead pkg →
+            FieldFaithful.fields (GapFailureBridgeAuditUp.mk T F B L X A H C P N) =
+                [T, F, B, L, X, A, H, C, P, N] ∧
+              List.Mem (gapFailureBridgeAuditEncodeBHist B)
+                (gapFailureBridgeAuditToEventFlow
+                  (GapFailureBridgeAuditUp.mk T F B L X A H C P N)) ∧
+                List.Mem (gapFailureBridgeAuditEncodeBHist X)
+                  (gapFailureBridgeAuditToEventFlow
+                    (GapFailureBridgeAuditUp.mk T F B L X A H C P N)) ∧
+                  SemanticNameCert
+                    (fun row : BHist =>
+                      hsame row auditRead ∧
+                        FieldFaithful.fields
+                            (GapFailureBridgeAuditUp.mk T F B L X A H C P N) =
+                          [T, F, B, L, X, A, H, C, P, N])
+                    (fun row : BHist =>
+                      hsame row T ∨ hsame row F ∨ hsame row B ∨ hsame row L ∨
+                        hsame row X ∨ Cont T F gapFailure ∨ Cont B X bridgeAxis)
+                    (fun row : BHist => hsame row auditRead ∧ PkgSig bundle auditRead pkg)
+                    hsame ∧
+                    Cont B X bridgeAxis := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame
+  intro gapRoute bridgeRoute auditRoute auditPkg
+  have obligations :=
+    GapFailureBridgeAuditPacket_namecert_obligations
+      (T := T) (F := F) (B := B) (L := L) (X := X) (A := A) (H := H) (C := C)
+      (P := P) (N := N) (gapFailure := gapFailure) (bridgeAxis := bridgeAxis)
+      (auditRead := auditRead) (bundle := bundle) (pkg := pkg)
+      gapRoute bridgeRoute auditRoute auditPkg
+  have bEncoded :
+      List.Mem (gapFailureBridgeAuditEncodeBHist B)
+        (gapFailureBridgeAuditToEventFlow
+          (GapFailureBridgeAuditUp.mk T F B L X A H C P N)) := by
+    change
+      List.Mem (gapFailureBridgeAuditEncodeBHist B)
+        [[BMark.b0], gapFailureBridgeAuditEncodeBHist T, [BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist F, [BMark.b1, BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist B,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist L,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist X,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist A,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b0],
+          gapFailureBridgeAuditEncodeBHist H,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist C,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist P,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist N]
+    exact
+      List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+        (List.Mem.tail _ (List.Mem.head _)))))
+  have xEncoded :
+      List.Mem (gapFailureBridgeAuditEncodeBHist X)
+        (gapFailureBridgeAuditToEventFlow
+          (GapFailureBridgeAuditUp.mk T F B L X A H C P N)) := by
+    change
+      List.Mem (gapFailureBridgeAuditEncodeBHist X)
+        [[BMark.b0], gapFailureBridgeAuditEncodeBHist T, [BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist F, [BMark.b1, BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist B,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist L,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist X,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist A,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b0],
+          gapFailureBridgeAuditEncodeBHist H,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist C,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist P,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          gapFailureBridgeAuditEncodeBHist N]
+    exact
+      List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+        (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+          (List.Mem.tail _ (List.Mem.head _)))))))))
+  exact ⟨obligations.right.left, bEncoded, xEncoded, obligations.left, bridgeRoute⟩
+
 end BEDC.Derived.GapFailureBridgeAuditUp
