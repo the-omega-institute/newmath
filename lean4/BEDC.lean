@@ -11,6 +11,7 @@ import BEDC.Algebra.Rel.IntegerUp
 import BEDC.Algebra.Rel.QuadIntUp
 import BEDC.Algebra.Rel.RingEquiv
 import BEDC.Algebra.Rel.SplitComplexUp
+import BEDC.Algebra.Spine.FiniteData
 import BEDC.BaseReflection
 import BEDC.BaseReflection.Core
 import BEDC.BaseReflection.ExactGlobalizeBase
