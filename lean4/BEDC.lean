@@ -1988,7 +1988,6 @@ import BEDC.Derived.CauchyDiagonalSelectionUp.TasteGate
 import BEDC.Derived.CauchyDifferenceCriterionUp.BidirectionalExactness
 import BEDC.Derived.CauchyDifferenceCriterionUp.KernelScope
 import BEDC.Derived.CauchyDifferenceCriterionUp.NameCertObligations
-import BEDC.Derived.CauchyDifferenceCriterionUp.ObligationExport
 import BEDC.Derived.CauchyDifferenceCriterionUp.RegularTailStability
 import BEDC.Derived.CauchyDifferenceCriterionUp.ShiftInvariance
 import BEDC.Derived.CauchyDifferenceCriterionUp.TailDiameterHandoff
@@ -4583,7 +4582,6 @@ import BEDC.Derived.DedekindMacNeilleCompletionUp.CutClosure
 import BEDC.Derived.DedekindMacNeilleCompletionUp.NameCertObligations
 import BEDC.Derived.DedekindMacNeilleCompletionUp.RealSealNonescape
 import BEDC.Derived.DedekindMacNeilleCompletionUp.TasteGate
-import BEDC.Derived.DedekindPsiUp
 import BEDC.Derived.DedekindRealUp.TasteGate
 import BEDC.Derived.DedekindUp
 import BEDC.Derived.DefectFlowPartitionSkeletonUp.TasteGate
@@ -6750,7 +6748,6 @@ import BEDC.Derived.HopfFibrationUp
 import BEDC.Derived.HopfRinowFiniteGeodesicUp.TasteGate
 import BEDC.Derived.HorosphereFlowLedgerUp.TasteGate
 import BEDC.Derived.HostDelegationSocketUp
-import BEDC.Derived.HostPrimitiveLeakageUp.FormalClosure
 import BEDC.Derived.HostPrimitiveLeakageUp.RouteCertificates
 import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
 import BEDC.Derived.HostTotalTraceUp.TasteGate
@@ -7356,7 +7353,6 @@ import BEDC.Derived.ListUp.StdBridge
 import BEDC.Derived.ListUp.UnaryLength
 import BEDC.Derived.LiteralASTEqualityBoundaryUp.TasteGate
 import BEDC.Derived.LittlewoodPaleyDyadicBlockUp
-import BEDC.Derived.LobbUp
 import BEDC.Derived.LocalClockBudgetUp
 import BEDC.Derived.LocalEmpiricalClosureGateUp.TasteGate
 import BEDC.Derived.LocalFieldUp
@@ -9712,7 +9708,6 @@ import BEDC.Derived.QuasiIsometryUp
 import BEDC.Derived.QuasiIsometryUp.NameCertObligations
 import BEDC.Derived.QuasiIsometryUp.TasteGate
 import BEDC.Derived.QuasiMetricUp
-import BEDC.Derived.QuasiMetricUp.CompletionConsumer
 import BEDC.Derived.QuasiMetricUp.TasteGate
 import BEDC.Derived.QuasiPolishSpaceUp.TasteGate
 import BEDC.Derived.QuaternionUp
@@ -9934,6 +9929,7 @@ import BEDC.Derived.RealCauchyCompletionUp.StreamRegseqTailSealFactorization
 import BEDC.Derived.RealCauchyCompletionUp.SynchronizedNullTailConsumer
 import BEDC.Derived.RealCauchyConvergenceUp.TasteGate
 import BEDC.Derived.RealCauchyDenseEmbeddingUp.TasteGate
+import BEDC.Derived.RealCauchyFilterLimitUp.TasteGate
 import BEDC.Derived.RealCauchyFilterMonadUnitUp
 import BEDC.Derived.RealCauchyFilterMonadUnitUp.TasteGate
 import BEDC.Derived.RealCauchyFilterUp.TasteGate
