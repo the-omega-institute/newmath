@@ -152,6 +152,20 @@ Apply finite-window comparison, \autoref{thm:regular-sequence-space-window-compa
 Finally combine the RegSeqRat Real seal route of \autoref{thm:regular-sequence-space-regseqrat-real-seal-route} with the obligation scope route of \autoref{thm:regular-sequence-space-obligation-scope-route}. The later RegSeqRat and Real rows remain downstream of the exposed StreamName window, so the comparison route has no hidden quotient equality, selected limit, or ambient completeness witness.
 \end{proof}
 
+\begin{theorem}[RegularSequenceSpace tail-diagonal projection]
+\label{thm:regular-sequence-space-tail-diagonal-projection}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Any two tail-filter reads of $S$ that feed the same $\RegSeqRatUp$ or $\RealUp$ consumer can be projected to one displayed $\StreamNameUp$ finite window before the value-seal row $R$ is read. The projection stays inside the displayed route through $T,Q,D,R,H,C,P,N$ and does not use quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with tail coherence, \autoref{thm:regular-sequence-space-tail-coherence}. Reads that agree on the displayed stream schedule and regular rational readback also agree on the dyadic tolerance row and terminal seal route.
+
+Apply finite-window comparison, \autoref{thm:regular-sequence-space-window-comparison}. It forces every value comparison to use the same $\StreamNameUp$ finite window, $\RegSeqRatUp$ readback, tail-filter ledger, dyadic tolerance row, completion handoff, and structural rows already exposed by the carrier.
+
+Now combine the RegSeqRat Real seal route and the StreamName window route, \autoref{thm:regular-sequence-space-regseqrat-real-seal-route} and \autoref{thm:regular-sequence-space-streamname-window-route}. The shared consumer cannot read the $\RegSeqRatUp$ classifier row $Q$ or the $\RealUp$ seal row $R$ before the finite window $T$ is displayed.
+
+Since no carrier coordinate records quotient stream equality, selected limits, countable choice, or ambient Real completeness, the diagonal projection is exactly the common finite-window projection inside the accepted packet.
+\end{proof}
+
 \closureat{RegularSequenceSpaceUp}{seedStr}
 
 \begin{closurestatus}{\RegularSequenceSpaceUp}
