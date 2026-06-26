@@ -260,6 +260,20 @@ and dependent-codomain readback remain outside the exported surface.
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICRedexFrontierUp.MetaCICRedexFrontierSNObstructionRetention}
 
+\begin{theorem}[MetaCICRedexFrontier residual-diamond handoff]
+\label{thm:metacic-redex-frontier-residual-diamond-handoff}
+Any residual-diamond consumer of an accepted $\MetaCICRedexFrontierUp$ packet receives only the finite redex-frontier rows $B,A,L,P,O,E,H,C,G,N$ together with the retained obstruction rows. The handoff may compare displayed residual windows inside that packet, but it does not export global confluence, substitution admissibility, strong normalization, or dependent-codomain readback.
+\end{theorem}
+\begin{proof}
+Start with the strong-normalization obstruction retention theorem, \autoref{thm:metacic-redex-frontier-sn-obstruction-retention}. It keeps the obstruction row $O$ visible whenever a consumer reads the beta-boundary route.
+
+Read the candidate SN window of \autoref{thm:metacic-redex-frontier-candidate-sn-window}. The consumer receives only the finite candidate packet formed from the four discharge rows, the obstruction row, the beta-boundary row, and the structural rows.
+
+A residual-diamond comparison can therefore inspect only displayed residual windows inside the same redex-frontier packet. The comparison may transport those windows through $H$ and replay them through $C$, but it cannot add substitution admissibility or a host confluence theorem.
+
+Thus the handoff preserves the finite candidate-mediated boundary. Strong normalization, global confluence, substitution, and dependent-codomain readback remain outside the exported NameCert surface.
+\end{proof}
+
 \begin{theorem}[MetaCICRedexFrontier obstruction retention]
 \label{thm:metacic-redex-frontier-obstruction-retention}
 Every candidate-mediated strong-normalization or normalization-window consumer
