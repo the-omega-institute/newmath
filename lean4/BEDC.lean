@@ -14,6 +14,7 @@ import BEDC.Algebra.Rel.RingEquiv
 import BEDC.Algebra.Rel.SplitComplexUp
 import BEDC.Algebra.Spine.Arithmetic
 import BEDC.Algebra.Spine.FiniteData
+import BEDC.Algebra.Spine.GeometryCategoryHomology
 import BEDC.Algebra.Spine.NumberTheorySpectra
 import BEDC.Algebra.Spine.OrderSetType
 import BEDC.BaseReflection
@@ -5415,6 +5416,7 @@ import BEDC.Derived.EulerPhiUp
 import BEDC.Derived.EulerPolygonUp.TasteGate
 import BEDC.Derived.EulerTheoremUp
 import BEDC.Derived.EulerTransformUp.TasteGate
+import BEDC.Derived.EulerianNumberUp
 import BEDC.Derived.EvenOddCauchyCriterionUp.CrossParityHandoffNonEscape
 import BEDC.Derived.EvenOddCauchyCriterionUp.InductionLock
 import BEDC.Derived.EvenOddCauchyCriterionUp.ParityTailFusion
@@ -9633,6 +9635,7 @@ import BEDC.Derived.QRDecompositionUp.TasteGate
 import BEDC.Derived.QuadIntUp
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
 import BEDC.Derived.QuadraticFormUp.TasteGate
+import BEDC.Derived.QuadraticSurdContFracUp
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.QuantumChannelUp
 import BEDC.Derived.QuantumStateUp
