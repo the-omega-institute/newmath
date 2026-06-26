@@ -5444,6 +5444,7 @@ import BEDC.Derived.FableMachineBoundaryUp.TasteGate
 import BEDC.Derived.FableMachineClockUp.Obligations
 import BEDC.Derived.FableMachineClockUp.StepLedgerExactness
 import BEDC.Derived.FableMachineClockUp.TasteGate
+import BEDC.Derived.FaulhaberUp
 import BEDC.Derived.FactorUp
 import BEDC.Derived.FactorialUp
 import BEDC.Derived.FailureCertificateUp.TasteGate
