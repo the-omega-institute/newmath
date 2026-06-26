@@ -142,6 +142,135 @@ theorem RademacherCarrier_absolute_continuity_boundary
   }
   exact ⟨cert, variationUnary, sealedUnary⟩
 
+theorem RademacherCarrier_dyadic_difference_quotient_obligation
+    {L E D M A H C P N dyadicMetricRead dyadicRealRead : BHist} :
+    RademacherCarrier L E D M A H C P N →
+      Cont D M dyadicMetricRead →
+        Cont dyadicMetricRead E dyadicRealRead →
+          SemanticNameCert
+              (fun row : BHist => hsame row dyadicRealRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row D ∨ hsame row M ∨ hsame row E ∨ hsame row dyadicRealRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont D M dyadicMetricRead ∧
+                  Cont dyadicMetricRead E dyadicRealRead)
+              hsame ∧
+            UnaryHistory dyadicMetricRead ∧ UnaryHistory dyadicRealRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro carrier dyadicMetricRoute dyadicRealRoute
+  obtain ⟨_lUnary, eUnary, dUnary, mUnary, _aUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, _packetWitness⟩ := carrier
+  have dyadicMetricUnary : UnaryHistory dyadicMetricRead :=
+    unary_cont_closed dUnary mUnary dyadicMetricRoute
+  have dyadicRealUnary : UnaryHistory dyadicRealRead :=
+    unary_cont_closed dyadicMetricUnary eUnary dyadicRealRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row dyadicRealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row D ∨ hsame row M ∨ hsame row E ∨ hsame row dyadicRealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont D M dyadicMetricRead ∧
+              Cont dyadicMetricRead E dyadicRealRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro dyadicRealRead ⟨hsame_refl dyadicRealRead, dyadicRealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr sourceRow.left))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right, dyadicMetricRoute, dyadicRealRoute⟩
+  }
+  exact ⟨cert, dyadicMetricUnary, dyadicRealUnary⟩
+
+theorem RademacherCarrier_real_derivative_handoff
+    {L E D M A H C P N dyadicMetricRead lipschitzControlRead realRead
+      sealedRead : BHist} :
+    RademacherCarrier L E D M A H C P N →
+      Cont D M dyadicMetricRead →
+        Cont L A lipschitzControlRead →
+          Cont dyadicMetricRead lipschitzControlRead realRead →
+            Cont realRead E sealedRead →
+              SemanticNameCert
+                  (fun row : BHist => hsame row sealedRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row D ∨ hsame row M ∨ hsame row L ∨ hsame row A ∨
+                      hsame row E ∨ hsame row sealedRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont D M dyadicMetricRead ∧
+                      Cont L A lipschitzControlRead ∧
+                        Cont dyadicMetricRead lipschitzControlRead realRead ∧
+                          Cont realRead E sealedRead)
+                  hsame ∧
+                UnaryHistory realRead ∧ UnaryHistory sealedRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro carrier dyadicMetricRoute lipschitzControlRoute realRoute sealRoute
+  obtain ⟨lUnary, eUnary, dUnary, mUnary, aUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, _packetWitness⟩ := carrier
+  have dyadicMetricUnary : UnaryHistory dyadicMetricRead :=
+    unary_cont_closed dUnary mUnary dyadicMetricRoute
+  have lipschitzControlUnary : UnaryHistory lipschitzControlRead :=
+    unary_cont_closed lUnary aUnary lipschitzControlRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed dyadicMetricUnary lipschitzControlUnary realRoute
+  have sealedUnary : UnaryHistory sealedRead :=
+    unary_cont_closed realUnary eUnary sealRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row D ∨ hsame row M ∨ hsame row L ∨ hsame row A ∨
+              hsame row E ∨ hsame row sealedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont D M dyadicMetricRead ∧
+              Cont L A lipschitzControlRead ∧
+                Cont dyadicMetricRead lipschitzControlRead realRead ∧
+                  Cont realRead E sealedRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro sealedRead ⟨hsame_refl sealedRead, sealedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, dyadicMetricRoute, lipschitzControlRoute, realRoute,
+          sealRoute⟩
+  }
+  exact ⟨cert, realUnary, sealedUnary⟩
+
 theorem RademacherCarrier_difference_quotient_window_stability
     {L E D M A H C P N L' E' D' M' A' H' C' P' N'
       dyadicMetricRead lipschitzControlRead realRead
