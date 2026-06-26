@@ -1,0 +1,84 @@
+\chapter{Bishop Apartness Field Envelope NameCert Construction}
+\label{ch:concrete-instances-bishop-apartness-field-envelope-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopApartnessFieldEnvelopeUp$ packet records the finite envelope by which a regular real-name surface is admitted to constructive apartness-field use without turning the ambient Real object into a quotient field or a trichotomous ordered field. It sits after the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the apartness-real interface of \autoref{ch:concrete-instances-apartnessreal-namecert}. The envelope also exposes the neighboring apartness-budget discipline used by $\RegularCauchyApartnessBudgetUp$ consumers, but it names only the finite handoff rows visible to BEDC.
+
+\begin{definition}[Bishop apartness field envelope carrier]\label{def:bishop-apartness-field-envelope-carrier}
+A $\BishopApartnessFieldEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(Q,R,A,B,F,M,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\RegSeqRatUp$ source row, carrying the regular rational name that later field-facing consumers inspect.
+\item $R$ is the $\RealUp$ seal row, available only after the regular rational readback route has been displayed.
+\item $A$ is the $\ApartnessRealUp$ positive-separation row used when nonzero or inequality evidence is consumed constructively.
+\item $B$ is the finite apartness-budget row, recording the dyadic or regular-Cauchy tolerance window required before $A$ may be read.
+\item $F$ is the field-operation envelope row for addition, multiplication, negation, and reciprocal requests that already carry displayed apartness evidence for the reciprocal case.
+\item $M$ is the mixed handoff row joining regular names, Real seals, apartness evidence, and field-operation requests.
+\item $T$ records componentwise $\hsame$ transport for source names, Real seals, apartness evidence, budgets, field-operation rows, mixed handoff rows, continuation rows, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a regular name and a positive apartness budget through $R,A,B,F,M,T$.
+\item $P$ is the $\Pkg$ provenance over $\BishopApartnessFieldEnvelopeUp$, $\RegSeqRatUp$, $\RealUp$, $\ApartnessRealUp$, $\RegularCauchyApartnessBudgetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopApartnessFieldEnvelopeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,R,A,B,F,M,T,C,P,N$. It has no coordinate for trichotomy, quotient fields, selected reciprocal representatives, host field equality, countable choice, or full $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.BishopApartnessFieldEnvelopeUp}
+
+\begin{theorem}[Bishop apartness field envelope NameCert obligations]\label{thm:bishop-apartness-field-envelope-namecert-obligations}
+For every accepted $\BishopApartnessFieldEnvelopeUp$ carrier $E=(Q,R,A,B,F,M,T,C,P,N)$, the local $\NameCert_{\BishopApartnessFieldEnvelopeUp}$ surface consists exactly of carrier admission, regular rational source readback, Real seal nonescape, apartness-positive evidence, finite apartness-budget exactness, field-operation envelope admission, mixed handoff replay, componentwise transport, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-apartness-field-envelope-carrier}. The source row $Q$ is read first, and the Real seal $R$ remains downstream of the regular rational route.
+
+The apartness row $A$ is not a global order decision. It can be consumed only together with the finite budget $B$, so reciprocal and inequality-facing uses enter through displayed positive-separation evidence rather than trichotomy or host real equality.
+
+The field-operation row $F$ and mixed handoff row $M$ collect only the operations whose inputs have already exposed the required regular and apartness rows. The structural rows $T,C,P,N$ transport, replay, source, and name the same finite packet. Since no other coordinate is present, the certificate has exactly the stated obligations.
+\end{proof}
+
+\begin{theorem}[Bishop apartness field envelope regular real handoff]\label{thm:bishop-apartness-field-envelope-regular-real-handoff}
+Every regular-real consumer of an accepted $\BishopApartnessFieldEnvelopeUp$ carrier reaches the $\RealUp$ seal only through the displayed route
+$$
+Q \longmapsto R \longmapsto M,T,C,P,N .
+$$
+Thus Real and Completion consumers receive a regular rational source row and a finite replay route before the Real-facing seal is visible, and they receive no quotient-field equality, selected representative, countable-choice schedule, or full $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $E=(Q,R,A,B,F,M,T,C,P,N)$. The row $Q$ is the only regular rational source coordinate, and $R$ is the only Real seal coordinate.
+
+The mixed handoff row $M$ records how the Real-facing read is joined to the field and apartness envelope, while $T$ and $C$ transport and replay that same route. Provenance and local naming are carried by $P$ and $N$.
+
+Because no quotient-field object, selected representative, choice schedule, or completeness witness is a coordinate of the carrier, every regular-real handoff reaches the seal only through the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[Bishop apartness field envelope apartness-field handoff]\label{thm:bishop-apartness-field-envelope-apartness-field-handoff}
+Every apartness-field use of an accepted $\BishopApartnessFieldEnvelopeUp$ carrier must expose the route
+$$
+A,B,F \longmapsto M,T,C,P,N .
+$$
+In particular, reciprocal-facing field requests are admitted only when the finite apartness-budget row has supplied positive-separation evidence. The envelope does not assert trichotomy, quotient fields, global decidable equality, selected inverses, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The apartness-positive row $A$ and finite budget row $B$ are the only coordinates that license a nonzero or inequality read.
+
+The field-operation row $F$ can therefore be consumed only after that apartness evidence is displayed. The mixed handoff row $M$ joins the operation request back to the regular and Real-name route, and $T,C,P,N$ preserve the same finite evidence through transport, replay, provenance, and local naming.
+
+The carrier contains no trichotomy coordinate, quotient-field row, global equality decision, selected inverse, or completeness witness. Apartness-field consumers therefore receive only the displayed constructive handoff.
+\end{proof}
+
+\falsifiablePrediction{Every $\BishopApartnessFieldEnvelopeUp$ consumer factors through one RegSeqRat source row, one RealUp seal row, one ApartnessReal positive-separation row, one finite apartness-budget row, one field-operation envelope row, one mixed handoff row, componentwise hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{regseqrat, real, apartnessreal, regular-cauchy-apartness-budget: $\BishopApartnessFieldEnvelopeUp$ is not bijective to any listed sibling because it jointly carries regular rational readback, Real sealing, apartness-positive evidence, finite budget data, field-operation admission, mixed handoff, transport, replay, provenance, and local naming in one envelope.}
+
+\closureat{BishopApartnessFieldEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\BishopApartnessFieldEnvelopeUp}
+  \constructivestory{A $\BishopApartnessFieldEnvelopeUp$ packet is generated from a RegSeqRat source row, a RealUp seal row, an ApartnessReal positive-separation row, a finite apartness budget, a field-operation envelope, a mixed handoff row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-apartness-field-envelope-carrier}, \autoref{thm:bishop-apartness-field-envelope-namecert-obligations}, \autoref{thm:bishop-apartness-field-envelope-regular-real-handoff}, and \autoref{thm:bishop-apartness-field-envelope-apartness-field-handoff} seed the finite constructive bridge from regular real names to apartness-field consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close trichotomy, quotient fields, global decidable equality, selected inverses, selected reciprocal representatives, host field equality, countable choice, full RealUp completeness, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regular rational source readback, Real seal nonescape, apartness-positive evidence, finite apartness-budget exactness, field-operation envelope admission, mixed handoff replay, transport, provenance, and local naming for BEDC.Derived.BishopApartnessFieldEnvelopeUp.}
+\end{closurestatus}
