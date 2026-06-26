@@ -1,0 +1,26 @@
+\subsection{Position-window $f_3$-stress as a translation-readout boundary}
+\label{sec:q6-f3-stress-position-window-ribosome-occupancy-translation-boundary}
+
+\paragraph{Finite row under consideration.}
+This record concerns the coordinate called $f_3$-stress after amino-acid quotienting and synonymous residualization.  Its intended finite table is indexed by organism, coding-sequence identifier, codon-position bin, synonymous amino-acid fiber, $f_3$ partner class, the residual $f_3$-stress coordinate, a wobble or tAI weight surface, a matched mRNA control, and a position-resolved ribosome-occupancy window readout.  The row is not a protein-abundance row, not a folding row, not a localization row, not a phenotype row, and not a mechanism row.  It is a constrained request for a same-organism and same-CDS translation-layer statistic in which codon composition, position, wobble-weight asymmetry, and ribosome-footprint occupancy are present in the same finite row.
+
+\paragraph{Coordinate status already available.}
+The available finite computation identifies $f_3$-stress as the only coordinate among the computed $B^\ast_{Q6}$ axes that passed the fold-level sign-flip gate in the supplied structural-order axis test.  The tested axes were $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3$-stress.  In that computation the fold count was $5$, the minimum joined-row threshold was $300$, and the recorded run identifier was $fac1206f6516$.  The $f_3$-stress coordinate had sign-flip value $p=0.03125$, weighted held-out increment $\Delta R^2=0.0031744502294756994$, and weighted absolute unit loading $0.5109586606724208$.  The other listed axes did not pass the same gate: for example $Arg_{AGR}$ had $p=0.142578125$ with $\Delta R^2=0.0020139270616115154$, $Ile_{AUA}$ had $p=0.0693359375$ with $\Delta R^2=0.0013067592718559024$, and $Thr_{ACR\,vs\,ACY}$ had $p=0.529296875$ with $\Delta R^2=-0.00045340330387383447$.  Thus the finite evidence justifies treating $f_3$-stress as a distinguished residual coordinate for this packet, but it does not by itself attach the coordinate to translation dynamics.
+
+\paragraph{Window statistic.}
+The translation-facing statistic is the survival of a position-window readout after controls have been attached.  A row may support the claim only when the same coding sequence supplies codon-window composition, a declared wobble or tAI surface, matched mRNA abundance, and a codon-indexed or fixed-window ribosome-footprint occupancy value.  In symbolic form the intended statistic is bounded by
+$$
+\begin{aligned}
+S_{f3}(T_{window}\mid Z)
+  &= \operatorname{Surv}\bigl(T_{window};\ f_3\text{-stress}, Z\bigr),\\
+Z
+  &= \{\text{organism},\ \text{CDS},\ \text{AA fiber},\ \text{position bin},\ GC3,\ \ell,\ M,\ w,\ mRNA\},
+\end{aligned}
+$$
+where $T_{window}$ denotes the position-resolved ribosome-occupancy or translation-efficiency window statistic, $\ell$ is coding-sequence length, $M$ is the local methionine-density or declared start-context density control when present, and $w$ is the codon-level wobble or tAI weight surface.  The coordinate is evaluated only after amino-acid quotienting, so synonymous fibers are compared inside the same amino-acid class rather than across amino-acid composition.  A dynamic interpretation additionally requires an explicit asymmetry $w_c \ne w_{c^{f_3}}$ and matched codon, readout, and control values in the same finite row.
+
+\paragraph{Admissible reading.}
+The admissible reading is narrow.  The finite computation says that $f_3$-stress was the dominant residual coordinate in one supplied $B^\ast_{Q6}$ axis-identity run, with the listed $p$-value, loading, fold count, and held-out increment.  The BioReality claim asks whether that coordinate continues to predict a local translation readout after position, amino-acid fiber, organism, GC3, length, local density, wobble or tAI surface, and matched mRNA controls are imposed.  If the same-row ribosome-footprint data are present and the rank of the controlled design is not degenerate, the row may report a bounded survival statistic for the window.  If the row lacks codon-indexed occupancy, lacks the matched mRNA control, lacks an organism-scoped wobble or tAI surface, or collapses under rank saturation, the correct output is the null boundary rather than a positive biological assertion.
+
+\paragraph{Local no-promotion rule.}
+No claim about translation realization follows from codon geometry alone.  A modeled tAI or wobble-weight asymmetry is a context surface, not an observation of ribosome pausing.  A ribosome-occupancy window, when externally supplied and joined to the same coding sequence, can test only the local translation-readout relation specified above.  It does not establish protein abundance, protein stability, folding, localization, function, phenotype, physical admissibility, mechanism, or universality.  Those layers require their own finite contacts and cannot be inferred from $f_3$-stress, from $S_{f3}(T_{window}\mid Z)$, or from the structural-order axis result.

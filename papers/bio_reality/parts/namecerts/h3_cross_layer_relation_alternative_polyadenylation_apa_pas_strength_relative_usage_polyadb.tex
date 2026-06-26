@@ -1,45 +1,42 @@
-\subsection{Alternative polyadenylation boundary for PAS-strength relative usage}\label{sec:bioreality-apa-pas-strength-relative-usage-polyadb}
 \origin{ai}
+\subsection{Alternative-polyadenylation contact and the $f_3$ translation boundary}
+\label{subsec:bioreality-apa-pas-f3-translation-boundary}
 
 \paragraph{Finite row surface.}
-The PolyADB alternative-polyadenylation contact is recorded here as a finite row surface, not as a mechanistic theory of cleavage, translation, folding, or phenotype.  The current table contains $24740$ gene rows and $296950$ polyadenylation-site rows in the verified run $8820238e2977$.  The admissible readout is therefore the relative use of annotated PAS alternatives inside a gene-indexed finite table.  In this chapter the biological row is a tuple consisting of a gene identifier, one or more PAS positions, a local PAS-strength coordinate, and a relative-usage readout among the PAS choices assigned to that gene.  The table is large enough to state a cross-layer relation as a finite comparison, but the present certificate records only the availability and size of the PAS table, not a fitted survival coefficient.
+The record considered here has two logically different finite components.  The first is a curated alternative-polyadenylation surface: the PolyADB-style pass reports $24740$ genes and $296950$ polyadenylation sites for the row named
+$\texttt{h3.cross\_layer\_relation.alternative\_polyadenylation.apa\_pas\_strength\_relative\_usage\_polyadb}$.
+This count is an external row-count certificate for an APA/PAS table; it is not, by itself, a codon-window, ribosome-footprint, or translation-efficiency table.  The second component is an $f_3$ residual coordinate proposed for a possible translation-layer test.  Its admissible biological use is narrower: the coordinate may be tested only after same-organism, same-CDS, same-window codon rows, bounded wobble-weight rows, matched mRNA abundance, and position-resolved ribosome-occupancy rows are placed in one finite design matrix.
 
-\paragraph{Relation being certified.}
-The local relation is the bounded question whether a PAS-strength coordinate contributes to relative PAS usage after the row is restricted to a same-gene APA comparison.  Let $g$ range over genes, let $p$ range over PAS rows assigned to $g$, let $A(g,p)$ denote a PAS-strength coordinate, let $U(g,p)$ denote relative usage within the alternatives of $g$, and let $Z(g,p)$ denote the control surface available for a concrete run.  The intended statistic has the form
+\paragraph{Coordinate facts kept inside the finite code layer.}
+The $f_3$ saturation facts fix the codon-side support without supplying translation evidence.  The finite set $M=\operatorname{Med}(R)\cup\{\mathrm{ACA}\}$ is recorded as
 $$
 \begin{aligned}
-S_{\mathrm{APA}} &= \Delta \mathrm{score}\bigl(U(g,p) \mid A(g,p), Z(g,p)\bigr),\\
-N_{\mathrm{gene}} &= 24740,\\
-N_{\mathrm{PAS}} &= 296950.
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
 \end{aligned}
 $$
-The certificate is positive only at the level of finite contact: the row counts show that the APA surface exists as a many-site, gene-indexed table.  A biological effect claim would require the statistic $S_{\mathrm{APA}}$ to be computed with the declared controls, baseline ablation, rank sufficiency, and a null comparison.
-
-\paragraph{Connection to the codon-coordinate side.}
-The same packet is linked to a coding-sequence residual coordinate whose finite algebra is already sharply bounded.  The $f_3$ saturation record gives
+The recorded $f_3$ saturation removes $\mathrm{ACA}$ and $\mathrm{ACG}$ from that twenty-codon support, leaving
 $$
 \begin{aligned}
-M &= \{\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\qquad \mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},\\
-\mathrm{Sat}_{f_3}(R) &= \{\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\qquad \mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},\\
-\partial f_3 &= \varnothing.
+\operatorname{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
 \end{aligned}
 $$
-Thus the coding-side residual geometry has a twenty-codon $M$ surface, an eighteen-codon saturated sublist after excluding $\mathrm{ACA}$ and $\mathrm{ACG}$, and an empty recorded $f_3$ boundary.  This codon record is not itself a PAS measurement.  It only specifies a finite coordinate whose possible cross-layer promotion would require a separately joined row table.
+The boundary list is empty, so the finite record says $\partial_{f_3}R=\varnothing$ for this encoded support.  The quotient-geometry audit gives $|\pi_M|=10$, quotient $f$-vector $(10,14,6,1)$, and ambient $M$-vector $(20,38,26,8,1)$.  These numbers certify the combinatorial coordinate used by the conjecture; they do not assert that a ribosome has responded to it.
 
-\paragraph{Quotient geometry check.}
-The quotient record supplies a second finite algebraic sanity check.  Its $M$-vector is $(20,38,26,8,1)$, the quotient $f$-vector is $(10,14,6,1)$, and the quotient size is $10$.  The ten quotient representatives are
+\paragraph{Readout that would make the cross-layer claim testable.}
+Let $W$ range over matched CDS windows and let $Z$ collect organism, amino-acid composition or amino-acid bin, GC3, CDS length, $M$-density, matched mRNA abundance, position, coverage, mappability, and simpler codon-count baselines.  The only admissible survival statistic for the present packet has the form
 $$
 \begin{aligned}
-& (0,0,0,0,1),\ (0,0,0,1,1),\ (0,0,1,0,1),\ (0,0,1,1,1),\ (0,1,0,0,0),\\
-& (0,1,0,0,1),\ (1,0,0,0,1),\ (1,0,0,1,1),\ (1,0,1,0,1),\ (1,0,1,1,1).
+S_{f_3}(T_{\mathrm{pos}}\mid Z)
+  &= \Delta\mathcal{L}\bigl(T_{\mathrm{pos}}; Z,\rho_{f_3}(W)\bigr)
+     -\Delta\mathcal{L}\bigl(T_{\mathrm{pos}}; Z\bigr),
 \end{aligned}
 $$
-These numbers make the algebraic coordinate finite and auditable.  They do not make an APA claim true, and they do not convert codon topology into ribosome occupancy, protein output, RNA processing mechanism, or organismal function.  Their role is narrower: if a later joined APA or translation table uses this coordinate, the coordinate has a finite quotient form whose degeneracies and reductions can be checked before any downstream interpretation is allowed.
+where $T_{\mathrm{pos}}$ is a position-resolved ribosome-occupancy or explicitly bounded translation-efficiency residual, and $\rho_{f_3}(W)$ is computed only after synonymous codon residualization has removed amino-acid composition.  A positive interpretation requires a nondegenerate matrix, a rank check, a null comparison, and an ablation showing that the coordinate still contributes after the simpler baselines.  If $S_{f_3}(T_{\mathrm{pos}}\mid Z)\leq 0$, or if the joined matrix is rank-degenerate, the row remains a codon-topology residual rather than a promoted translation readout.
 
-\paragraph{Readout boundary.}
-The associated translation-readout packet is deliberately held at the boundary.  Position-resolved ribosome occupancy would require same-organism, same-CDS, same-window codon counts, wobble-weight rows, matched mRNA abundance, and codon-indexed footprint occupancy.  Those rows are not supplied in the present APA table.  The structural-order ramp run illustrates why this distinction matters: at primary ramp length $50$, the weighted held-out $f_3$ ramp increment was $0.0011165640103326878$, the body increment was $-0.00026157313923957926$, and the paired ramp-minus-body increment was $0.001378137149572267$; the ramp sign-flip probability was $0.0478515625$, while the paired ramp-body localization probability was $0.05859375$.  The recorded conclusion was \texttt{ramp\_positive\_but\_not\_localized}.  Even where a finite translation-adjacent signal is positive, the stricter localization or mediation gate can fail.  The APA table is therefore not licensed to inherit translation, structure, or mechanism claims from a neighboring coordinate.
+\paragraph{Relation to existing scalar evidence.}
+A nearby powered structural-order run is useful here only as a warning about scope.  For the primary ramp length $50$, the recorded held-out increments are $0.0011165640103326878$ for the weighted $f_3$ ramp delta and $-0.00026157313923957926$ for the weighted body delta, with a ramp-minus-body value of $0.001378137149572267$.  The sign-flip values are $0.0478515625$ for the ramp, $0.54296875$ for the body, and $0.05859375$ for the paired ramp-minus-body comparison; the verdict is therefore $\texttt{ramp\_positive\_but\_not\_localized}$.  This does not rescue the present APA/PAS row as a translation claim.  It shows instead why this chapter keeps finite coordinate support, row-count evidence, and downstream biological interpretation in separate registers.
 
-\paragraph{Local admissible conclusion.}
-The chapter certifies a finite BioReality contact for alternative polyadenylation: $24740$ genes and $296950$ PAS rows are available for a PAS-strength versus relative-usage test.  The admissible claim is that this row surface can host a controlled APA statistic of PAS-strength association with relative usage.  The current record does not yet claim a positive association, because no fitted coefficient, held-out score, p-value, null comparison, or baseline-ablation result for $S_{\mathrm{APA}}$ is present in the supplied facts.  It also does not claim that the $f_3$ coding coordinate predicts APA, ribosome occupancy, translation efficiency, protein abundance, folded structure, physical admissibility, molecular function, mechanism, phenotype, or a universal biological law.  Any such statement would require its own layer-matched contact table and a non-vacuous controlled statistic on the same finite rows.
+\paragraph{Local boundary.}
+The APA table supplies $24740$ gene rows and $296950$ PAS rows; the $f_3$ records supply finite codon-support and quotient-geometry facts; neither supplies a same-window ribosome-occupancy statistic.  Consequently this chapter admits only the following narrow statement: an $f_3$ stress coordinate is eligible for a controlled, position-resolved translation-readout test once the required row joins exist.  No conclusion about translation realization, protein abundance, folding, structural order, physical admissibility, molecular function, mechanism, phenotype, adaptation, causation, or universality follows from the codon support, the APA/PAS row count, modeled tAI or stAI weights, or the existence of a contact route.  Each such downstream layer requires its own matched finite contact and its own non-vacuous controlled statistic.

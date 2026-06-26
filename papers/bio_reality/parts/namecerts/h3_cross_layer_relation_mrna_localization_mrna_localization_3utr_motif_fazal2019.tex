@@ -1,39 +1,36 @@
-\origin{ai}
-\subsection{Translation-First Boundary for the $B^{*}_{Q6}$ Localization Readout}
-\label{sec:bioreality-q6-f3-stress-translation-first-localization-boundary}
+\subsection{Translation-First Boundary for a Fazal-Tagged Localization Readout}\label{subsec:bioreality-q6-f3-stress-translation-first-localization}\origin{ai}
 
 \paragraph{Finite row surface.}
-This record concerns a finite cross-layer test surface for coding-sequence residual coordinates, not a direct biological mechanism.  The finite run attached to the localization claim is \texttt{73df479aecb9}, verified at \texttt{2026-06-24T22:51:49+00:00}.  Its statistical tests used protein-coding rows only, with noncoding genes retained only as positive controls.  The filtered testing surface contains $16040$ protein-coding rows inside a larger JSON table of $27610$ total records, and the recorded runtime is $207.35$ seconds.  The signal-peptide indicator is not inferred from codon geometry: it is joined from reviewed UniProt \texttt{ft\_signal} annotations through \texttt{xref\_ensembl}, with missing reviewed joins coded as $0$.
+The record considered here is the finite-row packet identified by \texttt{h3.cross\_layer\_relation.mrna\_localization.mrna\_localization\_3utr\_motif\_fazal2019}.  Its operational carrier is not a free biological assertion about localization.  It is a table-level object whose rows must carry coding-sequence identifiers, $B^{*}_{Q6}$ residual coordinates, a same-row translation readout when available, an mRNA abundance control, and a matched protein-localization or signal-peptide readout only after the translation layer has been tested.  The verified run is \texttt{73df479aecb9}, checked at \texttt{2026-06-26T06:31:26+00:00}.  The JSON surface contains $27610$ total rows, while the statistical tests are restricted to $16040$ protein-coding rows; noncoding genes remain in the table only as positive controls.  The finite run time recorded for the analysis is $207.35$ seconds.  The signal-peptide field is not inferred from codon geometry: it is coded from reviewed UniProt \texttt{ft\_signal} annotations joined through \texttt{xref\_ensembl}, with missing reviewed joins coded as $0$.
 
-\paragraph{Coordinate and readout order.}
-Let $Q_i$ denote a same-CDS synonymous residual coordinate, with the $f_3$-stress coordinate separated from the other $B^{*}_{Q6}$ residual coordinates.  Let $T_j$ denote a same-row translation readout, such as a codon-indexed or local-window ribosome-occupancy statistic, or an explicitly bounded translation-efficiency residual once a matched mRNA control is present.  Let $L$ denote a protein-localization label, compartment score, fractionation enrichment, imaging score, or proximity-labeling readout after organism and protein identifier matching.  The admissible order is not $Q_i \to L$ first.  The admissible order is
+\paragraph{Coordinate under test.}
+The biological question is whether an $f_3$-stress coordinate, or another $B^{*}_{Q6}$ synonymous residual coordinate, can survive as a translation-layer variable before any localization interpretation is attempted.  The row tuple has the form
 $$
 \begin{aligned}
-Q_i &\longrightarrow T_j,\\
-(Q_i,T_j) &\longrightarrow L,\\
-Q_i &\longrightarrow L \mid T_j.
+  r_i = (&q_i,\ T_i,\ A_i,\ L_i,\ O_i,\ C_i,\ G_i,\ell_i,\mu_i),
 \end{aligned}
 $$
-The first arrow is mandatory.  If the finite table does not contain a nondegenerate $Q_i \to T_j$ survival test under amino-acid composition, organism, GC3, CDS length, M-density, codon-count, matched mRNA, coverage, mappability, rank, and simpler-baseline controls, then the later localization row is kept as a protein-level contact only.  In that null case, it does not lift the $B^{*}_{Q6}$ coordinate beyond the translation boundary.
-
-\paragraph{Translation contact.}
-The translation contact required here is position-resolved ribosome occupancy.  Its row unit is a same-CDS codon index or fixed local window keyed by organism, transcript or CDS identifier, codon position, and ribosome-profiling sample.  Such a row can represent per-CDS ribosome-footprint occupancy at codon or window resolution after an external ribosome-profiling resource is joined to ordered coding-sequence coordinates.  This contact is noisy in ways that matter mathematically: ribosome pausing, nuclease and fragment-length bias, frame-assignment ambiguity, mappability, start and stop edge effects, library normalization, condition specificity, and CDS annotation mismatch can all shift a local occupancy estimate.  For this reason, a contact name alone is not a statistic.  The table must contain the joined codon/window matrix and the declared $f_3$-stress window statistic before any translation survival statement is made.
-
-\paragraph{mRNA control.}
-The mRNA control is a same-condition transcript-abundance row, identifier-matched to the ribosome-profiling row.  It permits the separated translation-efficiency form
+where $q_i$ is the residual coordinate, $T_i$ is a position-resolved ribosome-occupancy or translation-efficiency readout, $A_i$ is the matched mRNA abundance control, $L_i$ is the localization or signal-peptide label or score, $O_i$ is the organism key, $C_i$ records amino-acid composition, $G_i$ records GC3, $\ell_i$ is coding-sequence length, and $\mu_i$ records M-density or the corresponding start-context baseline.  The packet is therefore a boundary test for the ordered question
 $$
 \begin{aligned}
-TE_i &= \frac{RPF_i}{mRNA_i},\\
-T_j &= \operatorname{residual}(TE_i \mid Z_i),
+  Q_i &\longrightarrow T_j,\\
+  Q_i &\longrightarrow L_k \mid T_j,
 \end{aligned}
 $$
-where $Z_i$ contains the finite controls used in the row design.  Transcript abundance alone is not translation realization.  It is a control surface that prevents a transcription-layer signal from being misread as a translation-layer signal.
+not a direct promotion from a codon residual to a compartmental claim.
 
-\paragraph{Localization contact.}
-The localization contact is a matched protein-level readout keyed to a UniProt, RefSeq protein, locus, or CDS-derived protein identifier.  It may be a curated compartment annotation, imaging measurement, fractionation profile, proximity-labeling enrichment, label, or score.  This contact has its own biases: cell type and condition specificity, antibody or tag artifacts, compartment coarseness, isoform ambiguity, fractionation contamination, proximity-labeling radius, and identifier-mapping loss.  Therefore a direct $Q_i \to L$ association is not promoted to a localization mechanism.  It is tested only after $Q_i \to T_j$ is established, and the direct term must be reported again after conditioning on $T_j$ and protein-abundance controls where such controls are used.
+\paragraph{Translation gate before localization.}
+The first statistical obligation is a nondegenerate survival test for $Q_i \to T_j$ under amino-acid composition, organism, GC3, coding-sequence length, M-density, matched mRNA abundance, coverage, mappability, rank sufficiency, and simpler-baseline ablation.  A position-resolved ribosome-occupancy contact is adequate only when it supplies same-organism, same-CDS, codon-indexed or fixed-window footprint rows.  A modeled tAI or stAI surface may be useful as a bounded wobble-weight covariate, but it is not itself observed ribosome occupancy.  Likewise, the mRNA control separates transcript abundance from translation-layer signal; it does not by itself measure translation.  If the fitted translation term is empty, rank-deficient, or eliminated by these controls, then the localization column remains an uninterpreted protein-level annotation for this claim.
 
-\paragraph{Finite null boundary.}
-For the present row packet, the available verified finite data certify the run surface and row counts, not a positive translation-conditioned localization effect.  No finite $R$ list, $M$ list, lambda value, p-value, hit rate, module classification, or computed $f_3$-stress translation-window statistic is supplied in the row record.  Consequently the local conclusion is a bounded null boundary: the packet may request a same-organism, same-CDS, same-window translation statistic and then a translation-conditioned localization readback, but it may not claim that the residual coordinate realizes translation, localization, trafficking, folding, structural order, physical admissibility, biological function, phenotype, mechanism, or a universal biological law.
+\paragraph{Localization readback.}
+Only after the translation readout survives may the same rows test whether a residual coordinate has a remaining localization association or whether the apparent association is mediated by $T_j$.  The required comparison is local to the finite table:
+$$
+\begin{aligned}
+  L_i &= \alpha + \beta_Q q_i + \Gamma Z_i + \varepsilon_i,\\
+  L_i &= \alpha' + \beta'_Q q_i + \beta_T T_i + \Gamma' Z_i + \varepsilon'_i,
+\end{aligned}
+$$
+where $Z_i$ contains the stated controls.  The interpretable quantity is not the mere presence of $\beta_Q$ in the first line, but the change from $\beta_Q$ to $\beta'_Q$ after the translation readout is included.  Persistence would mark a bounded residual association; attenuation would mark mediation through the translation layer; failure of the first step gives null status for the localization question.
 
-\paragraph{Admissible claim.}
-The chapter-specific claim is therefore narrow.  A $B^{*}_{Q6}$ residual coordinate, especially the $f_3$-stress coordinate, may be evaluated against downstream localization only through an intervening same-row translation readout.  The finite evidence at hand records a $16040$-row protein-coding testing surface inside $27610$ total JSON records and a curated UniProt-reviewed signal-peptide join, but it does not yet supply the joined ribosome-footprint matrix needed to compute the translation step.  The correct status is not failure of the biological idea; it is a row-level boundary condition.  The localization surface remains interpretable as external protein annotation, while the $B^{*}_{Q6}$ surface remains a coding-sequence coordinate awaiting the missing translation statistic.
+\paragraph{Local scientific boundary.}
+This chapter records a finite, auditable contact point: $16040$ protein-coding statistical rows inside a $27610$-row JSON surface, with reviewed UniProt signal-peptide joins where those joins exist.  It does not establish translation from codon counts, wobble weights, or window geometry alone.  It does not establish protein folding, structural order, physical admissibility, biological function, trafficking mechanism, compartment identity mechanism, phenotype, or universality.  Those conclusions require separate measured contacts and separate statistics.  In the present packet, $f_3$-stress can enter the localization discussion only through a prior same-row translation test; without that test, the correct status of the $B^{*}_{Q6}$ to localization route is null rather than negative or positive.
