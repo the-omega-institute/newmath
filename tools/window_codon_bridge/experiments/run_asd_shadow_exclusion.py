@@ -35,6 +35,8 @@ MAX_HEG_PER_ORGANISM = int(os.environ.get("ASD_MAX_HEG_PER_ORGANISM", "6"))
 MIN_HEG_PER_ORGANISM = int(os.environ.get("ASD_MIN_HEG_PER_ORGANISM", "4"))
 ANALYSIS_ORGANISM_LIMIT = int(os.environ.get("ASD_ANALYSIS_ORGANISM_LIMIT", "1"))
 ENABLE_MCMC_REFINE = os.environ.get("ASD_MCMC_REFINE", "0") == "1"
+NULL3_R = int(os.environ.get("ASD_NULL3_R", "5"))
+NULL3_EXPAND_KMERS = os.environ.get("ASD_NULL3_EXPAND_KMERS", "0") == "1"
 MIN_CERT_ORGANISMS = 250
 MIN_CERT_FAMILIES = 30
 LAMBDA = math.log(2.0)
@@ -288,7 +290,7 @@ def burden_from_profile(profile: dict[str, object], table: dict[str, tuple[float
     strong = 0
     max_shadow = 0.0
     for kmer, count in counts.items():
-        normalized, raw = table[str(kmer)]
+        normalized, raw = table.get(str(kmer), (0.0, 0))
         value = math.exp(LAMBDA * normalized)
         total += value * int(count)
         max_shadow = max(max_shadow, value)
@@ -529,7 +531,7 @@ def random_g_rich(length: int, g_count: int, rng: random.Random) -> str:
 
 
 def carrier_stickiness(carrier: dict[str, object], sample_kmers: list[str]) -> float:
-    table = score_table(carrier)
+    table = score_table_for_kmers(carrier, set(sample_kmers))
     return mean([table[kmer][0] for kmer in sample_kmers]) if sample_kmers else 0.0
 
 
@@ -717,13 +719,16 @@ def analyze_organism(organism: dict[str, object], heterologous_tails: list[str],
                 row["max_shadow_true"] = max_shadow
                 row["n_windows"] = n_windows
         seq = str(profile_row["seq"])
-        exact = exact_multiset_permutations(seq, max(20, min(60, R_NULL // 2)), f"{seed}.gene.{profile_row['idx']}.exact")
+        exact = exact_multiset_permutations(seq, max(1, NULL3_R), f"{seed}.gene.{profile_row['idx']}.exact")
         exact_profiles = [kmer_profile(candidate) for candidate in exact]
-        exact_needed = set(needed_kmers)
-        for profile in exact_profiles:
-            counts = profile.get("counts")
-            if isinstance(counts, Counter):
-                exact_needed.update(str(kmer) for kmer in counts)
+        if NULL3_EXPAND_KMERS:
+            exact_needed = set(needed_kmers)
+            for profile in exact_profiles:
+                counts = profile.get("counts")
+                if isinstance(counts, Counter):
+                    exact_needed.update(str(kmer) for kmer in counts)
+        else:
+            exact_needed = needed_kmers
         true_exact_table = score_table_for_kmers(true_carrier, exact_needed)
         z_exact, _, _, _, _ = evaluate_carrier_for_profiles(obs_profile, exact_profiles, true_exact_table)
         row["z_exact_multiset"] = z_exact
@@ -923,6 +928,8 @@ def summarize(rows: list[dict[str, object]], fetch_meta: dict[str, object], elap
             "n_bootstrap": N_BOOTSTRAP,
             "max_genes_per_organism": MAX_GENES_PER_ORGANISM,
             "mcmc_refine": ENABLE_MCMC_REFINE,
+            "null3_r": NULL3_R,
+            "null3_expand_kmers": NULL3_EXPAND_KMERS,
             "requested_design": {
                 "target_bacteria": 50,
                 "target_archaea": 10,
