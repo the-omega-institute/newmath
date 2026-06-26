@@ -56,3 +56,14 @@ Finally apply \autoref{thm:trie-ledger-coverage} to $T|_U$. Ledger coverage exha
 \end{proof}
 \leanchecked{BEDC.Derived.TrieUp.TrieDisplayedPrefixSubledger\_public\_read\_exhaustion}
 \leanvariant{BEDC.Derived.TrieUp.TrieDisplayedPrefixSubledger\_provenance\_exhaustion}
+
+\begin{theorem}[Trie List prefix sibling route]\label{thm:trie-list-prefix-sibling-route}
+Let $T=(k,v,l,b,p)$ be an accepted $\TrieUp$ source packet, and let $U$ be a displayed prefix subledger of $T$. Every read of $T|_U$ as Trie data factors first through the $\ListUp$ spine row of \autoref{ch:concrete-instances-list-namecert}, the $\OptionUp$ payload row of \autoref{ch:concrete-instances-option-namecert}, the $\BoolUp$ branch tags, the $\NatUp$ depth ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, and the projected $\Pkg$ provenance row before the local $\TrieUp$ carrier may expose the restricted prefix.
+\end{theorem}
+\begin{proof}
+Project the displayed prefix subledger of \autoref{def:trie-displayed-prefix-subledger}. The selected key coordinate $k_U$ is a finite $\BitVectorUp$ path or $\ListUp$ spine, the payload coordinate $v_U$ is the restricted $\OptionUp$ row, the branch coordinate $b_U$ retains only displayed $\BoolUp$ tags, and the depth coordinate $l_U$ is the projected $\NatUp$ ledger.
+
+The restriction theorem \autoref{thm:trie-prefix-subledger-restriction-carrier} repacks exactly those projected coordinates as an accepted $\TrieUp$ source packet. Its proof already requires the branch source and target prefixes to remain selected by the inclusion row, so the displayed list spine and optional payload row remain upstream of every Trie read.
+
+Finally apply \autoref{thm:trie-prefix-subledger-formal-target}. Public reads of the restricted packet are exhausted by $k_U,v_U,l_U,b_U,p_U$, and $p_U$ names only the projected finite certificates, $\hsame$ transport, and $\Cont$ replay. Thus no restricted Trie read can bypass the List and Option sibling rows or treat a host finite map, string equality, ordering, ambient function space, or infinite tree as Trie data.
+\end{proof}
