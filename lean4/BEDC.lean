@@ -14,6 +14,7 @@ import BEDC.Algebra.Rel.RingEquiv
 import BEDC.Algebra.Rel.SplitComplexUp
 import BEDC.Algebra.Spine.Arithmetic
 import BEDC.Algebra.Spine.FiniteData
+import BEDC.Algebra.Spine.GeometryCategoryHomology
 import BEDC.Algebra.Spine.NumberTheorySpectra
 import BEDC.Algebra.Spine.OrderSetType
 import BEDC.BaseReflection
