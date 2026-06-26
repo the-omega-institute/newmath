@@ -8714,6 +8714,7 @@ import BEDC.Derived.MultihistCouplingUp.TasteGate
 import BEDC.Derived.MultinomialUp
 import BEDC.Derived.MyhillNerodeUp.TasteGate
 import BEDC.Derived.NadlerFixedPointUp.TasteGate
+import BEDC.Derived.NarayanaUp
 import BEDC.Derived.NagataSmirnovMetrizationUp
 import BEDC.Derived.NameCertMorphismUp
 import BEDC.Derived.NameCertMorphismUp.TasteGate
