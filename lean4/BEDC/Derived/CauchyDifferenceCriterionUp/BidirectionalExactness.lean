@@ -1,4 +1,5 @@
 import BEDC.Derived.CauchyDifferenceCriterionUp.ZeroDistanceCorrespondence
+import BEDC.Derived.CauchyDifferenceCriterionUp.RegularTailStability
 
 namespace BEDC.Derived.CauchyDifferenceCriterionUp
 

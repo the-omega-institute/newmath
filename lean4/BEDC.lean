@@ -1071,6 +1071,7 @@ import BEDC.Derived.BishopRealPrecisionUp.TasteGate
 import BEDC.Derived.BishopRealRegularCompletionUp.TasteGate
 import BEDC.Derived.BishopRealUniformCompletionUp.TasteGate
 import BEDC.Derived.BishopRealUp
+import BEDC.Derived.BishopRegularCauchyCofinalStabilityUp
 import BEDC.Derived.BishopRegularCauchyCompletionUp
 import BEDC.Derived.BishopRegularCauchyCompletionUp.AbstractBridgeRoute
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ClassifierTransport
@@ -1767,6 +1768,7 @@ import BEDC.Derived.CauchyCompletionLiftUp
 import BEDC.Derived.CauchyCompletionLiftUp.TasteGate
 import BEDC.Derived.CauchyCompletionMinimalityUp.DenseImageCoverage
 import BEDC.Derived.CauchyCompletionMinimalityUp.TasteGate
+import BEDC.Derived.CauchyCompletionMinimalityUp.UniversalFactorization
 import BEDC.Derived.CauchyCompletionMonadLawUp.FiniteApproximationConsumerRoute
 import BEDC.Derived.CauchyCompletionMonadLawUp.NameCertObligations
 import BEDC.Derived.CauchyCompletionMonadUp
@@ -6928,6 +6930,7 @@ import BEDC.Derived.KalmanFilterUp.TasteGate
 import BEDC.Derived.KanExtensionUp.NamecertObligations
 import BEDC.Derived.KanExtensionUp.TasteGate
 import BEDC.Derived.KelleyficationUp
+import BEDC.Derived.KelleyficationUp.TasteGate
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.FormalAxisSeparation
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.PublicBridgeBoundary
