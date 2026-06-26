@@ -284,4 +284,79 @@ theorem SturmRootIsolationCarrier_interval_refinement [AskSetup] [PackageSetup]
     ⟨intervalReadUnary, refinedReadUnary, windowReadUnary, intervalRoute, refinedRoute,
       windowRoute, windowPkg, dyadicListed⟩
 
+theorem SturmRootIsolationCarrier_subresultant_sign_variation [AskSetup] [PackageSetup]
+    {P I D V B W R S H C Q N chainRead branchRead replayRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont P V chainRead →
+      Cont chainRead B branchRead →
+        Cont branchRead C replayRead →
+          Cont replayRead S sealRead →
+            PkgSig bundle sealRead pkg →
+              UnaryHistory P →
+                UnaryHistory V →
+                  UnaryHistory B →
+                    UnaryHistory C →
+                      UnaryHistory S →
+                        UnaryHistory chainRead ∧ UnaryHistory branchRead ∧
+                          UnaryHistory replayRead ∧ UnaryHistory sealRead ∧
+                            Cont P V chainRead ∧ Cont chainRead B branchRead ∧
+                              Cont branchRead C replayRead ∧ Cont replayRead S sealRead ∧
+                                PkgSig bundle sealRead pkg ∧
+                                  List.Mem (sturmRootIsolationEncodeBHist V)
+                                    (sturmRootIsolationToEventFlow
+                                      (SturmRootIsolationUp.mk P I D V B W R S H C Q N)) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont ProbeBundle PkgSig UnaryHistory
+  intro chainRoute branchRoute replayRoute sealRoute sealPkg polynomialUnary variationUnary
+    branchUnary replayUnary sealUnary
+  have chainReadUnary : UnaryHistory chainRead :=
+    unary_cont_closed polynomialUnary variationUnary chainRoute
+  have branchReadUnary : UnaryHistory branchRead :=
+    unary_cont_closed chainReadUnary branchUnary branchRoute
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed branchReadUnary replayUnary replayRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed replayReadUnary sealUnary sealRoute
+  have variationListed :
+      List.Mem (sturmRootIsolationEncodeBHist V)
+        (sturmRootIsolationToEventFlow
+          (SturmRootIsolationUp.mk P I D V B W R S H C Q N)) := by
+    change
+      List.Mem (sturmRootIsolationEncodeBHist V)
+        [[BMark.b0], sturmRootIsolationEncodeBHist P, [BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist I, [BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist D, [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist V,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist B,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist W,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist R,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b0],
+          sturmRootIsolationEncodeBHist S,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist H,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist C,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist Q,
+          [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+            BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+          sturmRootIsolationEncodeBHist N]
+    right
+    right
+    right
+    right
+    right
+    right
+    right
+    left
+  exact
+    ⟨chainReadUnary, branchReadUnary, replayReadUnary, sealReadUnary, chainRoute,
+      branchRoute, replayRoute, sealRoute, sealPkg, variationListed⟩
+
 end BEDC.Derived.SturmRootIsolationUp
