@@ -1,0 +1,378 @@
+\chapter{Omega Generation Structure Interface}
+\label{ch:visions-omega-generation-structure-interface}
+\origin{ai}
+
+\autoref{ch:visions-mark-hist-ext-cont-spine} supplies the generated
+history carrier and continuation relation, while
+\autoref{ch:visions-finite-data-interface-spine} licenses finite displays
+such as sums, products, and lists through certificates and ledgers. The
+present chapter records the structural interface needed before the
+$\Omega$-tower of
+\autoref{ch:visions-mature-bridge-omega-rigidity-spine} is read as a
+single generated body: encoded display, pairing by involution, and the
+asymmetric time arrow. These rows do not add primitive objects. They state
+how already licensed interfaces may be displayed, paired, and ordered by
+generation.
+
+\section{Licensed Generation Category}
+\label{sec:omega-generation-licensed-category}
+
+\begin{definition}[Licensed interface object]
+\label{def:omega-generation-licensed-interface-object}
+A licensed interface object is a packet
+$$
+A=
+\bigl(|A|,\sim_A,\Lambda_A,\NameCert_A\bigr)
+$$
+where $|A|$ is a carrier predicate over admitted histories or packets,
+$\sim_A$ is its public classifier, $\Lambda_A$ is its ledger, and
+$\NameCert_A$ is the displayed naming certificate. The certificate fields
+are the source specification, pattern specification, classifier
+specification, stability certificate, and ledger policy.
+\end{definition}
+
+\begin{definition}[Licensed morphism]
+\label{def:omega-generation-licensed-morphism}
+A licensed morphism $f:A\to B$ is a carrier map that preserves classifiers,
+ledgers, and continuation transport:
+$$
+x\sim_A y
+\to
+f(x)\sim_B f(y),
+$$
+$$
+\Lambda_A(x)
+\to
+\Lambda_B(f(x)),
+$$
+and, whenever the source interface exposes a continuation row,
+$$
+\mathsf{Cont}_A(x,m,x')
+\to
+\mathsf{Cont}_B(f(x),m',f(x')).
+$$
+The category of such packets and morphisms is denoted
+$\mathsf{Lic}_{\Omega}$.
+\end{definition}
+
+\begin{principle}[No unlicensed tower coordinates]
+\label{prin:omega-generation-no-unlicensed-coordinates}
+Every coordinate used by an $\Omega$-diagram must be an object of
+$\mathsf{Lic}_{\Omega}$. A host carrier, informal pairing, or external
+encoding is invisible to the tower until it is represented by carrier,
+classifier, stability, ledger, and $\NameCert$ rows.
+\end{principle}
+
+\begin{definition}[Generation diagram]
+\label{def:omega-generation-diagram}
+An $\Omega$ generation diagram is a directed diagram
+$$
+\mathcal D_{\Omega}:I\to\mathsf{Lic}_{\Omega},
+\qquad
+i\mapsto R_i,
+$$
+with readback morphisms
+$$
+\rho_{ji}:R_j\to R_i
+\qquad(j\ge i).
+$$
+Its compatible body is the carrier
+$$
+T_{\Omega}:=
+\sum_{(x_i)\in\prod_{i\in I}R_i}
+\prod_{j\ge i}\rho_{ji}(x_j)\sim_i x_i,
+$$
+together with the induced body ledger assembled from the coordinate
+ledgers and readback witnesses.
+\end{definition}
+
+\section{Encoded Display}
+\label{sec:omega-generation-encoded-display}
+
+\begin{definition}[Legal stream display]
+\label{def:omega-generation-legal-stream-display}
+A legal stream display for $T_{\Omega}$ is a licensed interface
+$\mathsf{LegalStream}^{\uparrow}$ equipped with a stream classifier
+$\sim_{\mathsf{Code}}$, a stream ledger $\Lambda_{\mathsf{Code}}$, and a
+decode relation
+$$
+\mathsf{Decode}_{\Omega}:
+\mathsf{LegalStream}^{\uparrow}\to T_{\Omega}\to\mathsf{Prop}.
+$$
+The stream interface is not a raw bit string. It is a certified public
+display whose suppressed source rows remain available through the ledger.
+\end{definition}
+
+\begin{definition}[Omega code morphism]
+\label{def:omega-generation-code-morphism}
+An $\Omega$ code morphism is a licensed morphism
+$$
+\mathsf{Code}_{\Omega}:T_{\Omega}\to
+\mathsf{LegalStream}^{\uparrow}
+$$
+such that
+$$
+x\sim_{\Omega}y
+\to
+\mathsf{Code}_{\Omega}(x)
+\sim_{\mathsf{Code}}
+\mathsf{Code}_{\Omega}(y),
+$$
+and the body ledger maps into the stream ledger:
+$$
+\Lambda_{\Omega}(x)
+\to
+\Lambda_{\mathsf{Code}}(\mathsf{Code}_{\Omega}(x)).
+$$
+\end{definition}
+
+\begin{definition}[Faithful and readable code]
+\label{def:omega-generation-faithful-readable-code}
+The code morphism is faithful when
+$$
+\mathsf{Code}_{\Omega}(x)
+\sim_{\mathsf{Code}}
+\mathsf{Code}_{\Omega}(y)
+\to
+x\sim_{\Omega}y.
+$$
+It is readable when every encoded body row has a displayed readback:
+$$
+\prod_{x:T_{\Omega}}
+\mathsf{Decode}_{\Omega}
+\bigl(\mathsf{Code}_{\Omega}(x),x\bigr).
+$$
+\end{definition}
+
+\begin{theorem}[Faithful readable code excludes hidden body rows]
+\label{thm:omega-generation-code-excludes-hidden-body-rows}
+If $\mathsf{Code}_{\Omega}$ is faithful and readable, then two
+$\Omega$-body rows with the same code are classified as the same body row.
+\end{theorem}
+
+\begin{proof}
+Assume
+$$
+\mathsf{Code}_{\Omega}(x)
+\sim_{\mathsf{Code}}
+\mathsf{Code}_{\Omega}(y).
+$$
+Faithfulness gives $x\sim_{\Omega}y$. Readability records that the public
+code is not a one-way compression: its source row is accompanied by a
+decode witness and a ledger route. Thus no further body distinction remains
+behind the displayed code.
+\end{proof}
+
+\begin{corollary}[Compiler display boundary]
+\label{cor:omega-generation-compiler-display-boundary}
+Compiler-style display is a faithful readable interface over
+licensed rows, not a hand table of external encodings. Its correctness
+claim is the preservation and reflection of classifiers together with the
+ledger route needed for readback.
+\end{corollary}
+
+\section{Pairing by Involution}
+\label{sec:omega-generation-pairing-involution}
+
+\begin{definition}[Pairing involution]
+\label{def:omega-generation-pairing-involution}
+For a licensed interface $A$, a pairing involution is a licensed
+endomorphism
+$$
+J_A:A\to A
+$$
+with the classifier laws
+$$
+x\sim_A y
+\to
+J_A(x)\sim_A J_A(y),
+$$
+and
+$$
+J_A(J_A(x))\sim_A x.
+$$
+Its fixed predicate is
+$$
+\mathsf{Fix}_{J_A}(x):=
+J_A(x)\sim_A x,
+$$
+and its apart-pair predicate is
+$$
+\mathsf{ApartPair}_{J_A}(x):=
+J_A(x)\#_A x.
+$$
+\end{definition}
+
+\begin{theorem}[Pairing orbits are typed]
+\label{thm:omega-generation-pairing-orbits-typed}
+If $J_A$ is a pairing involution, then every displayed row is either read
+through the fixed predicate or through a nontrivial two-step orbit whenever
+an apart-pair witness is supplied.
+\end{theorem}
+
+\begin{proof}
+If $\mathsf{Fix}_{J_A}(x)$ holds, the row is fixed by definition. If
+$\mathsf{ApartPair}_{J_A}(x)$ holds, then the first step $x\mapsto J_A(x)$
+is classifier-apart from $x$, while the second step satisfies
+$J_A(J_A(x))\sim_A x$. Thus the displayed orbit returns after two
+applications and is nontrivial at the first step.
+\end{proof}
+
+\begin{principle}[Pairing requires an involution]
+\label{prin:omega-generation-pairing-requires-involution}
+Pairing is not a global axiom over all generated objects. A layer supports
+pairing only after it exposes a licensed involution. Without such a
+morphism, the statement that rows occur in pairs has no typed BEDC meaning.
+\end{principle}
+
+\begin{definition}[Mirror row as pairing instance]
+\label{def:omega-generation-zeta-mirror-instance}
+At the complex zeta layer the mirror row
+$$
+J_{\zeta}(s):=1-\overline{s}
+$$
+is a pairing involution on the displayed critical-strip carrier. Its fixed
+predicate is the critical-line row:
+$$
+J_{\zeta}(s)\sim s
+\quad\Longleftrightarrow\quad
+\mathsf{OnCritLine}(s).
+$$
+\end{definition}
+
+\begin{theorem}[Pairing-compatible generation preserves fixed rows]
+\label{thm:omega-generation-pairing-compatible-generation}
+Let $J_A$ be a pairing involution and let $\alpha_A:A\to A$ be a licensed
+generation morphism. If
+$$
+J_A(\alpha_A(x))
+\sim_A
+\alpha_A(J_A(x))
+$$
+for all $x$, then $\alpha_A$ sends fixed rows to fixed rows and sends a
+nontrivial paired orbit to a paired orbit or to a fixed row.
+\end{theorem}
+
+\begin{proof}
+If $J_A(x)\sim_A x$, classifier preservation by $\alpha_A$ gives
+$\alpha_A(J_A(x))\sim_A\alpha_A(x)$. The displayed commutation row then
+gives $J_A(\alpha_A(x))\sim_A\alpha_A(x)$, so the image is fixed. For a
+nontrivial orbit, the partner of $\alpha_A(x)$ is classified with
+$\alpha_A(J_A(x))$. If the two images are apart, the orbit remains
+nontrivial; if they are classified together, it has collapsed to a fixed
+row.
+\end{proof}
+
+\section{Time as Generated Direction}
+\label{sec:omega-generation-time-direction}
+
+\begin{definition}[One-step time row]
+\label{def:omega-generation-one-step-time-row}
+The one-step time row on histories is the relation
+$$
+\mathsf{TimeStep}(h,h')
+:=
+\mathsf{Ext}(h,\mathsf{b0},h')
+\vee
+\mathsf{Ext}(h,\mathsf{b1},h').
+$$
+Its finite transitive closure is denoted
+$$
+h\prec h'.
+$$
+This is a generation order over $\mathsf{BHist}$, not an ambient clock.
+\end{definition}
+
+\begin{definition}[Local time stream]
+\label{def:omega-generation-local-time-stream}
+A local time stream for $h$ is a finite chain
+$$
+\mathsf{Empty}=h_0\prec h_1\prec\cdots\prec h_n=h
+$$
+whose adjacent rows are one-step time rows. It is a ledger of how a
+history is generated from the empty history.
+\end{definition}
+
+\begin{theorem}[Time has forward determinacy by displayed mark]
+\label{thm:omega-generation-time-forward-determinacy}
+For a fixed source history $h$ and fixed mark $m$, if
+$$
+\mathsf{Ext}(h,m,h_1),
+\qquad
+\mathsf{Ext}(h,m,h_2),
+$$
+then $\mathsf{hsame}(h_1,h_2)$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:kernel-spine-extension-result-characterization}, an
+$\mathsf{Ext}$ row with mark $\mathsf{b0}$ has result classified with the
+same $\mathsf{e0}$ extension of the source, and an $\mathsf{Ext}$ row with
+mark $\mathsf{b1}$ has result classified with the same $\mathsf{e1}$
+extension of the source. Since the mark is fixed, both target rows lie in
+the same constructor class, hence are $\mathsf{hsame}$.
+\end{proof}
+
+\begin{theorem}[Time direction is not pairing]
+\label{thm:omega-generation-time-not-pairing}
+The time relation $\prec$ is not a pairing involution.
+\end{theorem}
+
+\begin{proof}
+A pairing involution requires an endomorphism $J$ with
+$J(J(h))\sim h$. The time relation is generated by extension from a source
+history to a longer history, and
+\autoref{thm:kernel-spine-history-no-confusion} separates an empty history
+from its extensions and separates the two extension heads. Thus the
+one-step time row supplies forward generation data but does not supply a
+global constructive inverse endomorphism satisfying the involution law.
+\end{proof}
+
+\begin{principle}[Pairing and time have different sources]
+\label{prin:omega-generation-pairing-time-different-sources}
+Rows may be paired only where an involution is licensed. Time is instead
+the finite generation direction exposed by $\mathsf{Ext}$ and accumulated
+by $\mathsf{Cont}$. It is therefore not a failure of pairing, but a
+different structural interface over the same generated histories.
+\end{principle}
+
+\section{Interface Assembly}
+\label{sec:omega-generation-interface-assembly}
+
+\begin{theorem}[Omega generation structure package]
+\label{thm:omega-generation-structure-package}
+Assume an $\Omega$ generation diagram in $\mathsf{Lic}_{\Omega}$, a
+faithful readable code morphism, pairing involutions on the layers that
+claim paired behavior, and the history time row of
+\autoref{def:omega-generation-one-step-time-row}. Then:
+$$
+\text{encoded sameness reflects body sameness,}
+$$
+$$
+\text{paired behavior is available exactly on involutive layers,}
+$$
+and
+$$
+\text{time is the generated continuation direction rather than an involution.}
+$$
+\end{theorem}
+
+\begin{proof}
+Encoded reflection is
+\autoref{thm:omega-generation-code-excludes-hidden-body-rows}. Typed
+pairing is \autoref{thm:omega-generation-pairing-orbits-typed} together
+with \autoref{prin:omega-generation-pairing-requires-involution}. The time
+claim is \autoref{thm:omega-generation-time-not-pairing}. These three
+interfaces are compatible because they all live over licensed carrier,
+classifier, ledger, and $\NameCert$ rows.
+\end{proof}
+
+\begin{principle}[Connection to prime-shadow rigidity]
+\label{prin:omega-generation-prime-shadow-connection}
+The structural package does not prove any zero-rigidity theorem. It only
+ensures that the $\Omega$ body has a faithful display, that mirror
+fixedness is typed by an involution where available, and that the generated
+history direction is not confused with pairing. The RH-facing rigidity
+claim remains the prime-shadow and defect-zero interface of
+\autoref{ch:visions-rh-bulk-boundary-prime-shadow-interface}.
+\end{principle}

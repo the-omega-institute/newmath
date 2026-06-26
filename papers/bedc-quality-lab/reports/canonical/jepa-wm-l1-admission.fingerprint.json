@@ -1,0 +1,66 @@
+{
+  "generated_by": {
+    "generated_at": "fixture",
+    "runner": "scripts/run_jepa_wm_l1.py"
+  },
+  "input_fingerprint": "cf52505e2ab441f035bfd8398f5e619b5643d681c395292faeaa22a971502463",
+  "json_artifact": "reports/canonical/jepa-wm-l1-admission.json",
+  "markdown_artifact": "reports/canonical/jepa-wm-l1-admission.md",
+  "payload_sha256": "ce678a7753c79a51befbbe811d72feb2a518cfd65a482cde119e107e024be8c0",
+  "report_name": "jepa-wm-l1-admission",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "predeclared k=7 rank task and bootstrap CI rule",
+      "calibration_source": "$.preregistration",
+      "owner": "jepa-wm-l1-admission"
+    },
+    "device_policy": {
+      "backend_details": {
+        "PIL": "11.2.1",
+        "huggingface_hub": "1.10.1",
+        "numpy": "2.2.5",
+        "python": "3.13.2",
+        "torch": "2.12.0",
+        "torchvision": "0.27.0",
+        "transformers": "5.12.1"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "micro-admission uses cpu to avoid accelerator-dependent latent drift",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "PIL": "11.2.1",
+        "huggingface_hub": "1.10.1",
+        "numpy": "2.2.5",
+        "python": "3.13.2",
+        "torch": "2.12.0",
+        "torchvision": "0.27.0",
+        "transformers": "5.12.1"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.preregistration",
+        "comparison": "status_equal",
+        "owner": "jepa-wm-l1-admission",
+        "pointer": "$.execution_status",
+        "reference_value": "bounded_negative",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "$.config.seeds"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "true_training",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      20260617
+    ]
+  },
+  "reproducibility_contract_digest": "9e6200434eda98822933c24b841dc0143e28107db828c33c8a21a2e541868315",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

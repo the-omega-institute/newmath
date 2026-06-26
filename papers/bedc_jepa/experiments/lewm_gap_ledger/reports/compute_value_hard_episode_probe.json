@@ -1,0 +1,65 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_hard_episode_probe",
+  "inputs": {
+    "decomposition": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_episode_decomposition.npz"
+  },
+  "settings": {
+    "gain_quantile": 0.8,
+    "eval_top_k": 8,
+    "steps": 4000,
+    "lr": 0.02,
+    "l2": 0.001
+  },
+  "train": {
+    "episodes": 167,
+    "positive": 34,
+    "auroc": 1.0,
+    "spearman_with_oracle_gain": 0.5521684685706041,
+    "mean_score_positive": 24.92541953315829,
+    "mean_score_negative": -6.803313075402624
+  },
+  "calibration": {
+    "episodes": 56,
+    "positive": 12,
+    "auroc": 0.5265151515151515,
+    "spearman_with_oracle_gain": 0.07375256322624743,
+    "mean_score_positive": 0.04161453719288177,
+    "mean_score_negative": -0.3619110199054542
+  },
+  "eval": {
+    "episodes": 55,
+    "positive": 8,
+    "auroc": 0.5053191489361702,
+    "spearman_with_oracle_gain": 0.3359307359307359,
+    "mean_score_positive": -0.6559496502622884,
+    "mean_score_negative": -0.62158163375813,
+    "top_missed_episode_mean_score": -0.6559496502622884,
+    "non_top_missed_episode_mean_score": -0.62158163375813
+  },
+  "eval_top_missed_episodes": [
+    24,
+    39,
+    81,
+    115,
+    145,
+    193,
+    223,
+    277
+  ],
+  "training_loss_trace": [
+    1.3767681317014693,
+    1.438725788606471,
+    1.2941772495349033,
+    0.6986873592455481,
+    0.2755406433291465,
+    0.0009094021584926484
+  ],
+  "leakage_attestation": {
+    "train_labels": "train split oracle-gain tail labels only",
+    "calibration_labels": "calibration split oracle-gain tail labels only",
+    "eval_labels": "top missed episodes from precomputed eval decomposition, used only after scores are produced",
+    "model": "linear logistic probe over episode-aggregated rollout features",
+    "slurm_or_ssh": "not used"
+  }
+}

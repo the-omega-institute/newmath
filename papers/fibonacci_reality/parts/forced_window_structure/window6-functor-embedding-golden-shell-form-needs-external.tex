@@ -1,0 +1,83 @@
+\subsection{Window-six golden-shell response form}\label{subsec:window6-functor-embedding-golden-shell-form-needs-external}
+\origin{ai}
+
+\paragraph{Finite carrier.}
+The finite carrier considered here is the window-six index record together with its displayed response expression. The Fibonacci numbers are fixed from first principles by
+$$
+\begin{aligned}
+F_0&=0,\\
+F_1&=1,\\
+F_{n+2}&=F_{n+1}+F_n.
+\end{aligned}
+$$
+For the window parameter $m=6$, the local shift index is
+$$
+\begin{aligned}
+s_6=m+1=7.
+\end{aligned}
+$$
+The horizon index is the largest Fibonacci index whose value is at most $2^6-1$. Since $2^6-1=63$, $F_{10}=55$, and $F_{11}=89$, the finite maximum is
+$$
+\begin{aligned}
+\rho_6=\max\{k:F_k\leq 63\}=10.
+\end{aligned}
+$$
+The base integer in the display is
+$$
+\begin{aligned}
+D_0=F_9+F_7=34+13=47.
+\end{aligned}
+$$
+The response polynomial is the explicit rational polynomial
+$$
+\begin{aligned}
+Q(u)=1-\frac{1}{2}u+\frac{8}{9}u^2.
+\end{aligned}
+$$
+Thus the complete finite carrier for this packet is the tuple consisting of $m=6$, $s_6=7$, $\rho_6=10$, $D_0=47$, and the polynomial $Q(u)$ above, together with the formal display
+$$
+\begin{aligned}
+R_6=D_0+\phi^{-s}Q(\phi^{-r}).
+\end{aligned}
+$$
+
+\paragraph{Predicates and finite relations.}
+The only predicates used in the window-six arithmetic part are the Fibonacci recurrence predicate, the bound predicate $F_k\leq 63$, and the maximality predicate saying that no larger listed Fibonacci index remains below the same bound. These predicates determine the local index facts
+$$
+\begin{aligned}
+s=s_6=7,\qquad r=\rho_6=10,\qquad D_0=47.
+\end{aligned}
+$$
+The finite relations are therefore the recurrence relation producing $F_7=13$, $F_9=34$, $F_{10}=55$, and $F_{11}=89$, and the order relation
+$$
+\begin{aligned}
+55\leq 63<89.
+\end{aligned}
+$$
+No matrix, kernel, spectral operator, or valuation table is part of this finite arithmetic certificate. The window-internal inventory mentioned in the surrounding construction consists of $X_6$, four cells, Foldbin fibers, $Q_6$ edges, and fold data; however, those internal finite data are not asserted here to impose the functional form $\phi^{-s}Q(\phi^{-r})$. They are part of the finite window context, not a proof that the golden-shell embedding is necessary.
+
+\paragraph{Exact expansion.}
+Substitution into the displayed response expression is purely algebraic. With $s=7$, $r=10$, $D_0=47$, and $Q(u)=1-\frac{1}{2}u+\frac{8}{9}u^2$, one obtains
+$$
+\begin{aligned}
+D_0+\phi^{-s}Q(\phi^{-r})
+&=47+\phi^{-7}\left(1-\frac{1}{2}\phi^{-10}+\frac{8}{9}\phi^{-20}\right)\\
+&=47+\phi^{-7}-\frac{1}{2}\phi^{-17}+\frac{8}{9}\phi^{-27}.
+\end{aligned}
+$$
+This identity is an exact symbolic equality. It uses no decimal approximation, no metrological readout, and no reverse fit. The witness extracted from the finite record is the concrete substitution list
+$$
+\begin{aligned}
+(m,s,r,D_0,Q)=\left(6,7,10,47,1-\frac{1}{2}u+\frac{8}{9}u^2\right),
+\end{aligned}
+$$
+which is sufficient to reproduce the displayed golden-shell expression by formal expansion.
+
+\paragraph{Partition of what is certified.}
+The assertions separate into three finite classes. First, the index class is forward-local: $s_6=7$, $\rho_6=10$, and $D_0=47$ follow from the recurrence and the finite inequalities above. Second, the expansion class is definitional: once $Q$, $s$, $r$, and $D_0$ are fixed, the expression expands exactly as shown. Third, the necessity class is not certified inside the window: the statement that a finite response polynomial must enter specifically through $\phi^{-s}Q(\phi^{-r})$, and the statement that the coefficients $1$, $-\frac{1}{2}$, and $\frac{8}{9}$ are forced by the window data, require an additional grading, valuation, or response functor not constructed in this packet.
+
+\paragraph{Needs-certificate ruling.}
+The finite window data do not by themselves prove that the golden-shell embedding form is forced. In particular, the data $X_6$, the four cells, Foldbin fibers, $Q_6$ edges, and fold data are not used here to derive a theorem whose conclusion is the necessity of $\phi^{-s}Q(\phi^{-r})$. They support the local setting, while the necessity of that embedding form is left to a separate functorial certificate. The same is true for the origin of the coefficients in $Q(u)$: their substitution is exact, but their selection is not derived from the window-six data alone.
+
+\paragraph{Local boundary.}
+This subsection claims only the finite index computation and the exact expansion after substitution. It does not claim a physical-constant identification, a global flow law, a metrological comparison, an interpretation beyond the finite construction, or an internally forced derivation of the golden-shell response form. Any such conclusion requires a separate certificate supplying the missing grading, valuation, or response mechanism.

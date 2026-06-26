@@ -1,0 +1,134 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-13T12:52:34.119917+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "0192d3a7d294d1ed1b2a04fb58e08444ee698bee64cc479b6db3a40eabd77783",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/dgt_component_redundancy_audit.py",
+        "sha256": "047270e9f7643bb29caf3e233245efd1670244bfaa09aae34f165cc35cdf2484"
+      },
+      {
+        "path": "scripts/run_dgt_component_redundancy_audit.py",
+        "sha256": "d74430ba0690164b7cc34b95eebd7280b18f2f4129e597bacb5250699771c84a"
+      }
+    ],
+    "report_output_schema_id": "schema-unspecified",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_dgt_component_redundancy_audit.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "reports/canonical/dgt-ablation-null-decomposition.json",
+        "sha256": "42e53c3078a9ef20cd5d5a5c02e9ab57e96a3742305596a06fc3190f216b89be"
+      },
+      {
+        "path": "reports/canonical/dgt-neural-ablation.json",
+        "sha256": "e458525ebd7e0f6936bb945cc0f6fd667f48a8dc9fd3ca1ff735358c7c71af6c"
+      }
+    ],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "claim_promotion_eligible": true,
+      "command": [
+        "python3",
+        "scripts/run_dgt_component_redundancy_audit.py"
+      ],
+      "construct_validity_pointer": null,
+      "control_pointer": "$.component_redundancy_audit.source_artifacts",
+      "cost_pointer": "$.component_redundancy_audit.source_artifacts",
+      "estimated_seconds": 1,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior",
+        "trained empirical superiority over Transformer",
+        "training evidence beats Transformer",
+        "LLM superiority",
+        "production superiority"
+      ],
+      "json_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/dgt-component-redundancy-audit.md",
+      "name": "dgt-component-redundancy-audit",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.component_redundancy_audit.not_claimed",
+      "positive_claim_pointer": "$.component_redundancy_audit.global_recommendation",
+      "reproducibility_mode": "exact_fixture",
+      "required_json_keys": [
+        "component_redundancy_audit"
+      ],
+      "scope_pointer": "$.component_redundancy_audit.scope"
+    }
+  },
+  "json_artifact": "reports/canonical/dgt-component-redundancy-audit.json",
+  "markdown_artifact": "reports/canonical/dgt-component-redundancy-audit.md",
+  "producer_command": [
+    "python3",
+    "scripts/run_dgt_component_redundancy_audit.py"
+  ],
+  "report_name": "dgt-component-redundancy-audit",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "dgt-component-redundancy-audit"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "dgt-component-redundancy-audit",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "83f4d4cd41017234d6bd55c06ef9a86a99508a35b8aee4752a03447f3efa1df6",
+  "reproducibility_mode": "exact_fixture",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

@@ -1,0 +1,414 @@
+---
+title: "RH Prime Fingerprints and the Window6 Bridge"
+subtitle: "What the zeta-to-Zeckendorf route must still prove before Window6 can act as an RH residual test"
+author: "The Omega Institute"
+date: 2026-06-12
+description: "A BEDC dossier on prime fingerprints, mirror-zero pointwise fixedness, Window6 as a finite Zeckendorf fixed-shadow, and the bridge obligations needed to send zeta off-critical residuals into the Zeckendorf projection tower."
+---
+
+```{=html}
+<div class="lang-switch"><a href="rh-prime-fingerprint-window6-bridge.zh-CN.qmd">中文</a></div>
+```
+
+The central point is:
+
+$$
+\boxed{
+\text{Window6 is not a proof of RH.}
+}
+$$
+
+It is a finite residual test surface. To use it in an RH route, one must
+first prove a bridge:
+
+$$
+\boxed{
+\mathsf{OffMirrorZero}_{\zeta}
+\Rightarrow
+\mathsf{NonzeroZeckendorfSkewResidual}.
+}
+$$
+
+The current theory has a strong structural diagram:
+
+```text
+prime channels distinguish zeta parameters
+  -> completed ZETA has a mirror-fixed carrier
+  -> RH asks for zero events to be pointwise mirror-fixed
+  -> Window6 is a finite fixed-shadow of the Zeckendorf inverse limit
+```
+
+The hard part is not naming those fixed-point structures. The hard part is
+transport: a prime-visible zeta skew must become a nonzero skew residual in
+the Zeckendorf projection tower, with no leakage into a neutral return mode.
+
+## Prime fingerprints
+
+For a complex history $s$, define its prime fingerprint:
+
+$$
+\mathsf{PF}(s)
+:=
+\bigl(p^{-s}\bigr)_{p\in\mathsf{Prime}}.
+$$
+
+This is not decoration on an already known point. In the zeta carrier, $s$
+is read by its response to every prime-local probe. Unique factorization
+means that the values on primes determine the multiplicative character
+
+$$
+\chi_s(n)=n^{-s}.
+$$
+
+If two histories have the same prime fingerprint, then the prime rows $2$
+and $3$ force them to be the same history:
+
+$$
+\mathsf{PF}(s)=\mathsf{PF}(t)
+\quad\Longleftrightarrow\quad
+s=t.
+$$
+
+The reason is the usual logarithmic separation. If
+
+$$
+p^{-s}=p^{-t}
+$$
+
+for $p=2$ and $p=3$, then with $a=s-t$:
+
+$$
+e^{-a\log2}=1,
+\qquad
+e^{-a\log3}=1.
+$$
+
+Thus $a\log2=2\pi i k$ and $a\log3=2\pi i\ell$. A nonzero $a$ would force
+$k\log3=\ell\log2$, hence $3^k=2^\ell$, contradicting unique factorization.
+So $a=0$.
+
+In BEDC language:
+
+$$
+\boxed{
+\text{primes are separating probes for the zeta information space.}
+}
+$$
+
+They are not points of the critical strip. They are the local channels that
+make two points distinguishable.
+
+## Mirror pairs
+
+The functional-equation mirror is
+
+$$
+J(s)=1-\overline{s}.
+$$
+
+Write
+
+$$
+s=\frac12+\delta+i\tau.
+$$
+
+Then
+
+$$
+J(s)=\frac12-\delta+i\tau.
+$$
+
+The centered prime channel is
+
+$$
+U_p(s)=p^{1/2-s}.
+$$
+
+Substitution gives
+
+$$
+U_p(s)=p^{-\delta}e^{-i\tau\log p},
+\qquad
+U_p(J(s))=p^{\delta}e^{-i\tau\log p}.
+$$
+
+The mirror does not change the phase clock. It reverses the amplitude bias.
+
+If $\delta\neq0$, then every prime sees the difference:
+
+$$
+|U_p(s)|=p^{-\delta},
+\qquad
+|U_p(J(s))|=p^\delta
+=|U_p(s)|^{-1}.
+$$
+
+If $\delta=0$, the two packets collapse:
+
+$$
+\mathsf{PF}(s)=\mathsf{PF}(J(s))
+\quad\Longleftrightarrow\quad
+s=J(s)
+\quad\Longleftrightarrow\quad
+\Re(s)=\frac12.
+$$
+
+So the information-theoretic RH form is:
+
+$$
+\boxed{
+\mathsf{ZeroEventFlow}_{\zeta}(s)
+\Rightarrow
+\mathsf{PF}(s)=\mathsf{PF}(J(s)).
+}
+$$
+
+In words:
+
+> A non-trivial zeta zero event may not leave any prime-visible mirror bias.
+
+This is stronger than mirror closure of the zero set. The functional equation
+can send a zero at $s$ to a zero at $J(s)$. RH asks for the zero packet itself
+to collapse to the mirror fixed surface.
+
+## Window6 as a fixed-shadow
+
+The Zeckendorf side has a different carrier:
+
+$$
+X_m=\{0,1\}^m_{\mathrm{no}\,11},
+\qquad
+X_\infty^Z=\varprojlim_m X_m.
+$$
+
+The infinite object has the golden self-similar form
+
+$$
+X_\infty^Z
+\cong
+0X_\infty^Z\sqcup10X_\infty^Z,
+$$
+
+with growth scale $\varphi$.
+
+Window6 is only the sixth projection:
+
+$$
+X_6=P_6(X_\infty^Z),
+\qquad
+|X_6|=F_8=21.
+$$
+
+It is not the inverse-limit fixed object. It is a finite fixed-shadow: if a
+lift $L_6:X_6\to X_\infty^Z$ is displayed, then
+
+$$
+P_6\circ L_6=\operatorname{id}_{X_6}.
+$$
+
+The visible six-bit information returns to itself. The infinite tail is not
+fixed by that row.
+
+The finite shadow exposes a boundary response:
+
+$$
+\mathsf{Defect}_6
+=
+\varphi^{-7}
+\left(
+1-\frac12\varphi^{-10}
++\frac89\varphi^{-20}
+\right).
+$$
+
+This is why Window6 is useful: it is a finite place where a residual can be
+tested. It is also why Window6 is not enough: a residual may vanish at level
+six while remaining visible in a higher layer.
+
+## The missing bridge
+
+The bridge needed for an RH route has the shape:
+
+$$
+\mathcal B_{\zeta\to Z}:
+\mathsf{OffMirrorZero}_{\zeta}(s)
+\to
+r_\infty(s).
+$$
+
+Here $r_\infty(s)$ must be a compatible Zeckendorf residual tower:
+
+$$
+r_\infty(s)=(r_m(s))_{m\ge6},
+\qquad
+r_m(s)\in V_m,
+\qquad
+V_m=\mathbb Q[X_m].
+$$
+
+It must satisfy four rows.
+
+**Nonzero detection.**
+
+Prime-visible off-critical bias must become a nonzero Zeckendorf residual:
+
+$$
+\delta(s)\neq0
+\Longrightarrow
+r_\infty(s)\neq0.
+$$
+
+**Projection compatibility.**
+
+The residuals must really form a tower:
+
+$$
+\Pi_{m+1,m}(r_{m+1}(s))=r_m(s).
+$$
+
+**Zero-event return invariance.**
+
+The zeta zero packet must be the same information packet after the
+Zeckendorf return operator:
+
+$$
+R_mr_m(s)=r_m(s).
+$$
+
+**No neutral leak.**
+
+The residual must live in the skew sector, not in a $1$-eigenmode:
+
+$$
+r_m(s)\in K_m^{\mathrm{skew}},
+\qquad
+1\notin\operatorname{spec}(R_m|_{K_m^{\mathrm{skew}}}).
+$$
+
+Without these rows, Window6 has only a local geometry. It does not yet have a
+certified zeta residual to eliminate.
+
+## Why the neutral mode matters
+
+The attractive Window6 calculation is:
+
+$$
+R_6r=-\frac12 r.
+$$
+
+If the zero-event row also gives
+
+$$
+R_6r=r,
+$$
+
+then
+
+$$
+r=-\frac12r
+\quad\Longrightarrow\quad
+\frac32r=0
+\quad\Longrightarrow\quad
+r=0.
+$$
+
+But this only eliminates the admitted skew component. A residual with a
+neutral component can satisfy
+
+$$
+R_6r=r
+$$
+
+without contradiction. Therefore the bridge must prove no neutral leak. The
+$-\frac12$ eigenvalue is useful only after the residual has been placed in
+the sector where $1$ is spectrally absent.
+
+## Why the tower matters
+
+Even if level six is clean,
+
+$$
+r_6=0
+$$
+
+does not imply
+
+$$
+r_\infty=0.
+$$
+
+A residual could hide in a higher kernel:
+
+$$
+r_6=0,
+\qquad
+r_7\neq0.
+$$
+
+The projection-kernel induction handles this. Let
+
+$$
+K_{m+1}:=\ker(\Pi_{m+1,m}:V_{m+1}\to V_m).
+$$
+
+If $r_m=0$, then compatibility forces
+
+$$
+r_{m+1}\in K_{m+1}.
+$$
+
+The required induction step is:
+
+$$
+\boxed{
+\text{no fixed skew residual survives in }K_{m+1}.
+}
+$$
+
+Equivalently:
+
+$$
+1\notin\operatorname{spec}
+\left(
+R_{m+1}|_{K_{m+1}^{\mathrm{skew}}}
+\right).
+$$
+
+Window6 is the anchor. RH needs the all-layer statement.
+
+## Safe summary
+
+The present state is:
+
+$$
+\boxed{
+\text{prime fingerprints distinguish off-critical mirror pairs;}
+}
+$$
+
+$$
+\boxed{
+\text{Window6 tests finite Zeckendorf fixed-shadow residuals;}
+}
+$$
+
+$$
+\boxed{
+\text{the zeta-to-Zeckendorf residual bridge is the missing proof object.}
+}
+$$
+
+The bridge must prove that a zeta off-critical zero produces a nonzero,
+projection-compatible, return-invariant, non-neutral Zeckendorf skew
+residual. Only then can the Window6 and layer-kernel machinery turn residual
+elimination into an RH-facing contradiction.
+
+```{=html}
+<div class="cta-choices">
+  <a href="rh-route-halting-boundary.qmd"><strong>RH Route Closure and the Halting Boundary</strong><br/>Why route undecidability does not decide RH, and what finite RH proof data must supply.</a>
+  <a href="golden-phase-projection.qmd"><strong>Golden Phase Projection</strong><br/>The Window6 Zeckendorf projection geometry and its certified scalar-readout boundary.</a>
+  <a href="zeckendorf-safe-channel.qmd"><strong>Zeckendorf-safe Channel</strong><br/>The event-boundary discipline behind no-adjacent-11 channel readings.</a>
+</div>
+```
+
+— *The Omega Institute*

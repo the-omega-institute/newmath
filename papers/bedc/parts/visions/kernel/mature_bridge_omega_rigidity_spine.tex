@@ -1,0 +1,429 @@
+\chapter{Mature Bridge and Omega Rigidity Interface Spine}
+\label{ch:visions-mature-bridge-omega-rigidity-spine}
+\origin{human}
+
+L14 does not introduce another mathematical carrier beside the L0--L13
+construction sequence.  Its external-facing role is conservative bridge and
+audit:
+$$
+\mathsf{MatureSystemBridge}^{\uparrow},\quad
+\mathsf{StdModel}^{\uparrow},\quad
+\mathsf{MathlibBridge}^{\uparrow},\quad
+\mathsf{ConservativityReport}^{\uparrow},\quad
+\mathsf{VerificationReport}^{\uparrow}.
+$$
+Its internal-facing consequence is a disciplined synthesis surface: once the
+lower rows exist, one may package their compatible readouts as an
+$\Omega$-tower and state the remaining RH rigidity target.  The bridge layer
+interprets; the certificate layer admits.
+
+\section{Conservative Bridge Boundary}
+\label{sec:mature-bridge-spine-boundary}
+
+\begin{definition}[Mature system]
+\label{def:mature-bridge-spine-mature-system}
+A mature system is an external reference environment, such as a set-theoretic
+presentation, a category-theory library, a homotopy-type-theory library, or a
+Lean/mathlib development.  It is not part of the BEDC finite kernel and is not
+available as a source of BEDC constructors, classifiers, or theorem
+inhabitants.
+\end{definition}
+
+\begin{definition}[Conservative bridge]
+\label{def:mature-bridge-spine-conservative-bridge}
+For a licensed BEDC object $A^{\uparrow}$ and a mature reference object
+$A^{\mathrm{std}}$, a conservative bridge is a packet
+$$
+\mathsf{Bridge}(A^{\uparrow},A^{\mathrm{std}})
+=
+(F,G,\eta,\epsilon,\mathsf{LawPres},\mathsf{NoReplace},\mathsf{Ledger}).
+$$
+Here $F$ interprets BEDC rows externally, $G$ is a partial reconstruction or
+decode route on a declared subdomain, $\eta$ and $\epsilon$ are the displayed
+return witnesses, $\mathsf{LawPres}$ records preservation of listed
+operations and relations, $\mathsf{NoReplace}$ states that the bridge does not
+replace internal proof obligations, and $\mathsf{Ledger}$ records unsupported
+fields and external dependencies.
+\end{definition}
+
+\begin{theorem}[Bridge does not generate]
+\label{thm:mature-bridge-spine-no-generation}
+An external object and a bridge packet do not license $A^{\uparrow}$ unless
+the internal $\NameCert(A^{\uparrow})$ is already present.
+\end{theorem}
+
+\begin{proof}
+BEDC admits objects through internal carrier, classifier, stability, ledger,
+and naming rows.  The mature object lies outside that generative surface.  A
+bridge can interpret a licensed BEDC row, but if the internal $\NameCert$ is
+absent there is no BEDC carrier for the bridge to interpret.  Therefore the
+external object cannot substitute for internal admission.
+\end{proof}
+
+\begin{principle}[Bridge interpretation boundary]
+\label{prin:mature-bridge-spine-interpretation-boundary}
+Standard models may read out BEDC objects, and bridge packets may compare
+finite theorem lists.  They do not authorize additional BEDC objects,
+additional BEDC classifiers, or additional BEDC proof terms.
+\end{principle}
+
+\section{Standard and Mathlib Bridges}
+\label{sec:mature-bridge-spine-standard-mathlib}
+
+\begin{definition}[Standard interpretation]
+\label{def:mature-bridge-spine-standard-interpretation}
+A standard interpretation for $A^{\uparrow}$ is a map
+$$
+\mathsf{Interp}_A(-):A^{\uparrow}\to A^{\mathrm{std}}
+$$
+that respects the BEDC classifier and the listed operations.  Exactness in the
+reverse direction is a separate field and is usually restricted to normalized
+or otherwise decoded subcarriers.
+\end{definition}
+
+\begin{theorem}[Standard preservation]
+\label{thm:mature-bridge-spine-standard-preservation}
+If a licensed BEDC object carries a theorem expressed by its classifier, and
+the bridge supplies the listed law-preservation rows, then the interpreted
+statement holds in the mature reference object.
+\end{theorem}
+
+\begin{proof}
+Apply the interpretation to both sides of the BEDC classifier theorem.
+Classifier preservation identifies the interpreted endpoints.  Operation
+preservation rewrites the interpreted BEDC operations into the corresponding
+mature operations.  The resulting equality is the mature-side statement named
+by the bridge ledger.
+\end{proof}
+
+\begin{definition}[Mathlib bridge]
+\label{def:mature-bridge-spine-mathlib-bridge}
+A mathlib bridge for $A^{\uparrow}$ is an external interoperability packet
+$$
+(\mathsf{TargetType},\mathsf{Encode},\mathsf{Decode},
+\mathsf{Sound},\mathsf{Complete},\mathsf{LawMap},\mathsf{AxiomAudit}).
+$$
+The target type belongs to mathlib, the encode and decode rows are
+bridge-layer maps, soundness and completeness are scoped to the declared
+domain, $\mathsf{LawMap}$ lists theorem correspondences, and
+$\mathsf{AxiomAudit}$ records use of host axioms and unsupported features.
+\end{definition}
+
+\begin{theorem}[Mathlib bridge conservativity]
+\label{thm:mature-bridge-spine-mathlib-conservativity}
+If $A^{\uparrow}$ already has a BEDC $\NameCert$, the mathlib bridge is used
+only after internal construction, and no mathlib target type flows into the
+BEDC carrier, classifier, or proof term, then the bridge is conservative over
+the BEDC theorem surface.
+\end{theorem}
+
+\begin{proof}
+The internal proof DAG for a BEDC theorem contains only BEDC rows.  The bridge
+is applied after the theorem is generated, as an interpretation layer.  Removing
+the bridge leaves the same internal proof DAG and the same public theorem.
+Thus the bridge adds interoperability but not internal proof strength.
+\end{proof}
+
+\section{Conservativity and Verification Reports}
+\label{sec:mature-bridge-spine-reports}
+
+\begin{definition}[Conservativity report]
+\label{def:mature-bridge-spine-conservativity-report}
+A conservativity report for a module $M$ records
+$$
+(\mathsf{InternalDeps},\mathsf{ExternalDeps},\mathsf{AxiomUse},
+\mathsf{HostLeakage},\mathsf{BridgeOnly},
+\mathsf{SubstitutionCheck},\mathsf{Verdict}).
+$$
+The verdict is conservative only when external references are bridge-only,
+host primitives do not appear on the public BEDC surface, forbidden axiom use
+is absent, and no mature object substitutes for an internal proof obligation.
+\end{definition}
+
+\begin{theorem}[Bridge-only external references are conservative]
+\label{thm:mature-bridge-spine-bridge-only-conservative}
+If every external reference in $M$ is bridge-only and the substitution check
+does not fail, then those references do not add internal BEDC theorem content.
+\end{theorem}
+
+\begin{proof}
+Bridge-only means the external system interprets already generated rows.  The
+substitution check rules out using the external object as the source of a BEDC
+carrier, classifier, or proof.  Deleting the external bridge therefore leaves
+the internal dependencies and proof obligations unchanged.
+\end{proof}
+
+\begin{definition}[Verification report]
+\label{def:mature-bridge-spine-verification-report}
+A verification report records the checker version, command, external imports,
+checked theorem names, admitted or pending statements, public API audit, and
+axiom audit.  Its strict pass condition requires no admitted statements, no
+forbidden axiom dependencies, no public host leakage, marker resolution for
+every checked paper target, and a reproducible command line.
+\end{definition}
+
+\begin{theorem}[Strict pass yields checked certificate status]
+\label{thm:mature-bridge-spine-strict-pass}
+If a module's verification report has strict pass, then its checked markers
+may be used as checked certificate rows for the corresponding paper sites.
+\end{theorem}
+
+\begin{proof}
+Strict pass states that every checked marker resolves to a real declaration,
+no pending or admitted statement is being used as a proof, the axiom audit is
+clean, and the public API does not expose host primitives.  Those are exactly
+the conditions needed for the checked marker to harden the corresponding
+certificate row.
+\end{proof}
+
+\section{Phase Discipline and Refutation Boundary}
+\label{sec:mature-bridge-spine-phase-refutation}
+
+\begin{definition}[Development phase]
+\label{def:mature-bridge-spine-phase}
+A development phase is a packet
+$$
+(\mathsf{Name},\mathsf{Scope},\mathsf{ExitCriterion},\mathsf{AllowedTargets}).
+$$
+The phase controls which layer may be hardened and which higher-layer targets
+may appear only as scaffolds or consumers of the current closure work.
+\end{definition}
+
+\begin{principle}[Lowest open layer priority]
+\label{prin:mature-bridge-spine-lowest-open-layer}
+If a lower layer has an unmet exit criterion, work in a higher layer does not
+close that lower layer.  Higher-layer rows may be written as scaffold or route
+targets only when their purpose is to expose the lower-layer obligation.
+\end{principle}
+
+\begin{theorem}[Higher rows do not close lower obligations]
+\label{thm:mature-bridge-spine-higher-does-not-close-lower}
+Let $L_k$ have an unmet carrier, classifier, stability, ledger, or
+$\NameCert$ obligation.  A checked row in a layer $L_j$ with $j>k$ does not by
+itself close the missing $L_k$ obligation.
+\end{theorem}
+
+\begin{proof}
+The dependency direction runs from lower layers to higher layers.  A higher
+row may consume lower rows, but it does not provide the missing lower carrier,
+classifier, stability, ledger, or naming field unless it is explicitly a proof
+of that lower obligation.  Therefore higher-layer success does not imply lower
+closure.
+\end{proof}
+
+\begin{definition}[Refutation boundary]
+\label{def:mature-bridge-spine-refutation-boundary}
+BEDC accepts a displayed route $P\to\bot$ as a refutation of $P$.  It does not
+accept a witness-free move from $\neg P\to\bot$ to $P$ when $P$ is an
+existential or otherwise witness-bearing claim outside a decidable fragment.
+\end{definition}
+
+\begin{principle}[RH contradiction discipline]
+\label{prin:mature-bridge-spine-rh-contradiction}
+An RH argument translated into BEDC must produce the proof function
+$$
+\prod_s
+\left(
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+\to
+\mathsf{OnCritLine}(s)
+\right)
+$$
+or explicitly mark the step that leaves the constructive fragment.
+\end{principle}
+
+\section{Omega Tower}
+\label{sec:mature-bridge-spine-omega}
+
+\begin{definition}[Full constraint diagram]
+\label{def:mature-bridge-spine-full-constraint-diagram}
+The $\Omega$ diagram is a family
+$$
+\mathcal D_{\Omega}
+=
+(R_i,\sim_i,C_i,\rho_{ji},\alpha_i,\Lambda_i)_{i\in I}
+$$
+where $R_i$ is a layer carrier, $\sim_i$ its classifier, $C_i$ its constraint
+predicate, $\rho_{ji}:R_j\to R_i$ a readback map, $\alpha_i:R_i\to R_i$ a
+self-similar operation at that layer, and $\Lambda_i$ the local ledger.
+\end{definition}
+
+\begin{definition}[Omega tower carrier]
+\label{def:mature-bridge-spine-omega-tower}
+The tower carrier is the compatible family packet
+$$
+T_{\Omega}
+:=
+\sum_{(r_i)\in\prod_i R_i}
+\left[
+\prod_i C_i(r_i)
+\right]
+\times
+\left[
+\prod_{j\to i}\rho_{ji}(r_j)\sim_i r_i
+\right]
+\times
+\Lambda_{\Omega}.
+$$
+It is the $\CatLimitUp$ reading of all layer readouts, constraints, readbacks,
+and ledgers at once.
+\end{definition}
+
+\begin{definition}[Mother operation]
+\label{def:mature-bridge-spine-mother-operation}
+If the operations $\alpha_i$ commute with readback,
+$$
+\rho_{ji}(\alpha_j(r_j))
+\sim_i
+\alpha_i(\rho_{ji}(r_j)),
+$$
+then $\Omega_{\infty}:T_{\Omega}\to T_{\Omega}$ is defined by acting
+componentwise:
+$$
+\Omega_{\infty}((r_i)_i)=(\alpha_i(r_i))_i.
+$$
+\end{definition}
+
+\begin{theorem}[Projection law]
+\label{thm:mature-bridge-spine-projection-law}
+For every layer projection $\pi_i:T_{\Omega}\to R_i$,
+$$
+\pi_i\circ\Omega_{\infty}
+\sim
+\alpha_i\circ\pi_i.
+$$
+\end{theorem}
+
+\begin{proof}
+For $x=(r_i)_i$, the left side reads the $i$-component of
+$(\alpha_j(r_j))_j$, namely $\alpha_i(r_i)$.  The right side first reads
+$r_i$ and then applies $\alpha_i$.  The two displayed histories are the same
+component row, so the layer classifier identifies them.
+\end{proof}
+
+\begin{principle}[Boundary and fibre reading]
+\label{prin:mature-bridge-spine-boundary-fibre}
+Each projection $\pi_i:T_{\Omega}\to R_i$ is a boundary readout, and the fibre
+over $r$ is the compatible bulk packet
+$$
+\operatorname{Fib}_i(r)
+:=
+\sum_{x:T_{\Omega}}\pi_i(x)\sim_i r.
+$$
+Thus the tower is a boundary, bulk, fibre, and readback geometry over the
+previously licensed layers.
+\end{principle}
+
+\section{Omega-RH Rigidity}
+\label{sec:mature-bridge-spine-omega-rh}
+
+\begin{definition}[Zeta projection and zero atom]
+\label{def:mature-bridge-spine-zero-atom}
+Let $\pi_{\zeta}:T_{\Omega}\to R_{\zeta}$ be the projection to the
+$\ZetaContUp$ and $\ZetaZerosUp$ layer.  The tower zero atom predicate is
+$$
+\mathsf{ZeroAtom}_{\Omega}(x)
+:=
+\mathsf{ZetaZero}(\pi_{\zeta}(x)).
+$$
+\end{definition}
+
+\begin{definition}[Omega counterexample surface]
+\label{def:mature-bridge-spine-counter-rh}
+The tower counterexample surface is
+$$
+\mathsf{CounterRH}_{\Omega}
+:=
+\sum_{x:T_{\Omega}}
+\left(
+\mathsf{ZeroAtom}_{\Omega}(x)
+\times
+\mathsf{InCritStrip}(\pi_{\zeta}(x))
+\times
+\mathsf{ApartNonFix}(\pi_{\zeta}(x))
+\right).
+$$
+It is a witness-bearing surface, not a decision procedure over all zeros.
+\end{definition}
+
+\begin{definition}[Omega zero rigidity]
+\label{def:mature-bridge-spine-zero-rigidity}
+The tower rigidity target is
+$$
+\mathsf{ZeroRigidity}_{\Omega}
+:=
+\prod_{x:T_{\Omega}}
+\left(
+\mathsf{ZeroAtom}_{\Omega}(x)
+\times
+\mathsf{InCritStrip}(\pi_{\zeta}(x))
+\to
+\mathsf{OnCritLine}(\pi_{\zeta}(x))
+\right).
+$$
+\end{definition}
+
+\begin{theorem}[Tower rigidity implies RH]
+\label{thm:mature-bridge-spine-rigidity-implies-rh}
+If every legal zeta-zero packet is the $\pi_{\zeta}$ projection of some tower
+point and $\mathsf{ZeroRigidity}_{\Omega}$ holds, then the RH predicate holds.
+\end{theorem}
+
+\begin{proof}
+Let $s$ carry $\mathsf{ZetaZero}(s)$ and $\mathsf{InCritStrip}(s)$.  By the
+same-source projection hypothesis, choose $x:T_{\Omega}$ with
+$\pi_{\zeta}(x)\sim s$.  Transport the zero and strip rows along this
+classifier comparison.  Tower rigidity gives
+$\mathsf{OnCritLine}(\pi_{\zeta}(x))$, and classifier transport gives
+$\mathsf{OnCritLine}(s)$.
+\end{proof}
+
+\begin{theorem}[Defect incompatibility gives tower rigidity]
+\label{thm:mature-bridge-spine-defect-gives-rigidity}
+Assume $\mathsf{DefectZeroIncompatibility}$, zero-ledger soundness,
+off-fixed-to-defect, and located-real collapse.  Then
+$\mathsf{ZeroRigidity}_{\Omega}$ holds.
+\end{theorem}
+
+\begin{proof}
+Take $x:T_{\Omega}$ with a zero atom and critical-strip row, and write
+$s:=\pi_{\zeta}(x)$.  If $s$ is apart from the critical line, the
+off-fixed-to-defect route supplies a nonempty finite prime-window defect.
+Defect-zero incompatibility makes $\zeta(s)$ apart from zero.  Zero-ledger
+soundness from the zero atom gives the zero value, a contradiction.  Hence
+there is no off-fixed apartness, and located-real collapse gives
+$\mathsf{OnCritLine}(s)$.
+\end{proof}
+
+\section{L14 Boundary}
+\label{sec:mature-bridge-spine-boundary-theorem}
+
+\begin{theorem}[Mature bridge and omega synthesis admission]
+\label{thm:mature-bridge-spine-admission}
+If mature-system bridge, standard-model bridge, mathlib bridge,
+conservativity-report, and verification-report packets carry their declared
+fields, and if the $\Omega$ tower is given as the internal compatible
+$\CatLimitUp$ packet over L0--L13 readouts, then L14 is admitted as a bridge
+and audit layer, while $\mathsf{ZeroRigidity}_{\Omega}$ remains the internal
+RH-facing rigidity target.
+\end{theorem}
+
+\begin{proof}
+The bridge packets interpret licensed objects and carry no substitution route
+for internal certificates.  Conservativity and verification reports audit
+external dependencies, host leakage, checked markers, and axiom use.  Phase
+discipline prevents higher bridge rows from closing lower layer obligations.
+The $\Omega$ tower is internal because it is a compatible $\CatLimitUp$ packet
+over the already declared lower readouts.  The projection law supplies the
+componentwise mother-operation readout, and the RH-facing theorems reduce RH
+to tower zero rigidity, with defect-zero incompatibility identified as the
+remaining rigidity target.
+\end{proof}
+
+\begin{principle}[Final boundary]
+\label{prin:mature-bridge-spine-final-boundary}
+At this surface the tower from $b_0,b_1$ through $\ZetaZerosUp$ and
+$\Omega_{\infty}$ can state RH as a rigidity theorem.  The work is no longer a
+claim that the bridge proves RH; it is the explicit target that off-fixed zero
+atoms in the tower must be incompatible with the zeta zero ledger.
+\end{principle}

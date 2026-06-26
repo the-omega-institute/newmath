@@ -1,0 +1,458 @@
+{
+  "benefit_model": {
+    "eval_pred_mean": -0.01358460572335217,
+    "eval_pred_std": 0.13377904656591438,
+    "train_benefit_mean": -0.000717641379147418,
+    "train_benefit_std": 0.06853182902579903,
+    "train_corr": 0.9838474171234157
+  },
+  "config": {
+    "alpha": 15.0,
+    "feature_dim": 5042,
+    "scorer_epochs": 60,
+    "scorer_seed": 659,
+    "seed": 727,
+    "threshold_count": 10
+  },
+  "diagnosis": {
+    "hard_beats_priority_residual_observed": false,
+    "hard_beats_raw_geometry_option_observed": false,
+    "hard_closes": false
+  },
+  "eval": {
+    "benefit_selector": {
+      "full": {
+        "allocation_delta": {
+          "high": -0.001286606957884441,
+          "low": -0.007647898209033947,
+          "observed": -0.00429771095142123
+        },
+        "chosen_depth_counts": {
+          "1": 4,
+          "2": 247,
+          "3": 241,
+          "4": 29,
+          "5": 113
+        },
+        "oracle_match": 0.2334384858044164,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7899188535896302
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.0044620829125432485,
+          "low": -0.014311694860085267,
+          "observed": -0.00493589617166483
+        },
+        "chosen_depth_counts": {
+          "2": 22,
+          "3": 43,
+          "4": 6,
+          "5": 8
+        },
+        "oracle_match": 0.13924050632911392,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7461837419364888
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.0009348742059608824,
+          "low": -0.008145844580434446,
+          "observed": -0.004206870172323518
+        },
+        "chosen_depth_counts": {
+          "1": 4,
+          "2": 225,
+          "3": 198,
+          "4": 23,
+          "5": 105
+        },
+        "oracle_match": 0.24684684684684685,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7966717906693472
+      }
+    },
+    "priority_residual": {
+      "full": {
+        "allocation_delta": {
+          "high": -0.0013354128853972033,
+          "low": -0.007770459144517486,
+          "observed": -0.00429771095142123
+        },
+        "chosen_depth_counts": {
+          "1": 4,
+          "2": 247,
+          "3": 241,
+          "4": 29,
+          "5": 113
+        },
+        "oracle_match": 0.2334384858044164,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7899188535896302
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.004451311237965562,
+          "low": -0.014333708569841975,
+          "observed": -0.00493589617166483
+        },
+        "chosen_depth_counts": {
+          "2": 22,
+          "3": 43,
+          "4": 6,
+          "5": 8
+        },
+        "oracle_match": 0.13924050632911392,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7461837419364888
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.001096256316175898,
+          "low": -0.0077964430376271775,
+          "observed": -0.004206870172323518
+        },
+        "chosen_depth_counts": {
+          "1": 4,
+          "2": 225,
+          "3": 198,
+          "4": 23,
+          "5": 105
+        },
+        "oracle_match": 0.24684684684684685,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7966717906693472
+      }
+    },
+    "raw_geometry_option": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.0001298363181581538,
+          "low": -0.007865378820688173,
+          "observed": -0.00373001502130621
+        },
+        "chosen_depth_counts": {
+          "1": 8,
+          "2": 300,
+          "3": 164,
+          "4": 8,
+          "5": 154
+        },
+        "oracle_match": 0.2334384858044164,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.8114546658735091
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.0045651213936208175,
+          "low": -0.016672940463771938,
+          "observed": -0.005425220763907779
+        },
+        "chosen_depth_counts": {
+          "2": 31,
+          "3": 31,
+          "4": 3,
+          "5": 14
+        },
+        "oracle_match": 0.13924050632911392,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7998950502259633
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": 9.06350315944202e-05,
+          "low": -0.007891401579355396,
+          "observed": -0.0034887154651521007
+        },
+        "chosen_depth_counts": {
+          "1": 8,
+          "2": 269,
+          "3": 133,
+          "4": 5,
+          "5": 140
+        },
+        "oracle_match": 0.24684684684684685,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.8151975502946956
+      }
+    }
+  },
+  "leakage_attestation": {
+    "benefit_label": "raw-vs-priority benefit labels are computed on train exact-budget assignments only",
+    "eval_targets": "eval option_error is used only after all scores are fixed",
+    "hard_ids": "held-out hard episode ids are used only for final diagnostic slicing",
+    "priority_score": "budget-priority residual is trained on train targets and selected on calibration exact-budget allocation",
+    "raw_score": "geometry-option scorer is regenerated deterministically",
+    "slurm_or_ssh": "not used",
+    "threshold_selection": "raw-vs-priority switch threshold is selected on calibration exact-budget allocation"
+  },
+  "not_claimed": [
+    "allocation closure unless hard CI high < 0",
+    "deployable policy",
+    "independent export validation"
+  ],
+  "priority_selection": "base_plus_0.5_residual",
+  "raw_feature_dims": {
+    "augmented_feature_dim": 4968,
+    "base_feature_dim": 4952,
+    "geometry_feature_dim": 16
+  },
+  "raw_model_selection": {
+    "best": {
+      "calibration": {
+        "allocation_delta": {
+          "high": -0.0026286372669253994,
+          "low": -0.00892452489825493,
+          "observed": -0.005708073246828746
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 309,
+          "3": 170,
+          "4": 13,
+          "5": 151
+        },
+        "score_error_spearman": 0.8238734066387183
+      },
+      "epoch": 9,
+      "selection_key": [
+        -0.0026286372669253994,
+        -0.005708073246828746,
+        0.18988635614514351
+      ]
+    },
+    "history_first": {
+      "cal_delta_high": 0.01684793251182204,
+      "cal_delta_observed": 0.01075102620618254,
+      "cal_spearman": 0.2846944026398426,
+      "epoch": 1.0,
+      "train_loss": 0.4811796978116035
+    },
+    "history_last": {
+      "cal_delta_high": -0.0012124559616774958,
+      "cal_delta_observed": -0.004878248260919565,
+      "cal_spearman": 0.8689831851832526,
+      "epoch": 60.0,
+      "train_loss": 0.1375382125377655
+    },
+    "params_count": 2090497,
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then training loss"
+  },
+  "schema_id": "bedc_jepa.state_generation_residual_benefit_selector",
+  "selection": {
+    "calibration": {
+      "benefit_switch_ge_-0.00045273": {
+        "allocation_delta": {
+          "high": 0.0011864677191656676,
+          "low": -0.005793107141434387,
+          "observed": -0.002476655125480745
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 293,
+          "3": 193,
+          "4": 15,
+          "5": 142
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.99984520123839,
+        "score_error_spearman": 0.8110178874654823
+      },
+      "benefit_switch_ge_-0.00608598": {
+        "allocation_delta": {
+          "high": 0.0011068817703621173,
+          "low": -0.005929782649463332,
+          "observed": -0.0023220369766243365
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 297,
+          "3": 188,
+          "4": 13,
+          "5": 145
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.99984520123839,
+        "score_error_spearman": 0.810864860709113
+      },
+      "benefit_switch_ge_-0.0147977": {
+        "allocation_delta": {
+          "high": 0.00064618586916663,
+          "low": -0.006241169362414826,
+          "observed": -0.002543207142280096
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 292,
+          "3": 195,
+          "4": 14,
+          "5": 142
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.99984520123839,
+        "score_error_spearman": 0.8113603576912117
+      },
+      "benefit_switch_ge_-0.0531653": {
+        "allocation_delta": {
+          "high": 0.0007764360636498444,
+          "low": -0.00617805501541912,
+          "observed": -0.0027270054836887048
+        },
+        "chosen_depth_counts": {
+          "1": 4,
+          "2": 277,
+          "3": 215,
+          "4": 15,
+          "5": 135
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.99984520123839,
+        "score_error_spearman": 0.8099389004812221
+      },
+      "benefit_switch_ge_-0.0921141": {
+        "allocation_delta": {
+          "high": 0.00037039857537617615,
+          "low": -0.006822158133651609,
+          "observed": -0.0033461626702866593
+        },
+        "chosen_depth_counts": {
+          "1": 2,
+          "2": 261,
+          "3": 241,
+          "4": 19,
+          "5": 123
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.8076554620072047
+      },
+      "benefit_switch_ge_0": {
+        "allocation_delta": {
+          "high": 0.001062654563702196,
+          "low": -0.00584922098394178,
+          "observed": -0.002476655125480745
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 293,
+          "3": 193,
+          "4": 15,
+          "5": 142
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.99984520123839,
+        "score_error_spearman": 0.8110178874654823
+      },
+      "benefit_switch_ge_0.00512785": {
+        "allocation_delta": {
+          "high": 0.0013115929271708497,
+          "low": -0.005842803436685283,
+          "observed": -0.0023141060580409434
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 292,
+          "3": 194,
+          "4": 16,
+          "5": 141
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9996904024767802,
+        "score_error_spearman": 0.8117801638894347
+      },
+      "benefit_switch_ge_0.0120578": {
+        "allocation_delta": {
+          "high": 0.000981959508991897,
+          "low": -0.00584757799300049,
+          "observed": -0.0023018793444313235
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 299,
+          "3": 183,
+          "4": 17,
+          "5": 144
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9996904024767802,
+        "score_error_spearman": 0.8120595329413317
+      },
+      "benefit_switch_ge_0.026612": {
+        "allocation_delta": {
+          "high": 0.0017573196645347356,
+          "low": -0.005348789355526574,
+          "observed": -0.001773937034263623
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 316,
+          "3": 159,
+          "4": 14,
+          "5": 154
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9996904024767802,
+        "score_error_spearman": 0.8130412775269222
+      },
+      "benefit_switch_ge_0.110182": {
+        "allocation_delta": {
+          "high": -0.00027981632218420694,
+          "low": -0.007585955387201903,
+          "observed": -0.0038343546616990687
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 312,
+          "3": 164,
+          "4": 16,
+          "5": 151
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9996904024767802,
+        "score_error_spearman": 0.8178224659317515
+      },
+      "priority_residual": {
+        "allocation_delta": {
+          "high": -0.0034692413493927535,
+          "low": -0.00942949539983713,
+          "observed": -0.006180245358148484
+        },
+        "chosen_depth_counts": {
+          "1": 2,
+          "2": 236,
+          "3": 274,
+          "4": 28,
+          "5": 106
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.8101074233475264
+      },
+      "raw_geometry_option": {
+        "allocation_delta": {
+          "high": -0.0026338885503328006,
+          "low": -0.008914929064575406,
+          "observed": -0.005708073246828746
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 309,
+          "3": 170,
+          "4": 13,
+          "5": 151
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9993808049535604,
+        "score_error_spearman": 0.8238734066387183
+      }
+    },
+    "selected": "priority_residual",
+    "selection_key": [
+      -0.0034692413493927535,
+      -0.006180245358148484
+    ]
+  },
+  "status": "ok",
+  "verdict": "Residual-benefit selector does not improve the hard-only allocation boundary over raw geometry-option scores.",
+  "wall_time_sec": 85.40344667434692
+}

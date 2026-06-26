@@ -1,0 +1,170 @@
+{
+  "budgets": {
+    "budget_2": {
+      "headroom_capture_ratio": -0.6576053434909029,
+      "oracle_delta": {
+        "episode_count": 7,
+        "high": -0.012533472410254117,
+        "low": -0.040207766722039455,
+        "observed": -0.02512420623115628,
+        "samples": 4000
+      },
+      "regret_to_oracle": {
+        "episode_count": 7,
+        "high": 0.0880343679942855,
+        "low": 0.014808833540225445,
+        "observed": 0.04164601849973209,
+        "samples": 4000
+      },
+      "score_delta": {
+        "episode_count": 7,
+        "high": 0.05133083829315452,
+        "low": -0.005855823298861432,
+        "observed": 0.01652181226857581,
+        "samples": 4000
+      }
+    },
+    "budget_3": {
+      "headroom_capture_ratio": -0.41969131629733547,
+      "oracle_delta": {
+        "episode_count": 7,
+        "high": -0.022986615718750148,
+        "low": -0.07190410042544795,
+        "observed": -0.042996253248490435,
+        "samples": 4000
+      },
+      "regret_to_oracle": {
+        "episode_count": 7,
+        "high": 0.10958296240733831,
+        "low": 0.03362480374106684,
+        "observed": 0.061041407370202964,
+        "samples": 4000
+      },
+      "score_delta": {
+        "episode_count": 7,
+        "high": 0.040467418279546696,
+        "low": 0.0017195294941141756,
+        "observed": 0.018045154121712537,
+        "samples": 4000
+      }
+    },
+    "budget_4": {
+      "headroom_capture_ratio": 0.09586061995883675,
+      "oracle_delta": {
+        "episode_count": 7,
+        "high": -0.03113328294150669,
+        "low": -0.10327853925190013,
+        "observed": -0.05985959480038509,
+        "samples": 4000
+      },
+      "regret_to_oracle": {
+        "episode_count": 7,
+        "high": 0.08824897715743808,
+        "low": 0.03099749655807068,
+        "observed": 0.05412141693233541,
+        "samples": 4000
+      },
+      "score_delta": {
+        "episode_count": 7,
+        "high": 0.01373530728526176,
+        "low": -0.024970401364415425,
+        "observed": -0.005738177868049675,
+        "samples": 4000
+      }
+    }
+  },
+  "config": {
+    "batch": 512,
+    "bootstrap_samples": 4000,
+    "depth": 2,
+    "epochs": 80,
+    "heads": [
+      2,
+      3,
+      4
+    ],
+    "hidden": 256,
+    "lr": 0.0005,
+    "seed": 1409
+  },
+  "device": "cuda",
+  "diagnosis": {
+    "budget_head_beats_pooled_mean_capture": true,
+    "budget_head_beats_single_replacement_mean_capture": false,
+    "budget_head_budget3_capture_ratio": -0.41969131629733547,
+    "budget_head_budget4_capture_ratio": 0.09586061995883675,
+    "budget_head_closes": false,
+    "budget_head_mean_capture_ratio": -0.3271453466098005,
+    "budget_head_mean_regret_to_oracle": 0.05226961426742349,
+    "budget_head_repairs_budget4_capture": true,
+    "pooled_budget_conditioned_budget4_capture_ratio": -0.21509666916722106,
+    "pooled_budget_conditioned_mean_capture_ratio": -0.5408286075092362,
+    "single_budget_replacement_budget4_capture_ratio": -0.07437239467457121,
+    "single_budget_replacement_mean_capture_ratio": 0.12606921419567504
+  },
+  "feature_dims": {
+    "augmented_feature_dim": 4968,
+    "base_feature_dim": 4952,
+    "expanded_mechanism_feature_dim": 5125,
+    "geometry_feature_dim": 16,
+    "mechanism_feature_dim": 12
+  },
+  "hard_episode_union": [
+    81,
+    115,
+    145,
+    193,
+    201,
+    213,
+    277
+  ],
+  "leakage_attestation": {
+    "features": "aligned export x, geometry, predicted rollout mechanism summaries, and option interactions",
+    "oracle_scope": "eval option_error is used only after fixed budget-head scores are generated",
+    "selection": "calibration split budget-head metrics only; held-out hard ids are not used for training or model selection",
+    "slurm_or_ssh": "not used",
+    "training_targets": "train/cal split forced-replacement exact-budget values with separate heads for budget multipliers 2, 3, and 4"
+  },
+  "not_claimed": [
+    "deployable allocation policy",
+    "independent export validation",
+    "complete BEDC-native world model",
+    "prediction parity"
+  ],
+  "schema_id": "bedc_jepa.state_generation_budget_head_value",
+  "status": "ok",
+  "summary": {
+    "budget3_capture_ratio": -0.41969131629733547,
+    "budget4_capture_ratio": 0.09586061995883675,
+    "max_capture_ratio": 0.09586061995883675,
+    "mean_capture_ratio": -0.3271453466098005,
+    "mean_regret_to_oracle": 0.05226961426742349,
+    "min_capture_ratio": -0.6576053434909029
+  },
+  "training": {
+    "best": {
+      "epoch": 52,
+      "selection_key": [
+        -0.0017718296499584123,
+        -0.005255208758539164,
+        0.0239925604313612
+      ]
+    },
+    "history_first": {
+      "cal_budget_max_high": 0.017918921248128983,
+      "cal_budget_mean_observed": 0.007359718713067034,
+      "epoch": 1.0,
+      "train_loss": 0.218431057035923
+    },
+    "history_last": {
+      "cal_budget_max_high": -0.0008294548730753732,
+      "cal_budget_mean_observed": -0.005302930686611494,
+      "epoch": 80.0,
+      "train_loss": 0.018592243338935076
+    },
+    "params_count": 1379843,
+    "selection_rule": "minimize calibration max CI high across budget-specific heads, then mean observed delta, then training loss"
+  },
+  "verdict": "Budget-specific heads improve at least one stress statistic over pooled or single-budget baselines, but allocation closure remains open.",
+  "wall_time_sec": 139.88618636131287
+}

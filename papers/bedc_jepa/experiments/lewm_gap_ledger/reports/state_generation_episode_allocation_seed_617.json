@@ -1,0 +1,156 @@
+{
+  "config": {
+    "batch": 128,
+    "depth": 2,
+    "epochs": 180,
+    "hidden": 256,
+    "loss": "0.50*oracle_choice_ce + 0.25*pairwise_order + 0.15*expected_depth + 0.10*centered_smooth_l1",
+    "lr": 0.0004
+  },
+  "counts": {
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55,
+    "train": 2043
+  },
+  "device": "cuda",
+  "diagnosis": {
+    "allocation_closed": false,
+    "beats_allocation_native_ci_high": true,
+    "beats_allocation_native_observed": true,
+    "oracle_closed": true
+  },
+  "eval": {
+    "allocation_native": {
+      "allocation_delta": {
+        "high": 0.012196545259725943,
+        "low": -0.0013197161930851079,
+        "observed": 0.0044036332341524514
+      },
+      "chosen_depth_counts": {
+        "1": 42,
+        "2": 349,
+        "3": 24,
+        "4": 5,
+        "5": 214
+      },
+      "oracle_match": 0.2334384858044164,
+      "pair_accuracy": 1.0,
+      "score_error_spearman": 0.8163159949023315
+    },
+    "episode_allocation": {
+      "allocation_delta": {
+        "high": 0.0009661705849168259,
+        "low": -0.008893734494470217,
+        "observed": -0.003591294507923462
+      },
+      "chosen_depth_counts": {
+        "1": 153,
+        "2": 116,
+        "3": 109,
+        "4": 90,
+        "5": 166
+      },
+      "oracle_match": 0.3470031545741325,
+      "pair_accuracy": 0.6714511041009463,
+      "score_error_spearman": 0.4450989694138167
+    },
+    "oracle_true_error": {
+      "allocation_delta": {
+        "high": -0.01891527628297058,
+        "low": -0.03014240664635459,
+        "observed": -0.024122137932078153
+      },
+      "chosen_depth_counts": {
+        "1": 148,
+        "2": 114,
+        "3": 117,
+        "4": 100,
+        "5": 155
+      },
+      "oracle_match": 0.2334384858044164,
+      "pair_accuracy": 1.0,
+      "score_error_spearman": 1.0
+    }
+  },
+  "leakage_attestation": {
+    "features": "aligned export x only",
+    "selection": "calibration exact-budget allocation_delta CI high, then observed delta",
+    "slurm_or_ssh": "not used",
+    "targets": "train option_error is converted to exact-budget oracle choices; eval option_error used only after score generation for metrics"
+  },
+  "not_claimed": [
+    "deployable policy",
+    "complete BEDC-native world model"
+  ],
+  "oracle_choice_counts": {
+    "calibration": {
+      "1": 141,
+      "2": 127,
+      "3": 120,
+      "4": 107,
+      "5": 151
+    },
+    "eval": {
+      "1": 148,
+      "2": 114,
+      "3": 117,
+      "4": 100,
+      "5": 155
+    },
+    "train": {
+      "1": 467,
+      "2": 390,
+      "3": 357,
+      "4": 334,
+      "5": 495
+    }
+  },
+  "schema_id": "bedc_jepa.state_generation_episode_allocation",
+  "selection": {
+    "best": {
+      "calibration": {
+        "allocation_delta": {
+          "high": -0.001690158709285604,
+          "low": -0.011120218282926697,
+          "observed": -0.005951394028233831
+        },
+        "chosen_depth_counts": {
+          "1": 153,
+          "2": 122,
+          "3": 108,
+          "4": 98,
+          "5": 165
+        },
+        "oracle_match": 0.3668730650154799,
+        "pair_accuracy": 0.6804953560371517,
+        "score_error_spearman": 0.45454087664302306
+      },
+      "epoch": 77,
+      "selection_key": [
+        -0.001690158709285604,
+        -0.005951394028233831
+      ]
+    },
+    "history_first": {
+      "cal_delta_high": 0.0008821436708076039,
+      "cal_delta_observed": -0.003592693888668466,
+      "cal_oracle_match": 0.3173374613003096,
+      "cal_spearman": 0.22728209341213784,
+      "epoch": 1.0,
+      "train_loss": 1.1853355839848518
+    },
+    "history_last": {
+      "cal_delta_high": 0.0005311998110253814,
+      "cal_delta_observed": -0.0039913153517332906,
+      "cal_oracle_match": 0.369969040247678,
+      "cal_spearman": 0.4849814985586719,
+      "epoch": 180.0,
+      "train_loss": 0.3476580698043108
+    },
+    "params_count": 1336069,
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta"
+  },
+  "status": "ok",
+  "wall_time_sec": 101.45330548286438
+}

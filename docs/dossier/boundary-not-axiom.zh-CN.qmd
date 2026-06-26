@@ -19,7 +19,7 @@ description: "任何形式化系统迟早会走到一个点: 下一步需要的�
 axiom ThatFact : Whatever
 ```
 
-这是错的. 不是风格上的错, 不是"不推荐"的错, 而是结构上的错——就跟把借来的选择子当成你自己构造的输出来用, 是同一种错. 一旦你写下这条 axiom, 衬底就把这条内容标成衬底自身的真理. 不再有构造子, 不再有 def, 不再有 setup field. 这条事实真正的来源——它从哪借来、谁帮你算的——消失了.
+这是错的. 不是风格上的错, 不是"不推荐"的错, 而是结构上的错——就跟把借来的选择子当成你自己构造的输出来用, 是同一种错. 一旦你写下这条 axiom, 衬底就把这条内容标成衬底自身的真理. 不再有构造子, 不再有 def, 不再有配置 field. 这条事实真正的来源——它从哪借来、谁帮你算的——消失了.
 
 从审计的角度看, 这不是无害的捷径. 这是来源抹除.
 
@@ -42,20 +42,20 @@ BEDC 时不时撞到边界. 任意域上的数学归纳法. Quotient 代表元. 
 
 1. `inductive` —— 闭生成子, 构造子可见.
 2. `def` —— 已有材料的可计算或定义性压缩.
-3. structure 或 class field —— 由调用方提供的参数化 setup 输入.
-4. `NameCert` row —— 持牌的公共名字, 含 source、classifier、stability、ledger.
-5. `GAP` ledger —— 压缩残差或缺失的守恒行, 始终可审计.
-6. bridge slot —— 外部语义对应, 与内部证明严格分开.
-7. apophatic socket —— 被命名的外部供给位置, 衬底明确不内化.
+3. structure 或 class 字段 —— 由调用方提供的参数化配置输入.
+4. `NameCert` 行 —— 持牌的公共名字, 含源、分类器、稳定性、ledger.
+5. `GAP` 账本 —— 压缩残差或缺失的守恒行, 始终可审计.
+6. 桥 slot —— 外部语义对应, 与内部证明严格分开.
+7. 否定式接口 —— 被命名的外部供给位置, 衬底明确不内化.
 :::
 
-这不是七种风格, 而是同一个问题"这条内容的 source-channel 在哪"的七个互斥回答. 前四个说"在衬底里, 显式可见". 第五、第六个说"在外面, 但已 ledger". 第七个说"在外面, 衬底拒绝声明对面有什么".
+这不是七种风格, 而是同一个问题"这条内容的来源通道在哪"的七个互斥回答. 前四个说"在衬底里, 显式可见". 第五、第六个说"在外面, 但已账本". 第七个说"在外面, 衬底拒绝声明对面有什么".
 
 Axiom 这七种都不是. Axiom 说"这条内容直接可用"——而这句话本身, 就是来源抹除.
 
 ## 准入决策
 
-每条 BEDC 候选内容都要走一个决策树. 闭语法? `inductive`. 从前面行算出来? `def`. 参数化接口输入? setup field. 公共成熟名字? `NameCert`. 压缩残差? `GAP`. 外部语义对应? bridge slot. 不支持的前向供给? apophatic socket. 都不是? 这个接口的边界还没识别清楚, 不是允许 axiom 的理由, 而是该重新设计.
+每条 BEDC 候选内容都要走一个决策树. 闭语法? `inductive`. 从前面行算出来? `def`. 参数化接口输入? 配置 field. 公共成熟名字? `NameCert`. 压缩残差? `GAP`. 外部语义对应? 桥 slot. 不支持的前向供给? 否定式 socket. 都不是? 这个接口的边界还没识别清楚, 不是允许 axiom 的理由, 而是该重新设计.
 
 ```{=html}
 <span class="role-tag discovery">⊕ 纪律</span>
@@ -71,30 +71,30 @@ Axiom 这七种都不是. Axiom 说"这条内容直接可用"——而这句话�
 
 ## 被禁的写法及替换
 
-纪律的咬合, 是写出"禁用 → BEDC 替换"对照表才显现. 表里每一行, 都是把形式化语境会诱导你写的写法, 替换成把同一条内容暴露成边界的 BEDC 写法.
+纪律的咬合, 是写出"禁用 $\to$ BEDC 替换"对照表才显现. 表里每一行, 都是把形式化语境会诱导你写的写法, 替换成把同一条内容暴露成边界的 BEDC 写法.
 
 | 禁用写法 | BEDC 替换 |
 | --- | --- |
-| `axiom ExternalInput` | `T`-socket 或 apophatic boundary |
-| `axiom MathematicalInduction` | generator-local eliminator 或 induction socket |
-| `axiom InformationConservation` | `GAP` ledger + provenance conservation gates |
-| `axiom ObserverChoice` | `SelStep` witness 和 selector ledger |
-| `axiom GlobalClock` | extension carrier + synchronization certificate |
-| `axiom LightSpeedConstancy` | `MaxCausalRate` `NameCert` target |
-| `axiom QuotientCollapse` | classifier transport + `GAP` provenance |
-| `axiom PropositionEquality` | 定向 `hsame` / `psame` transport |
-| `axiom StandardModelBridge` | 受限的 bridge slot + 显式 fields |
-| `axiom RuntimeCorrectness` | host delegation 标为 audit / socket 边界 |
+| `axiom ExternalInput` | `T`-socket 或否定式边界 |
+| `axiom MathematicalInduction` | generator-local eliminator 或 induction 接口 |
+| `axiom InformationConservation` | `GAP` 账本 + provenance conservation gates |
+| `axiom ObserverChoice` | `SelStep` 见证和 selector 账本 |
+| `axiom GlobalClock` | extension 载体 + synchronization 证书 |
+| `axiom LightSpeedConstancy` | `MaxCausalRate` `NameCert` 目标 |
+| `axiom QuotientCollapse` | 分类器输运 + `GAP` provenance |
+| `axiom PropositionEquality` | 定向 `hsame` / `psame` 输运 |
+| `axiom StandardModelBridge` | 受限的桥 slot + 显式字段 |
+| `axiom RuntimeCorrectness` | 宿主 delegation 标为审计 / 接口边界 |
 
-这张表不是风格表. 每一行替换都保住了禁用写法会抹掉的信息: 来源、见证、classifier、残差、调用者义务、边界状态. 从头读到尾, 这是一张"每一个形式化项目尝试把外部供给塞进衬底" 的现象学清单.
+这张表不是风格表. 每一行替换都保住了禁用写法会抹掉的信息: 来源、见证、分类器、残差、调用者义务、边界状态. 从头读到尾, 这是一张"每一个形式化项目尝试把外部供给塞进衬底" 的现象学清单.
 
-## 用代码强制的四个 gate
+## 用代码强制的四个门禁
 
 这条纪律不是形而上的, 而是会让 build 失败的审计脚本:
 
 ::: {.evidence}
 **`tools/check-axioms.py` —— 拒绝衬底内 axiom.**
-扫 `lean4/BEDC/` 下任何 `axiom` 声明. 边界含义: 衬底真理必须经由生成、定义、显式 setup 边界参数化, 或 socket; 不得以内部 oracle 形式出现.
+扫 `lean4/BEDC/` 下任何 `axiom` 声明. 边界含义: 衬底真理必须经由生成、定义、显式配置边界参数化, 或接口; 不得以内部预言机形式出现.
 
 ```bash
 $ python3 tools/check-axioms.py
@@ -103,8 +103,8 @@ Axiom audit: 0 axioms in lean4/BEDC/. Project invariant holds.
 :::
 
 ::: {.evidence}
-**`bedc_ci.py axiom-purity --strict` —— 拒绝 host axiom 渗透.**
-对每条 BEDC 公开定理跑 Lean 的 `#print axioms`, 检查传递证明祖先. 拒绝任何 `Classical.choice`、`Quot.sound`、`propext` 依赖. 边界含义: Lean CIC 内核可以替我们验证生成的 BEDC 证明, 但它的禁用 commitment 不得变成 BEDC 定理内容.
+**`bedc_ci.py axiom-purity --strict` —— 拒绝宿主 axiom 渗透.**
+对每条 BEDC 公开定理跑 Lean 的 `#print axioms`, 检查传递证明祖先. 拒绝任何 `Classical.choice`、`Quot.sound`、`propext` 依赖. 边界含义: Lean CIC 内核可以替我们验证生成的 BEDC 证明, 但它的禁用承诺不得变成 BEDC 定理内容.
 
 ```bash
 $ python3 lean4/scripts/bedc_ci.py axiom-purity --strict
@@ -127,19 +127,19 @@ forbidden=['Classical.choice', 'Quot.sound', 'propext']
 <span class="elim-mark">✗ "这就是 lint 脚本而已."</span>
 ```
 
-表面是扫码, 是的. 边界含义不是. 每一个 gate 保护外部性纪律的一个面. 合在一起, 它们就是衬底内容和外部供给之间的可执行膜.
+表面是扫码, 是的. 边界含义不是. 每一个门禁保护外部性纪律的一个面. 合在一起, 它们就是衬底内容和外部供给之间的可执行膜.
 
-## Schema 定理
+## 模式定理
 
-这条纪律的章节级表述, 是一条 schema 形式的定理, 写在论文一侧而不是 Lean 一侧, 因为精确形式取决于周围接口:
+这条纪律的章节级表述, 是一条模式形式的定理, 写在论文一侧而不是 Lean 一侧, 因为精确形式取决于周围接口:
 
-> **非公理边界保持 schema.** 设 `X` 是一个 BEDC 候选依赖. 假设 `X` 被某个公开定理、certificate 或接口消费. 如果 `X` 的每次使用都经过七种非公理边界形式之一, 并且对应的 gate 都报告该边界形式仍可见, 则 `X` 没有被内化为衬底 axiom.
+> **非公理边界保持 schema.** 设 `X` 是一个 BEDC 候选依赖. 假设 `X` 被某个公开定理、证书或接口消费. 如果 `X` 的每次使用都经过七种非公理边界形式之一, 并且对应的门禁都报告该边界形式仍可见, 则 `X` 没有被内化为衬底 axiom.
 
-证明按七种形式逐 case 走. `inductive` 生成子有构造子和 eliminator, 来源显式. `def` 可展开, 来源可计算溯源. setup field 仍是接口字段, 调用方负责. `NameCert` row 显出 source、pattern、classifier、stability、ledger. `GAP` ledger 记录压缩残差. bridge slot 是解释性. apophatic socket 命名外部依赖但不把内容作为定理. 每种情形里, `X` 的使用都 source-channel 可见.
+证明按七种形式逐 case 走. `inductive` 生成子有构造子和 eliminator, 来源显式. `def` 可展开, 来源可计算溯源. 配置字段仍是接口字段, 调用方负责. `NameCert` 行显出源、pattern、分类器、稳定性、ledger. `GAP` 账本记录压缩残差. 桥 slot 是解释性. 否定式接口命名外部依赖但不把内容作为定理. 每种情形里, `X` 的使用都来源通道可见.
 
 两条 corollary:
 
-**无 axiom ≠ 无依赖.** BEDC 当然有依赖, 它只是拒绝把它们做成衬底内的真理来源.
+**无 axiom 不等于无依赖.** BEDC 当然有依赖, 它只是拒绝把它们做成衬底内的真理来源.
 
 ```{=html}
 <span class="elim-mark">✗ "BEDC 没 axiom, 那它内核外面什么都没有."</span>
@@ -147,7 +147,7 @@ forbidden=['Classical.choice', 'Quot.sound', 'propext']
 
 它的内核外面有不少. 七种边界形式, 就是把"外面有什么"以审计可见的方式写下来.
 
-**Socketed 内容不是定理.** Socketed 依赖不是已内部证明的事实. 手稿可以讨论 socket 的角色、审计面、要求的供给形状, 但不得把 socket 当成衬底已生成的内容来消费.
+**Socketed 内容不是定理.** Socketed 依赖不是已内部证明的事实. 手稿可以讨论接口的角色、审计面、要求的供给形状, 但不得把接口当成衬底已生成的内容来消费.
 
 ## 最终规则
 
@@ -155,7 +155,7 @@ forbidden=['Classical.choice', 'Quot.sound', 'propext']
 
 > 不要加 axiom. 暴露边界.
 
-BEDC 里所有的形式化基础设施——七种边界形式、四个 gate、schema 定理、替换表——都是把这条规则操作化的方式. 这条规则之所以不是风格偏好, 是因为关于"边界本身"有一条结构性事实, 让这条规则承重而非装饰. 这正是三联剩下两篇要讲的内容.
+BEDC 里所有的形式化基础设施——七种边界形式、四个门禁、模式定理、替换表——都是把这条规则操作化的方式. 这条规则之所以不是风格偏好, 是因为关于"边界本身"有一条结构性事实, 让这条规则承重而非装饰. 这正是三联剩下两篇要讲的内容.
 
 ```{=html}
 <div class="cta-choices">
