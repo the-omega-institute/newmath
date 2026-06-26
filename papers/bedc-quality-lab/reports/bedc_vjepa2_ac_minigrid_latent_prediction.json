@@ -1,0 +1,76 @@
+{
+  "candidate_id": "vjepa2-ac-vit-giant",
+  "cannot_claim": [
+    "public benchmark superiority",
+    "official V-JEPA2-AC benchmark reproduction",
+    "end-to-end V-JEPA2-AC retraining",
+    "certified operational claim without the separate LCCP record"
+  ],
+  "carrier_id": "vjepa2-ac-giant-fixed-minigrid-carrier",
+  "checkpoint_contract": {
+    "candidate_id": "vjepa2-ac-vit-giant",
+    "checkpoint_loading": "torch hub model structure with explicit public checkpoint state dictionaries for encoder and predictor",
+    "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2-ac-vitg.pt",
+    "hub_entry": "vjepa2_ac_vit_giant",
+    "loaded_components": [
+      "encoder",
+      "predictor"
+    ],
+    "official_benchmark_boundary": "this packet uses the public checkpoint as a fixed carrier on a MiniGrid stream and does not reproduce the official V-JEPA2-AC benchmark protocol",
+    "repository_url": "https://github.com/facebookresearch/vjepa2"
+  },
+  "claim_scope": "same MiniGrid image/action stream as the BEDC native packet; V-JEPA2-AC encoder and action-conditioned predictor are loaded from the public Giant checkpoint; a linear alignment is fitted only on the train split for reporting the fixed-checkpoint latent-prediction evaluation",
+  "dependency_status": {
+    "einops": "installed",
+    "gymnasium": "installed",
+    "minigrid": "installed",
+    "timm": "installed",
+    "torch": "installed"
+  },
+  "environment_id": "MiniGrid-DoorKey-8x8-v0",
+  "execution_contract": {
+    "batch_size": 1.0,
+    "device": "cuda",
+    "environment_id": "MiniGrid-DoorKey-8x8-v0",
+    "run_command": "python scripts/run_vjepa2_ac_minigrid_latent_prediction.py",
+    "sample_count": 96.0,
+    "seed": 20260610.0,
+    "split_rule": "single seeded transition stream; first train_count rows fit the linear alignment; remaining rows are held out for reporting",
+    "test_count": 32.0,
+    "train_count": 64.0,
+    "use_amp": true
+  },
+  "feature_contract": {
+    "action_contract": "one-hot MiniGrid action vector with an auxiliary action-count coordinate",
+    "alignment": "ridge linear map fitted from predicted features to source features on the train split only",
+    "predicted_features": "action-conditioned predictor pooled token features over the same transition video, action vector, and state vector",
+    "source_features": "encoder pooled token features over the two-frame MiniGrid transition video",
+    "state_contract": "agent position, visible key/door/goal indicators, nearest-object distance, and action-count coordinate",
+    "video_contract": "two 256x256 RGB frames rendered from MiniGrid symbolic observations before and after the sampled action"
+  },
+  "feature_dimension": 1408.0,
+  "metrics": {
+    "constant_baseline_mse": 0.48055749613518584,
+    "flattened_correlation": 0.9988521956521895,
+    "latent_prediction_score": 0.9812458076166543,
+    "linear_aligned_mse": 0.009012467733778182,
+    "linear_aligned_r2": 0.9806519795899356,
+    "mean_cosine_similarity": 0.9988986523472758
+  },
+  "protocol": "fixed-checkpoint MiniGrid latent-prediction evaluation",
+  "sample_counts": {
+    "test": 32.0,
+    "total": 96.0,
+    "train": 64.0
+  },
+  "schema_id": "bedc-vjepa2-ac-minigrid-latent-prediction",
+  "status": "executed",
+  "torch_environment": {
+    "cuda_available": true,
+    "device_count": 1,
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "torch_cuda_version": "12.1",
+    "torch_version": "2.5.1+cu121",
+    "total_memory_bytes": 8585216000
+  }
+}

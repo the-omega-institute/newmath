@@ -3,6 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
@@ -15,6 +16,7 @@ open BEDC.FKernel.Mark
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
@@ -356,6 +358,111 @@ theorem PrecompactMetricRegularFilterFiniteNetRoute [AskSetup] [PackageSetup]
     ⟨nUnary, mUnary, fUnary, rUnary, netUnary, radiusUnary, coverUnary,
       filterUnary, regularUnary, routeUnary, netRoute, radiusRoute, coverRoute,
       filterRoute, regularRoute, routeRoute, provenancePkg, routePkg⟩
+
+theorem PrecompactMetric_bridged_completion_handoff [AskSetup] [PackageSetup]
+    {X D N F R M H C G Q netRead radiusRead coverRead filterRead regularRead
+      routeRead completionRead bridgeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PrecompactMetricCarrier X D N F R M H C G Q bundle pkg ->
+      Cont N F netRead ->
+        Cont D R radiusRead ->
+          Cont netRead radiusRead coverRead ->
+            Cont M F filterRead ->
+              Cont filterRead R regularRead ->
+                Cont regularRead G routeRead ->
+                  Cont routeRead C completionRead ->
+                    Cont completionRead Q bridgeRead ->
+                      PkgSig bundle bridgeRead pkg ->
+                        SemanticNameCert
+                            (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+                            (fun row : BHist =>
+                              hsame row X ∨ hsame row D ∨ hsame row N ∨ hsame row F ∨
+                                hsame row R ∨ hsame row M ∨ hsame row H ∨ hsame row C ∨
+                                  hsame row G ∨ hsame row Q ∨ Cont completionRead Q bridgeRead)
+                            (fun row : BHist =>
+                              UnaryHistory row ∧ Cont N F netRead ∧
+                                Cont D R radiusRead ∧ Cont netRead radiusRead coverRead ∧
+                                  Cont M F filterRead ∧ Cont filterRead R regularRead ∧
+                                    Cont regularRead G routeRead ∧
+                                      Cont routeRead C completionRead ∧
+                                        Cont completionRead Q bridgeRead ∧
+                                          PkgSig bundle Q pkg ∧
+                                            PkgSig bundle bridgeRead pkg)
+                            hsame ∧
+                          UnaryHistory routeRead ∧ UnaryHistory completionRead ∧
+                            UnaryHistory bridgeRead := by
+  -- BEDC touchpoint anchor: PrecompactMetricCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier netRoute radiusRoute coverRoute filterRoute regularRoute routeRoute
+    completionRoute bridgeRoute bridgePkg
+  obtain ⟨xUnary, dUnary, nUnary, fUnary, rUnary, mUnary, hUnary, cUnary, gUnary,
+    qUnary, provenancePkg⟩ := carrier
+  have netUnary : UnaryHistory netRead :=
+    unary_cont_closed nUnary fUnary netRoute
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed dUnary rUnary radiusRoute
+  have coverUnary : UnaryHistory coverRead :=
+    unary_cont_closed netUnary radiusUnary coverRoute
+  have filterUnary : UnaryHistory filterRead :=
+    unary_cont_closed mUnary fUnary filterRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed filterUnary rUnary regularRoute
+  have routeUnary : UnaryHistory routeRead :=
+    unary_cont_closed regularUnary gUnary routeRoute
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed routeUnary cUnary completionRoute
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed completionUnary qUnary bridgeRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row bridgeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row D ∨ hsame row N ∨ hsame row F ∨ hsame row R ∨
+              hsame row M ∨ hsame row H ∨ hsame row C ∨ hsame row G ∨ hsame row Q ∨
+                Cont completionRead Q bridgeRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont N F netRead ∧ Cont D R radiusRead ∧
+              Cont netRead radiusRead coverRead ∧ Cont M F filterRead ∧
+                Cont filterRead R regularRead ∧ Cont regularRead G routeRead ∧
+                  Cont routeRead C completionRead ∧ Cont completionRead Q bridgeRead ∧
+                    PkgSig bundle Q pkg ∧ PkgSig bundle bridgeRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro bridgeRead ⟨hsame_refl bridgeRead, bridgeUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row _source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact bridgeRoute
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, netRoute, radiusRoute, coverRoute, filterRoute, regularRoute,
+          routeRoute, completionRoute, bridgeRoute, provenancePkg, bridgePkg⟩
+  }
+  exact ⟨cert, routeUnary, completionUnary, bridgeUnary⟩
 
 theorem PrecompactMetric_totally_bounded_handoff (x : PrecompactMetricUp) :
     ∃ X D N F R M H C G Q : BHist,

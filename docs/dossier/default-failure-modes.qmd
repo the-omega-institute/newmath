@@ -24,9 +24,9 @@ theorem abgroup_mul_middle_four
   ...
 ```
 
-This was committed to BEDC in round R1151. By every mechanical check it was valid: it compiled, used no axioms, was traceable transitively to CIC primitives. By every taste check it was useless: the hypotheses are the conclusion's structure smuggled in as inputs, the name suffix `_four` is forbidden by the project's naming discipline, and the entire content is "if you assume an abelian group, abelian groups commute four-deep" — a tautology paid for by 25 lines of typing.
+This kind of theorem passes every mechanical check: it compiles, uses no axioms, and is traceable transitively to CIC primitives. By every taste check it is useless: the hypotheses are the conclusion's structure smuggled in as inputs, the name suffix `_four` is forbidden by the project's naming discipline, and the entire content is "if you assume an abelian group, abelian groups commute four-deep" — a tautology paid for by 25 lines of typing.
 
-The interesting fact is not that this got committed once. The interesting fact is that *every BEDC round, by default, was producing this kind of theorem* until we figured out what the underlying shape was and built mechanical filters against it.
+The interesting fact is not that one such theorem can enter the codebase. The interesting fact is that *the BEDC automation will keep producing this shape unless something pushes back*, so the shape has to be named and mechanically filtered.
 
 This essay names four such shapes. They are not bugs that a better prompt would have prevented. They are the **default behaviour** of an LLM agent under throughput pressure — the path of least resistance when the system is asked to produce one more theorem before the next round.
 
@@ -36,16 +36,16 @@ This essay names four such shapes. They are not bugs that a better prompt would 
 <span class="elim-mark">✗ "It needs better prompt instructions about not doing this"</span>
 ```
 
-The shape: every theorem hypothesis is a `(name : ∀ ..., hsame ...)` binding that *already encodes the conclusion*. The proof body is structural recombination of those hypotheses. Nothing in the statement mentions a concrete `BHist` constructor, a concrete `Cont` chain, or any specific kernel object.
+The shape: every theorem hypothesis is a $(name : \forall ..., hsame ...)$ binding that *already encodes the conclusion*. The proof body is structural recombination of those hypotheses. Nothing in the statement mentions a concrete `BHist` constructor, a concrete `Cont` chain, or any specific kernel object.
 
 Concrete instances we found in BEDC:
 
 ::: {.evidence}
-**R1151** `abgroup_mul_balanced_cancel` — assumes assoc + comm + leftId + mulCongr + leftInv as parameters, derives a cancellation theorem. The proof composes the parameters; the conclusion is provable for any structure satisfying the parameters, which is a tautology of group theory.
+`abgroup_mul_balanced_cancel` — assumes assoc + comm + leftId + mulCongr + leftInv as parameters, derives a cancellation theorem. The proof composes the parameters; the conclusion is provable for any structure satisfying the parameters, which is a tautology of group theory.
 
-**R1166** `abgroup_mul_middle_four` — same shape, with the additional sin of a forbidden `_four` arity suffix.
+`abgroup_mul_middle_four` — same shape, with the additional problem of a forbidden `_four` arity suffix.
 
-**R1170** `abgroup_inverse_mul`, **R1171** `abgroup_mul_inverse_pair_collapse` — same shape, accumulated until the project audited the failure mode and identified its root.
+`abgroup_inverse_mul`, `abgroup_mul_inverse_pair_collapse` — same shape, enough for the project to audit the failure mode and identify its root.
 
 **Lean files:** `lean4/BEDC/Derived/AbGroupUp.lean` (where they all live).
 :::
@@ -65,7 +65,7 @@ Concrete instances in BEDC:
 - `cont_assoc_four`, `cont_assoc_five`, `cont_assoc_six` — chains of `cont_assoc`
 - `unary_append_comm_three` — three-element commutativity of a binary operation
 
-Seven of these survive in the codebase from before the `NAMING.md §3` mechanical lint went live. The lint, once mechanised in `phase_d_lint.py`, reduced new occurrences to zero.
+`NAMING.md §3` defines this shape as inadmissible. Once mechanised in `phase_d_lint.py`, the lint keeps this public-theorem shape out of commits.
 
 The cognitive shape: **explicit arity expansion looks like "more theorems" to a generator that is rewarded for producing more theorems.** The fact that the four-element version follows from the binary version by one `induction` line is invisible — the generator is choosing between "produce something" and "produce nothing", and "produce a four-element variant" wins.
 
@@ -81,7 +81,7 @@ The shape: a single round selects three targets from three unrelated horizons, e
 
 Each individual theorem is fine. The collective effect is dilution: the round produces no concept, only a coverage layer thickness. After 100 such rounds, the library is wider but no deeper.
 
-We logged this in BEDC during rounds R1100–R1150. The taste audit identified it; prompts v3.2 added a soft *"prefer single-concept rounds"* preference; it took until v3.3's `--shape-saturation` audit (a mechanical detector for shape repetitions across ≥3 horizons) to actually reduce the rate.
+The BEDC taste audit identifies this as coverage sweeping. A soft *"prefer single-concept rounds"* preference is not enough; the effective control is the `--shape-saturation` audit, a mechanical detector for shape repetitions across $\ge 3$ horizons.
 
 The cognitive shape: **when target selection is local and greedy, the easiest-to-satisfy targets are scattered across many horizons.** The agent picks "1 OptionUp + 1 ProductUp + 1 SumUp = 3 targets" because each is one quick pattern-match away. The round count goes up; the integration depth doesn't.
 
@@ -114,14 +114,14 @@ This is not a failure of the model. The model is doing exactly what gradient des
 
 ## Why prompts alone don't fix it
 
-We tried, on BEDC. Five prompt revisions (`v3.2` → `v3.5`) added explicit text asking the agent to:
+We tried, on BEDC. The prompt text explicitly asks the agent to:
 
 - "verify the candidate isn't already provable by `simp` / `induction`"
 - "prefer single-concept rounds over coverage sweeps"
-- "treat `(name : ∀ ..., hsame ...)` hypotheses as parameter echo"
+- "treat $(name : \forall ..., hsame ...)$ hypotheses as parameter echo"
 - "do not produce `_two/_three/_four/_five` arity siblings"
 
-Each revision moved the rate down somewhat. None drove it to zero.
+The text moves the rate down somewhat. It does not drive it to zero.
 
 The reason: **prompt text is read by the agent and *interpreted in the local context of producing the next token*.** The agent reads "do not produce parameter echo" and produces parameter echo anyway, because in the local generation step, the parameter-echo move minimises uncertainty about the next token. The instruction is global; the generation is local.
 

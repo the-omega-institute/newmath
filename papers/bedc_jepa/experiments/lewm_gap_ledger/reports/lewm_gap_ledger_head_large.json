@@ -1,0 +1,2867 @@
+{
+  "protocol": "Phase 1c gap ledger head on expanded real LeWM latent/tworooms",
+  "forbidden_inference_columns_enforced": [
+    "pos_agent",
+    "pos_target",
+    "distance_to_target",
+    "observation",
+    "distinction_truth",
+    "prediction_mse",
+    "gap_labels"
+  ],
+  "export": {
+    "latent_path": "tworooms_latent_large.npz",
+    "h5_prefix_path": "_tworoom_prefix_large.h5",
+    "prefix_uncompressed_mib": 2048.0,
+    "compressed_mib_read": 558.39,
+    "prefix_elapsed_sec": 47.7,
+    "export_elapsed_sec": 189.11,
+    "max_transitions_requested": 5000,
+    "min_transitions_requested": 3000,
+    "actual_episodes": 278,
+    "actual_valid_transitions": 4991,
+    "source": "_phase1c_prefix.log and _phase1c_export.log"
+  },
+  "gap_feature_variants": {
+    "A_all_probe_features": {
+      "probe_indices": [
+        0,
+        1,
+        2
+      ],
+      "probe_names": [
+        "agent_room_right",
+        "same_room",
+        "near_target"
+      ],
+      "feature_width": 216,
+      "components": {
+        "emb": 192,
+        "probe_probabilities": 3,
+        "probe_logits": 3,
+        "probe_predictions": 3,
+        "probe_signed_margins": 3,
+        "min_abs_margin": 1,
+        "quality_features": 11
+      }
+    },
+    "B_denoised_agent_room_only": {
+      "probe_indices": [
+        0
+      ],
+      "probe_names": [
+        "agent_room_right"
+      ],
+      "feature_width": 208,
+      "components": {
+        "emb": 192,
+        "probe_probabilities": 1,
+        "probe_logits": 1,
+        "probe_predictions": 1,
+        "probe_signed_margins": 1,
+        "min_abs_margin": 1,
+        "quality_features": 11
+      }
+    }
+  },
+  "sample_counts": {
+    "valid_transitions": 4991,
+    "episodes": 278
+  },
+  "split": {
+    "train": {
+      "episodes": [
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        23,
+        25,
+        26,
+        28,
+        29,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        47,
+        48,
+        49,
+        50,
+        51,
+        53,
+        54,
+        56,
+        58,
+        59,
+        60,
+        62,
+        63,
+        64,
+        70,
+        71,
+        77,
+        80,
+        82,
+        84,
+        86,
+        87,
+        89,
+        96,
+        97,
+        100,
+        101,
+        102,
+        104,
+        105,
+        106,
+        107,
+        108,
+        110,
+        111,
+        113,
+        116,
+        118,
+        119,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        131,
+        132,
+        133,
+        134,
+        136,
+        139,
+        140,
+        141,
+        143,
+        146,
+        147,
+        149,
+        151,
+        156,
+        157,
+        159,
+        160,
+        163,
+        164,
+        166,
+        168,
+        169,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        181,
+        182,
+        186,
+        187,
+        190,
+        194,
+        195,
+        196,
+        198,
+        200,
+        202,
+        204,
+        206,
+        207,
+        209,
+        211,
+        212,
+        215,
+        216,
+        217,
+        220,
+        224,
+        226,
+        228,
+        230,
+        232,
+        233,
+        234,
+        238,
+        239,
+        241,
+        242,
+        244,
+        245,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        257,
+        258,
+        259,
+        261,
+        262,
+        266,
+        267,
+        269,
+        271,
+        274,
+        275,
+        276
+      ],
+      "episode_count": 167,
+      "transition_count": 3045
+    },
+    "calibration": {
+      "episodes": [
+        1,
+        2,
+        3,
+        6,
+        22,
+        27,
+        30,
+        46,
+        52,
+        55,
+        61,
+        68,
+        69,
+        72,
+        74,
+        85,
+        88,
+        90,
+        91,
+        93,
+        94,
+        95,
+        98,
+        99,
+        103,
+        109,
+        112,
+        114,
+        120,
+        137,
+        150,
+        153,
+        158,
+        165,
+        170,
+        185,
+        188,
+        189,
+        197,
+        199,
+        203,
+        214,
+        218,
+        219,
+        221,
+        222,
+        227,
+        231,
+        235,
+        237,
+        240,
+        246,
+        256,
+        263,
+        268,
+        272
+      ],
+      "episode_count": 56,
+      "transition_count": 982
+    },
+    "eval": {
+      "episodes": [
+        0,
+        13,
+        24,
+        31,
+        39,
+        57,
+        65,
+        66,
+        67,
+        73,
+        75,
+        76,
+        78,
+        79,
+        81,
+        83,
+        92,
+        115,
+        117,
+        130,
+        135,
+        138,
+        142,
+        144,
+        145,
+        148,
+        152,
+        154,
+        155,
+        161,
+        162,
+        167,
+        180,
+        183,
+        184,
+        191,
+        192,
+        193,
+        201,
+        205,
+        208,
+        210,
+        213,
+        223,
+        225,
+        229,
+        236,
+        243,
+        255,
+        260,
+        264,
+        265,
+        270,
+        273,
+        277
+      ],
+      "episode_count": 55,
+      "transition_count": 964
+    }
+  },
+  "distinctions": {
+    "agent_room_right": {
+      "truth_source": "pos_agent.x >= 112",
+      "train_label_rate": 0.46239737274220033,
+      "calibration_label_rate": 0.5173116089613035,
+      "eval_label_rate": 0.5051867219917012,
+      "train_accuracy": 0.9990147783251232,
+      "calibration_accuracy": 0.9989816700610998,
+      "eval_accuracy": 1.0,
+      "fit": {
+        "status": "fit",
+        "label_rate": 0.46239737274220033,
+        "train_loss": 0.011199637590058896
+      }
+    },
+    "same_room": {
+      "truth_source": "(pos_agent.x>=112)==(pos_target.x>=112)",
+      "train_label_rate": 0.27586206896551724,
+      "calibration_label_rate": 0.2780040733197556,
+      "eval_label_rate": 0.2863070539419087,
+      "train_accuracy": 0.7310344827586207,
+      "calibration_accuracy": 0.709775967413442,
+      "eval_accuracy": 0.6877593360995851,
+      "fit": {
+        "status": "fit",
+        "label_rate": 0.27586206896551724,
+        "train_loss": 0.5449031098324632
+      }
+    },
+    "near_target": {
+      "truth_source": "distance_to_target < train_split_median",
+      "train_label_rate": 0.4998357963875205,
+      "calibration_label_rate": 0.5478615071283096,
+      "eval_label_rate": 0.5684647302904564,
+      "train_accuracy": 0.6361247947454844,
+      "calibration_accuracy": 0.5814663951120163,
+      "eval_accuracy": 0.5902489626556017,
+      "fit": {
+        "status": "fit",
+        "label_rate": 0.4998357963875205,
+        "train_loss": 0.6316532687458066
+      }
+    }
+  },
+  "identifiability_proxy": {
+    "proxy": "linear ridge regression emb->observation; gap input tiles train-split R2 only",
+    "ridge": 1e-05,
+    "train_mean_r2": 0.8380567914361607,
+    "train_per_observation_dim_r2": [
+      0.9967711475362178,
+      0.988383657376254,
+      0.24393868455695078,
+      0.15147442489218566,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "eval_mean_r2_report_only": 0.7911544558791915,
+    "eval_per_observation_dim_r2_report_only": [
+      0.9960999906069113,
+      0.9847182297308725,
+      0.0383044532101795,
+      -0.10757811475604773,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "quality_feature_width": 11
+  },
+  "thresholds": {
+    "near_target_train_median": 111.53727722167969,
+    "prediction_mse_tau_err_train_p75": 0.07670211046934128,
+    "low_margin_train_p30_A_all_probe_features": 0.1854387826976949
+  },
+  "label_rates": {
+    "prediction_error": {
+      "train": 0.24991789819376026,
+      "calibration": 0.23319755600814665,
+      "eval": 0.23132780082987553,
+      "all": 0.2430374674413945,
+      "train_positive": 761,
+      "train_negative": 2284,
+      "eval_positive": 223,
+      "eval_negative": 741
+    },
+    "low_margin": {
+      "train": 0.3001642036124795,
+      "calibration": 0.28818737270875766,
+      "eval": 0.279045643153527,
+      "all": 0.2937287116810258,
+      "train_positive": 914,
+      "train_negative": 2131,
+      "eval_positive": 269,
+      "eval_negative": 695
+    },
+    "transition_unstable": {
+      "train": 0.12742200328407224,
+      "calibration": 0.1334012219959267,
+      "eval": 0.12966804979253113,
+      "all": 0.12903225806451613,
+      "train_positive": 388,
+      "train_negative": 2657,
+      "eval_positive": 125,
+      "eval_negative": 839
+    },
+    "off_target_intervention": {
+      "train": 0.6246305418719211,
+      "calibration": 0.6221995926680245,
+      "eval": 0.6224066390041494,
+      "all": 0.6237227008615508,
+      "train_positive": 1902,
+      "train_negative": 1143,
+      "eval_positive": 600,
+      "eval_negative": 364
+    }
+  },
+  "prediction_error_definition_comparison": {
+    "native_predictor_latent_error": {
+      "definition": "prediction_mse > train_split_p75",
+      "tau_err_train_p75": 0.07670211046934128,
+      "rates": {
+        "train": 0.24991789819376026,
+        "calibration": 0.23319755600814665,
+        "eval": 0.23132780082987553,
+        "all": 0.2430374674413945
+      },
+      "mse_quantiles_all_valid": [
+        0.04727807268500328,
+        0.06009654700756073,
+        0.07603123039007187,
+        0.12289664521813393
+      ]
+    },
+    "loning_probe_error": {
+      "definition": "max over distinctions of probe prediction != truth; report-only, not Phase 1c primary truth",
+      "rates": {
+        "train": 0.5228243021346469,
+        "calibration": 0.5723014256619144,
+        "eval": 0.5840248962655602,
+        "all": 0.5443798837908235
+      },
+      "agreement_with_native_all": 0.4726507713884993,
+      "agreement_with_native_eval": 0.44398340248962653
+    }
+  },
+  "off_target_intervention": {
+    "status": "computed_with_lewm_predictor",
+    "model_repo": "quentinll/lewm-tworooms",
+    "device": "cuda",
+    "definition": "for each transition, zero/negate current action block, predict next emb, probe cf next emb, label=any non-target distinction flip; with 3 distinctions this is equivalent to any probe flip under a target-max scan",
+    "valid_source_rows": 4991,
+    "flip_counts_by_perturbation": {
+      "zero": 2122,
+      "negate": 2524
+    },
+    "label_rate_all_rows": 0.6237227008615508
+  },
+  "arms": {
+    "vanilla": {
+      "feature_variant": "none_constant_train_base_rate",
+      "metrics_eval_episode_bootstrap": {
+        "failure_detection_auroc": {
+          "observed": 0.5,
+          "bootstrap_mean": 0.5,
+          "ci95_low": 0.5,
+          "ci95_high": 0.5
+        },
+        "ece": {
+          "observed": 0.018590097363884728,
+          "bootstrap_mean": 0.01948401491128879,
+          "ci95_low": 0.0016856165612971466,
+          "ci95_high": 0.045219638452929034
+        },
+        "unlogged_error_rate": {
+          "observed": 0.23132780082987553,
+          "bootstrap_mean": 0.23183029216511228,
+          "ci95_low": 0.2046982597408312,
+          "ci95_high": 0.2585297007912704
+        },
+        "critical_unlogged_error_rate": {
+          "observed": 0.0,
+          "bootstrap_mean": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        }
+      },
+      "metrics_calibration_observed": {
+        "failure_detection_auroc": 0.5,
+        "ece": 0.01672034218561358,
+        "unlogged_error_rate": 0.23319755600814665,
+        "critical_unlogged_error_rate": 0.0
+      },
+      "gap_sound_scan_eval": [
+        {
+          "epsilon": 0.0,
+          "tau": 0.1,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.2,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.3,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.4,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.5,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.6,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.7,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.8,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.9,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.1,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.2,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.3,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.4,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.5,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.6,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.7,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.8,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.9,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.1,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.2,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.3,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.4,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.5,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.6,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.7,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.8,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.9,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.1,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.2,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.3,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.4,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.5,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.6,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.7,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.8,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.9,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        }
+      ],
+      "prediction_error_probe_truth_eval": {
+        "auroc_using_native_prediction_error_score": 0.5,
+        "ece_using_native_prediction_error_score": 0.33410699807179994,
+        "unlogged_probe_error_rate": 0.5840248962655602
+      }
+    },
+    "learned_gap_head_A_all_probe_features": {
+      "feature_variant": "A_all_probe_features",
+      "metrics_eval_episode_bootstrap": {
+        "failure_detection_auroc": {
+          "observed": 0.7321580944427298,
+          "bootstrap_mean": 0.730612657477052,
+          "ci95_low": 0.687698530516129,
+          "ci95_high": 0.7718901546673049
+        },
+        "ece": {
+          "observed": 0.031183339368108715,
+          "bootstrap_mean": 0.04078045777455489,
+          "ci95_low": 0.02426319548908675,
+          "ci95_high": 0.06216965928603446
+        },
+        "unlogged_error_rate": {
+          "observed": 0.17012448132780084,
+          "bootstrap_mean": 0.17097308905026729,
+          "ci95_low": 0.14848933257811764,
+          "ci95_high": 0.1941880376347322
+        },
+        "critical_unlogged_error_rate": {
+          "observed": 0.05186721991701245,
+          "bootstrap_mean": 0.0522949659980188,
+          "ci95_low": 0.03853540636490427,
+          "ci95_high": 0.06677742381601953
+        }
+      },
+      "metrics_calibration_observed": {
+        "failure_detection_auroc": 0.7276628565795044,
+        "ece": 0.03583552995695779,
+        "unlogged_error_rate": 0.18533604887983707,
+        "critical_unlogged_error_rate": 0.04786150712830957
+      },
+      "gap_sound_scan_eval": [
+        {
+          "epsilon": 0.0,
+          "tau": 0.1,
+          "low_gap_count": 3,
+          "low_gap_coverage": 0.0031120331950207467,
+          "low_gap_error_rate": 0.3333333333333333,
+          "unlogged_error_rate_at_tau": 0.001037344398340249,
+          "logged_given_error_rate": 0.9955156950672646,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.2,
+          "low_gap_count": 42,
+          "low_gap_coverage": 0.043568464730290454,
+          "low_gap_error_rate": 0.14285714285714285,
+          "unlogged_error_rate_at_tau": 0.006224066390041493,
+          "logged_given_error_rate": 0.9730941704035875,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.3,
+          "low_gap_count": 91,
+          "low_gap_coverage": 0.09439834024896265,
+          "low_gap_error_rate": 0.1978021978021978,
+          "unlogged_error_rate_at_tau": 0.01867219917012448,
+          "logged_given_error_rate": 0.9192825112107623,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.4,
+          "low_gap_count": 168,
+          "low_gap_coverage": 0.17427385892116182,
+          "low_gap_error_rate": 0.20833333333333334,
+          "unlogged_error_rate_at_tau": 0.03630705394190872,
+          "logged_given_error_rate": 0.8430493273542601,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.5,
+          "low_gap_count": 222,
+          "low_gap_coverage": 0.23029045643153526,
+          "low_gap_error_rate": 0.22522522522522523,
+          "unlogged_error_rate_at_tau": 0.05186721991701245,
+          "logged_given_error_rate": 0.7757847533632287,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.6,
+          "low_gap_count": 290,
+          "low_gap_coverage": 0.3008298755186722,
+          "low_gap_error_rate": 0.23448275862068965,
+          "unlogged_error_rate_at_tau": 0.07053941908713693,
+          "logged_given_error_rate": 0.695067264573991,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.7,
+          "low_gap_count": 393,
+          "low_gap_coverage": 0.40767634854771784,
+          "low_gap_error_rate": 0.24681933842239187,
+          "unlogged_error_rate_at_tau": 0.10062240663900415,
+          "logged_given_error_rate": 0.5650224215246636,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.8,
+          "low_gap_count": 565,
+          "low_gap_coverage": 0.5860995850622407,
+          "low_gap_error_rate": 0.23893805309734514,
+          "unlogged_error_rate_at_tau": 0.1400414937759336,
+          "logged_given_error_rate": 0.39461883408071746,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.9,
+          "low_gap_count": 793,
+          "low_gap_coverage": 0.8226141078838174,
+          "low_gap_error_rate": 0.24337957124842372,
+          "unlogged_error_rate_at_tau": 0.20020746887966806,
+          "logged_given_error_rate": 0.13452914798206278,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.1,
+          "low_gap_count": 3,
+          "low_gap_coverage": 0.0031120331950207467,
+          "low_gap_error_rate": 0.3333333333333333,
+          "unlogged_error_rate_at_tau": 0.001037344398340249,
+          "logged_given_error_rate": 0.9955156950672646,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.2,
+          "low_gap_count": 42,
+          "low_gap_coverage": 0.043568464730290454,
+          "low_gap_error_rate": 0.14285714285714285,
+          "unlogged_error_rate_at_tau": 0.006224066390041493,
+          "logged_given_error_rate": 0.9730941704035875,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.3,
+          "low_gap_count": 91,
+          "low_gap_coverage": 0.09439834024896265,
+          "low_gap_error_rate": 0.1978021978021978,
+          "unlogged_error_rate_at_tau": 0.01867219917012448,
+          "logged_given_error_rate": 0.9192825112107623,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.4,
+          "low_gap_count": 168,
+          "low_gap_coverage": 0.17427385892116182,
+          "low_gap_error_rate": 0.20833333333333334,
+          "unlogged_error_rate_at_tau": 0.03630705394190872,
+          "logged_given_error_rate": 0.8430493273542601,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.5,
+          "low_gap_count": 222,
+          "low_gap_coverage": 0.23029045643153526,
+          "low_gap_error_rate": 0.22522522522522523,
+          "unlogged_error_rate_at_tau": 0.05186721991701245,
+          "logged_given_error_rate": 0.7757847533632287,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.6,
+          "low_gap_count": 290,
+          "low_gap_coverage": 0.3008298755186722,
+          "low_gap_error_rate": 0.23448275862068965,
+          "unlogged_error_rate_at_tau": 0.07053941908713693,
+          "logged_given_error_rate": 0.695067264573991,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.7,
+          "low_gap_count": 393,
+          "low_gap_coverage": 0.40767634854771784,
+          "low_gap_error_rate": 0.24681933842239187,
+          "unlogged_error_rate_at_tau": 0.10062240663900415,
+          "logged_given_error_rate": 0.5650224215246636,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.8,
+          "low_gap_count": 565,
+          "low_gap_coverage": 0.5860995850622407,
+          "low_gap_error_rate": 0.23893805309734514,
+          "unlogged_error_rate_at_tau": 0.1400414937759336,
+          "logged_given_error_rate": 0.39461883408071746,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.9,
+          "low_gap_count": 793,
+          "low_gap_coverage": 0.8226141078838174,
+          "low_gap_error_rate": 0.24337957124842372,
+          "unlogged_error_rate_at_tau": 0.20020746887966806,
+          "logged_given_error_rate": 0.13452914798206278,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.1,
+          "low_gap_count": 3,
+          "low_gap_coverage": 0.0031120331950207467,
+          "low_gap_error_rate": 0.3333333333333333,
+          "unlogged_error_rate_at_tau": 0.001037344398340249,
+          "logged_given_error_rate": 0.9955156950672646,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.2,
+          "low_gap_count": 42,
+          "low_gap_coverage": 0.043568464730290454,
+          "low_gap_error_rate": 0.14285714285714285,
+          "unlogged_error_rate_at_tau": 0.006224066390041493,
+          "logged_given_error_rate": 0.9730941704035875,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.3,
+          "low_gap_count": 91,
+          "low_gap_coverage": 0.09439834024896265,
+          "low_gap_error_rate": 0.1978021978021978,
+          "unlogged_error_rate_at_tau": 0.01867219917012448,
+          "logged_given_error_rate": 0.9192825112107623,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.4,
+          "low_gap_count": 168,
+          "low_gap_coverage": 0.17427385892116182,
+          "low_gap_error_rate": 0.20833333333333334,
+          "unlogged_error_rate_at_tau": 0.03630705394190872,
+          "logged_given_error_rate": 0.8430493273542601,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.5,
+          "low_gap_count": 222,
+          "low_gap_coverage": 0.23029045643153526,
+          "low_gap_error_rate": 0.22522522522522523,
+          "unlogged_error_rate_at_tau": 0.05186721991701245,
+          "logged_given_error_rate": 0.7757847533632287,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.6,
+          "low_gap_count": 290,
+          "low_gap_coverage": 0.3008298755186722,
+          "low_gap_error_rate": 0.23448275862068965,
+          "unlogged_error_rate_at_tau": 0.07053941908713693,
+          "logged_given_error_rate": 0.695067264573991,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.7,
+          "low_gap_count": 393,
+          "low_gap_coverage": 0.40767634854771784,
+          "low_gap_error_rate": 0.24681933842239187,
+          "unlogged_error_rate_at_tau": 0.10062240663900415,
+          "logged_given_error_rate": 0.5650224215246636,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.8,
+          "low_gap_count": 565,
+          "low_gap_coverage": 0.5860995850622407,
+          "low_gap_error_rate": 0.23893805309734514,
+          "unlogged_error_rate_at_tau": 0.1400414937759336,
+          "logged_given_error_rate": 0.39461883408071746,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.9,
+          "low_gap_count": 793,
+          "low_gap_coverage": 0.8226141078838174,
+          "low_gap_error_rate": 0.24337957124842372,
+          "unlogged_error_rate_at_tau": 0.20020746887966806,
+          "logged_given_error_rate": 0.13452914798206278,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.1,
+          "low_gap_count": 3,
+          "low_gap_coverage": 0.0031120331950207467,
+          "low_gap_error_rate": 0.3333333333333333,
+          "unlogged_error_rate_at_tau": 0.001037344398340249,
+          "logged_given_error_rate": 0.9955156950672646,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.2,
+          "low_gap_count": 42,
+          "low_gap_coverage": 0.043568464730290454,
+          "low_gap_error_rate": 0.14285714285714285,
+          "unlogged_error_rate_at_tau": 0.006224066390041493,
+          "logged_given_error_rate": 0.9730941704035875,
+          "low_gap_error_bounded_pass": true,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.3,
+          "low_gap_count": 91,
+          "low_gap_coverage": 0.09439834024896265,
+          "low_gap_error_rate": 0.1978021978021978,
+          "unlogged_error_rate_at_tau": 0.01867219917012448,
+          "logged_given_error_rate": 0.9192825112107623,
+          "low_gap_error_bounded_pass": true,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.4,
+          "low_gap_count": 168,
+          "low_gap_coverage": 0.17427385892116182,
+          "low_gap_error_rate": 0.20833333333333334,
+          "unlogged_error_rate_at_tau": 0.03630705394190872,
+          "logged_given_error_rate": 0.8430493273542601,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.5,
+          "low_gap_count": 222,
+          "low_gap_coverage": 0.23029045643153526,
+          "low_gap_error_rate": 0.22522522522522523,
+          "unlogged_error_rate_at_tau": 0.05186721991701245,
+          "logged_given_error_rate": 0.7757847533632287,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.6,
+          "low_gap_count": 290,
+          "low_gap_coverage": 0.3008298755186722,
+          "low_gap_error_rate": 0.23448275862068965,
+          "unlogged_error_rate_at_tau": 0.07053941908713693,
+          "logged_given_error_rate": 0.695067264573991,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.7,
+          "low_gap_count": 393,
+          "low_gap_coverage": 0.40767634854771784,
+          "low_gap_error_rate": 0.24681933842239187,
+          "unlogged_error_rate_at_tau": 0.10062240663900415,
+          "logged_given_error_rate": 0.5650224215246636,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.8,
+          "low_gap_count": 565,
+          "low_gap_coverage": 0.5860995850622407,
+          "low_gap_error_rate": 0.23893805309734514,
+          "unlogged_error_rate_at_tau": 0.1400414937759336,
+          "logged_given_error_rate": 0.39461883408071746,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.9,
+          "low_gap_count": 793,
+          "low_gap_coverage": 0.8226141078838174,
+          "low_gap_error_rate": 0.24337957124842372,
+          "unlogged_error_rate_at_tau": 0.20020746887966806,
+          "logged_given_error_rate": 0.13452914798206278,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        }
+      ],
+      "prediction_error_probe_truth_eval": {
+        "auroc_using_native_prediction_error_score": 0.4452944016512892,
+        "ece_using_native_prediction_error_score": 0.36665770000707526,
+        "unlogged_probe_error_rate": 0.5342323651452282
+      },
+      "fits": {
+        "prediction_error": {
+          "status": "fit",
+          "label_rate": 0.24991789819376026,
+          "train_loss": 0.47052084891692525
+        },
+        "low_margin": {
+          "status": "fit",
+          "label_rate": 0.3001642036124795,
+          "train_loss": 0.20393294673351547
+        },
+        "transition_unstable": {
+          "status": "fit",
+          "label_rate": 0.12742200328407224,
+          "train_loss": 0.32349713020805015
+        },
+        "off_target_intervention": {
+          "status": "fit",
+          "label_rate": 0.6246305418719211,
+          "train_loss": 0.4539814230460584
+        }
+      }
+    },
+    "matched_random_gap_head_A_all_probe_features": {
+      "feature_variant": "A_all_probe_features",
+      "metrics_eval_episode_bootstrap": {
+        "failure_detection_auroc": {
+          "observed": 0.5573791325502442,
+          "bootstrap_mean": 0.5565578911477127,
+          "ci95_low": 0.5160237756020285,
+          "ci95_high": 0.6038668693337703
+        },
+        "ece": {
+          "observed": 0.04113190605607084,
+          "bootstrap_mean": 0.04400918041298689,
+          "ci95_low": 0.021408080670909945,
+          "ci95_high": 0.06767376301904923
+        },
+        "unlogged_error_rate": {
+          "observed": 0.229253112033195,
+          "bootstrap_mean": 0.2287788063056485,
+          "ci95_low": 0.20448297634780116,
+          "ci95_high": 0.2574507204753758
+        },
+        "critical_unlogged_error_rate": {
+          "observed": 0.016597510373443983,
+          "bootstrap_mean": 0.01645795056255685,
+          "ci95_low": 0.010243974132863022,
+          "ci95_high": 0.023295993381714966
+        }
+      },
+      "metrics_calibration_observed": {
+        "failure_detection_auroc": 0.5214020192882038,
+        "ece": 0.0423990035398177,
+        "unlogged_error_rate": 0.23217922606924643,
+        "critical_unlogged_error_rate": 0.008146639511201629
+      },
+      "gap_sound_scan_eval": [
+        {
+          "epsilon": 0.0,
+          "tau": 0.1,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.2,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.3,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.4,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.5,
+          "low_gap_count": 65,
+          "low_gap_coverage": 0.06742738589211618,
+          "low_gap_error_rate": 0.24615384615384617,
+          "unlogged_error_rate_at_tau": 0.016597510373443983,
+          "logged_given_error_rate": 0.9282511210762332,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.6,
+          "low_gap_count": 352,
+          "low_gap_coverage": 0.3651452282157676,
+          "low_gap_error_rate": 0.2528409090909091,
+          "unlogged_error_rate_at_tau": 0.09232365145228216,
+          "logged_given_error_rate": 0.600896860986547,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.7,
+          "low_gap_count": 806,
+          "low_gap_coverage": 0.8360995850622407,
+          "low_gap_error_rate": 0.22580645161290322,
+          "unlogged_error_rate_at_tau": 0.1887966804979253,
+          "logged_given_error_rate": 0.18385650224215247,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.8,
+          "low_gap_count": 959,
+          "low_gap_coverage": 0.9948132780082988,
+          "low_gap_error_rate": 0.23149113660062565,
+          "unlogged_error_rate_at_tau": 0.23029045643153526,
+          "logged_given_error_rate": 0.004484304932735426,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.9,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.1,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.2,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.3,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.4,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.5,
+          "low_gap_count": 65,
+          "low_gap_coverage": 0.06742738589211618,
+          "low_gap_error_rate": 0.24615384615384617,
+          "unlogged_error_rate_at_tau": 0.016597510373443983,
+          "logged_given_error_rate": 0.9282511210762332,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.6,
+          "low_gap_count": 352,
+          "low_gap_coverage": 0.3651452282157676,
+          "low_gap_error_rate": 0.2528409090909091,
+          "unlogged_error_rate_at_tau": 0.09232365145228216,
+          "logged_given_error_rate": 0.600896860986547,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.7,
+          "low_gap_count": 806,
+          "low_gap_coverage": 0.8360995850622407,
+          "low_gap_error_rate": 0.22580645161290322,
+          "unlogged_error_rate_at_tau": 0.1887966804979253,
+          "logged_given_error_rate": 0.18385650224215247,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.8,
+          "low_gap_count": 959,
+          "low_gap_coverage": 0.9948132780082988,
+          "low_gap_error_rate": 0.23149113660062565,
+          "unlogged_error_rate_at_tau": 0.23029045643153526,
+          "logged_given_error_rate": 0.004484304932735426,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.9,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.1,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.2,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.3,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.4,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.5,
+          "low_gap_count": 65,
+          "low_gap_coverage": 0.06742738589211618,
+          "low_gap_error_rate": 0.24615384615384617,
+          "unlogged_error_rate_at_tau": 0.016597510373443983,
+          "logged_given_error_rate": 0.9282511210762332,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.6,
+          "low_gap_count": 352,
+          "low_gap_coverage": 0.3651452282157676,
+          "low_gap_error_rate": 0.2528409090909091,
+          "unlogged_error_rate_at_tau": 0.09232365145228216,
+          "logged_given_error_rate": 0.600896860986547,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.7,
+          "low_gap_count": 806,
+          "low_gap_coverage": 0.8360995850622407,
+          "low_gap_error_rate": 0.22580645161290322,
+          "unlogged_error_rate_at_tau": 0.1887966804979253,
+          "logged_given_error_rate": 0.18385650224215247,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.8,
+          "low_gap_count": 959,
+          "low_gap_coverage": 0.9948132780082988,
+          "low_gap_error_rate": 0.23149113660062565,
+          "unlogged_error_rate_at_tau": 0.23029045643153526,
+          "logged_given_error_rate": 0.004484304932735426,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.9,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.1,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.2,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.3,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.4,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.5,
+          "low_gap_count": 65,
+          "low_gap_coverage": 0.06742738589211618,
+          "low_gap_error_rate": 0.24615384615384617,
+          "unlogged_error_rate_at_tau": 0.016597510373443983,
+          "logged_given_error_rate": 0.9282511210762332,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.6,
+          "low_gap_count": 352,
+          "low_gap_coverage": 0.3651452282157676,
+          "low_gap_error_rate": 0.2528409090909091,
+          "unlogged_error_rate_at_tau": 0.09232365145228216,
+          "logged_given_error_rate": 0.600896860986547,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.7,
+          "low_gap_count": 806,
+          "low_gap_coverage": 0.8360995850622407,
+          "low_gap_error_rate": 0.22580645161290322,
+          "unlogged_error_rate_at_tau": 0.1887966804979253,
+          "logged_given_error_rate": 0.18385650224215247,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.8,
+          "low_gap_count": 959,
+          "low_gap_coverage": 0.9948132780082988,
+          "low_gap_error_rate": 0.23149113660062565,
+          "unlogged_error_rate_at_tau": 0.23029045643153526,
+          "logged_given_error_rate": 0.004484304932735426,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.9,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        }
+      ],
+      "prediction_error_probe_truth_eval": {
+        "auroc_using_native_prediction_error_score": 0.4806456328096278,
+        "ece_using_native_prediction_error_score": 0.3400604143916228,
+        "unlogged_probe_error_rate": 0.5819502074688797
+      },
+      "fits": {
+        "prediction_error": {
+          "status": "fit",
+          "label_rate": 0.24991789819376026,
+          "train_loss": 0.5444040132132545,
+          "permutation_seed": 90210,
+          "train_rows": 3045
+        },
+        "low_margin": {
+          "status": "fit",
+          "label_rate": 0.3001642036124795,
+          "train_loss": 0.5931200780536119,
+          "permutation_seed": 90210,
+          "train_rows": 3045
+        },
+        "transition_unstable": {
+          "status": "fit",
+          "label_rate": 0.12742200328407224,
+          "train_loss": 0.3617301431499781,
+          "permutation_seed": 90210,
+          "train_rows": 3045
+        },
+        "off_target_intervention": {
+          "status": "fit",
+          "label_rate": 0.6246305418719211,
+          "train_loss": 0.6482030285611303,
+          "permutation_seed": 90210,
+          "train_rows": 3045
+        }
+      }
+    },
+    "learned_gap_head_B_denoised_agent_room_only": {
+      "feature_variant": "B_denoised_agent_room_only",
+      "metrics_eval_episode_bootstrap": {
+        "failure_detection_auroc": {
+          "observed": 0.7313653225855256,
+          "bootstrap_mean": 0.7329151564768004,
+          "ci95_low": 0.6922535023322569,
+          "ci95_high": 0.7744776792213713
+        },
+        "ece": {
+          "observed": 0.03356305910910095,
+          "bootstrap_mean": 0.04278378890613446,
+          "ci95_low": 0.024752479526412217,
+          "ci95_high": 0.061395271247568786
+        },
+        "unlogged_error_rate": {
+          "observed": 0.16804979253112035,
+          "bootstrap_mean": 0.1681221702897571,
+          "ci95_low": 0.1423487239141197,
+          "ci95_high": 0.19119471771247848
+        },
+        "critical_unlogged_error_rate": {
+          "observed": 0.04253112033195021,
+          "bootstrap_mean": 0.04209438382796278,
+          "ci95_low": 0.028761467212267147,
+          "ci95_high": 0.05494643385292861
+        }
+      },
+      "metrics_calibration_observed": {
+        "failure_detection_auroc": 0.7280572035004088,
+        "ece": 0.035547200006075794,
+        "unlogged_error_rate": 0.18228105906313646,
+        "critical_unlogged_error_rate": 0.04276985743380855
+      },
+      "gap_sound_scan_eval": [
+        {
+          "epsilon": 0.0,
+          "tau": 0.1,
+          "low_gap_count": 3,
+          "low_gap_coverage": 0.0031120331950207467,
+          "low_gap_error_rate": 0.3333333333333333,
+          "unlogged_error_rate_at_tau": 0.001037344398340249,
+          "logged_given_error_rate": 0.9955156950672646,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.2,
+          "low_gap_count": 18,
+          "low_gap_coverage": 0.01867219917012448,
+          "low_gap_error_rate": 0.2222222222222222,
+          "unlogged_error_rate_at_tau": 0.004149377593360996,
+          "logged_given_error_rate": 0.9820627802690582,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.3,
+          "low_gap_count": 73,
+          "low_gap_coverage": 0.07572614107883817,
+          "low_gap_error_rate": 0.1643835616438356,
+          "unlogged_error_rate_at_tau": 0.012448132780082987,
+          "logged_given_error_rate": 0.9461883408071748,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.4,
+          "low_gap_count": 137,
+          "low_gap_coverage": 0.1421161825726141,
+          "low_gap_error_rate": 0.1897810218978102,
+          "unlogged_error_rate_at_tau": 0.026970954356846474,
+          "logged_given_error_rate": 0.8834080717488789,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.5,
+          "low_gap_count": 202,
+          "low_gap_coverage": 0.2095435684647303,
+          "low_gap_error_rate": 0.20297029702970298,
+          "unlogged_error_rate_at_tau": 0.04253112033195021,
+          "logged_given_error_rate": 0.8161434977578476,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.6,
+          "low_gap_count": 290,
+          "low_gap_coverage": 0.3008298755186722,
+          "low_gap_error_rate": 0.24482758620689654,
+          "unlogged_error_rate_at_tau": 0.07365145228215768,
+          "logged_given_error_rate": 0.6816143497757847,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.7,
+          "low_gap_count": 418,
+          "low_gap_coverage": 0.4336099585062241,
+          "low_gap_error_rate": 0.25598086124401914,
+          "unlogged_error_rate_at_tau": 0.11099585062240663,
+          "logged_given_error_rate": 0.5201793721973094,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.8,
+          "low_gap_count": 630,
+          "low_gap_coverage": 0.6535269709543569,
+          "low_gap_error_rate": 0.2523809523809524,
+          "unlogged_error_rate_at_tau": 0.16493775933609958,
+          "logged_given_error_rate": 0.28699551569506726,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.9,
+          "low_gap_count": 849,
+          "low_gap_coverage": 0.8807053941908713,
+          "low_gap_error_rate": 0.24499411071849234,
+          "unlogged_error_rate_at_tau": 0.2157676348547718,
+          "logged_given_error_rate": 0.06726457399103139,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.1,
+          "low_gap_count": 3,
+          "low_gap_coverage": 0.0031120331950207467,
+          "low_gap_error_rate": 0.3333333333333333,
+          "unlogged_error_rate_at_tau": 0.001037344398340249,
+          "logged_given_error_rate": 0.9955156950672646,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.2,
+          "low_gap_count": 18,
+          "low_gap_coverage": 0.01867219917012448,
+          "low_gap_error_rate": 0.2222222222222222,
+          "unlogged_error_rate_at_tau": 0.004149377593360996,
+          "logged_given_error_rate": 0.9820627802690582,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.3,
+          "low_gap_count": 73,
+          "low_gap_coverage": 0.07572614107883817,
+          "low_gap_error_rate": 0.1643835616438356,
+          "unlogged_error_rate_at_tau": 0.012448132780082987,
+          "logged_given_error_rate": 0.9461883408071748,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.4,
+          "low_gap_count": 137,
+          "low_gap_coverage": 0.1421161825726141,
+          "low_gap_error_rate": 0.1897810218978102,
+          "unlogged_error_rate_at_tau": 0.026970954356846474,
+          "logged_given_error_rate": 0.8834080717488789,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.5,
+          "low_gap_count": 202,
+          "low_gap_coverage": 0.2095435684647303,
+          "low_gap_error_rate": 0.20297029702970298,
+          "unlogged_error_rate_at_tau": 0.04253112033195021,
+          "logged_given_error_rate": 0.8161434977578476,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.6,
+          "low_gap_count": 290,
+          "low_gap_coverage": 0.3008298755186722,
+          "low_gap_error_rate": 0.24482758620689654,
+          "unlogged_error_rate_at_tau": 0.07365145228215768,
+          "logged_given_error_rate": 0.6816143497757847,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.7,
+          "low_gap_count": 418,
+          "low_gap_coverage": 0.4336099585062241,
+          "low_gap_error_rate": 0.25598086124401914,
+          "unlogged_error_rate_at_tau": 0.11099585062240663,
+          "logged_given_error_rate": 0.5201793721973094,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.8,
+          "low_gap_count": 630,
+          "low_gap_coverage": 0.6535269709543569,
+          "low_gap_error_rate": 0.2523809523809524,
+          "unlogged_error_rate_at_tau": 0.16493775933609958,
+          "logged_given_error_rate": 0.28699551569506726,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.9,
+          "low_gap_count": 849,
+          "low_gap_coverage": 0.8807053941908713,
+          "low_gap_error_rate": 0.24499411071849234,
+          "unlogged_error_rate_at_tau": 0.2157676348547718,
+          "logged_given_error_rate": 0.06726457399103139,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.1,
+          "low_gap_count": 3,
+          "low_gap_coverage": 0.0031120331950207467,
+          "low_gap_error_rate": 0.3333333333333333,
+          "unlogged_error_rate_at_tau": 0.001037344398340249,
+          "logged_given_error_rate": 0.9955156950672646,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.2,
+          "low_gap_count": 18,
+          "low_gap_coverage": 0.01867219917012448,
+          "low_gap_error_rate": 0.2222222222222222,
+          "unlogged_error_rate_at_tau": 0.004149377593360996,
+          "logged_given_error_rate": 0.9820627802690582,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.3,
+          "low_gap_count": 73,
+          "low_gap_coverage": 0.07572614107883817,
+          "low_gap_error_rate": 0.1643835616438356,
+          "unlogged_error_rate_at_tau": 0.012448132780082987,
+          "logged_given_error_rate": 0.9461883408071748,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.4,
+          "low_gap_count": 137,
+          "low_gap_coverage": 0.1421161825726141,
+          "low_gap_error_rate": 0.1897810218978102,
+          "unlogged_error_rate_at_tau": 0.026970954356846474,
+          "logged_given_error_rate": 0.8834080717488789,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.5,
+          "low_gap_count": 202,
+          "low_gap_coverage": 0.2095435684647303,
+          "low_gap_error_rate": 0.20297029702970298,
+          "unlogged_error_rate_at_tau": 0.04253112033195021,
+          "logged_given_error_rate": 0.8161434977578476,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.6,
+          "low_gap_count": 290,
+          "low_gap_coverage": 0.3008298755186722,
+          "low_gap_error_rate": 0.24482758620689654,
+          "unlogged_error_rate_at_tau": 0.07365145228215768,
+          "logged_given_error_rate": 0.6816143497757847,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.7,
+          "low_gap_count": 418,
+          "low_gap_coverage": 0.4336099585062241,
+          "low_gap_error_rate": 0.25598086124401914,
+          "unlogged_error_rate_at_tau": 0.11099585062240663,
+          "logged_given_error_rate": 0.5201793721973094,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.8,
+          "low_gap_count": 630,
+          "low_gap_coverage": 0.6535269709543569,
+          "low_gap_error_rate": 0.2523809523809524,
+          "unlogged_error_rate_at_tau": 0.16493775933609958,
+          "logged_given_error_rate": 0.28699551569506726,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.9,
+          "low_gap_count": 849,
+          "low_gap_coverage": 0.8807053941908713,
+          "low_gap_error_rate": 0.24499411071849234,
+          "unlogged_error_rate_at_tau": 0.2157676348547718,
+          "logged_given_error_rate": 0.06726457399103139,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.1,
+          "low_gap_count": 3,
+          "low_gap_coverage": 0.0031120331950207467,
+          "low_gap_error_rate": 0.3333333333333333,
+          "unlogged_error_rate_at_tau": 0.001037344398340249,
+          "logged_given_error_rate": 0.9955156950672646,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.2,
+          "low_gap_count": 18,
+          "low_gap_coverage": 0.01867219917012448,
+          "low_gap_error_rate": 0.2222222222222222,
+          "unlogged_error_rate_at_tau": 0.004149377593360996,
+          "logged_given_error_rate": 0.9820627802690582,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.3,
+          "low_gap_count": 73,
+          "low_gap_coverage": 0.07572614107883817,
+          "low_gap_error_rate": 0.1643835616438356,
+          "unlogged_error_rate_at_tau": 0.012448132780082987,
+          "logged_given_error_rate": 0.9461883408071748,
+          "low_gap_error_bounded_pass": true,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.4,
+          "low_gap_count": 137,
+          "low_gap_coverage": 0.1421161825726141,
+          "low_gap_error_rate": 0.1897810218978102,
+          "unlogged_error_rate_at_tau": 0.026970954356846474,
+          "logged_given_error_rate": 0.8834080717488789,
+          "low_gap_error_bounded_pass": true,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.5,
+          "low_gap_count": 202,
+          "low_gap_coverage": 0.2095435684647303,
+          "low_gap_error_rate": 0.20297029702970298,
+          "unlogged_error_rate_at_tau": 0.04253112033195021,
+          "logged_given_error_rate": 0.8161434977578476,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.6,
+          "low_gap_count": 290,
+          "low_gap_coverage": 0.3008298755186722,
+          "low_gap_error_rate": 0.24482758620689654,
+          "unlogged_error_rate_at_tau": 0.07365145228215768,
+          "logged_given_error_rate": 0.6816143497757847,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.7,
+          "low_gap_count": 418,
+          "low_gap_coverage": 0.4336099585062241,
+          "low_gap_error_rate": 0.25598086124401914,
+          "unlogged_error_rate_at_tau": 0.11099585062240663,
+          "logged_given_error_rate": 0.5201793721973094,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.8,
+          "low_gap_count": 630,
+          "low_gap_coverage": 0.6535269709543569,
+          "low_gap_error_rate": 0.2523809523809524,
+          "unlogged_error_rate_at_tau": 0.16493775933609958,
+          "logged_given_error_rate": 0.28699551569506726,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.9,
+          "low_gap_count": 849,
+          "low_gap_coverage": 0.8807053941908713,
+          "low_gap_error_rate": 0.24499411071849234,
+          "unlogged_error_rate_at_tau": 0.2157676348547718,
+          "logged_given_error_rate": 0.06726457399103139,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        }
+      ],
+      "prediction_error_probe_truth_eval": {
+        "auroc_using_native_prediction_error_score": 0.4464106164429069,
+        "ece_using_native_prediction_error_score": 0.36397457919111104,
+        "unlogged_probe_error_rate": 0.5300829875518672
+      },
+      "fits": {
+        "prediction_error": {
+          "status": "fit",
+          "label_rate": 0.24991789819376026,
+          "train_loss": 0.47081486799977845
+        },
+        "low_margin": {
+          "status": "fit",
+          "label_rate": 0.3001642036124795,
+          "train_loss": 0.40550866056869417
+        },
+        "transition_unstable": {
+          "status": "fit",
+          "label_rate": 0.12742200328407224,
+          "train_loss": 0.32478970057181294
+        },
+        "off_target_intervention": {
+          "status": "fit",
+          "label_rate": 0.6246305418719211,
+          "train_loss": 0.47481678967157376
+        }
+      }
+    },
+    "matched_random_gap_head_B_denoised_agent_room_only": {
+      "feature_variant": "B_denoised_agent_room_only",
+      "metrics_eval_episode_bootstrap": {
+        "failure_detection_auroc": {
+          "observed": 0.4721410286668724,
+          "bootstrap_mean": 0.471835672327564,
+          "ci95_low": 0.4272020202370593,
+          "ci95_high": 0.5177031388272755
+        },
+        "ece": {
+          "observed": 0.0846262825338042,
+          "bootstrap_mean": 0.08558541603036852,
+          "ci95_low": 0.060899821294725445,
+          "ci95_high": 0.1119849384242396
+        },
+        "unlogged_error_rate": {
+          "observed": 0.23132780082987553,
+          "bootstrap_mean": 0.2321304590074254,
+          "ci95_low": 0.20478380210245503,
+          "ci95_high": 0.2584896793655993
+        },
+        "critical_unlogged_error_rate": {
+          "observed": 0.025933609958506226,
+          "bootstrap_mean": 0.026323505410113995,
+          "ci95_low": 0.01663116597632835,
+          "ci95_high": 0.036809536130350554
+        }
+      },
+      "metrics_calibration_observed": {
+        "failure_detection_auroc": 0.547405719190197,
+        "ece": 0.03625912678426096,
+        "unlogged_error_rate": 0.23319755600814665,
+        "critical_unlogged_error_rate": 0.028513238289205704
+      },
+      "gap_sound_scan_eval": [
+        {
+          "epsilon": 0.0,
+          "tau": 0.1,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.2,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.3,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.4,
+          "low_gap_count": 24,
+          "low_gap_coverage": 0.024896265560165973,
+          "low_gap_error_rate": 0.125,
+          "unlogged_error_rate_at_tau": 0.0031120331950207467,
+          "logged_given_error_rate": 0.9865470852017937,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.5,
+          "low_gap_count": 135,
+          "low_gap_coverage": 0.1400414937759336,
+          "low_gap_error_rate": 0.18518518518518517,
+          "unlogged_error_rate_at_tau": 0.025933609958506226,
+          "logged_given_error_rate": 0.8878923766816144,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.6,
+          "low_gap_count": 396,
+          "low_gap_coverage": 0.4107883817427386,
+          "low_gap_error_rate": 0.16666666666666666,
+          "unlogged_error_rate_at_tau": 0.06846473029045644,
+          "logged_given_error_rate": 0.7040358744394619,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.7,
+          "low_gap_count": 777,
+          "low_gap_coverage": 0.8060165975103735,
+          "low_gap_error_rate": 0.2175032175032175,
+          "unlogged_error_rate_at_tau": 0.17531120331950206,
+          "logged_given_error_rate": 0.242152466367713,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.8,
+          "low_gap_count": 953,
+          "low_gap_coverage": 0.9885892116182573,
+          "low_gap_error_rate": 0.23189926547743966,
+          "unlogged_error_rate_at_tau": 0.229253112033195,
+          "logged_given_error_rate": 0.008968609865470852,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.0,
+          "tau": 0.9,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.1,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.2,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.3,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.4,
+          "low_gap_count": 24,
+          "low_gap_coverage": 0.024896265560165973,
+          "low_gap_error_rate": 0.125,
+          "unlogged_error_rate_at_tau": 0.0031120331950207467,
+          "logged_given_error_rate": 0.9865470852017937,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.5,
+          "low_gap_count": 135,
+          "low_gap_coverage": 0.1400414937759336,
+          "low_gap_error_rate": 0.18518518518518517,
+          "unlogged_error_rate_at_tau": 0.025933609958506226,
+          "logged_given_error_rate": 0.8878923766816144,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.6,
+          "low_gap_count": 396,
+          "low_gap_coverage": 0.4107883817427386,
+          "low_gap_error_rate": 0.16666666666666666,
+          "unlogged_error_rate_at_tau": 0.06846473029045644,
+          "logged_given_error_rate": 0.7040358744394619,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.7,
+          "low_gap_count": 777,
+          "low_gap_coverage": 0.8060165975103735,
+          "low_gap_error_rate": 0.2175032175032175,
+          "unlogged_error_rate_at_tau": 0.17531120331950206,
+          "logged_given_error_rate": 0.242152466367713,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.8,
+          "low_gap_count": 953,
+          "low_gap_coverage": 0.9885892116182573,
+          "low_gap_error_rate": 0.23189926547743966,
+          "unlogged_error_rate_at_tau": 0.229253112033195,
+          "logged_given_error_rate": 0.008968609865470852,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.05,
+          "tau": 0.9,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.1,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.2,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.3,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.4,
+          "low_gap_count": 24,
+          "low_gap_coverage": 0.024896265560165973,
+          "low_gap_error_rate": 0.125,
+          "unlogged_error_rate_at_tau": 0.0031120331950207467,
+          "logged_given_error_rate": 0.9865470852017937,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.5,
+          "low_gap_count": 135,
+          "low_gap_coverage": 0.1400414937759336,
+          "low_gap_error_rate": 0.18518518518518517,
+          "unlogged_error_rate_at_tau": 0.025933609958506226,
+          "logged_given_error_rate": 0.8878923766816144,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.6,
+          "low_gap_count": 396,
+          "low_gap_coverage": 0.4107883817427386,
+          "low_gap_error_rate": 0.16666666666666666,
+          "unlogged_error_rate_at_tau": 0.06846473029045644,
+          "logged_given_error_rate": 0.7040358744394619,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.7,
+          "low_gap_count": 777,
+          "low_gap_coverage": 0.8060165975103735,
+          "low_gap_error_rate": 0.2175032175032175,
+          "unlogged_error_rate_at_tau": 0.17531120331950206,
+          "logged_given_error_rate": 0.242152466367713,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.8,
+          "low_gap_count": 953,
+          "low_gap_coverage": 0.9885892116182573,
+          "low_gap_error_rate": 0.23189926547743966,
+          "unlogged_error_rate_at_tau": 0.229253112033195,
+          "logged_given_error_rate": 0.008968609865470852,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.1,
+          "tau": 0.9,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.1,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.2,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.3,
+          "low_gap_count": 0,
+          "low_gap_coverage": 0.0,
+          "low_gap_error_rate": NaN,
+          "unlogged_error_rate_at_tau": 0.0,
+          "logged_given_error_rate": 1.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.4,
+          "low_gap_count": 24,
+          "low_gap_coverage": 0.024896265560165973,
+          "low_gap_error_rate": 0.125,
+          "unlogged_error_rate_at_tau": 0.0031120331950207467,
+          "logged_given_error_rate": 0.9865470852017937,
+          "low_gap_error_bounded_pass": true,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.5,
+          "low_gap_count": 135,
+          "low_gap_coverage": 0.1400414937759336,
+          "low_gap_error_rate": 0.18518518518518517,
+          "unlogged_error_rate_at_tau": 0.025933609958506226,
+          "logged_given_error_rate": 0.8878923766816144,
+          "low_gap_error_bounded_pass": true,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.6,
+          "low_gap_count": 396,
+          "low_gap_coverage": 0.4107883817427386,
+          "low_gap_error_rate": 0.16666666666666666,
+          "unlogged_error_rate_at_tau": 0.06846473029045644,
+          "logged_given_error_rate": 0.7040358744394619,
+          "low_gap_error_bounded_pass": true,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.7,
+          "low_gap_count": 777,
+          "low_gap_coverage": 0.8060165975103735,
+          "low_gap_error_rate": 0.2175032175032175,
+          "unlogged_error_rate_at_tau": 0.17531120331950206,
+          "logged_given_error_rate": 0.242152466367713,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": true
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.8,
+          "low_gap_count": 953,
+          "low_gap_coverage": 0.9885892116182573,
+          "low_gap_error_rate": 0.23189926547743966,
+          "unlogged_error_rate_at_tau": 0.229253112033195,
+          "logged_given_error_rate": 0.008968609865470852,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        },
+        {
+          "epsilon": 0.2,
+          "tau": 0.9,
+          "low_gap_count": 964,
+          "low_gap_coverage": 1.0,
+          "low_gap_error_rate": 0.23132780082987553,
+          "unlogged_error_rate_at_tau": 0.23132780082987553,
+          "logged_given_error_rate": 0.0,
+          "low_gap_error_bounded_pass": false,
+          "error_logged_pass": false
+        }
+      ],
+      "prediction_error_probe_truth_eval": {
+        "auroc_using_native_prediction_error_score": 0.5183754645358185,
+        "ece_using_native_prediction_error_score": 0.3264415914300873,
+        "unlogged_probe_error_rate": 0.5809128630705395
+      },
+      "fits": {
+        "prediction_error": {
+          "status": "fit",
+          "label_rate": 0.24991789819376026,
+          "train_loss": 0.5437209183040816,
+          "permutation_seed": 90211,
+          "train_rows": 3045
+        },
+        "low_margin": {
+          "status": "fit",
+          "label_rate": 0.3001642036124795,
+          "train_loss": 0.5959463174732351,
+          "permutation_seed": 90211,
+          "train_rows": 3045
+        },
+        "transition_unstable": {
+          "status": "fit",
+          "label_rate": 0.12742200328407224,
+          "train_loss": 0.36566520438093475,
+          "permutation_seed": 90211,
+          "train_rows": 3045
+        },
+        "off_target_intervention": {
+          "status": "fit",
+          "label_rate": 0.6246305418719211,
+          "train_loss": 0.6417359389699459,
+          "permutation_seed": 90211,
+          "train_rows": 3045
+        }
+      }
+    }
+  },
+  "conclusion": {
+    "claim": "positive",
+    "primary_variant": "B_denoised_agent_room_only",
+    "primary_learned_auroc_ci_low_gt_matched_ci_high": true,
+    "primary_learned_uer_ci_high_lt_vanilla_ci_low": true,
+    "variant_conclusions": {
+      "A_all_probe_features": {
+        "learned_auroc_ci_low_gt_matched_ci_high": true,
+        "learned_uer_ci_high_lt_vanilla_ci_low": true,
+        "claim": "positive"
+      },
+      "B_denoised_agent_room_only": {
+        "learned_auroc_ci_low_gt_matched_ci_high": true,
+        "learned_uer_ci_high_lt_vanilla_ci_low": true,
+        "claim": "positive"
+      }
+    },
+    "ab_prediction_error_auroc_delta_B_minus_A": -0.0007927718572042775,
+    "summary": "denoised learned gap head significantly beats matched-random on native prediction-error AUROC and beats vanilla on UER"
+  },
+  "debt": [
+    {
+      "type": "coverage_debt",
+      "source": "statistical_design",
+      "detail": "single LeWM tworooms latent export with 278 episodes/4991 transitions; episode bootstrap does not replace >=30 independent world seeds"
+    },
+    {
+      "type": "source_debt",
+      "source": "distinction_probe:near_target",
+      "detail": "eval accuracy 0.5902 below 0.60 separability sanity threshold"
+    }
+  ],
+  "bootstrap": {
+    "resamples": 500,
+    "unit": "eval episodes",
+    "eval_episode_count": 55,
+    "eval_transition_count": 964,
+    "seed": 314159
+  }
+}

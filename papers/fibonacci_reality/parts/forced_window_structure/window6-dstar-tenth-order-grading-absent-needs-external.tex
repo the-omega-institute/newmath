@@ -1,0 +1,83 @@
+\origin{ai}
+
+\subsection{Window6 tenth-order grading obstruction}
+\label{sec:window6-dstar-tenth-order-grading-obstruction}
+
+\paragraph{Finite carrier.}
+The finite data considered here consist of two verified operators on finite Window6 state spaces.  The first operator is a fold-gauge operator $A_0$ whose spectrum is exactly $\{1,1/2,-1/2\}$.  The second operator is a four-cell Markov kernel $T$ whose nontrivial spectral part is controlled by the cubic polynomial
+$$
+\begin{aligned}
+55z^3+506z^2-7263z-48114.
+\end{aligned}
+$$
+The carrier for the obstruction is the ordered pair $\{T,A_0\}$ together with their exact characteristic-polynomial data.  No limiting process, measured constant, or fitted real-valued parameter is part of this carrier.  The only finite ratio recorded alongside the operators is the local Markov boundary escape ratio
+$$
+\begin{aligned}
+\frac{32}{6\cdot 6}=\frac{8}{9}.
+\end{aligned}
+$$
+This ratio is attached to boundary escape counting, not to a forward spectral certificate for a residual coefficient.
+
+\paragraph{Tenth-order grading predicate.}
+Let
+$$
+\begin{aligned}
+\Phi_{10}(x)=x^4-x^3+x^2-x+1.
+\end{aligned}
+$$
+This is the primitive tenth-root cyclotomic polynomial.  It satisfies
+$$
+\begin{aligned}
+\Phi_{10}(x) \mid x^{10}-1,
+\qquad
+\deg(\Phi_{10})=4.
+\end{aligned}
+$$
+The finite predicate tested in this subsection is the following: an internal transfer operator supports a genuine $10$-periodic spectral grading for a term of the form $z^7/(1-z^{10})$ only if its spectrum contains a primitive tenth root of unity.  Equivalently, the characteristic polynomial of a relevant transfer operator must contain a factor $\Phi_{10}$.  Thus the required certificate is not a numerical approximation; it is an exact divisibility statement in a polynomial ring.
+
+\paragraph{The Markov-kernel test.}
+The verified four-cell Markov kernel $T$ has determinant identities
+$$
+\begin{aligned}
+\det(I-zT)&=\frac{(z-1)(55z^3+506z^2-7263z-48114)}{48114},\\
+\det(\lambda I-T)&=\frac{(\lambda-1)(48114\lambda^3+7263\lambda^2-506\lambda-55)}{48114}.
+\end{aligned}
+$$
+The discriminant of the cubic factor in the eigenvalue description is positive, so the three nontrivial eigenvalues of $T$ are real.  Primitive tenth roots of unity are non-real except for no member of this primitive class being equal to $1$ or $-1$, and the exact polynomial division gives a direct certificate in any case.  After clearing denominators, the remainder of the characteristic polynomial of $T$ upon division by $\Phi_{10}$ is
+$$
+\begin{aligned}
+7263\lambda^3-55883\lambda^2+48565\lambda-48059.
+\end{aligned}
+$$
+This polynomial is nonzero.  Therefore $\Phi_{10}$ is not a factor of the characteristic polynomial of $T$, and $T$ does not supply the required primitive tenth-root grading.
+
+\paragraph{The fold-gauge test.}
+The verified fold-gauge operator $A_0$ has characteristic determinant
+$$
+\begin{aligned}
+\det(\lambda I-A_0)&=\frac{(\lambda-1)(2\lambda-1)(2\lambda+1)^2}{8}.
+\end{aligned}
+$$
+Its spectrum is therefore contained in the real set $\{1,1/2,-1/2\}$.  The exact factor check again gives the certificate without numerical fitting.  After clearing denominators, the remainder of the characteristic polynomial of $A_0$ upon division by $\Phi_{10}$ is
+$$
+\begin{aligned}
+4\lambda^3-14\lambda^2+9\lambda-7.
+\end{aligned}
+$$
+This remainder is nonzero.  Hence $\Phi_{10}$ is not a factor of the characteristic polynomial of $A_0$, and $A_0$ also fails to provide a primitive tenth-root grading.
+
+\paragraph{Witness extraction.}
+The witness is the pair of exact remainders
+$$
+\begin{aligned}
+r_T(\lambda)&=7263\lambda^3-55883\lambda^2+48565\lambda-48059,\\
+r_{A_0}(\lambda)&=4\lambda^3-14\lambda^2+9\lambda-7.
+\end{aligned}
+$$
+Both remainders are nonzero after the relevant denominators have been cleared.  These two finite polynomial computations certify that the verified operator set $\{T,A_0\}$ contains no primitive tenth root of unity in the required spectral sense.  The extraction uses exact symbolic polynomial division and rational linear algebra only; it does not evaluate any physical readout value and does not reverse-fit a coefficient.
+
+\paragraph{Consequence for the residual ladder.}
+The residual ladder condition $e\equiv 7\pmod {10}$ would require a $10$-periodic spectral grading if it were to be forced by an internal Window6 transfer operator.  The exact checks above show that the verified Window6 operators $T$ and $A_0$ do not contain the cyclotomic factor that would supply such a grading.  Consequently the ladder with residue class $7$ modulo $10$ is not forced by the verified operator set.  The local escape ratio $8/9$ remains a boundary-counting ratio for the Markov kernel; it is not a certificate for the coefficient of the residual ladder.
+
+\paragraph{Local boundary of the claim.}
+This subsection proves only a finite obstruction: the operators $T$ and $A_0$ do not contain the $\Phi_{10}$ spectral factor needed for an internal tenth-order grading.  It does not identify any finite ratio with a physical constant, does not assert a global flow law, does not remove the need for an additional certificate, does not make a metrological comparison, and does not attach an interpretation beyond the finite construction.  The object denoted $D^*_6$ therefore remains an external or protocol-layer obligation rather than an internal Window6 theorem.

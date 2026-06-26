@@ -1,0 +1,313 @@
+{
+  "config": {
+    "alpha": 25.0,
+    "anchor_feature_dim": 4990,
+    "batch": 512,
+    "option_row_feature_dim": 5001,
+    "scorer_depth": 2,
+    "scorer_epochs": 220,
+    "scorer_hidden": 384,
+    "scorer_lr": 0.0006,
+    "scorer_seed": 659,
+    "seed": 667
+  },
+  "diagnosis": {
+    "full_beats_raw_geometry_option_observed": true,
+    "hard_beats_raw_geometry_option_observed": true,
+    "hard_closes": false
+  },
+  "eval": {
+    "base_geometry_option": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.00868601459737132,
+          "low": -0.006724383271551078,
+          "observed": 7.355493470462271e-05
+        },
+        "chosen_depth_counts": {
+          "1": 100,
+          "2": 187,
+          "3": 110,
+          "4": 87,
+          "5": 150
+        },
+        "oracle_match": 0.2334384858044164,
+        "pair_accuracy": 0.9974763406940063,
+        "score_error_spearman": 0.865731592668518
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.08474912533481432,
+          "low": 0.004541068831954236,
+          "observed": 0.04436101731151748
+        },
+        "chosen_depth_counts": {
+          "1": 12,
+          "2": 20,
+          "3": 20,
+          "4": 10,
+          "5": 17
+        },
+        "oracle_match": 0.13924050632911392,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.8244192227485937
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.0020355370514946046,
+          "low": -0.01089945404543123,
+          "observed": -0.006230426196409275
+        },
+        "chosen_depth_counts": {
+          "1": 88,
+          "2": 167,
+          "3": 90,
+          "4": 77,
+          "5": 133
+        },
+        "oracle_match": 0.24684684684684685,
+        "pair_accuracy": 0.9971171171171171,
+        "score_error_spearman": 0.8731595623971561
+      }
+    },
+    "priority_residual": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.0020369195502571054,
+          "low": -0.006685047942708675,
+          "observed": -0.002491335018909871
+        },
+        "chosen_depth_counts": {
+          "1": 26,
+          "2": 186,
+          "3": 232,
+          "4": 142,
+          "5": 48
+        },
+        "oracle_match": 0.2334384858044164,
+        "pair_accuracy": 0.9996845425867508,
+        "score_error_spearman": 0.8132982521826457
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.04319705794619397,
+          "low": 0.0023884106248467196,
+          "observed": 0.02032330623809267
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 12,
+          "3": 47,
+          "4": 16,
+          "5": 1
+        },
+        "oracle_match": 0.13924050632911392,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7158725337289882
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.003265436904054458,
+          "low": -0.008829910372466481,
+          "observed": -0.005738824495131842
+        },
+        "chosen_depth_counts": {
+          "1": 23,
+          "2": 174,
+          "3": 185,
+          "4": 126,
+          "5": 47
+        },
+        "oracle_match": 0.24684684684684685,
+        "pair_accuracy": 0.9996396396396396,
+        "score_error_spearman": 0.8281689312590912
+      }
+    }
+  },
+  "leakage_attestation": {
+    "eval_targets": "eval option_error is used only after the selected score is fixed",
+    "hard_ids": "held-out hard episode ids are used only for final diagnostic slicing",
+    "raw_score": "fi-064 geometry-option scorer is regenerated deterministically to obtain train/cal/eval scores",
+    "selection": "candidate score composition is selected on calibration exact-budget allocation only",
+    "slurm_or_ssh": "not used"
+  },
+  "not_claimed": [
+    "deployable policy",
+    "independent export validation",
+    "complete BEDC-native world model"
+  ],
+  "raw_feature_dims": {
+    "augmented_feature_dim": 4968,
+    "base_feature_dim": 4952,
+    "geometry_feature_dim": 16
+  },
+  "raw_model_selection": {
+    "best": {
+      "calibration": {
+        "allocation_delta": {
+          "high": -0.003183815609522231,
+          "low": -0.009951270314899167,
+          "observed": -0.0063069604599760715
+        },
+        "chosen_depth_counts": {
+          "1": 85,
+          "2": 217,
+          "3": 107,
+          "4": 87,
+          "5": 150
+        },
+        "score_error_spearman": 0.8772716383185934
+      },
+      "epoch": 163,
+      "selection_key": [
+        -0.003183815609522231,
+        -0.0063069604599760715,
+        0.12385846711695195
+      ]
+    },
+    "history_first": {
+      "cal_delta_high": 0.01684793251182204,
+      "cal_delta_observed": 0.01075102620618254,
+      "cal_spearman": 0.2846944026398426,
+      "epoch": 1.0,
+      "train_loss": 0.4811796978116035
+    },
+    "history_last": {
+      "cal_delta_high": -0.0025769285564779046,
+      "cal_delta_observed": -0.005574992178495358,
+      "cal_spearman": 0.8824119340080766,
+      "epoch": 220.0,
+      "train_loss": 0.12105087600648404
+    },
+    "params_count": 2090497,
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then training loss"
+  },
+  "schema_id": "bedc_jepa.state_generation_budget_priority_residual",
+  "selection": {
+    "calibration": {
+      "base_minus_0.25_residual": {
+        "allocation_delta": {
+          "high": -0.001703075759431986,
+          "low": -0.009253333355902402,
+          "observed": -0.005332284366996287
+        },
+        "chosen_depth_counts": {
+          "1": 137,
+          "2": 170,
+          "3": 80,
+          "4": 74,
+          "5": 185
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9961300309597523,
+        "score_error_spearman": 0.8585556104453271
+      },
+      "base_minus_0.5_residual": {
+        "allocation_delta": {
+          "high": -8.649848033197359e-05,
+          "low": -0.0088210426619066,
+          "observed": -0.0043614127304831135
+        },
+        "chosen_depth_counts": {
+          "1": 189,
+          "2": 120,
+          "3": 56,
+          "4": 64,
+          "5": 217
+        },
+        "oracle_match": 0.22291021671826625,
+        "pair_accuracy": 0.9715170278637771,
+        "score_error_spearman": 0.7681914427011443
+      },
+      "base_minus_1.0_residual": {
+        "allocation_delta": {
+          "high": 0.0024328313219055555,
+          "low": -0.004713764142272772,
+          "observed": -0.0011374963334115917
+        },
+        "chosen_depth_counts": {
+          "1": 265,
+          "2": 47,
+          "3": 27,
+          "4": 37,
+          "5": 270
+        },
+        "oracle_match": 0.29876160990712075,
+        "pair_accuracy": 0.6626934984520124,
+        "score_error_spearman": 0.2961837112476255
+      },
+      "base_plus_0.25_residual": {
+        "allocation_delta": {
+          "high": -0.0033401596812298226,
+          "low": -0.010351695556502675,
+          "observed": -0.006503955182005486
+        },
+        "chosen_depth_counts": {
+          "1": 54,
+          "2": 227,
+          "3": 144,
+          "4": 107,
+          "5": 114
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9993808049535604,
+        "score_error_spearman": 0.8714144267617263
+      },
+      "base_plus_0.5_residual": {
+        "allocation_delta": {
+          "high": -0.0027226248934481387,
+          "low": -0.01021550574846562,
+          "observed": -0.006396297394578546
+        },
+        "chosen_depth_counts": {
+          "1": 36,
+          "2": 218,
+          "3": 187,
+          "4": 120,
+          "5": 85
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9996904024767802,
+        "score_error_spearman": 0.8588765529150584
+      },
+      "base_plus_1.0_residual": {
+        "allocation_delta": {
+          "high": -0.0038188962134640403,
+          "low": -0.01074707741122638,
+          "observed": -0.00682797368518219
+        },
+        "chosen_depth_counts": {
+          "1": 13,
+          "2": 195,
+          "3": 263,
+          "4": 129,
+          "5": 46
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.8327641640393035
+      },
+      "predicted_residual": {
+        "allocation_delta": {
+          "high": 0.0,
+          "low": 0.0,
+          "observed": 0.0
+        },
+        "chosen_depth_counts": {
+          "3": 646
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.6876449914499556
+      }
+    },
+    "selected": "base_plus_1.0_residual",
+    "selection_key": [
+      -0.0038188962134640403,
+      -0.00682797368518219
+    ]
+  },
+  "status": "ok",
+  "verdict": "Budget-priority residual improves hard-only observed allocation damage, but the hard-only interval remains open.",
+  "wall_time_sec": 215.9586169719696
+}

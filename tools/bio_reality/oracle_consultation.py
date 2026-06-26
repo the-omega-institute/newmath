@@ -142,6 +142,47 @@ def _normalize_decision(parsed: dict[str, Any]) -> dict[str, Any] | None:
     return {"continue": False, "reason": reason, "useful_score": useful_score}
 
 
+def _looks_like_local_context_prompt(text: str) -> bool:
+    lower = text.lower()
+    markers = [
+        "tools/",
+        "papers/",
+        ".jsonl",
+        ".json",
+        ".py",
+        "claim_id",
+        "conjecture_id",
+        "conversation_id",
+        "gate_result",
+        "registry",
+        "payload",
+        "transcript",
+        "local file",
+        "repo",
+        "```",
+        "{",
+        "}",
+    ]
+    return any(marker in lower for marker in markers)
+
+
+def _direction_only_followup(prompt: str, lane: str) -> str:
+    stripped = " ".join(prompt.strip().split())
+    if stripped and len(stripped) <= 1200 and not _looks_like_local_context_prompt(stripped):
+        return stripped
+    if lane == "bio-Plan":
+        return (
+            "Staying at the level of research direction only, what single follow-up "
+            "question best sharpens the falsifiable boundary between internal "
+            "codon-coordinate structure and an external biological reality contact?"
+        )
+    return (
+        "Staying at the level of research direction only, what single follow-up "
+        "question best separates bounded descriptive readback from a stronger "
+        "cross-layer biological claim?"
+    )
+
+
 def codex_judge_callback(
     repo_root: Path,
     lane: str,
@@ -170,7 +211,8 @@ def codex_judge_callback(
                 "You are the Codex reasoning judge for a BioReality ChatGPT oracle session.",
                 "Decide whether the same ChatGPT conversation can still produce useful content.",
                 "Ground only in the lane, topic brief, and summarized turn history below.",
-                "If continuing, ask one concrete follow-up question for the same conversation_id.",
+                "If continuing, next_prompt must be one concise conceptual follow-up question for the same conversation.",
+                "Do not put local repo paths, file names, IDs, JSON, gate outputs, transcripts, implementation state, or formatting requirements in next_prompt.",
                 "Return exactly one JSON object matching one of these schemas:",
                 '{"continue": true, "next_prompt": "...", "rationale": "...", "useful_score": 0}',
                 '{"continue": false, "reason": "...", "useful_score": 0}',
@@ -207,6 +249,8 @@ def codex_judge_callback(
         decision = _normalize_decision(parsed or {})
         if decision is None:
             return {"continue": False, "reason": "codex judge returned invalid JSON", "useful_score": 0}
+        if bool(decision.get("continue")):
+            decision["next_prompt"] = _direction_only_followup(str(decision.get("next_prompt") or ""), lane)
         return decision
 
     callback.judge_calls = 0
@@ -284,6 +328,7 @@ def run_oracle_consultation(
     poll_timeout: int = 600,
     codex_judge_timeout: int = 240,
     existing_conversation_id: str = "",
+    allow_resume_fallback: bool = True,
     close_on_exit: bool = False,
 ) -> dict[str, Any]:
     """Run a multi-turn oracle consultation and optionally persist its transcript."""
@@ -300,8 +345,9 @@ def run_oracle_consultation(
         max_turns,
         codex_timeout_seconds=codex_judge_timeout,
     )
-    # Skip PDF attach when resuming an existing conversation (ChatGPT already has the file).
-    if existing_conversation_id:
+    # NyxID session identity is relay-scoped; keep the PDF available so the
+    # client can open a fresh relay conversation with the same context.
+    if existing_conversation_id and not str(server_url).startswith("nyxid-oracle://"):
         pdf_base64 = ""
         pdf_name = ""
         pdf_skipped_reason = pdf_skipped_reason or "resuming_existing_conversation"
@@ -315,6 +361,7 @@ def run_oracle_consultation(
         pdf_base64=pdf_base64,
         pdf_name=pdf_name,
         existing_conversation_id=existing_conversation_id,
+        allow_resume_fallback=allow_resume_fallback,
         close_on_exit=close_on_exit,
         server_url=server_url,
         poll_timeout=poll_timeout,

@@ -1,0 +1,83 @@
+{
+  "data_boundary": "Only small curated marker-level JSON is committed; the large GEO processed matrices are fetched by script and not committed.",
+  "selected": {
+    "can_test": [
+      "cell_identity"
+    ],
+    "cannot_claim": [
+      "sameSig_I evidence alone does not establish IdentityPreservingAgeResetUp because the safety layer is separate.",
+      "This contact does not test DNA methylation age clocks, functional repair, renewable maintenance, organismal maintenance, rejuvenation, or immortality potential."
+    ],
+    "cannot_test": [
+      "age_signature",
+      "function_realization",
+      "safety_boundary",
+      "renewable_maintenance",
+      "organismal_maintenance",
+      "IdentityPreservingAgeResetUp promotion",
+      "rejuvenation",
+      "immortality"
+    ],
+    "download_verified": true,
+    "geo_accession": "GSE165177",
+    "organism": "Homo sapiens",
+    "processed_matrix_format": "gzip-compressed tab-separated Log2 RPM matrix with gene symbols and sample columns",
+    "processed_urls": [
+      "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE165nnn/GSE165177/suppl/GSE165177_Log2_RPM_Transient_reprogramming.txt.gz",
+      "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE165nnn/GSE165177/suppl/GSE165177_Log2_RPM_Transient_reprogramming_part2_170621.txt.gz"
+    ],
+    "sample_structure": {
+      "baseline_class": "donor fibroblast samples are present but not required for the paired primary comparison",
+      "normal_class": "negative control fibroblasts",
+      "positive_boundary_samples": [
+        "iPSC_13",
+        "iPSC_21"
+      ],
+      "series_samples": 95,
+      "tested_donors": [
+        "O1",
+        "O2",
+        "O3"
+      ],
+      "tested_join": "exp2 day-10 donor-matched negative_control vs transiently_reprogrammed",
+      "treated_class": "transiently reprogrammed fibroblasts"
+    },
+    "series_matrix_url": "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE165nnn/GSE165177/matrix/GSE165177_series_matrix.txt.gz",
+    "slug": "gse165177-mptr",
+    "source_kind": "rnaseq_expression",
+    "title": "Multi-omic rejuvenation of human cells by maturation phase transient reprogramming [Transient_RNAseq]"
+  },
+  "status": "processed_contact_found",
+  "surveyed_sources": [
+    {
+      "accession": "GSE165177",
+      "reason": "GEO supplementary directory contains processed Log2 RPM matrices that stream through gzip/csv stdlib parsers; sample titles expose donor, control, transiently reprogrammed, and iPSC boundary labels.",
+      "result": "accepted"
+    },
+    {
+      "accession": "GSE165176",
+      "reason": "GEO contains processed Log2 RPM Sendai reprogramming matrix; the transient MPTR subseries GSE165177 is a closer match to the cell_identity step.",
+      "result": "secondary_candidate_not_used"
+    },
+    {
+      "accession": "GSE165180",
+      "reason": "SuperSeries supplementary directory exposes a large RAW tar and file list; processed RNA-seq matrices are better accessed via subseries GSE165176/GSE165177.",
+      "result": "not_used"
+    },
+    {
+      "accession": "GSE165178",
+      "reason": "Processed methylation matrices exist, but this task requires a cell_identity expression contact.",
+      "result": "not_used"
+    },
+    {
+      "accession": "GSE165179",
+      "reason": "Processed methylation matrices exist, but this task requires a cell_identity expression contact.",
+      "result": "not_used"
+    },
+    {
+      "accession": "PRJNA598923",
+      "reason": "Companion data for the existing GSE142439 anchor is raw SRA under the stated stdlib-only constraint.",
+      "result": "not_used"
+    }
+  ]
+}
