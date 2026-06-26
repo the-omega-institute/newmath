@@ -2883,6 +2883,7 @@ import BEDC.Derived.ClaimRegistryLayerUp.TasteGate
 import BEDC.Derived.ClaimStatusAuditUp
 import BEDC.Derived.ClaimStatusAuditUp.NameCertObligations
 import BEDC.Derived.ClaimStatusAuditUp.TasteGate
+import BEDC.Derived.ClarkeSubdifferentialUp.TasteGate
 import BEDC.Derived.ClarksonInequalityUp.TasteGate
 import BEDC.Derived.ClassFieldUp
 import BEDC.Derived.ClassFieldUp.TasteGate
@@ -6188,6 +6189,7 @@ import BEDC.Derived.FirstExitChannelUp.NameCertObligations
 import BEDC.Derived.FirstExitChannelUp.TasteGate
 import BEDC.Derived.FirstOrderUp
 import BEDC.Derived.FisherInfoUp
+import BEDC.Derived.FiveLemmaUp.TasteGate
 import BEDC.Derived.FixedPointIterationUp.TasteGate
 import BEDC.Derived.FocusedLedgerUp.TasteGate
 import BEDC.Derived.FocusedMultiHistLedgerUp.TasteGate
