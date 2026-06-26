@@ -159,6 +159,64 @@ The obligation-closure route of \autoref{thm:kelleyfication-obligation-closure-r
 Thus $N$ names exactly the displayed Kelleyfication packet. Since the carrier lacks host compactly generated topology, quotient-open equality, arbitrary open-cover compactness, and selected compact-test coordinates, local naming cannot export them.
 \end{proof}
 
+\begin{theorem}[Kelleyfication compact-open subbase]
+\label{thm:kelleyfication-compact-open-subbase}
+For every accepted $\KelleyficationUp$ carrier $K=(T,C,O,W,H,R,P,N)$, the compact-open subbase visible to a downstream consumer is exactly the $\BHist$-visible route through the $\TopologyUp$ source row $T$, the $\CoreCompactUp$ window row $C$, the compact-open test ledger $O$, the StreamName inspection row $W$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $R$, $\Pkg$ provenance $P$, and local $\NameCert$ naming $N$. No subbase element is certified by host compact-open topology data, selected compact witnesses, or quotient-open equality outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kelleyfication-carrier}. The compact-open ledger $O$ is a row in the same finite $\BHist$ packet as the topology source $T$ and the core-compact window row $C$.
+
+The subbase read is therefore row-visible. It may inspect the $\TopologyUp$ source, the $\CoreCompactUp$ windows, and the finite compact-open tests only through $O$ and the StreamName window $W$.
+
+The structural rows preserve that same inventory. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row authenticate the compact-open tests without adding host compact-open data or selected compact witnesses.
+\end{proof}
+
+\begin{theorem}[Kelleyfication corecompact window]
+\label{thm:kelleyfication-corecompact-window}
+For every accepted $\KelleyficationUp$ carrier $K=(T,C,O,W,H,R,P,N)$, each $\CoreCompactUp$ window exposed by $C$ is read after the $\TopologyUp$ source row $T$ and before the compact-open test ledger $O$. The row sequence
+$$
+T \to C \to O \to W \to H \to R \to P \to N
+$$
+is the complete consumer-facing path through $\BHist$-visible compact-open tests, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
+\end{theorem}
+\begin{proof}
+Begin with the source row $T$. It fixes the open-incidence data on which any core-compact window can be tested.
+
+The row $C$ then names the allowed compact-generation windows, and $O$ records how those windows are used by compact-open tests. The StreamName row $W$ is the only finite observation channel for those tests.
+
+Finally apply the support rows. Transport $H$ and replay $R$ keep the displayed order, while $P$ and $N$ record provenance and local naming for the same packet. Since no other carrier coordinate exists, the displayed route is complete.
+\end{proof}
+
+\begin{theorem}[Kelleyfication NameCert obligation surface]
+\label{thm:kelleyfication-namecert-obligation-surface}
+The local $\NameCert_{\KelleyficationUp}$ obligation surface for an accepted carrier $K=(T,C,O,W,H,R,P,N)$ consists exactly of $\BHist$-visible compact-open tests over the $\TopologyUp$ source row, $\CoreCompactUp$ windows, finite inspection through $W$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the naming row $N$. Every compact-open or corecompact consumer route must factor through these rows before it can cite the Kelleyfication packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:kelleyfication-compact-open-subbase}. It identifies compact-open subbase reads with the finite row route through $T,C,O,W,H,R,P,N$.
+
+Use \autoref{thm:kelleyfication-corecompact-window}. It places each corecompact window between the topology source and the compact-open ledger, with StreamName inspection before transport, replay, provenance, and naming.
+
+The local NameCert row cannot name anything outside that route. Thus the obligation surface is exactly the displayed compact-open and corecompact packet, not an ambient topology predicate or an external compactness witness.
+\end{proof}
+
+\begin{theorem}[Kelleyfication compact-window scope route]
+\label{thm:kelleyfication-compact-window-scope-route}
+Every accepted $\KelleyficationUp$ reflected-open consumer factors through the ordered finite route
+$$
+T \to C \to O \to W \to H \to R \to P \to N
+$$
+of \autoref{def:kelleyfication-carrier}. The route is fixed by the compact-open subbase of \autoref{thm:kelleyfication-compact-open-subbase}, the corecompact window ordering of \autoref{thm:kelleyfication-corecompact-window}, and the local NameCert obligation surface of \autoref{thm:kelleyfication-namecert-obligation-surface}. It exports no host compactly generated topology, quotient-open equality, arbitrary open-cover compactness, selected compact-test family, or ambient category datum.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:kelleyfication-carrier}. A reflected-open consumer has access only to the displayed rows $T,C,O,W,H,R,P,N$, so its first possible route is the source topology, compact-generation test row, compact-open ledger, and finite inspection window.
+
+Apply the compact-open subbase theorem, \autoref{thm:kelleyfication-compact-open-subbase}. It identifies consumer-visible compact-open tests with the same finite row route and prevents a consumer from reading host compact-open data or selected compact witnesses.
+
+Next apply the corecompact window theorem, \autoref{thm:kelleyfication-corecompact-window}. It places each corecompact window after the topology source and before the compact-open ledger, so the compact-window request has the ordered prefix $T \to C \to O \to W$ before transport and replay.
+
+Finally use the NameCert obligation surface of \autoref{thm:kelleyfication-namecert-obligation-surface}. The local naming row authenticates only the compact-open and corecompact route already displayed through $H,R,P,N$. Since the carrier has no coordinate for host compactly generated topology, quotient-open equality, arbitrary open-cover compactness, selected compact tests, or ambient category data, no accepted reflected-open consumer can leave the ordered finite route.
+\end{proof}
+
 \closureat{KelleyficationUp}{obligationStr}[BEDC.Derived.KelleyficationUp.KelleyficationCarrier\_namecert\_obligations]
 
 \begin{closurestatus}{\KelleyficationUp}
