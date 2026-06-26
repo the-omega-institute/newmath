@@ -1,0 +1,79 @@
+\origin{ai}
+\subsection{Forced-window Fibonacci gcd certificate}
+\label{sec:window6-fib-gcd-strong-divisibility-law-certificate}
+
+\paragraph{Carrier.}
+The finite carrier is the index interval $I=\{1,2,\ldots,20\}$ together with the integer-valued recurrence table obtained from $F_1=1$, $F_2=1$, and $F_{k+2}=F_{k+1}+F_k$ for every $1\leq k\leq 18$.  The resulting finite row is
+$$
+\begin{aligned}
+&(F_1,F_2,F_3,F_4,F_5,F_6,F_7,F_8,F_9,F_{10})\\
+&\qquad=(1,1,2,3,5,8,13,21,34,55),\\
+&(F_{11},F_{12},F_{13},F_{14},F_{15},F_{16},F_{17},F_{18},F_{19},F_{20})\\
+&\qquad=(89,144,233,377,610,987,1597,2584,4181,6765).
+\end{aligned}
+$$
+This gives exactly $20$ indexed values and exactly $400$ ordered index pairs $(m,n)\in I\times I$ on which the certificate is evaluated.  The only arithmetic predicates used below are ordinary divisibility in the integers and ordinary greatest common divisor in the positive integers.
+
+\paragraph{Finite predicates and relations.}
+Define the checked gcd relation $G\subseteq I\times I$ by placing $(m,n)$ in $G$ precisely when
+$$
+\begin{aligned}
+\gcd(F_m,F_n)=F_{\gcd(m,n)}.
+\end{aligned}
+$$
+The direct recurrence evaluation verifies that $G=I\times I$, so the relation has exactly $400$ true rows and no false row in the forced window.  Define the divisibility relation on indices by
+$$
+\begin{aligned}
+D_I=\{(m,n)\in I\times I:m\text{ divides }n\}.
+\end{aligned}
+$$
+Its exact cardinality in this interval is
+$$
+\begin{aligned}
+|D_I|&=20+10+6+5+4+3+2+2+2+2+1+1+1+1+1+1+1+1+1+1\\
+&=66.
+\end{aligned}
+$$
+Define the Fibonacci divisibility relation by
+$$
+\begin{aligned}
+D_F=\{(m,n)\in I\times I:F_m\text{ divides }F_n\}.
+\end{aligned}
+$$
+The forward finite consequence certified here is the inclusion $D_I\subseteq D_F$ on the same interval; hence all $66$ index-divisibility rows also satisfy the corresponding Fibonacci divisibility row.
+
+\paragraph{Partition by the index gcd.}
+For each $d\in I$, let
+$$
+\begin{aligned}
+P_d=\{(m,n)\in I\times I:\gcd(m,n)=d\}.
+\end{aligned}
+$$
+These $20$ subsets form a disjoint partition of $I\times I$.  On the part $P_d$, the certified identity specializes to the single displayed value condition
+$$
+\begin{aligned}
+(m,n)\in P_d\quad\Longrightarrow\quad \gcd(F_m,F_n)=F_d.
+\end{aligned}
+$$
+Thus each row has a witness extracted by first computing the integer $d=\gcd(m,n)$ inside the index window and then reading the already fixed recurrence entry $F_d$ from the finite table.  No infinite induction or asymptotic property is used by this extraction; the verification is a bounded computation over the $400$ rows.
+
+\paragraph{Matrix form.}
+The same certificate can be written as a $20\times20$ integer matrix $A$ with entries
+$$
+\begin{aligned}
+A_{m,n}=\gcd(F_m,F_n)-F_{\gcd(m,n)}.
+\end{aligned}
+$$
+The verified finite statement is exactly the zero-matrix assertion $A_{m,n}=0$ for every $1\leq m,n\leq20$.  The divisibility corollary may similarly be represented by a $20\times20$ Boolean matrix $B$, where $B_{m,n}=1$ means $m$ divides $n$, and a second Boolean matrix $C$, where $C_{m,n}=1$ means $F_m$ divides $F_n$.  The certified forward clause is $B_{m,n}=1\Rightarrow C_{m,n}=1$ for every matrix position; this accounts for the same $66$ true entries of $B$.
+
+\paragraph{Witness extraction.}
+Given a pair $(m,n)$ in the window, the gcd witness is the triple
+$$
+\begin{aligned}
+\bigl(m,n,F_{\gcd(m,n)}\bigr).
+\end{aligned}
+$$
+Its validation consists of two finite lookups and one integer gcd computation: look up $F_m$ and $F_n$, compute $\gcd(F_m,F_n)$, compute $\gcd(m,n)$, and compare the first result with the recurrence-table entry indexed by the second.  Given a pair $(m,n)$ with $m$ dividing $n$, the divisibility witness is the quotient $F_n/F_m$, whose integrality is certified by the forward row $m\mid n\Rightarrow F_m\mid F_n$ within $I$.
+
+\paragraph{Boundary of the certificate.}
+This chapter certifies only the forced finite window $1\leq m,n\leq20$.  It does not assert a global Fibonacci strong-divisibility theorem beyond the window, does not assert a recurrence law for any external dynamical system, does not identify any physical constant, does not compare with measurement data, and does not attach any interpretation beyond the finite arithmetic construction unless an independent certificate supplies those additional steps.

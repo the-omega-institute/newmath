@@ -1,0 +1,46 @@
+\subsection{Translation-mediated protein-abundance surface for the Q6 residual packet}\label{sec:q6-translation-mediated-protein-abundance-cross-layer}
+\origin{ai}
+
+\paragraph{Finite surface.}
+The record studied here is the finite cross-layer surface whose rows join a synonymous residual coordinate, a translation-layer readout, and a matched protein-abundance readout.  The residual side has nine coordinates, written as \texttt{K\_AAA}, \texttt{Arg\_AGR}, \texttt{Ile\_AUA}, \texttt{Leu\_CUN\_vs\_UUR}, \texttt{Leu\_UUA\_vs\_UUG}, \texttt{Ser\_UCR\_vs\_AGY}, \texttt{Ser\_UCA\_vs\_UCG}, \texttt{Thr\_ACR\_vs\_ACY}, and \texttt{f3\_stress}.  The translation coordinate is the per-protein mean modelled tAI, computed from real CDS codon counts, GtRNAdb all-tRNA copy counts, and dos Reis wobble weights.  The protein coordinate is $\log_{10}$ abundance in ppm after joining measured PAXdb abundance to the same CDS rows.  The empirical panel contains twelve organism-specific joins: 4042 rows for \texttt{bacillus\_subtilis\_subsp\_subtilis\_str\_168}, 11661 for \texttt{caenorhabditis\_elegans}, 14410 for \texttt{danio\_rerio}, 13295 for \texttt{drosophila\_melanogaster}, 3739 for \texttt{escherichia\_coli\_k12\_mg1655}, 12418 for \texttt{gallus\_gallus}, 19053 for \texttt{homo\_sapiens}, 19395 for \texttt{mus\_musculus}, 4129 for \texttt{mycobacterium\_smegmatis\_str\_mc2\_155}, 13322 for \texttt{rattus\_norvegicus}, 5815 for \texttt{saccharomyces\_cerevisiae}, and 1656 for \texttt{sulfolobus\_solfataricus}.  Thus the joined protein-abundance surface contains
+$$\begin{aligned}
+|Q^{\star}_{6}| &= 9,\\
+|\mathcal O| &= 12,\\
+\sum_{o\in\mathcal O} |G_o| &= 122935
+\end{aligned}$$
+rows before the coordinate expansion over $q_i$ is read as a mediation matrix.
+
+\paragraph{Controlled decomposition.}
+For each organism the residualized design uses amino-acid composition, CDS length, GC3, and the M-density baseline as controls.  The control matrix has 24 columns and rank 23 in every organism-specific fit; after this residualization the residual degrees of freedom range from 1633 in \texttt{sulfolobus\_solfataricus} to 19372 in \texttt{mus\_musculus}.  The residual coordinate matrix has rank 9, the translation readout has rank 1, and the joint residual-plus-translation design has rank 10 in every organism.  In symbols, on each organism block,
+$$\begin{aligned}
+\operatorname{rank}(\widetilde X_Q) &= 9,\\
+\operatorname{rank}(\widetilde T) &= 1,\\
+\operatorname{rank}(\widetilde X_Q,\widetilde T) &= 10,\\
+\operatorname{rank}(Z) &= 23.
+\end{aligned}$$
+The scalar mediation entry used here is not a causal coefficient.  It is the drop from the total residual $Q\to P$ association to the direct residual association after conditioning on the translation readout:
+$$\begin{aligned}
+M^{QTP} &= \frac{R^2_{QP}-R^2_{QP\mid T}}{R^2_{QP}},\\
+R^2_{QP} &= R^2(P_e\sim Q_e),\\
+R^2_{QP\mid T} &= \Delta R^2(P_e\sim Q_e\mid T_e),
+\end{aligned}$$
+where $P_e$, $Q_e$, and $T_e$ denote quantities after the control residualization.  All twelve organism blocks have $M^{QTP}$ in the unit interval.
+
+\paragraph{Mediation values.}
+The organism-level mediated fractions are concrete and positive: $0.608459$ for \texttt{bacillus\_subtilis\_subsp\_subtilis\_str\_168}, $0.487227$ for \texttt{caenorhabditis\_elegans}, $0.315705$ for \texttt{danio\_rerio}, $0.616517$ for \texttt{drosophila\_melanogaster}, $0.612922$ for \texttt{escherichia\_coli\_k12\_mg1655}, $0.197690$ for \texttt{gallus\_gallus}, $0.272063$ for \texttt{homo\_sapiens}, $0.154888$ for \texttt{mus\_musculus}, $0.083976$ for \texttt{mycobacterium\_smegmatis\_str\_mc2\_155}, $0.174897$ for \texttt{rattus\_norvegicus}, $0.949155$ for \texttt{saccharomyces\_cerevisiae}, and $0.018507$ for \texttt{sulfolobus\_solfataricus}.  The corresponding total residual protein-abundance $R^2_{QP}$ values are
+$$\begin{aligned}
+R^2_{QP,\mathrm{Bsu}} &= 0.061906,& R^2_{QP,\mathrm{Cel}} &= 0.102179,& R^2_{QP,\mathrm{Dre}} &= 0.046135,\\
+R^2_{QP,\mathrm{Dme}} &= 0.077095,& R^2_{QP,\mathrm{Eco}} &= 0.107675,& R^2_{QP,\mathrm{Gga}} &= 0.039808,\\
+R^2_{QP,\mathrm{Hsa}} &= 0.044546,& R^2_{QP,\mathrm{Mmu}} &= 0.049828,& R^2_{QP,\mathrm{Msm}} &= 0.032090,\\
+R^2_{QP,\mathrm{Rno}} &= 0.027640,& R^2_{QP,\mathrm{Sce}} &= 0.298376,& R^2_{QP,\mathrm{Sso}} &= 0.063975.
+\end{aligned}$$
+The strongest mediated fraction is the yeast block, where $R^2_{QP}=0.298376$, $R^2_{QP\mid T}=0.015171$, and the indirect difference is $0.283205$.  The weakest positive mediated fraction is the \texttt{sulfolobus\_solfataricus} block, where $R^2_{QP}=0.063975$, $R^2_{QP\mid T}=0.062791$, and the indirect difference is $0.001184$.  Since even the smallest organism block preserves rank sufficiency and gives a positive indirect difference, the finite-row result supports a bounded cross-layer relation rather than stopping at codon-count residual status.
+
+\paragraph{Translation contact and upstream geometry.}
+The same residual coordinates also have a separate modelled-tAI contact over three organisms.  In that smaller translation-readout check all 61 sense codons were assigned modelled weights, zero raw-weight fallback was zero in \texttt{escherichia\_coli\_k12}, \texttt{homo\_sapiens}, and \texttt{saccharomyces\_cerevisiae}, and 81 bounded-coupling entries exceeded the threshold $0.01$.  The maximum absolute $S_{ij}$ and the maximum absolute diagonal $S_i$ were both $3801961.031608$.  This establishes a nonzero modelled codon-adaptation contact, but with only three organisms it is explicitly not a powered ribosome-profiling or proteomics validation.  The upstream genetic-code contact is also finite: the module-classification and leave-one-code checks reported $40/40$ successes with one-sided binomial upper-tail $p=9.094947017729282\times 10^{-13}$, while both the negative-control and critical-ablation checks had $0/20$ unexpected successes.  Those numbers justify the residual-coordinate provenance, not a protein-layer conclusion by themselves.
+
+\paragraph{Adjacent finite checks.}
+The yeast five-way mediation surface gives a useful calibration against over-reading the main result.  Its join contained 4759 rows, with reported CDS join hit rate $0.915604$ and full join hit rate $0.881857$.  In that block $R^2_{QP}=0.271552$, $R^2_{QP\mid S}=0.270660$, $R^2_{QP\mid T,M}=0.137740$, and $R^2_{QP\mid T,M,S}=0.137590$.  The structure-only fraction was $0.003285$, the structure-incremental fraction was $0.000551$, the $S_Q$ structure $R^2$ was $0.003774$, and the corresponding right-tail permutation values were $0.027972$ and $0.125874$.  These scalars say that sequence-derived structure proxies can be audited in the same finite-row style, but they do not turn the protein-abundance mediation surface into folding evidence.  Other same-family checks are also bounded: a mass-balance run on 120 genes and 718 intervals had $R^2_{L0}=0.996063$, $R^2_{L1}=0.996411$, $R^2_{L2}=0.971244$, $R^2_{L3}=0.895400$, $\Delta R^2=-0.075844$, $p_{\mathrm{TEbin}}=0.683168$, and $p_{\mathrm{timeshuffle}}=0.930693$; a turnover audit on 3290 genes had $R^2_{L2}=0.055741$, $R^2_{L3}=0.050279$, $\Delta R^2=-0.005462$, $p_{\mathrm{matchedbin}}=0.885572$, and $p_{\mathrm{recoded}}=1.0$.  These negative or bounded rows keep protein abundance, turnover, and rate-slot language separated.
+
+\paragraph{Local scope.}
+The admissible conclusion is narrow.  The finite surface supports the statement that B$^{*}_{Q6}$ residual coordinates retain a controlled statistical association with matched protein abundance, and that a positive part of that association is removed when the modelled per-protein tAI readout is conditioned on.  A direct $q_i\to P_k$ association is therefore not used as protein realization unless the same row also contains the translation-readout step $q_i\to T_j$.  The result does not establish observed ribosome occupancy, folded structure, physical admissibility, molecular function, causal mechanism, organismal phenotype, evolutionary selection, or a universal biological law.  Each of those stronger readings would require its own layer-matched empirical contact and its own controlled finite statistic.

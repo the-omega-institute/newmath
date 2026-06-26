@@ -1,0 +1,283 @@
+\chapter{Prime Window Recursive Tower}
+\label{ch:visions-rh-prime-window-recursive-tower}
+\origin{ai}
+
+\autoref{ch:visions-rh-finite-prime-window-gluing} describes the local
+prime-window proof target for RH. The present chapter records the recursive
+tower form of the same target. Each layer is read through finite prime
+windows; layer transitions are allowed only through displayed readback,
+predicate inheritance, and certified recursive return; an exception must
+therefore become visible in some finite prime-window readout before it can
+be transported as a tower-internal object.
+
+\section{Prime-Window Layer Data}
+\label{sec:rh-prime-window-layer-data}
+
+\begin{definition}[Prime-window tower layer]
+\label{def:rh-prime-window-tower-layer}
+A prime-window tower layer is a concept layer
+$$
+\mathcal L_n=(R_n,\sim_n,P_n,\Lambda_n,\mathsf{Cert}_n,\mathsf{Aud}_n)
+$$
+over the source carrier, together with a readout
+$$
+P_n:T\to R_n
+$$
+and, for each successor step, a readback map
+$$
+\rho_{n+1}:R_{n+1}\to R_n
+$$
+such that
+$$
+\rho_{n+1}(P_{n+1}(t))\sim_n P_n(t).
+$$
+\end{definition}
+
+\begin{definition}[Layer prime coding]
+\label{def:rh-layer-prime-coding}
+A layer prime coding for $\mathcal L_n$ is a code-readback pair
+$$
+\operatorname{code}_n:R_n\to\mathbb N,
+\qquad
+\operatorname{decode}_n:\operatorname{im}(\operatorname{code}_n)\to R_n
+$$
+with certificate
+$$
+\operatorname{decode}_n(\operatorname{code}_n(r))\sim_n r.
+$$
+\end{definition}
+
+\begin{definition}[Layer prime-window split]
+\label{def:rh-layer-prime-window-split}
+For a finite prime window $S\subseteq\PrimeUp$, the $S$-window split of
+the layer $R_n$ is the readout
+$$
+\Pi_{n,S}:R_n\to\mathbb N^{S},
+\qquad
+\Pi_{n,S}(r):=\bigl(v_p(\operatorname{code}_n(r))\bigr)_{p\in S}.
+$$
+\end{definition}
+
+\begin{theorem}[Finite windows are layer quotients]
+\label{thm:rh-finite-windows-layer-quotients}
+For any layer $n$ and finite prime window $S$, equality of
+$\Pi_{n,S}(r)$ and $\Pi_{n,S}(r')$ means that $r$ and $r'$ are
+indistinguishable by every displayed prime-coordinate readout in $S$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-layer-prime-window-split}, equality of the two
+$S$-window values is precisely the family of equalities
+$$
+v_p(\operatorname{code}_n(r))
+=
+v_p(\operatorname{code}_n(r'))
+$$
+for all $p\in S$. These are exactly the displayed prime-coordinate reads
+available inside the finite window.
+\end{proof}
+
+\section{Readback and Recursive Return}
+\label{sec:rh-prime-window-readback-recursive-return}
+
+\begin{definition}[Prime-code compatible readback]
+\label{def:rh-prime-code-compatible-readback}
+The successor readback $\rho_{n+1}:R_{n+1}\to R_n$ is prime-code
+compatible when there is a displayed map
+$$
+\kappa_{n+1}:\mathbb N\to\mathbb N
+$$
+such that
+$$
+\operatorname{code}_n(\rho_{n+1}(r))
+=
+\kappa_{n+1}(\operatorname{code}_{n+1}(r)).
+$$
+\end{definition}
+
+\begin{theorem}[Prime-window inheritance]
+\label{thm:rh-prime-window-inheritance}
+If $\rho_{n+1}$ is prime-code compatible, then every finite
+$S$-window readout on layer $n$ pulls back along $\rho_{n+1}$ to the
+corresponding finite coordinate family on layer $n+1$:
+$$
+\Pi_{n,S}(\rho_{n+1}(r))
+=
+\bigl(v_p(\kappa_{n+1}(\operatorname{code}_{n+1}(r)))\bigr)_{p\in S}.
+$$
+\end{theorem}
+
+\begin{proof}
+Expand \autoref{def:rh-layer-prime-window-split}:
+$$
+\Pi_{n,S}(\rho_{n+1}(r))
+=
+\bigl(v_p(\operatorname{code}_n(\rho_{n+1}(r)))\bigr)_{p\in S}.
+$$
+Substitute the compatibility equality of
+\autoref{def:rh-prime-code-compatible-readback}. The displayed formula
+follows.
+\end{proof}
+
+\begin{definition}[Prime recursive return]
+\label{def:rh-prime-recursive-return}
+The prime recursive return at layer $n$ is the composite
+$$
+R_n
+\xrightarrow{\operatorname{code}_n}
+\mathbb N
+\xrightarrow{p\mapsto v_p}
+\mathbb N^{(\PrimeUp)}
+\xrightarrow{\operatorname{rec}}
+\mathbb N
+\xrightarrow{\operatorname{decode}_n}
+R_n,
+$$
+where
+$$
+\operatorname{rec}(a):=\prod_{p\in\PrimeUp}p^{a_p}
+$$
+for finite-support exponent families.
+\end{definition}
+
+\begin{theorem}[Recursive return closes on the layer]
+\label{thm:rh-prime-recursive-return-closes}
+Assume unique factorization for $\operatorname{code}_n(r)$ and the
+decode certificate of \autoref{def:rh-layer-prime-coding}. Then the prime
+recursive return sends $r$ back to an equivalent row:
+$$
+\operatorname{decode}_n
+\bigl(
+\operatorname{rec}(p\mapsto v_p(\operatorname{code}_n(r)))
+\bigr)
+\sim_n r.
+$$
+\end{theorem}
+
+\begin{proof}
+Unique factorization gives
+$$
+\operatorname{rec}(p\mapsto v_p(\operatorname{code}_n(r)))
+=
+\operatorname{code}_n(r).
+$$
+The decode certificate then gives
+$\operatorname{decode}_n(\operatorname{code}_n(r))\sim_n r$.
+\end{proof}
+
+\section{No-Exception Invariant}
+\label{sec:rh-prime-window-no-exception-invariant}
+
+\begin{definition}[Layer zero carrier and window no-exception]
+\label{def:rh-layer-window-no-exception}
+Let $\mathcal Z_n\subseteq R_n$ be the layer-visible critical-strip
+zeta-zero carrier. For a nonempty finite prime window $S$, define
+$$
+\mathsf{NoExc}_{n}(S)
+:=
+\prod_{z\in\mathcal Z_n}\mathsf{UnitWindow}_{S}(z).
+$$
+The corresponding exception type is
+$$
+\mathsf{Exc}_{n}(S)
+:=
+\sum_{z\in\mathcal Z_n}\neg\mathsf{UnitWindow}_{S}(z).
+$$
+\end{definition}
+
+\begin{theorem}[Nonempty window no-exception is layer RH]
+\label{thm:rh-window-no-exception-layer-rh}
+For a nonempty finite prime window $S$, the predicate
+$\mathsf{NoExc}_{n}(S)$ is equivalent to the layer statement that every
+visible zero row lies on the half surface.
+\end{theorem}
+
+\begin{proof}
+For each $z\in\mathcal Z_n$,
+\autoref{thm:rh-nonempty-finite-window-detects-half-surface} identifies
+$\mathsf{UnitWindow}_{S}(z)$ with $\mathsf{OnCritLine}(z)$. Taking the
+dependent product over $\mathcal Z_n$ gives the stated equivalence.
+\end{proof}
+
+\begin{theorem}[No-exception inheritance]
+\label{thm:rh-no-exception-inheritance}
+Suppose the successor readback preserves the layer zero carriers and the
+finite-window readouts. Then
+$$
+\mathsf{NoExc}_{n}(S)\to\mathsf{NoExc}_{n+1}(S).
+$$
+\end{theorem}
+
+\begin{proof}
+Let $z_{n+1}\in\mathcal Z_{n+1}$. Zero-carrier preservation gives
+$\rho_{n+1}(z_{n+1})\in\mathcal Z_n$. From $\mathsf{NoExc}_{n}(S)$ one
+gets $\mathsf{UnitWindow}_{S}(\rho_{n+1}(z_{n+1}))$. Window-readout
+preservation transports this row to
+$\mathsf{UnitWindow}_{S}(z_{n+1})$. Since $z_{n+1}$ was arbitrary,
+$\mathsf{NoExc}_{n+1}(S)$ follows.
+\end{proof}
+
+\begin{corollary}[Recursive no-exception propagation]
+\label{cor:rh-recursive-no-exception-propagation}
+If $\mathsf{NoExc}_{n_0}(S)$ holds at one layer and every later successor
+step satisfies the hypotheses of \autoref{thm:rh-no-exception-inheritance},
+then $\mathsf{NoExc}_{m}(S)$ holds for every $m\ge n_0$.
+\end{corollary}
+
+\begin{proof}
+Iterate \autoref{thm:rh-no-exception-inheritance} along the finite interval
+from $n_0$ to $m$.
+\end{proof}
+
+\section{Prime-Recursive RH Target}
+\label{sec:rh-prime-recursive-rh-target}
+
+\begin{theorem}[Exception visibility in finite windows]
+\label{thm:rh-exception-visibility-finite-windows}
+If a row $s$ has a positive off-line bias witness
+$|\delta(s)|\ge\varepsilon$, then every nonempty finite prime window sees a
+failure of the unit-window predicate.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-apart-nonfixed-creates-local-defects}, every displayed
+prime row has a nonzero local defect. Hence for each $p$ in a nonempty
+window, $\mathsf{Amp}_{p}(s)\ne 1$, so
+$\mathsf{UnitWindow}_{S}(s)$ fails.
+\end{proof}
+
+\begin{theorem}[Prime-recursive no-exception target]
+\label{thm:rh-prime-recursive-no-exception-target}
+Assume the tower has layer prime codings, prime-code compatible readbacks,
+recursive returns closed by unique factorization, readback preservation of
+zero carriers and finite-window readouts, and the completed-carrier
+exclusion target
+$$
+\mathsf{LocalGlobalZeroExclusion}_{\zeta}.
+$$
+Then the tower has no RH exception: every critical-strip zeta-zero row
+projects to the half surface.
+\end{theorem}
+
+\begin{proof}
+The finite prime-window apparatus makes any positive off-line bias visible
+by \autoref{thm:rh-exception-visibility-finite-windows}. The recursive
+return theorem \autoref{thm:rh-prime-recursive-return-closes} keeps the
+finite-window analysis inside the same layer, and
+\autoref{thm:rh-no-exception-inheritance} transports no-exception rows
+through compatible readbacks. The only remaining global step is the
+completed-carrier exclusion target
+\autoref{def:rh-local-global-zero-exclusion}. By
+\autoref{thm:rh-local-global-zero-exclusion-proof-target}, that target
+supplies the source fixed section and therefore the BEDC-RH section target.
+\end{proof}
+
+\begin{principle}[Prime-recursive no-exception boundary]
+\label{prin:rh-prime-recursive-no-exception-boundary}
+The formal content of the prime-window recursive tower is not that every
+local factor closes $\mathsf{RH}$. It is that any noncentral radial defect
+must be visible in finite prime windows, must survive only through certified
+readback and recursive return, and must finally fail to glue to the
+completed zeta zero ledger. The named target remains
+$\mathsf{LocalGlobalZeroExclusion}_{\zeta}$.
+\end{principle}

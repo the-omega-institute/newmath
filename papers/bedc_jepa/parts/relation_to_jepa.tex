@@ -1,0 +1,106 @@
+\section{Relation to JEPA World-Model Work}
+\label{sec:relation-to-jepa}
+
+The JEPA family supplies the comparison surface for this paper.  LeCun's
+autonomous-intelligence program places learned world models at the center of
+prediction, planning, and action \cite{lecun-ami}.  I-JEPA shows that
+representation-space prediction can support semantic image representations
+without reconstructing every pixel detail \cite{ijepa}.  LeWorldModel moves
+the same principle toward end-to-end pixel world modeling with a compact
+latent predictor and Gaussian regularization \cite{leworldmodel}.  Causal-JEPA
+adds object-level latent masking so that interaction-dependent prediction
+enters the learning objective \cite{causal-jepa}.
+
+The most direct theoretical comparison is the LeJEPA identifiability result
+\cite{lejepa-world-model}.  That result asks when alignment plus Gaussian
+regularization recovers latent world variables, and it connects such recovery
+to latent-space planning.  BEDC-JEPA asks a different question.  Once a world
+model has a latent carrier, which operational distinctions can be trained as
+part of the state, and which failure surfaces must be carried by an explicit
+gap head?
+
+\paragraph{Complementarity.}
+The LeJEPA question is latent recovery:
+$$
+\text{observation} \longrightarrow \text{recoverable latent coordinate}.
+$$
+The BEDC-JEPA question is ledgered world-state formation:
+$$
+\text{observation}
+\longrightarrow
+\text{latent coordinate}
++ \text{operational distinction}
++ \text{gap ledger}.
+$$
+The paper therefore does not claim that BEDC explains an already trained
+LeJEPA representation.  It proposes a training target in which the distinction
+and the gap are outputs of the world model itself.
+
+\paragraph{Public baseline registry and checkpoint evaluation.}
+The quality lab records a public JEPA-family baseline registry rather than
+treating the baseline choice as prose.  The selected first comparison target
+is V-JEPA 2-AC, because its public code is action-conditioned and therefore
+closest to a world-model setting with observation/action streams.  The second
+candidate is LeWorldModel with its LeJEPA-style baseline path, because it
+directly targets stable end-to-end JEPA world modeling from pixels.  The
+registry fixes the expected observation/action input, latent prediction or
+rollout output, and BEDC comparison fields.
+
+The present evidence includes a checkpoint adapter evaluation for the selected
+V-JEPA2-AC Giant target.  It loads the public
+\texttt{vjepa2-ac-vitg.pt} checkpoint, runs the encoder and action-conditioned
+predictor on a two-frame rendering of the boundary-gated world, and trains only
+linear readouts for the declared distinction and gap labels.  This evaluation
+is not a native public benchmark reproduction.  It asks whether the public
+action-conditioned checkpoint, under the same declared tiny-world adapter
+scope, already carries the distinction and gap readback needed by the BEDC
+evidence scope.  In that scope, BEDC-JEPA records unlogged error
+$0.000000$ and debt $0.007459$, while the V-JEPA2-AC Giant adapter records
+unlogged error $0.250000$ and debt $0.290557$.
+
+The public native MiniGrid study supplies a second evidence scope: it runs
+the S0/S1/S2/S3 ablation on \texttt{MiniGrid-DoorKey-8x8-v0} with the same
+public image/action stream and records a JEPA-style S0 control row beside
+BEDC readback metrics.  In that public setting, S0 records unlogged error
+$0.164063$ and debt $0.165625$, while S3 records unlogged error $0.039063$
+and debt $0.163102$.  The audited two-step planning sweep also exposes a
+risk-success tradeoff: the best recorded risk point lowers high-gap state
+selection by $0.687500$ while lowering success by $0.406250$.  The five-seed
+MiniGrid sweep records mean S0-minus-S3 unlogged-error reduction $0.067188$
+and mean S3-minus-S0 gap AUROC gain $0.185662$, with unlogged-error directional
+rate $0.600000$ and gap AUROC directional rate $1.000000$.  It also records mean
+S0-minus-S3 debt change $-0.041377$ and debt directional rate $0.400000$, so the
+public MiniGrid study supports the UER and gap-AUROC directions but not an
+established debt-improvement claim.  The mean planning high-gap reduction is
+$0.393750$, with mean success reduction $0.337500$.
+
+The separate public-baseline comparison record imports the fixed-checkpoint
+MiniGrid row with candidate id, repository commit, checkpoint identity,
+benchmark name, latent-prediction score, and the declared near-native score.  The
+V-JEPA2-AC MiniGrid latent-prediction record evaluates the public Giant
+checkpoint on the same MiniGrid image/action stream as a fixed-checkpoint
+study: after fitting only a train-split linear alignment from predictor
+features to encoder features, it records latent-prediction score $0.981246$,
+linear-aligned $R^2$ $0.980652$, and flattened correlation $0.998852$.  This
+is still not an official V-JEPA2-AC benchmark reproduction or a public
+benchmark superiority result.  Thus the AC Giant adapter supplies
+checkpoint-scope evidence, the MiniGrid study supplies native public benchmark
+evidence for BEDC readback, and the latent-prediction record supplies
+fixed-checkpoint MiniGrid evidence for V-JEPA2-AC.
+The near-native V-JEPA2-AC MiniGrid record combines the fixed-checkpoint
+latent-prediction score with LCCP readback metrics, checkpoint identity,
+stream split, and execution commands in one record.  It is evidence for a
+declared fixed-checkpoint protocol rather than for the checkpoint's official
+benchmark setting.  The second registry candidate carries its own executed
+contact: \autoref{sec:lewm-instantiation} records a fixed-checkpoint
+gap-ledger instantiation on the public LeWorldModel \texttt{tworooms}
+release, with a post-hoc gap head, a trained ledger-head transformer, a
+visual perturbation boundary, and a machine-checked coverage-counting core.
+
+\paragraph{Quality-lab evidence scope.}
+The local quality-lab material supplies an executable evidence envelope, not a
+second semantic source for BEDC.  Its role is to keep the Python side honest:
+source, pattern, classifier, stability setting, metrics, ledger gaps, debt
+items, and record pointers are recorded in a reproducible evidence record.  BEDC
+semantics remain in the paper and Lean tracks; the lab only reports the
+observed values produced by the protocol.

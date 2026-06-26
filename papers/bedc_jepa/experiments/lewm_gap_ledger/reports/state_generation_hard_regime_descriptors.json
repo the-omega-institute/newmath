@@ -1,0 +1,129 @@
+{
+  "descriptor_tests": {
+    "assignment_flip_p90": {
+      "direction": "higher",
+      "hard_mean": 0.43333333333333346,
+      "hard_minus_non_hard": 0.010763888888888906,
+      "non_hard_mean": 0.42256944444444455,
+      "permutation_p": 0.4417116576684663
+    },
+    "best_seed_margin_p10": {
+      "direction": "lower",
+      "hard_mean": 0.39586994222232275,
+      "hard_minus_non_hard": 0.007357533209558065,
+      "non_hard_mean": 0.3885124090127647,
+      "permutation_p": 0.563887222555489
+    },
+    "best_seed_score_entropy_mean": {
+      "direction": "higher",
+      "hard_mean": 1.0572009003083342,
+      "hard_minus_non_hard": 0.03194681394641097,
+      "non_hard_mean": 1.0252540863619233,
+      "permutation_p": 0.2565486902619476
+    },
+    "best_seed_score_margin_mean": {
+      "direction": "lower",
+      "hard_mean": 1.273815817116249,
+      "hard_minus_non_hard": 0.020815690755384253,
+      "non_hard_mean": 1.2530001263608648,
+      "permutation_p": 0.5794841031793642
+    },
+    "best_seed_score_spread_mean": {
+      "direction": "higher",
+      "hard_mean": 1.218068030309589,
+      "hard_minus_non_hard": -0.0934570725700814,
+      "non_hard_mean": 1.3115251028796704,
+      "permutation_p": 0.9290141971605679
+    },
+    "exact_budget_assignment_flip_mean": {
+      "direction": "higher",
+      "hard_mean": 0.21361574933003505,
+      "hard_minus_non_hard": 0.0021131990254014132,
+      "non_hard_mean": 0.21150255030463364,
+      "permutation_p": 0.48730253949210156
+    },
+    "rollout_curvature_max": {
+      "direction": "higher",
+      "hard_mean": 34.22704422248769,
+      "hard_minus_non_hard": -0.6867151891021379,
+      "non_hard_mean": 34.91375941158983,
+      "permutation_p": 0.753249350129974
+    },
+    "rollout_curvature_mean": {
+      "direction": "higher",
+      "hard_mean": 28.468000196808582,
+      "hard_minus_non_hard": -0.6005876889134889,
+      "non_hard_mean": 29.06858788572207,
+      "permutation_p": 0.6990601879624075
+    },
+    "rollout_step_norm_max": {
+      "direction": "higher",
+      "hard_mean": 20.722991867608915,
+      "hard_minus_non_hard": -0.44799212226952534,
+      "non_hard_mean": 21.17098398987844,
+      "permutation_p": 0.8510297940411917
+    },
+    "rollout_step_norm_mean": {
+      "direction": "higher",
+      "hard_mean": 16.648443102658014,
+      "hard_minus_non_hard": -0.4320870781312216,
+      "non_hard_mean": 17.080530180789236,
+      "permutation_p": 0.7704459108178364
+    },
+    "rollout_valid_fraction": {
+      "direction": "lower",
+      "hard_mean": 0.8560296846011132,
+      "hard_minus_non_hard": 0.007704919088847628,
+      "non_hard_mean": 0.8483247655122655,
+      "permutation_p": 0.5476904619076185
+    },
+    "row_argmin_majority_disagreement_mean": {
+      "direction": "higher",
+      "hard_mean": 0.19793856936714077,
+      "hard_minus_non_hard": 0.00984733960924436,
+      "non_hard_mean": 0.1880912297578964,
+      "permutation_p": 0.35432913417316536
+    },
+    "row_argmin_pair_disagreement_mean": {
+      "direction": "higher",
+      "hard_mean": 0.3117336631622346,
+      "hard_minus_non_hard": 0.001342148812386923,
+      "non_hard_mean": 0.3103915143498477,
+      "permutation_p": 0.4683063387322535
+    }
+  },
+  "hard_episode_union": [
+    81,
+    115,
+    145,
+    193,
+    201,
+    213,
+    277
+  ],
+  "leakage_attestation": {
+    "descriptor_features": "fixed scorer outputs, scorer disagreement, exact-budget assignment disagreement, and predicted rollout geometry",
+    "descriptor_fit": "no descriptor is fit to hard episode ids; hard ids are used only after descriptor construction for diagnostic permutation tests",
+    "diagnostic_labels": "option_error is used only inside already-fixed exact-budget assignments and not to construct descriptor thresholds",
+    "targets_not_used_for_descriptor": [
+      "option_error",
+      "true_mv",
+      "horizon_y",
+      "next_target"
+    ]
+  },
+  "not_claimed": [
+    "allocation closure",
+    "deployable policy",
+    "hard-regime training result"
+  ],
+  "schema_id": "bedc_jepa.state_generation_hard_regime_descriptors",
+  "status": "ok",
+  "summary": {
+    "decision_boundary_hit_count": 0,
+    "decision_boundary_hits": [],
+    "strongest_descriptor": "best_seed_score_entropy_mean",
+    "strongest_permutation_p": 0.2565486902619476
+  },
+  "verdict": "The tested fixed scorer and rollout descriptors do not strongly separate the recurring hard episodes; the next route needs richer causal perturbations or environment-state descriptors."
+}

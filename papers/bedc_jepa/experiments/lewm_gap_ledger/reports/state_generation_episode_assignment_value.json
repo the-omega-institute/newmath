@@ -1,0 +1,288 @@
+{
+  "config": {
+    "competitors": 12,
+    "depth": 2,
+    "epochs": 48,
+    "feature_dim": 5016,
+    "hidden": 256,
+    "lr": 0.0008,
+    "scorer_epochs": 80,
+    "seed": 681
+  },
+  "device": "cuda",
+  "diagnosis": {
+    "hard_beats_priority_residual_observed": false,
+    "hard_beats_raw_geometry_option_observed": false,
+    "hard_closes": false
+  },
+  "eval": {
+    "base_geometry_option": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.0002184412891154174,
+          "low": -0.008154040758496319,
+          "observed": -0.00373001502130621
+        },
+        "chosen_depth_counts": {
+          "1": 8,
+          "2": 300,
+          "3": 164,
+          "4": 8,
+          "5": 154
+        },
+        "oracle_match": 0.2334384858044164,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.8114546658735091
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.004655946122454819,
+          "low": -0.016672940463771935,
+          "observed": -0.005425220763907779
+        },
+        "chosen_depth_counts": {
+          "2": 31,
+          "3": 31,
+          "4": 3,
+          "5": 14
+        },
+        "oracle_match": 0.13924050632911392,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7998950502259633
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": 0.000375907446975078,
+          "low": -0.007864590563254358,
+          "observed": -0.0034887154651521007
+        },
+        "chosen_depth_counts": {
+          "1": 8,
+          "2": 269,
+          "3": 133,
+          "4": 5,
+          "5": 140
+        },
+        "oracle_match": 0.24684684684684685,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.8151975502946956
+      }
+    },
+    "episode_assignment_value": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.004528591067108985,
+          "low": -0.010501368323479789,
+          "observed": -0.0032861493540061737
+        },
+        "chosen_depth_counts": {
+          "1": 152,
+          "2": 122,
+          "3": 97,
+          "4": 100,
+          "5": 163
+        },
+        "oracle_match": 0.3359621451104101,
+        "pair_accuracy": 0.6872239747634069,
+        "score_error_spearman": 0.4459060291553519
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.07177048481426687,
+          "low": -0.0015248024053113873,
+          "observed": 0.030761892588294093
+        },
+        "chosen_depth_counts": {
+          "1": 18,
+          "2": 13,
+          "3": 16,
+          "4": 15,
+          "5": 17
+        },
+        "oracle_match": 0.189873417721519,
+        "pair_accuracy": 0.6784810126582278,
+        "score_error_spearman": 0.40772753558848784
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.004124086409688193,
+          "low": -0.013109700438762719,
+          "observed": -0.008132627396243514
+        },
+        "chosen_depth_counts": {
+          "1": 134,
+          "2": 109,
+          "3": 81,
+          "4": 85,
+          "5": 146
+        },
+        "oracle_match": 0.3567567567567568,
+        "pair_accuracy": 0.6884684684684684,
+        "score_error_spearman": 0.45153053963812156
+      }
+    },
+    "priority_residual": {
+      "full": {
+        "allocation_delta": {
+          "high": -0.0012931000900742746,
+          "low": -0.007604997862700295,
+          "observed": -0.00429771095142123
+        },
+        "chosen_depth_counts": {
+          "1": 4,
+          "2": 247,
+          "3": 241,
+          "4": 29,
+          "5": 113
+        },
+        "oracle_match": 0.2334384858044164,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7899188535896302
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.004452174167639963,
+          "low": -0.015408229727179285,
+          "observed": -0.00493589617166483
+        },
+        "chosen_depth_counts": {
+          "2": 22,
+          "3": 43,
+          "4": 6,
+          "5": 8
+        },
+        "oracle_match": 0.13924050632911392,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7461837419364888
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.0010138120260550316,
+          "low": -0.007997988024450916,
+          "observed": -0.004206870172323518
+        },
+        "chosen_depth_counts": {
+          "1": 4,
+          "2": 225,
+          "3": 198,
+          "4": 23,
+          "5": 105
+        },
+        "oracle_match": 0.24684684684684685,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7966717906693472
+      }
+    }
+  },
+  "leakage_attestation": {
+    "assignment_value": "episode-aware scorer is trained on train exact-budget oracle/competitors and selected on calibration exact-budget allocation",
+    "eval_targets": "eval option_error is used only after all scores are fixed",
+    "hard_ids": "held-out hard episode ids are used only for final diagnostic slicing",
+    "priority_score": "budget-priority residual is trained on train targets and selected on calibration exact-budget allocation",
+    "raw_score": "fi-064 geometry-option scorer is regenerated deterministically to obtain train/cal/eval scores",
+    "slurm_or_ssh": "not used"
+  },
+  "not_claimed": [
+    "allocation closure unless hard CI high < 0",
+    "deployable policy",
+    "independent export validation"
+  ],
+  "priority_selection": "base_plus_0.5_residual",
+  "raw_feature_dims": {
+    "augmented_feature_dim": 4968,
+    "base_feature_dim": 4952,
+    "geometry_feature_dim": 16
+  },
+  "raw_model_selection": {
+    "best": {
+      "calibration": {
+        "allocation_delta": {
+          "high": -0.0026286372669253994,
+          "low": -0.00892452489825493,
+          "observed": -0.005708073246828746
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 309,
+          "3": 170,
+          "4": 13,
+          "5": 151
+        },
+        "score_error_spearman": 0.8238734066387183
+      },
+      "epoch": 9,
+      "selection_key": [
+        -0.0026286372669253994,
+        -0.005708073246828746,
+        0.18988635614514351
+      ]
+    },
+    "history_first": {
+      "cal_delta_high": 0.01684793251182204,
+      "cal_delta_observed": 0.01075102620618254,
+      "cal_spearman": 0.2846944026398426,
+      "epoch": 1.0,
+      "train_loss": 0.4811796978116035
+    },
+    "history_last": {
+      "cal_delta_high": -0.001768069124538614,
+      "cal_delta_observed": -0.004576968733051495,
+      "cal_spearman": 0.871294899256879,
+      "epoch": 80.0,
+      "train_loss": 0.13345775417983533
+    },
+    "params_count": 2090497,
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then training loss"
+  },
+  "schema_id": "bedc_jepa.state_generation_episode_assignment_value",
+  "selection": {
+    "best": {
+      "calibration": {
+        "allocation_delta": {
+          "high": -0.0009826969689937072,
+          "low": -0.010362901720019461,
+          "observed": -0.005299715265940599
+        },
+        "chosen_depth_counts": {
+          "1": 151,
+          "2": 121,
+          "3": 108,
+          "4": 109,
+          "5": 157
+        },
+        "oracle_match": 0.34210526315789475,
+        "pair_accuracy": 0.6959752321981424,
+        "score_error_spearman": 0.4733523400158251
+      },
+      "epoch": 22,
+      "selection_key": [
+        -0.0009826969689937072,
+        -0.005299715265940599
+      ]
+    },
+    "history_first": {
+      "cal_delta_high": 0.002641788980613728,
+      "cal_delta_observed": -0.0019291948958020666,
+      "cal_oracle_match": 0.28792569659442724,
+      "cal_spearman": 0.08104388952024634,
+      "epoch": 1.0,
+      "regret_loss": 0.7728539109230042,
+      "train_loss": 0.996010959148407
+    },
+    "history_last": {
+      "cal_delta_high": -7.170318770812154e-05,
+      "cal_delta_observed": -0.004799469386159841,
+      "cal_oracle_match": 0.33746130030959753,
+      "cal_spearman": 0.4924420952741566,
+      "epoch": 48.0,
+      "regret_loss": 0.032403163611888885,
+      "train_loss": 0.21715930104255676
+    },
+    "params_count": 1352453,
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta",
+    "static_competitor_count": 2137
+  },
+  "status": "ok",
+  "verdict": "Episode-aware assignment-value scorer does not improve the hard-only allocation boundary over the raw geometry-option scorer.",
+  "wall_time_sec": 296.4490337371826
+}

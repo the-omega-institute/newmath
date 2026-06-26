@@ -1,0 +1,382 @@
+{
+  "config": {
+    "batch": 128,
+    "depth": 2,
+    "epochs": 180,
+    "hidden": 256,
+    "loss": "same episode exact-budget objective with train-defined geometry-regime sample weights",
+    "lr": 0.0004,
+    "seed": 643
+  },
+  "counts": {
+    "calibration": 646,
+    "eval": 634,
+    "hard_eval_anchors": 79,
+    "train": 2043
+  },
+  "device": "cuda",
+  "diagnosis": {
+    "full_not_degraded_vs_geometry_conditioned_observed": true,
+    "hard_beats_geometry_conditioned_ci_high": true,
+    "hard_beats_geometry_conditioned_observed": false,
+    "hard_closes": false
+  },
+  "eval": {
+    "episode_best_seed": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.0014761554089449548,
+          "low": -0.008975030050561363,
+          "observed": -0.003591294507923462
+        },
+        "chosen_depth_counts": {
+          "1": 153,
+          "2": 116,
+          "3": 109,
+          "4": 90,
+          "5": 166
+        },
+        "oracle_match": 0.3470031545741325,
+        "pair_accuracy": 0.6714511041009463,
+        "score_error_spearman": 0.4450989694138167
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.03751766675350555,
+          "low": 0.009828453359919373,
+          "observed": 0.02684938023436409
+        },
+        "chosen_depth_counts": {
+          "1": 18,
+          "2": 15,
+          "3": 15,
+          "4": 11,
+          "5": 20
+        },
+        "oracle_match": 0.22784810126582278,
+        "pair_accuracy": 0.6708860759493671,
+        "score_error_spearman": 0.3741751512425547
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.003287527767970764,
+          "low": -0.013131536462491824,
+          "observed": -0.007924291453222043
+        },
+        "chosen_depth_counts": {
+          "1": 135,
+          "2": 101,
+          "3": 94,
+          "4": 79,
+          "5": 146
+        },
+        "oracle_match": 0.36396396396396397,
+        "pair_accuracy": 0.6715315315315316,
+        "score_error_spearman": 0.45539814056767486
+      }
+    },
+    "episode_objective": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.0038082649727655005,
+          "low": -0.005734333461943441,
+          "observed": -0.00129762487990992
+        },
+        "chosen_depth_counts": {
+          "1": 159,
+          "2": 110,
+          "3": 103,
+          "4": 96,
+          "5": 166
+        },
+        "oracle_match": 0.3186119873817035,
+        "pair_accuracy": 0.5610410094637224,
+        "score_error_spearman": 0.19282131365771424
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.04235196979667731,
+          "low": 0.017869480559504984,
+          "observed": 0.03002390464435037
+        },
+        "chosen_depth_counts": {
+          "1": 16,
+          "2": 16,
+          "3": 18,
+          "4": 10,
+          "5": 19
+        },
+        "oracle_match": 0.16455696202531644,
+        "pair_accuracy": 0.549367088607595,
+        "score_error_spearman": 0.1119169592214635
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.002220151274344337,
+          "low": -0.009470398957769117,
+          "observed": -0.005756004758137964
+        },
+        "chosen_depth_counts": {
+          "1": 143,
+          "2": 94,
+          "3": 85,
+          "4": 86,
+          "5": 147
+        },
+        "oracle_match": 0.34054054054054056,
+        "pair_accuracy": 0.5627027027027027,
+        "score_error_spearman": 0.20423575698435503
+      }
+    },
+    "geometry_conditioned": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.00035423117588436663,
+          "low": -0.008448660345147262,
+          "observed": -0.00408679567833535
+        },
+        "chosen_depth_counts": {
+          "1": 154,
+          "2": 117,
+          "3": 103,
+          "4": 95,
+          "5": 165
+        },
+        "oracle_match": 0.34542586750788645,
+        "pair_accuracy": 0.6544164037854889,
+        "score_error_spearman": 0.40136128082306105
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.0349211084572513,
+          "low": -0.007242544568981546,
+          "observed": 0.015678468853973893
+        },
+        "chosen_depth_counts": {
+          "1": 20,
+          "2": 11,
+          "3": 16,
+          "4": 13,
+          "5": 19
+        },
+        "oracle_match": 0.22784810126582278,
+        "pair_accuracy": 0.6506329113924051,
+        "score_error_spearman": 0.34852554329518926
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.003446402964335826,
+          "low": -0.010347785456245021,
+          "observed": -0.0069002297288802555
+        },
+        "chosen_depth_counts": {
+          "1": 134,
+          "2": 106,
+          "3": 87,
+          "4": 82,
+          "5": 146
+        },
+        "oracle_match": 0.3621621621621622,
+        "pair_accuracy": 0.6549549549549549,
+        "score_error_spearman": 0.4083741931085627
+      }
+    },
+    "geometry_regime_weighted": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.000138546866232296,
+          "low": -0.010244412604624397,
+          "observed": -0.004819285633748602
+        },
+        "chosen_depth_counts": {
+          "1": 159,
+          "2": 117,
+          "3": 102,
+          "4": 77,
+          "5": 179
+        },
+        "oracle_match": 0.334384858044164,
+        "pair_accuracy": 0.6692429022082019,
+        "score_error_spearman": 0.4066633869878796
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.03453514930553689,
+          "low": -0.0006589665050011432,
+          "observed": 0.01840950038637129
+        },
+        "chosen_depth_counts": {
+          "1": 20,
+          "2": 14,
+          "3": 12,
+          "4": 12,
+          "5": 21
+        },
+        "oracle_match": 0.189873417721519,
+        "pair_accuracy": 0.6544303797468355,
+        "score_error_spearman": 0.3495053341355468
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.004066852883748743,
+          "low": -0.012993659801443905,
+          "observed": -0.008125725445621512
+        },
+        "chosen_depth_counts": {
+          "1": 139,
+          "2": 103,
+          "3": 90,
+          "4": 65,
+          "5": 158
+        },
+        "oracle_match": 0.35495495495495494,
+        "pair_accuracy": 0.6713513513513514,
+        "score_error_spearman": 0.4159793528560943
+      }
+    },
+    "seed_mean": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.003987358729288313,
+          "low": -0.008997120872224477,
+          "observed": -0.002800724689481879
+        },
+        "chosen_depth_counts": {
+          "1": 158,
+          "2": 111,
+          "3": 106,
+          "4": 91,
+          "5": 168
+        },
+        "oracle_match": 0.3627760252365931,
+        "pair_accuracy": 0.6528391167192429,
+        "score_error_spearman": 0.4252766089320651
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.05710763076524291,
+          "low": 0.01605653417140407,
+          "observed": 0.036303822450427986
+        },
+        "chosen_depth_counts": {
+          "1": 18,
+          "2": 12,
+          "3": 18,
+          "4": 14,
+          "5": 17
+        },
+        "oracle_match": 0.22784810126582278,
+        "pair_accuracy": 0.660759493670886,
+        "score_error_spearman": 0.353523800622689
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.004513983909472911,
+          "low": -0.013337055910898597,
+          "observed": -0.008366957525613186
+        },
+        "chosen_depth_counts": {
+          "1": 140,
+          "2": 99,
+          "3": 88,
+          "4": 77,
+          "5": 151
+        },
+        "oracle_match": 0.38198198198198197,
+        "pair_accuracy": 0.6517117117117117,
+        "score_error_spearman": 0.43596808637705065
+      }
+    }
+  },
+  "feature_dims": {
+    "augmented_feature_dim": 4968,
+    "base_feature_dim": 4952,
+    "geometry_feature_dim": 16
+  },
+  "hard_episode_union": [
+    81,
+    115,
+    145,
+    193,
+    201,
+    213,
+    277
+  ],
+  "leakage_attestation": {
+    "eval_targets": "eval option_error used only after fixed score generation for metrics",
+    "features": "aligned export x plus explicit two-rooms state/action geometry from source latent export",
+    "selection": "calibration exact-budget allocation_delta CI high, then observed delta",
+    "slurm_or_ssh": "not used",
+    "source_latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz",
+    "training_targets": "train option_error is converted to exact-budget oracle choices; hard eval ids are never used for training or calibration selection",
+    "weighting": "sample weights use only train geometry: low agent_y train quantile, different_room, and their interaction"
+  },
+  "not_claimed": [
+    "independent export validation",
+    "deployable policy",
+    "complete BEDC-native world model"
+  ],
+  "regime_weighting": {
+    "agent_y_threshold": 60.7629898071289,
+    "different_room_count": 1656,
+    "interaction_count": 484,
+    "low_y_count": 613,
+    "low_y_quantile": 0.3,
+    "weight_max": 1.8168074699866608,
+    "weight_mean": 1.0,
+    "weight_min": 0.5190878485676174,
+    "weight_rule": {
+      "different_room_weight": 0.5,
+      "interaction_weight": 1.25,
+      "low_y_weight": 0.75
+    }
+  },
+  "schema_id": "bedc_jepa.state_generation_geometry_regime_weighted_allocation",
+  "selection": {
+    "best": {
+      "calibration": {
+        "allocation_delta": {
+          "high": 6.453964965002074e-05,
+          "low": -0.009719826846392152,
+          "observed": -0.004618390095069133
+        },
+        "chosen_depth_counts": {
+          "1": 158,
+          "2": 120,
+          "3": 100,
+          "4": 100,
+          "5": 168
+        },
+        "oracle_match": 0.35139318885448917,
+        "pair_accuracy": 0.6852941176470588,
+        "score_error_spearman": 0.4478732337372288
+      },
+      "epoch": 48,
+      "selection_key": [
+        6.453964965002074e-05,
+        -0.004618390095069133
+      ]
+    },
+    "history_first": {
+      "cal_delta_high": 0.001496486738685764,
+      "cal_delta_observed": -0.0020983629231411532,
+      "cal_oracle_match": 0.3204334365325077,
+      "cal_spearman": 0.20807526519708958,
+      "epoch": 1.0,
+      "train_loss": 1.2067887112498283
+    },
+    "history_last": {
+      "cal_delta_high": 0.004608463420950949,
+      "cal_delta_observed": -0.0021793699221876323,
+      "cal_oracle_match": 0.3622291021671827,
+      "cal_spearman": 0.45866742166580177,
+      "epoch": 180.0,
+      "train_loss": 0.3458654545247555
+    },
+    "params_count": 1340165,
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta"
+  },
+  "status": "ok",
+  "verdict": "Train-defined geometry-regime weighting does not improve the hard-only allocation boundary relative to append-only geometry conditioning.",
+  "wall_time_sec": 107.84518647193909
+}

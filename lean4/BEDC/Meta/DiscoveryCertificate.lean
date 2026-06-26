@@ -302,6 +302,159 @@ theorem positiveDiscovery_classifier_shift
       BeforeClassifier AfterClassifier := by
   exact structuralDiscovery_classifier_shift discovery.benefit
 
+theorem PositiveDiscoveryFinite
+    {BeforeSource BeforePattern BeforeStability BeforeLedger : BHist -> Prop}
+    {BeforeClassifier : BHist -> BHist -> Prop}
+    {AfterSource AfterPattern AfterStability AfterLedger : BHist -> Prop}
+    {AfterClassifier : BHist -> BHist -> Prop}
+    (discovery :
+      PositiveDiscovery
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier) :
+    exists structural :
+      StructuralDiscovery
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier,
+      exists cost : DiscoveryCost,
+        exists debt : BHist,
+          exists scopeSeal : ScopeSeal,
+            structural = discovery.benefit ∧
+              cost = discovery.cost ∧
+                debt = discovery.debt ∧
+                  scopeSeal = discovery.scope_seal ∧
+                    AfterLedger debt ∧
+                      structural.scope scopeSeal.anchor ∧
+                        PositiveCostProtocol
+                          cost.benefit cost.cost cost.debt cost.scopeSeal := by
+  exact
+    Exists.intro discovery.benefit
+      (Exists.intro discovery.cost
+        (Exists.intro discovery.debt
+          (Exists.intro discovery.scope_seal
+            (And.intro rfl
+              (And.intro rfl
+                (And.intro rfl
+                  (And.intro rfl
+                    (And.intro discovery.debt_in_after_ledger
+                      (And.intro discovery.scope_seal_in_discovery_scope
+                        (costPositive discovery.cost))))))))))
+
+theorem D5OFinite
+    {BeforeSource BeforePattern BeforeStability BeforeLedger : BHist -> Prop}
+    {BeforeClassifier : BHist -> BHist -> Prop}
+    {AfterSource AfterPattern AfterStability AfterLedger : BHist -> Prop}
+    {AfterClassifier : BHist -> BHist -> Prop}
+    {OperationalEvidence : Prop}
+    (discovery :
+      PositiveDiscovery
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier)
+    (operational : OperationalEvidence) :
+    (exists structural :
+      StructuralDiscovery
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier,
+      exists cost : DiscoveryCost,
+        exists debt : BHist,
+          exists scopeSeal : ScopeSeal,
+            structural = discovery.benefit ∧
+              cost = discovery.cost ∧
+                debt = discovery.debt ∧
+                  scopeSeal = discovery.scope_seal ∧
+                    AfterLedger debt ∧
+                      structural.scope scopeSeal.anchor ∧
+                        PositiveCostProtocol
+                          cost.benefit cost.cost cost.debt cost.scopeSeal) ∧
+      OperationalEvidence := by
+  exact And.intro (PositiveDiscoveryFinite discovery) operational
+
+theorem D5MFinite
+    {BeforeSource BeforePattern BeforeStability BeforeLedger : BHist -> Prop}
+    {BeforeClassifier : BHist -> BHist -> Prop}
+    {AfterSource AfterPattern AfterStability AfterLedger : BHist -> Prop}
+    {AfterClassifier : BHist -> BHist -> Prop}
+    {MechanismEvidence : Prop}
+    (discovery :
+      PositiveDiscovery
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier)
+    (mechanism : MechanismEvidence) :
+    (exists structural :
+      StructuralDiscovery
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier,
+      exists cost : DiscoveryCost,
+        exists debt : BHist,
+          exists scopeSeal : ScopeSeal,
+            structural = discovery.benefit ∧
+              cost = discovery.cost ∧
+                debt = discovery.debt ∧
+                  scopeSeal = discovery.scope_seal ∧
+                    AfterLedger debt ∧
+                      structural.scope scopeSeal.anchor ∧
+                        PositiveCostProtocol
+                          cost.benefit cost.cost cost.debt cost.scopeSeal) ∧
+      MechanismEvidence := by
+  exact And.intro (PositiveDiscoveryFinite discovery) mechanism
+
+theorem DNFinite
+    {BeforeSource BeforePattern BeforeStability BeforeLedger : BHist -> Prop}
+    {BeforeClassifier : BHist -> BHist -> Prop}
+    {AfterSource AfterPattern AfterStability AfterLedger : BHist -> Prop}
+    {AfterClassifier : BHist -> BHist -> Prop}
+    {NegativeEvidence : Prop}
+    (discovery :
+      PositiveDiscovery
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier)
+    (negative : NegativeEvidence) :
+    (exists structural :
+      StructuralDiscovery
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier,
+      exists cost : DiscoveryCost,
+        exists debt : BHist,
+          exists scopeSeal : ScopeSeal,
+            structural = discovery.benefit ∧
+              cost = discovery.cost ∧
+                debt = discovery.debt ∧
+                  scopeSeal = discovery.scope_seal ∧
+                    AfterLedger debt ∧
+                      structural.scope scopeSeal.anchor ∧
+                        PositiveCostProtocol
+                          cost.benefit cost.cost cost.debt cost.scopeSeal) ∧
+      NegativeEvidence := by
+  exact And.intro (PositiveDiscoveryFinite discovery) negative
+
+theorem DRFinite
+    {BeforeSource BeforePattern BeforeStability BeforeLedger : BHist -> Prop}
+    {BeforeClassifier : BHist -> BHist -> Prop}
+    {AfterSource AfterPattern AfterStability AfterLedger : BHist -> Prop}
+    {AfterClassifier : BHist -> BHist -> Prop}
+    {RefutationEvidence : Prop}
+    (discovery :
+      PositiveDiscovery
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier)
+    (refutation : RefutationEvidence) :
+    (exists structural :
+      StructuralDiscovery
+        BeforeSource BeforePattern BeforeStability BeforeLedger BeforeClassifier
+        AfterSource AfterPattern AfterStability AfterLedger AfterClassifier,
+      exists cost : DiscoveryCost,
+        exists debt : BHist,
+          exists scopeSeal : ScopeSeal,
+            structural = discovery.benefit ∧
+              cost = discovery.cost ∧
+                debt = discovery.debt ∧
+                  scopeSeal = discovery.scope_seal ∧
+                    AfterLedger debt ∧
+                      structural.scope scopeSeal.anchor ∧
+                        PositiveCostProtocol
+                          cost.benefit cost.cost cost.debt cost.scopeSeal) ∧
+      RefutationEvidence := by
+  exact And.intro (PositiveDiscoveryFinite discovery) refutation
+
 theorem discoveryTasteGate_positive
     {X : Type}
     [BHistCarrier X]

@@ -1,0 +1,383 @@
+{
+  "config": {
+    "batch": 512,
+    "depth": 2,
+    "epochs": 220,
+    "hidden": 384,
+    "loss": "option-error smooth L1 plus within-anchor pairwise ordering, selected by calibration exact-budget DP",
+    "lr": 0.0006,
+    "seed": 659
+  },
+  "counts": {
+    "calibration": 646,
+    "eval": 634,
+    "hard_eval_anchors": 79,
+    "train": 2043
+  },
+  "device": "cuda",
+  "diagnosis": {
+    "full_not_degraded_vs_geometry_conditioned_observed": false,
+    "hard_beats_geometry_conditioned_observed": false,
+    "hard_beats_geometry_regime_weighted_observed": false,
+    "hard_closes": false
+  },
+  "eval": {
+    "episode_best_seed": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.0015252671360351372,
+          "low": -0.009400161345368942,
+          "observed": -0.003591294507923462
+        },
+        "chosen_depth_counts": {
+          "1": 153,
+          "2": 116,
+          "3": 109,
+          "4": 90,
+          "5": 166
+        },
+        "score_error_spearman": 0.4450989694138167
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.037210400290809936,
+          "low": 0.00987457441357831,
+          "observed": 0.02684938023436409
+        },
+        "chosen_depth_counts": {
+          "1": 18,
+          "2": 15,
+          "3": 15,
+          "4": 11,
+          "5": 20
+        },
+        "score_error_spearman": 0.3741751512425547
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.0036175391750202764,
+          "low": -0.01319733437412583,
+          "observed": -0.007924291453222043
+        },
+        "chosen_depth_counts": {
+          "1": 135,
+          "2": 101,
+          "3": 94,
+          "4": 79,
+          "5": 146
+        },
+        "score_error_spearman": 0.45539814056767486
+      }
+    },
+    "episode_objective": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.003713151275553021,
+          "low": -0.0058172527588849195,
+          "observed": -0.00129762487990992
+        },
+        "chosen_depth_counts": {
+          "1": 159,
+          "2": 110,
+          "3": 103,
+          "4": 96,
+          "5": 166
+        },
+        "score_error_spearman": 0.19282131365771424
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.04174816929221018,
+          "low": 0.0174734040414504,
+          "observed": 0.03002390464435037
+        },
+        "chosen_depth_counts": {
+          "1": 16,
+          "2": 16,
+          "3": 18,
+          "4": 10,
+          "5": 19
+        },
+        "score_error_spearman": 0.1119169592214635
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.002593101949066602,
+          "low": -0.009583441111516383,
+          "observed": -0.005756004758137964
+        },
+        "chosen_depth_counts": {
+          "1": 143,
+          "2": 94,
+          "3": 85,
+          "4": 86,
+          "5": 147
+        },
+        "score_error_spearman": 0.20423575698435503
+      }
+    },
+    "geometry_conditioned": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.0005477901566064474,
+          "low": -0.00872934425730704,
+          "observed": -0.00408679567833535
+        },
+        "chosen_depth_counts": {
+          "1": 154,
+          "2": 117,
+          "3": 103,
+          "4": 95,
+          "5": 165
+        },
+        "score_error_spearman": 0.40136128082306105
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.03426657171453357,
+          "low": -0.005844884825794733,
+          "observed": 0.015678468853973893
+        },
+        "chosen_depth_counts": {
+          "1": 20,
+          "2": 11,
+          "3": 16,
+          "4": 13,
+          "5": 19
+        },
+        "score_error_spearman": 0.34852554329518926
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.003816639177213853,
+          "low": -0.010407552258969234,
+          "observed": -0.0069002297288802555
+        },
+        "chosen_depth_counts": {
+          "1": 134,
+          "2": 106,
+          "3": 87,
+          "4": 82,
+          "5": 146
+        },
+        "score_error_spearman": 0.4083741931085627
+      }
+    },
+    "geometry_option_conditioned": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.009237363756039492,
+          "low": -0.0072690525566068715,
+          "observed": 7.355493470462271e-05
+        },
+        "chosen_depth_counts": {
+          "1": 100,
+          "2": 187,
+          "3": 110,
+          "4": 87,
+          "5": 150
+        },
+        "score_error_spearman": 0.865731592668518
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.0866946507918288,
+          "low": 0.0038435656476885588,
+          "observed": 0.04436101731151748
+        },
+        "chosen_depth_counts": {
+          "1": 12,
+          "2": 20,
+          "3": 20,
+          "4": 10,
+          "5": 17
+        },
+        "score_error_spearman": 0.8244192227485937
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.002245773187276391,
+          "low": -0.011113488391406546,
+          "observed": -0.006230426196409275
+        },
+        "chosen_depth_counts": {
+          "1": 88,
+          "2": 167,
+          "3": 90,
+          "4": 77,
+          "5": 133
+        },
+        "score_error_spearman": 0.8731595623971561
+      }
+    },
+    "geometry_regime_weighted": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.00021035407605399042,
+          "low": -0.009686886220618448,
+          "observed": -0.004819285633748602
+        },
+        "chosen_depth_counts": {
+          "1": 159,
+          "2": 117,
+          "3": 102,
+          "4": 77,
+          "5": 179
+        },
+        "score_error_spearman": 0.4066633869878796
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.03508340569939927,
+          "low": -5.175208762668233e-05,
+          "observed": 0.01840950038637129
+        },
+        "chosen_depth_counts": {
+          "1": 20,
+          "2": 14,
+          "3": 12,
+          "4": 12,
+          "5": 21
+        },
+        "score_error_spearman": 0.3495053341355468
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.004269302294730159,
+          "low": -0.013144018305520718,
+          "observed": -0.008125725445621512
+        },
+        "chosen_depth_counts": {
+          "1": 139,
+          "2": 103,
+          "3": 90,
+          "4": 65,
+          "5": 158
+        },
+        "score_error_spearman": 0.4159793528560943
+      }
+    },
+    "seed_mean": {
+      "full": {
+        "allocation_delta": {
+          "high": 0.003795424445403513,
+          "low": -0.009011847508846045,
+          "observed": -0.002800724689481879
+        },
+        "chosen_depth_counts": {
+          "1": 158,
+          "2": 111,
+          "3": 106,
+          "4": 91,
+          "5": 168
+        },
+        "score_error_spearman": 0.4252766089320651
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.05647713995504207,
+          "low": 0.014017343162569302,
+          "observed": 0.036303822450427986
+        },
+        "chosen_depth_counts": {
+          "1": 18,
+          "2": 12,
+          "3": 18,
+          "4": 14,
+          "5": 17
+        },
+        "score_error_spearman": 0.353523800622689
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.004304332044286004,
+          "low": -0.013562921928325354,
+          "observed": -0.008366957525613186
+        },
+        "chosen_depth_counts": {
+          "1": 140,
+          "2": 99,
+          "3": 88,
+          "4": 77,
+          "5": 151
+        },
+        "score_error_spearman": 0.43596808637705065
+      }
+    }
+  },
+  "feature_dims": {
+    "augmented_feature_dim": 4968,
+    "base_feature_dim": 4952,
+    "expanded_option_feature_dim": 5053,
+    "geometry_feature_dim": 16,
+    "geometry_option_interaction_dim": 80,
+    "option_feature_dim": 5
+  },
+  "hard_episode_union": [
+    81,
+    115,
+    145,
+    193,
+    201,
+    213,
+    277
+  ],
+  "leakage_attestation": {
+    "eval_targets": "eval option_error used only after fixed option scores are generated for metrics",
+    "features": "aligned export x, explicit two-rooms geometry, candidate depth option token, and geometry-option interactions",
+    "selection": "calibration exact-budget allocation_delta CI high, then observed delta, then train loss",
+    "slurm_or_ssh": "not used",
+    "source_latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz",
+    "training_targets": "train option_error only; held-out hard episode identities are never used for training or calibration selection"
+  },
+  "not_claimed": [
+    "independent export validation",
+    "deployable policy",
+    "complete BEDC-native world model"
+  ],
+  "schema_id": "bedc_jepa.state_generation_geometry_option_conditioned_allocation",
+  "selection": {
+    "best": {
+      "calibration": {
+        "allocation_delta": {
+          "high": -0.003183815609522231,
+          "low": -0.009951270314899167,
+          "observed": -0.0063069604599760715
+        },
+        "chosen_depth_counts": {
+          "1": 85,
+          "2": 217,
+          "3": 107,
+          "4": 87,
+          "5": 150
+        },
+        "score_error_spearman": 0.8772716383185934
+      },
+      "epoch": 163,
+      "selection_key": [
+        -0.003183815609522231,
+        -0.0063069604599760715,
+        0.12385846711695195
+      ]
+    },
+    "history_first": {
+      "cal_delta_high": 0.01684793251182204,
+      "cal_delta_observed": 0.01075102620618254,
+      "cal_spearman": 0.2846944026398426,
+      "epoch": 1.0,
+      "train_loss": 0.4811796978116035
+    },
+    "history_last": {
+      "cal_delta_high": -0.0025769285564779046,
+      "cal_delta_observed": -0.005574992178495358,
+      "cal_spearman": 0.8824119340080766,
+      "epoch": 220.0,
+      "train_loss": 0.12105087600648404
+    },
+    "params_count": 2090497,
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then training loss"
+  },
+  "status": "ok",
+  "verdict": "Geometry-option conditioning does not improve the hard-only allocation boundary relative to the existing geometry rows.",
+  "wall_time_sec": 211.16205406188965
+}

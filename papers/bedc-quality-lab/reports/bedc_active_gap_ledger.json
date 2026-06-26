@@ -1,0 +1,905 @@
+{
+  "acceptance_gates": {
+    "coverage_mean_non_decrease": true,
+    "gap_auc_min_after": 0.9991092538955196,
+    "gap_auc_target": 0.98,
+    "gap_auc_target_met": true,
+    "latent_r2_mean_non_decrease": true,
+    "unlogged_error_mean_non_increase": true
+  },
+  "active_policy": {
+    "description": "Each round scores a held-out OU transition pool with the current BEDC-JEPA heads, then trains a candidate on high-gap, boundary-band, suspected-unlogged, near-threshold, and random-fill transitions. The deployed model is replaced only when validation metrics preserve gap AUC, certified coverage, unlogged-error, and latent R2 guards.",
+    "uses_boundary_band_labels": true,
+    "uses_model_gap_head": true,
+    "uses_random_fill": true,
+    "uses_suspected_unlogged_errors": true
+  },
+  "cannot_claim": [
+    "MiniGrid active retraining",
+    "natural-video active retraining",
+    "oracle- or nyxid-backed environment access"
+  ],
+  "gpu_evidence": [
+    {
+      "label": "before-training",
+      "output": "2026/06/18 04:55:52.887, NVIDIA GeForce RTX 4090, 0, 2825, 24564",
+      "query": "/usr/lib/wsl/lib/nvidia-smi --query-gpu=timestamp,name,utilization.gpu,memory.used,memory.total --format=csv,noheader,nounits",
+      "status": "ok"
+    },
+    {
+      "label": "after-first-training",
+      "output": "2026/06/18 04:55:55.578, NVIDIA GeForce RTX 4090, 27, 3413, 24564",
+      "query": "/usr/lib/wsl/lib/nvidia-smi --query-gpu=timestamp,name,utilization.gpu,memory.used,memory.total --format=csv,noheader,nounits",
+      "status": "ok"
+    },
+    {
+      "label": "after-training",
+      "output": "2026/06/18 04:56:18.817, NVIDIA GeForce RTX 4090, 37, 3441, 24564",
+      "query": "/usr/lib/wsl/lib/nvidia-smi --query-gpu=timestamp,name,utilization.gpu,memory.used,memory.total --format=csv,noheader,nounits",
+      "status": "ok"
+    }
+  ],
+  "objective_terms": [
+    "latent_prediction",
+    "distinction_bce",
+    "gap_bce",
+    "unlogged_error_penalty",
+    "boundary_caution",
+    "stability_consistency",
+    "intervention_bce"
+  ],
+  "runs": [
+    {
+      "after": {
+        "approx_identifiability_proxy": 0.9604239242468569,
+        "bedc_debt_score": 0.0046703367208960735,
+        "certified_coverage": 0.91015625,
+        "covariance_deviation": 0.08415575880982284,
+        "distinction_accuracy": 0.9921875,
+        "distinction_accuracy_outside_gap": 1.0,
+        "false_claim_rate_inside_gap": 0.0,
+        "gap_detection_auc": 0.9991092538955196,
+        "linear_identifiability_r2": 0.9917503146600347,
+        "orthogonality_error": 0.08322768224780001,
+        "system_name": "active-gap-ledger-round-0",
+        "train_count": 1536.0,
+        "unlogged_error_rate": 0.0,
+        "wall_seconds": 2.6578712463378906
+      },
+      "before": {
+        "approx_identifiability_proxy": 0.9604239242468569,
+        "bedc_debt_score": 0.0046703367208960735,
+        "certified_coverage": 0.91015625,
+        "covariance_deviation": 0.08415575880982284,
+        "distinction_accuracy": 0.9921875,
+        "distinction_accuracy_outside_gap": 1.0,
+        "false_claim_rate_inside_gap": 0.0,
+        "gap_detection_auc": 0.9991092538955196,
+        "linear_identifiability_r2": 0.9917503146600347,
+        "orthogonality_error": 0.08322768224780001,
+        "system_name": "active-gap-ledger-round-0",
+        "train_count": 1536.0,
+        "unlogged_error_rate": 0.0,
+        "wall_seconds": 2.6578712463378906
+      },
+      "delta_after_minus_before": {
+        "bedc_debt_score": 0.0,
+        "certified_coverage": 0.0,
+        "distinction_accuracy_outside_gap": 0.0,
+        "gap_detection_auc": 0.0,
+        "linear_identifiability_r2": 0.0,
+        "unlogged_error_rate": 0.0
+      },
+      "rounds": [
+        {
+          "candidate_metrics": {
+            "approx_identifiability_proxy": 0.9604239242468569,
+            "bedc_debt_score": 0.0046703367208960735,
+            "certified_coverage": 0.91015625,
+            "covariance_deviation": 0.08415575880982284,
+            "distinction_accuracy": 0.9921875,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9991092538955196,
+            "linear_identifiability_r2": 0.9917503146600347,
+            "orthogonality_error": 0.08322768224780001,
+            "system_name": "active-gap-ledger-round-0",
+            "train_count": 1536.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.6578712463378906
+          },
+          "candidate_status": "accepted",
+          "deployed_metrics": {
+            "approx_identifiability_proxy": 0.9604239242468569,
+            "bedc_debt_score": 0.0046703367208960735,
+            "certified_coverage": 0.91015625,
+            "covariance_deviation": 0.08415575880982284,
+            "distinction_accuracy": 0.9921875,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9991092538955196,
+            "linear_identifiability_r2": 0.9917503146600347,
+            "orthogonality_error": 0.08322768224780001,
+            "system_name": "active-gap-ledger-round-0",
+            "train_count": 1536.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.6578712463378906
+          },
+          "round": 0,
+          "stage": "initial"
+        },
+        {
+          "candidate_metrics": {
+            "approx_identifiability_proxy": 0.9655663161272552,
+            "bedc_debt_score": 0.004676527095738026,
+            "certified_coverage": 0.908203125,
+            "covariance_deviation": 0.07061086503682061,
+            "distinction_accuracy": 0.9931640625,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9995665832713099,
+            "linear_identifiability_r2": 0.9914868984003027,
+            "orthogonality_error": 0.06837689657377982,
+            "system_name": "active-gap-ledger-round-1",
+            "train_count": 1920.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.1096763610839844
+          },
+          "candidate_status": "rejected_by_guard",
+          "deployed_metrics": {
+            "approx_identifiability_proxy": 0.9604239242468569,
+            "bedc_debt_score": 0.0046703367208960735,
+            "certified_coverage": 0.91015625,
+            "covariance_deviation": 0.08415575880982284,
+            "distinction_accuracy": 0.9921875,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9991092538955196,
+            "linear_identifiability_r2": 0.9917503146600347,
+            "orthogonality_error": 0.08322768224780001,
+            "system_name": "active-gap-ledger-round-0",
+            "train_count": 1536.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.6578712463378906
+          },
+          "guard_failures": [
+            "coverage_regression",
+            "latent_r2_regression"
+          ],
+          "round": 1,
+          "selection": {
+            "pool_gap_labeled": 720,
+            "pool_suspected_unlogged": 0,
+            "selected": 384,
+            "selected_gap_labeled": 101,
+            "selected_suspected_unlogged": 0,
+            "target_boundary_band": 38,
+            "target_high_gap": 38,
+            "target_near_threshold": 38,
+            "target_random_fill": 232,
+            "target_suspected_unlogged": 38
+          },
+          "stage": "active_retrain"
+        },
+        {
+          "candidate_metrics": {
+            "approx_identifiability_proxy": 0.9678879477319572,
+            "bedc_debt_score": 0.005168472232069066,
+            "certified_coverage": 0.90185546875,
+            "covariance_deviation": 0.05917213710916336,
+            "distinction_accuracy": 0.98828125,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9986937716521547,
+            "linear_identifiability_r2": 0.9900188234385267,
+            "orthogonality_error": 0.05893743427169615,
+            "system_name": "active-gap-ledger-round-2",
+            "train_count": 1920.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.113678455352783
+          },
+          "candidate_status": "rejected_by_guard",
+          "deployed_metrics": {
+            "approx_identifiability_proxy": 0.9604239242468569,
+            "bedc_debt_score": 0.0046703367208960735,
+            "certified_coverage": 0.91015625,
+            "covariance_deviation": 0.08415575880982284,
+            "distinction_accuracy": 0.9921875,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9991092538955196,
+            "linear_identifiability_r2": 0.9917503146600347,
+            "orthogonality_error": 0.08322768224780001,
+            "system_name": "active-gap-ledger-round-0",
+            "train_count": 1536.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.6578712463378906
+          },
+          "guard_failures": [
+            "gap_auc_regression",
+            "coverage_regression",
+            "latent_r2_regression"
+          ],
+          "round": 2,
+          "selection": {
+            "pool_gap_labeled": 720,
+            "pool_suspected_unlogged": 0,
+            "selected": 384,
+            "selected_gap_labeled": 100,
+            "selected_suspected_unlogged": 0,
+            "target_boundary_band": 38,
+            "target_high_gap": 38,
+            "target_near_threshold": 38,
+            "target_random_fill": 232,
+            "target_suspected_unlogged": 38
+          },
+          "stage": "active_retrain"
+        },
+        {
+          "candidate_metrics": {
+            "approx_identifiability_proxy": 0.9702426968786477,
+            "bedc_debt_score": 0.004762921239143104,
+            "certified_coverage": 0.90673828125,
+            "covariance_deviation": 0.0543615635533418,
+            "distinction_accuracy": 0.9921875,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9995008234917845,
+            "linear_identifiability_r2": 0.9895832584930258,
+            "orthogonality_error": 0.050181464680841364,
+            "system_name": "active-gap-ledger-round-3",
+            "train_count": 1920.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.0808701515197754
+          },
+          "candidate_status": "rejected_by_guard",
+          "deployed_metrics": {
+            "approx_identifiability_proxy": 0.9604239242468569,
+            "bedc_debt_score": 0.0046703367208960735,
+            "certified_coverage": 0.91015625,
+            "covariance_deviation": 0.08415575880982284,
+            "distinction_accuracy": 0.9921875,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9991092538955196,
+            "linear_identifiability_r2": 0.9917503146600347,
+            "orthogonality_error": 0.08322768224780001,
+            "system_name": "active-gap-ledger-round-0",
+            "train_count": 1536.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.6578712463378906
+          },
+          "guard_failures": [
+            "coverage_regression",
+            "latent_r2_regression"
+          ],
+          "round": 3,
+          "selection": {
+            "pool_gap_labeled": 720,
+            "pool_suspected_unlogged": 0,
+            "selected": 384,
+            "selected_gap_labeled": 97,
+            "selected_suspected_unlogged": 0,
+            "target_boundary_band": 38,
+            "target_high_gap": 38,
+            "target_near_threshold": 38,
+            "target_random_fill": 232,
+            "target_suspected_unlogged": 38
+          },
+          "stage": "active_retrain"
+        }
+      ],
+      "seed": 4242
+    },
+    {
+      "after": {
+        "approx_identifiability_proxy": 0.9883507084285743,
+        "bedc_debt_score": 0.004579939562457924,
+        "certified_coverage": 0.9111328125,
+        "covariance_deviation": 0.012980476168060496,
+        "distinction_accuracy": 0.9921875,
+        "distinction_accuracy_outside_gap": 1.0,
+        "false_claim_rate_inside_gap": 0.0,
+        "gap_detection_auc": 0.9993170990627104,
+        "linear_identifiability_r2": 0.9912922137085741,
+        "orthogonality_error": 0.005275783035969029,
+        "system_name": "active-gap-ledger-round-1",
+        "train_count": 1920.0,
+        "unlogged_error_rate": 0.0,
+        "wall_seconds": 2.131352424621582
+      },
+      "before": {
+        "approx_identifiability_proxy": 0.9871403942133176,
+        "bedc_debt_score": 0.004957240560350962,
+        "certified_coverage": 0.90576171875,
+        "covariance_deviation": 0.015644757570570687,
+        "distinction_accuracy": 0.98388671875,
+        "distinction_accuracy_outside_gap": 1.0,
+        "false_claim_rate_inside_gap": 0.0,
+        "gap_detection_auc": 0.9987733675107452,
+        "linear_identifiability_r2": 0.9908930023171331,
+        "orthogonality_error": 0.007188053629976513,
+        "system_name": "active-gap-ledger-round-0",
+        "train_count": 1536.0,
+        "unlogged_error_rate": 0.0,
+        "wall_seconds": 2.2065398693084717
+      },
+      "delta_after_minus_before": {
+        "bedc_debt_score": -0.00037730099789303785,
+        "certified_coverage": 0.00537109375,
+        "distinction_accuracy_outside_gap": 0.0,
+        "gap_detection_auc": 0.0005437315519651875,
+        "linear_identifiability_r2": 0.00039921139144105666,
+        "unlogged_error_rate": 0.0
+      },
+      "rounds": [
+        {
+          "candidate_metrics": {
+            "approx_identifiability_proxy": 0.9871403942133176,
+            "bedc_debt_score": 0.004957240560350962,
+            "certified_coverage": 0.90576171875,
+            "covariance_deviation": 0.015644757570570687,
+            "distinction_accuracy": 0.98388671875,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9987733675107452,
+            "linear_identifiability_r2": 0.9908930023171331,
+            "orthogonality_error": 0.007188053629976513,
+            "system_name": "active-gap-ledger-round-0",
+            "train_count": 1536.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.2065398693084717
+          },
+          "candidate_status": "accepted",
+          "deployed_metrics": {
+            "approx_identifiability_proxy": 0.9871403942133176,
+            "bedc_debt_score": 0.004957240560350962,
+            "certified_coverage": 0.90576171875,
+            "covariance_deviation": 0.015644757570570687,
+            "distinction_accuracy": 0.98388671875,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9987733675107452,
+            "linear_identifiability_r2": 0.9908930023171331,
+            "orthogonality_error": 0.007188053629976513,
+            "system_name": "active-gap-ledger-round-0",
+            "train_count": 1536.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.2065398693084717
+          },
+          "round": 0,
+          "stage": "initial"
+        },
+        {
+          "candidate_metrics": {
+            "approx_identifiability_proxy": 0.9883507084285743,
+            "bedc_debt_score": 0.004579939562457924,
+            "certified_coverage": 0.9111328125,
+            "covariance_deviation": 0.012980476168060496,
+            "distinction_accuracy": 0.9921875,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9993170990627104,
+            "linear_identifiability_r2": 0.9912922137085741,
+            "orthogonality_error": 0.005275783035969029,
+            "system_name": "active-gap-ledger-round-1",
+            "train_count": 1920.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.131352424621582
+          },
+          "candidate_status": "accepted",
+          "deployed_metrics": {
+            "approx_identifiability_proxy": 0.9883507084285743,
+            "bedc_debt_score": 0.004579939562457924,
+            "certified_coverage": 0.9111328125,
+            "covariance_deviation": 0.012980476168060496,
+            "distinction_accuracy": 0.9921875,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9993170990627104,
+            "linear_identifiability_r2": 0.9912922137085741,
+            "orthogonality_error": 0.005275783035969029,
+            "system_name": "active-gap-ledger-round-1",
+            "train_count": 1920.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.131352424621582
+          },
+          "guard_failures": [],
+          "round": 1,
+          "selection": {
+            "pool_gap_labeled": 682,
+            "pool_suspected_unlogged": 0,
+            "selected": 384,
+            "selected_gap_labeled": 96,
+            "selected_suspected_unlogged": 0,
+            "target_boundary_band": 38,
+            "target_high_gap": 38,
+            "target_near_threshold": 38,
+            "target_random_fill": 232,
+            "target_suspected_unlogged": 38
+          },
+          "stage": "active_retrain"
+        },
+        {
+          "candidate_metrics": {
+            "approx_identifiability_proxy": 0.9838256550682996,
+            "bedc_debt_score": 0.004560153943995649,
+            "certified_coverage": 0.91015625,
+            "covariance_deviation": 0.027911668173498987,
+            "distinction_accuracy": 0.994140625,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9996601677800218,
+            "linear_identifiability_r2": 0.9913625646256222,
+            "orthogonality_error": 0.016191804142540855,
+            "system_name": "active-gap-ledger-round-2",
+            "train_count": 2304.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.1193082332611084
+          },
+          "candidate_status": "rejected_by_guard",
+          "deployed_metrics": {
+            "approx_identifiability_proxy": 0.9883507084285743,
+            "bedc_debt_score": 0.004579939562457924,
+            "certified_coverage": 0.9111328125,
+            "covariance_deviation": 0.012980476168060496,
+            "distinction_accuracy": 0.9921875,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9993170990627104,
+            "linear_identifiability_r2": 0.9912922137085741,
+            "orthogonality_error": 0.005275783035969029,
+            "system_name": "active-gap-ledger-round-1",
+            "train_count": 1920.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.131352424621582
+          },
+          "guard_failures": [
+            "coverage_regression"
+          ],
+          "round": 2,
+          "selection": {
+            "pool_gap_labeled": 682,
+            "pool_suspected_unlogged": 0,
+            "selected": 384,
+            "selected_gap_labeled": 95,
+            "selected_suspected_unlogged": 0,
+            "target_boundary_band": 38,
+            "target_high_gap": 38,
+            "target_near_threshold": 38,
+            "target_random_fill": 232,
+            "target_suspected_unlogged": 38
+          },
+          "stage": "active_retrain"
+        },
+        {
+          "candidate_metrics": {
+            "approx_identifiability_proxy": 0.988322103771798,
+            "bedc_debt_score": 0.0047783912120197055,
+            "certified_coverage": 0.90869140625,
+            "covariance_deviation": 0.009309441852969929,
+            "distinction_accuracy": 0.98583984375,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9989351923774015,
+            "linear_identifiability_r2": 0.9902296854072294,
+            "orthogonality_error": 0.0029756056152407348,
+            "system_name": "active-gap-ledger-round-3",
+            "train_count": 2304.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.1124112606048584
+          },
+          "candidate_status": "rejected_by_guard",
+          "deployed_metrics": {
+            "approx_identifiability_proxy": 0.9883507084285743,
+            "bedc_debt_score": 0.004579939562457924,
+            "certified_coverage": 0.9111328125,
+            "covariance_deviation": 0.012980476168060496,
+            "distinction_accuracy": 0.9921875,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9993170990627104,
+            "linear_identifiability_r2": 0.9912922137085741,
+            "orthogonality_error": 0.005275783035969029,
+            "system_name": "active-gap-ledger-round-1",
+            "train_count": 1920.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.131352424621582
+          },
+          "guard_failures": [
+            "gap_auc_regression",
+            "coverage_regression",
+            "latent_r2_regression"
+          ],
+          "round": 3,
+          "selection": {
+            "pool_gap_labeled": 682,
+            "pool_suspected_unlogged": 0,
+            "selected": 384,
+            "selected_gap_labeled": 92,
+            "selected_suspected_unlogged": 0,
+            "target_boundary_band": 38,
+            "target_high_gap": 38,
+            "target_near_threshold": 38,
+            "target_random_fill": 232,
+            "target_suspected_unlogged": 38
+          },
+          "stage": "active_retrain"
+        }
+      ],
+      "seed": 4259
+    },
+    {
+      "after": {
+        "approx_identifiability_proxy": 0.9866015418092833,
+        "bedc_debt_score": 0.004504161699181108,
+        "certified_coverage": 0.9130859375,
+        "covariance_deviation": 0.01184258886132831,
+        "distinction_accuracy": 0.994140625,
+        "distinction_accuracy_outside_gap": 1.0,
+        "false_claim_rate_inside_gap": 0.0,
+        "gap_detection_auc": 0.9992077071290945,
+        "linear_identifiability_r2": 0.9907638859535338,
+        "orthogonality_error": 0.010728082146338084,
+        "system_name": "active-gap-ledger-round-0",
+        "train_count": 1536.0,
+        "unlogged_error_rate": 0.0,
+        "wall_seconds": 2.0964503288269043
+      },
+      "before": {
+        "approx_identifiability_proxy": 0.9866015418092833,
+        "bedc_debt_score": 0.004504161699181108,
+        "certified_coverage": 0.9130859375,
+        "covariance_deviation": 0.01184258886132831,
+        "distinction_accuracy": 0.994140625,
+        "distinction_accuracy_outside_gap": 1.0,
+        "false_claim_rate_inside_gap": 0.0,
+        "gap_detection_auc": 0.9992077071290945,
+        "linear_identifiability_r2": 0.9907638859535338,
+        "orthogonality_error": 0.010728082146338084,
+        "system_name": "active-gap-ledger-round-0",
+        "train_count": 1536.0,
+        "unlogged_error_rate": 0.0,
+        "wall_seconds": 2.0964503288269043
+      },
+      "delta_after_minus_before": {
+        "bedc_debt_score": 0.0,
+        "certified_coverage": 0.0,
+        "distinction_accuracy_outside_gap": 0.0,
+        "gap_detection_auc": 0.0,
+        "linear_identifiability_r2": 0.0,
+        "unlogged_error_rate": 0.0
+      },
+      "rounds": [
+        {
+          "candidate_metrics": {
+            "approx_identifiability_proxy": 0.9866015418092833,
+            "bedc_debt_score": 0.004504161699181108,
+            "certified_coverage": 0.9130859375,
+            "covariance_deviation": 0.01184258886132831,
+            "distinction_accuracy": 0.994140625,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9992077071290945,
+            "linear_identifiability_r2": 0.9907638859535338,
+            "orthogonality_error": 0.010728082146338084,
+            "system_name": "active-gap-ledger-round-0",
+            "train_count": 1536.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.0964503288269043
+          },
+          "candidate_status": "accepted",
+          "deployed_metrics": {
+            "approx_identifiability_proxy": 0.9866015418092833,
+            "bedc_debt_score": 0.004504161699181108,
+            "certified_coverage": 0.9130859375,
+            "covariance_deviation": 0.01184258886132831,
+            "distinction_accuracy": 0.994140625,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9992077071290945,
+            "linear_identifiability_r2": 0.9907638859535338,
+            "orthogonality_error": 0.010728082146338084,
+            "system_name": "active-gap-ledger-round-0",
+            "train_count": 1536.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.0964503288269043
+          },
+          "round": 0,
+          "stage": "initial"
+        },
+        {
+          "candidate_metrics": {
+            "approx_identifiability_proxy": 0.9856513627389933,
+            "bedc_debt_score": 0.004679246447495178,
+            "certified_coverage": 0.908203125,
+            "covariance_deviation": 0.019880936226884652,
+            "distinction_accuracy": 0.99560546875,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9995529865125241,
+            "linear_identifiability_r2": 0.9908120579092624,
+            "orthogonality_error": 0.010702312567633689,
+            "system_name": "active-gap-ledger-round-1",
+            "train_count": 1920.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.113942861557007
+          },
+          "candidate_status": "rejected_by_guard",
+          "deployed_metrics": {
+            "approx_identifiability_proxy": 0.9866015418092833,
+            "bedc_debt_score": 0.004504161699181108,
+            "certified_coverage": 0.9130859375,
+            "covariance_deviation": 0.01184258886132831,
+            "distinction_accuracy": 0.994140625,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9992077071290945,
+            "linear_identifiability_r2": 0.9907638859535338,
+            "orthogonality_error": 0.010728082146338084,
+            "system_name": "active-gap-ledger-round-0",
+            "train_count": 1536.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.0964503288269043
+          },
+          "guard_failures": [
+            "coverage_regression"
+          ],
+          "round": 1,
+          "selection": {
+            "pool_gap_labeled": 670,
+            "pool_suspected_unlogged": 0,
+            "selected": 384,
+            "selected_gap_labeled": 108,
+            "selected_suspected_unlogged": 0,
+            "target_boundary_band": 38,
+            "target_high_gap": 38,
+            "target_near_threshold": 38,
+            "target_random_fill": 232,
+            "target_suspected_unlogged": 38
+          },
+          "stage": "active_retrain"
+        },
+        {
+          "candidate_metrics": {
+            "approx_identifiability_proxy": 0.9808573599053132,
+            "bedc_debt_score": 0.0046141493557321665,
+            "certified_coverage": 0.9111328125,
+            "covariance_deviation": 0.03132325408599659,
+            "distinction_accuracy": 0.99267578125,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9991460500963392,
+            "linear_identifiability_r2": 0.9909707104269854,
+            "orthogonality_error": 0.02479177504369047,
+            "system_name": "active-gap-ledger-round-2",
+            "train_count": 1920.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.046675682067871
+          },
+          "candidate_status": "rejected_by_guard",
+          "deployed_metrics": {
+            "approx_identifiability_proxy": 0.9866015418092833,
+            "bedc_debt_score": 0.004504161699181108,
+            "certified_coverage": 0.9130859375,
+            "covariance_deviation": 0.01184258886132831,
+            "distinction_accuracy": 0.994140625,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9992077071290945,
+            "linear_identifiability_r2": 0.9907638859535338,
+            "orthogonality_error": 0.010728082146338084,
+            "system_name": "active-gap-ledger-round-0",
+            "train_count": 1536.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.0964503288269043
+          },
+          "guard_failures": [
+            "coverage_regression"
+          ],
+          "round": 2,
+          "selection": {
+            "pool_gap_labeled": 670,
+            "pool_suspected_unlogged": 0,
+            "selected": 384,
+            "selected_gap_labeled": 91,
+            "selected_suspected_unlogged": 0,
+            "target_boundary_band": 38,
+            "target_high_gap": 38,
+            "target_near_threshold": 38,
+            "target_random_fill": 232,
+            "target_suspected_unlogged": 38
+          },
+          "stage": "active_retrain"
+        },
+        {
+          "candidate_metrics": {
+            "approx_identifiability_proxy": 0.9839655920879551,
+            "bedc_debt_score": 0.0046077349018545325,
+            "certified_coverage": 0.91064453125,
+            "covariance_deviation": 0.024236717593415214,
+            "distinction_accuracy": 0.99609375,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9993001926782273,
+            "linear_identifiability_r2": 0.9906841671404741,
+            "orthogonality_error": 0.014755941413368777,
+            "system_name": "active-gap-ledger-round-3",
+            "train_count": 1920.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.0517494678497314
+          },
+          "candidate_status": "rejected_by_guard",
+          "deployed_metrics": {
+            "approx_identifiability_proxy": 0.9866015418092833,
+            "bedc_debt_score": 0.004504161699181108,
+            "certified_coverage": 0.9130859375,
+            "covariance_deviation": 0.01184258886132831,
+            "distinction_accuracy": 0.994140625,
+            "distinction_accuracy_outside_gap": 1.0,
+            "false_claim_rate_inside_gap": 0.0,
+            "gap_detection_auc": 0.9992077071290945,
+            "linear_identifiability_r2": 0.9907638859535338,
+            "orthogonality_error": 0.010728082146338084,
+            "system_name": "active-gap-ledger-round-0",
+            "train_count": 1536.0,
+            "unlogged_error_rate": 0.0,
+            "wall_seconds": 2.0964503288269043
+          },
+          "guard_failures": [
+            "coverage_regression"
+          ],
+          "round": 3,
+          "selection": {
+            "pool_gap_labeled": 670,
+            "pool_suspected_unlogged": 0,
+            "selected": 384,
+            "selected_gap_labeled": 93,
+            "selected_suspected_unlogged": 0,
+            "target_boundary_band": 38,
+            "target_high_gap": 38,
+            "target_near_threshold": 38,
+            "target_random_fill": 232,
+            "target_suspected_unlogged": 38
+          },
+          "stage": "active_retrain"
+        }
+      ],
+      "seed": 4276
+    }
+  ],
+  "schema_id": "bedc-active-gap-ledger-curriculum",
+  "seeds": [
+    4242,
+    4259,
+    4276
+  ],
+  "source": {
+    "active_rounds": 3.0,
+    "add_count_per_round": 384.0,
+    "epoch_count": 200.0,
+    "gap_width": 0.14,
+    "initial_train_count": 1536.0,
+    "pool_count": 8192.0,
+    "radius": 1.0,
+    "rho": 0.84,
+    "test_count": 2048.0,
+    "world": "boundary-gated-ou"
+  },
+  "status": "executed",
+  "summary": {
+    "after": {
+      "bedc_debt_score": {
+        "max": 0.0046703367208960735,
+        "mean": 0.0045848126608450356,
+        "min": 0.004504161699181108
+      },
+      "certified_coverage": {
+        "max": 0.9130859375,
+        "mean": 0.9114583333333334,
+        "min": 0.91015625
+      },
+      "distinction_accuracy_outside_gap": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0
+      },
+      "gap_detection_auc": {
+        "max": 0.9993170990627104,
+        "mean": 0.9992113533624415,
+        "min": 0.9991092538955196
+      },
+      "linear_identifiability_r2": {
+        "max": 0.9917503146600347,
+        "mean": 0.9912688047740476,
+        "min": 0.9907638859535338
+      },
+      "unlogged_error_rate": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+      }
+    },
+    "before": {
+      "bedc_debt_score": {
+        "max": 0.004957240560350962,
+        "mean": 0.004710579660142714,
+        "min": 0.004504161699181108
+      },
+      "certified_coverage": {
+        "max": 0.9130859375,
+        "mean": 0.90966796875,
+        "min": 0.90576171875
+      },
+      "distinction_accuracy_outside_gap": {
+        "max": 1.0,
+        "mean": 1.0,
+        "min": 1.0
+      },
+      "gap_detection_auc": {
+        "max": 0.9992077071290945,
+        "mean": 0.9990301095117865,
+        "min": 0.9987733675107452
+      },
+      "linear_identifiability_r2": {
+        "max": 0.9917503146600347,
+        "mean": 0.9911357343102338,
+        "min": 0.9907638859535338
+      },
+      "unlogged_error_rate": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+      }
+    },
+    "delta_after_minus_before": {
+      "bedc_debt_score": {
+        "max": 0.0,
+        "mean": -0.00012576699929767927,
+        "min": -0.00037730099789303785
+      },
+      "certified_coverage": {
+        "max": 0.00537109375,
+        "mean": 0.0017903645833333333,
+        "min": 0.0
+      },
+      "distinction_accuracy_outside_gap": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+      },
+      "gap_detection_auc": {
+        "max": 0.0005437315519651875,
+        "mean": 0.00018124385065506252,
+        "min": 0.0
+      },
+      "linear_identifiability_r2": {
+        "max": 0.00039921139144105666,
+        "mean": 0.00013307046381368556,
+        "min": 0.0
+      },
+      "unlogged_error_rate": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+      }
+    }
+  },
+  "torch_environment": {
+    "cuda_available": true,
+    "cuda_device_name": "NVIDIA GeForce RTX 4090",
+    "cuda_max_memory_allocated_bytes": 83823104.0,
+    "device": {
+      "backend_details": {
+        "cuda_available": true,
+        "mps_available": false,
+        "torch": "2.6.0+cu124"
+      },
+      "requested_device": "auto",
+      "resolution_reason": "auto-cuda-available",
+      "resolution_status": "available",
+      "resolved_device": "cuda"
+    },
+    "torch_version": "2.6.0+cu124"
+  }
+}
