@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\EilenbergVarietyUp$}
+\label{ch:concrete-instances-eilenberg-variety-namecert}
+\origin{human}
+
+Following Eilenberg's variety theorem for regular languages, the $\EilenbergVarietyUp$ packet records the finite NameCert surface where a family of regular-language rows and their syntactic-monoid classifiers are read together under boolean closure, quotient closure, and inverse-morphism closure. It sits beside the accepted-word packet of \autoref{ch:concrete-instances-regularlanguage-namecert}, the right-congruence classifier of \autoref{ch:concrete-instances-myhill-nerode-namecert}, the canonical deterministic presentation of \autoref{ch:concrete-instances-minimal-dfa-namecert}, the finite classifier monoid of \autoref{ch:concrete-instances-syntactic-monoid-namecert}, and the finite-control surface of \autoref{ch:concrete-instances-finite-automaton-namecert}. The chapter names the displayed handoff between language families and finite syntactic monoid rows; it does not import a host powerset of all languages, arbitrary quotient languages, infinite alphabets, or an ambient pseudovariety theorem.
+
+\begin{definition}[Eilenberg variety carrier]
+\label{def:eilenberg-variety-carrier}
+An $\EilenbergVarietyUp$ carrier is a finite $\BHist$ packet
+$$
+V=(A,L,M,C,Q,I,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the finite alphabet-family row, naming the displayed alphabets and finite alphabet morphisms available to the packet.
+\item $L$ is the regular-language family row, whose entries are accepted $\RegularLanguageUp$ observations over the alphabets named by $A$.
+\item $M$ is the syntactic-monoid family row, assigning to each displayed language row its finite $\SyntacticMonoidUp$ classifier.
+\item $C$ is the closure ledger for finite union, finite intersection, and complement inside the displayed language rows.
+\item $Q$ is the quotient ledger for displayed left and right word quotients, read through the finite right-congruence rows of $\MyhillNerodeUp$ and the canonical presentations of $\MinimalDfaUp$.
+\item $I$ is the inverse-morphism ledger, recording how a displayed finite alphabet morphism pulls a displayed regular-language row back to another displayed regular-language row.
+\item $H$ records componentwise $\hsame$ transport for alphabet-family, regular-language, syntactic-monoid, boolean-closure, quotient, inverse-morphism, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from accepted-word observations through the Myhill--Nerode, minimal-DFA, finite-automaton, and syntactic-monoid handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\EilenbergVarietyUp$, $\RegularLanguageUp$, $\MyhillNerodeUp$, $\MinimalDfaUp$, $\SyntacticMonoidUp$, $\FiniteAutomatonUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EilenbergVarietyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,L,M,C,Q,I,H,R,P,N$. It has no coordinate for a host language powerset, arbitrary infinite alphabet family, selected quotient representatives outside the displayed ledgers, external monoid pseudovariety, or global star-free equivalence claim.
+\end{definition}
+
+\begin{theorem}[Eilenberg variety NameCert obligations]
+\label{thm:eilenberg-variety-namecert-obligations}
+For every accepted $\EilenbergVarietyUp$ carrier $V=(A,L,M,C,Q,I,H,R,P,N)$, the local $\NameCert_{\EilenbergVarietyUp}$ surface consists exactly of finite alphabet-family exposure, regular-language row exposure, syntactic-monoid classifier exposure, boolean-closure replay, left and right quotient replay, inverse-morphism replay, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:eilenberg-variety-carrier}. The rows $A,L,M$ expose the finite alphabet family, the displayed regular-language observations, and the finite syntactic monoid classifiers attached to those observations.
+
+Read $C,Q,I$ next. The boolean ledger $C$ records only finite union, finite intersection, and complement among displayed rows; the quotient ledger $Q$ uses the Myhill--Nerode and minimal-DFA rows to name left and right quotient replay; the inverse-morphism ledger $I$ follows displayed finite alphabet morphisms back to displayed language rows.
+
+The structural rows $H,R,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for a host language powerset, infinite alphabet family, external quotient representative, pseudovariety oracle, or global star-free theorem, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Eilenberg variety syntactic-monoid handoff]
+\label{thm:eilenberg-variety-syntactic-monoid-handoff}
+Every $\SyntacticMonoidUp$, $\MyhillNerodeUp$, $\MinimalDfaUp$, $\FiniteAutomatonUp$, or $\RegularLanguageUp$ consumer of an accepted $\EilenbergVarietyUp$ packet first reads the displayed alphabet-family row, regular-language family row, syntactic-monoid family row, boolean-closure ledger, quotient ledger, and inverse-morphism ledger. The handoff through \autoref{ch:concrete-instances-regularlanguage-namecert}, \autoref{ch:concrete-instances-myhill-nerode-namecert}, \autoref{ch:concrete-instances-minimal-dfa-namecert}, \autoref{ch:concrete-instances-syntactic-monoid-namecert}, and \autoref{ch:concrete-instances-finite-automaton-namecert} therefore exports only the finite regular-language and classifier-monoid route.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $V=(A,L,M,C,Q,I,H,R,P,N)$. A regular-language consumer reads each language row from $L$ only after the finite alphabet-family row $A$ has fixed the displayed alphabet.
+
+The Myhill--Nerode and minimal-DFA consumers then read the quotient ledger $Q$ as a finite classifier replay boundary. The finite-automaton consumer receives only the displayed deterministic presentations already licensed by those right-congruence and accepted-word rows.
+
+Finally, the syntactic-monoid consumer reads $M$ as the finite classifier-monoid family attached to $L$, with $C$ and $I$ describing only displayed closure and inverse-morphism replay. Thus the packet supplies the Eilenberg handoff as finite BEDC rows, not as a host powerset of languages, a selected family of all quotients, or an external pseudovariety theorem.
+\end{proof}
+
+\closureat{EilenbergVarietyUp}{seedStr}
+
+\begin{closurestatus}{\EilenbergVarietyUp}
+  \constructivestory{An $\EilenbergVarietyUp$ packet is generated from finite alphabet-family rows, regular-language family rows, syntactic-monoid classifier rows, boolean-closure ledgers, quotient ledgers, inverse-morphism ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eilenberg-variety-carrier}, \autoref{thm:eilenberg-variety-namecert-obligations}, and \autoref{thm:eilenberg-variety-syntactic-monoid-handoff} seed the finite regular-language variety handoff across RegularLanguageUp, MyhillNerodeUp, MinimalDfaUp, SyntacticMonoidUp, and FiniteAutomatonUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, a host variety theorem over all regular languages, star-free or aperiodic classification, external monoid pseudovarieties, infinite alphabet families, arbitrary quotient representatives, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regular-language family exposure, syntactic-monoid classifier exposure, boolean closure, quotient replay, inverse-morphism replay, sibling handoff, transport, replay, provenance, and local naming for BEDC.Derived.EilenbergVarietyUp.}
+\end{closurestatus}
