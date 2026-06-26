@@ -20,21 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-26T03:21:40Z
+> 最后刷新: 2026-06-26T06:27:13Z
 
-**Daemon 状态**: monitor (monitor cycle 186, adjust_since_research 2, round_counter 22070, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 187, adjust_since_research 2, round_counter 22125, last_adjust rule_evolution_completed)
 
-**待处理 queue** (660 条 finding):
-- isolated_theorem: 476 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (662 条 finding):
+- isolated_theorem: 478 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 128 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 56 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=low_entropy_template: 12 次
-- TASTE ALERT category=cycle_exception: 7 次
+- TASTE ALERT category=cycle_exception: 8 次
+- TASTE ALERT category=low_entropy_template: 5 次
 - TASTE ALERT category=isolated_theorem: 1 次
-- TASTE ALERT category=resolution_failed: 1 次
-- TASTE ALERT category=resolution_json_parse_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -417,6 +415,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-25T00:32:12Z: `resolved` `leave_with_rationale` for `BEDC.Derived.LocatedRealIntervalUp.LocatedRealIntervalCarrier_cauchy_quotient_boundary_route` (flag `isolated_theorem`, finding `isolated_theorem:locatedrealinterval:BEDC.Derived.LocatedRealIntervalUp.LocatedRealIntervalCarrier_cauchy_quotient_boundary_route:b4cfb73e`). Rationale: The theorem is not a vacuous wrapper: it composes the located-real-interval endpoint/radius route with CauchyQuotientBoundaryCarrier_refusal_factorization and matches the paper's quotient-boundary route claim. Source grep found no Lean downstream consumer beyond the declaration, while paper usage is the expected primary marker. I attempted add_downstream_user in the ExactnessRoute sibling, but the required lake build failed on the new theorem with a syntax/unsolved-goal error in BEDC.Derived.LocatedRealIntervalUp.ExactnessRoute, so the change was reverted per instruction and this is left as staging-only for a future clean consumer. Gate results: lake_build=failed: BEDC/Derived/LocatedRealIntervalUp/ExactnessRoute.lean:218:47 unexpected identifier; expected '}'; unsolved goals in added downstream theorem; build target BEDC.Derived.LocatedRealIntervalUp.ExactnessRoute failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-25T02:55:01Z: `resolved` `add_downstream_user` for `BEDC.Derived.LocatedRealIntervalUp.LocatedRealIntervalCarrier_cauchy_quotient_boundary_route` (flag `isolated_theorem`, finding `isolated_theorem:locatedrealinterval:BEDC.Derived.LocatedRealIntervalUp.LocatedRealIntervalCarrier_cauchy_quotient_boundary_route:b4cfb73e`). Rationale: The theorem carries meaningful quotient-boundary content for the located real interval construction rather than merely restating an existing result. It was isolated because no Lean sibling consumed it, so I added a downstream exactness/namecert surface theorem in the same LocatedRealIntervalUp family that uses this target together with the existing exactness route to connect the bracket SemanticNameCert surface to the Cauchy quotient boundary seal and provenance package. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-26T06:26:03Z: `resolved` `leave_with_rationale` for `BEDC.Derived.SubdifferentialUp.SubdifferentialTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:subdifferential:BEDC.Derived.SubdifferentialUp.SubdifferentialTasteGate_single_carrier_alignment:aa85bdaa`). Rationale: The target has no current Lean downstream references beyond its declaration and the paper marker, but it is not a vacuous wrapper: it packages the SubdifferentialUp BHist encode/decode round trip, the BHistCarrier instance, the ChapterTasteGate instance, and the empty-history encoding anchor used by the chapter's finite certificate surface. The paper explicitly positions the subdifferential carrier as feeding KKT stationarity through cone-boundary rows, so removing it would discard useful staging content. A KKT downstream consumer was attempted, but local lake build failed at BEDC.Derived.KKTUp.StationarityTransport, so the edit was reverted per instruction and the theorem is left with rationale for daemon grace. Gate results: lake_build=failed after attempted downstream consumer: Some required targets logged failures: - BEDC.Derived.KKTUp.StationarityTransport; error: build failed, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
