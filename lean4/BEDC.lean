@@ -6922,6 +6922,7 @@ import BEDC.Derived.KalmanFilterUp
 import BEDC.Derived.KalmanFilterUp.TasteGate
 import BEDC.Derived.KanExtensionUp.NamecertObligations
 import BEDC.Derived.KanExtensionUp.TasteGate
+import BEDC.Derived.KelleyficationUp.TasteGate
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.FormalAxisSeparation
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.PublicBridgeBoundary
@@ -10946,6 +10947,7 @@ import BEDC.Derived.RieszRepresentationUp.MeasureHandoff
 import BEDC.Derived.RieszRepresentationUp.ObligationClosure
 import BEDC.Derived.RieszRepresentationUp.PublicExport
 import BEDC.Derived.RieszRepresentationUp.TasteGate
+import BEDC.Derived.RieszSchauderTheoryUp
 import BEDC.Derived.RieszSpaceUp.TasteGate
 import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.RingUp
