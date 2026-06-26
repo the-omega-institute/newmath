@@ -1798,6 +1798,7 @@ import BEDC.Derived.CauchyCompletionLeftExactnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionLiftUp
 import BEDC.Derived.CauchyCompletionLiftUp.TasteGate
 import BEDC.Derived.CauchyCompletionMinimalityUp.DenseImageCoverage
+import BEDC.Derived.CauchyCompletionMinimalityUp.SeparatedReflectionRoute
 import BEDC.Derived.CauchyCompletionMinimalityUp.TasteGate
 import BEDC.Derived.CauchyCompletionMinimalityUp.UniversalFactorization
 import BEDC.Derived.CauchyCompletionMonadLawUp.FiniteApproximationConsumerRoute
@@ -2493,6 +2494,7 @@ import BEDC.Derived.CauchyQuotientBoundaryUp
 import BEDC.Derived.CauchyQuotientBoundaryUp.TasteGate
 import BEDC.Derived.CauchyQuotientCriterionUp.TasteGate
 import BEDC.Derived.CauchyRateBudgetUp.NameCertObligations
+import BEDC.Derived.CauchyRateBudgetUp.RateNonescape
 import BEDC.Derived.CauchyRateBudgetUp.TasteGate
 import BEDC.Derived.CauchyRateComparisonUp.NameCertObligations
 import BEDC.Derived.CauchyRateComparisonUp.TasteGate
@@ -10884,6 +10886,7 @@ import BEDC.Derived.RegularCauchyTailShiftUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSubsequenceUp.TasteGate
 import BEDC.Derived.RegularCauchyTailSumUp.TasteGate
 import BEDC.Derived.RegularCauchyTelescopingBudgetUp.TasteGate
+import BEDC.Derived.RegularCauchyTelescopingBudgetUp.WindowChain
 import BEDC.Derived.RegularCauchyTighteningUp.TasteGate
 import BEDC.Derived.RegularCauchyTransformUp.TasteGate
 import BEDC.Derived.RegularCauchyTranslationUp.TasteGate
@@ -11162,6 +11165,7 @@ import BEDC.Derived.SchurOrthogonalityUp
 import BEDC.Derived.SchurOrthogonalityUp.CharacterInnerProduct
 import BEDC.Derived.SchurOrthogonalityUp.CharacterPairingRoute
 import BEDC.Derived.SchurOrthogonalityUp.GroupAveragingLedger
+import BEDC.Derived.SchurOrthogonalityUp.PublicCharacterBasis
 import BEDC.Derived.SchurOrthogonalityUp.RowColumnOrthogonalityLedger
 import BEDC.Derived.SchurOrthogonalityUp.ScopedDependencyPackage
 import BEDC.Derived.SchurOrthogonalityUp.TasteGate
