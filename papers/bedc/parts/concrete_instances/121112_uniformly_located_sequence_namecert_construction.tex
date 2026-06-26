@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\UniformlyLocatedSequenceUp$}
+\label{ch:concrete-instances-uniformly-located-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, uniformly located sequences are represented by displayed finite located-window and modulus data rather than by selected limits or quotient stream representatives. The $\UniformlyLocatedSequenceUp$ packet sits after the located sequence modulus route of \autoref{ch:concrete-instances-located-sequence-modulus-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It names the finite uniform locatedness surface used by the L10 Real and Completion route without asserting quotient streams, countable choice, trichotomy, selected limits, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Uniformly located sequence carrier]
+\label{def:uniformly-located-sequence-carrier}
+A $\UniformlyLocatedSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+U=(L,M,D,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the located-sequence window row, recording the finite index windows and located value reads exposed to the packet.
+\item $M$ is the shared monotone modulus schedule, sending each displayed tolerance request to a finite window bound reused by all completion-facing consumers.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance scale that records the positive dyadic requests and comparison rows used by $M$.
+\item $S$ is the $\StreamNameUp$ finite-window row naming the inspected stream prefixes.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed stream windows and dyadic tolerance scale.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $L,M,D,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for located windows, the shared modulus schedule, dyadic tolerances, stream windows, regular rational readbacks, Real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a uniform locatedness request through $L,M,D,S,R,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\UniformlyLocatedSequenceUp$, $\LocatedSequenceModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\UniformlyLocatedSequenceUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, selected limits, countable choice over windows, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Uniformly located sequence NameCert obligations]
+\label{thm:uniformly-located-sequence-namecert-obligations}
+For every accepted $\UniformlyLocatedSequenceUp$ carrier $U=(L,M,D,S,R,E,H,C,P,N)$, the local $\NameCert_{\UniformlyLocatedSequenceUp}$ surface consists exactly of located-window admission through $L$, shared monotone modulus exposure through $M$, dyadic tolerance accounting through $D$, $\StreamNameUp$ finite-window admission through $S$, $\RegSeqRatUp$ readback through $R$, terminal $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniformly-located-sequence-carrier}. The only rows that expose analytic data are the located windows $L$, the shared schedule $M$, the dyadic tolerance scale $D$, the stream window $S$, the regular rational readback $R$, and the terminal seal $E$.
+
+The monotonicity requirement is read from the displayed schedule $M$. Reusing a smaller tolerance or a later completion request therefore reuses the same finite schedule row and the same dyadic tolerance scale rather than selecting a new stream representative.
+
+The readback route then passes through $S$ and $R$ before the $\RealUp$ seal $E$ is available. Rows $H,C,P,N$ transport, replay, source, and name that same route, so a consumer cannot bypass the displayed finite packet.
+
+Since no carrier coordinate records quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient Real completeness, row projection and monotone reuse of the displayed modulus schedule exhaust the NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\UniformlyLocatedSequenceUp$ read exposes located sequence windows, a shared monotone modulus schedule, a DyadicRatCore tolerance scale, StreamName finite windows, RegSeqRat readback, a terminal RealUp seal, componentwise transport, continuation replay, provenance, and local naming.}
+
+\independenceWitness{located-sequence-modulus, streamname, regseqrat, dyadicratcore, real: $\UniformlyLocatedSequenceUp$ is not identical to any listed sibling because it binds one shared monotone locatedness schedule across all finite sequence windows before regular rational readback and Real sealing.}
+
+\closureat{UniformlyLocatedSequenceUp}{seedStr}
+
+\begin{closurestatus}{\UniformlyLocatedSequenceUp}
+  \constructivestory{A $\UniformlyLocatedSequenceUp$ packet is generated from located sequence windows, a shared monotone modulus schedule, DyadicRatCore tolerance data, StreamName finite windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniformly-located-sequence-carrier} and \autoref{thm:uniformly-located-sequence-namecert-obligations} seed the finite uniformly located sequence route from displayed windows and a shared modulus schedule to RegSeqRat readback and the terminal RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, countable choice, trichotomy, host real equality, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located-window coverage, monotone modulus reuse, dyadic tolerance compatibility, StreamName window admission, RegSeqRat readback, Real seal nonescape, replay, provenance, and local naming for BEDC.Derived.UniformlyLocatedSequenceUp.}
+\end{closurestatus}

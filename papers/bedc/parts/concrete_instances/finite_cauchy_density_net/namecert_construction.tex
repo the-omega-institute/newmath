@@ -101,6 +101,20 @@ Then apply \autoref{thm:finite-cauchy-density-net-sibling-route}. That theorem k
 Finally use \autoref{thm:finite-cauchy-density-net-window-comparison}. The comparison theorem factors the completion-facing read through the same finite packet data, and \autoref{def:finite-cauchy-density-net-packet} lists exactly the rows $D,W,R,E,M,T,C,P,L$ with no coordinate for quotient streams, chosen representatives, or ambient completeness. Row exhaustion gives the claim.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy density-net diagonal tightening]
+\label{thm:finite-cauchy-density-net-diagonal-tightening}
+For every accepted $\FiniteCauchyDensityNetUp$ packet $N=(D,W,R,E,M,T,C,P,L)$, any two completion-facing tail reads of $N$ can be tightened to a shared finite $\StreamNameUp$ window row and a shared dyadic tolerance row before either $\RegSeqRatUp$ readback or $\RealUp$ sealing is consumed. The tightening remains inside the displayed route $D,W,R,E,M,T,C,P,L$ and exports no quotient representatives, selected limits, countable choice, trichotomy, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with finite-window comparison, \autoref{thm:finite-cauchy-density-net-window-comparison}. It forces each completion-facing comparison to use the displayed finite net extraction, the $\StreamNameUp$ window, the dyadic tolerance row, and the terminal seal route attached to the same $\BHist$ provenance.
+
+Apply tail extraction from \autoref{thm:finite-cauchy-density-net-tail-extraction}. Both tail reads must expose $W$, $R$, $D$, $M$, $E$, and the structural rows $T,C,P,L$ before any completion-facing consumer can use them.
+
+Now use the sibling route of \autoref{thm:finite-cauchy-density-net-sibling-route}. A $\RealUniformStructureUp$, $\CauchyModulusUp$, $\RegSeqRatUp$, or $\RealUp$ consumer receives only this displayed density-net route, so the two reads meet at one finite stream window and one dyadic tolerance row before readback or sealing.
+
+Since the carrier has no coordinate for quotient representatives, selected limits, countable choice, trichotomy, host equality, or ambient Real completeness, the shared window and tolerance row are obtained by row tightening inside the accepted packet rather than by an external selector.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\FiniteCauchyDensityNetUp$ read exposes a DyadicRatCore finite-net ledger, a StreamName finite-window row, a RegSeqRat readback row, a terminal RealUp seal, a finite modulus row, componentwise transport, continuation replay, provenance, and local naming.}
 
 \independenceWitness{dyadicratcore, streamname, regseqrat, real: $\FiniteCauchyDensityNetUp$ is not identical to any listed sibling because it binds dyadic finite-net rows and a modulus row before the regular rational readback and terminal RealUp seal.}
