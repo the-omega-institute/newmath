@@ -106,6 +106,18 @@ class NamecertHorizonCarrierTests(unittest.TestCase):
         self.assertEqual(findings[0]["closurestatus_carriers"], [])
         self.assertEqual(findings[0]["reason"], "no carrier matches namecert slug")
 
+    def test_closureat_only_digit_carrier_is_hard(self) -> None:
+        findings = self._run_gate({
+            self._chapter("001_rule_namecert_construction.tex"): "\n".join([
+                "% BEDC-GAP: synthetic contract",
+                r"\closureat{\Rule110Up}{scopedStr}",
+            ]),
+        })
+        self.assertEqual(len(findings), 1)
+        self.assertEqual(findings[0]["severity"], "hard")
+        self.assertEqual(findings[0]["closureat_carriers"], [])
+        self.assertEqual(findings[0]["reason"], "no carrier matches namecert slug")
+
     def test_no_status_chapter_is_ignored(self) -> None:
         findings = self._run_gate({
             self._chapter("001_foo_bar_namecert_construction.tex"): "% BEDC-GAP: synthetic contract\n",

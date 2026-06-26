@@ -110,8 +110,12 @@ NAMECERT_INPUT_RE = re.compile(r"\\input\s*\{\s*([^}]+?)\s*\}")
 NAMECERT_CLOSURESTATUS_CARRIER_RE = re.compile(
     r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
 )
+# Carrier grammar must match critical_path.CLOSUREAT_RE ([A-Z][A-Za-z]*Up): the
+# closureat fallback may only accept carriers critical_path can actually index,
+# else a closureat-only digit/underscore carrier (e.g. Rule110Up) passes the gate
+# while critical_path still ignores the horizon.
 NAMECERT_CLOSUREAT_CARRIER_RE = re.compile(
-    r"\\closureat\s*\{\s*\\?\s*([A-Za-z][A-Za-z0-9_]*Up)\s*\}"
+    r"\\closureat\s*\{\s*\\?\s*([A-Z][A-Za-z]*Up)\s*\}"
 )
 CONCRETE_BODY_ENV_RE = re.compile(
     r"\\begin\{(?:theorem|definition|lemma|proof|aligned)\}"
@@ -2156,9 +2160,12 @@ def detect_namecert_horizon_carrier_mismatch() -> list[dict[str, object]]:
         closurestatus_carriers: list[str] = []
         closureat_carriers: list[str] = []
         closurestatus_present = False
+        closureat_present = False
         for _source_path, text in closure:
             if r"\begin{closurestatus}" in text:
                 closurestatus_present = True
+            if r"\closureat" in text:
+                closureat_present = True
             closurestatus_carriers.extend(
                 match.group(1)
                 for match in NAMECERT_CLOSURESTATUS_CARRIER_RE.finditer(text)
@@ -2167,7 +2174,10 @@ def detect_namecert_horizon_carrier_mismatch() -> list[dict[str, object]]:
                 match.group(1)
                 for match in NAMECERT_CLOSUREAT_CARRIER_RE.finditer(text)
             )
-        if not closurestatus_present and not closureat_carriers:
+        # Track the closureat token (not just valid carriers) so a horizon
+        # declared only via a critical_path-invisible closureat carrier (e.g.
+        # \closureat{\Rule110Up}{...}) is flagged rather than silently skipped.
+        if not closurestatus_present and not closureat_present:
             continue
 
         distinct_registered = sorted({
