@@ -1,0 +1,27 @@
+{
+  "claim_status": "claimed",
+  "not_claimed": [
+    "real deployment safety",
+    "real LLM jailbreak behavior",
+    "sensitive-data handling",
+    "mechanism closure"
+  ],
+  "producer": "papers/bedc-quality-lab/scripts/run_toy_safety_backend.py",
+  "schema_id": "bedc-quality-lab:toy-safety-claim-capsule",
+  "source_evidence": {
+    "hardgate_refs": {
+      "TS-HG1": "reports/runs/toy-safety/summary.json:$.hardgates.TS-HG1",
+      "TS-HG2": "reports/runs/toy-safety/summary.json:$.hardgates.TS-HG2",
+      "TS-HG3": "reports/runs/toy-safety/summary.json:$.hardgates.TS-HG3",
+      "TS-HG4": "reports/runs/toy-safety/summary.json:$.hardgates.TS-HG4",
+      "TS-HG5": "reports/runs/toy-safety/summary.json:$.hardgates.TS-HG5"
+    },
+    "metric_refs": {
+      "ambiguous_unlogged_error": "reports/runs/toy-safety/raw_metrics.json:$.metrics.ambiguous_unlogged_error",
+      "over_refusal": "reports/runs/toy-safety/raw_metrics.json:$.metrics.over_refusal",
+      "unsafe_false_negative": "reports/runs/toy-safety/raw_metrics.json:$.metrics.unsafe_false_negative"
+    },
+    "safety_claim_gate_ref": "reports/runs/toy-safety/summary.json:$.safety_claim_gate",
+    "summary_ref": "reports/runs/toy-safety/summary.json:$"
+  }
+}

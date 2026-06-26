@@ -1,0 +1,317 @@
+{
+  "artifact_id": "bedc-quality-lab:discovery-gated-transformer-jepa-world-model",
+  "claim_boundary": {
+    "blocked_duplicate_surfaces": [
+      "standalone theorem reader",
+      "standalone planning reader",
+      "reader-owned mechanism projection",
+      "reader-owned hardgate collection"
+    ],
+    "claim_allowed": false,
+    "scope": "bounded BEDC-JEPA owner ledger for a discovery-gated transformer world-model direction",
+    "status": "blocked"
+  },
+  "component_refs": {
+    "distinction_head": "reports/bedc_jepa_quality_packet.json:$.namecert.classifier_spec",
+    "gap_ledger": "reports/bedc_jepa_quality_packet.json:$.ledger",
+    "latent_state": "reports/bedc_jepa_quality_packet.json:$.namecert.source_spec",
+    "quality_gate": "reports/bedc_jepa_quality_packet.json:$.quality_gate",
+    "transition_planning": "reports/bedc_jepa_risk_constrained_planning.json:$.risk_constrained_planning"
+  },
+  "forbidden_claim_term_audit": {
+    "forbidden_terms": [
+      "production world model",
+      "full planning theorem",
+      "standalone theorem reader",
+      "standalone planning reader"
+    ],
+    "hits": [],
+    "scanned_owner_pointer": "reports/canonical/discovery_gated_transformer_jepa_world_model.json:$",
+    "status": "pass"
+  },
+  "generated_at": "2026-06-15T17:58:08.027224+00:00",
+  "hardgate": {
+    "failed_gates": [
+      "JEPA-DGT-HG2",
+      "JEPA-DGT-HG5"
+    ],
+    "gates": {
+      "JEPA-DGT-HG1": {
+        "claim_allowed": true,
+        "evidence_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows[2]",
+        "owner_pointer": "reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.theorem_bridge",
+        "reason": "LeJEPA theorem rows for recovery-bound and ledger-boundary cells resolve in the theorem ledger.",
+        "status": "pass"
+      },
+      "JEPA-DGT-HG2": {
+        "claim_allowed": false,
+        "evidence_pointer": "reports/bedc_jepa_risk_constrained_planning.json:$",
+        "owner_pointer": "reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.planning_head",
+        "reason": "Planning facts are recorded as bounded risk rows and do not authorize a world-model planning claim.",
+        "status": "fail-closed"
+      },
+      "JEPA-DGT-HG3": {
+        "claim_allowed": true,
+        "evidence_pointer": "reports/bedc_jepa_quality_packet.json:$.namecert",
+        "owner_pointer": "reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.mechanism_seeking",
+        "reason": "Mechanism facts resolve through the BEDC-JEPA quality packet owner.",
+        "status": "pass"
+      },
+      "JEPA-DGT-HG4": {
+        "claim_allowed": true,
+        "evidence_pointer": "reports/bedc_jepa_artifact_manifest.json:$",
+        "owner_pointer": "reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.source_artifacts",
+        "reason": "Source packet pointers are present in the checked-in BEDC-JEPA manifest.",
+        "status": "pass"
+      },
+      "JEPA-DGT-HG5": {
+        "claim_allowed": false,
+        "evidence_pointer": "reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.not_claimed",
+        "owner_pointer": "reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.claim_boundary",
+        "reason": "The owner is a bounded evidence ledger and explicitly blocks standalone theorem, planning, and production-world claims.",
+        "status": "fail-closed"
+      }
+    },
+    "status": "fail"
+  },
+  "hardgate_ref": {
+    "artifact": "reports/canonical/discovery_gated_transformer_jepa_world_model.json",
+    "pointer": "$.hardgate"
+  },
+  "mechanism_seeking": {
+    "not_claimed": [
+      "not open-domain semantic naming",
+      "not neural training convergence proof"
+    ],
+    "owner_pointer": "reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.mechanism_seeking",
+    "quality_gate_pointer": "reports/bedc_jepa_quality_packet.json:$.quality_gate",
+    "source_pointer": "reports/bedc_jepa_quality_packet.json:$.namecert",
+    "status": "pointer-only"
+  },
+  "not_claimed": [
+    "The owner does not assert a full JEPA or BEDC-JEPA world-model theorem.",
+    "The owner does not create standalone theorem or planning reader sidecars.",
+    "The owner does not claim production planning authority, public benchmark superiority, or open-domain semantic grounding."
+  ],
+  "planning_head": {
+    "claim_allowed": false,
+    "not_claimed": [
+      "not full world-model planning",
+      "not public benchmark superiority",
+      "not optimal planning calibration"
+    ],
+    "owner_pointer": "reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.planning_head",
+    "source_pointer": "reports/bedc_jepa_risk_constrained_planning.json:$",
+    "status": "fail-closed"
+  },
+  "producer": "scripts/run_canonical_reports.py",
+  "schema_id": "bedc-quality-lab:discovery-gated-transformer-jepa-world-model",
+  "source_artifacts": {
+    "bedc_jepa_manifest": "reports/bedc_jepa_artifact_manifest.json",
+    "bedc_jepa_planning": "reports/bedc_jepa_risk_constrained_planning.json",
+    "bedc_jepa_quality_packet": "reports/bedc_jepa_quality_packet.json",
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "lejepa_theorem_ledger": "reports/canonical/lejepa_theorem_ledger.json"
+  },
+  "theorem_bridge": {
+    "not_claimed": [
+      "not a standalone theorem bridge sidecar",
+      "not a paper theorem derivation",
+      "not a kernel-checked closure proof"
+    ],
+    "owner_pointer": "reports/canonical/discovery_gated_transformer_jepa_world_model.json:$.theorem_bridge",
+    "status": "pointer-only",
+    "theorem_3": {
+      "bedc_role": "StabCert",
+      "evidence_pointer": "$.backend_theorem_rows[0]",
+      "implemented_metrics": [
+        "theorem3_bound_mse",
+        "actual_recovery_mse",
+        "linear_identifiability_r2"
+      ],
+      "ledger_debt": "The existing LeJEPA backend points theorem3-bound-certificate at classifier_spec.cert_status; this ledger records the theorem-row boundary.",
+      "not_implemented": [
+        "bound projection is a certificate cell and not a theorem derivation",
+        "finite-sample and optimizer certificates remain ledger debt"
+      ],
+      "role_basis": "This row is the canonical location for the current theorem-bound certificate projection.",
+      "status_projection": {
+        "severity": "high",
+        "status": "partial"
+      },
+      "theorem": "theorem-3",
+      "theorem_dna": {
+        "assumptions": [
+          {
+            "pointer": "$.theorem_rows[2].evidence_pointer",
+            "role": "row-evidence"
+          },
+          {
+            "pointer": "$.scope.claim_boundary",
+            "role": "ledger-scope"
+          }
+        ],
+        "formal_status": {
+          "severity": "high",
+          "status": "partial"
+        },
+        "invariants": [
+          {
+            "pointer": "$.theorem_rows[2].bedc_role",
+            "role": "allowed-role"
+          },
+          {
+            "pointer": "$.theorem_rows[2].not_implemented",
+            "role": "visible-theorem-boundary"
+          }
+        ],
+        "ledger_debts": [
+          {
+            "pointer": "$.theorem_rows[2].ledger_debt",
+            "role": "current-ledger-debt"
+          }
+        ],
+        "maps": [
+          {
+            "pointer": "$.theorem_rows[2].role_basis",
+            "role": "theorem-role-map"
+          },
+          {
+            "pointer": "$.theorem_rows[2].status_projection",
+            "role": "status-projection-map"
+          }
+        ],
+        "objects": [
+          "theorem-3",
+          "Recovery bound certificate",
+          "StabCert"
+        ],
+        "operators": [
+          {
+            "pointer": "$.theorem_rows[2].implemented_metrics[0]",
+            "role": "implemented-metric"
+          },
+          {
+            "pointer": "$.theorem_rows[2].implemented_metrics[1]",
+            "role": "implemented-metric"
+          },
+          {
+            "pointer": "$.theorem_rows[2].implemented_metrics[2]",
+            "role": "implemented-metric"
+          },
+          {
+            "pointer": "$.metric_catalog",
+            "role": "metric-catalog"
+          },
+          {
+            "pointer": "$.role_catalog",
+            "role": "role-catalog"
+          }
+        ],
+        "proof_dependencies": [
+          {
+            "pointer": "$.theorem_rows[2].status_projection",
+            "role": "lab-local-status-cell"
+          },
+          {
+            "pointer": "$.theorem_rows[2].evidence_pointer",
+            "role": "certificate-evidence-cell"
+          }
+        ],
+        "theorem_id": "theorem-3"
+      },
+      "theorem_dna_pointer": "$.theorem_rows[2].theorem_dna",
+      "theorem_id": "theorem-3",
+      "title": "Recovery bound certificate"
+    },
+    "theorem_3_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows[2]",
+    "theorem_4": {
+      "bedc_role": "Ledger",
+      "evidence_pointer": "$.backend_ledger_rows",
+      "implemented_metrics": [],
+      "ledger_debt": "Ledger rows identify source and classifier residues that must stay visible until discharged by stronger evidence.",
+      "not_implemented": [
+        "ledger row statuses are derived from local debt machinery rather than theorem closure",
+        "terminal verdict classification is outside the LeJEPA backend theorem row"
+      ],
+      "role_basis": "This row owns the theorem-to-ledger mapping for source and classifier residues.",
+      "status_projection": {
+        "severity": "medium",
+        "status": "declared"
+      },
+      "theorem": "theorem-4",
+      "theorem_dna": {
+        "assumptions": [
+          {
+            "pointer": "$.theorem_rows[3].evidence_pointer",
+            "role": "row-evidence"
+          },
+          {
+            "pointer": "$.scope.claim_boundary",
+            "role": "ledger-scope"
+          }
+        ],
+        "formal_status": {
+          "severity": "medium",
+          "status": "declared"
+        },
+        "invariants": [
+          {
+            "pointer": "$.theorem_rows[3].bedc_role",
+            "role": "allowed-role"
+          },
+          {
+            "pointer": "$.theorem_rows[3].not_implemented",
+            "role": "visible-theorem-boundary"
+          }
+        ],
+        "ledger_debts": [
+          {
+            "pointer": "$.theorem_rows[3].ledger_debt",
+            "role": "current-ledger-debt"
+          }
+        ],
+        "maps": [
+          {
+            "pointer": "$.theorem_rows[3].role_basis",
+            "role": "theorem-role-map"
+          },
+          {
+            "pointer": "$.theorem_rows[3].status_projection",
+            "role": "status-projection-map"
+          }
+        ],
+        "objects": [
+          "theorem-4",
+          "Ledger closure boundary",
+          "Ledger"
+        ],
+        "operators": [
+          {
+            "pointer": "$.metric_catalog",
+            "role": "metric-catalog"
+          },
+          {
+            "pointer": "$.role_catalog",
+            "role": "role-catalog"
+          }
+        ],
+        "proof_dependencies": [
+          {
+            "pointer": "$.theorem_rows[3].status_projection",
+            "role": "lab-local-status-cell"
+          },
+          {
+            "pointer": "$.theorem_rows[3].evidence_pointer",
+            "role": "certificate-evidence-cell"
+          }
+        ],
+        "theorem_id": "theorem-4"
+      },
+      "theorem_dna_pointer": "$.theorem_rows[3].theorem_dna",
+      "theorem_id": "theorem-4",
+      "title": "Ledger closure boundary"
+    },
+    "theorem_4_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows[3]"
+  }
+}

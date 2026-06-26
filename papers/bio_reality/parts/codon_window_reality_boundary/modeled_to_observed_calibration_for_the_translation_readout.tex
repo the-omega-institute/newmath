@@ -1,0 +1,55 @@
+\subsection{Modeled-to-observed calibration for the $B^{*}_{Q6}$ translation readout}
+\label{sec:q6-modeled-observed-translation-readout-calibration}
+
+\paragraph{Finite panel.}
+The object considered here is a finite panel of coding sequences equipped with nine $B^{*}_{Q6}$ residual coordinates after quotienting by amino-acid composition.  The coordinate list is
+$$
+\begin{aligned}
+Q=\{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
+&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
+\end{aligned}
+$$
+Each row is read only as a controlled coding-sequence row: the residual coordinate, the organism or tissue readout, and the covariate block are the measured objects.  The covariates used in the powered runs are the intercept, $\log(\mathrm{cds\_len\_nt})$, the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, $GC3$ from real CDS codon counts, and the $M$-density baseline, namely the fraction of sense codons lying on the union support of the nine projected $B^{*}_{Q6}$ vectors.  This gives $24$ control columns in the translation-weight run and $24$ control columns in each adult-tissue proteome projection.
+
+\paragraph{Modeled translation-weight contact.}
+The modeled tAI contact is a codon-adaptation readout, not an observed ribosome trace.  In the organism sweep, modeled tAI was computed for $41$ organisms, exceeding the target of $40$ organisms.  The per-organism controlled $S^{QT}$ projection used $1000$ permutations, and its $R^{2}_{QT}$ distribution over the swept organisms was
+$$
+\begin{aligned}
+\min &=0.1579271837024072,\\
+q_{25} &=0.26353954700074694,\\
+\mathrm{median} &=0.33934845811598124,\\
+\mathrm{mean} &=0.38466555440501393,\\
+q_{75} &=0.5143951545826744,\\
+\max &=0.8213457220900503.
+\end{aligned}
+$$
+These numbers show that the modeled codon-adaptation panel is numerically nontrivial under the stated controls.  They do not, by themselves, certify ribosome occupancy, translation efficiency, protein abundance, folding, physical feasibility, function, or any organism-independent law.  Shared ancestry also remains inside the finite-row interpretation: the $41$ organisms are treated as a descriptive sweep, not as independent samples from a universal biological distribution.
+
+\paragraph{Observed readout still required.}
+The conjectural calibration asks for a paired comparison between two readout families on the same residual coordinates.  The first family is modeled tAI or stAI, already represented by the $S^{QT}$ organism sweep.  The second family must be an observed ribosome-profiling translation-efficiency contact, with per-CDS ribosome occupancy or translation efficiency paired to matched mRNA abundance so that $TE=RPF/mRNA$ can be used as a translation-layer readout.  A positive modeled tAI association is therefore only a candidate calibration signal.  The calibration test is passed only when the corresponding observed ribosome-profiling readout survives the same kind of rank-powered control block, including amino-acid composition, organism, $GC3$, coding length, $M$-density, and matched mRNA controls.
+
+\paragraph{Existing adjacent proteome contact.}
+A separate human tissue run provides a useful warning against promotion of the signal.  It compares $B^{*}_{Q6}$ projections to $\log_{10}(\mathrm{abundance\_ppm})$ in $13$ adult Kim et al. 2014 SEQUEST PAXdb tissue files, with $78$ tissue-pair cosines computed.  The joined row counts were $9244$ for adult B cells, $7604$ for adult CD4 T cells, $10914$ for adult CD8 T cells, $8787$ for adult NK cells, $5179$ for adult monocytes, $8664$ for adult liver, $6726$ for adult kidney, $9695$ for adult pancreas, $9301$ for adult frontal cortex, $10373$ for adult retina, $7948$ for adult colon, $6577$ for adult lung, and $6468$ for adult heart.  The controlled $R^{2}_{QP}$ values were small but finite: $0.03626117434944674$ in B cells, $0.033532527035959644$ in CD4 T cells, $0.03928541767885904$ in CD8 T cells, $0.02709444741593442$ in NK cells, $0.021350299623075428$ in monocytes, $0.026133456228248052$ in liver, $0.018499903301809693$ in kidney, $0.027616177587166925$ in pancreas, $0.025874798845290918$ in frontal cortex, $0.04805730109298326$ in retina, $0.023732563331619574$ in colon, $0.0232738640400933$ in lung, and $0.02320896321347296$ in heart.
+
+\paragraph{Tissue-structure audit.}
+The dominant residual coordinates in the tissue proteome run were also finite-row facts rather than mechanism labels.  $Arg\_AGR$ dominated adult B cells, adult CD8 T cells, adult colon, adult kidney, adult NK cells, adult pancreas, and adult retina.  $Ile\_AUA$ dominated adult CD4 T cells, adult frontal cortex, adult liver, adult lung, and adult monocytes.  $Ser\_UCR\_vs\_AGY$ dominated adult heart.  The functional-class label audit compared $17$ within-class pairs and $61$ between-class pairs using a class-size-preserving permutation test with $1000$ permutations.  The observed within-class mean cosine was $0.9015393659102923$, the observed between-class mean cosine was $0.8936124027169124$, and the observed difference was
+$$
+\begin{aligned}
+0.9015393659102923-0.8936124027169124=0.007926963193379821.
+\end{aligned}
+$$
+Against the label-shuffle null, the one-sided $p$-value for within-class similarity being larger was $0.3006993006993007$, with null differences ranging from $-0.043787962870935226$ to $0.08858262592759103$ and null mean $0.0007739569961830541$.  Thus the proteome-adjacent tissue result is descriptive and weak as a class-structure claim.  It is not ribosome profiling and it is not mRNA-controlled translation efficiency.
+
+\paragraph{Calibration criterion.}
+For each residual coordinate $q_i\in Q$ and each translation readout $r_j$, the calibration table should contain a modeled entry and an observed entry.  A convenient finite-row criterion is the controlled partial-survival comparison
+$$
+\begin{aligned}
+S^{\mathrm{model}}_{ij} &= S(q_i,r^{\mathrm{tAI/stAI}}_j\mid Z),\\
+S^{\mathrm{obs}}_{ij} &= S(q_i,r^{\mathrm{riboTE}}_j\mid Z),\\
+\Delta_{ij} &= S^{\mathrm{obs}}_{ij}-S^{\mathrm{model}}_{ij},
+\end{aligned}
+$$
+where $Z$ contains the stated sequence, organism, composition, $GC3$, length, $M$-density, and mRNA controls.  Agreement means that the modeled codon-adaptation survival and the observed ribosome-profiling survival have compatible signs and magnitudes under the same row restrictions.  Disagreement is not a failure of the residual coordinate as a mathematical object; it is recorded as a translation-readout mismatch.  In particular, an all-saturated or rank-degenerate table is a null boundary, not evidence for survival.
+
+\paragraph{Local boundary.}
+The chapter records a cross-layer calibration conjecture and nothing downstream of it.  A modeled tAI or stAI association may guide the search for a translation-efficiency contact, but it is not itself observed translation.  An observed ribosome-profiling entry may support a translation-readout relation under controls, but it still does not imply folded structure, physical admissibility, molecular function, localization, post-translational modification, phenotype, mechanism, or universality.  Each of those claims would require its own matched contact at the appropriate biological layer.  Until such a contact is present, the only admissible conclusion is a controlled agreement, controlled mismatch, or controlled null result between modeled codon-adaptation readouts and observed ribosome-profiling translation-efficiency readouts.

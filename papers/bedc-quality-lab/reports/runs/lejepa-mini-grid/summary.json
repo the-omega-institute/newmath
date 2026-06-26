@@ -1,0 +1,353 @@
+{
+  "artifact_id": "bedc-quality-lab:lejepa-mini-grid",
+  "best_cell": {
+    "alignment_lambda": 1e-05,
+    "collapse_rate": 0.06051106423961694,
+    "linear_identifiability_r2": 0.9394889357603831,
+    "mixing": "spiral",
+    "quality_q": -0.2993107429936237,
+    "rho": 0.95,
+    "seed": 23
+  },
+  "claim_capsule": {
+    "artifact": "reports/runs/lejepa-mini-grid/claim_capsule.json",
+    "pointer": "$"
+  },
+  "config": {
+    "alignment_lambdas": [
+      1e-05,
+      0.0001,
+      0.001,
+      0.005,
+      0.01
+    ],
+    "directions": 16,
+    "frequencies": [
+      0.5,
+      1.0,
+      1.5,
+      2.0
+    ],
+    "full_lejepa_claim": false,
+    "mixings": [
+      "spiral",
+      "parabolic",
+      "realnvp"
+    ],
+    "rhos": [
+      0.5,
+      0.7,
+      0.9,
+      0.95
+    ],
+    "run_id": "lejepa-mini-grid",
+    "sample_count": 384,
+    "seeds": [
+      11,
+      23,
+      37,
+      53,
+      71
+    ],
+    "use_torch": false
+  },
+  "d2_hardgates": {
+    "D2-HG1": {
+      "evidence": "default grid has exactly 300 predeclared cells",
+      "expected_record_count": 300,
+      "record_count": 300,
+      "status": "pass"
+    },
+    "D2-HG2": {
+      "best_cell_low_lambda_high_rho": true,
+      "evidence": "rho and lambda trends are read from observed metrics, not metadata-only variation",
+      "lambda_collapse_rate_increasing": false,
+      "lambda_quality_q_decreasing": false,
+      "rho_linear_identifiability_r2_increasing": false,
+      "status": "fail"
+    },
+    "D2-HG3": {
+      "evidence": "SIGReg Gaussianity and alignment tradeoff are ledgered separately",
+      "status": "pass",
+      "tradeoff": {
+        "alignment_hurt_with_lambda": false,
+        "high_lambda_alignment_loss_mean": 0.9349576371168494,
+        "high_lambda_sigreg_sliced_cf_mean": 0.030052086109823427,
+        "low_lambda_alignment_loss_mean": 0.9349576371168494,
+        "low_lambda_sigreg_sliced_cf_mean": 0.030052086109823427,
+        "recorded": true,
+        "sigreg_gaussianity_improves_with_lambda": false
+      }
+    }
+  },
+  "failed_gate": "D2-HG2",
+  "forbidden_claim_term_audit": {
+    "forbidden_positive_claim_terms": [
+      "full-lejepa",
+      "global-quality",
+      "full-tensor-namecert",
+      "llm-behavior",
+      "mechanism-closure-unless-D5-M"
+    ],
+    "hits": [],
+    "status": "pass"
+  },
+  "generated_at": "run-local:lejepa-mini-grid",
+  "grid": {
+    "alignment_lambda_count": 5,
+    "expected_record_count": 300,
+    "mixing_count": 3,
+    "record_count": 300,
+    "rho_count": 4,
+    "seed_count": 5
+  },
+  "hardgate": {
+    "failed_gate": "D2-HG2",
+    "status": "fail"
+  },
+  "lambda_summary": {
+    "by_alignment_lambda": {
+      "0.0001": {
+        "alignment_loss_mean": 0.9349576371168494,
+        "collapse_rate_mean": 0.0461794682264662,
+        "quality_q_mean": -0.7935932048093616,
+        "sigreg_sliced_cf_mean": 0.030052086109823427
+      },
+      "0.001": {
+        "alignment_loss_mean": 0.9349576371168494,
+        "collapse_rate_mean": 0.0461794682264662,
+        "quality_q_mean": -0.7935932048093616,
+        "sigreg_sliced_cf_mean": 0.030052086109823427
+      },
+      "0.005": {
+        "alignment_loss_mean": 0.9349576371168494,
+        "collapse_rate_mean": 0.0461794682264662,
+        "quality_q_mean": -0.7935932048093616,
+        "sigreg_sliced_cf_mean": 0.030052086109823427
+      },
+      "0.01": {
+        "alignment_loss_mean": 0.9349576371168494,
+        "collapse_rate_mean": 0.0461794682264662,
+        "quality_q_mean": -0.7935932048093616,
+        "sigreg_sliced_cf_mean": 0.030052086109823427
+      },
+      "1e-05": {
+        "alignment_loss_mean": 0.9349576371168494,
+        "collapse_rate_mean": 0.0461794682264662,
+        "quality_q_mean": -0.7935932048093616,
+        "sigreg_sliced_cf_mean": 0.030052086109823427
+      }
+    },
+    "ordered_alignment_lambdas": [
+      1e-05,
+      0.0001,
+      0.001,
+      0.005,
+      0.01
+    ]
+  },
+  "metric_keys": [
+    "alignment_loss",
+    "sigreg_sliced_cf",
+    "linear_identifiability_r2",
+    "actual_recovery_mse",
+    "theorem3_bound_mse",
+    "collapse_rate",
+    "quality_q"
+  ],
+  "mixing_summary": {
+    "by_mixing": {
+      "parabolic": {
+        "collapse_rate_mean": 0.05441231541833529,
+        "quality_q_mean": -0.8524419151863638
+      },
+      "realnvp": {
+        "collapse_rate_mean": 0.012506489448040448,
+        "quality_q_mean": -0.8453114930857617
+      },
+      "spiral": {
+        "collapse_rate_mean": 0.07161959981302286,
+        "quality_q_mean": -0.6830262061559593
+      }
+    },
+    "mixings": [
+      "spiral",
+      "parabolic",
+      "realnvp"
+    ],
+    "non_gaussian_broad_claim": "downgraded"
+  },
+  "negative_diagnosis": {
+    "artifact": "reports/canonical/lejepa_mini_grid_negative_diagnosis.json",
+    "diagnosis_ref": {
+      "artifact": "reports/runs/lejepa-mini-grid/claim_capsule.json",
+      "pointer": "$.run_local.negative_witness[0]"
+    },
+    "pointer": "$"
+  },
+  "not_claimed": [
+    "full LeJEPA reproduction",
+    "global model quality",
+    "full TensorNameCert",
+    "LLM behavior quality",
+    "mechanism closure unless D5-M gate passes",
+    "broad non-Gaussian mixing generalization"
+  ],
+  "producer": "scripts/run_lejepa_mini_grid.py",
+  "projector": "bedc_quality_lab.lejepa_mini_grid.LeJEPAMiniGridProjection",
+  "result": {
+    "claim_capsule_status": "failed",
+    "discovery_level": "DN",
+    "status": "negative"
+  },
+  "revocation_rows": [
+    {
+      "active": false,
+      "condition": "revoke if the mini-grid records are not reproducible from the run artifact raw rows",
+      "status": "armed"
+    },
+    {
+      "active": true,
+      "condition": "revoke if SIGReg sliced-CF and covariance proxy reporting are collapsed into one metric",
+      "status": "armed"
+    },
+    {
+      "active": true,
+      "condition": "revoke any D2 reading when the lambda or rho trend hardgate fails",
+      "status": "armed"
+    }
+  ],
+  "rho_summary": {
+    "by_rho": {
+      "0.5": {
+        "linear_identifiability_r2_mean": 0.9538205317735339,
+        "quality_q_mean": -0.837293000879366
+      },
+      "0.7": {
+        "linear_identifiability_r2_mean": 0.9538205317735339,
+        "quality_q_mean": -0.8212509019096911
+      },
+      "0.9": {
+        "linear_identifiability_r2_mean": 0.9538205317735339,
+        "quality_q_mean": -0.7689323131394871
+      },
+      "0.95": {
+        "linear_identifiability_r2_mean": 0.9538205317735339,
+        "quality_q_mean": -0.7468966033089023
+      }
+    },
+    "ordered_rhos": [
+      0.5,
+      0.7,
+      0.9,
+      0.95
+    ]
+  },
+  "run_artifacts": {
+    "claim_capsule": "reports/runs/lejepa-mini-grid/claim_capsule.json",
+    "raw_metrics": "reports/runs/lejepa-mini-grid/raw_metrics.jsonl",
+    "report": "reports/runs/lejepa-mini-grid/report.md",
+    "summary": "reports/runs/lejepa-mini-grid/summary.json"
+  },
+  "run_id": "lejepa-mini-grid",
+  "schema_id": "bedc-quality-lab:lejepa-mini-grid",
+  "sigreg_covariance_proxy": {
+    "covariance_proxy_mean": 0.29257699853988095,
+    "separate_reported": true,
+    "sigreg_sliced_cf_mean": 0.03005208610982343
+  },
+  "tradeoff_ledger": {
+    "alignment_hurt_with_lambda": false,
+    "high_lambda_alignment_loss_mean": 0.9349576371168494,
+    "high_lambda_sigreg_sliced_cf_mean": 0.030052086109823427,
+    "low_lambda_alignment_loss_mean": 0.9349576371168494,
+    "low_lambda_sigreg_sliced_cf_mean": 0.030052086109823427,
+    "recorded": true,
+    "sigreg_gaussianity_improves_with_lambda": false
+  },
+  "u_hardgates": {
+    "U-HG1": {
+      "evidence": "SIGReg sliced-CF and covariance proxy have separate fields",
+      "status": "pass"
+    },
+    "U-HG2": {
+      "full_lejepa_claim": false,
+      "required_boundary": "full LeJEPA reproduction remains not_claimed",
+      "status": "pass"
+    },
+    "U-HG3": {
+      "non_gaussian_broad_claim": "downgraded",
+      "status": "pass"
+    },
+    "U-HG4": {
+      "missing": [],
+      "not_claimed": [
+        "full LeJEPA reproduction",
+        "global model quality",
+        "full TensorNameCert",
+        "LLM behavior quality",
+        "mechanism closure unless D5-M gate passes",
+        "broad non-Gaussian mixing generalization"
+      ],
+      "required_not_claimed": [
+        "full LeJEPA reproduction",
+        "global model quality",
+        "full TensorNameCert",
+        "LLM behavior quality",
+        "mechanism closure unless D5-M gate passes",
+        "broad non-Gaussian mixing generalization"
+      ],
+      "status": "pass"
+    },
+    "U-HG5": {
+      "control_required": false,
+      "control_row_count": 1,
+      "status": "pass"
+    },
+    "U-HG6": {
+      "dn_requires_failed_gate": true,
+      "failed_gate": "D2-HG2",
+      "status": "pass",
+      "what_was_learned_present": true
+    },
+    "U-HG7": {
+      "revocation_pointer": "$.revocation_rows",
+      "revocation_row_count": 3,
+      "status": "pass"
+    },
+    "U-HG8": {
+      "forbidden_column_audit": {
+        "forbidden_columns": [
+          "positive_claim",
+          "arm_aggregates",
+          "metrics"
+        ],
+        "hits": [],
+        "status": "pass"
+      },
+      "positive_claim_audit": {
+        "forbidden_positive_claim_terms": [
+          "full-lejepa",
+          "global-quality",
+          "full-tensor-namecert",
+          "llm-behavior"
+        ],
+        "hits": [],
+        "status": "pass"
+      },
+      "projector_positive_claim_audit": {
+        "forbidden_positive_claim_terms": [
+          "full-lejepa",
+          "global-quality",
+          "full-tensor-namecert",
+          "llm-behavior",
+          "mechanism-closure-unless-D5-M"
+        ],
+        "hits": [],
+        "status": "pass"
+      },
+      "status": "pass"
+    }
+  },
+  "what_was_learned": "The mini-grid recorded a failed gate without promoting a positive claim."
+}

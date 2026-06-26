@@ -25,7 +25,7 @@ If this reading holds, BEDC does not need to add programming-language theory. Th
 
 ## Cont is small-step transition
 
-Plotkin's *Structural Operational Semantics* (1981) defines program execution as a relation `⟨c, σ⟩ → ⟨c', σ'⟩` between configurations: pair of code and state. A single transition is one execution step. A program *runs* by chaining transitions until it reaches a final configuration.
+Plotkin's *Structural Operational Semantics* (1981) defines program execution as a relation $\langle c, \sigma\rangle \to \langle c', \sigma'\rangle$ between configurations: pair of code and state. A single transition is one execution step. A program *runs* by chaining transitions until it reaches a final configuration.
 
 BEDC has a relation that does exactly this:
 
@@ -37,7 +37,7 @@ inductive Cont : BHist → BMark → BHist → Prop
 Read `BHist` as *the entire history of execution so far* (state + trace), `BMark` as *the next emission* (the action of taking one step), and `Cont h m h'` as *one transition*. This is Plotkin SOS, with the configuration encoded as a history and the transition as `Cont`.
 
 ::: {.evidence}
-**Termination** is `¬∃ m h', Cont h m h'` — a history that admits no continuation. This is the BEDC reading of *normal form*.
+**Termination** is $\neg\exists m h', Cont h m h'$ — a history that admits no continuation. This is the BEDC reading of *normal form*.
 
 **Big-step semantics** is the transitive closure `Cont*` — the relation "starting from `h`, after some sequence of emissions, reach `h'`". Already in the kernel as the chain operator.
 
@@ -70,10 +70,10 @@ What about Curry-Howard?
 ::: {.evidence}
 Classical Curry-Howard says:
 
-> propositions ↔ types
-> proofs ↔ programs
+> propositions $\leftrightarrow$ types
+> proofs $\leftrightarrow$ programs
 
-In BEDC, every classifier closure law is **exactly** a proof of its closure. The closure law `∀ x y, P(x) ∧ P(y) → P(combine(x, y))` is, simultaneously:
+In BEDC, every classifier closure law is **exactly** a proof of its closure. The closure law $\forall x y, P(x) \land P(y) \to P(combine(x, y))$ is, simultaneously:
 
 - the **typing rule** for the constructor `combine`
 - the **inference rule** for the proposition "`combine(x,y)` is in `P`"
@@ -94,9 +94,9 @@ In type theories built on top of an existing logical layer, yes — you have to 
 
 A compiler from source language `S` to target language `T` is, classically, a function:
 
-```
-compile : Program(S) → Program(T)
-```
+$$
+compile : Program(S) \to Program(T)
+$$
 
 with the correctness criterion: for every `s : Program(S)`, the behavioural equivalence class of `s` under `S`-semantics matches the behavioural equivalence class of `compile(s)` under `T`-semantics.
 
@@ -113,9 +113,9 @@ compile : NameCert_S → NameCert_T
 This is precisely **CompCert-style compiler correctness**: the compiler preserves observational equivalence. Leroy's CompCert proof of compiler correctness for a C-to-x86 compiler, scaled down to the BEDC framework, becomes a routine application of "morphism preserves classifier".
 
 ::: {.evidence}
-**Compositional compilation**: a multi-pass compiler is a composition of NameCert morphisms. The composition lemma — `(g ∘ f) preserves hsame iff f and g each do` — is a one-line proof in BEDC, not a separate engineering achievement.
+**Compositional compilation**: a multi-pass compiler is a composition of NameCert morphisms. The composition lemma — $(g \circ f) preserves hsame iff f and g each do$ — is a one-line proof in BEDC, not a separate engineering achievement.
 
-**Optimisation correctness**: an optimisation pass is a `NameCert_S → NameCert_S` morphism (source to source). It is correct iff it preserves `hsame_S`. Same framework, same proof obligation.
+**Optimisation correctness**: an optimisation pass is a $NameCert_S \to NameCert_S$ morphism (source to source). It is correct iff it preserves `hsame_S`. Same framework, same proof obligation.
 
 **Decompilation**: when the morphism admits a structural inverse. BEDC gives the existence criterion (the morphism is a bijection on equivalence classes) without further work.
 :::

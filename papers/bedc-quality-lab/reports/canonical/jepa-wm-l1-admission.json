@@ -1,0 +1,414 @@
+{
+  "anti_triviality_controls": {
+    "controls": {
+      "metadata_only": {
+        "base": {
+          "ci95_high": 0.17539062499999997,
+          "ci95_low": 0.091015625,
+          "mean": 0.1328125,
+          "n": 128
+        },
+        "chance_components": {
+          "majority": 0.140625,
+          "random": 0.15625
+        },
+        "chance_selected_baseline": "random",
+        "ci_margin_delta": -0.11386718749999998,
+        "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
+        "empirical_chance": {
+          "ci95_high": 0.20488281249999998,
+          "ci95_low": 0.1015625,
+          "mean": 0.15625,
+          "n": 128
+        },
+        "margin": 0.03,
+        "status": "fail"
+      },
+      "no_context": {
+        "base": {
+          "ci95_high": 0.2265625,
+          "ci95_low": 0.113671875,
+          "mean": 0.1796875,
+          "n": 128
+        },
+        "chance_components": {
+          "majority": 0.140625,
+          "random": 0.15625
+        },
+        "chance_selected_baseline": "random",
+        "ci_margin_delta": -0.08339843749999998,
+        "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
+        "empirical_chance": {
+          "ci95_high": 0.19707031249999998,
+          "ci95_low": 0.113671875,
+          "mean": 0.15625,
+          "n": 128
+        },
+        "margin": 0.03,
+        "status": "fail"
+      },
+      "shuffled_demo": {
+        "base": {
+          "ci95_high": 0.2787109375,
+          "ci95_low": 0.1353515625,
+          "mean": 0.2109375,
+          "n": 128
+        },
+        "chance_components": {
+          "majority": 0.140625,
+          "random": 0.15625
+        },
+        "chance_selected_baseline": "random",
+        "ci_margin_delta": -0.0939453124999999,
+        "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
+        "empirical_chance": {
+          "ci95_high": 0.2292968749999999,
+          "ci95_low": 0.098046875,
+          "mean": 0.15625,
+          "n": 128
+        },
+        "margin": 0.03,
+        "status": "fail"
+      }
+    },
+    "failed_controls": [],
+    "failure_rule": "any control above empirical chance band fails the hardgate",
+    "status": "pass"
+  },
+  "artifact_id": "bedc-quality-lab:jepa-wm-l1-admission",
+  "base_chance_gate": {
+    "base": {
+      "ci95_high": 0.2578125,
+      "ci95_low": 0.1552734375,
+      "mean": 0.203125,
+      "n": 128
+    },
+    "chance_components": {
+      "majority": 0.140625,
+      "random": 0.125
+    },
+    "chance_selected_baseline": "majority",
+    "ci_margin_delta": -0.04960937499999998,
+    "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
+    "empirical_chance": {
+      "ci95_high": 0.20488281249999998,
+      "ci95_low": 0.0919921875,
+      "mean": 0.140625,
+      "n": 128
+    },
+    "margin": 0.03,
+    "status": "fail"
+  },
+  "calibration": {
+    "base": {
+      "ci95_high": 0.2734375,
+      "ci95_low": 0.1328125,
+      "mean": 0.203125,
+      "n": 128,
+      "role": "public pretrained encoder latent rank"
+    },
+    "flags": {
+      "gate_policy": "calibration does not relax the preregistered margin",
+      "margin_review": false,
+      "oracle_clears_gate": true
+    },
+    "larger-base": {
+      "reason": "no larger checkpoint loaded inside micro-admission budget",
+      "status": "not-run"
+    },
+    "null": {
+      "ci95_high": 0.234375,
+      "ci95_low": 0.109375,
+      "mean": 0.171875,
+      "n": 128,
+      "role": "random"
+    },
+    "oracle-or-teacher": {
+      "ci95_high": 1.0,
+      "ci95_low": 1.0,
+      "mean": 1.0,
+      "n": 128,
+      "role": "true target label upper bound"
+    }
+  },
+  "canonical_role": "independent_micro_admission",
+  "claim_boundary": {
+    "failed_gate": "BASE-CHANCE",
+    "status": "bounded_negative"
+  },
+  "config": {
+    "bootstrap_resamples": 32,
+    "case_count": 128,
+    "choice_count": 8,
+    "negative_count": 7,
+    "seed": 20260617,
+    "seeds": [
+      20260617
+    ]
+  },
+  "data_surface": {
+    "candidate_count": 8,
+    "case_count": 128,
+    "negative_count": 7,
+    "status": "pass",
+    "surface": "rendered transition videos with temporal/action/goal shuffled hard negatives"
+  },
+  "dependency_status": {
+    "PIL": "installed",
+    "huggingface_hub": "installed",
+    "numpy": "installed",
+    "torch": "installed",
+    "torchvision": "installed",
+    "transformers": "installed"
+  },
+  "execution_status": "bounded_negative",
+  "failed_gate": "BASE-CHANCE",
+  "generated_at": "fixture",
+  "hardgate": {
+    "failed_gate": "BASE-CHANCE",
+    "gate_order": [
+      "WEIGHT",
+      "DATA",
+      "BASE-CHANCE",
+      "CONTROL",
+      "CALIBRATION",
+      "REPRO"
+    ],
+    "gates": {
+      "BASE-CHANCE": {
+        "criterion": "base CI95-low exceeds empirical chance CI95-high plus margin",
+        "evidence_pointer": "$.base_chance_gate",
+        "reason": "",
+        "status": "fail"
+      },
+      "CALIBRATION": {
+        "criterion": "null, oracle-or-teacher, base, and larger-base calibration points are recorded",
+        "evidence_pointer": "$.calibration",
+        "reason": "",
+        "status": "pass"
+      },
+      "CONTROL": {
+        "criterion": "metadata_only, no_context, and shuffled_demo controls do not clear chance band",
+        "evidence_pointer": "$.anti_triviality_controls",
+        "reason": "",
+        "status": "pass"
+      },
+      "DATA": {
+        "criterion": "100-500 cases with k=7 hard negatives are generated",
+        "evidence_pointer": "$.data_surface",
+        "reason": "",
+        "status": "pass"
+      },
+      "REPRO": {
+        "criterion": "seed, dependency ABI, and payload fingerprint are recorded",
+        "evidence_pointer": "$.reproducibility_contract",
+        "reason": "",
+        "status": "pass"
+      },
+      "WEIGHT": {
+        "criterion": "public pretrained world-model encoder loads and produces latents",
+        "evidence_pointer": "$.weight_acquisition",
+        "reason": "",
+        "status": "pass"
+      }
+    },
+    "status": "fail"
+  },
+  "not_claimed": [
+    "No DRT or DGT cascade is triggered by this micro-admission.",
+    "No downstream capability claim is produced.",
+    "No public benchmark superiority claim is produced.",
+    "No synthetic or random latent is accepted as a base encoder."
+  ],
+  "positive_claim": {
+    "level": "DN",
+    "positive_discovery": false,
+    "status": "bounded-negative"
+  },
+  "preregistration": {
+    "anti_triviality_controls": {
+      "controls": [
+        "metadata_only",
+        "no_context",
+        "shuffled_demo"
+      ],
+      "failure_rule": "any control above empirical chance band fails the hardgate"
+    },
+    "calibration": {
+      "arms": [
+        "null",
+        "oracle-or-teacher",
+        "base",
+        "larger-base"
+      ],
+      "gate_policy": "calibration flags do not relax the base-chance gate"
+    },
+    "chance_eval": {
+      "ci_method": "bootstrap-ci95",
+      "criterion": "base_ci95_low > empirical_chance_ci95_high + margin",
+      "definition": "pre-registered aggregate maximum over majority and random baselines",
+      "margin": 0.03
+    },
+    "issue": "#1537",
+    "negative_protocol": {
+      "action_shuffle": "candidate applies a mismatched action delta",
+      "goal_shuffle": "candidate moves toward a mismatched goal",
+      "per_case_hard_negatives": 7,
+      "temporal_shuffle": "candidate uses an unrelated time step from the same trajectory family"
+    },
+    "preregistration_digest": "0909e8ca5d2e19aa4ae55193f9084caf09a43abee3aee7784f1fd0e95f64d7a0",
+    "schema_id": "bedc-quality-lab:jepa-wm-l1-preregistration",
+    "seed_protocol": {
+      "bootstrap_resamples": 32,
+      "seed": 20260617
+    },
+    "task": {
+      "case_count": 128,
+      "chance_floor": 0.125,
+      "choice_count": 8,
+      "description": "rank true next latent against hard temporal/action/goal shuffled negatives",
+      "negative_count": 7,
+      "query_contract": "query video renders start, action cue, and goal only; true next state appears only in the candidate set",
+      "task_id": "jepa-wm-l1"
+    },
+    "weight_protocol": {
+      "blocked_rule": "if no public pretrained encoder loads, emit weight-acquisition-blocked",
+      "checkpoints": [
+        "facebook/vjepa2-vitl-fpc64-256",
+        "facebook/vjepa2-vitg-fpc64-256",
+        "facebook/vjepa2-vitg-fpc64-384"
+      ],
+      "load_policy": "standard HuggingFace from_pretrained path first; no synthetic latent fallback",
+      "priority": "public pretrained JEPA/world-model encoder"
+    }
+  },
+  "producer": "bedc_quality_lab.tasks.jepa_wm_l1",
+  "rank_eval": {
+    "mean_rank": 3.734375,
+    "sample_count": 128,
+    "top1_accuracy": 0.203125
+  },
+  "raw_digest": "e5e270776599fe323b00e35dfa1471bc107d9d5f25acade9aaa6f9d51c131c5c",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "predeclared k=7 rank task and bootstrap CI rule",
+      "calibration_source": "$.preregistration",
+      "owner": "jepa-wm-l1-admission"
+    },
+    "device_policy": {
+      "backend_details": {
+        "PIL": "11.2.1",
+        "huggingface_hub": "1.10.1",
+        "numpy": "2.2.5",
+        "python": "3.13.2",
+        "torch": "2.12.0",
+        "torchvision": "0.27.0",
+        "transformers": "5.12.1"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "micro-admission uses cpu to avoid accelerator-dependent latent drift",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "PIL": "11.2.1",
+        "huggingface_hub": "1.10.1",
+        "numpy": "2.2.5",
+        "python": "3.13.2",
+        "torch": "2.12.0",
+        "torchvision": "0.27.0",
+        "transformers": "5.12.1"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "$.preregistration",
+        "comparison": "status_equal",
+        "owner": "jepa-wm-l1-admission",
+        "pointer": "$.execution_status",
+        "reference_value": "bounded_negative",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "$.config.seeds"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "true_training",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      20260617
+    ]
+  },
+  "run_id": "jepa-wm-l1-admission",
+  "schema_id": "bedc-quality-lab:jepa-wm-l1-admission",
+  "source_artifacts": {
+    "preregistration_digest": "0909e8ca5d2e19aa4ae55193f9084caf09a43abee3aee7784f1fd0e95f64d7a0"
+  },
+  "source_issue": "#1537",
+  "verdict": "bounded_negative",
+  "weight_acquisition": {
+    "attempts": [
+      {
+        "checkpoint": "facebook/vjepa2-vitl-fpc64-256",
+        "details": {
+          "frames_per_clip": 64,
+          "image_size": 256,
+          "model_type": "vjepa2"
+        },
+        "reason": "HuggingFace config loaded",
+        "stage": "config",
+        "status": "contacted"
+      },
+      {
+        "checkpoint": "facebook/vjepa2-vitl-fpc64-256",
+        "details": {
+          "size_bytes": 1303947864
+        },
+        "reason": "model.safetensors metadata loaded",
+        "stage": "weight_metadata",
+        "status": "contacted"
+      },
+      {
+        "checkpoint": "facebook/vjepa2-vitl-fpc64-256",
+        "details": {
+          "dependency_versions": {
+            "PIL": "11.2.1",
+            "huggingface_hub": "1.10.1",
+            "numpy": "2.2.5",
+            "python": "3.13.2",
+            "torch": "2.12.0",
+            "torchvision": "0.27.0",
+            "transformers": "5.12.1"
+          },
+          "device": "cpu",
+          "model_class": "VJEPA2Model",
+          "processor_class": "VJEPA2VideoProcessor"
+        },
+        "reason": "public pretrained model loaded and ready for latent extraction",
+        "stage": "from_pretrained",
+        "status": "loaded"
+      }
+    ],
+    "encoder_metadata": {
+      "checkpoint": "facebook/vjepa2-vitl-fpc64-256",
+      "dependency_versions": {
+        "PIL": "11.2.1",
+        "huggingface_hub": "1.10.1",
+        "numpy": "2.2.5",
+        "python": "3.13.2",
+        "torch": "2.12.0",
+        "torchvision": "0.27.0",
+        "transformers": "5.12.1"
+      },
+      "device": "cpu",
+      "model_class": "VJEPA2Model",
+      "processor_class": "VJEPA2VideoProcessor"
+    },
+    "selected_checkpoint": "facebook/vjepa2-vitl-fpc64-256",
+    "status": "loaded"
+  },
+  "what_was_learned": "public pretrained world-model latent did not clear the preregistered base-chance and control gates"
+}

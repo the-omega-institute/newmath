@@ -4,6 +4,10 @@
 *.md linguist-documentation
 lean4/BEDC.lean merge=bedc-lean-regen
 
+# BEDC quality-lab canonical reports are generated cache artifacts.
+# Merge keeps a temporary side; producer regeneration and fingerprints decide truth.
+papers/bedc-quality-lab/reports/canonical/** merge=bedc-quality-canonical-generated
+
 # Append-only 清单文件: 并发 round 各自往尾部追加唯一 \input / 幂等 \providecommand,
 # 用 git 内置 union 驱动让两侧新增行都保留, 消除单写者分支上的 merge 惊群.
 # 仅限已验证为纯清单的文件 (non-list=0); 结构文件 main.tex / preamble.tex /

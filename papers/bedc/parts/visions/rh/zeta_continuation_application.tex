@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-zeta-continuation}
 \origin{human}
 
-This chapter is an APPLICATION of \(\AnalyticContUp\) (\autoref{ch:concrete-instances-analytic-continuation}) to the basic \(\zeta\) function \(\ZetaBasicUp\) (\autoref{ch:concrete-instances-zeta-basic-namecert}). It produces \(\ZetaContUp\): the unique meromorphic extension of \(\zeta\) from \(\Re(s) > 1\) to \(\ComplexUp \setminus \{1\}\) with a simple pole of explicit residue \(1\) at \(s = 1\). The chapter proceeds in two stages: (i) extend \(\zeta\) to \(\Re(s) > 0\) (excluding \(s = 1\)) via the Dirichlet eta function, then (ii) extend \(\zeta\) to \(\ComplexUp \setminus \{1\}\) via the functional equation. Both stages are concrete applications of analytic continuation. The chapter uses the constructive Gamma function \(\Gamma\) on \(\ComplexUp \setminus \{0, -1, -2, \ldots\}\) as a black-box meromorphic factor --- the constructive Gamma is itself a SCHEMA-ONLY HORIZON awaiting a future BEDC chapter; the present chapter exposes the interface but does not close all underlying witnesses. The construction uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the application's Lean targets fall under the project's axiom-purity gate.
+This chapter is an APPLICATION of \(\AnalyticContUp\) (\autoref{ch:concrete-instances-analytic-continuation}) to the basic \(\zeta\) function \(\ZetaBasicUp\) (\autoref{ch:concrete-instances-zeta-basic-namecert}). It produces \(\ZetaContUp\): the unique meromorphic extension of \(\zeta\) from \(\Re(s) > 1\) to \(\ComplexUp \setminus \{1\}\) with a simple pole of explicit residue \(1\) at \(s = 1\). The chapter proceeds in two stages: (i) use the Dirichlet eta quotient on the open locus where \(1-2^{1-s}\neq 0\), fill the non-pole eta-quotient zeroes by removable continuation, and keep \(s=1\) as the pole; then (ii) extend \(\zeta\) to \(\ComplexUp \setminus \{1\}\) through the meromorphic completed-function identity. Both stages are concrete applications of analytic continuation. The chapter uses the constructive Gamma function \(\Gamma\) on \(\ComplexUp \setminus \{0, -1, -2, \ldots\}\) as a black-box meromorphic factor --- the constructive Gamma is itself a SCHEMA-ONLY HORIZON awaiting a future BEDC chapter; the present chapter exposes the interface but does not close all underlying witnesses. The construction uses no \(\mathsf{Classical.choice}\), no \(\mathsf{Quot.sound}\), and no \(\mathsf{propext}\), so the application's Lean targets fall under the project's axiom-purity gate.
 
 \section{The Dirichlet eta function}
 
@@ -21,9 +21,12 @@ The alternating-sign structure gives Cauchy-criterion convergence on the half-pl
 
 \begin{theorem}[Eta-zeta relation]
 \label{thm:eta-relation-zeta}
-For every \(s\) with \(\Re(s) > 1\) and \(s \neq 1\), the relation
+For every \(s\) with \(\Re(s) > 1\), the relation
 $$\zeta(s) = \frac{\eta(s)}{1 - 2^{1-s}}$$
-holds, where the right-hand side is computed using complex division (\(\ComplexUp\), \autoref{ch:concrete-instances-complex-namecert}). The denominator is non-zero except at points \(s = 1 + 2k\pi i / \log 2\) (a discrete sequence of points distinct from the half-plane closure).
+holds, where the right-hand side is computed using complex division (\(\ComplexUp\), \autoref{ch:concrete-instances-complex-namecert}). The denominator is non-zero on \(\Re(s)>1\). On the larger half-plane \(\Re(s)>0\), its zero locus is the discrete line
+$$
+s=1+\frac{2\pi i k}{\log 2},\qquad k\in\mathbb Z.
+$$
 \end{theorem}
 \begin{proof}[Sketch]
 The relation \(\eta(s) = (1 - 2^{1-s}) \zeta(s)\) follows from the rearrangement \(\zeta(s) - 2 \cdot 2^{-s} \zeta(s) = \eta(s)\), valid by absolute convergence. Solve for \(\zeta\).
@@ -33,10 +36,18 @@ The relation \(\eta(s) = (1 - 2^{1-s}) \zeta(s)\) follows from the rearrangement
 
 \begin{theorem}[\(\zeta\) on \(\Re(s) > 0\)]
 \label{thm:zeta-on-positive-half-plane}
-The function \(\zeta\) extends holomorphically from \(\Re(s) > 1\) to the half-plane \(\Re(s) > 0\), excluding the singularity at \(s = 1\), via the explicit formula \(\zeta(s) = \eta(s) / (1 - 2^{1-s})\). The extension is unique by the constructive identity theorem (\autoref{ch:concrete-instances-holomorphic-namecert}); the underlying analytic-continuation witness is supplied by \(\AnalyticContUp\) applied to overlapping disk neighbourhoods inside both half-planes.
+On the open set
+$$
+U_{\eta}=\{s:\Re(s)>0\ \text{and}\ 1-2^{1-s}\neq0\},
+$$
+the eta quotient \(\eta(s)/(1-2^{1-s})\) gives the holomorphic continuation of \(\zeta\) from \(\Re(s)>1\). At each point
+$$
+s=1+\frac{2\pi i k}{\log 2},\qquad k\in\mathbb Z,\ k\neq0,
+$$
+the quotient has a removable \(0/0\) singularity and the value is defined by the unique holomorphic continuation across a small punctured neighbourhood. The point \(s=1\) is not filled by this row; it is the pole recorded in \autoref{thm:pole-at-one-residue}. The extension is unique by the constructive identity theorem (\autoref{ch:concrete-instances-holomorphic-namecert}); the underlying analytic-continuation witness is supplied by \(\AnalyticContUp\) applied to overlapping disk neighbourhoods inside both half-planes.
 \end{theorem}
 \begin{proof}[Sketch]
-Apply \(\mathsf{AnaCont}\) (\autoref{ch:concrete-instances-analytic-continuation}) to the holomorphic restrictions of (i) \(\zeta\) on \(\Re(s) > 1\) and (ii) \(\eta(s)/(1 - 2^{1-s})\) on \(\Re(s) > 0\). The eta-relation provides the overlap-region agreement.
+Apply \(\mathsf{AnaCont}\) (\autoref{ch:concrete-instances-analytic-continuation}) to the holomorphic restrictions of (i) \(\zeta\) on \(\Re(s) > 1\) and (ii) \(\eta(s)/(1 - 2^{1-s})\) on \(U_{\eta}\). The eta-relation provides the overlap-region agreement. At the non-pole denominator zeroes, the two sides agree on punctured neighbourhoods and the singularity is removable by the continuation row; at \(s=1\) the pole ledger is used instead.
 \end{proof}
 
 \section{The pole at \(s = 1\)}
@@ -53,15 +64,26 @@ The harmonic divergence \(\sum_{n=1}^N 1/n \sim \log N\) gives \((s - 1) \zeta(s
 
 \begin{theorem}[Riemann functional equation]
 \label{thm:functional-equation}
-For every \(s\) with \(\Re(s) > 0\) and \(s \neq 1\), the explicit relation
-$$\zeta(s) = 2^s \pi^{s-1} \sin(\pi s / 2) \, \Gamma(1 - s) \, \zeta(1 - s)$$
-holds, where:
+The functional equation is recorded first as a meromorphic identity for the completed zeta carrier. Writing
+$$
+\Lambda(s)=\pi^{-s/2}\Gamma(s/2)\zeta(s),
+$$
+the identity is
+$$
+\Lambda(s)=\Lambda(1-s)
+$$
+as meromorphic functions after the pole ledger is attached. Equivalently, the classical factorized expression
+$$
+\zeta(s)=2^s\pi^{s-1}\sin(\pi s/2)\Gamma(1-s)\zeta(1-s)
+$$
+is read as an identity in the meromorphic function field before any pointwise value is claimed. The displayed factors are:
 \begin{enumerate}
   \item \(2^s = \exp(s \log 2)\) on the constructive complex \(\exp\) and constructive real \(\log 2\) (\(\RealUp\), \autoref{ch:concrete-instances-real-namecert});
   \item \(\pi^{s-1}\) defined similarly with constructive real \(\log \pi\);
   \item \(\sin(\pi s / 2)\) defined via the constructive complex sine power series (radius of convergence infinity);
   \item \(\Gamma(1 - s)\) is the constructive complex Gamma function on \(\ComplexUp \setminus \{0, -1, -2, \ldots\}\) --- exposed here as a SCHEMA-ONLY interface awaiting a future BEDC \(\mathsf{Gamma}^{\uparrow}\) chapter.
 \end{enumerate}
+At positive integers where \(\Gamma(1-s)\) has a pole and \(\sin(\pi s/2)\) may cancel it, the pointwise value is admitted only after a separate removable-cancellation row has been checked. Thus this theorem is not a pointwise assertion at every displayed complex history.
 \end{theorem}
 \begin{proof}[Sketch]
 The functional equation is established by the classical contour-integral identity reorganization, made constructive on the BEDC contour-integral framework (\autoref{ch:concrete-instances-contour-integral}). The Gamma factor's constructive Lean target is held open as a schema-only horizon; the rest of the derivation (the trigonometric/exponential factors and the contour reorganization) is fully constructive on the data of this chapter.

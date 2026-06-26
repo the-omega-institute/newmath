@@ -1,0 +1,311 @@
+{
+  "artifact": "reports/runs/certificate-guided-constraint-training/claim_capsule.json",
+  "c2_frontier": {
+    "axis_spec": {
+      "axes": {
+        "alpha": "UER upper bound",
+        "beta": "Quality benefit lower bound",
+        "gamma": "Quality debt upper bound",
+        "quality_q": "QualityQ delta against same-seed baseline"
+      },
+      "producer": "scripts/run_certificate_guided_constraint_training.py",
+      "projection_owner": "certificate-guided-constraint-training",
+      "run_id": "certificate-guided-constraint-training",
+      "schema_id": "bedc.quality.claim_capsule",
+      "source_artifact": "reports/canonical/certificate-guided-training.json",
+      "source_pointers": {
+        "c1_hardgate": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.hardgate"
+        },
+        "claim_gate": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.claim_gate"
+        },
+        "grid_summary": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.grid_summary"
+        },
+        "raw_grid_record_count": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.raw_grid_record_count"
+        }
+      }
+    },
+    "follow_up_training_replay": {
+      "evidence": {
+        "grid_summary_record_count_pointer": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.grid_summary.record_count"
+        },
+        "payload_raw_grid_record_count_pointer": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.raw_grid_record_count"
+        },
+        "payload_raw_metrics_record_count_pointer": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.raw_metrics_record_count"
+        },
+        "raw_grid_record_count": 27216,
+        "raw_metrics_record_count": 56
+      },
+      "mode": "same-owner-replay",
+      "not_claimed": "follow-up replay is a source-evidence pointer set, not a terminal verdict",
+      "producer": "scripts/run_certificate_guided_constraint_training.py",
+      "run_artifacts": {
+        "grid_metrics_artifact": "reports/runs/certificate-guided-constraint-training/grid_metrics.jsonl",
+        "grid_summary_artifact": "reports/runs/certificate-guided-constraint-training/grid_summary.jsonl",
+        "raw_metrics_artifact": "reports/runs/certificate-guided-constraint-training/raw_metrics.jsonl"
+      },
+      "source_artifact": "reports/canonical/certificate-guided-training.json"
+    },
+    "hardgates": {
+      "failed_gates": [],
+      "gates": {
+        "C2-HG1": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "evidence_pointer": "$.c2_frontier.frontier_summary.feasible_non_positive_count",
+          "feasible_non_positive_count": 2592,
+          "first_witness_pointer": "$.c2_frontier.feasible_non_positive_witness",
+          "status": "pass"
+        },
+        "C2-HG2": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "evidence_pointer": "$.c2_frontier.axis_spec.source_pointers",
+          "resolved_source_pointer_count": 4,
+          "resolved_source_pointers": {
+            "c1_hardgate": true,
+            "claim_gate": true,
+            "grid_summary": true,
+            "raw_grid_record_count": true
+          },
+          "source_pointer_count": 4,
+          "status": "pass"
+        },
+        "C2-HG3": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "evidence_pointer": "$.c2_frontier.follow_up_training_replay.evidence",
+          "replay_counts_match": true,
+          "resolved_replay_pointers": {
+            "grid_summary_record_count": true,
+            "raw_grid_record_count": true,
+            "raw_metrics_record_count": true
+          },
+          "status": "pass"
+        }
+      },
+      "status": "passed"
+    },
+    "issue_alias": {
+      "aliases": [
+        "certificate_constraint_frontier_v2",
+        "certificate_constraint_frontier.schema.v1"
+      ],
+      "canonical_owner": "certificate-guided-constraint-training",
+      "kind": "issue-alias-provenance",
+      "production_use": false,
+      "source_ref": "gh-issue-698"
+    }
+  },
+  "claim_gate": {
+    "audit_improvement_tradeoff": true,
+    "benefit_nondecreasing": false,
+    "blockers": [
+      "audit-improvement-tradeoff",
+      "benefit-decreased"
+    ],
+    "classifier_shift": true,
+    "constraint_lagrangian_beats_debt_only": true,
+    "matched_random_debt_also_improved": false,
+    "paired_ci_status": "ok",
+    "positive_discovery_predicate": false,
+    "positive_quality_improvement": false,
+    "quality_q_ci95_low": 0.0573837425947579,
+    "required_ci95_low_gt_zero": true
+  },
+  "failed_gate": "audit-improvement-tradeoff",
+  "generated_at": "2026-06-06T07:35:58.631082+00:00",
+  "hardgate": {
+    "basis": {
+      "baseline_arm": "baseline",
+      "control_arm": "matched_random_debt",
+      "control_delta": {
+        "benefit_delta": -0.015799999999999998,
+        "cost_delta": 0.009000000000000001,
+        "debt_delta": -0.025000000000000022,
+        "false_ledger_rate_delta": -0.05499999999999999,
+        "quality_q_delta": -0.005000000000000011,
+        "uer_delta": -0.10999999999999999
+      },
+      "debt_only_arm": "debt_only",
+      "debt_only_delta": {
+        "benefit_delta": -0.06080000000000001,
+        "cost_delta": 0.0040000000000000036,
+        "debt_delta": -0.050000000000000044,
+        "false_ledger_rate_delta": -0.49782608695652175,
+        "quality_q_delta": -0.03499999999999999,
+        "uer_delta": -0.49782608695652175
+      },
+      "main_arm": "constraint_lagrangian",
+      "main_delta": {
+        "benefit_delta": -0.009799999999999993,
+        "cost_delta": 0.005999999999999998,
+        "debt_delta": -0.07799999999999996,
+        "false_ledger_rate_delta": -0.49782608695652175,
+        "quality_q_delta": 0.05900000000000001,
+        "uer_delta": -0.49782608695652175
+      },
+      "paired_ci": {
+        "ci95_half_width": 0.001616257405242115,
+        "ci95_high": 0.060616257405242124,
+        "ci95_low": 0.0573837425947579,
+        "mean": 0.05900000000000001,
+        "n": 8,
+        "reason": "ok",
+        "status": "ok",
+        "std": 0.002332380757938109
+      }
+    },
+    "blockers": [
+      "audit-improvement-tradeoff",
+      "benefit-decreased"
+    ],
+    "failed_gate": "audit-improvement-tradeoff",
+    "failed_gates": [
+      {
+        "failed_gate": "audit-improvement-tradeoff",
+        "gate": "C1-HG1"
+      },
+      {
+        "failed_gate": "quality-q-benefit-nondecreasing",
+        "gate": "C1-HG2"
+      },
+      {
+        "failed_gate": "classifier-positive-discovery-predicate",
+        "gate": "C1-HG3"
+      }
+    ],
+    "gates": {
+      "C1-HG1": {
+        "benefit_delta": -0.009799999999999993,
+        "debt_delta": -0.07799999999999996,
+        "failed_gate": "audit-improvement-tradeoff",
+        "status": "fail"
+      },
+      "C1-HG2": {
+        "benefit_nondecreasing": false,
+        "failed_gate": "quality-q-benefit-nondecreasing",
+        "quality_q_ci95_low": 0.0573837425947579,
+        "status": "fail"
+      },
+      "C1-HG3": {
+        "classifier_shift": true,
+        "failed_gate": "classifier-positive-discovery-predicate",
+        "positive_discovery_predicate": false,
+        "status": "fail"
+      },
+      "C1-HG4": {
+        "demote": false,
+        "failed_gate": null,
+        "matched_random_debt_quality_q_delta": -0.005000000000000011,
+        "status": "pass"
+      },
+      "C1-HG5": {
+        "constraint_lagrangian_debt_delta": -0.07799999999999996,
+        "constraint_lagrangian_quality_q_delta": 0.05900000000000001,
+        "debt_only_debt_delta": -0.050000000000000044,
+        "debt_only_quality_q_delta": -0.03499999999999999,
+        "failed_gate": null,
+        "status": "pass"
+      }
+    },
+    "positive": false,
+    "status": "failed"
+  },
+  "not_claimed": [
+    "lab-local constraint-training evidence only",
+    "global model quality is not claimed",
+    "full LeJEPA is not claimed",
+    "full TensorNameCert is not claimed",
+    "LLM behavior is not claimed",
+    "mechanism closure is not claimed",
+    "claim is falsifiable and revocable",
+    "positive wording is not claimed for audit-improvement-tradeoff DN evidence"
+  ],
+  "prior_observation": {
+    "grid_summary_pointer": "reports/canonical/certificate-guided-training.json:$.grid_summary",
+    "hardgate_pointer": "reports/canonical/certificate-guided-training.json:$.hardgate",
+    "observation": "certificate-guided constraint training records audit-improvement-tradeoff evidence under debt-down benefit-down cells",
+    "source_evidence_pointer": "reports/canonical/certificate-guided-training.json:$.claim_capsule.source_evidence"
+  },
+  "producer": "scripts/run_certificate_guided_constraint_training.py",
+  "report_artifact": "reports/canonical/certificate-guided-training.json",
+  "revocable": true,
+  "run_id": "certificate-guided-constraint-training",
+  "run_local": {
+    "negative_witness": [
+      {
+        "bedc_gap_field": "Positive information gap",
+        "demotion_rule": "audit-improvement-tradeoff",
+        "evidence_pointer": "reports/canonical/certificate-guided-training.json:$.hardgate.gates.C1-HG1",
+        "reason": "C1-HG1 records audit-improvement-tradeoff as the first failed certificate-guided constraint training hardgate",
+        "regression_test": "tests/test_certificate_guided_constraint_training.py::test_c1_run_local_negative_witness_records_audit_improvement_tradeoff",
+        "source_artifact": "reports/canonical/certificate-guided-training.json",
+        "source_pointer": "$.hardgate.gates.C1-HG1.failed_gate",
+        "status": "fail",
+        "witness_id": "certificate-guided-constraint-training:audit-improvement-tradeoff"
+      }
+    ],
+    "negative_witness_hardgates": {
+      "failed_gates": [],
+      "gates": {
+        "NW-HG1": {
+          "evidence_pointer": "$.run_local.negative_witness.0",
+          "list_shape_ok": true,
+          "row_shape_ok": true,
+          "status": "pass"
+        },
+        "NW-HG2": {
+          "evidence_pointer": "$.hardgate.gates.C1-HG1.failed_gate",
+          "source_pointer_resolved": true,
+          "source_pointer_value": "audit-improvement-tradeoff",
+          "status": "pass"
+        },
+        "NW-HG3": {
+          "evidence_pointer": "reports/canonical/certificate-guided-training.json:$.hardgate.gates.C1-HG1",
+          "evidence_pointer_resolved": true,
+          "status": "pass"
+        },
+        "NW-HG4": {
+          "evidence_pointer": "$.run_local.negative_witness.0.status",
+          "expected_status": "fail",
+          "observed_status": "fail",
+          "status": "pass"
+        }
+      },
+      "status": "pass"
+    }
+  },
+  "schema_id": "bedc.quality.claim_capsule",
+  "source_evidence": {
+    "arm_count": 7,
+    "c2_frontier_pointer": "$.c2_frontier",
+    "claim_gate_pointer": "$.claim_gate",
+    "grid_metrics_artifact": "reports/runs/certificate-guided-constraint-training/grid_metrics.jsonl",
+    "grid_record_schema": "seed-aggregated",
+    "grid_summary_artifact": "reports/runs/certificate-guided-constraint-training/grid_summary.jsonl",
+    "grid_summary_count": 3402,
+    "hardgate_pointer": "$.hardgate",
+    "json_artifact": "reports/canonical/certificate-guided-training.json",
+    "main_delta_pointer": "$.hardgate.basis.main_delta",
+    "matched_random_control_pointer": "$.hardgate.basis.control_delta",
+    "prior_observation_pointer": "$.claim_capsule.prior_observation",
+    "raw_grid_record_count": 27216,
+    "raw_metrics_artifact": "reports/runs/certificate-guided-constraint-training/raw_metrics.jsonl",
+    "raw_metrics_record_count": 56,
+    "report_artifact": "reports/canonical/certificate-guided-training.json",
+    "seed_count": 8
+  },
+  "terminal_verdict": "DN(audit-improvement-tradeoff)",
+  "what_was_learned": "constraint_lagrangian did not clear audit-improvement-tradeoff"
+}

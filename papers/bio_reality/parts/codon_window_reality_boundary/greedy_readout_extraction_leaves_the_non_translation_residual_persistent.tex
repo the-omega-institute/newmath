@@ -1,0 +1,142 @@
+\subsection{Greedy Readout Extraction Leaves the Non-Translation Residual Persistent}
+\label{sec:q6-residual-basis-extraction-greedy-readout-cross-layer}
+
+\paragraph{Finite object.}
+This record concerns the modeled-translation-complement abundance residual $P_{Q\perp T_{\mathrm{mod}}}$ for the $B^*_{Q6}$ packet.  The finite object is a recursive residual-energy ledger.  For each organism with enough matched rows, the ledger starts from
+$$
+\begin{aligned}
+R_0 &= P_{Q\perp T_{\mathrm{mod}}},\\
+\rho_k &= \frac{\|R_k\|^2}{\|R_0\|^2}.
+\end{aligned}
+$$
+At step $k$, the available readout blocks $H$ are scored by the absorbed residual fraction penalized by a description-length term,
+$$
+\begin{aligned}
+\operatorname{score}_k(H)
+  &= \frac{\|\Pi_H R_{k-1}\|^2}{\|R_{k-1}\|^2}
+     - \lambda \operatorname{DL}(H),\\
+\lambda &= 0.01,\\
+\operatorname{DL}(H) &= \log_2(1+n_{\mathrm{col}}(H)).
+\end{aligned}
+$$
+The selected block $H_k^*$ is the block with maximal score among the remaining candidates.  The ledger then records the absorbed increment, the retained fraction $\rho_k$, and a degree-of-freedom-matched deterministic Gaussian null comparison for the selected block.  This is a finite coordinate-and-relation readout: it reports how much of the residual can be linearly absorbed by the declared readout panel, not why the absorption occurs.
+
+\paragraph{Computed organism scope.}
+Four organisms have sufficient local readout data in the run $6\mathrm{cbd}99\mathrm{ef}6\mathrm{fa}6$.  The computed organisms are \textit{Saccharomyces cerevisiae}, \textit{Escherichia coli} K-12 MG1655, \textit{Homo sapiens}, and \textit{Danio rerio}.  The remaining listed organisms are marked $\mathrm{needs\_data}$: \textit{Bacillus subtilis} subsp. subtilis str. 168, \textit{Caenorhabditis elegans}, \textit{Drosophila melanogaster}, \textit{Gallus gallus}, \textit{Mus musculus}, \textit{Mycobacterium smegmatis} str. MC2 155, \textit{Rattus norvegicus}, and \textit{Sulfolobus solfataricus}.  No claim is made for the missing rows; their residual curves are absent rather than zero or negative.
+
+\paragraph{Residual curves.}
+The retained-energy curves are high throughout the computed panel.  For \textit{S. cerevisiae}, $n=3046$ joined rows and $9$ candidate blocks give
+$$
+\begin{aligned}
+(\rho_0,\ldots,\rho_9)
+&=(1.0000000000,0.9962498990,0.9929843171,0.9915730985,0.9903314907,\\
+&\quad 0.9894054695,0.9885902294,0.9882386501,0.9881524583,0.9798667977),\\
+d_{\mathrm{modeled}}&=0.2199040340,\\
+d_{\mathrm{difference}}&=0.0081718382.
+\end{aligned}
+$$
+For \textit{E. coli} K-12 MG1655, $n=3390$ joined rows and $6$ candidate blocks give
+$$
+\begin{aligned}
+(\rho_0,\ldots,\rho_6)
+&=(1.0000000000,0.9978302361,0.9961140458,0.9955547027,\\
+&\quad 0.9951348881,0.9949556469,0.9947913329),\\
+d_{\mathrm{modeled}}&=0.6789390310,\\
+d_{\mathrm{difference}}&=0.0159430271.
+\end{aligned}
+$$
+For human, $n=16008$ joined rows and $6$ candidate blocks give
+$$
+\begin{aligned}
+(\rho_0,\ldots,\rho_6)
+&=(1.0000000000,0.9852198225,0.9806696940,0.9792537896,\\
+&\quad 0.9787609433,0.9787233550,0.9723341658),\\
+d_{\mathrm{modeled}}&=0.9020707321,\\
+d_{\mathrm{difference}}&=0.0188242034.
+\end{aligned}
+$$
+For zebrafish, $n=14410$ joined rows and $1$ candidate block give
+$$
+\begin{aligned}
+(\rho_0,\rho_1)&=(1.0000000000,0.9791828971),\\
+d_{\mathrm{modeled}}&=0.8746287210,\\
+d_{\mathrm{difference}}&=0.0000000000.
+\end{aligned}
+$$
+The final retained fractions are therefore $0.9798667977$, $0.9947913329$, $0.9723341658$, and $0.9791828971$.  The smallest final value is $0.9723341658$, so every computed organism retains more than $97\%$ of the starting residual energy after exhausting its available panel.
+
+\paragraph{Selected readouts and null comparisons.}
+The selected readout blocks sometimes exceed their degree-of-freedom-matched null at the individual step level, but the total residual remains persistent.  In zebrafish, the only selected block is $\mathrm{measured\_trna\_tai}$ with increment $0.0208171029$ and null $95\%$ level $0.0002306375$; it exceeds the null.  In \textit{E. coli}, the selected sequence is
+$$
+\begin{aligned}
+&\mathrm{ptm\_density},\ \mathrm{mrna},\ \mathrm{tm\_count},\ \mathrm{complex\_member},\ \mathrm{measured\_te},\ \mathrm{domain\_count}.
+\end{aligned}
+$$
+The corresponding absorbed increments are
+$$
+\begin{aligned}
+&(0.0021697639,0.0017199221,0.0005615251,0.0004216892,0.0001801174,0.0001651471),
+\end{aligned}
+$$
+with null $95\%$ levels
+$$
+\begin{aligned}
+&(0.0012766357,0.0011573978,0.0009108637,0.0012666193,0.0012927917,0.0010630035).
+\end{aligned}
+$$
+Only the first two \textit{E. coli} steps exceed the matched null.  In human, the selected sequence is
+$$
+\begin{aligned}
+&\mathrm{ptm\_density},\ \mathrm{complex\_member},\ \mathrm{tm\_count},\ \mathrm{measured\_trna\_tai},\ \mathrm{domain\_count},\ \mathrm{localization}.
+\end{aligned}
+$$
+The increments are
+$$
+\begin{aligned}
+&(0.0147801775,0.0046183892,0.0014438138,0.0005032876,0.0000384039,0.0065280850),
+\end{aligned}
+$$
+with null $95\%$ levels
+$$
+\begin{aligned}
+&(0.0002845846,0.0002064885,0.0002435268,0.0002017399,0.0002193201,0.0011598999).
+\end{aligned}
+$$
+All human steps except $\mathrm{domain\_count}$ exceed the matched null.  In yeast, the selected sequence is
+$$
+\begin{aligned}
+&\mathrm{measured\_te},\ \mathrm{ptm\_density},\ \mathrm{tm\_count},\ \mathrm{turnover},\ \mathrm{complex\_member},\\
+&\mathrm{measured\_trna\_tai},\ \mathrm{domain\_count},\ \mathrm{mrna},\ \mathrm{localization}.
+\end{aligned}
+$$
+The increments are
+$$
+\begin{aligned}
+&(0.0037501010,0.0032778743,0.0014211891,0.0012521597,0.0009350618,\\
+&\quad 0.0008239697,0.0003556370,0.0000872176,0.0083850022),
+\end{aligned}
+$$
+with null $95\%$ levels
+$$
+\begin{aligned}
+&(0.0011272729,0.0014909923,0.0011142074,0.0010404713,0.0013653105,\\
+&\quad 0.0012089303,0.0014385730,0.0011149222,0.0070848784).
+\end{aligned}
+$$
+The yeast steps exceeding the matched null are $\mathrm{measured\_te}$, $\mathrm{ptm\_density}$, $\mathrm{tm\_count}$, $\mathrm{turnover}$, and $\mathrm{localization}$.
+
+\paragraph{Readout classification.}
+Using the declared persistence floor $\rho_{\mathrm{floor}}=0.97$, the computed classification is
+$$
+\begin{aligned}
+\mathrm{persistent}
+&=\{\mathrm{danio\_rerio},\mathrm{escherichia\_coli\_k12\_mg1655},\\
+&\quad \mathrm{homo\_sapiens},\mathrm{saccharomyces\_cerevisiae}\},\\
+\mathrm{compressible}&=\varnothing,\\
+\mathrm{partially\_compressible}&=\varnothing.
+\end{aligned}
+$$
+This is the central negative result.  The available panel can identify small, sometimes null-exceeding projections, but it does not compress the residual in any computed organism.  The greedy readout is also not a global optimum certificate: it is a finite recursive extraction rule over the declared candidates.  A different candidate library, a richer matched data matrix, or a non-greedy objective could change the descriptive curve, but the present finite rows do not support a shared compressing readout.
+
+\paragraph{Boundary of interpretation.}
+The chapter records a bounded residual-compression statistic.  It does not establish translation realization, protein folding, physical admissibility, biological function, phenotype, mechanism, causation, or universality.  Projection by $\Pi_H$ is a statistical operation, so absorbed energy is not biological action.  A selected label such as $\mathrm{ptm\_density}$, $\mathrm{localization}$, $\mathrm{mrna}$, $\mathrm{measured\_te}$, or $\mathrm{measured\_trna\_tai}$ names a readout block in the finite panel; it is not by itself a protein-state mechanism.  Modeled tAI or stAI weights are modeled adaptation annotations rather than direct ribosome occupancy.  Proteomics abundance is not folding, structure, function, or phenotype evidence without an additional layer-matched measurement and statistic.  The honest conclusion is therefore persistence: the non-translation abundance residual remains mostly unexplained by the current readout basis, and the missing organisms require data before they can be classified.

@@ -1,0 +1,36 @@
+{
+  "schema_id": "lewm.lat_dynamics_vs_lewm_predictor",
+  "metric": "per-transition next-latent MSE over 192 dims, raw space, identical for both models (LeWM side recomputed from exported pred/emb and asserted against prediction_mse)",
+  "eval_transitions": 964,
+  "lewm_predictor": {
+    "mean_mse": 0.06661752103321021,
+    "median_mse": 0.05977398498160568,
+    "mean_ci": {
+      "ci95_low": 0.06417801836625732,
+      "ci95_high": 0.06954059124938172
+    }
+  },
+  "lat_dynamics_head": {
+    "mean_mse": 0.8786996616905055,
+    "median_mse": 0.8875195604290247,
+    "mean_ci": {
+      "ci95_low": 0.8608112927164715,
+      "ci95_high": 0.8977912474076155
+    }
+  },
+  "lat_minus_lewm_mean_diff": {
+    "observed": 0.8120821406572953,
+    "ci95_low": 0.7937103447075723,
+    "ci95_high": 0.8303727731190648
+  },
+  "lat_win_rate_per_transition": {
+    "observed": 0.001037344398340249,
+    "ci95_low": 0.0,
+    "ci95_high": 0.003188097768331562
+  },
+  "honest_scope": [
+    "LAT trained on ~3k transitions of this single export; LeWM predictor trained at full scale by its authors",
+    "single checkpoint, single export, episode bootstrap",
+    "next-step latent prediction only; no rollout-horizon or control comparison"
+  ]
+}

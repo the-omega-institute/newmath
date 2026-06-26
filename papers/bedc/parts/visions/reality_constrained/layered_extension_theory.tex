@@ -1,0 +1,395 @@
+\section{Layered extension theory}
+\label{sec:layered-extension-theory}
+\origin{ai}
+
+\begin{remark}[Paper-side theory status]
+\label{rem:layered-extension-theory-status}
+This section records the paper-side form of layered extension theory. It
+is tracked against the basic Lean readout and layer-extension carriers. Its
+role is to separate extension from endpoint imagery: a refinement layer is a
+compatible readout of the same source carrier, and the material available for
+refinement is the fiber family of the preceding layer rather than a single
+terminal point.
+\end{remark}
+\leandef{BEDC.RealityConstrained.LayerExtension}
+
+\begin{definition}[Layer residue]
+\label{def:layered-extension-residue}
+Let
+$$
+\mathcal L_n=(R_n,\sim_n,P_n,\Lambda_n,\mathsf{NameCert}_n)
+$$
+be a readout layer over a displayed source carrier $T$. For
+$r:R_n$, the residual fiber at $r$ is
+$$
+\operatorname{Res}_n(r)
+:=
+\sum_{t:T}\bigl(P_n(t)\sim_n r\bigr).
+$$
+The layer residue is the family
+$$
+\infty_n:R_n\to\mathsf{Type},
+\qquad
+\infty_n(r):=\operatorname{Res}_n(r).
+$$
+Thus $\infty_n$ is a surface of source fibers indexed by $R_n$, not a
+row of $R_n$.
+\end{definition}
+
+\begin{principle}[Residue is a fiber surface]
+\label{prin:layered-extension-residue-fiber-surface}
+The residue of a layer may be read only as the family
+$r\mapsto\operatorname{Res}_n(r)$. Replacing that family by a single
+visible endpoint loses the section data required by
+\autoref{def:interface-layer-fiber-family} and violates the point
+replacement boundary of
+\autoref{prin:layered-projection-no-point-replacement}.
+\end{principle}
+
+\begin{definition}[Compatible layered extension]
+\label{def:compatible-layered-extension}
+Let $\mathcal L_n$ and $\mathcal L_{n+1}$ be readout layers over the same
+source carrier $T$:
+$$
+\mathcal L_i=(R_i,\sim_i,P_i,\Lambda_i,\mathsf{NameCert}_i).
+$$
+The layer $\mathcal L_{n+1}$ is a \emph{compatible layered extension} of
+$\mathcal L_n$ when there is a displayed readback map
+$$
+\rho_{n+1,n}:R_{n+1}\to R_n
+$$
+such that every source row $t:T$ satisfies
+$$
+\rho_{n+1,n}(P_{n+1}(t))\sim_n P_n(t).
+$$
+The notation
+$$
+\mathcal L_{n+1}\rightsquigarrow\mathcal L_n
+$$
+records this compatibility row.
+\end{definition}
+
+\begin{theorem}[Extension preserves the source carrier]
+\label{thm:layered-extension-preserves-source-carrier}
+If $\mathcal L_{n+1}\rightsquigarrow\mathcal L_n$, then
+$\mathcal L_{n+1}$ introduces no tower-external source object. It is a
+further readout of $T$, and its readback agrees with the preceding
+readout at the $\sim_n$ resolution.
+\end{theorem}
+
+\begin{proof}
+The refined readout has source
+$$
+P_{n+1}:T\to R_{n+1}.
+$$
+Thus every refined record row is still read from $T$. The compatibility
+certificate gives
+$$
+\rho_{n+1,n}(P_{n+1}(t))\sim_n P_n(t)
+$$
+for each $t:T$. Hence the refinement is not a second source carrier; it
+is a compatible representation of the same source through a finer record
+surface.
+\end{proof}
+\leanchecked{BEDC.RealityConstrained.LayerExtension.read\_forget\_commutes}
+
+\begin{definition}[Fiber-distinguishing extension]
+\label{def:fiber-distinguishing-extension}
+A compatible layered extension
+$\mathcal L_{n+1}\rightsquigarrow\mathcal L_n$ is
+\emph{fiber-distinguishing} at $r:R_n$ when there exist source rows
+$t_0,t_1:T$ such that
+$$
+P_n(t_0)\sim_n r,\qquad
+P_n(t_1)\sim_n r,
+$$
+but
+$$
+P_{n+1}(t_0)\not\sim_{n+1}P_{n+1}(t_1).
+$$
+It is fiber-distinguishing when this occurs at some displayed
+$r:R_n$.
+\end{definition}
+
+\begin{definition}[Generalized analytic continuation]
+\label{def:generalized-analytic-continuation}
+A \emph{generalized analytic continuation} of $\mathcal L_n$ is a
+compatible layered extension
+$$
+\mathcal L_{n+1}\rightsquigarrow\mathcal L_n
+$$
+that is fiber-distinguishing for a residue of $\mathcal L_n$. The word
+``analytic'' here records the continuation role: a later layer keeps the
+earlier readout available by readback while expressing source structure
+that the earlier carrier did not separate.
+\end{definition}
+
+\begin{theorem}[Continuation is residual separation]
+\label{thm:generalized-continuation-residual-separation}
+Every generalized analytic continuation separates two source rows that
+belonged to one residual fiber of the preceding layer.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:generalized-analytic-continuation}, the extension is
+fiber-distinguishing. Hence there are $r:R_n$ and $t_0,t_1:T$ with
+$$
+P_n(t_0)\sim_n r,
+\qquad
+P_n(t_1)\sim_n r,
+$$
+while the refined layer satisfies
+$$
+P_{n+1}(t_0)\not\sim_{n+1}P_{n+1}(t_1).
+$$
+Thus the refined layer separates rows that the preceding layer left in a
+single residual fiber.
+\end{proof}
+
+\begin{definition}[Fiber-certified geometric continuation]
+\label{def:fiber-certified-geometric-continuation}
+Let $\mathcal L_n=(R_n,\sim_n,P_n,\Lambda_n,\mathsf{NameCert}_n)$ be a
+readout layer over $T$, and let $C_n:R_n\to\mathsf{Prop}$ be a displayed
+constraint row. A \emph{fiber-certified geometric continuation} of
+$(\mathcal L_n,C_n)$ consists of a compatible layered extension
+$$
+\mathcal L_{n+1}\rightsquigarrow\mathcal L_n,
+$$
+a displayed constraint row $C_{n+1}:R_{n+1}\to\mathsf{Prop}$, and ledger
+rows certifying:
+$$
+\rho_{n+1,n}(P_{n+1}(t))\sim_n P_n(t)
+$$
+for every $t:T$,
+$$
+C_{n+1}(r)\to C_n(\rho_{n+1,n}(r))
+$$
+for every displayed $r:R_{n+1}$, and a fiber-distinguishing witness for
+some residue of $\mathcal L_n$. The certificate rows include source
+identity, readback transport, constraint transport, fiber separation, and
+ledger closure.
+\end{definition}
+
+\begin{theorem}[Geometric continuation unfolds residual fibers]
+\label{thm:geometric-continuation-unfolds-residual-fibers}
+Every fiber-certified geometric continuation recovers its higher record
+surface as compatible source readout data over the preceding layer, rather
+than as a tower-external geometric carrier.
+\end{theorem}
+
+\begin{proof}
+The continuation contains a compatible layered extension, so
+\autoref{thm:layered-extension-preserves-source-carrier} shows that the
+later readout is still a readout of the same source carrier $T$ and
+readbacks to the preceding layer. The constraint-transport row sends every
+later admissible record to an earlier admissible record. The
+fiber-distinguishing witness then says that the later layer separates two
+source rows inside one residue of the earlier layer. Hence the higher
+record surface unfolds residual fiber data already indexed by
+$R_n$, with compatibility and ledger rows making the passage auditable.
+\end{proof}
+\leanchecked{BEDC.RealityConstrained.LayerExtension.realized\_fiber\_commutes}
+
+\begin{principle}[Continuation recovers carriers, not remote values]
+\label{prin:continuation-recovers-carriers-not-remote-values}
+The restriction-style image of analytic continuation should not be read as
+the discovery of a value at a distant point. In BEDC terms it is the
+recovery of a carrier whose later readout restricts to the earlier one and
+whose residue, constraint, branch, and transport rows are ledgered. The
+same pattern governs high-dimensional geometry: lower-dimensional
+projections expose residual fibers, and a lawful continuation displays the
+carrier, readback, constraint transport, fiber separation, and audit rows
+that make those fibers available as geometric structure.
+\end{principle}
+
+\begin{definition}[Local-cluster extension]
+\label{def:local-cluster-extension}
+A compatible layered extension is \emph{local-clustered} when its refined
+readout is assembled from a displayed family of local readouts
+$$
+P_{n+1,i}:T\to R_{n+1,i},
+\qquad
+i:I_n,
+$$
+together with a record assembly row
+$$
+P_{n+1}(t)=\bigl(P_{n+1,i}(t)\bigr)_{i:I_n}
+$$
+and readback data
+$$
+\rho_{n+1,n}\bigl(P_{n+1}(t)\bigr)\sim_n P_n(t).
+$$
+The indices $i:I_n$ are local windows, places, valuations, sections, or
+other displayed coordinates over the residual surface of $\mathcal L_n$.
+\end{definition}
+
+\begin{theorem}[Local clusters refine fibers, not endpoints]
+\label{thm:local-clusters-refine-fibers}
+In a local-cluster extension, the later layer refines the family
+$r\mapsto\operatorname{Res}_n(r)$ rather than a distinguished endpoint of
+$R_n$.
+\end{theorem}
+
+\begin{proof}
+The data of \autoref{def:local-cluster-extension} supplies readouts
+$P_{n+1,i}$ from the same source $T$ and a readback row to $R_n$. For a
+record $r:R_n$, the relevant source rows are exactly the fiber
+$$
+\operatorname{Res}_n(r)
+=
+\sum_{t:T}\bigl(P_n(t)\sim_n r\bigr).
+$$
+The local coordinates can distinguish such rows only through their
+source readouts and the displayed readback certificate. No clause of the
+definition selects a terminal row of $R_n$.
+\end{proof}
+
+\begin{example}[Place completions as local clusters]
+\label{ex:place-completions-local-clusters}
+Let the source carrier be the rational field and let the local index set
+be the displayed set of places
+$$
+V_{\mathbb Q}=\{\infty\}\cup\PrimeUp.
+$$
+For $v=\infty$ the local completion is the archimedean completion
+$\mathbb Q_\infty=\mathbb R$. For a prime $p$, the local completion is
+the $p$-adic completion $\mathbb Q_p$, read through the valuation
+coordinate described in
+\autoref{def:layered-projection-p-adic-local-readout}. The family
+$$
+(\mathbb Q_v)_{v:V_{\mathbb Q}}
+$$
+is therefore a place-indexed local-cluster extension of rational
+readout. It is not generated by a single point at infinity; it is
+generated by the displayed valuation and completion rows for the places.
+\end{example}
+
+\begin{definition}[Orthogonal cluster readouts]
+\label{def:orthogonal-cluster-readouts}
+Let a local-cluster extension have readouts
+$(P_{n+1,i})_{i:I_n}$. The cluster is \emph{orthogonal} when the ledger
+contains an independence certificate saying that changing the $i$-th
+coordinate, within its admissible source fiber, does not consume or
+force the $j$-th coordinate for $i\ne j$.
+\end{definition}
+
+\begin{theorem}[Prime-coordinate clusters are orthogonal]
+\label{thm:prime-coordinate-clusters-orthogonal}
+The prime-coordinate readouts supplied by unique factorization form an
+orthogonal cluster.
+\end{theorem}
+
+\begin{proof}
+\autoref{thm:layered-projection-prime-axis-independence} states that
+distinct prime axes are independent. The $p$-adic readout of
+\autoref{def:layered-projection-p-adic-local-readout} consumes the
+$p$-coordinate of this factorization surface. Hence the prime-local
+coordinates form an orthogonal cluster in the sense of
+\autoref{def:orthogonal-cluster-readouts}.
+\end{proof}
+
+\begin{definition}[Composite extension information]
+\label{def:composite-extension-information}
+Let $a,b:T\to R$ be orthogonal readouts in a layer. A record
+$c:T\to C$ is \emph{composite extension information} when the ledger
+contains a formation row
+$$
+(a,b)\leadsto c
+$$
+and no row expressing $c$ from $a$ alone or from $b$ alone. The role of
+$c$ is to record structure carried by the joint source readout rather
+than by either marginal projection.
+\end{definition}
+
+\begin{principle}[Composite coordinates may force a layer]
+\label{prin:composite-coordinates-force-layer}
+When a theory requires a composite record $c$ as in
+\autoref{def:composite-extension-information}, the layer that contains
+only the marginal readouts is not closed under the required expression.
+A compatible extension must display a carrier for $c$, its classifier,
+its readback to the marginal rows, and its gap ledger.
+\end{principle}
+
+\begin{definition}[Extension tower]
+\label{def:layered-extension-tower}
+An \emph{extension tower} over $T$ is a finite or countable sequence of
+readout layers
+$$
+\mathcal L_0,\mathcal L_1,\mathcal L_2,\ldots
+$$
+together with compatible readback maps
+$$
+\mathcal L_{n+1}\rightsquigarrow\mathcal L_n
+$$
+for every displayed successor pair.
+\end{definition}
+
+\begin{definition}[Restriction-style continuation]
+\label{def:restriction-style-continuation}
+Let $U\subset V$ be displayed domains. A classical restriction-style
+continuation has an upper record carrier of functions on $V$, a lower
+record carrier of functions on $U$, and the readback map
+$$
+\rho(F)=F|_U.
+$$
+The compatibility row for a lower record $f$ is
+$$
+\rho(F)=f.
+$$
+\end{definition}
+
+\begin{theorem}[Classical analytic continuation is a special case]
+\label{thm:classical-analytic-continuation-special-case}
+Classical analytic continuation is a compatible layered extension whose
+readback map is restriction.
+\end{theorem}
+
+\begin{proof}
+In \autoref{def:restriction-style-continuation}, the readback map is
+$F\mapsto F|_U$. The usual continuation condition says precisely that
+the refined record $F$ restricts to the preceding record $f$. This is the
+compatibility equation of
+\autoref{def:compatible-layered-extension}.
+\end{proof}
+
+\begin{principle}[Continuation need not be linear extension]
+\label{prin:continuation-not-linear-endpoint-extension}
+The restriction-style case does not exhaust layered extension. A later
+layer may be obtained by place completions, valuation coordinates,
+orthogonal local clusters, completion rows, or recovered-carrier
+compatibility ledgers. The invariant is readback to the preceding layer,
+not geometric continuation from a terminal point.
+\end{principle}
+
+\begin{definition}[Zeta as a recovered extension carrier]
+\label{def:zeta-recovered-extension-carrier}
+The zeta carrier of \autoref{def:rh-zeta-recovery-carrier} is read here
+as a multi-row extension carrier. Its displayed rows include the
+Dirichlet-series projection, Euler-product projection, analytic
+continuation row, archimedean completion row, functional-equation mirror
+row, pole ledger, zero ledger, branch ledger, and transport ledger.
+\end{definition}
+
+\begin{principle}[Zeta extension tower]
+\label{prin:zeta-extension-tower}
+The zeta carrier is not a single formula with a later decorative
+completion. It is a recovered carrier whose rows are compatible readouts
+of one source object across domains, prime-local channels, archimedean
+completion, mirror transport, and zero ledgers. The Dirichlet row is a
+projection of this carrier on its convergence half-plane, while the
+completed carrier supplies the surface on which zero-ledger statements
+are typed.
+\end{principle}
+
+\begin{principle}[RH target as extension compatibility obstruction]
+\label{prin:rh-target-extension-compatibility-obstruction}
+Within the zeta extension tower, the object named
+$\mathsf{LocalGlobalZeroExclusion}_{\zeta}$ in
+\autoref{def:rh-local-global-zero-exclusion-target} is the remaining
+zero-ledger compatibility obstruction: a row separated from the
+functional-equation fixed surface by a positive local defect must be
+shown incompatible with a completed zeta-zero row. This principle does
+not assert the obstruction has been discharged; it identifies the
+carrier-level obligation isolated by
+\autoref{def:rh-defect-zero-incompatibility}.
+\end{principle}

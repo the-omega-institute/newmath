@@ -1,0 +1,1625 @@
+{
+  "version": "cellstate-reality-claims-v1",
+  "claims": [
+    {
+      "claim_id": "cellstate.age-clock-shift.gse142439",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "AgeClockShift-up: on GSE142439 paired normal/treated EPIC arrays, the Horvath353 DNAm age signature decreases in treated samples relative to paired normal within each donor; this is a local age_signature-layer NameCert and does not entail cell identity, function, safety, rejuvenation, partial reprogramming, renewable maintenance, or immortality potential.",
+      "depends_on": [],
+      "status": "passed",
+      "experiment_id": "gse142439_horvath353_age_clock_shift",
+      "cannot_claim": [
+        "IdentityPreservingAgeReset↑",
+        "Rejuvenation↑",
+        "PartialReprogramming↑",
+        "RenewableMaintenance↑",
+        "ImmortalityPotential↑"
+      ],
+      "linked_conjecture_id": "age-clock-shift.gse142439.horvath353",
+      "history": [
+        {
+          "ts": "2026-06-09T15:46:31+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "d79addaacf6d",
+          "checks": {
+            "total": 4,
+            "passed": 4,
+            "failed": 0
+          },
+          "script_sha": "2bd65f60e47f6238"
+        }
+      ]
+    },
+    {
+      "claim_id": "cellstate.age-clock-shift.robustness.gse142439",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "AgeClockShift-up robustness: on the frozen GSE142439 paired normal/treated EPIC arrays scored by Horvath353, support is limited to age_signature-layer directional robustness when both cell-type strata have negative mean paired DNAm age deltas and every leave-one-donor-out overall mean delta remains negative; this does not entail cell identity, function, safety, rejuvenation, partial reprogramming, renewable maintenance, or immortality potential.",
+      "depends_on": [
+        "cellstate.age-clock-shift.gse142439"
+      ],
+      "status": "passed",
+      "experiment_id": "gse142439_horvath353_age_clock_shift_robustness",
+      "cannot_claim": [
+        "IdentityPreservingAgeReset↑",
+        "Rejuvenation↑",
+        "PartialReprogramming↑",
+        "RenewableMaintenance↑",
+        "ImmortalityPotential↑"
+      ],
+      "linked_conjecture_id": "age-clock-shift.gse142439.cross-cell-type-robustness",
+      "history": [
+        {
+          "ts": "2026-06-11T07:39:54+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "9078834efe1f",
+          "checks": {
+            "total": 4,
+            "passed": 4,
+            "failed": 0
+          },
+          "script_sha": "6c9a7334d290529e"
+        }
+      ]
+    },
+    {
+      "claim_id": "cellstate.identity-samesig.gse165177-mptr",
+      "hypothesis_level": "H0",
+      "phase": 2,
+      "statement": "GSE165177 MPTR processed RNA-seq provides a cell_identity-layer sameSig_I test over donor-matched exp2 day-10 negative-control and transiently reprogrammed fibroblast samples; under the fixed marker thresholds the identity distance check is within bound but pluripotency exclusion breaks, so this packet is negative evidence for this sameSig_I join and does not promote IdentityPreservingAgeResetUp.",
+      "depends_on": [
+        "cellstate.age-clock-shift.gse142439"
+      ],
+      "status": "failed",
+      "experiment_id": "gse165177_mptr_identity_samesig",
+      "cannot_claim": [
+        "IdentityPreservingAgeResetUp",
+        "RejuvenationUp",
+        "PartialReprogrammingUp",
+        "RenewableMaintenanceUp",
+        "ImmortalityPotentialUp"
+      ],
+      "linked_conjecture_id": "identity-preserving-age-reset.gse165177-mptr"
+    },
+    {
+      "claim_id": "cellstate.identity-preserving-age-reset.samescope.gse165180",
+      "hypothesis_level": "H0",
+      "phase": 2,
+      "statement": "Same-scope MPTR IdentityPreservingAgeReset-up test: join GSE165179 EPIC methylation DNAm age and GSE165177 RNA identity markers by donor plus day-10 exp2 transiently reprogrammed scope; support requires DNAm age decrease and sameSig_I with pluripotency exclusion in the joined scope, while a pluripotency break blocks the joint carrier even when age decreases.",
+      "depends_on": [
+        "cellstate.age-clock-shift.gse142439",
+        "cellstate.identity-samesig.gse165177-mptr"
+      ],
+      "status": "failed",
+      "experiment_id": "gse165180_samescope_identity_age_reset",
+      "cannot_claim": [
+        "Rejuvenation↑",
+        "RenewableMaintenance↑",
+        "organismal maintenance",
+        "immortality",
+        "safety K_S"
+      ],
+      "linked_conjecture_id": "identity-preserving-age-reset.gse165180-samescope"
+    },
+    {
+      "claim_id": "cellstate.identity-samesig.break-decomposition.gse165177",
+      "hypothesis_level": "H0",
+      "phase": 2,
+      "statement": "Decomposes the day-10 sameSig_I pluripotency break to donor/marker level on GSE165177 MPTR donor-matched negative-control versus transiently reprogrammed fibroblast RNA-seq samples; this is a structured negative-evidence certificate and does not promote identity preservation, rejuvenation, renewable maintenance, safety, or immortality claims.",
+      "depends_on": [
+        "cellstate.identity-samesig.gse165177-mptr"
+      ],
+      "status": "passed",
+      "experiment_id": "gse165177_pluripotency_break_decomposition",
+      "cannot_claim": [
+        "IdentityPreservingAgeResetUp",
+        "RejuvenationUp",
+        "PartialReprogrammingUp",
+        "RenewableMaintenanceUp",
+        "ImmortalityPotentialUp"
+      ],
+      "linked_conjecture_id": "identity-samesig.break-decomposition.gse165177",
+      "history": [
+        {
+          "ts": "2026-06-11T07:39:54+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "8c8851733f24",
+          "checks": {
+            "total": 5,
+            "passed": 5,
+            "failed": 0
+          },
+          "script_sha": "bc3e23475bcacc08"
+        }
+      ]
+    },
+    {
+      "claim_id": "cellstate.promotion-frontier.gse165180",
+      "hypothesis_level": "H0",
+      "phase": 2,
+      "statement": "MPTR promotion-frontier scan: across the full GSE165179 methylation and GSE165177 RNA time series, exact donor/day/condition/experiment joins classify each scope by DNAm age gain, fibroblast identity-marker RMS, and pluripotency-marker safety deltas. Under the fixed thresholds no Case 3 scope is found, so this is negative evidence for identity-safe age-reset promotion in this contact while downstream rejuvenation, maintenance, and immortality claims remain blocked.",
+      "depends_on": [
+        "cellstate.age-clock-shift.gse142439",
+        "cellstate.identity-samesig.gse165177-mptr",
+        "cellstate.identity-preserving-age-reset.samescope.gse165180"
+      ],
+      "status": "failed",
+      "experiment_id": "gse165180_phase_frontier",
+      "cannot_claim": [
+        "RejuvenationUp",
+        "RenewableMaintenanceUp",
+        "ImmortalityPotentialUp",
+        "function",
+        "repeat-cycle maintenance",
+        "organismal outcome"
+      ],
+      "linked_conjecture_id": "cellstate.promotion-frontier.gse165180"
+    },
+    {
+      "claim_id": "cellstate.age-clock-shift.coverage-bound.gse142439",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "Coverage-bound AgeClockShift-up: on GSE142439 paired normal/treated EPIC arrays, the Horvath353 coefficient table has 334 covered CpGs and 19 missing CpGs; the missing-coordinate absolute coefficient bound makes the admissible age_signature-layer name CoveredHorvath334AgeClockShift↑ rather than Horvath353AgeClockShift↑. This does not entail identity, function, safety, rejuvenation, maintenance, or immortality claims.",
+      "depends_on": [
+        "cellstate.age-clock-shift.gse142439"
+      ],
+      "status": "passed",
+      "experiment_id": "gse142439_missing_cpg_bound",
+      "cannot_claim": [
+        "identity",
+        "function",
+        "safety",
+        "rejuvenation",
+        "maintenance",
+        "immortality"
+      ],
+      "linked_conjecture_id": "age-clock-shift.coverage-bound.gse142439",
+      "history": [
+        {
+          "ts": "2026-06-11T07:39:54+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "349e68c9ae57",
+          "checks": {
+            "total": 5,
+            "passed": 5,
+            "failed": 0
+          },
+          "script_sha": "a7c37b54e3132f55"
+        }
+      ]
+    },
+    {
+      "claim_id": "cellstate.function-signature-shift.gse190665",
+      "hypothesis_level": "H0",
+      "phase": 3,
+      "statement": "FunctionSignatureShift-up mouse marker-direction probe: GSE190986 RNA-seq SubSeries linked to the GSE190665/GSE190986 in-vivo partial reprogramming study provide processed mouse count matrices for age-matched OSKM or dox-treated versus control tissue samples. The predeclared senescence and SASP/inflammation marker panels have complete coverage and aggregate treated-minus-control deltas are negative, but only 10 of 18 accession-by-tissue scopes satisfy both directions, so the claim remains needs_data rather than passed.",
+      "depends_on": [],
+      "status": "needs_data",
+      "experiment_id": "gse190665-function-signature",
+      "cannot_claim": [
+        "functional rejuvenation",
+        "human generalization",
+        "IdentityPreservingAgeResetUp",
+        "RejuvenationUp",
+        "RenewableMaintenanceUp",
+        "ImmortalityPotentialUp",
+        "mouse age clock"
+      ],
+      "linked_conjecture_id": "function-signature-shift.gse190665",
+      "history": [
+        {
+          "ts": "2026-06-11T07:39:54+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "b1ecc34f32bf",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T07:48:20+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T07:48:21+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "0036a42d2433",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T07:53:43+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T07:53:43+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "45ce54f7ca3b",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T07:59:47+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T07:59:47+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "7fe529a5a654",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T08:05:06+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:05:06+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "d80102566d79",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T08:10:37+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:10:37+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "0d9c0f000102",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T08:16:02+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:16:02+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "cf56b129321f",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T08:21:40+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:21:40+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "79b1b4f43f83",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T08:27:07+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:27:08+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "7d119d926dae",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T08:32:38+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:32:38+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "ed576b4d06d7",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T08:38:02+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:38:02+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "cfc374147cbe",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T08:43:28+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:43:28+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "9e6ca5247925",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T08:48:53+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:48:53+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "4d505e4a888c",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T08:54:16+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:54:16+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "40857438bdd4",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T08:59:40+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:59:41+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "ed6a1e06a08d",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T09:05:03+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T09:05:04+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "28cd81a4cf41",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T09:10:26+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T09:10:26+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "0dc46e4083ca",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        },
+        {
+          "ts": "2026-06-11T09:15:52+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T09:15:52+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "55201b3cc1bb",
+          "checks": {
+            "total": 7,
+            "passed": 6,
+            "failed": 1
+          },
+          "script_sha": "25e73979ddbaf8a6"
+        }
+      ]
+    },
+    {
+      "claim_id": "cellstate.age-clock-shift.crossmethod.gse165180",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "Cross-method AgeClockShift-up probe: the GSE165180 SuperSeries points to the GSE165179 MPTR lentiviral methylation SubSeries with processed EPIC beta values. Horvath353 scoring over same-donor baseline fibroblast versus day-10 exp2 transiently reprogrammed MPTR fibroblast samples gives a negative mean DNAm-age delta, but the fixed deterministic null is not small enough, so this remains an age_signature-layer needs_data contact and does not promote identity, function, safety, rejuvenation, maintenance, or immortality.",
+      "depends_on": [
+        "cellstate.age-clock-shift.gse142439"
+      ],
+      "status": "needs_data",
+      "experiment_id": "gse165180_age_clock_shift_crossmethod",
+      "cannot_claim": [
+        "identity",
+        "function",
+        "safety",
+        "rejuvenation",
+        "maintenance",
+        "immortality"
+      ],
+      "linked_conjecture_id": "age-clock-shift.crossmethod.gse165180",
+      "history": [
+        {
+          "ts": "2026-06-11T07:39:55+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "201f532914b3",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T07:48:21+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T07:48:21+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "12989d7ff604",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T07:53:43+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T07:53:43+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "2439a39a25aa",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T07:59:47+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T07:59:47+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "9ca6d1d495ea",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T08:05:06+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:05:06+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "b2265047cab4",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T08:10:37+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:10:37+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "3e4452e99cc4",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T08:16:02+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:16:02+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "1851c03c5f0a",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T08:21:40+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:21:40+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "6d9a4a3b8c01",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T08:27:08+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:27:08+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "0a752db369eb",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T08:32:38+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:32:39+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "f23f409df81b",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T08:38:02+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:38:03+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "8eb0613b2995",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T08:43:28+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:43:28+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "fbc2cb8f643a",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T08:48:53+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:48:54+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "6466cf4c8655",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T08:54:16+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:54:17+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "0f19dc6706cf",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T08:59:41+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:59:41+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "0d097153e7aa",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T09:05:04+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T09:05:04+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "c29d5607da25",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T09:10:26+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T09:10:27+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "4aee6f84c570",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        },
+        {
+          "ts": "2026-06-11T09:15:52+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T09:15:52+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "167cca7ee178",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "97237ddd0503af1c"
+        }
+      ]
+    },
+    {
+      "claim_id": "cellstate.age-clock-shift.dose-response.gse165180",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "Dose-response AgeClockShift-up probe: GSE165180/GSE165179 true transiently reprogrammed fibroblast methylation timepoints at day 10, 13, 15, and 17 can be scored in the same Horvath353 no-promotion frame against same-donor day-0 fibroblast baselines. The all-timepoint run has a negative pooled treated-minus-baseline DNAm-age mean, but the deterministic direction null is not small enough and the donor-day collapsed trend is reverse or mixed, so this remains an age_signature-layer needs_data contact rather than a passed dose-response claim. It does not promote identity, function, safety, rejuvenation, maintenance, or immortality.",
+      "depends_on": [
+        "cellstate.age-clock-shift.crossmethod.gse165180"
+      ],
+      "status": "needs_data",
+      "experiment_id": "gse165180_age_clock_shift_dose_response",
+      "cannot_claim": [
+        "identity",
+        "function",
+        "safety",
+        "rejuvenation",
+        "maintenance",
+        "immortality"
+      ],
+      "linked_conjecture_id": "age-clock-shift.dose-response.gse165180",
+      "history": [
+        {
+          "ts": "2026-06-11T07:39:55+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "2aeb6e1f6d4f",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T07:48:21+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T07:48:21+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "3906085d1c92",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T07:53:43+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T07:53:44+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "f9c23e46c970",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T07:59:47+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T07:59:47+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "7c090e611213",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T08:05:06+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:05:07+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "6b0787dd3bc6",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T08:10:37+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:10:38+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "93a61c009de6",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T08:16:02+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:16:03+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "705dab14210e",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T08:21:40+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:21:41+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "d7bb79ee9629",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T08:27:08+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:27:08+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "6668245eb8e2",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T08:32:39+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:32:39+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "3e6d0094c458",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T08:38:03+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:38:03+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "9ff20e1b7860",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T08:43:28+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:43:29+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "9121bce66ccf",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T08:48:54+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:48:54+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "7beae39fb8d1",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T08:54:17+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:54:17+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "d7ed329ac117",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T08:59:41+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:59:41+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "5fbe65fd423a",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T09:05:04+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T09:05:04+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "a029b93da70c",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T09:10:27+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T09:10:27+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "e37f3c75bf74",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        },
+        {
+          "ts": "2026-06-11T09:15:52+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T09:15:52+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "c054ed0d4b3f",
+          "checks": {
+            "total": 8,
+            "passed": 5,
+            "failed": 3
+          },
+          "script_sha": "cbb8f3125e9d2905"
+        }
+      ]
+    },
+    {
+      "claim_id": "cellstate.age-clock-shift.reversal-decomposition.gse165180",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "Horvath353 reversal-decomposition probe: GSE165180/GSE165179 MPTR day17 positive age-clock reversal is localized to covered age_signature coordinates. The top 20 day17-vs-day10 reversal CpGs account for 56.06% of day17 positive z-space displacement; their mean abs weight is 0.475877 versus the covered median 0.130244. Day17 has 183 positive and 151 negative CpG contributions. The top-20 mean beta is 0.361864; mean abs(beta-0.5) is 0.254466 at day17 versus 0.277212 at matched baseline, so beta extremity is reported as a clock-internal coordinate readback rather than external functional annotation. This passed certificate characterizes the late-MPTR AgeClockShiftUp failure boundary and does not claim age decrease, identity, function, safety, rejuvenation, maintenance, or immortality.",
+      "depends_on": [
+        "cellstate.age-clock-shift.dose-response.gse165180"
+      ],
+      "status": "passed",
+      "experiment_id": "gse165180_horvath353_reversal_decomposition",
+      "cannot_claim": [
+        "identity",
+        "function",
+        "safety",
+        "rejuvenation",
+        "maintenance",
+        "immortality"
+      ],
+      "linked_conjecture_id": "age-clock-shift.reversal-decomposition.gse165180",
+      "history": [
+        {
+          "ts": "2026-06-11T07:39:55+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "d53771f8e54c",
+          "checks": {
+            "total": 8,
+            "passed": 8,
+            "failed": 0
+          },
+          "script_sha": "2714f642931bdc5e"
+        }
+      ]
+    },
+    {
+      "claim_id": "cellstate.function-signature-shift.gse165177-mptr-human",
+      "hypothesis_level": "H0",
+      "phase": 3,
+      "statement": "FunctionSignatureShift-up human marker-direction probe: GSE165177 MPTR processed RNA-seq provides donor-matched human fibroblast negative-control versus transiently reprogrammed day-10 exp2 samples under a genetic MPTR OSKM lentiviral generator. The predeclared senescence/SASP panel has complete marker coverage, but DeltaSen=0.268456 after LMNB1 reverse correction and DeltaSASP=-0.707862; because both deltas are not negative, the claim remains needs_data/open. This is function-signature-only and no-promotion: it is not a direct functional assay and does not establish identity, age, safety, rejuvenation, maintenance, or immortality.",
+      "depends_on": [],
+      "status": "needs_data",
+      "experiment_id": "gse165177-function-signature",
+      "cannot_claim": [
+        "identity",
+        "age",
+        "safety",
+        "rejuvenation",
+        "maintenance",
+        "immortality",
+        "direct functional rejuvenation",
+        "chemical-generator equivalence"
+      ],
+      "linked_conjecture_id": "function-signature-shift.gse165177-mptr-human",
+      "history": [
+        {
+          "ts": "2026-06-11T07:39:55+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "5db7511f6bfe",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T07:48:21+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T07:48:21+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "af7eb10dab04",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T07:53:44+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T07:53:44+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "180f9f9af364",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T07:59:47+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T07:59:48+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "809e5b60acac",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T08:05:07+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:05:07+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "4f88540beabb",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T08:10:38+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:10:38+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "90e23c69db47",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T08:16:03+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:16:03+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "ea7bf418d4ef",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T08:21:41+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:21:41+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "08275b16fcde",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T08:27:08+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:27:08+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "1a85b074b220",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T08:32:39+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:32:39+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "8358bf51f1e3",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T08:38:03+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:38:03+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "523cd96785ff",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T08:43:29+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:43:29+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "826d7b2d064c",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T08:48:54+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:48:54+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "96248cbdde76",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T08:54:17+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:54:17+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "a028c8d892e8",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T08:59:41+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T08:59:41+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "9f57adce8367",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T09:05:04+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T09:05:04+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "f343a0689466",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T09:10:27+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T09:10:27+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "14de269cbb68",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        },
+        {
+          "ts": "2026-06-11T09:15:52+00:00",
+          "status": "needs_rerun",
+          "reason": "required_data now available"
+        },
+        {
+          "ts": "2026-06-11T09:15:53+00:00",
+          "status": "needs_data",
+          "reason": "experiment result",
+          "experiment_run_id": "04df6af93d52",
+          "checks": {
+            "total": 6,
+            "passed": 5,
+            "failed": 1
+          },
+          "script_sha": "423873aa8cbb9df4"
+        }
+      ]
+    },
+    {
+      "claim_id": "cellstate.age-clock-shift.clock-dependence.gse165180",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "Clock-dependence AgeClockShift method-control: the same GSE165180/GSE165179 MPTR donor-paired methylation timecourse is scored with skin&blood Horvath2 and pan-tissue Horvath1 clocks. The passed certificate gives verdict=clock_dependent_reversal: skin&blood Horvath2 remains negative at day15/day17 under the donor-day trend readback, while pan-tissue Horvath1 reproduces the late positive reversal. The conclusion is age_signature-only DNAm-clock method dependence and does not establish biological rejuvenation, biological aging, identity, function, safety, maintenance, or immortality.",
+      "depends_on": [
+        "cellstate.age-clock-shift.dose-response.gse165180",
+        "cellstate.age-clock-shift.reversal-decomposition.gse165180"
+      ],
+      "status": "passed",
+      "experiment_id": "gse165179_clock_dependence",
+      "cannot_claim": [
+        "identity",
+        "function",
+        "safety",
+        "rejuvenation",
+        "maintenance",
+        "immortality"
+      ],
+      "linked_conjecture_id": "age-clock-shift.clock-dependence.gse165180",
+      "history": [
+        {
+          "ts": "2026-06-11T07:39:56+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "f23947d13c42",
+          "checks": {
+            "total": 7,
+            "passed": 7,
+            "failed": 0
+          },
+          "script_sha": "204b92f03cbae061"
+        }
+      ]
+    },
+    {
+      "claim_id": "cellstate.age-clock-shift.clock-dependence.coverage-control.gse165180",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "Coverage-control clock-dependence seal: on the same GSE165180/GSE165179 MPTR methylation carrier, skin&blood Horvath2 has full 391/391 CpG coverage and remains non-reversed at the late phase while pan-tissue Horvath1/Horvath353 reverses. The two coefficient sets share 60 CpGs; shared-CpG day17 z-space scoring is reported separately, and the passed artifact records reversal_explained_by_coverage=false. This is age_signature-only clock-method evidence and does not establish identity, function, safety, rejuvenation, maintenance, or immortality.",
+      "depends_on": [
+        "cellstate.age-clock-shift.clock-dependence.gse165180"
+      ],
+      "status": "passed",
+      "experiment_id": "gse165179_clock_dependence_coverage_control",
+      "cannot_claim": [
+        "identity",
+        "function",
+        "safety",
+        "rejuvenation",
+        "maintenance",
+        "immortality"
+      ],
+      "linked_conjecture_id": "age-clock-shift.clock-dependence.coverage-control.gse165180",
+      "history": [
+        {
+          "ts": "2026-06-11T07:39:56+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "bfe49c16ed74",
+          "checks": {
+            "total": 6,
+            "passed": 6,
+            "failed": 0
+          },
+          "script_sha": "93c986c4b041dc65"
+        }
+      ]
+    },
+    {
+      "claim_id": "cellstate.age-clock-shift.reversal-leave-top20-out.gse165180",
+      "hypothesis_level": "H0",
+      "phase": 1,
+      "statement": "Horvath353 leave-top20-out seal: on the GSE165180/GSE165179 MPTR donor-day collapsed timecourse, the top 20 day17-vs-day10 clock-coordinate reversal drivers are removed and the remaining 314 covered CpGs are rescored in z space. The passed artifact records day17 full z=0.314273 and leaveout z=-0.616288, so the late positive reversal is removed under this clock-internal coordinate control. This is age_signature-only clock geometry and does not establish identity, function, safety, rejuvenation, maintenance, or immortality.",
+      "depends_on": [
+        "cellstate.age-clock-shift.reversal-decomposition.gse165180"
+      ],
+      "status": "passed",
+      "experiment_id": "gse165180_reversal_leave_top20_out",
+      "cannot_claim": [
+        "identity",
+        "function",
+        "safety",
+        "rejuvenation",
+        "maintenance",
+        "immortality"
+      ],
+      "linked_conjecture_id": "age-clock-shift.reversal-leave-top20-out.gse165180",
+      "history": [
+        {
+          "ts": "2026-06-11T07:39:56+00:00",
+          "status": "passed",
+          "reason": "experiment result",
+          "experiment_run_id": "411786129c61",
+          "checks": {
+            "total": 5,
+            "passed": 5,
+            "failed": 0
+          },
+          "script_sha": "9c1d166b88a0fffd"
+        }
+      ]
+    }
+  ]
+}
