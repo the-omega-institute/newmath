@@ -1,0 +1,11 @@
+\begin{lemma}[MetaCIC parallel-diamond frontier closure marker consistency]
+\label{lem:metacic-parallel-diamond-frontier-closure-marker-consistency}
+The visible $\MetaCICParallelDiamondFrontierUp$ hub markers are read only through the child closurestatus records. In particular, a consumer that sees the hub-level seed, bridged, or mature marker must route that read through the current closurestatus child, \autoref{thm:metacic-parallel-diamond-frontier-seed-closure-status-sync}, and \autoref{thm:metacic-parallel-diamond-frontier-seed-status-block-sync} before using it as closure evidence.
+\end{lemma}
+\begin{proof}
+The hub exports marker lines and child inputs, but it carries no theorem body of its own. Therefore the evidence-bearing reads are the child files named by the hub, not the marker text itself.
+
+Read the current closurestatus child first, then the seed closure status sync child, and then the seed status block sync child. These rows bind the visible marker strings to the finite frontier packet, closurestatus record, seed-readiness rows, replay, transport, provenance, and local naming.
+
+Thus a downstream consumer cannot treat the hub marker as an independent closure proof. It must pass through the child records that store the corresponding closurestatus evidence.
+\end{proof}
