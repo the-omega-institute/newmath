@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\BishopFiniteTailComparisonUp$}
+\label{ch:concrete-instances-bishop-finite-tail-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\BishopFiniteTailComparisonUp$ packet records the finite shared-tail comparison used before equality-facing Real seals are read. It sits between the regular Cauchy source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance budgets of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the L10 difference route of \autoref{ch:concrete-instances-cauchy-difference-criterion-namecert}, and the terminal Real packet of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite comparison surface: two source names, one shared window, one displayed tolerance budget, one verdict row, one terminal seal boundary, transport, replay, provenance, and local naming.
+
+\begin{definition}[BishopFiniteTailComparison carrier]
+\label{def:bishop-finite-tail-comparison-carrier}
+A $\BishopFiniteTailComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,Y,W,D,Q,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ and $Y$ are $\RegSeqRatUp$ source rows for two regular Cauchy names sharing the same comparison context.
+\item $W$ is a shared $\StreamNameUp$ finite tail-window row recording the indices that are simultaneously visible to $X$ and $Y$.
+\item $D$ is a $\DyadicRatCoreUp$ tolerance-budget row used to compare the two visible tails inside the window $W$.
+\item $Q$ is the finite comparison-verdict row, read only after the source rows, window row, and dyadic budget have been displayed.
+\item $E$ is the terminal $\RealUp$ seal-boundary row that may be inspected only after $Q$ and the $\CauchyDifferenceCriterionUp$ route have been read.
+\item $H$ records componentwise $\hsame$ transport for the source, window, dyadic-budget, verdict, seal-boundary, replay, provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay through $X,Y,W,D,Q,E,H,P,N$ in the order in which a consumer may read the packet.
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyDifferenceCriterionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopFiniteTailComparisonUp}$ row naming this finite shared-tail comparison packet.
+\end{enumerate}
+The carrier has no coordinate for Real completeness, quotient stream equality, selected limits, trichotomy, countable choice, host equality of completed reals, or bridge checking.
+\end{definition}
+
+\begin{theorem}[BishopFiniteTailComparison NameCert obligations]
+\label{thm:bishop-finite-tail-comparison-namecert-obligations}
+For an accepted $\BishopFiniteTailComparisonUp$ carrier $B=(X,Y,W,D,Q,E,H,C,P,N)$, the local $\NameCert_{\BishopFiniteTailComparisonUp}$ surface consists exactly of these obligations:
+\begin{enumerate}
+\item carrier admission for the two $\RegSeqRatUp$ source rows, shared $\StreamNameUp$ window, $\DyadicRatCoreUp$ tolerance budget, finite verdict, terminal $\RealUp$ seal boundary, componentwise transport, continuation replay, provenance, and local naming row;
+\item shared-window discipline, requiring every comparison read to expose the same finite tail window $W$ for both source rows before the verdict $Q$ is inspected;
+\item tolerance-budget discipline, requiring the dyadic row $D$ to be displayed before the verdict is consumed;
+\item difference-route compatibility, requiring any equality-facing read beyond $Q$ to pass through the $\CauchyDifferenceCriterionUp$ route before the terminal seal row $E$ is exposed;
+\item ledger non-escape, stating that $H,C,P,N$ expose no Real completeness theorem, quotient stream equality, selected limit, trichotomy, countable-choice schedule, host equality of completed reals, Lean verification, or bridge check.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-finite-tail-comparison-carrier}. The tuple displays exactly the two source rows, shared finite window, dyadic tolerance budget, verdict, seal boundary, transport, replay, provenance, and local naming data.
+
+The shared-window and tolerance-budget obligations are read from $W$ and $D$ before $Q$. Since the verdict row is downstream of both rows, the comparison cannot be inspected from one source tail alone and cannot use an undisplayed tolerance.
+
+For equality-facing reads, use the placement of $E$ behind $Q$ and the cited $\CauchyDifferenceCriterionUp$ route. The structural rows $H,C,P,N$ only transport, replay, source, and name the same finite packet. Hence no excluded Real completeness, quotient equality, selected-limit, trichotomy, choice, host-equality, Lean-verification, or bridge-check principle is exported.
+\end{proof}
+
+\begin{theorem}[BishopFiniteTailComparison shared-window comparison]
+\label{thm:bishop-finite-tail-comparison-shared-window}
+Let $B=(X,Y,W,D,Q,E,H,C,P,N)$ be an accepted $\BishopFiniteTailComparisonUp$ carrier. Any finite comparison of the two source rows $X,Y$ must first display the shared $\StreamNameUp$ window $W$ and the $\DyadicRatCoreUp$ budget $D$, then read the verdict row $Q$, and only then continue toward the terminal seal boundary $E$ through the $\CauchyDifferenceCriterionUp$ route.
+
+The shared-window route exports no comparison from a one-sided tail, no quotient stream equality, no selected limit, no trichotomy, no countable-choice schedule, and no ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-finite-tail-comparison-carrier}. The comparison-facing rows are ordered as the two source names $X,Y$, the shared window $W$, the dyadic budget $D$, and the verdict $Q$.
+
+Apply the NameCert obligations of \autoref{thm:bishop-finite-tail-comparison-namecert-obligations}. They force the same window to be displayed for both sources and force the dyadic budget to be available before $Q$ is inspected.
+
+The continuation row $C$ replays the same order through the terminal seal boundary $E$. Since $E$ is read only after the verdict and the $\CauchyDifferenceCriterionUp$ route, the shared-window comparison remains finite and does not export any excluded equality, limit-selection, trichotomy, choice, or Real-completeness principle.
+\end{proof}
+
+\begin{theorem}[BishopFiniteTailComparison Real-seal boundary]
+\label{thm:bishop-finite-tail-comparison-real-seal-boundary}
+Let $B=(X,Y,W,D,Q,E,H,C,P,N)$ be an accepted $\BishopFiniteTailComparisonUp$ carrier. The terminal $\RealUp$ seal boundary $E$ is readable only after the source rows $X,Y$, the shared finite window $W$, the dyadic tolerance budget $D$, the comparison verdict $Q$, and the $\CauchyDifferenceCriterionUp$ handoff have all been displayed. The boundary is therefore a finite pre-seal route for equality-facing Real reads, not a proof of Real completeness or quotient stream equality.
+\end{theorem}
+\begin{proof}
+Start with the shared-window comparison theorem \autoref{thm:bishop-finite-tail-comparison-shared-window}. It supplies the finite route through $X,Y,W,D,Q$ before any terminal seal-boundary read can occur.
+
+Use the difference-route compatibility clause of \autoref{thm:bishop-finite-tail-comparison-namecert-obligations}. It requires equality-facing reads past the verdict to pass through the displayed $\CauchyDifferenceCriterionUp$ route before the terminal $\RealUp$ seal boundary $E$ is exposed.
+
+Finally read the ledger non-escape clause. The carrier and structural rows contain no Real completeness theorem, quotient stream equality, selected limit, trichotomy, countable-choice schedule, host equality of completed reals, Lean verification, or bridge check, so the seal boundary remains exactly the stated finite pre-seal route.
+\end{proof}
+
+\closureat{BishopFiniteTailComparisonUp}{seedStr}
+
+\begin{closurestatus}{\BishopFiniteTailComparisonUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-finite-tail-comparison-carrier}, \autoref{thm:bishop-finite-tail-comparison-namecert-obligations}, \autoref{thm:bishop-finite-tail-comparison-shared-window}, and \autoref{thm:bishop-finite-tail-comparison-real-seal-boundary} seed the finite shared-tail comparison route from two RegSeqRat source rows through a shared StreamName window, DyadicRatCore budget, finite verdict, CauchyDifferenceCriterion handoff, and terminal Real seal boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close $\RealUp$ completeness, quotient stream equality, selected limits, trichotomy, countable choice, host equality of completed reals, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-window discipline, tolerance-budget discipline, difference-route compatibility, Real seal nonescape, and TasteGate field faithfulness for BEDC.Derived.BishopFiniteTailComparisonUp.}
+  \constructivestory{A $\BishopFiniteTailComparisonUp$ packet is generated from two RegSeqRat source rows, one shared StreamName finite window, one DyadicRatCore tolerance budget, one finite comparison verdict, one terminal Real seal-boundary row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

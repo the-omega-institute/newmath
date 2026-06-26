@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedComparisonUp$}
+\label{ch:concrete-instances-bishop-located-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges, located comparison of real names is read through explicit rational windows and dyadic tolerance data rather than through trichotomy or quotient-real equality. The $\BishopLocatedComparisonUp$ packet sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the located interval route of \autoref{ch:concrete-instances-locatedinterval-namecert}. It names a finite comparison interface for L10 real and completion consumers without importing selected representatives, ambient real order, or completeness of $\RealUp$.
+
+\begin{definition}[Bishop located-comparison carrier]
+\label{def:bishop-located-comparison-carrier}
+A $\BishopLocatedComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+K=(L,R,D,W,S,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the left regular real-name row, including the inspected $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks used by the comparison.
+\item $R$ is the right regular real-name row, with the same kind of displayed stream windows and regular rational readbacks.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and enclosure ledger, recording the positive dyadic requests, enclosure widths, and finite comparison rows used to separate or overlap the two displayed names.
+\item $W$ is the located-window comparison ledger, listing the finite pairs of left and right windows inspected at each dyadic tolerance.
+\item $S$ is the terminal $\RealUp$ seal surface for the left and right names after the displayed windows and readbacks have been fixed.
+\item $E$ records the comparison outcome rows available to downstream consumers: separated-left, separated-right, or retained-overlap data, each tied to a displayed tolerance and window pair.
+\item $H$ records componentwise $\hsame$ transport for the left and right real-name rows, dyadic tolerance ledger, window ledger, seal rows, comparison outcome rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from each comparison request through $L,R,D,W,S,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\BishopLocatedComparisonUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\LocatedIntervalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopLocatedComparisonUp}$ row.
+\end{enumerate}
+The carrier predicate says that these rows form one finite located-comparison packet. It has no coordinate for real trichotomy, quotient real equality, a selected representative stream, a host order oracle, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop located-comparison NameCert obligations]
+\label{thm:bishop-located-comparison-namecert-obligations}
+For every accepted $\BishopLocatedComparisonUp$ carrier $K=(L,R,D,W,S,E,H,C,P,N)$, the local $\NameCert_{\BishopLocatedComparisonUp}$ surface consists exactly of the following finite rows:
+\begin{enumerate}
+\item carrier admission for the finite packet of \autoref{def:bishop-located-comparison-carrier};
+\item left and right source visibility through the displayed $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks in $L$ and $R$;
+\item dyadic located-window comparison coverage through the tolerance and enclosure ledger $D$ together with the paired window ledger $W$;
+\item comparison stability under componentwise $\hsame$ transport and displayed $\Cont$ replay through $H$ and $C$;
+\item $\RealUp$ seal nonescape through $S$, requiring every real-facing consumer to pass through the displayed left and right window rows before reading a seal;
+\item provenance and local naming through $P$ and $N$.
+\end{enumerate}
+No further order, equality, choice, or completeness obligation is part of the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-located-comparison-carrier}. The left and right sources expose only their displayed stream windows and regular rational readbacks, while the dyadic ledger $D$ supplies the tolerance and enclosure rows used by the comparison.
+
+The paired window ledger $W$ records exactly which left and right windows were inspected at each tolerance. A separated or retained-overlap row in $E$ is therefore read only after the corresponding entries of $L,R,D,W$ have been displayed.
+
+Transport and replay are componentwise. Rows $H$ and $C$ move the same left source, right source, dyadic tolerance, window, seal, and outcome rows together, so a consumer cannot replace the finite comparison route with an external order oracle.
+
+Finally, $P$ and $N$ record provenance and local naming for that same route. Since the carrier has no coordinate for trichotomy, quotient equality, selected representatives, or completeness of $\RealUp$, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop located-comparison Real seal nonescape]
+\label{thm:bishop-located-comparison-real-seal-nonescape}
+Every comparison consumer of an accepted $\BishopLocatedComparisonUp$ carrier routes through the displayed $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\LocatedIntervalUp$ rows before it can read a comparison outcome or a real-facing seal. Such a consumer cannot read real trichotomy, quotient real equality, selected stream representatives, a host order oracle, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the consumer route from the carrier. The source rows $L$ and $R$ expose the stream windows and regular rational readbacks, and the dyadic ledger $D$ supplies the tolerance scale on which the comparison is staged.
+
+The window ledger $W$ ties those rows to the located interval boundary inherited from \autoref{ch:concrete-instances-locatedinterval-namecert}. A comparison outcome in $E$ is therefore attached to a finite pair of displayed windows and a displayed dyadic tolerance before the terminal seal $S$ is available.
+
+Rows $H,C,P,N$ transport, replay, source, and name the same finite route. None of these rows contains trichotomy, quotient equality, a selected representative, an external order oracle, or completeness data for $\RealUp$. Hence every real-seal or comparison read remains inside the displayed finite packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopLocatedComparisonUp$ read exposes left and right StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance data, located interval window coverage, RealUp seal rows, componentwise transport, continuation replay, provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, locatedinterval: $\BishopLocatedComparisonUp$ is not identical to any listed sibling because it binds two real-name routes to one located comparison ledger before any outcome or RealUp seal is consumed.}
+
+\closureat{BishopLocatedComparisonUp}{seedStr}
+
+\begin{closurestatus}{\BishopLocatedComparisonUp}
+  \constructivestory{A $\BishopLocatedComparisonUp$ packet is generated from left and right regular real-name rows, DyadicRatCore tolerance and enclosure rows, StreamName windows, RegSeqRat readbacks, terminal RealUp seals, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-comparison-carrier}, \autoref{thm:bishop-located-comparison-namecert-obligations}, and \autoref{thm:bishop-located-comparison-real-seal-nonescape} seed the finite Bishop located-comparison route from displayed dyadic windows to terminal real-name seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim real trichotomy, quotient real equality, selected stream representatives, a host order oracle, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, left and right source visibility, dyadic located-window comparison coverage, transport stability, Real seal nonescape, provenance, and local naming for BEDC.Derived.BishopLocatedComparisonUp.}
+\end{closurestatus}
