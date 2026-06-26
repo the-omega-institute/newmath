@@ -1,0 +1,126 @@
+\origin{ai}
+
+\subsection{Forced-window transfer operator and the golden Perron root}
+\label{sec:window6-transfer-operator-golden-perron-spectrum}
+
+\paragraph{Carrier and predicate.}
+The finite carrier is the binary word system obtained by forbidding the adjacent block $11$. For each positive integer $m$, let $X_m$ be the set of words $w=(w_1,\ldots,w_m)\in\{0,1\}^m$ such that no neighboring pair is equal to $(1,1)$. Thus $w\in X_m$ exactly when, for every $1\leq i<m$, the pair $(w_i,w_{i+1})$ is one of $(0,0)$, $(0,1)$, or $(1,0)$. The cyclic carrier uses the same local rule and also tests the wrap-around pair $(w_m,w_1)$; a cyclic word is admitted exactly when every neighboring pair on the cycle avoids $(1,1)$.
+
+\paragraph{State partition and transfer matrix.}
+The transfer state remembers only the previous bit. There are two states, denoted by previous-bit-$0$ and previous-bit-$1$. Partition a partial word by its terminal bit: the previous-bit-$0$ class contains the admissible prefixes ending in $0$, and the previous-bit-$1$ class contains the admissible prefixes ending in $1$. Appending a new bit $b$ after a previous bit $a$ is allowed exactly when the two-bit word $ab$ is not $11$. With the row and column order $0,1$, this gives the transfer matrix
+$$
+\begin{aligned}
+M&=\begin{pmatrix}1&1\\1&0\end{pmatrix},\\
+M_{ab}&=1 \text{ exactly when appending bit } b \text{ after previous bit } a \text{ preserves the no-adjacent-one predicate},\\
+\text{allowed transitions}&: 0\to 0,\;0\to 1,\;1\to 0,\\
+\text{forbidden transition}&: 1\to 1.
+\end{aligned}
+$$
+The matrix is nonnegative and primitive, since
+$$
+\begin{aligned}
+M^2&=\begin{pmatrix}2&1\\1&1\end{pmatrix}
+\end{aligned}
+$$
+has all entries positive.
+
+\paragraph{Spectral computation.}
+The characteristic polynomial is computed directly from the two-state matrix:
+$$
+\begin{aligned}
+\det(\lambda I-M)&=\det\begin{pmatrix}\lambda-1&-1\\-1&\lambda\end{pmatrix}\\
+&=\lambda^2-\lambda-1.
+\end{aligned}
+$$
+Let
+$$
+\begin{aligned}
+\phi&=\frac{1+\sqrt{5}}{2},\\
+\psi&=\frac{1-\sqrt{5}}{2}=-\frac{1}{\phi}.
+\end{aligned}
+$$
+Then
+$$
+\begin{aligned}
+\phi+\psi&=1,\\
+\phi\psi&=-1,\\
+\phi-\psi&=\sqrt{5},\\
+\mathrm{spec}(M)&=\{\phi,\psi\}.
+\end{aligned}
+$$
+Since $\phi$ is approximately $1.618$ and $|\psi|$ is approximately $0.618$, the spectral radius is
+$$
+\begin{aligned}
+\rho(M)&=\max(|\phi|,|\psi|)=\phi.
+\end{aligned}
+$$
+For the subshift of finite type determined by this transfer rule, the topological entropy is therefore
+$$
+\begin{aligned}
+h_{\mathrm{top}}&=\log(\rho(M))=\log(\phi).
+\end{aligned}
+$$
+
+\paragraph{Linear word counts.}
+Let $\mathbf{1}$ be the two-entry column vector with both entries equal to $1$. For $m\geq 1$, the linear count is obtained by choosing the first bit and then applying $m-1$ transfer steps:
+$$
+\begin{aligned}
+|X_m|&=\mathbf{1}^{T}M^{m-1}\mathbf{1}=F_{m+2},\\
+F_n&=\frac{\phi^n-\psi^n}{\sqrt{5}}.
+\end{aligned}
+$$
+For the first eight lengths this gives the finite row
+$$
+\begin{aligned}
+(|X_1|,|X_2|,|X_3|,|X_4|,|X_5|,|X_6|,|X_7|,|X_8|)&=(2,3,5,8,13,21,34,55).
+\end{aligned}
+$$
+In particular, the forced window of length $6$ has
+$$
+\begin{aligned}
+|X_6|&=21=F_8.
+\end{aligned}
+$$
+This is an exact finite enumeration statement, not a fitted approximation.
+
+\paragraph{Cyclic word counts.}
+For the cyclic carrier, the wrap-around test is included by closing the transfer path. The count at length $m$ is the trace of the $m$-step transfer matrix:
+$$
+\begin{aligned}
+\#\{\text{cyclic admissible words of length }m\}&=\mathrm{tr}(M^m)=L_m.
+\end{aligned}
+$$
+For $m=1,\ldots,8$ the cyclic counts are
+$$
+\begin{aligned}
+(L_1,L_2,L_3,L_4,L_5,L_6,L_7,L_8)&=(1,3,4,7,11,18,29,47).
+\end{aligned}
+$$
+The length-$6$ cyclic check is therefore
+$$
+\begin{aligned}
+\mathrm{tr}(M^6)&=18=L_6.
+\end{aligned}
+$$
+The contrast between $|X_6|=21$ and $\mathrm{tr}(M^6)=18$ records the difference between an open window and a window whose last bit is tested against its first bit.
+
+\paragraph{Visible window weights and tail aliases.}
+The same diagonalization that gives the Perron root also organizes the finite rows used by the window records. The visible length-$6$ weights are
+$$
+\begin{aligned}
+(1,2,3,5,8,13)&=(F_2,F_3,F_4,F_5,F_6,F_7),
+\end{aligned}
+$$
+and the tail aliases
+$$
+\begin{aligned}
+(21,34,55)&=(F_8,F_9,F_{10})
+\end{aligned}
+$$
+continue the same Fibonacci sequence forced by the no-adjacent-one transfer matrix. Thus the golden base governing Fibonacci growth, Binet diagonalization, topological entropy, the Window6 visible weights, and the Foldbin tail aliases is the Perron root of the two-state adjacency-exclusion transfer operator. The shell powers $\phi^{-7}$, $\phi^{-10}$, $\phi^{-17}$, and $\phi^{-27}$ use this same base $\phi$ as their algebraic base.
+
+\paragraph{Witness extraction.}
+The witness is fully finite. First enumerate all length-$m$ binary words and retain exactly those with no adjacent $1$s; for $m=1,\ldots,8$ this gives $(2,3,5,8,13,21,34,55)$, matching $\mathbf{1}^{T}M^{m-1}\mathbf{1}$ and $F_{m+2}$. Second enumerate cyclic words with the additional last-first test; for $m=1,\ldots,8$ this gives $(1,3,4,7,11,18,29,47)$, matching $\mathrm{tr}(M^m)$ and $L_m$. Third compute the characteristic polynomial $\lambda^2-\lambda-1$ and its two roots $\phi$ and $\psi$, which certifies $\rho(M)=\phi$ and $h_{\mathrm{top}}=\log(\phi)$.
+
+\paragraph{Boundary of the claim.}
+The construction proves only the finite transfer mechanism and its exact spectral consequences. It does not by itself identify a physical constant, impose a global flow law, import an external dependency, supply a metrological comparison, or justify an interpretation beyond this finite adjacency-exclusion system. Any such reading would require a separate certificate outside the present finite matrix calculation.

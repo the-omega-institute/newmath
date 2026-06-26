@@ -1,0 +1,281 @@
+\section{Measure and Integration}
+\label{sec:analysis-spine-measure}
+
+\begin{definition}[Measurable carrier]
+\label{def:analysis-spine-measurable-carrier}
+A measurable carrier is a tuple $(X,\sim_X,\mathcal A)$ where
+$\mathcal A$ is a $\SetLikeUp$ family of event rows over $X$.  The family
+contains empty and total events, is closed under complement and finite
+unions, and is closed under certified countable unions supplied as
+$\StreamNameUp$ families.
+\end{definition}
+
+\begin{definition}[Measure interface]
+\label{def:analysis-spine-measure-interface}
+A $\MeasureUp$ interface is a nonnegative real-valued map on event rows:
+$$
+\mu:\mathcal A\to\RealUp_{\ge0}.
+$$
+Its certificate records the null empty event, finite additivity on disjoint
+events, certified countable additivity on disjoint event streams,
+monotonicity, and stability under $\SetLikeUp$ extensional classification.
+\end{definition}
+
+\begin{theorem}[Monotonicity from finite additivity]
+\label{thm:analysis-spine-measure-monotonicity}
+If $A\subseteq B$ and the decomposition
+$$
+B=A\sqcup(B\setminus A)
+$$
+is certified, then $\mu(A)\le\mu(B)$.
+\end{theorem}
+
+\begin{proof}
+Finite additivity gives
+$$
+\mu(B)=\mu(A)+\mu(B\setminus A).
+$$
+Nonnegativity gives $\mu(B\setminus A)\ge0$, so the real order row yields
+$\mu(A)\le\mu(B)$.
+\end{proof}
+
+\begin{definition}[Simple integral and nonnegative integral]
+\label{def:analysis-spine-simple-integral}
+A simple function is a finite partition expression
+$$
+s=\sum_{i=1}^{n}a_i\mathbf 1_{A_i}
+$$
+with $a_i:\RealUp$ and $A_i\in\mathcal A$.  Its integral is
+$$
+\int s\,d\mu
+:=
+\sum_{i=1}^{n}a_i\mu(A_i).
+$$
+For nonnegative measurable $f$, the integral is read as a directed
+completion of simple functions below $f$, with an approximation ledger.
+\end{definition}
+
+\begin{definition}[$L^p$ seed]
+\label{def:analysis-spine-lp-seed}
+For $1\le p<\infty$, the $L^p$ seed carrier records functions with finite
+value
+$$
+\int |f|^p\,d\mu.
+$$
+The classifier is almost-everywhere equality through the measure ledger:
+$$
+f\sim g
+\Longleftrightarrow
+\mu(\{x:f(x)\not\sim g(x)\})=0.
+$$
+The zero-event and equality rows are measure certificates, not host quotient
+classes.
+\end{definition}
+
+\begin{principle}[Measure boundary]
+\label{prin:analysis-spine-measure-boundary}
+$\MeasureUp$ requires $\SetLikeUp$, $\RealUp$, $\TopologyUp$,
+$\CompletionUp$, and certified countable families.  Countable operations are
+stream-name data; they are not host countable choice.
+\end{principle}
+
+\section{Functional Analysis}
+\label{sec:analysis-spine-functional-analysis}
+
+\begin{definition}[Normed vector carrier]
+\label{def:analysis-spine-normed-vector-carrier}
+A $\NormUp$ row over a $\VecSpaceUp$ carrier $V$ is a map
+$$
+\lVert-\rVert:V\to\RealUp_{\ge0}
+$$
+with positivity, definiteness, scalar homogeneity, triangle inequality, and
+classifier congruence.  It induces the metric used by Banach and Hilbert
+completion rows.
+\end{definition}
+
+\begin{definition}[Banach and Hilbert carriers]
+\label{def:analysis-spine-banach-hilbert-carriers}
+A $\BanachUp$ carrier is a normed vector carrier with a regular Cauchy
+completeness witness in the norm-induced metric.  A $\HilbertUp$ carrier is
+a Banach carrier with an inner product
+$$
+\langle-,-\rangle:V\times V\to F
+$$
+whose induced norm satisfies
+$$
+\lVert v\rVert^2\sim \langle v,v\rangle .
+$$
+The inner product row records linearity, conjugate symmetry when needed,
+positivity, definiteness, and classifier congruence.
+\end{definition}
+
+\begin{theorem}[Parallelogram row]
+\label{thm:analysis-spine-parallelogram}
+In an inner-product carrier,
+$$
+\lVert v+w\rVert^2+\lVert v-w\rVert^2
+\sim
+2\lVert v\rVert^2+2\lVert w\rVert^2.
+$$
+\end{theorem}
+
+\begin{proof}
+Use $\lVert x\rVert^2\sim\langle x,x\rangle$.  Expanding
+$\langle v+w,v+w\rangle$ gives the two diagonal terms and the two cross
+terms.  Expanding $\langle v-w,v-w\rangle$ gives the same diagonal terms and
+the negative cross terms.  Addition cancels the cross terms by the additive
+classifier and leaves twice the two diagonal rows.
+\end{proof}
+
+\begin{definition}[Bounded linear operator]
+\label{def:analysis-spine-bounded-linear-operator}
+For normed vector carriers $V$ and $W$, a bounded linear operator row for
+$T:V\to W$ consists of linearity plus a bound $M:\RealUp_{\ge0}$ satisfying
+$$
+\lVert T v\rVert\le M\lVert v\rVert
+$$
+for every carried $v$.  Operator classification is pointwise:
+$$
+T\sim_{\mathsf{op}}S
+\Longleftrightarrow
+\forall v,\ T(v)\sim_W S(v).
+$$
+\end{definition}
+
+\begin{theorem}[Bounded operators form a vector-space carrier]
+\label{thm:analysis-spine-bounded-operators-vector-space}
+Bounded linear maps from $V$ to $W$ are closed under pointwise addition and
+scalar multiplication.
+\end{theorem}
+
+\begin{proof}
+If $T$ and $S$ have bounds $M$ and $N$, then
+$$
+\lVert (T+S)v\rVert
+\le
+\lVert Tv\rVert+\lVert Sv\rVert
+\le
+(M+N)\lVert v\rVert .
+$$
+If $\lambda$ is a scalar, then
+$$
+\lVert(\lambda T)v\rVert
+\sim
+|\lambda|\lVert Tv\rVert
+\le
+|\lambda|M\lVert v\rVert .
+$$
+The vector-space laws descend pointwise from $W$ through the operator
+classifier.
+\end{proof}
+
+\begin{definition}[Spectrum and compact operator rows]
+\label{def:analysis-spine-spectrum-compact}
+For a bounded operator $T:V\to V$, the resolvent row at $\lambda$ is a
+bounded inverse certificate for $T-\lambda I$.  The spectrum row records
+failure of that inverse package through a certified non-invertibility or
+apartness witness, not bare undecidable negation.  A compact-operator row
+records either total-bounded image data or a subsequence-with-modulus witness
+for bounded sequences.
+\end{definition}
+
+\begin{principle}[Functional-analysis boundary]
+\label{prin:analysis-spine-functional-analysis-boundary}
+$\FunctionalAnalysisUp$ collects Banach, Hilbert, bounded-operator, dual,
+adjoint, compactness, and spectral-substrate rows.  The spectral theorem is a
+major target over those rows, not part of the root functional-analysis
+certificate.
+\end{principle}
+
+\section{Gamma Bridge}
+\label{sec:analysis-spine-gamma}
+
+\begin{definition}[Gamma pole and domain]
+\label{def:analysis-spine-gamma-domain}
+The $\GammaUp$ pole locus is the complex-history row saying that $s$ is a
+non-positive integer:
+$$
+\mathsf{GammaPole}(s)
+\Longleftrightarrow
+\exists n:\NatUp,\ s\sim_{\ComplexUp}-n.
+$$
+The domain row $\mathsf{GammaDom}(s)$ contains a $\ComplexUp$ carrier and an
+explicit apartness witness from that pole locus.
+\end{definition}
+
+\begin{definition}[Gamma by product and recurrence]
+\label{def:analysis-spine-gamma-product}
+The gamma row is built from the integer factorial identity
+$$
+\Gamma(n+1)=n!,
+$$
+a Weierstrass-product extension on $\mathsf{GammaDom}$ with unary Cauchy
+modulus, and the recurrence
+$$
+\Gamma(s+1)=s\Gamma(s).
+$$
+The construction consumes $\RealAnalyticUp$ exponent and logarithm rows,
+$\ComplexUp$ arithmetic, and the pole-apartness ledger.
+\end{definition}
+
+\begin{theorem}[Gamma uniqueness]
+\label{thm:analysis-spine-gamma-uniqueness}
+If two $\GammaUp$ rows evaluate the same domain point through compatible
+product moduli, their outputs classify together in $\ComplexUp$.
+\end{theorem}
+
+\begin{proof}
+Both outputs are limits of the same unary-indexed product stream on the same
+domain row.  The complex limit uniqueness row transports the shared product
+classifier to the $\ComplexUp$ classifier.
+\end{proof}
+
+\begin{principle}[Gamma boundary]
+\label{prin:analysis-spine-gamma-boundary}
+$\GammaUp$ is an analytic bridge over $\ComplexUp$ and $\RealAnalyticUp$.
+It is not a meromorphic black box; the public row must expose pole
+apartness, product modulus, recurrence, transport, replay, and local naming.
+\end{principle}
+
+\section{L11 Boundary}
+\label{sec:analysis-spine-boundary}
+
+\begin{theorem}[Analysis admission theorem]
+\label{thm:analysis-spine-admission}
+If
+$$
+\CalculusUp,\quad
+\RealAnalyticUp,\quad
+\ComplexAnalyticUp,\quad
+\MeasureUp,\quad
+\FunctionalAnalysisUp,\quad
+\GammaUp
+$$
+carry their advertised carrier, classifier, finite approximation, completion,
+modulus, stability, ledger, and $\NameCert$ rows, then the L11 analysis layer
+is admitted.
+\end{theorem}
+
+\begin{proof}
+$\CalculusUp$ supplies local linear approximation and finite-sum or
+measure-facing integration through L10 completion.  $\RealAnalyticUp$
+supplies $\pi$, exponential, logarithm, sine, and cosine through explicit
+series or bisection moduli.  $\ComplexAnalyticUp$ composes those real rows
+componentwise over $\ComplexUp$ and records Euler and exponential-additivity
+rows.  $\MeasureUp$ supplies stable event algebras, certified countable
+additivity, integration, and $L^p$ seeds.  $\FunctionalAnalysisUp$ supplies
+normed, Banach, Hilbert, bounded-operator, compactness, and spectral-substrate
+rows.  $\GammaUp$ supplies the analytic bridge needed for zeta-facing
+functional-equation packets.  Each row is a certified finite-approximation or
+modulus-bearing route, so no host analytic object enters as a primitive.
+\end{proof}
+
+\begin{principle}[Downstream zeta consumption]
+\label{prin:analysis-spine-zeta-consumption}
+Zeta-facing packets may consume L11 only through the real and complex
+analytic rows, measure or contour-integral ledgers when present, gamma-domain
+and gamma-product rows, and functional-analysis operator rows when a spectral
+route is chosen.  They may not replace these rows by host exponentials,
+untracked logarithm branches, classical nonzero predicates, or black-box
+meromorphic functions.
+\end{principle}

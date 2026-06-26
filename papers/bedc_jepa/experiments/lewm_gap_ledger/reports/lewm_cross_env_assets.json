@@ -1,0 +1,154 @@
+{
+  "source_inference": {
+    "tworooms_prior": {
+      "model_repo": "quentinll/lewm-tworooms",
+      "dataset_repo": "quentinll/lewm-tworooms",
+      "streaming_method": "HF HfFileSystem remote read of .tar.zst, decompressed as a stream, then HDF5 prefix read for early episodes",
+      "evidence_files": [
+        "_phase0_prompt.md",
+        "_phase1a_export_latents.py",
+        "_phase1a_h5_prefix.py",
+        "_phase1a_probe_tar.py",
+        "_phase1a_log.log",
+        "PHASE1A_FINDINGS.md"
+      ]
+    },
+    "cross_env_rule": "infer corresponding dataset repo as quentinll/lewm-<env>; fail-closed if not readable"
+  },
+  "all_lewm_model_repos_found": [
+    "quentinll/lewm-cube",
+    "quentinll/lewm-pusht",
+    "quentinll/lewm-reacher",
+    "quentinll/lewm-tworooms"
+  ],
+  "all_lewm_dataset_repos_found": [
+    "quentinll/lewm-cube",
+    "quentinll/lewm-pusht",
+    "quentinll/lewm-reacher",
+    "quentinll/lewm-tworooms"
+  ],
+  "target_envs": [
+    "pusht",
+    "reacher",
+    "cube"
+  ],
+  "envs": {
+    "pusht": {
+      "env": "pusht",
+      "model_repo": "quentinll/lewm-pusht",
+      "dataset_repo": "quentinll/lewm-pusht",
+      "model_available": true,
+      "dataset_available": true,
+      "model_files": [
+        {
+          "name": ".gitattributes",
+          "size": 1519
+        },
+        {
+          "name": "README.md",
+          "size": 178
+        },
+        {
+          "name": "config.json",
+          "size": 1313
+        },
+        {
+          "name": "weights.pt",
+          "size": 72290721
+        }
+      ],
+      "dataset_files": [
+        {
+          "name": ".gitattributes",
+          "size": 2504
+        },
+        {
+          "name": "README.md",
+          "size": 136
+        },
+        {
+          "name": "pusht_expert_train.h5.zst",
+          "size": 13136247974
+        }
+      ]
+    },
+    "reacher": {
+      "env": "reacher",
+      "model_repo": "quentinll/lewm-reacher",
+      "dataset_repo": "quentinll/lewm-reacher",
+      "model_available": true,
+      "dataset_available": true,
+      "model_files": [
+        {
+          "name": ".gitattributes",
+          "size": 1519
+        },
+        {
+          "name": "README.md",
+          "size": 185
+        },
+        {
+          "name": "config.json",
+          "size": 1313
+        },
+        {
+          "name": "weights.pt",
+          "size": 72290849
+        }
+      ],
+      "dataset_files": [
+        {
+          "name": ".gitattributes",
+          "size": 2504
+        },
+        {
+          "name": "README.md",
+          "size": 141
+        },
+        {
+          "name": "reacher.tar.zst",
+          "size": 23750614946
+        }
+      ]
+    },
+    "cube": {
+      "env": "cube",
+      "model_repo": "quentinll/lewm-cube",
+      "dataset_repo": "quentinll/lewm-cube",
+      "model_available": true,
+      "dataset_available": true,
+      "model_files": [
+        {
+          "name": ".gitattributes",
+          "size": 1519
+        },
+        {
+          "name": "README.md",
+          "size": 167
+        },
+        {
+          "name": "config.json",
+          "size": 1313
+        },
+        {
+          "name": "weights.pt",
+          "size": 72291425
+        }
+      ],
+      "dataset_files": [
+        {
+          "name": ".gitattributes",
+          "size": 2504
+        },
+        {
+          "name": "README.md",
+          "size": 143
+        },
+        {
+          "name": "cube_single_expert.tar.zst",
+          "size": 46184624478
+        }
+      ]
+    }
+  }
+}

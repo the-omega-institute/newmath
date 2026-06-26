@@ -1,0 +1,38 @@
+\subsection{Translation-first protein readout for the $B^{*}_{Q6}$ residual panel}
+\label{sec:q6-three-matrix-translation-first-protein-readout-cross-layer}
+
+\paragraph{Finite panel.}
+The record fixes a finite coding-sequence panel in which each row is indexed by organism, coding sequence, a $B^{*}_{Q6}$ residual coordinate, a translation readout, and, when available, a downstream protein or mRNA-stability readout. The coordinate side has nine residual directions: $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$. These directions are interpreted only after quotienting away the amino-acid sequence component; they are synonymous residual coordinates, not amino-acid replacements and not protein-structure variables.
+
+\paragraph{Ordered matrix boundary.}
+The chapter uses three matrices, but the ordering is part of the claim. The first admissible object is the translation-survival matrix $S^{QT}$, whose entries compare a residual coordinate $q_i$ with a translation readout $T_j$ after conditioning on amino-acid composition, organism-level sequence effects, $GC3$, coding-sequence length, $M$-density, and matched mRNA controls. A modeled coupling matrix $A^{QT}$ is not the same object: it may express a rank-degenerate association with modeled tAI or stAI weights, but it is not promoted to survival unless the controlled rank calculation is carried out. Only after such a translation entry is computed may one read a direct protein matrix $S^{QP}$ or a mediated component $M^{QTP}$ as a downstream decomposition.
+
+\paragraph{Control rank and row counts.}
+The shared control design contains 24 columns and has rank 23 in each reported organism. For the protein-abundance residual panel with matched mRNA availability, the joined row counts are $n=13140$ for \emph{Danio rerio}, $n=3415$ for \emph{Escherichia coli} K-12 MG1655, $n=11554$ for \emph{Homo sapiens}, and $n=5128$ for \emph{Saccharomyces cerevisiae}. The corresponding full abundance CDS joins were 14410, 3739, 19053, and 5815 rows, while valid mRNA-by-protein rows were 13140, 3415, 11554, and 5128. Thus the readout panel is not a uniform organism table; it is a finite joined panel whose interpretation depends on the available rows after mRNA matching.
+
+\paragraph{Protein residual complement.}
+On the protein-abundance residual side, the modeled complement calculation reports
+$$
+\begin{aligned}
+ d_{\mathrm{modeled}}(\mathrm{Danio}) &= 0.8424312412078521,\\
+ d_{\mathrm{modeled}}(\mathrm{E.coli}) &= 0.6628211177352172,\\
+ d_{\mathrm{modeled}}(\mathrm{human}) &= 0.8566190269974241,\\
+ d_{\mathrm{modeled}}(\mathrm{yeast}) &= 0.22386566043976477.
+\end{aligned}
+$$
+The associated squared energies are $\|P_Q\|^2=1092.0114815505467$ and $\|P_{Q\perp Tmod}\|^2=919.9445878158525$ for \emph{Danio rerio}; $393.78692095732885$ and $261.0102870984463$ for \emph{E. coli}; $565.3850201235074$ and $484.31956581711796$ for human; and $675.3275479192903$ and $151.18264752811882$ for yeast. These numbers are descriptive residual-energy ratios. They do not establish translation, folding, physical admissibility, biological function, mechanism, or universality.
+
+\paragraph{mRNA absorption check.}
+The same finite panel computes an mRNA absorption diagnostic by projecting the modeled-tAI complement abundance residual onto residualized $\log_{10}$ mRNA. The absorbed fractions are 0.011973033879985792 for \emph{Danio rerio}, 0.0017706954554908886 for \emph{E. coli}, 0.007858222847072218 for human, and 0.0018976054721605224 for yeast. The combined residual distances are 0.8322280386743373, 0.6615987644523418, 0.8498079619223776, and 0.223360891719316 in the same order. The complement self-check agrees within 0.02 for \emph{E. coli} and yeast, with absolute differences 0.00017488612263594217 and 0.012133464712697745, but does not agree within that threshold for \emph{Danio rerio} and human, where the absolute differences are 0.03219747984141397 and 0.06427590857052146. The failed checks are read as join-sensitivity diagnostics, not as biological counterclaims.
+
+\paragraph{mRNA-stability mediation rows.}
+A second downstream decomposition uses mRNA half-life or stability readouts in two organisms. In \emph{E. coli}, the three-way join has 2720 rows, 3739 reported CDS joins, 2947 half-life records, and a reported CDS hit rate of 0.9978649586335735. The readout is the Esquerre growth-rate slice at $0.40\,h^{-1}$. In human, the three-way join has 16165 rows, 19053 reported CDS joins, 19480 consensus records, and a reported CDS hit rate of 0.9779294769799313; 16150 rows join through Ensembl gene identifiers and 15 through the gene-symbol fallback. The human readout is the unlogged mean normalized relative mRNA half-life consensus across 54 dataset columns.
+
+\paragraph{Rank diagnostics for the stability mediator.}
+For \emph{E. coli}, the residual degrees of freedom after the control design are 2697, with $rank(Z)=23$, $rank(\widetilde X)=9$, $rank(\widetilde M)=1$, and $rank(\widetilde X\widetilde M)=10$. The residual energies are $m=215.43086017169205$ and $p=2551.728810042108$. The finite decomposition reports $R^2_{M\mid X}=0.12750047680284674$, $R^2_{QM}=0.02298556640056076$, $X$-explained energy on $P$ equal to 296.8250528743585, $M$-incremental improvement energy given $X$ equal to 325.3466399519295, and $\beta_{P\sim M\mid X}=-1.2432793356009886$. For human, the residual degrees of freedom are 16142 with the same ranks $23,9,1,10$; the residual energies are $m=1422.0291144063049$ and $p=22233.302987773684$. The corresponding diagnostics are $R^2_{M\mid X}=0.036877022762988716$, $R^2_{QM}=0.010503670362051522$, $X$-explained energy on $P$ equal to 910.5016829711035, $M$-incremental improvement energy given $X$ equal to 819.8980203765552, and $\beta_{P\sim M\mid X}=0.7633409850900272$.
+
+\paragraph{Variance partition.}
+The stability-mediated partition is finite and organism-specific. In \emph{E. coli}, $R^2_{QP}=0.11632311854858134$ and $R^2_{QP\mid M}=0.0875945621412319$, giving mediation fraction 0.24697202727892137 with right-tail permutation value $p=0.000999000999000999$. In human, $R^2_{QP}=0.04095215557813418$ and $R^2_{QP\mid M}=0.03517257842112907$, giving mediation fraction 0.1411299863319291 with the same reported right-tail permutation value $p=0.000999000999000999$. These are variance partitions under a residualized statistical model. They are not causal pathway proofs and do not show that a synonymous coordinate causes mRNA stability, translation output, or protein abundance.
+
+\paragraph{Local claim.}
+The admissible statement is therefore conditional. A $B^{*}_{Q6}$ coordinate may enter a protein-readout cross-layer statement only through the ordered route $S^{QT}$ first, then $S^{QP}$, then $M^{QTP}$. The finite abundance and stability rows show that downstream residual decompositions can be computed under the 24-column, rank-23 control design and that mRNA or stability readouts can absorb a measured fraction of the protein-abundance residual association in particular organisms. The chapter does not infer ribosome dynamics from codon usage, protein abundance from modeled tAI, folding from residual survival, physical admissibility from a sequence coordinate, biological function from a variance component, or a universal law from any organism-specific positive statistic. If every controlled translation-survival entry $S^{QT}_{ij}$ is nonpositive, the $B^{*}_{Q6}$ panel remains a synonymous code-read or codon-usage residual basis, and no downstream protein mediation claim is admitted.

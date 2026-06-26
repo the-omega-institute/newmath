@@ -1,0 +1,815 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_structured_stability",
+  "device": "cuda",
+  "inputs": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\g2n_labels_clean.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz"
+  },
+  "grid": {
+    "seeds": [
+      29,
+      41,
+      53
+    ],
+    "epoch_budgets": [
+      160,
+      280,
+      420
+    ],
+    "hidden": 384,
+    "batch": 512,
+    "lr": 0.0008
+  },
+  "counts": {
+    "train": 2043,
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55
+  },
+  "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then negative score/error Spearman",
+  "selected_run": {
+    "seed": 41,
+    "epochs": 420,
+    "health": {
+      "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+      "best": {
+        "epoch": 287,
+        "calibration": {
+          "allocation_delta": {
+            "observed": -0.008058205954943054,
+            "low": -0.011678332940623778,
+            "high": -0.004955632047493946
+          },
+          "chosen_depth_counts": {
+            "1": 56,
+            "2": 252,
+            "3": 105,
+            "4": 102,
+            "5": 131
+          },
+          "score_error_spearman": 0.8906608136705193
+        },
+        "cal_smooth_l1": 0.12404101341962814
+      },
+      "history_first": {
+        "epoch": 1.0,
+        "train": 0.5155730918049812,
+        "cal_smooth_l1": 0.17362146079540253,
+        "cal_delta_high": 0.003297160942685565,
+        "cal_delta_observed": 0.0016906562447183554
+      },
+      "history_last": {
+        "epoch": 420.0,
+        "train": 0.12328322865068912,
+        "cal_smooth_l1": 0.12388522922992706,
+        "cal_delta_high": -0.003421918260803144,
+        "cal_delta_observed": -0.006614722219057331
+      },
+      "params_count": 1979137
+    },
+    "calibration": {
+      "allocation_delta": {
+        "observed": -0.008058205954943054,
+        "low": -0.011455167629221835,
+        "high": -0.004925811871924671
+      },
+      "chosen_depth_counts": {
+        "1": 56,
+        "2": 252,
+        "3": 105,
+        "4": 102,
+        "5": 131
+      },
+      "score_error_spearman": 0.8906608136705193
+    },
+    "eval": {
+      "allocation_delta": {
+        "observed": -0.006037844418029237,
+        "low": -0.010806170917739284,
+        "high": -0.0018660147024203608
+      },
+      "chosen_depth_counts": {
+        "1": 46,
+        "2": 253,
+        "3": 107,
+        "4": 111,
+        "5": 117
+      },
+      "score_error_spearman": 0.8898838415040493
+    }
+  },
+  "summary": {
+    "runs": 9,
+    "eval_delta_observed_min": -0.006037844418029237,
+    "eval_delta_observed_median": -0.003547958752040281,
+    "eval_delta_observed_max": 0.0009506993504700412,
+    "eval_delta_high_min": -0.0024615647218285113,
+    "eval_delta_high_max": 0.01040085395474508,
+    "eval_rho_min": 0.8632066605769432,
+    "eval_rho_median": 0.885932173325592,
+    "eval_rho_max": 0.8898838415040493,
+    "runs_with_eval_ci_high_below_zero": 3
+  },
+  "references": {
+    "exact_budget_oracle": {
+      "allocation_delta": {
+        "observed": -0.024122137932078153,
+        "low": -0.030083494683196762,
+        "high": -0.019331526210377606
+      },
+      "chosen_depth_counts": {
+        "1": 148,
+        "2": 114,
+        "3": 117,
+        "4": 100,
+        "5": 155
+      },
+      "score_error_spearman": 1.0
+    },
+    "refined_mv_dp": {
+      "allocation_delta": {
+        "observed": 0.0018150234253323794,
+        "low": -0.002853127809703564,
+        "high": 0.0061609361505284045
+      },
+      "chosen_depth_counts": {
+        "1": 95,
+        "2": 67,
+        "3": 306,
+        "4": 75,
+        "5": 91
+      },
+      "score_error_spearman": 0.43738003498836153
+    },
+    "policy_score_balanced": {
+      "allocation_delta": {
+        "observed": -0.0033048625628667727,
+        "low": -0.00704536925695158,
+        "high": 0.0001118680560902479
+      },
+      "chosen_depth_counts": {
+        "1": 99,
+        "2": 92,
+        "3": 252,
+        "4": 92,
+        "5": 99
+      },
+      "policy_target_spearman": 0.3963775077698914
+    }
+  },
+  "runs": [
+    {
+      "seed": 29,
+      "epochs": 160,
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 88,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.0060657395537324355,
+              "low": -0.009777793799349049,
+              "high": -0.002895094904796984
+            },
+            "chosen_depth_counts": {
+              "1": 21,
+              "2": 307,
+              "3": 105,
+              "4": 77,
+              "5": 136
+            },
+            "score_error_spearman": 0.8610725976877236
+          },
+          "cal_smooth_l1": 0.16825924813747406
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.5241705074906349,
+          "cal_smooth_l1": 0.18309719860553741,
+          "cal_delta_high": 0.02886209137522028,
+          "cal_delta_observed": 0.019597644131722297
+        },
+        "history_last": {
+          "epoch": 160.0,
+          "train": 0.12953053712844848,
+          "cal_smooth_l1": 0.14557680487632751,
+          "cal_delta_high": -0.00206916094886886,
+          "cal_delta_observed": -0.00576251357577412
+        },
+        "params_count": 1979137
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.0060657395537324355,
+          "low": -0.009701393013884455,
+          "high": -0.0027412262639296718
+        },
+        "chosen_depth_counts": {
+          "1": 21,
+          "2": 307,
+          "3": 105,
+          "4": 77,
+          "5": 136
+        },
+        "score_error_spearman": 0.8610725976877236
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.0009506993504700412,
+          "low": -0.005554062585830271,
+          "high": 0.01040085395474508
+        },
+        "chosen_depth_counts": {
+          "1": 23,
+          "2": 307,
+          "3": 91,
+          "4": 73,
+          "5": 140
+        },
+        "score_error_spearman": 0.8632066605769432
+      }
+    },
+    {
+      "seed": 29,
+      "epochs": 280,
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 268,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.007236618633544162,
+              "low": -0.01114047648966563,
+              "high": -0.0033980548765528847
+            },
+            "chosen_depth_counts": {
+              "1": 66,
+              "2": 230,
+              "3": 119,
+              "4": 100,
+              "5": 131
+            },
+            "score_error_spearman": 0.8907683184770798
+          },
+          "cal_smooth_l1": 0.13085037469863892
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.5241705074906349,
+          "cal_smooth_l1": 0.18309719860553741,
+          "cal_delta_high": 0.02886209137522028,
+          "cal_delta_observed": 0.019597644131722297
+        },
+        "history_last": {
+          "epoch": 280.0,
+          "train": 0.12459863871335983,
+          "cal_smooth_l1": 0.13266898691654205,
+          "cal_delta_high": -0.003172948441942618,
+          "cal_delta_observed": -0.006947382210842054
+        },
+        "params_count": 1979137
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.007236618633544162,
+          "low": -0.0110581499761977,
+          "high": -0.003155637629895551
+        },
+        "chosen_depth_counts": {
+          "1": 66,
+          "2": 230,
+          "3": 119,
+          "4": 100,
+          "5": 131
+        },
+        "score_error_spearman": 0.8907683184770798
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.002618179267828369,
+          "low": -0.008104655406843358,
+          "high": 0.004461578022409941
+        },
+        "chosen_depth_counts": {
+          "1": 50,
+          "2": 241,
+          "3": 121,
+          "4": 103,
+          "5": 119
+        },
+        "score_error_spearman": 0.886018011524125
+      }
+    },
+    {
+      "seed": 29,
+      "epochs": 420,
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 385,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.007564195601139301,
+              "low": -0.011634271008855293,
+              "high": -0.0038564115717739486
+            },
+            "chosen_depth_counts": {
+              "1": 66,
+              "2": 245,
+              "3": 99,
+              "4": 95,
+              "5": 141
+            },
+            "score_error_spearman": 0.8886014889781367
+          },
+          "cal_smooth_l1": 0.13210493326187134
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.5241705074906349,
+          "cal_smooth_l1": 0.18309719860553741,
+          "cal_delta_high": 0.02886209137522028,
+          "cal_delta_observed": 0.019597644131722297
+        },
+        "history_last": {
+          "epoch": 420.0,
+          "train": 0.11997542902827263,
+          "cal_smooth_l1": 0.12726987898349762,
+          "cal_delta_high": -0.0033698537169612854,
+          "cal_delta_observed": -0.007120065220092647
+        },
+        "params_count": 1979137
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.007564195601139301,
+          "low": -0.01136247162491381,
+          "high": -0.003961793996709638
+        },
+        "chosen_depth_counts": {
+          "1": 66,
+          "2": 245,
+          "3": 99,
+          "4": 95,
+          "5": 141
+        },
+        "score_error_spearman": 0.8886014889781367
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.004189131221942699,
+          "low": -0.008582032330449246,
+          "high": 0.0012444421572179276
+        },
+        "chosen_depth_counts": {
+          "1": 53,
+          "2": 239,
+          "3": 117,
+          "4": 105,
+          "5": 120
+        },
+        "score_error_spearman": 0.8858109208123889
+      }
+    },
+    {
+      "seed": 41,
+      "epochs": 160,
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 115,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.005784247906459344,
+              "low": -0.009259476464646461,
+              "high": -0.0025873055559294594
+            },
+            "chosen_depth_counts": {
+              "1": 52,
+              "2": 259,
+              "3": 103,
+              "4": 101,
+              "5": 131
+            },
+            "score_error_spearman": 0.8715478341096741
+          },
+          "cal_smooth_l1": 0.1581297665834427
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.5155730918049812,
+          "cal_smooth_l1": 0.17362146079540253,
+          "cal_delta_high": 0.003297160942685565,
+          "cal_delta_observed": 0.0016906562447183554
+        },
+        "history_last": {
+          "epoch": 160.0,
+          "train": 0.1381736896932125,
+          "cal_smooth_l1": 0.14845086634159088,
+          "cal_delta_high": 0.0003044860262737379,
+          "cal_delta_observed": -0.003831611899963547
+        },
+        "params_count": 1979137
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.005784247906459344,
+          "low": -0.00923857462580301,
+          "high": -0.0025133174693102675
+        },
+        "chosen_depth_counts": {
+          "1": 52,
+          "2": 259,
+          "3": 103,
+          "4": 101,
+          "5": 131
+        },
+        "score_error_spearman": 0.8715478341096741
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.0013571305707038017,
+          "low": -0.007511492033066226,
+          "high": 0.005734879677222948
+        },
+        "chosen_depth_counts": {
+          "1": 32,
+          "2": 288,
+          "3": 97,
+          "4": 82,
+          "5": 135
+        },
+        "score_error_spearman": 0.8700788955305119
+      }
+    },
+    {
+      "seed": 41,
+      "epochs": 280,
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 268,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.0078543896652227,
+              "low": -0.011383135893656143,
+              "high": -0.0044539110053444355
+            },
+            "chosen_depth_counts": {
+              "1": 47,
+              "2": 272,
+              "3": 95,
+              "4": 98,
+              "5": 134
+            },
+            "score_error_spearman": 0.8892780824120186
+          },
+          "cal_smooth_l1": 0.12914691865444183
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.5155730918049812,
+          "cal_smooth_l1": 0.17362146079540253,
+          "cal_delta_high": 0.003297160942685565,
+          "cal_delta_observed": 0.0016906562447183554
+        },
+        "history_last": {
+          "epoch": 280.0,
+          "train": 0.12753615640103816,
+          "cal_smooth_l1": 0.13391970098018646,
+          "cal_delta_high": -0.003058959588613571,
+          "cal_delta_observed": -0.0065734892376546755
+        },
+        "params_count": 1979137
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.0078543896652227,
+          "low": -0.011291475168777744,
+          "high": -0.004445365614345792
+        },
+        "chosen_depth_counts": {
+          "1": 47,
+          "2": 272,
+          "3": 95,
+          "4": 98,
+          "5": 134
+        },
+        "score_error_spearman": 0.8892780824120186
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.00586113486861449,
+          "low": -0.009499861567674921,
+          "high": -0.0024615647218285113
+        },
+        "chosen_depth_counts": {
+          "1": 38,
+          "2": 264,
+          "3": 111,
+          "4": 102,
+          "5": 119
+        },
+        "score_error_spearman": 0.8883369884051924
+      }
+    },
+    {
+      "seed": 41,
+      "epochs": 420,
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 287,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.008058205954943054,
+              "low": -0.011678332940623778,
+              "high": -0.004955632047493946
+            },
+            "chosen_depth_counts": {
+              "1": 56,
+              "2": 252,
+              "3": 105,
+              "4": 102,
+              "5": 131
+            },
+            "score_error_spearman": 0.8906608136705193
+          },
+          "cal_smooth_l1": 0.12404101341962814
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.5155730918049812,
+          "cal_smooth_l1": 0.17362146079540253,
+          "cal_delta_high": 0.003297160942685565,
+          "cal_delta_observed": 0.0016906562447183554
+        },
+        "history_last": {
+          "epoch": 420.0,
+          "train": 0.12328322865068912,
+          "cal_smooth_l1": 0.12388522922992706,
+          "cal_delta_high": -0.003421918260803144,
+          "cal_delta_observed": -0.006614722219057331
+        },
+        "params_count": 1979137
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.008058205954943054,
+          "low": -0.011455167629221835,
+          "high": -0.004925811871924671
+        },
+        "chosen_depth_counts": {
+          "1": 56,
+          "2": 252,
+          "3": 105,
+          "4": 102,
+          "5": 131
+        },
+        "score_error_spearman": 0.8906608136705193
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.006037844418029237,
+          "low": -0.010806170917739284,
+          "high": -0.0018660147024203608
+        },
+        "chosen_depth_counts": {
+          "1": 46,
+          "2": 253,
+          "3": 107,
+          "4": 111,
+          "5": 117
+        },
+        "score_error_spearman": 0.8898838415040493
+      }
+    },
+    {
+      "seed": 53,
+      "epochs": 160,
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 126,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.005588723406876675,
+              "low": -0.008917922532202003,
+              "high": -0.0022675163734134198
+            },
+            "chosen_depth_counts": {
+              "1": 40,
+              "2": 287,
+              "3": 94,
+              "4": 83,
+              "5": 142
+            },
+            "score_error_spearman": 0.8810624472906838
+          },
+          "cal_smooth_l1": 0.15420912206172943
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.4901721775531769,
+          "cal_smooth_l1": 0.1562262326478958,
+          "cal_delta_high": 0.016858610827791335,
+          "cal_delta_observed": 0.009726753523694953
+        },
+        "history_last": {
+          "epoch": 160.0,
+          "train": 0.13383957669138907,
+          "cal_smooth_l1": 0.1571991890668869,
+          "cal_delta_high": -0.00015782678086985228,
+          "cal_delta_observed": -0.003942213147518567
+        },
+        "params_count": 1979137
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.005588723406876675,
+          "low": -0.009105054654455656,
+          "high": -0.001759440581645768
+        },
+        "chosen_depth_counts": {
+          "1": 40,
+          "2": 287,
+          "3": 94,
+          "4": 83,
+          "5": 142
+        },
+        "score_error_spearman": 0.8810624472906838
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.0012119317102421978,
+          "low": -0.00695762366448216,
+          "high": 0.005715605281026611
+        },
+        "chosen_depth_counts": {
+          "1": 35,
+          "2": 276,
+          "3": 114,
+          "4": 72,
+          "5": 137
+        },
+        "score_error_spearman": 0.8725565973557887
+      }
+    },
+    {
+      "seed": 53,
+      "epochs": 280,
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 222,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.007381733464077611,
+              "low": -0.011388865616431123,
+              "high": -0.003341640518179179
+            },
+            "chosen_depth_counts": {
+              "1": 52,
+              "2": 244,
+              "3": 128,
+              "4": 96,
+              "5": 126
+            },
+            "score_error_spearman": 0.8888893493478245
+          },
+          "cal_smooth_l1": 0.14364512264728546
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.4901721775531769,
+          "cal_smooth_l1": 0.1562262326478958,
+          "cal_delta_high": 0.016858610827791335,
+          "cal_delta_observed": 0.009726753523694953
+        },
+        "history_last": {
+          "epoch": 280.0,
+          "train": 0.12998151630163193,
+          "cal_smooth_l1": 0.14288796484470367,
+          "cal_delta_high": -0.001990250014609115,
+          "cal_delta_observed": -0.00587548378064516
+        },
+        "params_count": 1979137
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.007381733464077611,
+          "low": -0.01156102963785448,
+          "high": -0.00316516128624255
+        },
+        "chosen_depth_counts": {
+          "1": 52,
+          "2": 244,
+          "3": 128,
+          "4": 96,
+          "5": 126
+        },
+        "score_error_spearman": 0.8888893493478245
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.004675814436920792,
+          "low": -0.00919198226451972,
+          "high": -0.0004273712184901566
+        },
+        "chosen_depth_counts": {
+          "1": 49,
+          "2": 245,
+          "3": 123,
+          "4": 91,
+          "5": 126
+        },
+        "score_error_spearman": 0.885932173325592
+      }
+    },
+    {
+      "seed": 53,
+      "epochs": 420,
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 350,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.006800046419989353,
+              "low": -0.010192435550323654,
+              "high": -0.004054663563644039
+            },
+            "chosen_depth_counts": {
+              "1": 46,
+              "2": 246,
+              "3": 142,
+              "4": 86,
+              "5": 126
+            },
+            "score_error_spearman": 0.8895688271241756
+          },
+          "cal_smooth_l1": 0.13967996835708618
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.4901721775531769,
+          "cal_smooth_l1": 0.1562262326478958,
+          "cal_delta_high": 0.016858610827791335,
+          "cal_delta_observed": 0.009726753523694953
+        },
+        "history_last": {
+          "epoch": 420.0,
+          "train": 0.12426499761641026,
+          "cal_smooth_l1": 0.13203638792037964,
+          "cal_delta_high": -0.00335430726356223,
+          "cal_delta_observed": -0.006455206069769029
+        },
+        "params_count": 1979137
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.006800046419989353,
+          "low": -0.010416051651817054,
+          "high": -0.0036749282040077387
+        },
+        "chosen_depth_counts": {
+          "1": 46,
+          "2": 246,
+          "3": 142,
+          "4": 86,
+          "5": 126
+        },
+        "score_error_spearman": 0.8895688271241756
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.003547958752040281,
+          "low": -0.008247023885915562,
+          "high": 0.001290168413053289
+        },
+        "chosen_depth_counts": {
+          "1": 45,
+          "2": 237,
+          "3": 143,
+          "4": 91,
+          "5": 118
+        },
+        "score_error_spearman": 0.8868938376968631
+      }
+    }
+  ],
+  "leakage_attestation": {
+    "feature_standardizer": "fit on train features only",
+    "target_standardizer": "fit on train option_error only",
+    "run_selection": "calibration split only",
+    "eval_truth_usage": "eval option_error used only after each predicted option score is produced",
+    "slurm_or_ssh": "not used"
+  },
+  "outputs": {
+    "predictions_npz": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_structured_stability_predictions.npz",
+    "json": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_structured_stability.json",
+    "md": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_structured_stability.md"
+  },
+  "wall_time_sec": 1949.6078886985779
+}

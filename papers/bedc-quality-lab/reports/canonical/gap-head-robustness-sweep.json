@@ -1,0 +1,1156 @@
+{
+  "A1_threshold_sweep": {
+    "control_verdict": {
+      "arm": "matched_random_gap_head",
+      "checks": {
+        "auroc_at_least_0_75": false,
+        "critical_unlogged_error_reduction_at_least_0_90": true,
+        "unlogged_error_reduction_at_least_0_50": false
+      },
+      "comparison_prefix": "matched_random_minus_vanilla",
+      "metrics": {
+        "arm_critical_unlogged_error_rate": 0.0,
+        "arm_unlogged_error_rate": 0.2628985507246377,
+        "critical_unlogged_error_reduction": 1.0,
+        "failure_detection_auroc": 0.493182532138793,
+        "unlogged_error_reduction": 0.4802292263610315,
+        "vanilla_critical_unlogged_error_rate": 0.5057971014492754,
+        "vanilla_unlogged_error_rate": 0.5057971014492754
+      },
+      "positive": false
+    },
+    "epsilon_grid": [
+      0.0,
+      0.05,
+      0.1,
+      0.2
+    ],
+    "json_artifact": "reports/canonical/gap-head-on-h.json",
+    "learned_gap_head_on_h": {
+      "critical_unlogged_error_rate": {
+        "ci95_half_width": 0.0007894633821496326,
+        "ci95_high": 0.0013691735270771688,
+        "ci95_low": -0.00020975323722209637,
+        "mean": 0.0005797101449275362,
+        "n": 30,
+        "std": 0.002206157666977934
+      },
+      "failure_detection_auroc": {
+        "ci95_half_width": 0.015894301293841756,
+        "ci95_high": 0.8314834147990215,
+        "ci95_low": 0.7996948122113381,
+        "mean": 0.8155891135051798,
+        "n": 30,
+        "std": 0.0444166701756157
+      },
+      "unlogged_error_rate": {
+        "ci95_half_width": 0.022594233537476034,
+        "ci95_high": 0.1475217697693601,
+        "ci95_low": 0.10233330269440802,
+        "mean": 0.12492753623188406,
+        "n": 30,
+        "std": 0.06313964988783352
+      },
+      "unlogged_error_reduction": {
+        "ci95_half_width": 0.030645593134956815,
+        "ci95_high": 0.41151515835234814,
+        "ci95_low": 0.35022397208243455,
+        "mean": 0.38086956521739135,
+        "n": 30,
+        "std": 0.08563919718439443
+      }
+    },
+    "matched_random_gap_head": {
+      "critical_unlogged_error_rate": {
+        "ci95_half_width": 0.0,
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n": 30,
+        "std": 0.0
+      },
+      "failure_detection_auroc": {
+        "ci95_half_width": 0.034631753521268294,
+        "ci95_high": 0.5278142856600613,
+        "ci95_low": 0.4585507786175247,
+        "mean": 0.493182532138793,
+        "n": 30,
+        "std": 0.09677853372223272
+      },
+      "unlogged_error_rate": {
+        "ci95_half_width": 0.030833320905937007,
+        "ci95_high": 0.2937318716305747,
+        "ci95_low": 0.23206522981870067,
+        "mean": 0.2628985507246377,
+        "n": 30,
+        "std": 0.08616380297437409
+      },
+      "unlogged_error_reduction": {
+        "ci95_half_width": 0.03572204971705576,
+        "ci95_high": 0.27862060044169346,
+        "ci95_low": 0.20717650100758192,
+        "mean": 0.24289855072463767,
+        "n": 30,
+        "std": 0.09982536954261467
+      }
+    },
+    "owner": "scripts/run_gap_ledger_head_on_h.py",
+    "primary_epsilon": 0.0,
+    "primary_tau": 0.5,
+    "record_count": 30,
+    "report_artifact": "reports/canonical/gap-head-on-h.md",
+    "sample_count": 384,
+    "seed_count": 30,
+    "status": "complete",
+    "tau_grid": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9
+    ],
+    "threshold_scan_metadata": {
+      "epsilon_grid": "$.A1_threshold_sweep.epsilon_grid",
+      "primary_gap_sound": "$.A1_threshold_sweep.learned_gap_head_on_h",
+      "tau_grid": "$.A1_threshold_sweep.tau_grid"
+    },
+    "treatment_verdict": {
+      "arm": "learned_gap_head_on_h",
+      "checks": {
+        "auroc_at_least_0_75": true,
+        "critical_unlogged_error_reduction_at_least_0_90": true,
+        "unlogged_error_reduction_at_least_0_50": true
+      },
+      "comparison_prefix": "learned_minus_vanilla",
+      "metrics": {
+        "arm_critical_unlogged_error_rate": 0.0005797101449275362,
+        "arm_unlogged_error_rate": 0.12492753623188406,
+        "critical_unlogged_error_reduction": 0.9988538681948425,
+        "failure_detection_auroc": 0.8155891135051798,
+        "unlogged_error_reduction": 0.7530085959885386,
+        "vanilla_critical_unlogged_error_rate": 0.5057971014492754,
+        "vanilla_unlogged_error_rate": 0.5057971014492754
+      },
+      "positive": true
+    },
+    "vanilla": {
+      "critical_unlogged_error_rate": {
+        "ci95_half_width": 0.019545340931863258,
+        "ci95_high": 0.5253424423811386,
+        "ci95_low": 0.4862517605174121,
+        "mean": 0.5057971014492754,
+        "n": 30,
+        "std": 0.05461951082913546
+      },
+      "failure_detection_auroc": {
+        "ci95_half_width": 0.0,
+        "ci95_high": 0.5,
+        "ci95_low": 0.5,
+        "mean": 0.5,
+        "n": 30,
+        "std": 0.0
+      },
+      "unlogged_error_rate": {
+        "ci95_half_width": 0.019545340931863258,
+        "ci95_high": 0.5253424423811386,
+        "ci95_low": 0.4862517605174121,
+        "mean": 0.5057971014492754,
+        "n": 30,
+        "std": 0.05461951082913546
+      }
+    }
+  },
+  "A2_feature_ablation": {
+    "by_family": {
+      "full": {
+        "feature_column_count": 15,
+        "feature_roots": [
+          "h",
+          "score",
+          "margin",
+          "transition_delta",
+          "quality"
+        ],
+        "forbidden_feature_audit": {
+          "forbidden_present": [],
+          "status": "pass"
+        },
+        "learned": {
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.015894301293841756,
+            "ci95_high": 0.8314834147990215,
+            "ci95_low": 0.7996948122113381,
+            "mean": 0.8155891135051798,
+            "n": 30,
+            "std": 0.0444166701756157
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.022594233537476034,
+            "ci95_high": 0.1475217697693601,
+            "ci95_low": 0.10233330269440802,
+            "mean": 0.12492753623188406,
+            "n": 30,
+            "std": 0.06313964988783352
+          },
+          "unlogged_error_reduction": {
+            "ci95_half_width": 0.030645593134956815,
+            "ci95_high": 0.41151515835234814,
+            "ci95_low": 0.35022397208243455,
+            "mean": 0.38086956521739135,
+            "n": 30,
+            "std": 0.08563919718439443
+          }
+        },
+        "learned_minus_matched_random_auroc": {
+          "ci95_half_width": 0.041851985822498355,
+          "ci95_high": 0.3642585671888853,
+          "ci95_low": 0.2805545955438885,
+          "mean": 0.3224065813663869,
+          "n": 30,
+          "std": 0.11695549342535079
+        },
+        "matched_random": {
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.034631753521268294,
+            "ci95_high": 0.5278142856600613,
+            "ci95_low": 0.4585507786175247,
+            "mean": 0.493182532138793,
+            "n": 30,
+            "std": 0.09677853372223272
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.030833320905937007,
+            "ci95_high": 0.2937318716305747,
+            "ci95_low": 0.23206522981870067,
+            "mean": 0.2628985507246377,
+            "n": 30,
+            "std": 0.08616380297437409
+          },
+          "unlogged_error_reduction": {
+            "ci95_half_width": 0.03572204971705576,
+            "ci95_high": 0.27862060044169346,
+            "ci95_low": 0.20717650100758192,
+            "mean": 0.24289855072463767,
+            "n": 30,
+            "std": 0.09982536954261467
+          }
+        },
+        "record_count": 30
+      },
+      "h_only": {
+        "feature_column_count": 2,
+        "feature_roots": [
+          "h"
+        ],
+        "forbidden_feature_audit": {
+          "forbidden_present": [],
+          "status": "pass"
+        },
+        "learned": {
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.01821696211891386,
+            "ci95_high": 0.6650493132604308,
+            "ci95_low": 0.628615389022603,
+            "mean": 0.6468323511415169,
+            "n": 30,
+            "std": 0.05090735245788893
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.021034845103192642,
+            "ci95_high": 0.24364354075536654,
+            "ci95_low": 0.20157385054898125,
+            "mean": 0.2226086956521739,
+            "n": 30,
+            "std": 0.05878193447268212
+          },
+          "unlogged_error_reduction": {
+            "ci95_half_width": 0.027282826194269204,
+            "ci95_high": 0.31047123199137067,
+            "ci95_low": 0.2559055796028323,
+            "mean": 0.2831884057971015,
+            "n": 30,
+            "std": 0.07624193540354116
+          }
+        },
+        "learned_minus_matched_random_auroc": {
+          "ci95_half_width": 0.05139674917035126,
+          "ci95_high": 0.19151440853866397,
+          "ci95_low": 0.08872091019796147,
+          "mean": 0.14011765936831272,
+          "n": 30,
+          "std": 0.14362836175018528
+        },
+        "matched_random": {
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.04371678974338218,
+            "ci95_high": 0.5504314815165864,
+            "ci95_low": 0.462997902029822,
+            "mean": 0.5067146917732042,
+            "n": 30,
+            "std": 0.12216669328653522
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.053614221371624256,
+            "ci95_high": 0.3179620474585808,
+            "ci95_low": 0.2107336047153323,
+            "mean": 0.26434782608695656,
+            "n": 30,
+            "std": 0.1498250941240519
+          },
+          "unlogged_error_reduction": {
+            "ci95_half_width": 0.06349109246215769,
+            "ci95_high": 0.30494036782447653,
+            "ci95_low": 0.1779581829001612,
+            "mean": 0.24144927536231886,
+            "n": 30,
+            "std": 0.1774260384804591
+          }
+        },
+        "record_count": 30
+      },
+      "no_quality": {
+        "feature_column_count": 11,
+        "feature_roots": [
+          "h",
+          "score",
+          "margin",
+          "transition_delta"
+        ],
+        "forbidden_feature_audit": {
+          "forbidden_present": [],
+          "status": "pass"
+        },
+        "learned": {
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.015894301293841756,
+            "ci95_high": 0.8314834147990215,
+            "ci95_low": 0.7996948122113381,
+            "mean": 0.8155891135051798,
+            "n": 30,
+            "std": 0.0444166701756157
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.022594233537476034,
+            "ci95_high": 0.1475217697693601,
+            "ci95_low": 0.10233330269440802,
+            "mean": 0.12492753623188406,
+            "n": 30,
+            "std": 0.06313964988783352
+          },
+          "unlogged_error_reduction": {
+            "ci95_half_width": 0.030645593134956815,
+            "ci95_high": 0.41151515835234814,
+            "ci95_low": 0.35022397208243455,
+            "mean": 0.38086956521739135,
+            "n": 30,
+            "std": 0.08563919718439443
+          }
+        },
+        "learned_minus_matched_random_auroc": {
+          "ci95_half_width": 0.041851985822498355,
+          "ci95_high": 0.3642585671888853,
+          "ci95_low": 0.2805545955438885,
+          "mean": 0.3224065813663869,
+          "n": 30,
+          "std": 0.11695549342535079
+        },
+        "matched_random": {
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.034631753521268294,
+            "ci95_high": 0.5278142856600613,
+            "ci95_low": 0.4585507786175247,
+            "mean": 0.493182532138793,
+            "n": 30,
+            "std": 0.09677853372223272
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.030833320905937007,
+            "ci95_high": 0.2937318716305747,
+            "ci95_low": 0.23206522981870067,
+            "mean": 0.2628985507246377,
+            "n": 30,
+            "std": 0.08616380297437409
+          },
+          "unlogged_error_reduction": {
+            "ci95_half_width": 0.03572204971705576,
+            "ci95_high": 0.27862060044169346,
+            "ci95_low": 0.20717650100758192,
+            "mean": 0.24289855072463767,
+            "n": 30,
+            "std": 0.09982536954261467
+          }
+        },
+        "record_count": 30
+      },
+      "probe_only": {
+        "feature_column_count": 9,
+        "feature_roots": [
+          "score",
+          "margin",
+          "transition_delta"
+        ],
+        "forbidden_feature_audit": {
+          "forbidden_present": [],
+          "status": "pass"
+        },
+        "learned": {
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.01581995853423392,
+            "ci95_high": 0.8170704427427617,
+            "ci95_low": 0.785430525674294,
+            "mean": 0.8012504842085278,
+            "n": 30,
+            "std": 0.04420891912243001
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.02394119413413286,
+            "ci95_high": 0.15350641152543723,
+            "ci95_low": 0.1056240232571715,
+            "mean": 0.12956521739130436,
+            "n": 30,
+            "std": 0.06690373510650476
+          },
+          "unlogged_error_reduction": {
+            "ci95_half_width": 0.0317535648469159,
+            "ci95_high": 0.40798544890488686,
+            "ci95_low": 0.3444783192110551,
+            "mean": 0.376231884057971,
+            "n": 30,
+            "std": 0.08873542728499445
+          }
+        },
+        "learned_minus_matched_random_auroc": {
+          "ci95_half_width": 0.040252324353882124,
+          "ci95_high": 0.35389410999969595,
+          "ci95_low": 0.27338946129193176,
+          "mean": 0.31364178564581385,
+          "n": 30,
+          "std": 0.11248523490120306
+        },
+        "matched_random": {
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.031724159467938245,
+            "ci95_high": 0.5193328580306523,
+            "ci95_low": 0.4558845390947758,
+            "mean": 0.48760869856271405,
+            "n": 30,
+            "std": 0.08865325386980034
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.030174391398009762,
+            "ci95_high": 0.29655120299221266,
+            "ci95_low": 0.23620242019619314,
+            "mean": 0.2663768115942029,
+            "n": 30,
+            "std": 0.08432242259020302
+          },
+          "unlogged_error_reduction": {
+            "ci95_half_width": 0.036101383226431506,
+            "ci95_high": 0.275521673081504,
+            "ci95_low": 0.20331890662864097,
+            "mean": 0.23942028985507247,
+            "n": 30,
+            "std": 0.1008854181135468
+          }
+        },
+        "record_count": 30
+      },
+      "quality_only": {
+        "feature_column_count": 4,
+        "feature_roots": [
+          "quality"
+        ],
+        "forbidden_feature_audit": {
+          "forbidden_present": [],
+          "status": "pass"
+        },
+        "learned": {
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 0.5,
+            "ci95_low": 0.5,
+            "mean": 0.5,
+            "n": 30,
+            "std": 0.0
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.09141597361068116,
+            "ci95_high": 0.3383724953498116,
+            "ci95_low": 0.15554054812844928,
+            "mean": 0.24695652173913044,
+            "n": 30,
+            "std": 0.255462198279934
+          },
+          "unlogged_error_reduction": {
+            "ci95_half_width": 0.09466044779586137,
+            "ci95_high": 0.35350102750600626,
+            "ci95_low": 0.16418013191428354,
+            "mean": 0.2588405797101449,
+            "n": 30,
+            "std": 0.2645288906190482
+          }
+        },
+        "learned_minus_matched_random_auroc": {
+          "ci95_half_width": 0.0,
+          "ci95_high": 0.0,
+          "ci95_low": 0.0,
+          "mean": 0.0,
+          "n": 30,
+          "std": 0.0
+        },
+        "matched_random": {
+          "failure_detection_auroc": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 0.5,
+            "ci95_low": 0.5,
+            "mean": 0.5,
+            "n": 30,
+            "std": 0.0
+          },
+          "unlogged_error_rate": {
+            "ci95_half_width": 0.08795401837616146,
+            "ci95_high": 0.3265047430138426,
+            "ci95_low": 0.1505967062615197,
+            "mean": 0.23855072463768115,
+            "n": 30,
+            "std": 0.24578775452983437
+          },
+          "unlogged_error_reduction": {
+            "ci95_half_width": 0.09765441852924706,
+            "ci95_high": 0.3649007953408413,
+            "ci95_low": 0.1695919582823472,
+            "mean": 0.26724637681159424,
+            "n": 30,
+            "std": 0.2728955503495871
+          }
+        },
+        "record_count": 30
+      }
+    },
+    "feature_families": {
+      "full": [
+        "h",
+        "score",
+        "margin",
+        "transition_delta",
+        "quality"
+      ],
+      "h_only": [
+        "h"
+      ],
+      "no_quality": [
+        "h",
+        "score",
+        "margin",
+        "transition_delta"
+      ],
+      "probe_only": [
+        "score",
+        "margin",
+        "transition_delta"
+      ],
+      "quality_only": [
+        "quality"
+      ]
+    },
+    "metric_helper": "scripts/run_gaussian_ou_gap_ledger_head.py::_metrics_for_arm",
+    "owner": "scripts/run_gap_ledger_head_on_h.py",
+    "sample_count": 384,
+    "seed_count": 30,
+    "status": "complete",
+    "surface_owner": "scripts/run_gap_ledger_head_on_h.py::_surface_for_seed"
+  },
+  "A3_seed_expansion": {
+    "aggregate": {
+      "cell_count": 40,
+      "invalid_cell_count": 0,
+      "positive_cell_count": 40,
+      "positive_rate_by_sample_count": {
+        "192": 1.0,
+        "384": 1.0,
+        "768": 1.0,
+        "96": 1.0
+      },
+      "positive_rate_variance_across_sample_counts": 0.0,
+      "sample_count_groups": [
+        {
+          "cell_count": 10,
+          "invalid_cell_count": 0,
+          "net_information": {
+            "ci95_half_width": 0.09397480709113529,
+            "ci95_high": 0.7405265312290662,
+            "ci95_low": 0.5525769170467957,
+            "mean": 0.6465517241379309,
+            "n": 10,
+            "std": 0.15161960871578067,
+            "variance": 0.022988505747126436
+          },
+          "non_discovery_reason_counts": {},
+          "positive_rate": 1.0,
+          "positive_seed_count": 10,
+          "sample_count": 96,
+          "seed_order": [
+            1480724123,
+            480514048,
+            2032017309,
+            1451760668,
+            2062079243,
+            1022399131,
+            1303177065,
+            1549774350,
+            1278562291,
+            2009780317
+          ],
+          "shift_information": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 1.0,
+            "ci95_low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "std": 0.0,
+            "variance": 0.0
+          },
+          "surface_delta_count": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 1.0,
+            "ci95_low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "std": 0.0,
+            "variance": 0.0
+          },
+          "valid_cell_count": 10
+        },
+        {
+          "cell_count": 10,
+          "invalid_cell_count": 0,
+          "net_information": {
+            "ci95_half_width": 0.08699855656255923,
+            "ci95_high": 0.6904468324246282,
+            "ci95_low": 0.5164497192995097,
+            "mean": 0.603448275862069,
+            "n": 10,
+            "std": 0.14036407749218174,
+            "variance": 0.0197020742502312
+          },
+          "non_discovery_reason_counts": {},
+          "positive_rate": 1.0,
+          "positive_seed_count": 10,
+          "sample_count": 192,
+          "seed_order": [
+            1517952211,
+            354490076,
+            2039719949,
+            624671072,
+            1306481716,
+            2092026756,
+            55579903,
+            1744749396,
+            1949338686,
+            2103585323
+          ],
+          "shift_information": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 1.0,
+            "ci95_low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "std": 0.0,
+            "variance": 0.0
+          },
+          "surface_delta_count": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 1.0,
+            "ci95_low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "std": 0.0,
+            "variance": 0.0
+          },
+          "valid_cell_count": 10
+        },
+        {
+          "cell_count": 10,
+          "invalid_cell_count": 0,
+          "net_information": {
+            "ci95_half_width": 0.056186063506969024,
+            "ci95_high": 0.7079251939417516,
+            "ci95_low": 0.5955530669278136,
+            "mean": 0.6517391304347826,
+            "n": 10,
+            "std": 0.09065098644943366,
+            "variance": 0.008217601344255405
+          },
+          "non_discovery_reason_counts": {},
+          "positive_rate": 1.0,
+          "positive_seed_count": 10,
+          "sample_count": 384,
+          "seed_order": [
+            476691320,
+            1538171920,
+            1220816732,
+            227390919,
+            306549209,
+            1391608290,
+            2097852312,
+            1708285189,
+            193821202,
+            1312875412
+          ],
+          "shift_information": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 1.0,
+            "ci95_low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "std": 0.0,
+            "variance": 0.0
+          },
+          "surface_delta_count": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 1.0,
+            "ci95_low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "std": 0.0,
+            "variance": 0.0
+          },
+          "valid_cell_count": 10
+        },
+        {
+          "cell_count": 10,
+          "invalid_cell_count": 0,
+          "net_information": {
+            "ci95_half_width": 0.06395343007401139,
+            "ci95_high": 0.7352577779000984,
+            "ci95_low": 0.6073509177520755,
+            "mean": 0.671304347826087,
+            "n": 10,
+            "std": 0.10318290980315653,
+            "variance": 0.010646712875446336
+          },
+          "non_discovery_reason_counts": {},
+          "positive_rate": 1.0,
+          "positive_seed_count": 10,
+          "sample_count": 768,
+          "seed_order": [
+            1575007056,
+            985645884,
+            1331907711,
+            1438946886,
+            1610637115,
+            628772587,
+            108953578,
+            487899418,
+            782300675,
+            220804484
+          ],
+          "shift_information": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 1.0,
+            "ci95_low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "std": 0.0,
+            "variance": 0.0
+          },
+          "surface_delta_count": {
+            "ci95_half_width": 0.0,
+            "ci95_high": 1.0,
+            "ci95_low": 1.0,
+            "mean": 1.0,
+            "n": 10,
+            "std": 0.0,
+            "variance": 0.0
+          },
+          "valid_cell_count": 10
+        }
+      ],
+      "valid_cell_count": 40
+    },
+    "final_verdict": "robust_positive",
+    "grid": {
+      "cell_shape": "one source payload per sample_count and child seed",
+      "kind": "independent_seed_grid",
+      "master_seed": 5270521,
+      "sample_counts": [
+        96,
+        192,
+        384,
+        768
+      ],
+      "seeds_per_sample_count": 10
+    },
+    "json_artifact": "reports/gap_head_discovery_stability.json",
+    "owner": "scripts/run_gap_head_discovery_stability.py",
+    "predicate_boundary": {
+      "direct_formula_reimplementation": false,
+      "projection_helper": "scripts/run_gap_head_discovery.py::_build_gap_head_projection",
+      "verdict_helper": "scripts/run_gap_head_discovery.py::_verdict_payload"
+    },
+    "report_artifact": "reports/gap_head_discovery_stability.md",
+    "status": "complete"
+  },
+  "A4_distribution_transfer": {
+    "policy": "pointer_only_existing_transfer_surfaces_no_retraining",
+    "status": "complete",
+    "surfaces": [
+      {
+        "json_artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+        "markdown_artifact": "reports/canonical/nongaussian-distribution-sweep.md",
+        "name": "nongaussian-distribution-sweep",
+        "pointer": "$.main_claim_status",
+        "pointer_value_summary": "observed-debt-pipeline-only",
+        "script": "scripts/run_nongaussian_distribution_sweep.py",
+        "status": "available"
+      },
+      {
+        "json_artifact": "reports/canonical/anisotropic-ou-sweep.json",
+        "markdown_artifact": "reports/canonical/anisotropic-ou-sweep.md",
+        "name": "anisotropic-ou-sweep",
+        "pointer": "$.negative_result_summary",
+        "pointer_value_summary": {
+          "any_negative_result": true,
+          "cell_count": 4,
+          "keys": [
+            "any_negative_result",
+            "baseline_rho_by_axis",
+            "cells",
+            "comparison_metric"
+          ],
+          "kind": "dict",
+          "negative_cell_count": 3
+        },
+        "script": "scripts/run_anisotropic_ou_sweep.py",
+        "status": "available"
+      },
+      {
+        "json_artifact": "reports/canonical/mixing-family-sweep.json",
+        "markdown_artifact": "reports/canonical/mixing-family-sweep.md",
+        "name": "mixing-family-sweep",
+        "pointer": "$.negative_result_summary",
+        "pointer_value_summary": {
+          "any_negative_result": true,
+          "cell_count": 4,
+          "keys": [
+            "any_negative_result",
+            "baseline_family",
+            "cells",
+            "comparison_metric"
+          ],
+          "kind": "dict",
+          "negative_cell_count": 1
+        },
+        "script": "scripts/run_mixing_family_sweep.py",
+        "status": "available"
+      },
+      {
+        "json_artifact": "reports/gaussian_ou_gap_ledger_shift_robustness.json",
+        "markdown_artifact": "reports/gaussian_ou_gap_ledger_shift_robustness.md",
+        "name": "gaussian-ou-gap-ledger-shift-robustness",
+        "pointer": "$.aggregate.advantage_degradation_slope",
+        "pointer_value_summary": {
+          "keys": [
+            "intercept",
+            "interpretation",
+            "n",
+            "points",
+            "slope",
+            "slope_ci95_high",
+            "slope_ci95_low",
+            "slope_standard_error",
+            "status",
+            "x_key",
+            "y_key"
+          ],
+          "kind": "dict",
+          "slope": 0.0,
+          "slope_ci95_high": 0.0,
+          "slope_ci95_low": 0.0,
+          "status": "ok"
+        },
+        "script": "scripts/run_gaussian_ou_gap_ledger_shift_robustness.py",
+        "status": "available"
+      }
+    ]
+  },
+  "A5_no_leak_audit": {
+    "ablation_failed_families": [],
+    "assertion_helpers": [
+      "scripts/run_gap_ledger_head_on_h.py::_assert_inference_columns",
+      "scripts/run_gap_head_robustness_sweep.py::_assert_no_forbidden_features"
+    ],
+    "forbidden_inference_columns": [
+      "label",
+      "z",
+      "z_pair",
+      "gap_label",
+      "gap_labels",
+      "prediction_error",
+      "eval_label",
+      "eval_labels",
+      "eval_gap_label",
+      "eval_gap_labels",
+      "config_metadata"
+    ],
+    "producer_forbidden_column_audit": {
+      "feature_columns": [
+        "h:0",
+        "h:1",
+        "score:latent_x_positive",
+        "score:latent_y_positive",
+        "score:high_energy",
+        "margin:latent_x_positive",
+        "margin:latent_y_positive",
+        "margin:high_energy",
+        "transition_delta:latent_x_positive",
+        "transition_delta:latent_y_positive",
+        "transition_delta:high_energy",
+        "quality:quality_q",
+        "quality:quality_margin",
+        "quality:linear_identifiability_r2",
+        "quality:approx_identifiability_proxy"
+      ],
+      "forbidden_inference_columns": [
+        "label",
+        "z",
+        "z_pair",
+        "gap_label",
+        "gap_labels",
+        "prediction_error",
+        "eval_label",
+        "eval_labels",
+        "eval_gap_label",
+        "eval_gap_labels",
+        "config_metadata"
+      ],
+      "forbidden_present": [],
+      "status": "pass",
+      "violations": []
+    },
+    "status": "pass"
+  },
+  "acceptance_gates": {
+    "claim_scope_label": "full_feature_family_gap_classifier",
+    "gates": {
+      "A-HG1": {
+        "criterion": "learned AUROC ci95_low > matched-random AUROC ci95_high and learned AUROC mean >= 0.75",
+        "learned_auroc": {
+          "ci95_half_width": 0.015894301293841756,
+          "ci95_high": 0.8314834147990215,
+          "ci95_low": 0.7996948122113381,
+          "mean": 0.8155891135051798,
+          "n": 30,
+          "std": 0.0444166701756157
+        },
+        "matched_random_auroc": {
+          "ci95_half_width": 0.034631753521268294,
+          "ci95_high": 0.5278142856600613,
+          "ci95_low": 0.4585507786175247,
+          "mean": 0.493182532138793,
+          "n": 30,
+          "std": 0.09677853372223272
+        },
+        "status": "pass"
+      },
+      "A-HG2": {
+        "criterion": "learned UnloggedErrorRate reduction ci95_low > matched-random reduction ci95_high and learned mean reduction > 0",
+        "learned_unlogged_error_reduction": {
+          "ci95_half_width": 0.030645593134956815,
+          "ci95_high": 0.41151515835234814,
+          "ci95_low": 0.35022397208243455,
+          "mean": 0.38086956521739135,
+          "n": 30,
+          "std": 0.08563919718439443
+        },
+        "matched_random_unlogged_error_reduction": {
+          "ci95_half_width": 0.03572204971705576,
+          "ci95_high": 0.27862060044169346,
+          "ci95_low": 0.20717650100758192,
+          "mean": 0.24289855072463767,
+          "n": 30,
+          "std": 0.09982536954261467
+        },
+        "status": "pass"
+      },
+      "A-HG3": {
+        "control_verdict": {
+          "arm": "matched_random_gap_head",
+          "checks": {
+            "auroc_at_least_0_75": false,
+            "critical_unlogged_error_reduction_at_least_0_90": true,
+            "unlogged_error_reduction_at_least_0_50": false
+          },
+          "comparison_prefix": "matched_random_minus_vanilla",
+          "metrics": {
+            "arm_critical_unlogged_error_rate": 0.0,
+            "arm_unlogged_error_rate": 0.2628985507246377,
+            "critical_unlogged_error_reduction": 1.0,
+            "failure_detection_auroc": 0.493182532138793,
+            "unlogged_error_reduction": 0.4802292263610315,
+            "vanilla_critical_unlogged_error_rate": 0.5057971014492754,
+            "vanilla_unlogged_error_rate": 0.5057971014492754
+          },
+          "positive": false
+        },
+        "criterion": "producer control_verdict.positive is false and matched-random AUROC ci95_high <= 0.6",
+        "matched_random_auroc": {
+          "ci95_half_width": 0.034631753521268294,
+          "ci95_high": 0.5278142856600613,
+          "ci95_low": 0.4585507786175247,
+          "mean": 0.493182532138793,
+          "n": 30,
+          "std": 0.09677853372223272
+        },
+        "status": "pass"
+      },
+      "A-HG4": {
+        "audit": {
+          "ablation_failed_families": [],
+          "assertion_helpers": [
+            "scripts/run_gap_ledger_head_on_h.py::_assert_inference_columns",
+            "scripts/run_gap_head_robustness_sweep.py::_assert_no_forbidden_features"
+          ],
+          "forbidden_inference_columns": [
+            "label",
+            "z",
+            "z_pair",
+            "gap_label",
+            "gap_labels",
+            "prediction_error",
+            "eval_label",
+            "eval_labels",
+            "eval_gap_label",
+            "eval_gap_labels",
+            "config_metadata"
+          ],
+          "producer_forbidden_column_audit": {
+            "feature_columns": [
+              "h:0",
+              "h:1",
+              "score:latent_x_positive",
+              "score:latent_y_positive",
+              "score:high_energy",
+              "margin:latent_x_positive",
+              "margin:latent_y_positive",
+              "margin:high_energy",
+              "transition_delta:latent_x_positive",
+              "transition_delta:latent_y_positive",
+              "transition_delta:high_energy",
+              "quality:quality_q",
+              "quality:quality_margin",
+              "quality:linear_identifiability_r2",
+              "quality:approx_identifiability_proxy"
+            ],
+            "forbidden_inference_columns": [
+              "label",
+              "z",
+              "z_pair",
+              "gap_label",
+              "gap_labels",
+              "prediction_error",
+              "eval_label",
+              "eval_labels",
+              "eval_gap_label",
+              "eval_gap_labels",
+              "config_metadata"
+            ],
+            "forbidden_present": [],
+            "status": "pass",
+            "violations": []
+          },
+          "status": "pass"
+        },
+        "criterion": "producer and ablation forbidden-column audits pass",
+        "status": "pass"
+      },
+      "A-HG5": {
+        "criterion": {
+          "auroc_tolerance": 0.03,
+          "full_auroc_mean": 0.8155891135051798,
+          "full_unlogged_error_reduction_mean": 0.38086956521739135,
+          "h_only_auroc_mean": 0.6468323511415169,
+          "h_only_unlogged_error_reduction_mean": 0.2831884057971015,
+          "unlogged_error_reduction_tolerance": 0.03
+        },
+        "h_only_sufficient": false,
+        "mechanical_label": "full_feature_family_gap_classifier",
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "artifact": "bedc-quality-lab:gap-head-robustness-sweep",
+  "claim_boundary": {
+    "claim": "Gap classifiers can be learned on representations to reduce unlogged model errors.",
+    "not_claimed": [
+      "No global quality claim.",
+      "No claim over transfer surfaces without a listed pointer.",
+      "No large-model extrapolation.",
+      "No inference-time use of z, z_pair, gap_label, prediction_error, or eval_gap_labels."
+    ],
+    "positive_scope": "The claim is limited to the learned-h Gaussian-OU source surface and the explicit transfer pointers reported here."
+  },
+  "elapsed_seconds": 12.369345624931157,
+  "final_claim_scope": "full_feature_family_gap_classifier",
+  "final_status": "pass",
+  "generated_at": "2026-06-07T13:31:18.998270+00:00",
+  "json_artifact": "reports/canonical/gap-head-robustness-sweep.json",
+  "markdown_artifact": "reports/canonical/gap-head-robustness-sweep.md",
+  "owner_pointers": {
+    "a1_threshold_sweep": {
+      "config": "scripts/run_gap_ledger_head_on_h.py::GapHeadRunConfig",
+      "epsilon_grid": "scripts/run_gap_ledger_head_on_h.py::EPSILON_GRID",
+      "owner": "scripts/run_gap_ledger_head_on_h.py",
+      "primary_epsilon": "scripts/run_gap_ledger_head_on_h.py::PRIMARY_EPSILON",
+      "primary_tau": "scripts/run_gap_ledger_head_on_h.py::PRIMARY_TAU",
+      "tau_grid": "scripts/run_gap_ledger_head_on_h.py::TAU_GRID"
+    },
+    "a2_feature_ablation": {
+      "forbidden_audit": "scripts/run_gap_ledger_head_on_h.py::_assert_inference_columns",
+      "matched_random": "scripts/run_gap_ledger_head_on_h.py::_matched_random_gap_labels",
+      "metric_helper": "scripts/run_gaussian_ou_gap_ledger_head.py::_metrics_for_arm",
+      "split": "scripts/run_gap_ledger_head_on_h.py::_run_record",
+      "surface": "scripts/run_gap_ledger_head_on_h.py::_surface_for_seed"
+    },
+    "a3_seed_expansion": {
+      "cell_grid": "scripts/run_gap_head_discovery_stability.py::_cell_configs",
+      "owner": "scripts/run_gap_head_discovery_stability.py",
+      "verdict": "scripts/run_gap_head_discovery.py::_verdict_payload"
+    },
+    "a4_distribution_transfer": [
+      {
+        "json_artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+        "name": "nongaussian-distribution-sweep",
+        "pointer": "$.main_claim_status",
+        "script": "scripts/run_nongaussian_distribution_sweep.py"
+      },
+      {
+        "json_artifact": "reports/canonical/anisotropic-ou-sweep.json",
+        "name": "anisotropic-ou-sweep",
+        "pointer": "$.negative_result_summary",
+        "script": "scripts/run_anisotropic_ou_sweep.py"
+      },
+      {
+        "json_artifact": "reports/canonical/mixing-family-sweep.json",
+        "name": "mixing-family-sweep",
+        "pointer": "$.negative_result_summary",
+        "script": "scripts/run_mixing_family_sweep.py"
+      },
+      {
+        "json_artifact": "reports/gaussian_ou_gap_ledger_shift_robustness.json",
+        "name": "gaussian-ou-gap-ledger-shift-robustness",
+        "pointer": "$.aggregate.advantage_degradation_slope",
+        "script": "scripts/run_gaussian_ou_gap_ledger_shift_robustness.py"
+      }
+    ],
+    "a5_no_leak_audit": {
+      "forbidden_inference_columns": "scripts/run_gap_ledger_head_on_h.py::FORBIDDEN_INFERENCE_COLUMNS",
+      "producer_audit": "scripts/run_gap_ledger_head_on_h.py::_forbidden_column_audit"
+    }
+  }
+}
