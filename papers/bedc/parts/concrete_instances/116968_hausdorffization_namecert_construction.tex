@@ -129,6 +129,46 @@ Carrier admission and separated-reflection evidence are the rows $P,S$. The sepa
 The remaining authentication data are $T,K,G,N$. These rows transport, replay, source, and name the same finite package. Because the ledger theorem excludes quotient and representative data, the NameCert package has no further clause beyond the displayed scope.
 \end{proof}
 
+\begin{theorem}[Hausdorffization zero-distance window determinacy]
+\label{thm:hausdorffization-zero-distance-window-determinacy}
+Let $H=(P,S,M,C,W,R,E,T,K,G,N)$ be an accepted $\HausdorffizationUp$ packet. Any two separated-identification reads that share the $\PseudometricUp$ row $P$, the finite $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ readback $R$, and the terminal $\RealUp$ seal $E$ determine the same separated-reflection boundary $S$ before the separated metric row $M$ or completion row $C$ is visible.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hausdorffization-carrier}. The separated-reflection row $S$ is the only boundary row between the pseudometric source $P$ and the downstream rows $M,C$.
+
+Use the separated-reflection scope of \autoref{thm:hausdorffization-separated-reflection-scope}. It states that $S$ compares source names only through zero-distance evidence from $P$, finite windows $W$, regular-rational readback $R$, and the Real seal $E$.
+
+Finally apply the ledger non-quotient boundary of \autoref{thm:hausdorffization-ledger-nonquotient-boundary}. Since there is no quotient-equality or representative-selection coordinate, two reads sharing $P,W,R,E$ have no alternate boundary data to distinguish them before $M,C$ are opened.
+\end{proof}
+
+\begin{theorem}[Hausdorffization completion handoff exactness]
+\label{thm:hausdorffization-completion-handoff-exactness}
+Every $\MetricCompletionUp$ consumer of an accepted $\HausdorffizationUp$ packet receives the completion row $C$ only after the rows $P,S,M,W,R,E,T,K,G,N$ have been exposed. Thus completion-facing data are exact over the displayed pseudometric source, separated-reflection boundary, separated metric row, finite windows, regular readback, Real seal, componentwise transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Start with the completion consumer route of \autoref{thm:hausdorffization-completion-consumer-route}. It forces a completion consumer to read $P \longmapsto S \longmapsto M \longmapsto C$ and then authenticate that route through $W,R,E,T,K,G,N$.
+
+The NameCert scope package of \autoref{thm:hausdorffization-namecert-scope-package} records the same finite inventory as the local certificate. Therefore the row $C$ is not an independent completion object; it is the handoff row reached after the displayed boundary and readback rows.
+
+The non-quotient ledger theorem, \autoref{thm:hausdorffization-ledger-nonquotient-boundary}, excludes quotient completion, selected representatives, countable choice, and ambient real completeness as alternate inputs. Hence the completion handoff is exact over precisely the displayed rows.
+\end{proof}
+
+\begin{theorem}[Hausdorffization separated completion factorization]
+\label{thm:hausdorffization-separated-completion-factorization}
+Every completion-facing route out of an accepted $\HausdorffizationUp$ packet factors through the finite chain
+$$
+P \longmapsto S \longmapsto M \longmapsto C .
+$$
+No route can bypass this chain through quotient equality, selected representatives, host separated-reflection objects, or quotient completion equality.
+\end{theorem}
+\begin{proof}
+Read the separated-reflection boundary theorem \autoref{thm:hausdorffization-separated-reflection}. It already identifies every $\SeparatedMetricUp$ or $\MetricCompletionUp$ consumer route as passing through the pseudometric source $P$, separated-reflection boundary $S$, and separated metric and completion rows $M,C$.
+
+Apply zero-distance window determinacy, \autoref{thm:hausdorffization-zero-distance-window-determinacy}. The boundary row $S$ is fixed by the displayed zero-distance window route before $M$ or $C$ is visible, so a completion consumer cannot choose a second separated boundary downstream.
+
+Finally apply completion handoff exactness, \autoref{thm:hausdorffization-completion-handoff-exactness}. It places $C$ after $P,S,M,W,R,E,T,K,G,N$, while the ledger non-quotient boundary rules out quotient equality and selected representatives. The only completion-facing factorization is therefore $P \longmapsto S \longmapsto M \longmapsto C$.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\HausdorffizationUp$ read exposes a Pseudometric source row, SeparatedReflection boundary, SeparatedMetric target row, MetricCompletion handoff, StreamName windows, RegSeqRat readback, Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert row before any separated metric or completion consumer reads it.}
 
 \independenceWitness{separated-reflection, pseudometric, separatedmetric, metriccompletion, streamname, regseqrat, real: $\HausdorffizationUp$ is not bijective to any listed sibling because it jointly binds zero-distance evidence, separated-reflection boundary, separated metric handoff, completion-facing handoff, finite windows, regular rational readback, a Real seal, transport, replay, provenance, and local naming while refusing quotient equality, selected representatives, quotient completion, trichotomy, countable choice, and ambient completeness.}

@@ -332,4 +332,80 @@ theorem RelationalPhysicsGlobalFrameTailExclusion [AskSetup] [PackageSetup]
       cont_mutual_extension_right_tail_absurd.left auditReadRateFrame,
       cont_mutual_extension_right_tail_absurd.right auditReadRateFrame⟩
 
+theorem RelationalPhysicsKernelScopeClosure [AskSetup] [PackageSetup]
+    {observer invariant locality audit rate transport route provenance name kernelRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RelationalPhysicsCarrier observer invariant locality audit rate transport route provenance
+        name bundle pkg →
+      Cont transport route kernelRead →
+        PkgSig bundle kernelRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row kernelRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row observer ∨ hsame row invariant ∨ hsame row locality ∨
+                  hsame row audit ∨ hsame row rate ∨ hsame row transport ∨
+                    hsame row route ∨ hsame row provenance ∨ hsame row name ∨
+                      hsame row kernelRead)
+              (fun row : BHist => UnaryHistory row ∧ PkgSig bundle kernelRead pkg)
+              hsame ∧
+            UnaryHistory observer ∧ UnaryHistory locality ∧ UnaryHistory invariant ∧
+              UnaryHistory audit ∧ UnaryHistory rate ∧ UnaryHistory transport ∧
+                UnaryHistory route ∧ UnaryHistory kernelRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle kernelRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier kernelRoute kernelPkg
+  obtain ⟨observerUnary, invariantUnary, localityUnary, auditUnary, rateUnary,
+    transportUnary, routeUnary, _provenanceUnary, _nameUnary,
+    _observerLocalityInvariant, _invariantAuditRate, _transportRouteProvenance,
+    _carrierLocalityInvariantAudit, _carrierAuditRateRoute, provenancePkg, _namePkg⟩ :=
+    carrier
+  have kernelReadUnary : UnaryHistory kernelRead :=
+    unary_cont_closed transportUnary routeUnary kernelRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row kernelRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row observer ∨ hsame row invariant ∨ hsame row locality ∨
+              hsame row audit ∨ hsame row rate ∨ hsame row transport ∨
+                hsame row route ∨ hsame row provenance ∨ hsame row name ∨
+                  hsame row kernelRead)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle kernelRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro kernelRead ⟨hsame_refl kernelRead, kernelReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, kernelPkg⟩
+  }
+  exact
+    ⟨cert, observerUnary, localityUnary, invariantUnary, auditUnary, rateUnary,
+      transportUnary, routeUnary, kernelReadUnary, provenancePkg, kernelPkg⟩
+
 end BEDC.Derived.RelationalPhysicsUp
