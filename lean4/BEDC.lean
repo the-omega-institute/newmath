@@ -12079,7 +12079,10 @@ import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.Nonescape
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.SeparationHandoff
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
+import BEDC.Derived.Window6AdditiveEnergyRecurrence
+import BEDC.Derived.Window6BetweennessOrderFour
 import BEDC.Derived.Window6CyclicCount
+import BEDC.Derived.Window6DisjointPairPell
 import BEDC.Derived.Window6Doubling
 import BEDC.Derived.Window6EdgeCokernelClock
 import BEDC.Derived.Window6EdgeFluxModP3
@@ -12087,10 +12090,6 @@ import BEDC.Derived.Window6FactorImageCount
 import BEDC.Derived.Window6FibEntryPointCongruence
 import BEDC.Derived.Window6FibGcdStrongDivisibility
 import BEDC.Derived.Window6FibonacciCount
-import BEDC.Derived.Window6DisjointPairPell
-import BEDC.Derived.Window6MedianZeroTriplePell
-import BEDC.Derived.Window6BetweennessOrderFour
-import BEDC.Derived.Window6AdditiveEnergyRecurrence
 import BEDC.Derived.Window6Foldbin
 import BEDC.Derived.Window6GaugeOrbit
 import BEDC.Derived.Window6GoldenSplitModPLaw
@@ -12098,12 +12097,14 @@ import BEDC.Derived.Window6JointNecklace
 import BEDC.Derived.Window6LucasCount
 import BEDC.Derived.Window6LucasFibNormRelation
 import BEDC.Derived.Window6LucasKernelObstruction
+import BEDC.Derived.Window6MedianZeroTriplePell
 import BEDC.Derived.Window6ModP571Singularity
 import BEDC.Derived.Window6NecklaceOrbitCount
 import BEDC.Derived.Window6NecklaceSpectralDeterminant
 import BEDC.Derived.Window6ParryModPDescent
 import BEDC.Derived.Window6PisanoPeriodModP
 import BEDC.Derived.Window6SeamIdentification
+import BEDC.Derived.Window6ThetaSparseRecurrence
 import BEDC.Derived.Window6TraceCycleIndexNecklace
 import BEDC.Derived.Window6TraceLucas
 import BEDC.Derived.Window6TransferMatrix
