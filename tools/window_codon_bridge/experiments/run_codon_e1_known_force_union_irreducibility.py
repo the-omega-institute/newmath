@@ -38,10 +38,10 @@ from run_codon_e1_mutation_pressure_orientation import (
 
 EXPERIMENT_ID = "codon_e1_known_force_union_irreducibility"
 CLAIM_ID = "bridge.genetic_code.codon_e1_known_force_union_irreducibility"
-N_NULL_A = int(os.environ.get("CODON_E1_KFU_NULL_A", "20000"))
-N_NULL_B_GEN = int(os.environ.get("CODON_E1_KFU_NULL_B_GEN", "30000"))
-N_NULL_B_ACCEPT_TARGET = int(os.environ.get("CODON_E1_KFU_NULL_B_ACCEPT", "3000"))
-N_BOOTSTRAP = int(os.environ.get("CODON_E1_KFU_BOOT", "2000"))
+N_NULL_A = int(os.environ.get("CODON_E1_KFU_NULL_A", "10000"))
+N_NULL_B_GEN = int(os.environ.get("CODON_E1_KFU_NULL_B_GEN", "15000"))
+N_NULL_B_ACCEPT_TARGET = int(os.environ.get("CODON_E1_KFU_NULL_B_ACCEPT", "1500"))
+N_BOOTSTRAP = int(os.environ.get("CODON_E1_KFU_BOOT", "1000"))
 N_ORIENT_NULL = int(os.environ.get("CODON_E1_KFU_ORIENT_NULL", "4000"))
 TOL = 1.0e-10
 NORM_FLOOR = 1.0e-12
