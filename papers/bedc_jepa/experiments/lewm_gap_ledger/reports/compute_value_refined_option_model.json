@@ -1,0 +1,172 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_refined_option_model",
+  "selected_model": "mlp",
+  "device": "cuda",
+  "inputs": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\g2n_labels_clean.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz"
+  },
+  "counts": {
+    "train": 2043,
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55
+  },
+  "option_depths": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "calibration": {
+    "mlp": {
+      "allocation_delta": {
+        "observed": -0.0013615787135653062,
+        "low": -0.005329473219145864,
+        "high": 0.002940807337055845
+      },
+      "chosen_depth_counts": {
+        "1": 98,
+        "2": 93,
+        "3": 264,
+        "4": 93,
+        "5": 98
+      },
+      "score_spearman": 0.35118881954663067
+    },
+    "ridge_alpha_1": {
+      "allocation_delta": {
+        "observed": 0.0033618425143676772,
+        "low": 0.0006992430108906875,
+        "high": 0.006056308399828868
+      },
+      "chosen_depth_counts": {
+        "1": 98,
+        "2": 93,
+        "3": 264,
+        "4": 93,
+        "5": 98
+      },
+      "score_spearman": 0.0875497193858616
+    },
+    "ridge_alpha_10": {
+      "allocation_delta": {
+        "observed": 0.003896550285347078,
+        "low": 0.0011355686908768817,
+        "high": 0.00689765234924485
+      },
+      "chosen_depth_counts": {
+        "1": 98,
+        "2": 93,
+        "3": 264,
+        "4": 93,
+        "5": 98
+      },
+      "score_spearman": 0.11774394089236775
+    },
+    "ridge_alpha_100": {
+      "allocation_delta": {
+        "observed": 0.002413931572831707,
+        "low": -0.002767708328131602,
+        "high": 0.008141899577198292
+      },
+      "chosen_depth_counts": {
+        "1": 98,
+        "2": 93,
+        "3": 264,
+        "4": 93,
+        "5": 98
+      },
+      "score_spearman": 0.1505114462948284
+    }
+  },
+  "model_details": {
+    "mlp": {
+      "kind": "mlp",
+      "health": {
+        "best_cal_smooth_l1": 0.10972753167152405,
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.3871682770550251,
+          "cal": 0.14285679161548615
+        },
+        "history_last": {
+          "epoch": 400.0,
+          "train": 0.050017747562378645,
+          "cal": 0.1292787492275238
+        },
+        "params_count": 1977989
+      }
+    },
+    "ridge_alpha_1": {
+      "kind": "ridge"
+    },
+    "ridge_alpha_10": {
+      "kind": "ridge"
+    },
+    "ridge_alpha_100": {
+      "kind": "ridge"
+    }
+  },
+  "eval": {
+    "allocation_delta": {
+      "observed": 0.0018373467278956224,
+      "low": -0.0019948004422385346,
+      "high": 0.006562988515277169
+    },
+    "chosen_depth_counts": {
+      "1": 99,
+      "2": 92,
+      "3": 252,
+      "4": 92,
+      "5": 99
+    },
+    "score_spearman": 0.33149181325796984
+  },
+  "references": {
+    "oracle": {
+      "allocation_delta": {
+        "observed": -0.03059239361686994,
+        "low": -0.038102508214435386,
+        "high": -0.024755602006372498
+      },
+      "chosen_depth_counts": {
+        "1": 448,
+        "2": 94,
+        "3": 43,
+        "4": 24,
+        "5": 25
+      }
+    },
+    "reused_policy_score": {
+      "allocation_delta": {
+        "observed": -0.0033048625628667727,
+        "low": -0.006791352553698714,
+        "high": 0.0001959639012086371
+      },
+      "chosen_depth_counts": {
+        "1": 99,
+        "2": 92,
+        "3": 252,
+        "4": 92,
+        "5": 99
+      },
+      "score_spearman": 0.3963775077698914
+    }
+  },
+  "leakage_attestation": {
+    "feature_standardizer": "fit on train features only",
+    "target_standardizer": "fit on train true_mv only",
+    "model_selection": "calibration split only",
+    "eval_truth_usage": "eval option_error and true_mv used only after predicted_mv is written for final metrics",
+    "slurm_or_ssh": "not used"
+  },
+  "outputs": {
+    "predictions_npz": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_refined_option_model_predictions.npz",
+    "json": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_refined_option_model.json",
+    "md": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_refined_option_model.md"
+  },
+  "wall_time_sec": 51.54793357849121
+}

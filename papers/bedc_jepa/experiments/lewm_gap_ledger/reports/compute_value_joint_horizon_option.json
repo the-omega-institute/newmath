@@ -1,0 +1,239 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_joint_horizon_option",
+  "device": "cuda",
+  "inputs": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\g2n_labels_clean.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz"
+  },
+  "counts": {
+    "train": 2043,
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55,
+    "feature_dim": 4952
+  },
+  "target": {
+    "option_depths": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "horizon_quantile": 75,
+    "assignment_rule": "exact per-episode budget sum(depth)=3*episode_anchor_count using dynamic programming"
+  },
+  "row_order": [
+    "exact_budget_oracle",
+    "option_only",
+    "joint_horizon_option",
+    "horizon_risk_dp"
+  ],
+  "selected_row": "option_only",
+  "calibration": {
+    "option_only": {
+      "allocation_delta": {
+        "observed": 0.00023667628586036826,
+        "low": -3.036654606077965e-05,
+        "high": 0.0005605598669762138
+      },
+      "chosen_depth_counts": {
+        "2": 9,
+        "3": 631,
+        "4": 3,
+        "5": 3
+      },
+      "score_error_spearman": 0.8520075368262808
+    },
+    "joint_horizon_option": {
+      "allocation_delta": {
+        "observed": -0.0007256182886065665,
+        "low": -0.0023288246712754555,
+        "high": 0.0009642564278587005
+      },
+      "chosen_depth_counts": {
+        "2": 137,
+        "3": 435,
+        "4": 11,
+        "5": 63
+      },
+      "score_error_spearman": 0.884246242655983
+    }
+  },
+  "health": {
+    "option_only": {
+      "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then joint loss",
+      "horizon_weight": 0.0,
+      "best": {
+        "epoch": 264,
+        "calibration": {
+          "allocation_delta": {
+            "observed": 0.00023667628586036826,
+            "low": -3.036654606077965e-05,
+            "high": 0.0005605598669762138
+          },
+          "chosen_depth_counts": {
+            "2": 9,
+            "3": 631,
+            "4": 3,
+            "5": 3
+          },
+          "score_error_spearman": 0.8520075368262808
+        },
+        "cal_option_loss": 0.08227416127920151,
+        "cal_horizon_loss": 0.7069767117500305
+      },
+      "history_first": {
+        "epoch": 1.0,
+        "train_loss": 0.5376821160316467,
+        "cal_option_loss": 0.2168290913105011,
+        "cal_horizon_loss": 0.7292451858520508,
+        "cal_delta_high": 0.013114369309466321,
+        "cal_delta_observed": 0.009178673229513157
+      },
+      "history_last": {
+        "epoch": 280.0,
+        "train_loss": 0.3154246062040329,
+        "cal_option_loss": 0.08248770982027054,
+        "cal_horizon_loss": 0.7060361504554749,
+        "cal_delta_high": 0.000569646448824624,
+        "cal_delta_observed": 0.00023879782792318727
+      },
+      "params_count": 1369990,
+      "y_mean": 0.34039367043003754,
+      "y_scale": 0.5002792609213487
+    },
+    "joint_horizon_option": {
+      "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then joint loss",
+      "horizon_weight": 0.25,
+      "best": {
+        "epoch": 225,
+        "calibration": {
+          "allocation_delta": {
+            "observed": -0.0007256182886065665,
+            "low": -0.0023288246712754555,
+            "high": 0.0009642564278587005
+          },
+          "chosen_depth_counts": {
+            "2": 137,
+            "3": 435,
+            "4": 11,
+            "5": 63
+          },
+          "score_error_spearman": 0.884246242655983
+        },
+        "cal_option_loss": 0.07704740762710571,
+        "cal_horizon_loss": 1.3881553411483765
+      },
+      "history_first": {
+        "epoch": 1.0,
+        "train_loss": 0.6366051286458969,
+        "cal_option_loss": 0.1772621124982834,
+        "cal_horizon_loss": 0.6754218339920044,
+        "cal_delta_high": 0.017605404071956505,
+        "cal_delta_observed": 0.009965360312047589
+      },
+      "history_last": {
+        "epoch": 280.0,
+        "train_loss": 0.31540490686893463,
+        "cal_option_loss": 0.0800006166100502,
+        "cal_horizon_loss": 1.4738434553146362,
+        "cal_delta_high": 0.006247410556135797,
+        "cal_delta_observed": 0.0028214730996077297
+      },
+      "params_count": 1369990,
+      "y_mean": 0.34039367043003754,
+      "y_scale": 0.5002792609213487
+    }
+  },
+  "eval": {
+    "exact_budget_oracle": {
+      "allocation_delta": {
+        "observed": -0.024122137932078153,
+        "low": -0.030449682857947653,
+        "high": -0.019436570563229068
+      },
+      "chosen_depth_counts": {
+        "1": 148,
+        "2": 114,
+        "3": 117,
+        "4": 100,
+        "5": 155
+      },
+      "score_error_spearman": 1.0
+    },
+    "option_only": {
+      "allocation_delta": {
+        "observed": 0.00016646110907118927,
+        "low": -0.00013824818599131246,
+        "high": 0.0004989424643208304
+      },
+      "chosen_depth_counts": {
+        "2": 15,
+        "3": 607,
+        "4": 9,
+        "5": 3
+      },
+      "score_error_spearman": 0.8371351156478359
+    },
+    "joint_horizon_option": {
+      "allocation_delta": {
+        "observed": 0.004657864121656863,
+        "low": 2.9733054318847646e-07,
+        "high": 0.011279759811041155
+      },
+      "chosen_depth_counts": {
+        "2": 129,
+        "3": 434,
+        "4": 13,
+        "5": 58
+      },
+      "score_error_spearman": 0.8737411524641562
+    },
+    "horizon_risk_dp": {
+      "allocation_delta": {
+        "observed": 0.007025120240645041,
+        "low": 0.002273708734666491,
+        "high": 0.01192187032063608
+      },
+      "chosen_depth_counts": {
+        "1": 129,
+        "2": 127,
+        "3": 132,
+        "4": 107,
+        "5": 139
+      },
+      "score_error_spearman": 0.03228532931637986
+    }
+  },
+  "horizon_auc": {
+    "option_only": {
+      "h1": 0.5751979596469441,
+      "h2": 0.59932469764872,
+      "h3": 0.4558440018966335,
+      "h4": 0.5334965199223627,
+      "h5": 0.4997062129572859
+    },
+    "joint_horizon_option": {
+      "h1": 0.7576279560416083,
+      "h2": 0.7722512124746762,
+      "h3": 0.7386557610241821,
+      "h4": 0.7630580177774481,
+      "h5": 0.7270590639689352
+    }
+  },
+  "leakage_attestation": {
+    "feature_standardizer": "fit on train features only",
+    "target_standardizer": "fit on train option_error only per row",
+    "model_selection": "calibration split exact-budget allocation only",
+    "eval_truth_usage": "eval option_error and horizon labels used only after predicted scores/logits are produced",
+    "distillation": "absent"
+  },
+  "outputs": {
+    "predictions_npz": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_joint_horizon_option_predictions.npz",
+    "json": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_joint_horizon_option.json",
+    "md": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_joint_horizon_option.md"
+  },
+  "wall_time_sec": 152.2639992237091
+}

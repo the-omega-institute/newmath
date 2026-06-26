@@ -1,0 +1,521 @@
+\chapter{Local--Global Zero Exclusion Target}
+\label{ch:visions-rh-local-global-zero-exclusion-target}
+\origin{ai}
+
+\autoref{ch:visions-rh-finite-prime-window-gluing} and
+\autoref{ch:visions-rh-prime-window-recursive-tower} reduce the local
+prime-window route to one remaining object:
+$$
+\mathsf{LocalGlobalZeroExclusion}_{\zeta}.
+$$
+The present chapter records that object as the proof target. It does not
+introduce another route layer. It separates the local finite-window algebra,
+the source-compatibility rows, the archimedean completion row, and the
+carrier-level incompatibility obligation.
+
+\section{Target Statement}
+\label{sec:rh-local-global-zero-exclusion-target-statement}
+
+\begin{definition}[Local-global zero exclusion target]
+\label{def:rh-local-global-zero-exclusion-target}
+The target is the dependent product
+$$
+\mathsf{LocalGlobalZeroExclusion}_{\zeta}
+:=
+\prod_{c:\mathcal C_{\zeta}}
+\bigl(
+\mathsf{ApartNonFix}_{J}(c)
+\to
+\mathsf{Apart}_{0}(\zeta(c))
+\bigr).
+$$
+Equivalently, it says that a critical-strip row separated from the mirror
+fixed surface by a positive rational witness cannot carry a zeta-zero row
+inside the completed zeta carrier.
+\end{definition}
+
+\begin{definition}[Zero-ledger fixed-half geometry]
+\label{def:rh-zero-ledger-fixed-half-geometry}
+The zero-ledger fixed-half geometry is the inclusion-style statement
+$$
+\mathsf{ZeroLedger}_{\zeta}
+\subseteq
+\operatorname{Fix}(J),
+$$
+read internally as
+$$
+\prod_{c:\mathcal C_{\zeta}}
+\bigl(
+Z_{\zeta}(c)\to J_{\zeta}(c)=c
+\bigr).
+$$
+The notation does not introduce a host-side point set of zeros. It is the
+source fixed-section target of
+\autoref{def:rh-layered-zero-fixed-section-orbit-exclusions}, read inside
+the completed zeta carrier of \autoref{def:rh-layered-zeta-recovery-layer}.
+\end{definition}
+
+\begin{definition}[Zero, fixed, and off-fixed subcarriers]
+\label{def:rh-zero-fixed-offfixed-subcarriers}
+Let $\mathbb G_{\zeta}^{0}$ denote the RH-neutral zeta carrier of
+\autoref{def:rh-neutral-fixed-half-zeta-carriers}. The zero-ledger,
+fixed-half, and off-fixed subcarriers are the pullback carriers
+$$
+\mathbb Z_{\zeta}
+:=
+\sum_{g:\mathbb G_{\zeta}^{0}}\mathsf{ZeroLedger}(g),
+$$
+$$
+\mathbb H_{\zeta}
+:=
+\sum_{g:\mathbb G_{\zeta}^{0}}\mathsf{FixHalf}(g),
+$$
+and
+$$
+\mathbb O_{\zeta}
+:=
+\sum_{g:\mathbb G_{\zeta}^{0}}\mathsf{ApartNonFix}_{J}(g).
+$$
+They are not compared as unrelated types. They are subcarriers over the
+same ambient recovered carrier, and their projections to
+$\mathbb G_{\zeta}^{0}$ carry the SameSource or SameCarrier certificates
+required for any containment, intersection, or apartness claim.
+\end{definition}
+
+\begin{principle}[Containment, not orthogonality]
+\label{prin:rh-zero-fixed-containment-not-orthogonality}
+The RH geometry is not an orthogonality claim between
+$\mathbb Z_{\zeta}$ and $\mathbb H_{\zeta}$. It is the factorization of
+the zero-ledger projection through the fixed-half subcarrier,
+equivalently the containment
+$$
+\mathbb Z_{\zeta}\subseteq\mathbb H_{\zeta}.
+$$
+The apartness target concerns $\mathbb Z_{\zeta}$ and the off-fixed
+subcarrier $\mathbb O_{\zeta}$:
+$$
+\mathbb Z_{\zeta}\cap\mathbb O_{\zeta}=\varnothing
+$$
+with a positive-apartness witness rather than a bare empty-intersection
+assertion.
+\end{principle}
+
+\begin{principle}[Recovered-carrier geometry, not point-set geometry]
+\label{prin:rh-recovered-carrier-not-point-set-geometry}
+The geometric ambient object for the RH target is
+$\mathbb G_{\zeta}^{0}$, not the complex plane regarded as a bare point
+set.  The complex coordinate $s$ is a readout of a recovered carrier row
+whose data include Dirichlet, Euler, continuation, archimedean-completion,
+functional-equation, pole-ledger, zero-ledger, branch-transport, and
+prime-fingerprint projections.  Consequently the traditional statement
+$$
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+\to
+\Re(s)=1/2
+$$
+is the complex-plane projection of the carrier containment
+$$
+\mathbb Z_{\zeta}\subseteq\mathbb H_{\zeta}.
+$$
+Equivalently, it is the assertion that the zero-ledger projection from the
+recovered carrier factors through the fixed-half subcarrier before any
+external complex-plane reading is taken.
+\end{principle}
+
+\begin{principle}[Fixed half as rational center with phase fiber]
+\label{prin:rh-fixed-half-rational-center-phase-fiber}
+The fixed-half subcarrier is not an irrational-number subcarrier. Its
+center row is the rational half value $1/2$. The residual freedom on the
+fixed surface is the phase fiber
+$$
+s=\frac12+i\tau,
+$$
+read in centered prime channels as
+$$
+U_p(s)=e^{-i\tau\log p}.
+$$
+Thus irrational, transcendental, logarithmic, and phase data may occur in
+the fiber over the fixed center, while the fixed-half equation itself is
+the rational-center row $\Re(s)=1/2$.
+\end{principle}
+
+\begin{theorem}[Geometric compression of RH]
+\label{thm:rh-geometric-compression-zero-ledger-fixed-half}
+The geometric statement
+$$
+\mathsf{ZeroLedger}_{\zeta}
+\subseteq
+\operatorname{Fix}(J)
+$$
+is the same RH target as the section form $\mathsf{Sec}_{\mathsf{RH}}$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-zero-ledger-fixed-half-geometry}, the displayed
+inclusion is the product
+$$
+\prod_{c:\mathcal C_{\zeta}}
+\bigl(Z_{\zeta}(c)\to J_{\zeta}(c)=c\bigr),
+$$
+which is $\mathsf{ZeroFix}_{\zeta}$ in
+\autoref{def:rh-layered-zero-fixed-section-orbit-exclusions}. The
+equivalence with $\mathsf{Sec}_{\mathsf{RH}}$ is
+\autoref{thm:rh-layered-source-fixed-section-target}.
+\end{proof}
+
+\begin{theorem}[Local-global zero exclusion gives the RH witness target]
+\label{thm:rh-local-global-zero-exclusion-gives-rh-target}
+Assume the real bias readout is located and that
+$\mathsf{Apart}_{0}(\zeta(c))$ contradicts $Z_{\zeta}(c)$. Then
+\autoref{def:rh-local-global-zero-exclusion-target} supplies the BEDC-RH
+witness target of \autoref{prop:rh-constructive-form}.
+\end{theorem}
+
+\begin{proof}
+The target is the apart orbit exclusion used in
+\autoref{thm:rh-layered-apart-orbit-exclusion-yields-fixed-section}. That
+theorem supplies $\mathsf{ZeroFix}_{\zeta}$. By
+\autoref{thm:rh-layered-source-fixed-section-target}, the source fixed
+section is equivalent to the BEDC-RH section form, which is the constructive
+witness target of \autoref{prop:rh-constructive-form}.
+\end{proof}
+
+\section{Finite-Window Algebra}
+\label{sec:rh-local-global-finite-window-algebra}
+
+\begin{definition}[Prime-window packet]
+\label{def:rh-prime-window-packet}
+For a nonempty finite prime window $S$ and a row $s$, the prime-window
+packet consists of the finite data
+$$
+\mathsf{PrimeWindow}_{S}(s)
+:=
+\bigl(
+S,\ (p\in S),\ U_p(s),\ \mathsf{Amp}_p(s),\ D_S(s),\
+\mathsf{UnitWindow}_{S}(s)
+\bigr),
+$$
+together with the certificate rows of
+\autoref{def:rh-finite-prime-window} and
+\autoref{def:rh-finite-window-total-defect}.
+\end{definition}
+
+\begin{theorem}[Prime-window defect formula]
+\label{thm:rh-prime-window-defect-formula}
+If
+$$
+s=1/2+\delta(s)+i\tau(s),
+$$
+then for every nonempty finite prime window $S$,
+$$
+|D_S(s)|
+=
+|\delta(s)|\sum_{p\in S}\log p.
+$$
+Consequently, $|D_S(s)|=0$ if and only if $\mathsf{OnCritLine}(s)$.
+\end{theorem}
+
+\begin{proof}
+The equality is \autoref{thm:rh-finite-window-defect-accumulation} with
+the lower-bound premise specialized to equality through
+\autoref{def:rh-finite-window-total-defect}. Since each $\log p$ is
+positive and $S$ is nonempty, the sum is positive. Thus $|D_S(s)|=0$
+exactly when $|\delta(s)|=0$, equivalently when $\Re(s)=1/2$, which is
+$\mathsf{OnCritLine}(s)$ by \autoref{def:rh-predicate}.
+\end{proof}
+
+\section{Carrier Compatibility Obligations}
+\label{sec:rh-local-global-carrier-compatibility-obligations}
+
+\begin{definition}[Zeta-carrier source compatibility]
+\label{def:rh-zeta-carrier-source-compatibility}
+The zeta-carrier source compatibility obligation is the row
+$$
+\mathsf{ZetaCarrierCompatibility}_{S}(s)
+$$
+asserting that the zero-ledger read of $s$ and the prime-window read
+$\mathsf{PrimeWindow}_{S}(s)$ are two projections of the same source row,
+with a displayed readback witness:
+$$
+\mathsf{SameSource}
+\bigl(
+\mathsf{ZeroLedger}(s),
+\mathsf{PrimeWindow}_{S}(s)
+\bigr).
+$$
+\end{definition}
+
+\begin{definition}[Archimedean completion obligation]
+\label{def:rh-archimedean-completion-obligation}
+The archimedean completion obligation is the carrier row
+$$
+\mathsf{ArchimedeanCompletionRow}(s)
+$$
+which supplies the $\pi^{-s/2}\Gamma(s/2)$ completion term and the
+functional-equation mirror transport needed to enter the completed carrier:
+$$
+\mathsf{FinitePrimeRows}
++
+\mathsf{ArchimedeanRow}
++
+\mathsf{FunctionalEquation}
+\to
+\mathsf{CompletedCarrier}.
+$$
+\end{definition}
+
+\begin{definition}[Defect-zero incompatibility]
+\label{def:rh-defect-zero-incompatibility}
+The central analytic obligation is
+$$
+\mathsf{DefectZeroIncompatibility}
+$$
+with type
+$$
+\prod_s
+\bigl(
+\mathsf{InCritStrip}(s)
+\times
+\mathsf{CompletedCarrier}(s)
+\times
+\sum_{S\subset_{\mathrm{fin}}\PrimeUp}
+\bigl(S\ne\varnothing\bigr)\times\bigl(|D_S(s)|>0\bigr)
+\to
+\mathsf{Apart}_{0}(\zeta(s))
+\bigr).
+$$
+\end{definition}
+
+\section{Positive Defect Certificates}
+\label{sec:rh-positive-defect-certificates}
+
+\begin{definition}[Finite radial energy]
+\label{def:rh-finite-radial-energy}
+For a nonempty finite prime window $S$ and positive weights
+$(w_p)_{p\in S}$, the finite radial energy of a row $s$ is
+$$
+E_S(s)
+:=
+\sum_{p\in S}
+w_p\bigl(\log |p^{1/2-s}|\bigr)^2.
+$$
+Using the centered form
+$$
+p^{1/2-s}=p^{-\delta(s)}e^{-i\tau(s)\log p},
+$$
+this energy is
+$$
+E_S(s)
+=
+\delta(s)^2
+\sum_{p\in S}w_p(\log p)^2.
+$$
+\end{definition}
+
+\begin{proposition}[Finite radial energy detects the fixed half]
+\label{prop:rh-finite-radial-energy-detects-fixed-half}
+For every nonempty finite prime window $S$ with positive weights,
+$$
+E_S(s)=0
+\quad\Longleftrightarrow\quad
+\mathsf{OnCritLine}(s).
+$$
+\end{proposition}
+
+\begin{proof}
+The weight sum
+$$
+\sum_{p\in S}w_p(\log p)^2
+$$
+is positive because $S$ is nonempty, every displayed weight is positive,
+and every prime has $\log p>0$.  Hence
+$E_S(s)=0$ exactly when $\delta(s)^2=0$, equivalently
+$\delta(s)=0$.  This is the fixed-half condition
+$\Re(s)=1/2$, namely $\mathsf{OnCritLine}(s)$.
+\end{proof}
+
+\begin{definition}[Constructive bad-zero packet]
+\label{def:rh-constructive-bad-zero-packet}
+For a displayed positive rational $q$, a constructive bad-zero packet is
+$$
+\mathsf{BadZero}_q(s)
+:=
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\bigl(|\delta(s)|\ge q\bigr).
+$$
+The third row is a positive radial-defect certificate.  It is stronger than
+the bare negation $\delta(s)\neq0$ and is the form consumed by finite-window
+apartness arguments.
+\end{definition}
+
+\begin{proposition}[Bad zeros create finite radial energy]
+\label{prop:rh-bad-zero-creates-finite-radial-energy}
+If $\mathsf{BadZero}_q(s)$ holds and $S$ is a nonempty finite prime window
+with positive weights, then
+$$
+E_S(s)
+\ge
+q^2\sum_{p\in S}w_p(\log p)^2
+>
+0.
+$$
+\end{proposition}
+
+\begin{proof}
+The defect row of \autoref{def:rh-constructive-bad-zero-packet} gives
+$|\delta(s)|\ge q$.  Squaring and substituting into
+\autoref{def:rh-finite-radial-energy} gives the displayed lower bound.  The
+right-hand weight sum is positive by the proof of
+\autoref{prop:rh-finite-radial-energy-detects-fixed-half}, so the energy is
+positive.
+\end{proof}
+
+\begin{principle}[No tail absorption row]
+\label{prin:rh-no-tail-absorption-row}
+Finite radial energy is a certificate interface, not a completed-carrier
+exclusion by itself.  The missing carrier-level row is the assertion that a
+positive finite-window radial defect cannot be absorbed by the remaining
+Euler tail, the archimedean completion row, or the functional-equation
+transport while still carrying a zero ledger:
+$$
+\mathsf{CompletedCarrier}(s)
+\times
+\sum_{S\subset_{\mathrm{fin}}\PrimeUp}
+\bigl(E_S(s)>0\bigr)
+\Longrightarrow
+\mathsf{Apart}_{0}(\zeta(s)).
+$$
+This is the radial-energy presentation of
+\autoref{def:rh-defect-zero-incompatibility}.  It must be proved as a
+carrier-rigidity statement; it is not a consequence of finite enumeration
+alone.
+\end{principle}
+
+\begin{theorem}[Bad-zero contradiction route]
+\label{thm:rh-bad-zero-contradiction-route}
+Assume source compatibility, archimedean completion, and the no-tail
+absorption row of \autoref{prin:rh-no-tail-absorption-row}.  Assume also
+that $\mathsf{Apart}_{0}(\zeta(s))$ contradicts
+$\mathsf{ZetaZero}(s)$.  Then no constructive bad-zero packet exists.
+\end{theorem}
+
+\begin{proof}
+Assume $\mathsf{BadZero}_q(s)$.  Choose a nonempty finite prime window $S$
+with positive weights.  By
+\autoref{prop:rh-bad-zero-creates-finite-radial-energy}, this packet
+supplies $E_S(s)>0$.  Source compatibility identifies this finite-window
+defect with a projection of the same source row as the zero ledger, and the
+archimedean completion row places the data in the completed carrier.  The
+no-tail absorption row yields $\mathsf{Apart}_{0}(\zeta(s))$, contradicting
+the $\mathsf{ZetaZero}(s)$ component of
+\autoref{def:rh-constructive-bad-zero-packet}.
+\end{proof}
+
+\section{Obligation Assembly}
+\label{sec:rh-local-global-obligation-assembly}
+
+\begin{theorem}[Four obligations assemble the target]
+\label{thm:rh-four-obligations-assemble-local-global-target}
+Suppose the following rows are supplied for every relevant critical-strip
+row: prime-window packets with the defect formula, zeta-carrier source
+compatibility, archimedean completion into the completed carrier, and
+\autoref{def:rh-defect-zero-incompatibility}. Then
+$\mathsf{LocalGlobalZeroExclusion}_{\zeta}$ holds.
+\end{theorem}
+
+\begin{proof}
+Let $c:\mathcal C_{\zeta}$ and assume
+$a:\mathsf{ApartNonFix}_{J}(c)$. Choose a nonempty finite window $S$. By
+\autoref{thm:rh-prime-window-defect-formula}, the apart witness gives
+$|D_S(c)|>0$. Source compatibility identifies the zero-ledger row and the
+prime-window row as projections of the same source item. The archimedean
+completion row places the finite-prime data in the completed carrier.
+Applying \autoref{def:rh-defect-zero-incompatibility} yields
+$\mathsf{Apart}_{0}(\zeta(c))$, which is the required output of
+\autoref{def:rh-local-global-zero-exclusion-target}.
+\end{proof}
+
+\begin{definition}[Geometric rigidity contradiction schema]
+\label{def:rh-geometric-rigidity-contradiction-schema}
+The geometric rigidity contradiction schema is the proof route
+$$
+\mathsf{ZeroLedger}(c)
+\times
+\mathsf{ApartNonFix}_{J}(c)
+\times
+\mathsf{CompletedCarrier}(c)
+\longrightarrow
+\bot
+$$
+obtained by first strengthening the off-fixed premise to a positive
+finite-window defect and then applying the carrier-level incompatibility
+row
+$$
+\mathsf{DefectZeroIncompatibility}.
+$$
+Its constructive form is the stronger output
+$$
+\mathsf{ApartNonFix}_{J}(c)
+\to
+\mathsf{Apart}_{0}(\zeta(c)),
+$$
+which is exactly \autoref{def:rh-local-global-zero-exclusion-target}.
+\end{definition}
+
+\begin{theorem}[Rigidity contradiction is constructive apartness]
+\label{thm:rh-rigidity-contradiction-constructive-apartness}
+Assume zeta-carrier source compatibility, archimedean completion, the
+prime-window defect formula, and
+\autoref{def:rh-defect-zero-incompatibility}. Then every instance of the
+geometric rigidity contradiction schema is witnessed by positive
+apartness from zero.
+\end{theorem}
+
+\begin{proof}
+Let $c:\mathcal C_{\zeta}$ and assume
+$a:\mathsf{ApartNonFix}_{J}(c)$. By
+\autoref{thm:rh-prime-window-defect-formula}, a nonempty finite prime
+window supplies a positive defect $|D_S(c)|>0$. Source compatibility
+identifies the zero-ledger, prime-window, archimedean, and
+functional-equation reads as projections of the same source row. The
+archimedean completion row places this data inside the completed carrier.
+Applying \autoref{def:rh-defect-zero-incompatibility} gives
+$\mathsf{Apart}_{0}(\zeta(c))$. If a zero-ledger witness is also present,
+this apartness contradicts that zero witness; without the zero witness it
+is already the constructive output of
+\autoref{def:rh-local-global-zero-exclusion-target}.
+\end{proof}
+
+\begin{principle}[Geometric content of the remaining target]
+\label{prin:rh-geometric-content-local-global-zero-exclusion}
+The fixed-half translations of \autoref{thm:rh-layered-translations}
+identify the same surface through real part, mirror fixedness,
+prime-unitary balance, information bias, Laplace bias, and
+$\mathsf{OnCritLine}$ witnesses. What remains is not another translation
+of that surface. It is the positive-apartness incompatibility
+$$
+\bigl(\mathcal C_{\zeta}\setminus\operatorname{Fix}(J)\bigr)
+\cap
+\mathsf{ZeroLedger}_{\zeta}
+=
+\varnothing
+$$
+read constructively as
+$$
+\mathsf{ApartNonFix}_{J}(c)
+\to
+\mathsf{Apart}_{0}(\zeta(c)).
+$$
+\end{principle}
+
+\begin{principle}[No further route layer]
+\label{prin:rh-no-further-route-layer}
+The remaining mathematical task is not another projection layer, another
+route classifier, or another exception vocabulary. It is the carrier-level
+incompatibility row
+\autoref{def:rh-defect-zero-incompatibility}: a completed zeta carrier row
+with positive finite-window radial defect cannot also be a zero ledger.
+\end{principle}

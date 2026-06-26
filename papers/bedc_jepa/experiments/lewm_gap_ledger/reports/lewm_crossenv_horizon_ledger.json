@@ -1,0 +1,932 @@
+{
+  "status": "ok",
+  "schema_id": "crossenv.native_horizon_ledger",
+  "protocol": {
+    "scientific_question": "Whether horizon-conditioned native ledger supervision transfers across reacher/cube/pusht after the tworooms result.",
+    "seeds": {
+      "numpy": 20260611,
+      "torch": 20260611,
+      "split": 1701,
+      "bootstrap": 314159
+    },
+    "bootstrap_resamples": 500,
+    "bootstrap_unit": "eval episodes",
+    "primary_quantile": 75,
+    "horizons": [
+      1,
+      3,
+      5,
+      10
+    ],
+    "quantiles": [
+      50,
+      75,
+      90
+    ],
+    "arm": "E",
+    "native_supervision": "pure horizon labels; no distillation; no rank/budget/unlogged losses",
+    "architecture": {
+      "past_tokens": 6,
+      "max_future_tokens": 5,
+      "d_model": 64,
+      "heads": 4,
+      "layers": 2,
+      "ffn_dim": 128,
+      "outputs": [
+        "h1_q50",
+        "h1_q75",
+        "h1_q90",
+        "h3_q50",
+        "h3_q75",
+        "h3_q90",
+        "h5_q50",
+        "h5_q75",
+        "h5_q90",
+        "h10_q50",
+        "h10_q75",
+        "h10_q90"
+      ]
+    },
+    "optimization": {
+      "epochs": 30,
+      "batch": 256,
+      "lr": 0.001,
+      "optimizer": "AdamW"
+    },
+    "detectable_rule": "per horizon, q=75 AUROC ci95_low > 0.5",
+    "anchor_rule": "h=1 generated rollout MSE must match npz prediction_mse with max |delta| < 0.0001"
+  },
+  "precursors": {
+    "replication_json": "reports/lewm_cross_env_replication.json",
+    "label_script_reused": "_g2n_horizon_labels.py",
+    "native_script_reused": "_g2n_native_ledger.py"
+  },
+  "envs": [
+    {
+      "env": "reacher",
+      "status": "evaluated",
+      "model": {
+        "repo": "quentinll/lewm-reacher",
+        "checkpoint_path": "~/.cache/huggingface/hub/models--quentinll--lewm-reacher/snapshots/62adae4b71dc474ddf8f794c476ebfe737a743ca/weights.pt",
+        "config_path": "~/.cache/huggingface/hub/models--quentinll--lewm-reacher/snapshots/62adae4b71dc474ddf8f794c476ebfe737a743ca/config.json",
+        "config_history_size": 3,
+        "npz_history_size": 3
+      },
+      "sample_counts": {
+        "episodes": 150,
+        "valid_transitions": 6000,
+        "latent_dim": 192,
+        "action_dim": 10
+      },
+      "labels": {
+        "path": "reports/crossenv_horizon_labels_reacher.npz",
+        "anchor_check": {
+          "tolerance": 0.0001,
+          "clean_h1_prediction_mse_max_abs_delta": 1.9601197701404893e-08,
+          "clean_h1_prediction_mse_by_split": {
+            "train": 7.025296492116362e-09,
+            "calibration": 1.8730646053274902e-08,
+            "eval": 1.9601197701404893e-08
+          }
+        },
+        "tau_table": [
+          {
+            "h": 1,
+            "q50": 0.0056814235600558165,
+            "q75": 0.0076381917196793325,
+            "q90": 0.010328384688334361
+          },
+          {
+            "h": 2,
+            "q50": 0.008932927717765845,
+            "q75": 0.012383431003158075,
+            "q90": 0.017535248420901435
+          },
+          {
+            "h": 3,
+            "q50": 0.011410329778568595,
+            "q75": 0.016732904446175034,
+            "q90": 0.023723234611476712
+          },
+          {
+            "h": 4,
+            "q50": 0.013569914402960848,
+            "q75": 0.020453413449303664,
+            "q90": 0.029998739948726788
+          },
+          {
+            "h": 5,
+            "q50": 0.015720271891823383,
+            "q75": 0.024463728972486387,
+            "q90": 0.03579352799449865
+          },
+          {
+            "h": 6,
+            "q50": 0.017755117000790577,
+            "q75": 0.028085416364384403,
+            "q90": 0.041544319779985246
+          },
+          {
+            "h": 7,
+            "q50": 0.019886413317200608,
+            "q75": 0.032054372788953935,
+            "q90": 0.0486197877221305
+          },
+          {
+            "h": 8,
+            "q50": 0.02204322377649426,
+            "q75": 0.03570590313400799,
+            "q90": 0.05513736828357201
+          },
+          {
+            "h": 9,
+            "q50": 0.024652211300094932,
+            "q75": 0.039751987271023546,
+            "q90": 0.061371927848252496
+          },
+          {
+            "h": 10,
+            "q50": 0.026813889589033003,
+            "q75": 0.0444190196197661,
+            "q90": 0.06949532116847382
+          }
+        ],
+        "failure_base_rates_q75": [
+          {
+            "h": 1,
+            "q": 75,
+            "train_failure_base_rate": 0.25,
+            "train_valid_n": 3420,
+            "calibration_failure_base_rate": 0.21666666666666667,
+            "calibration_valid_n": 1140,
+            "eval_failure_base_rate": 0.26403508771929823,
+            "eval_valid_n": 1140
+          },
+          {
+            "h": 3,
+            "q": 75,
+            "train_failure_base_rate": 0.25,
+            "train_valid_n": 3240,
+            "calibration_failure_base_rate": 0.2,
+            "calibration_valid_n": 1080,
+            "eval_failure_base_rate": 0.26296296296296295,
+            "eval_valid_n": 1080
+          },
+          {
+            "h": 5,
+            "q": 75,
+            "train_failure_base_rate": 0.25,
+            "train_valid_n": 3060,
+            "calibration_failure_base_rate": 0.22549019607843138,
+            "calibration_valid_n": 1020,
+            "eval_failure_base_rate": 0.2372549019607843,
+            "eval_valid_n": 1020
+          },
+          {
+            "h": 10,
+            "q": 75,
+            "train_failure_base_rate": 0.25019157088122607,
+            "train_valid_n": 2610,
+            "calibration_failure_base_rate": 0.2597701149425287,
+            "calibration_valid_n": 870,
+            "eval_failure_base_rate": 0.2574712643678161,
+            "eval_valid_n": 870
+          }
+        ],
+        "anchor_counts": {
+          "train": {
+            "episodes": 90,
+            "anchors": 3420,
+            "valid_h1": 3420,
+            "valid_h3": 3240,
+            "valid_h5": 3060,
+            "valid_h10": 2610
+          },
+          "calibration": {
+            "episodes": 30,
+            "anchors": 1140,
+            "valid_h1": 1140,
+            "valid_h3": 1080,
+            "valid_h5": 1020,
+            "valid_h10": 870
+          },
+          "eval": {
+            "episodes": 30,
+            "anchors": 1140,
+            "valid_h1": 1140,
+            "valid_h3": 1080,
+            "valid_h5": 1020,
+            "valid_h10": 870
+          }
+        }
+      },
+      "native_arm_E": {
+        "status": "trained",
+        "epochs": 30,
+        "batch": 256,
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "optimizer_steps": 420,
+        "wall_time_seconds": 16.39,
+        "parameter_count": 94028,
+        "train_rows": 3420,
+        "include_future": true,
+        "action_only": false,
+        "use_teacher": false,
+        "use_unlogged": false,
+        "use_budget": false,
+        "label_permutation_seed": null
+      },
+      "native_horizon_q75": [
+        {
+          "h": 1,
+          "q": 75,
+          "auroc": {
+            "observed": 0.7335975829475844,
+            "bootstrap_mean": 0.7336431859719423,
+            "ci95_low": 0.6981339249269152,
+            "ci95_high": 0.7715722543839438
+          },
+          "uer": {
+            "observed": 0.14912280701754385,
+            "bootstrap_mean": 0.14904912280701757,
+            "ci95_low": 0.12368421052631579,
+            "ci95_high": 0.17326754385964913
+          },
+          "detectable": true
+        },
+        {
+          "h": 3,
+          "q": 75,
+          "auroc": {
+            "observed": 0.7246443485030788,
+            "bootstrap_mean": 0.7229016675628507,
+            "ci95_low": 0.6773541287406611,
+            "ci95_high": 0.7684859733957811
+          },
+          "uer": {
+            "observed": 0.14907407407407408,
+            "bootstrap_mean": 0.14961296296296298,
+            "ci95_low": 0.125,
+            "ci95_high": 0.175
+          },
+          "detectable": true
+        },
+        {
+          "h": 5,
+          "q": 75,
+          "auroc": {
+            "observed": 0.7010665193651873,
+            "bootstrap_mean": 0.7012170728005074,
+            "ci95_low": 0.6355755951356091,
+            "ci95_high": 0.7592341659207843
+          },
+          "uer": {
+            "observed": 0.1303921568627451,
+            "bootstrap_mean": 0.13052156862745098,
+            "ci95_low": 0.09607843137254903,
+            "ci95_high": 0.16372549019607843
+          },
+          "detectable": true
+        },
+        {
+          "h": 10,
+          "q": 75,
+          "auroc": {
+            "observed": 0.6961452344095533,
+            "bootstrap_mean": 0.6964404186082425,
+            "ci95_low": 0.6337149112096195,
+            "ci95_high": 0.7583526651651652
+          },
+          "uer": {
+            "observed": 0.1471264367816092,
+            "bootstrap_mean": 0.14703218390804595,
+            "ci95_low": 0.10689655172413794,
+            "ci95_high": 0.18735632183908046
+          },
+          "detectable": true
+        }
+      ],
+      "teacher_reference_h1": {
+        "source": "reports/lewm_cross_env_replication.json learned_logistic_emb h=1 q75 row",
+        "failure_detection_auroc": {
+          "observed": 0.6618926396554429,
+          "bootstrap_mean": 0.6603986793747709,
+          "ci95_low": 0.6194868989902976,
+          "ci95_high": 0.7006253870812409
+        },
+        "unlogged_error_rate": {
+          "observed": 0.23,
+          "bootstrap_mean": 0.23091333333333333,
+          "ci95_low": 0.20333333333333334,
+          "ci95_high": 0.25833333333333336
+        },
+        "rounded_reference_auroc_declared_in_prompt": 0.662
+      },
+      "h1_native_vs_teacher_probe": {
+        "native_h1_auroc": {
+          "observed": 0.7335975829475844,
+          "bootstrap_mean": 0.7336431859719423,
+          "ci95_low": 0.6981339249269152,
+          "ci95_high": 0.7715722543839438
+        },
+        "teacher_probe_h1_auroc": {
+          "observed": 0.6618926396554429,
+          "bootstrap_mean": 0.6603986793747709,
+          "ci95_low": 0.6194868989902976,
+          "ci95_high": 0.7006253870812409
+        },
+        "teacher_probe_prompt_reference": 0.662,
+        "ci_overlap": true
+      },
+      "conclusion": "native horizon ledger was detectable for all preregistered horizons at q=75",
+      "not_claimed": [
+        "No OOD arm is claimed: reacher/cube/pusht have no perturbation pipeline in this protocol.",
+        "Only single-export episode bootstrap is reported.",
+        "Teacher probe row is a frozen reference/subject selector, not a distillation target."
+      ]
+    },
+    {
+      "env": "cube",
+      "status": "evaluated",
+      "model": {
+        "repo": "quentinll/lewm-cube",
+        "checkpoint_path": "~/.cache/huggingface/hub/models--quentinll--lewm-cube/snapshots/b0747c5002e86d2ce8f3cd8178004b97524c587d/weights.pt",
+        "config_path": "~/.cache/huggingface/hub/models--quentinll--lewm-cube/snapshots/b0747c5002e86d2ce8f3cd8178004b97524c587d/config.json",
+        "config_history_size": 3,
+        "npz_history_size": 3
+      },
+      "sample_counts": {
+        "episodes": 150,
+        "valid_transitions": 6000,
+        "latent_dim": 192,
+        "action_dim": 25
+      },
+      "labels": {
+        "path": "reports/crossenv_horizon_labels_cube.npz",
+        "anchor_check": {
+          "tolerance": 0.0001,
+          "clean_h1_prediction_mse_max_abs_delta": 1.42296722564772e-08,
+          "clean_h1_prediction_mse_by_split": {
+            "train": 3.725020743250429e-09,
+            "calibration": 1.2605945620691728e-08,
+            "eval": 1.42296722564772e-08
+          }
+        },
+        "tau_table": [
+          {
+            "h": 1,
+            "q50": 0.003380865515244339,
+            "q75": 0.00491813899530887,
+            "q90": 0.007445469896294236
+          },
+          {
+            "h": 2,
+            "q50": 0.006417610184516734,
+            "q75": 0.009885406466821903,
+            "q90": 0.016662773217240127
+          },
+          {
+            "h": 3,
+            "q50": 0.009282118766090678,
+            "q75": 0.016106573821282222,
+            "q90": 0.029726671682849128
+          },
+          {
+            "h": 4,
+            "q50": 0.012349945351850078,
+            "q75": 0.02337329829215923,
+            "q90": 0.04563366724195648
+          },
+          {
+            "h": 5,
+            "q50": 0.015897803709794333,
+            "q75": 0.03143695588017838,
+            "q90": 0.06074092533271626
+          },
+          {
+            "h": 6,
+            "q50": 0.01987765849053128,
+            "q75": 0.039384909961424276,
+            "q90": 0.07674797540618207
+          },
+          {
+            "h": 7,
+            "q50": 0.024412749226862353,
+            "q75": 0.04741230703671325,
+            "q90": 0.09175697809567332
+          },
+          {
+            "h": 8,
+            "q50": 0.02858271629437744,
+            "q75": 0.0538208262748315,
+            "q90": 0.10466928694168064
+          },
+          {
+            "h": 9,
+            "q50": 0.03186413332106822,
+            "q75": 0.061593243769951476,
+            "q90": 0.12013085617757073
+          },
+          {
+            "h": 10,
+            "q50": 0.03521261504283062,
+            "q75": 0.06461152922916101,
+            "q90": 0.12832991694671497
+          }
+        ],
+        "failure_base_rates_q75": [
+          {
+            "h": 1,
+            "q": 75,
+            "train_failure_base_rate": 0.25,
+            "train_valid_n": 3420,
+            "calibration_failure_base_rate": 0.2692982456140351,
+            "calibration_valid_n": 1140,
+            "eval_failure_base_rate": 0.24912280701754386,
+            "eval_valid_n": 1140
+          },
+          {
+            "h": 3,
+            "q": 75,
+            "train_failure_base_rate": 0.25,
+            "train_valid_n": 3240,
+            "calibration_failure_base_rate": 0.2601851851851852,
+            "calibration_valid_n": 1080,
+            "eval_failure_base_rate": 0.24722222222222223,
+            "eval_valid_n": 1080
+          },
+          {
+            "h": 5,
+            "q": 75,
+            "train_failure_base_rate": 0.25,
+            "train_valid_n": 3060,
+            "calibration_failure_base_rate": 0.25,
+            "calibration_valid_n": 1020,
+            "eval_failure_base_rate": 0.2323529411764706,
+            "eval_valid_n": 1020
+          },
+          {
+            "h": 10,
+            "q": 75,
+            "train_failure_base_rate": 0.25019157088122607,
+            "train_valid_n": 2610,
+            "calibration_failure_base_rate": 0.26091954022988506,
+            "calibration_valid_n": 870,
+            "eval_failure_base_rate": 0.27011494252873564,
+            "eval_valid_n": 870
+          }
+        ],
+        "anchor_counts": {
+          "train": {
+            "episodes": 90,
+            "anchors": 3420,
+            "valid_h1": 3420,
+            "valid_h3": 3240,
+            "valid_h5": 3060,
+            "valid_h10": 2610
+          },
+          "calibration": {
+            "episodes": 30,
+            "anchors": 1140,
+            "valid_h1": 1140,
+            "valid_h3": 1080,
+            "valid_h5": 1020,
+            "valid_h10": 870
+          },
+          "eval": {
+            "episodes": 30,
+            "anchors": 1140,
+            "valid_h1": 1140,
+            "valid_h3": 1080,
+            "valid_h5": 1020,
+            "valid_h10": 870
+          }
+        }
+      },
+      "native_arm_E": {
+        "status": "trained",
+        "epochs": 30,
+        "batch": 256,
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "optimizer_steps": 420,
+        "wall_time_seconds": 16.39,
+        "parameter_count": 94988,
+        "train_rows": 3420,
+        "include_future": true,
+        "action_only": false,
+        "use_teacher": false,
+        "use_unlogged": false,
+        "use_budget": false,
+        "label_permutation_seed": null
+      },
+      "native_horizon_q75": [
+        {
+          "h": 1,
+          "q": 75,
+          "auroc": {
+            "observed": 0.6024540937212057,
+            "bootstrap_mean": 0.6020448838583186,
+            "ci95_low": 0.5624148743894821,
+            "ci95_high": 0.6414210136738643
+          },
+          "uer": {
+            "observed": 0.15350877192982457,
+            "bootstrap_mean": 0.15300877192982454,
+            "ci95_low": 0.12631578947368421,
+            "ci95_high": 0.18116228070175439
+          },
+          "detectable": true
+        },
+        {
+          "h": 3,
+          "q": 75,
+          "auroc": {
+            "observed": 0.6724988598200589,
+            "bootstrap_mean": 0.6731657792305415,
+            "ci95_low": 0.6159740377239854,
+            "ci95_high": 0.7280539778825155
+          },
+          "uer": {
+            "observed": 0.1574074074074074,
+            "bootstrap_mean": 0.1572462962962963,
+            "ci95_low": 0.13006944444444443,
+            "ci95_high": 0.18425925925925926
+          },
+          "detectable": true
+        },
+        {
+          "h": 5,
+          "q": 75,
+          "auroc": {
+            "observed": 0.6673133194302989,
+            "bootstrap_mean": 0.6670411661955762,
+            "ci95_low": 0.6176129577477967,
+            "ci95_high": 0.7204505349859976
+          },
+          "uer": {
+            "observed": 0.13725490196078433,
+            "bootstrap_mean": 0.13666078431372547,
+            "ci95_low": 0.10242647058823529,
+            "ci95_high": 0.1696078431372549
+          },
+          "detectable": true
+        },
+        {
+          "h": 10,
+          "q": 75,
+          "auroc": {
+            "observed": 0.6308929468922768,
+            "bootstrap_mean": 0.6281748909365847,
+            "ci95_low": 0.5560728371040315,
+            "ci95_high": 0.689013021295572
+          },
+          "uer": {
+            "observed": 0.16896551724137931,
+            "bootstrap_mean": 0.16898850574712646,
+            "ci95_low": 0.12238505747126437,
+            "ci95_high": 0.21784482758620688
+          },
+          "detectable": true
+        }
+      ],
+      "teacher_reference_h1": {
+        "source": "reports/lewm_cross_env_replication.json learned_logistic_emb h=1 q75 row",
+        "failure_detection_auroc": {
+          "observed": 0.6101504486673909,
+          "bootstrap_mean": 0.6099825798442252,
+          "ci95_low": 0.5676684459129099,
+          "ci95_high": 0.6520240845786931
+        },
+        "unlogged_error_rate": {
+          "observed": 0.21,
+          "bootstrap_mean": 0.20922500000000002,
+          "ci95_low": 0.18329166666666666,
+          "ci95_high": 0.2325
+        },
+        "rounded_reference_auroc_declared_in_prompt": 0.61
+      },
+      "h1_native_vs_teacher_probe": {
+        "native_h1_auroc": {
+          "observed": 0.6024540937212057,
+          "bootstrap_mean": 0.6020448838583186,
+          "ci95_low": 0.5624148743894821,
+          "ci95_high": 0.6414210136738643
+        },
+        "teacher_probe_h1_auroc": {
+          "observed": 0.6101504486673909,
+          "bootstrap_mean": 0.6099825798442252,
+          "ci95_low": 0.5676684459129099,
+          "ci95_high": 0.6520240845786931
+        },
+        "teacher_probe_prompt_reference": 0.61,
+        "ci_overlap": true
+      },
+      "conclusion": "native horizon ledger was detectable for all preregistered horizons at q=75",
+      "not_claimed": [
+        "No OOD arm is claimed: reacher/cube/pusht have no perturbation pipeline in this protocol.",
+        "Only single-export episode bootstrap is reported.",
+        "Teacher probe row is a frozen reference/subject selector, not a distillation target."
+      ]
+    },
+    {
+      "env": "pusht",
+      "status": "evaluated",
+      "model": {
+        "repo": "quentinll/lewm-pusht",
+        "checkpoint_path": "~/.cache/huggingface/hub/models--quentinll--lewm-pusht/snapshots/22b330c28c27ead4bfd1888615af1340e3fe9052/weights.pt",
+        "config_path": "~/.cache/huggingface/hub/models--quentinll--lewm-pusht/snapshots/22b330c28c27ead4bfd1888615af1340e3fe9052/config.json",
+        "config_history_size": 3,
+        "npz_history_size": 3
+      },
+      "sample_counts": {
+        "episodes": 150,
+        "valid_transitions": 3092,
+        "latent_dim": 192,
+        "action_dim": 10
+      },
+      "labels": {
+        "path": "reports/crossenv_horizon_labels_pusht.npz",
+        "anchor_check": {
+          "tolerance": 0.0001,
+          "clean_h1_prediction_mse_max_abs_delta": 2.677094623759757e-07,
+          "clean_h1_prediction_mse_by_split": {
+            "train": 8.537502549366138e-08,
+            "calibration": 2.677094623759757e-07,
+            "eval": 9.225340016905115e-08
+          }
+        },
+        "tau_table": [
+          {
+            "h": 1,
+            "q50": 0.31284098142491745,
+            "q75": 0.4634852532834754,
+            "q90": 1.0045520174747555
+          },
+          {
+            "h": 2,
+            "q50": 0.8559264202806223,
+            "q75": 1.1292352394679217,
+            "q90": 1.5671661922626943
+          },
+          {
+            "h": 3,
+            "q50": 0.8581556403059096,
+            "q75": 1.1877432327563184,
+            "q90": 1.736759649552899
+          },
+          {
+            "h": 4,
+            "q50": 1.0510669877479457,
+            "q75": 1.3155923329764287,
+            "q90": 1.8299999109341816
+          },
+          {
+            "h": 5,
+            "q50": 1.152687055092482,
+            "q75": 1.5114170481923377,
+            "q90": 1.7431936365898526
+          },
+          {
+            "h": 6,
+            "q50": 1.3492076194091804,
+            "q75": 1.5581403631156263,
+            "q90": 1.896862914259979
+          },
+          {
+            "h": 7,
+            "q50": 1.5451773401916262,
+            "q75": 1.7989445221987619,
+            "q90": 1.9721904354216047
+          },
+          {
+            "h": 8,
+            "q50": 1.6699003744586398,
+            "q75": 1.988359688889247,
+            "q90": 2.0022694729382238
+          },
+          {
+            "h": 9,
+            "q50": 1.8595967111731682,
+            "q75": 1.98358414270398,
+            "q90": 2.163335785371752
+          },
+          {
+            "h": 10,
+            "q50": 1.8885642759651016,
+            "q75": 2.031980113335113,
+            "q90": 2.089758121597602
+          }
+        ],
+        "failure_base_rates_q75": [
+          {
+            "h": 1,
+            "q": 75,
+            "train_failure_base_rate": 0.23684210526315788,
+            "train_valid_n": 1710,
+            "calibration_failure_base_rate": 0.21428571428571427,
+            "calibration_valid_n": 546,
+            "eval_failure_base_rate": 0.20522388059701493,
+            "eval_valid_n": 536
+          },
+          {
+            "h": 3,
+            "q": 75,
+            "train_failure_base_rate": 0.24183006535947713,
+            "train_valid_n": 1530,
+            "calibration_failure_base_rate": 0.20164609053497942,
+            "calibration_valid_n": 486,
+            "eval_failure_base_rate": 0.18277310924369747,
+            "eval_valid_n": 476
+          },
+          {
+            "h": 5,
+            "q": 75,
+            "train_failure_base_rate": 0.2,
+            "train_valid_n": 1350,
+            "calibration_failure_base_rate": 0.18309859154929578,
+            "calibration_valid_n": 426,
+            "eval_failure_base_rate": 0.17307692307692307,
+            "eval_valid_n": 416
+          },
+          {
+            "h": 10,
+            "q": 75,
+            "train_failure_base_rate": 0.25,
+            "train_valid_n": 900,
+            "calibration_failure_base_rate": 0.25,
+            "calibration_valid_n": 276,
+            "eval_failure_base_rate": 0.24812030075187969,
+            "eval_valid_n": 266
+          }
+        ],
+        "anchor_counts": {
+          "train": {
+            "episodes": 90,
+            "anchors": 1710,
+            "valid_h1": 1710,
+            "valid_h3": 1530,
+            "valid_h5": 1350,
+            "valid_h10": 900
+          },
+          "calibration": {
+            "episodes": 30,
+            "anchors": 546,
+            "valid_h1": 546,
+            "valid_h3": 486,
+            "valid_h5": 426,
+            "valid_h10": 276
+          },
+          "eval": {
+            "episodes": 30,
+            "anchors": 536,
+            "valid_h1": 536,
+            "valid_h3": 476,
+            "valid_h5": 416,
+            "valid_h10": 266
+          }
+        }
+      },
+      "native_arm_E": {
+        "status": "trained",
+        "epochs": 30,
+        "batch": 256,
+        "optimizer": "AdamW",
+        "lr": 0.001,
+        "optimizer_steps": 210,
+        "wall_time_seconds": 8.27,
+        "parameter_count": 94028,
+        "train_rows": 1710,
+        "include_future": true,
+        "action_only": false,
+        "use_teacher": false,
+        "use_unlogged": false,
+        "use_budget": false,
+        "label_permutation_seed": null
+      },
+      "native_horizon_q75": [
+        {
+          "h": 1,
+          "q": 75,
+          "auroc": {
+            "observed": 1.0,
+            "bootstrap_mean": 1.0,
+            "ci95_low": 1.0,
+            "ci95_high": 1.0
+          },
+          "uer": {
+            "observed": 0.0,
+            "bootstrap_mean": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0
+          },
+          "detectable": true
+        },
+        {
+          "h": 3,
+          "q": 75,
+          "auroc": {
+            "observed": 0.9991431019708654,
+            "bootstrap_mean": 0.9991963799963389,
+            "ci95_low": 0.9973506034736532,
+            "ci95_high": 1.0
+          },
+          "uer": {
+            "observed": 0.0021008403361344537,
+            "bootstrap_mean": 0.002020602206008532,
+            "ci95_low": 0.0,
+            "ci95_high": 0.006437768240343348
+          },
+          "detectable": true
+        },
+        {
+          "h": 5,
+          "q": 75,
+          "auroc": {
+            "observed": 1.0,
+            "bootstrap_mean": 1.0,
+            "ci95_low": 1.0,
+            "ci95_high": 1.0
+          },
+          "uer": {
+            "observed": 0.0,
+            "bootstrap_mean": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0
+          },
+          "detectable": true
+        },
+        {
+          "h": 10,
+          "q": 75,
+          "auroc": {
+            "observed": 1.0,
+            "bootstrap_mean": 1.0,
+            "ci95_low": 1.0,
+            "ci95_high": 1.0
+          },
+          "uer": {
+            "observed": 0.0,
+            "bootstrap_mean": 0.0,
+            "ci95_low": 0.0,
+            "ci95_high": 0.0
+          },
+          "detectable": true
+        }
+      ],
+      "teacher_reference_h1": {
+        "source": "reports/lewm_cross_env_replication.json learned_logistic_emb h=1 q75 row",
+        "failure_detection_auroc": {
+          "observed": 1.0,
+          "bootstrap_mean": 1.0,
+          "ci95_low": 1.0,
+          "ci95_high": 1.0
+        },
+        "unlogged_error_rate": {
+          "observed": 0.0,
+          "bootstrap_mean": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "rounded_reference_auroc_declared_in_prompt": 1.0
+      },
+      "h1_native_vs_teacher_probe": {
+        "native_h1_auroc": {
+          "observed": 1.0,
+          "bootstrap_mean": 1.0,
+          "ci95_low": 1.0,
+          "ci95_high": 1.0
+        },
+        "teacher_probe_h1_auroc": {
+          "observed": 1.0,
+          "bootstrap_mean": 1.0,
+          "ci95_low": 1.0,
+          "ci95_high": 1.0
+        },
+        "teacher_probe_prompt_reference": 1.0,
+        "ci_overlap": true
+      },
+      "conclusion": "native horizon ledger was detectable for all preregistered horizons at q=75",
+      "not_claimed": [
+        "No OOD arm is claimed: reacher/cube/pusht have no perturbation pipeline in this protocol.",
+        "Only single-export episode bootstrap is reported.",
+        "Teacher probe row is a frozen reference/subject selector, not a distillation target."
+      ]
+    }
+  ],
+  "outputs": {
+    "json": "reports/lewm_crossenv_horizon_ledger.json",
+    "md": "reports/lewm_crossenv_horizon_ledger.md",
+    "label_npz": {
+      "reacher": "reports/crossenv_horizon_labels_reacher.npz",
+      "cube": "reports/crossenv_horizon_labels_cube.npz",
+      "pusht": "reports/crossenv_horizon_labels_pusht.npz"
+    }
+  },
+  "wall_time_seconds": 154.26,
+  "not_claimed": [
+    "No OOD arm is claimed: this three-environment pipeline has no perturbation/OOD evaluation path.",
+    "No hyperparameter tuning was performed."
+  ]
+}

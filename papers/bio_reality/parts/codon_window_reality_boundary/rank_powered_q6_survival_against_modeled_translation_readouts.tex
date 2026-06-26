@@ -1,0 +1,22 @@
+\subsection{Rank-powered Q6 survival against modeled translation readouts}\label{sec:q6-rank-powered-translation-survival-cross-layer}\origin{ai}
+
+\paragraph{Finite surface.} The object of this record is a finite organism-by-coordinate surface in which synonymous codon-count geometry has first been quotiented by amino-acid sequence information. A $B^{\ast}_{Q6}$ coordinate $q_i$ is therefore not read as an amino-acid effect. It enters the test only through its residual part $q_i-P_{\tau}q_i$, where $P_{\tau}$ denotes projection onto the amino-acid-composition span. The powered panel contains $40$ organisms and $9$ residual coordinates: $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\_vs\_UUR}$, $Leu_{UUA\_vs\_UUG}$, $Ser_{UCR\_vs\_AGY}$, $Ser_{UCA\_vs\_UCG}$, $Thr_{ACR\_vs\_ACY}$, and $f3_{stress}$. The modeled readout side has the same $9$ columns, computed as per-codon tAI weights from GtRNAdb anticodon copy counts and dos Reis wobble weights, then projected onto the same synonymous-residual coordinate basis.
+
+\paragraph{Controlled survival statistic.} For a residual coordinate $q_i$ and a modeled readout $T_j$, the reported entry is the controlled survival score $S^{QT}_{ij}=S_{q_i}(T_j\mid Z_T)$. The nuisance design $Z_T$ contains amino-acid composition, organism, GC3, length, M-density, and simpler codon-usage baselines. In the powered run, $Z_T$ has $24$ control columns, rank $23$, and leaves $17$ residual degrees of freedom. The residualized coordinate matrix has rank $9$, so the finite design avoids the all-ones projection artifact seen in the smaller panel. The global controlled fit reported for the $9\times 9$ survival matrix is
+$$
+\begin{aligned}
+R^2_{QT} &= 0.9003849000036579,\\
+\operatorname{rank}(Z_T) &= 23,\\
+\operatorname{rank}(\widetilde X) &= 9,\\
+\operatorname{df}_{res} &= 17.
+\end{aligned}
+$$
+The positivity threshold used for partial-$R^2$ entries is $10^{-12}$, and the degeneracy guard rejects matrices whose aggregate controlled fit is indistinguishable from rank saturation at the threshold $0.999999$. Since $0.9003849000036579<0.999999$, the powered matrix is not classified as the saturated null surface.
+
+\paragraph{Underpowered boundary.} The smaller three-organism matrix is retained only as a warning case. It used Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K-12 style modeled tAI inputs, with $61$ sense codons and all standard amino-acid tRNA families represented in the local payloads. Its finite coupling matrix had $81$ entries above the bounded-contact threshold $0.01$, with maximum absolute entry $3801961.031607896$. That computation demonstrates that the coordinate and modeled-tAI surfaces can be paired, but $n=3$ is too small for a rank-powered survival claim. The present chapter therefore treats the three-organism result as an underpowered coupling contact and reserves survival language for the $40$-organism controlled design.
+
+\paragraph{Finite verdict.} The powered data support a bounded cross-layer statement: after amino-acid quotient residualization and the stated controls, the $B^{\ast}_{Q6}$ residual coordinate surface retains a nondegenerate controlled relation to modeled organism-level tAI readouts. The support is finite and readout-specific. It is not a statement about ribosome profiling, measured elongation speed, protein abundance, folding, structural order, phenotype, or organismal mechanism. A positive modeled $S^{QT}$ surface is evidence only for survival against the supplied codon-usage, tRNA-copy, and modeled-tAI contact surfaces. Any stronger biological layer would require its own matched contact, such as ribosome profiling for translation dynamics, proteomics for protein abundance, structural assays for folding or admissibility, or perturbational experiments for function and mechanism.
+
+\paragraph{Local falsifier.} The chapter breaks at this layer if every controlled entry satisfies $S^{QT}_{ij}\leq 0$ after the full $Z_T$ residualization and simpler-baseline ablation, or if the design collapses to rank saturation. It also breaks if modeled tAI or stAI weights are used as a substitute for observed ribosome occupancy or protein output. Under those restrictions, the $40$-organism run is a rank-adequate modeled translation-readout survival record, while the GCN4 U34 modification contact, with $5155$ genes kept in its finite run, remains only a separate biological control surface and does not by itself promote this matrix to a universal mechanism.
+
+\origin{ai}

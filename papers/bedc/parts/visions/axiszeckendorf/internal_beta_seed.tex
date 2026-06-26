@@ -1,0 +1,93 @@
+\begin{theorem}[Window-six internal beta seed]
+\label{thm:zeckendorf-window-six-internal-beta-seed}
+Define the inverse-coupling beta seed by
+$$
+  \beta_6^{-1}(z)
+  :=
+  \frac{d}{dz}\alpha_{Z6}^{-1}(z).
+$$
+On the activation interval $0\leq z\leq1$,
+$$
+  \beta_6^{-1}(z)<0.
+$$
+Near the static point,
+$$
+  \alpha_{Z6}^{-1}(z)
+  =
+  \alpha_{Z6}^{-1}(0)
+  -
+  7.26768202785\cdot10^{-14}z
+  -
+  5.55802304576\cdot10^{-14}z^2
+  +
+  3.28905498899\cdot10^{-15}z^3
+  +
+  O(z^4),
+$$
+so
+$$
+  \beta_6^{-1}(0)
+  =
+  -7.26768202785\cdot10^{-14}.
+$$
+Equivalently, for the coupling itself,
+$$
+  \alpha_{Z6}(z)
+  =
+  \alpha_{Z6}(0)
+  +
+  3.87013911681\cdot10^{-18}z
+  +
+  2.95972255241\cdot10^{-18}z^2
+  +
+  O(z^3).
+$$
+The fixed Window-six beta seed therefore has the physically correct sign,
+is extremely small, and is internal to the Green-excess spectral
+response.
+\end{theorem}
+\begin{proof}
+By \autoref{thm:zeckendorf-spectral-response-interpolation},
+$\Delta_R'(z)>0$ on $0\leq z\leq1$, while
+\autoref{thm:zeckendorf-denominator-predictivity-requirement} gives
+$dR/dD<0$. Hence
+$$
+  \frac{d}{dz}\alpha_{Z6}^{-1}(z)
+  =
+  \frac{dR}{dD}
+  \frac{dD_{6,\alpha}(z)}{dz}
+  <
+  0.
+$$
+The displayed series follows by substituting the small-$z$ expansion of
+\autoref{cor:zeckendorf-small-activation-green-excess} into the readout
+of \autoref{def:zeckendorf-window-six-spectral-response-family}. The
+positive sign of the $\alpha_{Z6}$ expansion follows by differentiating
+the reciprocal of $\alpha_{Z6}^{-1}(z)$ at the static point.
+\end{proof}
+
+\begin{theorem}[Window-six beta seed is infrared stable]
+\label{thm:zeckendorf-window-six-beta-seed-ir-stable}
+The Green-excess denominator
+$$
+  55z^3+506z^2-7263z-48114
+$$
+has real roots approximately
+$$
+  -14.1627969182,\qquad -5.7602517924,\qquad 10.7230487106.
+$$
+Therefore the spectral response has no pole on $0\leq z\leq1$. The fixed
+Window-six beta seed is an infrared-stable local running seed, not a
+complete high-energy running law.
+\end{theorem}
+\begin{proof}
+The roots are the reciprocals of the non-stationary eigenvalues of the
+coarse Markov kernel in
+\autoref{thm:zeckendorf-spectral-response-interpolation}. All three lie
+outside the activation interval. Hence the rational Green-excess kernel
+is analytic on $0\leq z\leq1$. Since the endpoint shift
+\autoref{def:zeckendorf-window-six-green-running-seed} is of order
+$10^{-13}$ in inverse coupling, any large-scale running account must come
+from the missing map $z=z(Q)$ together with cross-window refinement, not
+from a pole internal to Window six.
+\end{proof}

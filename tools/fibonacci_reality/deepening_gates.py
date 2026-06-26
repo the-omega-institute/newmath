@@ -1,0 +1,2731 @@
+#!/usr/bin/env python3
+"""Deterministic gates for conjecture deepening packets."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+from typing import Any
+
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+DEFAULT_CONJECTURES = SCRIPT_DIR / "inbox" / "conjectures.jsonl"
+DEFAULT_CONTACTS = SCRIPT_DIR / "inbox" / "reality_contacts.jsonl"
+DEFAULT_PROBES = SCRIPT_DIR / "inbox" / "probes.jsonl"
+DEFAULT_MISMATCHES = SCRIPT_DIR / "inbox" / "mismatches.jsonl"
+DEFAULT_OUTPUT = SCRIPT_DIR / "out" / "gate_results.jsonl"
+
+ID_PATTERN = r"^[a-z0-9][a-z0-9.:-]*$"
+ID_SYNTAX = f"ids must match {ID_PATTERN}; use lowercase dotted/kebab tokens, not underscores or uppercase"
+ID_RE = re.compile(ID_PATTERN)
+
+LAYERS = {
+    "code_read",
+    "codon_usage_topology",
+    "orf_eligibility",
+    "translation_realization",
+    "structural_order",
+    "physical_admissibility",
+    "function_realization",
+    "system_phenotype",
+    "cross_layer_relation",
+}
+LAYER_ORDER = [
+    "code_read",
+    "codon_usage_topology",
+    "orf_eligibility",
+    "translation_realization",
+    "structural_order",
+    "physical_admissibility",
+    "function_realization",
+    "system_phenotype",
+    "cross_layer_relation",
+]
+LAYER_RANK = {layer: index for index, layer in enumerate(LAYER_ORDER)}
+TRACK_BIO_CROSSLAYER = "bio_crosslayer"
+TRACK_FORCED_WINDOW_BEDC = "forced_window_bedc"
+TRACKS = {TRACK_BIO_CROSSLAYER, TRACK_FORCED_WINDOW_BEDC}
+FORCED_WINDOW_LAYER_ORDER = [
+    "window_observation",
+    "forbidden_pattern_count",
+    "fibonacci_count",
+    "characteristic_recurrence",
+    "golden_mean_shift",
+    "edge_flux_finite_count",
+    "arithmetic_certificate",
+    "graph_invariant_certificate",
+]
+FORCED_WINDOW_LAYERS = set(FORCED_WINDOW_LAYER_ORDER)
+FORCED_WINDOW_CERTIFICATE_KINDS = {
+    "lean_finite_certificate",
+    "characteristic_recurrence_proof",
+    "golden_mean_shift_certificate",
+    "edge_flux_count_certificate",
+    "green_kirchhoff_certificate",
+    "automath_paper_section",
+    "integer_matrix_lucas_kernel_certificate",
+    "lucas_fib_norm_relation_certificate",
+    "fibonacci_entry_point_congruence_certificate",
+    "pisano_period_modp_divisibility_certificate",
+    "modp_root_enumeration_certificate",
+    "fibonacci_gcd_strong_divisibility_certificate",
+    "bedc_finite_certificate",
+    "fibonacci_cube_critical_group_certificate",
+    "closed_neighborhood_smith_certificate",
+    "closed_neighborhood_transfer_certificate",
+    "ordered_geodesic_enumerator_certificate",
+    "geodesic_run_factorization_certificate",
+    "matching_enumerator_certificate",
+    "ihara_hashimoto_zeta_certificate",
+    "theta_square_factorization_certificate",
+    "theta_cube_decomposition_certificate",
+    "median_zero_triple_certificate",
+    "betweenness_triple_certificate",
+    "saturated_chain_certificate",
+    "disjoint_tuple_metallic_certificate",
+}
+FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
+    "window_observation": {
+        "lean_finite_certificate",
+        "characteristic_recurrence_proof",
+        "automath_paper_section",
+    },
+    "forbidden_pattern_count": {
+        "lean_finite_certificate",
+        "characteristic_recurrence_proof",
+        "automath_paper_section",
+    },
+    "fibonacci_count": {
+        "lean_finite_certificate",
+        "characteristic_recurrence_proof",
+        "automath_paper_section",
+    },
+    "characteristic_recurrence": {
+        "characteristic_recurrence_proof",
+        "lean_finite_certificate",
+        "automath_paper_section",
+    },
+    "golden_mean_shift": {
+        "golden_mean_shift_certificate",
+        "lean_finite_certificate",
+        "automath_paper_section",
+    },
+    "edge_flux_finite_count": {
+        "edge_flux_count_certificate",
+        "lean_finite_certificate",
+        "automath_paper_section",
+    },
+    "arithmetic_certificate": {
+        "green_kirchhoff_certificate",
+        "lean_finite_certificate",
+        "automath_paper_section",
+        "integer_matrix_lucas_kernel_certificate",
+        "lucas_fib_norm_relation_certificate",
+        "fibonacci_entry_point_congruence_certificate",
+        "pisano_period_modp_divisibility_certificate",
+        "modp_root_enumeration_certificate",
+        "fibonacci_gcd_strong_divisibility_certificate",
+        "bedc_finite_certificate",
+    },
+    "graph_invariant_certificate": {
+        "fibonacci_cube_critical_group_certificate",
+        "closed_neighborhood_smith_certificate",
+        "closed_neighborhood_transfer_certificate",
+        "bedc_finite_certificate",
+        "lean_finite_certificate",
+        "automath_paper_section",
+        "ordered_geodesic_enumerator_certificate",
+        "geodesic_run_factorization_certificate",
+        "matching_enumerator_certificate",
+        "ihara_hashimoto_zeta_certificate",
+        "theta_square_factorization_certificate",
+        "theta_cube_decomposition_certificate",
+        "median_zero_triple_certificate",
+        "betweenness_triple_certificate",
+        "saturated_chain_certificate",
+        "disjoint_tuple_metallic_certificate",
+    },
+}
+OVERCLAIM_GATES_ENABLED = True
+PROXY_OBJECTIVE_EVIDENCE_BASIS = {"internal_structure", "derived_probe"}
+EVIDENCE_BASIS = {
+    "external_reality",
+    "internal_structure",
+    "bedc_coordinate",
+    "bedc_closure",
+    "bedc_spectrum",
+    "derived_probe",
+    "mismatch_ledger",
+    "mechanism_bridge",
+}
+FORCED_WINDOW_ARITHMETIC_BASIS = {
+    "integer_matrix_power",
+    "lucas_recurrence",
+    "integer_recurrence_evaluation",
+    "integer_prime_enumeration",
+    "modular_root_enumeration",
+    "pisano_residue_pair_search",
+    "mod_5_branch_divisibility_check",
+    "fibonacci_residue_enumeration",
+    "lucas_residue_enumeration",
+    "lucas_fibonacci_norm_enumeration",
+    "lucas_doubling_enumeration",
+    "integer_gcd_enumeration",
+    "divisibility_remainder_enumeration",
+    "bedc_finite_certificate",
+    "finite_graph_enumeration",
+    "hashimoto_nonbacktracking_operator",
+    "ihara_zeta_factorization",
+    "bass_determinant_formula",
+    "closed_walk_trace_identity",
+    "matching_polynomial_recurrence",
+    "monomer_dimer_profile",
+    "fibonacci_cube_family_enumeration",
+    "fibonacci_cube_recursive_decomposition",
+    "weight_graded_poset",
+    "saturated_chain_count",
+    "maximal_word_factorial_sum",
+    "binomial_factorial_closed_form",
+    "closed_neighborhood_block_recurrence",
+    "integral_smith_transfer_reduction",
+    "identity_link_pivot",
+    "no_scalar_determinant_recurrence",
+    "theta_class_square_incidence",
+    "theta_class_cube_incidence",
+    "forced_fibonacci_factorization",
+    "forced_fibonacci_segment_factorization",
+    "cube_polynomial_coordinate_resolution",
+    "integer_matrix_determinant",
+    "integer_laplacian_determinant",
+    "smith_normal_form_determinantal_divisors",
+    "shortest_path_counting",
+    "euler_zigzag_certificate",
+    "euler_zigzag_run_factorization",
+    "diametral_special_case",
+    "lean_statement_only",
+    "median_majority_operation",
+    "disjoint_support_triple_count",
+    "disjoint_support_tuples",
+    "geodesic_interval_betweenness",
+    "quartic_characteristic_polynomial",
+    "distinct_from_wiener",
+    "transfer_matrix",
+    "transfer_matrix_recurrence",
+    "metallic_ratio_recurrence",
+    "pell_type_recurrence",
+    "fibonacci_pell_unification",
+}
+FORCED_WINDOW_EVIDENCE_BASIS = EVIDENCE_BASIS | {"automath_certificate"} | FORCED_WINDOW_ARITHMETIC_BASIS
+CONTACT_KINDS = {
+    "genetic_code_table",
+    "sequence_database",
+    "transcript_evidence",
+    "protein_measurement",
+    "structure_experiment",
+    "structure_prediction",
+    "physical_assay",
+    "functional_assay",
+    "phenotype_assay",
+    "perturbation_data",
+    "curated_annotation",
+    "manual_observation",
+}
+REALIZATION_CONTACT_KINDS_BY_LAYER = {
+    "translation_realization": {
+        "sequence_database",
+        "transcript_evidence",
+        "protein_measurement",
+        "perturbation_data",
+    },
+    "structural_order": {
+        "protein_measurement",
+        "structure_experiment",
+        "structure_prediction",
+        "perturbation_data",
+    },
+    "physical_admissibility": {
+        "structure_experiment",
+        "structure_prediction",
+        "physical_assay",
+        "perturbation_data",
+    },
+    "function_realization": {
+        "functional_assay",
+        "phenotype_assay",
+        "perturbation_data",
+    },
+    "system_phenotype": {
+        "functional_assay",
+        "phenotype_assay",
+        "perturbation_data",
+    },
+    "cross_layer_relation": {
+        "sequence_database",
+        "transcript_evidence",
+        "protein_measurement",
+        "structure_experiment",
+        "structure_prediction",
+        "physical_assay",
+        "functional_assay",
+        "phenotype_assay",
+        "perturbation_data",
+    },
+}
+PROBE_KINDS = {
+    "finite_enumeration",
+    "forbidden_pattern",
+    "closure_completion",
+    "spectral_concentration",
+    "counterexample_search",
+    "boundary_mismatch",
+    "known_special_case",
+    "cross_layer_consistency",
+}
+PROBE_REQUIRED_FIELDS = {
+    "probe_id",
+    "conjecture_ref",
+    "probe_kind",
+    "derived_from",
+    "test_statement",
+    "support_condition",
+    "break_condition",
+    "required_contacts",
+    "forbidden_interpretations",
+    "null_reason",
+}
+DERIVED_FROM = {
+    "bedc_coordinate",
+    "bedc_closure",
+    "bedc_spectrum",
+    "trigger_relation",
+    "rank_relation",
+    "homology_witness",
+    "external_reality_hint",
+}
+MISMATCH_STATUS = {"aligned", "partially_aligned", "mismatch", "underdetermined", "blocked_null"}
+MISMATCH_KINDS = {
+    "coordinate_failure",
+    "scope_too_large",
+    "missing_context",
+    "external_data_bias",
+    "mechanism_gap",
+    "conjecture_overclaim",
+    "none",
+}
+INTERNAL_STRUCTURES = {"coordinate", "closure", "spectrum", "trigger", "rank", "homology", "relation", "none"}
+FORCED_WINDOW_INTERNAL_STRUCTURES = INTERNAL_STRUCTURES | FORCED_WINDOW_ARITHMETIC_BASIS | {
+    "fibonacci_recurrence",
+    "prime_window",
+    "pisano_period",
+    "residue_pair_recurrence",
+    "quadratic_residue_class",
+    "mod_5_quadratic_residue_class",
+    "mod_5_divisibility_branch",
+    "integer_norm_relation",
+    "lucas_doubling",
+    "integer_gcd_grid",
+    "divisibility_remainder_grid",
+    "finite_graph",
+    "hamming_edge_relation",
+    "directed_edge_carrier",
+    "hashimoto_nonbacktracking_operator",
+    "ihara_zeta_factorization",
+    "bass_determinant",
+    "closed_walk_trace_identity",
+    "primitive_cycle_mobius_inversion",
+    "breadth_first_search",
+    "shortest_path_counting",
+    "ordered_geodesic_enumerator",
+    "euler_zigzag_certificate",
+    "diff_run_factorization",
+    "euler_zigzag_run_count",
+    "matching_polynomial_recurrence",
+    "monomer_dimer_profile",
+    "bipartition_parity",
+    "closed_neighborhood_relation",
+    "prefix_recursive_vertex_order",
+    "closed_neighborhood_block_matrix",
+    "identity_link_pivot",
+    "integral_smith_transfer_reduction",
+    "determinant_transfer",
+    "cokernel_transfer",
+    "integer_matrix_determinant",
+    "integer_laplacian",
+    "smith_normal_form",
+    "cyclic_cokernel",
+    "critical_group",
+    "fibonacci_cube_family",
+    "weight_graded_poset",
+    "saturated_chain_count",
+    "maximal_word_factorial_sum",
+    "binomial_factorial_closed_form",
+    "graph_metric",
+    "geodesic_interval_betweenness",
+    "ordered_triple_count",
+    "theta_class_coordinate_partition",
+    "induced_four_cycle_incidence",
+    "induced_cube_incidence",
+    "three_segment_fibonacci_factorization",
+    "all_dimension_fibonacci_segment_factorization",
+    "cube_polynomial_coordinate_resolution",
+    "finite_family_enumeration",
+    "median_majority_operation",
+    "ordered_triple_fiber",
+    "disjoint_support_condition",
+    "disjoint_support_ordered_tuples",
+    "four_state_transfer_matrix",
+    "quartic_characteristic_polynomial",
+    "forced_order_four_recurrence",
+    "finite_transfer_matrix",
+    "metallic_ratio_recurrence",
+    "pell_type_recurrence",
+    "fibonacci_pell_median_anchor_unification",
+}
+MECHANISM_WORDS = {
+    "cause",
+    "causes",
+    "mechanism",
+    "mechanistic",
+    "biochemical mechanism",
+    "evolutionary necessity",
+}
+MECHANISM_STRONG_WORDS = {
+    "mechanism",
+    "mechanistic",
+    "causal",
+    "causes",
+    "caused by",
+    "realization",
+    "realizes",
+    "realise",
+    "realises",
+    "executes",
+    "execution",
+    "function realization",
+    "biological function",
+    "protein function",
+    "functional role",
+    "physical admissibility",
+    "physical admissib",
+    "folding mechanism",
+    "translation mechanism",
+    "biochemical mechanism",
+}
+MECHANISM_NEGATION_WORDS = {
+    "not",
+    "no",
+    "cannot",
+    "can't",
+    "does not",
+    "doesn't",
+    "do not",
+    "don't",
+}
+TOTAL_BIOLOGY_WORDS = {
+    "full biology",
+    "all biology",
+    "general biological model",
+    "total biology",
+}
+
+
+def read_jsonl(path: Path, *, allow_missing: bool = True) -> list[dict[str, Any]]:
+    if not path.exists():
+        if allow_missing:
+            return []
+        raise FileNotFoundError(path)
+    records: list[dict[str, Any]] = []
+    with path.open("r", encoding="utf-8") as handle:
+        for line_no, line in enumerate(handle, 1):
+            stripped = line.strip()
+            if not stripped:
+                continue
+            try:
+                data = json.loads(stripped)
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"{path}:{line_no}: invalid JSON: {exc}") from exc
+            if not isinstance(data, dict):
+                raise ValueError(f"{path}:{line_no}: expected object")
+            records.append(data)
+    return records
+
+
+def write_jsonl(path: Path, records: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as handle:
+        for record in records:
+            handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+
+
+def _missing(record: dict[str, Any], required: set[str]) -> list[str]:
+    return [f"missing required field: {key}" for key in sorted(required - set(record))]
+
+
+def _id(key: str, value: Any, issues: list[str]) -> None:
+    if not isinstance(value, str) or not ID_RE.match(value):
+        issues.append(_invalid_id_issue(key, value))
+
+
+def _is_id(value: Any) -> bool:
+    return isinstance(value, str) and ID_RE.match(value) is not None
+
+
+def _id_repair_hint(value: Any) -> str:
+    if not isinstance(value, str) or not value:
+        return ""
+    repaired = re.sub(r"[^a-z0-9.:-]+", "-", value.lower()).strip(".:-")
+    return f"; suggested normalized id: {repaired}" if repaired and repaired != value else ""
+
+
+def _invalid_id_issue(key: str, value: Any) -> str:
+    observed = f": {value}" if isinstance(value, str) and value else ""
+    return f"{key}: invalid id{observed}; {ID_SYNTAX}{_id_repair_hint(value)}"
+
+
+def _nonempty(key: str, value: Any, issues: list[str]) -> None:
+    if not isinstance(value, str) or not value.strip():
+        issues.append(f"{key} must be a nonempty string")
+
+
+def _array(key: str, value: Any, issues: list[str], *, allowed: set[str] | None = None, min_items: int = 0) -> list[str]:
+    values: list[str] = []
+    if not isinstance(value, list):
+        issues.append(f"{key} must be an array")
+        return values
+    if len(value) < min_items:
+        issues.append(f"{key} must contain at least {min_items} item(s)")
+    for item in value:
+        if not isinstance(item, str) or not item.strip():
+            issues.append(f"{key} contains a non-string item")
+            continue
+        if allowed is not None and item not in allowed:
+            issues.append(f"{key} contains unrecognized item: {item}")
+        values.append(item)
+    return values
+
+
+def _has_any(text: str, needles: set[str]) -> bool:
+    lowered = text.lower()
+    return any(needle in lowered for needle in needles)
+
+
+def _normalize_layer_text(value: Any) -> str:
+    return str(value).lower().strip().replace("_", " ")
+
+
+def _layer_in_scope(layer: str, scope: str) -> bool:
+    normalized_layer = _normalize_layer_text(layer)
+    normalized_scope = _normalize_layer_text(scope)
+    return normalized_layer == normalized_scope or normalized_layer in normalized_scope
+
+
+def _highest_can_test_layer(can_test: list[str]) -> str | None:
+    covered = [
+        layer
+        for layer in LAYER_ORDER
+        if any(_layer_in_scope(layer, item) for item in can_test)
+    ]
+    return covered[-1] if covered else None
+
+
+def _has_positive_mechanism_language(text: Any) -> bool:
+    if not isinstance(text, str):
+        return False
+    lowered = text.lower()
+    if any(re.search(rf"\b{re.escape(negation)}\b", lowered) for negation in MECHANISM_NEGATION_WORDS):
+        return False
+    return any(word in lowered for word in MECHANISM_STRONG_WORDS)
+
+
+def _track(record: dict[str, Any], issues: list[str]) -> str:
+    value = record.get("track", TRACK_BIO_CROSSLAYER)
+    if value not in TRACKS:
+        issues.append("track is not recognized")
+        return TRACK_BIO_CROSSLAYER
+    return str(value)
+
+
+def _has_content(value: Any) -> bool:
+    if value is None:
+        return False
+    if isinstance(value, str):
+        return bool(value.strip())
+    if isinstance(value, dict):
+        return any(_has_content(item) for item in value.values())
+    if isinstance(value, list):
+        return any(_has_content(item) for item in value)
+    return True
+
+
+def _bedc_minimal_form(
+    record: dict[str, Any],
+    issues: list[str],
+    *,
+    allowed_structures: set[str] = INTERNAL_STRUCTURES,
+) -> set[str]:
+    form = record.get("bedc_minimal_form")
+    internal: set[str] = set()
+    if not isinstance(form, dict):
+        issues.append("bedc_minimal_form must be an object")
+        return internal
+    for key in ("carrier", "readback"):
+        _nonempty(f"bedc_minimal_form.{key}", form.get(key), issues)
+    _array("bedc_minimal_form.distinctions", form.get("distinctions"), issues, min_items=1)
+    internal = set(
+        _array(
+            "bedc_minimal_form.internal_structure",
+            form.get("internal_structure"),
+            issues,
+            allowed=allowed_structures,
+        )
+    )
+    if "none" in internal and len(internal) > 1:
+        issues.append("bedc_minimal_form.internal_structure cannot mix none with explicit structures")
+    return internal
+
+
+def _validate_certificate_refs(record: dict[str, Any], issues: list[str]) -> list[dict[str, Any]]:
+    refs = record.get("certificate_refs")
+    valid_refs: list[dict[str, Any]] = []
+    if not isinstance(refs, list):
+        issues.append("certificate_refs must be an array")
+        return valid_refs
+    if not refs:
+        issues.append("certificate_refs must contain at least 1 item(s)")
+        return valid_refs
+    for index, ref in enumerate(refs, 1):
+        prefix = f"certificate_refs[{index}]"
+        if not isinstance(ref, dict):
+            issues.append(f"{prefix} must be an object")
+            continue
+        kind = ref.get("kind")
+        _nonempty(f"{prefix}.repo", ref.get("repo"), issues)
+        _nonempty(f"{prefix}.object", ref.get("object"), issues)
+        if kind not in FORCED_WINDOW_CERTIFICATE_KINDS:
+            issues.append(f"{prefix}.kind is not recognized")
+        elif kind == "automath_paper_section":
+            if not _has_content(ref.get("section_ref")) and not _has_content(ref.get("lean_path")):
+                issues.append(f"{prefix}.section_ref must be nonempty when lean_path is absent")
+        else:
+            _nonempty(f"{prefix}.lean_path", ref.get("lean_path"), issues)
+        repo_ok = isinstance(ref.get("repo"), str) and bool(str(ref.get("repo")).strip())
+        object_ok = isinstance(ref.get("object"), str) and bool(str(ref.get("object")).strip())
+        lean_path_ok = isinstance(ref.get("lean_path"), str) and bool(str(ref.get("lean_path")).strip())
+        section_ref_ok = isinstance(ref.get("section_ref"), str) and bool(str(ref.get("section_ref")).strip())
+        if repo_ok and object_ok and kind in FORCED_WINDOW_CERTIFICATE_KINDS:
+            if lean_path_ok or (kind == "automath_paper_section" and section_ref_ok):
+                valid_refs.append(ref)
+    return valid_refs
+
+
+def _refs_support_numeric_constant(refs: list[dict[str, Any]]) -> bool:
+    certificate_kinds = {str(ref.get("kind")) for ref in refs if isinstance(ref, dict)}
+    return bool(
+        certificate_kinds
+        & {
+            "lean_finite_certificate",
+            "edge_flux_count_certificate",
+            "green_kirchhoff_certificate",
+            "automath_paper_section",
+        }
+    )
+
+
+def _has_numerology_markers(*parts: Any) -> bool:
+    text = " ".join(str(part) for part in parts if part is not None)
+    lowered = text.lower()
+    has_phi_power = any(marker in lowered for marker in ("phi^-", "φ⁻", "φ^-", "phi⁻"))
+    has_fit_language = any(
+        marker in lowered
+        for marker in (
+            "fit",
+            "fitting",
+            "approx",
+            "approximately",
+            "≈",
+            "拟合",
+            "近似",
+        )
+    )
+    return has_phi_power and has_fit_language
+
+
+def validate_contact(record: dict[str, Any]) -> list[str]:
+    required = {
+        "contact_id",
+        "source_kind",
+        "source_ref",
+        "source_snapshot",
+        "observed_fact",
+        "resolution",
+        "known_noise_or_bias",
+        "can_test",
+        "cannot_test",
+        "null_reason",
+    }
+    issues = _missing(record, required)
+    if issues:
+        return issues
+    _id("contact_id", record.get("contact_id"), issues)
+    if record.get("source_kind") not in CONTACT_KINDS:
+        issues.append("source_kind is not recognized")
+    for key in ("source_ref", "source_snapshot", "observed_fact", "resolution"):
+        _nonempty(key, record.get(key), issues)
+    _array("can_test", record.get("can_test"), issues, min_items=1)
+    _array("cannot_test", record.get("cannot_test"), issues, min_items=1)
+    return issues
+
+
+def validate_probe(record: dict[str, Any], conjecture_by_id: dict[str, dict[str, Any]], contact_ids: set[str]) -> list[str]:
+    issues = _missing(record, PROBE_REQUIRED_FIELDS)
+    if issues:
+        return issues
+    _id("probe_id", record.get("probe_id"), issues)
+    _id("conjecture_ref", record.get("conjecture_ref"), issues)
+    conjecture = conjecture_by_id.get(str(record.get("conjecture_ref") or ""))
+    if _is_id(record.get("conjecture_ref")) and conjecture is None:
+        issues.append(f"conjecture_ref not found: {record.get('conjecture_ref')}")
+    if record.get("probe_kind") not in PROBE_KINDS:
+        issues.append("probe_kind is not recognized")
+    _array("derived_from", record.get("derived_from"), issues, allowed=DERIVED_FROM, min_items=1)
+    for key in ("test_statement", "support_condition", "break_condition"):
+        _nonempty(key, record.get(key), issues)
+    contacts = _array("required_contacts", record.get("required_contacts"), issues)
+    for contact in contacts:
+        if not _is_id(contact):
+            issues.append(_invalid_id_issue("required_contacts item", contact))
+        elif contact not in contact_ids:
+            issues.append(f"required contact not found: {contact}")
+    _array("forbidden_interpretations", record.get("forbidden_interpretations"), issues, min_items=1)
+    structural_probe_kinds = {
+        "boundary_mismatch",
+        "finite_enumeration",
+        "forbidden_pattern",
+        "closure_completion",
+        "spectral_concentration",
+    }
+    if record.get("probe_kind") in structural_probe_kinds and conjecture is not None:
+        claimed_layer = conjecture.get("claimed_layer")
+        evidence = conjecture.get("evidence_basis")
+        if (
+            claimed_layer not in {"code_read", "orf_eligibility"}
+            and (not isinstance(evidence, list) or "mechanism_bridge" not in evidence)
+        ):
+            issues.append(
+                f"structural probe_kind {record.get('probe_kind')} attached to higher-layer conjecture "
+                f"{record.get('conjecture_ref')} requires mechanism_bridge evidence on the conjecture"
+            )
+    return issues
+
+
+def validate_mismatch(record: dict[str, Any], probe_ids: set[str], contact_ids: set[str]) -> list[str]:
+    required = {
+        "mismatch_id",
+        "probe_ref",
+        "contact_ref",
+        "status",
+        "mismatch_kind",
+        "observed_delta",
+        "refinement_pressure",
+        "blocked_claims",
+        "null_reason",
+    }
+    issues = _missing(record, required)
+    if issues:
+        return issues
+    _id("mismatch_id", record.get("mismatch_id"), issues)
+    _id("probe_ref", record.get("probe_ref"), issues)
+    _id("contact_ref", record.get("contact_ref"), issues)
+    if _is_id(record.get("probe_ref")) and record.get("probe_ref") not in probe_ids:
+        issues.append(f"probe_ref not found: {record.get('probe_ref')}")
+    if _is_id(record.get("contact_ref")) and record.get("contact_ref") not in contact_ids:
+        issues.append(f"contact_ref not found: {record.get('contact_ref')}")
+    if record.get("status") not in MISMATCH_STATUS:
+        issues.append("status is not recognized")
+    if record.get("mismatch_kind") not in MISMATCH_KINDS:
+        issues.append("mismatch_kind is not recognized")
+    if record.get("status") in {"mismatch", "partially_aligned"} and record.get("mismatch_kind") == "none":
+        issues.append("mismatch or partial alignment requires a non-none mismatch_kind")
+    for key in ("observed_delta", "refinement_pressure"):
+        _nonempty(key, record.get(key), issues)
+    _array("blocked_claims", record.get("blocked_claims"), issues, min_items=1)
+    return issues
+
+
+def validate_bio_conjecture(
+    record: dict[str, Any],
+    contact_by_id: dict[str, dict[str, Any]],
+    probe_ids: set[str],
+) -> list[str]:
+    required = {
+        "conjecture_id",
+        "biological_object",
+        "informal_statement",
+        "bedc_minimal_form",
+        "claimed_layer",
+        "evidence_basis",
+        "reality_contact_refs",
+        "probe_refs",
+        "forbidden_claims",
+        "null_reason",
+    }
+    issues = _missing(record, required)
+    if issues:
+        return issues
+    _id("conjecture_id", record.get("conjecture_id"), issues)
+    for key in ("biological_object", "informal_statement"):
+        _nonempty(key, record.get(key), issues)
+    if record.get("claimed_layer") not in LAYERS:
+        issues.append("claimed_layer is not recognized")
+    evidence = set(_array("evidence_basis", record.get("evidence_basis"), issues, allowed=EVIDENCE_BASIS, min_items=1))
+    contacts = _array("reality_contact_refs", record.get("reality_contact_refs"), issues)
+    probes = _array("probe_refs", record.get("probe_refs"), issues)
+    _array("forbidden_claims", record.get("forbidden_claims"), issues, min_items=1)
+    for contact in contacts:
+        if not _is_id(contact):
+            issues.append(_invalid_id_issue("reality_contact_refs item", contact))
+        elif contact not in contact_by_id:
+            issues.append(f"reality contact not found: {contact}")
+    for probe in probes:
+        if not _is_id(probe):
+            issues.append(_invalid_id_issue("probe_refs item", probe))
+        elif probe not in probe_ids:
+            issues.append(f"probe not found: {probe}")
+
+    internal = _bedc_minimal_form(record, issues)
+    form = record.get("bedc_minimal_form")
+    if evidence & {"bedc_coordinate", "bedc_closure", "bedc_spectrum"} and not (internal - {"none"}):
+        issues.append("BEDC evidence requires explicit internal structure")
+
+    text_parts = [
+        str(record.get("biological_object", "")),
+        str(record.get("informal_statement", "")),
+        " ".join(str(item) for item in record.get("forbidden_claims", []) if isinstance(item, str)),
+    ]
+    if isinstance(form, dict):
+        text_parts.extend([str(form.get("readback", "")), str(form.get("carrier", ""))])
+    text = " ".join(text_parts)
+    if "external_reality" in evidence and not contacts:
+        issues.append("external_reality evidence requires reality_contact_refs")
+    if "derived_probe" in evidence and not probes:
+        issues.append("derived_probe evidence requires probe_refs")
+    if contacts:
+        claimed_layer = record.get("claimed_layer")
+        normalized_layer = _normalize_layer_text(claimed_layer)
+        can_test: list[str] = []
+        cannot_test: list[str] = []
+        contact_kinds: set[str] = set()
+        for contact_ref in contacts:
+            contact_record = contact_by_id.get(contact_ref)
+            if contact_record is None:
+                continue
+            if isinstance(contact_record.get("source_kind"), str):
+                contact_kinds.add(str(contact_record.get("source_kind")))
+            can_test.extend(str(item) for item in contact_record.get("can_test", []) if isinstance(item, str))
+            cannot_test.extend(str(item) for item in contact_record.get("cannot_test", []) if isinstance(item, str))
+        layer_in_can_test = any(normalized_layer == _normalize_layer_text(item) or normalized_layer in _normalize_layer_text(item) for item in can_test)
+        layer_in_cannot_test = any(
+            normalized_layer == _normalize_layer_text(item) or normalized_layer in _normalize_layer_text(item)
+            for item in cannot_test
+        )
+        realization_kinds = REALIZATION_CONTACT_KINDS_BY_LAYER.get(str(claimed_layer))
+        if realization_kinds is not None and not (contact_kinds & realization_kinds):
+            issues.append(
+                f"claimed_layer {claimed_layer} requires a non-code realization reality contact; "
+                f"genetic-code tables and BEDC geometry do not establish translation, structure, physical admissibility, function, or cross-layer law"
+            )
+        if not layer_in_can_test and layer_in_cannot_test:
+            issues.append(
+                f"claimed_layer {claimed_layer} is in cannot_test of all attached contacts; promote requires "
+                f"a separate reality contact that can_test layer {claimed_layer}"
+            )
+        elif not layer_in_can_test and not layer_in_cannot_test:
+            issues.append(f"claimed_layer {claimed_layer} is not addressed by any attached reality contact")
+        max_can_test = _highest_can_test_layer(can_test)
+        claimed_layer_rank = LAYER_RANK.get(str(claimed_layer))
+        max_can_test_rank = LAYER_RANK.get(str(max_can_test)) if max_can_test is not None else None
+        if (
+            OVERCLAIM_GATES_ENABLED
+            and claimed_layer_rank is not None
+            and max_can_test_rank is not None
+            and claimed_layer_rank > max_can_test_rank
+            and evidence & PROXY_OBJECTIVE_EVIDENCE_BASIS
+        ):
+            basis = ", ".join(sorted(evidence & PROXY_OBJECTIVE_EVIDENCE_BASIS))
+            issues.append(
+                f"proxy_objective_separation: proxy/internal evidence ({basis}) cannot support claimed_layer "
+                f"{claimed_layer} above reality-contact can_test {max_can_test}"
+            )
+        if (
+            OVERCLAIM_GATES_ENABLED
+            and claimed_layer_rank is not None
+            and _has_positive_mechanism_language(record.get("informal_statement"))
+            and not layer_in_can_test
+        ):
+            issues.append(
+                "mechanism_closure_requires_separate_contact: mechanism/realization wording requires "
+                f"a layer-matched reality contact whose can_test includes {claimed_layer}"
+            )
+    elif (
+        OVERCLAIM_GATES_ENABLED
+        and record.get("claimed_layer") in LAYERS
+        and _has_positive_mechanism_language(record.get("informal_statement"))
+    ):
+        issues.append(
+            "mechanism_closure_requires_separate_contact: mechanism/realization wording requires "
+            f"a layer-matched reality contact whose can_test includes {record.get('claimed_layer')}"
+        )
+    if _has_any(text, MECHANISM_WORDS) and "mechanism_bridge" not in evidence:
+        issues.append("mechanism language requires mechanism_bridge evidence")
+    if _has_any(text, TOTAL_BIOLOGY_WORDS):
+        issues.append("total-biology language is blocked in conjecture packets")
+    return issues
+
+
+def validate_forced_window_conjecture(record: dict[str, Any]) -> list[str]:
+    required = {
+        "conjecture_id",
+        "track",
+        "forced_window_object",
+        "informal_statement",
+        "bedc_minimal_form",
+        "claimed_layer",
+        "evidence_basis",
+        "certificate_refs",
+        "forbidden_claims",
+        "null_reason",
+    }
+    issues = _missing(record, required)
+    if issues:
+        return issues
+    _id("conjecture_id", record.get("conjecture_id"), issues)
+    if record.get("track") != TRACK_FORCED_WINDOW_BEDC:
+        issues.append("track must be forced_window_bedc for forced-window packets")
+    for key in ("forced_window_object", "informal_statement"):
+        _nonempty(key, record.get(key), issues)
+    if record.get("claimed_layer") not in FORCED_WINDOW_LAYERS:
+        issues.append("claimed_layer is not recognized for forced_window_bedc")
+    evidence = set(
+        _array(
+            "evidence_basis",
+            record.get("evidence_basis"),
+            issues,
+            allowed=FORCED_WINDOW_EVIDENCE_BASIS,
+            min_items=1,
+        )
+    )
+    refs = _validate_certificate_refs(record, issues)
+    _array("forbidden_claims", record.get("forbidden_claims"), issues, min_items=1)
+    _bedc_minimal_form(record, issues, allowed_structures=FORCED_WINDOW_INTERNAL_STRUCTURES)
+
+    claimed_layer = str(record.get("claimed_layer") or "")
+    allowed_kinds = FORCED_WINDOW_LAYER_CERTIFICATE_KINDS.get(claimed_layer, set())
+    certificate_kinds = {str(ref.get("kind")) for ref in refs}
+    if "automath_certificate" not in evidence and not (certificate_kinds & FORCED_WINDOW_CERTIFICATE_KINDS):
+        issues.append("forced_window_bedc requires automath_certificate evidence or a recognized certificate_ref")
+    if claimed_layer in FORCED_WINDOW_LAYERS and not (certificate_kinds & allowed_kinds):
+        expected = ", ".join(sorted(allowed_kinds))
+        issues.append(f"claimed_layer {claimed_layer} requires certificate kind in {{{expected}}}")
+
+    numeric_claim = record.get("numeric_constant_claim")
+    if _has_content(numeric_claim) and not _refs_support_numeric_constant(refs):
+        issues.append(
+            "numerical_tuning_risk: numeric constants need an independent certificate "
+            "(automath Lean / edge-flux / Green / biological mechanism); fitting is not accepted"
+        )
+    elif _has_numerology_markers(record.get("informal_statement"), record.get("forced_window_object")) and not refs:
+        issues.append(
+            "numerical_tuning_risk: numeric constants need an independent certificate "
+            "(automath Lean / edge-flux / Green / biological mechanism); fitting is not accepted"
+        )
+    return issues
+
+
+def validate_conjecture(
+    record: dict[str, Any],
+    contact_by_id: dict[str, dict[str, Any]],
+    probe_ids: set[str],
+) -> list[str]:
+    track_issues: list[str] = []
+    track = _track(record, track_issues)
+    if track_issues:
+        return track_issues
+    if track == TRACK_FORCED_WINDOW_BEDC:
+        return validate_forced_window_conjecture(record)
+    return validate_bio_conjecture(record, contact_by_id, probe_ids)
+
+
+def _index(records: list[dict[str, Any]], key: str) -> tuple[dict[str, dict[str, Any]], list[str]]:
+    by_id: dict[str, dict[str, Any]] = {}
+    issues: list[str] = []
+    for index, record in enumerate(records, 1):
+        value = str(record.get(key) or "")
+        if not ID_RE.match(value):
+            issues.append(f"{key}:{index}: {_invalid_id_issue(key, value)}")
+            continue
+        if value in by_id:
+            issues.append(f"{key}:{index}: duplicate id: {value}")
+            continue
+        by_id[value] = record
+    return by_id, issues
+
+
+def gate_all(
+    conjectures: list[dict[str, Any]],
+    contacts: list[dict[str, Any]],
+    probes: list[dict[str, Any]],
+    mismatches: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    contact_by_id, contact_index_issues = _index(contacts, "contact_id")
+    conjecture_by_id, conjecture_index_issues = _index(conjectures, "conjecture_id")
+    probe_by_id, probe_index_issues = _index(probes, "probe_id")
+    contact_ids = set(contact_by_id)
+    probe_ids = set(probe_by_id)
+
+    shared_issues = contact_index_issues + conjecture_index_issues + probe_index_issues
+    results: list[dict[str, Any]] = []
+    for contact in contacts:
+        contact_id = str(contact.get("contact_id") or "")
+        issues = validate_contact(contact) + shared_issues
+        results.append(_result("reality_contact", contact_id, issues))
+    for probe in probes:
+        probe_id = str(probe.get("probe_id") or "")
+        issues = validate_probe(probe, conjecture_by_id, contact_ids) + shared_issues
+        results.append(_result("probe", probe_id, issues))
+    for mismatch in mismatches:
+        mismatch_id = str(mismatch.get("mismatch_id") or "")
+        issues = validate_mismatch(mismatch, probe_ids, contact_ids) + shared_issues
+        results.append(_result("mismatch", mismatch_id, issues))
+    for conjecture in conjectures:
+        conjecture_id = str(conjecture.get("conjecture_id") or "")
+        issues = validate_conjecture(conjecture, contact_by_id, probe_ids) + shared_issues
+        results.append(_result("conjecture", conjecture_id, issues))
+    return sorted(results, key=lambda item: (item["gate_status"], item["packet_kind"], item["packet_id"]))
+
+
+def _result(packet_kind: str, packet_id: str, issues: list[str]) -> dict[str, Any]:
+    result = {
+        "packet_kind": packet_kind,
+        "packet_id": packet_id,
+        "gate_status": "gate_blocked" if issues else "gate_passed",
+        "issues": issues,
+        "allowed_write": "none",
+        "next_action": "fix gate issues before review" if issues else "eligible for operator review only",
+    }
+    if any(issue.startswith("numerical_tuning_risk:") for issue in issues):
+        result["disposition"] = "needs_certificate"
+    elif issues:
+        result["disposition"] = "defect"
+    else:
+        result["disposition"] = "ok"
+    return result
+
+
+def self_test() -> int:
+    contact = {
+        "contact_id": "ncbi.standard.code",
+        "source_kind": "genetic_code_table",
+        "source_ref": "NCBI translation table",
+        "source_snapshot": "fixture",
+        "observed_fact": "A curated table maps codons to amino-acid or stop labels.",
+        "resolution": "codon assignment",
+        "known_noise_or_bias": "fixture only",
+        "can_test": ["code_read layer"],
+        "cannot_test": ["protein realization", "biological function", "function realization"],
+        "null_reason": "",
+    }
+    perturbation_contact = {
+        "contact_id": "translation.perturbation.fixture",
+        "source_kind": "perturbation_data",
+        "source_ref": "fixture perturbation matrix",
+        "source_snapshot": "fixture",
+        "observed_fact": "A perturbation fixture records a translation-layer response.",
+        "resolution": "translation perturbation readback",
+        "known_noise_or_bias": "fixture only",
+        "can_test": ["translation_realization", "cross_layer_relation"],
+        "cannot_test": ["global biological law"],
+        "null_reason": "",
+    }
+    function_contact = {
+        "contact_id": "function.assay.fixture",
+        "source_kind": "functional_assay",
+        "source_ref": "fixture function assay",
+        "source_snapshot": "fixture",
+        "observed_fact": "A functional assay fixture records a bounded function-layer readback.",
+        "resolution": "function assay readback",
+        "known_noise_or_bias": "fixture only",
+        "can_test": ["function_realization"],
+        "cannot_test": ["system phenotype", "global biological law"],
+        "null_reason": "",
+    }
+    conjecture = {
+        "conjecture_id": "codon.code.read",
+        "biological_object": "codon table",
+        "informal_statement": "Codon assignment can be read as a code-layer reality contact.",
+        "bedc_minimal_form": {
+            "carrier": "codon stream",
+            "distinctions": ["codon label", "stop label"],
+            "readback": "named genetic-code table",
+            "internal_structure": ["coordinate"],
+        },
+        "claimed_layer": "code_read",
+        "evidence_basis": ["external_reality", "bedc_coordinate"],
+        "reality_contact_refs": ["ncbi.standard.code"],
+        "probe_refs": [],
+        "forbidden_claims": ["Codon assignment alone is not protein realization."],
+        "null_reason": "",
+    }
+    overclaim = {
+        "conjecture_id": "protein.world.model",
+        "biological_object": "DNA to protein",
+        "informal_statement": "This is a full biology explanation for DNA-to-protein function.",
+        "bedc_minimal_form": {
+            "carrier": "sequence",
+            "distinctions": ["base"],
+            "readback": "sequence",
+            "internal_structure": ["none"],
+        },
+        "claimed_layer": "function_realization",
+        "evidence_basis": ["external_reality"],
+        "reality_contact_refs": ["ncbi.standard.code"],
+        "probe_refs": [],
+        "forbidden_claims": ["No forbidden claim."],
+        "null_reason": "",
+    }
+    b1_overclaim = {
+        "conjecture_id": "function.overclaim",
+        "biological_object": "gene product",
+        "informal_statement": "The coordinate is presented as a function-layer packet.",
+        "bedc_minimal_form": {
+            "carrier": "annotated sequence",
+            "distinctions": ["label"],
+            "readback": "sequence annotation",
+            "internal_structure": ["coordinate"],
+        },
+        "claimed_layer": "function_realization",
+        "evidence_basis": ["external_reality", "bedc_coordinate"],
+        "reality_contact_refs": ["ncbi.standard.code"],
+        "probe_refs": [],
+        "forbidden_claims": ["The code table alone does not establish biological function."],
+        "null_reason": "",
+    }
+    b3_conjecture = {
+        "conjecture_id": "structure.probe.overreach",
+        "biological_object": "gene product",
+        "informal_statement": "The packet is placed at the function layer.",
+        "bedc_minimal_form": {
+            "carrier": "annotated sequence",
+            "distinctions": ["label"],
+            "readback": "sequence annotation",
+            "internal_structure": ["coordinate"],
+        },
+        "claimed_layer": "function_realization",
+        "evidence_basis": ["external_reality", "bedc_coordinate"],
+        "reality_contact_refs": ["ncbi.standard.code"],
+        "probe_refs": ["boundary.probe.overreach"],
+        "forbidden_claims": ["The structural probe is not a functional assay."],
+        "null_reason": "",
+    }
+    b3_probe = {
+        "probe_id": "boundary.probe.overreach",
+        "conjecture_ref": "structure.probe.overreach",
+        "probe_kind": "boundary_mismatch",
+        "derived_from": ["bedc_coordinate"],
+        "test_statement": "Check whether a coordinate boundary mismatches the readback.",
+        "support_condition": "The boundary is stable under the finite reading.",
+        "break_condition": "The boundary does not survive contact with the readback.",
+        "required_contacts": ["ncbi.standard.code"],
+        "forbidden_interpretations": ["The boundary alone proves function."],
+        "null_reason": "",
+    }
+    bedc_without_structure = {
+        "conjecture_id": "bedc.structure.missing",
+        "biological_object": "codon window",
+        "informal_statement": "The packet has BEDC coordinate evidence but no internal structure.",
+        "bedc_minimal_form": {
+            "carrier": "codon window",
+            "distinctions": ["window boundary"],
+            "readback": "window enumeration",
+            "internal_structure": [],
+        },
+        "claimed_layer": "orf_eligibility",
+        "evidence_basis": ["bedc_coordinate"],
+        "reality_contact_refs": [],
+        "probe_refs": [],
+        "forbidden_claims": ["Coordinate evidence alone is not translation realization."],
+        "null_reason": "",
+    }
+    mixed_none_structure = {
+        "conjecture_id": "bedc.structure.mixed",
+        "biological_object": "codon window",
+        "informal_statement": "The packet mixes no internal structure with an explicit coordinate.",
+        "bedc_minimal_form": {
+            "carrier": "codon window",
+            "distinctions": ["window boundary"],
+            "readback": "window enumeration",
+            "internal_structure": ["none", "coordinate"],
+        },
+        "claimed_layer": "orf_eligibility",
+        "evidence_basis": ["bedc_coordinate"],
+        "reality_contact_refs": [],
+        "probe_refs": [],
+        "forbidden_claims": ["Coordinate evidence alone is not translation realization."],
+        "null_reason": "",
+    }
+    cross_layer_code_only = {
+        "conjecture_id": "cross.layer.code.only",
+        "biological_object": "DNA to protein",
+        "informal_statement": "The packet claims only a cross-layer relation.",
+        "bedc_minimal_form": {
+            "carrier": "codon window",
+            "distinctions": ["window boundary"],
+            "readback": "code table",
+            "internal_structure": ["coordinate"],
+        },
+        "claimed_layer": "cross_layer_relation",
+        "evidence_basis": ["external_reality", "bedc_coordinate"],
+        "reality_contact_refs": ["ncbi.standard.code"],
+        "probe_refs": [],
+        "forbidden_claims": ["The code table alone does not establish a cross-layer relation."],
+        "null_reason": "",
+    }
+    cross_layer_perturbed = {
+        "conjecture_id": "cross.layer.perturbed",
+        "biological_object": "DNA to protein",
+        "informal_statement": "The packet claims a bounded cross-layer relation with perturbation contact.",
+        "bedc_minimal_form": {
+            "carrier": "codon window",
+            "distinctions": ["window boundary"],
+            "readback": "perturbation readback",
+            "internal_structure": ["coordinate", "relation"],
+        },
+        "claimed_layer": "cross_layer_relation",
+        "evidence_basis": ["external_reality", "bedc_coordinate"],
+        "reality_contact_refs": ["translation.perturbation.fixture"],
+        "probe_refs": [],
+        "forbidden_claims": ["The perturbation readback is not a global biological law."],
+        "null_reason": "",
+    }
+    proxy_objective_overclaim = {
+        "conjecture_id": "proxy.objective.overclaim",
+        "biological_object": "gene product",
+        "informal_statement": "The internal coordinate is presented as a function-layer packet.",
+        "bedc_minimal_form": {
+            "carrier": "annotated sequence",
+            "distinctions": ["label"],
+            "readback": "sequence annotation",
+            "internal_structure": ["coordinate"],
+        },
+        "claimed_layer": "function_realization",
+        "evidence_basis": ["external_reality", "internal_structure"],
+        "reality_contact_refs": ["ncbi.standard.code"],
+        "probe_refs": [],
+        "forbidden_claims": ["The code table alone does not establish biological function."],
+        "null_reason": "",
+    }
+    mechanism_without_contact = {
+        "conjecture_id": "mechanism.contact.missing",
+        "biological_object": "translation packet",
+        "informal_statement": "The coordinate realizes translation in the packet.",
+        "bedc_minimal_form": {
+            "carrier": "codon window",
+            "distinctions": ["window boundary"],
+            "readback": "window enumeration",
+            "internal_structure": ["coordinate"],
+        },
+        "claimed_layer": "translation_realization",
+        "evidence_basis": ["bedc_coordinate"],
+        "reality_contact_refs": [],
+        "probe_refs": [],
+        "forbidden_claims": ["Coordinate evidence alone is not a translation mechanism."],
+        "null_reason": "",
+    }
+    mechanism_layer_matched = {
+        "conjecture_id": "mechanism.layer.matched",
+        "biological_object": "functional assay packet",
+        "informal_statement": "The assay realizes bounded biological function for the packet.",
+        "bedc_minimal_form": {
+            "carrier": "assay readback",
+            "distinctions": ["activity label"],
+            "readback": "functional assay readback",
+            "internal_structure": ["none"],
+        },
+        "claimed_layer": "function_realization",
+        "evidence_basis": ["external_reality", "mechanism_bridge"],
+        "reality_contact_refs": ["function.assay.fixture"],
+        "probe_refs": [],
+        "forbidden_claims": ["The assay does not establish system phenotype."],
+        "null_reason": "",
+    }
+    results = gate_all(
+        [
+            conjecture,
+            overclaim,
+            b1_overclaim,
+            b3_conjecture,
+            bedc_without_structure,
+            mixed_none_structure,
+            cross_layer_code_only,
+            cross_layer_perturbed,
+            proxy_objective_overclaim,
+            mechanism_without_contact,
+            mechanism_layer_matched,
+        ],
+        [contact, perturbation_contact, function_contact],
+        [b3_probe],
+        [],
+    )
+    by_id = {str(result["packet_id"]): result for result in results}
+    invalid_contact_id_cases = {
+        "matched_mRNA_abundance_control": "matched-mrna-abundance-control",
+        "tai_or_stai_weights": "tai-or-stai-weights",
+    }
+    for invalid_contact_id, normalized_contact_id in invalid_contact_id_cases.items():
+        invalid_contact_results = gate_all(
+            [],
+            [
+                {
+                    **contact,
+                    "contact_id": invalid_contact_id,
+                }
+            ],
+            [],
+            [],
+        )
+        if not any("not underscores or uppercase" in issue for result in invalid_contact_results for issue in result["issues"]):
+            print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
+            return 1
+        if not any(
+            issue.startswith(f"contact_id: invalid id: {invalid_contact_id}; ids must match {ID_PATTERN}")
+            for result in invalid_contact_results
+            for issue in result["issues"]
+        ):
+            print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
+            return 1
+        if not any(
+            f"suggested normalized id: {normalized_contact_id}" in issue
+            for result in invalid_contact_results
+            for issue in result["issues"]
+        ):
+            print(json.dumps(invalid_contact_results, indent=2), file=sys.stderr)
+            return 1
+    recurring_probe_failure_results = gate_all(
+        [],
+        [
+            {**contact, "contact_id": f"fixture.contact.{index}"}
+            for index in range(1, 8)
+        ]
+        + [
+            {
+                **contact,
+                "contact_id": "matched_mRNA_abundance_control",
+            }
+        ],
+        [
+            {
+                "probe_id": "b-star-q6-survival-matrix-break-condition",
+                "conjecture_ref": "b-star.q6.survival.matrix",
+                "derived_from": ["bedc_spectrum"],
+                "test_statement": "Check whether the survival matrix break condition has a bounded reality contact.",
+                "support_condition": "A separate curated biological contact supports the bounded claim.",
+                "break_condition": "The packet lacks the contact or promotes the matrix beyond its evidence layer.",
+                "forbidden_interpretations": [
+                    "Do not infer translation, structure, function, or global biological law from the matrix geometry alone."
+                ],
+            }
+        ],
+        [],
+    )
+    recurring_probe_failure = next(
+        result
+        for result in recurring_probe_failure_results
+        if result["packet_id"] == "b-star-q6-survival-matrix-break-condition"
+    )
+    recurring_probe_issues = set(recurring_probe_failure["issues"])
+    if recurring_probe_failure["gate_status"] != "gate_blocked" or not {
+        "missing required field: null_reason",
+        "missing required field: probe_kind",
+        "missing required field: required_contacts",
+    }.issubset(recurring_probe_issues):
+        print(json.dumps(recurring_probe_failure_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        issue.startswith("contact_id:8: contact_id: invalid id: matched_mRNA_abundance_control;")
+        and f"suggested normalized id: {invalid_contact_id_cases['matched_mRNA_abundance_control']}" in issue
+        for issue in recurring_probe_failure["issues"]
+    ):
+        print(json.dumps(recurring_probe_failure_results, indent=2), file=sys.stderr)
+        return 1
+    event_mismatch_failure_results = gate_all(
+        [],
+        [
+            {**contact, "contact_id": f"fixture.contact.{index}"}
+            for index in range(1, 8)
+        ]
+        + [
+            {
+                **contact,
+                "contact_id": "matched_mRNA_abundance_control",
+            }
+        ],
+        [],
+        [
+            {
+                "mismatch_id": "curated.standard.code_table.cross_organism_id_shape_boundary",
+                "probe_ref": "fixture.probe",
+                "contact_ref": "fixture.contact.1",
+                "status": "underdetermined",
+                "mismatch_kind": "missing_context",
+                "observed_delta": "The packet carries an invalid indexed contact id.",
+                "refinement_pressure": "Normalize the reality contact id before review.",
+                "blocked_claims": ["Do not review a mismatch against an invalid contact table."],
+                "null_reason": "",
+            }
+        ],
+    )
+    event_mismatch_failure = next(
+        result
+        for result in event_mismatch_failure_results
+        if result["packet_id"] == "curated.standard.code_table.cross_organism_id_shape_boundary"
+    )
+    if event_mismatch_failure["gate_status"] != "gate_blocked" or not any(
+        issue.startswith("contact_id:8: contact_id: invalid id: matched_mRNA_abundance_control;")
+        and f"suggested normalized id: {invalid_contact_id_cases['matched_mRNA_abundance_control']}" in issue
+        for issue in event_mismatch_failure["issues"]
+    ):
+        print(json.dumps(event_mismatch_failure_results, indent=2), file=sys.stderr)
+        return 1
+    scalar_test_scope_results = gate_all(
+        [],
+        [
+            {
+                **contact,
+                "contact_id": "matched-mrna-abundance-control",
+                "can_test": "code_read layer",
+                "cannot_test": "translation realization",
+            }
+        ],
+        [],
+        [],
+    )
+    scalar_test_scope = next(
+        result for result in scalar_test_scope_results if result["packet_id"] == "matched-mrna-abundance-control"
+    )
+    if scalar_test_scope["gate_status"] != "gate_blocked" or not {
+        "can_test must be an array",
+        "cannot_test must be an array",
+    }.issubset(set(scalar_test_scope["issues"])):
+        print(json.dumps(scalar_test_scope_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_contact_scalar_scope_results = gate_all(
+        [],
+        [
+            {
+                **contact,
+                "contact_id": "matched_mRNA_abundance_control",
+                "can_test": "code_read layer",
+                "cannot_test": "translation realization",
+            }
+        ],
+        [],
+        [],
+    )
+    invalid_contact_scalar_scope = next(
+        result
+        for result in invalid_contact_scalar_scope_results
+        if result["packet_id"] == "matched_mRNA_abundance_control"
+    )
+    if invalid_contact_scalar_scope["gate_status"] != "gate_blocked" or not {
+        "can_test must be an array",
+        "cannot_test must be an array",
+    }.issubset(set(invalid_contact_scalar_scope["issues"])):
+        print(json.dumps(invalid_contact_scalar_scope_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        f"contact_id: invalid id: matched_mRNA_abundance_control" in issue
+        for issue in invalid_contact_scalar_scope["issues"]
+    ):
+        print(json.dumps(invalid_contact_scalar_scope_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_contact_id = "matched_mRNA_abundance_control"
+    normalized_contact_id = invalid_contact_id_cases[invalid_contact_id]
+    invalid_contact_mismatch_results = gate_all(
+        [],
+        [
+            {
+                **contact,
+                "contact_id": invalid_contact_id,
+            }
+        ],
+        [],
+        [
+            {
+                "mismatch_id": "cross-organism.cun-uur-translation-boundary.no-promotion.scope-review",
+                "probe_ref": "boundary.probe.overreach",
+                "contact_ref": invalid_contact_id,
+                "status": "underdetermined",
+                "mismatch_kind": "missing_context",
+                "observed_delta": "The packet cites an invalid contact id.",
+                "refinement_pressure": "Normalize the contact id before review.",
+                "blocked_claims": ["Do not review a mismatch against an invalid reality contact id."],
+                "null_reason": "",
+            }
+        ],
+    )
+    invalid_contact_mismatch = next(
+        result
+        for result in invalid_contact_mismatch_results
+        if result["packet_id"] == "cross-organism.cun-uur-translation-boundary.no-promotion.scope-review"
+    )
+    if invalid_contact_mismatch["gate_status"] != "gate_blocked" or not any(
+        f"contact_id: invalid id: {invalid_contact_id}" in issue
+        and f"suggested normalized id: {normalized_contact_id}" in issue
+        for issue in invalid_contact_mismatch["issues"]
+    ):
+        print(json.dumps(invalid_contact_mismatch_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        f"contact_ref: invalid id: {invalid_contact_id}" in issue
+        and f"suggested normalized id: {normalized_contact_id}" in issue
+        for issue in invalid_contact_mismatch["issues"]
+    ):
+        print(json.dumps(invalid_contact_mismatch_results, indent=2), file=sys.stderr)
+        return 1
+    if any(f"contact_ref not found: {invalid_contact_id}" in issue for issue in invalid_contact_mismatch["issues"]):
+        print(json.dumps(invalid_contact_mismatch_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_probe_ref_id = "leu_cun_uur_multi_organism_extension"
+    normalized_probe_ref_id = "leu-cun-uur-multi-organism-extension"
+    invalid_probe_ref_mismatch_results = gate_all(
+        [],
+        [contact],
+        [],
+        [
+            {
+                "mismatch_id": "leu-cun-uur-multi-organism-extension.eight-organism-contact-gap",
+                "probe_ref": invalid_probe_ref_id,
+                "contact_ref": "ncbi.standard.code",
+                "status": "underdetermined",
+                "mismatch_kind": "missing_context",
+                "observed_delta": "The packet cites an invalid probe id.",
+                "refinement_pressure": "Normalize the probe id before review.",
+                "blocked_claims": ["Do not review a mismatch against an invalid probe id."],
+                "null_reason": "",
+            }
+        ],
+    )
+    invalid_probe_ref_mismatch = next(
+        result
+        for result in invalid_probe_ref_mismatch_results
+        if result["packet_id"] == "leu-cun-uur-multi-organism-extension.eight-organism-contact-gap"
+    )
+    if invalid_probe_ref_mismatch["gate_status"] != "gate_blocked" or not any(
+        f"probe_ref: invalid id: {invalid_probe_ref_id}" in issue
+        and f"suggested normalized id: {normalized_probe_ref_id}" in issue
+        for issue in invalid_probe_ref_mismatch["issues"]
+    ):
+        print(json.dumps(invalid_probe_ref_mismatch_results, indent=2), file=sys.stderr)
+        return 1
+    if any(f"probe_ref not found: {invalid_probe_ref_id}" in issue for issue in invalid_probe_ref_mismatch["issues"]):
+        print(json.dumps(invalid_probe_ref_mismatch_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_required_contact_results = gate_all(
+        [conjecture],
+        [contact],
+        [
+            {
+                **b3_probe,
+                "required_contacts": [invalid_contact_id],
+                "conjecture_ref": "codon.code.read",
+            }
+        ],
+        [],
+    )
+    if not any(
+        "required_contacts item: invalid id" in issue
+        and f"suggested normalized id: {normalized_contact_id}" in issue
+        for result in invalid_required_contact_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_required_contact_results, indent=2), file=sys.stderr)
+        return 1
+    if any(
+        f"required contact not found: {invalid_contact_id}" in issue
+        for result in invalid_required_contact_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_required_contact_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_conjecture_contact_ref_results = gate_all(
+        [
+            {
+                **conjecture,
+                "conjecture_id": "codon.code.invalid-contact-ref",
+                "reality_contact_refs": [invalid_contact_id],
+            }
+        ],
+        [contact],
+        [],
+        [],
+    )
+    if not any(
+        "reality_contact_refs item: invalid id" in issue
+        and f"suggested normalized id: {normalized_contact_id}" in issue
+        for result in invalid_conjecture_contact_ref_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_contact_ref_results, indent=2), file=sys.stderr)
+        return 1
+    if any(
+        f"reality contact not found: {invalid_contact_id}" in issue
+        for result in invalid_conjecture_contact_ref_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_contact_ref_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_conjecture_probe_ref_results = gate_all(
+        [
+            {
+                **conjecture,
+                "conjecture_id": "codon.code.invalid-probe-ref",
+                "evidence_basis": ["derived_probe"],
+                "probe_refs": [invalid_probe_ref_id],
+            }
+        ],
+        [contact],
+        [],
+        [],
+    )
+    if not any(
+        "probe_refs item: invalid id" in issue
+        and f"suggested normalized id: {normalized_probe_ref_id}" in issue
+        for result in invalid_conjecture_probe_ref_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_probe_ref_results, indent=2), file=sys.stderr)
+        return 1
+    if any(
+        issue == f"probe not found: {invalid_probe_ref_id}"
+        for result in invalid_conjecture_probe_ref_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_probe_ref_results, indent=2), file=sys.stderr)
+        return 1
+    invalid_conjecture_id = "cross_organism.cun_uur_leu_gate.translation_realization"
+    normalized_conjecture_id = "cross-organism.cun-uur-leu-gate.translation-realization"
+    invalid_conjecture_id_results = gate_all(
+        [
+            {**conjecture, "conjecture_id": "fixture.conjecture.1"},
+            {**conjecture, "conjecture_id": invalid_conjecture_id},
+        ],
+        [contact],
+        [],
+        [],
+    )
+    if not any(
+        issue.startswith(f"conjecture_id:2: conjecture_id: invalid id: {invalid_conjecture_id};")
+        and f"suggested normalized id: {normalized_conjecture_id}" in issue
+        for result in invalid_conjecture_id_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_id_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        issue.startswith(f"conjecture_id: invalid id: {invalid_conjecture_id};")
+        and f"suggested normalized id: {normalized_conjecture_id}" in issue
+        for result in invalid_conjecture_id_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_conjecture_id_results, indent=2), file=sys.stderr)
+        return 1
+    mixed_invalid_id_results = gate_all(
+        [
+            {**conjecture, "conjecture_id": "fixture.conjecture.1"},
+            {**conjecture, "conjecture_id": "orf_eligibility.seed.boundary"},
+            {
+                **conjecture,
+                "conjecture_id": "cross_organism.cun_uur_leu_gate.translation_realization",
+            },
+            {
+                **conjecture,
+                "conjecture_id": "residual_basis.q6_topology_after_aa_quotient.translation_realization",
+            },
+            {
+                **conjecture,
+                "conjecture_id": "translation_survival.b_star_q6_survival_matrix.translation_realization",
+            },
+        ],
+        [
+            {**contact, "contact_id": "fixture.contact.1"},
+            {**contact, "contact_id": "fixture.contact.2"},
+            {**contact, "contact_id": "codon_usage_per_organism"},
+            {**contact, "contact_id": "fixture.contact.4"},
+            {**contact, "contact_id": "fixture.contact.5"},
+            {**contact, "contact_id": "ribosome_profiling_translation_efficiency"},
+        ],
+        [
+            {**b3_probe, "probe_id": f"fixture.probe.{index}", "conjecture_ref": "fixture.conjecture.1"}
+            for index in range(1, 5)
+        ]
+        + [
+            {
+                **b3_probe,
+                "probe_id": "cross_organism.cun_uur_sign_correlates_with_trna_leu",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "residual_basis.m_only_local_optimum_insufficiency",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "cross_organism.cun_uur_translation_boundary.no_promotion",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "residual_basis.translation_readout_boundary.no_promotion",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "b_star_q6_survival_matrix_break_condition",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+            {
+                **b3_probe,
+                "probe_id": "leu_cun_uur_multi_organism_extension",
+                "conjecture_ref": "fixture.conjecture.1",
+            },
+        ],
+        [],
+    )
+    mixed_invalid_id_expectations = {
+        "contact_id:3": ("codon_usage_per_organism", "codon-usage-per-organism"),
+        "contact_id:6": ("ribosome_profiling_translation_efficiency", "ribosome-profiling-translation-efficiency"),
+        "conjecture_id:2": ("orf_eligibility.seed.boundary", "orf-eligibility.seed.boundary"),
+        "conjecture_id:3": (
+            "cross_organism.cun_uur_leu_gate.translation_realization",
+            "cross-organism.cun-uur-leu-gate.translation-realization",
+        ),
+        "conjecture_id:4": (
+            "residual_basis.q6_topology_after_aa_quotient.translation_realization",
+            "residual-basis.q6-topology-after-aa-quotient.translation-realization",
+        ),
+        "conjecture_id:5": (
+            "translation_survival.b_star_q6_survival_matrix.translation_realization",
+            "translation-survival.b-star-q6-survival-matrix.translation-realization",
+        ),
+        "probe_id:5": (
+            "cross_organism.cun_uur_sign_correlates_with_trna_leu",
+            "cross-organism.cun-uur-sign-correlates-with-trna-leu",
+        ),
+        "probe_id:6": (
+            "residual_basis.m_only_local_optimum_insufficiency",
+            "residual-basis.m-only-local-optimum-insufficiency",
+        ),
+        "probe_id:7": (
+            "cross_organism.cun_uur_translation_boundary.no_promotion",
+            "cross-organism.cun-uur-translation-boundary.no-promotion",
+        ),
+        "probe_id:8": (
+            "residual_basis.translation_readout_boundary.no_promotion",
+            "residual-basis.translation-readout-boundary.no-promotion",
+        ),
+        "probe_id:9": ("b_star_q6_survival_matrix_break_condition", "b-star-q6-survival-matrix-break-condition"),
+        "probe_id:10": ("leu_cun_uur_multi_organism_extension", "leu-cun-uur-multi-organism-extension"),
+    }
+    mixed_invalid_id_issues = [issue for result in mixed_invalid_id_results for issue in result["issues"]]
+    for prefix, (invalid_id, normalized_id) in mixed_invalid_id_expectations.items():
+        if not any(
+            issue.startswith(f"{prefix}: {prefix.split(':', 1)[0]}: invalid id: {invalid_id};")
+            and f"suggested normalized id: {normalized_id}" in issue
+            for issue in mixed_invalid_id_issues
+        ):
+            print(json.dumps(mixed_invalid_id_results, indent=2), file=sys.stderr)
+            return 1
+    contact_schema = json.loads((SCRIPT_DIR / "reality_contact.schema.json").read_text(encoding="utf-8"))
+    contact_id_pattern = contact_schema.get("properties", {}).get("contact_id", {}).get("pattern")
+    if contact_id_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "reality_contact.schema.json",
+                    "field": "contact_id",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": contact_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    contact_schema_properties = contact_schema.get("properties", {})
+    for scope_field in ("can_test", "cannot_test"):
+        scope_schema = contact_schema_properties.get(scope_field, {})
+        if scope_schema.get("type") != "array" or scope_schema.get("minItems") != 1:
+            print(
+                json.dumps(
+                    {
+                        "schema": "reality_contact.schema.json",
+                        "field": scope_field,
+                        "expected_type": "array",
+                        "expected_minItems": 1,
+                        "actual_type": scope_schema.get("type"),
+                        "actual_minItems": scope_schema.get("minItems"),
+                    },
+                    indent=2,
+                ),
+                file=sys.stderr,
+            )
+            return 1
+    conjecture_schema = json.loads((SCRIPT_DIR / "conjecture.schema.json").read_text(encoding="utf-8"))
+    conjecture_id_pattern = conjecture_schema.get("properties", {}).get("conjecture_id", {}).get("pattern")
+    if conjecture_id_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "conjecture.schema.json",
+                    "field": "conjecture_id",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": conjecture_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    conjecture_contact_ref_pattern = (
+        conjecture_schema.get("properties", {}).get("reality_contact_refs", {}).get("items", {}).get("pattern")
+    )
+    if conjecture_contact_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "conjecture.schema.json",
+                    "field": "reality_contact_refs.items",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": conjecture_contact_ref_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    conjecture_probe_ref_pattern = (
+        conjecture_schema.get("properties", {}).get("probe_refs", {}).get("items", {}).get("pattern")
+    )
+    if conjecture_probe_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "conjecture.schema.json",
+                    "field": "probe_refs.items",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": conjecture_probe_ref_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    probe_schema = json.loads((SCRIPT_DIR / "probe.schema.json").read_text(encoding="utf-8"))
+    probe_id_pattern = probe_schema.get("properties", {}).get("probe_id", {}).get("pattern")
+    if probe_id_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "probe_id",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": probe_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    probe_conjecture_ref_pattern = probe_schema.get("properties", {}).get("conjecture_ref", {}).get("pattern")
+    if probe_conjecture_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "conjecture_ref",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": probe_conjecture_ref_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    probe_required_contact_pattern = (
+        probe_schema.get("properties", {}).get("required_contacts", {}).get("items", {}).get("pattern")
+    )
+    if probe_required_contact_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "required_contacts.items",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": probe_required_contact_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    mismatch_schema = json.loads((SCRIPT_DIR / "mismatch.schema.json").read_text(encoding="utf-8"))
+    mismatch_id_pattern = mismatch_schema.get("properties", {}).get("mismatch_id", {}).get("pattern")
+    if mismatch_id_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "mismatch.schema.json",
+                    "field": "mismatch_id",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": mismatch_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    mismatch_probe_ref_pattern = mismatch_schema.get("properties", {}).get("probe_ref", {}).get("pattern")
+    if mismatch_probe_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "mismatch.schema.json",
+                    "field": "probe_ref",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": mismatch_probe_ref_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    mismatch_contact_ref_pattern = mismatch_schema.get("properties", {}).get("contact_ref", {}).get("pattern")
+    if mismatch_contact_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "mismatch.schema.json",
+                    "field": "contact_ref",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": mismatch_contact_ref_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    invalid_probe_results = gate_all(
+        [conjecture],
+        [contact],
+        [
+            {
+                **b3_probe,
+                "probe_id": "cross_organism.cun_uur_sign_correlates_with_tRNA_Leu",
+                "conjecture_ref": "codon.code.read",
+            }
+        ],
+        [],
+    )
+    if not any("not underscores or uppercase" in issue for result in invalid_probe_results for issue in result["issues"]):
+        print(json.dumps(invalid_probe_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        issue.startswith(
+            f"probe_id:1: probe_id: invalid id: cross_organism.cun_uur_sign_correlates_with_tRNA_Leu; "
+            f"ids must match {ID_PATTERN}"
+        )
+        for result in invalid_probe_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_probe_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        "suggested normalized id: cross-organism.cun-uur-sign-correlates-with-trna-leu" in issue
+        for result in invalid_probe_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(invalid_probe_results, indent=2), file=sys.stderr)
+        return 1
+    indexed_invalid_probe_results = gate_all(
+        [conjecture],
+        [contact],
+        [
+            {
+                **b3_probe,
+                "probe_id": f"fixture.probe.{index}",
+                "conjecture_ref": "codon.code.read",
+            }
+            for index in range(1, 5)
+        ]
+        + [
+            {
+                **b3_probe,
+                "probe_id": "cross_organism.cun_uur_sign_correlates_with_tRNA_Leu",
+                "conjecture_ref": "codon.code.read",
+            }
+        ],
+        [],
+    )
+    if not any(
+        issue.startswith(
+            f"probe_id:5: probe_id: invalid id: cross_organism.cun_uur_sign_correlates_with_tRNA_Leu; "
+            f"ids must match {ID_PATTERN}"
+        )
+        for result in indexed_invalid_probe_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(indexed_invalid_probe_results, indent=2), file=sys.stderr)
+        return 1
+    if not any(
+        "suggested normalized id: cross-organism.cun-uur-sign-correlates-with-trna-leu" in issue
+        for result in indexed_invalid_probe_results
+        for issue in result["issues"]
+    ):
+        print(json.dumps(indexed_invalid_probe_results, indent=2), file=sys.stderr)
+        return 1
+    probe_schema = json.loads((SCRIPT_DIR / "probe.schema.json").read_text(encoding="utf-8"))
+    probe_schema_required = set(probe_schema.get("required", []))
+    if probe_schema_required != PROBE_REQUIRED_FIELDS:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "expected_required": sorted(PROBE_REQUIRED_FIELDS),
+                    "actual_required": sorted(probe_schema_required),
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    probe_id_pattern = probe_schema.get("properties", {}).get("probe_id", {}).get("pattern")
+    if probe_id_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "probe_id",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": probe_id_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    conjecture_ref_pattern = probe_schema.get("properties", {}).get("conjecture_ref", {}).get("pattern")
+    if conjecture_ref_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "conjecture_ref",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": conjecture_ref_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    required_contacts_pattern = probe_schema.get("properties", {}).get("required_contacts", {}).get("items", {}).get("pattern")
+    if required_contacts_pattern != ID_PATTERN:
+        print(
+            json.dumps(
+                {
+                    "schema": "probe.schema.json",
+                    "field": "required_contacts.items",
+                    "expected_pattern": ID_PATTERN,
+                    "actual_pattern": required_contacts_pattern,
+                },
+                indent=2,
+            ),
+            file=sys.stderr,
+        )
+        return 1
+    if by_id["codon.code.read"]["gate_status"] != "gate_passed":
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["protein.world.model"]["gate_status"] != "gate_blocked":
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["function.overclaim"]["gate_status"] != "gate_blocked" or not any(
+        "in cannot_test" in issue for issue in by_id["function.overclaim"]["issues"]
+    ):
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["boundary.probe.overreach"]["gate_status"] != "gate_blocked" or not any(
+        "structural probe_kind" in issue for issue in by_id["boundary.probe.overreach"]["issues"]
+    ):
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["bedc.structure.missing"]["gate_status"] != "gate_blocked" or not any(
+        "BEDC evidence requires explicit internal structure" in issue for issue in by_id["bedc.structure.missing"]["issues"]
+    ):
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["bedc.structure.mixed"]["gate_status"] != "gate_blocked" or not any(
+        "cannot mix none" in issue for issue in by_id["bedc.structure.mixed"]["issues"]
+    ):
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["cross.layer.code.only"]["gate_status"] != "gate_blocked" or not any(
+        "non-code realization reality contact" in issue for issue in by_id["cross.layer.code.only"]["issues"]
+    ):
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["cross.layer.perturbed"]["gate_status"] != "gate_passed":
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["proxy.objective.overclaim"]["gate_status"] != "gate_blocked" or not any(
+        issue.startswith("proxy_objective_separation:")
+        for issue in by_id["proxy.objective.overclaim"]["issues"]
+    ):
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["mechanism.contact.missing"]["gate_status"] != "gate_blocked" or not any(
+        issue.startswith("mechanism_closure_requires_separate_contact:")
+        for issue in by_id["mechanism.contact.missing"]["issues"]
+    ):
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["mechanism.layer.matched"]["gate_status"] != "gate_passed":
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    edge_flux_conjecture = {
+        "conjecture_id": "f-a1.window6.edge-flux",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 edge-flux skeleton",
+        "informal_statement": "Window6 edge-flux is presented as a finite BEDC certificate packet.",
+        "bedc_minimal_form": {
+            "carrier": "Window6 finite binary window",
+            "distinctions": ["edge boundary", "coarse Markov state", "finite count"],
+            "readback": "edge-flux finite-count readback",
+            "internal_structure": ["coordinate", "relation"],
+        },
+        "claimed_layer": "edge_flux_finite_count",
+        "evidence_basis": ["automath_certificate"],
+        "certificate_refs": [
+            {
+                "repo": "automath",
+                "lean_path": "lean4/Omega/ForcedWindow/Window6EdgeFluxSkeleton.lean",
+                "object": "edgeFluxSkeleton",
+                "kind": "edge_flux_count_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "The Window6 edge-flux finite count does not establish a biological codon mechanism."
+        ],
+        "null_reason": "",
+    }
+    alpha_fit_conjecture = {
+        "conjecture_id": "alpha.fit.boundary-response",
+        "track": "forced_window_bedc",
+        "forced_window_object": "D_{6,alpha}^* boundary-response constant",
+        "informal_statement": "The boundary constant fits alpha approx 1/137 by a phi^- power expression.",
+        "numeric_constant_claim": "alpha approx 1/137 via 47+phi^-7-(1/2)phi^-17+(8/9)phi^-27",
+        "bedc_minimal_form": {
+            "carrier": "boundary response expression",
+            "distinctions": ["phi power", "rational coefficient"],
+            "readback": "numeric alpha approximation",
+            "internal_structure": ["none"],
+        },
+        "claimed_layer": "arithmetic_certificate",
+        "evidence_basis": ["automath_certificate"],
+        "certificate_refs": [],
+        "forbidden_claims": ["Fitted numeric constants are not certificates."],
+        "null_reason": "",
+    }
+    missing_arithmetic_certificate = {
+        "conjecture_id": "window6.arithmetic.certificate.missing",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 arithmetic certificate",
+        "informal_statement": "The packet claims a 571 Green/Kirchhoff arithmetic certificate.",
+        "bedc_minimal_form": {
+            "carrier": "Window6 arithmetic readback",
+            "distinctions": ["spanning-tree count", "spectral collision"],
+            "readback": "571 arithmetic certificate",
+            "internal_structure": ["spectrum"],
+        },
+        "claimed_layer": "arithmetic_certificate",
+        "evidence_basis": ["automath_certificate"],
+        "certificate_refs": [],
+        "forbidden_claims": ["The arithmetic layer requires an independent certificate pointer."],
+        "null_reason": "",
+    }
+    lucas_kernel_conjecture = {
+        "conjecture_id": "window6.lucas-kernel.coefficient-gauge-obstruction",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 Lucas-kernel coefficient-gauge obstruction over the golden companion matrix",
+        "informal_statement": "The companion matrix M=[[1,1],[1,0]] gives M^20-123*M^10+I=0 and M^27-123*M^17+M^7=0.",
+        "bedc_minimal_form": {
+            "carrier": "Integer companion matrix powers and Lucas recurrence value L_10.",
+            "distinctions": ["integer matrix powers", "Lucas recurrence", "coefficient-gauge quotient"],
+            "readback": "The Lucas-kernel direction (1,-123,1) annihilates the 7,17,27 slots.",
+            "internal_structure": ["integer_matrix_power", "lucas_recurrence"],
+        },
+        "claimed_layer": "arithmetic_certificate",
+        "evidence_basis": ["integer_matrix_power", "lucas_recurrence"],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window6_lucas_kernel_obstruction.py",
+                "object": "verify-window6-lucas-kernel-obstruction",
+                "kind": "integer_matrix_lucas_kernel_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not identify alpha or any physical constant.",
+            "This packet does not infer coefficients from alpha, numerical proximity, or metrological data.",
+        ],
+        "null_reason": "",
+    }
+    lucas_fib_norm_conjecture = {
+        "conjecture_id": "window6.lucas-fib.norm-relation-law",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 Lucas-Fibonacci norm relation",
+        "informal_statement": "Integer recurrence enumeration checks the Lucas-Fibonacci norm relation as a finite BEDC arithmetic certificate.",
+        "bedc_minimal_form": {
+            "carrier": "Integer recurrence evaluations for Fibonacci and Lucas values.",
+            "distinctions": ["Fibonacci recurrence", "Lucas doubling", "integer norm relation"],
+            "readback": "The finite certificate records the recurrence and doubling checks without biological realization claims.",
+            "internal_structure": ["fibonacci_recurrence", "integer_norm_relation", "lucas_doubling"],
+        },
+        "claimed_layer": "arithmetic_certificate",
+        "evidence_basis": [
+            "integer_recurrence_evaluation",
+            "lucas_fibonacci_norm_enumeration",
+            "lucas_doubling_enumeration",
+            "bedc_finite_certificate",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window6_lucas_fib_norm_relation.py",
+                "object": "verify-window6-lucas-fib-norm-relation",
+                "kind": "lucas_fib_norm_relation_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law."
+        ],
+        "null_reason": "",
+    }
+    fib_entry_point_conjecture = {
+        "conjecture_id": "window6.fib-entry-point.fermat-congruence-law",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 Fibonacci entry-point Fermat congruence law",
+        "informal_statement": (
+            "Direct integer enumeration checks F_p mod p by p mod 5 and L_p mod p over the finite "
+            "prime window p<80 as an arithmetic certificate."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Finite prime-window residue table for Fibonacci and Lucas recurrences.",
+            "distinctions": [
+                "prime window",
+                "Fibonacci residue enumeration",
+                "Lucas residue enumeration",
+                "mod 5 quadratic residue class",
+            ],
+            "readback": "The certificate records recurrence residues only and makes no biological realization claim.",
+            "internal_structure": [
+                "prime_window",
+                "fibonacci_residue_enumeration",
+                "lucas_residue_enumeration",
+                "mod_5_quadratic_residue_class",
+            ],
+        },
+        "claimed_layer": "arithmetic_certificate",
+        "evidence_basis": [
+            "integer_prime_enumeration",
+            "fibonacci_residue_enumeration",
+            "lucas_residue_enumeration",
+            "bedc_finite_certificate",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window6_fib_entry_point_congruence.py",
+                "object": "verify-window6-fib-entry-point-congruence",
+                "kind": "fibonacci_entry_point_congruence_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law."
+        ],
+        "null_reason": "",
+    }
+    pisano_period_conjecture = {
+        "conjecture_id": "window6.pisano-period.modp-divisibility-law",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 Pisano period mod-p divisibility law",
+        "informal_statement": (
+            "Direct residue-pair search checks the Pisano period p mod 5 divisibility law over "
+            "the finite prime window p<60 as an arithmetic certificate."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Finite residue-pair recurrence table for Pisano period search.",
+            "distinctions": [
+                "Pisano period",
+                "residue-pair recurrence",
+                "prime window",
+                "mod 5 divisibility branch",
+            ],
+            "readback": "The certificate records exact period and divisibility checks only.",
+            "internal_structure": [
+                "pisano_period",
+                "residue_pair_recurrence",
+                "prime_window",
+                "mod_5_divisibility_branch",
+            ],
+        },
+        "claimed_layer": "arithmetic_certificate",
+        "evidence_basis": [
+            "integer_prime_enumeration",
+            "pisano_residue_pair_search",
+            "mod_5_branch_divisibility_check",
+            "bedc_finite_certificate",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window6_pisano_period_modp.py",
+                "object": "verify-window6-pisano-period-modp",
+                "kind": "pisano_period_modp_divisibility_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law."
+        ],
+        "null_reason": "",
+    }
+    closed_neighborhood_smith_conjecture = {
+        "conjecture_id": "window6.fibonacci-cube.closed-neighborhood-smith",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 Fibonacci-cube closed-neighborhood Smith invariant",
+        "informal_statement": (
+            "For Gamma_6, the closed-neighborhood matrix N_6=I_21+A_6 has determinant -144 "
+            "and Smith normal form with one nontrivial invariant factor 144."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Finite graph Gamma_6 and its closed-neighborhood integer matrix.",
+            "distinctions": [
+                "finite Fibonacci-cube graph",
+                "closed-neighborhood relation",
+                "integer determinant",
+                "Smith normal form",
+                "cyclic cokernel",
+            ],
+            "readback": "The certificate records an internal graph invariant only.",
+            "internal_structure": [
+                "finite_graph",
+                "closed_neighborhood_relation",
+                "integer_matrix_determinant",
+                "smith_normal_form",
+                "cyclic_cokernel",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "finite_graph_enumeration",
+            "integer_matrix_determinant",
+            "smith_normal_form_determinantal_divisors",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+            "derived_probe",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window6_closed_neighborhood_smith.py",
+                "object": "verify-window6-closed-neighborhood-smith",
+                "kind": "closed_neighborhood_smith_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
+    closed_neighborhood_transfer_conjecture = {
+        "conjecture_id": "window.fibonacci-cube.closed-neighborhood-transfer",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Fibonacci cube family closed-neighborhood transfer law",
+        "informal_statement": (
+            "For the Fibonacci cube family Gamma_m, exact finite audits verify the prefix block "
+            "recurrence for N_m=I+A and the identity-link integral Smith transfer through R_m. "
+            "The certificate records internal graph invariants only."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Fibonacci cube family Gamma_m and closed-neighborhood integer matrices N_m.",
+            "distinctions": [
+                "prefix recursive vertex order",
+                "closed-neighborhood block matrix",
+                "identity-link pivot",
+                "determinant and cokernel transfer",
+            ],
+            "readback": "The finite audit records determinant and Smith cokernel transfer without biological or physical realization claims.",
+            "internal_structure": [
+                "fibonacci_cube_family",
+                "prefix_recursive_vertex_order",
+                "closed_neighborhood_block_matrix",
+                "identity_link_pivot",
+                "integral_smith_transfer_reduction",
+                "determinant_transfer",
+                "cokernel_transfer",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "fibonacci_cube_recursive_decomposition",
+            "closed_neighborhood_block_recurrence",
+            "integral_smith_transfer_reduction",
+            "identity_link_pivot",
+            "no_scalar_determinant_recurrence",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+            "derived_probe",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window_closed_neighborhood_transfer.py",
+                "object": "verify-window-closed-neighborhood-transfer",
+                "kind": "closed_neighborhood_transfer_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
+    matching_enumerator_conjecture = {
+        "conjecture_id": "window6.fibonacci-cube.matching-enumerator",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Window6 Fibonacci-cube matching enumerator",
+        "informal_statement": (
+            "For Gamma_6, exact finite graph enumeration computes the matching polynomial, "
+            "Hosoya index, maximum matching count, monomer profile, and bipartition parity."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Finite Fibonacci-cube graph Gamma_6 and its matching recurrence state space.",
+            "distinctions": [
+                "finite Fibonacci-cube graph",
+                "Hamming edge relation",
+                "matching polynomial recurrence",
+                "monomer-dimer profile",
+                "bipartition parity",
+            ],
+            "readback": "The certificate records only internal finite graph invariants.",
+            "internal_structure": [
+                "finite_graph",
+                "hamming_edge_relation",
+                "matching_polynomial_recurrence",
+                "monomer_dimer_profile",
+                "bipartition_parity",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "finite_graph_enumeration",
+            "matching_polynomial_recurrence",
+            "monomer_dimer_profile",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window6_matching_enumerator.py",
+                "object": "verify-window6-matching-enumerator",
+                "kind": "matching_enumerator_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
+    betweenness_triple_conjecture = {
+        "conjecture_id": "window.fibonacci-cube.betweenness-triple",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Fibonacci cube family geodesic-betweenness triple count",
+        "informal_statement": (
+            "For Gamma_m, the geodesic-betweenness count A_m sums geodesic-interval cardinalities. "
+            "A four-state transfer matrix forces the order-four integer recurrence and quartic "
+            "characteristic polynomial as a graph-invariant certificate."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Fibonacci cube family Gamma_m with graph metric and geodesic intervals.",
+            "distinctions": [
+                "fibonacci cube family enumeration",
+                "geodesic interval betweenness",
+                "ordered triple count",
+                "four-state transfer matrix",
+                "quartic characteristic polynomial",
+                "distinction from the Wiener index",
+            ],
+            "readback": "The certificate records only internal finite graph invariants.",
+            "internal_structure": [
+                "fibonacci_cube_family",
+                "graph_metric",
+                "geodesic_interval_betweenness",
+                "ordered_triple_count",
+                "four_state_transfer_matrix",
+                "quartic_characteristic_polynomial",
+                "forced_order_four_recurrence",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "fibonacci_cube_family_enumeration",
+            "geodesic_interval_betweenness",
+            "transfer_matrix_recurrence",
+            "quartic_characteristic_polynomial",
+            "distinct_from_wiener",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+            "derived_probe",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window_betweenness_triple.py",
+                "object": "verify-window-betweenness-triple",
+                "kind": "betweenness_triple_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
+    saturated_chain_conjecture = {
+        "conjecture_id": "window.fibonacci-cube.saturated-chain",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Fibonacci cube family saturated upward chain count",
+        "informal_statement": (
+            "For Gamma_m with Hamming-weight oriented cover edges, C_m counts directed saturated chains "
+            "from 0^m to a maximal word and agrees with a maximal-word factorial sum and a "
+            "binomial-factorial closed form."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Fibonacci cube family Gamma_m with Hamming-weight orientation on cover edges.",
+            "distinctions": [
+                "fibonacci cube family enumeration",
+                "weight-graded poset",
+                "saturated upward chains",
+                "maximal-word factorial sum",
+                "binomial-factorial closed form",
+            ],
+            "readback": "The certificate records only internal finite graph and poset integer invariants.",
+            "internal_structure": [
+                "fibonacci_cube_family",
+                "weight_graded_poset",
+                "saturated_chain_count",
+                "maximal_word_factorial_sum",
+                "binomial_factorial_closed_form",
+                "finite_family_enumeration",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "fibonacci_cube_family_enumeration",
+            "weight_graded_poset",
+            "saturated_chain_count",
+            "maximal_word_factorial_sum",
+            "binomial_factorial_closed_form",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+            "derived_probe",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window_saturated_chain.py",
+                "object": "verify-window-saturated-chain",
+                "kind": "saturated_chain_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
+    disjoint_tuple_metallic_conjecture = {
+        "conjecture_id": "window.fibonacci-cube.disjoint-tuple-metallic",
+        "track": "forced_window_bedc",
+        "forced_window_object": "Fibonacci cube family disjoint-support ordered tuple metallic recurrence",
+        "informal_statement": (
+            "For Gamma_m, the ordered k-tuple count with pairwise-disjoint supports satisfies "
+            "D^(k)_m=kD^(k)_{m-1}+D^(k)_{m-2} as a finite graph-invariant certificate."
+        ),
+        "bedc_minimal_form": {
+            "carrier": "Fibonacci cube family Gamma_m with ordered k-tuples of vertices.",
+            "distinctions": [
+                "fibonacci cube family enumeration",
+                "ordered k-tuples",
+                "pairwise-disjoint support condition",
+                "finite transfer matrix",
+                "metallic-ratio recurrence",
+            ],
+            "readback": "The certificate records only internal finite graph and recurrence invariants.",
+            "internal_structure": [
+                "fibonacci_cube_family",
+                "disjoint_support_ordered_tuples",
+                "finite_transfer_matrix",
+                "metallic_ratio_recurrence",
+                "fibonacci_pell_median_anchor_unification",
+            ],
+        },
+        "claimed_layer": "graph_invariant_certificate",
+        "evidence_basis": [
+            "fibonacci_cube_family_enumeration",
+            "disjoint_support_tuples",
+            "metallic_ratio_recurrence",
+            "transfer_matrix",
+            "fibonacci_pell_unification",
+            "bedc_finite_certificate",
+            "lean_statement_only",
+            "derived_probe",
+        ],
+        "certificate_refs": [
+            {
+                "repo": "local-frontier",
+                "lean_path": "tools/fibonacci_reality/experiments/run_verify_window_disjoint_tuple_metallic.py",
+                "object": "verify-window-disjoint-tuple-metallic",
+                "kind": "disjoint_tuple_metallic_certificate",
+            }
+        ],
+        "forbidden_claims": [
+            "This packet does not claim translation, structure, physical admissibility, function, or a biological law.",
+            "This packet does not identify a physical constant or use numerical reverse fitting.",
+        ],
+        "null_reason": "",
+    }
+    forced_window_results = gate_all(
+        [
+            edge_flux_conjecture,
+            alpha_fit_conjecture,
+            missing_arithmetic_certificate,
+            lucas_kernel_conjecture,
+            lucas_fib_norm_conjecture,
+            fib_entry_point_conjecture,
+            pisano_period_conjecture,
+            closed_neighborhood_smith_conjecture,
+            closed_neighborhood_transfer_conjecture,
+            matching_enumerator_conjecture,
+            betweenness_triple_conjecture,
+            saturated_chain_conjecture,
+            disjoint_tuple_metallic_conjecture,
+        ],
+        [],
+        [],
+        [],
+    )
+    forced_window_by_id = {str(result["packet_id"]): result for result in forced_window_results}
+    if forced_window_by_id["f-a1.window6.edge-flux"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    alpha_fit_result = forced_window_by_id["alpha.fit.boundary-response"]
+    if (
+        alpha_fit_result["gate_status"] != "gate_blocked"
+        or alpha_fit_result.get("disposition") != "needs_certificate"
+        or not any(issue.startswith("numerical_tuning_risk:") for issue in alpha_fit_result["issues"])
+    ):
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    missing_arithmetic_result = forced_window_by_id["window6.arithmetic.certificate.missing"]
+    if missing_arithmetic_result["gate_status"] != "gate_blocked" or not any(
+        "requires certificate kind" in issue for issue in missing_arithmetic_result["issues"]
+    ):
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window6.lucas-kernel.coefficient-gauge-obstruction"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window6.lucas-fib.norm-relation-law"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window6.fib-entry-point.fermat-congruence-law"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window6.pisano-period.modp-divisibility-law"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window6.fibonacci-cube.closed-neighborhood-smith"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window.fibonacci-cube.closed-neighborhood-transfer"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window6.fibonacci-cube.matching-enumerator"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window.fibonacci-cube.betweenness-triple"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window.fibonacci-cube.saturated-chain"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    if forced_window_by_id["window.fibonacci-cube.disjoint-tuple-metallic"]["gate_status"] != "gate_passed":
+        print(json.dumps(forced_window_results, indent=2), file=sys.stderr)
+        return 1
+    print("[fibonacci-reality-gates] self-test ok")
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Run FibonacciReality deepening gates")
+    parser.add_argument("--conjectures", default=str(DEFAULT_CONJECTURES), help="conjecture JSONL")
+    parser.add_argument("--contacts", default=str(DEFAULT_CONTACTS), help="reality contact JSONL")
+    parser.add_argument("--probes", default=str(DEFAULT_PROBES), help="probe JSONL")
+    parser.add_argument("--mismatches", default=str(DEFAULT_MISMATCHES), help="mismatch JSONL")
+    parser.add_argument("--output", default=str(DEFAULT_OUTPUT), help="gate result JSONL")
+    parser.add_argument("--allow-empty", action="store_true", help="allow no input packets")
+    parser.add_argument("--self-test", action="store_true", help="run built-in fixture")
+    args = parser.parse_args(argv)
+
+    if args.self_test:
+        return self_test()
+
+    try:
+        conjectures = read_jsonl(Path(args.conjectures))
+        contacts = read_jsonl(Path(args.contacts))
+        probes = read_jsonl(Path(args.probes))
+        mismatches = read_jsonl(Path(args.mismatches))
+        if not args.allow_empty and not any((conjectures, contacts, probes, mismatches)):
+            print("[fibonacci-reality-gates] no input packets", file=sys.stderr)
+            return 1
+        results = gate_all(conjectures, contacts, probes, mismatches)
+        write_jsonl(Path(args.output), results)
+    except Exception as exc:
+        print(f"[fibonacci-reality-gates] error: {exc}", file=sys.stderr)
+        return 1
+
+    blocked = sum(1 for result in results if result["gate_status"] == "gate_blocked")
+    passed = len(results) - blocked
+    print(f"[fibonacci-reality-gates] wrote {len(results)} result(s) to {args.output}; passed={passed} blocked={blocked}")
+    return 0 if blocked == 0 else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

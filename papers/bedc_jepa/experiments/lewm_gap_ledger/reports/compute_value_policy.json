@@ -1,0 +1,144 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_policy",
+  "selected_policy": "episode_balanced_policy",
+  "device": "cuda",
+  "inputs": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\g2n_labels_clean.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz",
+    "baseline_prediction": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_model_predictions.npz",
+    "baseline_model": "ranknet_scalar"
+  },
+  "counts": {
+    "train": 2043,
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55
+  },
+  "target": {
+    "option_depths": [
+      1,
+      3,
+      5
+    ],
+    "uniform_depth": 3,
+    "policy_label": "episode-local top half of true high-minus-low marginal value goes to depth 5; bottom half goes to depth 1"
+  },
+  "health": {
+    "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then weighted BCE",
+    "best": {
+      "epoch": 1,
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.007222724331587507,
+          "low": 0.0019922455982820672,
+          "high": 0.013678846624624902
+        },
+        "mv_spearman": 0.29067084433958223,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "cal_bce": 0.7528306245803833
+    },
+    "history_first": {
+      "epoch": 1.0,
+      "train": 0.7147292941808701,
+      "cal_bce": 0.7528306245803833,
+      "cal_delta_high": 0.013678846624624902,
+      "cal_delta_observed": 0.007222724331587507
+    },
+    "history_last": {
+      "epoch": 600.0,
+      "train": 1.227204606379928e-06,
+      "cal_bce": 3.0525944232940674,
+      "cal_delta_high": 0.01680905856252744,
+      "cal_delta_observed": 0.008370232588547827
+    },
+    "params_count": 2669057,
+    "labeled_train": 2006,
+    "labeled_calibration": 634
+  },
+  "eval": {
+    "oracle": {
+      "allocation_delta": {
+        "observed": -0.012902872670635557,
+        "low": -0.019221622513345474,
+        "high": -0.008301115008357628
+      },
+      "mv_spearman": 1.0,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    },
+    "learned_policy": {
+      "allocation_delta": {
+        "observed": 0.006752602849956851,
+        "low": 0.0017891235877522693,
+        "high": 0.011463001355089372
+      },
+      "mv_spearman": 0.34132214291608753,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    },
+    "scalar_ranknet": {
+      "allocation_delta": {
+        "observed": 0.008218016678875326,
+        "low": 0.000645493671387214,
+        "high": 0.01655924533962815
+      },
+      "mv_spearman": 0.449880883836401,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    },
+    "inverted_oracle": {
+      "allocation_delta": {
+        "observed": 0.058861959095115254,
+        "low": 0.045461295883172874,
+        "high": 0.07605306607361195
+      },
+      "mv_spearman": -1.0,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    },
+    "random_reference": {
+      "allocation_delta": {
+        "observed": 0.020938368372209318,
+        "low": 0.012110266905455124,
+        "high": 0.032065757007678324
+      },
+      "mv_spearman": 0.02927944403588659,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    }
+  },
+  "leakage_attestation": {
+    "feature_standardizer": "fit on train features only",
+    "policy_labels": "constructed from train/cal true_mv only for training and calibration selection",
+    "model_selection": "calibration split only",
+    "eval_truth_usage": "eval option_error and true_mv used only after policy scores are written for final metrics and references",
+    "slurm_or_ssh": "not used"
+  },
+  "outputs": {
+    "predictions_npz": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_policy_predictions.npz",
+    "json": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_policy.json",
+    "md": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_policy.md"
+  },
+  "wall_time_sec": 120.89035630226135
+}

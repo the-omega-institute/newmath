@@ -1,0 +1,113 @@
+\origin{ai}
+
+\subsection{Window-6 clock quotient observables for cyclic golden words}
+\label{sec:window6-clock-gauge-invariant-c10-orbit-observables}
+
+\paragraph{Finite carrier.}
+For a positive integer $n$, let $\{0,1\}^n$ be the finite set of binary words $w=(w_0,\ldots,w_{n-1})$ with indices read modulo $n$. The cyclic no-adjacent-$1$ carrier is the subset
+$$
+\begin{aligned}
+P_n=\{w\in \{0,1\}^n: \hbox{there is no }i\in\{0,\ldots,n-1\}\hbox{ with }w_i=1\hbox{ and }w_{i+1}=1\}.
+\end{aligned}
+$$
+Thus the last and first entries are adjacent. The finite gauge group is the cyclic group $C_n=\mathbb Z/n\mathbb Z$, acting by rotation. For $r\in C_n$, define
+$$
+\begin{aligned}
+(r\cdot w)_i=w_{i-r}\quad\hbox{for every }i\in\mathbb Z/n\mathbb Z.
+\end{aligned}
+$$
+This action preserves $P_n$, since cyclic adjacency is unchanged by relabeling the positions. The observable used here is the quotient set $P_n/C_n$, namely the partition of $P_n$ into rotation-orbits. No representative word, chosen cut position, or residue attached to a chosen basepoint is part of the quotient observable.
+
+\paragraph{Lucas count on the carrier.}
+Let $L_n$ denote the Lucas number normalized by the finite cyclic count of no-adjacent-$1$ binary words. The carrier cardinality is
+$$
+\begin{aligned}
+|P_n|=L_n.
+\end{aligned}
+$$
+This identity is used here only as the exact finite input for the cyclic carrier family. In the executable audit range $2\leq n\leq 14$, direct enumeration of $P_n$ agrees with $L_n$.
+
+\paragraph{Fixed-point kernel and Burnside quotient count.}
+For $r\in C_n$, the fixed-point relation is
+$$
+\begin{aligned}
+\operatorname{Fix}_n(r)=\{w\in P_n:r\cdot w=w\}.
+\end{aligned}
+$$
+If $r$ has cyclic step with orbit-period divisor $d$ on positions, then a fixed word is obtained by repeating a cyclic no-adjacent-$1$ word of length $d$, and the fixed-count is $L_d$. Grouping rotations by this divisor gives the Burnside formula
+$$
+\begin{aligned}
+|P_n/C_n|=\frac{1}{n}\sum_{d\mid n}\varphi(n/d)L_d.
+\end{aligned}
+$$
+Here $\varphi$ is Euler's totient function, and the sum ranges over positive divisors $d$ of $n$. The displayed expression is a finite orbit-count identity: it counts rotation-equivalence classes of cyclic binary words with no cyclic adjacent $11$, not marked words with a distinguished coordinate.
+
+\paragraph{Primitive periods and orbit-size spectrum.}
+For each divisor $d$ of $n$, let $a(d)$ be the number of rotation-orbits whose orbit size is exactly $d$. Equivalently, these are the aperiodic golden necklaces of length $d$ which become admissible length-$n$ orbits by repetition along the $n$-cycle. The primitive count is obtained by Mobius inversion from the Lucas carrier counts:
+$$
+\begin{aligned}
+a(d)=\frac{1}{d}\sum_{e\mid d}\mu(d/e)L_e.
+\end{aligned}
+$$
+Here $\mu$ is the Mobius function. The orbit-size spectrum at length $n$ is the finite map
+$$
+\begin{aligned}
+\{d:a(d)\hbox{ for }d\mid n\hbox{ and }a(d)>0\}.
+\end{aligned}
+$$
+The two descriptions of the same quotient partition are linked by
+$$
+\begin{aligned}
+|P_n/C_n|=\sum_{d\mid n}a(d),\qquad L_n=\sum_{d\mid n}d\,a(d).
+\end{aligned}
+$$
+The first identity sums the number of orbits. The second identity counts the words in $P_n$ by expanding each orbit according to its size.
+
+\paragraph{The length-ten instance.}
+At $n=10$, the carrier has
+$$
+\begin{aligned}
+|P_{10}|=L_{10}=123.
+\end{aligned}
+$$
+The rotation quotient has
+$$
+\begin{aligned}
+|P_{10}/C_{10}|=15.
+\end{aligned}
+$$
+The orbit-size spectrum is
+$$
+\begin{aligned}
+\{1:1,\;2:1,\;5:2,\;10:11\}.
+\end{aligned}
+$$
+Thus one orbit has size $1$, one orbit has size $2$, two orbits have size $5$, and eleven orbits have size $10$. These sizes divide $10$, as required for a $C_{10}$-action. The spectrum accounts for both the quotient count and the carrier count:
+$$
+\begin{aligned}
+1+1+2+11&=15,\\
+1\cdot 1+2\cdot 1+5\cdot 2+10\cdot 11&=123.
+\end{aligned}
+$$
+This is the finite Window-6 clock instance recorded by the packet: the forward observable is the rotation-invariant quotient family law together with the $n=10$ orbit decomposition.
+
+\paragraph{Basepoint separation.}
+A basepoint choice can assign residues in $\mathbb Z/10\mathbb Z$ to marked representatives, and the residue image over all basepoints is the whole of $\mathbb Z/10\mathbb Z$. That surjectivity is not a quotient observable. It varies with the mark, while $|P_{10}/C_{10}|=15$ and the spectrum $\{1:1,2:1,5:2,10:11\}$ do not. The finite construction therefore separates a free coordinate choice from the rotation-invariant data: the residue/basepoint is not forward-determined, whereas the quotient count and primitive period spectrum are.
+
+\paragraph{Executable finite witness.}
+The certificate for this chapter is finite and direct. For every $n$ with $2\leq n\leq 14$, it enumerates all words in $\{0,1\}^n$, filters by the cyclic no-adjacent-$11$ predicate, forms rotation-orbits under $C_n$, records orbit sizes, and compares the result with
+$$
+\begin{aligned}
+a(d)=\frac{1}{d}\sum_{e\mid d}\mu(d/e)L_e.
+\end{aligned}
+$$
+It also checks
+$$
+\begin{aligned}
+|P_n/C_n|=\sum_{d\mid n}a(d),\qquad L_n=\sum_{d\mid n}d\,a(d)
+\end{aligned}
+$$
+through the same finite range. For $n=10$, it keeps the carrier count, the Burnside fixed-count sum, the quotient count, the orbit-size spectrum, the spectrum sum, and the separation between basepoint residues and quotient data.
+
+\paragraph{Boundary of the claim.}
+The chapter proves only a finite combinatorial construction: cyclic binary words with no cyclic adjacent $11$, their $C_n$ rotation quotient, the Burnside-Lucas quotient count, the Mobius-Lucas primitive decomposition, and the explicit $n=10$ spectrum. It does not identify a physical constant, assert a global dynamical law, introduce an external dependency, make a metrological comparison, or attach any interpretation beyond this finite rotation-invariant count family unless a separate certificate supplies that additional assertion.
