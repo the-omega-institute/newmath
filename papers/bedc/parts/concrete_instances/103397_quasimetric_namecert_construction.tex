@@ -31,7 +31,7 @@ The classifier compares accepted packets only through $S,X,D,Z,T,B,F,R,E,H,C,P,N
 \leanchecked{BEDC.Derived.QuasiMetricUp.QuasiMetricTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[QuasiMetric NameCert obligation surface]
-\label{thm:quasi-metric-namecert-obligations}
+\label{thm:quasimetric-obligation-surface}
 For every accepted $\QuasiMetricUp$ carrier
 $$
 Q=(S,X,D,Z,T,B,F,R,E,H,C,P,N),
@@ -94,7 +94,7 @@ Every accepted $\QuasiMetricUp$ read used by $\MetricSpaceUp$, $\QuasiUniformSpa
 \end{theorem}
 \leanchecked{BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier\_nonescape}
 \begin{proof}
-Apply \autoref{thm:quasi-metric-namecert-obligations}. The NameCert surface stores all quasi-metric obligations in $S,X,D,Z,T,B,F,R,E,H,C,P,N$ and stores none outside those rows.
+Apply \autoref{thm:quasimetric-obligation-surface}. The NameCert surface stores all quasi-metric obligations in $S,X,D,Z,T,B,F,R,E,H,C,P,N$ and stores none outside those rows.
 
 Apply \autoref{thm:quasi-metric-directed-ball-handoff}. Every directed-ball, Cauchy, quasi-uniform, uniform, and completion-facing consumer reaches the public route only after $D,Z,T,B,F,R,E$ have been displayed.
 
@@ -112,17 +112,17 @@ be an accepted $\QuasiMetricUp$ packet. If two displayed directed-ball reads in 
 \begin{proof}
 Project the carrier surface of \autoref{def:quasi-metric-carrier}. The two directed-ball reads have no source other than $S,X,D,Z,T,B$, and the middle endpoint compatibility is a displayed point-row match inside $X$ rather than a separated point identity.
 
-Use the oriented triangle obligation in \autoref{thm:quasi-metric-namecert-obligations}. It requires each triangle comparison to be stored in $T$ with ordered endpoints, so composing the $x$ to $y$ and $y$ to $z$ ball reads can only read the displayed asymmetric triangle witness.
+Use the oriented triangle obligation in \autoref{thm:quasimetric-obligation-surface}. It requires each triangle comparison to be stored in $T$ with ordered endpoints, so composing the $x$ to $y$ and $y$ to $z$ ball reads can only read the displayed asymmetric triangle witness.
 
 The handoff theorem \autoref{thm:quasi-metric-directed-ball-handoff} then routes the composed directed ball through $B$ and onward to any Cauchy, uniform, or completion-facing consumer. The support rows $H,C,P,N$ transport, replay, package, and name the same directed-distance witnesses, while \autoref{thm:quasi-metric-nonescape} excludes symmetry, quotient completion, selected limits, host metric equality, \texttt{Classical.choice}, and \texttt{Quot.sound}.
 \end{proof}
 
-\closureat{QuasiMetricUp}{seedStr}
+\closureat{QuasiMetricUp}{obligationStr}
 
 \begin{closurestatus}{\QuasiMetricUp}
   \constructivestory{A $\QuasiMetricUp$ packet is generated from a source row, a point carrier, a directed RealUp-valued distance row, a zero diagonal row, a forward triangle row, a directed-ball row, Cauchy filter and Cauchy net rows, a uniform-reflection row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:quasi-metric-carrier}, \autoref{thm:quasi-metric-namecert-obligations}, \autoref{thm:quasi-metric-directed-ball-handoff}, and \autoref{thm:quasi-metric-nonescape} seed the directed metric packet over displayed source, point, Real-valued distance, zero diagonal, forward triangle, directed-ball, Cauchy, uniform-reflection, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:quasi-metric-carrier}, \autoref{thm:quasimetric-obligation-surface}, \autoref{thm:quasi-metric-directed-ball-handoff}, and \autoref{thm:quasi-metric-nonescape} record the obligation surface for the directed metric packet over displayed source, point, Real-valued distance, zero diagonal, forward triangle, directed-ball, Cauchy, uniform-reflection, transport, replay, provenance, and local NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close symmetry, separatedness, metric completeness, open-cover compactness, quotient distance, quotient completion, selected limits, standard bridge evidence, Lean verification, or bridge checking.}

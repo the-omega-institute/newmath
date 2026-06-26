@@ -110,6 +110,18 @@ The row family of \autoref{def:typed-example-coverage-matrix-row-family} selects
 The support rows $H,K,P,N$ transport, replay, source, and name the same matrix. They cannot manufacture a global type-system theorem outside the displayed coverage rows.
 \end{proof}
 
+\begin{theorem}[Typed example coverage matrix critical-path spend exhaustion]
+\label{thm:typed-example-coverage-matrix-criticalpath-budget-exhaustion}
+Any checker-audit spend from an accepted $\TypedExampleCoverageMatrixUp$ packet must expose the same family row in $F$, gallery cell in $G$, checker cell in $C$, beta-boundary cell in $B$, regression spend in $R$, exactness row in $E$, and structural rows $H,K,P,N$. Therefore the matrix cannot be used as subject-reduction evidence, normalization evidence, or checker-completeness evidence.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:typed-example-coverage-matrix-carrier}. The only spend coordinate is $R$, and it is indexed by the same finite family row $F$ as the gallery, checker, beta-boundary, and exactness cells.
+
+Use regression exactness, the spend boundary, and checker-cell locality. These theorems keep every spend attached to the displayed $G,C,B,R,E$ cells at one row and prevent a consumer from moving the checker cell or budget cell to a different family.
+
+Finally apply non-escape and family exhaustion. The structural rows $H,K,P,N$ preserve and replay the same packet, while the carrier has no coordinate for subject reduction, normalization, or checker completeness. The critical-path spend is therefore exhausted by the displayed matrix row.
+\end{proof}
+
 \begin{theorem}[Typed example coverage matrix row totality]
 \label{thm:typed-example-coverage-matrix-row-totality}
 Every accepted family row in $F$ has displayed gallery, checker, beta-boundary, and regression-spend cells in $G,C,B,R$, with the exactness row $E$ recording that the four cells belong to the same row.
