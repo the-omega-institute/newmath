@@ -57,6 +57,28 @@ Apply the sequence-limit obligations of \autoref{thm:real-sequence-limit-namecer
 Finally pass the comparison through the nonquotient boundary $E$ before any $\RealUp$ handoff. Since all reads are coordinates of $K$ and all replay goes through $C$, the route introduces no quotient stream, representative selector, countable choice, trichotomy decision, or ambient completeness row.
 \end{proof}
 
+\begin{theorem}[RealSequenceCauchyCriterion tail-window stability]
+\label{thm:real-sequence-cauchy-criterion-tail-stability}
+Let
+$$
+K=(L,S,R,D,T,E,H,C,P,N)
+$$
+and
+$$
+K'=(L',S',R',D',T',E',H',C',P',N')
+$$
+be accepted $\RealSequenceCauchyCriterionUp$ packets. If the two packets are connected componentwise by $\hsame$ transport on $L,S,R,D,T,E,H,C,P,N$, then every Cauchy tail-window route exposed by $K$ transports to a Cauchy tail-window route exposed by $K'$. The transported route keeps the limit row, stream schedule, regular rational readback, dyadic tolerance ledger, Cauchy classifier, nonquotient comparison boundary, transport, replay, provenance, and local name visible, and it introduces no quotient streams, selected representatives, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:real-sequence-cauchy-criterion-carrier}. The componentwise $\hsame$ assumptions identify the rows $L,S,R,D,T,E,H,C,P,N$ with their primed counterparts while preserving the carrier coordinates that expose the tail-window route.
+
+Use the NameCert obligations of \autoref{thm:real-sequence-cauchy-criterion-namecert-obligations} to transport each displayed row. The limit row, finite schedule, regular rational readback, dyadic ledger, Cauchy classifier, and comparison boundary are moved as rows of the packet, so no representative selector or quotient stream is introduced.
+
+Apply the handoff theorem \autoref{thm:real-sequence-cauchy-criterion-limit-cauchy-handoff} after transport. The same tolerance request now reads the primed tail index and primed later sequence windows through $S'$, $R'$, and $D'$, then hands the comparison to $E'$ before any $\RealUp$ consumer.
+
+The remaining coordinates $H',C',P',N'$ record transport, replay, provenance, and local naming for the transported route. Since neither packet contains a row for countable choice, trichotomy, quotient streams, selected representatives, or ambient $\RealUp$ completeness, the stability route cannot export any of those objects.
+\end{proof}
+
 \closureat{RealSequenceCauchyCriterionUp}{seedStr}
 
 \begin{closurestatus}{\RealSequenceCauchyCriterionUp}

@@ -1,0 +1,11 @@
+\begin{theorem}[MetaCIC candidate normalization residual-join locality scope]
+\label{thm:metacic-candidate-normalization-confluence-handoff-scope}
+Any $\MetacicCandidateNormalizationConfluenceHandoffUp$ confluence handoff that exports residual-join data must first display the $\MetaCICCriticalPathUp$ source row, the residual-join locality row, and the $\MetaCICParallelDiamondFrontierUp$ boundary row. A confluence consumer may read the handoff only after these rows have been kept in the finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route; it cannot treat candidate-normalization evidence as global Church--Rosser, unrestricted residual-substitution compatibility, subject reduction, quotient syntax equality, evaluator soundness, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start from the handoff carrier of \autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}. Its candidate evidence, bounded endpoint, residual envelope, decidable boundary, blocked edge, transport, replay, provenance, and local naming rows remain visible before a confluence-facing consumer reaches any endpoint.
+
+Read the local sibling routes next. The critical-path and frontier route of \autoref{thm:metacic-candidate-normalization-confluence-handoff-criticalpath-parallel-frontier-route} exposes $\MetaCICCriticalPathUp$, while \autoref{thm:metacic-candidate-normalization-residual-join-scope} keeps residual joins scoped by candidate rows, residual windows, transport, replay, provenance, and local naming.
+
+Finally use \autoref{thm:metacic-candidate-normalization-confluence-handoff-parallel-diamond-frontier-route} together with \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}. The parallel-diamond frontier supplies the boundary row that a confluence consumer must see before reading the handoff, so the exported route remains a finite residual-join locality handoff rather than any of the excluded global MetaCIC claims.
+\end{proof}

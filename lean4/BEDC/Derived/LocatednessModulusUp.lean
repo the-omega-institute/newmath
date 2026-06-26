@@ -184,4 +184,84 @@ theorem LocatednessModulusCarrier_public_export [AskSetup] [PackageSetup]
   }
   exact ⟨cert, cellUnary, dyadicReadUnary, windowReadUnary, sealUnary⟩
 
+theorem LocatednessModulusCarrier_window_transport [AskSetup] [PackageSetup]
+    {request locatedInterval rationalCells dyadicRows streamWindow readback realSeal transport
+      replay provenance localName cellRead dyadicRead windowRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatednessModulusCarrier request locatedInterval rationalCells dyadicRows streamWindow
+        readback realSeal transport replay provenance localName bundle pkg →
+      Cont request locatedInterval cellRead →
+        Cont cellRead dyadicRows dyadicRead →
+          Cont dyadicRead streamWindow windowRead →
+            Cont windowRead realSeal sealRead →
+              PkgSig bundle provenance pkg →
+                PkgSig bundle sealRead pkg →
+                  UnaryHistory request ∧ UnaryHistory locatedInterval ∧
+                    UnaryHistory dyadicRead ∧ UnaryHistory windowRead ∧
+                      UnaryHistory sealRead ∧
+                        SemanticNameCert
+                            (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                            (fun row : BHist =>
+                              hsame row request ∨ hsame row locatedInterval ∨
+                                hsame row dyadicRows ∨ hsame row streamWindow ∨
+                                  hsame row realSeal ∨ hsame row sealRead)
+                            (fun row : BHist =>
+                              UnaryHistory row ∧ Cont request locatedInterval cellRead ∧
+                                Cont cellRead dyadicRows dyadicRead ∧
+                                  Cont dyadicRead streamWindow windowRead ∧
+                                    Cont windowRead realSeal sealRead ∧
+                                      PkgSig bundle sealRead pkg)
+                            hsame := by
+  -- BEDC touchpoint anchor: LocatednessModulusCarrier BHist ProbeBundle Pkg Cont hsame
+  -- SemanticNameCert UnaryHistory
+  intro carrier requestLocated cellDyadic dyadicWindow windowSeal _provenancePkg sealPkg
+  obtain ⟨requestUnary, locatedUnary, _rationalUnary, dyadicUnary, streamUnary,
+    _readbackUnary, realSealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _carrierProvenancePkg, _localNamePkg⟩ := carrier
+  have cellUnary : UnaryHistory cellRead :=
+    unary_cont_closed requestUnary locatedUnary requestLocated
+  have dyadicReadUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed cellUnary dyadicUnary cellDyadic
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed dyadicReadUnary streamUnary dyadicWindow
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed windowReadUnary realSealUnary windowSeal
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row request ∨ hsame row locatedInterval ∨ hsame row dyadicRows ∨
+              hsame row streamWindow ∨ hsame row realSeal ∨ hsame row sealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont request locatedInterval cellRead ∧
+              Cont cellRead dyadicRows dyadicRead ∧ Cont dyadicRead streamWindow windowRead ∧
+                Cont windowRead realSeal sealRead ∧ PkgSig bundle sealRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealRead ⟨hsame_refl sealRead, sealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, requestLocated, cellDyadic, dyadicWindow, windowSeal, sealPkg⟩
+  }
+  exact ⟨requestUnary, locatedUnary, dyadicReadUnary, windowReadUnary, sealUnary, cert⟩
+
 end BEDC.Derived.LocatednessModulusUp
