@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicPhaseEnergyTransportUp$}
+\label{ch:concrete-instances-hyperbolic-phase-energy-transport-namecert}
+\origin{ai}
+
+The $\HyperbolicPhaseEnergyTransportUp$ packet realizes the hyperbolic phase transport rows of \autoref{ch:visions-hyperbolic-phase-geometry-observer-expansion} as finite phase-energy transport data. It sits between the metric and disk carriers of \autoref{ch:concrete-instances-hyperbolic-metric-namecert} and \autoref{ch:concrete-instances-poincare-disk-metric-namecert}, the reversible phase surface of \autoref{ch:concrete-instances-observer-phase-groupoid-namecert}, the energy ledger of \autoref{ch:concrete-instances-hyperbolic-phase-energy-ledger-namecert}, and the bounded phase-transport route of \autoref{ch:concrete-instances-hyperbolic-phase-transport-budget-namecert}. The packet names a finite transport-with-energy readback surface; it does not assert physical energy conservation, continuous geodesic dynamics, global curvature integration, or selected observer motion.
+
+\begin{definition}[HyperbolicPhaseEnergyTransport carrier]
+\label{def:hyperbolic-phase-energy-transport-carrier}
+A $\HyperbolicPhaseEnergyTransportUp$ carrier is a finite $\BHist$ packet
+$$
+E=(D,M,Q,U,L,B,R,S,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the consumed Poincare disk metric row.
+\item $M$ is the consumed hyperbolic metric row.
+\item $Q$ is the observer-phase groupoid transport row naming reversible phase motion between displayed endpoints.
+\item $U$ is the phase-energy transport row, recording the finite source endpoint, target endpoint, phase label, and energy-budget label.
+\item $L$ is the consumed $\HyperbolicPhaseEnergyLedgerUp$ row used to read the energy side of the transport.
+\item $B$ is the consumed $\HyperbolicPhaseTransportBudgetUp$ row bounding the transport before any public read.
+\item $R$ is the regular-rational readback row for the displayed transport budget.
+\item $S$ is the $\RealUp$ seal preventing the budget readback from becoming an unlogged host scalar.
+\item $F$ is the TasteGate-facing row requiring Lean \texttt{Nontrivial} and \texttt{FieldFaithful} instances for the carrier fields.
+\item $H$ records componentwise $\hsame$ transport for disk, metric, phase groupoid, energy transport, ledger, budget, readback, seal, TasteGate-facing, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for phase transport, energy-ledger readback, budget exposure, and Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\PoincareDiskMetricUp$, $\HyperbolicMetricUp$, $\ObserverPhaseGroupoidUp$, $\HyperbolicPhaseEnergyLedgerUp$, $\HyperbolicPhaseTransportBudgetUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HyperbolicPhaseEnergyTransportUp}$ row.
+\end{enumerate}
+No carrier coordinate stores a continuous geodesic flow, physical Hamiltonian system, global conservation law, host curvature integral, or selected observer trajectory.
+\end{definition}
+
+\begin{theorem}[HyperbolicPhaseEnergyTransport NameCert obligations]
+\label{thm:hyperbolic-phase-energy-transport-namecert-obligations}
+For every accepted $\HyperbolicPhaseEnergyTransportUp$ carrier $E=(D,M,Q,U,L,B,R,S,F,H,C,P,N)$, the local $\NameCert_{\HyperbolicPhaseEnergyTransportUp}$ surface consists exactly of disk-metric admission, hyperbolic-metric admission, reversible phase-groupoid transport, phase-energy transport exposure, energy-ledger readback, phase-transport budget exposure, regular-rational readback, Real-seal nonescape, TasteGate-facing nontriviality and field-faithfulness requirements, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+
+The surface is a finite transport-with-energy packet. It does not claim global hyperbolic dynamics, physical conservation, curvature integration, selected observer motion, or a host analytic energy theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-phase-energy-transport-carrier}. The disk and metric rows $D,M$ must be visible before the phase groupoid transport $Q$ is read, and the transport row $U$ is only a finite endpoint-and-budget row over that displayed metric surface.
+
+Next expose the energy ledger $L$ and phase-transport budget $B$. These rows keep the energy readback and transport bound inside the finite packet before the regular-rational row $R$ and Real seal $S$ can be inspected.
+
+Finally use the TasteGate-facing row $F$ and structural rows $H,C,P,N$. They require field separation, componentwise transport, displayed replay, provenance, and local naming for exactly the displayed rows, so no physical conservation law, global hyperbolic flow, host curvature integral, or selected trajectory is exported.
+\end{proof}
+
+\begin{theorem}[HyperbolicPhaseEnergyTransport budget nonescape]
+\label{thm:hyperbolic-phase-energy-transport-budget-nonescape}
+Any public read of an accepted $\HyperbolicPhaseEnergyTransportUp$ packet must pass through the metric rows $D,M$, the phase-groupoid row $Q$, the transport row $U$, the energy ledger $L$, and the budget row $B$ before it reaches the readback and Real-seal rows $R,S$. Therefore a read that omits any one of $D,M,Q,U,L,B,H,C,P,N$ is not a $\HyperbolicPhaseEnergyTransportUp$ read, and the packet cannot be reread as a bare Real scalar or a physical energy law.
+\end{theorem}
+\begin{proof}
+The carrier definition orders the readback rows after the displayed metric, phase-transport, energy-ledger, and budget rows. Thus $R$ and $S$ are not independent numeric payloads; they are sealed readbacks of the finite route.
+
+Componentwise transport and continuation replay preserve that route under $H$ and $C$. Package provenance and local naming then repack the same displayed rows as the public certificate.
+
+If a consumer reaches a Real-facing value without one of the named rows, it has left the carrier surface. The theorem therefore records nonescape for the finite budget route rather than any analytic or physical conservation claim.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HyperbolicPhaseEnergyTransportUp$ packet exposes $\PoincareDiskMetricUp$, $\HyperbolicMetricUp$, $\ObserverPhaseGroupoidUp$, $\HyperbolicPhaseEnergyLedgerUp$, and $\HyperbolicPhaseTransportBudgetUp$ rows before any $\RealUp$ energy-transport seal; a read that reaches the seal without those rows refutes the carrier surface.}
+
+\independenceWitness{hyperbolic-phase-energy-ledger, hyperbolic-phase-transport-budget, observer-phase-groupoid, hyperbolic-phase-curvature-budget, hyperbolic-phase-ledger: no listed sibling is bijective to $\HyperbolicPhaseEnergyTransportUp$ because this packet jointly carries disk metric data, hyperbolic metric comparison, reversible phase transport, energy-ledger readback, transport-budget exposure, regular readback, Real sealing, TasteGate-facing field separation, transport, replay, provenance, and local naming.}
+
+The Lean TasteGate file \texttt{lean4/BEDC/Derived/HyperbolicPhaseEnergyTransportUp/TasteGate.lean} must provide \texttt{Nontrivial} and \texttt{FieldFaithful} instances for $\HyperbolicPhaseEnergyTransportUp$. Those instances must preserve $D,M,Q,U,L,B,R,S,F,H,C,P,N$ as distinct fields before any carrier-alignment theorem can serve as a TasteGate witness.
+
+\closureat{HyperbolicPhaseEnergyTransportUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicPhaseEnergyTransportUp}
+  \constructivestory{A $\HyperbolicPhaseEnergyTransportUp$ packet is generated from PoincareDiskMetricUp disk data, HyperbolicMetricUp metric rows, ObserverPhaseGroupoidUp reversible phase transport, a finite energy-transport row, HyperbolicPhaseEnergyLedgerUp readback, HyperbolicPhaseTransportBudgetUp bounds, RegSeqRatUp readback, a RealUp seal, TasteGate-facing field-separation requirements, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-phase-energy-transport-carrier}, \autoref{thm:hyperbolic-phase-energy-transport-namecert-obligations}, and \autoref{thm:hyperbolic-phase-energy-transport-budget-nonescape} seed the finite phase-energy transport carrier, NameCert surface, and budget nonescape route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close physical energy conservation, continuous geodesic dynamics, global curvature integration, selected observer motion, Lean verification, or bridge checking for $\HyperbolicPhaseEnergyTransportUp$.}
+  \upgradepath{Obligation closure requires checked disk admission, metric admission, phase-groupoid transport, energy-transport exposure, energy-ledger readback, budget exposure, Real-seal nonescape, TasteGate nontriviality, field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.HyperbolicPhaseEnergyTransportUp.}
+\end{closurestatus}
