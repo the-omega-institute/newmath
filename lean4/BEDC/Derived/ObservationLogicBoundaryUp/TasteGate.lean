@@ -1,11 +1,23 @@
+import BEDC.Derived.LogicContradictionMetaLoopUp.NameCertObligations
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ObservationLogicBoundaryUp
 
+open BEDC.Derived.LogicContradictionMetaLoopUp
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -213,5 +225,35 @@ theorem ObservationLogicBoundaryTasteGate_single_carrier_alignment :
       observationLogicBoundary_round_trip,
       (fun _ _ heq => observationLogicBoundaryToEventFlow_injective heq),
       rfl⟩
+
+theorem ObservationLogicBoundary_logic_metaLoop_nonescape_handoff [AskSetup] [PackageSetup]
+    {observation logic metaLoop phaseRefusal gapAudit residue transport replay provenance
+      localCert routeRead gateRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LogicContradictionMetaLoopCarrier logic observation metaLoop phaseRefusal transport replay
+        provenance localCert bundle pkg →
+      Cont logic observation routeRead →
+        Cont routeRead metaLoop gateRead →
+          PkgSig bundle gateRead pkg →
+            observationLogicBoundaryFields
+                  (ObservationLogicBoundaryUp.mk observation logic metaLoop phaseRefusal gapAudit
+                    residue transport replay provenance localCert) =
+                [observation, logic, metaLoop, phaseRefusal, gapAudit, residue, transport,
+                  replay, provenance, localCert] ∧
+              UnaryHistory logic ∧ UnaryHistory observation ∧ UnaryHistory metaLoop ∧
+                UnaryHistory phaseRefusal ∧ UnaryHistory routeRead ∧ UnaryHistory gateRead ∧
+                  Cont logic observation routeRead ∧ Cont routeRead metaLoop gateRead ∧
+                    Cont metaLoop phaseRefusal replay ∧ Cont transport replay provenance ∧
+                      PkgSig bundle localCert pkg ∧ PkgSig bundle gateRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier routeCont gateCont gatePkg
+  have nonescape :
+      UnaryHistory logic ∧ UnaryHistory observation ∧ UnaryHistory metaLoop ∧
+        UnaryHistory phaseRefusal ∧ UnaryHistory routeRead ∧ UnaryHistory gateRead ∧
+          Cont logic observation routeRead ∧ Cont routeRead metaLoop gateRead ∧
+            Cont metaLoop phaseRefusal replay ∧ Cont transport replay provenance ∧
+              PkgSig bundle localCert pkg ∧ PkgSig bundle gateRead pkg :=
+    LogicContradictionMetaLoopCarrier_nonescape carrier routeCont gateCont gatePkg
+  exact ⟨rfl, nonescape⟩
 
 end BEDC.Derived.ObservationLogicBoundaryUp
