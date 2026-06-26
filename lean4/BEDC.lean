@@ -11897,6 +11897,7 @@ import BEDC.Derived.SturmRootIsolationUp.NameCertObligations
 import BEDC.Derived.SturmRootIsolationUp.ObligationClosureRoute
 import BEDC.Derived.SturmRootIsolationUp.ScopedKernelBinding
 import BEDC.Derived.SturmRootIsolationUp.SignVariationHandoff
+import BEDC.Derived.SturmRootIsolationUp.SquarefreeRoute
 import BEDC.Derived.SturmRootIsolationUp.TasteGate
 import BEDC.Derived.SturmSequenceUp.TasteGate
 import BEDC.Derived.SubdifferentialUp.TasteGate
