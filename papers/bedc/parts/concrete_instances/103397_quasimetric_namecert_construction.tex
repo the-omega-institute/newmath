@@ -101,6 +101,22 @@ Apply \autoref{thm:quasi-metric-directed-ball-handoff}. Every directed-ball, Cau
 A metric-facing consumer may read the sibling metric surface of \autoref{ch:concrete-instances-metric-namecert} only as a reflected reader named by $E$ or $P$. Since the carrier has no primitive coordinate for symmetry, quotient completion, selected limits, host equality, \texttt{Classical.choice}, or \texttt{Quot.sound}, those exits remain unavailable.
 \end{proof}
 
+\begin{theorem}[QuasiMetric directed-ball triangle refinement]
+\label{thm:quasimetric-directed-ball-triangle-refinement}
+Let
+$$
+Q=(S,X,D,Z,T,B,F,R,E,H,C,P,N)
+$$
+be an accepted $\QuasiMetricUp$ packet. If two displayed directed-ball reads in $B$ have compatible middle endpoint, with the first read routed from $x$ to $y$ and the second from $y$ to $z$, then their composed directed-ball read is exposed only through the asymmetric triangle row $T$, preserving the source row $S$, point rows $X$, directed-distance ledger $D$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\QuasiMetricUp}$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier surface of \autoref{def:quasi-metric-carrier}. The two directed-ball reads have no source other than $S,X,D,Z,T,B$, and the middle endpoint compatibility is a displayed point-row match inside $X$ rather than a separated point identity.
+
+Use the oriented triangle obligation in \autoref{thm:quasi-metric-namecert-obligations}. It requires each triangle comparison to be stored in $T$ with ordered endpoints, so composing the $x$ to $y$ and $y$ to $z$ ball reads can only read the displayed asymmetric triangle witness.
+
+The handoff theorem \autoref{thm:quasi-metric-directed-ball-handoff} then routes the composed directed ball through $B$ and onward to any Cauchy, uniform, or completion-facing consumer. The support rows $H,C,P,N$ transport, replay, package, and name the same directed-distance witnesses, while \autoref{thm:quasi-metric-nonescape} excludes symmetry, quotient completion, selected limits, host metric equality, \texttt{Classical.choice}, and \texttt{Quot.sound}.
+\end{proof}
+
 \closureat{QuasiMetricUp}{seedStr}
 
 \begin{closurestatus}{\QuasiMetricUp}
