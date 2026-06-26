@@ -875,6 +875,19 @@
      "reason": "Powered table-level test (n=9 code tables, gate >=8). Raw Spearman corr(P_e, x_e)=+0.417 (p=0.270, not significant, and sign-FLIPPED from the per-event boundary lead's -0.81, confirming that lead was a per-table pseudoreplication artifact). Controlling reassignment-count the partial correlation collapses to -0.057 (p=0.883): AT-mutational-regime does NOT predict edge-hiding preservation. Necessity: reassignment-count alone explains R^2=0.676 of edge-hiding preservation while adding the AT predictor contributes only delta_R^2=0.011. Verdict refuted: edge-hiding contravariance preservation is governed by how many codons a code table reassigns (code-table structural depth), NOT by the genome's mutational/AT regime. The two flagship results do NOT unify under the GC/mutational axis -- edge-hiding is structurally independent of the mutational force that explains codon-E1. This definitively resolves the boundary-predictor's suggestive AT lead as a reassignment-count confound. Single pre-registered predictor, no feature-hunting; phylogenetic non-independence of code tables noted. Not Window6, not causal."
     }
    ]
+  },
+  {
+   "claim_id": "bridge.genetic_code.asd_shadow_exclusion",
+   "statement": "ASD-shadow exclusion (oracle-proposed new frontier; carrier = an independent biochemical object, the organism's own 16S rRNA 3' anti-SD tail): do bacterial/archaeal CDS avoid, at the SYNONYMOUS coding level, internal Shine-Dalgarno-like motifs that strongly pair with their own 16S 3' tail (such motifs cause ribosome pausing)? High-expression (ribosomal-protein) genes vs length/GC3/strand/gene-GC-matched background; burden = mean exp(pairing-to-own-16S-tail) over internal CDS windows via a precomputed k-mer table; Z_g vs AA+GC3+GC+dinucleotide-constrained synonymous recodings; D_o = Z_HEG - Z_BG; decoy-rank null (composition + pairing-strength + heterologous foreign-16S-tail decoys) to defeat the Yurovsky generic-G-rich-depletion critique; Gate-N2 necessity (true tail beats canonical AGGAGG in non-canonical taxa); GTDB block bootstrap. Scoped ONLY to canonical Shine-Dalgarno (leadered) initiation taxa; not leaderless/S1-dependent/divergent-anti-SD; not causal proof. Not Window6.",
+   "status": "needs_external",
+   "experiment_id": "asd_shadow_exclusion",
+   "history": [
+    {
+     "ts": "2026-06-26T18:06:52+00:00",
+     "status": "needs_external",
+     "reason": "PILOT (n=31 organisms: 27 bacteria + 4 archaea, 18 GTDB families, ~52% fetch success, 22min) on a warm 232-genome cache. The certification data-gate (>=250 genus reps / >=30 families) is unmet, so status is needs_external; BUT the directional point estimate is ANTI-PREDICTED, not a promising-lead-awaiting-data: median_D_o = +0.95 (predicted < 0), median_Z_HEG = +1.04 (HEG show MORE internal anti-SD-shadow than their synonymous recodings, not less), and median decoy-rank = 0.62 (predicted near 0 -- the true 16S carrier is NOT more avoided than composition/pairing-strength/heterologous-matched decoys), Gate-N2 C = +0.16 (predicted < 0). Block-bootstrap family_d p=0.14 (n.s., CI95 [-0.14, 1.24] spans both signs). Interpretation: at pilot scale there is NO evidence that internal ASD-shadow burden is specifically avoided by synonymous coding in high-expression genes after matched controls; if anything HEG carry slightly more shadow, and the own-16S carrier is not special among decoys. The pilot validates the full sshx-vetted pipeline (independent 16S-tail carrier, strengthened decoys incl. heterologous, k-mer precompute, resumable cached fetch) and demonstrates feasibility, but the signal is directionally null/reversed. A full 250+ genus panel would give a firm certified/coincidence/refuted, yet the strongly anti-predicted pilot point estimate makes certification unlikely; scale-vs-pivot deferred to oracle. Scoped to canonical-SD leadered taxa; not causal. Not Window6."
+    }
+   ]
   }
  ]
 }
