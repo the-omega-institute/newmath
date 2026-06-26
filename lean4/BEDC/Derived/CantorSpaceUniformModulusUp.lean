@@ -285,4 +285,36 @@ theorem CantorSpaceUniformModulusCarrier_namecert_obligations [AskSetup] [Packag
     ⟨cert, prefixReadUnary, windowReadUnary, toleranceReadUnary, readbackReadUnary,
       sealReadUnary, replayReadUnary⟩
 
+theorem CantorSpaceUniformModulusSibling_route
+    {F A B S D R U E H C P N prefixRead windowRead toleranceRead regRead uniformRead
+      sealRead : BHist} :
+    UnaryHistory F →
+      UnaryHistory A →
+        UnaryHistory S →
+          UnaryHistory D →
+            UnaryHistory R →
+              UnaryHistory U →
+                UnaryHistory E →
+                  Cont F A prefixRead →
+                    Cont prefixRead S windowRead →
+                      Cont windowRead D toleranceRead →
+                        Cont toleranceRead R regRead →
+                          Cont regRead U uniformRead →
+                            Cont uniformRead E sealRead →
+                              UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro fanUnary cantorUnary streamUnary dyadicUnary regUnary uniformUnary realUnary
+    prefixRoute windowRoute toleranceRoute regRoute uniformRoute sealRoute
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed fanUnary cantorUnary prefixRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed prefixUnary streamUnary windowRoute
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed windowUnary dyadicUnary toleranceRoute
+  have regReadUnary : UnaryHistory regRead :=
+    unary_cont_closed toleranceUnary regUnary regRoute
+  have uniformReadUnary : UnaryHistory uniformRead :=
+    unary_cont_closed regReadUnary uniformUnary uniformRoute
+  exact unary_cont_closed uniformReadUnary realUnary sealRoute
+
 end BEDC.Derived.CantorSpaceUniformModulusUp
