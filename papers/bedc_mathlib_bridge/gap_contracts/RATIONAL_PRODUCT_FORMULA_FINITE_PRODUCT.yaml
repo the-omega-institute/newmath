@@ -1,0 +1,114 @@
+# Gap acceptance contract — single canonical source for what "high quality" means
+# for this bridge-driven gap. The concrete_instances seed-stub references this
+# file by path + SHA; it does NOT duplicate the law inventory (single source of
+# truth = this file + MATRIX.md + the bridge Lean correspondence).
+#
+# Discipline (from /sshx + ChatGPT-5.5-Pro consensus 2026-06-27):
+#   - Main pipeline is mathlib-free; this contract uses BEDC-native names only.
+#   - "gap closed" authority is NOT file-exists / compiles / keyword-coverage.
+#     It is: bridge MATRIX row -> exported_core, passing Gate W (thin mathlib
+#     correspondence that CONSUMES the BEDC final theorem) + Gate H + axiom-ledger.
+#   - The expected_type probes below are mechanical anti-shallow checks that run
+#     with `import BEDC.Derived.RationalUp` ONLY (no mathlib): a parameter-echo or
+#     generic theorem fails the exact-type `#check`. They are advisory until the
+#     gap matures; the bridge correspondence remains the closure authority.
+
+gap_id: RATIONAL_PRODUCT_FORMULA_FINITE_PRODUCT
+kind: missing-structure
+feed: yes
+matrix_row: bedc-rational-product-formula
+bedc_home: BEDC.Derived.RationalUp
+
+mathlib:
+  # provenance only — NEVER imported by main lean4/; lives on the bridge side.
+  target: "global product formula for nonzero rationals  ∏_v |x|_v = 1"
+  class: Rat.productFormula
+  instance: Rat.globalProductFormula
+
+# Already 0-axiom in BEDC core (bridge row checks these). The gap BUILDS ON them;
+# do NOT re-derive or shadow these.
+build_on:
+  - BEDC.Derived.RationalUp.ratVal                # p-adic valuation index on rationals
+  - BEDC.Derived.RationalUp.ratValIndex
+  - BEDC.Derived.RationalUp.ratVal_well_defined   # valuation transport across RatEq
+  - BEDC.Derived.RationalUp.ratVal_mul            # multiplicativity of valuation index
+  - BEDC.Derived.RationalUp.ratAbsInfty           # archimedean absolute value
+  - BEDC.Derived.RationalUp.rational_product_formula_factorization_bridge
+  - BEDC.Derived.PrimeUp.PrimeFactorizationProduct  # finite prime-power product data
+
+# The missing structure the gap requires. Names are BEDC-native targets the
+# pipeline must IMPLEMENT (not mathlib names). Keep the public surface small.
+max_extra_public_decls: 6
+
+required_structure:
+  - id: finite_place_support
+    role: "finite set/list of primes where ratVal is nonzero for a nonzero rational"
+    note: "must be derived from PrimeFactorizationProduct, not an arbitrary Nat index"
+  - id: finite_place_product
+    role: "BEDC-native finite product of the p-indexed absolute values over the support"
+    note: "must consume ratVal (per-prime factor) and the support above"
+
+# Each law must be a real theorem consuming the named decls — not a parameter echo,
+# not a generic identity. The expected_type is the GOAL shape in BEDC-native terms;
+# the worker may adapt names but the type must be exact-checkable and non-degenerate.
+laws:
+  - id: PF.support_finite
+    role: "the place support of a nonzero rational is finite"
+    must_consume: [finite_place_support, ratVal]
+  - id: PF.outside_support_trivial
+    role: "outside the finite support, the p-adic factor contributes the unit"
+    must_consume: [finite_place_support, ratVal]
+  - id: PF.local_factor_multiplicative
+    role: "per-prime absolute-value factor is multiplicative (reuse ratVal_mul)"
+    must_consume: [ratVal, ratVal_mul]
+  - id: PF.arch_factor_multiplicative
+    role: "archimedean factor is multiplicative (reuse ratAbsInfty)"
+    must_consume: [ratAbsInfty]
+  - id: PF.exponent_cancellation
+    role: "numerator/denominator prime exponents cancel against the archimedean factor"
+    must_consume: [ratVal, ratAbsInfty, finite_place_support, rational_product_formula_factorization_bridge]
+  - id: PF.product_formula
+    role: "final finite prime-indexed product formula  arch * ∏_p padic = unit"
+    must_consume: [finite_place_product, finite_place_support, ratVal, ratAbsInfty]
+    is_final: true
+
+# The single final theorem the bridge correspondence MUST consume.
+final_theorem:
+  bedc_decl: BEDC.Derived.RationalUp.rational_finite_place_product_formula
+  # expected_type is illustrative of the required shape (BEDC-native names, no mathlib):
+  expected_type_shape: |
+    ∀ q, RationalUp.Nonzero q →
+      RationalUp.ratMul
+        (RationalUp.ratAbsInfty q)
+        (RationalUp.finitePlaceProduct (RationalUp.finitePlaceSupport q)
+           (fun p => RationalUp.padicFactor p q))
+      = RationalUp.ratOne
+  no_extra_hypotheses: true        # reject `(h : P q) : P q := h`
+  reject_parameter_echo: true
+  reject_generic_identity: true    # reject `∀ S f, prod S f = prod S f`
+
+# Degenerate shapes that auto-fail for THIS bridge-driven chapter (stricter than
+# a generic seed, because there is an external mathlib comparator).
+forbidden:
+  - parameter-echo theorems (conclusion repeats a hypothesis)
+  - mechanical-arity suffixes (_two/_three/_alt/_with_fields/_source_equivalence)
+  - carrier/def with no theorem consuming it (shallow growth)
+  - marker-only / register-only round (only closurestatus/markers changed)
+  - public decls beyond max_extra_public_decls without a logged reason
+
+not_claimed:
+  - "the mathlib correspondence itself is NOT claimed in BEDC; it lives on the bridge side"
+  - "no quotient / Classical.choice / Quot.sound / propext may enter BEDC for this gap"
+
+# Closure authority — the ONLY signal that the gap is truly, high-quality closed.
+closure:
+  bedc_side:
+    - "BEDC.Derived.RationalUp compiles (lake build)"
+    - "0 axiom / 0 sorry under BEDC axiom policy (#print axioms clean)"
+    - "phase_d_lint + bedc_ci audit --shape-saturation pass; no forbidden shapes"
+    - "the final_theorem.bedc_decl exact-typechecks at the required non-degenerate shape"
+  bridge_side:
+    - "MATRIX row bedc-rational-product-formula transitions blocked-on-bedc -> exported_core"
+    - "a thin correspondence theorem CONSUMES rational_finite_place_product_formula (no mathlib-side reproof)"
+    - "Gate W + Gate H pass; axiom-ledger matches the expected budget"
+  rule: "file-exists / compiles / keyword-coverage are NOT closure. exported_core + thin-correspondence is."
