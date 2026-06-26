@@ -137,6 +137,8 @@ Codon E1 Known Force Union Irreducibility & Codon-E1 known-force-union irreducib
 Codon Second Conserved Geometry & Second cross-domain conserved codon geometry audit (program closure after E1\_KFU): beyond the known-force union (GC/mutation equilibrium + tRNA supply + high-expression selection + missense cost) and the first-order codon-E1 geometry, does a SECOND cross-domain-conserved synonymous-usage geometry exist? Pre-specified candidate = the second-order Krawtchouk component (position-pair chemical characters) orthogonalized against both first-order B1 and the full known-force union. Held-out cross-domain test (discover direction on Bacteria, test out-of-sample on Archaea, symmetrized), defined by cross-domain agreement not top-variance; GC-preserving within-family relabel null with whole-pipeline per-draw refit; Frisch-Waugh-Lovell completeness gate (union+GC-moment residual must carry no recoverable composition). Negative result is power-bounded (n\textasciitilde{}17 Archaea genera) not an absolute-absence claim; not Window6, not causal. & \texttt{refuted} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.edge_hiding_boundary_mutational_predictor status=needs_external
 Edge Hiding Boundary Mutational Predictor & Mechanistic predictor of the edge-hiding mito/non-mito preservation boundary: does the same GC/AT mutational-equilibrium force that reduced codon-E1 also gate where edge-hiding contravariance preservation holds (mitochondrial reassignments) vs fails (non-mito)? Carrier: per independent reassignment event (Shulgina-Eddy catalogue, mito + non-mito), pair the certified edge-hiding preservation score P\_e with a SINGLE pre-registered predictor x\_e = genomic GC/AT equilibrium from 4-fold-degenerate sites; mito label held out as stratifier/covariate (never a feature); within-stratum rank correlation + decisive out-of-taxon transfer test; within-stratum block-permutation null + reassignment-free sister-genome control; necessity by dropping x\_e. Tests whether the two flagship results (edge-hiding contravariance; GC-driven codon-E1) unify under one mutational axis. Not Window6, not causal. & \texttt{needs\_external} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.edge_hiding_mito_table_mutational_gradient status=refuted
+Edge Hiding Mito Table Mutational Gradient & Table-level mutational-regime gradient of edge-hiding preservation across organellar/alternative genetic codes (properly-powered, de-pseudoreplicated successor to the boundary-predictor lead): does a genetic code table's AT/GC mutational-equilibrium predict its edge-hiding contravariance preservation, i.e. do the two flagship results (edge-hiding; GC-driven codon-E1) unify under one mutational axis? Unit = code table (fixes the per-table P\_e pseudoreplication that inflated the per-event boundary correlation); single pre-registered predictor x\_e = AT 4-fold-degenerate equilibrium aggregated per table; reassignment-count as a control covariate; table-level permutation null + partial correlation + bootstrap; necessity by dropping x\_e. Not Window6, not causal. & \texttt{refuted} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -1601,3 +1603,20 @@ mutational axis. Not Window6, not causal.
 count.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_edge\_hiding\_boundary\_mutational\_predictor.py
+
+\subsection{Edge Hiding Mito Table Mutational Gradient}\label{sec:bridge-edge-hiding-mito-table-mutational-gradient}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.edge_hiding_mito_table_mutational_gradient status=refuted
+\textbf{Statement.} Table-level mutational-regime gradient of edge-hiding preservation across organellar/alternative
+genetic codes (properly-powered, de-pseudoreplicated successor to the boundary-predictor lead): does
+a genetic code table's AT/GC mutational-equilibrium predict its edge-hiding contravariance
+preservation, i.e. do the two flagship results (edge-hiding; GC-driven codon-E1) unify under one
+mutational axis? Unit = code table (fixes the per-table P\_e pseudoreplication that inflated the
+per-event boundary correlation); single pre-registered predictor x\_e = AT 4-fold-degenerate
+equilibrium aggregated per table; reassignment-count as a control covariate; table-level permutation
+null + partial correlation + bootstrap; necessity by dropping x\_e. Not Window6, not causal.
+
+\textbf{Verdict.} \texttt{refuted}.
+
+\textbf{Why.} Powered table-level test (n=9 code tables, gate >=8).
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_edge\_hiding\_mito\_table\_mutational\_gradient.py
