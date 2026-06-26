@@ -136,6 +136,7 @@ import BEDC.Derived.ApartnessSpaceUp.TasteGate
 import BEDC.Derived.ApartnessSpaceUp.TransportAndReplay
 import BEDC.Derived.ApartnessTopologyUp.Route
 import BEDC.Derived.ApartnessTopologyUp.TasteGate
+import BEDC.Derived.AperyUp
 import BEDC.Derived.ApophaticBoundarySocketStackUp.TasteGate
 import BEDC.Derived.ApophaticFarEndSocketUp.TasteGate
 import BEDC.Derived.ApophaticFiberFarEndUp.TasteGate
@@ -900,6 +901,7 @@ import BEDC.Derived.BertrandSeriesTestUp.TasteGate
 import BEDC.Derived.BertrandTestUp
 import BEDC.Derived.BesovSpaceUp.TasteGate
 import BEDC.Derived.BesselInequalityUp.TasteGate
+import BEDC.Derived.BesselNumberUp
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BetaCongruenceDomainAuditUp.TasteGate
 import BEDC.Derived.BetaCriticalPairUp.NameCertObligations
@@ -7020,6 +7022,7 @@ import BEDC.Derived.JordanVariationDecompositionUp.TasteGate
 import BEDC.Derived.KKTUp
 import BEDC.Derived.KKTUp.StationarityTransport
 import BEDC.Derived.KKTUp.TasteGate
+import BEDC.Derived.KroneckerSymbolUp
 import BEDC.Derived.KSpaceUp.TasteGate
 import BEDC.Derived.KakutaniFixedPointUp.TasteGate
 import BEDC.Derived.KalmanFilterUp
@@ -7234,6 +7237,7 @@ import BEDC.Derived.LebesgueDifferentiationUp.TasteGate
 import BEDC.Derived.LebesgueNumberFiniteCoverUp.TasteGate
 import BEDC.Derived.LebesgueNumberLemmaUp.TasteGate
 import BEDC.Derived.LebesgueStieltjesMeasureUp.TasteGate
+import BEDC.Derived.LegendreDichotomyUp
 import BEDC.Derived.LegendrePolynomialUp.TasteGate
 import BEDC.Derived.LegendreUp
 import BEDC.Derived.LeibnizAlternatingRemainderUp.TasteGate
@@ -11152,6 +11156,7 @@ import BEDC.Derived.RingUp.StdBridge
 import BEDC.Derived.RingUp.SubtractionDistributivity
 import BEDC.Derived.RingUp.ZeroFactor
 import BEDC.Derived.RingedSpaceUp
+import BEDC.Derived.RiordanUp
 import BEDC.Derived.RisingSunLemmaUp.TasteGate
 import BEDC.Derived.RoleSeparationLedgerUp.TasteGate
 import BEDC.Derived.RolleTheoremUp.TasteGate
@@ -12674,6 +12679,7 @@ import BEDC.Derived.VietorisTopologyUp.TasteGate
 import BEDC.Derived.ViscositySolutionUp.TasteGate
 import BEDC.Derived.VitaliCoverUp.TasteGate
 import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
+import BEDC.Derived.VonStaudtClausenUp
 import BEDC.Derived.VonneumannalgebraUp
 import BEDC.Derived.WLPOBoundaryUp.TasteGate
 import BEDC.Derived.WRRHotspotCubeUp.TasteGate
