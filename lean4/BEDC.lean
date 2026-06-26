@@ -7509,6 +7509,7 @@ import BEDC.Derived.LocatedSupremumUp.StandardBridgeRoute
 import BEDC.Derived.LocatedSupremumUp.StreamNameCutScope
 import BEDC.Derived.LocatedSupremumUp.TasteGate
 import BEDC.Derived.LocatedSupremumUp.WindowTransport
+import BEDC.Derived.LocatedTranscendental
 import BEDC.Derived.LocatedUniformCauchyLimitUp.TasteGate
 import BEDC.Derived.LocatedUniformCauchyPrincipleUp.TasteGate
 import BEDC.Derived.LocatedUniformCompletionUp.DensityRoute
