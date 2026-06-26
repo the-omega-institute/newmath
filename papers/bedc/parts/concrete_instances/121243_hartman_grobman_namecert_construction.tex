@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\HartmanGrobmanUp$}
+\label{ch:concrete-instances-hartman-grobman-namecert}
+\origin{human}
+
+Following Hartman and Grobman on local hyperbolic dynamics, the $\HartmanGrobmanUp$ packet records the finite BEDC surface by which a nonlinear local flow near a hyperbolic fixed point is compared with its linearized flow on a displayed conjugacy window. It sits after the ODE source of \autoref{ch:concrete-instances-ode-namecert}, the local-flow endpoint packet of \autoref{ch:concrete-instances-picard-lindelof-local-flow-namecert}, the Gronwall comparison surface of \autoref{ch:concrete-instances-gronwall-inequality-namecert}, the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names local linearization data only as finite NameCert rows; it is not a global conjugacy theorem, a selected stable manifold, a host solution operator, or a quotient equality of paths.
+
+\begin{definition}[Hartman--Grobman carrier]
+\label{def:hartman-grobman-carrier}
+A $\HartmanGrobmanUp$ carrier is a finite $\BHist$ packet
+$$
+G=(F,A,L,U,W,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the nonlinear local-flow row, read from the displayed $\OdeUp$ source and the $\PicardLindelofLocalFlowUp$ endpoint packet on one local time window.
+\item $A$ is the hyperbolic fixed-point row, recording the fixed point, the local chart basepoint, and the finite spectral separation ledger used by the comparison.
+\item $L$ is the linearized-flow row, displaying the derivative or linear comparison row on the same chart window.
+\item $U$ is the local chart row, carrying the metric neighbourhood, coordinate window, and real endpoint reads through $\MetricUp$ and $\RealUp$ rows.
+\item $W$ is the conjugacy-window row, naming the finite domain on which nonlinear and linear orbit segments are compared.
+\item $O$ is the orbit-comparison ledger, with the $\GronwallInequalityUp$ row and tolerance budget used to compare the nonlinear and linear segment reads.
+\item $H$ records componentwise $\hsame$ transport for nonlinear flow, hyperbolic fixed point, linearized flow, local chart, conjugacy window, orbit-comparison ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the ODE source through local flow, linearization, chart restriction, Gronwall comparison, and endpoint sealing.
+\item $P$ is the $\Pkg$ provenance over $\HartmanGrobmanUp$, $\OdeUp$, $\PicardLindelofLocalFlowUp$, $\GronwallInequalityUp$, $\MetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HartmanGrobmanUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,A,L,U,W,O,H,C,P,N$. It has no coordinate for global conjugacy, arbitrary invariant manifolds, selected stable or unstable foliations, host solution operators, quotient path equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Hartman--Grobman NameCert obligations]
+\label{thm:hartman-grobman-namecert-obligations}
+For every accepted $\HartmanGrobmanUp$ carrier $G=(F,A,L,U,W,O,H,C,P,N)$, the local $\NameCert_{\HartmanGrobmanUp}$ surface consists exactly of carrier admission; nonlinear local-flow exposure through $F$; hyperbolic fixed-point exposure through $A$; linearized-flow exposure through $L$; local chart exposure through $U$; conjugacy-window exposure through $W$; orbit-comparison exactness through $O$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hartman-grobman-carrier}. The rows $F,A,L,U,W,O,H,C,P,N$ are the complete finite inventory of an accepted packet.
+
+The dynamic rows come first. The nonlinear local-flow row $F$ and linearized-flow row $L$ are read on the same chart row $U$, while the hyperbolic fixed-point row $A$ supplies the finite separation ledger needed before the two flows can be compared.
+
+The conjugacy-window and orbit-comparison obligations are then exactly $W$ and $O$. The latter is the only place where Gronwall-style comparison and tolerance data enter the packet.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same displayed rows. Since the carrier has no coordinate for global conjugacy, arbitrary invariant manifolds, selected stable or unstable foliations, host solution operators, quotient path equality, or ambient completeness, none of those objects can become a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Hartman--Grobman linearization window]
+\label{thm:hartman-grobman-linearization-window}
+Every accepted $\HartmanGrobmanUp$ local linearization read factors through the finite route
+$$
+\OdeUp \longmapsto \PicardLindelofLocalFlowUp \longmapsto (A,L,U,W) \longmapsto \GronwallInequalityUp \longmapsto \RealUp .
+$$
+The route exposes the nonlinear local flow, hyperbolic fixed point, linearized flow, chart window, conjugacy window, orbit-comparison ledger, transport, replay, provenance, and local NameCert rows before any downstream stability consumer may treat nonlinear and linear orbit segments as locally conjugate.
+\end{theorem}
+\begin{proof}
+Start with the ODE and local-flow rows. The nonlinear flow read is not a host solution operator; it is the displayed local endpoint route named by $F$.
+
+Read the fixed-point and chart rows next. The hyperbolic separation ledger $A$ and chart window $U$ place both the nonlinear and linearized rows in the same finite coordinate neighbourhood.
+
+The linearized-flow row $L$ and conjugacy-window row $W$ then delimit the comparison. The orbit-comparison ledger $O$ sends the finite segment estimates through the Gronwall surface before the Real endpoint seal is exposed.
+
+The structural rows $H,C,P,N$ preserve this same route under transport, replay, provenance, and local naming. Thus a stability consumer receives only the displayed local linearization window, not a global conjugacy, selected invariant manifold, quotient path equality, or ambient solution theory.
+\end{proof}
+
+\begin{theorem}[Hartman--Grobman hyperbolic scope]
+\label{thm:hartman-grobman-hyperbolic-scope}
+Any $\HartmanGrobmanUp$ consumer that reaches a conjugacy-window row must first expose the hyperbolic fixed-point row $A$, the local chart row $U$, the linearized-flow row $L$, and the orbit-comparison ledger $O$. Consequently the packet supports only local hyperbolic scope: it names a finite comparison window between displayed nonlinear and linear orbit segments and exports no global dynamics, arbitrary invariant manifolds, host solution operators, quotient path equality, or selected stable-manifold data.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier. The row $W$ is not independent; it is a conjugacy-window coordinate inside the packet $G=(F,A,L,U,W,O,H,C,P,N)$.
+
+The fixed-point and chart rows $A,U$ bind the window to a hyperbolic local neighbourhood. The linearized-flow row $L$ supplies the comparison target, and $O$ supplies the orbit ledger through which the nonlinear and linear segments are compared.
+
+After these rows are visible, $H,C,P,N$ keep the packet stable under transport, replay, provenance, and local naming. No remaining coordinate can extend the read to global dynamics, arbitrary invariant manifolds, host solution operators, quotient path equality, or selected stable-manifold data.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\HartmanGrobmanUp$ read cannot expose a conjugacy-window row without displaying the hyperbolic fixed-point row, local chart row, linearized-flow row, orbit-comparison ledger, transport row, replay row, provenance row, and local NameCert row.}
+
+\independenceWitness{ode, picard-lindelof-local-flow, gronwall-inequality, metric, real}
+
+\closureat{HartmanGrobmanUp}{seedStr}
+
+\begin{closurestatus}{\HartmanGrobmanUp}
+  \constructivestory{A $\HartmanGrobmanUp$ packet is generated from a nonlinear local-flow row, hyperbolic fixed-point row, linearized-flow row, local chart row, conjugacy-window row, orbit-comparison ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hartman-grobman-carrier}, \autoref{thm:hartman-grobman-namecert-obligations}, \autoref{thm:hartman-grobman-linearization-window}, and \autoref{thm:hartman-grobman-hyperbolic-scope} seed the finite local hyperbolic linearization packet over nonlinear flow, fixed point, linearized flow, chart, conjugacy window, orbit comparison, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global dynamics, arbitrary invariant manifolds, selected stable or unstable manifolds, host solution operators, quotient path equality, Lean verification, axiom-clean audit, or bridge checking.}
+  \upgradepath{Formalization requires a Lean carrier and checked NameCert obligations for BEDC.Derived.HartmanGrobmanUp over local flow, hyperbolic fixed-point, linearized-flow, chart, conjugacy-window, orbit-comparison, transport, replay, provenance, and naming rows.}
+\end{closurestatus}
