@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\SequentialCompletionReflectorUp$}
+\label{ch:concrete-instances-sequential-completion-reflector-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\SequentialCompletionReflectorUp$ packet records the boundary where regular sequential completion data are reflected into a finite NameCert handoff. It sits after the completion schedule of $\CauchyCompletionMonadUp$ in \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the metric completion boundary of $\MetricCompletionUp$ in \autoref{ch:concrete-instances-metriccompletion-namecert}, the finite observation windows of $\StreamNameUp$ in \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of $\RegSeqRatUp$ in \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of $\RealUp$ in \autoref{ch:concrete-instances-real-namecert}. The reflector names how sequential Cauchy data are handed to Real and Completion consumers as displayed rows; it is not quotient equality, a host selected limit, countable choice, ambient $\RealUp$ completeness, or bridge checking.
+
+\begin{definition}[Sequential completion reflector carrier]
+\label{def:sequential-completion-reflector-carrier}
+A $\SequentialCompletionReflectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(M,K,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\CauchyCompletionMonadUp$ schedule row, naming the unit and bind surface consumed by completion-facing reads.
+\item $K$ is the $\MetricCompletionUp$ boundary row, recording the source metric presentation and the completion target admitted by the reflector.
+\item $W$ is the $\StreamNameUp$ finite-window row exposing only the inspected sequence entries and precision requests.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same windows and dyadic tolerances.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $M,K,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the schedule, completion boundary, finite windows, regular readback, terminal seal, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each sequential completion request through $M,K,W,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\SequentialCompletionReflectorUp$, $\CauchyCompletionMonadUp$, $\MetricCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialCompletionReflectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,K,W,R,E,H,C,P,N$. It has no coordinate for quotient equality, host selected limits, countable choice, ambient $\RealUp$ completeness, or checked bridge data.
+\end{definition}
+
+\begin{theorem}[Sequential completion reflector NameCert obligations]
+\label{thm:sequential-completion-reflector-namecert-obligations}
+For every accepted $\SequentialCompletionReflectorUp$ carrier
+$$
+S=(M,K,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\SequentialCompletionReflectorUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the completion monad schedule, metric completion boundary, finite windows, regular rational readback, real seal, transport, replay, provenance, and local naming rows;
+\item sequential-source exposure, requiring each completion request to pass through the $\StreamNameUp$ window row $W$ before any regular readback is consumed;
+\item regular-readback handoff, requiring $R$ to be downstream of $M,K,W$ and upstream of the terminal $\RealUp$ seal $E$;
+\item reflector non-escape, requiring $H,C,P,N$ to replay only the displayed rows and to export no quotient completion, selected representative, countable-choice schedule, host limit, ambient $\RealUp$ completeness, or bridge credential.
+\end{enumerate}
+No sequential completion reflector obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:sequential-completion-reflector-carrier}. The tuple $S=(M,K,W,R,E,H,C,P,N)$ is the whole surface exposed to a sequential completion consumer.
+
+The sequential-source clause reads each requested stage through $W$. Since $W$ is a finite $\StreamNameUp$ window row, the consumer obtains only inspected entries and precision requests, not a chosen infinite representative.
+
+The regular-readback clause then routes the same finite windows through $R$. The completion schedule $M$ and metric completion boundary $K$ remain visible before the terminal $\RealUp$ seal $E$ is consumed, so the Real-facing handoff is a displayed regular-rational readback rather than a quotient completion.
+
+Finally, $H,C,P,N$ transport, replay, name, and package the same rows. Because the carrier contains no coordinate for quotient equality, selected limits, countable choice, ambient completeness, or bridge checking, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SequentialCompletionReflectorUp$ consumer must display a CauchyCompletionMonad schedule row, a MetricCompletion boundary row, a StreamName finite-window row, a RegSeqRat readback row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row before the reflector can be consumed.}
+
+\independenceWitness{cauchycompletionmonad, metriccompletion, streamname, regseqrat, real: no listed sibling supplies the joint reflector packet containing the completion schedule, metric boundary, finite windows, regular readback, terminal Real seal, transport, replay, provenance, and local NameCert row.}
+
+\closureat{SequentialCompletionReflectorUp}{seedStr}
+
+\begin{closurestatus}{\SequentialCompletionReflectorUp}
+  \constructivestory{A $\SequentialCompletionReflectorUp$ packet is generated from a CauchyCompletionMonad schedule row, a MetricCompletion boundary row, StreamName finite windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-completion-reflector-carrier} and \autoref{thm:sequential-completion-reflector-namecert-obligations} seed the finite reflector route from sequential Cauchy completion data to Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality, host selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sequential-source exposure, regular-readback handoff, reflector non-escape, and local naming for BEDC.Derived.SequentialCompletionReflectorUp.}
+\end{closurestatus}
