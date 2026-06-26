@@ -12,6 +12,7 @@ open BEDC.Meta.TasteGate
 
 inductive DoublingMetricSpaceUp : Type where
   | mk (X M B R K E T S H C P N : BHist) : DoublingMetricSpaceUp
+  deriving DecidableEq
 
 def doublingMetricSpaceEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark

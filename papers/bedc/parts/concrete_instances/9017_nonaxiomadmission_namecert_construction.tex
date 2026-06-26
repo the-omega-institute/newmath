@@ -87,6 +87,19 @@ Apply boundary exhaustion from \autoref{thm:non-axiom-admission-boundary-exhaust
 Finally use witness-route nonescape from \autoref{thm:non-axiom-admission-witness-route-nonescape}. Holding $X,F,W,H,C,P,N$ fixed leaves no remaining row from which a different supplied-content route can be read. Thus the scoped route is exactly the listed BEDC primitive route.
 \end{proof}
 
+\begin{theorem}[NonAxiomAdmission scoped TasteGate route]
+\label{thm:non-axiom-admission-scoped-tastegate-route}
+Every accepted $\NonAxiomAdmissionUp$ decision is scoped by the displayed rows $X,F,W,H,C,P,N$, the non-axiom boundary siblings, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the checked TasteGate route for $\mathsf{BEDC.Derived.NonAxiomAdmissionUp.taste\_gate}$. No scoped consumer may treat the proposed supply position as substrate truth unless the same accepted non-axiom form, witness route, transport, replay, provenance, local name, and TasteGate evidence remain visible.
+\end{theorem}
+\begin{proof}
+First compose the local certificate surface from \autoref{thm:non-axiom-admission-namecert-obligations}. It identifies the accepted decision with the rows $X,F,W,H,C,P,N$, so every admission read starts from the displayed proposed position, accepted boundary form, witness route, transport, replay, provenance, and local name.
+
+Next apply \autoref{thm:non-axiom-admission-boundary-exhaustion}. The accepted boundary form is restricted to the non-axiom sibling routes, and none of those siblings supplies an axiom coordinate, hidden chooser, quotient representative, proposition-equality token, or global frame.
+
+Finally use \autoref{thm:non-axiom-admission-witness-route-nonescape} and \autoref{thm:non-axiom-admission-scoped-route}. Witness-route nonescape prevents a row-preserving consumer from changing the supplied-content route, while the scoped primitive route binds the same rows to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The checked TasteGate target records that this scoped carrier is admitted as a chapter gate, so the displayed route is exactly the TasteGate-scoped non-axiom admission surface.
+\end{proof}
+\leanchecked{BEDC.Derived.NonAxiomAdmissionUp.taste\_gate}
+
 \falsifiablePrediction{Every accepted NonAxiomAdmissionUp packet classifies a proposed supply position into a displayed non-axiom boundary form and exposes no consumer route that treats the supplied content as substrate truth.}
 
 \independenceWitness{externalsupplyboundary, supplysocketledger, apophaticsocket, selectorledger, and tastegateadmission: those siblings record particular boundary, socket, ledger, and admission rows, while NonAxiomAdmissionUp classifies the admission decision surface itself. No row-preserving bijection can recover the full $X,F,W,H,C,P,N$ classifier from any one sibling packet.}
@@ -100,10 +113,11 @@ The Lean follow-up target is $\mathsf{BEDC.Derived.NonAxiomAdmissionUp.taste\_ga
 \begin{closurestatus}{\NonAxiomAdmissionUp}
   \constructivestory{A $\NonAxiomAdmissionUp$ packet is generated from a proposed supply position, accepted non-axiom form, witness route, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:non-axiom-admission-carrier}, \autoref{thm:non-axiom-admission-namecert-obligations}, \autoref{thm:non-axiom-admission-boundary-exhaustion}, \autoref{thm:non-axiom-admission-witness-route-nonescape}, and \autoref{thm:non-axiom-admission-scoped-route} bind the proposed supply position, accepted non-axiom form, witness route, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows to the exact scoped BEDC primitive route.}
-  \formalstatus{\unformalizedV}
+  \scopeclosed{\autoref{thm:non-axiom-admission-scoped-tastegate-route} binds accepted admission decisions to the displayed $X,F,W,H,C,P,N$ rows, non-axiom boundary siblings, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, and the checked TasteGate route for $\NonAxiomAdmissionUp$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.NonAxiomAdmissionUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not claim substrate truth, hidden choice, quotient representatives, proposition equality collapse, a global frame, Lean verification, or bridge checking for $\NonAxiomAdmissionUp$.}
-  \upgradepath{Formal closure requires verified carrier admission, boundary exhaustion, witness-route nonescape, scoped primitive routing, and the TasteGate route for $\NonAxiomAdmissionUp$.}
+  \notclaimed{This chapter does not claim substrate truth, hidden choice, quotient representatives, proposition equality collapse, a global frame, axiomClean audit status, or bridge checking for $\NonAxiomAdmissionUp$.}
+  \upgradepath{Audit closure requires axiom-purity reporting and bridge work for the checked $\NonAxiomAdmissionUp$ TasteGate route.}
 \end{closurestatus}
