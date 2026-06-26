@@ -313,16 +313,30 @@ def _seed_heal_lake_cache() -> None:
         print(f"[heal] could not seed heal .lake cache: {exc}", file=sys.stderr)
 
 
+def _heal_wt_is_valid() -> bool:
+    """A heal worktree counts as healthy only if `.git` resolves to a real
+    git dir. A bare `(HEAL_WT/".git").exists()` check also passes a corrupt
+    `.git` (e.g. a directory left with objects/refs but missing HEAD/config
+    after an interrupted op), which then makes every cycle's `git -C HEAL_WT`
+    fail with `not a git repository` and auto_heal goes blind. Validate with
+    `git rev-parse` so a broken `.git` falls through to the recreate path."""
+    if not (HEAL_WT / ".git").exists():
+        return False
+    res = run(["git", "rev-parse", "--git-dir"], cwd=HEAL_WT,
+              check=False, capture=True, timeout=30)
+    return res.returncode == 0
+
+
 def ensure_heal_worktree() -> bool:
     """Ensure the dedicated detached heal worktree exists.
 
     Self-heals a stale orphan HEAL_WT: if the path exists but is not a
-    valid worktree (leftover from an interrupted `worktree add` or a
-    manual `.git` removal), `git worktree add` fails every cycle with
-    `'<path>' already exists` and auto_heal heals nothing (observed
+    valid worktree (leftover from an interrupted `worktree add`, a manual
+    `.git` removal, or a corrupt `.git` dir), `git worktree add` fails every
+    cycle with `'<path>' already exists` and auto_heal heals nothing (observed
     2026-06-10: every tick failing for hours). Force-remove the orphan and
     prune before re-adding."""
-    if (HEAL_WT / ".git").exists():
+    if _heal_wt_is_valid():
         _seed_heal_lake_cache()
         return True
     try:
