@@ -1,0 +1,34 @@
+% BEDC-GAP: RATIONAL_PRODUCT_FORMULA_FINITE_PRODUCT
+% acceptance contract: papers/bedc_mathlib_bridge/gap_contracts/RATIONAL_PRODUCT_FORMULA_FINITE_PRODUCT.yaml
+% bridge MATRIX row: bedc-rational-product-formula
+\chapter{A Concrete Naming Certificate for the Rational Finite-Place Product Formula}
+\label{ch:concrete-instances-rational-finite-place-product-namecert}
+\origin{human}
+
+Following the classical product formula for the rationals, this chapter opens the $\RationalUp$ NameCert entry for a BEDC-native finite-place product surface. The target is to connect the finite prime-power counts exposed by \texttt{PrimeFactorizationProduct} to the existing zero-axiom rational valuation interface, including \texttt{ratVal}, \texttt{ratValIndex}, \texttt{ratVal\_mul}, and the archimedean absolute-value surface \texttt{ratAbsInfty}. The intended terminal equality is the rational global product formula, with the finite prime-indexed factor and the archimedean factor assembled inside BEDC rather than imported from mathlib. The complete acceptance law family, anti-degeneracy constraints, and bridge authority are the contract at \texttt{papers/bedc\_mathlib\_bridge/gap\_contracts/RATIONAL\_PRODUCT\_FORMULA\_FINITE\_PRODUCT.yaml}; this chapter records only the main-pipeline entrance for that contract.
+
+\begin{definition}[Rational finite-place support target]
+\label{def:rational-finite-place-support-target}
+For a nonzero rational name $q$, the intended finite-place support is the finite list of prime places whose \texttt{ratVal} index for $q$ is nonzero, derived from the \texttt{PrimeFactorizationProduct} data of the numerator and denominator. It is not an arbitrary natural-index surface and it carries no mathlib place object.
+\end{definition}
+
+\begin{definition}[Rational finite-place product target]
+\label{def:rational-finite-place-product-target}
+The intended finite-place product is a BEDC-native finite product over the support of \autoref{def:rational-finite-place-support-target}. Each local factor is read from the existing rational valuation surface, while the infinite factor is read from \texttt{ratAbsInfty}; the terminal target is the cancellation statement
+$$
+\begin{aligned}
+\texttt{ratAbsInfty}(q)\cdot\prod_{p \in \operatorname{supp}(q)} |q|_{p}=1 .
+\end{aligned}
+$$
+The displayed equation is a target signature for the seed entrance only, not a claimed theorem of this chapter.
+\end{definition}
+
+\begin{closurestatus}{\RationalUp}
+  \theoryclosure{\seedClosure}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \constructivestory{The finite place product is to be assembled constructively from PrimeFactorizationProduct support data, existing ratVal indices, ratVal multiplicativity, and ratAbsInfty.}
+  \scopeclosed{This chapter only declares the rational finite-place product formula gap target and its acceptance entry; it does not construct the support, product, or terminal equality.}
+  \notclaimed{The final product formula and the mathlib correspondence are not claimed here; the correspondence belongs to the bridge side.}
+  \upgradepath{Upgrade requires implementing the contract required structure and laws, then passing the bridge exported\_core authority for bedc-rational-product-formula.}
+\end{closurestatus}
