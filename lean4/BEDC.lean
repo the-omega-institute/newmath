@@ -9250,6 +9250,7 @@ import BEDC.Derived.PeanoCurveUp.TasteGate
 import BEDC.Derived.PeanoExistenceUp.TasteGate
 import BEDC.Derived.PeetreKFunctionalUp
 import BEDC.Derived.PellEquationUp.TasteGate
+import BEDC.Derived.PellLucasUp
 import BEDC.Derived.PellUp
 import BEDC.Derived.PerfectSetUp.TasteGate
 import BEDC.Derived.PeriodicContinuedFractionUp.TasteGate
