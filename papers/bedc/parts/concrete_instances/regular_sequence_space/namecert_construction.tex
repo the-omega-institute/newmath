@@ -204,6 +204,20 @@ Next apply the tail-diagonal projection and tail-modulus projection, \autoref{th
 Finally replay $H,C,P,N$. Transport, continuation replay, provenance, and local naming preserve the same terminal route after each finite tail step, while the carrier still has no coordinate for quotient stream equality, selected limits, countable choice, or ambient completeness. The induction gives shift closure for every unary finite tail.
 \end{proof}
 
+\begin{theorem}[RegularSequenceSpace diagonal tail extraction]
+\label{thm:regular-sequence-space-diagonal-tail-extraction}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. If a consumer displays a finite tail-filter row together with the $\StreamNameUp$ window $T$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, and the $\RealUp$ seal row $R$, then the consumer admits a diagonal tail route through the same displayed rows. This route is consumable by $\RegSeqRatUp$ and $\RealUp$ endpoints and exports no quotient stream equality, selected limit, countable-choice selector, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the tail-filter handoff of \autoref{thm:regular-sequence-space-tail-filter-handoff}. It places every completion-facing read through the displayed stream schedule, regular rational readback, dyadic tolerance row, and regular Cauchy tail-filter surface before the Real seal is consumed.
+
+Apply the tail-diagonal projection and tail-modulus projection, \autoref{thm:regular-sequence-space-tail-diagonal-projection} and \autoref{thm:regular-sequence-space-tail-modulus-projection}. The first projects any two tail-filter reads feeding the same regular rational or Real consumer to one displayed finite window; the second keeps that window tied to the displayed modulus and rate budget rows before public consumption.
+
+Finally use shift closure, \autoref{thm:regular-sequence-space-shift-closure}. Every unary finite tail of the packet preserves the same $T,Q,D,R,H,C,P,N$ route, so the diagonal tail extraction remains inside the accepted carrier for both $\RegSeqRatUp$ and $\RealUp$ endpoints.
+
+Because the carrier records only these finite rows and their structural replay, the extracted route has no coordinate from which quotient stream equality, a selected limit, countable choice, or ambient Real completeness could be read.
+\end{proof}
+
 \closureat{RegularSequenceSpaceUp}{seedStr}
 
 \begin{closurestatus}{\RegularSequenceSpaceUp}
