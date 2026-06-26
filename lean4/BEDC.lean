@@ -5444,6 +5444,7 @@ import BEDC.Derived.EuclideanAlgorithmUp.NameCertObligations
 import BEDC.Derived.EuclideanAlgorithmUp.TasteGate
 import BEDC.Derived.EudoxusRealUp
 import BEDC.Derived.EudoxusRealUp.TasteGate
+import BEDC.Derived.EulerCriterionUp
 import BEDC.Derived.EulerLagrangeUp
 import BEDC.Derived.EulerMaclaurinUp.TasteGate
 import BEDC.Derived.EulerPhiUp
@@ -5705,6 +5706,7 @@ import BEDC.Derived.FejerKernelUp.TasteGate
 import BEDC.Derived.FejerTheoremUp.TasteGate
 import BEDC.Derived.FeketeSubadditiveUp.TasteGate
 import BEDC.Derived.FenchelDualityUp
+import BEDC.Derived.FermatLittleUp
 import BEDC.Derived.FermatWilsonUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FibonacciCubeUp
@@ -9540,6 +9542,7 @@ import BEDC.Derived.PolishspaceUp.StreamReadbackExactness
 import BEDC.Derived.PolishspaceUp.StreamReadbackStability
 import BEDC.Derived.PolishspaceUp.StreamRealizationObligation
 import BEDC.Derived.PolishspaceUp.TasteGate
+import BEDC.Derived.PolyRootBoundUp
 import BEDC.Derived.PolygonalUp
 import BEDC.Derived.PolynomialResultantUp
 import BEDC.Derived.PolynomialUp
@@ -9713,6 +9716,7 @@ import BEDC.Derived.QRDecompositionUp.TasteGate
 import BEDC.Derived.QuadIntUp
 import BEDC.Derived.QuadrantSubstrateUp.TasteGate
 import BEDC.Derived.QuadraticFormUp.TasteGate
+import BEDC.Derived.QuadraticReciprocityUp
 import BEDC.Derived.QuadraticSurdContFracUp
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.QuantumChannelUp
@@ -12707,6 +12711,7 @@ import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.Nonescape
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.SeparationHandoff
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
+import BEDC.Derived.WilsonTheoremUp
 import BEDC.Derived.WilsonUp
 import BEDC.Derived.Window6CyclicCount
 import BEDC.Derived.Window6DisjointPairPell
