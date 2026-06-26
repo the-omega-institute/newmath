@@ -1,12 +1,22 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CantorSpaceUniformModulusUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -159,5 +169,120 @@ theorem CantorSpaceUniformModulusTasteGate_single_carrier_alignment :
       CantorSpaceUniformModulusTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => CantorSpaceUniformModulusToEventFlow_injective heq),
       rfl⟩
+
+theorem CantorSpaceUniformModulusCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {F A B S D R U E H C P N prefixRead windowRead toleranceRead readbackRead sealRead
+      replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory F →
+      UnaryHistory A →
+        UnaryHistory B →
+          UnaryHistory S →
+            UnaryHistory D →
+              UnaryHistory R →
+                UnaryHistory U →
+                  UnaryHistory E →
+                    UnaryHistory C →
+                      Cont F A prefixRead →
+                        Cont prefixRead S windowRead →
+                          Cont windowRead D toleranceRead →
+                            Cont toleranceRead R readbackRead →
+                              Cont readbackRead E sealRead →
+                                Cont sealRead C replayRead →
+                                  PkgSig bundle P pkg →
+                                    PkgSig bundle N pkg →
+                                      SemanticNameCert
+                                          (fun row : BHist =>
+                                            hsame row replayRead ∧ UnaryHistory row)
+                                          (fun row : BHist =>
+                                            hsame row F ∨ hsame row A ∨ hsame row B ∨
+                                              hsame row S ∨ hsame row D ∨ hsame row R ∨
+                                                hsame row U ∨ hsame row E ∨ hsame row H ∨
+                                                  hsame row C ∨ hsame row P ∨ hsame row N ∨
+                                                    hsame row replayRead)
+                                          (fun row : BHist =>
+                                            UnaryHistory row ∧ Cont F A prefixRead ∧
+                                              Cont prefixRead S windowRead ∧
+                                                Cont windowRead D toleranceRead ∧
+                                                  Cont toleranceRead R readbackRead ∧
+                                                    Cont readbackRead E sealRead ∧
+                                                      Cont sealRead C replayRead ∧
+                                                        PkgSig bundle P pkg ∧
+                                                          PkgSig bundle N pkg)
+                                          hsame ∧
+                                        UnaryHistory prefixRead ∧ UnaryHistory windowRead ∧
+                                          UnaryHistory toleranceRead ∧
+                                            UnaryHistory readbackRead ∧ UnaryHistory sealRead ∧
+                                              UnaryHistory replayRead := by
+  -- BEDC touchpoint anchor: BHist BMark Cont ProbeBundle PkgSig SemanticNameCert UnaryHistory
+  intro fanUnary cantorUnary barUnary streamUnary dyadicUnary readbackUnary _modulusUnary
+    realUnary replayUnary prefixRoute windowRoute toleranceRoute readbackRoute sealRoute
+    replayRoute provenancePkg namePkg
+  have prefixReadUnary : UnaryHistory prefixRead :=
+    unary_cont_closed fanUnary cantorUnary prefixRoute
+  have windowReadUnary : UnaryHistory windowRead :=
+    unary_cont_closed prefixReadUnary streamUnary windowRoute
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed windowReadUnary dyadicUnary toleranceRoute
+  have readbackReadUnary : UnaryHistory readbackRead :=
+    unary_cont_closed toleranceReadUnary readbackUnary readbackRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackReadUnary realUnary sealRoute
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed sealReadUnary replayUnary replayRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row replayRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row F ∨ hsame row A ∨ hsame row B ∨ hsame row S ∨ hsame row D ∨
+              hsame row R ∨ hsame row U ∨ hsame row E ∨ hsame row H ∨ hsame row C ∨
+                hsame row P ∨ hsame row N ∨ hsame row replayRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont F A prefixRead ∧ Cont prefixRead S windowRead ∧
+              Cont windowRead D toleranceRead ∧ Cont toleranceRead R readbackRead ∧
+                Cont readbackRead E sealRead ∧ Cont sealRead C replayRead ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro replayRead ⟨hsame_refl replayRead, replayReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, prefixRoute, windowRoute, toleranceRoute, readbackRoute, sealRoute,
+          replayRoute, provenancePkg, namePkg⟩
+  }
+  exact
+    ⟨cert, prefixReadUnary, windowReadUnary, toleranceReadUnary, readbackReadUnary,
+      sealReadUnary, replayReadUnary⟩
 
 end BEDC.Derived.CantorSpaceUniformModulusUp
