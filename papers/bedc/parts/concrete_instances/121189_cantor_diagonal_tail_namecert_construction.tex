@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\CantorDiagonalTailUp$}
+\label{ch:concrete-instances-cantor-diagonal-tail-namecert}
+\origin{human}
+
+Following Cantor diagonal arguments and the finite-window discipline of Bishop--Bridges constructive analysis, the $\CantorDiagonalTailUp$ packet records the diagonal tail readback needed before a Real-facing consumer treats a stream of rational windows as a completed object. It sits between the StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance spine of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The packet records only finite diagonal indices, displayed tail windows, rational readback, dyadic tolerances, Real-facing terminal seals, transport, replay, provenance, and local naming; it does not export quotient stream equality, countable choice, selected limits, open-cover compactness, or ambient completeness of the reals.
+
+\begin{definition}[Cantor diagonal tail carrier]
+\label{def:cantor-diagonal-tail-carrier}
+A $\CantorDiagonalTailUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,T,Q,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the diagonal index schedule, listing the finite diagonal coordinates whose tail reads are in scope.
+\item $T$ is the StreamName finite-window row, recording for each index in $D$ the finite tail windows made visible to the packet.
+\item $Q$ is the RegSeqRat readback row, translating the displayed StreamName windows into regular rational comparison data.
+\item $E$ is the DyadicRatCore tolerance row, binding each readback in $Q$ to a displayed dyadic tolerance and comparison budget.
+\item $R$ is the RealUp terminal seal row, recording only the Real-facing endpoint promised by the finite tail windows and dyadic tolerances.
+\item $H$ records componentwise $\hsame$ transport for the diagonal schedule, StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance rows, RealUp seals, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Real-facing query through $D,T,Q,E,R,H$ before any consumer reads the diagonal tail.
+\item $P$ is the $\Pkg$ provenance over $\CantorDiagonalTailUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CantorDiagonalTailUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,T,Q,E,R,H,C,P,N$. It has no coordinate for a chosen infinite subsequence, quotient equality of streams, an unrecorded limiting real, an open-cover compactness argument, or a completeness principle outside the displayed finite rows.
+\end{definition}
+
+\begin{theorem}[Cantor diagonal tail NameCert obligations]
+\label{thm:cantor-diagonal-tail-namecert-obligations}
+For every accepted $\CantorDiagonalTailUp$ carrier $K=(D,T,Q,E,R,H,C,P,N)$, the local $\NameCert_{\CantorDiagonalTailUp}$ surface consists exactly of diagonal index exposure, StreamName finite-window exposure, RegSeqRat readback exposure, DyadicRatCore tolerance exposure, RealUp terminal-seal exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Any Real-facing consumer of the packet must read the diagonal argument through those rows and cannot infer quotient stream equality, countable choice, selected limits, open-cover compactness, or ambient Real completeness from the certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cantor-diagonal-tail-carrier}. The only rows exposed to a certificate consumer are $D,T,Q,E,R,H,C,P,N$, so every diagonal read begins with the finite schedule $D$ and the displayed StreamName windows in $T$.
+
+The readback row $Q$ then turns only those windows into regular rational comparison data, and the tolerance row $E$ binds each comparison to a displayed DyadicRatCore budget. The terminal row $R$ is therefore reached through a finite route, not through a chosen infinite stream or an ambient completeness theorem.
+
+Transport in $H$ and replay in $C$ preserve the same schedule, windows, rational readbacks, tolerance rows, and terminal seal before provenance and local naming are inspected. Thus the NameCert obligations are exactly the displayed finite fields, and the packet exports no quotient stream equality, countable-choice selection, selected limit, compactness, or Real-completeness principle.
+\end{proof}
+
+\begin{theorem}[Cantor diagonal tail L10 handoff]
+\label{thm:cantor-diagonal-tail-l10-handoff}
+Let $K=(D,T,Q,E,R,H,C,P,N)$ be an accepted $\CantorDiagonalTailUp$ carrier. Every L10 read handed from $K$ to a Real-facing proof factors through the finite path
+$$
+D \longrightarrow T \longrightarrow Q \longrightarrow E \longrightarrow R
+$$
+and then through $H,C,P,N$. In particular, the handoff exposes only finite diagonal-tail windows and their regular rational and dyadic tolerance readbacks; it does not provide an equality of quotient streams, a countable family of choices, a selected limiting real, an open-cover compactness witness, or an ambient completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Fix an L10 read from the packet. By carrier projection, the read can mention no row outside $D,T,Q,E,R,H,C,P,N$. The schedule row $D$ selects a finite list of diagonal coordinates, and the StreamName row $T$ gives exactly the finite windows associated with that list.
+
+The RegSeqRat row $Q$ supplies the rational readback of those windows, while $E$ supplies the DyadicRatCore tolerance data used by the Real-facing boundary. The RealUp row $R$ records the terminal seal reached from those displayed inputs.
+
+It remains to check that the handoff cannot smuggle a stronger principle through transport or provenance. Componentwise $\hsame$ in $H$ transports only the displayed rows, $\Cont$ replay in $C$ replays only the same finite path, and $P,N$ add provenance and local naming without adding a new data coordinate. Hence every L10 handoff factors through the finite diagonal-tail route and remains silent about quotient stream equality, countable choice, selected limits, open-cover compactness, and ambient Real completeness.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\CantorDiagonalTailUp$ packet whose L10 read reaches a Real-facing proof without passing through the displayed finite route $D,T,Q,E,R,H,C,P,N$ is rejected by the local NameCert interface.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real: $\CantorDiagonalTailUp$ is not bijective to any listed sibling because it jointly carries a diagonal index schedule, finite StreamName tail windows, RegSeqRat readbacks, DyadicRatCore tolerance rows, RealUp terminal seals, transport, replay, provenance, and local NameCert evidence.}
+
+\closureat{CantorDiagonalTailUp}{seedStr}
+
+\begin{closurestatus}{\CantorDiagonalTailUp}
+  \constructivestory{A $\CantorDiagonalTailUp$ packet is generated from a finite diagonal schedule, StreamName tail windows, RegSeqRat readbacks, DyadicRatCore tolerance rows, RealUp terminal seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cantor-diagonal-tail-carrier}, \autoref{thm:cantor-diagonal-tail-namecert-obligations}, and \autoref{thm:cantor-diagonal-tail-l10-handoff} seed the finite diagonal-tail interface over schedules, windows, rational readback, dyadic tolerances, terminal seals, transport, replay, provenance, and naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Real completeness, quotient stream equality, countable choice, selected limits, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagonal schedule exposure, StreamName window exposure, RegSeqRat readback exposure, DyadicRatCore tolerance exposure, RealUp terminal-seal exposure, transport, replay, provenance, and local naming for BEDC.Derived.CantorDiagonalTailUp.}
+\end{closurestatus}
