@@ -68,10 +68,20 @@ The action, transport, consumer, and structural rows $A,T,C,H,P,N$ only replay t
 \end{proof}
 \leanchecked{BEDC.Derived.SylowUp.SylowCarrier\_prime\_power\_coverage}
 
-\closureat{SylowUp}{seedStr}
+\begin{theorem}[Sylow obligation closure surface]
+\label{thm:sylow-obligation-closure-surface}
+The $\SylowUp$ obligation surface is exactly the carrier admission, prime-power coverage, conjugacy transport, and consumer-boundary route exposed by \autoref{thm:sylow-namecert-obligations}, \autoref{thm:sylow-conjugacy-transport}, and \autoref{thm:sylow-prime-power-coverage}.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:sylow-namecert-obligations} for the carrier-admission and consumer-boundary rows. Apply \autoref{thm:sylow-prime-power-coverage} for the prime-power ledger, and apply \autoref{thm:sylow-conjugacy-transport} for the displayed conjugacy route.
+
+Together these three blocks expose the finite group, subgroup, prime, exponent, coverage, action, transport, consumer, structural, provenance, and local naming rows before any Sylow consumer can read the packet. No further host subgroup lattice, canonical selector, quotient classification, or character-table computation is a coordinate of the carrier.
+\end{proof}
+
+\closureat{SylowUp}{obligationStr}
 
 \begin{closurestatus}{\SylowUp}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:sylow-carrier}, \autoref{thm:sylow-namecert-obligations}, \autoref{thm:sylow-conjugacy-transport}, and \autoref{thm:sylow-prime-power-coverage} seed the finite prime-power subgroup packet over displayed $\GroupUp$, $\SubgroupUp$, $\PrimeUp$, $\NatUp$, and $\FiniteGroupRepresentationUp$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}

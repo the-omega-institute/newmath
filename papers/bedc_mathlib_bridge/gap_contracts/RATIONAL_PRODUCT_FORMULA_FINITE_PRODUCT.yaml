@@ -17,7 +17,9 @@ gap_id: RATIONAL_PRODUCT_FORMULA_FINITE_PRODUCT
 kind: missing-structure
 feed: yes
 matrix_row: bedc-rational-product-formula
-bedc_home: BEDC.Derived.RationalUp
+# New decls live in the chapter's own horizon module, building on RationalUp's
+# existing 0-axiom valuation surface (ratVal / ratAbsInfty / ...).
+bedc_home: BEDC.Derived.RationalFinitePlaceProductUp
 
 mathlib:
   # provenance only — NEVER imported by main lean4/; lives on the bridge side.
@@ -74,7 +76,7 @@ laws:
 
 # The single final theorem the bridge correspondence MUST consume.
 final_theorem:
-  bedc_decl: BEDC.Derived.RationalUp.rational_finite_place_product_formula
+  bedc_decl: BEDC.Derived.RationalFinitePlaceProductUp.rational_finite_place_product_formula
   # expected_type is illustrative of the required shape (BEDC-native names, no mathlib):
   expected_type_shape: |
     ∀ q, RationalUp.Nonzero q →
