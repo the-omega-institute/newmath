@@ -76,6 +76,28 @@ Finally use \autoref{thm:rademacher-finite-derivative-candidate-packet}. The Rea
 \end{proof}
 \leanchecked{BEDC.Derived.RademacherUp.RademacherCarrier\_difference\_window\_obligation}
 
+\begin{theorem}[Rademacher difference-quotient window stability]
+\label{thm:rademacher-difference-quotient-window-stability}
+Let
+$$
+R=(L,E,D,M,A,H,C,P,N)
+$$
+and
+$$
+R'=(L',E',D',M',A',H',C',P',N')
+$$
+be accepted $\RademacherUp$ carriers. If $D,D'$, $M,M'$, $L,L'$, $A,A'$, and $E,E'$ are componentwise $\hsame$ as dyadic endpoint-radius ledgers, metric-neighborhood rows, Lipschitz-bound rows, absolute-continuity control rows, and Real seal rows, then any finite derivative-candidate read exported through $H,C,P,N$ and through $H',C',P',N'$ remains the same displayed difference-quotient window.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The only rows that can feed a derivative-candidate read are $D,M,L,A$ before the terminal Real seal $E$, together with the structural rows $H,C,P,N$.
+
+Use \autoref{thm:rademacher-namecert-obligations} and \autoref{thm:rademacher-finite-derivative-candidate-packet}. These force every finite read through the dyadic radius ledger, the metric neighborhood request, the Lipschitz-bound ledger, and the absolute-continuity control before any Real-facing value is sealed.
+
+Now apply the componentwise $\hsame$ assumptions. Since the two packets display the same $D,M,L,A$ rows and the same $E$ seal row, replay through $C$ and $C'$ follows the same finite row inventory. Transport through $H$ and $H'$ preserves that inventory, and $P,N$ and $P',N'$ only source and name the displayed packets.
+
+Therefore the exported difference-quotient window is the same displayed window. The theorem asserts no Lebesgue almost-everywhere differentiability, measurable exceptional set, selected derivative, quotient map, countable choice, ambient measure completion, or completed derivative-space equality.
+\end{proof}
+
 \begin{theorem}[Rademacher absolute-continuity boundary]
 \label{thm:rademacher-absolute-continuity-boundary}
 For every accepted $\RademacherUp$ carrier $R=(L,E,D,M,A,H,C,P,N)$, the absolute-continuity row $A$ may bound the displayed finite variation window used by the difference-quotient route, but it cannot be read as a measurable exceptional-set row, a Lebesgue almost-everywhere derivative theorem, a selected derivative function, a Lebesgue algebra, quotient equality, countable choice, or host real equality.
@@ -87,6 +109,7 @@ The NameCert obligations keep that interpretation fixed. By \autoref{thm:rademac
 
 Now apply \autoref{thm:rademacher-finite-derivative-candidate-packet} and \autoref{thm:rademacher-difference-window-obligation}. Both routes place $A$ before the terminal Real seal and inside the finite dyadic and metric window, so it bounds the visible variation request only. Since the carrier contains no measurable exceptional-set row, a.e. derivative row, selected derivative function, Lebesgue algebra, quotient-equality row, choice row, or host equality row, none can be read from $A$.
 \end{proof}
+\leanchecked{BEDC.Derived.RademacherUp.RademacherCarrier\_absolute\_continuity\_boundary}
 
 \closureat{RademacherUp}{seedStr}
 

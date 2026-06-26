@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\BishopSpreadChoiceUp$}
+\label{ch:concrete-instances-bishop-spread-choice-namecert}
+\origin{human}
+
+Following Bishop and Bridges and Troelstra--van Dalen on spreads, choice sequences, and finite observation, the $\BishopSpreadChoiceUp$ packet records a finite choice-sequence prefix only after the displayed spread-law admission row has accepted it. It sits between the finite choice-sequence source of \autoref{ch:concrete-instances-choice-sequence-namecert}, the spread carrier of \autoref{ch:concrete-instances-brouwer-spread-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite-prefix bridge for L10 Real and Completion consumers; it is not a completed branch, countable choice, quotient stream equality, fan compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop spread-choice carrier]
+\label{def:bishop-spread-choice-carrier}
+A $\BishopSpreadChoiceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(Q,S,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\ChoiceSequenceUp$ finite-prefix row, exposing only the opened prefix entries and their displayed request order.
+\item $S$ is the $\SpreadLawUp$ admission row. It records the finite spread-law decisions that admit the prefixes in $Q$.
+\item $W$ is the $\StreamNameUp$ window row that displays the admitted prefix as the only stream window available to downstream readers.
+\item $R$ is the $\RegSeqRatUp$ readback row produced from the admitted window and its displayed rational requests.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $Q,S,W,R$ have been consumed.
+\item $H$ records componentwise $\hsame$ transport for the prefix, admission, window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite choice-sequence request through spread-law admission, window display, regular readback, and Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\BishopSpreadChoiceUp$, $\ChoiceSequenceUp$, $\SpreadLawUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopSpreadChoiceUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through $Q,S,W,R,E,H,C,P,N$. It has no coordinate for a completed infinite branch, a host function, quotient stream equality, countable choice, fan compactness, selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop spread-choice NameCert obligations]
+\label{thm:bishop-spread-choice-namecert-obligations}
+For every accepted $\BishopSpreadChoiceUp$ carrier
+$$
+B=(Q,S,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\BishopSpreadChoiceUp}$ surface consists exactly of finite choice-sequence prefix exposure, spread-law admission for that prefix, StreamName window display, regular rational readback, terminal Real sealing, componentwise transport, displayed replay, provenance, local naming, and non-escape from those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-spread-choice-carrier}. The visible analytic route begins with the prefix row $Q$, checks it through the spread-law row $S$, and then exposes the admitted window $W$.
+
+The regular readback and Real seal are downstream. Row $R$ reads only the admitted finite window, and row $E$ is available only after $Q,S,W,R$ have been displayed.
+
+The structural rows preserve the same route. Transport $H$ is componentwise, replay $C$ follows the displayed admission and readback chain, and $P,N$ source and name that packet. Since the carrier has no further coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop spread-choice finite-prefix stability]
+\label{thm:bishop-spread-choice-finite-prefix-stability}
+Let $B=(Q,S,W,R,E,H,C,P,N)$ and $B'=(Q',S',W',R',E',H',C',P',N')$ be accepted $\BishopSpreadChoiceUp$ carriers. If $Q$ and $Q'$ display the same finite choice-sequence prefix, $S$ and $S'$ give the same spread-law admission decisions for that prefix, and $W$ and $W'$ are componentwise $\hsame$ as admitted StreamName windows, then every finite derivative-free read exported through $H,C,P,N$ and through $H',C',P',N'$ displays the same $W$-window before reaching the regular readback and Real seal.
+\end{theorem}
+\begin{proof}
+Induct on the displayed prefix length. The empty prefix has no opened entry, so the only visible window is the root window admitted by the spread-law row.
+
+For the successor step, assume the shorter prefix has the same admitted window in both carriers. The next displayed entry is read from the same finite choice-sequence prefix and is admitted by the same spread-law decision, so the extended StreamName row is componentwise $\hsame$.
+
+The readback cannot introduce a second window. By \autoref{thm:bishop-spread-choice-namecert-obligations}, every exported read must pass through $Q,S,W$ before $R$ and $E$. The transport, replay, provenance, and local naming rows therefore preserve the displayed finite row inventory rather than replacing it by a host stream, quotient representative, selected branch, countable-choice schedule, or ambient completion datum.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopSpreadChoiceUp$ Real-facing read exposes one finite $\ChoiceSequenceUp$ prefix row, one $\SpreadLawUp$ admission row, one $\StreamNameUp$ window, one $\RegSeqRatUp$ readback row, one terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{choice-sequence, brouwer-spread, streamname, regseqrat, real: $\BishopSpreadChoiceUp$ is not bijective to any listed sibling because it binds finite prefix data to spread-law admission before any StreamName, RegSeqRat, or Real row can be consumed.}
+
+\closureat{BishopSpreadChoiceUp}{seedStr}
+
+\begin{closurestatus}{\BishopSpreadChoiceUp}
+  \constructivestory{A $\BishopSpreadChoiceUp$ packet is generated from a finite ChoiceSequence prefix row, a SpreadLaw admission row, a StreamName window row, a RegSeqRat readback row, a terminal RealUp seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-spread-choice-carrier}, \autoref{thm:bishop-spread-choice-namecert-obligations}, and \autoref{thm:bishop-spread-choice-finite-prefix-stability} seed the finite-prefix bridge from choice-sequence observation through spread-law admission to StreamName, RegSeqRat, and Real-name handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed infinite branches, countable choice, quotient stream equality, fan compactness, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking for $\BishopSpreadChoiceUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, spread-law admission stability, finite-prefix stability, readback handoff, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.BishopSpreadChoiceUp.}
+\end{closurestatus}
