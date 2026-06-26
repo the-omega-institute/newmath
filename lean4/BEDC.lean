@@ -5705,7 +5705,6 @@ import BEDC.Derived.FejerKernelUp.TasteGate
 import BEDC.Derived.FejerTheoremUp.TasteGate
 import BEDC.Derived.FeketeSubadditiveUp.TasteGate
 import BEDC.Derived.FenchelDualityUp
-import BEDC.Derived.FermatLittleUp
 import BEDC.Derived.FermatWilsonUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FibonacciCubeUp
@@ -7489,6 +7488,7 @@ import BEDC.Derived.LocatedIntervalCoverUp.TasteGate
 import BEDC.Derived.LocatedIntervalFanBarrierUp
 import BEDC.Derived.LocatedIntervalFanBarrierUp.TasteGate
 import BEDC.Derived.LocatedIntervalHalvingUp.TasteGate
+import BEDC.Derived.LocatedIntervalMidpointUp.Handoff
 import BEDC.Derived.LocatedIntervalMidpointUp.TasteGate
 import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedIntervalUp.CarrierHabitation
@@ -12707,7 +12707,6 @@ import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.Nonescape
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.SeparationHandoff
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
-import BEDC.Derived.WilsonTheoremUp
 import BEDC.Derived.WilsonUp
 import BEDC.Derived.Window6CyclicCount
 import BEDC.Derived.Window6DisjointPairPell
