@@ -191,6 +191,45 @@ Project the same rows for $\RegSeqRatUp$ and $\RealUp$ consumers. The StreamName
 Finally replay $H,C,P,N$. Transport, continuation replay, provenance, and local naming keep the witness inside the displayed packet, so no selected subsequence, quotient stream equality, countable-choice schedule, or ambient completeness principle can be read from the cofinal route.
 \end{proof}
 
+\begin{theorem}[RegularSequenceSpace dyadic interval net refinement]
+\label{thm:regular-sequence-space-dyadic-interval-net-refinement}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Any consumer that asks for finite dyadic cover refinement must factor through the $\StreamNameUp$ schedule row $T$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, the finite-cell route of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}, and only then the terminal $\RealUp$ seal $R$. The refinement exports no compactness theorem, selected subsequence, quotient equality of real names, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-sequence-space-carrier}. The only rows available to a refinement consumer are the displayed schedule, readback, tolerance, seal, transport, replay, provenance, and local naming rows.
+
+Use the tail-filter cofinal witness and tail-modulus projection, \autoref{thm:regular-sequence-space-tail-filter-cofinal-witness} and \autoref{thm:regular-sequence-space-tail-modulus-projection}. They force any tail-facing read through $T,Q,D$ before the value seal is public.
+
+Now pass to \autoref{ch:concrete-instances-dyadic-interval-net-namecert}. Its finite-cell route supplies only dyadic endpoint arithmetic, cell incidence, StreamName windows, RegSeqRat readback, and a Real seal. Composing the two routes gives the stated refinement while leaving compactness, selected subsequences, quotient equality, and Real completeness outside the carrier.
+\end{proof}
+
+\begin{theorem}[RegularSequenceSpace shift closure]\label{thm:regular-sequence-space-shift-closure}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Shifting the displayed packet by any unary finite tail preserves the $\StreamNameUp$ schedule row $T$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, and the terminal $\RealUp$ seal route $R,H,C,P,N$. The shifted packet is therefore consumed through the same regular sequence space route and exports no quotient stream equality, selected limit, countable-choice selector, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Induct on the unary tail shift. In the zero case, apply the tail-filter cofinal witness of \autoref{thm:regular-sequence-space-tail-filter-cofinal-witness}; the displayed schedule, readback, dyadic tolerance, and Real seal rows are exactly the rows already exposed by the accepted carrier.
+
+For the successor step, first apply finite-window comparison, \autoref{thm:regular-sequence-space-window-comparison}. It keeps the shifted read inside the same finite $\StreamNameUp$ window and the same $\RegSeqRatUp$ readback route before any value comparison is public.
+
+Next apply the tail-diagonal projection and tail-modulus projection, \autoref{thm:regular-sequence-space-tail-diagonal-projection} and \autoref{thm:regular-sequence-space-tail-modulus-projection}. These rows move the successor tail back to a displayed common window and preserve the dyadic tolerance row $D$ before the $\RealUp$ seal can be consumed.
+
+Finally replay $H,C,P,N$. Transport, continuation replay, provenance, and local naming preserve the same terminal route after each finite tail step, while the carrier still has no coordinate for quotient stream equality, selected limits, countable choice, or ambient completeness. The induction gives shift closure for every unary finite tail.
+\end{proof}
+
+\begin{theorem}[RegularSequenceSpace diagonal tail extraction]
+\label{thm:regular-sequence-space-diagonal-tail-extraction}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. If a consumer displays a finite tail-filter row together with the $\StreamNameUp$ window $T$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, and the $\RealUp$ seal row $R$, then the consumer admits a diagonal tail route through the same displayed rows. This route is consumable by $\RegSeqRatUp$ and $\RealUp$ endpoints and exports no quotient stream equality, selected limit, countable-choice selector, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Start with the tail-filter handoff of \autoref{thm:regular-sequence-space-tail-filter-handoff}. It places every completion-facing read through the displayed stream schedule, regular rational readback, dyadic tolerance row, and regular Cauchy tail-filter surface before the Real seal is consumed.
+
+Apply the tail-diagonal projection and tail-modulus projection, \autoref{thm:regular-sequence-space-tail-diagonal-projection} and \autoref{thm:regular-sequence-space-tail-modulus-projection}. The first projects any two tail-filter reads feeding the same regular rational or Real consumer to one displayed finite window; the second keeps that window tied to the displayed modulus and rate budget rows before public consumption.
+
+Finally use shift closure, \autoref{thm:regular-sequence-space-shift-closure}. Every unary finite tail of the packet preserves the same $T,Q,D,R,H,C,P,N$ route, so the diagonal tail extraction remains inside the accepted carrier for both $\RegSeqRatUp$ and $\RealUp$ endpoints.
+
+Because the carrier records only these finite rows and their structural replay, the extracted route has no coordinate from which quotient stream equality, a selected limit, countable choice, or ambient Real completeness could be read.
+\end{proof}
+
 \closureat{RegularSequenceSpaceUp}{seedStr}
 
 \begin{closurestatus}{\RegularSequenceSpaceUp}

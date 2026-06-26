@@ -77,6 +77,24 @@ Exchange $X$ and $Y$ while keeping $W,D,R,Q,H,C,P,N$ fixed. The NameCert obligat
 The seal-route theorem \autoref{thm:streamname-extensionality-seal-route} then forces every RegSeqRat or RealUp consumer to read the same finite route. Since the carrier has no quotient, function-extensionality, selected-stream, choice, or completeness coordinate, the swapped packet exports only the symmetric finite-window evidence.
 \end{proof}
 
+\begin{theorem}[StreamName extensionality transitive window route]
+\label{thm:streamname-extensionality-transitive-window-route}
+Let
+$$
+E_0=(X,Y,W_0,D_0,R_0,Q_0,H_0,C_0,P_0,N_0)
+\quad\text{and}\quad
+E_1=(Y,Z,W_1,D_1,R_1,Q_1,H_1,C_1,P_1,N_1)
+$$
+be accepted $\StreamNameExtensionalityUp$ packets sharing the middle $\StreamNameUp$ row $Y$ and compatible finite windows. A transitive equality read from $X$ to $Z$ may compose the packets only through the displayed $\StreamNameUp$ source rows, finite windows, $\DyadicRatCoreUp$ ledgers, $\RegSeqRatUp$ readbacks, terminal $\RealUp$ seal rows, componentwise $\hsame$ transports, displayed $\Cont$ replays, $\Pkg$ provenance rows, and local $\NameCert$ rows. It exports no quotient stream equality, host function extensionality, selected infinite stream, countable-choice selector, or ambient Real completeness theorem.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations, \autoref{thm:streamname-extensionality-namecert-obligations}, to $E_0$ and $E_1$. They expose the paired StreamName rows, finite windows, dyadic ledgers, regular readbacks, terminal Real-facing comparisons, transport, replay, provenance, and local names as the whole certificate surface.
+
+Use the seal route, \autoref{thm:streamname-extensionality-seal-route}. It forces each equality read to pass through the finite StreamName-to-DyadicRatCore-to-RegSeqRat-to-Real route before any RegSeqRat or Real consumer may use the comparison.
+
+Finally apply finite-window symmetry, \autoref{thm:streamname-extensionality-finite-window-symmetry}, to align the middle row when the two packets are read in opposite orientations. The shared $Y$ row is therefore used only as a displayed finite-window coordinate, and the composed $X$ to $Z$ route retains both sets of ledgers, readbacks, seals, transports, replays, provenance rows, and names. Since neither carrier contains a quotient, host-extensionality, selected-stream, choice, or completeness coordinate, transitivity remains a finite BEDC route.
+\end{proof}
+
 \closureat{StreamNameExtensionalityUp}{seedStr}
 
 \begin{closurestatus}{\StreamNameExtensionalityUp}
