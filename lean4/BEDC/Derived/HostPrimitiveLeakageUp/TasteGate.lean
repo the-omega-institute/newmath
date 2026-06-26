@@ -213,24 +213,6 @@ def taste_gate : ChapterTasteGate HostPrimitiveLeakageUp :=
   -- BEDC touchpoint anchor: BHist BMark
   hostPrimitiveLeakageChapterTasteGate
 
-theorem HostPrimitiveLeakageTasteGate_single_carrier_alignment :
-    ChapterTasteGate HostPrimitiveLeakageUp ∧
-      Nonempty (Nontrivial HostPrimitiveLeakageUp) ∧
-        Nonempty (FieldFaithful HostPrimitiveLeakageUp) ∧
-          (∀ h : BHist,
-            hostPrimitiveLeakageDecodeBHist (hostPrimitiveLeakageEncodeBHist h) = h) ∧
-          (∀ x : HostPrimitiveLeakageUp,
-            hostPrimitiveLeakageFromEventFlow (hostPrimitiveLeakageToEventFlow x) = some x) ∧
-          (∀ x y : HostPrimitiveLeakageUp,
-            hostPrimitiveLeakageToEventFlow x = hostPrimitiveLeakageToEventFlow y → x = y) ∧
-          hostPrimitiveLeakageEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact
-    ⟨hostPrimitiveLeakageChapterTasteGate, ⟨hostPrimitiveLeakageNontrivial⟩,
-      ⟨hostPrimitiveLeakageFieldFaithful⟩, hostPrimitiveLeakageDecode_encode_bhist,
-      hostPrimitiveLeakage_round_trip, (fun _ _ heq => hostPrimitiveLeakageToEventFlow_injective heq),
-      rfl⟩
-
 theorem HostPrimitiveLeakageNonescape [AskSetup] [PackageSetup]
     {site request replacement diagnostic failedGate auditBoundary transport replay provenance name
       diagnosticRead replacementRead : BHist}
