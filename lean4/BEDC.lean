@@ -6982,6 +6982,7 @@ import BEDC.Derived.JensenInequalityUp.TasteGate
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.JordanContentUp.TasteGate
 import BEDC.Derived.JordanCurveUp.TasteGate
+import BEDC.Derived.JordanTotientUp
 import BEDC.Derived.JordanVariationDecompositionUp.TasteGate
 import BEDC.Derived.KKTUp
 import BEDC.Derived.KKTUp.StationarityTransport
@@ -7118,6 +7119,7 @@ import BEDC.Derived.LagrangeInversionUp.TasteGate
 import BEDC.Derived.LagrangianMechanicsUp
 import BEDC.Derived.LagrangianMechanicsUp.TasteGate
 import BEDC.Derived.LaguerrePolyaUp.TasteGate
+import BEDC.Derived.LahUp
 import BEDC.Derived.LambdaCalcUp
 import BEDC.Derived.LambdaCalcUp.CaptureAvoidanceClosure
 import BEDC.Derived.LambdaCalcUp.ConstructorTransport
@@ -7489,6 +7491,7 @@ import BEDC.Derived.LocatedOpenUp.WindowStability
 import BEDC.Derived.LocatedPositiveRealUp.TasteGate
 import BEDC.Derived.LocatedReal
 import BEDC.Derived.LocatedReal.RatMetricKit
+import BEDC.Derived.LocatedReal.ToleranceClose
 import BEDC.Derived.LocatedRealBisectionSearchUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCompletenessUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCriterionUp.TasteGate
