@@ -877,6 +877,7 @@ import BEDC.Derived.BareissFractionFreeEliminationUp.TasteGate
 import BEDC.Derived.BarrBeckMonadicityUp
 import BEDC.Derived.BayesianUp
 import BEDC.Derived.BayesianUp.TasteGate
+import BEDC.Derived.BeattyUp
 import BEDC.Derived.BedcPhilosophyPackageUp.NameCertObligations
 import BEDC.Derived.BedcPhilosophyPackageUp.ScopedObligations
 import BEDC.Derived.BedcPhilosophyPackageUp.TasteGate
@@ -6332,6 +6333,7 @@ import BEDC.Derived.FuelIndexedSubstrateBridgeUp.TasteGate
 import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
 import BEDC.Derived.FullAxisSealUp
 import BEDC.Derived.FullAxisUp.TasteGate
+import BEDC.Derived.FussCatalanUp
 import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.FunctorUp
@@ -7281,6 +7283,7 @@ import BEDC.Derived.LinearMapUp.StdBridge
 import BEDC.Derived.LinearMapUp.ZeroClassifierUniqueness
 import BEDC.Derived.LiouvilleLedgerConservationUp.TasteGate
 import BEDC.Derived.LiouvilleNumberUp.TasteGate
+import BEDC.Derived.LiouvilleUp
 import BEDC.Derived.LipschitzConstantUp.TasteGate
 import BEDC.Derived.LipschitzContinuityHandoffUp.TasteGate
 import BEDC.Derived.LipschitzExtensionUp.TasteGate
