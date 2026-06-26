@@ -1,0 +1,148 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+\usepackage{url}
+
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+
+\title{BEDC-JEPA: Learning World Models with Certifiable Distinctions and Gap-Aware Planning}
+\author{The Omega Institute}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Joint-embedding predictive architectures learn world models by predicting
+target representations rather than reconstructing observations.  Recent
+identifiability results show that, under explicit Gaussian and transition
+assumptions, such objectives can recover latent world variables up to a linear
+or orthogonal gauge.  This paper proposes a different learning target:
+BEDC-JEPA, a world-model principle in which the learned state includes
+continuous latent coordinates, operational distinction heads, and explicit gap
+ledger heads.  The goal is not to attach a post-hoc report to a representation,
+but to train the model to know which distinctions are stable enough to claim
+and where its own world-state predictions require a ledger entry.  The same
+logic yields a fail-closed latent-claim certificate protocol for fixed
+carriers: operational claims are emitted only when a declared source split,
+test surface, and split-conformal singleton certificate support them; otherwise
+the candidate is ledgered as coverage, source, or stability debt.  A
+boundary-gated Ornstein--Uhlenbeck world gives the first executable study:
+a continuous latent trajectory, an inside/outside operational distinction, and
+a boundary gap band.  A four-system comparison separates latent-only
+prediction, a post-hoc probe, a post-hoc BEDC report, and a trained BEDC-JEPA
+gap readback.  The evidence record includes fixed-latent torch objectives,
+learned-transition pixel grids, MiniGrid-style visual planning, object-level
+counterfactual contact, cluttered distractor settings, a public V-JEPA2-AC
+Giant CUDA checkpoint adapter evaluation, and a native
+\texttt{MiniGrid-DoorKey-8x8-v0} S0/S1/S2/S3 study with a seed sweep and
+planning penalty sweep.  The V-JEPA2-AC checkpoint is also passed through the
+latent-claim certificate protocol as a fixed MiniGrid carrier, where the
+protocol returns coverage-gap and source-debt rows rather than unsupported
+latent-meaning claims; a fixed-checkpoint MiniGrid latent-prediction study
+records linear-aligned latent score $0.981246$, and the corresponding
+fixed-checkpoint row is imported into the public-baseline comparison record.  A
+near-native fixed-checkpoint MiniGrid record places that latent-prediction score
+beside the LCCP readback metrics while explicitly separating this evaluation
+from an official V-JEPA2-AC benchmark reproduction.  The second registry
+target, LeWorldModel, carries an executed fixed-checkpoint gap-ledger
+instantiation on its public \texttt{tworooms} release: a post-hoc gap head
+predicts the checkpoint's own latent rollout failures (AUROC $0.731$ against
+a matched-random $0.472$), a trained ledger-head transformer transfers under
+the same criteria without beating the post-hoc head, and a visual
+perturbation study maps where clean-only heads collapse and OOD-aware heads
+generalize.  A CUDA retraining loss-term ablation on the torch
+boundary objective runs true retraining rows for full S3 and for removing
+$\mathcal L_{\mathrm{unlogged}}$, $\mathcal L_{\mathrm{gap}}$,
+$\mathcal L_{\mathrm{stab}}$, or
+$\mathcal L_{\mathrm{intervention}}$.  It isolates the trained gap term: removing
+$\mathcal L_{\mathrm{gap}}$ preserves latent recovery but collapses gap
+ranking and certified coverage, while the unlogged, stability, and
+intervention removals do not produce an independent positive effect in this
+boundary-gated setting.  Under fixed or declared latent carriers, the trained BEDC-JEPA
+systems reduce unlogged distinction failures in the controlled settings; the
+public MiniGrid study supports the UER direction while exposing weak debt
+reduction and a risk-success planning tradeoff.  A public MiniGrid calibration
+extension over seeds, planning budgets, and DoorKey, Unlock, and KeyCorridor
+task families keeps that boundary: risk can be reduced on average, but total
+debt is not closed.
+The result is a ledgered world-state objective with certified latent-claim
+accounting, public checkpoint evidence, native public benchmark evidence, and
+a bounded retraining mechanism study, not a public benchmark superiority claim.
+\end{abstract}
+
+\section{Scope}
+BEDC-JEPA is not a formalization of an existing JEPA paper and not a post-hoc
+model card.  The object of study is a BEDC-native world-model objective:
+$$
+\text{world state} = z_t + d_t + g_t .
+$$
+Here $z_t$ is a continuous latent state, $d_t$ is a vector of operational
+distinctions, and $g_t$ is a vector of gap-ledger states.  A distinction is not
+a natural-language label.  It is a stable predicate with transition,
+intervention, or planning consequences inside a declared scope.  A gap state is
+not an after-the-fact explanation.  It is a model output indicating that the
+current prediction or distinction claim is not certified.
+
+The paper makes four scoped claims.  First, it states a BEDC-native
+world-model objective whose state includes latent coordinates, operational
+distinctions, and gap ledgers.  Second, it gives a latent-claim certificate
+protocol that maps any fixed carrier to certified singleton claims or
+explicit source, coverage, or stability debt.  Third, it reports public
+MiniGrid debt decomposition and risk-success planning summaries rather than a
+free success-rate improvement claim.  Fourth, it supplies a CUDA retraining
+ablation showing that the gap-loss term is necessary for gap ranking and
+certified coverage in the boundary-gated torch objective, while the unlogged
+loss term has no independent UER effect in that setting.
+
+\input{parts/reality_boundary}
+\input{parts/relation_to_jepa}
+\input{parts/model_principle}
+\input{parts/latent_claim_certificate}
+\input{parts/boundary_gated_world}
+\input{parts/evaluation_contract}
+\input{parts/gap_aware_planning}
+\input{parts/evidence_packet}
+\input{parts/lewm_instantiation}
+\input{parts/autoresearch_boundary_synthesis}
+\input{parts/cannot_claim_boundary}
+
+\begin{thebibliography}{9}
+\bibitem{lecun-ami}
+Yann LeCun.
+\newblock A Path Towards Autonomous Machine Intelligence.
+\newblock Open research essay, 2022.
+
+\bibitem{ijepa}
+Mahmoud Assran, Quentin Duval, Ishan Misra, Piotr Bojanowski, Pascal Vincent,
+Michael Rabbat, Yann LeCun, and Nicolas Ballas.
+\newblock Self-Supervised Learning from Images with a Joint-Embedding
+Predictive Architecture.
+\newblock arXiv:2301.08243, 2023.
+
+\bibitem{causal-jepa}
+Heejeong Nam, Quentin Le Lidec, Lucas Maes, Yann LeCun, and Randall
+Balestriero.
+\newblock Causal-JEPA: Learning World Models through Object-Level Latent
+Masking.
+\newblock arXiv:2602.11389, 2026.
+
+\bibitem{leworldmodel}
+Lucas Maes, Quentin Le Lidec, Damien Scieur, Yann LeCun, and Randall
+Balestriero.
+\newblock LeWorldModel: Stable End-to-End Joint-Embedding Predictive
+Architecture from Pixels.
+\newblock arXiv:2603.19312, 2026.
+
+\bibitem{lejepa-world-model}
+David Klindt, Yann LeCun, and Randall Balestriero.
+\newblock When Does LeJEPA Learn a World Model?
+\newblock arXiv:2605.26379, 2026.
+\end{thebibliography}
+
+\end{document}

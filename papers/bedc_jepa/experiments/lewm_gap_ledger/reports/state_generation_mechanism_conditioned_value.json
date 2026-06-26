@@ -1,0 +1,346 @@
+{
+  "config": {
+    "batch": 512,
+    "bootstrap_samples": 4000,
+    "depth": 2,
+    "epochs": 90,
+    "hidden": 256,
+    "lr": 0.0005,
+    "seed": 1117,
+    "targets": [
+      "mechanism_option_error",
+      "mechanism_uniform_relative_cost"
+    ]
+  },
+  "device": "cuda",
+  "diagnosis": {
+    "best_direct_budget3_capture_ratio": -0.36098218696422224,
+    "best_direct_mean_capture_ratio": -0.19863350929870274,
+    "best_direct_row": "uniform_relative_cost",
+    "best_mechanism_budget3_capture_ratio": 0.12337407159293813,
+    "best_mechanism_budget4_capture_ratio": 0.09602301992822371,
+    "best_mechanism_mean_capture_ratio": 0.11185861064199525,
+    "best_mechanism_mean_regret_to_oracle": 0.03800287791850163,
+    "best_mechanism_row": "mechanism_uniform_relative_cost",
+    "mechanism_beats_direct_budget3_capture": true,
+    "mechanism_beats_direct_mean_capture": true,
+    "mechanism_conditioned_closes": false
+  },
+  "feature_dims": {
+    "augmented_feature_dim": 4968,
+    "base_feature_dim": 4952,
+    "expanded_mechanism_feature_dim": 5125,
+    "geometry_feature_dim": 16,
+    "mechanism_feature_dim": 12
+  },
+  "hard_episode_union": [
+    81,
+    115,
+    145,
+    193,
+    201,
+    213,
+    277
+  ],
+  "leakage_attestation": {
+    "features": "aligned export x, explicit environment geometry, candidate depth token, predicted rollout transition/curvature/validity summaries, and option interactions",
+    "oracle_scope": "eval option_error is used only after fixed scores are generated to measure hard oracle regret and capture",
+    "selection": "calibration split metrics only; held-out hard ids are not used for training or model selection",
+    "slurm_or_ssh": "not used",
+    "training_targets": "train split option_error transforms only"
+  },
+  "not_claimed": [
+    "deployable allocation policy",
+    "independent export validation",
+    "complete BEDC-native world model",
+    "prediction parity"
+  ],
+  "ranking": [
+    {
+      "budget3_capture_ratio": 0.12337407159293813,
+      "budget4_capture_ratio": 0.09602301992822371,
+      "max_capture_ratio": 0.12337407159293813,
+      "mean_capture_ratio": 0.11185861064199525,
+      "mean_regret_to_oracle": 0.03800287791850163,
+      "min_capture_ratio": 0.09602301992822371,
+      "row": "mechanism_uniform_relative_cost"
+    },
+    {
+      "budget3_capture_ratio": -0.5467400395586108,
+      "budget4_capture_ratio": -0.15141306736471222,
+      "max_capture_ratio": 0.14755605825514534,
+      "mean_capture_ratio": -0.18353234955605924,
+      "mean_regret_to_oracle": 0.052281374501219946,
+      "min_capture_ratio": -0.5467400395586108,
+      "row": "mechanism_option_error"
+    }
+  ],
+  "schema_id": "bedc_jepa.state_generation_mechanism_conditioned_value",
+  "status": "ok",
+  "summaries": {
+    "mechanism_option_error": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": 0.14755605825514534,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012535144364578183,
+            "low": -0.039884025308273306,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.03486285321560432,
+            "low": 0.010152903954529283,
+            "observed": 0.021416977392897496,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.007739842444361713,
+            "low": -0.016047691046123677,
+            "observed": -0.0037072288382587817,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.5467400395586108,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022491417384736815,
+            "low": -0.07146623962595984,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.114474692372181,
+            "low": 0.033719369207031356,
+            "observed": 0.06650402645044215,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.0463946161681262,
+            "low": -0.0014954199137453847,
+            "observed": 0.02350777320195171,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.15141306736471222,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.030290475103032788,
+            "low": -0.10099241524520755,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.12213839965597115,
+            "low": 0.03495049158858079,
+            "observed": 0.06892311966032018,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.02934474516301501,
+            "low": -0.01365213330290199,
+            "observed": 0.009063524859935085,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.5467400395586108,
+        "budget4_capture_ratio": -0.15141306736471222,
+        "max_capture_ratio": 0.14755605825514534,
+        "mean_capture_ratio": -0.18353234955605924,
+        "mean_regret_to_oracle": 0.052281374501219946,
+        "min_capture_ratio": -0.5467400395586108
+      }
+    },
+    "mechanism_uniform_relative_cost": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": 0.11617874040482386,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012612716909486916,
+            "low": -0.0404031049005209,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.038358135226312026,
+            "low": 0.011103920171261984,
+            "observed": 0.022205307597549517,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.005928889691939244,
+            "low": -0.012565943769948875,
+            "observed": -0.0029188986336067635,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": 0.12337407159293813,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022553316333956176,
+            "low": -0.07239929875946129,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.05245435624532726,
+            "low": 0.025234139965681163,
+            "observed": 0.03769163042198308,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.009327437969067254,
+            "low": -0.0235221634139293,
+            "observed": -0.0053046228265073575,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": 0.09602301992822371,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.03134115213887991,
+            "low": -0.10243573141342621,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.09104552557266495,
+            "low": 0.031499290181648154,
+            "observed": 0.0541116957359723,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.009825497208401502,
+            "low": -0.02151858873605846,
+            "observed": -0.005747899064412774,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": 0.12337407159293813,
+        "budget4_capture_ratio": 0.09602301992822371,
+        "max_capture_ratio": 0.12337407159293813,
+        "mean_capture_ratio": 0.11185861064199525,
+        "mean_regret_to_oracle": 0.03800287791850163,
+        "min_capture_ratio": 0.09602301992822371
+      }
+    }
+  },
+  "training": {
+    "mechanism_option_error": {
+      "name": "mechanism_option_error",
+      "selection": {
+        "best": {
+          "calibration": {
+            "allocation_delta": {
+              "high": -0.0027951895800273326,
+              "low": -0.01059629520030123,
+              "observed": -0.006379981316378278
+            },
+            "chosen_depth_counts": {
+              "1": 125,
+              "2": 162,
+              "3": 112,
+              "4": 82,
+              "5": 165
+            },
+            "score_error_spearman": 0.8747161718237093
+          },
+          "epoch": 83,
+          "selection_key": [
+            -0.0027951895800273326,
+            -0.006379981316378278,
+            0.12507027834653855
+          ]
+        },
+        "history_first": {
+          "cal_delta_high": 0.017501976519200393,
+          "cal_delta_observed": 0.012490346122804794,
+          "cal_spearman": 0.7134046889205651,
+          "epoch": 1.0,
+          "train_loss": 0.39342214316129687
+        },
+        "history_last": {
+          "cal_delta_high": -0.001968980805393033,
+          "cal_delta_observed": -0.005600248320928758,
+          "cal_spearman": 0.8724582287878507,
+          "epoch": 90.0,
+          "train_loss": 0.1273295719176531
+        },
+        "params_count": 1379329,
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then training loss"
+      },
+      "target_mean": 0.34039367043003754,
+      "target_scale": 0.5002792609213487
+    },
+    "mechanism_uniform_relative_cost": {
+      "name": "mechanism_uniform_relative_cost",
+      "selection": {
+        "best": {
+          "calibration": {
+            "allocation_delta": {
+              "high": -0.002926991724247491,
+              "low": -0.010152050514298808,
+              "observed": -0.0063457967997380405
+            },
+            "chosen_depth_counts": {
+              "1": 139,
+              "2": 64,
+              "3": 226,
+              "4": 92,
+              "5": 125
+            },
+            "score_error_spearman": 0.8403495750190693
+          },
+          "epoch": 9,
+          "selection_key": [
+            -0.002926991724247491,
+            -0.0063457967997380405,
+            0.1808094374835491
+          ]
+        },
+        "history_first": {
+          "cal_delta_high": 0.016941846349752307,
+          "cal_delta_observed": 0.011033526191932888,
+          "cal_spearman": 0.7391840624197239,
+          "epoch": 1.0,
+          "train_loss": 0.44566678404808047
+        },
+        "history_last": {
+          "cal_delta_high": -0.0005224171933395824,
+          "cal_delta_observed": -0.004807684126921785,
+          "cal_spearman": 0.8381338082807701,
+          "epoch": 90.0,
+          "train_loss": 0.11391554027795792
+        },
+        "params_count": 1379329,
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then training loss"
+      },
+      "target_mean": 0.04004721754100407,
+      "target_scale": 0.37551344172889367
+    }
+  },
+  "verdict": "Mechanism-conditioned rollout features improve at least one direct oracle-value gap statistic, but the hard oracle-headroom boundary remains open.",
+  "wall_time_sec": 170.62532830238342
+}

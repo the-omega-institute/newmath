@@ -1,0 +1,101 @@
+\origin{ai}
+
+\subsection{Finite windows for the golden-mean subshift}
+\label{sec:phi-m-factor-golden-mean-subshift}
+
+\paragraph{Carrier.}
+Fix the binary alphabet $\{0,1\}$ and the two-sided ambient configuration space $\{0,1\}^{\mathbb Z}$. A point is a bi-infinite word $x=(x_i)_{i\in\mathbb Z}$ with each coordinate $x_i\in\{0,1\}$. The golden-mean subshift $\Sigma$ is the subset of $\{0,1\}^{\mathbb Z}$ consisting exactly of those configurations in which the adjacent factor $11$ never occurs. Thus
+$$
+\begin{aligned}
+\Sigma
+  &= \{x\in\{0,1\}^{\mathbb Z}: \text{there is no }i\in\mathbb Z\text{ with }x_i=1\text{ and }x_{i+1}=1\}.
+\end{aligned}
+$$
+For a fixed positive integer $m$, let $A_m$ be the finite set of length-$m$ words over $\{0,1\}$ that contain no occurrence of the adjacent factor $11$. Equivalently,
+$$
+\begin{aligned}
+A_m
+  &= \{(a_0,\ldots,a_{m-1})\in\{0,1\}^m:
+      \text{there is no }0\leq j<m-1\text{ with }a_j=1\text{ and }a_{j+1}=1\}.
+\end{aligned}
+$$
+The complementary finite class consists of all length-$m$ binary words containing at least one adjacent pair $11$. Hence $\{0,1\}^m$ is partitioned into admissible windows and forbidden windows:
+$$
+\begin{aligned}
+\{0,1\}^m
+  &= A_m\,\dot\cup\,\bigl(\{0,1\}^m\setminus A_m\bigr).
+\end{aligned}
+$$
+This is the full local predicate used in the construction: a finite window is admissible precisely when the forbidden factor $11$ is absent.
+
+\paragraph{Finite transition relation.}
+The same local rule may be written as a two-symbol incidence kernel on $\{0,1\}\times\{0,1\}$. Define $K(a,b)=1$ when the adjacent pair $ab$ is allowed, and $K(a,b)=0$ when it is forbidden. Explicitly,
+$$
+\begin{aligned}
+K(0,0)&=1, & K(0,1)&=1,\\
+K(1,0)&=1, & K(1,1)&=0.
+\end{aligned}
+$$
+A length-$m$ word $(a_0,\ldots,a_{m-1})$ lies in $A_m$ if and only if $K(a_j,a_{j+1})=1$ for every $0\leq j<m-1$. This gives a finite relation whose accepted paths are exactly the admissible windows. No extra state, measure, limiting process, or outside parameter is needed.
+
+\paragraph{Exact counts.}
+The first admissible window sets have cardinalities
+$$
+\begin{aligned}
+|A_1|&=2,\\
+|A_2|&=3,\\
+|A_3|&=5,\\
+|A_4|&=8.
+\end{aligned}
+$$
+For $m\geq2$, every admissible length-$m$ word begins either with $0$ followed by an admissible length-$(m-1)$ word, or with $10$ followed by an admissible length-$(m-2)$ word. These two cases are disjoint because their initial symbols differ after the first step. Therefore
+$$
+\begin{aligned}
+A_m &= 0A_{m-1}\,\dot\cup\,10A_{m-2},\\
+|A_m|&=|A_{m-1}|+|A_{m-2}|.
+\end{aligned}
+$$
+With the displayed initial values, this recurrence gives
+$$
+\begin{aligned}
+|A_m|=F_{m+2}.
+\end{aligned}
+$$
+Here the symbol $F_{m+2}$ denotes the integer sequence determined by the same two-term recurrence and the preceding initial finite counts. The equality is a finite counting identity for admissible local windows.
+
+\paragraph{Sliding-window factor.}
+Let $\sigma:\{0,1\}^{\mathbb Z}\to\{0,1\}^{\mathbb Z}$ be the shift map, so that $(\sigma x)_i=x_{i+1}$. A width-$m$ sliding block map $\Phi_m$ is specified by assigning an output symbol to each admissible length-$m$ window. For $x\in\Sigma$, the value of $(\Phi_m(x))_i$ is obtained from the length-$m$ block read at coordinates $i,i+1,\ldots,i+m-1$ of $x$. The map is therefore local: the $i$th output coordinate depends only on the finite window $(x_i,x_{i+1},\ldots,x_{i+m-1})\in A_m$.
+
+\paragraph{Shift compatibility.}
+The shift-commutation identity is checked directly from the definition of the window read by $\Phi_m$. At coordinate $i$, applying $\sigma$ after $\Phi_m$ reads the output coordinate $i+1$ of $\Phi_m(x)$, which was determined from the input window
+$$
+\begin{aligned}
+(x_{i+1},x_{i+2},\ldots,x_{i+m}).
+\end{aligned}
+$$
+Applying $\Phi_m$ after $\sigma$ first shifts the input and then reads the coordinate-$i$ window of $\sigma x$, which is again
+$$
+\begin{aligned}
+((\sigma x)_i,(\sigma x)_{i+1},\ldots,(\sigma x)_{i+m-1})
+  &=(x_{i+1},x_{i+2},\ldots,x_{i+m}).
+\end{aligned}
+$$
+Thus both orders use the same finite window at every coordinate, and hence
+$$
+\begin{aligned}
+\Phi_m(\sigma x)&=\sigma(\Phi_m(x)).
+\end{aligned}
+$$
+Equivalently,
+$$
+\begin{aligned}
+\sigma\circ\Phi_m=\Phi_m\circ\sigma.
+\end{aligned}
+$$
+Since the defining rule is the same at every coordinate and commutes with the shift in this windowwise sense, the image $\Phi_m(\Sigma)$ is shift-invariant.
+
+\paragraph{Witness extraction.}
+The finite certificate consists of the alphabet $\{0,1\}$, the forbidden adjacent pair $11$, the admissible window family $A_m$, the incidence kernel $K$, and the local block assignment defining $\Phi_m$ on $A_m$. Membership of a window is decided by scanning its adjacent pairs and rejecting exactly when $11$ appears. The count witness is the disjoint decomposition $A_m=0A_{m-1}\,\dot\cup\,10A_{m-2}$ together with the initial counts $2,3,5,8$. The commutation witness is the coordinate calculation above: after shifting, the width-$m$ window read at coordinate $i$ is exactly the next width-$m$ window read before shifting.
+
+\paragraph{Boundary of the assertion.}
+The construction asserts only the finite local-rule factor structure of the golden-mean subshift and the shift-commutation of the width-$m$ sliding block map. It does not assert any measure, entropy, physical-constant identification, global flow law, metrological comparison, spectral statement, external dependency, or interpretation beyond the finite construction unless a separate certificate supplies that additional content.

@@ -1,0 +1,149 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-13T12:52:34.119917+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "10fc851c45af43f3a0a47bc41d3ef49ea66ef40dcd88d885db2590aebbfb8ffc",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/claim_terms.py",
+        "sha256": "d1221b2d7e7a9f5ac1c5561b99f9440a598dbaa75cd21930fbfaa67c12f34717"
+      },
+      {
+        "path": "bedc_quality_lab/order_k_benchmark.py",
+        "sha256": "29d56b74b416fb220c8241d2d805024eedf03e3e7b74af010a2ee2ce62a9980c"
+      },
+      {
+        "path": "scripts/run_order_k_benchmark.py",
+        "sha256": "e033bbbcb84d2121b288305e9438ab2548171dc314da040a271ee48752eda0ca"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:order-k-benchmark",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_order_k_benchmark.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "51cfb8853f2d4c92276f764470a7b0245c6cbc45b7cbea1208d11a7e4c464046"
+      }
+    ],
+    "spec": {
+      "bundle_role": "hg_p_core",
+      "claim_promotion_eligible": true,
+      "command": [
+        "python3",
+        "scripts/run_order_k_benchmark.py"
+      ],
+      "construct_validity_pointer": null,
+      "control_pointer": "$.matched_random_controls",
+      "cost_pointer": "$.source_artifacts.cost_protocol",
+      "estimated_seconds": 2,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior",
+        "trained empirical superiority over Transformer",
+        "training evidence beats Transformer",
+        "LLM superiority",
+        "production superiority"
+      ],
+      "json_artifact": "reports/canonical/order-k-benchmark.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/order-k-benchmark.md",
+      "name": "order-k-benchmark",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.positive_claim",
+      "reproducibility_mode": "exact_fixture",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "source_artifacts",
+        "task_specs",
+        "order_rows",
+        "minimal_order_summary",
+        "surface_required_order_ledger",
+        "surface_required_order_ledger_ref",
+        "hardgate",
+        "discovery_map_signal",
+        "matched_random_controls",
+        "ood_stability",
+        "not_claimed",
+        "positive_claim",
+        "forbidden_claim_term_audit"
+      ],
+      "scope_pointer": "$.task_specs"
+    }
+  },
+  "json_artifact": "reports/canonical/order-k-benchmark.json",
+  "markdown_artifact": "reports/canonical/order-k-benchmark.md",
+  "producer_command": [
+    "python3",
+    "scripts/run_order_k_benchmark.py"
+  ],
+  "report_name": "order-k-benchmark",
+  "reproducibility_contract": {
+    "calibration": {
+      "basis": "input-fingerprint-only fixture contract",
+      "calibration_source": "exact-fixture-input-contract",
+      "owner": "order-k-benchmark"
+    },
+    "device_policy": {
+      "backend_details": {
+        "torch": "not-requested"
+      },
+      "requested_device": "cpu",
+      "resolution_reason": "exact-fixture-cpu-only",
+      "resolution_status": "available",
+      "resolved_device": "cpu"
+    },
+    "framework_provenance": {
+      "dependency_abi": {
+        "numpy": "2.2.5",
+        "torch": "not-requested"
+      },
+      "python": "3.13.2"
+    },
+    "metric_bands": [
+      {
+        "calibration_source": "exact-fixture-input-contract",
+        "comparison": "status_equal",
+        "owner": "order-k-benchmark",
+        "pointer": "$",
+        "reference_value": "fixture-schema-present",
+        "seed_basis": {
+          "seed_count": 1,
+          "source": "fixture"
+        },
+        "tolerance": 0
+      }
+    ],
+    "mode": "exact_fixture",
+    "schema_id": "bedc-quality-lab:canonical-reproducibility-contract",
+    "seed_list": [
+      0
+    ]
+  },
+  "reproducibility_contract_digest": "059a113c9eebbd242c76fa387b99de7f2e81e4244e36797c55ab0588c9813d31",
+  "reproducibility_mode": "exact_fixture",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

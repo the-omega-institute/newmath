@@ -1,0 +1,93 @@
+\origin{ai}
+
+\subsection{Golden split law in the prime window below one hundred twenty}
+\label{sec:window6-golden-split-modp-fibonacci-entry-point-law}
+
+\paragraph{Carrier.}
+The finite carrier is the quadratic residue problem attached to the polynomial $f(x)=x^2-x-1$ and the prime window consisting of all primes $p<120$.  The discriminant is $5$, so the prime $p=5$ is separated from the nonramified part of the window.  The complete prime list is
+$$
+\begin{aligned}
+\{&2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113\}.
+\end{aligned}
+$$
+Thus the window contains $30$ primes, with one ramified prime and $29$ nonramified primes.  For every nonramified prime $p$ in the window, the local question is whether the finite field congruence
+$$
+\begin{aligned}
+x^2-x-1 \equiv 0 \pmod p
+\end{aligned}
+$$
+has a solution.  Define two predicates on nonramified primes $p<120$:
+$$
+\begin{aligned}
+S(p) &:= \text{there exists } x \in \{0,1,\ldots,p-1\} \text{ such that } x^2-x-1 \equiv 0 \pmod p,\\
+N(p) &:= \text{there is no } x \in \{0,1,\ldots,p-1\} \text{ such that } x^2-x-1 \equiv 0 \pmod p.
+\end{aligned}
+$$
+The finite relation recorded here is the graph of these predicates over the $29$ nonramified primes, organized by the residue of $p$ modulo $5$.
+
+\paragraph{Residue partition.}
+The nonramified primes in the window split into four residue classes modulo $5$:
+$$
+\begin{aligned}
+R_1 &= \{11,31,41,61,71,101\},\\
+R_2 &= \{2,7,17,37,47,67,97,107\},\\
+R_3 &= \{3,13,23,43,53,73,83,103,113\},\\
+R_4 &= \{19,29,59,79,89,109\}.
+\end{aligned}
+$$
+The exact counts are
+$$
+\begin{aligned}
+|R_1|=6,\qquad |R_2|=8,\qquad |R_3|=9,\qquad |R_4|=6.
+\end{aligned}
+$$
+The forced-window law is the pair of exact equivalences
+$$
+\begin{aligned}
+S(p) &\Longleftrightarrow p \bmod 5 \in \{1,4\},\\
+N(p) &\Longleftrightarrow p \bmod 5 \in \{2,3\},
+\end{aligned}
+$$
+for every nonramified prime $p<120$.  Hence the root-bearing part of the window has size $|R_1|+|R_4|=12$, and the root-free part has size $|R_2|+|R_3|=17$.
+
+\paragraph{Ramified row.}
+The separated prime $5$ is not placed in either nonramified class.  Modulo $5$, the polynomial has the exact factorization
+$$
+\begin{aligned}
+x^2-x-1=(x-3)^2.
+\end{aligned}
+$$
+Therefore the unique root modulo $5$ is the class $[3]$, counted with multiplicity two.  This row is the ramified entry of the finite table and is not evidence for either side of the nonramified split-versus-nonsplit partition.
+
+\paragraph{Finite matrix form.}
+Equivalently, define a $29\times 4$ incidence matrix $A$ whose rows are indexed by the nonramified primes $p<120$ and whose columns are indexed by residues $1,2,3,4$ modulo $5$, with
+$$
+\begin{aligned}
+A_{p,r}=1 \quad \text{if } p\equiv r \pmod 5,\qquad A_{p,r}=0 \quad \text{otherwise}.
+\end{aligned}
+$$
+Let $u=(1,0,0,1)^T$ and $v=(0,1,1,0)^T$.  The vector $Au$ is the characteristic vector of the predicate $S(p)$ over the nonramified rows, and the vector $Av$ is the characteristic vector of the predicate $N(p)$ over the same rows.  Since each nonramified prime has exactly one residue among $1,2,3,4$, the two vectors are complementary:
+$$
+\begin{aligned}
+Au+Av=(1,1,\ldots,1)^T,\qquad (Au)_p(Av)_p=0 \text{ for every row } p.
+\end{aligned}
+$$
+The kernel of the classification map is therefore not a hidden analytic parameter: within this finite window, the classification is completely determined by the residue map $p\mapsto p\bmod 5$ together with the explicit removal of the ramified prime $5$.
+
+\paragraph{Fibonacci entry-point certificate.}
+The Fibonacci entry-point content is the following finite certificate.  The polynomial $x^2-x-1$ is the quadratic relation for the golden recurrence carrier: an element satisfying $x^2=x+1$ is the local algebraic witness that the golden recurrence relation can be represented in the finite residue field at that prime.  In the window $p<120$, such a witness exists exactly at the nonramified primes whose residue modulo $5$ is $1$ or $4$, and it is absent exactly at the nonramified primes whose residue modulo $5$ is $2$ or $3$.  The ramified prime $5$ supplies a double-root row at $[3]$ rather than an ordinary split row.  Thus the entry-point certificate is the finite table consisting of the $12$ ordinary root-bearing primes, the $17$ ordinary root-free primes, and the single ramified double-root prime.
+
+\paragraph{Domination invariant.}
+The Parry descent domination invariant asserted by this chapter is the finite domination of the split predicate by residue modulo $5$ in the given window.  No search over polynomial roots is needed once the residue class is known: the residue partition forces the truth value of $S(p)$ for every nonramified prime $p<120$.  In finite-relational terms, the root predicate factors as
+$$
+\begin{aligned}
+p \longmapsto p \bmod 5 \longmapsto \mathbf{1}_{\{1,4\}}(p \bmod 5),
+\end{aligned}
+$$
+with the separate ramified clause $p=5$.  This is the complete forced-window structure.
+
+\paragraph{Witness extraction.}
+A witness for the construction is obtained by reading the finite carrier rows: enumerate the primes below $120$, remove $5$ as ramified, compute each remaining residue modulo $5$, and apply the two-class partition $\{1,4\}$ versus $\{2,3\}$.  The extracted certificate is not an approximation and not a fit.  It is the exact finite equality between the mod-$p$ root predicate for $x^2-x-1$ and the mod-$5$ residue partition over the stated prime window.
+
+\paragraph{Boundary of the assertion.}
+This chapter asserts only the finite forced-window classification just described.  It does not identify the construction with the physical fine-structure constant, with any other physical constant, or with $\alpha/137$.  It does not use numerical proximity to a physical value as an input, a target, or a reverse fit.  It also does not assert a global flow law, an external dependency, a metrological comparison, or an interpretation beyond the finite construction unless an independent certificate supplies that additional content.

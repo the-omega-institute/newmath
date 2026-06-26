@@ -1,0 +1,786 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_tail_policy",
+  "device": "cuda",
+  "inputs": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\g2n_labels_clean.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz",
+    "baseline_prediction": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_policy_stability_predictions.npz"
+  },
+  "grid": {
+    "seeds": [
+      3,
+      7,
+      11
+    ],
+    "epoch_budgets": [
+      5,
+      20,
+      100
+    ],
+    "hidden": 256,
+    "batch": 256,
+    "lr": 0.0008,
+    "gamma": 2.0,
+    "cap": 8.0
+  },
+  "counts": {
+    "train": 2043,
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55
+  },
+  "selection_rule": "minimize calibration allocation_delta CI high, then observed delta",
+  "selected_run": {
+    "seed": 7,
+    "epochs": 5,
+    "health": {
+      "best": {
+        "epoch": 1,
+        "calibration": {
+          "allocation_delta": {
+            "observed": 0.005934140629501039,
+            "low": -0.00043760276973861306,
+            "high": 0.011936991498025126
+          },
+          "mv_spearman": 0.30833440627683634,
+          "chosen_depth_counts": {
+            "1": 317,
+            "3": 12,
+            "5": 317
+          }
+        },
+        "cal_bce": 0.8203181028366089
+      },
+      "history_first": {
+        "epoch": 1.0,
+        "train": 0.514446459710598,
+        "cal_bce": 0.8203181028366089,
+        "cal_delta_high": 0.011936991498025126,
+        "cal_delta_observed": 0.005934140629501039
+      },
+      "history_last": {
+        "epoch": 5.0,
+        "train": 0.02992721530608833,
+        "cal_bce": 1.0621274709701538,
+        "cal_delta_high": 0.014032715371555718,
+        "cal_delta_observed": 0.005576381034216649
+      },
+      "params_count": 1301761,
+      "weighting": {
+        "gamma": 2.0,
+        "cap": 8.0,
+        "train_weight_mean": 12.74563217163086,
+        "train_weight_max": 64.0
+      }
+    },
+    "calibration": {
+      "allocation_delta": {
+        "observed": 0.005934140629501039,
+        "low": -0.0005151804341842628,
+        "high": 0.012387634496729307
+      },
+      "mv_spearman": 0.30833440627683634,
+      "chosen_depth_counts": {
+        "1": 317,
+        "3": 12,
+        "5": 317
+      }
+    },
+    "eval": {
+      "allocation_delta": {
+        "observed": 0.008778288535785037,
+        "low": 0.0032245366790475747,
+        "high": 0.015355698229989685
+      },
+      "mv_spearman": 0.3045679462447477,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    }
+  },
+  "summary": {
+    "runs": 9,
+    "eval_delta_observed_min": 0.004305906093237222,
+    "eval_delta_observed_median": 0.008778288535785037,
+    "eval_delta_observed_max": 0.013941612494026562,
+    "eval_delta_high_min": 0.01011916088151006,
+    "eval_delta_high_max": 0.02505883230302895,
+    "runs_with_eval_ci_high_below_zero": 0
+  },
+  "references": {
+    "oracle": {
+      "allocation_delta": {
+        "observed": -0.012902872670635557,
+        "low": -0.01872469923220473,
+        "high": -0.007966144220281047
+      },
+      "mv_spearman": 1.0,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    },
+    "episode_policy": {
+      "allocation_delta": {
+        "observed": 0.0018426589267671184,
+        "low": -0.00309390127794592,
+        "high": 0.006514626603085035
+      },
+      "mv_spearman": 0.3963775077698914,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    }
+  },
+  "runs": [
+    {
+      "seed": 3,
+      "epochs": 5,
+      "health": {
+        "best": {
+          "epoch": 5,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.005115505804694054,
+              "low": -0.0026177542529328517,
+              "high": 0.013497015665200403
+            },
+            "mv_spearman": 0.3988009369495369,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 1.0787367820739746
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.5111086256802082,
+          "cal_bce": 0.7795078754425049,
+          "cal_delta_high": 0.016772498283975746,
+          "cal_delta_observed": 0.008585502794997535
+        },
+        "history_last": {
+          "epoch": 5.0,
+          "train": 0.04011315293610096,
+          "cal_bce": 1.0787367820739746,
+          "cal_delta_high": 0.013497015665200403,
+          "cal_delta_observed": 0.005115505804694054
+        },
+        "params_count": 1301761,
+        "weighting": {
+          "gamma": 2.0,
+          "cap": 8.0,
+          "train_weight_mean": 12.74563217163086,
+          "train_weight_max": 64.0
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.005115505804694054,
+          "low": -0.0020455811796890873,
+          "high": 0.013102888187586854
+        },
+        "mv_spearman": 0.3988009369495369,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.004305906093237222,
+          "low": -0.0008038150571728172,
+          "high": 0.01011916088151006
+        },
+        "mv_spearman": 0.3635036833187575,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "epochs": 20,
+      "health": {
+        "best": {
+          "epoch": 5,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.005115505804694054,
+              "low": -0.0026177542529328517,
+              "high": 0.013497015665200403
+            },
+            "mv_spearman": 0.3988009369495369,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 1.0787367820739746
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.5111086256802082,
+          "cal_bce": 0.7795078754425049,
+          "cal_delta_high": 0.016772498283975746,
+          "cal_delta_observed": 0.008585502794997535
+        },
+        "history_last": {
+          "epoch": 20.0,
+          "train": 0.0016224511782638729,
+          "cal_bce": 1.3933230638504028,
+          "cal_delta_high": 0.016682227395933568,
+          "cal_delta_observed": 0.007060164684834225
+        },
+        "params_count": 1301761,
+        "weighting": {
+          "gamma": 2.0,
+          "cap": 8.0,
+          "train_weight_mean": 12.74563217163086,
+          "train_weight_max": 64.0
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.005115505804694054,
+          "low": -0.0020455811796890873,
+          "high": 0.013102888187586854
+        },
+        "mv_spearman": 0.3988009369495369,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.004305906093237222,
+          "low": -0.0008038150571728172,
+          "high": 0.01011916088151006
+        },
+        "mv_spearman": 0.3635036833187575,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "epochs": 100,
+      "health": {
+        "best": {
+          "epoch": 5,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.005115505804694054,
+              "low": -0.0026177542529328517,
+              "high": 0.013497015665200403
+            },
+            "mv_spearman": 0.3988009369495369,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 1.0787367820739746
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.5111086256802082,
+          "cal_bce": 0.7795078754425049,
+          "cal_delta_high": 0.016772498283975746,
+          "cal_delta_observed": 0.008585502794997535
+        },
+        "history_last": {
+          "epoch": 100.0,
+          "train": 6.765338957848144e-05,
+          "cal_bce": 1.968602180480957,
+          "cal_delta_high": 0.01618070423671391,
+          "cal_delta_observed": 0.007107024037603438
+        },
+        "params_count": 1301761,
+        "weighting": {
+          "gamma": 2.0,
+          "cap": 8.0,
+          "train_weight_mean": 12.74563217163086,
+          "train_weight_max": 64.0
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.005115505804694054,
+          "low": -0.0020455811796890873,
+          "high": 0.013102888187586854
+        },
+        "mv_spearman": 0.3988009369495369,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.004305906093237222,
+          "low": -0.0008038150571728172,
+          "high": 0.01011916088151006
+        },
+        "mv_spearman": 0.3635036833187575,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "epochs": 5,
+      "health": {
+        "best": {
+          "epoch": 1,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.005934140629501039,
+              "low": -0.00043760276973861306,
+              "high": 0.011936991498025126
+            },
+            "mv_spearman": 0.30833440627683634,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.8203181028366089
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.514446459710598,
+          "cal_bce": 0.8203181028366089,
+          "cal_delta_high": 0.011936991498025126,
+          "cal_delta_observed": 0.005934140629501039
+        },
+        "history_last": {
+          "epoch": 5.0,
+          "train": 0.02992721530608833,
+          "cal_bce": 1.0621274709701538,
+          "cal_delta_high": 0.014032715371555718,
+          "cal_delta_observed": 0.005576381034216649
+        },
+        "params_count": 1301761,
+        "weighting": {
+          "gamma": 2.0,
+          "cap": 8.0,
+          "train_weight_mean": 12.74563217163086,
+          "train_weight_max": 64.0
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.005934140629501039,
+          "low": -0.0005151804341842628,
+          "high": 0.012387634496729307
+        },
+        "mv_spearman": 0.30833440627683634,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.008778288535785037,
+          "low": 0.0032245366790475747,
+          "high": 0.015355698229989685
+        },
+        "mv_spearman": 0.3045679462447477,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "epochs": 20,
+      "health": {
+        "best": {
+          "epoch": 1,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.005934140629501039,
+              "low": -0.00043760276973861306,
+              "high": 0.011936991498025126
+            },
+            "mv_spearman": 0.30833440627683634,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.8203181028366089
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.514446459710598,
+          "cal_bce": 0.8203181028366089,
+          "cal_delta_high": 0.011936991498025126,
+          "cal_delta_observed": 0.005934140629501039
+        },
+        "history_last": {
+          "epoch": 20.0,
+          "train": 0.0015653553418815136,
+          "cal_bce": 1.4363957643508911,
+          "cal_delta_high": 0.01574007660437087,
+          "cal_delta_observed": 0.00739066176007995
+        },
+        "params_count": 1301761,
+        "weighting": {
+          "gamma": 2.0,
+          "cap": 8.0,
+          "train_weight_mean": 12.74563217163086,
+          "train_weight_max": 64.0
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.005934140629501039,
+          "low": -0.0005151804341842628,
+          "high": 0.012387634496729307
+        },
+        "mv_spearman": 0.30833440627683634,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.008778288535785037,
+          "low": 0.0032245366790475747,
+          "high": 0.015355698229989685
+        },
+        "mv_spearman": 0.3045679462447477,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "epochs": 100,
+      "health": {
+        "best": {
+          "epoch": 1,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.005934140629501039,
+              "low": -0.00043760276973861306,
+              "high": 0.011936991498025126
+            },
+            "mv_spearman": 0.30833440627683634,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.8203181028366089
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.514446459710598,
+          "cal_bce": 0.8203181028366089,
+          "cal_delta_high": 0.011936991498025126,
+          "cal_delta_observed": 0.005934140629501039
+        },
+        "history_last": {
+          "epoch": 100.0,
+          "train": 6.797617515985621e-05,
+          "cal_bce": 2.0276899337768555,
+          "cal_delta_high": 0.014672091240100906,
+          "cal_delta_observed": 0.007226311989402184
+        },
+        "params_count": 1301761,
+        "weighting": {
+          "gamma": 2.0,
+          "cap": 8.0,
+          "train_weight_mean": 12.74563217163086,
+          "train_weight_max": 64.0
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.005934140629501039,
+          "low": -0.0005151804341842628,
+          "high": 0.012387634496729307
+        },
+        "mv_spearman": 0.30833440627683634,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.008778288535785037,
+          "low": 0.0032245366790475747,
+          "high": 0.015355698229989685
+        },
+        "mv_spearman": 0.3045679462447477,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 11,
+      "epochs": 5,
+      "health": {
+        "best": {
+          "epoch": 2,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.004616364375036375,
+              "low": -0.002670736047379141,
+              "high": 0.013413136471602494
+            },
+            "mv_spearman": 0.38848136077353423,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.8744626045227051
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.4978598766028881,
+          "cal_bce": 0.7909465432167053,
+          "cal_delta_high": 0.01639390277355379,
+          "cal_delta_observed": 0.00765122130464406
+        },
+        "history_last": {
+          "epoch": 5.0,
+          "train": 0.02954015927389264,
+          "cal_bce": 1.1155906915664673,
+          "cal_delta_high": 0.01570910342163634,
+          "cal_delta_observed": 0.00615500721932595
+        },
+        "params_count": 1301761,
+        "weighting": {
+          "gamma": 2.0,
+          "cap": 8.0,
+          "train_weight_mean": 12.74563217163086,
+          "train_weight_max": 64.0
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.004616364375036375,
+          "low": -0.002131910058393116,
+          "high": 0.013207143254033616
+        },
+        "mv_spearman": 0.38848136077353423,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.013941612494026562,
+          "low": 0.005857907755581865,
+          "high": 0.02505883230302895
+        },
+        "mv_spearman": 0.36289285172347907,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 11,
+      "epochs": 20,
+      "health": {
+        "best": {
+          "epoch": 2,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.004616364375036375,
+              "low": -0.002670736047379141,
+              "high": 0.013413136471602494
+            },
+            "mv_spearman": 0.38848136077353423,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.8744626045227051
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.4978598766028881,
+          "cal_bce": 0.7909465432167053,
+          "cal_delta_high": 0.01639390277355379,
+          "cal_delta_observed": 0.00765122130464406
+        },
+        "history_last": {
+          "epoch": 20.0,
+          "train": 0.001529237677459605,
+          "cal_bce": 1.4646471738815308,
+          "cal_delta_high": 0.017743540225656596,
+          "cal_delta_observed": 0.008148474079864479
+        },
+        "params_count": 1301761,
+        "weighting": {
+          "gamma": 2.0,
+          "cap": 8.0,
+          "train_weight_mean": 12.74563217163086,
+          "train_weight_max": 64.0
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.004616364375036375,
+          "low": -0.002131910058393116,
+          "high": 0.013207143254033616
+        },
+        "mv_spearman": 0.38848136077353423,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.013941612494026562,
+          "low": 0.005857907755581865,
+          "high": 0.02505883230302895
+        },
+        "mv_spearman": 0.36289285172347907,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 11,
+      "epochs": 100,
+      "health": {
+        "best": {
+          "epoch": 28,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.005382838286103447,
+              "low": -0.0011119097901283338,
+              "high": 0.012995530752272876
+            },
+            "mv_spearman": 0.43160810324027454,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 1.5521036386489868
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.4978598766028881,
+          "cal_bce": 0.7909465432167053,
+          "cal_delta_high": 0.01639390277355379,
+          "cal_delta_observed": 0.00765122130464406
+        },
+        "history_last": {
+          "epoch": 100.0,
+          "train": 6.644715995207662e-05,
+          "cal_bce": 2.011467695236206,
+          "cal_delta_high": 0.014063864419807759,
+          "cal_delta_observed": 0.006290150528134281
+        },
+        "params_count": 1301761,
+        "weighting": {
+          "gamma": 2.0,
+          "cap": 8.0,
+          "train_weight_mean": 12.74563217163086,
+          "train_weight_max": 64.0
+        }
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.005382838286103447,
+          "low": -0.00040333950972053044,
+          "high": 0.012982408085819757
+        },
+        "mv_spearman": 0.43160810324027454,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.006282894691873264,
+          "low": -0.0008178418980584992,
+          "high": 0.014482787387403618
+        },
+        "mv_spearman": 0.3910899908872044,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    }
+  ],
+  "leakage_attestation": {
+    "feature_standardizer": "fit on train features only",
+    "episode_weights": "computed from train split oracle gains only",
+    "run_selection": "calibration split only",
+    "eval_truth_usage": "eval option_error and true_mv used only after policy scores are produced",
+    "slurm_or_ssh": "not used"
+  },
+  "outputs": {
+    "predictions_npz": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_tail_policy_predictions.npz",
+    "json": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_tail_policy.json",
+    "md": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_tail_policy.md"
+  },
+  "wall_time_sec": 98.9504337310791
+}

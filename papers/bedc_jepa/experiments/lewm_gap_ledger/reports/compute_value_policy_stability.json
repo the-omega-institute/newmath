@@ -1,0 +1,972 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_policy_stability",
+  "device": "cuda",
+  "inputs": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\g2n_labels_clean.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz",
+    "baseline_prediction": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_model_predictions.npz",
+    "baseline_model": "ranknet_scalar"
+  },
+  "grid": {
+    "seeds": [
+      3,
+      7,
+      11
+    ],
+    "epoch_budgets": [
+      1,
+      5,
+      20,
+      100
+    ],
+    "hidden": 256,
+    "batch": 256,
+    "lr": 0.0008
+  },
+  "counts": {
+    "train": 2043,
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55
+  },
+  "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then negative calibration MV Spearman",
+  "selected_run": {
+    "seed": 3,
+    "epochs": 20,
+    "health": {
+      "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then weighted BCE",
+      "best": {
+        "epoch": 6,
+        "calibration": {
+          "allocation_delta": {
+            "observed": 0.003992995822116138,
+            "low": -0.00249451959359327,
+            "high": 0.012248301734719634
+          },
+          "mv_spearman": 0.4496060897046054,
+          "chosen_depth_counts": {
+            "1": 317,
+            "3": 12,
+            "5": 317
+          }
+        },
+        "cal_bce": 0.9667200446128845
+      },
+      "history_first": {
+        "epoch": 1.0,
+        "train": 0.7434304505586624,
+        "cal_bce": 0.6735230088233948,
+        "cal_delta_high": 0.019996869908786307,
+        "cal_delta_observed": 0.010383343302602016
+      },
+      "history_last": {
+        "epoch": 20.0,
+        "train": 0.0015138708549784496,
+        "cal_bce": 1.4041633605957031,
+        "cal_delta_high": 0.013220078956700894,
+        "cal_delta_observed": 0.004752891606187082
+      },
+      "params_count": 1301761,
+      "labeled_train": 2006,
+      "labeled_calibration": 634
+    },
+    "calibration": {
+      "allocation_delta": {
+        "observed": 0.003992995822116138,
+        "low": -0.003354912281582849,
+        "high": 0.012439228474663127
+      },
+      "mv_spearman": 0.4496060897046054,
+      "chosen_depth_counts": {
+        "1": 317,
+        "3": 12,
+        "5": 317
+      }
+    },
+    "eval": {
+      "allocation_delta": {
+        "observed": 0.0018426589267671184,
+        "low": -0.0029711797927002887,
+        "high": 0.006870449845150089
+      },
+      "mv_spearman": 0.3963775077698914,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    }
+  },
+  "summary": {
+    "runs": 12,
+    "eval_delta_observed_min": 0.0016231863051521384,
+    "eval_delta_observed_median": 0.007335229771834484,
+    "eval_delta_observed_max": 0.01023748029991045,
+    "eval_delta_high_min": 0.006645665739769594,
+    "eval_delta_high_max": 0.01832288569557731,
+    "eval_rho_min": 0.351998887770407,
+    "eval_rho_median": 0.3834213985769159,
+    "eval_rho_max": 0.3963775077698914,
+    "runs_with_eval_ci_high_below_zero": 0
+  },
+  "references": {
+    "oracle": {
+      "allocation_delta": {
+        "observed": -0.012902872670635557,
+        "low": -0.01853955731254371,
+        "high": -0.007270774418315522
+      },
+      "mv_spearman": 1.0,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    },
+    "scalar_ranknet": {
+      "allocation_delta": {
+        "observed": 0.008218016678875326,
+        "low": 5.1283481609448045e-05,
+        "high": 0.01734283720883079
+      },
+      "mv_spearman": 0.449880883836401,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    },
+    "random_reference": {
+      "allocation_delta": {
+        "observed": 0.02093162184774139,
+        "low": 0.014539773687354329,
+        "high": 0.027028350601329437
+      },
+      "mv_spearman": 0.0009428288325980272,
+      "chosen_depth_counts": {
+        "1": 314,
+        "3": 6,
+        "5": 314
+      }
+    }
+  },
+  "runs": [
+    {
+      "seed": 3,
+      "epochs": 1,
+      "health": {
+        "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then weighted BCE",
+        "best": {
+          "epoch": 1,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.010383343302602016,
+              "low": 0.0038775936612939223,
+              "high": 0.019996869908786307
+            },
+            "mv_spearman": 0.3648789035344595,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.6735230088233948
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.7434304505586624,
+          "cal_bce": 0.6735230088233948,
+          "cal_delta_high": 0.019996869908786307,
+          "cal_delta_observed": 0.010383343302602016
+        },
+        "history_last": {
+          "epoch": 1.0,
+          "train": 0.7434304505586624,
+          "cal_bce": 0.6735230088233948,
+          "cal_delta_high": 0.019996869908786307,
+          "cal_delta_observed": 0.010383343302602016
+        },
+        "params_count": 1301761,
+        "labeled_train": 2006,
+        "labeled_calibration": 634
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.010383343302602016,
+          "low": 0.0037770900963731303,
+          "high": 0.01924996527922248
+        },
+        "mv_spearman": 0.3648789035344595,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.01023748029991045,
+          "low": 0.0030015516342944424,
+          "high": 0.01832288569557731
+        },
+        "mv_spearman": 0.36085354439012135,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "epochs": 5,
+      "health": {
+        "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then weighted BCE",
+        "best": {
+          "epoch": 5,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.004046176082957889,
+              "low": -0.0028332772241829005,
+              "high": 0.012629077575880908
+            },
+            "mv_spearman": 0.4522262010466513,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.8950216770172119
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.7434304505586624,
+          "cal_bce": 0.6735230088233948,
+          "cal_delta_high": 0.019996869908786307,
+          "cal_delta_observed": 0.010383343302602016
+        },
+        "history_last": {
+          "epoch": 5.0,
+          "train": 0.043701473623514175,
+          "cal_bce": 0.8950216770172119,
+          "cal_delta_high": 0.012629077575880908,
+          "cal_delta_observed": 0.004046176082957889
+        },
+        "params_count": 1301761,
+        "labeled_train": 2006,
+        "labeled_calibration": 634
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.004046176082957889,
+          "low": -0.0034336356813269883,
+          "high": 0.012542317749256498
+        },
+        "mv_spearman": 0.4522262010466513,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.0016231863051521384,
+          "low": -0.003176365445474861,
+          "high": 0.006645665739769594
+        },
+        "mv_spearman": 0.39525633136813537,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "epochs": 20,
+      "health": {
+        "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then weighted BCE",
+        "best": {
+          "epoch": 6,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.003992995822116138,
+              "low": -0.00249451959359327,
+              "high": 0.012248301734719634
+            },
+            "mv_spearman": 0.4496060897046054,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.9667200446128845
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.7434304505586624,
+          "cal_bce": 0.6735230088233948,
+          "cal_delta_high": 0.019996869908786307,
+          "cal_delta_observed": 0.010383343302602016
+        },
+        "history_last": {
+          "epoch": 20.0,
+          "train": 0.0015138708549784496,
+          "cal_bce": 1.4041633605957031,
+          "cal_delta_high": 0.013220078956700894,
+          "cal_delta_observed": 0.004752891606187082
+        },
+        "params_count": 1301761,
+        "labeled_train": 2006,
+        "labeled_calibration": 634
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.003992995822116138,
+          "low": -0.003354912281582849,
+          "high": 0.012439228474663127
+        },
+        "mv_spearman": 0.4496060897046054,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.0018426589267671184,
+          "low": -0.0029711797927002887,
+          "high": 0.006870449845150089
+        },
+        "mv_spearman": 0.3963775077698914,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "epochs": 100,
+      "health": {
+        "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then weighted BCE",
+        "best": {
+          "epoch": 6,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.003992995822116138,
+              "low": -0.00249451959359327,
+              "high": 0.012248301734719634
+            },
+            "mv_spearman": 0.4496060897046054,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.9667200446128845
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.7434304505586624,
+          "cal_bce": 0.6735230088233948,
+          "cal_delta_high": 0.019996869908786307,
+          "cal_delta_observed": 0.010383343302602016
+        },
+        "history_last": {
+          "epoch": 100.0,
+          "train": 0.00010544770975684514,
+          "cal_bce": 1.9642009735107422,
+          "cal_delta_high": 0.014788379249540273,
+          "cal_delta_observed": 0.006683777395952439
+        },
+        "params_count": 1301761,
+        "labeled_train": 2006,
+        "labeled_calibration": 634
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.003992995822116138,
+          "low": -0.003354912281582849,
+          "high": 0.012439228474663127
+        },
+        "mv_spearman": 0.4496060897046054,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.0018426589267671184,
+          "low": -0.0029711797927002887,
+          "high": 0.006870449845150089
+        },
+        "mv_spearman": 0.3963775077698914,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "epochs": 1,
+      "health": {
+        "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then weighted BCE",
+        "best": {
+          "epoch": 1,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.010475146801417937,
+              "low": 0.003238593859861221,
+              "high": 0.01995672212886425
+            },
+            "mv_spearman": 0.3113016728014553,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.7133896350860596
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.7530490309000015,
+          "cal_bce": 0.7133896350860596,
+          "cal_delta_high": 0.01995672212886425,
+          "cal_delta_observed": 0.010475146801417937
+        },
+        "history_last": {
+          "epoch": 1.0,
+          "train": 0.7530490309000015,
+          "cal_bce": 0.7133896350860596,
+          "cal_delta_high": 0.01995672212886425,
+          "cal_delta_observed": 0.010475146801417937
+        },
+        "params_count": 1301761,
+        "labeled_train": 2006,
+        "labeled_calibration": 634
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.010475146801417937,
+          "low": 0.002985506495369747,
+          "high": 0.019778568958229204
+        },
+        "mv_spearman": 0.3113016728014553,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.00806834344113784,
+          "low": 0.001526651829313516,
+          "high": 0.01580493409500167
+        },
+        "mv_spearman": 0.38983814398923367,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "epochs": 5,
+      "health": {
+        "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then weighted BCE",
+        "best": {
+          "epoch": 5,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.004688279379498714,
+              "low": -0.0023102743932240195,
+              "high": 0.012284539742898119
+            },
+            "mv_spearman": 0.4141149362304329,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.9928210377693176
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.7530490309000015,
+          "cal_bce": 0.7133896350860596,
+          "cal_delta_high": 0.01995672212886425,
+          "cal_delta_observed": 0.010475146801417937
+        },
+        "history_last": {
+          "epoch": 5.0,
+          "train": 0.04595070844516158,
+          "cal_bce": 0.9928210377693176,
+          "cal_delta_high": 0.012284539742898119,
+          "cal_delta_observed": 0.004688279379498714
+        },
+        "params_count": 1301761,
+        "labeled_train": 2006,
+        "labeled_calibration": 634
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.004688279379498714,
+          "low": -0.0018123452641390456,
+          "high": 0.012880351078985145
+        },
+        "mv_spearman": 0.4141149362304329,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.003800174712887752,
+          "low": -0.0013540461236181227,
+          "high": 0.00856235180623499
+        },
+        "mv_spearman": 0.38714312975144705,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "epochs": 20,
+      "health": {
+        "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then weighted BCE",
+        "best": {
+          "epoch": 6,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.004426820665549683,
+              "low": -0.002306133971632067,
+              "high": 0.011952293499059278
+            },
+            "mv_spearman": 0.4113389411277291,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 1.0559186935424805
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.7530490309000015,
+          "cal_bce": 0.7133896350860596,
+          "cal_delta_high": 0.01995672212886425,
+          "cal_delta_observed": 0.010475146801417937
+        },
+        "history_last": {
+          "epoch": 20.0,
+          "train": 0.0015431764186359942,
+          "cal_bce": 1.4361728429794312,
+          "cal_delta_high": 0.015315377508342012,
+          "cal_delta_observed": 0.0072060726102523565
+        },
+        "params_count": 1301761,
+        "labeled_train": 2006,
+        "labeled_calibration": 634
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.004426820665549683,
+          "low": -0.0019510718251660483,
+          "high": 0.01282367985461491
+        },
+        "mv_spearman": 0.4113389411277291,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.006602116102531128,
+          "low": -0.00028099767629757416,
+          "high": 0.01430145033843778
+        },
+        "mv_spearman": 0.3834213985769159,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "epochs": 100,
+      "health": {
+        "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then weighted BCE",
+        "best": {
+          "epoch": 6,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.004426820665549683,
+              "low": -0.002306133971632067,
+              "high": 0.011952293499059278
+            },
+            "mv_spearman": 0.4113389411277291,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 1.0559186935424805
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.7530490309000015,
+          "cal_bce": 0.7133896350860596,
+          "cal_delta_high": 0.01995672212886425,
+          "cal_delta_observed": 0.010475146801417937
+        },
+        "history_last": {
+          "epoch": 100.0,
+          "train": 0.00010343195663153892,
+          "cal_bce": 1.9979397058486938,
+          "cal_delta_high": 0.01404595609638674,
+          "cal_delta_observed": 0.0066296641100463405
+        },
+        "params_count": 1301761,
+        "labeled_train": 2006,
+        "labeled_calibration": 634
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.004426820665549683,
+          "low": -0.0019510718251660483,
+          "high": 0.01282367985461491
+        },
+        "mv_spearman": 0.4113389411277291,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.006602116102531128,
+          "low": -0.00028099767629757416,
+          "high": 0.01430145033843778
+        },
+        "mv_spearman": 0.3834213985769159,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 11,
+      "epochs": 1,
+      "health": {
+        "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then weighted BCE",
+        "best": {
+          "epoch": 1,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.007267765596244993,
+              "low": 0.0026924435400256337,
+              "high": 0.013141741559849344
+            },
+            "mv_spearman": 0.37122014986785823,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.6666637659072876
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.7553189173340797,
+          "cal_bce": 0.6666637659072876,
+          "cal_delta_high": 0.013141741559849344,
+          "cal_delta_observed": 0.007267765596244993
+        },
+        "history_last": {
+          "epoch": 1.0,
+          "train": 0.7553189173340797,
+          "cal_bce": 0.6666637659072876,
+          "cal_delta_high": 0.013141741559849344,
+          "cal_delta_observed": 0.007267765596244993
+        },
+        "params_count": 1301761,
+        "labeled_train": 2006,
+        "labeled_calibration": 634
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.007267765596244993,
+          "low": 0.002068681135814891,
+          "high": 0.012894667857052311
+        },
+        "mv_spearman": 0.37122014986785823,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.008826942652113756,
+          "low": 0.002796206358543226,
+          "high": 0.016434892017253604
+        },
+        "mv_spearman": 0.351998887770407,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 11,
+      "epochs": 5,
+      "health": {
+        "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then weighted BCE",
+        "best": {
+          "epoch": 1,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.007267765596244993,
+              "low": 0.0026924435400256337,
+              "high": 0.013141741559849344
+            },
+            "mv_spearman": 0.37122014986785823,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.6666637659072876
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.7553189173340797,
+          "cal_bce": 0.6666637659072876,
+          "cal_delta_high": 0.013141741559849344,
+          "cal_delta_observed": 0.007267765596244993
+        },
+        "history_last": {
+          "epoch": 5.0,
+          "train": 0.04673138610087335,
+          "cal_bce": 0.9583501219749451,
+          "cal_delta_high": 0.015326814442135895,
+          "cal_delta_observed": 0.008117026406762512
+        },
+        "params_count": 1301761,
+        "labeled_train": 2006,
+        "labeled_calibration": 634
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.007267765596244993,
+          "low": 0.002068681135814891,
+          "high": 0.012894667857052311
+        },
+        "mv_spearman": 0.37122014986785823,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.008826942652113756,
+          "low": 0.002796206358543226,
+          "high": 0.016434892017253604
+        },
+        "mv_spearman": 0.351998887770407,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 11,
+      "epochs": 20,
+      "health": {
+        "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then weighted BCE",
+        "best": {
+          "epoch": 1,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.007267765596244993,
+              "low": 0.0026924435400256337,
+              "high": 0.013141741559849344
+            },
+            "mv_spearman": 0.37122014986785823,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.6666637659072876
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.7553189173340797,
+          "cal_bce": 0.6666637659072876,
+          "cal_delta_high": 0.013141741559849344,
+          "cal_delta_observed": 0.007267765596244993
+        },
+        "history_last": {
+          "epoch": 20.0,
+          "train": 0.0015534677804680541,
+          "cal_bce": 1.3800932168960571,
+          "cal_delta_high": 0.014383766216116485,
+          "cal_delta_observed": 0.007010261149756683
+        },
+        "params_count": 1301761,
+        "labeled_train": 2006,
+        "labeled_calibration": 634
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.007267765596244993,
+          "low": 0.002068681135814891,
+          "high": 0.012894667857052311
+        },
+        "mv_spearman": 0.37122014986785823,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.008826942652113756,
+          "low": 0.002796206358543226,
+          "high": 0.016434892017253604
+        },
+        "mv_spearman": 0.351998887770407,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    },
+    {
+      "seed": 11,
+      "epochs": 100,
+      "health": {
+        "selection_rule": "minimize calibration allocation_delta CI high, then observed delta, then weighted BCE",
+        "best": {
+          "epoch": 1,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.007267765596244993,
+              "low": 0.0026924435400256337,
+              "high": 0.013141741559849344
+            },
+            "mv_spearman": 0.37122014986785823,
+            "chosen_depth_counts": {
+              "1": 317,
+              "3": 12,
+              "5": 317
+            }
+          },
+          "cal_bce": 0.6666637659072876
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.7553189173340797,
+          "cal_bce": 0.6666637659072876,
+          "cal_delta_high": 0.013141741559849344,
+          "cal_delta_observed": 0.007267765596244993
+        },
+        "history_last": {
+          "epoch": 100.0,
+          "train": 0.00010110561743204016,
+          "cal_bce": 1.9172786474227905,
+          "cal_delta_high": 0.01569406774971171,
+          "cal_delta_observed": 0.008293234205924774
+        },
+        "params_count": 1301761,
+        "labeled_train": 2006,
+        "labeled_calibration": 634
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.007267765596244993,
+          "low": 0.002068681135814891,
+          "high": 0.012894667857052311
+        },
+        "mv_spearman": 0.37122014986785823,
+        "chosen_depth_counts": {
+          "1": 317,
+          "3": 12,
+          "5": 317
+        }
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.008826942652113756,
+          "low": 0.002796206358543226,
+          "high": 0.016434892017253604
+        },
+        "mv_spearman": 0.351998887770407,
+        "chosen_depth_counts": {
+          "1": 314,
+          "3": 6,
+          "5": 314
+        }
+      }
+    }
+  ],
+  "leakage_attestation": {
+    "feature_standardizer": "fit on train features only",
+    "run_selection": "calibration split only",
+    "eval_truth_usage": "eval option_error and true_mv used only after each policy score is produced",
+    "slurm_or_ssh": "not used"
+  },
+  "outputs": {
+    "predictions_npz": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_policy_stability_predictions.npz",
+    "json": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_policy_stability.json",
+    "md": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_policy_stability.md"
+  },
+  "wall_time_sec": 85.49888324737549
+}

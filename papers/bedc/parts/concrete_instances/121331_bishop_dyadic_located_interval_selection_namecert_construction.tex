@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BishopDyadicLocatedIntervalSelectionUp$}
+\label{ch:concrete-instances-bishop-dyadic-located-interval-selection-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopDyadicLocatedIntervalSelectionUp$ packet records the finite act of selecting a dyadic located interval from displayed endpoint and tolerance data. It sits after the dyadic rational surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the real interval surface of \autoref{ch:concrete-instances-realinterval-namecert}, the located interval surface of \autoref{ch:concrete-instances-locatedinterval-namecert}, and the completion handoff through \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet supplies a choice-free interval-selection interface for Real and Completion consumers; it is not a Heine--Borel theorem, an open-cover compactness principle, a quotient-real equality rule, or a host choice operator.
+
+\begin{definition}[Bishop dyadic located-interval selection carrier]
+\label{def:bishop-dyadic-located-interval-selection-carrier}
+A $\BishopDyadicLocatedIntervalSelectionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(Q,D,M,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the located request row, recording the requested interval predicate, endpoint side, positive tolerance, and locatedness evidence read from $\LocatedIntervalUp$ and $\RealIntervalUp$.
+\item $D$ is the dyadic bracket row supplied by $\DyadicRatCoreUp$; it stores the lower and upper dyadic rationals, their outward rounding checks, and the finite bracket evidence for the request row.
+\item $M$ is the midpoint and refinement budget row, recording the dyadic midpoint reads, the requested refinement depth, and the finite comparison rows used to keep the bracket located.
+\item $R$ is the regular-Cauchy handoff row from the selected dyadic bracket to $\StreamNameUp$ windows and $\RegSeqRatUp$ readback at the requested precision.
+\item $E$ is the terminal $\RealUp$ seal row for the selected interval endpoints and the interval-selection consumer.
+\item $H$ records componentwise $\hsame$ transport for the request, bracket, midpoint, handoff, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for located requests, dyadic bracket inspection, midpoint refinement, regular-Cauchy handoff, and Real-seal consumption.
+\item $P$ is the $\Pkg$ provenance over $\BishopDyadicLocatedIntervalSelectionUp$, $\DyadicRatCoreUp$, $\RealIntervalUp$, $\LocatedIntervalUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopDyadicLocatedIntervalSelectionUp}$ row.
+\end{enumerate}
+The carrier predicate says exactly that these rows form one finite located-interval selection packet. It contains no coordinate for open-cover compactness, host endpoint choice, quotient equality of reals, excluded middle over cuts, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Bishop dyadic located-interval selection obligations]
+\label{thm:bishop-dyadic-located-interval-selection-obligations}
+For every accepted $\BishopDyadicLocatedIntervalSelectionUp$ carrier $S=(Q,D,M,R,E,H,C,P,N)$, the local $\NameCert_{\BishopDyadicLocatedIntervalSelectionUp}$ surface consists exactly of:
+\begin{enumerate}
+\item carrier admission for the finite packet of \autoref{def:bishop-dyadic-located-interval-selection-carrier};
+\item located-request admission through the displayed $\LocatedIntervalUp$ and $\RealIntervalUp$ rows in $Q$;
+\item dyadic bracket admission through the outward rounding and endpoint comparison rows of $D$;
+\item midpoint and refinement-budget admission through the finite dyadic midpoint and comparison rows of $M$;
+\item regular-Cauchy handoff through the $\StreamNameUp$ and $\RegSeqRatUp$ rows in $R$;
+\item Real-seal non-escape through $E$ after the request, bracket, midpoint, and handoff rows have been displayed;
+\item componentwise transport, replay, provenance, and naming through $H,C,P,N$.
+\end{enumerate}
+No obligation for Heine--Borel compactness, open-cover selection, quotient-real equality, host choice, or a hidden real representative is part of the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-dyadic-located-interval-selection-carrier}. The request row $Q$ supplies only displayed locatedness and endpoint data, while $D$ supplies only finite dyadic bracket evidence.
+
+The midpoint row $M$ refines that bracket by finite dyadic comparisons. It neither selects a host real endpoint nor appeals to an open-cover argument; each refinement step is one displayed midpoint or comparison row.
+
+The handoff row $R$ then exposes the selected bracket as stream windows and regular rational readback, and $E$ seals the resulting endpoint reads as $\RealUp$ data. The structural rows $H,C,P,N$ preserve the same finite route under transport, replay, provenance, and local naming.
+
+Since every consumer read factors through those rows, the local NameCert has no remaining coordinate from which compactness, quotient equality, host choice, or hidden endpoint representatives could be exported.
+\end{proof}
+
+\begin{theorem}[Bishop dyadic located-interval selection sibling lattice]
+\label{thm:bishop-dyadic-located-interval-selection-sibling-lattice}
+Every accepted $\BishopDyadicLocatedIntervalSelectionUp$ consumer must read the sibling lattice
+$$
+\DyadicRatCoreUp,\ \LocatedIntervalUp,\ \RealIntervalUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+$$
+through the displayed rows $Q,D,M,R,E,H,C,P,N$ before treating the result as an interval-selection surface. The dyadic rational sibling supplies bracket arithmetic, the located and real interval siblings supply request and endpoint admission, the stream and regular-rational siblings supply completion-facing readback, and the Real sibling supplies only the terminal seal. No sibling may be bypassed by a host root, host endpoint, quotient representative, compactness theorem, or choice functional.
+\end{theorem}
+\begin{proof}
+Begin with the obligation theorem \autoref{thm:bishop-dyadic-located-interval-selection-obligations}. It places request admission in $Q$, dyadic bracket admission in $D$, midpoint refinement in $M$, completion handoff in $R$, and Real-seal reads in $E$.
+
+Thus $\DyadicRatCoreUp$ is read only as bracket arithmetic and midpoint refinement, while $\LocatedIntervalUp$ and $\RealIntervalUp$ are read only through the request and endpoint rows. The handoff to $\StreamNameUp$ and $\RegSeqRatUp$ occurs after those rows, not before them.
+
+Finally the $\RealUp$ seal is downstream of the same displayed path. Componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming keep the route inside the finite packet, so no sibling can be replaced by a host endpoint, quotient representative, compactness theorem, or choice functional.
+\end{proof}
+
+\closureat{BishopDyadicLocatedIntervalSelectionUp}{seedStr}
+
+\begin{closurestatus}{\BishopDyadicLocatedIntervalSelectionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-dyadic-located-interval-selection-carrier}, \autoref{thm:bishop-dyadic-located-interval-selection-obligations}, and \autoref{thm:bishop-dyadic-located-interval-selection-sibling-lattice} seed the finite located-request, dyadic-bracket, midpoint-refinement, regular-Cauchy handoff, Real-seal, transport, replay, provenance, and local NameCert rows for choice-free interval selection.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Heine--Borel compactness, open-cover compactness, quotient-real equality, host endpoint choice, excluded middle over cuts, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, bracket exactness, midpoint refinement stability, regular-Cauchy handoff, Real seal non-escape, and sibling-lattice non-bypass for BEDC.Derived.BishopDyadicLocatedIntervalSelectionUp.}
+  \constructivestory{A $\BishopDyadicLocatedIntervalSelectionUp$ packet is generated from a located request row, dyadic bracket row, midpoint and refinement budget row, StreamNameUp and RegSeqRatUp handoff, RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

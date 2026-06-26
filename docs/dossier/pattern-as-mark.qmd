@@ -27,7 +27,7 @@ Decades ago Stephen Wolfram looked at hundreds of one-dimensional cellular autom
 
 Rule 110 is class four. That four-way scheme is a *classifier*: a function from "the orbit of a CA on some initial row" to a finite tag set `{1, 2, 3, 4}`. Wolfram's contribution was not to *invent* the structures; it was to *commit to a finite tag set* and assign each rule a tag.
 
-Twenty years later Genaro Martinez published a much finer classifier for Rule 110 specifically. The diagonal threads got names: A, B, B̄, C₁, C₂, E, Ē, F, G, H. The wallpaper got a name too: ether. Each glider has a fundamental period, a per-period displacement, and a phase string — a specific arrangement of zeros and ones repeating within the rule's lattice. There are 177 phase entries in the project's `rule110/encoder/glider_phases.c`, drawn directly from Martinez 2007. Each entry is a finite bit pattern with a label.
+Twenty years later Genaro Martinez published a much finer classifier for Rule 110 specifically. The diagonal threads got names: A, B, B̄, $C_{1}$, $C_{2}$, E, Ē, F, G, H. The wallpaper got a name too: ether. Each glider has a fundamental period, a per-period displacement, and a phase string — a specific arrangement of zeros and ones repeating within the rule's lattice. There are 177 phase entries in the project's `rule110/encoder/glider_phases.c`, drawn directly from Martinez 2007. Each entry is a finite bit pattern with a label.
 
 You did the same thing when you looked at the screen. You only got two or three tags out before you stopped. Martinez got eleven. Wolfram got four. The procedure is the same: pick a tag set, decide on a recognition rule, assign tags.
 
@@ -60,7 +60,7 @@ inductive BHist where
 
 Membership in a kernel-level predicate — `UnaryHistory h`, `Mark h`, `Cont a f b` — is decided by a structural rule on the constructors of `BHist`. Two histories belong to the same `hsame`-class when a recursive comparison on their constructors succeeds. The kernel does not *interpret* the histories; it *classifies* them by reading their structure off the constructors and applying a decidable comparison.
 
-Pattern recognition on a cellular automaton row is the same act, with a different carrier. The carrier is `𝔽₂ⁿ` instead of `BHist`. The classifier is the phase catalog instead of `hsame`. The act — *commit to a finite tag set, decide membership locally* — is the same act.
+Pattern recognition on a cellular automaton row is the same act, with a different carrier. The carrier is $\mathbb{F}_{2}^{n}$ instead of `BHist`. The classifier is the phase catalog instead of `hsame`. The act — *commit to a finite tag set, decide membership locally* — is the same act.
 
 This is why we say *pattern recognition is the mark discipline*. There is no cognitive faculty being smuggled in. The kernel does it, the catalog does it, you do it when you watch the screen. The only difference is what you point at.
 

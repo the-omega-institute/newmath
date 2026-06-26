@@ -1,0 +1,45 @@
+{
+  "available_organisms": [
+    "saccharomyces_cerevisiae",
+    "escherichia_coli_k12_mg1655"
+  ],
+  "campaign": "structural_order_layer",
+  "cannot_claim": [
+    "structure-based order proxy; 非 measured function/phenotype; mean pLDDT 是 predicted confidence 非实验有序度",
+    "coverage is reported as join_hit_rate and missing proteins are not imputed"
+  ],
+  "derivation_boundary": "not_bedc_kernel_content",
+  "fetched_at": "2026-06-05T17:16:35+00:00",
+  "n_available_organisms": 2,
+  "organisms": [
+    {
+      "join_hit_rate": 0.998108,
+      "n_proteins_with_order": 5804,
+      "ncbi_taxid": "4932",
+      "organism": "saccharomyces_cerevisiae",
+      "output_path": "structural_order_saccharomyces_cerevisiae.json",
+      "payload_sha256": "5d50d67fcdd001c34203e81dfc9d9d9d5f13c0cfec9c26528fc80a303c63eca9",
+      "readout_kind": "mean_plddt",
+      "source_kind": "alphafold_db_global_metric_value",
+      "status": "success"
+    },
+    {
+      "join_hit_rate": 0.999198,
+      "n_proteins_with_order": 3736,
+      "ncbi_taxid": "511145",
+      "organism": "escherichia_coli_k12_mg1655",
+      "output_path": "structural_order_escherichia_coli_k12_mg1655.json",
+      "payload_sha256": "ce06a5b342413c7881bb8b07b84af830859d4b10b71324b91d4165118f8aaa8b",
+      "readout_kind": "mean_plddt",
+      "source_kind": "alphafold_db_global_metric_value",
+      "status": "success"
+    },
+    {
+      "ncbi_taxid": "9606",
+      "organism": "homo_sapiens",
+      "reason": "human target omitted by default to avoid thousands of per-accession AlphaFold API fetches; rerun with --include-human to attempt it",
+      "status": "skipped"
+    }
+  ],
+  "source_priority": "AlphaFold DB globalMetricValue mean-pLDDT proxy"
+}

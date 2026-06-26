@@ -1,0 +1,2185 @@
+{
+  "candidate_count": 22,
+  "config": {
+    "bootstrap_samples": 4000,
+    "budget_multipliers": [
+      2,
+      3,
+      4
+    ],
+    "candidate_sources": {
+      "allocation_native": [
+        "state_generation_allocation_native_predictions.npz",
+        "allocation_native_score"
+      ],
+      "assignment_priority_residual": [
+        "state_generation_episode_assignment_value_predictions.npz",
+        "priority_residual_score"
+      ],
+      "assignment_raw_geometry": [
+        "state_generation_episode_assignment_value_predictions.npz",
+        "raw_geometry_option_score"
+      ],
+      "benefit_selector": [
+        "state_generation_residual_benefit_selector_predictions.npz",
+        "benefit_selector_score"
+      ],
+      "budget_priority": [
+        "state_generation_budget_priority_residual_predictions.npz",
+        "priority_residual_score"
+      ],
+      "budget_raw": [
+        "state_generation_budget_priority_residual_predictions.npz",
+        "raw_geometry_option_score"
+      ],
+      "calibrated_allocation_native": [
+        "state_generation_allocation_native_predictions.npz",
+        "calibrated_allocation_native_score"
+      ],
+      "episode_allocation": [
+        "state_generation_episode_allocation_predictions.npz",
+        "episode_allocation_score"
+      ],
+      "episode_assignment_value": [
+        "state_generation_episode_assignment_value_predictions.npz",
+        "episode_assignment_value_score"
+      ],
+      "episode_balanced": [
+        "state_generation_episode_balanced_predictions.npz",
+        "episode_balanced_score"
+      ],
+      "episode_dual_price": [
+        "state_generation_episode_dual_price_predictions.npz",
+        "dual_price_score"
+      ],
+      "episode_regret": [
+        "state_generation_episode_regret_predictions.npz",
+        "episode_regret_score"
+      ],
+      "episode_seed_mean": [
+        "state_generation_episode_seed_ensemble_predictions.npz",
+        "mean_score"
+      ],
+      "episode_seed_median": [
+        "state_generation_episode_seed_ensemble_predictions.npz",
+        "median_score"
+      ],
+      "geometry_conditioned": [
+        "state_generation_geometry_option_conditioned_allocation_predictions.npz",
+        "geometry_conditioned_score"
+      ],
+      "geometry_option_conditioned": [
+        "state_generation_geometry_option_conditioned_allocation_predictions.npz",
+        "geometry_option_conditioned_score"
+      ],
+      "geometry_regime_weighted": [
+        "state_generation_geometry_option_conditioned_allocation_predictions.npz",
+        "geometry_regime_weighted_score"
+      ],
+      "regret_allocation_native": [
+        "state_generation_episode_regret_predictions.npz",
+        "allocation_native_score"
+      ],
+      "regret_dual_price": [
+        "state_generation_episode_regret_predictions.npz",
+        "dual_price_score"
+      ],
+      "regret_episode_allocation": [
+        "state_generation_episode_regret_predictions.npz",
+        "episode_allocation_score"
+      ],
+      "residual_priority": [
+        "state_generation_residual_benefit_selector_predictions.npz",
+        "priority_residual_score"
+      ],
+      "residual_raw": [
+        "state_generation_residual_benefit_selector_predictions.npz",
+        "raw_geometry_option_score"
+      ]
+    },
+    "seed": 991
+  },
+  "diagnosis": {
+    "best_budget3_capture_ratio": 0.1215778073073677,
+    "best_budget4_capture_ratio": -0.0629457838071024,
+    "best_candidate": "assignment_priority_residual",
+    "best_mean_capture_ratio": 0.0242163660807045,
+    "best_mean_regret_to_oracle": 0.04205613510805403,
+    "candidate_pool_closes": false
+  },
+  "hard_episode_union": [
+    81,
+    115,
+    145,
+    193,
+    201,
+    213,
+    277
+  ],
+  "leakage_attestation": {
+    "hard_ids": "held-out hard episode ids are used only for diagnostic slicing",
+    "learned_scores": "fixed eval score artifacts are consumed without retraining",
+    "oracle_scope": "eval option_error is used only after fixed score generation to measure ceiling regret and capture",
+    "slurm_or_ssh": "not used"
+  },
+  "not_claimed": [
+    "deployable allocation policy",
+    "learned compute-value closure",
+    "independent export validation",
+    "complete BEDC-native world model"
+  ],
+  "ranking": [
+    {
+      "budget3_capture_ratio": 0.1215778073073677,
+      "budget4_capture_ratio": -0.0629457838071024,
+      "candidate": "assignment_priority_residual",
+      "max_capture_ratio": 0.1215778073073677,
+      "mean_capture_ratio": 0.0242163660807045,
+      "mean_regret_to_oracle": 0.04205613510805403,
+      "min_capture_ratio": -0.0629457838071024
+    },
+    {
+      "budget3_capture_ratio": 0.1215778073073677,
+      "budget4_capture_ratio": -0.0629457838071024,
+      "candidate": "benefit_selector",
+      "max_capture_ratio": 0.1215778073073677,
+      "mean_capture_ratio": 0.0242163660807045,
+      "mean_regret_to_oracle": 0.04205613510805403,
+      "min_capture_ratio": -0.0629457838071024
+    },
+    {
+      "budget3_capture_ratio": 0.1215778073073677,
+      "budget4_capture_ratio": -0.0629457838071024,
+      "candidate": "residual_priority",
+      "max_capture_ratio": 0.1215778073073677,
+      "mean_capture_ratio": 0.0242163660807045,
+      "mean_regret_to_oracle": 0.04205613510805403,
+      "min_capture_ratio": -0.0629457838071024
+    },
+    {
+      "budget3_capture_ratio": 0.12929592923575223,
+      "budget4_capture_ratio": -0.151935762013784,
+      "candidate": "assignment_raw_geometry",
+      "max_capture_ratio": 0.12929592923575223,
+      "mean_capture_ratio": -0.0019975407425851708,
+      "mean_regret_to_oracle": 0.043699126320468906,
+      "min_capture_ratio": -0.151935762013784
+    },
+    {
+      "budget3_capture_ratio": 0.12929592923575223,
+      "budget4_capture_ratio": -0.151935762013784,
+      "candidate": "residual_raw",
+      "max_capture_ratio": 0.12929592923575223,
+      "mean_capture_ratio": -0.0019975407425851708,
+      "mean_regret_to_oracle": 0.043699126320468906,
+      "min_capture_ratio": -0.151935762013784
+    },
+    {
+      "budget3_capture_ratio": -0.36148116535451186,
+      "budget4_capture_ratio": 0.10007381128553729,
+      "candidate": "geometry_conditioned",
+      "max_capture_ratio": 0.10007381128553729,
+      "mean_capture_ratio": -0.13946505544601406,
+      "mean_regret_to_oracle": 0.04715873546257249,
+      "min_capture_ratio": -0.36148116535451186
+    },
+    {
+      "budget3_capture_ratio": -0.3935561847016671,
+      "budget4_capture_ratio": -0.3440621548649856,
+      "candidate": "budget_priority",
+      "max_capture_ratio": -0.1820745420329778,
+      "mean_capture_ratio": -0.3065642938665435,
+      "mean_regret_to_oracle": 0.05669046506160653,
+      "min_capture_ratio": -0.3935561847016671
+    },
+    {
+      "budget3_capture_ratio": -0.41696362532027365,
+      "budget4_capture_ratio": -0.08034243694939898,
+      "candidate": "geometry_regime_weighted",
+      "max_capture_ratio": -0.08034243694939898,
+      "mean_capture_ratio": -0.315768478860678,
+      "mean_regret_to_oracle": 0.05400769023829751,
+      "min_capture_ratio": -0.4499993743123612
+    },
+    {
+      "budget3_capture_ratio": -1.1671184172210383,
+      "budget4_capture_ratio": -0.1612629363050888,
+      "candidate": "episode_dual_price",
+      "max_capture_ratio": -0.10421934559514143,
+      "mean_capture_ratio": -0.47753356637375616,
+      "mean_regret_to_oracle": 0.06347777855779875,
+      "min_capture_ratio": -1.1671184172210383
+    },
+    {
+      "budget3_capture_ratio": -1.1671184172210383,
+      "budget4_capture_ratio": -0.1612629363050888,
+      "candidate": "regret_dual_price",
+      "max_capture_ratio": -0.10421934559514143,
+      "mean_capture_ratio": -0.47753356637375616,
+      "mean_regret_to_oracle": 0.06347777855779875,
+      "min_capture_ratio": -1.1671184172210383
+    },
+    {
+      "budget3_capture_ratio": -0.6561425638385389,
+      "budget4_capture_ratio": -0.030934969384565303,
+      "candidate": "episode_assignment_value",
+      "max_capture_ratio": -0.030934969384565303,
+      "mean_capture_ratio": -0.5506885514637266,
+      "mean_regret_to_oracle": 0.06076268047377086,
+      "min_capture_ratio": -0.9649881211680759
+    },
+    {
+      "budget3_capture_ratio": -0.775013585886478,
+      "budget4_capture_ratio": -0.18839600323525219,
+      "candidate": "episode_seed_mean",
+      "max_capture_ratio": -0.18839600323525219,
+      "mean_capture_ratio": -0.5534392531899465,
+      "mean_regret_to_oracle": 0.06336310256800594,
+      "min_capture_ratio": -0.775013585886478
+    },
+    {
+      "budget3_capture_ratio": -0.6944961271850213,
+      "budget4_capture_ratio": -0.23667720306813722,
+      "candidate": "episode_allocation",
+      "max_capture_ratio": -0.23667720306813722,
+      "mean_capture_ratio": -0.5701000918226834,
+      "mean_regret_to_oracle": 0.0638610443901839,
+      "min_capture_ratio": -0.7791269452148919
+    },
+    {
+      "budget3_capture_ratio": -0.6944961271850213,
+      "budget4_capture_ratio": -0.23667720306813722,
+      "candidate": "regret_episode_allocation",
+      "max_capture_ratio": -0.23667720306813722,
+      "mean_capture_ratio": -0.5701000918226834,
+      "mean_regret_to_oracle": 0.0638610443901839,
+      "min_capture_ratio": -0.7791269452148919
+    },
+    {
+      "budget3_capture_ratio": -0.8857227001444361,
+      "budget4_capture_ratio": -0.20766955075010174,
+      "candidate": "episode_seed_median",
+      "max_capture_ratio": -0.20766955075010174,
+      "mean_capture_ratio": -0.6321002766650627,
+      "mean_regret_to_oracle": 0.06622208922991574,
+      "min_capture_ratio": -0.8857227001444361
+    },
+    {
+      "budget3_capture_ratio": -0.8813817578527255,
+      "budget4_capture_ratio": -0.1457928563889151,
+      "candidate": "episode_regret",
+      "max_capture_ratio": -0.1457928563889151,
+      "mean_capture_ratio": -0.6987539971936769,
+      "mean_regret_to_oracle": 0.06715441353496643,
+      "min_capture_ratio": -1.0690873773393903
+    },
+    {
+      "budget3_capture_ratio": -0.8683122413935082,
+      "budget4_capture_ratio": -0.5078055146867548,
+      "candidate": "allocation_native",
+      "max_capture_ratio": -0.5078055146867548,
+      "mean_capture_ratio": -0.7019234478386879,
+      "mean_regret_to_oracle": 0.07134773391337847,
+      "min_capture_ratio": -0.8683122413935082
+    },
+    {
+      "budget3_capture_ratio": -0.8683122413935082,
+      "budget4_capture_ratio": -0.5078055146867548,
+      "candidate": "calibrated_allocation_native",
+      "max_capture_ratio": -0.5078055146867548,
+      "mean_capture_ratio": -0.7019234478386879,
+      "mean_regret_to_oracle": 0.07134773391337847,
+      "min_capture_ratio": -0.8683122413935082
+    },
+    {
+      "budget3_capture_ratio": -0.8683122413935082,
+      "budget4_capture_ratio": -0.5078055146867548,
+      "candidate": "regret_allocation_native",
+      "max_capture_ratio": -0.5078055146867548,
+      "mean_capture_ratio": -0.7019234478386879,
+      "mean_regret_to_oracle": 0.07134773391337847,
+      "min_capture_ratio": -0.8683122413935082
+    },
+    {
+      "budget3_capture_ratio": -1.172682747306608,
+      "budget4_capture_ratio": -0.2458868770718718,
+      "candidate": "episode_balanced",
+      "max_capture_ratio": -0.2458868770718718,
+      "mean_capture_ratio": -0.7306338646361911,
+      "mean_regret_to_oracle": 0.07084968645974563,
+      "min_capture_ratio": -1.172682747306608
+    },
+    {
+      "budget3_capture_ratio": -0.8636314045184759,
+      "budget4_capture_ratio": -0.4836777330934827,
+      "candidate": "budget_raw",
+      "max_capture_ratio": -0.4836777330934827,
+      "mean_capture_ratio": -0.8846287494283566,
+      "mean_regret_to_oracle": 0.07563081158815398,
+      "min_capture_ratio": -1.3065771106731112
+    },
+    {
+      "budget3_capture_ratio": -0.8636314045184759,
+      "budget4_capture_ratio": -0.4836777330934827,
+      "candidate": "geometry_option_conditioned",
+      "max_capture_ratio": -0.4836777330934827,
+      "mean_capture_ratio": -0.8846287494283566,
+      "mean_regret_to_oracle": 0.07563081158815398,
+      "min_capture_ratio": -1.3065771106731112
+    }
+  ],
+  "rows": {
+    "allocation_native": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -0.7296525874358006,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012533903207002317,
+            "low": -0.039766797862177,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.09366612429484975,
+            "low": 0.013332277340613378,
+            "observed": 0.04345614831499013,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.058372409893041696,
+            "low": -0.005668737776354957,
+            "observed": 0.018331942083833846,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.8683122413935082,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.02277583468769843,
+            "low": -0.07153974135208538,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.14571918527504088,
+            "low": 0.03679215001299917,
+            "observed": 0.08033042627821006,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.07812914324855011,
+            "low": 0.007188017385865895,
+            "observed": 0.037334173029719635,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.5078055146867548,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.030502080133198748,
+            "low": -0.10092125650320015,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.15731160440554762,
+            "low": 0.04942116122318377,
+            "observed": 0.0902566271469352,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.059254717249559614,
+            "low": 0.005850832262137112,
+            "observed": 0.030397032346550144,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.8683122413935082,
+        "budget4_capture_ratio": -0.5078055146867548,
+        "max_capture_ratio": -0.5078055146867548,
+        "mean_capture_ratio": -0.7019234478386879,
+        "mean_regret_to_oracle": 0.07134773391337847,
+        "min_capture_ratio": -0.8683122413935082
+      }
+    },
+    "assignment_priority_residual": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": 0.01401707474184822,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012410727655442749,
+            "low": -0.03984243109346302,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.038420591835171394,
+            "low": 0.011975711715096158,
+            "observed": 0.024772038354584556,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.0,
+            "low": -0.0010565036297151792,
+            "observed": -0.00035216787657172636,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": 0.1215778073073677,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.02301869531164161,
+            "low": -0.07217904064228257,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.06057258679941884,
+            "low": 0.022458650623978196,
+            "observed": 0.037768863056106675,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.0034231316756644396,
+            "low": -0.014607104844614442,
+            "observed": -0.005227390192383752,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.0629457838071024,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.03050007309294998,
+            "low": -0.10099241524520755,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.09693842290428888,
+            "low": 0.036182192263910395,
+            "observed": 0.06362750391347087,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.021418526262784916,
+            "low": -0.014629523810577928,
+            "observed": 0.0037679091130857906,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": 0.1215778073073677,
+        "budget4_capture_ratio": -0.0629457838071024,
+        "max_capture_ratio": 0.1215778073073677,
+        "mean_capture_ratio": 0.0242163660807045,
+        "mean_regret_to_oracle": 0.04205613510805403,
+        "min_capture_ratio": -0.0629457838071024
+      }
+    },
+    "assignment_raw_geometry": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": 0.01664721055027626,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.01258479066761264,
+            "low": -0.039884025308273306,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.03874827385208652,
+            "low": 0.01234436026921484,
+            "observed": 0.024705958280117655,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.0,
+            "low": -0.0011225837041820741,
+            "observed": -0.00041824795103862145,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": 0.12929592923575223,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022837733636917795,
+            "low": -0.07217904064228257,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.05829269690471912,
+            "low": 0.023786398469436656,
+            "observed": 0.03743701273107113,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.003393249190151148,
+            "low": -0.01539164658158052,
+            "observed": -0.005559240517419301,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.151935762013784,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.031273725833555414,
+            "low": -0.10113286153336609,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.1124860867952895,
+            "low": 0.03725512241374507,
+            "observed": 0.06895440795021793,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.02467783247977623,
+            "low": -0.00794263487990429,
+            "observed": 0.009094813149832851,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": 0.12929592923575223,
+        "budget4_capture_ratio": -0.151935762013784,
+        "max_capture_ratio": 0.12929592923575223,
+        "mean_capture_ratio": -0.0019975407425851708,
+        "mean_regret_to_oracle": 0.043699126320468906,
+        "min_capture_ratio": -0.151935762013784
+      }
+    },
+    "benefit_selector": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": 0.01401707474184822,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012612716909486916,
+            "low": -0.03988402530827332,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.03918383131908238,
+            "low": 0.012633406253710065,
+            "observed": 0.024772038354584556,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.0,
+            "low": -0.0010565036297151792,
+            "observed": -0.00035216787657172636,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": 0.1215778073073677,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022458653157807245,
+            "low": -0.07217904064228257,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.06019865969592656,
+            "low": 0.022288291442524057,
+            "observed": 0.037768863056106675,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.0036744708739559445,
+            "low": -0.015195641738123461,
+            "observed": -0.005227390192383752,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.0629457838071024,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.030430921391191326,
+            "low": -0.10145238505948766,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.09752668271903353,
+            "low": 0.036182192263910395,
+            "observed": 0.06362750391347087,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.022433637561287568,
+            "low": -0.014078338802077798,
+            "observed": 0.0037679091130857906,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": 0.1215778073073677,
+        "budget4_capture_ratio": -0.0629457838071024,
+        "max_capture_ratio": 0.1215778073073677,
+        "mean_capture_ratio": 0.0242163660807045,
+        "mean_regret_to_oracle": 0.04205613510805403,
+        "min_capture_ratio": -0.0629457838071024
+      }
+    },
+    "budget_priority": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -0.1820745420329778,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.011924128478799645,
+            "low": -0.03988402530827332,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.05807423122214488,
+            "low": 0.010546589372738089,
+            "observed": 0.029698684574636144,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.021040636396764085,
+            "low": -0.008350687339382228,
+            "observed": 0.004574478343479867,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.3935561847016671,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022553316333956176,
+            "low": -0.07190410042544794,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.10770446716733817,
+            "low": 0.029242901183270647,
+            "observed": 0.05991769463343298,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.037689336611065646,
+            "low": 0.0022788422651770124,
+            "observed": 0.016921441384942556,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.3440621548649856,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.030811785453414887,
+            "low": -0.10310552728932208,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.14150173889124634,
+            "low": 0.04151169804261118,
+            "observed": 0.08045501597675046,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.04131740633970566,
+            "low": 0.004888671499124491,
+            "observed": 0.02059542117636538,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.3935561847016671,
+        "budget4_capture_ratio": -0.3440621548649856,
+        "max_capture_ratio": -0.1820745420329778,
+        "mean_capture_ratio": -0.3065642938665435,
+        "mean_regret_to_oracle": 0.05669046506160653,
+        "min_capture_ratio": -0.3935561847016671
+      }
+    },
+    "budget_raw": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -1.3065771106731112,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012612018753440054,
+            "low": -0.03984243109346301,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.13587745277221544,
+            "low": 0.01615302658856779,
+            "observed": 0.057950919016615844,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.10067287979028465,
+            "low": -0.006623664951389523,
+            "observed": 0.03282671278545955,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.8636314045184759,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.02256018334799639,
+            "low": -0.07131264142702176,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.14753455856143796,
+            "low": 0.03567715537994436,
+            "observed": 0.0801291678305163,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.07848499003061339,
+            "low": 0.0034594582466004014,
+            "observed": 0.037132914582025875,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.4836777330934827,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.031131275901257926,
+            "low": -0.10313786489204299,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.15412961849679158,
+            "low": 0.046617258966098675,
+            "observed": 0.08881234791732977,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.05634955859471188,
+            "low": 0.009461106096962754,
+            "observed": 0.028952753116944684,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.8636314045184759,
+        "budget4_capture_ratio": -0.4836777330934827,
+        "max_capture_ratio": -0.4836777330934827,
+        "mean_capture_ratio": -0.8846287494283566,
+        "mean_regret_to_oracle": 0.07563081158815398,
+        "min_capture_ratio": -1.3065771106731112
+      }
+    },
+    "calibrated_allocation_native": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -0.7296525874358006,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012662363212521371,
+            "low": -0.03984243109346302,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.09366612429484975,
+            "low": 0.013307033743012498,
+            "observed": 0.04345614831499013,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.056080255758226887,
+            "low": -0.005668737776354957,
+            "observed": 0.018331942083833846,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.8683122413935082,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022743755094806972,
+            "low": -0.07103374223098816,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.14633184198023647,
+            "low": 0.037111621168486486,
+            "observed": 0.08033042627821006,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.077019830713578,
+            "low": 0.007087786606617267,
+            "observed": 0.037334173029719635,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.5078055146867548,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.030361633845040207,
+            "low": -0.10236630146396278,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.15774582091385664,
+            "low": 0.049851477688990106,
+            "observed": 0.0902566271469352,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.05906583685284695,
+            "low": 0.006314089421969821,
+            "observed": 0.030397032346550144,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.8683122413935082,
+        "budget4_capture_ratio": -0.5078055146867548,
+        "max_capture_ratio": -0.5078055146867548,
+        "mean_capture_ratio": -0.7019234478386879,
+        "mean_regret_to_oracle": 0.07134773391337847,
+        "min_capture_ratio": -0.8683122413935082
+      }
+    },
+    "episode_allocation": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -0.7791269452148919,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012100991249416618,
+            "low": -0.04008617441740305,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.06976806410287183,
+            "low": 0.02404211614650791,
+            "observed": 0.04469915228298603,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.04777704480268692,
+            "low": -0.008616138894395664,
+            "observed": 0.019574946051829745,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.6944961271850213,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022743755094806972,
+            "low": -0.07190805940464694,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.10238984504359576,
+            "low": 0.04803716169928829,
+            "observed": 0.07285698461303343,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.04230244245206966,
+            "low": 0.01642175499180659,
+            "observed": 0.029860731364542998,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.23667720306813722,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.031133232765500472,
+            "low": -0.10092125650320014,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.1225028326897476,
+            "low": 0.03781023447198824,
+            "observed": 0.07402699627453224,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.03178360204731599,
+            "low": -0.001024733950786323,
+            "observed": 0.014167401474147152,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.6944961271850213,
+        "budget4_capture_ratio": -0.23667720306813722,
+        "max_capture_ratio": -0.23667720306813722,
+        "mean_capture_ratio": -0.5701000918226834,
+        "mean_regret_to_oracle": 0.0638610443901839,
+        "min_capture_ratio": -0.7791269452148919
+      }
+    },
+    "episode_assignment_value": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -0.9649881211680759,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012662363212521371,
+            "low": -0.03984110604253884,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.0835659959787959,
+            "low": 0.023524792395720702,
+            "observed": 0.04936876679799905,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.050863994445276735,
+            "low": -0.0012235717908852062,
+            "observed": 0.024244560566842766,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.6561425638385389,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022775032697876143,
+            "low": -0.07243137835235276,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.1328409797860318,
+            "low": 0.030574371840380598,
+            "observed": 0.07120792509040604,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.06184877003218692,
+            "low": 6.578554119388411e-05,
+            "observed": 0.028211671841915618,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.030934969384565303,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.03056950304241343,
+            "low": -0.10113291170937232,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.11462135154898136,
+            "low": 0.030705948697316906,
+            "observed": 0.06171134953290749,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.016443411284507485,
+            "low": -0.012459173312241176,
+            "observed": 0.001851754732522397,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.6561425638385389,
+        "budget4_capture_ratio": -0.030934969384565303,
+        "max_capture_ratio": -0.030934969384565303,
+        "mean_capture_ratio": -0.5506885514637266,
+        "mean_regret_to_oracle": 0.06076268047377086,
+        "min_capture_ratio": -0.9649881211680759
+      }
+    },
+    "episode_balanced": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -0.7733319695300934,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.01298119156214192,
+            "low": -0.039715212245519826,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.07074906826141199,
+            "low": 0.02164079434238681,
+            "observed": 0.04455355811877661,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.048897150578765765,
+            "low": -0.008232395698559696,
+            "observed": 0.019429351887620332,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -1.172682747306608,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022986615718750148,
+            "low": -0.07196841088013581,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.16452962530704623,
+            "low": 0.05265893052214846,
+            "observed": 0.09341721763182086,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.09409649384656114,
+            "low": 0.02626279865010485,
+            "observed": 0.05042096438333043,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.2458868770718718,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.03043092139119133,
+            "low": -0.10243573141342621,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.13397125730447149,
+            "low": 0.039010277790591456,
+            "observed": 0.07457828362863941,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.034370064222443,
+            "low": 0.0017853549125794613,
+            "observed": 0.014718688828254344,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -1.172682747306608,
+        "budget4_capture_ratio": -0.2458868770718718,
+        "max_capture_ratio": -0.2458868770718718,
+        "mean_capture_ratio": -0.7306338646361911,
+        "mean_regret_to_oracle": 0.07084968645974563,
+        "min_capture_ratio": -1.172682747306608
+      }
+    },
+    "episode_dual_price": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -0.10421934559514143,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012417580033211065,
+            "low": -0.03967465788607979,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.04336636477532804,
+            "low": 0.01490341168364315,
+            "observed": 0.02774263456316476,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.028601970374952202,
+            "low": -0.020390881902673737,
+            "observed": 0.0026184283320084822,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -1.1671184172210383,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.02301869531164161,
+            "low": -0.0709710412919465,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.1615776868471762,
+            "low": 0.052757261534723175,
+            "observed": 0.09317797228630349,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.09099200510017123,
+            "low": 0.024826533127714046,
+            "observed": 0.05018171903781308,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.1612629363050888,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.030960270978928662,
+            "low": -0.10114276201154793,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.12982494805798991,
+            "low": 0.035606334390622676,
+            "observed": 0.069512728823928,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.031724931537924744,
+            "low": -0.007443190532767717,
+            "observed": 0.009653134023542925,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -1.1671184172210383,
+        "budget4_capture_ratio": -0.1612629363050888,
+        "max_capture_ratio": -0.10421934559514143,
+        "mean_capture_ratio": -0.47753356637375616,
+        "mean_regret_to_oracle": 0.06347777855779875,
+        "min_capture_ratio": -1.1671184172210383
+      }
+    },
+    "episode_regret": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -1.0690873773393903,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.01266236321252137,
+            "low": -0.03988402530827332,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.07354330186500663,
+            "low": 0.03232056142614791,
+            "observed": 0.05198417797855711,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.05574977684555139,
+            "low": 0.00018718928262030345,
+            "observed": 0.02685997174740084,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.8813817578527255,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022743755094806972,
+            "low": -0.07130788045800049,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.1562538875611905,
+            "low": 0.03567999369049169,
+            "observed": 0.08089236651772588,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.08764998854034758,
+            "low": 0.00034408778954835614,
+            "observed": 0.03789611326923546,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.1457928563889151,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.030430871215185108,
+            "low": -0.1032803182204503,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.123505614460534,
+            "low": 0.03495197297832883,
+            "observed": 0.06858669610861627,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.026220770318519573,
+            "low": -0.006327987832337426,
+            "observed": 0.008727101308231192,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.8813817578527255,
+        "budget4_capture_ratio": -0.1457928563889151,
+        "max_capture_ratio": -0.1457928563889151,
+        "mean_capture_ratio": -0.6987539971936769,
+        "mean_regret_to_oracle": 0.06715441353496643,
+        "min_capture_ratio": -1.0690873773393903
+      }
+    },
+    "episode_seed_mean": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -0.6969081704481093,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.011975711715096158,
+            "low": -0.03951868967969687,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.06848065480971421,
+            "low": 0.021263131971231714,
+            "observed": 0.0426334708296724,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.046411429745146504,
+            "low": -0.010755028277307963,
+            "observed": 0.017509264598516112,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.775013585886478,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022738994125785686,
+            "low": -0.07153974135208538,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.12281946630264555,
+            "low": 0.04368843333099554,
+            "observed": 0.07631893365828613,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.05455582549680786,
+            "low": 0.014720715058175947,
+            "observed": 0.0333226804097957,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.18839600323525219,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.030361633845040203,
+            "low": -0.10166221112110344,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.13129580661603488,
+            "low": 0.036223466720789126,
+            "observed": 0.07113690321605932,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.03288119249001428,
+            "low": -0.005240980322498671,
+            "observed": 0.011277308415674234,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.775013585886478,
+        "budget4_capture_ratio": -0.18839600323525219,
+        "max_capture_ratio": -0.18839600323525219,
+        "mean_capture_ratio": -0.5534392531899465,
+        "mean_regret_to_oracle": 0.06336310256800594,
+        "min_capture_ratio": -0.775013585886478
+      }
+    },
+    "episode_seed_median": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -0.8029085791006505,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012535144364578183,
+            "low": -0.03967361803070953,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.08031763839229614,
+            "low": 0.018794843767300482,
+            "observed": 0.04529664695724568,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.04803811972413915,
+            "low": -0.006558393768678882,
+            "observed": 0.0201724407260894,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.8857227001444361,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022673502507686998,
+            "low": -0.07190410042544795,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.12802604173731086,
+            "low": 0.052168891636294804,
+            "observed": 0.08107901077183734,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.057948217247987814,
+            "low": 0.024310794656749863,
+            "observed": 0.03808275752334693,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.20766955075010174,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.031202570487657812,
+            "low": -0.10106543862415143,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.1337215049877203,
+            "low": 0.03623571390201991,
+            "observed": 0.07229060996066418,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.03449831689297169,
+            "low": -0.004406080886353715,
+            "observed": 0.012431015160279097,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.8857227001444361,
+        "budget4_capture_ratio": -0.20766955075010174,
+        "max_capture_ratio": -0.20766955075010174,
+        "mean_capture_ratio": -0.6321002766650627,
+        "mean_regret_to_oracle": 0.06622208922991574,
+        "min_capture_ratio": -0.8857227001444361
+      }
+    },
+    "geometry_conditioned": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -0.1569878122690676,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.01266236321252137,
+            "low": -0.039715212245519826,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.04220941400319845,
+            "low": 0.01646072546485568,
+            "observed": 0.02906840040238239,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.029368590695616537,
+            "low": -0.018989486385579672,
+            "observed": 0.003944194171226101,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.36148116535451186,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.02277583468769843,
+            "low": -0.07190410042544794,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.07579417699802678,
+            "low": 0.04233334213723603,
+            "observed": 0.05853858897863246,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.032739915262579,
+            "low": -0.0031215193553383014,
+            "observed": 0.015542335730142038,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": 0.10007381128553729,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.030430921391191326,
+            "low": -0.10099241524520755,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.08973067908571157,
+            "low": 0.03217043897705873,
+            "observed": 0.053869217006702615,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.0035853688585169613,
+            "low": -0.014724998565609269,
+            "observed": -0.005990377793682466,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.36148116535451186,
+        "budget4_capture_ratio": 0.10007381128553729,
+        "max_capture_ratio": 0.10007381128553729,
+        "mean_capture_ratio": -0.13946505544601406,
+        "mean_regret_to_oracle": 0.04715873546257249,
+        "min_capture_ratio": -0.36148116535451186
+      }
+    },
+    "geometry_option_conditioned": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -1.3065771106731112,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012612716909486914,
+            "low": -0.03984243109346302,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.13613019236177704,
+            "low": 0.015946874303593518,
+            "observed": 0.057950919016615844,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.10095587631563183,
+            "low": -0.006409152127041378,
+            "observed": 0.03282671278545955,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.8636314045184759,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022550966870403397,
+            "low": -0.07224093959150193,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.14790211455264624,
+            "low": 0.035909258219130755,
+            "observed": 0.0801291678305163,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.08009852502558948,
+            "low": 0.004036706355915564,
+            "observed": 0.037132914582025875,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.4836777330934827,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.03127555364562512,
+            "low": -0.10243573141342621,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.15552372926696081,
+            "low": 0.04706876709358993,
+            "observed": 0.08881234791732977,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.05634955859471188,
+            "low": 0.009737873405575475,
+            "observed": 0.028952753116944684,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.8636314045184759,
+        "budget4_capture_ratio": -0.4836777330934827,
+        "max_capture_ratio": -0.4836777330934827,
+        "mean_capture_ratio": -0.8846287494283566,
+        "mean_regret_to_oracle": 0.07563081158815398,
+        "min_capture_ratio": -1.3065771106731112
+      }
+    },
+    "geometry_regime_weighted": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -0.4499993743123612,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012712009515555827,
+            "low": -0.03940146223360056,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.05387428133738139,
+            "low": 0.020530037349193002,
+            "observed": 0.03643008331527133,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.03160775566923008,
+            "low": -0.006217610911622141,
+            "observed": 0.011305877084115052,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.41696362532027365,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.023271033021711768,
+            "low": -0.07149831921885129,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.10023306375891915,
+            "low": 0.031653322822729535,
+            "observed": 0.06092412687816958,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.03350011349477336,
+            "low": 0.0011888362827469237,
+            "observed": 0.017927873629679163,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.08034243694939898,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.03042891435094256,
+            "low": -0.10167977015986131,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.11360940765411078,
+            "low": 0.03475696170614064,
+            "observed": 0.0646688605214516,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.01579705154495587,
+            "low": -0.006864709682467992,
+            "observed": 0.0048092657210665095,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.41696362532027365,
+        "budget4_capture_ratio": -0.08034243694939898,
+        "max_capture_ratio": -0.08034243694939898,
+        "mean_capture_ratio": -0.315768478860678,
+        "mean_regret_to_oracle": 0.05400769023829751,
+        "min_capture_ratio": -0.4499993743123612
+      }
+    },
+    "regret_allocation_native": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -0.7296525874358006,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.01158130390149635,
+            "low": -0.0400365281143686,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.09493012229315144,
+            "low": 0.013307033743012498,
+            "observed": 0.04345614831499013,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.0582100453237761,
+            "low": -0.005631990412644382,
+            "observed": 0.018331942083833846,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.8683122413935082,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.02286525181511511,
+            "low": -0.07146623962595984,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.14835716528374776,
+            "low": 0.03740221484819715,
+            "observed": 0.08033042627821006,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.07812707696633206,
+            "low": 0.007301008252613692,
+            "observed": 0.037334173029719635,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.5078055146867548,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.030430921391191326,
+            "low": -0.10243924257063017,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.1566947025958248,
+            "low": 0.049849571909463194,
+            "observed": 0.0902566271469352,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.058279097459314415,
+            "low": 0.006343109349187797,
+            "observed": 0.030397032346550144,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.8683122413935082,
+        "budget4_capture_ratio": -0.5078055146867548,
+        "max_capture_ratio": -0.5078055146867548,
+        "mean_capture_ratio": -0.7019234478386879,
+        "mean_regret_to_oracle": 0.07134773391337847,
+        "min_capture_ratio": -0.8683122413935082
+      }
+    },
+    "regret_dual_price": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -0.10421934559514143,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.013027698841097808,
+            "low": -0.039884025308273306,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.04304523999980071,
+            "low": 0.014812724950853973,
+            "observed": 0.02774263456316476,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.02853055599534171,
+            "low": -0.02119847718240559,
+            "observed": 0.0026184283320084822,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -1.1671184172210383,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022743755094806972,
+            "low": -0.07122337900201665,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.16029081317868793,
+            "low": 0.05315764765669314,
+            "observed": 0.09317797228630349,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.09077069014407924,
+            "low": 0.024905744315770223,
+            "observed": 0.05018171903781308,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.1612629363050888,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.03112954710871395,
+            "low": -0.10145060609093746,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.12861172883383462,
+            "low": 0.03571351592426782,
+            "observed": 0.069512728823928,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.0319097232795266,
+            "low": -0.00749856140712662,
+            "observed": 0.009653134023542925,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -1.1671184172210383,
+        "budget4_capture_ratio": -0.1612629363050888,
+        "max_capture_ratio": -0.10421934559514143,
+        "mean_capture_ratio": -0.47753356637375616,
+        "mean_regret_to_oracle": 0.06347777855779875,
+        "min_capture_ratio": -1.1671184172210383
+      }
+    },
+    "regret_episode_allocation": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": -0.7791269452148919,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012532432554883855,
+            "low": -0.04020540181574502,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.06991499809139436,
+            "low": 0.023219668161133418,
+            "observed": 0.04469915228298603,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.047216857118582554,
+            "low": -0.008896975709894913,
+            "observed": 0.019574946051829745,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": -0.6944961271850213,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022743755094806972,
+            "low": -0.07131183943719947,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.1027185496808833,
+            "low": 0.048620775254811656,
+            "observed": 0.07285698461303343,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.0430560708419989,
+            "low": 0.01699134978933701,
+            "observed": 0.029860731364542998,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.23667720306813722,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.03050007309294998,
+            "low": -0.10145060609093748,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.12381645806266488,
+            "low": 0.03862774592983282,
+            "observed": 0.07402699627453224,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.03204157755164116,
+            "low": -0.0009202829507493677,
+            "observed": 0.014167401474147152,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": -0.6944961271850213,
+        "budget4_capture_ratio": -0.23667720306813722,
+        "max_capture_ratio": -0.23667720306813722,
+        "mean_capture_ratio": -0.5701000918226834,
+        "mean_regret_to_oracle": 0.0638610443901839,
+        "min_capture_ratio": -0.7791269452148919
+      }
+    },
+    "residual_priority": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": 0.01401707474184822,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012053284260004888,
+            "low": -0.03984243109346302,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.03881435392655342,
+            "low": 0.012662363212521371,
+            "observed": 0.024772038354584556,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.0,
+            "low": -0.0010565036297151792,
+            "observed": -0.00035216787657172636,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": 0.1215778073073677,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022743755094806972,
+            "low": -0.07146704161578213,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.060278960332550265,
+            "low": 0.02255994373880077,
+            "observed": 0.037768863056106675,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.003387316913177771,
+            "low": -0.015169700264967034,
+            "observed": -0.005227390192383752,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.0629457838071024,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.030573188699199946,
+            "low": -0.10257617770158477,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.09924880650423286,
+            "low": 0.035481557537274715,
+            "observed": 0.06362750391347087,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.021507700083708354,
+            "low": -0.013996100698660193,
+            "observed": 0.0037679091130857906,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": 0.1215778073073677,
+        "budget4_capture_ratio": -0.0629457838071024,
+        "max_capture_ratio": 0.1215778073073677,
+        "mean_capture_ratio": 0.0242163660807045,
+        "mean_regret_to_oracle": 0.04205613510805403,
+        "min_capture_ratio": -0.0629457838071024
+      }
+    },
+    "residual_raw": {
+      "budgets": {
+        "budget_2": {
+          "headroom_capture_ratio": 0.01664721055027626,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.012535144364578183,
+            "low": -0.039766797862177,
+            "observed": -0.02512420623115628,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.03839216537236582,
+            "low": 0.01248549806154373,
+            "observed": 0.024705958280117655,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.0,
+            "low": -0.0011225837041820741,
+            "observed": -0.00041824795103862145,
+            "samples": 4000
+          }
+        },
+        "budget_3": {
+          "headroom_capture_ratio": 0.12929592923575223,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.022553316333956176,
+            "low": -0.07206537411962917,
+            "observed": -0.042996253248490435,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.05902771154778001,
+            "low": 0.023940630567789813,
+            "observed": 0.03743701273107113,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.003704452224684307,
+            "low": -0.01633758190132374,
+            "observed": -0.005559240517419301,
+            "samples": 4000
+          }
+        },
+        "budget_4": {
+          "headroom_capture_ratio": -0.151935762013784,
+          "oracle_delta": {
+            "episode_count": 7,
+            "high": -0.030990965457491852,
+            "low": -0.10113486857361487,
+            "observed": -0.05985959480038509,
+            "samples": 4000
+          },
+          "regret_to_oracle": {
+            "episode_count": 7,
+            "high": 0.1122018691499141,
+            "low": 0.03663156626507937,
+            "observed": 0.06895440795021793,
+            "samples": 4000
+          },
+          "score_delta": {
+            "episode_count": 7,
+            "high": 0.023846051660570404,
+            "low": -0.007813189882690549,
+            "observed": 0.009094813149832851,
+            "samples": 4000
+          }
+        }
+      },
+      "summary": {
+        "budget3_capture_ratio": 0.12929592923575223,
+        "budget4_capture_ratio": -0.151935762013784,
+        "max_capture_ratio": 0.12929592923575223,
+        "mean_capture_ratio": -0.0019975407425851708,
+        "mean_regret_to_oracle": 0.043699126320468906,
+        "min_capture_ratio": -0.151935762013784
+      }
+    }
+  },
+  "schema_id": "bedc_jepa.state_generation_candidate_oracle_gap",
+  "status": "ok",
+  "verdict": "No existing learned candidate approaches the hard oracle budget ceiling. The candidate pool audit supports a new option-conditioned compute-value objective rather than more selection over existing score families.",
+  "wall_time_sec": 22.754273891448975
+}

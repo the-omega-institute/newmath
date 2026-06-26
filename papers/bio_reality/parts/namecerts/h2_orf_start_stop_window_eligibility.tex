@@ -1,55 +1,80 @@
-\subsection{Start--Stop Window Eligibility as a Boundary-Level ORF Record}\label{subsec:h2-orf-start-stop-window-eligibility}
+\subsection{Position-resolved dwell evidence for the f3-stress abundance component}\label{sec:bioreality-f3-stress-dwell-positional}
 \origin{ai}
 
-\paragraph{Object of the finite record.}
-This chapter records a boundary-level claim about open-reading-frame eligibility under direct start/stop codon enumeration. The biological object is not a translated protein, not a transcript, and not a molecular mechanism. It is the weaker finite question of whether a supplied nucleotide window can be classified by a start/stop-window rule once the relevant biological interval has been supplied outside the BEDC coordinate system. In the finite run with identifier \texttt{c26a0d6656f7}, the window manifest was loaded successfully, with \texttt{external\_window\_dataset\_loaded} equal to $1$. The run had $1$ input window and classified $1$ window, so the observed classification count was
+\paragraph{Finite surface.}
+This record concerns the $f3\_stress$ coordinate inside the nine-coordinate $B^{\ast}_{Q6}$ synonymous residual surface.  The tested readout is not a global protein-abundance association and not a structural claim.  It is the projection $P_{f3}$ of $Z$-residualized $\log_{10}$ protein abundance onto the $Z$-residualized $f3\_stress$ direction on a yeast join where positional ribosome-occupancy summaries are available.  The organism is \textit{Saccharomyces cerevisiae}; the active join contains $n=1257$ genes, the base sampling frame has $1800$ rows, the residual control basis has rank $24$, and the coordinate block tested here has $\operatorname{rank}(f3)=1$.  The target component has squared norm
 $$
 \begin{aligned}
-\text{classified windows} &= 1,\\
-\text{input windows} &= 1.
+\lVert P_{f3}\rVert^2 &= 44.20095750389323,\\
+P_{f3}\text{ fraction of target} &= 0.1999063916718794.
 \end{aligned}
 $$
-The source description for this run is a curated finite nucleotide-window manifest for ORF start/stop enumeration, with snapshot date $2026$-$05$-$25$. The scope is explicitly \texttt{external\_window\_start\_stop\_enumeration\_only}. Thus the chapter treats the row as a finite annotation-mediated eligibility record, not as a discovery of biological realization from coordinate geometry alone.
+The row is therefore a finite positional-discrimination test for a specific abundance component, not an unrestricted statement about translation or protein biology.
 
-\paragraph{Finite codon background used by the packet.}
-The codon-level background contains a checked finite set $M$ of size $20$. The run \texttt{a53ef0f36703} records
+\paragraph{Readout construction.}
+The dwell variables are per-gene relative ribosome-occupancy summaries computed separately from file-provided $5'$ head and $3'$ tail A-site occupancy windows.  The fit compares a base design against base-plus-segment dwell designs under five held-out folds.  Its null is a deterministic row-label permutation of $P_{f3}$ with base and full designs and folds fixed, run separately for each segment and for the joint segment design.  The permutation count is $120$, and the deterministic seed is \texttt{sha256:b\_star\_q6\_f3\_stress\_dwell\_positional\_powered:deterministic}.  The registered finite verdict is \texttt{passed}: the leading segment by held-out increment is \texttt{5prime}, the dominant segment is \texttt{5prime}, the $5'$ ramp gate passed, and the $3'$ body gate did not pass.  In compact form,
 $$
 \begin{aligned}
-M = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+\text{organism} &= \textit{S. cerevisiae},\\
+n_{\mathrm{join}} &= 1257,\\
+\text{folds} &= 5,\\
+\text{permutations} &= 120,\\
+\text{leading segment} &= 5',\\
+\text{5' ramp passed} &= \mathrm{true},\\
+\text{3' body passed} &= \mathrm{false}.
 \end{aligned}
 $$
-with cardinality $20$. A separate compression row, run \texttt{338799579a87}, records the motif union
+This is a directional positional statement: the observed increment localizes to the head-window side of the dwell readout rather than to the tail-window side.
+
+\paragraph{Relation to the non-positional dwell certificate.}
+The same $P_{f3}$ abundance component has an independent dwell-mediation row on the same organismal context.  That companion fit used $n_{\mathrm{join}}=1257$, base frame size $1800$, five folds, $120$ deterministic permutations, and the same target norm $44.20095750389323$.  Its base held-out $R^2$ was $0.1855578757644517$, its dwell-alone $R^2$ was $0.034336580953121976$, its full held-out $R^2$ was $0.20412261520502883$, and the held-out dwell increment was
 $$
 \begin{aligned}
-R = \{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\},
+\Delta R^2_{\mathrm{dwell}} &= 0.01856473944057712,\\
+\mathrm{Null}_{95} &= 0.0013115362189692937,\\
+\mathrm{Null}_{\max} &= 0.005001350039772926,\\
+\mathrm{Null}_{\mathrm{mean}} &= -0.0032911642620130563,\\
+\mathrm{Null}_{\min} &= -0.013799622026666476.
 \end{aligned}
 $$
-with no missing and no extra codons in that motif comparison. The saturation run \texttt{f4eee68dd2c3} gives
+The observed $f3\_stress$--dwell correlation in that row was $0.1615441450901653$ with approximate $p=7.873916057196935\times 10^{-9}$.  Thus the positional result refines a previously positive dwell increment: the finite table says that the usable dwell increment is not merely present, but is carried by the $5'$ segment in the positional decomposition.
+
+\paragraph{Relation to ramp-body structural-order screening.}
+A separate ramp-versus-body screen on the same coordinate family also reports a positive ramp-side signal without granting a structural interpretation.  In that row the primary ramp size was $50$ codons, the weighted $f3$ ramp held-out increment was $0.0011165640103326878$, the weighted $f3$ body increment was $-0.00026157313923957926$, and the paired ramp-minus-body increment was $0.001378137149572267$.  The sign-flip probabilities were
 $$
 \begin{aligned}
-\mathrm{Sat}_{f3}(R) = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
-&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
+p(f3\text{ ramp}>0) &= 0.0478515625,\\
+p(f3\text{ body}>0) &= 0.54296875,\\
+p(f3\text{ ramp}-f3\text{ body}>0) &= 0.05859375.
 \end{aligned}
 $$
-and reports an empty $f3$ boundary obstruction. The same run records $M=\mathrm{Med}(R)\cup\{\mathrm{ACA}\}$ together with the listed $20$ elements of $M$. These finite codon rows are useful because they delimit the alphabetic and motif-side information available to the classifier; they do not themselves make an ORF biologically present.
+That screen classified the outcome as \texttt{ramp\_positive\_but\_not\_localized}: the ramp signal was positive, while the stronger paired localization gate did not pass.  The present dwell-positional row is sharper in its own measurement family: within measured positional dwell summaries, the $5'$ segment is the passing segment and the $3'$ body segment is not.
 
-\paragraph{Geometry retained below biological promotion.}
-The quotient-geometry run \texttt{fd0a506a0881} gives the $M$ face vector $(20,38,26,8,1)$ and a quotient face vector $(10,14,6,1)$. It also records $\pi_M$ with size $10$, represented by the ten binary rows
+\paragraph{Cross-layer scope.}
+The direct protein-omics surface shows that $B^{\ast}_{Q6}$ residuals can associate with measured PAXdb protein abundance after controls across multiple organisms, but those entries are direct associations.  For example, the yeast protein-abundance row used $5815$ joined proteins with join hit rate $0.9156038419146592$ and reported $R^2_{QP}=0.29837624994140827$ with all $9$ residual coordinates surviving.  Human used $19053$ joined proteins with hit rate $0.9779294769799313$ and reported $R^2_{QP}=0.04454565118019448$; mouse used $19395$ joined proteins with hit rate $0.9808334176190958$ and reported $R^2_{QP}=0.049827984062539195$; \textit{E. coli} used $3739$ joined proteins with hit rate $0.9978649586335735$ and reported $R^2_{QP}=0.10767526677985896$.  These values motivate the abundance projection but do not by themselves identify a translation mechanism.
+
+\paragraph{Translation-conditioned comparison.}
+Measured ribosome-footprint translation efficiency gives a separate translation readout.  In yeast, the measured-TE survival row used $5128$ genes with ribosome-TE join hit rate $0.8818572656921754$ and reported $R^2_{QT,\mathrm{meas}}=0.13681931343730436$ with $9$ surviving coordinates.  The measured TE--abundance mediation row for yeast used a three-way join of $5128$ rows and reported
 $$
 \begin{aligned}
-&(0,0,0,0,1),\ (0,0,0,1,1),\ (0,0,1,0,1),\ (0,0,1,1,1),\ (0,1,0,0,0),\\
-&(0,1,0,0,1),\ (1,0,0,0,1),\ (1,0,1,1,1),\ (1,0,1,0,1),\ (1,0,1,1,1).
+S_{QP} &= 0.3146818503437042,\\
+S_{QT,\mathrm{meas}} &= 0.13681931343730436,\\
+M^{QTP}_{\mathrm{meas}} &= 0.4793069656345167.
 \end{aligned}
 $$
-This geometry is admissible as finite coordinate information for enumeration, but the ORF chapter deliberately keeps it below biological promotion. The local gate is: start/stop-window geometry may classify a supplied finite window, but it may not be reinterpreted as translation, protein folding, physical admissibility, function, mechanism, or a universal biological law unless a separate contact supplies evidence at that layer.
+For comparison, \textit{E. coli} reported $S_{QP}=0.10941535951828074$, $S_{QT,\mathrm{meas}}=0.009394266754822262$, and $M^{QTP}_{\mathrm{meas}}=0.04091158340950673$ on $3415$ joined rows; human reported $S_{QP}=0.04288464996165745$, $S_{QT,\mathrm{meas}}=0.018837911344127926$, and $M^{QTP}_{\mathrm{meas}}=0.0027966485036786744$ on $11554$ joined rows.  The positional dwell result is consistent with this measured-readout framing: it supplies a yeast, row-matched positional ribosome-occupancy discriminator for the $f3\_stress$ abundance component, while leaving causal language outside the finite table.
 
-\paragraph{Boundary condition for the start/stop claim.}
-The verified start/stop run states \texttt{no\_geometry\_to\_translation\_promotion} as \texttt{orf\_eligibility\_only}. This is the decisive local reading of the row. The packet can say that the one supplied window was classified under start/stop enumeration. It cannot say that the window was translated, that a protein product exists, that the product folds, that the resulting structure is physically admissible, that it has biological function, or that the rule generalizes beyond the supplied finite manifest. The self-check row \texttt{0f47d2f0cf41} records the same discipline at the BioReality level: no codon geometry is promoted across biological layers, and the checked gate count is $3$.
+\paragraph{Reduction and residual status.}
+The partial readout-dictionary certificate for yeast used base frame size $1800$, five folds, $120$ permutations, $\lambda_{\mathrm{DL}}=0.01$, and $\rho_{\mathrm{join}}=0.05$.  It found selection-aware significant coverage
+$$
+\begin{aligned}
+C^{\ast} &= 0.24538211439730545,\\
+\mathrm{unexplained} &= 0.7546178856026946,\\
+\mathrm{selection\ aware\ Null}_{95} &= 0.029149007242956115,\\
+\mathrm{naive\ fixed\ subset\ Null}_{95} &= 0.00598374993486675.
+\end{aligned}
+$$
+This prevents the dwell result from being overstated.  The $5'$ positional dwell signal explains a finite part of the $f3\_stress$ abundance component, and it improves the localization of that part within ribosome-occupancy windows, but a large residual component remains outside the listed readout dictionary.
 
-\paragraph{Separate curated interval contact.}
-A stronger but still layer-limited contact is available in the linked curated interval run \texttt{7c9b30b02d46}. That dataset loaded $168$ rows from \texttt{tools/bio\_reality/data/curated\_orf\_interval\_contact\_dataset.json}, with snapshot date $2026$-$05$-$30$ and source given as NCBI RefSeq GenBank XML CDS intervals from \emph{Escherichia coli} K-12 MG1655 complete genome accession \texttt{NC\_000913.3}. The required input classes were present: boundary cases, matched non-ORF decoys, and positive curated ORFs. The positive interval statistic accepted $72$ of $72$ positives, giving accept rate $1.0$ and exact one-sided binomial upper-tail value $2.117582368135751\times 10^{-22}$. The matched decoy statistic rejected $72$ of $72$ decoys, with reject rate $1.0$ and the same upper-tail value $2.117582368135751\times 10^{-22}$. The predeclared paired baseline comparison also had $72$ wins in $72$ pairs, win rate $1.0$, and upper-tail value $2.117582368135751\times 10^{-22}$. Boundary cases had $n=24$, promoted count $0$, and promoted fraction $0.0$.
-
-\paragraph{Held-out stability and final reading.}
-The curated interval row also records three held-out splits. The left-locus, middle-locus, and right-locus folds each had $24$ positives and $24$ decoys; each split passed, with positive accept rate $1.0$ and decoy reject rate $1.0$. The protocol was frozen before the external observation: classifier rules, baselines, held-out splits, and input classes were frozen, with protocol timestamp $2026$-$05$-$29\,19{:}11{:}13{+}00{:}00$ and external evidence timestamp $2026$-$05$-$30\,10{:}29{:}31{+}00{:}00$. These values support a finite interval-contact reading when that contact is explicitly invoked. They do not alter the narrower start/stop-window chapter: the immediate verdict remains an ORF-eligibility classification for the supplied finite window, bounded to the enumeration layer and barred from claims about translation, folding, physical admissibility, function, mechanism, or universality.
+\paragraph{Local conclusion.}
+The ready claim is narrow.  On a yeast panel with $1257$ joined genes, five held-out folds, $120$ deterministic permutations, and a rank-one $f3\_stress$ target component, positional dwell summaries distinguish the $5'$ segment from the $3'$ body segment: the $5'$ ramp passes and is the leading segment, while the $3'$ body does not pass.  The result is a finite cross-layer readout about where the dwell-associated increment for the $f3\_stress$ abundance projection is located.  It does not assert that $f3\_stress$ causes translation changes, that the effect is universal, that the signal specifies folding or physical admissibility, or that it realizes molecular function.  Any such statement would require a separate layer-matched measurement and a new controlled statistic for that layer.

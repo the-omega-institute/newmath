@@ -194,6 +194,125 @@ the certification condition tying those two audits to a closed target
 object.
 \end{proof}
 
+\subsection{Speakable Model Form}
+\label{subsec:philosophy-speakable-model-form}
+
+\begin{definition}[BEDC-speakable interface]
+\label{def:philosophy-bedc-speakable-interface}
+A target $X$ is \emph{BEDC-speakable} on a declared scope when public use of
+its upward interface factors through a certificate surface
+$$
+X^{\uparrow}
+=
+(
+S_X,
+P_X,
+C_X,
+\Sigma_X,
+\Lambda_X
+),
+$$
+where $S_X$ is the source specification, $P_X$ is the pattern
+specification, $C_X$ is the classifier specification, $\Sigma_X$ is the
+stability certificate, and $\Lambda_X$ is the ledger policy. The tuple is
+read only through the generated-history, continuation, probe-signature,
+package, gap-ledger, and naming-certificate route
+$$
+\mathsf{Hist}
+\longrightarrow
+\mathsf{Cont}
+\longrightarrow
+\mathsf{Ask}
+\longrightarrow
+\mathsf{Sig}
+\longrightarrow
+\mathsf{Pkg}
+\longrightarrow
+\mathsf{Gap}
+\longrightarrow
+\NameCert.
+$$
+Thus $X^{\uparrow}$ is not a host object placed behind a name. It is the
+licensed public interface by which the name $X$ may be consumed.
+\end{definition}
+
+\begin{definition}[BEDC model form]
+\label{def:philosophy-bedc-model-form}
+The \emph{BEDC model form} of a speakable interface $X^{\uparrow}$ is the
+role pattern
+$$
+\operatorname{ModelForm}(X)
+=
+(
+\mathsf{Hist}_X,
+\hsame_X,
+\mathsf{Cont}_X,
+\mathsf{Ask}_X,
+\mathsf{Sig}_X,
+\mathsf{sameSig}_X,
+\mathsf{Pkg}_X,
+\mathsf{Gap}_X,
+\NameCert_X
+).
+$$
+Two speakable interfaces have the same model form when there are
+bidirectional role translations preserving generated-history source,
+internal sameness transport, continuation, probe-signature readback,
+signature comparison, package rows, ledger residue, and NameCert
+admission, with round trips witnessed only by the relevant internal
+$\hsame$, $\mathsf{sameSig}$, or classifier-preserving transport.
+\end{definition}
+
+\begin{theorem}[Speakability factors through model form]
+\label{thm:philosophy-speakability-factors-through-model-form}
+Every theory-closed unified object is an instance of the BEDC model form.
+\end{theorem}
+\begin{proof}
+By \autoref{def:philosophy-theory-hardening-closure}, theory closure is
+the conjunction of material, classifier, NameCert, ledger, DNA, and
+scope closure. The material axis supplies generated histories and record
+surfaces. The classifier axis supplies the comparison relation by which
+records are grouped. NameCert closure supplies the source, pattern,
+classifier, stability, and ledger-policy rows. Ledger closure records
+the residue of projection, compression, identification, thresholding,
+semantic assignment, and scope restriction. The scope seal states the
+claim kind and not-claimed boundary. These are exactly the roles listed
+in \autoref{def:philosophy-bedc-model-form}, read through the route of
+\autoref{def:philosophy-bedc-speakable-interface}.
+\end{proof}
+
+\begin{theorem}[Model-form agreement is not object identity]
+\label{thm:philosophy-model-form-agreement-not-object-identity}
+If two speakable interfaces preserve the same BEDC model form, the
+licensed conclusion is structural comparison, not host-level equality or
+content collapse.
+\end{theorem}
+\begin{proof}
+Model-form agreement preserves only the public roles displayed in
+\autoref{def:philosophy-bedc-model-form}. The round trips are witnessed
+by internal sameness, signature comparison, or classifier-preserving
+transport. None of these is host equality, and none identifies the
+source material, pattern evidence, classifier scope, or ledger residue of
+one target with that of another. Thus a theorem instance, a tensor
+behavior instance, and a physical-observation instance may share the
+same certification grammar without becoming the same object.
+\end{proof}
+
+\begin{corollary}[Projection is not ontology]
+\label{cor:philosophy-projection-not-ontology}
+A probe result, signature, package, projection, compression, or displayed
+model output is not the target whose interface it supports unless a
+separate exactness, recovery, or ledger certificate licenses that
+reading.
+\end{corollary}
+\begin{proof}
+Each listed output is one role or one role fragment inside the
+BEDC-speakable interface. Reading it as the whole target would discard
+the remaining source, classifier, stability, ledger, and scope rows.
+Theory closure forbids that discard unless the missing residue is
+recovered or recorded by the certificate surface.
+\end{proof}
+
 \subsection{Specializations}
 \label{subsec:philosophy-unified-specializations}
 

@@ -1,0 +1,329 @@
+{
+  "pipeline_name": "cellstate_reality_deepening",
+  "default_conjectures": "tools/cellstate_reality/inbox/conjectures.jsonl",
+  "default_contacts": "tools/cellstate_reality/inbox/reality_contacts.jsonl",
+  "default_probes": "tools/cellstate_reality/inbox/probes.jsonl",
+  "default_mismatches": "tools/cellstate_reality/inbox/mismatches.jsonl",
+  "default_output": "tools/cellstate_reality/out/gate_results.jsonl",
+  "default_deepening_tasks": "tools/cellstate_reality/out/deepening_tasks.jsonl",
+  "default_review_queue": "tools/cellstate_reality/out/review_queue.jsonl",
+  "default_packet_targets": "tools/cellstate_reality/out/packet_targets.jsonl",
+  "default_events": "tools/cellstate_reality/out/events.jsonl",
+  "default_agent_tasks": "tools/cellstate_reality/out/agent_tasks.jsonl",
+  "default_agent_reviews": "tools/cellstate_reality/out/agent_reviews.jsonl",
+  "default_dispatch_results": "tools/cellstate_reality/out/dispatch_results.jsonl",
+  "default_hardening_targets": "tools/cellstate_reality/out/hardening_targets.jsonl",
+  "default_lane_dashboard": "tools/cellstate_reality/out/lane_dashboard.md",
+  "default_vision_dir": "tools/cellstate_reality/vision",
+  "default_vision_ledger": "tools/cellstate_reality/vision/ledger/intake_evaluations.jsonl",
+  "default_paper_main": "papers/cellstate_reality/main.tex",
+  "default_paper_part": "papers/cellstate_reality/parts/cellstate_context_refresh_boundary.tex",
+  "default_signal_journal": "tools/cellstate_reality/state/cellstate_reality_signals.jsonl",
+  "default_signal_latest": "tools/cellstate_reality/state/cellstate_reality_signals_latest.md",
+  "default_loop_state": "tools/cellstate_reality/state/loop_state.json",
+  "runtime_paths_ignored_by_git": [
+    "tools/cellstate_reality/inbox/",
+    "tools/cellstate_reality/out/",
+    "tools/cellstate_reality/state/",
+    "tools/cellstate_reality/cache/"
+  ],
+  "domain_profiles": [
+    "cellstate_context_refresh"
+  ],
+  "lanes": [
+    {
+      "lane": "bio-P",
+      "loop_name": "bio_P_packet_targets",
+      "role": "self-iterating biological conjecture, probe, contact, and mismatch discovery",
+      "durable_write_allowed": false
+    },
+    {
+      "lane": "bio-V",
+      "loop_name": "bio_V_vision_intake",
+      "role": "scan user-authored BioReality vision files into event records",
+      "durable_write_allowed": false
+    },
+    {
+      "lane": "bio-G",
+      "loop_name": "bio_G_gate_and_plan",
+      "role": "deterministic reality-vs-BEDC boundary gates",
+      "durable_write_allowed": false
+    },
+    {
+      "lane": "bio-R",
+      "loop_name": "bio_R_agent_dispatch",
+      "role": "event-driven Codex agent planning for research-memory extension",
+      "durable_write_allowed": false,
+      "codex_execution_default": true,
+      "default_max_dispatch": 1
+    },
+    {
+      "lane": "bio-W",
+      "loop_name": "bio_W_writeback_paper",
+      "role": "standalone BioReality paper writeback from gate-passed research memory",
+      "durable_write_allowed": true,
+      "codex_writer": {
+        "enabled": true,
+        "max_retries": 2,
+        "timeout": 600,
+        "log_dir": "tools/cellstate_reality/state/writeback_codex_logs",
+        "min_audit_score": 7,
+        "min_used_fact_ids": 2,
+        "corrective_retry": true
+      },
+      "durable_write_scope": [
+        "papers/cellstate_reality/main.tex",
+        "papers/cellstate_reality/parts/cellstate_context_refresh_boundary.tex",
+        "papers/cellstate_reality/parts/*/*.tex"
+      ]
+    },
+    {
+      "lane": "bio-B",
+      "loop_name": "bio_B_bedc_writeback",
+      "role": "DISABLED for cellstate: BEDC concrete-instances writeback is loning domain",
+      "durable_write_allowed": false
+    },
+    {
+      "lane": "bio-Q",
+      "loop_name": "bio_Q_quality_hardening",
+      "role": "convert agent reviews into gate and prompt hardening targets",
+      "durable_write_allowed": false
+    },
+    {
+      "lane": "bio-A",
+      "loop_name": "bio_A_assimilate_signals",
+      "role": "failure-pattern and scheduling-pressure assimilation for later gate hardening",
+      "durable_write_allowed": false
+    }
+  ],
+  "writeback_heal": {
+    "enabled": true,
+    "max_attempts": 2,
+    "timeout_seconds": 600,
+    "recurring_threshold": 50,
+    "recurring_window_seconds": 21600,
+    "path_whitelist_prefix": "papers/cellstate_reality/"
+  },
+  "bootstrap_policy": {
+    "empty_memory_bootstrap": true,
+    "first_profile": "cellstate_context_refresh",
+    "scope_alignment": [
+      "curated methylation/expression datasets are external reality contacts",
+      "BEDC-style probe-signature carriers are internal coordinate surfaces",
+      "an age-clock shift cannot be promoted to identity, function, safety, or rejuvenation",
+      "each higher promotion layer requires a separate reality contact for that layer"
+    ]
+  },
+  "default_gate_policy": {
+    "require_forbidden_claims": true,
+    "require_reality_contact_separation": true,
+    "require_bedc_internal_structure_separation": true,
+    "require_falsifiable_probes": true,
+    "require_loop_task_planning": true,
+    "require_nested_loop_checkpointing": true,
+    "block_mechanism_claims_without_mechanism_bridge": true,
+    "block_total_biology_claims": true
+  },
+  "packet_id_policy": {
+    "id_pattern": "^[a-z0-9][a-z0-9.:-]*$",
+    "id_fields_use": "lowercase dotted/kebab tokens only",
+    "layer_fields_use": "canonical underscore layer tokens",
+    "embedded_layer_tokens": {
+      "genome_source": "genome-source",
+      "age_signature": "age-signature",
+      "cell_identity": "cell-identity",
+      "function_realization": "function-realization",
+      "safety_boundary": "safety-boundary",
+      "renewable_maintenance": "renewable-maintenance",
+      "organismal_maintenance": "organismal-maintenance",
+      "cross_layer_relation": "cross-layer-relation"
+    },
+    "invalid_examples": [
+      "function_realization.seed.boundary"
+    ],
+    "valid_examples": [
+      "function-realization.seed.boundary"
+    ]
+  },
+  "keep_lane": {
+    "enabled": true,
+    "branch": "feat/cellstate_reality-deepening",
+    "remote": "origin",
+    "include_paths": [
+      "tools/cellstate_reality/*.py",
+      "tools/cellstate_reality/*.json",
+      "tools/cellstate_reality/*.md",
+      "tools/cellstate_reality/experiments/*.py",
+      "tools/cellstate_reality/experiments/__init__.py",
+      "tools/cellstate_reality/registries/*.json",
+      "tools/cellstate_reality/registries/__init__.py",
+      "tools/cellstate_reality/data/*.json",
+      "tools/cellstate_reality/data/*.py",
+      "tools/cellstate_reality/vision/*.md",
+      "papers/cellstate_reality/*.tex",
+      "papers/cellstate_reality/Makefile",
+      "papers/cellstate_reality/parts/*.tex",
+      "papers/cellstate_reality/parts/*/*.tex",
+      "papers/cellstate_reality/parts/namecerts/*.tex"
+    ],
+    "exclude_paths": [
+      "tools/cellstate_reality/state/*",
+      "tools/cellstate_reality/out/*",
+      "tools/cellstate_reality/inbox/*",
+      "tools/cellstate_reality/cache/*",
+      "tools/cellstate_reality/vision/ledger/*",
+      "tools/cellstate_reality/vision/index.md",
+      "tools/cellstate_reality/registries/claims.json",
+      "tools/cellstate_reality/registries/experiments.json",
+      "tools/cellstate_reality/inbox/conjectures.jsonl",
+      "tools/cellstate_reality/inbox/reality_contacts.jsonl",
+      "tools/cellstate_reality/inbox/probes.jsonl",
+      "tools/cellstate_reality/inbox/mismatches.jsonl"
+    ],
+    "pre_commit_gates": [
+      [
+        "python3",
+        "-m",
+        "py_compile",
+        "tools/cellstate_reality/agent_bus.py",
+        "tools/cellstate_reality/lanes.py",
+        "tools/cellstate_reality/supervisor.py",
+        "tools/cellstate_reality/store.py",
+        "tools/cellstate_reality/deepening_gates.py",
+        "tools/cellstate_reality/cellstate_reality_loop.py",
+        "tools/cellstate_reality/vision_intake.py",
+        "tools/cellstate_reality/signal_assimilator.py",
+        "tools/cellstate_reality/framework.py"
+      ],
+      [
+        "python3",
+        "tools/cellstate_reality/deepening_gates.py",
+        "--self-test"
+      ],
+      [
+        "python3",
+        "tools/cellstate_reality/agent_bus.py",
+        "--self-test"
+      ],
+      [
+        "bash",
+        "-c",
+        "test -f papers/cellstate_reality/main.pdf && test $(stat -f %z papers/cellstate_reality/main.pdf) -gt 100000 && test $(find papers/cellstate_reality/main.pdf -mmin -90 | wc -l | tr -d ' ') -eq 1"
+      ],
+      [
+        "bash",
+        "-c",
+        "python3 -c \"import json; d=json.load(open('tools/cellstate_reality/registries/claims.json')); assert isinstance(d.get('claims'), list) and len(d['claims']) > 0, 'claims registry malformed'; d=json.load(open('tools/cellstate_reality/registries/experiments.json')); assert isinstance(d.get('experiments'), list) and len(d['experiments']) > 0, 'experiments registry malformed'\""
+      ]
+    ],
+    "min_seconds_between_pushes": 60,
+    "max_push_retries": 2,
+    "merge_back": {
+      "enabled": false,
+      "upstream_branch": "auto-dev",
+      "min_seconds_between_merge_backs": 1800
+    },
+    "dev_rollup": {
+      "enabled": true,
+      "head_branch": "feat/cellstate_reality-deepening",
+      "base_branch": "dev",
+      "min_seconds_between": 600,
+      "comment": "bio-D delegates to tools/sync_with_auto_dev.py --source-branch <head> --target-branch <base>. The script builds the separate managed branch rollup-<head>-to-<base>, maintains one PR, and auto-merges it once checks are green + mergeable. We never PR the integration branch directly; bio-S handles the reverse dev->feat back-merge."
+    }
+  },
+  "bedc_writeback": {
+    "enabled": false,
+    "target_concrete_instances_dir": "papers/bedc/parts/concrete_instances",
+    "module_aggregator": "papers/bedc/parts/cellstate_reality_module.tex",
+    "max_writebacks_per_cycle": 5,
+    "codex_writer": {
+      "enabled": true,
+      "max_retries": 2,
+      "timeout_seconds": 600,
+      "log_dir": "tools/cellstate_reality/state/bedc_writeback_logs",
+      "min_audit_score": 7,
+      "min_used_fact_ids": 3,
+      "corrective_retry_on_gate_failure": true
+    },
+    "skip_claim_ids": [],
+    "claim_to_chapter_mapping": []
+  },
+  "sync_lane": {
+    "enabled": true,
+    "remote": "origin",
+    "upstream_branch": "dev",
+    "fetch_timeout_seconds": 60,
+    "merge_strategy": "no-ff",
+    "intelligence_keywords": [
+      "methylation",
+      "epigenetic",
+      "reprogramming",
+      "rejuvenation",
+      "aging",
+      "ageing",
+      "senescence",
+      "clock",
+      "chromatin",
+      "transcriptome",
+      "pluripotency",
+      "cell identity",
+      "OSK",
+      "OSKM",
+      "Yamanaka",
+      "DNAm",
+      "fibroblast",
+      "partial reprogramming"
+    ],
+    "intelligence_paths": [
+      "papers/bedc/parts/visions/philosophy/science/",
+      "papers/bedc/parts/concrete_instances/",
+      "lean4/BEDC/Derived/"
+    ],
+    "max_commits_per_sync": 50,
+    "min_seconds_between_syncs": 300,
+    "codex_resolve": {
+      "enabled": true,
+      "max_files": 30,
+      "timeout_seconds": 900,
+      "recurring_threshold": 3,
+      "recurring_window_seconds": 21600,
+      "papers_bedc_take_theirs": true,
+      "comment": "bio-S 自动 codex resolve: content conflicts → codex 改写; modify/delete (DU/UD) in papers/bedc/ → 取 theirs (loning 域). 上限 max_files; 同 signature 6h 内重复 ≥ recurring_threshold 次则 skip."
+    }
+  },
+  "oracle": {
+    "enabled": false,
+    "server_url": "http://127.0.0.1:8770",
+    "min_seconds_between_queries": 30,
+    "max_query_chars": 4000,
+    "max_result_wait_seconds": 600
+  },
+  "oracle_integration": {
+    "enabled": false,
+    "server_url": "http://127.0.0.1:8770",
+    "pdf_attach_path": "papers/cellstate_reality/main.pdf",
+    "persist_dir": "tools/cellstate_reality/state/oracle_sessions",
+    "bio_g": {
+      "enabled": false,
+      "max_turns": 10,
+      "min_seconds_between_consultations": 1800,
+      "codex_judge_timeout_seconds": 240,
+      "poll_timeout_seconds": 600
+    },
+    "bio_plan": {
+      "enabled": false,
+      "max_turns": 12,
+      "min_cycles_between_consultations": 5,
+      "codex_judge_timeout_seconds": 240,
+      "poll_timeout_seconds": 600
+    }
+  },
+  "plan_lane": {
+    "enabled": false,
+    "comment": "bio-Plan 自动 frontier 提案关闭;规划由 orchestrator+codex 提供并 land 进 registries,daemon 专做执行/维护"
+  },
+  "packet_lane": {
+    "enabled": false,
+    "comment": "bio-P 自动 conjecture/probe/mismatch 发现关闭;研究内容由 orchestrator+codex land 进 inbox/registries"
+  }
+}
