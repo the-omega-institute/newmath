@@ -147,6 +147,46 @@ Now read the replay row $R$ through compact-open exactness, \autoref{thm:kelleyf
 Inspection-window stability and compact-window exhaustion, \autoref{thm:kelleyfication-inspection-window-stability} and \autoref{thm:kelleyfication-compact-window-exhaustion}, then identify the transported and replayed route with the same finite compact-window ledger. The excluded host and choice-selected objects are absent from every row used in the projection.
 \end{proof}
 
+\begin{theorem}[Kelleyfication carrier reflection]
+\label{thm:kelleyfication-carrier-reflection}
+For every accepted $\KelleyficationUp$ carrier $K=(T,C,O,W,H,R,P,N)$, reflected topology data is visible only through the displayed rows $T,C,O,W,H,R,P,N$. In particular, a compact-open or topology consumer may read the $\TopologyUp$ source, $\CoreCompactUp$ compact-generation tests, $\CompactOpenTopologyUp$ ledger, StreamName inspection window, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming, but it may not read a host compactly generated topology or quotient-open equality outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kelleyfication-carrier}. The only reflected topology data carried by $K$ are the source topology row $T$, compact-generation row $C$, compact-open ledger $O$, and inspection row $W$.
+
+Apply the compact-generated obligation of \autoref{thm:kelleyfication-compact-generated-obligation}. It makes every compact-generation read a row projection from the same carrier rather than an external topology predicate.
+
+Now use compact-open exactness, \autoref{thm:kelleyfication-compact-open-exactness}. The reflected-open read follows $T,C,O,W$ before the structural rows $H,R,P,N$ can transport, replay, source, or name it. Since no host topology or quotient-open coordinate is present, reflection is exhausted by the displayed rows.
+\end{proof}
+
+\begin{theorem}[Kelleyfication compact-open test stability]
+\label{thm:kelleyfication-compact-open-test-stability}
+Let $K=(T,C,O,W,H,R,P,N)$ be an accepted $\KelleyficationUp$ carrier. Compact-open tests named by $O$ remain stable under componentwise $\hsame$ transport and displayed $\Cont$ replay: after transport and replay, a reflected-open observation still reads the same source topology row, core-compact test row, compact-open ledger, and StreamName inspection window before any consumer sees the result.
+\end{theorem}
+\begin{proof}
+Begin with compact-open exactness, \autoref{thm:kelleyfication-compact-open-exactness}. It identifies an accepted reflected-open observation with the finite route through $T,C,O,W,H,R,P,N$.
+
+Apply inspection-window stability from \autoref{thm:kelleyfication-inspection-window-stability}. The transport row $H$ preserves the source topology, compact-generation tests, compact-open ledger, inspection window, replay, provenance, and local naming componentwise.
+
+Finally use the transport replay obligation of \autoref{thm:kelleyfication-transport-replay-obligation}. The replay row $R$ replays only the compact-open route already fixed by $T,C,O,W$, so the transported test cannot acquire host opens, quotient-open equality, arbitrary open-cover compactness, or selected compact tests.
+\end{proof}
+
+\begin{theorem}[Kelleyfication StreamName scope]
+\label{thm:kelleyfication-streamname-scope}
+For every accepted $\KelleyficationUp$ carrier $K=(T,C,O,W,H,R,P,N)$, the StreamName row $W$ bounds all reflected-open observations before a topology or function-space consumer reads the result. A consumer receives only compact-open observations visible through the finite route
+$$
+T \to C \to O \to W \to H \to R \to P \to N,
+$$
+and receives no unwindowed compact-open test, host open predicate, quotient-open equality, or selected compact-test family.
+\end{theorem}
+\begin{proof}
+Use core-compact scope, \autoref{thm:kelleyfication-corecompact-scope}. It places the compact-generation tests in $C$ and the compact-open windows in $O$ after the source topology row $T$ and before any downstream consumer.
+
+Next apply inspection-window stability, \autoref{thm:kelleyfication-inspection-window-stability}. The StreamName row $W$ remains attached to the same $T,C,O$ route under componentwise transport and replay.
+
+Finally apply compact-window exhaustion, \autoref{thm:kelleyfication-compact-window-exhaustion}. It forces every reflected-open read through $T,C,O,W,H,R,P,N$, so topology and function-space consumers cannot bypass the window by consulting unlisted compact-open tests or host open predicates.
+\end{proof}
+
 \begin{theorem}[Kelleyfication local naming obligation]
 \label{thm:kelleyfication-local-naming-obligation}
 For every accepted $\KelleyficationUp$ carrier $K=(T,C,O,W,H,R,P,N)$, the local $\NameCert_{\KelleyficationUp}$ row $N$ names only the obligation surface already exposed by $T,C,O,W,H,R,P$. The naming row records the compact-generated source, compact-open window, core-compact scope, inspection-window stability, transport, replay, and provenance obligations; it does not name a host compactly generated topology object, quotient-open equality, arbitrary open-cover compactness, or selected compact-test family.

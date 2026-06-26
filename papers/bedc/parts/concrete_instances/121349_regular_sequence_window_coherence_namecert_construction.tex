@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\RegularSequenceWindowCoherenceUp$}
+\label{ch:concrete-instances-regular-sequence-window-coherence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real names, the $\RegularSequenceWindowCoherenceUp$ packet records the finite observation-window route by which a stream name, a regular rational readback, a dyadic tolerance ledger, and a terminal Real seal are read as one coherent NameCert surface. It sits over the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite L10 handoff for Real and Completion consumers; it is not quotient stream equality, a selected representative, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular sequence window coherence carrier]
+\label{def:regular-sequence-window-coherence-carrier}
+A $\RegularSequenceWindowCoherenceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row recording exactly the inspected source indices, rational observations, and request tags.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same inspected windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row against which every displayed regularity and comparison read is checked.
+\item $E$ is the terminal $\RealUp$ seal row available only after $S,R,D$ have been read.
+\item $H$ records componentwise $\hsame$ transport for the stream window, regular readback, dyadic tolerance, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route from a finite observation request through the stream window, regular readback, dyadic tolerance, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularSequenceWindowCoherenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularSequenceWindowCoherenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,E,H,C,P,N$. It has no coordinate for quotient stream equality, a selected regular representative, countable choice, trichotomy, host real equality, an ambient limit object, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Regular sequence window coherence NameCert obligations]
+\label{thm:regular-sequence-window-coherence-namecert-obligations}
+For every accepted $\RegularSequenceWindowCoherenceUp$ carrier $K=(S,R,D,E,H,C,P,N)$, the local $\NameCert_{\RegularSequenceWindowCoherenceUp}$ surface consists exactly of carrier admission for the finite StreamName window row, the RegSeqRat readback row, the DyadicRatCore tolerance row, the terminal Real seal row, componentwise transport, displayed replay, provenance, and local naming.
+
+Every Real-facing consumer using the packet must read
+$$
+S\longmapsto R\longmapsto D\longmapsto E
+$$
+together with $H,C,P,N$, and receives no quotient stream equality, selected representative, countable-choice schedule, trichotomy, host real equality, ambient limit object, or ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-sequence-window-coherence-carrier}. The only source observations are the finite window entries in $S$, and the only regular rational interpretation of those entries is the readback row $R$.
+
+The tolerance row $D$ is the sole dyadic budget against which the readback may be consumed. Hence any Real-facing request must pass from $S$ to $R$ and then through $D$ before it can reach the terminal seal $E$.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no slot for quotient equality, selected representatives, countable choice, trichotomy, host equality, an ambient limit object, or completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular sequence window coherence handoff]
+\label{thm:regular-sequence-window-coherence-stream-regseqrat-handoff}
+Every accepted $\RegularSequenceWindowCoherenceUp$ consumer of a Real-facing read factors through the finite handoff
+$$
+\StreamNameUp \to \RegSeqRatUp \to \DyadicRatCoreUp \to \RealUp .
+$$
+Concretely, the consumer first exposes the window row $S$, then the regular rational readback row $R$, then the dyadic tolerance row $D$, and only then the terminal Real seal row $E$.
+\end{theorem}
+\begin{proof}
+Start with the StreamName window row $S$. It is the only row that displays the inspected indices and source observations, so a consumer has no independent access to an infinite stream or a selected representative.
+
+Read the regular rational row $R$ over the same finite observations and then the dyadic tolerance row $D$. These two rows are the complete regular-sequence handoff: $R$ supplies the readback discipline and $D$ supplies the comparison budget.
+
+The terminal Real seal $E$ is downstream of that handoff. Transport, replay, provenance, and local naming preserve the route through $H,C,P,N$ without adding quotient equality, countable choice, trichotomy, host real equality, selected limits, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularSequenceWindowCoherenceUp$ Real-facing read factors through a finite StreamName window row, a RegSeqRat readback row, a DyadicRatCore tolerance row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real: $\RegularSequenceWindowCoherenceUp$ is not bijective to any listed sibling because it jointly binds finite observation windows, regular rational readback, dyadic tolerance, terminal Real sealing, transport, replay, provenance, and local naming while refusing quotient streams, selected representatives, countable choice, and ambient completeness.}
+
+\closureat{RegularSequenceWindowCoherenceUp}{seedStr}
+
+\begin{closurestatus}{\RegularSequenceWindowCoherenceUp}
+  \constructivestory{A $\RegularSequenceWindowCoherenceUp$ packet is generated from a finite StreamName window row, RegSeqRat readback row, DyadicRatCore tolerance row, terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-sequence-window-coherence-carrier}, \autoref{thm:regular-sequence-window-coherence-namecert-obligations}, and \autoref{thm:regular-sequence-window-coherence-stream-regseqrat-handoff} seed the finite observation-window handoff consumed by Real and Completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, trichotomy, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exactness, RegSeqRat readback compatibility, dyadic tolerance compatibility, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.RegularSequenceWindowCoherenceUp.}
+\end{closurestatus}

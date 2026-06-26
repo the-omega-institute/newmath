@@ -67,6 +67,7 @@ Read the dyadic tolerance handoff next. The row $D$ supplies the finite precisio
 
 Only after this handoff may the Real-facing seal $S$ be consumed. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve the same route. Since none of the excluded host interval or completeness objects is a carrier coordinate, every interval read reaches the seal only through the displayed rows.
 \end{proof}
+\leanchecked{BEDC.Derived.RealIntervalUp.RealIntervalSealEnclosureRoute}
 
 \begin{theorem}[RealInterval endpoint-order obligation]
 \label{thm:real-interval-endpoint-order-obligation}
@@ -132,14 +133,27 @@ The obligations of \autoref{thm:real-interval-namecert-obligations} make Real se
 The route theorem \autoref{thm:real-interval-seal-enclosure-route} gives the same ordering as a displayed path. Therefore a Real-facing enclosure read cannot reach $S$ while omitting any of the endpoint, order, tolerance, window, or readback rows.
 \end{proof}
 
+\begin{theorem}[RealInterval obligation-closure route]
+\label{thm:real-interval-obligation-closure-route}
+Every accepted $\RealIntervalUp$ carrier $I=(L,U,E,D,W,R,S,H,C,P,N)$ routes endpoint admission, endpoint order, enclosure stability, dyadic-window handoff, Real-seal nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ through the displayed rows $L,U,E,D,W,R,S,H,C,P,N$. The route supplies no host interval equality, selected endpoint representative, trichotomy, countable choice, compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First read the local obligation surface from \autoref{thm:real-interval-namecert-obligations}. It exposes carrier admission, endpoint order, enclosure stability, dyadic tolerance handoff, Real seal non-escape, transport, replay, provenance, and local naming as finite rows of the accepted carrier.
+
+Next use the route theorems that keep these rows in order. The seal enclosure route of \autoref{thm:real-interval-seal-enclosure-route}, the endpoint-order obligation of \autoref{thm:real-interval-endpoint-order-obligation}, and the dyadic-window handoff of \autoref{thm:real-interval-dyadic-window-handoff} force every interval read through $L,U,E,D,W,R,S$ before the structural rows are consumed.
+
+Finally apply Real-seal nonescape from \autoref{thm:real-interval-real-seal-nonescape}. Since every Real-facing enclosure read reaches $S$ only after $L,U,E,D,W,R$ have been displayed, and since $H,C,P,N$ only transport, replay, package, and name that same route, the carrier closes exactly the obligation route stated above while leaving the refused global principles outside the packet.
+\end{proof}
+
 \closureat{RealIntervalUp}{seedStr}
+\closureat{RealIntervalUp}{obligationStr}
 
 \begin{closurestatus}{\RealIntervalUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:real-interval-carrier}, \autoref{thm:real-interval-namecert-obligations}, and \autoref{thm:real-interval-seal-enclosure-route} seed the finite endpoint-and-enclosure interval surface over $\LocatedIntervalUp$, $\RationalIntervalUp$, $\RealIntervalEnclosureUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:real-interval-obligation-closure-route} binds endpoint admission, endpoint order, enclosure stability, dyadic-window handoff, Real-seal nonescape, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ to the displayed $\RealIntervalUp$ rows over $\LocatedIntervalUp$, $\RationalIntervalUp$, $\RealIntervalEnclosureUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host interval equality, selected endpoint representatives, trichotomy, countable choice, compactness, ambient RealUp completeness, Lean verification, or a public standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier admission, endpoint order, enclosure stability, dyadic tolerance handoff, Real seal non-escape, and ledger refusal for BEDC.Derived.RealIntervalUp.}
+  \upgradepath{Formal closure requires verified endpoint admission, endpoint order, enclosure stability, dyadic-window handoff, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RealIntervalUp.}
   \constructivestory{A $\RealIntervalUp$ packet is generated from lower and upper RealUp endpoint rows, an enclosure and order row, a DyadicRatCoreUp tolerance row, StreamNameUp finite windows, RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}
