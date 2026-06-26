@@ -33,6 +33,7 @@ N_BOOTSTRAP = int(os.environ.get("ASD_BOOTSTRAP", "80"))
 MAX_GENES_PER_ORGANISM = int(os.environ.get("ASD_MAX_GENES_PER_ORGANISM", "12"))
 MAX_HEG_PER_ORGANISM = int(os.environ.get("ASD_MAX_HEG_PER_ORGANISM", "6"))
 MIN_HEG_PER_ORGANISM = int(os.environ.get("ASD_MIN_HEG_PER_ORGANISM", "4"))
+HEG_CLASS_NULL = os.environ.get("ASD_HEG_CLASS_NULL", "0") == "1"
 ANALYSIS_ORGANISM_LIMIT = int(os.environ.get("ASD_ANALYSIS_ORGANISM_LIMIT", "1"))
 ENABLE_MCMC_REFINE = os.environ.get("ASD_MCMC_REFINE", "0") == "1"
 NULL3_R = int(os.environ.get("ASD_NULL3_R", "5"))
@@ -325,10 +326,18 @@ def sense_families() -> dict[str, list[str]]:
 FAMILIES = sense_families()
 
 
-def organism_codon_weights(records: list[dict[str, object]]) -> dict[str, dict[str, float]]:
+def organism_codon_weights(records: list[dict[str, object]], heg_only: bool = False) -> dict[str, dict[str, float]]:
+    # heg_only=True builds the HEG-class codon-frequency table so that the
+    # synonymous null preserves ribosomal-protein codon optimization, controlling
+    # the confound that HEGs draw from a sharper (more optimal) codon distribution
+    # than the genome background (otherwise their optimal-codon-driven anti-SD
+    # content reads as anomalous depletion/enrichment that is not ASD-specific).
     counts_by_aa: dict[str, Counter[str]] = defaultdict(Counter)
     for record in records:
-        if record.get("is_heg"):
+        if heg_only:
+            if not record.get("is_heg"):
+                continue
+        elif record.get("is_heg"):
             continue
         for codon in codons(str(record.get("sequence_rna") or "")):
             aa = fetch_probe.CODON_TO_AA.get(codon)
@@ -680,7 +689,9 @@ def analyze_organism(organism: dict[str, object], heterologous_tails: list[str],
     if len(heg) < MIN_HEG_PER_ORGANISM or len(bg) < MIN_HEG_PER_ORGANISM:
         return {"ok": False, "drop_reason": "insufficient_matched_gene_panel", "panel_meta": panel_meta}
     records = heg + bg
-    weights = organism_codon_weights([row for row in organism.get("cds_records", []) if isinstance(row, dict)])
+    all_records = [row for row in organism.get("cds_records", []) if isinstance(row, dict)]
+    weights = organism_codon_weights(all_records)
+    heg_weights = organism_codon_weights(all_records, heg_only=True) if HEG_CLASS_NULL else weights
     true_carrier = carrier_from_tail("true", "own_tail", tail20)
     decoys = decoy_carriers(tail20, heterologous_tails, records, N_DECOYS, seed + ".decoys")
     carriers = [true_carrier] + decoys
@@ -691,7 +702,8 @@ def analyze_organism(organism: dict[str, object], heterologous_tails: list[str],
     needed_kmers: set[str] = set()
     for idx, record in enumerate(records):
         seq = str(record.get("sequence_rna") or "")
-        recodings, meta = constrained_recodings(seq, weights, R_NULL, f"{seed}.gene.{idx}.recoding")
+        rec_weights = heg_weights if (HEG_CLASS_NULL and record.get("is_heg")) else weights
+        recodings, meta = constrained_recodings(seq, rec_weights, R_NULL, f"{seed}.gene.{idx}.recoding")
         obs_profile = kmer_profile(seq, f"{seed}.gene.{idx}.obs_profile")
         null_profiles = [kmer_profile(candidate, f"{seed}.gene.{idx}.null_profile.{j}") for j, candidate in enumerate(recodings)]
         for profile in [obs_profile] + null_profiles:
