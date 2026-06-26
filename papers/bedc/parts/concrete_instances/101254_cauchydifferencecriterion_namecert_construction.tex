@@ -236,14 +236,30 @@ Next apply the obligation export theorem \autoref{thm:cauchy-difference-criterio
 It remains to rule out escape from the displayed rows. The carrier definition has no quotient stream, host equality, selected limit, trichotomy, countable-choice schedule, ambient completeness, Lean-verification, or bridge-checking coordinate. The structural rows $H,C,P,N$ only transport, replay, source, and name the displayed packet, so every public conclusion remains scoped by $X,Y,D,Z,Q,W,T,E,H,C,P,N$.
 \end{proof}
 
-\closureat{CauchyDifferenceCriterionUp}{obligationStr}
+\begin{theorem}[Cauchy difference criterion scoped kernel binding]
+\label{thm:cauchy-difference-criterion-scoped-kernel-binding}
+For every accepted $\CauchyDifferenceCriterionUp$ carrier $K=(X,Y,D,Z,Q,W,T,E,H,C,P,N)$, the public null-route and zero-distance conclusions of $K$ bind exactly to the scoped kernel route
+$$
+\RegSeqRatUp,\ \RegularCauchyDifferenceUp,\ \NullSequenceUp,\ \RegularCauchyZeroDistanceUp,\ \StreamNameUp,\ \DyadicRatCoreUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The source rows are only $X,Y$ as $\RegSeqRatUp$ rows, the displayed difference is only $D$, the null evidence is only $Z$, the zero-distance handoff is only $Q$, the finite windows are only $W$, the tolerance reads are only $T$, the equality-facing seal is only $E$, and the structural binding rows are only $H,C,P,N$. Thus no public null-route or zero-distance conclusion escapes the scoped rows of $K$.
+\end{theorem}
+\begin{proof}
+Project the carrier and apply \autoref{thm:cauchy-difference-criterion-kernel-scope}. It fixes the analytic source of every public conclusion to the $\RegSeqRatUp$ rows, displayed $\RegularCauchyDifferenceUp$ row, finite $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, and terminal $\RealUp$ seal boundary.
+
+Next use \autoref{thm:cauchy-difference-criterion-obligation-export}. The obligation package supplies the $\NullSequenceUp$ evidence row, the $\RegularCauchyZeroDistanceUp$ handoff row, and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows as part of the same finite L10 certificate.
+
+Finally apply \autoref{thm:cauchy-difference-criterion-scope-package}. It identifies the public null-route and zero-distance conclusions with exactly $X,Y,D,Z,Q,W,T,E,H,C,P,N$. Since the carrier has no quotient stream, host equality, selected-limit, trichotomy, countable-choice, ambient-completeness, Lean-verification, or bridge-checking coordinate, the scoped kernel binding is exhaustive.
+\end{proof}
+
+\closureat{CauchyDifferenceCriterionUp}{scopedStr}
 
 \begin{closurestatus}{\CauchyDifferenceCriterionUp}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:cauchy-difference-criterion-carrier}, \autoref{thm:cauchy-difference-criterion-namecert-obligations}, \autoref{thm:cauchy-difference-criterion-tail-diameter-handoff}, and \autoref{thm:cauchy-difference-criterion-real-seal-boundary} seed the public L10 criterion from two RegSeqRat source rows through RegularCauchyDifference, NullSequence evidence, RegularCauchyZeroDistance handoff, StreamName windows, DyadicRatCore tolerances, and a terminal Real equality seal.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:cauchy-difference-criterion-carrier}, \autoref{thm:cauchy-difference-criterion-namecert-obligations}, \autoref{thm:cauchy-difference-criterion-scope-package}, and \autoref{thm:cauchy-difference-criterion-scoped-kernel-binding} bind the public L10 criterion from two RegSeqRat source rows through RegularCauchyDifference, NullSequence evidence, RegularCauchyZeroDistance handoff, StreamName windows, DyadicRatCore tolerances, a terminal Real equality seal, and the structural BHist, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, host real equality, selected limits, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure next requires explicit scope binding over $\RegSeqRatUp$, $\RegularCauchyDifferenceUp$, $\NullSequenceUp$, $\RegularCauchyZeroDistanceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, with formal verification still pending.}
+  \upgradepath{Public closure requires a public-object export theorem for the scoped L10 route, with formal verification still pending.}
   \constructivestory{A $\CauchyDifferenceCriterionUp$ packet is generated from two RegSeqRat source rows, one RegularCauchyDifference route, one NullSequence evidence row, one RegularCauchyZeroDistance handoff row, finite StreamName windows, DyadicRatCore tolerances, a terminal RealUp equality-seal row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}
