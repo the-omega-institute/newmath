@@ -1,0 +1,13 @@
+\begin{theorem}[NormalizationCandidateFrontier typed SN scope]
+\label{thm:normalization-candidate-frontier-typed-sn-scope}
+For every accepted $\NormalizationCandidateFrontierUp$ carrier $F=(T,E,B,S,I,O,H,C,P,N)$, candidate-mediated strong-normalization scope is public only through the typed-term source $T$, candidate row $E$, residual-window and bounded-route row $B$, local join row carried by the audit handoff, normal-form seal represented by the projections $S,I$, transport $H$, replay $C$, provenance $P$, and local $\NameCert$ row $N$. The scope exports no global strong-normalization theorem, unrestricted subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normalization-candidate-frontier-carrier}. The typed source, candidate evidence, bounded route, normalization projections, obstruction, transport, replay, provenance, and local naming rows are exactly $T,E,B,S,I,O,H,C,P,N$.
+
+Use the local obligation route of \autoref{thm:normalization-candidate-frontier-obligation-closure}. It keeps candidate evidence and bounded-route data visible before any strong-normalization projection can be read, and it retains the obstruction row for evidence-erasing requests.
+
+Apply the audit handoff of \autoref{thm:normalization-candidate-frontier-audit-handoff} and the sibling dependency of \autoref{thm:normalization-candidate-frontier-sibling-dependency}. They route the candidate-mediated read through the MetaCIC normalization frontier and local audit rows rather than through a host evaluator or quotient term equality.
+
+Thus the typed SN scope is confined to the displayed finite packet. Since no carrier coordinate supplies global SN, unrestricted subject reduction, evaluator equality, quotient term equality, or kernel consistency, none of those endpoints is exported by the theorem.
+\end{proof}
