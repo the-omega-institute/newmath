@@ -35,17 +35,19 @@ constructive target of \autoref{def:rh-predicate} and the section form of
 \label{def:rh-proof-obligation-quantitative-barrier}
 A quantitative off-line barrier is a function
 $$
-\beta:\NatUp\to\RatUp_{>0}
+\beta:\NatUp\times\NatUp\to\RatUp_{>0}
 $$
 such that for every critical-strip row $s$,
 $$
 |\Re(s)-1/2|>2^{-n}
+\wedge
+|\Im(s)|\le T
 \to
-|\zeta(s)|\ge \beta(n).
+|\zeta(s)|\ge \beta(n,T).
 $$
-It is the positive-apartness strengthening of the fixed-half witness: away
-from the line, the zeta value is bounded away from the zero complex history
-by an explicit rational row.
+It is the positive-apartness strengthening on a displayed compact height
+window. A height-uniform function of $n$ alone is a separate global analytic
+barrier assumption and is not part of the ordinary fixed-half witness.
 \end{definition}
 
 \begin{principle}[Refutation data must be typed]
@@ -358,7 +360,7 @@ $$
 \mathsf{WitnessExport}
 :=
 \bigl(
-\Phi,\mu,\beta,N,\mathsf{TrivialZeroClassifier},
+\Phi,\mu,\beta_{\mathrm{loc}},
 \mathsf{CriticalLineRestriction}
 \bigr).
 $$
@@ -370,13 +372,14 @@ $$
 $$
 extracts rational approximants witnessing $\Re(s)\sim 1/2$. The barrier
 $$
-\beta:\NatUp\to\RatUp_{>0}
+\beta_{\mathrm{loc}}:\NatUp\times\NatUp\to\RatUp_{>0}
 $$
-is the off-line apartness function of
-\autoref{def:rh-proof-obligation-quantitative-barrier}. The remaining
-fields are the zero-counting function, the trivial-zero classifier, and the
-restriction equivalence between non-trivial zero packets and critical-line
-height rows described in \autoref{sec:rh-witness-types}.
+is the height-local off-line apartness function of
+\autoref{def:rh-proof-obligation-quantitative-barrier}. The remaining field
+is the restriction equivalence between non-trivial zero packets and
+critical-line height rows described in \autoref{sec:rh-witness-types}. The
+Riemann-von Mangoldt count and the trivial-zero classifier are support ledgers
+for the full zeta formalization; they are not fields exported by the RH section.
 \end{definition}
 
 \begin{theorem}[Fixed-half section exports the modulus witness]
@@ -403,16 +406,20 @@ dyadic tolerance.
 
 \begin{principle}[Barrier export is analytic content]
 \label{prin:rh-proof-obligation-barrier-export-analytic-content}
-The function $\beta$ is not obtained from the section form alone. It is
-exported only from the apart-zero defect row when that row is strengthened
-to a quantitative lower-bound statement:
+The function $\beta_{\mathrm{loc}}$ is not obtained from the section form
+alone. It is exported only from the apart-zero defect row when that row is
+strengthened to a quantitative lower-bound statement on a displayed height
+window:
 $$
 |\Re(s)-1/2|>2^{-n}
+\wedge
+|\Im(s)|\le T
 \to
-|\zeta(s)|\ge \beta(n).
+|\zeta(s)|\ge \beta(n,T).
 $$
-Thus $\Phi$ records fixed-half membership, while $\beta$ records the
-positive lower-bound form of off-line exclusion.
+Thus $\Phi$ records fixed-half membership, while $\beta_{\mathrm{loc}}$
+records the compact-window lower-bound form of off-line exclusion. A global
+height-uniform barrier remains a distinct route assumption.
 \end{principle}
 
 \begin{principle}[Witness export boundary]
@@ -422,6 +429,6 @@ difficulty of $\mathsf{RH}$. They specify the shape of a closed BEDC proof:
 first a same-source zero/apart-zero exclusion via
 $\mathsf{PrimeDefectApartZero}_{\Omega}$, then a fixed-half readout via
 $\mathsf{PrimeNormalImpliesCriticalLine}_{\Omega}$, and only then the
-export of $\Phi$, $\mu$, $\beta$, zero-counting, trivial-zero classification,
-and critical-line restriction witnesses.
+export of $\Phi$, $\mu$, height-local barrier data when supplied by the
+analytic route, and critical-line restriction witnesses.
 \end{principle}
