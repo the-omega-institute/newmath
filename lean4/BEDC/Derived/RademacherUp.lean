@@ -182,4 +182,68 @@ theorem RademacherCarrier_difference_quotient_window_stability
       carrier' dyadicMetricRoute' lipschitzControlRoute' realRoute'
   exact ⟨packet.right.right.right, packet'.right.right.right, packet.left⟩
 
+theorem RademacherCarrier_lipschitz_metric_scope
+    {L E D M A H C P N metricRead lipschitzRead derivativeRead : BHist} :
+    RademacherCarrier L E D M A H C P N →
+      Cont L M metricRead →
+        Cont metricRead A lipschitzRead →
+          Cont D lipschitzRead derivativeRead →
+            SemanticNameCert
+                (fun row : BHist => hsame row derivativeRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row L ∨ hsame row M ∨ hsame row A ∨ hsame row D ∨
+                    hsame row derivativeRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont L M metricRead ∧
+                    Cont metricRead A lipschitzRead ∧
+                      Cont D lipschitzRead derivativeRead)
+                hsame ∧
+              UnaryHistory metricRead ∧ UnaryHistory lipschitzRead ∧
+                UnaryHistory derivativeRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro carrier metricRoute lipschitzRoute derivativeRoute
+  obtain ⟨lUnary, _eUnary, dUnary, mUnary, aUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, _packetWitness⟩ := carrier
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed lUnary mUnary metricRoute
+  have lipschitzUnary : UnaryHistory lipschitzRead :=
+    unary_cont_closed metricUnary aUnary lipschitzRoute
+  have derivativeUnary : UnaryHistory derivativeRead :=
+    unary_cont_closed dUnary lipschitzUnary derivativeRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row derivativeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row L ∨ hsame row M ∨ hsame row A ∨ hsame row D ∨
+              hsame row derivativeRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont L M metricRead ∧ Cont metricRead A lipschitzRead ∧
+              Cont D lipschitzRead derivativeRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro derivativeRead ⟨hsame_refl derivativeRead, derivativeUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right, metricRoute, lipschitzRoute, derivativeRoute⟩
+  }
+  exact ⟨cert, metricUnary, lipschitzUnary, derivativeUnary⟩
+
 end BEDC.Derived.RademacherUp
