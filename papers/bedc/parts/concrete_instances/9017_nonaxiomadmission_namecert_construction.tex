@@ -71,6 +71,22 @@ If all seven displayed coordinates are held fixed, the local NameCert has no rem
 \end{proof}
 \leanchecked{BEDC.Derived.NonAxiomAdmissionUp.NonAxiomAdmissionWitnessRoute\_nonescape}
 
+\begin{theorem}[NonAxiomAdmission scoped primitive route]
+\label{thm:non-axiom-admission-scoped-route}
+Every accepted $\NonAxiomAdmissionUp$ packet binds its displayed rows
+$$
+X,F,W,H,C,P,N
+$$
+to exact BEDC primitives: $X$ is a proposed-supply $\BHist$ row, $F$ is the accepted non-axiom form row, $W$ is the witness-route row, $H$ is componentwise $\hsame$ transport, $C$ is displayed $\Cont$ replay, $P$ is $\Pkg$ provenance, and $N$ is the local $\NameCert_{\NonAxiomAdmissionUp}$ row. No scoped consumer can read an admitted position without preserving those seven primitive rows.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:non-axiom-admission-namecert-obligations}. They identify the local certificate surface with exactly the proposed-position, accepted-form, witness-route, transport, replay, provenance, and naming rows.
+
+Apply boundary exhaustion from \autoref{thm:non-axiom-admission-boundary-exhaustion}. The accepted form $F$ is a displayed non-axiom boundary form, and no consumer route can recover an axiom coordinate, hidden chooser, quotient representative, proposition-equality token, or global frame from the packet.
+
+Finally use witness-route nonescape from \autoref{thm:non-axiom-admission-witness-route-nonescape}. Holding $X,F,W,H,C,P,N$ fixed leaves no remaining row from which a different supplied-content route can be read. Thus the scoped route is exactly the listed BEDC primitive route.
+\end{proof}
+
 \falsifiablePrediction{Every accepted NonAxiomAdmissionUp packet classifies a proposed supply position into a displayed non-axiom boundary form and exposes no consumer route that treats the supplied content as substrate truth.}
 
 \independenceWitness{externalsupplyboundary, supplysocketledger, apophaticsocket, selectorledger, and tastegateadmission: those siblings record particular boundary, socket, ledger, and admission rows, while NonAxiomAdmissionUp classifies the admission decision surface itself. No row-preserving bijection can recover the full $X,F,W,H,C,P,N$ classifier from any one sibling packet.}
@@ -79,14 +95,15 @@ The Lean follow-up target is $\mathsf{BEDC.Derived.NonAxiomAdmissionUp.taste\_ga
 
 \closureat{NonAxiomAdmissionUp}{seedStr}
 \closureat{NonAxiomAdmissionUp}{obligationStr}
+\closureat{NonAxiomAdmissionUp}{scopedStr}
 
 \begin{closurestatus}{\NonAxiomAdmissionUp}
   \constructivestory{A $\NonAxiomAdmissionUp$ packet is generated from a proposed supply position, accepted non-axiom form, witness route, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:non-axiom-admission-carrier}, \autoref{thm:non-axiom-admission-namecert-obligations}, \autoref{thm:non-axiom-admission-boundary-exhaustion}, and \autoref{thm:non-axiom-admission-witness-route-nonescape} bind the proposed supply position, accepted non-axiom form, witness route, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows into one seed-grade admission packet.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:non-axiom-admission-carrier}, \autoref{thm:non-axiom-admission-namecert-obligations}, \autoref{thm:non-axiom-admission-boundary-exhaustion}, \autoref{thm:non-axiom-admission-witness-route-nonescape}, and \autoref{thm:non-axiom-admission-scoped-route} bind the proposed supply position, accepted non-axiom form, witness route, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows to the exact scoped BEDC primitive route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not claim substrate truth, hidden choice, quotient representatives, proposition equality collapse, a global frame, Lean verification, or bridge checking for $\NonAxiomAdmissionUp$.}
-  \upgradepath{Scoped closure requires binding the admission, boundary-exhaustion, and witness-route rows to the exact BEDC primitives and checked TasteGate route.}
+  \upgradepath{Formal closure requires verified carrier admission, boundary exhaustion, witness-route nonescape, scoped primitive routing, and the TasteGate route for $\NonAxiomAdmissionUp$.}
 \end{closurestatus}
