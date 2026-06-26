@@ -191,6 +191,18 @@ Project the same rows for $\RegSeqRatUp$ and $\RealUp$ consumers. The StreamName
 Finally replay $H,C,P,N$. Transport, continuation replay, provenance, and local naming keep the witness inside the displayed packet, so no selected subsequence, quotient stream equality, countable-choice schedule, or ambient completeness principle can be read from the cofinal route.
 \end{proof}
 
+\begin{theorem}[RegularSequenceSpace dyadic interval net refinement]
+\label{thm:regular-sequence-space-dyadic-interval-net-refinement}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Any consumer that asks for finite dyadic cover refinement must factor through the $\StreamNameUp$ schedule row $T$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, the finite-cell route of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}, and only then the terminal $\RealUp$ seal $R$. The refinement exports no compactness theorem, selected subsequence, quotient equality of real names, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-sequence-space-carrier}. The only rows available to a refinement consumer are the displayed schedule, readback, tolerance, seal, transport, replay, provenance, and local naming rows.
+
+Use the tail-filter cofinal witness and tail-modulus projection, \autoref{thm:regular-sequence-space-tail-filter-cofinal-witness} and \autoref{thm:regular-sequence-space-tail-modulus-projection}. They force any tail-facing read through $T,Q,D$ before the value seal is public.
+
+Now pass to \autoref{ch:concrete-instances-dyadic-interval-net-namecert}. Its finite-cell route supplies only dyadic endpoint arithmetic, cell incidence, StreamName windows, RegSeqRat readback, and a Real seal. Composing the two routes gives the stated refinement while leaving compactness, selected subsequences, quotient equality, and Real completeness outside the carrier.
+\end{proof}
+
 \begin{theorem}[RegularSequenceSpace shift closure]\label{thm:regular-sequence-space-shift-closure}
 Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Shifting the displayed packet by any unary finite tail preserves the $\StreamNameUp$ schedule row $T$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, and the terminal $\RealUp$ seal route $R,H,C,P,N$. The shifted packet is therefore consumed through the same regular sequence space route and exports no quotient stream equality, selected limit, countable-choice selector, or ambient $\RealUp$ completeness principle.
 \end{theorem}
