@@ -67,6 +67,46 @@ Read the dyadic tolerance handoff next. The row $D$ supplies the finite precisio
 Only after this handoff may the Real-facing seal $S$ be consumed. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve the same route. Since none of the excluded host interval or completeness objects is a carrier coordinate, every interval read reaches the seal only through the displayed rows.
 \end{proof}
 
+\begin{theorem}[RealInterval endpoint-order obligation]
+\label{thm:real-interval-endpoint-order-obligation}
+Let $I=(L,U,E,D,W,R,S,H,C,P,N)$ be an accepted $\RealIntervalUp$ carrier. Any consumer that treats $L$ and $U$ as an interval must first read the endpoint-order row $E$; the two endpoint rows alone do not authorize an interval enclosure.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-interval-carrier}. The rows $L$ and $U$ name the two endpoint Real rows, while $E$ is the only displayed row that binds them as an ordered enclosure.
+
+Now apply the local obligations of \autoref{thm:real-interval-namecert-obligations}. The endpoint-order obligation explicitly requires $E$ to bind $L$ and $U$ before any interval read can be treated as an enclosure.
+
+The seal route of \autoref{thm:real-interval-seal-enclosure-route} preserves the same order, since every endpoint or enclosure read begins with $L,U,E$ before entering the dyadic handoff. Thus an interval consumer cannot bypass $E$ by reading the endpoint rows alone.
+\end{proof}
+
+\begin{theorem}[RealInterval dyadic-window handoff]
+\label{thm:real-interval-dyadic-window-handoff}
+For every accepted $\RealIntervalUp$ carrier $I=(L,U,E,D,W,R,S,H,C,P,N)$, the displayed route
+$$
+D \longmapsto W \longmapsto R
+$$
+is the only tolerance-to-readback handoff supplied by the packet.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:real-interval-carrier}. The tolerance coordinate is $D$, the finite endpoint-window coordinate is $W$, and the regular rational readback coordinate is $R$.
+
+Use \autoref{thm:real-interval-namecert-obligations}. Its dyadic tolerance handoff row requires $D$ to precede the $\StreamNameUp$ windows $W$ and the $\RegSeqRatUp$ readback $R$.
+
+Finally apply \autoref{thm:real-interval-seal-enclosure-route}. The route displays no second tolerance-to-readback path; every enclosure read moves from $D$ to $W$ to $R$ before any seal or structural row is public.
+\end{proof}
+
+\begin{theorem}[RealInterval Real-seal nonescape]
+\label{thm:real-interval-real-seal-nonescape}
+Let $I=(L,U,E,D,W,R,S,H,C,P,N)$ be an accepted $\RealIntervalUp$ carrier. Every Real-facing enclosure read reaches the seal row $S$ only after the endpoint rows, endpoint-order row, dyadic tolerance row, stream-window row, and regular readback row $L,U,E,D,W,R$ have all been displayed.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:real-interval-carrier}. The seal row $S$ is not an independent endpoint; it is the terminal Real-facing row for endpoint and enclosure consumers.
+
+The obligations of \autoref{thm:real-interval-namecert-obligations} make Real seal non-escape explicit. They require every Real-facing endpoint or enclosure output to reach $S$ only after $L,U,E,D,W,R$ have been displayed.
+
+The route theorem \autoref{thm:real-interval-seal-enclosure-route} gives the same ordering as a displayed path. Therefore a Real-facing enclosure read cannot reach $S$ while omitting any of the endpoint, order, tolerance, window, or readback rows.
+\end{proof}
+
 \closureat{RealIntervalUp}{seedStr}
 
 \begin{closurestatus}{\RealIntervalUp}
