@@ -129,6 +129,8 @@ Edge Hiding Reassignment Specificity & Edge-hiding reassignment specificity vs p
 Edge Hiding Nonmito Generalization & Edge-hiding non-mitochondrial generalization (support-gated stress test): do the two mitochondrial-driven certified results (path-level edge-hiding conservation + missense-physicochemical specificity) GENERALIZE to real non-mitochondrial reassignment events? COINCIDENCE / not certified: on the Shulgina-Eddy/Codetta panel of 5 real bacterial/archaeal reassignment events (Bacilli AGG->Met, Peptacetobacter CGG->Gln, Bacilli/Anaerococcus CGG->Trp, Absconditabacteria CGA/CGG->Trp; 4 independent transition clusters after merging CGG->Trp), once the null controls exact source->target transition matrix PLUS outgroup codon availability/disappearance PLUS third-position GC/AT strata, the natural reassigned codon identities are NO LONGER more edge-preserving than matched candidates (T=0.5, cluster-combined exact-product p=0.57, direction not consistent across clusters; 4/5 events have D=0). So in non-mitochondrial events the apparent edge-hiding is explained by codon-availability/opportunism, not a specific edge-hiding constraint. IMPLICATION: this BOUNDS the certified edge-hiding evolutionary conservation as predominantly a MITOCHONDRIAL-code-evolution phenomenon, NOT a universal code-evolution constraint. CAVEAT: low power -- 5 events, all matched strata low-support -- so this is fragile exact-permutation stress-test evidence, not a strong refutation; more non-mito events could revisit it. Not causal, not a Window6 repetition. numpy-free / daemon-reproducible. & \texttt{coincidence} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.tracka_exact_cognate_wobble_boundary status=refuted
 Tracka Exact Cognate Wobble Boundary & Track-A exact-cognate wobble-boundary generalization (collinearity-gated): does fibonacci\_reality's homeless Track-A wobble-boundary phenomenon -- codons lacking a Watson-Crick exact-cognate anticodon carrying a synonymous codon-usage penalty -- generalize from its 2-point yeast/human evidence to a cross-genome public-data certificate, independent of smooth tRNA supply, GC, codon-E1, and edge-hiding? REFUTED on a RefSeq bacteria/archaea panel (24 genera, one reference/representative per genus, CDS+tRNA from the same GBFF). The yield+collinearity GATE PASSED: B\_o (exact-cognate absence) is estimably separable from smooth supply S\_o (mean corr(B\_o,S\_o)=-0.55, max VIF=2.45, min residual-variance-ratio after S\_o+GC3 = 0.41), so the discrete boundary carrier is NOT collinear-absorbed. BUT after controlling smooth decoding supply S\_o + GC3 + codon-E1 B1 projection + same-aa Hamming-1 edge incidence, the main-W boundary coefficient is POSITIVE (T\_beta=+0.088, one-sided lower-tail p=0.996), opposite to the predicted penalty (<0), and the direction is INCONSISTENT across wobble matrices (main +0.088 / exact-only -0.081 / loose-superwobble -0.018). So the exact-cognate-absence boundary has no robust independent synonymous-usage penalty in prokaryotes; the yeast/human Track-A observation does not generalize cross-genome under controls and is W-choice-dependent. This freezes the Track-A wobble-boundary as a non-generalizable two-point observation rather than an independent certificate. Not causal; not a codon-E1, edge-hiding, or Window6 duplicate. numpy-free / daemon-reproducible. & \texttt{refuted} \\
+% CLAIM_STATUS claim_id=bridge.genetic_code.codon_e1_missense_error_cost_orientation status=refuted
+Codon E1 Missense Error Cost Orientation & Codon-E1 local missense-error-cost orientation test (fourth-class mechanism: translational-error robustness): does the synonymous codon-usage residual E1 direction align with the standard-code local missense-cost robustness direction (per codon, mean squared physicochemical change over Hamming-1 missense neighbors; polar-requirement PR main scale, AAindex1 WOEC730101, with Grantham polarity/volume + Kyte-Doolittle battery for max-null only)? Frozen standard-code rank-6 B1 reused not refit; cosine statistic; genus/domain-cluster weighted; three-domain panel (Bacteria/Archaea/Eukaryota); Version-B GC/wobble/edge-orthogonalized is the sole certification basis; within-synonymous-family cost-relabel nulls A (global) + B (GC/wobble-stratified) + C (max-over-property); estimability gates 1-2, code-table error-minimization sanity gate 3 (Freeland-Hurst reproduction), Stop-artifact gate 4. Bio-internal codon-E1 mechanism audit only; NOT Window6 forcing, NOT causal proof; edge-hiding control is a synonymous-neighbor-degree proxy. & \texttt{refuted} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -1509,3 +1511,25 @@ Window6 duplicate. numpy-free / daemon-reproducible.
 \textbf{Why.} boundary coefficient is not consistently negative across W sensitivity modes.
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_tracka\_exact\_cognate\_wobble\_boundary.py
+
+\subsection{Codon E1 Missense Error Cost Orientation}\label{sec:bridge-codon-e1-missense-error-cost-orientation}
+% CLAIM_DETAIL claim_id=bridge.genetic_code.codon_e1_missense_error_cost_orientation status=refuted
+\textbf{Statement.} Codon-E1 local missense-error-cost orientation test (fourth-class mechanism: translational-error
+robustness): does the synonymous codon-usage residual E1 direction align with the standard-code
+local missense-cost robustness direction (per codon, mean squared physicochemical change over
+Hamming-1 missense neighbors; polar-requirement PR main scale, AAindex1 WOEC730101, with Grantham
+polarity/volume + Kyte-Doolittle battery for max-null only)? Frozen standard-code rank-6 B1 reused
+not refit; cosine statistic; genus/domain-cluster weighted; three-domain panel
+(Bacteria/Archaea/Eukaryota); Version-B GC/wobble/edge-orthogonalized is the sole certification
+basis; within-synonymous-family cost-relabel nulls A (global) + B (GC/wobble-stratified) + C
+(max-over-property); estimability gates 1-2, code-table error-minimization sanity gate 3
+(Freeland-Hurst reproduction), Stop-artifact gate 4. Bio-internal codon-E1 mechanism audit only; NOT
+Window6 forcing, NOT causal proof; edge-hiding control is a synonymous-neighbor-degree proxy.
+
+\textbf{Verdict.} \texttt{refuted}.
+
+\textbf{Why.} Gates 1-4 all pass (E1 estimability median 0.138; cost-carrier estimability 0.647; code-table sanity
+reproduces standard-code PR error-minimization, observed 1.162 vs random 2.103, p=4.0e-4; Stop
+excluded).
+
+\textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_codon\_e1\_missense\_error\_cost\_orientation.py
