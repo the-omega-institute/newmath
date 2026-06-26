@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\FinitePrimeWindowGluingUp$}
+\label{ch:concrete-instances-finite-prime-window-gluing-namecert}
+\origin{ai}
+
+The $\FinitePrimeWindowGluingUp$ packet realizes the finite-window side of \autoref{ch:visions-rh-finite-prime-window-gluing} as concrete NameCert data. It reads the finite prime-window carrier of \autoref{def:rh-finite-prime-window}, the local defect rows of \autoref{def:rh-prime-defect-row}, the total-defect row of \autoref{def:rh-finite-window-total-defect}, and the completed gluing surface of \autoref{def:rh-completed-gluing-surface}. The packet is local to finite prime windows: it does not claim $\mathsf{RH}$, global zeta recovery, nontrivial zero exclusion, Euler-product completeness, or analytic continuation beyond the displayed boundary.
+
+\begin{definition}[FinitePrimeWindowGluing carrier]
+\label{def:finite-prime-window-gluing-carrier}
+A $\FinitePrimeWindowGluingUp$ carrier is a finite $\BHist$ packet
+$$
+G=(P,A,D,L,Z,T,R,V,H,C,Q,N)
+$$
+with the following displayed rows.
+\begin{enumerate}
+\item $P$ is the finite prime-row ledger, listing the displayed window $S\subseteq\PrimeUp$ and the prime-local amplitude rows available in that window.
+\item $A$ is the unit-window amplitude row, recording which displayed prime rows satisfy the local unit-amplitude test.
+\item $D$ is the local defect-row ledger, recording $D_p(s)$ for every displayed prime row in the finite window.
+\item $L$ is the gluing ledger, aligning the finite prime rows, defect rows, archimedean boundary request, functional-equation request, pole ledger, zero-ledger request, and branch-transport request.
+\item $Z$ is the zero-boundary row. It records only the local request for a later zero-ledger exclusion and does not decide any nontrivial zero.
+\item $T$ is the transport row from finite prime-window data into the completed carrier interface.
+\item $R$ is the replay row for the local proof route through finite rows, defect accumulation, completed-surface boundary, and zero-boundary request.
+\item $V$ is the provenance row tying the packet to the finite prime-window, local-defect, and carrier-gluing vision sites.
+\item $H$ records componentwise $\hsame$ transport for $P,A,D,L,Z,T,R,V,C,Q,N$.
+\item $C$ records displayed $\Cont$ replay for the local gluing request.
+\item $Q$ is the local replay provenance for the finite carrier data.
+\item $N$ is the local $\NameCert_{\FinitePrimeWindowGluingUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these finite rows. It requires later nontriviality and field-faithfulness input as separate $\TasteGate$ instances before any global zeta or RH-facing consumer may treat the local carrier as an analytic proof object.
+\end{definition}
+
+\begin{theorem}[FinitePrimeWindowGluing NameCert obligations]
+\label{thm:finite-prime-window-gluing-namecert-obligations}
+For every accepted $\FinitePrimeWindowGluingUp$ carrier $G=(P,A,D,L,Z,T,R,V,H,C,Q,N)$, the local $\NameCert_{\FinitePrimeWindowGluingUp}$ surface consists exactly of finite prime-row admission, unit-window amplitude rows, local defect rows, gluing-ledger alignment, zero-boundary request, transport into the completed-carrier interface, replay, provenance, componentwise transport, continuation replay, local replay provenance, and local naming.
+
+Every accepted read factors through
+$$
+P,A,D \longmapsto L,Z,T \longmapsto R,V,H,C,Q,N
+$$
+and refuses global $\mathsf{RH}$, recovered zeta completeness, nontrivial zero exclusion, field faithfulness, Euler-product completion, analytic continuation, and archimedean normalization as closed conclusions.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The finite prime-window side is exactly $P,A,D$: a displayed finite prime set, its unit-amplitude rows, and its local defect rows.
+
+The gluing side starts only after those rows are visible. The row $L$ aligns the finite rows with the archimedean, functional-equation, pole, zero-ledger, and branch-transport requests of the completed surface, while $Z$ records the zero-boundary request without deciding it.
+
+The transport and replay rows $T,R,V,H,C,Q,N$ preserve the local route and provenance. None of these rows contains a nontrivial zero exclusion theorem, a recovered zeta carrier, an analytic continuation proof, a field-faithfulness witness, or a nontriviality gate.
+
+Thus the NameCert surface is the finite gluing packet itself. Any RH-facing use must add the later nontrivial and field-faithful $\TasteGate$ instances outside this local carrier.
+\end{proof}
+
+\begin{theorem}[Finite prime-window gluing boundary]
+\label{thm:finite-prime-window-gluing-boundary}
+A $\FinitePrimeWindowGluingUp$ packet may be consumed by an RH route only as local carrier data: finite prime rows, defect rows, gluing ledger, zero-boundary request, transport, replay, provenance, and local NameCert naming. It does not supply the later $\NontrivialUp$ and $\FieldFaithfulUp$ $\TasteGate$ instances required for global zeta recovery, and it does not close $\mathsf{RH}$ or any nontrivial zero-exclusion theorem.
+\end{theorem}
+\begin{proof}
+The consumer first reads the finite rows $P,A,D$ and the gluing ledger $L$. These rows are local to a displayed finite prime window and cannot by themselves expose the completed zeta carrier.
+
+The zero-boundary row $Z$ is only a request boundary. The transport and replay rows carry the request toward the completed surface, but they do not add the missing nontriviality and field-faithfulness gates.
+
+Since the carrier has no row for global zeta recovery, nontrivial zero exclusion, Euler-product completeness, analytic continuation, or closed RH evidence, every accepted read remains a finite NameCert packet.
+\end{proof}
+
+\falsifiablePrediction{A future finite prime-window packet fails this NameCert surface if it accepts a gluing read without a displayed finite prime-row ledger, unit-window amplitude rows, local defect rows, gluing ledger, zero-boundary request, transport, replay, provenance, and local NameCert row, or if it treats those rows as a closed proof of $\mathsf{RH}$.}
+
+\independenceWitness{RH, prime-window, zeta-recovery: $\FinitePrimeWindowGluingUp$ is not bijective to any listed sibling because it binds finite prime rows, defect rows, local gluing, zero-boundary request, transport, replay, provenance, and local naming while explicitly leaving nontriviality, field faithfulness, recovered zeta completeness, analytic continuation, and global zero exclusion outside the packet.}
+
+\closureat{FinitePrimeWindowGluingUp}{seedStr}
+
+\begin{closurestatus}{\FinitePrimeWindowGluingUp}
+  \constructivestory{A $\FinitePrimeWindowGluingUp$ packet is generated from finite prime rows, unit-window amplitude rows, local defect rows, a gluing ledger, zero-boundary request, transport into the completed-carrier interface, replay, provenance, componentwise hsame transport, displayed Cont replay, local replay provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-prime-window-gluing-carrier}, \autoref{thm:finite-prime-window-gluing-namecert-obligations}, and \autoref{thm:finite-prime-window-gluing-boundary} seed the finite local gluing packet for prime-window RH routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close RH, recovered zeta completeness, nontrivial zero exclusion, Euler-product completion, analytic continuation, archimedean normalization, nontrivial TasteGate evidence, field-faithful TasteGate evidence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite prime-row exactness, defect-row exactness, gluing-ledger alignment, zero-boundary nonescape, transport, replay, provenance, and local naming for BEDC.Derived.FinitePrimeWindowGluingUp; global routes require later Nontrivial and FieldFaithful TasteGate instances.}
+\end{closurestatus}
