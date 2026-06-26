@@ -2,7 +2,7 @@
 """Codon-E1 known-force-union irreducibility certificate."""
 from __future__ import annotations
 
-from collections import defaultdict
+from collections import Counter, defaultdict
 import json
 import math
 import os
