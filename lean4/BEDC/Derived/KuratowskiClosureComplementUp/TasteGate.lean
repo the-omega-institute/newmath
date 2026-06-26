@@ -1,18 +1,56 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.KuratowskiClosureComplementUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive KuratowskiClosureComplementUp : Type where
   | mk (T F L C A B H R P N : BHist) : KuratowskiClosureComplementUp
   deriving DecidableEq
+
+def KuratowskiClosureComplementCarrier [AskSetup] [PackageSetup]
+    (T F L C A B H R P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  UnaryHistory T ∧ UnaryHistory F ∧ UnaryHistory L ∧ UnaryHistory C ∧
+    UnaryHistory A ∧ UnaryHistory B ∧ UnaryHistory H ∧ UnaryHistory R ∧
+      UnaryHistory P ∧ UnaryHistory N ∧ Cont T F L ∧ Cont L C A ∧
+        Cont A B R ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem KuratowskiClosureComplementCarrier_alternation_route [AskSetup] [PackageSetup]
+    {T F L C A B H R P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KuratowskiClosureComplementCarrier T F L C A B H R P N bundle pkg →
+      UnaryHistory L ∧ UnaryHistory A ∧ UnaryHistory R ∧ Cont T F L ∧ Cont L C A ∧
+        Cont A B R ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier
+  obtain ⟨tUnary, fUnary, _lUnary, cUnary, _aUnary, bUnary, _hUnary, _rUnary, _pUnary,
+    _nUnary, firstRoute, secondRoute, replayRoute, provenancePkg, localPkg⟩ := carrier
+  have lRouteUnary : UnaryHistory L :=
+    unary_cont_closed tUnary fUnary firstRoute
+  have aRouteUnary : UnaryHistory A :=
+    unary_cont_closed lRouteUnary cUnary secondRoute
+  have rRouteUnary : UnaryHistory R :=
+    unary_cont_closed aRouteUnary bUnary replayRoute
+  exact
+    ⟨lRouteUnary, aRouteUnary, rRouteUnary, firstRoute, secondRoute, replayRoute,
+      provenancePkg, localPkg⟩
 
 def kuratowskiClosureComplementEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
