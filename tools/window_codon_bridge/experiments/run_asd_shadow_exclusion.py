@@ -158,6 +158,11 @@ def rna_revcomp(seq: str) -> str:
 
 
 def pair_score(left: str, right: str) -> int:
+    # Antiparallel Watson-Crick scoring checked position-wise: left[i] must base-pair
+    # with right[i]. To score a 5'->3' CDS k-mer against a 5'->3' carrier window, the
+    # carrier window is passed reversed (window[::-1]), NOT reverse-complemented; the
+    # complement is applied here per position. A true SD motif (revcomp of the anti-SD
+    # core) then scores maximally against its anti-SD carrier window.
     score = 0
     for a, b in zip(left, right):
         if (a, b) in {("A", "U"), ("U", "A"), ("G", "C"), ("C", "G")}:
@@ -234,7 +239,7 @@ def score_table(carrier: dict[str, object]) -> dict[str, tuple[float, int]]:
         return SCORE_TABLE_CACHE[cache_key]
     by_len: dict[int, list[str]] = defaultdict(list)
     for window in windows:
-        by_len[len(window)].append(rna_revcomp(window))
+        by_len[len(window)].append(window[::-1])
     table: dict[str, tuple[float, int]] = {}
     for k, kmers in ALL_KMERS_BY_K.items():
         targets = by_len.get(k, [])
@@ -255,7 +260,7 @@ def score_table_for_kmers(carrier: dict[str, object], needed_kmers: set[str]) ->
         return SCORE_TABLE_CACHE[cache_key]
     by_len: dict[int, list[str]] = defaultdict(list)
     for window in windows:
-        by_len[len(window)].append(rna_revcomp(window))
+        by_len[len(window)].append(window[::-1])
     table: dict[str, tuple[float, int]] = {}
     for kmer in needed_kmers:
         targets = by_len.get(len(kmer), [])
