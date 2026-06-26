@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\FiniteLipschitzDifferentiabilityUp$}
+\label{ch:concrete-instances-finite-lipschitz-differentiability-namecert}
+\origin{human}
+
+Following Rademacher's differentiability theorem for Lipschitz maps, the $\FiniteLipschitzDifferentiabilityUp$ packet records the BEDC-finite interface at which derivative-candidate evidence may be consumed without importing a measure-theoretic almost-everywhere theorem. It refines the finite derivative-candidate route of \autoref{ch:concrete-instances-rademacher-namecert} by reading the Lipschitz graph and bound of \autoref{ch:concrete-instances-lipschitz-function-namecert}, the Real base and output seals of \autoref{ch:concrete-instances-real-namecert}, the dyadic radius ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the metric-neighbourhood rows of \autoref{ch:concrete-instances-metric-namecert}, and the finite variation control of \autoref{ch:concrete-instances-absolute-continuous-function-namecert}. The packet is a named finite-window differentiability interface; it is not a Lebesgue a.e. differentiability theorem and it selects no derivative outside the displayed windows.
+
+\begin{definition}[Finite Lipschitz differentiability carrier]
+\label{def:finite-lipschitz-differentiability-carrier}
+A $\FiniteLipschitzDifferentiabilityUp$ carrier is a finite $\BHist$ packet
+$$
+F=(L,E,D,M,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LipschitzFunctionUp$ graph-and-bound row, exposing the source metric, target metric, graph ledger, Lipschitz constant, and finite distance-inequality route used by the derivative-candidate read.
+\item $E$ is the pair of $\RealUp$ base and output seal rows, recording the base-point seal, endpoint output seals, and finite difference-quotient values visible to Real-facing consumers.
+\item $D$ is the $\DyadicRatCoreUp$ radius and difference-quotient ledger, listing the inspected dyadic radii, endpoint offsets, halved-window refinements, tolerance comparisons, and displayed quotient windows.
+\item $M$ is the $\MetricSpaceUp$ neighbourhood row for the source and target distance requests used to read the Lipschitz and quotient comparisons.
+\item $A$ is the $\AbsolutelyContinuousFunctionUp$ control row, bounding only the displayed finite variation window consumed by the derivative-candidate route.
+\item $H$ records componentwise $\hsame$ transport for the Lipschitz row, Real seals, dyadic radius ledger, metric neighbourhoods, absolute-continuity control, replay row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from a finite differentiability request through $D,M,L,A$ and then into the terminal Real seal row $E$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteLipschitzDifferentiabilityUp$, $\RademacherUp$, $\LipschitzFunctionUp$, $\RealUp$, $\DyadicRatCoreUp$, $\MetricSpaceUp$, $\AbsolutelyContinuousFunctionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteLipschitzDifferentiabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,E,D,M,A,H,C,P,N$. It has no coordinate for measurable exceptional sets, selected derivatives outside the finite windows, Lebesgue measure algebra, quotient equality, countable choice, host real equality, or a completed derivative space.
+\end{definition}
+
+\begin{theorem}[Finite Lipschitz differentiability NameCert obligations]
+\label{thm:finite-lipschitz-differentiability-namecert-obligations}
+For every accepted $\FiniteLipschitzDifferentiabilityUp$ carrier
+$$
+F=(L,E,D,M,A,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteLipschitzDifferentiabilityUp}$ surface consists exactly of Lipschitz graph-and-bound exposure, Real base and output seal routing, dyadic radius and difference-quotient accounting, metric-neighbourhood inspection, absolute-continuity finite-window control, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape from the displayed rows.
+
+Consequently the packet excludes measurable exceptional sets, selected derivatives outside the finite windows, Lebesgue measure algebra, quotient equality, countable choice, host real equality, and completed derivative-space data.
+\end{theorem}
+\leanstmt{BEDC.Derived.FiniteLipschitzDifferentiabilityUp}
+\begin{proof}
+Carrier exposure is projection from \autoref{def:finite-lipschitz-differentiability-carrier}. The visible analytic rows are $L,E,D,M,A$, and the visible structural rows are $H,C,P,N$.
+
+The differentiability read is finite. The Lipschitz row supplies the graph and bound, the dyadic ledger supplies the inspected radii and quotient windows, and the metric row supplies the neighbourhoods in which those finite requests are compared. The absolute-continuity row bounds only the displayed variation window attached to those requests.
+
+The Real row seals the base, endpoint, and quotient values reached by that finite route. Transport and replay preserve the same coordinates, while provenance and local naming source the packet without adding analytic rows.
+
+Since no other coordinate occurs in the carrier, the NameCert surface exports none of the excluded measurable, derivative-selection, quotient, choice, host-equality, or completion data.
+\end{proof}
+
+\closureat{FiniteLipschitzDifferentiabilityUp}{seedStr}
+
+\begin{closurestatus}{\FiniteLipschitzDifferentiabilityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-lipschitz-differentiability-carrier} and \autoref{thm:finite-lipschitz-differentiability-namecert-obligations} seed the finite Lipschitz differentiability interface over Lipschitz graph-and-bound, Real seal, dyadic radius, metric-neighbourhood, absolute-continuity, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lebesgue almost-everywhere differentiability, measurable exceptional sets, selected derivatives outside finite windows, Lebesgue measure algebra, quotient equality, countable choice, host real equality, completed derivative spaces, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Lipschitz graph-and-bound exposure, Real seal routing, dyadic radius and quotient accounting, metric-neighbourhood inspection, absolute-continuity finite-window control, transport stability, replay stability, provenance, local naming, and non-escape for BEDC.Derived.FiniteLipschitzDifferentiabilityUp.}
+  \constructivestory{A $\FiniteLipschitzDifferentiabilityUp$ packet is generated from a LipschitzFunction row, RealUp base and output seals, DyadicRatCore radius and difference-quotient ledger, MetricSpace neighbourhood row, AbsolutelyContinuousFunction finite-window control row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
