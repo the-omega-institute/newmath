@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The classifier compares accepted packets only through $P,S,M,C,W,R,E,T,K,G,N$. It has no coordinate for quotient-set equality, selected representatives, ambient Hausdorff reflection, host metric completion, trichotomy, countable choice, or external Real completeness.
 \end{definition}
+\leandef{BEDC.Derived.HausdorffizationUp.HausdorffizationCarrier}
 
 \begin{theorem}[Hausdorffization NameCert obligations]
 \label{thm:hausdorffization-namecert-obligations}
@@ -63,6 +64,7 @@ The separated metric and completion-facing rows are then $M$ and $C$. They consu
 
 Finally $W,R,E,T,K,G,N$ give the window, readback, seal, transport, replay, provenance, and naming surface for the same packet. The absence of quotient, selector, trichotomy, choice, and ambient-completeness coordinates forces every consumer to remain on the displayed route.
 \end{proof}
+\leanchecked{BEDC.Derived.HausdorffizationCarrier\_separated\_reflection\_boundary}
 
 \begin{theorem}[Hausdorffization ledger non-quotient boundary]
 \label{thm:hausdorffization-ledger-nonquotient-boundary}
@@ -113,6 +115,7 @@ The row $M$ is itself downstream of the separated-reflection ledger $S$. The led
 
 The analytic readback rows $W,R,E$ and the structural rows $T,K,G,N$ authenticate the same path. Non-quotient ledger exclusion in \autoref{thm:hausdorffization-ledger-nonquotient-boundary} rules out quotient completion, selected representatives, countable choice, and ambient real completeness as alternate completion inputs.
 \end{proof}
+\leanchecked{BEDC.Derived.HausdorffizationUp.HausdorffizationCarrier\_completion\_consumer\_route}
 
 \begin{theorem}[Hausdorffization NameCert scope package]
 \label{thm:hausdorffization-namecert-scope-package}
@@ -225,6 +228,24 @@ Use the separated-reflection scope of \autoref{thm:hausdorffization-separated-re
 Then apply the completion consumer route of \autoref{thm:hausdorffization-completion-consumer-route}. It places every completion-facing read after $P \longmapsto S \longmapsto M \longmapsto C$ and preserves the route through $T,K,G,N$.
 
 Finally use the non-quotient boundary of \autoref{thm:hausdorffization-ledger-nonquotient-boundary}. Since no extra completion coordinate exists, the listed rows are all that a separated-completion consumer can read.
+\end{proof}
+
+\begin{theorem}[Hausdorffization completion-boundary exhaustion]
+\label{thm:hausdorffization-completion-boundary-exhaustion}
+Every completion-facing read of an accepted $\HausdorffizationUp$ packet is exhausted by the displayed rows
+$$
+P,S,M,C,W,R,E,T,K,G,N .
+$$
+The route combines zero-distance exactness from \autoref{thm:hausdorffization-zero-distance-exactness}, completion-route stability from \autoref{thm:hausdorffization-completion-route-stability}, and non-quotient nonescape from \autoref{thm:hausdorffization-nonquotient-nonescape-obligation}. Thus a downstream separated-metric or completion consumer may project only the pseudometric source, separated-reflection boundary, separated metric target, completion handoff, finite windows, regular rational readback, Real seal, componentwise transport, displayed replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:hausdorffization-carrier}. The row projection gives exactly $P,S,M,C,W,R,E,T,K,G,N$, so any completion-facing read must begin from that finite packet.
+
+Apply \autoref{thm:hausdorffization-zero-distance-exactness}. It fixes the separated-reflection boundary $S$ by the displayed $P,W,R,E$ zero-distance evidence before the separated metric row $M$ or completion handoff $C$ can add any further read.
+
+Apply \autoref{thm:hausdorffization-completion-route-stability}. It preserves the route $P \longmapsto S \longmapsto M \longmapsto C$ under componentwise $\hsame$ transport $T$ and displayed $\Cont$ replay $K$, so the completion reader cannot reorder the rows or bypass the boundary.
+
+Finally use \autoref{thm:hausdorffization-nonquotient-nonescape-obligation}. Quotient equality, selected representatives, quotient completion, trichotomy, countable choice, and ambient $\RealUp$ completeness have no carrier coordinate. The remaining provenance and naming rows $G,N$ therefore certify the displayed packet rather than extending it.
 \end{proof}
 
 \begin{theorem}[Hausdorffization non-quotient nonescape obligation]

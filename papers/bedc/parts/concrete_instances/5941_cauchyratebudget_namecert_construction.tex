@@ -56,6 +56,7 @@ The excluded objects are absent from the carrier. Since no coordinate stores an 
 \label{thm:cauchy-rate-budget-streamname-regseq-handoff}
 For an accepted $\CauchyRateBudgetUp$ packet $B=(R,W,Q,D,E,H,C,P,N)$, the $\StreamNameUp$ window row $W$ and the $\RegSeqRatUp$ readback row $Q$ form a single finite handoff controlled by the rate row $R$. Any consumer that reads $Q$ must first read $R$ and $W$, and any later $\DyadicRatCoreUp$ or $\RealUp$ read must preserve that same handoff through $D,E,H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyRateBudgetUp.CauchyRateBudgetCarrier\_streamname\_regseq\_handoff}
 \begin{proof}
 Read $R,W,Q$ from the carrier. The rate row selects the finite window schedule, and the window row is the only public source from which the readback row is obtained.
 
@@ -63,6 +64,7 @@ Apply the NameCert obligation surface. It lists the $\StreamNameUp$ window cover
 
 Finally use componentwise transport and route replay. The $H,C,P,N$ rows preserve the same handoff when a downstream dyadic or Real consumer reads the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyRateBudgetUp.CauchyRateBudgetStreamNameRegSeqHandoff}
 
 \begin{theorem}[Cauchy rate-budget TasteGate boundary]
 \label{thm:cauchy-rate-budget-tastegate-boundary}
