@@ -30,9 +30,9 @@ ANALYSIS_ORGANISM_LIMIT = int(os.environ.get("ASD_ANALYSIS_ORGANISM_LIMIT", "16"
 R_NULL = int(os.environ.get("ASD_NULL_R", "80"))
 N_DECOYS = int(os.environ.get("ASD_N_DECOYS", "24"))
 N_BOOTSTRAP = int(os.environ.get("ASD_BOOTSTRAP", "120"))
-DEFAULT_MAX_GENES = "24" if "ASD_ANALYSIS_ORGANISM_LIMIT" in os.environ and "ASD_MAX_GENES_PER_ORGANISM" not in os.environ else "96"
+DEFAULT_MAX_GENES = "8" if "ASD_ANALYSIS_ORGANISM_LIMIT" in os.environ and "ASD_MAX_GENES_PER_ORGANISM" not in os.environ else "96"
 MAX_GENES_PER_ORGANISM = int(os.environ.get("ASD_MAX_GENES_PER_ORGANISM", DEFAULT_MAX_GENES))
-DEFAULT_PROFILE_LIMIT = "450" if "ASD_ANALYSIS_ORGANISM_LIMIT" in os.environ and "ASD_PROFILE_KMER_LIMIT" not in os.environ else "900"
+DEFAULT_PROFILE_LIMIT = "180" if "ASD_ANALYSIS_ORGANISM_LIMIT" in os.environ and "ASD_PROFILE_KMER_LIMIT" not in os.environ else "900"
 PROFILE_KMER_LIMIT = int(os.environ.get("ASD_PROFILE_KMER_LIMIT", DEFAULT_PROFILE_LIMIT))
 NULL_PLACE_R = int(os.environ.get("ASD_NULL_PLACE_R", str(max(8, min(R_NULL, 48)))))
 MIN_GATE_STARTS = int(os.environ.get("ASD_GATE_I0_MIN_STARTS", "500"))
@@ -239,9 +239,13 @@ def profile_masked(
     seq = seq.upper()
     counts: Counter[str] = Counter()
     possible: list[tuple[int, int]] = []
+    prefix = [0] * (len(seq) + 1)
+    if masked_positions:
+        for idx in range(len(seq)):
+            prefix[idx + 1] = prefix[idx] + (1 if idx in masked_positions else 0)
     for k in range(5, 9):
         for i in range(0, len(seq) - k + 1):
-            if any(pos in masked_positions for pos in range(i, i + k)):
+            if masked_positions and prefix[i + k] != prefix[i]:
                 continue
             if m3_starts is not None and i in m3_starts:
                 continue
