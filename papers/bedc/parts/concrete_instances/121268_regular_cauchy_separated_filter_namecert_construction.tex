@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchySeparatedFilterUp$}
+\label{ch:concrete-instances-regular-cauchy-separated-filter-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and the Bourbaki separation discipline for uniform completions, the $\RegularCauchySeparatedFilterUp$ packet records the finite filter object that sits between regular Cauchy readback and separated completion. It is a neighbor of the $\CauchyFilterBasisUp$ route of \autoref{ch:concrete-instances-cauchy-filter-basis-namecert}, the $\RegularCauchyFilterBasisUp$ route of \autoref{ch:concrete-instances-regular-cauchy-filter-basis-namecert}, and the separated-completion surface of \autoref{ch:concrete-instances-separatedcompletion-namecert}. The packet keeps window schedules, rational readback, dyadic tolerances, basis observations, separated comparison, Real sealing, transport, replay, provenance, and local naming as displayed rows; it does not introduce quotient filters, selected limits, ambient real equality, countable choice, or host completeness.
+
+\begin{definition}[RegularCauchySeparatedFilter carrier]
+\label{def:regular-cauchy-separated-filter-carrier}
+A $\RegularCauchySeparatedFilterUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,R,D,B,E,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window schedule naming the regular Cauchy observations that may be read.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the same windows and regular-rational reads.
+\item $B$ is the $\CauchyFilterBasisUp$ basis-window row whose observations are indexed by $S$ and whose tolerances are supplied by $D$.
+\item $E$ is the $\SeparatedCompletionUp$ comparison row, identifying when two displayed basis windows have zero separated distance inside the completion route.
+\item $L$ is the terminal $\RealUp$ seal row reached only after $S,R,D,B,E$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for windows, readback, tolerance, basis windows, separated comparison, Real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a filter-window request through regular readback, dyadic tolerance, basis exposure, separated comparison, and Real sealing.
+\item $P$ records $\Pkg$ provenance over $\RegularCauchySeparatedFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyFilterBasisUp$, $\SeparatedCompletionUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularCauchySeparatedFilterUp}$ row.
+\end{enumerate}
+The classifier accepts packets only through the ten displayed rows $S,R,D,B,E,L,H,C,P,N$. No coordinate stores a quotient filter, a hidden cofinal family, a selected completion point, host real equality, countable-choice selector, or ambient completeness witness.
+\end{definition}
+
+\begin{theorem}[RegularCauchySeparatedFilter NameCert obligations]
+\label{thm:regular-cauchy-separated-filter-namecert-obligations}
+For every accepted $\RegularCauchySeparatedFilterUp$ carrier
+$$
+Q=(S,R,D,B,E,L,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchySeparatedFilterUp}$ surface consists exactly of carrier admission for StreamName windows, RegSeqRat readback, DyadicRatCore tolerance, CauchyFilterBasis basis windows, SeparatedCompletion comparison, Real sealing, componentwise transport, displayed replay, package provenance, and local naming. Every completion-facing consumer must first read $S$, then $R$ and $D$, then $B$ and $E$, and only then the structural rows $L,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-separated-filter-carrier}. The visible source of the packet is the finite window schedule $S$ together with its regular-rational readback $R$ and dyadic tolerance ledger $D$.
+
+Read the filter-basis and separation rows next. The row $B$ contains exactly the basis observations licensed by the displayed windows, while $E$ records the separated-completion comparison for the same observations. This is the handoff to the separated-completion route of \autoref{ch:concrete-instances-separatedcompletion-namecert}.
+
+Finally consume the Real seal and structural rows. The row $L$ is downstream from $S,R,D,B,E$, and $H,C,P,N$ only transport, replay, source, and name that same route. Since no excluded quotient, selector, host-equality, choice, or completeness coordinate is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\closureat{RegularCauchySeparatedFilterUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchySeparatedFilterUp}
+  \constructivestory{A $\RegularCauchySeparatedFilterUp$ packet is generated from finite StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, CauchyFilterBasis basis windows, a SeparatedCompletion comparison row, a RealUp seal, componentwise transport, displayed replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-separated-filter-carrier} and \autoref{thm:regular-cauchy-separated-filter-namecert-obligations} seed the finite regular Cauchy separated-filter route between basis windows and separated completion.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected completion points, host real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, separated-comparison preservation, readback preservation, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchySeparatedFilterUp.}
+\end{closurestatus}

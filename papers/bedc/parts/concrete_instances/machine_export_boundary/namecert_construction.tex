@@ -64,6 +64,22 @@ Apply the registry route of \autoref{thm:machine-export-boundary-registry-route}
 The broader $\MachineInterfaceBoundaryUp$ sibling is preserved by the target row $T$ together with transport $H$ and replay $C$. Those rows keep the same displayed export route and do not add unregistered export, unchecked theorem evidence, or refusal erasure, so the accepted packet is exactly the stated sibling-lattice consumer.
 \end{proof}
 
+\begin{theorem}[Machine export boundary interface forward link]
+\label{thm:machine-export-boundary-interface-forward-link}
+Every $\MachineExportBoundaryUp$ export route is a specialization of the $\MachineInterfaceBoundaryUp$ route of \autoref{ch:concrete-instances-machine-interface-boundary-namecert} after registry export, audit readback, refusal preservation, and $\NameCertMorphismUp$ provenance have been displayed. Concretely, for an accepted packet
+$$
+E=(R,T,A,F,H,C,P,N),
+$$
+the rows $R,A,F,P$ expose registry status, machine-readable audit, cannot-claim refusal, and certificate-preserving provenance before the target row $T$ and local name row $N$ are consumed. Thus the export boundary cannot be read as a machine-interface boundary unless it has first passed through the displayed export ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier $E=(R,T,A,F,H,C,P,N)$. The registry export row $R$, audit row $A$, refusal row $F$, and provenance row $P$ are displayed before the local export name $N$.
+
+The broader interface route supplies the machine-facing boundary, while this packet supplies the export specialization. The target row $T$ selects the machine consumer, and the rows $R,A,F,P$ add registry export, audit readback, refusal preservation, and certificate-preserving provenance.
+
+Finally $H$ and $C$ preserve the same displayed route under transport and replay. Hence the accepted export packet is a specialization of $\MachineInterfaceBoundaryUp$ only after the export ledger has been shown, and no direct interface read can bypass those rows.
+\end{proof}
+
 The $\MachineExportBoundaryUp$ packet refines the broader machine-facing interface of \autoref{ch:concrete-instances-machine-interface-boundary-namecert} by replacing a general registry-to-machine route with the target, audit, refusal, export tuple $E=(R,T,A,F,H,C,P,N)$ before any local export name is consumed.
 
 It therefore consumes $\MachineInterfaceBoundaryUp$ as a downstream specialization: $\RegistryExportSurfaceUp$ supplies the public status row, $\MachineReadableAuditInterfaceUp$ supplies audit readback, $\CannotClaimExportGateUp$ supplies refusal visibility, and $\NameCertMorphismUp$ supplies certificate-preserving provenance before the local export boundary is read.
