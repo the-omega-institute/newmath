@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\FiniteMeshRefinementTreeUp$}
+\label{ch:concrete-instances-finite-mesh-refinement-tree-namecert}
+\origin{human}
+
+Following Bishop--Bridges finite-net practice on compact intervals, the $\FiniteMeshRefinementTreeUp$ packet names the finite refinement tree through which an interval mesh is repeatedly subdivided before a completion-facing consumer reads a finite window. It sits between the dyadic interval cells of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}, the finite mesh surface of \autoref{ch:concrete-instances-finite-dyadic-mesh-namecert}, the finite observation discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet records finite refinement data only; it is not an open-cover compactness theorem, a selected infinite branch, a quotient real equality principle, a countable-choice operation, or an ambient completeness coordinate for $\RealUp$.
+
+\begin{definition}[Finite mesh refinement tree carrier]
+\label{def:finite-mesh-refinement-tree-carrier}
+A $\FiniteMeshRefinementTreeUp$ carrier is a finite $\BHist$ packet
+$$
+T=(N,M,R,W,Q,E,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the $\DyadicIntervalNetUp$ source row, listing the dyadic interval cells inspected by the refinement request.
+\item $M$ is the $\FiniteDyadicMeshUp$ mesh row, recording the finite dyadic mesh at the root scale.
+\item $R$ is the refinement-tree row, a finite parent-child ledger whose children are dyadic subintervals of the displayed parent cell.
+\item $W$ is the $\StreamNameUp$ finite-window row opened by the displayed mesh and refinement requests.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the finite windows and dyadic mesh ledger.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $N,M,R,W,Q$ have already been displayed.
+\item $H$ records componentwise $\hsame$ transport for the net, mesh, refinement tree, window, readback, seal, replay, provenance, and local name rows.
+\item $C$ records displayed $\Cont$ replay from a finite refinement request through $N,M,R,W,Q,E$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteMeshRefinementTreeUp$, $\DyadicIntervalNetUp$, $\FiniteDyadicMeshUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\FiniteMeshRefinementTreeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for open-cover compactness, a selected infinite branch, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Finite refinement tree Real-window boundary]
+\label{thm:finite-mesh-refinement-tree-real-window-boundary}
+Every accepted $\FiniteMeshRefinementTreeUp$ packet exports completion-facing data only through the finite route
+$$
+\DyadicIntervalNetUp \longrightarrow \FiniteDyadicMeshUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \RealUp .
+$$
+In particular, the refinement tree supplies a finite parent-child mesh ledger before any regular-Cauchy or real-name consumer can inspect a terminal seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-mesh-refinement-tree-carrier}. The only interval cells available to a consumer are the displayed $\DyadicIntervalNetUp$ cells and the finite mesh row $M$.
+
+The refinement row $R$ is finite, so every child request is replayed through the same displayed parent-child ledger. The consumer then opens only the $\StreamNameUp$ windows and $\RegSeqRatUp$ readback rows attached to that ledger.
+
+The terminal seal $E$ is downstream of these finite rows. Since the carrier contains no coordinate for the excluded principles, the $\RealUp$ read is a finite-window handoff rather than an appeal to open-cover compactness, selected branches, quotient equality, countable choice, or ambient real completeness.
+\end{proof}
+
+\begin{closurestatus}{\FiniteMeshRefinementTreeUp}
+  \constructivestory{A $\FiniteMeshRefinementTreeUp$ packet is generated from a DyadicIntervalNet source row, a FiniteDyadicMesh root mesh, a finite refinement-tree ledger, StreamName finite windows, RegSeqRat readback, a RealUp terminal seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-mesh-refinement-tree-carrier} and \autoref{thm:finite-mesh-refinement-tree-real-window-boundary} seed the finite mesh-refinement route from dyadic interval nets to regular-Cauchy and RealUp finite-window consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected infinite branches, quotient real equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, refinement-tree boundary, finite-window handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteMeshRefinementTreeUp.}
+\end{closurestatus}

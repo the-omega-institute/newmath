@@ -1,0 +1,42 @@
+\begin{definition}[Prod stream-window carrier]
+\label{def:prod-stream-window-carrier}
+A $\ProdUp$ stream-window carrier for L10 product reads is a finite $\BHist$ packet
+$$
+P=(L,R,W,D,Q,H,C,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the left component row and $R$ is the right component row.
+\item $W$ is the shared $\StreamNameUp$ product window, carrying the finite request schedule through which both components are read.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used when the product read is consumed by regular rational windows.
+\item $Q$ is the $\RegSeqRatUp$ product readback row, assembled componentwise from the two component reads over the shared window.
+\item $H$ records componentwise $\hsame$ transport for $L,R,W,D,Q$ and for the local classifier row.
+\item $C$ records displayed $\Cont$ replay routes for the product window, dyadic tolerance ledger, and regular rational readback.
+\item $N$ is the local $\NameCert_{\ProdUp}$ row naming this finite product-window surface.
+\end{enumerate}
+The classifier compares accepted packets only through these component rows. It has no coordinate for abstract carrier-equivalence transport or for a product object detached from the displayed StreamName and RegSeqRat windows.
+\end{definition}
+
+\begin{theorem}[Prod stream-window NameCert obligations]
+\label{thm:prod-stream-window-namecert-obligations}
+For every accepted $\ProdUp$ stream-window carrier $P=(L,R,W,D,Q,H,C,N)$, the local $\NameCert_{\ProdUp}$ obligation surface consists exactly of left and right component admission, the shared $\StreamNameUp$ window of \autoref{ch:concrete-instances-streamname-namecert}, the $\DyadicRatCoreUp$ tolerance ledger, the $\RegSeqRatUp$ product readback of \autoref{ch:concrete-instances-regseqrat-namecert}, componentwise $\hsame$ transport, displayed $\Cont$ replay, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:prod-stream-window-carrier}. The rows $L$ and $R$ give the two component reads, while $W$ is the only public window through which those components are synchronized.
+
+The dyadic ledger $D$ and regular readback row $Q$ are computed from the same component windows. Componentwise transport through $H$ preserves the two component rows, and replay through $C$ exposes the same product-window route to downstream readers.
+
+The local NameCert row $N$ names this finite package. Since the carrier stores no detached product object or abstract carrier-equivalence transport, the obligations are exactly the displayed componentwise product-window rows.
+\end{proof}
+
+\begin{theorem}[Prod RegSeqRat window handoff]
+\label{thm:prod-regseqrat-window-handoff}
+Every $\RegSeqRatUp$ product-window read consumed through $\ProdUp$ factors componentwise through the shared $\StreamNameUp$ window $W$, the left and right component rows $L,R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, and the product readback row $Q$. The handoff supplies the finite product surface needed by StreamName and regular-rational consumers; it does not transport an abstract product equivalence in place of the displayed component rows.
+\end{theorem}
+\begin{proof}
+Start with a downstream $\RegSeqRatUp$ read of the product packet. The only regular rational coordinate is $Q$, and it is assembled from $L$ and $R$ over the shared request window $W$.
+
+Use $D$ to audit the component tolerances on the same window. The replay row $C$ exposes the componentwise reads and tolerance checks before the product readback is public.
+
+Transport through $H$ preserves the left row, right row, shared window, dyadic ledger, and product readback separately. Therefore the handoff remains a finite StreamName-to-RegSeqRat product-window route rather than an abstract carrier-equivalence transport.
+\end{proof}
