@@ -1,0 +1,391 @@
+\chapter{Zeta Zero Type Factorization}
+\label{ch:visions-rh-zeta-zero-type-factorization}
+\origin{ai}
+
+\autoref{ch:visions-rh-zeta-self-similar-recovered-carrier} treats zeta as
+a recovered carrier assembled from compatible analytic, arithmetic,
+completion, mirror, and zero-ledger rows. The present chapter records the
+type-theoretic form of its zero surface. A zeta zero is not a bare point of
+the complex plane. It is an inhabitant of the zero fiber of the zeta-value
+relation, together with the ledger rows that identify the value with the
+zero complex history. This chapter does not prove $\mathsf{RH}$; it
+identifies the pullback and factorization obligations consumed by the
+fixed-half section form of \autoref{ch:visions-rh-layered-translation}.
+
+\section{Zeta Zero Fiber}
+\label{sec:rh-zeta-zero-type-fiber}
+
+\begin{definition}[Zeta domain and zero object]
+\label{def:rh-zeta-zero-type-domain-zero-object}
+The zeta domain $\mathsf{ZetaDom}^{\uparrow}$ is the recovered
+continuation domain for $\ZetaContUp$, with the pole at $1$ excluded and
+with its continuation, branch, pole, and provenance ledgers displayed. The
+zero object of $\ComplexUp$ is the terminal row
+$$
+0_{\mathbb C}:\mathbf 1\to\ComplexUp,
+\qquad
+0_{\mathbb C}(*)=e_{\ComplexUp}.
+$$
+The zeta-value readout is represented internally by the relation
+$$
+\mathsf{ZetaVal}(s,z),
+$$
+with $s:\mathsf{ZetaDom}^{\uparrow}$ and $z:\ComplexUp$, rather than by an
+unledgered host function.
+\end{definition}
+
+\begin{definition}[Zeta zero type]
+\label{def:rh-zeta-zero-type}
+The zeta zero type is the pullback-like carrier
+$$
+\mathsf{ZetaZeroType}
+:=
+\sum_{s:\mathsf{ZetaDom}^{\uparrow}}
+\sum_{z:\ComplexUp}
+\bigl(
+\mathsf{ZetaVal}(s,z)
+\times
+z\sim_{\ComplexUp}e_{\ComplexUp}
+\bigr).
+$$
+It is the BEDC zero fiber
+$$
+\mathsf{ZetaDom}^{\uparrow}
+\times_{\ComplexUp}
+\mathbf 1
+$$
+read through the available $\mathsf{ZetaVal}$ witness relation. Its
+classifier identifies two inhabitants when their source rows are classified
+together and their displayed value witnesses agree at the zero complex
+history.
+\end{definition}
+
+\begin{definition}[Zero projections]
+\label{def:rh-zeta-zero-type-projections}
+The source and value projections are
+$$
+\pi_s:\mathsf{ZetaZeroType}\to\mathsf{ZetaDom}^{\uparrow},
+\qquad
+\pi_z:\mathsf{ZetaZeroType}\to\ComplexUp,
+$$
+with
+$$
+\pi_s(s,z,v,\epsilon)=s,
+\qquad
+\pi_z(s,z,v,\epsilon)=z.
+$$
+They are projections from a witness-bearing fiber, not forgetful maps from
+a host-side zero set.
+\end{definition}
+
+\begin{theorem}[Zeta zero type is the zero fiber]
+\label{thm:rh-zeta-zero-type-zero-fiber}
+The carrier $\mathsf{ZetaZeroType}$ is equivalent, in the licensed
+classifier sense, to the zero fiber of the zeta-value readout.
+\end{theorem}
+
+\begin{proof}
+The zero fiber of the zeta-value readout is the dependent carrier of
+source rows $s$ whose zeta value is classified with the zero complex
+history. In BEDC this assertion is represented by a displayed value row
+$z:\ComplexUp$, a witness $\mathsf{ZetaVal}(s,z)$, and a classifier row
+$z\sim_{\ComplexUp}e_{\ComplexUp}$. Expanding the dependent carrier gives
+exactly \autoref{def:rh-zeta-zero-type}. The classifier is the same
+source-and-value witness compatibility used by the zero ledger.
+\end{proof}
+
+\section{Non-Trivial and Fixed-Half Subtypes}
+\label{sec:rh-zeta-zero-type-subtypes}
+
+\begin{definition}[Non-trivial zero type]
+\label{def:rh-zeta-zero-type-nontrivial}
+The non-trivial zero type is the displayed subtype
+$$
+\mathsf{NTZeroType}
+:=
+\sum_{u:\mathsf{ZetaZeroType}}
+\mathsf{InCritStrip}(\pi_s(u)).
+$$
+It is the type-theoretic form of the RH source carrier
+$\mathcal Z_{\zeta}$ in \autoref{def:rh-layered-source-carrier}.
+\end{definition}
+
+\begin{definition}[Fixed-half zero type]
+\label{def:rh-zeta-zero-type-fixed-half}
+The fixed-half zero type is
+$$
+\mathsf{FixedHalfZeroType}
+:=
+\sum_{u:\mathsf{NTZeroType}}
+\mathsf{OnCritLine}(\pi_s(u)).
+$$
+The projection
+$$
+\iota:\mathsf{FixedHalfZeroType}\to\mathsf{NTZeroType}
+$$
+forgets only the fixed-half witness and retains the zero and
+critical-strip ledgers.
+\end{definition}
+
+\begin{theorem}[RH is fixed-half subtype coverage]
+\label{thm:rh-zeta-zero-type-rh-fixed-half-coverage}
+The BEDC-RH predicate of \autoref{def:rh-predicate} is equivalent to a
+section of
+$$
+\iota:\mathsf{FixedHalfZeroType}\to\mathsf{NTZeroType}.
+$$
+\end{theorem}
+
+\begin{proof}
+An element of $\mathsf{NTZeroType}$ is a zeta-zero witness together with a
+critical-strip witness. A section of $\iota$ assigns to every such element
+an additional witness of $\mathsf{OnCritLine}$ for the same source row.
+This is exactly the dependent function required by
+\autoref{def:rh-predicate}. Conversely, any inhabitant of the BEDC-RH
+predicate sends an element of $\mathsf{NTZeroType}$ to the same element
+paired with its critical-line witness, producing a section.
+\end{proof}
+
+\section{Zero Generators}
+\label{sec:rh-zeta-zero-generators}
+
+\begin{definition}[Zeta zero generator]
+\label{def:rh-zeta-zero-generator}
+For a licensed carrier $A$, a zeta zero generator is a licensed morphism
+$$
+G:A\to\mathsf{ZetaDom}^{\uparrow}
+$$
+together with a zero-value witness family
+$$
+\theta_G(a):
+\sum_{z:\ComplexUp}
+\bigl(
+\mathsf{ZetaVal}(G(a),z)
+\times
+z\sim_{\ComplexUp}e_{\ComplexUp}
+\bigr).
+$$
+The generator is legal only when the carrier, classifier, stability,
+ledger, transport, and $\NameCert$ rows for $A$ and the displayed morphism
+are present.
+\end{definition}
+
+\begin{definition}[Induced zero map]
+\label{def:rh-zeta-zero-induced-map}
+The zero generator $G$ induces
+$$
+\overline G:A\to\mathsf{ZetaZeroType}
+$$
+by sending $a$ to the tuple
+$$
+\bigl(G(a),z_a,v_a,\epsilon_a\bigr)
+$$
+read from $\theta_G(a)=(z_a,v_a,\epsilon_a)$.
+\end{definition}
+
+\begin{theorem}[Zero generators factor through the zero type]
+\label{thm:rh-zeta-zero-generator-factorization}
+Every legal zeta zero generator factors through
+$\mathsf{ZetaZeroType}$, and the factorization is unique up to the
+zero-type classifier.
+\end{theorem}
+
+\begin{proof}
+The witness family $\theta_G$ gives exactly the data required by
+\autoref{def:rh-zeta-zero-type}: a source row, a zeta-value row, and a
+zero classifier row. Hence it defines $\overline G$. If another map
+$H:A\to\mathsf{ZetaZeroType}$ has the same source projection and the same
+zero-value witness ledger, then the zero-type classifier identifies
+$H(a)$ with $\overline G(a)$ for every $a$. This is the classifier form of
+the pullback universal property.
+\end{proof}
+
+\begin{corollary}[Legal generators share the zero fiber]
+\label{cor:rh-zeta-zero-generators-share-zero-fiber}
+Any two legal zeta zero generators are maps into the same
+$\mathsf{ZetaZeroType}$ after applying their induced zero maps. They may
+present different subcarriers, but their zero status is typed through the
+same zero fiber.
+\end{corollary}
+
+\section{Canonical Presentations and Compatibility}
+\label{sec:rh-zeta-zero-type-canonical-presentations}
+
+\begin{definition}[Canonical zero presentation]
+\label{def:rh-zeta-zero-canonical-presentation}
+A canonical presentation of $\mathsf{ZetaZeroType}$ is a licensed map
+$$
+P:A\to\mathsf{ZetaZeroType}
+$$
+such that:
+$$
+a\sim_A a'
+\to
+P(a)\sim_{\mathsf{Zero}}P(a'),
+$$
+$$
+\prod_{u:\mathsf{ZetaZeroType}}
+\sum_{a:A}P(a)\sim_{\mathsf{Zero}}u,
+$$
+and
+$$
+P(a)\sim_{\mathsf{Zero}}P(a')
+\to
+a\sim_A a'.
+$$
+Thus $P$ is an equivalence of licensed presentations, not merely a
+surjective listing of complex coordinates.
+\end{definition}
+
+\begin{theorem}[Canonical zero presentations are unique up to equivalence]
+\label{thm:rh-zeta-zero-canonical-presentations-equivalent}
+If $P:A\to\mathsf{ZetaZeroType}$ and
+$Q:B\to\mathsf{ZetaZeroType}$ are canonical presentations, then $A$ and
+$B$ are equivalent licensed presentations of the same zero type.
+\end{theorem}
+
+\begin{proof}
+By canonicity, $P$ is full on zero-type rows and faithful to the source
+classifier, so it presents $A$ as an equivalent carrier for
+$\mathsf{ZetaZeroType}$. The same argument applies to $Q$ and $B$.
+Composing one equivalence with the inverse of the other yields the
+licensed equivalence between $A$ and $B$.
+\end{proof}
+
+\begin{definition}[Compatible zero generators]
+\label{def:rh-zeta-zero-compatible-generators}
+Two zero generators are compatible when their induced maps into
+$\mathsf{ZetaZeroType}$ factor through a common canonical presentation
+after licensed equivalence of their source carriers. They are incompatible
+when no such common presentation and equivalence data are supplied.
+\end{definition}
+
+\begin{corollary}[Incompatible canonical generators cannot present one zero type]
+\label{cor:rh-zeta-zero-incompatible-canonical-generators}
+Two incompatible generators cannot both be canonical presentations of the
+same $\mathsf{ZetaZeroType}$.
+\end{corollary}
+
+\begin{proof}
+If both were canonical presentations of the same zero type, then
+\autoref{thm:rh-zeta-zero-canonical-presentations-equivalent} would supply
+the common equivalence data required by
+\autoref{def:rh-zeta-zero-compatible-generators}. This contradicts
+incompatibility.
+\end{proof}
+
+\section{Zero and Apart-Zero Conflict}
+\label{sec:rh-zeta-zero-apart-conflict}
+
+\begin{definition}[Same-source zero and apart-zero rows]
+\label{def:rh-zeta-zero-same-source-apart-conflict}
+A same-source zero and apart-zero conflict consists of a source row
+$s:\mathsf{ZetaDom}^{\uparrow}$, a zero witness
+$$
+(z,v,\epsilon):
+\sum_{z:\ComplexUp}
+\bigl(
+\mathsf{ZetaVal}(s,z)
+\times
+z\sim_{\ComplexUp}e_{\ComplexUp}
+\bigr),
+$$
+and an apart-zero witness
+$$
+\mathsf{Apart}_{0}(\zeta(s)).
+$$
+Both witnesses must be read through the same zeta-value ledger for the
+conflict to be typed.
+\end{definition}
+
+\begin{theorem}[Same-source zero and apart-zero conflict is impossible]
+\label{thm:rh-zeta-zero-apart-conflict-impossible}
+A same-source zero and apart-zero conflict yields $\bot$.
+\end{theorem}
+
+\begin{proof}
+The zero witness supplies a value row $\mathsf{ZetaVal}(s,z)$ and a
+classifier row $z\sim_{\ComplexUp}e_{\ComplexUp}$. The apart-zero witness
+asserts that the same zeta value is positively separated from the zero
+complex history. Since the zeta-value ledger identifies fixed-source
+values up to the complex classifier, the same value cannot be both
+classified with zero and apart from zero. Hence the conflict yields
+$\bot$.
+\end{proof}
+
+\begin{principle}[Type-theoretic skeleton of defect-zero incompatibility]
+\label{prin:rh-zeta-zero-type-defect-zero-skeleton}
+The local-global target of
+\autoref{def:rh-defect-zero-incompatibility} has this type-theoretic
+skeleton: a prime-window or bulk-boundary defect route may contradict a
+zero packet only after it produces an apart-zero witness for the same
+source row and the same zeta-value ledger.
+\end{principle}
+
+\section{Omega Factorization}
+\label{sec:rh-zeta-zero-omega-factorization}
+
+\begin{definition}[Omega non-trivial zero carrier]
+\label{def:rh-zeta-zero-omega-nontrivial-carrier}
+For an $\Omega$ tower with zeta projection
+$$
+\pi_{\zeta}:T_{\Omega}\to\mathsf{ZetaDom}^{\uparrow},
+$$
+the Omega non-trivial zero carrier is
+$$
+T_{\Omega}^{nt0}
+:=
+\sum_{x:T_{\Omega}}
+\left(
+\mathsf{ZetaZero}(\pi_{\zeta}(x))
+\times
+\mathsf{InCritStrip}(\pi_{\zeta}(x))
+\right).
+$$
+\end{definition}
+
+\begin{theorem}[Omega zero carrier factors through the non-trivial zero type]
+\label{thm:rh-zeta-zero-omega-factors-through-ntzero}
+The projection $\pi_{\zeta}$ restricted to $T_{\Omega}^{nt0}$ factors
+through $\mathsf{NTZeroType}$.
+\end{theorem}
+
+\begin{proof}
+An element of $T_{\Omega}^{nt0}$ is a tower row $x$ together with a
+zeta-zero witness and a critical-strip witness for $\pi_{\zeta}(x)$.
+Expanding \autoref{def:rh-zeta-zero-type-nontrivial}, this is precisely an
+element of $\mathsf{NTZeroType}$ over the source
+$\pi_{\zeta}(x)$. The factorization is unique up to the displayed subtype
+classifier.
+\end{proof}
+
+\begin{theorem}[Fixed-half factorization is an RH sufficient interface]
+\label{thm:rh-zeta-zero-fixed-half-factorization-sufficient}
+If the factorization of $T_{\Omega}^{nt0}$ through
+$\mathsf{NTZeroType}$ further factors through
+$\mathsf{FixedHalfZeroType}$, and every legal non-trivial zeta-zero packet
+is represented by some row of $T_{\Omega}^{nt0}$, then the BEDC-RH
+predicate holds.
+\end{theorem}
+
+\begin{proof}
+Let $u:\mathsf{NTZeroType}$. By representation, choose a row
+$x:T_{\Omega}^{nt0}$ whose zeta projection is classified with the source
+of $u$ and whose zero and critical-strip witnesses transport to those of
+$u$. Fixed-half factorization gives
+$\mathsf{OnCritLine}(\pi_{\zeta}(x))$. Classifier stability of
+$\mathsf{OnCritLine}$ transports this witness to $\pi_s(u)$. Since this
+holds for every $u:\mathsf{NTZeroType}$,
+\autoref{thm:rh-zeta-zero-type-rh-fixed-half-coverage} yields the BEDC-RH
+predicate.
+\end{proof}
+
+\begin{principle}[Status of zero-type factorization]
+\label{prin:rh-zeta-zero-type-factorization-status}
+Zero-type factorization clarifies where uniqueness and incompatibility
+live: legal zero generators factor through the same zero fiber, canonical
+presentations are unique up to licensed equivalence, and a contradiction
+requires same-source zero and apart-zero witnesses. The remaining RH
+content is the construction of the fixed-half factorization, not the
+existence of the zero type itself.
+\end{principle}

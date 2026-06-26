@@ -1,0 +1,319 @@
+{
+  "arm_protocol": {
+    "arms": [
+      "covariance_proxy_current",
+      "true_sigreg_sliced_cf",
+      "vicreg_like_covariance",
+      "alignment_only"
+    ],
+    "covariance_proxy_arm": "covariance_proxy_current",
+    "exact_arm_count": 4,
+    "sigreg_objective_arm": "true_sigreg_sliced_cf"
+  },
+  "arm_summaries": {
+    "alignment_only": {
+      "alignment_mean": 2.88659397626167e-05,
+      "alignment_std": 1.3819676702851463e-05,
+      "loss_mean": 3.108109255360129e-05,
+      "seed_count": 3,
+      "sigreg_sliced_cf_mean": 0.05616179775439606,
+      "sigreg_sliced_cf_std": 0.027767451155354204
+    },
+    "covariance_proxy_current": {
+      "alignment_mean": 0.3201364228031397,
+      "alignment_std": 0.09221118024775762,
+      "loss_mean": 0.2579834808905919,
+      "seed_count": 3,
+      "sigreg_sliced_cf_mean": 0.06582334711027732,
+      "sigreg_sliced_cf_std": 0.02295769626467304
+    },
+    "true_sigreg_sliced_cf": {
+      "alignment_mean": 0.005498681024162271,
+      "alignment_std": 0.0026469432861089223,
+      "loss_mean": 0.012737150396986063,
+      "seed_count": 3,
+      "sigreg_sliced_cf_mean": 0.026180022089373107,
+      "sigreg_sliced_cf_std": 0.006414170402314913
+    },
+    "vicreg_like_covariance": {
+      "alignment_mean": 0.23469855489735872,
+      "alignment_std": 0.07790678827973053,
+      "loss_mean": 0.1928772379954656,
+      "seed_count": 3,
+      "sigreg_sliced_cf_mean": 0.07944820269278365,
+      "sigreg_sliced_cf_std": 0.03251803562205955
+    }
+  },
+  "artifact_id": "bedc-quality-lab:sigreg-training-proxy",
+  "claim_capsule": {
+    "artifact_id": "bedc-quality-lab:sigreg-training-proxy:claim-capsule",
+    "claim_status": "d1-pointer-accepted",
+    "failed_gate": null,
+    "forbidden_claim_term_audit": {
+      "forbidden_positive_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "hits": [],
+      "status": "pass"
+    },
+    "generated_at": "2026-06-04T09:41:31.702811+00:00",
+    "hardgates": {
+      "D1-HG1": {
+        "evidence": "real training records exist for true_sigreg_sliced_cf",
+        "record_count": 3,
+        "status": "pass"
+      },
+      "D1-HG2": {
+        "evidence": "SIGReg objective and covariance proxy are separate arms and separate metrics",
+        "status": "pass"
+      },
+      "D1-HG3": {
+        "status": "pass",
+        "tradeoff": {
+          "ledger": "recorded",
+          "sigreg_hurts_alignment_vs_alignment_only": true,
+          "sigreg_improves_gaussianity_vs_alignment_only": true
+        }
+      },
+      "D1-HG4": {
+        "full_lejepa_claim": false,
+        "full_sweep_requirements": {
+          "2D mixings": false,
+          "distribution sweep": false,
+          "grid": false
+        },
+        "status": "pass"
+      },
+      "D1-HG5": {
+        "evidence": "positive claim cell has no forbidden full-scope terms",
+        "forbidden_positive_claim_terms": [
+          "full-lejepa",
+          "global-quality",
+          "full-tensor-namecert",
+          "llm-behavior"
+        ],
+        "hits": [],
+        "status": "pass"
+      }
+    },
+    "not_claimed": [
+      "global model quality",
+      "full LeJEPA reproduction",
+      "full TensorNameCert",
+      "LLM behavior quality",
+      "mechanism closure unless D5-M gate passes"
+    ],
+    "positive_claim": {
+      "level": "D1",
+      "scope": "lab-local Gaussian-OU toy encoder training proxy",
+      "text": "D1 SIGReg training proxy separates the true sliced-CF objective from covariance proxy reporting."
+    },
+    "result_snapshot": {
+      "alignment_only": {
+        "alignment_mean": 2.88659397626167e-05,
+        "alignment_std": 1.3819676702851463e-05,
+        "loss_mean": 3.108109255360129e-05,
+        "seed_count": 3,
+        "sigreg_sliced_cf_mean": 0.05616179775439606,
+        "sigreg_sliced_cf_std": 0.027767451155354204
+      },
+      "covariance_proxy_current": {
+        "alignment_mean": 0.3201364228031397,
+        "alignment_std": 0.09221118024775762,
+        "loss_mean": 0.2579834808905919,
+        "seed_count": 3,
+        "sigreg_sliced_cf_mean": 0.06582334711027732,
+        "sigreg_sliced_cf_std": 0.02295769626467304
+      },
+      "true_sigreg_sliced_cf": {
+        "alignment_mean": 0.005498681024162271,
+        "alignment_std": 0.0026469432861089223,
+        "loss_mean": 0.012737150396986063,
+        "seed_count": 3,
+        "sigreg_sliced_cf_mean": 0.026180022089373107,
+        "sigreg_sliced_cf_std": 0.006414170402314913
+      }
+    },
+    "revocation": {
+      "conditions": [
+        "revoke if the true SIGReg arm cannot be rerun as a training objective",
+        "revoke if covariance proxy and SIGReg objective are collapsed into one reported arm",
+        "revoke if alignment tradeoff evidence is withdrawn"
+      ],
+      "status": "revocable"
+    },
+    "run_id": "d1-smoke",
+    "schema_id": "bedc.quality.claim_capsule",
+    "source_artifacts": {
+      "cost_protocol": "configs/default_cost_protocol.yaml",
+      "summary": "reports/runs/d1-smoke/summary.json"
+    },
+    "summary_pointer": "$.d1_evidence",
+    "what_was_learned": "The lab-local producer can run a real SIGReg sliced-CF training objective and ledger its alignment tradeoff."
+  },
+  "claim_gate": {
+    "status": "pass",
+    "training_audit_improvement_tradeoff": true
+  },
+  "config": {
+    "arms": [
+      "covariance_proxy_current",
+      "true_sigreg_sliced_cf",
+      "vicreg_like_covariance",
+      "alignment_only"
+    ],
+    "directions": 16,
+    "frequencies": [
+      0.5,
+      1.0,
+      1.5,
+      2.0,
+      2.5
+    ],
+    "lambda_sigreg": 0.35,
+    "learning_rate": 0.002,
+    "rho": 0.82,
+    "sample_count": 192,
+    "seeds": [
+      17,
+      29,
+      41
+    ],
+    "steps": 28
+  },
+  "d1_evidence": {
+    "covariance_proxy_pointer": "$.arm_summaries.covariance_proxy_current",
+    "d1_hardgates": {
+      "D1-HG1": {
+        "evidence": "real training records exist for true_sigreg_sliced_cf",
+        "record_count": 3,
+        "status": "pass"
+      },
+      "D1-HG2": {
+        "evidence": "SIGReg objective and covariance proxy are separate arms and separate metrics",
+        "status": "pass"
+      },
+      "D1-HG3": {
+        "status": "pass",
+        "tradeoff": {
+          "ledger": "recorded",
+          "sigreg_hurts_alignment_vs_alignment_only": true,
+          "sigreg_improves_gaussianity_vs_alignment_only": true
+        }
+      },
+      "D1-HG4": {
+        "full_lejepa_claim": false,
+        "full_sweep_requirements": {
+          "2D mixings": false,
+          "distribution sweep": false,
+          "grid": false
+        },
+        "status": "pass"
+      },
+      "D1-HG5": {
+        "evidence": "positive claim cell has no forbidden full-scope terms",
+        "forbidden_positive_claim_terms": [
+          "full-lejepa",
+          "global-quality",
+          "full-tensor-namecert",
+          "llm-behavior"
+        ],
+        "hits": [],
+        "status": "pass"
+      }
+    },
+    "debt_delta": -1.0,
+    "sigreg_objective_pointer": "$.arm_summaries.true_sigreg_sliced_cf",
+    "tradeoff_pointer": "$.d1_evidence.d1_hardgates.D1-HG3.tradeoff"
+  },
+  "failed_gate": null,
+  "forbidden_claim_term_audit": {
+    "forbidden_positive_claim_terms": [
+      "full-lejepa",
+      "global-quality",
+      "full-tensor-namecert",
+      "llm-behavior"
+    ],
+    "hits": [],
+    "status": "pass"
+  },
+  "full_lejepa_boundary": {
+    "claim": false,
+    "required_to_claim": [
+      "2D mixings",
+      "grid",
+      "distribution sweep"
+    ]
+  },
+  "generated_at": "2026-06-04T09:41:31.702811+00:00",
+  "hardgate": {
+    "failed_gate": null,
+    "status": "pass"
+  },
+  "json_artifact": "reports/canonical/sigreg-training-proxy.json",
+  "markdown_artifact": "reports/canonical/sigreg-training-proxy.md",
+  "not_claimed": [
+    "global model quality",
+    "full LeJEPA reproduction",
+    "full TensorNameCert",
+    "LLM behavior quality",
+    "mechanism closure unless D5-M gate passes"
+  ],
+  "objective": {
+    "id": "sigreg_sliced_cf_training_proxy",
+    "implemented_for_arm": "true_sigreg_sliced_cf",
+    "lambda": 0.35,
+    "loss": "(1-lambda)*alignment + lambda*sigreg_sliced_cf"
+  },
+  "result": {
+    "claim_capsule_status": "d1-pointer-accepted",
+    "discovery_level": "D1",
+    "status": "d1-pointer-accepted",
+    "terminal_verdict": "d1-pointer-accepted"
+  },
+  "result_snapshot": {
+    "alignment_only": {
+      "alignment_mean": 2.88659397626167e-05,
+      "alignment_std": 1.3819676702851463e-05,
+      "loss_mean": 3.108109255360129e-05,
+      "seed_count": 3,
+      "sigreg_sliced_cf_mean": 0.05616179775439606,
+      "sigreg_sliced_cf_std": 0.027767451155354204
+    },
+    "covariance_proxy_current": {
+      "alignment_mean": 0.3201364228031397,
+      "alignment_std": 0.09221118024775762,
+      "loss_mean": 0.2579834808905919,
+      "seed_count": 3,
+      "sigreg_sliced_cf_mean": 0.06582334711027732,
+      "sigreg_sliced_cf_std": 0.02295769626467304
+    },
+    "true_sigreg_sliced_cf": {
+      "alignment_mean": 0.005498681024162271,
+      "alignment_std": 0.0026469432861089223,
+      "loss_mean": 0.012737150396986063,
+      "seed_count": 3,
+      "sigreg_sliced_cf_mean": 0.026180022089373107,
+      "sigreg_sliced_cf_std": 0.006414170402314913
+    }
+  },
+  "run_artifacts": {
+    "claim_capsule": "reports/runs/d1-smoke/claim_capsule.json",
+    "raw_metrics": "reports/runs/d1-smoke/raw_metrics.jsonl",
+    "report": "reports/runs/d1-smoke/report.md",
+    "result_snapshot": "reports/runs/d1-smoke/result_snapshot.json",
+    "summary": "reports/runs/d1-smoke/summary.json"
+  },
+  "run_id": "d1-smoke",
+  "schema_id": "bedc-quality-lab:sigreg-training-proxy",
+  "source_artifacts": {
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "producer": "scripts/run_sigreg_training_proxy.py",
+    "sliced_cf_probe": "scripts/run_sigreg_gaussianity_reproduction.py:SlicedCFGaussianityProbe",
+    "training_reference": "scripts/run_gaussian_ou_lejepa.py"
+  },
+  "what_was_learned": "The lab-local producer can run a real SIGReg sliced-CF training objective and ledger its alignment tradeoff."
+}

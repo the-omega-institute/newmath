@@ -1,0 +1,29 @@
+\subsection{Age-clock shift robustness in paired GSE142439 methylation arrays}\label{subsec:age-clock-shift-gse142439-cross-cell-type-robustness}
+\origin{ai}
+
+\paragraph{Finite record.}
+This BioReality record concerns the claim $\mathrm{AgeClockShiftUp}$ for the frozen paired methylation-array packet indexed by $\mathrm{GSE142439}$ and scored against the Horvath353 methylation clock.  The carrier is
+$$
+\begin{aligned}
+B_R=(M,W,P,S_A,\Delta_A,C,L,N),
+\end{aligned}
+$$
+where $M$ is the frozen methylation beta matrix restricted to covered Horvath353 CpG coordinates, $W$ is the Horvath353 coefficient table together with its intercept, $P$ is the finite set of eight normal/treated donor pairs, $S_A$ is the Horvath DNAm-age readback, $\Delta_A$ is the treated-minus-normal paired age difference, $C$ is the collection of descriptive robustness checks over cell-type strata and leave-one-donor-out subsets, $L=\mathrm{age\_signature}$ is the layer label, and $N$ is the explicit non-promotion boundary attached to this record.  The source contact $\mathrm{k\mbox{-}a.gse142439.horvath353}$ reports sixteen methylation-array samples arranged into eight normal/treated pairs.  The clock coverage is $334$ covered Horvath CpGs out of the $353$ CpGs in the coefficient table on the GPL21145 EPIC platform, so the finite readback is an age-signature computation rather than a complete biological-state assay.
+
+\paragraph{Readback rule.}
+For each sample, the DNAm-age score is obtained by applying the Horvath353 weights and intercept to the covered methylation beta values in $M$.  For each donor pair $p\in P$, the paired contrast is
+$$
+\begin{aligned}
+\Delta_A(p)=S_A(\mathrm{treated}(p))-S_A(\mathrm{normal}(p)).
+\end{aligned}
+$$
+The claim is not that every single pair has a negative contrast.  The finite robustness test used here is weaker and more specific: the treated-minus-normal mean must be negative in both named cell-type strata, SkinFibroblasts and VeinEndothelialCells, and the overall mean must remain negative after removing each donor once.  Thus the acceptance condition is a sign-stability condition over a finite table of paired clock contrasts, not an inference about cellular identity, causal mechanism, or organismal aging.
+
+\paragraph{Observed finite support.}
+The verified run $\mathrm{1dcb9e0005df}$ for experiment $\mathrm{gse142439\_horvath353\_age\_clock\_shift\_robustness}$ records $\mathrm{support}=\mathrm{true}$ and verdict $\mathrm{directionally\_robust}$ for the linked fact $\mathrm{cellstate.age\mbox{-}clock\mbox{-}shift.robustness.gse142439}$.  In the terminology of this chapter, that means the finite data passed the two stated sign checks: the SkinFibroblasts stratum had a negative mean paired DNAm-age delta, the VeinEndothelialCells stratum had a negative mean paired DNAm-age delta, and all eight leave-one-donor-out overall means remained negative.  The timestamp on the verified fact is $2026\mbox{-}06\mbox{-}10\mathrm{T}14{:}39{:}32{+}00{:}00$.  No scalar p-value, confidence interval, per-stratum sample count beyond the stated finite pairing, or individual donor-level delta is supplied in this row, so the chapter records directional finite support rather than a distributional significance claim.
+
+\paragraph{Layer restriction.}
+The only layer tested by the contact is $\mathrm{age\_signature}$.  The measured object is a methylation-array clock score on covered CpG coordinates, and the resolution consists of CpG-level beta values, coefficient weights, intercept, sample annotations, and person-level normal/treated pairing.  Because the contact cannot test cell identity, function realization, safety boundary, renewable maintenance, organismal maintenance, or cross-layer relations, the result remains confined to clock-signature behavior.  In particular, a negative and leave-one-out-stable DNAm-age shift does not by itself show translation into another measurement modality, folding or structural state, physical admissibility of an intervention, realized cellular function, mechanism of action, or universality across datasets, platforms, tissues, laboratories, donors, or time.  Any such stronger statement would require a separate layer-matched contact with its own finite observations.
+
+\paragraph{Non-promotion boundary.}
+The positive robustness verdict is therefore deliberately narrow.  It licenses the statement that this frozen GSE142439/Horvath353 packet is directionally robust as an age-signature shift under the stated paired and leave-one-donor-out checks.  It does not license $\mathrm{IdentityPreservingAgeResetUp}$, $\mathrm{RejuvenationUp}$, $\mathrm{PartialReprogrammingUp}$, $\mathrm{RenewableMaintenanceUp}$, or $\mathrm{ImmortalityPotentialUp}$.  It also does not establish safety, functional restoration, renewal over time, organismal maintenance, causal necessity, causal sufficiency, or cross-cell-type universality beyond the two strata explicitly named in the finite packet.  If either cell-type stratum had a nonnegative mean paired DNAm-age delta, or if any leave-one-donor-out overall mean had become nonnegative, this record would be classified as needing additional data rather than directionally robust.  Since the recorded verified fact reports support and a directionally robust verdict, the present chapter keeps the claim as a finite age-signature robustness record with no promotion outside that layer.

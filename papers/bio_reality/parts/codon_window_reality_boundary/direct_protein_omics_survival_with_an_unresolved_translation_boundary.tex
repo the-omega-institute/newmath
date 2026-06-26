@@ -1,0 +1,48 @@
+\subsection{Direct protein-omics survival with an unresolved translation boundary}
+\label{sec:q6-direct-protein-omics-survival-with-translation-boundary-cross-layer}
+
+\paragraph{Finite carrier.}
+This record uses a finite CDS-by-organism table in which each row carries coding-sequence counts, amino-acid composition, length, GC3, an M-density baseline, nine synonymous residual coordinates from the $B^*_{Q6}$ projection, and a measured protein-abundance readout.  The nine residual coordinates are
+$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.
+They are interpreted only after the amino-acid quotient has already removed the ordinary amino-acid-composition axis.  The protein readout is $\log_{10}(\mathrm{abundance\ ppm})$ from measured PAXdb protein abundance joined to real CDS codon counts.  The fitted control block has 24 columns before rank reduction, with rank $23$ in every listed organism, and the residualized coordinate block has rank $9$ in every listed organism.  Thus the observed protein-abundance contact is not a three-row saturation artifact: the residual degrees of freedom after controls range from $1633$ in \emph{Sulfolobus solfataricus} to $19372$ in mouse.
+
+\paragraph{Controlled protein-omics readback.}
+For every organism in the protein-abundance contact, the controlled $Q\to P$ association is positive at the reported threshold.  The survival values are
+$$
+\begin{aligned}
+R^2_{QP}(\mathrm{B.\ subtilis}) &= 0.061906245886660105,\\
+R^2_{QP}(\mathrm{C.\ elegans}) &= 0.10217906758013379,\\
+R^2_{QP}(\mathrm{D.\ rerio}) &= 0.04613529807085213,\\
+R^2_{QP}(\mathrm{D.\ discoideum}) &= 0.08141786718177903,\\
+R^2_{QP}(\mathrm{D.\ melanogaster}) &= 0.0770952887136557,\\
+R^2_{QP}(\mathrm{E.\ coli\ K12\ MG1655}) &= 0.10767526677985896,\\
+R^2_{QP}(\mathrm{G.\ gallus}) &= 0.03980793596647631,\\
+R^2_{QP}(\mathrm{H.\ salinarum}) &= 0.019256877907572044,\\
+R^2_{QP}(\mathrm{H.\ sapiens}) &= 0.04454565118019448,\\
+R^2_{QP}(\mathrm{M.\ musculus}) &= 0.049827984062539195,\\
+R^2_{QP}(\mathrm{M.\ smegmatis}) &= 0.03209009170649934,\\
+R^2_{QP}(\mathrm{P.\ aeruginosa}) &= 0.0646471273126996,\\
+R^2_{QP}(\mathrm{R.\ norvegicus}) &= 0.02763998603083845,\\
+R^2_{QP}(\mathrm{S.\ cerevisiae}) &= 0.29837624994140827,\\
+R^2_{QP}(\mathrm{S.\ solfataricus}) &= 0.06397514251295629.
+\end{aligned}
+$$
+In each case the surviving-coordinate count is $9$, so the whole residual coordinate family retains nonzero protein-abundance association after the stated sequence-derived controls.  Join coverage is also finite and inspectable: examples include $3739$ joined proteins in \emph{E. coli} with hit rate $0.9978649586335735$, $5815$ in yeast with hit rate $0.9156038419146592$, $19053$ in human with hit rate $0.9779294769799313$, $19395$ in mouse with hit rate $0.9808334176190958$, and $1656$ in \emph{S. solfataricus} with hit rate $1.0$.  The largest protein-omics signal in this list is yeast, where $R^2_{QP}=0.29837624994140827$ after the same rank-$23$ control residualization.
+
+\paragraph{Translation boundary.}
+The protein-abundance result is a direct $Q\to P$ omics association, not a translation-mechanism result.  A separate translation-layer contact is present only in a weaker modeled form: three organisms have modeled tAI codon weights computed from GtRNAdb tRNA gene copy and dos Reis wobble weights, with all $61$ sense codons assigned nonzero raw weights after fallback count $0$ in \emph{E. coli}, human, and yeast.  The modeled tAI bounded-coupling matrix has $81$ entries above threshold $0.01$ and maximum absolute score $3801961.031607896$, but it uses only $3$ organisms.  That finite contact is therefore classified as translation-realization modeled and underpowered, not as powered ribosome-profiling or matched protein-omics validation.  It cannot decide whether a measured translation mediator $T_j$ removes, reduces, or preserves the $q_i\to P_k$ signal.
+
+\paragraph{mRNA-side comparison.}
+Matched mRNA half-life contacts provide a useful side comparison but still do not close the translation-mediation question.  In yeast, $5085$ joined rows from the Neymotin table give
+$$
+\begin{aligned}
+R^2_{QM} &= 0.05179429044975085,\\
+R^2_{QP\mid same\ join} &= 0.2761140373962526,\\
+\cos(S^{QM},S^{QP}) &= 0.8040935468384264,\\
+p_{perm} &= 0.000999000999000999,
+\end{aligned}
+$$
+with dominant mRNA coordinate $Leu\_CUN\_vs\_UUR$ and same-join protein dominant coordinate $f3\_stress$.  In \emph{E. coli}, $2720$ joined rows at growth rate $0.40\,h^{-1}$ give $R^2_{QM}=0.02298556640056076$, $R^2_{QP\mid same\ join}=0.11632311854858134$, cosine $-0.7784923375569599$, and the same permutation value $0.000999000999000999$, with $Arg\_AGR$ dominant on both sides.  In human, $16165$ joined rows from a 54-column consensus half-life table give $R^2_{QM}=0.010503670362051522$, $R^2_{QP\mid same\ join}=0.04095215557813418$, cosine $0.6351183883924848$, and permutation value $0.000999000999000999$, with $Leu\_CUN\_vs\_UUR$ dominant for mRNA and $Arg\_AGR$ dominant for protein abundance.  These comparisons show that $B^*_{Q6}$ residuals contact both mRNA-side and protein-side measurements under the same CDS-derived controls, but they do not supply a measured $Q\to T\to P$ mediation matrix.
+
+\paragraph{Local verdict.}
+The finite protein-omics contact supports a positive controlled $Q\to P$ association across the listed organisms.  The chapter therefore records direct DNA-sequence residual predictivity for measured protein abundance.  It does not record translation realization, folding, physical admissibility, biochemical function, causal mechanism, phenotype, fitness, or universality.  Those stronger readings require their own contacts: matched ribosome or translation-efficiency readouts, matched mRNA controls in the same condition, and an explicit mediation fit showing whether the path $q_i\to T_j\to P_k$ accounts for the observed $q_i\to P_k$ association.  Until that joint table is attached, the protein-omics survival claim remains data-bearing but boundary-limited rather than mechanistically closed.

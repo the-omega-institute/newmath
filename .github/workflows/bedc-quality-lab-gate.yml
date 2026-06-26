@@ -1,0 +1,36 @@
+name: BEDC Quality Lab Gate
+
+on:
+  pull_request:
+    paths:
+      - 'papers/bedc-quality-lab/**'
+      - '.github/workflows/bedc-quality-lab-gate.yml'
+  push:
+    branches:
+      - dev
+      - paper-bedc-quality-lab
+    paths:
+      - 'papers/bedc-quality-lab/**'
+      - '.github/workflows/bedc-quality-lab-gate.yml'
+
+jobs:
+  gate:
+    name: Gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Scope
+        run: |
+          {
+            echo "This gate only runs bytecode/syntax compilation for bedc-quality-lab; it catches SyntaxError but does not execute module imports, resolve dependencies, or catch ImportError / missing dependency failures."
+            echo "It does not run GPU experiments and does not run full pytest, which is currently 67-red."
+            echo "Full experiments run locally on the 4090."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Compile BEDC quality lab
+        run: python -m compileall -q papers/bedc-quality-lab/bedc_quality_lab

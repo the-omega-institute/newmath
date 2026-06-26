@@ -1,0 +1,89 @@
+\origin{ai}
+
+\subsection{Finite Window6 Pisano Divisibility Certificate}
+\label{sec:window6-pisano-period-modp-divisibility-law}
+
+\paragraph{Carrier.}
+Let the Fibonacci numbers be the sequence $F_0,F_1,F_2,\ldots$ determined by $F_0=0$, $F_1=1$, and $F_{n+2}=F_{n+1}+F_n$ for every $n\geq 0$. For each integer $m\geq 2$, the residue-state carrier is the finite set
+$$
+\begin{aligned}
+C_m=\{0,1,\ldots,m-1\}\times\{0,1,\ldots,m-1\}.
+\end{aligned}
+$$
+The transition relation on $C_m$ is the single-valued finite relation
+$$
+\begin{aligned}
+(a,b)\longmapsto (b,a+b \bmod m).
+\end{aligned}
+$$
+Equivalently, it is the action of the companion matrix
+$$
+\begin{aligned}
+A=\begin{pmatrix}0&1\\ 1&1\end{pmatrix}
+\end{aligned}
+$$
+on residue columns, with all entries reduced modulo $m$. Starting from $(0,1)$, the $n$th state is $(F_n \bmod m,F_{n+1}\bmod m)$. Since $C_m$ is finite, the forward orbit of $(0,1)$ is eventually periodic; for the Fibonacci transition it returns to $(0,1)$, and the Pisano period $\pi(m)$ is defined here as the least integer $k>0$ such that
+$$
+\begin{aligned}
+(F_k \bmod m,F_{k+1}\bmod m)=(0,1).
+\end{aligned}
+$$
+This definition uses only a finite search through residue states.
+
+\paragraph{Window6 counting layer.}
+The finite Window6 layer records a Fibonacci counting sequence by finite sets $X_m$ with exact size
+$$
+\begin{aligned}
+|X_m|=F_{m+2}.
+\end{aligned}
+$$
+In particular the six-step layer has
+$$
+\begin{aligned}
+|X_6|=F_8=21.
+\end{aligned}
+$$
+The role of this layer in the present certificate is to fix a finite Fibonacci-counting context. The period computation itself is carried by the residue-state system $C_m$ and the transition matrix $A$ modulo each selected modulus.
+
+\paragraph{Prime partition.}
+The finite prime window is the set of primes $p<60$. It is partitioned into three cases. The first case consists of primes with $p\bmod 5\in\{1,4\}$. The second case consists of primes with $p\bmod 5\in\{2,3\}$. The remaining prime $p=5$ is treated separately as the ramified case. The predicates used by the certificate are therefore the finite predicates
+$$
+\begin{aligned}
+P_1(p)&:\quad p<60,\ p\text{ prime},\ p\bmod 5\in\{1,4\},\\
+P_2(p)&:\quad p<60,\ p\text{ prime},\ p\bmod 5\in\{2,3\},\\
+P_5(p)&:\quad p=5.
+\end{aligned}
+$$
+The finite divisibility relation asserted by the certificate is
+$$
+\begin{aligned}
+P_1(p)&\Rightarrow \pi(p)\mid (p-1),\\
+P_2(p)&\Rightarrow \pi(p)\mid 2(p+1),\\
+P_5(p)&\Rightarrow \pi(p)=20.
+\end{aligned}
+$$
+No infinitary prime theorem is asserted here. The statement is only the finite verification over the prime window $p<60$.
+
+\paragraph{Exact residue periods.}
+The certificate contains the following explicit period equalities:
+$$
+\begin{aligned}
+\pi(2)&=3, & \pi(3)&=8, & \pi(4)&=6, & \pi(5)&=20,\\
+\pi(7)&=16, & \pi(10)&=60, & \pi(11)&=10, & \pi(12)&=24.
+\end{aligned}
+$$
+Each equality is read as a finite orbit statement: after the displayed number of transition steps the state returns to $(0,1)$ modulo the chosen modulus, and no smaller positive number of steps returns it to $(0,1)$. Thus the equalities are not asymptotic estimates and do not use analytic approximation; they are exact finite identities in residue-state dynamics.
+
+\paragraph{Divisibility certificate.}
+For every prime $p<60$ with $p\bmod 5\in\{1,4\}$, the finite search verifies that $\pi(p)$ divides $p-1$. For every prime $p<60$ with $p\bmod 5\in\{2,3\}$, the same finite residue-state search verifies that $\pi(p)$ divides $2(p+1)$. At $p=5$, the separate ramified equality is $\pi(5)=20$. The certificate is therefore the finite statement
+$$
+\begin{aligned}
+&\text{for all primes }p<60,\text{ the residue class of }p\bmod 5\text{ selects the displayed divisibility branch,}\end{aligned}
+$$
+with $p=5$ handled by its exact period value.
+
+\paragraph{Witness extraction.}
+The witness is extracted by iterating the finite transition relation on $C_m$ from $(0,1)$, recording the first return time to $(0,1)$, and checking the appropriate divisibility assertion for each prime in the finite window. Because the carrier $C_m$ has $m^2$ states, this is a bounded computation for every selected modulus. The named witness file is \texttt{lean4/BEDC/Derived/Window6PisanoPeriodModP.lean}; it is cited here only as the finite formal artifact carrying the residue-state search and the displayed branch checks.
+
+\paragraph{Local boundary.}
+This chapter proves only the finite Window6 Pisano-period divisibility witness over primes below $60$ and the stated exact period equalities. It does not identify any physical fine-structure constant, does not use physical $\alpha/137$ as an input or target, does not assert numerical proximity to a physical constant, does not perform a reverse fit, does not claim a global flow law, and does not import any external interpretation beyond the finite residue-state construction unless a separate certificate supplies such data.

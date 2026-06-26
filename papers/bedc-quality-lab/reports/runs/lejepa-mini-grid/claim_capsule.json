@@ -1,0 +1,304 @@
+{
+  "artifact_id": "bedc-quality-lab:lejepa-mini-grid:claim-capsule",
+  "claim_status": "failed",
+  "failed_gate": "D2-HG2",
+  "forbidden_claim_term_audit": {
+    "forbidden_positive_claim_terms": [
+      "full-lejepa",
+      "global-quality",
+      "full-tensor-namecert",
+      "llm-behavior",
+      "mechanism-closure-unless-D5-M"
+    ],
+    "hits": [],
+    "status": "pass"
+  },
+  "generated_at": "run-local:lejepa-mini-grid",
+  "hardgates": {
+    "D2-HG1": {
+      "evidence": "default grid has exactly 300 predeclared cells",
+      "expected_record_count": 300,
+      "record_count": 300,
+      "status": "pass"
+    },
+    "D2-HG2": {
+      "best_cell_low_lambda_high_rho": true,
+      "evidence": "rho and lambda trends are read from observed metrics, not metadata-only variation",
+      "lambda_collapse_rate_increasing": false,
+      "lambda_quality_q_decreasing": false,
+      "rho_linear_identifiability_r2_increasing": false,
+      "status": "fail"
+    },
+    "D2-HG3": {
+      "evidence": "SIGReg Gaussianity and alignment tradeoff are ledgered separately",
+      "status": "pass",
+      "tradeoff": {
+        "alignment_hurt_with_lambda": false,
+        "high_lambda_alignment_loss_mean": 0.9349576371168494,
+        "high_lambda_sigreg_sliced_cf_mean": 0.030052086109823427,
+        "low_lambda_alignment_loss_mean": 0.9349576371168494,
+        "low_lambda_sigreg_sliced_cf_mean": 0.030052086109823427,
+        "recorded": true,
+        "sigreg_gaussianity_improves_with_lambda": false
+      }
+    },
+    "U-HG1": {
+      "evidence": "SIGReg sliced-CF and covariance proxy have separate fields",
+      "status": "pass"
+    },
+    "U-HG2": {
+      "full_lejepa_claim": false,
+      "required_boundary": "full LeJEPA reproduction remains not_claimed",
+      "status": "pass"
+    },
+    "U-HG3": {
+      "non_gaussian_broad_claim": "downgraded",
+      "status": "pass"
+    },
+    "U-HG4": {
+      "missing": [],
+      "not_claimed": [
+        "full LeJEPA reproduction",
+        "global model quality",
+        "full TensorNameCert",
+        "LLM behavior quality",
+        "mechanism closure unless D5-M gate passes",
+        "broad non-Gaussian mixing generalization"
+      ],
+      "required_not_claimed": [
+        "full LeJEPA reproduction",
+        "global model quality",
+        "full TensorNameCert",
+        "LLM behavior quality",
+        "mechanism closure unless D5-M gate passes",
+        "broad non-Gaussian mixing generalization"
+      ],
+      "status": "pass"
+    },
+    "U-HG5": {
+      "control_required": false,
+      "control_row_count": 1,
+      "status": "pass"
+    },
+    "U-HG6": {
+      "dn_requires_failed_gate": true,
+      "failed_gate": "D2-HG2",
+      "status": "pass",
+      "what_was_learned_present": true
+    },
+    "U-HG7": {
+      "revocation_pointer": "$.revocation.rows",
+      "revocation_row_count": 3,
+      "status": "pass"
+    },
+    "U-HG8": {
+      "forbidden_column_audit": {
+        "forbidden_columns": [
+          "positive_claim",
+          "arm_aggregates",
+          "metrics"
+        ],
+        "hits": [],
+        "status": "pass"
+      },
+      "positive_claim_audit": {
+        "forbidden_positive_claim_terms": [
+          "full-lejepa",
+          "global-quality",
+          "full-tensor-namecert",
+          "llm-behavior"
+        ],
+        "hits": [],
+        "status": "pass"
+      },
+      "projector_positive_claim_audit": {
+        "forbidden_positive_claim_terms": [
+          "full-lejepa",
+          "global-quality",
+          "full-tensor-namecert",
+          "llm-behavior",
+          "mechanism-closure-unless-D5-M"
+        ],
+        "hits": [],
+        "status": "pass"
+      },
+      "status": "pass"
+    }
+  },
+  "not_claimed": [
+    "full LeJEPA reproduction",
+    "global model quality",
+    "full TensorNameCert",
+    "LLM behavior quality",
+    "mechanism closure unless D5-M gate passes",
+    "broad non-Gaussian mixing generalization"
+  ],
+  "positive_claim": {
+    "level": "DN",
+    "scope": "run-local LeJEPA mini-grid projection",
+    "text": "D2 LeJEPA mini-grid evidence supports a lab-local lambda and rho trend under Gaussian-OU toy conditions."
+  },
+  "producer": "bedc_quality_lab.lejepa_mini_grid.LeJEPAMiniGridProjection",
+  "result_snapshot": {
+    "best_cell": {
+      "alignment_lambda": 1e-05,
+      "collapse_rate": 0.06051106423961694,
+      "linear_identifiability_r2": 0.9394889357603831,
+      "mixing": "spiral",
+      "quality_q": -0.2993107429936237,
+      "rho": 0.95,
+      "seed": 23
+    },
+    "lambda_summary": {
+      "by_alignment_lambda": {
+        "0.0001": {
+          "alignment_loss_mean": 0.9349576371168494,
+          "collapse_rate_mean": 0.0461794682264662,
+          "quality_q_mean": -0.7935932048093616,
+          "sigreg_sliced_cf_mean": 0.030052086109823427
+        },
+        "0.001": {
+          "alignment_loss_mean": 0.9349576371168494,
+          "collapse_rate_mean": 0.0461794682264662,
+          "quality_q_mean": -0.7935932048093616,
+          "sigreg_sliced_cf_mean": 0.030052086109823427
+        },
+        "0.005": {
+          "alignment_loss_mean": 0.9349576371168494,
+          "collapse_rate_mean": 0.0461794682264662,
+          "quality_q_mean": -0.7935932048093616,
+          "sigreg_sliced_cf_mean": 0.030052086109823427
+        },
+        "0.01": {
+          "alignment_loss_mean": 0.9349576371168494,
+          "collapse_rate_mean": 0.0461794682264662,
+          "quality_q_mean": -0.7935932048093616,
+          "sigreg_sliced_cf_mean": 0.030052086109823427
+        },
+        "1e-05": {
+          "alignment_loss_mean": 0.9349576371168494,
+          "collapse_rate_mean": 0.0461794682264662,
+          "quality_q_mean": -0.7935932048093616,
+          "sigreg_sliced_cf_mean": 0.030052086109823427
+        }
+      },
+      "ordered_alignment_lambdas": [
+        1e-05,
+        0.0001,
+        0.001,
+        0.005,
+        0.01
+      ]
+    },
+    "mixing_summary": {
+      "by_mixing": {
+        "parabolic": {
+          "collapse_rate_mean": 0.05441231541833529,
+          "quality_q_mean": -0.8524419151863638
+        },
+        "realnvp": {
+          "collapse_rate_mean": 0.012506489448040448,
+          "quality_q_mean": -0.8453114930857617
+        },
+        "spiral": {
+          "collapse_rate_mean": 0.07161959981302286,
+          "quality_q_mean": -0.6830262061559593
+        }
+      },
+      "mixings": [
+        "spiral",
+        "parabolic",
+        "realnvp"
+      ],
+      "non_gaussian_broad_claim": "downgraded"
+    },
+    "rho_summary": {
+      "by_rho": {
+        "0.5": {
+          "linear_identifiability_r2_mean": 0.9538205317735339,
+          "quality_q_mean": -0.837293000879366
+        },
+        "0.7": {
+          "linear_identifiability_r2_mean": 0.9538205317735339,
+          "quality_q_mean": -0.8212509019096911
+        },
+        "0.9": {
+          "linear_identifiability_r2_mean": 0.9538205317735339,
+          "quality_q_mean": -0.7689323131394871
+        },
+        "0.95": {
+          "linear_identifiability_r2_mean": 0.9538205317735339,
+          "quality_q_mean": -0.7468966033089023
+        }
+      },
+      "ordered_rhos": [
+        0.5,
+        0.7,
+        0.9,
+        0.95
+      ]
+    }
+  },
+  "revocation": {
+    "rows": [
+      {
+        "active": false,
+        "condition": "revoke if the mini-grid records are not reproducible from the run artifact raw rows",
+        "status": "armed"
+      },
+      {
+        "active": true,
+        "condition": "revoke if SIGReg sliced-CF and covariance proxy reporting are collapsed into one metric",
+        "status": "armed"
+      },
+      {
+        "active": true,
+        "condition": "revoke any D2 reading when the lambda or rho trend hardgate fails",
+        "status": "armed"
+      }
+    ],
+    "status": "revocable"
+  },
+  "run_id": "lejepa-mini-grid",
+  "run_local": {
+    "negative_witness": [
+      {
+        "bedc_gap_field": "lambda_rho_trend_gap",
+        "demotion_rule": "demote_to_DN_on_D2_HG2_failure",
+        "evidence_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.hardgates.D2-HG2",
+        "reason": "D2-HG2 records failed lambda/rho trend evidence for the LeJEPA mini-grid claim capsule.",
+        "regression_test": "tests/test_lejepa_mini_grid.py::test_lejepa_run_local_negative_witness_records_d2_hg2_failure",
+        "source_artifact": "reports/runs/lejepa-mini-grid/claim_capsule.json",
+        "source_pointer": "$.failed_gate",
+        "status": "fail",
+        "witness_id": "lejepa-mini-grid:lambda-rho-trend-hardgate-failure"
+      }
+    ],
+    "negative_witness_hardgates": {
+      "failed_gates": [],
+      "gates": {
+        "NW-HG1": {
+          "evidence_pointer": "$.run_local.negative_witness.0",
+          "status": "pass"
+        },
+        "NW-HG2": {
+          "evidence_pointer": "$.failed_gate",
+          "status": "pass"
+        },
+        "NW-HG3": {
+          "evidence_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.hardgates.D2-HG2",
+          "status": "pass"
+        }
+      },
+      "status": "pass"
+    }
+  },
+  "run_local_schema_id": "bedc.quality.claim_capsule.run_local",
+  "schema_id": "bedc.quality.claim_capsule",
+  "source_artifacts": {
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "raw_metrics": "reports/runs/lejepa-mini-grid/raw_metrics.jsonl",
+    "summary": "reports/runs/lejepa-mini-grid/summary.json"
+  },
+  "what_was_learned": "The mini-grid recorded a failed gate without promoting a positive claim."
+}

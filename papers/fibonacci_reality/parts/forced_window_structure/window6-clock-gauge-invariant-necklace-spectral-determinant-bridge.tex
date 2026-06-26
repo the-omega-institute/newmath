@@ -1,0 +1,108 @@
+\origin{ai}
+
+\subsection{Forced-window necklace determinant bridge}
+\label{sec:window6-clock-gauge-invariant-necklace-spectral-determinant-bridge}
+
+\paragraph{Finite carrier.}
+The construction starts from the weighted two-state golden transfer matrix
+$$
+\begin{aligned}
+T(y)=\begin{pmatrix}1&y\\1&0\end{pmatrix}.
+\end{aligned}
+$$
+The variable $x$ records period and the variable $y$ records the weight carried by the upper-right transition. The spectral determinant of this carrier is computed directly from the $2\times 2$ matrix:
+$$
+\begin{aligned}
+\det(I-xT(y))=1-x-yx^2.
+\end{aligned}
+$$
+All later objects in this subsection are finite formal consequences of this matrix identity inside the $x$-adic envelope truncated through degree $10$, together with the divisor-sector data attached to $10$. No ambient infinite shift, physical model, or external interpretation is used as an input.
+
+\paragraph{Primitive necklace polynomials.}
+For each positive integer $d$, define the primitive necklace polynomial by the Mobius trace formula
+$$
+\begin{aligned}
+P_d(y)=\frac{1}{d}\sum_{r\mid d}\mu(r)\operatorname{tr}\left(T(y^r)^{d/r}\right).
+\end{aligned}
+$$
+This formula separates the trace power sums of the matrix into primitive period contributions. Equivalently, for every $g$ with $1\leq g\leq 10$, the trace power sum decomposes as
+$$
+\begin{aligned}
+\operatorname{tr}(T(y)^g)=\sum_{d\mid g} d\,P_d\left(y^{g/d}\right).
+\end{aligned}
+$$
+The finite certificate only needs the divisor sector $d\mid 10$. In that sector the primitive coefficients are
+$$
+\begin{aligned}
+P_1(y)&=1,\\
+P_2(y)&=y,\\
+P_5(y)&=y+y^2,\\
+P_{10}(y)&=y+3y^2+5y^3+2y^4.
+\end{aligned}
+$$
+These are exactly the coefficients used by the trace-cycle-index kernel and by the finite divisor-sector Euler product below.
+
+\paragraph{Euler product inside the finite envelope.}
+The formal zeta expression associated to the primitive data is
+$$
+\begin{aligned}
+Z(x,y)=\prod_d\prod_s\left(1-x^d y^s\right)^{-[y^s]P_d(y)}.
+\end{aligned}
+$$
+The logarithm of the determinant has the finite Newton expansion
+$$
+\begin{aligned}
+-\log\det(I-xT(y))=\sum_{g=1}^{10}\operatorname{tr}(T(y)^g)\frac{x^g}{g}
+\end{aligned}
+$$
+through degree $10$. Substituting the primitive decomposition of the traces into this expansion gives the same logarithm as the Euler product through $x^{10}$. Hence, inside the stated finite formal envelope,
+$$
+\begin{aligned}
+\log Z(x,y)&=-\log\det(I-xT(y)),\\
+Z(x,y)&=\frac{1}{\det(I-xT(y))}=\frac{1}{1-x-yx^2}.
+\end{aligned}
+$$
+This is an exact polynomial and formal power-series identity at the declared truncation level, not a numerical fit.
+
+\paragraph{The $10$-sector forced window.}
+The divisor-sector Euler factor for $10$ is obtained by keeping only the primitive factors with $d\mid 10$ and using the coefficients displayed above. It is
+$$
+\begin{aligned}
+&\frac{1}{(1-x)(1-x^2y)(1-x^5y)(1-x^5y^2)(1-x^{10}y)(1-x^{10}y^2)^3(1-x^{10}y^3)^5(1-x^{10}y^4)^2}.
+\end{aligned}
+$$
+The lifted exponent table attached to this sector is the finite set
+$$
+\begin{aligned}
+\{&(1,0)\mapsto 1,\ (2,5)\mapsto 1,\ (5,2)\mapsto 1,\ (5,4)\mapsto 1,\\
+&(10,1)\mapsto 1,\ (10,2)\mapsto 3,\ (10,3)\mapsto 5,\ (10,4)\mapsto 2\}.
+\end{aligned}
+$$
+The table is a record of the same primitive coefficients, lifted into the forced-window sector. It is not a second source of arithmetic data; it is the finite row form of the divisor-sector Euler factors.
+
+\paragraph{Specialization at unit weight.}
+At $y=1$, the carrier becomes the ordinary two-state golden transfer matrix and the determinant specializes to
+$$
+\begin{aligned}
+\det(I-xT(1))=1-x-x^2.
+\end{aligned}
+$$
+Consequently the reciprocal determinant has the finite Fibonacci expansion through degree $10$,
+$$
+\begin{aligned}
+\frac{1}{1-x-x^2}=\sum_{g\geq 0}F_{g+1}x^g
+\end{aligned}
+$$
+when read only up to $x^{10}$. The logarithmic power sums specialize to the Lucas sums through the same degree:
+$$
+\begin{aligned}
+-\log(1-x-x^2)=\sum_{g=1}^{10}L_g\frac{x^g}{g}.
+\end{aligned}
+$$
+Thus the unit-weight check agrees with both the reciprocal determinant and the Newton power-sum side of the construction.
+
+\paragraph{Witness extraction.}
+A finite native computation records the determinant calculation, the Newton necklace power sums, the $10$-sector Euler exponents, and the unit-weight Lucas power sums. The extraction is purely algebraic: it evaluates the $2\times 2$ determinant, computes trace powers through period $10$, applies the Mobius primitive formula, and reads off Euler-factor exponents from the resulting primitive polynomials. Every displayed coefficient is therefore recoverable from the stated matrix carrier and the divisor-sector restriction.
+
+\paragraph{Local boundary.}
+The result proved here is the finite forced-window spectral construction: the primitive necklace polynomials assemble, by Newton power sums and Euler factors, the inverse determinant of $T(y)$ inside the $x$-adic truncation through $x^{10}$ and the $10$-divisor sector. It does not assert a physical-constant identification, a global flow law, an external dependency, a metrological comparison, or any interpretation beyond this finite formal construction. It also does not claim an all-period full-shift zeta theorem beyond the declared same-carrier envelope unless a separate certificate supplies the missing extension.

@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://the-omega-institute.github.io/newmath/schemas/cellstate-reality/conjecture.schema.json",
+  "title": "CellStateReality conjecture packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "conjecture_id",
+    "biological_object",
+    "informal_statement",
+    "bedc_minimal_form",
+    "claimed_layer",
+    "evidence_basis",
+    "reality_contact_refs",
+    "probe_refs",
+    "forbidden_claims",
+    "null_reason"
+  ],
+  "properties": {
+    "conjecture_id": {
+      "type": "string",
+      "description": "Lowercase CellStateReality conjecture id; use dotted/kebab tokens, not underscores or uppercase. Layer names embedded in ids must be hyphenated, for example function-realization.seed.boundary, while claimed_layer remains function_realization.",
+      "examples": [
+        "age-clock-shift.clock-read",
+        "identity-preserving-age-reset.no-promotion",
+        "function-realization.seed.boundary"
+      ],
+      "pattern": "^[a-z0-9][a-z0-9.:-]*$"
+    },
+    "biological_object": {
+      "type": "string",
+      "minLength": 1
+    },
+    "informal_statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "bedc_minimal_form": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "carrier",
+        "distinctions",
+        "readback",
+        "internal_structure"
+      ],
+      "properties": {
+        "carrier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "distinctions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "readback": {
+          "type": "string",
+          "minLength": 1
+        },
+        "internal_structure": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "coordinate",
+              "closure",
+              "spectrum",
+              "trigger",
+              "rank",
+              "homology",
+              "relation",
+              "none"
+            ]
+          }
+        }
+      }
+    },
+    "claimed_layer": {
+      "type": "string",
+      "enum": [
+        "genome_source",
+        "context",
+        "age_signature",
+        "cell_identity",
+        "function_realization",
+        "safety_boundary",
+        "renewable_maintenance",
+        "organismal_maintenance",
+        "cross_layer_relation"
+      ]
+    },
+    "evidence_basis": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "external_reality",
+          "bedc_coordinate",
+          "bedc_closure",
+          "bedc_spectrum",
+          "derived_probe",
+          "mismatch_ledger",
+          "mechanism_bridge"
+        ]
+      }
+    },
+    "reality_contact_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Reality contact id reference; use dotted/kebab tokens, not underscores or uppercase.",
+        "pattern": "^[a-z0-9][a-z0-9.:-]*$"
+      }
+    },
+    "probe_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Probe id reference; use dotted/kebab tokens, not underscores or uppercase.",
+        "examples": [
+          "cross-organism.cun-uur-sign-correlates-with-trna-leu",
+          "b-star-q6-survival-matrix-break-condition"
+        ],
+        "pattern": "^[a-z0-9][a-z0-9.:-]*$"
+      }
+    },
+    "forbidden_claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "null_reason": {
+      "type": "string"
+    }
+  }
+}
