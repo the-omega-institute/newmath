@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\SpectralSequenceComparisonUp$}
+\label{ch:concrete-instances-spectral-sequence-comparison-namecert}
+\origin{human}
+
+Following Weibel and McCleary on spectral-sequence comparison theorems, the $\SpectralSequenceComparisonUp$ packet records the finite NameCert surface by which displayed page data in $\SpectralSeqUp$ can be compared before any downstream derived-functor spectral-sequence consumer reads it. It sits after the spectral-sequence page carrier of \autoref{ch:concrete-instances-spectralseq-namecert}, the homology carrier of \autoref{ch:concrete-instances-homology-namecert}, the abelian-category carrier of \autoref{ch:concrete-instances-abeliancat-namecert}, the derived-functor spine of \autoref{ch:concrete-instances-derivedfunctor-namecert}, and the composite-derived-functor packet of \autoref{ch:concrete-instances-grothendieck-spectral-sequence-namecert}. The packet names only the displayed source pages, comparison rows, page-stability ledger, filtration boundary, transport, replay, provenance, and local naming data; it does not claim convergence, exactness beyond the recorded rows, or a host-level comparison theorem.
+
+\begin{definition}[Spectral sequence comparison carrier]
+\label{def:spectral-sequence-comparison-carrier}
+A $\SpectralSequenceComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+C=(S_0,S_1,H_0,A,D,F,L,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0$ and $S_1$ are the two $\SpectralSeqUp$ page carriers being compared, including their page objects, differential rows, successor-page routes, and filtration readback boundaries.
+\item $H_0$ is the $\HomologyUp$ readback row for the pagewise cycles, boundaries, and induced homology rows visible in the comparison.
+\item $A$ is the $\AbelianCatUp$ source row in which the page objects, differentials, and homology reads are interpreted.
+\item $D$ is the $\DerivedFunctorUp$ consumer row that records how the compared pages feed derived-functor data.
+\item $F$ is the pagewise comparison row, listing the displayed maps or rowwise $\hsame$ transports used between corresponding page entries.
+\item $L$ is the finite page-stability ledger. It records the range of pages, bidegrees, differential compatibility checks, and filtration-boundary agreements that are actually inspected.
+\item $T$ records componentwise $\hsame$ transport for $S_0,S_1,H_0,A,D,F,L$ and the structural rows.
+\item $R$ records displayed $\Cont$ replay from the source page rows through the comparison row and the page-stability ledger.
+\item $P$ is the $\Pkg$ provenance over $\SpectralSequenceComparisonUp$, $\SpectralSeqUp$, $\HomologyUp$, $\AbelianCatUp$, $\DerivedFunctorUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SpectralSequenceComparisonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S_0,S_1,H_0,A,D,F,L,T,R,P,N$. It has no coordinate for global convergence, an ambient equality of spectral sequences, quotient equality of pages, selected resolutions, exact-couple data not displayed in $L$, or a host comparison theorem.
+\end{definition}
+
+\begin{theorem}[Spectral sequence comparison NameCert obligations]
+\label{thm:spectral-sequence-comparison-namecert-obligations}
+For every accepted $\SpectralSequenceComparisonUp$ carrier $C=(S_0,S_1,H_0,A,D,F,L,T,R,P,N)$, the local $\NameCert_{\SpectralSequenceComparisonUp}$ surface consists exactly of carrier admission for those eleven rows; page exposure through the two $\SpectralSeqUp$ rows; homology readback through $H_0$; abelian source exposure through $A$; derived-functor consumer exposure through $D$; displayed pagewise comparison through $F$; page-stability and filtration-boundary exposure through $L$; componentwise $\hsame$ transport through $T$; displayed $\Cont$ replay through $R$; $\Pkg$ provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:spectral-sequence-comparison-carrier}. Its only spectral-sequence inputs are the displayed page rows $S_0$ and $S_1$, and its only ambient source rows are $H_0,A,D$.
+
+Read the pagewise comparison next. The row $F$ lists the inspected maps or transports between corresponding page entries, while $L$ records the finite page range, bidegree range, differential compatibility checks, and filtration-boundary agreements used by the comparison.
+
+Finally use $T,R,P,N$. Transport, replay, provenance, and local naming preserve exactly the listed rows. Since no coordinate stores a global convergence theorem, ambient equality of spectral sequences, quotient page equality, selected resolution, or host comparison theorem, none of those data is a NameCert obligation of the packet.
+\end{proof}
+
+\begin{theorem}[Spectral sequence comparison page stability]
+\label{thm:spectral-sequence-comparison-page-stability}
+Every downstream $\DerivedFunctorUp$ or $\GrothendieckSpectralSequenceUp$ consumer of an accepted $\SpectralSequenceComparisonUp$ packet must read the finite route
+$$
+S_0,S_1,H_0,A \longmapsto F,L \longmapsto D,T,R,P,N
+$$
+before it may use the comparison as page-stability data. The route exposes the two $\SpectralSeqUp$ page carriers, homology readback, abelian source row, pagewise comparison row, and stability ledger before any derived-functor or composite-derived-functor consumer reads the result. It exports no convergence theorem, quotient equality of pages, selected external resolution, countable choice, or ambient spectral-sequence equality.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:spectral-sequence-comparison-namecert-obligations}. They force every comparison read to expose the two spectral-sequence page packets, the homology readback row, and the abelian source row before the derived-functor consumer row is available.
+
+The comparison data is then finite. The row $F$ supplies the displayed pagewise maps or transports, and $L$ records the inspected page range, bidegree range, differential compatibility, and filtration-boundary agreement. A downstream consumer therefore receives a stability ledger rather than an unbounded comparison theorem.
+
+Finally replay the structural rows $T,R,P,N$. These rows transport and name the same finite packet for $\DerivedFunctorUp$ and $\GrothendieckSpectralSequenceUp$ consumers, so the public route has no coordinate for convergence, quotient page equality, selected resolutions, countable choice, or ambient spectral-sequence equality.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SpectralSequenceComparisonUp$ consumer that reads page-stability data must first expose the two $\SpectralSeqUp$ page carriers, $\HomologyUp$, $\AbelianCatUp$, $\DerivedFunctorUp$, comparison, stability-ledger, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows listed in the carrier.}
+
+\independenceWitness{spectral sequence, homology, abelian category, derived functor, Grothendieck spectral sequence: none is bijective to $\SpectralSequenceComparisonUp$, because this packet binds two page carriers, homology readback, abelian source data, a pagewise comparison row, a finite stability ledger, and a derived-functor handoff into one local NameCert surface.}
+
+\closureat{SpectralSequenceComparisonUp}{seedStr}
+
+\begin{closurestatus}{\SpectralSequenceComparisonUp}
+  \constructivestory{A $\SpectralSequenceComparisonUp$ packet is generated from two SpectralSeqUp page rows, HomologyUp readback, an AbelianCatUp source row, a DerivedFunctorUp consumer row, a pagewise comparison row, a finite page-stability ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:spectral-sequence-comparison-carrier}, \autoref{thm:spectral-sequence-comparison-namecert-obligations}, and \autoref{thm:spectral-sequence-comparison-page-stability} seed the finite comparison route over displayed spectral-sequence page data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim convergence, a host spectral-sequence comparison theorem, quotient page equality, selected external resolutions, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, page exposure, homology readback, abelian source exposure, derived-functor handoff, pagewise comparison, page-stability routing, transport, replay, provenance, and local naming for BEDC.Derived.SpectralSequenceComparisonUp.}
+\end{closurestatus}
