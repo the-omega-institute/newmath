@@ -315,7 +315,6 @@ import BEDC.Derived.ArensEellsSpaceUp.TasteGate
 import BEDC.Derived.ArensFortSpaceUp
 import BEDC.Derived.ArgumentPrincipleUp.TasteGate
 import BEDC.Derived.ArithmeticFnUp
-import BEDC.Derived.DivisorFunctionUp
 import BEDC.Derived.ArithmeticGeometricMeanUp.TasteGate
 import BEDC.Derived.ArtinianRingUp.TasteGate
 import BEDC.Derived.ArzelaAscoliFamilyCompactnessUp.TasteGate
@@ -3615,6 +3614,7 @@ import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.ConstructiveRiemannSumUp
 import BEDC.Derived.ConstructiveSobolevEnergyUp.TasteGate
 import BEDC.Derived.ConstructiveUniformLimitUp.TasteGate
+import BEDC.Derived.ContFracBoundUp
 import BEDC.Derived.ContFracUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ContactUp.TasteGate
@@ -4948,6 +4948,7 @@ import BEDC.Derived.DistanceToSetUp.TasteGate
 import BEDC.Derived.DistributionDerivativeUp.TasteGate
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.DivisibilityUp
+import BEDC.Derived.DivisorFunctionUp
 import BEDC.Derived.DnaBoundaryTriggerClosureUp.TasteGate
 import BEDC.Derived.DnaWindowSixBoundaryTileUp.TasteGate
 import BEDC.Derived.DoCalculusUp
