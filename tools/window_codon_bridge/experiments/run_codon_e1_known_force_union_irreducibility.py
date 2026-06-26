@@ -47,8 +47,8 @@ TOL = 1.0e-10
 NORM_FLOOR = 1.0e-12
 STUDENTIZE_EPSILON = 1.0e-9
 MIN_BACTERIA_GENERA = 12
+MIN_ARCHAEA_GENERA = 12
 MIN_EUKARYOTA_GENERA = 8
-MIN_ARCHAEA_THREE_DOMAIN = 12
 NULL_A_SEED = "codon_e1_known_force_union_irreducibility.global_within_family_relabel"
 NULL_B_SEED = "codon_e1_known_force_union_irreducibility.force_fit_matched_relabel"
 BOOTSTRAP_SEED = "codon_e1_known_force_union_irreducibility.genus_cluster_bootstrap"
@@ -722,10 +722,13 @@ def sensitivity_sweep(panel: dict[str, object], aa_panel: dict[str, object], mai
 def active_domains(panel: dict[str, object]) -> list[str]:
     counts = panel.get("n_genera_domain", {})
     assert isinstance(counts, dict)
-    domains = ["Bacteria", "Eukaryota"]
-    if int(counts.get("Archaea", 0)) >= MIN_ARCHAEA_THREE_DOMAIN:
-        domains.insert(1, "Archaea")
-    return domains
+    required = domain_floor_requirements()
+    qualified = [domain for domain in ("Bacteria", "Archaea", "Eukaryota") if int(counts.get(domain, 0)) >= required[domain]]
+    return qualified
+
+
+def domain_floor_requirements() -> dict[str, int]:
+    return {"Bacteria": MIN_BACTERIA_GENERA, "Archaea": MIN_ARCHAEA_GENERA, "Eukaryota": MIN_EUKARYOTA_GENERA}
 
 
 def compact_panel(panel: dict[str, object]) -> dict[str, object]:
@@ -738,11 +741,13 @@ def main() -> None:
     counts = panel.get("n_genera_domain", {})
     if not isinstance(counts, dict):
         counts = {}
-    if int(counts.get("Bacteria", 0)) < MIN_BACTERIA_GENERA or int(counts.get("Eukaryota", 0)) < MIN_EUKARYOTA_GENERA:
+    required_domains = domain_floor_requirements()
+    domains = active_domains(panel)
+    if len(domains) < 2:
         emit(
             "needs_external",
-            reason="panel did not meet two-domain floor: Bacteria>=12 and Eukaryota>=8 with CDS codon counts, GBFF/annotation tRNA anticodons, and HEG>=20 genes",
-            gate5_domain_power={"pass": False, "n_genera_domain": counts, "required": {"Bacteria": MIN_BACTERIA_GENERA, "Eukaryota": MIN_EUKARYOTA_GENERA}},
+            reason="panel did not meet any two-domain floor: Bacteria>=12, Archaea>=12, or Eukaryota>=8 with CDS codon counts, GBFF/annotation tRNA anticodons, and HEG>=20 genes",
+            gate5_domain_power={"pass": False, "n_genera_domain": counts, "qualified_domains": domains, "required": required_domains},
             fetch_probe=compact_panel(panel),
             panel_cache_path=str(fetch_probe.PANEL_CACHE_PATH),
             honest_scope_note=HONEST_SCOPE_NOTE,
@@ -763,7 +768,6 @@ def main() -> None:
     index = {codon: idx for idx, codon in enumerate(sense_codons)}
     families = families_by_aa(sense_codons)
     rows, meta = prepare_rows(panel, aa_panel, usage_mode="log", sensitivity="main")
-    domains = active_domains(panel)
     rows = [row for row in rows if row["domain"] in domains]
     q_null = null_q_samples(rows, families, sense_codons, index)
     attach_studentized(rows, q_null)
@@ -814,10 +818,11 @@ def main() -> None:
         two_domain_per_domain_p[domain] = p_value_ge(obs, null_values)
 
     gate5 = {
-        "pass": True,
+        "pass": len(domains) >= 2,
         "scope": panel.get("scope"),
+        "qualified_domains": domains,
         "n_genera_domain": counts,
-        "required": {"Bacteria": MIN_BACTERIA_GENERA, "Eukaryota": MIN_EUKARYOTA_GENERA, "Archaea_three_domain": MIN_ARCHAEA_THREE_DOMAIN},
+        "required": required_domains,
     }
     gates = {
         "gate1_raw_E1_reproduction": raw_gate,

@@ -26,11 +26,13 @@ USER_AGENT = "codon-e1-known-force-union-irreducibility"
 NCBI_DELAY_SECONDS = 0.34
 MIN_HEG_GENES = 20
 BACTERIA_FLOOR = 12
+ARCHAEA_FLOOR = 12
 EUKARYOTA_FLOOR = 8
 GENOME_FETCH_TIMEOUT = int(os.environ.get("CODON_E1_KFU_GENOME_TIMEOUT", "20"))
 SUMMARY_FETCH_TIMEOUT = int(os.environ.get("CODON_E1_KFU_SUMMARY_TIMEOUT", "12"))
-FETCH_DEADLINE_SECONDS = float(os.environ.get("CODON_E1_KFU_FETCH_DEADLINE", "90"))
-MAX_SUPPLY_ATTEMPTS = int(os.environ.get("CODON_E1_KFU_MAX_SUPPLY_ATTEMPTS", "14"))
+FETCH_DEADLINE_SECONDS = float(os.environ.get("CODON_E1_KFU_FETCH_DEADLINE", "900"))
+MAX_SUPPLY_ATTEMPTS = int(os.environ.get("CODON_E1_KFU_MAX_SUPPLY_ATTEMPTS", "30"))
+MAX_ARCHAEA_ATTEMPTS = int(os.environ.get("CODON_E1_KFU_MAX_ARCHAEA_ATTEMPTS", "24"))
 MAX_EUK_ATTEMPTS = int(os.environ.get("CODON_E1_KFU_MAX_EUK_ATTEMPTS", "8"))
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -70,6 +72,29 @@ EUKARYOTA_ROSTER = (
     ("GCF_000149405.2", "Thalassiosira pseudonana", "thalassiosira"),
 )
 
+ARCHAEA_ROSTER = (
+    ("GCF_000007305.1", "Pyrococcus furiosus DSM 3638", "pyrococcus"),
+    ("GCF_000091665.1", "Methanocaldococcus jannaschii DSM 2661", "methanocaldococcus"),
+    ("GCF_000008265.1", "Picrophilus oshimae DSM 9789", "picrophilus"),
+    ("GCF_000012285.1", "Sulfolobus acidocaldarius DSM 639", "sulfolobus"),
+    ("GCF_000007005.1", "Sulfolobus solfataricus P2", "sulfolobus"),
+    ("GCF_000006805.1", "Halobacterium salinarum NRC-1", "halobacterium"),
+    ("GCF_000025685.1", "Haloferax volcanii DS2", "haloferax"),
+    ("GCF_000009965.1", "Thermococcus kodakarensis KOD1", "thermococcus"),
+    ("GCF_000008665.1", "Archaeoglobus fulgidus DSM 4304", "archaeoglobus"),
+    ("GCF_000011585.1", "Methanococcus maripaludis S2", "methanococcus"),
+    ("GCF_000007225.1", "Pyrobaculum aerophilum str. IM2", "pyrobaculum"),
+    ("GCF_000011125.1", "Aeropyrum pernix K1", "aeropyrum"),
+    ("GCF_000007345.1", "Methanosarcina acetivorans C2A", "methanosarcina"),
+    ("GCF_000007065.1", "Methanosarcina mazei Go1", "methanosarcina"),
+    ("GCF_000016525.1", "Methanobrevibacter smithii ATCC 35061", "methanobrevibacter"),
+    ("GCF_000008085.1", "Nanoarchaeum equitans Kin4-M", "nanoarchaeum"),
+    ("GCF_000012545.1", "Thermoplasma acidophilum DSM 1728", "thermoplasma"),
+    ("GCF_000024265.1", "Ferroplasma acidarmanus fer1", "ferroplasma"),
+    ("GCF_000018465.1", "Methanospirillum hungatei JF-1", "methanospirillum"),
+    ("GCF_000015225.1", "Methanococcoides burtonii DSM 6242", "methanococcoides"),
+)
+
 ARCHAEA_HINTS = {
     "pyrococcus",
     "picrophilus",
@@ -79,6 +104,16 @@ ARCHAEA_HINTS = {
     "sulfolobus",
     "thermococcus",
     "archaeoglobus",
+    "haloferax",
+    "pyrobaculum",
+    "aeropyrum",
+    "methanosarcina",
+    "methanobrevibacter",
+    "nanoarchaeum",
+    "thermoplasma",
+    "ferroplasma",
+    "methanospirillum",
+    "methanococcoides",
 }
 
 
@@ -187,6 +222,73 @@ def assembly_summary_for_accession(accession: str, deadline: float | None = None
         "ftp_path_refseq": ftp,
     }
     return row, {"search": search_contact, "summary": summary_contact}
+
+
+def assembly_summary_for_search_term(term: str, deadline: float | None = None) -> tuple[dict[str, object] | None, dict[str, object]]:
+    if deadline_expired(deadline):
+        return None, {"error": "fetch_deadline_exceeded_before_summary"}
+    search_url = ncbi_url("esearch", {"db": "assembly", "term": term, "retmax": 8})
+    text, search_contact = fetch_text(search_url, timeout=SUMMARY_FETCH_TIMEOUT, attempts=1)
+    if not text:
+        return None, {"search": search_contact, "error": "assembly_search_failed"}
+    try:
+        root = ET.fromstring(text)
+    except ET.ParseError as exc:
+        return None, {"search": search_contact, "parse_error": str(exc)}
+    assembly_ids = [node.text for node in root.findall(".//Id") if node.text]
+    if not assembly_ids:
+        return None, {"search": search_contact, "error": "assembly_id_not_found"}
+    time.sleep(NCBI_DELAY_SECONDS)
+    if deadline_expired(deadline):
+        return None, {"search": search_contact, "error": "fetch_deadline_exceeded_before_summary_detail"}
+    summary_url = ncbi_url("esummary", {"db": "assembly", "id": ",".join(assembly_ids), "report": "full"})
+    text, summary_contact = fetch_text(summary_url, timeout=SUMMARY_FETCH_TIMEOUT, attempts=1)
+    if not text:
+        return None, {"search": search_contact, "summary": summary_contact, "error": "assembly_summary_failed"}
+    try:
+        root = ET.fromstring(text)
+    except ET.ParseError as exc:
+        return None, {"search": search_contact, "summary": summary_contact, "parse_error": str(exc)}
+    candidates = []
+    for node in root.findall(".//DocumentSummary"):
+        ftp = node.findtext("FtpPath_RefSeq") or node.findtext("FtpPath_GenBank") or ""
+        if not ftp:
+            continue
+        status = (node.findtext("AssemblyStatus") or "").lower()
+        category = (node.findtext("RefSeq_category") or "").lower()
+        score = 0
+        if "complete" in status:
+            score += 4
+        if category in {"reference genome", "representative genome"}:
+            score += 2
+        if node.findtext("FtpPath_RefSeq"):
+            score += 1
+        candidates.append(
+            (
+                score,
+                {
+                    "assembly_accession": node.findtext("AssemblyAccession") or "",
+                    "organism": node.findtext("Organism") or "",
+                    "species_name": node.findtext("SpeciesName") or node.findtext("Organism") or "",
+                    "taxid": node.findtext("Taxid") or "",
+                    "ftp_path_refseq": ftp,
+                },
+            )
+        )
+    if not candidates:
+        return None, {"search": search_contact, "summary": summary_contact, "error": "assembly_ftp_not_found"}
+    candidates.sort(key=lambda item: item[0], reverse=True)
+    return candidates[0][1], {"search": search_contact, "summary": summary_contact, "fallback_term": term}
+
+
+def assembly_summary_for_roster_entry(accession: str, organism: str, deadline: float | None = None) -> tuple[dict[str, object] | None, dict[str, object]]:
+    summary, contact = assembly_summary_for_accession(accession, deadline=deadline)
+    if summary is not None:
+        return summary, contact
+    genus_species = " ".join(organism.split()[:2])
+    fallback_term = f'{genus_species}[Organism] AND latest[filter]'
+    fallback, fallback_contact = assembly_summary_for_search_term(fallback_term, deadline=deadline)
+    return fallback, {"accession_contact": contact, "fallback_contact": fallback_contact}
 
 
 def cached_assembly_file(ftp_path: str, suffix: str, cache_key: str, deadline: float | None = None) -> tuple[str, dict[str, object]]:
@@ -333,7 +435,10 @@ def build_supply_rows(max_rows: int = MAX_SUPPLY_ATTEMPTS, deadline: float | Non
         accession = str(base_row.get("assembly_accession") or "")
         ftp_path = str(base_row.get("ftp_path_refseq") or "")
         cds_text, cds_contact = cached_assembly_file(ftp_path, "cds_from_genomic.fna.gz", accession, deadline=deadline) if ftp_path else ("", {})
+        gbff_text, gbff_contact = cached_assembly_file(ftp_path, "genomic.gbff.gz", accession, deadline=deadline) if ftp_path else ("", {})
+        all_counts, all_meta = count_cds_fasta(cds_text, heg_only=False) if cds_text else (zero_counts(), {})
         heg_counts, heg_meta = count_cds_fasta(cds_text, heg_only=True) if cds_text else (zero_counts(), {})
+        trna_counts, trna_meta = trna_probe.parse_genbank_trna_anticodons(gbff_text) if gbff_text else ({}, {})
         row = {
             "organism": base_row.get("organism"),
             "genus": str(base_row.get("genus") or "").lower(),
@@ -341,27 +446,108 @@ def build_supply_rows(max_rows: int = MAX_SUPPLY_ATTEMPTS, deadline: float | Non
             "assembly_accession": accession,
             "taxid": base_row.get("taxid"),
             "transl_table": int(base_row.get("transl_table") or 11),
-            "codon_counts_rna": {codon: int(base_row["codon_counts_rna"].get(codon, 0)) for codon in sense_codon_order_rna()},  # type: ignore[index]
-            "all_codon_counts_rna": {codon: int(base_row["codon_counts_rna"].get(codon, 0)) for codon in sense_codon_order_rna()},  # type: ignore[index]
-            "trna_anticodon_counts_rna": {str(k): int(v) for k, v in dict(base_row["trna_anticodon_counts_rna"]).items()},  # type: ignore[index]
+            "codon_counts_rna": all_counts,
+            "all_codon_counts_rna": all_counts,
+            "trna_anticodon_counts_rna": {str(k): int(v) for k, v in trna_counts.items()},
             "heg_codon_counts_rna": heg_counts,
+            "cds_meta": all_meta,
             "heg_meta": heg_meta,
-            "annotation_contacts": {"cds_from_genomic": cds_contact},
+            "trna_meta": trna_meta,
+            "annotation_contacts": {"cds_from_genomic": cds_contact, "genomic_gbff": gbff_contact},
         }
-        ok_heg = int(heg_meta.get("n_heg_records", 0)) >= MIN_HEG_GENES
+        ok = (
+            sum(all_counts.values()) > 0
+            and sum(int(v) for v in trna_counts.values()) > 0
+            and int(heg_meta.get("n_heg_records", 0)) >= MIN_HEG_GENES
+        )
         attempts.append(
             {
                 "assembly_accession": accession,
                 "organism": row["organism"],
                 "genus": row["genus"],
                 "domain": row["domain"],
+                "n_cds_records": all_meta.get("n_cds_records"),
+                "n_trna_with_anticodon": trna_meta.get("n_trna_with_anticodon"),
                 "n_heg_records": heg_meta.get("n_heg_records"),
                 "total_heg_sense_codons": heg_meta.get("total_sense_codons"),
-                "ok": ok_heg,
+                "ok": ok,
             }
         )
-        if ok_heg:
+        if ok:
             usable.append(row)
+    return usable, attempts
+
+
+def build_refseq_roster_rows(
+    roster: tuple[tuple[str, str, str], ...],
+    domain: str,
+    transl_table: int,
+    max_rows: int,
+    deadline: float | None = None,
+) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    usable: list[dict[str, object]] = []
+    attempts: list[dict[str, object]] = []
+    seen_genera: set[str] = set()
+    for accession, organism_hint, genus_hint in roster[:max_rows]:
+        if deadline_expired(deadline):
+            attempts.append({"assembly_accession": accession, "organism": organism_hint, "genus": genus_hint, "ok": False, "error": "fetch_deadline_exceeded"})
+            break
+        summary, summary_contact = assembly_summary_for_roster_entry(accession, organism_hint, deadline=deadline)
+        if summary is None:
+            attempts.append({"assembly_accession": accession, "organism": organism_hint, "genus": genus_hint, "domain": domain, "ok": False, "contact": summary_contact})
+            continue
+        genus = genus_hint.lower()
+        if genus in seen_genera:
+            attempts.append({"assembly_accession": accession, "organism": summary.get("organism") or organism_hint, "genus": genus, "domain": domain, "ok": False, "error": "duplicate_genus"})
+            continue
+        ftp_path = str(summary["ftp_path_refseq"])
+        cache_key = str(summary.get("assembly_accession") or accession)
+        cds_text, cds_contact = cached_assembly_file(ftp_path, "cds_from_genomic.fna.gz", cache_key, deadline=deadline)
+        gbff_text, gbff_contact = cached_assembly_file(ftp_path, "genomic.gbff.gz", cache_key, deadline=deadline)
+        all_counts, all_meta = count_cds_fasta(cds_text, heg_only=False) if cds_text else (zero_counts(), {})
+        heg_counts, heg_meta = count_cds_fasta(cds_text, heg_only=True) if cds_text else (zero_counts(), {})
+        trna_counts, trna_meta = trna_probe.parse_genbank_trna_anticodons(gbff_text) if gbff_text else ({}, {})
+        ok = (
+            sum(all_counts.values()) > 0
+            and sum(int(v) for v in trna_counts.values()) > 0
+            and int(heg_meta.get("n_heg_records", 0)) >= MIN_HEG_GENES
+        )
+        attempts.append(
+            {
+                "assembly_accession": summary.get("assembly_accession") or accession,
+                "organism": summary.get("organism") or organism_hint,
+                "genus": genus,
+                "domain": domain,
+                "n_cds_records": all_meta.get("n_cds_records"),
+                "n_trna_with_anticodon": trna_meta.get("n_trna_with_anticodon"),
+                "n_heg_records": heg_meta.get("n_heg_records"),
+                "ok": ok,
+                "summary_contact": summary_contact,
+                "cds_contact": {k: cds_contact.get(k) for k in ("reachable", "on_disk_cache_hit", "byte_size", "error")},
+                "gbff_contact": {k: gbff_contact.get(k) for k in ("reachable", "on_disk_cache_hit", "byte_size", "error")},
+            }
+        )
+        if not ok:
+            continue
+        seen_genera.add(genus)
+        usable.append(
+            {
+                "organism": summary.get("organism") or organism_hint,
+                "genus": genus,
+                "domain": domain,
+                "assembly_accession": summary.get("assembly_accession") or accession,
+                "taxid": summary.get("taxid"),
+                "transl_table": transl_table,
+                "codon_counts_rna": all_counts,
+                "all_codon_counts_rna": all_counts,
+                "trna_anticodon_counts_rna": {str(k): int(v) for k, v in trna_counts.items()},
+                "heg_codon_counts_rna": heg_counts,
+                "cds_meta": all_meta,
+                "heg_meta": heg_meta,
+                "trna_meta": trna_meta,
+                "annotation_contacts": {"summary": summary_contact, "cds_from_genomic": cds_contact, "genomic_gbff": gbff_contact},
+            }
+        )
     return usable, attempts
 
 
@@ -432,6 +618,15 @@ def domain_counts(rows: list[dict[str, object]]) -> dict[str, int]:
     return {domain: len(genera) for domain, genera in sorted(out.items())}
 
 
+def domain_floors() -> dict[str, int]:
+    return {"Bacteria": BACTERIA_FLOOR, "Archaea": ARCHAEA_FLOOR, "Eukaryota": EUKARYOTA_FLOOR}
+
+
+def qualified_domains(n_genera_domain: dict[str, int]) -> list[str]:
+    floors = domain_floors()
+    return [domain for domain in ("Bacteria", "Archaea", "Eukaryota") if int(n_genera_domain.get(domain, 0)) >= floors[domain]]
+
+
 def compact_rows(rows: list[dict[str, object]]) -> list[dict[str, object]]:
     return [
         {
@@ -451,15 +646,20 @@ def compact_rows(rows: list[dict[str, object]]) -> list[dict[str, object]]:
 def build_panel(force_refresh: bool = False) -> dict[str, object]:
     if PANEL_CACHE_PATH.exists() and not force_refresh:
         cached = json.loads(PANEL_CACHE_PATH.read_text(encoding="utf-8"))
-        if "rows" in cached:
+        if "rows" in cached and cached.get("status") == "ok" and len(cached.get("qualified_domains", [])) >= 2:
             return cached
     deadline = time.monotonic() + FETCH_DEADLINE_SECONDS if FETCH_DEADLINE_SECONDS > 0 else None
     supply_rows, supply_attempts = build_supply_rows(deadline=deadline)
+    archaea_rows, archaea_attempts = build_refseq_roster_rows(ARCHAEA_ROSTER, "Archaea", 11, MAX_ARCHAEA_ATTEMPTS, deadline=deadline)
     euk_rows, euk_attempts = build_eukaryota_rows(deadline=deadline)
-    rows = supply_rows + euk_rows
+    keyed_rows: dict[tuple[str, str], dict[str, object]] = {}
+    for row in supply_rows + archaea_rows + euk_rows:
+        keyed_rows[(str(row.get("domain")), str(row.get("genus")))] = row
+    rows = list(keyed_rows.values())
     n_genera_domain = domain_counts(rows)
-    status = "ok" if n_genera_domain.get("Bacteria", 0) >= BACTERIA_FLOOR and n_genera_domain.get("Eukaryota", 0) >= EUKARYOTA_FLOOR else "needs_external"
-    if n_genera_domain.get("Archaea", 0) >= BACTERIA_FLOOR:
+    qualified = qualified_domains(n_genera_domain)
+    status = "ok" if len(qualified) >= 2 else "needs_external"
+    if len(qualified) >= 3:
         scope = "three-domain"
     elif status == "ok":
         scope = "two-domain"
@@ -472,20 +672,23 @@ def build_panel(force_refresh: bool = False) -> dict[str, object]:
         "cache_path": str(PANEL_CACHE_PATH),
         "genome_cache_dir": str(GENOME_CACHE_DIR),
         "scope": scope,
-        "floors": {"Bacteria": BACTERIA_FLOOR, "Eukaryota": EUKARYOTA_FLOOR, "Archaea_three_domain": BACTERIA_FLOOR, "heg_genes_per_organism": MIN_HEG_GENES},
+        "qualified_domains": qualified,
+        "floors": {**domain_floors(), "heg_genes_per_organism": MIN_HEG_GENES},
         "fetch_limits": {
             "deadline_seconds": FETCH_DEADLINE_SECONDS,
             "genome_timeout_seconds": GENOME_FETCH_TIMEOUT,
             "summary_timeout_seconds": SUMMARY_FETCH_TIMEOUT,
             "max_supply_attempts": MAX_SUPPLY_ATTEMPTS,
+            "max_archaea_attempts": MAX_ARCHAEA_ATTEMPTS,
             "max_eukaryota_attempts": MAX_EUK_ATTEMPTS,
         },
         "n_genera_domain": n_genera_domain,
         "n_rows": len(rows),
         "rows_compact": compact_rows(rows),
-        "attempts": {"supply_panel": supply_attempts, "eukaryota_roster": euk_attempts},
+        "attempts": {"supply_panel": supply_attempts, "archaea_roster": archaea_attempts, "eukaryota_roster": euk_attempts},
         "provenance": {
             "bacteria_archaea_source": str(SUPPLY_PANEL_PATH),
+            "archaea_roster": [{"assembly_accession": a, "organism": o, "genus": g} for a, o, g in ARCHAEA_ROSTER],
             "eukaryota_roster": [{"assembly_accession": a, "organism": o, "genus": g} for a, o, g in EUKARYOTA_ROSTER],
             "per_organism_requirements": ["CDS codon counts", "annotation tRNA anticodon counts", "annotation HEG set >=20 genes"],
             "not_window6": True,
@@ -503,6 +706,7 @@ def compact_panel(panel: dict[str, object]) -> dict[str, object]:
     return {
         "status": panel.get("status"),
         "scope": panel.get("scope"),
+        "qualified_domains": panel.get("qualified_domains"),
         "n_rows": panel.get("n_rows"),
         "n_genera_domain": panel.get("n_genera_domain"),
         "floors": panel.get("floors"),
