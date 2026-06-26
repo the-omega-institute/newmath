@@ -1,0 +1,68 @@
+\origin{ai}
+
+\subsection{Finite forced-window Lucas--Fibonacci norm relation}
+\label{sec:window6-lucas-fib-norm-relation-law}
+
+\paragraph{Carrier.}
+The carrier is a finite sequence layer built from two integer-valued count functions.  The first function, denoted $L$, assigns to an index $n$ the cyclic Window6 Lucas count $L_n$.  The second function, denoted $F$, assigns to an index $n$ the Window6 linear Fibonacci recurrence count $F_n$.  The construction is finite: it does not require an infinite sequence, an analytic limit, or an external interpretation.  Its data consist of the indexed values needed to evaluate the predicates below on the stated windows.  The norm predicate is evaluated for $0 \leq n \leq 40$ in the certificate window, while the finite mechanized witness records the corresponding bounded check for $0 \leq n \leq 25$.
+
+\paragraph{Index sets and parity sign.}
+Let
+$$
+\begin{aligned}
+I_{40} &= \{n \in \mathbb{N} : 0 \leq n \leq 40\},\\
+I_{25} &= \{n \in \mathbb{N} : 0 \leq n \leq 25\}.
+\end{aligned}
+$$
+For each $n$ in either finite interval, the parity sign is the integer
+$$
+\begin{aligned}
+\varepsilon(n) = (-1)^n.
+\end{aligned}
+$$
+Thus $\varepsilon(n)=1$ when $n$ is even and $\varepsilon(n)=-1$ when $n$ is odd.  No unbounded parity principle is being used here beyond this finite evaluation rule on the displayed index sets.
+
+\paragraph{Finite norm predicate.}
+The first checked relation is the Pell-type norm identity on the Window6 sequence pair.  For each $n \in I_{40}$ the certificate asserts
+$$
+\begin{aligned}
+L_n^2 - 5F_n^2 = 4(-1)^n.
+\end{aligned}
+$$
+Equivalently, the pair $(L_n,F_n)$ lies on one of two integer quadratic slices according to the parity of $n$: for even $n$ the value of $L_n^2-5F_n^2$ is $4$, and for odd $n$ it is $-4$.  This is a finite predicate over the rows of the Window6 Lucas/Fibonacci table, not a claim about all natural numbers unless a separate certificate extends the range.
+
+\paragraph{Finite Lucas doubling predicate.}
+The second checked relation ties the cyclic count at the doubled index to the count at the original index.  For each $n \in I_{40}$ the certificate asserts
+$$
+\begin{aligned}
+L_{2n} = L_n^2 - 2(-1)^n.
+\end{aligned}
+$$
+This predicate uses the same parity sign as the norm relation.  It is also finite: the displayed identity is part of the forced-window data for the stated bounded range.  Its role is to show that the cyclic Window6 count is compatible with a doubling operation inside the same arithmetic layer.
+
+\paragraph{Concrete rows.}
+Two rows illustrate that the relation is exact arithmetic rather than numerical approximation.  At $n=5$ the Window6 counts satisfy $L_5=11$ and $F_5=5$, giving
+$$
+\begin{aligned}
+L_5^2 - 5F_5^2 &= 11^2 - 5\cdot 5^2\\
+&= 121 - 125\\
+&= -4\\
+&= 4(-1)^5.
+\end{aligned}
+$$
+At $n=8$ the Window6 counts satisfy $L_8=47$ and $F_8=21$, giving
+$$
+\begin{aligned}
+L_8^2 - 5F_8^2 &= 47^2 - 5\cdot 21^2\\
+&= 2209 - 2205\\
+&= 4\\
+&= 4(-1)^8.
+\end{aligned}
+$$
+These two rows are not used as statistical samples.  They are displayed instances of the same exact row predicate enforced across the finite certificate interval.
+
+\paragraph{Witness extraction.}
+The extracted witness is the bounded statement that the Window6 Lucas/Fibonacci pair satisfies both row predicates on the finite range under inspection.  The certificate window records the norm relation and the doubling relation for $0 \leq n \leq 40$.  The finite formal witness records the corresponding bounded Lucas/Fibonacci norm evidence for $0 \leq n \leq 25$.  The mathematical content is therefore a forced finite table relation: the carrier supplies integer counts, the predicates read integer equalities, and successful verification means every row in the selected finite interval satisfies the displayed equations.
+
+\paragraph{Local boundary.}
+Nothing in this construction identifies $L$, $F$, $L_n^2-5F_n^2$, or the doubled-index relation with a physical constant.  In particular, no fine-structure constant, no physical value near $1/137$, no metrological comparison, and no reverse fitting target is part of the theorem prose.  The chapter records only finite integer equalities for a Window6 Lucas/Fibonacci count layer.  It also does not assert a global recurrence law, an all-indices theorem, an external dependency, or an interpretation beyond the finite construction unless another certificate separately supplies those claims.

@@ -1,0 +1,53 @@
+\subsection{Position-resolved $f_3$-stress at the ribosome-occupancy boundary}\label{subsec:q6-f3-stress-position-resolved-ribosome-occupancy-translation-boundary}
+\origin{ai}
+
+\paragraph{Finite coordinate.}
+This record isolates a conjectural translation-boundary test for the $B^*_{Q6}$ $f_3$-stress coordinate.  The finite input surface is indexed by organism, coding sequence, codon position, amino-acid fiber, the $f_3$-paired codon class, a wobble-weight asymmetry value, and a matched ribosome-occupancy window.  The coordinate is not read on raw codon enrichment.  It is evaluated only after projection to the amino-acid fiber and after residualization against amino-acid composition or amino-acid-bin position, organism, $GC3$, sequence length, $M$-density, codon-usage baseline, translation-adaptation weights such as tAI or stAI, and matched mRNA abundance.  The tested output is local ribosome occupancy, or a translation-efficiency statistic computed from matched ribosome-footprint and mRNA rows.  It is not a claim about folded structure, biochemical function, physical admissibility, localization, modification state, or organism-level phenotype.
+
+\paragraph{Verified finite spine.}
+The seed motif row used by this claim has the verified $R$ support
+$$
+\begin{aligned}
+R=\{&AAA,AGA,AGG,AUA,CUA,CUC,CUG,CUU,\
+&UAA,UAG,UCA,UGA,UUA\}.
+\end{aligned}
+$$
+The same audit reports no missing and no extra codons in this $R$ identification.  The $f_3$-saturation row gives the twenty-codon set
+$$
+\begin{aligned}
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\
+&CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\},
+\end{aligned}
+$$
+and the saturated image of $R$ omits exactly $ACA$ and $ACG$ from that displayed $M$ row:
+$$
+\begin{aligned}
+\operatorname{Sat}_{f_3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\
+&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+\end{aligned}
+$$
+The recorded boundary complement for this finite saturation test is empty, so the coordinate enters the biological test as a saturated codon-row geometry rather than as a new codon outside the audited $M$ support.  The quotient geometry also has fixed finite sizes: the $M$ face vector is $(20,38,26,8,1)$, the quotient face vector is $(10,14,6,1)$, and the quotient row count is $|\pi_M|=10$.  The displayed quotient representatives are the ten binary rows
+$$
+\begin{aligned}
+\pi_M=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\
+&(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,1,1),\
+&(1,0,1,0,1),(1,0,1,1,1)\}.
+\end{aligned}
+$$
+Here the eighth row is read as the five-coordinate representative $(1,0,0,1,1)$; the row list is a finite coordinate surface, not an empirical translation measurement.
+
+\paragraph{Ribosome-window test.}
+For each same-organism, same-CDS row, let $q_{g,x,p}$ denote the residualized $f_3$-stress coordinate at organism $g$, coding sequence $x$, and codon position $p$.  Let $Y_{g,x,p,W}$ be the ribosome-footprint occupancy statistic on a codon-indexed or fixed local window $W$, and let $A_{g,x}$ be the matched mRNA abundance row used to separate occupancy from transcript supply.  The survival quantity is a conditional entry
+$$
+\begin{aligned}
+S_{f_3\text{-stress}}(W\mid Z)
+  &= \Delta \operatorname{fit}\bigl(Y_{g,x,p,W};q_{g,x,p}\mid Z,A_{g,x}\bigr),
+\end{aligned}
+$$
+where $Z$ contains the amino-acid controls, organism factor, $GC3$, length, $M$-density baseline, codon usage, and tAI or stAI weights.  A positive entry is interpretable only when the fitted design is rank-sufficient, the amino-acid residual has already been applied, the same window survives simpler codon-baseline ablation, and the attached wobble surface is asymmetric on the tested fiber.  If $w_c=w_{c^{f_3}}$ on that fiber, the $f_3$ coordinate remains a code-read or codon-usage-topology coordinate and is not promoted to a dynamic translation variable.
+
+\paragraph{Support and break conditions.}
+The conjectural support condition is local and finite: a matched panel must contain codon usage, wobble or tAI/stAI weights, codon-indexed ribosome occupancy, and matched mRNA abundance, and at least one window must satisfy $S_{f_3\text{-stress}}(W\mid Z)>0$ after the full residualization and ablation sequence.  A rank-degenerate fit, a three-organism anecdote, a raw codon-position enrichment, or a positive score without the mRNA and amino-acid controls leaves the entry unresolved.  If every tested window has nonpositive survival after those controls, the finite $B^*_{Q6}$ geometry is still retained as a codon-topology construction, but this particular translation-readout boundary is broken.
+
+\paragraph{Local interpretation boundary.}
+The only admissible biological reading is that an $f_3$-stress residual may survive as a position-resolved translation-readout coordinate under wobble asymmetry.  The record does not assert translation mechanism from geometry alone, does not turn modeled tAI or stAI weights into observed ribosome footprints, and does not infer protein abundance, folding, structural order, physical admissibility, molecular function, phenotype, or a universal biological law.  Each of those stronger conclusions would require its own matched contact layer after the ribosome-occupancy step.

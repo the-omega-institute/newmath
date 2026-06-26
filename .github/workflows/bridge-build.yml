@@ -1,0 +1,40 @@
+name: Bridge Build
+
+on:
+  push:
+    paths:
+      - "lean4/**"
+      - "papers/bedc_mathlib_bridge/**"
+      - ".github/workflows/bridge-build.yml"
+  pull_request:
+    paths:
+      - "lean4/**"
+      - "papers/bedc_mathlib_bridge/**"
+      - ".github/workflows/bridge-build.yml"
+
+jobs:
+  bridge-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Get mathlib cache
+        run: |
+          cd papers/bedc_mathlib_bridge/lean4
+          lake exe cache get
+
+      # Single source of truth: run the Makefile `check` target so every gate
+      # wired into `make check` (Gate A/C/D/E/H/R/B/S/T/W, mathlib correspondence,
+      # no-hollow, canonical-int-law, ring-bundle, statement-shape, no-back-edge,
+      # negative gate fixtures) is CI-enforced. Adding a gate to the Makefile
+      # automatically enforces it here; no per-gate CI step to drift out of sync.
+      - name: Run all bridge gates (make check)
+        run: |
+          cd papers/bedc_mathlib_bridge
+          make check

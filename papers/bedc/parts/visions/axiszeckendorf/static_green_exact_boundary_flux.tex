@@ -1,0 +1,522 @@
+\begin{principle}[Static Green-exactness of right-boundary flux]
+\label{prin:zeckendorf-static-green-exact-right-boundary-flux}
+For any finite weighted graph decomposed into an internal block set $I$
+and a deleted boundary block $B$, let $L_B$ be the Dirichlet reduced
+Laplacian on $I$ and let $b_B$ be the static cut-source whose $i$th
+coordinate is the total edge weight from $i\in I$ into $B$. Then
+$$
+  L_B\mathbf{1}_I=b_B.
+$$
+Indeed, the $i$th coordinate of $L_B\mathbf{1}_I$ is the full weighted
+degree of $i$ minus the weights from $i$ to the other retained vertices,
+which leaves exactly the cut weight from $i$ to the deleted boundary.
+Thus every static Dirichlet cut-source is Laplacian-exact and has zero
+class in $\operatorname{coker}(L_B)$.
+
+Order the Window-six edge-flux blocks as
+$(U_2,U_1,U_L,U_R)$, with microscopic volumes
+$$
+  (|U_2|,|U_1|,|U_L|,|U_R|)
+  =
+  (27,22,9,6).
+$$
+The edge-count skeleton is
+$$
+  E
+  =
+  \begin{pmatrix}
+  28&63&23&20\\
+  63&21&21&6\\
+  23&21&2&6\\
+  20&6&6&2
+  \end{pmatrix}.
+$$
+Deleting the right block gives the reduced Laplacian
+$$
+  L_R
+  =
+  \begin{pmatrix}
+  106&-63&-23\\
+  -63&90&-21\\
+  -23&-21&50
+  \end{pmatrix},
+$$
+where each diagonal entry is the total edge count from the retained
+block to all other blocks. The right-boundary cut vector seen from the
+retained blocks is
+$$
+  b_R
+  =
+  \begin{pmatrix}
+  20\\
+  6\\
+  6
+  \end{pmatrix}.
+$$
+It satisfies the integral exactness identity
+$$
+  L_R
+  \begin{pmatrix}
+  1\\
+  1\\
+  1
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+  20\\
+  6\\
+  6
+  \end{pmatrix}
+  =
+  b_R.
+$$
+Thus the static right-boundary escape source is a reduced-Laplacian
+image by the general Dirichlet cut identity. It is a Green-exact source
+before any localization, and therefore also over
+$R_\zeta=\mathbb{Z}[1/6]$.
+\end{principle}
+
+\begin{theorem}[Static-Green separation for Dirichlet cut-flux]
+\label{thm:zeckendorf-static-right-boundary-source-green-zero}
+The Window-six Green layer detected by the reduced Laplacian is
+nontrivial, but the static right-boundary cut-flux source does not
+activate it. More precisely,
+$$
+  \det L_R
+  =
+  123336
+  =
+  2^3\cdot3^3\cdot571,
+$$
+so after localization at $6$ the non-invertible determinant factor is the
+$571$-Green factor. The class of $b_R$ in the corresponding cokernel is
+zero. Consequently, for the static low-energy electromagnetic readout
+whose Green input is the right-boundary cut source, the Green coefficient
+in
+$$
+  D_{6,\alpha}^{G}
+  =
+  D_{6,\alpha}^{\star}
+  +
+  q_3\varphi^{-37}
+  +
+  O(\varphi^{-47})
+$$
+is $q_3=0$. This does not remove the $571$-Green layer from dynamic
+readouts. For the coarse Markov relaxation kernel determined by the same
+edge skeleton,
+$$
+  T
+  =
+  \begin{pmatrix}
+  28/81&7/18&23/162&10/81\\
+  21/44&7/22&7/44&1/22\\
+  23/54&7/18&2/27&1/9\\
+  5/9&1/6&1/6&1/9
+  \end{pmatrix},
+$$
+with stationary weight
+$$
+  \pi=(27/64,22/64,9/64,6/64),
+$$
+the centered right-block observable
+$$
+  f_R=\mathbf{1}_R-\frac{3}{32}\mathbf{1}
+$$
+has Green response
+$$
+  Zf_R
+  =
+  \begin{pmatrix}
+  -58991/877056\\
+  -41093/292352\\
+  -69167/877056\\
+  821233/877056
+  \end{pmatrix},
+  \qquad
+  Z=(I-T+\mathbf{1}\pi^T)^{-1}.
+$$
+Since $877056=2^9\cdot3\cdot571$ and
+$292352=2^9\cdot571$, this centered relaxation observable does read the
+$571$-Green layer. Its Green susceptibility is
+$$
+  \chi_R
+  =
+  \langle f_R,Zf_R\rangle_\pi
+  =
+  \frac{821233}{9355264}
+  =
+  \frac{821233}{2^{14}\cdot571}.
+$$
+The corresponding Green--Kubo response is
+$$
+  G_R
+  =
+  2\chi_R-\operatorname{Var}_\pi(f_R)
+  =
+  \frac{423817}{4677632}
+  =
+  \frac{423817}{2^{13}\cdot571}.
+$$
+The static variance baseline is
+$$
+  \operatorname{Var}_\pi(f_R)
+  =
+  \frac{87}{1024}.
+$$
+Therefore the fully activated Green-excess coefficient is
+$$
+  \Delta_R(1)
+  =
+  G_R-\operatorname{Var}_\pi(f_R)
+  =
+  \frac{26401}{4677632}
+  =
+  \frac{26401}{2^{13}\cdot571}.
+$$
+\end{theorem}
+\begin{proof}
+By
+\autoref{prin:zeckendorf-static-green-exact-right-boundary-flux},
+$b_R=L_R(1,1,1)^T$. This is the Window-six instance of the general
+Dirichlet cut identity $L_B\mathbf{1}_I=b_B$. Hence $b_R$ is zero in the
+cokernel of $L_R$ over $\mathbb{Z}$ and over $R_\zeta$. The determinant
+computation displays the $571$-Green layer after the powers of $2$ and
+$3$ have become units, but exact sources have zero class in that layer.
+
+Equivalently, modulo $571$ one may use the left cokernel functional
+$$
+  \ell=(448,409,1).
+$$
+Then
+$$
+  \ell(b_R)
+  =
+  448\cdot20+409\cdot6+6
+  =
+  11420
+  =
+  20\cdot571,
+$$
+so $\ell(b_R)\equiv0\pmod{571}$. This modular vanishing is the residue
+shadow of the integral exactness identity above. Therefore the static
+right-boundary source contributes no $\varphi^{-37}$ Green correction.
+
+The relaxation statement is a direct computation from the displayed
+stochastic matrix. The row sums of $T$ are $1$, and $\pi T=\pi$ because
+the row weights are the block volumes divided by $64$. Applying the
+fundamental Green operator $Z=(I-T+\mathbf{1}\pi^T)^{-1}$ to the centered
+right-block observable gives the displayed vector. Its denominators have
+one factor of $571$, so the dynamic centered response is not killed by
+the static exactness identity. The displayed values of $\chi_R$ and
+$G_R$ are obtained by the definitions
+$\chi_R=\sum_i\pi_i f_R(i)(Zf_R)(i)$ and
+$G_R=2\chi_R-\sum_i\pi_i f_R(i)^2$; their denominators again contain the
+single $571$ factor. Subtracting the static variance baseline isolates
+the Green-excess coefficient $\Delta_R(1)$. Thus $q_3=0$ is the static
+cut-flux conclusion for the infrared readout, while a running or
+relaxation response must use a separate Green-excess coefficient, for
+example
+$$
+  D_{6,\alpha}(z)
+  =
+  D_{6,\alpha}^{\star}
+  +
+  \Delta_R(z)\varphi^{-37}
+  +
+  O(\varphi^{-47}).
+$$
+\end{proof}
+
+\begin{definition}[Window-six Green-excess seed]
+\label{def:zeckendorf-window-six-green-running-seed}
+The Window-six Green-excess seed is the dynamic extension datum
+$$
+  \mathsf{ZGFluxPhaseGreenSeed}_{6,\alpha}
+  :=
+  \left(
+    D_{6,\alpha}^{\star},
+    \Delta_R(z),
+    \varphi^{-37}
+  \right),
+$$
+where $D_{6,\alpha}^{\star}$ is the static cut-flux denominator and
+$\Delta_R(z)$ is the centered right-boundary Green-excess kernel
+$$
+  \Delta_R(z)
+  =
+  -
+  \frac{
+    3z(1595z^2+24477z+26730)
+  }{
+    512(55z^3+506z^2-7263z-48114)
+  }.
+$$
+It satisfies
+$$
+  \Delta_R(0)=0,
+  \qquad
+  \Delta_R(1)
+  =
+  \frac{26401}{2^{13}\cdot571}.
+$$
+Near the static denominator the readout derivative is approximately
+$$
+  \frac{dR}{dD}\bigg|_{D=D_{6,\alpha}^{\star}}
+  \approx
+  -0.00120603474199364,
+  \qquad
+  \varphi^{-37}\approx1.85121691873052\cdot10^{-8}.
+$$
+Thus full Window-six Green-excess activation changes the inverse
+coupling by approximately
+$$
+  -1.26\cdot10^{-13}.
+$$
+The seed does not replace the infrared denominator
+$$
+  D_{6,\alpha}^{\star}
+  =
+  47+\varphi^{-7}-\frac12\varphi^{-17}
+  +\frac89\varphi^{-27}.
+$$
+It records the first local Green-excess extension
+$$
+  D_{6,\alpha}(z)
+  =
+  D_{6,\alpha}^{\star}
+  +
+  \Delta_R(z)\varphi^{-37}
+  +
+  O(\varphi^{-47}).
+$$
+\end{definition}
+
+\begin{definition}[Window-six spectral response family]
+\label{def:zeckendorf-window-six-spectral-response-family}
+The Window-six spectral response family is the one-parameter readout
+obtained by adjoining the Green-excess kernel to the static
+phase-reservoir denominator:
+$$
+  D_{6,\alpha}(z)
+  =
+  D_{6,\alpha}^{\star}
+  +
+  \Delta_R(z)\varphi^{-37}
+  +
+  O(\varphi^{-47}),
+$$
+where
+$$
+  C_{6,\alpha}(z)
+  =
+  \frac12
+  +
+  \frac14\cos^2\left(\frac{\pi}{\varphi}\right)
+  +
+  \frac{1}{D_{6,\alpha}(z)\varphi^5}
+$$
+and
+$$
+  \alpha_{Z6}^{-1}(z)
+  =
+  2\pi
+  \frac{
+    21+34C_{6,\alpha}(z)
+  }{
+    21\varphi^{-6}
+    +
+    34C_{6,\alpha}(z)\varphi^{-7}
+  }.
+$$
+The parameter $z$ is a Window-six Green-relaxation activation parameter,
+not yet a physical momentum scale. A physical running interpretation
+must supply a map $z=z(Q)$ and, beyond the Window-six neighbourhood, a
+refinement flow $X_6\rightsquigarrow X_{m(Q)}$.
+\end{definition}
+
+\begin{theorem}[Spectral response interpolation]
+\label{thm:zeckendorf-spectral-response-interpolation}
+The family of
+\autoref{def:zeckendorf-window-six-spectral-response-family} interpolates
+between the static cut-flux readout and the first Window-six
+Green-excess readout:
+$$
+  \alpha_{Z6}^{-1}(0)
+  =
+  137.035999177006279014596667\ldots,
+$$
+and
+$$
+  \alpha_{Z6}^{-1}(1)
+  =
+  137.035999177006153002727216\ldots.
+$$
+Moreover $\Delta_R(z)$ is a rational spectral response of the four-state
+Window-six Markov kernel. The characteristic polynomial is
+$$
+  \chi_T(t)
+  =
+  (t-1)
+  \frac{48114t^3+7263t^2-506t-55}{48114},
+$$
+and the denominator
+$$
+  55z^3+506z^2-7263z-48114
+$$
+in $\Delta_R(z)$ is the reciprocal form of the non-stationary cubic
+factor. Thus the $571$ denominator in the fully activated Green-excess
+coefficient is the arithmetic trace of the Window-six Green spectrum, not
+a static correction to $\alpha_{Z6}^{-1}(0)$.
+\end{theorem}
+\begin{proof}
+At $z=0$, \autoref{def:zeckendorf-window-six-green-running-seed} gives
+$\Delta_R(0)=0$, so $D_{6,\alpha}(0)=D_{6,\alpha}^{\star}$ and the
+readout is the static cut-flux phase-reservoir value. At $z=1$, the same
+definition gives
+$$
+  \Delta_R(1)=\frac{26401}{2^{13}\cdot571},
+$$
+which yields the displayed endpoint after substitution into
+\autoref{def:zeckendorf-window-six-spectral-response-family}.
+
+For monotonicity, differentiate the displayed rational formula for
+$\Delta_R(z)$:
+$$
+  \Delta_R'(z)
+  =
+  \frac{
+    3(539165z^4+26109270z^3+421527321z^2
+    +2355372756z+1286087220)
+  }{
+    512(55z^3+506z^2-7263z-48114)^2
+  }.
+$$
+The derivative is positive on $0\leq z\leq1$. Since
+\autoref{thm:zeckendorf-denominator-predictivity-requirement} shows that
+the readout $R(D)$ decreases with $D$, activating Green-excess decreases
+$\alpha_{Z6}^{-1}$ and increases the coupling. The characteristic
+polynomial statement follows by computing the characteristic polynomial
+of the displayed coarse Markov matrix $T$ in
+\autoref{thm:zeckendorf-static-right-boundary-source-green-zero}. The
+reciprocal cubic identity is exactly
+$$
+  55z^3+506z^2-7263z-48114
+  =
+  -z^3
+  \left(
+    48114z^{-3}+7263z^{-2}-506z^{-1}-55
+  \right).
+$$
+\end{proof}
+
+\begin{theorem}[Golden--Markov audit field]
+\label{thm:zeckendorf-golden-markov-audit-field}
+Let $\lambda$ be any non-stationary eigenvalue of the Window-six coarse
+Markov kernel $T$, so that
+$$
+  48114\lambda^3+7263\lambda^2-506\lambda-55=0.
+$$
+The dynamic spectral response is naturally read over the compositum
+$$
+  K_6^{\mathrm{audit}}
+  =
+  \mathbb{Q}(\varphi,\lambda).
+$$
+The golden phase scale contributes the quadratic field
+$\mathbb{Q}(\varphi)=\mathbb{Q}(\sqrt5)$, while the non-stationary Markov
+spectrum contributes the cubic field $\mathbb{Q}(\lambda)$. When these
+two fields are linearly disjoint, $K_6^{\mathrm{audit}}$ has degree $6$
+over $\mathbb{Q}$ with basis
+$$
+  1,\ \varphi,\ \lambda,\ \lambda\varphi,\ \lambda^2,\ \lambda^2\varphi.
+$$
+Thus the Window-six response separates into a static golden phase layer
+and a dynamic cubic Markov spectral layer. The $Z_6\to U(1)$ phase gate,
+the shell $\varphi^{-6}$, and the degree-six audit field are three
+readings of the same two-by-three structure: quadratic golden scale
+times cubic Markov spectrum.
+\end{theorem}
+\begin{proof}
+The golden field has degree $2$ because $\varphi$ satisfies
+$x^2-x-1=0$. The Markov spectral field is generated by a root of the
+non-stationary cubic factor displayed in
+\autoref{thm:zeckendorf-spectral-response-interpolation}. Linear
+disjointness gives the product degree $2\cdot3=6$ and the displayed
+tensor-product basis. The static readout uses only the golden phase shell
+and the $Z_6$ phase gate. The dynamic Green-excess denominator uses the
+reciprocal cubic spectral factor. Hence the unified spectral response
+lives over the compositum rather than over the golden field alone.
+\end{proof}
+
+\begin{corollary}[Small-activation Green-excess]
+\label{cor:zeckendorf-small-activation-green-excess}
+Near the static point,
+$$
+  \Delta_R(z)
+  =
+  \frac{5}{1536}z
+  +
+  \frac{3407}{1368576}z^2
+  -
+  \frac{179639}{1219401216}z^3
+  +
+  O(z^4).
+$$
+Consequently the fixed Window-six Green-excess is a small infrared seed:
+the leading dynamic contribution to the inverse coupling is proportional
+to $-(5/1536)z\varphi^{-37}$. A full physical running account must still
+provide the scale map $z=z(Q)$ and the cross-window refinement
+$X_6\rightsquigarrow X_{m(Q)}$.
+\end{corollary}
+
+\input{parts/visions/axiszeckendorf/beta_sign_selection}
+
+\input{parts/visions/axiszeckendorf/internal_beta_seed}
+
+\input{parts/visions/axiszeckendorf/phase_shell_running}
+
+\input{parts/visions/axiszeckendorf/readout_coefficient_strata}
+
+\input{parts/visions/axiszeckendorf/prequantum_phase_projection}
+
+\begin{theorem}[Static denominator closed; Green-excess remains separate]
+\label{thm:zeckendorf-static-denominator-green-running-separation}
+The low-energy static denominator is closed at the static cut-flux layer:
+$$
+  D_{6,\alpha}^{\star}
+  =
+  47+\varphi^{-7}-\frac12\varphi^{-17}
+  +\frac89\varphi^{-27}.
+$$
+The first candidate Green-running coefficient is the centered
+Green-excess kernel
+$$
+  q_{3,\mathrm{run}}(z)=\Delta_R(z),
+  \qquad
+  \Delta_R(1)=\frac{26401}{2^{13}\cdot571}.
+$$
+Thus the subsequent certificate problem is not whether to add another
+static term to $D_{6,\alpha}^{\star}$, but whether a physical
+Green-excess activation parameter $z(Q)$ and higher-window data replace
+the fixed Window-six seed by a refinement flow
+$$
+  X_6\rightsquigarrow X_{m(Q)}.
+$$
+\end{theorem}
+\begin{proof}
+The static part is the conclusion of
+\autoref{thm:zeckendorf-static-right-boundary-source-green-zero}: every
+static Dirichlet cut-source is Laplacian-exact, and the right-boundary
+source therefore gives $q_3=0$ for the infrared readout. The dynamic
+coefficient is the Green--Kubo response after subtracting the static
+variance baseline of the centered right-boundary observable. Since
+$\Delta_R(0)=0$, the Green-excess seed contributes no correction at the
+static point. For $0<z\leq1$ the displayed denominator is negative while
+the polynomial $3z(1595z^2+24477z+26730)$ is positive; the leading minus
+sign therefore makes $\Delta_R(z)>0$. Because the readout $R(D)$ is
+decreasing in $D$, the Green-excess term lowers $\alpha^{-1}$ and raises
+the coupling. At nonzero scale the effect is controlled by Green-excess
+activation and window-refinement data, not by a change to the static
+denominator.
+\end{proof}

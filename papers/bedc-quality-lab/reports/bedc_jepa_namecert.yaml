@@ -1,0 +1,46 @@
+schema_id: bedc-jepa-tensor-namecert
+name: BEDCJEPA_TinyWorld
+source_spec:
+  world: boundary-gated-ou-world
+  model: torch-bedc-jepa-objective
+  observation: nonlinear mixed state vector
+  train_scope: boundary-gated operational toy world
+  test_count: 768.0
+pattern_spec:
+  distinctions:
+    - inside_operational_boundary
+  gap_types:
+    - boundary_gap
+    - low_certification_margin
+    - unlogged_distinction_error
+  objective_terms:
+    - latent_prediction
+    - distinction_bce
+    - gap_bce
+    - unlogged_error_penalty
+classifier_spec:
+  relation: same thresholded distinction vector inside declared low-gap scope
+  distinction_threshold: 0.5
+  gap_threshold: 0.5
+  distinction_accuracy: 0.98828125
+  distinction_accuracy_outside_gap: 1.0
+stab_cert:
+  seed_count: 3.0
+  gap_auc_gain_mean: 0.4987624509356536
+  debt_reduction_mean: 0.10288747050501545
+  latent_r2_delta_abs_max: 0.0
+ledger_policy:
+  recorded_residue:
+    - gap-labeled boundary cases
+    - low-certification coverage cases
+    - distinction errors without active gap score
+  not_claimed:
+    - real-world physics
+    - global planning optimality
+    - open-domain semantics
+    - formal verification of neural training
+quality:
+  unlogged_error_rate: 0.0
+  unlogged_error_reduction_mean: 0.009982638888888888
+  bedc_debt_score: 0.007458617822128848
+  gate_decision: pass
