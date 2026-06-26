@@ -84,6 +84,20 @@ Now include the source window from \autoref{def:normalization-candidate-frontier
 Finally apply \autoref{thm:normalization-candidate-frontier-stability}. Dropping $E$ or $B$ forces the read into $O$, and retaining $O$ prevents the consumer from treating candidate-mediated evidence as evidence-free global normalization. Thus $T,E,B,S,I,O,H,C,P,N$ form the visible dependency lattice for the $\MetaCICNormalizationFrontierUp$ consumer.
 \end{proof}
 
+\begin{theorem}[NormalizationCandidateFrontier obstruction exactness]
+\label{thm:normalization-candidate-frontier-obstruction-exactness}
+Let $F=(T,E,B,S,I,O,H,C,P,N)$ be an accepted $\NormalizationCandidateFrontierUp$ carrier. Any public read that exports the candidate-supported strong-normalization row $S$ or the no-infinite-reduction row $I$ must preserve the candidate-evidence row $E$, the bounded-candidate route row $B$, and the obstruction row $O$. If $E$ or $B$ is absent from the read, the only public route supplied by this packet is the obstruction row $O$, so evidence-erasing requests cannot be converted into global strong normalization.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normalization-candidate-frontier-carrier}. The rows $S$ and $I$ are displayed only downstream of $E$ and $B$, while $O$ records the requests that erase candidate evidence, bounded routes, or the explicit obstruction boundary.
+
+Use stability, \autoref{thm:normalization-candidate-frontier-stability}. It already forces any public strong-normalization or no-infinite-reduction read to preserve $E$ and $B$ under classifier transport. When either row is dropped, the read has no carrier coordinate from which $S$ or $I$ can be exported.
+
+Now apply the audit handoff and sibling dependency results, \autoref{thm:normalization-candidate-frontier-audit-handoff} and \autoref{thm:normalization-candidate-frontier-sibling-dependency}. They route MetaCIC audit consumers through the candidate socket, bounded candidate packet, normalization frontier, and critical-path surface before any positive projection is public, and they keep $O$ visible as a refusal row rather than prose outside the packet.
+
+Finally use the obligation closure route of \autoref{thm:normalization-candidate-frontier-obligation-closure}. Since $T,E,B,S,I,O,H,C,P,N$ are the visible dependency lattice, a read lacking $E$ or $B$ cannot bypass $O$. The obstruction row is therefore exact for evidence-erasing requests: it is the public result of the packet in those cases, and it cannot be erased into a global strong-normalization claim.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\NormalizationCandidateFrontierUp$ consumer that exports closed-term strong normalization while omitting the candidate-evidence row $E$, bounded route row $B$, or obstruction row $O$ refutes the packet.}
 
 \independenceWitness{normalization\_candidate\_socket, bounded\_normalization\_candidate, metacicnormalizationfrontier, metaciccriticalpath: the socket separates candidate families, the bounded candidate packet records finite fuel and adequacy data, the MetaCIC frontier records normalization boundary rows, and the critical path records dependency pressure; none is bijective with $\NormalizationCandidateFrontierUp$ because this packet jointly carries the closed term window, candidate evidence, bounded route, positive projections, explicit obstruction, transport, replay, provenance, and local naming as one frontier carrier.}
