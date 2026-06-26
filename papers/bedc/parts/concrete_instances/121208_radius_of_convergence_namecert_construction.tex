@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\RadiusOfConvergenceUp$}
+\label{ch:concrete-instances-radius-of-convergence-namecert}
+\origin{human}
+
+Following Cauchy's power-series tests and Hadamard's formula for the radius of convergence, the $\RadiusOfConvergenceUp$ packet records the finite BEDC data by which a power-series consumer may compare candidate radii before any Real-facing analytic claim is read. It sits after the finite power-series carrier of \autoref{ch:concrete-instances-power-series-namecert}, the ratio-test route of \autoref{ch:concrete-instances-real-series-ratio-test-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only finite coefficient windows, displayed candidate-radius ledgers, convergence and divergence budgets, regular rational readback, Real sealing, transport, replay, provenance, and local naming; it does not assert a host supremum, analytic continuation, quotient real equality, trichotomy, selected limit, or ambient completeness.
+
+\begin{definition}[Radius of convergence carrier]
+\label{def:radius-of-convergence-carrier}
+A $\RadiusOfConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+R=(A,W,D,C,V,Q,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the coefficient source row, exposing the finite coefficient data consumed from the surrounding power-series packet.
+\item $W$ is the finite power-series window row, recording the displayed coefficient and exponent range in which the radius comparison is in scope.
+\item $D$ is the dyadic candidate-radius ledger, carrying candidate radii and comparison budgets through $\DyadicRatCoreUp$ arithmetic.
+\item $C$ is the convergence-side budget row, listing the finite tests that certify convergence reads for candidates inside the displayed ledger.
+\item $V$ is the divergence-side budget row, listing the finite obstruction reads for candidates outside the displayed ledger.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the same candidate-radius ledger and finite test windows.
+\item $E$ is the $\RealUp$ seal row, available only after $A,W,D,C,V,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for coefficient, window, dyadic ledger, convergence budget, divergence budget, readback, seal, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from a radius query through $A,W,D,C,V,Q,E,H$ before a consumer reads the packet.
+\item $P$ is the $\Pkg$ provenance over $\RadiusOfConvergenceUp$, $\PowerSeriesUp$, $\RealSeriesRatioTestUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RadiusOfConvergenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,W,D,C,V,Q,E,H,T,P,N$. It has no coordinate for a host supremum over radii, analytic continuation, quotient equality of real names, trichotomy over the Real seal, selected limiting radius, or ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Radius of convergence NameCert obligations]
+\label{thm:radius-of-convergence-namecert-obligations}
+For every accepted $\RadiusOfConvergenceUp$ carrier $R=(A,W,D,C,V,Q,E,H,T,P,N)$, the local $\NameCert_{\RadiusOfConvergenceUp}$ surface consists exactly of coefficient-source exposure, finite power-series window exposure, dyadic candidate-radius ledger exposure, convergence-side budget exposure, divergence-side budget exposure, $\RegSeqRatUp$ readback, $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every power-series or analytic-function consumer must read
+$$
+A,W,D,C,V,Q,E,H,T,P,N
+$$
+before treating the packet as radius evidence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:radius-of-convergence-carrier}. The rows $A,W,D,C,V,Q,E,H,T,P,N$ are exactly the displayed coordinates available to the local certificate.
+
+The coefficient source and finite window rows fix the visible power-series data. The dyadic ledger then lists candidate radii, while the convergence and divergence budgets record only finite tests attached to that ledger.
+
+Next read the regular rational and Real-facing rows. The $\RegSeqRatUp$ row translates the displayed candidate-radius comparisons into regular readback data, and the $\RealUp$ seal is reached only after those rows have been exposed.
+
+Finally transport, replay, provenance, and local naming preserve the same finite route. Since the carrier lacks coordinates for a host supremum, analytic continuation, quotient real equality, trichotomy, selected limits, or ambient completeness, no NameCert obligation can export those objects.
+\end{proof}
+
+\closureat{RadiusOfConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\RadiusOfConvergenceUp}
+  \constructivestory{A $\RadiusOfConvergenceUp$ packet is generated from coefficient source data, finite power-series windows, dyadic candidate-radius ledgers, convergence-side and divergence-side budgets, RegSeqRat readback, Real sealing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:radius-of-convergence-carrier} and \autoref{thm:radius-of-convergence-namecert-obligations} seed the finite radius-of-convergence interface over coefficient windows, dyadic candidate ledgers, convergence and divergence budgets, regular rational readback, Real sealing, transport, replay, provenance, and naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, host suprema, analytic continuation, quotient real equality, trichotomy, selected limits, ambient completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient source exposure, finite window routing, dyadic candidate-radius ledger exposure, convergence and divergence budget routing, RegSeqRat readback, Real sealing, transport, provenance, and local naming for BEDC.Derived.RadiusOfConvergenceUp.}
+\end{closurestatus}
