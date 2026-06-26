@@ -239,6 +239,22 @@ The carrier definition supplies the accepted source metric, displayed completion
 Transport stability and ledger exactness keep the same public rows visible after finite route traversal, and finite-row induction ensures that no later coordinate replaces them. The obligation-export theorem packages those same rows as the chapter-level export, so the displayed data are exactly the public BEDC package used by completion-minimality clients.
 \end{proof}
 
+\begin{theorem}[CauchyCompletionMinimality bridge boundary]
+\label{thm:cauchy-completion-minimality-bridge-boundary}
+Let $M=(X,C,E,U,F,S,H,R,P,N)$ be an accepted $\CauchyCompletionMinimalityUp$ carrier. Any standard completion bridge for the public package of \autoref{thm:cauchy-completion-minimality-public-exported-package} must factor through the finite route
+$$
+X\longmapsto C\longmapsto E\longmapsto U\longmapsto F\longmapsto S\longmapsto H\longmapsto R\longmapsto P\longmapsto N .
+$$
+Along this route the bridge preserves dense-image coverage, universal factorization, separated uniqueness, uniformly continuous transport, replay, provenance, and local naming. It does not replace the displayed package by quotient completions, selected representatives, countable choice, host equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:cauchy-completion-minimality-carrier}. Its displayed rows are exactly $X,C,E,U,F,S,H,R,P,N$, and the NameCert obligations of \autoref{thm:cauchy-completion-minimality-namecert-obligations} expose dense-image coverage, universal factorization, separated uniqueness, and ledger non-escape on those rows.
+
+Apply finite-row induction, \autoref{thm:cauchy-completion-minimality-finite-row-induction}. The bridge can traverse the public package only by reading the admitted route from the source metric through the local name. The dense-image theorem, universal-factorization theorem, separated-reflection route, transport-stability theorem, and public exported package theorem preserve the corresponding rows at each stage.
+
+Finally use ledger exactness, \autoref{thm:cauchy-completion-minimality-ledger-exactness}. The replay, provenance, and local naming rows record the same finite service boundary and no larger completion principle. Hence a standard bridge has a paper-visible boundary precisely at the displayed route and cannot appeal to quotient completions, selected representatives, countable choice, host equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \begin{closurestatus}{\CauchyCompletionMinimalityUp}
   \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{thm:cauchy-completion-minimality-public-exported-package} exports the public package over source metrics, displayed completion rows, dense embeddings, universal extension, uniformly continuous handoff, separated uniqueness, transport, replay, provenance, and local naming.}
