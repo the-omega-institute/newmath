@@ -133,14 +133,26 @@ The downstream package is then governed by \autoref{thm:schurorthogonality-repre
 \end{proof}
 \leanchecked{BEDC.Derived.SchurOrthogonalityUp.SchurOrthogonalityScopedDependencyPackage}
 
-\closureat{SchurOrthogonalityUp}{scopedStr}
+\begin{theorem}[SchurOrthogonality character-basis public export]
+\label{thm:schurorthogonality-character-basis-public}
+Every public $\SchurOrthogonalityUp$ read exported to a $\RepresentationRingUp$ or $\InducedRepUp$ consumer is the finite character-basis ledger exposed through $G,V,X,\Phi,\Omega,H,C,P,N$. The public surface contains the row and column orthogonality entries, normalization rows, zero-off-diagonal rows, and character-pairing provenance named by the scoped dependency package, and it contains no host character table, quotient conjugacy-class carrier, ambient inner product, or complete representation category.
+\end{theorem}
+\begin{proof}
+Project the scoped dependency package of \autoref{thm:schurorthogonality-scoped-dependency-package}. It binds the carrier, pairing ledger, orthogonality ledger, transport, continuation, provenance, and NameCert rows as the whole visible surface.
+
+The public consumer route is already fixed by \autoref{thm:schurorthogonality-representation-ring-route}. A $\RepresentationRingUp$ or $\InducedRepUp$ consumer reads only the displayed finite Schur ledger through $\Phi,\Omega,C,P,N$.
+
+The row-column ledger of \autoref{thm:schurorthogonality-row-column-orthogonality-ledger} supplies the exported character-basis entries. Since the carrier has no coordinate for the excluded host structures, the public read is exactly the finite character-basis ledger named in the statement.
+\end{proof}
+
+\closureat{SchurOrthogonalityUp}{publicStr}
 
 \begin{closurestatus}{\SchurOrthogonalityUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:schurorthogonality-scoped-dependency-package} binds the finite Schur orthogonality route over displayed $\GroupUp$, $\VecSpaceUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, $\InducedRepUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:schurorthogonality-scoped-dependency-package} and \autoref{thm:schurorthogonality-character-basis-public} bind the finite Schur orthogonality route over displayed $\GroupUp$, $\VecSpaceUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, $\InducedRepUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows and expose its public character-basis ledger.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close character-table computation, quotient conjugacy classes, host inner products, complete representation categories, Lean verification, or bridge checking.}
-  \upgradepath{Public closure requires a public-object interface and checked bridge route for the same finite Schur orthogonality packet.}
+  \upgradepath{The remaining work is Lean verification and bridge checking for the same finite Schur orthogonality packet.}
   \constructivestory{A $\SchurOrthogonalityUp$ packet is generated from displayed Group, VecSpace, and CharacterTheory sources, a finite character-pairing ledger, a finite row and column orthogonality ledger, componentwise transport, continuation replay, package provenance, and a local NameCert row.}
 \end{closurestatus}

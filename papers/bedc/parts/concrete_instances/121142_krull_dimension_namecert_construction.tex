@@ -1,0 +1,49 @@
+\chapter{A Concrete Naming Certificate for $\KrullDimensionUp$}
+\label{ch:concrete-instances-krull-dimension-namecert}
+\origin{human}
+
+Following Krull and Bourbaki/Zariski--Samuel, the $\KrullDimensionUp$ packet records dimension as finite prime-chain NameCert data rather than as a global set-theoretic supremum. It sits over the ideal carrier of \autoref{ch:concrete-instances-ideal-namecert}, the Noetherian finiteness surface of \autoref{ch:concrete-instances-noetherian-ring-namecert}, the principal-chain boundary of \autoref{ch:concrete-instances-principal-ideal-domain-namecert}, the valuation-domain comparability route of \autoref{ch:concrete-instances-valuation-domain-namecert}, and the finite-intersection discipline of \autoref{ch:concrete-instances-krull-intersection-namecert}. The packet names only displayed chains of prime-ideal rows and their bounded handoff; it does not assert a maximal prime chain, choose a generic point, import excluded ideal equality, or identify schemes by ambient topology.
+
+\begin{definition}[Krull dimension carrier]\label{def:krull-dimension-carrier}
+A $\KrullDimensionUp$ carrier is a finite $\BHist$ packet
+$$
+\begin{gathered}
+K=(R,I,P,L,N,V,J,H,C,G)
+\end{gathered}
+$$
+where $R$ is the displayed commutative-ring source, $I$ is the $\IdealUp$ carrier row for finitely named ideals, $P$ is the finite list of prime-ideal names, $L$ is the listed strict-inclusion chain relation on those prime rows, $N$ is the $\NoetherianRingUp$ finiteness handoff when such a bound is present, $V$ is the valuation-domain comparability route when the chain is read through a valuation sibling, $J$ is the principal-ideal or Dedekind-style height handoff route, $H$ is componentwise $\hsame$ transport, $C$ is displayed $\Cont$ replay, and $G$ is the local $\NameCert_{\KrullDimensionUp}$ row.
+\end{definition}
+
+\begin{theorem}[Krull dimension NameCert obligations]\label{thm:krull-dimension-namecert-obligations}
+For every accepted $\KrullDimensionUp$ carrier $K=(R,I,P,L,N,V,J,H,C,G)$, the local $\NameCert_{\KrullDimensionUp}$ surface consists exactly of carrier admission for the displayed ring source, ideal-row admission through \autoref{ch:concrete-instances-ideal-namecert}, primality and strict-inclusion admission for the finite list $P,L$, optional Noetherian bound routing through \autoref{ch:concrete-instances-noetherian-ring-namecert}, valuation comparability routing through \autoref{ch:concrete-instances-valuation-domain-namecert}, principal or Dedekind-style height routing through \autoref{ch:concrete-instances-principal-ideal-domain-namecert} and \autoref{ch:concrete-instances-dedekind-namecert}, componentwise transport, replay, and local naming. No obligation row exports a chosen longest chain, quotient ideal equality, spectrum topology, scheme dimension, or classical maximal-prime principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:krull-dimension-carrier}. The rows $R,I,P,L$ display the ring source, ideal carrier, prime names, and strict-inclusion chain before any dimension read is public.
+
+Read the sibling finiteness and comparability routes next. The Noetherian row supplies only a finite bound witness when it is present, the valuation-domain row supplies a comparability handoff, and the principal or Dedekind-style route supplies a height-facing handoff through existing concrete algebra chapters.
+
+Finally replay $H,C,G$. These rows preserve the displayed finite packet and provide the local name, so a consumer receives only the finite prime-chain obligation surface and cannot infer a selected maximal chain, quotient ideal equality, spectrum topology, scheme dimension, or a classical maximal-prime endpoint.
+\end{proof}
+
+\begin{theorem}[Krull dimension prime-chain handoff]\label{thm:krull-dimension-prime-chain-handoff}
+Every downstream consumer of a $\KrullDimensionUp$ read that asks for a local, scheme-facing, or valuation-facing dimension boundary must first expose the finite prime-chain rows $P,L$, the $\IdealUp$ source row $I$, and the active sibling route through $\NoetherianRingUp$, $\PrincipalIdealDomainUp$, $\ValuationDomainUp$, or the Dedekind chapter before the dimension boundary is public. The handoff is a finite NameCert route through prime ideals and strict inclusions, not an ambient topological dimension theorem, not a selected irreducible component, and not a quotient construction on ideals.
+\end{theorem}
+\begin{proof}
+Start with the obligation theorem \autoref{thm:krull-dimension-namecert-obligations}. It makes the ideal row, prime-name list, and strict-inclusion relation visible before any consumer-facing dimension row can be read.
+
+Use the selected sibling route according to the consumer. A Noetherian consumer reads the finite-bound row, a principal-domain consumer reads the principal height handoff, a valuation-domain consumer reads comparability, and a Dedekind-facing consumer reads the height route through the existing Dedekind chapter.
+
+The structural rows $H,C,G$ then transport and replay the same finite packet. Since the carrier has no coordinate for spectrum topology, selected generic points, quotient ideal equality, or a longest-chain choice, the exported handoff is exactly the displayed prime-chain route.
+\end{proof}
+
+\closureat{KrullDimensionUp}{seedStr}
+
+\begin{closurestatus}{\KrullDimensionUp}
+  \constructivestory{A $\KrullDimensionUp$ packet is generated from a displayed ring source, IdealUp rows, finite prime-chain rows, optional NoetherianRingUp bounds, PrincipalIdealDomainUp or valuation comparability routes, componentwise hsame transport, displayed Cont replay, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:krull-dimension-carrier} and \autoref{thm:krull-dimension-namecert-obligations} seed the finite prime-chain NameCert surface for commutative-algebra dimension reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a selected maximal chain, quotient equality of ideals, spectrum topology, scheme dimension, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prime-chain strictness, sibling finiteness routing, valuation comparability, height handoff, transport stability, replay stability, and nonescape for BEDC.Derived.KrullDimensionUp.}
+\end{closurestatus}
