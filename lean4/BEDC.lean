@@ -12091,6 +12091,7 @@ import BEDC.Derived.Window6FibEntryPointCongruence
 import BEDC.Derived.Window6FibGcdStrongDivisibility
 import BEDC.Derived.Window6FibonacciCount
 import BEDC.Derived.Window6Foldbin
+import BEDC.Derived.Window6GatedFaceRecurrence
 import BEDC.Derived.Window6GaugeOrbit
 import BEDC.Derived.Window6GoldenSplitModPLaw
 import BEDC.Derived.Window6JointNecklace
