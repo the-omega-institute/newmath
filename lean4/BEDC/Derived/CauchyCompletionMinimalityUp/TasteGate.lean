@@ -1,12 +1,22 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyCompletionMinimalityUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -180,5 +190,42 @@ theorem CauchyCompletionMinimalityTasteGate_single_carrier_alignment :
   constructor
   · exact CauchyCompletionMinimalityTasteGate_single_carrier_alignment_decode_encode
   · rfl
+
+def CauchyCompletionMinimalityCarrier [AskSetup] [PackageSetup]
+    (source completion embedding universal extension separated transport replay provenance
+      name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  UnaryHistory source ∧ UnaryHistory completion ∧ UnaryHistory embedding ∧
+    UnaryHistory universal ∧ UnaryHistory extension ∧ UnaryHistory separated ∧
+      UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+        UnaryHistory name ∧ Cont completion embedding universal ∧
+          Cont universal extension separated ∧ PkgSig bundle provenance pkg
+
+theorem CauchyCompletionMinimalityCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {source completion embedding universal extension separated transport replay provenance name
+      denseRead compared : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyCompletionMinimalityCarrier source completion embedding universal extension separated
+        transport replay provenance name bundle pkg →
+      Cont completion embedding denseRead →
+        Cont extension separated compared →
+          UnaryHistory source ∧ UnaryHistory completion ∧ UnaryHistory embedding ∧
+            UnaryHistory universal ∧ UnaryHistory extension ∧ UnaryHistory separated ∧
+              UnaryHistory denseRead ∧ UnaryHistory compared ∧
+                Cont completion embedding denseRead ∧ Cont extension separated compared ∧
+                  PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier denseRoute comparedRoute
+  obtain ⟨sourceUnary, completionUnary, embeddingUnary, universalUnary, extensionUnary,
+    separatedUnary, _transportUnary, _replayUnary, _provenanceUnary, _nameUnary,
+    _universalRoute, _separatedRoute, provenancePkg⟩ := carrier
+  have denseUnary : UnaryHistory denseRead :=
+    unary_cont_closed completionUnary embeddingUnary denseRoute
+  have comparedUnary : UnaryHistory compared :=
+    unary_cont_closed extensionUnary separatedUnary comparedRoute
+  exact
+    ⟨sourceUnary, completionUnary, embeddingUnary, universalUnary, extensionUnary,
+      separatedUnary, denseUnary, comparedUnary, denseRoute, comparedRoute, provenancePkg⟩
 
 end BEDC.Derived.CauchyCompletionMinimalityUp
