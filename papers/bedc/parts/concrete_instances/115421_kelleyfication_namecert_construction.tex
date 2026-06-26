@@ -42,6 +42,7 @@ Transport and replay preserve those rows componentwise. Provenance and local nam
 \label{thm:kelleyfication-compact-generated-obligation}
 For every accepted $\KelleyficationUp$ carrier $K=(T,C,O,W,H,R,P,N)$, the compact-generated obligation is a row projection from the displayed carrier: $T$ supplies the $\TopologyUp$ source, $C$ supplies the $\CoreCompactUp$ compact-generation tests, $O$ supplies the $\CompactOpenTopologyUp$ compact-window ledger, $W$ supplies the $\StreamNameUp$ inspection window, $H$ supplies componentwise $\hsame$ transport, $R$ supplies displayed $\Cont$ replay, $P$ supplies $\Pkg$ provenance, and $N$ supplies the local $\NameCert$ row. No compact-generated read may be certified by a host topology predicate or by a compactness witness outside $T,C,O,W,H,R,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.KelleyficationUp.KelleyficationCarrier\_compact\_generated\_obligation}
 \begin{proof}
 Project the carrier of \autoref{def:kelleyfication-carrier}. The rows $T,C,O,W,H,R,P,N$ are the only rows available to an accepted $\KelleyficationUp$ packet.
 
@@ -119,6 +120,45 @@ Next use core-compact scope from \autoref{thm:kelleyfication-corecompact-scope}.
 Finally replay inspection-window stability. Transport and continuation preserve the same $T,C,O,W$ rows, while the carrier contains no coordinate for host opens, quotient-open equality, arbitrary open-cover compactness, or a selected compact-test family. Thus the displayed rows exhaust the reflected-open read.
 \end{proof}
 
+\begin{theorem}[Kelleyfication obligation-closure route]
+\label{thm:kelleyfication-obligation-closure-route}
+For every accepted $\KelleyficationUp$ carrier $K=(T,C,O,W,H,R,P,N)$, the obligation-closure route is the row projection that combines the compact-generated obligation, compact-open scope and exactness, core-compact scope, inspection-window stability, and compact-window exhaustion. The route exports exactly the topology source row $T$, compact-generation row $C$, compact-open ledger $O$, inspection window $W$, componentwise transport $H$, displayed replay $R$, provenance $P$, and local naming $N$, and it exports no host topology predicate, quotient-open equality, arbitrary open-cover compactness, or selected compact-test family.
+\end{theorem}
+\begin{proof}
+Begin with the compact-generated obligation of \autoref{thm:kelleyfication-compact-generated-obligation}. It makes the compact-generated read a projection from $T,C,O,W,H,R,P,N$.
+
+Use compact-open scope and exactness, \autoref{thm:kelleyfication-compact-open-scope} and \autoref{thm:kelleyfication-compact-open-exactness}, together with core-compact scope \autoref{thm:kelleyfication-corecompact-scope}. These force every reflected-open read through the finite route
+$$
+T \to C \to O \to W \to H \to R \to P \to N.
+$$
+
+Finally apply inspection-window stability and compact-window exhaustion, \autoref{thm:kelleyfication-inspection-window-stability} and \autoref{thm:kelleyfication-compact-window-exhaustion}. They keep the same rows visible after transport and replay, so the obligation route contains no external compactness or quotient-open coordinate.
+\end{proof}
+
+\begin{theorem}[Kelleyfication transport replay obligation]
+\label{thm:kelleyfication-transport-replay-obligation}
+For every accepted $\KelleyficationUp$ carrier $K=(T,C,O,W,H,R,P,N)$, the transport and replay obligation is local to the displayed rows: $H$ transports the source topology, compact-generation tests, compact-open ledger, inspection window, replay, provenance, and local naming componentwise, while $R$ replays only the reflected-open route already fixed by $T,C,O,W$. No transported or replayed read may introduce host opens, quotient-open equality, arbitrary open-cover compactness, or selected compact tests.
+\end{theorem}
+\begin{proof}
+Project the transport row $H$ from \autoref{def:kelleyfication-carrier}. It has components only for the rows already displayed in the carrier, so it cannot add a new topology or compactness coordinate.
+
+Now read the replay row $R$ through compact-open exactness, \autoref{thm:kelleyfication-compact-open-exactness}. The replayed request must pass through $T,C,O,W$ before provenance or local naming is exposed.
+
+Inspection-window stability and compact-window exhaustion, \autoref{thm:kelleyfication-inspection-window-stability} and \autoref{thm:kelleyfication-compact-window-exhaustion}, then identify the transported and replayed route with the same finite compact-window ledger. The excluded host and choice-selected objects are absent from every row used in the projection.
+\end{proof}
+
+\begin{theorem}[Kelleyfication local naming obligation]
+\label{thm:kelleyfication-local-naming-obligation}
+For every accepted $\KelleyficationUp$ carrier $K=(T,C,O,W,H,R,P,N)$, the local $\NameCert_{\KelleyficationUp}$ row $N$ names only the obligation surface already exposed by $T,C,O,W,H,R,P$. The naming row records the compact-generated source, compact-open window, core-compact scope, inspection-window stability, transport, replay, and provenance obligations; it does not name a host compactly generated topology object, quotient-open equality, arbitrary open-cover compactness, or selected compact-test family.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations theorem \autoref{thm:kelleyfication-namecert-obligations}. It states that local naming is one row of the same accepted carrier and follows after source topology, compact-generation tests, compact-open ledger, inspection window, transport, replay, and provenance.
+
+The obligation-closure route of \autoref{thm:kelleyfication-obligation-closure-route} supplies the required row inventory. It combines compact-generated obligation, compact-open exactness, core-compact scope, inspection-window stability, and compact-window exhaustion without adding an external object.
+
+Thus $N$ names exactly the displayed Kelleyfication packet. Since the carrier lacks host compactly generated topology, quotient-open equality, arbitrary open-cover compactness, and selected compact-test coordinates, local naming cannot export them.
+\end{proof}
+
 \closureat{KelleyficationUp}{obligationStr}[BEDC.Derived.KelleyficationUp.KelleyficationCarrier\_namecert\_obligations]
 
 \begin{closurestatus}{\KelleyficationUp}
@@ -129,5 +169,5 @@ Finally replay inspection-window stability. Transport and continuation preserve 
   \leantarget{BEDC.Derived.KelleyficationUp.KelleyficationCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host compactly generated topology, quotient-open equality, arbitrary open-cover compactness, choice-selected compact tests, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, compact-generation test exposure, compact-open finite-window exactness, inspection-window stability, transport, replay, provenance, and local naming for BEDC.Derived.KelleyficationUp.}
+  \upgradepath{Scoped closure requires consumer-facing exactness for the same compact-generation, compact-open, inspection-window, transport, replay, provenance, and local naming route.}
 \end{closurestatus}
