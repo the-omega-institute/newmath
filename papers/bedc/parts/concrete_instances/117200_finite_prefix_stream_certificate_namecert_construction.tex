@@ -168,6 +168,26 @@ Apply \autoref{thm:finite-prefix-stream-certificate-window-readback} to force ev
 Finally use \autoref{thm:finite-prefix-stream-certificate-real-completion-budget-route}. The real and completion-facing read is therefore pulled back to the same finite budget route before any $\RealUp$ seal is consumed. Since quotient stream equality, countable choice, host real equality, ambient Real completeness, and bridge checking are absent from the carrier coordinates and from the cited finite route, none of them is exported by the section.
 \end{proof}
 
+\begin{theorem}[Finite prefix stream L10 exit observation route]
+\label{thm:finite-prefix-stream-l10-exit-observation-route}
+Every accepted Real-and-Completion observation route served by a $\FinitePrefixStreamUp$ packet factors through the displayed finite prefix rows
+$$
+k,W,D,R,H,C,P,N .
+$$
+The four analytic faces of the route are $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$: the StreamName prefix is read from $W$, the dyadic tolerance budget is read from $D$, the regular rational handoff is read from $R$, and the Real-facing seal remains downstream of those finite rows.
+
+The exit observation route exports no quotient stream equality, selected tail, countable-choice schedule, host real equality, ambient $\RealUp$ completeness, or bridge checking.
+\end{theorem}
+\begin{proof}
+Apply finite prefix window readback, \autoref{thm:finite-prefix-stream-certificate-window-readback}. Any RegSeqRat-facing consumer first reads the displayed route through $k,W,D,R$ and only then uses the structural rows $H,C,P,N$.
+
+Use observation induction, \autoref{thm:finite-prefix-stream-certificate-observation-induction}, to identify each displayed prefix index with the corresponding StreamName row, dyadic tolerance row, and regular rational handoff row. This supplies the finite observation route for the $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ faces.
+
+Next apply the real-completion budget route, \autoref{thm:finite-prefix-stream-certificate-real-completion-budget-route}, and the completion-section pullback, \autoref{thm:finite-prefix-stream-completion-section-pullback}. Together they force every Real or Completion-facing use to pass through the same finite prefix budget before a $\RealUp$ seal can be consumed.
+
+All cited routes use only the displayed rows $k,W,D,R,H,C,P,N$. Since none of those rows stores quotient stream equality, a selected tail, countable choice, host real equality, ambient Real completeness, or bridge checking, the L10 exit route exports none of those objects.
+\end{proof}
+
 \closureat{FinitePrefixStreamUp}{seedStr}
 
 \begin{closurestatus}{\FinitePrefixStreamUp}
