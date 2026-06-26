@@ -7021,7 +7021,6 @@ import BEDC.Derived.JordanVariationDecompositionUp.TasteGate
 import BEDC.Derived.KKTUp
 import BEDC.Derived.KKTUp.StationarityTransport
 import BEDC.Derived.KKTUp.TasteGate
-import BEDC.Derived.KroneckerSymbolUp
 import BEDC.Derived.KSpaceUp.TasteGate
 import BEDC.Derived.KakutaniFixedPointUp.TasteGate
 import BEDC.Derived.KalmanFilterUp
@@ -7125,6 +7124,7 @@ import BEDC.Derived.KreiselLacombeShoenfieldUp.TasteGate
 import BEDC.Derived.KripkeSemanticsUp
 import BEDC.Derived.KroneckerApproximationUp.TasteGate
 import BEDC.Derived.KroneckerLemmaUp.TasteGate
+import BEDC.Derived.KroneckerSymbolUp
 import BEDC.Derived.KummerTestUp.TasteGate
 import BEDC.Derived.KuratowskiClosureComplementUp.FourteenRoute
 import BEDC.Derived.KuratowskiClosureComplementUp.NameCertObligations
@@ -8788,6 +8788,7 @@ import BEDC.Derived.MoscoRecoverySequenceUp.NameCertObligations
 import BEDC.Derived.MoscoRecoverySequenceUp.RealMetricBoundary
 import BEDC.Derived.MoscoRecoverySequenceUp.TasteGate
 import BEDC.Derived.MoserIterationUp
+import BEDC.Derived.MotzkinTriangleUp
 import BEDC.Derived.MotzkinUp
 import BEDC.Derived.MulUp.TasteGate
 import BEDC.Derived.MultiHistConfigUp
