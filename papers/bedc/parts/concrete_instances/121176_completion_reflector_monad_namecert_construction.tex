@@ -57,6 +57,22 @@ For a bind-facing request, the carrier supplies no direct host operation on comp
 Separated uniqueness is then read through $E$. It prevents a consumer from treating the unit or bind laws as host equality of representatives, while $H,C,P,N$ preserve the same finite route under transport, replay, provenance, and local naming.
 \end{proof}
 
+\begin{theorem}[Completion reflector monad extension uniqueness]
+\label{thm:completion-reflector-monad-extension-uniqueness}
+Let
+$$
+K=(S,R,U,J,E,H,C,P,N)
+$$
+be an accepted $\CompletionReflectorMonadUp$ carrier. If two completion-facing extension reads use the same source metric row $S$, reflector row $R$, unit embedding $U$, bind and join schedule $J$, separated uniqueness row $E$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming row $N$, then they expose the same completion-facing public route.
+\end{theorem}
+\begin{proof}
+Project the shared carrier coordinates $S,R,U,J,E,H,C,P,N$. The source metric, completion reflector, unit embedding, and bind and join schedule are therefore read from the same finite packet for both extension requests.
+
+Apply \autoref{thm:completion-reflector-monad-unit-bind-laws} to each read. The unit-facing part must pass through $S,R,U$, and the bind-facing part must pass through $J$ before any completion-valued route is public.
+
+The separated uniqueness row $E$ compares the two displayed extensions after those operational rows have been exposed. Transport, replay, provenance, and naming through $H,C,P,N$ carry that comparison back to the public route. Since the carrier has no coordinate for quotient completion, selected representatives, host equality, countable choice, or ambient $\RealUp$ completeness, the uniqueness claim is only the equality of the displayed completion-facing route.
+\end{proof}
+
 \begin{theorem}[Completion reflector monad nonescape]
 \label{thm:completion-reflector-monad-nonescape}
 Every completion-facing consumer of an accepted $\CompletionReflectorMonadUp$ carrier reads only the displayed finite route
