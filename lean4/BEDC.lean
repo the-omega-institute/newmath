@@ -12,7 +12,10 @@ import BEDC.Algebra.Rel.InterfaceSpine
 import BEDC.Algebra.Rel.QuadIntUp
 import BEDC.Algebra.Rel.RingEquiv
 import BEDC.Algebra.Rel.SplitComplexUp
+import BEDC.Algebra.Spine.Arithmetic
 import BEDC.Algebra.Spine.FiniteData
+import BEDC.Algebra.Spine.NumberTheorySpectra
+import BEDC.Algebra.Spine.OrderSetType
 import BEDC.BaseReflection
 import BEDC.BaseReflection.Core
 import BEDC.BaseReflection.ExactGlobalizeBase
@@ -925,6 +928,7 @@ import BEDC.Derived.BinaryEndpointNormalizationUp.TasteGate
 import BEDC.Derived.BinaryEndpointUniquenessUp.TasteGate
 import BEDC.Derived.BinaryExpansionUp
 import BEDC.Derived.BinaryExpansionUp.TasteGate
+import BEDC.Derived.BinaryQuadFormUp
 import BEDC.Derived.BinaryTreeUp.TasteGate
 import BEDC.Derived.BinderBudgetSealUp.CarrierAdmission
 import BEDC.Derived.BinderBudgetSealUp.CompilerBoundary
@@ -5329,6 +5333,7 @@ import BEDC.Derived.EnergyBiasedTriggerReliabilityUp.TasteGate
 import BEDC.Derived.EngelExpansionUp.TasteGate
 import BEDC.Derived.EnrichedCatUp
 import BEDC.Derived.EnrichedCatUp.TasteGate
+import BEDC.Derived.EnrichedMetricSpaceUp
 import BEDC.Derived.EnrichedYonedaUp.TasteGate
 import BEDC.Derived.EntanglementUp
 import BEDC.Derived.EntourageBaseUp.TasteGate
@@ -7511,6 +7516,7 @@ import BEDC.Derived.LocatedSupremumUp.StandardBridgeRoute
 import BEDC.Derived.LocatedSupremumUp.StreamNameCutScope
 import BEDC.Derived.LocatedSupremumUp.TasteGate
 import BEDC.Derived.LocatedSupremumUp.WindowTransport
+import BEDC.Derived.LocatedTranscendental
 import BEDC.Derived.LocatedUniformCauchyLimitUp.TasteGate
 import BEDC.Derived.LocatedUniformCauchyPrincipleUp.TasteGate
 import BEDC.Derived.LocatedUniformCompletionUp.DensityRoute
@@ -9221,6 +9227,7 @@ import BEDC.Derived.PartitionBasinPolynomialUp.TasteGate
 import BEDC.Derived.PartitionBasinUp.TasteGate
 import BEDC.Derived.PartitionCoreIncidenceCertificateUp.TasteGate
 import BEDC.Derived.PartitionCoreIncidenceUp.TasteGate
+import BEDC.Derived.PartitionIdentitiesUp
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
 import BEDC.Derived.PartitionUp
 import BEDC.Derived.PathConnectedSpaceUp.TasteGate
