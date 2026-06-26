@@ -2,7 +2,7 @@
 """Codon-E1 known-force-union irreducibility certificate."""
 from __future__ import annotations
 
-from collections import Counter, defaultdict
+from collections import defaultdict
 import json
 import math
 import os
@@ -183,37 +183,31 @@ def supply_vector(anticodon_counts: dict[str, int], sense_codons: list[str], mod
     return [math.log1p(supply[codon]) for codon in sense_codons]
 
 
+FOURFOLD_PREFIXES = {"CU", "GU", "UC", "CC", "AC", "GC", "CG", "GG"}
+
+
 def composition_vectors(counts: dict[str, int], sense_codons: list[str], families: dict[str, list[str]], index: dict[str, int]) -> list[tuple[str, list[float]]]:
-    total = max(sum(int(counts.get(codon, 0)) for codon in sense_codons), 1)
-    pos_counts = [{base: 0.5 for base in "UCAG"} for _ in range(3)]
-    dinuc_counts = [Counter(), Counter()]
+    # GC/mutation-equilibrium force carrier = a LOW-RANK composition-gradient block.
+    # It must NOT include the per-position base-identity one-hot basis: codon-E1's
+    # carrier B1 is itself the first-order position-specific chemical characters
+    # (R/W/K), and a saturated position-base one-hot block (or a raw dinucleotide
+    # block whose marginals reconstruct it) linearly spans B1 and absorbs it by
+    # construction, collapsing estimability. The mutational equilibrium pi is
+    # estimated from 4-fold-degenerate third positions (a neutral proxy), not from
+    # the full synonymous usage under test, so B1 is not regressed on a transform
+    # of itself.
+    neutral = {base: 0.5 for base in "UCAG"}
     for codon in sense_codons:
-        count = int(counts.get(codon, 0))
-        for pos, base in enumerate(codon):
-            pos_counts[pos][base] += count
-        dinuc_counts[0][codon[:2]] += count
-        dinuc_counts[1][codon[1:]] += count
-    pos_probs = []
-    for pos in range(3):
-        denom = sum(pos_counts[pos].values())
-        pos_probs.append({base: pos_counts[pos][base] / denom for base in "UCAG"})
+        if codon[:2] in FOURFOLD_PREFIXES:
+            neutral[codon[2]] += int(counts.get(codon, 0))
+    ndenom = sum(neutral.values())
+    pi = {base: neutral[base] / ndenom for base in "UCAG"}
     rows: list[tuple[str, list[float]]] = []
-    m = []
-    for codon in sense_codons:
-        value = 0.0
-        for pos, base in enumerate(codon):
-            value += math.log(max(pos_probs[pos][base], 1.0e-9))
-        m.append(value)
-    rows.append(("mutation_equilibrium", project_syn_float(m, families, index)))
+    m = [sum(math.log(max(pi[base], 1.0e-9)) for base in codon) for codon in sense_codons]
+    rows.append(("mutation_equilibrium_neutral", project_syn_float(m, families, index)))
     rows.append(("gc3", project_syn_float([1.0 if codon[2] in {"G", "C"} else 0.0 for codon in sense_codons], families, index)))
     rows.append(("p3_W", project_syn_float([1.0 if codon[2] in {"A", "U"} else -1.0 for codon in sense_codons], families, index)))
     rows.append(("gc12", project_syn_float([0.5 * ((1.0 if codon[0] in {"G", "C"} else 0.0) + (1.0 if codon[1] in {"G", "C"} else 0.0)) for codon in sense_codons], families, index)))
-    for pos in range(3):
-        for base in "UCAG":
-            rows.append((f"p{pos + 1}_{base}", project_syn_float([1.0 if codon[pos] == base else 0.0 for codon in sense_codons], families, index)))
-    for which, offset in (("p12", 0), ("p23", 1)):
-        for dinuc in ("CG", "GC", "AU", "UA", "GU", "UG", "CA", "AC"):
-            rows.append((f"{which}_{dinuc}", project_syn_float([1.0 if codon[offset : offset + 2] == dinuc else 0.0 for codon in sense_codons], families, index)))
     rows.append(("global_gc", project_syn_float([sum(1.0 for base in codon if base in {"G", "C"}) / 3.0 for codon in sense_codons], families, index)))
     return rows
 
@@ -862,7 +856,16 @@ def main() -> None:
         and p_b > 0.05
         and boot_low <= 0.0
     )
-    status = "certified" if certified else ("refuted" if refuted else "coincidence")
+    # An estimability failure (the known-force controls absorb the E1 carrier or
+    # the usage residual below the floor) is NON-ESTIMABLE, not a biological
+    # coincidence: irreducibility cannot be tested when a control's column space
+    # already contains B1. Route it to needs_external rather than mislabelling a
+    # rank-collapse as a suggestive-but-uncertified readout.
+    non_estimable = not (gate3.get("pass") is True and gate4.get("pass") is True)
+    if non_estimable:
+        status = "needs_external"
+    else:
+        status = "certified" if certified else ("refuted" if refuted else "coincidence")
 
     emit(
         status,
@@ -872,7 +875,11 @@ def main() -> None:
             else (
                 "apparent E1 conservation absorbed by the joint span of tested force carriers"
                 if status == "refuted"
-                else "residual concentration observed but at least one matched-null, orientation, domain, energy, validity, or sensitivity gate failed"
+                else (
+                    "non-estimable: known-force controls absorb the E1 carrier (Gate3) or the usage residual (Gate4) below the estimability floor, so irreducibility cannot be tested"
+                    if status == "needs_external"
+                    else "residual concentration observed but at least one matched-null, orientation, domain, energy, validity, or sensitivity gate failed"
+                )
             )
         ),
         T_KFU=round_float(t_obs),
