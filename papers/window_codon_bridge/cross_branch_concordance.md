@@ -6,8 +6,8 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 
 - bio_only: 55
 - duplicate_bio_program: 34
-- math_stub: 11
-- needs_derivation: 23
+- math_stub: 10
+- needs_derivation: 24
 
 ## B*_Q6 crosswalk summary
 
@@ -126,7 +126,6 @@ None. No intake item passed carrier-map, necessity, and matched-null gates toget
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_additive_energy_certificate.tex | Window Fibonacci Cube Additive Energy | math_stub | \subsection{NameCert: Window Fibonacci Cube Additive Energy} \label{sec:namecert-window_fibonacci_cube_additive_energy_c |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_betweenness_triple_certificate.tex | Window Fibonacci Cube Betweenness Triple | math_stub | \subsection{NameCert: Window Fibonacci Cube Betweenness Triple} \label{sec:namecert-window_fibonacci_cube_betweenness_tr |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_closed_neighborhood_transfer_certificate.tex | Window Fibonacci Cube Closed Neighborhood Transfer | math_stub | \subsection{NameCert: Window Fibonacci Cube Closed Neighborhood Transfer} \label{sec:namecert-window_fibonacci_cube_clos |
-| fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_fibonacci_cube_critical_group_snf_certificate.tex | Window Six Fibonacci Cube Critical Group Snf | math_stub | \subsection{NameCert: Window Six Fibonacci Cube Critical Group Snf} \label{sec:namecert-window6_fibonacci_cube_critical_ |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_disjoint_tuple_metallic_certificate.tex | Window Fibonacci Cube Disjoint Tuple Metallic | math_stub | \subsection{NameCert: Window Fibonacci Cube Disjoint Tuple Metallic} \label{sec:namecert-window_fibonacci_cube_disjoint_ |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_gated_face_certificate.tex | Window Fibonacci Cube Gated Face | math_stub | \subsection{NameCert: Window Fibonacci Cube Gated Face} \label{sec:namecert-window_fibonacci_cube_gated_face_certificate |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_geodesic_run_factorization_certificate.tex | Window Fibonacci Cube Geodesic Run Factorization | math_stub | \subsection{NameCert: Window Fibonacci Cube Geodesic Run Factorization} \label{sec:namecert-window_fibonacci_cube_geodes |
@@ -144,6 +143,7 @@ None. No intake item passed carrier-map, necessity, and matched-null gates toget
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_lucas_kernel_coefficient_gauge_obstruction_certificate.tex | window6_lucas_kernel_coefficient_gauge_obstruction_certificate | needs_derivation | \origin{ai} \subsection{A six-window coefficient gauge obstruction from the matrix $\begin{pmatrix}1&1\\1&0\end{pmatrix} |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_fib_entry_point_fermat_congruence_law_certificate.tex | window6_fib_entry_point_fermat_congruence_law_certificate | needs_derivation | \chapter{Window-Six Fibonacci Entry-Point and Lucas Fermat Congruence Certificate} \label{ch:window6-fib-entry-point-fer |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_parry_measure_stationary_covector_modp_descent_certificate.tex | window6_parry_measure_stationary_covector_modp_descent_certificate | needs_derivation | \origin{ai} \subsection{Missing finite data for the window-six stationary covector certificate}\label{sec:window6-parry- |
+| fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_fibonacci_cube_critical_group_snf_certificate.tex | window6_fibonacci_cube_critical_group_snf_certificate | needs_derivation | \subsection{Window six Fibonacci cube critical-group certificate}\label{subsec:window6-fibonacci-cube-critical-group-snf |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_theta_cube_decomposition_certificate.tex | window_fibonacci_cube_theta_cube_decomposition_certificate | needs_derivation | \subsection{Finite Window Certificate for a Fibonacci-Cube and Theta-Cube Decomposition}\label{sec:window-fibonacci-cube |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_fibonacci_cube_geodesic_enumerator_certificate.tex | window6_fibonacci_cube_geodesic_enumerator_certificate | needs_derivation | \origin{ai} \subsection{Forced-window carrier and geodesic enumerator} \label{sec:window6-fibonacci-cube-geodesic-enumer |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window6_fibonacci_cube_matching_enumerator_certificate.tex | window6_fibonacci_cube_matching_enumerator_certificate | needs_derivation | \subsection{Window-six Fibonacci cube matching enumerator certificate}\label{sec:window6-fibonacci-cube-matching-enumera |
