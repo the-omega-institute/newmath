@@ -461,7 +461,7 @@ theorem intMul_magnitude_natMul (x y : IntegerUp) :
                     exact intEq_positive_magnitude_hsame productUnary classified
   exact (NatMul_result_hsame_transport productRel (hsame_symm sameMagnitude)).right
 
-private theorem IntEq_magnitude_hsame {x y : IntegerUp} :
+theorem IntEq_magnitude_hsame {x y : IntegerUp} :
     IntEq x y -> hsame x.magnitude y.magnitude := by
   intro same
   cases x with

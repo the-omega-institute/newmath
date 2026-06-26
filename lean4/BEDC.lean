@@ -7685,6 +7685,7 @@ import BEDC.Derived.LowerSemicontinuousUp.WindowFactorization
 import BEDC.Derived.LowerUpperRealCutUp
 import BEDC.Derived.LowerUpperRealCutUp.TasteGate
 import BEDC.Derived.LpSpaceUp.TasteGate
+import BEDC.Derived.LucasLehmerUp
 import BEDC.Derived.LucasSequenceUp
 import BEDC.Derived.LucasTheoremUp
 import BEDC.Derived.LusinApproximationUp.TasteGate
@@ -12044,6 +12045,7 @@ import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.ThomaeFunctionUp.NameCertObligations
 import BEDC.Derived.ThomaeFunctionUp.TasteGate
 import BEDC.Derived.ThreeManifoldUp
+import BEDC.Derived.TouchardPolyUp
 import BEDC.Derived.TietzeExtensionUp.TasteGate
 import BEDC.Derived.TightLocatedCutUp.TasteGate
 import BEDC.Derived.TightRealIntervalUp.TasteGate
