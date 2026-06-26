@@ -214,8 +214,7 @@ def composition_vectors(counts: dict[str, int], sense_codons: list[str], familie
     for which, offset in (("p12", 0), ("p23", 1)):
         for dinuc in ("CG", "GC", "AU", "UA", "GU", "UG", "CA", "AC"):
             rows.append((f"{which}_{dinuc}", project_syn_float([1.0 if codon[offset : offset + 2] == dinuc else 0.0 for codon in sense_codons], families, index)))
-    rows.append(("global_gc", project_syn_float([1.0 if base in {"G", "C"} else 0.0 for codon in sense_codons for base in codon][: len(sense_codons)], families, index)))
-    rows.append(("codon_usage_log_total_marker", project_syn_float([math.log((int(counts.get(codon, 0)) + 0.5) / (total + 0.5 * len(sense_codons))) for codon in sense_codons], families, index)))
+    rows.append(("global_gc", project_syn_float([sum(1.0 for base in codon if base in {"G", "C"}) / 3.0 for codon in sense_codons], families, index)))
     return rows
 
 
@@ -379,7 +378,11 @@ def prepare_rows(panel: dict[str, object], aa_panel: dict[str, object], usage_mo
                 "force_fit": {force: projector_fraction(basis, d) for force, basis in z_by_force.items()},
             }
         )
-    meta = {"b1_rank": len(b1_basis), "force_validity_samples": {k: mean(v) for k, v in force_validity_samples.items() if v}}
+    meta = {
+        "b1_rank": len(b1_basis),
+        "b1_basis": b1_basis,
+        "force_validity_samples": {k: mean(v) for k, v in force_validity_samples.items() if v},
+    }
     return out, meta
 
 
@@ -615,7 +618,14 @@ def orientation_stat(rows: list[dict[str, object]], domains: list[str]) -> float
     return orientation_stat_from_dirs(dirs, domains)
 
 
-def raw_e1_gate(rows: list[dict[str, object]], families: dict[str, list[str]], sense_codons: list[str], index: dict[str, int], domains: list[str]) -> dict[str, object]:
+def raw_e1_gate(
+    rows: list[dict[str, object]],
+    b1_basis: list[list[float]],
+    families: dict[str, list[str]],
+    sense_codons: list[str],
+    index: dict[str, int],
+    domains: list[str],
+) -> dict[str, object]:
     observed, per_domain = domain_balanced_stat(rows, "raw_e1_fraction", domains)
     rng = random.Random(stable_seed(NULL_A_SEED + ".raw_e1"))
     null = []
@@ -624,22 +634,22 @@ def raw_e1_gate(rows: list[dict[str, object]], families: dict[str, list[str]], s
         relabeled = []
         for row in rows:
             dp = apply_permutation(row["d"], perm, sense_codons, index)  # type: ignore[arg-type]
-            relabeled.append({**row, "raw_perm": projector_fraction(row["ql"], dp)})  # type: ignore[arg-type]
+            relabeled.append({**row, "raw_perm": projector_fraction(b1_basis, dp)})
         stat, _ = domain_balanced_stat(relabeled, "raw_perm", domains)
         null.append(stat)
     return {"value": observed, "p": p_value_ge(observed, null), "per_domain": per_domain, "pass": observed > mean(null) and p_value_ge(observed, null) <= 0.01}
 
 
-def per_force_surviving(rows: list[dict[str, object]], b1_rank: int) -> dict[str, float]:
+def per_force_surviving(rows: list[dict[str, object]], b1_basis: list[list[float]]) -> dict[str, float]:
     out: dict[str, list[float]] = defaultdict(list)
     for row in rows:
         for force, basis in row["z_by_force"].items():  # type: ignore[union-attr]
-            residual_cols = [residualize_against(basis, col) for col in row["l_columns"]]  # type: ignore[arg-type]
-            out[str(force)].append(sum(dot(col, col) for col in residual_cols) / max(b1_rank, 1))
+            residual_cols = [residualize_against(basis, col) for col in b1_basis]
+            out[str(force)].append(sum(dot(col, col) for col in residual_cols) / max(len(b1_basis), 1))
     return {force: mean(values) for force, values in out.items() if values}
 
 
-def leave_one_force_bundle_out(rows: list[dict[str, object]], domains: list[str]) -> dict[str, float]:
+def leave_one_force_bundle_out(rows: list[dict[str, object]], b1_basis: list[list[float]], domains: list[str]) -> dict[str, float]:
     result = {}
     for force in ("tRNA", "GC", "expression", "missense"):
         trial = []
@@ -650,7 +660,7 @@ def leave_one_force_bundle_out(rows: list[dict[str, object]], domains: list[str]
                     bases.extend(basis)
             z_basis = span_basis(bases)
             r = residualize_against(z_basis, row["d"])  # type: ignore[arg-type]
-            ql = span_basis([residualize_against(z_basis, col) for col in row["l_columns"]])  # type: ignore[arg-type]
+            ql = span_basis([residualize_against(z_basis, col) for col in b1_basis])
             proj = project_onto_orthonormal(ql, r)
             q = dot(proj, proj) / max(dot(r, r), NORM_FLOOR)
             trial.append({**row, f"loo_{force}": q})
@@ -766,7 +776,9 @@ def main() -> None:
     orient_obs = orientation_stat(rows, domains)
     _comp_stats, _comp_ledgers, orient_null_comp = null_distribution(rows, families, sense_codons, index, domains, min(N_ORIENT_NULL, N_NULL_A), ORIENT_SEED, mode="composition_preserving")
     boot_low, boot_high = bootstrap_lower95(rows, domains)
-    raw_gate = raw_e1_gate(rows, families, sense_codons, index, domains)
+    b1_basis = meta["b1_basis"]
+    assert isinstance(b1_basis, list)
+    raw_gate = raw_e1_gate(rows, b1_basis, families, sense_codons, index, domains)
     validity = force_validity(meta, rows)
 
     rank_values = [int(row["rank_l"]) for row in rows]
@@ -815,9 +827,9 @@ def main() -> None:
         "gate5_domain_power": gate5,
         "composition_guard": composition_guard,
     }
-    per_force = per_force_surviving(rows, int(meta["b1_rank"]))
+    per_force = per_force_surviving(rows, b1_basis)
     full_union_surviving = genus_weighted_median(rows, "residual_l_fraction")
-    leave_force = leave_one_force_bundle_out(rows, domains)
+    leave_force = leave_one_force_bundle_out(rows, b1_basis, domains)
     sensitivity = sensitivity_sweep(panel, aa_panel, "computed", t_obs)
 
     certified = (

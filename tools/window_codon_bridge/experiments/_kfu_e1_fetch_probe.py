@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 import gzip
 import hashlib
 import json
+import os
 import re
 import time
 import urllib.error
@@ -26,6 +27,11 @@ NCBI_DELAY_SECONDS = 0.34
 MIN_HEG_GENES = 20
 BACTERIA_FLOOR = 12
 EUKARYOTA_FLOOR = 8
+GENOME_FETCH_TIMEOUT = int(os.environ.get("CODON_E1_KFU_GENOME_TIMEOUT", "20"))
+SUMMARY_FETCH_TIMEOUT = int(os.environ.get("CODON_E1_KFU_SUMMARY_TIMEOUT", "12"))
+FETCH_DEADLINE_SECONDS = float(os.environ.get("CODON_E1_KFU_FETCH_DEADLINE", "90"))
+MAX_SUPPLY_ATTEMPTS = int(os.environ.get("CODON_E1_KFU_MAX_SUPPLY_ATTEMPTS", "14"))
+MAX_EUK_ATTEMPTS = int(os.environ.get("CODON_E1_KFU_MAX_EUK_ATTEMPTS", "8"))
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parents[2]
@@ -138,9 +144,15 @@ def https_ftp_path(ftp_path: str) -> str:
     return ftp_path
 
 
-def assembly_summary_for_accession(accession: str) -> tuple[dict[str, object] | None, dict[str, object]]:
+def deadline_expired(deadline: float | None) -> bool:
+    return deadline is not None and time.monotonic() >= deadline
+
+
+def assembly_summary_for_accession(accession: str, deadline: float | None = None) -> tuple[dict[str, object] | None, dict[str, object]]:
+    if deadline_expired(deadline):
+        return None, {"error": "fetch_deadline_exceeded_before_summary"}
     search_url = ncbi_url("esearch", {"db": "assembly", "term": accession, "retmax": 1})
-    text, search_contact = fetch_text(search_url, timeout=45, attempts=2)
+    text, search_contact = fetch_text(search_url, timeout=SUMMARY_FETCH_TIMEOUT, attempts=1)
     if not text:
         return None, {"search": search_contact, "error": "assembly_search_failed"}
     try:
@@ -151,8 +163,10 @@ def assembly_summary_for_accession(accession: str) -> tuple[dict[str, object] | 
     if not assembly_id:
         return None, {"search": search_contact, "error": "assembly_id_not_found"}
     time.sleep(NCBI_DELAY_SECONDS)
+    if deadline_expired(deadline):
+        return None, {"search": search_contact, "error": "fetch_deadline_exceeded_before_summary_detail"}
     summary_url = ncbi_url("esummary", {"db": "assembly", "id": assembly_id, "report": "full"})
-    text, summary_contact = fetch_text(summary_url, timeout=60, attempts=2)
+    text, summary_contact = fetch_text(summary_url, timeout=SUMMARY_FETCH_TIMEOUT, attempts=1)
     if not text:
         return None, {"search": search_contact, "summary": summary_contact, "error": "assembly_summary_failed"}
     try:
@@ -175,7 +189,7 @@ def assembly_summary_for_accession(accession: str) -> tuple[dict[str, object] | 
     return row, {"search": search_contact, "summary": summary_contact}
 
 
-def cached_assembly_file(ftp_path: str, suffix: str, cache_key: str) -> tuple[str, dict[str, object]]:
+def cached_assembly_file(ftp_path: str, suffix: str, cache_key: str, deadline: float | None = None) -> tuple[str, dict[str, object]]:
     base = https_ftp_path(ftp_path).rstrip("/")
     name = base.rsplit("/", 1)[-1]
     url = f"{base}/{name}_{suffix}"
@@ -192,7 +206,9 @@ def cached_assembly_file(ftp_path: str, suffix: str, cache_key: str) -> tuple[st
             "sha256": hashlib.sha256(payload).hexdigest(),
         }
     else:
-        payload, source = fetch_bytes(url, timeout=120, attempts=3)
+        if deadline_expired(deadline):
+            return "", {"url": url, "reachable": False, "blocked": True, "error": "fetch_deadline_exceeded", "cache_path": str(gz_path)}
+        payload, source = fetch_bytes(url, timeout=GENOME_FETCH_TIMEOUT, attempts=1)
         time.sleep(NCBI_DELAY_SECONDS)
         if not payload:
             return "", source
@@ -302,18 +318,21 @@ def row_has_numeric_counts(row: dict[str, object]) -> bool:
     return sum(int(codon_counts.get(codon, 0)) for codon in sense) > 0 and sum(int(v) for v in trna_counts.values()) > 0
 
 
-def build_supply_rows(max_rows: int = 40) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+def build_supply_rows(max_rows: int = MAX_SUPPLY_ATTEMPTS, deadline: float | None = None) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
     if not SUPPLY_PANEL_PATH.exists():
         return [], [{"source": str(SUPPLY_PANEL_PATH), "error": "supply_panel_missing"}]
     payload = json.loads(SUPPLY_PANEL_PATH.read_text(encoding="utf-8"))
     attempts: list[dict[str, object]] = []
     usable: list[dict[str, object]] = []
     for base_row in payload.get("organisms", [])[:max_rows]:
+        if deadline_expired(deadline):
+            attempts.append({"source": str(SUPPLY_PANEL_PATH), "ok": False, "error": "fetch_deadline_exceeded"})
+            break
         if not isinstance(base_row, dict) or not row_has_numeric_counts(base_row):
             continue
         accession = str(base_row.get("assembly_accession") or "")
         ftp_path = str(base_row.get("ftp_path_refseq") or "")
-        cds_text, cds_contact = cached_assembly_file(ftp_path, "cds_from_genomic.fna.gz", accession) if ftp_path else ("", {})
+        cds_text, cds_contact = cached_assembly_file(ftp_path, "cds_from_genomic.fna.gz", accession, deadline=deadline) if ftp_path else ("", {})
         heg_counts, heg_meta = count_cds_fasta(cds_text, heg_only=True) if cds_text else (zero_counts(), {})
         row = {
             "organism": base_row.get("organism"),
@@ -346,17 +365,20 @@ def build_supply_rows(max_rows: int = 40) -> tuple[list[dict[str, object]], list
     return usable, attempts
 
 
-def build_eukaryota_rows() -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+def build_eukaryota_rows(deadline: float | None = None) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
     usable: list[dict[str, object]] = []
     attempts: list[dict[str, object]] = []
-    for accession, organism_hint, genus_hint in EUKARYOTA_ROSTER:
-        summary, summary_contact = assembly_summary_for_accession(accession)
+    for accession, organism_hint, genus_hint in EUKARYOTA_ROSTER[:MAX_EUK_ATTEMPTS]:
+        if deadline_expired(deadline):
+            attempts.append({"assembly_accession": accession, "organism": organism_hint, "genus": genus_hint, "ok": False, "error": "fetch_deadline_exceeded"})
+            break
+        summary, summary_contact = assembly_summary_for_accession(accession, deadline=deadline)
         if summary is None:
             attempts.append({"assembly_accession": accession, "organism": organism_hint, "genus": genus_hint, "ok": False, "contact": summary_contact})
             continue
         ftp_path = str(summary["ftp_path_refseq"])
-        cds_text, cds_contact = cached_assembly_file(ftp_path, "cds_from_genomic.fna.gz", accession)
-        gbff_text, gbff_contact = cached_assembly_file(ftp_path, "genomic.gbff.gz", accession)
+        cds_text, cds_contact = cached_assembly_file(ftp_path, "cds_from_genomic.fna.gz", accession, deadline=deadline)
+        gbff_text, gbff_contact = cached_assembly_file(ftp_path, "genomic.gbff.gz", accession, deadline=deadline)
         all_counts, all_meta = count_cds_fasta(cds_text, heg_only=False) if cds_text else (zero_counts(), {})
         heg_counts, heg_meta = count_cds_fasta(cds_text, heg_only=True) if cds_text else (zero_counts(), {})
         trna_counts, trna_meta = trna_probe.parse_genbank_trna_anticodons(gbff_text) if gbff_text else ({}, {})
@@ -431,8 +453,9 @@ def build_panel(force_refresh: bool = False) -> dict[str, object]:
         cached = json.loads(PANEL_CACHE_PATH.read_text(encoding="utf-8"))
         if "rows" in cached:
             return cached
-    supply_rows, supply_attempts = build_supply_rows()
-    euk_rows, euk_attempts = build_eukaryota_rows()
+    deadline = time.monotonic() + FETCH_DEADLINE_SECONDS if FETCH_DEADLINE_SECONDS > 0 else None
+    supply_rows, supply_attempts = build_supply_rows(deadline=deadline)
+    euk_rows, euk_attempts = build_eukaryota_rows(deadline=deadline)
     rows = supply_rows + euk_rows
     n_genera_domain = domain_counts(rows)
     status = "ok" if n_genera_domain.get("Bacteria", 0) >= BACTERIA_FLOOR and n_genera_domain.get("Eukaryota", 0) >= EUKARYOTA_FLOOR else "needs_external"
@@ -450,6 +473,13 @@ def build_panel(force_refresh: bool = False) -> dict[str, object]:
         "genome_cache_dir": str(GENOME_CACHE_DIR),
         "scope": scope,
         "floors": {"Bacteria": BACTERIA_FLOOR, "Eukaryota": EUKARYOTA_FLOOR, "Archaea_three_domain": BACTERIA_FLOOR, "heg_genes_per_organism": MIN_HEG_GENES},
+        "fetch_limits": {
+            "deadline_seconds": FETCH_DEADLINE_SECONDS,
+            "genome_timeout_seconds": GENOME_FETCH_TIMEOUT,
+            "summary_timeout_seconds": SUMMARY_FETCH_TIMEOUT,
+            "max_supply_attempts": MAX_SUPPLY_ATTEMPTS,
+            "max_eukaryota_attempts": MAX_EUK_ATTEMPTS,
+        },
         "n_genera_domain": n_genera_domain,
         "n_rows": len(rows),
         "rows_compact": compact_rows(rows),
