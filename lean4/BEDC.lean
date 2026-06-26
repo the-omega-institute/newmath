@@ -9539,6 +9539,7 @@ import BEDC.Derived.PolishspaceUp.StreamReadbackExactness
 import BEDC.Derived.PolishspaceUp.StreamReadbackStability
 import BEDC.Derived.PolishspaceUp.StreamRealizationObligation
 import BEDC.Derived.PolishspaceUp.TasteGate
+import BEDC.Derived.PolyRootBoundUp
 import BEDC.Derived.PolygonalUp
 import BEDC.Derived.PolynomialResultantUp
 import BEDC.Derived.PolynomialUp
