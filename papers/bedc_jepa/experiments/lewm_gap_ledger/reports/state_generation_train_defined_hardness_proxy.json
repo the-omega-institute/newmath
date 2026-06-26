@@ -1,0 +1,483 @@
+{
+  "config": {
+    "candidate_count": 14,
+    "scorer_epochs": 60,
+    "scorer_seed": 659,
+    "seed": 711
+  },
+  "diagnosis": {
+    "hard_beats_priority_residual_observed": false,
+    "hard_beats_raw_geometry_option_observed": false,
+    "hard_closes": false
+  },
+  "eval": {
+    "priority_residual": {
+      "full": {
+        "allocation_delta": {
+          "high": -0.0010299599608621821,
+          "low": -0.007586818364088592,
+          "observed": -0.00429771095142123
+        },
+        "chosen_depth_counts": {
+          "1": 4,
+          "2": 247,
+          "3": 241,
+          "4": 29,
+          "5": 113
+        },
+        "oracle_match": 0.2334384858044164,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7899188535896302
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.004065844759150501,
+          "low": -0.01441060462918019,
+          "observed": -0.00493589617166483
+        },
+        "chosen_depth_counts": {
+          "2": 22,
+          "3": 43,
+          "4": 6,
+          "5": 8
+        },
+        "oracle_match": 0.13924050632911392,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7461837419364888
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.0008655312812218835,
+          "low": -0.007841408148282672,
+          "observed": -0.004206870172323518
+        },
+        "chosen_depth_counts": {
+          "1": 4,
+          "2": 225,
+          "3": 198,
+          "4": 23,
+          "5": 105
+        },
+        "oracle_match": 0.24684684684684685,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7966717906693472
+      }
+    },
+    "raw_geometry_option": {
+      "full": {
+        "allocation_delta": {
+          "high": -8.789542325905042e-05,
+          "low": -0.008083857819204798,
+          "observed": -0.00373001502130621
+        },
+        "chosen_depth_counts": {
+          "1": 8,
+          "2": 300,
+          "3": 164,
+          "4": 8,
+          "5": 154
+        },
+        "oracle_match": 0.2334384858044164,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.8114546658735091
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.004370569983201212,
+          "low": -0.01652229171141517,
+          "observed": -0.005425220763907779
+        },
+        "chosen_depth_counts": {
+          "2": 31,
+          "3": 31,
+          "4": 3,
+          "5": 14
+        },
+        "oracle_match": 0.13924050632911392,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7998950502259633
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": 0.000349901594999457,
+          "low": -0.008192447325727395,
+          "observed": -0.0034887154651521007
+        },
+        "chosen_depth_counts": {
+          "1": 8,
+          "2": 269,
+          "3": 133,
+          "4": 5,
+          "5": 140
+        },
+        "oracle_match": 0.24684684684684685,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.8151975502946956
+      }
+    },
+    "selected_proxy": {
+      "full": {
+        "allocation_delta": {
+          "high": -0.0013622183249613106,
+          "low": -0.007705918321432966,
+          "observed": -0.00429771095142123
+        },
+        "chosen_depth_counts": {
+          "1": 4,
+          "2": 247,
+          "3": 241,
+          "4": 29,
+          "5": 113
+        },
+        "oracle_match": 0.2334384858044164,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7899188535896302
+      },
+      "hard_only": {
+        "allocation_delta": {
+          "high": 0.004211905673940277,
+          "low": -0.01518668763229396,
+          "observed": -0.00493589617166483
+        },
+        "chosen_depth_counts": {
+          "2": 22,
+          "3": 43,
+          "4": 6,
+          "5": 8
+        },
+        "oracle_match": 0.13924050632911392,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7461837419364888
+      },
+      "non_hard": {
+        "allocation_delta": {
+          "high": -0.00092370899213698,
+          "low": -0.00765653053712183,
+          "observed": -0.004206870172323518
+        },
+        "chosen_depth_counts": {
+          "1": 4,
+          "2": 225,
+          "3": 198,
+          "4": 23,
+          "5": 105
+        },
+        "oracle_match": 0.24684684684684685,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.7966717906693472
+      }
+    }
+  },
+  "leakage_attestation": {
+    "eval_targets": "eval option_error is used only after all scores are fixed",
+    "hard_ids": "held-out hard episode ids are used only for final diagnostic slicing",
+    "priority_score": "budget-priority residual is trained on train targets and selected on calibration exact-budget allocation",
+    "proxy_definitions": "thresholds are defined from train environment/score statistics, not held-out hard ids",
+    "proxy_selection": "raw-vs-priority proxy is selected on calibration exact-budget allocation only",
+    "raw_score": "fi-064 geometry-option scorer is regenerated deterministically",
+    "slurm_or_ssh": "not used"
+  },
+  "not_claimed": [
+    "allocation closure unless hard CI high < 0",
+    "deployable policy",
+    "independent export validation"
+  ],
+  "priority_selection": "base_plus_0.5_residual",
+  "raw_feature_dims": {
+    "augmented_feature_dim": 4968,
+    "base_feature_dim": 4952,
+    "geometry_feature_dim": 16
+  },
+  "raw_model_selection": {
+    "best": {
+      "calibration": {
+        "allocation_delta": {
+          "high": -0.0026286372669253994,
+          "low": -0.00892452489825493,
+          "observed": -0.005708073246828746
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 309,
+          "3": 170,
+          "4": 13,
+          "5": 151
+        },
+        "score_error_spearman": 0.8238734066387183
+      },
+      "epoch": 9,
+      "selection_key": [
+        -0.0026286372669253994,
+        -0.005708073246828746,
+        0.18988635614514351
+      ]
+    },
+    "history_first": {
+      "cal_delta_high": 0.01684793251182204,
+      "cal_delta_observed": 0.01075102620618254,
+      "cal_spearman": 0.2846944026398426,
+      "epoch": 1.0,
+      "train_loss": 0.4811796978116035
+    },
+    "history_last": {
+      "cal_delta_high": -0.0012124559616774958,
+      "cal_delta_observed": -0.004878248260919565,
+      "cal_spearman": 0.8689831851832526,
+      "epoch": 60.0,
+      "train_loss": 0.1375382125377655
+    },
+    "params_count": 2090497,
+    "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then training loss"
+  },
+  "schema_id": "bedc_jepa.state_generation_train_defined_hardness_proxy",
+  "selection": {
+    "calibration": {
+      "priority_inside_different_room": {
+        "allocation_delta": {
+          "high": -0.0033353005351463394,
+          "low": -0.008911684583193469,
+          "observed": -0.005910733939720442
+        },
+        "chosen_depth_counts": {
+          "1": 7,
+          "2": 271,
+          "3": 215,
+          "4": 21,
+          "5": 132
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.8069873409386041
+      },
+      "priority_inside_high_spread": {
+        "allocation_delta": {
+          "high": -0.003569566522461529,
+          "low": -0.009232208556922236,
+          "observed": -0.006183393333720255
+        },
+        "chosen_depth_counts": {
+          "1": 2,
+          "2": 238,
+          "3": 272,
+          "4": 26,
+          "5": 108
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9993808049535604,
+        "score_error_spearman": 0.8070627785343613
+      },
+      "priority_inside_high_y": {
+        "allocation_delta": {
+          "high": -0.0015851200473475124,
+          "low": -0.0072603589924503656,
+          "observed": -0.004230322590809396
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 291,
+          "3": 192,
+          "4": 23,
+          "5": 137
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9995356037151703,
+        "score_error_spearman": 0.8091424728615921
+      },
+      "priority_inside_low_spread": {
+        "allocation_delta": {
+          "high": -0.002706614161817193,
+          "low": -0.009013972920606954,
+          "observed": -0.005708073246828746
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 309,
+          "3": 170,
+          "4": 13,
+          "5": 151
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9993808049535604,
+        "score_error_spearman": 0.8238734066387183
+      },
+      "priority_inside_low_y": {
+        "allocation_delta": {
+          "high": -0.0015644833263587549,
+          "low": -0.008423875222333023,
+          "observed": -0.0046861786302248715
+        },
+        "chosen_depth_counts": {
+          "1": 4,
+          "2": 297,
+          "3": 183,
+          "4": 19,
+          "5": 143
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.99984520123839,
+        "score_error_spearman": 0.8251233422522409
+      },
+      "priority_inside_low_y_different_room": {
+        "allocation_delta": {
+          "high": -0.0022485252250274593,
+          "low": -0.009089594958390236,
+          "observed": -0.005398700651571886
+        },
+        "chosen_depth_counts": {
+          "1": 5,
+          "2": 306,
+          "3": 170,
+          "4": 14,
+          "5": 151
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.99984520123839,
+        "score_error_spearman": 0.8260156462654455
+      },
+      "priority_residual": {
+        "allocation_delta": {
+          "high": -0.0036047350204214687,
+          "low": -0.00955671631275107,
+          "observed": -0.006180245358148484
+        },
+        "chosen_depth_counts": {
+          "1": 2,
+          "2": 236,
+          "3": 274,
+          "4": 28,
+          "5": 106
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.8101074233475264
+      },
+      "raw_geometry_option": {
+        "allocation_delta": {
+          "high": -0.002669711520463679,
+          "low": -0.008971990331033705,
+          "observed": -0.005708073246828746
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 309,
+          "3": 170,
+          "4": 13,
+          "5": 151
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9993808049535604,
+        "score_error_spearman": 0.8238734066387183
+      },
+      "raw_inside_different_room": {
+        "allocation_delta": {
+          "high": 0.0014497154337083018,
+          "low": -0.0070939731414296535,
+          "observed": -0.0026705981217683833
+        },
+        "chosen_depth_counts": {
+          "1": 2,
+          "2": 293,
+          "3": 196,
+          "4": 13,
+          "5": 142
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9993808049535604,
+        "score_error_spearman": 0.8195325141524347
+      },
+      "raw_inside_high_spread": {
+        "allocation_delta": {
+          "high": -0.0006656976833353776,
+          "low": -0.007551947916743346,
+          "observed": -0.0040962908364791245
+        },
+        "chosen_depth_counts": {
+          "1": 3,
+          "2": 297,
+          "3": 184,
+          "4": 21,
+          "5": 141
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.8254437854677639
+      },
+      "raw_inside_high_y": {
+        "allocation_delta": {
+          "high": -0.0019377086673969652,
+          "low": -0.008292701111298019,
+          "observed": -0.004770805260350189
+        },
+        "chosen_depth_counts": {
+          "1": 2,
+          "2": 286,
+          "3": 206,
+          "4": 14,
+          "5": 138
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.99984520123839,
+        "score_error_spearman": 0.8100466257938606
+      },
+      "raw_inside_low_spread": {
+        "allocation_delta": {
+          "high": -0.0035228188473752247,
+          "low": -0.009635172512244586,
+          "observed": -0.006180245358148484
+        },
+        "chosen_depth_counts": {
+          "1": 2,
+          "2": 236,
+          "3": 274,
+          "4": 28,
+          "5": 106
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 1.0,
+        "score_error_spearman": 0.8101074233475264
+      },
+      "raw_inside_low_y": {
+        "allocation_delta": {
+          "high": -0.0009840559771202512,
+          "low": -0.008797606389599507,
+          "observed": -0.0049674562309578035
+        },
+        "chosen_depth_counts": {
+          "1": 2,
+          "2": 274,
+          "3": 223,
+          "4": 16,
+          "5": 131
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9995356037151703,
+        "score_error_spearman": 0.7980255751318787
+      },
+      "raw_inside_low_y_different_room": {
+        "allocation_delta": {
+          "high": -0.0006462214179238864,
+          "low": -0.008338688402344604,
+          "observed": -0.004766944020104635
+        },
+        "chosen_depth_counts": {
+          "1": 1,
+          "2": 260,
+          "3": 245,
+          "4": 18,
+          "5": 122
+        },
+        "oracle_match": 0.21826625386996903,
+        "pair_accuracy": 0.9995356037151703,
+        "score_error_spearman": 0.798695828535857
+      }
+    },
+    "selected": "priority_residual",
+    "selection_key": [
+      -0.0036047350204214687,
+      -0.006180245358148484
+    ]
+  },
+  "status": "ok",
+  "verdict": "Train-defined hardness proxy does not improve the hard-only allocation boundary over raw geometry-option scores.",
+  "wall_time_sec": 79.19272232055664
+}

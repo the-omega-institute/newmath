@@ -1,0 +1,512 @@
+import BEDC.Derived.RationalUp.FieldLaws
+import BEDC.Derived.FactorialUp
+import BEDC.Derived.LocatedReal.RatMetricKit
+import BEDC.Derived.LocatedReal.ToleranceClose
+
+namespace BEDC.Derived.LocatedTranscendental
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+open BEDC.FKernel.Unary
+open BEDC.FKernel.ExternalBinary (bwordLength)
+open BEDC.Derived.IntUp
+open BEDC.Derived.NatUp
+open BEDC.Derived.RationalUp
+
+abbrev ratNatOne : BHist :=
+  BEDC.Derived.PadicUp.NatOne
+
+def natHist (n : Nat) : BHist :=
+  natToUnary n
+
+theorem natHist_unary (n : Nat) : UnaryHistory (natHist n) :=
+  natToUnary_unary n
+
+theorem natHist_length (n : Nat) : bwordLength (natHist n) = n :=
+  natToUnary_length n
+
+theorem natHist_succ_pos (n : Nat) :
+    NatUnaryStrictPrefix ratNatOne (natHist (n + 2)) ∨
+      hsame (natHist (n + 2)) ratNatOne := by
+  apply Or.inl
+  apply BEDC.Derived.PadicUp.NatUnaryStrictPrefix_of_length_lt
+  · change UnaryHistory (BHist.e1 BHist.Empty)
+    exact unary_e1_closed unary_empty
+  · exact natHist_unary (n + 2)
+  · change bwordLength (BHist.e1 BHist.Empty) < bwordLength (natHist (n + 2))
+    rw [natHist_length]
+    exact Nat.succ_lt_succ (Nat.zero_lt_succ n)
+
+def natRat (n : Nat) : RatNum :=
+  intToRat (intOfNat (natHist n) (natHist_unary n))
+
+def natPosRat (n : Nat) : RatNum :=
+  natRat (n + 1)
+
+def unitFraction (n : Nat) : RatNum :=
+  { num := intOne
+    den := natHist (n + 1)
+    den_pos := by
+      cases n with
+      | zero =>
+          exact Or.inr (hsame_refl ratNatOne)
+      | succ n =>
+          exact natHist_succ_pos n }
+
+def intPow (x : RatNum) : Nat -> RatNum
+  | 0 => ratOne
+  | n + 1 => ratMul x (intPow x n)
+
+def factorialNat : Nat -> Nat
+  | 0 => 1
+  | n + 1 => (n + 1) * factorialNat n
+
+theorem factorialNat_pos (n : Nat) : 0 < factorialNat n := by
+  induction n with
+  | zero =>
+      exact Nat.succ_pos 0
+  | succ n ih =>
+      exact Nat.mul_pos (Nat.succ_pos n) ih
+
+theorem factorialNat_succ_pos (n : Nat) :
+    0 < factorialNat (n + 1) := by
+  exact factorialNat_pos (n + 1)
+
+theorem factorialNat_as_succ (n : Nat) :
+    ∃ k : Nat, factorialNat n = k + 1 := by
+  exact Nat.exists_eq_succ_of_ne_zero
+    (Nat.ne_of_gt (factorialNat_pos n))
+
+def factorialRat (n : Nat) : RatNum :=
+  natRat (factorialNat n)
+
+theorem factorialNat_den_pos (n : Nat) :
+    NatUnaryStrictPrefix ratNatOne (natHist (factorialNat (n + 1))) ∨
+      hsame (natHist (factorialNat (n + 1))) ratNatOne := by
+  have asSucc := factorialNat_as_succ (n + 1)
+  cases asSucc with
+  | intro k hk =>
+      cases k with
+      | zero =>
+          rw [hk]
+          exact Or.inr (hsame_refl ratNatOne)
+      | succ k =>
+          rw [hk]
+          exact natHist_succ_pos k
+
+def invFactorialRat (n : Nat) : RatNum :=
+  { num := intOne
+    den := natHist (factorialNat n)
+    den_pos := by
+      cases n with
+      | zero =>
+          exact Or.inr (hsame_refl ratNatOne)
+      | succ n =>
+          exact factorialNat_den_pos n }
+
+def expTerm (x : RatNum) (k : Nat) : RatNum :=
+  ratMul (intPow x k) (invFactorialRat k)
+
+def sumRatList : List RatNum -> RatNum
+  | [] => ratZero
+  | x :: xs => ratAdd x (sumRatList xs)
+
+def expTermList (x : RatNum) : Nat -> List RatNum
+  | 0 => [ratOne]
+  | n + 1 => expTermList x n ++ [expTerm x (n + 1)]
+
+def ratExp (x : RatNum) (n : Nat) : RatNum :=
+  sumRatList (expTermList x n)
+
+def expTailBudget (xBound : Nat) (n : Nat) : RatNum :=
+  unitFraction (n + xBound + 1)
+
+def ratExpTailBudget (_x : RatNum) (xBound n : Nat) : RatNum :=
+  expTailBudget xBound n
+
+def lnTermPositive : Nat -> Bool
+  | 0 => true
+  | k + 1 =>
+      match lnTermPositive k with
+      | true => false
+      | false => true
+
+def lnOnePlusTerm (u : RatNum) (k : Nat) : RatNum :=
+  let term := ratMul (intPow u (k + 1)) (unitFraction k)
+  match lnTermPositive k with
+  | true => term
+  | false => ratNeg term
+
+def lnOnePlusTermList (u : RatNum) : Nat -> List RatNum
+  | 0 => [u]
+  | n + 1 => lnOnePlusTermList u n ++ [lnOnePlusTerm u (n + 1)]
+
+def ratLnOnePlus (u : RatNum) (n : Nat) : RatNum :=
+  sumRatList (lnOnePlusTermList u n)
+
+def ratLnAroundOne (x : RatNum) (n : Nat) : RatNum :=
+  ratLnOnePlus (ratAdd x (ratNeg ratOne)) n
+
+def lnTailBudget (u : RatNum) (n : Nat) : RatNum :=
+  ratMul (unitFraction (2 * (n + 1) + 1)) (ratAdd u ratOne)
+
+structure RatWindow where
+  lo : RatNum
+  hi : RatNum
+  widthBound : RatNum
+
+def expWindow (x : RatNum) (xBound n : Nat) : RatWindow :=
+  { lo := ratExp x n
+    hi := ratAdd (ratExp x n) (ratExpTailBudget x xBound n)
+    widthBound := ratExpTailBudget x xBound n }
+
+def lnOnePlusWindow (u : RatNum) (n : Nat) : RatWindow :=
+  { lo := ratLnOnePlus u n
+    hi := ratAdd (ratLnOnePlus u n) (lnTailBudget u n)
+    widthBound := lnTailBudget u n }
+
+structure RatApproximationSchedule where
+  window : Nat -> RatWindow
+  fuel : Nat
+
+def expRationalApproximation (x : RatNum) (xBound : Nat) :
+    RatApproximationSchedule :=
+  { window := expWindow x xBound
+    fuel := xBound }
+
+def lnOnePlusRationalApproximation (u : RatNum) :
+    RatApproximationSchedule :=
+  { window := lnOnePlusWindow u
+    fuel := 0 }
+
+theorem ratExp_zero :
+    RatEq (ratExp ratZero 0) ratOne := by
+  unfold ratExp expTermList sumRatList
+  exact RatEq_trans (ratAdd ratOne ratZero) ratOne ratOne
+    (ratAdd_zero_right ratOne) (RatEq_refl ratOne)
+
+theorem ratLnOnePlus_zero :
+    RatEq (ratLnOnePlus ratZero 0) ratZero := by
+  unfold ratLnOnePlus lnOnePlusTermList sumRatList
+  exact ratZero_add_left ratZero
+
+theorem expRationalApproximation_window_zero (x : RatNum) (xBound : Nat) :
+    (expRationalApproximation x xBound).window 0 = expWindow x xBound 0 := by
+  rfl
+
+theorem lnOnePlusRationalApproximation_window_zero (u : RatNum) :
+    (lnOnePlusRationalApproximation u).window 0 = lnOnePlusWindow u 0 := by
+  rfl
+
+theorem exp_window_readback (x : RatNum) (xBound n : Nat) :
+    (expRationalApproximation x xBound).window n = expWindow x xBound n := by
+  rfl
+
+theorem ln_one_plus_window_readback (u : RatNum) (n : Nat) :
+    (lnOnePlusRationalApproximation u).window n = lnOnePlusWindow u n := by
+  rfl
+
+theorem exp_ln_schedule_fuel_readback (x u : RatNum) :
+    (lnOnePlusRationalApproximation u).fuel = 0 ∧
+      (expRationalApproximation x 0).fuel = 0 := by
+  exact ⟨rfl, rfl⟩
+
+def sampleExpLower : RatNum := natRat 2
+
+def sampleExpUpper : RatNum :=
+  ratAdd (natRat 2) (unitFraction 1)
+
+def sampleLnLower : RatNum :=
+  unitFraction 2
+
+def sampleLnUpper : RatNum :=
+  ratAdd (unitFraction 2) (unitFraction 4)
+
+def sampleExpWindow : RatWindow :=
+  { lo := sampleExpLower
+    hi := sampleExpUpper
+    widthBound := unitFraction 1 }
+
+def sampleLnWindow : RatWindow :=
+  { lo := sampleLnLower
+    hi := sampleLnUpper
+    widthBound := unitFraction 4 }
+
+theorem sample_exp_window_width :
+    sampleExpWindow.widthBound = unitFraction 1 := by
+  rfl
+
+theorem sample_ln_window_width :
+    sampleLnWindow.widthBound = unitFraction 4 := by
+  rfl
+
+open BEDC.Derived.LocatedReal
+
+abbrev LocatedReal : Type :=
+  LReal RatMetricKitConcrete
+
+abbrev LocatedRealWith (K : RatMetricKit) : Type :=
+  LReal K
+
+def ratLocated (q : RatNum) : LocatedReal :=
+  concreteRatToLReal q
+
+def ratLocatedWith (K : RatMetricKit) (q : RatNum) : LocatedRealWith K :=
+  ratToLReal K q
+
+def locatedEq (x y : LocatedReal) : Prop :=
+  LRealEq RatMetricKitConcrete x y
+
+def locatedEqWith (K : RatMetricKit) (x y : LocatedRealWith K) : Prop :=
+  LRealEq K x y
+
+def locatedLower (q : RatNum) (x : LocatedReal) : Prop :=
+  lrLe (ratLocated q) x
+
+def locatedLowerWith (K : RatMetricKit) (q : RatNum)
+    (x : LocatedRealWith K) : Prop :=
+  lrLe (ratLocatedWith K q) x
+
+def locatedUpper (x : LocatedReal) (q : RatNum) : Prop :=
+  lrLe x (ratLocated q)
+
+def locatedUpperWith (K : RatMetricKit) (x : LocatedRealWith K)
+    (q : RatNum) : Prop :=
+  lrLe x (ratLocatedWith K q)
+
+def expTruncationLocated (x : RatNum) (n : Nat) : LocatedReal :=
+  ratLocated (ratExp x n)
+
+def expTruncationLocatedWith (K : RatMetricKit) (x : RatNum) (n : Nat) :
+    LocatedRealWith K :=
+  ratLocatedWith K (ratExp x n)
+
+def lnAroundOneWindow (x : RatNum) (n : Nat) : RatWindow :=
+  lnOnePlusWindow (ratAdd x (ratNeg ratOne)) n
+
+def lnTruncationLocated (x : RatNum) (n : Nat) : LocatedReal :=
+  ratLocated (ratLnAroundOne x n)
+
+def lnTruncationLocatedWith (K : RatMetricKit) (x : RatNum) (n : Nat) :
+    LocatedRealWith K :=
+  ratLocatedWith K (ratLnAroundOne x n)
+
+structure RatPositive (x : RatNum) where
+  positive_sign : x.num.sign = BMark.b0
+  apart_zero : ratApart0 x
+
+structure ExpLocatedEvidenceWith (K : RatMetricKit) (x : RatNum)
+    (xBound : Nat) where
+  cauchy : LRealSeqCauchy (expTruncationLocatedWith K x)
+  lower :
+    ∀ n : Nat,
+      locatedLowerWith K (expWindow x xBound n).lo
+        (lrLimit (expTruncationLocatedWith K x) cauchy)
+  upper :
+    ∀ n : Nat,
+      locatedUpperWith K
+        (lrLimit (expTruncationLocatedWith K x) cauchy)
+        (expWindow x xBound n).hi
+
+structure ExpLocatedEvidence (x : RatNum) (xBound : Nat) where
+  cauchy : LRealSeqCauchy (expTruncationLocated x)
+  lower :
+    ∀ n : Nat,
+      locatedLower (expWindow x xBound n).lo
+        (lrLimit (expTruncationLocated x) cauchy)
+  upper :
+    ∀ n : Nat,
+      locatedUpper (lrLimit (expTruncationLocated x) cauchy)
+        (expWindow x xBound n).hi
+
+def expLocated (x : RatNum) (xBound : Nat)
+    (evidence : ExpLocatedEvidence x xBound) : LocatedReal :=
+  lrLimit (expTruncationLocated x) evidence.cauchy
+
+def expLocatedWith (K : RatMetricKit) (x : RatNum) (xBound : Nat)
+    (evidence : ExpLocatedEvidenceWith K x xBound) : LocatedRealWith K :=
+  lrLimit (expTruncationLocatedWith K x) evidence.cauchy
+
+def expLocatedWithFromCauchy (K : RatMetricKit) (x : RatNum) (xBound : Nat)
+    (cauchy : LRealSeqCauchy (expTruncationLocatedWith K x))
+    (lower :
+      ∀ n : Nat,
+        locatedLowerWith K (expWindow x xBound n).lo
+          (lrLimit (expTruncationLocatedWith K x) cauchy))
+    (upper :
+      ∀ n : Nat,
+        locatedUpperWith K
+          (lrLimit (expTruncationLocatedWith K x) cauchy)
+          (expWindow x xBound n).hi) : LocatedRealWith K :=
+  expLocatedWith K x xBound { cauchy := cauchy, lower := lower, upper := upper }
+
+def expLocatedFromCauchy (x : RatNum) (xBound : Nat)
+    (cauchy : LRealSeqCauchy (expTruncationLocated x))
+    (lower :
+      ∀ n : Nat,
+        locatedLower (expWindow x xBound n).lo
+          (lrLimit (expTruncationLocated x) cauchy))
+    (upper :
+      ∀ n : Nat,
+        locatedUpper (lrLimit (expTruncationLocated x) cauchy)
+          (expWindow x xBound n).hi) :
+    LocatedReal :=
+  expLocated x xBound { cauchy := cauchy, lower := lower, upper := upper }
+
+theorem expLocated_cauchy (x : RatNum) (xBound : Nat)
+    (evidence : ExpLocatedEvidence x xBound) :
+    ∀ (k m n : Nat), (expLocated x xBound evidence).modulus k ≤ m ->
+      (expLocated x xBound evidence).modulus k ≤ n ->
+        RatMetricKitConcrete.close
+          ((expLocated x xBound evidence).seq m)
+          ((expLocated x xBound evidence).seq n) k :=
+  (expLocated x xBound evidence).cauchy
+
+theorem expLocatedWith_cauchy (K : RatMetricKit) (x : RatNum)
+    (xBound : Nat) (evidence : ExpLocatedEvidenceWith K x xBound) :
+    ∀ (k m n : Nat), (expLocatedWith K x xBound evidence).modulus k ≤ m ->
+      (expLocatedWith K x xBound evidence).modulus k ≤ n ->
+        K.close
+          ((expLocatedWith K x xBound evidence).seq m)
+          ((expLocatedWith K x xBound evidence).seq n) k :=
+  (expLocatedWith K x xBound evidence).cauchy
+
+theorem exp_located_lower (x : RatNum) (xBound : Nat)
+    (evidence : ExpLocatedEvidence x xBound) (n : Nat) :
+    locatedLower (expWindow x xBound n).lo (expLocated x xBound evidence) :=
+  evidence.lower n
+
+theorem exp_located_upper (x : RatNum) (xBound : Nat)
+    (evidence : ExpLocatedEvidence x xBound) (n : Nat) :
+    locatedUpper (expLocated x xBound evidence) (expWindow x xBound n).hi :=
+  evidence.upper n
+
+theorem exp_located_with_lower (K : RatMetricKit) (x : RatNum)
+    (xBound : Nat) (evidence : ExpLocatedEvidenceWith K x xBound)
+    (n : Nat) :
+    locatedLowerWith K (expWindow x xBound n).lo
+      (expLocatedWith K x xBound evidence) :=
+  evidence.lower n
+
+theorem exp_located_with_upper (K : RatMetricKit) (x : RatNum)
+    (xBound : Nat) (evidence : ExpLocatedEvidenceWith K x xBound)
+    (n : Nat) :
+    locatedUpperWith K (expLocatedWith K x xBound evidence)
+      (expWindow x xBound n).hi :=
+  evidence.upper n
+
+structure LnLocatedEvidenceWith (K : RatMetricKit) (x : RatNum)
+    (positive : RatPositive x) where
+  cauchy : LRealSeqCauchy (lnTruncationLocatedWith K x)
+  lower :
+    ∀ n : Nat,
+      locatedLowerWith K (lnAroundOneWindow x n).lo
+        (lrLimit (lnTruncationLocatedWith K x) cauchy)
+  upper :
+    ∀ n : Nat,
+      locatedUpperWith K
+        (lrLimit (lnTruncationLocatedWith K x) cauchy)
+        (lnAroundOneWindow x n).hi
+
+structure LnLocatedEvidence (x : RatNum) (positive : RatPositive x) where
+  cauchy : LRealSeqCauchy (lnTruncationLocated x)
+  lower :
+    ∀ n : Nat,
+      locatedLower (lnAroundOneWindow x n).lo
+        (lrLimit (lnTruncationLocated x) cauchy)
+  upper :
+    ∀ n : Nat,
+      locatedUpper (lrLimit (lnTruncationLocated x) cauchy)
+        (lnAroundOneWindow x n).hi
+
+def lnLocated (x : RatNum) (positive : RatPositive x)
+    (evidence : LnLocatedEvidence x positive) : LocatedReal :=
+  lrLimit (lnTruncationLocated x) evidence.cauchy
+
+def lnLocatedWith (K : RatMetricKit) (x : RatNum)
+    (positive : RatPositive x)
+    (evidence : LnLocatedEvidenceWith K x positive) : LocatedRealWith K :=
+  lrLimit (lnTruncationLocatedWith K x) evidence.cauchy
+
+def lnLocatedWithFromCauchy (K : RatMetricKit) (x : RatNum)
+    (positive : RatPositive x)
+    (cauchy : LRealSeqCauchy (lnTruncationLocatedWith K x))
+    (lower :
+      ∀ n : Nat,
+        locatedLowerWith K (lnAroundOneWindow x n).lo
+          (lrLimit (lnTruncationLocatedWith K x) cauchy))
+    (upper :
+      ∀ n : Nat,
+        locatedUpperWith K
+          (lrLimit (lnTruncationLocatedWith K x) cauchy)
+          (lnAroundOneWindow x n).hi) : LocatedRealWith K :=
+  lnLocatedWith K x positive
+    { cauchy := cauchy, lower := lower, upper := upper }
+
+def lnLocatedFromCauchy (x : RatNum) (positive : RatPositive x)
+    (cauchy : LRealSeqCauchy (lnTruncationLocated x))
+    (lower :
+      ∀ n : Nat,
+        locatedLower (lnAroundOneWindow x n).lo
+          (lrLimit (lnTruncationLocated x) cauchy))
+    (upper :
+      ∀ n : Nat,
+        locatedUpper (lrLimit (lnTruncationLocated x) cauchy)
+          (lnAroundOneWindow x n).hi) :
+    LocatedReal :=
+  lnLocated x positive { cauchy := cauchy, lower := lower, upper := upper }
+
+theorem lnLocated_cauchy (x : RatNum) (positive : RatPositive x)
+    (evidence : LnLocatedEvidence x positive) :
+    ∀ (k m n : Nat), (lnLocated x positive evidence).modulus k ≤ m ->
+      (lnLocated x positive evidence).modulus k ≤ n ->
+        RatMetricKitConcrete.close
+          ((lnLocated x positive evidence).seq m)
+          ((lnLocated x positive evidence).seq n) k :=
+  (lnLocated x positive evidence).cauchy
+
+theorem lnLocatedWith_cauchy (K : RatMetricKit) (x : RatNum)
+    (positive : RatPositive x)
+    (evidence : LnLocatedEvidenceWith K x positive) :
+    ∀ (k m n : Nat), (lnLocatedWith K x positive evidence).modulus k ≤ m ->
+      (lnLocatedWith K x positive evidence).modulus k ≤ n ->
+        K.close
+          ((lnLocatedWith K x positive evidence).seq m)
+          ((lnLocatedWith K x positive evidence).seq n) k :=
+  (lnLocatedWith K x positive evidence).cauchy
+
+theorem ln_located_lower (x : RatNum) (positive : RatPositive x)
+    (evidence : LnLocatedEvidence x positive) (n : Nat) :
+    locatedLower (lnAroundOneWindow x n).lo (lnLocated x positive evidence) :=
+  evidence.lower n
+
+theorem ln_located_upper (x : RatNum) (positive : RatPositive x)
+    (evidence : LnLocatedEvidence x positive) (n : Nat) :
+    locatedUpper (lnLocated x positive evidence) (lnAroundOneWindow x n).hi :=
+  evidence.upper n
+
+theorem ln_located_with_lower (K : RatMetricKit) (x : RatNum)
+    (positive : RatPositive x)
+    (evidence : LnLocatedEvidenceWith K x positive) (n : Nat) :
+    locatedLowerWith K (lnAroundOneWindow x n).lo
+      (lnLocatedWith K x positive evidence) :=
+  evidence.lower n
+
+theorem ln_located_with_upper (K : RatMetricKit) (x : RatNum)
+    (positive : RatPositive x)
+    (evidence : LnLocatedEvidenceWith K x positive) (n : Nat) :
+    locatedUpperWith K (lnLocatedWith K x positive evidence)
+      (lnAroundOneWindow x n).hi :=
+  evidence.upper n
+
+def eLocated (evidence : ExpLocatedEvidence ratOne 0) : LocatedReal :=
+  expLocated ratOne 0 evidence
+
+def twoRat : RatNum :=
+  natRat 2
+
+def ln2Located (positive : RatPositive twoRat)
+    (evidence : LnLocatedEvidence twoRat positive) : LocatedReal :=
+  lnLocated twoRat positive evidence
+
+end BEDC.Derived.LocatedTranscendental

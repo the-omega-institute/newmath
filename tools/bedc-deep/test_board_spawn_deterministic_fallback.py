@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import board_spawn
@@ -42,6 +43,11 @@ def _candidate(**overrides):
     }
     base.update(overrides)
     return base
+
+
+def _write_json(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def test_deterministic_fallback_accepts_local_logic_packet() -> None:
@@ -139,6 +145,117 @@ def test_deterministic_fallback_rejects_raw_gap_scanner_source() -> None:
     )
     assert accepted == [], accepted
     assert rejected[0]["reason"].startswith("deterministic_fallback_source_requires_llm_judge")
+
+
+def test_architecture_mutation_candidate_without_witness_basis_stops_before_admission(monkeypatch) -> None:
+    calls = {"judge": 0, "append": 0}
+
+    def fail_judge(**_kwargs):
+        calls["judge"] += 1
+        raise AssertionError("architecture mutation candidate reached Codex judge")
+
+    def fail_append(_blocks):
+        calls["append"] += 1
+        raise AssertionError("architecture mutation candidate reached BOARD append")
+
+    monkeypatch.setattr(board_spawn, "_judge_candidates", fail_judge)
+    monkeypatch.setattr(board_spawn, "_atomic_append_to_board", fail_append)
+
+    result = board_spawn.spawn_from_candidates(
+        codex_candidates=[
+            _candidate(
+                kind="architecture_mutation",
+                title="Architecture mutation missing witness basis",
+                claim="Compiler-owned architecture mutation candidate must resolve a witness basis before admission.",
+            )
+        ],
+        oracle_candidates=[],
+    )
+
+    assert result.ok
+    assert result.accepted == []
+    assert result.appended_ids == []
+    assert result.rejected[0]["reason"] == "missing_witness_basis"
+    assert calls == {"judge": 0, "append": 0}
+
+
+def test_architecture_mutation_candidate_with_resolved_witness_basis_enters_board(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    lab_root = tmp_path / "lab"
+    board_path = tmp_path / "BOARD.md"
+    completed_path = tmp_path / "BOARD.completed.md"
+    latest_status_path = tmp_path / "state" / "board_spawn_latest.json"
+    inbox_path = tmp_path / "state" / "candidate_inbox.jsonl"
+    board_path.write_text("# Fixture BOARD\n", encoding="utf-8")
+    _write_json(
+        lab_root / "reports/runs/source/claim_capsule.json",
+        {"run_local": {"negative_witness": [{"status": "blocked"}]}},
+    )
+    _write_json(lab_root / "reports/canonical/claim_capsule.json", {"status": "complete"})
+    monkeypatch.setattr(board_spawn, "LAB_ROOT", lab_root)
+    monkeypatch.setattr(board_spawn, "BOARD_PATH", board_path)
+    monkeypatch.setattr(board_spawn, "LATEST_STATUS_PATH", latest_status_path)
+    monkeypatch.setattr(board_spawn.board_archive, "BOARD_PATH", board_path)
+    monkeypatch.setattr(board_spawn.board_archive, "COMPLETED_BOARD_PATH", completed_path)
+    monkeypatch.setattr(board_spawn.candidate_inbox, "INBOX_PATH", inbox_path)
+
+    candidate = _candidate(
+        kind="architecture_mutation",
+        title="Architecture mutation resolved witness admission boundary",
+        claim=(
+            "A compiler-owned architecture mutation candidate with resolved "
+            "witness and claim capsule pointers may enter the BOARD execution "
+            "queue through local admission."
+        ),
+        local_inputs=["papers/bedc/parts/concrete_instances/04_nat_namecert_construction.tex"],
+        witness_basis_pointer="reports/runs/source/claim_capsule.json:$.run_local.negative_witness[0]",
+        claim_capsule_pointer="reports/canonical/claim_capsule.json:$",
+        hardgate_pointer="reports/runs/source/claim_capsule.json:$.run_local.negative_witness[0].status",
+    )
+
+    result = board_spawn.spawn_from_candidates(
+        codex_candidates=[candidate],
+        oracle_candidates=[],
+    )
+
+    assert result.ok
+    assert result.held == []
+    assert result.rejected == []
+    assert len(result.accepted) == 1, result
+    assert result.accepted[0]["title"] == candidate["title"]
+    assert "Local BOARD admission" in result.accepted[0]["rationale"]
+    assert result.appended_ids == ["B-01"]
+    board_text = board_path.read_text(encoding="utf-8")
+    assert "### B-01 - Architecture mutation resolved witness admission boundary" in board_text
+    assert (
+        result.accepted[0]["witness_basis_pointer"]
+        == "reports/runs/source/claim_capsule.json:$.run_local.negative_witness[0]"
+    )
+    gate = board_spawn.require_witness_basis(result.accepted[0], lab_root)
+    assert gate.status == "pass"
+
+
+def test_claim_capsule_pointer_only_packet_does_not_enter_witness_basis_gate(monkeypatch) -> None:
+    def fail_witness_gate(*_args, **_kwargs):
+        raise AssertionError("ordinary claim capsule packet entered WitnessBasisGate")
+
+    monkeypatch.setattr(board_spawn, "require_witness_basis", fail_witness_gate)
+
+    accepted, rejected = board_spawn._deterministic_fallback_judge(
+        [
+            _candidate(
+                kind="ordinary_packet",
+                claim_capsule_pointer="reports/canonical/claim_capsule.json:$",
+            )
+        ],
+        fit_threshold=7,
+        novelty_threshold=6,
+    )
+
+    assert len(accepted) == 1, (accepted, rejected)
+    assert rejected == []
 
 
 def test_deterministic_fallback_rejects_anti_parameter_echo() -> None:

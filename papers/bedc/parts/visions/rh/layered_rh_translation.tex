@@ -1,0 +1,416 @@
+\chapter{Layered RH Translation}
+\label{ch:visions-rh-layered-translation}
+\origin{ai}
+
+\autoref{ch:visions-riemann-hypothesis} states the Riemann Hypothesis as a
+constructive function from critical-strip zeta-zero witnesses to
+$\mathsf{OnCritLine}$ witnesses. The prime-local and information-channel
+chapters then rewrite the same target through centered prime amplitudes and
+zero-bias cancellation. The present chapter records the common layered
+translation principle: each formulation is a readout of the same fixed-half
+fiber over the source carrier of non-trivial zeta-zero packets. It does not
+prove $\mathsf{RH}$ and does not introduce an additional conjecture.
+
+\section{Source Carrier and Half Fiber}
+\label{sec:rh-layered-source-half-fiber}
+
+\begin{definition}[RH source carrier]
+\label{def:rh-layered-source-carrier}
+The RH source carrier is the displayed sigma carrier
+$$
+\mathcal Z_{\zeta}
+:=
+\sum_s
+\bigl(
+\mathsf{ZetaZero}(s)\times\mathsf{InCritStrip}(s)
+\bigr).
+$$
+It is the BEDC-facing zero packet carrier already used by
+\autoref{def:rh-predicate}; it is not a host-side zero set and not an
+ambient quotient of all complex roots.
+\end{definition}
+
+\begin{definition}[Real half layer]
+\label{def:rh-layered-real-half-layer}
+The real half layer over $\mathcal Z_{\zeta}$ is
+$$
+\mathcal H_{\mathbb R}
+=
+(\RealUp,\ b_{\mathbb R},\ 1/2),
+\qquad
+b_{\mathbb R}(s):=\Re(s).
+$$
+Its fixed half fiber is
+$$
+\operatorname{Fix}_{\mathbb R}
+:=
+\sum_{z:\mathcal Z_{\zeta}}
+\bigl(b_{\mathbb R}(z)=1/2\bigr).
+$$
+\end{definition}
+
+\begin{definition}[RH section form]
+\label{def:rh-layered-section-form}
+The section form of RH is the type
+$$
+\mathsf{Sec}_{\mathsf{RH}}
+:=
+\sum_{\sigma:\mathcal Z_{\zeta}\to\operatorname{Fix}_{\mathbb R}}
+\bigl(\pi_{\mathbb R}\circ\sigma=\mathrm{id}_{\mathcal Z_{\zeta}}\bigr),
+$$
+where $\pi_{\mathbb R}$ is the projection from the fixed half fiber to
+the zero packet carrier.
+\end{definition}
+
+\begin{proposition}[RH is a fixed-half section]
+\label{prop:rh-layered-rh-fixed-half-section}
+The BEDC statement $\mathsf{RH}$ of \autoref{def:rh-predicate} is
+equivalent to $\mathsf{Sec}_{\mathsf{RH}}$.
+\end{proposition}
+
+\begin{proof}
+By \autoref{def:rh-predicate}, $\mathsf{RH}$ is the dependent product
+assigning to every $z:\mathcal Z_{\zeta}$ a witness that
+$b_{\mathbb R}(z)=1/2$. The section type records exactly the same data:
+from such a product one sends $z$ to $(z,p)$ in the fixed half fiber; from
+a section one reads the second component of $\sigma(z)$ and transports it
+along the section equation. This is the specialization of
+\autoref{thm:layered-projection-half-value-propositions-sections}.
+\end{proof}
+
+\section{Equivalent Readout Layers}
+\label{sec:rh-layered-equivalent-readout-layers}
+
+\begin{definition}[Complex mirror half layer]
+\label{def:rh-layered-complex-mirror-half-layer}
+The complex mirror half layer reads a zero packet through the mirror
+fixed-surface predicate
+$$
+J(s)=s,
+\qquad
+J(s):=1-\overline{s}.
+$$
+By \autoref{thm:layered-projection-critical-line-fixed-surface}, this
+predicate is equivalent to $b_{\mathbb R}(s)=1/2$.
+\end{definition}
+
+\begin{definition}[Prime-unitary half layer]
+\label{def:rh-layered-prime-unitary-half-layer}
+The prime-unitary half layer reads a zero packet through the centered
+prime-channel predicate
+$$
+\forall p\in\PrimeUp,\ |p^{1/2}p^{-s}|\hsame 1.
+$$
+By \autoref{thm:rh-prime-unitary-balance-critical-line}, this predicate is
+equivalent to $\mathsf{OnCritLine}(s)$ on the displayed prime packet.
+\end{definition}
+
+\begin{definition}[Information half layer]
+\label{def:rh-layered-information-half-layer}
+The information half layer writes
+$$
+s=1/2+\delta+i\tau
+$$
+and reads the half condition as
+$$
+\delta=0.
+$$
+By \autoref{thm:rh-information-channel-normal-form}, this is the
+information-channel normal form of the same RH target.
+\end{definition}
+
+\begin{definition}[Laplace half layer]
+\label{def:rh-layered-laplace-half-layer}
+The Laplace half layer reads a zero
+$$
+\rho=1/2+\delta+i\gamma
+$$
+through the explicit-formula growth factor
+$$
+e^{\rho x}=e^{x/2}e^{\delta x}e^{i\gamma x}.
+$$
+The fixed half surface is the absence of the bias factor $e^{\delta x}$,
+equivalently $\delta=0$.
+\end{definition}
+
+\begin{definition}[BEDC witness half layer]
+\label{def:rh-layered-bedc-witness-half-layer}
+The BEDC witness half layer reads a zero packet as the output type
+$$
+\mathsf{OnCritLine}(s).
+$$
+This is the constructive witness surface of
+\autoref{prop:rh-constructive-form}: an inhabitant is a finite witness
+identifying $\Re(s)$ with $1/2$ inside the relevant $\RealUp$ and
+$\RatUp$ certificate rows.
+\end{definition}
+
+\begin{theorem}[Layered RH translations]
+\label{thm:rh-layered-translations}
+The following readout forms are equivalent section targets over
+$\mathcal Z_{\zeta}$:
+$$
+\Re(s)=1/2,
+\qquad
+J(s)=s,
+\qquad
+\forall p\in\PrimeUp,\ |p^{1/2}p^{-s}|\hsame 1,
+$$
+$$
+\delta=0,
+\qquad
+\text{no }e^{\delta x}\text{ Laplace bias},
+\qquad
+\mathsf{OnCritLine}(s).
+$$
+\end{theorem}
+
+\begin{proof}
+The first and second forms are equivalent by
+\autoref{thm:layered-projection-critical-line-fixed-surface}. The first
+and third forms are equivalent by
+\autoref{thm:rh-prime-unitary-balance-critical-line}. The first and
+fourth forms are the coordinate substitution of
+\autoref{def:rh-bias-clock-coordinates}. The fourth and fifth forms are
+the same equality read through
+$e^{\rho x}=e^{x/2}e^{\delta x}e^{i\gamma x}$. The first and sixth forms
+are the definition of the constructive output in
+\autoref{def:rh-predicate}. All translations preserve the same source
+carrier $\mathcal Z_{\zeta}$ and therefore yield equivalent section
+targets.
+\end{proof}
+
+\section{Zeta Recovery and Laplace Readout}
+\label{sec:rh-layered-zeta-laplace-readout}
+
+\begin{definition}[Discrete Laplace source]
+\label{def:rh-layered-discrete-laplace-source}
+For a sequence $(a_n)$, the discrete Laplace source is the atomic measure
+row
+$$
+\mu_a:=\sum_{n\ge 1}a_n\delta_{\log n}.
+$$
+Its Laplace readout is
+$$
+\mathcal L[\mu_a](s)
+:=
+\int_0^\infty e^{-st}\,d\mu_a(t).
+$$
+\end{definition}
+
+\begin{proposition}[Dirichlet series as discrete Laplace readout]
+\label{prop:rh-layered-dirichlet-laplace-readout}
+On any displayed convergence window,
+$$
+\sum_{n\ge 1}a_n n^{-s}
+=
+\mathcal L[\mu_a](s).
+$$
+\end{proposition}
+
+\begin{proof}
+By the definition of $\mu_a$,
+$$
+\mathcal L[\mu_a](s)
+=
+\sum_{n\ge 1}a_n e^{-s\log n}.
+$$
+Since $e^{-s\log n}=n^{-s}$ on the displayed branch and convergence
+window, this is the Dirichlet series.
+\end{proof}
+
+\begin{definition}[Zeta recovery layer]
+\label{def:rh-layered-zeta-recovery-layer}
+The zeta recovery layer is the carrier recovered from the compatible rows
+$$
+\mathsf{DirichletProjection},\quad
+\mathsf{EulerProjection},\quad
+\ZetaContUp,\quad
+\GammaUp\text{-completion},\quad
+\mathsf{FunctionalEquation},
+$$
+$$
+\mathsf{PoleLedger},\quad
+\mathsf{ZeroLedger},\quad
+\mathsf{BranchTransport}.
+$$
+This is the recovered $\mathsf{ZETA}$ carrier of
+\autoref{def:rh-zeta-recovery-carrier}; no single projection row exhausts
+it.
+\end{definition}
+
+\begin{principle}[RH translation does not add analytic supply]
+\label{prin:rh-layered-translation-no-analytic-supply}
+The layered RH translation does not supply analytic continuation, Euler
+product convergence, Gamma factors, zero counting, or an RH proof. It only
+records that, once the relevant zeta-zero source packet is admitted, the
+real, complex-mirror, prime-unitary, information, Laplace, and BEDC witness
+surfaces are readouts of the same fixed half fiber.
+\end{principle}
+
+\section{Exception Transport and No-Exception Form}
+\label{sec:rh-layered-exception-transport}
+
+\begin{definition}[RH layer exception]
+\label{def:rh-layered-layer-exception}
+For a half layer $\mathcal H=(B,b,h)$ over $\mathcal Z_{\zeta}$, a layer
+exception is the dependent sum
+$$
+\mathsf{Exc}_{\mathcal H}
+:=
+\sum_{z:\mathcal Z_{\zeta}}\neg(b(z)=h).
+$$
+It is a zero packet together with a failure of the half-value predicate at
+that readout layer.
+\end{definition}
+
+\begin{definition}[Source fixed exception]
+\label{def:rh-layered-source-fixed-exception}
+Let $\tau:\mathcal Z_{\zeta}\to\mathcal Z_{\zeta}$ be the source mirror
+induced by the zeta functional-equation symmetry. A source fixed
+exception is
+$$
+\mathsf{Exc}_{\mathrm{src}}
+:=
+\sum_{z:\mathcal Z_{\zeta}}\neg(\tau(z)=z).
+$$
+This is the source-level non-fixed packet; it is not yet a failure at any
+particular real, prime, information, Laplace, or witness readout.
+\end{definition}
+
+\begin{definition}[Half-preserving equivalence]
+\label{def:rh-layered-half-preserving-equivalence}
+A half layer $\mathcal H=(B,b,h)$ is half-preserving with respect to
+$\tau$ when there is a displayed family of equivalences
+$$
+\epsilon_{\mathcal H}(z):
+\bigl(\tau(z)=z\bigr)\simeq\bigl(b(z)=h\bigr)
+$$
+for every $z:\mathcal Z_{\zeta}$.
+\end{definition}
+
+\begin{theorem}[Exception transport]
+\label{thm:rh-layered-exception-transport}
+If $\mathcal H$ is half-preserving with respect to $\tau$, then
+$$
+\mathsf{Exc}_{\mathcal H}
+\simeq
+\mathsf{Exc}_{\mathrm{src}}.
+$$
+\end{theorem}
+
+\begin{proof}
+For each $z$, the equivalence
+$\epsilon_{\mathcal H}(z)$ transports witnesses of
+$\tau(z)=z$ to witnesses of $b(z)=h$ and conversely. Contraposition along
+the two maps gives an equivalence between
+$\neg(b(z)=h)$ and $\neg(\tau(z)=z)$. Dependent-sum formation over the
+same source carrier $\mathcal Z_{\zeta}$ then yields the displayed
+equivalence of exception types.
+\end{proof}
+
+\begin{theorem}[No-exception transfer]
+\label{thm:rh-layered-no-exception-transfer}
+If $\mathcal H$ is half-preserving with respect to $\tau$, then
+$$
+\neg\mathsf{Exc}_{\mathrm{src}}
+\to
+\neg\mathsf{Exc}_{\mathcal H}.
+$$
+\end{theorem}
+
+\begin{proof}
+Compose a hypothetical element of $\mathsf{Exc}_{\mathcal H}$ with the
+transport map of \autoref{thm:rh-layered-exception-transport}. The result
+is an element of $\mathsf{Exc}_{\mathrm{src}}$, contradicting the premise.
+\end{proof}
+
+\begin{theorem}[Symmetric closure is not no-exception]
+\label{thm:rh-layered-symmetry-not-no-exception}
+Closure of $\mathcal Z_{\zeta}$ under an involution $\tau$ does not by
+itself imply
+$$
+\neg\mathsf{Exc}_{\mathrm{src}}.
+$$
+\end{theorem}
+
+\begin{proof}
+Consider a two-row carrier $\{a,b\}$ with $\tau(a)=b$ and $\tau(b)=a$.
+This carrier is closed under the involution and $\tau$ is an involution.
+Nevertheless neither row is fixed. Hence the sigma type
+$\sum_z\neg(\tau(z)=z)$ is inhabited. The example separates symmetry of
+the carrier from fixedness of every source row.
+\end{proof}
+
+\begin{corollary}[Precise role of contradiction]
+\label{cor:rh-layered-contradiction-role}
+A contradiction argument can eliminate a layer exception only after that
+exception has been transported to a source fixed exception and the
+source fixed exception has been ruled out.
+\end{corollary}
+
+\begin{proof}
+The first requirement is \autoref{thm:rh-layered-exception-transport}.
+The second requirement is the premise of
+\autoref{thm:rh-layered-no-exception-transfer}. Without the displayed
+half-preserving equivalence, a contradiction at one readout layer has no
+typed route to the source fixed predicate; without the source
+no-exception premise, the transported exception is not eliminated.
+\end{proof}
+
+\section{Synthesis}
+\label{sec:rh-layered-translation-synthesis}
+
+\begin{theorem}[Layered RH synthesis]
+\label{thm:rh-layered-translation-synthesis}
+Inside the RH vision stack, the Riemann Hypothesis has the unified
+section form
+$$
+\mathcal Z_{\zeta}
+\to
+\sum_{z:\mathcal Z_{\zeta}}
+\bigl(b(z)=h\bigr),
+$$
+where $(B,b,h)$ may be any of the equivalent half layers of
+\autoref{thm:rh-layered-translations}. The only unshown content between
+two such layers is the corresponding fiber data over the same source
+carrier, not a separate object domain.
+\end{theorem}
+
+\begin{proof}
+\autoref{prop:rh-layered-rh-fixed-half-section} identifies BEDC-RH with a
+section into the real fixed half fiber. \autoref{thm:rh-layered-translations}
+transports that section target across the complex-mirror, prime-unitary,
+information, Laplace, and witness readouts. The final statement about
+unshown content is the RH specialization of
+\autoref{thm:layered-projection-infinity} and
+\autoref{thm:interface-refinement-partitions-previous-fiber}.
+\end{proof}
+
+\begin{theorem}[Layered RH no-exception form]
+\label{thm:rh-layered-no-exception-form}
+For the real, complex-mirror, prime-unitary, information, Laplace, and
+BEDC witness layers of \autoref{thm:rh-layered-translations}, the
+corresponding RH assertions are no-exception claims over the same source
+fixed-half fiber. When the half-preserving equivalence with the source
+mirror is displayed, the no-exception form is
+$$
+\neg\mathsf{Exc}_{\mathrm{src}}
+\to
+\prod_{\mathcal H}\neg\mathsf{Exc}_{\mathcal H}.
+$$
+Carrier symmetry alone does not supply the premise
+$\neg\mathsf{Exc}_{\mathrm{src}}$.
+\end{theorem}
+
+\begin{proof}
+\autoref{thm:rh-layered-translations} identifies the listed readout
+layers as equivalent half layers over $\mathcal Z_{\zeta}$. For each
+half-preserving layer, \autoref{thm:rh-layered-no-exception-transfer}
+transports source no-exception to layer no-exception. The final sentence
+is exactly \autoref{thm:rh-layered-symmetry-not-no-exception}.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-criticallinewitness-namecert}{Critical-line witness packets realize the BEDC witness half layer as finite zero-packet, real-part, rational-half, hsame, transport, replay, and NameCert rows.}
+\concretizedIn{ch:concrete-instances-zeta-functional-equation-ledger-namecert}{Functional-equation ledgers realize the mirror-readout row used by the layered RH translation.}
+\concretizedIn{ch:concrete-instances-zeta-continuation-witness-namecert}{Zeta-continuation witness packets realize the recovered zeta carrier consumed by the layered RH translation.}

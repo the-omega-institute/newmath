@@ -1,0 +1,2108 @@
+{
+  "artifact": "runs/sigreg_gaussianity_reproduction.json",
+  "artifact_id": "bedc-quality-lab:sigreg-gaussianity-reproduction",
+  "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+  "family_aggregates": {
+    "gaussian": {
+      "guard_status": "ok",
+      "proxy_whitening_deviation_epsilon_mean": 0.016891950890324213,
+      "seed_count": 12,
+      "sigreg_penalty_mean": 0.00011680779651071331
+    },
+    "generalized_normal_alpha4": {
+      "guard_status": "ok",
+      "proxy_whitening_deviation_epsilon_mean": 0.022462157141310612,
+      "seed_count": 12,
+      "sigreg_penalty_mean": 0.004481622420850055
+    },
+    "laplace": {
+      "guard_status": "ok",
+      "proxy_whitening_deviation_epsilon_mean": 0.014682025203617721,
+      "seed_count": 12,
+      "sigreg_penalty_mean": 0.012863509086242347
+    },
+    "student_t_df3": {
+      "guard_status": "ok",
+      "proxy_whitening_deviation_epsilon_mean": 0.013448820878245752,
+      "seed_count": 12,
+      "sigreg_penalty_mean": 0.033469574873210915
+    },
+    "uniform": {
+      "guard_status": "ok",
+      "proxy_whitening_deviation_epsilon_mean": 0.012595891804791433,
+      "seed_count": 12,
+      "sigreg_penalty_mean": 0.013021342265026723
+    }
+  },
+  "family_arms": [
+    {
+      "arm_id": "gaussian",
+      "latent_distribution": {
+        "coverage_key": "gaussian",
+        "family": "gaussian",
+        "latent_dim": 2,
+        "report_label": "gaussian",
+        "shape_parameter": null
+      },
+      "predeclared_hg_f1": false,
+      "role": "gaussian_control"
+    },
+    {
+      "arm_id": "laplace",
+      "latent_distribution": {
+        "coverage_key": "laplace",
+        "family": "laplace",
+        "latent_dim": 2,
+        "report_label": "laplace",
+        "shape_parameter": null
+      },
+      "predeclared_hg_f1": true,
+      "role": "non_gaussian_control"
+    },
+    {
+      "arm_id": "uniform",
+      "latent_distribution": {
+        "coverage_key": "uniform",
+        "family": "uniform",
+        "latent_dim": 2,
+        "report_label": "uniform",
+        "shape_parameter": null
+      },
+      "predeclared_hg_f1": true,
+      "role": "non_gaussian_control"
+    },
+    {
+      "arm_id": "student_t_df3",
+      "latent_distribution": {
+        "coverage_key": "student_t:3",
+        "family": "student_t",
+        "latent_dim": 2,
+        "report_label": "student_t(df=3)",
+        "shape_parameter": 3.0
+      },
+      "predeclared_hg_f1": true,
+      "role": "non_gaussian_control"
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "latent_distribution": {
+        "coverage_key": "generalized_normal:4",
+        "family": "generalized_normal",
+        "latent_dim": 2,
+        "report_label": "generalized_normal(alpha=4)",
+        "shape_parameter": 4.0
+      },
+      "predeclared_hg_f1": true,
+      "role": "non_gaussian_control"
+    }
+  ],
+  "generated_at": "2026-06-04T01:26:31.791689+00:00",
+  "guard_rows": [
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.017778975235638834,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9876749382747969,
+      "min_projected_variance": 0.9876959754193384,
+      "seed": 11
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.007972408601502742,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9946121477146688,
+      "min_projected_variance": 0.994612496420453,
+      "seed": 23
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.0067108834971600926,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9955051766214547,
+      "min_projected_variance": 0.9955255359397805,
+      "seed": 37
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.0072582681628867675,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9951176424709085,
+      "min_projected_variance": 0.9951217797891155,
+      "seed": 53
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.016085301211767634,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9888727964708128,
+      "min_projected_variance": 0.9888742395867158,
+      "seed": 71
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.020776407470431593,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9855550913560005,
+      "min_projected_variance": 0.9855796293884009,
+      "seed": 89
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.01756096932472855,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9878291211847361,
+      "min_projected_variance": 0.9878703135980933,
+      "seed": 107
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.018130984751979898,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9874259838987396,
+      "min_projected_variance": 0.9874261208074716,
+      "seed": 131
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.01979158638591935,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9862515660362892,
+      "min_projected_variance": 0.9862663723945346,
+      "seed": 163
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.011215393577064546,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9923174800659074,
+      "min_projected_variance": 0.9923180354626953,
+      "seed": 197
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.016822929048871494,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.988351099843866,
+      "min_projected_variance": 0.9883826252014817,
+      "seed": 233
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.042599303415939045,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.970122933803321,
+      "min_projected_variance": 0.9701274515328311,
+      "seed": 269
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.0029771282729748323,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9981532644207958,
+      "min_projected_variance": 0.9981536157646119,
+      "seed": 11
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.03481151724631545,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9756299516727731,
+      "min_projected_variance": 0.9756314756519665,
+      "seed": 23
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.0057784604219491015,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9961655155708367,
+      "min_projected_variance": 0.9962263271645057,
+      "seed": 37
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.0092624810944794,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9936991911339291,
+      "min_projected_variance": 0.993702823733827,
+      "seed": 53
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.02128925651800219,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9851924034150727,
+      "min_projected_variance": 0.9852057956316859,
+      "seed": 71
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.016091427961318037,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.988868463206193,
+      "min_projected_variance": 0.9888874662788917,
+      "seed": 89
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.013440794725862333,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9907432609394717,
+      "min_projected_variance": 0.9907504681462012,
+      "seed": 107
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.027486417474212044,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9808099022372214,
+      "min_projected_variance": 0.9808099030758494,
+      "seed": 131
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.00615259975493341,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.995900514238867,
+      "min_projected_variance": 0.9959051105264692,
+      "seed": 163
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.015264780453300921,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9894531332263179,
+      "min_projected_variance": 0.9894562743248488,
+      "seed": 197
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.02066208104308935,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9856359435803705,
+      "min_projected_variance": 0.985674666074918,
+      "seed": 233
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.0029673574769755666,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9981602205324918,
+      "min_projected_variance": 0.9981605330975929,
+      "seed": 269
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.003970194585972443,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9974474898970276,
+      "min_projected_variance": 0.9974479598334429,
+      "seed": 11
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.033266726860077304,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9767223396836022,
+      "min_projected_variance": 0.9767237960281274,
+      "seed": 23
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.021481413967749947,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9850565098579813,
+      "min_projected_variance": 0.9852829523830833,
+      "seed": 37
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.008011027682149533,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.994584814367375,
+      "min_projected_variance": 0.9945879554301584,
+      "seed": 53
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.014846381104552032,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9897490641235238,
+      "min_projected_variance": 0.989758402087485,
+      "seed": 71
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.014197899501490557,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.990207739644569,
+      "min_projected_variance": 0.9902245054672792,
+      "seed": 89
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.012131835436249974,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9916691736106058,
+      "min_projected_variance": 0.991675678440041,
+      "seed": 107
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.0035884644202542303,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9977185508844402,
+      "min_projected_variance": 0.9977185509934281,
+      "seed": 131
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.007668776618665809,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9948270576713831,
+      "min_projected_variance": 0.9948327898410654,
+      "seed": 163
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.007457142463184149,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9949768619126669,
+      "min_projected_variance": 0.9949783951464699,
+      "seed": 197
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.021056403388887285,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.985357077349615,
+      "min_projected_variance": 0.9853965390423048,
+      "seed": 233
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.003474435628263918,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9977995698614617,
+      "min_projected_variance": 0.9977999365186511,
+      "seed": 269
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.010049236021761698,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9931425146308233,
+      "min_projected_variance": 0.9931437079401945,
+      "seed": 11
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.022899268807099426,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9840538135227361,
+      "min_projected_variance": 0.9840548159426332,
+      "seed": 23
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.006612289153469752,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9955749872307189,
+      "min_projected_variance": 0.9955950466357015,
+      "seed": 37
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.011731230367667617,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.991952562938434,
+      "min_projected_variance": 0.9919571649489635,
+      "seed": 53
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.0020492879491827098,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9988158596720456,
+      "min_projected_variance": 0.9988160409391126,
+      "seed": 71
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.032114149001190466,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9775373807999013,
+      "min_projected_variance": 0.9775753123501074,
+      "seed": 89
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.009001972470294689,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9938835304352325,
+      "min_projected_variance": 0.9939046347180751,
+      "seed": 107
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.0003476702763834473,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 1.0002158532642678,
+      "min_projected_variance": 1.0002158535670405,
+      "seed": 131
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.013424910323918455,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9907544966216744,
+      "min_projected_variance": 0.9907645381870734,
+      "seed": 163
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.005913685694716329,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.996069729560547,
+      "min_projected_variance": 0.996070022050707,
+      "seed": 197
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.01875960778377706,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9869814023364685,
+      "min_projected_variance": 0.987016558387701,
+      "seed": 233
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.02848254268948736,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9801054816834294,
+      "min_projected_variance": 0.9801085021833585,
+      "seed": 269
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.022177734926449064,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9845640749425753,
+      "min_projected_variance": 0.9845667097030407,
+      "seed": 11
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.017633585926698232,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9877777636018457,
+      "min_projected_variance": 0.9877785354551877,
+      "seed": 23
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.03628836632934014,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9745856123706085,
+      "min_projected_variance": 0.9746958442242273,
+      "seed": 37
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.008164749814137296,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9944760171676614,
+      "min_projected_variance": 0.9944792186148894,
+      "seed": 53
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.015327789307521128,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9894085678783142,
+      "min_projected_variance": 0.9894182087961042,
+      "seed": 71
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.019575634769069088,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9864042903981525,
+      "min_projected_variance": 0.9864274098507206,
+      "seed": 89
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.0414674822880013,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9709232792168245,
+      "min_projected_variance": 0.9710205640986357,
+      "seed": 107
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.04374866757953357,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9693101846023044,
+      "min_projected_variance": 0.9693101859371633,
+      "seed": 131
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.01271784273723699,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9912546436263645,
+      "min_projected_variance": 0.9912641559593405,
+      "seed": 163
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.013230888511142791,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9908917368447594,
+      "min_projected_variance": 0.9908923921382531,
+      "seed": 197
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.008156434393043345,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9944819023306284,
+      "min_projected_variance": 0.994481910797252,
+      "seed": 233
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.031056709113554376,
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9782851484267232,
+      "min_projected_variance": 0.9782871109842388,
+      "seed": 269
+    }
+  ],
+  "hardgate_evidence": {
+    "HG-F1": {
+      "criterion": "paired bootstrap 95 percent CI low for non-Gaussian minus Gaussian SIGReg penalty is strictly positive",
+      "failed_families": [],
+      "status": "pass"
+    },
+    "HG-F2": {
+      "criterion": "SIGReg and whitening proxy are reported side by side without promotion",
+      "proxy_contrast_status": "reported_not_promoted",
+      "status": "pass"
+    },
+    "HG-F3": {
+      "criterion": "covariance, minimum eigenvalue, and projected-variance guards must all pass",
+      "failures": [],
+      "status": "pass"
+    },
+    "HG-F4": {
+      "criterion": "statistic path must not read labels, z, z_pair, or source-family keys",
+      "failures": [],
+      "status": "pass"
+    },
+    "HG-F5": {
+      "criterion": "failed CI separation demotes the sidecar verdict to negative/compression",
+      "status": "pass"
+    }
+  },
+  "negative_compression_fallback": {
+    "rule": "CI separation failure records negative/compression and never promotes the sidecar",
+    "status": "available"
+  },
+  "not_claimed": [
+    "SIGReg statistic reproduction is not a complete LeJEPA claim",
+    "no global or universal Gaussianity certification",
+    "no project-wide quality conclusion",
+    "no tensor NameCert conclusion",
+    "no language-model behavior conclusion",
+    "no solved model-quality conclusion",
+    "no claim outside the listed source families, seeds, directions, and frequency grid"
+  ],
+  "paired_ci_cells": [
+    {
+      "comparison": "laplace_minus_gaussian",
+      "family": "laplace",
+      "hg_f1_status": "pass",
+      "non_gaussian_minus_gaussian_proxy_whitening_deviation": {
+        "bootstrap_resamples": 2000,
+        "bootstrap_seed": 1680,
+        "ci95_high": 0.006138091440795402,
+        "ci95_low": -0.011282871370618926,
+        "differences": [
+          -0.014801846962664001,
+          0.026839108644812704,
+          -0.000932423075210991,
+          0.002004212931592632,
+          0.005203955306234555,
+          -0.004684979509113556,
+          -0.004120174598866216,
+          0.009355432722232146,
+          -0.01363898663098594,
+          0.004049386876236375,
+          0.0038391519942178563,
+          -0.03963194593896348
+        ],
+        "mean": -0.002209925686706493,
+        "n": 12
+      },
+      "non_gaussian_minus_gaussian_sigreg_penalty": {
+        "bootstrap_resamples": 2000,
+        "bootstrap_seed": 680,
+        "ci95_high": 0.013603116343088991,
+        "ci95_low": 0.011952315517315364,
+        "differences": [
+          0.012001904143208258,
+          0.015914592860960673,
+          0.013990785684142387,
+          0.010357426020060434,
+          0.01168632220217534,
+          0.011746782022852117,
+          0.011310766085318861,
+          0.013322712062983405,
+          0.013652973926589,
+          0.013510778239109159,
+          0.013238358418357094,
+          0.012227013811022876
+        ],
+        "mean": 0.012746701289731634,
+        "n": 12
+      },
+      "paired_seeds": [
+        11,
+        23,
+        37,
+        53,
+        71,
+        89,
+        107,
+        131,
+        163,
+        197,
+        233,
+        269
+      ]
+    },
+    {
+      "comparison": "uniform_minus_gaussian",
+      "family": "uniform",
+      "hg_f1_status": "pass",
+      "non_gaussian_minus_gaussian_proxy_whitening_deviation": {
+        "bootstrap_resamples": 2000,
+        "bootstrap_seed": 1681,
+        "ci95_high": 0.004030700338312502,
+        "ci95_low": -0.013391951255102463,
+        "differences": [
+          -0.01380878064966639,
+          0.02529431825857456,
+          0.014770530470589856,
+          0.000752759519262766,
+          -0.001238920107215602,
+          -0.006578507968941036,
+          -0.005429133888478575,
+          -0.014542520331725668,
+          -0.01212280976725354,
+          -0.003758251113880397,
+          0.004233474340015791,
+          -0.03912486778767513
+        ],
+        "mean": -0.00429605908553278,
+        "n": 12
+      },
+      "non_gaussian_minus_gaussian_sigreg_penalty": {
+        "bootstrap_resamples": 2000,
+        "bootstrap_seed": 681,
+        "ci95_high": 0.013496729265677508,
+        "ci95_low": 0.012356905050640627,
+        "differences": [
+          0.012589670341271075,
+          0.011020908942402076,
+          0.0138698090774146,
+          0.013437668009132547,
+          0.012255637166239501,
+          0.012225632281741785,
+          0.013749176486660571,
+          0.012456456533967217,
+          0.013147039455724166,
+          0.012075760770177442,
+          0.012983299934320769,
+          0.015043354623140371
+        ],
+        "mean": 0.012904534468516011,
+        "n": 12
+      },
+      "paired_seeds": [
+        11,
+        23,
+        37,
+        53,
+        71,
+        89,
+        107,
+        131,
+        163,
+        197,
+        233,
+        269
+      ]
+    },
+    {
+      "comparison": "student_t_df3_minus_gaussian",
+      "family": "student_t_df3",
+      "hg_f1_status": "pass",
+      "non_gaussian_minus_gaussian_proxy_whitening_deviation": {
+        "bootstrap_resamples": 2000,
+        "bootstrap_seed": 1682,
+        "ci95_high": 0.0023720216203037704,
+        "ci95_low": -0.008846915954476571,
+        "differences": [
+          -0.007729739213877136,
+          0.014926860205596684,
+          -9.859434369034054e-05,
+          0.00447296220478085,
+          -0.014036013262584924,
+          0.011337741530758873,
+          -0.00855899685443386,
+          -0.01778331447559645,
+          -0.006366676062000894,
+          -0.005301707882348217,
+          0.0019366787349055677,
+          -0.014116760726451686
+        ],
+        "mean": -0.003443130012078461,
+        "n": 12
+      },
+      "non_gaussian_minus_gaussian_sigreg_penalty": {
+        "bootstrap_resamples": 2000,
+        "bootstrap_seed": 682,
+        "ci95_high": 0.0478672014621255,
+        "ci95_low": 0.023875232647948868,
+        "differences": [
+          0.03585177825263824,
+          0.030661156280220345,
+          0.0212340224182342,
+          0.03022835001600128,
+          0.037544479604125054,
+          0.016545393861714292,
+          0.02977359013669064,
+          0.031262643467554946,
+          0.018646824063734923,
+          0.02155475212055019,
+          0.021707734124957863,
+          0.10522248057398038
+        ],
+        "mean": 0.0333527670767002,
+        "n": 12
+      },
+      "paired_seeds": [
+        11,
+        23,
+        37,
+        53,
+        71,
+        89,
+        107,
+        131,
+        163,
+        197,
+        233,
+        269
+      ]
+    },
+    {
+      "comparison": "generalized_normal_alpha4_minus_gaussian",
+      "family": "generalized_normal_alpha4",
+      "hg_f1_status": "pass",
+      "non_gaussian_minus_gaussian_proxy_whitening_deviation": {
+        "bootstrap_resamples": 2000,
+        "bootstrap_seed": 1683,
+        "ci95_high": 0.013113951775357758,
+        "ci95_low": -0.001522693381325545,
+        "differences": [
+          0.0043987596908102305,
+          0.00966117732519549,
+          0.02957748283218005,
+          0.000906481651250529,
+          -0.0007575119042465064,
+          -0.0012007727013625055,
+          0.023906512963272755,
+          0.025617682827553674,
+          -0.007073743648682358,
+          0.002015494934078245,
+          -0.008666494655828149,
+          -0.01154259430238467
+        ],
+        "mean": 0.005570206250986397,
+        "n": 12
+      },
+      "non_gaussian_minus_gaussian_sigreg_penalty": {
+        "bootstrap_resamples": 2000,
+        "bootstrap_seed": 683,
+        "ci95_high": 0.004579905224680943,
+        "ci95_low": 0.0041707052610653545,
+        "differences": [
+          0.004427265829426016,
+          0.003974643422661406,
+          0.005224641122686197,
+          0.004367232219411352,
+          0.00390922681441558,
+          0.0039450099894441926,
+          0.004577076924724446,
+          0.004390367749993443,
+          0.004367844045839535,
+          0.004760970628681004,
+          0.004116979902982514,
+          0.00431651684180641
+        ],
+        "mean": 0.004364814624339341,
+        "n": 12
+      },
+      "paired_seeds": [
+        11,
+        23,
+        37,
+        53,
+        71,
+        89,
+        107,
+        131,
+        163,
+        197,
+        233,
+        269
+      ]
+    }
+  ],
+  "parameters": {
+    "bootstrap_resamples": 2000,
+    "bootstrap_seed": 680,
+    "directions": 64,
+    "frequencies": [
+      0.5,
+      1.0,
+      1.5,
+      2.0,
+      2.5
+    ],
+    "guard_thresholds": {
+      "cov_to_identity_max": 0.2,
+      "min_cov_eigenvalue_floor": 0.8,
+      "min_projected_variance_floor": 0.7
+    },
+    "projection_standardization": "per_direction_before_characteristic_function",
+    "sample_count": 4096,
+    "seeds": [
+      11,
+      23,
+      37,
+      53,
+      71,
+      89,
+      107,
+      131,
+      163,
+      197,
+      233,
+      269
+    ]
+  },
+  "per_family_per_seed_records": [
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.017778975235638834,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9876749382747969,
+      "min_projected_variance": 0.9876959754193384,
+      "proxy_whitening_deviation_epsilon": 0.017778975235638834,
+      "sample_count": 4096,
+      "seed": 11,
+      "sigreg_penalty": 0.00011733520305278161
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.007972408601502742,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9946121477146688,
+      "min_projected_variance": 0.994612496420453,
+      "proxy_whitening_deviation_epsilon": 0.007972408601502742,
+      "sample_count": 4096,
+      "seed": 23,
+      "sigreg_penalty": 0.00016888591428998023
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.0067108834971600926,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9955051766214547,
+      "min_projected_variance": 0.9955255359397805,
+      "proxy_whitening_deviation_epsilon": 0.0067108834971600926,
+      "sample_count": 4096,
+      "seed": 37,
+      "sigreg_penalty": 8.209864462195202e-05
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.0072582681628867675,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9951176424709085,
+      "min_projected_variance": 0.9951217797891155,
+      "proxy_whitening_deviation_epsilon": 0.0072582681628867675,
+      "sample_count": 4096,
+      "seed": 53,
+      "sigreg_penalty": 0.00012378312715700764
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.016085301211767634,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9888727964708128,
+      "min_projected_variance": 0.9888742395867158,
+      "proxy_whitening_deviation_epsilon": 0.016085301211767634,
+      "sample_count": 4096,
+      "seed": 71,
+      "sigreg_penalty": 0.0001510626814397162
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.020776407470431593,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9855550913560005,
+      "min_projected_variance": 0.9855796293884009,
+      "proxy_whitening_deviation_epsilon": 0.020776407470431593,
+      "sample_count": 4096,
+      "seed": 89,
+      "sigreg_penalty": 0.00012352874955765192
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.01756096932472855,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9878291211847361,
+      "min_projected_variance": 0.9878703135980933,
+      "proxy_whitening_deviation_epsilon": 0.01756096932472855,
+      "sample_count": 4096,
+      "seed": 107,
+      "sigreg_penalty": 5.0894793746293496e-05
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.018130984751979898,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9874259838987396,
+      "min_projected_variance": 0.9874261208074716,
+      "proxy_whitening_deviation_epsilon": 0.018130984751979898,
+      "sample_count": 4096,
+      "seed": 131,
+      "sigreg_penalty": 5.090845393460246e-05
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.01979158638591935,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9862515660362892,
+      "min_projected_variance": 0.9862663723945346,
+      "proxy_whitening_deviation_epsilon": 0.01979158638591935,
+      "sample_count": 4096,
+      "seed": 163,
+      "sigreg_penalty": 0.00017995904397290498
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.011215393577064546,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9923174800659074,
+      "min_projected_variance": 0.9923180354626953,
+      "proxy_whitening_deviation_epsilon": 0.011215393577064546,
+      "sample_count": 4096,
+      "seed": 197,
+      "sigreg_penalty": 0.00013929711359900274
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.016822929048871494,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.988351099843866,
+      "min_projected_variance": 0.9883826252014817,
+      "proxy_whitening_deviation_epsilon": 0.016822929048871494,
+      "sample_count": 4096,
+      "seed": 233,
+      "sigreg_penalty": 8.878743790988292e-05
+    },
+    {
+      "arm_id": "gaussian",
+      "cov_to_identity_fro": 0.042599303415939045,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.970122933803321,
+      "min_projected_variance": 0.9701274515328311,
+      "proxy_whitening_deviation_epsilon": 0.042599303415939045,
+      "sample_count": 4096,
+      "seed": 269,
+      "sigreg_penalty": 0.0001251523948467835
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.0029771282729748323,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9981532644207958,
+      "min_projected_variance": 0.9981536157646119,
+      "proxy_whitening_deviation_epsilon": 0.0029771282729748323,
+      "sample_count": 4096,
+      "seed": 11,
+      "sigreg_penalty": 0.01211923934626104
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.03481151724631545,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9756299516727731,
+      "min_projected_variance": 0.9756314756519665,
+      "proxy_whitening_deviation_epsilon": 0.03481151724631545,
+      "sample_count": 4096,
+      "seed": 23,
+      "sigreg_penalty": 0.016083478775250654
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.0057784604219491015,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9961655155708367,
+      "min_projected_variance": 0.9962263271645057,
+      "proxy_whitening_deviation_epsilon": 0.0057784604219491015,
+      "sample_count": 4096,
+      "seed": 37,
+      "sigreg_penalty": 0.01407288432876434
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.0092624810944794,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9936991911339291,
+      "min_projected_variance": 0.993702823733827,
+      "proxy_whitening_deviation_epsilon": 0.0092624810944794,
+      "sample_count": 4096,
+      "seed": 53,
+      "sigreg_penalty": 0.010481209147217441
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.02128925651800219,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9851924034150727,
+      "min_projected_variance": 0.9852057956316859,
+      "proxy_whitening_deviation_epsilon": 0.02128925651800219,
+      "sample_count": 4096,
+      "seed": 71,
+      "sigreg_penalty": 0.011837384883615056
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.016091427961318037,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.988868463206193,
+      "min_projected_variance": 0.9888874662788917,
+      "proxy_whitening_deviation_epsilon": 0.016091427961318037,
+      "sample_count": 4096,
+      "seed": 89,
+      "sigreg_penalty": 0.011870310772409768
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.013440794725862333,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9907432609394717,
+      "min_projected_variance": 0.9907504681462012,
+      "proxy_whitening_deviation_epsilon": 0.013440794725862333,
+      "sample_count": 4096,
+      "seed": 107,
+      "sigreg_penalty": 0.011361660879065155
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.027486417474212044,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9808099022372214,
+      "min_projected_variance": 0.9808099030758494,
+      "proxy_whitening_deviation_epsilon": 0.027486417474212044,
+      "sample_count": 4096,
+      "seed": 131,
+      "sigreg_penalty": 0.013373620516918008
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.00615259975493341,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.995900514238867,
+      "min_projected_variance": 0.9959051105264692,
+      "proxy_whitening_deviation_epsilon": 0.00615259975493341,
+      "sample_count": 4096,
+      "seed": 163,
+      "sigreg_penalty": 0.013832932970561906
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.015264780453300921,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9894531332263179,
+      "min_projected_variance": 0.9894562743248488,
+      "proxy_whitening_deviation_epsilon": 0.015264780453300921,
+      "sample_count": 4096,
+      "seed": 197,
+      "sigreg_penalty": 0.013650075352708162
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.02066208104308935,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9856359435803705,
+      "min_projected_variance": 0.985674666074918,
+      "proxy_whitening_deviation_epsilon": 0.02066208104308935,
+      "sample_count": 4096,
+      "seed": 233,
+      "sigreg_penalty": 0.013327145856266978
+    },
+    {
+      "arm_id": "laplace",
+      "cov_to_identity_fro": 0.0029673574769755666,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9981602205324918,
+      "min_projected_variance": 0.9981605330975929,
+      "proxy_whitening_deviation_epsilon": 0.0029673574769755666,
+      "sample_count": 4096,
+      "seed": 269,
+      "sigreg_penalty": 0.01235216620586966
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.003970194585972443,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9974474898970276,
+      "min_projected_variance": 0.9974479598334429,
+      "proxy_whitening_deviation_epsilon": 0.003970194585972443,
+      "sample_count": 4096,
+      "seed": 11,
+      "sigreg_penalty": 0.012707005544323855
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.033266726860077304,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9767223396836022,
+      "min_projected_variance": 0.9767237960281274,
+      "proxy_whitening_deviation_epsilon": 0.033266726860077304,
+      "sample_count": 4096,
+      "seed": 23,
+      "sigreg_penalty": 0.011189794856692057
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.021481413967749947,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9850565098579813,
+      "min_projected_variance": 0.9852829523830833,
+      "proxy_whitening_deviation_epsilon": 0.021481413967749947,
+      "sample_count": 4096,
+      "seed": 37,
+      "sigreg_penalty": 0.013951907722036552
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.008011027682149533,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.994584814367375,
+      "min_projected_variance": 0.9945879554301584,
+      "proxy_whitening_deviation_epsilon": 0.008011027682149533,
+      "sample_count": 4096,
+      "seed": 53,
+      "sigreg_penalty": 0.013561451136289555
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.014846381104552032,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9897490641235238,
+      "min_projected_variance": 0.989758402087485,
+      "proxy_whitening_deviation_epsilon": 0.014846381104552032,
+      "sample_count": 4096,
+      "seed": 71,
+      "sigreg_penalty": 0.012406699847679217
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.014197899501490557,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.990207739644569,
+      "min_projected_variance": 0.9902245054672792,
+      "proxy_whitening_deviation_epsilon": 0.014197899501490557,
+      "sample_count": 4096,
+      "seed": 89,
+      "sigreg_penalty": 0.012349161031299436
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.012131835436249974,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9916691736106058,
+      "min_projected_variance": 0.991675678440041,
+      "proxy_whitening_deviation_epsilon": 0.012131835436249974,
+      "sample_count": 4096,
+      "seed": 107,
+      "sigreg_penalty": 0.013800071280406865
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.0035884644202542303,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9977185508844402,
+      "min_projected_variance": 0.9977185509934281,
+      "proxy_whitening_deviation_epsilon": 0.0035884644202542303,
+      "sample_count": 4096,
+      "seed": 131,
+      "sigreg_penalty": 0.01250736498790182
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.007668776618665809,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9948270576713831,
+      "min_projected_variance": 0.9948327898410654,
+      "proxy_whitening_deviation_epsilon": 0.007668776618665809,
+      "sample_count": 4096,
+      "seed": 163,
+      "sigreg_penalty": 0.013326998499697072
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.007457142463184149,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9949768619126669,
+      "min_projected_variance": 0.9949783951464699,
+      "proxy_whitening_deviation_epsilon": 0.007457142463184149,
+      "sample_count": 4096,
+      "seed": 197,
+      "sigreg_penalty": 0.012215057883776446
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.021056403388887285,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.985357077349615,
+      "min_projected_variance": 0.9853965390423048,
+      "proxy_whitening_deviation_epsilon": 0.021056403388887285,
+      "sample_count": 4096,
+      "seed": 233,
+      "sigreg_penalty": 0.013072087372230652
+    },
+    {
+      "arm_id": "uniform",
+      "cov_to_identity_fro": 0.003474435628263918,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9977995698614617,
+      "min_projected_variance": 0.9977999365186511,
+      "proxy_whitening_deviation_epsilon": 0.003474435628263918,
+      "sample_count": 4096,
+      "seed": 269,
+      "sigreg_penalty": 0.015168507017987155
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.010049236021761698,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9931425146308233,
+      "min_projected_variance": 0.9931437079401945,
+      "proxy_whitening_deviation_epsilon": 0.010049236021761698,
+      "sample_count": 4096,
+      "seed": 11,
+      "sigreg_penalty": 0.03596911345569102
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.022899268807099426,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9840538135227361,
+      "min_projected_variance": 0.9840548159426332,
+      "proxy_whitening_deviation_epsilon": 0.022899268807099426,
+      "sample_count": 4096,
+      "seed": 23,
+      "sigreg_penalty": 0.030830042194510326
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.006612289153469752,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9955749872307189,
+      "min_projected_variance": 0.9955950466357015,
+      "proxy_whitening_deviation_epsilon": 0.006612289153469752,
+      "sample_count": 4096,
+      "seed": 37,
+      "sigreg_penalty": 0.02131612106285615
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.011731230367667617,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.991952562938434,
+      "min_projected_variance": 0.9919571649489635,
+      "proxy_whitening_deviation_epsilon": 0.011731230367667617,
+      "sample_count": 4096,
+      "seed": 53,
+      "sigreg_penalty": 0.030352133143158287
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.0020492879491827098,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9988158596720456,
+      "min_projected_variance": 0.9988160409391126,
+      "proxy_whitening_deviation_epsilon": 0.0020492879491827098,
+      "sample_count": 4096,
+      "seed": 71,
+      "sigreg_penalty": 0.03769554228556477
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.032114149001190466,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9775373807999013,
+      "min_projected_variance": 0.9775753123501074,
+      "proxy_whitening_deviation_epsilon": 0.032114149001190466,
+      "sample_count": 4096,
+      "seed": 89,
+      "sigreg_penalty": 0.016668922611271945
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.009001972470294689,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9938835304352325,
+      "min_projected_variance": 0.9939046347180751,
+      "proxy_whitening_deviation_epsilon": 0.009001972470294689,
+      "sample_count": 4096,
+      "seed": 107,
+      "sigreg_penalty": 0.029824484930436934
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.0003476702763834473,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 1.0002158532642678,
+      "min_projected_variance": 1.0002158535670405,
+      "proxy_whitening_deviation_epsilon": 0.0003476702763834473,
+      "sample_count": 4096,
+      "seed": 131,
+      "sigreg_penalty": 0.031313551921489546
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.013424910323918455,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9907544966216744,
+      "min_projected_variance": 0.9907645381870734,
+      "proxy_whitening_deviation_epsilon": 0.013424910323918455,
+      "sample_count": 4096,
+      "seed": 163,
+      "sigreg_penalty": 0.01882678310770783
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.005913685694716329,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.996069729560547,
+      "min_projected_variance": 0.996070022050707,
+      "proxy_whitening_deviation_epsilon": 0.005913685694716329,
+      "sample_count": 4096,
+      "seed": 197,
+      "sigreg_penalty": 0.021694049234149193
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.01875960778377706,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9869814023364685,
+      "min_projected_variance": 0.987016558387701,
+      "proxy_whitening_deviation_epsilon": 0.01875960778377706,
+      "sample_count": 4096,
+      "seed": 233,
+      "sigreg_penalty": 0.021796521562867745
+    },
+    {
+      "arm_id": "student_t_df3",
+      "cov_to_identity_fro": 0.02848254268948736,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9801054816834294,
+      "min_projected_variance": 0.9801085021833585,
+      "proxy_whitening_deviation_epsilon": 0.02848254268948736,
+      "sample_count": 4096,
+      "seed": 269,
+      "sigreg_penalty": 0.10534763296882717
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.022177734926449064,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9845640749425753,
+      "min_projected_variance": 0.9845667097030407,
+      "proxy_whitening_deviation_epsilon": 0.022177734926449064,
+      "sample_count": 4096,
+      "seed": 11,
+      "sigreg_penalty": 0.004544601032478798
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.017633585926698232,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9877777636018457,
+      "min_projected_variance": 0.9877785354551877,
+      "proxy_whitening_deviation_epsilon": 0.017633585926698232,
+      "sample_count": 4096,
+      "seed": 23,
+      "sigreg_penalty": 0.004143529336951386
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.03628836632934014,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9745856123706085,
+      "min_projected_variance": 0.9746958442242273,
+      "proxy_whitening_deviation_epsilon": 0.03628836632934014,
+      "sample_count": 4096,
+      "seed": 37,
+      "sigreg_penalty": 0.005306739767308149
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.008164749814137296,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9944760171676614,
+      "min_projected_variance": 0.9944792186148894,
+      "proxy_whitening_deviation_epsilon": 0.008164749814137296,
+      "sample_count": 4096,
+      "seed": 53,
+      "sigreg_penalty": 0.00449101534656836
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.015327789307521128,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9894085678783142,
+      "min_projected_variance": 0.9894182087961042,
+      "proxy_whitening_deviation_epsilon": 0.015327789307521128,
+      "sample_count": 4096,
+      "seed": 71,
+      "sigreg_penalty": 0.004060289495855296
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.019575634769069088,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9864042903981525,
+      "min_projected_variance": 0.9864274098507206,
+      "proxy_whitening_deviation_epsilon": 0.019575634769069088,
+      "sample_count": 4096,
+      "seed": 89,
+      "sigreg_penalty": 0.004068538739001844
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.0414674822880013,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9709232792168245,
+      "min_projected_variance": 0.9710205640986357,
+      "proxy_whitening_deviation_epsilon": 0.0414674822880013,
+      "sample_count": 4096,
+      "seed": 107,
+      "sigreg_penalty": 0.004627971718470739
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.04374866757953357,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9693101846023044,
+      "min_projected_variance": 0.9693101859371633,
+      "proxy_whitening_deviation_epsilon": 0.04374866757953357,
+      "sample_count": 4096,
+      "seed": 131,
+      "sigreg_penalty": 0.0044412762039280455
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.01271784273723699,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9912546436263645,
+      "min_projected_variance": 0.9912641559593405,
+      "proxy_whitening_deviation_epsilon": 0.01271784273723699,
+      "sample_count": 4096,
+      "seed": 163,
+      "sigreg_penalty": 0.00454780308981244
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.013230888511142791,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9908917368447594,
+      "min_projected_variance": 0.9908923921382531,
+      "proxy_whitening_deviation_epsilon": 0.013230888511142791,
+      "sample_count": 4096,
+      "seed": 197,
+      "sigreg_penalty": 0.004900267742280006
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.008156434393043345,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9944819023306284,
+      "min_projected_variance": 0.994481910797252,
+      "proxy_whitening_deviation_epsilon": 0.008156434393043345,
+      "sample_count": 4096,
+      "seed": 233,
+      "sigreg_penalty": 0.004205767340892397
+    },
+    {
+      "arm_id": "generalized_normal_alpha4",
+      "cov_to_identity_fro": 0.031056709113554376,
+      "forbidden_feature_audit": {
+        "checked_keys": [],
+        "criterion": "statistic computation path accepts only h plus numeric probe parameters",
+        "forbidden_keys": [],
+        "status": "pass"
+      },
+      "guard_reasons": [],
+      "guard_status": "ok",
+      "min_cov_eigenvalue": 0.9782851484267232,
+      "min_projected_variance": 0.9782871109842388,
+      "proxy_whitening_deviation_epsilon": 0.031056709113554376,
+      "sample_count": 4096,
+      "seed": 269,
+      "sigreg_penalty": 0.004441669236653193
+    }
+  ],
+  "proxy_contrast": {
+    "promotion": "none",
+    "proxy": "bedc_quality_lab.identifiability_bound.whitening_deviation_epsilon",
+    "rows": [
+      {
+        "family": "laplace",
+        "proxy_separates": false,
+        "sigreg_separates": true,
+        "status": "disagreement_preserved"
+      },
+      {
+        "family": "uniform",
+        "proxy_separates": false,
+        "sigreg_separates": true,
+        "status": "disagreement_preserved"
+      },
+      {
+        "family": "student_t_df3",
+        "proxy_separates": false,
+        "sigreg_separates": true,
+        "status": "disagreement_preserved"
+      },
+      {
+        "family": "generalized_normal_alpha4",
+        "proxy_separates": false,
+        "sigreg_separates": true,
+        "status": "disagreement_preserved"
+      }
+    ],
+    "status": "reported_not_promoted"
+  },
+  "report": "runs/sigreg_gaussianity_reproduction.md",
+  "revoke_conditions": [
+    "revoke if fresh paired seeds remove Gaussian versus non-Gaussian CI separation",
+    "revoke if a larger sample or a different direction and frequency grid removes CI separation",
+    "revoke if any collapse or isometry guard fails",
+    "revoke if the statistic computation path reads ground-truth labels or source-family keys"
+  ],
+  "schema_id": "bedc-quality-lab:sigreg-gaussianity-reproduction-sidecar",
+  "source_artifacts": {
+    "generation_script": "scripts/run_sigreg_gaussianity_reproduction.py",
+    "latent_distribution": "bedc_quality_lab.latent_distribution.LatentDistributionSpec",
+    "proxy_whitening_deviation": "bedc_quality_lab.identifiability_bound.whitening_deviation_epsilon"
+  },
+  "status": "pointer-only",
+  "verdict": {
+    "failed_gates": [],
+    "passed_gates": [
+      "HG-F1",
+      "HG-F2",
+      "HG-F3",
+      "HG-F4",
+      "HG-F5"
+    ],
+    "promotion": "none",
+    "reason": "finite positive controls separate under the predeclared SIGReg statistic",
+    "status": "positive_control_passed_pointer_only"
+  }
+}

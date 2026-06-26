@@ -1,0 +1,299 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_structured_ablation",
+  "device": "cuda",
+  "inputs": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\g2n_labels_clean.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz"
+  },
+  "grid": {
+    "seed": 41,
+    "epochs": 420,
+    "hidden": 384,
+    "batch": 512,
+    "lr": 0.0008
+  },
+  "counts": {
+    "train": 2043,
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55
+  },
+  "rows": {
+    "full": {
+      "mode": "full",
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 287,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.008058205954943054,
+              "low": -0.011678332940623778,
+              "high": -0.004955632047493946
+            },
+            "chosen_depth_counts": {
+              "1": 56,
+              "2": 252,
+              "3": 105,
+              "4": 102,
+              "5": 131
+            },
+            "score_error_spearman": 0.8906608136705193
+          },
+          "cal_smooth_l1": 0.12404101341962814
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.5155730918049812,
+          "cal_smooth_l1": 0.17362146079540253,
+          "cal_delta_high": 0.003297160942685565,
+          "cal_delta_observed": 0.0016906562447183554
+        },
+        "history_last": {
+          "epoch": 420.0,
+          "train": 0.12328322865068912,
+          "cal_smooth_l1": 0.12388522922992706,
+          "cal_delta_high": -0.003421918260803144,
+          "cal_delta_observed": -0.006614722219057331
+        },
+        "params_count": 1979137
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.008058205954943054,
+          "low": -0.011661766602025597,
+          "high": -0.005091362749383461
+        },
+        "chosen_depth_counts": {
+          "1": 56,
+          "2": 252,
+          "3": 105,
+          "4": 102,
+          "5": 131
+        },
+        "score_error_spearman": 0.8906608136705193
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.006037844418029237,
+          "low": -0.01080189714465592,
+          "high": -0.0012961182465950503
+        },
+        "chosen_depth_counts": {
+          "1": 46,
+          "2": 253,
+          "3": 107,
+          "4": 111,
+          "5": 117
+        },
+        "score_error_spearman": 0.8898838415040493
+      }
+    },
+    "state_only": {
+      "mode": "state_only",
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 13,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.01816920859116357,
+              "low": 0.008637412242710104,
+              "high": 0.028751286651730153
+            },
+            "chosen_depth_counts": {
+              "1": 316,
+              "2": 2,
+              "3": 11,
+              "5": 317
+            },
+            "score_error_spearman": 0.1472571441939192
+          },
+          "cal_smooth_l1": 0.13666567206382751
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.5040043249726296,
+          "cal_smooth_l1": 0.17870646715164185,
+          "cal_delta_high": 0.028751286651730153,
+          "cal_delta_observed": 0.01816920859116357
+        },
+        "history_last": {
+          "epoch": 420.0,
+          "train": 0.32633224576711656,
+          "cal_smooth_l1": 0.14003029465675354,
+          "cal_delta_high": 0.028751286651730153,
+          "cal_delta_observed": 0.01816920859116357
+        },
+        "params_count": 1977217
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.01816920859116357,
+          "low": 0.008106935075936508,
+          "high": 0.030519838363365668
+        },
+        "chosen_depth_counts": {
+          "1": 316,
+          "2": 2,
+          "3": 11,
+          "5": 317
+        },
+        "score_error_spearman": 0.1472571441939192
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.027557181479931733,
+          "low": 0.014360979074903584,
+          "high": 0.043328376519135306
+        },
+        "chosen_depth_counts": {
+          "1": 313,
+          "3": 8,
+          "5": 313
+        },
+        "score_error_spearman": 0.147227633296802
+      }
+    },
+    "depth_only": {
+      "mode": "depth_only",
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 285,
+          "calibration": {
+            "allocation_delta": {
+              "observed": 0.0,
+              "low": 0.0,
+              "high": 0.0
+            },
+            "chosen_depth_counts": {
+              "3": 646
+            },
+            "score_error_spearman": 0.8729217365007194
+          },
+          "cal_smooth_l1": 0.08453921973705292
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.37606714889407156,
+          "cal_smooth_l1": 0.08689006417989731,
+          "cal_delta_high": 0.028738233405214735,
+          "cal_delta_observed": 0.01816227354151001
+        },
+        "history_last": {
+          "epoch": 420.0,
+          "train": 0.25508380457758906,
+          "cal_smooth_l1": 0.09153813868761063,
+          "cal_delta_high": 0.0,
+          "cal_delta_observed": 0.0
+        },
+        "params_count": 77569
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": 0.0,
+          "low": 0.0,
+          "high": 0.0
+        },
+        "chosen_depth_counts": {
+          "3": 646
+        },
+        "score_error_spearman": 0.8729217365007194
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.0,
+          "low": 0.0,
+          "high": 0.0
+        },
+        "chosen_depth_counts": {
+          "3": 634
+        },
+        "score_error_spearman": 0.8629708853423959
+      }
+    },
+    "ridge_full": {
+      "mode": "ridge_full",
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.0,
+          "low": 0.0,
+          "high": 0.0
+        },
+        "chosen_depth_counts": {
+          "3": 634
+        },
+        "score_error_spearman": 0.2831407460909266
+      }
+    },
+    "refined_mv_dp": {
+      "mode": "refined_mv_dp",
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.0018150234253323794,
+          "low": -0.0026942610720892173,
+          "high": 0.006302815827836218
+        },
+        "chosen_depth_counts": {
+          "1": 95,
+          "2": 67,
+          "3": 306,
+          "4": 75,
+          "5": 91
+        },
+        "score_error_spearman": 0.43738003498836153
+      }
+    },
+    "policy_score_balanced": {
+      "mode": "policy_score_balanced",
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.0033048625628667727,
+          "low": -0.0067092598574598995,
+          "high": 1.2921096741052523e-05
+        },
+        "chosen_depth_counts": {
+          "1": 99,
+          "2": 92,
+          "3": 252,
+          "4": 92,
+          "5": 99
+        },
+        "policy_target_spearman": 0.3963775077698914
+      }
+    },
+    "exact_budget_oracle": {
+      "mode": "exact_budget_oracle",
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.024122137932078153,
+          "low": -0.03053942592650853,
+          "high": -0.019255972884574254
+        },
+        "chosen_depth_counts": {
+          "1": 148,
+          "2": 114,
+          "3": 117,
+          "4": 100,
+          "5": 155
+        },
+        "score_error_spearman": 1.0
+      }
+    }
+  },
+  "leakage_attestation": {
+    "feature_standardizer": "fit on train features only for rows that use state features",
+    "target_standardizer": "fit on train option_error only",
+    "model_selection": "each neural row uses calibration split exact-budget allocation only",
+    "eval_truth_usage": "eval option_error used only after predicted option scores are produced",
+    "slurm_or_ssh": "not used"
+  },
+  "outputs": {
+    "predictions_npz": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_structured_ablation_predictions.npz",
+    "json": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_structured_ablation.json",
+    "md": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_structured_ablation.md"
+  },
+  "wall_time_sec": 930.8813185691833
+}

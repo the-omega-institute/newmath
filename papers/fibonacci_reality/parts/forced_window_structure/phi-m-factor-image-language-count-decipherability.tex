@@ -1,0 +1,121 @@
+\origin{ai}
+
+\subsection{Forced-Window Image Counts for the Golden-Mean Shift}
+\label{sec:phi-m-factor-image-language-count-decipherability}
+
+\paragraph{Carrier.}
+Fix an integer $m \geq 1$. The finite input carrier is
+$$
+\begin{aligned}
+A_m = \{ w \in \{0,1\}^m : w_i w_{i+1} \neq 11 \text{ for every } 1 \leq i < m \}.
+\end{aligned}
+$$
+Thus $A_m$ is the set of length-$m$ binary words with no adjacent $1$s. The two-sided ambient space is
+$$
+\begin{aligned}
+\Sigma = \{ x \in \{0,1\}^{\mathbb{Z}} : x_i x_{i+1} \neq 11 \text{ for every } i \in \mathbb{Z} \}.
+\end{aligned}
+$$
+A finite alphabet $B$ is chosen, and a local rule is a function
+$$
+\begin{aligned}
+f : A_m \longrightarrow B.
+\end{aligned}
+$$
+It defines a sliding-block factor map $\Phi_m : \Sigma \to B^{\mathbb{Z}}$ by
+$$
+\begin{aligned}
+(\Phi_m(x))_i = f(x_i x_{i+1} \cdots x_{i+m-1}).
+\end{aligned}
+$$
+The admissibility condition on $\Sigma$ guarantees that every input window $x_i x_{i+1} \cdots x_{i+m-1}$ lies in $A_m$, so the rule is defined at every coordinate.
+
+\paragraph{Length-one image language.}
+The length-one image language is the set of single symbols appearing in some point of $\Phi_m(\Sigma)$:
+$$
+\begin{aligned}
+L_1(\Phi_m(\Sigma)) = \{ b \in B : \text{there are } x \in \Sigma \text{ and } i \in \mathbb{Z} \text{ with } (\Phi_m(x))_i=b \}.
+\end{aligned}
+$$
+For this carrier, the exact identity is
+$$
+\begin{aligned}
+L_1(\Phi_m(\Sigma)) = f(A_m).
+\end{aligned}
+$$
+Indeed, if $b$ occurs in the image at coordinate $i$, then $b=f(w)$ for the admissible window $w=x_i\cdots x_{i+m-1}\in A_m$. Conversely, every $w\in A_m$ can be placed inside a bi-infinite point of $\Sigma$ by surrounding the finite word with zeros on both sides, so $f(w)$ occurs as an image symbol. Therefore
+$$
+\begin{aligned}
+|L_1(\Phi_m(\Sigma))| = |f(A_m)| \leq |A_m|.
+\end{aligned}
+$$
+The inequality is an equality exactly when $f$ is injective on $A_m$. If two distinct admissible words $u,v\in A_m$ have $f(u)=f(v)$, then those two input windows collapse to one output symbol and the length-one count drops. If no such collision exists, each admissible input window contributes a distinct output symbol.
+
+\paragraph{Finite Fibonacci count.}
+The number of length-$m$ binary words with no adjacent $1$s is $F_{m+2}$, where $F_1=1$, $F_2=1$, and $F_{r+2}=F_{r+1}+F_r$. This follows by separating $A_m$ into words ending in $0$ and words ending in $1$. A word ending in $0$ is obtained from any word in $A_{m-1}$, while a word ending in $1$ must have previous symbol $0$ and is obtained from any word in $A_{m-2}$ followed by $01$. Hence the same recurrence holds for $|A_m|$, with $|A_1|=2$ and $|A_2|=3$. Consequently
+$$
+\begin{aligned}
+|L_1(\Phi_m(\Sigma))| = |f(A_m)| \leq |A_m| = F_{m+2}.
+\end{aligned}
+$$
+For the baseline finite windows $m=2,3,4,5,6,7$, this gives
+$$
+\begin{aligned}
+|A_2| &= 3,\\
+|A_3| &= 5,\\
+|A_4| &= 8,\\
+|A_5| &= 13,\\
+|A_6| &= 21,\\
+|A_7| &= 34.
+\end{aligned}
+$$
+These are input-language counts before any factor-rule collisions are imposed.
+
+\paragraph{Collision and preservation witnesses.}
+There is an immediate count-preserving witness: take $B=A_m$ and let $f(w)=w$. Then $f$ is injective on $A_m$, so
+$$
+\begin{aligned}
+|L_1(\Phi_m(\Sigma))|=|A_m|=F_{m+2}.
+\end{aligned}
+$$
+At $m=4$, the admissible set has size $|A_4|=8$. A non-injective witness is obtained by choosing a finite alphabet $B$ and a rule $f:A_4\to B$ that identifies the two distinct admissible words $0000$ and $0001$ while leaving the other admissible words separated from that merged label. Both $0000$ and $0001$ satisfy the no-adjacent-$1$s condition, and each is realized inside $\Sigma$ by surrounding the word with zeros. The image of $A_4$ under this rule has one fewer label than $A_4$, so
+$$
+\begin{aligned}
+|L_1(\Phi_4(\Sigma))|=7<8=|A_4|.
+\end{aligned}
+$$
+This demonstrates that the first count-loss boundary is already visible at the one-symbol image language: it is exactly the failure of injectivity of the local rule on the admissible window carrier.
+
+\paragraph{Higher-block relation.}
+For $n\geq 1$, define the higher input carrier
+$$
+\begin{aligned}
+A_{n+m-1} = \{ w \in \{0,1\}^{n+m-1} : w_j w_{j+1}\neq 11 \text{ for every } 1\leq j<n+m-1 \}.
+\end{aligned}
+$$
+The induced block-label map is
+$$
+\begin{aligned}
+\pi_n : A_{n+m-1} &\longrightarrow B^n,\\
+\pi_n(w)_k &= f(w_k w_{k+1}\cdots w_{k+m-1}) \quad \text{for } 1\leq k\leq n.
+\end{aligned}
+$$
+The length-$n$ image language of $\Phi_m(\Sigma)$ is exactly $\pi_n(A_{n+m-1})$. The proof is the same finite-window argument as for $n=1$: every image block comes from a length-$(n+m-1)$ admissible input window, and every such admissible window can be embedded in a two-sided point of $\Sigma$ by padding with zeros outside the finite interval. Hence
+$$
+\begin{aligned}
+|L_n(\Phi_m(\Sigma))|=|\pi_n(A_{n+m-1})|\leq |A_{n+m-1}|.
+\end{aligned}
+$$
+Equality holds exactly when $\pi_n$ is injective. Thus finite count preservation at block length $n$ is not a separate analytic condition; it is precisely the absence of collisions in the finite map $\pi_n$.
+
+\paragraph{Finite decipherability boundary.}
+Preservation at every block length is the finite unique-decipherability condition for this forced-window presentation:
+$$
+\begin{aligned}
+\text{for every } n\geq 1,\quad |L_n(\Phi_m(\Sigma))|=|A_{n+m-1}| \quad \Longleftrightarrow \quad \pi_n \text{ is injective}.
+\end{aligned}
+$$
+The case $n=1$ is the first possible place where count loss can occur, because it tests whether the local rule already merges two admissible $m$-windows. The explicit preserving rule is injective at $n=1$, while the explicit $m=4$ collision rule merging $0000$ and $0001$ fails at $n=1$ and therefore cannot preserve counts at all block lengths. A finite audit through $n=1,2,3,4,5$ on these two witnesses records exactly this dichotomy: the identity-label rule remains collision-free on the tested block-label maps, while the merged-label rule has a visible collision at the first boundary.
+
+\paragraph{Boundary of the claim.}
+This subsection proves only a finite combinatorial count identity for sliding-block factor maps on the golden-mean subshift. It does not identify any physical constant, assert a global flow law, compare with measured quantities, introduce an external interpretation, or derive any growth-rate, entropy, or asymptotic consequence. Any such interpretation would require a separate certificate with additional structure not present in the finite carrier, finite rule, and finite image-language counts stated here.
