@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\ToeplitzOperatorUp$}
+\label{ch:concrete-instances-toeplitz-operator-namecert}
+\origin{human}
+
+Following Toeplitz's Hilbert-space operator construction and the classical matrix reading of constant diagonals, the $\ToeplitzOperatorUp$ packet records the finite BEDC surface on which a bounded operator is named by displayed sequence windows and a diagonal-constant matrix row. It sits beside the Hankel-shadow carrier of \autoref{ch:concrete-instances-hankel-operator-namecert}, the finite matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the bounded-operator and operator-norm surfaces of \autoref{ch:concrete-instances-boundedlinearoperator-namecert} and \autoref{ch:concrete-instances-operator-norm-namecert}, the regular sequence-space route of \autoref{ch:concrete-instances-regular-sequence-space-namecert}, and the scalar seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the finite Toeplitz carrier; it does not assert the spectral theorem, host infinite matrices, quotient operator equality, selected completions, or host Hilbert-space equality.
+
+\begin{definition}[Toeplitz operator carrier]
+\label{def:toeplitz-operator-carrier}
+A $\ToeplitzOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,U,M,D,B,L,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite source sequence-window row, recording the visible source indices, values, and tail request read through $\RegularSequenceSpaceUp$.
+\item $U$ is the finite target sequence-window row, recording the visible target indices and values produced by the same displayed action.
+\item $M$ is the $\MatrixUp$ row whose displayed entries are available only on the finite source-target rectangle named by $S$ and $U$.
+\item $D$ is the diagonal-constancy row, requiring every displayed entry $M_{ij}$ to be read from the same scalar row when the visible difference $i-j$ agrees.
+\item $B$ is the $\BoundedLinearOperatorUp$ row recording the finite operator action and linearity ledger on the displayed windows.
+\item $L$ is the boundedness and $\OperatorNormUp$ ledger, carrying the scalar bound used by consumers of $B$.
+\item $R$ is the $\RealUp$ scalar seal for the diagonal coefficients and norm-bound endpoints.
+\item $H$ records componentwise $\hsame$ transport for $S,U,M,D,B,L,R$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,U \longmapsto M,D \longmapsto B,L,R .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ToeplitzOperatorUp$, $\HankelOperatorUp$, $\MatrixUp$, $\BoundedLinearOperatorUp$, $\OperatorNormUp$, $\RegularSequenceSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ToeplitzOperatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host infinite matrix, spectral measure, quotient operator equality, chosen completion, or host Hilbert-space equality.
+\end{definition}
+
+\begin{theorem}[Toeplitz operator NameCert obligations]
+\label{thm:toeplitz-operator-namecert-obligations}
+For every accepted $\ToeplitzOperatorUp$ carrier
+$$
+T=(S,U,M,D,B,L,R,H,C,P,N),
+$$
+the local $\NameCert_{\ToeplitzOperatorUp}$ surface consists exactly of carrier admission for the source and target sequence windows, finite $\MatrixUp$ admission, diagonal-constancy exactness, bounded-linear-operator compatibility, operator-norm ledger exposure, $\RealUp$ scalar sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A consumer therefore reads a Toeplitz operator only through the finite route
+$$
+\RegularSequenceSpaceUp,\ \MatrixUp,\ \BoundedLinearOperatorUp,\ \OperatorNormUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:toeplitz-operator-carrier}. The visible analytic rows are exactly the source window $S$, target window $U$, matrix row $M$, diagonal-constancy row $D$, bounded-operator row $B$, norm ledger $L$, and scalar seal $R$.
+
+Diagonal-constancy exactness reads $M$ and $D$ together. The matrix row is admitted only on the displayed finite rectangle, and $D$ compares entries only by the visible difference index already named by $S$ and $U$.
+
+Bounded-operator compatibility is the route through $B,L,R$. The bounded action is exposed before the operator-norm ledger, and the scalar bound is sealed through $\RealUp$ without adding a host supremum or selected norm-attaining vector.
+
+Finally replay $H,C,P,N$. These rows transport, replay, source, and name only the same finite packet, so the listed rows exhaust the local NameCert surface and leave spectral data, infinite matrices, quotient operator equality, selected completions, and host Hilbert equality outside the carrier.
+\end{proof}
+
+\begin{theorem}[Toeplitz operator diagonal-constancy route]
+\label{thm:toeplitz-operator-diagonal-constancy-route}
+Every diagonal read of an accepted $\ToeplitzOperatorUp$ carrier factors through the finite source window $S$, finite target window $U$, $\MatrixUp$ row $M$, diagonal-constancy row $D$, bounded operator row $B$, $\OperatorNormUp$ ledger $L$, $\RealUp$ scalar seal $R$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\ToeplitzOperatorUp}$ row. The route is a Toeplitz certificate-level boundary parallel to the anti-diagonal boundary of $\HankelOperatorUp$, not a host equality of infinite operators.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:toeplitz-operator-namecert-obligations}. They require a diagonal consumer to expose $S,U,M,D$ before any bounded-operator or scalar-bound read is available.
+
+Use the diagonal-constancy row. If two displayed pairs have the same visible difference index, the packet reads them through the same scalar coefficient row; if the difference is not named by the finite windows, the carrier exports no entry.
+
+Next consume the boundedness route through $B,L,R$. The bounded operator row records the finite action, the operator-norm ledger records the displayed bound, and the $\RealUp$ row seals only the scalar coefficients and endpoints used by that ledger.
+
+The structural rows $H,C,P,N$ preserve this same finite route under transport and replay. Since the carrier has no coordinate for a spectral theorem, host infinite matrix, quotient operator equality, selected completion, or host Hilbert-space equality, the diagonal-constancy read stops at the displayed NameCert boundary.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ToeplitzOperatorUp$ read is refuted if a diagonal, boundedness, or scalar-bound consumer reaches a conclusion without first displaying the source window, target window, finite matrix row, diagonal-constancy row, bounded-operator row, operator-norm ledger, Real scalar seal, transport row, replay row, provenance row, and local naming row.}
+
+\independenceWitness{hankel-operator, matrix, boundedlinearoperator, operator-norm, regular-sequence-space, and real: $\ToeplitzOperatorUp$ is not bijective to any listed sibling because only this packet jointly carries source and target sequence windows, diagonal-constant matrix data, bounded-operator and operator-norm rows, scalar seals, transport, replay, provenance, and local NameCert data.}
+
+\closureat{ToeplitzOperatorUp}{seedStr}
+
+\begin{closurestatus}{\ToeplitzOperatorUp}
+  \constructivestory{A $\ToeplitzOperatorUp$ packet is generated from finite source and target sequence windows, a diagonal-constant MatrixUp row, a bounded-operator row, an OperatorNormUp ledger, a RealUp scalar seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:toeplitz-operator-carrier}, \autoref{thm:toeplitz-operator-namecert-obligations}, and \autoref{thm:toeplitz-operator-diagonal-constancy-route} seed the finite Toeplitz carrier consumed by matrix, bounded-operator, operator-norm, regular-sequence-space, Hankel-neighbor, and real scalar rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, standard bridge checking, the spectral theorem, host infinite matrices, quotient operator equality, selected completions, or host Hilbert-space equality.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite source and target window routing, diagonal-constancy exactness, boundedness exposure, operator-norm handoff, scalar sealing, transport, replay, provenance, and local naming for BEDC.Derived.ToeplitzOperatorUp.}
+\end{closurestatus}

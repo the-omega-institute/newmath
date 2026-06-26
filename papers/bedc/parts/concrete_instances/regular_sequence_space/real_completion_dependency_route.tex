@@ -1,0 +1,13 @@
+Every $\RegularSequenceSpaceUp$ completion-facing consumer reads the terminal value route through the finite L10 dependency chain before treating the packet as a Real or Completion input. The route first exposes the $\StreamNameUp$ finite-window rows of \autoref{ch:concrete-instances-streamname-namecert}, then the $\RegSeqRatUp$ readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, then the $\DyadicRatCoreUp$ tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and finally the $\RealUp$ sealing boundary of \autoref{ch:concrete-instances-real-namecert}. The finite-tail and tail-filter rows already named in this hub remain upstream of any completion-facing read.
+
+\begin{theorem}[RegularSequenceSpace Real and Completion dependency route]
+\label{thm:regular-sequence-space-real-completion-dependency-route}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Any consumer that exports a Real-facing or Completion-facing read from $S$ must first display the $\StreamNameUp$ window $T$, the $\RegSeqRatUp$ readback $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, the existing finite-tail and tail-filter dependency rows, and then the terminal $\RealUp$ seal $R$. The export is therefore a displayed Real and Completion route through the regular-sequence-space packet, not an ambient completeness witness, quotient stream equality, selected limit, or unrestricted sequence-space object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-sequence-space-carrier}. The only value-facing rows available to a completion consumer are the stream schedule $T$, regular rational readback $Q$, dyadic tolerance row $D$, and Real seal $R$.
+
+Use the finite-tail and tail-filter dependency routes already included by the hub. They keep the tail read inside displayed finite windows before the regular rational and Real rows are consumed.
+
+Finally replay $H,C,P,N$. Transport, continuation replay, provenance, and local naming preserve the same finite packet, so the Real and Completion export cannot import quotient stream equality, a selected limit, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
