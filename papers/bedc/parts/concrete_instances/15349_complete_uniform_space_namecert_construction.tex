@@ -70,6 +70,18 @@ Only then can the limit boundary be read. The row $L$ is downstream of $B$ and $
 The Real seal row $E$ is terminal for this route. The structural rows $H,C,P,N$ transport, replay, source, and name exactly this path, so no quotient filter, chosen limit, choice schedule, host equality, or detached completeness witness is available.
 \end{proof}
 
+\begin{theorem}[Complete uniform-space filter-basis limit exactness]
+\label{thm:complete-uniform-space-filterbasis-limit-exactness}
+Let $M=(U,F,B,L,S,R,E,H,C,P,N)$ be an accepted $\CompleteUniformSpaceUp$ carrier. A completion-facing read from $M$ is exposed only after the $\UniformSpaceUp$ row $U$, $\CauchyFilterUp$ row $F$, $\CauchyFilterBasisUp$ row $B$, $\CauchyFilterLimitUp$ boundary $L$, $\StreamNameUp$ window $S$, $\RegSeqRatUp$ readback $R$, $\RealUp$ seal $E$, and structural rows $H,C,P,N$ are all present in the same packet. The read is exact in the sense that it factors through those displayed rows and cannot recover a quotient filter, selected limit, countable-choice selector, host equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:complete-uniform-space-carrier}. Its only completion-facing data rows are $U,F,B,L,S,R,E$, and its only structural support rows are $H,C,P,N$.
+
+Apply the convergence route of \autoref{thm:complete-uniform-space-cauchy-filter-convergence}. It places the basis row $B$ between the entourage row $U$ and the saturated Cauchy-filter row $F$, and it permits the limit boundary $L$ to be read only after that finite basis route is displayed.
+
+Now apply ledger non-escape, \autoref{thm:complete-uniform-space-ledger-non-escape}. The window row $S$, readback row $R$, Real seal $E$, and support rows $H,C,P,N$ preserve the same route, so the packet has no remaining coordinate from which quotient filters, selected limits, countable-choice selectors, host equality, or ambient completeness could be exported.
+\end{proof}
+
 \begin{theorem}[Complete uniform-space Cauchy sequence, entourage, and Real-uniform factorization]
 \label{thm:complete-uniform-space-cauchy-sequence-entourage-real-factorization}
 Let $M=(U,F,B,L,S,R,E,H,C,P,N)$ be an accepted $\CompleteUniformSpaceUp$ packet. Suppose downstream consumers read $M$ through the $\CauchySequenceSpaceUp$, $\CauchyEntourageFilterUp$, and $\BishopRealUniformCompletionUp$ interfaces. Then their common completion-facing route factors as follows: $\CauchySequenceSpaceUp$ supplies the scheduled regular-family and finite-window surface, $\CauchyEntourageFilterUp$ supplies the entourage-to-basis dyadic handoff, $\CompleteUniformSpaceUp$ supplies the basis, saturation, and limit boundary, and $\BishopRealUniformCompletionUp$ supplies the Real-uniform completion handoff to the terminal $\RealUp$ seal.
