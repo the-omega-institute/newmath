@@ -189,6 +189,20 @@ Apply the Real-seal boundary and bidirectional exactness, \autoref{thm:cauchy-di
 Finally use the null-route converse, \autoref{thm:cauchy-difference-criterion-null-route-converse}. Any equality-facing seal must include the same displayed null route, so deleting a finite prefix can affect only the windows $W,W'$ and their continuation replay. The accepted equality-facing route remains invariant under the tail shift.
 \end{proof}
 
+\begin{theorem}[Cauchy difference criterion kernel scope]
+\label{thm:cauchy-difference-criterion-kernel-scope}
+Every accepted $\CauchyDifferenceCriterionUp$ packet reads the difference criterion only through the $\DyadicRatCoreUp$ tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the $\StreamNameUp$ pointwise naming rows of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ regular-tail rows of \autoref{ch:concrete-instances-regseqrat-namecert}, and the $\RealUp$ seal boundary of \autoref{ch:concrete-instances-real-namecert} before exporting a null-route or zero-distance conclusion.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $K=(X,Y,D,Z,Q,W,T,E,H,C,P,N)$. The source observations are the $\RegSeqRatUp$ rows $X,Y$, and their inspected pointwise names are visible only through the finite $\StreamNameUp$ windows $W$.
+
+The displayed difference and null route use the $\DyadicRatCoreUp$ tolerance ledger $T$. Thus every bound consumed by $D$, $Z$, and $Q$ is a tolerance-row read rather than a host metric or selected tail witness.
+
+The terminal equality-facing boundary is the $\RealUp$ seal $E$. By the Real-seal boundary and zero-distance correspondence, \autoref{thm:cauchy-difference-criterion-real-seal-boundary} and \autoref{thm:cauchy-difference-criterion-zero-distance-correspondence}, any exported conclusion passes through $D,Z,Q,E$.
+
+Consequently the packet's kernel scope is exactly the Real, RegSeqRat, DyadicRatCore, and StreamName dependency route. The structural rows $H,C,P,N$ transport, replay, source, and name that route, but they do not add a quotient stream, host equality proof, selected limit, choice schedule, or ambient completeness endpoint.
+\end{proof}
+
 \begin{theorem}[Cauchy difference criterion obligation export]
 \label{thm:cauchy-difference-criterion-obligation-export}
 The carrier definition for $\CauchyDifferenceCriterionUp$, together with its NameCert obligations, tail-diameter handoff, Real-seal boundary, zero-distance correspondence, regular-tail stability, bidirectional exactness, and null-route converse, assembles the obligation-facing L10 certificate over $\RegSeqRatUp$, $\RegularCauchyDifferenceUp$, $\NullSequenceUp$, $\RegularCauchyZeroDistanceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
