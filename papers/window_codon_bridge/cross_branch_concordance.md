@@ -6,7 +6,7 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 
 - bio_only: 55
 - duplicate_bio_program: 34
-- math_stub: 10
+- math_stub: 11
 - needs_derivation: 23
 
 ## B*_Q6 crosswalk summary
@@ -17,7 +17,7 @@ This is a bridge-owned triage ledger for live branch intake. It does not certify
 - bio_only: 50
 - duplicate: 9
 - fibonacci_only: 1
-- namecert_watchlist: 33
+- namecert_watchlist: 34
 - param_divergence: 25
 - track_a_homeless: 4
 
@@ -131,6 +131,7 @@ None. No intake item passed carrier-map, necessity, and matched-null gates toget
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_gated_face_certificate.tex | Window Fibonacci Cube Gated Face | math_stub | \subsection{NameCert: Window Fibonacci Cube Gated Face} \label{sec:namecert-window_fibonacci_cube_gated_face_certificate |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_geodesic_run_factorization_certificate.tex | Window Fibonacci Cube Geodesic Run Factorization | math_stub | \subsection{NameCert: Window Fibonacci Cube Geodesic Run Factorization} \label{sec:namecert-window_fibonacci_cube_geodes |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_flippability_mask_certificate.tex | Window Fibonacci Cube Flippability Mask | math_stub | \subsection{NameCert: Window Fibonacci Cube Flippability Mask} \label{sec:namecert-window_fibonacci_cube_flippability_ma |
+| fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_singleton_quartet_certificate.tex | Window Fibonacci Cube Singleton Quartet | math_stub | \subsection{NameCert: Window Fibonacci Cube Singleton Quartet} \label{sec:namecert-window_fibonacci_cube_singleton_quart |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_sixfold_walsh_certificate.tex | Window Fibonacci Cube Sixfold Walsh | math_stub | \subsection{NameCert: Window Fibonacci Cube Sixfold Walsh} \label{sec:namecert-window_fibonacci_cube_sixfold_walsh_certi |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/window_fibonacci_cube_theta_sparse_certificate.tex | Window Fibonacci Cube Theta Sparse | math_stub | \subsection{NameCert: Window Fibonacci Cube Theta Sparse} \label{sec:namecert-window_fibonacci_cube_theta_sparse_certifi |
 | fibonacci | namecert | namecert_watchlist | papers/fibonacci_reality/parts/namecerts/f_a2_window6_modpstar_571_spectral_collision_certificate.tex | f_a2_window6_modpstar_571_spectral_collision_certificate | needs_derivation | \origin{ai} \subsection{Forced Window6 arithmetic certificate at the prime $571$} \label{subsec:f-a2-window6-modpstar-57 |
