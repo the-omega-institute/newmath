@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
@@ -7,6 +8,7 @@ namespace BEDC.Derived.ObservationTimeOrderUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
@@ -321,5 +323,84 @@ theorem ObservationTimeOrderErasureBoundary_gap_route
       retainedReadUnary,
       gapReadUnary,
       observationTimeOrderDecode_encode_bhist G⟩
+
+theorem ObservationTimeOrderNo_host_time_nonescape (O0 O1 R C G H P N : BHist) :
+    NameCert
+        (fun h : BHist =>
+          hsame h O0 ∨ hsame h O1 ∨ hsame h R ∨ hsame h C ∨ hsame h G ∨
+            hsame h H ∨ hsame h P ∨ hsame h N)
+        hsame ∧
+      observationTimeOrderFields (ObservationTimeOrderUp.mk O0 O1 R C G H P N) =
+        [O0, O1, R, C, G, H, P, N] := by
+  -- BEDC touchpoint anchor: BHist hsame NameCert
+  constructor
+  · exact {
+      carrier_inhabited := Exists.intro O0 (Or.inl (hsame_refl O0))
+      equiv_refl := by
+        intro h _carrier
+        exact hsame_refl h
+      equiv_symm := by
+        intro _h _k sameHK
+        exact hsame_symm sameHK
+      equiv_trans := by
+        intro _h _k _r sameHK sameKR
+        exact hsame_trans sameHK sameKR
+      carrier_respects_equiv := by
+        intro h k sameHK carrierH
+        have sameKH : hsame k h := hsame_symm sameHK
+        cases carrierH with
+        | inl sameO0 =>
+            exact Or.inl (hsame_trans sameKH sameO0)
+        | inr rest =>
+            cases rest with
+            | inl sameO1 =>
+                exact Or.inr (Or.inl (hsame_trans sameKH sameO1))
+            | inr rest =>
+                cases rest with
+                | inl sameR =>
+                    exact Or.inr (Or.inr (Or.inl (hsame_trans sameKH sameR)))
+                | inr rest =>
+                    cases rest with
+                    | inl sameC =>
+                        exact Or.inr (Or.inr (Or.inr (Or.inl (hsame_trans sameKH sameC))))
+                    | inr rest =>
+                        cases rest with
+                        | inl sameG =>
+                            exact
+                              Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr (Or.inl (hsame_trans sameKH sameG)))))
+                        | inr rest =>
+                            cases rest with
+                            | inl sameH =>
+                                exact
+                                  Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr
+                                          (Or.inr (Or.inl (hsame_trans sameKH sameH))))))
+                            | inr rest =>
+                                cases rest with
+                                | inl sameP =>
+                                    exact
+                                      Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inl (hsame_trans sameKH sameP)))))))
+                                | inr sameN =>
+                                    exact
+                                      Or.inr
+                                        (Or.inr
+                                          (Or.inr
+                                            (Or.inr
+                                              (Or.inr
+                                                (Or.inr
+                                                  (Or.inr (hsame_trans sameKH sameN)))))))
+    }
+  · rfl
 
 end BEDC.Derived.ObservationTimeOrderUp
