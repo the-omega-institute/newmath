@@ -1945,6 +1945,7 @@ import BEDC.Derived.CauchyDiagonalCompactnessUp.TasteGate
 import BEDC.Derived.CauchyDiagonalFusionUp.TasteGate
 import BEDC.Derived.CauchyDiagonalLimitUp.TasteGate
 import BEDC.Derived.CauchyDiagonalSelectionUp.TasteGate
+import BEDC.Derived.CauchyDifferenceCriterionUp.BidirectionalExactness
 import BEDC.Derived.CauchyDifferenceCriterionUp.NameCertObligations
 import BEDC.Derived.CauchyDifferenceCriterionUp.RegularTailStability
 import BEDC.Derived.CauchyDifferenceCriterionUp.TailDiameterHandoff
@@ -6111,6 +6112,7 @@ import BEDC.Derived.FiniteSimplicialChainUp.TasteGate
 import BEDC.Derived.FiniteStateTransducerUp.TasteGate
 import BEDC.Derived.FiniteStreamUp
 import BEDC.Derived.FiniteSubcoverCriterionUp.TasteGate
+import BEDC.Derived.FiniteSubcoverLedgerUp.TasteGate
 import BEDC.Derived.FiniteSubcoverRadiusLedgerUp.TasteGate
 import BEDC.Derived.FiniteSubstrateMapUp.TasteGate
 import BEDC.Derived.FiniteSupportRemovalUp.TasteGate
@@ -6926,7 +6928,6 @@ import BEDC.Derived.KalmanFilterUp.TasteGate
 import BEDC.Derived.KanExtensionUp.NamecertObligations
 import BEDC.Derived.KanExtensionUp.TasteGate
 import BEDC.Derived.KelleyficationUp
-import BEDC.Derived.KelleyficationUp.TasteGate
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.FormalAxisSeparation
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.PublicBridgeBoundary
