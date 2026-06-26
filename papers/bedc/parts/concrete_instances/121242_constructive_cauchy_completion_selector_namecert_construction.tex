@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveCauchyCompletionSelectorUp$}
+\label{ch:concrete-instances-constructive-cauchy-completion-selector-namecert}
+\origin{human}
+
+Bishop and Bridges constructive completion practice reads a completed real endpoint through regular Cauchy rational data, finite observation windows, and displayed moduli rather than through quotient streams or selected limits. The $\ConstructiveCauchyCompletionSelectorUp$ packet records that selector surface as finite BEDC NameCert data over the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the equality route of \autoref{ch:concrete-instances-cauchy-difference-criterion-namecert}. It names the handoff by which a completion-facing consumer can inspect a regular Cauchy input and its equality discipline without importing quotient stream equality, countable choice, a host limit selector, trichotomy, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Constructive Cauchy completion selector carrier]
+\label{def:constructive-cauchy-completion-selector-carrier}
+A $\ConstructiveCauchyCompletionSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+K=(R,S,D,E,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the $\RegSeqRatUp$ source row whose regular rational observations are to be sealed as a completion-facing real name.
+\item $S$ is the $\StreamNameUp$ finite-window row exposing exactly the inspected source entries at the requested precision.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, including the dyadic radii, slack comparisons, and modulus budgets used by the window read.
+\item $E$ is the terminal $\RealUp$ seal row, reachable only after $R,S,D$ have been displayed.
+\item $Q$ is the $\CauchyDifferenceCriterionUp$ equality route used when two selector packets with displayed regular sources are compared.
+\item $H$ records componentwise $\hsame$ transport for the regular source, windows, dyadic ledger, Real seal, equality route, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion request through
+$$
+R,S,D \longrightarrow E \longrightarrow Q \longrightarrow H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveCauchyCompletionSelectorUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\CauchyDifferenceCriterionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConstructiveCauchyCompletionSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,S,D,E,Q,H,C,P,N$. It has no coordinate for quotient stream equality, a selected host limit, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Constructive Cauchy completion selector NameCert obligations]
+\label{thm:constructive-cauchy-completion-selector-namecert-obligations}
+For every accepted $\ConstructiveCauchyCompletionSelectorUp$ carrier $K=(R,S,D,E,Q,H,C,P,N)$, the local $\NameCert_{\ConstructiveCauchyCompletionSelectorUp}$ surface consists exactly of these finite obligations:
+\begin{enumerate}
+\item carrier admission for the $\RegSeqRatUp$ source row, $\StreamNameUp$ finite-window row, $\DyadicRatCoreUp$ tolerance ledger, $\RealUp$ seal, $\CauchyDifferenceCriterionUp$ equality route, transport, replay, provenance, and local naming rows;
+\item source-window exactness, requiring every completion-facing read to expose $S$ as the finite inspection window for $R$;
+\item tolerance-ledger exactness, requiring $D$ to supply the dyadic budget consumed by the window read and the terminal seal;
+\item Real-seal nonescape, requiring $E$ to be read only after $R,S,D$ have been displayed and replayed through $H,C,P,N$;
+\item equality-route discipline, requiring any comparison of accepted selector packets to factor through the displayed $\CauchyDifferenceCriterionUp$ row $Q$ rather than through quotient streams or host real equality.
+\end{enumerate}
+No completion selector obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constructive-cauchy-completion-selector-carrier}. The source row is $R$, its finite observations are $S$, its precision budget is $D$, and its terminal seal is $E$.
+
+The source-window and tolerance clauses are row projections. A completion-facing consumer receives the source only through the displayed window and dyadic ledger, so no unbounded stream representative or selected limit can enter the local certificate.
+
+The equality clause is supplied by the $\CauchyDifferenceCriterionUp$ row $Q$. When two accepted selector packets are compared, $Q$ routes the comparison through displayed regular sources, difference data, null evidence, zero-distance handoff, and the Real seal boundary.
+
+Finally replay $H,C,P,N$. These structural rows preserve the displayed packet componentwise and record its provenance and local name; they do not add quotient stream equality, countable choice, trichotomy, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Constructive Cauchy completion selector RegSeqRat--Real handoff]
+\label{thm:constructive-cauchy-completion-selector-regseq-real-handoff}
+Every $\RealUp$ consumer of an accepted $\ConstructiveCauchyCompletionSelectorUp$ carrier reads the completion-facing route
+$$
+\RegSeqRatUp,\quad \StreamNameUp,\quad \DyadicRatCoreUp,\quad \RealUp
+$$
+through the displayed rows $R,S,D,E,H,C,P,N$. If the consumer compares two such routes, it must additionally read the $\CauchyDifferenceCriterionUp$ row $Q$ before treating the terminal seals as the same completion endpoint.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:constructive-cauchy-completion-selector-namecert-obligations}. They place the finite window row $S$ and dyadic tolerance ledger $D$ before the terminal seal $E$, with $R$ as the only regular rational source.
+
+The handoff to $\RealUp$ is therefore the displayed route $R,S,D,E$. The transport, replay, provenance, and naming rows keep the same route visible to downstream Real and Completion consumers.
+
+For equality-facing reads, apply the equality-route discipline from the same obligation theorem. The row $Q$ is the only coordinate that compares accepted selector packets, and it is precisely the $\CauchyDifferenceCriterionUp$ route of \autoref{ch:concrete-instances-cauchy-difference-criterion-namecert}. Thus the handoff reaches $\RealUp$ without quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient completeness.
+\end{proof}
+
+\closureat{ConstructiveCauchyCompletionSelectorUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveCauchyCompletionSelectorUp}
+  \constructivestory{A $\ConstructiveCauchyCompletionSelectorUp$ packet is generated from one RegSeqRat source row, finite StreamName windows, a DyadicRatCore tolerance ledger, one RealUp seal, one CauchyDifferenceCriterion equality route, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-cauchy-completion-selector-carrier}, \autoref{thm:constructive-cauchy-completion-selector-namecert-obligations}, and \autoref{thm:constructive-cauchy-completion-selector-regseq-real-handoff} seed the completion selector route from RegSeqRat through StreamName, DyadicRatCore, Real, CauchyDifferenceCriterion, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-window exactness, tolerance-ledger exactness, RealUp seal nonescape, equality-route discipline, replay, provenance, and local naming for BEDC.Derived.ConstructiveCauchyCompletionSelectorUp.}
+\end{closurestatus}
