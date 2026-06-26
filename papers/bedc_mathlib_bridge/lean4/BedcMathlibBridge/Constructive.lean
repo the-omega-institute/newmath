@@ -2,3 +2,4 @@ import BedcMathlibBridge.Constructive.Bool
 import BedcMathlibBridge.Constructive.Int
 import BedcMathlibBridge.Constructive.Gaussian
 import BedcMathlibBridge.Constructive.ZMod
+import BedcMathlibBridge.Constructive.Fibonacci
