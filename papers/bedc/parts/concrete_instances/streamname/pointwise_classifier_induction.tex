@@ -11,3 +11,17 @@ Apply the finite-window transport route to keep the previously classified prefix
 
 The resulting packet classifies the enlarged finite window through exactly the displayed observations, classifier rows, transport rows, replay rows, provenance, and local naming data. Since the induction never introduces an infinite representative, quotient equality, a selected limit, countable choice, or ambient completeness coordinate, none is exported by the classified read.
 \end{proof}
+
+\begin{theorem}[StreamName finite-prefix pointwise classifier induction]
+\label{thm:streamname-finite-prefix-pointwise-classifier-induction}
+Let $F=(k,W,D,R,H,C,P,N)$ be an accepted $\FinitePrefixStreamUp$ carrier whose displayed prefix windows carry pointwise $\StreamNameUp$ classifier evidence at every displayed index. Then every displayed prefix index $i \leq k$ has a classified $\StreamNameUp$ read obtained through exactly the finite $\BHist$ observations, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ rows of $F$.
+
+The classified prefix read does not export quotient stream equality, selected tails, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:finite-prefix-stream-certificate-observation-induction} to the accepted carrier $F$. For each displayed $i \leq k$, the observation route is forced through the corresponding StreamName window row in $W$, the matching dyadic tolerance row in $D$, the RegSeqRat handoff row in $R$, and the structural rows $H,C,P,N$.
+
+Now apply \autoref{thm:streamname-pointwise-classifier-induction} to the finite StreamName window exposed at that index. The assumed pointwise classifier evidence supplies the classifier row, while the observation induction supplies the finite BEDC support rows needed to transport and replay it.
+
+Combining the two routes gives a classified StreamName read at each displayed prefix index. Since both cited routes are finite-window routes and neither has a coordinate for quotient streams, selected tails, countable choice, host real equality, ambient Real completeness, or bridge checking, the combined prefix classifier read exports none of those objects.
+\end{proof}
