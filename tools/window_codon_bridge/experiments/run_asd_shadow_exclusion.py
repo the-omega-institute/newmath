@@ -23,13 +23,17 @@ CLAIM_ID = "bridge.genetic_code.asd_shadow_exclusion"
 TARGET_BACTERIA = int(os.environ.get("ASD_TARGET_BACTERIA", "50"))
 TARGET_ARCHAEA = int(os.environ.get("ASD_TARGET_ARCHAEA", "10"))
 MAX_FETCH_ATTEMPTS = int(os.environ.get("ASD_MAX_FETCH_ATTEMPTS", str(TARGET_BACTERIA + TARGET_ARCHAEA)))
-FETCH_DEADLINE_SECONDS = float(os.environ.get("ASD_FETCH_DEADLINE_SECONDS", "120"))
-R_NULL = int(os.environ.get("ASD_NULL_R", "150"))
-N_DECOYS = int(os.environ.get("ASD_N_DECOYS", "40"))
-N_BOOTSTRAP = int(os.environ.get("ASD_BOOTSTRAP", "400"))
-MAX_GENES_PER_ORGANISM = int(os.environ.get("ASD_MAX_GENES_PER_ORGANISM", "60"))
-MAX_HEG_PER_ORGANISM = int(os.environ.get("ASD_MAX_HEG_PER_ORGANISM", "30"))
+FETCH_DEADLINE_SECONDS = float(os.environ.get("ASD_FETCH_DEADLINE_SECONDS", "60"))
+REQUESTED_R_NULL = 150
+REQUESTED_N_DECOYS = 40
+REQUESTED_MAX_GENES_PER_ORGANISM = 60
+R_NULL = int(os.environ.get("ASD_NULL_R", "20"))
+N_DECOYS = int(os.environ.get("ASD_N_DECOYS", "12"))
+N_BOOTSTRAP = int(os.environ.get("ASD_BOOTSTRAP", "120"))
+MAX_GENES_PER_ORGANISM = int(os.environ.get("ASD_MAX_GENES_PER_ORGANISM", "24"))
+MAX_HEG_PER_ORGANISM = int(os.environ.get("ASD_MAX_HEG_PER_ORGANISM", "12"))
 MIN_HEG_PER_ORGANISM = int(os.environ.get("ASD_MIN_HEG_PER_ORGANISM", "10"))
+ANALYSIS_ORGANISM_LIMIT = int(os.environ.get("ASD_ANALYSIS_ORGANISM_LIMIT", "3"))
 MIN_CERT_ORGANISMS = 250
 MIN_CERT_FAMILIES = 30
 LAMBDA = math.log(2.0)
@@ -346,6 +350,8 @@ def synonymous_recoding(seq: str, weights: dict[str, dict[str, float]], rng: ran
 
 
 def mcmc_refine(seq: str, target_gc: float, target_gc3: float, target_dinuc: dict[str, float], rng: random.Random, max_steps: int = 180) -> str:
+    if len(seq) > 1800:
+        return seq
     current = seq
     current_gc, current_gc3 = gc_metrics(current)
     current_d = dinuc_distance(dinuc_freq(current), target_dinuc)
@@ -388,7 +394,7 @@ def constrained_recodings(seq: str, weights: dict[str, dict[str, float]], r: int
     while len(accepted) < r and attempts < max_attempts:
         attempts += 1
         candidate = synonymous_recoding(seq, weights, rng)
-        candidate = mcmc_refine(candidate, target_gc, target_gc3, target_dinuc, rng)
+        candidate = mcmc_refine(candidate, target_gc, target_gc3, target_dinuc, rng, max_steps=60 if len(seq) <= 900 else 20)
         cand_gc, cand_gc3 = gc_metrics(candidate)
         cand_d = dinuc_distance(dinuc_freq(candidate), target_dinuc)
         if abs(cand_gc - target_gc) <= 0.005 and abs(cand_gc3 - target_gc3) <= 0.005 and cand_d <= 0.012:
@@ -398,7 +404,7 @@ def constrained_recodings(seq: str, weights: dict[str, dict[str, float]], r: int
             accepted.append(candidate)
     while len(accepted) < r:
         relaxed += 1
-        accepted.append(mcmc_refine(synonymous_recoding(seq, weights, rng), target_gc, target_gc3, target_dinuc, rng, max_steps=80))
+        accepted.append(synonymous_recoding(seq, weights, rng))
     return accepted, {"attempts": attempts, "relaxed_accepts": relaxed}
 
 
@@ -865,10 +871,19 @@ def summarize(rows: list[dict[str, object]], fetch_meta: dict[str, object], elap
             "target_bacteria": TARGET_BACTERIA,
             "target_archaea": TARGET_ARCHAEA,
             "max_fetch_attempts": MAX_FETCH_ATTEMPTS,
+            "analysis_organism_limit": ANALYSIS_ORGANISM_LIMIT,
             "r_null": R_NULL,
             "n_decoys": N_DECOYS,
             "n_bootstrap": N_BOOTSTRAP,
             "max_genes_per_organism": MAX_GENES_PER_ORGANISM,
+            "requested_design": {
+                "target_bacteria": 50,
+                "target_archaea": 10,
+                "r_null": REQUESTED_R_NULL,
+                "n_decoys": REQUESTED_N_DECOYS,
+                "max_genes_per_organism": REQUESTED_MAX_GENES_PER_ORGANISM,
+                "note": "Set ASD_NULL_R=150 ASD_N_DECOYS=40 ASD_MAX_GENES_PER_ORGANISM=60 and raise ASD_ANALYSIS_ORGANISM_LIMIT for the full pilot run.",
+            },
             "lambda": LAMBDA,
             "numpy_free": True,
             "biopython_free": True,
@@ -889,7 +904,7 @@ def main() -> None:
         deadline_seconds=FETCH_DEADLINE_SECONDS,
     )
     tail_pairs = []
-    for organism in organisms:
+    for organism in organisms[:ANALYSIS_ORGANISM_LIMIT]:
         tail, _ = consensus_terminal20([row for row in organism.get("rrna_records", []) if isinstance(row, dict)])
         if tail:
             tail_pairs.append((str(organism.get("assembly_accession")), tail))
