@@ -265,6 +265,36 @@ Apply the classifier-scope and provenance-scope theorems. The classifier surface
 Thus a selector consumer must expose the shared window, dyadic tolerance rows, order comparison, sibling operation rows, transport, replay, provenance, and local naming before it consumes the real seal. No quotient stream, host minimum, trichotomy, or ambient completeness row is present in the carrier.
 \end{proof}
 
+\begin{theorem}[RegularCauchyMin apartness selector scope]
+\label{thm:regular-cauchy-min-apartness-selector-scope}
+Every apartness-facing read of an accepted $\RegularCauchyMinUp$ carrier
+$$
+M=(A,B,W,D_A,D_B,J,S,R,E,H,C,P,N)
+$$
+must pass through the shared $\StreamNameUp$ window $W$, the dyadic ledgers $D_A,D_B$, the selector row $J$, the selected row $S$, the readback row $R$, and the terminal $\RealUp$ seal $E$. Any citation of $\RealAlgOrderUp$ is available only through the displayed selector route
+$$
+(A,B,W,D_A,D_B)
+\longrightarrow
+J
+\longrightarrow
+S
+\longrightarrow
+R
+\longrightarrow
+E .
+$$
+Thus the packet supports apartness-facing minimum reads without exporting host trichotomy of completed reals, quotient streams, selected limits, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with the selector ledger exactness theorem, \autoref{thm:regular-cauchy-min-selector-ledger}. It forces every selector-facing consumer to choose one of the two displayed branches in $J$ and to read the selected row $S$ from the shared window and the corresponding dyadic ledger.
+
+Use selector monotonicity and the $\RealAlgOrderUp$ handoff, \autoref{thm:regular-cauchy-min-selector-monotonicity} and \autoref{thm:regular-cauchy-min-realalgorder-handoff}. They place every order-facing read downstream of the same $J,S,R,E$ chain, with the selected dyadic ledger still visible.
+
+Apply selector stability scope and shared-window scope, \autoref{thm:regular-cauchy-min-selector-stability-scope} and \autoref{thm:regular-cauchy-min-shared-window-scope}. These keep $W,D_A,D_B,J,S,R,E$ tied together under componentwise transport and displayed replay.
+
+An apartness-facing consumer can therefore cite order information only through that displayed selector route. Since the carrier has no host trichotomy, quotient stream, selected-limit, or ambient-completeness coordinate, none is exported by the apartness read.
+\end{proof}
+
 \closureat{RegularCauchyMinUp}{obligationStr}
 
 \begin{closurestatus}{\RegularCauchyMinUp}
