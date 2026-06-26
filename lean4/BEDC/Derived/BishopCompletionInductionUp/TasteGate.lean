@@ -1,5 +1,10 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package.Core
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BishopCompletionInductionUp
@@ -7,6 +12,11 @@ namespace BEDC.Derived.BishopCompletionInductionUp
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.Meta.TasteGate
 
 inductive BishopCompletionInductionUp : Type where
@@ -137,6 +147,51 @@ instance bishopCompletionInductionChapterTasteGate :
 def taste_gate : ChapterTasteGate BishopCompletionInductionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   bishopCompletionInductionChapterTasteGate
+
+theorem BishopCompletionInductionCarrier_dense_source_route
+    [AskSetup] [PackageSetup] {Q F D R E U K H C P N finiteRead toleranceRead
+      readbackRead sealRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont Q F finiteRead → Cont finiteRead D toleranceRead →
+      Cont toleranceRead R readbackRead → Cont readbackRead E sealRead →
+      PkgSig bundle sealRead pkg → UnaryHistory Q → UnaryHistory F → UnaryHistory D →
+      UnaryHistory R → UnaryHistory E →
+      UnaryHistory finiteRead ∧ UnaryHistory toleranceRead ∧ UnaryHistory readbackRead ∧
+        UnaryHistory sealRead ∧ Cont Q F finiteRead ∧ Cont finiteRead D toleranceRead ∧
+        Cont toleranceRead R readbackRead ∧ Cont readbackRead E sealRead ∧
+        PkgSig bundle sealRead pkg ∧
+          List.Mem (bishopCompletionInductionEncodeBHist Q)
+            (bishopCompletionInductionToEventFlow
+              (BishopCompletionInductionUp.mk Q F D R E U K H C P N)) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro hQF hFD hDR hRE hPkg hQ hF hD hR hE
+  constructor
+  · exact unary_cont_closed hQ hF hQF
+  · constructor
+    · exact unary_cont_closed (unary_cont_closed hQ hF hQF) hD hFD
+    · constructor
+      · exact unary_cont_closed (unary_cont_closed (unary_cont_closed hQ hF hQF) hD hFD) hR hDR
+      · constructor
+        · exact unary_cont_closed
+            (unary_cont_closed (unary_cont_closed (unary_cont_closed hQ hF hQF) hD hFD) hR hDR)
+            hE hRE
+        · constructor
+          · exact hQF
+          · constructor
+            · exact hFD
+            · constructor
+              · exact hDR
+              · constructor
+                · exact hRE
+                · constructor
+                  · exact hPkg
+                  · have hmem :
+                      List.Mem (bishopCompletionInductionEncodeBHist Q)
+                        ((bishopCompletionInductionFields
+                            (BishopCompletionInductionUp.mk Q F D R E U K H C P N)).map
+                          bishopCompletionInductionEncodeBHist) := by
+                      exact List.Mem.head _
+                    simpa [bishopCompletionInductionToEventFlow,
+                      bishopCompletionInductionFields] using hmem
 
 theorem BishopCompletionInductionTasteGate_single_carrier_alignment :
     (∀ h : BHist, bishopCompletionInductionDecodeBHist (bishopCompletionInductionEncodeBHist h) = h) ∧
