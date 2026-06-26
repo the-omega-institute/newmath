@@ -105,8 +105,10 @@ NAMECERT_HORIZON_FILE_RE = re.compile(
 CONCRETE_CHAPTER_RE = re.compile(r"^\s*\\chapter\{", re.MULTILINE)
 CONCRETE_INPUT_LINE_RE = re.compile(r"^\s*\\input\{[^}]+\}\s*$")
 NAMECERT_INPUT_RE = re.compile(r"\\input\s*\{\s*([^}]+?)\s*\}")
+# Keep this carrier grammar synchronized with critical_path.py:
+# CLOSURESTATUS_BEGIN_RE indexes only critical_path-visible horizons.
 NAMECERT_CLOSURESTATUS_CARRIER_RE = re.compile(
-    r"\\begin\s*\{\s*closurestatus\s*\}\s*\{\s*\\?\s*([A-Za-z][A-Za-z0-9_]*Up)\s*\}"
+    r"\\begin\{closurestatus\}\{\s*\\?([A-Z][A-Za-z]*)Up\s*\}"
 )
 NAMECERT_CLOSUREAT_CARRIER_RE = re.compile(
     r"\\closureat\s*\{\s*\\?\s*([A-Za-z][A-Za-z0-9_]*Up)\s*\}"
@@ -2072,20 +2074,14 @@ def _resolve_namecert_input(current_file: Path, raw_input: str) -> Path | None:
     if not raw_input:
         return None
     raw_path = Path(raw_input)
-    candidates: list[Path] = []
     if raw_path.is_absolute():
-        candidates.append(raw_path)
+        candidate = raw_path
     else:
-        candidates.append(REPO_ROOT / raw_path)
-        candidates.append(current_file.parent / raw_path)
-    expanded: list[Path] = []
-    for candidate in candidates:
-        expanded.append(candidate)
-        if candidate.suffix == "":
-            expanded.append(candidate.with_suffix(".tex"))
-    for candidate in expanded:
-        if candidate.is_file():
-            return candidate.resolve()
+        candidate = PAPER_ROOT / raw_path
+    if candidate.suffix == "":
+        candidate = candidate.with_suffix(".tex")
+    if candidate.is_file():
+        return candidate.resolve()
     return None
 
 
@@ -2159,7 +2155,10 @@ def detect_namecert_horizon_carrier_mismatch() -> list[dict[str, object]]:
         is_gap = "% BEDC-GAP:" in read_text(path) or slug in gap_contract_slugs
         closurestatus_carriers: list[str] = []
         closureat_carriers: list[str] = []
+        closurestatus_present = False
         for _source_path, text in closure:
+            if r"\begin{closurestatus}" in text:
+                closurestatus_present = True
             closurestatus_carriers.extend(
                 match.group(1)
                 for match in NAMECERT_CLOSURESTATUS_CARRIER_RE.finditer(text)
@@ -2168,8 +2167,7 @@ def detect_namecert_horizon_carrier_mismatch() -> list[dict[str, object]]:
                 match.group(1)
                 for match in NAMECERT_CLOSUREAT_CARRIER_RE.finditer(text)
             )
-        carrier_sources = closurestatus_carriers + closureat_carriers
-        if not carrier_sources:
+        if not closurestatus_present and not closureat_carriers:
             continue
 
         distinct_registered = sorted({
@@ -2179,7 +2177,9 @@ def detect_namecert_horizon_carrier_mismatch() -> list[dict[str, object]]:
         })
         has_expected = any(
             _namecert_norm(carrier, strip_up_suffix=True) == expected
-            for carrier in carrier_sources
+            for carrier in (
+                closurestatus_carriers if closurestatus_present else closureat_carriers
+            )
         )
         has_foreign_closurestatus = bool(distinct_registered)
         mismatch = not has_expected or (is_gap and has_foreign_closurestatus)
