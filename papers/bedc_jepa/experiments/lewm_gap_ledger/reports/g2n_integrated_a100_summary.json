@@ -1,0 +1,67 @@
+{
+  "status": "ok-scoped",
+  "runner": "code/_g2n_integrated_a100.py",
+  "remote_root": "/mnt/rna01/zwlexa/scratch/lewm_alloc_derisk",
+  "scheduler": {
+    "job_name": "g2n_matrix",
+    "partition": "GPUA100",
+    "gres": "gpu:1",
+    "cpus": 12,
+    "memory": "80G",
+    "epochs": 160,
+    "batch": 256,
+    "seed": 0
+  },
+  "accepted_rows": {
+    "H": "g2n_integrated_a100_H.json",
+    "HP": "g2n_integrated_a100_HP.json",
+    "HR": "g2n_integrated_a100_HR.json",
+    "HRT": "g2n_integrated_a100_HRT.json",
+    "HRTO": "g2n_integrated_a100_HRTO.json",
+    "predonly": "g2n_integrated_a100_predonly.json"
+  },
+  "full_integrated_detection": {
+    "row": "HRTO",
+    "h1_native_auroc": 0.7816545973228001,
+    "h1_in_runner_posthoc_auroc": 0.7343155282135101,
+    "h1_paired_delta": 0.04733906910928998,
+    "h1_paired_ci_low": 0.0031925289240694074,
+    "h1_paired_ci_high": 0.09462836869973265,
+    "h3_native_auroc": 0.7639557695737471,
+    "h3_in_runner_posthoc_auroc": 0.6743445692883895,
+    "h3_paired_delta": 0.08961120028535763,
+    "h3_paired_ci_low": 0.04076663202931468,
+    "h3_paired_ci_high": 0.14146022647208253
+  },
+  "strongest_probe_scalar_hardening": {
+    "full_integrated_h1_native_auroc": 0.7816545973228001,
+    "recorded_strongest_probe_h1_auroc": 0.743986137,
+    "direct_paired_interval_available": false
+  },
+  "pred_only_control": {
+    "h1_native_auroc": 0.4878360687990435,
+    "h1_paired_delta": -0.24647945941446658,
+    "h1_paired_ci_low": -0.30929810385653256,
+    "h1_paired_ci_high": -0.1805155138448204
+  },
+  "full_integrated_selective": {
+    "risk": 0.11650485545396805,
+    "alpha": 0.1,
+    "coverage": 0.16246056782334384,
+    "risk_le_alpha": false
+  },
+  "full_integrated_allocation": {
+    "delta": 0.007858616316675615,
+    "ci_low": -0.0024301282268924785,
+    "ci_high": 0.020610462847015197,
+    "rho": 0.4214431023521933,
+    "rho_ci_low": 0.32100006811370446,
+    "rho_ci_high": 0.5127348030757122
+  },
+  "not_claimed": [
+    "no selective-claim breakthrough",
+    "no allocation breakthrough",
+    "no direct paired interval against the strongest-probe scalar",
+    "no accepted shuffled-label permutation control"
+  ]
+}

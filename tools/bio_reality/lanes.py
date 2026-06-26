@@ -673,10 +673,70 @@ def _load_pipeline_config() -> dict[str, Any]:
 
 def _load_oracle_integration_config() -> dict[str, Any]:
     config = _load_pipeline_config().get("oracle_integration")
-    return config if isinstance(config, dict) else {}
+    config = dict(config) if isinstance(config, dict) else {}
+    oracle_pool = os.environ.get("BIO_REALITY_ORACLE_POOL", "").strip()
+    if oracle_pool:
+        config["server_url"] = f"nyxid-oracle://{oracle_pool}"
+    oracle_conversation_id = os.environ.get("BIO_REALITY_ORACLE_CONVERSATION_ID", "").strip()
+    if oracle_conversation_id:
+        config["conversation_id"] = oracle_conversation_id
+    server_url = os.environ.get("BIO_REALITY_ORACLE_SERVER_URL", "").strip()
+    if server_url:
+        config["server_url"] = server_url
+    enabled = os.environ.get("BIO_REALITY_ORACLE_ENABLED", "").strip().lower()
+    if enabled in {"1", "true", "yes", "on"}:
+        config["enabled"] = True
+    elif enabled in {"0", "false", "no", "off"}:
+        config["enabled"] = False
+    for lane_key, env_key in (
+        ("bio_g", "BIO_REALITY_ORACLE_BIO_G_ENABLED"),
+        ("bio_plan", "BIO_REALITY_ORACLE_BIO_PLAN_ENABLED"),
+    ):
+        lane_config = dict(config.get(lane_key)) if isinstance(config.get(lane_key), dict) else {}
+        lane_enabled = os.environ.get(env_key, "").strip().lower()
+        if lane_enabled in {"1", "true", "yes", "on"}:
+            lane_config["enabled"] = True
+        elif lane_enabled in {"0", "false", "no", "off"}:
+            lane_config["enabled"] = False
+        if lane_config:
+            config[lane_key] = lane_config
+    return config
+
+
+def _oracle_uses_nyxid(server_url: str) -> bool:
+    return str(server_url or "").startswith(("nyxid://", "nyxid-oracle://"))
+
+
+def _oracle_transport_name(server_url: str) -> str:
+    if str(server_url or "").startswith("nyxid-oracle://"):
+        return "nyxid-oracle"
+    if str(server_url or "").startswith("nyxid://"):
+        return "nyxid-proxy"
+    return "http"
+
+
+def _oracle_forced_conversation_id(config: dict[str, Any]) -> str:
+    return str(config.get("conversation_id") or "").strip()
+
+
+def oracle_runtime_summary() -> dict[str, Any]:
+    config = _load_oracle_integration_config()
+    server_url = str(config.get("server_url") or "")
+    bio_g = config.get("bio_g") if isinstance(config.get("bio_g"), dict) else {}
+    bio_plan = config.get("bio_plan") if isinstance(config.get("bio_plan"), dict) else {}
+    return {
+        "enabled": bool(config.get("enabled", False)),
+        "bio_g_enabled": bool(bio_g.get("enabled", False)),
+        "bio_plan_enabled": bool(bio_plan.get("enabled", False)),
+        "transport": _oracle_transport_name(server_url),
+        "server_url": server_url,
+        "conversation_id": _oracle_forced_conversation_id(config),
+    }
 
 
 def _bio_oracle_health_payload(server_url: str, timeout: int = 3) -> dict[str, Any]:
+    if _oracle_uses_nyxid(server_url):
+        return {"status": "skipped", "kind": "bio-oracle", "transport": "nyxid"}
     try:
         url = server_url.rstrip("/") + "/health"
         with urllib.request.urlopen(url, timeout=timeout) as response:
@@ -695,6 +755,8 @@ def run_oracle_server_lane(store: BioRealityStore) -> dict[str, Any]:
     try:
         config = _load_oracle_integration_config()
         server_url = str(config.get("server_url") or "http://127.0.0.1:8769")
+        if _oracle_uses_nyxid(server_url):
+            return {"lane": "bio-O", "status": "external_transport", "transport": _oracle_transport_name(server_url)}
         health = _bio_oracle_health_payload(server_url)
         if health.get("status") == "ok" and health.get("kind") == "bio-oracle":
             summary: dict[str, Any] = {"lane": "bio-O", "status": "already_up"}
@@ -803,6 +865,19 @@ def _turn_count(result: dict[str, Any]) -> int:
     return len(turns) if isinstance(turns, list) else 0
 
 
+def _oracle_has_completed_turn(result: dict[str, Any]) -> bool:
+    turns = result.get("turns")
+    if not isinstance(turns, list):
+        return False
+    for turn in turns:
+        if not isinstance(turn, dict):
+            continue
+        turn_result = turn.get("result")
+        if isinstance(turn_result, dict) and str(turn_result.get("status") or "") == "completed":
+            return True
+    return False
+
+
 def _gate_candidate_priority(result: dict[str, Any]) -> tuple[float, str, str]:
     try:
         priority = float(result.get("priority_score"))
@@ -872,43 +947,138 @@ def _namecert_proposal_text(store: BioRealityStore, claim_id: str) -> str:
     return text[:4000]
 
 
+def _bio_g_direction_focus(candidate: dict[str, Any], conjecture: dict[str, Any], form: dict[str, Any]) -> str:
+    local_shape = json.dumps(
+        {
+            "candidate": candidate,
+            "claimed_layer": conjecture.get("claimed_layer"),
+            "evidence_basis": conjecture.get("evidence_basis"),
+            "internal_structure": form.get("internal_structure") if isinstance(form, dict) else [],
+            "readback": form.get("readback") if isinstance(form, dict) else "",
+        },
+        ensure_ascii=False,
+        sort_keys=True,
+    ).lower()
+    if "reality_contact" in local_shape or "external_reality" in local_shape:
+        return (
+            "the boundary between an internal codon-coordinate readback and the external "
+            "biological contact needed before the readback can support a cross-layer claim"
+        )
+    if "mechanism" in local_shape or "translation_realization" in local_shape:
+        return (
+            "the bridge between code-layer or codon-usage evidence and actual translation "
+            "realization, without treating coordinate structure as a mechanism"
+        )
+    if "rank" in local_shape or "spectrum" in local_shape or "residual" in local_shape:
+        return (
+            "whether a finite residual, rank, or spectrum table should remain a descriptive "
+            "readback or can justify a stronger biological direction"
+        )
+    return (
+        "the scientific boundary between finite BEDC-style internal structure and an "
+        "externally testable biological claim"
+    )
+
+
 def _bio_g_initial_prompt(store: BioRealityStore, candidate: dict[str, Any]) -> tuple[str, str]:
     claim_id = str(candidate.get("claim_id") or candidate.get("packet_id") or "")
     conjecture = _conjecture_by_id(store, claim_id) if str(candidate.get("packet_kind") or "") == "conjecture" else {}
     form = conjecture.get("bedc_minimal_form") if isinstance(conjecture.get("bedc_minimal_form"), dict) else {}
-    verified_facts = {
-        "gate_result": candidate,
-        "conjecture": conjecture,
-    }
-    linked = _oracle_linked_records_for_conjecture(store, conjecture) if conjecture else {"reality_contacts": [], "probes": [], "mismatches": []}
-    minimal_form = {
-        "carrier": form.get("carrier") if isinstance(form, dict) else "",
-        "distinctions": form.get("distinctions") if isinstance(form, dict) else [],
-        "readback": form.get("readback") if isinstance(form, dict) else "",
-        "internal_structure": form.get("internal_structure") if isinstance(form, dict) else [],
-    }
+    focus = _bio_g_direction_focus(candidate, conjecture, form)
     prompt = "\n".join(
         [
-            "Review the BEDC minimal form for this BioReality gate candidate.",
-            f"claim_id: {claim_id}",
+            "BioReality direction question.",
             "",
-            "current verified_facts compact JSON:",
-            _compact_json(verified_facts),
+            "We are studying one specific research direction:",
+            focus + ".",
             "",
-            "bio-namer markdown proposal if present:",
-            _namecert_proposal_text(store, claim_id) or "none",
+            "Reason at the level of scientific strategy, not local implementation. "
+            "Do not assume access to local files, code, IDs, registries, gate outputs, "
+            "PDFs, or JSON records.",
             "",
-            "BEDC minimal-form summary:",
-            _compact_json(minimal_form),
+            "Question: what is the strongest next scientific move for this direction? "
+            "Focus on when a finite internal coordinate or readback object may be promoted "
+            "beyond bounded description, and what external reality contact, null test, or "
+            "mechanism bridge would be required before making that promotion.",
             "",
-            "reality contacts and probes:",
-            _compact_json(linked),
-            "",
-            "Question: Is the carrier truly minimal? Are there dependency leaks or unjustified internal structure? "
-            "Is the closure boundary correct? Propose concrete refinement steps if any.",
+            "Do not produce JSON. Give one concrete follow-up research direction, the "
+            "falsifiable boundary that prevents overclaiming, and one concise question "
+            "we should ask next in this same conversation.",
         ]
     )
     return claim_id, prompt
+
+
+def _bio_g_oracle_topic(candidate: dict[str, Any], conjecture: dict[str, Any]) -> str:
+    local_shape = json.dumps(
+        {
+            "candidate": candidate,
+            "claimed_layer": conjecture.get("claimed_layer"),
+            "evidence_basis": conjecture.get("evidence_basis"),
+        },
+        ensure_ascii=False,
+        sort_keys=True,
+    ).lower()
+    if "mechanism" in local_shape or "translation_realization" in local_shape:
+        return "bio-G.direction.translation-boundary"
+    if "reality_contact" in local_shape or "external_reality" in local_shape:
+        return "bio-G.direction.reality-contact"
+    if "rank" in local_shape or "spectrum" in local_shape or "residual" in local_shape:
+        return "bio-G.direction.residual-readback"
+    return "bio-G.direction.boundary"
+
+
+def _bio_plan_direction_prompt(event_kind: str) -> str:
+    if event_kind == "phase_advance_proposed":
+        focus = (
+            "a frontier where the current bounded claims appear to have opened the next "
+            "research phase"
+        )
+        question = (
+            "What is the single strongest next research direction after that opening, "
+            "if the program must keep internal codon geometry separate from external "
+            "biological reality contacts?"
+        )
+    elif event_kind == "frontier_saturated":
+        focus = (
+            "a research program that has saturated one biological layer: synonymous "
+            "codon usage and its boundary onto translation efficiency, protein "
+            "abundance, and structural order, where the proposer keeps re-deriving "
+            "near-duplicate conjectures on that same layer"
+        )
+        question = (
+            "What is one genuinely different, still-falsifiable biological reality "
+            "contact or layer, outside synonymous-codon-to-translation readout, that "
+            "commonly available molecular sequence or expression data could test next, "
+            "while keeping internal sequence-coordinate geometry strictly separate from "
+            "any external biological mechanism claim?"
+        )
+    else:
+        focus = (
+            "a frontier where a candidate biological claim is stuck because its null "
+            "model, control, or cross-layer boundary is not yet sharp enough"
+        )
+        question = (
+            "What is the single strongest way to refine the null model or strengthen "
+            "the control, without promoting an internal coordinate pattern into a "
+            "biological mechanism too early?"
+        )
+    return "\n".join(
+        [
+            "BioReality planning question.",
+            "",
+            "We are considering " + focus + ".",
+            "",
+            "Reason at the level of scientific direction only. Do not assume access to "
+            "local files, code, IDs, registries, gate outputs, PDFs, or JSON records.",
+            "",
+            question,
+            "",
+            "Do not produce JSON. Give the conceptual next direction, the key "
+            "falsifiable boundary, and one concise follow-up question for this same "
+            "conversation.",
+        ]
+    )
 
 
 def _select_bio_g_rotation_candidate(
@@ -971,20 +1141,21 @@ def _maybe_run_bio_g_oracle(store: BioRealityStore) -> dict[str, Any]:
     if min_seconds > 0 and last_at > 0 and time.time() - last_at < min_seconds:
         return _oracle_skip("rate_limited")
     repo_root = _repo_root_from_store(store)
-    pdf_path = _resolve_repo_path(repo_root, config.get("pdf_attach_path") or "")
-    if not pdf_path.exists():
-        pdf_path = None
+    pdf_path = None
     persist_dir = _resolve_repo_path(repo_root, config.get("persist_dir") or "tools/bio_reality/state/oracle_sessions")
     server_url = str(config.get("server_url") or "http://127.0.0.1:8769")
-    server_host, server_port = _parse_server_host_port(server_url)
-    if server_host and server_port and not _localhost_available(server_host, server_port):
-        return _oracle_skip("oracle_server_unreachable")
+    if not _oracle_uses_nyxid(server_url):
+        server_host, server_port = _parse_server_host_port(server_url)
+        if server_host and server_port and not _localhost_available(server_host, server_port):
+            return _oracle_skip("oracle_server_unreachable")
     if not _network_available():
         return _oracle_skip("network_unreachable")
     claim_id, prompt = _bio_g_initial_prompt(store, candidate)
-    topic = f"bio-G.review.{claim_id}"
+    conjecture = _conjecture_by_id(store, claim_id) if str(candidate.get("packet_kind") or "") == "conjecture" else {}
+    topic = _bio_g_oracle_topic(candidate, conjecture)
+    forced_conv_id = _oracle_forced_conversation_id(config)
     topic_conversations = lane_state.get("topic_conversations") if isinstance(lane_state.get("topic_conversations"), dict) else {}
-    existing_conv_id = str(topic_conversations.get(topic) or "")
+    existing_conv_id = forced_conv_id or str(topic_conversations.get(topic) or "")
     result = oracle_consultation.run_oracle_consultation(
         repo_root,
         "bio-G",
@@ -998,20 +1169,37 @@ def _maybe_run_bio_g_oracle(store: BioRealityStore) -> dict[str, Any]:
         poll_timeout=int(lane_config.get("poll_timeout_seconds") or 600),
         codex_judge_timeout=int(lane_config.get("codex_judge_timeout_seconds") or 240),
         existing_conversation_id=existing_conv_id,
+        allow_resume_fallback=not bool(forced_conv_id),
         close_on_exit=False,
     )
-    lane_state.update({"last_consulted_at": now_iso(), "last_topic": topic, "last_claim_id": claim_id})
-    consulted_map = lane_state.get("consulted_claim_ids") if isinstance(lane_state.get("consulted_claim_ids"), dict) else {}
-    consulted_map[claim_id] = now_iso()
-    lane_state["consulted_claim_ids"] = consulted_map
+    completed_turn = _oracle_has_completed_turn(result)
+    if completed_turn:
+        lane_state.update({"last_consulted_at": now_iso(), "last_topic": topic, "last_claim_id": claim_id})
+        consulted_map = lane_state.get("consulted_claim_ids") if isinstance(lane_state.get("consulted_claim_ids"), dict) else {}
+        consulted_map[claim_id] = now_iso()
+        lane_state["consulted_claim_ids"] = consulted_map
+    else:
+        lane_state.update({"last_failed_at": now_iso(), "last_failed_topic": topic, "last_failed_claim_id": claim_id})
     new_conv_id = str(result.get("conversation_id") or "") if isinstance(result, dict) else ""
-    if new_conv_id:
+    if forced_conv_id:
+        lane_state["conversation_id"] = forced_conv_id
+        topic_conversations[topic] = forced_conv_id
+        lane_state["topic_conversations"] = topic_conversations
+    elif new_conv_id:
         topic_conversations[topic] = new_conv_id
         lane_state["topic_conversations"] = topic_conversations
     state["bio-G"] = lane_state
     _write_oracle_state(store, state)
     _append_oracle_event(store, "bio-G", topic, result, intended_claim_id=claim_id, reason=("rotation_deep_review" if rotation_used else ""))
-    return {"oracle_consultations": 1, "oracle_turns_total": _turn_count(result), "oracle_skipped_reason": "", "oracle_rotation_used": rotation_used, "oracle_resumed": bool(existing_conv_id)}
+    return {
+        "oracle_consultations": 1,
+        "oracle_turns_total": _turn_count(result),
+        "oracle_skipped_reason": "",
+        "oracle_rotation_used": rotation_used,
+        "oracle_resumed": bool(existing_conv_id),
+        "oracle_forced_conversation": bool(forced_conv_id),
+        "oracle_completed": completed_turn,
+    }
 
 
 def _load_claims_document(path: Path) -> dict[str, Any]:
@@ -1291,6 +1479,36 @@ def _bio_plan_trigger(new_events: list[dict[str, Any]]) -> dict[str, Any] | None
     return None
 
 
+def _frontier_saturation_trigger(store: BioRealityStore) -> dict[str, Any] | None:
+    """Treat a stuck frontier proposer as a planning trigger.
+
+    When the previous frontier attempt was rejected as a duplicate or by the
+    gate there is no phase-advance or stuck-claim event, so bio-Plan would never
+    consult the oracle and the proposer keeps re-deriving near-duplicates. This
+    synthesises an ephemeral trigger (not persisted to the event log) so the
+    existing bio-Plan oracle path asks for a genuinely different direction. No
+    new lane: it only supplies a topic to the existing consultation when no
+    natural event fired.
+    """
+    state = _read_oracle_state(store)
+    lane_state = state.get("bio-Plan") if isinstance(state.get("bio-Plan"), dict) else {}
+    reason = str(lane_state.get("last_frontier_reason") or "")
+    if not (
+        reason.startswith("duplicate_conjecture_id")
+        or reason.startswith("gate_rejected")
+        or reason.startswith("codex_unparseable")
+    ):
+        return None
+    return agent_bus._event(
+        "frontier_saturated",
+        "bio-Plan",
+        "frontier",
+        "saturation",
+        f"frontier proposer saturated: {reason[:160]}",
+        {"last_frontier_reason": reason},
+    )
+
+
 def _bio_plan_prompt(
     claims: list[dict[str, Any]],
     phases_passed: list[int],
@@ -1299,21 +1517,15 @@ def _bio_plan_prompt(
     event_kind = str(trigger_event.get("event_kind") or "")
     payload = trigger_event.get("payload") if isinstance(trigger_event.get("payload"), dict) else {}
     phase = _current_phase(claims, phases_passed)
-    common = {
-        "passed_claims": _passed_claim_summary(claims),
-        "current_phase": phase,
-    }
     if event_kind == "phase_advance_proposed":
-        subject_id = str(trigger_event.get("subject_id") or payload.get("phase") or phase)
-        topic = f"bio-Plan.phase.{subject_id}.next"
-        question = "What's the strongest next experiment for the newly opened phase?"
-        body = {"trigger": trigger_event, **common}
-        return topic, "", "\n".join([question, "", "Planning context:", _compact_json(body)])
+        topic = "bio-Plan.direction.phase-frontier"
+        return topic, "", _bio_plan_direction_prompt(event_kind)
+    if event_kind == "frontier_saturated":
+        topic = "bio-Plan.direction.new-frontier"
+        return topic, "", _bio_plan_direction_prompt(event_kind)
     claim_id = str(payload.get("claim_id") or trigger_event.get("subject_id") or "")
-    topic = f"bio-Plan.stuck.{claim_id or trigger_event.get('subject_id')}"
-    question = f"How to refine null model / strengthen control for stuck claim {claim_id or 'unknown'}?"
-    body = {"trigger": trigger_event, "stuck_claim_record": payload, **common}
-    return topic, claim_id, "\n".join([question, "", "Planning context:", _compact_json(body)])
+    topic = "bio-Plan.direction.control-boundary"
+    return topic, claim_id, _bio_plan_direction_prompt(event_kind)
 
 
 def _maybe_run_bio_plan_oracle(
@@ -1339,19 +1551,19 @@ def _maybe_run_bio_plan_oracle(
     if min_cycles > 0 and last_cycle > 0 and cycle - last_cycle < min_cycles:
         return _oracle_skip("rate_limited")
     repo_root = _repo_root_from_store(store)
-    pdf_path = _resolve_repo_path(repo_root, config.get("pdf_attach_path") or "")
-    if not pdf_path.exists():
-        pdf_path = None
+    pdf_path = None
     persist_dir = _resolve_repo_path(repo_root, config.get("persist_dir") or "tools/bio_reality/state/oracle_sessions")
     server_url = str(config.get("server_url") or "http://127.0.0.1:8769")
-    server_host, server_port = _parse_server_host_port(server_url)
-    if server_host and server_port and not _localhost_available(server_host, server_port):
-        return _oracle_skip("oracle_server_unreachable")
+    if not _oracle_uses_nyxid(server_url):
+        server_host, server_port = _parse_server_host_port(server_url)
+        if server_host and server_port and not _localhost_available(server_host, server_port):
+            return _oracle_skip("oracle_server_unreachable")
     if not _network_available():
         return _oracle_skip("network_unreachable")
     topic, claim_id, prompt = _bio_plan_prompt(claims, phases_passed, trigger_event)
+    forced_conv_id = _oracle_forced_conversation_id(config)
     topic_conversations = lane_state.get("topic_conversations") if isinstance(lane_state.get("topic_conversations"), dict) else {}
-    existing_conv_id = str(topic_conversations.get(topic) or "")
+    existing_conv_id = forced_conv_id or str(topic_conversations.get(topic) or "")
     result = oracle_consultation.run_oracle_consultation(
         repo_root,
         "bio-Plan",
@@ -1365,17 +1577,33 @@ def _maybe_run_bio_plan_oracle(
         poll_timeout=int(lane_config.get("poll_timeout_seconds") or 600),
         codex_judge_timeout=int(lane_config.get("codex_judge_timeout_seconds") or 240),
         existing_conversation_id=existing_conv_id,
+        allow_resume_fallback=not bool(forced_conv_id),
         close_on_exit=False,
     )
-    lane_state.update({"last_consulted_at": now_iso(), "last_consulted_cycle": cycle, "last_topic": topic})
+    completed_turn = _oracle_has_completed_turn(result)
+    if completed_turn:
+        lane_state.update({"last_consulted_at": now_iso(), "last_consulted_cycle": cycle, "last_topic": topic})
+    else:
+        lane_state.update({"last_failed_at": now_iso(), "last_failed_cycle": cycle, "last_failed_topic": topic})
     new_conv_id = str(result.get("conversation_id") or "") if isinstance(result, dict) else ""
-    if new_conv_id:
+    if forced_conv_id:
+        lane_state["conversation_id"] = forced_conv_id
+        topic_conversations[topic] = forced_conv_id
+        lane_state["topic_conversations"] = topic_conversations
+    elif new_conv_id:
         topic_conversations[topic] = new_conv_id
         lane_state["topic_conversations"] = topic_conversations
     state["bio-Plan"] = lane_state
     _write_oracle_state(store, state)
     _append_oracle_event(store, "bio-Plan", topic, result, intended_claim_id=claim_id)
-    return {"oracle_consultations": 1, "oracle_turns_total": _turn_count(result), "oracle_skipped_reason": "", "oracle_resumed": bool(existing_conv_id)}
+    return {
+        "oracle_consultations": 1,
+        "oracle_turns_total": _turn_count(result),
+        "oracle_skipped_reason": "",
+        "oracle_resumed": bool(existing_conv_id),
+        "oracle_forced_conversation": bool(forced_conv_id),
+        "oracle_completed": completed_turn,
+    }
 
 
 def _append_frontier_log(store: BioRealityStore, event: str, details: dict[str, Any]) -> None:
@@ -1402,7 +1630,7 @@ def _frontier_queue_exhaustion_reason(claims: list[dict[str, Any]], new_event_co
         return "no_claims"
     if new_event_count:
         return "plan_events_opened_this_cycle"
-    terminal_statuses = {"passed", "needs_data", "needs_external", "failed"}
+    terminal_statuses = {"passed", "needs_data", "needs_external", "failed", "error", "timeout"}
     counts = _claim_status_counts(claims)
     pending = {status: count for status, count in counts.items() if status not in terminal_statuses}
     if pending:
@@ -1421,12 +1649,48 @@ def _frontier_vision_excerpt(store: BioRealityStore, limit: int = 10000) -> str:
     return excerpt[-limit:]
 
 
+def _latest_oracle_direction_excerpt(store: BioRealityStore, lane: str = "bio-Plan", limit: int = 1600) -> str:
+    """Most recent oracle direction answer for a lane, to ground the frontier proposer
+    in what the pipeline just asked the oracle. Empty string when none available."""
+    base = store.paths.root / "state" / "oracle_sessions" / lane
+    try:
+        files = sorted(base.glob("*.jsonl"), reverse=True)
+    except OSError:
+        return ""
+    for path in files:
+        try:
+            lines = path.read_text(encoding="utf-8").splitlines()
+        except OSError:
+            continue
+        last_response = ""
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                record = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if not isinstance(record, dict) or record.get("record_kind") != "turn":
+                continue
+            result = record.get("result") if isinstance(record.get("result"), dict) else {}
+            for key in ("response", "answer", "output", "text", "detail"):
+                value = result.get(key)
+                if isinstance(value, str) and value.strip():
+                    last_response = value.strip()
+                    break
+        if last_response:
+            return last_response[-limit:]
+    return ""
+
+
 def _frontier_prompt(
     vision_excerpt: str,
     conjectures: list[dict[str, Any]],
     contacts: list[dict[str, Any]],
     probes: list[dict[str, Any]],
     claims: list[dict[str, Any]],
+    oracle_direction: str = "",
 ) -> str:
     layer_order = [
         "code_read",
@@ -1488,6 +1752,7 @@ def _frontier_prompt(
             "- Use only existing contact_id and probe_id values if you reference reality_contact_refs or probe_refs.",
             "- If no existing contact/probe can support the layer, still output the best candidate with empty refs; the deterministic gate may reject it.",
             "- The conjecture must be the next uncovered cross-layer decomposition from the vision, not a duplicate of existing conjecture_id values.",
+            "- If an oracle-suggested unexplored direction is given below and the existing conjectures are saturating one biological layer, prefer the next genuinely distinct biological object or layer it points to (refs may be empty for the gate to judge) over a near-duplicate.",
             "- It must not skip the mandatory translation-readout step toward structure, function, or phenotype.",
             "",
             "ID syntax:",
@@ -1520,6 +1785,9 @@ def _frontier_prompt(
                 ensure_ascii=False,
                 sort_keys=True,
             ),
+            "",
+            "Oracle-suggested unexplored direction (hypothesis only; ground any claim in repo data or leave refs empty for the deterministic gate to judge):",
+            oracle_direction or "(none available yet)",
             "",
             "Vision excerpt:",
             vision_excerpt or "VISION FILE MISSING",
@@ -1644,7 +1912,8 @@ def _maybe_propose_frontier_conjecture(
     repo_root = _repo_root_from_store(store)
     contacts = store.load_contacts()
     probes = store.load_probes()
-    prompt = _frontier_prompt(vision_excerpt, conjectures, contacts, probes, claims)
+    oracle_direction = _latest_oracle_direction_excerpt(store)
+    prompt = _frontier_prompt(vision_excerpt, conjectures, contacts, probes, claims, oracle_direction=oracle_direction)
     parsed, raw_stdout, raw_stderr = _run_frontier_codex(prompt, repo_root, timeout_seconds=240)
     if parsed is None:
         _append_frontier_log(
@@ -1793,7 +2062,7 @@ def run_plan_lane(store: BioRealityStore) -> dict[str, Any]:
 
     phase_advance_events = sum(1 for event in new_events if event.get("event_kind") == "phase_advance_proposed")
     stuck_redesign_events = sum(1 for event in new_events if event.get("event_kind") == "claim_redesign_proposed")
-    trigger_event = _bio_plan_trigger(new_events)
+    trigger_event = _bio_plan_trigger(new_events) or _frontier_saturation_trigger(store)
     merged = agent_bus._dedup(existing_events + new_events, "event_id")
     store.write_events(merged)
     oracle_summary = _maybe_run_bio_plan_oracle(store, claims, phases_passed, trigger_event)
@@ -1869,44 +2138,64 @@ def _write_claims_document(path: Path, document: dict[str, Any]) -> None:
     path.write_text(json.dumps(document, indent=2, ensure_ascii=False, sort_keys=False) + "\n", encoding="utf-8")
 
 
+def _experiment_script_sha(experiment: dict[str, Any], repo_root: Path) -> str | None:
+    """Content fingerprint of an experiment: the script bytes plus its acceptance
+    spec. Used to detect a genuine experiment change. Content-based on purpose —
+    file mtimes are reset by every git checkout/merge and the registry file is
+    rewritten each cycle, so an mtime comparison would re-fire on every restart
+    and every sync regardless of whether the experiment actually changed."""
+    script_path = experiment.get("script_path")
+    if not isinstance(script_path, str) or not script_path:
+        return None
+    try:
+        data = (repo_root / script_path).read_bytes()
+    except OSError:
+        return None
+    h = hashlib.sha256()
+    h.update(data)
+    h.update(b"\x00")
+    h.update(json.dumps(experiment.get("acceptance"), sort_keys=True, ensure_ascii=True).encode("utf-8"))
+    return h.hexdigest()[:16]
+
+
+def _backfill_script_sha(claim: dict[str, Any], experiment: dict[str, Any], repo_root: Path) -> None:
+    """Stamp the current script fingerprint onto a passed/failed claim's latest
+    history entry when it lacks one, so a later genuine change is detectable.
+    Does not trigger a re-run; the claims document is persisted by the lane."""
+    history = claim.get("history")
+    if not isinstance(history, list) or not history:
+        return
+    last = history[-1] if isinstance(history[-1], dict) else None
+    if not isinstance(last, dict) or last.get("script_sha"):
+        return
+    sha = _experiment_script_sha(experiment, repo_root)
+    if sha:
+        last["script_sha"] = sha
+
+
 def _experiment_changed_since_last_history(
     claim: dict[str, Any],
     experiment: dict[str, Any],
     repo_root: Path,
     experiments_registry: Path,
 ) -> bool:
-    """Return True if the experiment script or its registry entry has been
-    modified after the most recent claim.history timestamp. Used to promote
-    a failed/error claim back to needs_rerun when bio-planner reshapes the
-    experiment."""
-    from datetime import datetime
+    """Return True only when the experiment's content fingerprint differs from
+    the one stamped on the claim's latest history entry. A missing stored
+    fingerprint returns False (no baseline yet — the lane backfills it without a
+    re-run), so this never fires on restart/sync noise, only on real changes."""
     history = claim.get("history")
     if not isinstance(history, list) or not history:
         return False
     last = history[-1] if isinstance(history[-1], dict) else None
-    if not last:
+    if not isinstance(last, dict):
         return False
-    last_ts_text = str(last.get("ts") or "")
-    if not last_ts_text:
+    stored = last.get("script_sha")
+    if not stored:
         return False
-    try:
-        last_ts = datetime.fromisoformat(last_ts_text).timestamp()
-    except ValueError:
+    current = _experiment_script_sha(experiment, repo_root)
+    if current is None:
         return False
-    script_path = experiment.get("script_path")
-    candidates: list[Path] = []
-    if isinstance(script_path, str) and script_path:
-        candidates.append(repo_root / script_path)
-    if experiments_registry.exists():
-        candidates.append(experiments_registry)
-    for path in candidates:
-        try:
-            mtime = path.stat().st_mtime
-        except OSError:
-            continue
-        if mtime > last_ts + 0.5:
-            return True
-    return False
+    return str(stored) != str(current)
 
 
 def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
@@ -1933,6 +2222,7 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
         "needs_data_this_cycle": 0,
         "needs_external_this_cycle": 0,
         "error_this_cycle": 0,
+        "timeout_this_cycle": 0,
         "skipped_unmet_dep": 0,
         "claim_states": {},
     }
@@ -1942,7 +2232,7 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
         experiment_id = str(claim.get("experiment_id") or "")
         experiment = experiment_by_id.get(experiment_id)
         if status not in {"open", "needs_rerun"}:
-            if status in {"failed", "error"} and experiment is not None and _experiment_changed_since_last_history(claim, experiment, repo_root, store.paths.experiments_registry):
+            if status in {"failed", "error", "passed", "timeout"} and experiment is not None and _experiment_changed_since_last_history(claim, experiment, repo_root, store.paths.experiments_registry):
                 claim["status"] = "needs_rerun"
                 status = "needs_rerun"
                 history = claim.setdefault("history", [])
@@ -1961,6 +2251,8 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
                 if isinstance(history, list):
                     history.append(_history_entry("needs_rerun", "freshly materialized, no prior experiment_run - kicking off"))
             else:
+                if status in {"failed", "error", "passed", "timeout"} and experiment is not None:
+                    _backfill_script_sha(claim, experiment, repo_root)
                 continue
         if experiment is None:
             continue
@@ -2021,6 +2313,9 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
         elif result_status == "needs_data":
             claim["status"] = "needs_data"
             summary["needs_data_this_cycle"] += 1
+        elif result_status == "timeout":
+            claim["status"] = "timeout"
+            summary["timeout_this_cycle"] += 1
         else:
             claim["status"] = "error"
             summary["error_this_cycle"] += 1
@@ -2032,6 +2327,7 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
                     "experiment result",
                     experiment_run_id=result["experiment_run_id"],
                     checks=_check_summary(result.get("checks")),
+                    script_sha=_experiment_script_sha(experiment, repo_root),
                 )
             )
 
@@ -2427,7 +2723,7 @@ def _bios_codex_resolve_prompt(rel_path: str, conflicted_content: str, upstream_
     return "\n".join([
         "You are resolving a single git merge conflict in the BioReality / BEDC repository.",
         "Local branch: feat/bio-reality-deepening (BioReality research direction).",
-        f"Merging upstream commit {upstream_sha[:12]} from origin/auto-dev (Loning's main automation branch).",
+        f"Merging upstream commit {upstream_sha[:12]} from origin/dev (the shared integration branch all pipelines roll up into).",
         "",
         "Project invariants (must hold for resolution to be correct):",
         "- working language Chinese; Python stdlib only; pdflatex single-pass with halt-on-error",
@@ -2530,12 +2826,15 @@ def _bios_codex_resolve_merge(
     if status.returncode != 0:
         return False, {"reason": "git_status_nonzero", "stderr": (status.stderr or "")[-500:]}
     conflict_files: list[str] = []
+    conflict_codes: dict[str, str] = {}
     for line in (status.stdout or "").splitlines():
         if len(line) < 4:
             continue
         code = line[:2]
         if code in {"UU", "AA", "DD", "AU", "UA", "DU", "UD"}:
-            conflict_files.append(line[3:].strip())
+            path = line[3:].strip()
+            conflict_files.append(path)
+            conflict_codes[path] = code
     if not conflict_files:
         return False, {"reason": "no_conflict_files"}
     sig = hashlib.sha256(("|".join([upstream_sha] + sorted(conflict_files))).encode("utf-8")).hexdigest()[:16]
@@ -2575,17 +2874,30 @@ def _bios_codex_resolve_merge(
             continue
         side = _conflict_side(rel_path)
         if side:
+            # modify/delete conflicts have no version on the deleting side, so
+            # `git checkout --<side>` fails ("does not have their version").
+            # UD = modified by us / deleted by them; DU = deleted by us /
+            # modified by them. When the AUTHORITATIVE side is the deleting one,
+            # honoring it means removing the file, not checking it out.
+            code = conflict_codes.get(rel_path, "")
+            side_deleted = (side == "theirs" and code == "UD") or (side == "ours" and code == "DU")
             try:
-                co = _run_command(repo_root, ["git", "checkout", f"--{side}", "--", rel_path], timeout=30.0)
-                if co.returncode != 0:
-                    failures.append({"path": rel_path, "reason": f"checkout_{side}_failed", "stderr": (co.stderr or "")[-200:]})
-                    continue
-                add = _run_command(repo_root, ["git", "add", "--", rel_path], timeout=30.0)
-                if add.returncode != 0:
-                    failures.append({"path": rel_path, "reason": "git_add_failed", "stderr": (add.stderr or "")[-200:]})
-                    continue
+                if side_deleted:
+                    rm = _run_command(repo_root, ["git", "rm", "-f", "--", rel_path], timeout=30.0)
+                    if rm.returncode != 0:
+                        failures.append({"path": rel_path, "reason": f"take_{side}_delete_failed", "stderr": (rm.stderr or "")[-200:]})
+                        continue
+                else:
+                    co = _run_command(repo_root, ["git", "checkout", f"--{side}", "--", rel_path], timeout=30.0)
+                    if co.returncode != 0:
+                        failures.append({"path": rel_path, "reason": f"checkout_{side}_failed", "stderr": (co.stderr or "")[-200:]})
+                        continue
+                    add = _run_command(repo_root, ["git", "add", "--", rel_path], timeout=30.0)
+                    if add.returncode != 0:
+                        failures.append({"path": rel_path, "reason": "git_add_failed", "stderr": (add.stderr or "")[-200:]})
+                        continue
             except (OSError, subprocess.TimeoutExpired) as exc:
-                failures.append({"path": rel_path, "reason": f"checkout_{side}_exception", "error": str(exc)})
+                failures.append({"path": rel_path, "reason": f"resolve_{side}_exception", "error": str(exc)})
                 continue
             resolved_paths.append(rel_path)
             continue
@@ -2606,18 +2918,18 @@ def _bios_codex_resolve_merge(
         except OSError as exc:
             failures.append({"path": rel_path, "reason": "write_failed", "error": str(exc)})
             continue
+        add_c = _run_command(repo_root, ["git", "add", "--", rel_path], timeout=30.0)
+        if add_c.returncode != 0:
+            failures.append({"path": rel_path, "reason": "codex_add_failed", "stderr": (add_c.stderr or "")[-200:]})
+            continue
         resolved_paths.append(rel_path)
     if not resolved_paths:
         _bios_resolve_record(store, {"signature": sig, "action": "no_resolution", "failures": failures, "total_conflict_files": len(conflict_files)})
         return False, {"reason": "no_resolution", "signature": sig, "failures": failures, "total_conflict_files": len(conflict_files)}
-    try:
-        add = _run_command(repo_root, ["git", "add", "--"] + resolved_paths, timeout=60.0)
-    except (OSError, subprocess.TimeoutExpired) as exc:
-        _bios_resolve_record(store, {"signature": sig, "action": "git_add_failed", "error": str(exc)})
-        return False, {"reason": "git_add_failed", "error": str(exc)}
-    if add.returncode != 0:
-        _bios_resolve_record(store, {"signature": sig, "action": "git_add_nonzero", "stderr": (add.stderr or "")[-300:]})
-        return False, {"reason": "git_add_nonzero", "stderr": (add.stderr or "")[-300:]}
+    # Each resolved path is already staged in-loop (checkout+add, git rm, or
+    # codex-write+add). No bulk `git add` here: a bulk add over a path removed
+    # by `git rm` fails (pathspec no longer matches its now-deleted directory)
+    # and used to abort the whole merge even though every file was resolved.
     try:
         commit = _run_command(repo_root, ["git", "commit", "-m", f"Sync auto-dev {upstream_sha[:12]} (codex-resolved {len(resolved_paths)}/{len(conflict_files)} files)"], timeout=120.0)
     except (OSError, subprocess.TimeoutExpired) as exc:
@@ -2632,8 +2944,6 @@ def _bios_codex_resolve_merge(
 
 def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
     """Fetch origin/auto-dev, extract Loning's recent biology-related work, attempt fast-forward / no-ff merge."""
-    if not _network_available():
-        return {"lane": "bio-S", "skipped": "network_unreachable", "host": _NETWORK_PROBE_HOST, "port": _NETWORK_PROBE_PORT}
     try:
         config = _load_sync_lane_config()
     except (OSError, json.JSONDecodeError) as exc:
@@ -2641,6 +2951,8 @@ def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
         return {"lane": "bio-S", "error": "config_error"}
     if not config.get("enabled"):
         return {"lane": "bio-S", "skipped": "disabled"}
+    if not _network_available():
+        return {"lane": "bio-S", "skipped": "network_unreachable", "host": _NETWORK_PROBE_HOST, "port": _NETWORK_PROBE_PORT}
 
     state = _read_json_object(store.paths.sync_lane_state)
     now_ts = time.time()
@@ -2790,8 +3102,31 @@ def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
             try:
                 pop = _run_command(repo_root, ["git", "stash", "pop"], timeout=120.0)
                 if pop.returncode != 0:
-                    # pop 冲突: drift 留在 stash (下个 cycle daemon 会重生成), 不阻断 sync.
+                    # pop 冲突 (常见于跨 worktree 共享 .git: stash 的 runtime drift 与 merge 引入的
+                    # 同路径 tracked 更新撞车, 尤其 cellstate 跨项目文件). git 会在工作树留下 unmerged
+                    # (UU) 路径且不 drop stash —— 若不清理, 后续每个 cycle 的 git 操作都被 UU 阻塞,
+                    # daemon wedge; stash 也逐 cycle 堆积. 清理: 冲突路径取 stash 侧 (--theirs = 我方
+                    # runtime drift, 优先保住本地科研态如 registries), add 清除 unmerged; 全部解决后
+                    # drop 该 stash (drift 已落工作树, 不丢). 仍有残留 unmerged 则 hard reset 兜底防 wedge.
                     _append_sync_log(store, "pre_merge_stash_pop_conflict", {"detail": (pop.stderr or pop.stdout or "")[-500:]})
+                    try:
+                        uu = _run_command(repo_root, ["git", "diff", "--name-only", "--diff-filter=U"], timeout=30.0)
+                        unmerged = [p for p in (uu.stdout or "").splitlines() if p.strip()]
+                    except (OSError, subprocess.TimeoutExpired):
+                        unmerged = []
+                    for path in unmerged:
+                        side = _run_command(repo_root, ["git", "checkout", "--theirs", "--", path], timeout=30.0)
+                        if side.returncode != 0:
+                            _run_command(repo_root, ["git", "checkout", "HEAD", "--", path], timeout=30.0)
+                        _run_command(repo_root, ["git", "add", "--", path], timeout=30.0)
+                    check = _run_command(repo_root, ["git", "diff", "--name-only", "--diff-filter=U"], timeout=30.0)
+                    if (check.stdout or "").strip():
+                        _run_command(repo_root, ["git", "reset", "--hard", "HEAD"], timeout=60.0)
+                        _append_sync_log(store, "pre_merge_stash_pop_force_cleared", {"remaining": (check.stdout or "")[-500:]})
+                    else:
+                        _run_command(repo_root, ["git", "stash", "drop"], timeout=30.0)
+                        # unstage 上面 add 的解决结果, 留作普通 working drift (与正常 runtime 态一致).
+                        _run_command(repo_root, ["git", "reset", "--quiet", "HEAD"], timeout=30.0)
             except (OSError, subprocess.TimeoutExpired) as exc:
                 _append_sync_log(store, "pre_merge_stash_pop_failed", {"error": str(exc)})
 
@@ -3190,6 +3525,92 @@ def run_merge_back_lane(store: BioRealityStore) -> dict[str, Any]:
     except OSError:
         pass
     return {"lane": "bio-M", "pushed": True, "upstream": upstream, "commits_pushed": feat_only}
+
+
+def _write_dev_rollup_state(path: Path) -> None:
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({"last_run_ts": time.time()}) + "\n", encoding="utf-8")
+    except OSError:
+        pass
+
+
+def run_dev_rollup_lane(store: BioRealityStore) -> dict[str, Any]:
+    """Delegate the feat->dev rollup to Loning's managed-rollup script
+    tools/sync_with_auto_dev.py with source = our integration branch.
+
+    The script builds an isolated worktree from origin/dev, merges our source
+    branch in (codex-resolving conflicts, regenerating lean4/BEDC.lean), pushes
+    a SEPARATE managed branch ``rollup-{source}-to-{target}``, maintains one PR
+    into the target, and auto-merges that PR once its checks are green and
+    GitHub reports it mergeable. We never PR the integration branch itself —
+    that collides with the auto-sync back-merge loop; bio-S handles the reverse
+    dev->feat sync. This makes the rollup branch distinct from the development
+    branch and reuses Loning's robust merge/conflict/regen machinery instead of
+    a hand-rolled PR.
+    """
+    try:
+        config = _load_keep_lane_config()
+    except (OSError, json.JSONDecodeError) as exc:
+        return {"lane": "bio-D", "error": f"config_error: {exc}"}
+    rollup = config.get("dev_rollup") if isinstance(config.get("dev_rollup"), dict) else {}
+    if not rollup.get("enabled", False):
+        return {"lane": "bio-D", "skipped": "disabled"}
+    if not _network_available():
+        return {"lane": "bio-D", "skipped": "offline"}
+
+    repo_root = store.paths.root.parent.parent
+    source = str(rollup.get("head_branch") or config.get("branch") or "feat/bio-reality-deepening")
+    target = str(rollup.get("base_branch") or "dev")
+    min_seconds = float(rollup.get("min_seconds_between") or 600)
+
+    state_path = store.paths.keep_lane_state.parent / "dev_rollup_state.json"
+    try:
+        last_ts = float(json.loads(state_path.read_text(encoding="utf-8")).get("last_run_ts") or 0.0)
+    except (OSError, json.JSONDecodeError, ValueError, TypeError):
+        last_ts = 0.0
+    if time.time() - last_ts < min_seconds:
+        return {"lane": "bio-D", "skipped": "throttled"}
+
+    script = repo_root / "tools" / "sync_with_auto_dev.py"
+    if not script.exists():
+        return {"lane": "bio-D", "error": "sync_script_missing", "path": str(script)}
+    if _run_command(repo_root, ["gh", "--version"]).returncode != 0:
+        return {"lane": "bio-D", "skipped": "gh_unavailable"}
+
+    # Skip when there is no real CONTENT delta to roll up. bio-S merges
+    # dev->feat as "Sync auto-dev" merge commits, which leave feat
+    # commit-count-ahead of dev but content-identical. Rolling those up
+    # produces an empty-diff PR: it triggers no CI/Gate (paths/diff empty),
+    # so it can never go green, and while it sits open the sync script will
+    # not rebuild — a deadlock. Gate on the three-dot content diff instead of
+    # commit count.
+    remote = str(config.get("remote") or "origin")
+    _run_command(repo_root, ["git", "fetch", remote, source, target], timeout=120.0)
+    delta = _run_command(
+        repo_root,
+        ["git", "diff", "--name-only", f"{remote}/{target}...{remote}/{source}"],
+    )
+    if not (delta.stdout or "").strip():
+        _write_dev_rollup_state(state_path)
+        return {"lane": "bio-D", "skipped": "no_content_delta",
+                "note": "feat has no content diff vs dev (only sync merge commits); not opening an empty rollup PR"}
+
+    result = _run_command(
+        repo_root,
+        ["python3", str(script), "--source-branch", source, "--target-branch", target],
+        timeout=1800.0,
+    )
+    _write_dev_rollup_state(state_path)
+    out = (result.stdout or "") + (result.stderr or "")
+    rollup_lines = [ln for ln in out.splitlines() if "[sync] rollup" in ln]
+    tail = (rollup_lines or out.splitlines())[-4:]
+    if result.returncode != 0:
+        return {"lane": "bio-D", "error": "sync_failed", "source": source, "target": target, "tail": tail}
+    merged = any(("merging into" in ln) or ("green and mergeable" in ln) for ln in rollup_lines)
+    return {"lane": "bio-D", "ran_sync": True, "source": source, "target": target,
+            "rollup_branch": f"rollup-{source.replace('/', '-')}-to-{target.replace('/', '-')}",
+            "merged": merged, "tail": tail}
 
 
 def _tex_escape(value: Any) -> str:
@@ -4066,7 +4487,6 @@ def _run_writeback_make_check(paper_dir: Path) -> tuple[int, str]:
             ["make", "check"],
             cwd=paper_dir,
             env=_tex_env(),
-            text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             timeout=300.0,
@@ -4074,7 +4494,9 @@ def _run_writeback_make_check(paper_dir: Path) -> tuple[int, str]:
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return 124, str(exc)
-    return completed.returncode, (completed.stdout or "") + (completed.stderr or "")
+    stdout = (completed.stdout or b"").decode("utf-8", errors="replace")
+    stderr = (completed.stderr or b"").decode("utf-8", errors="replace")
+    return completed.returncode, stdout + stderr
 
 
 def _run_writeback_make_pdf(paper_dir: Path) -> tuple[int, str]:
@@ -4083,7 +4505,6 @@ def _run_writeback_make_pdf(paper_dir: Path) -> tuple[int, str]:
             ["make", "-s"],
             cwd=paper_dir,
             env=_tex_env(),
-            text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             timeout=300.0,
@@ -4091,7 +4512,9 @@ def _run_writeback_make_pdf(paper_dir: Path) -> tuple[int, str]:
         )
     except (OSError, subprocess.TimeoutExpired) as exc:
         return 1, str(exc)
-    return completed.returncode, (completed.stdout or "") + (completed.stderr or "")
+    stdout = (completed.stdout or b"").decode("utf-8", errors="replace")
+    stderr = (completed.stderr or b"").decode("utf-8", errors="replace")
+    return completed.returncode, stdout + stderr
 
 
 def _writeback_heal_state_path(store: BioRealityStore) -> Path:
@@ -4605,6 +5028,62 @@ def _is_stub_namecert(text: str) -> bool:
     return False
 
 
+def _subsection_slug(title_line: str, ordinal: int) -> str:
+    """Stable, number-free filename slug for one \\subsection block. Conjecture
+    ids (q6.x.y / h3.x.y) and human titles both reduce to lowercase underscore
+    tokens; the conjecture id is unique so slugs do not collide in practice."""
+    body = title_line
+    body = re.sub(r"^\\subsection\*?\{", "", body)
+    body = re.sub(r"\}\s*(\\label\{.*)?$", "", body)
+    body = re.sub(r"\\label\{[^}]*\}", "", body)
+    body = re.sub(r"\$[^$]*\$", " ", body)          # drop inline math
+    body = re.sub(r"\\[A-Za-z]+", " ", body)         # drop latex commands
+    body = body.replace("{", " ").replace("}", " ")
+    body = body.lower()
+    body = re.sub(r"[^a-z0-9]+", "_", body).strip("_")
+    if not body:
+        body = f"section_{ordinal}"
+    return body[:90]
+
+
+def _write_part_hub_and_siblings(paper_part: Path, part_text: str) -> list[str]:
+    """Write the assembled part as a structural hub (section header + \\input
+    routing) plus one sibling file per \\subsection under a same-stem subdir.
+    Each conjecture is an independent subtopic, so every sibling stays far below
+    the 800-line file cap and a changed conjecture only rewrites its own file.
+    The subdir is regenerated wholesale each cycle (stale siblings are removed)
+    to mirror the daemon's whole-part regeneration. Returns the sibling slugs."""
+    lines = part_text.split("\n")
+    sub_idx = [i for i, l in enumerate(lines) if l.startswith("\\subsection{") or l.startswith("\\subsection*{")]
+    if not sub_idx:
+        paper_part.write_text(part_text, encoding="utf-8")
+        return []
+    subdir = paper_part.parent / paper_part.stem
+    if subdir.exists():
+        for old in subdir.glob("*.tex"):
+            old.unlink()
+    subdir.mkdir(parents=True, exist_ok=True)
+    preamble = "\n".join(lines[: sub_idx[0]]).rstrip()
+    bounds = sub_idx + [len(lines)]
+    slugs: list[str] = []
+    used: set[str] = set()
+    for k, start in enumerate(sub_idx):
+        block = "\n".join(lines[start : bounds[k + 1]]).rstrip()
+        slug = _subsection_slug(lines[start], k)
+        base, n = slug, 1
+        while slug in used:
+            n += 1
+            slug = f"{base}_{n}"
+        used.add(slug)
+        slugs.append(slug)
+        (subdir / f"{slug}.tex").write_text(block + "\n", encoding="utf-8")
+    hub = [preamble, ""]
+    hub.extend(f"\\input{{parts/{paper_part.stem}/{slug}}}" for slug in slugs)
+    hub.append("")
+    paper_part.write_text("\n".join(hub), encoding="utf-8")
+    return slugs
+
+
 def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     writer_config = _bio_w_codex_writer_config(_load_writeback_lane_config())
     repo_root = store.paths.root.parent.parent
@@ -4628,6 +5107,7 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
         "Its statements separate curated biological reality contacts from internal coordinate, closure, spectrum, and relation readings.",
         "",
     ]
+    seen_mismatch_ids: set[str] = set()
     for conjecture in conjectures:
         linked_contacts, linked_probes, linked_mismatches = _linked_records_for_conjecture(
             conjecture,
@@ -4635,6 +5115,19 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
             probes_by_id,
             mismatches_by_probe,
         )
+        # A mismatch (reality-boundary gap) is shared across every conjecture whose
+        # probes reference it, so without this guard each gap is re-listed once per
+        # conjecture section and the chapter bloats quadratically. Render each unique
+        # mismatch only in the first conjecture section that links it.
+        deduped_mismatches = []
+        for _m in linked_mismatches:
+            _mid = str(_m.get("mismatch_id") or "")
+            if _mid and _mid in seen_mismatch_ids:
+                continue
+            if _mid:
+                seen_mismatch_ids.add(_mid)
+            deduped_mismatches.append(_m)
+        linked_mismatches = deduped_mismatches
         verified_facts = _all_verified_facts(conjecture)
         conjecture_id = str(conjecture.get("conjecture_id") or "unnamed")
         codex_text = _codex_written_content(
@@ -4660,7 +5153,10 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     paths = store.paths
     paths.paper_main.parent.mkdir(parents=True, exist_ok=True)
     paths.paper_part.parent.mkdir(parents=True, exist_ok=True)
-    paths.paper_part.write_text(_sanitize_textmode_underscores("\n".join(part_lines)), encoding="utf-8")
+    _write_part_hub_and_siblings(
+        paths.paper_part,
+        _sanitize_textmode_underscores("\n".join(part_lines)),
+    )
     namecert_slugs = _write_namecert_proposals(
         paths,
         conjectures,
@@ -6763,7 +7259,17 @@ def self_test() -> int:
                 if not decision.get("continue"):
                     break
                 prompt = str(decision.get("next_prompt") or "")
-            oracle_call_log.append({"topic": topic, "lane": intended_lane, "claim_id": intended_claim_id, "turns": len(turns)})
+            oracle_call_log.append(
+                {
+                    "topic": topic,
+                    "lane": intended_lane,
+                    "claim_id": intended_claim_id,
+                    "turns": len(turns),
+                    "initial_prompt": initial_prompt,
+                    "pdf_attached": bool(pdf_base64),
+                    "pdf_name": pdf_name,
+                }
+            )
             return {
                 "topic": topic,
                 "conversation_id": f"conv-{topic}",
@@ -6836,6 +7342,29 @@ def self_test() -> int:
             if oracle_gate_summary.get("oracle_consultations") != 1 or oracle_gate_summary.get("oracle_turns_total") != 3:
                 print(json.dumps(oracle_gate_summary, indent=2), file=sys.stderr)
                 return 1
+            oracle_gate_call = next((call for call in oracle_call_log if call.get("lane") == "bio-G"), {})
+            oracle_gate_prompt = str(oracle_gate_call.get("initial_prompt") or "")
+            forbidden_gate_fragments = [
+                "claim_id",
+                "conjecture_id",
+                "current verified_facts",
+                "BEDC minimal-form summary",
+                "reality contacts and probes",
+                "oracle.review.claim",
+                "curated.standard.code.table",
+                "Carrier proposal",
+                "Planning context",
+                "{",
+                "}",
+            ]
+            if (
+                oracle_gate_call.get("topic")
+                not in {"bio-G.direction.reality-contact", "bio-G.direction.translation-boundary"}
+                or oracle_gate_call.get("pdf_attached")
+                or any(fragment in oracle_gate_prompt for fragment in forbidden_gate_fragments)
+            ):
+                print(json.dumps(oracle_gate_call, indent=2), file=sys.stderr)
+                return 1
             if oracle_gate_repeat.get("oracle_consultations") != 0 or oracle_gate_repeat.get("oracle_skipped_reason") != "rate_limited":
                 print(json.dumps(oracle_gate_repeat, indent=2), file=sys.stderr)
                 return 1
@@ -6872,6 +7401,25 @@ def self_test() -> int:
             oracle_plan_events = oracle_plan_store.load_events()
             if oracle_plan_summary.get("oracle_consultations") != 1 or oracle_plan_summary.get("oracle_turns_total") != 3:
                 print(json.dumps(oracle_plan_summary, indent=2), file=sys.stderr)
+                return 1
+            oracle_plan_call = next((call for call in oracle_call_log if call.get("lane") == "bio-Plan"), {})
+            oracle_plan_prompt = str(oracle_plan_call.get("initial_prompt") or "")
+            forbidden_plan_fragments = [
+                "claim_id",
+                "oracle.phase",
+                "Planning context",
+                "passed_claims",
+                "trigger",
+                "payload",
+                "{",
+                "}",
+            ]
+            if (
+                oracle_plan_call.get("topic") != "bio-Plan.direction.phase-frontier"
+                or oracle_plan_call.get("pdf_attached")
+                or any(fragment in oracle_plan_prompt for fragment in forbidden_plan_fragments)
+            ):
+                print(json.dumps(oracle_plan_call, indent=2), file=sys.stderr)
                 return 1
             if oracle_plan_repeat.get("oracle_consultations") != 0:
                 print(json.dumps(oracle_plan_repeat, indent=2), file=sys.stderr)

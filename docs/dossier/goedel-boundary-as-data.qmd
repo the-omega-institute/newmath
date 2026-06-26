@@ -1,9 +1,9 @@
 ---
 title: "Goedel Boundary as Data"
-subtitle: "Two layers at which incompleteness becomes a measurable number. The dependent-codomain obstruction in MetaCIC. The cook compile-frontier in the rule110 substrate. Both are quantified."
+subtitle: "Incompleteness is not a mystical wall. It is a boundary surface: no total truth certificate, no total halting oracle, and measurable finite packets where the obstruction appears."
 author: "The Omega Institute"
-date: 2026-05-14
-description: "Goedel's second incompleteness theorem is usually treated as a wall. BEDC treats it as data. The same boundary appears at the meta-theory layer (four subject-reduction hypotheses) and at the cellular substrate layer (cook compile-frontier: halted TM needs ~64p/64t; current substrate reaches (8,8,16384) balanced, with extremes up to P=16 and T=32 across cases). The wall has coordinates."
+date: 2026-06-06
+description: "Goedel's incompleteness boundary is usually treated as a wall. BEDC treats it as data: a truth-total reflection refusal, finite obstruction packets, and measurable coordinates at MetaCIC and rule110 layers."
 ---
 
 ```{=html}
@@ -19,6 +19,57 @@ If you actually walk up to the wall and try to put your hand on it, you find som
 BEDC has built two of those places explicitly. One is the MetaCIC chapter's four subject-reduction hypotheses. One is the rule110 substrate's cook compile-frontier. They are the same boundary at two different layers. At both layers, the boundary's distance from current capability is a small number — a constant factor in production count, four specific hypotheses, a quantity you can measure.
 
 This essay is about treating that boundary as *data* rather than as a metaphor.
+
+## The forbidden shape: a total internal truth certificate
+
+Before asking where the wall is measurable, BEDC asks what it would mean to cross it.
+
+The forbidden object is not a theorem about one sentence. It is a universal internal certificate:
+
+$$
+Ext_T(\ulcorner \varphi \urcorner) \Longleftrightarrow \varphi
+$$
+
+for every sentence $\varphi$ represented inside the system's own structural copy of the calculus.
+
+Read in ordinary language: the system would contain a named internal classifier that says, correctly and totally, which of its own represented sentences are true.
+
+That is exactly the move Tarski blocks. Once the system can represent its own syntax, a diagonal sentence can say:
+
+$$
+\delta \Longleftrightarrow \neg Ext_T(\ulcorner \delta \urcorner).
+$$
+
+If the certificate says $\delta$ is true, $\delta$ says the certificate is wrong. If the certificate refuses $\delta$, truth-totality says the refusal makes $\delta$ true. The certificate collapses.
+
+BEDC's two-loop reading turns this into a clean architectural rule:
+
+```{=html}
+<span class="elim-mark">✗ "The system should certify all of its own truth."</span>
+```
+
+No. The ground loop must close, because the system needs a first distinction in order to start. The meta loop must remain open, because a total internal truth classifier would make self-description inconsistent.
+
+## What BEDC records instead
+
+BEDC does not erase the obstruction. It records it.
+
+There are finite packets for the boundary:
+
+- `TruthTotalReflectionUp` records sentence-code rows, an attempted extension classifier, a diagonal obstruction row, transport, route, provenance, and name.
+- `TarskiTruthRefusalUp` records a sentence code, a truth query, a refusal row, diagonal pressure, ledger, transport, route, provenance, and name.
+- `HaltingObstructionUp` records finite trace rows, self-reference rows, diagonal policy, continuation routes, package provenance, and local naming.
+- `GoedelIncompletenessUp` records an arithmetised provability predicate, a proof-checker decoder, a fixed-point row, and the conditional no-proof / no-refutation ledger.
+
+These packets are not oracles. They are audit surfaces.
+
+```{=html}
+<span class="elim-mark">✗ "If the obstruction has a packet, the system has solved it."</span>
+```
+
+No. A packet is a finite public record of where the obstruction lands. It lets the project say exactly what is visible: sentence code, attempted classifier, diagonal row, finite trace, proof checker, provenance. It also says exactly what is not exported: total truth, total halting, total proof validity, or an internal proof of the system's own global consistency.
+
+That is the key BEDC move. It does not turn Goedel into a slogan. It turns the boundary into ledgered data without pretending the ledger is the forbidden oracle.
 
 ## Layer one: the dependent-codomain obstruction at the meta-theory
 
@@ -71,13 +122,13 @@ The structural identity of the boundary, across these layers, is this:
 
 > At every layer at which a closed observational system claims to host universal reasoning, there is a finite, measurable distance between the system's capacity in principle and its capacity in practice. That distance is one face of the Goedel boundary. The project's role is to expose the face rather than to obscure it.
 
-In MetaCIC, the face is four hypotheses. In rule110, the face is the (P, T, S) gap. In the BEDC kernel itself, the face is the no-induction theorem from [the induction essay](where-induction-comes-from.qmd): the kernel can verify finite witnesses, not universal closures.
+In the reflection chapter, the face is the refusal of a truth-total certificate. In the halting chapter, it is the refusal of a total halt/diverge classifier over arbitrary certificate-history pairs. In MetaCIC, it is four dependent-codomain hypotheses. In rule110, it is the (P, T, S) gap. In the BEDC kernel itself, the face is the no-induction theorem from [the induction essay](where-induction-comes-from.qmd): the kernel can verify finite witnesses, not universal closures.
 
 ## What "as data" buys you
 
 Treating the boundary as data, rather than as a wall, has consequences for how the project moves forward.
 
-**Measurability.** When someone asks "what would it take to close the dependent-codomain case in MetaCIC?", the answer is not vague. It is: *discharge the four hypotheses listed in `SubjectReduction/Hypotheses.lean`.* Any partial progress is measurable as `4 → 3 → 2 → 1 → 0` open hypotheses. Anyone who claims to have closed the case can be checked by reading the file and looking for `theorem` versus `structure` field.
+**Measurability.** When someone asks "what would it take to close the dependent-codomain case in MetaCIC?", the answer is not vague. It is: *discharge the four hypotheses listed in `SubjectReduction/Hypotheses.lean`.* Any partial progress is measurable as $4 \to 3 \to 2 \to 1 \to 0$ open hypotheses. Anyone who claims to have closed the case can be checked by reading the file and looking for `theorem` versus `structure` field.
 
 **Falsifiability.** When someone asks "what would refute the rule110 substrate's universality claim?", the answer is also not vague. It is: *find a halted Turing machine whose Cook compilation can run inside the present substrate, and show that the round-trip fails.* Currently no such TM exists because the minimum compilation lies outside the present scale frontier; if engineering extends the frontier to (64, 64, S) for some S and the round-trip still fails, that would falsify the present claim. If it succeeds, the claim moves from "substrate is universal in principle" to "substrate has been exercised on a universal computation".
 

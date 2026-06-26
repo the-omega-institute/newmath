@@ -1,0 +1,502 @@
+{
+  "status": "ok",
+  "schema_id": "bedc_jepa.compute_value_feature_group_ablation",
+  "device": "cuda",
+  "inputs": {
+    "labels": "C:\\OMEGA\\le-wm-survey\\reports\\g2n_labels_clean.npz",
+    "latents": "C:\\OMEGA\\le-wm-survey\\tworooms_latent_large.npz"
+  },
+  "grid": {
+    "seed": 41,
+    "epochs": 280,
+    "hidden": 256,
+    "batch": 512,
+    "lr": 0.0008
+  },
+  "counts": {
+    "train": 2043,
+    "calibration": 646,
+    "eval": 634,
+    "eval_episodes": 55
+  },
+  "feature_spans": {
+    "latent_window_z_t_minus_4_to_t": [
+      0,
+      960
+    ],
+    "future_action_sequence_t_to_t_plus_9": [
+      960,
+      1060
+    ],
+    "future_action_validity": [
+      1060,
+      1070
+    ],
+    "time_features": [
+      1070,
+      1072
+    ],
+    "lewm_pred_z_rollout": [
+      1072,
+      2992
+    ],
+    "rollout_delta_z": [
+      2992,
+      4912
+    ],
+    "rollout_delta_norm": [
+      4912,
+      4922
+    ],
+    "rollout_spread_norm": [
+      4922,
+      4932
+    ],
+    "past_one_step_gap_proxy_pred_vs_emb": [
+      4932,
+      4942
+    ],
+    "rollout_validity": [
+      4942,
+      4952
+    ]
+  },
+  "row_order": [
+    "full",
+    "base_latent_action",
+    "rollout_trajectory",
+    "rollout_norm_gap",
+    "base_plus_norm_gap",
+    "base_plus_trajectory"
+  ],
+  "selected_row": "base_plus_trajectory",
+  "rows": {
+    "full": {
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 223,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.00610608193320708,
+              "low": -0.009892960388243428,
+              "high": -0.002988033524935135
+            },
+            "chosen_depth_counts": {
+              "1": 51,
+              "2": 268,
+              "3": 100,
+              "4": 84,
+              "5": 143
+            },
+            "score_error_spearman": 0.8858787634209322
+          },
+          "cal_smooth_l1": 0.1451558619737625
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.4703096836805344,
+          "cal_smooth_l1": 0.1492002308368683,
+          "cal_delta_high": 0.010538452876913443,
+          "cal_delta_observed": 0.007046768058135464
+        },
+        "history_last": {
+          "epoch": 280.0,
+          "train": 0.12451470494270325,
+          "cal_smooth_l1": 0.1375460922718048,
+          "cal_delta_high": -0.001532005124515357,
+          "cal_delta_observed": -0.005567434998156567
+        },
+        "params_count": 1303041
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.00610608193320708,
+          "low": -0.009947481836614867,
+          "high": -0.002913085931557511
+        },
+        "chosen_depth_counts": {
+          "1": 51,
+          "2": 268,
+          "3": 100,
+          "4": 84,
+          "5": 143
+        },
+        "score_error_spearman": 0.8858787634209322
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.0047404696678051,
+          "low": -0.0086178423406363,
+          "high": -0.0015444710201113266
+        },
+        "chosen_depth_counts": {
+          "1": 45,
+          "2": 269,
+          "3": 91,
+          "4": 99,
+          "5": 130
+        },
+        "score_error_spearman": 0.8838878294783958
+      }
+    },
+    "base_latent_action": {
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 31,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.004782652440810095,
+              "low": -0.008158690906507707,
+              "high": -0.0017475554462336354
+            },
+            "chosen_depth_counts": {
+              "1": 11,
+              "2": 361,
+              "3": 58,
+              "4": 49,
+              "5": 167
+            },
+            "score_error_spearman": 0.8548207851481245
+          },
+          "cal_smooth_l1": 0.13807184994220734
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.37753398567438123,
+          "cal_smooth_l1": 0.13513894379138947,
+          "cal_delta_high": 0.018840608625716754,
+          "cal_delta_observed": 0.011078765648078998
+        },
+        "history_last": {
+          "epoch": 280.0,
+          "train": 0.11702850945293904,
+          "cal_smooth_l1": 0.10446956753730774,
+          "cal_delta_high": 0.007564466744818381,
+          "cal_delta_observed": -0.0005030788899766797
+        },
+        "params_count": 309761
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.004782652440810095,
+          "low": -0.007735602148170909,
+          "high": -0.00201412084044646
+        },
+        "chosen_depth_counts": {
+          "1": 11,
+          "2": 361,
+          "3": 58,
+          "4": 49,
+          "5": 167
+        },
+        "score_error_spearman": 0.8548207851481245
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.003309107152817889,
+          "low": -0.0035147149414234764,
+          "high": 0.012853415757954779
+        },
+        "chosen_depth_counts": {
+          "1": 20,
+          "2": 336,
+          "3": 50,
+          "4": 80,
+          "5": 148
+        },
+        "score_error_spearman": 0.851787852754066
+      }
+    },
+    "rollout_trajectory": {
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 252,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.005753779685719537,
+              "low": -0.009152350893245864,
+              "high": -0.002740437578446918
+            },
+            "chosen_depth_counts": {
+              "1": 38,
+              "2": 253,
+              "3": 137,
+              "4": 107,
+              "5": 111
+            },
+            "score_error_spearman": 0.8809445108690833
+          },
+          "cal_smooth_l1": 0.13416017591953278
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.46413606554269793,
+          "cal_smooth_l1": 0.14703164994716644,
+          "cal_delta_high": 0.0093768304655425,
+          "cal_delta_observed": 0.005726879941462454
+        },
+        "history_last": {
+          "epoch": 280.0,
+          "train": 0.1251610703766346,
+          "cal_smooth_l1": 0.12819720804691315,
+          "cal_delta_high": -0.0003010921182645917,
+          "cal_delta_observed": -0.0038524634442810707
+        },
+        "params_count": 1020929
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.005753779685719537,
+          "low": -0.009136377760762385,
+          "high": -0.00277922603566603
+        },
+        "chosen_depth_counts": {
+          "1": 38,
+          "2": 253,
+          "3": 137,
+          "4": 107,
+          "5": 111
+        },
+        "score_error_spearman": 0.8809445108690833
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.002587822835614456,
+          "low": -0.007029147969336267,
+          "high": 0.0027169016592477734
+        },
+        "chosen_depth_counts": {
+          "1": 36,
+          "2": 251,
+          "3": 133,
+          "4": 105,
+          "5": 109
+        },
+        "score_error_spearman": 0.8714887020331521
+      }
+    },
+    "rollout_norm_gap": {
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 11,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.0004117160485083565,
+              "low": -0.0029571122291016535,
+              "high": 0.001956001614337665
+            },
+            "chosen_depth_counts": {
+              "1": 14,
+              "2": 236,
+              "3": 240,
+              "4": 48,
+              "5": 108
+            },
+            "score_error_spearman": 0.8435280352724238
+          },
+          "cal_smooth_l1": 0.09683414548635483
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.298163878172636,
+          "cal_smooth_l1": 0.09422792494297028,
+          "cal_delta_high": 0.013485098336035868,
+          "cal_delta_observed": 0.005139217742396923
+        },
+        "history_last": {
+          "epoch": 280.0,
+          "train": 0.12236567586660385,
+          "cal_smooth_l1": 0.15026867389678955,
+          "cal_delta_high": 0.00983501424662865,
+          "cal_delta_observed": 0.006344940179167868
+        },
+        "params_count": 45569
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.0004117160485083565,
+          "low": -0.0028491266701734996,
+          "high": 0.001963180031823386
+        },
+        "chosen_depth_counts": {
+          "1": 14,
+          "2": 236,
+          "3": 240,
+          "4": 48,
+          "5": 108
+        },
+        "score_error_spearman": 0.8435280352724238
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": 0.0007596511839468162,
+          "low": -0.004771603379173925,
+          "high": 0.005575629144221211
+        },
+        "chosen_depth_counts": {
+          "1": 10,
+          "2": 225,
+          "3": 254,
+          "4": 45,
+          "5": 100
+        },
+        "score_error_spearman": 0.8372707726770775
+      }
+    },
+    "base_plus_norm_gap": {
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 91,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.0032750678773616204,
+              "low": -0.006942926383800789,
+              "high": 0.0004996613891813797
+            },
+            "chosen_depth_counts": {
+              "1": 117,
+              "2": 200,
+              "3": 62,
+              "4": 100,
+              "5": 167
+            },
+            "score_error_spearman": 0.8653775516042301
+          },
+          "cal_smooth_l1": 0.12030806392431259
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.37933849841356276,
+          "cal_smooth_l1": 0.13871218264102936,
+          "cal_delta_high": 0.020620045003120882,
+          "cal_delta_observed": 0.012309348380773133
+        },
+        "history_last": {
+          "epoch": 280.0,
+          "train": 0.12014653235673904,
+          "cal_smooth_l1": 0.10417675226926804,
+          "cal_delta_high": 0.0013102760259605087,
+          "cal_delta_observed": -0.003479275627199546
+        },
+        "params_count": 320001
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.0032750678773616204,
+          "low": -0.0067026195186478,
+          "high": 0.00027047531129861644
+        },
+        "chosen_depth_counts": {
+          "1": 117,
+          "2": 200,
+          "3": 62,
+          "4": 100,
+          "5": 167
+        },
+        "score_error_spearman": 0.8653775516042301
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.0008150022998084927,
+          "low": -0.006869794161629919,
+          "high": 0.004823855109924947
+        },
+        "chosen_depth_counts": {
+          "1": 103,
+          "2": 207,
+          "3": 63,
+          "4": 109,
+          "5": 152
+        },
+        "score_error_spearman": 0.8696666757864253
+      }
+    },
+    "base_plus_trajectory": {
+      "health": {
+        "selection_rule": "minimize calibration exact-budget allocation_delta CI high, then observed delta, then smooth L1",
+        "best": {
+          "epoch": 248,
+          "calibration": {
+            "allocation_delta": {
+              "observed": -0.007896309961058154,
+              "low": -0.01161391699883879,
+              "high": -0.004334063503259357
+            },
+            "chosen_depth_counts": {
+              "1": 55,
+              "2": 266,
+              "3": 88,
+              "4": 98,
+              "5": 139
+            },
+            "score_error_spearman": 0.8889867490641937
+          },
+          "cal_smooth_l1": 0.12255048751831055
+        },
+        "history_first": {
+          "epoch": 1.0,
+          "train": 0.458322311937809,
+          "cal_smooth_l1": 0.14850515127182007,
+          "cal_delta_high": 0.011297040266292887,
+          "cal_delta_observed": 0.006742073166130055
+        },
+        "history_last": {
+          "epoch": 280.0,
+          "train": 0.12475029863417149,
+          "cal_smooth_l1": 0.12252350151538849,
+          "cal_delta_high": -0.003497635061917065,
+          "cal_delta_observed": -0.007031574698031645
+        },
+        "params_count": 1295361
+      },
+      "calibration": {
+        "allocation_delta": {
+          "observed": -0.007896309961058154,
+          "low": -0.011716006582047266,
+          "high": -0.004426764602628353
+        },
+        "chosen_depth_counts": {
+          "1": 55,
+          "2": 266,
+          "3": 88,
+          "4": 98,
+          "5": 139
+        },
+        "score_error_spearman": 0.8889867490641937
+      },
+      "eval": {
+        "allocation_delta": {
+          "observed": -0.0026537956930095252,
+          "low": -0.007133423691919893,
+          "high": 0.002312050383515468
+        },
+        "chosen_depth_counts": {
+          "1": 47,
+          "2": 266,
+          "3": 92,
+          "4": 98,
+          "5": 131
+        },
+        "score_error_spearman": 0.886560693991787
+      }
+    }
+  },
+  "leakage_attestation": {
+    "feature_standardizer": "fit on train features only per row",
+    "target_standardizer": "fit on train option_error only",
+    "model_selection": "per-row checkpoint selection uses calibration split exact-budget allocation only; selected_row uses calibration only",
+    "eval_truth_usage": "eval option_error used only after predicted option scores are produced",
+    "slurm_or_ssh": "not used"
+  },
+  "outputs": {
+    "predictions_npz": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_feature_group_ablation_predictions.npz",
+    "json": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_feature_group_ablation.json",
+    "md": "C:\\OMEGA\\newmath\\.worktrees\\bedc-jepa-world-model\\papers\\bedc_jepa\\experiments\\lewm_gap_ledger\\reports\\compute_value_feature_group_ablation.md"
+  },
+  "wall_time_sec": 1245.6487293243408
+}

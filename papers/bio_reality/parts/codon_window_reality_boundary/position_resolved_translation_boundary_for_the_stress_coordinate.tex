@@ -1,0 +1,49 @@
+\subsection{Position-Resolved Translation Boundary for the $f_3$-Stress Coordinate}
+\label{sec:q6-f3-stress-position-resolved-translation-localization-boundary-cross-layer}
+
+\paragraph{Finite-row object.}
+This record concerns finite coding-sequence rows in which a $B^*_{Q6}$ residual coordinate is observed together with same-row translation and localization readouts, when those readouts exist.  The coordinate of interest is the $f_3$-stress residual coordinate, compared against the other $B^*_{Q6}$ residual coordinates.  A row is admissible only after it carries a coding-sequence identifier, an organism label, codon-position information or a fixed local window, amino-acid composition, GC3, length, $M$-density, a matched mRNA abundance control, and a protein-localization label or score if such a protein-level row has been joined.  The intended row has the form
+$$
+\begin{aligned}
+ r = (&q_i,\ T_j,\ A,\ L,\ O,\ C_{aa},\ G_{C3},\ \ell,\ M,\ \nu),
+\end{aligned}
+$$
+where $q_i$ is a $B^*_{Q6}$ residual coordinate, $T_j$ is a position-resolved ribosome-occupancy or translation-efficiency statistic, $A$ is the matched transcript abundance control, $L$ is a protein-localization label or score, $O$ is the organism, $C_{aa}$ is the amino-acid-composition covariate, $G_{C3}$ is GC3, $\ell$ is CDS length, $M$ is the row-level $M$-density covariate, and $\nu$ records whether the row has enough joined evidence to test the translation step.  The null value of $\nu$ is assigned before any localization interpretation whenever the same row lacks a nondegenerate $q_i \to T_j$ test.
+
+\paragraph{Boundary conjecture.}
+The chapter-specific conjecture is that $f_3$-stress can be considered as a candidate coordinate for downstream protein-localization readback only through a prior translation-layer test on the same finite rows.  The first statistical question is not whether $q_i$ is associated with localization, but whether $q_i$ survives as a predictor of $T_j$ under amino-acid composition, organism, GC3, length, $M$-density, mRNA abundance, coverage, mappability, rank, and simpler-baseline controls.  Only after that survival test is nonempty may one ask whether a localization association is mediated by, bounded by, or independent of $T_j$.
+
+\paragraph{Local test sequence.}
+The finite-row analysis therefore has the ordered shape
+$$
+\begin{aligned}
+ q_i &\longrightarrow T_j,\\
+ (q_i,T_j) &\longrightarrow L,\\
+ q_i &\longrightarrow L \mid T_j.
+\end{aligned}
+$$
+The first arrow is a position-resolved translation readout, typically a codon-indexed or local-window ribosome-footprint occupancy statistic, optionally converted into a translation-efficiency residual by division or regression against matched mRNA abundance.  The second arrow is the localization readout after the translation statistic is present.  The third expression is the decisive boundary check: if the direct $q_i \to L$ term disappears after conditioning on $T_j$, the localization signal is translation-bounded; if it persists, the row requires a separate protein-level explanation; if the first arrow is null, the localization row remains only a protein-level contact and does not lift $B^*_{Q6}$ beyond the translation boundary.
+
+\paragraph{Concrete finite evidence already attached.}
+The currently attached finite fact for the related mRNA-localization contact is the run keyed by experiment id \texttt{73df479aecb9}.  That run reports $n=16040$ protein-coding rows used for statistical tests, with $27610$ total JSON rows retained in the source object.  The recorded runtime is $207.35$ seconds.  Its analysis filter is explicit: protein-coding genes are used for statistical tests, while noncoding genes are retained only as positive controls.  The signal-peptide covariate is joined from reviewed UniProt feature-table signal annotations through \texttt{xref\_ensembl}, with missing reviewed joins coded as $0$.  These numbers do not by themselves establish a translation-layer result for $f_3$-stress; they supply a finite matched-row precedent for identifier joining, protein-coding filtering, and signal-peptide control handling in the localization side of the problem.
+
+\paragraph{Translation contact.}
+The ribosome-occupancy contact is a codon-indexed or fixed-window footprint table joined to ordered CDS coordinates in the same organism.  Its admissible resolution is a same-CDS row keyed by organism, transcript or CDS identifier, codon position, and ribosome-profiling sample before any $B^*_{Q6}$ statistic is computed.  The contact can test whether position-resolved occupancy survives after codon counts, a bounded wobble-weight surface, matched mRNA abundance, rank checks, and position or amino-acid-bin controls have been attached.  It cannot, by itself, assert translation realization from codon geometry, protein abundance, folding, structural order, physical admissibility, function, phenotype, a translation process model, or a universal biological rule.
+
+\paragraph{mRNA control.}
+The matched mRNA abundance control separates transcription-layer signal from translation-layer signal.  On each joined row, transcript abundance is used either as a denominator for translation efficiency or as a covariate in a residual model.  A schematic residual form is
+$$
+\begin{aligned}
+ T_j^{\mathrm{res}} = T_j - \widehat{T}_j(A,O,C_{aa},G_{C3},\ell,M,\text{coverage},\text{mappability}).
+\end{aligned}
+$$
+The coordinate $q_i$ is allowed to pass the translation boundary only if its association with this residualized translation readout is nondegenerate.  Modeled tAI or stAI values, wobble weights, or codon-window geometry are not measured translation efficiency unless they are joined to the same external footprint and mRNA rows.
+
+\paragraph{Localization contact.}
+The localization contact may consist of a protein-level compartment label, score, enrichment, fractionation readout, imaging measurement, or proximity-labeling measurement keyed through UniProt, RefSeq protein, locus, or CDS-derived protein identifiers.  Its role is deliberately downstream.  It can test whether a translation-conditioned localization signal exists after organism and protein/CDS matching, but it cannot supply the missing translation readout.  In particular, localization rows alone do not establish translation, folding, structural order, physical admissibility, function, protein trafficking, compartment-identity process, phenotype, or any global law.
+
+\paragraph{Null rule.}
+The conjecture has null boundary status when no nondegenerate $q_i \to T_j$ survival is obtained under the declared controls.  In that case, any observed $q_i \to L$ association is not interpreted as a $B^*_{Q6}$ localization result.  It is retained only as an uninterpreted protein-level association pending a separate same-row translation contact.  The same null rule applies if the row uses modeled wobble or codon-window quantities without a measured position-resolved ribosome-occupancy statistic, or if $f_3$ symmetry is not broken by the attached wobble or tRNA context.
+
+\paragraph{Claim boundary.}
+This chapter therefore asserts only a bounded cross-layer testing order for $f_3$-stress.  It does not claim protein localization, targeting, compartment function, folding, physical admissibility, translation mechanism, phenotype, or universality from the coordinate itself.  Such claims require separate finite contacts that measure the corresponding layer and survive their own controls.  The present record fixes the row structure and the order of interpretation: translation first, localization second, and localization mechanism nowhere inferred from $B^*_{Q6}$ geometry alone.

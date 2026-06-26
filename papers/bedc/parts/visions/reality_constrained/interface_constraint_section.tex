@@ -1,0 +1,693 @@
+\section{Interface--constraint--section packets}
+\label{sec:interface-constraint-section-packets}
+\origin{ai}
+
+\begin{remark}[Paper-side status]
+\label{rem:interface-constraint-section-paper-side-status}
+This section gives a paper-side interface discipline for
+reality-constrained inquiry and has no Lean target in this chapter: a
+source is not consumed as a bare object, an observation interface
+compresses it to records, constraints decide which records remain jointly
+admissible, sections supply licensed fiber-level meaning, and the public
+surface is the ledger that makes these passages auditable. The packet is
+a derived vision interface over $\Hist$, $\hsame$, $\Cont$,
+$\mathsf{Sig}$, $\mathsf{Pkg}$, $\mathsf{Gap}$, and $\NameCert$; it is
+not a primitive of the BEDC finite kernel and not an object-level theory
+of consciousness, probability, or quantum mechanics.
+\end{remark}
+
+\begin{definition}[Interface--constraint--section packet]
+\label{def:interface-constraint-section-packet}
+An \emph{interface--constraint--section packet} is a finite records-side
+packet
+$$
+\mathcal I=(X,\sim_X,\Lambda_X,Y,\sim_Y,O,C,Q,\pi,\sigma,K,\Lambda,A)
+$$
+with the following rows:
+\begin{enumerate}
+\item $X$ is a displayed source carrier with classifier $\sim_X$ and
+source ledger $\Lambda_X$;
+\item $O:X\to Y$ is an observation interface into a displayed record
+carrier with classifier $\sim_Y$;
+\item $C$ is a constraint row on $X$, or on a displayed relation over
+$X$, whose purpose is to decide which source witnesses are jointly
+admissible for the active observation bundle;
+\item $Q$ is a quotient, package, or compressed visible surface reached
+from $X$ by a displayed projection $\pi:X\to Q$;
+\item $\sigma:Q\to X$ is an optional section row, admitted only when its
+authorization, action-response, witness, boundary, and stability ledgers
+are displayed;
+\item $K$ is an outcome kernel or weight row attached to an interface,
+used only as a bridge row when the source discipline supplies such
+weights;
+\item $\Lambda$ is the public ledger recording observation, outcome,
+constraint, section, gap, and provenance rows;
+\item $A$ is the audit row refusing bare source access, unledgered
+compression, quotient equality as meaning, hidden section choice,
+outcome selection by a subject, and object-level resolution of
+indistinguishable bridge interpretations.
+\end{enumerate}
+\end{definition}
+
+\begin{principle}[Layer discipline]
+\label{prin:interface-constraint-section-layer-discipline}
+The packet separates four layers. The source layer records what may
+generate observations. The interface layer records what is available to
+a finite observer. The section layer records fiber-level meaning only
+when a section is licensed by displayed authorization and witness data.
+The ledger layer records which parts of the preceding passage are public,
+transportable, and open to defeat. Collapsing these layers erases the
+certificate fields required by reality-constrained meaning in
+\autoref{def:reality-constrained-meaning}.
+\end{principle}
+
+\begin{definition}[Readout layer]
+\label{def:interface-readout-layer}
+For a displayed source carrier $X$, a \emph{readout layer} is a packet
+$$
+\mathcal L=(R,\sim_R,P,\Lambda_R,\mathsf{NameCert}_{\mathcal L})
+$$
+where $R$ is a displayed record carrier, $\sim_R$ is its classifier,
+$P:X\to R$ is a readout row, $\Lambda_R$ records provenance and gap
+data, and $\mathsf{NameCert}_{\mathcal L}$ names the carrier-classifier
+surface. The discrete case is the special case in which $\sim_R$ is the
+equality classifier at the displayed resolution.
+\end{definition}
+
+\begin{definition}[Layer fiber family]
+\label{def:interface-layer-fiber-family}
+For a readout layer $\mathcal L$ and a record $r:R$, the fiber over $r$
+is
+$$
+\operatorname{Fib}_{\mathcal L}(r)
+:=
+\{x\in X\mid P(x)\sim_R r\}.
+$$
+The layer-infinite residue of $\mathcal L$ is the fiber family
+$$
+\infty_{\mathcal L}:R\to\mathsf{Type},
+\qquad
+\infty_{\mathcal L}(r):=\operatorname{Fib}_{\mathcal L}(r).
+$$
+Thus the residue is not a further point of $R$; it is the family of
+source witnesses still hidden behind each displayed record row.
+\end{definition}
+
+\begin{definition}[Total fiber surface]
+\label{def:interface-total-fiber-surface}
+The total fiber surface of a readout layer is
+$$
+\operatorname{Tot}(\infty_{\mathcal L})
+:=
+\sum_{r:R}\operatorname{Fib}_{\mathcal L}(r).
+$$
+When $\sim_R$ has a displayed reflexivity row, the readout $P$ induces
+a source-to-total map
+$$
+\Phi_{\mathcal L}:X\to\operatorname{Tot}(\infty_{\mathcal L}),
+\qquad
+\Phi_{\mathcal L}(x):=(P(x),(x,\operatorname{refl}_{P(x)})).
+$$
+There is also the source projection
+$$
+\Psi_{\mathcal L}:\operatorname{Tot}(\infty_{\mathcal L})\to X,
+\qquad
+\Psi_{\mathcal L}(r,x,\epsilon):=x.
+$$
+\end{definition}
+
+\begin{theorem}[Displayed source readback]
+\label{thm:interface-displayed-source-readback}
+For every readout layer with displayed reflexivity for $\sim_R$,
+$$
+\Psi_{\mathcal L}\circ\Phi_{\mathcal L}=\mathrm{id}_X.
+$$
+Consequently the total fiber surface remembers every displayed source
+row, even when the public record carrier $R$ forgets source distinctions.
+\end{theorem}
+
+\begin{proof}
+For a source row $x:X$, the map $\Phi_{\mathcal L}$ sends $x$ to
+$(P(x),(x,\operatorname{refl}_{P(x)}))$. Applying $\Psi_{\mathcal L}$
+forgets the displayed record and the classifier witness, leaving $x$.
+This proves the stated identity.
+\end{proof}
+
+\begin{definition}[Readout refinement]
+\label{def:interface-readout-refinement}
+Let
+$$
+\mathcal L=(R,\sim_R,P,\Lambda_R,\mathsf{NameCert}_{\mathcal L})
+$$
+and
+$$
+\mathcal M=(S,\sim_S,Q,\Lambda_S,\mathsf{NameCert}_{\mathcal M})
+$$
+be readout layers over the same source carrier $X$. The layer
+$\mathcal M$ refines $\mathcal L$ when there is a displayed readback map
+$$
+\rho:S\to R
+$$
+such that every source row satisfies
+$$
+\rho(Q(x))\sim_R P(x).
+$$
+\end{definition}
+
+\begin{theorem}[Refinement partitions the previous fiber]
+\label{thm:interface-refinement-partitions-previous-fiber}
+If $\mathcal M$ refines $\mathcal L$, then every element of
+$\operatorname{Fib}_{\mathcal L}(r)$ determines an element of
+$$
+\sum_{s:S}
+\bigl(\rho(s)\sim_R r\bigr)\times
+\operatorname{Fib}_{\mathcal M}(s).
+$$
+In the discrete case, when both classifiers are equality classifiers and
+$P=\rho\circ Q$, this construction is an equivalence.
+\end{theorem}
+
+\begin{proof}
+Given $(x,\epsilon)\in\operatorname{Fib}_{\mathcal L}(r)$, put
+$s:=Q(x)$. The refinement row gives $\rho(Q(x))\sim_R P(x)$, while
+$\epsilon$ gives $P(x)\sim_R r$. Transitivity of the displayed
+classifier gives $\rho(s)\sim_R r$, and reflexivity gives
+$(x,\operatorname{refl}_{Q(x)})\in\operatorname{Fib}_{\mathcal M}(s)$.
+This is the announced map. In the discrete case the reverse map sends
+$(s,q,(x,h))$ to $(x,P(x)=r)$ using
+$$
+P(x)=\rho(Q(x))=\rho(s)=r.
+$$
+The two composites are the identity by equality elimination.
+\end{proof}
+
+\begin{principle}[Layer residue is fiber data]
+\label{prin:interface-layer-residue-fiber-data}
+An interface record closes only the displayed classifier value. The
+residual content of the layer is the fiber family behind that value, and
+a finer layer can expose that residue only by displaying the readback map,
+the classifier transport, and the accompanying ledger rows. This is the
+formal reason that quotient equality is not yet section-level meaning.
+\end{principle}
+
+\begin{definition}[Interface fiber and compressed reality]
+\label{def:interface-fiber-compressed-reality}
+For a packet $\mathcal I$ with interface $O:X\to Y$, the interface fiber
+of a source row $x$ is
+$$
+[x]_O:=\{x'\in X\mid O(x')\sim_Y O(x)\}.
+$$
+The compressed records-side reality exposed by $O$ is the pair
+$$
+\mathsf{Real}_O(\Lambda):=(O(X),\Lambda_O),
+$$
+where $\Lambda_O$ is the ledger of displayed observation rows, interface
+provenance, and gap reports. This is not the bare source $X$.
+\end{definition}
+
+\begin{definition}[Constraint compatibility]
+\label{def:interface-constraint-compatibility}
+Let $A:X\to A_0$ and $B:X\to B_0$ be two displayed readout rows and let
+$C$ be a constraint row. The records $a$ and $b$ are compatible under
+$C$, written $a\mathrel{\mathsf{compat}_C}b$, when there is a source
+witness $x$ such that
+$$
+\begin{gathered}
+C(x),\\
+A(x)\sim a,\\
+B(x)\sim b.
+\end{gathered}
+$$
+The readout $A$ determines $B$ under $C$ on the active surface when, for
+each displayed $a$, the set of compatible $B$-readouts has at most one
+classifier value.
+\end{definition}
+
+\begin{theorem}[Constraint projection]
+\label{thm:interface-constraint-projection}
+If the current packet records $C(x)$ and $A(x)\sim a$, then every
+admissible $B$-readout lies in
+$$
+B\bigl(\{u\in X\mid C(u)\ \mathrm{and}\ A(u)\sim a\}\bigr).
+$$
+If this displayed image has one classifier value $b$, then $A=a$
+determines $B=b$ under $C$ on the active surface.
+\end{theorem}
+
+\begin{proof}
+The premise $C(x)$ restricts admissible source witnesses to the
+constraint row. The premise $A(x)\sim a$ further restricts them to the
+fiber of the active $A$-readout. Reading $B$ from the remaining witnesses
+gives exactly the displayed image. If that image has one classifier value,
+every compatible source witness has the same $B$-readout, so the
+determination claim follows.
+\end{proof}
+
+\begin{definition}[Self-similar readout diagram]
+\label{def:self-similar-readout-diagram}
+A self-similar readout diagram over an interface--constraint packet is a
+displayed index family $I$ whose $i$th row is a packet
+$$
+\mathcal S_i=(R_i,\sim_i,P_i,C_i,\alpha_i,\Lambda_i,\mathsf{Cert}_i,A_i).
+$$
+Here $R_i$ is the visible record carrier, $\sim_i$ is its classifier,
+$P_i:X\to R_i$ is its source readout, $C_i$ is its admissibility row,
+$\alpha_i:R_i\to R_i$ is its self-similar continuation operation,
+$\Lambda_i$ is the provenance and gap ledger, $\mathsf{Cert}_i$ is the
+name, stability, transport, and replay certificate surface, and $A_i$ is
+the audit row. For each displayed edge $j\to i$ the diagram contains a
+projection row
+$$
+\rho_{ji}:R_j\to R_i
+$$
+such that source readout and continuation are compatible:
+$$
+\begin{gathered}
+\rho_{ji}(P_j(x))\sim_i P_i(x),\\
+\rho_{ji}(\alpha_j(r))\sim_i \alpha_i(\rho_{ji}(r)).
+\end{gathered}
+$$
+The family $I$ is part of the displayed packet; it is not an untyped
+quantification over all possible self-similar systems.
+\end{definition}
+
+\begin{definition}[Compatibility-limit carrier]
+\label{def:compatibility-limit-carrier}
+For a self-similar readout diagram $\mathcal D$, the compatibility-limit
+carrier is
+$$
+T_{\mathcal D}
+:=
+\left\{(r_i)_{i\in I}\in\prod_{i\in I}R_i:
+\begin{gathered}
+C_i(r_i)\text{ for every displayed }i,\\
+\rho_{ji}(r_j)\sim_i r_i\text{ for every displayed edge }j\to i
+\end{gathered}
+\right\}.
+$$
+Its public packet includes the coordinate projections
+$\pi_i:T_{\mathcal D}\to R_i$, the induced ledger
+$\Lambda_{\mathcal D}$, and the audit row $A_{\mathcal D}$ recording all
+readout, projection, classifier, constraint, certificate, and gap
+compatibilities. Thus $T_{\mathcal D}$ is a ledgered packet carrier, not a
+bare product set.
+\end{definition}
+
+\begin{definition}[Compatibility-limit operation]
+\label{def:compatibility-limit-operation}
+Assume the displayed self-similar operations preserve the
+compatibility-limit carrier: whenever $(r_i)_{i\in I}\in T_{\mathcal D}$,
+the family $(\alpha_i(r_i))_{i\in I}$ again lies in $T_{\mathcal D}$. The
+compatibility-limit operation is the packet operation
+$$
+\Omega_{\mathcal D}:T_{\mathcal D}\to T_{\mathcal D},
+\qquad
+\Omega_{\mathcal D}((r_i)_i):=(\alpha_i(r_i))_i.
+$$
+It is the common operation only at the level of the full packet carrying
+readout, classifier, constraint, ledger, certificate, and audit rows.
+\end{definition}
+
+\begin{theorem}[Self-similar operations are coordinate projections]
+\label{thm:self-similar-operations-coordinate-projections}
+For every displayed $i\in I$,
+$$
+\pi_i\circ\Omega_{\mathcal D}
+\sim_i
+\alpha_i\circ\pi_i.
+$$
+\end{theorem}
+
+\begin{proof}
+Let $r=(r_j)_{j\in I}\in T_{\mathcal D}$. By definition of
+$\Omega_{\mathcal D}$,
+$$
+\Omega_{\mathcal D}(r)=(\alpha_j(r_j))_{j\in I}.
+$$
+Applying the $i$th coordinate projection gives
+$$
+\pi_i(\Omega_{\mathcal D}(r))=\alpha_i(r_i).
+$$
+Since $\pi_i(r)=r_i$, the right-hand side is also
+$$
+(\alpha_i\circ\pi_i)(r).
+$$
+The two readouts therefore agree at classifier resolution $\sim_i$.
+\end{proof}
+
+\begin{corollary}[Binary observation as projected operation]
+\label{cor:binary-observation-projected-operation}
+Suppose the diagram contains a binary observation row
+$R_B=\{B_0,B_1\}$ with projection $\pi_B:T_{\mathcal D}\to R_B$. If
+$b_0\in T_{\mathcal D}$ satisfies $\pi_B(b_0)=B_0$ and
+$$
+\pi_B(\Omega_{\mathcal D}(b_0))=B_1,
+$$
+then $B_1$ is the binary-layer readout of the full packet operation at
+$b_0$. The informal notation $B_1=\Omega_{\mathcal D}(B_0)$ abbreviates
+this projected statement; the typed packet statement applies
+$\Omega_{\mathcal D}$ to $b_0$ and reads the result through $\pi_B$.
+\end{corollary}
+
+\begin{proof}
+The operation $\Omega_{\mathcal D}$ has domain $T_{\mathcal D}$, while
+$B_0$ and $B_1$ are records in the binary observation carrier. Therefore
+the operation cannot be applied to $B_0$ as a bare record. The displayed
+source point is $b_0$, and the binary observation after one packet
+operation is exactly $\pi_B(\Omega_{\mathcal D}(b_0))$. The assumed
+equality identifies that readout with $B_1$.
+\end{proof}
+
+\begin{principle}[Packet-level reading of common self-similarity]
+\label{prin:packet-level-common-self-similarity}
+Prime-coordinate generation, Zeckendorf carry normalization, window
+constraint continuation, analytic readout, and recovered-zeta carrier
+formation may be compared as projections of one compatibility-limit
+operation only after their carrier, classifier, projection, constraint,
+ledger, certificate, and audit rows are all displayed. Without those rows,
+the comparison is merely an analogy between operations and not a
+reality-constrained packet claim.
+\end{principle}
+
+\begin{definition}[Constraint geometry surface]
+\label{def:interface-constraint-geometry-surface}
+Let
+$$
+\mathcal L=(R,\sim_R,P,\Lambda_R,\mathsf{NameCert}_{\mathcal L})
+$$
+be a readout layer over $X$, and let $C:R\to\mathsf{Prop}$ be a displayed
+constraint row on the record carrier. The visible constraint geometry is
+$$
+|\mathcal L,C|_{\mathrm{vis}}
+:=
+\sum_{r:R}C(r).
+$$
+The source constraint geometry is
+$$
+|\mathcal L,C|_{\mathrm{src}}
+:=
+\sum_{x:X}C(P(x)).
+$$
+The first surface records which visible rows satisfy the constraint. The
+second surface records which source witnesses are accepted by the
+constraint after readout. The two surfaces are not interchangeable unless
+the fiber and classifier ledgers identify the relevant source witnesses
+at the displayed resolution.
+\end{definition}
+
+\begin{theorem}[Constraints generate auditable geometry]
+\label{thm:interface-constraints-generate-auditable-geometry}
+For a readout layer $\mathcal L$ and displayed constraint row $C$, every
+element of $|\mathcal L,C|_{\mathrm{src}}$ carries both a source witness
+and a constraint witness. Consequently the geometry generated by $C$ is
+auditable precisely through the readout, classifier, fiber, and ledger
+rows of $\mathcal L$.
+\end{theorem}
+
+\begin{proof}
+An element of $|\mathcal L,C|_{\mathrm{src}}$ is a pair $(x,\gamma)$ with
+$x:X$ and $\gamma:C(P(x))$. The first component is the source witness.
+The second component records that the visible readout of that source row
+lies on the constraint surface. The readout row $P$, the classifier
+$\sim_R$, the fiber family of \autoref{def:interface-layer-fiber-family},
+and the ledger $\Lambda_R$ therefore determine the public audit route for
+the displayed geometric claim.
+\end{proof}
+
+\begin{principle}[Geometry as constraint--fiber--section structure]
+\label{prin:interface-geometry-constraint-fiber-section}
+Within this packet, geometry is not a primitive point-set carrier. A
+point is a source witness accepted by a displayed constraint; a curve or
+surface is a stable family of such witnesses under one or more readout
+rows; a boundary is a classifier or constraint-change row; and an
+unresolved infinitary direction is the fiber family left behind a visible
+record. Section-level geometric meaning is licensed only when the
+corresponding section binding certificate is displayed.
+\end{principle}
+
+\begin{remark}[Recovered-carrier geometry]
+\label{rem:interface-recovered-carrier-geometry}
+The same reading applies to recovered analytic carriers. A zero ledger,
+a fixed-half row, a prime-channel unit row, or a Laplace-bias refusal is
+geometric only after it is displayed as a constraint on a named readout
+carrier together with its provenance, fiber, transport, and gap rows. The
+geometric image does not discharge the analytic incompatibility required
+to exclude a non-fixed zero; it only states the audited surface on which
+that obligation lives.
+\end{remark}
+
+\begin{definition}[Invariant observation descent]
+\label{def:interface-invariant-observation-descent}
+Suppose a displayed action of a symmetry carrier $G$ on $X$ is available.
+An observation interface $O:X\to Y$ is invariant under the action when
+$$
+O(g\cdot x)\sim_Y O(x)
+$$
+for every displayed action row $g\cdot x$. The orbit projection is written
+$$
+\pi:X\to Q.
+$$
+\end{definition}
+
+\begin{theorem}[Invariant observation descends to the compressed surface]
+\label{thm:interface-invariant-observation-descends}
+If $O$ is invariant under the displayed $G$-action, then the observation
+read factors through the compressed surface: there is a unique displayed
+readout $\bar O:Q\to Y$ with
+$$
+O=\bar O\circ\pi.
+$$
+\end{theorem}
+
+\begin{proof}
+Define $\bar O(\pi(x)):=O(x)$. If $\pi(x)=\pi(y)$, then $y$ is related to
+$x$ by a displayed action row. Invariance gives $O(y)\sim_Y O(x)$, so the
+definition is independent of the representative at the displayed
+classifier resolution. Since every row of $Q$ is represented by some
+$x$, the readout is unique at that resolution.
+\end{proof}
+
+\begin{definition}[Anti-invariant label]
+\label{def:interface-anti-invariant-label}
+Let $L:X\to\{0,1\}$ be a label row and let $\tau$ be a displayed
+involution in the symmetry carrier. The label is anti-invariant along
+$\tau$ when
+$$
+L(\tau\cdot x)=1-L(x)
+$$
+for every displayed source row $x$.
+\end{definition}
+
+\begin{theorem}[Anti-invariant labels do not descend]
+\label{thm:interface-anti-invariant-label-no-descent}
+If $L$ is anti-invariant along a displayed involution $\tau$, then there
+is no quotient-level label $\bar L:Q\to\{0,1\}$ satisfying
+$$
+L=\bar L\circ\pi
+$$
+on the displayed action surface.
+\end{theorem}
+
+\begin{proof}
+Assume such a $\bar L$ exists. Since $\tau$ is an action row,
+$\pi(\tau\cdot x)=\pi(x)$. Hence
+$$
+L(\tau\cdot x)=\bar L(\pi(\tau\cdot x))
+=\bar L(\pi(x))=L(x).
+$$
+Anti-invariance gives $L(\tau\cdot x)=1-L(x)$. The two equations
+contradict the binary label classifier. Therefore no such quotient-level
+label exists.
+\end{proof}
+
+\begin{definition}[Section binding certificate]
+\label{def:section-binding-certificate}
+A \emph{section binding certificate} for $\pi:X\to Q$ and
+$\sigma:Q\to X$ is a finite certificate row
+$$
+\mathsf{SectionBindingCert}(Q,X,\pi,\sigma)
+$$
+with source, authorization, action-response, witness, boundary,
+stability, and forbidden-claim ledgers, and with
+$$
+\pi\circ\sigma=\mathrm{id}_Q.
+$$
+It records that $\sigma$ is not canonical output of the compressed
+surface $Q$ alone; it is supplied by licensed action, authorization,
+binding, or certificate data.
+\end{definition}
+
+\begin{definition}[Section-relative meaning]
+\label{def:section-relative-meaning}
+Given a label row $L:X\to\{0,1\}$ and a section binding certificate for
+$\sigma$, the section-relative meaning readout is
+$$
+L_\sigma:Q\to\{0,1\},
+\qquad
+L_\sigma(q):=L(\sigma(q)).
+$$
+\end{definition}
+
+\begin{theorem}[Sections license fiber-level meaning]
+\label{thm:sections-license-fiber-level-meaning}
+If $\mathsf{SectionBindingCert}(Q,X,\pi,\sigma)$ is displayed and $L$ is
+a licensed label row on $X$, then $L_\sigma=L\circ\sigma$ is a licensed
+readout on $Q$.
+\end{theorem}
+
+\begin{proof}
+The certificate makes $\sigma$ an admitted map from the compressed surface
+back to a source representative. The label certificate makes $L$ an
+admitted map on the source side. Their composite is therefore an admitted
+readout, and its source, authorization, witness, boundary, stability, and
+gap ledgers are obtained by composing the two certificate rows.
+\end{proof}
+
+\begin{definition}[Matched-twin observation protocol]
+\label{def:matched-twin-observation-protocol}
+A matched-twin observation protocol consists of displayed pairs
+$(x_j^0,x_j^1)$ such that
+$$
+\begin{gathered}
+x_j^1=\tau\cdot x_j^0,\\
+O(x_j^0)\sim_Y O(x_j^1),\\
+L(x_j^1)=1-L(x_j^0).
+\end{gathered}
+$$
+A decision rule is quotient-measurable when it factors through the
+compressed observation surface and therefore reads the same value on
+$O(x_j^0)$ and $O(x_j^1)$.
+\end{definition}
+
+\begin{theorem}[Matched-twin null]
+\label{thm:matched-twin-null}
+In a balanced matched-twin observation protocol, every quotient-measurable
+binary decision rule has accuracy $1/2$.
+\end{theorem}
+
+\begin{proof}
+For each displayed pair, quotient-measurability gives the same decision
+on $x_j^0$ and $x_j^1$, because their observation rows have the same
+compressed value. The labels are opposite. Hence the decision is correct
+on exactly one member of the pair. Balanced exposure of the two members
+therefore gives pairwise accuracy $1/2$, and averaging over displayed
+pairs preserves that value.
+\end{proof}
+
+\begin{corollary}[Above-null performance requires an exposed extra row]
+\label{cor:above-null-performance-extra-row}
+If a classifier exceeds the matched-twin null boundary, then the packet
+must expose at least one of the following: leakage outside the compressed
+surface, licensed section access, or a failure of the announced protocol.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:matched-twin-null} proves the null boundary for all
+quotient-measurable decision rules. Exceeding the boundary therefore
+means that the decision rule is not purely quotient-measurable on the
+announced protocol, or that the protocol itself did not satisfy the
+matched-twin rows.
+\end{proof}
+
+\begin{definition}[Probe selection and outcome row]
+\label{def:probe-selection-outcome-row}
+For a focused history $h_t$, a probe policy assigns an admissible
+interface family to each action row:
+$$
+\Pi(h_t,a_t)=I_{t+1}.
+$$
+The outcome is then generated by an outcome kernel or weight row
+$$
+K_{I_{t+1}}(x,dr),
+$$
+and the focused record advances by
+$$
+h_{t+1}=\Cont(h_t,r_t).
+$$
+\end{definition}
+
+\begin{theorem}[Action selects an interface, not an outcome]
+\label{thm:action-selects-interface-not-outcome}
+If an action row enters only through $\Pi(h_t,a_t)=I_{t+1}$ and outcomes
+are generated by $K_{I_{t+1}}(x,dr)$, then the action selects the next
+probe interface and does not by itself determine the outcome unless the
+kernel is degenerate on the displayed source row.
+\end{theorem}
+
+\begin{proof}
+The action variable appears in the policy row selecting $I_{t+1}$. The
+outcome variable appears in the kernel row attached to the selected
+interface and source witness. Unless that kernel has a single displayed
+outcome, the selected interface leaves multiple admissible outcome rows.
+Therefore the action does not directly specify the resulting record.
+\end{proof}
+
+\begin{principle}[Bridge boundary for probability and collapse language]
+\label{prin:probability-collapse-bridge-boundary}
+Probability rows in this packet are normalized interface weights, not
+bare randomness and not conserved physical charge. A quantum-facing bridge
+may read a Hilbert-state projection family as an outcome-weight interface,
+but the BEDC core row remains the ledger update
+$$
+h_{t+1}=\Cont(h_t,r_t).
+$$
+Any stronger claim about physical collapse, preferred basis selection,
+or consciousness as an outcome chooser is a bridge or gap claim, not an
+object-layer theorem of the packet.
+\end{principle}
+
+\begin{theorem}[Layered reality decomposition]
+\label{thm:layered-reality-decomposition}
+If $O:X\to Y$ is not injective at the displayed classifier resolution,
+then the source layer and interface layer are not equivalent as public
+records. If an anti-invariant label does not descend to $Q$, then the
+compressed layer does not determine section-relative meaning. If no
+ledger is displayed, then section-relative meaning is not a public
+auditable reality-constrained claim.
+\end{theorem}
+
+\begin{proof}
+Non-injectivity gives source rows $x,x'$ with different source
+classifiers but the same interface readout; the interface record therefore
+erases a source distinction. Anti-invariant no-descent is
+\autoref{thm:interface-anti-invariant-label-no-descent}; it says that
+the compressed surface cannot determine the label. Finally, without a
+ledger, the source, authorization, stability, and boundary data for a
+section readout are not auditable, so the readout cannot become a public
+reality-constrained claim in the sense of
+\autoref{def:reality-constrained-meaning}.
+\end{proof}
+
+\begin{theorem}[Interface--constraint--section synthesis]
+\label{thm:interface-constraint-section-synthesis}
+For an interface--constraint--section packet, invariant observations
+descend to compressed surfaces, anti-invariant labels do not descend,
+licensed sections recover fiber-level meaning, constraint rows restrict
+admissible readouts, focused time is append-only $\Cont$ growth, and
+actions select probe interfaces rather than outcomes.
+\end{theorem}
+
+\begin{proof}
+Invariant descent is \autoref{thm:interface-invariant-observation-descends}.
+No-descent for anti-invariant labels is
+\autoref{thm:interface-anti-invariant-label-no-descent}. Section-relative
+meaning is licensed by \autoref{thm:sections-license-fiber-level-meaning}.
+Constraint restriction is \autoref{thm:interface-constraint-projection}.
+Focused time is the update row $h_{t+1}=\Cont(h_t,r_t)$ in
+\autoref{def:probe-selection-outcome-row}. The interface role of action is
+\autoref{thm:action-selects-interface-not-outcome}. These clauses exhaust
+the packet-level synthesis and add no kernel primitive.
+\end{proof}
+
+\begin{remark}[Forbidden readings]
+\label{rem:interface-constraint-section-forbidden-readings}
+The packet forbids six readings: source reality is not identical with the
+compressed interface surface; quotient-level observation is not already
+meaning; a section is not hidden choice without a certificate; a subject
+does not choose outcomes by fiat; normalized interface weight is not the
+same physical quantity as conserved charge; and indistinguishable
+metaphysical bridge explanations cannot be promoted to object-layer
+theorems.
+\end{remark}
+
+\concretizedIn{ch:concrete-instances-reality-constrained-selector-boundary-namecert}{Reality-constrained selector boundaries realize the interface--constraint--section refusal that selector rows must expose source records, classifier fit, physical constraint, failure surface, and gap ledger before a section read is public.}

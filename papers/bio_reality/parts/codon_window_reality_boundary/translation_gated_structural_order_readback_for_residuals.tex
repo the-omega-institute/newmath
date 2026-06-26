@@ -1,0 +1,36 @@
+\subsection{Translation-gated structural-order readback for $B^{*}_{Q6}$ residuals}
+\label{subsec:q6-translation-gated-structural-order-cross-layer}
+
+\paragraph{Finite carrier.}
+This chapter records a finite cross-layer test surface whose rows are coding sequences with three matched pieces of information: a $B^{*}_{Q6}$ residual coordinate vector, a translation-layer readout when such a readout is attached, and a structural-order readback only when a separate structural contact is present.  The coordinate side is not the amino-acid sequence itself.  It is the residual codon-coordinate layer after amino-acid-composition accounting, represented here by nine named coordinates:
+$$
+\begin{aligned}
+&K\_AAA,\quad Arg\_AGR,\quad Ile\_AUA,\quad Leu\_CUN\_vs\_UUR,\quad Leu\_UUA\_vs\_UUG,\\
+&Ser\_UCR\_vs\_AGY,\quad Ser\_UCA\_vs\_UCG,\quad Thr\_ACR\_vs\_ACY,\quad f3\_stress.
+\end{aligned}
+$$
+Each row is therefore a finite tuple containing these nine projected residual coordinates, the organism identity, the coding-sequence length in nucleotides, twenty amino-acid composition proportions, GC3, and an $M$-density baseline.  The $M$-density baseline is the fraction of sense codons supported on the union of the nine projected $B^{*}_{Q6}$ coordinate supports.  This makes the carrier specific: it tests residual codon geometry after the coarse amino-acid and simpler codon-load explanations have already been placed into the control block.
+
+\paragraph{Gate before structural interpretation.}
+The admissible chain is $q_i \to T_j \to S^{SO}$, not $q_i \to S^{SO}$ as an ungated biological conclusion.  A coordinate $q_i$ may enter a structural-order analysis only after it first survives against a translation readout $T_j$ under the stated controls.  The controls used in the finite row are an intercept, $\log(\mathrm{cds\_len\_nt})$, the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, GC3, and the $M$-density baseline.  If no coordinate survives the translation readout, the structural-order column is null by construction, even if a structural annotation table is otherwise available.  If a structural-order readback is attached, the interpretation remains conditional on the translation layer and on protein-abundance controls; it is not promoted into folding, function, physical admissibility, mechanism, phenotype, or a universal biological law.
+
+\paragraph{Rank and row support.}
+The finite powered run used two organism-scoped row blocks.  In \emph{Escherichia coli} K-12 MG1655, $3739$ codon rows joined to the structural-order table, $3736$ matched proteins were used, and the structural-order join hit rate was $0.999198$.  In \emph{Saccharomyces cerevisiae}, $5815$ codon rows joined, $5804$ matched proteins were used, and the hit rate was $0.998108$.  The controlled design matrix was not degenerate for the nine-coordinate residual block: both organisms had $\operatorname{rank}(\widetilde X)=9$ for the projected coordinate block, $\operatorname{rank}(Z)=23$ for the control block, and $24$ control columns before rank reduction.  The residual degrees of freedom after $Z$ were $3713$ in \emph{E. coli} and $5781$ in yeast.  The amino-acid-composition control count was $20$ in both organisms, so the finite result is not a disguised amino-acid-composition readback.
+
+\paragraph{Observed association readout.}
+The attached structural-order readout in this finite row is AlphaFold mean pLDDT on the $0$ to $100$ scale.  In this chapter it is treated only as predicted structure-confidence score, not as experimental folded structure and not as a functional assay.  The positive threshold used for residual survival was partial $R^2>10^{-12}$.  Under the stated controls, the structural-order residual association computed for the nine-coordinate block had
+$$
+\begin{aligned}
+R^2_{SO}(\emph{E. coli}\ \mathrm{K\mbox{-}12\ MG1655}) &= 0.03059081709413562,\\
+R^2_{SO}(\emph{S. cerevisiae}) &= 0.0715885627979685.
+\end{aligned}
+$$
+Both organism blocks reported all nine coordinates as surviving entries at this structural-confidence readback stage.  The corresponding residual-response energies were $136607.52873622958$ for \emph{E. coli} and $620506.1490869389$ for yeast, while the explained energies attributed to the projected residual block after controls were $4178.935925251874$ and $44421.14342043593$, respectively.  These numbers establish a finite, controlled association with predicted confidence, not a causal route from codon choice to protein structure.
+
+\paragraph{Null boundary.}
+The null side is part of the mathematical object.  Codon-usage tables, tAI or stAI weights, ribosome-profiling translation efficiency, matched mRNA abundance, and matched protein abundance each occupy different observational layers.  Codon-usage summaries do not observe ribosome dynamics.  tAI and stAI weights are modeled translation annotations, not ribosome footprints or folded-protein measurements.  Ribosome profiling can support a translation-efficiency readout when matched to mRNA abundance, but it does not by itself measure mature protein abundance, folding, function, or physical admissibility.  Protein abundance can support a downstream mediation check, but steady-state abundance is not a folding-pathway measurement.  Therefore the finite association above may be stated only as a controlled codon-residual association with predicted structure confidence.  No translation mechanism, no folding mechanism, no protein function, no phenotype, no physical admissibility claim, and no cross-organism universal law follows without a separate contact that measures that layer directly.
+
+\paragraph{Break condition.}
+The chapter would fail at the translation gate if every controlled survival score $S_{ij}$ for $B^{*}_{Q6}$ coordinate $q_i$ against translation readout $T_j$ were non-positive after amino-acid composition, organism, GC3, length, and $M$-density controls, or if the coordinate block failed the simpler-baseline ablation.  It would also fail as a structural-order claim if the structural readout were treated as folding, function, or mechanism rather than as the finite readback actually supplied.  The present finite row passes the powered rank check for the two organisms and reports nonzero predicted-confidence association values, but its claim remains layer-limited: the result is a guarded cross-layer association, not a biological law.
+
+\origin{ai}

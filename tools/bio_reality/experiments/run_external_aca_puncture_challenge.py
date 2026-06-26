@@ -78,6 +78,63 @@ def needs_data(started_at: str, missing_data: list[str]) -> int:
     return emit(result)
 
 
+def needs_external_audit_tables(started_at: str, data: dict[str, Any]) -> int:
+    unresolved = data.get("unresolved_required_audit_tables")
+    missing_tables = [str(item) for item in unresolved if isinstance(item, str)] if isinstance(unresolved, list) else []
+    checks = [
+        {
+            "name": "external_aca_dataset_loaded",
+            "passed": True,
+            "actual": relative(DATA_PATH),
+            "expected": "curated external ACA reassignment audit dataset",
+        },
+        {
+            "name": "external_audit_tables_available",
+            "passed": False,
+            "actual": {
+                "species": len(optional_rows(data, "species")),
+                "conserved_alignment_columns": len(optional_rows(data, "conserved_alignment_columns")),
+                "trna_candidates": len(optional_rows(data, "trna_candidates")),
+                "missing_external_audit_tables": missing_tables,
+            },
+            "expected": "non-empty species, conserved-alignment, QC, and tRNA identity audit tables before confirmatory scoring",
+        },
+        {
+            "name": "independent_reassignment_inference_without_geometry",
+            "passed": inference_without_geometry(data),
+            "actual": {
+                "reassignment_inference_methods": data.get("reassignment_inference_methods"),
+                "geometry_inputs_used": data.get("geometry_inputs_used"),
+            },
+            "expected": "non-empty reassignment inference method list and no geometry inputs",
+        },
+        {"name": "median_closure_preserved_after_aca", **median_closure_preserved()},
+        {
+            "name": "no_geometry_to_higher_layer_promotion",
+            "passed": no_forbidden_promotion(data),
+            "actual": data.get("cannot_claim"),
+            "expected": "explicit cannot-claim boundary for translation, structure, physical admissibility, function, and global law",
+        },
+    ]
+    result = base_result(started_at)
+    result.update(
+        {
+            "status": "needs_data",
+            "completed_at": now_iso(),
+            "checks": checks,
+            "result": {
+                "scope": "external_code_read_aca_reassignment_challenge_only",
+                "source": data.get("source", ""),
+                "snapshot_date": data.get("snapshot_date", ""),
+                "missing_external_audit_tables": missing_tables,
+                "required_reality_contact": "species-level ACA call, conserved-alignment, artifact-QC, and tRNAUGU identity tables independent of BEDC geometry",
+                "stronger_statistic": "prospective no-geometry holdout with species-level support, conserved-column Asp-over-Thr enrichment, artifact audit, and tRNAUGU identity evidence after protocol freeze",
+            },
+        }
+    )
+    return emit(result)
+
+
 def parse_time(value: str) -> datetime:
     text = value.strip()
     if text.endswith("Z"):
@@ -351,6 +408,8 @@ def main() -> int:
     result = base_result(started_at)
     try:
         data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+        if data.get("unresolved_required_audit_tables"):
+            return needs_external_audit_tables(started_at, data)
         checks = [
             {
                 "name": "external_aca_dataset_loaded",

@@ -1,0 +1,43 @@
+\subsection{Translation-conditioned four-case survival discriminant for $B^*_{Q6}$ residual coordinates}
+\label{sec:q6-translation-conditioned-four-case-survival-discriminant-cross-layer}
+
+\paragraph{Finite carrier and readouts.}
+This record tests a cross-layer relation in which each row is a matched coding-sequence and protein-abundance observation, each $q_i$ is a $B^*_{Q6}$ residual coordinate, $T_j$ is a translation readout, and $P_k$ is a protein-omics readout. The finite carrier is therefore the controlled matrix cell $(q_i,T_j,P_k)$ over organism-matched sequence, tRNA-copy-derived translation weights, and measured protein-abundance contacts. The attached run used per-protein modeled tAI as $T_j$ and measured $\log_{10}(\mathrm{abundance\_ppm})$ from PAXdb as $P_k$. The modeled tAI value was computed as the codon-count-weighted mean
+$$
+\begin{aligned}
+T_j &= \frac{\sum_c \mathrm{count}(c)\,\mathrm{tAI}(c)}{\sum_c \mathrm{count}(c)} .
+\end{aligned}
+$$
+This is a translation-layer annotation derived from GtRNAdb all-tRNA copy counts and dos Reis wobble weights; it is not a ribosome-profiling measurement.
+
+\paragraph{Controlled design.}
+The discriminant is evaluated only after residualizing the $B^*_{Q6}$ coordinate block against amino-acid composition, organism-scoped sequence controls, GC3, length, M-density, mRNA-related controls when available, and simpler codon baselines. The run reports $24$ control columns in the residualization design for both organisms, with residual control rank $23$. The powered-rank check passed in both panels: for \emph{Escherichia coli} K-12 MG1655 the joined panel had $3739$ CDS/protein rows, $3716$ residual degrees of freedom after controls, $9$ $q$ coordinates, $\operatorname{rank}(\widetilde X_T)=9$, and $\operatorname{rank}(\widetilde X_P)=9$; for \emph{Saccharomyces cerevisiae} the joined panel had $5815$ rows, $5792$ residual degrees of freedom, $9$ $q$ coordinates, $\operatorname{rank}(\widetilde X_T)=9$, and $\operatorname{rank}(\widetilde X_P)=9$. Thus the positive calls below are not the rank-degenerate all-constant boundary.
+
+\paragraph{Four cases.}
+For each controlled cell the signs of $S^{QT}$ and $S^{QP}$ are read together with the drop of the direct $q_i\to P_k$ term after conditioning on $T_j$. The classification is
+$$
+\begin{aligned}
+A &: S^{QT}\leq 0,\ S^{QP}\leq 0, \\
+B &: S^{QT}>0,\ S^{QP}\leq 0, \\
+C &: S^{QT}\leq 0,\ S^{QP}>0, \\
+D &: S^{QT}>0,\ S^{QP}>0\ \text{with the direct }q_i\to P_k\text{ term reduced after conditioning on }T_j .
+\end{aligned}
+$$
+Case $A$ means that the controlled readouts compress the residual coordinate away. Case $B$ means that the coordinate survives at the translation readout but does not propagate to the measured protein-omics readout. Case $C$ means that the coordinate predicts the protein-omics readout without mediation by the measured translation readout; it may reflect unmeasured translation variables, mRNA structure, selection, confounding, or non-translation routes. Case $D$ is the only reported mediation-like class: the coordinate survives at $T_j$, survives at $P_k$, and the direct protein-omics association is reduced after conditioning on $T_j$.
+
+\paragraph{Finite numerical readback.}
+The classification threshold was $10^{-12}$. In the \emph{E. coli} K-12 MG1655 panel, the controlled translation relation had $R^2_{QT}=0.5416736993691318$ and the controlled protein-omics relation had $R^2_{QP}=0.10767526677985896$ across $9$ coordinates. Its residual translation energy was $0.4728468725814029$, its residual protein-abundance energy was $4020.333671802061$, the coordinate block explained $0.256128714706293$ energy on $T$, and it explained $432.89050065533684$ energy on $P$. The four-case table classified $7$ coordinates as case $D$, $0$ as case $A$, $0$ as case $B$, and $0$ as case $C$, with $2$ positive-positive coordinates not satisfying the mediation-drop condition. No coordinate was left unclassified.
+
+\paragraph{Second organism panel.}
+In the \emph{S. cerevisiae} panel, the controlled translation relation had $R^2_{QT}=0.8213457220900503$ and the controlled protein-omics relation had $R^2_{QP}=0.29837624994140827$ across $9$ coordinates. Its residual translation energy was $6.90537888244409$, its residual protein-abundance energy was $2958.1865890925337$, the coordinate block explained $5.671703404506426$ energy on $T$, and it explained $882.6526210803958$ energy on $P$. The four-case table classified all $9$ coordinates as case $D$, with $0$ case $A$, $0$ case $B$, $0$ case $C$, $0$ positive-positive coordinates failing the mediation-drop condition, and no unclassified coordinate.
+
+\paragraph{Interpretation.}
+The finite result is a controlled cross-layer discrimination result, not a biological mechanism by itself. In the two organism-matched panels available here, the residual coordinates remain full-rank after controls and the non-null cells concentrate in case $D$: $7$ of $9$ classified $q$ coordinates in \emph{E. coli} and $9$ of $9$ in yeast satisfy the translation-conditioned propagation pattern. The two remaining \emph{E. coli} positive-positive coordinates are explicitly retained as non-mediated positive-positive cells rather than folded into case $D$. This matters because the discriminant is not a mere $Q\to P$ association screen; it requires the translation readout to be present and asks whether conditioning on that readout changes the protein-omics association.
+
+\paragraph{Local boundary.}
+The result does not license a claim about direct translation dynamics, folding, physical admissibility, protein function, perturbation mechanism, phenotype, or universal biological law. Modeled tAI is not ribosome occupancy, and steady-state protein abundance is not isolated from mRNA abundance, turnover, localization, post-translational modification, folding state, or pathway context. A separate contact is required for any such layer. In particular, case $C$ must not be narrated as a translation mechanism, and a direct $Q\to P$ association must not be used as evidence for protein function or structural order unless the translation-conditioning step and an appropriate layer-specific measurement are both present.
+
+\paragraph{Null boundary.}
+The discriminant remains null whenever the matched translation, protein-omics, and mRNA-control contacts are absent, whenever the residual coordinate rank is insufficient, or whenever all controlled entries fall in case $A$. A rank-degenerate three-organism all-$1.0$ modeled-tAI pattern is also a null boundary rather than support. The present run avoids that particular failure mode because both organism panels retain $9$ residual coordinate ranks for both $T$ and $P$ and have thousands of matched rows after control residualization.
+
+\origin{ai}

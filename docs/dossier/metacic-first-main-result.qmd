@@ -18,7 +18,7 @@ Goedel showed that no sufficiently strong formal system can prove its own consis
 
 The result is this:
 
-> **Closed-normal consistency.** Let *t* be a closed term of the calculus of inductive constructions, typed at `False` under the empty context, and let *t* be β-strong (every reduction sequence terminates). Then a contradiction follows.
+> **Closed-normal consistency.** Let *t* be a closed term of the calculus of inductive constructions, typed at `False` under the empty context, and let *t* be $\beta$-strong (every reduction sequence terminates). Then a contradiction follows.
 
 The theorem is in the project's MetaCIC formalisation at `lean4/BEDC/MetaCIC/`. The Lean target is `BEDC.MetaCIC.Conservativity.closed_normal_consistency`. It is `\leanchecked` from the paper, it passes the `axiom-purity --strict` audit (no `Classical.choice`, no `Quot.sound`, no `propext`), and the build is exit 0.
 
@@ -34,7 +34,7 @@ The proof — much abbreviated — runs by structural induction on the closed no
 - **Match on a closed inductive value.** Goedel-style stuck: matches on `False` need at least one constructor, but `False` has none.
 - **Closed-codomain Pi binding.** This is the cleanest case. A closed term of type `False` whose type-former path is a Pi with a *closed* codomain reduces uniformly. Subject reduction proceeds without dependent typing complications.
 
-Each of these cases can be discharged by direct structural argument on the term's constructors. The kernel-style invariants — well-typedness, β-strength, closedness — are preserved at every reduction step under the discharge.
+Each of these cases can be discharged by direct structural argument on the term's constructors. The kernel-style invariants — well-typedness, $\beta$-strength, closedness — are preserved at every reduction step under the discharge.
 
 The audit of these cases is mechanical. The project runs an *exhaustiveness audit* against 31 obligation targets — every named target in the closed-normal consistency development:
 
@@ -45,7 +45,7 @@ Exhaustiveness audit:
   31 total
 ```
 
-The 17 strict PASS are obligations whose Lean statement is literally a ∀-quantification matching an enumeration that the audit can decide by direct comparison. The 14 convention-bound entries are obligations that hold under the project's stated finite-witness convention — the audit checks that the convention's premises are met. Both classes are mechanically verified; the distinction is bookkeeping about *how* the verification connects to the closed-form statement.
+The 17 strict PASS are obligations whose Lean statement is literally a $\forall$-quantification matching an enumeration that the audit can decide by direct comparison. The 14 convention-bound entries are obligations that hold under the project's stated finite-witness convention — the audit checks that the convention's premises are met. Both classes are mechanically verified; the distinction is bookkeeping about *how* the verification connects to the closed-form statement.
 
 This is what BEDC calls *the closed-codomain main result*. It is the largest piece of meta-theory the project has settled unconditionally.
 

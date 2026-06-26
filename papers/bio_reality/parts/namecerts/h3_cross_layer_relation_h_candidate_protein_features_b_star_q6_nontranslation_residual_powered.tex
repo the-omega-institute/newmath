@@ -1,0 +1,47 @@
+\subsection{Protein-feature readout for the B$^*_{Q6}$ non-translation residual}\label{sec:bioreality-q6-protein-feature-residual}\origin{ai}
+
+\paragraph{Finite surface.}
+The record tests whether the part of the B$^*_{Q6}$ abundance residual left after the modeled translation-adaptation contact is measurably aligned with coarse protein-level annotations. The finite carrier is not a protein-mechanism claim. It is a joined table whose rows are proteins with coding-sequence codon counts, the nine B$^*_{Q6}$ residual coordinates, the usual sequence controls, and four fetched feature readouts. The residual coordinates are
+$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.
+The control block has rank $23$ in each organism and is built from an intercept, $\log(\mathrm{CDS\ length})$, the twenty amino-acid composition proportions, GC3, and the M-density baseline on the union support of the nine projected q-vectors. The candidate feature list has four one-dimensional readouts: complex membership, domain count, PTM density, and transmembrane-count.
+
+\paragraph{Joined rows and feature availability.}
+The feature table is finite and uneven across organisms. In zebrafish, $3180$ UniProt/STRING feature records join to $2242$ CDS rows out of $14410$ reported CDS-abundance rows. In human, $18842$ feature records join to $18335$ rows out of $19053$. In budding yeast, $6156$ feature records join to $5682$ rows out of $5815$. Thus the feature contact is nearly complete for human and yeast, but sparse for zebrafish. This matters because the projected residual target is recomputed on the feature join rather than on the full abundance-CDS join.
+
+The modeled-complement self-check records this change directly:
+$$
+\begin{aligned}
+ d_{\mathrm{model}}(\mathrm{danio}) &= 0.7361678489976374, & |\Delta| &= 0.1384608720516286,\\
+ d_{\mathrm{model}}(\mathrm{human}) &= 0.9188293375787641, & |\Delta| &= 0.002065597989181489,\\
+ d_{\mathrm{model}}(\mathrm{yeast}) &= 0.21235197749007645, & |\Delta| &= 0.0006197817630094193.
+\end{aligned}
+$$
+The zebrafish feature join does not match the full-join complement reference within the $0.02$ tolerance, while human and yeast do. The chapter therefore treats the calculation as a bounded descriptive screen, not as a stable cross-organism closure of the H-candidate.
+
+\paragraph{Feature distributions on the joined surface.}
+The joined rows also show that the four readouts have different sparsity profiles. In zebrafish, complex membership has mean $0.31043710972346117$ with $696$ nonzero rows out of $2242$; domain count has mean $0.856378233719893$ with $847$ nonzero rows and maximum $48$; PTM density has mean $0.0012176949624096891$ with $211$ nonzero rows and maximum $0.8014705882352942$; transmembrane count has mean $0.7292595896520964$ with $443$ nonzero rows and maximum $18$. In human, complex membership has mean $0.3626943005181347$ with $6650$ nonzero rows out of $18335$; domain count has mean $1.071284428688301$ with $8090$ nonzero rows and maximum $285$; PTM density has mean $0.006473867757948575$ with $9210$ nonzero rows; transmembrane count has mean $1.0721570766293973$ with $4792$ nonzero rows. In yeast, complex membership has mean $0.3505807814149947$ with $1992$ nonzero rows out of $5682$; domain count has mean $0.4074269623372052$ with $1574$ nonzero rows and maximum $11$; PTM density has mean $0.002774535811043876$ with $2282$ nonzero rows; transmembrane count has mean $1.0007039774727209$ with $1173$ nonzero rows and maximum $23$.
+
+\paragraph{Absorption values.}
+For each organism and each feature, the reported scalar is the fraction of the modeled-translation-complement abundance component absorbed by the residualized feature coordinate. The largest values are PTM-density in zebrafish and human, with
+$$
+\begin{aligned}
+ A_{\mathrm{PTM}}(\mathrm{danio}) &= 0.014211240113472575,\\
+ A_{\mathrm{PTM}}(\mathrm{human}) &= 0.014884825920540636,\\
+ A_{\mathrm{PTM}}(\mathrm{yeast}) &= 0.0005759336988655581.
+\end{aligned}
+$$
+The full per-candidate values are small. Zebrafish gives $0.00039566384726157463$ for complex membership, $0.0008268196005307971$ for domain count, $0.014211240113472575$ for PTM density, and $0.001369142724157357$ for transmembrane count. Human gives $0.0075271999877804495$, $0.000011405527940317433$, $0.014884825920540636$, and $0.0015569064882873212$ for the same four features. Yeast gives $0.00069212177545487$, $0.00007029698692511431$, $0.0005759336988655581$, and $0.00031741485098156394$.
+
+\paragraph{Null comparison and finite calls.}
+The finite null is degree-of-freedom matched with $200$ trials per organism-feature pair and a Bonferroni threshold. Zebrafish PTM density exceeds its threshold: the observed absorption $0.014211240113472575$ is above the Bonferroni threshold $0.003775603188484381$, with null mean $0.0004610486745564995$ and null $95$th percentile $0.001788151234180097$. Zebrafish complex membership, domain count, and transmembrane count do not exceed their thresholds. Human has three threshold exceedances: complex membership has threshold $0.0006605662314432479$ with null mean $0.000047823004194137224$, PTM density has threshold $0.00042094892238120357$ with null mean $0.000056988673240982024$, and transmembrane count has threshold $0.0002697448894057371$ with null mean $0.00004571692851089026$. Human domain count does not exceed its threshold. Yeast has no feature exceeding the Bonferroni threshold; its largest reported threshold comparison is PTM density, with observed absorption $0.0005759336988655581$ below threshold $0.001713645678402473$.
+
+These finite calls are not coherent enough to license a cross-organism protein-feature explanation of the residual. The positive entries are organism- and feature-specific, and the zebrafish feature join changes the residual target substantially. The strongest recurring feature name is PTM density in zebrafish and human, but yeast does not support the same entry. The bounded conclusion is therefore: reviewed UniProt/STRING protein features can absorb small pieces of the B$^*_{Q6}$ modeled-translation-complement residual on some joined surfaces, yet they do not close the non-translation residual as a stable protein-feature layer.
+
+\paragraph{Relation to measured translation efficiency.}
+The measured-translation-efficiency contact gives a useful boundary for interpreting this feature screen. On ribosome-profiling TE joins, the computed absorption by measured TE is $0.01759429001506974$ in zebrafish, $0.0010982956489726373$ in \textit{E. coli}, $0.0028947149257963897$ in human, and $0.0002762783754375593$ in yeast. These values are also descriptive projections. They do not turn a later protein-feature association into a translation mechanism. In particular, the feature screen begins after a modeled-complement residual has already been formed, and it does not show that a same-coordinate $Q_i \to T_j$ translation-efficiency step survives under matched mRNA control.
+
+\paragraph{Localization-side check.}
+A separate localization boundary run joined $8696$ human rows and marked $657$ mitochondrial rows, with $2000$ permutations and runtime $11.034382$ seconds. That contact is mentioned here only to delimit the protein-feature screen: a localization panel is a different finite readout from domain count, PTM density, transmembrane count, or complex membership. The protein-feature calculation cannot borrow localization evidence unless the localization statistic is joined and conditioned in the same declared surface.
+
+\paragraph{Local no-promotion rule.}
+The result is a finite descriptive association screen. It supports the statement that certain sparse protein annotations, especially PTM density in two organisms and complex/transmembrane labels in human, absorb small fractions of the modeled-translation-complement abundance residual on their own joined surfaces. It does not establish translation realization, folded structure, physical admissibility, biological function, causal mechanism, organismal phenotype, or a universal biological law. Any such interpretation would need its own layer-matched contact and its own controlled statistic. Matched mRNA abundance remains a control for translation-efficiency residualization; ribosome-profiling TE remains a translation readout; reviewed UniProt/STRING annotations remain coarse feature labels; none of these alone promotes B$^*_{Q6}$ residual geometry into a mechanism.

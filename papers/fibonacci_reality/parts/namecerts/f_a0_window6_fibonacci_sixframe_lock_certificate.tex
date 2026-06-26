@@ -1,0 +1,83 @@
+\origin{ai}
+
+\subsection{Finite forced-window Fibonacci certificate}
+\label{sec:f-a0-window6-fibonacci-sixframe-lock-certificate}
+
+\paragraph{Carrier.}
+For each integer $m \geq 0$, let $X_m$ be the finite set of binary words of length $m$ whose symbols lie in $\{0,1\}$ and which contain no adjacent pair $11$. The empty word is the unique element of $X_0$. For $m \geq 1$, a word is written as $w=(w_1,\ldots,w_m)$ with $w_i \in \{0,1\}$. The admissibility predicate is the following finite condition:
+$$
+\begin{aligned}
+ w \in X_m
+ \quad\Longleftrightarrow\quad
+ &w \in \{0,1\}^m\text{ and there is no }i\text{ with }1\leq i<m\\
+ &\text{such that }w_i=1\text{ and }w_{i+1}=1.
+\end{aligned}
+$$
+Thus the construction is a closed finite-window enumeration problem: every object is a word of a fixed length, and every exclusion is checked by adjacent positions inside that same word.
+
+\paragraph{Local transition rule.}
+The admissibility condition can be read as a two-state finite kernel tracking only the last symbol. If $z_m$ is the number of admissible words of length $m$ ending in $0$, and $o_m$ is the number of admissible words of length $m$ ending in $1$, then appending $0$ is always allowed, while appending $1$ is allowed only after a final $0$. Hence, for $m\geq 1$,
+$$
+\begin{aligned}
+ z_{m+1} &= z_m+o_m,\\
+ o_{m+1} &= z_m.
+\end{aligned}
+$$
+Equivalently, the finite update matrix on the column vector $(z_m,o_m)^T$ is
+$$
+\begin{aligned}
+ \begin{pmatrix}z_{m+1}\\ o_{m+1}\end{pmatrix}
+ =
+ \begin{pmatrix}1&1\\ 1&0\end{pmatrix}
+ \begin{pmatrix}z_m\\ o_m\end{pmatrix}.
+\end{aligned}
+$$
+This matrix is only a compact way to record the same adjacent-one exclusion; no interpretation outside the finite symbolic system is part of the construction.
+
+\paragraph{Prefix partition.}
+Let $a_m=|X_m|$. For every $m\geq 2$, the first symbols of an admissible word give a disjoint split of $X_m$ into two branches. The first branch consists of words beginning with $0$; deleting that initial $0$ leaves an arbitrary element of $X_{m-1}$. The second branch consists of words beginning with $10$; deleting that initial block $10$ leaves an arbitrary element of $X_{m-2}$. The forbidden block $11$ prevents any other branch beginning with $1$.
+
+The two maps are explicit witness maps:
+$$
+\begin{aligned}
+ X_{m-1} &\longrightarrow X_m, & u &\longmapsto (0,u),\\
+ X_{m-2} &\longrightarrow X_m, & v &\longmapsto (1,0,v).
+\end{aligned}
+$$
+Their images are disjoint because one image begins with $0$ and the other begins with $1$. Their union is all of $X_m$: every admissible word either begins with $0$, or begins with $1$ and then must have second symbol $0$. Therefore
+$$
+\begin{aligned}
+ X_m &= \{0u:u\in X_{m-1}\}\,\dot\cup\,\{10v:v\in X_{m-2}\},\\
+ a_m &= a_{m-1}+a_{m-2}\qquad (m\geq 2).
+\end{aligned}
+$$
+The inverse witnesses are also finite: for a word in the first part, remove its initial $0$; for a word in the second part, remove its initial $10$.
+
+\paragraph{Exact count identity.}
+Define the Fibonacci sequence by $F_0=0$, $F_1=1$, and $F_{n+2}=F_{n+1}+F_n$. The initial counts are $a_0=1$ and $a_1=2$, corresponding to the empty word and the two one-symbol words $0,1$. Since $F_2=1$ and $F_3=2$, the initial identities are $a_0=F_2$ and $a_1=F_3$. The prefix partition gives the same recurrence as the Fibonacci sequence, so induction on $m$ gives
+$$
+\begin{aligned}
+ a_m=F_{m+2}\qquad\text{for every }m\geq 0.
+\end{aligned}
+$$
+For the audited six-frame lengths $m=2,3,4,5,6,7$, the finite counts are therefore
+$$
+\begin{aligned}
+ |X_2|&=3, & |X_3|&=5, & |X_4|&=8,\\
+ |X_5|&=13, & |X_6|&=21, & |X_7|&=34.
+\end{aligned}
+$$
+Equivalently, these are the Fibonacci values $F_4,F_5,F_6,F_7,F_8,F_9=3,5,8,13,21,34$.
+
+\paragraph{Finite rows.}
+The complete count row through length $7$ is
+$$
+\begin{aligned}
+ |X_0|&=1, & |X_1|&=2, & |X_2|&=3, & |X_3|&=5,\\
+ |X_4|&=8, & |X_5|&=13, & |X_6|&=21, & |X_7|&=34.
+\end{aligned}
+$$
+Each number is obtained from the closed recurrence and the two explicit prefix witnesses. No limiting argument, analytic continuation, probability model, or ambient geometry is used.
+
+\paragraph{Boundary of the assertion.}
+The certificate proves only the finite forced-window enumeration and its Fibonacci count. It does not supply a physical-constant identification, a global flow law, an edge-flux obstruction, a spectral collision, a metrological comparison, an outside dependency, or an interpretation beyond this finite construction. Any numerical matching to a physical quantity would require a separate certificate specifying the objects being compared, the measurement convention, and the reason that the comparison is meaningful.

@@ -34,6 +34,8 @@ CONJECTURE_ID = "q6.ribosome-te-survival.with-mrna-control.cross-layer"
 ORGANISMS = [
     "saccharomyces_cerevisiae",
     "escherichia_coli_k12_mg1655",
+    "homo_sapiens",
+    "danio_rerio",
 ]
 MIN_ORGANISMS = 1
 MIN_GENES_PER_ORGANISM = 500

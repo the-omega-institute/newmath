@@ -1,0 +1,27 @@
+\subsection{Random-promoter expression evidence as a boundary for a position-resolved translation conjecture}\label{subsec:bioreality-deboer2020-promoter-boundary-f3-translation}
+\origin{ai}
+
+\paragraph{Finite table under audit.}
+This record begins from a finite high-throughput promoter table, not from a coding-sequence translation table.  The audited de Boer--style promoter screen contains $75{,}111$ designed promoter sequences, from which $8{,}027$ high-quality rows were retained before a controlled analysis subsample of $2{,}500$ rows was taken with subsample seed $20{,}260{,}239$.  The recorded permutation count is $200$, and the run time for the audited computation is $530.4038379192352$ seconds.  These numbers certify that the expression-side contact is finite, row-indexed, and empirically nonempty, but they do not by themselves supply codon-indexed ribosome-footprint observations.
+
+\paragraph{What the rows can support.}
+The available rows support a bounded cis-regulatory statement: designed promoter sequence features may be tested against expression readouts inside a finite table with explicit quality filtering and permutation accounting.  In this table the biological object is an expression boundary for random promoter sequence, transcription-factor motif content, and promoter grammar.  The row key is promoter-side; the measured endpoint is expression-side.  Therefore the finite object has the correct form for testing whether promoter grammar carries expression information, but it has the wrong row type for establishing a coding-sequence window statistic involving an $f_3$-stress residual coordinate, synonymous codon counts, wobble-weight asymmetry, matched mRNA abundance, and position-resolved ribosome occupancy.
+
+\paragraph{Translation statistic required for the conjecture.}
+The conjectural translation-side statistic would require a different finite table.  Each row would have to join, for the same organism and the same coding sequence window, an $f_3$-stress residual coordinate after amino-acid quotienting, local synonymous codon counts, a bounded wobble-weight context with $w_c \neq w_c^{f_3}$ where the asymmetry is observed rather than assumed, a matched mRNA control, position or amino-acid-bin controls, and a position-resolved ribosome-occupancy or translation-efficiency readout.  The survival entry has the form
+$$
+\begin{aligned}
+S_{f_3}(T_{\mathrm{position}}\mid Z)
+  &= \Delta_{\mathrm{held\text{-}out}}\bigl(\mathrm{full}(f_3,Z),\mathrm{baseline}(Z)\bigr),\\
+Z
+  &= \{\mathrm{AA\ composition},\mathrm{position\ bin},\mathrm{GC3},\mathrm{length},
+      \mathrm{M\ density},\mathrm{mRNA},\mathrm{codon\ controls}\}.
+\end{aligned}
+$$
+The break condition is strict: the $f_3$ term must improve held-out prediction after these controls and after simpler-baseline ablation.  The promoter table audited here does not contain the same-CDS, same-window ribosome or translation-efficiency readback needed to compute this quantity.
+
+\paragraph{Finite comparison with a powered translation-side audit.}
+The audit packet also contains a separate translation-conditioned structural-order run, recorded under the claim id \texttt{h3.cross\_layer\_relation.translation\_conditioned\_structural\_order\_boundary.b\_star\_q6\_powered}.  That independent run reports two organisms, with $3{,}412$ joined rows for \textit{Escherichia coli} K-12 MG1655 and $5{,}119$ joined rows for \textit{Saccharomyces cerevisiae}.  Its aggregate full-control $\Delta R^2$ values are positive in both organisms, with minimum $0.002688284523492457$, maximum $0.007880037229394898$, mean $0.005284160876443678$, and weighted value $0.004764742175882462$; the recorded sign-flip probability for positivity is $0.0029296875$.  This comparison is useful only as a shape check: it shows what a powered same-layer survival audit looks like when joined rows and controls are present.  It does not transfer a positive translation result to the random-promoter table.
+
+\paragraph{Boundary verdict.}
+The de Boer promoter evidence is admissible here only as a negative boundary for the requested cross-layer promotion.  It supplies a finite expression table with explicit row counts and permutation accounting, but it does not supply the coding-sequence window matrix required for $S_{f_3}(T_{\mathrm{position}}\mid Z)$.  Consequently, no translation realization follows from the promoter audit; no ribosome-pausing claim, translation-efficiency claim, protein-abundance claim, folding claim, physical-admissibility claim, biological-function claim, mechanism claim, phenotype claim, or universal biological law is licensed by these rows.  Such claims would require a separate finite contact at the relevant layer, with the appropriate same-row joins and a positive held-out controlled statistic.

@@ -1,0 +1,36 @@
+\origin{ai}
+
+\subsection{F3-stress dwell mediation in measured yeast ribosome windows}
+\label{sec:bioreality-f3-stress-dwell-mediation}
+
+\paragraph{Finite panel.}
+This record concerns the $f3\_stress$ coordinate inside the nine-dimensional $B^*_{Q6}$ synonymous residual surface.  The finite rows are the joined Saccharomyces cerevisiae CDS units for which codon-count residuals, PAXdb protein abundance, and local ribosome-occupancy dwell summaries are all present.  The active dwell experiment uses $n=1257$ joined genes, with the base design trained from a larger available yeast context of $1800$ rows.  The target vector is not total abundance itself: it is the component $P_{f3}$ obtained by projecting $Z$-residualized $\log_{10}$ protein abundance onto the $Z$-residualized $f3\_stress$ coordinate on the same join.  The control basis has rank $24$ and includes length, amino-acid composition, GC3, and the $M$-density baseline used across the sibling $B^*_{Q6}$ assays.  On this join, $\|P_{f3}\|^2=44.20095750389323$ and $P_{f3}$ accounts for $0.1999063916718794$ of the target component under this projection.
+
+\paragraph{Dwell readout and statistic.}
+The dwell readout is a per-gene summary of local relative ribosome occupancy, computed from file-provided $5'$ and $3'$ A-site occupancy windows.  The fitted comparison keeps the fold assignment fixed across base and full designs, with five folds.  The base model has held-out $R^2=0.1855578757644517$, the dwell-only readout has $R^2=0.034336580953121976$, and the full base-plus-dwell model has held-out $R^2=0.20412261520502883$.  Thus the finite increment attributed to the dwell block is
+$$\begin{aligned}
+\Delta R^2_{\mathrm{dwell}} &= 0.20412261520502883 - 0.1855578757644517 \\
+&= 0.01856473944057712.
+\end{aligned}$$
+The direct correlation between $f3\_stress$ and the dwell readout is $0.1615441450901653$, with approximate right-tail probability $7.873916057196935\times 10^{-9}$.  The rank of the tested $f3$ source is $1$, so the statistic is a single-coordinate dwell-mediated abundance-component test rather than a broad multicoordinate compression claim.
+
+\paragraph{Permutation boundary.}
+The null comparison is a deterministic row-label permutation of $P_{f3}$, with the base design, full design, folds, and dwell rows held fixed.  The experiment uses $120$ permutations and the deterministic seed \texttt{sha256:b\_star\_q6\_f3\_stress\_dwell\_mediation\_powered:deterministic}.  The observed increment exceeds the fixed null envelope: the null mean is $-0.0032911642620130563$, the null minimum is $-0.013799622026666476$, the null maximum is $0.005001350039772926$, and the null $95\%$ cutoff is $0.0013115362189692937$.  Equivalently,
+$$\begin{aligned}
+\Delta R^2_{\mathrm{obs}} &= 0.01856473944057712,\\
+\Delta R^2_{\mathrm{null},95} &= 0.0013115362189692937,\\
+\Delta R^2_{\mathrm{obs}}-\Delta R^2_{\mathrm{null},95} &= 0.017253203221607826.
+\end{aligned}$$
+The finite verdict of this chapter is therefore positive for the stated statistical object: the $f3\_stress$ abundance component in yeast is better predicted on held-out rows when the local ribosome-dwell readout is added to the base design, and the improvement is well above the fixed row-label null boundary.
+
+\paragraph{Position and neighboring readouts.}
+The matched positional dwell run keeps the same organism, the same $P_{f3}$ fraction $0.1999063916718794$, the same $\|P_{f3}\|^2=44.20095750389323$, the same base size $1800$, and the same joined size $1257$.  It classifies the leading segment by held-out increment as the $5'$ window: \texttt{dominant\_segment = 5prime}, \texttt{five\_prime\_ramp\_passed = true}, and \texttt{three\_prime\_body\_passed = false}.  This does not turn the present dwell mediation statistic into a positional mechanism, but it locates the strongest available dwell increment on the ramp-side readout rather than on the $3'$ body-side readout.
+
+\paragraph{Relation to protein abundance and translation panels.}
+The same yeast protein-abundance surface is well powered in the direct $Q\to P$ assay: the PAXdb/CDS join reports $5815$ joined proteins with join hit rate $0.9156038419146592$, and the nine-coordinate $B^*_{Q6}$ design has $R^2_{QP}=0.29837624994140827$ with all $9$ coordinates surviving the positive threshold after the stated controls.  The measured ribosome-TE panel gives a separate yeast translation-readout association with $n=5128$ genes used, ribosome-TE join hit rate $0.8818572656921754$, and $R^2_{QT,\mathrm{meas}}=0.13681931343730436$.  The measured TE-to-abundance mediation decomposition for yeast uses $5128$ three-way joined rows and reports $S_{QP}=0.3146818503437042$, $S_{QT,\mathrm{meas}}=0.13681931343730436$, and measured mediation fraction $0.4793069656345167$.  A broader joint TE-and-mRNA-stability variance partition on $4759$ yeast rows gives $R^2_{QP}=0.2715520808117803$, $R^2_{QP\mid T}=0.1439989545940314$, $R^2_{QP\mid M}=0.25453612246767165$, $R^2_{QP\mid T,M}=0.13047582645538838$, with joint mediation fraction $0.5195182225621592$, TE-only fraction $0.4697188319693239$, stability-only fraction $0.0626618595344251$, and permutation right-tail probability $0.000999000999000999$.  These neighboring finite surfaces show that yeast has enough row rank and matched readouts for a bounded cross-layer analysis, while the dwell chapter itself only asserts the narrower $f3\_stress\to$ dwell-increment result.
+
+\paragraph{Compression and irreducible remainder.}
+The partial mediation certificate gives a useful scale for the present dwell result.  On the yeast context, with $n=1800$, five folds, $\lambda_{DL}=0.01$, join ratio parameter $\rho_{join}=0.05$, and $120$ permutations, the best selected readout dictionary from \texttt{measured\_te}, \texttt{mrna\_stability}, and \texttt{turnover} covers $C^*=0.24538211439730545$ of the source signal after selection adjustment.  Its raw best coverage is $0.2745002077400602$, the selection-aware null $95\%$ cutoff is $0.029149007242956115$, and the unexplained fraction remains $0.7546178856026946$.  The dwell result should be read against that scale: it supplies a positive, finite, row-tested increment for the $f3\_stress$ abundance component, not a complete reduction of the full $B^*_{Q6}$ residual surface.
+
+\paragraph{Local claim and exclusions.}
+The chapter's admissible claim is exactly statistical and finite-row: in Saccharomyces cerevisiae, the $f3\_stress$ component of residualized protein abundance has a positive held-out dwell increment, $\Delta R^2=0.01856473944057712$, exceeding a fixed row-label permutation cutoff of $0.0013115362189692937$ on $1257$ joined genes.  This permits a dwell-mediated abundance-component readback for the measured yeast panel.  It does not, by itself, establish a causal translation pathway, ribosome-speed mechanism, folded structural order, physical admissibility, molecular function, phenotype, adaptation, or universal biological rule.  Any such stronger interpretation would require an additional layer-matched contact and a new finite statistic that directly measures the proposed layer under its own controls.

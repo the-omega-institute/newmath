@@ -1,0 +1,466 @@
+\begin{principle}[Phase-shell running coordinate]
+\label{prin:zeckendorf-phase-shell-running-coordinate}
+The fixed Window-six denominator response and the phase-shell response
+are distinct running coordinates. The intra-window coordinate changes
+$D$ while the golden phase shell remains fixed. The phase-shell
+coordinate changes the exponent of the golden radius itself. Write
+$$
+  R_6(\sigma,D)
+  :=
+  2\pi
+  \frac{
+    21+34C(D)
+  }{
+    21\varphi^{-\sigma}
+    +
+    34C(D)\varphi^{-(\sigma+1)}
+  },
+$$
+where
+$$
+  C(D)
+  :=
+  \frac12
+  +
+  \frac14\cos^2\left(\frac{\pi}{\varphi}\right)
+  +
+  \frac{1}{D\varphi^5}.
+$$
+The infrared Window-six readout is the point
+$$
+  (\sigma,D)=(6,D_{6,\alpha}^{\star}).
+$$
+For fixed $D$, the readout satisfies
+$$
+  R_6(\sigma,D)
+  =
+  R_6(6,D)\varphi^{\sigma-6}.
+$$
+Thus $\sigma$ is the golden phase-shell exponent, while $D$ is the
+residual denominator coordinate inside a fixed shell.
+\end{principle}
+
+\begin{theorem}[Fixed Window-six denominator running is infrared-sized]
+\label{thm:zeckendorf-fixed-window-six-denominator-running-bound}
+Within the fixed Window-six phase shell, any monotone increase of $D$
+has a finite lower endpoint
+$$
+  R_{6,\min}
+  =
+  2\pi
+  \frac{
+    21+34C_\infty
+  }{
+    21\varphi^{-6}
+    +
+    34C_\infty\varphi^{-7}
+  },
+  \qquad
+  C_\infty
+  =
+  \frac12
+  +
+  \frac14\cos^2\left(\frac{\pi}{\varphi}\right).
+$$
+Numerically,
+$$
+  R_{6,\min}
+  =
+  136.979203197491575\ldots,
+$$
+whereas
+$$
+  R_6(6,D_{6,\alpha}^{\star})
+  =
+  137.035999177006279\ldots.
+$$
+Consequently fixed-shell denominator running can lower the inverse
+coupling by at most
+$$
+  0.056795979514704\ldots.
+$$
+It is therefore an infrared-sized response, not a full electroweak-scale
+running mechanism.
+\end{theorem}
+\begin{proof}
+For fixed phase shell $\sigma=6$, the only dependence on $D$ enters
+through
+$$
+  \frac{1}{D\varphi^5}.
+$$
+As $D$ increases, this term decreases to zero, so $C(D)$ decreases to
+$C_\infty$. Since
+\autoref{thm:zeckendorf-denominator-predictivity-requirement} gives
+$dR/dD<0$, the displayed value is the limiting lower endpoint for the
+fixed-shell denominator response. The numerical drop is the difference
+between the infrared readout and this limiting endpoint.
+\end{proof}
+
+\begin{definition}[Golden phase-shell anomalous dimension]
+\label{def:zeckendorf-golden-phase-shell-anomalous-dimension}
+A physical running path for the Window-six electromagnetic readout is a
+map
+$$
+  Q\longmapsto(\sigma(Q),z(Q)),
+$$
+with infrared base point
+$$
+  \sigma(0)=6,\qquad z(0)=0.
+$$
+The golden phase-shell anomalous dimension is
+$$
+  \gamma_\varphi(Q):=6-\sigma(Q).
+$$
+The two-coordinate running family is
+$$
+  \alpha_{Z6}^{-1}(\sigma,z)
+  :=
+  2\pi
+  \frac{
+    21+34C_{6,\alpha}(z)
+  }{
+    21\varphi^{-\sigma}
+    +
+    34C_{6,\alpha}(z)\varphi^{-(\sigma+1)}
+  },
+$$
+where
+$$
+  C_{6,\alpha}(z)
+  =
+  \frac12
+  +
+  \frac14\cos^2\left(\frac{\pi}{\varphi}\right)
+  +
+  \frac{1}{D_{6,\alpha}(z)\varphi^5}
+$$
+and
+$$
+  D_{6,\alpha}(z)
+  =
+  D_{6,\alpha}^{\star}
+  +
+  \Delta_R(z)\varphi^{-37}
+  +
+  O(\varphi^{-47}).
+$$
+At fixed $z=0$, the anomalous dimension recodes an inverse-coupling
+ratio by
+$$
+  \gamma_\varphi(Q)
+  =
+  \log_\varphi
+  \left(
+    \frac{\alpha_{Z6}^{-1}(0)}
+         {\alpha_{Z6}^{-1}(Q)}
+  \right).
+$$
+\end{definition}
+
+\begin{definition}[Effective observable shell index]
+\label{def:zeckendorf-effective-observable-shell-index}
+Let
+$$
+  A:=F_8=21,\qquad B:=F_9=34,
+$$
+and put $C_\star:=C(D_{6,\alpha}^{\star})$. For any denominator $D$ in
+the fixed Window-six readout, define the denominator-induced shell shift
+$$
+  \delta\sigma_D(D)
+  :=
+  \log_\varphi
+  \left[
+    \frac{A+BC(D)}{A+BC_\star}
+    \cdot
+    \frac{A+BC_\star\varphi^{-1}}
+         {A+BC(D)\varphi^{-1}}
+  \right].
+$$
+Then
+$$
+  R_6(\sigma,D)
+  =
+  R_0\varphi^{\sigma-6+\delta\sigma_D(D)}.
+$$
+The externally visible shell index carried by the single scalar
+readout is therefore
+$$
+  \sigma_{\mathrm{eff}}(Q)
+  :=
+  \sigma(Q)+\delta\sigma_D(D_{6,\alpha}(z(Q))),
+$$
+with effective anomalous dimension
+$$
+  \gamma_{\mathrm{eff}}(Q)
+  :=
+  6-\sigma_{\mathrm{eff}}(Q)
+  =
+  \log_\varphi
+  \left(
+    \frac{\alpha^{-1}_{Z6}(0)}
+         {\alpha^{-1}_{Z6}(Q)}
+  \right).
+$$
+\end{definition}
+
+\begin{theorem}[Observable shell compression]
+\label{thm:zeckendorf-observable-shell-compression}
+The scalar inverse coupling $\alpha^{-1}_{Z6}(Q)$ uniquely determines
+$\sigma_{\mathrm{eff}}(Q)$, or equivalently
+$\gamma_{\mathrm{eff}}(Q)$, but it does not by itself uniquely determine
+the internal split between $\sigma(Q)$ and $z(Q)$.
+\end{theorem}
+\begin{proof}
+The identity in
+\autoref{def:zeckendorf-effective-observable-shell-index} rewrites the
+two-coordinate readout as
+$$
+  \alpha^{-1}_{Z6}(Q)
+  =
+  R_0\varphi^{\sigma_{\mathrm{eff}}(Q)-6}
+  =
+  R_0\varphi^{-\gamma_{\mathrm{eff}}(Q)}.
+$$
+Hence the measured scalar determines the single combination
+$$
+  \gamma_{\mathrm{eff}}(Q)
+  =
+  \log_\varphi
+  \left(
+    \frac{R_0}{\alpha^{-1}_{Z6}(Q)}
+  \right),
+$$
+but the equation
+$$
+  \sigma_{\mathrm{eff}}(Q)
+  =
+  \sigma(Q)+\delta\sigma_D(D_{6,\alpha}(z(Q)))
+$$
+has more than one internal coordinate. A separate observable sensitive
+to the Green susceptibility, phase relaxation, boundary parity, or a
+coherent topological response is needed to distinguish the intra-window
+Green ledger from the principal phase-shell coordinate.
+\end{proof}
+
+\begin{corollary}[Green-excess as an effective shell offset]
+\label{cor:zeckendorf-green-excess-effective-shell-offset}
+For the Window-six Green-excess denominator
+$$
+  D_{6,\alpha}(z)
+  =
+  D_{6,\alpha}^{\star}
+  +
+  \Delta_R(z)\varphi^{-37}
+  +
+  O(\varphi^{-47}),
+$$
+define
+$$
+  \gamma_D(z)
+  :=
+  -\delta\sigma_D(D_{6,\alpha}(z)).
+$$
+Near the static point,
+$$
+  \gamma_D(z)
+  =
+  1.1021\cdot10^{-15}z
+  +
+  O(z^2),
+$$
+and at full Window-six activation,
+$$
+  \gamma_D(1)
+  =
+  1.91\cdot10^{-15}.
+$$
+Thus the $571$-Green-excess layer is visible in the scalar coupling only
+as an extremely small effective shell offset.
+\end{corollary}
+
+\begin{principle}[Infrared boundary condition and shell flow]
+\label{prin:zeckendorf-infrared-boundary-condition-shell-flow}
+The static Window-six denominator
+$$
+  D_{6,\alpha}^{\star}
+  =
+  47+\varphi^{-7}-\frac12\varphi^{-17}
+  +\frac89\varphi^{-27}
+$$
+is the infrared boundary condition for the electromagnetic readout. It
+sets
+$$
+  R_0
+  :=
+  \alpha_{Z6}^{-1}(0)
+  =
+  137.035999177006279014596667\ldots.
+$$
+The scale dependence is not supplied by replacing this boundary
+condition with a large denominator deformation. It is supplied by a
+path
+$$
+  Q\longmapsto(\sigma(Q),z(Q)),
+$$
+where $z(Q)$ is the intra-window Green coordinate and $\sigma(Q)$ is the
+principal phase-shell coordinate. Thus the Window-six construction
+separates the boundary value from the renormalization flow.
+\end{principle}
+
+\begin{theorem}[Phase-shell exponent is the principal running coordinate]
+\label{thm:zeckendorf-phase-shell-exponent-principal-running-coordinate}
+The fixed Window-six Green-excess coordinate $z(Q)$ supplies a local
+intra-window response. A physical running account whose inverse coupling
+changes by electroweak-scale size must include a nonconstant phase-shell
+exponent $\sigma(Q)$.
+\end{theorem}
+\begin{proof}
+By
+\autoref{thm:zeckendorf-fixed-window-six-denominator-running-bound},
+fixed-shell denominator running is bounded by a drop of
+$0.056795979514704\ldots$ in $\alpha^{-1}$. By
+\autoref{thm:zeckendorf-window-six-internal-beta-seed}, the centered
+Green-excess seed itself is still smaller, of order $10^{-13}$ in the
+inverse coupling near the infrared point. These bounds are local
+Window-six responses.
+
+By contrast, changing the phase-shell exponent gives
+$$
+  R_6(\sigma,D_{6,\alpha}^{\star})
+  =
+  R_6(6,D_{6,\alpha}^{\star})\varphi^{\sigma-6}.
+$$
+Using the electroweak calibration value
+$\alpha^{-1}(M_Z^2)\approx128.946$ as a scale diagnostic gives
+$$
+  \sigma(M_Z)
+  =
+  6+
+  \log_\varphi
+  \left(
+    \frac{128.946}{137.035999177006279}
+  \right)
+  =
+  5.873548521075\ldots,
+$$
+and hence
+$$
+  \gamma_\varphi(M_Z)
+  =
+  0.126451478925\ldots.
+$$
+Thus the large running component is naturally represented as a
+renormalization of the golden phase-shell radius. The denominator
+coordinate remains the local Green response inside that shell.
+\end{proof}
+
+\begin{corollary}[Shell-flow sign]
+\label{cor:zeckendorf-shell-flow-sign}
+If $D$ is held fixed to first order and
+$$
+  R(Q)=R(0)\varphi^{\sigma(Q)-6},
+$$
+then
+$$
+  \frac{dR}{d\log Q}
+  =
+  R(Q)\log\varphi\,
+  \frac{d\sigma}{d\log Q}.
+$$
+Therefore the physical sign
+$d\alpha^{-1}/d\log Q<0$ requires
+$$
+  \frac{d\sigma}{d\log Q}<0,
+  \qquad
+  \frac{d\gamma_\varphi}{d\log Q}>0.
+$$
+Energy growth is therefore read as thinning of the effective golden
+phase shell before any integer-window transition is invoked. Integer
+window refinement enters as a thresholded refinement of this continuous
+phase-shell flow.
+\end{corollary}
+
+\begin{theorem}[Renormalization dictionary for the golden shell flow]
+\label{thm:zeckendorf-renormalization-dictionary-golden-shell-flow}
+Let
+$$
+  \beta_\alpha(\alpha,Q)
+  :=
+  \frac{d\alpha}{d\log Q}.
+$$
+On any interval where the physical inverse coupling is represented by
+the shell coordinate with $D$ fixed to first order,
+$$
+  \alpha^{-1}(Q)=R_0\varphi^{-\gamma_\varphi(Q)},
+$$
+the standard beta function and the golden shell flow are related by
+$$
+  \frac{d\gamma_\varphi}{d\log Q}
+  =
+  \frac{\beta_\alpha(\alpha,Q)}{\alpha\log\varphi}.
+$$
+Equivalently,
+$$
+  \frac{d\sigma}{d\log Q}
+  =
+  -
+  \frac{\beta_\alpha(\alpha,Q)}{\alpha\log\varphi}.
+$$
+\end{theorem}
+\begin{proof}
+Differentiate $R(Q)=\alpha^{-1}(Q)$. Since
+$$
+  \frac{dR}{d\log Q}
+  =
+  -\alpha^{-2}
+  \frac{d\alpha}{d\log Q},
+$$
+while
+$$
+  R(Q)=R_0\varphi^{-\gamma_\varphi(Q)}
+$$
+gives
+$$
+  \frac{dR}{d\log Q}
+  =
+  -R(Q)\log\varphi\,
+  \frac{d\gamma_\varphi}{d\log Q},
+$$
+and $R(Q)=\alpha^{-1}(Q)$, cancellation gives the displayed formula for
+$d\gamma_\varphi/d\log Q$. The identity for $d\sigma/d\log Q$ follows
+from $\sigma=6-\gamma_\varphi$.
+\end{proof}
+
+\begin{corollary}[Abelian one-loop shell flow]
+\label{cor:zeckendorf-abelian-one-loop-shell-flow}
+In an abelian one-loop regime with active charged fermions contributing
+$$
+  \beta_\alpha(\alpha,Q)
+  =
+  \frac{2}{3\pi}
+  \left(
+    \sum_f N_c(f)q_f^2
+  \right)
+  \alpha^2,
+$$
+the golden shell flow satisfies
+$$
+  \frac{d\gamma_\varphi}{d\log Q}
+  =
+  \frac{2}{3\pi\log\varphi}
+  \left(
+    \sum_f N_c(f)q_f^2
+  \right)
+  \alpha.
+$$
+Hence the shell anomalous dimension increases whenever the abelian beta
+function is positive, and the phase-shell exponent decreases:
+$$
+  \frac{d\gamma_\varphi}{d\log Q}>0,
+  \qquad
+  \frac{d\sigma}{d\log Q}<0.
+$$
+Charged-particle thresholds change the coefficient in the sum and
+therefore change the shell-flow slope. They do not alter the role of
+$D_{6,\alpha}^{\star}$ as the infrared boundary condition.
+\end{corollary}
