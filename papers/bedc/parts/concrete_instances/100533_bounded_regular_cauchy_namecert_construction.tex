@@ -147,11 +147,33 @@ The first stage is finite induction over late windows. By \autoref{thm:bounded-r
 The second stage is the readback and seal handoff. Apply \autoref{thm:bounded-regular-cauchy-tail-modulus-extraction}: the bounded late-window data are repacked through $Q$ and then exposed through the terminal $\RealUp$ seal $A$. The structural rows $H,C,P,N$ transport, replay, source, and name the same packet, so this handoff remains reusable without adding any excluded host principle.
 \end{proof}
 
+\begin{theorem}[BoundedRegularCauchy tail-window dependency]
+\label{thm:bounded-regular-cauchy-tail-window-dependency}
+Every Real-facing or Completion-facing consumer of an accepted $\BoundedRegularCauchyUp$ packet
+$$
+R_{\mathrm{bd}}=(S,M,B,Q,A,H,C,P,N)
+$$
+must expose the dependency rows in the order
+$$
+M \longrightarrow S \longrightarrow B \longrightarrow Q \longrightarrow A .
+$$
+Here $M$ is the modulus threshold row, $S$ is the finite stream-window row, $B$ is the dyadic boundedness ledger, $Q$ is the $\RegSeqRatUp$ readback row, and $A$ is the terminal $\RealUp$ seal. Thus no Real or Completion use of the packet may bypass the finite tail-window route by appealing to hidden completeness, quotient-stream equality, selected limits, countable choice, trichotomy, open-cover compactness, or ambient Real equality.
+\end{theorem}
+\begin{proof}
+The Real-seal boundary in \autoref{thm:bounded-regular-cauchy-real-seal-boundary} fixes the outer route: a consumer can reach $A$ only after the displayed finite path has passed through the modulus, stream-window, boundedness, and readback rows.
+
+The late-window content of that route is forced by \autoref{thm:bounded-regular-cauchy-tail-window-induction}. Once a tolerance request has read its threshold from $M$, every inspected late window is opened through $S$, bounded through $B$, and repacked through $Q$ before the seal row can be consumed.
+
+The threshold chain itself is forced by \autoref{thm:bounded-regular-cauchy-modulus-chain-induction}. It keeps every tolerance request attached to the displayed $M$-chain and prevents the readback from skipping directly to the terminal seal.
+
+Finally, \autoref{thm:bounded-regular-cauchy-two-stage-tail-envelope} packages the same data as the reusable finite envelope $M,S,B$ followed by the handoff $Q,A$. Since the structural rows only transport, replay, source, and name that envelope, the consumer receives the ordered rows $M,S,B,Q,A$ and no excluded host principle.
+\end{proof}
+
 \closureat{BoundedRegularCauchyUp}{seedStr}
 
 \begin{closurestatus}{\BoundedRegularCauchyUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bounded-regular-cauchy-carrier}, \autoref{thm:bounded-regular-cauchy-obligation-surface}, \autoref{thm:bounded-regular-cauchy-real-seal-boundary}, \autoref{thm:bounded-regular-cauchy-tail-window-induction}, and \autoref{thm:bounded-regular-cauchy-two-stage-tail-envelope} seed the finite bounded regular Cauchy packet over displayed $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \scopeclosed{\autoref{def:bounded-regular-cauchy-carrier}, \autoref{thm:bounded-regular-cauchy-obligation-surface}, \autoref{thm:bounded-regular-cauchy-real-seal-boundary}, \autoref{thm:bounded-regular-cauchy-tail-window-induction}, \autoref{thm:bounded-regular-cauchy-two-stage-tail-envelope}, and \autoref{thm:bounded-regular-cauchy-tail-window-dependency} seed the finite bounded regular Cauchy packet over displayed $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host completeness, quotient streams, selected limits, countable choice, trichotomy, open-cover compactness, ambient Real equality, Lean verification, or bridge checking.}
