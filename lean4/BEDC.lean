@@ -36,6 +36,7 @@ import BEDC.Derived.AbelLimitTheoremUp.TasteGate
 import BEDC.Derived.AbelMeanBoundaryUp
 import BEDC.Derived.AbelMeanBoundaryUp.TasteGate
 import BEDC.Derived.AbelPartialSummationUp.TasteGate
+import BEDC.Derived.AbelPolynomialUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AbelRuffiniUp.TasteGate
 import BEDC.Derived.AbelSummationUp.TasteGate
@@ -891,7 +892,6 @@ import BEDC.Derived.BeliefUp.FiniteEvidenceConsumerCompleteness
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BellNumberUp
-import BEDC.Derived.PartialBellUp
 import BEDC.Derived.BergeMaximumUp
 import BEDC.Derived.BerkovichClosedDiscUp.TasteGate
 import BEDC.Derived.BernoulliPolyUp
@@ -9312,6 +9312,7 @@ import BEDC.Derived.ParsevalUp.RootSoneRealSealBoundary
 import BEDC.Derived.ParsevalUp.SOneBasisLedger
 import BEDC.Derived.ParsevalUp.SoneOrthogonalityHandoff
 import BEDC.Derived.ParsevalUp.TasteGate
+import BEDC.Derived.PartialBellUp
 import BEDC.Derived.PartitionBasinPolynomialUp.TasteGate
 import BEDC.Derived.PartitionBasinUp.TasteGate
 import BEDC.Derived.PartitionCoreIncidenceCertificateUp.TasteGate
