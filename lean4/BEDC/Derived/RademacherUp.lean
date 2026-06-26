@@ -142,4 +142,44 @@ theorem RademacherCarrier_absolute_continuity_boundary
   }
   exact ⟨cert, variationUnary, sealedUnary⟩
 
+theorem RademacherCarrier_difference_quotient_window_stability
+    {L E D M A H C P N L' E' D' M' A' H' C' P' N'
+      dyadicMetricRead lipschitzControlRead realRead
+      dyadicMetricRead' lipschitzControlRead' realRead' : BHist} :
+    RademacherCarrier L E D M A H C P N →
+      RademacherCarrier L' E' D' M' A' H' C' P' N' →
+        Cont D M dyadicMetricRead →
+          Cont L A lipschitzControlRead →
+            Cont dyadicMetricRead lipschitzControlRead realRead →
+              Cont D' M' dyadicMetricRead' →
+                Cont L' A' lipschitzControlRead' →
+                  Cont dyadicMetricRead' lipschitzControlRead' realRead' →
+                    hsame D D' →
+                      hsame M M' →
+                        hsame L L' →
+                          hsame A A' →
+                            hsame E E' →
+                              UnaryHistory realRead ∧ UnaryHistory realRead' ∧
+                                SemanticNameCert
+                                  (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row D ∨ hsame row M ∨ hsame row L ∨
+                                      hsame row A ∨ hsame row E ∨ hsame row realRead)
+                                  (fun row : BHist =>
+                                    hsame row realRead ∧ Cont D M dyadicMetricRead ∧
+                                      Cont L A lipschitzControlRead ∧
+                                        Cont dyadicMetricRead lipschitzControlRead realRead)
+                                  hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro carrier carrier' dyadicMetricRoute lipschitzControlRoute realRoute
+  intro dyadicMetricRoute' lipschitzControlRoute' realRoute'
+  intro _sameD _sameM _sameL _sameA _sameE
+  have packet :=
+    RademacherCarrier_finite_derivative_candidate_packet
+      carrier dyadicMetricRoute lipschitzControlRoute realRoute
+  have packet' :=
+    RademacherCarrier_finite_derivative_candidate_packet
+      carrier' dyadicMetricRoute' lipschitzControlRoute' realRoute'
+  exact ⟨packet.right.right.right, packet'.right.right.right, packet.left⟩
+
 end BEDC.Derived.RademacherUp
