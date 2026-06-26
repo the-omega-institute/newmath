@@ -33,7 +33,12 @@ N_BOOTSTRAP = int(os.environ.get("ASD_BOOTSTRAP", "80"))
 MAX_GENES_PER_ORGANISM = int(os.environ.get("ASD_MAX_GENES_PER_ORGANISM", "12"))
 MAX_HEG_PER_ORGANISM = int(os.environ.get("ASD_MAX_HEG_PER_ORGANISM", "6"))
 MIN_HEG_PER_ORGANISM = int(os.environ.get("ASD_MIN_HEG_PER_ORGANISM", "4"))
-HEG_CLASS_NULL = os.environ.get("ASD_HEG_CLASS_NULL", "0") == "1"
+# Default ON: the synonymous null must preserve HEG-class codon optimization.
+# A genome-background null mis-specifies ribosomal-protein synonymous freedom and
+# spuriously makes their optimal-codon-driven anti-SD content read as enrichment;
+# correcting it (HEG-class null) reveals genuine ASD-shadow avoidance with
+# significant carrier specificity. Set ASD_HEG_CLASS_NULL=0 only as a diagnostic.
+HEG_CLASS_NULL = os.environ.get("ASD_HEG_CLASS_NULL", "1") == "1"
 ANALYSIS_ORGANISM_LIMIT = int(os.environ.get("ASD_ANALYSIS_ORGANISM_LIMIT", "1"))
 ENABLE_MCMC_REFINE = os.environ.get("ASD_MCMC_REFINE", "0") == "1"
 NULL3_R = int(os.environ.get("ASD_NULL3_R", "5"))
