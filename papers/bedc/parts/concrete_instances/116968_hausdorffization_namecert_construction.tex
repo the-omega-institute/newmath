@@ -141,6 +141,46 @@ Use the separated-reflection scope of \autoref{thm:hausdorffization-separated-re
 Finally apply the ledger non-quotient boundary of \autoref{thm:hausdorffization-ledger-nonquotient-boundary}. Since there is no quotient-equality or representative-selection coordinate, two reads sharing $P,W,R,E$ have no alternate boundary data to distinguish them before $M,C$ are opened.
 \end{proof}
 
+\begin{theorem}[Hausdorffization zero-distance exactness]
+\label{thm:hausdorffization-zero-distance-exactness}
+Let $H=(P,S,M,C,W,R,E,T,K,G,N)$ be an accepted $\HausdorffizationUp$ packet. The zero-distance evidence displayed by $P,W,R,E$ determines exactly the separated-reflection row $S$: every separated identification read by $S$ must be witnessed by the pseudometric row $P$, the finite window row $W$, the regular-rational readback row $R$, and the terminal real seal $E$, and no downstream row $M,C,T,K,G,N$ can add a further separated-identification clause.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:hausdorffization-zero-distance-window-determinacy}. It states that shared $P,W,R,E$ data determine the same boundary row $S$ before $M$ or $C$ is visible.
+
+The separated-reflection scope theorem, \autoref{thm:hausdorffization-separated-reflection-scope}, supplies the converse route. The row $S$ compares pseudometric names only through zero-distance evidence from $P$, finite windows $W$, regular-rational readback $R$, and the terminal seal $E$.
+
+Finally apply \autoref{thm:hausdorffization-ledger-nonquotient-boundary}. Since the carrier has no quotient-equality, representative-selection, trichotomy, choice, or ambient-completeness coordinate, the downstream rows $M,C,T,K,G,N$ authenticate the same boundary rather than extending it.
+\end{proof}
+
+\begin{theorem}[Hausdorffization completion route stability]
+\label{thm:hausdorffization-completion-route-stability}
+Let $H=(P,S,M,C,W,R,E,T,K,G,N)$ be an accepted $\HausdorffizationUp$ packet. Every completion consumer preserves the route
+$$
+P \longmapsto S \longmapsto M \longmapsto C
+$$
+under componentwise $\hsame$ transport $T$ and displayed $\Cont$ replay $K$. Thus completion-facing reads may transport or replay the finite route, but they cannot reorder it, bypass $S$, or replace it by quotient completion data.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:hausdorffization-completion-consumer-route}. It forces each $\MetricCompletionUp$ consumer to read $P \longmapsto S \longmapsto M \longmapsto C$ and then authenticate the same path through $W,R,E,T,K,G,N$.
+
+Transport is componentwise. The row $T$ can identify corresponding pseudometric, separated-reflection, separated-metric, completion, readback, provenance, and naming rows, but it has no coordinate that turns a later completion row into an earlier source row.
+
+Replay is displayed by $K$. It repeats the same boundary route through the finite packet, and \autoref{thm:hausdorffization-separated-completion-factorization} rules out any completion-facing factorization other than $P \longmapsto S \longmapsto M \longmapsto C$.
+\end{proof}
+
+\begin{theorem}[Hausdorffization separated-reflection nonescape]
+\label{thm:hausdorffization-separated-reflection-nonescape}
+For an accepted $\HausdorffizationUp$ packet $H=(P,S,M,C,W,R,E,T,K,G,N)$, every separated-reflection or completion-facing read is exhausted by the rows $P,S,M,C,W,R,E,T,K,G,N$. In particular, quotient equality, representative selection, trichotomy, countable choice, host separated-reflection objects, quotient completion, and ambient completeness cannot escape the packet as readable data.
+\end{theorem}
+\begin{proof}
+The NameCert scope package of \autoref{thm:hausdorffization-namecert-scope-package} identifies the local certificate with the finite rows $P,S,M,C,W,R,E,T,K,G,N$. The separated-reflection boundary theorem \autoref{thm:hausdorffization-separated-reflection} and completion handoff exactness theorem \autoref{thm:hausdorffization-completion-handoff-exactness} place every separated metric and completion consumer inside that inventory.
+
+Apply zero-distance exactness, \autoref{thm:hausdorffization-zero-distance-exactness}. The separated-reflection row is fixed by displayed zero-distance evidence, so there is no remaining boundary slot for host quotient equality, representative choice, or trichotomy.
+
+Apply completion route stability, \autoref{thm:hausdorffization-completion-route-stability}. Completion consumers preserve the finite $P \longmapsto S \longmapsto M \longmapsto C$ route under $T$ and $K$, so quotient completion, countable choice, and ambient completeness are not readable exports of the packet.
+\end{proof}
+
 \begin{theorem}[Hausdorffization completion handoff exactness]
 \label{thm:hausdorffization-completion-handoff-exactness}
 Every $\MetricCompletionUp$ consumer of an accepted $\HausdorffizationUp$ packet receives the completion row $C$ only after the rows $P,S,M,W,R,E,T,K,G,N$ have been exposed. Thus completion-facing data are exact over the displayed pseudometric source, separated-reflection boundary, separated metric row, finite windows, regular readback, Real seal, componentwise transport, replay, provenance, and local naming.
