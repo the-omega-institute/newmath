@@ -66,6 +66,30 @@ Consequently any downstream interval consumer receives the retained cell togethe
 \end{proof}
 \leanchecked{BEDC.Derived.SturmRootIsolationUp.SturmRootIsolationCarrier\_sign\_variation\_handoff}
 
+\begin{theorem}[Sturm root-isolation squarefree route]
+\label{thm:sturm-root-isolation-squarefree-route}
+Every accepted $\SturmRootIsolationUp$ carrier reads the squarefree polynomial route before a sign-variation count can be consumed. Concretely, the polynomial source row $P$ and Sturm ledger $V$ must display the squarefree factor row, the pseudo-remainder or resultant compatibility row, the endpoint sign rows, and the retained interval rows from $I,D$ before the branch row $B$ is available. The interval-refinement certificate may cite \autoref{ch:concrete-instances-sturm-sequence-namecert}, \autoref{ch:concrete-instances-polynomial-resultant-namecert}, \autoref{ch:concrete-instances-rationalinterval-namecert}, \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-streamname-namecert} only through these displayed $\BHist$ and $\NameCert$ rows, and it exports no host squarefree factorization theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sturm-root-isolation-carrier}. The polynomial source row $P$ contains the coefficient, derivative, pseudo-remainder, and squarefree-route data from which the finite Sturm sequence is read.
+
+Use the sign-variation handoff of \autoref{thm:sturm-root-isolation-sign-variation-handoff}. It places every branch consumer downstream of $P,I,D,V,B$ and therefore downstream of the displayed squarefree and endpoint-sign rows that feed $V$.
+
+The sibling chapters supply only their finite certificate surfaces: \autoref{ch:concrete-instances-sturm-sequence-namecert} supplies the chain rows, \autoref{ch:concrete-instances-polynomial-resultant-namecert} supplies compatibility data, and the rational, stream, regular-rational, and Real siblings supply interval and completion rows. Since no carrier coordinate stores a host factorization theorem, the squarefree route is exactly the displayed packet route.
+\end{proof}
+
+\begin{theorem}[Sturm root-isolation subresultant sign-variation route]
+\label{thm:sturm-root-isolation-subresultant-sign-variation}
+For every accepted $\SturmRootIsolationUp$ carrier $Q=(P,I,D,V,B,W,R,S,H,C,Q_0,N)$, the sign-variation count used by $B$ is downstream of the subresultant or pseudo-remainder compatibility rows displayed in $P$ and $V$. The interval-refinement certificate cannot bypass those rows: any refinement that reaches $W,R,S$ must first replay the polynomial resultant route, the Sturm sequence route, the endpoint sign rows, and the rational or dyadic interval rows through $H,C,Q_0,N$.
+\end{theorem}
+\begin{proof}
+Read the Sturm ledger $V$. Its variation-count entries are tied to displayed chain entries and endpoint signs, so a count cannot be consumed before the subresultant or pseudo-remainder compatibility rows for those chain entries have been displayed.
+
+Apply the squarefree route theorem \autoref{thm:sturm-root-isolation-squarefree-route}. It places the branch row $B$ downstream of the squarefree polynomial route and the resultant compatibility rows, while \autoref{ch:concrete-instances-sturm-sequence-namecert} and \autoref{ch:concrete-instances-polynomial-resultant-namecert} provide only named finite sibling surfaces.
+
+Finally use interval refinement and Real seal nonescape, \autoref{thm:sturm-root-isolation-interval-refinement} and \autoref{thm:sturm-root-isolation-real-seal-nonescape}. The retained interval cannot reach $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ rows before the same polynomial, resultant, sign-variation, and interval rows have been replayed through $H,C,Q_0,N$.
+\end{proof}
+
 \begin{theorem}[Sturm root-isolation sign-variation scope]
 \label{thm:sturm-root-isolation-sign-variation-scope}
 For every accepted $\SturmRootIsolationUp$ carrier $Q=(P,I,D,V,B,W,R,S,H,C,Q_0,N)$, every accepted branch selection reads the polynomial chain rows in $P$ and the endpoint sign rows in $V$ before the branch row $B$ is available. The branch classifier therefore acts only on displayed polynomial, endpoint-sign, and variation-count data, and it exports no root object or external sign oracle.
