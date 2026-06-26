@@ -58,18 +58,54 @@ The handoff to analysis consumers then passes through the rational and Real boun
 The structural rows $H,C,Q,N$ preserve that route for downstream Riemann--Stieltjes and bounded-variation readers. They add no host function extensionality, quotient-function equality, selected limiting partition, countable choice, or ambient Real-completeness coordinate.
 \end{proof}
 
+\begin{theorem}[Jordan decomposition signed ledger exposure]
+\label{thm:jordan-decomposition-signed-ledger-exposure}
+For every accepted $\JordanDecompositionBoundedVariationUp$ carrier $J=(B,L,P_{+},P_{-},M,R,D,E,H,C,Q,N)$, the positive accumulated ledger $P_{+}$ and negative accumulated ledger $P_{-}$ are exposed only after the bounded-variation source row $B$ and the finite variation-ledger row $L$ have been displayed. A reader that asks for either signed accumulated component without first reading $B$ and $L$ has not reached the local $\NameCert_{\JordanDecompositionBoundedVariationUp}$ surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:jordan-decomposition-bounded-variation-carrier}. Its row order makes $B$ the source admission and $L$ the finite partition-sum ledger attached to the same interval and endpoint data.
+
+The signed accumulated rows $P_{+}$ and $P_{-}$ are downstream of those two rows. Apply the NameCert obligation surface of \autoref{thm:jordan-decomposition-bounded-variation-namecert-obligations}: positive and negative edge accumulation is one obligation, but it is exposed only together with bounded-variation source admission and finite variation-ledger exposure.
+
+Thus a consumer that omits $B$ or $L$ can at most name an external signed decomposition. It cannot read the displayed BEDC Jordan packet, because the local certificate has not opened the finite ledger on which $P_{+}$ and $P_{-}$ depend.
+\end{proof}
+
+\begin{theorem}[Jordan decomposition common-refinement monotonicity]
+\label{thm:jordan-decomposition-common-refinement-monotonicity}
+For every accepted $\JordanDecompositionBoundedVariationUp$ carrier $J=(B,L,P_{+},P_{-},M,R,D,E,H,C,Q,N)$, common-refinement monotonicity for the positive and negative accumulated ledgers is read through the displayed row $M$ and transported componentwise by $H$. It is not a host theorem about all partitions, nor a selected supremum over a refinement family.
+\end{theorem}
+\begin{proof}
+The carrier of \autoref{def:jordan-decomposition-bounded-variation-carrier} assigns the common-refinement witness to the single row $M$. Therefore a monotonicity read has a finite source: the displayed accumulated ledgers and their stated common-refinement comparison row.
+
+Transport is also rowwise. The componentwise $\hsame$ row $H$ preserves the source, ledger, signed accumulated components, readback, tolerance, Real-seal, replay, provenance, and local naming rows without replacing them by a host partition family.
+
+Consequently monotonicity reaches consumers only as the $M$ row transported by $H$. No total-variation supremum, quotient function, or ambient completeness principle is added by this route.
+\end{proof}
+
+\begin{theorem}[Jordan decomposition Real seal nonescape]
+\label{thm:jordan-decomposition-real-seal-nonescape}
+For every accepted $\JordanDecompositionBoundedVariationUp$ carrier $J=(B,L,P_{+},P_{-},M,R,D,E,H,C,Q,N)$, the terminal $\RealUp$ seal $E$ is reached only through the $\RegSeqRatUp$ readback row $R$ and the $\DyadicRatCoreUp$ tolerance row $D$. The seal exports no selected total-variation supremum, host function quotient, measure derivative, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+The carrier separates rational readback, tolerance accounting, and Real sealing into the rows $R,D,E$. The row $R$ reads endpoint and accumulated-value windows, while $D$ accounts for edge signs, absolute-value reads, and common-refinement comparisons.
+
+Apply the consumer route of \autoref{thm:jordan-decomposition-bounded-variation-consumer-route}. It sends Real-facing readers through $\RegSeqRatUp$, $\DyadicRatCoreUp$, and only then $\RealUp$, so $E$ is terminal rather than a new source of analytic data.
+
+Since the rows before $E$ are finite readback and tolerance rows, the terminal seal cannot introduce a selected supremum, a host quotient of functions, a measure derivative, countable choice, or ambient Real completeness. It records only the Real-facing boundary already supported by $R$ and $D$.
+\end{proof}
+
 \falsifiablePrediction{A purported $\JordanDecompositionBoundedVariationUp$ consumer that reads a positive or negative monotone component while omitting the bounded-variation source row, finite variation ledger, signed edge rows, RegSeqRat readback, DyadicRatCore tolerance, Real seal, transport, replay, provenance, or local naming row refutes the packet.}
 
 \independenceWitness{boundedvariation, finite-variation-ledger, regseqrat, dyadicratcore, real: $\JordanDecompositionBoundedVariationUp$ is not bijective with any listed sibling because it joins the bounded-variation source, signed finite partition ledgers, monotone refinement rows, rational readback, dyadic tolerance, Real sealing, transport, replay, provenance, and local naming as one decomposition packet.}
 
-\closureat{JordanDecompositionBoundedVariationUp}{seedStr}
+\closureat{JordanDecompositionBoundedVariationUp}{obligationStr}
 
 \begin{closurestatus}{\JordanDecompositionBoundedVariationUp}
   \constructivestory{A $\JordanDecompositionBoundedVariationUp$ packet is generated from a BoundedVariationUp source row, a FiniteVariationLedgerUp partition-sum row, positive and negative signed edge ledgers, common-refinement monotonicity rows, RegSeqRat readback, DyadicRatCore tolerance accounting, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:jordan-decomposition-bounded-variation-carrier}, \autoref{thm:jordan-decomposition-bounded-variation-namecert-obligations}, and \autoref{thm:jordan-decomposition-bounded-variation-consumer-route} seed the finite Jordan decomposition route for bounded-variation functions and Riemann--Stieltjes consumers.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:jordan-decomposition-bounded-variation-carrier}, \autoref{thm:jordan-decomposition-bounded-variation-namecert-obligations}, \autoref{thm:jordan-decomposition-bounded-variation-consumer-route}, \autoref{thm:jordan-decomposition-signed-ledger-exposure}, \autoref{thm:jordan-decomposition-common-refinement-monotonicity}, and \autoref{thm:jordan-decomposition-real-seal-nonescape} close the bounded-variation source admission, signed finite-ledger exposure, common-refinement monotonicity, RegSeqRat readback, DyadicRatCore tolerance accounting, and Real seal nonescape obligations for bounded-variation and Riemann--Stieltjes consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, host function quotients, selected total-variation suprema, measure-valued derivatives, countable choice, ambient $\RealUp$ completeness, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, signed finite-ledger exposure, monotonicity on common refinements, RegSeqRat readback, DyadicRatCore tolerance accounting, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.JordanDecompositionBoundedVariationUp.}
+  \upgradepath{Scoped closure requires checked transport, replay, provenance, and local naming routes for BEDC.Derived.JordanDecompositionBoundedVariationUp.}
 \end{closurestatus}
