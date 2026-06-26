@@ -5,6 +5,7 @@ import Mathlib.Algebra.EuclideanDomain.Int
 import Mathlib.Algebra.Order.Ring.Int
 import Mathlib.Algebra.Order.ZeroLEOne
 import Mathlib.Data.Int.ConditionallyCompleteOrder
+import Mathlib.Data.Nat.Fib.Zeckendorf
 import Mathlib.Data.Real.Basic
 import Mathlib.NumberTheory.Padics.PadicIntegers
 import Mathlib.Order.Basic
@@ -80,6 +81,13 @@ noncomputable def auditRealConditionallyCompleteLinearOrder :
 
 noncomputable def auditRealSupSet : SupSet _root_.Real :=
   inferInstance
+
+/-!
+Audit-only touchpoint for the mathlib Zeckendorf representation and equivalence.
+-/
+noncomputable def auditNatZeckendorfBoundary :
+    (Nat → List Nat) × (Nat ≃ {l // List.IsZeckendorfRep l}) :=
+  (Nat.zeckendorf, Nat.zeckendorfEquiv)
 
 /--
 Audit-only carrier touchpoint for mathlib `Real`. In the current mathlib
