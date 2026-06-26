@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CauchySpaceCompletionUp$}
+\label{ch:concrete-instances-cauchy-space-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive completions, and Kelley on uniform and completion spaces, the $\CauchySpaceCompletionUp$ packet names a non-quotient completion carrier for a displayed Cauchy space. It reconstructs the traditional completion interface as finite BEDC rows: effective Cauchy data, filter-Cauchy data, located uniform control, metric-completion handoff, and Bishop-style metric completion readback. The chapter consumes \autoref{ch:concrete-instances-effective-cauchy-space-namecert}, \autoref{ch:concrete-instances-cauchy-filter-space-namecert}, \autoref{ch:concrete-instances-located-uniform-space-namecert}, \autoref{ch:concrete-instances-bishop-metric-completion-namecert}, and \autoref{ch:concrete-instances-metriccompletion-namecert}; it does not claim quotient completion, selected limit representatives, countable choice, or ambient real completeness.
+
+\begin{definition}[CauchySpaceCompletion carrier]
+\label{def:cauchy-space-completion-carrier}
+A $\CauchySpaceCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+C=(E,F,U,B,M,W,R,L,H,T,P,N)
+$$
+with the following displayed rows.
+\begin{enumerate}
+\item $E$ is the source $\EffectiveCauchySpaceUp$ row, exposing only the effective Cauchy approximation schedule accepted by the packet.
+\item $F$ is the $\CauchyFilterSpaceUp$ row, recording the filter-Cauchy face read by completion consumers.
+\item $U$ is the $\LocatedUniformSpaceUp$ row, recording the located uniform entourage tests used to compare Cauchy names.
+\item $B$ is the $\BishopMetricCompletionUp$ row, exposing the Bishop-style completion handoff without quotient representatives.
+\item $M$ is the $\MetricCompletionUp$ row, recording the metric-completion request as a displayed boundary row.
+\item $W$ is the finite window row aligning effective Cauchy approximations, filter tests, located uniform tests, and metric-completion requests.
+\item $R$ is the readback row for the completion name, available only after $E,F,U,B,M,W$ remain visible.
+\item $L$ is the exactness ledger: two accepted completion names are compared only through displayed Cauchy agreement, located uniform tests, and metric-completion boundary rows.
+\item $H$ records componentwise $\hsame$ transport for $E,F,U,B,M,W,R,L,T,P,N$.
+\item $T$ records displayed $\Cont$ replay from a completion request through the effective, filter, uniform, Bishop-metric, metric-completion, readback, and exactness rows.
+\item $P$ is the $\Pkg$ provenance over $\CauchySpaceCompletionUp$, $\EffectiveCauchySpaceUp$, $\CauchyFilterSpaceUp$, $\LocatedUniformSpaceUp$, $\BishopMetricCompletionUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySpaceCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $E,F,U,B,M,W,R,L,H,T,P,N$. It has no coordinate for quotient classes, selected representatives, countable-choice subsequences, ambient complete space data, or an external real-completeness principle.
+\end{definition}
+
+\begin{theorem}[CauchySpaceCompletion NameCert obligations]
+\label{thm:cauchy-space-completion-namecert-obligations}
+For every accepted $\CauchySpaceCompletionUp$ carrier $C=(E,F,U,B,M,W,R,L,H,T,P,N)$, the local $\NameCert_{\CauchySpaceCompletionUp}$ surface consists exactly of carrier admission for the effective Cauchy row, Cauchy-filter row, located-uniform row, Bishop metric-completion handoff, metric-completion boundary, finite window alignment, completion-name readback, exactness ledger, componentwise transport, continuation replay, provenance, and local naming. Every accepted completion read factors through
+$$
+E,F,U \longmapsto B,M,W \longmapsto R,L,H,T,P,N
+$$
+and refuses quotient completion equality, selected limit representatives, countable choice, host completion objects, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-space-completion-carrier}. The rows $E,F,U$ are the only source Cauchy rows: $E$ supplies the effective schedule, $F$ supplies the filter-Cauchy face, and $U$ supplies located uniform comparison tests.
+
+The completion handoff is downstream of those rows. The Bishop-metric row $B$ and metric-completion boundary row $M$ are read only after the finite alignment window $W$ displays the same Cauchy request on all three source faces.
+
+The readback and exactness rows do not add quotient data. The row $R$ exposes the completion name, and $L$ compares completion names only through displayed Cauchy agreement, located uniform tests, and the metric-completion boundary. The structural rows $H,T,P,N$ transport, replay, source, and name that same route.
+
+Since the carrier has no coordinate for quotient classes, selected representatives, countable-choice subsequences, host completion objects, or ambient real completeness, the local NameCert surface is exactly the displayed non-quotient completion packet.
+\end{proof}
+
+\begin{theorem}[Cauchy completion standard-bridge boundary]
+\label{thm:cauchy-space-completion-standard-bridge-boundary}
+Any later standard bridge from $\CauchySpaceCompletionUp$ to a classical completion schema must consume only the displayed rows $E,F,U,B,M,W,R,L,H,T,P,N$. In particular, the bridge may cite the effective Cauchy schedule, the filter-Cauchy face, the located uniform tests, the Bishop metric-completion handoff, and the metric-completion boundary, but it cannot introduce quotient representatives, a selected limit map, countable choice, or an ambient completed host space.
+\end{theorem}
+\begin{proof}
+The bridge source is the accepted carrier itself. By \autoref{thm:cauchy-space-completion-namecert-obligations}, every completion read first passes through $E,F,U$ and then through $B,M,W$ before the readback and exactness rows are exposed.
+
+A standard bridge can therefore repackage only those displayed rows. The exactness ledger $L$ is the sole comparison interface, while $H,T,P,N$ preserve the packet route and provenance.
+
+No row stores quotient representatives, selected limits, countable-choice schedules, host completion data, or ambient completeness. Thus any bridge using this packet has the stated boundary.
+\end{proof}
+
+\falsifiablePrediction{A future $\CauchySpaceCompletionUp$ packet fails this NameCert surface if a completion read is accepted without the effective Cauchy row, Cauchy-filter row, located uniform row, Bishop metric-completion handoff, metric-completion boundary, finite alignment window, readback row, and exactness ledger all remaining displayed before the local NameCert row.}
+
+\independenceWitness{The packet is independent of quotient-completion principles: $\CauchySpaceCompletionUp$ binds effective Cauchy schedules, Cauchy filters, located uniform tests, Bishop metric-completion handoff, metric-completion boundary, readback, exactness, transport, replay, provenance, and local naming, but has no row for selected representatives, quotient equality, countable choice, host completion, or ambient $\RealUp$ completeness.}
+
+\closureat{CauchySpaceCompletionUp}{seedStr}
+
+\begin{closurestatus}{\CauchySpaceCompletionUp}
+  \constructivestory{A $\CauchySpaceCompletionUp$ packet is generated from an EffectiveCauchySpace row, CauchyFilterSpace row, LocatedUniformSpace row, BishopMetricCompletion row, MetricCompletion boundary row, finite alignment window, completion-name readback, exactness ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-space-completion-carrier}, \autoref{thm:cauchy-space-completion-namecert-obligations}, and \autoref{thm:cauchy-space-completion-standard-bridge-boundary} seed the non-quotient Cauchy-space completion carrier and its standard-bridge boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected limit representatives, countable choice, host completion objects, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier exactness, effective-Cauchy routing, filter-Cauchy routing, located-uniform routing, completion readback, exactness nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchySpaceCompletionUp.}
+\end{closurestatus}
