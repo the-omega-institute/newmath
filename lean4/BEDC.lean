@@ -3379,6 +3379,7 @@ import BEDC.Derived.CompactUniformOscillationUp.TasteGate
 import BEDC.Derived.CompactUniformPullbackUp.TasteGate
 import BEDC.Derived.CompactUniformRadiusChoiceUp.TasteGate
 import BEDC.Derived.CompactUniformRadiusLedgerUp.TasteGate
+import BEDC.Derived.CompactUniformRadiusMinimumStabilityUp.TasteGate
 import BEDC.Derived.CompactUniformSubordinateCoverUp.TasteGate
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
@@ -10359,6 +10360,7 @@ import BEDC.Derived.RegularCauchyComparisonPrincipleUp.TasteGate
 import BEDC.Derived.RegularCauchyComparisonUp
 import BEDC.Derived.RegularCauchyComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionCounitUp
+import BEDC.Derived.RegularCauchyCompletionCounitUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.ObligationClosure
 import BEDC.Derived.RegularCauchyCompletionCriterionUp.PublicExport
@@ -10661,6 +10663,7 @@ import BEDC.Derived.RegularCauchySqueezeUp.TasteGate
 import BEDC.Derived.RegularCauchyStreamReflectorUp
 import BEDC.Derived.RegularCauchySubsequenceInvarianceUp.TasteGate
 import BEDC.Derived.RegularCauchySubsequenceLimitUp.TasteGate
+import BEDC.Derived.RegularCauchySubsequenceModulusUp.TasteGate
 import BEDC.Derived.RegularCauchySubsequenceStabilityUp
 import BEDC.Derived.RegularCauchySubsequenceStabilityUp.NameCertObligations
 import BEDC.Derived.RegularCauchySubsequenceStabilityUp.RealSealBoundary
