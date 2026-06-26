@@ -104,6 +104,60 @@ The induction step consumes the finite subdivision packet of \autoref{ch:concret
 
 The same finite-cell surface is consumed by the compact interval uniform-modulus route of \autoref{ch:concrete-instances-compact-interval-uniform-modulus-namecert}. A downstream consumer reads the $\DyadicRatCoreUp$ endpoint row, the $\StreamNameUp$ window row, the $\RegSeqRatUp$ tolerance row, and the terminal $\RealUp$ seal in the displayed order, so the interval net remains a finite cover handoff rather than an open-cover compactness principle.
 
+\begin{definition}[Dyadic compact-modulus carrier]
+\label{def:dyadic-compact-modulus-carrier}
+A dyadic compact-modulus carrier over an accepted $\DyadicIntervalNetUp$ packet $I=(D,J,E,S,R,Q,H,C,P,N)$ is a finite $\BHist$ packet
+$$
+M=(I,K,B,U,L,S',R',Q',T,V,W,N')
+$$
+with the following rows:
+\begin{enumerate}
+\item $K$ is the compact-interval source row, read only through the finite dyadic cells already listed in $J$ and their endpoint-incidence data $E$.
+\item $B$ is the mesh-bound row, recording a displayed dyadic scale and the rational lower-bound fold used to compare cell radii.
+\item $U$ is the pointwise modulus row, listing the local modulus data attached to the displayed cells rather than a selected global modulus.
+\item $L$ is the finite lower-bound fold over the listed dyadic cells, producing the public compact-modulus budget from $B$ and $U$.
+\item $S'$ and $R'$ are the $\StreamNameUp$ and $\RegSeqRatUp$ readback rows for endpoint observations, mesh bounds, and tolerance budgets.
+\item $Q'$ is the $\RealUp$ seal row for the compact-interval endpoint and value data, reached only after $S'$ and $R'$ are displayed.
+\item $T$ records componentwise $\hsame$ transport for $I,K,B,U,L,S',R',Q'$ and the structural rows.
+\item $V$ records displayed $\Cont$ replay from dyadic cells through mesh bounds, pointwise modulus rows, lower-bound fold, readback, and seal.
+\item $W$ is the $\Pkg$ provenance over $\DyadicIntervalNetUp$, compact-interval source rows, uniform-modulus consumers, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N'$ is the local dyadic compact-modulus $\NameCert$ row.
+\end{enumerate}
+The classifier compares accepted compact-modulus packets only through $I,K,B,U,L,S',R',Q',T,V,W,N'$. It has no coordinate for open-cover compactness, a selected finite subcover, a selected global modulus, quotient interval equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic compact-modulus NameCert obligations]
+\label{thm:dyadic-compact-modulus-namecert-obligations}
+For every accepted dyadic compact-modulus carrier $M=(I,K,B,U,L,S',R',Q',T,V,W,N')$, the local NameCert surface consists exactly of carrier admission for those twelve rows; finite-cell exposure through the accepted $\DyadicIntervalNetUp$ packet $I$; compact-interval source exposure through $K$; mesh-bound exposure through $B$; pointwise modulus exposure through $U$; rational lower-bound folding through $L$; $\StreamNameUp$ and $\RegSeqRatUp$ readback through $S'$ and $R'$; terminal $\RealUp$ sealing through $Q'$; componentwise $\hsame$ transport through $T$; displayed $\Cont$ replay through $V$; $\Pkg$ provenance through $W$; and local naming through $N'$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-compact-modulus-carrier}. Its only cover-facing input is the accepted interval-net packet $I$, and its only compact-interval input is the source row $K$ read through the finite cells of $I$.
+
+The modulus budget is finite. The mesh-bound row $B$ records the dyadic scale, $U$ lists pointwise modulus rows attached to displayed cells, and $L$ folds the rational lower bounds over the finite cell list.
+
+The readback and seal rows remain downstream. Endpoint observations and tolerance budgets pass through $S'$ and $R'$, and the terminal real boundary is $Q'$.
+
+Finally replay $T,V,W,N'$. Transport, continuation replay, provenance, and local naming preserve exactly those rows, so no open cover, selected finite subcover, selected global modulus, quotient interval equality, countable choice, or ambient completeness row can enter the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dyadic compact-modulus Heine--Cantor route]
+\label{thm:dyadic-compact-modulus-heine-cantor-route}
+Every compact-interval uniform-modulus or Heine--Cantor finite-net consumer of an accepted dyadic compact-modulus carrier $M=(I,K,B,U,L,S',R',Q',T,V,W,N')$ must read the finite route
+$$
+I,K \longmapsto B,U,L \longmapsto S',R',Q',T,V,W,N'
+$$
+before it may use the public compact-modulus budget. The route sends dyadic cells, mesh bounds, endpoint incidence, compact-interval source data, pointwise modulus rows, rational lower-bound fold, $\StreamNameUp$ and $\RegSeqRatUp$ readback, and $\RealUp$ sealing to compact-interval uniform-modulus consumers. It exports no open-cover compactness, selected subcover, quotient interval equality, countable choice, selected global modulus, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the dyadic interval net uniform subnet theorem, \autoref{thm:dyadic-interval-net-uniform-subnet}. It forces compact-uniform-continuity reads to expose dyadic cell rows, interval-radius rows, StreamName or RegSeqRat windows, and a uniform-modulus handoff before a compact finite-net conclusion is read.
+
+Apply the compact-modulus obligations of \autoref{thm:dyadic-compact-modulus-namecert-obligations}. They refine that handoff through the compact-interval source row $K$, mesh-bound row $B$, pointwise modulus row $U$, and finite lower-bound fold $L$.
+
+Now use the Real source link and Real seal nonescape theorems, \autoref{thm:dyadic-interval-net-real-source-link} and \autoref{thm:dyadic-interval-net-real-seal-nonescape}. The endpoint observations and tolerance budgets must pass through the displayed StreamName and RegSeqRat readback rows before the Real seal is opened.
+
+Finally replay $T,V,W,N'$. The compact-interval uniform-modulus and Heine--Cantor consumers receive the finite dyadic-cell route just described, with no coordinate for open-cover compactness, selected subcovers, quotient interval equality, countable-choice schedules, selected global moduli, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[Dyadic interval net obligation surface]\label{thm:dyadic-interval-net-obligation-surface}
 For every accepted $\DyadicIntervalNetUp$ carrier $I=(D,J,E,S,R,Q,H,C,P,N)$, carrier admission and cell coverage are exhausted by the displayed rows $D,J,E,H,C,P,N$. The endpoint arithmetic, finite interval-cell list, endpoint incidence, componentwise transport, replay, provenance, and local naming rows supply the complete finite obligation surface for a dyadic net request, and no open-cover compactness or selected finite subcover is exported.
 \end{theorem}
