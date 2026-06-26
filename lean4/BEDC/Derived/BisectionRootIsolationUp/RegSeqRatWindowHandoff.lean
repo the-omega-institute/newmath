@@ -51,4 +51,28 @@ theorem BisectionRootIsolationRegSeqRatWindowHandoff [AskSetup] [PackageSetup]
     ⟨windowUnary, readbackUnary, observedUnary, exportedUnary, observedRoute,
       exportedRoute, provenancePkg, exportedPkg⟩
 
+theorem BisectionRootIsolationFiniteSignChangeCertificate [AskSetup] [PackageSetup]
+    {interval bisection functionRow endpoint window readback sealRow transport replay provenance name
+      observed exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BisectionRootIsolationCarrier interval bisection functionRow endpoint window readback sealRow
+        transport replay provenance name bundle pkg →
+      Cont functionRow endpoint bisection →
+        Cont bisection endpoint observed →
+          PkgSig bundle observed pkg →
+            UnaryHistory functionRow ∧ UnaryHistory endpoint ∧ UnaryHistory bisection ∧
+              UnaryHistory observed ∧ Cont functionRow endpoint bisection ∧
+                Cont bisection endpoint observed ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle observed pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier functionRoute observedRoute observedPkg
+  obtain ⟨_intervalUnary, bisectionUnary, functionUnary, endpointUnary, _windowUnary,
+    _readbackUnary, _sealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _nameUnary, _sealRoute, _endpointRoute, provenancePkg⟩ := carrier
+  have observedUnary : UnaryHistory observed :=
+    unary_cont_closed bisectionUnary endpointUnary observedRoute
+  exact
+    ⟨functionUnary, endpointUnary, bisectionUnary, observedUnary, functionRoute,
+      observedRoute, provenancePkg, observedPkg⟩
+
 end BEDC.Derived.BisectionRootIsolationUp

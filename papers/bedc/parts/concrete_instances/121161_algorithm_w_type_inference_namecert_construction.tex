@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\AlgorithmWTypeInferenceUp$}
+\label{ch:concrete-instances-algorithm-w-type-inference-namecert}
+\origin{human}
+
+Following Hindley and Milner, the $\AlgorithmWTypeInferenceUp$ packet records principal type inference for simply presented lambda terms as finite BEDC readback data. It consumes the $\LambdaCalcUp$ syntax surface of \autoref{ch:concrete-instances-lambdacalc-namecert}, the typed-example coverage rows of \autoref{ch:concrete-instances-typedexamplecoveragematrix-namecert}, and the MetaCIC audit routing of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}. The chapter names only the displayed inference, constraint, unification, principal-type, transport, replay, provenance, and local NameCert rows; it does not import a host typechecker, an ambient unification oracle, quotient equality of types, or a completeness theorem for a host evaluator.
+
+\begin{definition}[Algorithm W type-inference carrier]
+\label{def:algorithm-w-type-inference-carrier}
+An $\AlgorithmWTypeInferenceUp$ carrier is a finite $\BHist$ packet
+$$
+A=(L,E,M,C,U,T,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the consumed $\LambdaCalcUp$ term packet. It exposes variables, abstractions, applications, substitution rows, alpha-beta classifier rows, and constructor case data as finite syntax rows.
+\item $E$ is the typed-example coverage row consumed from $\TypedExampleCoverageMatrixUp$. It records which variable, abstraction, application, let-shaped, and failure-facing examples are covered by the inference packet before any checker-audit consumer reads it.
+\item $M$ is the $\MetaCICCriticalPathUp$ audit row. It records the critical-path cells that will later consume inferred typing rows, normalization-facing rows, and checker-audit rows.
+\item $C$ is the constraint-generation ledger. Each entry names the source syntax row, context row, fresh type-variable row, and generated equality constraint for the visible constructor case.
+\item $U$ is the unification ledger. It records only finite occurs-check, substitution-extension, constraint-discharge, and residual-constraint rows.
+\item $T$ is the principal-type output row. It names the inferred type scheme, the solved substitution, the residual context, and the proof that every exported typed-example row reads through the same solved ledger.
+\item $H$ records componentwise $\hsame$ transport for the lambda syntax, typed-example coverage, MetaCIC audit, constraint, unification, principal-type, replay, provenance, and naming rows.
+\item $R$ records displayed $\Cont$ replay from $L,E,M$ into $C$, from $C$ into $U$, and from $U$ into $T$ before any MetaCIC typing or normalization audit route consumes the result.
+\item $P$ is the $\Pkg$ provenance over $\AlgorithmWTypeInferenceUp$, $\LambdaCalcUp$, $\TypedExampleCoverageMatrixUp$, $\MetaCICCriticalPathUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AlgorithmWTypeInferenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host typechecker, ambient type-scheme equality, host unification state, hidden principal-type theorem, or imported MetaCIC typing judgment.
+\end{definition}
+
+\begin{theorem}[Algorithm W type-inference NameCert obligations]
+\label{thm:algorithm-w-type-inference-namecert-obligations}
+For every accepted $\AlgorithmWTypeInferenceUp$ carrier $A=(L,E,M,C,U,T,H,R,P,N)$, the local $\NameCert_{\AlgorithmWTypeInferenceUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed lambda syntax, typed-example coverage, MetaCIC critical-path, constraint-generation, unification, principal-type, transport, continuation, provenance, and naming rows;
+\item syntax coverage, requiring every inference read to enter through the consumed $\LambdaCalcUp$ constructor row of $L$;
+\item typed-example coverage, requiring each exported example-facing typing row to be listed in $E$ before it is consumed by a checker-audit route;
+\item constraint generation, requiring constructor cases to append only the displayed context, fresh type-variable, and equality-constraint rows in $C$;
+\item unification ledger exactness, requiring every solved substitution and residual constraint to be read from $U$ rather than from a host unifier;
+\item principal-type output, requiring the public type scheme and solved substitution to be exposed through $T$ after $C$ and $U$ have been displayed;
+\item transport, replay, provenance, and naming through $H,R,P,N$.
+\end{enumerate}
+No Algorithm W obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:algorithm-w-type-inference-carrier}. Its coordinates list the lambda source, coverage row, MetaCIC audit row, constraint ledger, unification ledger, principal-type output, and structural rows.
+
+The syntax and coverage obligations are forced by $L$ and $E$. A consumer cannot ask for an inference row until the corresponding $\LambdaCalcUp$ constructor row and typed-example coverage cell have been displayed.
+
+Constraint generation and unification are the roles of $C$ and $U$. The packet records fresh type-variable rows, equality constraints, occurs-check rows, substitution extensions, and residual constraints as finite ledger entries, so a host typechecker or ambient unification oracle has no coordinate from which to enter.
+
+Finally, the principal output $T$ is downstream from $C$ and $U$, while $H,R,P,N$ transport, replay, package, and name the same finite route. Hence the local NameCert surface is exhausted by the rows stated above.
+\end{proof}
+
+\begin{theorem}[Algorithm W type-inference principal-type route]
+\label{thm:algorithm-w-type-inference-principal-type-route}
+Every principal-type read exported by an accepted $\AlgorithmWTypeInferenceUp$ packet factors through
+$$
+\LambdaCalcUp,\TypedExampleCoverageMatrixUp,\MetaCICCriticalPathUp
+\longmapsto C \longmapsto U \longmapsto T \longmapsto H,R,P,N .
+$$
+Thus a MetaCIC typing or normalization audit route may consume the inferred type scheme only after the lambda syntax row, typed-example coverage row, critical-path row, constraint-generation ledger, unification ledger, principal-type output row, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row have been displayed.
+\end{theorem}
+\begin{proof}
+Begin with a principal-type request. The source term must first be read as a $\LambdaCalcUp$ packet, and the typed-example consumer must read the corresponding coverage row of $\TypedExampleCoverageMatrixUp$.
+
+The MetaCIC audit route is then constrained by $M$. It can request typing and normalization-facing rows only through the critical-path cells already displayed in the carrier.
+
+Constraint generation sends the request into $C$, and unification discharges those generated constraints through $U$. The principal type scheme is exposed only by $T$, together with the solved substitution and residual context recorded in the same finite ledger.
+
+The structural rows $H,R,P,N$ preserve this route under transport and replay. Since the carrier has no host typechecker, ambient unifier, quotient type equality, hidden principal-type theorem, or imported MetaCIC typing judgment, the exported principal-type read is exactly the displayed route named in the statement.
+\end{proof}
+
+\closureat{AlgorithmWTypeInferenceUp}{seedStr}
+
+\begin{closurestatus}{\AlgorithmWTypeInferenceUp}
+  \constructivestory{An $\AlgorithmWTypeInferenceUp$ packet is generated from LambdaCalc syntax rows, typed-example coverage rows, MetaCIC critical-path rows, a finite constraint-generation ledger, a finite unification ledger, a principal-type output row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:algorithm-w-type-inference-carrier}, \autoref{thm:algorithm-w-type-inference-namecert-obligations}, and \autoref{thm:algorithm-w-type-inference-principal-type-route} seed the finite Algorithm W inference packet over displayed syntax, coverage, critical-path, constraint, unification, principal-type, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a host typechecker, ambient unification oracle, quotient equality of types, a full Hindley-Milner completeness theorem, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, constructorwise constraint generation, unification ledger exactness, principal-type output, MetaCIC audit handoff, transport, replay, provenance, and local NameCert rows for BEDC.Derived.AlgorithmWTypeInferenceUp.}
+\end{closurestatus}
