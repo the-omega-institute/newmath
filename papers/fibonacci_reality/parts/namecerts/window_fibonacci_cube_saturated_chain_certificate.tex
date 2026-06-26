@@ -1,15 +1,16 @@
-\subsection{NameCert: Window Fibonacci Cube Saturated Chain}
-\label{sec:namecert-window_fibonacci_cube_saturated_chain_certificate}
 \origin{ai}
 
-\paragraph{Statement.} For the Fibonacci cube family Gamma\_m with edges oriented by increasing Hamming weight, the number C\_m of directed saturated chains from 0\textasciicircum{}m to a maximal word equals the forward DP count, equals sum over maximal words w of popcount(w)!, and equals the closed form sum\_\{k=ceil(m/3)\}\textasciicircum{}\{ceil(m/2)\} binom(k+1,m-2k+1) k!. Values 1,1,2,3,6,12,26,60,144,366,960,2640,7464 are verified to m=12, with closed-form agreement to m=14. This is a weight-poset saturated-chain invariant distinct from the eleven prior anchors and from published Fibonacci-cube invariants, with no alpha claim.
+\subsection{Finite forced-window data still required}
+\label{sec:window-fibonacci-cube-saturated-chain-certificate-missing-data}
 
-\paragraph{Carrier.} The Fibonacci cube family Gamma\_m whose vertices are length-m binary words with no adjacent 1s, with Hamming-weight orientation on cover edges from lower weight to higher weight.
+\paragraph{Status of the construction.}
+The supplied sanitized data contain the namecert slug but no mathematical rows from which a finite construction can be reconstructed. In particular, there is no specified carrier such as a concrete subset of $\{0,1\}^n$, no predicate defining which words are admissible, no finite relation describing allowed cover moves or forced-window transitions, no partition of the carrier into strata, no matrix or kernel, and no certified count of vertices, edges, chains, fibers, or spectral values. A self-contained chapter for a saturated-chain certificate must derive its claims from explicit finite tables or exact formulas, but no such table or formula is present in the sanitized input.
 
-\paragraph{Relations.} family-level Gamma\_m carrier with |V\_m|=F\_\{m+2\}; directed saturated upward chains from 0\textasciicircum{}m to maximal words; memoized forward DP cnt(x)=1 for maximal x and otherwise sum over valid one-bit additions; maximal-word factorial sum C\_m=sum\_w popcount(w)! over maximal words w; binomial-factorial closed form C\_m=sum\_\{k=ceil(m/3)\}\textasciicircum{}\{ceil(m/2)\} binom(k+1,m-2k+1) k!; values 1,1,2,3,6,12,26,60,144,366,960,2640,7464 verified to m=12 and closed-form agreement to m=14; distinct from the eleven prior anchors and from published Fibonacci-cube edge, vertex, cube-polynomial, Wiener, automorphism, Hamiltonicity, domination, and degree-sequence invariants; no physical readout or alpha interpretation
+\paragraph{Data needed for a ready chapter.}
+To write the chapter without inventing structure, the input must provide the dimension $n$ of the window, the exact carrier $C \subseteq \{0,1\}^n$, the admissibility rule defining $C$, the finite relation $R \subseteq C \times C$ used for the chain steps, the meaning of saturation for this relation, and the complete list or formula for the saturated chains. It must also provide any partition used in the proof, for example a rank partition $C=C_0 \cup \cdots \cup C_m$ with exact sizes $|C_i|$, together with any transition matrix $A$ or kernel $K$ whose entries are used in the certificate. If a spectral statement is intended, the characteristic identity, eigenvalue list, normalization convention, and witness vectors must be supplied as finite exact data.
 
-\paragraph{Counts and identities.} No exact count has been certified in the author-facing facts.
+\paragraph{Reason for withholding the certificate.}
+Because the mathematical fact set is empty, any theorem-like statement about counts, factorizations, chain lengths, matrix spectra, or witness extraction would be unsupported. The present record therefore does not assert a finite forced-window theorem. It records only that an ai-discovered vision-level chapter with this slug requires finite certificate data before a mathematical claim can be stated.
 
-\paragraph{Witness extraction.} The fallback records only the finite construction data already present in the sanitized packet.
-
-\paragraph{Not claimed.} /; No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed.
+\paragraph{Local limitation.}
+No physical-constant identification, global flow law, external dependency, metrological comparison, or interpretation beyond an explicitly supplied finite construction follows from the current data. Such statements would require a separate certificate with exact finite rows and a distinct numerical-comparison protocol.
