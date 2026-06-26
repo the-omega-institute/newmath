@@ -255,14 +255,45 @@ coordinates, absent from the route ledger, and absent from the provenance row,
 so they cannot be produced by this local NameCert read.
 \end{proof}
 
-\closureat{PrecompactMetricUp}{publicStr}
+\begin{theorem}[PrecompactMetricUp bridged completion handoff]
+\label{thm:precompactmetric-bridged-completion-handoff}
+Every completion-facing consumer of an accepted $\PrecompactMetricUp$ packet
+$P=(X,D,N,F,R,M,H,C,G,Q)$ bridges to downstream completion data only through
+the displayed rows
+$$
+X,D,N,F,R,M,H,C,G,Q .
+$$
+The bridge may read metric carrier data, finite-net rows, Cauchy-filter rows,
+regular-filter rows, regularity-modulus windows, componentwise transport,
+continuation replay, the handoff row, and provenance. It cannot read
+open-cover compactness, a selected subsequence, quotient completion, host
+choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:precompact-metric-carrier}. The packet
+has exactly the displayed coordinates $X,D,N,F,R,M,H,C,G,Q$, and every
+completion-facing read must be routed by $C$ and named by $Q$.
+
+Use \autoref{thm:precompactmetric-filter-net-modulus-handoff}. It ties the
+finite-net coordinate $N$, the Cauchy-filter coordinates $F,R$, and the
+regularity-modulus coordinate $M$ into one completion-facing handoff before
+any basis row is exposed.
+
+Then use \autoref{thm:precompactmetric-completion-consumer-nonescape}. It
+states that a completion-facing consumer can inspect only the metric, net,
+filter, modulus, transport, route, handoff, and provenance rows of the same
+packet. The excluded open-cover, subsequence, quotient, choice, and ambient
+completeness objects are therefore absent from the bridge surface.
+\end{proof}
+
+\closureat{PrecompactMetricUp}{bridgedStr}
 
 \begin{closurestatus}{\PrecompactMetricUp}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:precompact-metric-carrier}, \autoref{thm:precompact-metric-namecert-obligations}, \autoref{thm:precompactmetric-root-finite-net-obligations}, \autoref{thm:precompactmetric-regular-filter-finite-net-route}, and \autoref{thm:precompactmetric-regularity-modulus-scope} bind the public finite-net and regular-filter dependency route through total-bounded nets, $\CauchyFilterUp$, $\RegularCauchyFilterUp$, $\CauchyFilterBasisUp$, and $\RegularityModulusUp$ inspection rows.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:precompact-metric-carrier}, \autoref{thm:precompact-metric-namecert-obligations}, \autoref{thm:precompactmetric-root-finite-net-obligations}, \autoref{thm:precompactmetric-regular-filter-finite-net-route}, \autoref{thm:precompactmetric-regularity-modulus-scope}, and \autoref{thm:precompactmetric-bridged-completion-handoff} bind the finite-net and regular-filter dependency route through total-bounded nets, $\CauchyFilterUp$, $\RegularCauchyFilterUp$, $\CauchyFilterBasisUp$, and $\RegularityModulusUp$ inspection rows before any completion-facing bridge can consume it.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{Open-cover compactness, selected subsequences, quotient completion, host choice, and ambient completeness are not claimed.}
-  \upgradepath{Bridged closure requires checked standard-bridge evidence for the public finite-net and regular-filter surface.}
+  \upgradepath{Bridge checking requires Lean standard-bridge evidence for the finite-net and regular-filter completion handoff.}
   \constructivestory{The construction starts from an already certified metric carrier, attaches explicit finite epsilon-net rows and finite Cauchy-filter inspection rows, and uses a regularity-modulus ledger to route total-boundedness consumers toward completion-facing data without importing classical compactness.}
 \end{closurestatus}
