@@ -1,36 +1,58 @@
-\subsection{Position-resolved dwell localization for the f3-stress abundance component}
-\label{sec:bioreality-f3-stress-dwell-positional}
+\subsection{Positional dwell localization of the $f_3$ stress abundance component}\label{sec:bioreality-f3-stress-dwell-positional-ramp-body}
 \origin{ai}
 
-\paragraph{Finite surface.}
-This record isolates the $f3\_stress$ coordinate inside the nine-dimensional $B^{\ast}_{Q6}$ synonymous residual basis and asks whether the abundance component carried by that coordinate is better predicted by position-resolved ribosome dwell summaries near the coding-sequence head or by corresponding tail/body summaries. The finite surface is a Saccharomyces cerevisiae matched panel with $n=1257$ joined rows for the active positional-dwell fit. The target is not total protein abundance itself, but the one-dimensional projection $P_{f3}$ of $Z$-residualized $\log_{10}$ protein abundance onto the $Z$-residualized $f3\_stress$ direction. On this active join, $\|P_{f3}\|^2=44.20095750389323$, and $P_{f3}$ accounts for $0.1999063916718794$ of the relevant target energy. The nuisance basis has rank $24$, the tested $f3\_stress$ direction has rank $1$, and the base training context uses $1800$ rows before the active positional join is formed.
-
-\paragraph{Controls and row geometry.}
-The controlled comparison is deliberately narrow. The design uses per-gene positional relative ribosome-occupancy summaries computed separately from file-provided $5'$ head windows and $3'$ tail windows. The reported statistic is a held-out increment over the base design under fixed folds: $5$ folds are held constant while deterministic row-label permutations of $P_{f3}$ provide the null reference. The permutation count is $120$, and the same base/full design structure is reused separately for each segment and for the joint segment design. Thus the positive call is a finite-row discrimination between two measured positional readouts on the same projected abundance component, not a free narrative about translation or protein biology.
-
-\paragraph{Observed segment split.}
-The positional test passed with dominant segment $5'$ and leading segment by held-out $\Delta R^2$ also $5'$. The five-prime ramp gate passed, while the three-prime body gate did not pass. In symbolic form the local readback is
+\paragraph{Finite panel.}
+The record isolates the $f_3$ stress coordinate inside the nine-coordinate $B^{\ast}_{Q6}$ residual surface and asks whether the protein-abundance component carried by that coordinate is better read through a positional ribosome-occupancy window at the 5-prime ramp or through the 3-prime/body window.  The active organism is \emph{Saccharomyces cerevisiae}.  The finite join contains $n=1257$ genes on the active base-plus-positional-dwell panel, drawn from a base availability of $1800$ rows, with five held-out folds.  The residual target is
 $$
 \begin{aligned}
-\operatorname{rank}(f3)&=1,\\
-\operatorname{rank}(Z)&=24,\\
- n_{\mathrm{join}}&=1257,\\
- N_{\mathrm{perm}}&=120,\\
- \mathrm{segment}_{\mathrm{lead}}&=5',\\
- \mathrm{pass}_{5'}&=\mathrm{true},\\
- \mathrm{pass}_{3'}&=\mathrm{false}.
+P_{f_3} &= \operatorname{proj}_{\widetilde f_3}\bigl(\widetilde{\log_{10} P}\bigr),\\
+\|P_{f_3}\|^2 &= 44.20095750389323,\\
+\frac{\|P_{f_3}\|^2}{\|\widetilde{\log_{10} P}\|^2} &= 0.1999063916718794,
 \end{aligned}
 $$
-The finite verdict is therefore positional localization of the dwell increment: at least one positional dwell window gives a positive held-out increment above the fixed permutation Null95, and the window that carries the positive result is the five-prime/head segment rather than the three-prime/tail segment.
+where all tildes denote residualization against the same finite control basis: amino-acid composition, CDS length, GC3, and the $M$-density baseline.  The recorded control rank is $24$, and the isolated $f_3$ source has rank $1$.
 
-\paragraph{Relation to the non-positional dwell result.}
-The segment-localized result refines the broader dwell mediation result on the same organism and projected target. In the non-positional fit, the active join had $n=1257$, $5$ folds, $120$ permutations, $\operatorname{rank}(f3)=1$, and $\operatorname{rank}(Z)=24$. The base model achieved $R^2=0.1855578757644517$, dwell alone achieved $R^2=0.034336580953121976$, and the full model achieved $R^2=0.20412261520502883$. The held-out dwell increment was $\Delta R^2=0.01856473944057712$, while the deterministic row-label null had mean $-0.0032911642620130563$, minimum $-0.013799622026666476$, maximum $0.005001350039772926$, and Null95 $0.0013115362189692937$. The observed $f3\_stress$--dwell correlation was $0.1615441450901653$ with approximate $p=7.873916057196935\times 10^{-9}$. The position-resolved result does not replace that aggregate dwell evidence; it assigns the aggregate dwell increment to the head-side readout.
+\paragraph{Dwell readout.}
+The measured dwell surface is not a modeled codon-weight score.  It is a per-gene positional relative ribosome-occupancy readout computed separately from file-provided 5-prime/head and 3-prime/tail A-site occupancy windows.  The same target vector $P_{f_3}$ is held fixed while each segment design is evaluated against a deterministic row-label permutation null.  The null model permutes $P_{f_3}$ while keeping the base design, full design, and fold assignment fixed, and it is run separately for the 5-prime segment, the 3-prime segment, and the joint segment design.  The registered run uses $120$ permutations and the deterministic seed $\texttt{sha256:b\_star\_q6\_f3\_stress\_dwell\_positional\_powered:deterministic}$.
 
-\paragraph{Relation to structural ramp tests.}
-A separate ramp-versus-body structural-order readout also found a weak positive ramp-side increment for $f3\_stress$, but it did not meet the paired localization gate. At the primary ramp length $50$, the weighted ramp held-out increment was $0.0011165640103326878$, the weighted body increment was $-0.00026157313923957926$, and the ramp-minus-body difference was $0.001378137149572267$. The ramp sign-flip probability for being greater than zero was $0.0478515625$, the body probability was $0.54296875$, and the paired ramp-minus-body probability was $0.05859375$. That companion result is best read as ramp-positive but not structurally localized. By contrast, the present dwell result is a position-resolved ribosome-occupancy readback for the $P_{f3}$ abundance component, with the $5'$ dwell segment passing and the $3'$ segment failing.
+\paragraph{Positional call.}
+The finite outcome is asymmetric.  The leading segment by held-out increment is the 5-prime segment, the dominant segment is recorded as $\texttt{5prime}$, the 5-prime ramp gate passed, and the 3-prime/body gate did not pass.  In the same notation,
+$$
+\begin{aligned}
+\operatorname{segment}_{\max} &= \texttt{5prime},\\
+\operatorname{passed}(5\text{-prime}) &= \mathrm{true},\\
+\operatorname{passed}(3\text{-prime/body}) &= \mathrm{false},\\
+\operatorname{permutations} &= 120,\\
+\operatorname{folds} &= 5.
+\end{aligned}
+$$
+Thus the ready claim is not merely that an $f_3$ abundance component has some dwell readout.  It is the sharper finite-row statement that the detectable dwell increment is localized to the 5-prime/head window under this panel, while the 3-prime/tail body window is not the passing segment.
 
-\paragraph{Cross-layer placement.}
-The same coordinate family has broad direct protein-omics survival in matched PAXdb abundance panels: for Saccharomyces cerevisiae the direct $Q\to P$ surface reports $R^2_{QP}=0.29837624994140827$ with all $9$ coordinates surviving after the stated controls, and the measured ribosome-TE surface reports for Saccharomyces cerevisiae $R^2_{QT,\mathrm{meas}}=0.13681931343730436$ with all $9$ coordinates surviving. In the measured TE-conditioned abundance decomposition for the same organism, $S_{QP}=0.3146818503437042$, $S_{QT,\mathrm{meas}}=0.13681931343730436$, the raw measured mediation fraction is $0.4793069656345167$, and the clipped measured mediation fraction is the same value. These surrounding finite facts make the positional-dwell result biologically anchored enough to state as a bounded cross-layer readback: the $f3\_stress$ abundance component is not merely associated with bulk abundance, and not merely associated with aggregate dwell, but has a detectable five-prime positional dwell increment on the matched yeast rows.
+\paragraph{Relation to the non-positional dwell test.}
+The positional record is coherent with the companion dwell-mediation run on the same yeast context.  There the active join is again $n=1257$, with $1800$ base rows, $5$ folds, $120$ deterministic permutations, source rank $1$, and control-basis rank $24$.  The non-positional dwell readout has base $R^2=0.1855578757644517$, dwell-alone $R^2=0.034336580953121976$, full $R^2=0.20412261520502883$, and held-out increment
+$$
+\begin{aligned}
+\Delta R^2_{\mathrm{held\ out}} &= 0.01856473944057712,\\
+\operatorname{Null}_{95} &= 0.0013115362189692937,\\
+\operatorname{Null}_{\max} &= 0.005001350039772926,\\
+\operatorname{Null}_{\mathrm{mean}} &= -0.0032911642620130563.
+\end{aligned}
+$$
+The observed $f_3$--dwell correlation is $0.1615441450901653$, with approximate $p=7.873916057196935\times 10^{-9}$.  These numbers supply the surrounding evidence that dwell is a real finite readout for the $P_{f_3}$ component before the positional split asks which segment carries the increment.
 
-\paragraph{Local conclusion.}
-The ready claim is the following finite statement. On the Saccharomyces cerevisiae matched panel, after projecting protein abundance onto the $Z$-residualized $f3\_stress$ direction, positional relative ribosome occupancy improves held-out prediction above a deterministic row-label null, and the improvement is localized to the five-prime/head segment rather than the three-prime/tail segment. The numerical readback is $n=1257$, $5$ folds, $120$ permutations, $\operatorname{rank}(f3)=1$, $\operatorname{rank}(Z)=24$, $\|P_{f3}\|^2=44.20095750389323$, $P_{f3}$ fraction $0.1999063916718794$, five-prime pass true, three-prime pass false, dominant segment $5'$. This is a measured positional-dwell association with a projected abundance component; it is not, by itself, a causal translation mechanism, a folding statement, a physical-admissibility statement, a molecular-function statement, a phenotype statement, or a universal biological law. Any such stronger interpretation would need its own layer-matched measurement and a separate finite statistic.
+\paragraph{Ramp versus body comparison.}
+A separate structural-order ramp/body run also reports a 5-prime positive tendency, but it does not pass the stronger localization gate.  With primary ramp length $50$, two primary organisms, and five folds, the recorded increments are
+$$
+\begin{aligned}
+\Delta R^2_{f_3,\,\mathrm{ramp}} &= 0.0011165640103326878,\\
+\Delta R^2_{f_3,\,\mathrm{body}} &= -0.00026157313923957926,\\
+\Delta R^2_{\mathrm{ramp-body}} &= 0.001378137149572267.
+\end{aligned}
+$$
+The sign-flip probabilities are $0.0478515625$ for positive ramp signal, $0.54296875$ for positive body signal, and $0.05859375$ for the paired ramp-minus-body comparison.  That run is classified as $\texttt{ramp\_positive\_but\_not\_localized}$: the ramp signal is positive, but the paired localization gate is not passed there.  The present dwell-positional record is therefore more specific: within the yeast positional ribosome-occupancy dwell surface, the 5-prime segment is the passing segment and the body segment is not.
+
+\paragraph{Cross-layer boundary.}
+The surrounding protein-omics and translation rows explain why the claim must remain narrow.  Direct protein-omics survival against PAXdb abundance is positive across the fifteen-organism panel, for example $R^2_{QP}=0.29837624994140827$ in yeast, $0.10767526677985896$ in \emph{E. coli}, $0.04454565118019448$ in human, and $0.019256877907572044$ in \emph{Halobacterium salinarum}, with all nine $B^{\ast}_{Q6}$ coordinates surviving in those rows.  Measured ribosome-TE survival is also positive in the four measured-TE rows, with $R^2_{QT,\mathrm{meas}}=0.13681931343730436$ in yeast, $0.009394266754822262$ in \emph{E. coli}, $0.018837911344127926$ in human, and $0.04034217614654355$ in zebrafish.  The measured TE-to-abundance mediation fractions are nevertheless heterogeneous: yeast has $0.4793069656345167$, \emph{E. coli} has $0.04091158340950673$, human has $0.0027966485036786744$, and zebrafish is clipped to $0$ from a raw value of $-0.04801486048721136$.  A separate yeast readout-dictionary certificate leaves unexplained fraction $0.7546178856026946$ after selection-aware coverage $C^{\ast}=0.24538211439730545$, with $\lambda_{DL}=0.01$ and selection-aware null $95\%$ value $0.029149007242956115$.
+
+\paragraph{Admissible conclusion.}
+The ready conclusion is therefore finite and local: in the yeast positional dwell experiment, the $f_3$-projected protein-abundance component is associated with a passing 5-prime/head relative ribosome-occupancy dwell increment, while the 3-prime/tail body segment does not pass.  This is a row-level cross-layer relation between a residual codon-coordinate component, a measured positional dwell readout, and the protein-abundance projection $P_{f_3}$.  It does not by itself establish translation causality, folding, physical admissibility, molecular function, phenotype, mechanism, adaptation, or universality.  Any such stronger statement would require an additional layer-matched contact and its own finite statistic, rather than being inferred from the positional dwell asymmetry.

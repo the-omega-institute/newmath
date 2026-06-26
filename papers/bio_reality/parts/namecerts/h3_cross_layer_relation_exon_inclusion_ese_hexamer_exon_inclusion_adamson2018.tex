@@ -1,44 +1,44 @@
 \origin{ai}
 
-\subsection{ESE hexamer scoring and exon-inclusion response in the Adamson finite row}
+\subsection{ESE-Hexamer Perturbation and Exon-Inclusion Readback}
 \label{sec:bioreality-ese-hexamer-exon-inclusion-adamson2018}
 
-\paragraph{Finite claim surface.}
-This record concerns a bounded cross-layer relation between an exon-local sequence score and an exon-inclusion readout.  The finite row is not a claim about translation, folding, physical admissibility, molecular function, mechanism, phenotype, or universality.  It is a same-layer splicing test: an ESE-hexamer coordinate is compared against an exon-inclusion response surface in the Adamson finite panel.  The audited table contains $n=1037$ rows, and the computed scalar comparison between the ESE-sequence differential and the splice-model differential is
+\paragraph{Finite row under test.}
+This record treats the Adamson-style exon-inclusion surface as a finite cross-layer table rather than as a mechanism claim. The carrier is a row set of size $n=1037$ in which each row has a local exon or minigene perturbation coordinate, an ESE-hexamer score displacement, a splice-site model displacement, and an exon-inclusion readout. The finite statistic recorded for this chapter is the collinearity between the ESE-sequence displacement and the MaxEnt splice-model displacement:
 $$
 \begin{aligned}
-\operatorname{collinearity}(\Delta ESE_{\mathrm{seq}},\Delta MaxEnt) = -0.008429245619.
+\operatorname{collinearity}(\Delta ESE_{seq},\Delta MaxEnt) &= -0.008429245619,\\
+ n &= 1037,\\
+ t_{runtime} &= 4.569444656\ \mathrm{s}.
 \end{aligned}
 $$
-The runtime recorded for this finite computation is $4.569444656$ seconds.  The sign and magnitude matter: the row supports the existence of a checked finite comparison, but it does not support a positive collinearity statement.  In particular, this entry is best read as a calibrated boundary on an ESE-hexamer exon-inclusion relation rather than as evidence that the two score changes move in the same direction.
+The value is close to zero and slightly negative, so the finite row does not support a collapse of ESE-hexamer response into the MaxEnt splice-site coordinate. It is instead a separation certificate: the ESE perturbation axis and the splice-site-scoring axis are recorded as distinct finite observables over the same exon-inclusion table.
 
-\paragraph{Admissible mathematical reading.}
-Let $W$ denote the finite set of assayed exon windows in the Adamson row, with $|W|=1037$.  For each $w \in W$, write $e(w)$ for the ESE-hexamer sequence-score contrast and $m(w)$ for the matched splice-model contrast.  The audited scalar is the empirical collinearity summary of the paired vector $\{(e(w),m(w)) : w \in W\}$.  The finite statement is therefore
+\paragraph{Local biological interpretation.}
+The admissible biological reading is narrow. The row set supports an exon-inclusion comparison in which ESE-hexamer perturbation and splice-site model displacement can be placed side by side without becoming the same coordinate. A near-zero collinearity means that a signal in one coordinate should not be automatically read as a signal in the other. In particular, this chapter may say that the finite table contains a measured inclusion-layer surface with $1037$ rows and that the two recorded sequence-derived predictors are almost uncorrelated on that surface. It may not say that the ESE coordinate is a universal splicing mechanism, nor that MaxEnt score change captures all exon-recognition information.
+
+\paragraph{Cross-checking against neighboring finite surfaces.}
+The exon-inclusion row has a useful contrast with the larger splice-readout table in which the mouse VASTDB splice-MaxEnt cross-organism surface has $n=50633$ rows and reports \texttt{all\_tissue\_positive} as true. The two exon-inclusion records therefore occupy different finite regimes: the Adamson-style ESE table is small enough to expose coordinate non-collinearity directly, while the VASTDB-linked splice table records a much larger tissue-positive splice-score association. A separate alternative-polyadenylation surface has $24740$ genes and $296950$ PAS rows; it is relevant only as a scale comparison, not as evidence for exon inclusion.
+
+\paragraph{Code-topology coordinates kept separate.}
+The same audit bundle also contains codon-topology facts, but they do not enlarge the exon-inclusion claim. The saturated $f_3$ residue list is
 $$
 \begin{aligned}
-W &\text{ is finite},\\
-|W| &= 1037,\\
-C_{ESE,MaxEnt}(W) &= -0.008429245619.
+\operatorname{Sat}_{f_3}(R) = \{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\},
 \end{aligned}
 $$
-This is a real finite-row certificate: the two coordinates are present on the same row set and the numerical relation has been computed.  It is not a structural theorem about all exons, all cell types, or all splicing contexts.  It also does not identify a causal splice factor, an RNA-binding mechanism, or a universal grammar of exon recognition.
-
-\paragraph{Relation to neighboring finite audits.}
-The same audit bundle records a larger splice-oriented finite surface for cross-organism MaxEnt and mouse VASTDB data with $n=50633$ and the boolean condition $\mathrm{all\_tissue\_positive}=\mathrm{true}$, computed in $410.672546$ seconds.  It also records an alternative polyadenylation surface with $24740$ genes and $296950$ polyadenylation sites.  These neighboring rows show that the present Adamson entry is part of a broader finite-row splicing and RNA-processing audit, but they do not supply extra evidence for this exact ESE-hexamer collinearity beyond the $1037$ paired Adamson rows.
-
-\paragraph{Coordinate separation.}
-The audit bundle also contains coding-sequence geometry rows that must remain separate from this splicing claim.  The $f_3$ saturation record lists
+whereas the larger $M=\operatorname{Med}(R)\cup\{ACA,ACG\}$ list has $20$ codons:
 $$
 \begin{aligned}
-M &= \{\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},\\
-\operatorname{Sat}_{f_3}(R) &= \{\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},\\
-\partial f_3 &= \varnothing.
+M = \{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\\
+&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
 \end{aligned}
 $$
-The quotient-geometry row records $\pi_M$ size $10$, an $M$-vector $(20,38,26,8,1)$, and a quotient vector $(10,14,6,1)$.  These are coding-coordinate facts, not exon-inclusion facts.  They may define a separate codon-topology substrate elsewhere, but they do not alter the local Adamson statement, whose observable row is the paired ESE and splice-model exon-inclusion comparison.
+The quotient geometry record gives $|\pi_M|=10$, an $M$-vector $(20,38,26,8,1)$, and a quotient vector $(10,14,6,1)$. These are finite coding-sequence geometry facts. They are not exon-inclusion measurements and they are not translation measurements. In this chapter they function only as a warning against coordinate promotion: a codon quotient, an $f_3$ residual, and an exon-inclusion table are different finite surfaces unless a same-row data join explicitly connects them.
 
-\paragraph{Downstream boundary.}
-A nearby structural-order audit reports a primary ramp length of $50$, five folds, a minimum joined count of $300$, and the verdict $\mathrm{ramp\_positive\_but\_not\_localized}$.  Its ramp statistic has weighted held-out $\Delta R^2=0.0011165640103326878$ with sign-flip $p=0.0478515625$, while the body statistic has weighted held-out $\Delta R^2=-0.00026157313923957926$ with sign-flip $p=0.54296875$; the paired ramp-minus-body sign-flip value is $p=0.05859375$.  Those numbers are useful as a warning about promotion: even when a coding-coordinate row has a small positive readout, localization and downstream interpretation require their own tests.  The Adamson ESE row is more constrained still.  Its collinearity is near zero and slightly negative, so it cannot be used to infer translation output, protein abundance, structural order, physical admissibility, biological function, mechanism, phenotype, or a universal biological law.
+\paragraph{Boundary of the claim.}
+The chapter is therefore ready only for the following bounded assertion: in the $1037$-row exon-inclusion table, ESE-hexamer displacement and MaxEnt displacement are empirically separated by the recorded collinearity $-0.008429245619$, so ESE-associated inclusion response should be tracked as its own finite coordinate. No translation readout, protein abundance, folding state, physical admissibility, biochemical function, causal mechanism, phenotype, or universal biological rule follows from this table. Such claims would require a separate layer-matched contact with its own finite rows, controls, rank check, and null comparison.
 
-\paragraph{Local conclusion.}
-The finite-row conclusion is therefore narrow and explicit.  The Adamson ESE-hexamer exon-inclusion table supplies a checked same-row comparison on $1037$ observations, with $C_{ESE,MaxEnt}=-0.008429245619$.  This certifies a computed splicing-coordinate relation and simultaneously blocks a stronger positive-alignment reading.  Any claim above this level would need a separate row-matched contact at the relevant layer: measured ribosome occupancy for translation, protein abundance for protein-output mediation, structural or stability measurements for folding and physical admissibility, perturbation or functional assays for mechanism and function, and population or system assays for phenotype or universality.
+\paragraph{Comparison with a translation-bound record.}
+The structural-order ramp packet in the same audit bundle illustrates why this boundary matters. There the primary ramp size is $50$, the fold count is $5$, and the recorded conclusion is \texttt{ramp\_positive\_but\_not\_localized}; its weighted held-out increments are $0.0011165640103326878$ for the $f_3$ ramp and $-0.00026157313923957926$ for the $f_3$ body, with sign-flip probabilities $0.0478515625$ and $0.54296875$ respectively. Those numbers belong to a translation-adjacent structural-order test, not to this exon-inclusion chapter. They are cited here only to show the local discipline: each finite surface is interpreted at the layer where its rows actually live. The Adamson ESE chapter remains an exon-inclusion coordinate-separation record, not a downstream translation or protein-state result.
