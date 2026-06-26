@@ -1,0 +1,15 @@
+\begin{theorem}[Finite interval lattice dyadic-interval dependency]
+\label{thm:finite-interval-lattice-dyadic-interval-dependency}
+Every accepted $\FiniteIntervalLatticeUp$ meet or join read consumes the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicinterval-namecert} and the located-interval row of \autoref{ch:concrete-instances-located-real-interval-namecert} before it reaches the StreamName, RegSeqRat, and Real seal rows. In the carrier
+$$
+Q=(D,I,L,J,M,S,R,E,H,C,P,N),
+$$
+the finite tables $J$ and $M$ have no independent interval source outside the displayed $D,I,L$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-interval-lattice-carrier}. The endpoint ledger $D$, the dyadic interval list $I$, and the located interval source $L$ are the only interval-source rows before the meet and join tables.
+
+The join table $J$ and meet table $M$ are finite tables over the cells already listed in $I$. Their entries and refusal rows therefore use the displayed dyadic endpoints and located-interval source rather than a separate interval-domain object.
+
+Only after $D,I,L,J,M$ have been displayed can the analytic handoff proceed to $S,R,E$. The StreamName row records inspected endpoint windows, the RegSeqRat row reads those windows, and the Real row seals the same route. Transport, replay, provenance, and local naming preserve this dependency and do not add an independent interval source.
+\end{proof}
