@@ -1,4 +1,5 @@
 import BEDC.Algebra.Rel.Basic
+import BEDC.Algebra.Rel.InterfaceSpine
 import BEDC.Derived.QuadIntUp
 
 namespace BEDC.Algebra.Rel
@@ -20,6 +21,14 @@ abbrev gaussianQuadParameter := BEDC.Derived.QuadIntUp.gaussianQuadParameter
 abbrev QuadIntUp_RelCommRing (d : IntegerUp) :
     RelCommRing (QuadInt d) (QuadEq (d := d)) :=
   BEDC.Derived.QuadIntUp.QuadInt_RelCommRing d
+
+abbrev QuadIntUp_RelEquiv (d : IntegerUp) :
+    RelEquiv (QuadInt d) :=
+  BEDC.Derived.QuadIntUp.QuadInt_RelEquiv d
+
+instance QuadIntUp_CommRingUp (d : IntegerUp) :
+    CommRingUp (QuadInt d) (QuadIntUp_RelEquiv d) :=
+  RelCommRing.toCommRingUpWith (QuadIntUp_RelEquiv d) (QuadIntUp_RelCommRing d)
 
 theorem QuadIntUp_norm_mul (d : IntegerUp) (x y : QuadInt d) :
     IntEq (quadNorm (quadMul x y)) (IntMul (quadNorm x) (quadNorm y)) :=

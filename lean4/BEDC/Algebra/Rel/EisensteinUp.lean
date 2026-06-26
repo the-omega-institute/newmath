@@ -1,4 +1,5 @@
 import BEDC.Algebra.Rel.Basic
+import BEDC.Algebra.Rel.InterfaceSpine
 import BEDC.Derived.EisensteinUp
 
 namespace BEDC.Algebra.Rel
@@ -57,6 +58,9 @@ instance EisensteinUp_RelCommRing : RelCommRing EisInt EisEq where
   zero_mul := BEDC.Derived.EisensteinUp.EisInt_comm_ring_laws.zero_mul
   left_distrib := BEDC.Derived.EisensteinUp.EisInt_comm_ring_laws.left_distrib
   right_distrib := BEDC.Derived.EisensteinUp.EisInt_comm_ring_laws.right_distrib
+
+instance EisensteinUp_CommRingUp : CommRingUp EisInt EisensteinUp_RelEquiv :=
+  RelCommRing.toCommRingUpWith EisensteinUp_RelEquiv EisensteinUp_RelCommRing
 
 theorem EisensteinUp_neg_mul (x y : EisInt) :
     EisEq (eisMul (eisNeg x) y) (eisNeg (eisMul x y)) :=
