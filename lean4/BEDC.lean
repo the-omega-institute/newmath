@@ -10939,6 +10939,7 @@ import BEDC.Derived.RieszRepresentationUp.MeasureHandoff
 import BEDC.Derived.RieszRepresentationUp.ObligationClosure
 import BEDC.Derived.RieszRepresentationUp.PublicExport
 import BEDC.Derived.RieszRepresentationUp.TasteGate
+import BEDC.Derived.RieszSchauderTheoryUp
 import BEDC.Derived.RieszSpaceUp.TasteGate
 import BEDC.Derived.RingOfIntegersUp
 import BEDC.Derived.RingUp
