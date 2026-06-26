@@ -180,10 +180,6 @@ structure RatMetricKit where
         close (ratAdd x y) (ratAdd x' y') k
   neg_close :
     ∀ {x y : Rat} {k : Nat}, close x y k -> close (ratNeg x) (ratNeg y) k
-  mul_close :
-    ∀ {x x' y y' : Rat} {k : Nat},
-      close x x' (Nat.succ k) -> close y y' (Nat.succ k) ->
-        close (ratMul x y) (ratMul x' y') k
   le_refl : ∀ x : Rat, le x x
   le_trans : ∀ {x y z : Rat}, le x y -> le y z -> le x z
   le_antisymm : ∀ {x y : Rat}, le x y -> le y x -> RatEq x y
@@ -329,27 +325,6 @@ def lrNeg {K : RatMetricKit} (a : LReal K) : LReal K where
     intro k m n hm hn
     exact K.neg_close (a.cauchy k m n hm hn)
 
-def lrMul {K : RatMetricKit} (a b : LReal K) : LReal K where
-  seq := fun n => ratMul (a.seq n) (b.seq n)
-  modulus := joinModulus a b
-  modulus_mono := joinModulus_mono a b
-  cauchy := by
-    intro k m n hm hn
-    have am : a.modulus (p1 k) ≤ m :=
-      Nat.le_trans (a.modulus_mono (p1_le_p3 k))
-        (Nat.le_trans (natMax_left (a.modulus (p3 k)) (b.modulus (p3 k))) hm)
-    have an : a.modulus (p1 k) ≤ n :=
-      Nat.le_trans (a.modulus_mono (p1_le_p3 k))
-        (Nat.le_trans (natMax_left (a.modulus (p3 k)) (b.modulus (p3 k))) hn)
-    have bm : b.modulus (p1 k) ≤ m :=
-      Nat.le_trans (b.modulus_mono (p1_le_p3 k))
-        (Nat.le_trans (natMax_right (a.modulus (p3 k)) (b.modulus (p3 k))) hm)
-    have bn : b.modulus (p1 k) ≤ n :=
-      Nat.le_trans (b.modulus_mono (p1_le_p3 k))
-        (Nat.le_trans (natMax_right (a.modulus (p3 k)) (b.modulus (p3 k))) hn)
-    exact K.mul_close (a.cauchy (p1 k) m n am an)
-      (b.cauchy (p1 k) m n bm bn)
-
 theorem lrAdd_respects {K : RatMetricKit} {a a' b b' : LReal K} :
     LRealEq K a a' -> LRealEq K b b' ->
       LRealEq K (lrAdd a b) (lrAdd a' b') := by
@@ -388,34 +363,6 @@ theorem lrNeg_respects {K : RatMetricKit} {a b : LReal K} :
           close := by
             intro k m n hm hn
             exact K.neg_close (data.close k m n hm hn) }⟩
-
-theorem lrMul_respects {K : RatMetricKit} {a a' b b' : LReal K} :
-    LRealEq K a a' -> LRealEq K b b' ->
-      LRealEq K (lrMul a b) (lrMul a' b') := by
-  intro ha hb
-  cases ha with
-  | intro adata =>
-      cases hb with
-      | intro bdata =>
-          exact ⟨
-            { modulus := fun k => natMax (adata.modulus (p1 k)) (bdata.modulus (p1 k))
-              close := by
-                intro k m n hm hn
-                have leftClose :
-                    K.close (a.seq m) (a'.seq n) (p1 k) :=
-                  adata.close (p1 k) m n
-                    (Nat.le_trans
-                      (natMax_left (adata.modulus (p1 k)) (bdata.modulus (p1 k))) hm)
-                    (Nat.le_trans
-                      (natMax_left (adata.modulus (p1 k)) (bdata.modulus (p1 k))) hn)
-                have rightClose :
-                    K.close (b.seq m) (b'.seq n) (p1 k) :=
-                  bdata.close (p1 k) m n
-                    (Nat.le_trans
-                      (natMax_right (adata.modulus (p1 k)) (bdata.modulus (p1 k))) hm)
-                    (Nat.le_trans
-                      (natMax_right (adata.modulus (p1 k)) (bdata.modulus (p1 k))) hn)
-                exact K.mul_close leftClose rightClose }⟩
 
 def lrLe {K : RatMetricKit} (a b : LReal K) : Prop :=
   ∀ n : Nat, K.le (a.seq n) (b.seq n)
@@ -594,23 +541,5 @@ theorem lrLimit_cauchy {K : RatMetricKit} (s : Nat -> LReal K)
       (lrLimit s C).modulus k ≤ n ->
         K.close ((lrLimit s C).seq m) ((lrLimit s C).seq n) k :=
   (lrLimit s C).cauchy
-
-structure LRealApartDivision {K : RatMetricKit}
-    (numerator denominator : LReal K)
-    (denominator_apart : lrApart denominator (ratToLReal K ratZero)) where
-  quotient : LReal K
-  quotient_spec : LRealEq K (lrMul quotient denominator) numerator
-
-def lrDivApart {K : RatMetricKit} {numerator denominator : LReal K}
-    {denominator_apart : lrApart denominator (ratToLReal K ratZero)}
-    (data : LRealApartDivision numerator denominator denominator_apart) :
-    LReal K :=
-  data.quotient
-
-theorem lrDivApart_spec {K : RatMetricKit} {numerator denominator : LReal K}
-    {denominator_apart : lrApart denominator (ratToLReal K ratZero)}
-    (data : LRealApartDivision numerator denominator denominator_apart) :
-    LRealEq K (lrMul (lrDivApart data) denominator) numerator :=
-  data.quotient_spec
 
 end BEDC.Derived.LocatedReal

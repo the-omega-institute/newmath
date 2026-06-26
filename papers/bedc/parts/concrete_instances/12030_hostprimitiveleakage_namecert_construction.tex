@@ -42,7 +42,6 @@ The failed-gate and audit rows are consumed from the sibling certificates \autor
 
 The kernel witness sibling \autoref{ch:concrete-instances-kernel-audit-witness-namecert} supplies the accepted-declaration readback surface, not a permission to import host primitives. Repacking these rows gives the local naming certificate, and every public consumer route is forced to display the requested host feature before the route can be refused or replaced.
 \end{proof}
-\leanchecked{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[HostPrimitiveLeakage non-escape]
 \label{thm:host-primitive-leakage-nonescape}
@@ -100,6 +99,7 @@ Apply \autoref{thm:host-primitive-leakage-namecert-obligations}. The local NameC
 
 Now apply \autoref{thm:host-primitive-leakage-nonescape}. Since quotient soundness is listed among the host primitives that cannot be accepted as BEDC-internal content, the only accepted read is the refusal route, with any BEDC replacement separated into $E,H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageQuotSoundnessNonescape}
 
 \begin{theorem}[HostPrimitiveLeakage audit-gate factorization]
 \label{thm:host-primitive-leakage-audit-gate-factorization}
@@ -112,6 +112,7 @@ The NameCert obligations of \autoref{thm:host-primitive-leakage-namecert-obligat
 
 Finally apply \autoref{thm:host-primitive-leakage-nonescape}. Reading $Q$ alone would expose only a refused request, and reading $E$ alone would expose only a replacement row; neither read can bypass the displayed audit-gate factorization through $F,G,H,C,P,N$.
 \end{proof}
+\leanchecked{BEDC.Derived.HostPrimitiveLeakageUp.HostPrimitiveLeakageAuditGateFactorization}
 
 \begin{theorem}[HostPrimitiveLeakage formal-axis boundary]
 \label{thm:host-primitive-leakage-formal-axis-boundary}
