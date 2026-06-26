@@ -151,6 +151,51 @@ Apply interval refinement, \autoref{thm:sturm-root-isolation-interval-refinement
 Finally apply Real seal nonescape, \autoref{thm:sturm-root-isolation-real-seal-nonescape}. The seal remains downstream of the same displayed rows and cannot expose host algebraic roots, quotient equality, trichotomy, selected roots, or ambient completeness. Hence every branch or Real-seal consumer reads exactly the listed kernel rows before it can consume the packet.
 \end{proof}
 
+\begin{theorem}[Sturm root-isolation scoped interval and Real-seal route]
+\label{thm:sturm-root-isolation-scoped-interval-real-seal-route}
+Every accepted $\SturmRootIsolationUp$ branch-selection consumer must pass
+through the $\PolynomialUp$ source row, $\RationalIntervalUp$ cell ledger,
+$\DyadicIntervalUp$ refinement ledger, Sturm sign-variation ledger,
+$\BisectionRootIsolationUp$ branch handoff, $\StreamNameUp$ windows,
+$\RegSeqRatUp$ readbacks, and $\RealUp$ seal rows before it can be used as a
+scoped interval or real-facing root-isolation route. The route does not claim
+algebraic root existence, factorization completeness, real trichotomy, quotient
+equality, selected real roots, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of
+\autoref{thm:sturm-root-isolation-namecert-obligations}. They expose the
+polynomial source row, rational and dyadic interval rows, Sturm ledger, branch
+row, stream windows, regular-rational readback, Real seal, transport, replay,
+provenance, and local naming as the finite carrier surface.
+
+Use the sign-variation handoff and sign-variation scope,
+\autoref{thm:sturm-root-isolation-sign-variation-handoff} and
+\autoref{thm:sturm-root-isolation-sign-variation-scope}. These place every
+accepted branch downstream of the polynomial chain rows, endpoint sign rows,
+variation-count differences, and the retained $\BisectionRootIsolationUp$
+branch handoff.
+
+Apply interval refinement and certificate ledger exhaustion,
+\autoref{thm:sturm-root-isolation-interval-refinement} and
+\autoref{thm:sturm-root-isolation-certificate-ledger}. The rational cell ledger
+and dyadic refinement ledger therefore remain visible before any
+$\StreamNameUp$ window, $\RegSeqRatUp$ readback, or real-facing consumer is
+available.
+
+Finally use Real seal nonescape, the obligation-closure route, and scoped
+kernel binding:
+\autoref{thm:sturm-root-isolation-real-seal-nonescape},
+\autoref{thm:sturm-root-isolation-obligation-closure-route}, and
+\autoref{thm:sturm-root-isolation-scoped-kernel-binding}. Together they keep
+the branch and seal consumers inside the displayed polynomial, interval,
+Sturm-ledger, bisection, stream, regular-rational, and real-seal rows. Since
+the carrier has no coordinate for algebraic root existence, factorization
+completeness, trichotomy, quotient equality, selected real roots, or Real
+completeness, the consumer route is exactly the scoped interval and Real-seal
+route stated above.
+\end{proof}
+
 \closureat{SturmRootIsolationUp}{seedStr}
 \closureat{SturmRootIsolationUp}{obligationStr}
 
