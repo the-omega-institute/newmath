@@ -12105,6 +12105,7 @@ import BEDC.Derived.Window6NecklaceSpectralDeterminant
 import BEDC.Derived.Window6ParryModPDescent
 import BEDC.Derived.Window6PisanoPeriodModP
 import BEDC.Derived.Window6SeamIdentification
+import BEDC.Derived.Window6SixfoldWalshRecurrence
 import BEDC.Derived.Window6ThetaSparseRecurrence
 import BEDC.Derived.Window6TraceCycleIndexNecklace
 import BEDC.Derived.Window6TraceLucas
