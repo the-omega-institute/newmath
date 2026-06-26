@@ -221,6 +221,36 @@ Case-split on the displayed selector row $J$. In the $A \preceq_W B$ branch, tra
 The continuation row $C$ replays that transported route in the same order. Hence selector stability is scoped to the displayed branch and tolerance ledger, with no extra host-order, quotient, limit, or completeness coordinate.
 \end{proof}
 
+\begin{theorem}[RegularCauchyMin dyadic-order scope]
+\label{thm:regular-cauchy-min-dyadic-order-scope}
+Every $\RealAlgOrderUp$-facing minimum read of an accepted $\RegularCauchyMinUp$ carrier
+$$
+M=(A,B,W,D_A,D_B,J,S,R,E,H,C,P,N)
+$$
+must expose the two $\RegSeqRatUp$ sources $A,B$, the shared $\StreamNameUp$ window $W$, the two $\DyadicRatCoreUp$ tolerance ledgers $D_A,D_B$, the selector row $J$, the selected $\RegSeqRatUp$ row $S$, the readback row $R$, and the terminal $\RealUp$ seal $E$ before any order-facing consumer sees the minimum. The exposed route is the displayed L10 chain
+$$
+(A,B,W,D_A,D_B)
+\longrightarrow
+J
+\longrightarrow
+S
+\longrightarrow
+R
+\longrightarrow
+E ,
+$$
+with componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\RegularCauchyMinUp}$ row $N$ attached to the same chain. It exports no host trichotomy, quotient stream equality, selected limit, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The tuple already displays the two regular Cauchy sources, shared stream window, dyadic tolerance ledgers, selector row, selected regular row, readback, real seal, transport, replay, provenance, and local name.
+
+Use selector ledger exactness, \autoref{thm:regular-cauchy-min-selector-ledger}. It forces the selector row $J$ to choose one of the two visible source routes and to produce $S$ from the corresponding dyadic ledger while keeping both $A$ and $B$ in the exposed packet.
+
+Apply selector transport stability, \autoref{thm:regular-cauchy-min-selector-stability-scope}. The same branch, tolerance ledger, selected row, readback row, and real seal are preserved under componentwise $\hsame$ transport and displayed $\Cont$ replay.
+
+Finally route the read through the $\RealAlgOrderUp$ handoff, \autoref{thm:regular-cauchy-min-realalgorder-handoff}. Since an order-facing consumer reaches the minimum only after $J,S,R,E$ have been displayed, and since $P,N$ name only the listed sources, no host trichotomy, quotient stream equality, selected limit, or ambient completeness witness is exported.
+\end{proof}
+
 \begin{theorem}[RegularCauchyMin provenance scope]
 \label{thm:regular-cauchy-min-provenance-scope}
 The $\Pkg$ and $\NameCert$ rows of an accepted $\RegularCauchyMinUp$ carrier cite only $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyMaxUp$, $\RegularCauchyAbsUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ as source surfaces for the finite minimum packet.
