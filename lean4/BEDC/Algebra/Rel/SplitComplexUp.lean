@@ -1,4 +1,5 @@
 import BEDC.Algebra.Rel.Basic
+import BEDC.Algebra.Rel.InterfaceSpine
 import BEDC.Derived.SplitComplexUp
 
 namespace BEDC.Algebra.Rel
@@ -60,6 +61,9 @@ instance SplitComplexUp_RelCommRing : RelCommRing SplitComplex SplitEq where
   zero_mul := BEDC.Derived.SplitComplexUp.SplitComplex_comm_ring_laws.zero_mul
   left_distrib := BEDC.Derived.SplitComplexUp.SplitComplex_comm_ring_laws.left_distrib
   right_distrib := BEDC.Derived.SplitComplexUp.SplitComplex_comm_ring_laws.right_distrib
+
+instance SplitComplexUp_CommRingUp : CommRingUp SplitComplex SplitComplexUp_RelEquiv :=
+  RelCommRing.toCommRingUpWith SplitComplexUp_RelEquiv SplitComplexUp_RelCommRing
 
 theorem SplitComplexUp_neg_mul (x y : SplitComplex) :
     SplitEq (splitMul (splitNeg x) y) (splitNeg (splitMul x y)) :=

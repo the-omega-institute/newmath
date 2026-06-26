@@ -1,4 +1,5 @@
 import BEDC.Algebra.Rel.RingEquiv
+import BEDC.Algebra.Rel.InterfaceSpine
 import BEDC.Derived.IntUp.CommRingCore
 
 namespace BEDC.Algebra.Rel
@@ -57,6 +58,9 @@ instance IntegerUp_RelCommRing : RelCommRing IntegerUp IntEq where
   zero_mul := BEDC.Derived.RationalUp.IntMul_zero_left
   left_distrib := BEDC.Derived.RationalUp.IntMul_add_distrib
   right_distrib := BEDC.Derived.RationalUp.IntMul_add_distrib_right
+
+instance IntegerUp_CommRingUp : CommRingUp IntegerUp IntegerUp_RelEquiv :=
+  RelCommRing.toCommRingUpWith IntegerUp_RelEquiv IntegerUp_RelCommRing
 
 theorem IntegerUp_sub_eq_add_neg (x y : IntegerUp) :
     IntEq (IntegerUp_RelCommRing.sub x y) (IntAdd x (IntNeg y)) :=

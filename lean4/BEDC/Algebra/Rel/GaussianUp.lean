@@ -1,4 +1,5 @@
 import BEDC.Algebra.Rel.Basic
+import BEDC.Algebra.Rel.InterfaceSpine
 import BEDC.Derived.GaussianUp
 
 namespace BEDC.Algebra.Rel
@@ -57,6 +58,9 @@ instance GaussianUp_RelCommRing : RelCommRing GaussInt GaussEq where
   zero_mul := BEDC.Derived.GaussianUp.GaussInt_comm_ring_laws.zero_mul
   left_distrib := BEDC.Derived.GaussianUp.GaussInt_comm_ring_laws.left_distrib
   right_distrib := BEDC.Derived.GaussianUp.GaussInt_comm_ring_laws.right_distrib
+
+instance GaussianUp_CommRingUp : CommRingUp GaussInt GaussianUp_RelEquiv :=
+  RelCommRing.toCommRingUpWith GaussianUp_RelEquiv GaussianUp_RelCommRing
 
 theorem GaussianUp_neg_mul (x y : GaussInt) :
     GaussEq (gaussMul (gaussNeg x) y) (gaussNeg (gaussMul x y)) :=
