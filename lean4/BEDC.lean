@@ -15,6 +15,7 @@ import BEDC.Algebra.Rel.SplitComplexUp
 import BEDC.Algebra.Spine.Arithmetic
 import BEDC.Algebra.Spine.FiniteData
 import BEDC.Algebra.Spine.NumberTheorySpectra
+import BEDC.Algebra.Spine.OrderSetType
 import BEDC.BaseReflection
 import BEDC.BaseReflection.Core
 import BEDC.BaseReflection.ExactGlobalizeBase
@@ -927,6 +928,7 @@ import BEDC.Derived.BinaryEndpointNormalizationUp.TasteGate
 import BEDC.Derived.BinaryEndpointUniquenessUp.TasteGate
 import BEDC.Derived.BinaryExpansionUp
 import BEDC.Derived.BinaryExpansionUp.TasteGate
+import BEDC.Derived.BinaryQuadFormUp
 import BEDC.Derived.BinaryTreeUp.TasteGate
 import BEDC.Derived.BinderBudgetSealUp.CarrierAdmission
 import BEDC.Derived.BinderBudgetSealUp.CompilerBoundary
@@ -9225,6 +9227,7 @@ import BEDC.Derived.PartitionBasinPolynomialUp.TasteGate
 import BEDC.Derived.PartitionBasinUp.TasteGate
 import BEDC.Derived.PartitionCoreIncidenceCertificateUp.TasteGate
 import BEDC.Derived.PartitionCoreIncidenceUp.TasteGate
+import BEDC.Derived.PartitionIdentitiesUp
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
 import BEDC.Derived.PartitionUp
 import BEDC.Derived.PathConnectedSpaceUp.TasteGate
