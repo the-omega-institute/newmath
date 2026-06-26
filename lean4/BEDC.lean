@@ -5446,7 +5446,6 @@ import BEDC.Derived.FableMachineBoundaryUp.TasteGate
 import BEDC.Derived.FableMachineClockUp.Obligations
 import BEDC.Derived.FableMachineClockUp.StepLedgerExactness
 import BEDC.Derived.FableMachineClockUp.TasteGate
-import BEDC.Derived.FaulhaberUp
 import BEDC.Derived.FactorUp
 import BEDC.Derived.FactorialUp
 import BEDC.Derived.FailureCertificateUp.TasteGate
@@ -5651,6 +5650,7 @@ import BEDC.Derived.FastRegularCauchyEquivalenceUp.TwoWayRoute
 import BEDC.Derived.FastSeriesProductUp
 import BEDC.Derived.FastSeriesProductUp.TasteGate
 import BEDC.Derived.FatouLemmaUp.TasteGate
+import BEDC.Derived.FaulhaberUp
 import BEDC.Derived.FejerKernelUp.TasteGate
 import BEDC.Derived.FejerTheoremUp.TasteGate
 import BEDC.Derived.FeketeSubadditiveUp.TasteGate
@@ -9697,6 +9697,7 @@ import BEDC.Derived.RHRoute.ChannelNormalForm
 import BEDC.Derived.RHRoute.CounterexampleSafety
 import BEDC.Derived.RHRoute.EventflowCertificate
 import BEDC.Derived.RHRoute.FinitePrimeWindow
+import BEDC.Derived.RHRoute.FunctionalEquationSymmetry
 import BEDC.Derived.RHRoute.HaltingBoundary
 import BEDC.Derived.RHRoute.LagariasCriterion
 import BEDC.Derived.RHRoute.LocalGlobalExclusion
