@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\CompletionReflectorMonadUp$}
+\label{ch:concrete-instances-completion-reflector-monad-namecert}
+\origin{human}
+
+Following Mac Lane on reflective subcategories and Bishop--Bridges/Kelley on metric completion, the $\CompletionReflectorMonadUp$ packet records the finite service boundary where completion is read simultaneously as a reflector and as a monad. It sits between the source metric rows of \autoref{ch:concrete-instances-metric-namecert}, the displayed completion routes of \autoref{ch:concrete-instances-metriccompletion-namecert}, the monad rows of \autoref{ch:concrete-instances-cauchycompletionmonad-namecert}, the reflector-unit route of \autoref{ch:concrete-instances-cauchy-completion-reflector-unit-namecert}, and the minimality route of \autoref{ch:concrete-instances-cauchycompletionminimality-namecert}. The packet is a finite NameCert carrier for completion-facing unit, bind, join, separated uniqueness, transport, replay, provenance, and local naming rows.
+
+\begin{definition}[Completion reflector monad carrier]
+\label{def:completion-reflector-monad-carrier}
+A $\CompletionReflectorMonadUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,R,U,J,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source metric row, exposing the source carrier, source classifier, distance observations, zero-distance row, symmetry row, triangle row, and distance-transport ledger consumed before any completion read is public.
+\item $R$ is the completion reflector row, recording the displayed completion object and reflector handoff through the existing metric-completion, reflector-unit, and minimality packets.
+\item $U$ is the unit embedding row from the source metric into the displayed completion surface, carrying only the finite graph of inspected source points and their completion names.
+\item $J$ is the bind and join schedule, read through the completion monad rows and the finite Kleisli route before a completion-valued consumer may flatten a nested completion request.
+\item $E$ is the separated uniqueness row, recording that two displayed extensions agree only through the separated completion comparison already named by the reflector boundary.
+\item $H$ records componentwise $\hsame$ transport for the source metric, reflector, unit embedding, bind and join schedule, separated uniqueness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a source metric request through $R,U,J,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CompletionReflectorMonadUp$, $\MetricUp$, $\MetricCompletionUp$, $\CauchyCompletionMonadUp$, $\CauchyCompletionUnitUp$, $\CauchyCompletionKleisliUp$, $\CauchyCompletionMultiplicationUp$, $\CauchyCompletionReflectorUnitUp$, $\CauchyCompletionMinimalityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompletionReflectorMonadUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient completion, selected representatives, host equality of completed objects, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Completion reflector monad NameCert obligations]
+\label{thm:completion-reflector-monad-namecert-obligations}
+For every accepted $\CompletionReflectorMonadUp$ carrier
+$$
+K=(S,R,U,J,E,H,C,P,N),
+$$
+the local $\NameCert_{\CompletionReflectorMonadUp}$ surface consists exactly of source metric admission through $S$, completion reflector exposure through $R$, unit embedding through $U$, bind and join scheduling through $J$, separated uniqueness through $E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:completion-reflector-monad-carrier}. The source metric data is confined to $S$, while the completion object and reflector handoff are confined to $R$ through the named metric-completion, reflector-unit, and minimality packets.
+
+The unit embedding row $U$ is the only source-to-completion entrance. The bind and join schedule $J$ is the only row that may flatten a completion-valued route, and it is read through the existing completion monad, unit, Kleisli, and multiplication packets.
+
+The separated uniqueness row $E$ supplies the reflector-side uniqueness boundary, and $H,C,P,N$ transport, replay, source, and name the same finite packet. No other coordinate is available in the carrier, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Completion reflector monad unit and bind laws]
+\label{thm:completion-reflector-monad-unit-bind-laws}
+Every unit-facing or bind-facing read of an accepted $\CompletionReflectorMonadUp$ carrier factors through
+$$
+S,R,U,J,E,H,C,P,N .
+$$
+The unit law is public only after the source metric row $S$, reflector row $R$, and unit embedding row $U$ have been displayed. The bind and join laws are public only after the monad schedule $J$ is read together with the separated uniqueness row $E$ and the structural rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with a unit-facing request. The source metric row $S$ and reflector row $R$ display the domain and completion boundary, and $U$ is the only row that admits source points into the completion surface.
+
+For a bind-facing request, the carrier supplies no direct host operation on completed objects. The read must instead pass through $J$, where the completion monad, unit, Kleisli, and multiplication packets provide the finite flattening schedule.
+
+Separated uniqueness is then read through $E$. It prevents a consumer from treating the unit or bind laws as host equality of representatives, while $H,C,P,N$ preserve the same finite route under transport, replay, provenance, and local naming.
+\end{proof}
+
+\begin{theorem}[Completion reflector monad nonescape]
+\label{thm:completion-reflector-monad-nonescape}
+Every completion-facing consumer of an accepted $\CompletionReflectorMonadUp$ carrier reads only the displayed finite route
+$$
+S,R,U,J,E,H,C,P,N .
+$$
+In particular, the packet exports no quotient completion, no selected representatives, no host equality of completed objects, no countable choice, and no ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:completion-reflector-monad-namecert-obligations}. It identifies the only public carrier rows as the source metric, reflector, unit embedding, bind and join schedule, separated uniqueness, transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:completion-reflector-monad-unit-bind-laws} for the operational reads. Unit-facing and bind-facing consumers must pass through the same displayed packet before any completion law is available.
+
+The excluded principles have no row in $K$. A request for quotient completion, selected representatives, host equality, countable choice, or ambient $\RealUp$ completeness therefore stays outside the carrier rather than becoming a hidden continuation through $H,C,P,N$.
+\end{proof}
+
+\closureat{CompletionReflectorMonadUp}{seedStr}
+
+\begin{closurestatus}{\CompletionReflectorMonadUp}
+  \constructivestory{A $\CompletionReflectorMonadUp$ packet is generated from source metric rows, a completion reflector row, a unit embedding row, a bind and join schedule, separated uniqueness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:completion-reflector-monad-carrier}, \autoref{thm:completion-reflector-monad-namecert-obligations}, \autoref{thm:completion-reflector-monad-unit-bind-laws}, and \autoref{thm:completion-reflector-monad-nonescape} seed the finite reflector-monad service boundary over source metric, completion reflector, unit embedding, bind and join, separated uniqueness, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion, selected representatives, host equality, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, reflector exposure, unit embedding, bind and join scheduling, separated uniqueness, transport, replay, provenance, and local naming for BEDC.Derived.CompletionReflectorMonadUp.}
+\end{closurestatus}
