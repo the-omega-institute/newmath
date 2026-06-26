@@ -6328,6 +6328,7 @@ import BEDC.Derived.FuelIndexedSubstrateBridgeUp.TasteGate
 import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
 import BEDC.Derived.FullAxisSealUp
 import BEDC.Derived.FullAxisUp.TasteGate
+import BEDC.Derived.FussCatalanUp
 import BEDC.Derived.FuncobjUp
 import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.FunctorUp
