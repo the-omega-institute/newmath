@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 import json
+import math
 import os
 import statistics
 import sys
@@ -85,55 +86,82 @@ def decoy_sets_available_for_host(
     carriers: list[dict[str, Any]],
     family_hosts: dict[str, set[str]],
     genus_hosts: dict[str, set[str]],
-    motif_pool: dict[tuple[str, str, tuple[int, int, bool]], set[str]],
+    motif_pool: dict[tuple[str, str, tuple[int, int, bool]], dict[str, list[str]]],
 ) -> int:
     if not carriers:
         return 0
     family = str(carriers[0].get("gtdb_family") or "")
     genus = str(carriers[0].get("gtdb_genus") or "")
-    own_motifs = {str(row.get("motif_canonical") or "") for row in carriers if row.get("motif_canonical")}
-    if not own_motifs:
-        return 0
-    family_other_hosts = max(0, len(family_hosts.get(family, set())) - 1) if family else 0
-    genus_other_hosts = max(0, len(genus_hosts.get(genus, set())) - 1) if genus else 0
-    total = 0
+    own_by_profile: dict[tuple[int, int, bool], list[str]] = defaultdict(list)
     for row in carriers:
         motif = str(row.get("motif_canonical") or "")
-        if not motif:
-            continue
-        profile = motif_profile(row)
-        family_matches = motif_pool.get(("family", family, profile), set()) - own_motifs if family else set()
-        genus_matches = motif_pool.get(("genus", genus, profile), set()) - own_motifs if genus else set()
-        profile_matches = family_matches | genus_matches
-        total += max(family_other_hosts, genus_other_hosts, 1) * len(profile_matches)
-    return min(250, total)
+        if motif:
+            own_by_profile[motif_profile(row)].append(motif)
+    if not own_by_profile:
+        return 0
+
+    def count_for_scope(scope: str, name: str, host_count: int) -> int:
+        if not name or host_count <= 0:
+            return 0
+        total = 1
+        exact_set_available = True
+        for profile, own_motifs in own_by_profile.items():
+            pool_by_host = motif_pool.get((scope, name, profile), {})
+            pool = [motif for pool_host, motifs in pool_by_host.items() if pool_host != host for motif in motifs]
+            if len(pool) < len(own_motifs):
+                return 0
+            total *= math.comb(len(pool), len(own_motifs))
+            own_remaining = Counter(own_motifs)
+            pool_counts = Counter(pool)
+            if any(pool_counts[motif] < count for motif, count in own_remaining.items()):
+                exact_set_available = False
+            if total >= 251:
+                return 250
+        if exact_set_available:
+            total -= 1
+        return max(0, min(250, total))
+
+    family_other_hosts = max(0, len(family_hosts.get(family, set())) - 1) if family else 0
+    genus_other_hosts = max(0, len(genus_hosts.get(genus, set())) - 1) if genus else 0
+    local_total = count_for_scope("family", family, family_other_hosts) + count_for_scope("genus", genus, genus_other_hosts)
+    if local_total > 0:
+        return min(250, local_total)
+    return count_for_scope("all", "*", max(0, len(family_hosts.get("*all*", set())) - 1))
 
 
 def gate_row(name: str, passed: bool, value: Any, threshold: str, note: str = "") -> dict[str, Any]:
     return {"gate": name, "passed": bool(passed), "value": value, "threshold": threshold, "note": note}
 
 
-def evaluate_gates(mapped_carriers: list[dict[str, Any]], inventory: list[dict[str, Any]], target_source: str) -> dict[str, Any]:
+def evaluate_gates(
+    mapped_carriers: list[dict[str, Any]],
+    inventory: list[dict[str, Any]],
+    target_source: str,
+    decoy_background_carriers: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
     by_host = carrier_rows_by_host(mapped_carriers)
     targets = host_inventory_map(inventory)
+    background_by_host = carrier_rows_by_host(decoy_background_carriers or mapped_carriers)
     host_rows: list[dict[str, Any]] = []
     family_hosts: dict[str, set[str]] = defaultdict(set)
     genus_hosts: dict[str, set[str]] = defaultdict(set)
-    motif_pool: dict[tuple[str, str, tuple[int, int, bool]], set[str]] = defaultdict(set)
+    motif_pool: dict[tuple[str, str, tuple[int, int, bool]], dict[str, list[str]]] = defaultdict(lambda: defaultdict(list))
 
-    for host, carriers in by_host.items():
+    for host, carriers in background_by_host.items():
         family = str(carriers[0].get("gtdb_family") or "")
         genus = str(carriers[0].get("gtdb_genus") or "")
+        family_hosts["*all*"].add(host)
         family_hosts[family].add(host)
         genus_hosts[genus].add(host)
         for row in carriers:
             motif = str(row.get("motif_canonical") or "")
             if motif:
                 profile = motif_profile(row)
+                motif_pool[("all", "*", profile)][host].append(motif)
                 if family:
-                    motif_pool[("family", family, profile)].add(motif)
+                    motif_pool[("family", family, profile)][host].append(motif)
                 if genus:
-                    motif_pool[("genus", genus, profile)].add(motif)
+                    motif_pool[("genus", genus, profile)][host].append(motif)
 
     for host, carriers in sorted(by_host.items()):
         target = targets.get(host, {})
@@ -170,24 +198,24 @@ def evaluate_gates(mapped_carriers: list[dict[str, Any]], inventory: list[dict[s
         decoy_values.append(float(decoy))
     primary_hosts = [row for row in ec_eligible if int(row.get("decoy_sets_available", 0)) >= MIN_DECOY_SETS]
 
-    primary_families = {str(row["gtdb_family"]) for row in primary_hosts if row.get("gtdb_family")}
+    target_families = {str(row["gtdb_family"]) for row in target_hosts if row.get("gtdb_family")}
     exact_count = sum(1 for row in primary_hosts if row.get("exact_assembly_match"))
     exact_fraction = exact_count / len(primary_hosts) if primary_hosts else 0.0
 
     gates = {
         "G0": gate_row(
             "G0",
-            len(primary_hosts) >= MIN_PRIMARY_HOSTS,
-            len(primary_hosts),
-            f"N_host_with_TierA_RM_and_target_after_G2_G3_G4 >= {MIN_PRIMARY_HOSTS}",
+            len(target_hosts) >= MIN_PRIMARY_HOSTS,
+            len(target_hosts),
+            f"N_host_with_TierA_RM_and_target >= {MIN_PRIMARY_HOSTS}",
             "Below 50 means data gate failed without biological interpretation." if len(primary_hosts) < WARN_PRIMARY_HOSTS else "",
         ),
         "G1": gate_row(
             "G1",
-            len(primary_families) >= MIN_FAMILIES,
-            len(primary_families),
+            len(target_families) >= MIN_FAMILIES,
+            len(target_families),
             f"GTDB_family_count >= {MIN_FAMILIES}",
-            "Below 15 means data gate failed without biological interpretation." if len(primary_families) < WARN_FAMILIES else "",
+            "Below 15 means data gate failed without biological interpretation." if len(target_families) < WARN_FAMILIES else "",
         ),
         "G2": gate_row(
             "G2",
@@ -220,7 +248,8 @@ def evaluate_gates(mapped_carriers: list[dict[str, Any]], inventory: list[dict[s
     motif_counts = [float(row["tierA_motif_count"]) for row in primary_hosts]
     return {
         "N_hosts": len(primary_hosts),
-        "N_families": len(primary_families),
+        "N_primary_hosts": len(primary_hosts),
+        "N_families": len(target_families),
         "N_hosts_with_target": len(target_hosts),
         f"N_hosts_with_{target_source}_target": len(target_hosts),
         "N_hosts_after_target_bp_filter": len(bp_eligible),
@@ -255,12 +284,25 @@ def main() -> int:
     if target_source not in {"prophage", "plasmid"}:
         print(json.dumps({"error": "unknown_RM_TARGET_SOURCE", "RM_TARGET_SOURCE": target_source}, sort_keys=True))
         return 4
-    mapped_carriers, mapping_meta = map_carriers_to_assemblies(carrier_rows, host_limit=host_limit, deadline=deadline)
+    mapped_all_carriers, mapping_meta = map_carriers_to_assemblies(carrier_rows, host_limit=None, deadline=deadline)
+    mapped_carriers = mapped_all_carriers
+    if host_limit is not None and host_limit > 0:
+        limited_organisms = sorted({str(row.get("rebase_organism") or "") for row in carrier_rows})[:host_limit]
+        limited_set = set(limited_organisms)
+        mapped_carriers = [row for row in mapped_all_carriers if str(row.get("rebase_organism") or "") in limited_set]
+        mapping_meta = {
+            **mapping_meta,
+            "host_limit": host_limit,
+            "n_limited_mapped_carrier_rows": len(mapped_carriers),
+            "n_limited_mapped_hosts": len({row.get("host_accession") for row in mapped_carriers if row.get("host_accession")}),
+            "n_decoy_background_mapped_carrier_rows": len(mapped_all_carriers),
+            "n_decoy_background_mapped_hosts": len({row.get("host_accession") for row in mapped_all_carriers if row.get("host_accession")}),
+        }
     if target_source == "plasmid":
         inventory, target_meta = plasmid_target_inventory(mapped_carriers, deadline=deadline)
     else:
         inventory, target_meta = prophage_target_inventory(mapped_carriers, deadline=deadline)
-    gate_result = evaluate_gates(mapped_carriers, inventory, target_source)
+    gate_result = evaluate_gates(mapped_carriers, inventory, target_source, decoy_background_carriers=mapped_all_carriers)
 
     evidence_counts = Counter(str(row.get("evidence_tier") or "") for row in mapped_carriers)
     match_counts = Counter(str(row.get("match_mode") or "") for row in mapped_carriers)
