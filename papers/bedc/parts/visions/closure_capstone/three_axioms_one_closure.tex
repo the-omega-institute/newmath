@@ -80,6 +80,111 @@ The replacements are themselves kernel-level constructions on closed inductive c
 The project's axiom-purity gate (\texttt{axiom-purity --strict} in \texttt{lean4/scripts/bedc\_ci.py}) refuses every kernel-level theorem whose transitive dependencies include $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, or $\mathsf{propext}$. Read through \autoref{thm:three-axioms-unification}, the gate is a single refusal at three strata: it forbids meta-closure at the term, type, and proposition layers. The gate is therefore not a rejection of the application content the three axioms serve; it is a refusal of the syntactic shortcut that supplies that content without constructive witnesses.
 \end{remark}
 
+\section{Assumed bridges and derived bridges}
+\label{sec:three-axioms-assumed-derived-bridges}
+
+The unification above should not be read as a claim that the classical axioms
+are syntactically ill-typed in their host theories. They are well-typed
+constants there. The BEDC diagnosis is sharper: each constant inhabits a
+bridge type whose source and target belong to different audit strata, but the
+inhabitant is assumed rather than derived from displayed constructor,
+classifier, ledger, transport, or \NameCert{} data.
+
+\begin{definition}[Proposition existence and data witness]
+\label{def:three-axioms-prop-exists-data-witness}
+For $A:\mathsf{Type}$ and $P:A\to\mathsf{Prop}$, the proposition-level
+existence claim is
+$$
+\mathsf{ExistsProp}(A,P):=\exists x:A,\ P(x),
+$$
+while the data-level witness package is
+$$
+\mathsf{SigmaData}(A,P):=\sum_{x:A}P(x).
+$$
+The first expression asserts existence as a proposition. The second displays
+a term together with the proof carried by that term.
+\end{definition}
+
+\begin{definition}[Unledgered cross-stratum bridge]
+\label{def:unledgered-cross-stratum-bridge}
+A map $c:A\to B$ is an \emph{unledgered cross-stratum bridge} when $A$ and
+$B$ are consumed at different audit strata, $c$ is later used as an ordinary
+kernel input, and no constructor, definition, classifier, transport row,
+ledger, setup field, or \NameCert{} row derives $c$ from displayed data.
+\end{definition}
+
+\begin{theorem}[The three axioms are well-typed assumed bridges]
+\label{thm:three-axioms-well-typed-assumed-bridges}
+In their host theories, $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$,
+and $\mathsf{propext}$ are not type errors. In BEDC's audit reading they are
+well-typed assumed bridges:
+$$
+\begin{aligned}
+\mathsf{Classical.choice} &:\mathsf{ExistsProp}(A,P)\to\mathsf{SigmaData}(A,P),\\
+\mathsf{Quot.sound} &:\; x\sim y\to [x]=[y],\\
+\mathsf{propext} &:\; (P\Leftrightarrow Q)\to(P=Q).
+\end{aligned}
+$$
+Each bridge turns source-side relation or existence data into a
+kernel-consumable object without displaying the derivation of that object.
+\end{theorem}
+
+\begin{proof}
+The three displayed types are meaningful in the host environment that admits
+the corresponding constants. Thus the issue is not syntactic well-typedness.
+For choice, the bridge turns a proposition-level existential into a
+data-level dependent pair. For quotient soundness, it turns a classifier
+witness into equality at a quotient-facing point. For propositional
+extensionality, it turns bidirectional implication into equality of
+propositions. In each case, if the constant is removed, the bridge term is
+not supplied by the source datum alone. It is therefore an assumed bridge
+from the BEDC viewpoint, not a derived bridge.
+\end{proof}
+
+\begin{definition}[Type-honest fragment]
+\label{def:three-axioms-type-honest-fragment}
+A BEDC fragment is \emph{type-honest} when it refuses unledgered bridges of
+the following forms:
+$$
+\mathsf{ExistsProp}(A,P)\to\mathsf{SigmaData}(A,P),
+\qquad
+x\sim y\to [x]=[y],
+\qquad
+(P\Leftrightarrow Q)\to(P=Q).
+$$
+If the fragment also uses apophatic far-end language, type honesty additionally
+refuses any socket-to-element bridge of the form $\mathsf{T}:X$ or
+$\mathsf{T}\in X$.
+\end{definition}
+
+\begin{corollary}[Axiom-purity as type honesty]
+\label{cor:three-axioms-axiom-purity-as-type-honesty}
+The axiom-purity gate for $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$,
+and $\mathsf{propext}$ is exactly the mechanical face of
+\autoref{def:three-axioms-type-honest-fragment}. It rejects assumed bridges
+where the manuscript requires derived bridges.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:three-axioms-well-typed-assumed-bridges}, the three forbidden
+constants inhabit the three unledgered bridge shapes. By
+\autoref{def:three-axioms-type-honest-fragment}, a type-honest fragment
+does not consume those bridge shapes unless a displayed replacement is
+provided. The gate therefore checks the same discipline at dependency level:
+an implementation using one of the constants has exposed an assumed bridge in
+its proof ancestry.
+\end{proof}
+
+\begin{remark}[\texttt{\#print axioms} reports an implementation footprint]
+\label{rem:three-axioms-print-axioms-footprint}
+The command \texttt{\#print axioms} reports the transitive dependencies of a
+particular Lean declaration. If it lists $\mathsf{Classical.choice}$,
+$\mathsf{Quot.sound}$, or $\mathsf{propext}$, the conclusion is that this
+implementation consumed those bridge assumptions. The report is not a lower
+bound proving that every possible construction of the same mathematical
+object must consume them.
+\end{remark}
+
 \begin{remark}[Sibling instance: halting and reasoning by contradiction]
 \label{rem:three-axioms-siblings}
 The chapter's unification theorem (\autoref{thm:three-axioms-unification}) sits in a family with the halting capstone (\autoref{ch:visions-halting-as-form-of-distinction-limit}) and the reasoning-by-contradiction capstone (\autoref{ch:visions-reasoning-by-contradiction-boundary}): all three identify a different face of the same refusal of meta closure. Halting names the operational-semantics face; reasoning by contradiction names the proof-theoretic face; the present chapter names the foundational-axiom face. Together they constitute the discipline side of the two-loops architecture (\autoref{thm:two-loops}).
