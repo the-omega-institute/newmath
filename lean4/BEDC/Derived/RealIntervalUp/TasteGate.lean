@@ -397,4 +397,51 @@ theorem RealIntervalSealEnclosureRoute [AskSetup] [PackageSetup]
   }
   exact ⟨cert, unaryE, unaryR, unaryS, unaryC⟩
 
+theorem RealIntervalDyadicWindowHandoff (D W R : BHist) :
+    Cont D W R →
+      SemanticNameCert
+        (fun row : BHist => hsame row D ∨ hsame row W ∨ hsame row R)
+        (fun row : BHist => hsame row D ∨ hsame row W ∨ hsame row R ∨ Cont D W R)
+        (fun row : BHist => hsame row D ∨ hsame row W ∨ hsame row R ∨ Cont D W R)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert NameCert
+  intro dyadicReadback
+  let source := fun row : BHist => hsame row D ∨ hsame row W ∨ hsame row R
+  let surface := fun row : BHist => hsame row D ∨ hsame row W ∨ hsame row R ∨ Cont D W R
+  have cert : SemanticNameCert source surface surface hsame := {
+    core := {
+      carrier_inhabited := Exists.intro D (Or.inl (hsame_refl D))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows sourceRow
+        have lift : ∀ {target : BHist}, hsame row target → hsame other target := by
+          intro target sameTarget
+          exact hsame_trans (hsame_symm sameRows) sameTarget
+        cases sourceRow with
+        | inl sameD =>
+            exact Or.inl (lift sameD)
+        | inr tail =>
+            cases tail with
+            | inl sameW =>
+                exact Or.inr (Or.inl (lift sameW))
+            | inr sameR =>
+                exact Or.inr (Or.inr (lift sameR))
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr dyadicReadback))
+    ledger_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr dyadicReadback))
+  }
+  exact cert
+
 end BEDC.Derived.RealIntervalUp
