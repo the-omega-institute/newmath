@@ -9906,6 +9906,7 @@ import BEDC.Derived.RHRoute.EtaPrefix
 import BEDC.Derived.RHRoute.EvenDefectEnergy
 import BEDC.Derived.RHRoute.EventflowCertificate
 import BEDC.Derived.RHRoute.FarEndCorrectionObligation
+import BEDC.Derived.RHRoute.FarEndEnergySocket
 import BEDC.Derived.RHRoute.FarEndUnityNormalization
 import BEDC.Derived.RHRoute.FinitePrimeTowerReadout
 import BEDC.Derived.RHRoute.FinitePrimeWindow
