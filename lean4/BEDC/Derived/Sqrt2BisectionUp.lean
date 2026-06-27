@@ -542,6 +542,41 @@ theorem sqrt2Bisect_boxAt_eq (k : Nat) :
     boxAt sqrt2BisectBoxStream k = sqrt2BisectBox k := by
   rfl
 
+structure Sqrt2BisectRatOutside (q : RatNum) where
+  precision : Nat
+  separated : QIntervalRatSeparated (sqrt2BisectReInterval precision) q
+
+def Sqrt2BisectRatOutside.to_box_apart {q : RatNum}
+    (outside : Sqrt2BisectRatOutside q) :
+    BoxStreamApart sqrt2BisectGauge sqrt2BisectBoxStream q := by
+  refine {
+    precision := outside.precision
+    fit_at_precision := sqrt2Bisect_boxAt_fits outside.precision
+    separated := ?_
+  }
+  rw [sqrt2Bisect_boxAt_eq]
+  cases outside.separated with
+  | inl hi_lt =>
+      exact Or.inl hi_lt
+  | inr lo_lt =>
+      exact Or.inr (Or.inl lo_lt)
+
+def Sqrt2BisectApartAllRationals : Type :=
+  ∀ q : RatNum, Sqrt2BisectRatOutside q
+
+def sqrt2BisectApartnessBridgeToWitness
+    (apart : Sqrt2BisectApartAllRationals) :
+    BoxStreamNonCollapseWitness :=
+  { gauge := sqrt2BisectGauge
+    point := sqrt2BisectBoxStream
+    invariant := fun q => Sqrt2BisectRatOutside.to_box_apart (apart q) }
+
+theorem sqrt2BisectApartnessBridge_no_rat_retraction
+    (apart : Sqrt2BisectApartAllRationals) :
+    BoxStreamExactRatRetraction sqrt2BisectGauge sqrt2BisectBoxStream -> False :=
+  BoxStreamNonCollapseWitness.no_rat_retraction
+    (sqrt2BisectApartnessBridgeToWitness apart)
+
 theorem sqrt2Bisect_raw_not_constant :
     sqrt2BisectRaw 1 ≠ sqrt2BisectRaw 0 := by
   intro same
