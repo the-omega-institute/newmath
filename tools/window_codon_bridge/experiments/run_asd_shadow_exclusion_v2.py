@@ -54,6 +54,7 @@ STRONG_SD_RAW_6_8MER = 11
 GATE_BG_WINDOW = 16
 GATE_BG_PER_START = 5
 GATE_EMPIRICAL_DRAWS = 1000
+GATE_BG_BIN_CAP = 2000
 
 SCOPE_NOTE = (
     "Primary scope is Gate-I0-pass Bacteria with masked internal CDS windows. "
@@ -266,6 +267,15 @@ def log2_density_ratio(obs_hits: int, obs_n: int, null_hits: int, null_n: int) -
     return math.log(obs_rate / max(EPS, null_rate), 2.0)
 
 
+def eval_log2_ratio_with_table(obs_profile: dict[str, object], null_profiles: list[dict[str, object]], table: dict[str, tuple[float, int]]) -> float:
+    obs_hits, obs_n, _ = profile_strong_metrics(obs_profile, table)
+    ratios = []
+    for profile in null_profiles:
+        null_hits, null_n, _ = profile_strong_metrics(profile, table)
+        ratios.append(log2_density_ratio(obs_hits, obs_n, null_hits, null_n))
+    return median(ratios) if ratios else 0.0
+
+
 def eval_log2_ratio(obs_profile: dict[str, object], null_profiles: list[dict[str, object]], carrier: dict[str, object]) -> float:
     counts = obs_profile.get("counts")
     needed = set(str(kmer) for kmer in counts) if isinstance(counts, Counter) else set()
@@ -274,12 +284,16 @@ def eval_log2_ratio(obs_profile: dict[str, object], null_profiles: list[dict[str
         if isinstance(pc, Counter):
             needed.update(str(kmer) for kmer in pc)
     table = v1.score_table_for_kmers(carrier, needed)
-    obs_hits, obs_n, _ = profile_strong_metrics(obs_profile, table)
-    ratios = []
-    for profile in null_profiles:
-        null_hits, null_n, _ = profile_strong_metrics(profile, table)
-        ratios.append(log2_density_ratio(obs_hits, obs_n, null_hits, null_n))
-    return median(ratios) if ratios else 0.0
+    return eval_log2_ratio_with_table(obs_profile, null_profiles, table)
+
+
+def needed_kmers_for_profiles(profiles: list[dict[str, object]]) -> set[str]:
+    needed: set[str] = set()
+    for profile in profiles:
+        counts = profile.get("counts")
+        if isinstance(counts, Counter):
+            needed.update(str(kmer) for kmer in counts)
+    return needed
 
 
 def canonical_sd_diagnostics(carrier: dict[str, object]) -> dict[str, object]:
@@ -395,6 +409,8 @@ def background_exclusion_masks(records: list[dict[str, object]], contigs: dict[s
 def internal_background_candidates(records: list[dict[str, object]], contigs: dict[str, str], own_carrier: dict[str, object]) -> tuple[list[dict[str, object]], dict[str, object]]:
     exclusions, predicted_pairs = background_exclusion_masks(records, contigs, own_carrier)
     candidates: list[dict[str, object]] = []
+    bin_counts: Counter[tuple[int, int]] = Counter()
+    scanned = 0
     for idx, record in enumerate(records):
         seq = str(record.get("sequence_rna") or "").upper()
         if len(seq) < 120 or set(seq) - BASES:
@@ -405,15 +421,25 @@ def internal_background_candidates(records: list[dict[str, object]], contigs: di
                 continue
             window = seq[pos : pos + GATE_BG_WINDOW]
             if len(window) == GATE_BG_WINDOW and set(window) <= BASES:
+                scanned += 1
+                key = (window.count("G") + window.count("C"), window.count("G"))
+                bin_counts[key] += 1
+                if bin_counts[key] > GATE_BG_BIN_CAP:
+                    continue
                 candidates.append(
                     {
                         "seq": window,
-                        "gc": window.count("G") + window.count("C"),
-                        "g": window.count("G"),
+                        "gc": key[0],
+                        "g": key[1],
                         "purine": window.count("A") + window.count("G"),
                     }
                 )
-    return candidates, {"candidate_windows": len(candidates), "m2_predicted_coupled_starts": predicted_pairs}
+    return candidates, {
+        "candidate_windows": len(candidates),
+        "candidate_windows_scanned": scanned,
+        "candidate_bin_cap": GATE_BG_BIN_CAP,
+        "m2_predicted_coupled_starts": predicted_pairs,
+    }
 
 
 def matched_background_windows(
@@ -478,20 +504,21 @@ def matched_draw_pvalue(obs_windows: list[str], bg_windows: list[str], table: di
     if not obs_windows or not bg_windows:
         return 1.0
     _, _, obs_n = strong_hit_fraction(obs_windows, table)
-    _, _, bg_n = strong_hit_fraction(bg_windows, table)
+    bg_hits_by_window = [1 if strong_sd_hit(window, table) else 0 for window in bg_windows if set(window.upper()) <= BASES]
+    bg_n = len(bg_hits_by_window)
     if obs_n <= 0 or bg_n <= 0:
         return 1.0
     rng = random.Random(stable_seed(seed))
-    bg_fraction, _, _ = strong_hit_fraction(bg_windows, table)
+    bg_fraction = sum(bg_hits_by_window) / bg_n
     draws = max(100, GATE_EMPIRICAL_DRAWS)
     exceed = 0
-    sample_n = min(obs_n, len(bg_windows))
+    sample_n = min(obs_n, bg_n)
     for draw_idx in range(draws):
-        if len(bg_windows) <= sample_n:
-            sample = bg_windows[:]
+        if bg_n <= sample_n:
+            sample_hits = sum(bg_hits_by_window)
         else:
-            sample = rng.sample(bg_windows, sample_n)
-        sample_fraction, _, _ = strong_hit_fraction(sample, table)
+            sample_hits = sum(bg_hits_by_window[i] for i in rng.sample(range(bg_n), sample_n))
+        sample_fraction = sample_hits / sample_n
         if sample_fraction - bg_fraction >= observed_delta - EPS:
             exceed += 1
     return (1 + exceed) / (1 + draws)
@@ -889,7 +916,9 @@ def evaluate_organism(organism: dict[str, object], heterologous_tails: list[str]
                 for j, candidate in enumerate(null1)
             ]
             profiles_by_stage[stage] = (obs_profile, null_profiles)
-            d_value = eval_log2_ratio(obs_profile, null_profiles, own_carrier)
+            needed = needed_kmers_for_profiles([obs_profile] + null_profiles)
+            table = v1.score_table_for_kmers(own_carrier, needed)
+            d_value = eval_log2_ratio_with_table(obs_profile, null_profiles, table)
             stage_d[stage].append(d_value)
             nwin = int(obs_profile.get("n_windows") or 0)
             stage_windows[stage] += nwin
@@ -898,9 +927,12 @@ def evaluate_organism(organism: dict[str, object], heterologous_tails: list[str]
 
         clean_mask, clean_m3 = combined_mask("M0_M1_M2_M3", parts)
         clean_obs, clean_null = profiles_by_stage["M0_M1_M2_M3"]
-        d_own = eval_log2_ratio(clean_obs, clean_null, own_carrier)
+        clean_needed = needed_kmers_for_profiles([clean_obs] + clean_null)
+        clean_own_table = v1.score_table_for_kmers(own_carrier, clean_needed)
+        d_own = eval_log2_ratio_with_table(clean_obs, clean_null, clean_own_table)
         own_clean_d.append(d_own)
-        pc_d_value = eval_log2_ratio(clean_obs, clean_null, canonical_carrier)
+        pc_table = v1.score_table_for_kmers(canonical_carrier, clean_needed)
+        pc_d_value = eval_log2_ratio_with_table(clean_obs, clean_null, pc_table)
         pc1_d.append(pc_d_value)
         if record.get("is_heg"):
             pc2_d.append(pc_d_value)
@@ -908,9 +940,12 @@ def evaluate_organism(organism: dict[str, object], heterologous_tails: list[str]
             profile_masked(candidate, clean_mask, f"{seed}.gene.{local_idx}.place.{j}", m3_starts=place_m3_starts[j] if clean_m3 else None)
             for j, candidate in enumerate(null_place)
         ]
-        place_clean_d.append(eval_log2_ratio(clean_obs, place_profiles, own_carrier))
+        place_needed = needed_kmers_for_profiles([clean_obs] + place_profiles)
+        place_table = v1.score_table_for_kmers(own_carrier, place_needed)
+        place_clean_d.append(eval_log2_ratio_with_table(clean_obs, place_profiles, place_table))
         for decoy in decoys:
-            decoy_clean_d[str(decoy["label"])].append(eval_log2_ratio(clean_obs, clean_null, decoy))
+            decoy_table = v1.score_table_for_kmers(decoy, clean_needed)
+            decoy_clean_d[str(decoy["label"])].append(eval_log2_ratio_with_table(clean_obs, clean_null, decoy_table))
 
         if record.get("is_heg"):
             strata["ribosomal_all_masked"].append(d_own)
