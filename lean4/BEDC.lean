@@ -3835,6 +3835,7 @@ import BEDC.Derived.ContinuousFunctionCarrierUp.TasteGate
 import BEDC.Derived.ContinuousFunctionUp.TasteGate
 import BEDC.Derived.ContinuousImageCompactUp.TasteGate
 import BEDC.Derived.ContinuousIntervalImageUp.TasteGate
+import BEDC.Derived.ContinuousLatticeUp
 import BEDC.Derived.ContinuousMapUp
 import BEDC.Derived.ContinuousMapUp.AssociativeDepth
 import BEDC.Derived.ContinuousMapUp.CategoryMetricDecomposition
