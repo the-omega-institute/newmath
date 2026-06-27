@@ -498,4 +498,92 @@ theorem ApartnessSpaceCarrier_namecert_obligation_package [AskSetup] [PackageSet
   }
   exact ⟨cert, locatedUnary, gapUnary, classifierUnary, zeroBoundaryUnary⟩
 
+theorem ApartnessSpaceCarrier_mature_route_induction [AskSetup] [PackageSetup]
+    {object located gap transport classifierExclusion zeroBoundary htransport replay provenance
+      localName apartRead zeroDistanceRead matureRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ApartnessSpaceCarrier object located gap transport classifierExclusion zeroBoundary
+        htransport replay provenance localName apartRead bundle pkg ->
+      Cont gap classifierExclusion apartRead ->
+        Cont zeroBoundary replay zeroDistanceRead ->
+          Cont localName provenance matureRead ->
+            PkgSig bundle localName pkg ->
+              PkgSig bundle zeroDistanceRead pkg ->
+                PkgSig bundle matureRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row matureRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row located ∨ hsame row gap ∨ hsame row classifierExclusion ∨
+                          hsame row zeroBoundary ∨ hsame row replay ∨ hsame row provenance ∨
+                            hsame row localName ∨ hsame row matureRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont gap classifierExclusion apartRead ∧
+                          Cont zeroBoundary replay zeroDistanceRead ∧
+                            Cont localName provenance matureRead ∧
+                              PkgSig bundle matureRead pkg)
+                      hsame ∧
+                    UnaryHistory matureRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier positiveGapRoute zeroDistanceRoute matureRoute _localNamePkg _zeroDistancePkg
+    maturePkg
+  obtain ⟨_objectUnary, _locatedUnary, gapUnary, _transportUnary, classifierUnary,
+    zeroBoundaryUnary, _htransportUnary, replayUnary, provenanceUnary, localNameUnary,
+    _locatedGapClassifier, _storedGapRoute, _zeroBoundaryReplayProvenance,
+    _replayProvenanceName, _storedLocalNamePkg⟩ := carrier
+  have zeroDistanceUnary : UnaryHistory zeroDistanceRead :=
+    unary_cont_closed zeroBoundaryUnary replayUnary zeroDistanceRoute
+  have matureUnary : UnaryHistory matureRead :=
+    unary_cont_closed localNameUnary provenanceUnary matureRoute
+  have sourceMature :
+      (fun row : BHist => hsame row matureRead ∧ UnaryHistory row) matureRead := by
+    exact ⟨hsame_refl matureRead, matureUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row matureRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row located ∨ hsame row gap ∨ hsame row classifierExclusion ∨
+              hsame row zeroBoundary ∨ hsame row replay ∨ hsame row provenance ∨
+                hsame row localName ∨ hsame row matureRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont gap classifierExclusion apartRead ∧
+              Cont zeroBoundary replay zeroDistanceRead ∧ Cont localName provenance matureRead ∧
+                PkgSig bundle matureRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro matureRead sourceMature
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, positiveGapRoute, zeroDistanceRoute, matureRoute, maturePkg⟩
+  }
+  have _zeroDistanceReadUnary : UnaryHistory zeroDistanceRead := zeroDistanceUnary
+  have _gapReadUnary : UnaryHistory apartRead :=
+    unary_cont_closed gapUnary classifierUnary positiveGapRoute
+  exact ⟨cert, matureUnary⟩
+
 end BEDC.Derived.ApartnessSpaceUp
