@@ -182,6 +182,20 @@ Now combine the RegSeqRat Real seal route and the StreamName window route, \auto
 Since no carrier coordinate records quotient stream equality, selected limits, countable choice, or ambient Real completeness, the diagonal projection is exactly the common finite-window projection inside the accepted packet.
 \end{proof}
 
+\begin{theorem}[RegularSequenceSpace finite-density feedback]
+\label{thm:regular-sequence-space-finite-density-feedback}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. If a consumer receives a $\FiniteCauchyDensityNetUp$ row as feedback for $S$, then the feedback must be replayed through the $\StreamNameUp$ windows $T$, the $\RegSeqRatUp$ readback $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, and the terminal $\RealUp$ seal $R$ before it is treated as regular-sequence data. The feedback route is therefore the displayed finite-density handoff of \autoref{ch:concrete-instances-finite-cauchy-density-net-namecert} together with $H,C,P,N$, not an ambient density assertion, selected subsequence, quotient stream equality, or completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the RegularSequenceSpace carrier obligations, \autoref{thm:regular-sequence-space-namecert-obligations}. They require every accepted space read to expose the source row, StreamName schedule, RegSeqRat readback, dyadic tolerance row, Real seal, and structural rows before any consumer treats the packet as regular-sequence data.
+
+Apply the finite-density sibling route of \autoref{ch:concrete-instances-finite-cauchy-density-net-namecert}. Its regular-sequence consumer handoff reads a density net only after the same StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, and Real seal have been displayed.
+
+Now replay through the tail-filter handoff, \autoref{thm:regular-sequence-space-tail-filter-handoff}. The density feedback reaches the regular sequence packet at the tail-filter boundary rather than as an external dense subset or selected subsequence.
+
+Finally use tail coherence, \autoref{thm:regular-sequence-space-tail-coherence}. The structural rows $H,C,P,N$ preserve the same window, readback, tolerance, and Real-seal route, so the finite density row cannot bypass the displayed regular-sequence feedback path.
+\end{proof}
+
 \begin{theorem}[RegularSequenceSpace tail-modulus projection]
 \label{thm:regular-sequence-space-tail-modulus-projection}
 Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Any tail-filter read from $S$ that is later consumed as a $\CauchyModulusSpaceUp$ or $\CauchyRateSpaceUp$ budget must project through the displayed $\StreamNameUp$ schedule $T$, the $\RegSeqRatUp$ readback $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, and the value seal $R$ before the budget is public. The projection exports no selected modulus, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.

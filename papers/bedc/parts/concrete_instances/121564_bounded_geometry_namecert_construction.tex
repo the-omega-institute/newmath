@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\BoundedGeometryUp$}
+\label{ch:concrete-instances-bounded-geometry-namecert}
+\origin{human}
+
+Following Roe's coarse geometry and Heinonen's metric-space treatment of uniform local covering, the $\BoundedGeometryUp$ packet records the finite metric surface where a displayed separation floor and a displayed local-cover budget are bound to the same metric carrier. It sits after the metric source of \autoref{ch:concrete-instances-metric-namecert}, the positive-separation ledger of \autoref{ch:concrete-instances-uniformly-discrete-metric-namecert}, the half-radius cover surface of \autoref{ch:concrete-instances-doubling-metric-space-namecert}, the cover-count ledger of \autoref{ch:concrete-instances-metric-entropy-namecert}, and the finite-net handoff of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}. The packet names bounded geometry only as finite BEDC rows; it is not local compactness, selected nets, host properness, countable choice, or an ambient compactness theorem.
+
+\begin{definition}[Bounded geometry carrier]
+\label{def:bounded-geometry-carrier}
+A $\BoundedGeometryUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,S,R,L,K,E,F,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\MetricUp$ or $\MetricSpaceUp$ source row, carrying the point-history classifier, distance rows, and metric-law ledger.
+\item $S$ is the $\UniformlyDiscreteMetricUp$ separation row over the same source, including the displayed positive floor and its finite comparison schedule.
+\item $R$ is the local radius-budget row, recording the inspected positive radii and the scale conversion used by local cover requests.
+\item $L$ is the $\DoublingMetricSpaceUp$ local-cover row, read only as finite ball-cover data for the radii named by $R$.
+\item $K$ is the $\MetricEntropyUp$ cover-count row, recording the finite bound attached to the displayed local covers.
+\item $E$ is the $\FiniteEpsilonNetUp$ handoff row, exposing the actual center bundle and coverage-distance ledger consumed by downstream finite-net users.
+\item $F$ is the bounded-geometry budget ledger, binding the separation floor from $S$ and the local cover count from $K$ to one named metric source $X$.
+\item $Q$ records the scope-exactness check: every bounded-geometry read must use $X,S,R,L,K,E,F$ from the same packet and the same classifier route.
+\item $H$ records componentwise $\hsame$ transport for the metric source, separation row, radius budget, local-cover row, entropy count, finite-net handoff, budget ledger, exactness row, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a bounded-geometry request through $X,S,R,L,K,E,F,Q,H$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedGeometryUp$, $\MetricUp$, $\MetricSpaceUp$, $\UniformlyDiscreteMetricUp$, $\DoublingMetricSpaceUp$, $\MetricEntropyUp$, $\FiniteEpsilonNetUp$, $\RatUp$, $\DyadicRatCoreUp$, $\mathsf{ProbeBundle}$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedGeometryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by componentwise replay of these rows. It has no coordinate for arbitrary local compactness, selected maximal nets, host properness, quotient point equality, countable choice, or ambient completion.
+\end{definition}
+
+\begin{theorem}[Bounded geometry NameCert obligations]
+\label{thm:bounded-geometry-namecert-obligations}
+For every accepted $\BoundedGeometryUp$ carrier
+$$
+B=(X,S,R,L,K,E,F,Q,H,C,P,N),
+$$
+the local $\NameCert_{\BoundedGeometryUp}$ surface consists exactly of carrier admission for the metric source; separation-floor visibility through $S$; local radius-budget visibility through $R$; finite local-cover visibility through $L$; cover-count visibility through $K$; finite-net handoff through $E$; joint budget exactness through $F$; same-packet scope exactness through $Q$; componentwise transport, displayed replay, provenance, and local naming through $H,C,P,N$; and refusal of local compactness, selected nets, host properness, quotient point equality, countable choice, ambient compactness, and ambient completeness as local certificate data.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bounded-geometry-carrier}. The metric source $X$, separation row $S$, radius budget $R$, local-cover row $L$, entropy count $K$, finite-net handoff $E$, budget ledger $F$, and exactness row $Q$ are the only analytic rows available before local naming.
+
+Separation visibility is read through $S$. This exposes a positive floor over the same source $X$ but does not decide point equality or supply a host discrete topology.
+
+Local cover visibility is read through $R,L,K,E$. The radius row names the inspected scales, the doubling row supplies finite local covers, the entropy row records their finite count, and the finite-net row displays the centers and coverage distances.
+
+The joint bounded-geometry claim is the row $F$. It binds the separation floor and cover-count budget to one source, while $Q$ prevents a consumer from mixing a separation row from one metric packet with a cover budget from another.
+
+Transport and replay are structural. The rows $H,C,P,N$ preserve, replay, source, and name the same finite route, so no unlisted local compactness theorem, selected maximal net, host properness principle, quotient equality, countable-choice schedule, or ambient completion witness can be recovered from the local $\NameCert$ surface.
+\end{proof}
+
+\begin{theorem}[Bounded geometry finite-net handoff]
+\label{thm:bounded-geometry-finite-net-handoff}
+Every $\FiniteEpsilonNetUp$, $\MetricEntropyUp$, or $\DoublingMetricSpaceUp$ consumer of an accepted $\BoundedGeometryUp$ carrier must read the finite route
+$$
+\MetricUp,\quad \UniformlyDiscreteMetricUp,\quad \DoublingMetricSpaceUp,\quad \MetricEntropyUp,\quad \FiniteEpsilonNetUp,\quad \BHist,\quad \hsame,\quad \Cont,\quad \Pkg,\quad \NameCert
+$$
+through the rows $X,S,R,L,K,E,F,Q,H,C,P,N$. The handoff exports a displayed separation floor, finite local-cover budget, center bundle, and coverage ledger over the same metric source; it exports no selected maximal net, local compactness theorem, host properness assertion, quotient point equality, countable-choice schedule, or ambient compactness witness.
+\end{theorem}
+\begin{proof}
+Begin with a finite-net consumer. The consumer reaches centers and coverage distances only through $E$, and $E$ is downstream of the metric source $X$, separation row $S$, radius budget $R$, local-cover row $L$, cover-count row $K$, and joint budget ledger $F$.
+
+For a metric-entropy consumer, the cover-count row $K$ is visible only after the displayed local-cover route $R,L$ has been read. The same-packet exactness row $Q$ keeps that count attached to the separation floor in $S$ and the source metric in $X$.
+
+For a doubling consumer, the local-cover row $L$ remains the finite ball-cover data named by the packet. It may pass its centers through $E$ and its count through $K$, but it does not become an open-cover compactness or host properness principle.
+
+The structural rows then package exactly this route. Componentwise transport $H$ and replay $C$ preserve $X,S,R,L,K,E,F,Q$, while $P,N$ source and name the local certificate. Therefore each listed consumer remains inside the displayed finite route and cannot import selected nets, quotient point equality, countable choice, ambient compactness, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BoundedGeometryUp$ consumer that reads a finite-net center bundle, local cover count, or bounded-geometry budget without displaying the common metric source, positive separation row, local radius budget, doubling cover row, entropy count row, finite-net handoff, budget ledger, scope exactness row, transport, replay, provenance, and local NameCert row refutes the carrier surface.}
+
+\independenceWitness{metric, uniformly-discrete-metric, doubling-metric-space, metric-entropy, finite-epsilon-net: no listed sibling is bijective with $\BoundedGeometryUp$ because this packet jointly carries a common metric source, positive separation floor, local radius budget, finite local-cover row, finite cover-count row, finite-net center handoff, budget ledger, same-packet exactness, transport, replay, provenance, and local naming in one finite surface.}
+
+\closureat{BoundedGeometryUp}{seedStr}
+
+\begin{closurestatus}{\BoundedGeometryUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-geometry-carrier}, \autoref{thm:bounded-geometry-namecert-obligations}, and \autoref{thm:bounded-geometry-finite-net-handoff} seed the finite bounded-geometry route over metric, uniformly discrete, doubling, metric-entropy, and finite-net rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim local compactness, selected maximal nets, host properness, quotient point equality, countable choice, ambient compactness, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, separation-floor visibility, local-cover budget exactness, finite-net handoff, same-packet exactness, transport, replay, provenance, and local naming for BEDC.Derived.BoundedGeometryUp.}
+  \constructivestory{A $\BoundedGeometryUp$ packet is generated from MetricUp or MetricSpaceUp rows, a UniformlyDiscreteMetricUp separation floor, finite radius budgets, DoublingMetricSpaceUp local covers, MetricEntropyUp cover counts, FiniteEpsilonNetUp center and coverage rows, a joint bounded-geometry budget ledger, same-packet exactness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
