@@ -98,6 +98,22 @@ Now apply the audit handoff and sibling dependency results, \autoref{thm:normali
 Finally use the obligation closure route of \autoref{thm:normalization-candidate-frontier-obligation-closure}. Since $T,E,B,S,I,O,H,C,P,N$ are the visible dependency lattice, a read lacking $E$ or $B$ cannot bypass $O$. The obstruction row is therefore exact for evidence-erasing requests: it is the public result of the packet in those cases, and it cannot be erased into a global strong-normalization claim.
 \end{proof}
 
+\begin{theorem}[NormalizationCandidateFrontier local confluence scope]
+\label{thm:normalization-candidate-frontier-local-confluence-scope}
+Let $F=(T,E,B,S,I,O,H,C,P,N)$ be an accepted $\NormalizationCandidateFrontierUp$ carrier. A local confluence consumer may read a join scope from this packet only when the closed typed window $T$, candidate evidence row $E$, bounded route row $B$, positive projection rows $S,I$, and obstruction row $O$ remain visible through $H,C,P,N$.
+
+The licensed join scope is therefore candidate-mediated frontier evidence for a closed typed window. It is not global confluence, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, or completed consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normalization-candidate-frontier-carrier}. The rows $T,E,B,S,I,O$ are the only displayed normalization and obstruction rows, while $H,C,P,N$ transport, replay, source, and name that same finite route.
+
+Apply stability and audit handoff, \autoref{thm:normalization-candidate-frontier-stability} and \autoref{thm:normalization-candidate-frontier-audit-handoff}. They keep candidate evidence and bounded routing visible before $S$ or $I$ can be exported to an audit or confluence-facing consumer.
+
+Use sibling dependency and obligation closure from \autoref{thm:normalization-candidate-frontier-sibling-dependency} and \autoref{thm:normalization-candidate-frontier-obligation-closure}. These force the closed typed window and frontier siblings to remain part of the same read instead of being replaced by a detached join theorem.
+
+Finally apply obstruction exactness, \autoref{thm:normalization-candidate-frontier-obstruction-exactness}. If $E$, $B$, or $O$ is erased, the packet supplies only the obstruction route, so the local join scope cannot become global confluence, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, or completed consistency.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\NormalizationCandidateFrontierUp$ consumer that exports closed-term strong normalization while omitting the candidate-evidence row $E$, bounded route row $B$, or obstruction row $O$ refutes the packet.}
 
 \independenceWitness{normalization\_candidate\_socket, bounded\_normalization\_candidate, metacicnormalizationfrontier, metaciccriticalpath: the socket separates candidate families, the bounded candidate packet records finite fuel and adequacy data, the MetaCIC frontier records normalization boundary rows, and the critical path records dependency pressure; none is bijective with $\NormalizationCandidateFrontierUp$ because this packet jointly carries the closed term window, candidate evidence, bounded route, positive projections, explicit obstruction, transport, replay, provenance, and local naming as one frontier carrier.}
