@@ -15,6 +15,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
+import zipfile
 
 try:
     from ._asd_fetch_probe import (
@@ -22,6 +23,7 @@ try:
         FETCH_TIMEOUT,
         NCBI_DELAY_SECONDS,
         SUMMARY_TIMEOUT,
+        assembly_summary_for_accession,
         cached_assembly_file,
         load_gtdb_taxonomy,
         ncbi_url,
@@ -33,6 +35,7 @@ except ImportError:  # pragma: no cover - direct script execution
         FETCH_TIMEOUT,
         NCBI_DELAY_SECONDS,
         SUMMARY_TIMEOUT,
+        assembly_summary_for_accession,
         cached_assembly_file,
         load_gtdb_taxonomy,
         ncbi_url,
@@ -45,6 +48,12 @@ REPO_ROOT = SCRIPT_DIR.parents[2]
 RM_CACHE_DIR = REPO_ROOT / "tools" / "window_codon_bridge" / "synced" / "rm_genomes"
 USER_AGENT = "rm-motif-escape-predata-gate"
 REBASE_ALLENZ_URL = "http://rebase.neb.com/rebase/link_allenz"
+BLOW2016_DIR = RM_CACHE_DIR / "blow2016"
+BLOW2016_S4_PATH = BLOW2016_DIR / "S4_motifs.xlsx"
+BLOW2016_S5_PATH = BLOW2016_DIR / "S5_persite.xlsx"
+XLSX_NS = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+XLSX_REL_NS = "{http://schemas.openxmlformats.org/package/2006/relationships}"
+XLSX_OFFICE_REL_NS = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
 
 IUPAC_ALPHABET = set("ACGTRYSWKMBDHVN")
 IUPAC_DEGENERACY = {
@@ -173,6 +182,75 @@ def normalize_recognition(raw: str) -> str | None:
     return value
 
 
+def xlsx_col_index(cell_ref: str) -> int:
+    letters = re.sub(r"[^A-Za-z]", "", cell_ref)
+    value = 0
+    for ch in letters.upper():
+        value = value * 26 + (ord(ch) - ord("A") + 1)
+    return value - 1
+
+
+def xlsx_shared_strings(zf: zipfile.ZipFile) -> list[str]:
+    if "xl/sharedStrings.xml" not in zf.namelist():
+        return []
+    root = ET.fromstring(zf.read("xl/sharedStrings.xml"))
+    strings = []
+    for item in root.findall(XLSX_NS + "si"):
+        strings.append("".join(node.text or "" for node in item.iter(XLSX_NS + "t")))
+    return strings
+
+
+def xlsx_sheet_path(zf: zipfile.ZipFile, sheet_name: str) -> str:
+    workbook = ET.fromstring(zf.read("xl/workbook.xml"))
+    rels = ET.fromstring(zf.read("xl/_rels/workbook.xml.rels"))
+    rel_targets = {
+        rel.attrib.get("Id", ""): rel.attrib.get("Target", "")
+        for rel in rels.findall(XLSX_REL_NS + "Relationship")
+    }
+    for sheet in workbook.findall(".//" + XLSX_NS + "sheet"):
+        if sheet.attrib.get("name") != sheet_name:
+            continue
+        rel_id = sheet.attrib.get(XLSX_OFFICE_REL_NS + "id", "")
+        target = rel_targets.get(rel_id, "")
+        if not target:
+            break
+        return "xl/" + target.lstrip("/")
+    raise ValueError(f"sheet not found in xlsx: {sheet_name}")
+
+
+def read_xlsx_rows(path: Path, sheet_name: str) -> list[list[str]]:
+    with zipfile.ZipFile(path) as zf:
+        shared = xlsx_shared_strings(zf)
+        sheet_path = xlsx_sheet_path(zf, sheet_name)
+        root = ET.fromstring(zf.read(sheet_path))
+        rows = []
+        for row in root.findall(".//" + XLSX_NS + "row"):
+            values: dict[int, str] = {}
+            for cell in row.findall(XLSX_NS + "c"):
+                ref = cell.attrib.get("r", "")
+                if not ref:
+                    continue
+                index = xlsx_col_index(ref)
+                cell_type = cell.attrib.get("t", "")
+                value_node = cell.find(XLSX_NS + "v")
+                inline_node = cell.find(XLSX_NS + "is")
+                value = ""
+                if value_node is not None and value_node.text is not None:
+                    value = value_node.text
+                    if cell_type == "s":
+                        try:
+                            value = shared[int(value)]
+                        except (IndexError, ValueError):
+                            value = ""
+                elif inline_node is not None:
+                    value = "".join(node.text or "" for node in inline_node.iter(XLSX_NS + "t"))
+                values[index] = value.strip()
+            if values:
+                max_index = max(values)
+                rows.append([values.get(index, "") for index in range(max_index + 1)])
+        return rows
+
+
 def is_methyltransferase_name(name: str) -> bool:
     return bool(re.match(r"^(M|MTase)\.", name.strip(), re.I))
 
@@ -226,6 +304,137 @@ def load_rebase_carriers(deadline: float | None = None) -> tuple[list[dict[str, 
         "contact": contact,
         "n_raw_rebase_rows": len(rows),
         "note": "REBASE allenz provides organism-level host names, recognition sequence, and enzyme identity; assembly accession is not present.",
+    }
+
+
+def parse_blow2016_s4(path: Path = BLOW2016_S4_PATH) -> tuple[list[dict[str, object]], dict[str, object]]:
+    if not path.exists():
+        return [], {"selected_source": str(path), "source_kind": "blow2016_s4_xlsx", "error": "s4_xlsx_missing"}
+    rows = read_xlsx_rows(path, "Table S4 - Motifs")
+    data_rows = []
+    skip = Counter()
+    for row in rows[2:]:
+        if len(row) < 10:
+            skip["short_row"] += 1
+            continue
+        organism = row[0].strip()
+        specificity = row[7].strip()
+        motif = normalize_recognition(specificity)
+        if not organism or motif is None:
+            skip["missing_organism_or_motif"] += 1
+            continue
+        data_rows.append(
+            {
+                "blow_organism": organism,
+                "rebase_organism": organism,
+                "img_genome_id": row[1].strip() if len(row) > 1 else "",
+                "rebase_org_number": row[2].strip() if len(row) > 2 else "",
+                "gene_locus_tag": row[3].strip() if len(row) > 3 else "",
+                "mtase_name": row[4].strip() if len(row) > 4 else "",
+                "enzyme_name": row[4].strip() if len(row) > 4 else "",
+                "system_type": row[5].strip() if len(row) > 5 else "",
+                "modtype": row[6].strip() if len(row) > 6 else "",
+                "motif_raw": specificity,
+                "motif_clean": motif,
+                "motif_canonical": canonical_motif(motif),
+                "motif_len": len(motif),
+                "degeneracy": motif_degeneracy(motif),
+                "palindrome_flag": motif == reverse_complement_motif(motif),
+                "detected_percent": row[8].strip() if len(row) > 8 else "",
+                "mtase_match": row[9].strip() if len(row) > 9 else "",
+                "rebase_cognate_re_names": row[10].strip() if len(row) > 10 else "",
+            }
+        )
+    return data_rows, {
+        "selected_source": str(path),
+        "source_kind": "blow2016_s4_xlsx",
+        "sheet": "Table S4 - Motifs",
+        "n_xlsx_rows": len(rows),
+        "n_raw_blow_rows": len(data_rows),
+        "parse_skip_counts": dict(skip),
+        "note": "Blow et al. 2016 PLOS Genetics Table S4 gives organism, MTase identity, type, modification class, motif, and match evidence.",
+    }
+
+
+def load_blow_carriers(deadline: float | None = None) -> tuple[list[dict[str, object]], dict[str, object]]:
+    del deadline
+    return parse_blow2016_s4()
+
+
+def tier_a_blow_groups(rows: list[dict[str, object]]) -> tuple[list[dict[str, object]], dict[str, object]]:
+    grouped: dict[tuple[str, str], list[dict[str, object]]] = defaultdict(list)
+    skip = Counter()
+    tier_a_4_8_hosts = set()
+    tier_a_5_8_hosts = set()
+    n_tier_a_raw_rows = 0
+    for row in rows:
+        system_type = str(row.get("system_type") or "").strip()
+        mtase_match = str(row.get("mtase_match") or "")
+        motif = str(row.get("motif_clean") or "")
+        motif_len = int(row.get("motif_len") or 0)
+        if system_type != "II":
+            skip["type_not_II"] += 1
+            continue
+        if "match" not in mtase_match.lower():
+            skip["mtase_not_matched"] += 1
+            continue
+        if motif_len < 4 or motif_len > 8:
+            skip["motif_length_outside_4_8"] += 1
+            continue
+        if motif_degeneracy(motif) <= 0:
+            skip["unparseable_iupac"] += 1
+            continue
+        if motif_degeneracy(motif) > 128:
+            skip["extreme_degeneracy"] += 1
+            continue
+        organism = str(row["blow_organism"]).strip()
+        key = (organism, str(row["motif_canonical"]))
+        grouped[key].append(row)
+        n_tier_a_raw_rows += 1
+        tier_a_4_8_hosts.add(organism)
+        if motif_len >= 5:
+            tier_a_5_8_hosts.add(organism)
+
+    carrier_rows: list[dict[str, object]] = []
+    for (organism, motif), members in grouped.items():
+        first = members[0]
+        mtase_names = sorted({str(member.get("mtase_name") or "") for member in members if member.get("mtase_name")})
+        carrier_rows.append(
+            {
+                "host_accession": "",
+                "gtdb_family": "",
+                "gtdb_genus": "",
+                "blow_organism": organism,
+                "rebase_organism": organism,
+                "rm_system_id": "|".join(mtase_names[:8]),
+                "mtase_name": mtase_names[0] if mtase_names else "",
+                "enzyme_names": mtase_names,
+                "motif_raw": str(first.get("motif_raw") or ""),
+                "motif_canonical": motif,
+                "motif_len": int(first.get("motif_len") or len(motif)),
+                "degeneracy": motif_degeneracy(motif),
+                "palindrome_flag": bool(first.get("palindrome_flag")),
+                "system_type": "II",
+                "type": "II",
+                "modtype": str(first.get("modtype") or ""),
+                "evidence_tier": "A",
+                "match_mode": "unmapped",
+                "source": "blow2016_s4",
+                "rebase_org_number": str(first.get("rebase_org_number") or ""),
+                "img_genome_id": str(first.get("img_genome_id") or ""),
+                "gene_locus_tags": sorted({str(member.get("gene_locus_tag") or "") for member in members if member.get("gene_locus_tag")}),
+                "mtase_match": str(first.get("mtase_match") or ""),
+            }
+        )
+    carrier_rows.sort(key=lambda row: (str(row["blow_organism"]).lower(), str(row["motif_canonical"])))
+    return carrier_rows, {
+        "skip_counts": dict(skip),
+        "n_tier_a_raw_rows_before_rc_merge": n_tier_a_raw_rows,
+        "n_tier_a_unmapped": len(carrier_rows),
+        "n_tier_a_4_8_hosts": len(tier_a_4_8_hosts),
+        "n_tier_a_5_8_hosts": len(tier_a_5_8_hosts),
+        "oracle_tier": "Type II + MTase match contains Match + canonical motif length 4-8 bp",
+        "sensitivity_5_8_note": "The 5-8 bp host count is reported but the retained oracle carrier uses 4-8 bp.",
     }
 
 
@@ -342,6 +551,8 @@ def assembly_summary_for_organism(organism: str, deadline: float | None = None) 
         f'"{organism}"[Organism] AND latest[filter] AND (complete genome[filter] OR chromosome level[filter])',
         f'"{organism}"[All Fields] AND latest[filter] AND (complete genome[filter] OR chromosome level[filter])',
         f'"{organism}"[All Fields] AND latest[filter]',
+        f"{organism}[All Fields]",
+        organism,
     ]
     contacts: list[dict[str, object]] = []
     for index, term in enumerate(terms):
@@ -362,6 +573,33 @@ def assembly_summary_for_organism(organism: str, deadline: float | None = None) 
             return row, {"on_disk_cache_hit": False, "cache_path": str(cache_path), "match_mode": match_mode, "contacts": contacts}
     write_json(cache_path, {"row": None, "match_mode": "unmapped", "queried_organism": organism, "contacts": contacts})
     return None, {"on_disk_cache_hit": False, "cache_path": str(cache_path), "match_mode": "unmapped", "contacts": contacts, "error": "organism_mapping_failed"}
+
+
+def load_blow_s5_nc_crosswalk(path: Path = BLOW2016_S5_PATH) -> tuple[dict[str, str], dict[str, object]]:
+    if not path.exists():
+        return {}, {"selected_source": str(path), "source_kind": "blow2016_s5_xlsx", "error": "s5_xlsx_missing"}
+    rows = read_xlsx_rows(path, "S5 Table")
+    crosswalk: dict[str, str] = {}
+    scaffold_counts = Counter()
+    for row in rows[1:]:
+        if len(row) <= 4:
+            continue
+        organism = row[0].strip()
+        scaffold = row[4].strip()
+        match = re.search(r"\b(NC_\d+(?:\.\d+)?)\b", scaffold)
+        if not organism or not match:
+            continue
+        accession = match.group(1)
+        scaffold_counts[organism] += 1
+        crosswalk.setdefault(organism, accession)
+    return crosswalk, {
+        "selected_source": str(path),
+        "source_kind": "blow2016_s5_xlsx",
+        "sheet": "S5 Table",
+        "n_xlsx_rows": len(rows),
+        "n_organisms_with_nc_accession": len(crosswalk),
+        "n_nc_scaffold_rows": sum(scaffold_counts.values()),
+    }
 
 
 def gtdb_lookup_from_rows(limit_genera: int = 200000, deadline: float | None = None) -> tuple[dict[str, dict[str, str]], dict[str, object]]:
@@ -397,6 +635,7 @@ def map_carriers_to_assemblies(
     deadline: float | None = None,
 ) -> tuple[list[dict[str, object]], dict[str, object]]:
     gtdb_lookup, gtdb_meta = gtdb_lookup_from_rows(deadline=deadline)
+    blow_crosswalk, blow_crosswalk_meta = load_blow_s5_nc_crosswalk()
     by_organism: dict[str, list[dict[str, object]]] = defaultdict(list)
     for row in carrier_rows:
         by_organism[str(row["rebase_organism"])].append(row)
@@ -409,7 +648,20 @@ def map_carriers_to_assemblies(
         if deadline_expired(deadline):
             mapping_counts["deadline_skipped"] += 1
             break
-        assembly_row, contact = assembly_summary_for_organism(organism, deadline=deadline)
+        s5_accession = blow_crosswalk.get(organism, "")
+        if s5_accession:
+            assembly_row, contact = assembly_summary_for_accession(s5_accession, deadline=deadline)
+            if contact.get("error"):
+                fallback_row, fallback_contact = assembly_summary_for_organism(organism, deadline=deadline)
+                if fallback_row:
+                    assembly_row = fallback_row
+                    contact = fallback_contact
+                else:
+                    contact = {**contact, "match_mode": "unmapped", "s5_nc_accession": s5_accession, "fallback": fallback_contact}
+            else:
+                contact = {**contact, "match_mode": "assembly_exact_s5_nc_accession", "s5_nc_accession": s5_accession}
+        else:
+            assembly_row, contact = assembly_summary_for_organism(organism, deadline=deadline)
         if not assembly_row:
             mapping_counts["unmapped"] += 1
             continue
@@ -426,6 +678,8 @@ def map_carriers_to_assemblies(
             item["gtdb_family"] = tax.get("gtdb_family", "")
             item["gtdb_genus"] = tax.get("gtdb_genus", "")
             item["match_mode"] = match_mode
+            if s5_accession:
+                item["blow_s5_nc_accession"] = s5_accession
             mapped.append(item)
     return mapped, {
         "n_organisms_considered": len(organisms),
@@ -433,6 +687,7 @@ def map_carriers_to_assemblies(
         "n_mapped_hosts": len({row["host_accession"] for row in mapped}),
         "mapping_counts": dict(mapping_counts),
         "gtdb": gtdb_meta,
+        "blow_s5_crosswalk": blow_crosswalk_meta,
     }
 
 

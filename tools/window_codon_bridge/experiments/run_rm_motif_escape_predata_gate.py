@@ -15,18 +15,22 @@ try:
     from ._rm_fetch_probe import (
         carrier_rows_by_host,
         host_inventory_map,
+        load_blow_carriers,
         load_rebase_carriers,
         map_carriers_to_assemblies,
         plasmid_target_inventory,
+        tier_a_blow_groups,
         tier_a_rebase_groups,
     )
 except ImportError:  # pragma: no cover - direct script execution
     from _rm_fetch_probe import (  # type: ignore
         carrier_rows_by_host,
         host_inventory_map,
+        load_blow_carriers,
         load_rebase_carriers,
         map_carriers_to_assemblies,
         plasmid_target_inventory,
+        tier_a_blow_groups,
         tier_a_rebase_groups,
     )
 
@@ -105,6 +109,7 @@ def evaluate_gates(mapped_carriers: list[dict[str, Any]], inventory: list[dict[s
                 "host_accession": host,
                 "gtdb_family": str(carriers[0].get("gtdb_family") or ""),
                 "gtdb_genus": str(carriers[0].get("gtdb_genus") or ""),
+                "blow_organisms": sorted({str(row.get("blow_organism") or "") for row in carriers if row.get("blow_organism")})[:12],
                 "rebase_organisms": sorted({str(row.get("rebase_organism") or "") for row in carriers})[:12],
                 "tierA_motif_count": len(motifs),
                 "num_targets": int(target.get("num_targets") or 0),
@@ -197,9 +202,17 @@ def main() -> int:
     host_limit = int(host_limit_raw) if host_limit_raw else None
     deadline_seconds = float(os.environ.get("RM_FETCH_DEADLINE_SECONDS", "300"))
     deadline = time.monotonic() + deadline_seconds if deadline_seconds > 0 else None
+    carrier_source = os.environ.get("RM_CARRIER_SOURCE", "blow").strip().lower() or "blow"
 
-    rebase_rows, rebase_meta = load_rebase_carriers(deadline=deadline)
-    carrier_rows, tier_meta = tier_a_rebase_groups(rebase_rows)
+    if carrier_source == "rebase":
+        source_rows, source_meta = load_rebase_carriers(deadline=deadline)
+        carrier_rows, tier_meta = tier_a_rebase_groups(source_rows)
+    elif carrier_source == "blow":
+        source_rows, source_meta = load_blow_carriers(deadline=deadline)
+        carrier_rows, tier_meta = tier_a_blow_groups(source_rows)
+    else:
+        print(json.dumps({"error": "unknown_RM_CARRIER_SOURCE", "RM_CARRIER_SOURCE": carrier_source}, sort_keys=True))
+        return 4
     mapped_carriers, mapping_meta = map_carriers_to_assemblies(carrier_rows, host_limit=host_limit, deadline=deadline)
     inventory, target_meta = plasmid_target_inventory(mapped_carriers, deadline=deadline)
     gate_result = evaluate_gates(mapped_carriers, inventory)
@@ -211,13 +224,19 @@ def main() -> int:
         "claim": "Claim 69",
         "generated_at": now_iso(),
         "host_limit": host_limit,
+        "carrier_source": carrier_source,
         "runtime_seconds": round(time.monotonic() - started, 3),
         "predata_gate_only": True,
         "target_signal_counts_computed": False,
-        "stop_rule": "Tier-A carrier list is selected from REBASE before any target motif counts are computed.",
-        "rebase": rebase_meta,
+        "stop_rule": "Tier-A carrier list is selected from the configured RM carrier source before any target motif counts are computed.",
+        "carrier_source_meta": source_meta,
+        "rebase": source_meta if carrier_source == "rebase" else {"skipped": True, "reason": "RM_CARRIER_SOURCE=blow"},
+        "blow2016": source_meta if carrier_source == "blow" else {"skipped": True, "reason": "RM_CARRIER_SOURCE=rebase"},
         "worker_1_carrier_audit": {
-            "n_rebase_rows": len(rebase_rows),
+            "source": carrier_source,
+            "n_source_rows": len(source_rows),
+            "n_rebase_rows": len(source_rows) if carrier_source == "rebase" else 0,
+            "n_blow_rows": len(source_rows) if carrier_source == "blow" else 0,
             "n_tierA_unmapped_carriers": len(carrier_rows),
             "n_tierA_mapped_carriers": len(mapped_carriers),
             "n_tierA_mapped_hosts": len({row.get("host_accession") for row in mapped_carriers if row.get("host_accession")}),
@@ -228,13 +247,17 @@ def main() -> int:
             "carrier_map_schema": [
                 "host_accession",
                 "gtdb_family",
+                "blow_organism",
                 "rebase_organism",
+                "mtase_name",
                 "rm_system_id",
                 "motif_raw",
                 "motif_canonical",
                 "motif_len",
                 "degeneracy",
                 "palindrome_flag",
+                "type",
+                "modtype",
                 "system_type",
                 "evidence_tier",
             ],
@@ -252,7 +275,7 @@ def main() -> int:
     print(json.dumps(payload, ensure_ascii=True, sort_keys=True, indent=2))
     if gate_result["verdict"] == "data_available":
         return 0
-    return 2 if rebase_rows else 3
+    return 2 if source_rows else 3
 
 
 if __name__ == "__main__":
