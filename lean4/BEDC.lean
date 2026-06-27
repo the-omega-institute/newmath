@@ -5721,6 +5721,7 @@ import BEDC.Derived.FejerTheoremUp.TasteGate
 import BEDC.Derived.FeketeSubadditiveUp.TasteGate
 import BEDC.Derived.FenchelDualityUp
 import BEDC.Derived.FermatLittleUp
+import BEDC.Derived.FermatNumberUp
 import BEDC.Derived.FermatWilsonUp
 import BEDC.Derived.FftUp
 import BEDC.Derived.FibonacciCubeUp
