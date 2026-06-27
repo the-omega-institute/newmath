@@ -12115,6 +12115,7 @@ import BEDC.Derived.Window6ThetaSparseRecurrence
 import BEDC.Derived.Window6TraceCycleIndexNecklace
 import BEDC.Derived.Window6TraceLucas
 import BEDC.Derived.Window6TransferMatrix
+import BEDC.Derived.Window6TwoBufferedXorPairRecurrence
 import BEDC.Derived.Window6WeightedNecklace
 import BEDC.Derived.Window6Zeckendorf
 import BEDC.Derived.WindowCoverageTriggerAlgebraUp.TasteGate
