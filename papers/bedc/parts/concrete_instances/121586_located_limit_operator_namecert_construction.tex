@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\LocatedLimitOperatorUp$}
+\label{ch:concrete-instances-located-limit-operator-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LocatedLimitOperatorUp$ packet records the finite operator surface that turns located nested-interval or regular Cauchy evidence into a $\RealUp$-facing limit handoff. It sits after the located nested-interval route of \autoref{ch:concrete-instances-located-real-nested-intervals-namecert}, the retained interval source of \autoref{ch:concrete-instances-nestedinterval-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite handoff route only: it does not assert ambient completeness, quotient equality, trichotomy, countable choice, or a selected host limit.
+
+\begin{definition}[Located limit-operator carrier]
+\label{def:located-limit-operator-carrier}
+A $\LocatedLimitOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,J,D,W,Q,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the source $\NestedIntervalUp$ row, exposing the retained nested interval evidence.
+\item $J$ is the $\LocatedRealNestedIntervalsUp$ handoff row, recording the located containment and diameter route used by the source.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for endpoint widths, requested precisions, and rational enclosure checks.
+\item $W$ is the $\StreamNameUp$ finite-window row selected by each precision request.
+\item $Q$ is the $\RegSeqRatUp$ readback row extracted from the displayed finite windows and dyadic tolerances.
+\item $R$ is the terminal $\RealUp$ seal row that may be consumed only after $I,J,D,W,Q$ have been displayed.
+\item $A$ is the operator-admission row, recording that the input route $I,J,D,W,Q$ has been assembled before the Real-facing handoff $R$.
+\item $H$ records componentwise $\hsame$ transport for $I,J,D,W,Q,R,A,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a precision request through the nested interval, window, readback, and seal rows.
+\item $P$ is the $\Pkg$ provenance over $\LocatedLimitOperatorUp$, $\NestedIntervalUp$, $\LocatedRealNestedIntervalsUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedLimitOperatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,J,D,W,Q,R,A,H,C,P,N$. It has no coordinate for host completeness, quotient representatives, exact trichotomy, countable choice, or a selected limit outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[Located limit-operator NameCert obligations]
+\label{thm:located-limit-operator-namecert-obligations}
+For every accepted $\LocatedLimitOperatorUp$ carrier $L=(I,J,D,W,Q,R,A,H,C,P,N)$, the local $\NameCert_{\LocatedLimitOperatorUp}$ surface consists exactly of carrier admission for the nested interval row $I$, located nested-interval handoff $J$, dyadic tolerance ledger $D$, finite window row $W$, regular rational readback $Q$, terminal Real seal $R$, operator-admission row $A$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local naming $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-limit-operator-carrier}. The rows $I,J,D,W,Q$ expose the input evidence from retained nested intervals to regular rational readback, and $R$ is the only Real-facing row.
+
+The operator-admission row $A$ records that the displayed input route has already been assembled before $R$ is consumed. Transport and replay through $H$ and $C$ preserve the same rows and cannot add a hidden selected point or quotient representative.
+
+Finally, provenance and naming through $P,N$ bind the packet to the sibling surfaces cited above. Since no excluded coordinate is present in the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Located limit-operator L10 handoff]
+\label{thm:located-limit-operator-l10-handoff}
+Every L10 Real or Completion consumer of an accepted $\LocatedLimitOperatorUp$ carrier receives its limit handoff only through the finite route
+$$
+\NestedIntervalUp,\ \LocatedRealNestedIntervalsUp,\ \DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The handoff exports a displayed Real-facing seal after finite windows and dyadic tolerances have been read; it exports no completeness principle, quotient equality, trichotomy, countable-choice schedule, or selected host limit.
+\end{theorem}
+\begin{proof}
+Read the route from the input side. The $\NestedIntervalUp$ row supplies retained interval evidence, and \autoref{ch:concrete-instances-located-real-nested-intervals-namecert} supplies the located nested-interval handoff that turns that evidence into finite window requests.
+
+The dyadic, stream, and regular rational rows then provide the inspected tolerance ledger, finite windows, and readback data. These rows are the same Real-facing corridor used by \autoref{ch:concrete-instances-regseqrat-namecert} before the terminal $\RealUp$ seal may be consumed.
+
+Thus the operator is a finite handoff surface, not a selector. Any consumer that skips one of these rows leaves the accepted $\LocatedLimitOperatorUp$ packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocatedLimitOperatorUp$ read exposes NestedInterval, LocatedRealNestedIntervals, DyadicRatCore, StreamName, RegSeqRat, Real, operator-admission, transport, replay, provenance, and local NameCert rows before a Real or Completion consumer receives the handoff.}
+
+\independenceWitness{nestedinterval, locatedrealnestedintervals, dyadicratcore, streamname, regseqrat, real: $\LocatedLimitOperatorUp$ is not bijective to any listed sibling because it binds all six rows into one operator-admission packet while refusing host completeness, quotient equality, trichotomy, choice, and selected limits.}
+
+\closureat{LocatedLimitOperatorUp}{seedStr}
+
+\begin{closurestatus}{\LocatedLimitOperatorUp}
+  \constructivestory{A $\LocatedLimitOperatorUp$ packet is generated from a NestedInterval row, a LocatedRealNestedIntervals handoff row, a DyadicRatCore tolerance ledger, StreamName finite windows, RegSeqRat readback, a Real seal, operator admission, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-limit-operator-carrier}, \autoref{thm:located-limit-operator-namecert-obligations}, and \autoref{thm:located-limit-operator-l10-handoff} seed the finite operator surface from located nested-interval evidence to a Real-facing handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim ambient completeness, quotient equality, trichotomy, countable choice, selected host limits, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, nested-interval exposure, located nested-interval handoff, dyadic tolerance coverage, finite window readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LocatedLimitOperatorUp.}
+\end{closurestatus}
