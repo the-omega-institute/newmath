@@ -29,6 +29,46 @@ order.  It does not supply a default reverse morphism
 $\tau_2\to\tau_1$.
 \end{definition}
 
+\begin{definition}[Deterministic observation update]
+\label{def:unified-reality-deterministic-observation-update}
+A directed observation carrier has deterministic update when every
+displayed state admits at most one authorized successor row.  Writing
+$X_t$ for the state fibre at time $t$, $t^+$ for the displayed successor
+time, and $\mathsf{Step}_t(x,y)$ for the update relation, this row is
+$$
+\mathsf{DetStep}
+:=
+\prod_t
+\prod_{x:X_t}
+\prod_{y_1,y_2:X_{t^+}}
+\left(
+\mathsf{Step}_t(x,y_1)\times\mathsf{Step}_t(x,y_2)
+\to
+y_1=y_2
+\right).
+$$
+Thus one time slot carries at most one generation step or observation
+update.
+\end{definition}
+
+\begin{principle}[Deterministic update is weaker than zero-fibre atomicity]
+\label{prin:unified-reality-deterministic-update-weaker-than-zero-fibre-atomicity}
+Deterministic update is a generation-side property.  It does not imply
+that every readout inside the generated object is singleton-valued:
+$$
+\mathsf{DetStep}
+\;\not\Rightarrow\;
+\mathsf{TimeFibreAtom}_{\zeta}.
+$$
+A deterministic stage may produce one polynomial, spectral packet, or
+zero carrier whose internal zero ledger has several rows.  In the
+quartic spectral carrier, for example, one recurrence stage generates
+one displayed polynomial while the fixed endpoint window may carry an
+indexed zero family.  Hence the RH-facing mirror argument requires a
+separate zero-reality condition: the normal zero read in each directed
+zeta time fibre must itself be single-valued.
+\end{principle}
+
 \begin{definition}[Time-fibre mirror]
 \label{def:unified-reality-time-fibre-mirror}
 The zeta mirror
@@ -192,7 +232,8 @@ normal reads in one time fibre.
 If $(\delta,\tau)$ is a zero and $\delta\#0$, mirror closure gives
 $(-\delta,\tau)$ as another zero in the same time fibre.  Since
 $\delta\#0$, the two normal coordinates are distinct.  Thus off-fixed
-zerohood is exactly the failure of time-fibre atomicity.
+zerohood, under mirror closure, witnesses failure of time-fibre
+atomicity.
 \end{proof}
 
 \begin{theorem}[Time-fibre atomicity is the slot form of defect rigidity]
