@@ -12085,7 +12085,6 @@ import BEDC.Derived.Window6CyclicCount
 import BEDC.Derived.Window6DisjointPairPell
 import BEDC.Derived.Window6DistanceTwoOverlapSparseRecurrence
 import BEDC.Derived.Window6Doubling
-import BEDC.Derived.Window6EdgeCokernelClock
 import BEDC.Derived.Window6EdgeFluxModP3
 import BEDC.Derived.Window6EfficientOpenDominationRecurrence
 import BEDC.Derived.Window6FactorImageCount
