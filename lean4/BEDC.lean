@@ -12754,6 +12754,7 @@ import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.Nonescape
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.SeparationHandoff
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
+import BEDC.Derived.WilsonQuotientUp
 import BEDC.Derived.WilsonTheoremUp
 import BEDC.Derived.WilsonUp
 import BEDC.Derived.Window6CyclicCount
