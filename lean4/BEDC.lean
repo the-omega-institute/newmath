@@ -5731,6 +5731,7 @@ import BEDC.Derived.FastSeriesProductUp
 import BEDC.Derived.FastSeriesProductUp.TasteGate
 import BEDC.Derived.FatouLemmaUp.TasteGate
 import BEDC.Derived.FaulhaberBernoulliUp
+import BEDC.Derived.FaulhaberPolynomialUp
 import BEDC.Derived.FaulhaberUp
 import BEDC.Derived.FejerKernelUp.TasteGate
 import BEDC.Derived.FejerTheoremUp.TasteGate
