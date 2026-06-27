@@ -2004,6 +2004,7 @@ import BEDC.Derived.CauchyDifferenceCriterionUp.BidirectionalExactness
 import BEDC.Derived.CauchyDifferenceCriterionUp.KernelScope
 import BEDC.Derived.CauchyDifferenceCriterionUp.NameCertObligations
 import BEDC.Derived.CauchyDifferenceCriterionUp.ObligationExport
+import BEDC.Derived.CauchyDifferenceCriterionUp.PublicExactness
 import BEDC.Derived.CauchyDifferenceCriterionUp.RegularTailStability
 import BEDC.Derived.CauchyDifferenceCriterionUp.ScopePackage
 import BEDC.Derived.CauchyDifferenceCriterionUp.ShiftInvariance
