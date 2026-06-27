@@ -274,4 +274,70 @@ theorem EffectivePolishSpaceCarrier_dense_realizer_transport [AskSetup] [Package
   }
   exact ⟨cert, denseReadUnary, cauchyReadUnary, readbackReadUnary, transportedUnary⟩
 
+theorem EffectivePolishSpace_dense_realizer_consumer_route [AskSetup] [PackageSetup]
+    {polish dense realizer stream readback tolerance realSeal transport replay provenance
+      localName denseRead consumerRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EffectivePolishSpaceCarrier polish dense realizer stream readback tolerance realSeal
+        transport replay provenance localName bundle pkg ->
+      Cont dense realizer denseRead ->
+        Cont denseRead stream consumerRead ->
+          hsame consumerRead namedRead ->
+            PkgSig bundle namedRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row dense ∨ hsame row realizer ∨ hsame row stream ∨
+                      hsame row consumerRead ∨ hsame row namedRead)
+                  (fun row : BHist => UnaryHistory row ∧ PkgSig bundle namedRead pkg)
+                  hsame ∧
+                UnaryHistory denseRead ∧ UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
+  intro carrier denseRoute consumerRoute sameConsumer namedPkg
+  obtain
+    ⟨_polishUnary, denseUnary, realizerUnary, streamUnary, _readbackUnary,
+      _toleranceUnary, _realSealUnary, _transportUnary, _replayUnary, _provenanceUnary,
+      _localNameUnary, _streamReadbackRoute, _transportToleranceRoute, _provenancePkg⟩ :=
+    carrier
+  have denseReadUnary : UnaryHistory denseRead :=
+    unary_cont_closed denseUnary realizerUnary denseRoute
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed denseReadUnary streamUnary consumerRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_transport consumerUnary sameConsumer
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row dense ∨ hsame row realizer ∨ hsame row stream ∨
+              hsame row consumerRead ∨ hsame row namedRead)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, namedPkg⟩
+  }
+  exact ⟨cert, denseReadUnary, namedUnary⟩
+
 end BEDC.Derived.EffectivePolishSpaceUp
