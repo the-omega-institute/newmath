@@ -12813,6 +12813,7 @@ import BEDC.Derived.ZCarryUp.TasteGate
 import BEDC.Derived.ZModFieldUp
 import BEDC.Derived.ZModResidueList
 import BEDC.Derived.ZModUp
+import BEDC.Derived.ZeckendorfArithmeticUp
 import BEDC.Derived.ZeckendorfCarryClassifierUp
 import BEDC.Derived.ZeckendorfCarryClassifierUp.TasteGate
 import BEDC.Derived.ZeckendorfCarryNormalizationUp
