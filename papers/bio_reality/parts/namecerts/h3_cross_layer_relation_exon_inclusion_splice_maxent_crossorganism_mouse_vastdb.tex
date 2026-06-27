@@ -1,63 +1,45 @@
 \origin{ai}
 
-\subsection{Mouse exon inclusion readback from splice-strength rows}
-\label{sec:bioreality-splice-maxent-crossorganism-mouse-vastdb}
+\subsection{Mouse exon inclusion under splice-site strength}
+\label{sec:bioreality-splice-maxent-mouse-vastdb}
 
-\paragraph{Finite table.}
-This BioReality record uses a finite exon-window table whose rows are keyed by a mouse exon or exon-like interval, the local splice-strength summaries assigned to that interval, the tissue-resolved exon-inclusion readout, and the controls needed to keep a splicing statement separate from unrelated downstream layers.  The verified row count for the main table is $50633$, and the finite audit records that the tissue-wise sign condition is positive in every tissue surface tested:
+\paragraph{Finite row.}
+The BioReality row indexed by
+$\mathrm{h3.cross\_layer\_relation.exon\_inclusion.splice\_maxent\_crossorganism\_mouse\_vastdb}$
+records a finite cross-layer test in which exon-inclusion behavior is read against splice-site strength in a mouse VASTDB surface.  The verified run has identifier $70\mathrm{fafd}816698$, contains $50633$ rows, and reports $\mathrm{all\_tissue\_positive}=\mathrm{true}$.  The computation time recorded for the finite pass is $410.672546$ seconds.  Thus the row is not a symbolic statement about splicing in general: it is a finite table-level assertion that every tissue-resolved sign check used by this packet is positive on the joined mouse exon-inclusion and MaxEnt splice-strength surface.
+
+\paragraph{Measured coordinate.}
+The biological coordinate in this chapter is exon inclusion, with splice-site strength acting as the external sequence-to-splicing score.  In the finite row, the admissible evidence is the sign stability of the splice-strength relation across the tissue-resolved mouse VASTDB rows.  The row count is large enough to make the record more than a routing certificate: $n=50633$ joined observations are present for the tested surface.  The local readout can be summarized as the finite predicate
 $$
 \begin{aligned}
-  n_{\mathrm{splice}} &= 50633,\\
-  \mathrm{all\_tissue\_positive} &= \mathrm{true},\\
-  t_{\mathrm{runtime}} &= 410.672546\ \mathrm{s}.
+  R_{\mathrm{splice}} &= \{\text{joined mouse exon rows with MaxEnt splice score and VASTDB inclusion readout}\},\\
+  |R_{\mathrm{splice}}| &= 50633,\\
+  \operatorname{tissueSign}(R_{\mathrm{splice}}) &= \mathrm{positive\ in\ every\ tested\ tissue}.
 \end{aligned}
 $$
-The biological content of this row set is therefore not a universal law about splicing.  It is a finite cross-layer relation: splice-strength coordinates computed from the local exon boundary are aligned with exon-inclusion measurements in the same organism-scale mouse inclusion table, and the retained sign is positive across the tested tissue readouts.
+The last line is exactly the bounded content of the row.  It does not assert a universal splice code, a causal mechanism, or a species-independent law; it asserts that this finite mouse surface passed the tissue-sign criterion used by the packet.
 
-\paragraph{Claim readback.}
-Let $E$ be the finite set of assayed exon windows and let $T$ be the finite set of tissue readouts used by the inclusion table.  Each row has the schematic form
+\paragraph{Comparison row.}
+A separate exon-inclusion row, indexed by
+$\mathrm{h3.cross\_layer\_relation.exon\_inclusion.ese\_hexamer\_exon\_inclusion\_adamson2018}$,
+contains $1037$ observations and records
+$\mathrm{collinearity\_dESEseq\_dMaxEnt}=-0.008429245619$ with runtime $4.569444656$ seconds.  That comparison row is useful here only as a same-layer caution: exon-inclusion evidence may be finite and measurable while still depending on which splicing coordinate is used.  The mouse VASTDB row is therefore reported as a splice-site-strength inclusion surface, not as a general equivalence between enhancer hexamers, MaxEnt score, and every exon-inclusion assay.
+
+\paragraph{Residual geometry context.}
+The chapter is also constrained by the residual-coordinate records attached to the same research packet.  The $f_3$ saturation row records
 $$
 \begin{aligned}
-  r=(e,t,\Delta_{\mathrm{MaxEnt}}(e),\Psi(e,t),Z(e,t)),
+M &= \{\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\qquad \mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},\\
+\operatorname{Sat}_{f_3}(R) &= \{\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
+&\qquad \mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},\\
+\partial f_3 &= \varnothing.
 \end{aligned}
 $$
-where $e\in E$, $t\in T$, $\Delta_{\mathrm{MaxEnt}}(e)$ is the splice-strength coordinate attached to the local splice boundary, $\Psi(e,t)$ is the exon-inclusion readout, and $Z(e,t)$ denotes the organism, annotation, mappability, coverage, and tissue-index controls used to prevent a boundary score from being read as a mechanism by itself.  The verified finite fact is the sign-level survival statement
-$$
-\begin{aligned}
-  \forall t\in T,\quad S_{\mathrm{splice}}(t)>0,
-\end{aligned}
-$$
-with the quantified domain restricted to the $50633$ joined mouse rows in the audited table.  This is a stronger local readback than a single pooled association because the sign condition is not confined to one aggregate surface; the table records positivity across the tested tissue slices.
+The quotient-geometry row records $|\pi_M|=10$, an $M$-vector $(20,38,26,8,1)$, and a quotient vector $(10,14,6,1)$.  These numbers identify the finite codon-topology coordinate available to the larger packet.  They do not supply the mouse exon-inclusion statistic.  In this chapter, they function only as a boundary on interpretation: codon residual geometry and splice-site inclusion evidence are distinct finite surfaces unless a row explicitly joins them and computes the declared statistic.
 
-\paragraph{Local comparison rows.}
-A nearby exon-inclusion surface based on ESE hexamer change and MaxEnt change has $n=1037$ and an observed collinearity value
-$$
-\begin{aligned}
-  \mathrm{corr}(\Delta_{\mathrm{ESEseq}},\Delta_{\mathrm{MaxEnt}})=-0.008429245619,
-  \qquad
-  t_{\mathrm{runtime}}=4.569444656\ \mathrm{s}.
-\end{aligned}
-$$
-This comparison is useful because it keeps two exon-local coordinates distinct.  The large mouse VASTDB-style readback supports the splice-strength to inclusion relation on $50633$ rows, while the smaller ESE/MaxEnt comparison does not collapse ESE hexamer behavior into the MaxEnt coordinate.  The result is a bounded splicing-layer statement: splice-boundary scoring and exon inclusion are related on the finite mouse table, but other exon-local sequence coordinates remain separate unless their own joined statistic is computed.
+\paragraph{Admissible reading.}
+The admissible statement is that the mouse VASTDB splice-strength packet has a positive finite inclusion relation across its tested tissue slices.  The row supports a bounded cross-layer relation between splice-site score and exon-inclusion readout for the joined mouse surface.  It is also compatible with the broader BioReality discipline that a contact name or a review event is not itself a measurement: the measurement here is the finite joined row count and the recorded all-tissue-positive predicate.
 
-\paragraph{Coordinate discipline.}
-The chapter also records which upstream symbolic coordinates are not being used as splicing evidence.  The $f_3$ saturation audit lists
-$$
-\begin{aligned}
-M_{\mathrm{Med}\,R\cup ACA}={}&\{\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},\\
-\mathrm{Sat}_{f_3}(R)={}&\{\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},\\
-\partial f_3&=\varnothing.
-\end{aligned}
-$$
-The quotient-geometry audit records $|\pi_M|=10$, an $M$-vector $(20,38,26,8,1)$, and a quotient vector $(10,14,6,1)$.  These finite coordinates help police the boundary of the present claim: codon-topology and quotient geometry are available as audited symbolic data, but they are not the evidence for the mouse exon-inclusion relation.  The evidence used here is the joined splice-strength and inclusion table, not a codon-window or translation coordinate.
-
-\paragraph{Neighboring cross-layer scale.}
-The same finite audit batch contains other biological surfaces with different meanings: the APA/PAS table has $24740$ genes and $296950$ polyadenylation-site rows, while a thermal-stability surface has $8092$ rows and a UniProt sequence match rate of $0.963104$.  These numbers are not imported as support for the splice claim.  They show only that the BioReality ledger distinguishes row-bearing contacts by layer and readout.  A PAS-strength table, a protein-stability table, and a splice-inclusion table are different finite objects even when they are all cross-layer records.
-
-\paragraph{Boundary.}
-The permitted conclusion is narrow.  On the verified mouse exon-inclusion table, the splice-strength coordinate has a positive tissue-resolved relation to inclusion across $50633$ rows.  No claim about translation, ribosome occupancy, protein abundance, folding, physical admissibility, molecular function, phenotype, mechanism, adaptation, or universality follows from that result.  Such statements would require their own matched contact rows and their own controlled statistic.  In particular, modeled tAI or stAI weights, codon residuals, $f_3$ saturation lists, protein abundance contacts, and thermal-stability rows cannot be substituted for exon-inclusion measurements or used to promote this chapter beyond the splicing layer.
-
-\paragraph{Audit conclusion.}
-The finite record is ready as a splicing-layer BioReality chapter because the main mouse table has a concrete row count, a positive all-tissue sign verdict, and a clearly separated readout.  Its strength is the tissue-resolved positivity on $50633$ joined rows.  Its limitation is equally explicit: it certifies a bounded splice-strength to exon-inclusion relation, not a downstream biological mechanism.
+\paragraph{Cannot-claim boundary.}
+No translation conclusion follows from this splice row.  No ribosome occupancy, translation efficiency, protein abundance, folding state, physical admissibility, molecular function, organismal phenotype, mechanism, or universal biological law is licensed by the MaxEnt--VASTDB result.  Likewise, the $f_3$ codon-topology records cannot be promoted into splicing, translation, or downstream protein claims unless a separate finite contact supplies same-row joins and a declared statistic under the relevant controls.  The local claim remains: $50633$ mouse exon-inclusion rows passed the tissue-positive splice-strength check; every stronger biological reading remains outside this chapter.
