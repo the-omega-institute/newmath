@@ -73,6 +73,60 @@ Thus $D_S$ is the window defect row of
 \autoref{def:unified-reality-rh-off-half-prime-window-defect}.
 \end{definition}
 
+\begin{definition}[Time-fibre even and odd normal reads]
+\label{def:unified-reality-time-fibre-even-odd-normal-reads}
+For a fixed directed time coordinate $\tau$, the mirror pair of normal
+reads is
+$$
+\delta,
+\qquad
+-\delta.
+$$
+Its even and odd normal components are
+$$
+\delta_{\mathrm{even}}
+:=
+\frac{\delta+(-\delta)}2
+=0,
+$$
+and
+$$
+\delta_{\mathrm{odd}}
+:=
+\frac{\delta-(-\delta)}2
+=\delta.
+$$
+Thus the mirror-even component of a two-read time fibre is already on
+the fixed surface; the RH-facing issue is whether the mirror-odd
+component can remain nonzero on a zero row.
+\end{definition}
+
+\begin{definition}[Odd zero defect]
+\label{def:unified-reality-odd-zero-defect}
+An \emph{odd zero defect} for the completed zeta carrier is the
+coexistence of a critical-strip zero row with a nonzero finite
+prime-window mirror-odd defect:
+$$
+\mathsf{OddZeroDefect}_{\zeta}
+:=
+\sum_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\times
+\sum_{S:\mathsf{FinitePrimeWindow}}
+\bigl(D_S(s)\#0\bigr)
+\right).
+$$
+The corresponding refusal row is
+$$
+\mathsf{NoOddZeroDefect}_{\zeta}
+:=
+\neg\mathsf{OddZeroDefect}_{\zeta}.
+$$
+\end{definition}
+
 \begin{theorem}[Prime-defect is mirror-odd]
 \label{thm:unified-reality-prime-defect-mirror-odd}
 For $s=1/2+\delta+i\tau$ and $J(s)=1-\overline{s}$,
@@ -106,6 +160,28 @@ $$
 d_p(J(s))=\delta\log p=-d_p(s).
 $$
 The vector statement is obtained componentwise.
+\end{proof}
+
+\begin{theorem}[Prime-window defect measures the odd normal read]
+\label{thm:unified-reality-prime-window-defect-measures-odd-normal-read}
+For $s=1/2+\delta+i\tau$ and every nonempty finite prime window $S$,
+the normalized prime-window defect is the negative odd normal component:
+$$
+\overline D_S(s)=-\delta_{\mathrm{odd}}.
+$$
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{def:unified-reality-time-fibre-even-odd-normal-reads}, the odd
+normal component is $\delta_{\mathrm{odd}}=\delta$.  The normalized
+defect computation of
+\autoref{thm:unified-reality-normalized-defects-constant-over-windows}
+gives
+$$
+\overline D_S(s)=-\delta.
+$$
+Therefore $\overline D_S(s)=-\delta_{\mathrm{odd}}$.
 \end{proof}
 
 \begin{corollary}[Finite windows separate nonfixed mirror orbits]
@@ -218,6 +294,25 @@ It says that a mirror-odd prime-window defect visible at a finite sieve
 level cannot coexist with the completed zero ledger.
 \end{definition}
 
+\begin{theorem}[No odd zero defect is prime-sieve odd exactness]
+\label{thm:unified-reality-no-odd-zero-defect-prime-sieve-odd-exactness}
+For the completed zeta carrier,
+$$
+\mathsf{NoOddZeroDefect}_{\zeta}
+$$
+is the same refusal row as prime-sieve odd exactness.
+\end{theorem}
+
+\begin{proof}
+Unfold
+\autoref{def:unified-reality-odd-zero-defect}.  Its positive data are a
+zero row, a critical-strip row, and an existential finite prime-window
+defect $D_S(s)\#0$.  This is exactly the antecedent excluded by
+\autoref{def:unified-reality-prime-sieve-odd-exactness}.  The two names
+therefore describe the same carrier refusal: no completed zeta zero may
+carry a nonzero mirror-odd finite prime-window defect.
+\end{proof}
+
 \begin{theorem}[Prime-sieve odd exactness is defect-zero incompatibility]
 \label{thm:unified-reality-prime-sieve-odd-exactness-defect-zero}
 Prime-sieve odd exactness is the finite-sieve, mirror-odd form of the
@@ -225,6 +320,10 @@ defect-zero incompatibility route.
 \end{theorem}
 
 \begin{proof}
+By
+\autoref{thm:unified-reality-no-odd-zero-defect-prime-sieve-odd-exactness},
+prime-sieve odd exactness may be read as
+$\mathsf{NoOddZeroDefect}_{\zeta}$.
 The existential finite-window component in
 \autoref{def:unified-reality-prime-sieve-odd-exactness} is precisely the
 prime-defect row of
