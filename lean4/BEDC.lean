@@ -1818,6 +1818,7 @@ import BEDC.Derived.CauchyCompletionLeftExactnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionLiftUp
 import BEDC.Derived.CauchyCompletionLiftUp.TasteGate
 import BEDC.Derived.CauchyCompletionMinimalityUp.DenseImageCoverage
+import BEDC.Derived.CauchyCompletionMinimalityUp.ObligationExport
 import BEDC.Derived.CauchyCompletionMinimalityUp.RouteInduction
 import BEDC.Derived.CauchyCompletionMinimalityUp.SeparatedReflectionRoute
 import BEDC.Derived.CauchyCompletionMinimalityUp.TasteGate
@@ -8473,6 +8474,7 @@ import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.FiniteEndpo
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.LocalJoinBudget
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpointReadback
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.NormalEndpointRetention
+import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ParallelDiamondForwardLink
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.ParallelFrontierConsumption
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.PremiseExposure
 import BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp.Rectangle
@@ -12388,6 +12390,7 @@ import BEDC.Derived.TruthTotalReflectionUp.RefusalLedgerExactness
 import BEDC.Derived.TruthTotalReflectionUp.RootRouteTotality
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
 import BEDC.Derived.TruthTotalReflectionUp.TruthCertHandoff
+import BEDC.Derived.TubeLemmaFiniteProductUp
 import BEDC.Derived.TubeLemmaUp.TasteGate
 import BEDC.Derived.TubularNeighborhoodUp
 import BEDC.Derived.TuckerLemmaUp
