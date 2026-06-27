@@ -44,12 +44,51 @@ The structural rows preserve that route. Componentwise $\hsame$ transport in $H$
 Thus any sibling consumer must factor through $X,Z,T,D,Q,R,H,C,P,N$. The carrier has no additional coordinate from which to extract symmetry, separatedness, selected completion data, quotient point equality, or ambient Real completeness.
 \end{proof}
 
+\begin{theorem}[Lawvere metric directed source exposure]
+\label{thm:lawvere-metric-source-exposure}
+For every accepted $\LawvereMetricUp$ carrier $L=(X,Z,T,D,Q,R,H,C,P,N)$, any $\QuasiMetricUp$, $\FormalBallUp$, $\YonedaCompletionUp$, $\MetricUp$, or $\LawvereMetricCompletionUp$ consumer must expose the directed source row $X$ before it reads $D$, $Q$, or $R$ as distance data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lawvere-metric-carrier}. The row $X$ is the only displayed source row, while $D$, $Q$, and $R$ are downstream numeric rows: the dyadic budget, the regular rational readback, and the terminal Real seal.
+
+Apply \autoref{thm:lawvere-metric-triangle-ledger-stability}. Every listed consumer of a displayed directed-distance comparison must read the same $X,Z,T,D,Q,R$ surface before treating the comparison as stable under $\hsame$ transport and $\Cont$ replay. Hence the numeric read of $D,Q,R$ has no independent source; it is exposed only after the directed source row $X$ is fixed.
+\end{proof}
+
+\begin{theorem}[Lawvere metric zero-self exactness]
+\label{thm:lawvere-metric-zero-self-exactness}
+For every accepted $\LawvereMetricUp$ carrier $L=(X,Z,T,D,Q,R,H,C,P,N)$, the self-distance row $Z$ and the triangle row $T$ are mandatory finite ledger rows. They are not consequences of symmetry, separatedness, quotient point equality, selected completion data, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The carrier in \autoref{def:lawvere-metric-carrier} lists $Z$ and $T$ as displayed rows of the packet. The row $Z$ records the directed self-distance ledger for the displayed source entries, and $T$ records finite composable directed-distance triples before any completion or formal-ball consumer sees them.
+
+The same definition also exhausts the excluded coordinates. The carrier contains no row for symmetry, separatedness, selected Yoneda limit, completed formal-ball object, quotient point equality, ambient $\RealUp$ completeness, Lean verification, or bridge credential. Therefore $Z$ and $T$ are finite NameCert obligations carried by $L$ itself, not consequences imported from any excluded structure.
+\end{proof}
+
+\begin{theorem}[Lawvere metric NameCert obligation surface]
+\label{thm:lawvere-metric-namecert-obligation-surface}
+Every accepted $\LawvereMetricUp$ carrier $L=(X,Z,T,D,Q,R,H,C,P,N)$ exposes the following finite NameCert obligation rows:
+\begin{enumerate}
+\item directed source exposure through $X$;
+\item zero/self ledger exactness through $Z$ and triangle ledger stability through $T$;
+\item dyadic-RegSeqRat-Real sealing through $D,Q,R$;
+\item structural replay through $H$ and $C$;
+\item provenance exhaustion and local naming through $P$ and $N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The carrier definition supplies the rows $X,Z,T,D,Q,R,H,C,P,N$ and assigns each row its role. This gives the finite object-window, self-distance ledger, triangle ledger, dyadic budget, regular rational readback, Real seal, componentwise transport, replay route, provenance, and local NameCert name.
+
+The directed source row is exposed by \autoref{thm:lawvere-metric-source-exposure}. The exactness of the mandatory zero/self and triangle rows follows from \autoref{thm:lawvere-metric-zero-self-exactness}, while the consumer-facing stability of the same directed-distance surface follows from \autoref{thm:lawvere-metric-triangle-ledger-stability}.
+
+The remaining rows are structural rather than optional. The definition routes $D,Q,R$ as the dyadic-RegSeqRat-Real distance seal, $H$ and $C$ as transport and replay, and $P,N$ as provenance and local naming. Since the carrier has no coordinate for the excluded symmetry, separatedness, completion, quotient, Real-completeness, Lean, or bridge data, the five displayed clauses are exactly the finite obligation surface presented by the packet.
+\end{proof}
+
 \closureat{LawvereMetricUp}{seedStr}
 
 \begin{closurestatus}{\LawvereMetricUp}
   \constructivestory{A $\LawvereMetricUp$ packet is generated from a directed source row, zero/self ledger, triangle ledger, DyadicRatCore distance budget, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:lawvere-metric-carrier} and \autoref{thm:lawvere-metric-triangle-ledger-stability} seed the finite directed-distance interface consumed by QuasiMetric, FormalBall, YonedaCompletion, Metric, and LawvereMetricCompletion packets.}
+  \scopeclosed{\autoref{def:lawvere-metric-carrier}, \autoref{thm:lawvere-metric-triangle-ledger-stability}, and \autoref{thm:lawvere-metric-namecert-obligation-surface} seed the finite directed-distance interface consumed by QuasiMetric, FormalBall, YonedaCompletion, Metric, and LawvereMetricCompletion packets.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.LawvereMetricUp}
   \bridgestatus{none}
