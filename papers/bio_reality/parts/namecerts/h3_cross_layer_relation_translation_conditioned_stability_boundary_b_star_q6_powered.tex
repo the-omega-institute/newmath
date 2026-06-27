@@ -1,28 +1,57 @@
 \origin{ai}
-
-\subsection{Translation-conditioned protein-stability boundary for $B^*_{Q6}$ residual coordinates}
-\label{sec:biorreality-q6-translation-conditioned-stability-boundary}
+\subsection{Translation-conditioned stability boundary for $B^{\ast}_{Q6}$ residual coordinates}
+\label{sec:bioreality-q6-translation-conditioned-stability-boundary}
 
 \paragraph{Finite panel.}
-This record tests whether synonymous residual coordinates from $B^*_{Q6}$ may be read at a protein-stability or degradation boundary only after passing through a matched translation readout. The finite carrier is an organism-by-CDS panel with amino-acid-quotient residual coordinates, matched translation measurements where available, matched mRNA controls, and a downstream stability surface when the row join is large enough. The powered run used five folds, required at least $300$ joined rows, and fixed the seed hash as \texttt{sha256:1deaaafe98cd16982d810af72f6389a20be0dc19cbd46bc966593dd507bad122}. Three organisms passed the row threshold. In \textit{Escherichia coli} K-12 MG1655 the available stability surface was mRNA half-life with $2517$ rows. In \textit{Homo sapiens} the primary stability surface was protein turnover with $6697$ turnover rows and $11322$ mRNA half-life rows. In \textit{Saccharomyces cerevisiae} the primary stability surface was protein turnover with $3537$ turnover rows and $4759$ mRNA half-life rows.
+This record treats $B^{\ast}_{Q6}$ as a finite panel of synonymous residual coordinates rather than as a direct biological cause.  Each coordinate is first residualized against amino-acid quotient structure, and every downstream protein-state reading is allowed to enter only after the same finite row has a translation readout and the declared controls are present.  The operative finite carrier is an organism-by-CDS table with $q_i$ columns for the $B^{\ast}_{Q6}$ residual coordinates, a translation readout $T_j$, matched mRNA controls, and a stability or degradation-rate surface where such a surface is available.  The control block contains amino-acid composition, organism identity, $GC3$, coding-sequence length, the $M$-density baseline, and matched mRNA abundance; protein abundance is used only as a downstream or auxiliary surface, not as a substitute for stability.
 
-\paragraph{Gated statistic.}
-The statistic is not a direct statement that $q_i$ controls protein stability. A coordinate $q_i$ is first tested against a translation readout $T_j$ under amino-acid composition, organism, GC3, CDS length, M-density, and matched mRNA controls. Only after that translation gate is available is the downstream stability surface interpreted, and then only as the residual association remaining after conditioning on the matched translation readout. The numerical summary separates the raw downstream association from the translation-conditioned increment. Across the three joined organism panels, the direct $B^*_{Q6}$ stability prediction summary was positive in all three cases, with minimum $0.018837736273789707$, median $0.027727034742559664$, mean $0.02753157569086806$, and maximum $0.03602995605625481$. The downstream boundary test, however, is the full-control translation-conditioned change in $R^2$:
+\paragraph{Experiment readback.}
+The computed stability-boundary run is identified by experiment id \texttt{b\_star\_q6\_translation\_conditioned\_stability\_boundary\_powered} with run id \texttt{18a9672b4384}.  It used five folds, a minimum joined-row requirement of $300$, and seed \texttt{sha256:1deaaafe98cd16982d810af72f6389a20be0dc19cbd46bc966593dd507bad122}.  Three organisms supplied joined stability-side rows.  For \textit{Escherichia coli} K12 MG1655 the primary readout was mRNA half-life with $2517$ joined rows.  For \textit{Homo sapiens} the primary readout was protein turnover, with $6697$ protein-turnover rows and $11322$ mRNA-half-life rows.  For \textit{Saccharomyces cerevisiae} the primary readout was protein turnover, with $3537$ protein-turnover rows and $4759$ mRNA-half-life rows.  Thus the evidence is a finite mixed stability surface: one bacterial entry is still an RNA-half-life proxy, while the human and yeast entries use protein-turnover surfaces.
+
+\paragraph{Direct residual association.}
+Before translation conditioning, the $B^{\ast}_{Q6}$ residual block had positive predictive contact with the selected stability-side readout in all three joined organism panels.  The reported cross-validated values were
 $$
 \begin{aligned}
-\Delta R^2_{\mathrm{full}} &\in [-0.004953854025603666,\ 0.0006378518321674687],\\
-\operatorname{median}(\Delta R^2_{\mathrm{full}}) &= -0.0033500708066446228,\\
-\operatorname{mean}(\Delta R^2_{\mathrm{full}}) &= -0.0025553576666936064,\\
-\Delta R^2_{\mathrm{weighted}} &= -0.001572140012981015.
+\min R^2_{q\to S} &= 0.018837736273789707,\\
+\operatorname{median} R^2_{q\to S} &= 0.027727034742559664,\\
+\operatorname{mean} R^2_{q\to S} &= 0.02753157569086806,\\
+\max R^2_{q\to S} &= 0.03602995605625481,
 \end{aligned}
 $$
-Only one of the three organism entries had positive full-control increment; two were negative. The one-sided sign-flip probability for a positive full-control effect was $0.946441650390625$, so the finite panel does not support a stable positive translation-conditioned protein-stability boundary. The permutation control was also negative in all three entries, with minimum $-0.004840148172275405$, median $-0.002926202164063474$, mean $-0.002753469686061827$, and maximum $-0.0004940587218466019$.
+with $n=3$, $3$ positive entries, and no negative entries in this direct summary.  This number is not interpreted as a stability mechanism.  It is only the pre-conditioning surface that must be compared against the translation-conditioned surface.
 
-\paragraph{Call.}
-The finite verdict is \texttt{partial}. The organism-level calls were two \texttt{partial} entries and one \texttt{mediated\_blocked\_null} entry. This means that the panel contains enough matched rows to evaluate the boundary and that the direct downstream association is nonzero, but the translation-conditioned residual does not become a cross-organism positive stability claim. The correct reading is a guarded boundary: $B^*_{Q6}$ residual coordinates can be placed next to stability or degradation readouts only after the translation step is represented, and the observed finite statistic blocks promotion from direct codon-topology association to protein-stability mechanism.
+\paragraph{Translation-conditioned boundary statistic.}
+After the full control block and translation-conditioning step are imposed, the aggregate delta-$R^2$ surface changes sign in the finite panel:
+$$
+\begin{aligned}
+\min \Delta R^2_{\mathrm{full}} &= -0.004953854025603666,\\
+\operatorname{median} \Delta R^2_{\mathrm{full}} &= -0.0033500708066446228,\\
+\operatorname{mean} \Delta R^2_{\mathrm{full}} &= -0.0025553576666936064,\\
+\max \Delta R^2_{\mathrm{full}} &= 0.0006378518321674687.
+\end{aligned}
+$$
+There are two negative organism calls and one positive organism call in this full-control delta surface.  The weighted full-control delta is
+$$
+\begin{aligned}
+\Delta R^2_{\mathrm{weighted}}=-0.001572140012981015,
+\end{aligned}
+$$
+and the sign-flip test for being greater than zero gives
+$$
+\begin{aligned}
+p_{\mathrm{signflip}}=0.946441650390625.
+\end{aligned}
+$$
+The permuted comparison remains negative in all three organism entries, with minimum $-0.004840148172275405$, median $-0.002926202164063474$, mean $-0.002753469686061827$, maximum $-0.0004940587218466019$, and $3$ negative entries out of $3$.  The finite classification is therefore \texttt{partial}: two organism entries are partial and one is a mediated blocked null, while the aggregate sign test does not support a positive translation-conditioned stability effect.
 
-\paragraph{Neighboring finite checks.}
-Two nearby readout families help calibrate the scope. In the minimal compilation test, the same residual source was not compressed by the measured low-dimensional readout dictionary: the reported organism compressibilities were $0.024368095798914635$ for \textit{Danio rerio}, $0.005717621488177116$ for \textit{E. coli}, $0.02635576736932188$ for human, and $0.13234136547055853$ for yeast, with median $0.026$ and permutation probability $0.000999000999000999$ in each computed organism. This supports the interpretation that the residual source is not merely absorbed by the available measured readouts. In the structural-order readout family, the translation-gated predicted-structure-confidence panel used $3736$ matched \textit{E. coli} proteins from $3739$ codon-joined rows with hit rate $0.999198$, and $5804$ yeast proteins from $5815$ codon-joined rows with hit rate $0.998108$. Its controlled structural-order readback had $R^2_{SO}=0.03059081709413562$ in \textit{E. coli} and $R^2_{SO}=0.0715885627979685$ in yeast, while the translation-conditioned structural-order boundary later gave positive full-control increments in both organisms, with mean $0.005284160876443678$ and sign-flip probability $0.0029296875$. The stability boundary therefore has a different empirical shape: the available stability and turnover rows do not reproduce the stronger positive structural-order crossing.
+\paragraph{Relation to the broader $B^{\ast}_{Q6}$ panel.}
+The same coordinate family has a separate minimal-compilation diagnostic on four organisms.  There the residual source $P_Q$ was not strongly compressed by the measured low-dimensional readout set: \textit{Danio rerio} had $P_Q$ energy $605.0092168669606$, $n=13140$, $DL_{D_o}=1$, raw baseline description length $17$, final residual fraction $0.9756319042010854$, and compressibility $0.024368095798914635$; \textit{E. coli} had $P_Q$ energy $225.84556319953032$, $n=2517$, $DL_{D_o}=2$, raw baseline description length $2$, final residual fraction $0.9942823785118229$, and compressibility $0.005717621488177116$; human had $P_Q$ energy $286.3673197177688$, $n=11250$, $DL_{D_o}=3$, raw baseline description length $19$, final residual fraction $0.9736442326306781$, and compressibility $0.02635576736932188$; yeast had $P_Q$ energy $229.86450794006544$, $n=4759$, $DL_{D_o}=2$, raw baseline description length $19$, final residual fraction $0.8676586345294415$, and compressibility $0.13234136547055853$.  The median compressibility was $0.026$, with permutation $p=0.000999000999000999$ in each computed organism.  This places the stability-boundary result in the same descriptive regime: the residual coordinates are measurable, but they are not collapsed into a simple low-dimensional biological explanation by the available readouts.
 
-\paragraph{Local non-promotion rule.}
-The chapter does not license translation realization, folding quality, physical admissibility, molecular function, phenotype, mechanism, or universality. A modeled tAI or stAI route is not a measured ribosome contact. Matched mRNA abundance is a control surface, not a translation readout by itself. Bulk proteomics abundance is not a protein-stability or degradation-rate assay unless a layer-matched stability, turnover, pulse-chase, degradation, or perturbation contact is joined on the same organism and coding-sequence identifiers. The present finite result permits only this statement: in the supplied organism panels, $B^*_{Q6}$ residual coordinates show small direct associations with available stability-like surfaces, but after the required translation-conditioned control step the aggregate increment is negative and the cross-organism stability boundary remains only partially supported.
+\paragraph{Comparison with structural-order contacts.}
+The stability boundary is weaker than the corresponding translation-conditioned structural-order boundary.  In the structural-order run, only two organisms were joined, but both had positive full-control delta-$R^2$ entries: minimum $0.002688284523492457$, mean and median $0.005284160876443678$, maximum $0.007880037229394898$, weighted value $0.004764742175882462$, and sign-flip $p=0.0029296875$.  Its classification was \texttt{crosses\_to\_structural\_order\_layer}.  The more primitive structural-order survival run also reported nine residual coordinates, namely \texttt{K\_AAA}, \texttt{Arg\_AGR}, \texttt{Ile\_AUA}, \texttt{Leu\_CUN\_vs\_UUR}, \texttt{Leu\_UUA\_vs\_UUG}, \texttt{Ser\_UCR\_vs\_AGY}, \texttt{Ser\_UCA\_vs\_UCG}, \texttt{Thr\_ACR\_vs\_ACY}, and \texttt{f3\_stress}.  In that run, \textit{E. coli} used $3736$ matched proteins out of $3739$ codon-joined rows, with hit rate $0.999198$, rank $9$ after controls, residual degrees of freedom $3713$, and $R^2_{SO}=0.03059081709413562$; yeast used $5804$ matched proteins out of $5815$ codon-joined rows, with hit rate $0.998108$, rank $9$ after controls, residual degrees of freedom $5781$, and $R^2_{SO}=0.0715885627979685$.  These numbers are included only to localize the stability result among neighboring readout surfaces: structural confidence and protein turnover are different measurement layers, and a positive structural-order contact cannot be used to promote the stability boundary.
+
+\paragraph{Allowed conclusion.}
+The finite result supports only a bounded statement.  The $B^{\ast}_{Q6}$ residual block can show a small direct association with available stability-side readouts, but after translation conditioning and full controls the aggregate boundary is not positive: $\Delta R^2_{\mathrm{weighted}}=-0.001572140012981015$ and $p_{\mathrm{signflip}}=0.946441650390625$.  Therefore this chapter records a partial, translation-conditioned boundary rather than a protein-stability mechanism.  A legitimate positive stability claim would require the same $q_i$ coordinate to survive the translation readout $T_j$ on the matched row panel and then show a stability or degradation-rate association whose direct $q_i\to S_k$ component is reduced by conditioning on $T_j$.
+
+\paragraph{Local no-promotion rule.}
+No translation mechanism, folding claim, physical admissibility claim, biological function, phenotype, causal pathway, or universal biological law follows from these rows.  A modeled adaptation weight, a ribosome-profiling route name, a matched mRNA control, a bulk proteomics contact, a direct $q_i\to S_k$ association, or the presence of the $B^{\ast}_{Q6}$ coordinates is not enough.  Each stronger assertion needs its own layer-matched contact and a finite statistic on the joined rows.  In this chapter the admissible readout is only the controlled, translation-conditioned stability-boundary statistic reported above.
