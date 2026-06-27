@@ -45,7 +45,6 @@ private theorem range_length (n : Nat) : (List.range n).length = n :=
 /-- The finite eta prefix produced by the evaluator has exactly `N` terms.
 Discharged from the `etaTermList = List.map … (List.range N)` definition, not
 assumed via a witness field. -/
--- @hard_discharge: eta-finite-prefix-length
 theorem etaTermList_length {s : RationalStripPoint}
     (kernel : LocatedExpLogKernel s) (N precision : Nat) :
     (etaTermList kernel N precision).length = N := by
