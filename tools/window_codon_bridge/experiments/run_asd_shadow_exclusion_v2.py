@@ -47,6 +47,13 @@ CANONICAL_SD_MRNA = "AGGAGG"
 LAMBDA = math.log(2.0)
 EPS = 1.0e-12
 SCRIPT_DIR = Path(__file__).resolve().parent
+STRONG_SD_MIN_K = 5
+STRONG_SD_MAX_K = 8
+STRONG_SD_RAW_5MER = 9
+STRONG_SD_RAW_6_8MER = 11
+GATE_BG_WINDOW = 16
+GATE_BG_PER_START = 5
+GATE_EMPIRICAL_DRAWS = 1000
 
 SCOPE_NOTE = (
     "Primary scope is Gate-I0-pass Bacteria with masked internal CDS windows. "
@@ -212,22 +219,76 @@ def upstream_window(record: dict[str, object], contigs: dict[str, str], lo: int 
     return fetch_probe.dna_to_rna(seq)
 
 
-def all_window_scores(seq: str, table: dict[str, tuple[float, int]]) -> list[float]:
-    scores = []
+def strong_kmer_hit(kmer: str, table: dict[str, tuple[float, int]]) -> bool:
+    raw = int(table.get(kmer, (0.0, 0))[1])
+    if len(kmer) == 5:
+        return raw >= STRONG_SD_RAW_5MER
+    return len(kmer) >= 6 and raw >= STRONG_SD_RAW_6_8MER
+
+
+def strong_sd_hit(seq: str, table: dict[str, tuple[float, int]]) -> bool:
+    # The cutoff is expressed in raw antiparallel pairing points so the statistic
+    # tracks concrete SD-like matches, not the maximum of a broad score field.
     clean = seq.upper()
-    for k in range(5, 9):
+    for k in range(STRONG_SD_MIN_K, STRONG_SD_MAX_K + 1):
         if len(clean) < k:
             continue
         for i in range(0, len(clean) - k + 1):
             kmer = clean[i : i + k]
-            if set(kmer) <= BASES:
-                scores.append(math.exp(LAMBDA * table.get(kmer, (0.0, 0))[0]))
-    return scores
+            if set(kmer) <= BASES and strong_kmer_hit(kmer, table):
+                return True
+    return False
 
 
-def window_binding(seq: str, table: dict[str, tuple[float, int]]) -> float:
-    scores = all_window_scores(seq, table)
-    return max(scores) if scores else 0.0
+def strong_hit_fraction(windows: list[str], table: dict[str, tuple[float, int]]) -> tuple[float, int, int]:
+    clean = [seq.upper() for seq in windows if seq and set(seq.upper()) <= BASES]
+    hits = sum(1 for seq in clean if strong_sd_hit(seq, table))
+    n = len(clean)
+    return (hits / n if n else 0.0), hits, n
+
+
+def profile_strong_metrics(profile: dict[str, object], table: dict[str, tuple[float, int]]) -> tuple[int, int, float]:
+    counts = profile.get("counts")
+    if not isinstance(counts, Counter):
+        counts = Counter(counts if isinstance(counts, dict) else {})
+    n = int(profile.get("n_windows") or sum(counts.values()))
+    hits = 0
+    for kmer, count in counts.items():
+        text = str(kmer)
+        if set(text) <= BASES and strong_kmer_hit(text, table):
+            hits += int(count)
+    return hits, n, (hits / n if n else 0.0)
+
+
+def log2_density_ratio(obs_hits: int, obs_n: int, null_hits: int, null_n: int) -> float:
+    obs_rate = (obs_hits + 0.5) / (obs_n + 1.0)
+    null_rate = (null_hits + 0.5) / (null_n + 1.0)
+    return math.log(obs_rate / max(EPS, null_rate), 2.0)
+
+
+def eval_log2_ratio(obs_profile: dict[str, object], null_profiles: list[dict[str, object]], carrier: dict[str, object]) -> float:
+    counts = obs_profile.get("counts")
+    needed = set(str(kmer) for kmer in counts) if isinstance(counts, Counter) else set()
+    for profile in null_profiles:
+        pc = profile.get("counts")
+        if isinstance(pc, Counter):
+            needed.update(str(kmer) for kmer in pc)
+    table = v1.score_table_for_kmers(carrier, needed)
+    obs_hits, obs_n, _ = profile_strong_metrics(obs_profile, table)
+    ratios = []
+    for profile in null_profiles:
+        null_hits, null_n, _ = profile_strong_metrics(profile, table)
+        ratios.append(log2_density_ratio(obs_hits, obs_n, null_hits, null_n))
+    return median(ratios) if ratios else 0.0
+
+
+def canonical_sd_diagnostics(carrier: dict[str, object]) -> dict[str, object]:
+    kmers = {CANONICAL_SD_MRNA, CANONICAL_SD_MRNA[1:]}
+    table = v1.score_table_for_kmers(carrier, kmers)
+    return {
+        "AGGAGG_raw": int(table.get(CANONICAL_SD_MRNA, (0.0, 0))[1]),
+        "GGAGG_raw": int(table.get(CANONICAL_SD_MRNA[1:], (0.0, 0))[1]),
+    }
 
 
 def profile_masked(
@@ -283,24 +344,157 @@ def m3_motif_starts(seq: str) -> set[int]:
     return starts
 
 
-def burden(profile: dict[str, object], carrier: dict[str, object]) -> float:
-    counts = profile.get("counts")
-    needed = set(str(kmer) for kmer in counts) if isinstance(counts, Counter) else set()
-    table = v1.score_table_for_kmers(carrier, needed)
-    return float(v1.burden_from_profile(profile, table)["shadow"])
+def masked_prefix(masked_positions: set[int], n: int) -> list[int]:
+    prefix = [0] * (n + 1)
+    if masked_positions:
+        for idx in range(n):
+            prefix[idx + 1] = prefix[idx] + (1 if idx in masked_positions else 0)
+    return prefix
 
 
-def eval_z(obs_profile: dict[str, object], null_profiles: list[dict[str, object]], carrier: dict[str, object]) -> float:
-    counts = obs_profile.get("counts")
-    needed = set(str(kmer) for kmer in counts) if isinstance(counts, Counter) else set()
-    for profile in null_profiles:
-        pc = profile.get("counts")
-        if isinstance(pc, Counter):
-            needed.update(str(kmer) for kmer in pc)
-    table = v1.score_table_for_kmers(carrier, needed)
-    obs = float(v1.burden_from_profile(obs_profile, table)["shadow"])
-    nulls = [float(v1.burden_from_profile(profile, table)["shadow"]) for profile in null_profiles]
-    return z_score(obs, nulls)
+def background_exclusion_masks(records: list[dict[str, object]], contigs: dict[str, str], own_carrier: dict[str, object]) -> tuple[dict[int, set[int]], int]:
+    masks: dict[int, set[int]] = {}
+    for idx, record in enumerate(records):
+        n = len(str(record.get("sequence_rna") or ""))
+        masks[idx] = set(range(0, min(45, n))) | set(range(max(0, n - 30), n))
+    coord_records = [(idx, record) for idx, record in enumerate(records) if record.get("coord_available")]
+    starts_by_strand: dict[tuple[str, str], list[int]] = defaultdict(list)
+    for _, record in coord_records:
+        sc = start_coord(record)
+        if sc is not None:
+            starts_by_strand[(str(record.get("seqid") or ""), str(record.get("strand") or "+"))].append(sc)
+    for idx, record in coord_records:
+        seqid = str(record.get("seqid") or "")
+        strand = str(record.get("strand") or "+")
+        for sc in starts_by_strand[(seqid, strand)]:
+            masks[idx].update(genomic_interval_to_gene_positions(record, sc - 25, sc + 16))
+
+    table = v1.score_table(own_carrier)
+    predicted_pairs = 0
+    for key in sorted(set((str(r.get("seqid") or ""), str(r.get("strand") or "+")) for _, r in coord_records)):
+        same = [(idx, r) for idx, r in coord_records if (str(r.get("seqid") or ""), str(r.get("strand") or "+")) == key]
+        same.sort(key=lambda item: transcript_order_key(item[1]))
+        for (up_idx, up), (_, down) in zip(same, same[1:]):
+            if str(up.get("strand") or "+") == "+":
+                gap = int(down.get("start", 0)) - int(up.get("end", 0))
+            else:
+                gap = int(up.get("start", 0)) - int(down.get("end", 0))
+            if gap > 50:
+                continue
+            upwin = upstream_window(down, contigs)
+            if not upwin or not strong_sd_hit(upwin, table):
+                continue
+            sc = start_coord(down)
+            if sc is None:
+                continue
+            masks[up_idx].update(genomic_interval_to_gene_positions(up, sc - 35, sc + 16))
+            predicted_pairs += 1
+    return masks, predicted_pairs
+
+
+def internal_background_candidates(records: list[dict[str, object]], contigs: dict[str, str], own_carrier: dict[str, object]) -> tuple[list[dict[str, object]], dict[str, object]]:
+    exclusions, predicted_pairs = background_exclusion_masks(records, contigs, own_carrier)
+    candidates: list[dict[str, object]] = []
+    for idx, record in enumerate(records):
+        seq = str(record.get("sequence_rna") or "").upper()
+        if len(seq) < 120 or set(seq) - BASES:
+            continue
+        prefix = masked_prefix(exclusions.get(idx, set()), len(seq))
+        for pos in range(45, max(45, len(seq) - 30 - GATE_BG_WINDOW + 1)):
+            if prefix[pos + GATE_BG_WINDOW] != prefix[pos]:
+                continue
+            window = seq[pos : pos + GATE_BG_WINDOW]
+            if len(window) == GATE_BG_WINDOW and set(window) <= BASES:
+                candidates.append(
+                    {
+                        "seq": window,
+                        "gc": window.count("G") + window.count("C"),
+                        "g": window.count("G"),
+                        "purine": window.count("A") + window.count("G"),
+                    }
+                )
+    return candidates, {"candidate_windows": len(candidates), "m2_predicted_coupled_starts": predicted_pairs}
+
+
+def matched_background_windows(
+    records: list[dict[str, object]],
+    contigs: dict[str, str],
+    own_carrier: dict[str, object],
+    upstream_windows: list[str],
+    seed: str,
+) -> tuple[list[str], dict[str, object]]:
+    candidates, meta = internal_background_candidates(records, contigs, own_carrier)
+    rng = random.Random(stable_seed(seed))
+    out: list[str] = []
+    exact_support = 0
+    relaxed_support = 0
+    no_support = 0
+    bins: dict[tuple[int, int], list[str]] = defaultdict(list)
+    for row in candidates:
+        bins[(int(row["gc"]), int(row["g"]))].append(str(row["seq"]))
+    for key in list(bins):
+        bins[key].sort()
+
+    def pool_for(gc: int, g: int, radius: int) -> list[str]:
+        pool: list[str] = []
+        for gc_key in range(gc - radius, gc + radius + 1):
+            for g_key in range(g - radius, g + radius + 1):
+                pool.extend(bins.get((gc_key, g_key), []))
+        return pool
+
+    for idx, upstream in enumerate(upstream_windows):
+        gc = upstream.count("G") + upstream.count("C")
+        g = upstream.count("G")
+        exact = pool_for(gc, g, 1)
+        pool = exact
+        if not pool:
+            pool = pool_for(gc, g, 2)
+            if pool:
+                relaxed_support += 1
+            else:
+                no_support += 1
+                continue
+        else:
+            exact_support += 1
+        keyed = sorted(pool)
+        local_rng = random.Random(stable_seed(f"{seed}.{idx}.{upstream}.{rng.randrange(1 << 30)}"))
+        if len(keyed) <= GATE_BG_PER_START:
+            out.extend(keyed)
+        else:
+            out.extend(local_rng.sample(keyed, GATE_BG_PER_START))
+    meta.update(
+        {
+            "background_windows": len(out),
+            "exact_matched_starts": exact_support,
+            "relaxed_matched_starts": relaxed_support,
+            "unmatched_starts": no_support,
+            "background_per_start_cap": GATE_BG_PER_START,
+        }
+    )
+    return out, meta
+
+
+def matched_draw_pvalue(obs_windows: list[str], bg_windows: list[str], table: dict[str, tuple[float, int]], observed_delta: float, seed: str) -> float:
+    if not obs_windows or not bg_windows:
+        return 1.0
+    _, _, obs_n = strong_hit_fraction(obs_windows, table)
+    _, _, bg_n = strong_hit_fraction(bg_windows, table)
+    if obs_n <= 0 or bg_n <= 0:
+        return 1.0
+    rng = random.Random(stable_seed(seed))
+    bg_fraction, _, _ = strong_hit_fraction(bg_windows, table)
+    draws = max(100, GATE_EMPIRICAL_DRAWS)
+    exceed = 0
+    sample_n = min(obs_n, len(bg_windows))
+    for draw_idx in range(draws):
+        if len(bg_windows) <= sample_n:
+            sample = bg_windows[:]
+        else:
+            sample = rng.sample(bg_windows, sample_n)
+        sample_fraction, _, _ = strong_hit_fraction(sample, table)
+        if sample_fraction - bg_fraction >= observed_delta - EPS:
+            exceed += 1
+    return (1 + exceed) / (1 + draws)
 
 
 def parse_gff_coordinates(gff_text: str, fna_text: str) -> tuple[list[dict[str, object]], list[dict[str, object]], dict[str, str], dict[str, object]]:
@@ -523,7 +717,7 @@ def build_masks(records: list[dict[str, object]], contigs: dict[str, str], own_c
             if gap > 50:
                 continue
             upwin = upstream_window(down, contigs)
-            if not upwin or window_binding(upwin, table) < 1.72:
+            if not upwin or not strong_sd_hit(upwin, table):
                 continue
             sc = start_coord(down)
             if sc is None:
@@ -554,38 +748,48 @@ def gate_i0(records: list[dict[str, object]], contigs: dict[str, str], tail20: s
         seq = upstream_window(record, contigs)
         if seq and seq.count("N") == 0:
             usable_windows.append(seq)
-    rng = random.Random(stable_seed(seed + ".gate.bg"))
-    bg_windows = []
-    for record in records:
-        seq = str(record.get("sequence_rna") or "")
-        if len(seq) < 120:
-            continue
-        for _ in range(2):
-            pos = rng.randrange(45, max(46, len(seq) - 30 - 16))
-            bg_windows.append(seq[pos : pos + 16])
-            if len(bg_windows) >= max(len(usable_windows), 200):
-                break
-        if len(bg_windows) >= max(len(usable_windows), 200):
-            break
-    enrichments: dict[str, float] = {}
+    bg_windows, bg_meta = matched_background_windows(records, contigs, own, usable_windows, seed + ".gate.bg")
+    effects: dict[str, float] = {}
+    fractions: dict[str, tuple[float, int, int, float, int, int]] = {}
     for carrier in carriers:
         table = v1.score_table(carrier)
-        obs = [window_binding(seq, table) for seq in usable_windows]
-        bg = [window_binding(seq, table) for seq in bg_windows]
-        enrichments[str(carrier["label"])] = z_score(mean(obs), bg) if obs and bg else 0.0
-    own_z = enrichments.get("own", 0.0)
-    decoy_z = [value for label, value in enrichments.items() if label != "own"]
-    own_rank = rank_high(own_z, decoy_z)
+        obs_fraction, obs_hits, obs_n = strong_hit_fraction(usable_windows, table)
+        bg_fraction, bg_hits, bg_n = strong_hit_fraction(bg_windows, table)
+        effects[str(carrier["label"])] = obs_fraction - bg_fraction
+        fractions[str(carrier["label"])] = (obs_fraction, obs_hits, obs_n, bg_fraction, bg_hits, bg_n)
+    own_obs, own_hits, own_n, own_bg, bg_hits, bg_n = fractions.get("own", (0.0, 0, 0, 0.0, 0, 0))
+    delta = own_obs - own_bg
+    ratio = ((own_hits + 0.5) / (own_n + 1.0)) / max(EPS, ((bg_hits + 0.5) / (bg_n + 1.0)))
+    decoy_effects = [value for label, value in effects.items() if label != "own"]
+    own_rank = rank_high(delta, decoy_effects)
     usable_starts = len(usable_windows)
     required = usable_starts >= MIN_GATE_STARTS or usable_starts >= int(0.60 * max(1, len(records)))
-    passed = required and own_z >= 2.0 and (own_rank is not None and own_rank <= 0.35)
+    p_value = matched_draw_pvalue(usable_windows, bg_windows, v1.score_table(own), delta, seed + ".gate.p")
+    passed = (
+        required
+        and own_obs >= 0.15
+        and ratio >= 2.0
+        and delta >= 0.05
+        and p_value <= 0.01
+        and (own_rank is not None and own_rank <= 0.35)
+    )
     return {
         "passed": passed,
-        "init_enrichment_z": round_float(own_z),
+        "obs_fraction": round_float(own_obs),
+        "bg_fraction": round_float(own_bg),
+        "delta_fraction": round_float(delta),
+        "ratio": round_float(ratio),
+        "matched_empirical_p": round_float(p_value),
         "init_tail_rank": round_float(own_rank),
         "usable_starts": usable_starts,
         "usable_start_fraction": round_float(usable_starts / max(1, len(records))),
-        "enrichment_decoy_median": round_float(median(decoy_z)),
+        "obs_hits": own_hits,
+        "bg_hits": bg_hits,
+        "bg_windows": bg_n,
+        "effect_decoy_median": round_float(median(decoy_effects)),
+        "matched_background": bg_meta,
+        "strong_sd_thresholds": {"raw_5mer": STRONG_SD_RAW_5MER, "raw_6_8mer": STRONG_SD_RAW_6_8MER},
+        "canonical_sd_diagnostics": canonical_sd_diagnostics(own),
     }
 
 
@@ -656,13 +860,13 @@ def evaluate_organism(organism: dict[str, object], heterologous_tails: list[str]
     cai_cut = percentile([cai.get(idx, -999.0) for idx, row in enumerate(records) if not row.get("is_heg")], 0.90) or 999.0
 
     stages = ["unmasked", "M0", "M0_M1", "M0_M1_M2", "M0_M1_M2_M3"]
-    stage_z: dict[str, list[float]] = {stage: [] for stage in stages}
+    stage_d: dict[str, list[float]] = {stage: [] for stage in stages}
     stage_windows: dict[str, int] = {stage: 0 for stage in stages}
     stage_heg_windows: dict[str, int] = {stage: 0 for stage in stages}
-    pc1_z: list[float] = []
-    pc2_z: list[float] = []
-    own_clean_z: list[float] = []
-    place_clean_z: list[float] = []
+    pc1_d: list[float] = []
+    pc2_d: list[float] = []
+    own_clean_d: list[float] = []
+    place_clean_d: list[float] = []
     decoy_clean_d: dict[str, list[float]] = {str(d["label"]): [] for d in decoys}
     strata: dict[str, list[float]] = {"ribosomal_all_masked": [], "ribosomal_leading_only": [], "nonribo_CAI_top10": [], "matched_background": []}
 
@@ -685,8 +889,8 @@ def evaluate_organism(organism: dict[str, object], heterologous_tails: list[str]
                 for j, candidate in enumerate(null1)
             ]
             profiles_by_stage[stage] = (obs_profile, null_profiles)
-            z = eval_z(obs_profile, null_profiles, own_carrier)
-            stage_z[stage].append(z)
+            d_value = eval_log2_ratio(obs_profile, null_profiles, own_carrier)
+            stage_d[stage].append(d_value)
             nwin = int(obs_profile.get("n_windows") or 0)
             stage_windows[stage] += nwin
             if record.get("is_heg"):
@@ -694,45 +898,45 @@ def evaluate_organism(organism: dict[str, object], heterologous_tails: list[str]
 
         clean_mask, clean_m3 = combined_mask("M0_M1_M2_M3", parts)
         clean_obs, clean_null = profiles_by_stage["M0_M1_M2_M3"]
-        z_own = eval_z(clean_obs, clean_null, own_carrier)
-        own_clean_z.append(z_own)
-        pc_z = eval_z(clean_obs, clean_null, canonical_carrier)
-        pc1_z.append(pc_z)
+        d_own = eval_log2_ratio(clean_obs, clean_null, own_carrier)
+        own_clean_d.append(d_own)
+        pc_d_value = eval_log2_ratio(clean_obs, clean_null, canonical_carrier)
+        pc1_d.append(pc_d_value)
         if record.get("is_heg"):
-            pc2_z.append(pc_z)
+            pc2_d.append(pc_d_value)
         place_profiles = [
             profile_masked(candidate, clean_mask, f"{seed}.gene.{local_idx}.place.{j}", m3_starts=place_m3_starts[j] if clean_m3 else None)
             for j, candidate in enumerate(null_place)
         ]
-        place_clean_z.append(eval_z(clean_obs, place_profiles, own_carrier))
+        place_clean_d.append(eval_log2_ratio(clean_obs, place_profiles, own_carrier))
         for decoy in decoys:
-            decoy_clean_d[str(decoy["label"])].append(eval_z(clean_obs, clean_null, decoy))
+            decoy_clean_d[str(decoy["label"])].append(eval_log2_ratio(clean_obs, clean_null, decoy))
 
         if record.get("is_heg"):
-            strata["ribosomal_all_masked"].append(z_own)
+            strata["ribosomal_all_masked"].append(d_own)
             ig = leading_intergenic(record, records)
             if ig is not None and ig >= 50 and int(record.get("length_nt", 0)) >= 200:
-                strata["ribosomal_leading_only"].append(z_own)
+                strata["ribosomal_leading_only"].append(d_own)
         else:
             idx = original_idx
             close_coupled = (leading_intergenic(record, records) or 999999) < 50
             if cai.get(idx, -999.0) >= cai_cut and not close_coupled:
-                strata["nonribo_CAI_top10"].append(z_own)
+                strata["nonribo_CAI_top10"].append(d_own)
             elif not close_coupled:
-                strata["matched_background"].append(z_own)
+                strata["matched_background"].append(d_own)
 
-    clean_d = median(own_clean_z)
+    clean_d = median(own_clean_d)
     decoy_ds = [median(vals) for vals in decoy_clean_d.values()]
     clean_rank = rank_low(clean_d, [float(v) for v in decoy_ds if v is not None])
-    pc1_d = median(pc1_z)
-    pc2_d = median(pc2_z)
-    d_place = median(place_clean_z)
+    pc1_value = median(pc1_d)
+    pc2_value = median(pc2_d)
+    d_place = median(place_clean_d)
     unmasked_windows = max(1, stage_windows["unmasked"])
     unmasked_heg_windows = max(1, stage_heg_windows["unmasked"])
     mask_impact = {}
     for stage in stages:
         mask_impact[stage] = {
-            "D": round_float(median(stage_z[stage])),
+            "D": round_float(median(stage_d[stage])),
             "fraction_windows_removed": round_float(1.0 - stage_windows[stage] / unmasked_windows),
             "fraction_HEG_windows_removed": round_float(1.0 - stage_heg_windows[stage] / unmasked_heg_windows),
         }
@@ -754,8 +958,8 @@ def evaluate_organism(organism: dict[str, object], heterologous_tails: list[str]
         "n_cds": len(records),
         "n_selected": len(selected),
         "n_heg_selected": sum(1 for row in selected if row.get("is_heg")),
-        "D_PC1": pc1_d,
-        "D_PC2": pc2_d,
+        "D_PC1": pc1_value,
+        "D_PC2": pc2_value,
         "D_abundance_clean": clean_d,
         "clean_decoy_rank": clean_rank,
         "D_place_clean": d_place,
@@ -765,6 +969,7 @@ def evaluate_organism(organism: dict[str, object], heterologous_tails: list[str]
         "Z_matched_background": median(strata["matched_background"]),
         "strata_counts": {key: len(vals) for key, vals in strata.items()},
         "mask_impact": mask_impact,
+        "estimator": "strong_sd_hit_log2_density_ratio",
     }
 
 
