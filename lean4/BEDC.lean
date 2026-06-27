@@ -12048,6 +12048,7 @@ import BEDC.Derived.SupportNerveRealizationUp.TasteGate
 import BEDC.Derived.SylowUp
 import BEDC.Derived.SylowUp.TasteGate
 import BEDC.Derived.SylvesterInertiaUp.TasteGate
+import BEDC.Derived.SylvesterSequenceUp
 import BEDC.Derived.SymGroupUp
 import BEDC.Derived.SymmetricPolyUp
 import BEDC.Derived.SymmetryRestorationStabilizerUp.TasteGate
