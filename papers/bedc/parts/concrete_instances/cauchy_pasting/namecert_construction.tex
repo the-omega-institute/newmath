@@ -61,6 +61,22 @@ A completion-facing density read may then pass from the pasted $G,D,S,R,E$ route
 Finally use \autoref{thm:regular-cauchy-gluing-pasting-nonescape} on the source row $G$. The gluing source cannot contribute quotient stream equality, selected representatives, host equality, choice, or ambient completeness, and the pasting carrier adds no coordinate of those kinds.
 \end{proof}
 
+\begin{theorem}[Cauchy pasting common-tail gluing]
+\label{thm:cauchy-pasting-common-tail-gluing}
+Let
+$$
+P=(G,D,S,R,E,H,C,K,N)
+$$
+be an accepted $\CauchyPastingUp$ packet. If two compatible local Cauchy windows are read by the same pasting request, then their common-tail comparison is displayed through the finite route $G,D,S,R,E,H,C,K,N$ before any $\RealUp$ consumer reads the seal row $E$. The downstream finite-density route may reuse that common tail as a displayed local gluing witness, but it receives no ambient $\RealUp$ completeness theorem from the pasting packet.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligations of \autoref{thm:cauchy-pasting-namecert-obligations}. The compatible local Cauchy windows are admitted only through the source row $G$, the shared tolerance row $D$, and the finite StreamName window row $S$.
+
+The regular readback row $R$ records the common-tail comparison attached to those displayed windows. By \autoref{thm:cauchy-pasting-real-seal-nonescape}, the seal row $E$ is not reachable until $G,D,S,R$ have already been displayed.
+
+The rows $H,C,K,N$ then transport, replay, source, and locally name the same finite route. A finite-density consumer can read this route as a local gluing witness, but no row adds quotient stream equality, selected representatives, host real equality, countable choice, or ambient completeness.
+\end{proof}
+
 \closureat{CauchyPastingUp}{seedStr}
 
 \begin{closurestatus}{\CauchyPastingUp}

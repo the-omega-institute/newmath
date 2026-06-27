@@ -43,6 +43,22 @@ The terminal seal $E$ is downstream of $A,S,R,D$. The rows $H,C,P,N$ then preser
 Because no hidden selector, quotient stream, selected limit, countable-choice schedule, or ambient completeness row occurs in the carrier, none can be part of the local NameCert obligations.
 \end{proof}
 
+\begin{theorem}[Cofinal tail normal-form shift invariance]
+\label{thm:cofinal-tail-normal-form-shift-invariance}
+Let
+$$
+T=(A,S,R,D,E,H,C,P,N)
+$$
+be an accepted $\CofinalTailNormalFormUp$ carrier. Shifting the displayed finite $\StreamNameUp$ tail-selector window preserves the same $\CofinalTailAgreementUp$ source row $A$, the same $\RegSeqRatUp$ readback route $R$, the same $\DyadicRatCoreUp$ tolerance display $D$, and the same terminal $\RealUp$ seal route $E,H,C,P,N$. The shifted read is therefore another display of the same cofinal-tail normal form, not a hidden selector, quotient stream equality, selected limit, or ambient Real-completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:cofinal-tail-normal-form-carrier}. The only tail-selector coordinate is the displayed $\StreamNameUp$ row $S$, and the agreement source, readback, tolerance, seal, and structural rows are fixed as $A,R,D,E,H,C,P,N$.
+
+Apply \autoref{thm:cofinal-tail-normal-form-namecert-obligations}. Every Real-completeness consumer must read the cofinal-tail source, the selector window, the regular readback, and the dyadic tolerance display before it can reach the terminal seal.
+
+A shift of the displayed finite selector changes only which finite window of $S$ is inspected. Since the local certificate has no coordinate for a hidden selector or replacement source, the shifted read preserves $A,R,D,E,H,C,P,N$ and remains the same normal-form route.
+\end{proof}
+
 \falsifiablePrediction{Every $\CofinalTailNormalFormUp$ Real-completeness read factors through one CofinalTailAgreement source row, finite StreamName tail-selector windows, RegSeqRat readback, DyadicRatCore tolerance display, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{streamname, regseqrat, dyadicratcore, real, cofinaltailagreement: $\CofinalTailNormalFormUp$ is not bijective to any listed sibling because it carries a cofinal-tail agreement source together with the finite selector-window, regular-readback, tolerance, Real-seal, transport, replay, provenance, and naming rows as one normal-form packet.}
