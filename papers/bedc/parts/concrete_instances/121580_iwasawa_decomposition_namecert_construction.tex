@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\IwasawaDecompositionUp$}
+\label{ch:concrete-instances-iwasawa-decomposition-namecert}
+\origin{human}
+
+Following Iwasawa and standard Lie group theory, the $\IwasawaDecompositionUp$ packet records the KAN factorization surface as finite NameCert data rather than as an ambient global analytic theorem. It sits beside the Cartan decomposition of \autoref{ch:concrete-instances-cartan-decomposition-namecert}, the Lie-group carrier of \autoref{ch:concrete-instances-liegroup-namecert}, the Lie-algebra carrier of \autoref{ch:concrete-instances-liealgebra-namecert}, the matrix readback of \autoref{ch:concrete-instances-matrix-namecert}, and the underlying group route of \autoref{ch:concrete-instances-group-namecert}. The chapter names only the displayed compact, abelian, nilpotent, multiplication, factorization, transport, replay, provenance, and local naming rows.
+
+\begin{definition}[Iwasawa decomposition carrier]
+\label{def:iwasawa-decomposition-carrier}
+An $\IwasawaDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+I=(G,K,A,N,M,F,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\LieGroupUp$ source row, read through the underlying $\GroupUp$ multiplication route and, when a matrix presentation is displayed, through the $\MatrixUp$ readback row.
+\item $K$ is the compact factor row, recording the subgroup surface consumed from the Cartan-side compact data.
+\item $A$ is the abelian factor row, recording the displayed split abelian direction read from the Lie-algebra and Cartan rows.
+\item $N$ is the nilpotent factor row, recording the displayed nilpotent direction read from the same Lie-algebra source.
+\item $M$ is the multiplication route row, recording the ordered product read $K \times A \times N \to G$ using only the visible $\GroupUp$ multiplication coordinates.
+\item $F$ is the factorization witness row, recording that the currently accepted source element of $G$ is reached by the displayed $K,A,N$ entries through $M$.
+\item $H$ stores componentwise $\hsame$ transport for the group source, compact factor, abelian factor, nilpotent factor, multiplication route, factorization witness, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from an Iwasawa-decomposition request through $G,K,A,N,M,F,H$.
+\item $P$ is the $\Pkg$ provenance over $\IwasawaDecompositionUp$, $\CartanDecompositionUp$, $\LieGroupUp$, $\LieAlgebraUp$, $\MatrixUp$, $\GroupUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\IwasawaDecompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,K,A,N,M,F,H,C,P,L$. It has no coordinate for global Lie theory, Haar measure, selected analytic coordinates, quotient equality, or ambient smooth manifold completeness.
+\end{definition}
+
+\begin{theorem}[Iwasawa decomposition NameCert obligations]
+\label{thm:iwasawa-decomposition-namecert-obligations}
+For an accepted $\IwasawaDecompositionUp$ packet
+$$
+I=(G,K,A,N,M,F,H,C,P,L),
+$$
+the local $\NameCert_{\IwasawaDecompositionUp}$ surface is exhausted by the source group row, compact factor row, abelian factor row, nilpotent factor row, multiplication route, factorization witness, componentwise transport, replay, provenance, and local naming. Every accepted read is confined to the displayed route
+$$
+G,K,A,N,M,F,H,C,P,L .
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:iwasawa-decomposition-carrier}. The only group-facing source is $G$, and the only factor rows available to a consumer are $K,A,N$.
+
+The multiplication and factorization obligations are carried by $M$ and $F$. They record the ordered product route and the witness that the displayed source element is read through that route.
+
+The structural rows $H,C,P,L$ preserve the same finite packet under transport, replay, provenance, and local naming. Since no global analytic or quotient coordinate is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Iwasawa decomposition KAN route]
+\label{thm:iwasawa-decomposition-kan-route}
+Every KAN read from an accepted $\IwasawaDecompositionUp$ packet must pass through the Cartan-side compact data, the Lie-algebra abelian and nilpotent directions, the underlying $\GroupUp$ multiplication route, and any displayed $\MatrixUp$ readback before the local $\IwasawaDecompositionUp$ name is consumed. The public route is the finite packet
+$$
+K,A,N \xrightarrow{M} G \longmapsto L
+$$
+together with $F,H,C,P$.
+\end{theorem}
+\begin{proof}
+Start with the factor rows $K,A,N$. The compact row is sourced through the Cartan decomposition, while the abelian and nilpotent rows are read from the displayed Lie-algebra source.
+
+Next use the multiplication row $M$. It is the only route in the carrier from the ordered factor rows into the source group $G$, and it reads the underlying group operation rather than an external analytic product theorem.
+
+Finally apply $F,H,C,P,L$. The factorization witness, transport, replay, provenance, and local name rows keep the same KAN route visible, so a consumer cannot skip directly from the source group to a local Iwasawa name.
+\end{proof}
+
+\begin{theorem}[Iwasawa decomposition nonescape]
+\label{thm:iwasawa-decomposition-nonescape}
+No accepted $\IwasawaDecompositionUp$ read can escape the finite rows of \autoref{def:iwasawa-decomposition-carrier}. In particular, the packet does not export global Lie theory, Haar measure, selected analytic coordinates, quotient equality, or ambient smooth manifold completeness from the existence of a displayed KAN factorization route.
+\end{theorem}
+\begin{proof}
+Inspect the carrier coordinates. They name the source group, three factor rows, multiplication, factorization, transport, replay, provenance, and local NameCert row.
+
+Each excluded object would require an additional coordinate: global Lie theory would need a separate theorem surface, Haar measure a measure row, analytic coordinates a chart-selection row, quotient equality a quotient carrier, and ambient smooth manifold completeness a completion row.
+
+Because none of those coordinates is part of the accepted packet, every consumer remains inside the finite KAN route displayed by $G,K,A,N,M,F,H,C,P,L$.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\IwasawaDecompositionUp$ consumer is refuted if it reaches a local KAN name without first displaying the LieGroupUp source row, compact factor, abelian factor, nilpotent factor, multiplication route, factorization witness, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{cartandecomposition, liegroup, liealgebra, matrix, group: none is bijective to IwasawaDecompositionUp because only the Iwasawa decomposition packet jointly carries the compact factor, abelian factor, nilpotent factor, ordered multiplication route, factorization witness, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{IwasawaDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\IwasawaDecompositionUp}
+  \constructivestory{An $\IwasawaDecompositionUp$ packet is generated from a LieGroup source row, compact factor row, abelian factor row, nilpotent factor row, displayed multiplication route, factorization witness, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:iwasawa-decomposition-carrier}, \autoref{thm:iwasawa-decomposition-namecert-obligations}, \autoref{thm:iwasawa-decomposition-kan-route}, and \autoref{thm:iwasawa-decomposition-nonescape} seed the finite KAN packet over CartanDecompositionUp, LieGroupUp, LieAlgebraUp, MatrixUp, GroupUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global Lie theory, Haar measure, selected analytic coordinates, quotient equality, ambient smooth manifold completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, KAN route exactness, factorization witness preservation, transport, replay, provenance, and local naming for BEDC.Derived.IwasawaDecompositionUp.}
+\end{closurestatus}
