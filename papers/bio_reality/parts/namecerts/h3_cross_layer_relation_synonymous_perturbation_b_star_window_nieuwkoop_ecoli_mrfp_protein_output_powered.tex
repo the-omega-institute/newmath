@@ -1,73 +1,58 @@
-\subsection{Nieuwkoop E. coli mRFP Synonymous-Window Protein Output Readback}\label{sec:bioreality-nieuwkoop-ecoli-mrfp-protein-output}
 \origin{ai}
 
-\paragraph{Finite row surface.}
-This record concerns a finite synonymous-perturbation surface in the Nieuwkoop \emph{E. coli} mRFP experiment.  The observed rows are not species-level codon-usage summaries: they are variant-level synonymous coding changes scored against a protein-output readout.  The registered computation used $1459$ variants and compared a control-only layer $L_2$ against a layer $L_3$ in which the residual synonymous-window component $B_{\perp}$ was admitted after the declared controls.  The control fit had
+\subsection{Nieuwkoop E. coli mRFP synonymous-window protein-output contact}
+\label{sec:bioreality-nieuwkoop-ecoli-mrfp-protein-output}
+
+\paragraph{Finite perturbation surface.}
+The Nieuwkoop mRFP record gives a direct synonymous-perturbation contact for the $B^{\ast}_{Q6}$ window family in \emph{E. coli}.  The finite table contains $1459$ synonymous variants, and the registered statistic compares a control-only protein-output model against the same model after adding the residual window coordinate $B_{\perp}^{\ast}$.  The controlled baseline has
 $$
 \begin{aligned}
-R^2(L_2) &= 0.12648386762689323,\\
-R^2(L_3) &= 0.1798829276988051,\\
+R^2_{L2} &= 0.12648386762689323,
+\end{aligned}
+$$
+while the augmented model has
+$$
+\begin{aligned}
+R^2_{L3} &= 0.1798829276988051.
+\end{aligned}
+$$
+Thus the observed finite-row gain is
+$$
+\begin{aligned}
 \Delta R^2 &= 0.05339906007191191,\\
-\Delta \mathrm{DL} &= 19.089327473282296\ \mathrm{bits}.
+\Delta \mathrm{DL}_{\mathrm{bits}} &= 19.089327473282296.
 \end{aligned}
 $$
-The matched and within-null permutation probabilities were both
+Both registered null comparisons returned the same finite-grid tail value,
 $$
 \begin{aligned}
-p_{\mathrm{matched}} &= 0.004975124378109453,\\
-p_{\mathrm{within}} &= 0.004975124378109453,
+p_{\mathrm{within}} &= 0.004975124378109453,\\
+p_{\mathrm{matched}} &= 0.004975124378109453,
 \end{aligned}
 $$
-with $B=200$ null replicates.  The finite verdict is therefore a positive perturbation-level protein-output readback for this experiment: the residual synonymous-window coordinate improves held-out protein-output description after the registered controls.
+using $B=200$ randomization draws.  On this finite perturbation panel, the $B^{\ast}$ window contribution is therefore not absorbed by the declared control layer and is not explained away by the real codon-adaptation-index control used in the audit.
 
-\paragraph{Coordinate meaning.}
-The coordinate tested here is a $B^*_{Q6}$ synonymous-window residual, not an amino-acid substitution coordinate and not a free codon-count direction.  Its admissible biological reading is narrower than a direct geometry-to-protein assertion.  In this chapter it means the following finite relation: among synonymous mRFP variants in \emph{E. coli}, a residual coordinate orthogonalized against the ordinary control surface contributes additional predictive information for protein output.  The readout is a perturbation assay output, so it may support a local synonymous perturbation statement.  It does not by itself identify ribosome dwell time, folding state, molecular activity, cellular fitness, or evolutionary selection.
-
-\paragraph{Real-CAI robustness.}
-The run included a real codon-adaptation control audit.  The real CAI proxy was not an absorbing explanation of the $B^*_{Q6}$ window effect:
+\paragraph{CAI audit and residual status.}
+The run records the compact analysis object at \texttt{/tmp/nieuwkoop\_mrfp\_compact\_real\_cai.json}.  The real-CAI audit reports
 $$
 \begin{aligned}
-\operatorname{corr}(\mathrm{real\ CAI},\mathrm{proxy}) &= 0.17884920449487354,\\
-\mathrm{real\_cai\_absorbs} &= \mathrm{false},\\
-\mathrm{real\_cai\_robust} &= \mathrm{true}.
+\mathrm{corr}(\mathrm{real\ CAI},\mathrm{proxy}) &= 0.17884920449487354,
 \end{aligned}
 $$
-This matters because a synonymous-window protein-output signal could otherwise be only a restatement of ordinary codon-adaptation weighting.  The low proxy correlation and the non-absorption flag keep the result in a residual-coordinate register: the positive $\Delta R^2$ is not licensed merely by conventional CAI direction, but by the finite controlled comparison in the actual mRFP variant table.
+with \texttt{real\_cai\_absorbs=false} and \texttt{real\_cai\_robust=true}.  This is the important finite distinction: the positive protein-output gain is not merely the obvious CAI axis reappearing under another name.  The readout is still narrow.  It is a perturbation-level protein-output association for an mRFP synonymous variant panel, not a population law over organisms and not a claim that every $B^{\ast}_{Q6}$ coordinate controls protein abundance.
 
-\paragraph{Boundary audit on the same variant count.}
-A separate five-prime boundary audit used the same $1459$-variant scale and separated start-window and downstream contributions.  The start-window term was essentially null,
+\paragraph{Coordinate background.}
+The broader $B^{\ast}_{Q6}$ residual basis used by the surrounding BioReality packet contains nine named axes:
 $$
 \begin{aligned}
-\Delta R^2_{\mathrm{start}} &= 1.7624020537495221\times 10^{-9},\\
-\Delta \ell_{\mathrm{start}} &= 3.26370933437133\times 10^{-6},
+&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
+&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress.
 \end{aligned}
 $$
-while the downstream residual addition was not a stable positive explanation:
-$$
-\begin{aligned}
-\Delta R^2_{\mathrm{downstream}} &= -0.001126409133973234,\\
-\Delta \ell_{\mathrm{downstream}} &= -2.082967365015851,\\
-p_{\mathrm{block}} &= 0.1691542288557214,\\
-\mathrm{null95}_{\mathrm{downstream}} &= 0.5254770343527547,\\
-\mathrm{sign\_stable} &= \mathrm{false}.
-\end{aligned}
-$$
-The same audit recorded a large improvement from the second modelling layer, with $R^2=0.6060702157093043$ and $\Delta\ell=628.6217154500001$ relative to the first layer, followed by a third-layer decrease to $R^2=0.6049438075310105$.  This boundary information prevents over-reading the positive mRFP result as a generic five-prime law or as a monotone downstream-window law.  The supported statement is local: the registered residual window improves the protein-output fit under its stated control design.
+The Nieuwkoop contact is read as a finite window-level residual-output test attached to this coordinate family.  It does not by itself identify which molecular event lies between codon replacement and fluorescence or abundance output.  In the separate modeled translation-abundance decomposition, the $B^{\ast}_{Q6}$ packet is evaluated as a joint $9$-dimensional coordinate surface with controls for amino-acid composition, GC3, coding length, organism, and an $M$-density baseline.  That broader contact reported positive statistical mediation fractions for several organisms, for example $M^{QTP}=0.612922252793667$ in \emph{E. coli} K-12 MG1655 and $M^{QTP}=0.9491551041216973$ in \emph{S. cerevisiae}; those values are background calibration of the coordinate route, not evidence that the present mRFP perturbation has an observed ribosome-footprint mediator.
 
-\paragraph{Relation to the broader mediated protein-abundance surface.}
-The broader cross-layer protein-abundance audit supplies context but not a substitute for this perturbation result.  In the organism-matched protein-abundance decomposition, the \emph{E. coli} row joined $3739$ proteins, had residual degrees of freedom $3716$ after $23$ control-rank dimensions, and used $9$ $B^*_{Q6}$ coordinates.  Its reported mediated fraction was
-$$
-\begin{aligned}
-M^{QTP}_{\mathrm{E.coli}} &= 0.612922252793667,\\
-R^2_{QP} &= 0.10767526677985896,\\
-R^2_{QP\mid T} &= 0.04167869969498872,\\
-R^2_{\mathrm{indirect}} &= 0.06599656708487024.
-\end{aligned}
-$$
-That organism-level surface uses modelled per-protein tAI and PAXdb abundance, whereas the Nieuwkoop record is a synonymous-variant perturbation assay.  The two surfaces are therefore compatible but not interchangeable.  The mediated abundance table shows that an \emph{E. coli} $Q\to T\to P$ statistical decomposition can be non-vacuous on matched CDS/protein rows; the mRFP result shows a separate finite perturbation contact where synonymous-window residuals improve protein output in an engineered sequence panel.
+\paragraph{Translation gate.}
+The translation-readout boundary remains local and explicit.  A modeled tAI contact was computed from GtRNAdb tRNA gene-copy counts and dos Reis wobble weights for three organisms, with $81$ entries above the $0.01$ bounded-coupling threshold and organism count $3$.  That computation also records that three organisms are insufficient for a powered survival claim and that the result is modeled-tAI coupling rather than ribosome profiling or proteomics validation.  Consequently, the mRFP perturbation result may be reported as a controlled synonymous-window protein-output association, but not as a completed $Q_i \to T_j \to P_k$ translation-mediated chain unless a matched translation readout is attached on the same finite surface.
 
-\paragraph{Admissible claim.}
-The finite admissible claim is the following.  In the Nieuwkoop \emph{E. coli} mRFP synonymous-variant table, the $B^*_{Q6}$ residual window contributes a positive protein-output increment after the registered controls: $\Delta R^2=0.05339906007191191$ and $\Delta\mathrm{DL}=19.089327473282296$ bits, with both matched and within-null probabilities equal to $0.004975124378109453$ over $200$ null replicates.  The result remains visible after the real-CAI audit, because the real CAI control does not absorb the effect.  The chapter therefore admits a local protein-output perturbation readback for this finite experiment.
-
-\paragraph{Local non-promotion rule.}
-No stronger biological layer follows from this row set alone.  The result does not establish translation dynamics unless a separate ribosome-occupancy, translation-efficiency, or equivalent translation contact supplies the $Q_i\to T_j$ step.  It does not establish folding, physical admissibility, molecular function, organismal phenotype, mechanism, selection, or universality.  A direct $Q_i\to P_k$ improvement is not by itself a protein-realization mechanism; it is a controlled association with a protein-output readout in a finite synonymous perturbation panel.  Any higher-layer reading requires its own matched contact and its own finite statistic.
+\paragraph{Local verdict.}
+The finite-row verdict is positive for the registered Nieuwkoop mRFP protein-output test: adding the $B^{\ast}$ window residual to the declared controls raises held-out explanatory power by $0.05339906007191191$ in $R^2$ and improves description length by $19.089327473282296$ bits, with both within-panel and matched-null tail probabilities equal to $0.004975124378109453$.  The chapter therefore admits a bounded protein-output statement for this synonymous perturbation panel.  It does not license translation realization, protein folding, physical admissibility, molecular function, mechanism, phenotype, selection, or universality.  Each of those stronger readings would require its own layer-matched contact and a separate finite statistic; the present contact only says that, after the recorded controls and CAI audit, the $B^{\ast}$ synonymous-window residual carries additional mRFP output information in this \emph{E. coli} perturbation table.

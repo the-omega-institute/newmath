@@ -1,37 +1,65 @@
 \origin{ai}
 
-\subsection{Measured translation conditioning for rank-powered $B^*_{Q6}$ protein abundance}
-\label{sec:bioreality-q6-measured-mqtp}
+\subsection{Measured Translation-Efficiency Conditioning of the $B^{*}_{Q6}$ Protein-Abundance Signal}
+\label{subsec:bior reality-q6-measured-mqtp}
 
-\paragraph{Claim surface.}
-This BioReality record tests whether a finite panel of synonymous residual coordinates has a measured translation-conditioned route into protein abundance.  The tested surface has nine $B^*_{Q6}$ residual coordinates, namely $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  For each coding sequence in the joined organism panel, the design residualizes codon-coordinate rows, measured translation efficiency, and measured protein abundance against the same control family: intercept, CDS length, amino-acid composition, $GC3$, and an $M$-density baseline.  The readout $T$ is $\log_{10}$ measured TE, with TE computed as ribosome footprint divided by mRNA in the local ribosome profiling files.  The readout $P$ is $\log_{10}$ protein abundance in ppm from the matched proteomics abundance files.
+\paragraph{Finite surface.}
+This record tests a matched finite surface whose rows are coding sequences and whose columns are the nine $B^{*}_{Q6}$ residual coordinates, a measured translation-efficiency readout $T$, and a measured protein-abundance readout $P$.  The coordinate list is
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_{3}\text{-stress}$.  For each organism the $Q$ design is residualized against a fixed control block $Z$ containing length, amino-acid composition, $GC3$, and the $M$-density baseline.  The measured translation readout is $\log_{10}(TE)$ with $TE=RPF/mRNA$ from organism-specific ribosome-profiling rows, and the abundance readout is $\log_{10}(\mathrm{abundance\ ppm})$ from matched proteomics rows.  The test is therefore a cross-sectional decomposition of $Q\to P$ after conditioning on measured $T$, not a perturbation or rescue experiment.
 
-\paragraph{Finite rows and rank.}
-The powered measured-mediation run is $d71384d16e71$.  Four organisms enter the same-row codon--TE--abundance join: $13140$ danio rows from $14410$ reported CDS rows, $3415$ Escherichia coli rows from $3739$ reported CDS rows, $11554$ human rows from $19053$ reported CDS rows, and $5128$ yeast rows from $5815$ reported CDS rows.  The matching TE panels are independently recorded with ribosome-TE join rates $0.9118667591950035$ for danio, $0.9133458143888741$ for E. coli, $0.6064136881331024$ for human, and $0.8818572656921754$ for yeast.  The broader direct protein-abundance surface gives abundance-CDS join hit rates $1.0$ for danio, $0.9978649586335735$ for E. coli, $0.9779294769799313$ for human, and $0.9156038419146592$ for yeast.  In every measured-mediation row the residualized coordinate matrix has rank $9$, the residualized measured-TE column has rank $1$, the joint $Q,T$ matrix has rank $10$, the control matrix has rank $23$, and the control-column count is $24$.  The residual degrees of freedom after controls are $13117$, $3392$, $11531$, and $5105$ for danio, E. coli, human, and yeast respectively, so the reported survival and mediation fractions are not the all-saturated three-organism boundary.
-
-\paragraph{Measured survival values.}
-The finite survival list separates $Q \to T$ from $Q \to P$.  In the measured-TE run $58611670ec19$, the $S^{QT,meas}$ values are $0.04034217614654355$ for danio, $0.009394266754822262$ for E. coli, $0.018837911344127926$ for human, and $0.13681931343730436$ for yeast; all four rows have all nine coordinates surviving at the positive threshold.  On the measured-mediation join, the corresponding direct $S^{QP}$ values are $0.04926578454614652$, $0.10941535951828074$, $0.04288464996165745$, and $0.3146818503437042$.  The direct protein-omics run $104db736a756$ gives the same qualitative direction on the broader abundance join: $R^2_{QP}=0.04613529807085213$ for danio, $0.10767526677985896$ for E. coli, $0.04454565118019448$ for human, and $0.29837624994140827$ for yeast, again with nine surviving coordinates in each of those four rows.
-
-\paragraph{Mediation readback.}
-The measured translation-conditioned decomposition asks how much of the direct $Q \to P$ association is lost after adding measured $T$ to the residualized design.  The row-level finite calculation is:
+\paragraph{Joined rows and ranks.}
+The four measured panels are rank-powered after $Z$ residualization.  The three-way joins contain $13140$ rows for zebrafish, $3415$ rows for \emph{E. coli} K12 MG1655, $11554$ rows for human, and $5128$ rows for budding yeast.  The reported CDS joins before the translation-abundance intersection are $14410$, $3739$, $19053$, and $5815$, respectively.  The residual rank pattern is stable across the four panels:
 $$
 \begin{aligned}
-\text{danio:}      &\quad S^{QT}=0.04034217614654355,\quad S^{QP}=0.04926578454614652,\quad M^{QTP,meas}_{raw}=-0.04801486048721136,\quad M^{QTP,meas}=0.0,\\
-\text{E. coli:}   &\quad S^{QT}=0.009394266754822262,\quad S^{QP}=0.10941535951828074,\quad M^{QTP,meas}_{raw}=0.04091158340950673,\quad M^{QTP,meas}=0.04091158340950673,\\
-\text{human:}     &\quad S^{QT}=0.018837911344127926,\quad S^{QP}=0.04288464996165745,\quad M^{QTP,meas}_{raw}=0.0027966485036786744,\quad M^{QTP,meas}=0.0027966485036786744,\\
-\text{yeast:}     &\quad S^{QT}=0.13681931343730436,\quad S^{QP}=0.3146818503437042,\quad M^{QTP,meas}_{raw}=0.4793069656345167,\quad M^{QTP,meas}=0.4793069656345167.
+\operatorname{rank}(Z)&=23,\\
+\operatorname{rank}(Q\mid Z)&=9,\\
+\operatorname{rank}(T\mid Z)&=1,\\
+\operatorname{rank}(Q,T\mid Z)&=10.
 \end{aligned}
 $$
-Danio is therefore a suppressive or null measured-mediation row despite positive measured $Q \to T$ and $Q \to P$ survival.  E. coli and human have positive but small measured translation-conditioned absorption.  Yeast is the strongest row: measured TE absorbs about $47.93069656345167\%$ of the residual $B^*_{Q6}$ protein-abundance association under the shared controls.
+The residual degrees of freedom after the control block are $13117$ for zebrafish, $3392$ for \emph{E. coli}, $11531$ for human, and $5105$ for yeast.  Thus the mediation surface is not an $n=3$ or saturated-rank artifact: each organism supplies thousands of controlled rows, the nine-dimensional $Q$ block remains full rank after residualization, and the one-dimensional measured $T$ readout is separately present.
 
-\paragraph{Energy diagnostics.}
-The same run records the finite residual-energy geometry behind these fractions.  For danio, $X_Q$ explains $144.76301201119642$ units of $T$ energy and $1092.0114819316218$ units of $Y$ energy; measured $T$ alone explains $16.418999670692678$ units of $Y$, and the remaining direct $X_Q$ improvement given $T$ is $1144.4442608870015$.  For E. coli the corresponding values are $8.637891149939946$, $393.78692134854015$, $35.56347808682994$, and $377.67647487021645$.  For human they are $38.66659710161269$, $565.3850203147235$, $2.0678517436514716$, and $563.803837143658$.  For yeast they are $103.10404057290246$, $675.3275481062249$, $593.5847863333478$, and $351.63835021403213$.  The yeast row is therefore not merely a positive direct abundance association: it is the row in which the measured TE column itself carries a large amount of abundance-side energy and materially reduces the residual coordinate contribution.
+\paragraph{Measured translation survival.}
+The measured $Q\to T$ survival scores are positive in all four panels.  The values are
+$$
+\begin{aligned}
+S^{QT}_{\mathrm{danio}}&=0.04034217614654355,\\
+S^{QT}_{\mathrm{ecoli}}&=0.009394266754822262,\\
+S^{QT}_{\mathrm{human}}&=0.018837911344127926,\\
+S^{QT}_{\mathrm{yeast}}&=0.13681931343730436.
+\end{aligned}
+$$
+The companion measured-TE survival run reports the same readout definition and the same nine surviving coordinates, with join hit rates $0.9118667591950035$ for zebrafish, $0.9133458143888741$ for \emph{E. coli}, $0.6064136881331024$ for human, and $0.8818572656921754$ for yeast.  This establishes that the present table has a bounded measured translation-efficiency contact for these organisms, but it does not establish a causal translation mechanism or a universal rule about codon effects.
 
-\paragraph{Four-case placement and neighboring reductions.}
-A separate four-case discriminant on modeled tAI and measured abundance, run $f37bd98e0739$, classifies yeast as case $D$ for all nine coordinates and classifies E. coli as seven case-$D$ coordinates plus two positive-positive rows without a mediation drop.  That modeled-readout result is not substituted for measured ribosome TE here; it only shows that the same coordinate family had already separated direct abundance survival from translation-conditioned absorption.  A measured-TE and mRNA-stability variance-partition run, $81f728964641$, gives joint mediation fractions $0.2404669586626661$ for E. coli, $0.16890712099923358$ for human, and $0.5195182225621592$ for yeast, with right-tail permutation values $0.000999000999000999$ in all three rows.  Its single-mediator fractions separate TE-only from stability-only contributions: E. coli has $0.01975521340963268$ TE-only and $0.23052056324898387$ stability-only, human has $0.00549490864190343$ TE-only and $0.15314679870183337$ stability-only, and yeast has $0.4697188319693239$ TE-only and $0.0626618595344251$ stability-only.  The compact readout-dictionary run $a4dc9b09533a$ uses $\lambda_{DL}=0.01$, $\rho_{join}=0.05$, $1800$ joined yeast rows from $4758$ available rows, and $120$ permutations; its selection-aware coverage is $0.24538211439730545$, above a selection-aware null $95\%$ level of $0.029149007242956115$, leaving unexplained fraction $0.7546178856026946$.  These neighboring rows support the local interpretation that measured translation is a real but incomplete absorber of the $B^*_{Q6}$ abundance residual.
+\paragraph{Direct protein-abundance survival.}
+The direct $Q\to P$ association is also positive in the measured mediation panel:
+$$
+\begin{aligned}
+S^{QP}_{\mathrm{danio}}&=0.04926578454614652,\\
+S^{QP}_{\mathrm{ecoli}}&=0.10941535951828074,\\
+S^{QP}_{\mathrm{human}}&=0.04288464996165745,\\
+S^{QP}_{\mathrm{yeast}}&=0.3146818503437042.
+\end{aligned}
+$$
+The broader direct proteomics screen gives the same qualitative boundary over a fifteen-organism panel: every listed organism has all nine coordinates surviving against PAXdb abundance after controls, with representative $R^{2}_{QP}$ values $0.10767526677985896$ for \emph{E. coli}, $0.04454565118019448$ for human, $0.29837624994140827$ for yeast, and $0.04613529807085213$ for zebrafish.  Those direct protein-omics entries are useful as downstream readout evidence, but they are not mechanism evidence unless the measured translation readout absorbs or materially reduces the direct $Q\to P$ signal.
 
-\paragraph{Verdict.}
-The rank-powered measured panel is sufficient for a bounded cross-layer readback: there are positive measured $Q \to T$ entries, positive $Q \to P$ entries, and a directly computed $Q \to T \to P$ attenuation fraction on the same CDS-level rows.  The admissible claim is narrow.  Yeast shows a strong measured translation-conditioned abundance attenuation; E. coli and human show weaker positive attenuation; danio shows positive $Q \to T$ and $Q \to P$ survival but no positive measured-mediation fraction after clipping the suppressive raw value to the unit interval.  Thus $B^*_{Q6}$ is not only a direct protein-omics predictor on this panel, but its strongest protein-abundance row is materially routed through measured ribosome-derived TE.
+\paragraph{Measured mediation scalar.}
+The fitted mediation scalar is computed by comparing the $Q$ explanation of $P$ before and after conditioning on measured $T$.  The organism-level results are
+$$
+\begin{aligned}
+M^{QTP,meas}_{\mathrm{danio}}&=0,\quad M^{raw}_{\mathrm{danio}}=-0.04801486048721136,\\
+M^{QTP,meas}_{\mathrm{ecoli}}&=0.04091158340950673,\\
+M^{QTP,meas}_{\mathrm{human}}&=0.0027966485036786744,\\
+M^{QTP,meas}_{\mathrm{yeast}}&=0.4793069656345167.
+\end{aligned}
+$$
+The yeast panel is the clear positive case: measured $TE$ accounts for nearly half of the controlled $Q\to P$ association by this scalar, while the direct improvement energy of $Q$ after $T$ remains $351.63835021403213$ against a residual abundance energy of $2146.0645009193045$.  \emph{E. coli} has a small positive measured mediation fraction, human has a nearly null positive fraction, and zebrafish is suppressive in the raw calculation and is therefore clipped to zero in the reported unit interval.  In energy terms, the measured translation readout explains $593.5847863333478$ units of yeast abundance residual energy and improves by $269.89558844115504$ units given $Q$; the corresponding values are $35.56347808682994$ and $19.45303160850625$ for \emph{E. coli}, $2.0678517436514716$ and $0.486668572585927$ for human, and $16.418999670692678$ and $68.85177862607247$ for zebrafish.
 
-\paragraph{Local no-promotion boundary.}
-The computation is cross-sectional and observational.  It does not establish causality, temporal order, synonymous-edit rescue, elongation mechanism, initiation mechanism, turnover mechanism, localization mechanism, post-translational modification, folding, physical admissibility, molecular function, phenotype, adaptation, or a universal biological rule.  Measured TE is a condition-specific ribosome-profiling ratio, and PAXdb abundance is a steady-state proteomics readout.  A stronger biological conclusion would require a separate layer-matched contact: perturbation or rescue for mechanism, structure or biophysical assay for folding and admissibility, functional assay for function, and phenotype measurement for organismal consequence.
+\paragraph{Readback classification.}
+The finite readback has four local regimes.  Zebrafish has positive $S^{QT}$ and $S^{QP}$ but no positive measured mediation fraction after clipping, so it is a positive-positive non-mediated or suppressive measured-readout case.  \emph{E. coli} and human have positive $S^{QT}$, positive $S^{QP}$, and positive but weak measured mediation.  Yeast has positive $S^{QT}$, positive $S^{QP}$, and a large measured mediated component.  This agrees with the modeled-tAI four-case run only at the level of boundary discipline: in that run yeast was placed entirely in the mediated-positive class over nine coordinates, whereas \emph{E. coli} had seven mediated-positive coordinates and two positive-positive coordinates without a mediation drop.  The present chapter uses measured ribosome-derived $TE$, so the modeled-tAI readback is only a comparison surface.
+
+\paragraph{Relation to larger readout dictionaries.}
+The joint TE and mRNA-stability decomposition gives additional context for why a single measured translation readout is not the whole protein-abundance story.  On a three-organism four-way join, the joint mediation fractions are $0.2404669586626661$ for \emph{E. coli}, $0.16890712099923358$ for human, and $0.5195182225621592$ for yeast, with right-tail permutation values $0.000999000999000999$ in all three cases.  The yeast TE-only fraction in that analysis is $0.4697188319693239$, close to the measured $TE$ mediation scalar above, while the yeast stability-only fraction is $0.0626618595344251$.  A separate yeast readout-dictionary certificate reports coverage $C^{*}=0.24538211439730545$ for the selected measured readouts $\{\mathrm{measured\ TE},\mathrm{mRNA\ stability},\mathrm{turnover}\}$, selection-aware null $95\%$ level $0.029149007242956115$, naive fixed-subset null $95\%$ level $0.00598374993486675$, $\lambda_{DL}=0.01$, $\rho_{join}=0.05$, $n_{join}=1800$, and unexplained fraction $0.7546178856026946$.  These numbers support partial reduction to measured biological surfaces, not closure of the residual.
+
+\paragraph{Local boundary.}
+The admissible conclusion is narrow.  In a rank-powered matched panel, the $B^{*}_{Q6}$ residual block has positive measured translation-efficiency survival and positive protein-abundance survival, and in yeast a substantial part of the direct protein-abundance association is absorbed by measured $TE$.  \emph{E. coli} and human show weaker measured mediation, while zebrafish does not support a positive measured mediation scalar despite positive $Q\to T$ and $Q\to P$ entries.  No causal translation process, no folding claim, no physical-admissibility claim, no molecular-function claim, no perturbational mechanism, and no universal biological law follows from this table.  Each such stronger assertion would need its own layer-matched contact and statistic; the present result is a controlled finite-row decomposition of codon-residual, measured-translation-efficiency, and protein-abundance readouts.
