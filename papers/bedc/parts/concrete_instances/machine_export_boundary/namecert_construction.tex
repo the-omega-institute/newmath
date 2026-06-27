@@ -86,7 +86,7 @@ It therefore consumes $\MachineInterfaceBoundaryUp$ as a downstream specializati
 
 \falsifiablePrediction{Any machine export omitting target, audit, refusal, transport, replay, provenance, or local NameCert rows refutes the $\MachineExportBoundaryUp$ carrier.}
 
-\independenceWitness{registryexportsurface, machinereadableauditinterface, cannotclaimexportgate, namecertmorphism: none is bijective to MachineExportBoundaryUp because the boundary jointly carries registry export status, machine target, audit readback, refusal preservation, transport, replay, provenance, and local NameCert rows.}
+\independenceWitness{registryexportsurface, machinereadableauditinterface, cannotclaimexportgate, namecertmorphism, machineinterfaceboundary: none is bijective to MachineExportBoundaryUp because the separate siblings expose registry status, audit readback, refusal visibility, certificate-preserving provenance, and the broader machine interface only one surface at a time. Only the MachineExportBoundaryUp packet jointly carries registry export status, machine target, audit readback, refusal preservation, certificate-preserving provenance, transport, replay, and local NameCert rows before an export can be read.}
 
 The Lean follow-up must provide explicit $\Nontrivial\ \MachineExportBoundaryUp$ and $\FieldFaithful\ \MachineExportBoundaryUp$ instances in \texttt{lean4/BEDC/Derived/MachineExportBoundaryUp/TasteGate.lean}. The field-faithfulness witness must preserve $R,T,A,F,H,C,P,N$ as distinct rows before a checked target can cite the packet.
 

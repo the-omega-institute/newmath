@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\BishopRealIntervalUp$}
+\label{ch:concrete-instances-bishop-real-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopRealIntervalUp$ packet records a constructive closed real interval as finite endpoint and regularity data rather than as a classical subset of a completed line. It sits after the dyadic rational arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives L10 Real and Completion consumers an endpoint-bounded enclosure route without claiming Heine--Borel compactness, quotient real equality, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[BishopRealInterval carrier]
+\label{def:bishop-real-interval-carrier}
+A $\BishopRealIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+I=(L,U,T,Q,D,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $L$ is the lower endpoint row, displayed as a regular rational name and sealed only through the terminal real-name route.
+\item $U$ is the upper endpoint row, displayed as a regular rational name with the same endpoint discipline.
+\item $T$ is the $\StreamNameUp$ finite-window row used to inspect both endpoint names at requested precisions.
+\item $Q$ is the $\RegSeqRatUp$ readback row for the endpoint regular sequences.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and comparison row recording the finite dyadic scale at which $L$ is below $U$.
+\item $E$ is the $\RealUp$ enclosure seal available only after the endpoint windows, regular readbacks, and dyadic comparison row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the endpoint, stream, readback, dyadic, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an interval-enclosure request through the same endpoint and tolerance rows.
+\item $P$ is the $\Pkg$ provenance over $\BishopRealIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopRealIntervalUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for classical interval subsets, quotient real equality, selected endpoint representatives, Heine--Borel compactness, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[BishopRealInterval NameCert obligations]
+\label{thm:bishop-real-interval-namecert-obligations}
+For every accepted $\BishopRealIntervalUp$ carrier $I=(L,U,T,Q,D,E,H,C,P,N)$, the local $\NameCert_{\BishopRealIntervalUp}$ surface consists exactly of lower endpoint admission through $L$, upper endpoint admission through $U$, finite endpoint-window exposure through $T$, regular rational readback through $Q$, dyadic tolerance and order comparison through $D$, real-enclosure sealing through $E$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. A consumer therefore reads the interval only through the finite route
+$$
+L,U,T,Q,D \longmapsto E,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-real-interval-carrier}. The endpoint rows $L$ and $U$ are not host real numbers; they are displayed regular names whose finite prefixes are exposed by the shared $\StreamNameUp$ row $T$.
+
+Use the $\RegSeqRatUp$ readback row $Q$ and the $\DyadicRatCoreUp$ comparison row $D$. These rows supply the regular-sequence and dyadic-order evidence before the interval can be treated as a Real-facing enclosure.
+
+Finally replay the structural rows. The seal $E$, transport $H$, continuation replay $C$, provenance $P$, and local name $N$ preserve the same finite endpoint packet, so the NameCert surface cannot import quotient equality of reals, selected representatives, Heine--Borel compactness, countable choice, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[BishopRealInterval regular seal route]
+\label{thm:bishop-real-interval-regular-seal-route}
+Every $\RealUp$-readable enclosure request accepted by a $\BishopRealIntervalUp$ carrier factors through the displayed route
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp \longrightarrow \RealUp .
+$$
+Equivalently, the endpoint classifier reads finite stream windows, regular rational endpoint readback, and dyadic tolerance comparison before the terminal Real seal is public. The route is an L10 completion interface over \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}, not a classical interval subset or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:bishop-real-interval-namecert-obligations}. They require endpoint admission, stream-window exposure, regular rational readback, and dyadic comparison before any Real-facing interval seal can be consumed.
+
+Read the endpoint rows through the sibling $\StreamNameUp$ and $\RegSeqRatUp$ routes. The stream row exposes only finite endpoint prefixes, while the regular rational row supplies the endpoint readback used by completion consumers.
+
+Now apply the dyadic comparison row $D$. Its finite tolerance ledger is the boundary at which the lower and upper endpoint names become an interval enclosure rather than two unrelated real-name seals.
+
+Finally consume $E,H,C,P,N$. The terminal $\RealUp$ seal is reached only after those displayed rows remain visible, so the route supplies a constructive interval enclosure without selected endpoint representatives, quotient real equality, countable choice, Heine--Borel compactness, or ambient completeness.
+\end{proof}
+
+\closureat{BishopRealIntervalUp}{seedStr}
+
+\begin{closurestatus}{\BishopRealIntervalUp}
+  \constructivestory{A $\BishopRealIntervalUp$ packet is generated from lower and upper endpoint rows, finite StreamName endpoint windows, RegSeqRat endpoint readback, DyadicRatCore tolerance comparison, a Real enclosure seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-real-interval-carrier}, \autoref{thm:bishop-real-interval-namecert-obligations}, and \autoref{thm:bishop-real-interval-regular-seal-route} seed the endpoint-bounded interval route over StreamName, RegSeqRat, DyadicRatCore, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close classical interval subsets, quotient real equality, selected endpoint representatives, Heine--Borel compactness, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint carrier admission, finite endpoint-window routing, regular rational readback, dyadic endpoint comparison, Real enclosure sealing, and structural nonescape for BEDC.Derived.BishopRealIntervalUp.}
+\end{closurestatus}
