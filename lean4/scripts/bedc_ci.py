@@ -12,6 +12,7 @@ import importlib.util
 import json
 import os
 import re
+import signal
 import subprocess
 import sys
 import time
@@ -32,6 +33,8 @@ LEANSTMT_DEBT_MANIFEST_PATH = SCRIPT_DIR / "leanstmt_debt_manifest.json"
 DISCOVERY_GATE_WITNESS_REGISTRY_PATH = SCRIPT_DIR / "discovery_gate_witnesses.json"
 TASTE_OBLIGATION_REGISTRY_PATH = SCRIPT_DIR / "taste_obligations.json"
 SCAN_LEAN_SOURCES_CACHE_PATH = Path("/tmp/.bedc_scan_lean_sources_cache.json")
+LEAN_COMPILE_BUDGETS_PATH = SCRIPT_DIR / "lean_compile_budgets.json"
+MAX_LEAN_COMPILE_BUDGET_SECONDS = 900
 
 DECL_RE = re.compile(
     r"^\s*"
@@ -13514,23 +13517,120 @@ def cmd_axiom_purity(args: argparse.Namespace) -> int:
 def cmd_verify_files(args: argparse.Namespace) -> int:
     lean_files_to_check = [resolve_lean_file(p) for p in args.paths]
     overall_rc = 0
+
+    if args.timeout_seconds is None:
+        for lean_file in lean_files_to_check:
+            rel = lean_file.relative_to(LEAN_ROOT)
+            print(f"[bedc-ci] verifying {rel}")
+            result = subprocess.run(
+                ["lake", "env", "lean", str(lean_file)],
+                cwd=LEAN_ROOT,
+                text=True,
+                capture_output=True,
+            )
+            if result.stdout:
+                print(result.stdout, end="")
+            if result.stderr:
+                print(result.stderr, end="", file=sys.stderr)
+            if result.returncode != 0:
+                overall_rc = result.returncode
+                print(f"[bedc-ci] verification failed: {rel}", file=sys.stderr)
+        return overall_rc
+
+    manifest = _load_lean_compile_budgets()
+    default_budget = _clamp_compile_budget(args.timeout_seconds)
     for lean_file in lean_files_to_check:
         rel = lean_file.relative_to(LEAN_ROOT)
+        budget = manifest.get(rel.as_posix(), default_budget)
         print(f"[bedc-ci] verifying {rel}")
-        result = subprocess.run(
+        proc = subprocess.Popen(
             ["lake", "env", "lean", str(lean_file)],
             cwd=LEAN_ROOT,
             text=True,
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            start_new_session=True,
+        )
+        try:
+            stdout, stderr = proc.communicate(timeout=budget)
+        except subprocess.TimeoutExpired:
+            if args.kill_process_group:
+                _terminate_process_group(proc)
+            else:
+                proc.kill()
+            stdout, stderr = proc.communicate()
+            if stdout:
+                print(stdout, end="")
+            if stderr:
+                print(stderr, end="", file=sys.stderr)
+            print(
+                f"[bedc-ci] verify-files TIMEOUT: {rel} after {budget}s "
+                "(compile budget exceeded — likely kernel-reduction blowup, "
+                "e.g. by decide over large enumeration)",
+                file=sys.stderr,
+            )
+            overall_rc = 124
+            continue
+        result = subprocess.CompletedProcess(
+            ["lake", "env", "lean", str(lean_file)],
+            proc.returncode,
+            stdout,
+            stderr,
         )
         if result.stdout:
             print(result.stdout, end="")
         if result.stderr:
             print(result.stderr, end="", file=sys.stderr)
         if result.returncode != 0:
-            overall_rc = result.returncode
+            if overall_rc != 124:
+                overall_rc = result.returncode
             print(f"[bedc-ci] verification failed: {rel}", file=sys.stderr)
     return overall_rc
+
+
+def _clamp_compile_budget(raw: object) -> int:
+    try:
+        budget = int(raw)
+    except (TypeError, ValueError):
+        return MAX_LEAN_COMPILE_BUDGET_SECONDS
+    return max(1, min(budget, MAX_LEAN_COMPILE_BUDGET_SECONDS))
+
+
+def _load_lean_compile_budgets() -> dict[str, int]:
+    try:
+        data = json.loads(LEAN_COMPILE_BUDGETS_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    if not isinstance(data, dict):
+        return {}
+    budgets: dict[str, int] = {}
+    for rel, raw_budget in data.items():
+        if not isinstance(rel, str):
+            continue
+        if not isinstance(raw_budget, int) or isinstance(raw_budget, bool):
+            continue
+        budgets[rel] = _clamp_compile_budget(raw_budget)
+    return budgets
+
+
+def _terminate_process_group(proc: subprocess.Popen[str]) -> None:
+    try:
+        pgid = os.getpgid(proc.pid)
+    except ProcessLookupError:
+        return
+    for sig, wait_seconds in ((signal.SIGTERM, 2), (signal.SIGKILL, 0)):
+        try:
+            os.killpg(pgid, sig)
+        except ProcessLookupError:
+            return
+        except PermissionError:
+            try:
+                proc.kill()
+            except ProcessLookupError:
+                return
+            return
+        if wait_seconds:
+            time.sleep(wait_seconds)
 
 
 def parser() -> argparse.ArgumentParser:
@@ -13637,6 +13737,17 @@ def parser() -> argparse.ArgumentParser:
     metacic_purity_p.set_defaults(func=cmd_metacic_purity)
 
     verify_p = sub.add_parser("verify-files", help="Run lake env lean on selected files")
+    verify_p.add_argument(
+        "--timeout-seconds",
+        type=int,
+        default=None,
+        help="Optional per-file wall-clock budget in seconds",
+    )
+    verify_p.add_argument(
+        "--kill-process-group",
+        action="store_true",
+        help="On timeout, kill the full process group instead of only the parent process",
+    )
     verify_p.add_argument("paths", nargs="+", help="Lean file paths, relative to lean4/")
     verify_p.set_defaults(func=cmd_verify_files)
 
