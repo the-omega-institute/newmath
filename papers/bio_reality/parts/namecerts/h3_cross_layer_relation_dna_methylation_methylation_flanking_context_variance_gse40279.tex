@@ -1,63 +1,38 @@
 \origin{ai}
-\subsection{Translation-conditioned RNA half-life and the decay-factor RBP boundary}
+
+\subsection{Translation-conditioned RNA half-life and the RBP-bridge boundary}
 \label{sec:bioreality-q6-translation-conditioned-rna-half-life-rbp-bridge}
 
-\paragraph{Finite-row object.}
-This record concerns a finite matched panel in which synonymous residual coordinate labels of type $B^{*}_{Q6}$ are attached to coding-transcript or CDS rows, then compared against same-row translation readouts, matched mRNA controls, RNA half-life measurements, and a separately measured decay-factor RBP route. The intended object is not a general codon law and not a protein-output claim. It is a bounded cross-layer question: after amino-acid sequence has been quotiented away, can a high-coordinate versus low-coordinate synonymous residual label be associated with RNA half-life only in the presence of a measured local RBP occupancy pattern, target-RBP loss collapse, wild-type rescue return, and failure of binding-defective or non-target rescue?
+\paragraph{Finite record.}
+The record considered here is the finite matched-row claim identified by \texttt{h3.cross\_layer\_relation.dna\_methylation.methylation\_flanking\_context\_variance\_gse40279}, but its operative biological question is not a methylation mechanism.  The attached conjectural object is a $B^{*}_{Q6}$ synonymous residual-coordinate window in a coding transcript, joined to a same-row translation readout, an RNA half-life readout, matched transcript-abundance controls, and a proposed decay-factor RBP occupancy, loss, and rescue bridge.  The finite empirical payload currently available for the named claim contains $656$ individuals and $20000$ methylation probes, with baseline coefficient $R^{2}=0.0129735$ and no recorded cross-cohort value.  This scalar is usable only as a finite precedent for a weak context-associated readout; it is not itself an RNA half-life, translation, or RBP perturbation measurement.
 
-\paragraph{Available finite measurements.}
-The currently attached methylation-row finite fact is the GSE40279-style methylation context screen with $656$ individuals and $20000$ probes. Its recorded baseline scalar is
+\paragraph{Coordinate and null model.}
+The coordinate split is the quotient after amino-acid identity: high-coordinate and low-coordinate synonymous residual labels are compared only after amino-acid sequence has been held fixed.  A positive RNA-stability statement would require a finite panel in which each row carries the residual coordinate $q_i$, translation readout $T_i$, RNA half-life $H_i$, measured decay-factor RBP occupancy $O_i$, matched mRNA abundance $A_i$, and control block $Z_i$.  The intended null is exchangeability of the high-coordinate and low-coordinate labels with respect to $H_i$ after conditioning on transcription rate, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, batch, amino-acid composition, and the same-row translation readout:
 $$
 \begin{aligned}
-R^{2}_{\mathrm{baseline}} &= 0.0129735,\\
-N_{\mathrm{individuals}} &= 656,\\
-N_{\mathrm{probes}} &= 20000,
+H_i \perp q_i \mid T_i, A_i, Z_i.
 \end{aligned}
 $$
-with no cross-cohort value recorded for this row. This fact is useful as a finite-row context-control datum, but it is not itself an RNA half-life experiment, an RBP occupancy experiment, or a perturbation/rescue panel. It therefore cannot certify the proposed RNA-decay bridge.
+A half-life difference without the specified occupancy, loss, and rescue pattern remains an RNA-stability association rather than an RBP bridge.
 
-A separate RBP-binding finite fact is present for the RBNS/eCLIP/ENCODE-style route. That record has $900$ total peaks and $3$ cross-RBP concordant entries. In symbols, the attached scalar summary is
+\paragraph{Required bridge statistic.}
+The bounded bridge can be stated only when four finite-row signs occur together.  First, local occupancy of a prespecified decay-factor RBP must differ at the editable RNA window in the direction compatible with the half-life effect.  Second, the coordinate-associated half-life residual must collapse under target-RBP loss.  Third, wild-type target-RBP rescue must restore the residual.  Fourth, binding-defective rescue or a non-target control must fail to restore it.  In compact form, the positive bridge requires a nonzero translation-conditioned half-life contrast together with an RBP-specific perturbation signature:
 $$
 \begin{aligned}
-N_{\mathrm{peaks}} &= 900,\\
-C_{\mathrm{cross\text{-}RBP}} &= 3.
+\Delta_H &= E(H_i \mid q_i=\mathrm{high},T_i,A_i,Z_i)-E(H_i \mid q_i=\mathrm{low},T_i,A_i,Z_i),\\
+\Delta_O &\neq 0,\\
+\Delta_H^{\mathrm{loss}} &\approx 0,\\
+\Delta_H^{\mathrm{wildtype\ rescue}} &\approx \Delta_H,\\
+\Delta_H^{\mathrm{binding\ defective}} &\approx 0.
 \end{aligned}
 $$
-This is the only linked measurement family in the supplied data that touches RBP binding. Even so, a peak-count and concordance summary is not the same as same-window decay-factor RBP occupancy on the $B^{*}_{Q6}$ transcript rows, and it does not include target-RBP loss, wild-type rescue, or binding-defective rescue controls.
+The current finite rows do not yet provide these quantities for the RNA-half-life conjecture.  The available RBP-binding contact has $900$ total peak rows and $3$ cross-RBP concordant cases, with runtime $223.648043$ seconds.  Those rows establish that RBP binding can be represented as a finite measured layer, but they are not the same-window decay-factor occupancy, loss, and rescue rows required here.
 
-The linked translation-readout fact from the mTOR translation screen contributes $6494$ finite rows. Its recorded source is a GEO raw readout archive, and its role here is limited to showing that translation-layer row data can be represented as a separate finite surface. The relevant scalar is
-$$
-\begin{aligned}
-N_{\mathrm{translation}} &= 6494.
-\end{aligned}
-$$
-This measurement family still does not turn RNA half-life into translation realization; it only names the kind of same-row translation boundary that would have to be joined before any translation-conditioned half-life statement is evaluated.
+\paragraph{Translation boundary.}
+The translation side must be present as a same-row condition, not as a label attached after the fact.  A separate translation-related verified surface reports $6494$ rows for the mTOR translation readout, with runtime $9.469$ seconds and source route \texttt{GSE36892\_RAW.tar}.  That finite count shows that translation readouts can be made row-indexed, but it does not join this $B^{*}_{Q6}$ RNA-half-life panel to ribosome occupancy or translation efficiency.  Therefore the chapter permits only the conditional form: if the same transcript or CDS row contains $q_i$, $T_i$, $H_i$, $A_i$, $O_i$, and the perturbation-rescue columns, then the RBP bridge statistic may be evaluated.  Without that joined matrix, translation conditioning is a requirement, not an achieved result.
 
-\paragraph{Admissible statistic.}
-A positive claim would require a single finite panel whose rows carry, at minimum, the tuple
-$$
-\begin{aligned}
-(&q_i, T_i, A_i, H_i, O_i, L_i, W_i, D_i, C_i, Z_i),
-\end{aligned}
-$$
-where $q_i$ is the $B^{*}_{Q6}$ residual-coordinate label after amino-acid quotienting, $T_i$ is a same-row translation readout, $A_i$ is matched mRNA abundance or transcription control, $H_i$ is RNA half-life, $O_i$ is measured local occupancy of the prespecified decay-factor RBP, $L_i$ records target-RBP loss, $W_i$ records wild-type rescue, $D_i$ records binding-defective or non-target rescue, $C_i$ records coordinate/occupancy decoupling, and $Z_i$ packages the declared nuisance controls. The nuisance set must include transcription rate, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, amino-acid composition, same-row translation readout, batch, rank sufficiency, and simpler baseline models.
+\paragraph{What the present rows support.}
+The present finite evidence supports a scoped research object: a residual-coordinate RNA-stability question with a sharply specified RBP-bridge test.  It also supports a negative audit statement.  The methylation payload has $n=20000$ probe rows and a small baseline $R^{2}$, the RBP-binding payload has $900$ peaks with $3$ concordant cross-RBP cases, and the mTOR translation payload has $6494$ translation rows.  These are three separate finite surfaces.  They do not yet form a single same-organism, same-window, same-transcript panel.  Consequently, the current status is not a positive RNA-decay mechanism; it is a well-bounded finite-row demand for a future joined statistic.
 
-The statistic is admissible only if the half-life contrast is read after conditioning on the translation boundary and the usual abundance controls, and only if the RBP tests have the expected direction. A schematic finite-row criterion is
-$$
-\begin{aligned}
-\Delta_H(q_i \mid T_i,A_i,Z_i) &\neq 0,\\
-\Delta_O(q_i \mid T_i,A_i,Z_i) &\neq 0,\\
-\Delta_H(q_i \mid L_i=\mathrm{target\ loss},T_i,A_i,Z_i) &\approx 0,\\
-\Delta_H(q_i \mid W_i=\mathrm{wild\ type\ rescue},T_i,A_i,Z_i) &\approx \Delta_H(q_i \mid T_i,A_i,Z_i),\\
-\Delta_H(q_i \mid D_i=\mathrm{binding\ defective\ or\ non\ target},T_i,A_i,Z_i) &\approx 0.
-\end{aligned}
-$$
-These equations are not asserted as verified by the supplied data. They specify the local shape of the finite-row test that would be needed before the record could cross from a bounded RNA-stability association into an RBP-mediated half-life bridge.
-
-\paragraph{Current verdict.}
-The present data support only a scoped boundary record. The methylation finite fact gives $656$ individuals, $20000$ probes, and $R^{2}_{\mathrm{baseline}}=0.0129735$ for a context-variance screen, not for RNA half-life or RBP perturbation. The RBP-binding route gives $900$ peaks and $3$ cross-RBP concordant cases, but does not provide the required same-window occupancy/loss/rescue matrix. The translation route gives $6494$ rows, but it is not joined here to the $B^{*}_{Q6}$ residual-coordinate rows, matched mRNA controls, RNA half-life, and RBP intervention rows.
-
-Thus the finite readback is ready as a chapter record of a blocked cross-layer boundary: the proposed object is precisely formulated, the row requirements are finite, and the current measurements identify what is missing. The claim does not yet assert that $B^{*}_{Q6}$ geometry produces an RNA-decay mechanism. It also does not license translation, protein abundance, folding, physical admissibility, biological function, phenotype, adaptation, causation, or universality. Any one of those conclusions would require its own layer-matched measurement surface and its own finite statistic, separate from the methylation context scalar, the RBP peak summary, and the translation-row count reported here.
-
-\paragraph{Null interpretation.}
-Under the matched null, high-coordinate and low-coordinate synonymous residual labels are exchangeable with respect to RNA half-life after the declared controls are applied. If half-life differs but local decay-factor RBP occupancy is unchanged, the result remains an RNA-stability association at most. If occupancy differs but target-RBP loss does not collapse the half-life effect, the RBP mechanism is not established. If target-RBP loss collapses the effect but wild-type rescue fails to restore it, or binding-defective or non-target rescue also restores it, the proposed bridge is rejected as non-specific. The current finite data do not contain the observations required to defeat this null.
+\paragraph{Cannot-claim boundary.}
+No translation realization follows from RNA half-life alone.  No RNA half-life association becomes an RBP mechanism unless measured local decay-factor RBP occupancy changes, target-RBP loss removes the effect, wild-type rescue returns it, and binding-defective or non-target rescue fails.  No transcript-abundance control, RNA-structure-only model, motif-density-only model, GC or dinucleotide model, codon-pair model, splice or isoform model, batch model, or coordinate geometry by itself supports the bridge.  The same finite-row record also gives no protein output, folding, physical admissibility, biological function, phenotype, adaptation, causation, mechanism beyond the tested RBP-decay bridge, or universal biological law.  Each such layer would require its own matched contact and statistic.

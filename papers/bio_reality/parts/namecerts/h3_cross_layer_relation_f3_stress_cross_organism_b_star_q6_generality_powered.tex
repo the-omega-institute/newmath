@@ -1,51 +1,48 @@
 \origin{ai}
-\subsection{Rank-powered f\_3-stress generality across organisms}
-\label{sec:bioreality-f3-stress-cross-organism-generality}
 
-\paragraph{Question.}
-The record tests whether the amino-acid-quotient residual coordinate called $f_3$-stress behaves as a repeatable cross-organism translation-layer distinction, rather than as a codon-table artifact.  The carrier is a finite organism-by-codon readout surface restricted to synonymous fibers paired by the $f_3$ involution.  Each row supplies codon usage, a bounded wobble-weight readout such as tAI or stAI when available, and a translation-proximal readout.  The coordinate is formed after amino-acid projection: if $q$ is the codon-usage vector and $P_\tau q$ is its amino-acid component, the residual coordinate lives in $q-P_\tau q$.  The specific test is meaningful only when the paired codons have unequal wobble weights, $w_c \ne w_{c^{f_3}}$; otherwise the coordinate remains a codon-usage residual with no translation-layer asymmetry to read.
+\subsection{Cross-organism $f_3$-stress generality under wobble-broken translation readouts}
+\label{sec:bior reality-f3-stress-cross-organism-generality}
 
 \paragraph{Finite carrier.}
-The residual-basis construction computed $9$ $B^*_{Q6}$ synonymous coordinates, namely $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\_vs\_UUR}$, $Leu_{UUA\_vs\_UUG}$, $Ser_{UCR\_vs\_AGY}$, $Ser_{UCA\_vs\_UCG}$, $Thr_{ACR\_vs\_ACY}$, and $f_3$-stress.  In the three-organism finite contact used to establish nontrivial residual support, $7$ of the $9$ coordinates were nonzero above the declared variance threshold $0.01$, giving nonzero fraction $0.7777777777777778$.  The organisms in that contact were human, budding yeast, and \emph{E. coli} K-12; this is a finite contact, not a population estimate.  The quotient geometry used by the record has $\pi_M$ size $10$, quotient $f$-vector $(10,14,6,1)$, and matching $M$-fiber vector $(20,38,26,8,1)$.  These numbers fix the finite residual shape before any biological readout is considered.
+This record concerns the $B^*_{Q6}$ synonymous residual coordinate called $f_3$-stress.  The row surface is finite: organisms are paired with codon-usage tables, codon-paired tAI or stAI wobble weights, and translation-efficiency or translation-proximal readouts.  The coordinate is read only after amino-acid projection: a codon-usage vector $q$ is reduced to the residual $q-P_\tau q$, and the $f_3$ coordinate is then evaluated inside synonymous fibers paired by the third-position involution.  The point of the test is not that codon topology alone is biological output.  The point is narrower: when paired codons have unequal wobble weights, $w_c \neq w_{c^{f_3}}$, the residual direction has a possible translation-layer contact; when the weights are symmetric, the same coordinate remains only a codon-usage boundary.
 
-\paragraph{Rank-powered translation surface.}
-The powered modeled-tAI surface used $40$ organism rows, $9$ residual coordinates, and $9$ modeled readout columns.  After residualizing the control block $Z$, the control column count was $24$, $\operatorname{rank}(Z)=23$, and the residual degrees of freedom after $Z$ were $17$.  The residualized $B^*_{Q6}$ design retained $\operatorname{rank}(\widetilde X)=9$, so the powered calculation is not the three-row saturated case.  Its modeled translation-readout fit was
+\paragraph{Quotient and residual geometry.}
+The upstream finite quotient check has $\pi_M$ size $10$, with quotient $f$-vector $(10,14,6,1)$ and matching $M_f$ vector $(20,38,26,8,1)$.  The explicit projected quotient rows are ten binary rows:
 $$
 \begin{aligned}
-R^2_{QT} &= 0.9003849000036579,\\
-\operatorname{rank}(Z) &= 23,\\
-\operatorname{rank}(\widetilde X) &= 9,\\
-\operatorname{df}_{\mathrm{resid}} &= 17.
+&(0,0,0,0,1),\ (0,0,0,1,1),\ (0,0,1,0,1),\ (0,0,1,1,1),\ (0,1,0,0,0),\\
+&(0,1,0,0,1),\ (1,0,0,0,1),\ (1,0,0,1,1),\ (1,0,1,0,1),\ (1,0,1,1,1).
 \end{aligned}
 $$
-The earlier three-organism modeled-tAI surface is kept separate: it had $81$ entries above threshold $0.01$ and maximum absolute entry $3801961.031607896$, but it was explicitly not a powered survival panel because $n=3$ is rank-degenerate for the requested interpretation.  The chapter therefore treats the three-row matrix as bounded coupling evidence only, while the $40$-organism surface supplies the rank-admissible translation-readout background.
+On the organism-contact side, the residual-basis computation used three codon-count contacts, for \emph{Homo sapiens}, \emph{Saccharomyces cerevisiae}, and \emph{Escherichia coli} K-12.  It produced nine $B^*_{Q6}$ residual coordinates: $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3$-stress.  Seven of the nine were nonzero at variance threshold $0.01$, so the finite residual contact has nonzero fraction $7/9=0.7777777777777778$.  This is a coordinate fact, not yet a translation fact.
 
-\paragraph{Generality call.}
-The cross-organism $f_3$-stress generality test requested $16$ organisms and obtained $15$ real organism rows satisfying the finite-row requirements.  Each organism row required at least $500$ proteins.  The procedure used $5$ folds and $120$ permutations, with real-threshold count $8$.  The finite result was
+\paragraph{Rank-powered modeled translation readout.}
+The powered modeled-tAI panel has $40$ organisms, $9$ residual coordinates, and $9$ modeled readout columns.  After residualizing the control matrix $Z$, the reported control column count is $24$, $\operatorname{rank}(Z)=23$, the residual degrees of freedom are $17$, and the residualized coordinate rank is $\operatorname{rank}(\widetilde X)=9$.  The finite modeled-readout survival surface has
 $$
 \begin{aligned}
-N_{\mathrm{requested}} &= 16,\\
-N_{\mathrm{real}} &= 15,\\
-N_{\mathrm{tested}} &= 15,\\
-N_{\mathrm{threshold}} &= 8,\\
-K_{\mathrm{fold}} &= 5,\\
-K_{\mathrm{perm}} &= 120.
+R^2_{QT}=0.9003849000036579,
 \end{aligned}
 $$
-The recorded call was $f_3\text{-stress\_generalizes}$ with status passed.  In biological prose, the finite panel supports the statement that the $f_3$-stress residual is not confined to a single organism-specific codon table once the analysis is restricted to the rank-powered rows and the declared translation-proximal readout route.
+with the degeneracy guard set far above the observed value at $0.999999$.  This supports a bounded modeled translation-readout relation for the $B^*_{Q6}$ coordinate system, provided the word ``translation'' is read as a tAI/stAI readout surface rather than as measured ribosome motion or protein output.  The smaller three-organism tAI matrix had nonzero bounded coupling, with all $81$ entries above threshold $0.01$ and maximum absolute entry $3801961.031607896$, but its own metadata states that three organisms are insufficient for powered survival.  Thus the powered claim uses the $40$-organism rank-sufficient panel rather than the saturated three-row surface.
 
-\paragraph{Mechanistic guardrail from wobble and occupancy.}
-A separate position-controlled occupancy contact supplies a bounded consistency check rather than a full mechanism.  In that record, all $9$ synonymous families had at least $200$ within-position-bin permutations.  The gate used $\lambda_{DL}=0.01$, $DL=2$, and the rule $C_H>0$.  The families passing all gates were $K_{AAA}$, $Arg_{AGR}$, and $f_3$-stress.  The joined ribosome-occupancy surface had $5754$ overlapping genes, $5754$ joined genes after the length check, and $0$ length mismatches.  This is relevant because it places $f_3$-stress among the finite coordinates that can survive a local ribosome-occupancy separation test after exact position-bin control, but it still does not identify a causal pathway.
-
-\paragraph{Strength driver.}
-The strength-driver record gives a second finite consistency check on the direction of the cross-organism signal.  It computed $15$ organisms out of $16$ requested, again with minimum $500$ proteins per organism and $5$ folds.  The direction agreement count was $15$ out of $15$, so the direction agreement rate was $1.0$.  The Spearman association between total synonymous selection strength and $f_3$-stress strength was $0.7071428571428572$.  The finite readout can be summarized as
+\paragraph{Cross-organism $f_3$-stress call.}
+The direct generality run requested $16$ organisms and obtained $15$ real organisms satisfying the data gate.  The run used $5$ folds, $120$ permutations, and a minimum of $500$ proteins per organism.  Its real-organism threshold was $8$, and the reported call was
 $$
 \begin{aligned}
-\rho_{\mathrm{Spearman}} &= 0.7071428571428572,\\
-\frac{N_{\mathrm{agree}}}{N_{\mathrm{direction}}} &= \frac{15}{15}=1.0.
+\operatorname{generality\_call}=\text{``}f_3\text{-stress generalizes''},\qquad
+\operatorname{organisms\_tested}=15,
 \end{aligned}
 $$
-This supports the narrower interpretation that the observed $f_3$-stress strength is aligned with total synonymous selection strength under the declared fixed-direction rule.  It does not by itself turn the residual coordinate into a universal biological law.
+with status passed.  This is the chapter's positive finite-row result: the $f_3$-stress residual is not merely a single-organism artifact on this panel, and it is not being read from a rank-saturated $n=3$ fit.
 
-\paragraph{Boundary of the claim.}
-The supported claim is a cross-layer relation at bounded translation-readout scope: a rank-powered multi-organism panel reports that the $f_3$-stress residual generalizes across $15$ tested organisms, and supporting translation-proximal contacts show that the coordinate can be placed on wobble-weight and ribosome-occupancy readout surfaces.  The claim is not that $f_3$-stress is a protein-abundance determinant, a folding determinant, a physical-admissibility test, a molecular-function rule, a phenotype rule, or a mechanism.  None of those higher layers follows from codon usage, tAI or stAI weights, modeled translation-readout survival, or position-controlled ribosome occupancy unless a separate layer-matched contact supplies the relevant measurement and the same-row controlled statistic is computed.  If $f_3$-paired wobble weights are symmetric, or if a requested panel is rank-saturated, the correct status is null or needs more data rather than positive translation survival.
+\paragraph{Strength and direction diagnostics.}
+A separate strength-driver run gives a Spearman association of $0.7071428571428572$ between total synonymous selection strength and $f_3$-stress strength.  Direction agreement was $15/15$, hence agreement rate $1.0$, again under a $5$-fold design with at least $500$ proteins per organism and $15$ computed organisms out of $16$ requested.  The diagnostic records a negative alignment direction for \emph{Sulfolobus}, which is important because the claim is not that every organism has the same raw signed biological effect.  The supported reading is that the stress coordinate has a stable finite-row alignment pattern once the organism-specific readout surface and synonymous-selection strength are included.
+
+\paragraph{Position and dwell-contact evidence.}
+The position-controlled ribosome-occupancy contact is more local and more restrictive.  It joined $5754$ ordered CDS genes to occupancy rows, with $5754$ overlapping gene identifiers and zero length mismatches.  Nine families had within-position-bin nulls computed, all nine with at least $200$ permutations.  Under the stated description-length and direction gate, $\lambda_{DL}=0.01$, $DL=2$, and $C_H>0$, the passing families were $K_{AAA}$, $Arg_{AGR}$, and $f_3$-stress.  The relevant separation is within supplied $5'$ and $3'$ codon windows and within amino-acid or position bins.  This contact is therefore a local occupancy co-variation check, not a causal elongation mechanism.
+
+\paragraph{Layer boundary.}
+The finite results justify the following restrained statement.  The $f_3$-stress residual is a cross-layer codon-topology-to-translation-readout distinction on the available rank-powered finite panels when the codon-paired wobble surface breaks $f_3$ symmetry and when the residual survives the stated controls.  The same statement does not license protein abundance, folded structure, physical admissibility, biochemical function, cellular phenotype, mechanism, adaptation, causation, or a universal biological law.  It also does not turn modeled tAI or stAI into observed ribosome occupancy.  Those stronger readings require separate layer-matched contacts and their own controlled finite statistics.
+
+\paragraph{Verdict.}
+The chapter verdict is ready at bounded cross-layer scope.  The claim is supported by a passed $15$-organism generality run, a rank-sufficient $40$-organism modeled-readout survival surface with $R^2_{QT}=0.9003849000036579$, a nontrivial residual basis with $7$ nonzero entries out of $9$, and a position-controlled occupancy contact in which $f_3$-stress passes the $\lambda_{DL}=0.01$, $DL=2$, $C_H>0$ gate.  It remains bounded to translation-readout survival and local occupancy co-variation; it is not a statement about downstream protein state or organismal function.
