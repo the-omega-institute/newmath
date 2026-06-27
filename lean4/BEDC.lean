@@ -12208,6 +12208,7 @@ import BEDC.Derived.ThueMorseUp
 import BEDC.Derived.TietzeExtensionUp.TasteGate
 import BEDC.Derived.TightLocatedCutUp.TasteGate
 import BEDC.Derived.TightRealIntervalUp.TasteGate
+import BEDC.Derived.TimeFibreMirrorAtomicity
 import BEDC.Derived.ToeplitzLemmaUp.CesaroConsumerRoute
 import BEDC.Derived.ToeplitzLemmaUp.NameCertObligations
 import BEDC.Derived.ToeplitzLemmaUp.RegularSequenceHandoff
