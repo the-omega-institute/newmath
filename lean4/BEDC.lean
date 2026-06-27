@@ -9914,6 +9914,7 @@ import BEDC.Derived.RHRoute.PrimeSkewDefect
 import BEDC.Derived.RHRoute.RecursiveSpectralZeroHierarchy
 import BEDC.Derived.RHRoute.RecursiveTower
 import BEDC.Derived.RHRoute.RouteClosureSeparation
+import BEDC.Derived.RHRoute.SpectralRigidityRoute
 import BEDC.Derived.RHRoute.UnitaryBalance
 import BEDC.Derived.RHRoute.ZeroFibreNormalSheet
 import BEDC.Derived.RHRoute.ZeroGenerationInitiality
