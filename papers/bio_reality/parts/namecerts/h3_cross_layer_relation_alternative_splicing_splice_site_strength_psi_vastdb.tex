@@ -1,42 +1,45 @@
 \origin{ai}
 
-\subsection{Translation-Gated Localization Boundary for $B^{*}_{Q6}$ Residual Coordinates}
-\label{sec:bior-reality-q6-translation-gated-localization-boundary}
+\subsection{A translation-gated localization boundary for the VASTDB splice-site panel}
+\label{sec:bioreality-q6-translation-gated-localization-vastdb}
 
-\paragraph{Finite row object.}
-The finite record considered here is keyed by the claim identifier
-$\texttt{h3.cross\_layer\_relation.alternative\_splicing.splice\_site\_strength\_psi\_vastdb}$ and by the conjectural coordinate name
-$\texttt{q6.translation\mbox{-}mediated.protein\mbox{-}localization\mbox{-}readout.cross\mbox{-}layer}$.  Its row type is not a free biological assertion.  A row is admissible only when a coding sequence, an organism label, a synonymous residual coordinate $q_i$ in the $B^{*}_{Q6}$ quotient, an amino-acid-preserving baseline description, a same-row translation readout $T_j$, a matched mRNA control, and a matched protein-localization label or score are all present on one finite table.  The supplied finite run contains one verified scalar panel: experiment run $\texttt{1ce9f7f16dbe}$ reports $29742$ events and a runtime of $36.4$ seconds, verified at $\texttt{2026\mbox{-}06\mbox{-}27T05:12:32+00:00}$.  These numbers certify the size and execution trace of the available event surface; they do not by themselves certify a translation or localization effect.
+\paragraph{Finite contact record.}
+The finite record attached to this claim is the run \texttt{1ce9f7f16dbe}, verified at \texttt{2026-06-27T08:56:11+00:00}.  Its measured table contains $29742$ alternative-splicing events, and the reported wall-clock runtime for the event pass is $36.4$ seconds.  These two scalars are the only numerical facts supplied by the present row.  The identifier of the recorded contact is
+$\texttt{h3.cross\_layer\_relation.alternative\_splicing.splice\_site\_strength\_psi\_vastdb}$,
+so the finite observation is an alternative-splicing and splice-site-strength contact over a VASTDB-style event panel, not a completed translation, protein-localization, or protein-state measurement.
 
-\paragraph{Coordinate and controls.}
-For each admissible coding-sequence row, the coordinate $q_i$ is interpreted only after quotienting away the amino-acid sequence.  Thus $q_i$ is a synonymous residual coordinate, not a protein-sequence coordinate and not a localization annotation.  The intended conditioning set contains organism, amino-acid composition, GC3, coding-sequence length, an $M$-density baseline, matched mRNA abundance, and simpler codon baselines.  A direct fit from $q_i$ to a localization label is therefore not the tested object.  The tested object is a gated relation in which $q_i$ must first survive as a translation-facing distinction before any localization-facing readback is allowed.
-
-\paragraph{Translation gate.}
-Let $Q$ denote the finite list of admissible $B^{*}_{Q6}$ residual coordinates and let $T$ denote the finite list of translation readouts available on the same rows.  For a coordinate $q_i$ and a translation surface $T_j$, write $S^{QT}(q_i,T_j)$ for the controlled survival score after the declared baselines are fitted.  The gate is nondegenerate only when the fitted statistic is not rank-saturated, not underpowered, and not supplied merely by a contact name.  In the notation of the finite panel, the necessary condition for any localization-facing interpretation is
+\paragraph{Rows and coordinates.}
+For the proposed cross-layer question, each admissible row would have to carry a coding-sequence identifier, an organism label, an amino-acid sequence or amino-acid-composition control, a synonymous residual coordinate $q_i$ in the $B^*_{Q6}$ quotient, a same-row translation readout $T_j$, a matched mRNA control, and a protein-localization label or score $L_\ell$.  The verified finite run supplies an event count for the splice-site panel, but it does not by itself assert that all of these fields have been joined on the same coding sequence.  The correct local carrier is therefore a bounded table of candidate rows, not a biological conclusion.  The intended admissible statistic has the schematic form
 $$
 \begin{aligned}
-& S^{QT}(q_i,T_j) > 0,\\
-& S^{QT}(q_i,T_j) \text{ remains positive after amino-acid, organism, GC3, length, $M$-density, mRNA, and simpler-baseline controls},\\
-& \text{the row join identifies the same coding sequence across the codon, translation, mRNA, and localization surfaces.}
+  \mathrm{row}_a &= (\mathrm{CDS}_a,\mathrm{organism}_a,q_i(a),T_j(a),mRNA(a),L_\ell(a),Z_a),\\
+  Z_a &= (\mathrm{amino\ acid\ controls},\mathrm{GC3},\mathrm{length},M\text{-}\mathrm{density},\mathrm{baseline\ terms}).
 \end{aligned}
 $$
-If this condition fails, the residual coordinate remains a bounded coding-sequence distinction.  It is not promoted to translation, protein localization, trafficking, compartment identity, function, mechanism, or a general biological law.
+The VASTDB event count $29742$ may delimit the size of the splice-event contact used by the row-building procedure, but it is not yet a count of rows satisfying the full $q_i,T_j,mRNA,L_\ell$ join.
 
-\paragraph{Localization readout.}
-The localization layer is represented by protein-level labels, compartment scores, imaging, fractionation, proximity-labeling, or curated localization measurements keyed back to UniProt, RefSeq protein, locus, or coding-sequence-derived identifiers.  This contact is a layer boundary, not a completed statistic.  The admissible localization test asks whether the apparent association between $q_i$ and a localization readout $L_\ell$ is reduced, absorbed, or explained after conditioning on the surviving translation readout $T_j$ and the matched mRNA control.  A local mediation-style summary may be written as
+\paragraph{Gated interpretation.}
+The admissible readback is sequential.  A synonymous residual coordinate may approach a protein-localization-facing interpretation only after the same row has a nondegenerate translation step.  In notation, the first required test is a controlled survival statistic
 $$
 \begin{aligned}
-\Delta_{i j \ell}
-&= \operatorname{Fit}(L_\ell \mid q_i, Z)
-   - \operatorname{Fit}(L_\ell \mid q_i, T_j, Z),\\
-Z
-&= \{\text{organism},\text{ amino-acid composition},\text{ GC3},\text{ length},M\text{-density},\text{ mRNA control},\text{ simpler baselines}\}.
+  S^{QT}(q_i,T_j\mid Z,mRNA)>0,
 \end{aligned}
 $$
-This expression records the intended finite comparison only.  In the present supplied data, no numeric $S^{QT}$ matrix, no localization coefficient, no mediation drop $\Delta_{i j \ell}$, no $p$-value, no hit rate, and no module classification are provided.  The verified $29742$-event run is therefore usable as a finite event surface and audit anchor, but the localization-facing claim remains conditional on the missing joined statistic.
+where the control set includes amino-acid composition, organism, GC3, coding-sequence length, the $M$-density baseline, matched mRNA abundance, and simpler codon baselines.  Only after this step is powered and non-saturated may one ask whether a localization association is attenuated, explained, or otherwise conditioned by the translation readout:
+$$
+\begin{aligned}
+  q_i \longrightarrow T_j \longrightarrow L_\ell.
+\end{aligned}
+$$
+If the direct $q_i\to L_\ell$ association exists without a surviving $q_i\to T_j$ step, the result remains a localization-side boundary signal rather than a translation-mediated claim.  If $S^{QT}$ is absent, rank-saturated, underpowered, or produced only by a baseline fit, the localization term is not promoted.
 
-\paragraph{Null boundary.}
-The chapter records a strict null boundary.  A localization association without a nondegenerate same-row translation step is not evidence for a translation-mediated localization mechanism.  A modeled tAI or stAI weight is not ribosome occupancy.  A ribosome-profiling route is not a joined translation-efficiency matrix until RPF rows and matched mRNA rows are actually attached to the same coding sequences.  A protein-localization contact name is not a computed localization survival statistic.  Bulk protein abundance, when present in related packets, is not a substitute for localization, folding, protein state, physical admissibility, function, phenotype, trafficking mechanism, compartment-identity mechanism, or universality.
+\paragraph{What the verified run does and does not establish.}
+The verified facts establish that one finite event pass exists for the splice-site-strength and PSI/VASTDB contact: $29742$ events were processed in $36.4$ seconds under run \texttt{1ce9f7f16dbe}.  They do not establish a joined codon-residual matrix, do not report $R$ lists, $M$ lists, $\lambda$ values, $p$-values, module labels, hit rates, or a controlled mediation coefficient for this subject.  Consequently, the chapter records a ready boundary statement: the finite splice-event contact is suitable as a named row source or row constraint, but the present evidence is insufficient for a positive translation-to-localization biological conclusion.
 
-\paragraph{Readback rule.}
-The allowed readback is per entry and gated.  A row may approach a protein-localization interpretation only through a nondegenerate $q_i \to T_j$ translation-readout step, followed by a localization statistic tested after conditioning on $T_j$, matched mRNA abundance, and the declared controls.  If the translation step is absent, saturated, underpowered, or merely named rather than computed, then the row remains a finite cross-layer boundary proposal.  With the present finite facts, the only positive statements are that the event surface has $29742$ events, was produced by run $\texttt{1ce9f7f16dbe}$ in $36.4$ seconds, and supplies an audit target for later row joining.  No translation, folding, physical admissibility, biological function, mechanism, phenotype, protein-localization survival, or universal biological law follows from these facts unless a separate layer-matched measurement and statistic supplies it.
+\paragraph{Local null boundary.}
+No translation mechanism follows from the $29742$-event splice-site panel alone.  No protein folding, physical admissibility, biological function, protein-trafficking mechanism, compartment-identity mechanism, phenotype, or universal biological rule follows from the codon residual coordinate, from the event count, from the runtime, or from the existence of a matched localization contact name.  Each such assertion would require its own layer-matched measured contact and its own finite statistic.  In particular, protein localization may be discussed here only as a conditional readout target after a nondegenerate same-row translation readout has survived the declared controls.
+
+\paragraph{Resulting chapter claim.}
+The chapter therefore treats
+$\texttt{h3.cross\_layer\_relation.alternative\_splicing.splice\_site\_strength\_psi\_vastdb}$
+as a finite cross-layer boundary record.  It records a verified splice-event surface of $29742$ events and a runtime of $36.4$ seconds, then fixes the admissible rule for any later Q6-to-localization analysis: first compute a controlled $q_i\to T_j$ translation-readout survival on joined same-row data; then test whether the localization association is explained by, reduced by, or otherwise conditioned on $T_j$; otherwise report only a bounded null or unresolved boundary.

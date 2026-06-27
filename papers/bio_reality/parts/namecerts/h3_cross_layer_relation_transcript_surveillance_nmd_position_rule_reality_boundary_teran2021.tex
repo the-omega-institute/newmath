@@ -1,43 +1,33 @@
 \origin{ai}
-\subsection{Transcript-surveillance position rule as an RNA-stability boundary}
-\label{sec:bioreality-transcript-surveillance-nmd-position-rule-teran2021}
 
-\paragraph{Finite panel.}
-This record treats the transcript-surveillance position rule as a finite coding-RNA boundary rather than as a general mechanism claim.  The rows are coding or transcript windows with a position label, a surveillance-relevant transcript annotation, and an RNA readout.  The finite audit retained $38576$ rows for the Teran2021-position-rule surface and used $1000$ permutations, with a recorded runtime of $55.602$ seconds.  Thus the object here is not an unlimited law over all transcripts.  It is the finite relation between a declared position feature and an RNA-surveillance readout after row eligibility, identifier matching, and the declared permutation surface have been fixed.
+\subsection{NMD position-rule contact as an RNA-stability boundary}
+\label{sec:bioreality-nmd-position-rule-rna-stability-boundary}
 
-\paragraph{Coordinate and readout.}
-Let $i$ range over the retained rows.  Each row carries a coordinate-like label $q_i$ for the transcript-surveillance position feature and a bounded RNA readout $h_i$ for the half-life or stability-facing response available in the joined table.  The admissible statistic is a finite comparison of the $h_i$ distribution across the declared position classes, with all interpretation restricted to the retained row set.  In schematic notation the permitted object is
+\paragraph{Finite object.}
+This record concerns a finite panel of coding-RNA rows in which a transcript-surveillance position rule is compared with an RNA-stability readout.  Each retained row is treated as a bounded biological contact only after the row has a declared coordinate label, a transcript or coding-window identifier, a half-life or decay-compatible readout, matched abundance or transcription controls when available, and a stated break condition.  The verified run for the present record is \texttt{c362df6daa98}.  It retained $38576$ rows, used $1000$ realized permutations for the boundary audit, and completed in $55.602$ seconds.  These numbers define the finite surface used here; they do not by themselves identify an RNA-binding protein, a translation mechanism, or a protein-output layer.
+
+\paragraph{Row semantics.}
+Let $W$ be the retained finite set of transcript-surveillance rows.  For each $w \in W$, write $c(w)$ for the position-rule coordinate label, $h(w)$ for the RNA half-life or stability readout, $a(w)$ for matched mRNA abundance or transcription-rate control information when it is attached, $z(w)$ for local covariates such as transcript identity, isoform state, sequence composition, local structure, motif density, codon-pair context, and batch, and $b(w)$ for the declared break flag.  The boundary statistic is therefore not a naked comparison of labels.  It is a finite comparison of the form
 $$
 \begin{aligned}
-  \mathcal{D}_{\mathrm{NMD}}&=\{(q_i,h_i,z_i,b_i):1\leq i\leq 38576\},\\
-  S_{\mathrm{NMD}}&=S\bigl((q_i,h_i,z_i,b_i)_{i=1}^{38576};1000\ \mathrm{permutations}\bigr),
+  \Delta_{\mathrm{NMD}} &= \operatorname{contrast}\bigl(h(w) \mid c(w), a(w), z(w), b(w)=0\bigr),\\
+  |W| &= 38576,\\
+  N_{\mathrm{perm}} &= 1000.
 \end{aligned}
 $$
-where $z_i$ denotes the finite control information actually carried by the row and $b_i$ denotes the declared break flag.  The statistic may report a boundary crossing only for the row-joined position rule.  It does not by itself identify ribosome flow, protein abundance, folding, physical admissibility, cellular function, adaptation, or a universal biological principle.
+The expression records only the kind of finite computation being licensed: a coordinate-associated RNA-stability contrast under declared controls.  It does not assert that the coordinate is the biological cause of decay, nor that the half-life contrast is a translation readout.
 
-\paragraph{Same-row translation boundary.}
-The coding-window formulation requires the translation-facing readout to remain a boundary variable, not an automatic consequence of RNA half-life.  A position-associated RNA-stability effect can be discussed as a cross-layer candidate only when the same finite rows also carry the matched translation readout and the matched mRNA or transcription controls needed to prevent RNA abundance from being mistaken for translation output.  If those rows are absent, the position rule remains an RNA-surveillance association.  If they are present, their role is still restrictive: they prevent promotion beyond the readout actually measured.  A difference in RNA half-life is not a protein-output measurement.
+\paragraph{Boundary interpretation.}
+The positive content of this chapter is deliberately narrow.  A transcript-surveillance coordinate may be reported as touching an RNA-stability boundary when the finite rows survive the prespecified controlled comparison and when the readout remains explicitly RNA-level.  The run identifier, retained-row count, and permutation count are sufficient to make the contact auditable as a finite external measurement surface.  They are not sufficient to promote the result to ribosome occupancy, protein abundance, folded structure, physical admissibility, biological function, adaptation, causation, or a universal sequence law.
 
-\paragraph{RBP mechanism condition.}
-The stronger decay-factor RBP interpretation is not licensed by the Teran2021 finite statistic alone.  For that interpretation, the same window panel would have to contain measured local occupancy of a prespecified decay-factor RBP, a coordinate--occupancy decoupling check, target-RBP loss, wild-type rescue, and binding-defective or non-target controls.  The required pattern is directional: the RNA half-life effect must track measured local occupancy, collapse under target-RBP loss, return under wild-type rescue, and fail to return under the binding-defective or non-target controls.  If the RNA half-life surface survives while measured occupancy does not change, or if a structure, motif-density, isoform, batch, abundance, or control-rescue explanation reproduces the pattern, the mechanism reading is refused.
+\paragraph{Comparison anchors.}
+The same BioReality bookkeeping contains other RNA-stability contacts with more explicit scalar outputs, and those anchors help calibrate what is absent here.  In the m6A site-load half-life boundary run \texttt{7cd189f15c4b}, the joined surface contained $5837$ genes, reported a static Spearman value $-0.388929$ for m6A load versus DMSO log half-life, a causal Spearman value $0.245804$ for m6A load versus $\Delta\log_2$ half-life, a length-partial Spearman value $0.227683$, and a two-sided partial permutation value $0.000999001$.  In the ARE deletion stability run \texttt{a41440ab2792}, the finite deletion panels contained $226$ BEAS2B rows and $2242$ Jurkat rows, used $1000$ actual permutations with $2000$ grading permutations, and recorded sign concordance as true.  These comparison anchors show the intended evidential scale: when scalar effects, permutation values, or sign-concordance flags exist, they are read as finite RNA-layer statistics only.  The present NMD position-rule run supplies $38576$ retained rows and $1000$ permutations, but it does not supply an RBP occupancy series, a rescue arm, or a binding-defective control.
 
-\paragraph{Local controls.}
-The row-level boundary is sensitive to local sequence and transcript-state confounding.  A positive reading therefore requires separation from transcription rate, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, batch, and the mandatory translation-readout variable.  The finite comparison can be summarized as the refusal rule
-$$
-\begin{aligned}
-  \mathrm{ClaimAllowed} = 1
-  \quad \Rightarrow \quad
-  &\mathrm{PositionSignal}=1,\\
-  &\mathrm{TranslationBoundaryPresent}=1,\\
-  &\mathrm{TranscriptControlsPassed}=1,\\
-  &\mathrm{RbpOccupancyPerturbationRescuePassed}=1
-  \quad \text{for an RBP bridge.}
-\end{aligned}
-$$
-The last line is not supplied by a generic RNA half-life table; it is a separate experimental requirement for the bridge interpretation.
+\paragraph{RBP bridge refusal.}
+A stronger decay-factor RBP bridge would require the same finite rows to carry measured local occupancy of a prespecified decay-factor RBP, target-RBP loss, wild-type rescue, binding-defective or non-target controls, and a coordinate--occupancy decoupling design.  The available finite record does not contain those rows.  Consequently, even if the NMD-position contrast is stable at the RNA half-life boundary, it remains an RNA-stability contact rather than an RBP mechanism claim.  A half-life difference without measured occupancy and perturbation rescue cannot identify the bridge.  Likewise, measured translation in a neighboring or attached dataset would only mark a translation boundary; it would not turn the RNA half-life contrast into protein output or functional realization.
 
-\paragraph{Comparison with neighboring RNA-stability surfaces.}
-The audit table also contains other RNA-stability-facing finite surfaces, which help calibrate the present boundary without replacing it.  In the m6A site-load half-life surface, $5837$ genes were retained, the static Spearman value between m6A load and DMSO log half-life was $-0.388929$, the causal Spearman value for m6A-load change versus $\Delta\log_2$ half-life was $0.245804$, the length-partial Spearman value was $0.227683$, and the two-sided partial-permutation value was $0.000999001$.  In the ARE deletion surface, the finite counts were $226$ BEAS2B rows and $2242$ Jurkat rows, with $1000$ actual permutations and $2000$ grading permutations, and the sign-concordance flag was true.  These neighboring surfaces show the intended evidential standard: a finite RNA-stability statistic may cross its own boundary, but each mechanism, translation, protein, structure, function, or phenotype layer still needs its own row-matched contact and control design.
+\paragraph{Local refusal rule.}
+The admissible statement is therefore: in the retained Teran-style transcript-surveillance panel, the NMD position rule may be read as a finite RNA-stability boundary over $38576$ retained rows and $1000$ permutations.  The inadmissible statements are equally important.  No translation realization follows from RNA half-life alone.  No folding, physical admissibility, biological function, phenotype, adaptation, causation, or universality follows from the coordinate contrast.  No decay-factor RBP mechanism follows unless a separate layer-matched contact supplies same-row RBP occupancy, target loss, wild-type rescue, binding-defective or non-target controls, transcription and abundance controls, local RNA-structure controls, motif-density controls, isoform diagnostics, batch controls, and a declared finite bridge statistic.
 
-\paragraph{Local verdict.}
-The Teran2021 position-rule record is therefore ready as a bounded transcript-surveillance RNA-stability chapter.  Its concrete finite support is the retained $38576$-row surface with $1000$ permutations.  The chapter may state that the position rule reaches an RNA-surveillance boundary under the declared finite statistic.  It may not state that translation has been realized, that a decay-factor RBP mechanism has been proven, that protein abundance follows, that folded structure or physical admissibility has been measured, that biological function or phenotype has been established, or that a universal biological law has been obtained.  Those statements require separate contacts carrying the relevant measurements on the same finite rows.
+\paragraph{Break condition.}
+The record breaks if the coordinate label is used as external biological evidence by itself; if the RNA half-life contrast is described as translation, protein abundance, structure, function, mechanism, or a global law; if batch, isoform state, transcript abundance, local structure, motif density, or composition reproduces the pattern; or if an RBP bridge is claimed without same-row occupancy and perturbation/rescue evidence.  Under those failures the finite panel remains useful only as a bounded RNA-stability association.

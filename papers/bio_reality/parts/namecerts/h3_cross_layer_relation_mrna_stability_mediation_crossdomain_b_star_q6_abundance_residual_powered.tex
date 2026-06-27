@@ -1,46 +1,35 @@
 \origin{ai}
+\subsection{Rank-powered mRNA-stability mediation for $B^{\ast}_{Q6}$ residual abundance}
+\label{sec:bioreality-q6-mrna-stability-mediation-crossdomain}
 
-\subsection{Q6 residual coordinates under RNA half-life conditioning}
-\label{sec:q6-rna-half-life-conditioning}
+\paragraph{Finite panel and coordinate scope.}
+This record treats $B^{\ast}_{Q6}$ as a finite residual coordinate family on coding sequences, not as an amino-acid sequence effect and not as a biological mechanism by itself. The analyzed coordinate block has nine residual directions, namely $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_3$-stress. Every row is conditioned on the same control family: an intercept, $\log(\mathrm{CDS\ length})$, twenty amino-acid composition proportions computed from real CDS codon counts, GC3, and the $M$-density baseline defined as the fraction of sense codons on the union support of the nine projected coordinates. The resulting control matrix has $24$ columns, with residual control rank $23$ in both organisms used for the mRNA half-life mediation computation.
 
-\paragraph{Finite panel.}
-This record concerns a finite panel in which coding sequences are indexed by organism, a nine-dimensional $B^{*}_{Q6}$ residual coordinate vector, a protein-abundance residual readout, and an RNA half-life or stability readout used as a conditioning variable. The coordinate list is
-$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f_{3}$-stress. The control block contains an intercept, $\log(\mathrm{CDS\ length\ in\ nt})$, twenty amino-acid composition proportions computed from real CDS codon counts, GC3, and an $M$-density baseline defined on the union support of the nine projected $B^{*}_{Q6}$ coordinates. In both computed organisms the control matrix has $24$ columns and rank $23$, so the reported effects are not read as raw codon-count associations but as residual associations after this amino-acid, length, GC3, and density adjustment.
-
-\paragraph{Joined rows and readout construction.}
-The cross-domain RNA-stability run joins two organisms. In \textit{E. coli} K-12 MG1655, the half-life source contributes $2947$ valid half-life records at growth rate $0.40\,h^{-1}$, the CDS side reports $3739$ joined coding sequences, and the three-way stable panel contains $2720$ rows. The reported CDS hit rate is $0.9978649586335735$, with $1019$ CDS records skipped for lack of a half-life match and no skipped records from duplicate locus tags, invalid length, empty sense-codon counts, nonpositive abundance, or malformed objects. In human, the consensus half-life source contributes $19480$ valid Ensembl-gene records, the CDS side reports $19053$ joined sequences, and the stable panel contains $16165$ rows. The human join uses $16150$ Ensembl-gene-id matches and $15$ unique gene-symbol fallback matches, with $12$ duplicate-gene CDS records skipped and $2876$ CDS records skipped for lack of a half-life match. The reported human CDS hit rate is $0.9779294769799313$.
+\paragraph{Observed finite joins.}
+The cross-domain mediation computation is available for two organisms. In the $E.\ coli$ panel, the Esquerre half-life table at growth rate $0.40\,h^{-1}$ is joined to CDS rows by matching the Esquerre GeneId b-number to the CDS locus tag. The join contains $2720$ stable rows, with $3739$ CDS rows reported and $2947$ valid half-life records by gene id. The reported CDS join hit rate is $0.9978649586335735$, and the half-life payload hash is $87499a22f8699b15d2daf96f826e3345b1707a8360be122f1ec0114dc934469b$. In the human panel, the Agarwal consensus half-life table is joined by Ensembl gene id without version, with a unique gene-symbol fallback. The join contains $16165$ stable rows, including $16150$ Ensembl-gene-id matches and $15$ symbol-fallback matches. The source table has $54$ dataset columns, $19480$ valid consensus records by Ensembl gene id, and a reported CDS join hit rate of $0.9779294769799313$, with payload hash $ddf9441d1fe85d091d4b7f0a444b8dcf3658aa1d4158f66948bff00d5406de98$.
 
 \paragraph{Rank diagnostics.}
-Let $X$ denote the residualized nine-coordinate $B^{*}_{Q6}$ block, $M$ the residualized RNA half-life or stability readout, $P$ the residualized protein-abundance readout, and $Z$ the stated control block. The diagnostic ranks after removing $Z$ are nondegenerate in both organisms:
-$$
-\begin{aligned}
-\mathrm{rank}_{Z} &= 23,\\
-\mathrm{rank}(X\mid Z) &= 9,\\
-\mathrm{rank}(M\mid Z) &= 1,\\
-\mathrm{rank}(X,M\mid Z) &= 10.
-\end{aligned}
-$$
-For \textit{E. coli}, the residual degrees of freedom after $Z$ are $2697$, with $p$-residual energy $2551.728810042108$ and $m$-residual energy $215.43086017169205$. The joint path check gives $R^{2}_{QM}=0.02298556640056076$, while $R^{2}_{M\mid X}=0.12750047680284674$. The explained-energy audit reports $X$ on $P$ as $296.8250528743585$, $M$ on $P$ as $398.65412500748283$, the incremental improvement of $M$ given $X$ as $325.3466399519295$, and the direct improvement of $X$ given $M$ as $223.51756781880516$. For human, the residual degrees of freedom after $Z$ are $16142$, with $p$-residual energy $22233.302987773684$ and $m$-residual energy $1422.0291144063049$. The joint path check gives $R^{2}_{QM}=0.010503670362051522$, while $R^{2}_{M\mid X}=0.036877022762988716$. The corresponding explained energies are $910.5016829711035$ for $X$ on $P$, $948.3971104494655$ for $M$ on $P$, $819.8980203765552$ for the incremental improvement of $M$ given $X$, and $782.0025928981933$ for the direct improvement of $X$ given $M$.
+Let $Z$ denote the control space, $X$ the residualized nine-coordinate $B^{\ast}_{Q6}$ block, $M$ the residualized mRNA half-life or stability readout, and $P$ the residualized protein-abundance readout. The rank diagnostics are nondegenerate in both panels. For $E.\ coli$, the residual degrees of freedom after $Z$ are $2697$, $\operatorname{rank}(X)=9$, $\operatorname{rank}(M)=1$, $\operatorname{rank}(X,M)=10$, and $\operatorname{rank}_X(M)=9$. For human, the corresponding values are $16142$, $9$, $1$, $10$, and $9$. Thus the mediation readback is not an $n=3$ saturated fit and is not an all-ones rank artifact.
 
-\paragraph{Mediation scalar.}
-The reported statistic is a variance-partitioning calculation, not a causal experiment. In \textit{E. coli}, the unconditioned $B^{*}_{Q6}$-to-protein residual association is $R^{2}_{QP}=0.11632311854858134$, and after conditioning on the RNA half-life readout it is $R^{2}_{QP\mid M}=0.0875945621412319$. The corresponding finite-row mediation fraction is
-$$
-\begin{aligned}
-\frac{R^{2}_{QP}-R^{2}_{QP\mid M}}{R^{2}_{QP}}
-&= 0.24697202727892137,
-\end{aligned}
-$$
-with right-tail permutation value $0.000999000999000999$ under the deterministic residual-mediator permutation seed recorded for the organism. In human, the same computation gives $R^{2}_{QP}=0.04095215557813418$, $R^{2}_{QP\mid M}=0.03517257842112907$, and
-$$
-\begin{aligned}
-\frac{R^{2}_{QP}-R^{2}_{QP\mid M}}{R^{2}_{QP}}
-&= 0.1411299863319291,
-\end{aligned}
-$$
-again with right-tail permutation value $0.000999000999000999$. Thus the finite panels show a measurable attenuation of the $B^{*}_{Q6}$ protein-abundance residual association after adding RNA half-life or stability, larger in \textit{E. coli} than in human on this scalar.
+\paragraph{Energy decomposition.}
+The finite-row calculation decomposes protein-abundance residual energy by asking how much of the $B^{\ast}_{Q6}$ association remains after conditioning on the residualized mRNA half-life coordinate. In $E.\ coli$, the protein residual energy is $2551.728810042108$ and the mRNA residual energy is $215.43086017169205$. The $B^{\ast}_{Q6}$ block explains $296.8250528743585$ units of energy on $P$, while $M$ explains $398.65412500748283$ units on $P$. Conditional diagnostics give $M$ incremental improvement $325.3466399519295$ given $X$, $X$ direct improvement $223.51756781880516$ given $M$, $R^2_{M\mid X}=0.12750047680284674$, and the joint path-$a$ check $R^2_{QM}=0.02298556640056076$. The fitted conditional coefficient of $P$ on $M$ given $X$ is $-1.2432793356009886$.
 
-\paragraph{Relation to the mRNA-abundance control run.}
-A separate mRNA-abundance control computation used the same nine coordinates and the same $24$-column control design in four organisms. Its joined row counts were $13140$ for zebrafish, $3415$ for \textit{E. coli}, $11554$ for human, and $5128$ for yeast, with rank $23$ for $Z$ in every organism. That run projected the modeled-tAI complement abundance residual onto residualized $\log_{10}$ mRNA abundance. The absorbed fractions were small: $0.011973033879985792$ in zebrafish, $0.0017706954554908886$ in \textit{E. coli}, $0.007858222847072218$ in human, and $0.0018976054721605224$ in yeast. These values matter here because they separate ordinary mRNA abundance from the RNA half-life or stability mediation surface. The half-life computation is therefore not licensed by transcript abundance alone; it is a distinct finite-row conditioning calculation with its own joins, ranks, and permutation audit.
+For human, the protein residual energy is $22233.302987773684$ and the mRNA residual energy is $1422.0291144063049$. The $B^{\ast}_{Q6}$ block explains $910.5016829711035$ units of energy on $P$, while $M$ explains $948.3971104494655$ units on $P$. Conditional diagnostics give $M$ incremental improvement $819.8980203765552$ given $X$, $X$ direct improvement $782.0025928981933$ given $M$, $R^2_{M\mid X}=0.036877022762988716$, and the joint path-$a$ check $R^2_{QM}=0.010503670362051522$. The fitted conditional coefficient of $P$ on $M$ given $X$ is $0.7633409850900272$.
 
-\paragraph{Interpretation boundary.}
-The admissible conclusion is narrow. The panels support a descriptive statement: after the declared residualization, adding RNA half-life or stability reduces the observed $B^{*}_{Q6}$ association with protein abundance by about $24.70\%$ in \textit{E. coli} and $14.11\%$ in human on the reported scalar, with nondegenerate coordinate rank and finite joined rows. This does not establish that codon-coordinate residuals cause RNA stability, that RNA stability causes protein abundance, or that a ribosome-mediated translation mechanism has been identified. It also does not license claims about translation realization, folding, physical admissibility, molecular function, phenotype, or universality. Each of those layers would require its own matched measurement surface and its own controlled statistic. The present chapter records a bounded cross-layer decomposition: $B^{*}_{Q6}$ residual coordinates, RNA half-life or stability, and protein abundance can be placed in one finite regression panel, and the conditioning readout measurably attenuates the protein-abundance residual association in the two computed organisms.
+$$\begin{aligned}
+E_{P,Ecoli} &= 2551.728810042108, & R^2_{QP,Ecoli} &= 0.11632311854858134,\\
+R^2_{QP\mid M,Ecoli} &= 0.0875945621412319, & \mathrm{Med}_{Ecoli} &= 0.24697202727892137,\\
+E_{P,human} &= 22233.302987773684, & R^2_{QP,human} &= 0.04095215557813418,\\
+R^2_{QP\mid M,human} &= 0.03517257842112907, & \mathrm{Med}_{human} &= 0.1411299863319291.
+\end{aligned}$$
+
+The right-tail permutation value is $0.000999000999000999$ in both organisms, using deterministic seeds of the form $\mathrm{sha256}:b\_star\_q6\_mrna\_stability\_mediation\_crossdomain\_powered\mid organism\mid residual\_mediator\_permutation\mid perm\_index\mid index\mid n$. These values support a descriptive variance partition: a portion of the $B^{\ast}_{Q6}$ to protein-abundance association is removed after introducing the residualized mRNA-stability coordinate, with a larger fraction in $E.\ coli$ than in human.
+
+\paragraph{Relation to the antecedent mRNA-control abundance run.}
+The antecedent abundance-control run computed the modeled-tAI complement residual and then projected it onto residualized $\log_{10}$ mRNA. Its finite panels used the same nine coordinates and the same $Z$ controls. The available row counts were $13140$ for zebrafish, $3415$ for $E.\ coli$, $11554$ for human, and $5128$ for yeast, again with control rank $23$ and $24$ control columns. In that run, the modeled-complement values were $0.8424312412078521$ for zebrafish, $0.6628211177352172$ for $E.\ coli$, $0.8566190269974241$ for human, and $0.22386566043976477$ for yeast. The mRNA absorption fractions were small: $0.011973033879985792$, $0.0017706954554908886$, $0.007858222847072218$, and $0.0018976054721605224$ in the same order. The present half-life mediation record is therefore not a repetition of transcript-abundance absorption. It replaces transcript amount by an explicit stability or half-life mediator and asks how much of the residual protein-abundance association is partitioned through that mediator in matched finite joins.
+
+\paragraph{Interpretation.}
+The mathematical claim established by the finite rows is a rank-powered statistical decomposition. It says that, after amino-acid composition, length, GC3, and $M$-density controls, the nine-dimensional $B^{\ast}_{Q6}$ residual block has a measurable association with protein-abundance residuals, and that conditioning on residualized mRNA half-life reduces that association by $24.697202727892137\%$ in $E.\ coli$ and $14.11299863319291\%$ in human. The computation is cross-domain because the same coordinate family is evaluated in a bacterial panel and a human panel, but it is not a phylogenetically controlled universality statement.
+
+\paragraph{Local no-promotion boundary.}
+No translation-realization claim follows from this section. The mediator is mRNA half-life or stability, not ribosome occupancy or translation efficiency, and the protein readout is abundance, not folding, structure, activity, localization, phenotype, or physical admissibility. The result also does not prove a causal pathway from synonymous residual geometry to RNA decay and then to protein abundance. It is observational, single-dataset per organism on the half-life side, and platform-conditioned by the joined abundance and stability sources. A stronger claim would require separate finite contacts for measured translation readout, perturbation, rescue, structure, function, or phenotype, together with the same rank and control discipline used here. Until those contacts exist, the admissible conclusion is only the reported variance partition on the two joined panels.
