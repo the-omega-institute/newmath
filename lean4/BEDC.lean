@@ -5464,6 +5464,7 @@ import BEDC.Derived.EulerPolygonUp.TasteGate
 import BEDC.Derived.EulerTheoremUp
 import BEDC.Derived.EulerTransformUp.TasteGate
 import BEDC.Derived.EulerianNumberUp
+import BEDC.Derived.EulerianSecondOrderUp
 import BEDC.Derived.EvenOddCauchyCriterionUp.CrossParityHandoffNonEscape
 import BEDC.Derived.EvenOddCauchyCriterionUp.InductionLock
 import BEDC.Derived.EvenOddCauchyCriterionUp.ParityTailFusion
