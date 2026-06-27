@@ -7249,8 +7249,8 @@ import BEDC.Derived.LebesgueNumberFiniteCoverUp.TasteGate
 import BEDC.Derived.LebesgueNumberLemmaUp.TasteGate
 import BEDC.Derived.LebesgueStieltjesMeasureUp.TasteGate
 import BEDC.Derived.LegendreDichotomyUp
-import BEDC.Derived.LegendreSymbolBridge
 import BEDC.Derived.LegendrePolynomialUp.TasteGate
+import BEDC.Derived.LegendreSymbolBridge
 import BEDC.Derived.LegendreUp
 import BEDC.Derived.LeibnizAlternatingRemainderUp.TasteGate
 import BEDC.Derived.LeibnizSeriesTestUp.NameCertObligations
