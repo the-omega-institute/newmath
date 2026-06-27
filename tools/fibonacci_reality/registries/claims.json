@@ -1899,6 +1899,24 @@
         "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
       ],
       "statement": "For the Fibonacci cube family Gamma_m, the two-buffered XOR-pair count X_m=#{(x,y) in V(Gamma_m)^2 : Delta=x XOR y has no two 1s at distance 1 or 2} (ordered pairs whose XOR difference avoids both the patterns 11 and 101, so any two 1-positions of the difference are at least three coordinates apart) satisfies the forced order-four recurrence X_m=X_{m-1}+X_{m-2}+2X_{m-3}+2X_{m-4} with characteristic polynomial t^4-t^3-t^2-2t-2 (coprime to t^2-t-1, Hankel rank 4), realized by a nonnegative non-companion five-state transfer with all-ones readout; values 1,4,7,15,32,69,145,308,655,1391,... verified to m=11. An XOR-difference pattern incidence statistic whose minimal quartic differs from the efficient-open-domination quartic only in the constant term yet whose sequence diverges immediately (X_1=4 vs Q_1=2), and is distinct from the additive-energy/Theta-sparse/gated-face/Walsh/mask/quartet/right-skew-disjoint/distance-2-overlap-sparse anchors; the recurrence is axiom-free Lean-checked; no alpha claim"
+    },
+    {
+      "claim_id": "window.fibonacci-cube.no-pair-only-triple.certificate",
+      "claimed_layer": "graph_invariant_certificate",
+      "experiment_id": "verify-window-no-pair-only-triple",
+      "formalstatus": "formalTarget",
+      "hypothesis_level": "H0",
+      "lean_target": "statement-only",
+      "linked_conjecture_id": "window.fibonacci-cube.no-pair-only-triple",
+      "phase": 1,
+      "status": "open",
+      "depends_on": [],
+      "forbidden_claims": [
+        "不识别 α 或物理常数",
+        "不从 α/数值反推",
+        "No physical fine-structure constant, metrological bridge, or external physical interpretation is claimed."
+      ],
+      "statement": "For the Fibonacci cube family Gamma_m, the no-pair-only ordered triple count N_m=#{(x,y,z) in V(Gamma_m)^3 : x_i+y_i+z_i in {0,1,3} for all i} (ordered triples of vertices where every coordinate column is 000, a singleton, or 111 -- columns with exactly two 1s are forbidden) satisfies the forced recurrence N_m = 3 N_{m-1} + 2 N_{m-2} - 2 N_{m-3} (all-positive Nat reindex N_m + 2 N_{m-3} = 3 N_{m-1} + 2 N_{m-2}) with characteristic polynomial t^3-3t^2-2t+2 = (t+1)(t^2-4t+2) (coprime to t^2-t-1, Hankel rank 3), realized by a nonnegative non-companion five-state column transfer with all-ones readout; values 1,5,15,53,179,613,2091,7141,24379,83237,... verified to m=11. A ternary column-language statistic genuinely distinct from the median-zero/pairwise-disjoint triple count -- which forbids the 111 column and obeys a Pell recurrence -- and from the additive-energy/Theta-sparse/gated-face/Walsh/mask/quartet/efficient-open-domination/right-skew-disjoint/distance-2-overlap-sparse/two-buffered-XOR anchors; not a lag/Walsh/arity/parametric bump; the recurrence is axiom-free Lean-checked; no alpha claim"
     }
   ],
   "version": "fibonacci-reality-claims-v1"
