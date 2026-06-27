@@ -1,5 +1,6 @@
 import BEDC.Derived.MonotoneSequenceWindowCauchyUp
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MonotoneSequenceWindowCauchyUp
@@ -8,9 +9,6 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
-
-structure MonotoneSequenceWindowCauchyEventFlow where
-  rows : List BHist
 
 def monotoneSequenceWindowCauchyEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -38,43 +36,56 @@ private theorem MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_d
 def monotoneSequenceWindowCauchyFields :
     MonotoneSequenceWindowCauchyUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | MonotoneSequenceWindowCauchyUp.mk M B S R D E H C P N => [M, B, S, R, D, E, H, C, P, N]
+  | MonotoneSequenceWindowCauchyUp.mk M B S R D E H C P N =>
+      [M, B, S, R, D, E, H, C, P, N]
 
-def monotoneSequenceWindowCauchyToEventFlow
-    (x : MonotoneSequenceWindowCauchyUp) :
-    MonotoneSequenceWindowCauchyEventFlow :=
-  -- BEDC touchpoint anchor: BHist BMark
-  ⟨monotoneSequenceWindowCauchyFields x⟩
-
-def monotoneSequenceWindowCauchyToGroundEventFlow :
+def monotoneSequenceWindowCauchyToEventFlow :
     MonotoneSequenceWindowCauchyUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (monotoneSequenceWindowCauchyFields x).map
-      monotoneSequenceWindowCauchyEncodeBHist
+  | x =>
+      (monotoneSequenceWindowCauchyFields x).map
+        monotoneSequenceWindowCauchyEncodeBHist
 
-def monotoneSequenceWindowCauchyFromGroundEventFlow
-    (ef : EventFlow) : Option MonotoneSequenceWindowCauchyUp :=
+private def monotoneSequenceWindowCauchyEventAtDefault :
+    Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  match ef with
-  | M :: B :: S :: R :: D :: E :: H :: C :: P :: N :: [] =>
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      monotoneSequenceWindowCauchyEventAtDefault index rest
+
+def monotoneSequenceWindowCauchyFromEventFlow :
+    EventFlow → Option MonotoneSequenceWindowCauchyUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | ef =>
       some
         (MonotoneSequenceWindowCauchyUp.mk
-          (monotoneSequenceWindowCauchyDecodeBHist M)
-          (monotoneSequenceWindowCauchyDecodeBHist B)
-          (monotoneSequenceWindowCauchyDecodeBHist S)
-          (monotoneSequenceWindowCauchyDecodeBHist R)
-          (monotoneSequenceWindowCauchyDecodeBHist D)
-          (monotoneSequenceWindowCauchyDecodeBHist E)
-          (monotoneSequenceWindowCauchyDecodeBHist H)
-          (monotoneSequenceWindowCauchyDecodeBHist C)
-          (monotoneSequenceWindowCauchyDecodeBHist P)
-          (monotoneSequenceWindowCauchyDecodeBHist N))
-  | _ => none
+          (monotoneSequenceWindowCauchyDecodeBHist
+            (monotoneSequenceWindowCauchyEventAtDefault 0 ef))
+          (monotoneSequenceWindowCauchyDecodeBHist
+            (monotoneSequenceWindowCauchyEventAtDefault 1 ef))
+          (monotoneSequenceWindowCauchyDecodeBHist
+            (monotoneSequenceWindowCauchyEventAtDefault 2 ef))
+          (monotoneSequenceWindowCauchyDecodeBHist
+            (monotoneSequenceWindowCauchyEventAtDefault 3 ef))
+          (monotoneSequenceWindowCauchyDecodeBHist
+            (monotoneSequenceWindowCauchyEventAtDefault 4 ef))
+          (monotoneSequenceWindowCauchyDecodeBHist
+            (monotoneSequenceWindowCauchyEventAtDefault 5 ef))
+          (monotoneSequenceWindowCauchyDecodeBHist
+            (monotoneSequenceWindowCauchyEventAtDefault 6 ef))
+          (monotoneSequenceWindowCauchyDecodeBHist
+            (monotoneSequenceWindowCauchyEventAtDefault 7 ef))
+          (monotoneSequenceWindowCauchyDecodeBHist
+            (monotoneSequenceWindowCauchyEventAtDefault 8 ef))
+          (monotoneSequenceWindowCauchyDecodeBHist
+            (monotoneSequenceWindowCauchyEventAtDefault 9 ef)))
 
 private theorem MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_round_trip
     (x : MonotoneSequenceWindowCauchyUp) :
-    monotoneSequenceWindowCauchyFromGroundEventFlow
-      (monotoneSequenceWindowCauchyToGroundEventFlow x) = some x := by
+    monotoneSequenceWindowCauchyFromEventFlow
+      (monotoneSequenceWindowCauchyToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   cases x with
   | mk M B S R D E H C P N =>
@@ -113,19 +124,31 @@ private theorem MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_r
         MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_decode_encode P,
         MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_decode_encode N]
 
+private theorem MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_fields :
+    ∀ x y : MonotoneSequenceWindowCauchyUp,
+      monotoneSequenceWindowCauchyFields x =
+        monotoneSequenceWindowCauchyFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk M₁ B₁ S₁ R₁ D₁ E₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk M₂ B₂ S₂ R₂ D₂ E₂ H₂ C₂ P₂ N₂ =>
+          cases hfields
+          rfl
+
 private theorem MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : MonotoneSequenceWindowCauchyUp} :
-    monotoneSequenceWindowCauchyToGroundEventFlow x =
-        monotoneSequenceWindowCauchyToGroundEventFlow y →
-      x = y := by
+    monotoneSequenceWindowCauchyToEventFlow x =
+      monotoneSequenceWindowCauchyToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      monotoneSequenceWindowCauchyFromGroundEventFlow
-          (monotoneSequenceWindowCauchyToGroundEventFlow x) =
-        monotoneSequenceWindowCauchyFromGroundEventFlow
-          (monotoneSequenceWindowCauchyToGroundEventFlow y) :=
-    congrArg monotoneSequenceWindowCauchyFromGroundEventFlow heq
+      monotoneSequenceWindowCauchyFromEventFlow
+          (monotoneSequenceWindowCauchyToEventFlow x) =
+        monotoneSequenceWindowCauchyFromEventFlow
+          (monotoneSequenceWindowCauchyToEventFlow y) :=
+    congrArg monotoneSequenceWindowCauchyFromEventFlow heq
   exact Option.some.inj
     (Eq.trans
       (MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_round_trip x).symm
@@ -135,8 +158,15 @@ private theorem MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_t
 instance monotoneSequenceWindowCauchyBHistCarrier :
     BHistCarrier MonotoneSequenceWindowCauchyUp where
   -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := monotoneSequenceWindowCauchyToGroundEventFlow
-  fromEventFlow := monotoneSequenceWindowCauchyFromGroundEventFlow
+  toEventFlow := monotoneSequenceWindowCauchyToEventFlow
+  fromEventFlow := monotoneSequenceWindowCauchyFromEventFlow
+
+instance monotoneSequenceWindowCauchyFieldFaithful :
+    FieldFaithful MonotoneSequenceWindowCauchyUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := monotoneSequenceWindowCauchyFields
+  field_faithful :=
+    MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_fields
 
 instance monotoneSequenceWindowCauchyChapterTasteGate :
     ChapterTasteGate MonotoneSequenceWindowCauchyUp where
@@ -144,13 +174,14 @@ instance monotoneSequenceWindowCauchyChapterTasteGate :
   round_trip := by
     intro x
     change
-      monotoneSequenceWindowCauchyFromGroundEventFlow
-        (monotoneSequenceWindowCauchyToGroundEventFlow x) = some x
+      monotoneSequenceWindowCauchyFromEventFlow
+        (monotoneSequenceWindowCauchyToEventFlow x) = some x
     exact MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy
-      (MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_toEventFlow_injective heq)
+      (MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_toEventFlow_injective
+        heq)
 
 def taste_gate : ChapterTasteGate MonotoneSequenceWindowCauchyUp :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -159,14 +190,17 @@ def taste_gate : ChapterTasteGate MonotoneSequenceWindowCauchyUp :=
 theorem MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       monotoneSequenceWindowCauchyDecodeBHist
-          (monotoneSequenceWindowCauchyEncodeBHist h) =
-        h) ∧
+        (monotoneSequenceWindowCauchyEncodeBHist h) = h) ∧
       (∀ x : MonotoneSequenceWindowCauchyUp,
-        (monotoneSequenceWindowCauchyToEventFlow x).rows =
-          monotoneSequenceWindowCauchyFields x) := by
+        monotoneSequenceWindowCauchyFromEventFlow
+          (monotoneSequenceWindowCauchyToEventFlow x) = some x) ∧
+      (∀ x y : MonotoneSequenceWindowCauchyUp,
+        monotoneSequenceWindowCauchyFields x =
+          monotoneSequenceWindowCauchyFields y → x = y) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
     ⟨MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_decode_encode,
-      fun x => rfl⟩
+      MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_round_trip,
+      MonotoneSequenceWindowCauchyTasteGate_single_carrier_alignment_fields⟩
 
 end BEDC.Derived.MonotoneSequenceWindowCauchyUp

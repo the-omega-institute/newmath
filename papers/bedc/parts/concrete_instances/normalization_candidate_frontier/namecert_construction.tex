@@ -114,6 +114,22 @@ Use sibling dependency and obligation closure from \autoref{thm:normalization-ca
 Finally apply obstruction exactness, \autoref{thm:normalization-candidate-frontier-obstruction-exactness}. If $E$, $B$, or $O$ is erased, the packet supplies only the obstruction route, so the local join scope cannot become global confluence, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, or completed consistency.
 \end{proof}
 
+\begin{theorem}[NormalizationCandidateFrontier candidate-mediated confluence]
+\label{thm:normalization-candidate-frontier-candidate-mediated-confluence}
+Let $F=(T,E,B,S,I,O,H,C,P,N)$ be an accepted $\NormalizationCandidateFrontierUp$ carrier. A local confluence consumer may compose the rows $T,E,B,S,I,O,H,C,P,N$ only while preserving the candidate evidence $E$, bounded route $B$, and obstruction row $O$ as visible coordinates of the same packet.
+
+The composed read is candidate-mediated frontier evidence for the closed typed window $T$. It cannot promote the packet to global confluence, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, or completed closed consistency.
+\end{theorem}
+\begin{proof}
+Start with stability, \autoref{thm:normalization-candidate-frontier-stability}. It forces every positive normalization read to preserve the candidate-evidence row $E$ and bounded route row $B$ before $S$ or $I$ can be exported.
+
+Apply the audit handoff of \autoref{thm:normalization-candidate-frontier-audit-handoff}. The handoff routes MetaCIC consumers through $T,E,B,S,I,O$ before any candidate-mediated consequence is public, so the composition cannot erase the candidate rows.
+
+Use obstruction exactness, \autoref{thm:normalization-candidate-frontier-obstruction-exactness}. The row $O$ remains part of the public route and records evidence-erasing, global confluence, unrestricted subject-reduction, quotient-syntax, host-evaluator, and completed-consistency requests as refusals.
+
+Finally use the local confluence scope of \autoref{thm:normalization-candidate-frontier-local-confluence-scope}. It permits only a closed-window, candidate-mediated join scope transported and replayed by $H,C,P,N$. Therefore the composed read remains local frontier evidence and cannot become a global normalization or confluence theorem.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\NormalizationCandidateFrontierUp$ consumer that exports closed-term strong normalization while omitting the candidate-evidence row $E$, bounded route row $B$, or obstruction row $O$ refutes the packet.}
 
 \independenceWitness{normalization\_candidate\_socket, bounded\_normalization\_candidate, metacicnormalizationfrontier, metaciccriticalpath: the socket separates candidate families, the bounded candidate packet records finite fuel and adequacy data, the MetaCIC frontier records normalization boundary rows, and the critical path records dependency pressure; none is bijective with $\NormalizationCandidateFrontierUp$ because this packet jointly carries the closed term window, candidate evidence, bounded route, positive projections, explicit obstruction, transport, replay, provenance, and local naming as one frontier carrier.}
