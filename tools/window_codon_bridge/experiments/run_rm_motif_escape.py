@@ -554,6 +554,7 @@ def target_cds_segments(target: dict[str, Any], cds_records: list[dict[str, Any]
     contig = str(target["contig"])
     start = int(target["start"])
     end = int(target["end"])
+    target_seq = str(target["sequence"])
     segments = []
     for cds in cds_records:
         if str(cds.get("seqid") or "") != contig:
@@ -566,19 +567,37 @@ def target_cds_segments(target: dict[str, Any], cds_records: list[dict[str, Any]
         overlap1 = min(end, c1)
         if overlap1 - overlap0 < 90:
             continue
-        seq = str(cds.get("sequence") or "")
-        if not seq:
+        if str(cds.get("strand") or "+") == "-":
+            frame0 = c1 - overlap1
+            frame1 = c1 - overlap0
+        else:
+            frame0 = overlap0 - c0
+            frame1 = overlap1 - c0
+        frame0 += (-frame0) % 3
+        frame1 -= frame1 % 3
+        if frame1 - frame0 < 90:
             continue
-        rel0 = overlap0 - c0
-        rel1 = overlap1 - c0
-        rel0 -= rel0 % 3
-        rel1 -= rel1 % 3
-        if rel1 - rel0 < 90 or rel1 > len(seq):
+        if str(cds.get("strand") or "+") == "-":
+            aligned0 = c1 - frame1
+            aligned1 = c1 - frame0
+        else:
+            aligned0 = c0 + frame0
+            aligned1 = c0 + frame1
+        local0 = aligned0 - start
+        local1 = aligned1 - start
+        if local0 < 0 or local1 > len(target_seq) or local1 - local0 < 90:
             continue
-        piece = seq[rel0:rel1]
+        piece = target_seq[local0:local1]
         if str(cds.get("strand") or "+") == "-":
             piece = reverse_complement_dna(piece)
-        segments.append({"start": overlap0 - start, "end": overlap1 - start, "sequence": piece})
+        segments.append(
+            {
+                "start": local0,
+                "end": local1,
+                "strand": str(cds.get("strand") or "+"),
+                "sequence": piece,
+            }
+        )
     segments.sort(key=lambda row: int(row["start"]))
     return segments
 
@@ -594,6 +613,8 @@ def null_b_sequence(target: dict[str, Any], cds_records: list[dict[str, Any]], r
         shuffled = synonym_shuffle_cds(str(segment["sequence"]), rng)
         if shuffled is None or len(shuffled) != end - start:
             continue
+        if str(segment.get("strand") or "+") == "-":
+            shuffled = reverse_complement_dna(shuffled)
         out[start:end] = list(shuffled)
         for i in range(start, end):
             if 0 <= i < len(covered) and not covered[i]:
