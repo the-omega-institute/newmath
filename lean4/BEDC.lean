@@ -954,6 +954,7 @@ import BEDC.Derived.BinderContextSubstitutionSealUp.CompilerHandoff
 import BEDC.Derived.BinderContextSubstitutionSealUp.ObligationConsumer
 import BEDC.Derived.BinderContextSubstitutionSealUp.TasteGate
 import BEDC.Derived.BinomialIdentitiesUp
+import BEDC.Derived.VandermondeChuUp
 import BEDC.Derived.BirkhoffContractionUp.TasteGate
 import BEDC.Derived.BirkhoffInterpolationUp.TasteGate
 import BEDC.Derived.BisectionConvergenceUp.TasteGate
@@ -7146,6 +7147,7 @@ import BEDC.Derived.KroneckerApproximationUp.TasteGate
 import BEDC.Derived.KroneckerLemmaUp.TasteGate
 import BEDC.Derived.KroneckerSymbolUp
 import BEDC.Derived.KummerTestUp.TasteGate
+import BEDC.Derived.KummerTheoremUp
 import BEDC.Derived.KuratowskiClosureComplementUp.FourteenRoute
 import BEDC.Derived.KuratowskiClosureComplementUp.NameCertObligations
 import BEDC.Derived.KuratowskiClosureComplementUp.TasteGate
@@ -7745,6 +7747,7 @@ import BEDC.Derived.LpSpaceUp.TasteGate
 import BEDC.Derived.LucasLehmerUp
 import BEDC.Derived.LucasSequenceGeneralUp
 import BEDC.Derived.LucasSequenceUp
+import BEDC.Derived.LucasTheoremBinomUp
 import BEDC.Derived.LucasTheoremUp
 import BEDC.Derived.LusinApproximationUp.TasteGate
 import BEDC.Derived.LyapunovStabilityUp
@@ -12754,6 +12757,7 @@ import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.Nonescape
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.SeparationHandoff
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
+import BEDC.Derived.WilsonQuotientUp
 import BEDC.Derived.WilsonTheoremUp
 import BEDC.Derived.WilsonUp
 import BEDC.Derived.Window6CyclicCount
@@ -12813,6 +12817,7 @@ import BEDC.Derived.ZCarryUp.TasteGate
 import BEDC.Derived.ZModFieldUp
 import BEDC.Derived.ZModResidueList
 import BEDC.Derived.ZModUp
+import BEDC.Derived.ZeckendorfArithmeticUp
 import BEDC.Derived.ZeckendorfCarryClassifierUp
 import BEDC.Derived.ZeckendorfCarryClassifierUp.TasteGate
 import BEDC.Derived.ZeckendorfCarryNormalizationUp
