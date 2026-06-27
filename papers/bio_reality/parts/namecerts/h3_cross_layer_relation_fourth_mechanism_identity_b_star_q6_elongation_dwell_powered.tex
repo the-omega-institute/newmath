@@ -1,47 +1,38 @@
 \origin{ai}
-\subsection{B$^*_{Q6}$ $f_3$-stress and the elongation-dwell boundary}
-\label{sec:bioreality-b-star-q6-f3-stress-elongation-dwell}
+\subsection{Partial elongation-dwell identity for the fourth $B^*_{Q6}$ residual mechanism}
+\label{sec:bioreality-q6-f3-elongation-dwell}
 
 \paragraph{Finite surface.}
-This BioReality record concerns the finite residual coordinate surface obtained by restricting coding-sequence codon counts to the B$^*_{Q6}$ $f_3$-stress coordinate after amino-acid projection, then asking whether that coordinate remains visible in a translation-layer readout. The relevant carrier is not an unrestricted biological story: it is the finite table whose rows are organism-matched coding sequences, whose codon-side columns include the $f_3$-paired synonymous imbalance, and whose readout-side columns are bounded translation measurements or explicitly modelled translation-weight rows. The conjectural break of symmetry is local: if a codon $c$ and its $f_3$ partner $c^{f_3}$ have equal context weight, then the residual coordinate has no translation-dynamical asymmetry to read. The coordinate can become visible only in rows where the context tRNA or wobble weight separates the pair, written as $w_c \neq w_{c^{f_3}}$.
+This record concerns the $B^*_{Q6}$ synonymous residual coordinate after amino-acid quotienting, restricted to the $f_3$-stress direction and read only against translation-layer rows. The finite carrier is a CDS-by-organism table in which each row supplies codon composition, organism identity, amino-acid composition controls, GC3, CDS length, M-density, and a matched translation readout when such a row is available. The object is not a protein-structure table and not a phenotype table. Its bounded readback is the controlled entry $S_{f3\text{-}stress,T_j}$ for a translation readout $T_j$, such as a tAI/stAI surface or a ribosome-occupancy or translation-efficiency surface.
 
-\paragraph{Codon support.}
-The finite $f_3$ saturation computation supplies the codon-side boundary. The verified median-R union ACA carrier contains exactly 20 codons,
+\paragraph{The $f_3$ boundary.}
+The saturation audit fixes the codon-level coordinate support before any biological interpretation is attempted. The finite set $M = \operatorname{Med}(R) \cup ACA$ is
+$\{AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}$,
+with $20$ listed codons. The saturated $f_3$ image of $R$, after removing the $ACA,ACG$ pair, is
+$\{AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}$,
+with $18$ listed codons. The recorded $f_3$ boundary is empty. Thus the tested coordinate is not an unconstrained codon-usage contrast: it is a finite residual direction whose third-position pairing has already been closed except for the stated $ACA,ACG$ exclusion.
+
+\paragraph{Controlled identity test.}
+The powered elongation-dwell assay has status passed, but its conclusion is only partial. The finite run used $5$ folds and was organism-specific to $Saccharomyces\ cerevisiae$; the recorded experiment id is $b\_star\_q6\_fourth\_mechanism\_elongation\_dwell\_powered$, with run id $e4edcde459b7$. In local notation the admissible positive statement is therefore
 $$
 \begin{aligned}
-M = \{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+&\text{in the yeast finite panel, the fourth residual component has a partial}\
+&\text{elongation-dwell interpretation after the declared controls,}
 \end{aligned}
 $$
-After removing the ACA and ACG boundary pair, the saturated $f_3$ R-surface has 18 codons,
-$$
-\begin{aligned}
-\operatorname{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
-&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
-\end{aligned}
-$$
-The reported $f_3$ boundary set is empty. Thus the codon-side object is finite and sharp: the stress coordinate is not being inferred from an open-ended sequence class, but from a closed residual codon surface with a 20-row support before the ACA/ACG removal and an 18-row saturated support afterward.
+not that elongation dwell is a universal identity for the fourth coordinate. The word ``partial'' is load-bearing: it records a bounded mechanism match on the available yeast table, not a completed translation law across organisms.
 
-\paragraph{Readout rule.}
-The readout admitted here is only the controlled survival entry $S_{f3\text{-}stress,T_j}$ for a translation quantity $T_j$, such as tAI, stAI, ribosome occupancy, or translation efficiency. The chapter therefore uses the following local rule:
-$$
-\begin{aligned}
-S_{f3\text{-}stress,T_j} > 0
-\end{aligned}
-$$
-means that the $f_3$-stress coordinate improves a translation readout after amino-acid composition, organism identity, GC3, coding-sequence length, M-density, matched mRNA abundance where applicable, rank sufficiency, and simpler-codon-baseline controls. If the entry is non-positive, absent, or rank-degenerate, the record remains null at the translation boundary. A three-organism all-1.0 controlled matrix is therefore not counted as survival; it is a saturated-rank boundary and carries no positive biological reading.
+\paragraph{Relation to the surrounding finite spectrum.}
+The fourth-coordinate test sits inside a larger rank-powered $B^*_{Q6}$ spectrum. A separate powered sufficiency run computed $11$ organisms out of $16$ requested organisms, with $5$ folds, a minimum of $500$ proteins per organism, and $41$ synonymous design columns; its conclusion was that a fourth mechanism is present. In the axis-strength spectrum, again on $11$ computed organisms out of $16$ requested and $41$ synonymous design columns, the captured spectra were led by $d_{resid4}$ on average, with the per-organism dominant count recorded as $\{d_{resid4}:11\}$. The same spectrum reported imbalanced domain counts $\{archaea:1,bacteria:2,eukaryote:8\}$ and a largest GC3 rank effect of $\rho=0.136$ for $d_{usage}$. These numbers support treating the fourth coordinate as a real finite-row residual object in the computed design; they do not, by themselves, identify the biological layer.
 
-\paragraph{Empirical finite rows.}
-The powered fourth-mechanism assay for elongation dwell has status passed, uses 5 folds, is scoped to \emph{Saccharomyces cerevisiae}, and reports the conclusion \emph{partial}. This is a finite positive contact only in the narrow sense that the elongation-dwell candidate was not eliminated in the yeast assay. It is not a full translation-survival theorem for all organisms or all readout classes. The surrounding powered assays keep the interpretation constrained. The optimality-axis sufficiency run over 11 computed organisms out of 16 requested, with 5 folds, at least 500 proteins per organism, and 41 synonymous design columns, concluded that a fourth mechanism is present. The per-organism axis-strength spectrum used the same 11 of 16 organism panel, 5 folds, and 41 synonymous design columns; it reported d\_resid4 as the leading average axis and as dominant in all 11 computed organisms. Domain means were marked descriptive because the panel was imbalanced, with $n=1$ archaea, $n=2$ bacteria, and $n=8$ eukaryotes, and the largest GC3 rank effect was d\_usage with $\rho=0.136$.
+\paragraph{Eliminated neighboring identities.}
+The finite identity packet is sharpened by nearby negative or exclusionary calls. The mRNA-stability powered run, using $5$ folds, at least $500$ proteins per organism, and $41$ synonymous design columns, concluded $fourth\_axis\_not\_mrna\_stability$ because the yeast $d_{opt\_halflife}$ axis had low alignment with the abundance $d_{resid4}$ axis under the fixed gates. The codon-pair powered run, also with $5$ folds, at least $500$ proteins per organism, $41$ synonymous design columns, and $50$ shuffle nulls, concluded $not\_codon\_pair$. The translation-accuracy powered run computed $11$ organisms out of $16$ requested, used $200$ permutations and $41$ synonymous design columns, and concluded $not\_accuracy$. Against those alternatives, the elongation-dwell call is the surviving positive but incomplete identity claim for this specific fourth-mechanism branch.
 
-\paragraph{Fourth-axis discrimination.}
-The elongation-dwell result is best read against the negative fourth-axis alternatives. The mRNA-stability assay passed but concluded \emph{fourth\_axis\_not\_mrna\_stability}: yeast d\_opt\_halflife had low alignment with abundance d\_resid4 under the fixed gates, so mRNA stability was excluded as the dominant fourth-axis identity in that assay. The codon-pair assay passed with conclusion \emph{not\_codon\_pair}, using 5 folds, 41 synonymous design columns, at least 500 proteins per organism, and 50 shuffle-null replicates. The translation-accuracy assay passed with conclusion \emph{not\_accuracy}, using 11 computed organisms out of 16 requested, 5 folds, 41 synonymous design columns, and 200 permutations. These finite rows do not prove that elongation dwell is the unique mechanism. They do show that, within the supplied powered tests, the yeast elongation-dwell candidate remains as a partial fourth-mechanism identity while three named competitors are not supported under their corresponding gates.
+\paragraph{Wobble and tRNA break condition.}
+The coordinate becomes dynamically interpretable only where the third-position pairing is not neutralized by equal readout weights. The boundary-set tRNA-poverty run computed $40$ organisms out of $46$ requested, skipped $6$, used $1000$ permutations at $\alpha=0.05$, and reported that $R$ sense codons are systematically tRNA-poor under GtRNAdb tGCN plus dos Reis wobble weights. This gives the correct kind of finite asymmetry for an $f_3$-stress row: a paired synonymous imbalance can matter only when the context weight satisfies $w_c \ne w_{c^{f_3}}$. Without such a weight break, the residual coordinate remains geometrically present but translation-silent.
 
-\paragraph{Relation to the residual spectrum.}
-The same finite panel places the $f_3$-stress candidate inside a larger residual spectrum. The universal residual-axis assay over 11 computed organisms out of 16 requested, with 5 folds, at least 500 proteins per organism, and 41 synonymous design columns, identified the dominant non-tRNA residual optimality axis as f3\_translation\_selection. The third-axis identity run reported d\_perp aligned to usage\_frequency\_within\_family, with mean cosine $0.128$ and one-sided sign-test $p=0.000488$. These numbers justify treating $f_3$-stress as a serious translation-adjacent residual coordinate, but they do not by themselves supply a measured ribosome-dwell row for every organism. They are coordinate and spectrum evidence, not a license to promote the coordinate beyond the readout actually computed.
+\paragraph{Non-promotion rule.}
+The chapter records a bounded translation-layer contact, not a promotion to downstream biology. A positive or partial $S_{f3\text{-}stress,T_j}$ row may be read as survival of a residual codon coordinate against a translation readout under amino-acid composition, organism, GC3, length, M-density, and mRNA controls. It does not imply mature protein abundance, folded structure, physical admissibility, molecular function, localization, stability, phenotype, causation, or a universal biological law. Those claims require their own matched contacts and their own controlled finite statistics. In particular, the three-organism all-$1.0$ $S^{QT}$ surface is a rank-degenerate boundary and is not survival evidence.
 
 \paragraph{Local verdict.}
-The finite-row verdict is therefore bounded and asymmetric. On the support side, the $f_3$ codon surface is closed by a 20-codon M carrier, an 18-codon saturated R carrier, and an empty $f_3$ boundary set. On the mechanism side, the powered assays leave elongation dwell as a partial yeast fourth-mechanism identity while excluding mRNA stability, codon-pair structure, and translation accuracy as the named dominant alternatives in their supplied tests. On the translation-readout side, the conjecture still requires a non-vacuous $S_{f3\text{-}stress,T_j}$ entry on organism-matched codon, wobble-weight, ribosome or translation-efficiency, and matched mRNA rows before any stronger statement is allowed.
-
-\paragraph{No-promotion boundary.}
-This record does not claim that the B$^*_{Q6}$ $f_3$-stress coordinate causes translation, protein abundance, folding, localization, stability, function, phenotype, physical admissibility, a mechanism in the full causal sense, or a universal biological law. Modeled tAI or stAI weights are bounded codon-adaptation readouts, not observed ribosome occupancy. Matched mRNA abundance is a control covariate for translation-efficiency residualization, not a translation output. Ribosome-profiling or translation-efficiency data, if later attached, can test only the declared translation row unless a separate layer-specific contact supplies protein, structure, physical, functional, perturbational, or phenotypic evidence. The positive content of this chapter is exactly the finite partial elongation-dwell status under the declared controls and the refusal to read beyond that finite row.
+The finite evidence supports the following self-contained statement: the $B^*_{Q6}$ $f_3$-stress coordinate has a yeast-specific, five-fold, passed but partial elongation-dwell identity in the fourth-mechanism assay, while neighboring identities by mRNA stability, codon-pair structure, and translation accuracy are rejected in their respective powered tests. The result remains bounded to translation-readout survival under the declared controls. It is falsified, for this intended cross-layer reading, if rank-powered matched panels keep $S_{f3\text{-}stress,T_j} \leq 0$ or rank-degenerate after amino-acid composition, organism, GC3, length, M-density, mRNA, wobble-weight, and simpler-baseline controls.

@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-26T17:40:53Z
+> 最后刷新: 2026-06-26T22:57:07Z
 
-**Daemon 状态**: monitor (monitor cycle 192, adjust_since_research 2, round_counter 27932, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 193, adjust_since_research 2, round_counter 28214, last_adjust rule_evolution_completed)
 
-**待处理 queue** (737 条 finding):
-- isolated_theorem: 488 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (748 条 finding):
+- isolated_theorem: 498 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 193 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- low_entropy_template: 56 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
+- low_entropy_template: 57 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
+- TASTE ALERT category=isolated_theorem: 22 次
 - TASTE ALERT category=unauthorized_capstone: 20 次
-- TASTE ALERT category=isolated_theorem: 6 次
 - TASTE ALERT category=cycle_exception: 5 次
 - TASTE ALERT category=sync_failed: 1 次
 
@@ -430,6 +430,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-06-26T17:40:27Z: `resolved` `add_downstream_user` for `BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.QuasiMetricUp.QuasiMetricCarrier_nonescape:8d8dc35c`). Rationale: The target is not a trivial wrapper: it constructs the SemanticNameCert non-escape boundary for completion-facing quasi-metric reads. Repository search found no Lean downstream consumer, only the existing paper marker, so I added a substantive sibling consumer theorem that invokes QuasiMetricCarrier_nonescape and then exports a named completion-consumer certificate through a further Cont route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-26T22:56:28Z: `resolved` `add_downstream_user` for `BEDC.Derived.LogicContradictionMetaLoopUp.LogicContradictionMetaLoopCarrier_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:logiccontradictionmetaloop:BEDC.Derived.LogicContradictionMetaLoopUp.LogicContradictionMetaLoopCarrier_nonescape:90f91566`). Rationale: The target is not a trivial wrapper: it projects a LogicContradictionMetaLoop carrier through explicit Cont and PkgSig consumer routes to preserve nonescape evidence. Initial repo search found no downstream Lean consumer, while the ObservationLogicBoundaryUp chapter already depends on LogicContradictionMetaLoopUp as its logic/meta-loop sibling. I added a handoff theorem there that consumes the target theorem to bind the observation boundary field packet to the imported nonescape route evidence. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-27T02:51:28Z: `resolved` `leave_with_rationale` for `BEDC.Derived.LogicContradictionMetaLoopUp.LogicContradictionMetaLoopCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:logiccontradictionmetaloop:BEDC.Derived.LogicContradictionMetaLoopUp.LogicContradictionMetaLoopCarrier_namecert_obligations:90f91566`). Rationale: The target has real BEDC content: it projects the LogicContradictionMetaLoop carrier and derives the intermediate UnaryHistory obligations for metaRefusal, replay, and provenance from the Cont chain. The paper chapter uses it as the NameCert obligations site, and the surrounding nonescape theorems conceptually depend on that surface even though Lean did not yet consume the exact theorem name. I attempted to add a sibling downstream consumer in NameCertObligations.lean, but the required lake build did not reach a clean terminal state: after compiling through 13299/13302 targets it stalled for an extended period on an unrelated Window6EdgeCokernelClock.lean build process, so I interrupted it and reverted the attempted edit as instructed. Gate results: lake_build=interrupted after extended stall at 13299/13302; active Lean process was compiling unrelated BEDC/Derived/Window6EdgeCokernelClock.lean, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
