@@ -14,6 +14,45 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+theorem LogicContradictionMetaLoopCarrier_obligation_route [AskSetup] [PackageSetup]
+    {proofPattern refutation metaRefusal auditGate transport replay provenance localName
+      routeRead gateRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LogicContradictionMetaLoopCarrier proofPattern refutation metaRefusal auditGate
+        transport replay provenance localName bundle pkg →
+      Cont proofPattern refutation routeRead →
+        Cont routeRead metaRefusal gateRead →
+          PkgSig bundle gateRead pkg →
+            logicContradictionMetaLoopFields
+                  (LogicContradictionMetaLoopUp.mk proofPattern refutation metaRefusal
+                    auditGate transport replay provenance localName) =
+                [proofPattern, refutation, metaRefusal, auditGate, transport, replay,
+                  provenance, localName] ∧
+              UnaryHistory proofPattern ∧ UnaryHistory refutation ∧
+                UnaryHistory metaRefusal ∧ UnaryHistory auditGate ∧ UnaryHistory replay ∧
+                  UnaryHistory provenance ∧ UnaryHistory routeRead ∧ UnaryHistory gateRead ∧
+                    Cont proofPattern refutation metaRefusal ∧
+                      Cont metaRefusal auditGate replay ∧ Cont transport replay provenance ∧
+                        Cont proofPattern refutation routeRead ∧
+                          Cont routeRead metaRefusal gateRead ∧
+                            PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg ∧
+                              PkgSig bundle gateRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier routeCont gateCont gatePkg
+  have obligations :=
+    LogicContradictionMetaLoopCarrier_namecert_obligations carrier
+  obtain ⟨proofPatternUnary, refutationUnary, metaRefusalUnary, auditGateUnary, replayUnary,
+    provenanceUnary, proofRefutationMeta, metaAuditReplay, transportReplayProvenance,
+    provenancePkg, localNamePkg⟩ := obligations
+  have routeUnary : UnaryHistory routeRead :=
+    unary_cont_closed proofPatternUnary refutationUnary routeCont
+  have gateUnary : UnaryHistory gateRead :=
+    unary_cont_closed routeUnary metaRefusalUnary gateCont
+  exact
+    ⟨rfl, proofPatternUnary, refutationUnary, metaRefusalUnary, auditGateUnary, replayUnary,
+      provenanceUnary, routeUnary, gateUnary, proofRefutationMeta, metaAuditReplay,
+      transportReplayProvenance, routeCont, gateCont, provenancePkg, localNamePkg, gatePkg⟩
+
 theorem LogicContradictionMetaLoopCarrier_nonescape [AskSetup] [PackageSetup]
     {proofPattern refutation metaRefusal auditGate transport replay provenance localName
       routeRead gateRead : BHist}
@@ -31,19 +70,16 @@ theorem LogicContradictionMetaLoopCarrier_nonescape [AskSetup] [PackageSetup]
                       PkgSig bundle localName pkg ∧ PkgSig bundle gateRead pkg := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
   intro carrier routeCont gateCont gatePkg
-  obtain ⟨proofPatternUnary, refutationUnary, auditGateUnary, _transportUnary,
-    _localNameUnary, proofRefutationMeta, metaAuditReplay, transportReplayProvenance,
-    _provenancePkg, localNamePkg⟩ := carrier
-  have metaRefusalUnary : UnaryHistory metaRefusal :=
-    unary_cont_closed proofPatternUnary refutationUnary proofRefutationMeta
-  have routeUnary : UnaryHistory routeRead :=
-    unary_cont_closed proofPatternUnary refutationUnary routeCont
-  have gateUnary : UnaryHistory gateRead :=
-    unary_cont_closed routeUnary metaRefusalUnary gateCont
+  have routed :=
+    LogicContradictionMetaLoopCarrier_obligation_route carrier routeCont gateCont gatePkg
+  obtain ⟨_fields, proofPatternUnary, refutationUnary, metaRefusalUnary, auditGateUnary,
+    _replayUnary, _provenanceUnary, routeUnary, gateUnary, _proofRefutationMeta,
+    metaAuditReplay, transportReplayProvenance, _routeCont, gateCont', _provenancePkg,
+    localNamePkg, gatePkg'⟩ := routed
   exact
     ⟨proofPatternUnary, refutationUnary, metaRefusalUnary, auditGateUnary, routeUnary,
-      gateUnary, routeCont, gateCont, metaAuditReplay, transportReplayProvenance,
-      localNamePkg, gatePkg⟩
+      gateUnary, routeCont, gateCont', metaAuditReplay, transportReplayProvenance,
+      localNamePkg, gatePkg'⟩
 
 theorem LogicContradictionMetaLoopCarrier_ledger_nonescape [AskSetup] [PackageSetup]
     {proofPattern refutation metaRefusal auditGate transport replay provenance localName
