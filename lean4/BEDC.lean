@@ -12118,6 +12118,7 @@ import BEDC.Derived.TerminationRefusalBoundaryUp
 import BEDC.Derived.TerminationRefusalBoundaryUp.NameCertObligations
 import BEDC.Derived.TerminationRefusalBoundaryUp.TasteGate
 import BEDC.Derived.TernaryExpansionUp.TasteGate
+import BEDC.Derived.TetrahedralUp
 import BEDC.Derived.TheoremGapRegistryUp.BridgeSurface
 import BEDC.Derived.TheoremGapRegistryUp.GapGateCoverage
 import BEDC.Derived.TheoremGapRegistryUp.PublicExportSurface
