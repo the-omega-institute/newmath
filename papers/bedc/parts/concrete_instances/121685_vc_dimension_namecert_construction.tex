@@ -1,0 +1,143 @@
+\chapter{A Concrete Naming Certificate for $\VCDimensionUp$}
+\label{ch:concrete-instances-vc-dimension-namecert}
+\origin{human}
+
+Following Vapnik--Chervonenkis and Sauer--Shelah, the $\VCDimensionUp$
+packet records finite classifier complexity by displaying the sample rows,
+Boolean label rows, concept-class rows, shattering-pattern ledger, and
+growth-boundary row that a downstream statistical-learning consumer may
+inspect. It sits beside the Boolean and list carriers of
+\autoref{ch:concrete-instances-bool-namecert} and
+\autoref{ch:concrete-instances-list-namecert}, the unary size rows of
+\autoref{ch:concrete-instances-nat-namecert}, the displayed membership
+discipline of \autoref{ch:concrete-instances-setlike-namecert}, the finite-set
+surface of \autoref{ch:concrete-instances-kuratowski-finite-set-namecert}, and
+the finite concentration neighbour
+\autoref{ch:concrete-instances-hoeffding-finite-sum-namecert}. The packet
+names only finite shattering data and a finite growth-boundary obligation; it
+does not assert PAC bounds, probability measures, empirical risk convergence,
+a complete Sauer--Shelah proof, host finite-set quotients, or ambient powerset
+semantics.
+
+\begin{definition}[VC dimension finite classifier carrier]
+\label{def:vc-dimension-carrier}
+A $\VCDimensionUp$ carrier is a finite $\BHist$ packet
+$$
+V=(X,K,S,L,F,T,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the finite sample-domain row, read through the displayed
+membership discipline and the finite-set surface rather than through a host
+powerset.
+\item $K$ is the inspected cardinality row, a $\NatUp$ ledger recording the
+sample size and the growth-boundary size request.
+\item $S$ is the finite sample row, a $\ListUp$ spine of displayed sample
+points with an explicit support boundary in $X$.
+\item $L$ is the Boolean label-row ledger, listing only the inspected
+$\BoolUp$ label patterns on the sample row $S$.
+\item $F$ is the concept-class row, recording the finite family of displayed
+classifier rows that are tested against $S$ and $L$.
+\item $T$ is the shattering-pattern ledger: for each displayed label pattern
+in $L$, it names a concept row in $F$ whose readback agrees with that pattern
+on $S$.
+\item $G$ is the growth-boundary row, recording the first displayed size at
+which the packet refuses a full shattering ledger and exposes only the counted
+pattern boundary.
+\item $H$ records componentwise $\hsame$ transport for sample-domain,
+cardinality, sample, label, concept-class, shattering, growth-boundary,
+replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through
+$X,K,S,L,F,T,G,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\VCDimensionUp$, $\BoolUp$,
+$\ListUp$, $\NatUp$, $\SetLikeUp$, $\KuratowskiFiniteSetUp$,
+$\HoeffdingFiniteSumUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\VCDimensionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through
+$X,K,S,L,F,T,G,H,C,P,N$. It has no coordinate for a host concept class,
+quotient finite set, powerset of labels, probability measure, risk functional,
+ambient growth theorem, or selected infinite sample family.
+\end{definition}
+
+\begin{theorem}[VC dimension shattering obligation]
+\label{thm:vc-dimension-shattering-obligation}
+For every accepted $\VCDimensionUp$ carrier
+$$
+V=(X,K,S,L,F,T,G,H,C,P,N),
+$$
+the local $\NameCert_{\VCDimensionUp}$ shattering surface consists exactly of
+carrier admission for the sample-domain row, inspected cardinality row,
+finite sample row, Boolean label-row ledger, concept-class row,
+shattering-pattern ledger, transport, replay, provenance, and local naming.
+The shattering ledger $T$ must be read after $S,L,F$ are displayed, and each
+entry of $T$ may cite only a displayed concept row whose Boolean readback on
+$S$ matches the corresponding label row in $L$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:vc-dimension-carrier}. The rows
+$X,K,S,L,F,T$ are the full finite classifier surface before any growth
+boundary is inspected.
+
+First read the sample route. The row $X$ supplies the displayed membership
+boundary, $K$ records the relevant size request, and $S$ supplies the finite
+list of sample points whose labels can be tested.
+
+Next read the classifier route. The row $L$ lists the Boolean patterns being
+requested, while $F$ lists the displayed concept rows available for the test.
+The ledger $T$ is accepted only after both rows are visible, so a shattering
+read cannot be replaced by a host powerset, quotient finite set, or ambient
+concept-class equality.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet.
+Since no carrier coordinate stores a probability measure, risk functional,
+infinite sample family, or host classifier semantics, the listed rows exhaust
+the local shattering obligation.
+\end{proof}
+
+\begin{theorem}[VC dimension growth-boundary obligation]
+\label{thm:vc-dimension-growth-boundary-obligation}
+Let
+$$
+V=(X,K,S,L,F,T,G,H,C,P,N)
+$$
+be an accepted $\VCDimensionUp$ carrier. Any read of the growth-boundary row
+$G$ is downstream of the displayed sample-domain, cardinality, sample,
+Boolean label, concept-class, and shattering-pattern rows. Thus a
+statistical-learning or finite-combinatorics consumer may use $G$ only as the
+finite refusal boundary attached to the displayed shattering ledger, not as a
+PAC guarantee, probability space, empirical-risk convergence theorem,
+complete Sauer--Shelah proof, host finite-set quotient, or ambient growth
+function oracle.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:vc-dimension-shattering-obligation}. It orders the finite
+classifier rows so that the sample, label, concept, and shattering ledgers are
+read before a consumer can inspect any boundary row.
+
+The growth-boundary row $G$ records only the displayed size at which the
+packet refuses a full shattering ledger and exposes a counted pattern
+boundary. It is therefore tied to the same $X,K,S,L,F,T$ route rather than to
+an external Sauer--Shelah theorem or host powerset calculation.
+
+The structural rows $H,C,P,N$ preserve that finite route under transport,
+replay, provenance, and local naming. Because the carrier has no coordinate
+for PAC probability, empirical risk, quotient finite sets, or ambient growth
+semantics, no consumer can read such data from $G$.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\VCDimensionUp$ classifier-complexity read exposes finite sample-domain rows, NatUp cardinality ledgers, ListUp sample spines, BoolUp label rows, concept-class rows, shattering-pattern ledgers, growth-boundary rows, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any learning-facing consumer is served.}
+
+\independenceWitness{bool, list, nat, setlike, kuratowski finite set, hoeffding finite sum: none alone is bijective with $\VCDimensionUp$ because this packet alone binds finite sample rows, Boolean label ledgers, displayed concept rows, shattering-pattern witnesses, growth-boundary refusal, transport, replay, provenance, and local naming as one classifier-complexity certificate.}
+
+\closureat{VCDimensionUp}{seedStr}
+
+\begin{closurestatus}{\VCDimensionUp}
+  \constructivestory{A $\VCDimensionUp$ packet is generated from finite sample-domain rows, NatUp cardinality ledgers, ListUp sample rows, BoolUp label ledgers, displayed concept-class rows, shattering-pattern ledgers, growth-boundary rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:vc-dimension-carrier}, \autoref{thm:vc-dimension-shattering-obligation}, and \autoref{thm:vc-dimension-growth-boundary-obligation} seed the finite VC-dimension classifier-complexity route over Boolean labels, finite samples, displayed concept rows, and finite growth boundaries.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close PAC bounds, probability measures, empirical risk convergence, Sauer--Shelah proof completeness, host finite-set quotients, ambient powerset semantics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sample-row exposure, Boolean label-row exactness, concept-class row exposure, shattering-pattern ledger exactness, growth-boundary refusal, transport, replay, provenance, and local naming for BEDC.Derived.VCDimensionUp.}
+\end{closurestatus}
