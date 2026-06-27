@@ -1,0 +1,215 @@
+\section{Prime Spiral Projection Kernel}
+\label{sec:unified-reality-prime-spiral-projection-kernel}
+
+The prime-torus picture should not be read as a common-period picture.
+The zeta zero row is not a moment at which all prime frequencies
+synchronize.  It is a low-dimensional projection row: an infinite
+prime-indexed phase-radial state is read through the completed zeta
+projection, and that projection may vanish.  The information hidden by
+the projection is not thereby absent from the carrier.  The RH-facing
+claim is that no zero projection may hide a nonzero normal height.
+
+\begin{definition}[Prime spiral carrier]
+\label{def:unified-reality-prime-spiral-carrier}
+For
+$$
+s=\frac12+\delta+i\tau,
+$$
+the \emph{prime spiral carrier} is the prime-indexed phase-radial row
+$$
+\mathcal U_{\PrimeUp}(s)
+:=
+\left(p^{1/2-s}\right)_{p\in\PrimeUp}
+=
+\left(p^{-\delta}e^{-i\tau\log p}\right)_{p\in\PrimeUp}.
+$$
+Its unit phase part is $\Phi_{\PrimeUp}(\tau)$, and its normal radial
+part is the family $(p^{-\delta})_{p\in\PrimeUp}$.
+\end{definition}
+
+\begin{definition}[Completed zeta projection]
+\label{def:unified-reality-completed-zeta-projection}
+The \emph{completed zeta projection} is the schematic projection ledger
+$$
+\Pi_{\zeta}:
+\mathcal U_{\PrimeUp}(s)
+\longmapsto
+\xi(s),
+$$
+where
+$$
+\xi(s)
+=
+\frac12s(s-1)\pi^{-s/2}\Gamma(s/2)\zeta(s)
+$$
+is the completed zeta readout of
+\autoref{def:unified-reality-archimedean-completion-row}.  The notation
+records a paper-side projection relation between the high-dimensional
+prime carrier and the completed complex value; it is not a claim that
+the complex value is the whole carrier.
+\end{definition}
+
+\begin{definition}[Projection zero and ontic balance]
+\label{def:unified-reality-projection-zero-ontic-balance}
+For a critical-strip row $s$, the \emph{projection-zero} row is
+$$
+\mathsf{ProjectionZero}_{\zeta}(s)
+:=
+\Pi_{\zeta}\bigl(\mathcal U_{\PrimeUp}(s)\bigr)=0.
+$$
+The \emph{ontic-balance} row is
+$$
+\mathsf{OnticBalance}_{\zeta}(s)
+:=
+\delta^2=0.
+$$
+Projection zero is a completed complex readout.  Ontic balance is a
+normal-energy readout of the high-dimensional prime spiral carrier.
+\end{definition}
+
+\begin{theorem}[Zero projection is not coordinate synchronization]
+\label{thm:unified-reality-zero-projection-not-coordinate-synchronization}
+A completed zeta zero row states that
+$$
+\Pi_{\zeta}\bigl(\mathcal U_{\PrimeUp}(s)\bigr)=0.
+$$
+It does not state that all prime phase coordinates have a common period
+or have returned to a common phase.
+\end{theorem}
+
+\begin{proof}
+The absence of a nonzero common phase period is
+\autoref{thm:unified-reality-infinite-prime-torus-no-common-period-point}.
+The zero row belongs instead to the completed projection of
+\autoref{def:unified-reality-completed-zeta-projection}.  By
+\autoref{thm:unified-reality-zeta-zeros-projected-global-cancellations},
+zerohood is a global cancellation in the completed readout, not a local
+vanishing or synchronization of prime coordinates.
+\end{proof}
+
+\begin{definition}[Projection kernel ambiguity]
+\label{def:unified-reality-projection-kernel-ambiguity}
+A \emph{projection kernel ambiguity} for the zeta projection is a
+hypothetical pair of rows
+$$
+\Pi_{\zeta}\bigl(\mathcal U_{\PrimeUp}(s)\bigr)=0,
+\qquad
+\delta^2\#0.
+$$
+It says that the completed complex projection has vanished while the
+high-dimensional prime spiral carrier still has nonzero normal height.
+\end{definition}
+
+\begin{theorem}[Off-half projection zeros carry infinite normal energy]
+\label{thm:unified-reality-off-half-projection-zeros-carry-infinite-normal-energy}
+If a projection kernel ambiguity holds for
+$$
+s=\frac12+\delta+i\tau,
+$$
+then the high-dimensional prime spiral carrier carries infinite normal
+energy:
+$$
+\mathcal E_{\Prime}(s)=\infty.
+$$
+\end{theorem}
+
+\begin{proof}
+The ambiguity includes $\delta^2\#0$, hence $\delta\#0$ in the located
+real readout.  For every displayed prime,
+$$
+\log |p^{1/2-s}|=-\delta\log p.
+$$
+Therefore the finite-window square energy is
+$$
+\mathcal E_S(s)
+=
+\delta^2\sum_{p\in S}(\log p)^2.
+$$
+As finite prime windows range cofinally, this energy is unbounded by
+\autoref{thm:unified-reality-finite-to-infinite-energy-divergence}, or
+equivalently by
+\autoref{thm:unified-reality-global-prime-square-energy-diverges-off-half}.
+\end{proof}
+
+\begin{definition}[No hidden normal height]
+\label{def:unified-reality-no-hidden-normal-height}
+The \emph{no hidden normal height} row for the completed zeta projection
+is
+$$
+\mathsf{NoHiddenNormalHeight}_{\zeta}
+:=
+\prod_{s:\ComplexUp}
+\left(
+\mathsf{ZetaZero}(s)
+\times
+\mathsf{InCritStrip}(s)
+\to
+\mathcal E_{\Prime}(s)<\infty
+\right).
+$$
+It says that a completed zero projection cannot arise from a
+high-dimensional prime spiral state with infinite normal energy.
+\end{definition}
+
+\begin{theorem}[No hidden normal height is conditionally sufficient]
+\label{thm:unified-reality-no-hidden-normal-height-conditionally-sufficient}
+If $\mathsf{NoHiddenNormalHeight}_{\zeta}$ holds, then the RH fixed-half
+section exists.
+\end{theorem}
+
+\begin{proof}
+Let $z:\mathcal Z_{\zeta}$ have complex coordinate $s$, and write
+$$
+s=\frac12+\delta+i\tau.
+$$
+The zero and critical-strip rows give
+$$
+\mathcal E_{\Prime}(s)<\infty
+$$
+by
+\autoref{def:unified-reality-no-hidden-normal-height}.  If
+$\delta\#0$, then
+\autoref{thm:unified-reality-global-prime-square-energy-diverges-off-half}
+gives $\mathcal E_{\Prime}(s)=\infty$, a contradiction.  Hence
+$\neg(\delta\#0)$.  Located fixed-half collapse gives $\delta=0$, and
+\autoref{thm:unified-reality-critical-line-mirror-fixed-surface} reads
+this as $\Re(s)=1/2$.  Varying $z$ supplies the RH fixed-half section.
+\end{proof}
+
+\begin{corollary}[Projection zero needs a zero-relevance boundary]
+\label{cor:unified-reality-projection-zero-needs-zero-relevance-boundary}
+The RH-facing target is not to prevent phase cancellation in the
+completed projection.  It is to prove that the zero projection cannot
+hide nonzero normal height in the prime spiral carrier.
+\end{corollary}
+
+\begin{proof}
+Phase cancellation is exactly what a completed zero projection records.
+By
+\autoref{thm:unified-reality-zero-projection-not-coordinate-synchronization},
+this does not imply common prime-period synchronization.  By
+\autoref{thm:unified-reality-off-half-projection-zeros-carry-infinite-normal-energy},
+an off-half zero projection would carry infinite normal energy.  Thus the
+missing row is the zero-relevance boundary
+\autoref{def:unified-reality-no-hidden-normal-height}, equivalently the
+finite-energy form of the no-hair boundary in
+\autoref{def:unified-reality-zeta-no-hair-boundary}.
+\end{proof}
+
+\begin{corollary}[Quartic dominance is the finite analogue]
+\label{cor:unified-reality-quartic-dominance-finite-analogue}
+The quartic spectral carrier illustrates the same proof-role distinction:
+a projected zero law requires a zero-relevant dominant boundary, not
+merely a visible projected cancellation.
+\end{corollary}
+
+\begin{proof}
+The fixed quartic chain identifies endpoint zeros only after the
+positive-axis dominant sheet and fixed-window separation rows have been
+displayed, as recorded in
+\autoref{thm:unified-reality-quartic-marks-zero-relevance-boundary}.  In
+the zeta carrier, the analogous issue is whether a completed zero
+projection can come from a prime spiral state with hidden normal height.
+The no-hidden-normal-height row is the infinite prime-tower analogue of
+that zero-relevance boundary.
+\end{proof}
