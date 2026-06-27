@@ -19,6 +19,7 @@ try:
         load_rebase_carriers,
         map_carriers_to_assemblies,
         plasmid_target_inventory,
+        prophage_target_inventory,
         tier_a_blow_groups,
         tier_a_rebase_groups,
     )
@@ -30,6 +31,7 @@ except ImportError:  # pragma: no cover - direct script execution
         load_rebase_carriers,
         map_carriers_to_assemblies,
         plasmid_target_inventory,
+        prophage_target_inventory,
         tier_a_blow_groups,
         tier_a_rebase_groups,
     )
@@ -69,34 +71,69 @@ def expected_sites_for_host(carriers: list[dict[str, Any]], target_bp: int) -> f
     return float(sum(values))
 
 
-def decoy_sets_available_for_host(host: str, carriers: list[dict[str, Any]], family_hosts: dict[str, set[str]], family_motifs: dict[str, set[str]]) -> int:
+def motif_profile(row: dict[str, Any]) -> tuple[int, int, bool]:
+    motif = str(row.get("motif_canonical") or "")
+    return (
+        int(row.get("motif_len") or len(motif)),
+        int(row.get("degeneracy") or 1),
+        bool(row.get("palindrome_flag")),
+    )
+
+
+def decoy_sets_available_for_host(
+    host: str,
+    carriers: list[dict[str, Any]],
+    family_hosts: dict[str, set[str]],
+    genus_hosts: dict[str, set[str]],
+    motif_pool: dict[tuple[str, str, tuple[int, int, bool]], set[str]],
+) -> int:
     if not carriers:
         return 0
     family = str(carriers[0].get("gtdb_family") or "")
+    genus = str(carriers[0].get("gtdb_genus") or "")
     own_motifs = {str(row.get("motif_canonical") or "") for row in carriers if row.get("motif_canonical")}
-    other_hosts = max(0, len(family_hosts.get(family, set())) - 1)
-    other_motifs = max(0, len(family_motifs.get(family, set()) - own_motifs))
-    return min(250, other_hosts * other_motifs)
+    if not own_motifs:
+        return 0
+    family_other_hosts = max(0, len(family_hosts.get(family, set())) - 1) if family else 0
+    genus_other_hosts = max(0, len(genus_hosts.get(genus, set())) - 1) if genus else 0
+    total = 0
+    for row in carriers:
+        motif = str(row.get("motif_canonical") or "")
+        if not motif:
+            continue
+        profile = motif_profile(row)
+        family_matches = motif_pool.get(("family", family, profile), set()) - own_motifs if family else set()
+        genus_matches = motif_pool.get(("genus", genus, profile), set()) - own_motifs if genus else set()
+        profile_matches = family_matches | genus_matches
+        total += max(family_other_hosts, genus_other_hosts, 1) * len(profile_matches)
+    return min(250, total)
 
 
 def gate_row(name: str, passed: bool, value: Any, threshold: str, note: str = "") -> dict[str, Any]:
     return {"gate": name, "passed": bool(passed), "value": value, "threshold": threshold, "note": note}
 
 
-def evaluate_gates(mapped_carriers: list[dict[str, Any]], inventory: list[dict[str, Any]]) -> dict[str, Any]:
+def evaluate_gates(mapped_carriers: list[dict[str, Any]], inventory: list[dict[str, Any]], target_source: str) -> dict[str, Any]:
     by_host = carrier_rows_by_host(mapped_carriers)
     targets = host_inventory_map(inventory)
     host_rows: list[dict[str, Any]] = []
     family_hosts: dict[str, set[str]] = defaultdict(set)
-    family_motifs: dict[str, set[str]] = defaultdict(set)
+    genus_hosts: dict[str, set[str]] = defaultdict(set)
+    motif_pool: dict[tuple[str, str, tuple[int, int, bool]], set[str]] = defaultdict(set)
 
     for host, carriers in by_host.items():
         family = str(carriers[0].get("gtdb_family") or "")
+        genus = str(carriers[0].get("gtdb_genus") or "")
         family_hosts[family].add(host)
+        genus_hosts[genus].add(host)
         for row in carriers:
             motif = str(row.get("motif_canonical") or "")
             if motif:
-                family_motifs[family].add(motif)
+                profile = motif_profile(row)
+                if family:
+                    motif_pool[("family", family, profile)].add(motif)
+                if genus:
+                    motif_pool[("genus", genus, profile)].add(motif)
 
     for host, carriers in sorted(by_host.items()):
         target = targets.get(host, {})
@@ -128,7 +165,7 @@ def evaluate_gates(mapped_carriers: list[dict[str, Any]], inventory: list[dict[s
     decoy_values = []
     for row in ec_eligible:
         host = str(row["host_accession"])
-        decoy = decoy_sets_available_for_host(host, by_host[host], family_hosts, family_motifs)
+        decoy = decoy_sets_available_for_host(host, by_host[host], family_hosts, genus_hosts, motif_pool)
         row["decoy_sets_available"] = decoy
         decoy_values.append(float(decoy))
     primary_hosts = [row for row in ec_eligible if int(row.get("decoy_sets_available", 0)) >= MIN_DECOY_SETS]
@@ -184,7 +221,8 @@ def evaluate_gates(mapped_carriers: list[dict[str, Any]], inventory: list[dict[s
     return {
         "N_hosts": len(primary_hosts),
         "N_families": len(primary_families),
-        "N_hosts_with_plasmid_target": len(target_hosts),
+        "N_hosts_with_target": len(target_hosts),
+        f"N_hosts_with_{target_source}_target": len(target_hosts),
         "N_hosts_after_target_bp_filter": len(bp_eligible),
         "N_hosts_after_expected_site_filter": len(ec_eligible),
         "exact_match_fraction": exact_fraction,
@@ -203,6 +241,7 @@ def main() -> int:
     deadline_seconds = float(os.environ.get("RM_FETCH_DEADLINE_SECONDS", "300"))
     deadline = time.monotonic() + deadline_seconds if deadline_seconds > 0 else None
     carrier_source = os.environ.get("RM_CARRIER_SOURCE", "blow").strip().lower() or "blow"
+    target_source = os.environ.get("RM_TARGET_SOURCE", "prophage").strip().lower() or "prophage"
 
     if carrier_source == "rebase":
         source_rows, source_meta = load_rebase_carriers(deadline=deadline)
@@ -213,9 +252,15 @@ def main() -> int:
     else:
         print(json.dumps({"error": "unknown_RM_CARRIER_SOURCE", "RM_CARRIER_SOURCE": carrier_source}, sort_keys=True))
         return 4
+    if target_source not in {"prophage", "plasmid"}:
+        print(json.dumps({"error": "unknown_RM_TARGET_SOURCE", "RM_TARGET_SOURCE": target_source}, sort_keys=True))
+        return 4
     mapped_carriers, mapping_meta = map_carriers_to_assemblies(carrier_rows, host_limit=host_limit, deadline=deadline)
-    inventory, target_meta = plasmid_target_inventory(mapped_carriers, deadline=deadline)
-    gate_result = evaluate_gates(mapped_carriers, inventory)
+    if target_source == "plasmid":
+        inventory, target_meta = plasmid_target_inventory(mapped_carriers, deadline=deadline)
+    else:
+        inventory, target_meta = prophage_target_inventory(mapped_carriers, deadline=deadline)
+    gate_result = evaluate_gates(mapped_carriers, inventory, target_source)
 
     evidence_counts = Counter(str(row.get("evidence_tier") or "") for row in mapped_carriers)
     match_counts = Counter(str(row.get("match_mode") or "") for row in mapped_carriers)
@@ -225,6 +270,7 @@ def main() -> int:
         "generated_at": now_iso(),
         "host_limit": host_limit,
         "carrier_source": carrier_source,
+        "target_source": target_source,
         "runtime_seconds": round(time.monotonic() - started, 3),
         "predata_gate_only": True,
         "target_signal_counts_computed": False,
@@ -263,12 +309,14 @@ def main() -> int:
             ],
         },
         "worker_2_target_audit": {
-            "target_type": "plasmid",
+            "target_type": target_source,
             "n_hosts_checked": target_meta.get("n_hosts_checked", 0),
-            "n_hosts_with_plasmid": sum(1 for row in inventory if int(row.get("num_targets") or 0) > 0),
+            "n_hosts_with_target": sum(1 for row in inventory if int(row.get("num_targets") or 0) > 0),
+            "n_hosts_with_plasmid": sum(1 for row in inventory if int(row.get("num_targets") or 0) > 0) if target_source == "plasmid" else 0,
+            "n_hosts_with_prophage": sum(1 for row in inventory if int(row.get("num_targets") or 0) > 0) if target_source == "prophage" else 0,
             "target_inventory_schema": ["host_accession", "target_type", "num_targets", "total_target_bp", "median_target_len"],
             "target_fetch": target_meta,
-            "prophage": {"skipped": True, "reason": "pre-data gate primary target is plasmid; prophage source not required for this smoke probe."},
+            "prophage": target_meta.get("flinders", {}) if target_source == "prophage" else {"skipped": True, "reason": "RM_TARGET_SOURCE=plasmid"},
         },
         "availability_gate": gate_result,
     }
