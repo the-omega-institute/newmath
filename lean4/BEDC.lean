@@ -7556,6 +7556,7 @@ import BEDC.Derived.LocatedPositiveRealUp.TasteGate
 import BEDC.Derived.LocatedReal
 import BEDC.Derived.LocatedReal.RatMetricKit
 import BEDC.Derived.LocatedReal.ToleranceClose
+import BEDC.Derived.NonCollapseInvariantUp
 import BEDC.Derived.LocatedRealBisectionSearchUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCompletenessUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCriterionUp.TasteGate
