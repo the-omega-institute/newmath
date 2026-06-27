@@ -55,7 +55,7 @@
         "replication_status": "not_claimed"
       },
       "metrics": {
-        "finite_row_count": 71,
+        "finite_row_count": 73,
         "has_reality_contact": true,
         "has_probe_contact_mismatch_chain": true
       },
@@ -547,6 +547,22 @@
           "severity": "missing_context",
           "evidence_pointer": "mismatch:q6.translation-conditioned.in-cell-accessibility-residual.cross-layer.operator-review.in-cell-accessibility-panel-gap",
           "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:codon-coordinate.translation-gated.rna-accessibility-readback.cross-layer.operator-review.accessibility-readback-panel-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:codon-coordinate.translation-conditioned.rna-accessibility.cross-layer.operator-review.accessibility-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
         }
       ],
       "not_claimed": [
@@ -632,41 +648,69 @@
           "q6.translation-conditioned.rna-accessibility-residual.cross-layer.operator-review.accessibility-panel-gap",
           "q6.translation-conditioned.residual-rna-accessibility.cross-layer.operator-review.accessibility-contact-gap",
           "codon-coordinate.geometry.translation-conditioned.rna-accessibility.cross-layer.operator-review.accessibility-reality-contact-gap",
-          "q6.translation-conditioned.in-cell-accessibility-residual.cross-layer.operator-review.in-cell-accessibility-panel-gap"
+          "q6.translation-conditioned.in-cell-accessibility-residual.cross-layer.operator-review.in-cell-accessibility-panel-gap",
+          "codon-coordinate.translation-gated.rna-accessibility-readback.cross-layer.operator-review.accessibility-readback-panel-gap",
+          "codon-coordinate.translation-conditioned.rna-accessibility.cross-layer.operator-review.accessibility-contact-gap"
         ],
         "gate_result_ref": "conjecture:codon-coordinate.geometry.translation-conditioned.rna-accessibility.cross-layer"
       }
     },
     {
-      "packet_id": "codon.window6.local.tile.boundary",
-      "claim_id": "h0.R.cardinality.13",
-      "claimed_layer": "code_read",
+      "packet_id": "codon-coordinate.translation-conditioned.rna-accessibility.cross-layer",
+      "claim_id": "h3.codon_usage_topology.residual_basis.q6_topology_after_aa_quotient",
+      "claimed_layer": "cross_layer_relation",
       "export_status": "review_ready",
       "source_spec": {
         "reality_contacts": [
-          "curated.standard.code.table"
+          "codon-usage-per-organism",
+          "ribosome-profiling-translation-efficiency",
+          "position-resolved-ribosome-occupancy-window",
+          "matched-mrna-abundance-control",
+          "trna-gene-copy-numbers",
+          "tai-or-stai-weights",
+          "matched-proteomics-protein-abundance"
         ],
         "can_test": [
-          "code_read",
-          "local codon tile label split"
+          "translation_realization",
+          "cross_layer_relation",
+          "codon usage distribution",
+          "B*_Q6 residual coordinate survival on translation efficiency under amino-acid composition + GC3 + length + M-density baseline controls",
+          "position-resolved ribosome occupancy readback",
+          "cross_layer_relation boundary for f_3-stress only after same-row codon counts, wobble-weight surface, matched mRNA control, rank checks, and position or amino-acid-bin controls are attached",
+          "isolation of translation-layer signal from transcription-layer signal via TE residual",
+          "tRNA-Leu gene-copy spectrum",
+          "codon adaptation weight readback",
+          "downstream mediation chain Q_i -> T_j (translation readout) -> P_k (protein abundance) once both translation and protein contacts are attached"
         ],
         "cannot_test": [
-          "translation realization",
-          "structural order",
+          "folded structure",
           "physical admissibility",
-          "function realization"
+          "function realization",
+          "global biological law",
+          "protein folding, mature protein abundance, function, mechanism, or universality from ribo-seq alone",
+          "translation realization from codon or window geometry alone",
+          "measured translation efficiency from modeled tAI or stAI alone",
+          "protein abundance",
+          "protein folding",
+          "structural order",
+          "system phenotype",
+          "translation mechanism",
+          "translation realization from transcript abundance alone",
+          "CUN/UUR versus tRNA-Leu association without matched codon-usage and tRNA-copy contacts",
+          "protein folding, physical admissibility, function, or universality from transcript counts alone",
+          "folding pathway dynamics",
+          "physical admissibility from steady-state abundance alone"
         ]
       },
       "pattern_spec": {
         "internal_surfaces": [
           "coordinate",
-          "closure",
-          "spectrum",
-          "relation"
+          "relation",
+          "trigger"
         ],
         "probe_refs": [
-          "codon.local.tile.no.global.law",
-          "codon.label.readback.not.translation"
+          "residual-basis.translation-readout-boundary.no-promotion",
+          "q6.three-matrix.protein-readout-boundary.no-promotion"
         ]
       },
       "classifier_spec": {
@@ -680,73 +724,17 @@
         "replication_status": "not_claimed"
       },
       "metrics": {
-        "finite_row_count": 16,
+        "finite_row_count": 124,
         "has_reality_contact": true,
         "has_probe_contact_mismatch_chain": true
       },
       "ledger_rows": [
         {
-          "kind": "source",
-          "residue": "higher-layer-contact-missing:codon_usage_topology",
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
           "status": "open",
-          "severity": "boundary",
-          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:codon_usage_topology",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "source",
-          "residue": "higher-layer-contact-missing:orf_eligibility",
-          "status": "open",
-          "severity": "boundary",
-          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:orf_eligibility",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "source",
-          "residue": "higher-layer-contact-missing:translation_realization",
-          "status": "open",
-          "severity": "boundary",
-          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:translation_realization",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "source",
-          "residue": "higher-layer-contact-missing:structural_order",
-          "status": "open",
-          "severity": "boundary",
-          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:structural_order",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "source",
-          "residue": "higher-layer-contact-missing:physical_admissibility",
-          "status": "open",
-          "severity": "boundary",
-          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:physical_admissibility",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "source",
-          "residue": "higher-layer-contact-missing:function_realization",
-          "status": "open",
-          "severity": "boundary",
-          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:function_realization",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "source",
-          "residue": "higher-layer-contact-missing:system_phenotype",
-          "status": "open",
-          "severity": "boundary",
-          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:system_phenotype",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "source",
-          "residue": "higher-layer-contact-missing:cross_layer_relation",
-          "status": "open",
-          "severity": "boundary",
-          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:cross_layer_relation",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:cross-organism.cun-uur-trna-leu.paired-statistic-gap",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -754,15 +742,7 @@
           "residue": "mismatch-open:blocked_null:missing_context",
           "status": "open",
           "severity": "missing_context",
-          "evidence_pointer": "mismatch:codon.label.readback.not.folded.structure",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:codon.label.readback.not.translation",
+          "evidence_pointer": "mismatch:residual-basis.m-only-local-optimum.controlled-readout-gap",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -770,23 +750,15 @@
           "residue": "mismatch-open:blocked_null:scope_too_large",
           "status": "open",
           "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:curated.standard.code-table.cross-organism-id-shape-boundary",
+          "evidence_pointer": "mismatch:cross-organism.cun-uur-trna-leu.id-shape-boundary",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
           "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:scope_too_large",
+          "residue": "mismatch-open:blocked_null:mechanism_gap",
           "status": "open",
-          "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:codon.label.readback.invalid-cross-organism-probe-token",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:scope_too_large",
-          "status": "open",
-          "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:codon.label.readback.folded-structure.invalid-probe-token",
+          "severity": "mechanism_gap",
+          "evidence_pointer": "mismatch:cross-organism.cun-uur-translation-boundary.ribosome-output-contact-gap",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -795,6 +767,14 @@
           "status": "open",
           "severity": "scope_too_large",
           "evidence_pointer": "mismatch:matched-mrna-abundance-control.id-shape-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:leu-cun-uur-multi-organism-extension.eight-organism-contact-gap",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -815,10 +795,66 @@
         },
         {
           "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:ribosome-profiling-translation-efficiency.b-star-q6-survival.no-promotion",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:scope_too_large",
+          "status": "open",
+          "severity": "scope_too_large",
+          "evidence_pointer": "mismatch:tai-or-stai-weights.blocked-shape.normalized-id-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:mechanism_gap",
+          "status": "open",
+          "severity": "mechanism_gap",
+          "evidence_pointer": "mismatch:translation-survival.b-star-q6-survival-matrix.mrna-control-mechanism-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
           "residue": "mismatch-open:blocked_null:scope_too_large",
           "status": "open",
           "severity": "scope_too_large",
           "evidence_pointer": "mismatch:codon.label.readback.folded-structure.mrna-control-invalid-token",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:matched-proteomics-protein-abundance.b-star-q6-survival.no-promotion",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:scope_too_large",
+          "status": "open",
+          "severity": "scope_too_large",
+          "evidence_pointer": "mismatch:matched-mrna-abundance-control.blocked-shape-routing-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:scope_too_large",
+          "status": "open",
+          "severity": "scope_too_large",
+          "evidence_pointer": "mismatch:residual-basis.translation-readout-boundary.mrna-control-id-shape",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:scope_too_large",
+          "status": "open",
+          "severity": "scope_too_large",
+          "evidence_pointer": "mismatch:orf-eligibility.seed.boundary.conjecture-id-shape-routing",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -828,184 +864,13 @@
           "severity": "scope_too_large",
           "evidence_pointer": "mismatch:curated.standard.code-table.cross-organism-id-shape-boundary.mrna-control-contact",
           "owner": "tools.bio_reality.quality_lab_export"
-        }
-      ],
-      "not_claimed": [
-        "A local codon tile is not a global biological law.",
-        "Window-six geometry alone is not translation, structure, physical admissibility, or function.",
-        "Amino-acid label-sequence readback is not folded protein structure.",
-        "codon usage topology",
-        "orf eligibility",
-        "translation realization",
-        "structural order",
-        "physical admissibility",
-        "function realization",
-        "system phenotype",
-        "cross layer relation"
-      ],
-      "artifacts": {
-        "bedc_module": "papers/bedc/parts/concrete_instances/115309_bioreality_q_six_leave_one_codon_boundary_namecert_construction.tex",
-        "bio_paper": "papers/bio_reality/parts/codon_window_reality_boundary/window_six_codon_tiles_at_the_code_layer.tex"
-      },
-      "fact_owner": {
-        "contact_refs": [
-          "curated.standard.code.table"
-        ],
-        "probe_refs": [
-          "codon.local.tile.no.global.law",
-          "codon.label.readback.not.translation"
-        ],
-        "mismatch_refs": [
-          "codon.local.tile.scope.boundary",
-          "codon.label.readback.not.folded.structure",
-          "codon.label.readback.not.translation",
-          "curated.standard.code-table.cross-organism-id-shape-boundary",
-          "codon.label.readback.invalid-cross-organism-probe-token",
-          "codon.label.readback.folded-structure.invalid-probe-token",
-          "matched-mrna-abundance-control.id-shape-boundary",
-          "matched-mrna-abundance-control.cross-organism-cun-uur-control-boundary",
-          "cross-organism.cun-uur-translation-boundary.mrna-control-contact-scope",
-          "codon.label.readback.folded-structure.mrna-control-invalid-token",
-          "curated.standard.code-table.cross-organism-id-shape-boundary.mrna-control-contact"
-        ],
-        "gate_result_ref": "conjecture:codon.window6.local.tile.boundary"
-      }
-    },
-    {
-      "packet_id": "cross-organism.cun-uur-leu-gate.translation-realization",
-      "claim_id": "h3.translation_realization.cross_organism.cun_uur_leu_gate",
-      "claimed_layer": "translation_realization",
-      "export_status": "review_ready",
-      "source_spec": {
-        "reality_contacts": [
-          "codon-usage-per-organism",
-          "trna-gene-copy-numbers"
-        ],
-        "can_test": [
-          "translation_realization",
-          "cross_layer_relation",
-          "codon usage distribution",
-          "tRNA-Leu gene-copy spectrum"
-        ],
-        "cannot_test": [
-          "folded structure",
-          "physical admissibility",
-          "function realization",
-          "global biological law"
-        ]
-      },
-      "pattern_spec": {
-        "internal_surfaces": [
-          "coordinate",
-          "relation"
-        ],
-        "probe_refs": [
-          "cross-organism.cun-uur-sign-correlates-with-trna-leu",
-          "cross-organism.cun-uur-translation-boundary.no-promotion"
-        ]
-      },
-      "classifier_spec": {
-        "gate_status": "gate_passed",
-        "review_decision": "review_ready",
-        "blocked_overclaim": false
-      },
-      "stability_spec": {
-        "sample_scope": "finite_rows",
-        "population_claim": false,
-        "replication_status": "not_claimed"
-      },
-      "metrics": {
-        "finite_row_count": 18,
-        "has_reality_contact": true,
-        "has_probe_contact_mismatch_chain": true
-      },
-      "ledger_rows": [
-        {
-          "kind": "source",
-          "residue": "higher-layer-contact-missing:structural_order",
-          "status": "open",
-          "severity": "boundary",
-          "evidence_pointer": "conjecture:cross-organism.cun-uur-leu-gate.translation-realization#layer:structural_order",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "source",
-          "residue": "higher-layer-contact-missing:physical_admissibility",
-          "status": "open",
-          "severity": "boundary",
-          "evidence_pointer": "conjecture:cross-organism.cun-uur-leu-gate.translation-realization#layer:physical_admissibility",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "source",
-          "residue": "higher-layer-contact-missing:function_realization",
-          "status": "open",
-          "severity": "boundary",
-          "evidence_pointer": "conjecture:cross-organism.cun-uur-leu-gate.translation-realization#layer:function_realization",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "source",
-          "residue": "higher-layer-contact-missing:system_phenotype",
-          "status": "open",
-          "severity": "boundary",
-          "evidence_pointer": "conjecture:cross-organism.cun-uur-leu-gate.translation-realization#layer:system_phenotype",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:cross-organism.cun-uur-trna-leu.paired-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
         },
         {
           "kind": "boundary",
           "residue": "mismatch-open:blocked_null:scope_too_large",
           "status": "open",
           "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:cross-organism.cun-uur-trna-leu.id-shape-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:scope_too_large",
-          "status": "open",
-          "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:curated.standard.code-table.cross-organism-id-shape-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:scope_too_large",
-          "status": "open",
-          "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:codon.label.readback.invalid-cross-organism-probe-token",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:mechanism_gap",
-          "status": "open",
-          "severity": "mechanism_gap",
-          "evidence_pointer": "mismatch:cross-organism.cun-uur-translation-boundary.ribosome-output-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:leu-cun-uur-multi-organism-extension.eight-organism-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:scope_too_large",
-          "status": "open",
-          "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:orf-eligibility.seed.boundary.conjecture-id-shape-routing",
+          "evidence_pointer": "mismatch:matched-mrna-abundance-control.blocked-shape-event-contact-boundary",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -1034,102 +899,899 @@
         },
         {
           "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:b-star-q6-survival-matrix-break-condition.underscore-event-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
           "residue": "mismatch-open:blocked_null:scope_too_large",
           "status": "open",
           "severity": "scope_too_large",
           "evidence_pointer": "mismatch:cross-organism.cun-uur-leu-gate.operator-review-population-boundary",
           "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:residual-basis.operator-review.translation-output-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:translation-survival.b-star-q6-survival-matrix.operator-review-survival-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-mediated.protein-abundance.operator-review-mediation-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-protein-boundary.before-function-phenotype.operator-review-higher-layer-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-readout-coupling-matrix.operator-review-readout-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-gated.structural-order.operator-review-structure-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-mediated.protein-function-boundary.operator-review-function-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.rank-powered.translation-survival.operator-review.measured-readout-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.rank-powered.translation-conditioned.protein-mediation.operator-review-mediation-matrix-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-mediated.system-phenotype-boundary.operator-review-phenotype-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.physical-admissibility-boundary.operator-review-physical-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.post-translational-state.operator-review-state-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.protein-stability-boundary.operator-review-stability-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.protein-localization-boundary.operator-review-localization-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.n3-rank-degenerate.translation-survival-refusal.operator-review-rank-saturation-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.four-case-survival-discriminant.operator-review-discriminant-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.rank-admissible.translation-survival-gate.operator-review.measured-readout-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.protein-interaction-boundary.operator-review-interaction-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.ribosome-te-survival.with-mrna-control.operator-review-te-row-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.three-matrix.protein-readout-boundary.no-promotion.proteomics-context-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-protein-mediated.functional-annotation-boundary.operator-review-function-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-mediated.protein-localization.operator-review-mediated-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.four-case.translation-protein-discriminant.operator-review-joined-matrix-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.mrna-controlled.translation-efficiency-survival.operator-review-joined-te-matrix-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.three-organism.rank-degenerate.translation-survival-refusal.operator-review-measured-readout-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-mediated.protein-localization-readout.operator-review-mediated-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.modeled-to-observed.translation-readout-calibration.operator-review-joined-te-calibration-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:partially_aligned:scope_too_large",
+          "status": "partial",
+          "severity": "scope_too_large",
+          "evidence_pointer": "mismatch:q6.residual-basis-extraction.greedy-readout.persistence-boundary.scope-review",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.residual-basis-extraction.greedy-readout.persistence-boundary.operator-review-layer-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-abundance-conditioned.protein-localization-boundary.operator-review-joined-localization-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.protein-localization-mediation.operator-review-joined-mediation-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-efficiency.after-mrna-control.operator-review-joined-te-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-abundance-conditioned.protein-localization.operator-review-joined-localization-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-and-abundance-conditioned.protein-localization.operator-review-joined-localization-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.direct-protein-omics-survival.with-translation-boundary.operator-review-protein-abundance-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.wobble-broken.translation-readout.operator-review.same-row-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.residual-basis-extraction.greedy-readout.operator-review.residual-blind-readout-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-survival.rank-admissibility-boundary.operator-review.measured-readout-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-protein-localization.gated-readout.operator-review.joined-chain-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.mrna-controlled.translation-efficiency-boundary.operator-review.same-row-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-readout.operator-review.position-resolved-readout-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary.operator-review.window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.cross-layer.operator-review.window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved.translation-occupancy.cross-layer.operator-review.window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-realization.operator-review.window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-readout.cross-layer.operator-review.window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary.operator-review.source-row-join-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:f3-stress.position-resolved-ribosome-occupancy.translation-realization.operator-review.window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:f3-stress.position-resolved-ribosome-occupancy.translation-realization.review-boundary.operator-review.source-row-join-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved.translation-readout.cross-layer.operator-review.window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved.translation-window.cross-layer.operator-review.window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-translation-readout.cross-layer.operator-review.window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-translation-survival.cross-layer.operator-review.survival-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-translation-survival.operator-review.survival-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-window.translation-realization.operator-review.window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-translation-window.same-window-boundary.operator-review.window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-window.cross-layer.operator-review.joined-window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-protein-conditioned.localization-boundary.cross-layer.operator-review.translation-protein-localization-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-gated.rbp-decay-rna-half-life.boundary.operator-review.rbp-decay-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-bounded.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-gated.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.rbp-mediated-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-attached.rbp-bridged-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.rbp-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-half-life-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-gated.rna-half-life.rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-half-life.rbp-bridge-boundary.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.rbp-rna-half-life-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.rbp-bridged-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-half-life-boundary.cross-layer.operator-review.external-reality-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-mediated.rna-half-life-boundary.cross-layer.operator-review.external-reality-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-translation-occupancy.cross-layer.operator-review.window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-half-life.cross-layer.operator-review.same-row-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-protein-mediated.localization-readout.cross-layer.operator-review.translation-protein-localization-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-window.operator-review.source-row-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-readout.proteomics.mediation.mrna-control.cross-layer.operator-review.same-row-mediation-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:scope_too_large",
+          "status": "open",
+          "severity": "scope_too_large",
+          "evidence_pointer": "mismatch:q6.three-matrix.translation-protein.mediation.cross-layer.folding-localization-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:scope_too_large",
+          "status": "open",
+          "severity": "scope_too_large",
+          "evidence_pointer": "mismatch:q6.translation-to-protein.mediation.matrix.cross-layer.protein-abundance-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.protein-mediation.matrix.cross-layer.operator-review.same-row-mediation-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-window.ribosome-occupancy.translation-boundary.operator-review.same-window-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved.translation-readout-survival.operator-review.source-row-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-accessibility-residual.cross-layer.operator-review.accessibility-panel-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.residual-rna-accessibility.cross-layer.operator-review.accessibility-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:codon-coordinate.geometry.translation-conditioned.rna-accessibility.cross-layer.operator-review.accessibility-reality-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.translation-conditioned.in-cell-accessibility-residual.cross-layer.operator-review.in-cell-accessibility-panel-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:codon-coordinate.translation-gated.rna-accessibility-readback.cross-layer.operator-review.accessibility-readback-panel-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:codon-coordinate.translation-conditioned.rna-accessibility.cross-layer.operator-review.accessibility-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
         }
       ],
       "not_claimed": [
-        "Does not assert ribosome-mediated translation realization beyond the attached codon-usage and tRNA-copy contacts.",
-        "Does not assert protein structure, folding, function, or physical admissibility.",
-        "Does not interpret context-dependent reversal as a universal rule.",
-        "Does not bypass amino-acid composition controls; raw log-ratio without control is not a translation claim.",
-        "Does not promote to higher layers (structure, function) without a separate reality contact.",
-        "structural order",
-        "physical admissibility",
-        "function realization",
-        "system phenotype",
-        "cross layer relation"
+        "Do not claim that codon-coordinate readback determines RNA accessibility unless a same-window translation readout or load clamp is attached first.",
+        "Do not promote codon-usage, codon-pair, generic RNA-folding, or translation-load effects to coordinate-mediated accessibility when coordinate-destroyed null readbacks perform as well as the true readback.",
+        "Do not infer folded RNA structure, protein function, or phenotype from an accessibility residual without the mandatory translation-readout boundary and a separate downstream contact."
       ],
       "artifacts": {
-        "bedc_module": "papers/bedc/parts/concrete_instances/115309_bioreality_q_six_leave_one_codon_boundary_namecert_construction.tex",
-        "bio_paper": "papers/bio_reality/parts/namecerts/h3_translation_realization_cross_organism_cun_uur_leu_gate.tex"
+        "bedc_module": "papers/bedc/parts/concrete_instances/115313_bioreality_q_six_translation_complement_residual_namecert_construction.tex",
+        "bio_paper": "papers/bio_reality/parts/codon_window_reality_boundary/q6_translation_conditioned_in_cell_accessibility_residual_cross_layer.tex"
       },
       "fact_owner": {
         "contact_refs": [
           "codon-usage-per-organism",
-          "trna-gene-copy-numbers"
+          "ribosome-profiling-translation-efficiency",
+          "position-resolved-ribosome-occupancy-window",
+          "matched-mrna-abundance-control",
+          "trna-gene-copy-numbers",
+          "tai-or-stai-weights",
+          "matched-proteomics-protein-abundance"
         ],
         "probe_refs": [
-          "cross-organism.cun-uur-sign-correlates-with-trna-leu",
-          "cross-organism.cun-uur-translation-boundary.no-promotion"
+          "residual-basis.translation-readout-boundary.no-promotion",
+          "q6.three-matrix.protein-readout-boundary.no-promotion"
         ],
         "mismatch_refs": [
           "cross-organism.cun-uur-trna-leu.paired-statistic-gap",
+          "residual-basis.m-only-local-optimum.controlled-readout-gap",
           "cross-organism.cun-uur-trna-leu.id-shape-boundary",
-          "curated.standard.code-table.cross-organism-id-shape-boundary",
-          "codon.label.readback.invalid-cross-organism-probe-token",
           "cross-organism.cun-uur-translation-boundary.no-promotion.scope-review",
           "cross-organism.cun-uur-translation-boundary.ribosome-output-contact-gap",
+          "residual-basis.translation-readout-boundary.no-promotion.scope-review",
+          "matched-mrna-abundance-control.id-shape-boundary",
           "leu-cun-uur-multi-organism-extension.eight-organism-contact-gap",
+          "matched-mrna-abundance-control.cross-organism-cun-uur-control-boundary",
+          "cross-organism.cun-uur-translation-boundary.mrna-control-contact-scope",
+          "ribosome-profiling-translation-efficiency.b-star-q6-survival.no-promotion",
+          "tai-or-stai-weights.blocked-shape.normalized-id-boundary",
+          "translation-survival.b-star-q6-survival-matrix.mrna-control-mechanism-gap",
+          "codon.label.readback.folded-structure.mrna-control-invalid-token",
+          "matched-proteomics-protein-abundance.b-star-q6-survival.no-promotion",
+          "matched-mrna-abundance-control.blocked-shape-routing-boundary",
+          "residual-basis.translation-readout-boundary.mrna-control-id-shape",
           "orf-eligibility.seed.boundary.conjecture-id-shape-routing",
+          "curated.standard.code-table.cross-organism-id-shape-boundary.mrna-control-contact",
+          "matched-mrna-abundance-control.blocked-shape-event-contact-boundary",
           "cross-organism.cun-uur-translation-boundary.ribosome-output-contact-gap.mrna-control-id-shape",
           "cross-organism.cun-uur-translation-boundary.blocked-shape-id-normalization",
           "codon-usage-per-organism.blocked-shape-contact-eight-boundary",
-          "cross-organism.cun-uur-leu-gate.operator-review-population-boundary"
+          "b-star-q6-survival-matrix-break-condition.underscore-event-contact-gap",
+          "cross-organism.cun-uur-leu-gate.operator-review-population-boundary",
+          "residual-basis.operator-review.translation-output-contact-gap",
+          "translation-survival.b-star-q6-survival-matrix.operator-review-survival-boundary",
+          "q6.translation-mediated.protein-abundance.operator-review-mediation-boundary",
+          "q6.translation-protein-boundary.before-function-phenotype.operator-review-higher-layer-gap",
+          "q6.translation-readout-coupling-matrix.operator-review-readout-boundary",
+          "q6.translation-gated.structural-order.operator-review-structure-contact-gap",
+          "q6.translation-mediated.protein-function-boundary.operator-review-function-contact-gap",
+          "q6.rank-powered.translation-survival.operator-review.measured-readout-gap",
+          "q6.rank-powered.translation-conditioned.protein-mediation.operator-review-mediation-matrix-gap",
+          "q6.translation-mediated.system-phenotype-boundary.operator-review-phenotype-contact-gap",
+          "q6.translation-conditioned.physical-admissibility-boundary.operator-review-physical-contact-gap",
+          "q6.translation-conditioned.post-translational-state.operator-review-state-contact-gap",
+          "q6.translation-conditioned.protein-stability-boundary.operator-review-stability-contact-gap",
+          "q6.translation-conditioned.protein-localization-boundary.operator-review-localization-contact-gap",
+          "q6.n3-rank-degenerate.translation-survival-refusal.operator-review-rank-saturation-boundary",
+          "q6.translation-conditioned.four-case-survival-discriminant.operator-review-discriminant-boundary",
+          "q6.rank-admissible.translation-survival-gate.operator-review.measured-readout-boundary",
+          "q6.translation-conditioned.protein-interaction-boundary.operator-review-interaction-contact-gap",
+          "q6.ribosome-te-survival.with-mrna-control.operator-review-te-row-gap",
+          "q6.three-matrix.protein-readout-boundary.no-promotion.proteomics-context-gap",
+          "q6.translation-protein-mediated.functional-annotation-boundary.operator-review-function-contact-gap",
+          "q6.translation-mediated.protein-localization.operator-review-mediated-statistic-gap",
+          "q6.four-case.translation-protein-discriminant.operator-review-joined-matrix-gap",
+          "q6.mrna-controlled.translation-efficiency-survival.operator-review-joined-te-matrix-gap",
+          "q6.three-organism.rank-degenerate.translation-survival-refusal.operator-review-measured-readout-boundary",
+          "q6.translation-mediated.protein-localization-readout.operator-review-mediated-statistic-gap",
+          "q6.modeled-to-observed.translation-readout-calibration.operator-review-joined-te-calibration-gap",
+          "q6.residual-basis-extraction.greedy-readout.persistence-boundary.scope-review",
+          "q6.residual-basis-extraction.greedy-readout.persistence-boundary.operator-review-layer-statistic-gap",
+          "q6.translation-abundance-conditioned.protein-localization-boundary.operator-review-joined-localization-statistic-gap",
+          "q6.translation-conditioned.protein-localization-mediation.operator-review-joined-mediation-statistic-gap",
+          "q6.translation-efficiency.after-mrna-control.operator-review-joined-te-statistic-gap",
+          "q6.translation-abundance-conditioned.protein-localization.operator-review-joined-localization-statistic-gap",
+          "q6.translation-and-abundance-conditioned.protein-localization.operator-review-joined-localization-statistic-gap",
+          "q6.direct-protein-omics-survival.with-translation-boundary.operator-review-protein-abundance-statistic-gap",
+          "q6.f3-stress.wobble-broken.translation-readout.operator-review.same-row-statistic-gap",
+          "q6.residual-basis-extraction.greedy-readout.operator-review.residual-blind-readout-gap",
+          "q6.translation-survival.rank-admissibility-boundary.operator-review.measured-readout-gap",
+          "q6.translation-protein-localization.gated-readout.operator-review.joined-chain-statistic-gap",
+          "q6.mrna-controlled.translation-efficiency-boundary.operator-review.same-row-statistic-gap",
+          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-readout.operator-review.position-resolved-readout-gap",
+          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary.operator-review.window-statistic-gap",
+          "q6.f3-stress.position-resolved-ribosome-occupancy.cross-layer.operator-review.window-statistic-gap",
+          "q6.f3-stress.position-resolved.translation-occupancy.cross-layer.operator-review.window-statistic-gap",
+          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-realization.operator-review.window-statistic-gap",
+          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-readout.cross-layer.operator-review.window-statistic-gap",
+          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary.operator-review.source-row-join-gap",
+          "f3-stress.position-resolved-ribosome-occupancy.translation-realization.operator-review.window-statistic-gap",
+          "f3-stress.position-resolved-ribosome-occupancy.translation-realization.review-boundary.operator-review.source-row-join-gap",
+          "q6.f3-stress.position-resolved.translation-readout.cross-layer.operator-review.window-statistic-gap",
+          "q6.f3-stress.position-resolved.translation-window.cross-layer.operator-review.window-statistic-gap",
+          "q6.f3-stress.position-resolved-translation-readout.cross-layer.operator-review.window-statistic-gap",
+          "q6.f3-stress.position-resolved-translation-survival.cross-layer.operator-review.survival-statistic-gap",
+          "q6.f3-stress.position-resolved-translation-survival.operator-review.survival-statistic-gap",
+          "q6.f3-stress.position-resolved-ribosome-window.translation-realization.operator-review.window-statistic-gap",
+          "q6.f3-stress.position-resolved-translation-window.same-window-boundary.operator-review.window-statistic-gap",
+          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-window.cross-layer.operator-review.joined-window-statistic-gap",
+          "q6.translation-protein-conditioned.localization-boundary.cross-layer.operator-review.translation-protein-localization-gap",
+          "q6.translation-gated.rbp-decay-rna-half-life.boundary.operator-review.rbp-decay-contact-gap",
+          "q6.translation-bounded.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "q6.translation-gated.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "q6.translation-conditioned.rbp-mediated-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "q6.translation-attached.rbp-bridged-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "q6.translation-conditioned.rbp-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "q6.translation-conditioned.rna-half-life-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "q6.translation-conditioned.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "q6.translation-gated.rna-half-life.rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "q6.translation-conditioned.rna-half-life.rbp-bridge-boundary.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "q6.translation-conditioned.rbp-rna-half-life-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "q6.translation-conditioned.rbp-bridged-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
+          "q6.translation-conditioned.rna-half-life-boundary.cross-layer.operator-review.external-reality-boundary",
+          "q6.translation-mediated.rna-half-life-boundary.cross-layer.operator-review.external-reality-boundary",
+          "q6.f3-stress.position-resolved-translation-occupancy.cross-layer.operator-review.window-statistic-gap",
+          "q6.translation-conditioned.rna-half-life.cross-layer.operator-review.same-row-statistic-gap",
+          "q6.translation-protein-mediated.localization-readout.cross-layer.operator-review.translation-protein-localization-statistic-gap",
+          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-window.operator-review.source-row-statistic-gap",
+          "q6.translation-readout.proteomics.mediation.mrna-control.cross-layer.operator-review.same-row-mediation-statistic-gap",
+          "q6.three-matrix.translation-protein.mediation.cross-layer.folding-localization-boundary",
+          "q6.translation-to-protein.mediation.matrix.cross-layer.protein-abundance-boundary",
+          "q6.translation-conditioned.protein-mediation.matrix.cross-layer.operator-review.same-row-mediation-statistic-gap",
+          "q6.f3-stress.position-window.ribosome-occupancy.translation-boundary.operator-review.same-window-statistic-gap",
+          "q6.f3-stress.position-resolved.translation-readout-survival.operator-review.source-row-statistic-gap",
+          "q6.translation-conditioned.rna-accessibility-residual.cross-layer.operator-review.accessibility-panel-gap",
+          "q6.translation-conditioned.residual-rna-accessibility.cross-layer.operator-review.accessibility-contact-gap",
+          "codon-coordinate.geometry.translation-conditioned.rna-accessibility.cross-layer.operator-review.accessibility-reality-contact-gap",
+          "q6.translation-conditioned.in-cell-accessibility-residual.cross-layer.operator-review.in-cell-accessibility-panel-gap",
+          "codon-coordinate.translation-gated.rna-accessibility-readback.cross-layer.operator-review.accessibility-readback-panel-gap",
+          "codon-coordinate.translation-conditioned.rna-accessibility.cross-layer.operator-review.accessibility-contact-gap"
         ],
-        "gate_result_ref": "conjecture:cross-organism.cun-uur-leu-gate.translation-realization"
+        "gate_result_ref": "conjecture:codon-coordinate.translation-conditioned.rna-accessibility.cross-layer"
       }
     },
     {
-      "packet_id": "decay-factor-rbp.rna-half-life.with-translation-boundary.cross-layer",
+      "packet_id": "codon-coordinate.translation-gated.rna-accessibility-readback.cross-layer",
       "claim_id": "h3.codon_usage_topology.residual_basis.q6_topology_after_aa_quotient",
       "claimed_layer": "cross_layer_relation",
       "export_status": "review_ready",
       "source_spec": {
         "reality_contacts": [
-          "matched-rna-half-life-readout",
-          "matched-mrna-abundance-control",
+          "tai-or-stai-weights",
           "ribosome-profiling-translation-efficiency",
+          "matched-mrna-abundance-control",
           "codon-usage-per-organism",
           "trna-gene-copy-numbers",
-          "tai-or-stai-weights",
           "matched-proteomics-protein-abundance"
         ],
         "can_test": [
-          "RNA half-life readout boundary for same-organism joined rows",
-          "cross_layer_relation boundary only after same-row matched translation readout, matched mRNA controls, measured decay-factor RBP occupancy, target-RBP loss, wild-type rescue, binding-defective or non-target controls, and declared finite statistic are attached",
-          "isolation of translation-layer signal from transcription-layer signal via TE residual",
-          "B*_Q6 residual coordinate survival on translation efficiency under amino-acid composition + GC3 + length + M-density baseline controls",
           "translation_realization",
           "cross_layer_relation",
+          "codon adaptation weight readback",
+          "B*_Q6 residual coordinate survival on translation efficiency under amino-acid composition + GC3 + length + M-density baseline controls",
+          "isolation of translation-layer signal from transcription-layer signal via TE residual",
           "codon usage distribution",
           "tRNA-Leu gene-copy spectrum",
-          "codon adaptation weight readback",
           "downstream mediation chain Q_i -> T_j (translation readout) -> P_k (protein abundance) once both translation and protein contacts are attached"
         ],
         "cannot_test": [
-          "translation realization from RNA half-life alone",
-          "measured decay-factor RBP occupancy",
-          "target-RBP loss or wild-type rescue",
-          "binding-defective or non-target control behavior",
-          "RNA decay mechanism",
-          "protein abundance",
-          "protein folding",
-          "structural order",
+          "folded structure",
           "physical admissibility",
           "function realization",
-          "system phenotype",
-          "adaptation",
-          "causation",
           "global biological law",
+          "protein folding, mature protein abundance, function, mechanism, or universality from ribo-seq alone",
           "translation realization from transcript abundance alone",
           "CUN/UUR versus tRNA-Leu association without matched codon-usage and tRNA-copy contacts",
           "protein folding, physical admissibility, function, or universality from transcript counts alone",
-          "protein folding, mature protein abundance, function, mechanism, or universality from ribo-seq alone",
-          "folded structure",
           "folding pathway dynamics",
           "physical admissibility from steady-state abundance alone"
         ]
@@ -1156,7 +1818,7 @@
         "replication_status": "not_claimed"
       },
       "metrics": {
-        "finite_row_count": 107,
+        "finite_row_count": 103,
         "has_reality_contact": true,
         "has_probe_contact_mismatch_chain": true
       },
@@ -1702,22 +2364,6 @@
           "residue": "mismatch-open:blocked_null:missing_context",
           "status": "open",
           "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.rbp-decay-bridge.rna-half-life.with-translation-boundary.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:decay-factor-rbp.rna-half-life.with-translation-boundary.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
           "evidence_pointer": "mismatch:q6.translation-gated.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
           "owner": "tools.bio_reality.quality_lab_export"
         },
@@ -1814,22 +2460,6 @@
           "residue": "mismatch-open:blocked_null:missing_context",
           "status": "open",
           "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-half-life-decay.same-row-statistic-boundary.operator-review.same-row-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-half-life-decay.cross-layer.operator-review.same-row-decay-boundary-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
           "evidence_pointer": "mismatch:q6.translation-conditioned.rna-half-life.cross-layer.operator-review.same-row-statistic-gap",
           "owner": "tools.bio_reality.quality_lab_export"
         },
@@ -1863,14 +2493,6 @@
           "status": "open",
           "severity": "scope_too_large",
           "evidence_pointer": "mismatch:q6.translation-to-protein.mediation.matrix.cross-layer.protein-abundance-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-half-life-readout.cross-layer.operator-review.same-row-statistic-gap",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -1912,27 +2534,41 @@
           "severity": "missing_context",
           "evidence_pointer": "mismatch:q6.translation-conditioned.in-cell-accessibility-residual.cross-layer.operator-review.in-cell-accessibility-panel-gap",
           "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:codon-coordinate.translation-gated.rna-accessibility-readback.cross-layer.operator-review.accessibility-readback-panel-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:codon-coordinate.translation-conditioned.rna-accessibility.cross-layer.operator-review.accessibility-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
         }
       ],
       "not_claimed": [
-        "No RNA half-life difference may be interpreted as translation realization, protein output, protein structure, function realization, phenotype, adaptation, or general sequence law.",
-        "No coordinate-to-RNA-stability bridge is claimed unless the same finite rows also carry the mandatory translation-readout boundary and matched transcription or mRNA controls.",
-        "If high- and low-coordinate labels are exchangeable for RNA half-life after controlling transcription rate, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, and batch, the coordinate remains only a bounded descriptor.",
-        "If RNA half-life differs but measured decay-factor RBP occupancy does not change, or target-RBP loss and wild-type rescue do not control the effect, the result is only a finite RNA-stability association, not an RBP mechanism bridge.",
-        "If binding-defective rescue, non-target controls, RNA structure, motif density, transcription, isoform stability, or batch reproduce the pattern, the bridge claim is refused."
+        "Do not claim that codon-coordinate readback determines RNA structure or accessibility unless readback-disrupting, readback-preserving, rescue, codon-usage-only, structure-only, translation-load, and coordinate-destroyed null arms are all compared on the same finite readback surface.",
+        "Do not promote residual RNA accessibility to structural_order unless the mandatory translation-readout or load-clamped translation boundary is attached in the same row.",
+        "Do not infer function_realization, physical_admissibility, or system_phenotype from an accessibility residual alone.",
+        "Do not treat codon usage, codon-pair usage, generic in vitro folding, or translation load as ruled out unless their explicit controls fail against the same residual statistic."
       ],
       "artifacts": {
-        "bedc_module": "papers/bedc/parts/concrete_instances/115314_bioreality_q_six_measured_te_nontranslation_residual_namecert_construction.tex",
-        "bio_paper": "papers/bio_reality/parts/codon_window_reality_boundary/q6_rbp_decay_bridge_rna_half_life_with_translation_boundary_cross_layer.tex"
+        "bedc_module": "papers/bedc/parts/concrete_instances/115313_bioreality_q_six_translation_complement_residual_namecert_construction.tex",
+        "bio_paper": "papers/bio_reality/parts/codon_window_reality_boundary/codon_coordinate_translation_gated_rna_accessibility_readback_cross_layer.tex"
       },
       "fact_owner": {
         "contact_refs": [
-          "matched-rna-half-life-readout",
-          "matched-mrna-abundance-control",
+          "tai-or-stai-weights",
           "ribosome-profiling-translation-efficiency",
+          "matched-mrna-abundance-control",
           "codon-usage-per-organism",
           "trna-gene-copy-numbers",
-          "tai-or-stai-weights",
           "matched-proteomics-protein-abundance"
         ],
         "probe_refs": [
@@ -2009,8 +2645,6 @@
           "q6.translation-protein-conditioned.localization-boundary.cross-layer.operator-review.translation-protein-localization-gap",
           "q6.translation-gated.rbp-decay-rna-half-life.boundary.operator-review.rbp-decay-contact-gap",
           "q6.translation-bounded.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "q6.rbp-decay-bridge.rna-half-life.with-translation-boundary.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "decay-factor-rbp.rna-half-life.with-translation-boundary.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
           "q6.translation-gated.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
           "q6.translation-conditioned.rbp-mediated-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
           "q6.translation-attached.rbp-bridged-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
@@ -2023,81 +2657,52 @@
           "q6.translation-conditioned.rbp-bridged-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
           "q6.translation-conditioned.rna-half-life-boundary.cross-layer.operator-review.external-reality-boundary",
           "q6.translation-mediated.rna-half-life-boundary.cross-layer.operator-review.external-reality-boundary",
-          "q6.translation-conditioned.rna-half-life-decay.same-row-statistic-boundary.operator-review.same-row-statistic-gap",
-          "q6.translation-conditioned.rna-half-life-decay.cross-layer.operator-review.same-row-decay-boundary-gap",
           "q6.translation-conditioned.rna-half-life.cross-layer.operator-review.same-row-statistic-gap",
           "q6.translation-protein-mediated.localization-readout.cross-layer.operator-review.translation-protein-localization-statistic-gap",
           "q6.translation-readout.proteomics.mediation.mrna-control.cross-layer.operator-review.same-row-mediation-statistic-gap",
           "q6.three-matrix.translation-protein.mediation.cross-layer.folding-localization-boundary",
           "q6.translation-to-protein.mediation.matrix.cross-layer.protein-abundance-boundary",
-          "q6.translation-conditioned.rna-half-life-readout.cross-layer.operator-review.same-row-statistic-gap",
           "q6.translation-conditioned.protein-mediation.matrix.cross-layer.operator-review.same-row-mediation-statistic-gap",
           "q6.translation-conditioned.rna-accessibility-residual.cross-layer.operator-review.accessibility-panel-gap",
           "q6.translation-conditioned.residual-rna-accessibility.cross-layer.operator-review.accessibility-contact-gap",
           "codon-coordinate.geometry.translation-conditioned.rna-accessibility.cross-layer.operator-review.accessibility-reality-contact-gap",
-          "q6.translation-conditioned.in-cell-accessibility-residual.cross-layer.operator-review.in-cell-accessibility-panel-gap"
+          "q6.translation-conditioned.in-cell-accessibility-residual.cross-layer.operator-review.in-cell-accessibility-panel-gap",
+          "codon-coordinate.translation-gated.rna-accessibility-readback.cross-layer.operator-review.accessibility-readback-panel-gap",
+          "codon-coordinate.translation-conditioned.rna-accessibility.cross-layer.operator-review.accessibility-contact-gap"
         ],
-        "gate_result_ref": "conjecture:decay-factor-rbp.rna-half-life.with-translation-boundary.cross-layer"
+        "gate_result_ref": "conjecture:codon-coordinate.translation-gated.rna-accessibility-readback.cross-layer"
       }
     },
     {
-      "packet_id": "f3-stress.position-resolved-ribosome-occupancy.translation-realization",
-      "claim_id": "h3.codon_usage_topology.residual_basis.q6_topology_after_aa_quotient",
-      "claimed_layer": "translation_realization",
+      "packet_id": "codon.window6.local.tile.boundary",
+      "claim_id": "h0.R.cardinality.13",
+      "claimed_layer": "code_read",
       "export_status": "review_ready",
       "source_spec": {
         "reality_contacts": [
-          "position-resolved-ribosome-occupancy-window",
-          "tai-or-stai-weights",
-          "codon-usage-per-organism",
-          "matched-mrna-abundance-control",
-          "trna-gene-copy-numbers",
-          "ribosome-profiling-translation-efficiency",
-          "matched-proteomics-protein-abundance"
+          "curated.standard.code.table"
         ],
         "can_test": [
-          "position-resolved ribosome occupancy readback",
-          "cross_layer_relation boundary for f_3-stress only after same-row codon counts, wobble-weight surface, matched mRNA control, rank checks, and position or amino-acid-bin controls are attached",
-          "translation_realization",
-          "cross_layer_relation",
-          "codon adaptation weight readback",
-          "codon usage distribution",
-          "isolation of translation-layer signal from transcription-layer signal via TE residual",
-          "tRNA-Leu gene-copy spectrum",
-          "B*_Q6 residual coordinate survival on translation efficiency under amino-acid composition + GC3 + length + M-density baseline controls",
-          "downstream mediation chain Q_i -> T_j (translation readout) -> P_k (protein abundance) once both translation and protein contacts are attached"
+          "code_read",
+          "local codon tile label split"
         ],
         "cannot_test": [
-          "translation realization from codon or window geometry alone",
-          "measured translation efficiency from modeled tAI or stAI alone",
-          "protein abundance",
-          "protein folding",
+          "translation realization",
           "structural order",
           "physical admissibility",
-          "function realization",
-          "system phenotype",
-          "translation mechanism",
-          "global biological law",
-          "folded structure",
-          "translation realization from transcript abundance alone",
-          "CUN/UUR versus tRNA-Leu association without matched codon-usage and tRNA-copy contacts",
-          "protein folding, physical admissibility, function, or universality from transcript counts alone",
-          "protein folding, mature protein abundance, function, mechanism, or universality from ribo-seq alone",
-          "folding pathway dynamics",
-          "physical admissibility from steady-state abundance alone"
+          "function realization"
         ]
       },
       "pattern_spec": {
         "internal_surfaces": [
           "coordinate",
-          "trigger",
+          "closure",
+          "spectrum",
           "relation"
         ],
         "probe_refs": [
-          "residual-basis.translation-readout-boundary.no-promotion",
-          "b-star-q6-survival-matrix-break-condition",
-          "q6.f3-stress.position-resolved-ribosome-occupancy.window-statistic-boundary",
-          "f3-stress.position-resolved-ribosome-occupancy.translation-realization.review-boundary"
+          "codon.local.tile.no.global.law",
+          "codon.label.readback.not.translation"
         ]
       },
       "classifier_spec": {
@@ -2111,17 +2716,41 @@
         "replication_status": "not_claimed"
       },
       "metrics": {
-        "finite_row_count": 119,
+        "finite_row_count": 16,
         "has_reality_contact": true,
         "has_probe_contact_mismatch_chain": true
       },
       "ledger_rows": [
         {
           "kind": "source",
+          "residue": "higher-layer-contact-missing:codon_usage_topology",
+          "status": "open",
+          "severity": "boundary",
+          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:codon_usage_topology",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "source",
+          "residue": "higher-layer-contact-missing:orf_eligibility",
+          "status": "open",
+          "severity": "boundary",
+          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:orf_eligibility",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "source",
+          "residue": "higher-layer-contact-missing:translation_realization",
+          "status": "open",
+          "severity": "boundary",
+          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:translation_realization",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "source",
           "residue": "higher-layer-contact-missing:structural_order",
           "status": "open",
           "severity": "boundary",
-          "evidence_pointer": "conjecture:f3-stress.position-resolved-ribosome-occupancy.translation-realization#layer:structural_order",
+          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:structural_order",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -2129,7 +2758,7 @@
           "residue": "higher-layer-contact-missing:physical_admissibility",
           "status": "open",
           "severity": "boundary",
-          "evidence_pointer": "conjecture:f3-stress.position-resolved-ribosome-occupancy.translation-realization#layer:physical_admissibility",
+          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:physical_admissibility",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -2137,7 +2766,7 @@
           "residue": "higher-layer-contact-missing:function_realization",
           "status": "open",
           "severity": "boundary",
-          "evidence_pointer": "conjecture:f3-stress.position-resolved-ribosome-occupancy.translation-realization#layer:function_realization",
+          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:function_realization",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -2145,7 +2774,15 @@
           "residue": "higher-layer-contact-missing:system_phenotype",
           "status": "open",
           "severity": "boundary",
-          "evidence_pointer": "conjecture:f3-stress.position-resolved-ribosome-occupancy.translation-realization#layer:system_phenotype",
+          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:system_phenotype",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "source",
+          "residue": "higher-layer-contact-missing:cross_layer_relation",
+          "status": "open",
+          "severity": "boundary",
+          "evidence_pointer": "conjecture:codon.window6.local.tile.boundary#layer:cross_layer_relation",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -2153,7 +2790,7 @@
           "residue": "mismatch-open:blocked_null:missing_context",
           "status": "open",
           "severity": "missing_context",
-          "evidence_pointer": "mismatch:cross-organism.cun-uur-trna-leu.paired-statistic-gap",
+          "evidence_pointer": "mismatch:codon.label.readback.not.folded.structure",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -2161,7 +2798,7 @@
           "residue": "mismatch-open:blocked_null:missing_context",
           "status": "open",
           "severity": "missing_context",
-          "evidence_pointer": "mismatch:residual-basis.m-only-local-optimum.controlled-readout-gap",
+          "evidence_pointer": "mismatch:codon.label.readback.not.translation",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -2169,15 +2806,23 @@
           "residue": "mismatch-open:blocked_null:scope_too_large",
           "status": "open",
           "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:cross-organism.cun-uur-trna-leu.id-shape-boundary",
+          "evidence_pointer": "mismatch:curated.standard.code-table.cross-organism-id-shape-boundary",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
           "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:mechanism_gap",
+          "residue": "mismatch-open:blocked_null:scope_too_large",
           "status": "open",
-          "severity": "mechanism_gap",
-          "evidence_pointer": "mismatch:cross-organism.cun-uur-translation-boundary.ribosome-output-contact-gap",
+          "severity": "scope_too_large",
+          "evidence_pointer": "mismatch:codon.label.readback.invalid-cross-organism-probe-token",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:scope_too_large",
+          "status": "open",
+          "severity": "scope_too_large",
+          "evidence_pointer": "mismatch:codon.label.readback.folded-structure.invalid-probe-token",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -2186,14 +2831,6 @@
           "status": "open",
           "severity": "scope_too_large",
           "evidence_pointer": "mismatch:matched-mrna-abundance-control.id-shape-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:leu-cun-uur-multi-organism-extension.eight-organism-contact-gap",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -2214,66 +2851,10 @@
         },
         {
           "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:ribosome-profiling-translation-efficiency.b-star-q6-survival.no-promotion",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:scope_too_large",
-          "status": "open",
-          "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:tai-or-stai-weights.blocked-shape.normalized-id-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:mechanism_gap",
-          "status": "open",
-          "severity": "mechanism_gap",
-          "evidence_pointer": "mismatch:translation-survival.b-star-q6-survival-matrix.mrna-control-mechanism-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
           "residue": "mismatch-open:blocked_null:scope_too_large",
           "status": "open",
           "severity": "scope_too_large",
           "evidence_pointer": "mismatch:codon.label.readback.folded-structure.mrna-control-invalid-token",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:matched-proteomics-protein-abundance.b-star-q6-survival.no-promotion",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:scope_too_large",
-          "status": "open",
-          "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:matched-mrna-abundance-control.blocked-shape-routing-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:scope_too_large",
-          "status": "open",
-          "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:residual-basis.translation-readout-boundary.mrna-control-id-shape",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:scope_too_large",
-          "status": "open",
-          "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:orf-eligibility.seed.boundary.conjecture-id-shape-routing",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -2283,13 +2864,184 @@
           "severity": "scope_too_large",
           "evidence_pointer": "mismatch:curated.standard.code-table.cross-organism-id-shape-boundary.mrna-control-contact",
           "owner": "tools.bio_reality.quality_lab_export"
+        }
+      ],
+      "not_claimed": [
+        "A local codon tile is not a global biological law.",
+        "Window-six geometry alone is not translation, structure, physical admissibility, or function.",
+        "Amino-acid label-sequence readback is not folded protein structure.",
+        "codon usage topology",
+        "orf eligibility",
+        "translation realization",
+        "structural order",
+        "physical admissibility",
+        "function realization",
+        "system phenotype",
+        "cross layer relation"
+      ],
+      "artifacts": {
+        "bedc_module": "papers/bedc/parts/concrete_instances/115309_bioreality_q_six_leave_one_codon_boundary_namecert_construction.tex",
+        "bio_paper": "papers/bio_reality/parts/codon_window_reality_boundary/window_six_codon_tiles_at_the_code_layer.tex"
+      },
+      "fact_owner": {
+        "contact_refs": [
+          "curated.standard.code.table"
+        ],
+        "probe_refs": [
+          "codon.local.tile.no.global.law",
+          "codon.label.readback.not.translation"
+        ],
+        "mismatch_refs": [
+          "codon.local.tile.scope.boundary",
+          "codon.label.readback.not.folded.structure",
+          "codon.label.readback.not.translation",
+          "curated.standard.code-table.cross-organism-id-shape-boundary",
+          "codon.label.readback.invalid-cross-organism-probe-token",
+          "codon.label.readback.folded-structure.invalid-probe-token",
+          "matched-mrna-abundance-control.id-shape-boundary",
+          "matched-mrna-abundance-control.cross-organism-cun-uur-control-boundary",
+          "cross-organism.cun-uur-translation-boundary.mrna-control-contact-scope",
+          "codon.label.readback.folded-structure.mrna-control-invalid-token",
+          "curated.standard.code-table.cross-organism-id-shape-boundary.mrna-control-contact"
+        ],
+        "gate_result_ref": "conjecture:codon.window6.local.tile.boundary"
+      }
+    },
+    {
+      "packet_id": "cross-organism.cun-uur-leu-gate.translation-realization",
+      "claim_id": "h3.translation_realization.cross_organism.cun_uur_leu_gate",
+      "claimed_layer": "translation_realization",
+      "export_status": "review_ready",
+      "source_spec": {
+        "reality_contacts": [
+          "codon-usage-per-organism",
+          "trna-gene-copy-numbers"
+        ],
+        "can_test": [
+          "translation_realization",
+          "cross_layer_relation",
+          "codon usage distribution",
+          "tRNA-Leu gene-copy spectrum"
+        ],
+        "cannot_test": [
+          "folded structure",
+          "physical admissibility",
+          "function realization",
+          "global biological law"
+        ]
+      },
+      "pattern_spec": {
+        "internal_surfaces": [
+          "coordinate",
+          "relation"
+        ],
+        "probe_refs": [
+          "cross-organism.cun-uur-sign-correlates-with-trna-leu",
+          "cross-organism.cun-uur-translation-boundary.no-promotion"
+        ]
+      },
+      "classifier_spec": {
+        "gate_status": "gate_passed",
+        "review_decision": "review_ready",
+        "blocked_overclaim": false
+      },
+      "stability_spec": {
+        "sample_scope": "finite_rows",
+        "population_claim": false,
+        "replication_status": "not_claimed"
+      },
+      "metrics": {
+        "finite_row_count": 18,
+        "has_reality_contact": true,
+        "has_probe_contact_mismatch_chain": true
+      },
+      "ledger_rows": [
+        {
+          "kind": "source",
+          "residue": "higher-layer-contact-missing:structural_order",
+          "status": "open",
+          "severity": "boundary",
+          "evidence_pointer": "conjecture:cross-organism.cun-uur-leu-gate.translation-realization#layer:structural_order",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "source",
+          "residue": "higher-layer-contact-missing:physical_admissibility",
+          "status": "open",
+          "severity": "boundary",
+          "evidence_pointer": "conjecture:cross-organism.cun-uur-leu-gate.translation-realization#layer:physical_admissibility",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "source",
+          "residue": "higher-layer-contact-missing:function_realization",
+          "status": "open",
+          "severity": "boundary",
+          "evidence_pointer": "conjecture:cross-organism.cun-uur-leu-gate.translation-realization#layer:function_realization",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "source",
+          "residue": "higher-layer-contact-missing:system_phenotype",
+          "status": "open",
+          "severity": "boundary",
+          "evidence_pointer": "conjecture:cross-organism.cun-uur-leu-gate.translation-realization#layer:system_phenotype",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:cross-organism.cun-uur-trna-leu.paired-statistic-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
         },
         {
           "kind": "boundary",
           "residue": "mismatch-open:blocked_null:scope_too_large",
           "status": "open",
           "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:matched-mrna-abundance-control.blocked-shape-event-contact-boundary",
+          "evidence_pointer": "mismatch:cross-organism.cun-uur-trna-leu.id-shape-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:scope_too_large",
+          "status": "open",
+          "severity": "scope_too_large",
+          "evidence_pointer": "mismatch:curated.standard.code-table.cross-organism-id-shape-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:scope_too_large",
+          "status": "open",
+          "severity": "scope_too_large",
+          "evidence_pointer": "mismatch:codon.label.readback.invalid-cross-organism-probe-token",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:mechanism_gap",
+          "status": "open",
+          "severity": "mechanism_gap",
+          "evidence_pointer": "mismatch:cross-organism.cun-uur-translation-boundary.ribosome-output-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:leu-cun-uur-multi-organism-extension.eight-organism-contact-gap",
+          "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:scope_too_large",
+          "status": "open",
+          "severity": "scope_too_large",
+          "evidence_pointer": "mismatch:orf-eligibility.seed.boundary.conjecture-id-shape-routing",
           "owner": "tools.bio_reality.quality_lab_export"
         },
         {
@@ -2318,674 +3070,19 @@
         },
         {
           "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:b-star-q6-survival-matrix-break-condition.underscore-event-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
           "residue": "mismatch-open:blocked_null:scope_too_large",
           "status": "open",
           "severity": "scope_too_large",
           "evidence_pointer": "mismatch:cross-organism.cun-uur-leu-gate.operator-review-population-boundary",
           "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:residual-basis.operator-review.translation-output-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:translation-survival.b-star-q6-survival-matrix.operator-review-survival-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-mediated.protein-abundance.operator-review-mediation-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-protein-boundary.before-function-phenotype.operator-review-higher-layer-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-readout-coupling-matrix.operator-review-readout-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-gated.structural-order.operator-review-structure-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-mediated.protein-function-boundary.operator-review-function-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.rank-powered.translation-survival.operator-review.measured-readout-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.rank-powered.translation-conditioned.protein-mediation.operator-review-mediation-matrix-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-mediated.system-phenotype-boundary.operator-review-phenotype-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.physical-admissibility-boundary.operator-review-physical-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.post-translational-state.operator-review-state-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.protein-stability-boundary.operator-review-stability-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.protein-localization-boundary.operator-review-localization-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.n3-rank-degenerate.translation-survival-refusal.operator-review-rank-saturation-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.four-case-survival-discriminant.operator-review-discriminant-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.rank-admissible.translation-survival-gate.operator-review.measured-readout-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.protein-interaction-boundary.operator-review-interaction-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.ribosome-te-survival.with-mrna-control.operator-review-te-row-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.three-matrix.protein-readout-boundary.no-promotion.proteomics-context-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-protein-mediated.functional-annotation-boundary.operator-review-function-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.protein-localization.operator-review-localization-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.protein-localization-readout.operator-review-localization-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.four-case.translation-protein-discriminant.operator-review-joined-matrix-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.protein-localization-boundary.operator-review-localization-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.mrna-controlled.translation-efficiency-survival.operator-review-joined-te-matrix-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.three-organism.rank-degenerate.translation-survival-refusal.operator-review-measured-readout-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.modeled-to-observed.translation-readout-calibration.operator-review-joined-te-calibration-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:partially_aligned:scope_too_large",
-          "status": "partial",
-          "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:q6.residual-basis-extraction.greedy-readout.persistence-boundary.scope-review",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.residual-basis-extraction.greedy-readout.persistence-boundary.operator-review-layer-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-efficiency.after-mrna-control.operator-review-joined-te-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.direct-protein-omics-survival.with-translation-boundary.operator-review-protein-abundance-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.wobble-broken.translation-readout.operator-review.same-row-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.residual-basis-extraction.greedy-readout.operator-review.residual-blind-readout-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-survival.rank-admissibility-boundary.operator-review.measured-readout-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.mrna-controlled.translation-efficiency-boundary.operator-review.same-row-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-readout.operator-review.position-resolved-readout-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary.operator-review.window-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.cross-layer.operator-review.window-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved.translation-occupancy.cross-layer.operator-review.window-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-realization.operator-review.window-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-readout.cross-layer.operator-review.window-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary.operator-review.source-row-join-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:f3-stress.position-resolved-ribosome-occupancy.translation-realization.operator-review.window-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:f3-stress.position-resolved-ribosome-occupancy.translation-realization.review-boundary.operator-review.source-row-join-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved.translation-readout.cross-layer.operator-review.window-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-translation.localization-boundary.cross-layer.operator-review.translation-first-localization-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved.translation-window.cross-layer.operator-review.window-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-translation-readout.cross-layer.operator-review.window-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-translation-survival.cross-layer.operator-review.survival-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-translation-survival.operator-review.survival-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-window.translation-realization.operator-review.window-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-translation-window.same-window-boundary.operator-review.window-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-window.cross-layer.operator-review.joined-window-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-gated.rbp-decay-rna-half-life.boundary.operator-review.rbp-decay-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-bounded.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-gated.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.rbp-mediated-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-attached.rbp-bridged-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.rbp-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-half-life-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-gated.rna-half-life.rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-half-life.rbp-bridge-boundary.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.rbp-rna-half-life-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.rbp-bridged-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-half-life-boundary.cross-layer.operator-review.external-reality-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-mediated.rna-half-life-boundary.cross-layer.operator-review.external-reality-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-translation-occupancy.cross-layer.operator-review.window-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved-ribosome-occupancy.translation-window.operator-review.source-row-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-readout.proteomics.mediation.mrna-control.cross-layer.operator-review.same-row-mediation-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:scope_too_large",
-          "status": "open",
-          "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:q6.three-matrix.translation-protein.mediation.cross-layer.folding-localization-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:scope_too_large",
-          "status": "open",
-          "severity": "scope_too_large",
-          "evidence_pointer": "mismatch:q6.translation-to-protein.mediation.matrix.cross-layer.protein-abundance-boundary",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-half-life-readout.cross-layer.operator-review.same-row-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.protein-mediation.matrix.cross-layer.operator-review.same-row-mediation-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-window.ribosome-occupancy.translation-boundary.operator-review.same-window-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.f3-stress.position-resolved.translation-readout-survival.operator-review.source-row-statistic-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.rna-accessibility-residual.cross-layer.operator-review.accessibility-panel-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.residual-rna-accessibility.cross-layer.operator-review.accessibility-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:codon-coordinate.geometry.translation-conditioned.rna-accessibility.cross-layer.operator-review.accessibility-reality-contact-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
-        },
-        {
-          "kind": "boundary",
-          "residue": "mismatch-open:blocked_null:missing_context",
-          "status": "open",
-          "severity": "missing_context",
-          "evidence_pointer": "mismatch:q6.translation-conditioned.in-cell-accessibility-residual.cross-layer.operator-review.in-cell-accessibility-panel-gap",
-          "owner": "tools.bio_reality.quality_lab_export"
         }
       ],
       "not_claimed": [
-        "Do not infer folded structure, protein function, protein abundance, stability, PTM, localization, or phenotype from f_3-stress without a separate translation-readout survival step and downstream matched readout.",
-        "Do not treat modeled tAI or stAI coupling as powered ribosome-occupancy survival.",
-        "Do not report f_3-stress survival from rank-degenerate organism panels or windows lacking amino-acid composition and position-bin controls.",
-        "Do not claim a general biological law unless the wobble-symmetry break condition and simpler-baseline ablation both pass on the attached contact surface.",
+        "Does not assert ribosome-mediated translation realization beyond the attached codon-usage and tRNA-copy contacts.",
+        "Does not assert protein structure, folding, function, or physical admissibility.",
+        "Does not interpret context-dependent reversal as a universal rule.",
+        "Does not bypass amino-acid composition controls; raw log-ratio without control is not a translation claim.",
+        "Does not promote to higher layers (structure, function) without a separate reality contact.",
         "structural order",
         "physical admissibility",
         "function realization",
@@ -2993,134 +3090,33 @@
         "cross layer relation"
       ],
       "artifacts": {
-        "bedc_module": "papers/bedc/parts/concrete_instances/115313_bioreality_q_six_translation_complement_residual_namecert_construction.tex",
-        "bio_paper": "papers/bio_reality/parts/codon_window_reality_boundary/q6_f3_stress_position_resolved_ribosome_occupancy_translation_realization.tex"
+        "bedc_module": "papers/bedc/parts/concrete_instances/115309_bioreality_q_six_leave_one_codon_boundary_namecert_construction.tex",
+        "bio_paper": "papers/bio_reality/parts/namecerts/h3_translation_realization_cross_organism_cun_uur_leu_gate.tex"
       },
       "fact_owner": {
         "contact_refs": [
-          "position-resolved-ribosome-occupancy-window",
-          "tai-or-stai-weights",
           "codon-usage-per-organism",
-          "matched-mrna-abundance-control",
-          "trna-gene-copy-numbers",
-          "ribosome-profiling-translation-efficiency",
-          "matched-proteomics-protein-abundance"
+          "trna-gene-copy-numbers"
         ],
         "probe_refs": [
-          "residual-basis.translation-readout-boundary.no-promotion",
-          "b-star-q6-survival-matrix-break-condition",
-          "q6.f3-stress.position-resolved-ribosome-occupancy.window-statistic-boundary",
-          "f3-stress.position-resolved-ribosome-occupancy.translation-realization.review-boundary"
+          "cross-organism.cun-uur-sign-correlates-with-trna-leu",
+          "cross-organism.cun-uur-translation-boundary.no-promotion"
         ],
         "mismatch_refs": [
           "cross-organism.cun-uur-trna-leu.paired-statistic-gap",
-          "residual-basis.m-only-local-optimum.controlled-readout-gap",
           "cross-organism.cun-uur-trna-leu.id-shape-boundary",
+          "curated.standard.code-table.cross-organism-id-shape-boundary",
+          "codon.label.readback.invalid-cross-organism-probe-token",
           "cross-organism.cun-uur-translation-boundary.no-promotion.scope-review",
           "cross-organism.cun-uur-translation-boundary.ribosome-output-contact-gap",
-          "residual-basis.translation-readout-boundary.no-promotion.scope-review",
-          "matched-mrna-abundance-control.id-shape-boundary",
           "leu-cun-uur-multi-organism-extension.eight-organism-contact-gap",
-          "matched-mrna-abundance-control.cross-organism-cun-uur-control-boundary",
-          "cross-organism.cun-uur-translation-boundary.mrna-control-contact-scope",
-          "ribosome-profiling-translation-efficiency.b-star-q6-survival.no-promotion",
-          "tai-or-stai-weights.blocked-shape.normalized-id-boundary",
-          "translation-survival.b-star-q6-survival-matrix.mrna-control-mechanism-gap",
-          "codon.label.readback.folded-structure.mrna-control-invalid-token",
-          "matched-proteomics-protein-abundance.b-star-q6-survival.no-promotion",
-          "matched-mrna-abundance-control.blocked-shape-routing-boundary",
-          "residual-basis.translation-readout-boundary.mrna-control-id-shape",
           "orf-eligibility.seed.boundary.conjecture-id-shape-routing",
-          "curated.standard.code-table.cross-organism-id-shape-boundary.mrna-control-contact",
-          "matched-mrna-abundance-control.blocked-shape-event-contact-boundary",
           "cross-organism.cun-uur-translation-boundary.ribosome-output-contact-gap.mrna-control-id-shape",
           "cross-organism.cun-uur-translation-boundary.blocked-shape-id-normalization",
           "codon-usage-per-organism.blocked-shape-contact-eight-boundary",
-          "b-star-q6-survival-matrix-break-condition.underscore-event-contact-gap",
-          "cross-organism.cun-uur-leu-gate.operator-review-population-boundary",
-          "residual-basis.operator-review.translation-output-contact-gap",
-          "translation-survival.b-star-q6-survival-matrix.operator-review-survival-boundary",
-          "q6.translation-mediated.protein-abundance.operator-review-mediation-boundary",
-          "q6.translation-protein-boundary.before-function-phenotype.operator-review-higher-layer-gap",
-          "q6.translation-readout-coupling-matrix.operator-review-readout-boundary",
-          "q6.translation-gated.structural-order.operator-review-structure-contact-gap",
-          "q6.translation-mediated.protein-function-boundary.operator-review-function-contact-gap",
-          "q6.rank-powered.translation-survival.operator-review.measured-readout-gap",
-          "q6.rank-powered.translation-conditioned.protein-mediation.operator-review-mediation-matrix-gap",
-          "q6.translation-mediated.system-phenotype-boundary.operator-review-phenotype-contact-gap",
-          "q6.translation-conditioned.physical-admissibility-boundary.operator-review-physical-contact-gap",
-          "q6.translation-conditioned.post-translational-state.operator-review-state-contact-gap",
-          "q6.translation-conditioned.protein-stability-boundary.operator-review-stability-contact-gap",
-          "q6.translation-conditioned.protein-localization-boundary.operator-review-localization-contact-gap",
-          "q6.n3-rank-degenerate.translation-survival-refusal.operator-review-rank-saturation-boundary",
-          "q6.translation-conditioned.four-case-survival-discriminant.operator-review-discriminant-boundary",
-          "q6.rank-admissible.translation-survival-gate.operator-review.measured-readout-boundary",
-          "q6.translation-conditioned.protein-interaction-boundary.operator-review-interaction-contact-gap",
-          "q6.ribosome-te-survival.with-mrna-control.operator-review-te-row-gap",
-          "q6.three-matrix.protein-readout-boundary.no-promotion.proteomics-context-gap",
-          "q6.translation-protein-mediated.functional-annotation-boundary.operator-review-function-contact-gap",
-          "q6.translation-conditioned.protein-localization.operator-review-localization-statistic-gap",
-          "q6.translation-conditioned.protein-localization-readout.operator-review-localization-statistic-gap",
-          "q6.four-case.translation-protein-discriminant.operator-review-joined-matrix-gap",
-          "q6.translation-conditioned.protein-localization-boundary.operator-review-localization-statistic-gap",
-          "q6.mrna-controlled.translation-efficiency-survival.operator-review-joined-te-matrix-gap",
-          "q6.three-organism.rank-degenerate.translation-survival-refusal.operator-review-measured-readout-boundary",
-          "q6.modeled-to-observed.translation-readout-calibration.operator-review-joined-te-calibration-gap",
-          "q6.residual-basis-extraction.greedy-readout.persistence-boundary.scope-review",
-          "q6.residual-basis-extraction.greedy-readout.persistence-boundary.operator-review-layer-statistic-gap",
-          "q6.translation-efficiency.after-mrna-control.operator-review-joined-te-statistic-gap",
-          "q6.direct-protein-omics-survival.with-translation-boundary.operator-review-protein-abundance-statistic-gap",
-          "q6.f3-stress.wobble-broken.translation-readout.operator-review.same-row-statistic-gap",
-          "q6.residual-basis-extraction.greedy-readout.operator-review.residual-blind-readout-gap",
-          "q6.translation-survival.rank-admissibility-boundary.operator-review.measured-readout-gap",
-          "q6.mrna-controlled.translation-efficiency-boundary.operator-review.same-row-statistic-gap",
-          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-readout.operator-review.position-resolved-readout-gap",
-          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary.operator-review.window-statistic-gap",
-          "q6.f3-stress.position-resolved-ribosome-occupancy.cross-layer.operator-review.window-statistic-gap",
-          "q6.f3-stress.position-resolved.translation-occupancy.cross-layer.operator-review.window-statistic-gap",
-          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-realization.operator-review.window-statistic-gap",
-          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-readout.cross-layer.operator-review.window-statistic-gap",
-          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-boundary.operator-review.source-row-join-gap",
-          "f3-stress.position-resolved-ribosome-occupancy.translation-realization.operator-review.window-statistic-gap",
-          "f3-stress.position-resolved-ribosome-occupancy.translation-realization.review-boundary.operator-review.source-row-join-gap",
-          "q6.f3-stress.position-resolved.translation-readout.cross-layer.operator-review.window-statistic-gap",
-          "q6.f3-stress.position-resolved-translation.localization-boundary.cross-layer.operator-review.translation-first-localization-gap",
-          "q6.f3-stress.position-resolved.translation-window.cross-layer.operator-review.window-statistic-gap",
-          "q6.f3-stress.position-resolved-translation-readout.cross-layer.operator-review.window-statistic-gap",
-          "q6.f3-stress.position-resolved-translation-survival.cross-layer.operator-review.survival-statistic-gap",
-          "q6.f3-stress.position-resolved-translation-survival.operator-review.survival-statistic-gap",
-          "q6.f3-stress.position-resolved-ribosome-window.translation-realization.operator-review.window-statistic-gap",
-          "q6.f3-stress.position-resolved-translation-window.same-window-boundary.operator-review.window-statistic-gap",
-          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-window.cross-layer.operator-review.joined-window-statistic-gap",
-          "q6.translation-gated.rbp-decay-rna-half-life.boundary.operator-review.rbp-decay-contact-gap",
-          "q6.translation-bounded.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "q6.translation-gated.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "q6.translation-conditioned.rbp-mediated-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "q6.translation-attached.rbp-bridged-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "q6.translation-conditioned.rbp-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "q6.translation-conditioned.rna-half-life-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "q6.translation-conditioned.rna-decay-rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "q6.translation-gated.rna-half-life.rbp-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "q6.translation-conditioned.rna-half-life.rbp-bridge-boundary.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "q6.translation-conditioned.rbp-rna-half-life-bridge.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "q6.translation-conditioned.rbp-bridged-rna-half-life.cross-layer.operator-review.rbp-occupancy-perturbation-gap",
-          "q6.translation-conditioned.rna-half-life-boundary.cross-layer.operator-review.external-reality-boundary",
-          "q6.translation-mediated.rna-half-life-boundary.cross-layer.operator-review.external-reality-boundary",
-          "q6.f3-stress.position-resolved-translation-occupancy.cross-layer.operator-review.window-statistic-gap",
-          "q6.f3-stress.position-resolved-ribosome-occupancy.translation-window.operator-review.source-row-statistic-gap",
-          "q6.translation-readout.proteomics.mediation.mrna-control.cross-layer.operator-review.same-row-mediation-statistic-gap",
-          "q6.three-matrix.translation-protein.mediation.cross-layer.folding-localization-boundary",
-          "q6.translation-to-protein.mediation.matrix.cross-layer.protein-abundance-boundary",
-          "q6.translation-conditioned.rna-half-life-readout.cross-layer.operator-review.same-row-statistic-gap",
-          "q6.translation-conditioned.protein-mediation.matrix.cross-layer.operator-review.same-row-mediation-statistic-gap",
-          "q6.f3-stress.position-window.ribosome-occupancy.translation-boundary.operator-review.same-window-statistic-gap",
-          "q6.f3-stress.position-resolved.translation-readout-survival.operator-review.source-row-statistic-gap",
-          "q6.translation-conditioned.rna-accessibility-residual.cross-layer.operator-review.accessibility-panel-gap",
-          "q6.translation-conditioned.residual-rna-accessibility.cross-layer.operator-review.accessibility-contact-gap",
-          "codon-coordinate.geometry.translation-conditioned.rna-accessibility.cross-layer.operator-review.accessibility-reality-contact-gap",
-          "q6.translation-conditioned.in-cell-accessibility-residual.cross-layer.operator-review.in-cell-accessibility-panel-gap"
+          "cross-organism.cun-uur-leu-gate.operator-review-population-boundary"
         ],
-        "gate_result_ref": "conjecture:f3-stress.position-resolved-ribosome-occupancy.translation-realization"
+        "gate_result_ref": "conjecture:cross-organism.cun-uur-leu-gate.translation-realization"
       }
     }
   ]
