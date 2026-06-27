@@ -7751,6 +7751,7 @@ import BEDC.Derived.LowerSemicontinuousUp.WindowFactorization
 import BEDC.Derived.LowerUpperRealCutUp
 import BEDC.Derived.LowerUpperRealCutUp.TasteGate
 import BEDC.Derived.LpSpaceUp.TasteGate
+import BEDC.Derived.LucasCarmichaelUp
 import BEDC.Derived.LucasLehmerUp
 import BEDC.Derived.LucasSequenceGeneralUp
 import BEDC.Derived.LucasSequenceUp
