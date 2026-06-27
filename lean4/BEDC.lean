@@ -4609,6 +4609,7 @@ import BEDC.Derived.DedekindMacNeilleCompletionUp.RealSealNonescape
 import BEDC.Derived.DedekindMacNeilleCompletionUp.TasteGate
 import BEDC.Derived.DedekindPsiUp
 import BEDC.Derived.DedekindRealUp.TasteGate
+import BEDC.Derived.DedekindSumUp
 import BEDC.Derived.DedekindUp
 import BEDC.Derived.DefectFlowPartitionSkeletonUp.TasteGate
 import BEDC.Derived.DefiniteDescriptionBoundaryUp.KernelDependencyBinding
@@ -9292,6 +9293,7 @@ import BEDC.Derived.PadicUp.Multiplicative
 import BEDC.Derived.PadicUp.PrimeInverse
 import BEDC.Derived.PadicUp.UnitInverse
 import BEDC.Derived.PadicUp.Valuation
+import BEDC.Derived.PadicValuationUp
 import BEDC.Derived.PainleveKuratowskiConvergenceUp.TasteGate
 import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.PaperLeanDriftWitnessUp.AuditIndexReadiness
@@ -9479,6 +9481,7 @@ import BEDC.Derived.PinGroupUp
 import BEDC.Derived.PinGroupUp.CliffordConjugationLedger
 import BEDC.Derived.PinGroupUp.ReflectionExtension
 import BEDC.Derived.PinGroupUp.RootScopedObligationPackage
+import BEDC.Derived.PisanoPeriodUp
 import BEDC.Derived.PixleyRoySpaceUp.TasteGate
 import BEDC.Derived.PochhammerUp
 import BEDC.Derived.PoincareBoundaryFixedTransportUp.TasteGate
@@ -11922,6 +11925,7 @@ import BEDC.Derived.SternBrocotIntervalUp.TasteGate
 import BEDC.Derived.SternBrocotTreeUp
 import BEDC.Derived.SternBrocotUp
 import BEDC.Derived.SternBrocotUp.TasteGate
+import BEDC.Derived.SternDiatomicUp
 import BEDC.Derived.StieltjesMeasureBoundaryUp.TasteGate
 import BEDC.Derived.StirlingFirstUp
 import BEDC.Derived.StirlingInversionUp
@@ -12185,6 +12189,7 @@ import BEDC.Derived.ThetaFunctionUp
 import BEDC.Derived.ThomaeFunctionUp.NameCertObligations
 import BEDC.Derived.ThomaeFunctionUp.TasteGate
 import BEDC.Derived.ThreeManifoldUp
+import BEDC.Derived.ThueMorseUp
 import BEDC.Derived.TietzeExtensionUp.TasteGate
 import BEDC.Derived.TightLocatedCutUp.TasteGate
 import BEDC.Derived.TightRealIntervalUp.TasteGate
