@@ -12106,6 +12106,7 @@ import BEDC.Derived.Window6NecklaceOrbitCount
 import BEDC.Derived.Window6NecklaceSpectralDeterminant
 import BEDC.Derived.Window6ParryModPDescent
 import BEDC.Derived.Window6PisanoPeriodModP
+import BEDC.Derived.Window6RightSkewDisjointPairRecurrence
 import BEDC.Derived.Window6SeamIdentification
 import BEDC.Derived.Window6SingletonQuartetRecurrence
 import BEDC.Derived.Window6SixfoldWalshRecurrence
