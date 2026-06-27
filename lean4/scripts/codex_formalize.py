@@ -30,6 +30,7 @@ import json
 import logging
 import os
 import re
+import signal
 import shutil
 import subprocess
 import sys
@@ -96,6 +97,8 @@ HARD_MAX_PARALLEL = 50
 FORBIDDEN_TARGET_PATH_PARTS = {"Examples"}
 FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "placeholder", "demo"}
 MAX_LEAN_FILE_LINES = 800
+LEAN_FILE_BUDGET_SECONDS = 180
+LEAN_FILE_BUDGET_MAX_SECONDS = 900
 
 
 def _resolve_git_common_file(filename: str, fallback: Path) -> Path:
@@ -1251,8 +1254,59 @@ def run_phase_d_lints(wt: WorktreeInfo) -> tuple[bool, Optional[str], Optional[s
     return False, "phase_d_lint", tail
 
 
+def _touched_bedc_lean_files(wt: WorktreeInfo) -> list[str] | None:
+    result = run_cmd(
+        [
+            "git", "diff", "--name-only", "--diff-filter=AM",
+            f"{BASE_BRANCH}...HEAD", "--", "lean4/BEDC/**/*.lean",
+        ],
+        cwd=wt.path,
+        timeout=60,
+    )
+    if result.returncode != 0:
+        logger.warning(
+            f"[R{wt.round_number}] could not list touched Lean files: "
+            f"{(result.stderr or result.stdout).strip()[:500]}"
+        )
+        return None
+    return sorted({
+        line[len("lean4/"):]
+        for line in result.stdout.splitlines()
+        if line.startswith("lean4/BEDC/") and line.endswith(".lean")
+    })
+
+
+def _lean_file_budget_gate_spec(wt: WorktreeInfo) -> tuple[str, list[str], Path, int]:
+    touched = _touched_bedc_lean_files(wt)
+    if touched is None:
+        return (
+            "lean_file_budget",
+            [
+                "python3", "-c",
+                "import sys; sys.stderr.write('could not list touched BEDC Lean files\\n'); sys.exit(1)",
+            ],
+            wt.path,
+            60,
+        )
+    if not touched:
+        return ("lean_file_budget", [], wt.path, 60)
+    timeout = max(60, len(touched) * (LEAN_FILE_BUDGET_MAX_SECONDS + 30))
+    return (
+        "lean_file_budget",
+        [
+            "python3", "lean4/scripts/bedc_ci.py", "verify-files",
+            "--timeout-seconds", str(LEAN_FILE_BUDGET_SECONDS),
+            "--kill-process-group",
+            *touched,
+        ],
+        wt.path,
+        timeout,
+    )
+
+
 def _pre_merge_hard_gate_specs(wt: WorktreeInfo) -> list[tuple[str, list[str], Path, int]]:
     return [
+        _lean_file_budget_gate_spec(wt),
         ("lake_build", ["lake", "build"], wt.path / "lean4", 7200),
         ("check_axioms", ["python3", "tools/check-axioms.py"], wt.path, 600),
         ("audit", ["python3", "lean4/scripts/bedc_ci.py", "audit"], wt.path, 600),
@@ -1267,6 +1321,9 @@ def _run_pre_merge_gate(
     cwd: Path,
     timeout: int,
 ) -> tuple[bool, Optional[str], Optional[str]]:
+    if not cmd:
+        logger.info(f"[R{wt.round_number}] Pre-merge hard gate skipped: {name}")
+        return True, None, None
     result = run_cmd(cmd, cwd=cwd, timeout=timeout)
     if result.returncode == 0:
         return True, None, None
@@ -1297,8 +1354,9 @@ def run_pre_merge_hard_gates(wt: WorktreeInfo) -> tuple[bool, Optional[str], Opt
     """Run the pre-merge gate sequence.
 
     Returns (ok, failed_gate_name, output_tail).
-    failed_gate_name is one of {'lake_build', 'check_axioms', 'audit',
-    'axiom_purity', 'phase_d_lint'} on failure; None on success.
+    failed_gate_name is one of {'lean_file_budget', 'lake_build',
+    'check_axioms', 'audit', 'axiom_purity', 'phase_d_lint'} on failure;
+    None on success.
     output_tail is the last ~4000 chars of combined stdout+stderr for the
     failing gate, suitable for passing to a codex recovery prompt.
     """
@@ -3626,19 +3684,45 @@ def _record_broken_sha(sha: str, log_name: str) -> None:
         f.write(f"{sha}\t{ts}\t{log_name}\n")
 
 
+def _terminate_process_group(proc: subprocess.Popen[object]) -> None:
+    try:
+        pgid = os.getpgid(proc.pid)
+    except ProcessLookupError:
+        return
+    for sig, wait_seconds in ((signal.SIGTERM, 2), (signal.SIGKILL, 0)):
+        try:
+            os.killpg(pgid, sig)
+        except ProcessLookupError:
+            return
+        except PermissionError:
+            try:
+                proc.kill()
+            except ProcessLookupError:
+                return
+            return
+        if wait_seconds:
+            time.sleep(wait_seconds)
+
+
 def _builder_lake_build(cwd: Path, log_file: Path, timeout: int = 7200) -> tuple[bool, str]:
     log_file.parent.mkdir(parents=True, exist_ok=True)
     with open(log_file, "w", encoding="utf-8") as lf:
         lf.write(f"# lake build at {datetime.now().isoformat()} cwd={cwd}\n\n")
         lf.flush()
+        proc: subprocess.Popen[object] | None = None
         try:
-            r = subprocess.run(
+            proc = subprocess.Popen(
                 ["lake", "build"], cwd=str(cwd),
                 stdout=lf, stderr=subprocess.STDOUT,
-                timeout=timeout, stdin=subprocess.DEVNULL,
+                stdin=subprocess.DEVNULL,
+                start_new_session=True,
             )
-            ok = r.returncode == 0
+            proc.communicate(timeout=timeout)
+            ok = proc.returncode == 0
         except subprocess.TimeoutExpired:
+            if proc is not None:
+                _terminate_process_group(proc)
+                proc.communicate()
             lf.write("\n# TIMEOUT\n")
             ok = False
     try:
