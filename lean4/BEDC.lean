@@ -954,7 +954,6 @@ import BEDC.Derived.BinderContextSubstitutionSealUp.CompilerHandoff
 import BEDC.Derived.BinderContextSubstitutionSealUp.ObligationConsumer
 import BEDC.Derived.BinderContextSubstitutionSealUp.TasteGate
 import BEDC.Derived.BinomialIdentitiesUp
-import BEDC.Derived.VandermondeChuUp
 import BEDC.Derived.BirkhoffContractionUp.TasteGate
 import BEDC.Derived.BirkhoffInterpolationUp.TasteGate
 import BEDC.Derived.BisectionConvergenceUp.TasteGate
@@ -2905,6 +2904,7 @@ import BEDC.Derived.ChainConnectedMetricUp.TasteGate
 import BEDC.Derived.ChannelTerminationHaltingBoundaryUp.TasteGate
 import BEDC.Derived.CharacterTableUp.TasteGate
 import BEDC.Derived.CharacterTheoryUp
+import BEDC.Derived.ChebyshevBoundUp
 import BEDC.Derived.ChebyshevCenterUp.TasteGate
 import BEDC.Derived.ChebyshevEquioscillationUp.TasteGate
 import BEDC.Derived.ChebyshevPolynomialUp.TasteGate
@@ -4991,6 +4991,7 @@ import BEDC.Derived.DirichletBoxApproximationUp.TasteGate
 import BEDC.Derived.DirichletKernelUp
 import BEDC.Derived.DirichletKernelUp.NameCertObligations
 import BEDC.Derived.DirichletKernelUp.TasteGate
+import BEDC.Derived.DirichletRingUp
 import BEDC.Derived.DirichletSeriesTestUp.TasteGate
 import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
@@ -6365,6 +6366,7 @@ import BEDC.Derived.FreudenthalEndUp.TasteGate
 import BEDC.Derived.FrinkMetrizationUp.TasteGate
 import BEDC.Derived.FrobeniusCoinUp.TasteGate
 import BEDC.Derived.FrobeniusNormUp.TasteGate
+import BEDC.Derived.FrobeniusUp
 import BEDC.Derived.FrontdoorCriterionUp.TasteGate
 import BEDC.Derived.FubiniFiniteRectangleUp.NameCertObligations
 import BEDC.Derived.FubiniFiniteRectangleUp.TasteGate
@@ -7845,6 +7847,7 @@ import BEDC.Derived.MenageUp
 import BEDC.Derived.MengerNobelingEmbeddingUp.TasteGate
 import BEDC.Derived.MercerTheoremUp.TasteGate
 import BEDC.Derived.MertensCauchyProductTheoremUp.TasteGate
+import BEDC.Derived.MertensFunctionUp
 import BEDC.Derived.MetaCICAuditMapFamilyUp
 import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
@@ -12255,6 +12258,7 @@ import BEDC.Derived.TotallyBoundedMetricUp.TasteGate
 import BEDC.Derived.TotallyBoundedUp
 import BEDC.Derived.TotallyBoundedUp.TasteGate
 import BEDC.Derived.TotallyDisconnectedSpaceUp.TasteGate
+import BEDC.Derived.TotientSummatoryUp
 import BEDC.Derived.TouchardPolyUp
 import BEDC.Derived.TowerEndpointReflectionUp.TasteGate
 import BEDC.Derived.TowerEquivalenceUp.NameCertObligations
@@ -12699,6 +12703,7 @@ import BEDC.Derived.ValidatedNumericsUp.RefinementCompositionContainment
 import BEDC.Derived.ValidatedNumericsUp.TasteGate
 import BEDC.Derived.ValuationDomainUp
 import BEDC.Derived.VanDerCorputDifferenceEstimateUp.TasteGate
+import BEDC.Derived.VandermondeChuUp
 import BEDC.Derived.VariationDiminishingUp.TasteGate
 import BEDC.Derived.VariationMeasureUp.TasteGate
 import BEDC.Derived.VariationNormUp.TasteGate
