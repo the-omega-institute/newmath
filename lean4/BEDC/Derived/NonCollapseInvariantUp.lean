@@ -1,10 +1,12 @@
 import BEDC.Derived.LocatedReal.RatMetricKit
+import BEDC.Derived.RHRoute.ZetaBoxEvaluator
 
 namespace BEDC.Derived.NonCollapseInvariantUp
 
 open BEDC.Derived.RationalUp
 open BEDC.Derived.LocatedReal
 open BEDC.Derived.IntUp
+open BEDC.Derived.RHRoute.ZetaBoxEvaluator
 
 structure SeparatingRatMetricKit (K : RatMetricKit) where
   apart_not_close :
@@ -19,6 +21,23 @@ def NonCollapseInvariant {K : RatMetricKit} (w : LReal K) : Prop :=
 structure NonCollapseWitness (K : RatMetricKit) where
   point : LReal K
   invariant : NonCollapseInvariant point
+
+def BoxRatSeparated (box : ComplexBox) (q : RatNum) : Prop :=
+  ratLt box.re.hi q ∨ ratLt q box.re.lo ∨
+    ratLt box.im.hi ratZero ∨ ratLt ratZero box.im.lo
+
+structure BoxStreamApart (G : BoxGauge) (w : BoxStream G) (q : RatNum) where
+  precision : Nat
+  fit_at_precision : G.fits (boxAt w precision) precision
+  separated : BoxRatSeparated (boxAt w precision) q
+
+def BoxStreamNonCollapseInvariant (G : BoxGauge) (w : BoxStream G) : Type :=
+  ∀ q : RatNum, BoxStreamApart G w q
+
+structure BoxStreamNonCollapseWitness where
+  gauge : BoxGauge
+  point : BoxStream gauge
+  invariant : BoxStreamNonCollapseInvariant gauge point
 
 theorem NonCollapseInvariant_lrApart {K : RatMetricKit} {w : LReal K}
     (h : NonCollapseInvariant w) (q : RatNum) :
