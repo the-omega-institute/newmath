@@ -1048,6 +1048,7 @@ import BEDC.Derived.BishopLocatedBallCoverUp
 import BEDC.Derived.BishopLocatedCauchyCompletionStabilityUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopLocatedChoiceSequenceUp
+import BEDC.Derived.BishopLocatedComparisonUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletenessUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.BoundaryLedger
 import BEDC.Derived.BishopLocatedCompletionBoundaryUp.InductiveRoute
@@ -1863,6 +1864,7 @@ import BEDC.Derived.CauchyCompletionStableReflectionUp.TasteGate
 import BEDC.Derived.CauchyCompletionStrengthUp.TasteGate
 import BEDC.Derived.CauchyCompletionTraceUp.TasteGate
 import BEDC.Derived.CauchyCompletionTriangleIdentityUp.TasteGate
+import BEDC.Derived.CauchyCompletionUnitIsometryUp.TasteGate
 import BEDC.Derived.CauchyCompletionUnitUp
 import BEDC.Derived.CauchyCompletionUnitUp.TasteGate
 import BEDC.Derived.CauchyCompletionUniversalArrowUp.TasteGate
@@ -5358,6 +5360,7 @@ import BEDC.Derived.EffectiveModulusCompactFamilyUp.TasteGate
 import BEDC.Derived.EffectiveModulusUp
 import BEDC.Derived.EffectiveModulusUp.TasteGate
 import BEDC.Derived.EffectiveOpenBallBasisUp
+import BEDC.Derived.EffectiveOpenBallBasisUp.TasteGate
 import BEDC.Derived.EffectivePolishSpaceUp.RealizerHandoff
 import BEDC.Derived.EffectivePolishSpaceUp.TasteGate
 import BEDC.Derived.EffectiveRegularRealExtensionalityUp
