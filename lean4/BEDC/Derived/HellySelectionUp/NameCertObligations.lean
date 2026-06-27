@@ -85,4 +85,60 @@ theorem HellySelection_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, bUnary, aUnary, wUnary, sUnary, rUnary, eUnary, auditUnary⟩
 
+theorem HellySelection_bounded_variation_window [AskSetup] [PackageSetup]
+    {B A W S R E T C P N variationRead boundedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HellySelectionCarrier B A W S R E T C P N bundle pkg ->
+      Cont B A variationRead ->
+        Cont variationRead W boundedRead ->
+          PkgSig bundle boundedRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row boundedRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row B ∨ hsame row A ∨ hsame row W ∨ hsame row boundedRead)
+                (fun row : BHist => UnaryHistory row ∧ PkgSig bundle boundedRead pkg)
+                hsame ∧
+              UnaryHistory variationRead ∧ UnaryHistory boundedRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier variationRoute boundedRoute boundedPkg
+  obtain ⟨bUnary, aUnary, wUnary, _sUnary, _rUnary, _eUnary, _tUnary, _cUnary,
+    _pUnary, _nUnary, _namePkg⟩ := carrier
+  have variationUnary : UnaryHistory variationRead :=
+    unary_cont_closed bUnary aUnary variationRoute
+  have boundedUnary : UnaryHistory boundedRead :=
+    unary_cont_closed variationUnary wUnary boundedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row boundedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row A ∨ hsame row W ∨ hsame row boundedRead)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle boundedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro boundedRead ⟨hsame_refl boundedRead, boundedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr source.left))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, boundedPkg⟩
+  }
+  exact ⟨cert, variationUnary, boundedUnary⟩
+
 end BEDC.Derived.HellySelectionUp
