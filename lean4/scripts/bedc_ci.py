@@ -12355,7 +12355,8 @@ DEFAULT_FORBIDDEN_AXIOMS: tuple[str, ...] = (
 )
 STRICT_FORBIDDEN_AXIOMS: tuple[str, ...] = DEFAULT_FORBIDDEN_AXIOMS + ("propext",)
 PRINT_AXIOMS_RE = re.compile(
-    r"'([\w.·’]+)'\s+(?:does not depend on any axioms|depends on axioms:\s*\[(.*?)\])"
+    r"^'(.+)'\s+(?:does not depend on any axioms|depends on axioms:\s*\[(.*?)\])$",
+    re.MULTILINE,
 )
 METACIC_SCOPE = "BEDC.MetaCIC"
 METACIC_IMPORT = "BEDC.MetaCIC"
