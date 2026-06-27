@@ -582,6 +582,20 @@ Use the consumer boundary of \autoref{thm:metacic-candidate-normalization-conflu
 Finally combine the guarded rectangle of \autoref{thm:metacic-candidate-normalization-confluence-rectangle} with the finite-observation handoff of \autoref{thm:finite-observation-metacic-diamond-envelope-handoff}. The available join is therefore total only as a finite residual-diamond route supplied by the packet, and the excluded global endpoints remain absent from the carrier.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate-normalization residual-strip local join]
+\label{thm:metacic-candidate-normalization-confluence-handoff-residual-strip-local-join}
+Every accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet exposing candidate evidence $K$, bounded endpoint row $N$, residual envelope $C$, decidable boundary $D$, blocked-edge row $B$, componentwise transport $T$, displayed replay $R$, provenance $P$, and local $\NameCert$ row $L$ supplies only a local residual-strip join route for bounded candidate-normalization consumers. The route is read through the finite handoff rows $A,K,N,F,C,D,B,T,R,P,L$ and does not export full Church--Rosser, unrestricted subject reduction, unconditional strong normalization, quotient syntax equality, host evaluator soundness, global conversion decidability, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the obligation surface of \autoref{thm:metacic-candidate-normalization-confluence-handoff-obligation-surface}. It displays the candidate evidence, residual envelope, decidable boundary, blocked edge, bounded endpoint, transport, replay, provenance, and local naming rows as the only handoff coordinates available to a confluence-facing consumer.
+
+Apply the finite-observation handoff of \autoref{thm:finite-observation-metacic-diamond-envelope-handoff}. A bounded join read is offered only after the finite observation envelope has kept the candidate row, endpoint row, residual row, checker row, blocked edge, and structural rows visible.
+
+Use residual-diamond totality from \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-totality}. It supplies the join only as a finite residual-diamond route inside $A,K,N,F,C,D,B,T,R,P,L$.
+
+The nonescape clauses are therefore inherited from the same three routes. Since none of full Church--Rosser, unrestricted subject reduction, unconditional strong normalization, quotient syntax equality, host evaluator soundness, global conversion decidability, or kernel consistency is a carrier coordinate, the consumer receives a local residual-strip join and nothing global.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate-normalization confluence handoff seed status]
 \label{thm:metacic-candidate-normalization-confluence-handoff-seed-status}
 A seed-status reader of an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet must expose candidate evidence $K$, normalization frontier $F$, residual confluence envelope $C$, decidable boundary $D$, blocked-edge row $B$, componentwise $\hsame$ transport $T$, displayed $\Cont$ replay $R$, $\Pkg$ provenance $P$, and local $\NameCert$ row $L$ before it consumes any bounded normal endpoint row $N$. The seed status is the finite retained-premise boundary of the handoff; it does not claim full Church--Rosser, unrestricted subject reduction, quotient syntax equality, evaluator equality, global conversion decidability, residual-substitution discharge, or kernel consistency.
@@ -609,7 +623,7 @@ The handoff also consumes the residual-diamond route of \autoref{ch:concrete-ins
 
 \begin{closurestatus}{\MetacicCandidateNormalizationConfluenceHandoffUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}, \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}, \autoref{thm:metacic-candidate-normalization-confluence-handoff-obligation-surface}, \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-totality}, and \autoref{thm:metacic-candidate-normalization-confluence-handoff-seed-status} name the carrier, boundary, obligation-surface, residual-diamond-totality, and seed-status routes as the finite candidate-normalization confluence handoff obligation surface.}
+  \scopeclosed{\autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}, \autoref{thm:metacic-candidate-normalization-confluence-handoff-boundary}, \autoref{thm:metacic-candidate-normalization-confluence-handoff-obligation-surface}, \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-diamond-totality}, \autoref{thm:metacic-candidate-normalization-confluence-handoff-residual-strip-local-join}, and \autoref{thm:metacic-candidate-normalization-confluence-handoff-seed-status} name the carrier, boundary, obligation-surface, residual-diamond-totality, residual-strip local-join, and seed-status routes as the finite candidate-normalization confluence handoff obligation surface.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.MetacicCandidateNormalizationConfluenceHandoffUp}
   \bridgestatus{none}
