@@ -1662,6 +1662,7 @@ import BEDC.Derived.CentralFactorialUp
 import BEDC.Derived.CartanAngularBoundaryInvariantUp
 import BEDC.Derived.CatColimitUp
 import BEDC.Derived.CatLimitUp
+import BEDC.Derived.CatalanConvolutionUp
 import BEDC.Derived.CatalanUp
 import BEDC.Derived.CategoryFunctorIndex
 import BEDC.Derived.CategoryUp
