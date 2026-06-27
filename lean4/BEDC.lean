@@ -49,6 +49,7 @@ import BEDC.Derived.AbsoluteContinuityUp.TasteGate
 import BEDC.Derived.AbsoluteConvergenceUp.TasteGate
 import BEDC.Derived.AbsolutelyContinuousFunctionUp.TasteGate
 import BEDC.Derived.AbundanceUp
+import BEDC.Derived.AbundantDeficientUp
 import BEDC.Derived.ActionCommitmentUp.TasteGate
 import BEDC.Derived.ActiveReadingGateUp.TasteGate
 import BEDC.Derived.AdamsBashforthFiniteStepUp
