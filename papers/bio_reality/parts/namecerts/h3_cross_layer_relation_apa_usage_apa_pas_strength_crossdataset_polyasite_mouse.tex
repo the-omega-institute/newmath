@@ -1,51 +1,41 @@
-\subsection{Mouse Polyadenylation-Site Index as a Boundary Record for Synonymous Cross-Layer Tests}
-\label{subsec:bioreality-apa-pas-strength-polyasite-mouse}
 \origin{ai}
+\subsection{Mouse Polyadenylation Contact as a Separate APA Boundary}
+\label{sec:bior-feat-apa-pas-strength-polyasite-mouse}
 
-\paragraph{Finite record.}
-This record isolates a mouse alternative-polyadenylation contact surface from any stronger interpretation about translation, protein output, molecular mechanism, or organismal law.  The finite row certificate presently available for the PolyASite mouse contact is an index-level fact: the run \texttt{2ac7a388b975} reports $167610$ polyadenylation-site clusters and $20110$ genes, with recorded runtime $0.0$ seconds.  In the notation of this chapter, the attached finite surface is therefore
+\paragraph{Finite panel.}
+This record isolates a mouse alternative-polyadenylation contact from the codon-usage and protein-omics panels.  The finite table contains $167610$ PolyASite clusters assigned across $20110$ genes, with run identifier $2ac7a388b975$ and reported runtime $0.0$ seconds.  These two row counts are sufficient to certify that the APA side of the packet is not a symbolic desideratum: it has a concrete many-cluster, many-gene measurement surface.  They are not, by themselves, a codon residual statistic, a translation statistic, or a protein-output statistic.  In this chapter the APA table is therefore treated as a layer-specific readout that can later be joined to coding-sequence rows only through explicit identifiers and controls.
+
+\paragraph{Coordinate discipline.}
+The codon-side coordinates are the nine $B^*_{Q6}$ synonymous residual directions
 $$
 \begin{aligned}
-N_{\mathrm{clusters}} &= 167610,\\
-N_{\mathrm{genes}} &= 20110,\\
-\tau_{\mathrm{run}} &= 0.0\ \mathrm{s}.
+Q=\{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
+&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
 \end{aligned}
 $$
-These numbers certify the existence and scale of a mouse PAS-index panel, not an already computed synonymous-coordinate survival statistic.  They give a finite target on which a future row-wise matrix may be formed, but they do not yet supply per-CDS codon residuals, per-gene PAS strength values, matched transcript abundance, matched translation readouts, or matched protein-omics values on the same rows.
+They are residual coordinates after the amino-acid quotient, not raw codon-frequency summaries.  A future APA statistic would have to place these $9$ directions beside per-gene or per-transcript APA quantities, then remove amino-acid composition, organism labels when multi-organism rows are present, GC3, coding length, $M$-density, mRNA abundance, and any measured translation readout used as a boundary control.  Without that joined matrix, the PolyASite counts report the size of the APA contact, not a passed $q_i$ to APA association.
 
-\paragraph{Coordinate role.}
-The intended explanatory variable family is the $B^{\ast}_{Q6}$ amino-acid-quotient residual basis on coding sequences.  The residual coordinate list available from the connected codon-usage computations has $9$ entries:
+\paragraph{Protein-omics comparison retained as context.}
+The nearest completed downstream protein-omics panel used measured PAXdb protein abundance and real CDS codon counts across $15$ organisms.  It retained $9$ residual coordinates after $24$ control columns, with $\operatorname{rank}(\widetilde X)=9$ and $\operatorname{rank}(Z)=23$ in every organism-specific fit.  The reported direct protein-omics residual coefficients were positive under the very small threshold $10^{-12}$, but the biological interpretation was restricted to direct association.  The organism-level residual $R^2_{QP}$ values were $0.061906245886660105$ for \emph{Bacillus subtilis}, $0.10217906758013379$ for \emph{Caenorhabditis elegans}, $0.04613529807085213$ for \emph{Danio rerio}, $0.08141786718177903$ for \emph{Dictyostelium discoideum}, $0.0770952887136557$ for \emph{Drosophila melanogaster}, $0.10767526677985896$ for \emph{Escherichia coli} K-12 MG1655, $0.03980793596647631$ for chicken, $0.019256877907572044$ for \emph{Halobacterium salinarum}, $0.04454565118019448$ for human, $0.049827984062539195$ for mouse, $0.03209009170649934$ for \emph{Mycobacterium smegmatis}, $0.0646471273126996$ for \emph{Pseudomonas aeruginosa}, $0.02763998603083845$ for rat, $0.29837624994140827$ for yeast, and $0.06397514251295629$ for \emph{Sulfolobus solfataricus}.  The mouse value $0.049827984062539195$ is relevant only as a protein-abundance comparison point; it is not an APA strength measurement.
+
+\paragraph{Translation boundary.}
+A separate modeled-translation panel used three organisms, $61$ sense codons, and dos Reis wobble weights derived from GtRNAdb tRNA-copy data.  The standard amino-acid family coverage was $20$ in \emph{E. coli}, human, and yeast; the matched FASTA-header counts were $87$ out of $89$ for \emph{E. coli}, $432$ out of $432$ for human, and $275$ out of $275$ for yeast.  The modeled coupling surface had $81$ entries above threshold $0.01$, with maximum absolute entry $3801961.031607896$.  Because the organism count was $3$, this was explicitly not a powered survival panel.  The same boundary applies here: a mouse PolyASite table, even with $167610$ clusters, does not license a translation claim unless a measured ribosome or translation-efficiency column is attached and shown to mediate the codon-side association.
+
+\paragraph{RNA-stability anchors.}
+The mRNA-half-life panels show how a downstream RNA readout may be handled once the rows are actually joined.  In yeast, $5085$ joined rows gave $R^2_{QM}=0.05179429044975085$, $R^2_{QP}=0.2761140373962526$ on the same join, cosine $0.8040935468384264$ between the mRNA and protein residual directions, dominant $Q\to M$ coordinate $Leu\_CUN\_vs\_UUR$, and permutation value $0.000999000999000999$ over $1000$ permutations.  In \emph{E. coli}, $2720$ joined rows gave $R^2_{QM}=0.02298556640056076$, same-join $R^2_{QP}=0.11632311854858134$, cosine $-0.7784923375569599$, dominant coordinate $Arg\_AGR$, and the same $1000$-permutation value $0.000999000999000999$.  In human, $16165$ joined rows and $54$ consensus half-life columns gave $R^2_{QM}=0.010503670362051522$, same-join $R^2_{QP}=0.04095215557813418$, cosine $0.6351183883924848$, and dominant coordinate $Leu\_CUN\_vs\_UUR$.  These figures are not mouse APA evidence; they demonstrate the standard required for promoting a finite contact from row existence to a controlled cross-layer statistic.
+
+\paragraph{APA survival form.}
+Let $A_g$ denote an APA or PAS-strength readout attached to gene or transcript row $g$, and let $Q_g$ be the vector of the nine residual codon coordinates on the same row.  The admissible statistic is a residual comparison of the form
 $$
 \begin{aligned}
-Q=\{&\mathrm{K\_AAA},\ \mathrm{Arg\_AGR},\ \mathrm{Ile\_AUA},\ \mathrm{Leu\_CUN\_vs\_UUR},\\
-&\mathrm{Leu\_UUA\_vs\_UUG},\ \mathrm{Ser\_UCR\_vs\_AGY},\ \mathrm{Ser\_UCA\_vs\_UCG},\\
-&\mathrm{Thr\_ACR\_vs\_ACY},\ \mathrm{f3\_stress}\}.
+S^{QA}_{i} > 0
+\quad\Longleftrightarrow\quad
+\Delta\mathcal L(A\mid Z,Q_i)<0
+\quad\text{or equivalently}\quad
+R^2(A\sim Z+Q_i)-R^2(A\sim Z)>0,
 \end{aligned}
 $$
-The point of using these coordinates is not that codon geometry is itself a biological measurement.  The point is narrower: after the amino-acid quotient has removed the direct protein-sequence class, the remaining synonymous coordinates can be tested against an attached finite readout, provided the readout and the controls live on the same rows.  For the mouse PAS panel, the currently certified rows stop at cluster and gene counts.  A PAS-strength survival matrix would require a row map from coding-sequence identifiers to PAS clusters or gene-level PAS summaries and then a residualized readout column.
+where $Z$ includes the sequence, abundance, translation, and simpler-baseline controls named above.  The current mouse PolyASite contact supplies the scale of $A$ through $167610$ clusters and $20110$ genes, but it does not yet report $S^{QA}_i$, a PAS-strength coefficient, a cross-dataset lambda, a module class, a hit rate for CDS-to-APA row joins, or a permutation value.  The correct local verdict is therefore a grounded APA contact with the cross-layer statistic still conditional on the joined design.
 
-\paragraph{Local statistic to be tested.}
-Let $q_i$ be one of the $9$ synonymous residual coordinates and let $A_k$ be a PAS-strength or APA-usage readout derived from the mouse PolyASite panel.  The local survival score for this chapter is the added explanatory power of $q_i$ for $A_k$ after baseline controls, not a claim about translation or protein abundance.  The admissible test has the form
-$$
-\begin{aligned}
-A_k &= Z\alpha + q_i\beta_i + \varepsilon,\\
-S^{QA}_{ik} &= R^2(A_k\mid Z,q_i)-R^2(A_k\mid Z),\\
-Z &\supset \{\mathrm{amino\ acid\ composition},\ \mathrm{GC3},\ \mathrm{CDS\ length},\ \mathrm{M\ density},\ \mathrm{mRNA\ abundance}\}.
-\end{aligned}
-$$
-A positive entry would mean only that a synonymous residual coordinate survives as a predictor of the APA or PAS-strength readout under the declared controls.  It would not mean that codon usage changes cleavage and polyadenylation, that translation mediates the association, or that a protein-level phenotype has been observed.  The present finite record has the scale needed for such a test, but it lacks the row-resolved values needed to compute $S^{QA}_{ik}$.
-
-\paragraph{Why the translation boundary is explicit.}
-The broader $Q6$ program already contains several controlled cross-layer contacts, and their finite numbers are useful here because they show what a computed survival record looks like.  In the direct protein-omics run \texttt{104db736a756}, the same $9$ residual coordinates were tested against measured PAXdb protein abundance after length, amino-acid composition, GC3, and M-density controls.  The per-organism controlled protein-omics readbacks include $R^2_{QP}=0.10767526677985896$ for \textit{E. coli} K-12 MG1655, $0.29837624994140827$ for \textit{Saccharomyces cerevisiae}, $0.04454565118019448$ for human, and $0.049827984062539195$ for mouse.  The mouse protein-omics join used $19395$ proteins with join hit rate $0.9808334176190958$, rank $9$ for the residualized coordinate block, rank $23$ for controls, and residual degrees of freedom $19372$.  Those are direct protein-abundance associations, not translation mechanisms.
-
-\paragraph{Comparison with RNA-stability contacts.}
-The mRNA-stability contacts also show that row-resolved readouts can be tested without promoting them to mechanism.  In yeast, the same-coordinate RNA half-life run reports $n=5085$, $R^2_{QM}=0.05179429044975085$, same-join $R^2_{QP}=0.2761140373962526$, cosine $0.8040935468384264$ between the RNA-stability and protein-omics residual directions, and permutation value $p=0.000999000999000999$ over $1000$ permutations.  In \textit{E. coli}, the half-life run reports $n=2720$, $R^2_{QM}=0.02298556640056076$, same-join $R^2_{QP}=0.11632311854858134$, cosine $-0.7784923375569599$, and the same permutation value $p=0.000999000999000999$.  In human, the consensus half-life run reports $n=16165$, $54$ dataset columns, $R^2_{QM}=0.010503670362051522$, same-join $R^2_{QP}=0.04095215557813418$, cosine $0.6351183883924848$, and $p=0.000999000999000999$.  These examples justify the statistical shape of the proposed mouse PAS test, while also showing the required discipline: a positive residual association remains a readout-specific association unless a separate layer-matched contact supplies the missing biological step.
-
-\paragraph{Rank and underpowered-contact caution.}
-The modeled translation contact is deliberately weaker than a measured translation contact.  The modeled tAI run \texttt{4250daa2488f} uses $3$ organisms, computes $61$ sense-codon weights per organism from GtRNAdb gene-copy and dos Reis wobble values, and records $81$ entries above threshold $0.01$ with maximum absolute coupling $3801961.031607896$.  The same run explicitly treats $3$ organisms as insufficient for powered survival and refuses promotion to ribosome-profiling or proteomics validation.  This matters for the mouse PAS contact because a large index size by itself is not enough.  The PAS panel has $167610$ clusters and $20110$ genes, but the survival claim needs same-row covariates and nondegenerate residual rank after controls.  A table of clusters is not yet a tested $Q$-to-APA matrix.
-
-\paragraph{Cannot-claim boundary.}
-The local claim allowed by the present finite record is only that a mouse PAS/APA readout surface has been identified at a concrete scale and can host a future $B^{\ast}_{Q6}$ residual test.  No translation claim follows from the cluster and gene counts.  No folding, physical admissibility, protein function, localization, stability, phenotype, mechanism, causation, adaptation, or universal biological law follows from the PAS index, from the synonymous residual coordinates, or from a future positive $S^{QA}_{ik}$ entry alone.  Translation requires a measured or explicitly bounded translation readout on matched rows.  Protein-omics interpretation requires matched protein abundance and the translation boundary to be reported.  Mechanism requires a mediator or perturbation design strong enough to distinguish direct association from routed association.
-
-\paragraph{Chapter verdict.}
-This chapter is therefore ready as a bounded BioReality record: it records the finite mouse PolyASite scale, fixes the admissible $Q$-to-APA statistical shape, and states the non-promotion rule locally.  The scientific result is not a passed APA-survival theorem.  It is a prepared finite contact boundary: $167610$ clusters and $20110$ genes define the readout surface, while the missing same-row PAS-strength matrix, mRNA control, translation readout, and protein-omics mediation rows determine what remains to be measured before any positive cross-layer interpretation can be reported.
+\paragraph{Local no-promotion rule.}
+The chapter permits only the following statement: mouse APA/PAS data exist at substantial finite scale and can serve as the APA-side contact for a future controlled $B^*_{Q6}$ residual test.  No translation, protein folding, physical admissibility, molecular function, cellular mechanism, phenotype, adaptation, or universality follows from the APA cluster counts.  A protein-omics association remains a protein-abundance association unless a measured translation mediator is present and conditioning on that mediator reduces or removes the direct $q_i\to P_k$ signal.  Likewise, an APA association, if later computed, would remain an APA readout association unless a separate layer-specific contact supplies the mechanism being claimed.
