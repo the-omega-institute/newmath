@@ -47,10 +47,13 @@ CANONICAL_SD_MRNA = "AGGAGG"
 LAMBDA = math.log(2.0)
 EPS = 1.0e-12
 SCRIPT_DIR = Path(__file__).resolve().parent
-STRONG_SD_MIN_K = 5
+STRONG_SD_MIN_K = 6
 STRONG_SD_MAX_K = 8
-STRONG_SD_RAW_5MER = 9
-STRONG_SD_RAW_6_8MER = 11
+# A strong SD hit is a near-perfect antiparallel Watson-Crick complement to the
+# anti-SD tail over a >=6 nt core. Raw pairing points scale with k (2 per paired
+# base), so a fixed raw cutoff saturates for longer k; require raw >= 2k - slack
+# (at most one mismatch-equivalent over the core) so the predicate stays specific.
+STRONG_SD_MISMATCH_SLACK = 2
 GATE_BG_WINDOW = 16
 GATE_BG_PER_START = 5
 GATE_EMPIRICAL_DRAWS = 1000
@@ -248,10 +251,11 @@ def upstream_window(record: dict[str, object], contigs: dict[str, str], lo: int 
 
 
 def strong_kmer_hit(kmer: str, table: dict[str, tuple[float, int]]) -> bool:
+    k = len(kmer)
+    if k < STRONG_SD_MIN_K:
+        return False
     raw = int(table.get(kmer, (0.0, 0))[1])
-    if len(kmer) == 5:
-        return raw >= STRONG_SD_RAW_5MER
-    return len(kmer) >= 6 and raw >= STRONG_SD_RAW_6_8MER
+    return raw >= 2 * k - STRONG_SD_MISMATCH_SLACK
 
 
 def strong_sd_hit(seq: str, table: dict[str, tuple[float, int]]) -> bool:
@@ -871,7 +875,7 @@ def gate_i0(records: list[dict[str, object]], contigs: dict[str, str], tail20: s
             "max_empirical_p": GATE_MAX_EMPIRICAL_P,
             "max_decoy_rank": GATE_MAX_DECOY_RANK,
         },
-        "strong_sd_thresholds": {"raw_5mer": STRONG_SD_RAW_5MER, "raw_6_8mer": STRONG_SD_RAW_6_8MER},
+        "strong_sd_thresholds": {"min_k": STRONG_SD_MIN_K, "max_k": STRONG_SD_MAX_K, "raw_cutoff_rule": "2k - %d" % STRONG_SD_MISMATCH_SLACK},
         "canonical_sd_diagnostics": canonical_sd_diagnostics(own),
     }
 
