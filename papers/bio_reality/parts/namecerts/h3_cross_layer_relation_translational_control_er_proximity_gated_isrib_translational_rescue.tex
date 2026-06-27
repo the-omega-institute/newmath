@@ -1,42 +1,41 @@
 \origin{ai}
 
-\subsection{ER-Proximity-Gated ISRIB Translational Rescue Under Matched mRNA Control}
-\label{sec:bioreality-er-proximity-gated-isrib-translational-rescue}
+\subsection{mRNA-controlled translation-efficiency boundary for the ER-proximity ISRIB rescue packet}
+\label{sec:bioreality-q6-mrna-controlled-te-boundary-er-proximity-isrib}
 
-\paragraph{Finite row carrier.}
-The record considered here is a finite CDS-by-organism table in which each retained row carries a synonymous residual coordinate $q_i$ from the $B^{*}_{Q6}$ residual basis, ordinary sequence controls, a matched mRNA-abundance surface, and a translation-efficiency or ribosome-occupancy readout in the same experimental condition. The biological question is not whether codon usage, tAI, stAI, or a ribosome-profiling contact name can be narrated as translation. The question is narrower: after amino-acid composition, organism, GC3, CDS length, M-density, and matched mRNA abundance have been accounted for, does any remaining $q_i \to T_j$ signal survive as a translation-efficiency residual?
+\paragraph{Finite-row object.}
+This record treats the $B^{\ast}_{Q6}$ synonymous residual coordinates as row labels on a finite CDS-by-organism table, not as a direct biological measurement. Each row carries a residual coordinate $q_i$ after quotienting by amino-acid composition, together with standard sequence covariates and a matched transcript-abundance control. The intended readout is the residual translation-efficiency surface left after conditioning on mRNA abundance. Thus the admissible object is not a naked codon-usage association, but a controlled row comparison of the form
+$$
+\begin{aligned}
+q_i &\longmapsto \mathrm{mRNA}_i,\\
+q_i &\longmapsto \mathrm{TE}^{\mathrm{res}}_i \mid (\mathrm{AA},\mathrm{organism},\mathrm{GC3},\mathrm{length},M\text{-}\mathrm{density},\mathrm{mRNA}).
+\end{aligned}
+$$
+The point of the construction is to prevent a transcript-layer association from being read as translation-layer survival. A coordinate may enter the translation-readout survival matrix only after the same-row mRNA surface has been attached and the remaining translation-efficiency residual is nonzero under the declared controls.
 
-\paragraph{Observed finite-row statistic.}
-In run $842b739606af$, the usable panel retained $4419$ genes. The comparison used $883$ rows in the top stratum and $883$ rows in the bottom stratum. The observed controlled contrast was
+\paragraph{Observed finite statistic.}
+The finite run attached to this packet is experiment $842b739606af$, verified at $2026$-$06$-$26$T$21{:}16{:}55$+00:00. It retained $4419$ genes and used symmetric top and bottom strata of $883$ genes each. The reported contrast was
 $$
 \begin{aligned}
 D &= 0.23767000000000027,\\
 D_{\mathrm{RNA}} &= -0.0224999999999973,\\
 D_{\mathrm{rep},a} &= 0.19967000000000013,\\
-D_{\mathrm{rep},b} &= 0.24280000000000035.
-\end{aligned}
-$$
-The two replicate contrasts have the same sign, while the matched RNA contrast is near zero and opposite in sign. The run used $10000$ permutations and reported
-$$
-\begin{aligned}
-p_{\mathrm{two}} &= 9.999000099990002 \times 10^{-5},\\
+D_{\mathrm{rep},b} &= 0.24280000000000035,\\
 D_{\mathrm{thresh}} &= 0.32192809488736235,\\
-\mathrm{runtime} &= 20.019\ \mathrm{s}.
+p_{\mathrm{two}} &= 9.999000099990002\times 10^{-5},\\
+N_{\mathrm{perm}} &= 10000.
 \end{aligned}
 $$
-Thus the finite rows show a reproducible positive translation-side contrast together with a non-supporting RNA-side contrast. The numerical outcome is compatible with an mRNA-control gate: the signal is not licensed by transcript abundance alone, and the transcript surface is used to decide whether the translation readout remains separated from transcriptional association.
+The two replicate contrasts have the same sign, and both are positive. The RNA-side contrast is near zero and slightly negative, while the main contrast is positive. This is the numerical pattern expected for a boundary test whose purpose is to ask whether the signal is merely transcript abundance or whether a translation-efficiency residual remains after the mRNA control. The finite statistic is therefore useful as a controlled translation-readout contact: the transcript layer does not explain the observed signed direction in this row set, and the permutation readout gives a two-sided value of approximately $10^{-4}$.
 
-\paragraph{Controlled readback rule.}
-For each residual coordinate $q_i$, the admissible readback is the pairwise comparison between $q_i \to \mathrm{mRNA}$ association and the residual $q_i \to \mathrm{TE}$ association after the mandatory control surface has been attached. In symbols, the chapter-level test is the survival of
-$$
-\begin{aligned}
-q_i \longrightarrow T_j \mid Z,\mathrm{mRNA},
-\end{aligned}
-$$
-where $Z$ contains amino-acid composition, organism, GC3, CDS length, M-density, and the simpler codon baselines available for the panel. A positive raw codon or adaptation-weight association is not enough. If the apparent signal is absorbed by the mRNA surface, then the row remains a transcription-level association and is not entered as translation survival. In this run, $D_{\mathrm{RNA}}=-0.0224999999999973$ is the local guardrail against that promotion, while $D=0.23767000000000027$ and the same-sign replicate values record the translation-side residual contrast that remains visible in the finite comparison.
+\paragraph{Threshold reading.}
+The same table also reports $D<D_{\mathrm{thresh}}$, since $0.23767000000000027<0.32192809488736235$. The chapter therefore does not promote this packet to an unrestricted translation mechanism. The correct reading is narrower: the finite rows show a positive, replicated, mRNA-separated translation-efficiency contrast with a small permutation value, but the registered threshold prevents treating the contrast as a completed strong survival certificate. The result is a boundary contact for residual translation-efficiency testing, not a claim that $q_i$ is itself translation-realized in every context.
 
-\paragraph{ISRIB rescue interpretation.}
-The claim name refers to ER-proximity-gated ISRIB translational rescue, but the finite evidence here should be read as a bounded translation-control record rather than as a complete mechanism. The row statistic supports only the following local statement: in the retained panel, the $B^{*}_{Q6}$ residual coordinate separates a translation-efficiency contrast from a matched mRNA-abundance contrast, with $4419$ retained genes, $883$ top rows, $883$ bottom rows, $10000$ permutations, and a two-sided permutation value of $9.999000099990002\times 10^{-5}$. The statistic does not by itself identify an ER-localized physical process, prove ISRIB causality, or establish the molecular path by which the rescue occurs. Those interpretations require separate perturbation, localization, and mechanism-specific contacts.
+\paragraph{Layer separation.}
+The mRNA control is mandatory because codon usage, tAI or stAI weights, ribosome occupancy, and protein abundance occupy different observational layers. A positive association between $Q_i$ and mRNA abundance would remain at the transcription layer. A positive association between $Q_i$ and ribosome occupancy would still require the matched mRNA denominator before it can be interpreted as translation efficiency. A protein-abundance association would require an additional downstream contact and a mediation calculation through a surviving translation readout. In this packet, $D_{\mathrm{RNA}}=-0.0224999999999973$ is explicitly recorded so that the transcript-control surface is visible rather than silently absorbed into the translation statistic.
 
-\paragraph{No-promotion boundary.}
-The chapter therefore treats the result as a translation-readout boundary claim. It does not infer translation realization from codon usage alone, from tAI or stAI weights alone, from ribosome occupancy without matched transcript control, or from protein abundance without a separately joined protein panel. It also does not infer folded structure, physical admissibility, molecular function, phenotype, mechanism, or universality. Any such statement would need its own layer-matched measurement and its own finite statistic. The present record only says that, on this finite row set, the mRNA-controlled translation-efficiency residual remains nonzero in the observed comparison while the matched RNA contrast does not carry the same positive signal.
+\paragraph{Local admissible claim.}
+The admissible statement is the following. In the retained finite panel of $4419$ genes, with $883$ top-stratum and $883$ bottom-stratum rows, experiment $842b739606af$ reports a same-sign replicated contrast for the mRNA-controlled translation-efficiency boundary: $D=0.23767000000000027$, $D_{\mathrm{rep},a}=0.19967000000000013$, $D_{\mathrm{rep},b}=0.24280000000000035$, and $p_{\mathrm{two}}=9.999000099990002\times 10^{-5}$ over $10000$ permutations, while the matched RNA contrast is $D_{\mathrm{RNA}}=-0.0224999999999973$. This supports keeping the packet as a finite translation-efficiency boundary record, with mRNA abundance acting as a required control rather than as evidence for translation.
+
+\paragraph{Boundary of interpretation.}
+No statement about translation mechanism, ribosome dynamics, protein folding, physical admissibility, molecular function, phenotype, causation, or universality follows from these rows alone. The $B^{\ast}_{Q6}$ residual coordinate is a coordinate on the finite table; it is not by itself a ribosome measurement, a protein-output measurement, or a structural assay. Any claim about observed ribosome occupancy requires a layer-matched ribosome-profiling contact. Any claim about protein abundance requires matched proteomics rows. Any claim about folding, localization, stability, function, phenotype, mechanism, or a general biological law requires a separate measurement surface at that layer and a new finite statistic under its own controls.
