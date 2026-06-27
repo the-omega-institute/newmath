@@ -91,6 +91,7 @@ Only after $A$ is exposed may a completion-facing consumer read a $\MetricUp$ la
 \label{thm:real-metric-triangle-window-stability}
 Every triangle request for accepted $\RealMetricUp$ packets factors through shared finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealAbsUp$, and $\MetricUp$ rows before a triangle-inequality read is visible. For endpoint seals $X,Y,Z$, the three pairwise distance reads must first expose their stream windows, regular rational readbacks, dyadic tolerance budgets, and absolute-value distance rows inside the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealMetricUp.RealMetricCarrier\_triangle\_window\_stability}
 \begin{proof}
 Inspect the carrier of \autoref{def:real-metric-carrier}. A distance row is never a raw host value; it is read from endpoint $\RealUp$ seals through $S,R,D,A$ before it reaches the generic $\MetricUp$ row.
 
@@ -103,6 +104,7 @@ Only after these finite rows are present can the consumer read a $\MetricUp$ tri
 \label{thm:real-metric-identity-of-indiscernibles-window}
 Every zero-distance read from an accepted $\RealMetricUp$ packet hands off to the displayed $\RealUp$ classifier through the same finite windows used for distance: $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerances, the $\RealAbsUp$ distance row, and the $\MetricUp$ zero-distance law. The handoff identifies only the displayed real-name classifier data and does not use host equality, quotient representatives, selected limits, trichotomy, or completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealMetricUp.RealMetricCarrier\_identity\_of\_indiscernibles\_window}
 \begin{proof}
 Start with a zero-distance request for $M_{\Real}=(X,Y,A,D,S,R,H,C,P,N)$. The request first sees the endpoint seals $X,Y$, not host real representatives.
 
@@ -111,12 +113,26 @@ The distance route then exposes the finite windows $S$, readback $R$, tolerance 
 The final handoff is to the displayed $\RealUp$ classifier, authenticated by $H,C,P,N$ and then read through the generic $\MetricUp$ zero-distance row. Since the carrier lacks host equality, quotient representatives, selected limits, trichotomy, and completeness coordinates, identity of indiscernibles is routed only through that finite window.
 \end{proof}
 
+\begin{theorem}[Real metric TasteGate scope]
+\label{thm:real-metric-taste-gate-scope}
+The accepted $\RealMetricUp$ carrier rows form a single-carrier $\ChapterTasteGate$ surface over endpoint $\RealUp$ seals, the $\RealAbsUp$ absolute-value distance row, $\DyadicRatCoreUp$ tolerance data, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\RealMetricUp}$ row. The gate compares packets only through this displayed family and does not add host real equality, quotient representatives, selected limits, trichotomy, or completeness of $\RealUp$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RealMetricUp.taste\_gate}
+\begin{proof}
+Project the carrier of \autoref{def:real-metric-carrier}. Its displayed rows are exactly the endpoint seals $X,Y$, absolute-value distance row $A$, tolerance row $D$, windows $S$, readback $R$, and structural rows $H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:real-metric-namecert-obligations}. They force distance exposure, symmetry, zero-distance handoff, and triangle-budget handoff to read the same finite route before any $\MetricUp$ law is visible.
+
+Use the identity-of-indiscernibles window above. The zero-distance classifier also returns through the displayed $\RealUp$ seal and the same window/readback/tolerance/distance surface. Hence the TasteGate is a single-carrier surface over those rows, with no extra coordinate for the excluded host or completeness principles.
+\end{proof}
+
 \begin{closurestatus}{\RealMetricUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:real-metric-carrier}, \autoref{thm:real-metric-namecert-obligations}, and \autoref{thm:real-metric-absolute-value-distance-handoff} seed the finite real-metric surface over displayed $\RealUp$, $\RealAbsUp$, $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RealMetricUp.taste\_gate}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close Lean verification, host real equality, quotient real representatives, selected limits, trichotomy, or completeness of $\RealUp$.}
+  \notclaimed{This chapter does not close host real equality, quotient real representatives, selected limits, trichotomy, or completeness of $\RealUp$.}
   \upgradepath{Obligation closure requires formal carrier admission, distance-row exposure, symmetry, zero-distance classifier handoff, triangle-budget handoff, and non-escape proofs for the same finite packet.}
   \constructivestory{A $\RealMetricUp$ packet is generated from two displayed RealUp seals, a RealAbs distance row for their displayed difference, a DyadicRatCore tolerance ledger, StreamName windows, RegSeqRat readback, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}

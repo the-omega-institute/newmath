@@ -209,6 +209,7 @@ Finally apply \autoref{thm:cauchy-continuous-map-completion-consumer-scope}. Sin
 \label{thm:cauchy-continuous-map-separated-completion-factorization}
 Any accepted $\CauchyContinuousMapUp$ packet whose source read factors through $\StreamNameUp$, $\RegSeqRatUp$, the $\RealUp$ seal, and a separated completion target factors its public map through the displayed completion rows before exposing any $\ContinuousMapUp$ boundary. The separatedness datum is used only as a visible NameCert row attached to the target completion route; it is not quotient equality, host equality of completed points, selected representatives, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyContinuousMapUp.SeparatedCompletionFactorization.CauchyContinuousMap\_separated\_completion\_factorization}
 \begin{proof}
 First expose the source-side regular image. Use \autoref{thm:cauchy-continuous-map-regseqrat-image} to place the image read on the finite $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ rows, then use \autoref{thm:cauchy-continuous-map-real-seal-handoff} to pass that read to the $\RealUp$ seal only after those rows are displayed.
 
@@ -217,6 +218,20 @@ Next route the completion consumer. Apply \autoref{thm:cauchy-continuous-map-com
 Now apply the completion factorization theorem, \autoref{thm:cauchy-continuous-map-completion-factorization}. It places the completion-facing read through $\MetricCompletionUp$ or $\MetricCompletionFiniteUp$ before any completion output is public.
 
 Finally attach separatedness as the target NameCert row. Since separatedness is only a displayed row in the target completion route, the public map can reach the $\ContinuousMapUp$ boundary only after the completion rows are visible, and the read still exports no quotient equality or host equality of completed points.
+\end{proof}
+
+\begin{theorem}[CauchyContinuousMap separated uniform-modulus completion route]
+\label{thm:cauchy-continuous-map-separated-uniform-modulus-completion-route}
+Any accepted $\CauchyContinuousMapUp$ packet whose consumer is both separated-completion-facing and uniform-modulus-facing must expose the same finite $W,R,D,E,H,C,P,N$ route through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, the $\RealUp$ seal, the $\ContinuousMapUp$ boundary, the $\UniformModulusUp$ handoff, and the finite $\MetricCompletionUp$ or $\MetricCompletionFiniteUp$ consumer route before any public map read is available. The route exports a finite Cauchy-name transformer surface and refuses detached uniform-continuity moduli, selected limits, quotient streams, host functions, all-points metric-continuity theorems, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the uniform-modulus side. Apply \autoref{thm:cauchy-continuous-map-uniform-modulus-factorization}; it forces every modulus-facing read through the displayed StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, Real seal, ContinuousMap boundary, transport, replay, provenance, and local naming rows before $\UniformModulusUp$ may consume the packet.
+
+Next use the completion side. Apply \autoref{thm:cauchy-continuous-map-completion-factorization}; it places the same Cauchy-name transformer rows before the finite $\MetricCompletionUp$ or $\MetricCompletionFiniteUp$ consumer route can expose any completion-facing output.
+
+Finally attach the separated target route by \autoref{thm:cauchy-continuous-map-separated-completion-factorization}. Separatedness remains a displayed NameCert row on the completion-facing path, so the public map read must pass through the same $W,R,D,E,H,C,P,N$ rows before either the uniform-modulus handoff or the separated completion route is visible.
+
+The three factorizations share the carrier inventory of \autoref{def:cauchy-continuous-map-carrier}. Since that inventory has no coordinate for detached uniform-continuity moduli, selected limits, quotient streams, host functions, all-points metric-continuity theorems, or ambient $\RealUp$ completeness, the combined route cannot export any of them.
 \end{proof}
 
 \begin{theorem}[CauchyContinuousMap Real-completion scope]
@@ -262,7 +277,7 @@ The modulus boundary is supplied by \autoref{thm:cauchy-continuous-map-modulus-b
 \begin{closurestatus}{\CauchyContinuousMapUp}
   \constructivestory{A $\CauchyContinuousMapUp$ packet is generated from finite $\StreamNameUp$ windows, a $\RegSeqRatUp$ image-readback row, a $\DyadicRatCoreUp$ tolerance ledger, a $\RealUp$ seal handoff, displayed $\hsame$ transports, $\Cont$ replay routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:cauchy-continuous-map-scoped-surface}, \autoref{thm:cauchy-continuous-map-uniform-window-obligation}, \autoref{thm:cauchy-continuous-map-uniform-modulus-factorization}, \autoref{thm:cauchy-continuous-map-completion-factorization}, and \autoref{thm:cauchy-continuous-map-real-completion-scope} bind the finite Cauchy-name transformer, uniform-window, uniform-modulus, completion-factorization, Real-completion, and scoped-surface rows as the public Cauchy-name transformer package.}
+  \scopeclosed{\autoref{thm:cauchy-continuous-map-scoped-surface}, \autoref{thm:cauchy-continuous-map-uniform-window-obligation}, \autoref{thm:cauchy-continuous-map-uniform-modulus-factorization}, \autoref{thm:cauchy-continuous-map-completion-factorization}, \autoref{thm:cauchy-continuous-map-separated-uniform-modulus-completion-route}, and \autoref{thm:cauchy-continuous-map-real-completion-scope} bind the finite Cauchy-name transformer, uniform-window, uniform-modulus, completion-factorization, separated uniform-modulus completion, Real-completion, and scoped-surface rows as the public Cauchy-name transformer package.}
   \formalstatus{\encodedDefV}
   \leantarget{BEDC.Derived.CauchyContinuousMapUp}
   \bridgestatus{none}

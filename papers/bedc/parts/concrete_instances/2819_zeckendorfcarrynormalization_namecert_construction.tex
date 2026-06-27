@@ -236,6 +236,18 @@ global or kernel-level objects.
 \end{proof}
 \leanchecked{BEDC.Derived.ZeckendorfCarryNormalizationUp.ZeckendorfCarryNormalizationCarrier\_local\_naming\_exhaustion}
 
+\begin{theorem}[Zeckendorf carry-normalization bridged export]
+\label{thm:zeckendorf-carry-normalization-bridged-export}
+The public $\ZeckendorfCarryNormalizationUp$ route exports only the finite Nat/carry rows already displayed by \autoref{def:zeckendorf-carry-normalization-carrier}. A bridge-facing consumer may read the source non-normal row $h$, target normal row $k$, carry witness $W$, value ledger $V$, boundary row $H$, continuation row $C$, provenance row $P$, and local name $N$, but it receives no source-target host equality, global normalization theorem, or kernel rewrite rule.
+\end{theorem}
+\begin{proof}
+Start from the public carrier and local naming exhaustion theorems, \autoref{def:zeckendorf-carry-normalization-carrier} and \autoref{thm:zeckendorf-carry-normalization-local-naming-exhaustion}. They expose exactly the rows $h,k,W,V,H,C,P,N$ and state that the local name is exhausted by those rows.
+
+Next use the public route theorems. The NameCert obligations of \autoref{thm:zeckendorf-carry-normalization-namecert-obligations} bind carrier admission, source-target normality, the value ledger, the non-$\hsame$ boundary, and local naming. The Nat/carry dependency theorem \autoref{thm:zeckendorf-carry-normalization-axis-nat-dependency} keeps the value ledger downstream of the displayed carry row and Nat-index discipline.
+
+Finally apply the value ledger and boundary transport theorems, \autoref{thm:zeckendorf-carry-normalization-value-ledger} and \autoref{thm:zeckendorf-carry-normalization-boundary-transport}. They keep public value preservation inside $V$ and keep transport from creating $\hsame(h,k)$ or a rewrite coordinate. Thus the bridge-facing surface is exactly the finite Nat/carry route already displayed by the chapter.
+\end{proof}
+
 \closureat{ZeckendorfCarryNormalizationUp}{publicStr}
 
 \begin{closurestatus}{\ZeckendorfCarryNormalizationUp}
