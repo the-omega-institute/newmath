@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\BishopRegularCauchyTailBoundUp$}
+\label{ch:concrete-instances-bishop-regular-cauchy-tail-bound-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopRegularCauchyTailBoundUp$ packet records the finite tail-bound row by which a Bishop regular Cauchy name exposes its eventual dyadic control before any Real or completion-facing consumer reads it. It sits beside the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the shift-stability route of \autoref{ch:concrete-instances-regular-cauchy-shift-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only a displayed tail-bound certificate; it does not assert quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop regular Cauchy tail-bound carrier]
+\label{def:bishop-regular-cauchy-tail-bound-carrier}
+A $\BishopRegularCauchyTailBoundUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,R,D,Q,N,W,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ observation row, listing the finite windows from which the Cauchy name is read.
+\item $R$ is the $\RegSeqRatUp$ readback row, repacking the windows as regular rational data.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the dyadic radius used for the tail request.
+\item $Q$ is the $\RegularCauchyShiftUp$ row, recording that the same tail request is stable under a displayed finite shift of the observation window.
+\item $N$ is the unary tail-index row, naming the finite stage after which the dyadic radius is enforced.
+\item $W$ is the later-window comparison row, displaying only those later observations that the packet certifies inside the radius from $D$ after $N$.
+\item $H$ records componentwise $\hsame$ transport for $S,R,D,Q,N,W,C,P,L$.
+\item $C$ records displayed $\Cont$ replay from the stream and regular readback rows through
+$$
+S,R,D,Q,N,W \longmapsto H,C,P,L .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopRegularCauchyTailBoundUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RegularCauchyShiftUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\BishopRegularCauchyTailBoundUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,R,D,Q,N,W,H,C,P,L$. It has no coordinate for a quotient completion object, selected representative, countable-choice schedule, trichotomy decision, host real equality, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Bishop regular Cauchy tail-bound NameCert obligations]
+\label{thm:bishop-regular-cauchy-tail-bound-namecert-obligations}
+For every accepted $\BishopRegularCauchyTailBoundUp$ carrier
+$$
+T=(S,R,D,Q,N,W,H,C,P,L),
+$$
+the local $\NameCert_{\BishopRegularCauchyTailBoundUp}$ surface consists exactly of StreamName observation exposure through $S$, RegSeqRat readback through $R$, dyadic-radius accounting through $D$, shift-stable tail routing through $Q$, tail-index exposure through $N$, later-window comparison through $W$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-regular-cauchy-tail-bound-carrier}. The accepted packet displays exactly the stream, readback, dyadic tolerance, shift, tail-index, later-window, transport, replay, provenance, and local naming rows.
+
+Read the tail request in order. A consumer first opens $S$ and $R$, then consumes the dyadic radius $D$, then checks that the same request survives the shift row $Q$ before reading $N$ and $W$.
+
+The structural rows preserve only that finite route. The $\hsame$ and $\Cont$ rows transport and replay the displayed comparisons, while $P$ and $L$ source and name the packet. Since the carrier has no coordinate for quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness, none of those principles is part of the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop regular Cauchy tail-bound Real handoff]
+\label{thm:bishop-regular-cauchy-tail-bound-real-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\BishopRegularCauchyTailBoundUp$ packet must read the finite route
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RegularCauchyShiftUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+The handoff supplies only the displayed tail-bound packet for downstream Real sealing. It does not supply quotient stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:bishop-regular-cauchy-tail-bound-namecert-obligations}. It forces every Real-facing read through $S,R,D,Q,N,W$ before the structural rows may be consumed.
+
+The completion-facing part is finite. Stream windows are repacked as regular rational readback, the dyadic row supplies the radius, the shift row keeps the request stable under displayed finite shifts, and the tail-index plus later-window rows provide the bound.
+
+Inspect the missing coordinates of the carrier. The packet contains no quotient stream, selected representative, countable-choice schedule, trichotomy decision, host equality row, or ambient completeness theorem. Thus a downstream Real or completion consumer receives only the finite tail-bound handoff.
+\end{proof}
+
+\falsifiablePrediction{A candidate $\BishopRegularCauchyTailBoundUp$ packet fails this NameCert surface if it accepts a Real-facing tail-bound read without displayed StreamName observations, RegSeqRat readback, dyadic tolerance, shift-stable routing, tail index, later-window comparison, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, regular-cauchy-shift, real: $\BishopRegularCauchyTailBoundUp$ is not bijective to any listed sibling because it stores the Bishop tail-index and later-window comparison together with shift-stable routing and a Real-facing handoff, while excluding quotient streams, selected limits, countable choice, trichotomy, host real equality, and ambient completeness.}
+
+\closureat{BishopRegularCauchyTailBoundUp}{seedStr}
+
+\begin{closurestatus}{\BishopRegularCauchyTailBoundUp}
+  \constructivestory{A $\BishopRegularCauchyTailBoundUp$ packet is generated from StreamName observations, RegSeqRat readback, a DyadicRatCore tolerance row, a RegularCauchyShift stability row, a unary tail-index row, later-window comparisons, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-regular-cauchy-tail-bound-carrier}, \autoref{thm:bishop-regular-cauchy-tail-bound-namecert-obligations}, and \autoref{thm:bishop-regular-cauchy-tail-bound-real-handoff} seed the finite Bishop tail-bound packet over stream observations, regular rational readback, dyadic radii, shift-stable routing, tail indices, later-window comparisons, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Real completeness, countable choice, quotient stream equality, selected limits, trichotomy, host real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, tail-index exposure, later-window comparison, dyadic-radius accounting, shift-stable routing, replay stability, and ledger nonescape for BEDC.Derived.BishopRegularCauchyTailBoundUp.}
+\end{closurestatus}

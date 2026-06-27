@@ -143,6 +143,24 @@ The NameCert obligation surface of \autoref{thm:heine-borel-interval-namecert-ob
 \end{proof}
 \leanchecked{BEDC.Derived.HeineBorelIntervalUp.HeineBorelIntervalPublicFiniteNetExport}
 
+\begin{theorem}[Heine-Borel interval closed-interval net extraction]
+\label{thm:heine-borel-interval-closed-interval-net-extraction}
+Every accepted $\HeineBorelIntervalUp$ carrier exports an explicit closed-interval finite-net witness by first projecting the closed bounded interval net row $K$, mesh request $M$, center ledger $Z$, and coverage ledger $F$. The witness is then transported through $Q,C,P,N$ as componentwise $\hsame$ transport, displayed replay, provenance, and local naming, while endpoint and readback access is sealed through the $\StreamNameUp$, $\RegularCauchySequenceUp$, and $\RealUp$ rows $S,R,E$.
+
+Thus the extraction surface of
+$$
+H=(A,B,K,M,Z,F,T,S,R,E,Q,C,P,N)
+$$
+is a finite closed-interval net witness for compactness-facing consumers, not an open-cover compactness theorem, selected finite subcover, sequential compactness principle, quotient stream equality, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Project the finite-net rows $K,M,Z,F$ from \autoref{def:heine-borel-interval-carrier}. Net coverage is supplied by \autoref{thm:heine-borel-interval-net-coverage}, so the interval read begins with the displayed closed bounded interval net rather than an arbitrary cover.
+
+Use finite-net induction and mesh-refinement functoriality, \autoref{thm:heine-borel-interval-net-induction} and \autoref{thm:heine-borel-interval-mesh-refinement-functoriality}. These keep the center ledger finite and preserve the same witness when later mesh requests are transported.
+
+Finally apply the public finite-net export of \autoref{thm:heine-borel-interval-public-finite-net-export}. It routes the witness through $Q,C,P,N$ and seals endpoint observation and Real-facing readback through $S,R,E$, leaving no carrier coordinate for open-cover compactness, selected subcovers, sequential compactness, quotient stream equality, or ambient Real completeness.
+\end{proof}
+
 \begin{theorem}[Heine-Borel interval Real completion-facing route]
 \label{thm:heine-borel-interval-real-completion-facing-route}
 Every $\RealUp$ or $\CompletionUp$ consumer of an accepted $\HeineBorelIntervalUp$ packet must pass through the finite center ledger $Z$, mesh-refinement functoriality for the request $M$, finite-net induction over the displayed cells, tail stability for refinements, Real seal descent through $S,R,E$, and the public finite-net export before any compact interval boundary is read.

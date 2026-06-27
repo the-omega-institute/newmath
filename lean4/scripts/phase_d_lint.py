@@ -52,6 +52,11 @@ PARAMETER_ECHO_BIND_RE = re.compile(
 PARAMETER_ECHO_CONCL_RE = re.compile(
     r"(?:∀|forall)\b[^,]*,[^.]*hsame\b", re.DOTALL
 )
+BY_DECIDE_RE = re.compile(r"\bby\s+decide\b")
+LIST_RANGE_NUM_RE = re.compile(r"\bList\.range\s*\(?\s*([0-9]+)\b")
+FOLDL_ACC_APPEND_RE = re.compile(
+    r"(?:\bfoldl\b[\s\S]{0,2000}\bacc\s*\+\+|\bacc\s*\+\+[\s\S]{0,2000}\bfoldl\b)"
+)
 
 
 def _strip_hsame_tokens(text: str) -> str:
@@ -244,6 +249,44 @@ def detect_shallow_growth_dups(worktree: Path, base_branch: str) -> list[str]:
     return violations
 
 
+def added_lean_files(worktree: Path, base_branch: str) -> list[str]:
+    res = subprocess.run(
+        [
+            "git", "diff", "--name-only", "--diff-filter=A",
+            f"{base_branch}...HEAD", "--", "lean4/BEDC/",
+        ],
+        cwd=worktree, capture_output=True, text=True, check=False,
+    )
+    if res.returncode != 0:
+        return []
+    return sorted(
+        line.strip()
+        for line in res.stdout.splitlines()
+        if line.strip().startswith("lean4/BEDC/") and line.strip().endswith(".lean")
+    )
+
+
+def detect_large_decide_enumerations(worktree: Path, base_branch: str) -> list[str]:
+    violations: list[str] = []
+    for rel in added_lean_files(worktree, base_branch):
+        path = worktree / rel
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        if not BY_DECIDE_RE.search(text):
+            continue
+        range_numbers = [int(raw) for raw in LIST_RANGE_NUM_RE.findall(text)]
+        nested_ranges = sum(1 for n in range_numbers if n >= 10) >= 3
+        foldl_acc_append = "List.range" in text and bool(FOLDL_ACC_APPEND_RE.search(text))
+        if nested_ranges or foldl_acc_append:
+            violations.append(
+                f"{rel}: `by decide` appears with a large List.range enumeration; "
+                "use explicit witnesses or a lemma chain"
+            )
+    return violations
+
+
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--worktree", type=Path, required=True)
@@ -254,7 +297,8 @@ def main() -> int:
     args = p.parse_args()
 
     decls = diff_added_decls(args.worktree, args.base_branch)
-    if not decls and not args.include_shallow:
+    large_decide_hits = detect_large_decide_enumerations(args.worktree, args.base_branch)
+    if not decls and not args.include_shallow and not large_decide_hits:
         return 0
 
     arity_hits: list[str] = []
@@ -288,7 +332,7 @@ def main() -> int:
     if args.include_shallow:
         shallow_hits = detect_shallow_growth_dups(args.worktree, args.base_branch)
 
-    if not (arity_hits or echo_hits or anchor_hits or shallow_hits):
+    if not (arity_hits or echo_hits or anchor_hits or shallow_hits or large_decide_hits):
         return 0
 
     msgs: list[str] = []
@@ -314,6 +358,11 @@ def main() -> int:
         msgs.append(
             "SHALLOW GROWTH PATTERN — duplicate theorem conclusion(s) "
             "(Phase D will reject):\n  " + "\n  ".join(shallow_hits[:8])
+        )
+    if large_decide_hits:
+        msgs.append(
+            "Large enumeration behind `by decide` in added Lean file(s):\n  "
+            + "\n  ".join(large_decide_hits[:8])
         )
     print("\n".join(msgs))
     return 1
