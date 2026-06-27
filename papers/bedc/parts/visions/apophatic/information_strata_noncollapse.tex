@@ -61,6 +61,23 @@ where $\eta(q)$ is the degenerate located-real presentation with constant
 sequence $q$ and modulus $0$.
 \end{definition}
 
+\begin{definition}[No global lower recovery]
+\label{def:information-stratum-no-global-lower-recovery}
+For strata $A$ and $B$ with finite readout maps from $A$ to $B$, a
+\emph{global lower recovery} is a pair of displayed operations
+$$
+c:A\to B,
+\qquad
+r:B\to A
+$$
+such that every $a:A$ is recovered by the composite:
+$$
+a\sim_A r(c(a)).
+$$
+The condition $\mathsf{NonCollapse}(A,B)$ means that no such recovery is
+available from the displayed rows of the two strata.
+\end{definition}
+
 \begin{theorem}[Located irrationality is process non-collapse]
 \label{thm:located-irrationality-process-noncollapse}
 A located irrational real has all of its finite rational shadows in $L_0$,
@@ -90,6 +107,26 @@ assert that every process presentation can be recovered from a lower value
 object, contradicting
 \autoref{thm:located-irrationality-process-noncollapse} for located
 irrational presentations.
+\end{proof}
+
+\begin{theorem}[Local non-collapse forbids global lower recovery]
+\label{thm:local-noncollapse-forbids-global-lower-recovery}
+If some $a:A$ satisfies $\mathsf{NonCollapse}_B(a)$, then the finite shadow
+maps from $A$ to $B$ do not assemble into a global lower recovery of $A$ from
+$B$.
+\end{theorem}
+
+\begin{proof}
+Suppose a global lower recovery $c,r$ were available.  Applying
+\autoref{def:information-stratum-no-global-lower-recovery} to the particular
+object $a$ gives
+$$
+a\sim_A r(c(a)).
+$$
+Thus the lower object $c(a):B$ would recover $a$ up to the classifier of
+$A$.  This is exactly what $\mathsf{NonCollapse}_B(a)$ refuses.  Hence the
+finite shadow maps may be consumed locally, but they do not provide a
+lossless reconstruction principle.
 \end{proof}
 
 \section{Algebraic and transcendental directions}
@@ -184,6 +221,51 @@ normal form, and a classifier ledger.  An unwitnessed completion asks for an
 endpoint or point extracted from an infinite process or predicate family.
 \end{principle}
 
+\begin{definition}[Operation profile by information stratum]
+\label{def:operation-profile-information-stratum}
+An operation has a \emph{stratum profile} recording whether it preserves a
+stratum, requires a guard row, creates an extension layer, or asks for a
+bridge.  In the real and algebraic fragments the intended profiles are:
+$$
+\begin{aligned}
++,-,x^m
+&:\text{finite layer-preserving operations when the algebra rows exist},\\
+\times
+&:\text{layer-preserving bilinear combination under a multiplication ledger},\\
+/
+&:\text{layer-preserving only with a displayed apartness-from-zero guard},\\
+x^{1/m}
+&:\text{finite algebraic extension when the root is not already carried},\\
+\exp,\log
+&:\text{process bridges requiring series, modulus, and branch ledgers},\\
+\bmod n
+&:\text{finite classifier fold with normal forms},\\
+\sup,\widehat X,\text{ arbitrary completion}
+&:\text{endpoint extraction requiring bridge data}.
+\end{aligned}
+$$
+\end{definition}
+
+\begin{theorem}[Operation profiles separate folds from collapses]
+\label{thm:operation-profiles-separate-folds-collapses}
+The finite fold profile of $\bmod n$ and the endpoint-extraction profile of
+completion or supremum are different BEDC obligations.
+\end{theorem}
+
+\begin{proof}
+A finite fold supplies a bounded carrier of representatives, a visible
+normal form, and a classifier ledger.  Its consumer can inspect all relevant
+cases through finite rows.
+
+An endpoint extraction from a completion, supremum, or arbitrary quotient
+does not have this shape.  It asks a process family, predicate family, or
+compatibility ledger to produce a completed point.  BEDC can consume such an
+endpoint only after the relevant modulus, witness, classifier transport, or
+\NameCert{} bridge has been displayed.  Therefore finite folding is an
+internal classifier operation, while unwitnessed endpoint extraction is a
+collapse boundary.
+\end{proof}
+
 \begin{theorem}[Classical point-line reading is a bridge]
 \label{thm:classical-point-line-reading-is-bridge}
 Reading value shadows, located processes, algebraic extensions,
@@ -222,6 +304,29 @@ product.  By \autoref{thm:classical-point-line-reading-is-bridge}, any
 geometric compression of the strata must be read as bridge structure.
 Therefore axis prose is acceptable as orientation, but the invariant is
 non-collapse of information strata.
+\end{proof}
+
+\begin{theorem}[Axiom purity preserves information strata]
+\label{thm:axiom-purity-preserves-information-strata}
+The zero-axiom discipline of BEDC is the discipline of not treating a
+lower-stratum shadow as the higher-stratum object itself.
+\end{theorem}
+
+\begin{proof}
+The $\LocatedRealUp$ route preserves stream, modulus, regularity,
+classifier, and ledger rows rather than replacing them by a quotient real or
+host completion point.  The $\IrrationalRealUp$ route records refusal of a
+rational collapse rather than deleting the located-real process surface.  The
+real-completion route seals $\RegSeqRatUp$ and $\RealUp$ data through
+displayed countable-name and classifier rows rather than importing a host
+endpoint.  The apophatic route records $\mathsf{T}$ only as boundary
+sameness and non-internalization, never as a kernel object.
+
+Each case keeps the relevant carrier, classifier, ledger, and bridge status
+visible.  Thus axiom purity is not an extra metaphysical rule; it is the
+local refusal to flatten process data into points, classifiers into equality,
+predicate families into endpoints, or sockets into elements without a
+displayed certificate.
 \end{proof}
 
 \concretizedIn{ch:concrete-instances-located-real-namecert}{$\LocatedRealUp$ realizes the process stratum as finite stream, regular-rational, dyadic-ledger, located-enclosure, Real seal, transport, replay, provenance, and NameCert rows.}
