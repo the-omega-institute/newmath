@@ -6467,6 +6467,7 @@ import BEDC.Derived.GaussianPrimeUp
 import BEDC.Derived.GaussianUp
 import BEDC.Derived.GcdUp
 import BEDC.Derived.GelfandDualityUp
+import BEDC.Derived.GeneralizedContinuationUp
 import BEDC.Derived.GeneratingFunctionUp.TasteGate
 import BEDC.Derived.GeneratorAuditClosureUp
 import BEDC.Derived.GeneratorAuditClosureUp.TasteGate
