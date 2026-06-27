@@ -1,0 +1,13 @@
+\begin{theorem}[Gromov--Hausdorff distance sibling dependency route]
+\label{thm:gromov-hausdorff-distance-sibling-route}
+Every $\GromovHausdorffDistanceUp$ packet consumes $\MetricUp$ distance witnesses, $\CompactMetricUp$ finite-net rows, and the finite correspondence route of \autoref{ch:concrete-instances-gromov-hausdorff-namecert} before any public distance read is exposed. The route first opens the metric distance rows of \autoref{ch:concrete-instances-metric-namecert}, then the compact finite-net rows of \autoref{ch:concrete-instances-compactmetric-namecert}, and only then the correspondence and distortion rows used by the local distance packet. It does not assert classical compactness, quotient metric spaces, selected optimal correspondences, choice over covers, or ambient completion.
+\end{theorem}
+\begin{proof}
+Start with the endpoint rows of \autoref{def:gromov-hausdorff-distance-carrier}. The two compact metric endpoints are the only source of distance data for the scalar comparison.
+
+The compact rows must expose their underlying $\MetricUp$ distance witnesses and finite-net coverage before the local packet can inspect cross-endpoint pairs. Thus the read begins in \autoref{ch:concrete-instances-metric-namecert} and \autoref{ch:concrete-instances-compactmetric-namecert}.
+
+Now use the finite correspondence surface of \autoref{ch:concrete-instances-gromov-hausdorff-namecert}. The correspondence row supplies the displayed relation whose distortion is measured by the local $D$ row.
+
+Finally apply the NameCert obligations of \autoref{thm:gromov-hausdorff-distance-namecert-obligations}. Since the local carrier contains only endpoint, correspondence, distortion, transport, replay, provenance, and naming rows, the sibling route cannot export classical compactness, quotient metric spaces, selected optimal correspondences, cover choice, or ambient completion.
+\end{proof}
