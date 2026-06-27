@@ -1,51 +1,29 @@
+\subsection{ARE deletion and the RNA half-life boundary}\label{sec:bioreality-are-deletion-mrna-stability-boundary-siegel2022}
 \origin{ai}
 
-\subsection{ARE deletion as a bounded RNA-stability contact}
-\label{sec:bioreality-are-deletion-mrna-stability-boundary-siegel2022}
-
 \paragraph{Finite row object.}
-This record concerns a finite panel of coding or transcript-associated RNA rows in which an AU-rich element deletion or matched ARE state is read against an RNA half-life measurement. The biological item under test is not a protein-output claim and not a general codon law. It is a bounded RNA-stability statement: a finite row may support a local association between an ARE perturbation and mRNA half-life when the row also carries enough controls to prevent the association from being reinterpreted as translation, structure, function, adaptation, or mechanism. The relevant row type contains the editable or endogenous RNA label, the RNA half-life readout, transcript or mRNA abundance controls, isoform or splice state when available, local sequence-composition controls, and batch or cell-context labels. A stronger decay-factor RBP interpretation would require additional same-row measurements of decay-factor occupancy, target-RBP loss, wild-type rescue, and binding-defective or non-target controls; those fields are not supplied by the verified ARE deletion statistic itself.
+The record \texttt{h3.cross\_layer\_relation.utr3\_are.are\_deletion\_mrna\_stability\_boundary\_siegel2022} is treated here as a bounded RNA-stability chapter, not as a translation or protein-output chapter.  Its finite object is a matched panel of 3$'$ untranslated-region AU-rich-element deletion rows, with each row carrying a deletion label, a measured mRNA-stability or half-life readout, cell-context provenance, and the control information needed to keep the interpretation inside RNA abundance and decay.  The verified run used $226$ BEAS2B rows and $2242$ Jurkat rows.  The declared null was a corrected pooled label permutation over deletions, because a within-region permutation is degenerate for a per-parent deletion predictor.  The implemented run used $1000$ permutations; the grading contract records $2000$ permutations as supported.  The runtime was $6.93$ seconds, and the finite sign check was concordant.
 
-\paragraph{Observed finite statistic.}
-The verified ARE deletion run is identified by experiment run \texttt{a41440ab2792}. It retained two finite row counts, $226$ BEAS-2B rows and $2242$ Jurkat rows, and evaluated the deletion label by a corrected pooled label-permutation test. The permutation design is explicitly described as pooled over deletions because the within-region permutation was degenerate for the per-parent predictor. The run used $1000$ permutations for the recorded statistic and a $2000$-permutation grading pass; the grading permutation route was supported. The sign was concordant across the retained contexts, and the runtime was $6.93$ seconds. In finite-row notation, the readout can be summarized as follows:
+\paragraph{Statistic carried by the chapter.}
+Let $D_i$ denote the finite deletion or non-deletion label for row $i$, let $H_i$ denote the RNA half-life or stability readout, and let $C_i$ collect the local row controls available in the joined panel.  The chapter licenses only the finite contrast that can be read from the joined deletion rows:
 $$
 \begin{aligned}
- n_{\mathrm{BEAS2B}} &= 226,\\
- n_{\mathrm{Jurkat}} &= 2242,\\
- B_{\mathrm{perm}} &= 1000,\\
- B_{\mathrm{grade}} &= 2000,\\
- \mathrm{sign\ concordant} &= \mathrm{true}.
+S_{\mathrm{ARE}} &= \operatorname{stat}\{(D_i,H_i,C_i): i \in I_{\mathrm{BEAS2B}} \cup I_{\mathrm{Jurkat}}\},\\
+|I_{\mathrm{BEAS2B}}| &= 226,\\
+|I_{\mathrm{Jurkat}}| &= 2242,\\
+N_{\mathrm{perm}} &= 1000.
 \end{aligned}
 $$
-These numbers license only the statement that the ARE-deletion half-life boundary was crossed for the declared finite deletion statistic. They do not by themselves identify the responsible decay protein, show altered RBP binding, establish translation-mediated causation, or supply any downstream phenotype.
+The empirical reading is therefore narrow: ARE deletion labels carry a reproducible direction against the mRNA-stability readout in the observed finite rows.  The sign-concordance result is the positive finite-row fact.  It is not a statement that any synonymous coding coordinate, codon-window geometry, ribosome occupancy, protein abundance, folded structure, phenotype, adaptation, or global biological rule has been observed.
 
-\paragraph{Independent transfer check.}
-A second ARE-related finite statistic gives useful scope control. The endogenous 3-prime-UTR half-life transfer run \texttt{e96bf26e626b} used $14933$ genes, $2000$ permutations, and reported a negative ARE coefficient $\beta_{\mathrm{ARE}}=-0.0607953$ with permutation value $p=0.00049975$. Its baseline coefficient of determination was $R^2=0.0657771$, and the ARE-augmented test value was $R^2=0.0827561$, giving
-$$
-\begin{aligned}
- \Delta R^2 &= 0.016979,\\
- \beta_{\mathrm{ARE}} &< 0,\\
- p_{\mathrm{perm}} &= 0.00049975.
-\end{aligned}
-$$
-This transfer check points in the same RNA-stability direction but remains at the level of an endogenous half-life association. It strengthens the decision to keep the ARE deletion row in the RNA-stability layer rather than discard it as a shape artifact, while it also reinforces the need for separate contact rows before any RBP-mechanism or translation-mediated interpretation is admitted.
+\paragraph{Boundary supplied by related half-life records.}
+Two neighboring RNA half-life records fix the intended scale of this chapter.  The endogenous 3$'$UTR transfer record \texttt{h3.cross\_layer\_relation.utr3\_are.are\_endogenous\_3utr\_halflife\_transfer\_rnadecaycafe} used $14933$ genes, $2000$ permutations, and reported a negative ARE coefficient $\beta_{\mathrm{ARE}}=-0.0607953$, with baseline $R^2=0.0657771$, test $R^2=0.0827561$, and $\Delta R^2=0.016979$ at permutation value $p=0.00049975$.  A separate mRNA half-life boundary record, \texttt{h3.cross\_layer\_relation.rna\_modification.m6a\_site\_load\_mrna\_halflife\_boundary\_gse163500}, used $5837$ genes and reported static Spearman association $-0.388929$ between m6A load and DMSO log$_2$ half-life, causal Spearman association $0.245804$ between m6A load and $\Delta \log_2$ half-life, length-partial Spearman association $0.227683$, and two-sided partial-permutation value $p=0.000999001$.  These facts do not merge the ARE and m6A mechanisms.  They only show that the paper's RNA-stability layer is populated by finite, externally read rows rather than by an abstract coordinate assertion.
 
-\paragraph{Boundary comparison.}
-The RNA-stability layer is not unique to ARE biology. A separate m6A site-load half-life run, \texttt{7cd189f15c4b}, retained $5837$ genes and reported a static Spearman value of $-0.388929$ between m6A load and DMSO half-life, a causal Spearman value of $0.245804$ between m6A-load change and log-two half-life change, a length-partial Spearman value of $0.227683$, and a two-sided partial permutation value $0.000999001$. This comparison is not used as evidence for the ARE deletion mechanism. It is used only to calibrate the layer: finite RNA marks or RNA sequence elements may cross an mRNA half-life boundary without thereby becoming evidence for translation realization, protein structure, biological function, physical admissibility, phenotype, adaptation, or universality.
+\paragraph{Licensed interpretation.}
+The ready claim is the following: in the finite ARE deletion panel, mRNA stability can be discussed as an RNA-layer readout attached to deletion labels, and the support is the observed sign-concordant finite statistic under the corrected pooled deletion-label permutation.  The chapter may say that the deletion rows cross an RNA half-life boundary.  It may also say that the companion endogenous 3$'$UTR transfer result gives an independent RNA-layer scale, because the $14933$-gene record has $\beta_{\mathrm{ARE}}<0$ and a positive $\Delta R^2$ under permutation testing.  The chapter may not collapse these facts into a shared molecular mechanism unless the same rows carry the mechanism-specific contacts.
 
-\paragraph{Admitted claim.}
-The admissible statement is therefore local and finite. In the Siegel-style ARE deletion panel, the finite row statistic supports an ARE-associated mRNA stability boundary when deletion labels and half-life readouts remain sign-concordant under the declared corrected permutation design. The row counts and permutation protocol make the result stronger than a narrative literature pointer: the claim is tied to retained rows, explicit permutation counts, and a declared null construction. The conclusion may be written schematically as
-$$
-\begin{aligned}
- \mathrm{ARE\ label} + \mathrm{half\ life\ row} + \mathrm{controls}
- &\longrightarrow \mathrm{bounded\ RNA\ stability\ readout},\\
- \mathrm{bounded\ RNA\ stability\ readout}
- &\not\longrightarrow \mathrm{translation},\\
- \mathrm{bounded\ RNA\ stability\ readout}
- &\not\longrightarrow \mathrm{RBP\ mechanism}\quad\text{without occupancy and perturbation rows}.
-\end{aligned}
-$$
-The mandatory translation-readout condition is a guardrail on interpretation: if a later coding-window version of this packet tries to connect the same coordinate rows to translation, the translation readout must be present in the same finite panel before any downstream interpretation is made. Its absence here does not invalidate the RNA half-life result; it prevents promotion beyond RNA stability.
+\paragraph{Local refusal conditions.}
+The chapter refuses any promotion beyond RNA stability when the necessary row fields are absent.  A half-life difference alone is not a translation readout.  It is not ribosome occupancy, protein output, protein folding, physical admissibility, cellular function, phenotype, adaptation, causation, or a universal law.  A decay-factor RBP bridge would require same-window measured RBP occupancy, coordinate--occupancy decoupling, target-RBP loss, wild-type rescue, binding-defective rescue or non-target controls, transcription-rate controls, mRNA abundance controls, local RNA-structure controls, motif-density controls, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, batch, and a declared finite bridge statistic.  Those contacts are not supplied by the ARE deletion run itself.  They remain separate requirements.
 
-\paragraph{Refusal conditions.}
-The claim fails or is demoted if the high-coordinate and low-coordinate labels are exchangeable for half-life after transcript abundance, transcription rate, isoform state, local structure, motif density, GC and dinucleotide composition, codon-pair context, and batch are controlled. It also fails as an RBP bridge if RNA half-life changes without measured local decay-factor occupancy, if target-RBP loss does not collapse the effect, if wild-type rescue does not restore it, or if binding-defective rescue, non-target controls, structure-only effects, motif-density effects, transcriptional shifts, isoform artifacts, or batch effects reproduce the pattern. Thus the present chapter admits an ARE deletion RNA-stability boundary, keeps the endogenous ARE transfer and m6A half-life comparisons at the same layer, and explicitly refuses translation, folding, physical admissibility, function, mechanism, causation, adaptation, and universal-law readings unless a separate layer-matched contact supplies the corresponding finite rows.
+\paragraph{Break condition.}
+The positive reading breaks if the deletion labels become exchangeable for RNA half-life after the relevant RNA-layer controls are attached, or if the apparent signal is reproduced by batch, isoform state, transcription rate, abundance normalization, local structure, motif density, or composition.  It also breaks if the result is described as an RBP mechanism without measured local RBP occupancy and perturbation/rescue rows.  In that case the record remains an RNA-stability association, not a mechanism bridge.  The current verdict is therefore ready only for the bounded RNA half-life statement supported by $226$ BEAS2B rows, $2242$ Jurkat rows, $1000$ implemented permutations, and sign concordance.
