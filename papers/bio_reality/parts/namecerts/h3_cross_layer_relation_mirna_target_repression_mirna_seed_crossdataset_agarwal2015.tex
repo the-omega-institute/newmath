@@ -1,36 +1,27 @@
 \origin{ai}
-
-\subsection{miRNA seed repression as a bounded cross-dataset RNA-output relation}
+\subsection{MicroRNA Seed Repression as a Translation-Bounded RNA-Stability Boundary}
 \label{sec:bioreality-mirna-seed-crossdataset-agarwal2015}
 
 \paragraph{Finite row object.}
-This record concerns the BioReality claim \texttt{h3.cross\_layer\_relation.mirna\_target\_repression.mirna\_seed\_crossdataset\_agarwal2015}.  The finite object is a matched table of coding or transcript-associated rows in which a declared miRNA seed-coordinate label is compared with an RNA-output readout after nuisance structure has been separated.  The admissible row includes the seed-match or coordinate class, the transcript or window identifier, the same-row RNA abundance or stability readout used by the source statistic, local sequence and composition covariates, transcript identity, batch or dataset membership, and the declared control variables used in the partial association.  The row is not a protein row, not a folded-structure row, not a phenotype row, and not a causal perturbation row unless those measurements are separately present in the same finite panel.
+The record concerns a finite panel of coding-RNA windows whose synonymous labels are interpreted only as row coordinates.  Each admissible row must carry, at minimum, a coordinate label, a same-row translation readout, an RNA half-life or abundance-stability readout, local sequence and structure covariates, transcript abundance, batch, splice or isoform state, and the stated perturbation status.  For the stronger decay-factor RBP interpretation, the same finite rows would also need measured local occupancy of the specified decay factor, target-RBP loss, wild-type rescue, a binding-defective rescue arm or non-target control, and an explicit break condition separating coordinate association from mechanism.  The available verified contact for the present claim is narrower: it is a cross-dataset microRNA seed repression statistic, not a same-window decay-factor RBP occupancy and rescue panel.
 
-\paragraph{Observed scalar contact.}
-The verified cross-dataset miRNA seed run used $n=55170$ finite rows and reported an aggregate per-miRNA partial Spearman median
-$$
-\begin{aligned}
-\rho_{\mathrm{median}} &= -0.224966 .
-\end{aligned}
-$$
-The sign is the expected repression direction for a seed-associated target readout: larger seed-target burden is associated with lower RNA output after the stated partial controls.  The same run records a replicated gradient count of $7$ and an execution time of $400.408$ seconds under experiment run \texttt{50f22b191476}, verified at \texttt{2026-06-27T05:12:32+00:00}.  These numbers license only the finite association that was actually computed: a bounded seed-to-RNA-output relation across the joined rows.
+\paragraph{Observed finite statistic.}
+The verified microRNA target-repression run is indexed by experiment run \texttt{50f22b191476}.  It retained $n=55170$ finite rows and reported an aggregate per-microRNA median partial Spearman coefficient of $-0.224966$, with gradient replication in $7$ cases and runtime $400.408$ seconds.  Thus the empirical sign is compatible with seed-associated repression at the RNA-output surface: higher seed-context targeting is associated with lower expression or stability after the declared partial controls used by the run.  In compact notation, the row-level finding can be summarized as
+$$\begin{aligned}
+ n &= 55170,\\
+ \operatorname{median}_{\mu\mathrm{RNA}}\rho_{\mathrm{partial}} &= -0.224966,\\
+ N_{\mathrm{replicated\ gradients}} &= 7.
+\end{aligned}$$
+This is a finite association over joined transcript rows.  It does not, by itself, identify a decay-factor RBP bridge, a translation mechanism, protein output, folded structure, phenotype, adaptation, or a universal sequence law.
 
-\paragraph{Local mathematical form.}
-Let $i$ range over the $55170$ retained rows.  Write $s_i$ for the finite seed-coordinate or target-burden label, $y_i$ for the RNA-output readout used by the statistic, and $z_i$ for the matched nuisance vector carrying transcript identity, abundance or stability controls, local composition, batch, and other declared covariates.  The recorded contact is the sign and magnitude of a controlled rank relation, schematically
-$$
-\begin{aligned}
-\rho_{\mathrm{partial}}(s,y\mid z) &< 0,\\
-\mathrm{median}_{\mathrm{miRNA}}\bigl(\rho_{\mathrm{partial}}(s,y\mid z)\bigr) &= -0.224966,\\
-\#\{\mathrm{replicated\ gradients}\} &= 7 .
-\end{aligned}
-$$
-The formula is deliberately read as a finite-row statistic rather than as a universal law.  It states that the joined rows preserve a negative seed-associated RNA-output gradient after the stated controls.  It does not state that the seed coordinate alone explains the whole transcript state, and it does not remove the need for row-level checks against transcript abundance, isoform state, sequence composition, local structure, and dataset membership.
+\paragraph{Neighboring RNA half-life calibration.}
+A separate RNA-modification half-life boundary run provides a useful scale comparison but not a substitute mechanism.  In experiment \texttt{7cd189f15c4b}, the joined m6A and half-life panel kept $5837$ genes, reported static Spearman association $-0.388929$ between m6A load and DMSO log half-life, causal Spearman association $0.245804$ between m6A-load change and half-life change, length-partial Spearman association $0.227683$, and a two-sided partial permutation value $0.000999001$.  That neighboring result shows that finite RNA half-life panels can cross a preregistered RNA-stability boundary when the dataset contains the required joined rows and controls.  It does not repair the missing microRNA-specific decay-factor occupancy, perturbation, and rescue information in the present record.
 
-\paragraph{Relation to RNA-stability boundaries.}
-The miRNA seed result sits in the same empirical family as other bounded RNA-output contacts, but it is not interchangeable with them.  A separate m6A site-load half-life run retained $5837$ genes and reported a static Spearman value of $-0.388929$ for m6A load against DMSO log half-life, a causal Spearman value of $0.245804$ for m6A load against $\Delta\log_2$ half-life, a length-partial Spearman value of $0.227683$, and a two-sided partial permutation value $p=0.000999001$.  A separate endogenous 3' UTR ARE transfer run retained $14933$ genes, reported $\beta_{\mathrm{ARE}}=-0.0607953$, baseline $R^2=0.0657771$, test $R^2=0.0827561$, $\Delta R^2=0.016979$, and $p=0.00049975$ over $2000$ permutations.  These comparison facts show that the paper uses the same finite-row discipline for RNA-output contacts, but they do not strengthen the miRNA seed statistic beyond its own rows.
+\paragraph{Licensed interpretation.}
+The present chapter therefore licenses only a bounded microRNA seed repression readout: within the retained finite rows, the microRNA seed-context statistic has a negative aggregate partial association with the measured RNA-output surface, and the sign is replicated across seven microRNA-gradient instances.  The row coordinate may be used as a descriptor of seed-associated repression strength only under the finite controls actually present in the verified run.  The claim remains local to the measured RNA layer.  A same-row translation readout may be used as a boundary marker preventing accidental promotion of RNA stability to translation, but the mere presence or naming of such a boundary is not evidence of translation realization.
 
-\paragraph{Mechanism refusal.}
-The negative miRNA seed gradient is not, by itself, a measurement of translation realization, protein abundance, folded structure, physical admissibility, biological function, phenotype, adaptation, causation, or a general sequence rule.  It also is not a decay-factor RBP bridge.  Such a bridge would require same-window measured decay-factor RBP occupancy, coordinate--occupancy decoupling, target-RBP loss, wild-type rescue, binding-defective or non-target controls, and a declared half-life statistic on the same finite rows.  The present miRNA seed contact does not contain those perturbation and rescue surfaces.  Therefore the permitted conclusion is narrower: the finite cross-dataset rows carry a reproducible negative miRNA seed-associated RNA-output relation, while mechanism, translation, protein state, structure, function, phenotype, and universality remain outside the licensed statement.
+\paragraph{Refused interpretation.}
+The stronger conjecture asks for a coordinate-associated RNA half-life relation mediated by a prespecified decay-factor RBP.  That stronger statement is not established here.  A positive RBP bridge would require the same finite rows to show measured local decay-factor occupancy, coordinate--occupancy decoupling, loss of the effect under target-RBP depletion, restoration by wild-type rescue, failure of binding-defective or non-target controls to restore the bridge, and persistence after transcription-rate, local RNA-structure, motif-density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, translation readout, and batch controls.  The supplied contact explicitly notes that available half-life payloads are not same-window RBP occupancy or perturbation-rescue panels.  Consequently, an RNA half-life or repression association without those rows is only an RNA-layer association.
 
-\paragraph{Break condition.}
-The record fails if the seed coordinate is promoted from a controlled RNA-output association to a claim about translation, folding, protein output, physical admissibility, function, mechanism, phenotype, adaptation, causation, or a universal biological law.  It also fails if the association is described as an RBP-mediated RNA-decay bridge without measured local RBP occupancy and perturbation/rescue rows.  Conversely, the record remains valid when it is kept at the finite level: $55170$ joined rows, median partial rank association $-0.224966$, $7$ replicated gradients, and an explicit refusal to infer unmeasured layers.
+\paragraph{Local boundary.}
+No translation output, protein abundance, protein folding, physical admissibility, biological function, phenotype, mechanism, adaptation, causation, or universality follows from the verified microRNA statistic.  Such claims require separate layer-matched contacts with their own finite rows and declared statistics.  In particular, ribosome-profiling rows would be needed before discussing translation efficiency, proteomics rows before discussing protein abundance, structural or physical assays before discussing folding or admissibility, and perturbation-rescue RBP occupancy rows before discussing an RNA-decay mechanism.  The current evidence is therefore useful as a bounded RNA-output contact and insufficient for the proposed decay-factor RBP bridge.

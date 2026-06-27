@@ -116,7 +116,7 @@ theorem altPartialSum_succ_succ_fn (a : Nat -> Rat) (offset N : Nat) :
       unfold altPartialSum
       rw [ih (offset + 1)]
 
-theorem range'_succ_map (start len : Nat) :
+theorem range_succ_map (start len : Nat) :
     List.range' (start + 1) len = List.map Nat.succ (List.range' start len) := by
   induction len generalizing start with
   | zero =>
@@ -223,7 +223,7 @@ theorem etaSignedTerm_re_pair (a : Nat -> Rat) :
   | Nat.succ N => by
       rw [List.range_eq_range']
       rw [List.range'_succ]
-      rw [range'_succ_map 0 N]
+      rw [range_succ_map 0 N]
       simp only [List.map_cons]
       rw [map_succ_signed a (List.range' 0 N)]
       rw [map_succ_signed_tail a (List.range' 0 N)]
