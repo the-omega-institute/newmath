@@ -9790,6 +9790,7 @@ import BEDC.Derived.QuadraticSurdContFracUp
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.QuantumChannelUp
 import BEDC.Derived.QuantumStateUp
+import BEDC.Derived.QuarticSpectralCarrierUp
 import BEDC.Derived.QuasiBanachUp
 import BEDC.Derived.QuasiIsometryUp
 import BEDC.Derived.QuasiIsometryUp.NameCertObligations
