@@ -141,6 +141,37 @@ def declaration_starts(path: Path) -> list[tuple[int, str, str, str]]:
     return starts
 
 
+def strip_binder_groups(text: str) -> str:
+    """Drop balanced (), [], {} binder groups, keeping only depth-0 characters.
+
+    A `def`'s return type lives at bracket depth 0 of its signature, while
+    explicit/instance/implicit parameter binders are parenthesized or bracketed.
+    Removing the balanced groups lets a `: RelCommRing carrier eq` match fire
+    only on the return type, so a *consumer* such as
+    `RelMulOne.ofRelCommRing (R : RelCommRing A r) : RelMulOne A r` is not
+    mistaken for a RelCommRing *producer* bundle.
+    """
+    out: list[str] = []
+    depth = 0
+    for ch in text:
+        if ch in "([{":
+            depth += 1
+            continue
+        if ch in ")]}":
+            if depth > 0:
+                depth -= 1
+            continue
+        if depth == 0:
+            out.append(ch)
+    return "".join(out)
+
+
+def signature_region(block: str) -> str:
+    """Return the declaration signature up to the constructor literal."""
+    ctor = CONSTRUCTOR_LITERAL_RE.search(block)
+    return block if ctor is None else block[: ctor.start()]
+
+
 def normalize_name(name: str, manifest: Manifest) -> str:
     return manifest.aliases.get(name, name)
 
@@ -154,10 +185,13 @@ def parse_bundles(path: Path, manifest: Manifest, fixture: bool) -> list[BundleD
             continue
         next_line = starts[offset + 1][0] if offset + 1 < len(starts) else len(lines) + 1
         block = "\n".join(strip_line_comment(line) for line in lines[line_no - 1 : next_line - 1])
-        match = RELCOMMRING_RE.search(block)
-        if match is None:
-            continue
         if CONSTRUCTOR_LITERAL_RE.search(block) is None:
+            continue
+        # Match the return type only: strip parameter binders so a def that
+        # *consumes* a RelCommRing (e.g. a projection to another structure) is
+        # not counted as a RelCommRing-producing bundle.
+        match = RELCOMMRING_RE.search(strip_binder_groups(signature_region(block)))
+        if match is None:
             continue
         out.append(
             BundleDecl(
