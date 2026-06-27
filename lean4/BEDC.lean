@@ -7526,6 +7526,7 @@ import BEDC.Derived.LocatedIntervalFanBarrierUp
 import BEDC.Derived.LocatedIntervalFanBarrierUp.TasteGate
 import BEDC.Derived.LocatedIntervalHalvingUp.TasteGate
 import BEDC.Derived.LocatedIntervalMidpointUp.Handoff
+import BEDC.Derived.LocatedIntervalMidpointUp.NameCertObligations
 import BEDC.Derived.LocatedIntervalMidpointUp.TasteGate
 import BEDC.Derived.LocatedIntervalUp
 import BEDC.Derived.LocatedIntervalUp.CarrierHabitation
@@ -10140,9 +10141,11 @@ import BEDC.Derived.RealLocatorUp.TasteGate
 import BEDC.Derived.RealLogarithmUp.TasteGate
 import BEDC.Derived.RealMetricLocatednessBracketUp.TasteGate
 import BEDC.Derived.RealMetricUp
+import BEDC.Derived.RealMetricUp.IdentityWindow
 import BEDC.Derived.RealMetricUp.LocatedDistanceHandoff
 import BEDC.Derived.RealMetricUp.NameCertObligations
 import BEDC.Derived.RealMetricUp.TasteGate
+import BEDC.Derived.RealMetricUp.TriangleWindowStability
 import BEDC.Derived.RealMinMaxUp.FiniteComparisonHandoff
 import BEDC.Derived.RealMinMaxUp.TasteGate
 import BEDC.Derived.RealModulusArithmeticUp.TasteGate
