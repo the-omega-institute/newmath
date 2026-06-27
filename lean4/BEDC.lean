@@ -954,6 +954,7 @@ import BEDC.Derived.BinderContextSubstitutionSealUp.CompilerHandoff
 import BEDC.Derived.BinderContextSubstitutionSealUp.ObligationConsumer
 import BEDC.Derived.BinderContextSubstitutionSealUp.TasteGate
 import BEDC.Derived.BinomialIdentitiesUp
+import BEDC.Derived.VandermondeChuUp
 import BEDC.Derived.BirkhoffContractionUp.TasteGate
 import BEDC.Derived.BirkhoffInterpolationUp.TasteGate
 import BEDC.Derived.BisectionConvergenceUp.TasteGate
