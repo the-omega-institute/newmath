@@ -1,46 +1,58 @@
-\subsection{Universal core tRNA adaptation in the $B^{\ast}_{Q6}$ residual direction}\label{subsec:bioreality-q6-universal-core-trna-adaptation}
 \origin{ai}
 
-\paragraph{Finite object.}
-The record studied here is the finite coding-sequence residual surface obtained after amino-acid projection, restricted to the $B^{\ast}_{Q6}$ coordinate family and read only through organism-matched codon-usage, tRNA-copy, and codon-adaptation rows. The concrete question is whether the optimal direction in this residual coordinate system is already accounted for by a common tRNA-adaptation component, before any interpretation is made at the level of ribosome occupancy, protein abundance, folded structure, molecular function, phenotype, or universality. The computation named $\mathrm{b\_star\_q6\_universal\_core\_is\_trna\_adaptation\_powered}$ was run with $5$ folds, a minimum of $500$ proteins per organism, $41$ synonymous-design columns, and a deterministic seed recorded as $\mathrm{sha256:b\_star\_q6\_universal\_core\_is\_trna\_adaptation\_powered:deterministic}$. It requested $16$ organisms and retained $11$ organisms for the powered finite panel. Its status is passed. Thus the finite claim supported by this chapter is not that translation has been measured directly, but that the cross-organism residual direction selected by the $B^{\ast}_{Q6}$ design is compatible with a universal tRNA-adaptation core on the available codon-usage and tRNA-weight rows.
+\subsection{Positional dwell localization of the $f_3$ stress abundance component}
+\label{sec:bioreality-f3-stress-dwell-positional-ramp-body}
 
-\paragraph{The $f_3$ boundary surface.}
-The accompanying $f_3$ saturation computation fixes the discrete support on which the residual interpretation is allowed to operate. The set $M=\mathrm{Med}(R)\cup\mathrm{ACA}$ is
+\paragraph{Finite surface.}
+This record tests whether the $f_3$ stress component of the $B^*_{Q6}$ synonymous residual basis has a position-specific ribosome-dwell signature in the same yeast rows used for the abundance-side projection.  The carrier is the finite matrix whose active rows are Saccharomyces cerevisiae coding sequences with codon counts, the sibling control design, measured protein abundance, and file-provided A-site occupancy summaries split into a $5'$ head window and a $3'$ tail or body window.  The response is not total abundance itself.  It is the one-dimensional projection $P_{f_3}$ of $Z$-residualized $\log_{10}$ protein abundance onto the $Z$-residualized $f_3$ coordinate on the active positional-dwell join.  The realized row count is $n=1257$ inside a base cap of $1800$ rows.  The sibling control basis has rank $24$, the tested residual coordinate has rank $1$, and the held-out comparison uses $5$ folds.
+
+\paragraph{Measured quantities.}
+The run reports
 $$
 \begin{aligned}
-M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\|P_{f_3}\|^2 &= 44.20095750389323,\\
+\frac{\|P_{f_3}\|^2}{\|P_{\mathrm{target}}\|^2} &= 0.1999063916718794,\\
+ n_{\mathrm{join}} &= 1257,\\
+ n_{\mathrm{base}} &= 1800,\\
+ \operatorname{rank}(f_3) &= 1,\\
+ \operatorname{rank}(Z) &= 24.
 \end{aligned}
 $$
-After removing the two $\{\mathrm{ACA},\mathrm{ACG}\}$ entries, the $f_3$ saturation of $R$ is
+The null model is a deterministic row-label permutation of $P_{f_3}$ with the base and full designs and the cross-validation folds held fixed.  It is run separately for each positional segment and for the joint segment design, with $120$ permutations under the seed \texttt{sha256:b\_star\_q6\_f3\_stress\_dwell\_positional\_powered:deterministic}.  The finite readout dictionary is therefore not a free biological narrative: it consists of two named positional dwell summaries, one for the $5'$ head region and one for the $3'$ body or tail region, evaluated against the same target projection and the same controlled row surface.
+
+\paragraph{Positional verdict.}
+The positional result is asymmetric.  The $5'$ segment passes the fixed permutation gate, while the $3'$ body segment does not:
 $$
 \begin{aligned}
-\mathrm{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\mathrm{five\_prime\_ramp\_passed} &= \mathrm{true},\\
+\mathrm{three\_prime\_body\_passed} &= \mathrm{false},\\
+\mathrm{leading\_segment\_by\_delta\_R^2} &= 5',\\
+\mathrm{dominant\_segment} &= 5'.
 \end{aligned}
 $$
-The finite boundary reported for $f_3$ is empty, $\partial_{f_3}=\varnothing$. This matters because the coordinate being tested is not an unconstrained codon-frequency contrast. It is the synonymously projected imbalance remaining after the amino-acid quotient has already removed the first-order amino-acid-composition explanation. In this chapter the empty boundary is used as a local admissibility condition: it permits a clean residual coordinate, but it does not itself supply a biological measurement.
+Thus the finite conclusion is not merely that dwell summaries can add held-out signal.  The signal is localized, within this joined yeast panel and this target projection, to the head-window readout.  The body-window readout is part of the tested alternative and is explicitly negative at the same gate.  This matters because a non-positional dwell association would allow the two windows to be interchangeable evidence for a generic ribosome-occupancy effect.  Here the registered finite outcome separates them: the leading increment is at the $5'$ ramp/head side, not in the $3'$ body side.
 
-\paragraph{Powered residual result.}
-On the powered organism panel, the primary tRNA-adaptation run passed with $11$ computed organisms out of $16$ requested, $5$ folds, $41$ synonymous-design columns, and the $500$-protein organism threshold. The nearby residual-axis runs constrain the interpretation of that pass. The non-tRNA residual optimality run reported that the dominant non-tRNA residual direction aligns most with $f_3$ translation selection. The two-axis closure run concluded that a third axis is still present: the $d_{\perp}$ directions have systematically positive held-out $R^2$ and mutually same-signed directions across organisms. The third-axis identity run identified $d_{\perp}$ provisionally with usage frequency within synonymous family, with mean cosine $0.128$ and one-sided sign-test $p=0.000488$. After GC orthogonalization, the third-axis mechanism run kept significant cross-species alignment and held-out $R^2$, and classified the residual as selection-not-GC, not wobble-clustered, with CSC or positional identity still requiring an additional contact.
-
-\paragraph{Spectrum and mechanism checks.}
-The axis-strength spectrum gives the local rank of the effect. Among the $11$ computed organisms, the captured spectra were led on average by $d_{\mathrm{resid4}}$, followed by $d_{\mathrm{tRNA}}$, and the per-organism dominant-count summary was $\{d_{\mathrm{resid4}}:11\}$. Domain means were explicitly descriptive because the retained panel was imbalanced, with $1$ archaeal, $2$ bacterial, and $8$ eukaryotic organisms. The largest reported GC3 rank effect in that spectrum was $d_{\mathrm{usage}}$ with $\rho=0.136$. Separately, the boundary-set tRNA-poverty permutation test was run on $40$ computed organisms out of $46$ requested, skipped $6$, used $1000$ permutations at $\alpha=0.05$, and passed with the mechanism call that $R$ sense codons are systematically tRNA-poor under GtRNAdb tGCN together with dos Reis wobble weights. This supports a tRNA-supply interpretation for $R$ avoidance, but only at the level of codon and tRNA-weight contacts.
-
-\paragraph{Why three axes are not enough.}
-The finite panel does not collapse to a two-axis tRNA-plus-$f_3$ story. The three-axis sufficiency run concluded $\mathrm{fourth\_mechanism\_present}$ on $11$ computed organisms, again with $5$ folds, $41$ synonymous-design columns, and the $500$-protein threshold. The fourth-mechanism exclusion checks sharpen that statement. In yeast, the elongation-dwell run was classified as partial. The mRNA-stability run concluded $\mathrm{fourth\_axis\_not\_mrna\_stability}$ because yeast $d_{\mathrm{opt\_halflife}}$ had low alignment with abundance $d_{\mathrm{resid4}}$ under the fixed gates. The codon-pair run concluded $\mathrm{not\_codon\_pair}$ using $50$ shuffle-null samples. The translation-accuracy run concluded $\mathrm{not\_accuracy}$ using $200$ permutations on $11$ computed organisms out of $16$ requested. These negative identifications prevent the chapter from reducing the residual spectrum to a single named downstream mechanism.
-
-\paragraph{Local statistical reading.}
-The finite reading is therefore the following. There is a passed powered computation for the universal tRNA-adaptation core in the $B^{\ast}_{Q6}$ optimal direction. It sits on a codon and tRNA-weight panel with $11$ retained organisms, $5$ folds, $41$ synonymous-design columns, and a $500$-protein organism threshold. It is consistent with a broader residual geometry in which $f_3$ translation selection, a same-signed $d_{\perp}$ axis, and a fourth residual component remain visible after amino-acid projection and baseline controls. The $f_3$ support lists above show that the coordinate is finite and explicit, and the tRNA-poverty permutation result gives a concrete supply-side bridge for the $R$ sense codons. These facts justify the local phrase ``universal core tRNA adaptation'' only for the bounded codon-adaptation layer.
-
-\paragraph{No-promotion boundary.}
-No claim in this chapter says that $B^{\ast}_{Q6}$ residual geometry has been observed as ribosome occupancy, translation efficiency, protein abundance, folded structure, physical admissibility, molecular function, phenotype, mechanism, or a universal biological law. A modeled tAI or stAI row is a codon-adaptation contact, not an observed ribosome-footprint row. A codon-usage table is a sequence-composition contact, not a protein-output assay. A matched mRNA row is a transcription-layer control for later translation-efficiency residualization, not a translation-readout by itself. A positive or passed entry in the finite codon/tRNA computation may motivate a translation-readout test, but it does not become such a test until same-organism and same-CDS codon counts, wobble or tRNA weights, measured ribosome-profiling or translation-efficiency rows, and matched mRNA controls are joined and a controlled survival statistic is computed.
-
-\paragraph{Falsification route.}
-The bounded conjecture would lose its biological reading if the same coordinate failed once moved to a rank-powered direct translation panel. In the intended follow-up matrix, each $B^{\ast}_{Q6}$ residual coordinate $q_i$ must be paired with a translation readout $T_j$ and controls for amino-acid composition, organism, GC3, CDS length, $M$-density, matched mRNA abundance, rank, and simpler codon baselines. The admissible survival claim has the form
+\paragraph{Relation to the non-positional dwell mediation run.}
+The companion dwell-abundance computation on the same biological organism gives the scale of the effect before the positional split.  In that run the active join is again $n=1257$, the base cap is $1800$, the fold count is $5$, the same $P_{f_3}$ norm is $44.20095750389323$, and the same fractional target mass is $0.1999063916718794$.  The base model has held-out $R^2=0.1855578757644517$, the dwell-only model has $R^2=0.034336580953121976$, and the full model has $R^2=0.20412261520502883$.  The held-out dwell increment is
 $$
 \begin{aligned}
-S_{ij}>0
+\Delta R^2_{\mathrm{dwell}} &= 0.01856473944057712,\\
+\mathrm{Null}_{95} &= 0.0013115362189692937,\\
+\mathrm{Null}_{\max} &= 0.005001350039772926,\\
+\mathrm{Null}_{\mathrm{mean}} &= -0.0032911642620130563,\\
+\mathrm{Null}_{\min} &= -0.013799622026666476.
 \end{aligned}
 $$
-for at least one nondegenerate $(q_i,T_j)$ entry after those controls. If every controlled $S_{ij}$ is non-positive, or if the apparent matrix is rank-saturated in the manner of an all-$1.0$ three-organism surface, then the translation-readout interpretation is refused. Under that outcome the present chapter would still record a finite codon/tRNA residual computation, but it would not support translation realization beyond the bounded adaptation-weight layer.
+The recorded $f_3$--dwell correlation in that non-positional run is $0.1615441450901653$, with approximate right-tail probability $7.873916057196935\times 10^{-9}$.  The positional run refines this finite statement: the generic dwell increment is not evenly assigned to all coding-sequence positions, and the registered lead is the $5'$ dwell segment.
+
+\paragraph{Relation to ramp-versus-body structural-order testing.}
+A separate ramp-versus-body structural-order experiment gives a useful boundary check but not an upgrade in claim type.  At primary ramp length $50$, the weighted $f_3$ ramp increment is $0.0011165640103326878$, while the weighted $f_3$ body increment is $-0.00026157313923957926$, so the ramp-minus-body difference is $0.001378137149572267$.  The sign-flip probabilities are $0.0478515625$ for positive ramp signal, $0.54296875$ for positive body signal, and $0.05859375$ for positive paired ramp-minus-body localization.  That experiment classifies the outcome as \texttt{ramp\_positive\_but\_not\_localized}: the ramp signal is positive, but the stronger paired localization gate does not pass.  The present dwell-position chapter should therefore be read narrowly.  It supports a $5'$-leading ribosome-dwell increment for the abundance projection target, not a general structural-order localization theorem.
+
+\paragraph{Protein and translation context.}
+The same yeast background has strong direct protein-omics survival in the broad $B^*_{Q6}$ surface: the PAXdb abundance join has $5815$ coding sequences, join hit rate $0.9156038419146592$, and direct $R^2_{QP}=0.29837624994140827$ with all $9$ residual coordinates surviving the positive partial-$R^2$ threshold.  Measured ribosome translation-efficiency survival in yeast uses $5128$ genes with a ribosome-TE join hit rate $0.8818572656921754$ and reports $R^2_{QT,\mathrm{meas}}=0.13681931343730436$, again with $9$ surviving coordinates.  The measured translation-conditioned abundance decomposition in yeast records $S_{QP}=0.3146818503437042$, $S_{QT,\mathrm{meas}}=0.13681931343730436$, and measured mediated fraction $0.4793069656345167$.  These numbers explain why the $f_3$ dwell-position test is biologically worth registering, but they do not by themselves identify the causal mechanism of the positional dwell effect.
+
+\paragraph{Reduction and classification context.}
+The yeast readout dictionary also shows that the global $B^*_{Q6}$ abundance signal is only partially reducible to a small measured-readout family.  With $\lambda_{\mathrm{DL}}=0.01$, $\rho_{\mathrm{join}}=0.05$, $n_{\mathrm{join}}=1800$, $5$ folds, and $120$ permutations, the partial mediation certificate reports selection-aware coverage $C^*=0.24538211439730545$ and unexplained fraction $0.7546178856026946$; the selection-aware null $95$th percentile is $0.029149007242956115$.  The irreducibility certificate uses the same $\lambda_{\mathrm{DL}}=0.01$, $\rho_{\mathrm{join}}=0.05$, $n_{\mathrm{join}}=1800$, and $120$ permutations, and records the current claim as a real source signal with at least one listed reduction family refuting the stronger irreducibility hypothesis.  The modeled-tAI four-case discriminant over yeast assigns all $9$ coordinates to case $D$ with no positive-positive-without-drop coordinates, using $R^2_{QT}=0.8213457220900503$ and $R^2_{QP}=0.29837624994140827$.  These surrounding finite facts are compatible with the present chapter: the $f_3$ dwell-position signal is a localized measured-readout increment inside a larger, partly reducible, partly unexplained codon-residual abundance surface.
+
+\paragraph{Local no-promotion rule.}
+The admissible claim is exactly the finite one: on the registered yeast join, the $f_3$ abundance projection has a positional dwell increment whose leading passing segment is the $5'$ head window, while the $3'$ body window does not pass the same gate.  This does not establish translation realization in a causal sense, does not identify elongation speed, initiation control, folding, physical admissibility, molecular function, phenotype, adaptation, universality, or a biological law.  It also does not show that direct $q_i\to P_k$ association is mechanistically mediated by translation in every coordinate.  Those stronger readings require separate layer-matched contacts, perturbation or rescue evidence where mechanism is claimed, and a controlled statistic showing that the proposed readout both survives and absorbs or reduces the downstream association under the declared covariates.  In the present chapter, the row-level result remains a measured positional ribosome-dwell readback for one yeast abundance-projection target.
