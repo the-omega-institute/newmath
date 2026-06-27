@@ -128,6 +128,18 @@ Use the NameCert obligations of \autoref{thm:finite-window-confluence-namecert-o
 Finally apply the sibling route of \autoref{thm:finite-window-confluence-sibling-route}. It keeps the redex-frontier, local-join, residual-substitution, closed-normal, and normal-fragment rows together, so $J$ cannot be cited as an unconditional global confluence join or as a join detached from residual-substitution data.
 \end{proof}
 
+\begin{theorem}[FiniteWindowConfluence normalization-frontier handoff]
+\label{thm:finite-window-confluence-normalization-frontier-handoff}
+Every local diamond read from an accepted $\FiniteWindowConfluenceUp$ carrier consumed by a $\NormalizationCandidateFrontierUp$ route carries the rows $B,R,J,S,N,W$ through the frontier packet's candidate-evidence, bounded-route, obstruction, transport, replay, provenance, and local NameCert rows. The handoff is therefore a bounded candidate-mediated route from finite-window confluence data to the normalization frontier, not a proof of global Church--Rosser, unrestricted subject reduction, evaluator equality, quotient conversion equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with residual-boundary inversion, \autoref{thm:finite-window-confluence-residual-boundary-inversion}. A local diamond read that reaches the candidate join ledger $J$ must also expose the residual-substitution boundary $S$, while $B,R,N,W$ remain in the same finite confluence route.
+
+Now pass to the frontier through \autoref{thm:normalization-candidate-frontier-stability} and \autoref{thm:normalization-candidate-frontier-audit-handoff}. The frontier can consume positive normalization evidence only while its candidate-evidence row $E$ and bounded-route row $B$ remain visible, so the finite diamond read is carried as bounded candidate data rather than as an evidence-free confluence theorem.
+
+Finally use obstruction exactness and local confluence scope for the frontier, \autoref{thm:normalization-candidate-frontier-obstruction-exactness} and \autoref{thm:normalization-candidate-frontier-local-confluence-scope}. These rows keep obstruction, transport, replay, provenance, and local naming in the handoff, so erased candidate evidence or erased residual data reaches the obstruction route instead of exporting global Church--Rosser, subject reduction, evaluator equality, quotient conversion equality, or kernel consistency.
+\end{proof}
+
 \closureat{FiniteWindowConfluenceUp}{seedStr}
 
 \begin{closurestatus}{\FiniteWindowConfluenceUp}
