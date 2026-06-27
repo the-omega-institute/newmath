@@ -5382,6 +5382,7 @@ import BEDC.Derived.EmptyFableMachineUp.TasteGate
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.EmptyUp.TasteGate
 import BEDC.Derived.EnergyBiasedTriggerReliabilityUp.TasteGate
+import BEDC.Derived.EngelExpansionUp
 import BEDC.Derived.EngelExpansionUp.TasteGate
 import BEDC.Derived.EnrichedCatUp
 import BEDC.Derived.EnrichedCatUp.TasteGate
@@ -9106,6 +9107,7 @@ import BEDC.Derived.ObserverperspectiveclassifierUp.ScopedConsumerBoundary
 import BEDC.Derived.ObserverperspectiveclassifierUp.SiblingCarrierDependency
 import BEDC.Derived.ObserverperspectiveclassifierUp.StateTotality
 import BEDC.Derived.ObserverperspectiveclassifierUp.TwoStateNoConfusion
+import BEDC.Derived.OctonionUp
 import BEDC.Derived.OdeComparisonUp.TasteGate
 import BEDC.Derived.OdeUp
 import BEDC.Derived.OlivierTheoremUp.TasteGate
@@ -9359,6 +9361,7 @@ import BEDC.Derived.PeetreKFunctionalUp
 import BEDC.Derived.PellEquationUp.TasteGate
 import BEDC.Derived.PellLucasUp
 import BEDC.Derived.PellUp
+import BEDC.Derived.PerfectPowerUp
 import BEDC.Derived.PerfectSetUp.TasteGate
 import BEDC.Derived.PeriodicContinuedFractionUp.TasteGate
 import BEDC.Derived.PermutationUp
@@ -9758,6 +9761,7 @@ import BEDC.Derived.QuadrantSubstrateUp.TasteGate
 import BEDC.Derived.QuadraticFormUp.TasteGate
 import BEDC.Derived.QuadraticReciprocityComplete
 import BEDC.Derived.QuadraticReciprocityUp
+import BEDC.Derived.QuadraticResidueCountUp
 import BEDC.Derived.QuadraticSurdContFracUp
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.QuantumChannelUp
@@ -11877,6 +11881,7 @@ import BEDC.Derived.SternBrocotApproximationUp.TasteGate
 import BEDC.Derived.SternBrocotContinuedFractionBridgeUp.TasteGate
 import BEDC.Derived.SternBrocotDyadicApproximationUp
 import BEDC.Derived.SternBrocotIntervalUp.TasteGate
+import BEDC.Derived.SternBrocotTreeUp
 import BEDC.Derived.SternBrocotUp
 import BEDC.Derived.SternBrocotUp.TasteGate
 import BEDC.Derived.StieltjesMeasureBoundaryUp.TasteGate
