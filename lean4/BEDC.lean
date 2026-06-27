@@ -3671,6 +3671,7 @@ import BEDC.Derived.ConstructiveSobolevEnergyUp.TasteGate
 import BEDC.Derived.ConstructiveUniformLimitUp.TasteGate
 import BEDC.Derived.ContFracBoundUp
 import BEDC.Derived.ContFracUp
+import BEDC.Derived.ContinuantUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ContactUp.TasteGate
 import BEDC.Derived.ContextFreeGrammarUp
