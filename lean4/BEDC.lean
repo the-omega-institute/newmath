@@ -1477,6 +1477,7 @@ import BEDC.Derived.BoundedVariationUp.TasteGate
 import BEDC.Derived.BourbakiFilterLimitUp.TasteGate
 import BEDC.Derived.BousfieldLocalizationUp
 import BEDC.Derived.BoxDimensionUp.TasteGate
+import BEDC.Derived.BoxStreamSqrt2Up
 import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.BranchObstructionUp.TasteGate
 import BEDC.Derived.BrentSalaminPiUp
