@@ -2012,6 +2012,7 @@ import BEDC.Derived.CauchyDifferenceCriterionUp.ObligationExport
 import BEDC.Derived.CauchyDifferenceCriterionUp.PublicExactness
 import BEDC.Derived.CauchyDifferenceCriterionUp.RegularTailStability
 import BEDC.Derived.CauchyDifferenceCriterionUp.ScopePackage
+import BEDC.Derived.CauchyDifferenceCriterionUp.ScopedKernelBinding
 import BEDC.Derived.CauchyDifferenceCriterionUp.ShiftInvariance
 import BEDC.Derived.CauchyDifferenceCriterionUp.TailDiameterHandoff
 import BEDC.Derived.CauchyDifferenceCriterionUp.TasteGate
@@ -6489,6 +6490,7 @@ import BEDC.Derived.GeneratorFixedPointUp.TasteGate
 import BEDC.Derived.GeneratorInductionSealUp.TasteGate
 import BEDC.Derived.GeneratorLocalInductionBoundaryUp.TasteGate
 import BEDC.Derived.GeneticCodeDeformationLedgerUp
+import BEDC.Derived.GeneticCodeDeformationLedgerUp.TasteGate
 import BEDC.Derived.GenocchiUp
 import BEDC.Derived.GeodesicMetricUp.TasteGate
 import BEDC.Derived.GeomQuantizationUp
@@ -6686,6 +6688,7 @@ import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeatKernelUp
 import BEDC.Derived.HeineBorelFiniteNetUp.TasteGate
 import BEDC.Derived.HeineBorelIntervalUp.BridgedFiniteNetInterface
+import BEDC.Derived.HeineBorelIntervalUp.ClosedIntervalNetExtraction
 import BEDC.Derived.HeineBorelIntervalUp.ClusterFilterRoute
 import BEDC.Derived.HeineBorelIntervalUp.CoverRefusalBoundary
 import BEDC.Derived.HeineBorelIntervalUp.MeshRefinement
