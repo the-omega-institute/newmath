@@ -168,6 +168,20 @@ Apply finite-window comparison, \autoref{thm:regular-sequence-space-window-compa
 Finally combine the RegSeqRat Real seal route of \autoref{thm:regular-sequence-space-regseqrat-real-seal-route} with the obligation scope route of \autoref{thm:regular-sequence-space-obligation-scope-route}. The later RegSeqRat and Real rows remain downstream of the exposed StreamName window, so the comparison route has no hidden quotient equality, selected limit, or ambient completeness witness.
 \end{proof}
 
+\begin{theorem}[RegularSequenceSpace tail-window transport]
+\label{thm:regular-sequence-space-tail-window-transport}
+Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. For every displayed finite tail-depth extension of a comparison read, the same $\StreamNameUp$ window route transports through the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance row $D$, the tail-filter ledger, the terminal $\RealUp$ seal $R$, and the structural rows $H,C,P,N$. Thus finite tail-depth transport is a displayed route inside $T,Q,D,R,H,C,P,N$, not a quotient-stream argument, selected-limit argument, countable-choice argument, or appeal to ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Induct on the displayed finite tail depth. At depth $0$, apply the StreamName window route of \autoref{thm:regular-sequence-space-streamname-window-route}. The initial comparison read exposes the finite $\StreamNameUp$ window before $\RegSeqRatUp$ readback or $\RealUp$ sealing is consumed.
+
+For the successor step, first use the tail-filter handoff of \autoref{thm:regular-sequence-space-tail-filter-handoff}. It routes the extended tail read through the same displayed stream schedule, regular rational readback, dyadic tolerance row, and tail-filter surface.
+
+Next apply tail coherence and finite-window comparison, \autoref{thm:regular-sequence-space-tail-coherence} and \autoref{thm:regular-sequence-space-window-comparison}. These keep the successor read on the same finite window and carry $Q,D,R,H,C,P,N$ along the accepted carrier route.
+
+The induction therefore transports every displayed finite tail-depth extension through the same window, readback, tolerance, tail-filter, Real-seal, and structural rows. Since the carrier has no coordinate for quotient streams, selected limits, countable choice, or ambient completeness, no such principle is introduced by the tail-depth step.
+\end{proof}
+
 \begin{theorem}[RegularSequenceSpace tail-diagonal projection]
 \label{thm:regular-sequence-space-tail-diagonal-projection}
 Let $S=(X,T,Q,D,R,H,C,P,N)$ be an accepted $\RegularSequenceSpaceUp$ carrier. Any two tail-filter reads of $S$ that feed the same $\RegSeqRatUp$ or $\RealUp$ consumer can be projected to one displayed $\StreamNameUp$ finite window before the value-seal row $R$ is read. The projection stays inside the displayed route through $T,Q,D,R,H,C,P,N$ and does not use quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
