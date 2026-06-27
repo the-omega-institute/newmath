@@ -87,6 +87,7 @@ FORCED_WINDOW_CERTIFICATE_KINDS = {
     "betweenness_triple_certificate",
     "saturated_chain_certificate",
     "disjoint_tuple_metallic_certificate",
+    "efficient_open_domination_certificate",
 }
 FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
     "window_observation": {
@@ -149,6 +150,7 @@ FORCED_WINDOW_LAYER_CERTIFICATE_KINDS = {
         "betweenness_triple_certificate",
         "saturated_chain_certificate",
         "disjoint_tuple_metallic_certificate",
+        "efficient_open_domination_certificate",
     },
 }
 OVERCLAIM_GATES_ENABLED = True
@@ -224,6 +226,10 @@ FORCED_WINDOW_ARITHMETIC_BASIS = {
     "metallic_ratio_recurrence",
     "pell_type_recurrence",
     "fibonacci_pell_unification",
+    "efficient_open_domination_relation",
+    "nonnegative_four_state_transfer",
+    "all_positive_axiom_free_lean",
+    "distinct_from_even_overlap_signed",
 }
 FORCED_WINDOW_EVIDENCE_BASIS = EVIDENCE_BASIS | {"automath_certificate"} | FORCED_WINDOW_ARITHMETIC_BASIS
 CONTACT_KINDS = {
