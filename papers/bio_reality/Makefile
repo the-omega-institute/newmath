@@ -5,12 +5,11 @@ PDF=main.pdf
 all: $(PDF)
 
 # Repair invalid LaTeX that the codex-driven namecert writer occasionally emits
-# for plain-text tokens like "B*_Q6": the bare "^\*" (superscript of the
-# discretionary-times macro) makes pdflatex fail with "Missing { inserted".
-# Rewrite it to a well-formed "^{*}". Idempotent; runs before every build so it
-# survives the per-cycle regeneration of the namecert .tex files.
+# (bare "^\*" -> "^{*}", and literal Unicode math/Greek like Δ, ρ, ², ≈, → that
+# pdflatex rejects). See scripts/sanitize_tex.py. Idempotent; runs before every
+# build so it survives the per-cycle regeneration of the namecert .tex files.
 sanitize:
-	@find parts -name '*.tex' -print0 2>/dev/null | xargs -0 perl -i -pe 's/\^\\\*/^{*}/g' 2>/dev/null || true
+	@python3 scripts/sanitize_tex.py 2>/dev/null || true
 
 $(PDF): sanitize main.tex parts/codon_window_reality_boundary.tex
 	pdflatex -interaction=nonstopmode -halt-on-error main.tex
