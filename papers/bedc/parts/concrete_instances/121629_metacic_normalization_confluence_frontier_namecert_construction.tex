@@ -1,0 +1,109 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICNormalizationConfluenceFrontierUp$}
+\label{ch:concrete-instances-metacic-normalization-confluence-frontier-namecert}
+\origin{ai}
+
+The $\MetaCICNormalizationConfluenceFrontierUp$ packet realizes the candidate-mediated normalization boundary of \autoref{ch:metacic-normalization-audit-map} as finite NameCert data. It sits beside the candidate normalization/confluence handoff of \autoref{ch:concrete-instances-metacic-candidate-normalization-confluence-handoff-namecert}, the normalization audit packet of \autoref{ch:concrete-instances-metacic-normalization-audit-packet-namecert}, the typed-normalization audit of \autoref{ch:concrete-instances-metacic-typed-normalization-audit-namecert}, the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, and the finite-window confluence route of \autoref{ch:concrete-instances-finite-window-confluence-namecert}. The packet names the exact frontier where candidate evidence, residual-join visibility, and confluence-boundary rows are retained before any public normalization consumer may proceed.
+
+\begin{definition}[MetaCIC normalization-confluence frontier carrier]
+\label{def:metacic-normalization-confluence-frontier-carrier}
+A $\MetaCICNormalizationConfluenceFrontierUp$ carrier is a finite $\BHist$ packet
+$$
+F=(T,K,S,R,J,B,A,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed typed MetaCIC term row being inspected.
+\item $K$ is the candidate-evidence row, carrying reducibility-candidate, closed-candidate, or candidate-set evidence before any strong-normalization projection is read.
+\item $S$ is the candidate-mediated strong-normalization row for $T$.
+\item $R$ is the residual-frontier row, recording the redex or residual window that remains visible when normalization and confluence routes meet.
+\item $J$ is the residual-join boundary row, recording the finite local join or blocked-join status for the displayed residual window.
+\item $B$ is the confluence-boundary row, recording exactly which confluence claim is available and which subject-reduction or closed-consistency obligations remain outside the packet.
+\item $A$ is the normalization-audit row, routing the same $T,K,S,R,J,B$ data through the audit map of \autoref{ch:metacic-normalization-audit-map}.
+\item $O$ is the obstruction row retained whenever a consumer asks to erase candidate evidence, residual-join boundary rows, subject-reduction obligations, or the confluence boundary.
+\item $H$ records componentwise $\hsame$ transport for the closed typed term, candidate evidence, SN row, residual frontier, residual join boundary, confluence boundary, audit row, obstruction row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a normalization-confluence request through candidate evidence, residual visibility, join boundary, confluence boundary, obstruction, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICNormalizationConfluenceFrontierUp$, $\MetaCICCandidateNormalizationConfluenceHandoffUp$, $\MetaCICNormalizationAuditPacketUp$, $\MetaCICTypedNormalizationAuditUp$, $\MetaCICNormalizationFrontierUp$, $\FiniteWindowConfluenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICNormalizationConfluenceFrontierUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,K,S,R,J,B,A,O,H,C,P,N$. It has no coordinate for evidence-free strong normalization, unconditional confluence, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, completed closed consistency, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[MetaCIC normalization-confluence frontier NameCert obligations]
+\label{thm:metacic-normalization-confluence-frontier-namecert-obligations}
+For every accepted $\MetaCICNormalizationConfluenceFrontierUp$ carrier
+$$
+F=(T,K,S,R,J,B,A,O,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICNormalizationConfluenceFrontierUp}$ surface consists exactly of carrier admission, closed-typed-term visibility, candidate-evidence retention, candidate-mediated strong-normalization projection, residual-frontier visibility, residual-join boundary retention, confluence-boundary retention, normalization-audit routing, obstruction exposure, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the tuple $T,K,S,R,J,B,A,O,H,C,P,N$. The closed typed term row and candidate-evidence row are the source rows for any normalization read.
+
+The candidate-mediated projection is $S$. It can be read only after $K$ is visible, so the carrier cannot produce evidence-free strong normalization.
+
+The confluence-facing rows are $R,J,B$. They retain the residual frontier, the residual-join boundary, and the confluence boundary before the audit row $A$ can route the packet through the normalization audit map.
+
+The obstruction and structural rows $O,H,C,P,N$ preserve the same finite route. Since the carrier contains none of the excluded global coordinates, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization-confluence candidate gate]
+\label{thm:metacic-normalization-confluence-frontier-candidate-gate}
+Every normalization read from an accepted $\MetaCICNormalizationConfluenceFrontierUp$ packet factors through
+$$
+T \longmapsto K \longmapsto S
+$$
+before it may inspect residual-frontier, residual-join, confluence-boundary, audit, obstruction, transport, replay, provenance, or local naming rows. A consumer that erases $K$ is outside the carrier.
+\end{theorem}
+\begin{proof}
+The source term is $T$, and the only normalization evidence row upstream of $S$ is $K$. Thus any strong-normalization read must first retain the displayed candidate evidence.
+
+After $S$ is visible, the consumer may inspect $R,J,B,A,O,H,C,P,N$. These rows refine the same candidate-mediated route by recording residual and confluence boundaries.
+
+If $K$ is erased, the route no longer matches the carrier inventory. The consumer has then left the finite NameCert surface and cannot be accepted by the local classifier.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization-confluence residual boundary]
+\label{thm:metacic-normalization-confluence-frontier-residual-boundary}
+Every confluence-facing read from an accepted $\MetaCICNormalizationConfluenceFrontierUp$ packet factors through the finite boundary
+$$
+R \longmapsto J \longmapsto B \longmapsto A,O,H,C,P,N .
+$$
+The residual-frontier row, residual-join row, and confluence-boundary row remain visible together; none may be replaced by an unconditional confluence theorem or by an erased subject-reduction assumption.
+\end{theorem}
+\begin{proof}
+Project the carrier. The residual-frontier row is $R$, the join boundary is $J$, and the confluence-boundary row is $B$.
+
+The audit row $A$ can route the packet only after those rows are displayed. It therefore records a bounded normalization-confluence interface, not an unconditional confluence theorem.
+
+The obstruction row $O$ remains visible when a requested consumer would erase residual joins or subject-reduction obligations. The structural rows preserve that same boundary, so the packet cannot silently replace it by a stronger global claim.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization-confluence frontier nonescape]
+\label{thm:metacic-normalization-confluence-frontier-nonescape}
+No accepted $\MetaCICNormalizationConfluenceFrontierUp$ consumer may export evidence-free strong normalization, unconditional confluence, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, completed closed consistency, Lean verification, or bridge checking. The consumer may export only the candidate-mediated normalization route and the residual-join/confluence-boundary rows displayed by $T,K,S,R,J,B,A,O,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier inventory in \autoref{def:metacic-normalization-confluence-frontier-carrier}. Every accepted row is listed explicitly, and the global claims named in the statement are not coordinates of the packet.
+
+\autoref{thm:metacic-normalization-confluence-frontier-candidate-gate} fixes the normalization side to the candidate-mediated route through $T,K,S$. \autoref{thm:metacic-normalization-confluence-frontier-residual-boundary} fixes the confluence side to the displayed residual and boundary rows.
+
+The obstruction, transport, replay, provenance, and local naming rows preserve those two routes. Since no excluded coordinate is introduced downstream, every public consumer remains inside the displayed frontier.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\MetaCICNormalizationConfluenceFrontierUp$ consumer that erases candidate evidence or residual-join boundary rows refutes the carrier, as does any consumer that reads confluence without the displayed confluence-boundary row.}
+
+\independenceWitness{metacic-candidate-normalization-confluence-handoff, metacic-residual-join-envelope, metacic-normalization-audit-packet, metacic-confluence-substitution-boundary: $\MetaCICNormalizationConfluenceFrontierUp$ is not bijective to any listed sibling because it jointly retains candidate evidence, candidate-mediated SN, residual-frontier visibility, residual-join boundary, confluence boundary, audit routing, obstruction, transport, replay, provenance, and local naming.}
+
+The Lean follow-up for BEDC.Derived.MetaCICNormalizationConfluenceFrontierUp must provide `Nontrivial` and `FieldFaithful` instances in `lean4/BEDC/Derived/MetaCICNormalizationConfluenceFrontierUp/TasteGate.lean` before any downstream taste gate treats the carrier as a non-smoke frontier.
+
+\closureat{MetaCICNormalizationConfluenceFrontierUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICNormalizationConfluenceFrontierUp}
+  \constructivestory{A $\MetaCICNormalizationConfluenceFrontierUp$ packet is generated from a closed typed MetaCIC term row, candidate evidence, candidate-mediated strong-normalization projection, residual-frontier row, residual-join boundary, confluence-boundary row, normalization-audit route, obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-normalization-confluence-frontier-carrier}, \autoref{thm:metacic-normalization-confluence-frontier-namecert-obligations}, \autoref{thm:metacic-normalization-confluence-frontier-candidate-gate}, \autoref{thm:metacic-normalization-confluence-frontier-residual-boundary}, and \autoref{thm:metacic-normalization-confluence-frontier-nonescape} seed the candidate-mediated normalization/confluence frontier over residual joins and confluence-boundary rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close evidence-free strong normalization, unconditional confluence, unrestricted subject reduction, quotient syntax equality, host evaluator soundness, completed closed consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate-evidence retention, candidate-mediated SN projection, residual-frontier visibility, residual-join boundary retention, confluence-boundary retention, audit routing, obstruction exposure, transport, replay, provenance, local naming, and the taste-gate instances for BEDC.Derived.MetaCICNormalizationConfluenceFrontierUp.}
+\end{closurestatus}

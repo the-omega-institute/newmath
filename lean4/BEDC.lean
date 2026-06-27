@@ -3331,6 +3331,7 @@ import BEDC.Derived.CompactIntervalLocatorUp.TasteGate
 import BEDC.Derived.CompactIntervalMaximumUp.TasteGate
 import BEDC.Derived.CompactIntervalModulusBridgeUp.TasteGate
 import BEDC.Derived.CompactIntervalModulusUp.TasteGate
+import BEDC.Derived.CompactIntervalOscillationModulusUp.TasteGate
 import BEDC.Derived.CompactIntervalUniformContinuityUp.TasteGate
 import BEDC.Derived.CompactLebesgueNumberLedgerUp.TasteGate
 import BEDC.Derived.CompactLebesgueNumberUp.TasteGate
@@ -3463,6 +3464,7 @@ import BEDC.Derived.CompactUniformPullbackUp.TasteGate
 import BEDC.Derived.CompactUniformRadiusChoiceUp.TasteGate
 import BEDC.Derived.CompactUniformRadiusLedgerUp.TasteGate
 import BEDC.Derived.CompactUniformRadiusMinimumStabilityUp.TasteGate
+import BEDC.Derived.CompactUniformRadiusTransportUp.TasteGate
 import BEDC.Derived.CompactUniformSubordinateCoverUp.TasteGate
 import BEDC.Derived.CompactUp
 import BEDC.Derived.CompactUp.CommonPrecision
@@ -11386,6 +11388,7 @@ import BEDC.Derived.SeparableMetricUp.RegSeqRatDensityHandoff
 import BEDC.Derived.SeparableMetricUp.RegularHandoffObligation
 import BEDC.Derived.SeparableMetricUp.TasteGate
 import BEDC.Derived.SeparableRealUp.TasteGate
+import BEDC.Derived.SeparableUltrametricSpaceUp.TasteGate
 import BEDC.Derived.SeparatedCauchyNetCompletionUp.TasteGate
 import BEDC.Derived.SeparatedCompletionFunctorUp
 import BEDC.Derived.SeparatedCompletionFunctorUp.TasteGate
@@ -12390,7 +12393,6 @@ import BEDC.Derived.TruthTotalReflectionUp.RefusalLedgerExactness
 import BEDC.Derived.TruthTotalReflectionUp.RootRouteTotality
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
 import BEDC.Derived.TruthTotalReflectionUp.TruthCertHandoff
-import BEDC.Derived.TubeLemmaFiniteProductUp
 import BEDC.Derived.TubeLemmaUp.TasteGate
 import BEDC.Derived.TubularNeighborhoodUp
 import BEDC.Derived.TuckerLemmaUp
