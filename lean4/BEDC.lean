@@ -12760,7 +12760,6 @@ import BEDC.Derived.WilsonUp
 import BEDC.Derived.Window6CyclicCount
 import BEDC.Derived.Window6DisjointPairPell
 import BEDC.Derived.Window6Doubling
-import BEDC.Derived.Window6EdgeCokernelClock
 import BEDC.Derived.Window6EdgeFluxModP3
 import BEDC.Derived.Window6FactorImageCount
 import BEDC.Derived.Window6FibEntryPointCongruence
