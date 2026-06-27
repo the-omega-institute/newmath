@@ -43,6 +43,15 @@ BASES = set("ACGU")
 START_CODONS = {"AUG", "GUG", "UUG"}
 STOP_CODONS = {codon for codon, aa in fetch_probe.CODON_TO_AA.items() if aa == "*"}
 CANONICAL_TAIL_CORE = "CCUCCU"
+# Carrier mode. full_tail builds the carrier from every 5-8mer window of the 20nt
+# anti-SD tail; with the max-over-subwindows strong-hit fraction this saturates
+# (almost every CDS window finds one near-perfect hit). core_hexamer restricts the
+# carrier to the single functional anti-SD core hexamer (the tail 6mer most similar
+# to CANONICAL_TAIL_CORE), so a CDS window registers a hit only on a near-perfect SD
+# complement -- recovering clean initiation enrichment (B. subtilis upstream ~0.68
+# vs ~0.03 background) instead of saturating. Decoys are reduced to their own core
+# hexamer for a fair own-vs-decoy comparison at the same functional resolution.
+ASD_CARRIER_MODE = os.environ.get("ASD_CARRIER_MODE", "full_tail")
 CANONICAL_SD_MRNA = "AGGAGG"
 LAMBDA = math.log(2.0)
 EPS = 1.0e-12
@@ -818,9 +827,30 @@ def combined_mask(stage: str, parts: dict[str, set[int]]) -> tuple[set[int], boo
     return mask, stage == "M0_M1_M2_M3"
 
 
+def best_core_hexamer(tail20: str) -> str:
+    return max((tail20[i : i + 6] for i in range(0, len(tail20) - 5)), key=lambda w: v1.identity(w, CANONICAL_TAIL_CORE))
+
+
+def own_carrier_for_tail(label: str, tail20: str) -> dict[str, object]:
+    if ASD_CARRIER_MODE == "core_hexamer":
+        return v1.carrier_from_windows(label, "own_core_hexamer", [best_core_hexamer(tail20)])
+    return v1.carrier_from_tail(label, "own_tail", tail20)
+
+
+def reduce_carrier_to_core(carrier: dict[str, object]) -> dict[str, object]:
+    windows = [str(w) for w in carrier.get("windows", [])]
+    six = [w for w in windows if len(w) == 6] or windows
+    if not six:
+        return carrier
+    best = max(six, key=lambda w: v1.identity(w, CANONICAL_TAIL_CORE))
+    return {"label": carrier.get("label"), "class": str(carrier.get("class")) + "_core", "windows": [best]}
+
+
 def gate_i0(records: list[dict[str, object]], contigs: dict[str, str], tail20: str, heterologous_tails: list[str], seed: str) -> dict[str, object]:
-    own = v1.carrier_from_tail("own", "own_tail", tail20)
+    own = own_carrier_for_tail("own", tail20)
     decoys = v1.decoy_carriers(tail20, heterologous_tails, records[:80], max(6, N_DECOYS), seed + ".gate.decoys")
+    if ASD_CARRIER_MODE == "core_hexamer":
+        decoys = [reduce_carrier_to_core(d) for d in decoys]
     canonical = v1.carrier_from_windows("canonical", "canonical_tail_core", [CANONICAL_TAIL_CORE])
     carriers = [own, canonical] + decoys
     usable_windows = []
@@ -924,7 +954,7 @@ def evaluate_organism(organism: dict[str, object], heterologous_tails: list[str]
     tail20, tail_meta = v1.consensus_terminal20(rrnas)
     if tail20 is None:
         return {"ok": False, "drop_reason": "carrier_unavailable", "assembly_accession": organism.get("assembly_accession")}
-    own_carrier = v1.carrier_from_tail("own", "own_tail", tail20)
+    own_carrier = own_carrier_for_tail("own", tail20)
     canonical_carrier = v1.carrier_from_windows("canonical_core", "canonical_tail_core", [CANONICAL_TAIL_CORE])
     sanity = tail_sanity(rrnas, tail20, seed + ".tail")
     gate = gate_i0(records, contigs, tail20, heterologous_tails, seed)
