@@ -1,51 +1,58 @@
 \origin{ai}
-\subsection{Yeast synonymous mutation window audit}
-\label{subsec:bioreality-yeast-synonymous-mutation-window}
+
+\subsection{Positional dwell localization of the $f_3$ stress abundance component}
+\label{sec:bioreality-f3-stress-dwell-positional-ramp-body}
 
 \paragraph{Finite surface.}
-This record isolates a yeast synonymous-perturbation panel as a finite cross-layer test surface.  The rows are synonymous coding-sequence mutants, not organism-wide comparative summaries.  Each row is read through a residual window coordinate derived from $B^*_{Q6}$, a codon-stability-correlation control computed from yeast mRNA half-life information, and the measured perturbation output attached to the mutant panel.  The carrier therefore has the form
+This record tests whether the $f_3$ stress component of the $B^*_{Q6}$ synonymous residual basis has a position-specific ribosome-dwell signature in the same yeast rows used for the abundance-side projection.  The carrier is the finite matrix whose active rows are Saccharomyces cerevisiae coding sequences with codon counts, the sibling control design, measured protein abundance, and file-provided A-site occupancy summaries split into a $5'$ head window and a $3'$ tail or body window.  The response is not total abundance itself.  It is the one-dimensional projection $P_{f_3}$ of $Z$-residualized $\log_{10}$ protein abundance onto the $Z$-residualized $f_3$ coordinate on the active positional-dwell join.  The realized row count is $n=1257$ inside a base cap of $1800$ rows.  The sibling control basis has rank $24$, the tested residual coordinate has rank $1$, and the held-out comparison uses $5$ folds.
+
+\paragraph{Measured quantities.}
+The run reports
 $$
 \begin{aligned}
-  \mathcal{Y}_{\mathrm{syn}} = \{(m_r,q_r,c_r,y_r): 1 \leq r \leq 1783\},
+\|P_{f_3}\|^2 &= 44.20095750389323,\\
+\frac{\|P_{f_3}\|^2}{\|P_{\mathrm{target}}\|^2} &= 0.1999063916718794,\\
+ n_{\mathrm{join}} &= 1257,\\
+ n_{\mathrm{base}} &= 1800,\\
+ \operatorname{rank}(f_3) &= 1,\\
+ \operatorname{rank}(Z) &= 24.
 \end{aligned}
 $$
-where $m_r$ is a synonymous mutant row, $q_r$ is the projected $B^*_{Q6}$ window value, $c_r$ is the matched codon-stability-correlation covariate, and $y_r$ is the reported perturbation readout for that row.  The executed audit used $1783$ synonymous mutants and mapped them onto $20$ yeast genes, with $21$ coding-sequence map hits recorded by the run.  The codon-stability-correlation source was the Neymotin et al. yeast mRNA half-life table: for each codon $c$, the control statistic was defined as the Pearson correlation between $\operatorname{count}_c/n_{\mathrm{sense}}$ and $\log(t_{1/2})$ across genes.  This is a row-level perturbation audit, not a claim that a codon coordinate has become a protein state.
+The null model is a deterministic row-label permutation of $P_{f_3}$ with the base and full designs and the cross-validation folds held fixed.  It is run separately for each positional segment and for the joint segment design, with $120$ permutations under the seed \texttt{sha256:b\_star\_q6\_f3\_stress\_dwell\_positional\_powered:deterministic}.  The finite readout dictionary is therefore not a free biological narrative: it consists of two named positional dwell summaries, one for the $5'$ head region and one for the $3'$ body or tail region, evaluated against the same target projection and the same controlled row surface.
 
-\paragraph{Executed statistic.}
-The registered run reported $B=200$ resampling or matched-null units, $n_{\mathrm{genes}}=20$, $n_{\mathrm{mutants}}=1783$, and runtime $289.093$ seconds.  Its central finite-row comparison was that the real codon-stability-correlation control did not absorb the residual-window signal.  In symbols, the audit outcome can be summarized as
+\paragraph{Positional verdict.}
+The positional result is asymmetric.  The $5'$ segment passes the fixed permutation gate, while the $3'$ body segment does not:
 $$
 \begin{aligned}
-  B &= 200,\\
-  n_{\mathrm{genes}} &= 20,\\
-  n_{\mathrm{syn}} &= 1783,\\
-  h_{\mathrm{CDS}} &= 21,\\
-  \rho(\Delta \mathrm{CSC}_{\mathrm{real}},\Delta \mathrm{CSC}_{\mathrm{proxy}}) &= 0.39717918221186976,\\
-  \mathrm{absorbed}_{\mathrm{real\ CSC}} &= \mathrm{false},\\
-  \mathrm{robust}_{\mathrm{real\ CSC}} &= \mathrm{true}.
+\mathrm{five\_prime\_ramp\_passed} &= \mathrm{true},\\
+\mathrm{three\_prime\_body\_passed} &= \mathrm{false},\\
+\mathrm{leading\_segment\_by\_delta\_R^2} &= 5',\\
+\mathrm{dominant\_segment} &= 5'.
 \end{aligned}
 $$
-The phrase ``not absorbed'' is used here in the narrow statistical sense supplied by the run: after replacing the proxy codon-stability direction by the real yeast half-life-derived codon-stability-correlation control, the residual-window audit still retained the registered robustness flag.  The finite number $0.39717918221186976$ is informative because it shows that the real and proxy codon-stability directions were related but far from identical; the robustness flag therefore does not merely restate that two identical controls were used.
+Thus the finite conclusion is not merely that dwell summaries can add held-out signal.  The signal is localized, within this joined yeast panel and this target projection, to the head-window readout.  The body-window readout is part of the tested alternative and is explicitly negative at the same gate.  This matters because a non-positional dwell association would allow the two windows to be interchangeable evidence for a generic ribosome-occupancy effect.  Here the registered finite outcome separates them: the leading increment is at the $5'$ ramp/head side, not in the $3'$ body side.
 
-\paragraph{Relation to translation-mediated protein abundance.}
-A separate matched cross-organism protein-abundance audit gives the larger mediation setting in which this yeast perturbation record should be read.  In that run, $B^*_{Q6}$ supplied $9$ residual coordinates, and the yeast protein-abundance panel joined $5815$ proteins.  For \emph{Saccharomyces cerevisiae}, the modeled per-protein tAI route had $275$ all-tRNA gene-copy entries and no zero raw-weight geometric-mean fallback.  After the declared controls, the yeast mediation scalar was
+\paragraph{Relation to the non-positional dwell mediation run.}
+The companion dwell-abundance computation on the same biological organism gives the scale of the effect before the positional split.  In that run the active join is again $n=1257$, the base cap is $1800$, the fold count is $5$, the same $P_{f_3}$ norm is $44.20095750389323$, and the same fractional target mass is $0.1999063916718794$.  The base model has held-out $R^2=0.1855578757644517$, the dwell-only model has $R^2=0.034336580953121976$, and the full model has $R^2=0.20412261520502883$.  The held-out dwell increment is
 $$
 \begin{aligned}
-  R^2_{QP} &= 0.29837624994140827,\\
-  R^2_{QP\mid T} &= 0.0151709093608293,\\
-  R^2_{\mathrm{indirect}} &= 0.28320534058057895,\\
-  M^{QTP} &= 0.9491551041216973.
+\Delta R^2_{\mathrm{dwell}} &= 0.01856473944057712,\\
+\mathrm{Null}_{95} &= 0.0013115362189692937,\\
+\mathrm{Null}_{\max} &= 0.005001350039772926,\\
+\mathrm{Null}_{\mathrm{mean}} &= -0.0032911642620130563,\\
+\mathrm{Null}_{\min} &= -0.013799622026666476.
 \end{aligned}
 $$
-These numbers show why the yeast perturbation audit is scientifically relevant: the yeast background is one in which a modeled translation-readout conditioning variable can account for a large fraction of a residual-to-protein-abundance association in a separate finite panel.  They do not, by themselves, convert the synonymous-mutant window audit into a demonstrated translation mechanism.  The perturbation result is evidence that the $B^*_{Q6}$ window is not trivially erased by the real codon-stability-correlation control in the yeast synonymous-mutant rows; the mediation panel is a separate bounded comparison that helps locate the same coordinate family near a translation-conditioned protein-abundance interface.
+The recorded $f_3$--dwell correlation in that non-positional run is $0.1615441450901653$, with approximate right-tail probability $7.873916057196935\times 10^{-9}$.  The positional run refines this finite statement: the generic dwell increment is not evenly assigned to all coding-sequence positions, and the registered lead is the $5'$ dwell segment.
 
-\paragraph{Readout boundary.}
-The modeled translation-survival audit computed $9$ synonymous residual coordinates, including $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCA\_vs\_UCG$, $Ser\_UCR\_vs\_AGY$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  It used $61$ sense codons and three organisms, with $81$ modeled tAI coupling entries above threshold $0.01$ and maximum absolute modeled coupling $3801961.031607896$.  The same audit explicitly kept the claim below powered survival because $3$ organisms are insufficient for the requested powered survival setting.  Thus the yeast synonymous-mutant record should be placed between two limits: it is stronger than a purely formal codon-coordinate note because it touches $1783$ finite perturbation rows, yet it is weaker than a measured ribosome-occupancy, translation-efficiency, or causal protein-realization claim.
+\paragraph{Relation to ramp-versus-body structural-order testing.}
+A separate ramp-versus-body structural-order experiment gives a useful boundary check but not an upgrade in claim type.  At primary ramp length $50$, the weighted $f_3$ ramp increment is $0.0011165640103326878$, while the weighted $f_3$ body increment is $-0.00026157313923957926$, so the ramp-minus-body difference is $0.001378137149572267$.  The sign-flip probabilities are $0.0478515625$ for positive ramp signal, $0.54296875$ for positive body signal, and $0.05859375$ for positive paired ramp-minus-body localization.  That experiment classifies the outcome as \texttt{ramp\_positive\_but\_not\_localized}: the ramp signal is positive, but the stronger paired localization gate does not pass.  The present dwell-position chapter should therefore be read narrowly.  It supports a $5'$-leading ribosome-dwell increment for the abundance projection target, not a general structural-order localization theorem.
 
-\paragraph{Cross-panel calibration.}
-The yeast outcome is also consistent with the broader synonymous-perturbation pattern without being reduced to it.  In the E. coli mRFP synonymous-output audit, the finite panel had $1459$ variants, $B=200$, $R^2_{\mathrm{controls}}=0.12648386762689323$, $R^2_{\mathrm{controls}+B_\perp}=0.1798829276988051$, $\Delta R^2=0.05339906007191191$, $\Delta DL=19.089327473282296$ bits, and matched-null and within-null probabilities both equal to $0.004975124378109453$.  That neighboring panel reports a direct protein-output readout in a different organism and construct system.  The yeast panel is narrower: it says that, in $20$ yeast genes and $1783$ synonymous mutants, the $B^*_{Q6}$ window remains robust after a real mRNA-half-life-derived codon-stability-correlation control.  The comparison supports an axis-transfer hypothesis across perturbation panels, but the yeast chapter itself only certifies the yeast finite-row outcome and its bounded relation to the translation-mediated protein-abundance route.
+\paragraph{Protein and translation context.}
+The same yeast background has strong direct protein-omics survival in the broad $B^*_{Q6}$ surface: the PAXdb abundance join has $5815$ coding sequences, join hit rate $0.9156038419146592$, and direct $R^2_{QP}=0.29837624994140827$ with all $9$ residual coordinates surviving the positive partial-$R^2$ threshold.  Measured ribosome translation-efficiency survival in yeast uses $5128$ genes with a ribosome-TE join hit rate $0.8818572656921754$ and reports $R^2_{QT,\mathrm{meas}}=0.13681931343730436$, again with $9$ surviving coordinates.  The measured translation-conditioned abundance decomposition in yeast records $S_{QP}=0.3146818503437042$, $S_{QT,\mathrm{meas}}=0.13681931343730436$, and measured mediated fraction $0.4793069656345167$.  These numbers explain why the $f_3$ dwell-position test is biologically worth registering, but they do not by themselves identify the causal mechanism of the positional dwell effect.
 
-\paragraph{Admissible conclusion.}
-The admissible statement is therefore local.  There exists a yeast synonymous-mutant finite surface on which the $B^*_{Q6}$ window audit survives replacement of a proxy codon-stability control by a real codon-stability-correlation control derived from yeast mRNA half-life data.  The recorded correlation between real and proxy stability directions is $0.39717918221186976$, and the run explicitly reports $\mathrm{real\_csc\_absorbs}=\mathrm{false}$ and $\mathrm{real\_csc\_robust}=\mathrm{true}$.  The result is compatible with a translation-mediated protein-abundance interface, especially in view of the separate yeast mediation scalar $M^{QTP}=0.9491551041216973$, but it remains a controlled perturbation-window readout unless joined translation and protein contacts are evaluated on the same required row structure.
+\paragraph{Reduction and classification context.}
+The yeast readout dictionary also shows that the global $B^*_{Q6}$ abundance signal is only partially reducible to a small measured-readout family.  With $\lambda_{\mathrm{DL}}=0.01$, $\rho_{\mathrm{join}}=0.05$, $n_{\mathrm{join}}=1800$, $5$ folds, and $120$ permutations, the partial mediation certificate reports selection-aware coverage $C^*=0.24538211439730545$ and unexplained fraction $0.7546178856026946$; the selection-aware null $95$th percentile is $0.029149007242956115$.  The irreducibility certificate uses the same $\lambda_{\mathrm{DL}}=0.01$, $\rho_{\mathrm{join}}=0.05$, $n_{\mathrm{join}}=1800$, and $120$ permutations, and records the current claim as a real source signal with at least one listed reduction family refuting the stronger irreducibility hypothesis.  The modeled-tAI four-case discriminant over yeast assigns all $9$ coordinates to case $D$ with no positive-positive-without-drop coordinates, using $R^2_{QT}=0.8213457220900503$ and $R^2_{QP}=0.29837624994140827$.  These surrounding finite facts are compatible with the present chapter: the $f_3$ dwell-position signal is a localized measured-readout increment inside a larger, partly reducible, partly unexplained codon-residual abundance surface.
 
-\paragraph{What is not licensed.}
-No translation-realization claim follows from this yeast window audit alone.  No ribosome dynamics, folding pathway, physical admissibility, molecular function, mechanism, phenotype, selection law, or universal biological rule is established by the $1783$ synonymous-mutant rows.  A direct $Q_i \to P_k$ association is not enough: the $Q_i \to T_j$ step must be supplied by a translation readout such as tAI, stAI, ribosome occupancy, or translation efficiency, and the downstream $T_j \to P_k$ relation must be evaluated with matched protein abundance and matched mRNA abundance controls.  Amino-acid sequence, organism identity, GC3, coding-sequence length, and the $M$-density baseline remain controls throughout this chapter rather than promoted coordinates.
+\paragraph{Local no-promotion rule.}
+The admissible claim is exactly the finite one: on the registered yeast join, the $f_3$ abundance projection has a positional dwell increment whose leading passing segment is the $5'$ head window, while the $3'$ body window does not pass the same gate.  This does not establish translation realization in a causal sense, does not identify elongation speed, initiation control, folding, physical admissibility, molecular function, phenotype, adaptation, universality, or a biological law.  It also does not show that direct $q_i\to P_k$ association is mechanistically mediated by translation in every coordinate.  Those stronger readings require separate layer-matched contacts, perturbation or rescue evidence where mechanism is claimed, and a controlled statistic showing that the proposed readout both survives and absorbs or reduces the downstream association under the declared covariates.  In the present chapter, the row-level result remains a measured positional ribosome-dwell readback for one yeast abundance-projection target.
