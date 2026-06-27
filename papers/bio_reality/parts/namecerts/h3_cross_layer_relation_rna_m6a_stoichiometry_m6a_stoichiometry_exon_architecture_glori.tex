@@ -1,75 +1,26 @@
-\subsection{Translation-conditioned RNA half-life and the bounded RBP bridge test}\label{subsec:bioreality-q6-rna-half-life-rbp-bridge}
+\subsection{GLORI m6A Stoichiometry as a Finite Exon-Architecture Readout}\label{subsec:bioreality-glori-m6a-exon-architecture}
 \origin{ai}
 
-\paragraph{Finite carrier.}
-The record considered here is a finite matched transcript or coding-sequence table in which each row carries a synonymous residual coordinate label, an amino-acid quotient class, a translation readout, an RNA half-life readout, matched transcript-abundance controls, and the declared possibility of a local decay-factor RNA-binding-protein readout.  The intended positive relation is not merely that a high-coordinate row has a different RNA half-life from a low-coordinate row.  It is the stricter assertion that the RNA half-life residual remains visible after the translation boundary is attached, then follows an independently measured local occupancy change of a prespecified decay-factor RBP, disappears under loss of that RBP, returns under wild-type rescue, and fails under binding-defective or non-target rescue controls.
-
-The finite evidence currently attached to this subject is not such a perturbation panel.  The directly indexed GLORI-style m6A stoichiometry run has experiment id $2e8583415e99$ and reports
+\paragraph{Finite panel.}
+The GLORI m6A record is treated here as a finite cross-layer observation surface, not as a mechanism claim.  The verified row panel contains $60000$ measured rows and $49668$ distinct measured sites for the claim identifier $h3.cross\_layer\_relation.rna\_m6a\_stoichiometry.m6a\_stoichiometry\_exon\_architecture\_glori$.  The recorded run id is $2e8583415e99$, with runtime $78.316$ seconds.  Its scalar audit reports cross-condition concordance as true and gives a coverage-confounding correlation of $-0.135922814$.  Thus the finite observation is not merely that an m6A site exists, but that a large site panel retains a reproducible stoichiometry signal while the observed coverage association is small in magnitude and negative:
 $$
 \begin{aligned}
-  n &= 60000,\\
-  \mathrm{distinct} &= 49668,\\
-  \mathrm{coverage\_confound\_r} &= -0.135922814,\\
-  \mathrm{cross\_condition\_concordant} &= \mathrm{true},\\
-  \mathrm{runtime\_sec} &= 78.316.
+N_{\mathrm{rows}} &= 60000,\\
+N_{\mathrm{distinct}} &= 49668,\\
+r_{\mathrm{coverage}} &= -0.135922814,\\
+C_{\mathrm{condition}} &= \mathrm{true}.
 \end{aligned}
 $$
-These numbers show that the finite table is large, nontrivially de-duplicated, and condition-concordant for the measured m6A stoichiometry surface, with a recorded coverage association that must remain visible as a nuisance scalar rather than be erased from the interpretation.  They do not by themselves provide same-window RNA half-life, same-row ribosome occupancy or translation efficiency, local decay-factor RBP occupancy, RBP loss, or rescue rows.
+These numbers license a bounded statement about measured m6A stoichiometry against exon-level genomic context in the GLORI-derived panel.  They do not by themselves identify an RNA decay factor, a translation state, a protein output, or a causal biochemical route.
 
-\paragraph{Coordinate contrast.}
-Let $q_i$ denote the residual synonymous-coordinate label after quotienting by amino-acid identity, let $T_i$ denote the matched translation readout when present, let $H_i$ denote RNA half-life, and let $O_i$ denote measured local occupancy of the prespecified decay-factor RBP.  The permitted contrast is bounded by the conditional comparison
-$$
-\begin{aligned}
-  \Delta_H
-  &= E[H_i \mid q_i \in Q_{\mathrm{high}}, Z_i, T_i]
-     - E[H_i \mid q_i \in Q_{\mathrm{low}}, Z_i, T_i],\\
-  Z_i
-  &= (\mathrm{transcription\ rate},\ \mathrm{local\ RNA\ structure},\ \mathrm{motif\ density},\
-      \mathrm{GC/dinucleotide},\ \mathrm{codon\ pair},\ \mathrm{isoform},\
-      \mathrm{abundance},\ \mathrm{batch},\ \mathrm{amino\ acid\ class}).
-\end{aligned}
-$$
-A nonzero $\Delta_H$ would still be only an RNA-stability association unless it is accompanied by the local RBP bridge pattern.  The stricter bridge asks for the implication chain
-$$
-\begin{aligned}
-  q_i \leadsto H_i
-  \quad \text{only if} \quad
-  q_i \leadsto O_i,\quad
-  \mathrm{loss}(\mathrm{RBP}) \Rightarrow \Delta_H \to 0,\quad
-  \mathrm{WT\ rescue} \Rightarrow \Delta_H \text{ returns},\\
-  \mathrm{binding\ defective\ rescue} 
-Rightarrow \Delta_H \text{ returns},\quad
-  \mathrm{non\ target\ rescue} 
-Rightarrow \Delta_H \text{ returns}.
-\end{aligned}
-$$
-The present finite-row material does not instantiate this chain.  The chapter therefore records a precise bounded test rather than a positive RBP-mediated RNA-decay result.
+\paragraph{Coordinate distinction.}
+The chapter records a finite distinction between high-coordinate and low-coordinate synonymous residual labels after amino-acid quotienting, but that distinction is used only as an indexing discipline for matched rows.  A row is admissible for this chapter only when its transcript or CDS identifier, editable RNA window, m6A stoichiometry readout, exon-architecture annotation, and declared controls can be joined without changing the biological subject of the row.  The verified GLORI panel supplies the m6A stoichiometry and exon-architecture side of this finite relation.  It does not supply same-window measured decay-factor RBP occupancy, target-RBP loss, wild-type rescue, or binding-defective rescue.  Therefore the strongest local conclusion is an exon-architecture-associated m6A stoichiometry readout, not an RBP-mediated RNA half-life bridge.
 
-\paragraph{Cross-contact calibration.}
-The surrounding finite corpus contains useful scale information for adjacent RNA and RBP surfaces.  The m6Am flanking-identity Crown-seq run, experiment id $eb689b7dc73c$, reports $n=31886$, $\mathrm{distinct}=19406$, $\mathrm{cross\_cell\_concordant}=\mathrm{true}$, $\mathrm{saturated\_ge\_0\_95\_fraction}=0.343223$, $\mathrm{lowtail\_lt\_0\_8\_n}=3230$, $\mathrm{variable\_subset\_n}=20942$, and $\mathrm{runtime\_sec}=324.086$.  Its recorded partial correlations include
-$$
-\begin{aligned}
-  \rho_{\mathrm{full}} &= 0.268094,\\
-  \rho_{\mathrm{lowtail}<0.8} &= 0.098666,\\
-  \rho_{\mathrm{variable\ subset}} &= 0.168335,
-\end{aligned}
-$$
-with a GC-matched null probability recorded as $p=0.000833$.  This adjacent example is useful only as a finite-row demonstration that RNA-modification tables can carry condition-concordant scalar structure under explicit controls.  It is not imported as evidence for the present m6A half-life/RBP bridge.
-
-A separate RBP-binding contact, experiment id $b225890251c2$, records $n_{\mathrm{peaks\ total}}=900$, $\mathrm{cross\_rbp\_concordant}=3$, and $\mathrm{runtime\_sec}=223.648043$.  This gives an example of a finite RBP occupancy or binding surface in the broader corpus, but it is not the same-window decay-factor occupancy panel required here.  The distinction matters: an RBP-binding table in the repository and an m6A stoichiometry table in the repository do not together form a same-row mechanistic bridge unless the identifiers, windows, conditions, perturbations, and rescue contrasts are explicitly joined.
+\paragraph{Methylation-neighbor comparison.}
+The m6Am Crown-seq neighbor record provides a useful calibration of what a stronger methylation-specific finite row can look like without importing its conclusion into the GLORI m6A claim.  For $h3.cross\_layer\_relation.rna\_m6am\_methylation.m6am\_flanking\_identity\_stoichiometry\_crownseq$, the verified panel has $31886$ rows, $19406$ distinct sites, $20942$ rows in the variable subset, $3230$ rows in the low-tail subset below $0.8$, and a saturated fraction $0.343223$ at threshold at least $0.95$.  Its run id is $eb689b7dc73c$, and cross-cell concordance is true.  The recorded scalar checks include $p = 0.000833$, partial correlation $0.268094$ for the full panel, $0.168335$ for the variable subset, and $0.098666$ for the low-tail subset.  These finite values show that nearby RNA methylation chapters may carry explicit flank-identity and stoichiometry statistics, but they remain separate row systems.  They are cited here only to make the GLORI boundary sharper: the m6A GLORI panel has its own $60000$-row surface and its own coverage-confounding scalar, while the m6Am Crown-seq panel has different rows, different chemistry, and different flank tests.
 
 \paragraph{Null model.}
-The operational null is row exchangeability of the high- and low-coordinate labels with respect to translation-conditioned RNA half-life after all declared controls are fixed.  In symbols, for any finite matched panel that lacks the required local RBP bridge rows, the admissible null statement is
-$$
-\begin{aligned}
-  (q_i \in Q_{\mathrm{high}}) \perp H_i
-  \mid
-  (Z_i, T_i, \mathrm{matched\ abundance}, \mathrm{batch}),
-\end{aligned}
-$$
-with the additional rule that a detected half-life difference is demoted to a bounded RNA-stability association whenever $O_i$ is absent, unchanged, not experimentally decoupled from coordinate architecture, or not tested through loss and rescue.  In this chapter the known GLORI finite rows support an m6A stoichiometry/exon-architecture surface with $60000$ rows and $49668$ distinct entries.  They do not support the stronger conclusion that synonymous residual coordinates control RNA decay through a decay-factor RBP.
+The local null is row exchangeability after the declared controls.  Once amino-acid sequence, transcription rate, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, batch, and same-row translation readout are held fixed, high-coordinate and low-coordinate labels are not allowed to differ in RNA half-life merely by interpretive pressure.  A measured m6A stoichiometry or exon-architecture association may remain a finite RNA modification association, but it is not promoted to a translation-conditioned RNA decay mechanism unless the same finite row also carries the missing bridge evidence.  In particular, an RBP bridge would require measured local occupancy of a prespecified decay-factor RBP at the editable window, experimental separation between coordinate label and occupancy, collapse under target-RBP loss, restoration under wild-type rescue, and failure under binding-defective or non-target controls.
 
-\paragraph{Readout boundary.}
-The attached half-life, mRNA abundance, and ribosome-profiling contacts specify possible readout surfaces, not a completed joined matrix.  RNA half-life alone does not certify translation realization.  A translation readout alone does not certify RNA decay mechanism.  Transcript abundance is a control denominator or covariate, not a half-life measurement.  A contact name for ribosome profiling is not a protein-output, folding, localization, physical-admissibility, function, phenotype, adaptation, causation, or universal-law measurement.  Likewise, codon-window geometry and residual-coordinate notation are mathematical labels on rows; they are not curated biological observations unless an external row supplies the corresponding measurement.
-
-Accordingly, the chapter permits the following finite conclusion and no stronger one: the current evidence defines a bounded, auditable target for a translation-conditioned RNA half-life/RBP bridge, anchored by a large m6A stoichiometry table and by adjacent finite examples of RNA-modification and RBP-binding surfaces.  A positive bridge remains unavailable until a single same-organism, same-window panel supplies residual-coordinate labels, same-row translation readout, matched mRNA abundance, RNA half-life, measured decay-factor RBP occupancy, coordinate/occupancy decoupling, target-RBP loss, wild-type rescue, and binding-defective or non-target controls.  Without that joined panel, the admissible scientific statement is a controlled null boundary: no translation, protein output, folding, physical admissibility, biological function, mechanism, phenotype, adaptation, causation, or universality follows from the present rows.
+\paragraph{Allowed conclusion.}
+The accepted conclusion is therefore narrow.  The GLORI fact supports a finite m6A stoichiometry--exon-architecture readout over $60000$ rows, with $49668$ distinct measured sites, true cross-condition concordance, and coverage-confounding correlation $-0.135922814$.  This is enough for a BioReality chapter because the row counts, concordance flag, and confounding scalar give a concrete measured surface rather than a purely symbolic coordinate assertion.  The readout is bounded to RNA modification stoichiometry and exon architecture.  No translation realization, RNA half-life mechanism, folded structure, physical admissibility, biological function, adaptation, causation, system phenotype, or universal biological law follows from this chapter unless a separate layer-matched contact supplies the corresponding measurement and the finite statistic is recomputed on joined rows.

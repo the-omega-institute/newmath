@@ -1,40 +1,20 @@
-\subsection{Position-Controlled Wobble--Dwell Coupling for $B^*_{Q6}$}\label{sec:bioreality-wobble-dwell-coupling-b-star-q6-ribosome-occupancy}
+\subsection{Wobble-dwell coupling at the ribosome-occupancy layer}
+\label{subsec:wobble-dwell-coupling-b-star-q6-ribosome-occupancy}
 \origin{ai}
 
-\paragraph{Finite row under test.}
-The finite object in this record is a codon-window occupancy table joined to ordered coding sequence rows and read back through the nine synonymous residual coordinates of $B^*_{Q6}$.  The tested families are the same nine-coordinate list used throughout the $B^*_{Q6}$ translation interface:
-$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  The occupancy file supplied $5754$ genes, the ordered coding-sequence table supplied $6013$ genes, and the overlap after the length check was $5754$ genes, with length-mismatch count $0$.  Thus the row set is not an abstract codon-frequency comparison: it is a same-gene, ordered-CDS occupancy comparison on $5754$ joined genes.
+\paragraph{Finite-row statement.}
+The record tagged \texttt{ca41f897d026} is a cross-layer occupancy readback for the nine $B^{*}_Q6$ synonymous residual families. The ordered CDS table contributes $6013$ genes, the occupancy table contributes $5754$ genes, the length check removes no rows, and the final join remains $5754$ genes. The analysis is position-confound-controlled: occupancy is demeaned within the file-provided amino-acid bins, with separate 5prime and 3prime window arrays, and the null shuffles synonymous labels only inside the same bin. The permutation budget requested is $200$, every family has at least $200$ permutations available, and the gate uses $\lambda_{\mathrm{DL}}=0.01$ together with $\mathrm{DL}=2$ and the sign condition $C_H>0$.
 
-\paragraph{Statistic.}
-For each synonymous family $q$, the local readout is the relative ribosome occupancy assigned to the same codon windows as the ordered CDS row.  The analysis removes a positional confound before reading any family effect: occupancy is demeaned inside exact file-provided window/codon-index and amino-acid bins, and the null distribution shuffles synonymous labels only within the same bin.  In symbols, for a codon instance $a$ lying in bin $b(a)$, the effect statistic has the form
-$$
-\begin{aligned}
-E(q)
-  &= \Delta_q\bigl(y_a - \overline{y}_{b(a)}\bigr), \\
-Null95(q)
-  &= \operatorname{quantile}_{0.95}\{E_\pi(q):\pi \text{ permutes synonymous labels within } b(a)\}.
-\end{aligned}
-$$
-Here $y_a$ is the supplied local occupancy value, and the permutation is not allowed to move a codon instance across its position/amino-acid bin.  This is the important finite-row control: the comparison asks whether a synonymous choice separates local ribosome occupancy after codon position and amino-acid identity have already been accounted for.
+$$\begin{aligned}
+\mathcal{F}_{\mathrm{pass}} &= \{\text{K\_AAA},\ \text{Arg\_AGR},\ \text{f3\_stress}\},\\
+\lambda_{\mathrm{DL}} &= 0.01,\qquad \mathrm{DL}=2,\qquad N_{\pi}=200.
+\end{aligned}$$
 
-\paragraph{Finite outcome.}
-The null calculation was run for all $9$ families, and all $9$ families had at least $200$ within-bin permutations; the requested permutation count was $200$.  The decision rule used a description-length penalty with $DL=2$ and $\lambda=0.01$, together with the sign gate $C_H>0$.  Under this rule exactly three $B^*_{Q6}$ families passed all gates:
-$$
-\begin{aligned}
-\mathcal{P}_{\mathrm{wobble\mbox{-}dwell}}
-  = \{K\_AAA,\ Arg\_AGR,\ f3\_stress\}.
-\end{aligned}
-$$
-The finite verdict is therefore positive but narrow: at least one, and in this row exactly three, synonymous families show position-bin-controlled local ribosome-occupancy separation exceeding the within-bin label-permutation $Null95$ while also passing the $\lambda DL$ and $C_H$ filters.  This supports a bounded wobble--dwell coupling statement for local occupancy windows, not a general statement about every coordinate or every organism.
+\paragraph{Readback.}
+On this finite row, the families K\_AAA, Arg\_AGR, and f3\_stress clear every gate. The computation therefore does not distribute support evenly across all nine coordinates; it isolates three families whose local ribosome-occupancy separation survives the within-bin permutation Null95 and also satisfies the description-length and support-sign requirements. That is the correct scale of the result: a local, controlled separation, not a blanket statement about the whole nine-dimensional residual basis.
 
-\paragraph{Relation to the broader $B^*_{Q6}$ translation panel.}
-This row sits downstream of earlier finite checks that established the $B^*_{Q6}$ residual coordinate table as non-vacuous.  In the proxy coupling matrix, all $9$ synonymous residual coordinates were computed across three organisms, the break condition $|A_{ij}|<0.01$ for all entries was false, and the largest reported absolute coupling was $1882464.1106377328$ with $9$ nonzero entries.  A separate modeled-tAI panel used $40$ organisms, residualized against $24$ control columns of rank $23$, retained residual degrees of freedom $17$, and obtained a $9\times 9$ modeled translation-readout survival matrix with $R^2_{QT}=0.9003849000036579$.  Those companion checks do not prove measured ribosome behavior, but they make the present occupancy row interpretable as a direct finite contact with a ribosome-position readout rather than as an isolated naming coincidence.
+\paragraph{Cross-organism shape.}
+The same nine-coordinate basis also has a nine-dimensional orthogonal complement readback in six organisms. The dominant coordinates shift with context: in Homo sapiens the complement highlights Arg\_AGR, Ile\_AUA, Ser\_UCA\_vs\_UCG, K\_AAA, and f3\_stress; in Saccharomyces cerevisiae it highlights Ser\_UCR\_vs\_AGY, Leu\_CUN\_vs\_UUR, Ser\_UCA\_vs\_UCG, Arg\_AGR, Thr\_ACR\_vs\_ACY, and f3\_stress. The support fraction sums are 1.0 in every tested organism, with 1.0000000000000002 in E. coli. The reported complement scores are $R^2_{QP}=0.04613529805760884$ in danio rerio, $0.10767526667768725$ in E. coli K-12 MG1655, $0.03980793595345331$ in gallus gallus, $0.04454565117192484$ in Homo sapiens, $0.032090091625816136$ in Mycobacterium smegmatis, and $0.29837624987287115$ in Saccharomyces cerevisiae. This is structured but clearly context-sensitive behavior.
 
-\paragraph{Coordinate specificity.}
-The passing set is biologically and mathematically asymmetric.  $K\_AAA$ and $Arg\_AGR$ are individual synonymous-family residual coordinates, whereas $f3\_stress$ is a composite third-base stress coordinate.  The later coordinate-decomposition audit reported $9$ single-coordinate entries on a yeast abundance target with $n=1258$, fold count $5$, permutation count $120$, and $z$-basis rank $24$; it found real-source evidence for $K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$, while $Ser\_UCA\_vs\_UCG$ was not listed in that real-source subset.  The $f3\_stress$ family decomposition then split the composite coordinate into $21$ synonymous-family subcoordinates on $n=1800$ joined rows, with $P_{f3}$ norm squared $52.76911713166682$, target norm squared $430.42705205115925$, and $P_{f3}$ fraction of target $0.12259712041843235$.  Nineteen of the $21$ listed subfamilies were reported as real-source families under the held-out/permutation gate.  These related rows make the present occupancy result more precise: the passing $f3\_stress$ entry should be read as a family-structured signal, not as a claim that every third-position contrast has the same dwell-time behavior.
-
-\paragraph{Local interpretation.}
-The supported statement is descriptive: synonymous codon choices in the $B^*_{Q6}$ coordinate system co-vary with local relative ribosome occupancy after exact window/codon-index and amino-acid bin controls.  The finite row is strong enough to reject the local null that every tested family is absorbed by the within-bin synonymous-label permutation baseline under the stated $\lambda DL$ rule.  It is not strong enough to assign a causal dwell-time mechanism, and it is not a population-level estimate over all organisms or all ribosome-profiling protocols.  The observed support is tied to the $5754$ joined genes, the supplied $5'$ and $3'$ occupancy arrays, the exact binning rule, the $200$-permutation null, $DL=2$, $\lambda=0.01$, and $C_H>0$.
-
-\paragraph{Non-promotion boundary.}
-This subsection only licenses the bounded occupancy-separation statement just described.  It does not by itself establish a full translation-realization pathway, protein abundance output, folding, structural order, physical admissibility, biological function, molecular mechanism, phenotype, or universal biological law.  Any stronger assertion would need its own layer-matched measurement and its own statistic: for example, direct translation-efficiency rows with matched mRNA controls for a TE claim, matched proteomics for a protein-output claim, perturbation or biochemical data for mechanism, and separate structure or function assays for higher biological interpretation.  The present row is therefore a finite, position-controlled ribosome-occupancy contact for $K\_AAA$, $Arg\_AGR$, and $f3\_stress$, and nothing above that boundary is inferred from it.
+\paragraph{Boundary.}
+A separate three-organism CUN/UUR-to-tRNA-Leu contact reports partial Pearson $1.0$ with signs $(+,-,+)$ and sign\_uniform = false, so even the aligned codon-vs-copy readback is not directionally uniform across species. That is enough to record a finite cross-organism relation, not enough to turn it into a universal orientation rule. Likewise, nothing in this section licenses translation, folding, physical admissibility, function, mechanism, or universality without a separate contact that measures those layers directly. The present result is a finite occupancy-layer readback only, and it must stay at that level.
