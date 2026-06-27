@@ -9758,6 +9758,7 @@ import BEDC.Derived.QuadrantSubstrateUp.TasteGate
 import BEDC.Derived.QuadraticFormUp.TasteGate
 import BEDC.Derived.QuadraticReciprocityComplete
 import BEDC.Derived.QuadraticReciprocityUp
+import BEDC.Derived.QuadraticResidueCountUp
 import BEDC.Derived.QuadraticSurdContFracUp
 import BEDC.Derived.QuadratureUp
 import BEDC.Derived.QuantumChannelUp
