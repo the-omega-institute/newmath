@@ -1,52 +1,48 @@
-\subsection{Endogenous synonymous-fitness rows in \textit{E. coli}}
-\label{subsec:bioreality-yang-ecoli-endogenous-fitness}
 \origin{ai}
 
-\paragraph{Finite perturbation surface.}
-The Yang \textit{E. coli} endogenous-fitness packet is a finite perturbation record for synonymous edits inside native coding contexts.  Its registered run, \texttt{906139f914b0}, contains $46686$ synonymous edits distributed across $30$ genes, with $200$ realized null draws and a runtime of $491.605$ seconds.  The row is therefore large at the edit level but narrow at the gene level.  The admissible carrier is the finite table whose rows are edited coding-sequence windows, whose protected background columns include amino-acid identity, organism, codon-position context, GC3, CDS length, and the $B^*_{Q6}$ support-density baseline, and whose response column is the measured endogenous fitness readout.  The table may be used to ask whether a synonymous window coordinate has predictive contact with this one fitness surface; it may not be used as if it had already measured translation efficiency, protein abundance, folding, molecular activity, or organism-wide evolutionary selection.
+\subsection{Yang endogenous \textit{E. coli} synonymous-edit fitness window}
+\label{sec:bioreality-yang-ecoli-endogenous-fitness-window}
 
-\paragraph{Coordinate discipline.}
-The coordinates available to the broader $B^*_{Q6}$ family are the nine residual directions
+\paragraph{Finite surface.}
+This record concerns an endogenous \textit{Escherichia coli} synonymous-edit panel in which the rows are not abstract codon geometries but finite mutation observations attached to native genes.  The registered run for the claim used $30$ genes and $46686$ synonymous edits, with $B=200$ null or resampling units and runtime $491.605$ seconds.  The finite table is therefore read as a perturbation surface
 $$
 \begin{aligned}
-&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_{CUN\,vs\,UUR},\ Leu\_{UUA\,vs\,UUG},\\
-&Ser\_{UCR\,vs\,AGY},\ Ser\_{UCA\,vs\,UCG},\ Thr\_{ACR\,vs\,ACY},\ f3\_stress .
+  \Omega_{\mathrm{Yang}}=
+  \{(g,e,q,w,y): g \in G_{30},\ e \in E_{46686},\ q \in Q_{6}^{*},\ w \in W,\ y \in Y_{\mathrm{fit}}\},
 \end{aligned}
 $$
-For the Yang packet these directions are not promoted into independent biological causes.  They are finite regressors attached to synonymous edits after the amino-acid-preserving quotient has already removed the obvious coding consequence.  The natural finite question is whether adding the windowed $B^*_{Q6}$ residual block to simpler codon and sequence controls improves the prediction of the measured fitness value.  Because the row supplied for this run records only $n_{edits}=46686$, $n_{genes}=30$, $B=200$, and runtime, the chapter can certify the scale and admissible boundary of the packet, but it cannot report a Yang-specific slope, held-out $\Delta R^2$, description-length gain, or permutation $p$-value.
+where $g$ indexes the endogenous gene, $e$ indexes a synonymous edit in that gene, $q$ is the projected $B^{*}_{Q6}$ residual coordinate evaluated on the edited coding window, $w$ records the window and baseline covariates, and $y$ is the observed fitness readout attached to the edit.  The point of the surface is not that codon residuals become biological causes by naming them.  The point is narrower: a large finite edit panel can ask whether a residual coordinate retains predictive contact with an endogenous fitness readout after the ordinary coding-sequence controls have first been placed in the design.
 
-\paragraph{Relation to translation-layer evidence.}
-The same residual family has a separate modeled translation-readout surface in which three organisms were evaluated using GtRNAdb copy numbers and dos Reis wobble weights.  That run computed all nine residual coordinates, used a coupling threshold of $0.01$, and found $81$ modeled entries above threshold with maximum absolute coupling $3801961.031607896$.  It also explicitly marked the organism count as $3$, below the powered-survival requirement of at least $40$ matched species.  This matters for the Yang endogenous-fitness packet because a fitness association is not a translation measurement.  Even if a synonymous edit affects growth, the route from codon residual to translation readout must be supplied by a matched translation contact before the claim may be restated as translation survival.
-
-\paragraph{Protein-mediated comparison surface.}
-A broader protein-abundance mediation run gives a useful calibration for what a completed $Q \to T \to P$ surface looks like.  In that run, the \textit{E. coli} K-12 MG1655 join used $3739$ proteins, a per-protein modeled tAI readout, and PAXdb protein abundance.  After residualizing against $24$ control columns with rank $23$, the \textit{E. coli} row had residual degrees of freedom $3716$, $X$-to-$T$ explained energy $0.256128714706293$, $X$-to-$Y$ explained energy $432.89050065533684$, and a mediated fraction
+\paragraph{Coordinates and controls.}
+The residual coordinate list used by the surrounding $Q6$ program is the nine-coordinate basis
 $$
 \begin{aligned}
-M^{QTP}_{Ecoli} &= 0.612922252793667,\\
-c &= 0.10767526677985896,\\
-c' &= 0.04167869969498872,\\
-c-c' &= 0.06599656708487024 .
+Q_{6}^{*}=\{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
+&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
 \end{aligned}
 $$
-Those numbers are not Yang fitness effects.  They show the minimum shape required for a mediated protein-abundance statement: matched coding rows, a declared translation readout, matched protein abundance, rank diagnostics, and an explicit decomposition.  The Yang row does not contain the corresponding $T$ or $P$ columns, so the endogenous-fitness packet stays at the perturbation-fitness boundary.
+In the cross-layer protein-abundance run using the same coordinate family, the matched organism panel contained $12$ organisms and joined $3739$ \textit{E. coli} K-12 MG1655 proteins to real CDS codon counts and PAXdb abundance rows.  That run estimated, for \textit{E. coli}, a total residual-to-protein abundance coefficient $c=0.10767526677985896$, a translation-conditioned direct coefficient $c'=0.04167869969498872$, an indirect difference $c-c'=0.06599656708487024$, and a mediated fraction $0.612922252793667$ under amino-acid composition, GC3, CDS length, and $M$-density controls.  These numbers are not imported here as a fitness result.  They only justify treating the Yang endogenous edit panel as a downstream perturbation question after the $Q6$ translation and abundance route has already been quantified elsewhere on finite matched rows.
 
-\paragraph{E. coli perturbation context.}
-The closest \textit{E. coli} synonymous protein-output perturbation packet is the Nieuwkoop mRFP run, which used $1459$ variants and $200$ null draws.  It reported a control-only $R^2$ of $0.12648386762689323$, a full $R^2$ of $0.1798829276988051$, $\Delta R^2=0.05339906007191191$, $\Delta DL=19.089327473282296$ bits, and matched and within-null probabilities both equal to $0.004975124378109453$.  A separate 5-prime boundary audit on the same variant count found that the downstream block had $\Delta R^2=-0.001126409133973234$, $\Delta LL=-2.082967365015851$, a block probability $0.1691542288557214$, and a non-stable sign call.  These two \textit{E. coli} controls show why the Yang packet cannot be summarized by organism name alone: an \textit{E. coli} synonymous edit can have a detectable protein-output association in one engineered reporter setting and still fail a boundary audit in a neighboring positional test.  The endogenous-fitness surface therefore needs its own finite statistic before any positive biological reading is allowed.
-
-\paragraph{What the Yang row establishes.}
-The verified Yang record establishes that the registered experiment ran to completion on a nontrivial finite surface: $46686$ synonymous edits, $30$ genes, $200$ null draws, and a recorded runtime.  This is enough to include the packet as an audited BioReality chapter because the subject is not a hypothetical coordinate name; it is an enumerated perturbation table with a bounded response class.  It is not enough to assert that any one $B^*_{Q6}$ coordinate improves endogenous fitness prediction, because the row supplied here contains no Yang-specific coefficient, no $R^2$ ladder, no description-length increment, no null tail probability, and no gene-block stability statistic.  The responsible readback is therefore: Yang provides a finite endogenous-fitness test surface for synonymous edits, but the present row supports only scale, eligibility, and boundary status.
-
-\paragraph{Local no-promotion rule.}
-No translation, folding, physical admissibility, molecular function, mechanism, or universality follows from this packet without an additional layer-matched contact.  A direct association from a synonymous residual to endogenous fitness would still be only a perturbation-fitness association unless the same rows also contain a surviving translation readout such as measured translation efficiency, ribosome occupancy, or an explicitly bounded modeled tAI/stAI statistic.  A protein-abundance statement would require matched protein abundance; a function statement would require a function assay; a mechanism statement would require perturbation, rescue, or otherwise layer-specific intervention.  The finite Yang surface is therefore admitted as an endogenous synonymous-fitness audit surface, not as a completed translation-mediated protein-realization result.
-
-\paragraph{Verdict.}
-The packet is ready as a self-contained boundary chapter.  Its positive content is the finite audit scale
+\paragraph{Yang readback.}
+For the present chapter, the direct finite fact is the Yang run itself:
 $$
 \begin{aligned}
- n_{genes} &= 30,\\
- n_{synonymous\ edits} &= 46686,\\
- B &= 200,\\
- t_{runtime} &= 491.605\ \mathrm{s} .
+  |G| &= 30,\\
+  |E| &= 46686,\\
+  B &= 200,\\
+  t_{\mathrm{run}} &= 491.605\ \mathrm{s}.
 \end{aligned}
 $$
-Its negative content is equally important: the finite row currently lacks the Yang-specific performance and null statistics needed for a stronger claim.  The chapter should therefore be read as a registered endogenous-fitness contact for future $B^*_{Q6}$ residual testing, with all translation, protein, structure, function, mechanism, and universality readings held outside the claim until separate matched contacts supply them.
+The readback is therefore an endogenous-fitness audit of a $B^{*}_{Q6}$ window design, not a general statement about all synonymous mutations.  Each row asks whether a synonymous edit perturbs a controlled coding window in a way that is visible in the fitness measurement.  Because the row count is large but the gene count is only $30$, the correct interpretation is gene-local and panel-local: the experiment has many synonymous edits, but those edits are concentrated in a finite endogenous gene set.  The scientific claim is consequently about this finite panel and its registered controls, not about a population law across all bacteria.
+
+\paragraph{Relation to translation mediation.}
+The broader $Q6$ evidence ledger contains a modeled translation survival contact and a protein-abundance mediation contact.  The modeled-tAI survival run computed the same nine residual coordinates and found $81$ bounded coupling entries above threshold $0.01$ across $3$ organisms, with maximum absolute modeled coupling $3801961.031607896$.  That result was explicitly recorded as underpowered for a powered survival claim because $3$ organisms are below the declared $40$-species boundary.  Separately, the $12$-organism protein-abundance mediation run gave positive mediated fractions in unit interval for all organisms, including \textit{E. coli}, but it used modeled per-protein tAI rather than measured ribosome profiling.  The Yang endogenous fitness panel should therefore be placed after, not before, this boundary: it is a perturbation readout that can be compared with the same residual-window coordinates, while the translation step remains a required separate contact whenever a mechanistic translation statement is desired.
+
+\paragraph{Comparison with nearby \textit{E. coli} perturbation rows.}
+Two nearby finite perturbation records show why the Yang panel should be written conservatively.  The Nieuwkoop \textit{E. coli} mRFP protein-output row used $1459$ variants, $B=200$, and reported $\Delta R^{2}=0.05339906007191191$, $\Delta DL=19.089327473282296$ bits, with matched and within-null $p$-values both $0.004975124378109453$.  The Chen distributed recoding row used $47$ AmpR variants and $53$ GmR variants, but its reported AmpR independent $p$-value was $1.0$ with slope $0.0$.  Against that background, the Yang panel supplies scale and endogenous-fitness contact, while the present finite row does not itself expose a signed coefficient, $\Delta R^{2}$, description-length gain, or per-coordinate $p$-value.  The chapter can therefore report the existence and size of the powered endogenous-edit audit, but it must not invent an effect direction.
+
+\paragraph{Admissible statement.}
+The admissible statement is that a registered endogenous \textit{E. coli} synonymous-edit fitness audit was run on $46686$ edits across $30$ genes with $B=200$, using the $B^{*}_{Q6}$ window route as the coordinate family.  This supports a finite perturbation contact for the fitness layer in the sense of completed computation and row availability.  It does not, by itself, prove that a particular residual coordinate mediates fitness through translation, protein abundance, folding, or molecular function.  A stronger statement would require the row-level statistic identifying which coordinate survived, the corresponding fitness effect size, the null distribution, and a demonstrated attenuation or mediation chain through a measured translation readout.
+
+\paragraph{No-promotion boundary.}
+The boundary is local and strict.  A synonymous residual coordinate may be used as a controlled finite predictor on this panel, but no translation realization follows unless a measured or explicitly bounded translation contact is joined to the same rows.  No protein-abundance claim follows unless matched protein-abundance rows are joined and the direct residual-to-protein route is separated from the translation route.  No folding, physical admissibility, molecular function, organismal mechanism, selection law, or universality follows from the Yang fitness rows alone.  The run is a finite endogenous perturbation audit, and its current public numbers certify panel scale and computation, not an unrestricted biological mechanism.
