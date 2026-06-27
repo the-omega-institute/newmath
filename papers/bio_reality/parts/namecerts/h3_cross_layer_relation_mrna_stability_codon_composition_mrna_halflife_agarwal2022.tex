@@ -1,38 +1,53 @@
 \origin{ai}
+\subsection{Rank-admissible codon-composition contact with mRNA half-life}
+\label{sec:bioreality-q6-mrna-halflife-rank-admissible-contact}
 
-\subsection{Rank-admissible codon-composition contact with RNA half-life}
-\label{sec:bioreality-q6-rank-admissible-mrna-halflife-agarwal2022}
-
-\paragraph{Finite contact.}
-The Agarwal-style RNA half-life packet supplies a bounded cross-layer contact between synonymous codon-composition coordinates and transcript decay readouts.  The finite run used $16{,}500$ human rows and $18{,}924$ mouse rows, with the circularity guard recorded as non-CSC tAI and a raw Spearman-scale contact of $\rho=0.126224$ in $46.349$ seconds.  This number is not promoted to a translation-survival score.  It is a weak finite-row association between codon-composition summaries and RNA half-life under the recorded guard, and it remains upstream of any claim about ribosome occupancy, protein abundance, folding, physical admissibility, biological function, mechanism, phenotype, or universality.
-
-\paragraph{Coordinate carrier and controls.}
-The carrier for the record is the residualized finite design matrix whose columns are the $B^{\ast}_{Q6}$ synonymous residual coordinates, organism-indexed translation or decay readout surfaces, and control columns $Z$.  The controls named by the gate include amino-acid composition, organism, GC3, coding-sequence length, and an M-density baseline.  A proposed entry $S^{QT}_{ij}$ is admissible only when both the coordinate $q_i$ and the readout $T_j$ have been residualized against $Z$, and the remaining row space has non-saturated rank with enough independent support for a held-out test.  In symbols, the local decision has the form
+\paragraph{Finite panel.}
+The record concerns a cross-layer test in which synonymous residual coordinates from $B^{*}_{Q6}$ are compared with RNA half-life readouts only after the codon-composition geometry has been kept separate from translation and protein-level interpretation.  The finite Agarwal-style half-life contact currently has a human row count of $16500$ and a mouse row count of $18924$.  Its recorded scalar association is
 $$
 \begin{aligned}
-q_i^{\perp Z} &= q_i - \Pi_Z q_i,\\
-T_j^{\perp Z} &= T_j - \Pi_Z T_j,\\
-S^{QT}_{ij} &> 0 \quad \text{is reportable only if } \operatorname{rank}(q_i^{\perp Z},T_j^{\perp Z}) \text{ leaves nonzero test degrees of freedom.}
+ n_{\mathrm{human}} &= 16500,\\
+ n_{\mathrm{mouse}} &= 18924,\\
+ \rho_{\mathrm{raw}} &= 0.126224,\\
+ t_{\mathrm{run}} &= 46.349\ \mathrm{s}.
 \end{aligned}
 $$
-If the residualized design is rank-saturated, underpowered, or supported only by an in-sample fitted surface, the record returns a blocked or needs-data state rather than a survival statement.
+The circularity guard is explicitly recorded as ``tAI non-CSC'', so codon adaptation weights are not allowed to serve simultaneously as the coordinate being explained and as the biological endpoint.  This is a weak positive finite-row contact with RNA stability, not a translation-survival certificate.
 
-\paragraph{Why the existing codon--translation contact is not enough.}
-A separate finite codon-use run computed nine $B^{\ast}_{Q6}$ synonymous residuals: $\mathrm{Arg\_AGR}$, $\mathrm{Ile\_AUA}$, $\mathrm{K\_AAA}$, $\mathrm{Leu\_CUN\_vs\_UUR}$, $\mathrm{Leu\_UUA\_vs\_UUG}$, $\mathrm{Ser\_UCA\_vs\_UCG}$, $\mathrm{Ser\_UCR\_vs\_AGY}$, $\mathrm{Thr\_ACR\_vs\_ACY}$, and $f_3$-stress.  It used a three-organism panel consisting of $\mathrm{Homo\ sapiens}$, $\mathrm{Saccharomyces\ cerevisiae}$, and $\mathrm{Escherichia\ coli}$ K-12, and tested a proxy tRNA-Leu CUN-versus-UUR log-copy spectrum.  The proxy coupling threshold was $0.01$; the break condition that all nine $|A_{ij}|<0.01$ was not met, and the largest absolute proxy entry was $1{,}882{,}464.1106377328$ with nine nonzero entries.  These numbers certify a finite proxy coupling contact, not a controlled translation-survival or RNA-stability result.  The proxy surface is organism-level tRNA-copy information, not matched ribosome occupancy, not protein output, and not transcript half-life.
-
-\paragraph{Residual-basis evidence and its negative force.}
-The broader residual-basis extraction run reinforces the boundary.  With the stated regularizer $\lambda=0.01$ and description-length penalty $\log_2(1+n_{\mathrm{col}})$, four organisms were computable and all four were classified as persistent rather than compressible: $\mathrm{Danio\ rerio}$, $\mathrm{Escherichia\ coli}$ K-12 MG1655, $\mathrm{Homo\ sapiens}$, and $\mathrm{Saccharomyces\ cerevisiae}$.  Two requested organisms, $\mathrm{Gallus\ gallus}$ and $\mathrm{Mycobacterium\ smegmatis}$ str. MC2 155, remained needs-data.  The final residual floors were high: $0.9791828971490305$ for $\mathrm{Danio\ rerio}$ after one selected readout, $0.9979478314995476$ for $\mathrm{E.\ coli}$ after two selected readouts, $0.9723341658092314$ for human after six selected readouts, and $0.9798667977250413$ for yeast after nine selected readouts.  The smallest final value was still $0.9723341658092314$, above the recorded $0.97$ persistence floor.  Thus the finite evidence says that the residual coordinates retain substantial unexplained mass after the available readout blocks; this is a scientifically useful refusal, not a failure of the coordinate construction.
-
-\paragraph{Admissibility rule for the RNA half-life contact.}
-The RNA half-life association can be used as a bounded decay-layer readout only after the same-row matrix contains the relevant $B^{\ast}_{Q6}$ residual coordinate, RNA half-life, matched abundance or transcriptional controls, organism and sequence controls, and the rank audit.  The observed $\rho=0.126224$ is therefore recorded as a finite contact that motivates a controlled test, not as a survival score.  The admissible claim has the weaker form
+\paragraph{Residual coordinate carrier.}
+The carrier is the residualized finite design matrix whose columns include $B^{*}_{Q6}$ synonymous coordinates, organism-indexed readout surfaces, and control columns $Z$.  The control set includes amino-acid composition, organism, GC3, coding length, and an M-density baseline.  The relevant residual basis computation was available for four organisms and absent for two.  The computed organisms were \texttt{danio\_rerio}, \texttt{escherichia\_coli\_k12\_mg1655}, \texttt{homo\_sapiens}, and \texttt{saccharomyces\_cerevisiae}; \texttt{gallus\_gallus} and \texttt{mycobacterium\_smegmatis\_str\_mc2\_155} remained at needs-data status.  The fitted residual curves did not collapse under the available non-translation readout blocks.  Their recorded $\rho$ curves were
 $$
 \begin{aligned}
-\text{finite contact} &: \bigl(n_{\mathrm{human}}, n_{\mathrm{mouse}}, \rho, \text{guard}\bigr)\\
-&= \bigl(16{,}500,18{,}924,0.126224,\text{non-CSC tAI}\bigr),\\
-\text{survival claim} &: \text{withheld until a non-saturated held-out } S^{QT}_{ij} \text{ is computed.}
+ R_{\mathrm{danio}} &= (1.0,\ 0.9791828971490305),\\
+ R_{\mathrm{ecoli}} &= (1.0,\ 0.9982293045445091,\ 0.9979478314995476),\\
+ R_{\mathrm{human}} &= (1.0,\ 0.9852198225375993,\ 0.9806696939851618,\ 0.9792537895870558,\ 0.9787609432955213,\ 0.9787233550315274,\ 0.9723341658092314),\\
+ R_{\mathrm{yeast}} &= (1.0,\ 0.9962498989663637,\ 0.9929843170647626,\ 0.9915730985485388,\ 0.9903314906684438,\ 0.9894054695002641,\ 0.9885902293718664,\ 0.9882386501212531,\ 0.9881524582851271,\ 0.9798667977250413).
 \end{aligned}
 $$
-This keeps codon topology, modeled adaptation weights, and transcript half-life in separate readout roles until a single finite panel joins them under the declared controls.
+The regularizer used in that residual-basis extraction was $\lambda = 0.01$ with description length $\log_{2}(1+n_{\mathrm{col}})$.  The minimum final recorded curve value among computed organisms was $0.9723341658092314$, and the module classification was persistent for all four computed organisms, with no compressible or partially compressible organism recorded.  Thus the residual geometry remains informative as unexplained codon-topology memory, but it is not already an RNA half-life mechanism.
 
-\paragraph{Local no-promotion boundary.}
-Nothing in this record asserts translation realization, ribosome occupancy, protein abundance, protein structure, physical admissibility, biological function, mechanism, phenotype, or a universal biological law.  The three-organism proxy coupling surface is too small and too rank-sensitive for survival promotion; the human--mouse half-life contact reports a raw finite association rather than a controlled survival statistic; and the residual-basis extraction reports persistent unexplained residuals rather than a closed mechanism.  A future positive statement would require a same-organism or same-CDS matrix with codon counts, $B^{\ast}_{Q6}$ residual labels, matched RNA half-life, matched translation readout if translation conditioning is claimed, abundance controls, the full $Z$ controls, rank sufficiency, simpler-baseline ablation, and held-out survival.  Until then, the correct readback is a rank-admissibility gate: the contact is real enough to define a test, but not yet strong enough to promote the codon residual into translation survival or decay mechanism.
+\paragraph{Rank gate.}
+For an entry $S^{QT}_{ij}$ to count as translation-to-stability survival, both $q_i$ and the readout $T_j$ must be residualized against $Z$, and the post-control design must leave enough independent degrees of freedom for a held-out falsification.  The admissibility condition is local to each proposed entry:
+$$
+\begin{aligned}
+ \operatorname{rank}(X_{q_i,T_j \mid Z}) &< n_{\mathrm{rows}},\\
+ \operatorname{df}(X_{q_i,T_j \mid Z}) &> 0,\\
+ S^{QT}_{ij} &> 0\quad \text{only if the held-out score survives the same controls.}
+\end{aligned}
+$$
+A saturated all-in-sample fit, including a fitted score equal to $1.0$, is therefore rejected as a projection artifact rather than promoted to a biological survival statement.  The current half-life row records $\rho_{\mathrm{raw}} = 0.126224$ but does not provide the per-coordinate residualized $S^{QT}_{ij}$ matrix, the post-control rank table, held-out scores, or p-values for rank-admissible entries.  Consequently the half-life observation can be cited only as a bounded RNA-stability contact requiring a stricter survival calculation.
+
+\paragraph{Coupling contrast.}
+The earlier codon-to-proxy contact found nine nonzero entries above the $0.01$ threshold against a proxy tRNA-Leu CUN-versus-UUR log-copy spectrum, with maximum absolute coupling
+$$
+\begin{aligned}
+ \max_{i,j} |A_{ij}| = 1882464.1106377328.
+\end{aligned}
+$$
+That calculation used three loaded organisms, \texttt{homo\_sapiens}, \texttt{saccharomyces\_cerevisiae}, and \texttt{escherichia\_coli\_k12}.  The residual coordinates computed there were \texttt{Arg\_AGR}, \texttt{Ile\_AUA}, \texttt{K\_AAA}, \texttt{Leu\_CUN\_vs\_UUR}, \texttt{Leu\_UUA\_vs\_UUG}, \texttt{Ser\_UCA\_vs\_UCG}, \texttt{Ser\_UCR\_vs\_AGY}, \texttt{Thr\_ACR\_vs\_ACY}, and \texttt{f3\_stress}.  This supports a coupling-only contact between codon-topology residuals and a proxy translation-weight surface.  It does not supply a measured ribosome-occupancy row, an mRNA half-life mediation row, or a controlled $S^{QT}$ entry.
+
+\paragraph{Local readback.}
+The chapter therefore reads the finite evidence as follows.  There is a real bounded half-life panel with $16500$ human and $18924$ mouse rows, a recorded raw correlation of $0.126224$, and a non-CSC tAI circularity guard.  There is also a persistent residual-basis record in four computed organisms, with $\lambda=0.01$ and final residual curves remaining above $0.97$.  These facts justify keeping the codon-composition-to-RNA-stability question open and scientifically specific.  They do not justify declaring that any $B^{*}_{Q6}$ coordinate has survived as a translation realization, RNA decay mechanism, protein output, structural order, physical admissibility, biological function, phenotype, or universal biological law.
+
+\paragraph{Boundary.}
+The allowed statement is narrow: codon-composition residuals have a finite RNA half-life contact and a guarded raw association, while the rank-admissible survival matrix remains uncomputed.  A positive promotion would require same-organism or same-CDS rows joining $B^{*}_{Q6}$ residual coordinates, measured translation readouts such as ribosome occupancy or translation efficiency, matched mRNA abundance, RNA half-life, amino-acid composition, organism, GC3, length, M-density, batch or dataset controls where relevant, simpler-codon baselines, post-control rank, and held-out survival.  Without that joined finite panel, no claim follows about translation, folding, physical admissibility, function, mechanism, causation, phenotype, or universality.
