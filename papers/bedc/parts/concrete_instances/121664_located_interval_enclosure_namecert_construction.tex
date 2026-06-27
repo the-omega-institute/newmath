@@ -1,0 +1,86 @@
+\chapter{Located Interval Enclosure NameCert Construction}
+\label{ch:concrete-instances-located-interval-enclosure-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real intervals, the $\LocatedIntervalEnclosureUp$ packet records a finite enclosure of a displayed real-name read by dyadic endpoints before any nested-interval or completion consumer may use it. It consumes the dyadic endpoint arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, finite observation windows from \autoref{ch:concrete-instances-streamname-namecert}, regular rational readback from \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the dyadic interval-cell route of \autoref{ch:concrete-instances-dyadic-interval-net-namecert}. The packet names a displayed enclosure row; it does not assert interval compactness, choose a completed point, identify host real equality, invoke countable choice, or claim ambient $\RealUp$ completeness.
+
+\begin{definition}[Located interval enclosure carrier]
+\label{def:located-interval-enclosure-carrier}
+A $\LocatedIntervalEnclosureUp$ carrier is a finite $\BHist$ packet
+$$
+E=(L,U,O,W,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ and $U$ are $\DyadicRatCoreUp$ endpoint rows for the lower and upper dyadic bounds.
+\item $O$ is the endpoint order row, displaying that the lower endpoint precedes the upper endpoint inside the same dyadic tolerance ledger.
+\item $W$ is the $\StreamNameUp$ finite observation window inspected before the enclosure is admitted.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row attached to the same window and dyadic tolerance budget.
+\item $S$ is the terminal $\RealUp$ seal row for the named real read enclosed by $L,U,W,R$.
+\item $H$ records componentwise $\hsame$ transport for the endpoints, order row, containment witness, stream window, readback row, Real seal, replay row, provenance row, and local name.
+\item $C$ records displayed $\Cont$ replay from the window request through the endpoint, containment, readback, seal, transport, provenance, and naming rows.
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalEnclosureUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\DyadicIntervalNetUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedIntervalEnclosureUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $L,U,O,W,R,S,H,C,P,N$. It has no coordinate for host real equality, quotient representatives, selected limits, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located interval enclosure carrier extraction]
+\label{thm:located-interval-enclosure-carrier-extraction}
+Every accepted $\LocatedIntervalEnclosureUp$ read exposes the dyadic endpoint rows $L,U$, the endpoint order row $O$, the $\StreamNameUp$ finite window $W$, the $\RegSeqRatUp$ readback $R$, the terminal $\RealUp$ seal $S$, and the structural rows $H,C,P,N$ before an enclosure judgment is public.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-interval-enclosure-carrier}. The tuple lists exactly the endpoint, order, window, readback, seal, transport, replay, provenance, and local naming rows.
+
+The sibling routes named in the introduction supply those rows only as displayed finite data. Dyadic endpoints and the interval-net cell are read before the stream window and regular readback, and the Real seal is reached only after those finite rows have been displayed.
+
+Since the classifier has no coordinate beyond $L,U,O,W,R,S,H,C,P,N$, no public enclosure read can bypass this extraction route.
+\end{proof}
+
+\begin{theorem}[Located interval enclosure endpoint-refinement transport]
+\label{thm:located-interval-enclosure-endpoint-refinement-transport}
+Let $E=(L,U,O,W,R,S,H,C,P,N)$ be an accepted $\LocatedIntervalEnclosureUp$ carrier. If refined dyadic endpoints $L',U'$ preserve the endpoint order row and the containment witness through the same $\DyadicIntervalNetUp$ cell, then the enclosure transports to
+$$
+E'=(L',U',O,W,R,S,H,C,P,N)
+$$
+without changing the stream window, regular readback, Real seal, replay, provenance, or local name.
+\end{theorem}
+\begin{proof}
+Read the endpoint refinement through the dyadic endpoint rows and the interval-net cell. The hypotheses keep the order and containment witness attached to the same displayed dyadic route.
+
+Apply the componentwise $\hsame$ transport row $H$. It carries endpoint replacement while leaving the finite observation window, regular readback, Real seal, replay, provenance, and local name on their original rows.
+
+The transported carrier therefore remains an accepted enclosure packet. Because no host real equality or quotient coordinate is present, the transport is only the displayed endpoint-refinement route.
+\end{proof}
+
+\begin{theorem}[Located interval enclosure Real-seal nonescape]
+\label{thm:located-interval-enclosure-real-seal-nonescape}
+Every $\RealUp$-facing consumer of an accepted $\LocatedIntervalEnclosureUp$ packet factors through the displayed route
+$$
+L,U,O,W,R,S,H,C,P,N .
+$$
+The consumer receives a sealed real-name read inside dyadic enclosure rows, but it receives no host real equality, quotient representative, selected limit, countable-choice schedule, interval compactness theorem, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with carrier extraction, \autoref{thm:located-interval-enclosure-carrier-extraction}. It forces the dyadic endpoints, order row, finite window, regular readback, and terminal seal to be visible before any enclosure judgment is public.
+
+Use endpoint-refinement transport, \autoref{thm:located-interval-enclosure-endpoint-refinement-transport}, for the only permitted endpoint variation. Refinement preserves the displayed rows and cannot introduce a new host-side coordinate.
+
+Finally read the refusal inventory in the classifier of \autoref{def:located-interval-enclosure-carrier}. Since the accepted packet has no coordinate for the excluded objects, the Real-facing route cannot escape the finite enclosure surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LocatedIntervalEnclosureUp$ consumer that reaches a $\RealUp$ seal without first displaying dyadic endpoints, endpoint order, a finite StreamName window, a RegSeqRat readback row, transport, replay, provenance, and local naming refutes the carrier surface.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, dyadic-interval-net: no listed sibling supplies the whole packet $E=(L,U,O,W,R,S,H,C,P,N)$, because each sibling contributes only endpoint arithmetic, finite observation, regular readback, terminal sealing, or interval-cell routing while this chapter binds them into one enclosure certificate.}
+
+\closureat{LocatedIntervalEnclosureUp}{seedStr}
+
+\begin{closurestatus}{\LocatedIntervalEnclosureUp}
+  \constructivestory{A $\LocatedIntervalEnclosureUp$ packet is generated from DyadicRatCore endpoint rows, an endpoint order row, a containment witness routed through DyadicIntervalNet, a StreamName finite observation window, RegSeqRat readback, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-enclosure-carrier}, \autoref{thm:located-interval-enclosure-carrier-extraction}, \autoref{thm:located-interval-enclosure-endpoint-refinement-transport}, and \autoref{thm:located-interval-enclosure-real-seal-nonescape} seed the finite enclosure packet over dyadic endpoints, finite windows, regular readback, terminal sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close interval compactness, point extraction, host real equality, quotient representatives, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier extraction, endpoint-refinement transport, and Real-seal nonescape for BEDC.Derived.LocatedIntervalEnclosureUp.}
+\end{closurestatus}

@@ -1,0 +1,78 @@
+\chapter{Golden-Mean Shift Window-Six NameCert Construction}
+\label{ch:concrete-instances-golden-mean-shift-window-six-namecert}
+\origin{human}
+
+Following Lind and Marcus, the golden-mean subshift is the finite-type no-adjacent-one shift. The $\GoldenMeanShiftWindowSixUp$ packet realizes the window-six kernel of \autoref{def:axiszeckendorf-golden-mean-shift-kernel} as finite $\BHist$ data: a six-cell binary window, a two-state transition classifier, a shift-stability row, a finite-window growth row, Zeckendorf carry-facing provenance through \autoref{ch:concrete-instances-zeckendorf-normal-namecert} and \autoref{ch:concrete-instances-zcarry-namecert}, and local NameCert evidence. The packet names the finite symbolic-dynamics carrier used by the Axis-Zeckendorf vision; it is not an invariant measure, a two-sided completion, a host entropy theorem, or a claim that all Zeckendorf carries have been bridged.
+
+\begin{definition}[Golden-mean window-six carrier]
+\label{def:golden-mean-shift-window-six-carrier}
+A $\GoldenMeanShiftWindowSixUp$ carrier is a finite $\BHist$ packet
+$$
+G=(W,K,T,S,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is a six-symbol binary window row.
+\item $K$ is the no-adjacent-one transition-kernel classifier of \autoref{def:axiszeckendorf-golden-mean-shift-kernel}, restricted to adjacent pairs inside $W$.
+\item $T$ is the transition ledger recording which adjacent pairs are admitted by $K$.
+\item $S$ is the one-step shift-stability row: deleting the first cell and reading the remaining five-cell suffix preserves the admitted adjacent-pair rows.
+\item $F$ is the finite-window growth row, recording the Fibonacci recurrence of \autoref{prop:axiszeckendorf-golden-growth-finite-windows} at the inspected window length.
+\item $H$ records componentwise $\hsame$ transport for the window, transition classifier, transition ledger, shift row, growth row, replay row, provenance row, and local name.
+\item $C$ records displayed $\Cont$ replay from the window read through $K,T,S,F,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\GoldenMeanShiftWindowSixUp$, the Axis-Zeckendorf kernel of \autoref{def:axiszeckendorf-golden-mean-shift-kernel}, $\ZeckendorfNormalUp$, $\ZCarryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GoldenMeanShiftWindowSixUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,K,T,S,F,H,C,P,N$. It has no coordinate for a host subshift object, invariant measure, entropy limit, two-sided completion, unrestricted carry propagation, or bridge credential.
+\end{definition}
+
+\begin{theorem}[Golden-mean transition-kernel obligations]
+\label{thm:golden-mean-shift-window-six-transition-kernel-obligations}
+For every accepted $\GoldenMeanShiftWindowSixUp$ carrier $G=(W,K,T,S,F,H,C,P,N)$, the local transition-kernel obligations are exactly pair admission by the no-adjacent-one classifier, transport of those pair rows under $\hsame$, and replay of the admitted finite window through $C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:golden-mean-shift-window-six-carrier}. The only transition coordinates are $K$ and $T$, so every adjacent-pair decision is read through the displayed no-adjacent-one classifier.
+
+The transport row $H$ carries the same pair decisions under accepted renaming of the finite window. Replay and provenance through $C,P,N$ can name the route but cannot add another transition classifier.
+
+Since no host subshift, measure, entropy, or unrestricted carry coordinate belongs to the carrier, the listed rows exhaust the local transition obligations.
+\end{proof}
+
+\begin{theorem}[Golden-mean window-six shift stability]
+\label{thm:golden-mean-shift-window-six-shift-stability}
+Every accepted $\GoldenMeanShiftWindowSixUp$ carrier exports shift stability only by reading $S$ after $W,K,T$ have displayed the no-adjacent-one pair rows. The shifted five-cell suffix remains inside the same transition-kernel classifier and the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+\end{theorem}
+\begin{proof}
+Read the finite window $W$ and transition rows $K,T$. They display every adjacent pair whose preservation matters after the first cell is dropped.
+
+The shift row $S$ is then a suffix read of the same finite window. It preserves all adjacent-pair rows that remain in the suffix and does not introduce a second classifier.
+
+Finally $H,C,P,N$ transport, replay, source, and name that suffix route. Thus shift stability is a finite NameCert row, not a host dynamical-system completion.
+\end{proof}
+
+\begin{theorem}[Golden-mean window-six finite growth route]
+\label{thm:golden-mean-shift-window-six-finite-growth-route}
+Any finite-window growth read from an accepted $\GoldenMeanShiftWindowSixUp$ packet factors through $F$ after the transition classifier $K$ and ledger $T$ have been displayed. The read may cite the recurrence of \autoref{prop:axiszeckendorf-golden-growth-finite-windows}, but it exports only the inspected finite growth row and not a host entropy limit or a completed inverse-limit carrier.
+\end{theorem}
+\begin{proof}
+Start with the kernel obligations of \autoref{thm:golden-mean-shift-window-six-transition-kernel-obligations}. They ensure that the no-adjacent-one grammar has been displayed as finite adjacent-pair data.
+
+The growth row $F$ reads the same grammar at the inspected window length. It records the Fibonacci recurrence locally, using the vision proposition only as the named source of the finite recurrence.
+
+The refusal inventory in \autoref{def:golden-mean-shift-window-six-carrier} excludes host entropy and completed inverse-limit coordinates. Therefore the growth route remains a finite NameCert row.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\GoldenMeanShiftWindowSixUp$ read that exports shift stability or finite growth without first displaying the six-cell window, no-adjacent-one classifier, transition ledger, transport, replay, provenance, and local naming refutes the carrier surface.}
+
+\independenceWitness{axiszeckendorf-kernel, zeckendorf-normal, zcarry: no listed source supplies the whole packet $G=(W,K,T,S,F,H,C,P,N)$, because the vision source supplies the grammar while the Zeckendorf and carry-facing siblings supply normal-word provenance rather than the local window-six transition, shift, growth, transport, replay, provenance, and NameCert rows.}
+
+\closureat{GoldenMeanShiftWindowSixUp}{seedStr}
+
+\begin{closurestatus}{\GoldenMeanShiftWindowSixUp}
+  \constructivestory{A $\GoldenMeanShiftWindowSixUp$ packet is generated from a six-cell binary BHist window, the no-adjacent-one transition kernel, a transition ledger, a shift-stability row, a finite-window growth row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:golden-mean-shift-window-six-carrier}, \autoref{thm:golden-mean-shift-window-six-transition-kernel-obligations}, \autoref{thm:golden-mean-shift-window-six-shift-stability}, and \autoref{thm:golden-mean-shift-window-six-finite-growth-route} seed the finite no-adjacent-one window packet over transition, shift, growth, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close invariant measures, entropy limits, two-sided completions, unrestricted Zeckendorf carry propagation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked transition-kernel obligations, shift stability, finite growth, and provenance ledger rows for BEDC.Derived.GoldenMeanShiftWindowSixUp.}
+\end{closurestatus}
