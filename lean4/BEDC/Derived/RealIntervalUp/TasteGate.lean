@@ -397,6 +397,74 @@ theorem RealIntervalSealEnclosureRoute [AskSetup] [PackageSetup]
   }
   exact ⟨cert, unaryE, unaryR, unaryS, unaryC⟩
 
+theorem RealIntervalRealSealNonescape [AskSetup] [PackageSetup]
+    {L U E D W R S H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory L ->
+      UnaryHistory U ->
+        UnaryHistory E ->
+          UnaryHistory D ->
+            UnaryHistory W ->
+              UnaryHistory R ->
+                UnaryHistory H ->
+                  Cont E R S ->
+                    Cont S H C ->
+                      PkgSig bundle P pkg ->
+                        PkgSig bundle N pkg ->
+                          SemanticNameCert
+                              (fun row : BHist => hsame row S ∧ UnaryHistory row)
+                              (fun row : BHist =>
+                                hsame row L ∨ hsame row U ∨ hsame row E ∨ hsame row D ∨
+                                  hsame row W ∨ hsame row R ∨ hsame row S ∨ hsame row H ∨
+                                    hsame row C ∨ hsame row P ∨ hsame row N)
+                              (fun row : BHist =>
+                                UnaryHistory row ∧ Cont E R S ∧ Cont S H C ∧
+                                  PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                              hsame ∧
+                            UnaryHistory S ∧ UnaryHistory C := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig SemanticNameCert hsame UnaryHistory
+  intro _unaryL _unaryU unaryE _unaryD _unaryW unaryR unaryH sealRead replay pkgP pkgN
+  have unaryS : UnaryHistory S :=
+    unary_cont_closed unaryE unaryR sealRead
+  have unaryC : UnaryHistory C :=
+    unary_cont_closed unaryS unaryH replay
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row S ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row L ∨ hsame row U ∨ hsame row E ∨ hsame row D ∨ hsame row W ∨
+              hsame row R ∨ hsame row S ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont E R S ∧ Cont S H C ∧ PkgSig bundle P pkg ∧
+              PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro S ⟨hsame_refl S, unaryS⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, sealRead, replay, pkgP, pkgN⟩
+  }
+  exact ⟨cert, unaryS, unaryC⟩
+
 theorem RealIntervalDyadicWindowHandoff (D W R : BHist) :
     Cont D W R →
       SemanticNameCert
