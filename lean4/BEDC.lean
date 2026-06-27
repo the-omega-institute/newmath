@@ -9161,6 +9161,7 @@ import BEDC.Derived.ObserverperspectiveclassifierUp.TwoStateNoConfusion
 import BEDC.Derived.OctonionUp
 import BEDC.Derived.OdeComparisonUp.TasteGate
 import BEDC.Derived.OdeUp
+import BEDC.Derived.OgdenLemmaUp.TasteGate
 import BEDC.Derived.OlivierTheoremUp.TasteGate
 import BEDC.Derived.OnePointCompactificationUp.TasteGate
 import BEDC.Derived.OneSidedLimitUp.TasteGate
@@ -10859,6 +10860,7 @@ import BEDC.Derived.RegularCauchyMetricUp.ScopedKernelRoute
 import BEDC.Derived.RegularCauchyMetricUp.TasteGate
 import BEDC.Derived.RegularCauchyMidpointUp.NameCertObligations
 import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
+import BEDC.Derived.RegularCauchyMinUp.RealAlgOrderHandoff
 import BEDC.Derived.RegularCauchyMinUp.SelectorIdempotence
 import BEDC.Derived.RegularCauchyMinUp.SelectorLedger
 import BEDC.Derived.RegularCauchyMinUp.SelectorTransportStability
