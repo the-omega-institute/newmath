@@ -269,6 +269,26 @@ private theorem ratNeg_add_dist_local (x y : Rat) :
             (IntEq_symm (ratDenInt_neg_local y)))
           (IntEq_symm (ratDenInt_add (ratNeg x) (ratNeg y)))))
 
+theorem ratAdd_assoc (x y z : Rat) :
+    RatEq (ratAdd (ratAdd x y) z) (ratAdd x (ratAdd y z)) :=
+  ratAdd_assoc_local x y z
+
+theorem ratAdd_neg (x : Rat) :
+    RatEq (ratAdd x (ratNeg x)) ratZero :=
+  ratAdd_neg_local x
+
+theorem ratNeg_add (x : Rat) :
+    RatEq (ratAdd (ratNeg x) x) ratZero :=
+  ratNeg_add_local x
+
+theorem ratNeg_neg (x : Rat) :
+    RatEq (ratNeg (ratNeg x)) x :=
+  ratNeg_neg_local x
+
+theorem ratNeg_add_dist (x y : Rat) :
+    RatEq (ratNeg (ratAdd x y)) (ratAdd (ratNeg x) (ratNeg y)) :=
+  ratNeg_add_dist_local x y
+
 private theorem ratSub_common_left {x x' y z : Rat} :
     RatEq x x' ->
       RatEq (ratSub (ratAdd x y) (ratAdd x' z)) (ratSub y z) := by
