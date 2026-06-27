@@ -560,6 +560,14 @@
       "status": "open",
       "timeout_seconds": 1800,
       "note": "ASD-shadow exclusion (oracle frontier). Pure-Python stdlib. Carrier = organism's own 16S rRNA 3' anti-SD tail (independent of CDS); HEG-vs-matched-background synonymous-recoding depletion; decoy-rank null with composition + pairing-strength + heterologous foreign-16S decoys; Gate-N2 true-tail-vs-canonical necessity; k-mer precompute; GTDB block bootstrap; resumable cached NCBI fetch with backoff. Env knobs (ASD_TARGET_BACTERIA/ASD_ANALYSIS_ORGANISM_LIMIT/ASD_NULL_R/ASD_N_DECOYS/...) control panel + compute scale. Pilot (n=31) directionally anti-predicted (median_D=+0.95, decoy-rank=0.62) -> needs_external. Scoped to canonical-SD taxa; not causal. Not Window6."
+    },
+    {
+      "experiment_id": "rm_motif_escape",
+      "claim_id": "bridge.host_defense.rm_motif_escape_necessity",
+      "script_path": "tools/window_codon_bridge/experiments/run_rm_motif_escape.py",
+      "status": "done",
+      "timeout_seconds": 7200,
+      "note": "Full RM-motif-escape signal, Tier-B sensitivity arm. Carrier = Blow et al. 2016 (PLOS Genetics S4) SMRT methylome motifs mapped to NCBI assemblies (TIER-B per oracle: methylome/mutation-ecology, NOT active R/M; PRIMARY Tier-A1 REBASE-Genomes active-R+M scrape still pending). Target = Flinders PhiSpy bulk prophage coordinates (figshare 39664894, CC0; host Decision==Kept). Pure stdlib. Primary evidence = carrier-specific decoy rank (true host RM motifs vs RM_DECOY_K matched decoy carriers by length/degeneracy/palindrome), family-weighted, GTDB family-block bootstrap. Nulls A(3-mer shuffle)/B(coding-aware codon-class; fell back to A, 0% CDS overlap)/C(decoy). Negative controls NC1(same-host chromosome non-prophage windows), NC2(within-family cross-host target swap), NC3(orphan MTase). Env: RM_CARRIER_SOURCE=blow RM_TARGET_SOURCE=prophage RM_NULL_N RM_DECOY_K RM_HOST_LIMIT RM_FETCH_DEADLINE_SECONDS; NC2 cross-host swap is the n_hosts^2 cost bottleneck (use RM_HOST_LIMIT). RESULT (n_hosts=38, 30 families, NULL_N=80 DECOY_K=80, runtime~110min): robust carrier-specificity (median carrier_rank=0.038, 63%<=0.10, true median_D=-0.795 vs decoy -0.177, block-bootstrap p=5e-4) BUT both specificity guards fail -- NC1 host-chromosome also strongly depleted (-0.568, only 29% of avoidance prophage-specific) and NC2 cross-host swap retains/strengthens depletion (-1.031, NOT host-specific) -> avoidance is family-level genomic composition, not host-RM-escape. Consistent with oracle's Tier-B caveat. verdict=needs_external (exploratory; Tier-A1 active-R/M primary required to test the residual prophage-specific increment)."
     }
   ]
 }
