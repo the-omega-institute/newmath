@@ -39,6 +39,7 @@ import BEDC.Derived.AbelPartialSummationUp.TasteGate
 import BEDC.Derived.AbelPolynomialUp
 import BEDC.Derived.AbelRuffiniUp
 import BEDC.Derived.AbelRuffiniUp.TasteGate
+import BEDC.Derived.AbelSummationUp
 import BEDC.Derived.AbelSummationUp.TasteGate
 import BEDC.Derived.AbelTestUp.TasteGate
 import BEDC.Derived.AbelTheoremUp.TasteGate
@@ -3671,7 +3672,6 @@ import BEDC.Derived.ConstructiveSobolevEnergyUp.TasteGate
 import BEDC.Derived.ConstructiveUniformLimitUp.TasteGate
 import BEDC.Derived.ContFracBoundUp
 import BEDC.Derived.ContFracUp
-import BEDC.Derived.ContinuantUp
 import BEDC.Derived.ContactUp
 import BEDC.Derived.ContactUp.TasteGate
 import BEDC.Derived.ContextFreeGrammarUp
@@ -3687,6 +3687,7 @@ import BEDC.Derived.ContextWindowCommitmentUp.Nonescape
 import BEDC.Derived.ContextWindowCommitmentUp.TasteGate
 import BEDC.Derived.ContextualClassReadingUp
 import BEDC.Derived.ContextualClassReadingUp.MatureSiblingRoute
+import BEDC.Derived.ContinuantUp
 import BEDC.Derived.ContinuationAutomatonUp.TasteGate
 import BEDC.Derived.ContinuationBigStepUp
 import BEDC.Derived.ContinuationBisimulationUp.TasteGate
@@ -5741,7 +5742,6 @@ import BEDC.Derived.FibonacciInverseLimitUp
 import BEDC.Derived.FibonacciLucasIdentitiesUp
 import BEDC.Derived.FibonacciRealityLocalResponseClassifierUp
 import BEDC.Derived.FibonacciUp
-import BEDC.Derived.PisanoPeriodUp
 import BEDC.Derived.FieldExtUp
 import BEDC.Derived.FieldExtUp.ExactEndpointLedger
 import BEDC.Derived.FieldExtUp.RatReflexive
@@ -7049,6 +7049,7 @@ import BEDC.Derived.JensenInequalityUp.TasteGate
 import BEDC.Derived.JonesPolynomialUp
 import BEDC.Derived.JordanContentUp.TasteGate
 import BEDC.Derived.JordanCurveUp.TasteGate
+import BEDC.Derived.JordanTotientExtUp
 import BEDC.Derived.JordanTotientUp
 import BEDC.Derived.JordanVariationDecompositionUp.TasteGate
 import BEDC.Derived.KKTUp
@@ -7567,6 +7568,8 @@ import BEDC.Derived.LocatedOpenUp.TasteGate
 import BEDC.Derived.LocatedOpenUp.WindowStability
 import BEDC.Derived.LocatedPositiveRealUp.TasteGate
 import BEDC.Derived.LocatedReal
+import BEDC.Derived.LocatedReal.GroundedDyadic
+import BEDC.Derived.LocatedReal.GroundedToleranceKit
 import BEDC.Derived.LocatedReal.RatMetricKit
 import BEDC.Derived.LocatedReal.ToleranceClose
 import BEDC.Derived.LocatedRealBisectionSearchUp.TasteGate
@@ -9475,6 +9478,7 @@ import BEDC.Derived.PinGroupUp
 import BEDC.Derived.PinGroupUp.CliffordConjugationLedger
 import BEDC.Derived.PinGroupUp.ReflectionExtension
 import BEDC.Derived.PinGroupUp.RootScopedObligationPackage
+import BEDC.Derived.PisanoPeriodUp
 import BEDC.Derived.PixleyRoySpaceUp.TasteGate
 import BEDC.Derived.PochhammerUp
 import BEDC.Derived.PoincareBoundaryFixedTransportUp.TasteGate
@@ -9858,15 +9862,22 @@ import BEDC.Derived.QuotientSoundnessBoundaryUp.TwoSurfaceExhaustion
 import BEDC.Derived.QuotientSoundnessBoundaryUp.VerdictTransportSeparation
 import BEDC.Derived.QuotientStreamRefusalUp
 import BEDC.Derived.QuotientStreamRefusalUp.TasteGate
+import BEDC.Derived.RHRoute.AltConvergence
+import BEDC.Derived.RHRoute.AlternatingTailBound
 import BEDC.Derived.RHRoute.ArgumentPrincipleUp
 import BEDC.Derived.RHRoute.BoxKernelConcrete
 import BEDC.Derived.RHRoute.CertifiedFirstZero
 import BEDC.Derived.RHRoute.ChannelNormalForm
+import BEDC.Derived.RHRoute.ConstructiveRHStatement
 import BEDC.Derived.RHRoute.ConstructiveZeta
 import BEDC.Derived.RHRoute.CounterexampleSafety
+import BEDC.Derived.RHRoute.EtaInteger
+import BEDC.Derived.RHRoute.EtaKernelDischarge
+import BEDC.Derived.RHRoute.EtaPrefix
 import BEDC.Derived.RHRoute.EventflowCertificate
 import BEDC.Derived.RHRoute.FinitePrimeWindow
 import BEDC.Derived.RHRoute.FunctionalEquationSymmetry
+import BEDC.Derived.RHRoute.GroundedAltConvergence
 import BEDC.Derived.RHRoute.HaltingBoundary
 import BEDC.Derived.RHRoute.LagariasCriterion
 import BEDC.Derived.RHRoute.LocalGlobalExclusion
@@ -13349,4 +13360,3 @@ import BEDC.MetaCIC.Typing.ClosedInversion
 import BEDC.MetaCIC.Typing.Core
 import BEDC.MetaCIC.Typing.SubstitutionSurface
 import BEDC.Reflection
-import BEDC.Derived.BooleanRingUp
