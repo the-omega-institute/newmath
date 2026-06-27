@@ -1,0 +1,185 @@
+\section{Modulus comparison boundary}
+\label{sec:real-completeness-modulus-comparison-boundary}
+
+The located-real comparison surface is not a comparison of two completed
+host points.  It is a comparison of two presented processes through finite
+windows selected by explicit moduli.  This point is already visible in the
+Lean-side shape of $\mathsf{LReal}$: a located real carries a rational
+sequence, a monotone modulus, and a Cauchy witness.  The pointwise relation
+$\mathsf{lrLe}$ is deliberately stronger and should not be read as the
+general comparison interface.  The finite comparison interface is instead
+the pair formed by $\mathsf{LRealClose}$ and $\mathsf{lrApart}$.
+
+\begin{definition}[Modulated located real]
+\label{def:real-completeness-modulated-located-real}
+Fix a rational metric kit $K$ with rational closeness, apartness, and order
+rows.  A modulated located real is a triple
+$$
+x=(x_{\mathrm{seq}},x_{\mathrm{mod}},x_{\mathrm{cau}})
+$$
+where $x_{\mathrm{seq}}:\NatUp\to\RatUp$,
+$x_{\mathrm{mod}}:\NatUp\to\NatUp$, and
+$$
+x_{\mathrm{mod}}(k)\le m\wedge x_{\mathrm{mod}}(k)\le n
+\Longrightarrow
+K.\mathsf{close}(x_{\mathrm{seq}}(m),x_{\mathrm{seq}}(n),k).
+$$
+The rational embedding is the degenerate case
+$$
+\eta(q)_{\mathrm{seq}}(n)=q,
+\qquad
+\eta(q)_{\mathrm{mod}}(k)=0.
+$$
+Thus a rational comparison is a comparison between a stationary process and
+the other displayed process.  A comparison between two non-rational
+presentations is a comparison between two nontrivial moduli.
+\end{definition}
+
+\begin{definition}[Finite tolerance comparison]
+\label{def:real-completeness-finite-tolerance-comparison}
+For located reals $a,b$ and a tolerance $k$, the finite tolerance relation
+is a comparison datum $D$ with its own modulus
+$D_{\mathrm{mod}}:\NatUp\to\NatUp$ such that
+$$
+D_{\mathrm{mod}}(k)\le m\wedge D_{\mathrm{mod}}(k)\le n
+\Longrightarrow
+K.\mathsf{close}(a_{\mathrm{seq}}(m),b_{\mathrm{seq}}(n),k).
+$$
+This is the role of $\mathsf{LRealEqData}$ and
+$\mathsf{LRealClose}$.  The comparison data may use a common schedule
+separate from the two endpoint moduli, but it still inspects only finite
+rational windows.
+\end{definition}
+
+\begin{definition}[Finite apartness window]
+\label{def:real-completeness-finite-apartness-window}
+The apartness surface for two located reals is the existence of a finite
+precision $k$ such that the two endpoint moduli already expose a rational
+separation:
+$$
+\exists k:\NatUp,\,
+K.\mathsf{apart}
+\bigl(a_{\mathrm{seq}}(a_{\mathrm{mod}}(k)),
+b_{\mathrm{seq}}(b_{\mathrm{mod}}(k)),k\bigr).
+$$
+This is the role of $\mathsf{lrApart}$.  The witness is a finite separation
+window, not a decision that every pair of located reals has already been
+classified as left, equal, or right.
+\end{definition}
+
+\begin{theorem}[Finite comparison is process-level]
+\label{thm:real-completeness-finite-comparison-process-level}
+Every finite tolerance comparison or apartness witness between located reals
+factors through the two sequences, their moduli, a comparison modulus when
+present, and rational-level close or apartness rows.  It does not require a
+host real point or quotient representative.
+\end{theorem}
+
+\begin{proof}
+For finite tolerance, unfold
+\autoref{def:real-completeness-finite-tolerance-comparison}.  A tolerance
+request $k$ selects finite thresholds through $D_{\mathrm{mod}}$, and the
+only numerical read is the rational comparison
+$K.\mathsf{close}(a_{\mathrm{seq}}(m),b_{\mathrm{seq}}(n),k)$.
+
+For apartness, unfold
+\autoref{def:real-completeness-finite-apartness-window}.  The witness
+selects one finite precision $k$ and reads the two rational observations
+picked by $a_{\mathrm{mod}}(k)$ and $b_{\mathrm{mod}}(k)$.  The only
+separation claim is the displayed rational apartness row at that precision.
+Neither construction asks for a completed host point, a quotient stream, or
+a selected representative outside the visible moduli.
+\end{proof}
+
+\begin{theorem}[Comparison moduli compose]
+\label{thm:real-completeness-comparison-moduli-compose}
+If $a$ is finitely close to $b$ at tolerance $k+1$, and $b$ is finitely
+close to $c$ at tolerance $k+1$, then $a$ is finitely close to $c$ at
+tolerance $k$.
+\end{theorem}
+
+\begin{proof}
+Let $D_{ab}$ and $D_{bc}$ be the two comparison data.  Use the common
+comparison modulus
+$$
+j\longmapsto
+\max(D_{ab,\mathrm{mod}}(j+1),D_{bc,\mathrm{mod}}(j+1)).
+$$
+At this shared finite threshold, the first datum gives
+$K.\mathsf{close}(a,b,j+1)$ and the second gives
+$K.\mathsf{close}(b,c,j+1)$ at the corresponding rational observations.
+The rational triangle row in $K$ composes the two tolerance-$j+1$ comparisons
+into a tolerance-$j$ comparison from $a$ to $c$.  This is the proof pattern
+implemented by $\mathsf{LRealClose\_triangle}$.
+\end{proof}
+
+\begin{definition}[Exact comparison boundary]
+\label{def:real-completeness-exact-comparison-boundary}
+An exact comparison operator for arbitrary located reals is a total operation
+of the form
+$$
+\prod_{x,y}
+\bigl(x<y\bigr)
++
+\bigl(x=y\bigr)
++
+\bigl(y<x\bigr),
+$$
+where equality is full located-real equality and the strict branches are
+point-level order branches, not finite tolerance or apartness windows.
+\end{definition}
+
+\begin{theorem}[Exact comparison has omniscience strength]
+\label{thm:real-completeness-exact-comparison-omniscience}
+A total operator of
+\autoref{def:real-completeness-exact-comparison-boundary}, supplied for
+arbitrary located-real presentations, would decide the limited principle of
+omniscience for binary streams.
+\end{theorem}
+
+\begin{proof}
+Given a binary stream $\alpha:\NatUp\to\{0,1\}$, form the nonnegative
+located real presentation
+$$
+x_\alpha=\sum_{n=0}^{\infty}\alpha(n)2^{-(n+1)}
+$$
+by its rational partial sums and the usual geometric tail modulus.  Apply
+the exact comparison operator to $x_\alpha$ and $0$.
+
+The branch $x_\alpha<0$ is incompatible with the nonnegative construction.
+If $x_\alpha=0$, then no coefficient can be $1$, since any displayed
+$\alpha(n)=1$ supplies a positive dyadic lower bound.  Hence
+$\forall n,\alpha(n)=0$.  If $0<x_\alpha$, the strict branch supplies a
+positive separation threshold; inspecting the finite prefix needed by that
+threshold yields some $n$ with $\alpha(n)=1$.  The exact comparison operator
+therefore returns
+$$
+\bigl(\forall n,\alpha(n)=0\bigr)
++
+\bigl(\exists n,\alpha(n)=1\bigr).
+$$
+This is $\mathsf{LPO}$ for binary streams.
+\end{proof}
+
+\begin{corollary}[Located comparison is not trichotomy]
+\label{cor:real-completeness-located-comparison-not-trichotomy}
+The constructive comparison surface of $\LocatedRealUp$ consists of finite
+tolerance comparison, finite apartness witnesses, comparison-modulus
+composition, and Real-seal readback through displayed rows.  It does not
+export arbitrary exact trichotomy.
+\end{corollary}
+
+\begin{proof}
+By \autoref{thm:real-completeness-finite-comparison-process-level}, the
+constructive comparison surface remains at the level of finite observations
+and explicit moduli.  By
+\autoref{thm:real-completeness-exact-comparison-omniscience}, a total exact
+trichotomy operator for arbitrary located-real presentations would decide
+$\mathsf{LPO}$.  Such an operator is therefore outside the axiom-pure
+finite-window comparison interface recorded in this chapter.
+\end{proof}
+
+\concretizedIn{ch:concrete-instances-located-real-comparison-namecert}{Located real comparison packets realize the finite shared-window comparison surface for two displayed located-real endpoints.}
+\concretizedIn{ch:concrete-instances-located-real-comparison-modulus-namecert}{Located real comparison-modulus packets realize finite tolerance schedules without exporting trichotomy.}
+\concretizedIn{ch:concrete-instances-real-located-order-namecert}{Real located-order packets route order-facing reads through two Real seals, paired regular readbacks, shared windows, dyadic tolerances, and apartness handoff rows.}
+\concretizedIn{ch:concrete-instances-finite-window-real-separation-namecert}{Finite-window Real separation packets realize positive separation through shared finite windows and dyadic tolerance readback.}
