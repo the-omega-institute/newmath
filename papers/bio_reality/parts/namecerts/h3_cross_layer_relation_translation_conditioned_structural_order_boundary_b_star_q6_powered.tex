@@ -1,58 +1,33 @@
-\subsection{Translation-conditioned structural-order boundary for $B^*_{Q6}$ residual coordinates}\label{sec:bior-reality-q6-translation-conditioned-structural-order-boundary}\origin{ai}
+\origin{ai}
 
-\paragraph{Finite panel and admissible reading.}
-This record concerns a finite organism-by-CDS panel in which $B^*_{Q6}$ synonymous residual coordinates are first residualized against amino-acid quotient structure and then tested against a downstream structural-order readout only through a translation-conditioned route. The admissible object is therefore not a direct claim that a codon coordinate determines structure. It is a gated matrix of entries of the form $q_i \to T_j \to O_k$, where $q_i$ ranges over $B^*_{Q6}$ residual coordinates, $T_j$ is a matched translation readout, and $O_k$ is a structural-order readout. The structural-order surface used here is AlphaFold mean pLDDT, read only as predicted structural-order confidence on the $0$ to $100$ scale, not as an experimental folding measurement, not as protein function, and not as phenotype.
+\subsection{Translation-conditioned structural-order boundary for $B^*_{Q6}$ residual coordinates}
+\label{sec:bq6-translation-conditioned-structural-order-boundary}
 
-The finite residual coordinate list used in the paired structural-order computation has nine coordinates:
-$$\begin{aligned}
-Q_{6}^{*}=\{&K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
-&Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress\}.
-\end{aligned}$$
-The controls are deliberately stronger than a codon-only association: an intercept, $\log(\mathrm{CDS\ length})$, the $20$ amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, GC3, and an $M$-density baseline defined on the union support of the nine projected $B^*_{Q6}$ vectors. Thus the reported structural-order entry is a residual association after amino-acid composition, organismal codon composition, CDS length, GC3, and the $M$-density baseline have already been accounted for.
+\paragraph{Finite panel.}
+The record concerns a finite organism-by-coding-sequence panel in which nine $B^*_{Q6}$ residual coordinates are evaluated only after amino-acid quotienting and covariate residualization. The coordinate list is
+$K\_{AAA}$, $Arg\_{AGR}$, $Ile\_{AUA}$, $Leu\_{CUN\_vs\_UUR}$, $Leu\_{UUA\_vs\_UUG}$, $Ser\_{UCR\_vs\_AGY}$, $Ser\_{UCA\_vs\_UCG}$, $Thr\_{ACR\_vs\_ACY}$, and $f\_3$-stress. The controls are the intercept, $\log(\mathrm{CDS\ length\ in\ nt})$, the twenty empirical amino-acid composition proportions, $GC3$, and the $M$-density baseline defined on the union support of the nine projected coordinate vectors. In the structural-order contact, the readout is AlphaFold mean pLDDT on the $0$ to $100$ scale, interpreted only as predicted structural-confidence score. The finite joins were organism matched: $3412$ rows for \emph{Escherichia coli} K-12 MG1655 and $5119$ rows for \emph{Saccharomyces cerevisiae}. The paired structural-order loading run reported $3736$ matched proteins from $3739$ codon-joined bacterial rows, with hit rate $0.999198$, and $5804$ matched proteins from $5815$ yeast codon-joined rows, with hit rate $0.998108$.
 
-\paragraph{Rank and row support.}
-The translation-gated structural-order panel is rank-powered in both organisms used for the structural-order readout. In \emph{Escherichia coli} K-12 MG1655, the joined codon table has $3739$ CDS rows, the structural-order join uses $3736$ matched proteins, and the hit rate is $0.999198$. The control design has $24$ columns, $\operatorname{rank}(Z)=23$, $\operatorname{rank}(\widetilde X)=9$, residual degrees of freedom $3713$, and powered-rank sufficiency is true. The residual response energy is $136607.52873622958$, while the explained energy assigned to the residual coordinate block is $4178.935925251874$.
+\paragraph{Rank and control geometry.}
+The statistic is admissible because the residual coordinate block keeps full coordinate rank after the declared controls. In \emph{E. coli}, the control matrix has $24$ columns, $23$ effective rank, and leaves residual degrees of freedom $3713$; the residualized $B^*_{Q6}$ block has rank $9$, matching the nine coordinate directions. In yeast, the same $24$ control columns again have rank $23$, residual degrees of freedom are $5781$, and the residualized coordinate block again has rank $9$. The reported explained energies for the structural-order readout are $4178.935925251874$ in \emph{E. coli} and $44421.14342043593$ in yeast, against readout residual energies $136607.52873622958$ and $620506.1490869389$, respectively. Thus the boundary is not a rank-saturated naming event: the finite matrices retain enough controlled residual dimension for a non-vacuous cross-layer readout.
 
-In \emph{Saccharomyces cerevisiae}, the joined codon table has $5815$ CDS rows, the structural-order join uses $5804$ matched proteins, and the hit rate is $0.998108$. The control design again has $24$ columns, $\operatorname{rank}(Z)=23$, $\operatorname{rank}(\widetilde X)=9$, residual degrees of freedom $5781$, and powered-rank sufficiency is true. The residual response energy is $620506.1490869389$, while the explained energy assigned to the residual coordinate block is $44421.14342043593$. These diagnostics are the reason the two-organism structural-order calculation is read as finite-row evidence rather than as a saturated fit.
-
-\paragraph{Observed structural-order association before translation conditioning.}
-Before the translation-conditioned boundary statistic is interpreted, the structural-order survival calculation reports a positive finite association in both organisms. For \emph{E. coli}, $R^2_{SO}=0.03059081709413562$ with all nine residual coordinates surviving the structural-order surface. For yeast, $R^2_{SO}=0.0715885627979685$, again with all nine residual coordinates surviving. The powered structural-order boundary run then summarizes the direct $B^*_{Q6}$ prediction of the order readout over two organisms as
-$$\begin{aligned}
-\min R^2 &= 0.03664544696481631,\\
-\operatorname{median} R^2 &= 0.09855549686555976,\\
-\operatorname{mean} R^2 &= 0.09855549686555976,\\
-\max R^2 &= 0.1604655467663032,\\
-n_{+} &=2,\qquad n_{-}=0.
-\end{aligned}$$
-This is only the finite association surface that motivates the boundary test. It is not by itself a claim of folding, physical admissibility, function, or mechanism.
+\paragraph{Observed structural-order association.}
+Before the translation-conditioned boundary call is interpreted, the same coordinate family is required to pass through the translation-readout gate and the matched covariates. On the structural-order surface itself, the direct controlled $B^*_{Q6}$ association with mean pLDDT is positive in both organisms. The two-organism summary for $B^*_{Q6}$ predicting structural order has minimum $0.03664544696481631$, maximum $0.1604655467663032$, mean and median $0.09855549686555976$, with $2$ positive values out of $2$ and no negative entries. A separate structural-order survival computation reports $R^2\_{SO}=0.03059081709413562$ for \emph{E. coli}, with all nine coordinates surviving, and $R^2\_{SO}=0.0715885627979685$ for yeast, again with all nine coordinates surviving. These values are finite readout associations after the declared amino-acid, length, $GC3$, and $M$-density controls; they are not a folding experiment.
 
 \paragraph{Translation-conditioned boundary statistic.}
-The structural-order boundary run joins $3412$ \emph{E. coli} rows and $5119$ yeast rows for the powered translation-conditioned calculation, with $5$ folds and a declared minimum joined-row threshold of $300$. The aggregate full-control increment after the mandatory translation conditioning is positive in both organisms:
-$$\begin{aligned}
-\Delta R^2_{\mathrm{full,min}} &= 0.002688284523492457,\\
-\Delta R^2_{\mathrm{full,median}} &= 0.005284160876443678,\\
-\Delta R^2_{\mathrm{full,mean}} &= 0.005284160876443678,\\
-\Delta R^2_{\mathrm{full,max}} &= 0.007880037229394898,\\
-\Delta R^2_{\mathrm{full,weighted}} &= 0.004764742175882462.
-\end{aligned}$$
-The organism call count is therefore $2$ full-control-positive calls out of $2$. The sign-flip test for a positive full-control effect gives
-$$\begin{aligned}
-p_{\mathrm{signflip}} &= 0.0029296875.
-\end{aligned}$$
-The permutation control has the opposite sign in both organisms:
-$$\begin{aligned}
-\Delta R^2_{\mathrm{perm,min}} &= -0.003463794378680385,\\
-\Delta R^2_{\mathrm{perm,median}} &= -0.00212186632044159,\\
-\Delta R^2_{\mathrm{perm,mean}} &= -0.00212186632044159,\\
-\Delta R^2_{\mathrm{perm,max}} &= -0.000779938262202795,\\
-n_{\mathrm{perm,+}} &=0,\qquad n_{\mathrm{perm,-}}=2.
-\end{aligned}$$
-The finite-row verdict is therefore that the tested $B^*_{Q6}$ residual coordinates cross to the predicted structural-order layer under the declared translation-conditioned, full-control statistic.
+The powered five-fold run classifies the structural-order boundary as crossing into the structural-order readout layer. The full-control increment in $R^2$ is positive in both organisms, with
+$$
+\begin{aligned}
+\Delta R^2\_{\min} &= 0.002688284523492457,\\
+\Delta R^2\_{\max} &= 0.007880037229394898,\\
+\Delta R^2\_{\mathrm{mean}} &= 0.005284160876443678,\\
+\Delta R^2\_{\mathrm{median}} &= 0.005284160876443678,\\
+\Delta R^2\_{\mathrm{weighted}} &= 0.004764742175882462.
+\end{aligned}
+$$
+The one-sided sign-flip probability for a positive full-control effect is $0.0029296875$. The organism call count is $2$ full-control-positive calls out of $2$. The matched permutation surface is negative in both organisms, with minimum $-0.003463794378680385$, maximum $-0.000779938262202795$, mean and median $-0.00212186632044159$. The finite verdict is therefore not that codon topology explains protein structure. It is narrower: after the declared controls and the translation-conditioning requirement, the $B^*_{Q6}$ residual block carries a small but consistently positive association with the matched structural-confidence readout in the two organisms for which this panel was computed.
 
-\paragraph{Relation to stability and compilation controls.}
-The structural-order result should not be silently transferred to protein stability. A separate translation-conditioned stability calculation exists on three organisms, but its full-control aggregate is not positive overall: the weighted full-control $\Delta R^2$ is $-0.001572140012981015$, the mean is $-0.0025553576666936064$, the median is $-0.0033500708066446228$, and the sign-flip probability for being greater than zero is $0.946441650390625$. Its organism calls are two partial calls and one mediated-blocked-null call. Thus the present structural-order boundary does not license a stability, degradation, turnover, or folding-mechanism conclusion.
+\paragraph{Comparison with adjacent readouts.}
+The same coordinate family does not license unrestricted promotion across biological layers. A minimal-compilation test over available low-dimensional readouts found weak compression of the residual source: median compressibility is $0.026$, with organism values $0.024368095798914635$ for zebrafish, $0.005717621488177116$ for \emph{E. coli}, $0.02635576736932188$ for human, and $0.13234136547055853$ for yeast, each with permutation probability $0.000999000999000999$. The measured readout dictionary used $DL\_{D_o}=1$ for zebrafish, $2$ for \emph{E. coli}, $3$ for human, and $2$ for yeast, while the raw baseline dimensions were $17$, $2$, $19$, and $19$. This says that the $B^*_{Q6}$ source is not mostly absorbed by the measured readout set. An adjacent translation-conditioned stability run is also weaker than the structural-order boundary: the aggregate full-control stability increment has mean $-0.0025553576666936064$, median $-0.0033500708066446228$, weighted value $-0.001572140012981015$, and sign-flip probability $0.946441650390625$, with one mediated-blocked-null organism call and two partial calls. The structural-order result is therefore a specific finite readout crossing, not a general license for protein-stability, degradation-rate, or molecular-function claims.
 
-The minimal-compilation calculation also prevents a broad compression reading. Across the four computed organisms, the residual source is not highly compressed by the measured low-dimensional readout dictionary: median compressibility is $0.026$. The per-organism compressibilities are $0.024368095798914635$ for zebrafish, $0.005717621488177116$ for \emph{E. coli}, $0.02635576736932188$ for human, and $0.13234136547055853$ for yeast, each with permutation probability $0.000999000999000999$ in the recorded descriptive test. The structural-order boundary is therefore a narrow finite-row crossing for a particular readout, not a statement that the $B^*_{Q6}$ residual source has been globally compiled into a small biological mechanism set.
-
-\paragraph{Local no-promotion rule.}
-The result may be stated as follows: on the two powered structural-order organisms, the same residual-coordinate family that survives amino-acid, length, GC3, and $M$-density controls also has a positive translation-conditioned association with AlphaFold mean pLDDT, and the matched permutation control is negative. The allowed claim stops there. The chapter does not infer measured translation dynamics from modeled adaptation weights, does not infer folding or physical admissibility from pLDDT, does not infer molecular function or organismal phenotype from the residual association, and does not assert a universal biological law. Any stronger statement would require a separate layer-matched contact and its own finite statistic: ribosome or TE rows for translation itself, pulse-chase or turnover rows for stability, physical assays for admissibility, functional assays for function, and phenotype or perturbation rows for organism-level consequence.
+\paragraph{Local boundary of interpretation.}
+The admissible statement is the following finite-row claim: in the computed \emph{E. coli} and yeast panels, amino-acid-residualized $B^*_{Q6}$ coordinates retain a positive translation-conditioned association with AlphaFold mean pLDDT after length, amino-acid composition, $GC3$, and $M$-density controls, and the permuted control surface is negative. The result does not by itself establish observed translation dynamics, folding pathway, physical admissibility, biological function, phenotype, mechanism, or universality. Translation readouts, structural-confidence scores, stability measurements, protein abundance, functional assays, perturbation assays, and physical assays are distinct contact surfaces. A claim at any higher layer requires its own matched rows and its own controlled statistic; the present record supplies only the structural-confidence boundary described above.
