@@ -92,6 +92,24 @@ Use the Real-seal handoff of \autoref{thm:real-bounded-sequence-real-seal-handof
 Since no selected subsequence, quotient stream, trichotomy, open-cover compactness, or ambient Real-completeness row occurs in the carrier, none of those principles is exported by the boundary.
 \end{proof}
 
+\begin{theorem}[RealBoundedSequence compact-window handoff]
+\label{thm:real-bounded-sequence-compact-window}
+Every compact-window, Bolzano-Weierstrass, or monotone-subsequence consumer of an accepted $\RealBoundedSequenceUp$ carrier
+$$
+K=(S,B,W,R,E,H,C,P,N)
+$$
+must first read the displayed rows $S,B,W,R,E,H,C,P,N$ through $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. Only after that finite packet is exposed may the consumer pass the bounded-source data to $\BolzanoWeierstrassUp$. The handoff refuses selected subsequences, quotient stream equality, trichotomy, open-cover compactness, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:real-bounded-sequence-carrier}. The rows $S,B,W,R,E,H,C,P,N$ are the only sequence source, bound witness, finite window, regular readback, terminal Real seal, transport, replay, provenance, and local naming coordinates.
+
+Apply the NameCert obligations of \autoref{thm:real-bounded-sequence-namecert-obligations}. They require a downstream bounded-source read to expose the StreamName windows, RegSeqRat readback, dyadic tolerance ledger, and terminal Real seal before the packet is available to any consumer.
+
+Use the Real-seal handoff of \autoref{thm:real-bounded-sequence-real-seal-handoff}. It prevents a compact-window route from bypassing $W,R,E$ or replacing them by host sequence data.
+
+Finally apply the monotone-subsequence boundary of \autoref{thm:real-bounded-sequence-monotone-subsequence-boundary}. The same displayed packet is the only input available to $\BolzanoWeierstrassUp$ and to monotone-subsequence consumers, while the refused subsequence, quotient, trichotomy, open-cover, and completeness principles have no carrier row.
+\end{proof}
+
 \closureat{RealBoundedSequenceUp}{seedStr}
 
 \begin{closurestatus}{\RealBoundedSequenceUp}

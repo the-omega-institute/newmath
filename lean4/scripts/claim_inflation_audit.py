@@ -56,7 +56,15 @@ DISCLAIMER_RE = re.compile(
     re.IGNORECASE,
 )
 NEG_RE = re.compile(
-    r"\b(?:not|no|without|never|cannot|does\s+not|do\s+not|is\s+not|are\s+not)\b",
+    r"\b(?:not|no|without|never|cannot|lacks?|does\s+not|do\s+not|is\s+not|"
+    r"are\s+not|has\s+no|have\s+no|no\s+coordinate|cannot\s+replace)\b",
+    re.IGNORECASE,
+)
+# Classical-lineage background ("Following Erdős … classical topology, …") is a
+# \origin{human} reference, not a claim that the BEDC object equals it.
+LINEAGE_RE = re.compile(
+    r"\b(?:following|classically|in\s+the\s+(?:classical|traditional|standard)\s+"
+    r"(?:presentation|literature|sense|setting)|generaliz\w+\s+the)\b",
     re.IGNORECASE,
 )
 CONTRAST_RE = re.compile(r"\b(?:but|however|nevertheless|yet|actually|instead)\b", re.I)
@@ -121,7 +129,12 @@ def sentences(text):
 def exempt(sent, hit_start):
     if DISCLAIMER_RE.search(sent):
         return True
-    left = sent[max(0, hit_start - 60):hit_start]
+    if LINEAGE_RE.search(sent):
+        return True
+    # BEDC prose is disclaimer-heavy ("the carrier has no coordinate for … host
+    # equality"): scan the whole sentence up to just past the hit for a negation,
+    # not only the 60 chars immediately before it.
+    left = sent[:hit_start + 25]
     if NEG_RE.search(left) and not CONTRAST_RE.search(left):
         return True
     return False
