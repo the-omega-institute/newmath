@@ -1,41 +1,53 @@
+\subsection{mRNA-controlled translation-efficiency boundary for ER-proximity ISRIB rescue}\label{sec:bioreality-er-proximity-isrib-translation-efficiency-boundary}
 \origin{ai}
 
-\subsection{ER-proximity-gated ISRIB translational rescue after matched RNA control}
-\label{sec:bioreality-er-proximity-gated-isrib-translational-rescue}
+\paragraph{Finite row object.}
+This BioReality record treats the claim as a finite comparison problem on coding-sequence rows, not as a direct mechanistic assertion about protein fate.  Each retained row is a CDS-by-organism entry carrying a synonymous residual coordinate $q_i$ from the $B^*_{Q6}$ residual basis after quotienting by amino-acid composition.  The same row must also carry the covariates used to remove ordinary sequence and organism effects: amino-acid composition, organism identity, GC3, CDS length, methionine density, and a matched mRNA abundance surface.  Only after those controls are attached may a ribosome-occupancy or translation-efficiency readout be read as a translation-layer residual.
 
-\paragraph{Finite row under test.}
-The record concerns a finite CDS-indexed comparison in which a synonymous residual coordinate is allowed to enter the translation-readout layer only after the same row has carried its mRNA abundance control. The biological question is not whether codon geometry, codon-adaptation weights, or ribosome occupancy language can be read as translation by themselves. The question is narrower: after amino-acid composition, organism, GC3, CDS length, M-density, and matched transcript abundance are treated as controls, does the row family still show a residual translation-side contrast in the ER-proximity-gated ISRIB setting? The retained panel contains $4419$ genes, split into $883$ top rows and $883$ bottom rows for the finite contrast. The recorded run is $842b739606af$, verified at $2026$-$06$-$27T16{:}04{:}18{+}00{:}00$.
-
-\paragraph{Observed finite statistic.}
-The measured translation-side contrast is positive and reproducible across the two recorded replicate summaries, while the matched RNA contrast is close to zero and opposite in sign. The finite-row values are
+The operative finite panel in run $842b739606af$ retained $4419$ genes.  The comparison split used $883$ genes in the top stratum and $883$ genes in the bottom stratum.  The recorded statistic was
 $$
 \begin{aligned}
-D &= 0.23767000000000027,\\
-D_{\mathrm{RNA}} &= -0.0224999999999973,\\
-D_{\mathrm{rep},a} &= 0.19967000000000013,\\
-D_{\mathrm{rep},b} &= 0.24280000000000035,\\
-D_{\mathrm{thresh}} &= 0.32192809488736235.
+ n_{\mathrm{kept}}&=4419,\\
+ n_{\mathrm{top}}&=883,\\
+ n_{\mathrm{bottom}}&=883,\\
+ D&=0.23767000000000027,\\
+ D_{\mathrm{RNA}}&=-0.0224999999999973.
 \end{aligned}
 $$
-The permutation count was $10000$, with two-sided permutation value
+The sign separation is important for the chapter: the observed translation-side contrast is positive, while the matched RNA contrast is slightly negative.  Thus the finite record does not merely restate a transcript-abundance association.  It says that, on this panel and under this run, the observed direction of the translation-side contrast is not absorbed by the matched mRNA control surface.
+
+\paragraph{Residual test.}
+Let $Q_i$ denote a residual synonymous coordinate, let $R$ denote the matched mRNA abundance readout, and let $T$ denote the translation-efficiency or ribosome-occupancy readout after row matching.  The admissible comparison is not $Q_i \to T$ in isolation.  It is the residual comparison in which $T$ is read only after the RNA surface and the standard sequence controls have been conditioned on:
 $$
 \begin{aligned}
-p_{\mathrm{two}} &= 9.999000099990002 \times 10^{-5},
+ T^{\perp} &= T \mid (R,\mathrm{AA},\mathrm{organism},\mathrm{GC3},\mathrm{length},\mathrm{M\mbox{-}density}),\\
+ \Delta_i &= \mathrm{contrast}(Q_i,T^{\perp}).
 \end{aligned}
 $$
-and the runtime was $20.019$ seconds. The two replicate contrasts have the same sign, so the finite row does not present a replicate-direction conflict. At the same time, the primary contrast $D$ remains below the declared amplitude threshold $D_{\mathrm{thresh}}$. Thus the datum is best read as a bounded, mRNA-separated directional translation-side signal rather than as a completed high-amplitude realization claim.
-
-\paragraph{mRNA-control interpretation.}
-The important separation in this row is the gap between the translation-side statistic and the transcript-side statistic. The RNA contrast satisfies $D_{\mathrm{RNA}}<0$ and has much smaller magnitude than $D$:
+The finite run reports $D=0.23767000000000027$ for the translation-side contrast and $D_{\mathrm{RNA}}=-0.0224999999999973$ for the matched RNA contrast.  The two replicate-scale contrasts were
 $$
 \begin{aligned}
-D - D_{\mathrm{RNA}} &= 0.2601700000000026.
+D_{\mathrm{rep\ a}}&=0.19967000000000013,\\
+D_{\mathrm{rep\ b}}&=0.24280000000000035,\\
+\mathrm{same\_sign}&=\mathrm{true}.
 \end{aligned}
 $$
-Consequently, the recorded finite row does not support the interpretation that the observed direction is merely a Q-coordinate association with mRNA abundance. The matched transcript surface functions as a mandatory guard: if the signal had been absorbed by the RNA control, the row would have remained at the transcription layer and would not have entered the translation-efficiency residual ledger. Here the residual comparison survives that guard directionally, with replicate agreement and a small permutation value, but it still falls short of the declared amplitude threshold.
+Both replicate contrasts point in the same positive direction as the main statistic.  The permutation audit used $10000$ permutations and recorded
+$$
+\begin{aligned}
+ p_{\mathrm{two}}&=9.999000099990002\times 10^{-5},\\
+ D_{\mathrm{thresh}}&=0.32192809488736235,\\
+ \mathrm{runtime\_sec}&=20.019.
+\end{aligned}
+$$
+The small two-sided permutation value records a non-random finite-row separation for this run.  At the same time, the magnitude $D$ remains below the stated threshold $D_{\mathrm{thresh}}$.  The chapter therefore records the result as a bounded translation-efficiency residual contact with replicated sign agreement, not as a completed universal translation law.
 
-\paragraph{Admissible claim.}
-The admissible conclusion is local and finite. In the retained $4419$-gene panel, the ER-proximity-gated ISRIB comparison shows a positive residual translation-side contrast after the matched RNA control is attached, with $D=0.23767000000000027$, concordant replicate summaries $0.19967000000000013$ and $0.24280000000000035$, and $p_{\mathrm{two}}=9.999000099990002\times 10^{-5}$ over $10000$ permutations. The same finite row also records that the RNA-side contrast is not the carrier of the effect, since $D_{\mathrm{RNA}}=-0.0224999999999973$. This is enough to place the packet on the translation-readout boundary as an mRNA-controlled residual comparison.
+\paragraph{mRNA-control gate.}
+The central rule of this record is that a $Q_i$ association with mRNA abundance is not a translation mechanism.  Matched transcript abundance is a required control surface, not a downstream translation readout.  If the apparent signal disappears after $R$ is included, the record must stop at transcription-layer association.  In the present finite run, the RNA-side statistic is close to zero and negative, $D_{\mathrm{RNA}}=-0.0224999999999973$, while the translation-side statistic is positive, $D=0.23767000000000027$.  This is the row-level reason the packet may discuss a surviving translation-efficiency residual rather than only an mRNA abundance association.
 
-\paragraph{Local refusal boundary.}
-No broader biological conclusion follows from this finite statistic alone. The row does not by itself establish a general translation mechanism, a ribosome-dynamics law, mature protein abundance, protein folding, physical admissibility, molecular function, phenotype, localization, post-translational state, or universality. Codon usage, tAI or stAI weights, ribosome-profiling names, and residual-coordinate notation remain insufficient unless the relevant layer has its own matched contact and its own controlled statistic. The present chapter therefore records only the mRNA-controlled translation-efficiency boundary for this ER-proximity-gated ISRIB row: the residual signal is directionally present and transcript-separated, but it is not promoted beyond the finite translation-readout comparison.
+The valid readout is therefore local to the finite matrix: $883$ top-stratum rows, $883$ bottom-stratum rows, and $4419$ retained genes in run $842b739606af$.  It does not identify a biochemical cause by itself.  It only states that, after amino-acid quotienting and after the matched RNA surface is present, the translation-efficiency contrast retains a positive finite-row separation with same-sign replicate support.
+
+\paragraph{Boundary of interpretation.}
+This chapter does not infer protein folding, protein localization, physical admissibility, molecular function, system phenotype, causation, or a universal biological rule.  It also does not treat codon usage, modeled tAI or stAI weights, ribosome occupancy, protein abundance, or transcript abundance as interchangeable evidence.  A translation-efficiency residual may enter the survival matrix only when the same-row mRNA abundance control has been attached and the residual remains nonzero after the declared covariates.  Any stronger claim requires a separate layer-matched contact: a folding assay for folding, a physical assay for admissibility, a functional or perturbation assay for function, a phenotype assay for phenotype, and an explicit mechanistic experiment for mechanism.
+
+Thus the admissible conclusion is narrow.  The finite run supports an mRNA-controlled translation-efficiency boundary for the ER-proximity ISRIB rescue record: the measured translation-side contrast is positive, the matched RNA contrast is not the carrier of that signal, and the replicate signs agree.  The record remains a controlled finite-row survival statement, not a promotion from synonymous residual geometry to translation mechanism or higher-layer biology.
