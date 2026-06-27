@@ -5014,6 +5014,7 @@ import BEDC.Derived.DnaBoundaryTriggerClosureUp.TasteGate
 import BEDC.Derived.DnaWindowSixBoundaryTileUp.TasteGate
 import BEDC.Derived.DoCalculusUp
 import BEDC.Derived.DoCalculusUp.TasteGate
+import BEDC.Derived.DobinskiFiniteUp
 import BEDC.Derived.DomainTruthCertificateUp.NameCertObligations
 import BEDC.Derived.DomainTruthCertificateUp.SiblingIndependence
 import BEDC.Derived.DomainTruthCertificateUp.TasteGate
@@ -7151,6 +7152,7 @@ import BEDC.Derived.KripkeSemanticsUp
 import BEDC.Derived.KroneckerApproximationUp.TasteGate
 import BEDC.Derived.KroneckerLemmaUp.TasteGate
 import BEDC.Derived.KroneckerSymbolUp
+import BEDC.Derived.KummerCongruenceUp
 import BEDC.Derived.KummerTestUp.TasteGate
 import BEDC.Derived.KummerTheoremUp
 import BEDC.Derived.KuratowskiClosureComplementUp.FourteenRoute
@@ -9861,6 +9863,7 @@ import BEDC.Derived.RHRoute.PrimeSkewDefect
 import BEDC.Derived.RHRoute.RecursiveTower
 import BEDC.Derived.RHRoute.RouteClosureSeparation
 import BEDC.Derived.RHRoute.UnitaryBalance
+import BEDC.Derived.RHRoute.BoxKernelConcrete
 import BEDC.Derived.RHRoute.ZetaBoxEvaluator
 import BEDC.Derived.RHRouteHaltingBoundaryUp.TasteGate
 import BEDC.Derived.RaabeDuhamelTestUp.TasteGate
@@ -11975,6 +11978,7 @@ import BEDC.Derived.SturmRootIsolationUp.SignVariationHandoff
 import BEDC.Derived.SturmRootIsolationUp.SquarefreeRoute
 import BEDC.Derived.SturmRootIsolationUp.TasteGate
 import BEDC.Derived.SturmSequenceUp.TasteGate
+import BEDC.Derived.Sqrt2IrrationalUp
 import BEDC.Derived.SubdifferentialUp.TasteGate
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.SubgroupUp.AppendE1UnitKernelUnary
