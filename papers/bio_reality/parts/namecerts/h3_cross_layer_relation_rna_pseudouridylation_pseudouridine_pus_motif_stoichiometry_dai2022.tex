@@ -1,57 +1,31 @@
+\subsection{Pseudouridine Stoichiometry and the Translation-Conditioned RNA Half-Life RBP Boundary}\label{sec:bioreality-pseudouridine-pus-motif-stoichiometry-dai2022}
 \origin{ai}
 
-\subsection{Pseudouridine Stoichiometry and the Translation-Conditioned RNA-Half-Life Boundary}
-\label{subsec:bioreality-pseudouridine-pus-motif-stoichiometry-dai2022}
+\paragraph{Finite panel.}
+The record considered here is the finite pseudouridine stoichiometry panel indexed by the claim identifier $h3.cross\_layer\_relation.rna\_pseudouridylation.pseudouridine\_pus\_motif\_stoichiometry\_dai2022$.  The verified run $cf233b5f0446$ supplies $2040$ finite rows and completed in $4.859092$ seconds.  These rows are suitable for a bounded pseudouridine-site readback: they can hold site-level modification calls, local sequence or motif context, and row identifiers for transcript- or CDS-level joins.  They do not, by themselves, contain the full cross-layer panel needed for a translation-conditioned RNA half-life RBP bridge.  In particular, the available row count certifies a finite surface for pseudouridine-associated site analysis, not a measured decay-factor RBP perturbation chain.
 
-\paragraph{Finite row object.}
-The record considered here is the finite pseudouridylation panel indexed by the claim
-\texttt{h3.cross\_layer\_relation.rna\_pseudouridylation.pseudouridine\_pus\_motif\_stoichiometry\_dai2022}.  Its verified run is \texttt{cf233b5f0446}, with $2040$ parsed rows and runtime $4.859092$ seconds.  The biological surface of the row object is a collection of RNA sites with pseudouridine-related readout, PUS-motif context, and stoichiometry-bearing site information.  In the present chapter this finite panel is not treated as a protein-output, RNA-decay, or translation-mechanism assay.  It is treated as a bounded RNA-modification table that can be asked whether a stronger cross-layer interpretation is licensed only after the necessary matched readouts have been supplied.
+\paragraph{Coordinate question.}
+The intended biological question is whether a synonymous residual coordinate class, denoted here by $B^*_{Q6}$, can be related to RNA half-life only after the amino-acid quotient has removed ordinary protein-sequence explanation and after the same row also carries a translation readout.  The finite row type therefore has four logically separate coordinates: a high- or low-coordinate synonymous residual label, a same-row translation measurement, an RNA half-life measurement, and a prespecified decay-factor RBP occupancy and perturbation trace.  The relation is not the assertion that pseudouridine sites cause RNA decay.  It is the stricter statement that a coordinate-associated half-life effect may be called an RBP bridge only when the same editable or readable RNA window shows measured local occupancy by the named decay factor, loss of the target RBP collapses the half-life effect, wild-type rescue restores it, and binding-defective or non-target controls fail to restore it.
 
-The intended cross-layer question is stricter than the existence of pseudouridine sites.  The row carrier would have to join, on the same transcript or coding sequence rows, four classes of information: a $B^*_{Q6}$ synonymous residual coordinate label after amino-acid quotienting, a same-row translation readout, an RNA half-life readout, and measured occupancy or perturbation evidence for an externally prespecified decay-factor RNA-binding protein at the relevant editable RNA window.  The finite panel available in the verified run supplies the pseudouridylation-side row count, but it does not by itself supply the joined decay-factor RBP occupancy, target-RBP loss, wild-type rescue, or binding-defective rescue rows needed for a positive RNA-decay bridge.
-
-\paragraph{Coordinate distinction.}
-The mathematical distinction is between two finite classes of synonymous residual coordinates after quotienting by amino-acid identity.  Write $Q_{\mathrm{hi}}$ for rows carrying a high-coordinate residual label and $Q_{\mathrm{lo}}$ for rows carrying a low-coordinate residual label.  A permissible RNA-half-life statistic would compare these two classes only after conditioning on the declared controls.  In schematic finite-row notation the admissible comparison has the form
+\paragraph{Finite statistic.}
+For a finite matched panel $P$, let each row $r \in P$ carry a residual coordinate $q(r)$, translation readout $T(r)$, RNA half-life $H(r)$, control vector $Z(r)$, and, when present, RBP evidence $O(r)$ for local occupancy and $L(r)$ for perturbation or rescue state.  The only admissible positive bridge statistic has the schematic form
 $$
 \begin{aligned}
-\Delta_H
-  &= H(Q_{\mathrm{hi}} \mid Z,T,O)
-     - H(Q_{\mathrm{lo}} \mid Z,T,O),\\
-Z
-  &= \{\hbox{transcription rate, local RNA structure, motif density, GC/dinucleotide composition,}\\
-  &\qquad \hbox{codon-pair context, splice or isoform state, transcript abundance, batch,}\\
-  &\qquad \hbox{amino-acid composition}\},\\
-T
-  &= \hbox{same-row translation readout},\\
-O
-  &= \hbox{measured local occupancy of the prespecified decay-factor RBP}.
+\Delta_H(q) &= H(r) \;\text{residualized against}\; Z(r), T(r), \text{and abundance controls},\\
+\Delta_O(q) &= O(r) \;\text{at the same RNA window},\\
+B(q) &= \bigl(\Delta_H(q),\Delta_O(q),L_{\mathrm{loss}}(q),L_{\mathrm{wt\ rescue}}(q),L_{\mathrm{defective\ rescue}}(q)\bigr).
 \end{aligned}
 $$
-Here $H$ denotes the RNA half-life readout after the stated residualization.  The symbol $O$ is not a motif-density proxy and not an inferred binding label from sequence geometry; it is a measured local occupancy row for the declared RBP.  Without $O$, the statistic can at most report a finite RNA-stability association, not an RBP-mediated decay bridge.
+The bridge is bounded and finite: it is a row-level decision rule over a matched panel, not a global law.  A half-life association remains below the bridge threshold if the same-row translation field is absent, if RBP occupancy is not measured at the relevant window, if the RBP perturbation does not remove the effect, if wild-type rescue is missing, or if a binding-defective or non-target rescue also restores the signal.
 
-\paragraph{Bridge test.}
-A positive bridge requires a finite perturbation pattern, not just an association.  The required pattern is: the coordinate-associated half-life effect follows experimentally decoupled measured local occupancy of the prespecified decay-factor RBP; the effect collapses after loss of that target RBP; the effect returns under wild-type target-RBP rescue; and the effect is not restored by binding-defective rescue or by a non-target control.  In finite-row terms, if $E$ is the translation-conditioned half-life effect, the bridge condition requires the directional readback
-$$
-\begin{aligned}
-E_{\mathrm{occupied}} &\neq E_{\mathrm{reduced\ occupancy}},\\
-E_{\mathrm{target\ loss}} &\approx 0,\\
-E_{\mathrm{wild\ type\ rescue}} &\approx E_{\mathrm{occupied}},\\
-E_{\mathrm{binding\ defective\ rescue}} &\not\approx E_{\mathrm{occupied}},\\
-E_{\mathrm{non\ target\ rescue}} &\not\approx E_{\mathrm{occupied}}.
-\end{aligned}
-$$
-These are row-level requirements on the experimental panel.  A pseudouridine stoichiometry table with $2040$ rows can motivate where such a panel should be assembled, but it does not satisfy the perturbation pattern unless those occupancy and rescue columns are present on the same finite matched rows.
+\paragraph{Controls.}
+The null model keeps high- and low-coordinate labels exchangeable after controlling amino-acid sequence, transcription rate, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, batch, and the mandatory translation readout.  This is a strong null because it blocks the usual shortcuts: a difference in RNA half-life cannot be promoted to translation realization, and a pseudouridine motif or stoichiometry pattern cannot be promoted to a decay-factor RBP mechanism without the measured occupancy and perturbation rows.  The pseudouridine panel contributes $2040$ rows to the site-level finite surface, but the scalar payload for this record contains no $R$ list, no $M$ list, no $\lambda$ value, no $p$-value, no module classification, and no hit-rate field for the proposed RBP bridge.
 
-\paragraph{Null model.}
-The local null is exchangeability of high- and low-coordinate labels with respect to RNA half-life after the declared controls and after same-row translation conditioning.  Formally, the null says that the relabeling
-$$
-\begin{aligned}
-Q_{\mathrm{hi}} \leftrightarrow Q_{\mathrm{lo}}
-\end{aligned}
-$$
-leaves the controlled RNA half-life distribution invariant once transcription rate, local RNA structure, motif density, GC and dinucleotide composition, codon-pair context, splice or isoform state, transcript abundance, batch, amino-acid composition, and translation readout have been fixed.  If a half-life difference remains but the measured RBP occupancy and perturbation-rescue pattern is absent, the result is still not a decay-factor RBP bridge.  It remains a bounded finite association between a coordinate label and an RNA half-life readout.
+\paragraph{Adjacent finite checks.}
+The boundary is calibrated against other verified finite surfaces in the same evidence ledger.  The RBP binding check $h3.cross\_layer\_relation.rbp\_binding.rbns\_affinity\_eclip\_binding\_encode$ reports $900$ total peaks and $3$ cross-RBP-concordant cases in run $b225890251c2$, with runtime $223.648043$ seconds.  That fact shows that finite RBP-binding rows can be represented as a separate contact, but it is not the same as same-window decay-factor occupancy, loss, and rescue for the pseudouridine claim.  The RNA $m^6A$ stoichiometry check $h3.cross\_layer\_relation.rna\_m6a\_stoichiometry.m6a\_stoichiometry\_exon\_architecture\_glori$ reports $60000$ rows, $49668$ distinct entries, cross-condition concordance equal to true, and a coverage-confound correlation of $-0.135922814$ in run $2e8583415e99$.  That comparison demonstrates that larger modification-stoichiometry panels can carry finite concordance and confound fields, but it does not fill the missing RBP perturbation fields for the pseudouridine case.
 
-\paragraph{Comparison within the RNA-modification audit batch.}
-The same audit ledger contains a larger RNA-modification row object for the m6Am flanking-identity stoichiometry claim, with $31886$ rows, $19406$ distinct entries, $3230$ low-tail entries below $0.8$, $20942$ rows in the variable subset, and saturated fraction $0.343223$ at threshold $0.95$.  That neighboring fact is useful only as a scale reference for row availability in RNA-modification surfaces: a large stoichiometry table may carry strong finite site information and still not license a translation, decay-factor RBP, or protein-output interpretation without the layer-matched contacts.  The present pseudouridine panel is smaller, at $2040$ rows, and the verified scalar data reported for it do not include the RBP-occupancy, loss, rescue, p-value, lambda, module, hit-rate, or matched half-life quantities required for a positive bridge.
+\paragraph{Readback.}
+The chapter therefore records a bounded readback rather than a positive mechanism.  A compliant future row set would have to join, on the same organism and the same RNA window or transcript/CDS row, the $B^*_{Q6}$ residual coordinate label, the pseudouridine or editable-site measurement, translation efficiency or ribosome occupancy, matched mRNA abundance, RNA half-life, measured local occupancy of the prespecified decay-factor RBP, target-RBP loss, wild-type rescue, and binding-defective or non-target controls.  Only after that join exists may the statistic ask whether the half-life residual follows the RBP occupancy trace and disappears or returns under the declared perturbation arms.
 
-\paragraph{Local cannot-claim boundary.}
-The chapter therefore records a bounded RNA-modification surface, not a completed cross-layer mechanism.  The $2040$ verified pseudouridine rows do not by themselves establish translation realization, ribosome occupancy, protein abundance, RNA decay mechanism, folded structure, physical admissibility, biological function, system phenotype, adaptation, causation, or universality.  A stronger conclusion would require a separate finite matched panel carrying the same-row translation readout, matched mRNA abundance control, RNA half-life, measured decay-factor RBP occupancy, target-RBP loss, wild-type rescue, binding-defective or non-target controls, and the declared statistic under the full control set.  Until that panel exists, the mathematically correct status is a finite pseudouridine stoichiometry record with a sharply delimited route toward a possible RNA-half-life RBP bridge, not evidence that such a bridge has crossed the experimental boundary.
+\paragraph{Local boundary.}
+No translation, protein output, folded structure, physical admissibility, biological function, phenotype, adaptation, causation, decay mechanism, or universal biological law follows from the $2040$ pseudouridine rows.  No such conclusion follows from motif density, codon-window geometry, transcript abundance, RNA half-life alone, or workflow readiness.  The present finite result is narrower: the Dai-associated pseudouridine panel is a concrete row surface for modification-site analysis, and the proposed translation-conditioned RNA half-life RBP bridge remains blocked until same-row translation, half-life, RBP occupancy, target-RBP loss, wild-type rescue, and binding-defective or non-target rescue data are simultaneously present and evaluated under the declared controls.

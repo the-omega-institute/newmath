@@ -1,27 +1,63 @@
-\subsection{The $B^{\ast}_{Q6}$ residual optimality axis and its $f_3$ translation-selection boundary}\label{subsec:bioreality-bstar-q6-f3-translation-selection}\origin{ai}
+\origin{ai}
 
-\paragraph{Finite carrier.}  This chapter records a finite CDS-by-organism residual-coordinate surface restricted to the $B^{\ast}_{Q6}$ coordinate family and, more narrowly, to the third-position $f_3$ stress coordinate after amino-acid projection.  The finite codon-side saturation row is explicit.  The marked set
-$$\begin{aligned}
-M ={}& \{\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}
-\end{aligned}$$
-contains $20$ codons in the recorded $M_{\mathrm{ed}}\cup R\cup\mathrm{ACA}$ surface.  The $f_3$-saturated $R$ row removes exactly $\mathrm{ACA}$ and $\mathrm{ACG}$:
-$$\begin{aligned}
-\operatorname{Sat}_{f_3}(R) ={}& \{\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
-&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},
-\end{aligned}$$
-so the stored $f_3$ boundary row is empty.  The biological question is therefore not whether the codon geometry alone has an empirical interpretation.  It asks whether the finite residual coordinate continues to separate matched translation-readout rows after amino-acid composition, organism identity, GC3, coding length, $M$-density, and mRNA controls are included.
+\subsection{The $f_3$ residual axis as a bounded translation-readout conjecture}
+\label{sec:bioreality-q6-f3-residual-axis}
 
-\paragraph{Powered residual-axis row.}  The main powered run for this record is experiment $\mathrm{b\_star\_q6\_universal\_optimal\_residual\_axis\_powered}$, run $\mathrm{2a526c9fb7f4}$.  It passed with $5$ folds, a minimum of $500$ proteins per organism, $11$ organisms computed from $16$ requested organisms, and $41$ synonymous-design columns.  Its finite conclusion is that the non-tRNA residual optimality direction aligns most strongly with $f_3$ translation selection; the recorded dominant axis is $\mathrm{f3\_translation\_selection}$.  This is a residual-axis identification on the powered panel.  It is not, by itself, an observed ribosome-footprint survival row and it is not a protein-output row.
+\paragraph{Subject.}
+This chapter isolates a finite coding-sequence residual coordinate surface in which the $B^{*}_{Q6}$ coordinate is restricted to the $f_3$-stress direction after amino-acid projection.  The object is not a protein-state claim.  It is a claim about whether a synonymous residual coordinate, after removing amino-acid composition and standard sequence covariates, remains aligned with a translation-layer readout in a rank-powered multi-organism panel.  The observed finite computation for the named powered assay reports status passed with experiment run $2a526c9fb7f4$, $5$ folds, $41$ synonymous-design columns, $11$ organisms computed out of $16$ requested, and a minimum inclusion threshold of $500$ proteins per organism.  In that assay the non-tRNA residual optimality direction is classified as $f_3$ translation selection:
+$$
+\begin{aligned}
+\operatorname{dominant\_axis}(B^{*}_{Q6}) &= \operatorname{f3\_translation\_selection},\\
+N_{\mathrm{org,computed}} &= 11,\\
+N_{\mathrm{org,requested}} &= 16,\\
+N_{\mathrm{design}} &= 41.
+\end{aligned}
+$$
+The statement is therefore a finite-row claim about the residual axis selected by the powered panel, not a free-standing biological law.
 
-\paragraph{Neighboring powered checks.}  The same finite panel gives several constraints on how this axis may be read.  The universal core tRNA-adaptation run passed with the same $5$ folds, $11/16$ computed organisms, a $500$ protein minimum, and $41$ synonymous-design columns.  The two-axis closure run also passed on $11/16$ organisms and reported $\mathrm{third\_axis\_present}$: $d_{\perp}$ has systematically positive held-out $R^2$ and same-signed directions across organisms.  The third-axis identity run identified $d_{\perp}$ with within-family usage frequency, with mean cosine $0.128$ and one-sided sign-test $p=0.000488$.  Its mechanism-side companion classified the third axis as selection rather than GC, not wobble-clustered, with CSC or positional identity still needing a further contact; the reason stored for that run is that GC-orthogonalized $d_{\perp}$ keeps significant cross-species alignment and held-out $R^2$.
+\paragraph{Coordinate support.}
+The $f_3$ saturation record supplies the finite codon boundary on which the residual direction is read.  The set $M=\operatorname{Med}_{R}\cup\{\mathrm{ACA}\}$ contains $20$ codons:
+$$
+\begin{aligned}
+M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
+&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\end{aligned}
+$$
+After $f_3$ saturation the recorded $R$ surface removes $\mathrm{ACA}$ and $\mathrm{ACG}$ and leaves $18$ codons:
+$$
+\begin{aligned}
+\operatorname{Sat}_{f_3}(R)=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\\
+&\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}.
+\end{aligned}
+$$
+The recorded $f_3$ boundary set is empty.  Thus the coordinate tested here is not introduced by an unaccounted boundary codon; it is read as a residual imbalance inside a finite saturated codon surface.  The biological interpretation is deliberately narrower than the coordinate construction: the coordinate is allowed to ask for a translation-readout row, but it is not itself a ribosome measurement.
 
-\paragraph{Axis spectrum.}  The axis-strength spectrum run passed with $5$ folds, $11$ computed organisms, $16$ requested organisms, a $500$ protein minimum, and $41$ synonymous-design columns.  Its captured spectra are led by $d_{\mathrm{resid4}}$ on average, followed by $d_{\mathrm{tRNA}}$, and the per-organism dominant-count row is $\{d_{\mathrm{resid4}}:11\}$.  Domain summaries in that run are descriptive only because the domain counts are imbalanced: $1$ archaeal, $2$ bacterial, and $8$ eukaryotic organisms.  The largest recorded GC3 rank effect is $d_{\mathrm{usage}}$ with $\rho=0.136$.  These numbers locate the $f_3$ residual axis inside a broader finite spectrum rather than making it a universal biological law.
+\paragraph{Readout rule.}
+The admissible readout is a controlled survival entry $S_{f_3,T}$ for a translation-layer observable $T$, such as bounded tAI/stAI weights or a measured ribosome-occupancy or translation-efficiency row when such rows are joined to the same coding sequences.  The local support condition is:
+$$
+\begin{aligned}
+S_{f_3,T}>0
+\end{aligned}
+$$
+under amino-acid composition, organism identity, GC3, coding-sequence length, $M$-density, matched mRNA control when translation efficiency is used, rank sufficiency, and simpler codon-baseline ablation.  A rank-degenerate all-$1.0$ matrix over three organisms is treated as a null boundary, not as survival.  Likewise, a modeled tAI or stAI surface is a bounded codon-adaptation readout and is not the same datum as observed ribosome occupancy.
 
-\paragraph{Fourth-axis exclusion rows.}  The sufficiency run reports $\mathrm{fourth\_mechanism\_present}$ on $11/16$ organisms with $5$ folds, $500$ proteins per organism, and $41$ synonymous-design columns.  The candidate fourth-axis tests narrow what that statement means.  The mRNA-stability run classifies the dominant fourth-axis identity as not mRNA stability, because yeast $d_{\mathrm{opt\_halflife}}$ has low alignment with abundance $d_{\mathrm{resid4}}$ under the fixed gates.  The codon-pair run returns $\mathrm{not\_codon\_pair}$ with $50$ shuffle-null draws.  The translation-accuracy run returns $\mathrm{not\_accuracy}$ using $200$ permutations on $11/16$ organisms.  The elongation-dwell run is marked $\mathrm{partial}$ for \emph{Saccharomyces cerevisiae}.  Thus the residual optimality result is not promoted to a closed account of translation dynamics; it remains a constrained finite axis result.
+\paragraph{Linked finite evidence.}
+The surrounding powered computations constrain the interpretation of the $f_3$ call.  The tRNA-poverty assay for the $R$ sense codons used $40$ computed organisms out of $46$ requested, with $6$ skipped organisms, $1000$ permutations, and $\alpha=0.05$; it reports systematic tRNA poverty for the $R$ sense codons under GtRNAdb copy number plus dos Reis wobble weights.  The universal core tRNA-adaptation assay passed with $5$ folds, $41$ synonymous-design columns, $11$ computed organisms out of $16$, and the same $500$ protein minimum.  The two-axis closure assay also used $5$ folds and reported a positive residual condition: the $d_{\perp}$ direction retains systematically positive held-out $R^2$ and same-signed organism directions, so a third axis remains present.  The third-axis identity assay provisionally identifies $d_{\perp}$ with within-family usage frequency, with mean cosine $0.128$ and one-sided sign-test $p=0.000488$.  Its mechanism assay reports selection rather than GC as the retained direction, while also refusing a completed CSC or positional identity without additional contact.  These rows make the $f_3$ residual axis plausible as a translation-adjacent residual direction, but they do not by themselves supply a measured same-CDS ribosome or TE matrix.
 
-\paragraph{Boundary tRNA row.}  A separate powered boundary-set run on $R$ sense codons used $40$ computed organisms from $46$ requested organisms, skipped $6$, and used $1000$ permutations at $\alpha=0.05$.  It records that $R$ sense codons are systematically tRNA-poor under GtRNAdb tGCN plus dos Reis wobble weights, supporting a tRNA-supply explanation for $R$ avoidance in that finite assay.  This row supplies biological pressure on the codon-side boundary, but it still does not turn the $f_3$ residual coordinate into a measured translation-efficiency row unless a matched translation readout is joined to the same organisms or coding sequences.
+\paragraph{Residual spectrum.}
+The per-organism axis-strength spectrum was computed for $11$ organisms out of $16$ requested with $5$ folds, $41$ synonymous-design columns, and at least $500$ proteins per organism.  Its captured spectra are led by $d_{\mathrm{resid4}}$ on average, then by $d_{\mathrm{tRNA}}$; the per-organism dominant count is $11$ for $d_{\mathrm{resid4}}$.  The largest GC3 rank effect in that spectrum is $d_{\mathrm{usage}}$ with Spearman-type rank coefficient $\rho=0.136$.  The domain means are descriptive only, because the computed domain counts are imbalanced: $1$ archaeal organism, $2$ bacterial organisms, and $8$ eukaryotic organisms.  This spectrum supports a finite residual-axis ordering, not a universal taxonomy of translation selection across life.
 
-\paragraph{Local interpretation.}  The admissible readback is narrow.  The chapter may say that, in a powered $B^{\ast}_{Q6}$ panel, the non-tRNA residual optimality axis is classified as $f_3$ translation selection under the recorded synonymous design, and that the surrounding checks constrain nearby alternatives.  It may also say that the $f_3$ coordinate becomes a candidate translation-layer distinction only where context tRNA or wobble weights break third-position symmetry.  The finite support condition for a stronger statement would be a non-vacuous positive entry $S_{f3\text{-}stress,T_j}>0$ for a tAI, stAI, ribosome-occupancy, or translation-efficiency row after amino-acid composition, organism, GC3, length, $M$-density, mRNA, rank, and simpler-baseline controls.
+\paragraph{Exclusions from fourth-axis probes.}
+Several candidate downstream interpretations are already constrained by the finite rows.  A three-axis sufficiency assay reports a fourth mechanism present, with $11$ computed organisms out of $16$, $5$ folds, $41$ synonymous-design columns, and the $500$ protein threshold.  The fourth-mechanism probes do not license broad promotion: the mRNA-stability probe classifies the tested axis as not dominated by mRNA stability; the codon-pair probe reports $\operatorname{not\_codon\_pair}$ with $50$ shuffle nulls; the translation-accuracy probe reports $\operatorname{not\_accuracy}$ with $200$ permutations; and the elongation-dwell probe is only partial in \emph{Saccharomyces cerevisiae}.  These outcomes keep the $f_3$ residual axis inside a translation-readout boundary rather than turning it into a completed mechanism.
 
-\paragraph{Local refusal boundary.}  No observed translation realization follows from codon topology, modeled tAI or stAI weights, or the powered residual-axis classification alone.  No claim about protein abundance, folded structure, physical admissibility, molecular function, phenotype, mechanism, or universality is licensed here unless a separate layer-matched empirical contact supplies that readout and the corresponding controlled statistic is positive.  A three-organism all-$1.0$ controlled surface is treated as rank saturation rather than survival evidence.  If the controlled $S_{f3\text{-}stress,T_j}$ row remains non-positive or rank-degenerate across a powered panel, the translation-readout form of the conjecture is falsified for that panel, while the codon-coordinate and residual-axis rows remain finite mathematical and statistical records.
+\paragraph{Break condition.}
+The claim is falsified at this layer if every controlled $f_3$-stress translation-readout score is non-positive or rank-degenerate.  Equivalently, for the relevant finite panel,
+$$
+\begin{aligned}
+\forall T\quad S_{f_3,T}\leq 0
+\end{aligned}
+$$
+after the declared controls and baseline ablations.  It is also blocked if the only available surface is a small rank-saturated matrix, or if the contact consists only of codon usage, tRNA copy number, or modeled adaptation weights without a measured or explicitly bounded translation row.  A positive modeled coupling can motivate the search, but it is not the same as a controlled survival statistic.
+
+\paragraph{Local non-promotion rule.}
+Nothing in this chapter asserts protein abundance, folded structure, physical admissibility, molecular function, localization, phenotype, mechanism, causation, or universality.  Those claims require separate layer-matched contacts and their own finite statistics.  In particular, $B^{*}_{Q6}$ codon geometry, $f_3$ imbalance, wobble-weight asymmetry, a passed powered residual-axis assay, or the notation $S_{f_3,T}$ cannot be promoted into ribosome occupancy, protein output, folding, function, or a general biological law without the corresponding empirical row.  The present chapter records a bounded residual-axis result and the exact survival condition needed for its translation-readout interpretation.
