@@ -4469,6 +4469,7 @@ import BEDC.Derived.CrossPerspectiveAlignmentUp.ObserverIdentityHandoff
 import BEDC.Derived.CrossPerspectiveAlignmentUp.PublicConsumerPackage
 import BEDC.Derived.CrossPerspectiveAlignmentUp.TasteGate
 import BEDC.Derived.CstaralgebraUp
+import BEDC.Derived.CullenWoodallUp
 import BEDC.Derived.CurryHowardUp
 import BEDC.Derived.CurryHowardUp.ClassifierExhaustion
 import BEDC.Derived.CurvatureUp
@@ -7559,7 +7560,6 @@ import BEDC.Derived.LocatedPositiveRealUp.TasteGate
 import BEDC.Derived.LocatedReal
 import BEDC.Derived.LocatedReal.RatMetricKit
 import BEDC.Derived.LocatedReal.ToleranceClose
-import BEDC.Derived.NonCollapseInvariantUp
 import BEDC.Derived.LocatedRealBisectionSearchUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCompletenessUp.TasteGate
 import BEDC.Derived.LocatedRealCauchyCriterionUp.TasteGate
@@ -8937,6 +8937,7 @@ import BEDC.Derived.NonAxiomAdmissionUp.TasteGate
 import BEDC.Derived.NonAxiomAdmissionUp.WitnessRouteNonescape
 import BEDC.Derived.NonAxiomBoundaryFormUp.NameCertObligations
 import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
+import BEDC.Derived.NonCollapseInvariantUp
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.NormUp
 import BEDC.Derived.NormalConvergenceUp.TasteGate
