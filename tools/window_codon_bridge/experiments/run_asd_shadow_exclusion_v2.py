@@ -55,6 +55,33 @@ GATE_BG_WINDOW = 16
 GATE_BG_PER_START = 5
 GATE_EMPIRICAL_DRAWS = 1000
 GATE_BG_BIN_CAP = 2000
+GATE_MIN_OBS_FRACTION = 0.15
+GATE_MIN_RATIO = 2.0
+GATE_MIN_DELTA = 0.05
+GATE_MAX_EMPIRICAL_P = 0.01
+GATE_MAX_DECOY_RANK = 0.35
+
+POSITIVE_CONTROLS = (
+    {
+        "assembly_accession": "GCF_000005845.2",
+        "organism": "Escherichia coli str. K-12 substr. MG1655",
+        "domain": "Bacteria",
+        "genus": "escherichia",
+        "family": "Enterobacteriaceae",
+        "order": "Enterobacterales",
+        "source": "fixed_positive_control",
+    },
+    {
+        "assembly_accession": "GCF_000009045.1",
+        "organism": "Bacillus subtilis subsp. subtilis str. 168",
+        "domain": "Bacteria",
+        "genus": "bacillus",
+        "family": "Bacillaceae",
+        "order": "Bacillales",
+        "source": "fixed_positive_control",
+    },
+)
+POSITIVE_CONTROL_ACCESSIONS = {str(row["assembly_accession"]) for row in POSITIVE_CONTROLS}
 
 SCOPE_NOTE = (
     "Primary scope is Gate-I0-pass Bacteria with masked internal CDS windows. "
@@ -318,7 +345,7 @@ def profile_masked(
     if masked_positions:
         for idx in range(len(seq)):
             prefix[idx + 1] = prefix[idx] + (1 if idx in masked_positions else 0)
-    for k in range(5, 9):
+    for k in range(STRONG_SD_MIN_K, STRONG_SD_MAX_K + 1):
         for i in range(0, len(seq) - k + 1):
             if masked_positions and prefix[i + k] != prefix[i]:
                 continue
@@ -448,36 +475,44 @@ def matched_background_windows(
     own_carrier: dict[str, object],
     upstream_windows: list[str],
     seed: str,
-) -> tuple[list[str], dict[str, object]]:
+) -> tuple[list[str], list[list[str]], dict[str, object]]:
     candidates, meta = internal_background_candidates(records, contigs, own_carrier)
     rng = random.Random(stable_seed(seed))
     out: list[str] = []
+    strata: list[list[str]] = []
     exact_support = 0
     relaxed_support = 0
     no_support = 0
-    bins: dict[tuple[int, int], list[str]] = defaultdict(list)
+    relaxed_radius_counts: Counter[int] = Counter()
+    bins: dict[tuple[int, int, int], list[str]] = defaultdict(list)
     for row in candidates:
-        bins[(int(row["gc"]), int(row["g"]))].append(str(row["seq"]))
+        bins[(int(row["gc"]), int(row["g"]), int(row["purine"]))].append(str(row["seq"]))
     for key in list(bins):
         bins[key].sort()
 
-    def pool_for(gc: int, g: int, radius: int) -> list[str]:
+    def pool_for(gc: int, g: int, purine: int, radius: int) -> list[str]:
+        # Gate-I0 null strata preserve GC, G, and total purine load because SD
+        # windows are purine-rich and pooled composition drift biases hit rates.
         pool: list[str] = []
         for gc_key in range(gc - radius, gc + radius + 1):
             for g_key in range(g - radius, g + radius + 1):
-                pool.extend(bins.get((gc_key, g_key), []))
+                for purine_key in range(purine - radius, purine + radius + 1):
+                    pool.extend(bins.get((gc_key, g_key, purine_key), []))
         return pool
 
     for idx, upstream in enumerate(upstream_windows):
         gc = upstream.count("G") + upstream.count("C")
         g = upstream.count("G")
-        exact = pool_for(gc, g, 1)
-        pool = exact
+        purine = upstream.count("A") + upstream.count("G")
+        pool = pool_for(gc, g, purine, 0)
         if not pool:
-            pool = pool_for(gc, g, 2)
-            if pool:
-                relaxed_support += 1
-            else:
+            for radius in (1, 2):
+                pool = pool_for(gc, g, purine, radius)
+                if pool:
+                    relaxed_support += 1
+                    relaxed_radius_counts[radius] += 1
+                    break
+            if not pool:
                 no_support += 1
                 continue
         else:
@@ -485,40 +520,54 @@ def matched_background_windows(
         keyed = sorted(pool)
         local_rng = random.Random(stable_seed(f"{seed}.{idx}.{upstream}.{rng.randrange(1 << 30)}"))
         if len(keyed) <= GATE_BG_PER_START:
-            out.extend(keyed)
+            selected = keyed
         else:
-            out.extend(local_rng.sample(keyed, GATE_BG_PER_START))
+            selected = local_rng.sample(keyed, GATE_BG_PER_START)
+        strata.append(selected)
+        out.extend(selected)
     meta.update(
         {
             "background_windows": len(out),
+            "matched_strata": len(strata),
             "exact_matched_starts": exact_support,
             "relaxed_matched_starts": relaxed_support,
+            "relaxed_radius_counts": {str(key): relaxed_radius_counts[key] for key in sorted(relaxed_radius_counts)},
             "unmatched_starts": no_support,
             "background_per_start_cap": GATE_BG_PER_START,
+            "matching_key": "gc_g_purine",
         }
     )
-    return out, meta
+    return out, strata, meta
 
 
-def matched_draw_pvalue(obs_windows: list[str], bg_windows: list[str], table: dict[str, tuple[float, int]], observed_delta: float, seed: str) -> float:
-    if not obs_windows or not bg_windows:
+def matched_draw_pvalue(
+    obs_windows: list[str],
+    bg_strata: list[list[str]],
+    table: dict[str, tuple[float, int]],
+    observed_delta: float,
+    seed: str,
+) -> float:
+    if not obs_windows or not bg_strata:
         return 1.0
     _, _, obs_n = strong_hit_fraction(obs_windows, table)
-    bg_hits_by_window = [1 if strong_sd_hit(window, table) else 0 for window in bg_windows if set(window.upper()) <= BASES]
-    bg_n = len(bg_hits_by_window)
-    if obs_n <= 0 or bg_n <= 0:
+    hit_strata = [
+        [1 if strong_sd_hit(window, table) else 0 for window in stratum if set(window.upper()) <= BASES]
+        for stratum in bg_strata
+    ]
+    hit_strata = [stratum for stratum in hit_strata if stratum]
+    if obs_n <= 0 or not hit_strata:
         return 1.0
     rng = random.Random(stable_seed(seed))
-    bg_fraction = sum(bg_hits_by_window) / bg_n
+    bg_total = sum(sum(stratum) for stratum in hit_strata)
+    bg_n = sum(len(stratum) for stratum in hit_strata)
+    bg_fraction = bg_total / bg_n
     draws = max(100, GATE_EMPIRICAL_DRAWS)
     exceed = 0
-    sample_n = min(obs_n, bg_n)
     for draw_idx in range(draws):
-        if bg_n <= sample_n:
-            sample_hits = sum(bg_hits_by_window)
-        else:
-            sample_hits = sum(bg_hits_by_window[i] for i in rng.sample(range(bg_n), sample_n))
-        sample_fraction = sample_hits / sample_n
+        # One background window is drawn from each matched composition stratum,
+        # preserving the upstream-start weighting in the empirical null.
+        sample_hits = sum(rng.choice(stratum) for stratum in hit_strata)
+        sample_fraction = sample_hits / len(hit_strata)
         if sample_fraction - bg_fraction >= observed_delta - EPS:
             exceed += 1
     return (1 + exceed) / (1 + draws)
@@ -775,7 +824,7 @@ def gate_i0(records: list[dict[str, object]], contigs: dict[str, str], tail20: s
         seq = upstream_window(record, contigs)
         if seq and seq.count("N") == 0:
             usable_windows.append(seq)
-    bg_windows, bg_meta = matched_background_windows(records, contigs, own, usable_windows, seed + ".gate.bg")
+    bg_windows, bg_strata, bg_meta = matched_background_windows(records, contigs, own, usable_windows, seed + ".gate.bg")
     effects: dict[str, float] = {}
     fractions: dict[str, tuple[float, int, int, float, int, int]] = {}
     for carrier in carriers:
@@ -791,14 +840,14 @@ def gate_i0(records: list[dict[str, object]], contigs: dict[str, str], tail20: s
     own_rank = rank_high(delta, decoy_effects)
     usable_starts = len(usable_windows)
     required = usable_starts >= MIN_GATE_STARTS or usable_starts >= int(0.60 * max(1, len(records)))
-    p_value = matched_draw_pvalue(usable_windows, bg_windows, v1.score_table(own), delta, seed + ".gate.p")
+    p_value = matched_draw_pvalue(usable_windows, bg_strata, v1.score_table(own), delta, seed + ".gate.p")
     passed = (
         required
-        and own_obs >= 0.15
-        and ratio >= 2.0
-        and delta >= 0.05
-        and p_value <= 0.01
-        and (own_rank is not None and own_rank <= 0.35)
+        and own_obs >= GATE_MIN_OBS_FRACTION
+        and ratio >= GATE_MIN_RATIO
+        and delta >= GATE_MIN_DELTA
+        and p_value <= GATE_MAX_EMPIRICAL_P
+        and (own_rank is not None and own_rank <= GATE_MAX_DECOY_RANK)
     )
     return {
         "passed": passed,
@@ -815,6 +864,13 @@ def gate_i0(records: list[dict[str, object]], contigs: dict[str, str], tail20: s
         "bg_windows": bg_n,
         "effect_decoy_median": round_float(median(decoy_effects)),
         "matched_background": bg_meta,
+        "pass_cutoffs": {
+            "min_obs_fraction": GATE_MIN_OBS_FRACTION,
+            "min_ratio": GATE_MIN_RATIO,
+            "min_delta": GATE_MIN_DELTA,
+            "max_empirical_p": GATE_MAX_EMPIRICAL_P,
+            "max_decoy_rank": GATE_MAX_DECOY_RANK,
+        },
         "strong_sd_thresholds": {"raw_5mer": STRONG_SD_RAW_5MER, "raw_6_8mer": STRONG_SD_RAW_6_8MER},
         "canonical_sd_diagnostics": canonical_sd_diagnostics(own),
     }
@@ -1020,12 +1076,122 @@ def sign_fraction_by_family(rows: list[dict[str, object]], key: str) -> float | 
     return sum(1 for value in signs if value) / len(signs)
 
 
+def positive_control_fetch_panel(organisms: list[dict[str, object]]) -> tuple[list[dict[str, object]], dict[str, object]]:
+    # Fixed external controls are prepended before the GTDB panel so the harness
+    # proves the assay can recover two canonical Shine-Dalgarno bacteria.
+    deadline = time.monotonic() + FETCH_DEADLINE_SECONDS if FETCH_DEADLINE_SECONDS > 0 else None
+    controls: list[dict[str, object]] = []
+    attempts: list[dict[str, object]] = []
+    for control in POSITIVE_CONTROLS:
+        accession = str(control["assembly_accession"])
+        organism_name = str(control["organism"])
+        organism, contact = fetch_probe.fetch_organism_by_accession(accession, organism_name, deadline=deadline)
+        attempt = {
+            "assembly_accession": accession,
+            "organism": organism_name,
+            "ok": organism is not None,
+            "contact": contact,
+        }
+        if organism is not None:
+            merged = {**organism}
+            for key, value in control.items():
+                if key not in merged or merged.get(key) in {None, ""}:
+                    merged[key] = value
+            merged["assembly_accession"] = accession
+            merged["organism"] = organism_name
+            merged["source"] = "fixed_positive_control"
+            merged["positive_control"] = True
+            controls.append(merged)
+        else:
+            attempt["drop_reason"] = contact.get("drop_reason") or contact.get("error") or "positive_control_fetch_failed"
+        attempts.append(attempt)
+
+    panel_part = [row for row in organisms if str(row.get("assembly_accession") or "") not in POSITIVE_CONTROL_ACCESSIONS]
+    panel_part = panel_part[:ANALYSIS_ORGANISM_LIMIT]
+    combined = controls + panel_part
+    return combined, {
+        "attempts": attempts,
+        "n_requested": len(POSITIVE_CONTROLS),
+        "n_fetched": len(controls),
+        "requested_accessions": sorted(POSITIVE_CONTROL_ACCESSIONS),
+        "panel_limit_applies_to": "non_positive_control_panel_only",
+    }
+
+
+def gate_i0_compact(gate: object) -> dict[str, object]:
+    if not isinstance(gate, dict):
+        return {"passed": False, "obs_fraction": None, "ratio": None, "delta_fraction": None, "matched_empirical_p": None}
+    return {
+        "passed": bool(gate.get("passed")),
+        "obs_fraction": round_float(gate.get("obs_fraction")),
+        "ratio": round_float(gate.get("ratio")),
+        "delta_fraction": round_float(gate.get("delta_fraction")),
+        "matched_empirical_p": round_float(gate.get("matched_empirical_p")),
+    }
+
+
+def positive_control_report(rows: list[dict[str, object]], fetch_meta: dict[str, object]) -> dict[str, object]:
+    fetch_block = fetch_meta.get("positive_controls")
+    attempts = fetch_block.get("attempts", []) if isinstance(fetch_block, dict) else []
+    fetched = {str(item.get("assembly_accession") or ""): bool(item.get("ok")) for item in attempts if isinstance(item, dict)}
+    rows_by_accession = {str(row.get("assembly_accession") or ""): row for row in rows if str(row.get("assembly_accession") or "") in POSITIVE_CONTROL_ACCESSIONS}
+    details = []
+    absent: list[str] = []
+    failed: list[str] = []
+    for control in POSITIVE_CONTROLS:
+        accession = str(control["assembly_accession"])
+        row = rows_by_accession.get(accession)
+        fetch_ok = bool(fetched.get(accession))
+        gate = gate_i0_compact(row.get("gate_i0") if isinstance(row, dict) else None)
+        d_pc1 = round_float(row.get("D_PC1")) if isinstance(row, dict) else None
+        pc1_density_negative = isinstance(d_pc1, (int, float)) and float(d_pc1) < 0.0
+        recovered = fetch_ok and isinstance(row, dict) and bool(row.get("ok")) and bool(gate["passed"]) and pc1_density_negative
+        if not fetch_ok or row is None:
+            state = "absent"
+            absent.append(accession)
+        elif not recovered:
+            state = "failed"
+            failed.append(accession)
+        else:
+            state = "recovered"
+        details.append(
+            {
+                "assembly_accession": accession,
+                "organism": control["organism"],
+                "fetch_ok": fetch_ok,
+                "analysis_ok": bool(row.get("ok")) if isinstance(row, dict) else False,
+                "state": state,
+                "gate_i0": gate,
+                "D_PC1": d_pc1,
+                "pc1_strong_hit_density_negative": pc1_density_negative,
+                "drop_reason": row.get("drop_reason") if isinstance(row, dict) else None,
+            }
+        )
+    if absent:
+        status = "absent"
+    elif failed:
+        status = "failed"
+    else:
+        status = "recovered"
+    return {
+        "status": status,
+        "controls": details,
+        "diagnostics": {
+            "absent_accessions": absent,
+            "failed_accessions": failed,
+            "n_recovered": sum(1 for item in details if item["state"] == "recovered"),
+        },
+    }
+
+
 def aggregate(rows: list[dict[str, object]], fetch_meta: dict[str, object], elapsed: float) -> dict[str, object]:
     ok = [row for row in rows if row.get("ok")]
     bacteria = [row for row in ok if row.get("domain") == "Bacteria"]
     archaea = [row for row in ok if row.get("domain") == "Archaea"]
     primary = [row for row in bacteria if row.get("gate_i0", {}).get("passed") and row.get("tail_sanity", {}).get("passed")]
     families = sorted(set(str(row.get("family") or "unknown") for row in primary))
+    positive_controls = positive_control_report(rows, fetch_meta)
+    positive_control_status = str(positive_controls["status"])
 
     pc_rows = bacteria
     pc_values = [float(row["D_PC1"]) for row in pc_rows if isinstance(row.get("D_PC1"), (int, float))]
@@ -1061,7 +1227,10 @@ def aggregate(rows: list[dict[str, object]], fetch_meta: dict[str, object], elap
         and h3
     )
 
-    if not pc1_passed:
+    if positive_control_status != "recovered":
+        decision = "DEBUG"
+        status = "needs_external"
+    elif not pc1_passed:
         decision = "DEBUG"
         status = "needs_external"
     elif rescue_passed:
@@ -1082,6 +1251,7 @@ def aggregate(rows: list[dict[str, object]], fetch_meta: dict[str, object], elap
                 "organism": row.get("organism"),
                 "domain": row.get("domain"),
                 "family": row.get("family"),
+                "positive_control": bool(row.get("positive_control")),
                 "gate_i0": row.get("gate_i0"),
                 "tail_sanity": row.get("tail_sanity"),
                 "D_PC1": round_float(row.get("D_PC1")),
@@ -1102,6 +1272,8 @@ def aggregate(rows: list[dict[str, object]], fetch_meta: dict[str, object], elap
         "verdict": status,
         "scope_note": SCOPE_NOTE,
         "honest_scope_note": SCOPE_NOTE,
+        "positive_control_status": positive_control_status,
+        "positive_controls": positive_controls["controls"],
         "PC1": {
             "passed": pc1_passed,
             "median_D_PC1": round_float(median(pc_values)),
@@ -1157,7 +1329,9 @@ def aggregate(rows: list[dict[str, object]], fetch_meta: dict[str, object], elap
             "n_organisms": fetch_meta.get("n_organisms"),
             "accepted_by_domain": fetch_meta.get("accepted_by_domain"),
             "fetch_success_rate": fetch_meta.get("fetch_success_rate"),
+            "positive_controls": fetch_meta.get("positive_controls"),
         },
+        "diagnostics": {"positive_controls": positive_controls["diagnostics"]},
         "timing_seconds": round_float(elapsed, 6),
         "per_organism": compact,
         "drops": [row for row in rows if not row.get("ok")],
@@ -1203,7 +1377,8 @@ def main() -> None:
         seed=EXPERIMENT_ID + ".fetch",
         deadline_seconds=FETCH_DEADLINE_SECONDS,
     )
-    organisms = organisms[:ANALYSIS_ORGANISM_LIMIT]
+    organisms, positive_fetch_meta = positive_control_fetch_panel(organisms)
+    fetch_meta = {**fetch_meta, "positive_controls": positive_fetch_meta, "analysis_organisms_total": len(organisms)}
     tail_pairs = []
     for organism in organisms:
         rrnas = [row for row in organism.get("rrna_records", []) if isinstance(row, dict)]

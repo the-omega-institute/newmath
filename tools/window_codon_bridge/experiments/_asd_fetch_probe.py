@@ -829,6 +829,24 @@ def fetch_one(row: dict[str, object], deadline: float | None = None) -> tuple[di
     }
 
 
+def fetch_organism_by_accession(accession: str, organism_name: str, deadline: float | None = None) -> tuple[dict[str, object] | None, dict[str, object]]:
+    """Fetch a fixed accession through the same assembly and parser path as panel rows."""
+    row = {
+        "assembly_accession": accession,
+        "organism": organism_name,
+        "domain": "Bacteria",
+        "genus": organism_name.split()[0].lower() if organism_name.split() else "",
+        "source": "fixed_positive_control",
+    }
+    organism, contact = fetch_one(row, deadline=deadline)
+    if organism is not None:
+        organism = dict(organism)
+        if organism_name and not organism.get("organism"):
+            organism["organism"] = organism_name
+        organism["source"] = "fixed_positive_control"
+    return organism, {**contact, "forced_accession_fetch": True}
+
+
 def candidate_rows(target_bacteria: int, target_archaea: int, deadline: float | None = None) -> tuple[list[dict[str, object]], dict[str, object]]:
     contacts: dict[str, object] = {}
     bac, bac_contact = load_gtdb_taxonomy("Bacteria", target_bacteria * 3, deadline=deadline)
