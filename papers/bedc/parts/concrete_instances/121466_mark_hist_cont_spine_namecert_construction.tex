@@ -58,6 +58,18 @@ Use the extension row $E$ to read each displayed one-step move. The continuation
 Read the normal-form row $Q$ and transport row $R$ last. They keep the trace attached to the same generated history shape without replacing it by quotient history equality or external normalization.
 \end{proof}
 
+\begin{theorem}[Additive continuation dependency]
+\label{thm:mark-hist-cont-spine-add-cont-dependency}
+Any arithmetic consumer that reads a $\MarkHistContSpineUp$ continuation row as an additive continuation must pass through \autoref{ch:concrete-instances-add-namecert} and its unary continuation route. The spine itself supplies only the displayed $\BMark$, $\BHist$, $\mathsf{Ext}$, and $\Cont$ rows, with transport, provenance, and local naming; it does not create $\AddUp$ arithmetic or the unary-source discipline required by additive continuation.
+\end{theorem}
+\begin{proof}
+Project the continuation trace of \autoref{thm:mark-hist-cont-spine-continuation-trace}. The rows $M,H,E,T,Q,R,P,N$ expose generated marks, generated histories, one-step extension, displayed continuation, trace normal form, transport, provenance, and naming.
+
+An additive reading needs more than those rows. By \autoref{thm:addup-natup-sibling-dependency-route}, an accepted $\AddUp$ row first reads its two sources through the unary $\NatUp$ spine and only then consumes the displayed $\Cont$ witness as additive output.
+
+Thus the present spine can hand a continuation trace to a downstream consumer, but the arithmetic interpretation is supplied by the $\AddUp$ sibling route. Without that route, the trace remains a mark-history continuation packet rather than an additive continuation certificate.
+\end{proof}
+
 \begin{theorem}[MarkHistContSpine nonescape]
 \label{thm:mark-hist-cont-spine-nonescape}
 Every public consumer of an accepted $\MarkHistContSpineUp$ packet receives only the finite rows $M,H,E,T,Q,R,P,N$. The packet cannot export package formation, signature equality, quotient-history identification, external normalization, a hidden continuation route, or any object above the mark-history-continuation spine.
