@@ -141,6 +141,8 @@ Edge Hiding Boundary Mutational Predictor & Mechanistic predictor of the edge-hi
 Edge Hiding Mito Table Mutational Gradient & Table-level mutational-regime gradient of edge-hiding preservation across organellar/alternative genetic codes (properly-powered, de-pseudoreplicated successor to the boundary-predictor lead): does a genetic code table's AT/GC mutational-equilibrium predict its edge-hiding contravariance preservation, i.e. do the two flagship results (edge-hiding; GC-driven codon-E1) unify under one mutational axis? Unit = code table (fixes the per-table P\_e pseudoreplication that inflated the per-event boundary correlation); single pre-registered predictor x\_e = AT 4-fold-degenerate equilibrium aggregated per table; reassignment-count as a control covariate; table-level permutation null + partial correlation + bootstrap; necessity by dropping x\_e. Not Window6, not causal. & \texttt{refuted} \\
 % CLAIM_STATUS claim_id=bridge.genetic_code.asd_shadow_exclusion status=needs_external
 Asd Shadow Exclusion & ASD-shadow exclusion (oracle-proposed new frontier; carrier = an independent biochemical object, the organism's own 16S rRNA 3' anti-SD tail): do bacterial/archaeal CDS avoid, at the SYNONYMOUS coding level, internal Shine-Dalgarno-like motifs that strongly pair with their own 16S 3' tail (such motifs cause ribosome pausing)? High-expression (ribosomal-protein) genes vs length/GC3/strand/gene-GC-matched background; burden = mean exp(pairing-to-own-16S-tail) over internal CDS windows via a precomputed k-mer table; Z\_g vs AA+GC3+GC+dinucleotide-constrained synonymous recodings; D\_o = Z\_HEG - Z\_BG; decoy-rank null (composition + pairing-strength + heterologous foreign-16S-tail decoys) to defeat the Yurovsky generic-G-rich-depletion critique; Gate-N2 necessity (true tail beats canonical AGGAGG in non-canonical taxa); GTDB block bootstrap. Scoped ONLY to canonical Shine-Dalgarno (leadered) initiation taxa; not leaderless/S1-dependent/divergent-anti-SD; not causal proof. Not Window6. & \texttt{needs\_external} \\
+% CLAIM_STATUS claim_id=bridge.host_defense.rm_motif_escape_necessity status=needs_external
+Rm Motif Escape Necessity & RM motif escape necessity (oracle-proposed fresh independent host-defense carrier; fully distinct from all codon/translation/RNA work). Hypothesis: if a host's restriction-modification (RM) system imposes a real sequence-level constraint on incoming mobile DNA, then resident prophage/plasmid DNA in the same host should SPECIFICALLY avoid that host's own RM recognition motifs, more strongly than GC, k-mer, coding/codon, motif-length, motif-degeneracy, or same-family-host motif decoys explain. Carrier = host's known RM recognition sequences (independent biochemical object, from REBASE/host-defense annotation, NOT estimated from the prophage/plasmid target). Anti-numerology by design: three orthogonal nulls (A composition/3-mer-preserving shuffle; B coding-aware codon-class shuffle; C carrier-decoy), three negative controls (NC1 same-host chromosome windows; NC2 cross-host target swap within GTDB family; NC3 orphan-methyltransferase motifs), and the PRIMARY evidence is carrier-specific RANK (true host carrier vs matched decoy carriers) rather than raw motif count. Verdict logic: supportive / refuted (median\_rank in [0.45,0.55] under power) / anti-predicted / data\_gate\_failed. Not Window6; not codon. & \texttt{needs\_external} \\
 \end{longtable}
 
 \subsection{Cardinality Forcing}\label{sec:bridge-cardinality-forcing}
@@ -1642,3 +1644,24 @@ leaderless/S1-dependent/divergent-anti-SD; not causal proof. Not Window6.
 hypothesis not measurable on public CDS).
 
 \textbf{Derivation script.} tools/window\_codon\_bridge/experiments/run\_asd\_shadow\_exclusion.py
+
+\subsection{Rm Motif Escape Necessity}\label{sec:bridge-rm-motif-escape-necessity}
+% CLAIM_DETAIL claim_id=bridge.host_defense.rm_motif_escape_necessity status=needs_external
+\textbf{Statement.} RM motif escape necessity (oracle-proposed fresh independent host-defense carrier; fully distinct
+from all codon/translation/RNA work). Hypothesis: if a host's restriction-modification (RM) system
+imposes a real sequence-level constraint on incoming mobile DNA, then resident prophage/plasmid DNA
+in the same host should SPECIFICALLY avoid that host's own RM recognition motifs, more strongly than
+GC, k-mer, coding/codon, motif-length, motif-degeneracy, or same-family-host motif decoys explain.
+Carrier = host's known RM recognition sequences (independent biochemical object, from
+REBASE/host-defense annotation, NOT estimated from the prophage/plasmid target). Anti-numerology by
+design: three orthogonal nulls (A composition/3-mer-preserving shuffle; B coding-aware codon-class
+shuffle; C carrier-decoy), three negative controls (NC1 same-host chromosome windows; NC2 cross-host
+target swap within GTDB family; NC3 orphan-methyltransferase motifs), and the PRIMARY evidence is
+carrier-specific RANK (true host carrier vs matched decoy carriers) rather than raw motif count.
+Verdict logic: supportive / refuted (median\_rank in [0.45,0.55] under power) / anti-predicted /
+data\_gate\_failed. Not Window6; not codon.
+
+\textbf{Verdict.} \texttt{needs\_external}.
+
+\textbf{Why.} DATA\_GATE\_FAILED at the pre-data availability gate (oracle's own G0-G5 design; carrier data not
+bulk-fetchable).
