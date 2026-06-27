@@ -395,6 +395,57 @@ theorem HausdorffizationCarrier_completion_handoff_exactness
   }
   exact ⟨cert, boundaryUnary, completionUnary, handoffUnary⟩
 
+theorem HausdorffizationZeroDistanceExactness
+    {P S M C W R E _T _K _G _N boundaryRead completionRead realRead : BHist} :
+    Cont P S boundaryRead →
+      Cont W R realRead →
+        Cont M C completionRead →
+          SemanticNameCert
+            (fun row : BHist => hsame row S ∨ hsame row boundaryRead)
+            (fun row : BHist =>
+              hsame row P ∨ hsame row S ∨ hsame row W ∨ hsame row R ∨ hsame row E ∨
+                hsame row boundaryRead ∨ hsame row realRead)
+            (fun row : BHist =>
+              (hsame row S ∨ hsame row boundaryRead) ∧ Cont P S boundaryRead ∧
+                Cont W R realRead ∧ Cont M C completionRead)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert NameCert
+  intro boundaryRoute realRoute completionRoute
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro S (Or.inl (hsame_refl S))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        have lift : ∀ {target : BHist}, hsame row target → hsame other target := by
+          intro target sameTarget
+          exact hsame_trans (hsame_symm sameRows) sameTarget
+        cases source with
+        | inl sameS =>
+            exact Or.inl (lift sameS)
+        | inr sameBoundary =>
+            exact Or.inr (lift sameBoundary)
+    }
+    pattern_sound := by
+      intro _row source
+      cases source with
+      | inl sameS =>
+          exact Or.inr (Or.inl sameS)
+      | inr sameBoundary =>
+          exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sameBoundary)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source, boundaryRoute, realRoute, completionRoute⟩
+  }
+
 end HausdorffizationUp
 
 open BEDC.FKernel.Hist

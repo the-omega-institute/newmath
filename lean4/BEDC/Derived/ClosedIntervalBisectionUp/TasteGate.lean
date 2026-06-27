@@ -1,11 +1,15 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ClosedIntervalBisectionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -205,5 +209,51 @@ theorem ClosedIntervalBisectionTasteGate_single_carrier_alignment :
       (fun _ _ heq =>
         ClosedIntervalBisectionTasteGate_single_carrier_alignment_injective heq),
       rfl⟩
+
+theorem ClosedIntervalBisection_branch_nonescape_route
+    {I L M D S R E H C P N : BHist}
+    (hILM : Cont I L M) (hMDS : Cont M D S) (hSRE : Cont S R E)
+    (hEHC : Cont E H C) (hCPN : Cont C P N) :
+    (∃ route : BHist,
+        route = N ∧ Cont I L M ∧ Cont M D S ∧ Cont S R E ∧
+          Cont E H C ∧ Cont C P route) ∧
+      SemanticNameCert
+        (fun row : BHist => row = D ∧ Cont M D S)
+        (fun row : BHist => row = I ∨ row = L ∨ row = M ∨ row = D ∨
+          row = S ∨ row = R ∨ row = E)
+        (fun row : BHist => hsame row D ∨ hsame row S ∨ hsame row E ∨
+          hsame row N)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont SemanticNameCert hsame
+  constructor
+  · exact ⟨N, rfl, hILM, hMDS, hSRE, hEHC, hCPN⟩
+  · have sourceD :
+        (fun row : BHist => row = D ∧ Cont M D S) D := by
+      exact ⟨rfl, hMDS⟩
+    exact {
+      core := {
+        carrier_inhabited := Exists.intro D sourceD
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other same
+          exact hsame_symm same
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row other same source
+          constructor
+          · exact hsame_trans (hsame_symm same) source.left
+          · exact hMDS
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inl source.left)))
+      ledger_sound := by
+        intro _row source
+        exact Or.inl source.left
+    }
 
 end BEDC.Derived.ClosedIntervalBisectionUp
