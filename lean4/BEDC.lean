@@ -6691,6 +6691,7 @@ import BEDC.Derived.HausdorffUniformCompletionUp.TasteGate
 import BEDC.Derived.HausdorffUniformSpaceUp.TasteGate
 import BEDC.Derived.HausdorffUniformityUp.TasteGate
 import BEDC.Derived.HausdorffizationUp
+import BEDC.Derived.HausdorffizationUp.NameCertScopePackage
 import BEDC.Derived.HautusTestUp.TasteGate
 import BEDC.Derived.HeatEquationFiniteStencilUp.TasteGate
 import BEDC.Derived.HeatKernelUp
@@ -10856,6 +10857,7 @@ import BEDC.Derived.RegularCauchyMidpointUp.NameCertObligations
 import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
 import BEDC.Derived.RegularCauchyMinUp.SelectorIdempotence
 import BEDC.Derived.RegularCauchyMinUp.SelectorLedger
+import BEDC.Derived.RegularCauchyMinUp.SelectorTransportStability
 import BEDC.Derived.RegularCauchyMinUp.TasteGate
 import BEDC.Derived.RegularCauchyMinimumUp.LeftBound
 import BEDC.Derived.RegularCauchyMinimumUp.TasteGate
